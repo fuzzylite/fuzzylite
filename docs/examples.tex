@@ -1,0 +1,349 @@
+%!TEX root = ./fuzzylite-1.01.tex
+	\chapter{Examples}
+	\section{Example \#1: Basic FIS}
+		This is a basic FIS composed of one input variable and one output variable.
+	\lstset{language=[ISO]C++, texcl=true,
+	numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt,basicstyle=\footnotesize\tt,keywordstyle=\color{Purple}\bfseries, 
+	stringstyle=\color{RoyalBlue}, % typewriter type for strings 
+	showstringspaces=false,
+	classoffset=1,
+	morekeywords={*}, keywordstyle=\color{red},
+	classoffset=0}
+	
+	\begin{lstlisting}[firstnumber=1,tabsize=2]
+	fl::FuzzyEngine engine;
+	engine.hedgeSet().add(new fl::HedgeNot);
+	engine.hedgeSet().add(new fl::HedgeSomewhat);
+	engine.hedgeSet().add(new fl::HedgeVery);
+	fl::InputLVar* energy = new fl::InputLVar("Energy");
+	energy->addTerm(new fl::ShoulderTerm("LOW", 0.25, 0.5, true));
+	energy->addTerm(new fl::TriangularTerm("MEDIUM", 0.25, 0.75));
+	energy->addTerm(new fl::ShoulderTerm("HIGH", 0.50, 0.75, false));
+	engine.addInputLVar(energy);
+
+	fl::OutputLVar* health = new fl::OutputLVar("Health");
+	health->addTerm(new fl::TriangularTerm("BAD", 0.0, 0.50));
+	health->addTerm(new fl::TriangularTerm("REGULAR", 0.25, 0.75));
+	health->addTerm(new fl::TriangularTerm("GOOD", 0.50, 1.00));
+	engine.addOutputLVar(health);
+	fl::RuleBlock* block = new fl::RuleBlock();
+	block->addRule(new fl::MamdaniRule("if Energy is LOW then Health is BAD", engine));
+	block->addRule(new fl::MamdaniRule("if Energy is MEDIUM then Health is REGULAR", engine));
+	block->addRule(new fl::MamdaniRule("if Energy is HIGH then Health is GOOD", engine));
+	engine.addRuleBlock(block);
+
+	\end{lstlisting}
+	
+	Once the FIS is configured, the control process may begin anytime by setting the input value to the input variables and processing. For example,
+	
+	\begin{lstlisting}[firstnumber=last,tabsize=2]
+	for (fl::flScalar in = 0.0; in < 1.1; in += 0.1) {
+	    energy->setInput(in);
+	    engine.process();
+	    fl::flScalar out = health->output().defuzzify();
+	    FL_LOG("Energy=" << in);
+	    FL_LOG("Energy is " << energy->fuzzify(in));
+	    FL_LOG("Health=" << out);
+	    FL_LOG("Health is " << health->fuzzify(out));
+	    FL_LOG("--");
+	}
+	\end{lstlisting}
+	
+	The previous code would yield the following results in console (assuming that \texttt{FL\_USE\_LOG} was defined):
+	
+	\begin{lstlisting}
+Energy=0
+Energy is 1.000/LOW + 0.000/MEDIUM + 0.000/HIGH
+Health=0.249902
+Health is 1.000/BAD + 0.000/REGULAR + 0.000/GOOD
+--
+Energy=0.1
+Energy is 1.000/LOW + 0.000/MEDIUM + 0.000/HIGH
+Health=0.249902
+Health is 1.000/BAD + 0.000/REGULAR + 0.000/GOOD
+--
+Energy=0.2
+Energy is 1.000/LOW + 0.000/MEDIUM + 0.000/HIGH
+Health=0.249902
+Health is 1.000/BAD + 0.000/REGULAR + 0.000/GOOD
+--
+Energy=0.3
+Energy is 0.800/LOW + 0.200/MEDIUM + 0.000/HIGH
+Health=0.309985
+Health is 0.760/BAD + 0.240/REGULAR + 0.000/GOOD
+--
+Energy=0.4
+Energy is 0.400/LOW + 0.600/MEDIUM + 0.000/HIGH
+Health=0.394929
+Health is 0.420/BAD + 0.580/REGULAR + 0.000/GOOD
+--
+Energy=0.5
+Energy is 0.000/LOW + 1.000/MEDIUM + 0.000/HIGH
+Health=0.499902
+Health is 0.000/BAD + 1.000/REGULAR + 0.000/GOOD
+--
+Energy=0.6
+Energy is 0.000/LOW + 0.600/MEDIUM + 0.400/HIGH
+Health=0.604537
+Health is 0.000/BAD + 0.582/REGULAR + 0.418/GOOD
+--
+Energy=0.7
+Energy is 0.000/LOW + 0.200/MEDIUM + 0.800/HIGH
+Health=0.689444
+Health is 0.000/BAD + 0.242/REGULAR + 0.758/GOOD
+--
+Energy=0.8
+Energy is 0.000/LOW + 0.000/MEDIUM + 1.000/HIGH
+Health=0.749902
+Health is 0.000/BAD + 0.000/REGULAR + 1.000/GOOD
+--
+Energy=0.9
+Energy is 0.000/LOW + 0.000/MEDIUM + 1.000/HIGH
+Health=0.749902
+Health is 0.000/BAD + 0.000/REGULAR + 1.000/GOOD
+--
+Energy=1
+Energy is 0.000/LOW + 0.000/MEDIUM + 1.000/HIGH
+Health=0.749902
+Health is 0.000/BAD + 0.000/REGULAR + 1.000/GOOD
+--
+	\end{lstlisting}
+	
+	\section{Example \#2: 3D Pole Balancing}
+		A simulation video of this fuzzy system implemented with \fl\ as shown below is available at \url{http://www.youtube.com/watch?v=YOKk8G_5aRA}.
+	\lstset{language=[ISO]C++, texcl=true,
+	numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt,basicstyle=\footnotesize\tt,keywordstyle=\color{Purple}\bfseries, 
+	stringstyle=\color{RoyalBlue}, % typewriter type for strings 
+	showstringspaces=false,
+	classoffset=1,
+	morekeywords={*}, keywordstyle=\color{red},
+	classoffset=0}
+	
+	\begin{lstlisting}[firstnumber=1,tabsize=2]
+FuzzyEngine engine("pole-balancing-3d");
+
+InputLVar* anglex = new InputLVar("AngleX");
+std::vector<std::string> labels;
+labels.push_back("NEAR_0");
+labels.push_back("NEAR_45");
+labels.push_back("NEAR_90");
+labels.push_back("NEAR_135");
+labels.push_back("NEAR_180");
+anglex->createTerms(5, LinguisticTerm::MF_SHOULDER, 0, 180, labels);
+engine.addInputLVar(anglex);
+
+InputLVar* anglez = new InputLVar("AngleZ");
+labels.clear();
+labels.push_back("NEAR_0");
+labels.push_back("NEAR_45");
+labels.push_back("NEAR_90");
+labels.push_back("NEAR_135");
+labels.push_back("NEAR_180");
+anglez->createTerms(5, LinguisticTerm::MF_SHOULDER, 0, 180, labels);
+engine.addInputLVar(anglez);
+
+OutputLVar* forcex = new OutputLVar("ForceX");
+labels.clear();
+labels.push_back("NL");
+labels.push_back("NS");
+labels.push_back("ZR");
+labels.push_back("PS");
+labels.push_back("PL");
+forcex->createTerms(5, LinguisticTerm::MF_TRIANGULAR, -1, 1, labels);
+engine.addOutputLVar(forcex);
+
+OutputLVar* forcez = new OutputLVar("ForceZ");
+labels.clear();
+labels.push_back("NL");
+labels.push_back("NS");
+labels.push_back("ZR");
+labels.push_back("PS");
+labels.push_back("PL");
+forcez->createTerms(5, LinguisticTerm::MF_TRIANGULAR, -1, 1, labels);
+engine.addOutputLVar(forcez);
+
+RuleBlock* ruleblock = new RuleBlock("Rules");
+ruleblock->addRule(new MamdaniRule("if AngleX is NEAR_180 then ForceX is NL", engine));
+ruleblock->addRule(new MamdaniRule("if AngleX is NEAR_135 then ForceX is NS", engine));
+ruleblock->addRule(new MamdaniRule("if AngleX is NEAR_90 then ForceX is ZR", engine));
+ruleblock->addRule(new MamdaniRule("if AngleX is NEAR_45 then ForceX is PS", engine));
+ruleblock->addRule(new MamdaniRule("if AngleX is NEAR_0 then ForceX is PL", engine));
+
+ruleblock->addRule(new MamdaniRule("if AngleZ is NEAR_180 then ForceZ is NL", engine));
+ruleblock->addRule(new MamdaniRule("if AngleZ is NEAR_135 then ForceZ is NS", engine));
+ruleblock->addRule(new MamdaniRule("if AngleZ is NEAR_90 then ForceZ is ZR", engine));
+ruleblock->addRule(new MamdaniRule("if AngleZ is NEAR_45 then ForceZ is PS", engine));
+ruleblock->addRule(new MamdaniRule("if AngleZ is NEAR_0 then ForceZ is PL", engine));
+engine.addRuleBlock(ruleblock);
+
+FL_LOG(engine.toString());
+	\end{lstlisting}
+
+	The output from the previous block of code exports the fuzzy system to text using the Fuzzy Controller Language (FCL) as shown below. 
+	
+	\begin{lstlisting}
+FUNCTION_BLOCK pole-balancing-3d
+
+VAR_INPUT
+AngleX: REAL;
+AngleZ: REAL;
+END_VAR
+
+FUZZIFY AngleX
+TERM NEAR_0 := Shoulder left(0 60);
+TERM NEAR_45 := Triangular (30 60 90);
+TERM NEAR_90 := Triangular (60 90 120);
+TERM NEAR_135 := Triangular (90 120 150);
+TERM NEAR_180 := Shoulder right(120 180);
+END_FUZZIFY
+
+FUZZIFY AngleZ
+TERM NEAR_0 := Shoulder left(0 60);
+TERM NEAR_45 := Triangular (30 60 90);
+TERM NEAR_90 := Triangular (60 90 120);
+TERM NEAR_135 := Triangular (90 120 150);
+TERM NEAR_180 := Shoulder right(120 180);
+END_FUZZIFY
+
+VAR_OUTPUT
+ForceX: REAL
+ForceZ: REAL
+END_VAR
+
+DEFUZZIFY ForceX
+TERM NL := Triangular (-1 -0.666667 -0.333333);
+TERM NS := Triangular (-0.666667 -0.333333 5.96046e-08);
+TERM ZR := Triangular (-0.333333 5.96046e-08 0.333333);
+TERM PS := Triangular (5.96046e-08 0.333333 0.666667);
+TERM PL := Triangular (0.333333 0.666667 1);
+END_DEFUZZIFY
+
+DEFUZZIFY ForceZ
+TERM NL := Triangular (-1 -0.666667 -0.333333);
+TERM NS := Triangular (-0.666667 -0.333333 5.96046e-08);
+TERM ZR := Triangular (-0.333333 5.96046e-08 0.333333);
+TERM PS := Triangular (5.96046e-08 0.333333 0.666667);
+TERM PL := Triangular (0.333333 0.666667 1);
+END_DEFUZZIFY
+
+RULEBLOCK Rules
+RULE 1: if AngleX is NEAR_180 then ForceX is NL;
+RULE 2: if AngleX is NEAR_135 then ForceX is NS;
+RULE 3: if AngleX is NEAR_90 then ForceX is ZR;
+RULE 4: if AngleX is NEAR_45 then ForceX is PS;
+RULE 5: if AngleX is NEAR_0 then ForceX is PL;
+RULE 6: if AngleZ is NEAR_180 then ForceZ is NL;
+RULE 7: if AngleZ is NEAR_135 then ForceZ is NS;
+RULE 8: if AngleZ is NEAR_90 then ForceZ is ZR;
+RULE 9: if AngleZ is NEAR_45 then ForceZ is PS;
+RULE 10: if AngleZ is NEAR_0 then ForceZ is PL;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK		
+	\end{lstlisting}
+
+	\section{Example 3: Approximating a function}
+	It is also possible to create a fuzzy system to approximate a function. For example, if we were to approximate the function $sin (x) / x$, we could do so by using the  with the following code.
+	
+	\lstset{language=[ISO]C++, texcl=true,
+	numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt,basicstyle=\footnotesize\tt,keywordstyle=\color{Purple}\bfseries, 
+	stringstyle=\color{RoyalBlue}, % typewriter type for strings 
+	showstringspaces=false,
+	classoffset=1,
+	morekeywords={*}, keywordstyle=\color{red},
+	classoffset=0}
+	
+	\begin{lstlisting}[firstnumber=1,tabsize=2]
+FuzzyOperator& op = FuzzyOperator::DefaultFuzzyOperator();
+op.setDefuzzifier(new TakagiSugenoDefuzzifier);
+FuzzyEngine engine("approximation", op);
+
+fl::InputLVar* x = new fl::InputLVar("x");
+x->addTerm(new fl::TriangularTerm("NEAR_1", 0, 2));
+x->addTerm(new fl::TriangularTerm("NEAR_2", 1, 3));
+x->addTerm(new fl::TriangularTerm("NEAR_3", 2, 4));
+x->addTerm(new fl::TriangularTerm("NEAR_4", 3, 5));
+x->addTerm(new fl::TriangularTerm("NEAR_5", 4, 6));
+x->addTerm(new fl::TriangularTerm("NEAR_6", 5, 7));
+x->addTerm(new fl::TriangularTerm("NEAR_7", 6, 8));
+x->addTerm(new fl::TriangularTerm("NEAR_8", 7, 9));
+x->addTerm(new fl::TriangularTerm("NEAR_9", 8, 10));
+engine.addInputLVar(x);
+
+fl::OutputLVar* f_x = new fl::OutputLVar("f_x");
+f_x->addTerm(new fl::FunctionTerm("function", "(sin x) / x", 0, 10));
+engine.addOutputLVar(f_x);
+
+fl::RuleBlock* block = new fl::RuleBlock();
+block->addRule(new fl::TakagiSugenoRule("if x is NEAR_1 then f_x=0.84", engine));
+block->addRule(new fl::TakagiSugenoRule("if x is NEAR_2 then f_x=0.45", engine));
+block->addRule(new fl::TakagiSugenoRule("if x is NEAR_3 then f_x=0.04", engine));
+block->addRule(new fl::TakagiSugenoRule("if x is NEAR_4 then f_x=-0.18", engine));
+block->addRule(new fl::TakagiSugenoRule("if x is NEAR_5 then f_x=-0.19", engine));
+block->addRule(new fl::TakagiSugenoRule("if x is NEAR_6 then f_x=-0.04", engine));
+block->addRule(new fl::TakagiSugenoRule("if x is NEAR_7 then f_x=0.09", engine));
+block->addRule(new fl::TakagiSugenoRule("if x is NEAR_8 then f_x=0.12", engine));
+block->addRule(new fl::TakagiSugenoRule("if x is NEAR_9 then f_x=0.04", engine));
+
+engine.addRuleBlock(block);
+
+int n = 40;
+flScalar mse = 0;
+for (fl::flScalar in = x->minimum(); in < x->maximum() ;
+        in += (x->minimum() + x->maximum()) / n) {
+    x->setInput(in);
+    engine.process();
+    flScalar expected = f_x->term(0)->membership(in);
+    flScalar obtained = f_x->output().defuzzify();
+    flScalar se = (expected - obtained) * (expected - obtained);
+    mse += isnan(se) ? 0 : se;
+    FL_LOG("x=" << in << "\texpected_out=" << expected << "\tobtained_out=" << obtained
+            << "\tse=" << se);
+}
+FL_LOG("MSE=" << mse / n);
+	\end{lstlisting} 
+	
+	The output of this piece of code is the following.
+\begin{verbatim}
+x=0.000        expected_out=nan        obtained_out=nan        se=nan
+x=0.250        expected_out=0.990        obtained_out=0.840        se=0.022
+x=0.500        expected_out=0.959        obtained_out=0.840        se=0.014
+x=0.750        expected_out=0.909        obtained_out=0.840        se=0.005
+x=1.000        expected_out=0.841        obtained_out=0.840        se=0.000
+x=1.250        expected_out=0.759        obtained_out=0.743        se=0.000
+x=1.500        expected_out=0.665        obtained_out=0.645        se=0.000
+x=1.750        expected_out=0.562        obtained_out=0.547        se=0.000
+x=2.000        expected_out=0.455        obtained_out=0.450        se=0.000
+x=2.250        expected_out=0.346        obtained_out=0.347        se=0.000
+x=2.500        expected_out=0.239        obtained_out=0.245        se=0.000
+x=2.750        expected_out=0.139        obtained_out=0.142        se=0.000
+x=3.000        expected_out=0.047        obtained_out=0.040        se=0.000
+x=3.250        expected_out=-0.033        obtained_out=-0.015        se=0.000
+x=3.500        expected_out=-0.100        obtained_out=-0.070        se=0.001
+x=3.750        expected_out=-0.152        obtained_out=-0.125        se=0.001
+x=4.000        expected_out=-0.189        obtained_out=-0.180        se=0.000
+x=4.250        expected_out=-0.211        obtained_out=-0.183        se=0.001
+x=4.500        expected_out=-0.217        obtained_out=-0.185        se=0.001
+x=4.750        expected_out=-0.210        obtained_out=-0.188        se=0.001
+x=5.000        expected_out=-0.192        obtained_out=-0.190        se=0.000
+x=5.250        expected_out=-0.164        obtained_out=-0.153        se=0.000
+x=5.500        expected_out=-0.128        obtained_out=-0.115        se=0.000
+x=5.750        expected_out=-0.088        obtained_out=-0.078        se=0.000
+x=6.000        expected_out=-0.047        obtained_out=-0.040        se=0.000
+x=6.250        expected_out=-0.005        obtained_out=-0.007        se=0.000
+x=6.500        expected_out=0.033        obtained_out=0.025        se=0.000
+x=6.750        expected_out=0.067        obtained_out=0.058        se=0.000
+x=7.000        expected_out=0.094        obtained_out=0.090        se=0.000
+x=7.250        expected_out=0.114        obtained_out=0.098        se=0.000
+x=7.500        expected_out=0.125        obtained_out=0.105        se=0.000
+x=7.750        expected_out=0.128        obtained_out=0.112        se=0.000
+x=8.000        expected_out=0.124        obtained_out=0.120        se=0.000
+x=8.250        expected_out=0.112        obtained_out=0.100        se=0.000
+x=8.500        expected_out=0.094        obtained_out=0.080        se=0.000
+x=8.750        expected_out=0.071        obtained_out=0.060        se=0.000
+x=9.000        expected_out=0.046        obtained_out=0.040        se=0.000
+x=9.250        expected_out=0.019        obtained_out=0.040        se=0.000
+x=9.500        expected_out=-0.008        obtained_out=0.040        se=0.002
+x=9.750        expected_out=-0.033        obtained_out=0.040        se=0.005
+MSE=0.001
+\end{verbatim}
