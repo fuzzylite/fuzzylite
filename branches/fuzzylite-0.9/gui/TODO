@@ -1,0 +1,3 @@
+Fix names of terms. The terms rename themselves according to the order. Try creating several terms with no order in a LVAR and see how the names are all .1.
+Rule parsing for weights, and ignoring () so MamdaniRule.toString() does not have to include spaces around parenthesis
+Hedges in output.

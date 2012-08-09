@@ -1,0 +1,11 @@
+<RCC>
+  <qresource prefix="icons" >
+    <file>icons/ledgreen.png</file>
+    <file>icons/ledred.png</file>
+    <file>icons/spellcheck.png</file>
+    <file>icons/wizard.png</file>
+    <file>icons/edit_add.png</file>
+    <file>icons/edit_remove.png</file>
+    <file>icons/pencil.png</file>
+  </qresource>
+</RCC>

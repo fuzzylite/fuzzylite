@@ -1,0 +1,388 @@
+% Copyright 2010 Juan Rada-Vilela
+% 
+% Licensed under the Apache License, Version 2.0 (the "License");
+% you may not use this file except in compliance with the License.
+% You may obtain a copy of the License at
+% 
+%     http://www.apache.org/licenses/LICENSE-2.0
+% 
+% Unless required by applicable law or agreed to in writing, software
+% distributed under the License is distributed on an "AS IS" BASIS,
+% WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+% See the License for the specific language governing permissions and
+% limitations under the License.
+
+\documentclass[11pt, final, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry} %Para los márgenes
+\usepackage{listings}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{url}
+
+\newcommand{\fl}{\texttt{FuzzyLite v0.9}}
+
+\begin{document}
+	\title{\fl\\A Fuzzy Inference System written in \texttt{C++}}
+	\author{by Juan Rada-Vilela\\ \footnotesize Supported by Fundación para el Progreso del Soft Computing}
+	\date{January, 2010}
+	
+	\maketitle
+	
+	\section{Introduction}
+	\fl\ is a multiplatform, free, and open-source Fuzzy Inference System (FIS) written in C++ and released under the Apache License 2.0, which makes this software freely available for commercial and non-commercial use. The idea behind this FIS is to have a very simple and light FIS. Simple as in simple to use, simple to understand, and simple to extend, without sacrificing performance. And light because it requires no additional libraries more than the Standard Template Library included in the C++ Standard Library. It has an object-oriented approach and a clear separation between the headers and sources, so it is easier to extend. Furthermore, it is GUI-agnostic, meaning that the FIS does not require a GUI to run, encouraging its use as a library. Nevertheless, a Qt-based GUI is provided using \fl\ as a shared library.
+	
+	\section{Features}
+	\begin{itemize}
+		\item Membership functions are continuous and the following are available: triangular, trapezoidal, rectangular, shoulder, singleton, and compound (multiple functions).
+		\item Defuzzification using center of gravity (COG).
+		\item Mamdani rule parsing with grammar checking.
+		\item TNorm: minimum, product, bounded difference.
+		\item SNorm: maximum, sum, bounded sum.
+		\item Modulation: clipping, scaling.
+		\item Accumulation: maximum, sum, bounded sum.
+		\item Variable sampling size for membership functions to compute area and centroid.
+		\item Area and centroid are calculated by means of a precise triangulation algorithm.
+		\item Hedges: not, somewhat, very. Easily extendible.
+		\item No restriction on inner parenthesis expressions in rules.
+	\end{itemize}
+
+	\section{Known bugs}
+	\begin{itemize}
+		\item Hedges in the consequent of rules are parsed correctly but do not work well. However, in the antecedent of rules they work just fine.
+		\item Parenthesis in rules must be separated from terms by means of a blank space. For example, instead of \texttt{(Term is BIG)} use \texttt{ ( Term is BIG ) }. 
+		\end{itemize}
+
+	\section{What is next?}
+		\begin{itemize}
+			\item Implement Takagi Sugeno rules.
+			\item Implement ANFIS.
+			\item Implement the Fuzzy Controller Language (FCL).
+			\item Incorporate sigmoidal, gaussian, cosine, and discrete membership functions.
+			\item Incorporate the following defuzzifiers: Right Most Maximum, Left Most Maximum, Mean Maximum.
+			\item Parse the weighting factor of a consequence.
+			\item Incorporate rule blocks and other aspects required by the FCL.
+			\item Function based deffuzifiers (e.g. TERM drainage := FUNCTION (-2 * pressure * Ln(pressure)) + (temp * 4);). Idea taken from the jFuzzyLogic project.
+			
+			\item Make some functions inline to increase performance and check those that are already inline to ensure they do increase performance.
+			\item Evaluate the performance hit of using exceptions to consider whether they should be removed.
+			\item Create the \texttt{configure} script using the \texttt{GNU Autotools} in order to easily build \fl\ from sources.
+		\end{itemize}
+		
+	\section{Building from source}
+	\subsection{\fl}
+		At the moment, due to the lack of a building script like \texttt{./configure}, the following steps could build \fl:
+		\begin{enumerate}
+			\item Create a \texttt{C++} Project either in Eclipse IDE or Netbeans IDE.
+			\item Add all the source files and include files to the project.
+			\item Add \texttt{.} to the includes path in the project properties.
+			\item Add \texttt{FL\_USE\_LOG} to enable the use of logging via \texttt{FL\_LOG(message)}. In \texttt{./include/defs.h} there are more symbols that can be defined for further customization.
+			\item Decide whether to build a shared library or an executable (in project properties).
+			\item Use the IDE's normal build.
+		\end{enumerate}
+
+	\subsection{GUI}
+		In order to build the graphical user interface of \fl, it is necessary to first install \texttt{Qt} which can be freely downloaded from \url{http://qt.nokia.com/}. 
+		
+		The \texttt{Makefile} included within the \texttt{./gui} is quite easy to read. Basically, the most important thing here is to copy the \texttt{libfuzzylite.dylib} (or whatever the extension be according to your platform) into the folder \texttt{./gui/dist} which is where the executable will be put. An alternative is to copy the library into \texttt{/usr/local/lib} and comment those lines in the \texttt{Makefile} that build and copy the library into the \texttt{./gui/dist} directory.
+		
+		After configuring the \texttt{Makefile} to fit your system, a \texttt{make all} from \texttt{./gui} would build the graphical user interface of \fl. To run, it suffices to execute \texttt{./gui} from \texttt{./gui/dist}.
+	
+	
+	\section{Example}
+	The following is a basic example of how to setup the FIS.
+	\lstset{language=[ISO]C++, texcl=true,
+	numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt,basicstyle=\footnotesize\tt,keywordstyle=\color{Purple}\bfseries, 
+	stringstyle=\color{RoyalBlue}, % typewriter type for strings 
+	showstringspaces=false,
+	classoffset=1,
+	morekeywords={*}, keywordstyle=\color{red},
+	classoffset=0}
+	
+	\begin{lstlisting}[firstnumber=1,tabsize=2]
+	fl::FuzzyOperator* fo = &fl::FuzzyOperator::DefaultFuzzyOperator();
+	fl::FuzzyEngine* fe = new FuzzyEngine(*fo);
+	
+	fe->addHedge(*new fl::HedgeNot);
+	fe->addHedge(*new fl::HedgeSomewhat);
+	fe->addHedge(*new fl::HedgeVery);
+	
+	fl::InputLVar* energy = new fl::InputLVar("Energy");
+	energy->addTerm(*new fl::ShoulderTerm("LOW", 0.25, 0.5, true));
+	energy->addTerm(*new fl::TriangularTerm("MEDIUM", 0.25, 0.75));
+	energy->addTerm(*new fl::ShoulderTerm("HIGH", 0.50, 0.75, false));
+	fe->addInputLVar(*energy);
+	
+	fl::OutputLVar* health = new fl::OutputLVar("Health");
+	health->addTerm(*new fl::TriangularTerm("BAD", 0.0, 0.50));
+	health->addTerm(*new fl::TriangularTerm("REGULAR", 0.25, 0.75));
+	health->addTerm(*new fl::TriangularTerm("GOOD", 0.50, 1.00));
+	fe->addOutputLVar(*health);
+	
+	fl::MamdaniRule* rule1 = new fl::MamdaniRule();
+	fl::MamdaniRule* rule2 = new fl::MamdaniRule();
+	fl::MamdaniRule* rule3 = new fl::MamdaniRule();
+	rule1->parse("if Energy is LOW then Health is BAD", fe);
+	rule2->parse("if Energy is MEDIUM then Health is REGULAR", fe);
+	rule3->parse("if Energy is HIGH then Health is GOOD", fe);
+	
+	fe->addRule(*rule1);
+	fe->addRule(*rule2);
+	fe->addRule(*rule3);
+	\end{lstlisting}
+	
+	Once the FIS is configured, the control process may begin anytime by setting the input value to the input variables and processing. For example,
+	
+	\begin{lstlisting}[firstnumber=last,tabsize=2]
+	for (fl::flScalar in = 0.0; in < 1.1; in += 0.1){
+		energy->setInput(in);
+		fe->process();
+		fl::flScalar out = health->output().defuzzify();
+		FL_LOG("Energy=" << in);
+		FL_LOG("Energy is " << energy->fuzzify(in));
+		FL_LOG("Health=" << out);
+		FL_LOG("Health is " << health->fuzzify(out));
+	}
+	\end{lstlisting}
+	
+	The previous code would yield the following results in console (assuming that \texttt{FL\_USE\_LOG} was defined):
+	
+	\begin{lstlisting}
+Energy=0
+Energy is 1.000/LOW + 0.000/MEDIUM + 0.000/HIGH
+Health=0.249902
+Health is 1.000/BAD + 0.000/REGULAR + 0.000/GOOD
+--
+Energy=0.1
+Energy is 1.000/LOW + 0.000/MEDIUM + 0.000/HIGH
+Health=0.249902
+Health is 1.000/BAD + 0.000/REGULAR + 0.000/GOOD
+--
+Energy=0.2
+Energy is 1.000/LOW + 0.000/MEDIUM + 0.000/HIGH
+Health=0.249902
+Health is 1.000/BAD + 0.000/REGULAR + 0.000/GOOD
+--
+Energy=0.3
+Energy is 0.800/LOW + 0.200/MEDIUM + 0.000/HIGH
+Health=0.309985
+Health is 0.760/BAD + 0.240/REGULAR + 0.000/GOOD
+--
+Energy=0.4
+Energy is 0.400/LOW + 0.600/MEDIUM + 0.000/HIGH
+Health=0.394929
+Health is 0.420/BAD + 0.580/REGULAR + 0.000/GOOD
+--
+Energy=0.5
+Energy is 0.000/LOW + 1.000/MEDIUM + 0.000/HIGH
+Health=0.499902
+Health is 0.000/BAD + 1.000/REGULAR + 0.000/GOOD
+--
+Energy=0.6
+Energy is 0.000/LOW + 0.600/MEDIUM + 0.400/HIGH
+Health=0.604537
+Health is 0.000/BAD + 0.582/REGULAR + 0.418/GOOD
+--
+Energy=0.7
+Energy is 0.000/LOW + 0.200/MEDIUM + 0.800/HIGH
+Health=0.689444
+Health is 0.000/BAD + 0.242/REGULAR + 0.758/GOOD
+--
+Energy=0.8
+Energy is 0.000/LOW + 0.000/MEDIUM + 1.000/HIGH
+Health=0.749902
+Health is 0.000/BAD + 0.000/REGULAR + 1.000/GOOD
+--
+Energy=0.9
+Energy is 0.000/LOW + 0.000/MEDIUM + 1.000/HIGH
+Health=0.749902
+Health is 0.000/BAD + 0.000/REGULAR + 1.000/GOOD
+--
+Energy=1
+Energy is 0.000/LOW + 0.000/MEDIUM + 1.000/HIGH
+Health=0.749902
+Health is 0.000/BAD + 0.000/REGULAR + 1.000/GOOD
+--
+	\end{lstlisting}
+
+	\section{License}
+	\begin{verbatim}
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+	
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, "submitted"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as "Not a Contribution."
+
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+	\end{verbatim}
+	
+\end{document}
