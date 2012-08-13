@@ -2,7 +2,8 @@
 \chapter{Overview}
 
 \section{Introduction}
-\fl\ is a multiplatform, free, and open-source Fuzzy Inference System (FIS) written in C++ and released under the Apache License 2.0, which makes this software freely available for commercial and non-commercial use. The idea behind this FIS is to have a very simple and lite FIS. Simple as in simple to use, simple to understand, and simple to extend, without sacrificing performance. And lite because it requires no additional libraries more than the Standard Template Library included in the C++ Standard Library. It has an object-oriented approach and a clear separation between the headers and sources, so it is easy to extend. Furthermore, it is GUI-agnostic, meaning that the FIS does not require a GUI to run, encouraging its use as a library. Nevertheless, a Qt-based GUI is provided using \fl\ as a shared library.
+
+\fl\ is a multiplatform, free, and open-source Fuzzy Logic Control Library written in C++ and released under the Apache License 2.0, which makes this software freely available for commercial and non-commercial use. The idea behind this library is to have a very simple and light-weight fuzzy controller. Simple as in simple to use, simple to understand, and simple to extend, without sacrificing performance. And light-weighted because it requires no additional libraries other than the Standard Template Library included in the C++ Standard Library. It has an object-oriented approach and a clear separation between the headers and sources, so it is easy to extend. Furthermore, it is GUI-agnostic, meaning that the library does not require a GUI to run, encouraging its use as a library. Nonetheless, a Qt-based GUI is also provided using \fl\ as an external library.
 
 \section{Features}
 \begin{itemize}
@@ -25,8 +26,16 @@
 \end{itemize}
 
 \section{What's new?}
-
 	\subsection{\fl}
+	\begin{itemize}
+		\item Fixed the Trapezoidal Algorithm.
+		\item Changed most of the \#\texttt{include}s for forward declarations.
+		\item Moved repository to \url{http://code.google.com/p/fuzzylite/}.
+		\item Updated the building scripts for Unix systems.
+		\item Removed building scripts for Mac OS X due to the lack of access to such OS.
+	\end{itemize}
+	
+	\subsection{\texttt{FuzzyLite v.1.03}}
 	\begin{itemize} 
 	  \item Fixed the Triangulation Algorithm to include the first and last
 	  triangle (improved accuracy). Courtesy of rctaylor.
@@ -72,15 +81,35 @@
 	
 	\section{Known bugs}
 	\begin{itemize}
-	  \item Accuracy of Trapezoidal Algorithm is not as good as Triangulation
-	  Algorithm. Although I do not know whether it is a bug or a feature ;).
+	
+	  \item The Trapezoidal Algorithm had a bug in version 1.03. This bug has been fixed from version 1.5.
 		\item \texttt{InfixToPostfix} conversion might not parse functions as one would normally expect. For example, $\sin (x) / x$ is \emph{not} equivalent to $(\sin x) / x$, the latter yields the result one might expect. Make sure by validating the postfix expression, or by evaluating its results.
 		\item In the GUI, when using a Takagi Sugeno system, the output graphs do not work.
 	\end{itemize}
 	
+\section{Building as a project}
+
+The sources can be built by creating a project on your favorite C++ IDE. All you need to remember is to add `\texttt{./}' to the INCLUDE\_PATH since all the \texttt{\#include}s from the library are in the form \texttt{\#include 'fuzzylite/...'}. You will also need to specify whether is an application you are building from fuzzylite or a library (either static or dynamic). Additional settings involve activating the preprocessor directive `\texttt{FL\_USE\_LOG}' so you can output messages to the console (useful for the demo).
+
 \section{Building from source}
 
+Alternatively, you can build the library using the scripts provided which were created automatically from the Eclipse IDE once the previous parameters were set. Building from the scripts is shown below.
+
 \subsection{\fl}
+Inside \texttt{./fuzzylite} there are now 3 folders, on each there is a
+	\texttt{makefile}. So all you have to do is execute from the folder the
+	command \texttt{make}. The folders are described below.
+	\begin{itemize}	
+	  \item \texttt{unix-demo}: Builds a demo version of \texttt{fuzzylite} which
+	  can be executed later as \texttt{./fuzzylite}. It shows the results for four
+	  examples of Fuzzy Engines.
+	  \item \texttt{unix-static}: Builds the library as a static library
+	  (\texttt{fuzzylite.a}).
+	  \item \texttt{unix-dynamic}: Builds the library as a dynamic library
+	  (\texttt{fuzzylite.so}.
+\end{itemize}
+
+\subsection{\texttt{FuzzyLite v.1.03}}
 	Inside \texttt{./fuzzylite} there are 6 folders, on each there is a
 	\texttt{makefile}. So all you have to do is execute from the folder the
 	command \texttt{make}. The folders are described below (notice that
@@ -119,6 +148,9 @@
 	  
 \end{itemize}
 	\subsection{\fl}
+		Building from source is the same as previous version.
+		
+	\subsection{\texttt{FuzzyLite v.1.03}}
 	In order to build this version, all you need to do (aside from having
 	installed \texttt{Qt} which can be freely downloaded from
 \url{http://qt.nokia.com/}.) is execute from \texttt{./fuzzylite/} the command
