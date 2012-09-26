@@ -15,6 +15,7 @@
 #include "fuzzylite/test.h"
 #include "fuzzylite/FuzzyLite.h"
 #include <limits>
+#include <unistd.h>
 
 #include "fuzzylite/FunctionTerm.h"
 namespace fl {
