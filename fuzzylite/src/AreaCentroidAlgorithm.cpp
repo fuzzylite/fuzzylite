@@ -42,9 +42,7 @@ void MidPointRectangle::centroid(const LinguisticTerm* term, flScalar& x,
 
 flScalar MidPointRectangle::areaAndCentroid(const LinguisticTerm* term,
 		flScalar& centroid_x, flScalar& centroid_y, int samples) const {
-	FL_LOG("Term:" << term->toString());
 	flScalar dx = (term->maximum() - term->minimum()) / samples;
-	FL_LOG("dx = " << dx); FL_LOG("samples = " << samples);
 	flScalar area = 0.0;
 	flScalar x, y;
 	for (int i = 0; i < samples; ++i) {
@@ -54,11 +52,9 @@ flScalar MidPointRectangle::areaAndCentroid(const LinguisticTerm* term,
 
 		centroid_x += y * x;
 		centroid_y += y * y;
-	} FL_LOG("area=" << area * dx) ;
+	} 
 	centroid_x /= area;
 	centroid_y /= 2 * area;
-	FL_LOG("centroid=(" << centroid_x<< ", " << centroid_y << ")");
-
 	area *= dx;
 	return area;
 
