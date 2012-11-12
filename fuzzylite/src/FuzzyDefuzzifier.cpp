@@ -30,6 +30,7 @@ namespace fl {
             const AreaCentroidAlgorithm* algorithm) const {
         flScalar x, y;
         algorithm->centroid(term, x, y, number_of_samples);
+        FL_LOG("centroid=" << x);
         return x;
     }
 

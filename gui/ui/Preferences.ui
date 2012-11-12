@@ -253,7 +253,7 @@
           </item>
           <item>
            <property name="text">
-            <string>Trapezoidal</string>
+            <string>MidPointRectangle</string>
            </property>
           </item>
          </widget>

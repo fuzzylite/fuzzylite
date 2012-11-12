@@ -18,6 +18,52 @@
 #include "fuzzylite/LinguisticTerm.h"
 namespace fl {
 
+std::string MidPointRectangle::name() const {
+	return "MidPointRectangle";
+}
+
+flScalar MidPointRectangle::area(const LinguisticTerm* term,
+		int samples) const {
+	flScalar dx = (term->maximum() - term->minimum()) / samples;
+	flScalar area = 0.0;
+	flScalar x, y;
+	for (int i = 0; i < samples; ++i) {
+		x = term->minimum() + (i + 0.5) * dx;
+		y = term->membership(x);
+		area += y;
+	}
+	return area * dx;
+}
+
+void MidPointRectangle::centroid(const LinguisticTerm* term, flScalar& x,
+		flScalar& y, int samples) const {
+	this->areaAndCentroid(term, x, y, samples);
+}
+
+flScalar MidPointRectangle::areaAndCentroid(const LinguisticTerm* term,
+		flScalar& centroid_x, flScalar& centroid_y, int samples) const {
+	FL_LOG("Term:" << term->toString());
+	flScalar dx = (term->maximum() - term->minimum()) / samples;
+	FL_LOG("dx = " << dx); FL_LOG("samples = " << samples);
+	flScalar area = 0.0;
+	flScalar x, y;
+	for (int i = 0; i < samples; ++i) {
+		x = term->minimum() + (i + 0.5) * dx;
+		y = term->membership(x);
+		area += y;
+
+		centroid_x += y * x;
+		centroid_y += y * y;
+	} FL_LOG("area=" << area * dx) ;
+	centroid_x /= area;
+	centroid_y /= 2 * area;
+	FL_LOG("centroid=(" << centroid_x<< ", " << centroid_y << ")");
+
+	area *= dx;
+	return area;
+
+}
+
 std::string TriangulationAlgorithm::name() const {
 	return "Triangulation";
 }
@@ -98,80 +144,80 @@ flScalar TriangulationAlgorithm::areaAndCentroid(const LinguisticTerm* term,
 	return sum_area;
 }
 
-std::string TrapezoidalAlgorithm::name() const {
-	return "Trapezoidal";
-}
-
-flScalar TrapezoidalAlgorithm::area(const LinguisticTerm* term,
-		int samples) const {
-	flScalar x, y;
-	return areaAndCentroid(term, x, y, samples);
-	flScalar sum_area = 0.0;
-	flScalar step_size = (term->maximum() - term->minimum()) / samples;
-	flScalar step = term->minimum();
-	flScalar mu, prev_mu = term->membership(step);
-
-	for (int i = 0; i < samples; ++i) {
-		step += step_size;
-		mu = term->membership(step);
-
-		sum_area += step_size * (mu + prev_mu);
-
-		prev_mu = mu;
-	}
-	sum_area *= 0.5;
-
-	return sum_area;
-}
-
-void TrapezoidalAlgorithm::centroid(const LinguisticTerm* term,
-		flScalar& centroid_x, flScalar& centroid_y, int samples) const {
-	areaAndCentroid(term, centroid_x, centroid_y, samples);
-}
-
-flScalar TrapezoidalAlgorithm::areaAndCentroid(const LinguisticTerm* term,
-		flScalar& centroid_x, flScalar& centroid_y, int samples) const {
-	flScalar sum_area = 0.0;
-	flScalar step_size = (term->maximum() - term->minimum()) / samples;
-	flScalar step = term->minimum();
-	flScalar mu, prev_mu = term->membership(step);
-	flScalar area, x, y;
-	flScalar a = step_size, h1, h2;
-
-	centroid_x = 0.0;
-	centroid_y = 0.0;
-	/*
-	 *  centroid_x = a * (h1 + 2*h2) / (3 * (h1 + h2)); h1 = prev_mu, h2 = mu
-	 *  centroid_y = 1.0/3.0 * (h2 + (h1 * h1)/(h1 + h2))
-	 */
-	for (int i = 0; i < samples; ++i) {
-		step += step_size;
-		mu = term->membership(step);
-
-		area = 0.5 * step_size * (prev_mu + mu);
-		sum_area += area;
-
-		h1 = prev_mu;
-		h2 = mu;
-
-		x = a * (h1 + 2 * h2) / (3 * (h1 + h2));
-		y = 1.0 / 3.0 * (h2 + (h1 * h1) / (h1 + h2));
-
-//			x = ((step_size * (prev_mu + 2 * mu)) / (3.0 * (prev_mu + mu)))
-//					+ (step + (step - step_size)) / 2.0;
-//			y = ((prev_mu * prev_mu) / (prev_mu + mu) + mu) / 3.0;
-
-		centroid_x += area * x;
-		centroid_y += area * y;
-
-		prev_mu = mu;
-	}
-
-	centroid_x /= sum_area;
-	centroid_y /= sum_area;
-
-	return sum_area;
-}
+//std::string TrapezoidalAlgorithm::name() const {
+//	return "Trapezoidal";
+//}
+//
+//flScalar TrapezoidalAlgorithm::area(const LinguisticTerm* term,
+//		int samples) const {
+//	flScalar x, y;
+//	return areaAndCentroid(term, x, y, samples);
+//	flScalar sum_area = 0.0;
+//	flScalar step_size = (term->maximum() - term->minimum()) / samples;
+//	flScalar step = term->minimum();
+//	flScalar mu, prev_mu = term->membership(step);
+//
+//	for (int i = 0; i < samples; ++i) {
+//		step += step_size;
+//		mu = term->membership(step);
+//
+//		sum_area += step_size * (mu + prev_mu);
+//
+//		prev_mu = mu;
+//	}
+//	sum_area *= 0.5;
+//
+//	return sum_area;
+//}
+//
+//void TrapezoidalAlgorithm::centroid(const LinguisticTerm* term,
+//		flScalar& centroid_x, flScalar& centroid_y, int samples) const {
+//	areaAndCentroid(term, centroid_x, centroid_y, samples);
+//}
+//
+//flScalar TrapezoidalAlgorithm::areaAndCentroid(const LinguisticTerm* term,
+//		flScalar& centroid_x, flScalar& centroid_y, int samples) const {
+//	flScalar sum_area = 0.0;
+//	flScalar step_size = (term->maximum() - term->minimum()) / samples;
+//	flScalar step = term->minimum();
+//	flScalar mu, prev_mu = term->membership(step);
+//	flScalar area, x, y;
+//	flScalar a = step_size, h1, h2;
+//
+//	centroid_x = 0.0;
+//	centroid_y = 0.0;
+//	/*
+//	 *  centroid_x = a * (h1 + 2*h2) / (3 * (h1 + h2)); h1 = prev_mu, h2 = mu
+//	 *  centroid_y = 1.0/3.0 * (h2 + (h1 * h1)/(h1 + h2))
+//	 */
+//	for (int i = 0; i < samples; ++i) {
+//		step += step_size;
+//		mu = term->membership(step);
+//
+//		area = 0.5 * step_size * (prev_mu + mu);
+//		sum_area += area;
+//
+//		h1 = prev_mu;
+//		h2 = mu;
+//
+//		x = a * (h1 + 2 * h2) / (3 * (h1 + h2));
+//		y = 1.0 / 3.0 * (h2 + (h1 * h1) / (h1 + h2));
+//
+////			x = ((step_size * (prev_mu + 2 * mu)) / (3.0 * (prev_mu + mu)))
+////					+ (step + (step - step_size)) / 2.0;
+////			y = ((prev_mu * prev_mu) / (prev_mu + mu) + mu) / 3.0;
+//
+//		centroid_x += area * x;
+//		centroid_y += area * y;
+//
+//		prev_mu = mu;
+//	}
+//
+//	centroid_x /= sum_area;
+//	centroid_y /= sum_area;
+//
+//	return sum_area;
+//}
 
 }
 
