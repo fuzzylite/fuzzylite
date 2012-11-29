@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef TRIANGLE_H_
-#define TRIANGLE_H_
+#ifndef FL_TRIANGLE_H_
+#define FL_TRIANGLE_H_
 
 #include "../Term.h"
 
@@ -25,6 +25,8 @@ namespace fl {
 
         scalar membership(scalar x);
 
+        std::string toString() const;
+
         void setA(scalar a);
         scalar getA() const;
 
@@ -34,9 +36,9 @@ namespace fl {
         void setC(scalar c);
         scalar getC() const;
 
-        std::string toString() const;
+
 
     };
 
 } /* namespace fl */
-#endif /* TRIANGLE_H_ */
+#endif /* FL_TRIANGLE_H_ */

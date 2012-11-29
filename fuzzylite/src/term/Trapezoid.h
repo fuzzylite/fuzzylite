@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef TRAPEZOID_H_
-#define TRAPEZOID_H_
+#ifndef FL_TRAPEZOID_H_
+#define FL_TRAPEZOID_H_
 
 #include "../Term.h"
 
@@ -24,6 +24,7 @@ namespace fl {
         ~Trapezoid();
 
         scalar membership(scalar x);
+        std::string toString() const;
 
         void setA(scalar a);
         scalar getA() const;
@@ -37,8 +38,8 @@ namespace fl {
         void setD(scalar d);
         scalar getD() const;
 
-        std::string toString() const;
+
     };
 
 } /* namespace fl */
-#endif /* TRAPEZOID_H_ */
+#endif /* FL_TRAPEZOID_H_ */

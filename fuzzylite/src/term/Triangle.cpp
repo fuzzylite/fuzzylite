@@ -29,6 +29,12 @@ namespace fl {
             return (_maximum - x) / (_maximum - _b);
     }
 
+    std::string Triangle::toString() const {
+            std::stringstream ss;
+            ss << "Triangle (" << _minimum << ", " << _b << ", " << _maximum << ")";
+            return ss.str();
+    }
+
     void Triangle::setA(scalar a) {
         this->_minimum = a;
     }
@@ -49,10 +55,6 @@ namespace fl {
         return this->_maximum;
     }
 
-    std::string Triangle::toString() const {
-        std::stringstream ss;
-        ss << "Triangle (" << _minimum << ", " << _b << ", " << _maximum << ")";
-        return ss.str();
-    }
+
 
 } /* namespace fl */

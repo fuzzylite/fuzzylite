@@ -32,6 +32,13 @@ namespace fl {
             return 0.0;
     }
 
+    std::string Trapezoid::toString() const {
+            std::stringstream ss;
+            ss << "Trapezoid (" << _minimum << ", " << _b << ", " << _c << ", "
+                    << _maximum << ")";
+            return ss.str();
+    }
+
     void Trapezoid::setA(scalar a) {
         this->_minimum = a;
     }
@@ -57,12 +64,5 @@ namespace fl {
         return this->_maximum;
     }
 
-    std::string Trapezoid::toString() const {
-        std::stringstream ss;
-        ss << "Trapezoid (" << _minimum << ", " << _b << ", " << _c << ", "
-                << _maximum << ")";
-        return ss.str();
-
-    }
 
 } /* namespace fl */
