@@ -15,10 +15,9 @@ namespace fl {
 
 #else
     typedef double scalar;
-    #define FL_EPSILON 1e-15
+#define FL_EPSILON 1e-15
 #endif
 
 }
-
 
 #endif /* FL_SCALAR_H_ */

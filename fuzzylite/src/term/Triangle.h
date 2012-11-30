@@ -14,10 +14,10 @@ namespace fl {
 
     class Triangle: public Term {
     protected:
-    	scalar _a;
+        scalar _a;
         scalar _b;
         scalar _c;
-    public:
+        public:
         Triangle(const std::string& name,
                 scalar a = -std::numeric_limits<scalar>::infinity(),
                 scalar b = std::numeric_limits<scalar>::quiet_NaN(),
@@ -39,8 +39,6 @@ namespace fl {
 
         void setC(scalar c);
         scalar getC() const;
-
-
 
     };
 
