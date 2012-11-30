@@ -13,27 +13,33 @@
 namespace fl {
 
 class Sigmoid: public Term {
-protected:
-	scalar _a;
-	scalar _c;
-public:
-	Sigmoid(const std::string& name,
-			scalar minimum = -std::numeric_limits<scalar>::infinity(),
-			scalar maximum = std::numeric_limits<scalar>::infinity(),
-			scalar a = std::numeric_limits<scalar>::quiet_NaN(),
-			scalar c = std::numeric_limits<scalar>::quiet_NaN());
-	~Sigmoid();
+	protected:
+		scalar _a;
+		scalar _c;
+		scalar _minimum, _maximum;
+		public:
+		Sigmoid(const std::string& name,
+				scalar a = std::numeric_limits<scalar>::quiet_NaN(),
+				scalar c = std::numeric_limits<scalar>::quiet_NaN(),
+				scalar minimum = -std::numeric_limits<scalar>::infinity(),
+				scalar maximum = std::numeric_limits<scalar>::infinity());
+		~Sigmoid();
 
-	scalar membership(scalar x);
+		scalar membership(scalar x);
 
-	std::string toString() const;
+		std::string toString() const;
 
-	void setA(scalar a);
-	scalar getA() const;
+		void setA(scalar a);
+		scalar getA() const;
 
-	void setC(scalar c);
-	scalar getC() const;
+		void setC(scalar c);
+		scalar getC() const;
 
+		void setMinimum(scalar minimum);
+		scalar minimum() const;
+
+		void setMaximum(scalar maximum);
+		scalar maximum() const;
 
 };
 

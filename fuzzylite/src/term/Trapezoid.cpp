@@ -13,37 +13,47 @@ namespace fl {
 
     Trapezoid::Trapezoid(const std::string& name, scalar a, scalar b, scalar c,
             scalar d)
-            : Term(name, a, d), _b(b), _c(c) {
+            : Term(name), _a(a), _b(b), _c(c), _d(d) {
     }
 
     Trapezoid::~Trapezoid() {
     }
 
+    scalar Trapezoid::minimum() const{
+    	return this->_a;
+    }
+
+    scalar Trapezoid::maximum() const{
+    	return this->_d;
+    }
+
     scalar Trapezoid::membership(scalar x) {
-        if (x <= _minimum || x >= _maximum)
+    	scalar minimum = _a;
+    	scalar maximum = _d;
+        if (x <= minimum || x >= maximum)
             return 0.0;
         else if (x <= _b)
-            return (x - _minimum) / (_b - _minimum);
+            return (x - minimum) / (_b - minimum);
         else if (x <= _c)
             return 1.0;
-        else if (x <= _maximum)
-            return (_maximum - x) / (_maximum - _c);
+        else if (x <= maximum)
+            return (maximum - x) / (maximum - _c);
         else
             return 0.0;
     }
 
     std::string Trapezoid::toString() const {
             std::stringstream ss;
-            ss << "Trapezoid (" << _minimum << ", " << _b << ", " << _c << ", "
-                    << _maximum << ")";
+            ss << "Trapezoid (" << _a << ", " << _b << ", " << _c << ", "
+                    << _d << ")";
             return ss.str();
     }
 
     void Trapezoid::setA(scalar a) {
-        this->_minimum = a;
+        this->_a = a;
     }
     scalar Trapezoid::getA() const {
-        return this->_minimum;
+        return this->_a;
     }
     void Trapezoid::setB(scalar b) {
         this->_b = b;
@@ -58,10 +68,10 @@ namespace fl {
         return this->_c;
     }
     void Trapezoid::setD(scalar d) {
-        this->_maximum = d;
+        this->_d = d;
     }
     scalar Trapezoid::getD() const {
-        return this->_maximum;
+        return this->_d;
     }
 
 

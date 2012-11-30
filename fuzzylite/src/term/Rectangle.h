@@ -13,15 +13,25 @@
 namespace fl {
 
 class Rectangle: public Term {
-public:
-	Rectangle(const std::string& name,
-			scalar minimum = -std::numeric_limits<scalar>::infinity(),
-			scalar maximum = std::numeric_limits<scalar>::infinity());
-	~Rectangle();
+	protected:
+		scalar _minimum, _maximum;
 
-	scalar membership(scalar x);
+	public:
+		Rectangle(const std::string& name,
+				scalar minimum = -std::numeric_limits<scalar>::infinity(),
+				scalar maximum = std::numeric_limits<scalar>::infinity());
+		~Rectangle();
 
-	std::string toString() const;
+		scalar membership(scalar x);
+		std::string toString() const;
+
+		virtual void setMinimum(scalar minimum);
+		virtual scalar minimum() const;
+
+		virtual void setMaximum(scalar maximum);
+		virtual scalar maximum() const;
+
+
 };
 
 } /* namespace fl */

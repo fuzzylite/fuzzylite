@@ -14,14 +14,18 @@ namespace fl {
 
     class Triangle: public Term {
     protected:
+    	scalar _a;
         scalar _b;
-
+        scalar _c;
     public:
         Triangle(const std::string& name,
                 scalar a = -std::numeric_limits<scalar>::infinity(),
                 scalar b = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar c = std::numeric_limits<scalar>::infinity());
         ~Triangle();
+
+        scalar minimum() const;
+        scalar maximum() const;
 
         scalar membership(scalar x);
 

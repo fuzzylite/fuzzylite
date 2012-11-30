@@ -15,27 +15,33 @@
 
 namespace fl {
 
-    class Term {
-    protected:
-        std::string _name;
-        scalar _minimum;
-        scalar _maximum;
+class Term {
+	protected:
+		std::string _name;
 
-    public:
-        Term(const std::string& name,
-                scalar minimum = -std::numeric_limits<scalar>::infinity(),
-                scalar maximum = std::numeric_limits<scalar>::infinity())
-                : _name(name), _minimum(minimum), _maximum(maximum) {
-        }
+	public:
+		Term(const std::string& name = "")
+				: _name(name) {
+		}
+		virtual ~Term() {
+		}
 
-        virtual ~Term() {
-        }
+		virtual void setName(const std::string& name) {
+			this->_name = name;
+		}
 
-        virtual scalar membership(scalar x) = 0;
+		virtual std::string getName() const {
+			return this->_name;
+		}
 
-        virtual std::string toString() const = 0;
+		virtual scalar minimum() const = 0;
+		virtual scalar maximum() const = 0;
 
-    };
+		virtual scalar membership(scalar x) const = 0;
+
+		virtual std::string toString() const = 0;
+
+};
 
 } /* namespace fl */
 #endif /* FL_TERM_H_ */

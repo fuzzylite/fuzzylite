@@ -13,28 +13,45 @@
 namespace fl {
 
 class LeftShoulder: public Term {
-public:
-	LeftShoulder(const std::string& name,
-			scalar minimum = -std::numeric_limits<scalar>::infinity(),
-			scalar maximum = std::numeric_limits<scalar>::infinity());
-	~LeftShoulder();
+	protected:
+		scalar _minimum, _maximum;
 
-	scalar membership(scalar x);
-	std::string toString() const;
+	public:
+		LeftShoulder(const std::string& name,
+				scalar minimum = -std::numeric_limits<scalar>::infinity(),
+				scalar maximum = std::numeric_limits<scalar>::infinity());
+		~LeftShoulder();
+
+		scalar membership(scalar x);
+		std::string toString() const;
+
+		void setMinimum(scalar minimum);
+		scalar minimum() const;
+
+		void setMaximum(scalar maximum);
+		scalar maximum() const;
+
 };
 
 class RightShoulder: public Term {
-public:
-	RightShoulder(const std::string& name,
-			scalar minimum = -std::numeric_limits<scalar>::infinity(),
-			scalar maximum = std::numeric_limits<scalar>::infinity());
-	~RightShoulder();
+	protected:
+		scalar _minimum, _maximum;
+		public:
+		RightShoulder(const std::string& name,
+				scalar minimum = -std::numeric_limits<scalar>::infinity(),
+				scalar maximum = std::numeric_limits<scalar>::infinity());
+		~RightShoulder();
 
-	scalar membership(scalar x);
-	std::string toString() const;
+		scalar membership(scalar x);
+		std::string toString() const;
+
+		void setMinimum(scalar minimum);
+		scalar minimum() const;
+
+		void setMaximum(scalar maximum);
+		scalar maximum() const;
+
 };
-
-
 
 } /* namespace fl */
 #endif /* FL_SHOULDER_H_ */

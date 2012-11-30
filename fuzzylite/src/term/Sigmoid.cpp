@@ -12,21 +12,19 @@
 
 namespace fl {
 
-Sigmoid::Sigmoid(const std::string& name, scalar minimum, scalar maximum,
-		scalar a, scalar c)
-:Term(name, minimum, maximum), _a(a), _c(c){
-
+Sigmoid::Sigmoid(const std::string& name, scalar a, scalar c,
+		scalar minimum, scalar maximum)
+		: Term(name), _a(a), _c(c), _minimum(minimum), _maximum(maximum) {
 }
 
 Sigmoid::~Sigmoid() {
-
 }
 
-scalar Sigmoid::membership(scalar x){
-	return 1.0 / (1.0 + std::exp( -_a * (x - _c)));
+scalar Sigmoid::membership(scalar x) {
+	return 1.0 / (1.0 + std::exp(-_a * (x - _c)));
 }
 
-std::string Sigmoid::toString() const{
+std::string Sigmoid::toString() const {
 	std::stringstream ss;
 	ss << "Sigmoid (" << _minimum << ", " << _maximum << ", "
 			<< _a << ", " << _c << ")";
@@ -44,6 +42,19 @@ void Sigmoid::setC(scalar c) {
 }
 scalar Sigmoid::getC() const {
 	return this->_c;
+}
+
+void Sigmoid::setMinimum(scalar minimum) {
+	this->_minimum = minimum;
+}
+scalar Sigmoid::minimum() const {
+	return this->_minimum;
+}
+void Sigmoid::setMaximum(scalar maximum) {
+	this->_maximum = maximum;
+}
+scalar Sigmoid::maximum() const {
+	return this->_maximum;
 }
 
 } /* namespace fl */

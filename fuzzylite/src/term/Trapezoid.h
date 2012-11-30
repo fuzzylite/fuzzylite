@@ -14,7 +14,7 @@ namespace fl {
 
     class Trapezoid : public Term{
     protected:
-        scalar _b, _c;
+        scalar _a, _b, _c, _d;
     public:
         Trapezoid(const std::string& name,
                 scalar a = -std::numeric_limits<scalar>::infinity(),
@@ -22,6 +22,9 @@ namespace fl {
                 scalar c = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar d = std::numeric_limits<scalar>::infinity());
         ~Trapezoid();
+
+        scalar minimum() const;
+        scalar maximum() const;
 
         scalar membership(scalar x);
         std::string toString() const;

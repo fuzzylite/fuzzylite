@@ -12,10 +12,9 @@
 
 namespace fl {
 
-Bell::Bell(const std::string& name, scalar minimum, scalar maximum, scalar a,
-		scalar b, scalar c) :
-		Term(name, minimum, maximum), _a(a), _b(b), _c(c) {
-
+Bell::Bell(const std::string& name, scalar a, scalar b, scalar c,
+		scalar minimum, scalar maximum)
+		: Term(name), _a(a), _b(b), _c(c), _minimum(minimum), _maximum(maximum) {
 }
 
 Bell::~Bell() {
@@ -25,9 +24,9 @@ scalar Bell::membership(scalar x) {
 	// from matlab: gbellmf.m
 	scalar tmp = ((x - _c) / _a) * ((x - _c) / _a);
 	if (tmp == 0.0 && _b == 0)
-		return 0.5;
+	return 0.5;
 	else if (tmp == 0.0 && _b < 0)
-		return 0.0;
+	return 0.0;
 	else {
 		tmp = std::pow(tmp, _b);
 		return 1.0 / (1.0 + tmp);
@@ -58,6 +57,19 @@ void Bell::setC(scalar c) {
 }
 scalar Bell::getC() const {
 	return this->_c;
+}
+
+void Bell::setMinimum(scalar minimum) {
+	this->_minimum = minimum;
+}
+scalar Bell::minimum() const {
+	return this->_minimum;
+}
+void Bell::setMaximum(scalar maximum) {
+	this->_maximum = maximum;
+}
+scalar Bell::maximum() const {
+	return this->_maximum;
 }
 
 } /* namespace fl */
