@@ -10,15 +10,15 @@
 #include "definitions.h"
 
 using namespace fl;
-int main(){
+int main() {
 
-	FL_LOG("Test");
-	scalar x = std::numeric_limits<scalar>::infinity();
-	FL_LOG( (98.0 < x) );
-	FL_LOG( (98.0 > x) );
-	x = -std::numeric_limits<scalar>::infinity();
-	FL_LOG( (98.0 < x) );
-	FL_LOG( (98.0 > x) );
+    FL_LOG("Test");
+    scalar x = std::numeric_limits<scalar>::infinity();
+    FL_LOG( (98.0 < x));
+    FL_LOG( (98.0 > x));
+    x = -std::numeric_limits<scalar>::infinity();
+    FL_LOG( (98.0 < x));
+    FL_LOG( (98.0 > x));
 
 }
 

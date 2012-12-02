@@ -12,36 +12,36 @@
 
 namespace fl {
 
-class Gaussian: public Term {
-	protected:
-		scalar _sigma;
-		scalar _c;
-		scalar _minimum, _maximum;
+    class Gaussian: public Term {
+    protected:
+        scalar _sigma;
+        scalar _c;
+        scalar _minimum, _maximum;
 
-	public:
-		Gaussian(const std::string& name,
-				scalar sigma = -std::numeric_limits<scalar>::quiet_NaN(),
-				scalar c = std::numeric_limits<scalar>::quiet_NaN(),
-				scalar minimum = -std::numeric_limits<scalar>::infinity(),
-				scalar maximum = std::numeric_limits<scalar>::infinity());
-		~Gaussian();
+    public:
+        Gaussian(const std::string& name,
+                scalar sigma = -std::numeric_limits<scalar>::quiet_NaN(),
+                scalar c = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar minimum = -std::numeric_limits<scalar>::infinity(),
+                scalar maximum = std::numeric_limits<scalar>::infinity());
+        ~Gaussian();
 
-		scalar membership(scalar x);
-		std::string toString() const;
+        scalar membership(scalar x);
+        std::string toString() const;
 
-		void setSigma(scalar sigma);
-		scalar getSigma() const;
+        void setSigma(scalar sigma);
+        scalar getSigma() const;
 
-		void setC(scalar c);
-		scalar getC() const;
+        void setC(scalar c);
+        scalar getC() const;
 
-		void setMinimum(scalar minimum);
-		scalar minimum() const;
+        void setMinimum(scalar minimum);
+        scalar minimum() const;
 
-		void setMaximum(scalar maximum);
-		scalar maximum() const;
+        void setMaximum(scalar maximum);
+        scalar maximum() const;
 
-};
+    };
 
 } /* namespace fl */
 #endif /* FL_GAUSSIAN_H_ */

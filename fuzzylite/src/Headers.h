@@ -23,6 +23,4 @@
 #include "term/Trapezoid.h"
 #include "term/Triangle.h"
 
-
-
 #endif /* HEADERS_H_ */

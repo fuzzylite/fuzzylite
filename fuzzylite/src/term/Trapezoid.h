@@ -12,10 +12,10 @@
 
 namespace fl {
 
-    class Trapezoid : public Term{
+    class Trapezoid: public Term {
     protected:
         scalar _a, _b, _c, _d;
-    public:
+        public:
         Trapezoid(const std::string& name,
                 scalar a = -std::numeric_limits<scalar>::infinity(),
                 scalar b = std::numeric_limits<scalar>::quiet_NaN(),
@@ -40,7 +40,6 @@ namespace fl {
 
         void setD(scalar d);
         scalar getD() const;
-
 
     };
 
