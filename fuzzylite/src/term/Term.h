@@ -8,7 +8,7 @@
 #ifndef FL_TERM_H_
 #define FL_TERM_H_
 
-#include "scalar.h"
+#include "../scalar.h"
 
 #include <string>
 #include <limits>

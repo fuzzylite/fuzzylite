@@ -8,7 +8,7 @@
 #ifndef FL_TRAPEZOID_H_
 #define FL_TRAPEZOID_H_
 
-#include "../Term.h"
+#include "Term.h"
 
 namespace fl {
 

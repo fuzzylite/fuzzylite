@@ -8,7 +8,7 @@
 #ifndef FL_TRIANGLE_H_
 #define FL_TRIANGLE_H_
 
-#include "../Term.h"
+#include "Term.h"
 
 namespace fl {
 

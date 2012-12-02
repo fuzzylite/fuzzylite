@@ -8,7 +8,7 @@
 #ifndef FL_THRESHOLDED_H_
 #define FL_THRESHOLDED_H_
 
-#include "../Term.h"
+#include "Term.h"
 
 namespace fl {
 class Operator;

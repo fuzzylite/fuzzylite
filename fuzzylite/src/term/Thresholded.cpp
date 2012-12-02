@@ -7,7 +7,7 @@
 
 #include "Thresholded.h"
 
-#include "../Operator.h"
+#include "../engine/Operator.h"
 
 #include <sstream>
 

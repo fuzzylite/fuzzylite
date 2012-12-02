@@ -1,0 +1,68 @@
+/*
+ * MaximumDefuzzifier.cpp
+ *
+ *  Created on: 2/12/2012
+ *      Author: jcrada
+ */
+
+#include "MaximumDefuzzifier.h"
+
+#include "../term/Term.h"
+
+#include "../definitions.h"
+
+
+
+namespace fl {
+
+MaximumDefuzzifier::MaximumDefuzzifier(Type type, int divisions)
+		: Defuzzifier(divisions), _type(type) {
+}
+
+std::string MaximumDefuzzifier::name() const {
+	switch (_type) {
+		case SMALLEST:
+			return "SOM";
+		case LARGEST:
+			return "LOM";
+		case MEAN:
+			return "MOM";
+		default:
+			return "???";
+	}
+}
+
+scalar MaximumDefuzzifier::defuzzify(const Term* term) const {
+	scalar dx = (term->maximum() - term->minimum()) / _divisions;
+	scalar x, y;
+	scalar ymax = -1.0, xsmallest, xlargest;
+	bool samePlateau = false;
+	for (int i = 0; i < _divisions; ++i) {
+		x = term->minimum() + (i + 0.5) * dx;
+		y = term->membership(x);
+//TODO: Fix > < == with tolerant versions
+		if (y > ymax) {
+			xsmallest = x;
+			ymax = y;
+			samePlateau = true;
+		} else if (y == ymax && samePlateau) {
+			xlargest = x;
+		} else if (y < ymax) {
+			samePlateau = false;
+		}
+	}
+
+	switch (_type) {
+		case SMALLEST:
+			return xsmallest;
+		case LARGEST:
+			return xlargest;
+		case MEAN:
+			return (xlargest + xsmallest) / 2.0;
+		default:
+			FL_LOG("unknown MaximumDefuzzifier type");
+			return std::numeric_limits<scalar>::quiet_NaN();
+	}
+}
+
+} /* namespace fl */

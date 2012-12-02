@@ -7,7 +7,7 @@
 
 #include "Cumulative.h"
 
-#include "../Operator.h"
+#include "../engine/Operator.h"
 
 #include <sstream>
 

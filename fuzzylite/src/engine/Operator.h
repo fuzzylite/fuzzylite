@@ -5,10 +5,10 @@
  *      Author: jcrada
  */
 
-#ifndef OPERATOR_H_
-#define OPERATOR_H_
+#ifndef FL_OPERATOR_H_
+#define FL_OPERATOR_H_
 
-#include "scalar.h"
+#include "../scalar.h"
 
 #include <string>
 #include <algorithm>
@@ -143,4 +143,4 @@ class NSum: public Operator {
 
 } // namespace fl
 
-#endif /* OPERATOR_H_ */
+#endif /* FL_OPERATOR_H_ */
