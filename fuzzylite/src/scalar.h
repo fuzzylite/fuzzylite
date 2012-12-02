@@ -11,11 +11,11 @@
 namespace fl {
 #ifdef FL_USE_SINGLE_PRECISION
     typedef float scalar;
-#define FL_EPSILON 1e-6
+#define FL_EPSILON 1e-5
 
 #else
     typedef double scalar;
-#define FL_EPSILON 1e-15
+#define FL_EPSILON 1e-5
 #endif
 
 }

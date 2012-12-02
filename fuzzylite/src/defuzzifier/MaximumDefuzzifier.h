@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef MAXIMUMDEFUZZIFIER_H_
-#define MAXIMUMDEFUZZIFIER_H_
+#ifndef FL_MAXIMUMDEFUZZIFIER_H_
+#define FL_MAXIMUMDEFUZZIFIER_H_
 
 #include "Defuzzifier.h"
 
@@ -30,4 +30,4 @@ class MaximumDefuzzifier : public Defuzzifier{
 };
 
 } /* namespace fl */
-#endif /* MAXIMUMDEFUZZIFIER_H_ */
+#endif /* FL_MAXIMUMDEFUZZIFIER_H_ */

@@ -10,46 +10,52 @@
 #include "../term/Cumulative.h"
 #include "../defuzzifier/Defuzzifier.h"
 
+#include "../engine/Configuration.h"
 #include <sstream>
 
 namespace fl {
 
-OutputVariable::OutputVariable(const std::string& name)
-		: Variable(name), _output(new Cumulative("output")) {
-}
+    OutputVariable::OutputVariable(const std::string& name)
+            : Variable(name), _output(new Cumulative("output")) {
+    }
 
-OutputVariable::~OutputVariable() {
-	delete _output;
-}
+    OutputVariable::~OutputVariable() {
+        delete _output;
+    }
 
-void OutputVariable::setDefaultValue(scalar defaultValue) {
-	this->_defaultValue = defaultValue;
-}
+    void OutputVariable::configure(Configuration* config) {
+         this->_defuzzifier = config->getDefuzzifier();
+         this->_output->setAccumulation(config->getAccumulation());
+    }
 
-scalar OutputVariable::getDefaultValue() const {
-	return this->_defaultValue;
-}
+    void OutputVariable::setDefaultValue(scalar defaultValue) {
+        this->_defaultValue = defaultValue;
+    }
 
-void OutputVariable::setDefuzzifier(Defuzzifier* defuzzifier) {
-	this->_defuzzifier = defuzzifier;
-}
+    scalar OutputVariable::getDefaultValue() const {
+        return this->_defaultValue;
+    }
 
-Defuzzifier* OutputVariable::getDefuzzifier() const{
-	return this->_defuzzifier;
-}
+    void OutputVariable::setDefuzzifier(Defuzzifier* defuzzifier) {
+        this->_defuzzifier = defuzzifier;
+    }
 
-Cumulative* OutputVariable::output() const{
-	return this->_output;
-}
+    Defuzzifier* OutputVariable::getDefuzzifier() const {
+        return this->_defuzzifier;
+    }
 
-scalar OutputVariable::defuzzify() const{
-	return this->_defuzzifier->defuzzify(this->_output);
-}
+    Cumulative* OutputVariable::output() const {
+        return this->_output;
+    }
 
-std::string OutputVariable::toString() const{
-	std::stringstream ss;
-	ss << "OutputVariable(" << _name << ")";
-	return ss.str();
-}
+    scalar OutputVariable::defuzzify() const {
+        return this->_defuzzifier->defuzzify(this->_output);
+    }
+
+    std::string OutputVariable::toString() const {
+        std::stringstream ss;
+        ss << "OutputVariable(" << _name << ")";
+        return ss.str();
+    }
 
 } /* namespace fl */

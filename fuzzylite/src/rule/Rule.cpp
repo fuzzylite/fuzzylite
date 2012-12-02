@@ -14,50 +14,50 @@
 
 namespace fl {
 
-std::string Rule::FL_IF = "if";
-std::string Rule::FL_IS = "is";
-std::string Rule::FL_THEN = "then";
-std::string Rule::FL_AND = "and";
-std::string Rule::FL_OR = "or";
-std::string Rule::FL_WITH = "with";
+    std::string Rule::FL_IF = "if";
+    std::string Rule::FL_IS = "is";
+    std::string Rule::FL_THEN = "then";
+    std::string Rule::FL_AND = "and";
+    std::string Rule::FL_OR = "or";
+    std::string Rule::FL_WITH = "with";
 
-Rule::Rule()
-		: _antecedent(NULL), _consequent(NULL) {
-}
+    Rule::Rule()
+            : _antecedent(NULL), _consequent(NULL) {
+    }
 
-Rule::~Rule() {
-	delete _consequent;
-	delete _antecedent;
-}
+    Rule::~Rule() {
+        delete _consequent;
+        delete _antecedent;
+    }
 
-void Rule::setAntecedent(Antecedent* antecedent) {
-	this->_antecedent = antecedent;
-}
-Antecedent* Rule::getAntecedent() const {
-	return this->_antecedent;
-}
-void Rule::setConsequent(Consequent* consequent) {
-	this->_consequent = consequent;
-}
-Consequent* Rule::getConsequent() const {
-	return this->_consequent;
-}
+    void Rule::setAntecedent(Antecedent* antecedent) {
+        this->_antecedent = antecedent;
+    }
+    Antecedent* Rule::getAntecedent() const {
+        return this->_antecedent;
+    }
+    void Rule::setConsequent(Consequent* consequent) {
+        this->_consequent = consequent;
+    }
+    Consequent* Rule::getConsequent() const {
+        return this->_consequent;
+    }
 
-scalar Rule::firingStrength(const Operator* tnorm, const Operator* snorm) const {
-	return this->_antecedent->firingStrength(tnorm, snorm);
-}
+    scalar Rule::firingStrength(const Operator* tnorm, const Operator* snorm) const {
+        return this->_antecedent->firingStrength(tnorm, snorm);
+    }
 
-void Rule::fire(scalar strength, const Operator* activation) const {
-	return this->_consequent->fire(strength, activation);
-}
+    void Rule::fire(scalar strength, const Operator* activation) const {
+        return this->_consequent->fire(strength, activation);
+    }
 
-std::string Rule::toString() const {
-	std::stringstream ss;
-	ss << FL_IF << " " << _antecedent->toString() << " "
-			<< FL_THEN << " " << _consequent->toString();
-	return ss.str();
+    std::string Rule::toString() const {
+        std::stringstream ss;
+        ss << FL_IF << " " << _antecedent->toString() << " "
+                << FL_THEN << " " << _consequent->toString();
+        return ss.str();
 
-}
+    }
 
 }
 

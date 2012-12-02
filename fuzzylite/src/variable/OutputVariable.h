@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef OUTPUTVARIABLE_H_
-#define OUTPUTVARIABLE_H_
+#ifndef FL_OUTPUTVARIABLE_H_
+#define FL_OUTPUTVARIABLE_H_
 
 #include "Variable.h"
 
@@ -24,6 +24,8 @@ class OutputVariable: public Variable {
 		OutputVariable(const std::string& name);
 		~OutputVariable();
 
+		void configure(Configuration* config);
+
 		void setDefaultValue(scalar defaultValue);
 		scalar getDefaultValue() const;
 
@@ -39,4 +41,4 @@ class OutputVariable: public Variable {
 };
 
 } /* namespace fl */
-#endif /* OUTPUTVARIABLE_H_ */
+#endif /* FL_OUTPUTVARIABLE_H_ */

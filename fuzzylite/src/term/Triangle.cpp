@@ -7,6 +7,8 @@
 
 #include "Triangle.h"
 
+#include "../engine/Operator.h"
+
 #include <sstream>
 
 namespace fl {
@@ -29,11 +31,11 @@ namespace fl {
     scalar Triangle::membership(scalar x) {
         scalar minimum = _a;
         scalar maximum = _c;
-        if (x <= minimum || x >= maximum)
+        if (Op::IsLE(x, minimum) || Op::IsLE(x, maximum))
             return 0.0;
-        else if (x == _b)
+        else if (Op::IsEq(x,  _b))
             return 1.0;
-        else if (x < _b)
+        else if (Op::IsLt(x, _b))
             return (x - minimum) / (_b - minimum);
         else
             return (maximum - x) / (maximum - _b);

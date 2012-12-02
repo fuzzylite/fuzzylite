@@ -7,6 +7,8 @@
 
 #include "Trapezoid.h"
 
+#include "../engine/Operator.h"
+
 #include <sstream>
 
 namespace fl {
@@ -30,13 +32,13 @@ namespace fl {
     scalar Trapezoid::membership(scalar x) {
         scalar minimum = _a;
         scalar maximum = _d;
-        if (x <= minimum || x >= maximum)
+        if (Op::IsLE(x, minimum) || Op::IsGE(x, maximum))
             return 0.0;
-        else if (x <= _b)
+        else if (Op::IsLE(x, _b))
             return (x - minimum) / (_b - minimum);
-        else if (x <= _c)
+        else if (Op::IsLE(x, _c))
             return 1.0;
-        else if (x <= maximum)
+        else if (Op::IsLE(x, maximum))
             return (maximum - x) / (maximum - _c);
         else
             return 0.0;

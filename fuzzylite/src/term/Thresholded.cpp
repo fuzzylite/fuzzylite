@@ -14,12 +14,24 @@
 namespace fl {
 
     Thresholded::Thresholded(const std::string& name, const Term* term,
-            scalar threshold, const Operator* activationOperator)
-            : Term(name), _term(term), _threshold(threshold), _activationOperator(
-                    activationOperator) {
+            scalar threshold, const Operator* activation)
+            : Term(name), _term(term), _threshold(threshold),
+                    _activation(activation) {
     }
 
     Thresholded::~Thresholded() {
+    }
+
+    scalar Thresholded::membership(scalar x) const {
+        return _activation->compute(x, _threshold);
+    }
+
+    scalar Thresholded::minimum() const {
+        return this->_term->minimum();
+    }
+
+    scalar Thresholded::maximum() const {
+        return this->_term->maximum();
     }
 
     void Thresholded::setTerm(const Term* term) {
@@ -36,28 +48,19 @@ namespace fl {
         return this->_threshold;
     }
 
-    void Thresholded::setActivationOperator(
-            const Operator* activationOperator) {
-        this->_activationOperator = activationOperator;
+    void Thresholded::setActivation(const Operator* activation) {
+        this->_activation = activation;
     }
 
-    const Operator* Thresholded::getActivationOperator() const {
-        return this->_activationOperator;
+    const Operator* Thresholded::getActivation() const {
+        return this->_activation;
     }
 
     std::string Thresholded::toString() const {
         std::stringstream ss;
         ss << "Thresholded (" << _term->toString() << ") at " << _threshold
-                << " with " << _activationOperator->name();
+                << " with " << _activation->name();
         return ss.str();
-    }
-
-    scalar Thresholded::minimum() const {
-        return this->_term->minimum();
-    }
-
-    scalar Thresholded::maximum() const {
-        return this->_term->maximum();
     }
 
 } /* namespace fl */

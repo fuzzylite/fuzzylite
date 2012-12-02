@@ -18,11 +18,11 @@ namespace fl {
     class Cumulative: public Term {
     protected:
         std::vector<const Term*> _terms;
-        const Operator* _accumulationOperator;
+        const Operator* _accumulation;
         scalar _minimum, _maximum;
         public:
         Cumulative(const std::string& name,
-                const Operator* accumulationOperator = NULL);
+                const Operator* accumulation= NULL);
         ~Cumulative();
 
         scalar membership(scalar x) const;
@@ -35,8 +35,8 @@ namespace fl {
         scalar minimum() const;
         scalar maximum() const;
 
-        void setAccumulationOperator(const Operator* accumulationOperator);
-        const Operator* getAccumulationOperator() const;
+        void setAccumulation(const Operator* accumulation);
+        const Operator* getAccumulation() const;
 
     };
 

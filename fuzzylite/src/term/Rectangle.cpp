@@ -7,6 +7,8 @@
 
 #include "Rectangle.h"
 
+#include "../engine/Operator.h"
+
 #include <sstream>
 
 namespace fl {
@@ -20,7 +22,8 @@ namespace fl {
     }
 
     scalar Rectangle::membership(scalar x) {
-        if (x < _minimum || x > _maximum) return 0.0;
+        if (Op::IsLt(x, _minimum) || Op::IsGt(x, _maximum))
+            return 0.0;
         return 1.0;
     }
 

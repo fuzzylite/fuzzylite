@@ -11,41 +11,41 @@
 
 #include <string>
 
-
-
 namespace fl {
-class Defuzzifier;
+    class Defuzzifier;
 
-class Configuration {
-	protected:
-		Operator* _tnorm;
-		Operator* _snorm;
-		Operator* _activation;
-		Operator* _accumulation;
-		Defuzzifier* _defuzzifier;
-		public:
-		Configuration(Operator* tnorm = new Min(), Operator* snorm = new Max(),
-				Operator* activation = new Min(), Operator* accumulation = new Max(),
-				Defuzzifier* defuzzifier = NULL);
-		~Configuration();
+    class Configuration {
+    protected:
+        Operator* _tnorm;
+        Operator* _snorm;
+        Operator* _activation;
+        Operator* _accumulation;
+        Defuzzifier* _defuzzifier;
 
-		void setTnorm(Operator* tnorm);
-		Operator* getTnorm() const;
+    public:
+        Configuration(Operator* tnorm = new Min(), Operator* snorm = new Max(),
+                Operator* activation = new Min(), Operator* accumulation =
+                        new Max(),
+                Defuzzifier* defuzzifier = NULL);
+        virtual ~Configuration();
 
-		void setSnorm(Operator* snorm);
-		Operator* getSnorm() const;
+        virtual void setTnorm(Operator* tnorm);
+        virtual Operator* getTnorm() const;
 
-		void setActivation(Operator* activation);
-		Operator* getActivation() const;
+        virtual void setSnorm(Operator* snorm);
+        virtual Operator* getSnorm() const;
 
-		void setAccumulation(Operator* accumulation);
-		Operator* getAccumulation() const;
+        virtual void setActivation(Operator* activation);
+        virtual Operator* getActivation() const;
 
-		void setDefuzzifier(Defuzzifier* defuzzifier);
-		Defuzzifier* getDefuzzifier() const;
+        virtual void setAccumulation(Operator* accumulation);
+        virtual Operator* getAccumulation() const;
 
-		std::string toString() const;
-};
+        virtual void setDefuzzifier(Defuzzifier* defuzzifier);
+        virtual Defuzzifier* getDefuzzifier() const;
+
+        virtual std::string toString() const;
+    };
 
 } /* namespace fl */
 #endif /* FL_CONFIGURATION_H_ */

@@ -14,18 +14,12 @@
 #include <algorithm>
 #include <cmath>
 
+
+
 namespace fl {
 
-    class Operator {
+    class Op {
     public:
-        Operator() {
-        }
-        virtual ~Operator() {
-        }
-
-        virtual std::string name() const = 0;
-        virtual scalar compute(scalar a, scalar b) const = 0;
-
         static scalar Min(scalar a, scalar b) {
             return a < b ? a : b;
         }
@@ -37,7 +31,48 @@ namespace fl {
         static bool IsInf(scalar x) {
             return isinf(x);
         }
+
+        static bool IsNan(scalar x) {
+            return isnan(x);
+        }
+
+        //Is less than
+        static bool IsLt(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
+            return !IsEq(a, b, tolerance) && a < b;
+        }
+
+        //Is less than
+        static bool IsLE(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
+            return IsEq(a, b, tolerance) || a < b;
+        }
+
+        //Is equal
+        static bool IsEq(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
+            return fabs(a - b) < FL_EPSILON;
+        }
+
+        //Is greater than
+        static bool IsGt(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
+            return !IsEq(a, b, tolerance) && a > b;
+        }
+
+        static bool IsGE(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
+            return IsEq(a, b, tolerance) || a > b;
+        }
     };
+
+    class Operator {
+    public:
+        Operator() {
+        }
+        virtual ~Operator() {
+        }
+
+        virtual std::string name() const = 0;
+        virtual scalar compute(scalar a, scalar b) const = 0;
+
+    };
+
     /*
      * Fuzzy And
      */
@@ -51,7 +86,7 @@ namespace fl {
         }
 
         scalar compute(scalar a, scalar b) const {
-            return Operator::Min(a, b);
+            return Op::Min(a, b);
         }
     };
 
@@ -79,7 +114,7 @@ namespace fl {
         }
 
         scalar compute(scalar a, scalar b) const {
-            return Operator::Max(0, a + b - 1);
+            return Op::Max(0, a + b - 1);
         }
     };
 
@@ -95,7 +130,7 @@ namespace fl {
             return "MAX";
         }
         scalar compute(scalar a, scalar b) const {
-            return Operator::Max(a, b);
+            return Op::Max(a, b);
         }
     };
 
@@ -124,7 +159,7 @@ namespace fl {
         }
 
         scalar compute(scalar a, scalar b) const {
-            return Operator::Min(1, a + b);
+            return Op::Min(1, a + b);
         }
     };
 
@@ -137,7 +172,7 @@ namespace fl {
             return "NSUM";
         }
         scalar compute(scalar a, scalar b) const {
-            return a + b / Operator::Max(1, Operator::Max(a, b));
+            return a + b / Op::Max(1, Op::Max(a, b));
         }
     };
 

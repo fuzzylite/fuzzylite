@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef INPUTVARIABLE_H_
-#define INPUTVARIABLE_H_
+#ifndef FL_INPUTVARIABLE_H_
+#define FL_INPUTVARIABLE_H_
 
 #include "Variable.h"
 
@@ -26,4 +26,4 @@ class InputVariable : public Variable{
 };
 
 } /* namespace fl */
-#endif /* INPUTVARIABLE_H_ */
+#endif /* FL_INPUTVARIABLE_H_ */

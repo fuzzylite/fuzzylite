@@ -13,77 +13,74 @@
 
 namespace fl {
 
-Variable::Variable(const std::string& name)
-		: _name(name) {
-}
+    Variable::Variable(const std::string& name)
+            : _name(name) {
+    }
 
-Variable::~Variable(){
-	for (std::size_t  i= 0 ; i < _terms.size(); ++i){
-		delete _terms[i];
-	}
-}
+    Variable::~Variable() {
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
+            delete _terms[i];
+        }
+    }
 
-void Variable::setName(const std::string& name){
-	this->_name = name;
-}
+    void Variable::configure(Configuration* config) {
+        //do nothing
+    }
 
-std::string Variable::getName() const{
-	return this->_name;
-}
+    void Variable::setName(const std::string& name) {
+        this->_name = name;
+    }
 
-void Variable::addTerm(Term* term){
-	this->_terms.push_back(term);
-}
-
-Term* Variable::getTerm(const std::string& name) const{
-	for (std::size_t i = 0 ; i < _terms.size(); ++i){
-		if (_terms[i]->getName() == name)
-			return _terms[i];
-	}
-	return NULL;
-}
-
-Term* Variable::removeTerm(const std::string& name){
-	//TODO
-}
-
-Term* Variable::getTerm(int index) const{
-	return _terms[index];
-}
-
-Term* Variable::removeTerm(int index){
-	//TODO
-}
-
-int Variable::numberOfTerms() const{
-	return _terms.size();
-}
-
-std::vector<Term*> Variable::terms() const{
-	return _terms;
-}
+    std::string Variable::getName() const {
+        return this->_name;
+    }
 
 //It is assumed the terms are inserted in ascending order
-scalar Variable::minimum() const{
-	return _terms[0]->minimum();
-}
+    scalar Variable::minimum() const {
+        return _terms[0]->minimum();
+    }
 
-scalar Variable::maximum() const{
-	return _terms[_terms.size() - 1]->maximum();
-}
+    scalar Variable::maximum() const {
+        return _terms[_terms.size() - 1]->maximum();
+    }
 
-std::string Variable::fuzzify(scalar x) const{
-	std::stringstream ss;
-	for (std::size_t i = 0 ; i < _terms.size(); ++i){
-		ss << _terms[i]->membership(x) << "/" << _terms[i]->getName();
-		if (i < _terms.size() - 1) ss << ", ";
-	}
-	return ss.str();
-}
+    std::string Variable::fuzzify(scalar x) const {
+        std::stringstream ss;
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
+            ss << _terms[i]->membership(x) << "/" << _terms[i]->getName();
+            if (i < _terms.size() - 1)
+                ss << ", ";
+        }
+        return ss.str();
+    }
 
-std::string Variable::toString() const{
-	return "Variable()";
-}
+    std::string Variable::toString() const {
+        return "Variable()";
+    }
+
+    /**
+     * Operations for datatype _terms
+     */
+    void Variable::addTerm(Term* term) {
+        this->_terms.push_back(term);
+    }
+    void Variable::insertTerm(Term* term, int index) {
+        this->_terms.insert(this->_terms.begin() + index, term);
+    }
+    Term* Variable::getTerm(int index) const {
+        return this->_terms[index];
+    }
+    Term* Variable::removeTerm(int index) {
+        Term* result = this->_terms[index];
+        this->_terms.erase(this->_terms.begin() + index);
+        return result;
+    }
+    int Variable::numberOfTerms() const {
+        return this->_terms.size();
+    }
+    const std::vector<Term*>& Variable::terms() const {
+        return this->_terms;
+    }
 
 }
 
