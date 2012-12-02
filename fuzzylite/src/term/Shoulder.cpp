@@ -23,9 +23,9 @@ LeftShoulder::~LeftShoulder() {
 }
 
 scalar LeftShoulder::membership(scalar x) {
-	if (x <= _minimum) return 1.0;
-	if (x >= _maximum) return 0.0;
-	return (x - _minimum) / (_maximum - _minimum);
+	if (x <= _minimum) return 0.0;
+	if (x >= _maximum) return 1.0;
+	return (_maximum - x) / (_maximum - _minimum);
 }
 
 std::string LeftShoulder::toString() const {
@@ -60,9 +60,10 @@ RightShoulder::~RightShoulder() {
 }
 
 scalar RightShoulder::membership(scalar x) {
-	if (x <= _minimum) return 0.0;
-	if (x >= _maximum) return 1.0;
-	return (_maximum - x) / (_maximum - _minimum);
+	if (x <= _minimum) return 1.0;
+	if (x >= _maximum) return 0.0;
+	return (x - _minimum) / (_maximum - _minimum);
+
 }
 
 std::string RightShoulder::toString() const {
