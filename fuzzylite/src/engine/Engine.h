@@ -10,11 +10,14 @@
 
 #include <vector>
 #include <string>
+#include <map>
+
 
 namespace fl {
 
     class Variable;
     class RuleBlock;
+    class Hedge;
     class Configuration;
 
     class Engine {
@@ -23,6 +26,7 @@ namespace fl {
         std::vector<Variable*> _inputVariables;
         std::vector<Variable*> _outputVariables;
         std::vector<RuleBlock*> _ruleblocks;
+        std::map<std::string, Hedge*> _hedges;
         Configuration* _configuration;
 
     public:
@@ -63,6 +67,15 @@ namespace fl {
         virtual RuleBlock* removeRuleblock(int index);
         virtual int numberOfRuleblocks() const;
         virtual const std::vector<RuleBlock*>& ruleblocks() const;
+
+        /**
+         * Operations for map _hedges
+         */
+        virtual void addHedge(Hedge* hedge);
+        virtual Hedge* removeHedge(const std::string& name);
+        virtual Hedge* getHedge(const std::string& name) const;
+        virtual const std::map<std::string, Hedge*>& hedges() const;
+
 
     };
 

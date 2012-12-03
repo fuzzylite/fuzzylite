@@ -9,7 +9,7 @@
 
 #include "../variable/Variable.h"
 #include "../rule/RuleBlock.h"
-
+#include "../hedge/Hedge.h"
 #include "Configuration.h"
 
 namespace fl {
@@ -44,7 +44,7 @@ namespace fl {
         return this->_name;
     }
     /**
-     * Operations for datatype inputVariables
+     * Operations for iterable datatype _inputVariables
      */
     void Engine::addInputVariable(Variable* inputVariable) {
         this->_inputVariables.push_back(inputVariable);
@@ -69,7 +69,7 @@ namespace fl {
     }
 
     /**
-     * Operations for datatype outputVariables
+     * Operations for iterable datatype _outputVariables
      */
     void Engine::addOutputVariable(Variable* outputVariable) {
         this->_outputVariables.push_back(outputVariable);
@@ -94,7 +94,7 @@ namespace fl {
     }
 
     /**
-     * Operations for datatype ruleblocks
+     * Operations for iterable datatype _ruleblocks
      */
     void Engine::addRuleblock(RuleBlock* ruleblock) {
         this->_ruleblocks.push_back(ruleblock);
@@ -116,4 +116,31 @@ namespace fl {
     const std::vector<RuleBlock*>& Engine::ruleblocks() const {
         return this->_ruleblocks;
     }
+
+    /**
+     * Operations for map _hedges
+     */
+
+    void Engine::addHedge(Hedge* hedge){
+        this->_hedges[hedge->name()] = hedge;
+    }
+
+    Hedge* Engine::removeHedge(const std::string& name){
+        std::map<std::string, Hedge*>::iterator it = this->_hedges.find(name);
+        if (it == this->_hedges.end()) return NULL;
+        Hedge* result = it->second;
+        this->_hedges.erase(it);
+        return result;
+    }
+
+    Hedge* Engine::getHedge(const std::string& name) const{
+        std::map<std::string, Hedge*>::const_iterator it = this->_hedges.find(name);
+        if (it == this->_hedges.end()) return NULL;
+        return it->second;
+    }
+
+    const std::map<std::string, Hedge*>& Engine::hedges() const{
+        return this->_hedges;
+    }
+
 } /* namespace fl */
