@@ -1,5 +1,5 @@
-#Thu Aug 09 16:45:27 NZST 2012
 eclipse.preferences.version=1
+onBuild=true
 org.eclipse.cdt.codan.checkers.errnoreturn=Warning
 org.eclipse.cdt.codan.checkers.errnoreturn.params={implicit\=>false}
 org.eclipse.cdt.codan.checkers.errreturnvalue=Error

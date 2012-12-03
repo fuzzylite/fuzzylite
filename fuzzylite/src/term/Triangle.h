@@ -27,7 +27,7 @@ namespace fl {
         scalar minimum() const;
         scalar maximum() const;
 
-        scalar membership(scalar x);
+        scalar membership(scalar x) const;
 
         std::string toString() const;
 

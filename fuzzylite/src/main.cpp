@@ -8,6 +8,7 @@
 #include "Headers.h"
 
 
+
 using namespace fl;
 
 int main(int argc, char** argv){
@@ -25,6 +26,8 @@ int main(int argc, char** argv){
 
     FL_LOG("tolerance to floating-point value is " << FL_EPSILON);
 
+    MamdaniRule::main();
+    FL_LOG("Bye, FuzzyLite!");
 }
 
 

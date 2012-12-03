@@ -26,7 +26,7 @@ namespace fl {
                 scalar maximum = std::numeric_limits<scalar>::infinity());
         ~Gaussian();
 
-        scalar membership(scalar x);
+        scalar membership(scalar x) const;
         std::string toString() const;
 
         void setSigma(scalar sigma);

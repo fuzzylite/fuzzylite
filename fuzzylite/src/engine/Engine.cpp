@@ -50,7 +50,8 @@ namespace fl {
         this->_inputVariables.push_back(inputVariable);
     }
     void Engine::insertInputVariable(Variable* inputVariable, int index) {
-        this->_inputVariables.insert(this->_inputVariables.begin() + index, inputVariable);
+        this->_inputVariables.insert(this->_inputVariables.begin() + index,
+                inputVariable);
     }
     Variable* Engine::getInputVariable(int index) const {
         return this->_inputVariables[index];
@@ -74,7 +75,8 @@ namespace fl {
         this->_outputVariables.push_back(outputVariable);
     }
     void Engine::insertOutputVariable(Variable* outputVariable, int index) {
-        this->_outputVariables.insert(this->_outputVariables.begin() + index, outputVariable);
+        this->_outputVariables.insert(this->_outputVariables.begin() + index,
+                outputVariable);
     }
     Variable* Engine::getOutputVariable(int index) const {
         return this->_outputVariables[index];

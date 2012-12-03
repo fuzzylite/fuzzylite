@@ -29,7 +29,7 @@ namespace fl {
         return this->_d;
     }
 
-    scalar Trapezoid::membership(scalar x) {
+    scalar Trapezoid::membership(scalar x) const{
         scalar minimum = _a;
         scalar maximum = _d;
         if (Op::IsLE(x, minimum) || Op::IsGE(x, maximum))

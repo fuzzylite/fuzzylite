@@ -24,8 +24,8 @@ namespace fl {
     }
 
     void OutputVariable::configure(Configuration* config) {
-         this->_defuzzifier = config->getDefuzzifier();
-         this->_output->setAccumulation(config->getAccumulation());
+        this->_defuzzifier = config->getDefuzzifier();
+        this->_output->setAccumulation(config->getAccumulation());
     }
 
     void OutputVariable::setDefaultValue(scalar defaultValue) {

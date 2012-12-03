@@ -23,7 +23,7 @@ namespace fl {
     Bell::~Bell() {
     }
 
-    scalar Bell::membership(scalar x) {
+    scalar Bell::membership(scalar x) const{
         // from matlab: gbellmf.m
         scalar tmp = ((x - _c) / _a) * ((x - _c) / _a);
         if (Op::IsEq(tmp, 0.0) && Op::IsEq(_b, 0.0))

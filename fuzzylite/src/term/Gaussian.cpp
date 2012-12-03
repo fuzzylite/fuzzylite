@@ -22,7 +22,7 @@ namespace fl {
 
     }
 
-    scalar Gaussian::membership(scalar x) {
+    scalar Gaussian::membership(scalar x) const{
         return std::exp((-(x - _c) * (x - _c)) / (2 * _sigma * _sigma));
     }
 

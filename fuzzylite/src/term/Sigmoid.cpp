@@ -20,7 +20,7 @@ namespace fl {
     Sigmoid::~Sigmoid() {
     }
 
-    scalar Sigmoid::membership(scalar x) {
+    scalar Sigmoid::membership(scalar x) const {
         return 1.0 / (1.0 + std::exp(-_a * (x - _c)));
     }
 

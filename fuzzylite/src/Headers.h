@@ -24,6 +24,10 @@
 #include "rule/Rule.h"
 #include "rule/RuleBlock.h"
 
+#include "rule/mamdani/MamdaniAntecedent.h"
+#include "rule/mamdani/MamdaniConsequent.h"
+#include "rule/mamdani/MamdaniRule.h"
+
 #include "term/Bell.h"
 #include "term/Cumulative.h"
 #include "term/Gaussian.h"

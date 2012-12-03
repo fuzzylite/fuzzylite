@@ -28,7 +28,7 @@ namespace fl {
         return this->_c;
     }
 
-    scalar Triangle::membership(scalar x) {
+    scalar Triangle::membership(scalar x) const{
         scalar minimum = _a;
         scalar maximum = _c;
         if (Op::IsLE(x, minimum) || Op::IsLE(x, maximum))

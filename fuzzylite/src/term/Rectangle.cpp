@@ -21,7 +21,7 @@ namespace fl {
     Rectangle::~Rectangle() {
     }
 
-    scalar Rectangle::membership(scalar x) {
+    scalar Rectangle::membership(scalar x) const{
         if (Op::IsLt(x, _minimum) || Op::IsGt(x, _maximum))
             return 0.0;
         return 1.0;

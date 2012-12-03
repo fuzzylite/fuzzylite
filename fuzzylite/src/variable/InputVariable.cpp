@@ -11,25 +11,25 @@
 
 namespace fl {
 
-InputVariable::InputVariable(const std::string& name)
-		: Variable(name) {
-}
+    InputVariable::InputVariable(const std::string& name)
+            : Variable(name) {
+    }
 
-InputVariable::~InputVariable() {
-}
+    InputVariable::~InputVariable() {
+    }
 
-void InputVariable::setInput(scalar input){
-	this->_input = input;
-}
+    void InputVariable::setInput(scalar input) {
+        this->_input = input;
+    }
 
-scalar InputVariable::getInput() const{
-	return this->_input;
-}
+    scalar InputVariable::getInput() const {
+        return this->_input;
+    }
 
-std::string InputVariable::toString() const{
-	std::stringstream ss;
-	ss << "InputVariable (" << _name  << ")";
-	return ss.str();
-}
+    std::string InputVariable::toString() const {
+        std::stringstream ss;
+        ss << "InputVariable (" << _name << ")";
+        return ss.str();
+    }
 
 } /* namespace fl */

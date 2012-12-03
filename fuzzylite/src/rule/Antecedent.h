@@ -10,6 +10,8 @@
 
 #include "../scalar.h"
 
+#include <string>
+
 namespace fl {
 class Operator;
 
