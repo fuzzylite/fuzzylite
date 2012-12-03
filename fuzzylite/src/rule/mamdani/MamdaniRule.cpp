@@ -30,14 +30,15 @@ namespace fl {
         std::vector<std::string> tokens;
 
         regex_t regexCompiled;
-        regcomp(&regexCompiled, "(^\\s*if\\s+)(.*)(\\s+then\\s+)(.*)$", REG_EXTENDED);
+        regcomp(&regexCompiled, "(^\\s*if\\s+)(.*)(\\s+then\\s+)(.*)", REG_EXTENDED);
 
         int numberOfTokens = regexCompiled.re_nsub + 1;
         regmatch_t matches[numberOfTokens];
 
-        if (regexec(&regexCompiled, rule.c_str(), numberOfTokens, matches, 0) == 0) {
-            for (std::size_t i = 0; i < numberOfTokens; ++i) {
-                if (matches[i].rm_so == (std::size_t) -1) { //FL_LOG("No more tokens");
+        if (regexec(&regexCompiled, rule.c_str(), numberOfTokens, matches, 0)
+                == 0) {
+            for (int i = 0; i < numberOfTokens; ++i) {
+                if (matches[i].rm_so == -1) { //FL_LOG("No more tokens");
                     break;
                 }
                 std::string token = rule.substr(matches[i].rm_so,
@@ -47,7 +48,7 @@ namespace fl {
         }
         regfree(&regexCompiled);
 
-        if (tokens.size() != 5){
+        if (tokens.size() != 5) {
             FL_LOG("expected five (5) tokens, but found " << tokens.size() << " in rule: " << rule);
         }
 
@@ -69,7 +70,7 @@ namespace fl {
     }
 
     void MamdaniRule::main() {
-//        std::string rule = "if Culito is Piche then Life is Good";
+//        std::string rule = "if Service is GOOD then Tip is HIGH";
 //
 //        regex_t regexCompiled;
 //
@@ -96,7 +97,7 @@ namespace fl {
 //        FL_LOG(groups[4]);
 //        regfree(&regexCompiled);
 
-        MamdaniRule::parse("if Culito is Piche then Life is Good", NULL);
+        MamdaniRule::parse("if Service is GOOD then Tip is HIGH", NULL);
 
     }
 

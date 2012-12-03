@@ -19,6 +19,14 @@
 #include "engine/Engine.h"
 #include "engine/Operator.h"
 
+#include "hedge/Any.h"
+#include "hedge/Extremely.h"
+#include "hedge/Hedge.h"
+#include "hedge/Not.h"
+#include "hedge/Seldom.h"
+#include "hedge/Somewhat.h"
+#include "hedge/Very.h"
+
 #include "rule/Antecedent.h"
 #include "rule/Consequent.h"
 #include "rule/Rule.h"
