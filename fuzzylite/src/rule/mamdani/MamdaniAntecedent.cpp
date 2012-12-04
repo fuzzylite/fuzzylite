@@ -7,9 +7,20 @@
 
 #include "MamdaniAntecedent.h"
 
+#include "../../variable/InputVariable.h"
+#include "../../hedge/Hedge.h"
+#include "../../term/Term.h"
+
+#include "../../rule/Rule.h"
+
+#include "../../engine/Operator.h"
+
+#include "../../definitions.h"
+
 namespace fl {
 
-    MamdaniAntecedent::MamdaniAntecedent() {
+    MamdaniAntecedent::MamdaniAntecedent()
+            : _root(NULL) {
     }
 
     MamdaniAntecedent::~MamdaniAntecedent() {
@@ -18,12 +29,80 @@ namespace fl {
     void MamdaniAntecedent::load(const std::string& antecedent, const Engine* engine) {
     }
 
-    scalar MamdaniAntecedent::firingStrength(const Operator* tnorm, const Operator* snorm) const {
+    scalar MamdaniAntecedent::firingStrength(const Operator* tnorm, const Operator* snorm,
+            const Node* node) const {
+        if (! node->isOperator) { //is Proposition
+            const PropositionNode* propositionNode = dynamic_cast<const PropositionNode*>(node);
+            scalar result = propositionNode->term->membership(propositionNode->inputVariable->getInput());
+            for (std::size_t i = 0; i < propositionNode->hedges.size(); ++i) {
+                result = propositionNode->hedges[i]->hedge(result);
+            }
+            return result;
+        }
+        //if node is an operator
+        const OperatorNode* operatorNode = dynamic_cast<const OperatorNode*>(node);
+        if (!operatorNode->left || !operatorNode->right) {
+            FL_LOG("left and right operands must exist");
+            throw std::exception();
+        }
+        if (operatorNode->name == Rule::FL_AND)
+            return tnorm->compute(
+                    this->firingStrength(tnorm, snorm, operatorNode->left),
+                    this->firingStrength(tnorm, snorm, operatorNode->right));
 
+        if (operatorNode->name == Rule::FL_AND)
+            return snorm->compute(
+                    this->firingStrength(tnorm, snorm, operatorNode->left),
+                    this->firingStrength(tnorm, snorm, operatorNode->right));
+        FL_LOG("unknown operator <" << operatorNode->name << ">");
+        throw std::exception();
+
+    }
+    scalar MamdaniAntecedent::firingStrength(const Operator* tnorm, const Operator* snorm) const {
+        return this->firingStrength(tnorm, snorm, this->_root);
     }
 
     std::string MamdaniAntecedent::toString() const {
+        return this->toStringPostfix(this->_root);
+    }
 
+    std::string MamdaniAntecedent::toStringPrefix(const Node* node) const {
+        if (!node->isOperator) { //is proposition
+            const PropositionNode* propositionNode = dynamic_cast<const PropositionNode*>(node);
+            return propositionNode->toString();
+        }
+        const OperatorNode* operatorNode = dynamic_cast<const OperatorNode*>(node);
+        std::stringstream ss;
+        ss << operatorNode->toString() << " "
+                << this->toStringPrefix(operatorNode->left) << " "
+                << this->toStringPrefix(operatorNode->right) << " ";
+        return ss.str();
+    }
+
+    std::string MamdaniAntecedent::toStringInfix(const Node* node) const {
+        if (!node->isOperator) { //is proposition
+            const PropositionNode* propositionNode = dynamic_cast<const PropositionNode*>(node);
+            return propositionNode->toString();
+        }
+        const OperatorNode* operatorNode = dynamic_cast<const OperatorNode*>(node);
+        std::stringstream ss;
+        ss << this->toStringInfix(operatorNode->left) << " "
+                << operatorNode->toString() << " "
+                << this->toStringInfix(operatorNode->right) << " ";
+        return ss.str();
+    }
+
+    std::string MamdaniAntecedent::toStringPostfix(const Node* node) const {
+        if (!node->isOperator) { //is proposition
+            const PropositionNode* propositionNode = dynamic_cast<const PropositionNode*>(node);
+            return propositionNode->toString();
+        }
+        const OperatorNode* operatorNode = dynamic_cast<const OperatorNode*>(node);
+        std::stringstream ss;
+        ss << this->toStringPostfix(operatorNode->left) << " "
+                << this->toStringPostfix(operatorNode->right) << " "
+                << operatorNode->toString() << " ";
+        return ss.str();
     }
 
 } /* namespace fl */
