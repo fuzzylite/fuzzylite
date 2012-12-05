@@ -15,7 +15,8 @@
 
 namespace fl {
 
-    class Variable;
+    class InputVariable;
+    class OutputVariable;
     class RuleBlock;
     class Hedge;
     class Configuration;
@@ -23,8 +24,8 @@ namespace fl {
     class Engine {
     protected:
         std::string _name;
-        std::vector<Variable*> _inputVariables;
-        std::vector<Variable*> _outputVariables;
+        std::vector<InputVariable*> _inputVariables;
+        std::vector<OutputVariable*> _outputVariables;
         std::vector<RuleBlock*> _ruleblocks;
         std::map<std::string, Hedge*> _hedges;
         Configuration* _configuration;
@@ -35,28 +36,30 @@ namespace fl {
 
         virtual void configure(Configuration* config, bool storeToDelete = true);
 
+        virtual void process();
+
         virtual void setName(const std::string& name);
         virtual std::string getName() const;
 
         /**
          * Operations for iterable datatype _inputVariables
          */
-        virtual void addInputVariable(Variable* inputVariable);
-        virtual void insertInputVariable(Variable* inputVariable, int index);
-        virtual Variable* getInputVariable(int index) const;
-        virtual Variable* removeInputVariable(int index);
+        virtual void addInputVariable(InputVariable* inputVariable);
+        virtual void insertInputVariable(InputVariable* inputVariable, int index);
+        virtual InputVariable* getInputVariable(int index) const;
+        virtual InputVariable* removeInputVariable(int index);
         virtual int numberOfInputVariables() const;
-        virtual const std::vector<Variable*>& inputVariables() const;
+        virtual const std::vector<InputVariable*>& inputVariables() const;
 
         /**
          * Operations for iterable datatype _outputVariables
          */
-        virtual void addOutputVariable(Variable* outputVariable);
-        virtual void insertOutputVariable(Variable* outputVariable, int index);
-        virtual Variable* getOutputVariable(int index) const;
-        virtual Variable* removeOutputVariable(int index);
+        virtual void addOutputVariable(OutputVariable* outputVariable);
+        virtual void insertOutputVariable(OutputVariable* outputVariable, int index);
+        virtual OutputVariable* getOutputVariable(int index) const;
+        virtual OutputVariable* removeOutputVariable(int index);
         virtual int numberOfOutputVariables() const;
-        virtual const std::vector<Variable*>& outputVariables() const;
+        virtual const std::vector<OutputVariable*>& outputVariables() const;
 
         /**
          * Operations for iterable datatype _ruleblocks

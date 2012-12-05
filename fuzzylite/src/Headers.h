@@ -29,6 +29,7 @@
 
 #include "rule/Antecedent.h"
 #include "rule/Consequent.h"
+#include "rule/InfixToPostfix.h"
 #include "rule/Rule.h"
 #include "rule/RuleBlock.h"
 

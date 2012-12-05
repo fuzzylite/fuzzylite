@@ -10,6 +10,8 @@
 
 #include "Term.h"
 
+#include <vector>
+
 namespace fl {
 
     class Discrete : public Term{
@@ -18,7 +20,7 @@ namespace fl {
         std::vector<scalar> y;
         Discrete(const std::string& name,
                 const std::vector<scalar>& x = std::vector<scalar>(),
-                const std::vector<scalar>& y = std::vector<scalar>())
+                const std::vector<scalar>& y = std::vector<scalar>());
         ~Discrete();
 
         scalar minimum() const;

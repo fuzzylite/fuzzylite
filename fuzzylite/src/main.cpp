@@ -26,8 +26,17 @@ int main(int argc, char** argv){
 
     FL_LOG("tolerance to floating-point value is " << FL_EPSILON);
 
-    MamdaniRule::main();
+    InfixToPostfix ip;
+    InfixToPostfix::GenericFunction* f = ip.getGenericFunction("acos");
+    FL_LOG("acos(0.4) = " << f->oneArgFunction(0.4));
+    std::map<std::string, InfixToPostfix::GenericFunction*> gf =  ip.genericFunctions();
+    std::map<std::string, InfixToPostfix::GenericFunction*>::const_iterator it = gf.begin();
+    for (; it != gf.end(); ++it){
+        FL_LOG(it->first << "{" << it->second->toString() << "}");
+    }
+
     FL_LOG("Bye, FuzzyLite!");
+
 }
 
 
