@@ -30,6 +30,15 @@ namespace fl {
         }
     }
 
+    std::string InfixToPostfix::convert(const std::string& infix){
+        //TODO: maybe make sure the fu
+        std::stringstream ss(infix);
+        std::string token;
+        while(ss >> token){
+
+        }
+    }
+
     void InfixToPostfix::loadGenericOperators() {
         char p = 7;
         // (!) Logical and (~) Bitwise NOT

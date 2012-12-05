@@ -25,6 +25,7 @@ namespace fl {
             short arity;
             short associativity;
             std::string mask;
+            std::string regex;
             GenericOperator(const std::string& name, short  precedence, short  arity = 2,
                     short  associativity = -1, const std::string& mask = "")
                     : name(name), precedence(precedence), arity(arity), associativity(associativity),
@@ -90,6 +91,8 @@ namespace fl {
         InfixToPostfix();
         ~InfixToPostfix();
 
+        std::string convert(const std::string& infix);
+
         /**
          * Operations for std::map _genericOperators
          */
@@ -106,7 +109,7 @@ namespace fl {
         GenericFunction* getGenericFunction(const std::string& key) const;
         const std::map<std::string, GenericFunction*>& genericFunctions() const;
 
-        std::string convert(const std::string& infix);
+
 
     };
 
