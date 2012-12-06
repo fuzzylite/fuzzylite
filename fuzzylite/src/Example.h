@@ -14,7 +14,7 @@ namespace fl {
 
     class Example {
     public:
-        static void simpleMamdani();
+        static Engine* simpleMamdani();
     };
 
 } /* namespace fl */

@@ -26,9 +26,9 @@ namespace fl {
     scalar Bell::membership(scalar x) const{
         // from matlab: gbellmf.m
         scalar tmp = ((x - _c) / _a) * ((x - _c) / _a);
-        if (Op::IsEq(tmp, 0.0) && Op::IsEq(_b, 0.0))
+        if (Op::IsEq(tmp, 0.0)  and  Op::IsEq(_b, 0.0))
             return 0.5;
-        else if (Op::IsEq(tmp, 0.0) && Op::IsLt(_b, 0.0))
+        else if (Op::IsEq(tmp, 0.0)  and  Op::IsLt(_b, 0.0))
             return 0.0;
         else {
             tmp = std::pow(tmp, _b);

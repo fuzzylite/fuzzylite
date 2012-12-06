@@ -41,11 +41,11 @@ namespace fl {
         }
     }
 
-    void Engine::process(){
-        for (std::size_t i = 0 ; i < _outputVariables.size(); ++i){
+    void Engine::process() {
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             _outputVariables[i]->output()->clear();
         }
-        for (std::size_t i = 0 ; i < _ruleblocks.size(); ++i){
+        for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
             _ruleblocks[i]->fireRules();
         }
     }
@@ -69,6 +69,16 @@ namespace fl {
     }
     InputVariable* Engine::getInputVariable(int index) const {
         return this->_inputVariables[index];
+    }
+    InputVariable* Engine::getInputVariable(const std::string& name) const {
+        for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
+            if (_inputVariables[i]->getName() == name)
+                return _inputVariables[i];
+        }
+        return NULL;
+    }
+    bool Engine::hasInputVariable(const std::string& name) const {
+        return getInputVariable(name) != NULL;
     }
     InputVariable* Engine::removeInputVariable(int index) {
         InputVariable* result = this->_inputVariables[index];
@@ -95,6 +105,16 @@ namespace fl {
     OutputVariable* Engine::getOutputVariable(int index) const {
         return this->_outputVariables[index];
     }
+    OutputVariable* Engine::getOutputVariable(const std::string& name) const {
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            if (_outputVariables[i]->getName() == name)
+                return _outputVariables[i];
+        }
+        return NULL;
+    }
+    bool Engine::hasOutputVariable(const std::string& name) const {
+        return getOutputVariable(name) != NULL;
+    }
     OutputVariable* Engine::removeOutputVariable(int index) {
         OutputVariable* result = this->_outputVariables[index];
         this->_outputVariables.erase(this->_outputVariables.begin() + index);
@@ -119,6 +139,16 @@ namespace fl {
     RuleBlock* Engine::getRuleblock(int index) const {
         return this->_ruleblocks[index];
     }
+    RuleBlock* Engine::getRuleblock(const std::string& name) const {
+        for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
+            if (_ruleblocks[i]->getName() == name)
+                return _ruleblocks[i];
+        }
+        return NULL;
+    }
+    bool Engine::hasRuleblock(const std::string& name) const {
+        return getRuleblock(name) != NULL;
+    }
     RuleBlock* Engine::removeRuleblock(int index) {
         RuleBlock* result = this->_ruleblocks[index];
         this->_ruleblocks.erase(this->_ruleblocks.begin() + index);
@@ -135,25 +165,31 @@ namespace fl {
      * Operations for map _hedges
      */
 
-    void Engine::addHedge(Hedge* hedge){
+    void Engine::addHedge(Hedge* hedge) {
         this->_hedges[hedge->name()] = hedge;
     }
 
-    Hedge* Engine::removeHedge(const std::string& name){
+    Hedge* Engine::removeHedge(const std::string& name) {
         std::map<std::string, Hedge*>::iterator it = this->_hedges.find(name);
-        if (it == this->_hedges.end()) return NULL;
+        if (it == this->_hedges.end())
+            return NULL;
         Hedge* result = it->second;
         this->_hedges.erase(it);
         return result;
     }
 
-    Hedge* Engine::getHedge(const std::string& name) const{
+    Hedge* Engine::getHedge(const std::string& name) const {
         std::map<std::string, Hedge*>::const_iterator it = this->_hedges.find(name);
-        if (it == this->_hedges.end()) return NULL;
+        if (it == this->_hedges.end())
+            return NULL;
         return it->second;
     }
 
-    const std::map<std::string, Hedge*>& Engine::hedges() const{
+    bool Engine::hasHedge(const std::string& name) const {
+        return getHedge(name) != NULL;
+    }
+
+    const std::map<std::string, Hedge*>& Engine::hedges() const {
         return this->_hedges;
     }
 

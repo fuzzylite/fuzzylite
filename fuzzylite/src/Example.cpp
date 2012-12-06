@@ -11,7 +11,7 @@
 
 namespace fl {
 
-    void Example::simpleMamdani() {
+    Engine* Example::simpleMamdani() {
         Engine* engine = new Engine("simple-mamdani");
 
         InputVariable* energy = new InputVariable("Energy");
@@ -36,7 +36,7 @@ namespace fl {
         engine->addRuleblock(ruleblock);
 
         engine->configure(new Configuration);
-
+        return engine;
     }
 
 } /* namespace fl */

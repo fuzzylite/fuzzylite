@@ -10,7 +10,16 @@
 
 #include "../Antecedent.h"
 
+#include "../Rule.h"
+#include "../../variable/InputVariable.h"
+#include "../../hedge/Hedge.h"
+#include "../../term/Term.h"
+
+
+
+#include <sstream>
 #include <vector>
+
 
 namespace fl {
     class Engine;
@@ -42,10 +51,14 @@ namespace fl {
                     : Node(true), left(NULL), right(NULL) {
             }
             ~OperatorNode() {
-                if (left) delete left;
-                if (right) delete right;
+                if (left)
+                    delete left;
+                if (right)
+                    delete right;
             }
-
+            std::string toString() const {
+                return name;
+            }
         };
 
         class PropositionNode: public Node {
@@ -55,6 +68,17 @@ namespace fl {
             Term* term;
             PropositionNode()
                     : Node(false) {
+            }
+            std::string toString() const {
+                std::stringstream ss;
+                ss << inputVariable->getName() << " " << Rule::FL_IS << " ";
+                for (std::size_t i = 0; i < hedges.size(); ++i) {
+                    ss << hedges[i]->name();
+                    if (i < hedges.size() - 1)
+                        ss << " ";
+                }
+                ss << term->getName();
+                return ss.str();
             }
         };
 
@@ -76,6 +100,8 @@ namespace fl {
         std::string toStringPrefix(const Node* node) const;
         std::string toStringInfix(const Node* node) const;
         std::string toStringPostfix(const Node* node) const;
+
+        static void main();
     };
 
 } /* namespace fl */

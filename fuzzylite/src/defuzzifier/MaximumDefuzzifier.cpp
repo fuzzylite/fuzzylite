@@ -44,7 +44,7 @@ scalar MaximumDefuzzifier::defuzzify(const Term* term) const {
             xsmallest = x;
             ymax = y;
             samePlateau = true;
-        } else if (Op::IsEq(y, ymax) && samePlateau) {
+        } else if (Op::IsEq(y, ymax)  and  samePlateau) {
             xlargest = x;
         } else if (Op::IsLt(y, ymax)) {
             samePlateau = false;

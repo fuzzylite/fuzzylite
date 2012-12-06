@@ -45,6 +45,8 @@ namespace fl {
         virtual void addTerm(Term* term);
         virtual void insertTerm(Term* term, int index);
         virtual Term* getTerm(int index) const;
+        virtual Term* getTerm(const std::string& name) const;
+        virtual bool hasTerm(const std::string& name) const;
         virtual Term* removeTerm(int index);
         virtual int numberOfTerms() const;
         virtual const std::vector<Term*>& terms() const;

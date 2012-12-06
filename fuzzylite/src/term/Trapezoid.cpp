@@ -32,7 +32,7 @@ namespace fl {
     scalar Trapezoid::membership(scalar x) const{
         scalar minimum = _a;
         scalar maximum = _d;
-        if (Op::IsLE(x, minimum) || Op::IsGE(x, maximum))
+        if (Op::IsLE(x, minimum)  or  Op::IsGE(x, maximum))
             return 0.0;
         else if (Op::IsLE(x, _b))
             return (x - minimum) / (_b - minimum);

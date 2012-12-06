@@ -36,12 +36,12 @@ namespace fl {
 
         //Is less than
         static bool IsLt(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
-            return !IsEq(a, b, tolerance) && a < b;
+            return not IsEq(a, b, tolerance) and a < b;
         }
 
         //Is less than
         static bool IsLE(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
-            return IsEq(a, b, tolerance) || a < b;
+            return IsEq(a, b, tolerance) or a < b;
         }
 
         //Is equal
@@ -51,11 +51,11 @@ namespace fl {
 
         //Is greater than
         static bool IsGt(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
-            return !IsEq(a, b, tolerance) && a > b;
+            return not IsEq(a, b, tolerance) and a > b;
         }
 
         static bool IsGE(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
-            return IsEq(a, b, tolerance) || a > b;
+            return IsEq(a, b, tolerance) or a > b;
         }
 
         static int FindReplace(std::string& str, const std::string& find,
@@ -69,7 +69,7 @@ namespace fl {
                     str.replace(index, find.length(), replace);
                     ++result;
                 }
-            } while (all && index != std::string::npos);
+            } while (all  and  index != std::string::npos);
             return result;
         }
     };

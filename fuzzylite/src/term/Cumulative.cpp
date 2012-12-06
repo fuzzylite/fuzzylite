@@ -42,10 +42,10 @@ namespace fl {
     }
 
     void Cumulative::append(const Term* term) {
-        if (Op::IsInf(_minimum) || term->minimum() < _minimum) {
+        if (Op::IsInf(_minimum)  or  term->minimum() < _minimum) {
             _minimum = term->minimum();
         }
-        if (Op::IsInf(_maximum) || term->maximum() > _maximum) {
+        if (Op::IsInf(_maximum)  or  term->maximum() > _maximum) {
             _maximum = term->maximum();
         }
         _terms.push_back(term);

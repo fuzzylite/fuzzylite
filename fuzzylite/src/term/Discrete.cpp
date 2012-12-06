@@ -36,7 +36,7 @@ namespace fl {
         for (std::size_t i = 0; i < x.size(); ++i) {
             if (Op::IsEq(x[i], mu)) return y[i];
             //approximate on the left
-            if (Op::IsLt(x[i], mu) && Op::IsGt(x[i], previous)) {
+            if (Op::IsLt(x[i], mu)  and  Op::IsGt(x[i], previous)) {
                 previous = x[i];
             }
             //get the immediate next one after mu

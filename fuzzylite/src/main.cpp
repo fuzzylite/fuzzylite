@@ -19,7 +19,8 @@ int main(int argc, char** argv) {
     FL_LOG("scalar is defined as type <" << (typeid(scalar).name()) << "> with " << scalarSize << " bytes");
     FL_LOG("tolerance to floating-point value is " << FL_EPSILON);
 
-    Infix::main();
+//    Infix::main();
+    MamdaniAntecedent::main();
 
     FL_LOG("Bye, FuzzyLite!");
 

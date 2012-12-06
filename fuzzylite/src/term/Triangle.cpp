@@ -31,7 +31,7 @@ namespace fl {
     scalar Triangle::membership(scalar x) const{
         scalar minimum = _a;
         scalar maximum = _c;
-        if (Op::IsLE(x, minimum) || Op::IsLE(x, maximum))
+        if (Op::IsLE(x, minimum)  or  Op::IsLE(x, maximum))
             return 0.0;
         else if (Op::IsEq(x,  _b))
             return 1.0;

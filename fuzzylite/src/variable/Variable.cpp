@@ -70,6 +70,19 @@ namespace fl {
     Term* Variable::getTerm(int index) const {
         return this->_terms[index];
     }
+    Term* Variable::getTerm(const std::string& name) const {
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
+            if (_terms[i]->getName() == name){
+                return _terms[i];
+            }
+        }
+        return NULL;
+    }
+
+    bool Variable::hasTerm(const std::string& name) const{
+        return getTerm(name) != NULL;
+    }
+
     Term* Variable::removeTerm(int index) {
         Term* result = this->_terms[index];
         this->_terms.erase(this->_terms.begin() + index);
