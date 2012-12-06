@@ -1,12 +1,12 @@
 /*
- * InfixToPostfix.h
+ * Infix.h
  *
  *  Created on: 4/12/2012
  *      Author: jcrada
  */
 
-#ifndef FL_INFIXTOPOSTFIX_H_
-#define FL_INFIXTOPOSTFIX_H_
+#ifndef FL_INFIX_H_
+#define FL_INFIX_H_
 
 #include "../scalar.h"
 
@@ -15,7 +15,7 @@
 #include <sstream>
 namespace fl {
 
-    class InfixToPostfix {
+    class Infix {
     public:
 
         class GenericOperator {
@@ -25,11 +25,9 @@ namespace fl {
             short arity;
             short associativity;
             std::string mask;
-            std::string regex;
-            GenericOperator(const std::string& name, short  precedence, short  arity = 2,
-                    short  associativity = -1, const std::string& mask = "")
-                    : name(name), precedence(precedence), arity(arity), associativity(associativity),
-                            mask(mask) {
+            GenericOperator(const std::string& name, short precedence, short arity = 2,
+                    short associativity = -1, const std::string& regex = "", const std::string& mask = "")
+                    : name(name), precedence(precedence), arity(arity), associativity(associativity) {
                 if (mask == "") this->mask = name;
             }
 
@@ -39,7 +37,6 @@ namespace fl {
                         << "precedence='" << precedence << "' "
                         << "arity='" << arity << "' "
                         << "associativity='" << associativity << "' "
-                        << "mask='" << mask << "' "
                         ;
                 return ss.str();
             }
@@ -52,12 +49,12 @@ namespace fl {
         class GenericFunction {
         public:
             std::string name;
-            short  arity;
-            short  associativity;
+            short arity;
+            short associativity;
             OneArgFunction oneArgFunction;
             TwoArgFunction twoArgFunction;
 
-            GenericFunction(const std::string& name, short  arity = 1)
+            GenericFunction(const std::string& name, short arity = 1)
                     : name(name), arity(arity), associativity(-1),
                             oneArgFunction(NULL), twoArgFunction(NULL) {
             }
@@ -88,10 +85,14 @@ namespace fl {
         void loadGenericFunctions();
 
     public:
-        InfixToPostfix();
-        ~InfixToPostfix();
+        Infix();
+        ~Infix();
 
-        std::string convert(const std::string& infix);
+        std::string toPostfix(const std::string& infixString);
+
+        bool isOperand(const std::string& token) const;
+        bool isOperator(const std::string& token) const;
+        bool isFunction(const std::string& token) const;
 
         /**
          * Operations for std::map _genericOperators
@@ -109,9 +110,8 @@ namespace fl {
         GenericFunction* getGenericFunction(const std::string& key) const;
         const std::map<std::string, GenericFunction*>& genericFunctions() const;
 
-
-
+        static void main();
     };
 
 } /* namespace fl */
-#endif /* FL_INFIXTOPOSTFIX_H_ */
+#endif /* FL_INFIX_H_ */
