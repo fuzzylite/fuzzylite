@@ -10,7 +10,7 @@
 
 #include "../Antecedent.h"
 
-#include "MamdaniTree.h"
+#include <vector>
 
 namespace fl {
     class Engine;
