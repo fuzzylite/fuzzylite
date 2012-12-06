@@ -24,11 +24,9 @@ namespace fl {
             short precedence;
             short arity;
             short associativity;
-            std::string mask;
             GenericOperator(const std::string& name, short precedence, short arity = 2,
-                    short associativity = -1, const std::string& regex = "", const std::string& mask = "")
+                    short associativity = -1)
                     : name(name), precedence(precedence), arity(arity), associativity(associativity) {
-                if (mask == "") this->mask = name;
             }
 
             std::string toString() const {

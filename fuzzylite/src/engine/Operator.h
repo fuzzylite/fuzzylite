@@ -14,8 +14,6 @@
 #include <algorithm>
 #include <cmath>
 
-
-
 namespace fl {
 
     class Op {
@@ -29,11 +27,11 @@ namespace fl {
         }
 
         static bool IsInf(scalar x) {
-            return isinf(x);
+            return std::isinf(x);
         }
 
         static bool IsNan(scalar x) {
-            return isnan(x);
+            return std::isnan(x);
         }
 
         //Is less than
@@ -48,7 +46,7 @@ namespace fl {
 
         //Is equal
         static bool IsEq(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
-            return fabs(a - b) < FL_EPSILON;
+            return std::fabs(a - b) < FL_EPSILON;
         }
 
         //Is greater than
@@ -58,6 +56,21 @@ namespace fl {
 
         static bool IsGE(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
             return IsEq(a, b, tolerance) || a > b;
+        }
+
+        static int FindReplace(std::string& str, const std::string& find,
+                const std::string& replace, bool all) {
+            if (find.length() == 0) return 0;
+            int result = 0;
+            size_t index = -abs(find.length() - replace.length());
+            do {
+                index = str.find(find, index + abs(find.length() - replace.length()));
+                if (index != std::string::npos) {
+                    str.replace(index, find.length(), replace);
+                    ++result;
+                }
+            } while (all && index != std::string::npos);
+            return result;
         }
     };
 

@@ -8,11 +8,11 @@
 #include "Infix.h"
 
 #include "Rule.h"
+#include "../engine/Operator.h"
 
 #include "../definitions.h"
 
 #include <cmath>
-
 #include <queue>
 #include <stack>
 
@@ -29,9 +29,9 @@ namespace fl {
             delete itGO->second;
         }
 
-        std::map<std::string, Infix::GenericFunction*>::const_iterator itFO = _genericFunctions.begin();
-        for (; itFO != _genericFunctions.end(); ++itFO) {
-            delete itFO->second;
+        std::map<std::string, Infix::GenericFunction*>::const_iterator itGF = _genericFunctions.begin();
+        for (; itGF != _genericFunctions.end(); ++itGF) {
+            delete itGF->second;
         }
     }
 
@@ -55,19 +55,23 @@ namespace fl {
     }
 
     std::string Infix::toPostfix(const std::string& infixString) {
-        //TODO: inserts spaces in all operators, functions, parentheses, and commas.
-        std::stringstream ssInfix;
-        for (std::size_t i = 0; i < infixString.size(); ++i) {
-            if (infixString[i] == '(')
-                ssInfix << " ( ";
-            else if (infixString[i] == ')')
-                ssInfix << " ) ";
-            else if (infixString[i] == ',')
-                ssInfix << " , ";
-            else
-                ssInfix << infixString[i];
+        //TODO: inserts spaces in all operators, parentheses, and commas.
+        std::vector<std::string> space;
+        std::map<std::string, GenericOperator*>::const_iterator itGO = this->_genericOperators.begin();
+        for (; itGO != this->_genericOperators.end(); ++itGO) {
+            if (itGO->first == Rule::FL_AND or itGO->first == Rule::FL_OR)
+                continue;
+            space.push_back(itGO->first);
         }
-        std::string infix = ssInfix.str();
+        space.push_back("(");
+        space.push_back(")");
+        space.push_back(",");
+
+        std::string infix = infixString;
+        for (std::size_t i = 0; i < space.size(); ++i) {
+            Op::FindReplace(infix, space[i], " " + space[i] + " ", true);
+        }
+
         FL_LOG("infix = " << infix);
 
         std::queue<std::string> queue;
@@ -170,13 +174,16 @@ namespace fl {
         --p; //Bitwise OR
         this->_genericOperators["|"] = new GenericOperator("|", p);
         --p; //Logical AND (symbolic and verbose)
-        this->_genericOperators["&&"] = new GenericOperator("&&", p);
         this->_genericOperators[Rule::FL_AND] = new GenericOperator(Rule::FL_AND, p);
-        this->_genericOperators[Rule::FL_AND]->mask = " " + Rule::FL_AND + " ";
         --p; //Logical OR (symbolic and verbose)
-        this->_genericOperators["||"] = new GenericOperator("||", p);
         this->_genericOperators[Rule::FL_OR] = new GenericOperator(Rule::FL_OR, p);
-        this->_genericOperators[Rule::FL_OR]->mask = " " + Rule::FL_OR + " ";
+
+        //Excluded to provide simplicity due to spacing all these characters before & |
+        //TODO: Incorporate them as long as they are spaced properly before parsing.
+        //        this->_genericOperators["&&"] = new GenericOperator("&&", p);
+        //        this->_genericOperators["&&"]->regex = "\\&\\&";
+        //        this->_genericOperators["||"] = new GenericOperator("||", p);
+        //        this->_genericOperators["||"]->regex = "\\|\\|";
     }
 
     void Infix::loadGenericFunctions() {
@@ -250,25 +257,24 @@ namespace fl {
     }
 
     void Infix::main() {
-//        Infix::GenericFunction* f = ip.getGenericFunction("acos");
-//        FL_LOG("acos(0.4) = " << f->oneArgFunction(0.4));
-//        std::map<std::string, Infix::GenericFunction*> gf = ip.genericFunctions();
-//        std::map<std::string, Infix::GenericFunction*>::const_iterator it = gf.begin();
-//        for (; it != gf.end(); ++it) {
-//            FL_LOG(it->first << "{" << it->second->toString() << "}");
-//        }
         Infix infix;
+        GenericFunction* f = infix.getGenericFunction("acos");
+        FL_LOG("acos(0.4) = " << f->oneArgFunction(0.4));
+        std::map<std::string, GenericFunction*> gf = infix.genericFunctions();
+        std::map<std::string, GenericFunction*>::const_iterator it = gf.begin();
+        for (; it != gf.end(); ++it) {
+            FL_LOG(it->first << "{" << it->second->toString() << "}");
+        }
 
-        std::string notation = "3 + 4 * 2 / ( 1 - 5 ) ^ 2 ^ 3";
+        std::string notation = "3+4*2/(1-5)^2^3";
         FL_LOG(infix.toPostfix(notation));
         //3 4 2 * 1 5 - 2 3 ^ ^ / +
 
-
-        notation = "3 + 4 * 2 / (1 - 5) ^ 2 ^ 3";
+        notation = "3+4*2/(1-5)^2^3";
         FL_LOG(infix.toPostfix(notation));
         //3 4 2 * 1 5 - 2 3 ^ ^ / +
 
-        notation = "sin(y * x) ^ 2 / x";
+        notation = "sin(y*x)^2/x";
         FL_LOG(infix.toPostfix(notation));
         //y x * sin 2 ^ x /
 
@@ -276,7 +282,6 @@ namespace fl {
             (Temperature is Low and (Oxigen is Low or Oxigen is High))";
         FL_LOG(infix.toPostfix(notation));
         //Temperature is High Oxigen is Low and Temperature is Low Oxigen is Low Oxigen is High or and or
-
 
     }
 
