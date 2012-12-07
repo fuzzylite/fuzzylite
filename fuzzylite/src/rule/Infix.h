@@ -79,34 +79,34 @@ namespace fl {
         std::map<std::string, GenericOperator*> _genericOperators;
         std::map<std::string, GenericFunction*> _genericFunctions;
 
-        void loadGenericOperators();
-        void loadGenericFunctions();
+        virtual void loadGenericOperators();
+        virtual void loadGenericFunctions();
 
     public:
         Infix();
-        ~Infix();
+        virtual  ~Infix();
 
-        std::string toPostfix(const std::string& infixString);
+        virtual std::string toPostfix(const std::string& infixString);
 
-        bool isOperand(const std::string& token) const;
-        bool isOperator(const std::string& token) const;
-        bool isFunction(const std::string& token) const;
+        virtual  bool isOperand(const std::string& token) const;
+        virtual  bool isOperator(const std::string& token) const;
+        virtual bool isFunction(const std::string& token) const;
 
         /**
          * Operations for std::map _genericOperators
          */
-        void addGenericOperator(GenericOperator* genericOperator);
-        GenericOperator* removeGenericOperator(const std::string& key);
-        GenericOperator* getGenericOperator(const std::string& key) const;
-        const std::map<std::string, GenericOperator*>& genericOperators() const;
+        virtual  void addGenericOperator(GenericOperator* genericOperator);
+        virtual  GenericOperator* removeGenericOperator(const std::string& key);
+        virtual  GenericOperator* getGenericOperator(const std::string& key) const;
+        virtual  const std::map<std::string, GenericOperator*>& genericOperators() const;
 
         /**
          * Operations for std::map _genericFunctions
          */
-        void addGenericFunction(GenericFunction* genericFunction);
-        GenericFunction* removeGenericFunction(const std::string& key);
-        GenericFunction* getGenericFunction(const std::string& key) const;
-        const std::map<std::string, GenericFunction*>& genericFunctions() const;
+        virtual  void addGenericFunction(GenericFunction* genericFunction);
+        virtual  GenericFunction* removeGenericFunction(const std::string& key);
+        virtual GenericFunction* getGenericFunction(const std::string& key) const;
+        virtual  const std::map<std::string, GenericFunction*>& genericFunctions() const;
 
         static void main();
     };

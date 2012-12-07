@@ -16,13 +16,13 @@ class InputVariable : public Variable{
 	protected:
 		scalar _input;
 	public:
-		InputVariable(const std::string& name = "");
-		~InputVariable();
+		InputVariable(const std::string& name);
+		virtual ~InputVariable();
 
-		void setInput(scalar input);
-		scalar getInput() const;
+		virtual void setInput(scalar input);
+		virtual scalar getInput() const;
 
-		std::string toString() const;
+		virtual std::string toString() const;
 };
 
 } /* namespace fl */

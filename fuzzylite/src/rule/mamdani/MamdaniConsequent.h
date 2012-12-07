@@ -10,19 +10,25 @@
 
 #include "../Consequent.h"
 
+#include <vector>
+
 namespace fl {
     class Engine;
+    class MamdaniExpression;
 
     class MamdaniConsequent: public Consequent {
+    protected:
+        std::vector<MamdaniExpression*> _conclusions;
+
     public:
         MamdaniConsequent();
-        ~MamdaniConsequent();
+        virtual ~MamdaniConsequent();
 
-        void load(const std::string& consequent, const Engine* engine);
+        virtual void load(const std::string& consequent, const Engine* engine);
 
-        void fire(scalar strength, const Operator* activation);
+        virtual void fire(scalar strength, const Operator* activation);
 
-        std::string toString() const;
+        virtual std::string toString() const;
     };
 
 } /* namespace fl */

@@ -22,21 +22,21 @@ class OutputVariable: public Variable {
 
 	public:
 		OutputVariable(const std::string& name);
-		~OutputVariable();
+		virtual ~OutputVariable();
 
-		void configure(Configuration* config);
+		virtual void configure(Configuration* config);
 
-		void setDefaultValue(scalar defaultValue);
-		scalar getDefaultValue() const;
+		virtual void setDefaultValue(scalar defaultValue);
+		virtual scalar getDefaultValue() const;
 
-		void setDefuzzifier(Defuzzifier* defuzzifier);
-		Defuzzifier* getDefuzzifier() const;
+		virtual void setDefuzzifier(Defuzzifier* defuzzifier);
+		virtual Defuzzifier* getDefuzzifier() const;
 
-		Cumulative* output() const;
+		virtual Cumulative* output() const;
 
-		scalar defuzzify() const;
+		virtual scalar defuzzify() const;
 
-		std::string toString() const;
+		virtual std::string toString() const;
 
 };
 
