@@ -20,7 +20,7 @@
 
 #include "../../definitions.h"
 
-#include "../../Example.h"
+#include "../../example/SimpleMamdani.h"
 
 #include <stack>
 
@@ -225,7 +225,10 @@ namespace fl {
     }
 
     void MamdaniAntecedent::main() {
-        Engine* engine = Example::simpleMamdani();
+        SimpleMamdani sm;
+        sm.create();
+
+        Engine* engine = sm.engine();
         std::string antecedent =
                 "(Energy is MEDIUM and Energy is LOW) or Energy is HIGH and Energy is LOW";
         MamdaniAntecedent m;
