@@ -7,7 +7,7 @@
 
 #include "OutputVariable.h"
 
-#include "../term/Cumulative.h"
+#include "../term/Accumulated.h"
 #include "../defuzzifier/Defuzzifier.h"
 
 #include "../engine/Configuration.h"
@@ -16,7 +16,7 @@
 namespace fl {
 
     OutputVariable::OutputVariable(const std::string& name)
-            : Variable(name), _output(new Cumulative("output")) {
+            : Variable(name), _output(new Accumulated("output")) {
     }
 
     OutputVariable::~OutputVariable() {
@@ -44,7 +44,7 @@ namespace fl {
         return this->_defuzzifier;
     }
 
-    Cumulative* OutputVariable::output() const {
+    Accumulated* OutputVariable::output() const {
         return this->_output;
     }
 

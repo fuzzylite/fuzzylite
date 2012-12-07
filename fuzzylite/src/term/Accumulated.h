@@ -1,12 +1,12 @@
 /*
- * Cumulative.h
+ * Accumulated.h
  *
  *  Created on: 30/11/2012
  *      Author: jcrada
  */
 
-#ifndef FL_CUMULATIVE_H_
-#define FL_CUMULATIVE_H_
+#ifndef FL_ACCUMULATED_H_
+#define FL_ACCUMULATED_H_
 
 #include "Term.h"
 
@@ -15,20 +15,20 @@
 namespace fl {
 
     class Operator;
-    class Cumulative: public Term {
+    class Accumulated: public Term {
     protected:
         std::vector<const Term*> _terms;
         const Operator* _accumulation;
         scalar _minimum, _maximum;
         public:
-        Cumulative(const std::string& name,
+        Accumulated(const std::string& name,
                 const Operator* accumulation= NULL);
-        ~Cumulative();
+        ~Accumulated();
 
         scalar membership(scalar x) const;
         std::string toString() const;
 
-        void append(const Term* term);
+        void accumulate(const Term* term);
         int size() const;
         void clear();
 
@@ -41,4 +41,4 @@ namespace fl {
     };
 
 } /* namespace fl */
-#endif /* FL_CUMULATIVE_H_ */
+#endif /* FL_ACCUMULATED_H_ */

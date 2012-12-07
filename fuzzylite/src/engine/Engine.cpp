@@ -13,7 +13,7 @@
 #include "../hedge/Hedge.h"
 #include "Configuration.h"
 
-#include "../term/Cumulative.h"
+#include "../term/Accumulated.h"
 
 namespace fl {
 

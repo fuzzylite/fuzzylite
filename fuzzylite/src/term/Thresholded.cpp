@@ -13,10 +13,9 @@
 
 namespace fl {
 
-    Thresholded::Thresholded(const std::string& name, const Term* term,
-            scalar threshold, const Operator* activation)
-            : Term(name), _term(term), _threshold(threshold),
-                    _activation(activation) {
+    Thresholded::Thresholded(const Term* term, scalar threshold, const Operator* activation)
+            : Term(""), _term(term), _threshold(threshold), _activation(activation) {
+        if (term) this->_name = term->getName();
     }
 
     Thresholded::~Thresholded() {

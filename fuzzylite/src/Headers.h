@@ -19,6 +19,8 @@
 #include "engine/Engine.h"
 #include "engine/Operator.h"
 
+#include "fcl/FclExporter.h"
+
 #include "hedge/Any.h"
 #include "hedge/Extremely.h"
 #include "hedge/Hedge.h"
@@ -35,10 +37,11 @@
 
 #include "rule/mamdani/MamdaniAntecedent.h"
 #include "rule/mamdani/MamdaniConsequent.h"
+#include "rule/mamdani/MamdaniExpression.h"
 #include "rule/mamdani/MamdaniRule.h"
 
+#include "term/Accumulated.h"
 #include "term/Bell.h"
-#include "term/Cumulative.h"
 #include "term/Gaussian.h"
 #include "term/Rectangle.h"
 #include "term/Shoulder.h"
@@ -52,6 +55,7 @@
 #include "variable/OutputVariable.h"
 #include "variable/Variable.h"
 
-
+#include "example/Example.h"
+#include "example/SimpleMamdani.h"
 
 #endif /* FL_HEADERS_H_ */

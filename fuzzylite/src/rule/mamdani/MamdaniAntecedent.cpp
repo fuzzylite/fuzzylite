@@ -52,13 +52,13 @@ namespace fl {
             S_VARIABLE = 1, S_IS = 2, S_HEDGE = 4, S_TERM = 8, S_OPERATOR = 16
         };
         int state = S_VARIABLE;
-        std::stack<MamdaniExpression*> nodeStack;
-        MamdaniProposition* proposition = NULL;
+        std::stack<MamdaniExpression*> expressionStack;
+        MamdaniAntecedentProposition* proposition = NULL;
         while (tokenizer >> token) {
             if (state bitand S_VARIABLE) {
                 if (engine->hasInputVariable(token)) {
-                    proposition = new MamdaniProposition;
-                    nodeStack.push(proposition);
+                    proposition = new MamdaniAntecedentProposition;
+                    expressionStack.push(proposition);
                     proposition->inputVariable = engine->getInputVariable(token);
                     state = S_IS;
                     continue;
@@ -66,12 +66,10 @@ namespace fl {
             }
 
             if (state bitand S_IS) {
-                if (token != Rule::FL_IS) {
-                    FL_LOG("expected keyword <" << Rule::FL_IS << ">, but found <" << token << ">");
-                    throw std::exception();
+                if (token == Rule::FL_IS) {
+                    state = S_HEDGE bitor S_TERM;
+                    continue;
                 }
-                state = S_HEDGE bitor S_TERM;
-                continue;
             }
 
             if (state bitand S_HEDGE) {
@@ -97,18 +95,18 @@ namespace fl {
 
             if (state bitand S_OPERATOR) {
                 if (infix.isOperator(token)) {
-                    if (nodeStack.size() < 2) {
+                    if (expressionStack.size() < 2) {
                         FL_LOG("operator <" << token << "> expected 2 operands,"
-                                << "but found just " << nodeStack.size());
+                                << "but found just " << expressionStack.size());
                         throw std::exception();
                     }
-                    MamdaniOperator* operatorNode = new MamdaniOperator;
-                    operatorNode->name = token;
-                    operatorNode->right = nodeStack.top();
-                    nodeStack.pop();
-                    operatorNode->left = nodeStack.top();
-                    nodeStack.pop();
-                    nodeStack.push(operatorNode);
+                    MamdaniOperator* mamdaniOperator = new MamdaniOperator;
+                    mamdaniOperator->name = token;
+                    mamdaniOperator->right = expressionStack.top();
+                    expressionStack.pop();
+                    mamdaniOperator->left = expressionStack.top();
+                    expressionStack.pop();
+                    expressionStack.push(mamdaniOperator);
 
                     state = S_VARIABLE bitor S_OPERATOR;
                     continue;
@@ -120,6 +118,10 @@ namespace fl {
                 FL_LOG("expected input variable or operator, but found <" << token << ">");
                 throw std::exception();
             }
+            if (state bitand S_IS) {
+                FL_LOG("expected keyword <" << Rule::FL_IS << ">, but found <" << token << ">");
+                throw std::exception();
+            }
             if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
                 FL_LOG("expected hedge or term, but found <" << token << ">");
                 throw std::exception();
@@ -128,43 +130,43 @@ namespace fl {
             throw std::exception();
         }
 
-        if (nodeStack.size() != 1) {
+        if (expressionStack.size() != 1) {
             FL_LOG("stack expected to contain the root, but contains "
-                    << nodeStack.size() << " nodes");
+                    << expressionStack.size() << " nodes");
             throw std::exception();
         }
-        this->_root = nodeStack.top();
+        this->_root = expressionStack.top();
     }
 
     scalar MamdaniAntecedent::firingStrength(const Operator* tnorm, const Operator* snorm,
             const MamdaniExpression* node) const {
         if (not node->isOperator) { //is Proposition
-            const MamdaniProposition* propositionNode =
-                    dynamic_cast<const MamdaniProposition*>(node);
-            scalar result =
-                    propositionNode->term->membership(propositionNode->inputVariable->getInput());
-            for (std::size_t i = 0; i < propositionNode->hedges.size(); ++i) {
-                result = propositionNode->hedges[i]->hedge(result);
+            const MamdaniAntecedentProposition* proposition =
+                    dynamic_cast<const MamdaniAntecedentProposition*>(node);
+
+            scalar result = proposition->term->membership(proposition->inputVariable->getInput());
+            for (std::size_t i = 0; i < proposition->hedges.size(); ++i) {
+                result = proposition->hedges[i]->hedge(result);
             }
             return result;
         }
         //if node is an operator
-        const MamdaniOperator* operatorNode =
+        const MamdaniOperator* mamdaniOperator =
                 dynamic_cast<const MamdaniOperator*>(node);
-        if (not operatorNode->left  or  not operatorNode->right) {
+        if (not mamdaniOperator->left or not mamdaniOperator->right) {
             FL_LOG("left and right operands must exist");
             throw std::exception();
         }
-        if (operatorNode->name == Rule::FL_AND)
+        if (mamdaniOperator->name == Rule::FL_AND)
             return tnorm->compute(
-                    this->firingStrength(tnorm, snorm, operatorNode->left),
-                    this->firingStrength(tnorm, snorm, operatorNode->right));
+                    this->firingStrength(tnorm, snorm, mamdaniOperator->left),
+                    this->firingStrength(tnorm, snorm, mamdaniOperator->right));
 
-        if (operatorNode->name == Rule::FL_AND)
+        if (mamdaniOperator->name == Rule::FL_AND)
             return snorm->compute(
-                    this->firingStrength(tnorm, snorm, operatorNode->left),
-                    this->firingStrength(tnorm, snorm, operatorNode->right));
-        FL_LOG("unknown operator <" << operatorNode->name << ">");
+                    this->firingStrength(tnorm, snorm, mamdaniOperator->left),
+                    this->firingStrength(tnorm, snorm, mamdaniOperator->right));
+        FL_LOG("unknown operator <" << mamdaniOperator->name << ">");
         throw std::exception();
 
     }
@@ -177,50 +179,47 @@ namespace fl {
     }
 
     std::string MamdaniAntecedent::toStringPrefix(const MamdaniExpression* node) const {
-        if (not node) node = this->_root;
+        if (not node)
+            node = this->_root;
         if (not node->isOperator) { //is proposition
-            const MamdaniProposition* propositionNode =
-                    dynamic_cast<const MamdaniProposition*>(node);
-            return propositionNode->toString();
+            return node->toString();
         }
-        const MamdaniOperator* operatorNode =
+        const MamdaniOperator* mamdaniOperator =
                 dynamic_cast<const MamdaniOperator*>(node);
         std::stringstream ss;
-        ss << operatorNode->toString() << " "
-                << this->toStringPrefix(operatorNode->left) << " "
-                << this->toStringPrefix(operatorNode->right) << " ";
+        ss << mamdaniOperator->toString() << " "
+                << this->toStringPrefix(mamdaniOperator->left) << " "
+                << this->toStringPrefix(mamdaniOperator->right) << " ";
         return ss.str();
     }
 
     std::string MamdaniAntecedent::toStringInfix(const MamdaniExpression* node) const {
-        if (not node) node = this->_root;
+        if (not node)
+            node = this->_root;
         if (not node->isOperator) { //is proposition
-            const MamdaniProposition* propositionNode =
-                    dynamic_cast<const MamdaniProposition*>(node);
-            return propositionNode->toString();
+            return node->toString();
         }
-        const MamdaniOperator* operatorNode =
+        const MamdaniOperator* mamdaniOperator =
                 dynamic_cast<const MamdaniOperator*>(node);
         std::stringstream ss;
-        ss << this->toStringInfix(operatorNode->left) << " "
-                << operatorNode->toString() << " "
-                << this->toStringInfix(operatorNode->right) << " ";
+        ss << this->toStringInfix(mamdaniOperator->left) << " "
+                << mamdaniOperator->toString() << " "
+                << this->toStringInfix(mamdaniOperator->right) << " ";
         return ss.str();
     }
 
     std::string MamdaniAntecedent::toStringPostfix(const MamdaniExpression* node) const {
-        if (not node) node = this->_root;
+        if (not node)
+            node = this->_root;
         if (not node->isOperator) { //is proposition
-            const MamdaniProposition* propositionNode =
-                    dynamic_cast<const MamdaniProposition*>(node);
-            return propositionNode->toString();
+            return node->toString();
         }
-        const MamdaniOperator* operatorNode =
+        const MamdaniOperator* mamdaniOperator =
                 dynamic_cast<const MamdaniOperator*>(node);
         std::stringstream ss;
-        ss << this->toStringPostfix(operatorNode->left) << " "
-                << this->toStringPostfix(operatorNode->right) << " "
-                << operatorNode->toString() << " ";
+        ss << this->toStringPostfix(mamdaniOperator->left) << " "
+                << this->toStringPostfix(mamdaniOperator->right) << " "
+                << mamdaniOperator->toString() << " ";
         return ss.str();
     }
 

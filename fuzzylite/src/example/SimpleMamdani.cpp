@@ -7,6 +7,7 @@
 
 #include "SimpleMamdani.h"
 
+
 namespace fl {
 
     SimpleMamdani::SimpleMamdani()
@@ -41,12 +42,10 @@ namespace fl {
         _engine->addOutputVariable(health);
 
         RuleBlock* ruleblock = new RuleBlock();
-        //        ruleblock->addRule();
-        //                ruleblock = RuleBlock()
-        //                ruleblock.append(MamdaniRule.parse('if Energy is LOW then Health is BAD', fe))
-        //                ruleblock.append(MamdaniRule.parse('if Energy is MEDIUM then Health is REGULAR', fe))
-        //                ruleblock.append(MamdaniRule.parse('if Energy is HIGH then Health is GOOD', fe))
-        //                fe.ruleblock[ruleblock.name] = ruleblock
+        ruleblock->addRule(MamdaniRule::parse("if Energy is LOW then Health is BAD", _engine));
+        ruleblock->addRule(MamdaniRule::parse("if Energy is MEDIUM then Health is REGULAR", _engine));
+        ruleblock->addRule(MamdaniRule::parse("if Energy is HIGH then Health is GOOD", _engine));
+
         _engine->addRuleblock(ruleblock);
 
         _engine->configure(new Configuration);

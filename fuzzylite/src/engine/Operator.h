@@ -59,17 +59,17 @@ namespace fl {
         }
 
         static int FindReplace(std::string& str, const std::string& find,
-                const std::string& replace, bool all) {
+                const std::string& replace, bool replaceAll) {
             if (find.length() == 0) return 0;
             int result = 0;
-            size_t index = -abs(find.length() - replace.length());
+            std::size_t index = -std::labs(find.length() - replace.length());
             do {
-                index = str.find(find, index + abs(find.length() - replace.length()));
+                index = str.find(find, index + std::labs(find.length() - replace.length()));
                 if (index != std::string::npos) {
                     str.replace(index, find.length(), replace);
                     ++result;
                 }
-            } while (all  and  index != std::string::npos);
+            } while (replaceAll  and  index != std::string::npos);
             return result;
         }
     };

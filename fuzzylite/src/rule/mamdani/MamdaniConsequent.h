@@ -14,11 +14,11 @@
 
 namespace fl {
     class Engine;
-    class MamdaniExpression;
+    class MamdaniConsequentProposition;
 
     class MamdaniConsequent: public Consequent {
     protected:
-        std::vector<MamdaniExpression*> _conclusions;
+        std::vector<MamdaniConsequentProposition*> _conclusions;
 
     public:
         MamdaniConsequent();
@@ -29,6 +29,7 @@ namespace fl {
         virtual void fire(scalar strength, const Operator* activation);
 
         virtual std::string toString() const;
+
     };
 
 } /* namespace fl */

@@ -11,14 +11,14 @@
 #include "Variable.h"
 
 namespace fl {
-class Cumulative;
+class Accumulated;
 class Defuzzifier;
 
 class OutputVariable: public Variable {
 	protected:
 		scalar _defaultValue;
 		Defuzzifier* _defuzzifier;
-		Cumulative* _output;
+		Accumulated* _output;
 
 	public:
 		OutputVariable(const std::string& name);
@@ -32,7 +32,7 @@ class OutputVariable: public Variable {
 		virtual void setDefuzzifier(Defuzzifier* defuzzifier);
 		virtual Defuzzifier* getDefuzzifier() const;
 
-		virtual Cumulative* output() const;
+		virtual Accumulated* output() const;
 
 		virtual scalar defuzzify() const;
 

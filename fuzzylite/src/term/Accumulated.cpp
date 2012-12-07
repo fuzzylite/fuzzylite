@@ -1,11 +1,11 @@
 /*
- * Cumulative.cpp
+ * Accumulated.cpp
  *
  *  Created on: 30/11/2012
  *      Author: jcrada
  */
 
-#include "Cumulative.h"
+#include "Accumulated.h"
 
 #include "../engine/Operator.h"
 
@@ -13,15 +13,15 @@
 
 namespace fl {
 
-    Cumulative::Cumulative(const std::string& name,
+    Accumulated::Accumulated(const std::string& name,
             const Operator* accumulation)
             : Term(name), _accumulation(accumulation) {
     }
 
-    Cumulative::~Cumulative() {
+    Accumulated::~Accumulated() {
     }
 
-    scalar Cumulative::membership(scalar x) const {
+    scalar Accumulated::membership(scalar x) const {
         scalar mu = 0.0;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             mu = _accumulation->compute(mu, _terms[i]->membership(x));
@@ -29,7 +29,7 @@ namespace fl {
         return mu;
     }
 
-    std::string Cumulative::toString() const {
+    std::string Accumulated::toString() const {
         std::stringstream ss;
         ss << "Cumulative (" << _accumulation->name() << ", ";
         for (std::size_t i = 0; i < _terms.size(); ++i) {
@@ -41,7 +41,7 @@ namespace fl {
         return ss.str();
     }
 
-    void Cumulative::append(const Term* term) {
+    void Accumulated::accumulate(const Term* term) {
         if (Op::IsInf(_minimum)  or  term->minimum() < _minimum) {
             _minimum = term->minimum();
         }
@@ -51,11 +51,11 @@ namespace fl {
         _terms.push_back(term);
     }
 
-    int Cumulative::size() const {
+    int Accumulated::size() const {
         return _terms.size();
     }
 
-    void Cumulative::clear() {
+    void Accumulated::clear() {
         _minimum = -std::numeric_limits<scalar>::infinity();
         _maximum = std::numeric_limits<scalar>::infinity();
         for (std::size_t i = 0; i < _terms.size(); ++i) {
@@ -64,19 +64,19 @@ namespace fl {
         _terms.clear();
     }
 
-    scalar Cumulative::minimum() const {
+    scalar Accumulated::minimum() const {
         return this->_minimum;
     }
 
-    scalar Cumulative::maximum() const {
+    scalar Accumulated::maximum() const {
         return this->_maximum;
     }
 
-    void Cumulative::setAccumulation(const Operator* accumulation) {
+    void Accumulated::setAccumulation(const Operator* accumulation) {
         this->_accumulation = accumulation;
     }
 
-    const Operator* Cumulative::getAccumulation() const {
+    const Operator* Accumulated::getAccumulation() const {
         return this->_accumulation;
     }
 
