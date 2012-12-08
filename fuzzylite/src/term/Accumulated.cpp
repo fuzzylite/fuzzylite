@@ -55,6 +55,10 @@ namespace fl {
         return _terms.size();
     }
 
+    bool Accumulated::isEmpty() const{
+        return _terms.size() == 0;
+    }
+
     void Accumulated::clear() {
         _minimum = -std::numeric_limits<scalar>::infinity();
         _maximum = std::numeric_limits<scalar>::infinity();

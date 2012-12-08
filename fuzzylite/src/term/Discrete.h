@@ -14,14 +14,18 @@
 
 namespace fl {
 
-    class Discrete : public Term{
+    class Discrete: public Term {
     public:
         std::vector<scalar> x;
         std::vector<scalar> y;
-        Discrete(const std::string& name,
+        Discrete(const std::string& name = "",
                 const std::vector<scalar>& x = std::vector<scalar>(),
                 const std::vector<scalar>& y = std::vector<scalar>());
         ~Discrete();
+
+        std::string className() const {
+            return "Discrete";
+        }
 
         scalar minimum() const;
         scalar maximum() const;

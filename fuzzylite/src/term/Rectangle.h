@@ -17,10 +17,14 @@ namespace fl {
         scalar _minimum, _maximum;
 
     public:
-        Rectangle(const std::string& name,
+        Rectangle(const std::string& name = "",
                 scalar minimum = -std::numeric_limits<scalar>::infinity(),
                 scalar maximum = std::numeric_limits<scalar>::infinity());
         ~Rectangle();
+
+        std::string className() const {
+            return "Rectangle";
+        }
 
         scalar membership(scalar x) const;
         std::string toString() const;

@@ -39,7 +39,9 @@ namespace fl {
 
         virtual scalar membership(scalar x) const = 0;
 
+        virtual std::string className() const = 0;
         virtual std::string toString() const = 0;
+
 
     };
 

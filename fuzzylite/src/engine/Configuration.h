@@ -7,7 +7,10 @@
 
 #ifndef FL_CONFIGURATION_H_
 #define FL_CONFIGURATION_H_
+
 #include "Operator.h"
+
+#include "../defuzzifier/CenterOfGravity.h"
 
 #include <string>
 
@@ -24,9 +27,8 @@ namespace fl {
 
     public:
         Configuration(Operator* tnorm = new Min(), Operator* snorm = new Max(),
-                Operator* activation = new Min(), Operator* accumulation =
-                        new Max(),
-                Defuzzifier* defuzzifier = NULL);
+                Operator* activation = new Min(), Operator* accumulation = new Max(),
+                Defuzzifier* defuzzifier = new CenterOfGravity);
         virtual ~Configuration();
 
         virtual void setTnorm(Operator* tnorm);

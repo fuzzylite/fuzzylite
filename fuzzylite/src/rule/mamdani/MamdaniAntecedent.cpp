@@ -123,7 +123,7 @@ namespace fl {
                 throw std::exception();
             }
             if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
-                FL_LOG("expected hedge or term, but found <" << token << ">");
+                FL_LOG("expected hedge or term, but found <" << token << "> not registered in engine");
                 throw std::exception();
             }
             FL_LOG("unexpected token <" << token << ">");

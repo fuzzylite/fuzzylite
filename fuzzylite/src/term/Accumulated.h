@@ -21,15 +21,20 @@ namespace fl {
         const Operator* _accumulation;
         scalar _minimum, _maximum;
         public:
-        Accumulated(const std::string& name,
+        Accumulated(const std::string& name = "",
                 const Operator* accumulation= NULL);
         ~Accumulated();
+
+        std::string className() const{
+            return "Accumulated";
+        }
 
         scalar membership(scalar x) const;
         std::string toString() const;
 
         void accumulate(const Term* term);
         int size() const;
+        bool isEmpty() const;
         void clear();
 
         scalar minimum() const;

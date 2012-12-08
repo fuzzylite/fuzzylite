@@ -16,12 +16,16 @@ namespace fl {
     protected:
         scalar _a, _b, _c, _d;
         public:
-        Trapezoid(const std::string& name,
+        Trapezoid(const std::string& name = "",
                 scalar a = -std::numeric_limits<scalar>::infinity(),
                 scalar b = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar c = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar d = std::numeric_limits<scalar>::infinity());
         ~Trapezoid();
+
+        std::string className() const{
+            return "Trapezoid";
+        }
 
         scalar minimum() const;
         scalar maximum() const;

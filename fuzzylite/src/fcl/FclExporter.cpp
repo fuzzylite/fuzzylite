@@ -65,11 +65,23 @@ namespace fl {
                         << ";" << std::endl;
             }
             fcl << std::endl;
+
+            fcl << "METHOD : ";
             if (outputVariable->getDefuzzifier())
-                fcl << "METHOD : " << outputVariable->getDefuzzifier()->name() << ";" << std::endl;
-            if (outputVariable->getDefuzzifier())
-                fcl << "ACCU : " << outputVariable->output()->getAccumulation()->name() << ";" << std::endl;
-            fcl << "DEFAULT : " << outputVariable->getDefaultValue() << ";" << std::endl;
+                fcl << outputVariable->getDefuzzifier()->name() << ";";
+            fcl << std::endl;
+
+            fcl << "ACCU : ";
+            if (outputVariable->output()->getAccumulation())
+                fcl << outputVariable->output()->getAccumulation()->name() << ";";
+            fcl << std::endl;
+
+            if (Op::IsNan(outputVariable->getDefaultValue())) {
+                fcl << "DEFAULT : NC;" << std::endl;
+            } else {
+                fcl << "DEFAULT : " << outputVariable->getDefaultValue() << ";" << std::endl;
+            }
+
             fcl << "END_DEFUZZIFY" << std::endl;
             fcl << std::endl;
         }

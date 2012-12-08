@@ -18,12 +18,16 @@ namespace fl {
         scalar _c;
         scalar _minimum, _maximum;
         public:
-        Sigmoid(const std::string& name,
+        Sigmoid(const std::string& name = "",
                 scalar a = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar c = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar minimum = -std::numeric_limits<scalar>::infinity(),
                 scalar maximum = std::numeric_limits<scalar>::infinity());
         ~Sigmoid();
+
+        std::string className() const{
+            return "Sigmoid";
+        }
 
         scalar membership(scalar x) const;
 

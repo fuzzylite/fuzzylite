@@ -17,7 +17,7 @@ class CenterOfGravity : public Defuzzifier{
 		CenterOfGravity(int divisions = 100);
 
 		std::string name() const;
-		scalar defuzzify(const Term* term) const = 0;
+		scalar defuzzify(const Term* term) const;
 
 };
 

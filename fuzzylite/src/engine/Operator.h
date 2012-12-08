@@ -10,9 +10,14 @@
 
 #include "../scalar.h"
 
+#include "../definitions.h"
+
 #include <string>
 #include <algorithm>
 #include <cmath>
+#include <vector>
+#include <sstream>
+#include <iostream>
 
 namespace fl {
 
@@ -58,19 +63,67 @@ namespace fl {
             return IsEq(a, b, tolerance) or a > b;
         }
 
-        static int FindReplace(std::string& str, const std::string& find,
-                const std::string& replace, bool replaceAll) {
-            if (find.length() == 0) return 0;
-            int result = 0;
-            std::size_t index = -std::labs(find.length() - replace.length());
+        static std::string FindReplace(const std::string& str, const std::string& find,
+                const std::string& replace, bool replaceAll = true) {
+            std::ostringstream result;
+            std::size_t fromIndex = 0, nextIndex;
             do {
-                index = str.find(find, index + std::labs(find.length() - replace.length()));
-                if (index != std::string::npos) {
-                    str.replace(index, find.length(), replace);
-                    ++result;
-                }
-            } while (replaceAll  and  index != std::string::npos);
+                nextIndex = str.find(find, fromIndex);
+                result << str.substr(fromIndex, nextIndex - fromIndex);
+                if (nextIndex != std::string::npos)
+                    result << replace;
+                fromIndex = nextIndex + find.size();
+            } while (nextIndex != std::string::npos);
+            return result.str();
+//            if (find.length() == 0)
+//            return 0;
+//            int result = 0;
+//            std::size_t index = -std::labs(find.length() - replace.length());
+//            do {
+//                index =
+//                        str.find(find, index + std::labs(find.length() - replace.length()));
+//                if (index != std::string::npos) {
+//                    str.replace(index, find.length(), replace);
+//                    ++result;
+//                }
+//            } while (replaceAll and index != std::string::npos);
+//            return result;
+        }
+        static std::vector<std::string> Split(const std::string& str, const std::string& delimiters) {
+            std::vector<std::string> result;
+            std::string::size_type last_pos =
+                    str.find_first_not_of(delimiters, 0);
+            // Find first "non-delimiter".
+            std::string::size_type pos =
+                    str.find_first_of(delimiters, last_pos);
+
+            while (std::string::npos != pos || std::string::npos != last_pos) {
+                // Found a token, add it to the vector.
+                result.push_back(str.substr(last_pos, pos - last_pos));
+                // Skip delimiters.  Note the "not_of"
+                last_pos = str.find_first_not_of(delimiters, pos);
+                // Find next "non-delimiter"
+                pos = str.find_first_of(delimiters, last_pos);
+            }
             return result;
+        }
+        static std::string LeftTrim(const std::string& text) {
+            std::size_t index =text.find_first_not_of(" ");
+            if (index != std::string::npos)
+                return text.substr(index);
+            return text;
+        }
+
+        static std::string RightTrim(const std::string& text) {
+            std::size_t index = text.find_last_not_of(" ") ;
+            if (index != std::string::npos){
+                return text.substr(0, index + 1);
+            }
+            return text;
+        }
+
+        static std::string Trim(const std::string& text) {
+            return RightTrim(LeftTrim(text));
         }
     };
 

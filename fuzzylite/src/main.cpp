@@ -19,10 +19,16 @@ int main(int argc, char** argv) {
     FL_LOG("scalar is defined as type <" << (typeid(scalar).name()) << "> with " << scalarSize << " bytes");
     FL_LOG("tolerance to floating-point value is " << FL_EPSILON);
 
-    SimpleMamdani m;
-    m.create();
-    m.engine();
-    FL_LOG(FclExporter().toFcl(m.engine()));
+//    std::string x = "This is a silly TesT";
+//    FL_LOG(Op::FindReplace(x, "is", "IX"));
+//    FL_LOG(Op::FindReplace(x, x, ""));
+
+//    SimpleMamdani m;
+//    m.create();
+//    m.engine();
+//    FL_LOG(FclExporter().toFcl(m.engine()));
+    FclImporter::main();
+
     FL_LOG("Bye, FuzzyLite!");
 
 }

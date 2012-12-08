@@ -24,6 +24,10 @@ namespace fl {
                 const Operator* activationOperator = NULL);
         ~Thresholded();
 
+        std::string className() const{
+            return "Thresholded";
+        }
+
         scalar membership(scalar x) const;
         scalar minimum() const;
         scalar maximum() const;

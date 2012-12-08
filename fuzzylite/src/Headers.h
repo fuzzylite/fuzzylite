@@ -20,6 +20,7 @@
 #include "engine/Operator.h"
 
 #include "fcl/FclExporter.h"
+#include "fcl/FclImporter.h"
 
 #include "hedge/Any.h"
 #include "hedge/Extremely.h"
@@ -42,6 +43,7 @@
 
 #include "term/Accumulated.h"
 #include "term/Bell.h"
+#include "term/Discrete.h"
 #include "term/Gaussian.h"
 #include "term/Rectangle.h"
 #include "term/Shoulder.h"

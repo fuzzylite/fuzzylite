@@ -17,10 +17,14 @@ namespace fl {
         scalar _minimum, _maximum;
 
     public:
-        LeftShoulder(const std::string& name,
+        LeftShoulder(const std::string& name = "",
                 scalar minimum = -std::numeric_limits<scalar>::infinity(),
                 scalar maximum = std::numeric_limits<scalar>::infinity());
         ~LeftShoulder();
+
+        std::string className() const{
+            return "LeftShoulder";
+        }
 
         scalar membership(scalar x) const;
         std::string toString() const;
@@ -37,10 +41,14 @@ namespace fl {
     protected:
         scalar _minimum, _maximum;
         public:
-        RightShoulder(const std::string& name,
+        RightShoulder(const std::string& name = "",
                 scalar minimum = -std::numeric_limits<scalar>::infinity(),
                 scalar maximum = std::numeric_limits<scalar>::infinity());
         ~RightShoulder();
+
+        std::string className() const{
+            return "RightShoulder";
+        }
 
         scalar membership(scalar x) const;
         std::string toString() const;

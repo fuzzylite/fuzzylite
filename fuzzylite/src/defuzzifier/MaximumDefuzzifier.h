@@ -20,7 +20,7 @@ class MaximumDefuzzifier : public Defuzzifier{
 	protected:
 		Type _type;
 	public:
-		MaximumDefuzzifier(Type type, int divisions);
+		MaximumDefuzzifier(Type type, int divisions = FL_DEFAULT_DIVISIONS);
 
 		std::string name() const;
 		scalar defuzzify(const Term* term) const;

@@ -19,12 +19,16 @@ namespace fl {
         scalar _minimum, _maximum;
 
     public:
-        Gaussian(const std::string& name,
+        Gaussian(const std::string& name = "",
                 scalar sigma = -std::numeric_limits<scalar>::quiet_NaN(),
                 scalar c = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar minimum = -std::numeric_limits<scalar>::infinity(),
                 scalar maximum = std::numeric_limits<scalar>::infinity());
         ~Gaussian();
+
+        std::string className() const {
+            return "Gaussian";
+        }
 
         scalar membership(scalar x) const;
         std::string toString() const;
