@@ -31,21 +31,26 @@ namespace fl {
     }
 
     scalar Discrete::membership(scalar mu) const {
-        scalar previous = -std::numeric_limits<scalar>::infinity();
-        scalar next = std::numeric_limits<scalar>::infinity();
+        scalar lowerApprox = -std::numeric_limits<scalar>::infinity();
+        scalar upperApprox = std::numeric_limits<scalar>::infinity();
+        int lower = -1, upper = -1;
+
         for (std::size_t i = 0; i < x.size(); ++i) {
             if (Op::IsEq(x[i], mu)) return y[i];
             //approximate on the left
-            if (Op::IsLt(x[i], mu)  and  Op::IsGt(x[i], previous)) {
-                previous = x[i];
+            if (Op::IsLt(x[i], mu) and Op::IsGt(x[i], lowerApprox)) {
+                lowerApprox = x[i];
+                lower = i;
             }
-            //get the immediate next one after mu
+            //get the immediate next one on the right
             if (Op::IsGt(x[i], mu)) {
-                next = x[i];
+                upperApprox = x[i];
+                upper = i;
                 break;
             }
         }
-        //TODO:interpolate y[i] from previous and next;
+        return ((y[upper] - y[lower]) / (x[upper] - x[lower])) *
+                (mu - x[lower]) + y[lower];
     }
 
     std::string Discrete::toString() const {

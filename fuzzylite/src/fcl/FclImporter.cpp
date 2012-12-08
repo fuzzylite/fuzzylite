@@ -102,7 +102,7 @@ namespace fl {
         } else if (tag == "DEFUZZIFY") {
             processDefuzzify(block);
         } else if (tag == "RULEBLOCK") {
-//            processRuleBlock(block);
+            processRuleBlock(block);
         } else {
             FL_LOG("[syntax error] unexpected tag <" << tag << "> for block:"
                     << std::endl << block);
@@ -383,7 +383,7 @@ namespace fl {
             throw std::exception();
         }
 
-        std::string name = Op::Trim(token[1]);
+        std::string name = Op::Trim(Op::FindReplace(token[1], ";", ""));
         if (name == CenterOfGravity().name()) return new CenterOfGravity;
 
         if (name == MaximumDefuzzifier(MaximumDefuzzifier::SMALLEST).name())
@@ -395,7 +395,8 @@ namespace fl {
         if (name == MaximumDefuzzifier(MaximumDefuzzifier::MEAN).name())
             return new MaximumDefuzzifier(MaximumDefuzzifier::MEAN);
 
-        FL_LOG("[syntax error] unrecognized defuzzifier <" << name << ">. ")
+        FL_LOG("[syntax error] unrecognized defuzzifier <" << name << ">. ");
+        throw std::exception();
     }
 
     scalar FclImporter::extractDefaultValue(const std::string& line) const {
