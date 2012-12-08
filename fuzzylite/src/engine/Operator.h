@@ -136,8 +136,8 @@ namespace fl {
                 if (x == nInf.str())
                     return -std::numeric_limits<scalar>::infinity();
                 if (!quiet) throw std::exception();
-                return alternative;
             }
+            return alternative;
         }
     };
 

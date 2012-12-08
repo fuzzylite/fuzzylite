@@ -30,15 +30,15 @@ namespace fl {
         _engine = new Engine("simple-mamdani");
 
         InputVariable* energy = new InputVariable("Energy");
-        energy->addTerm(new Triangle("LOW", 0.0, 0.5, 1.0));
-        energy->addTerm(new Triangle("MEDIUM", 0.5, 1.0, 1.5));
-        energy->addTerm(new Triangle("HIGH", 1.0, 1.5, 2.0));
+        energy->addTerm(new LeftShoulder("LOW", 0.25, 0.5));
+        energy->addTerm(new Triangle("MEDIUM", 0.25, 0.5, 0.75));
+        energy->addTerm(new RightShoulder("HIGH", 0.5, 0.75));
         _engine->addInputVariable(energy);
 
         OutputVariable* health = new OutputVariable("Health", std::numeric_limits<scalar>::quiet_NaN());
-        health->addTerm(new LeftShoulder("BAD", 0.0, 0.5));
-        health->addTerm(new Triangle("REGULAR", 0.5, 1.0, 1.5));
-        health->addTerm(new RightShoulder("GOOD", 1.0, 1.5));
+        health->addTerm(new Triangle("BAD", 0.0, 0.25, 0.5));
+        health->addTerm(new Triangle("REGULAR", 0.25, 0.5, 0.75));
+        health->addTerm(new Triangle("GOOD",0.5, 0.75, 1.0));
         _engine->addOutputVariable(health);
 
         RuleBlock* ruleblock = new RuleBlock();
@@ -52,6 +52,8 @@ namespace fl {
     }
 
     void SimpleMamdani::test(){
+        FclExporter exporter;
+        FL_LOG("Fuzzy Control Language:" << std::endl << exporter.toFcl(this->engine()));
         scalar step = 1.0/10.0;
         InputVariable* energy =_engine->getInputVariable("Energy");
         OutputVariable* health = _engine->getOutputVariable("Health");

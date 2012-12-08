@@ -9,26 +9,37 @@
 
 #include <typeinfo>
 
+#include <unistd.h>
+
 using namespace fl;
 
 int main(int argc, char** argv) {
     FL_LOG("Hello, FuzzyLite!");
     scalar someScalar = 0;
     int scalarSize = sizeof(someScalar);
-
-    FL_LOG("scalar is defined as type <" << (typeid(scalar).name()) << "> with " << scalarSize << " bytes");
+#ifdef FL_USE_SINGLE_PRECISION
+    FL_LOG("scalar is defined as type <" << (typeid(scalar).name()) << "> (float) with " << scalarSize << " bytes");
+#else
+    FL_LOG("scalar is defined as type <" << (typeid(scalar).name()) << "> (double) with " << scalarSize << " bytes");
+#endif
     FL_LOG("tolerance to floating-point value is " << FL_EPSILON);
 
-//    std::string x = "This is a silly TesT";
-//    FL_LOG(Op::FindReplace(x, "is", "IX"));
-//    FL_LOG(Op::FindReplace(x, x, ""));
+    int wait = 3;
 
-    SimpleMamdani m;
-    m.create();
-    m.test();
-//    m.engine();
-//    FL_LOG(FclExporter().toFcl(m.engine()));
-    FclImporter::main();
+    std::vector<Example*> examples;
+    examples.push_back(new SimpleMamdani);
+    FL_LOG("The examples will start running now");
+    for (std::size_t i = 0; i < examples.size(); ++i) {
+        Example* example = examples[i];
+        for (int w = 0; w < wait; ++w) {
+            FL_LOG("Example <" << example->name() << "> will start running in "
+                    << (wait - w) << " seconds...");
+            sleep(1);
+        }
+        example->create();
+        example->test();
+    }
+
     FL_LOG("Bye, FuzzyLite!");
 
 }

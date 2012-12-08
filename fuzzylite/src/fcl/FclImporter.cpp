@@ -483,20 +483,7 @@ namespace fl {
         SimpleMamdani sm;
         sm.create();
 
-        FclExporter exporter;
-        std::string outFcl = exporter.toFcl(sm.engine());
-        FL_LOG(std::endl << outFcl);
 
-        FclImporter importer;
-        Engine* another = importer.fromFcl(outFcl);
-        std::string anotherFcl = exporter.toFcl(another);
-        FL_LOG(std::endl << anotherFcl);
-
-        if (outFcl == anotherFcl) {
-            FL_LOG("FCL Importing/Exporting is working fine");
-        } else {
-            FL_LOG("FCL Importing/Exporting NOT working");
-        }
 
     }
 

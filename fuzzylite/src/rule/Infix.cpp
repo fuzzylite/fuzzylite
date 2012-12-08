@@ -72,8 +72,6 @@ namespace fl {
             Op::FindReplace(infix, space[i], " " + space[i] + " ", true);
         }
 
-        FL_LOG("infix = " << infix);
-
         std::queue<std::string> queue;
         std::stack<std::string> stack;
 

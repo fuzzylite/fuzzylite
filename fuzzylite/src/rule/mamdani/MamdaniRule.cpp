@@ -55,9 +55,6 @@ namespace fl {
         std::string antecedentText = tokens[2];
         std::string consequentText = tokens[4];
 
-        FL_LOG("Antecedent: " << antecedentText);
-        FL_LOG("Consequent: " << consequentText);
-
         MamdaniAntecedent* antecedent = new MamdaniAntecedent;
         antecedent->load(antecedentText, engine);
         result->setAntecedent(antecedent);
