@@ -35,7 +35,7 @@ namespace fl {
         energy->addTerm(new Triangle("HIGH", 1.0, 1.5, 2.0));
         _engine->addInputVariable(energy);
 
-        OutputVariable* health = new OutputVariable("Health");
+        OutputVariable* health = new OutputVariable("Health", std::numeric_limits<scalar>::quiet_NaN());
         health->addTerm(new LeftShoulder("BAD", 0.0, 0.5));
         health->addTerm(new Triangle("REGULAR", 0.5, 1.0, 1.5));
         health->addTerm(new RightShoulder("GOOD", 1.0, 1.5));
@@ -55,13 +55,17 @@ namespace fl {
         scalar step = 1.0/10.0;
         InputVariable* energy =_engine->getInputVariable("Energy");
         OutputVariable* health = _engine->getOutputVariable("Health");
-        for (scalar input = energy->minimum() ; input <= energy->maximum(); input += step){
+        FL_LOG(energy->toString());
+        FL_LOG(health->toString());
+        for (scalar input = energy->minimum() ; input <= energy->maximum() + step; input += step){
             energy->setInput(input);
             _engine->process();
             scalar output = health->defuzzify();
             FL_LOG("===========================");
-            FL_LOG("Input (" << energy->getName() << "): " << input << ", " << energy->fuzzify(input));
-            FL_LOG("Output (" << health->getName() << "): " << output << ", " << health->fuzzify(output));
+            FL_LOG("Input (" << energy->getName() << "): " << input << ", "
+                    << energy->fuzzify(input));
+            FL_LOG("Output (" << health->getName() << "): " << output << ", "
+                    << health->fuzzify(output));
         }
     }
 

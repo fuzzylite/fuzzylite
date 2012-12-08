@@ -187,7 +187,9 @@ namespace fl {
             } else if (firstToken == "ACCU") {
                 outputVariable->output()->setAccumulation(extractOperator(line));
             } else if (firstToken == "DEFAULT") {
-                outputVariable->setDefaultValue(extractDefaultValue(line));
+                bool lockDefuzzifiedValue;
+                outputVariable->setDefaultValue(extractDefaultValue(line, lockDefuzzifiedValue));
+                outputVariable->setLockDefuzzifiedValue(lockDefuzzifiedValue);
             } else {
                 FL_LOG("[syntax error] unexpected token <" << firstToken <<
                         ">. Line: " << line);
@@ -399,7 +401,7 @@ namespace fl {
         throw std::exception();
     }
 
-    scalar FclImporter::extractDefaultValue(const std::string& line) const {
+    scalar FclImporter::extractDefaultValue(const std::string& line, bool& lockDefuzzifiedValue) const {
         std::vector<std::string> token = Op::Split(line, ":");
         if (token.size() != 2) {
             FL_LOG("[syntax error] expected property of type (key : value) in: "
@@ -407,20 +409,42 @@ namespace fl {
             throw std::exception();
         }
 
-        std::string value = Op::Trim(Op::FindReplace(token[1], ";", ""));
+        std::string defaultValue = Op::FindReplace(token[1], " ", "");
+        token = Op::Split(defaultValue, "|");
 
-        if ("NC" == value) {
-            return std::numeric_limits<scalar>::quiet_NaN();
-        }
-        std::istringstream ss(value);
-        scalar defaultValue;
-        ss >> defaultValue;
+        std::istringstream ss(token[0]);
+        scalar value;
+        ss >> value;
         if (ss.fail()) {
-            FL_LOG("[syntax error] expected floating-point value or keyword <NC>. "
-                    << "Line: " << line);
-            throw std::exception();
+            //check if the default value is either nan or infinity.
+            std::ostringstream nan;
+            nan << std::numeric_limits<scalar>::quiet_NaN();
+            std::ostringstream inf;
+            inf << std::numeric_limits<scalar>::infinity();
+            if (token[0] == nan.str()) {
+                value = std::numeric_limits<scalar>::quiet_NaN();
+            } else if (token[0] == inf.str()) {
+                value = std::numeric_limits<scalar>::infinity();
+            } else {
+                FL_LOG("[syntax error] expected floating-point value, "
+                        << "but found <" << token[0] << ">. Line: " << line);
+                throw std::exception();
+            }
         }
-        return defaultValue;
+
+        lockDefuzzifiedValue = false;
+
+        if (token.size() == 2) {
+            std::string noChangeFlag = Op::FindReplace(Op::Trim(token[1]), ";", "");
+            if (noChangeFlag == "NC")
+                lockDefuzzifiedValue = true;
+            else {
+                FL_LOG("expected keyword <NC>, but found<" << noChangeFlag << ">. "
+                        << "Line: " << line);
+                throw std::exception();
+            }
+        }
+        return value;
     }
 
     void FclImporter::main() {

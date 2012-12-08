@@ -23,8 +23,9 @@ int main(int argc, char** argv) {
 //    FL_LOG(Op::FindReplace(x, "is", "IX"));
 //    FL_LOG(Op::FindReplace(x, x, ""));
 
-//    SimpleMamdani m;
-//    m.create();
+    SimpleMamdani m;
+    m.create();
+    m.test();
 //    m.engine();
 //    FL_LOG(FclExporter().toFcl(m.engine()));
     FclImporter::main();

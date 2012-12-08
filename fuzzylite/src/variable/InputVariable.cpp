@@ -26,10 +26,5 @@ namespace fl {
         return this->_input;
     }
 
-    std::string InputVariable::toString() const {
-        std::stringstream ss;
-        ss << "InputVariable (" << _name << ")";
-        return ss.str();
-    }
 
 } /* namespace fl */

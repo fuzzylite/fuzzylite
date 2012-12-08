@@ -75,20 +75,8 @@ namespace fl {
                 fromIndex = nextIndex + find.size();
             } while (nextIndex != std::string::npos);
             return result.str();
-//            if (find.length() == 0)
-//            return 0;
-//            int result = 0;
-//            std::size_t index = -std::labs(find.length() - replace.length());
-//            do {
-//                index =
-//                        str.find(find, index + std::labs(find.length() - replace.length()));
-//                if (index != std::string::npos) {
-//                    str.replace(index, find.length(), replace);
-//                    ++result;
-//                }
-//            } while (replaceAll and index != std::string::npos);
-//            return result;
         }
+
         static std::vector<std::string> Split(const std::string& str, const std::string& delimiters) {
             std::vector<std::string> result;
             std::string::size_type last_pos =
@@ -108,15 +96,15 @@ namespace fl {
             return result;
         }
         static std::string LeftTrim(const std::string& text) {
-            std::size_t index =text.find_first_not_of(" ");
+            std::size_t index = text.find_first_not_of(" ");
             if (index != std::string::npos)
                 return text.substr(index);
             return text;
         }
 
         static std::string RightTrim(const std::string& text) {
-            std::size_t index = text.find_last_not_of(" ") ;
-            if (index != std::string::npos){
+            std::size_t index = text.find_last_not_of(" ");
+            if (index != std::string::npos) {
                 return text.substr(0, index + 1);
             }
             return text;

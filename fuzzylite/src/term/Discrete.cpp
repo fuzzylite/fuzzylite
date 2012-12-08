@@ -32,7 +32,6 @@ namespace fl {
 
     scalar Discrete::membership(scalar mu) const {
         scalar lowerApprox = -std::numeric_limits<scalar>::infinity();
-        scalar upperApprox = std::numeric_limits<scalar>::infinity();
         int lower = -1, upper = -1;
 
         for (std::size_t i = 0; i < x.size(); ++i) {
@@ -44,11 +43,11 @@ namespace fl {
             }
             //get the immediate next one on the right
             if (Op::IsGt(x[i], mu)) {
-                upperApprox = x[i];
                 upper = i;
                 break;
             }
         }
+        // return the approximated membership function
         return ((y[upper] - y[lower]) / (x[upper] - x[lower])) *
                 (mu - x[lower]) + y[lower];
     }
@@ -57,7 +56,7 @@ namespace fl {
         std::stringstream ss;
         ss << "Discrete (";
         for (std::size_t i = 0; i < x.size(); ++i) {
-            ss << x[i] << ":" << y[i];
+            ss << x[i] << " " << y[i];
             if (i < x.size() - 1) ss << ", ";
         }
         ss << ")";

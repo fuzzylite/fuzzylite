@@ -76,11 +76,11 @@ namespace fl {
                 fcl << outputVariable->output()->getAccumulation()->name() << ";";
             fcl << std::endl;
 
-            if (Op::IsNan(outputVariable->getDefaultValue())) {
-                fcl << "DEFAULT : NC;" << std::endl;
-            } else {
-                fcl << "DEFAULT : " << outputVariable->getDefaultValue() << ";" << std::endl;
+            fcl << "DEFAULT : " << outputVariable->getDefaultValue();
+            if (outputVariable->lockDefuzzifiedValue()){
+                fcl << " | NC";
             }
+            fcl << ";" << std::endl;
 
             fcl << "END_DEFUZZIFY" << std::endl;
             fcl << std::endl;

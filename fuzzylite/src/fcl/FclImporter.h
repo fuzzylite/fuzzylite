@@ -33,7 +33,7 @@ namespace fl {
         Term* createInstance(const std::string& termClass, const std::string& name,
                 const std::vector<scalar>& params) const;
         Defuzzifier* extractDefuzzifier(const std::string& line) const;
-        scalar extractDefaultValue(const std::string& line) const;
+        scalar extractDefaultValue(const std::string& line, bool& lockDefuzzifiedValue) const;
 
     public:
         Engine* fromFcl(const std::string& fcl);

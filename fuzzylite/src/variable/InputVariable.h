@@ -22,7 +22,6 @@ class InputVariable : public Variable{
 		virtual void setInput(scalar input);
 		virtual scalar getInput() const;
 
-		virtual std::string toString() const;
 };
 
 } /* namespace fl */

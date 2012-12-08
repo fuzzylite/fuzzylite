@@ -45,7 +45,7 @@ namespace fl {
     }
 
     std::string Variable::fuzzify(scalar x) const {
-        std::stringstream ss;
+        std::ostringstream ss;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             ss << _terms[i]->membership(x) << "/" << _terms[i]->getName();
             if (i < _terms.size() - 1)
@@ -55,7 +55,14 @@ namespace fl {
     }
 
     std::string Variable::toString() const {
-        return "Variable()";
+        std::ostringstream ss;
+        ss << getName() << " [";
+        for (std::size_t i = 0; i < _terms.size(); ++i){
+            ss << _terms[i]->toString();
+            if (i < _terms.size() - 1) ss << ", ";
+        }
+        ss << "]";
+        return ss.str();
     }
 
     /**

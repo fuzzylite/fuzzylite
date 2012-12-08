@@ -15,10 +15,11 @@
 
 namespace fl {
 
-    OutputVariable::OutputVariable(const std::string& name)
+    OutputVariable::OutputVariable(const std::string& name, scalar defaultValue,
+            bool lockDefuzzifiedValue)
             : Variable(name), _defuzzifier(NULL), _output(new Accumulated("output")),
-              _defaultValue(std::numeric_limits<scalar>::quiet_NaN()),
-              _unchangedValue(std::numeric_limits<scalar>::quiet_NaN()) {
+              _defaultValue(defaultValue), _defuzzifiedValue(std::numeric_limits<scalar>::quiet_NaN()),
+              _lockDefuzzifiedValue(lockDefuzzifiedValue) {
     }
 
     OutputVariable::~OutputVariable() {
@@ -38,12 +39,20 @@ namespace fl {
         return this->_defaultValue;
     }
 
-    void OutputVariable::setUnchangedValue(scalar previousValue) {
-        this->_unchangedValue = previousValue;
+    void OutputVariable::setDefuzzifiedValue(scalar defuzzifiedValue){
+        this->_defuzzifiedValue = defuzzifiedValue;
     }
 
-    scalar OutputVariable::getUnchangedValue() const {
-        return this->_unchangedValue;
+    scalar OutputVariable::getDefuzzifiedValue() const{
+        return this->_defuzzifiedValue;
+    }
+
+    void OutputVariable::setLockDefuzzifiedValue(bool lock) {
+        this->_lockDefuzzifiedValue = lock;
+    }
+
+    bool OutputVariable::lockDefuzzifiedValue() const {
+        return this->_lockDefuzzifiedValue;
     }
 
     void OutputVariable::setDefuzzifier(Defuzzifier* defuzzifier) {
@@ -60,20 +69,14 @@ namespace fl {
 
     scalar OutputVariable::defuzzify() {
         if (this->_output->isEmpty()) {
-            //nan in defaultValue is assumed as NoChange (NC)
-            if (Op::IsNan(this->_defaultValue)) {
-                return this->_unchangedValue;
-            }
-            return this->_defaultValue;
+            //if a previous defuzzification was successfully performed and
+            //and the output is supposed to not change when the output is empty
+            if (_lockDefuzzifiedValue and not Op::IsNan(_defuzzifiedValue))
+                return _defuzzifiedValue;
+            return _defaultValue;
         }
-        this->_unchangedValue = this->_defuzzifier->defuzzify(this->_output);
-        return this->_unchangedValue;
-    }
-
-    std::string OutputVariable::toString() const {
-        std::stringstream ss;
-        ss << "OutputVariable(" << _name << ")";
-        return ss.str();
+        this->_defuzzifiedValue = this->_defuzzifier->defuzzify(this->_output);
+        return this->_defuzzifiedValue;
     }
 
 } /* namespace fl */

@@ -10,6 +10,8 @@
 
 #include "Variable.h"
 
+#include <limits>
+
 namespace fl {
     class Accumulated;
     class Defuzzifier;
@@ -19,10 +21,13 @@ namespace fl {
         Defuzzifier* _defuzzifier;
         Accumulated* _output;
         scalar _defaultValue;
-        scalar _unchangedValue;
+        scalar _defuzzifiedValue;
+        bool _lockDefuzzifiedValue;
 
     public:
-        OutputVariable(const std::string& name);
+        OutputVariable(const std::string& name,
+                scalar defaultValue = std::numeric_limits<scalar>::quiet_NaN(),
+                bool lockDefuzzifiedValue = true);
         virtual ~OutputVariable();
 
         virtual void configure(Configuration* config);
@@ -30,8 +35,11 @@ namespace fl {
         virtual void setDefaultValue(scalar defaultValue);
         virtual scalar getDefaultValue() const;
 
-        virtual void setUnchangedValue(scalar unchangedValue);
-        virtual scalar getUnchangedValue() const;
+        virtual void setDefuzzifiedValue(scalar defuzzifiedValue);
+        virtual scalar getDefuzzifiedValue() const;
+
+        virtual void setLockDefuzzifiedValue(bool lock);
+        virtual bool lockDefuzzifiedValue() const;
 
         virtual void setDefuzzifier(Defuzzifier* defuzzifier);
         virtual Defuzzifier* getDefuzzifier() const;
@@ -39,8 +47,6 @@ namespace fl {
         virtual Accumulated* output() const;
 
         virtual scalar defuzzify();
-
-        virtual std::string toString() const;
 
     };
 
