@@ -59,7 +59,7 @@ namespace fl {
     }
 
     std::string Configuration::toString() const {
-        std::stringstream ss;
+        std::ostringstream ss;
         ss
         << "tnorm='" << _tnorm->name() << "' "
                 << "snorm='" << _snorm->name() << "' "

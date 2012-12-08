@@ -190,6 +190,11 @@ namespace fl {
                 bool lockDefuzzifiedValue;
                 outputVariable->setDefaultValue(extractDefaultValue(line, lockDefuzzifiedValue));
                 outputVariable->setLockDefuzzifiedValue(lockDefuzzifiedValue);
+            } else if (firstToken == "RANGE") {
+                scalar minimum, maximum;
+                extractRange(line, minimum, maximum);
+                outputVariable->setMininum(minimum);
+                outputVariable->setMaximum(maximum);
             } else {
                 FL_LOG("[syntax error] unexpected token <" << firstToken <<
                         ">. Line: " << line);
@@ -292,12 +297,12 @@ namespace fl {
                 if (token == "(" or token == ")" or token == ",")
                     continue;
                 if (token == ";") break;
-                std::stringstream ss(token);
                 scalar parameter;
-                ss >> parameter;
-                if (ss.fail()) {
+                try {
+                    parameter = Op::Scalar(token);
+                } catch (...) {
                     FL_LOG("[syntax error] expected numeric value, but found <"
-                            << token << "> in: " << line);
+                            << token << ">. Line: " << line);
                     throw std::exception();
                 }
                 parameters.push_back(parameter);
@@ -402,9 +407,9 @@ namespace fl {
     }
 
     scalar FclImporter::extractDefaultValue(const std::string& line, bool& lockDefuzzifiedValue) const {
-        std::vector<std::string> token = Op::Split(line, ":");
+        std::vector<std::string> token = Op::Split(line, ":=");
         if (token.size() != 2) {
-            FL_LOG("[syntax error] expected property of type (key : value) in: "
+            FL_LOG("[syntax error] expected property of type (key := value) in: "
                     << line);
             throw std::exception();
         }
@@ -412,24 +417,13 @@ namespace fl {
         std::string defaultValue = Op::FindReplace(token[1], " ", "");
         token = Op::Split(defaultValue, "|");
 
-        std::istringstream ss(token[0]);
         scalar value;
-        ss >> value;
-        if (ss.fail()) {
-            //check if the default value is either nan or infinity.
-            std::ostringstream nan;
-            nan << std::numeric_limits<scalar>::quiet_NaN();
-            std::ostringstream inf;
-            inf << std::numeric_limits<scalar>::infinity();
-            if (token[0] == nan.str()) {
-                value = std::numeric_limits<scalar>::quiet_NaN();
-            } else if (token[0] == inf.str()) {
-                value = std::numeric_limits<scalar>::infinity();
-            } else {
-                FL_LOG("[syntax error] expected floating-point value, "
-                        << "but found <" << token[0] << ">. Line: " << line);
-                throw std::exception();
-            }
+        try {
+            value = Op::Scalar(token[0]);
+        } catch (...) {
+            FL_LOG("[syntax error] expected numeric value, "
+                    << "but found <" << token[0] << ">. Line: " << line);
+            throw std::exception();
         }
 
         lockDefuzzifiedValue = false;
@@ -445,6 +439,44 @@ namespace fl {
             }
         }
         return value;
+    }
+
+    void FclImporter::extractRange(const std::string& line, scalar& minimum, scalar& maximum) const {
+        std::vector<std::string> token = Op::Split(line, ":=");
+        if (token.size() != 2) {
+            FL_LOG("[syntax error] expected property of type (key := value). Line: " << line);
+            throw std::exception();
+        }
+
+        std::ostringstream range;
+        for (std::size_t i = 0; i < token[1].size(); ++i) {
+            char character = token[1][i];
+            if (character == '(' or character == ')' or character == ' ' or character == ';')
+                continue;
+            range << character;
+        }
+
+        token = Op::Split(range.str(), "..");
+        if (token.size() != 2) {
+            FL_LOG("[syntax error] expected property of type (key .. value). Line: " << line);
+            throw std::exception();
+        }
+
+        try {
+            minimum = Op::Scalar(token[0]);
+        } catch (...) {
+            FL_LOG("[syntax error] expected floating-point value, but found <" << token[0] << ">. "
+                    << "Line: " << line);
+            throw std::exception();
+        }
+        try {
+            maximum = Op::Scalar(token[1]);
+        } catch (...) {
+            FL_LOG("[syntax error] expected floating-point value, but found <" << token[1] << ">. "
+                    << "Line: " << line);
+            throw std::exception();
+        }
+
     }
 
     void FclImporter::main() {

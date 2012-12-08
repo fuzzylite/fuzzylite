@@ -18,11 +18,14 @@ namespace fl {
 
     class OutputVariable: public Variable {
     protected:
-        Defuzzifier* _defuzzifier;
         Accumulated* _output;
+        Defuzzifier* _defuzzifier;
         scalar _defaultValue;
         scalar _defuzzifiedValue;
         bool _lockDefuzzifiedValue;
+
+        scalar _minimum;
+        scalar _maximum;
 
     public:
         OutputVariable(const std::string& name,
@@ -31,6 +34,11 @@ namespace fl {
         virtual ~OutputVariable();
 
         virtual void configure(Configuration* config);
+
+        virtual Accumulated* output() const;
+
+        virtual void setDefuzzifier(Defuzzifier* defuzzifier);
+        virtual Defuzzifier* getDefuzzifier() const;
 
         virtual void setDefaultValue(scalar defaultValue);
         virtual scalar getDefaultValue() const;
@@ -41,10 +49,11 @@ namespace fl {
         virtual void setLockDefuzzifiedValue(bool lock);
         virtual bool lockDefuzzifiedValue() const;
 
-        virtual void setDefuzzifier(Defuzzifier* defuzzifier);
-        virtual Defuzzifier* getDefuzzifier() const;
+        virtual void setMininum(scalar minimum);
+        virtual scalar getMinimum() const;
 
-        virtual Accumulated* output() const;
+        virtual void setMaximum(scalar maximum);
+        virtual scalar getMaximum() const;
 
         virtual scalar defuzzify();
 

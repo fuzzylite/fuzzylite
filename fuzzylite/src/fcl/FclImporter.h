@@ -34,6 +34,7 @@ namespace fl {
                 const std::vector<scalar>& params) const;
         Defuzzifier* extractDefuzzifier(const std::string& line) const;
         scalar extractDefaultValue(const std::string& line, bool& lockDefuzzifiedValue) const;
+        void extractRange(const std::string& line, scalar& minimum, scalar& maximum) const;
 
     public:
         Engine* fromFcl(const std::string& fcl);

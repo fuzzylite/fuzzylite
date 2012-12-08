@@ -129,7 +129,7 @@ namespace fl {
                 throw std::exception();
             }
 
-            if (state bitand S_FLOAT){
+            if (state bitand S_FLOAT) {
                 FL_LOG("expected floating-point value to weight the proposition, "
                         << "but found <" << token << ">");
                 throw std::exception();
@@ -163,7 +163,5 @@ namespace fl {
         }
         return ss.str();
     }
-
-
 
 } /* namespace fl */

@@ -18,6 +18,7 @@
 #include <vector>
 #include <sstream>
 #include <iostream>
+#include <limits>
 
 namespace fl {
 
@@ -112,6 +113,31 @@ namespace fl {
 
         static std::string Trim(const std::string& text) {
             return RightTrim(LeftTrim(text));
+        }
+
+        static scalar Scalar(const std::string& x, bool quiet = false,
+                scalar alternative = std::numeric_limits<scalar>::quiet_NaN())
+                        throw (std::exception) {
+            std::istringstream iss(x);
+            scalar result;
+            iss >> result;
+            if (iss.good()) return result;
+
+            if (iss.fail()) {
+                std::ostringstream nan, pInf, nInf;
+                nan << std::numeric_limits<scalar>::quiet_NaN();
+                pInf << std::numeric_limits<scalar>::infinity();
+                nInf << (-std::numeric_limits<scalar>::infinity());
+
+                if (x == nan.str())
+                    return std::numeric_limits<scalar>::quiet_NaN();
+                if (x == pInf.str())
+                    return std::numeric_limits<scalar>::infinity();
+                if (x == nInf.str())
+                    return -std::numeric_limits<scalar>::infinity();
+                if (!quiet) throw std::exception();
+                return alternative;
+            }
         }
     };
 

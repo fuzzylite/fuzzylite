@@ -24,7 +24,7 @@
 namespace fl {
 
     std::string FclExporter::toFcl(const Engine* engine) {
-        std::stringstream fcl;
+        std::ostringstream fcl;
         fcl << "FUNCTION_BLOCK " << engine->getName() << std::endl;
         fcl << std::endl;
 
@@ -76,11 +76,14 @@ namespace fl {
                 fcl << outputVariable->output()->getAccumulation()->name() << ";";
             fcl << std::endl;
 
-            fcl << "DEFAULT : " << outputVariable->getDefaultValue();
+            fcl << "DEFAULT := " << outputVariable->getDefaultValue();
             if (outputVariable->lockDefuzzifiedValue()){
                 fcl << " | NC";
             }
             fcl << ";" << std::endl;
+
+            fcl << "RANGE := (" << outputVariable->getMinimum() << " .. "
+                    << outputVariable->getMaximum() << ");" << std::endl;
 
             fcl << "END_DEFUZZIFY" << std::endl;
             fcl << std::endl;

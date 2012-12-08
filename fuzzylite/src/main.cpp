@@ -29,7 +29,6 @@ int main(int argc, char** argv) {
 //    m.engine();
 //    FL_LOG(FclExporter().toFcl(m.engine()));
     FclImporter::main();
-
     FL_LOG("Bye, FuzzyLite!");
 
 }
