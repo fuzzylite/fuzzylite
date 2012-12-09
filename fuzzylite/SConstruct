@@ -1,0 +1,41 @@
+#-g3 is to enable debuggin information
+#-c does not run the linker
+#-O optimization
+commonEnv = Environment(CPPFLAGS='-Wall -g3 -O0 -c -fmessage-length=0')
+commonEnv.Append(CPPDEFINES={'VERSION': 1})
+
+
+header_files = []
+source_files = []
+
+import os
+for dirname, dirnames, filenames in os.walk('src/'):
+    for filename in filenames:
+        if filename.endswith('.cpp'):
+            source_files.append(os.path.join(dirname, filename))
+        elif filename.endswith('.h'):
+            header_files.append(os.path.join(dirname, filename))
+
+fltarget=  'fuzzylite'
+
+demo = commonEnv.Program(target=fltarget, source=source_files)
+staticlib = commonEnv.StaticLibrary(target=fltarget, source=source_files)
+sharedlib = commonEnv.SharedLibrary(target=fltarget, source=source_files)
+
+
+# Now that all build environment have been defined, let's iterate over
+# them and invoke the lower level SConscript files.
+#for mode, env in dict(release=releaseEnv, 
+#                         debug=debugEnv).iteritems():
+#    env.SConscript('build/%s/SConscript' % mode, 
+#                   {'env': env})
+
+#releaseEnv = commonEnv.Clone()
+#releaseEnv.Append(CPPDEFINES=['RELEASE'])
+#releaseEnv.VariantDir('build/release', 'src')
+#
+#debugEnv = commonEnv.Clone()
+#debugEnv.Append(CPPDEFINES=['DEBUG'])
+#debugEnv.VariantDir('build/debug', 'src')
+
+

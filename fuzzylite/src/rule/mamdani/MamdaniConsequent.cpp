@@ -27,6 +27,20 @@ namespace fl {
         }
     }
 
+    void MamdaniConsequent::fire(scalar strength, const Operator* activation) {
+        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
+            MamdaniConsequentProposition* proposition = _conclusions[i];
+            scalar threshold = strength * proposition->weight;
+            for (std::size_t h = 0; h < proposition->hedges.size(); ++h) {
+                threshold = proposition->hedges[h]->hedge(threshold);
+            }
+            Thresholded* term = new Thresholded(_conclusions[i]->term);
+            term->setThreshold(threshold);
+            term->setActivation(activation);
+            proposition->outputVariable->output()->accumulate(term);
+        }
+    }
+
     void MamdaniConsequent::load(const std::string& consequent, const Engine* engine) {
         /**
          Extracts the list of propositions from the consequent
@@ -137,20 +151,6 @@ namespace fl {
 
             FL_LOG("unexpected token found <" << token << ">");
             throw std::exception();
-        }
-    }
-
-    void MamdaniConsequent::fire(scalar strength, const Operator* activation) {
-        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
-            MamdaniConsequentProposition* proposition = _conclusions[i];
-            scalar threshold = strength * proposition->weight;
-            for (std::size_t h = 0; h < proposition->hedges.size(); ++h) {
-                threshold = proposition->hedges[h]->hedge(threshold);
-            }
-            Thresholded* term = new Thresholded(_conclusions[i]->term);
-            term->setThreshold(threshold);
-            term->setActivation(activation);
-            proposition->outputVariable->output()->accumulate(term);
         }
     }
 
