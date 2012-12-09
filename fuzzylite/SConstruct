@@ -1,12 +1,18 @@
 #-g3 is to enable debuggin information
 #-c does not run the linker
 #-O optimization
-commonEnv = Environment(CPPFLAGS='-Wall -g3 -O0 -c -fmessage-length=0')
-commonEnv.Append(CPPDEFINES={'VERSION': 1})
+#-fmessage-length=0
+
+VariantDir('build', 'src', duplicate=0)
+commonEnv = Environment(CPPFLAGS='-Wall -g3 -O0 -c')
+commonEnv.Append(CPPDEFINES={'VERSION': '2.0'})
 
 
 header_files = []
 source_files = []
+
+
+
 
 import os
 for dirname, dirnames, filenames in os.walk('src/'):
@@ -16,12 +22,48 @@ for dirname, dirnames, filenames in os.walk('src/'):
         elif filename.endswith('.h'):
             header_files.append(os.path.join(dirname, filename))
 
+source_files = ['build/%s' % file[len('src/'):] for file in source_files]
+print(source_files)
 fltarget=  'fuzzylite'
 
 demo = commonEnv.Program(target=fltarget, source=source_files)
 staticlib = commonEnv.StaticLibrary(target=fltarget, source=source_files)
 sharedlib = commonEnv.SharedLibrary(target=fltarget, source=source_files)
 
+Command('bin','',  Mkdir('$TARGET'))
+Command('bin/%s'%demo[0], demo[0], 
+        [
+         Delete('$TARGET'),
+         Move('$TARGET', '$SOURCE')
+        ])
+
+Command('lib','',  Mkdir('$TARGET'))
+Command('lib/%s'%staticlib[0], staticlib[0],
+        [
+         Delete('$TARGET'),
+         Move('$TARGET', '$SOURCE')
+        ])
+
+Command('lib','',  Mkdir('$TARGET'))
+Command('lib/%s'%sharedlib[0], sharedlib[0], 
+        [
+         Delete('$TARGET'),
+         Move('$TARGET', '$SOURCE')
+        ])
+#Command('lib','',  Mkdir('$TARGET'))
+#Command('bin/' + demo, demo, Move('$TARGET', '$SOURCE'))
+         
+
+#commonEnv.Install('./bin/', demo)
+#commonEnv.Install('./lib/', staticlib)
+#commonEnv.Install('./lib/', sharedlib)
+
+Command('include/fl','',[Mkdir('$TARGET')])
+include_headers = ['include/fl/%s' % header[len('src/'):] for header in header_files]
+print(include_headers)
+Command(include_headers, header_files, Copy('$TARGET', '$SOURCE'))
+
+    
 
 # Now that all build environment have been defined, let's iterate over
 # them and invoke the lower level SConscript files.
