@@ -24,4 +24,17 @@
 #define FL_LOGP(message) std::cout << message << std::endl
 #endif
 
+#ifndef FL_DEBUG
+#define FL_DEBUG false
+#endif
+
+#define FL_BEGIN_DEBUG_BLOCK if (FL_DEBUG){
+#define FL_END_DEBUG_BLOCK }
+
+
+#define FL_DBG(message) FL_BEGIN_DEBUG_BLOCK \
+        std::cout << FL_LOG_PREFIX << message << std::endl;\
+        FL_END_DEBUG_BLOCK
+
+
 #endif /* FL_DEFINITIONS_H_ */

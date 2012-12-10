@@ -38,6 +38,7 @@ namespace fl {
             term->setThreshold(threshold);
             term->setActivation(activation);
             proposition->outputVariable->output()->accumulate(term);
+            FL_DBG("Accumulating " << term->toString());
         }
     }
 

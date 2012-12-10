@@ -33,8 +33,11 @@ namespace fl {
     }
 
     void RuleBlock::fireRules() {
+        FL_DBG("===================");
+        FL_DBG("FIRING RULEBLOCK " << _name);
         for (std::size_t i = 0; i < _rules.size(); ++i) {
             scalar strength = _rules[i]->firingStrength(_tnorm, _snorm);
+            FL_DBG(_rules[i]->toString() << " [strength=" << strength << "]");
             if (Op::IsGt(strength, 0.0)) {
                 _rules[i]->fire(strength, _activation);
             }

@@ -25,8 +25,8 @@ namespace fl {
     }
 
     scalar LeftShoulder::membership(scalar x) const{
-        if (Op::IsLt(x, _minimum)) return 0.0;
-        if (Op::IsGt(x, _maximum)) return 1.0;
+        if (Op::IsLt(x, _minimum)) return 1.0;
+        if (Op::IsGt(x, _maximum)) return 0.0;
         return (_maximum - x) / (_maximum - _minimum);
     }
 
@@ -62,8 +62,8 @@ namespace fl {
     }
 
     scalar RightShoulder::membership(scalar x) const{
-        if (Op::IsLt(x, _minimum)) return 1.0;
-        if (Op::IsGt(x, _maximum)) return 0.0;
+        if (Op::IsLt(x, _minimum)) return 0.0;
+        if (Op::IsGt(x, _maximum)) return 1.0;
         return (x - _minimum) / (_maximum - _minimum);
 
     }

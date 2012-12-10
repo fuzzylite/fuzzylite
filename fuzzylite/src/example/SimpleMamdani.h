@@ -28,6 +28,7 @@ namespace fl {
         void create();
         void test();
 
+        static void main();
     };
 
 } /* namespace fl */

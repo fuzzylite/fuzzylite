@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
     FL_LOG("scalar is defined as type <" << (typeid(scalar).name()) << "> (double) with " << scalarSize << " bytes");
 #endif
     FL_LOG("tolerance to floating-point value is " << FL_EPSILON);
-
+    FL_LOG("FL_DEBUG flag is set to: " << FL_DEBUG);
     int wait = 3;
 
     std::vector<Example*> examples;

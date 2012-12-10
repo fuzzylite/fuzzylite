@@ -31,13 +31,13 @@ namespace fl {
 
     std::string Accumulated::toString() const {
         std::stringstream ss;
-        ss << "Cumulative (" << _accumulation->name() << ", ";
+        ss << "Accumulated (";
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             ss << _terms[i]->toString();
             if (i < _terms.size() - 1)
                 ss << ", ";
         }
-        ss << ")";
+        ss << ") accumulated using " << _accumulation->name();
         return ss.str();
     }
 

@@ -35,6 +35,42 @@ namespace fl {
             delete _root;
     }
 
+    scalar MamdaniAntecedent::firingStrength(const Operator* tnorm, const Operator* snorm,
+            const MamdaniExpression* node) const {
+        if (not node->isOperator) { //is Proposition
+            const MamdaniAntecedentProposition* proposition =
+                    dynamic_cast<const MamdaniAntecedentProposition*>(node);
+
+            scalar result = proposition->term->membership(proposition->inputVariable->getInput());
+            for (std::size_t i = 0; i < proposition->hedges.size(); ++i) {
+                result = proposition->hedges[i]->hedge(result);
+            }
+            return result;
+        }
+        //if node is an operator
+        const MamdaniOperator* mamdaniOperator =
+                dynamic_cast<const MamdaniOperator*>(node);
+        if (not mamdaniOperator->left or not mamdaniOperator->right) {
+            FL_LOG("left and right operands must exist");
+            throw std::exception();
+        }
+        if (mamdaniOperator->name == Rule::FL_AND)
+            return tnorm->compute(
+                    this->firingStrength(tnorm, snorm, mamdaniOperator->left),
+                    this->firingStrength(tnorm, snorm, mamdaniOperator->right));
+
+        if (mamdaniOperator->name == Rule::FL_AND)
+            return snorm->compute(
+                    this->firingStrength(tnorm, snorm, mamdaniOperator->left),
+                    this->firingStrength(tnorm, snorm, mamdaniOperator->right));
+        FL_LOG("unknown operator <" << mamdaniOperator->name << ">");
+        throw std::exception();
+
+    }
+    scalar MamdaniAntecedent::firingStrength(const Operator* tnorm, const Operator* snorm) const {
+        return this->firingStrength(tnorm, snorm, this->_root);
+    }
+
     void MamdaniAntecedent::load(const std::string& antecedent, const Engine* engine) {
         /*
          Builds an proposition tree from the antecedent of a fuzzy rule.
@@ -136,42 +172,6 @@ namespace fl {
             throw std::exception();
         }
         this->_root = expressionStack.top();
-    }
-
-    scalar MamdaniAntecedent::firingStrength(const Operator* tnorm, const Operator* snorm,
-            const MamdaniExpression* node) const {
-        if (not node->isOperator) { //is Proposition
-            const MamdaniAntecedentProposition* proposition =
-                    dynamic_cast<const MamdaniAntecedentProposition*>(node);
-
-            scalar result = proposition->term->membership(proposition->inputVariable->getInput());
-            for (std::size_t i = 0; i < proposition->hedges.size(); ++i) {
-                result = proposition->hedges[i]->hedge(result);
-            }
-            return result;
-        }
-        //if node is an operator
-        const MamdaniOperator* mamdaniOperator =
-                dynamic_cast<const MamdaniOperator*>(node);
-        if (not mamdaniOperator->left or not mamdaniOperator->right) {
-            FL_LOG("left and right operands must exist");
-            throw std::exception();
-        }
-        if (mamdaniOperator->name == Rule::FL_AND)
-            return tnorm->compute(
-                    this->firingStrength(tnorm, snorm, mamdaniOperator->left),
-                    this->firingStrength(tnorm, snorm, mamdaniOperator->right));
-
-        if (mamdaniOperator->name == Rule::FL_AND)
-            return snorm->compute(
-                    this->firingStrength(tnorm, snorm, mamdaniOperator->left),
-                    this->firingStrength(tnorm, snorm, mamdaniOperator->right));
-        FL_LOG("unknown operator <" << mamdaniOperator->name << ">");
-        throw std::exception();
-
-    }
-    scalar MamdaniAntecedent::firingStrength(const Operator* tnorm, const Operator* snorm) const {
-        return this->firingStrength(tnorm, snorm, this->_root);
     }
 
     std::string MamdaniAntecedent::toString() const {

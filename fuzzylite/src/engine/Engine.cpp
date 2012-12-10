@@ -45,9 +45,36 @@ namespace fl {
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             _outputVariables[i]->output()->clear();
         }
+        FL_BEGIN_DEBUG_BLOCK;
+            FL_DBG("===============");
+            FL_DBG("CURRENT INPUTS:");
+            for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
+                scalar input = _inputVariables[i]->getInput();
+                FL_DBG( _inputVariables[i]->getName() << ".input = " << input);
+                FL_DBG( _inputVariables[i]->getName() << ".fuzzyfiedInput = " << _inputVariables[i]->fuzzify(input));
+            }
+            FL_END_DEBUG_BLOCK
+
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
             _ruleblocks[i]->fireRules();
         }
+        FL_BEGIN_DEBUG_BLOCK;
+            FL_DBG("===============");
+            FL_DBG("CURRENT OUTPUTS:");
+            for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
+                FL_DBG( _outputVariables[i]->getName() << ".defaultValue= "
+                        << _outputVariables[i]->getDefaultValue());
+                FL_DBG( _outputVariables[i]->getName() << ".lockDefuzzifiedValue= "
+                        << _outputVariables[i]->lockDefuzzifiedValue()
+                        << " (no locking ever performed during this debugging block, i.e., defuzzify(true)");
+                scalar output = _outputVariables[i]->defuzzify(true); // override to not change the system
+                FL_DBG( _outputVariables[i]->getName() << ".defuzzifiedOutput = " << output);
+                FL_DBG( _outputVariables[i]->getName() << ".fuzzifiedOutput = " <<
+                        _outputVariables[i]->fuzzify(output));
+                FL_DBG( _outputVariables[i]->output()->toString());
+            }
+            FL_DBG("==============");
+        FL_END_DEBUG_BLOCK
     }
 
     void Engine::setName(const std::string& name) {

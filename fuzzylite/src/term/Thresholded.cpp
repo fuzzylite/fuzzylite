@@ -57,8 +57,8 @@ namespace fl {
 
     std::string Thresholded::toString() const {
         std::stringstream ss;
-        ss << "Thresholded (" << _term->toString() << ") at " << _threshold
-                << " with " << _activation->name();
+        ss << "Thresholded (" << _term->toString() << ") to " << _threshold
+                << " activated using " << _activation->name();
         return ss.str();
     }
 

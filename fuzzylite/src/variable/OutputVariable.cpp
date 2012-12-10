@@ -86,7 +86,7 @@ namespace fl {
         return this->_maximum;
     }
 
-    scalar OutputVariable::defuzzify() {
+    scalar OutputVariable::defuzzify(bool overrideLock) {
         if (this->_output->isEmpty()) {
             //if a previous defuzzification was successfully performed and
             //and the output is supposed to not change when the output is empty
@@ -94,12 +94,14 @@ namespace fl {
                 return _defuzzifiedValue;
             return _defaultValue;
         }
-        this->_defuzzifiedValue = this->_defuzzifier->defuzzify(this->_output);
+        scalar result = this->_defuzzifier->defuzzify(this->_output);
 
-        if (Op::IsLt(_defuzzifiedValue, _minimum)) _defuzzifiedValue = _minimum;
-        if (Op::IsGt(_defuzzifiedValue, _maximum)) _defuzzifiedValue = _maximum;
+        if (Op::IsLt(result, _minimum)) result = _minimum;
+        if (Op::IsGt(result, _maximum)) result = _maximum;
 
-        return this->_defuzzifiedValue;
+        if (not overrideLock and _lockDefuzzifiedValue) _defuzzifiedValue = result;
+
+        return result;
     }
 
 } /* namespace fl */

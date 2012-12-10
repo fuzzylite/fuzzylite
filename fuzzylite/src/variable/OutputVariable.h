@@ -55,7 +55,21 @@ namespace fl {
         virtual void setMaximum(scalar maximum);
         virtual scalar getMaximum() const;
 
-        virtual scalar defuzzify();
+        /*if the defuzzified value is locked, executing this method
+        stores the defuzzified value to be returned in case the next
+        defuzzification no rules applied for this variable.
+        The parameter overrideLock, when true, prevents the variable to lock the
+        defuzzified value. Thus, multiple calls of defuzzify can be performed
+        and yet the last locked value will not be updated.
+        By default, overrideLock is false, and hence every call to defuzzify will
+        store the defuzzification value if lockDefuzzifiedValue is true.
+        In brief, the combinations are:
+             a) lockDefuzzifiedValue = false && overrideLock = false, defuzzify does not lock the value.
+             b) lockDefuzzifiedValue = false && overrideLock = true, same as before since the value is not to be locked.
+             c) lockDefuzzifiedValue = true && overrideLock = false, the defuzzified value is locked
+             d) lockDefuzzifiedValue = true && overrideLock = true, the defuzzified value is not locked
+        */
+        virtual scalar defuzzify(bool overrideLock = false);
 
     };
 
