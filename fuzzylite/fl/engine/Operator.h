@@ -52,7 +52,7 @@ namespace fl {
 
         //Is equal
         static bool IsEq(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
-            return std::fabs(a - b) < FL_EPSILON;
+            return std::fabs(a - b) < tolerance;
         }
 
         //Is greater than
@@ -78,7 +78,7 @@ namespace fl {
                 if (nextIndex != std::string::npos)
                     result << replace;
                 fromIndex = nextIndex + find.size();
-            } while (nextIndex != std::string::npos);
+            } while (replaceAll and nextIndex != std::string::npos);
             return result.str();
         }
 
