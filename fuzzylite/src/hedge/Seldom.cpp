@@ -5,9 +5,9 @@
  *      Author: jcrada
  */
 
-#include "Seldom.h"
+#include "fl/hedge/Seldom.h"
 
-#include "../engine/Operator.h"
+#include "fl/engine/Operator.h"
 
 #include <cmath>
 

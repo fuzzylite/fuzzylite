@@ -5,9 +5,9 @@
  *      Author: jcrada
  */
 
-#include "Discrete.h"
+#include "fl/term/Discrete.h"
 
-#include "../engine/Operator.h"
+#include "fl/engine/Operator.h"
 
 #include <sstream>
 
@@ -47,9 +47,9 @@ namespace fl {
                 break;
             }
         }
-        // return the approximated membership function
-        return ((y[upper] - y[lower]) / (x[upper] - x[lower])) *
-                (mu - x[lower]) + y[lower];
+//        return ((y[upper] - y[lower]) / (x[upper] - x[lower])) *
+//                (mu - x[lower]) + y[lower];
+        return Op::Scale(mu, x[lower], x[upper], y[lower], y[upper]);
     }
 
     std::string Discrete::toString() const {

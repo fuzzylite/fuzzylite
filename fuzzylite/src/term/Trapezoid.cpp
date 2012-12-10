@@ -5,9 +5,9 @@
  *      Author: jcrada
  */
 
-#include "Trapezoid.h"
+#include "fl/term/Trapezoid.h"
 
-#include "../engine/Operator.h"
+#include "fl/engine/Operator.h"
 
 #include <sstream>
 

@@ -5,12 +5,12 @@
  *      Author: jcrada
  */
 
-#include "Infix.h"
+#include "fl/rule/Infix.h"
 
-#include "Rule.h"
-#include "../engine/Operator.h"
+#include "fl/rule/Rule.h"
+#include "fl/engine/Operator.h"
 
-#include "../definitions.h"
+#include "fl/definitions.h"
 
 #include <cmath>
 #include <queue>

@@ -5,12 +5,11 @@
  *      Author: jcrada
  */
 
-#include "Bell.h"
+#include "fl/term/Bell.h"
+#include "fl/engine/Operator.h"
 
 #include <cmath>
 #include <sstream>
-
-#include "../engine/Operator.h"
 
 namespace fl {
 

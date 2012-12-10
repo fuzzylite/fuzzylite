@@ -5,9 +5,9 @@
  *      Author: jcrada
  */
 
-#include "CenterOfGravity.h"
+#include "fl/defuzzifier/CenterOfGravity.h"
 
-#include "../term/Term.h"
+#include "fl/term/Term.h"
 
 namespace fl {
 

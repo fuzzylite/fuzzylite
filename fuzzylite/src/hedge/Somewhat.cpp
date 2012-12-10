@@ -5,7 +5,7 @@
  *      Author: jcrada
  */
 
-#include "Somewhat.h"
+#include "fl/hedge/Somewhat.h"
 
 #include <cmath>
 

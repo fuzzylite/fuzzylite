@@ -5,9 +5,9 @@
  *      Author: jcrada
  */
 
-#include "Rectangle.h"
+#include "fl/term/Rectangle.h"
 
-#include "../engine/Operator.h"
+#include "fl/engine/Operator.h"
 
 #include <sstream>
 

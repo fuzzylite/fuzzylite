@@ -5,9 +5,9 @@
  *      Author: jcrada
  */
 
-#include "Accumulated.h"
+#include "fl/term/Accumulated.h"
 
-#include "../engine/Operator.h"
+#include "fl/engine/Operator.h"
 
 #include <sstream>
 

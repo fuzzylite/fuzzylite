@@ -5,16 +5,16 @@
  *      Author: jcrada
  */
 
-#include "MamdaniConsequent.h"
+#include "fl/rule/mamdani/MamdaniConsequent.h"
 
-#include "MamdaniExpression.h"
+#include "fl/rule/mamdani/MamdaniExpression.h"
 
-#include "../../engine/Engine.h"
+#include "fl/engine/Engine.h"
 
-#include "../../term/Thresholded.h"
-#include "../../term/Accumulated.h"
+#include "fl/term/Thresholded.h"
+#include "fl/term/Accumulated.h"
 
-#include "../../definitions.h"
+#include "fl/definitions.h"
 
 namespace fl {
 

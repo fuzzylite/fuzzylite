@@ -5,7 +5,8 @@
 
 VariantDir('build', 'src', duplicate=0)
 commonEnv = Environment(CPPFLAGS='-Wall -g3 -O0 -c')
-commonEnv.Append(CPPDEFINES={'VERSION': '2.0'})
+commonEnv.Append(CPPDEFINES={'VERSION': '2.0', 'FL_DEBUG': 'true'})
+commonEnv.Append(CPPPATH=['.'])
 
 
 header_files = []
@@ -29,6 +30,7 @@ demo = commonEnv.Program(target=fltarget, source=source_files)
 staticlib = commonEnv.StaticLibrary(target=fltarget, source=source_files)
 sharedlib = commonEnv.SharedLibrary(target=fltarget, source=source_files)
 
+
 Command('bin', '', Mkdir('$TARGET'))
 Command('bin/%s' % demo[0], demo[0],
         [
@@ -50,10 +52,14 @@ Command('lib/%s' % sharedlib[0], sharedlib[0],
          Move('$TARGET', '$SOURCE')
         ])
 
-Command('include/fl', '', [Mkdir('$TARGET')])
-include_headers = ['include/fl/%s' % header[len('src/'):] for header in header_files]
-print(include_headers)
-Command(include_headers, header_files, Copy('$TARGET', '$SOURCE'))
+#Default(demo)
+#Command('fl', '', [Mkdir('$TARGET')])
+#include_headers = ['fl/%s' % header[len('src/'):] for header in header_files]
+#print(include_headers)
+#
+#for src_header in header_files:
+#    fl_header = 'fl/%s' % src_header[len('src/'):]  
+#    Command(fl_header, src_header, Move('$TARGET', '$SOURCE'))
 
 
 #example_files = ['build/%s' % file[len('src/'):] for file in example_files]

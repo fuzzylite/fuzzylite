@@ -5,7 +5,7 @@
  *      Author: jcrada
  */
 
-#include "Sigmoid.h"
+#include "fl/term/Sigmoid.h"
 
 #include <cmath>
 #include <sstream>

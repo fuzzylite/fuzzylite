@@ -5,9 +5,9 @@
  *      Author: jcrada
  */
 
-#include "Variable.h"
+#include "fl/variable/Variable.h"
 
-#include "../term/Term.h"
+#include "fl/term/Term.h"
 
 #include <sstream>
 

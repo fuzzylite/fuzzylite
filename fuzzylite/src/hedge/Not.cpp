@@ -5,10 +5,16 @@
  *      Author: jcrada
  */
 
-#include "Not.h"
+#include "fl/hedge/Not.h"
 
 namespace fl {
 
+    std::string Not::name() const{
+        return "not";
+    }
 
+    scalar Not::hedge(scalar x) const{
+        return 1 - x;
+    }
 
 } /* namespace fl */

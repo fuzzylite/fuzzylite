@@ -5,7 +5,7 @@
  *      Author: jcrada
  */
 
-#include "Headers.h"
+#include "fl/Headers.h"
 
 #include <typeinfo>
 
@@ -15,6 +15,7 @@ using namespace fl;
 
 int main(int argc, char** argv) {
     FL_LOG("Hello, FuzzyLite!");
+    FL_LOG("Version: " << FL_VERSION);
     scalar someScalar = 0;
     int scalarSize = sizeof(someScalar);
 #ifdef FL_USE_SINGLE_PRECISION

@@ -5,12 +5,12 @@
  *      Author: jcrada
  */
 
-#include "RuleBlock.h"
+#include "fl/rule/RuleBlock.h"
 
-#include "Rule.h"
+#include "fl/rule/Rule.h"
 
-#include "../engine/Configuration.h"
-#include "../engine/Operator.h"
+#include "fl/engine/Configuration.h"
+#include "fl/engine/Operator.h"
 
 #include <sstream>
 

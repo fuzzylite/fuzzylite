@@ -5,12 +5,13 @@
  *      Author: jcrada
  */
 
-#include "OutputVariable.h"
+#include "fl/variable/OutputVariable.h"
 
-#include "../term/Accumulated.h"
-#include "../defuzzifier/Defuzzifier.h"
+#include "fl/term/Accumulated.h"
+#include "fl/defuzzifier/Defuzzifier.h"
 
-#include "../engine/Configuration.h"
+#include "fl/engine/Configuration.h"
+
 #include <sstream>
 
 namespace fl {

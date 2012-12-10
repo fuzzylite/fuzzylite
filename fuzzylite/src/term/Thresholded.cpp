@@ -5,9 +5,9 @@
  *      Author: jcrada
  */
 
-#include "Thresholded.h"
+#include "fl/term/Thresholded.h"
 
-#include "../engine/Operator.h"
+#include "fl/engine/Operator.h"
 
 #include <sstream>
 

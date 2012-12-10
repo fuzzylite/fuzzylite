@@ -5,7 +5,7 @@
  *      Author: jcrada
  */
 
-#include "InputVariable.h"
+#include "fl/variable/InputVariable.h"
 
 #include <sstream>
 

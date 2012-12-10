@@ -5,9 +5,9 @@
  *      Author: jcrada
  */
 
-#include "Extremely.h"
+#include "fl/hedge/Extremely.h"
 
-#include "../engine/Operator.h"
+#include "fl/engine/Operator.h"
 
 namespace fl {
 

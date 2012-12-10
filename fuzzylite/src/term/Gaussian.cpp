@@ -5,7 +5,7 @@
  *      Author: jcrada
  */
 
-#include "Gaussian.h"
+#include "fl/term/Gaussian.h"
 
 #include <cmath>
 #include <sstream>

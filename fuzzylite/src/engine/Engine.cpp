@@ -5,15 +5,16 @@
  *      Author: jcrada
  */
 
-#include "Engine.h"
+#include "fl/engine/Engine.h"
 
-#include "../variable/InputVariable.h"
-#include "../variable/OutputVariable.h"
-#include "../rule/RuleBlock.h"
-#include "../hedge/Hedge.h"
-#include "Configuration.h"
+#include "fl/engine/Configuration.h"
 
-#include "../term/Accumulated.h"
+#include "fl/variable/InputVariable.h"
+#include "fl/variable/OutputVariable.h"
+#include "fl/rule/RuleBlock.h"
+#include "fl/hedge/Hedge.h"
+
+#include "fl/term/Accumulated.h"
 
 namespace fl {
 

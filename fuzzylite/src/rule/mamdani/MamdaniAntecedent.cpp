@@ -5,22 +5,22 @@
  *      Author: jcrada
  */
 
-#include "MamdaniAntecedent.h"
+#include "fl/rule/mamdani/MamdaniAntecedent.h"
 
-#include "MamdaniExpression.h"
+#include "fl/rule/mamdani/MamdaniExpression.h"
 
-#include "../../engine/Engine.h"
-#include "../../variable/InputVariable.h"
-#include "../../hedge/Hedge.h"
-#include "../../term/Term.h"
+#include "fl/engine/Engine.h"
+#include "fl/variable/InputVariable.h"
+#include "fl/hedge/Hedge.h"
+#include "fl/term/Term.h"
 
-#include "../../rule/Rule.h"
-#include "../Infix.h"
-#include "../../engine/Operator.h"
+#include "fl/rule/Rule.h"
+#include "fl/rule/Infix.h"
+#include "fl/engine/Operator.h"
 
-#include "../../definitions.h"
+#include "fl/definitions.h"
 
-#include "../../example/SimpleMamdani.h"
+#include "fl/example/SimpleMamdani.h"
 
 #include <stack>
 

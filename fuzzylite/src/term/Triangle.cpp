@@ -5,9 +5,9 @@
  *      Author: jcrada
  */
 
-#include "Triangle.h"
+#include "fl/term/Triangle.h"
 
-#include "../engine/Operator.h"
+#include "fl/engine/Operator.h"
 
 #include <sstream>
 

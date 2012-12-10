@@ -5,9 +5,9 @@
  *      Author: jcrada
  */
 
-#include "Configuration.h"
+#include "fl/engine/Configuration.h"
 
-#include "../defuzzifier/Defuzzifier.h"
+#include "fl/defuzzifier/Defuzzifier.h"
 
 #include <sstream>
 

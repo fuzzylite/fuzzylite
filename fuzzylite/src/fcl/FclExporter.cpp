@@ -5,21 +5,21 @@
  *      Author: jcrada
  */
 
-#include "FclExporter.h"
+#include "fl/fcl/FclExporter.h"
+
+#include "fl/engine/Engine.h"
+#include "fl/variable/InputVariable.h"
+#include "fl/variable/OutputVariable.h"
+#include "fl/term/Term.h"
+#include "fl/term/Accumulated.h"
+
+#include "fl/defuzzifier/Defuzzifier.h"
+#include "fl/engine/Operator.h"
+
+#include "fl/rule/Rule.h"
+#include "fl/rule/RuleBlock.h"
 
 #include <sstream>
-
-#include "../engine/Engine.h"
-#include "../variable/InputVariable.h"
-#include "../variable/OutputVariable.h"
-#include "../term/Term.h"
-#include "../term/Accumulated.h"
-
-#include "../defuzzifier/Defuzzifier.h"
-#include "../engine/Operator.h"
-
-#include "../rule/Rule.h"
-#include "../rule/RuleBlock.h"
 
 namespace fl {
 

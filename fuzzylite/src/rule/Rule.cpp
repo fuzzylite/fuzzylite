@@ -5,10 +5,10 @@
  *      Author: jcrada
  */
 
-#include "Rule.h"
+#include "fl/rule/Rule.h"
 
-#include "Antecedent.h"
-#include "Consequent.h"
+#include "fl/rule/Antecedent.h"
+#include "fl/rule/Consequent.h"
 
 #include <sstream>
 

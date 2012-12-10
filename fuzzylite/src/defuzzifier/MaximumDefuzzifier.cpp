@@ -5,11 +5,11 @@
  *      Author: jcrada
  */
 
-#include "MaximumDefuzzifier.h"
+#include "fl/defuzzifier/MaximumDefuzzifier.h"
 
-#include "../term/Term.h"
+#include "fl/term/Term.h"
 
-#include "../engine/Operator.h"
+#include "fl/engine/Operator.h"
 
 
 namespace fl {

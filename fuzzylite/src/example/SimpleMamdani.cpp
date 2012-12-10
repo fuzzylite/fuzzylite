@@ -5,7 +5,7 @@
  *      Author: jcrada
  */
 
-#include "SimpleMamdani.h"
+#include "fl/example/SimpleMamdani.h"
 
 namespace fl {
 
