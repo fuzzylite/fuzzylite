@@ -11,16 +11,22 @@
 #include "fl/term/Term.h"
 
 #include <vector>
-
+#include <utility>
 namespace fl {
 
     class Discrete: public Term {
     public:
         std::vector<scalar> x;
         std::vector<scalar> y;
-        Discrete(const std::string& name = "",
-                const std::vector<scalar>& x = std::vector<scalar>(),
-                const std::vector<scalar>& y = std::vector<scalar>());
+
+        Discrete(const std::string& name = "");
+
+        Discrete(const std::string& name,
+                const std::vector<scalar>& x,
+                const std::vector<scalar>& y);
+
+        Discrete(const std::string& name,
+                const std::vector<std::pair<scalar, scalar> >& xy);
         ~Discrete();
 
         std::string className() const {

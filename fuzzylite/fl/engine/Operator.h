@@ -125,22 +125,20 @@ namespace fl {
             std::istringstream iss(x);
             scalar result;
             iss >> result;
-            if (iss.good()) return result;
+            if (not iss.fail()) return result;
 
-            if (iss.fail()) {
-                std::ostringstream nan, pInf, nInf;
-                nan << std::numeric_limits<scalar>::quiet_NaN();
-                pInf << std::numeric_limits<scalar>::infinity();
-                nInf << (-std::numeric_limits<scalar>::infinity());
+            std::ostringstream nan, pInf, nInf;
+            nan << std::numeric_limits<scalar>::quiet_NaN();
+            pInf << std::numeric_limits<scalar>::infinity();
+            nInf << (-std::numeric_limits<scalar>::infinity());
 
-                if (x == nan.str())
-                    return std::numeric_limits<scalar>::quiet_NaN();
-                if (x == pInf.str())
-                    return std::numeric_limits<scalar>::infinity();
-                if (x == nInf.str())
-                    return -std::numeric_limits<scalar>::infinity();
-                if (!quiet) throw std::exception();
-            }
+            if (x == nan.str())
+                return std::numeric_limits<scalar>::quiet_NaN();
+            if (x == pInf.str())
+                return std::numeric_limits<scalar>::infinity();
+            if (x == nInf.str())
+                return -std::numeric_limits<scalar>::infinity();
+            if (!quiet) throw std::exception();
             return alternative;
         }
     };

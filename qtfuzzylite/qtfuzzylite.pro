@@ -6,7 +6,7 @@ MAKEFILE = Makefile
 TEMPLATE = app
 TARGET = bin/qtfuzzylite
 DEPENDPATH += . src ui
-INCLUDEPATH += ../fuzzylite 
+INCLUDEPATH += . ../fuzzylite /usr/include/qt4 
 MOC_DIR = ./tmp/moc
 OBJECTS_DIR = ./tmp
 UI_HEADERS_DIR = ui
@@ -14,10 +14,16 @@ UI_SOURCES_DIR = ui
 RESOURCES += ui/resources.qrc
 RCC_DIR = src/
 
-LIBS += -L../fuzzylite/lib -lfuzzylite
+LIBS += -Lbin/ -lfuzzylite  
 
+FORMS += Window.ui Control.ui Configuration.ui
+FORMS += Variable.ui Wizard.ui Term.ui  
 
-HEADERS += src/Canvas.h
-SOURCES += src/Canvas.cpp
+HEADERS += fl/qt/Window.h fl/qt/Canvas.h fl/qt/Configuration.h fl/qt/Term.h 
+SOURCES += src/Window.cpp src/Canvas.cpp src/Configuration.cpp src/Term.cpp
+
+HEADERS += fl/qt/Model.h
+SOURCES += src/Model.cpp
+
 
 SOURCES += src/main.cpp

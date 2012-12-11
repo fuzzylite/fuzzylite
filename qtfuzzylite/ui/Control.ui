@@ -48,7 +48,7 @@
       <number>8</number>
      </property>
      <item>
-      <widget class="fl::Canvas" name="gvw_canvas">
+      <widget class="fl::qt::Canvas" name="gvw_canvas">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
          <horstretch>0</horstretch>
@@ -798,9 +798,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>fl::Canvas</class>
+   <class>fl::qt::Canvas</class>
    <extends>QGraphicsView</extends>
-   <header>src/Canvas.h</header>
+   <header>fl/qt/Canvas.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

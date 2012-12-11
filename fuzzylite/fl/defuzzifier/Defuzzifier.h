@@ -15,30 +15,25 @@
 #define FL_DEFAULT_DIVISIONS 100
 
 namespace fl {
-class Term;
+    class Term;
 
-class Defuzzifier {
-	protected:
-		int _divisions;
+    class Defuzzifier {
+    protected:
+        int _divisions;
 
-	public:
-		Defuzzifier(int divisions = FL_DEFAULT_DIVISIONS)
-				: _divisions(divisions) {
-		}
-		virtual ~Defuzzifier() {
-		}
+    public:
+        Defuzzifier(int divisions = FL_DEFAULT_DIVISIONS);
+        virtual ~Defuzzifier();
 
-		virtual std::string name() const = 0;
-		virtual scalar defuzzify(const Term* term) const = 0;
+        virtual std::string name() const = 0;
+        virtual scalar defuzzify(const Term* term) const = 0;
 
-		virtual void setDivisions(int divisions) {
-			this->_divisions = divisions;
-		}
-		virtual int getDivisions() const {
-			return this->_divisions;
-		}
+        virtual void setDivisions(int divisions);
+        virtual int getDivisions() const;
 
-};
+
+
+    };
 
 } /* namespace fl */
 #endif /* FL_DEFUZZIFIER_H_ */

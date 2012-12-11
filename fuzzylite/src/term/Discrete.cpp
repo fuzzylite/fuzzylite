@@ -13,10 +13,22 @@
 
 namespace fl {
 
+    Discrete::Discrete(const std::string& name)
+            : Term(name) {
+    }
+
     Discrete::Discrete(const std::string& name,
             const std::vector<scalar>& x,
             const std::vector<scalar>& y)
             : Term(name), x(x), y(y) {
+    }
+    Discrete::Discrete(const std::string& name,
+            const std::vector<std::pair<scalar, scalar> >& xy)
+            : Term(name) {
+        for (std::size_t i = 0 ; i < xy.size(); ++i){
+            x.push_back(xy[i].first);
+            y.push_back(xy[i].second);
+        }
     }
 
     Discrete::~Discrete() {
