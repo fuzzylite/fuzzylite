@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>194</width>
-    <height>635</height>
+    <width>274</width>
+    <height>668</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Term</string>
@@ -21,6 +27,12 @@
      </property>
      <item>
       <widget class="QLabel" name="lbl_name">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Name</string>
        </property>
@@ -50,7 +62,7 @@
    <item>
     <widget class="QTabWidget" name="tabTerms">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -77,16 +89,22 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="minimumSize">
+          <size>
+           <width>195</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="page">
           <property name="geometry">
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>154</width>
-            <height>114</height>
+            <width>102</width>
+            <height>113</height>
            </rect>
           </property>
           <attribute name="label">
@@ -137,8 +155,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>102</width>
-            <height>146</height>
+            <width>234</width>
+            <height>147</height>
            </rect>
           </property>
           <attribute name="label">
@@ -325,8 +343,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>195</width>
-            <height>83</height>
+            <width>124</width>
+            <height>82</height>
            </rect>
           </property>
           <attribute name="label">
@@ -391,6 +409,18 @@
       <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
         <widget class="QToolBox" name="extendedTermToolbox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>195</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="currentIndex">
           <number>0</number>
          </property>
@@ -399,8 +429,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>132</width>
-            <height>146</height>
+            <width>195</width>
+            <height>240</height>
            </rect>
           </property>
           <attribute name="label">

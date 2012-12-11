@@ -7,6 +7,7 @@
 
 #include "fl/qt/Window.h"
 #include "fl/qt/Configuration.h"
+#include "fl/qt/Term.h"
 
 #include <QtGui/QListWidgetItem>
 #include <QtGui/QScrollBar>
@@ -56,6 +57,8 @@ namespace fl {
 
             QObject::connect(ui->actionConfiguration, SIGNAL(triggered()),
                     this, SLOT(onMenuConfiguration()));
+            QObject::connect(ui->actionTerms, SIGNAL(triggered()),
+                                this, SLOT(onMenuTerms()));
             QObject::connect(ui->actionImport, SIGNAL(triggered()),
                     this, SLOT(onMenuImport()));
             QObject::connect(ui->actionExport, SIGNAL(triggered()),
@@ -119,6 +122,15 @@ namespace fl {
         void Window::onMenuConfiguration() {
             this->_configuration->show();
         }
+
+        void Window::onMenuTerms(){
+            Term* termWindow  = new Term(this);
+            termWindow->setModal(false);
+            termWindow->setup();
+            termWindow->exec();
+            delete termWindow;
+
+        }
         void Window::onMenuImport() {
 
         }
@@ -126,7 +138,14 @@ namespace fl {
 
         }
         void Window::onMenuAbout() {
-
+            std::ostringstream message;
+            message << "qtfuzzylite v." << FL_VERSION <<
+                    " (" << FL_DATE <<")" <<  std::endl;
+            message << "http://code.google.com/p/fuzzylite" << std::endl << std::endl;
+            message << "Developed by Juan Rada-Vilela." << std::endl;
+            message << "jcrada@gmail.com" << std::endl;
+            QMessageBox::about(this, "qtfuzzylite",
+                    QString::fromStdString(message.str()));
         }
         void Window::onMenuQuit() {
             int result = QMessageBox::question(this, tr("qtfuzzylite"),

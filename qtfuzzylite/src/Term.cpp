@@ -8,12 +8,14 @@
 #include "fl/qt/Term.h"
 #include <fl/Headers.h>
 #include <QtGui/QMessageBox>
+#include <unistd.h>
 
 namespace fl {
     namespace qt {
 
         Term::Term(QWidget* parent, Qt::WindowFlags f)
                 : QDialog(parent, f), ui(new Ui::Term) {
+            setWindowFlags(Qt::Tool);
             //It MUST follow the order of the toolbox.
             _basicTerms.push_back(new Triangle("", 0, 0.5, 1));
             _basicTerms.push_back(new Trapezoid("", 0, 0.25, 0.75, 1));
@@ -27,18 +29,27 @@ namespace fl {
             xy.push_back(std::make_pair(1.0, 0.0));
             _basicTerms.push_back(new Discrete("", xy));
 
-            _advancedTerms.push_back(new Gaussian);
-            _advancedTerms.push_back(new Bell);
-            _advancedTerms.push_back(new Sigmoid);
+            _extendedTerms.push_back(new Gaussian);
+            _extendedTerms.push_back(new Bell);
+            _extendedTerms.push_back(new Sigmoid);
         }
 
         Term::~Term() {
             disconnect();
             delete ui;
+            for (std::size_t i = 0; i < _basicTerms.size(); ++i) {
+                delete _basicTerms[i];
+            }
+            for (std::size_t i = 0; i < _extendedTerms.size(); ++i) {
+                delete _extendedTerms[i];
+            }
+
         }
 
         void Term::setup() {
             ui->setupUi(this);
+            layout()->setSizeConstraint( QLayout::SetFixedSize );
+            this->adjustSize();
             ui->basicTermToolbox->setCurrentIndex(0);
             ui->extendedTermToolbox->setCurrentIndex(0);
             ui->tabTerms->setCurrentIndex(0);
@@ -93,10 +104,18 @@ namespace fl {
                 return _basicTerms[index];
             }
             int index = ui->extendedTermToolbox->currentIndex();
-            return _advancedTerms[index];
+            return _extendedTerms[index];
         }
 
         void Term::connect() {
+            QObject::connect(ui->basicTermToolbox, SIGNAL(currentChanged(int)),
+                    this, SLOT(onChangeToolBoxIndex(int)), Qt::QueuedConnection);
+            QObject::connect(ui->extendedTermToolbox, SIGNAL(currentChanged(int)),
+                    this, SLOT(onChangeToolBoxIndex(int)), Qt::QueuedConnection);
+
+            QObject::connect(ui->tabTerms, SIGNAL(currentChanged(int)),
+                    this, SLOT(onChangeTab(int)), Qt::QueuedConnection);
+
             //Triangle
             QObject::connect(ui->sbx_triangle_a, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxTriangle(double)));
@@ -171,6 +190,14 @@ namespace fl {
         }
 
         void Term::disconnect() {
+            QObject::disconnect(ui->basicTermToolbox, SIGNAL(currentChanged(int)),
+                    this, SLOT(onChangeToolBoxIndex(int)));
+            QObject::disconnect(ui->extendedTermToolbox, SIGNAL(currentChanged(int)),
+                    this, SLOT(onChangeToolBoxIndex(int)));
+
+            QObject::disconnect(ui->tabTerms, SIGNAL(currentChanged(int)),
+                                this, SLOT(onChangeTab(int)));
+
             //Triangle
             QObject::disconnect(ui->sbx_triangle_a, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxTriangle(double)));
@@ -243,9 +270,23 @@ namespace fl {
                     this, SLOT(onChangeSpinBoxSigmoid(double)));
         }
 
+        void Term::onChangeToolBoxIndex(int index) {
+            (void) index;
+            this->adjustSize();
+        }
+
+        void Term::onChangeTab(int index){
+            ui->basicTermToolbox->setVisible(index == 0);
+            ui->extendedTermToolbox->setVisible(index == 1);
+            this->adjustSize();
+        }
+
+        void Term::resizeEvent(QResizeEvent* event) {
+            (void) event;
+        }
+
         void Term::refresh() {
             fl::Term* selectedTerm = getSelectedTerm();
-            FL_LOG(selectedTerm->toString());
             ui->canvas->clear();
             ui->canvas->setMinimum(selectedTerm->minimum());
             ui->canvas->setMaximum(selectedTerm->maximum());

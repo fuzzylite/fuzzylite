@@ -21,20 +21,22 @@ namespace fl {
         Q_OBJECT
 
         protected slots:
-            virtual void onChangeInputSelection();
-            virtual void onChangeOutputSelection();
-            virtual void onDoubleClickInputItem(QListWidgetItem* item);
-            virtual void onDoubleClickOutputItem(QListWidgetItem* item);
+            void onChangeInputSelection();
+            void onChangeOutputSelection();
+            void onDoubleClickInputItem(QListWidgetItem* item);
+            void onDoubleClickOutputItem(QListWidgetItem* item);
 
-            virtual void onSelectTestRule(int selected);
-            virtual void onSelectTestActivation(int selected);
+            void onSelectTestRule(int selected);
+            void onSelectTestActivation(int selected);
 
             //MenuBar
-            virtual void onMenuConfiguration();
-            virtual void onMenuImport();
-            virtual void onMenuExport();
-            virtual void onMenuAbout();
-            virtual void onMenuQuit();
+            void onMenuConfiguration();
+            void onMenuTerms();
+
+            void onMenuImport();
+            void onMenuExport();
+            void onMenuAbout();
+            void onMenuQuit();
 
 //            //Examples
 //            virtual void onMenuExample

@@ -22,6 +22,9 @@ namespace fl {
         Q_OBJECT
 
         protected slots:
+            void onChangeToolBoxIndex(int index);
+            void onChangeTab(int index);
+
             void onChangeSpinBoxTriangle(double dummyValue);
             void onChangeSpinBoxTrapezoid(double dummyValue);
             void onChangeSpinBoxRectangle(double dummyValue);
@@ -37,9 +40,11 @@ namespace fl {
             void connect();
             void disconnect();
 
+            void resizeEvent(QResizeEvent* event);
+
             std::vector<QDoubleSpinBox*> _sbx;
             std::vector<fl::Term*> _basicTerms;
-            std::vector<fl::Term*> _advancedTerms;
+            std::vector<fl::Term*> _extendedTerms;
 
         public:
             Ui::Term* ui;

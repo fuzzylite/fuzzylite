@@ -107,8 +107,8 @@ namespace fl {
 
                 scalar y = Op::Scale(ySamples[j], 0, 1, rect.bottom(), rect.top());
 
-            FL_LOG("(" << xSamples[j] << ", " << ySamples[j] << ")"
-                    << "->(" << x << ", " << y << ")");
+//            FL_LOG("(" << xSamples[j] << ", " << ySamples[j] << ")"
+//                    << "->(" << x << ", " << y << ")");
                 polygon.append(QPoint(x, y));
             }
             polygon.append(QPoint(rect.right(), rect.bottom()));
