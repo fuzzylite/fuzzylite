@@ -294,8 +294,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>202</width>
+                  <height>474</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -466,8 +466,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>202</width>
+                  <height>474</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -535,6 +535,7 @@
      <string>Engine</string>
     </property>
     <addaction name="actionConfiguration"/>
+    <addaction name="separator"/>
     <addaction name="actionTerms"/>
     <addaction name="separator"/>
     <addaction name="actionImport"/>
@@ -650,7 +651,17 @@
   </action>
   <action name="actionTerms">
    <property name="text">
-    <string>Terms...</string>
+    <string>Term toolbox...</string>
+   </property>
+  </action>
+  <action name="actionInputs">
+   <property name="text">
+    <string>Inputs...</string>
+   </property>
+  </action>
+  <action name="actionOutputs">
+   <property name="text">
+    <string>Outputs...</string>
    </property>
   </action>
  </widget>

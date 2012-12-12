@@ -26,6 +26,15 @@ namespace fl {
             void onDoubleClickInputItem(QListWidgetItem* item);
             void onDoubleClickOutputItem(QListWidgetItem* item);
 
+            void onClickAddInputVariable();
+            void onClickRemoveInputVariable();
+            void onClickEditInputVariable();
+
+            void onClickAddOutputVariable();
+            void onClickRemoveOutputVariable();
+            void onClickEditOutputVariable();
+
+
             void onSelectTestRule(int selected);
             void onSelectTestActivation(int selected);
 

@@ -8,6 +8,7 @@
 #include "fl/qt/Window.h"
 #include "fl/qt/Configuration.h"
 #include "fl/qt/Term.h"
+#include "fl/qt/Variable.h"
 
 #include <QtGui/QListWidgetItem>
 #include <QtGui/QScrollBar>
@@ -17,8 +18,8 @@ namespace fl {
     namespace qt {
         Window::Window(QWidget* parent, Qt::WindowFlags flags)
                 : QMainWindow(parent, flags),
-                  _configuration(new Configuration),
-                  ui(new Ui::Window) {
+                        _configuration(new Configuration),
+                        ui(new Ui::Window) {
 
         }
 
@@ -45,10 +46,25 @@ namespace fl {
                     this, SLOT(onChangeInputSelection()));
             QObject::connect(ui->lvw_outputs, SIGNAL(itemSelectionChanged()),
                     this, SLOT(onChangeOutputSelection()));
+
             QObject::connect(ui->lvw_inputs, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
                     this, SLOT(onDoubleClickInputItem(QListWidgetItem*)));
             QObject::connect(ui->lvw_outputs, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
                     this, SLOT(onDoubleClickOutputItem(QListWidgetItem*)));
+
+            QObject::connect(ui->btn_add_input, SIGNAL(clicked()), this,
+                    SLOT(onClickAddInputVariable()));
+            QObject::connect(ui->btn_remove_input, SIGNAL(clicked()), this,
+                    SLOT(onClickRemoveInputVariable()));
+            QObject::connect(ui->btn_edit_input, SIGNAL(clicked()), this,
+                    SLOT(onClickEditInputVariable()));
+
+            QObject::connect(ui->btn_add_output, SIGNAL(clicked()), this,
+                    SLOT(onClickAddOutputVariable()));
+            QObject::connect(ui->btn_remove_output, SIGNAL(clicked()), this,
+                    SLOT(onClickRemoveOutputVariable()));
+            QObject::connect(ui->btn_edit_output, SIGNAL(clicked()), this,
+                    SLOT(onClickEditOutputVariable()));
 
             QObject::connect(ui->lsw_test_rules->verticalScrollBar(), SIGNAL(valueChanged(int)),
                     ui->lsw_test_rules_activation->verticalScrollBar(), SLOT(setValue(int)));
@@ -58,7 +74,7 @@ namespace fl {
             QObject::connect(ui->actionConfiguration, SIGNAL(triggered()),
                     this, SLOT(onMenuConfiguration()));
             QObject::connect(ui->actionTerms, SIGNAL(triggered()),
-                                this, SLOT(onMenuTerms()));
+                    this, SLOT(onMenuTerms()));
             QObject::connect(ui->actionImport, SIGNAL(triggered()),
                     this, SLOT(onMenuImport()));
             QObject::connect(ui->actionExport, SIGNAL(triggered()),
@@ -119,12 +135,39 @@ namespace fl {
             ui->lsw_test_rules->item(selected)->setSelected(true);
         }
 
+        /**
+         * Button actions
+         */
+
+        void Window::onClickAddInputVariable() {
+            Variable* window = new Variable(this);
+            window->setup(Variable::INPUT_VARIABLE);
+            int result = window->exec();
+            FL_LOG("The Variable window result was " << result);
+//            window->
+        }
+        void Window::onClickRemoveInputVariable() {
+
+        }
+        void Window::onClickEditInputVariable() {
+        }
+        void Window::onClickAddOutputVariable() {
+        }
+        void Window::onClickRemoveOutputVariable() {
+        }
+        void Window::onClickEditOutputVariable() {
+        }
+
+        /**
+         * Menu actions...
+         */
+
         void Window::onMenuConfiguration() {
             this->_configuration->show();
         }
 
-        void Window::onMenuTerms(){
-            Term* termWindow  = new Term(this);
+        void Window::onMenuTerms() {
+            Term* termWindow = new Term(this);
             termWindow->setModal(false);
             termWindow->setup();
             termWindow->exec();
@@ -140,8 +183,9 @@ namespace fl {
         void Window::onMenuAbout() {
             std::ostringstream message;
             message << "qtfuzzylite v." << FL_VERSION <<
-                    " (" << FL_DATE <<")" <<  std::endl;
-            message << "http://code.google.com/p/fuzzylite" << std::endl << std::endl;
+            " (" << FL_DATE <<")" << std::endl;
+            message << "http://code.google.com/p/fuzzylite" << std::endl
+                    << std::endl;
             message << "Developed by Juan Rada-Vilela." << std::endl;
             message << "jcrada@gmail.com" << std::endl;
             QMessageBox::about(this, "qtfuzzylite",

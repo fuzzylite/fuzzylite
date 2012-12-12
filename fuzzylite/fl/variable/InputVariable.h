@@ -16,7 +16,7 @@ class InputVariable : public Variable{
 	protected:
 		scalar _input;
 	public:
-		InputVariable(const std::string& name);
+		InputVariable(const std::string& name = "");
 		virtual ~InputVariable();
 
 		virtual void setInput(scalar input);

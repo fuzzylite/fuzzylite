@@ -10,8 +10,14 @@
     <x>0</x>
     <y>0</y>
     <width>211</width>
-    <height>334</height>
+    <height>361</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Variable</string>
@@ -55,7 +61,7 @@
        <item>
         <widget class="QLabel" name="lbl_default">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>Default</string>
@@ -65,14 +71,14 @@
        <item>
         <widget class="QLineEdit" name="led_default">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="lbl_lock">
+        <widget class="QCheckBox" name="chx_lock">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>lock</string>
@@ -134,7 +140,7 @@
      <item>
       <widget class="QListWidget" name="lvw_terms">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -148,16 +154,25 @@
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
        <property name="selectionMode">
         <enum>QAbstractItemView::ExtendedSelection</enum>
+       </property>
+       <property name="resizeMode">
+        <enum>QListView::Adjust</enum>
        </property>
        <property name="viewMode">
         <enum>QListView::ListMode</enum>
        </property>
+       <property name="selectionRectVisible">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
-      <widget class="fl_gui::GuiCanvas" name="gvw_canvas">
+      <widget class="fl::qt::Canvas" name="canvas">
        <property name="verticalScrollBarPolicy">
         <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
@@ -210,29 +225,56 @@
     </layout>
    </item>
    <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>0</height>
-      </size>
-     </property>
-    </spacer>
+    </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>fl_gui::GuiCanvas</class>
+   <class>fl::qt::Canvas</class>
    <extends>QGraphicsView</extends>
-   <header>gui/GuiCanvas.h</header>
+   <header>fl/qt/Canvas.h</header>
   </customwidget>
  </customwidgets>
  <resources>
   <include location="resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Variable</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>105</x>
+     <y>338</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>105</x>
+     <y>183</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Variable</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>105</x>
+     <y>338</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>105</x>
+     <y>183</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
