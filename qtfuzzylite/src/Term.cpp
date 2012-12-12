@@ -24,14 +24,16 @@ namespace fl {
             _basicTerms.push_back(new RightShoulder("", 0, 1));
 
             std::vector<std::pair<scalar, scalar> > xy;
-            xy.push_back(std::make_pair(0.0, 0.0));
-            xy.push_back(std::make_pair(0.5, 1.0));
-            xy.push_back(std::make_pair(1.0, 0.0));
+            xy.push_back(std::make_pair(0, 0));
+            xy.push_back(std::make_pair(1, 1));
+            xy.push_back(std::make_pair(2, .5));
+            xy.push_back(std::make_pair(3, 1));
+            xy.push_back(std::make_pair(4, 0));
             _basicTerms.push_back(new Discrete("", xy));
 
-            _extendedTerms.push_back(new Gaussian);
-            _extendedTerms.push_back(new Bell);
-            _extendedTerms.push_back(new Sigmoid);
+            _extendedTerms.push_back(new Gaussian("", 0.5, 0.0, -1.0, 1.0));
+            _extendedTerms.push_back(new Bell("", 0.5, 2.0, 0.0, -1.0, 1.0));
+            _extendedTerms.push_back(new Sigmoid("", 4.0, 0.0, -1.0, 1.0));
         }
 
         Term::~Term() {
@@ -48,7 +50,7 @@ namespace fl {
 
         void Term::setup() {
             ui->setupUi(this);
-            layout()->setSizeConstraint( QLayout::SetFixedSize );
+            layout()->setSizeConstraint(QLayout::SetFixedSize);
             this->adjustSize();
             ui->basicTermToolbox->setCurrentIndex(0);
             ui->extendedTermToolbox->setCurrentIndex(0);
@@ -95,8 +97,17 @@ namespace fl {
                 _sbx[i]->setValue(0);
                 _sbx[i]->setSingleStep(0.1);
             }
+
+            for (std::size_t i = 0; i < _basicTerms.size(); ++i) {
+                loadFrom(_basicTerms[i]);
+            }
+            for (std::size_t i = 0; i < _extendedTerms.size(); ++i) {
+                loadFrom(_extendedTerms[i]);
+            }
             connect();
         }
+
+
 
         fl::Term* Term::getSelectedTerm() const {
             if (ui->tabTerms->currentIndex() == 0) {
@@ -196,7 +207,7 @@ namespace fl {
                     this, SLOT(onChangeToolBoxIndex(int)));
 
             QObject::disconnect(ui->tabTerms, SIGNAL(currentChanged(int)),
-                                this, SLOT(onChangeTab(int)));
+                    this, SLOT(onChangeTab(int)));
 
             //Triangle
             QObject::disconnect(ui->sbx_triangle_a, SIGNAL(valueChanged(double)),
@@ -272,17 +283,20 @@ namespace fl {
 
         void Term::onChangeToolBoxIndex(int index) {
             (void) index;
+            refresh();
             this->adjustSize();
         }
 
-        void Term::onChangeTab(int index){
+        void Term::onChangeTab(int index) {
             ui->basicTermToolbox->setVisible(index == 0);
             ui->extendedTermToolbox->setVisible(index == 1);
+            refresh();
             this->adjustSize();
         }
 
         void Term::resizeEvent(QResizeEvent* event) {
             (void) event;
+            refresh();
         }
 
         void Term::refresh() {
@@ -443,6 +457,74 @@ namespace fl {
             term->setMinimum(ui->sbx_sigmoid_min->value());
             term->setMaximum(ui->sbx_sigmoid_max->value());
             refresh();
+        }
+
+        void Term::loadFrom(const fl::Term* x) {
+            if (x->className() == Triangle().className()) {
+                const Triangle* term = dynamic_cast<const Triangle*>(x);
+                ui->sbx_triangle_a->setValue(term->getA());
+                ui->sbx_triangle_b->setValue(term->getB());
+                ui->sbx_triangle_c->setValue(term->getC());
+
+            } else if (x->className() == Trapezoid().className()) {
+                const Trapezoid* term = dynamic_cast<const Trapezoid*>(x);
+                ui->sbx_trapezoid_a->setValue(term->getA());
+                ui->sbx_trapezoid_b->setValue(term->getB());
+                ui->sbx_trapezoid_c->setValue(term->getC());
+                ui->sbx_trapezoid_d->setValue(term->getD());
+
+            } else if (x->className() == Rectangle().className()) {
+                const Rectangle* term = dynamic_cast<const Rectangle*>(x);
+                ui->sbx_rectangle_min->setValue(term->minimum());
+                ui->sbx_rectangle_max->setValue(term->maximum());
+
+            } else if (x->className() == LeftShoulder().className()) {
+                const LeftShoulder* term = dynamic_cast<const LeftShoulder*>(x);
+                ui->sbx_leftshoulder_min->setValue(term->minimum());
+                ui->sbx_leftshoulder_max->setValue(term->maximum());
+
+            } else if (x->className() == RightShoulder().className()) {
+                const RightShoulder* term = dynamic_cast<const RightShoulder*>(x);
+                ui->sbx_rightshoulder_min->setValue(term->minimum());
+                ui->sbx_rightshoulder_max->setValue(term->maximum());
+
+            } else if (x->className() == Discrete().className()) {
+                const Discrete* term = dynamic_cast<const Discrete*>(x);
+                std::ostringstream ssX, ssY;
+                int size = std::min(term->x.size(), term->y.size());
+                for (int i = 0; i < size; ++i) {
+                    ssX << term->x[i];
+                    ssY << term->y[i];
+                    if (i < size - 1) {
+                        ssX << " ";
+                        ssY << " ";
+                    }
+                }
+                ui->led_discrete_x->setText(QString::fromStdString(ssX.str()));
+                ui->led_discrete_y->setText(QString::fromStdString(ssY.str()));
+
+            } else if (x->className() == Gaussian().className()) {
+                const Gaussian* term = dynamic_cast<const Gaussian*>(x);
+                ui->sbx_gaussian_min->setValue(term->minimum());
+                ui->sbx_gaussian_max->setValue(term->maximum());
+                ui->sbx_gaussian_c->setValue(term->getC());
+                ui->sbx_gaussian_sigma->setValue(term->getSigma());
+
+            } else if (x->className() == Bell().className()) {
+                const Bell* term = dynamic_cast<const Bell*>(x);
+                ui->sbx_bell_min->setValue(term->minimum());
+                ui->sbx_bell_max->setValue(term->maximum());
+                ui->sbx_bell_a->setValue(term->getA());
+                ui->sbx_bell_b->setValue(term->getB());
+                ui->sbx_bell_c->setValue(term->getC());
+
+            } else if (x->className() == Sigmoid().className()) {
+                const Sigmoid* term = dynamic_cast<const Sigmoid*>(x);
+                ui->sbx_sigmoid_min->setValue(term->minimum());
+                ui->sbx_sigmoid_max->setValue(term->maximum());
+                ui->sbx_sigmoid_a->setValue(term->getA());
+                ui->sbx_sigmoid_c->setValue(term->getC());
+            }
         }
 
         void Term::main() {

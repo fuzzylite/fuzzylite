@@ -39,6 +39,8 @@ namespace fl {
             QToolBox* _termToolBox;
             void connect();
             void disconnect();
+            void loadFrom(const fl::Term* term);
+
 
             void resizeEvent(QResizeEvent* event);
 
