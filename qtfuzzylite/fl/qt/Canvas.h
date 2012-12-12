@@ -41,7 +41,7 @@ namespace fl {
                     const QColor& to = QColor(255, 0, 0, 175));
 
             virtual void draw(const Term* term,
-                    const QColor& color = QColor(0, 204, 0, 230));
+                    const QColor& color = QColor(0, 200, 0, 230));
 
             virtual void drawGuide(scalar x, scalar y, const QColor& color =
                     QColor(0, 210, 0, 255));

@@ -22,8 +22,8 @@ namespace fl {
             void onClickAddTerm();
             void onClickRemoveTerm();
             void onClickEditTerm();
-            //            void onSelectTerm();
-//            void onClickWizard();
+            void onSelectTerm();
+            //            void onClickWizard();
         protected:
             void connect();
             void disconnect();
@@ -41,7 +41,9 @@ namespace fl {
 
             virtual void setup(VariableType type);
 
+            virtual void reloadModel();
             virtual void refresh();
+
         };
 
     } /* namespace qt */

@@ -37,11 +37,13 @@ namespace fl {
 
 //It is assumed the terms are inserted in ascending order
     scalar Variable::minimum() const {
-        return _terms[0]->minimum();
+        if (_terms.size() > 0) return _terms[0]->minimum();
+        return -std::numeric_limits<scalar>::infinity();
     }
 
     scalar Variable::maximum() const {
-        return _terms[_terms.size() - 1]->maximum();
+        if (_terms.size > 0) return _terms[_terms.size() - 1]->maximum();
+        return std::numeric_limits<scalar>::infinity();
     }
 
     std::string Variable::fuzzify(scalar x) const {
@@ -57,7 +59,7 @@ namespace fl {
     std::string Variable::toString() const {
         std::ostringstream ss;
         ss << getName() << " [";
-        for (std::size_t i = 0; i < _terms.size(); ++i){
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
             ss << _terms[i]->toString();
             if (i < _terms.size() - 1) ss << ", ";
         }
@@ -79,14 +81,14 @@ namespace fl {
     }
     Term* Variable::getTerm(const std::string& name) const {
         for (std::size_t i = 0; i < _terms.size(); ++i) {
-            if (_terms[i]->getName() == name){
+            if (_terms[i]->getName() == name) {
                 return _terms[i];
             }
         }
         return NULL;
     }
 
-    bool Variable::hasTerm(const std::string& name) const{
+    bool Variable::hasTerm(const std::string& name) const {
         return getTerm(name) != NULL;
     }
 

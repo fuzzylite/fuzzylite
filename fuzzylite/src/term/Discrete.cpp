@@ -25,7 +25,7 @@ namespace fl {
     Discrete::Discrete(const std::string& name,
             const std::vector<std::pair<scalar, scalar> >& xy)
             : Term(name) {
-        for (std::size_t i = 0 ; i < xy.size(); ++i){
+        for (std::size_t i = 0; i < xy.size(); ++i) {
             x.push_back(xy[i].first);
             y.push_back(xy[i].second);
         }
@@ -35,11 +35,13 @@ namespace fl {
     }
 
     scalar Discrete::minimum() const {
-        return x[0];
+        if (x.size() > 0) return x[0];
+        return -std::numeric_limits<scalar>::infinity();
     }
 
     scalar Discrete::maximum() const {
-        return x[x.size() - 1];
+        if (x.size() > 0) return x[x.size() - 1];
+        return std::numeric_limits<scalar>::infinity();
     }
 
     scalar Discrete::membership(scalar mu) const {
