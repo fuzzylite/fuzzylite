@@ -107,8 +107,6 @@ namespace fl {
             connect();
         }
 
-
-
         fl::Term* Term::getSelectedTerm() const {
             if (ui->tabTerms->currentIndex() == 0) {
                 int index = ui->basicTermToolbox->currentIndex();
@@ -294,9 +292,17 @@ namespace fl {
             this->adjustSize();
         }
 
-        void Term::resizeEvent(QResizeEvent* event) {
-            (void) event;
+        void Term::showEvent(QShowEvent* event) {
+            ui->canvas->scene()->setSceneRect(ui->canvas->viewport()->rect());
+            ui->canvas->fitInView(0, 0, ui->canvas->scene()->width(),
+                    ui->canvas->scene()->height(), Qt::IgnoreAspectRatio);
             refresh();
+            QWidget::showEvent(event);
+        }
+
+        void Term::resizeEvent(QResizeEvent* event) {
+            refresh();
+            QWidget::resizeEvent(event);
         }
 
         void Term::refresh() {

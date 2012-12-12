@@ -10,13 +10,13 @@
 #include "fl/qt/Model.h"
 
 #include <QtGui/QGraphicsPolygonItem>
-
+#include <unistd.h>
 namespace fl {
     namespace qt {
         Canvas::Canvas(QWidget* parent)
                 : QGraphicsView(new QGraphicsScene, parent),
-                  _minimum(-std::numeric_limits<scalar>::infinity()),
-                  _maximum(std::numeric_limits<scalar>::infinity()) {
+                        _minimum(-std::numeric_limits<scalar>::infinity()),
+                        _maximum(std::numeric_limits<scalar>::infinity()) {
             setRenderHints(renderHints() | QPainter::Antialiasing
                     | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
             setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -53,8 +53,6 @@ namespace fl {
                         (qreal) e->size().height() / e->oldSize().height());
                 if (ratio.width() > 0 or ratio.height() > 0)
                     scale(ratio.width(), ratio.height());
-                fitInView(viewport()->rect(), Qt::IgnoreAspectRatio);
-                centerOn(viewport()->rect().center());
             }
         }
 
@@ -111,7 +109,7 @@ namespace fl {
 //                    << "->(" << x << ", " << y << ")");
                 polygon.append(QPoint(x, y));
             }
-            polygon.append(QPoint(rect.right(), rect.bottom()));
+            polygon.append(QPoint(rect.right() - 1, rect.bottom()));
 
             QPen pen;
             pen.setWidth(line_width);

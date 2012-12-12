@@ -46,16 +46,43 @@
    <item>
     <widget class="fl::qt::Canvas" name="canvas">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>256</width>
+       <height>150</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="lineWidth">
+      <number>1</number>
      </property>
      <property name="verticalScrollBarPolicy">
       <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
      <property name="horizontalScrollBarPolicy">
       <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="renderHints">
+      <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
+     </property>
+     <property name="resizeAnchor">
+      <enum>QGraphicsView::AnchorViewCenter</enum>
+     </property>
+     <property name="viewportUpdateMode">
+      <enum>QGraphicsView::FullViewportUpdate</enum>
+     </property>
+     <property name="optimizationFlags">
+      <set>QGraphicsView::DontSavePainterState</set>
      </property>
     </widget>
    </item>
@@ -103,8 +130,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>102</width>
-            <height>113</height>
+            <width>234</width>
+            <height>147</height>
            </rect>
           </property>
           <attribute name="label">
@@ -217,8 +244,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>122</width>
-            <height>80</height>
+            <width>234</width>
+            <height>147</height>
            </rect>
           </property>
           <attribute name="label">
@@ -259,8 +286,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>122</width>
-            <height>80</height>
+            <width>234</width>
+            <height>147</height>
            </rect>
           </property>
           <attribute name="label">
@@ -301,8 +328,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>122</width>
-            <height>80</height>
+            <width>234</width>
+            <height>147</height>
            </rect>
           </property>
           <attribute name="label">
@@ -343,8 +370,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>124</width>
-            <height>82</height>
+            <width>234</width>
+            <height>147</height>
            </rect>
           </property>
           <attribute name="label">
@@ -429,7 +456,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>195</width>
+            <width>234</width>
             <height>240</height>
            </rect>
           </property>

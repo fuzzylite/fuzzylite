@@ -41,7 +41,7 @@ namespace fl {
             void disconnect();
             void loadFrom(const fl::Term* term);
 
-
+            void showEvent(QShowEvent* event);
             void resizeEvent(QResizeEvent* event);
 
             std::vector<QDoubleSpinBox*> _sbx;
