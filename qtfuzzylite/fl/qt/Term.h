@@ -55,7 +55,8 @@ namespace fl {
             virtual ~Term();
 
             virtual void setup();
-
+            virtual fl::Term* copySelectedTerm() const;
+            virtual void edit(const fl::Term* term);
             virtual void refresh();
 
             virtual fl::Term* getSelectedTerm() const;

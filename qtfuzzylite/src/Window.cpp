@@ -13,13 +13,14 @@
 #include <QtGui/QListWidgetItem>
 #include <QtGui/QScrollBar>
 #include <QtGui/QMessageBox>
+#include <QtGui/QDesktopWidget>
 
 namespace fl {
     namespace qt {
         Window::Window(QWidget* parent, Qt::WindowFlags flags)
                 : QMainWindow(parent, flags),
-                        _configuration(new Configuration),
-                        ui(new Ui::Window) {
+                  _configuration(new Configuration),
+                  ui(new Ui::Window) {
 
         }
 
@@ -144,6 +145,7 @@ namespace fl {
             window->setup(Variable::INPUT_VARIABLE);
             int result = window->exec();
             FL_LOG("The Variable window result was " << result);
+            delete window;
 //            window->
         }
         void Window::onClickRemoveInputVariable() {
@@ -152,6 +154,11 @@ namespace fl {
         void Window::onClickEditInputVariable() {
         }
         void Window::onClickAddOutputVariable() {
+            Variable* window = new Variable(this);
+            window->setup(Variable::OUTPUT_VARIABLE);
+            int result = window->exec();
+            FL_LOG("The Variable window result was " << result);
+            delete window;
         }
         void Window::onClickRemoveOutputVariable() {
         }
@@ -183,7 +190,7 @@ namespace fl {
         void Window::onMenuAbout() {
             std::ostringstream message;
             message << "qtfuzzylite v." << FL_VERSION <<
-            " (" << FL_DATE <<")" << std::endl;
+                    " (" << FL_DATE << ")" << std::endl;
             message << "http://code.google.com/p/fuzzylite" << std::endl
                     << std::endl;
             message << "Developed by Juan Rada-Vilela." << std::endl;
@@ -204,6 +211,8 @@ namespace fl {
         void Window::main() {
             Window* w = new Window;
             w->setup();
+            QRect scr = QApplication::desktop()->screenGeometry();
+            w->move(scr.center() - w->rect().center());
             w->show();
         }
 

@@ -43,10 +43,11 @@ namespace fl {
             Variable(QWidget* parent = NULL, Qt::WindowFlags f = 0);
             virtual ~Variable();
 
+            virtual void showEvent(QShowEvent* event);
+
             virtual void setup(VariableType type);
 
             virtual void reloadModel();
-            virtual void refresh();
 
         };
 

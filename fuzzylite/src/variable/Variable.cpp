@@ -42,7 +42,7 @@ namespace fl {
     }
 
     scalar Variable::maximum() const {
-        if (_terms.size > 0) return _terms[_terms.size() - 1]->maximum();
+        if (_terms.size() > 0) return _terms[_terms.size() - 1]->maximum();
         return std::numeric_limits<scalar>::infinity();
     }
 

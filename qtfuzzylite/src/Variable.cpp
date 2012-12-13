@@ -10,12 +10,14 @@
 #include <fl/Headers.h>
 
 #include <QtGui/QMessageBox>
-
+#include <QtGui/QDesktopWidget>
 namespace fl {
     namespace qt {
 
         Variable::Variable(QWidget* parent, Qt::WindowFlags f)
-                : QDialog(parent, f), ui(new Ui::Variable), variable(NULL) {
+                : QDialog(parent, f),
+                  ui(new Ui::Variable), variable(NULL) {
+            setWindowFlags(Qt::Tool);
         }
 
         Variable::~Variable() {
@@ -30,10 +32,15 @@ namespace fl {
             ui->chx_lock->setVisible(type == OUTPUT_VARIABLE);
 
             if (type == INPUT_VARIABLE)
-                variable = new InputVariable;
+            variable = new InputVariable;
             else if (type == OUTPUT_VARIABLE)
                 variable = new OutputVariable;
 
+//            layout()->s/etSizeConstraint(QLayout::SetFixedSize);
+//            adjustSize();
+//            setFixedSize(sizeHint());
+            QRect scr = QApplication::desktop()->screenGeometry();
+            move(scr.center() - rect().center());
             connect();
 
         }
@@ -61,6 +68,14 @@ namespace fl {
 
         }
 
+        void Variable::showEvent(QShowEvent* event) {
+            ui->canvas->scene()->setSceneRect(ui->canvas->viewport()->rect());
+            ui->canvas->fitInView(0, 0, ui->canvas->scene()->width(),
+                    ui->canvas->scene()->height(), Qt::IgnoreAspectRatio);
+            QWidget::showEvent(event);
+        }
+
+
         /**
          * Button actions...
          */
@@ -70,14 +85,14 @@ namespace fl {
             window->setup();
             int result = window->exec();
             if (result) {
-                fl::Term* term = window->getSelectedTerm();
+                fl::Term* term = window->copySelectedTerm();
                 term->setName(window->ui->led_name->text().toStdString());
                 variable->addTerm(term);
                 reloadModel();
-//                ui->lvw_terms->addItem(QString::fromStdString(term->getName()));
                 ui->lvw_terms->setFocus();
                 ui->lvw_terms->item(ui->lvw_terms->count() - 1)->setSelected(true);
             }
+            delete window;
         }
 
         void Variable::onClickRemoveTerm() {
@@ -107,12 +122,32 @@ namespace fl {
 
         }
         void Variable::onClickEditTerm() {
-
+            std::vector<int> selected;
+            for (int i = 0; i < ui->lvw_terms->count(); ++i) {
+                if (ui->lvw_terms->item(i)->isSelected()) {
+                    selected.push_back(i);
+                    Term* window = new Term;
+                    window->setup();
+                    window->edit(variable->getTerm(i));
+                    int result = window->exec();
+                    if (result) {
+                        fl::Term* term = window->copySelectedTerm();
+                        term->setName(window->ui->led_name->text().toStdString());
+                        delete variable->removeTerm(i);
+                        variable->insertTerm(term, i);
+                    }
+                    delete window;
+                }
+            }
+            reloadModel();
+            for (std::size_t i = 0; i < selected.size(); ++i) {
+                ui->lvw_terms->item(selected[i])->setSelected(true);
+            }
         }
 
         void Variable::onSelectTerm() {
             ui->btn_edit_term->setEnabled(
-                    ui->lvw_terms->selectedItems().size() == 1);
+                    ui->lvw_terms->selectedItems().size() > 0);
             ui->btn_remove_term->setEnabled(
                     ui->lvw_terms->selectedItems().size() > 0);
             ui->btn_term_down->setEnabled(ui->lvw_terms->selectedItems().size() > 0);
@@ -138,15 +173,16 @@ namespace fl {
                     int newPosition = i - 1 + rotate;
                     if (newPosition < 0) {
                         newPosition = ui->lvw_terms->count() - 1;
+                        newPositions.push_back(newPosition);
                         rotate = true;
-                    }
-                    newPositions.push_back(newPosition);
-                    FL_LOG(i << "->" << newPosition);
+                    } else newPositions.push_back(newPosition - rotate);
+
+//                    FL_LOG(i << "->" << newPosition);
                     fl::Term* term = variable->removeTerm(i);
                     variable->insertTerm(term, newPosition);
-                    for (int x = 0 ; x < variable->numberOfTerms(); ++x){
-                        FL_LOG(variable->getTerm(x)->getName());
-                    }
+//                    for (int x = 0; x < variable->numberOfTerms(); ++x) {
+//                        FL_LOG(variable->getTerm(x)->getName());
+//                    }
                 }
             }
             reloadModel();
@@ -157,13 +193,21 @@ namespace fl {
 
         void Variable::onClickMoveDown() {
             std::vector<int> newPositions;
+            bool rotate = false;
             for (int i = ui->lvw_terms->count() - 1; i >= 0; --i) {
                 if (ui->lvw_terms->item(i)->isSelected()) {
-                    int newPosition = i + 1;
-                    if (newPosition >= ui->lvw_terms->count()) newPosition = 0;
+                    int newPosition = i + 1 - rotate;
+                    if (newPosition >= ui->lvw_terms->count()) {
+                        newPosition = 0;
+                        newPositions.push_back(newPosition);
+                        rotate = true;
+                    } else newPositions.push_back(newPosition + rotate);
+//                    FL_LOG(i << "->" << newPosition);
                     fl::Term* term = variable->removeTerm(i);
                     variable->insertTerm(term, newPosition);
-                    newPositions.push_back(newPosition);
+//                    for (int x = 0; x < variable->numberOfTerms(); ++x) {
+//                        FL_LOG(variable->getTerm(x)->getName());
+//                    }
                 }
             }
             reloadModel();
@@ -183,9 +227,6 @@ namespace fl {
             }
         }
 
-        void Variable::refresh() {
-
-        }
 
     } /* namespace qt */
 } /* namespace fl */

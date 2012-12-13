@@ -9,7 +9,7 @@
 #include <fl/Headers.h>
 #include <QtGui/QMessageBox>
 #include <unistd.h>
-
+#include <QtGui/QDesktopWidget>
 namespace fl {
     namespace qt {
 
@@ -52,6 +52,8 @@ namespace fl {
             ui->setupUi(this);
             layout()->setSizeConstraint(QLayout::SetFixedSize);
             this->adjustSize();
+            QRect scr = QApplication::desktop()->screenGeometry();
+            move(scr.center() - rect().center());
             ui->basicTermToolbox->setCurrentIndex(0);
             ui->extendedTermToolbox->setCurrentIndex(0);
             ui->tabTerms->setCurrentIndex(0);
@@ -279,19 +281,6 @@ namespace fl {
                     this, SLOT(onChangeSpinBoxSigmoid(double)));
         }
 
-        void Term::onChangeToolBoxIndex(int index) {
-            (void) index;
-            refresh();
-            this->adjustSize();
-        }
-
-        void Term::onChangeTab(int index) {
-            ui->basicTermToolbox->setVisible(index == 0);
-            ui->extendedTermToolbox->setVisible(index == 1);
-            refresh();
-            this->adjustSize();
-        }
-
         void Term::showEvent(QShowEvent* event) {
             ui->canvas->scene()->setSceneRect(ui->canvas->viewport()->rect());
             ui->canvas->fitInView(0, 0, ui->canvas->scene()->width(),
@@ -311,6 +300,104 @@ namespace fl {
             ui->canvas->setMinimum(selectedTerm->minimum());
             ui->canvas->setMaximum(selectedTerm->maximum());
             ui->canvas->draw(selectedTerm);
+        }
+
+        void Term::edit(const fl::Term* x) {
+            ui->led_name->setText(QString::fromStdString(x->getName()));
+            loadFrom(x);
+            if (x->className() == Triangle().className()) {
+                ui->basicTermToolbox->setCurrentIndex(0);
+                ui->tabTerms->setCurrentIndex(0);
+            } else if (x->className() == Trapezoid().className()) {
+                ui->basicTermToolbox->setCurrentIndex(1);
+                ui->tabTerms->setCurrentIndex(0);
+
+            } else if (x->className() == Rectangle().className()) {
+                ui->basicTermToolbox->setCurrentIndex(2);
+                ui->tabTerms->setCurrentIndex(0);
+
+            } else if (x->className() == LeftShoulder().className()) {
+                ui->basicTermToolbox->setCurrentIndex(3);
+                ui->tabTerms->setCurrentIndex(0);
+
+            } else if (x->className() == RightShoulder().className()) {
+                ui->basicTermToolbox->setCurrentIndex(4);
+                ui->tabTerms->setCurrentIndex(0);
+
+            } else if (x->className() == Discrete().className()) {
+                ui->basicTermToolbox->setCurrentIndex(5);
+                ui->tabTerms->setCurrentIndex(0);
+
+            } else if (x->className() == Gaussian().className()) {
+                ui->basicTermToolbox->setCurrentIndex(0);
+                ui->tabTerms->setCurrentIndex(1);
+
+            } else if (x->className() == Bell().className()) {
+                ui->basicTermToolbox->setCurrentIndex(1);
+                ui->tabTerms->setCurrentIndex(1);
+
+            } else if (x->className() == Sigmoid().className()) {
+                ui->basicTermToolbox->setCurrentIndex(2);
+                ui->tabTerms->setCurrentIndex(1);
+            }
+        }
+
+        fl::Term* Term::copySelectedTerm() const {
+            fl::Term* x = getSelectedTerm();
+            if (x->className() == Triangle().className()) {
+                const Triangle* term = dynamic_cast<const Triangle*>(x);
+                return new Triangle(*term);
+
+            } else if (x->className() == Trapezoid().className()) {
+                const Trapezoid* term = dynamic_cast<const Trapezoid*>(x);
+                return new Trapezoid(*term);
+
+            } else if (x->className() == Rectangle().className()) {
+                const Rectangle* term = dynamic_cast<const Rectangle*>(x);
+                return new Rectangle(*term);
+
+            } else if (x->className() == LeftShoulder().className()) {
+                const LeftShoulder* term = dynamic_cast<const LeftShoulder*>(x);
+                return new LeftShoulder(*term);
+
+            } else if (x->className() == RightShoulder().className()) {
+                const RightShoulder* term = dynamic_cast<const RightShoulder*>(x);
+                return new RightShoulder(*term);
+
+            } else if (x->className() == Discrete().className()) {
+                const Discrete* term = dynamic_cast<const Discrete*>(x);
+                return new Discrete(*term);
+
+            } else if (x->className() == Gaussian().className()) {
+                const Gaussian* term = dynamic_cast<const Gaussian*>(x);
+                return new Gaussian(*term);
+
+            } else if (x->className() == Bell().className()) {
+                const Bell* term = dynamic_cast<const Bell*>(x);
+                return new Bell(*term);
+
+            } else if (x->className() == Sigmoid().className()) {
+                const Sigmoid* term = dynamic_cast<const Sigmoid*>(x);
+                return new Sigmoid(*term);
+            }
+            FL_LOG("trying to copy unknown term class <" << x->className() << ">");
+            throw std::exception();
+        }
+
+        /**
+         * Events
+         */
+        void Term::onChangeToolBoxIndex(int index) {
+            (void) index;
+            refresh();
+            this->adjustSize();
+        }
+
+        void Term::onChangeTab(int index) {
+            ui->basicTermToolbox->setVisible(index == 0);
+            ui->extendedTermToolbox->setVisible(index == 1);
+            refresh();
+            this->adjustSize();
         }
 
         void Term::onChangeSpinBoxTriangle(double dummyValue) {
