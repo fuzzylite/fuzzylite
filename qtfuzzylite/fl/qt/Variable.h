@@ -22,6 +22,10 @@ namespace fl {
             void onClickAddTerm();
             void onClickRemoveTerm();
             void onClickEditTerm();
+
+            void onClickMoveUp();
+            void onClickMoveDown();
+
             void onSelectTerm();
             //            void onClickWizard();
         protected:

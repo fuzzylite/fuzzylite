@@ -1,5 +1,7 @@
 <RCC>
-  <qresource prefix="icons" >
+  <qresource prefix="icons">
+    <file>icons/down.png</file>
+    <file>icons/up.png</file>
     <file>icons/stop.png</file>
     <file>icons/ledgreen.png</file>
     <file>icons/ledred.png</file>
