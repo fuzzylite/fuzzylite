@@ -125,33 +125,40 @@ namespace fl {
 
             //if reached this point, there was an error:
             if (state bitand S_VARIABLE) {
-                FL_LOG("expected output variable, but found <" << token << ">");
-                throw std::exception();
+                std::ostringstream ex;
+                ex << "expected output variable, but found <" << token << ">";
+                throw fl::Exception(ex.str());
             }
             if (state bitand S_IS) {
-                FL_LOG("expected keyword <" << Rule::FL_IS << ">, but found <" << token << ">");
-                throw std::exception();
+                std::ostringstream ex;
+                ex << "expected keyword <" << Rule::FL_IS << ">, but found <"
+                        << token << ">";
+                throw fl::Exception(ex.str());
             }
 
             if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
-                FL_LOG("expected hedge or term, but found <" << token << ">");
-                throw std::exception();
+                std::ostringstream ex;
+                ex << "expected hedge or term, but found <" << token << ">";
+                throw fl::Exception(ex.str());
             }
 
             if ((state bitand S_AND) or (state bitand S_WITH)) {
-                FL_LOG("expected operators <" << Rule::FL_AND << "> or <" << Rule::FL_WITH << ">, "
-                        << "but found <" << token << ">");
-                throw std::exception();
+                std::ostringstream ex;
+                ex << "expected operators <" << Rule::FL_AND << "> or <"
+                        << Rule::FL_WITH << ">, "
+                        << "but found <" << token << ">";
+                throw fl::Exception(ex.str());
             }
 
             if (state bitand S_FLOAT) {
-                FL_LOG("expected floating-point value to weight the proposition, "
-                        << "but found <" << token << ">");
-                throw std::exception();
+                std::ostringstream ex;
+                ex << "expected floating-point value to weight the proposition, "
+                        << "but found <" << token << ">";
+                throw fl::Exception(ex.str());
             }
-
-            FL_LOG("unexpected token found <" << token << ">");
-            throw std::exception();
+            std::ostringstream ex;
+            ex << "unexpected token found <" << token << ">";
+            throw fl::Exception(ex.str());
         }
     }
 

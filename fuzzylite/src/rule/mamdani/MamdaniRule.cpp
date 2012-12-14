@@ -11,6 +11,7 @@
 #include "fl/rule/mamdani/MamdaniConsequent.h"
 
 #include "fl/definitions.h"
+#include "fl/Exception.h"
 
 #include <vector>
 
@@ -49,11 +50,13 @@ namespace fl {
             }
         }
         if (state == S_NONE) {
-            FL_LOG("[syntax error] keyword <" << Rule::FL_IF << "> not found in rule: " << rule);
-            throw std::exception();
+            std::ostringstream ex;
+            ex << "[syntax error] keyword <" << Rule::FL_IF << "> not found in rule: " << rule;
+            throw fl::Exception(ex.str());
         } else if (state == S_IF) {
-            FL_LOG("[syntax error] keyword <" << Rule::FL_THEN<< "> not found in rule: " << rule);
-            throw std::exception();
+            std::ostringstream ex;
+            ex << "[syntax error] keyword <" << Rule::FL_THEN<< "> not found in rule: " << rule;
+            throw fl::Exception(ex.str());
         }
 
         MamdaniAntecedent* antecedent = new MamdaniAntecedent;

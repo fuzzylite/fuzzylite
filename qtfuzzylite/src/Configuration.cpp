@@ -50,7 +50,7 @@ namespace fl {
 
         void Configuration::setup() {
             ui->setupUi(this);
-            setModal(true);
+
             QStringList andOperators;
 
             for (std::size_t i = 0; i < _andOperators.size(); ++i) {
@@ -74,6 +74,8 @@ namespace fl {
 
             ui->sbx_divisions->setValue(FL_DEFAULT_DIVISIONS);
             this->adjustSize();
+            QRect scr = parentWidget()->geometry();
+            move(scr.center() - rect().center());
             refresh();
             connect();
         }

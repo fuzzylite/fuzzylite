@@ -90,8 +90,9 @@ namespace fl {
                     stack.pop();
                 }
                 if (stack.empty() or stack.top() != "(") {
-                    FL_LOG("mismatching parentheses in: " << infixString);
-                    throw std::exception();
+                    std::ostringstream ex;
+                    ex << "mismatching parentheses in: " << infixString;
+                    throw fl::Exception(ex.str());
                 }
 
             } else if (isOperator(token)) {
@@ -121,7 +122,9 @@ namespace fl {
                     stack.pop();
                 }
                 if (stack.empty() or stack.top() != "(") {
-                    FL_LOG("mismatching parentheses in: " << infixString);
+                    std::ostringstream ex;
+                    ex << "mismatching parentheses in: " << infixString;
+                    throw fl::Exception(ex.str());
                 }
                 stack.pop(); //get rid of "("
 
@@ -130,15 +133,17 @@ namespace fl {
                     stack.pop();
                 }
             } else {
-                FL_LOG("this should have never occurred!");
-                throw std::exception();
+                std::ostringstream ex;
+                ex << "this should have never occurred!";
+                throw fl::Exception(ex.str());
             }
         }
 
         while (not stack.empty()) {
             if (stack.top() == "(" or stack.top() == ")") {
-                FL_LOG("mismatching parentheses in: " << infixString);
-                throw std::exception();
+                std::ostringstream ex;
+                ex << "mismatching parentheses in: " << infixString;
+                throw fl::Exception(ex.str());
             }
             queue.push(stack.top());
             stack.pop();

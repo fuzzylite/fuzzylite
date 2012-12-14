@@ -12,6 +12,8 @@
 
 #include "fl/definitions.h"
 
+#include "fl/Exception.h"
+
 #include <string>
 #include <algorithm>
 #include <cmath>
@@ -121,7 +123,7 @@ namespace fl {
 
         static scalar Scalar(const std::string& x, bool quiet = false,
                 scalar alternative = std::numeric_limits<scalar>::quiet_NaN())
-                        throw (std::exception) {
+                        throw (fl::Exception) {
             std::istringstream iss(x);
             scalar result;
             iss >> result;
@@ -138,7 +140,11 @@ namespace fl {
                 return std::numeric_limits<scalar>::infinity();
             if (x == nInf.str())
                 return -std::numeric_limits<scalar>::infinity();
-            if (!quiet) throw std::exception();
+            if (!quiet){
+                std::ostringstream ex;
+                ex << "[conversion error] from <" << x << "> to scalar";
+                throw fl::Exception(ex.str());
+            }
             return alternative;
         }
     };

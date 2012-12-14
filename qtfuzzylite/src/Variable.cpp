@@ -11,7 +11,6 @@
 #include <fl/Headers.h>
 
 #include <QtGui/QMessageBox>
-#include <QtGui/QDesktopWidget>
 namespace fl {
     namespace qt {
 
@@ -40,7 +39,7 @@ namespace fl {
 //            layout()->s/etSizeConstraint(QLayout::SetFixedSize);
 //            adjustSize();
 //            setFixedSize(sizeHint());
-            QRect scr = QApplication::desktop()->screenGeometry();
+            QRect scr = parentWidget()->geometry();
             move(scr.center() - rect().center());
             connect();
 
@@ -86,14 +85,14 @@ namespace fl {
 
         void Variable::onClickWizard(){
             Wizard* window=  new Wizard(this);
-            window->setup();
+            window->setup(ui->led_name->text().toStdString());
             int result = window->exec();
             FL_LOG("The answer was " << result);
 
         }
 
         void Variable::onClickAddTerm() {
-            Term* window = new Term;
+            Term* window = new Term(this);
             window->setup();
             int result = window->exec();
             if (result) {
@@ -138,7 +137,7 @@ namespace fl {
             for (int i = 0; i < ui->lvw_terms->count(); ++i) {
                 if (ui->lvw_terms->item(i)->isSelected()) {
                     selected.push_back(i);
-                    Term* window = new Term;
+                    Term* window = new Term(this);
                     window->setup();
                     window->edit(variable->getTerm(i));
                     int result = window->exec();

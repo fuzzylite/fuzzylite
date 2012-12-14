@@ -51,8 +51,9 @@ namespace fl {
         const MamdaniOperator* mamdaniOperator =
                 dynamic_cast<const MamdaniOperator*>(node);
         if (not mamdaniOperator->left or not mamdaniOperator->right) {
-            FL_LOG("left and right operands must exist");
-            throw std::exception();
+            std::ostringstream ex;
+            ex << "left and right operands must exist";
+            throw fl::Exception(ex.str());
         }
         if (mamdaniOperator->name == Rule::FL_AND)
             return tnorm->compute(
@@ -63,8 +64,9 @@ namespace fl {
             return snorm->compute(
                     this->firingStrength(tnorm, snorm, mamdaniOperator->left),
                     this->firingStrength(tnorm, snorm, mamdaniOperator->right));
-        FL_LOG("unknown operator <" << mamdaniOperator->name << ">");
-        throw std::exception();
+        std::ostringstream ex;
+        ex << "unknown operator <" << mamdaniOperator->name << ">";
+        throw fl::Exception(ex.str());
 
     }
     scalar MamdaniAntecedent::firingStrength(const Operator* tnorm, const Operator* snorm) const {
@@ -132,9 +134,10 @@ namespace fl {
             if (state bitand S_OPERATOR) {
                 if (infix.isOperator(token)) {
                     if (expressionStack.size() < 2) {
-                        FL_LOG("operator <" << token << "> expected 2 operands,"
-                                << "but found just " << expressionStack.size());
-                        throw std::exception();
+                        std::ostringstream ex;
+                        ex << "operator <" << token << "> expected 2 operands,"
+                                << "but found just " << expressionStack.size();
+                        throw fl::Exception(ex.str());
                     }
                     MamdaniOperator* mamdaniOperator = new MamdaniOperator;
                     mamdaniOperator->name = token;
@@ -151,25 +154,30 @@ namespace fl {
 
             //If reached this point, there was an error
             if ((state bitand S_VARIABLE) or (state bitand S_OPERATOR)) {
-                FL_LOG("expected input variable or operator, but found <" << token << ">");
-                throw std::exception();
+                std::ostringstream ex;
+                ex << "expected input variable or operator, but found <" << token << ">";
+                throw fl::Exception(ex.str());
             }
             if (state bitand S_IS) {
-                FL_LOG("expected keyword <" << Rule::FL_IS << ">, but found <" << token << ">");
-                throw std::exception();
+                std::ostringstream ex;
+                ex << "expected keyword <" << Rule::FL_IS << ">, but found <" << token << ">";
+                throw fl::Exception(ex.str());
             }
             if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
-                FL_LOG("expected hedge or term, but found <" << token << "> not registered in engine");
-                throw std::exception();
+                std::ostringstream ex;
+                ex << "expected hedge or term, but found <" << token << "> not registered in engine";
+                throw fl::Exception(ex.str());
             }
-            FL_LOG("unexpected token <" << token << ">");
-            throw std::exception();
+            std::ostringstream ex;
+            ex << "unexpected token <" << token << ">";
+            throw fl::Exception(ex.str());
         }
 
         if (expressionStack.size() != 1) {
-            FL_LOG("stack expected to contain the root, but contains "
-                    << expressionStack.size() << " nodes");
-            throw std::exception();
+            std::ostringstream ex;
+            ex << "stack expected to contain the root, but contains "
+                    << expressionStack.size() << " nodes";
+            throw fl::Exception(ex.str());
         }
         this->_root = expressionStack.top();
     }

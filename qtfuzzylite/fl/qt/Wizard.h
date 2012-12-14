@@ -13,6 +13,9 @@
 
 #include "ui/ui_Wizard.h"
 
+#include <vector>
+#include <string>
+
 namespace fl {
     namespace qt {
 
@@ -26,14 +29,18 @@ namespace fl {
             virtual void connect();
             virtual void disconnect();
 
+            virtual void createTerms(int number, scalar min, scalar max,
+                    const std::string& classname, bool shoulders) ;
+
         public:
+            std::string prefix;
             std::vector<fl::Term*> terms;
             Ui::Wizard* ui;
 
             Wizard(QWidget* parent = NULL, Qt::WindowFlags = 0);
             virtual ~Wizard();
 
-            virtual void setup();
+            virtual void setup(const std::string& prefix);
 
         };
 

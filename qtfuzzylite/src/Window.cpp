@@ -19,8 +19,8 @@ namespace fl {
     namespace qt {
         Window::Window(QWidget* parent, Qt::WindowFlags flags)
                 : QMainWindow(parent, flags),
-                  _configuration(new Configuration),
-                  ui(new Ui::Window) {
+                        _configuration(new Configuration),
+                        ui(new Ui::Window) {
 
         }
 
@@ -38,6 +38,9 @@ namespace fl {
             _configuration->setFixedSize(320, 270);
             _configuration->setup();
             ui->tab_container->setCurrentIndex(0);
+
+            QRect scr = QApplication::desktop()->screenGeometry();
+            move(scr.center() - rect().center());
 
             connect();
         }
@@ -190,7 +193,7 @@ namespace fl {
         void Window::onMenuAbout() {
             std::ostringstream message;
             message << "qtfuzzylite v." << FL_VERSION <<
-                    " (" << FL_DATE << ")" << std::endl;
+            " (" << FL_DATE << ")" << std::endl;
             message << "http://code.google.com/p/fuzzylite" << std::endl
                     << std::endl;
             message << "Developed by Juan Rada-Vilela." << std::endl;
@@ -211,8 +214,6 @@ namespace fl {
         void Window::main() {
             Window* w = new Window;
             w->setup();
-            QRect scr = QApplication::desktop()->screenGeometry();
-            w->move(scr.center() - w->rect().center());
             w->show();
         }
 

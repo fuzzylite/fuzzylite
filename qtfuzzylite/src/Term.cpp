@@ -9,7 +9,6 @@
 #include <fl/Headers.h>
 #include <QtGui/QMessageBox>
 #include <unistd.h>
-#include <QtGui/QDesktopWidget>
 namespace fl {
     namespace qt {
 
@@ -52,7 +51,7 @@ namespace fl {
             ui->setupUi(this);
             layout()->setSizeConstraint(QLayout::SetFixedSize);
             this->adjustSize();
-            QRect scr = QApplication::desktop()->screenGeometry();
+            QRect scr = parentWidget()->geometry();
             move(scr.center() - rect().center());
             ui->basicTermToolbox->setCurrentIndex(0);
             ui->extendedTermToolbox->setCurrentIndex(0);
