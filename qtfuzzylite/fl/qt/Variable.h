@@ -27,7 +27,8 @@ namespace fl {
             void onClickMoveDown();
 
             void onSelectTerm();
-            //            void onClickWizard();
+            void onClickWizard();
+
         protected:
             void connect();
             void disconnect();

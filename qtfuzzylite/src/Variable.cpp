@@ -7,6 +7,7 @@
 
 #include "fl/qt/Variable.h"
 #include "fl/qt/Term.h"
+#include "fl/qt/Wizard.h"
 #include <fl/Headers.h>
 
 #include <QtGui/QMessageBox>
@@ -62,6 +63,9 @@ namespace fl {
                     this, SLOT(onSelectTerm()));
             QObject::connect(ui->lvw_terms, SIGNAL(itemSelectionChanged()),
                     this, SLOT(onSelectTerm()));
+
+            QObject::connect(ui->btn_wizard, SIGNAL(clicked()),
+                    this, SLOT(onClickWizard()));
         }
 
         void Variable::disconnect() {
@@ -79,6 +83,14 @@ namespace fl {
         /**
          * Button actions...
          */
+
+        void Variable::onClickWizard(){
+            Wizard* window=  new Wizard(this);
+            window->setup();
+            int result = window->exec();
+            FL_LOG("The answer was " << result);
+
+        }
 
         void Variable::onClickAddTerm() {
             Term* window = new Term;
