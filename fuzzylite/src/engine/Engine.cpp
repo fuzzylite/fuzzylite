@@ -158,34 +158,34 @@ namespace fl {
     /**
      * Operations for iterable datatype _ruleblocks
      */
-    void Engine::addRuleblock(RuleBlock* ruleblock) {
+    void Engine::addRuleBlock(RuleBlock* ruleblock) {
         this->_ruleblocks.push_back(ruleblock);
     }
-    void Engine::insertRuleblock(RuleBlock* ruleblock, int index) {
+    void Engine::insertRuleBlock(RuleBlock* ruleblock, int index) {
         this->_ruleblocks.insert(this->_ruleblocks.begin() + index, ruleblock);
     }
-    RuleBlock* Engine::getRuleblock(int index) const {
+    RuleBlock* Engine::getRuleBlock(int index) const {
         return this->_ruleblocks[index];
     }
-    RuleBlock* Engine::getRuleblock(const std::string& name) const {
+    RuleBlock* Engine::getRuleBlock(const std::string& name) const {
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
             if (_ruleblocks[i]->getName() == name)
                 return _ruleblocks[i];
         }
         return NULL;
     }
-    bool Engine::hasRuleblock(const std::string& name) const {
-        return getRuleblock(name) != NULL;
+    bool Engine::hasRuleBlock(const std::string& name) const {
+        return getRuleBlock(name) != NULL;
     }
-    RuleBlock* Engine::removeRuleblock(int index) {
+    RuleBlock* Engine::removeRuleBlock(int index) {
         RuleBlock* result = this->_ruleblocks[index];
         this->_ruleblocks.erase(this->_ruleblocks.begin() + index);
         return result;
     }
-    int Engine::numberOfRuleblocks() const {
+    int Engine::numberOfRuleBlocks() const {
         return this->_ruleblocks.size();
     }
-    const std::vector<RuleBlock*>& Engine::ruleblocks() const {
+    const std::vector<RuleBlock*>& Engine::ruleBlocks() const {
         return this->_ruleblocks;
     }
 

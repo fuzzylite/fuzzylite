@@ -69,14 +69,14 @@ namespace fl {
         /**
          * Operations for iterable datatype _ruleblocks
          */
-        virtual void addRuleblock(RuleBlock* ruleblock);
-        virtual void insertRuleblock(RuleBlock* ruleblock, int index);
-        virtual RuleBlock* getRuleblock(int index) const;
-        virtual RuleBlock* getRuleblock(const std::string& name) const;
-        virtual bool hasRuleblock(const std::string& name) const;
-        virtual RuleBlock* removeRuleblock(int index);
-        virtual int numberOfRuleblocks() const;
-        virtual const std::vector<RuleBlock*>& ruleblocks() const;
+        virtual void addRuleBlock(RuleBlock* ruleblock);
+        virtual void insertRuleBlock(RuleBlock* ruleblock, int index);
+        virtual RuleBlock* getRuleBlock(int index) const;
+        virtual RuleBlock* getRuleBlock(const std::string& name) const;
+        virtual bool hasRuleBlock(const std::string& name) const;
+        virtual RuleBlock* removeRuleBlock(int index);
+        virtual int numberOfRuleBlocks() const;
+        virtual const std::vector<RuleBlock*>& ruleBlocks() const;
 
         /**
          * Operations for map _hedges

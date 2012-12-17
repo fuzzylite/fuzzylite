@@ -21,9 +21,8 @@ namespace fl {
                 scalar maximum = std::numeric_limits<scalar>::infinity());
         ~RightShoulder();
 
-        std::string className() const{
-            return "RightShoulder";
-        }
+        std::string className() const;
+        RightShoulder* copy() const;
 
         scalar membership(scalar x) const;
         std::string toString() const;

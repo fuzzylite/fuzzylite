@@ -12,6 +12,7 @@
 #include "fl/engine/Engine.h"
 #include "fl/variable/InputVariable.h"
 #include "fl/hedge/Hedge.h"
+#include "fl/hedge/Any.h"
 #include "fl/term/Term.h"
 
 #include "fl/rule/Rule.h"
@@ -19,8 +20,6 @@
 #include "fl/engine/Operator.h"
 
 #include "fl/definitions.h"
-
-#include "fl/example/SimpleMamdani.h"
 
 #include <stack>
 
@@ -47,12 +46,12 @@ namespace fl {
             }
             return result;
         }
-        //if node is an operator
+        //if node is an operatorsk
         const MamdaniOperator* mamdaniOperator =
                 dynamic_cast<const MamdaniOperator*>(node);
         if (not mamdaniOperator->left or not mamdaniOperator->right) {
             std::ostringstream ex;
-            ex << "left and right operands must exist";
+            ex << "[syntax error] left and right operands must exist";
             throw fl::Exception(ex.str());
         }
         if (mamdaniOperator->name == Rule::FL_AND)
@@ -65,7 +64,7 @@ namespace fl {
                     this->firingStrength(tnorm, snorm, mamdaniOperator->left),
                     this->firingStrength(tnorm, snorm, mamdaniOperator->right));
         std::ostringstream ex;
-        ex << "unknown operator <" << mamdaniOperator->name << ">";
+        ex << "[syntax error] operator <" << mamdaniOperator->name << "> not recognized";
         throw fl::Exception(ex.str());
 
     }
@@ -135,8 +134,8 @@ namespace fl {
                 if (infix.isOperator(token)) {
                     if (expressionStack.size() < 2) {
                         std::ostringstream ex;
-                        ex << "operator <" << token << "> expected 2 operands,"
-                                << "but found just " << expressionStack.size();
+                        ex << "[syntax error] operator <" << token << "> expects 2 operands,"
+                                << "but found " << expressionStack.size();
                         throw fl::Exception(ex.str());
                     }
                     MamdaniOperator* mamdaniOperator = new MamdaniOperator;
@@ -155,27 +154,27 @@ namespace fl {
             //If reached this point, there was an error
             if ((state bitand S_VARIABLE) or (state bitand S_OPERATOR)) {
                 std::ostringstream ex;
-                ex << "expected input variable or operator, but found <" << token << ">";
+                ex << "[syntax error] expected input variable or operator, but found <" << token << ">";
                 throw fl::Exception(ex.str());
             }
             if (state bitand S_IS) {
                 std::ostringstream ex;
-                ex << "expected keyword <" << Rule::FL_IS << ">, but found <" << token << ">";
+                ex << "[syntax error] expected keyword <" << Rule::FL_IS << ">, but found <" << token << ">";
                 throw fl::Exception(ex.str());
             }
             if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
                 std::ostringstream ex;
-                ex << "expected hedge or term, but found <" << token << "> not registered in engine";
+                ex << "[syntax error] expected hedge or term, but found <" << token << "> not registered in engine";
                 throw fl::Exception(ex.str());
             }
             std::ostringstream ex;
-            ex << "unexpected token <" << token << ">";
+            ex << "[syntax error] unexpected token <" << token << ">";
             throw fl::Exception(ex.str());
         }
 
         if (expressionStack.size() != 1) {
             std::ostringstream ex;
-            ex << "stack expected to contain the root, but contains "
+            ex << "[syntax error] stack expected to contain the root, but contains "
                     << expressionStack.size() << " nodes";
             throw fl::Exception(ex.str());
         }
@@ -231,16 +230,5 @@ namespace fl {
         return ss.str();
     }
 
-    void MamdaniAntecedent::main() {
-        SimpleMamdani sm;
-        sm.create();
-
-        Engine* engine = sm.engine();
-        std::string antecedent =
-                "(Energy is MEDIUM and Energy is LOW) or Energy is HIGH and Energy is LOW";
-        MamdaniAntecedent m;
-        m.load(antecedent, engine);
-        FL_LOG(m.toStringInfix(m._root));
-    }
 
 } /* namespace fl */

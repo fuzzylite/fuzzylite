@@ -15,7 +15,6 @@
 
 namespace fl {
     namespace qt {
-        class Configuration;
 
         class Window: public QMainWindow {
         Q_OBJECT
@@ -34,9 +33,24 @@ namespace fl {
             void onClickRemoveOutputVariable();
             void onClickEditOutputVariable();
 
+            void onClickGenerateAllRules();
+            void onClickParseAllRules();
+
 
             void onSelectTestRule(int selected);
             void onSelectTestActivation(int selected);
+
+            //Test
+            void onInputValueChanged();
+
+
+
+            //Examples
+            bool onMenuExample(const std::string& example);
+            void onMenuExample1();
+            void onMenuExample2();
+            void onMenuExample3();
+            void onMenuExample4();
 
             //MenuBar
             void onMenuConfiguration();
@@ -44,6 +58,7 @@ namespace fl {
 
             void onMenuImport();
             void onMenuExport();
+            void onMenuReset();
             void onMenuAbout();
             void onMenuQuit();
 
@@ -51,17 +66,23 @@ namespace fl {
 //            virtual void onMenuExample
 
         protected:
-            Configuration* _configuration;
+            std::vector<QWidget*> _inputs, _outputs;
 
-            virtual void connect();
-            virtual void disconnect();
+            void connect();
+            void disconnect();
+
+            void reloadModel();
+            void removeRules();
+
+            void reloadTest();
+            void resetTest();
 
         public:
             Ui::Window* ui;
             Window(QWidget* parent = NULL, Qt::WindowFlags flags = 0);
-            virtual ~Window();
+            ~Window();
 
-            virtual void setup();
+            void setup();
 
             static void main();
         };

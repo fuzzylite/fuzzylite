@@ -24,8 +24,8 @@ namespace fl {
         scalar _defuzzifiedValue;
         bool _lockDefuzzifiedValue;
 
-        scalar _minimum;
-        scalar _maximum;
+        scalar _minimumOutputRange;
+        scalar _maximumOutputRange;
 
     public:
         OutputVariable(const std::string& name = "",
@@ -49,11 +49,11 @@ namespace fl {
         virtual void setLockDefuzzifiedValue(bool lock);
         virtual bool lockDefuzzifiedValue() const;
 
-        virtual void setMininum(scalar minimum);
-        virtual scalar getMinimum() const;
+        virtual void setMininumOutputRange(scalar minimum);
+        virtual scalar getMinimumOutputRange() const;
 
-        virtual void setMaximum(scalar maximum);
-        virtual scalar getMaximum() const;
+        virtual void setMaximumOutputRange(scalar maximum);
+        virtual scalar getMaximumOutputRange() const;
 
         /*if the defuzzified value is locked, executing this method
          stores the defuzzified value to be returned in case the next

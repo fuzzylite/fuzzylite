@@ -10,24 +10,28 @@
 
 #include <string>
 
-namespace fl{
-    class Engine;
+#include "fl/engine/Engine.h"
 
-    class Example{
+namespace fl {
+
+    class Example {
+
     public:
-        Example(){}
-        virtual ~Example(){}
+        Engine* engine;
+        Example() :
+                engine(NULL) {
+        }
+        virtual ~Example() {
+            if (engine) delete engine;
+        }
 
-        virtual std::string name() const = 0;
+        virtual std::string name() const{
+            return engine ? engine->getName() : "NULL";
+        }
 
-        virtual void create() = 0;
         virtual void test() = 0;
-        virtual Engine* engine() const = 0;
-
 
     };
 }
-
-
 
 #endif /* FL_EXAMPLE_H_ */

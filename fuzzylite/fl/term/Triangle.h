@@ -24,9 +24,8 @@ namespace fl {
                 scalar c = std::numeric_limits<scalar>::infinity());
         ~Triangle();
 
-        std::string className() const{
-            return "Triangle";
-        }
+        std::string className() const;
+        Triangle* copy() const;
 
         scalar minimum() const;
         scalar maximum() const;

@@ -10,6 +10,7 @@
 
 #include "fl/definitions.h"
 #include "fl/scalar.h"
+#include "fl/Exception.h"
 
 #include "fl/defuzzifier/CenterOfGravity.h"
 #include "fl/defuzzifier/Defuzzifier.h"
@@ -59,6 +60,6 @@
 #include "fl/variable/Variable.h"
 
 #include "fl/example/Example.h"
-#include "fl/example/SimpleMamdani.h"
+#include "fl/example/Example1.h"
 
 #endif /* FL_HEADERS_H_ */

@@ -29,6 +29,9 @@ namespace fl {
             void onSelectTerm();
             void onClickWizard();
 
+            void accept();
+            void reject();
+
         protected:
             void connect();
             void disconnect();
@@ -47,6 +50,9 @@ namespace fl {
             virtual void showEvent(QShowEvent* event);
 
             virtual void setup(VariableType type);
+
+            virtual void edit(const InputVariable* variable);
+            virtual void edit(const OutputVariable* variable);
 
             virtual void reloadModel();
 

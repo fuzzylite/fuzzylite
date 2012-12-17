@@ -22,6 +22,14 @@ namespace fl {
     Bell::~Bell() {
     }
 
+    std::string Bell::className() const{
+        return "Bell";
+    }
+
+    Bell* Bell::copy() const{
+        return new Bell(*this);
+    }
+
     scalar Bell::membership(scalar x) const{
         // from matlab: gbellmf.m
         scalar tmp = ((x - _c) / _a) * ((x - _c) / _a);
@@ -74,5 +82,6 @@ namespace fl {
     scalar Bell::maximum() const {
         return this->_maximum;
     }
+
 
 } /* namespace fl */

@@ -25,23 +25,30 @@ namespace fl {
                 const Operator* accumulation= NULL);
         ~Accumulated();
 
-        std::string className() const{
-            return "Accumulated";
-        }
+        std::string className() const;
+        Accumulated* copy() const;
 
         scalar membership(scalar x) const;
         std::string toString() const;
-
-        void accumulate(const Term* term);
-        int size() const;
-        bool isEmpty() const;
-        void clear();
 
         scalar minimum() const;
         scalar maximum() const;
 
         void setAccumulation(const Operator* accumulation);
         const Operator* getAccumulation() const;
+
+        /**
+          * Operations for std::vector _terms
+          */
+        void addTerm(const Term* term);
+        const Term* getTerm(int index) const;
+        const Term* removeTerm(int index);
+        int numberOfTerms() const;
+        const std::vector<const Term*>& terms() const;
+        bool isEmpty() const;
+        void clear();
+
+
 
     };
 

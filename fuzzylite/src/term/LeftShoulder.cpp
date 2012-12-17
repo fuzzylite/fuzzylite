@@ -24,6 +24,14 @@ namespace fl {
     LeftShoulder::~LeftShoulder() {
     }
 
+    std::string LeftShoulder::className() const{
+        return "LeftShoulder";
+    }
+
+    LeftShoulder* LeftShoulder::copy() const{
+        return new LeftShoulder(*this);
+    }
+
     scalar LeftShoulder::membership(scalar x) const {
         if (Op::IsLt(x, _minimum)) return 1.0;
         if (Op::IsGt(x, _maximum)) return 0.0;

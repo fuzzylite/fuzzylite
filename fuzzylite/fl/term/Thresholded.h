@@ -22,11 +22,11 @@ namespace fl {
     public:
         Thresholded(const Term* term = NULL, scalar threshold = 1.0,
                 const Operator* activationOperator = NULL);
+
         ~Thresholded();
 
-        std::string className() const{
-            return "Thresholded";
-        }
+        std::string className() const;
+        Thresholded* copy() const;
 
         scalar membership(scalar x) const;
         scalar minimum() const;

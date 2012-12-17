@@ -35,6 +35,8 @@ namespace fl {
             void onChangeSpinBoxBell(double dummyValue);
             void onChangeSpinBoxSigmoid(double dummyValue);
 
+            void accept();
+
         protected:
             QToolBox* _termToolBox;
             void connect();

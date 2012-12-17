@@ -63,6 +63,9 @@
                 </item>
                 <item>
                  <widget class="QToolButton" name="btn_add_input">
+                  <property name="toolTip">
+                   <string>Add input variable</string>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
@@ -76,6 +79,9 @@
                  <widget class="QToolButton" name="btn_remove_input">
                   <property name="enabled">
                    <bool>false</bool>
+                  </property>
+                  <property name="toolTip">
+                   <string>Remove input variable</string>
                   </property>
                   <property name="text">
                    <string/>
@@ -91,6 +97,9 @@
                   <property name="enabled">
                    <bool>false</bool>
                   </property>
+                  <property name="toolTip">
+                   <string>Edit input variable</string>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
@@ -103,7 +112,14 @@
                </layout>
               </item>
               <item>
-               <widget class="QListWidget" name="lvw_inputs"/>
+               <widget class="QListWidget" name="lvw_inputs">
+                <property name="selectionMode">
+                 <enum>QAbstractItemView::ExtendedSelection</enum>
+                </property>
+                <property name="selectionBehavior">
+                 <enum>QAbstractItemView::SelectRows</enum>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
@@ -120,6 +136,9 @@
                 </item>
                 <item>
                  <widget class="QToolButton" name="btn_add_output">
+                  <property name="toolTip">
+                   <string>Add output variable</string>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
@@ -133,6 +152,9 @@
                  <widget class="QToolButton" name="btn_remove_output">
                   <property name="enabled">
                    <bool>false</bool>
+                  </property>
+                  <property name="toolTip">
+                   <string>Remove output variable</string>
                   </property>
                   <property name="text">
                    <string/>
@@ -148,6 +170,9 @@
                   <property name="enabled">
                    <bool>false</bool>
                   </property>
+                  <property name="toolTip">
+                   <string>Edit output variable</string>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
@@ -160,7 +185,14 @@
                </layout>
               </item>
               <item>
-               <widget class="QListWidget" name="lvw_outputs"/>
+               <widget class="QListWidget" name="lvw_outputs">
+                <property name="selectionMode">
+                 <enum>QAbstractItemView::ExtendedSelection</enum>
+                </property>
+                <property name="selectionBehavior">
+                 <enum>QAbstractItemView::SelectRows</enum>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
@@ -172,68 +204,87 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QPlainTextEdit" name="ptx_rules">
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarAlwaysOn</enum>
+             <layout class="QVBoxLayout" name="verticalLayout_10">
+              <property name="topMargin">
+               <number>0</number>
               </property>
-              <property name="lineWrapMode">
-               <enum>QPlainTextEdit::NoWrap</enum>
+              <property name="rightMargin">
+               <number>0</number>
               </property>
-              <property name="plainText">
-               <string/>
-              </property>
-              <property name="backgroundVisible">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_7">
               <item>
-               <widget class="QToolButton" name="btn_generate_rules">
-                <property name="text">
-                 <string/>
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <property name="topMargin">
+                 <number>0</number>
                 </property>
-                <property name="icon">
-                 <iconset resource="resources.qrc">
-                  <normaloff>:/icons/icons/wizard.png</normaloff>:/icons/icons/wizard.png</iconset>
-                </property>
-               </widget>
+                <item>
+                 <widget class="QLabel" name="label">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Ruleblock</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="btn_generate_rules">
+                  <property name="toolTip">
+                   <string notr="true">Generate all possible of rules</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="resources.qrc">
+                    <normaloff>:/icons/icons/wizard.png</normaloff>:/icons/icons/wizard.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="btn_parse_rules">
+                  <property name="toolTip">
+                   <string>Parse all rules</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="resources.qrc">
+                    <normaloff>:/icons/icons/spellcheck.png</normaloff>:/icons/icons/spellcheck.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
-               <widget class="QToolButton" name="btn_check_rules">
-                <property name="text">
+               <widget class="QPlainTextEdit" name="ptx_rules">
+                <property name="font">
+                 <font>
+                  <family>Ubuntu Mono</family>
+                  <pointsize>13</pointsize>
+                 </font>
+                </property>
+                <property name="verticalScrollBarPolicy">
+                 <enum>Qt::ScrollBarAlwaysOn</enum>
+                </property>
+                <property name="lineWrapMode">
+                 <enum>QPlainTextEdit::NoWrap</enum>
+                </property>
+                <property name="plainText">
                  <string/>
                 </property>
-                <property name="icon">
-                 <iconset resource="resources.qrc">
-                  <normaloff>:/icons/icons/spellcheck.png</normaloff>:/icons/icons/spellcheck.png</iconset>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="btn_ok">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="icon">
-                 <iconset resource="resources.qrc">
-                  <normaloff>:/icons/icons/apply.png</normaloff>:/icons/icons/apply.png</iconset>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="btn_clear">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="icon">
-                 <iconset resource="resources.qrc">
-                  <normaloff>:/icons/icons/stop.png</normaloff>:/icons/icons/stop.png</iconset>
+                <property name="backgroundVisible">
+                 <bool>false</bool>
                 </property>
                </widget>
               </item>
              </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_7"/>
             </item>
            </layout>
           </item>
@@ -315,7 +366,7 @@
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_8">
                     <property name="margin">
-                     <number>4</number>
+                     <number>0</number>
                     </property>
                     <item>
                      <spacer name="verticalSpacer">
@@ -487,7 +538,7 @@
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_15">
                     <property name="margin">
-                     <number>4</number>
+                     <number>0</number>
                     </property>
                     <item>
                      <spacer name="verticalSpacer_2">
@@ -541,6 +592,8 @@
     <addaction name="actionImport"/>
     <addaction name="actionExport"/>
     <addaction name="separator"/>
+    <addaction name="actionReset"/>
+    <addaction name="separator"/>
     <addaction name="actionAbout"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
@@ -550,21 +603,22 @@
      <string>Examples</string>
     </property>
     <addaction name="actionMamdani"/>
-    <addaction name="actionSimple_1x1"/>
-    <addaction name="actionPower_3x1"/>
+    <addaction name="actionExample1"/>
+    <addaction name="actionExample2"/>
+    <addaction name="actionExample3"/>
+    <addaction name="actionExample4"/>
     <addaction name="separator"/>
-    <addaction name="actionTakagi_Sugeno"/>
-    <addaction name="actionApproximation_1x1"/>
+    <addaction name="actionSugeno"/>
    </widget>
    <addaction name="menuGui"/>
    <addaction name="menuExamples"/>
   </widget>
-  <action name="actionSimple_1x1">
+  <action name="actionExample1">
    <property name="text">
     <string>Health (1x1)</string>
    </property>
   </action>
-  <action name="actionPower_3x1">
+  <action name="actionExample4">
    <property name="text">
     <string>Power (3x1)</string>
    </property>
@@ -636,12 +690,12 @@
   </action>
   <action name="actionConfiguration">
    <property name="text">
-    <string>Configuration...</string>
+    <string>Configuration</string>
    </property>
   </action>
   <action name="actionAbout">
    <property name="text">
-    <string>About...</string>
+    <string>About</string>
    </property>
   </action>
   <action name="actionQuit">
@@ -651,7 +705,7 @@
   </action>
   <action name="actionTerms">
    <property name="text">
-    <string>Term toolbox...</string>
+    <string>Term toolbox</string>
    </property>
   </action>
   <action name="actionInputs">
@@ -662,6 +716,29 @@
   <action name="actionOutputs">
    <property name="text">
     <string>Outputs...</string>
+   </property>
+  </action>
+  <action name="actionReset">
+   <property name="text">
+    <string>Reset</string>
+   </property>
+  </action>
+  <action name="actionExample2">
+   <property name="text">
+    <string>Restaurant (1x1)</string>
+   </property>
+  </action>
+  <action name="actionExample3">
+   <property name="text">
+    <string>Restaurant (2x1)</string>
+   </property>
+  </action>
+  <action name="actionSugeno">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Sugeno</string>
    </property>
   </action>
  </widget>

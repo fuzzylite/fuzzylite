@@ -47,8 +47,10 @@ namespace fl {
 
         }
 
+
         void Term::setup() {
             ui->setupUi(this);
+            setWindowTitle("Add term");
             layout()->setSizeConstraint(QLayout::SetFixedSize);
             this->adjustSize();
             QRect scr = parentWidget()->geometry();
@@ -115,6 +117,11 @@ namespace fl {
             }
             int index = ui->extendedTermToolbox->currentIndex();
             return _extendedTerms[index];
+        }
+
+        void Term::accept(){
+            getSelectedTerm()->setName(ui->led_name->text().toStdString());
+            QDialog::accept();
         }
 
         void Term::connect() {
@@ -302,6 +309,7 @@ namespace fl {
         }
 
         void Term::edit(const fl::Term* x) {
+            setWindowTitle("Edit term");
             ui->led_name->setText(QString::fromStdString(x->getName()));
             loadFrom(x);
             if (x->className() == Triangle().className()) {
@@ -379,8 +387,9 @@ namespace fl {
                 const Sigmoid* term = dynamic_cast<const Sigmoid*>(x);
                 return new Sigmoid(*term);
             }
-            FL_LOG("trying to copy unknown term class <" << x->className() << ">");
-            throw std::exception();
+            std::ostringstream ex;
+            ex << "trying to copy unknown term class <" << x->className() << ">";
+            throw fl::Exception(ex.str());
         }
 
         /**

@@ -12,9 +12,10 @@ namespace fl {
 
         Model* Model::singleton = NULL;
 
-        Model* Model::Default(){
-            if (not singleton){
+        Model* Model::Default() {
+            if (not singleton) {
                 singleton = new Model;
+                singleton->_engine->addRuleBlock(new RuleBlock);
             }
             return singleton;
         }
@@ -29,6 +30,11 @@ namespace fl {
             delete _configuration;
         }
 
+        void Model::changeEngine(Engine* engine) {
+            delete _engine;
+            _engine = engine;
+            _engine->configure(_configuration);
+        }
 
         fl::Engine* Model::engine() const {
             return this->_engine;

@@ -21,6 +21,14 @@ namespace fl {
     Accumulated::~Accumulated() {
     }
 
+    std::string Accumulated::className() const {
+        return "Accumulated";
+    }
+
+    Accumulated* Accumulated::copy() const {
+        return new Accumulated(*this);
+    }
+
     scalar Accumulated::membership(scalar x) const {
         scalar mu = 0.0;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
@@ -41,33 +49,6 @@ namespace fl {
         return ss.str();
     }
 
-    void Accumulated::accumulate(const Term* term) {
-        if (Op::IsInf(_minimum)  or  term->minimum() < _minimum) {
-            _minimum = term->minimum();
-        }
-        if (Op::IsInf(_maximum)  or  term->maximum() > _maximum) {
-            _maximum = term->maximum();
-        }
-        _terms.push_back(term);
-    }
-
-    int Accumulated::size() const {
-        return _terms.size();
-    }
-
-    bool Accumulated::isEmpty() const{
-        return _terms.size() == 0;
-    }
-
-    void Accumulated::clear() {
-        _minimum = -std::numeric_limits<scalar>::infinity();
-        _maximum = std::numeric_limits<scalar>::infinity();
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            delete _terms[i];
-        }
-        _terms.clear();
-    }
-
     scalar Accumulated::minimum() const {
         return this->_minimum;
     }
@@ -82,6 +63,57 @@ namespace fl {
 
     const Operator* Accumulated::getAccumulation() const {
         return this->_accumulation;
+    }
+
+    /**
+     * Operations for std::vector _terms
+     */
+    void Accumulated::addTerm(const Term* term) {
+        if (Op::IsInf(_minimum) or term->minimum() < _minimum) {
+            _minimum = term->minimum();
+        }
+        if (Op::IsInf(_maximum) or term->maximum() > _maximum) {
+            _maximum = term->maximum();
+        }
+        _terms.push_back(term);
+    }
+
+    const Term* Accumulated::removeTerm(int index) {
+        const Term* result = this->_terms[index];
+        this->_terms.erase(this->_terms.begin() + index);
+
+        _minimum = std::numeric_limits<scalar>::infinity();
+        _maximum = -std::numeric_limits<scalar>::infinity();
+        for (std::size_t i = 0; i < this->_terms.size(); ++i) {
+            _minimum = fl::Op::Min(_minimum, _terms[i]->minimum());
+            _maximum = fl::Op::Max(_maximum, _terms[i]->maximum());
+        }
+        return result;
+    }
+
+    void Accumulated::clear() {
+        _minimum = -std::numeric_limits<scalar>::infinity();
+        _maximum = std::numeric_limits<scalar>::infinity();
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
+            delete _terms[i];
+        }
+        _terms.clear();
+    }
+
+    const Term* Accumulated::getTerm(int index) const {
+        return this->_terms[index];
+    }
+
+    const std::vector<const Term*>& Accumulated::terms() const {
+        return this->_terms;
+    }
+
+    int Accumulated::numberOfTerms() const {
+        return _terms.size();
+    }
+
+    bool Accumulated::isEmpty() const {
+        return _terms.size() == 0;
     }
 
 } /* namespace fl */

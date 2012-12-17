@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
     int wait = 3;
 
     std::vector<Example*> examples;
-    examples.push_back(new SimpleMamdani);
+    examples.push_back(new Example1);
     FL_LOG("The examples will start running now");
     for (std::size_t i = 0; i < examples.size(); ++i) {
         Example* example = examples[i];
@@ -37,8 +37,7 @@ int main(int argc, char** argv) {
                     << (wait - w) << " seconds...");
             sleep(1);
         }
-        example->create();
-        example->test();
+//        example->test();
     }
 
     FL_LOG("Bye, FuzzyLite!");

@@ -25,6 +25,7 @@ namespace fl {
             Model();
             virtual ~Model();
 
+            virtual void changeEngine(Engine* engine);
             virtual fl::Engine* engine() const;
             virtual fl::Configuration* configuration() const;
 

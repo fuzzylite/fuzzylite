@@ -39,7 +39,6 @@ namespace fl {
     public:
         Engine* fromFcl(const std::string& fcl);
 
-        static void main();
     };
 
 } /* namespace fl */

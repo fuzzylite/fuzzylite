@@ -20,6 +20,14 @@ namespace fl {
     Sigmoid::~Sigmoid() {
     }
 
+    std::string Sigmoid::className() const{
+        return "Sigmoid";
+    }
+
+    Sigmoid* Sigmoid::copy() const{
+        return new Sigmoid(*this);
+    }
+
     scalar Sigmoid::membership(scalar x) const {
         return 1.0 / (1.0 + std::exp(-_a * (x - _c)));
     }

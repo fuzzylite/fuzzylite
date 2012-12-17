@@ -15,8 +15,8 @@ namespace fl {
     namespace qt {
         Canvas::Canvas(QWidget* parent)
                 : QGraphicsView(new QGraphicsScene, parent),
-                        _minimum(-std::numeric_limits<scalar>::infinity()),
-                        _maximum(std::numeric_limits<scalar>::infinity()) {
+                  _minimum(-std::numeric_limits<scalar>::infinity()),
+                  _maximum(std::numeric_limits<scalar>::infinity()) {
             setRenderHints(renderHints() | QPainter::Antialiasing
                     | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
             setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -98,7 +98,10 @@ namespace fl {
             scalar xcentroid = defuzzifier->defuzzify(term);
 
             QPolygon polygon;
-            polygon.append(QPoint(rect.left(), rect.bottom()));
+            scalar start = Op::Scale(xSamples[0],
+                    _minimum, _maximum,
+                    rect.left(), rect.right());
+            polygon.append(QPoint(start, rect.bottom()));
             for (std::size_t j = 0; j < xSamples.size(); ++j) {
                 scalar x = Op::Scale(xSamples[j], _minimum, _maximum,
                         rect.left(), rect.right());
@@ -109,7 +112,10 @@ namespace fl {
 //                    << "->(" << x << ", " << y << ")");
                 polygon.append(QPoint(x, y));
             }
-            polygon.append(QPoint(rect.right() - 1, rect.bottom()));
+            scalar end = Op::Scale(xSamples[xSamples.size() - 1],
+                    _minimum, _maximum,
+                    rect.left(), rect.right());
+            polygon.append(QPoint(end, rect.bottom()));
 
             QPen pen;
             pen.setWidth(line_width);
@@ -171,9 +177,8 @@ namespace fl {
         void Canvas::main() {
             Canvas* c = new Canvas;
             c->show();
-            SimpleMamdani sm;
-            sm.create();
-            c->draw(sm.engine()->getInputVariable(0));
+            Example1 sm;
+            c->draw(sm.engine->getInputVariable(0));
 
         }
     }

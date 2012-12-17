@@ -21,6 +21,7 @@
 #include <sstream>
 #include <iostream>
 #include <limits>
+#include <utility>
 
 namespace fl {
 
@@ -140,12 +141,26 @@ namespace fl {
                 return std::numeric_limits<scalar>::infinity();
             if (x == nInf.str())
                 return -std::numeric_limits<scalar>::infinity();
-            if (!quiet){
+            if (!quiet) {
                 std::ostringstream ex;
                 ex << "[conversion error] from <" << x << "> to scalar";
                 throw fl::Exception(ex.str());
             }
             return alternative;
+        }
+
+        static std::vector<std::pair<scalar, scalar> >
+        Overlap(int number_of_sections,
+                scalar min, scalar max, scalar factor = 0.5) {
+            std::vector<std::pair<scalar, scalar> > limits;
+            scalar range = (max - min) / (factor * (number_of_sections + 1));
+            scalar current_step = min;
+            for (int i = 0; i < number_of_sections; ++i) {
+                limits.push_back(std::make_pair(current_step,
+                        current_step + range));
+                current_step += factor * range;
+            }
+            return limits;
         }
     };
 

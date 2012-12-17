@@ -21,6 +21,14 @@ namespace fl {
     Rectangle::~Rectangle() {
     }
 
+    std::string Rectangle::className() const{
+        return "Rectangle";
+    }
+
+    Rectangle* Rectangle::copy() const{
+        return new Rectangle(*this);
+    }
+
     scalar Rectangle::membership(scalar x) const{
         if (Op::IsLt(x, _minimum)  or  Op::IsGt(x, _maximum))
             return 0.0;

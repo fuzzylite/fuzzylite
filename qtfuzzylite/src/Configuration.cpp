@@ -16,6 +16,7 @@ namespace fl {
 
         Configuration::Configuration(QWidget* parent, Qt::WindowFlags f)
                 : QDialog(parent, f), ui(new Ui::Configuration) {
+            setWindowFlags(Qt::Tool);
             _andOperators.push_back(std::pair<std::string, Operator*>
                     (Min().name(), new Min));
             _andOperators.push_back(std::pair<std::string, Operator*>

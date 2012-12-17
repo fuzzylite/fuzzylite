@@ -29,9 +29,8 @@ namespace fl {
                 const std::vector<std::pair<scalar, scalar> >& xy);
         ~Discrete();
 
-        std::string className() const {
-            return "Discrete";
-        }
+        std::string className() const ;
+        Discrete* copy() const ;
 
         scalar minimum() const;
         scalar maximum() const;
@@ -39,6 +38,8 @@ namespace fl {
         scalar membership(scalar x) const;
 
         std::string toString() const;
+
+
 
     };
 

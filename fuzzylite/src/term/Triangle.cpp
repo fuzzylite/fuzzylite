@@ -20,31 +20,39 @@ namespace fl {
     Triangle::~Triangle() {
     }
 
-    scalar Triangle::minimum() const {
-        return this->_a;
+    std::string Triangle::className() const {
+        return "Triangle";
     }
 
-    scalar Triangle::maximum() const {
-        return this->_c;
+    Triangle* Triangle::copy() const{
+        return new Triangle(*this);
     }
 
-    scalar Triangle::membership(scalar x) const{
+    scalar Triangle::membership(scalar x) const {
         scalar minimum = _a;
         scalar maximum = _c;
-        if (Op::IsLE(x, minimum)  or  Op::IsGE(x, maximum))
-            return 0.0;
-        else if (Op::IsEq(x,  _b))
-            return 1.0;
+        if (Op::IsLE(x, minimum) or Op::IsGE(x, maximum))
+        return 0.0;
+        else if (Op::IsEq(x, _b))
+        return 1.0;
         else if (Op::IsLt(x, _b))
-            return (x - minimum) / (_b - minimum);
+        return (x - minimum) / (_b - minimum);
         else
-            return (maximum - x) / (maximum - _b);
+        return (maximum - x) / (maximum - _b);
     }
 
     std::string Triangle::toString() const {
         std::stringstream ss;
         ss << "Triangle (" << _a << ", " << _b << ", " << _c << ")";
         return ss.str();
+    }
+
+    scalar Triangle::minimum() const {
+        return this->_a;
+    }
+
+    scalar Triangle::maximum() const {
+        return this->_c;
     }
 
     void Triangle::setA(scalar a) {

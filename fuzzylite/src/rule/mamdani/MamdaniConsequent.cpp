@@ -37,7 +37,7 @@ namespace fl {
             Thresholded* term = new Thresholded(_conclusions[i]->term);
             term->setThreshold(threshold);
             term->setActivation(activation);
-            proposition->outputVariable->output()->accumulate(term);
+            proposition->outputVariable->output()->addTerm(term);
             FL_DBG("Accumulating " << term->toString());
         }
     }
@@ -126,25 +126,25 @@ namespace fl {
             //if reached this point, there was an error:
             if (state bitand S_VARIABLE) {
                 std::ostringstream ex;
-                ex << "expected output variable, but found <" << token << ">";
+                ex << "[syntax error] expected output variable, but found <" << token << ">";
                 throw fl::Exception(ex.str());
             }
             if (state bitand S_IS) {
                 std::ostringstream ex;
-                ex << "expected keyword <" << Rule::FL_IS << ">, but found <"
+                ex << "[syntax error] expected keyword <" << Rule::FL_IS << ">, but found <"
                         << token << ">";
                 throw fl::Exception(ex.str());
             }
 
             if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
                 std::ostringstream ex;
-                ex << "expected hedge or term, but found <" << token << ">";
+                ex << "[syntax error] expected hedge or term, but found <" << token << ">";
                 throw fl::Exception(ex.str());
             }
 
             if ((state bitand S_AND) or (state bitand S_WITH)) {
                 std::ostringstream ex;
-                ex << "expected operators <" << Rule::FL_AND << "> or <"
+                ex << "[syntax error] expected operators <" << Rule::FL_AND << "> or <"
                         << Rule::FL_WITH << ">, "
                         << "but found <" << token << ">";
                 throw fl::Exception(ex.str());
@@ -152,12 +152,12 @@ namespace fl {
 
             if (state bitand S_FLOAT) {
                 std::ostringstream ex;
-                ex << "expected floating-point value to weight the proposition, "
+                ex << "[syntax error] expected numeric value to weight the proposition, "
                         << "but found <" << token << ">";
                 throw fl::Exception(ex.str());
             }
             std::ostringstream ex;
-            ex << "unexpected token found <" << token << ">";
+            ex << "[syntax error] unexpected token <" << token << ">";
             throw fl::Exception(ex.str());
         }
     }

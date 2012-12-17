@@ -25,9 +25,8 @@ namespace fl {
                 scalar maximum = std::numeric_limits<scalar>::infinity());
         ~Sigmoid();
 
-        std::string className() const{
-            return "Sigmoid";
-        }
+        std::string className() const;
+        Sigmoid* copy() const;
 
         scalar membership(scalar x) const;
 

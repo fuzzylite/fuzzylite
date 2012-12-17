@@ -21,27 +21,27 @@ namespace fl {
     Trapezoid::~Trapezoid() {
     }
 
-    scalar Trapezoid::minimum() const {
-        return this->_a;
+    std::string Trapezoid::className() const{
+        return "Trapezoid";
     }
 
-    scalar Trapezoid::maximum() const {
-        return this->_d;
+    Trapezoid* Trapezoid::copy() const{
+        return new Trapezoid(*this);
     }
 
-    scalar Trapezoid::membership(scalar x) const{
+    scalar Trapezoid::membership(scalar x) const {
         scalar minimum = _a;
         scalar maximum = _d;
-        if (Op::IsLE(x, minimum)  or  Op::IsGE(x, maximum))
-            return 0.0;
+        if (Op::IsLE(x, minimum) or Op::IsGE(x, maximum))
+        return 0.0;
         else if (Op::IsLE(x, _b))
-            return (x - minimum) / (_b - minimum);
+        return (x - minimum) / (_b - minimum);
         else if (Op::IsLE(x, _c))
-            return 1.0;
+        return 1.0;
         else if (Op::IsLE(x, maximum))
-            return (maximum - x) / (maximum - _c);
+        return (maximum - x) / (maximum - _c);
         else
-            return 0.0;
+        return 0.0;
     }
 
     std::string Trapezoid::toString() const {
@@ -49,6 +49,14 @@ namespace fl {
         ss << "Trapezoid (" << _a << ", " << _b << ", " << _c << ", "
                 << _d << ")";
         return ss.str();
+    }
+
+    scalar Trapezoid::minimum() const {
+        return this->_a;
+    }
+
+    scalar Trapezoid::maximum() const {
+        return this->_d;
     }
 
     void Trapezoid::setA(scalar a) {

@@ -23,14 +23,19 @@ namespace fl {
         Q_OBJECT
 
         protected slots:
+            void onCurrentTermChanged(int index);
             void onClickGenerate();
+            void accept();
             void reject();
-        protected:
+            protected:
             virtual void connect();
             virtual void disconnect();
 
+            static std::vector<std::pair<scalar, scalar> >
+            Overlap(int number_of_sections,
+                    scalar min, scalar max, scalar factor = 0.5) ;
             virtual void createTerms(int number, scalar min, scalar max,
-                    const std::string& classname, bool shoulders) ;
+                    const std::string& classname, bool shoulders);
 
         public:
             std::string prefix;

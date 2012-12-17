@@ -1,6 +1,6 @@
 
 
-CONFIG-=app_bundle
+CONFIG-=app debug
 
 MAKEFILE = Makefile
 TEMPLATE = app
@@ -17,7 +17,7 @@ RCC_DIR = src/
 LIBS += -Lbin/ -lfuzzylite  
 
 FORMS += Window.ui Control.ui Configuration.ui
-FORMS += Variable.ui Wizard.ui Term.ui  
+FORMS += Variable.ui Wizard.ui Term.ui FCL.ui
 
 HEADERS += fl/qt/Window.h fl/qt/Canvas.h fl/qt/Configuration.h  
 SOURCES += src/Window.cpp src/Canvas.cpp src/Configuration.cpp 
@@ -25,8 +25,8 @@ SOURCES += src/Window.cpp src/Canvas.cpp src/Configuration.cpp
 HEADERS += fl/qt/Term.h fl/qt/Variable.h fl/qt/Wizard.h
 SOURCES += src/Term.cpp src/Variable.cpp src/Wizard.cpp
 
-HEADERS += fl/qt/Model.h
-SOURCES += src/Model.cpp
+HEADERS += fl/qt/Model.h fl/qt/Control.h
+SOURCES += src/Model.cpp src/Control.cpp
 
 
 SOURCES += src/main.cpp

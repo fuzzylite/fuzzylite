@@ -34,14 +34,12 @@ namespace fl {
     Discrete::~Discrete() {
     }
 
-    scalar Discrete::minimum() const {
-        if (x.size() > 0) return x[0];
-        return -std::numeric_limits<scalar>::infinity();
+    std::string Discrete::className() const {
+        return "Discrete";
     }
 
-    scalar Discrete::maximum() const {
-        if (x.size() > 0) return x[x.size() - 1];
-        return std::numeric_limits<scalar>::infinity();
+    Discrete* Discrete::copy() const {
+        return new Discrete(*this);
     }
 
     scalar Discrete::membership(scalar mu) const {
@@ -75,6 +73,16 @@ namespace fl {
         }
         ss << ")";
         return ss.str();
+    }
+
+    scalar Discrete::minimum() const {
+        if (x.size() > 0) return x[0];
+        return -std::numeric_limits<scalar>::infinity();
+    }
+
+    scalar Discrete::maximum() const {
+        if (x.size() > 0) return x[x.size() - 1];
+        return std::numeric_limits<scalar>::infinity();
     }
 
 } /* namespace fl */

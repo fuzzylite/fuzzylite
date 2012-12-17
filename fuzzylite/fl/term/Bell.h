@@ -27,9 +27,8 @@ namespace fl {
                 scalar maximum = std::numeric_limits<scalar>::infinity());
         ~Bell();
 
-        std::string className() const {
-            return "Bell";
-        }
+        std::string className() const;
+        Bell* copy() const;
 
         scalar membership(scalar x) const;
 
@@ -44,11 +43,11 @@ namespace fl {
         void setC(scalar c);
         scalar getC() const;
 
-        virtual void setMinimum(scalar minimum);
-        virtual scalar minimum() const;
+        void setMinimum(scalar minimum);
+        scalar minimum() const;
 
-        virtual void setMaximum(scalar maximum);
-        virtual scalar maximum() const;
+        void setMaximum(scalar maximum);
+        scalar maximum() const;
 
     }
     ;

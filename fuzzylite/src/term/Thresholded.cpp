@@ -21,8 +21,23 @@ namespace fl {
     Thresholded::~Thresholded() {
     }
 
+    std::string Thresholded::className() const{
+        return "Thresholded";
+    }
+
+    Thresholded* Thresholded::copy() const{
+        return new Thresholded(*this);
+    }
+
     scalar Thresholded::membership(scalar x) const {
         return _activation->compute(x, _threshold);
+    }
+
+    std::string Thresholded::toString() const {
+        std::stringstream ss;
+        ss << "Thresholded (" << _term->toString() << ") to " << _threshold
+                << " activated using " << _activation->name();
+        return ss.str();
     }
 
     scalar Thresholded::minimum() const {
@@ -53,13 +68,6 @@ namespace fl {
 
     const Operator* Thresholded::getActivation() const {
         return this->_activation;
-    }
-
-    std::string Thresholded::toString() const {
-        std::stringstream ss;
-        ss << "Thresholded (" << _term->toString() << ") to " << _threshold
-                << " activated using " << _activation->name();
-        return ss.str();
     }
 
 } /* namespace fl */

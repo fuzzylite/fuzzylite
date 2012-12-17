@@ -22,6 +22,14 @@ namespace fl {
 
     }
 
+    std::string Gaussian::className() const{
+        return "Gaussian";
+    }
+
+    Gaussian* Gaussian::copy() const{
+        return new Gaussian(*this);
+    }
+
     scalar Gaussian::membership(scalar x) const{
         return std::exp((-(x - _c) * (x - _c)) / (2 * _sigma * _sigma));
     }

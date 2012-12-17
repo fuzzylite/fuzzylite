@@ -17,6 +17,12 @@ namespace fl {
             : _name(name) {
     }
 
+    Variable::Variable(const Variable& copy){
+        for (int i = 0 ; i < copy.numberOfTerms(); ++i){
+            addTerm(copy.getTerm(i)->copy());
+        }
+    }
+
     Variable::~Variable() {
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             delete _terms[i];

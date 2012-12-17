@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>289</width>
-    <height>410</height>
+    <height>318</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -155,6 +155,18 @@
    </item>
    <item>
     <widget class="QPlainTextEdit" name="ted_configuration">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>100</height>
+      </size>
+     </property>
      <property name="readOnly">
       <bool>true</bool>
      </property>

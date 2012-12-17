@@ -27,18 +27,26 @@ namespace fl {
 
         void Variable::setup(VariableType type) {
             ui->setupUi(this);
-            ui->lbl_default->setVisible(type == OUTPUT_VARIABLE);
-            ui->led_default->setVisible(type == OUTPUT_VARIABLE);
-            ui->chx_lock->setVisible(type == OUTPUT_VARIABLE);
+            setWindowTitle("Add variable");
 
             if (type == INPUT_VARIABLE)
-            variable = new InputVariable;
+                variable = new InputVariable;
             else if (type == OUTPUT_VARIABLE)
                 variable = new OutputVariable;
 
-//            layout()->s/etSizeConstraint(QLayout::SetFixedSize);
-//            adjustSize();
-//            setFixedSize(sizeHint());
+            ui->canvas->adjustSize();
+            ui->lvw_terms->adjustSize();
+
+            if (type != OUTPUT_VARIABLE) {
+                QSize thisSize = this->size();
+                thisSize.setHeight(thisSize.height() - 85);
+                setFixedSize(thisSize);
+            }else{
+                setFixedSize(size());
+            }
+
+            ui->gbx_output->setVisible(type == OUTPUT_VARIABLE);
+
             QRect scr = parentWidget()->geometry();
             move(scr.center() - rect().center());
             connect();
@@ -68,37 +76,100 @@ namespace fl {
         }
 
         void Variable::disconnect() {
-
+            FL_LOG("TODO: disconnect");
         }
 
         void Variable::showEvent(QShowEvent* event) {
             ui->canvas->scene()->setSceneRect(ui->canvas->viewport()->rect());
             ui->canvas->fitInView(0, 0, ui->canvas->scene()->width(),
                     ui->canvas->scene()->height(), Qt::IgnoreAspectRatio);
+            reloadModel();
             QWidget::showEvent(event);
+
         }
 
+        void Variable::edit(const InputVariable* inputVariable) {
+            setWindowTitle("Edit variable");
+            ui->led_name->setText(QString::fromStdString(inputVariable->getName()));
+            for (int i = 0; i < inputVariable->numberOfTerms(); ++i) {
+//                FL_LOG("Copying " << inputVariable->getTerm(i)->toString());
+                fl::Term* copy = inputVariable->getTerm(i)->copy();
+//                FL_LOG("Copied: " << copy->toString());
+                this->variable->addTerm(copy);
+            }
+            reloadModel();
+        }
+
+        void Variable::edit(const OutputVariable* outputVariable) {
+            setWindowTitle("Edit variable");
+            ui->led_name->setText(QString::fromStdString(outputVariable->getName()));
+            for (int i = 0; i < outputVariable->numberOfTerms(); ++i) {
+                this->variable->addTerm(outputVariable->getTerm(i)->copy());
+            }
+            OutputVariable* editable = dynamic_cast<OutputVariable*>(this->variable);
+            editable->setDefaultValue(outputVariable->getDefaultValue());
+            editable->setDefuzzifier(outputVariable->getDefuzzifier());
+
+            editable->setDefuzzifiedValue(outputVariable->getDefuzzifiedValue());
+            editable->setLockDefuzzifiedValue(outputVariable->lockDefuzzifiedValue());
+
+            editable->setMininumOutputRange(outputVariable->getMinimumOutputRange());
+            editable->setMaximumOutputRange(outputVariable->getMaximumOutputRange());
+            reloadModel();
+        }
 
         /**
          * Button actions...
          */
 
-        void Variable::onClickWizard(){
-            Wizard* window=  new Wizard(this);
-            window->setup(ui->led_name->text().toStdString());
-            int result = window->exec();
-            FL_LOG("The answer was " << result);
+        void Variable::accept() {
+            OutputVariable* outputVariable = dynamic_cast<OutputVariable*>(variable);
+            if (outputVariable) {
+                try {
+                    outputVariable->setDefaultValue(
+                            fl::Op::Scalar(ui->led_default->text().toStdString()));
+                    outputVariable->setMininumOutputRange(
+                            fl::Op::Scalar(ui->led_min_range->text().toStdString()));
+                    outputVariable->setMaximumOutputRange(
+                            fl::Op::Scalar(ui->led_max_range->text().toStdString()));
+                } catch (fl::Exception& ex) {
+                    std::ostringstream message;
+                    message << ex.what() << std::endl <<
+                            "Expected numeric values (including nan or inf)" << std::endl;
+                    QMessageBox::critical(this, tr("Error"),
+                            QString::fromStdString(message.str()),
+                            QMessageBox::Ok);
+                    return;
+                }
+                outputVariable->setLockDefuzzifiedValue(ui->chx_lock->isChecked());
+            }
+            variable->setName(ui->led_name->text().toStdString());
+            QDialog::accept();
+        }
 
+        void Variable::reject() {
+            FL_LOG("Deleting variable " << variable->toString());
+            delete variable;
+            variable = NULL;
+            QDialog::reject();
+        }
+
+        void Variable::onClickWizard() {
+            Wizard* window = new Wizard(this);
+            window->setup(ui->led_name->text().toStdString());
+            if (window->exec()) {
+                for (std::size_t i = 0; i < window->terms.size(); ++i) {
+                    variable->addTerm(window->terms[i]);
+                }
+                reloadModel();
+            }
         }
 
         void Variable::onClickAddTerm() {
             Term* window = new Term(this);
             window->setup();
-            int result = window->exec();
-            if (result) {
-                fl::Term* term = window->copySelectedTerm();
-                term->setName(window->ui->led_name->text().toStdString());
-                variable->addTerm(term);
+            if (window->exec()) {
+                variable->addTerm(window->copySelectedTerm());
                 reloadModel();
                 ui->lvw_terms->setFocus();
                 ui->lvw_terms->item(ui->lvw_terms->count() - 1)->setSelected(true);
@@ -122,7 +193,6 @@ namespace fl {
                     QString::fromStdString(message.str()),
                     QMessageBox::Yes | QMessageBox::No);
             if (clicked == QMessageBox::Yes) {
-                FL_LOG("The answer was: " << "yes");
                 for (int i = ui->lvw_terms->count() - 1; i >= 0; --i) {
                     if (ui->lvw_terms->item(i)->isSelected()) {
                         delete (variable->removeTerm(i));
@@ -133,6 +203,25 @@ namespace fl {
 
         }
         void Variable::onClickEditTerm() {
+            if (ui->lvw_terms->selectedItems().size() > 1) {
+                std::ostringstream message;
+                message << "Do you want to edit the following terms?"
+                        << std::endl;
+                for (int i = 0; i < ui->lvw_terms->count(); ++i) {
+                    if (ui->lvw_terms->item(i)->isSelected()) {
+                        message << "<" << variable->getTerm(i)->getName() << ">: "
+                                << variable->getTerm(i)->toString() << std::endl;
+                    }
+                }
+                QMessageBox::StandardButton clicked = QMessageBox::warning(this,
+                        "Edit multiple terms",
+                        QString::fromStdString(message.str()),
+                        QMessageBox::Yes | QMessageBox::No);
+                if (clicked == QMessageBox::No) {
+                    return;
+                }
+            }
+
             std::vector<int> selected;
             for (int i = 0; i < ui->lvw_terms->count(); ++i) {
                 if (ui->lvw_terms->item(i)->isSelected()) {
@@ -140,10 +229,8 @@ namespace fl {
                     Term* window = new Term(this);
                     window->setup();
                     window->edit(variable->getTerm(i));
-                    int result = window->exec();
-                    if (result) {
+                    if (window->exec()) {
                         fl::Term* term = window->copySelectedTerm();
-                        term->setName(window->ui->led_name->text().toStdString());
                         delete variable->removeTerm(i);
                         variable->insertTerm(term, i);
                     }
@@ -166,14 +253,17 @@ namespace fl {
 
             ui->canvas->clear();
             ui->canvas->draw(variable);
+            scalar minimum = std::numeric_limits<scalar>::infinity();
+            scalar maximum = -std::numeric_limits<scalar>::infinity();
             for (int i = 0; i < ui->lvw_terms->count(); ++i) {
                 if (ui->lvw_terms->item(i)->isSelected()) {
                     ui->canvas->draw(variable->getTerm(i));
+                    minimum = fl::Op::Min(minimum, variable->getTerm(i)->minimum());
+                    maximum = fl::Op::Max(maximum, variable->getTerm(i)->maximum());
                 }
             }
-
-            ui->led_lvar_min->setText(QString::number(variable->minimum()));
-            ui->led_lvar_max->setText(QString::number(variable->maximum()));
+            ui->led_min->setText(QString::number(minimum, 'g', 2));
+            ui->led_max->setText(QString::number(maximum, 'g', 2));
         }
 
         void Variable::onClickMoveUp() {
@@ -186,14 +276,11 @@ namespace fl {
                         newPosition = ui->lvw_terms->count() - 1;
                         newPositions.push_back(newPosition);
                         rotate = true;
-                    } else newPositions.push_back(newPosition - rotate);
+                    } else
+                        newPositions.push_back(newPosition - rotate);
 
-//                    FL_LOG(i << "->" << newPosition);
                     fl::Term* term = variable->removeTerm(i);
                     variable->insertTerm(term, newPosition);
-//                    for (int x = 0; x < variable->numberOfTerms(); ++x) {
-//                        FL_LOG(variable->getTerm(x)->getName());
-//                    }
                 }
             }
             reloadModel();
@@ -212,13 +299,10 @@ namespace fl {
                         newPosition = 0;
                         newPositions.push_back(newPosition);
                         rotate = true;
-                    } else newPositions.push_back(newPosition + rotate);
-//                    FL_LOG(i << "->" << newPosition);
+                    } else
+                        newPositions.push_back(newPosition + rotate);
                     fl::Term* term = variable->removeTerm(i);
                     variable->insertTerm(term, newPosition);
-//                    for (int x = 0; x < variable->numberOfTerms(); ++x) {
-//                        FL_LOG(variable->getTerm(x)->getName());
-//                    }
                 }
             }
             reloadModel();
@@ -236,8 +320,20 @@ namespace fl {
             if (variable->numberOfTerms() > 0) {
                 ui->canvas->draw(variable);
             }
-        }
+            ui->led_min->setText(QString::number(variable->minimum(), 'g', 2));
+            ui->led_max->setText(QString::number(variable->maximum(), 'g', 2));
+            OutputVariable* outputVariable = dynamic_cast<OutputVariable*>(variable);
+            if (outputVariable) {
+                ui->led_default->setText(QString::number(outputVariable->getDefaultValue()));
+                ui->chx_lock->setChecked(outputVariable->lockDefuzzifiedValue());
+                std::ostringstream min, max;
+                min << outputVariable->getMinimumOutputRange();
+                max << outputVariable->getMaximumOutputRange();
+                ui->led_min_range->setText(QString::fromStdString(min.str()));
+                ui->led_max_range->setText(QString::fromStdString(max.str()));
+            }
 
+        }
 
     } /* namespace qt */
 } /* namespace fl */

@@ -22,8 +22,8 @@ namespace fl {
               _defaultValue(defaultValue),
               _defuzzifiedValue(std::numeric_limits<scalar>::quiet_NaN()),
               _lockDefuzzifiedValue(lockDefuzzifiedValue),
-              _minimum(-std::numeric_limits<scalar>::infinity()),
-              _maximum(std::numeric_limits<scalar>::infinity()) {
+              _minimumOutputRange(-std::numeric_limits<scalar>::infinity()),
+              _maximumOutputRange(std::numeric_limits<scalar>::infinity()) {
     }
 
     OutputVariable::~OutputVariable() {
@@ -71,20 +71,20 @@ namespace fl {
         return this->_lockDefuzzifiedValue;
     }
 
-    void OutputVariable::setMininum(scalar minimum){
-        this->_minimum = minimum;
+    void OutputVariable::setMininumOutputRange(scalar minimum) {
+        this->_minimumOutputRange = minimum;
     }
 
-    scalar OutputVariable::getMinimum() const{
-        return this->_minimum;
+    scalar OutputVariable::getMinimumOutputRange() const {
+        return this->_minimumOutputRange;
     }
 
-    void OutputVariable::setMaximum(scalar maximum){
-        this->_maximum =maximum;
+    void OutputVariable::setMaximumOutputRange(scalar maximum) {
+        this->_maximumOutputRange = maximum;
     }
 
-    scalar OutputVariable::getMaximum() const{
-        return this->_maximum;
+    scalar OutputVariable::getMaximumOutputRange() const {
+        return this->_maximumOutputRange;
     }
 
     scalar OutputVariable::defuzzify(bool overrideLock) {
@@ -97,10 +97,11 @@ namespace fl {
         }
         scalar result = this->_defuzzifier->defuzzify(this->_output);
 
-        if (Op::IsLt(result, _minimum)) result = _minimum;
-        if (Op::IsGt(result, _maximum)) result = _maximum;
+        if (Op::IsLt(result, _minimumOutputRange)) result = _minimumOutputRange;
+        if (Op::IsGt(result, _maximumOutputRange)) result = _maximumOutputRange;
 
-        if (not overrideLock and _lockDefuzzifiedValue) _defuzzifiedValue = result;
+        if (not overrideLock and _lockDefuzzifiedValue)
+            _defuzzifiedValue = result;
 
         return result;
     }

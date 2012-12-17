@@ -42,6 +42,8 @@ namespace fl {
         virtual std::string className() const = 0;
         virtual std::string toString() const = 0;
 
+        virtual Term* copy() const  = 0;
+
 
     };
 

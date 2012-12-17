@@ -25,6 +25,8 @@ namespace fl {
 
     public:
         Variable(const std::string& name = "");
+        Variable(const Variable& copy);
+
         virtual ~Variable();
 
         virtual void configure(Configuration* config);

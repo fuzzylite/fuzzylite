@@ -38,7 +38,6 @@ namespace fl {
         virtual std::string toStringInfix(const MamdaniExpression* node = NULL) const;
         virtual std::string toStringPostfix(const MamdaniExpression* node = NULL) const;
 
-        static void main();
     };
 
 } /* namespace fl */

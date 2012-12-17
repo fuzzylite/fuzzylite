@@ -17,7 +17,7 @@
 namespace fl {
 
     RuleBlock::RuleBlock(const std::string& name)
-            : _name(name) {
+            : _name(name), _tnorm(NULL), _snorm(NULL), _activation(NULL) {
     }
 
     RuleBlock::~RuleBlock() {

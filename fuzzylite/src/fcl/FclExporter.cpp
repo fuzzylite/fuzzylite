@@ -77,24 +77,36 @@ namespace fl {
             fcl << std::endl;
 
             fcl << "DEFAULT := " << outputVariable->getDefaultValue();
-            if (outputVariable->lockDefuzzifiedValue()){
+            if (outputVariable->lockDefuzzifiedValue()) {
                 fcl << " | NC";
             }
             fcl << ";" << std::endl;
 
-            fcl << "RANGE := (" << outputVariable->getMinimum() << " .. "
-                    << outputVariable->getMaximum() << ");" << std::endl;
+            fcl << "RANGE := (" << outputVariable->getMinimumOutputRange() << " .. "
+                    << outputVariable->getMaximumOutputRange() << ");" << std::endl;
 
             fcl << "END_DEFUZZIFY" << std::endl;
             fcl << std::endl;
         }
 
-        for (int i = 0; i < engine->numberOfRuleblocks(); ++i) {
-            RuleBlock* ruleblock = engine->getRuleblock(i);
+        for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
+            RuleBlock* ruleblock = engine->getRuleBlock(i);
             fcl << "RULEBLOCK " << ruleblock->getName() << std::endl;
-            fcl << "AND : " << ruleblock->getTnorm()->name() << ";" << std::endl;
-            fcl << "OR : " << ruleblock->getSnorm()->name() << ";" << std::endl;
-            fcl << "ACT : " << ruleblock->getActivation()->name() << ";" << std::endl;
+            fcl << "AND : ";
+            if (ruleblock->getTnorm())
+                fcl << ruleblock->getTnorm()->name();
+            fcl << ";" << std::endl;
+
+            fcl << "OR : ";
+            if (ruleblock->getSnorm())
+                fcl << ruleblock->getSnorm()->name();
+            fcl << ";" << std::endl;
+
+            fcl << "ACT : ";
+            if (ruleblock->getActivation())
+                fcl << ruleblock->getActivation()->name();
+            fcl << ";" << std::endl;
+
             fcl << std::endl;
 
             for (int r = 0; r < ruleblock->numberOfRules(); ++r) {

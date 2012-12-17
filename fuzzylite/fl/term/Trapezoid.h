@@ -23,9 +23,8 @@ namespace fl {
                 scalar d = std::numeric_limits<scalar>::infinity());
         ~Trapezoid();
 
-        std::string className() const{
-            return "Trapezoid";
-        }
+        std::string className() const;
+        Trapezoid* copy() const;
 
         scalar minimum() const;
         scalar maximum() const;
