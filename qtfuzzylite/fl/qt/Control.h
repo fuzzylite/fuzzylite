@@ -23,26 +23,31 @@ namespace fl {
             void inputValueChanged();
 
         public slots:
-             void updateOutputValue();
+            void updateOutputValue();
 
         protected slots:
-             void onChangeSliderValue(int position);
-             void onEditInputValue();
+            void onChangeSliderValue(int position);
+            void onEditInputValue();
+            void onChangeToolBoxPage(int);
+            void onClickShowMoreInformation(int);
 
         protected:
-             void connect();
-             void disconnect();
-             void resizeEvent(QResizeEvent* e);
-             void focusInEvent(QFocusEvent* e);
+            void setup();
+            void connect();
+            void disconnect();
+            void showEvent(QShowEvent* e);
+            void resizeEvent(QResizeEvent* e);
+            void focusInEvent(QFocusEvent* e);
 
         public:
+            fl::InputVariable* inputVariable;
+            fl::OutputVariable* outputVariable;
             Ui::Control* ui;
             Control(QWidget* parent = NULL, Qt::WindowFlags f = 0);
             ~Control();
 
-            void setup();
-            void setup(InputVariable* input);
-            void setup(OutputVariable* input);
+            void setup(fl::Variable* variable);
+            void refreshModel();
 
         };
 

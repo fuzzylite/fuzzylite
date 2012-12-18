@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>162</width>
-    <height>489</height>
+    <height>490</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,7 +29,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QGraphicsView" name="canvas">
+      <widget class="fl::qt::Canvas" name="canvas">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -39,17 +39,49 @@
       </widget>
      </item>
      <item>
-      <widget class="QSlider" name="sld_x">
-       <property name="value">
-        <number>50</number>
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <property name="spacing">
+        <number>0</number>
        </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+       <property name="topMargin">
+        <number>0</number>
        </property>
-       <property name="invertedAppearance">
-        <bool>false</bool>
-       </property>
-      </widget>
+       <item>
+        <widget class="QSlider" name="sld_x">
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="pageStep">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="sliderPosition">
+          <number>0</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Minimum</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>15</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -125,7 +157,7 @@
         </font>
        </property>
        <property name="text">
-        <string>fuzzy</string>
+        <string/>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -526,6 +558,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>fl::qt::Canvas</class>
+   <extends>QGraphicsView</extends>
+   <header>fl/qt/Canvas.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

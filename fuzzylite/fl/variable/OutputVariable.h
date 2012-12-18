@@ -69,7 +69,8 @@ namespace fl {
          c) lockDefuzzifiedValue = true && overrideLock = false, the defuzzified value is locked
          d) lockDefuzzifiedValue = true && overrideLock = true, the defuzzified value is not locked
          */
-        virtual scalar defuzzify(bool overrideLock = false);
+        virtual scalar defuzzify();
+        virtual scalar defuzzifyIgnoreLock() const;
 
     };
 
