@@ -29,7 +29,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QGraphicsView" name="canvas">
+      <widget class="fl::qt::Canvas" name="canvas">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -40,14 +40,28 @@
      </item>
      <item>
       <widget class="QSlider" name="sld_x">
+       <property name="styleSheet">
+        <string notr="true">QSlider::groove:horizontal { 
+border: red;
+height: 8px;
+margin: 2px ;}
+ QSlider::handle:horizontal { 
+background:blue;
+border: red;
+width: 18px;
+border-radius: 3px;}</string>
+       </property>
        <property name="value">
         <number>50</number>
+       </property>
+       <property name="tracking">
+        <bool>false</bool>
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="invertedAppearance">
-        <bool>false</bool>
+       <property name="tickPosition">
+        <enum>QSlider::NoTicks</enum>
        </property>
       </widget>
      </item>
@@ -125,7 +139,7 @@
         </font>
        </property>
        <property name="text">
-        <string>fuzzy</string>
+        <string/>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -166,7 +180,7 @@
         <x>0</x>
         <y>0</y>
         <width>162</width>
-        <height>107</height>
+        <height>108</height>
        </rect>
       </property>
       <attribute name="label">
@@ -526,6 +540,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>fl::qt::Canvas</class>
+   <extends>QGraphicsView</extends>
+   <header>fl/qt/Canvas.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

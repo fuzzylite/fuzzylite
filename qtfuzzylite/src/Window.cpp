@@ -14,7 +14,6 @@
 
 #include "ui/ui_FCL.h"
 
-
 #include <QtGui/QListWidgetItem>
 #include <QtGui/QScrollBar>
 #include <QtGui/QMessageBox>
@@ -24,9 +23,9 @@
 namespace fl {
     namespace qt {
         Window::Window(QWidget* parent, Qt::WindowFlags flags)
-        :
-                QMainWindow(parent, flags),
-                ui(new Ui::Window) {
+                :
+                        QMainWindow(parent, flags),
+                        ui(new Ui::Window) {
 
         }
 
@@ -130,7 +129,7 @@ namespace fl {
                         QString::fromStdString(ruleblock->getRule(i)->toString()));
             }
             Model::Default()->update();
-
+            reloadTest();
         }
 
         void Window::resetTest() {
@@ -259,7 +258,7 @@ namespace fl {
             ui->lsw_test_rules->item(selected)->setSelected(true);
         }
 
-        void Window::onInputValueChanged(){
+        void Window::onInputValueChanged() {
 
         }
 
@@ -626,7 +625,7 @@ namespace fl {
         void Window::onMenuAbout() {
             std::ostringstream message;
             message << "qtfuzzylite v." << FL_VERSION <<
-                    " (" << FL_DATE << ")" << std::endl;
+            " (" << FL_DATE << ")" << std::endl;
             message << "http://code.google.com/p/fuzzylite" << std::endl
                     << std::endl;
             message << "Developed by Juan Rada-Vilela." << std::endl;

@@ -19,11 +19,11 @@ namespace fl {
     OutputVariable::OutputVariable(const std::string& name, scalar defaultValue,
             bool lockDefuzzifiedValue)
             : Variable(name), _output(new Accumulated("output")), _defuzzifier(NULL),
-              _defaultValue(defaultValue),
-              _defuzzifiedValue(std::numeric_limits<scalar>::quiet_NaN()),
-              _lockDefuzzifiedValue(lockDefuzzifiedValue),
-              _minimumOutputRange(-std::numeric_limits<scalar>::infinity()),
-              _maximumOutputRange(std::numeric_limits<scalar>::infinity()) {
+                    _defaultValue(defaultValue),
+                    _defuzzifiedValue(std::numeric_limits<scalar>::quiet_NaN()),
+                    _lockDefuzzifiedValue(lockDefuzzifiedValue),
+                    _minimumOutputRange(-std::numeric_limits<scalar>::infinity()),
+                    _maximumOutputRange(std::numeric_limits<scalar>::infinity()) {
     }
 
     OutputVariable::~OutputVariable() {
@@ -87,7 +87,7 @@ namespace fl {
         return this->_maximumOutputRange;
     }
 
-    scalar OutputVariable::defuzzify(bool overrideLock) {
+    scalar OutputVariable::defuzzify() {
         if (this->_output->isEmpty()) {
             //if a previous defuzzification was successfully performed and
             //and the output is supposed to not change when the output is empty
@@ -100,8 +100,27 @@ namespace fl {
         if (Op::IsLt(result, _minimumOutputRange)) result = _minimumOutputRange;
         if (Op::IsGt(result, _maximumOutputRange)) result = _maximumOutputRange;
 
-        if (not overrideLock and _lockDefuzzifiedValue)
-            _defuzzifiedValue = result;
+        if (_lockDefuzzifiedValue) _defuzzifiedValue = result;
+
+        return result;
+    }
+
+    scalar OutputVariable::defuzzifyIgnoreLock() const {
+        //Same as defuzzify, only the defuzzified value is not stored.
+        //if _lockDefuzzifiedValue is false, this method is the same as defuzzify.
+        if (this->_output->isEmpty()) {
+            //if a previous defuzzification was successfully performed and
+            //and the output is supposed to not change when the output is empty
+            if (_lockDefuzzifiedValue and not Op::IsNan(_defuzzifiedValue))
+                return _defuzzifiedValue;
+            return _defaultValue;
+        }
+        scalar result = this->_defuzzifier->defuzzify(this->_output);
+
+        if (Op::IsLt(result, _minimumOutputRange)) result = _minimumOutputRange;
+        if (Op::IsGt(result, _maximumOutputRange)) result = _maximumOutputRange;
+
+//        if (_lockDefuzzifiedValue) _defuzzifiedValue = result;
 
         return result;
     }
