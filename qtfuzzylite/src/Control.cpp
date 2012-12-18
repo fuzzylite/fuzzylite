@@ -5,13 +5,12 @@
  *      Author: jcrada
  */
 
-#include "../fl/qt/Control.h"
+#include "fl/qt/Control.h"
 
 namespace fl {
     namespace qt {
 
-        Control::Control(QWidget* parent, Qt::WindowFlags f)
-        :
+        Control::Control(QWidget* parent, Qt::WindowFlags f) :
                 QWidget(parent, f), ui(new Ui::Control) {
         }
 
@@ -34,6 +33,7 @@ namespace fl {
         }
 
         void Control::onChangeSliderValue(int position) {
+            //drAW GUIDE
         }
         void Control::onEditInputValue() {
         }

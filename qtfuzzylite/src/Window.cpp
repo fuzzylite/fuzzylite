@@ -12,8 +12,8 @@
 #include "fl/qt/Model.h"
 #include "fl/qt/Control.h"
 
+#include "fl/qt/definitions.h"
 #include "ui/ui_FCL.h"
-
 
 #include <QtGui/QListWidgetItem>
 #include <QtGui/QScrollBar>
@@ -259,7 +259,7 @@ namespace fl {
             ui->lsw_test_rules->item(selected)->setSelected(true);
         }
 
-        void Window::onInputValueChanged(){
+        void Window::onInputValueChanged() {
 
         }
 
@@ -551,18 +551,18 @@ namespace fl {
         }
 
         void Window::onMenuTerms() {
-            Term* termWindow = new Term(this);
-            termWindow->setModal(false);
-            termWindow->setup();
-            termWindow->exec();
-            delete termWindow;
+            Term* window = new Term(this);
+            window->setup();
+            window->setWindowTitle("Term toolbox");
+            window->exec();
+            delete window;
 
         }
         void Window::onMenuImport() {
             Ui::FCL fclUi;
             QDialog fclDialog(this);
             fclUi.setupUi(&fclDialog);
-            fclDialog.setWindowTitle("Import from Fuzzy Controller Language");
+            fclDialog.setWindowTitle("Import from FCL");
             if (fclDialog.exec()) {
                 std::string fclString = fclUi.pte_fcl->document()->toPlainText().toStdString();
                 Engine* engine = NULL;
@@ -587,7 +587,7 @@ namespace fl {
             QDialog fclDialog(this);
             fclUi.setupUi(&fclDialog);
             fclUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
-            fclDialog.setWindowTitle("Export to Fuzzy Controller Language");
+            fclDialog.setWindowTitle("Export to FCL");
             fclUi.pte_fcl->setReadOnly(true);
             fclUi.pte_fcl->document()->setPlainText(
                     QString::fromStdString(fclString));
@@ -625,7 +625,9 @@ namespace fl {
 
         void Window::onMenuAbout() {
             std::ostringstream message;
-            message << "qtfuzzylite v." << FL_VERSION <<
+            message << "qtfuzzylite v." << FLQT_VERSION <<
+                    " (" << FLQT_DATE << ")" << std::endl;
+            message << "with fuzzylite v." << FL_VERSION <<
                     " (" << FL_DATE << ")" << std::endl;
             message << "http://code.google.com/p/fuzzylite" << std::endl
                     << std::endl;
