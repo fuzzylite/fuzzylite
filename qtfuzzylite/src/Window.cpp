@@ -15,7 +15,6 @@
 #include "fl/qt/definitions.h"
 #include "ui/ui_FCL.h"
 
-
 #include <QtGui/QListWidgetItem>
 #include <QtGui/QScrollBar>
 #include <QtGui/QMessageBox>
@@ -24,8 +23,7 @@
 
 namespace fl {
     namespace qt {
-        Window::Window(QWidget* parent, Qt::WindowFlags flags)
-        :
+        Window::Window(QWidget* parent, Qt::WindowFlags flags) :
                 QMainWindow(parent, flags),
                 ui(new Ui::Window) {
 
@@ -100,6 +98,9 @@ namespace fl {
             QObject::connect(ui->btn_parse_rules, SIGNAL(clicked()),
                     this, SLOT(onClickParseAllRules()));
 
+            QObject::connect(ui->tab_container, SIGNAL(currentChanged(int)),
+                    this, SLOT(onTabChange(int)));
+
             QObject::connect(ui->lsw_test_rules->verticalScrollBar(), SIGNAL(valueChanged(int)),
                     ui->lsw_test_rules_activation->verticalScrollBar(), SLOT(setValue(int)));
             QObject::connect(ui->lsw_test_rules_activation->verticalScrollBar(), SIGNAL(valueChanged(int)),
@@ -142,8 +143,8 @@ namespace fl {
                 QLayoutItem* item = layout->itemAt(i);
                 Control* control = dynamic_cast<Control*>(item->widget());
                 if (control) {
-                    QObject::disconnect(control, SIGNAL(inputValueChanged()),
-                            this, SLOT(onInputValueChanged()));
+                    QObject::disconnect(control, SIGNAL(inputValueChanged(double)),
+                            this, SLOT(onInputValueChanged(double)));
                 }
                 layout->removeItem(item);
                 delete item->widget();
@@ -160,8 +161,8 @@ namespace fl {
                 QLayoutItem* item = layout->itemAt(i);
                 Control* control = dynamic_cast<Control*>(item->widget());
                 if (control) {
-                    QObject::disconnect(control, SIGNAL(inputValueChanged()),
-                            this, SLOT(onInputValueChanged()));
+                    QObject::disconnect(control, SIGNAL(inputValueChanged(double)),
+                            this, SLOT(onInputValueChanged(double)));
                 }
                 layout->removeItem(item);
                 delete item->widget();
@@ -179,8 +180,8 @@ namespace fl {
                 Control* control = new Control;
                 control->setup(engine->getInputVariable(i));
                 layout->addWidget(control);
-                QObject::connect(control, SIGNAL(inputValueChanged()), this,
-                        SLOT(onInputValueChanged()));
+                QObject::connect(control, SIGNAL(inputValueChanged(double)), this,
+                        SLOT(onInputValueChanged(double)));
             }
             layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
 
@@ -207,7 +208,7 @@ namespace fl {
                 Control* control = new Control;
                 control->setup(engine->getOutputVariable(i));
                 layout->addWidget(control);
-                QObject::connect(this, SIGNAL(inputValueChanged()),
+                QObject::connect(this, SIGNAL(outputValueChanged()),
                         control, SLOT(updateOutputValue()));
             }
             layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored,
@@ -230,6 +231,14 @@ namespace fl {
             removeRules();
             ui->ptx_rules->setPlainText(rules);
             onClickParseAllRules();
+        }
+
+        void Window::resizeEvent(QResizeEvent*){
+            FL_LOG("resizing Window");
+        }
+
+        void Window::showEvent(QShowEvent*){
+            FL_LOG("showing Window");
         }
 
         /**
@@ -267,8 +276,9 @@ namespace fl {
             ui->lsw_test_rules->item(selected)->setSelected(true);
         }
 
-        void Window::onInputValueChanged() {
-
+        void Window::onInputValueChanged(double) {
+            Model::Default()->engine()->process();
+            emit(outputValueChanged());
         }
 
         /**
@@ -513,6 +523,11 @@ namespace fl {
             }
         }
 
+        void Window::onTabChange(int index){
+            if (index == 1){
+            }
+        }
+
         /**
          * Menu actions...
          */
@@ -638,7 +653,7 @@ namespace fl {
         void Window::onMenuAbout() {
             std::ostringstream message;
             message << "qtfuzzylite v." << FLQT_VERSION <<
-                    " (" << FLQT_DATE << ")" << std::endl;
+            " (" << FLQT_DATE << ")" << std::endl;
             message << "with fuzzylite v." << FL_VERSION <<
                     " (" << FL_DATE << ")" << std::endl;
             message << "http://code.google.com/p/fuzzylite" << std::endl

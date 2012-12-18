@@ -20,16 +20,18 @@ namespace fl {
         Q_OBJECT
 
         signals:
-            void inputValueChanged();
+            void inputValueChanged(double);
 
         public slots:
             void updateOutputValue();
+            void refreshModel();
 
         protected slots:
             void onChangeSliderValue(int position);
             void onEditInputValue();
             void onChangeToolBoxPage(int);
             void onClickShowMoreInformation(int);
+
 
         protected:
             void setup();
@@ -47,7 +49,7 @@ namespace fl {
             ~Control();
 
             void setup(fl::Variable* variable);
-            void refreshModel();
+
 
         };
 

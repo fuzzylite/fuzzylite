@@ -19,6 +19,9 @@ namespace fl {
         class Window: public QMainWindow {
         Q_OBJECT
 
+        signals:
+        void outputValueChanged();
+
         protected slots:
             void onChangeInputSelection();
             void onChangeOutputSelection();
@@ -36,12 +39,13 @@ namespace fl {
             void onClickGenerateAllRules();
             void onClickParseAllRules();
 
+            void onTabChange(int);
 
             void onSelectTestRule(int selected);
             void onSelectTestActivation(int selected);
 
             //Test
-            void onInputValueChanged();
+            void onInputValueChanged(double);
 
 
 
@@ -78,6 +82,9 @@ namespace fl {
 
             void reloadTest();
             void resetTest();
+
+            void resizeEvent(QResizeEvent* e);
+            void showEvent(QShowEvent* e);
 
         public:
             Ui::Window* ui;
