@@ -211,7 +211,7 @@ namespace fl {
             layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored,
                     QSizePolicy::Expanding));
 
-            ui->tab_container->setCurrentIndex(1);
+//            ui->tab_container->setCurrentIndex(1);
         }
 
         void Window::removeRules() {
@@ -221,6 +221,13 @@ namespace fl {
                 delete ruleblock->removeRule(i);
             }
             reloadModel();
+        }
+
+        void Window::fixDependencies() {
+            QString rules = ui->ptx_rules->toPlainText();
+            removeRules();
+            ui->ptx_rules->setPlainText(rules);
+            onClickParseAllRules();
         }
 
         /**
@@ -297,6 +304,7 @@ namespace fl {
                 for (int i = ui->lvw_inputs->count() - 1; i >= 0; --i) {
                     if (ui->lvw_inputs->item(i)->isSelected()) {
                         delete engine->removeInputVariable(i);
+                        fixDependencies();
                     }
                 }
                 reloadModel();
@@ -333,6 +341,7 @@ namespace fl {
                         engine->insertInputVariable(
                                 dynamic_cast<InputVariable*>(window->variable),
                                 i);
+                        fixDependencies();
                     }
                 }
             }
@@ -370,6 +379,7 @@ namespace fl {
                 for (int i = ui->lvw_outputs->count() - 1; i >= 0; --i) {
                     if (ui->lvw_outputs->item(i)->isSelected()) {
                         delete engine->removeOutputVariable(i);
+                        fixDependencies();
                     }
                 }
                 reloadModel();
@@ -407,6 +417,7 @@ namespace fl {
                         engine->insertOutputVariable(
                                 dynamic_cast<OutputVariable*>(window->variable),
                                 i);
+                        fixDependencies();
                     }
                 }
             }

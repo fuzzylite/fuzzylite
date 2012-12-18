@@ -28,7 +28,8 @@ namespace fl {
         protected slots:
             void onChangeSliderValue(int position);
             void onEditInputValue();
-            void onChangeToolBoxPage();
+            void onChangeToolBoxPage(int);
+            void onClickShowMoreInformation(int);
 
         protected:
             void setup();

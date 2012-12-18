@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>162</width>
-    <height>489</height>
+    <height>490</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,31 +39,49 @@
       </widget>
      </item>
      <item>
-      <widget class="QSlider" name="sld_x">
-       <property name="styleSheet">
-        <string notr="true">QSlider::groove:horizontal { 
-border: red;
-height: 8px;
-margin: 2px ;}
- QSlider::handle:horizontal { 
-background:blue;
-border: red;
-width: 18px;
-border-radius: 3px;}</string>
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <property name="spacing">
+        <number>0</number>
        </property>
-       <property name="value">
-        <number>50</number>
+       <property name="topMargin">
+        <number>0</number>
        </property>
-       <property name="tracking">
-        <bool>false</bool>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="tickPosition">
-        <enum>QSlider::NoTicks</enum>
-       </property>
-      </widget>
+       <item>
+        <widget class="QSlider" name="sld_x">
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="pageStep">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="sliderPosition">
+          <number>0</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Minimum</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>15</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -180,7 +198,7 @@ border-radius: 3px;}</string>
         <x>0</x>
         <y>0</y>
         <width>162</width>
-        <height>108</height>
+        <height>107</height>
        </rect>
       </property>
       <attribute name="label">

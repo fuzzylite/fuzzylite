@@ -12,7 +12,7 @@
 #include <QtGui/QAction>
 
 #include "ui/ui_Window.h"
-
+#include <fl/Headers.h>
 namespace fl {
     namespace qt {
 
@@ -73,6 +73,8 @@ namespace fl {
 
             void reloadModel();
             void removeRules();
+
+            void fixDependencies();
 
             void reloadTest();
             void resetTest();
