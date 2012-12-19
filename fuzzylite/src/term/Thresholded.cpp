@@ -30,7 +30,7 @@ namespace fl {
     }
 
     scalar Thresholded::membership(scalar x) const {
-        return _activation->compute(x, _threshold);
+        return _activation->compute(this->_term->membership(x), _threshold);
     }
 
     std::string Thresholded::toString() const {

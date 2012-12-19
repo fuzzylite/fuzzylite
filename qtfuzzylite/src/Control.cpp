@@ -14,7 +14,8 @@ namespace fl {
     namespace qt {
 
         Control::Control(QWidget* parent, Qt::WindowFlags f) :
-        QWidget(parent, f), ui(new Ui::Control) { }
+        QWidget(parent, f), ui(new Ui::Control) {
+        }
 
         Control::~Control() {
             delete ui;
@@ -51,7 +52,8 @@ namespace fl {
 
         }
 
-        void Control::disconnect() { }
+        void Control::disconnect() {
+        }
 
         void Control::onClickShowMoreInformation(int) {
             ui->frm_more_information->setVisible(ui->chx_show_more->isChecked());
@@ -102,13 +104,14 @@ namespace fl {
             refreshModel();
         }
 
-        void Control::focusInEvent(QFocusEvent* e) { }
+        void Control::focusInEvent(QFocusEvent* e) {
+        }
 
         void Control::refreshModel() {
-//            return;
+            //            return;
             ui->canvas->clear();
             if (inputVariable) {
-//                return ;
+                //                return ;
                 ui->canvas->draw(inputVariable);
                 scalar x = inputVariable->getInput();
                 scalar y;
@@ -117,10 +120,10 @@ namespace fl {
                         QColor(0, 0, 255));
 
                 QString fuzzify;
-                for (int i = 0 ; i < inputVariable->numberOfTerms(); ++i){
-                    fuzzify += QString::number(inputVariable->getTerm(i)->membership(x),'g',2) 
+                for (int i = 0; i < inputVariable->numberOfTerms(); ++i) {
+                    fuzzify += QString::number(inputVariable->getTerm(i)->membership(x), 'g', 2)
                             + "/" + QString::fromStdString(inputVariable->getTerm(i)->getName());
-                    if (i < inputVariable->numberOfTerms() -1 ) fuzzify += " + ";
+                    if (i < inputVariable->numberOfTerms() - 1) fuzzify += " + ";
                 }
                 //Controls...
                 ui->lbl_fuzzy->setText(fuzzify);
@@ -131,6 +134,50 @@ namespace fl {
                 ui->led_x_term->setText(QString::number(x, 'g', 2));
 
                 if (highest) {
+                    ui->grx_term->setTitle("Term: " +
+                            QString::fromStdString(highest->getName()));
+                    QString muTerm = QString::number(highest->membership(x), 'g', 2);
+                    ui->led_mu_term->setText(muTerm);
+                    QString range = "Range: (" + QString::number(highest->minimum(), 'g', 2)
+                            + ", " + QString::number(highest->maximum(), 'g', 2) + ")";
+                    ui->lbl_term_range->setText(range);
+                }
+                ui->grx_variable->setTitle("Variable: " +
+                        QString::fromStdString(inputVariable->getName()));
+
+                QString range = "Range: (" + QString::number(inputVariable->minimum(), 'g', 2)
+                        + ", " + QString::number(inputVariable->maximum(), 'g', 2) + ")";
+                ui->lbl_var_range->setText(range);
+
+            } else if (outputVariable) {
+                //                return ;
+                ui->canvas->draw(outputVariable);
+                ui->canvas->draw(outputVariable->output());
+                scalar x = outputVariable->defuzzify();
+                scalar y = outputVariable->output()->membership(x);
+                ui->canvas->drawGuide(x, y, QColor(0, 0, 255, 255));
+
+                ui->sld_x->setValue((int) fl::Op::Scale(x,
+                        outputVariable->minimum(), outputVariable->maximum(),
+                        ui->sld_x->minimum(), ui->sld_x->maximum()));
+                QString fuzzify;
+                for (int i = 0; i < outputVariable->numberOfTerms(); ++i) {
+                    fuzzify += QString::number(outputVariable->getTerm(i)->membership(x), 'g', 2)
+                            + "/" + QString::fromStdString(outputVariable->getTerm(i)->getName());
+                    if (i < outputVariable->numberOfTerms() - 1) fuzzify += " + ";
+                }
+                //Controls...
+                ui->lbl_fuzzy->setText(fuzzify);
+                ui->led_x->setText(QString::number(x, 'g', 2));
+                ui->led_mu->setText(QString::number(y, 'g', 2));
+
+                ui->led_x_term->setText(QString::number(x, 'g', 2));
+
+                fl::Term* highest = outputVariable->highestMembership(x, &y);
+
+                if (highest) {
+                    ui->grx_term->setTitle("Term: " +
+                            QString::fromStdString(highest->getName()));
                     QString muTerm = QString::number(highest->membership(x), 'g', 2);
                     ui->led_mu_term->setText(muTerm);
                     QString range = "Range: (" + QString::number(highest->minimum(), 'g', 2)
@@ -138,37 +185,19 @@ namespace fl {
                     ui->lbl_term_range->setText(range);
                 }
 
-                QString range = "Range: (" + QString::number(inputVariable->minimum(), 'g', 2)
-                        + ", " + QString::number(inputVariable->maximum(), 'g', 2) + ")";
-                ui->lbl_var_range->setText(range);
 
-            } else if (outputVariable) {
-//                return ;
-                ui->canvas->draw(outputVariable);
-                ui->canvas->draw(outputVariable->output());
-                scalar x = outputVariable->defuzzify();
-                scalar y = outputVariable->output()->membership(x);
-                ui->canvas->drawGuide(x, y, QColor(0, 0, 255, 255));
-                
-                ui->sld_x->setValue((int) fl::Op::Scale(x, 
-                        outputVariable->minimum(), outputVariable->maximum(),
-                        ui->sld_x->minimum(), ui->sld_x->maximum()));
-                QString fuzzify;
-                for (int i = 0 ; i < outputVariable->numberOfTerms(); ++i){
-                    fuzzify += QString::number(outputVariable->getTerm(i)->membership(x), 'g',2) 
-                            + "/" + QString::fromStdString(outputVariable->getTerm(i)->getName());
-                    if (i < outputVariable->numberOfTerms() -1 ) fuzzify += " + ";
-                }
-                //Controls...
-                ui->lbl_fuzzy->setText(fuzzify);
-                ui->led_x->setText(QString::number(x, 'g', 2));
-                ui->led_mu->setText(QString::number(y, 'g', 2));
-                
-                ui->led_x_term->setText(QString::number(x, 'g', 2));
-                
                 QString range = "Range: (" + QString::number(outputVariable->minimum(), 'g', 2)
                         + ", " + QString::number(outputVariable->maximum(), 'g', 2) + ")";
                 ui->lbl_var_range->setText(range);
+
+                range = "Range: (" + QString::number(outputVariable->output()->minimum(), 'g', 2)
+                        + ", " + QString::number(outputVariable->output()->maximum(), 'g', 2) + ")";
+                ui->lbl_output_range->setText(range);
+                
+                ui->grx_variable->setTitle("Variable: " +
+                        QString::fromStdString(outputVariable->getName()));
+                ui->led_output_prev->setText(QString::number(
+                outputVariable->getDefuzzifiedValue()));
             }
         }
 

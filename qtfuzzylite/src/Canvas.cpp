@@ -48,12 +48,13 @@ namespace fl {
         }
 
         void Canvas::resizeEvent(QResizeEvent* e) {
-            if (e->size() - e->oldSize() != QSize(0, 0)) {
-                QSizeF ratio((qreal) e->size().width() / e->oldSize().width(),
-                        (qreal) e->size().height() / e->oldSize().height());
-                if (ratio.width() > 0 or ratio.height() > 0)
-                    scale(ratio.width(), ratio.height());
-            }
+//            if (e->size() - e->oldSize() != QSize(0, 0)) {
+//                QSizeF ratio((qreal) e->size().width() / e->oldSize().width(),
+//                        (qreal) e->size().height() / e->oldSize().height());
+//                if (ratio.width() > 0 or ratio.height() > 0)
+//                    scale(ratio.width(), ratio.height());
+//            }
+            FL_LOG("Canvas resized"); 
         }
 
         QRect Canvas::drawingRect() const {

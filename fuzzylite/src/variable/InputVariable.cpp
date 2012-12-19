@@ -12,7 +12,7 @@
 namespace fl {
 
     InputVariable::InputVariable(const std::string& name)
-            : Variable(name) {
+            : Variable(name), _input(0) {
     }
 
     InputVariable::~InputVariable() {

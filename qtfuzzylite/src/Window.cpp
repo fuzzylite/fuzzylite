@@ -26,7 +26,7 @@ namespace fl {
         Window::Window(QWidget* parent, Qt::WindowFlags flags) :
                 QMainWindow(parent, flags),
                 ui(new Ui::Window) {
-
+ 
         }
 
         Window::~Window() {
