@@ -38,6 +38,7 @@ namespace fl {
         virtual scalar maximum() const;
 
         virtual std::string fuzzify(scalar x) const;
+        virtual Term* highestMembership(scalar x, scalar* yhighest=NULL) const;
 
         virtual std::string toString() const;
 

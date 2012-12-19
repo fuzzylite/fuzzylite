@@ -9,6 +9,8 @@
 
 #include "fl/term/Term.h"
 
+#include "fl/engine/Operator.h"
+
 #include <sstream>
 
 namespace fl {
@@ -60,6 +62,20 @@ namespace fl {
                 ss << ", ";
         }
         return ss.str();
+    }
+
+    Term* Variable::highestMembership(scalar x, scalar* yhighest) const{
+        Term* result = NULL;
+        scalar ymax = 0;
+        for (std::size_t i = 0 ; i < _terms.size(); ++i){
+            scalar y = _terms[i]->membership(x);
+            if (fl::Op::IsGt(y, ymax)){
+                ymax = y;
+                result = _terms[i];
+            }
+        }
+        if (yhighest) *yhighest = ymax;
+        return result;
     }
 
     std::string Variable::toString() const {

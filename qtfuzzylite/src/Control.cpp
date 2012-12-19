@@ -106,17 +106,17 @@ namespace fl {
             ui->canvas->clear();
             if (inputVariable) {
                 ui->canvas->draw(inputVariable);
-//                scalar y = fl::Op::Scale(inputVariable->)
-                scalar y = ui->canvas->rect().top();
+                scalar y;
+                inputVariable->highestMembership(inputVariable->getInput(), &y);
                 ui->canvas->drawGuide(inputVariable->getInput(), 1,
                         QColor(0,0,255));
             }
             else if (outputVariable) {
-                ui->canvas->draw(outputVariable);
-                ui->canvas->draw(outputVariable->output());
-                scalar x = outputVariable->defuzzifyIgnoreLock();
-                scalar y = outputVariable->output()->membership(x);
-                ui->canvas->drawGuide(x, y, QColor(0, 0, 255, 255));
+//                ui->canvas->draw(outputVariable);
+//                ui->canvas->draw(outputVariable->output());
+//                scalar x = outputVariable->defuzzifyIgnoreLock();
+//                scalar y = outputVariable->output()->membership(x);
+//                ui->canvas->drawGuide(x, y, QColor(0, 0, 255, 255));
             }
         }
 
