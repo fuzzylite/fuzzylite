@@ -45,7 +45,7 @@ namespace fl {
             void onSelectTestActivation(int selected);
 
             //Test
-            void onInputValueChanged(double);
+            void onInputValueChanged();
 
 
 

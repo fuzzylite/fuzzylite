@@ -143,8 +143,8 @@ namespace fl {
                 QLayoutItem* item = layout->itemAt(i);
                 Control* control = dynamic_cast<Control*>(item->widget());
                 if (control) {
-                    QObject::disconnect(control, SIGNAL(inputValueChanged(double)),
-                            this, SLOT(onInputValueChanged(double)));
+                    QObject::disconnect(control, SIGNAL(inputValueChanged()),
+                            this, SLOT(onInputValueChanged()));
                 }
                 layout->removeItem(item);
                 delete item->widget();
@@ -161,8 +161,8 @@ namespace fl {
                 QLayoutItem* item = layout->itemAt(i);
                 Control* control = dynamic_cast<Control*>(item->widget());
                 if (control) {
-                    QObject::disconnect(control, SIGNAL(inputValueChanged(double)),
-                            this, SLOT(onInputValueChanged(double)));
+                    QObject::disconnect(control, SIGNAL(inputValueChanged()),
+                            this, SLOT(onInputValueChanged()));
                 }
                 layout->removeItem(item);
                 delete item->widget();
@@ -180,8 +180,8 @@ namespace fl {
                 Control* control = new Control;
                 control->setup(engine->getInputVariable(i));
                 layout->addWidget(control);
-                QObject::connect(control, SIGNAL(inputValueChanged(double)), this,
-                        SLOT(onInputValueChanged(double)));
+                QObject::connect(control, SIGNAL(inputValueChanged()), this,
+                        SLOT(onInputValueChanged()));
             }
             layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
 
@@ -209,7 +209,7 @@ namespace fl {
                 control->setup(engine->getOutputVariable(i));
                 layout->addWidget(control);
                 QObject::connect(this, SIGNAL(outputValueChanged()),
-                        control, SLOT(updateOutputValue()));
+                        control, SLOT(onOutputValueChanged()), Qt::QueuedConnection);
             }
             layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored,
                     QSizePolicy::Expanding));
@@ -276,7 +276,7 @@ namespace fl {
             ui->lsw_test_rules->item(selected)->setSelected(true);
         }
 
-        void Window::onInputValueChanged(double) {
+        void Window::onInputValueChanged() {
             Model::Default()->engine()->process();
             emit(outputValueChanged());
         }

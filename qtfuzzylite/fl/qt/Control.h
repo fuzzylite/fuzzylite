@@ -16,21 +16,19 @@
 namespace fl {
     namespace qt {
 
-        class Control: public QWidget {
-        Q_OBJECT
+        class Control : public QWidget {
+            Q_OBJECT
 
         signals:
-            void inputValueChanged(double);
-
-        public slots:
-            void updateOutputValue();
-            void refreshModel();
+            void inputValueChanged();
 
         protected slots:
             void onChangeSliderValue(int position);
             void onEditInputValue();
             void onChangeToolBoxPage(int);
             void onClickShowMoreInformation(int);
+            void refreshModel();
+            void onOutputValueChanged();
 
 
         protected:
@@ -40,7 +38,7 @@ namespace fl {
             void showEvent(QShowEvent* e);
             void resizeEvent(QResizeEvent* e);
             void focusInEvent(QFocusEvent* e);
-
+            
         public:
             fl::InputVariable* inputVariable;
             fl::OutputVariable* outputVariable;
