@@ -160,7 +160,7 @@ namespace fl {
                     if (i < outputVariable->numberOfTerms() -1 ) fuzzify += " + ";
                 }
                 //Controls...
-//                ui->lbl_fuzzy->setText(fuzzify);
+                ui->lbl_fuzzy->setText(fuzzify);
                 ui->led_x->setText(QString::number(x, 'g', 2));
                 ui->led_mu->setText(QString::number(y, 'g', 2));
                 

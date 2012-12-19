@@ -2,3 +2,6 @@
 *.o
 *.os
 /fuzzylite/dist/
+/fuzzylite/build/
+/qtfuzzylite/build/
+/qtfuzzylite/dist/

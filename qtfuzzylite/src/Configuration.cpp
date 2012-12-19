@@ -15,7 +15,7 @@ namespace fl {
     namespace qt {
 
         Configuration::Configuration(QWidget* parent, Qt::WindowFlags f)
-                : QDialog(parent, f), ui(new Ui::Configuration) {
+        : QDialog(parent, f), ui(new Ui::Configuration) {
             setWindowFlags(Qt::Tool);
             _andOperators.push_back(std::pair<std::string, Operator*>
                     (Min().name(), new Min));
@@ -162,11 +162,13 @@ namespace fl {
                     _andOperators[index].second);
             refresh();
         }
+
         void Configuration::onChangeActivation(int index) {
             Model::Default()->configuration()->setActivation(
                     _andOperators[index].second);
             refresh();
         }
+
         void Configuration::onChangeSNorm(int index) {
             Model::Default()->configuration()->setSnorm(
                     _orOperators[index].second);
@@ -178,14 +180,15 @@ namespace fl {
                     _orOperators[index].second);
             refresh();
         }
+
         void Configuration::onChangeDefuzzifier(int index) {
             Model::Default()->configuration()->setDefuzzifier(
                     _defuzzifiers[index].second);
             refresh();
         }
+
         void Configuration::onChangeDivisions(int value) {
-            Model::Default()->configuration()->getDefuzzifier()->setDivisions(
-                    value);
+            Model::Default()->configuration()->getDefuzzifier()->setDivisions(value);
             refresh();
         }
 
