@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>225</width>
-    <height>408</height>
+    <height>492</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -321,6 +321,19 @@
          </layout>
         </item>
        </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPlainTextEdit" name="ptx_terms">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
     </layout>

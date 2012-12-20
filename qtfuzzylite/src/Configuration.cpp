@@ -16,7 +16,7 @@ namespace fl {
 
         Configuration::Configuration(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::Configuration) {
-            setWindowFlags(Qt::Tool);
+                setWindowFlags(Qt::Tool);
             _andOperators.push_back(std::pair<std::string, Operator*>
                     (Min().name(), new Min));
             _andOperators.push_back(std::pair<std::string, Operator*>
@@ -74,9 +74,12 @@ namespace fl {
             ui->cbx_defuzzifier->addItems(defuzzifiers);
 
             ui->sbx_divisions->setValue(FL_DEFAULT_DIVISIONS);
+
             this->adjustSize();
-            QRect scr = parentWidget()->geometry();
-            move(scr.center() - rect().center());
+            if (parentWidget()) {
+                QRect scr = parentWidget()->geometry();
+                move(scr.center() - rect().center());
+            }
             refresh();
             connect();
         }
@@ -160,35 +163,41 @@ namespace fl {
         void Configuration::onChangeTNorm(int index) {
             Model::Default()->configuration()->setTnorm(
                     _andOperators[index].second);
+            Model::Default()->update();
             refresh();
         }
 
         void Configuration::onChangeActivation(int index) {
             Model::Default()->configuration()->setActivation(
                     _andOperators[index].second);
+            Model::Default()->update();
             refresh();
         }
 
         void Configuration::onChangeSNorm(int index) {
             Model::Default()->configuration()->setSnorm(
                     _orOperators[index].second);
+            Model::Default()->update();
             refresh();
         }
 
         void Configuration::onChangeAccumulation(int index) {
             Model::Default()->configuration()->setAccumulation(
                     _orOperators[index].second);
+            Model::Default()->update();
             refresh();
         }
 
         void Configuration::onChangeDefuzzifier(int index) {
             Model::Default()->configuration()->setDefuzzifier(
                     _defuzzifiers[index].second);
+            Model::Default()->update();
             refresh();
         }
 
         void Configuration::onChangeDivisions(int value) {
             Model::Default()->configuration()->getDefuzzifier()->setDivisions(value);
+            Model::Default()->update();
             refresh();
         }
 

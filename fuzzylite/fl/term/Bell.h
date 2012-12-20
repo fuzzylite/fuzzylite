@@ -14,15 +14,15 @@ namespace fl {
 
     class Bell: public Term {
     protected:
-        scalar _a;
-        scalar _b;
-        scalar _c;
+        scalar _center;
+        scalar _width;
+        scalar _slope;
         scalar _minimum, _maximum;
         public:
         Bell(const std::string& name = "",
-                scalar a = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar b = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar c = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar center = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar width = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar slope = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar minimum = -std::numeric_limits<scalar>::infinity(),
                 scalar maximum = std::numeric_limits<scalar>::infinity());
         ~Bell();
@@ -34,14 +34,16 @@ namespace fl {
 
         std::string toString() const;
 
-        void setA(scalar a);
-        scalar getA() const;
+        void setCenter(scalar center);
+        scalar getCenter() const;
+        
+        void setWidth(scalar width);
+        scalar getWidth() const;
 
-        void setB(scalar b);
-        scalar getB() const;
+        void setSlope(scalar slope);
+        scalar getSlope() const;
 
-        void setC(scalar c);
-        scalar getC() const;
+        
 
         void setMinimum(scalar minimum);
         scalar minimum() const;

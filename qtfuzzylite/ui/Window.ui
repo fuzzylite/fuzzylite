@@ -345,7 +345,7 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>202</width>
+                  <width>207</width>
                   <height>474</height>
                  </rect>
                 </property>
@@ -420,39 +420,38 @@
              </property>
              <item>
               <widget class="QListWidget" name="lsw_test_rules">
-               <property name="alternatingRowColors">
-                <bool>false</bool>
-               </property>
                <property name="selectionMode">
                 <enum>QAbstractItemView::NoSelection</enum>
                </property>
-               <property name="movement">
-                <enum>QListView::Static</enum>
-               </property>
                <property name="resizeMode">
                 <enum>QListView::Adjust</enum>
-               </property>
-               <property name="uniformItemSizes">
-                <bool>false</bool>
-               </property>
-               <property name="wordWrap">
-                <bool>true</bool>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QListWidget" name="lsw_test_rules_activation">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+                <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="maximumSize">
                 <size>
-                 <width>80</width>
+                 <width>70</width>
                  <height>16777215</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
                </property>
                <property name="horizontalScrollBarPolicy">
                 <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -460,8 +459,11 @@
                <property name="selectionMode">
                 <enum>QAbstractItemView::NoSelection</enum>
                </property>
-               <property name="uniformItemSizes">
-                <bool>false</bool>
+               <property name="selectionBehavior">
+                <enum>QAbstractItemView::SelectRows</enum>
+               </property>
+               <property name="resizeMode">
+                <enum>QListView::Adjust</enum>
                </property>
               </widget>
              </item>
@@ -517,7 +519,7 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>202</width>
+                  <width>207</width>
                   <height>474</height>
                  </rect>
                 </property>
@@ -603,19 +605,19 @@
      <string>Examples</string>
     </property>
     <addaction name="actionMamdani"/>
-    <addaction name="actionExample1"/>
+    <addaction name="actionDimmer1x1"/>
+    <addaction name="actionDimmer2x1"/>
     <addaction name="actionExample2"/>
     <addaction name="actionExample3"/>
-    <addaction name="actionExample4"/>
     <addaction name="separator"/>
     <addaction name="actionSugeno"/>
    </widget>
    <addaction name="menuGui"/>
    <addaction name="menuExamples"/>
   </widget>
-  <action name="actionExample1">
+  <action name="actionDimmer1x1">
    <property name="text">
-    <string>Health (1x1)</string>
+    <string>Dimmer (1x1)</string>
    </property>
   </action>
   <action name="actionExample4">
@@ -739,6 +741,11 @@
    </property>
    <property name="text">
     <string>Sugeno</string>
+   </property>
+  </action>
+  <action name="actionDimmer2x1">
+   <property name="text">
+    <string>Dimmer (2x1)</string>
    </property>
   </action>
  </widget>

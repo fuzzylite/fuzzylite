@@ -13,72 +13,77 @@
 
 namespace fl {
 
-    Bell::Bell(const std::string& name, scalar a, scalar b, scalar c,
+    Bell::Bell(const std::string& name, scalar center, scalar width, scalar slope,
             scalar minimum, scalar maximum)
-            : Term(name), _a(a), _b(b), _c(c), _minimum(minimum), _maximum(
-                    maximum) {
-    }
+    : Term(name), _center(center), _width(width), _slope(slope),
+    _minimum(minimum), _maximum(maximum) { }
 
-    Bell::~Bell() {
-    }
+    Bell::~Bell() { }
 
-    std::string Bell::className() const{
+    std::string Bell::className() const {
         return "Bell";
     }
 
-    Bell* Bell::copy() const{
+    Bell* Bell::copy() const {
         return new Bell(*this);
     }
 
-    scalar Bell::membership(scalar x) const{
+    scalar Bell::membership(scalar x) const {
         // from matlab: gbellmf.m
-        scalar tmp = ((x - _c) / _a) * ((x - _c) / _a);
-        if (Op::IsEq(tmp, 0.0)  and  Op::IsEq(_b, 0.0))
+        scalar tmp = ((x - _center) / _width) * ((x - _center) / _width);
+        if (Op::IsEq(tmp, 0.0) and Op::IsEq(_slope, 0.0))
             return 0.5;
-        else if (Op::IsEq(tmp, 0.0)  and  Op::IsLt(_b, 0.0))
+        else if (Op::IsEq(tmp, 0.0) and Op::IsLt(_slope, 0.0))
             return 0.0;
         else {
-            tmp = std::pow(tmp, _b);
+            tmp = std::pow(tmp, _slope);
             return 1.0 / (1.0 + tmp);
         }
     }
 
     std::string Bell::toString() const {
         std::stringstream ss;
-        ss << "Bell (" << _minimum << ", " << _maximum << ", " << _a << ", "
-                << _b
-                << ", " << _c << ")";
+        ss << "Bell (" << _center << ", " << _width << ", " << _slope << ", "
+                << _minimum << ", " << _maximum << ") ";
         return ss.str();
     }
 
-    void Bell::setA(scalar a) {
-        this->_a = a;
+    void Bell::setWidth(scalar a) {
+        this->_width = a;
     }
-    scalar Bell::getA() const {
-        return this->_a;
+
+    scalar Bell::getWidth() const {
+        return this->_width;
     }
-    void Bell::setB(scalar b) {
-        this->_b = b;
+
+    void Bell::setSlope(scalar b) {
+        this->_slope = b;
     }
-    scalar Bell::getB() const {
-        return this->_b;
+
+    scalar Bell::getSlope() const {
+        return this->_slope;
     }
-    void Bell::setC(scalar c) {
-        this->_c = c;
+
+    void Bell::setCenter(scalar c) {
+        this->_center = c;
     }
-    scalar Bell::getC() const {
-        return this->_c;
+
+    scalar Bell::getCenter() const {
+        return this->_center;
     }
 
     void Bell::setMinimum(scalar minimum) {
         this->_minimum = minimum;
     }
+
     scalar Bell::minimum() const {
         return this->_minimum;
     }
+
     void Bell::setMaximum(scalar maximum) {
         this->_maximum = maximum;
     }
+
     scalar Bell::maximum() const {
         return this->_maximum;
     }

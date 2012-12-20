@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>274</width>
-    <height>668</height>
+    <height>635</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -98,7 +98,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="elideMode">
       <enum>Qt::ElideMiddle</enum>
@@ -123,7 +123,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>4</number>
          </property>
          <widget class="QWidget" name="page">
           <property name="geometry">
@@ -131,7 +131,7 @@
             <x>0</x>
             <y>0</y>
             <width>234</width>
-            <height>147</height>
+            <height>114</height>
            </rect>
           </property>
           <attribute name="label">
@@ -245,7 +245,7 @@
             <x>0</x>
             <y>0</y>
             <width>234</width>
-            <height>147</height>
+            <height>81</height>
            </rect>
           </property>
           <attribute name="label">
@@ -287,7 +287,7 @@
             <x>0</x>
             <y>0</y>
             <width>234</width>
-            <height>147</height>
+            <height>81</height>
            </rect>
           </property>
           <attribute name="label">
@@ -329,7 +329,7 @@
             <x>0</x>
             <y>0</y>
             <width>234</width>
-            <height>147</height>
+            <height>87</height>
            </rect>
           </property>
           <attribute name="label">
@@ -370,8 +370,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>234</width>
-            <height>147</height>
+            <width>124</width>
+            <height>82</height>
            </rect>
           </property>
           <attribute name="label">
@@ -449,7 +449,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="page_6">
           <property name="geometry">
@@ -457,7 +457,7 @@
             <x>0</x>
             <y>0</y>
             <width>234</width>
-            <height>240</height>
+            <height>174</height>
            </rect>
           </property>
           <attribute name="label">
@@ -470,44 +470,44 @@
               <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
              </property>
              <item row="0" column="0">
+              <widget class="QLabel" name="label_14">
+               <property name="text">
+                <string>center</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_gaussian_center"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_15">
+               <property name="text">
+                <string>width</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_gaussian_width"/>
+             </item>
+             <item row="2" column="0">
               <widget class="QLabel" name="label_12">
                <property name="text">
                 <string>min</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="1">
+             <item row="2" column="1">
               <widget class="QDoubleSpinBox" name="sbx_gaussian_min"/>
              </item>
-             <item row="1" column="0">
+             <item row="3" column="0">
               <widget class="QLabel" name="label_13">
                <property name="text">
                 <string>max</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_gaussian_max"/>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_14">
-               <property name="text">
-                <string>c</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_gaussian_c"/>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_15">
-               <property name="text">
-                <string>sigma</string>
-               </property>
-              </widget>
-             </item>
              <item row="3" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_gaussian_sigma"/>
+              <widget class="QDoubleSpinBox" name="sbx_gaussian_max"/>
              </item>
             </layout>
            </item>
@@ -518,8 +518,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>122</width>
-            <height>179</height>
+            <width>234</width>
+            <height>180</height>
            </rect>
           </property>
           <attribute name="label">
@@ -532,54 +532,54 @@
               <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
              </property>
              <item row="0" column="0">
+              <widget class="QLabel" name="label_22">
+               <property name="text">
+                <string>center</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_bell_center"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_20">
+               <property name="text">
+                <string>width</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_bell_width"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_21">
+               <property name="text">
+                <string>slope</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_bell_slope"/>
+             </item>
+             <item row="3" column="0">
               <widget class="QLabel" name="label_18">
                <property name="text">
                 <string>min</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="1">
+             <item row="3" column="1">
               <widget class="QDoubleSpinBox" name="sbx_bell_min"/>
              </item>
-             <item row="1" column="0">
+             <item row="4" column="0">
               <widget class="QLabel" name="label_19">
                <property name="text">
                 <string>max</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_bell_max"/>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_20">
-               <property name="text">
-                <string>a</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_bell_a"/>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_21">
-               <property name="text">
-                <string>b</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_bell_b"/>
-             </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="label_22">
-               <property name="text">
-                <string>c</string>
-               </property>
-              </widget>
-             </item>
              <item row="4" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_bell_c"/>
+              <widget class="QDoubleSpinBox" name="sbx_bell_max"/>
              </item>
             </layout>
            </item>
@@ -590,8 +590,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>151</width>
-            <height>146</height>
+            <width>234</width>
+            <height>174</height>
            </rect>
           </property>
           <attribute name="label">
@@ -604,44 +604,14 @@
               <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
              </property>
              <item row="0" column="0">
-              <widget class="QLabel" name="label_23">
+              <widget class="QLabel" name="label_26">
                <property name="text">
-                <string>min</string>
+                <string>inflection</string>
                </property>
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_sigmoid_min"/>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_24">
-               <property name="text">
-                <string>max</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_sigmoid_max"/>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_25">
-               <property name="text">
-                <string>a</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_sigmoid_a"/>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_26">
-               <property name="text">
-                <string>c</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_sigmoid_c">
+              <widget class="QDoubleSpinBox" name="sbx_sigmoid_inflection">
                <property name="minimum">
                 <double>-10000.000000000000000</double>
                </property>
@@ -649,6 +619,36 @@
                 <double>10000.000000000000000</double>
                </property>
               </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_25">
+               <property name="text">
+                <string>slope</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sigmoid_slope"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_23">
+               <property name="text">
+                <string>min</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sigmoid_min"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_24">
+               <property name="text">
+                <string>max</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sigmoid_max"/>
              </item>
             </layout>
            </item>

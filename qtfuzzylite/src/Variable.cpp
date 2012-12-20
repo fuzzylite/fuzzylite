@@ -11,12 +11,13 @@
 #include <fl/Headers.h>
 
 #include <QtGui/QMessageBox>
+#include <QtGui/QListWidgetItem>
 namespace fl {
     namespace qt {
 
         Variable::Variable(QWidget* parent, Qt::WindowFlags f)
-                : QDialog(parent, f),
-                  ui(new Ui::Variable), variable(NULL) {
+        : QDialog(parent, f),
+        ui(new Ui::Variable), variable(NULL) {
             setWindowFlags(Qt::Tool);
         }
 
@@ -41,7 +42,7 @@ namespace fl {
                 QSize thisSize = this->size();
                 thisSize.setHeight(thisSize.height() - 85);
                 setFixedSize(thisSize);
-            }else{
+            } else {
                 setFixedSize(size());
             }
 
@@ -70,13 +71,36 @@ namespace fl {
                     this, SLOT(onSelectTerm()));
             QObject::connect(ui->lvw_terms, SIGNAL(itemSelectionChanged()),
                     this, SLOT(onSelectTerm()));
+            QObject::connect(ui->lvw_terms, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+                    this, SLOT(onDoubleClickTerm(QListWidgetItem*)));
 
             QObject::connect(ui->btn_wizard, SIGNAL(clicked()),
                     this, SLOT(onClickWizard()));
         }
 
         void Variable::disconnect() {
-            FL_LOG("TODO: disconnect");
+            QObject::disconnect(ui->btn_add_term, SIGNAL(clicked()),
+                    this, SLOT(onClickAddTerm()));
+            QObject::disconnect(ui->btn_edit_term, SIGNAL(clicked()),
+                    this, SLOT(onClickEditTerm()));
+            QObject::disconnect(ui->btn_remove_term, SIGNAL(clicked()),
+                    this, SLOT(onClickRemoveTerm()));
+
+            QObject::disconnect(ui->btn_term_up, SIGNAL(clicked()),
+                    this, SLOT(onClickMoveUp()));
+            QObject::disconnect(ui->btn_term_down, SIGNAL(clicked()),
+                    this, SLOT(onClickMoveDown()));
+
+            QObject::disconnect(ui->lvw_terms, SIGNAL(itemSelectionChanged()),
+                    this, SLOT(onSelectTerm()));
+            QObject::disconnect(ui->lvw_terms, SIGNAL(itemSelectionChanged()),
+                    this, SLOT(onSelectTerm()));
+            QObject::disconnect(ui->lvw_terms, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+                    this, SLOT(onDoubleClickTerm(QListWidgetItem*)));
+
+
+            QObject::disconnect(ui->btn_wizard, SIGNAL(clicked()),
+                    this, SLOT(onClickWizard()));
         }
 
         void Variable::showEvent(QShowEvent* event) {
@@ -92,9 +116,9 @@ namespace fl {
             setWindowTitle("Edit variable");
             ui->led_name->setText(QString::fromStdString(inputVariable->getName()));
             for (int i = 0; i < inputVariable->numberOfTerms(); ++i) {
-//                FL_LOG("Copying " << inputVariable->getTerm(i)->toString());
+                //                FL_LOG("Copying " << inputVariable->getTerm(i)->toString());
                 fl::Term* copy = inputVariable->getTerm(i)->copy();
-//                FL_LOG("Copied: " << copy->toString());
+                //                FL_LOG("Copied: " << copy->toString());
                 this->variable->addTerm(copy);
             }
             reloadModel();
@@ -106,7 +130,7 @@ namespace fl {
             for (int i = 0; i < outputVariable->numberOfTerms(); ++i) {
                 this->variable->addTerm(outputVariable->getTerm(i)->copy());
             }
-            OutputVariable* editable = dynamic_cast<OutputVariable*>(this->variable);
+            OutputVariable* editable = dynamic_cast<OutputVariable*> (this->variable);
             editable->setDefaultValue(outputVariable->getDefaultValue());
             editable->setDefuzzifier(outputVariable->getDefuzzifier());
 
@@ -123,7 +147,7 @@ namespace fl {
          */
 
         void Variable::accept() {
-            OutputVariable* outputVariable = dynamic_cast<OutputVariable*>(variable);
+            OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (variable);
             if (outputVariable) {
                 try {
                     outputVariable->setDefaultValue(
@@ -202,6 +226,7 @@ namespace fl {
             }
 
         }
+
         void Variable::onClickEditTerm() {
             if (ui->lvw_terms->selectedItems().size() > 1) {
                 std::ostringstream message;
@@ -251,6 +276,7 @@ namespace fl {
             ui->btn_term_down->setEnabled(ui->lvw_terms->selectedItems().size() > 0);
             ui->btn_term_up->setEnabled(ui->lvw_terms->selectedItems().size() > 0);
 
+            ui->ptx_terms->clear();
             ui->canvas->clear();
             ui->canvas->draw(variable);
             scalar minimum = std::numeric_limits<scalar>::infinity();
@@ -258,12 +284,21 @@ namespace fl {
             for (int i = 0; i < ui->lvw_terms->count(); ++i) {
                 if (ui->lvw_terms->item(i)->isSelected()) {
                     ui->canvas->draw(variable->getTerm(i));
+                    ui->ptx_terms->appendPlainText(QString::fromStdString(
+                            variable->getTerm(i)->toString()));
                     minimum = fl::Op::Min(minimum, variable->getTerm(i)->minimum());
                     maximum = fl::Op::Max(maximum, variable->getTerm(i)->maximum());
                 }
             }
             ui->led_min->setText(QString::number(minimum, 'g', 2));
             ui->led_max->setText(QString::number(maximum, 'g', 2));
+
+        }
+
+        void Variable::onDoubleClickTerm(QListWidgetItem* item) {
+            if (item) {
+                onClickEditTerm();
+            }
         }
 
         void Variable::onClickMoveUp() {
@@ -322,7 +357,7 @@ namespace fl {
             }
             ui->led_min->setText(QString::number(variable->minimum(), 'g', 2));
             ui->led_max->setText(QString::number(variable->maximum(), 'g', 2));
-            OutputVariable* outputVariable = dynamic_cast<OutputVariable*>(variable);
+            OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (variable);
             if (outputVariable) {
                 ui->led_default->setText(QString::number(outputVariable->getDefaultValue()));
                 ui->chx_lock->setChecked(outputVariable->lockDefuzzifiedValue());

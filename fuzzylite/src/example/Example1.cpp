@@ -9,31 +9,31 @@
 
 namespace fl {
 
-    Example1::Example1() :
-            Example() {
+    Example1::Example1() : Example() {
         create();
     }
 
     void Example1::create() {
-        engine = new Engine("health-and-energy");
+        engine = new Engine("simple-dimmer");
 
-        InputVariable* energy = new InputVariable("Energy");
-        energy->addTerm(new Triangle("LOW", .0, .25, .5));
-        energy->addTerm(new Triangle("MEDIUM", .25, .5, .75));
-        energy->addTerm(new Triangle("HIGH", .5, .75, 1));
-        engine->addInputVariable(energy);
+        InputVariable* ambientLight = new InputVariable("AmbientLight");
+        ambientLight->addTerm(new Triangle("LOW", .0, .25, .5));
+        ambientLight->addTerm(new Triangle("MEDIUM", .25, .5, .75));
+        ambientLight->addTerm(new Triangle("HIGH", .5, .75, 1));
+        engine->addInputVariable(ambientLight);
 
-        OutputVariable* health = new OutputVariable("Health",
+
+        OutputVariable* bulbPower = new OutputVariable("BulbPower",
                 std::numeric_limits<scalar>::quiet_NaN());
-        health->addTerm(new Triangle("BAD", 0.0, 0.5, 1));
-        health->addTerm(new Triangle("REGULAR", 0.5, 1, 1.5));
-        health->addTerm(new Triangle("GOOD", 1, 1.5, 2));
-        engine->addOutputVariable(health);
+        bulbPower->addTerm(new Triangle("LOW", 0.0, 0.5, 1));
+        bulbPower->addTerm(new Triangle("MEDIUM", 0.5, 1, 1.5));
+        bulbPower->addTerm(new Triangle("HIGH", 1, 1.5, 2));
+        engine->addOutputVariable(bulbPower);
 
         RuleBlock* ruleblock = new RuleBlock();
-        ruleblock->addRule(MamdaniRule::parse("if Energy is LOW then Health is BAD", engine));
-        ruleblock->addRule(MamdaniRule::parse("if Energy is MEDIUM then Health is REGULAR", engine));
-        ruleblock->addRule(MamdaniRule::parse("if Energy is HIGH then Health is GOOD", engine));
+        ruleblock->addRule(MamdaniRule::parse("if AmbientLight is LOW then BulbPower is LOW", engine));
+        ruleblock->addRule(MamdaniRule::parse("if AmbientLight is MEDIUM then BulbPower is MEDIUM", engine));
+        ruleblock->addRule(MamdaniRule::parse("if AmbientLight is HIGH then BulbPower is HIGH", engine));
 
         engine->addRuleBlock(ruleblock);
 
@@ -45,13 +45,13 @@ namespace fl {
         FL_LOG("Make sure fuzzylite was compiled with -DFL_DEBUG=true to display the demo");
         FL_LOG("Fuzzy Control Language:" << std::endl << exporter.toFcl(engine));
         scalar step = 1.0 / 10.0;
-        InputVariable* energy = engine->getInputVariable("Energy");
-        OutputVariable* health = engine->getOutputVariable("Health");
-        for (scalar input = energy->minimum();
-                input <= energy->maximum() + step; input += step) {
-            energy->setInput(input);
+        InputVariable* ambientLight = engine->getInputVariable("AmbientLight");
+        OutputVariable* bulbPower = engine->getOutputVariable("BulbPower");
+        for (scalar input = ambientLight->minimum();
+                input <= ambientLight->maximum() + step; input += step) {
+            ambientLight->setInput(input);
             engine->process();
-            health->defuzzify();
+            bulbPower->defuzzify();
         }
     }
 

@@ -23,19 +23,21 @@
 
 namespace fl {
     namespace qt {
+
         Window::Window(QWidget* parent, Qt::WindowFlags flags) :
-                QMainWindow(parent, flags),
-                ui(new Ui::Window) {
- 
-        }
+        QMainWindow(parent, flags), _configurationWindow(NULL),
+        ui(new Ui::Window) { }
 
         Window::~Window() {
             disconnect();
+            if (_configurationWindow) delete _configurationWindow;
             delete ui;
         }
 
         void Window::setup() {
             ui->setupUi(this);
+            _configurationWindow = new fl::qt::Configuration(this);
+            _configurationWindow->setup();
             ui->tab_container->setCurrentIndex(0);
 
             QRect scr = QApplication::desktop()->screenGeometry();
@@ -60,9 +62,9 @@ namespace fl {
             QObject::connect(ui->actionQuit, SIGNAL(triggered()),
                     this, SLOT(onMenuQuit()));
 
-            QObject::connect(ui->actionExample1, SIGNAL(triggered()),
+            QObject::connect(ui->actionDimmer1x1, SIGNAL(triggered()),
                     this, SLOT(onMenuExample1()));
-            QObject::connect(ui->actionExample2, SIGNAL(triggered()),
+            QObject::connect(ui->actionDimmer2x1, SIGNAL(triggered()),
                     this, SLOT(onMenuExample2()));
             QObject::connect(ui->actionExample3, SIGNAL(triggered()),
                     this, SLOT(onMenuExample3()));
@@ -141,7 +143,7 @@ namespace fl {
 
             for (int i = layout->count() - 1; i >= 0; --i) {
                 QLayoutItem* item = layout->itemAt(i);
-                Control* control = dynamic_cast<Control*>(item->widget());
+                Control* control = dynamic_cast<Control*> (item->widget());
                 if (control) {
                     QObject::disconnect(control, SIGNAL(inputValueChanged()),
                             this, SLOT(onInputValueChanged()));
@@ -159,7 +161,7 @@ namespace fl {
             layout = ui->grx_test_outputs->layout();
             for (int i = layout->count() - 1; i >= 0; --i) {
                 QLayoutItem* item = layout->itemAt(i);
-                Control* control = dynamic_cast<Control*>(item->widget());
+                Control* control = dynamic_cast<Control*> (item->widget());
                 if (control) {
                     QObject::disconnect(control, SIGNAL(inputValueChanged()),
                             this, SLOT(onInputValueChanged()));
@@ -187,8 +189,9 @@ namespace fl {
 
             //Rules
             for (int i = 0; i < engine->getRuleBlock(0)->numberOfRules(); ++i) {
-                QString rule = QString::fromStdString(
-                        engine->getRuleBlock(0)->getRule(i)->toString());
+
+                QString rule = QString::number(i + 1) + ": " +
+                        QString::fromStdString(engine->getRuleBlock(0)->getRule(i)->toString());
                 ui->lsw_test_rules->addItem(rule);
                 QListWidgetItem* item = new QListWidgetItem;
                 item->setText("-");
@@ -214,7 +217,7 @@ namespace fl {
             layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored,
                     QSizePolicy::Expanding));
 
-//            ui->tab_container->setCurrentIndex(1);
+            //            ui->tab_container->setCurrentIndex(1);
         }
 
         void Window::removeRules() {
@@ -233,12 +236,12 @@ namespace fl {
             onClickParseAllRules();
         }
 
-        void Window::resizeEvent(QResizeEvent*){
-            FL_LOG("resizing Window");
+        void Window::resizeEvent(QResizeEvent*) {
+            //            FL_LOG("resizing Window");
         }
 
-        void Window::showEvent(QShowEvent*){
-            FL_LOG("showing Window");
+        void Window::showEvent(QShowEvent*) {
+            //            FL_LOG("showing Window");
         }
 
         /**
@@ -277,6 +280,28 @@ namespace fl {
         }
 
         void Window::onInputValueChanged() {
+            QColor from_color(Qt::white);
+            QColor to_color(0, 200, 0);
+            fl::RuleBlock* ruleblock = Model::Default()->engine()->getRuleBlock(0);
+            for (int i = 0; i < ruleblock->numberOfRules(); ++i) {
+                fl::Rule* rule = ruleblock->getRule(i);
+                scalar degree = rule->firingStrength(ruleblock->getTnorm(),
+                        ruleblock->getSnorm());
+
+                int red, green, blue, alpha;
+                Canvas::ColorGradient((int) (degree * 255), red, green, blue, alpha,
+                        from_color.red(), from_color.green(), from_color.blue(), from_color.alpha(),
+                        to_color.red(), to_color.green(), to_color.blue(), to_color.alpha());
+
+                QColor color = QColor(red, green, blue, alpha);
+
+                ui->lsw_test_rules->item(i)->setBackground(QBrush(color));
+                ui->lsw_test_rules_activation->item(i)->setBackground(QBrush(
+                        color));
+                ui->lsw_test_rules_activation->item(i)->setText(
+                        QString::number(degree, 'f', 3));
+            }
+
             Model::Default()->engine()->process();
             emit(outputValueChanged());
         }
@@ -290,7 +315,7 @@ namespace fl {
             window->setup(Variable::INPUT_VARIABLE);
             if (window->exec()) {
                 Model::Default()->engine()->addInputVariable(
-                        dynamic_cast<InputVariable*>(window->variable));
+                        dynamic_cast<InputVariable*> (window->variable));
                 reloadModel();
             }
             delete window;
@@ -322,6 +347,7 @@ namespace fl {
                 reloadModel();
             }
         }
+
         void Window::onClickEditInputVariable() {
             Engine* engine = Model::Default()->engine();
             if (ui->lvw_inputs->selectedItems().size() > 1) {
@@ -351,7 +377,7 @@ namespace fl {
                     if (window->exec()) {
                         delete engine->removeInputVariable(i);
                         engine->insertInputVariable(
-                                dynamic_cast<InputVariable*>(window->variable),
+                                dynamic_cast<InputVariable*> (window->variable),
                                 i);
                         fixDependencies();
                     }
@@ -360,12 +386,13 @@ namespace fl {
             reloadModel();
 
         }
+
         void Window::onClickAddOutputVariable() {
             Variable* window = new Variable(this);
             window->setup(Variable::OUTPUT_VARIABLE);
             if (window->exec()) {
                 Model::Default()->engine()->addOutputVariable(
-                        dynamic_cast<OutputVariable*>(window->variable));
+                        dynamic_cast<OutputVariable*> (window->variable));
                 reloadModel();
             }
             delete window;
@@ -427,7 +454,7 @@ namespace fl {
                     if (window->exec()) {
                         delete engine->removeOutputVariable(i);
                         engine->insertOutputVariable(
-                                dynamic_cast<OutputVariable*>(window->variable),
+                                dynamic_cast<OutputVariable*> (window->variable),
                                 i);
                         fixDependencies();
                     }
@@ -450,21 +477,21 @@ namespace fl {
                 std::ostringstream rule;
                 rule << fl::Rule::FL_IF << " ";
                 for (int input = 0; input < engine->numberOfInputVariables();
-                        ++input) {
+                        ++input) { 
                     fl::Variable* var = engine->getInputVariable(input);
                     rule << var->getName() << " " << fl::Rule::FL_IS << " "
                             << var->getTerm(terms[input])->getName() << " ";
                     if (input < engine->numberOfInputVariables() - 1) {
-                        rule << fl::Rule::FL_AND;
-                    }
+                        rule << fl::Rule::FL_AND << " ";
+                    } 
                 }
                 rule << fl::Rule::FL_THEN;
                 for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
                     rule << " " << engine->getOutputVariable(i)->getName() << " "
-                            << fl::Rule::FL_IS << " ? ";
+                            << fl::Rule::FL_IS << " ?";
                     if (i < engine->numberOfOutputVariables() - 1) {
-                        rule << fl::Rule::FL_AND << " ";
-                    }
+                        rule << " " << fl::Rule::FL_AND << " ";
+                    } 
                 }
                 ui->ptx_rules->appendPlainText(QString::fromStdString(rule.str()));
                 //Increment...
@@ -521,10 +548,11 @@ namespace fl {
                 ui->ptx_rules->appendHtml("<font color='blue'>" +
                         QString("# You may proceed to test the engine") + "</font>");
             }
+            reloadTest();
         }
 
-        void Window::onTabChange(int index){
-            if (index == 1){
+        void Window::onTabChange(int index) {
+            if (index == 1) {
             }
         }
 
@@ -544,14 +572,14 @@ namespace fl {
                     << "Do you want to continue loading the example?" << std::endl;
             QMessageBox::StandardButton clicked =
                     QMessageBox::warning(this, "Loading example",
-                            QString::fromStdString(message.str()),
-                            QMessageBox::Yes | QMessageBox::No);
+                    QString::fromStdString(message.str()),
+                    QMessageBox::Yes | QMessageBox::No);
 
             return clicked == QMessageBox::Yes;
         }
 
         void Window::onMenuExample1() {
-            if (onMenuExample(ui->actionExample1->text().toStdString())) {
+            if (onMenuExample(ui->actionDimmer1x1->text().toStdString())) {
                 Example1* example = new Example1;
                 Model::Default()->changeEngine(example->engine);
                 //Not deleted, as it will be deleted upon change.
@@ -559,32 +587,36 @@ namespace fl {
                 onClickParseAllRules();
             }
         }
+
         void Window::onMenuExample2() {
-
+            if (onMenuExample(ui->actionDimmer2x1->text().toStdString())) {
+                Example2* example = new Example2;
+                Model::Default()->changeEngine(example->engine);
+                //Not deleted, as it will be deleted upon change.
+                reloadModel();
+                onClickParseAllRules();
+            }
         }
-        void Window::onMenuExample3() {
 
-        }
-        void Window::onMenuExample4() {
+        void Window::onMenuExample3() { }
 
-        }
+        void Window::onMenuExample4() { }
 
         void Window::onMenuConfiguration() {
-            Configuration* window = new Configuration(this);
-            window->setModal(true);
-            window->setup();
-            window->exec();
-            delete window;
+            _configurationWindow->setFocus();
+            _configurationWindow->show();
         }
 
         void Window::onMenuTerms() {
             Term* window = new Term(this);
             window->setup();
             window->setWindowTitle("Term toolbox");
-            window->exec();
-            delete window;
+            window->ui->buttonBox->setVisible(false);
+            window->show();
+            //            delete window;
 
         }
+
         void Window::onMenuImport() {
             Ui::FCL fclUi;
             QDialog fclDialog(this);
@@ -607,6 +639,7 @@ namespace fl {
                 onClickParseAllRules();
             }
         }
+
         void Window::onMenuExport() {
             FclExporter exporter;
             std::string fclString = exporter.toFcl(Model::Default()->engine());
@@ -628,8 +661,8 @@ namespace fl {
                     << "will be deleted";
             QMessageBox::StandardButton clicked =
                     QMessageBox::warning(this, "Reset engine",
-                            QString::fromStdString(message.str()),
-                            QMessageBox::Yes | QMessageBox::No);
+                    QString::fromStdString(message.str()),
+                    QMessageBox::Yes | QMessageBox::No);
 
             if (clicked == QMessageBox::No) return;
 
@@ -653,7 +686,7 @@ namespace fl {
         void Window::onMenuAbout() {
             std::ostringstream message;
             message << "qtfuzzylite v." << FLQT_VERSION <<
-            " (" << FLQT_DATE << ")" << std::endl;
+                    " (" << FLQT_DATE << ")" << std::endl;
             message << "with fuzzylite v." << FL_VERSION <<
                     " (" << FL_DATE << ")" << std::endl;
             message << "http://code.google.com/p/fuzzylite" << std::endl
@@ -663,6 +696,7 @@ namespace fl {
             QMessageBox::about(this, "qtfuzzylite",
                     QString::fromStdString(message.str()));
         }
+
         void Window::onMenuQuit() {
             int result = QMessageBox::question(this, tr("qtfuzzylite"),
                     tr("Do you want to quit?"),
@@ -673,6 +707,7 @@ namespace fl {
                 // do nothing
             }
         }
+
         void Window::main() {
             Window* w = new Window;
             w->setup();

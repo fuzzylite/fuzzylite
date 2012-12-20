@@ -25,6 +25,8 @@ namespace fl {
 
             void onClickMoveUp();
             void onClickMoveDown();
+            
+            void onDoubleClickTerm(QListWidgetItem* item);
 
             void onSelectTerm();
             void onClickWizard();

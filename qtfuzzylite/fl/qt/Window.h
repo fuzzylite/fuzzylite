@@ -13,9 +13,11 @@
 
 #include "ui/ui_Window.h"
 #include <fl/Headers.h>
+
+
 namespace fl {
     namespace qt {
-
+        class Configuration;
         class Window: public QMainWindow {
         Q_OBJECT
 
@@ -46,6 +48,7 @@ namespace fl {
 
             //Test
             void onInputValueChanged();
+            
 
 
 
@@ -71,7 +74,7 @@ namespace fl {
 
         protected:
             std::vector<QWidget*> _inputs, _outputs;
-
+            Configuration* _configurationWindow;
             void connect();
             void disconnect();
 

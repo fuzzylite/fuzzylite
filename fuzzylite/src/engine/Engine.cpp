@@ -19,8 +19,7 @@
 namespace fl {
 
     Engine::Engine(const std::string& name)
-            : _name(name), _configuration(NULL) {
-    }
+    : _name(name), _configuration(NULL) { }
 
     Engine::~Engine() {
         if (_configuration)
@@ -43,44 +42,50 @@ namespace fl {
     }
 
     void Engine::process() {
+        
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             _outputVariables[i]->output()->clear();
         }
+
         FL_BEGIN_DEBUG_BLOCK;
-            FL_DBG("===============");
-            FL_DBG("CURRENT INPUTS:");
-            for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
-                scalar input = _inputVariables[i]->getInput();
-                FL_DBG( _inputVariables[i]->getName() << ".input = " << input);
-                FL_DBG( _inputVariables[i]->getName() << ".fuzzyfiedInput = " << _inputVariables[i]->fuzzify(input));
-            }
-            FL_END_DEBUG_BLOCK
+        FL_DBG("===============");
+        FL_DBG("CURRENT INPUTS:");
+        for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
+            scalar input = _inputVariables[i]->getInput();
+            FL_DBG(_inputVariables[i]->getName() << ".input = " << input);
+            FL_DBG(_inputVariables[i]->getName() << ".fuzzyfiedInput = " << _inputVariables[i]->fuzzify(input));
+        }
+        FL_END_DEBUG_BLOCK
+
 
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
             _ruleblocks[i]->fireRules();
         }
+
+        
         FL_BEGIN_DEBUG_BLOCK;
-            FL_DBG("===============");
-            FL_DBG("CURRENT OUTPUTS:");
-            for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
-                FL_DBG( _outputVariables[i]->getName() << ".defaultValue= "
-                        << _outputVariables[i]->getDefaultValue());
-                FL_DBG( _outputVariables[i]->getName() << ".lockDefuzzifiedValue= "
-                        << _outputVariables[i]->lockDefuzzifiedValue()
-                        << " (no locking ever performed during this debugging block, i.e., defuzzify(true)");
-                scalar output = _outputVariables[i]->defuzzifyIgnoreLock(); // override to not change the system
-                FL_DBG( _outputVariables[i]->getName() << ".defuzzifiedOutput = " << output);
-                FL_DBG( _outputVariables[i]->getName() << ".fuzzifiedOutput = " <<
-                        _outputVariables[i]->fuzzify(output));
-                FL_DBG( _outputVariables[i]->output()->toString());
-            }
-            FL_DBG("==============");
+        FL_DBG("===============");
+        FL_DBG("CURRENT OUTPUTS:");
+        for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
+            FL_DBG(_outputVariables[i]->getName() << ".defaultValue= "
+                    << _outputVariables[i]->getDefaultValue());
+            FL_DBG(_outputVariables[i]->getName() << ".lockDefuzzifiedValue= "
+                    << _outputVariables[i]->lockDefuzzifiedValue()
+                    << " (no locking ever performed during this debugging block, i.e., defuzzify(true)");
+            scalar output = _outputVariables[i]->defuzzifyIgnoreLock(); // override to not change the system
+            FL_DBG(_outputVariables[i]->getName() << ".defuzzifiedOutput = " << output);
+            FL_DBG(_outputVariables[i]->getName() << ".fuzzifiedOutput = " <<
+                    _outputVariables[i]->fuzzify(output));
+            FL_DBG(_outputVariables[i]->output()->toString());
+        }
+        FL_DBG("==============");
         FL_END_DEBUG_BLOCK
     }
 
     void Engine::setName(const std::string& name) {
         this->_name = name;
     }
+
     std::string Engine::getName() const {
         return this->_name;
     }
@@ -91,13 +96,16 @@ namespace fl {
     void Engine::addInputVariable(InputVariable* inputVariable) {
         this->_inputVariables.push_back(inputVariable);
     }
+
     void Engine::insertInputVariable(InputVariable* inputVariable, int index) {
         this->_inputVariables.insert(this->_inputVariables.begin() + index,
                 inputVariable);
     }
+
     InputVariable* Engine::getInputVariable(int index) const {
         return this->_inputVariables[index];
     }
+
     InputVariable* Engine::getInputVariable(const std::string& name) const {
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
             if (_inputVariables[i]->getName() == name)
@@ -105,17 +113,21 @@ namespace fl {
         }
         return NULL;
     }
+
     bool Engine::hasInputVariable(const std::string& name) const {
         return getInputVariable(name) != NULL;
     }
+
     InputVariable* Engine::removeInputVariable(int index) {
         InputVariable* result = this->_inputVariables[index];
         this->_inputVariables.erase(this->_inputVariables.begin() + index);
         return result;
     }
+
     int Engine::numberOfInputVariables() const {
         return this->_inputVariables.size();
     }
+
     const std::vector<InputVariable*>& Engine::inputVariables() const {
         return this->_inputVariables;
     }
@@ -126,13 +138,16 @@ namespace fl {
     void Engine::addOutputVariable(OutputVariable* outputVariable) {
         this->_outputVariables.push_back(outputVariable);
     }
+
     void Engine::insertOutputVariable(OutputVariable* outputVariable, int index) {
         this->_outputVariables.insert(this->_outputVariables.begin() + index,
                 outputVariable);
     }
+
     OutputVariable* Engine::getOutputVariable(int index) const {
         return this->_outputVariables[index];
     }
+
     OutputVariable* Engine::getOutputVariable(const std::string& name) const {
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             if (_outputVariables[i]->getName() == name)
@@ -140,17 +155,21 @@ namespace fl {
         }
         return NULL;
     }
+
     bool Engine::hasOutputVariable(const std::string& name) const {
         return getOutputVariable(name) != NULL;
     }
+
     OutputVariable* Engine::removeOutputVariable(int index) {
         OutputVariable* result = this->_outputVariables[index];
         this->_outputVariables.erase(this->_outputVariables.begin() + index);
         return result;
     }
+
     int Engine::numberOfOutputVariables() const {
         return this->_outputVariables.size();
     }
+
     const std::vector<OutputVariable*>& Engine::outputVariables() const {
         return this->_outputVariables;
     }
@@ -161,12 +180,15 @@ namespace fl {
     void Engine::addRuleBlock(RuleBlock* ruleblock) {
         this->_ruleblocks.push_back(ruleblock);
     }
+
     void Engine::insertRuleBlock(RuleBlock* ruleblock, int index) {
         this->_ruleblocks.insert(this->_ruleblocks.begin() + index, ruleblock);
     }
+
     RuleBlock* Engine::getRuleBlock(int index) const {
         return this->_ruleblocks[index];
     }
+
     RuleBlock* Engine::getRuleBlock(const std::string& name) const {
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
             if (_ruleblocks[i]->getName() == name)
@@ -174,17 +196,21 @@ namespace fl {
         }
         return NULL;
     }
+
     bool Engine::hasRuleBlock(const std::string& name) const {
         return getRuleBlock(name) != NULL;
     }
+
     RuleBlock* Engine::removeRuleBlock(int index) {
         RuleBlock* result = this->_ruleblocks[index];
         this->_ruleblocks.erase(this->_ruleblocks.begin() + index);
         return result;
     }
+
     int Engine::numberOfRuleBlocks() const {
         return this->_ruleblocks.size();
     }
+
     const std::vector<RuleBlock*>& Engine::ruleBlocks() const {
         return this->_ruleblocks;
     }

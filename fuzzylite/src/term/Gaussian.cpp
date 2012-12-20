@@ -13,57 +13,59 @@
 namespace fl {
 
     Gaussian::Gaussian(const std::string& name,
-            scalar sigma, scalar c, scalar minimum, scalar maximum)
-            : Term(name), _sigma(sigma), _c(c), _minimum(minimum), _maximum(
-                    maximum) {
-    }
+            scalar mean, scalar sigma, scalar minimum, scalar maximum)
+    : Term(name), _mean(mean), _sigma(sigma),
+    _minimum(minimum), _maximum(maximum) { }
 
-    Gaussian::~Gaussian() {
+    Gaussian::~Gaussian() { }
 
-    }
-
-    std::string Gaussian::className() const{
+    std::string Gaussian::className() const {
         return "Gaussian";
     }
 
-    Gaussian* Gaussian::copy() const{
+    Gaussian* Gaussian::copy() const {
         return new Gaussian(*this);
     }
 
-    scalar Gaussian::membership(scalar x) const{
-        return std::exp((-(x - _c) * (x - _c)) / (2 * _sigma * _sigma));
+    scalar Gaussian::membership(scalar x) const {
+        return std::exp((-(x - _mean) * (x - _mean)) / (2 * _sigma * _sigma));
     }
 
     std::string Gaussian::toString() const {
         std::stringstream ss;
-        ss << "Gaussian (" << _minimum << ", " << _maximum << ", "
-                << _sigma << ", " << _c << ")";
+        ss << "Gaussian (" << _mean << ", " << _sigma << ", "
+                << _minimum << ", " << _maximum << ")";
         return ss.str();
+    }
+
+    void Gaussian::setMean(scalar c) {
+        this->_mean = c;
+    }
+
+    scalar Gaussian::getMean() const {
+        return this->_mean;
     }
 
     void Gaussian::setSigma(scalar sigma) {
         this->_sigma = sigma;
     }
+
     scalar Gaussian::getSigma() const {
         return this->_sigma;
-    }
-
-    void Gaussian::setC(scalar c) {
-        this->_c = c;
-    }
-    scalar Gaussian::getC() const {
-        return this->_c;
     }
 
     void Gaussian::setMinimum(scalar minimum) {
         this->_minimum = minimum;
     }
+
     scalar Gaussian::minimum() const {
         return this->_minimum;
     }
+
     void Gaussian::setMaximum(scalar maximum) {
         this->_maximum = maximum;
     }
+
     scalar Gaussian::maximum() const {
         return this->_maximum;
     }

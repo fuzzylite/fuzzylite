@@ -31,11 +31,12 @@ namespace fl {
 
             ui->sld_x->setEnabled(inputVariable != NULL);
             ui->led_x->setReadOnly(outputVariable != NULL);
+            ui->lbl_var_name->setText(QString::fromStdString(model->getName()));
 
             if (inputVariable) {
                 ui->grx_output->setVisible(false);
             }
-
+  
             connect();
         }
 

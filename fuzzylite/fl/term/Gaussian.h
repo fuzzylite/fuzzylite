@@ -12,16 +12,16 @@
 
 namespace fl {
 
-    class Gaussian: public Term {
+    class Gaussian : public Term {
     protected:
+        scalar _mean;
         scalar _sigma;
-        scalar _c;
         scalar _minimum, _maximum;
 
     public:
         Gaussian(const std::string& name = "",
+                scalar mean = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar sigma = -std::numeric_limits<scalar>::quiet_NaN(),
-                scalar c = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar minimum = -std::numeric_limits<scalar>::infinity(),
                 scalar maximum = std::numeric_limits<scalar>::infinity());
         ~Gaussian();
@@ -32,11 +32,13 @@ namespace fl {
         scalar membership(scalar x) const;
         std::string toString() const;
 
+        void setMean(scalar c);
+        scalar getMean() const;
+
         void setSigma(scalar sigma);
         scalar getSigma() const;
 
-        void setC(scalar c);
-        scalar getC() const;
+
 
         void setMinimum(scalar minimum);
         scalar minimum() const;
