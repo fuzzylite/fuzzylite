@@ -13,12 +13,13 @@
 #include <string>
 
 namespace fl {
+
     class Hedge {
     public:
-        Hedge() {
-        }
-        virtual ~Hedge() {
-        }
+
+        Hedge() { }
+
+        virtual ~Hedge() { }
 
         virtual std::string name() const = 0;
         virtual scalar hedge(scalar x) const = 0;

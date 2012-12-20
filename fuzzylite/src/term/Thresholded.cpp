@@ -14,18 +14,17 @@
 namespace fl {
 
     Thresholded::Thresholded(const Term* term, scalar threshold, const Operator* activation)
-            : Term(""), _term(term), _threshold(threshold), _activation(activation) {
+    : Term(""), _term(term), _threshold(threshold), _activation(activation) {
         if (term) this->_name = term->getName();
     }
 
-    Thresholded::~Thresholded() {
-    }
+    Thresholded::~Thresholded() { }
 
-    std::string Thresholded::className() const{
+    std::string Thresholded::className() const {
         return "Thresholded";
     }
 
-    Thresholded* Thresholded::copy() const{
+    Thresholded* Thresholded::copy() const {
         return new Thresholded(*this);
     }
 
@@ -51,6 +50,7 @@ namespace fl {
     void Thresholded::setTerm(const Term* term) {
         this->_term = term;
     }
+
     const Term* Thresholded::getTerm() const {
         return this->_term;
     }
@@ -58,6 +58,7 @@ namespace fl {
     void Thresholded::setThreshold(scalar threshold) {
         this->_threshold = threshold;
     }
+
     scalar Thresholded::getThreshold() const {
         return this->_threshold;
     }

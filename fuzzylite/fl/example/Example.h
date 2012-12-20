@@ -15,17 +15,17 @@
 namespace fl {
 
     class Example {
-
     public:
         Engine* engine;
+
         Example() :
-                engine(NULL) {
-        }
+        engine(NULL) { }
+
         virtual ~Example() {
             if (engine) delete engine;
         }
 
-        virtual std::string name() const{
+        virtual std::string name() const {
             return engine ? engine->getName() : "NULL";
         }
 

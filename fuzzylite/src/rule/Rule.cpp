@@ -22,8 +22,7 @@ namespace fl {
     std::string Rule::FL_WITH = "with";
 
     Rule::Rule()
-            : _antecedent(NULL), _consequent(NULL) {
-    }
+    : _antecedent(NULL), _consequent(NULL) { }
 
     Rule::~Rule() {
         delete _consequent;
@@ -33,12 +32,15 @@ namespace fl {
     void Rule::setAntecedent(Antecedent* antecedent) {
         this->_antecedent = antecedent;
     }
+
     Antecedent* Rule::getAntecedent() const {
         return this->_antecedent;
     }
+
     void Rule::setConsequent(Consequent* consequent) {
         this->_consequent = consequent;
     }
+
     Consequent* Rule::getConsequent() const {
         return this->_consequent;
     }

@@ -14,17 +14,15 @@
 namespace fl {
 
     Triangle::Triangle(const std::string& name, scalar a, scalar b, scalar c)
-            : Term(name), _a(a), _b(b), _c(c) {
-    }
+    : Term(name), _a(a), _b(b), _c(c) { }
 
-    Triangle::~Triangle() {
-    }
+    Triangle::~Triangle() { }
 
     std::string Triangle::className() const {
         return "Triangle";
     }
 
-    Triangle* Triangle::copy() const{
+    Triangle* Triangle::copy() const {
         return new Triangle(*this);
     }
 
@@ -32,13 +30,13 @@ namespace fl {
         scalar minimum = _a;
         scalar maximum = _c;
         if (Op::IsLE(x, minimum) or Op::IsGE(x, maximum))
-        return 0.0;
+            return 0.0;
         else if (Op::IsEq(x, _b))
-        return 1.0;
+            return 1.0;
         else if (Op::IsLt(x, _b))
-        return (x - minimum) / (_b - minimum);
+            return (x - minimum) / (_b - minimum);
         else
-        return (maximum - x) / (maximum - _b);
+            return (maximum - x) / (maximum - _b);
     }
 
     std::string Triangle::toString() const {
@@ -58,15 +56,19 @@ namespace fl {
     void Triangle::setA(scalar a) {
         this->_a = a;
     }
+
     scalar Triangle::getA() const {
         return this->_a;
     }
+
     void Triangle::setB(scalar b) {
         this->_b = b;
     }
+
     scalar Triangle::getB() const {
         return this->_b;
     }
+
     void Triangle::setC(scalar c) {
         this->_c = c;
     }

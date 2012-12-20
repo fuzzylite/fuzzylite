@@ -15,14 +15,15 @@
 namespace fl {
 
     class Operator;
-    class Accumulated: public Term {
+
+    class Accumulated : public Term {
     protected:
         std::vector<const Term*> _terms;
         const Operator* _accumulation;
         scalar _minimum, _maximum;
-        public:
+    public:
         Accumulated(const std::string& name = "",
-                const Operator* accumulation= NULL);
+                const Operator* accumulation = NULL);
         ~Accumulated();
 
         std::string className() const;
@@ -38,8 +39,8 @@ namespace fl {
         const Operator* getAccumulation() const;
 
         /**
-          * Operations for std::vector _terms
-          */
+         * Operations for std::vector _terms
+         */
         void addTerm(const Term* term);
         const Term* getTerm(int index) const;
         const Term* removeTerm(int index);

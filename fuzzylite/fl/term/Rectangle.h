@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    class Rectangle: public Term {
+    class Rectangle : public Term {
     protected:
         scalar _minimum, _maximum;
 

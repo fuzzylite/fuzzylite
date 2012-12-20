@@ -14,38 +14,37 @@
 
 namespace fl {
 
-class Antecedent;
-class Consequent;
-class Operator;
+    class Antecedent;
+    class Consequent;
+    class Operator;
 
-class Rule {
+    class Rule {
+    protected:
+        Antecedent* _antecedent;
+        Consequent* _consequent;
 
-	protected:
-		Antecedent* _antecedent;
-		Consequent* _consequent;
+    public:
+        Rule();
+        virtual ~Rule();
 
-	public:
-		Rule();
-		virtual ~Rule();
+        virtual void setAntecedent(Antecedent* antecedent);
+        virtual Antecedent* getAntecedent() const;
 
-		virtual void setAntecedent(Antecedent* antecedent);
-		virtual Antecedent* getAntecedent() const;
+        virtual void setConsequent(Consequent* consequent);
+        virtual Consequent* getConsequent() const;
 
-		virtual void setConsequent(Consequent* consequent);
-		virtual Consequent* getConsequent() const;
+        virtual scalar firingStrength(const Operator* tnorm, const Operator* snorm) const;
+        virtual void fire(scalar strength, const Operator* activation) const;
 
-		virtual scalar firingStrength(const Operator* tnorm, const Operator* snorm) const;
-		virtual void fire(scalar strength, const Operator* activation) const;
+        virtual std::string toString() const;
 
-		virtual std::string toString() const;
-
-		static std::string FL_IF;
-		static std::string FL_IS;
-		static std::string FL_THEN;
-		static std::string FL_AND;
-		static std::string FL_OR;
-		static std::string FL_WITH;
-};
+        static std::string FL_IF;
+        static std::string FL_IS;
+        static std::string FL_THEN;
+        static std::string FL_AND;
+        static std::string FL_OR;
+        static std::string FL_WITH;
+    };
 }
 
 

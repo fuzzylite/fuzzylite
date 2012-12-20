@@ -11,12 +11,11 @@
 namespace fl {
 
     Exception::Exception(const std::string& what, bool log)
-            : std::exception(), _what(what) {
+    : std::exception(), _what(what) {
         if (log) FL_LOG(what);
     }
 
-    Exception::~Exception() throw () {
-    }
+    Exception::~Exception() throw () { }
 
     void Exception::setWhat(const std::string& what) {
         this->_what = what;

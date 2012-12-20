@@ -1,12 +1,12 @@
-/*
- * Operator.h
+/* 
+ * File:   Operator.h
+ * Author: jcrada
  *
- *  Created on: 30/11/2012
- *      Author: jcrada
+ * Created on 21 December 2012, 9:31 AM
  */
 
-#ifndef FL_OPERATOR_H_
-#define FL_OPERATOR_H_
+#ifndef FL_OPERATOR_H
+#define	FL_OPERATOR_H
 
 #include "fl/scalar.h"
 
@@ -24,6 +24,18 @@
 #include <utility>
 
 namespace fl {
+
+    class Operator {
+    public:
+
+        Operator() { }
+
+        virtual ~Operator() { }
+
+        virtual std::string name() const = 0;
+        virtual scalar compute(scalar a, scalar b) const = 0;
+
+    };
 
     class Op {
     public:
@@ -169,230 +181,6 @@ namespace fl {
             return limits;
         }
     };
+}
+#endif	/* FL_OPERATOR_H */
 
-    class Operator {
-    public:
-
-        Operator() { }
-
-        virtual ~Operator() { }
-
-        virtual std::string name() const = 0;
-        virtual scalar compute(scalar a, scalar b) const = 0;
-
-    };
-
-    /*
-     * Fuzzy And
-     */
-    class Min : public Operator {
-        /*
-         * Minimum
-         */
-    public:
-
-        std::string name() const {
-            return "MIN";
-        }
-
-        scalar compute(scalar a, scalar b) const {
-            return Op::Min(a, b);
-        }
-    };
-
-    class Prod : public Operator {
-        /*
-         * Product
-         */
-    public:
-
-        std::string name() const {
-            return "PROD";
-        }
-
-        scalar compute(scalar a, scalar b) const {
-            return a * b;
-        }
-    };
-
-    class BDif : public Operator {
-        /*
-         * Bounded Difference
-         */
-    public:
-
-        std::string name() const {
-            return "BDIF";
-        }
-
-        scalar compute(scalar a, scalar b) const {
-            return Op::Max(0, a + b - 1);
-        }
-    };
-
-    class DProd : public Operator {
-        /*
-         * Drastic product
-         */
-
-    public:
-
-        std::string name() const {
-            return "DPROD";
-        }
-
-        scalar compute(scalar a, scalar b) const {
-            if (Op::IsEq(Op::Max(a, b), 1.0)) {
-                return Op::Min(a, b);
-            }
-            return 0.0;
-        }
-    };
-
-    class EProd : public Operator {
-        /*
-         * Einstein product
-         */
-
-    public:
-
-        std::string name() const {
-            return "EPROD";
-        }
-
-        scalar compute(scalar a, scalar b) const {
-            return (a * b) / (2 - (a + b - a * b));
-        }
-    };
-
-    class HProd : public Operator {
-        /*
-         * Hamacher product
-         */
-
-    public:
-
-        std::string name() const {
-            return "HPROD";
-        }
-
-        scalar compute(scalar a, scalar b) const {
-            return (a * b) / (a + b - a * b);
-        }
-    };
-
-    /*
-     * Fuzzy Or
-     */
-    class Max : public Operator {
-        /*
-         * Maximum
-         */
-    public:
-
-        std::string name() const {
-            return "MAX";
-        }
-
-        scalar compute(scalar a, scalar b) const {
-            return Op::Max(a, b);
-        }
-    };
-
-    class ASum : public Operator {
-        /*
-         * Algebraic Sum
-         */
-    public:
-
-        std::string name() const {
-            return "ASUM";
-        }
-
-        scalar compute(scalar a, scalar b) const {
-            return a + b - (a * b);
-        }
-    };
-
-    class BSum : public Operator {
-        /*
-         * Algebraic Bounded Sum
-         */
-
-    public:
-
-        std::string name() const {
-            return "BSUM";
-        }
-
-        scalar compute(scalar a, scalar b) const {
-            return Op::Min(1, a + b);
-        }
-    };
-
-    class NSum : public Operator {
-        /*
-         * Normalized Sum
-         */
-    public:
-
-        std::string name() const {
-            return "NSUM";
-        }
-
-        scalar compute(scalar a, scalar b) const {
-            return a + b / Op::Max(1, Op::Max(a, b));
-        }
-    };
-
-    class DSum : public Operator {
-        /*
-         * Drastic Sum
-         */
-    public:
-
-        std::string name() const {
-            return "DSUM";
-        }
-
-        scalar compute(scalar a, scalar b) const {
-            if (Op::IsEq(Op::Min(a, b), 0.0)) {
-                return Op::Max(a, b);
-            }
-            return 1.0;
-        }
-    };
-
-    class ESum : public Operator {
-        /*
-         * Einstein Sum
-         */
-    public:
-
-        std::string name() const {
-            return "ESUM";
-        }
-
-        scalar compute(scalar a, scalar b) const {
-            return (a + b) / (1 + a * b);
-        }
-    };
-
-    class HSum : public Operator {
-        /*
-         * Hamacher Sum
-         */
-    public:
-
-        std::string name() const {
-            return "HSUM";
-        }
-
-        scalar compute(scalar a, scalar b) const {
-            return (a + b - 2 * a * b) / (1 - a * b);
-        }
-    };
-
-} // namespace fl
-
-#endif /* FL_OPERATOR_H_ */

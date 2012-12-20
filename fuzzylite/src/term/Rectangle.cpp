@@ -15,22 +15,20 @@ namespace fl {
 
     Rectangle::Rectangle(const std::string& name, scalar minimum,
             scalar maximum)
-            : Term(name), _minimum(minimum), _maximum(maximum) {
-    }
+    : Term(name), _minimum(minimum), _maximum(maximum) { }
 
-    Rectangle::~Rectangle() {
-    }
+    Rectangle::~Rectangle() { }
 
-    std::string Rectangle::className() const{
+    std::string Rectangle::className() const {
         return "Rectangle";
     }
 
-    Rectangle* Rectangle::copy() const{
+    Rectangle* Rectangle::copy() const {
         return new Rectangle(*this);
     }
 
-    scalar Rectangle::membership(scalar x) const{
-        if (Op::IsLt(x, _minimum)  or  Op::IsGt(x, _maximum))
+    scalar Rectangle::membership(scalar x) const {
+        if (Op::IsLt(x, _minimum) or Op::IsGt(x, _maximum))
             return 0.0;
         return 1.0;
     }
@@ -44,12 +42,15 @@ namespace fl {
     void Rectangle::setMinimum(scalar minimum) {
         this->_minimum = minimum;
     }
+
     scalar Rectangle::minimum() const {
         return this->_minimum;
     }
+
     void Rectangle::setMaximum(scalar maximum) {
         this->_maximum = maximum;
     }
+
     scalar Rectangle::maximum() const {
         return this->_maximum;
     }

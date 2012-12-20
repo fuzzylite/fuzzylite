@@ -12,11 +12,9 @@
 namespace fl {
 
     InputVariable::InputVariable(const std::string& name)
-            : Variable(name), _input(0) {
-    }
+    : Variable(name), _input(0) { }
 
-    InputVariable::~InputVariable() {
-    }
+    InputVariable::~InputVariable() { }
 
     void InputVariable::setInput(scalar input) {
         this->_input = input;

@@ -37,7 +37,7 @@ namespace fl {
 
     bool Infix::isOperand(const std::string& name) const {
         //An operand is not a parenthesis...
-        if (name == "("  or  name == ")"  or  name == ",") return false;
+        if (name == "(" or name == ")" or name == ",") return false;
         //nor an operator...
         if (isOperator(name)) return false;
         //nor a function...
@@ -212,7 +212,7 @@ namespace fl {
         this->_genericFunctions["sqrt"] = new GenericFunction("sqrt", &(std::sqrt));
         this->_genericFunctions["tan"] = new GenericFunction("tan", &(std::tan));
         this->_genericFunctions["tanh"] = new GenericFunction("tanh", &(std::tanh));
-//        this->_genericFunctions["X"] = new GenericFunction("X", &(std::X));
+        //        this->_genericFunctions["X"] = new GenericFunction("X", &(std::X));
     }
 
     /**
@@ -221,6 +221,7 @@ namespace fl {
     void Infix::addGenericOperator(Infix::GenericOperator* genericOperator) {
         this->_genericOperators[genericOperator->name] = genericOperator;
     }
+
     Infix::GenericOperator* Infix::removeGenericOperator(const std::string& key) {
         std::map<std::string, GenericOperator*>::iterator it = this->_genericOperators.find(key);
         if (it == this->_genericOperators.end()) return NULL;
@@ -228,11 +229,13 @@ namespace fl {
         this->_genericOperators.erase(it);
         return result;
     }
+
     Infix::GenericOperator* Infix::getGenericOperator(const std::string& key) const {
         std::map<std::string, Infix::GenericOperator*>::const_iterator it = this->_genericOperators.find(key);
         if (it == this->_genericOperators.end()) return NULL;
         return it->second;
     }
+
     const std::map<std::string, Infix::GenericOperator*>& Infix::genericOperators() const {
         return this->_genericOperators;
     }
@@ -243,6 +246,7 @@ namespace fl {
     void Infix::addGenericFunction(Infix::GenericFunction* genericFunction) {
         this->_genericFunctions[genericFunction->name] = genericFunction;
     }
+
     Infix::GenericFunction* Infix::removeGenericFunction(const std::string& key) {
         std::map<std::string, Infix::GenericFunction*>::iterator it = this->_genericFunctions.find(key);
         if (it == this->_genericFunctions.end()) return NULL;
@@ -250,11 +254,13 @@ namespace fl {
         this->_genericFunctions.erase(it);
         return result;
     }
+
     Infix::GenericFunction* Infix::getGenericFunction(const std::string& key) const {
         std::map<std::string, Infix::GenericFunction*>::const_iterator it = this->_genericFunctions.find(key);
         if (it == this->_genericFunctions.end()) return NULL;
         return it->second;
     }
+
     const std::map<std::string, Infix::GenericFunction*>& Infix::genericFunctions() const {
         return this->_genericFunctions;
     }

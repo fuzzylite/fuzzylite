@@ -18,17 +18,15 @@ namespace fl {
      */
     LeftShoulder::LeftShoulder(const std::string& name, scalar minimum,
             scalar maximum)
-            : Term(name), _minimum(minimum), _maximum(maximum) {
-    }
+    : Term(name), _minimum(minimum), _maximum(maximum) { }
 
-    LeftShoulder::~LeftShoulder() {
-    }
+    LeftShoulder::~LeftShoulder() { }
 
-    std::string LeftShoulder::className() const{
+    std::string LeftShoulder::className() const {
         return "LeftShoulder";
     }
 
-    LeftShoulder* LeftShoulder::copy() const{
+    LeftShoulder* LeftShoulder::copy() const {
         return new LeftShoulder(*this);
     }
 
@@ -47,12 +45,15 @@ namespace fl {
     void LeftShoulder::setMinimum(scalar minimum) {
         this->_minimum = minimum;
     }
+
     scalar LeftShoulder::minimum() const {
         return this->_minimum;
     }
+
     void LeftShoulder::setMaximum(scalar maximum) {
         this->_maximum = maximum;
     }
+
     scalar LeftShoulder::maximum() const {
         return this->_maximum;
     }

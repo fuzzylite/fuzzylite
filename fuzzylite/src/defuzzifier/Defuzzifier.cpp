@@ -7,18 +7,17 @@
 
 #include "fl/defuzzifier/Defuzzifier.h"
 
-namespace fl{
+namespace fl {
 
-    Defuzzifier::Defuzzifier(int divisions) : _divisions(divisions){
-    }
+    Defuzzifier::Defuzzifier(int divisions) : _divisions(divisions) { }
 
-    Defuzzifier::~Defuzzifier(){}
+    Defuzzifier::~Defuzzifier() { }
 
     void Defuzzifier::setDivisions(int divisions) {
         this->_divisions = divisions;
     }
 
-    int Defuzzifier::getDivisions() const{
+    int Defuzzifier::getDivisions() const {
         return this->_divisions;
     }
 

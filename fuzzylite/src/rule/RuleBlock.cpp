@@ -17,8 +17,7 @@
 namespace fl {
 
     RuleBlock::RuleBlock(const std::string& name)
-            : _name(name), _tnorm(NULL), _snorm(NULL), _activation(NULL) {
-    }
+    : _name(name), _tnorm(NULL), _snorm(NULL), _activation(NULL) { }
 
     RuleBlock::~RuleBlock() {
         for (std::size_t i = 0; i < _rules.size(); ++i) {
@@ -47,24 +46,31 @@ namespace fl {
     void RuleBlock::setName(std::string name) {
         this->_name = name;
     }
+
     std::string RuleBlock::getName() const {
         return this->_name;
     }
+
     void RuleBlock::setTnorm(const Operator* tnorm) {
         this->_tnorm = tnorm;
     }
+
     const Operator* RuleBlock::getTnorm() const {
         return this->_tnorm;
     }
+
     void RuleBlock::setSnorm(const Operator* snorm) {
         this->_snorm = snorm;
     }
+
     const Operator* RuleBlock::getSnorm() const {
         return this->_snorm;
     }
+
     void RuleBlock::setActivation(const Operator* activation) {
         this->_activation = activation;
     }
+
     const Operator* RuleBlock::getActivation() const {
         return this->_activation;
     }
@@ -85,20 +91,25 @@ namespace fl {
     void RuleBlock::addRule(Rule* rule) {
         this->_rules.push_back(rule);
     }
+
     void RuleBlock::insertRule(Rule* rule, int index) {
         this->_rules.insert(this->_rules.begin() + index, rule);
     }
+
     Rule* RuleBlock::getRule(int index) const {
         return this->_rules[index];
     }
+
     Rule* RuleBlock::removeRule(int index) {
         Rule* result = this->_rules[index];
         this->_rules.erase(this->_rules.begin() + index);
         return result;
     }
+
     int RuleBlock::numberOfRules() const {
         return this->_rules.size();
     }
+
     const std::vector<Rule*>& RuleBlock::rules() const {
         return this->_rules;
     }

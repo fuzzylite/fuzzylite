@@ -24,10 +24,10 @@ namespace fl {
             short precedence;
             short arity;
             short associativity;
+
             GenericOperator(const std::string& name, short precedence, short arity = 2,
                     short associativity = -1)
-                    : name(name), precedence(precedence), arity(arity), associativity(associativity) {
-            }
+            : name(name), precedence(precedence), arity(arity), associativity(associativity) { }
 
             std::string toString() const {
                 std::stringstream ss;
@@ -41,8 +41,8 @@ namespace fl {
 
         };
 
-        typedef scalar (*OneArgFunction)(scalar);
-        typedef scalar (*TwoArgFunction)(scalar, scalar);
+        typedef scalar(*OneArgFunction)(scalar);
+        typedef scalar(*TwoArgFunction)(scalar, scalar);
 
         class GenericFunction {
         public:
@@ -53,17 +53,16 @@ namespace fl {
             TwoArgFunction twoArgFunction;
 
             GenericFunction(const std::string& name, short arity = 1)
-                    : name(name), arity(arity), associativity(-1),
-                            oneArgFunction(NULL), twoArgFunction(NULL) {
-            }
+            : name(name), arity(arity), associativity(-1),
+            oneArgFunction(NULL), twoArgFunction(NULL) { }
+
             GenericFunction(const std::string&name, OneArgFunction oneArgFunction)
-                    : name(name), arity(1), associativity(-1), oneArgFunction(oneArgFunction),
-                            twoArgFunction(NULL) {
-            }
+            : name(name), arity(1), associativity(-1), oneArgFunction(oneArgFunction),
+            twoArgFunction(NULL) { }
+
             GenericFunction(const std::string&name, TwoArgFunction twoArgFunction)
-                    : name(name), arity(2), associativity(-1), oneArgFunction(NULL),
-                            twoArgFunction(twoArgFunction) {
-            }
+            : name(name), arity(2), associativity(-1), oneArgFunction(NULL),
+            twoArgFunction(twoArgFunction) { }
 
             std::string toString() const {
                 std::stringstream ss;
@@ -84,29 +83,29 @@ namespace fl {
 
     public:
         Infix();
-        virtual  ~Infix();
+        virtual ~Infix();
 
         virtual std::string toPostfix(const std::string& infixString);
 
-        virtual  bool isOperand(const std::string& token) const;
-        virtual  bool isOperator(const std::string& token) const;
+        virtual bool isOperand(const std::string& token) const;
+        virtual bool isOperator(const std::string& token) const;
         virtual bool isFunction(const std::string& token) const;
 
         /**
          * Operations for std::map _genericOperators
          */
-        virtual  void addGenericOperator(GenericOperator* genericOperator);
-        virtual  GenericOperator* removeGenericOperator(const std::string& key);
-        virtual  GenericOperator* getGenericOperator(const std::string& key) const;
-        virtual  const std::map<std::string, GenericOperator*>& genericOperators() const;
+        virtual void addGenericOperator(GenericOperator* genericOperator);
+        virtual GenericOperator* removeGenericOperator(const std::string& key);
+        virtual GenericOperator* getGenericOperator(const std::string& key) const;
+        virtual const std::map<std::string, GenericOperator*>& genericOperators() const;
 
         /**
          * Operations for std::map _genericFunctions
          */
-        virtual  void addGenericFunction(GenericFunction* genericFunction);
-        virtual  GenericFunction* removeGenericFunction(const std::string& key);
+        virtual void addGenericFunction(GenericFunction* genericFunction);
+        virtual GenericFunction* removeGenericFunction(const std::string& key);
         virtual GenericFunction* getGenericFunction(const std::string& key) const;
-        virtual  const std::map<std::string, GenericFunction*>& genericFunctions() const;
+        virtual const std::map<std::string, GenericFunction*>& genericFunctions() const;
 
         static void main();
     };

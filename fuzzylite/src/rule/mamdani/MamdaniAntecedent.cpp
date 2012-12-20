@@ -26,8 +26,7 @@
 namespace fl {
 
     MamdaniAntecedent::MamdaniAntecedent()
-            : _root(NULL) {
-    }
+    : _root(NULL) { }
 
     MamdaniAntecedent::~MamdaniAntecedent() {
         if (_root)
@@ -38,7 +37,7 @@ namespace fl {
             const MamdaniExpression* node) const {
         if (not node->isOperator) { //is Proposition
             const MamdaniAntecedentProposition* proposition =
-                    dynamic_cast<const MamdaniAntecedentProposition*>(node);
+                    dynamic_cast<const MamdaniAntecedentProposition*> (node);
 
             scalar result = proposition->term->membership(proposition->inputVariable->getInput());
             for (std::size_t i = 0; i < proposition->hedges.size(); ++i) {
@@ -48,7 +47,7 @@ namespace fl {
         }
         //if node is an operatorsk
         const MamdaniOperator* mamdaniOperator =
-                dynamic_cast<const MamdaniOperator*>(node);
+                dynamic_cast<const MamdaniOperator*> (node);
         if (not mamdaniOperator->left or not mamdaniOperator->right) {
             std::ostringstream ex;
             ex << "[syntax error] left and right operands must exist";
@@ -56,18 +55,19 @@ namespace fl {
         }
         if (mamdaniOperator->name == Rule::FL_AND)
             return tnorm->compute(
-                    this->firingStrength(tnorm, snorm, mamdaniOperator->left),
-                    this->firingStrength(tnorm, snorm, mamdaniOperator->right));
+                this->firingStrength(tnorm, snorm, mamdaniOperator->left),
+                this->firingStrength(tnorm, snorm, mamdaniOperator->right));
 
         if (mamdaniOperator->name == Rule::FL_AND)
             return snorm->compute(
-                    this->firingStrength(tnorm, snorm, mamdaniOperator->left),
-                    this->firingStrength(tnorm, snorm, mamdaniOperator->right));
+                this->firingStrength(tnorm, snorm, mamdaniOperator->left),
+                this->firingStrength(tnorm, snorm, mamdaniOperator->right));
         std::ostringstream ex;
         ex << "[syntax error] operator <" << mamdaniOperator->name << "> not recognized";
         throw fl::Exception(ex.str());
 
     }
+
     scalar MamdaniAntecedent::firingStrength(const Operator* tnorm, const Operator* snorm) const {
         return this->firingStrength(tnorm, snorm, this->_root);
     }
@@ -85,6 +85,7 @@ namespace fl {
         std::string postfix = infix.toPostfix(antecedent);
         std::stringstream tokenizer(postfix);
         std::string token;
+
         enum FSM {
             S_VARIABLE = 1, S_IS = 2, S_HEDGE = 4, S_TERM = 8, S_OPERATOR = 16
         };
@@ -192,7 +193,7 @@ namespace fl {
             return node->toString();
         }
         const MamdaniOperator* mamdaniOperator =
-                dynamic_cast<const MamdaniOperator*>(node);
+                dynamic_cast<const MamdaniOperator*> (node);
         std::stringstream ss;
         ss << mamdaniOperator->toString() << " "
                 << this->toStringPrefix(mamdaniOperator->left) << " "
@@ -207,7 +208,7 @@ namespace fl {
             return node->toString();
         }
         const MamdaniOperator* mamdaniOperator =
-                dynamic_cast<const MamdaniOperator*>(node);
+                dynamic_cast<const MamdaniOperator*> (node);
         std::stringstream ss;
         ss << this->toStringInfix(mamdaniOperator->left) << " "
                 << mamdaniOperator->toString() << " "
@@ -222,7 +223,7 @@ namespace fl {
             return node->toString();
         }
         const MamdaniOperator* mamdaniOperator =
-                dynamic_cast<const MamdaniOperator*>(node);
+                dynamic_cast<const MamdaniOperator*> (node);
         std::stringstream ss;
         ss << this->toStringPostfix(mamdaniOperator->left) << " "
                 << this->toStringPostfix(mamdaniOperator->right) << " "

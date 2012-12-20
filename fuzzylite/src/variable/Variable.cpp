@@ -16,11 +16,10 @@
 namespace fl {
 
     Variable::Variable(const std::string& name)
-            : _name(name) {
-    }
+    : _name(name) { }
 
-    Variable::Variable(const Variable& copy){
-        for (int i = 0 ; i < copy.numberOfTerms(); ++i){
+    Variable::Variable(const Variable& copy) {
+        for (int i = 0; i < copy.numberOfTerms(); ++i) {
             addTerm(copy.getTerm(i)->copy());
         }
     }
@@ -43,7 +42,8 @@ namespace fl {
         return this->_name;
     }
 
-//It is assumed the terms are inserted in ascending order
+    //It is assumed the terms are inserted in ascending order
+
     scalar Variable::minimum() const {
         if (_terms.size() > 0) return _terms[0]->minimum();
         return -std::numeric_limits<scalar>::infinity();
@@ -64,12 +64,12 @@ namespace fl {
         return ss.str();
     }
 
-    Term* Variable::highestMembership(scalar x, scalar* yhighest) const{
+    Term* Variable::highestMembership(scalar x, scalar* yhighest) const {
         Term* result = NULL;
         scalar ymax = 0;
-        for (std::size_t i = 0 ; i < _terms.size(); ++i){
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
             scalar y = _terms[i]->membership(x);
-            if (fl::Op::IsGt(y, ymax)){
+            if (fl::Op::IsGt(y, ymax)) {
                 ymax = y;
                 result = _terms[i];
             }
@@ -95,12 +95,15 @@ namespace fl {
     void Variable::addTerm(Term* term) {
         this->_terms.push_back(term);
     }
+
     void Variable::insertTerm(Term* term, int index) {
         this->_terms.insert(this->_terms.begin() + index, term);
     }
+
     Term* Variable::getTerm(int index) const {
         return this->_terms[index];
     }
+
     Term* Variable::getTerm(const std::string& name) const {
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             if (_terms[i]->getName() == name) {
@@ -119,9 +122,11 @@ namespace fl {
         this->_terms.erase(this->_terms.begin() + index);
         return result;
     }
+
     int Variable::numberOfTerms() const {
         return this->_terms.size();
     }
+
     const std::vector<Term*>& Variable::terms() const {
         return this->_terms;
     }

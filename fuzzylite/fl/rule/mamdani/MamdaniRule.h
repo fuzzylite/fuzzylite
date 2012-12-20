@@ -15,7 +15,7 @@
 namespace fl {
     class Engine;
 
-    class MamdaniRule : public Rule{
+    class MamdaniRule : public Rule {
     public:
         MamdaniRule();
         ~MamdaniRule();

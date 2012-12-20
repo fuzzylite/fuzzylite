@@ -24,7 +24,7 @@ namespace fl {
         const Operator* _tnorm;
         const Operator* _snorm;
         const Operator* _activation;
-        public:
+    public:
         RuleBlock(const std::string& name = "");
         virtual ~RuleBlock();
 

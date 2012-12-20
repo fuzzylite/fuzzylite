@@ -12,13 +12,13 @@
 
 namespace fl {
 
-    class Bell: public Term {
+    class Bell : public Term {
     protected:
         scalar _center;
         scalar _width;
         scalar _slope;
         scalar _minimum, _maximum;
-        public:
+    public:
         Bell(const std::string& name = "",
                 scalar center = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar width = std::numeric_limits<scalar>::quiet_NaN(),
@@ -36,14 +36,14 @@ namespace fl {
 
         void setCenter(scalar center);
         scalar getCenter() const;
-        
+
         void setWidth(scalar width);
         scalar getWidth() const;
 
         void setSlope(scalar slope);
         scalar getSlope() const;
 
-        
+
 
         void setMinimum(scalar minimum);
         scalar minimum() const;

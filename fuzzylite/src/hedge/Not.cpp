@@ -9,11 +9,11 @@
 
 namespace fl {
 
-    std::string Not::name() const{
+    std::string Not::name() const {
         return "not";
     }
 
-    scalar Not::hedge(scalar x) const{
+    scalar Not::hedge(scalar x) const {
         return 1 - x;
     }
 

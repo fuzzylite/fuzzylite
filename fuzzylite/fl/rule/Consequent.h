@@ -13,20 +13,20 @@
 #include <string>
 
 namespace fl {
-class Operator;
+    class Operator;
 
-class Consequent {
-	public:
-		Consequent() {
-		}
-		virtual ~Consequent() {
-		}
+    class Consequent {
+    public:
 
-		virtual void fire(scalar strength, const Operator* activation) = 0;
+        Consequent() { }
 
-		virtual std::string toString() const = 0;
+        virtual ~Consequent() { }
 
-};
+        virtual void fire(scalar strength, const Operator* activation) = 0;
+
+        virtual std::string toString() const = 0;
+
+    };
 
 }
 

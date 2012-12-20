@@ -18,11 +18,9 @@
 namespace fl {
 
     MamdaniRule::MamdaniRule()
-            : Rule() {
-    }
+    : Rule() { }
 
-    MamdaniRule::~MamdaniRule() {
-    }
+    MamdaniRule::~MamdaniRule() { }
 
     MamdaniRule* MamdaniRule::parse(const std::string& rule, const Engine* engine) {
         MamdaniRule* result = new MamdaniRule();
@@ -30,6 +28,7 @@ namespace fl {
         std::istringstream tokenizer(rule);
         std::string token;
         std::ostringstream ossAntecedent, ossConsequent;
+
         enum FSM {
             S_NONE, S_IF, S_THEN
         };
@@ -55,7 +54,7 @@ namespace fl {
             throw fl::Exception(ex.str());
         } else if (state == S_IF) {
             std::ostringstream ex;
-            ex << "[syntax error] keyword <" << Rule::FL_THEN<< "> not found in rule: " << rule;
+            ex << "[syntax error] keyword <" << Rule::FL_THEN << "> not found in rule: " << rule;
             throw fl::Exception(ex.str());
         }
 

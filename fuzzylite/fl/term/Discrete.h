@@ -14,7 +14,7 @@
 #include <utility>
 namespace fl {
 
-    class Discrete: public Term {
+    class Discrete : public Term {
     public:
         std::vector<scalar> x;
         std::vector<scalar> y;
@@ -29,8 +29,8 @@ namespace fl {
                 const std::vector<std::pair<scalar, scalar> >& xy);
         ~Discrete();
 
-        std::string className() const ;
-        Discrete* copy() const ;
+        std::string className() const;
+        Discrete* copy() const;
 
         scalar minimum() const;
         scalar maximum() const;

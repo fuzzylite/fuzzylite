@@ -12,10 +12,10 @@
 
 namespace fl {
 
-    class RightShoulder: public Term {
+    class RightShoulder : public Term {
     protected:
         scalar _minimum, _maximum;
-        public:
+    public:
         RightShoulder(const std::string& name = "",
                 scalar minimum = -std::numeric_limits<scalar>::infinity(),
                 scalar maximum = std::numeric_limits<scalar>::infinity());

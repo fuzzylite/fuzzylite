@@ -13,28 +13,24 @@
 
 namespace fl {
 
-
     /**
      * Right Shoulder
      */
     RightShoulder::RightShoulder(const std::string& name, scalar minimum,
             scalar maximum)
-            : Term(name), _minimum(minimum), _maximum(maximum) {
-    }
+    : Term(name), _minimum(minimum), _maximum(maximum) { }
 
-    RightShoulder::~RightShoulder() {
+    RightShoulder::~RightShoulder() { }
 
-    }
-
-    std::string RightShoulder::className() const{
+    std::string RightShoulder::className() const {
         return "RightShoulder";
     }
 
-    RightShoulder* RightShoulder::copy() const{
+    RightShoulder* RightShoulder::copy() const {
         return new RightShoulder(*this);
     }
 
-    scalar RightShoulder::membership(scalar x) const{
+    scalar RightShoulder::membership(scalar x) const {
         if (Op::IsLt(x, _minimum)) return 0.0;
         if (Op::IsGt(x, _maximum)) return 1.0;
         return (x - _minimum) / (_maximum - _minimum);
@@ -50,12 +46,15 @@ namespace fl {
     void RightShoulder::setMinimum(scalar minimum) {
         this->_minimum = minimum;
     }
+
     scalar RightShoulder::minimum() const {
         return this->_minimum;
     }
+
     void RightShoulder::setMaximum(scalar maximum) {
         this->_maximum = maximum;
     }
+
     scalar RightShoulder::maximum() const {
         return this->_maximum;
     }

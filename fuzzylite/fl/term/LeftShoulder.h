@@ -11,7 +11,8 @@
 #include "fl/term/Term.h"
 
 namespace fl {
-    class LeftShoulder: public Term {
+
+    class LeftShoulder : public Term {
     protected:
         scalar _minimum, _maximum;
 
@@ -21,7 +22,7 @@ namespace fl {
                 scalar maximum = std::numeric_limits<scalar>::infinity());
         ~LeftShoulder();
 
-        std::string className() const ;
+        std::string className() const;
         LeftShoulder* copy() const;
 
         scalar membership(scalar x) const;

@@ -103,8 +103,7 @@ namespace fl {
     void FclImporter::processBlock(const std::string& tag, const std::string& block) {
         if (tag == "VAR_INPUT" or tag == "VAR_OUTPUT") {
             processVar(tag, block);
-        }
-        else if (tag == "FUZZIFY") {
+        } else if (tag == "FUZZIFY") {
             processFuzzify(block);
         } else if (tag == "DEFUZZIFY") {
             processDefuzzify(block);
@@ -219,7 +218,7 @@ namespace fl {
             } else {
                 std::ostringstream ex;
                 ex << "[syntax error] unexpected token <" << firstToken <<
-                        "> in line: "  << std::endl << line;
+                        "> in line: " << std::endl << line;
                 throw fl::Exception(ex.str());
             }
         }
@@ -472,7 +471,7 @@ namespace fl {
             else {
                 std::ostringstream ex;
                 ex << "expected keyword <NC>, but found<" << noChangeFlag << "> in "
-                        << "line: " <<std::endl << line;
+                        << "line: " << std::endl << line;
                 throw fl::Exception(ex.str());
             }
         }

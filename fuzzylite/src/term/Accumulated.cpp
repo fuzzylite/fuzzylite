@@ -15,11 +15,9 @@ namespace fl {
 
     Accumulated::Accumulated(const std::string& name,
             const Operator* accumulation)
-            : Term(name), _accumulation(accumulation) {
-    }
+    : Term(name), _accumulation(accumulation) { }
 
-    Accumulated::~Accumulated() {
-    }
+    Accumulated::~Accumulated() { }
 
     std::string Accumulated::className() const {
         return "Accumulated";

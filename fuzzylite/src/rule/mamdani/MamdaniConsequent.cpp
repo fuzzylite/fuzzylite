@@ -18,8 +18,7 @@
 
 namespace fl {
 
-    MamdaniConsequent::MamdaniConsequent() {
-    }
+    MamdaniConsequent::MamdaniConsequent() { }
 
     MamdaniConsequent::~MamdaniConsequent() {
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
@@ -43,6 +42,7 @@ namespace fl {
     }
 
     void MamdaniConsequent::load(const std::string& consequent, const Engine* engine) {
+
         /**
          Extracts the list of propositions from the consequent
          The rules are:

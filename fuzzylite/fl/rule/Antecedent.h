@@ -13,19 +13,19 @@
 #include <string>
 
 namespace fl {
-class Operator;
+    class Operator;
 
-class Antecedent {
-	public:
-		Antecedent() {
-		}
-		virtual ~Antecedent() {
-		}
+    class Antecedent {
+    public:
 
-		virtual scalar firingStrength(const Operator* tnorm, const Operator* snorm) const = 0;
+        Antecedent() { }
 
-		virtual std::string toString() const = 0;
-};
+        virtual ~Antecedent() { }
+
+        virtual scalar firingStrength(const Operator* tnorm, const Operator* snorm) const = 0;
+
+        virtual std::string toString() const = 0;
+    };
 
 }
 

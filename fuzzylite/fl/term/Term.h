@@ -20,11 +20,11 @@ namespace fl {
         std::string _name;
 
     public:
+
         Term(const std::string& name = "")
-                : _name(name) {
-        }
-        virtual ~Term() {
-        }
+        : _name(name) { }
+
+        virtual ~Term() { }
 
         virtual void setName(const std::string& name) {
             this->_name = name;
@@ -42,7 +42,7 @@ namespace fl {
         virtual std::string className() const = 0;
         virtual std::string toString() const = 0;
 
-        virtual Term* copy() const  = 0;
+        virtual Term* copy() const = 0;
 
 
     };

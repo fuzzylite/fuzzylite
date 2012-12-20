@@ -16,6 +16,7 @@ namespace fl {
     std::string Seldom::name() const {
         return "seldom";
     }
+
     scalar Seldom::hedge(scalar x) const {
         return Op::IsLE(x, 0.5)
                 ? std::sqrt(x / 2)

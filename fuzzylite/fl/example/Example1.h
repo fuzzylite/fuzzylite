@@ -14,7 +14,7 @@
 
 namespace fl {
 
-    class Example1: public Example {
+    class Example1 : public Example {
     protected:
         void create();
     public:

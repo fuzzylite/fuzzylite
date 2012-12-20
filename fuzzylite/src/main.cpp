@@ -17,11 +17,11 @@ int main(int argc, char** argv) {
     FL_LOG("Hello, FuzzyLite!");
     FL_LOG("Version: " << FL_VERSION);
     scalar someScalar = 0;
-    int scalarSize = sizeof(someScalar);
+    int scalarSize = sizeof (someScalar);
 #ifdef FL_USE_SINGLE_PRECISION
-    FL_LOG("scalar is defined as type <" << (typeid(scalar).name()) << "> (float) with " << scalarSize << " bytes");
+    FL_LOG("scalar is defined as type <" << (typeid (scalar).name()) << "> (float) with " << scalarSize << " bytes");
 #else
-    FL_LOG("scalar is defined as type <" << (typeid(scalar).name()) << "> (double) with " << scalarSize << " bytes");
+    FL_LOG("scalar is defined as type <" << (typeid (scalar).name()) << "> (double) with " << scalarSize << " bytes");
 #endif
     FL_LOG("tolerance to floating-point value is " << FL_EPSILON);
     FL_LOG("FL_DEBUG flag is set to: " << FL_DEBUG);
@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
                     << (wait - w) << " seconds...");
             sleep(1);
         }
-//        example->test();
+        //        example->test();
     }
 
     FL_LOG("Bye, FuzzyLite!");

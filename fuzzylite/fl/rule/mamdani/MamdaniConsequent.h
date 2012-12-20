@@ -16,7 +16,7 @@ namespace fl {
     class Engine;
     class MamdaniConsequentProposition;
 
-    class MamdaniConsequent: public Consequent {
+    class MamdaniConsequent : public Consequent {
     protected:
         std::vector<MamdaniConsequentProposition*> _conclusions;
 

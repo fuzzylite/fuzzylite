@@ -18,13 +18,12 @@ namespace fl {
 
     OutputVariable::OutputVariable(const std::string& name, scalar defaultValue,
             bool lockDefuzzifiedValue)
-            : Variable(name), _output(new Accumulated("output")), _defuzzifier(NULL),
-                    _defaultValue(defaultValue),
-                    _defuzzifiedValue(std::numeric_limits<scalar>::quiet_NaN()),
-                    _lockDefuzzifiedValue(lockDefuzzifiedValue),
-                    _minimumOutputRange(-std::numeric_limits<scalar>::infinity()),
-                    _maximumOutputRange(std::numeric_limits<scalar>::infinity()) {
-    }
+    : Variable(name), _output(new Accumulated("output")), _defuzzifier(NULL),
+    _defaultValue(defaultValue),
+    _defuzzifiedValue(std::numeric_limits<scalar>::quiet_NaN()),
+    _lockDefuzzifiedValue(lockDefuzzifiedValue),
+    _minimumOutputRange(-std::numeric_limits<scalar>::infinity()),
+    _maximumOutputRange(std::numeric_limits<scalar>::infinity()) { }
 
     OutputVariable::~OutputVariable() {
         delete _output;
@@ -120,7 +119,7 @@ namespace fl {
         if (Op::IsLt(result, _minimumOutputRange)) result = _minimumOutputRange;
         if (Op::IsGt(result, _maximumOutputRange)) result = _maximumOutputRange;
 
-//        if (_lockDefuzzifiedValue) _defuzzifiedValue = result;
+        //        if (_lockDefuzzifiedValue) _defuzzifiedValue = result;
 
         return result;
     }

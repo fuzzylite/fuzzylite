@@ -20,7 +20,7 @@ int main(int argc, char* argv[]){
 //    fl::qt::Configuration::main();
     fl::qt::Window::main();
 //    fl::qt::Term::main();
-
+//http://octave.sourceforge.net/fuzzy-logic-toolkit/overview.html
     return fuzzylite.exec();
 
 }

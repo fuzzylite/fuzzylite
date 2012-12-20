@@ -11,10 +11,11 @@
 
 namespace fl {
 
-    std::string Somewhat::name() const{
+    std::string Somewhat::name() const {
         return "somewhat";
     }
-    scalar Somewhat::hedge(scalar x) const{
+
+    scalar Somewhat::hedge(scalar x) const {
         return std::sqrt(x);
     }
 

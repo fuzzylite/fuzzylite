@@ -13,7 +13,7 @@
 namespace fl {
     class Operator;
 
-    class Thresholded: public Term {
+    class Thresholded : public Term {
     protected:
         const Term* _term;
         scalar _threshold;

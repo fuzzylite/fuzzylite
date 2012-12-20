@@ -14,25 +14,23 @@
 namespace fl {
 
     Discrete::Discrete(const std::string& name)
-            : Term(name) {
-    }
+    : Term(name) { }
 
     Discrete::Discrete(const std::string& name,
             const std::vector<scalar>& x,
             const std::vector<scalar>& y)
-            : Term(name), x(x), y(y) {
-    }
+    : Term(name), x(x), y(y) { }
+
     Discrete::Discrete(const std::string& name,
             const std::vector<std::pair<scalar, scalar> >& xy)
-            : Term(name) {
+    : Term(name) {
         for (std::size_t i = 0; i < xy.size(); ++i) {
             x.push_back(xy[i].first);
             y.push_back(xy[i].second);
         }
     }
 
-    Discrete::~Discrete() {
-    }
+    Discrete::~Discrete() { }
 
     std::string Discrete::className() const {
         return "Discrete";
@@ -59,8 +57,8 @@ namespace fl {
                 break;
             }
         }
-//        return ((y[upper] - y[lower]) / (x[upper] - x[lower])) *
-//                (mu - x[lower]) + y[lower];
+        //        return ((y[upper] - y[lower]) / (x[upper] - x[lower])) *
+        //                (mu - x[lower]) + y[lower];
         return Op::Scale(mu, x[lower], x[upper], y[lower], y[upper]);
     }
 

@@ -42,7 +42,7 @@ namespace fl {
     }
 
     void Engine::process() {
-        
+
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             _outputVariables[i]->output()->clear();
         }
@@ -62,7 +62,7 @@ namespace fl {
             _ruleblocks[i]->fireRules();
         }
 
-        
+
         FL_BEGIN_DEBUG_BLOCK;
         FL_DBG("===============");
         FL_DBG("CURRENT OUTPUTS:");

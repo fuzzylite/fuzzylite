@@ -12,17 +12,17 @@
 
 namespace fl {
 
-class InputVariable : public Variable{
-	protected:
-		scalar _input;
-	public:
-		InputVariable(const std::string& name = "");
-		virtual ~InputVariable();
+    class InputVariable : public Variable {
+    protected:
+        scalar _input;
+    public:
+        InputVariable(const std::string& name = "");
+        virtual ~InputVariable();
 
-		virtual void setInput(scalar input);
-		virtual scalar getInput() const;
+        virtual void setInput(scalar input);
+        virtual scalar getInput() const;
 
-};
+    };
 
 } /* namespace fl */
 #endif /* FL_INPUTVARIABLE_H_ */

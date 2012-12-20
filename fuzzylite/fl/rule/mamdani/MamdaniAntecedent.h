@@ -18,7 +18,7 @@ namespace fl {
     class Operator;
     class MamdaniExpression;
 
-    class MamdaniAntecedent: public Antecedent {
+    class MamdaniAntecedent : public Antecedent {
     protected:
         MamdaniExpression* _root;
 

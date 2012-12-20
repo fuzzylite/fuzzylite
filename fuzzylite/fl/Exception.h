@@ -13,7 +13,7 @@
 
 namespace fl {
 
-    class Exception : public std::exception{
+    class Exception : public std::exception {
     protected:
         std::string _what;
     public:
