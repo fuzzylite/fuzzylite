@@ -27,6 +27,7 @@ namespace fl {
 
     class Op {
     public:
+
         static scalar Min(scalar a, scalar b) {
             return a < b ? a : b;
         }
@@ -44,21 +45,25 @@ namespace fl {
         }
 
         //Is less than
+
         static bool IsLt(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
             return not IsEq(a, b, tolerance) and a < b;
         }
 
         //Is less than
+
         static bool IsLE(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
             return IsEq(a, b, tolerance) or a < b;
         }
 
         //Is equal
+
         static bool IsEq(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
             return std::fabs(a - b) < tolerance;
         }
 
         //Is greater than
+
         static bool IsGt(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
             return not IsEq(a, b, tolerance) and a > b;
         }
@@ -103,6 +108,7 @@ namespace fl {
             }
             return result;
         }
+
         static std::string LeftTrim(const std::string& text) {
             std::size_t index = text.find_first_not_of(" ");
             if (index != std::string::npos)
@@ -124,7 +130,7 @@ namespace fl {
 
         static scalar Scalar(const std::string& x, bool quiet = false,
                 scalar alternative = std::numeric_limits<scalar>::quiet_NaN())
-                        throw (fl::Exception) {
+        throw (fl::Exception) {
             std::istringstream iss(x);
             scalar result;
             iss >> result;
@@ -166,8 +172,10 @@ namespace fl {
 
     class Operator {
     public:
+
         Operator() {
         }
+
         virtual ~Operator() {
         }
 
@@ -179,11 +187,12 @@ namespace fl {
     /*
      * Fuzzy And
      */
-    class Min: public Operator {
+    class Min : public Operator {
         /*
          * Minimum
          */
     public:
+
         std::string name() const {
             return "MIN";
         }
@@ -193,11 +202,12 @@ namespace fl {
         }
     };
 
-    class Prod: public Operator {
+    class Prod : public Operator {
         /*
          * Product
          */
     public:
+
         std::string name() const {
             return "PROD";
         }
@@ -207,11 +217,12 @@ namespace fl {
         }
     };
 
-    class BDif: public Operator {
+    class BDif : public Operator {
         /*
          * Bounded Difference
          */
     public:
+
         std::string name() const {
             return "BDIF";
         }
@@ -221,27 +232,81 @@ namespace fl {
         }
     };
 
+    class DProd : public Operator {
+        /*
+         * Drastic product
+         */
+
+    public:
+
+        std::string name() const {
+            return "DPROD";
+        }
+
+        scalar compute(scalar a, scalar b) const {
+            if (Op::IsEq(Op::Max(a, b), 1.0)) {
+                return Op::Min(a, b);
+            }
+            return 0.0;
+        }
+    };
+
+    class EProd : public Operator {
+        /*
+         * Einstein product
+         */
+
+    public:
+
+        std::string name() const {
+            return "EPROD";
+        }
+
+        scalar compute(scalar a, scalar b) const {
+            return (a * b) / (2 - (a + b - a * b));
+        }
+    };
+
+    class HProd : public Operator {
+        /*
+         * Hamacher product
+         */
+
+    public:
+
+        std::string name() const {
+            return "HPROD";
+        }
+
+        scalar compute(scalar a, scalar b) const {
+            return (a * b) / (a + b - a * b);
+        }
+    };
+
     /*
      * Fuzzy Or
      */
-    class Max: public Operator {
+    class Max : public Operator {
         /*
          * Maximum
          */
     public:
+
         std::string name() const {
             return "MAX";
         }
+
         scalar compute(scalar a, scalar b) const {
             return Op::Max(a, b);
         }
     };
 
-    class ASum: public Operator {
+    class ASum : public Operator {
         /*
          * Algebraic Sum
          */
     public:
+
         std::string name() const {
             return "ASUM";
         }
@@ -251,12 +316,13 @@ namespace fl {
         }
     };
 
-    class BSum: public Operator {
+    class BSum : public Operator {
         /*
          * Algebraic Bounded Sum
          */
 
     public:
+
         std::string name() const {
             return "BSUM";
         }
@@ -266,16 +332,66 @@ namespace fl {
         }
     };
 
-    class NSum: public Operator {
+    class NSum : public Operator {
         /*
          * Normalized Sum
          */
     public:
+
         std::string name() const {
             return "NSUM";
         }
+
         scalar compute(scalar a, scalar b) const {
             return a + b / Op::Max(1, Op::Max(a, b));
+        }
+    };
+
+    class DSum : public Operator {
+        /*
+         * Drastic Sum
+         */
+    public:
+
+        std::string name() const {
+            return "DSUM";
+        }
+
+        scalar compute(scalar a, scalar b) const {
+            if (Op::IsEq(Op::Min(a, b), 0.0)) {
+                return Op::Max(a, b);
+            }
+            return 1.0;
+        }
+    };
+
+    class ESum : public Operator {
+        /*
+         * Einstein Sum
+         */
+    public:
+
+        std::string name() const {
+            return "ESUM";
+        }
+
+        scalar compute(scalar a, scalar b) const {
+            return (a + b) / (1 + a * b);
+        }
+    };
+
+    class HSum : public Operator {
+        /*
+         * Hamacher Sum
+         */
+    public:
+
+        std::string name() const {
+            return "HSUM";
+        }
+
+        scalar compute(scalar a, scalar b) const {
+            return (a + b - 2 * a * b) / (1 - a * b);
         }
     };
 

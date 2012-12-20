@@ -267,13 +267,13 @@ namespace fl {
             throw fl::Exception(ex.str());
         }
         std::string name = Op::FindReplace(Op::Trim(token[1]), ";", "");
-        if (name == "MIN") return new Min;
-        if (name == "PROD") return new Prod;
-        if (name == "BDIF") return new BDif;
-        if (name == "MAX") return new Max;
-        if (name == "SUM") return new ASum;
-        if (name == "BSUM") return new BSum;
-        if (name == "NSUM") return new NSum;
+        if (name == Min().name()) return new Min;
+        if (name == Prod().name()) return new Prod;
+        if (name == BDif().name()) return new BDif;
+        if (name == Max().name()) return new Max;
+        if (name == ASum().name()) return new ASum;
+        if (name == BSum().name()) return new BSum;
+        if (name == NSum().name()) return new NSum;
 
         std::ostringstream ex;
         ex << "[syntax error] operator <" << name << "> not recognized in line:"
