@@ -26,7 +26,8 @@ namespace fl {
 
         Window::Window(QWidget* parent, Qt::WindowFlags flags) :
         QMainWindow(parent, flags), _configurationWindow(NULL),
-        ui(new Ui::Window) { }
+        ui(new Ui::Window) {
+        }
 
         Window::~Window() {
             disconnect();
@@ -36,10 +37,12 @@ namespace fl {
 
         void Window::setup() {
             ui->setupUi(this);
+            setGeometry(0,0,800,600);
             _configurationWindow = new fl::qt::Configuration(this);
             _configurationWindow->setup();
             ui->tab_container->setCurrentIndex(0);
-
+            
+            
             QRect scr = QApplication::desktop()->screenGeometry();
             move(scr.center() - rect().center());
 
@@ -145,7 +148,7 @@ namespace fl {
                 QLayoutItem* item = layout->itemAt(i);
                 Control* control = dynamic_cast<Control*> (item->widget());
                 if (control) {
-                    QObject::disconnect(control, SIGNAL(inputValueChanged()),
+                    QObject::disconnect(control, SIGNAL(crispValueChanged()),
                             this, SLOT(onInputValueChanged()));
                 }
                 layout->removeItem(item);
@@ -163,7 +166,7 @@ namespace fl {
                 QLayoutItem* item = layout->itemAt(i);
                 Control* control = dynamic_cast<Control*> (item->widget());
                 if (control) {
-                    QObject::disconnect(control, SIGNAL(inputValueChanged()),
+                    QObject::disconnect(control, SIGNAL(crispValueChanged()),
                             this, SLOT(onInputValueChanged()));
                 }
                 layout->removeItem(item);
@@ -182,7 +185,15 @@ namespace fl {
                 Control* control = new Control;
                 control->setup(engine->getInputVariable(i));
                 layout->addWidget(control);
-                QObject::connect(control, SIGNAL(inputValueChanged()), this,
+                
+                QFrame* line = new QFrame;
+                line->setObjectName(QString::fromUtf8("line"));
+                line->setGeometry(QRect(320, 150, 118, 3));
+                line->setFrameShape(QFrame::HLine);
+                line->setFrameShadow(QFrame::Sunken);
+                layout->addWidget(line);
+                
+                QObject::connect(control, SIGNAL(crispValueChanged()), this,
                         SLOT(onInputValueChanged()));
             }
             layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
@@ -210,9 +221,18 @@ namespace fl {
             for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
                 Control* control = new Control;
                 control->setup(engine->getOutputVariable(i));
+                control->setReadOnly(true);
                 layout->addWidget(control);
+                
+                QFrame* line = new QFrame;
+                line->setObjectName(QString::fromUtf8("line"));
+                line->setGeometry(QRect(320, 150, 118, 3));
+                line->setFrameShape(QFrame::HLine);
+                line->setFrameShadow(QFrame::Sunken);
+                layout->addWidget(line);
+                
                 QObject::connect(this, SIGNAL(outputValueChanged()),
-                        control, SLOT(onOutputValueChanged()), Qt::QueuedConnection);
+                        control, SLOT(drawOutputVariable()), Qt::QueuedConnection);
             }
             layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored,
                     QSizePolicy::Expanding));
@@ -280,6 +300,8 @@ namespace fl {
         }
 
         void Window::onInputValueChanged() {
+            
+            
             QColor from_color(Qt::white);
             QColor to_color(0, 200, 0);
             fl::RuleBlock* ruleblock = Model::Default()->engine()->getRuleBlock(0);
@@ -477,13 +499,13 @@ namespace fl {
                 std::ostringstream rule;
                 rule << fl::Rule::FL_IF << " ";
                 for (int input = 0; input < engine->numberOfInputVariables();
-                        ++input) { 
+                        ++input) {
                     fl::Variable* var = engine->getInputVariable(input);
                     rule << var->getName() << " " << fl::Rule::FL_IS << " "
                             << var->getTerm(terms[input])->getName() << " ";
                     if (input < engine->numberOfInputVariables() - 1) {
                         rule << fl::Rule::FL_AND << " ";
-                    } 
+                    }
                 }
                 rule << fl::Rule::FL_THEN;
                 for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
@@ -491,7 +513,7 @@ namespace fl {
                             << fl::Rule::FL_IS << " ?";
                     if (i < engine->numberOfOutputVariables() - 1) {
                         rule << " " << fl::Rule::FL_AND << " ";
-                    } 
+                    }
                 }
                 ui->ptx_rules->appendPlainText(QString::fromStdString(rule.str()));
                 //Increment...
@@ -598,9 +620,11 @@ namespace fl {
             }
         }
 
-        void Window::onMenuExample3() { }
+        void Window::onMenuExample3() {
+        }
 
-        void Window::onMenuExample4() { }
+        void Window::onMenuExample4() {
+        }
 
         void Window::onMenuConfiguration() {
             _configurationWindow->setFocus();
@@ -609,7 +633,7 @@ namespace fl {
 
         void Window::onMenuTerms() {
             Term* window = new Term(this);
-            window->setup();
+            window->setup(0, 1);
             window->setWindowTitle("Term toolbox");
             window->ui->buttonBox->setVisible(false);
             window->show();
@@ -715,4 +739,4 @@ namespace fl {
         }
 
     }
-} /* namespace fl */
+}

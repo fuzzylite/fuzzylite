@@ -17,7 +17,9 @@
 
 #include "fl/rule/Rule.h"
 #include "fl/rule/Infix.h"
-#include "fl/engine/Operator.h"
+#include "fl/operator/TNorm.h"
+#include "fl/operator/SNorm.h"
+
 
 #include "fl/definitions.h"
 
@@ -33,7 +35,7 @@ namespace fl {
             delete _root;
     }
 
-    scalar MamdaniAntecedent::firingStrength(const Operator* tnorm, const Operator* snorm,
+    scalar MamdaniAntecedent::firingStrength(const TNorm* tnorm, const SNorm* snorm,
             const MamdaniExpression* node) const {
         if (not node->isOperator) { //is Proposition
             const MamdaniAntecedentProposition* proposition =
@@ -68,7 +70,7 @@ namespace fl {
 
     }
 
-    scalar MamdaniAntecedent::firingStrength(const Operator* tnorm, const Operator* snorm) const {
+    scalar MamdaniAntecedent::firingStrength(const TNorm* tnorm, const SNorm* snorm) const {
         return this->firingStrength(tnorm, snorm, this->_root);
     }
 
@@ -183,7 +185,7 @@ namespace fl {
     }
 
     std::string MamdaniAntecedent::toString() const {
-        return this->toStringPostfix(this->_root);
+        return this->toStringInfix(this->_root);
     }
 
     std::string MamdaniAntecedent::toStringPrefix(const MamdaniExpression* node) const {
@@ -232,4 +234,4 @@ namespace fl {
     }
 
 
-} /* namespace fl */
+} 

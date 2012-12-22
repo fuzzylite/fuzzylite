@@ -7,18 +7,20 @@
 
 #include "fl/term/Thresholded.h"
 
-#include "fl/engine/Operator.h"
+#include "fl/operator/TNorm.h"
+
 
 #include <sstream>
 
 namespace fl {
 
-    Thresholded::Thresholded(const Term* term, scalar threshold, const Operator* activation)
+    Thresholded::Thresholded(const Term* term, scalar threshold, const TNorm* activation)
     : Term(""), _term(term), _threshold(threshold), _activation(activation) {
         if (term) this->_name = term->getName();
     }
 
-    Thresholded::~Thresholded() { }
+    Thresholded::~Thresholded() {
+    }
 
     std::string Thresholded::className() const {
         return "Thresholded";
@@ -34,17 +36,9 @@ namespace fl {
 
     std::string Thresholded::toString() const {
         std::stringstream ss;
-        ss << "Thresholded (" << _term->toString() << ") to " << _threshold
+        ss << className() << " (" << _term->toString() << ") to " << _threshold
                 << " activated using " << _activation->name();
         return ss.str();
-    }
-
-    scalar Thresholded::minimum() const {
-        return this->_term->minimum();
-    }
-
-    scalar Thresholded::maximum() const {
-        return this->_term->maximum();
     }
 
     void Thresholded::setTerm(const Term* term) {
@@ -63,12 +57,12 @@ namespace fl {
         return this->_threshold;
     }
 
-    void Thresholded::setActivation(const Operator* activation) {
+    void Thresholded::setActivation(const TNorm* activation) {
         this->_activation = activation;
     }
 
-    const Operator* Thresholded::getActivation() const {
+    const TNorm* Thresholded::getActivation() const {
         return this->_activation;
     }
 
-} /* namespace fl */
+}

@@ -16,7 +16,9 @@ namespace fl {
     protected:
         scalar _input;
     public:
-        InputVariable(const std::string& name = "");
+        InputVariable(const std::string& name = "", 
+                scalar minimum = -std::numeric_limits<scalar>::infinity(),
+                scalar maximum = std::numeric_limits<scalar>::infinity());
         virtual ~InputVariable();
 
         virtual void setInput(scalar input);
@@ -24,5 +26,5 @@ namespace fl {
 
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_INPUTVARIABLE_H_ */

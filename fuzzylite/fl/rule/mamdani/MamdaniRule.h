@@ -24,5 +24,5 @@ namespace fl {
         static void main();
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_MAMDANIRULE_H_ */

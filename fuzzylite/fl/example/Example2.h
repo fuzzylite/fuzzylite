@@ -27,5 +27,5 @@ namespace fl {
 
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_EXAMPLE2_H_ */

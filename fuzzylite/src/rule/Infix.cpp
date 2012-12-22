@@ -8,7 +8,7 @@
 #include "fl/rule/Infix.h"
 
 #include "fl/rule/Rule.h"
-#include "fl/engine/Operator.h"
+#include "fl/operator/Operator.h"
 
 #include "fl/definitions.h"
 
@@ -294,4 +294,4 @@ namespace fl {
 
     }
 
-} /* namespace fl */
+} 

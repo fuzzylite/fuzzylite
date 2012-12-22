@@ -99,5 +99,5 @@ namespace fl {
             static void main();
         };
     }
-} /* namespace fl */
+} 
 #endif /* FLQT_WINDOW_H_ */

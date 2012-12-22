@@ -24,18 +24,18 @@ namespace fl {
         scalar _defuzzifiedValue;
         bool _lockDefuzzifiedValue;
 
-        scalar _minimumOutputRange;
-        scalar _maximumOutputRange;
-
     public:
         OutputVariable(const std::string& name = "",
-                scalar defaultValue = std::numeric_limits<scalar>::quiet_NaN(),
-                bool lockDefuzzifiedValue = true);
+                scalar minimum = -std::numeric_limits<scalar>::infinity(),
+                scalar maximum = std::numeric_limits<scalar>::infinity());
         virtual ~OutputVariable();
 
         virtual void configure(Configuration* config);
 
         virtual Accumulated* output() const;
+        
+        virtual void setMinimum(scalar minimum);
+        virtual void setMaximum(scalar maximum);
 
         virtual void setDefuzzifier(Defuzzifier* defuzzifier);
         virtual Defuzzifier* getDefuzzifier() const;
@@ -48,12 +48,6 @@ namespace fl {
 
         virtual void setLockDefuzzifiedValue(bool lock);
         virtual bool lockDefuzzifiedValue() const;
-
-        virtual void setMininumOutputRange(scalar minimum);
-        virtual scalar getMinimumOutputRange() const;
-
-        virtual void setMaximumOutputRange(scalar maximum);
-        virtual scalar getMaximumOutputRange() const;
 
         /*if the defuzzified value is locked, executing this method
          stores the defuzzified value to be returned in case the next
@@ -74,5 +68,5 @@ namespace fl {
 
     };
 
-} /* namespace fl */
+}
 #endif /* FL_OUTPUTVARIABLE_H_ */

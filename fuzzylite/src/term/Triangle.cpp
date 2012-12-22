@@ -7,16 +7,18 @@
 
 #include "fl/term/Triangle.h"
 
-#include "fl/engine/Operator.h"
+#include "fl/operator/Operator.h"
 
 #include <sstream>
 
 namespace fl {
 
     Triangle::Triangle(const std::string& name, scalar a, scalar b, scalar c)
-    : Term(name), _a(a), _b(b), _c(c) { }
+    : Term(name), _a(a), _b(b), _c(c) {
+    }
 
-    Triangle::~Triangle() { }
+    Triangle::~Triangle() {
+    }
 
     std::string Triangle::className() const {
         return "Triangle";
@@ -41,16 +43,8 @@ namespace fl {
 
     std::string Triangle::toString() const {
         std::stringstream ss;
-        ss << "Triangle (" << _a << ", " << _b << ", " << _c << ")";
+        ss << className() << " (" << _a << ", " << _b << ", " << _c << ")";
         return ss.str();
-    }
-
-    scalar Triangle::minimum() const {
-        return this->_a;
-    }
-
-    scalar Triangle::maximum() const {
-        return this->_c;
     }
 
     void Triangle::setA(scalar a) {
@@ -77,4 +71,4 @@ namespace fl {
         return this->_c;
     }
 
-} /* namespace fl */
+}

@@ -14,10 +14,13 @@
 
 #include <fl/Headers.h>
 
+#include <vector>
+
 namespace fl {
     namespace qt {
-        class Canvas: public QGraphicsView {
-        Q_OBJECT
+
+        class Canvas : public QGraphicsView {
+            Q_OBJECT
 
         protected:
             scalar _minimum;
@@ -36,11 +39,12 @@ namespace fl {
 
             virtual QRect drawingRect() const;
 
-            virtual void draw(const Variable* variable,
+            virtual void draw(const fl::Variable* variable,
+                    const std::vector<int>& notDrawableTermIndexes = std::vector<int>(),
                     const QColor& from = QColor(255, 255, 0, 75),
                     const QColor& to = QColor(255, 0, 0, 175));
 
-            virtual void draw(const Term* term,
+            virtual void draw(const fl::Term* term,
                     const QColor& color = QColor(0, 200, 0, 230));
 
             virtual void drawGuide(scalar x, scalar y, const QColor& color =
@@ -61,5 +65,5 @@ namespace fl {
             static void main();
         };
     }
-} /* namespace fl */
+}
 #endif /* FLQT_CANVAS_H_ */

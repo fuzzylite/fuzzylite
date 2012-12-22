@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>274</width>
-    <height>635</height>
+    <width>276</width>
+    <height>621</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -15,6 +15,11 @@
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>11</pointsize>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Term</string>
@@ -44,47 +49,103 @@
     </layout>
    </item>
    <item>
-    <widget class="fl::qt::Canvas" name="canvas">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+    <layout class="QVBoxLayout" name="verticalLayout_11">
+     <property name="spacing">
+      <number>0</number>
      </property>
-     <property name="minimumSize">
-      <size>
-       <width>256</width>
-       <height>150</height>
-      </size>
+     <property name="topMargin">
+      <number>0</number>
      </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Sunken</enum>
-     </property>
-     <property name="lineWidth">
-      <number>1</number>
-     </property>
-     <property name="verticalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
-     </property>
-     <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
-     </property>
-     <property name="renderHints">
-      <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
-     </property>
-     <property name="resizeAnchor">
-      <enum>QGraphicsView::AnchorViewCenter</enum>
-     </property>
-     <property name="viewportUpdateMode">
-      <enum>QGraphicsView::FullViewportUpdate</enum>
-     </property>
-     <property name="optimizationFlags">
-      <set>QGraphicsView::DontSavePainterState</set>
-     </property>
-    </widget>
+     <item>
+      <widget class="fl::qt::Canvas" name="canvas">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>256</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="lineWidth">
+        <number>1</number>
+       </property>
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="renderHints">
+        <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
+       </property>
+       <property name="resizeAnchor">
+        <enum>QGraphicsView::AnchorViewCenter</enum>
+       </property>
+       <property name="viewportUpdateMode">
+        <enum>QGraphicsView::FullViewportUpdate</enum>
+       </property>
+       <property name="optimizationFlags">
+        <set>QGraphicsView::DontSavePainterState</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="lbl_minimum">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Minimum:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_maximum">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Maximum:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QTabWidget" name="tabTerms">
@@ -123,15 +184,15 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>4</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="page">
           <property name="geometry">
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>234</width>
-            <height>114</height>
+            <width>102</width>
+            <height>113</height>
            </rect>
           </property>
           <attribute name="label">
@@ -182,8 +243,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>234</width>
-            <height>147</height>
+            <width>102</width>
+            <height>146</height>
            </rect>
           </property>
           <attribute name="label">
@@ -244,8 +305,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>234</width>
-            <height>81</height>
+            <width>122</width>
+            <height>80</height>
            </rect>
           </property>
           <attribute name="label">
@@ -281,59 +342,17 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page_4">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>234</width>
-            <height>81</height>
-           </rect>
-          </property>
-          <attribute name="label">
-           <string>Left Shoulder</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
-           <item>
-            <layout class="QFormLayout" name="formLayout_4">
-             <property name="fieldGrowthPolicy">
-              <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-             </property>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_10">
-               <property name="text">
-                <string>min</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_leftshoulder_min"/>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_11">
-               <property name="text">
-                <string>max</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_leftshoulder_max"/>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
          <widget class="QWidget" name="page_9">
           <property name="geometry">
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>234</width>
-            <height>87</height>
+            <width>236</width>
+            <height>112</height>
            </rect>
           </property>
           <attribute name="label">
-           <string>Right Shoulder</string>
+           <string>Ramp</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_10">
            <item>
@@ -344,22 +363,22 @@
              <item row="0" column="0">
               <widget class="QLabel" name="label_27">
                <property name="text">
-                <string>min</string>
+                <string>start</string>
                </property>
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_rightshoulder_min"/>
+              <widget class="QDoubleSpinBox" name="sbx_ramp_start"/>
              </item>
              <item row="1" column="0">
               <widget class="QLabel" name="label_28">
                <property name="text">
-                <string>max</string>
+                <string>end</string>
                </property>
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_rightshoulder_max"/>
+              <widget class="QDoubleSpinBox" name="sbx_ramp_end"/>
              </item>
             </layout>
            </item>
@@ -456,8 +475,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>234</width>
-            <height>174</height>
+            <width>138</width>
+            <height>80</height>
            </rect>
           </property>
           <attribute name="label">
@@ -489,26 +508,6 @@
              <item row="1" column="1">
               <widget class="QDoubleSpinBox" name="sbx_gaussian_width"/>
              </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_12">
-               <property name="text">
-                <string>min</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_gaussian_min"/>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_13">
-               <property name="text">
-                <string>max</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_gaussian_max"/>
-             </item>
             </layout>
            </item>
           </layout>
@@ -518,8 +517,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>234</width>
-            <height>180</height>
+            <width>138</width>
+            <height>113</height>
            </rect>
           </property>
           <attribute name="label">
@@ -561,25 +560,76 @@
              <item row="2" column="1">
               <widget class="QDoubleSpinBox" name="sbx_bell_slope"/>
              </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_18">
+            </layout>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_4">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>223</width>
+            <height>146</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>Pi-Shape</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_12">
+           <item>
+            <layout class="QFormLayout" name="formLayout_4">
+             <property name="fieldGrowthPolicy">
+              <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_10">
                <property name="text">
-                <string>min</string>
+                <string>a</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_pishape_a"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_11">
+               <property name="text">
+                <string>b</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_pishape_b"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_12">
+               <property name="text">
+                <string>c</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_pishape_c"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_13">
+               <property name="text">
+                <string>d</string>
                </property>
               </widget>
              </item>
              <item row="3" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_bell_min"/>
-             </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="label_19">
-               <property name="text">
-                <string>max</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_bell_max"/>
+              <widget class="QDoubleSpinBox" name="sbx_pishape_d"/>
              </item>
             </layout>
            </item>
@@ -590,8 +640,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>234</width>
-            <height>174</height>
+            <width>187</width>
+            <height>80</height>
            </rect>
           </property>
           <attribute name="label">
@@ -630,25 +680,83 @@
              <item row="1" column="1">
               <widget class="QDoubleSpinBox" name="sbx_sigmoid_slope"/>
              </item>
-             <item row="2" column="0">
+            </layout>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_10">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>126</width>
+            <height>80</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>S-Shape</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <layout class="QFormLayout" name="formLayout_10">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_18">
+               <property name="text">
+                <string>start</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_19">
+               <property name="text">
+                <string>end</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sshape_start"/>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sshape_end"/>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_11">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>236</width>
+            <height>81</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>Z-Shape</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_13">
+           <item>
+            <layout class="QFormLayout" name="formLayout_11">
+             <item row="0" column="0">
               <widget class="QLabel" name="label_23">
                <property name="text">
-                <string>min</string>
+                <string>start</string>
                </property>
               </widget>
              </item>
-             <item row="2" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_sigmoid_min"/>
-             </item>
-             <item row="3" column="0">
+             <item row="1" column="0">
               <widget class="QLabel" name="label_24">
                <property name="text">
-                <string>max</string>
+                <string>end</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="1">
-              <widget class="QDoubleSpinBox" name="sbx_sigmoid_max"/>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_zshape_start"/>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_zshape_end"/>
              </item>
             </layout>
            </item>

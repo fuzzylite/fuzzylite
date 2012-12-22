@@ -34,8 +34,8 @@ namespace fl {
 
 
         protected:
-            std::vector<std::pair<std::string, Operator*> > _andOperators;
-            std::vector<std::pair<std::string, Operator*> > _orOperators;
+            std::vector<std::pair<std::string, TNorm*> > _andOperators;
+            std::vector<std::pair<std::string, SNorm*> > _orOperators;
             std::vector<std::pair<std::string, Defuzzifier*> > _defuzzifiers;
 
 
@@ -55,6 +55,6 @@ namespace fl {
 
             static void main();
         };
-    } /* namespace qt */
-} /* namespace fl */
+    } 
+} 
 #endif /* FLQT_CONFIGURATION_H_ */

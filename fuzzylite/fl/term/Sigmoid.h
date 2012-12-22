@@ -16,13 +16,10 @@ namespace fl {
     protected:
         scalar _inflection;
         scalar _slope;
-        scalar _minimum, _maximum;
     public:
         Sigmoid(const std::string& name = "",
                 scalar inflection = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar slope = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar minimum = -std::numeric_limits<scalar>::infinity(),
-                scalar maximum = std::numeric_limits<scalar>::infinity());
+                scalar slope = std::numeric_limits<scalar>::quiet_NaN());
         ~Sigmoid();
 
         std::string className() const;
@@ -38,15 +35,7 @@ namespace fl {
         void setSlope(scalar slope);
         scalar getSlope() const;
 
-
-
-        void setMinimum(scalar minimum);
-        scalar minimum() const;
-
-        void setMaximum(scalar maximum);
-        scalar maximum() const;
-
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_SIGMOID_H_ */

@@ -13,11 +13,12 @@
 namespace fl {
 
     Gaussian::Gaussian(const std::string& name,
-            scalar mean, scalar sigma, scalar minimum, scalar maximum)
-    : Term(name), _mean(mean), _sigma(sigma),
-    _minimum(minimum), _maximum(maximum) { }
+            scalar mean, scalar sigma)
+    : Term(name), _mean(mean), _sigma(sigma) {
+    }
 
-    Gaussian::~Gaussian() { }
+    Gaussian::~Gaussian() {
+    }
 
     std::string Gaussian::className() const {
         return "Gaussian";
@@ -33,8 +34,7 @@ namespace fl {
 
     std::string Gaussian::toString() const {
         std::stringstream ss;
-        ss << "Gaussian (" << _mean << ", " << _sigma << ", "
-                << _minimum << ", " << _maximum << ")";
+        ss << className() << " (" << _mean << ", " << _sigma << ")";
         return ss.str();
     }
 
@@ -54,20 +54,4 @@ namespace fl {
         return this->_sigma;
     }
 
-    void Gaussian::setMinimum(scalar minimum) {
-        this->_minimum = minimum;
-    }
-
-    scalar Gaussian::minimum() const {
-        return this->_minimum;
-    }
-
-    void Gaussian::setMaximum(scalar maximum) {
-        this->_maximum = maximum;
-    }
-
-    scalar Gaussian::maximum() const {
-        return this->_maximum;
-    }
-
-} /* namespace fl */
+}

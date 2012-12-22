@@ -7,17 +7,19 @@
 
 #include "fl/term/Accumulated.h"
 
-#include "fl/engine/Operator.h"
+#include "fl/operator/SNorm.h"
 
 #include <sstream>
 
 namespace fl {
 
-    Accumulated::Accumulated(const std::string& name,
-            const Operator* accumulation)
-    : Term(name), _accumulation(accumulation) { }
+    Accumulated::Accumulated(const std::string& name, scalar minimum, scalar maximum,
+            const SNorm* accumulation)
+    : Term(name), _minimum(minimum), _maximum(maximum), _accumulation(accumulation) {
+    }
 
-    Accumulated::~Accumulated() { }
+    Accumulated::~Accumulated() {
+    }
 
     std::string Accumulated::className() const {
         return "Accumulated";
@@ -37,29 +39,37 @@ namespace fl {
 
     std::string Accumulated::toString() const {
         std::stringstream ss;
-        ss << "Accumulated (";
+        ss << className() << " (";
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             ss << _terms[i]->toString();
             if (i < _terms.size() - 1)
                 ss << ", ";
         }
-        ss << ") accumulated using " << _accumulation->name();
+        ss << ") using " << _accumulation->name();
         return ss.str();
     }
 
-    scalar Accumulated::minimum() const {
+    void Accumulated::setMinimum(scalar minimum) {
+        this->_minimum = minimum;
+    }
+
+    scalar Accumulated::getMinimum() const {
         return this->_minimum;
     }
 
-    scalar Accumulated::maximum() const {
+    void Accumulated::setMaximum(scalar maximum) {
+        this->_maximum = maximum;
+    }
+
+    scalar Accumulated::getMaximum() const {
         return this->_maximum;
     }
 
-    void Accumulated::setAccumulation(const Operator* accumulation) {
+    void Accumulated::setAccumulation(const SNorm* accumulation) {
         this->_accumulation = accumulation;
     }
 
-    const Operator* Accumulated::getAccumulation() const {
+    const SNorm* Accumulated::getAccumulation() const {
         return this->_accumulation;
     }
 
@@ -67,31 +77,16 @@ namespace fl {
      * Operations for std::vector _terms
      */
     void Accumulated::addTerm(const Term* term) {
-        if (Op::IsInf(_minimum) or term->minimum() < _minimum) {
-            _minimum = term->minimum();
-        }
-        if (Op::IsInf(_maximum) or term->maximum() > _maximum) {
-            _maximum = term->maximum();
-        }
-        _terms.push_back(term);
+        this->_terms.push_back(term);
     }
 
     const Term* Accumulated::removeTerm(int index) {
         const Term* result = this->_terms[index];
         this->_terms.erase(this->_terms.begin() + index);
-
-        _minimum = std::numeric_limits<scalar>::infinity();
-        _maximum = -std::numeric_limits<scalar>::infinity();
-        for (std::size_t i = 0; i < this->_terms.size(); ++i) {
-            _minimum = fl::Op::Min(_minimum, _terms[i]->minimum());
-            _maximum = fl::Op::Max(_maximum, _terms[i]->maximum());
-        }
         return result;
     }
 
     void Accumulated::clear() {
-        _minimum = -std::numeric_limits<scalar>::infinity();
-        _maximum = std::numeric_limits<scalar>::infinity();
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             delete _terms[i];
         }
@@ -114,4 +109,4 @@ namespace fl {
         return _terms.size() == 0;
     }
 
-} /* namespace fl */
+}

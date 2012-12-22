@@ -12,6 +12,7 @@
 
 #include <string>
 #include <vector>
+#include <limits>
 namespace fl {
 
     class Term;
@@ -20,11 +21,13 @@ namespace fl {
     class Variable {
     protected:
         std::string _name;
-        //TODO: change to unordered_map for C++11
         std::vector<Term*> _terms;
+        scalar _minimum, _maximum;
 
     public:
-        Variable(const std::string& name = "");
+        Variable(const std::string& name = "",
+                scalar minimum = -std::numeric_limits<scalar>::infinity(),
+                scalar maximum = std::numeric_limits<scalar>::infinity());
         Variable(const Variable& copy);
 
         virtual ~Variable();
@@ -34,8 +37,11 @@ namespace fl {
         virtual void setName(const std::string& name);
         virtual std::string getName() const;
 
-        virtual scalar minimum() const;
-        virtual scalar maximum() const;
+        virtual void setMinimum(scalar minimum);
+        virtual scalar getMinimum() const;
+
+        virtual void setMaximum(scalar maximum);
+        virtual scalar getMaximum() const;
 
         virtual std::string fuzzify(scalar x) const;
         virtual Term* highestMembership(scalar x, scalar* yhighest = NULL) const;

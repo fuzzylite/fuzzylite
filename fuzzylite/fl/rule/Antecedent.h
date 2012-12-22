@@ -13,7 +13,8 @@
 #include <string>
 
 namespace fl {
-    class Operator;
+    class TNorm;
+    class SNorm;
 
     class Antecedent {
     public:
@@ -22,7 +23,7 @@ namespace fl {
 
         virtual ~Antecedent() { }
 
-        virtual scalar firingStrength(const Operator* tnorm, const Operator* snorm) const = 0;
+        virtual scalar firingStrength(const TNorm* tnorm, const SNorm* snorm) const = 0;
 
         virtual std::string toString() const = 0;
     };

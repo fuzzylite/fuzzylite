@@ -15,30 +15,39 @@
 #include <QtGui/QDoubleSpinBox>
 #include <vector>
 
+#include <fl/Headers.h>
+
 namespace fl {
     namespace qt {
 
-        class Term: public QDialog {
-        Q_OBJECT
+        class Term : public QDialog {
+            Q_OBJECT
 
         protected slots:
             void onChangeToolBoxIndex(int index);
             void onChangeTab(int index);
 
-            void onChangeSpinBoxTriangle(double dummyValue);
-            void onChangeSpinBoxTrapezoid(double dummyValue);
-            void onChangeSpinBoxRectangle(double dummyValue);
-            void onChangeSpinBoxLeftShoulder(double dummyValue);
-            void onChangeSpinBoxRightShoulder(double dummyValue);
+            void onChangeSpinBoxTriangle(double);
+            void onChangeSpinBoxTrapezoid(double);
+            void onChangeSpinBoxRectangle(double);
+            void onChangeSpinBoxRamp(double);
             void onClickDiscreteParser();
-            void onChangeSpinBoxGaussian(double dummyValue);
-            void onChangeSpinBoxBell(double dummyValue);
-            void onChangeSpinBoxSigmoid(double dummyValue);
+
+            void onChangeSpinBoxGaussian(double);
+            void onChangeSpinBoxBell(double);
+            void onChangeSpinBoxPiShape(double);
+            void onChangeSpinBoxSigmoid(double);
+            void onChangeSpinBoxSShape(double);
+            void onChangeSpinBoxZShape(double);
 
             void accept();
 
         protected:
+            scalar _minimum, _maximum;
+
             QToolBox* _termToolBox;
+
+            void loadTerms(scalar min, scalar max);
             void connect();
             void disconnect();
             void loadFrom(const fl::Term* term);
@@ -52,11 +61,15 @@ namespace fl {
 
         public:
             Ui::Term* ui;
+            const fl::Variable* variable;
+            const fl::Term* editingTerm;
 
             Term(QWidget* parent = NULL, Qt::WindowFlags f = 0);
             virtual ~Term();
 
-            virtual void setup();
+            virtual void setup(const fl::Variable* variable);
+            virtual void setup(scalar minimum, scalar maximum);
+
             virtual fl::Term* copySelectedTerm() const;
             virtual void edit(const fl::Term* term);
             virtual void refresh();
@@ -65,6 +78,6 @@ namespace fl {
             static void main();
         };
 
-    } /* namespace qt */
-} /* namespace fl */
+    }
+}
 #endif /* FLQT_TERM_H_ */

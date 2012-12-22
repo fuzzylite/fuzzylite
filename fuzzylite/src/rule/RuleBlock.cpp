@@ -10,7 +10,8 @@
 #include "fl/rule/Rule.h"
 
 #include "fl/engine/Configuration.h"
-#include "fl/engine/Operator.h"
+#include "fl/operator/TNorm.h"
+#include "fl/operator/SNorm.h"
 
 #include <sstream>
 
@@ -51,27 +52,27 @@ namespace fl {
         return this->_name;
     }
 
-    void RuleBlock::setTnorm(const Operator* tnorm) {
+    void RuleBlock::setTnorm(const TNorm* tnorm) {
         this->_tnorm = tnorm;
     }
 
-    const Operator* RuleBlock::getTnorm() const {
+    const TNorm* RuleBlock::getTnorm() const {
         return this->_tnorm;
     }
 
-    void RuleBlock::setSnorm(const Operator* snorm) {
+    void RuleBlock::setSnorm(const SNorm* snorm) {
         this->_snorm = snorm;
     }
 
-    const Operator* RuleBlock::getSnorm() const {
+    const SNorm* RuleBlock::getSnorm() const {
         return this->_snorm;
     }
 
-    void RuleBlock::setActivation(const Operator* activation) {
+    void RuleBlock::setActivation(const TNorm* activation) {
         this->_activation = activation;
     }
 
-    const Operator* RuleBlock::getActivation() const {
+    const TNorm* RuleBlock::getActivation() const {
         return this->_activation;
     }
 
@@ -114,4 +115,4 @@ namespace fl {
         return this->_rules;
     }
 
-} /* namespace fl */
+} 

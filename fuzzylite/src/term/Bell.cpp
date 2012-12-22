@@ -6,19 +6,19 @@
  */
 
 #include "fl/term/Bell.h"
-#include "fl/engine/Operator.h"
+#include "fl/operator/Operator.h"
 
 #include <cmath>
 #include <sstream>
 
 namespace fl {
 
-    Bell::Bell(const std::string& name, scalar center, scalar width, scalar slope,
-            scalar minimum, scalar maximum)
-    : Term(name), _center(center), _width(width), _slope(slope),
-    _minimum(minimum), _maximum(maximum) { }
+    Bell::Bell(const std::string& name, scalar center, scalar width, scalar slope)
+    : Term(name), _center(center), _width(width), _slope(slope) {
+    }
 
-    Bell::~Bell() { }
+    Bell::~Bell() {
+    }
 
     std::string Bell::className() const {
         return "Bell";
@@ -29,22 +29,23 @@ namespace fl {
     }
 
     scalar Bell::membership(scalar x) const {
+        //from octave: gbellmf.m
+        return 1.0 / (1.0 + std::pow(std::abs((x - _center) / _width), 2 * _slope));
         // from matlab: gbellmf.m
-        scalar tmp = ((x - _center) / _width) * ((x - _center) / _width);
-        if (Op::IsEq(tmp, 0.0) and Op::IsEq(_slope, 0.0))
-            return 0.5;
-        else if (Op::IsEq(tmp, 0.0) and Op::IsLt(_slope, 0.0))
-            return 0.0;
-        else {
-            tmp = std::pow(tmp, _slope);
-            return 1.0 / (1.0 + tmp);
-        }
+        //        scalar tmp = ((x - _center) / _width) * ((x - _center) / _width);
+        //        if (Op::IsEq(tmp, 0.0) and Op::IsEq(_slope, 0.0))
+        //            return 0.5;
+        //        else if (Op::IsEq(tmp, 0.0) and Op::IsLt(_slope, 0.0))
+        //            return 0.0;
+        //        else {
+        //            tmp = std::pow(tmp, _slope);
+        //            return 1.0 / (1.0 + tmp);
+        //        }
     }
 
     std::string Bell::toString() const {
-        std::stringstream ss;
-        ss << "Bell (" << _center << ", " << _width << ", " << _slope << ", "
-                << _minimum << ", " << _maximum << ") ";
+        std::ostringstream ss;
+        ss << className() << " (" << _center << ", " << _width << ", " << _slope << ")";
         return ss.str();
     }
 
@@ -72,21 +73,4 @@ namespace fl {
         return this->_center;
     }
 
-    void Bell::setMinimum(scalar minimum) {
-        this->_minimum = minimum;
-    }
-
-    scalar Bell::minimum() const {
-        return this->_minimum;
-    }
-
-    void Bell::setMaximum(scalar maximum) {
-        this->_maximum = maximum;
-    }
-
-    scalar Bell::maximum() const {
-        return this->_maximum;
-    }
-
-
-} /* namespace fl */
+}

@@ -29,12 +29,12 @@ namespace fl {
         std::string toString() const;
 
         virtual void setMinimum(scalar minimum);
-        virtual scalar minimum() const;
+        virtual scalar getMinimum() const;
 
         virtual void setMaximum(scalar maximum);
-        virtual scalar maximum() const;
+        virtual scalar getMaximum() const;
 
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_RECTANGLE_H_ */

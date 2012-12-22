@@ -22,7 +22,7 @@ namespace fl {
         scalar compute(scalar a, scalar b) const;
     };
 
-    class Product : public TNorm {
+    class AlgebraicProduct : public TNorm {
     public:
         std::string name() const;
         scalar compute(scalar a, scalar b) const;

@@ -9,13 +9,14 @@
 
 #include "fl/term/Term.h"
 
-#include "fl/engine/Operator.h"
+#include "fl/operator/Operator.h"
 
 
 namespace fl {
 
     MaximumDefuzzifier::MaximumDefuzzifier(Type type, int divisions)
-    : Defuzzifier(divisions), _type(type) { }
+    : Defuzzifier(divisions), _type(type) {
+    }
 
     std::string MaximumDefuzzifier::name() const {
         switch (_type) {
@@ -30,13 +31,13 @@ namespace fl {
         }
     }
 
-    scalar MaximumDefuzzifier::defuzzify(const Term* term) const {
-        scalar dx = (term->maximum() - term->minimum()) / _divisions;
+    scalar MaximumDefuzzifier::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
+        scalar dx = (maximum - minimum) / _divisions;
         scalar x, y;
         scalar ymax = -1.0, xsmallest, xlargest;
         bool samePlateau = false;
         for (int i = 0; i < _divisions; ++i) {
-            x = term->minimum() + (i + 0.5) * dx;
+            x = minimum + (i + 0.5) * dx;
             y = term->membership(x);
 
             if (Op::IsGt(y, ymax)) {
@@ -62,4 +63,4 @@ namespace fl {
         }
     }
 
-} /* namespace fl */
+}

@@ -5,7 +5,8 @@
 
 VariantDir('build', 'src', duplicate=0)
 commonEnv = Environment(CPPFLAGS='-Wall -g3 -O0 -c')
-commonEnv.Append(CPPDEFINES={'VERSION': '2.0', 'FL_DEBUG': 'true'})
+commonEnv.Append(CPPDEFINES={'VERSION': '2.0', })
+# 'FL_DEBUG': 'true'})
 commonEnv.Append(CPPPATH=['.'])
 
 

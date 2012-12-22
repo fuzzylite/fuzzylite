@@ -25,4 +25,4 @@ namespace fl {
         return this->_what.c_str();
     }
 
-} /* namespace fl */
+} 

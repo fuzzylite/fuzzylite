@@ -21,11 +21,11 @@ namespace fl {
 
     // Product : public TNorm {
 
-    std::string Product::name() const {
+    std::string AlgebraicProduct::name() const {
         return "Product";
     }
 
-    scalar Product::compute(scalar a, scalar b) const {
+    scalar AlgebraicProduct::compute(scalar a, scalar b) const {
         return a * b;
     }
 

@@ -20,37 +20,43 @@ namespace fl {
             Q_OBJECT
 
         signals:
-            void inputValueChanged();
+            void crispValueChanged();
 
         protected slots:
             void onChangeSliderValue(int position);
             void onEditInputValue();
-            void onChangeToolBoxPage(int);
-            void onClickShowMoreInformation(int);
-            void refreshModel();
-            void onOutputValueChanged();
 
+            void onPressSlider();
+            void onReleaseSlider();
+
+        public slots:
+            void drawVariable();
+            void drawOutputVariable();
 
         protected:
             void setup();
             void connect();
             void disconnect();
-            void showEvent(QShowEvent* e);
-            void resizeEvent(QResizeEvent* e);
-            void focusInEvent(QFocusEvent* e);
-            
+            void showEvent(QShowEvent*);
+            void resizeEvent(QResizeEvent*);
+
         public:
-            fl::InputVariable* inputVariable;
-            fl::OutputVariable* outputVariable;
+            fl::Variable* variable;
             Ui::Control* ui;
+            Canvas* canvas;
+            
             Control(QWidget* parent = NULL, Qt::WindowFlags f = 0);
             ~Control();
 
             void setup(fl::Variable* variable);
+            
+            void setReadOnly(bool readOnly);
+            bool isReadOnly() const;
+            
 
 
         };
 
-    } /* namespace qt */
-} /* namespace fl */
+    }
+}
 #endif /* CONTROL_H_ */

@@ -25,6 +25,6 @@ namespace fl {
         static void main();
     };
 
-} /* namespace fl */
+} 
 
 #endif /* FL_EXAMPLE1_H_ */

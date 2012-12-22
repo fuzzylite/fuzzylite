@@ -7,6 +7,8 @@
 
 #include "fl/rule/mamdani/MamdaniConsequent.h"
 
+#include "fl/operator/TNorm.h"
+
 #include "fl/rule/mamdani/MamdaniExpression.h"
 
 #include "fl/engine/Engine.h"
@@ -26,7 +28,7 @@ namespace fl {
         }
     }
 
-    void MamdaniConsequent::fire(scalar strength, const Operator* activation) {
+    void MamdaniConsequent::fire(scalar strength, const TNorm* activation) {
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
             MamdaniConsequentProposition* proposition = _conclusions[i];
             scalar threshold = strength * proposition->weight;
@@ -172,4 +174,4 @@ namespace fl {
         return ss.str();
     }
 
-} /* namespace fl */
+} 

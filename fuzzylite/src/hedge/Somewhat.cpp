@@ -19,4 +19,4 @@ namespace fl {
         return std::sqrt(x);
     }
 
-} /* namespace fl */
+} 

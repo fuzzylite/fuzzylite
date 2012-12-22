@@ -45,12 +45,12 @@ namespace fl {
         return this->_consequent;
     }
 
-    scalar Rule::firingStrength(const Operator* tnorm,
-            const Operator* snorm) const {
+    scalar Rule::firingStrength(const TNorm* tnorm,
+            const SNorm* snorm) const {
         return this->_antecedent->firingStrength(tnorm, snorm);
     }
 
-    void Rule::fire(scalar strength, const Operator* activation) const {
+    void Rule::fire(scalar strength, const TNorm* activation) const {
         return this->_consequent->fire(strength, activation);
     }
 

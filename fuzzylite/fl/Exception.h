@@ -25,5 +25,5 @@ namespace fl {
         virtual const char* what() const throw ();
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_EXCEPTION_H_ */

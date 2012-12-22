@@ -22,7 +22,7 @@ namespace fl {
         scalar compute(scalar a, scalar b) const;
     };
 
-    class Sum : public SNorm {
+    class AlgebraicSum : public SNorm {
     public:
         std::string name() const;
         scalar compute(scalar a, scalar b) const;

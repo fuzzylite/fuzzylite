@@ -36,7 +36,7 @@ namespace fl {
 
         virtual void configure(Configuration* config,
                 bool storeToDelete = false);
-
+        
         virtual void process();
 
         virtual void setName(const std::string& name);
@@ -90,5 +90,5 @@ namespace fl {
 
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_ENGINE_H_ */

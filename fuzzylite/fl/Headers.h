@@ -18,10 +18,9 @@
 
 #include "fl/engine/Configuration.h"
 #include "fl/engine/Engine.h"
-#include "fl/engine/Operator.h"
 
-#include "fl/fcl/FclExporter.h"
-#include "fl/fcl/FclImporter.h"
+#include "fl/imex/FclExporter.h"
+#include "fl/imex/FclImporter.h"
 
 #include "fl/hedge/Any.h"
 #include "fl/hedge/Extremely.h"
@@ -30,6 +29,10 @@
 #include "fl/hedge/Seldom.h"
 #include "fl/hedge/Somewhat.h"
 #include "fl/hedge/Very.h"
+
+#include "fl/operator/Operator.h"
+#include "fl/operator/SNorm.h"
+#include "fl/operator/TNorm.h"
 
 #include "fl/rule/Antecedent.h"
 #include "fl/rule/Consequent.h"
@@ -46,14 +49,16 @@
 #include "fl/term/Bell.h"
 #include "fl/term/Discrete.h"
 #include "fl/term/Gaussian.h"
-#include "fl/term/LeftShoulder.h"
+#include "fl/term/PiShape.h"
+#include "fl/term/Ramp.h"
 #include "fl/term/Rectangle.h"
-#include "fl/term/RightShoulder.h"
+#include "fl/term/SShape.h"
 #include "fl/term/Sigmoid.h"
 #include "fl/term/Term.h"
 #include "fl/term/Thresholded.h"
 #include "fl/term/Trapezoid.h"
 #include "fl/term/Triangle.h"
+#include "fl/term/ZShape.h"
 
 #include "fl/variable/InputVariable.h"
 #include "fl/variable/OutputVariable.h"

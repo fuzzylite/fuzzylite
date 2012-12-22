@@ -13,7 +13,7 @@
 #include <string>
 
 namespace fl {
-    class Operator;
+    class TNorm;
 
     class Consequent {
     public:
@@ -22,7 +22,7 @@ namespace fl {
 
         virtual ~Consequent() { }
 
-        virtual void fire(scalar strength, const Operator* activation) = 0;
+        virtual void fire(scalar strength, const TNorm* activation) = 0;
 
         virtual std::string toString() const = 0;
 

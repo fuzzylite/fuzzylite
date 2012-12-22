@@ -7,19 +7,21 @@
 
 #include "fl/term/Discrete.h"
 
-#include "fl/engine/Operator.h"
+#include "fl/operator/Operator.h"
 
 #include <sstream>
 
 namespace fl {
 
     Discrete::Discrete(const std::string& name)
-    : Term(name) { }
+    : Term(name) {
+    }
 
     Discrete::Discrete(const std::string& name,
             const std::vector<scalar>& x,
             const std::vector<scalar>& y)
-    : Term(name), x(x), y(y) { }
+    : Term(name), x(x), y(y) {
+    }
 
     Discrete::Discrete(const std::string& name,
             const std::vector<std::pair<scalar, scalar> >& xy)
@@ -30,7 +32,8 @@ namespace fl {
         }
     }
 
-    Discrete::~Discrete() { }
+    Discrete::~Discrete() {
+    }
 
     std::string Discrete::className() const {
         return "Discrete";
@@ -64,7 +67,7 @@ namespace fl {
 
     std::string Discrete::toString() const {
         std::stringstream ss;
-        ss << "Discrete (";
+        ss << className() << " (";
         for (std::size_t i = 0; i < x.size(); ++i) {
             ss << x[i] << " " << y[i];
             if (i < x.size() - 1) ss << ", ";
@@ -73,14 +76,4 @@ namespace fl {
         return ss.str();
     }
 
-    scalar Discrete::minimum() const {
-        if (x.size() > 0) return x[0];
-        return -std::numeric_limits<scalar>::infinity();
-    }
-
-    scalar Discrete::maximum() const {
-        if (x.size() > 0) return x[x.size() - 1];
-        return std::numeric_limits<scalar>::infinity();
-    }
-
-} /* namespace fl */
+}

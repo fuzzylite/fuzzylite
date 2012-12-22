@@ -11,17 +11,17 @@
 #include "fl/term/Term.h"
 
 namespace fl {
-    class Operator;
+    class TNorm;
 
     class Thresholded : public Term {
     protected:
         const Term* _term;
         scalar _threshold;
-        const Operator* _activation;
+        const TNorm* _activation;
 
     public:
         Thresholded(const Term* term = NULL, scalar threshold = 1.0,
-                const Operator* activationOperator = NULL);
+                const TNorm* activationOperator = NULL);
 
         ~Thresholded();
 
@@ -29,8 +29,6 @@ namespace fl {
         Thresholded* copy() const;
 
         scalar membership(scalar x) const;
-        scalar minimum() const;
-        scalar maximum() const;
 
         void setTerm(const Term* term);
         const Term* getTerm() const;
@@ -38,12 +36,12 @@ namespace fl {
         void setThreshold(scalar threshold);
         scalar getThreshold() const;
 
-        void setActivation(const Operator* activation);
-        const Operator* getActivation() const;
+        void setActivation(const TNorm* activation);
+        const TNorm* getActivation() const;
 
         std::string toString() const;
 
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_THRESHOLDED_H_ */

@@ -110,5 +110,5 @@ namespace fl {
         static void main();
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_INFIX_H_ */

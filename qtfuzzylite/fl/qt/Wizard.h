@@ -49,6 +49,6 @@ namespace fl {
 
         };
 
-    } /* namespace qt */
-} /* namespace fl */
+    } 
+} 
 #endif /* FLQT_WIZARD_H_ */

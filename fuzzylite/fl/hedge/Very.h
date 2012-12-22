@@ -18,5 +18,5 @@ namespace fl {
         scalar hedge(scalar x) const;
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_VERY_H_ */

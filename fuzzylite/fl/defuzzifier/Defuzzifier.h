@@ -26,7 +26,7 @@ namespace fl {
         virtual ~Defuzzifier();
 
         virtual std::string name() const = 0;
-        virtual scalar defuzzify(const Term* term) const = 0;
+        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const = 0;
 
         virtual void setDivisions(int divisions);
         virtual int getDivisions() const;
@@ -35,5 +35,5 @@ namespace fl {
 
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_DEFUZZIFIER_H_ */

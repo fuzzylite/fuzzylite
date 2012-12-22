@@ -8,7 +8,8 @@
 #ifndef FL_CONFIGURATION_H_
 #define FL_CONFIGURATION_H_
 
-#include "fl/engine/Operator.h"
+#include "fl/operator/TNorm.h"
+#include "fl/operator/SNorm.h"
 
 #include "fl/defuzzifier/CenterOfGravity.h"
 
@@ -19,29 +20,29 @@ namespace fl {
 
     class Configuration {
     protected:
-        Operator* _tnorm;
-        Operator* _snorm;
-        Operator* _activation;
-        Operator* _accumulation;
+        TNorm* _tnorm;
+        SNorm* _snorm;
+        TNorm* _activation;
+        SNorm* _accumulation;
         Defuzzifier* _defuzzifier;
 
     public:
-        Configuration(Operator* tnorm = new Min(), Operator* snorm = new Max(),
-                Operator* activation = new Min(), Operator* accumulation = new Max(),
+        Configuration(TNorm* tnorm = new Minimum(), SNorm* snorm = new Maximum(),
+                TNorm* activation = new Minimum(), SNorm* accumulation = new Maximum(),
                 Defuzzifier* defuzzifier = new CenterOfGravity);
         virtual ~Configuration();
 
-        virtual void setTnorm(Operator* tnorm);
-        virtual Operator* getTnorm() const;
+        virtual void setTnorm(TNorm* tnorm);
+        virtual TNorm* getTnorm() const;
 
-        virtual void setSnorm(Operator* snorm);
-        virtual Operator* getSnorm() const;
+        virtual void setSnorm(SNorm* snorm);
+        virtual SNorm* getSnorm() const;
 
-        virtual void setActivation(Operator* activation);
-        virtual Operator* getActivation() const;
+        virtual void setActivation(TNorm* activation);
+        virtual TNorm* getActivation() const;
 
-        virtual void setAccumulation(Operator* accumulation);
-        virtual Operator* getAccumulation() const;
+        virtual void setAccumulation(SNorm* accumulation);
+        virtual SNorm* getAccumulation() const;
 
         virtual void setDefuzzifier(Defuzzifier* defuzzifier);
         virtual Defuzzifier* getDefuzzifier() const;
@@ -49,5 +50,5 @@ namespace fl {
         virtual std::string toString() const;
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_CONFIGURATION_H_ */

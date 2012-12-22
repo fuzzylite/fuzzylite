@@ -16,14 +16,11 @@ namespace fl {
     protected:
         scalar _mean;
         scalar _sigma;
-        scalar _minimum, _maximum;
 
     public:
         Gaussian(const std::string& name = "",
                 scalar mean = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar sigma = -std::numeric_limits<scalar>::quiet_NaN(),
-                scalar minimum = -std::numeric_limits<scalar>::infinity(),
-                scalar maximum = std::numeric_limits<scalar>::infinity());
+                scalar sigma = -std::numeric_limits<scalar>::quiet_NaN());
         ~Gaussian();
 
         std::string className() const;
@@ -38,17 +35,7 @@ namespace fl {
         void setSigma(scalar sigma);
         scalar getSigma() const;
 
-
-
-        void setMinimum(scalar minimum);
-        scalar minimum() const;
-
-        void setMaximum(scalar maximum);
-        scalar maximum() const;
-
-
-
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_GAUSSIAN_H_ */

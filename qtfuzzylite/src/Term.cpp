@@ -13,26 +13,12 @@ namespace fl {
     namespace qt {
 
         Term::Term(QWidget* parent, Qt::WindowFlags f)
-        : QDialog(parent, f), ui(new Ui::Term) {
+        : QDialog(parent, f),
+        _minimum(-std::numeric_limits<scalar>::infinity()),
+        _maximum(std::numeric_limits<scalar>::infinity()),
+        ui(new Ui::Term),
+        variable(NULL), editingTerm(NULL) {
             setWindowFlags(Qt::Tool);
-            //It MUST follow the order of the toolbox.
-            _basicTerms.push_back(new Triangle("", 0, 0.5, 1));
-            _basicTerms.push_back(new Trapezoid("", 0, 0.25, 0.75, 1));
-            _basicTerms.push_back(new Rectangle("", 0, 1));
-            _basicTerms.push_back(new LeftShoulder("", 0, 1));
-            _basicTerms.push_back(new RightShoulder("", 0, 1));
-
-            std::vector<std::pair<scalar, scalar> > xy;
-            xy.push_back(std::make_pair(0, 0));
-            xy.push_back(std::make_pair(1, 1));
-            xy.push_back(std::make_pair(2, .5));
-            xy.push_back(std::make_pair(3, 1));
-            xy.push_back(std::make_pair(4, 0));
-            _basicTerms.push_back(new Discrete("", xy));
-
-            _extendedTerms.push_back(new Gaussian("", 0.5, 0.0, -1.0, 1.0));
-            _extendedTerms.push_back(new Bell("", 0.5, 2.0, 0.0, -1.0, 1.0));
-            _extendedTerms.push_back(new Sigmoid("", 4.0, 0.0, -1.0, 1.0));
         }
 
         Term::~Term() {
@@ -47,13 +33,53 @@ namespace fl {
 
         }
 
-        void Term::setup() {
+        void Term::loadTerms(scalar min, scalar max) {
+            scalar average = (min + max) / 2;
+            scalar diff = (max - min);
+            //It MUST follow the order of the toolbox.
+            _basicTerms.push_back(new Triangle("", min, average, max));
+            _basicTerms.push_back(new Trapezoid("", min, min + .25 * diff,
+                    min + .75 * diff, max));
+            _basicTerms.push_back(new Rectangle("", min + .25 * diff, min + .75 * max));
+            _basicTerms.push_back(new Ramp("", min, max));
+
+            std::vector<std::pair<scalar, scalar> > xy;
+            xy.push_back(std::make_pair(min, 0));
+            xy.push_back(std::make_pair(min + .25 * diff, 1));
+            xy.push_back(std::make_pair(min + .5 * diff, .5));
+            xy.push_back(std::make_pair(min + .75 * diff, 1));
+            xy.push_back(std::make_pair(max, 0));
+            _basicTerms.push_back(new Discrete("", xy));
+
+            _extendedTerms.push_back(new Gaussian("", average, .2 * diff));
+            _extendedTerms.push_back(new Bell("", average, .25 * diff, 3.0));
+            _extendedTerms.push_back(new PiShape("", min, average, average, max));
+
+            _extendedTerms.push_back(new Sigmoid("", average, 20 * average));
+            _extendedTerms.push_back(new SShape("", min, max));
+            _extendedTerms.push_back(new ZShape("", min, max));
+
+        }
+
+        void Term::setup(const fl::Variable* variable) {
+            this->variable = variable;
+            setup(variable->getMinimum(), variable->getMaximum());
+        }
+
+        void Term::setup(scalar min, scalar max) {
+            loadTerms(min, max);
+            _minimum = min;
+            _maximum = max;
             ui->setupUi(this);
             setWindowTitle("Add term");
             layout()->setSizeConstraint(QLayout::SetFixedSize);
             this->adjustSize();
             QRect scr = parentWidget()->geometry();
             move(scr.center() - rect().center());
+
+            ui->lbl_minimum->setText("Minimum: " + QString::number(_minimum, 'g', 3));
+            ui->lbl_maximum->setText("Maximum: " + QString::number(_maximum, 'g', 3));
+
             ui->basicTermToolbox->setCurrentIndex(0);
             ui->extendedTermToolbox->setCurrentIndex(0);
             ui->tabTerms->setCurrentIndex(0);
@@ -62,28 +88,26 @@ namespace fl {
             _sbx.push_back(ui->sbx_bell_center);
             _sbx.push_back(ui->sbx_bell_width);
             _sbx.push_back(ui->sbx_bell_slope);
-            _sbx.push_back(ui->sbx_bell_max);
-            _sbx.push_back(ui->sbx_bell_min);
 
             _sbx.push_back(ui->sbx_gaussian_center);
             _sbx.push_back(ui->sbx_gaussian_width);
-            _sbx.push_back(ui->sbx_gaussian_max);
-            _sbx.push_back(ui->sbx_gaussian_min);
 
+            _sbx.push_back(ui->sbx_pishape_a);
+            _sbx.push_back(ui->sbx_pishape_b);
+            _sbx.push_back(ui->sbx_pishape_c);
+            _sbx.push_back(ui->sbx_pishape_d);
 
-            _sbx.push_back(ui->sbx_leftshoulder_max);
-            _sbx.push_back(ui->sbx_leftshoulder_min);
+            _sbx.push_back(ui->sbx_ramp_start);
+            _sbx.push_back(ui->sbx_ramp_end);
 
             _sbx.push_back(ui->sbx_rectangle_max);
             _sbx.push_back(ui->sbx_rectangle_min);
 
-            _sbx.push_back(ui->sbx_rightshoulder_max);
-            _sbx.push_back(ui->sbx_rightshoulder_min);
+            _sbx.push_back(ui->sbx_sshape_start);
+            _sbx.push_back(ui->sbx_sshape_end);
 
             _sbx.push_back(ui->sbx_sigmoid_inflection);
             _sbx.push_back(ui->sbx_sigmoid_slope);
-            _sbx.push_back(ui->sbx_sigmoid_max);
-            _sbx.push_back(ui->sbx_sigmoid_min);
 
             _sbx.push_back(ui->sbx_trapezoid_a);
             _sbx.push_back(ui->sbx_trapezoid_b);
@@ -94,11 +118,14 @@ namespace fl {
             _sbx.push_back(ui->sbx_triangle_b);
             _sbx.push_back(ui->sbx_triangle_c);
 
+            _sbx.push_back(ui->sbx_zshape_start);
+            _sbx.push_back(ui->sbx_zshape_end);
+
             for (std::size_t i = 0; i < _sbx.size(); ++i) {
-                _sbx[i]->setMinimum(-999999);
-                _sbx[i]->setMaximum(999999);
+                _sbx[i]->setMinimum(-100);
+                _sbx[i]->setMaximum(100);
                 _sbx[i]->setValue(0);
-                _sbx[i]->setSingleStep(0.1);
+                _sbx[i]->setSingleStep(.1);
             }
 
             for (std::size_t i = 0; i < _basicTerms.size(); ++i) {
@@ -157,36 +184,23 @@ namespace fl {
             QObject::connect(ui->sbx_rectangle_max, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxRectangle(double)));
 
-            //Left and Right shoulders
-            QObject::connect(ui->sbx_leftshoulder_min, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxLeftShoulder(double)));
-            QObject::connect(ui->sbx_leftshoulder_max, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxLeftShoulder(double)));
-
-            QObject::connect(ui->sbx_rightshoulder_min, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxRightShoulder(double)));
-            QObject::connect(ui->sbx_rightshoulder_max, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxRightShoulder(double)));
+            //Ramp
+            QObject::connect(ui->sbx_ramp_start, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxRamp(double)));
+            QObject::connect(ui->sbx_ramp_end, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxRamp(double)));
 
             //Discrete
             QObject::connect(ui->btn_discrete_parse, SIGNAL(clicked()),
                     this, SLOT(onClickDiscreteParser()));
 
             //Gaussian
-            QObject::connect(ui->sbx_gaussian_min, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxGaussian(double)));
-            QObject::connect(ui->sbx_gaussian_max, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxGaussian(double)));
             QObject::connect(ui->sbx_gaussian_center, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxGaussian(double)));
             QObject::connect(ui->sbx_gaussian_width, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxGaussian(double)));
 
             //Bell
-            QObject::connect(ui->sbx_bell_min, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxBell(double)));
-            QObject::connect(ui->sbx_bell_max, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxBell(double)));
             QObject::connect(ui->sbx_bell_center, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxBell(double)));
             QObject::connect(ui->sbx_bell_width, SIGNAL(valueChanged(double)),
@@ -194,15 +208,34 @@ namespace fl {
             QObject::connect(ui->sbx_bell_slope, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxBell(double)));
 
+            //Pi-Shape
+            QObject::connect(ui->sbx_pishape_a, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxPiShape(double)));
+            QObject::connect(ui->sbx_pishape_b, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxPiShape(double)));
+            QObject::connect(ui->sbx_pishape_c, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxPiShape(double)));
+            QObject::connect(ui->sbx_pishape_d, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxPiShape(double)));
+
+
             //Sigmoid
-            QObject::connect(ui->sbx_sigmoid_min, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxSigmoid(double)));
-            QObject::connect(ui->sbx_sigmoid_max, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxSigmoid(double)));
             QObject::connect(ui->sbx_sigmoid_inflection, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxSigmoid(double)));
             QObject::connect(ui->sbx_sigmoid_slope, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxSigmoid(double)));
+
+            //S-Shape
+            QObject::connect(ui->sbx_sshape_start, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxSShape(double)));
+            QObject::connect(ui->sbx_sshape_end, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxSShape(double)));
+
+            //S-Shape
+            QObject::connect(ui->sbx_zshape_start, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxZShape(double)));
+            QObject::connect(ui->sbx_zshape_end, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxZShape(double)));
 
         }
 
@@ -239,36 +272,23 @@ namespace fl {
             QObject::disconnect(ui->sbx_rectangle_max, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxRectangle(double)));
 
-            //Left and Right shoulders
-            QObject::disconnect(ui->sbx_leftshoulder_min, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxLeftShoulder(double)));
-            QObject::disconnect(ui->sbx_leftshoulder_max, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxLeftShoulder(double)));
-
-            QObject::disconnect(ui->sbx_rightshoulder_min, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxRightShoulder(double)));
-            QObject::disconnect(ui->sbx_rightshoulder_max, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxRightShoulder(double)));
+            //Ramp
+            QObject::disconnect(ui->sbx_ramp_start, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxRamp(double)));
+            QObject::disconnect(ui->sbx_ramp_end, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxRamp(double)));
 
             //Discrete
             QObject::disconnect(ui->btn_discrete_parse, SIGNAL(clicked()),
                     this, SLOT(onClickDiscreteParser()));
 
             //Gaussian
-            QObject::disconnect(ui->sbx_gaussian_min, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxGaussian(double)));
-            QObject::disconnect(ui->sbx_gaussian_max, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxGaussian(double)));
             QObject::disconnect(ui->sbx_gaussian_center, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxGaussian(double)));
             QObject::disconnect(ui->sbx_gaussian_width, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxGaussian(double)));
 
             //Bell
-            QObject::disconnect(ui->sbx_bell_min, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxBell(double)));
-            QObject::disconnect(ui->sbx_bell_max, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxBell(double)));
             QObject::disconnect(ui->sbx_bell_center, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxBell(double)));
             QObject::disconnect(ui->sbx_bell_width, SIGNAL(valueChanged(double)),
@@ -276,16 +296,34 @@ namespace fl {
             QObject::disconnect(ui->sbx_bell_slope, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxBell(double)));
 
+            //Pi-Shape
+            QObject::disconnect(ui->sbx_pishape_a, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxPiShape(double)));
+            QObject::disconnect(ui->sbx_pishape_b, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxPiShape(double)));
+            QObject::disconnect(ui->sbx_pishape_c, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxPiShape(double)));
+            QObject::disconnect(ui->sbx_pishape_d, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxPiShape(double)));
+
+
             //Sigmoid
-            QObject::disconnect(ui->sbx_sigmoid_min, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxSigmoid(double)));
-            QObject::disconnect(ui->sbx_sigmoid_max, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxSigmoid(double)));
             QObject::disconnect(ui->sbx_sigmoid_inflection, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxSigmoid(double)));
             QObject::disconnect(ui->sbx_sigmoid_slope, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxSigmoid(double)));
 
+            //S-Shape
+            QObject::disconnect(ui->sbx_sshape_start, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxSShape(double)));
+            QObject::disconnect(ui->sbx_sshape_end, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxSShape(double)));
+
+            //S-Shape
+            QObject::disconnect(ui->sbx_zshape_start, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxZShape(double)));
+            QObject::disconnect(ui->sbx_zshape_end, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxZShape(double)));
         }
 
         void Term::showEvent(QShowEvent* event) {
@@ -304,12 +342,26 @@ namespace fl {
         void Term::refresh() {
             fl::Term* selectedTerm = getSelectedTerm();
             ui->canvas->clear();
-            ui->canvas->setMinimum(selectedTerm->minimum());
-            ui->canvas->setMaximum(selectedTerm->maximum());
+            if (variable) {
+                ui->canvas->setMinimum(variable->getMinimum());
+                ui->canvas->setMaximum(variable->getMaximum());
+                std::vector<int> indexToNotDraw;
+                for (int i = 0; i < variable->numberOfTerms(); ++i) {
+                    if (variable->getTerm(i) == editingTerm) {
+                        indexToNotDraw.push_back(i);
+                        break;
+                    }
+                }
+                ui->canvas->draw(variable, indexToNotDraw);
+            } else {
+                ui->canvas->setMinimum(_minimum);
+                ui->canvas->setMaximum(_maximum);
+            }
             ui->canvas->draw(selectedTerm);
         }
 
         void Term::edit(const fl::Term* x) {
+            this->editingTerm = x;
             setWindowTitle("Edit term");
             ui->led_name->setText(QString::fromStdString(x->getName()));
             if (x->className() == Triangle().className()) {
@@ -323,16 +375,12 @@ namespace fl {
                 ui->basicTermToolbox->setCurrentIndex(2);
                 ui->tabTerms->setCurrentIndex(0);
 
-            } else if (x->className() == LeftShoulder().className()) {
+            } else if (x->className() == Ramp().className()) {
                 ui->basicTermToolbox->setCurrentIndex(3);
                 ui->tabTerms->setCurrentIndex(0);
 
-            } else if (x->className() == RightShoulder().className()) {
-                ui->basicTermToolbox->setCurrentIndex(4);
-                ui->tabTerms->setCurrentIndex(0);
-
             } else if (x->className() == Discrete().className()) {
-                ui->basicTermToolbox->setCurrentIndex(5);
+                ui->basicTermToolbox->setCurrentIndex(4);
                 ui->tabTerms->setCurrentIndex(0);
 
             } else if (x->className() == Gaussian().className()) {
@@ -343,10 +391,24 @@ namespace fl {
                 ui->extendedTermToolbox->setCurrentIndex(1);
                 ui->tabTerms->setCurrentIndex(1);
 
-            } else if (x->className() == Sigmoid().className()) {
+            } else if (x->className() == PiShape().className()) {
                 ui->extendedTermToolbox->setCurrentIndex(2);
                 ui->tabTerms->setCurrentIndex(1);
+
+            } else if (x->className() == Sigmoid().className()) {
+                ui->extendedTermToolbox->setCurrentIndex(3);
+                ui->tabTerms->setCurrentIndex(1);
+
+            } else if (x->className() == SShape().className()) {
+                ui->extendedTermToolbox->setCurrentIndex(4);
+                ui->tabTerms->setCurrentIndex(1);
+
+            } else if (x->className() == ZShape().className()) {
+                ui->extendedTermToolbox->setCurrentIndex(5);
+                ui->tabTerms->setCurrentIndex(1);
+
             }
+
             loadFrom(x);
         }
 
@@ -364,13 +426,9 @@ namespace fl {
                 const Rectangle* term = dynamic_cast<const Rectangle*> (x);
                 return new Rectangle(*term);
 
-            } else if (x->className() == LeftShoulder().className()) {
-                const LeftShoulder* term = dynamic_cast<const LeftShoulder*> (x);
-                return new LeftShoulder(*term);
-
-            } else if (x->className() == RightShoulder().className()) {
-                const RightShoulder* term = dynamic_cast<const RightShoulder*> (x);
-                return new RightShoulder(*term);
+            } else if (x->className() == Ramp().className()) {
+                const Ramp* term = dynamic_cast<const Ramp*> (x);
+                return new Ramp(*term);
 
             } else if (x->className() == Discrete().className()) {
                 const Discrete* term = dynamic_cast<const Discrete*> (x);
@@ -384,9 +442,21 @@ namespace fl {
                 const Bell* term = dynamic_cast<const Bell*> (x);
                 return new Bell(*term);
 
+            } else if (x->className() == PiShape().className()) {
+                const PiShape* term = dynamic_cast<const PiShape*> (x);
+                return new PiShape(*term);
+
             } else if (x->className() == Sigmoid().className()) {
                 const Sigmoid* term = dynamic_cast<const Sigmoid*> (x);
                 return new Sigmoid(*term);
+
+            } else if (x->className() == SShape().className()) {
+                const SShape* term = dynamic_cast<const SShape*> (x);
+                return new SShape(*term);
+
+            } else if (x->className() == ZShape().className()) {
+                const ZShape* term = dynamic_cast<const ZShape*> (x);
+                return new ZShape(*term);
             }
             std::ostringstream ex;
             ex << "trying to copy unknown term class <" << x->className() << ">";
@@ -409,8 +479,7 @@ namespace fl {
             this->adjustSize();
         }
 
-        void Term::onChangeSpinBoxTriangle(double dummyValue) {
-            (void) dummyValue;
+        void Term::onChangeSpinBoxTriangle(double) {
             if (fl::Op::IsGt(ui->sbx_triangle_a->value(), ui->sbx_triangle_b->value())) {
                 ui->sbx_triangle_b->setValue(ui->sbx_triangle_a->value() + .1);
             }
@@ -429,8 +498,7 @@ namespace fl {
             refresh();
         }
 
-        void Term::onChangeSpinBoxTrapezoid(double dummyValue) {
-            (void) dummyValue;
+        void Term::onChangeSpinBoxTrapezoid(double) {
             if (fl::Op::IsGt(ui->sbx_trapezoid_a->value(), ui->sbx_trapezoid_b->value())) {
                 ui->sbx_trapezoid_b->setValue(ui->sbx_trapezoid_a->value() + .1);
             }
@@ -452,8 +520,7 @@ namespace fl {
             refresh();
         }
 
-        void Term::onChangeSpinBoxRectangle(double dummyValue) {
-            (void) dummyValue;
+        void Term::onChangeSpinBoxRectangle(double) {
             if (fl::Op::IsGE(ui->sbx_rectangle_min->value(), ui->sbx_rectangle_max->value())) {
                 ui->sbx_rectangle_max->setValue(ui->sbx_rectangle_min->value() + .1);
             }
@@ -463,25 +530,10 @@ namespace fl {
             refresh();
         }
 
-        void Term::onChangeSpinBoxLeftShoulder(double dummyValue) {
-            (void) dummyValue;
-            if (fl::Op::IsGE(ui->sbx_leftshoulder_min->value(), ui->sbx_leftshoulder_max->value())) {
-                ui->sbx_leftshoulder_max->setValue(ui->sbx_leftshoulder_min->value() + .1);
-            }
-            LeftShoulder* term = dynamic_cast<LeftShoulder*> (getSelectedTerm());
-            term->setMinimum(ui->sbx_leftshoulder_min->value());
-            term->setMaximum(ui->sbx_leftshoulder_max->value());
-            refresh();
-        }
-
-        void Term::onChangeSpinBoxRightShoulder(double dummyValue) {
-            (void) dummyValue;
-            if (fl::Op::IsGE(ui->sbx_rightshoulder_min->value(), ui->sbx_rightshoulder_max->value())) {
-                ui->sbx_rightshoulder_max->setValue(ui->sbx_rightshoulder_min->value() + .1);
-            }
-            RightShoulder* term = dynamic_cast<RightShoulder*> (getSelectedTerm());
-            term->setMinimum(ui->sbx_rightshoulder_min->value());
-            term->setMaximum(ui->sbx_rightshoulder_max->value());
+        void Term::onChangeSpinBoxRamp(double) {
+            Ramp* term = dynamic_cast<Ramp*> (getSelectedTerm());
+            term->setStart(ui->sbx_ramp_start->value());
+            term->setEnd(ui->sbx_ramp_end->value());
             refresh();
         }
 
@@ -521,44 +573,54 @@ namespace fl {
             refresh();
         }
 
-        void Term::onChangeSpinBoxGaussian(double dummyValue) {
-            (void) dummyValue;
-            if (fl::Op::IsGE(ui->sbx_gaussian_min->value(), ui->sbx_gaussian_max->value())) {
-                ui->sbx_gaussian_max->setValue(ui->sbx_gaussian_min->value() + .1);
-            }
+        void Term::onChangeSpinBoxGaussian(double) {
             Gaussian* term = dynamic_cast<Gaussian*> (getSelectedTerm());
             term->setMean(ui->sbx_gaussian_center->value());
             term->setSigma(ui->sbx_gaussian_width->value());
-            term->setMinimum(ui->sbx_gaussian_min->value());
-            term->setMaximum(ui->sbx_gaussian_max->value());
             refresh();
         }
 
-        void Term::onChangeSpinBoxBell(double dummyValue) {
-            (void) dummyValue;
-            if (fl::Op::IsGE(ui->sbx_bell_min->value(), ui->sbx_bell_max->value())) {
-                ui->sbx_bell_max->setValue(ui->sbx_bell_min->value() + .1);
-            }
-
+        void Term::onChangeSpinBoxBell(double) {
             Bell* term = dynamic_cast<Bell*> (getSelectedTerm());
             term->setCenter(ui->sbx_bell_center->value());
             term->setWidth(ui->sbx_bell_width->value());
             term->setSlope(ui->sbx_bell_slope->value());
-            term->setMinimum(ui->sbx_bell_min->value());
-            term->setMaximum(ui->sbx_bell_max->value());
             refresh();
         }
 
-        void Term::onChangeSpinBoxSigmoid(double dummyValue) {
-            (void) dummyValue;
-            if (fl::Op::IsGE(ui->sbx_sigmoid_min->value(), ui->sbx_sigmoid_max->value())) {
-                ui->sbx_sigmoid_max->setValue(ui->sbx_sigmoid_min->value() + .1);
-            }
+        void Term::onChangeSpinBoxPiShape(double) {
+            PiShape* term = dynamic_cast<PiShape*> (getSelectedTerm());
+            term->setA(ui->sbx_pishape_a->value());
+            term->setB(ui->sbx_pishape_b->value());
+            term->setC(ui->sbx_pishape_c->value());
+            term->setD(ui->sbx_pishape_d->value());
+            refresh();
+        }
+
+        void Term::onChangeSpinBoxSigmoid(double) {
             Sigmoid* term = dynamic_cast<Sigmoid*> (getSelectedTerm());
             term->setInflection(ui->sbx_sigmoid_inflection->value());
             term->setSlope(ui->sbx_sigmoid_slope->value());
-            term->setMinimum(ui->sbx_sigmoid_min->value());
-            term->setMaximum(ui->sbx_sigmoid_max->value());
+            refresh();
+        }
+
+        void Term::onChangeSpinBoxSShape(double) {
+            if (fl::Op::IsGE(ui->sbx_sshape_start->value(), ui->sbx_sshape_end->value())) {
+                ui->sbx_sshape_end->setValue(ui->sbx_sshape_start->value() + .1);
+            }
+            SShape* term = dynamic_cast<SShape*> (getSelectedTerm());
+            term->setStart(ui->sbx_sshape_start->value());
+            term->setEnd(ui->sbx_sshape_end->value());
+            refresh();
+        }
+
+        void Term::onChangeSpinBoxZShape(double) {
+            if (fl::Op::IsGE(ui->sbx_zshape_start->value(), ui->sbx_zshape_end->value())) {
+                ui->sbx_zshape_end->setValue(ui->sbx_zshape_start->value() + .1);
+            }
+            ZShape* term = dynamic_cast<ZShape*> (getSelectedTerm());
+            term->setStart(ui->sbx_zshape_start->value());
+            term->setEnd(ui->sbx_zshape_end->value());
             refresh();
         }
 
@@ -578,18 +640,13 @@ namespace fl {
 
             } else if (x->className() == Rectangle().className()) {
                 const Rectangle* term = dynamic_cast<const Rectangle*> (x);
-                ui->sbx_rectangle_min->setValue(term->minimum());
-                ui->sbx_rectangle_max->setValue(term->maximum());
+                ui->sbx_rectangle_min->setValue(term->getMinimum());
+                ui->sbx_rectangle_max->setValue(term->getMaximum());
 
-            } else if (x->className() == LeftShoulder().className()) {
-                const LeftShoulder* term = dynamic_cast<const LeftShoulder*> (x);
-                ui->sbx_leftshoulder_min->setValue(term->minimum());
-                ui->sbx_leftshoulder_max->setValue(term->maximum());
-
-            } else if (x->className() == RightShoulder().className()) {
-                const RightShoulder* term = dynamic_cast<const RightShoulder*> (x);
-                ui->sbx_rightshoulder_min->setValue(term->minimum());
-                ui->sbx_rightshoulder_max->setValue(term->maximum());
+            } else if (x->className() == Ramp().className()) {
+                const Ramp* term = dynamic_cast<const Ramp*> (x);
+                ui->sbx_ramp_start->setValue(term->getStart());
+                ui->sbx_ramp_end->setValue(term->getEnd());
 
             } else if (x->className() == Discrete().className()) {
                 const Discrete* term = dynamic_cast<const Discrete*> (x);
@@ -608,33 +665,48 @@ namespace fl {
 
             } else if (x->className() == Gaussian().className()) {
                 const Gaussian* term = dynamic_cast<const Gaussian*> (x);
-                ui->sbx_gaussian_min->setValue(term->minimum());
-                ui->sbx_gaussian_max->setValue(term->maximum());
                 ui->sbx_gaussian_center->setValue(term->getMean());
                 ui->sbx_gaussian_width->setValue(term->getSigma());
 
             } else if (x->className() == Bell().className()) {
                 const Bell* term = dynamic_cast<const Bell*> (x);
-                ui->sbx_bell_min->setValue(term->minimum());
-                ui->sbx_bell_max->setValue(term->maximum());
                 ui->sbx_bell_center->setValue(term->getCenter());
                 ui->sbx_bell_width->setValue(term->getWidth());
                 ui->sbx_bell_slope->setValue(term->getSlope());
 
+            } else if (x->className() == PiShape().className()) {
+                const PiShape* term = dynamic_cast<const PiShape*> (x);
+                ui->sbx_pishape_a->setValue(term->getA());
+                ui->sbx_pishape_b->setValue(term->getB());
+                ui->sbx_pishape_c->setValue(term->getC());
+                ui->sbx_pishape_d->setValue(term->getD());
+
             } else if (x->className() == Sigmoid().className()) {
                 const Sigmoid* term = dynamic_cast<const Sigmoid*> (x);
-                ui->sbx_sigmoid_min->setValue(term->minimum());
-                ui->sbx_sigmoid_max->setValue(term->maximum());
                 ui->sbx_sigmoid_inflection->setValue(term->getInflection());
                 ui->sbx_sigmoid_slope->setValue(term->getSlope());
+
+            } else if (x->className() == SShape().className()) {
+                const SShape* term = dynamic_cast<const SShape*> (x);
+                ui->sbx_sshape_start->setValue(term->getStart());
+                ui->sbx_sshape_end->setValue(term->getEnd());
+
+            } else if (x->className() == ZShape().className()) {
+                const ZShape* term = dynamic_cast<const ZShape*> (x);
+                ui->sbx_zshape_start->setValue(term->getStart());
+                ui->sbx_zshape_end->setValue(term->getEnd());
+            } else {
+                std::ostringstream ex;
+                ex << "[internal error] Term class <" << x->className() << "> not registered";
+                throw fl::Exception(ex.str());
             }
         }
 
         void Term::main() {
             Term* t = new Term;
-            t->setup();
+            t->setup(0, 1);
             t->show();
         }
 
-    } /* namespace qt */
-} /* namespace fl */
+    }
+}

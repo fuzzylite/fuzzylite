@@ -7,7 +7,7 @@
 
 #include "fl/hedge/Seldom.h"
 
-#include "fl/engine/Operator.h"
+#include "fl/operator/Operator.h"
 
 #include <cmath>
 
@@ -23,4 +23,4 @@ namespace fl {
                 : 1 - std::sqrt((1 - x) / 2);
     }
 
-} /* namespace fl */
+} 

@@ -22,11 +22,11 @@ namespace fl {
 
     //class Sum : public SNorm {
 
-    std::string Sum::name() const {
+    std::string AlgebraicSum::name() const {
         return "Sum";
     }
 
-    scalar Sum::compute(scalar a, scalar b) const {
+    scalar AlgebraicSum::compute(scalar a, scalar b) const {
         return a + b - (a * b);
     }
 

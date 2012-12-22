@@ -13,10 +13,11 @@
 #include <unistd.h>
 namespace fl {
     namespace qt {
+
         Canvas::Canvas(QWidget* parent)
-                : QGraphicsView(new QGraphicsScene, parent),
-                  _minimum(-std::numeric_limits<scalar>::infinity()),
-                  _maximum(std::numeric_limits<scalar>::infinity()) {
+        : QGraphicsView(new QGraphicsScene, parent),
+        _minimum(-std::numeric_limits<scalar>::infinity()),
+        _maximum(std::numeric_limits<scalar>::infinity()) {
             setRenderHints(renderHints() | QPainter::Antialiasing
                     | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
             setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -30,12 +31,15 @@ namespace fl {
         void Canvas::setMinimum(scalar minimum) {
             this->_minimum = minimum;
         }
+
         scalar Canvas::getMinimum() const {
             return this->_minimum;
         }
+
         void Canvas::setMaximum(scalar maximum) {
             this->_maximum = maximum;
         }
+
         scalar Canvas::getMaximum() const {
             return this->_maximum;
         }
@@ -47,27 +51,35 @@ namespace fl {
             setMaximum(std::numeric_limits<scalar>::infinity());
         }
 
-        void Canvas::resizeEvent(QResizeEvent* e) {
-//            if (e->size() - e->oldSize() != QSize(0, 0)) {
-//                QSizeF ratio((qreal) e->size().width() / e->oldSize().width(),
-//                        (qreal) e->size().height() / e->oldSize().height());
-//                if (ratio.width() > 0 or ratio.height() > 0)
-//                    scale(ratio.width(), ratio.height());
-//            }
-            FL_LOG("Canvas resized"); 
+        void Canvas::resizeEvent(QResizeEvent*) {
+            //            if (e->size() - e->oldSize() != QSize(0, 0)) {
+            //                QSizeF ratio((qreal) e->size().width() / e->oldSize().width(),
+            //                        (qreal) e->size().height() / e->oldSize().height());
+            //                if (ratio.width() > 0 or ratio.height() > 0)
+            //                    scale(ratio.width(), ratio.height());
+            //            }
+            //            FL_LOG("Canvas resized"); 
         }
 
         QRect Canvas::drawingRect() const {
             return viewport()->rect();
         }
 
-        void Canvas::draw(const Variable* variable, const QColor& from,
-                const QColor& to) {
-            setMinimum(variable->minimum());
-            setMaximum(variable->maximum());
+        void Canvas::draw(const fl::Variable* variable, const std::vector<int>& notDrawableTermIndexes,
+                const QColor& from, const QColor& to) {
+            setMinimum(variable->getMinimum());
+            setMaximum(variable->getMaximum());
             for (int i = 0; i < variable->numberOfTerms(); ++i) {
+                bool doDraw = true;
+                for (std::size_t index = 0; index < notDrawableTermIndexes.size(); ++index) {
+                    if (notDrawableTermIndexes[index] == i) {
+                        doDraw = false;
+                        break;
+                    }
+                }
+                if (not doDraw)continue;
                 int r, g, b, a;
-                int degree = ((i + 1.0) / (variable->numberOfTerms())) * 255;
+                int degree = ((i + 1.0) / (variable->numberOfTerms() - notDrawableTermIndexes.size())) * 255;
                 ColorGradient(degree, r, g, b, a,
                         from.red(), from.green(), from.blue(), from.alpha(),
                         to.red(), to.green(), to.blue(), to.alpha());
@@ -82,11 +94,11 @@ namespace fl {
             std::vector<scalar> xSamples, ySamples;
             Defuzzifier* defuzzifier = Model::Default()->configuration()->getDefuzzifier();
             int divisions = defuzzifier->getDivisions();
-            scalar dx = (term->maximum() - term->minimum()) / divisions;
+            scalar dx = (_maximum - _minimum) / divisions;
             scalar area = 0;
             scalar ycentroid = 0;
             for (int i = 0; i < divisions; ++i) {
-                scalar x = term->minimum() + (i + 0.5) * dx;
+                scalar x = _minimum + (i + 0.5) * dx;
                 scalar y = term->membership(x);
                 ycentroid += y * y;
                 area += y;
@@ -96,7 +108,7 @@ namespace fl {
             ycentroid /= 2 * area;
             area *= dx;
 
-            scalar xcentroid = defuzzifier->defuzzify(term);
+            scalar xcentroid = defuzzifier->defuzzify(term, _minimum, _maximum);
 
             QPolygon polygon;
             scalar start = Op::Scale(xSamples[0],
@@ -109,8 +121,8 @@ namespace fl {
 
                 scalar y = Op::Scale(ySamples[j], 0, 1, rect.bottom(), rect.top());
 
-//            FL_LOG("(" << xSamples[j] << ", " << ySamples[j] << ")"
-//                    << "->(" << x << ", " << y << ")");
+                //            FL_LOG("(" << xSamples[j] << ", " << ySamples[j] << ")"
+                //                    << "->(" << x << ", " << y << ")");
                 polygon.append(QPoint(x, y));
             }
             scalar end = Op::Scale(xSamples[xSamples.size() - 1],
@@ -183,4 +195,4 @@ namespace fl {
 
         }
     }
-} /* namespace fl */
+}

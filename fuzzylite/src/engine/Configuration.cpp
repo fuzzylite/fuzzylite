@@ -9,14 +9,16 @@
 
 #include "fl/defuzzifier/Defuzzifier.h"
 
+
 #include <sstream>
 
 namespace fl {
 
-    Configuration::Configuration(Operator* tnorm, Operator* snorm,
-            Operator* activation, Operator* accumulation, Defuzzifier* defuzzifier)
+    Configuration::Configuration(TNorm* tnorm, SNorm* snorm,
+            TNorm* activation, SNorm* accumulation, Defuzzifier* defuzzifier)
     : _tnorm(tnorm), _snorm(snorm), _activation(activation), _accumulation(accumulation),
-    _defuzzifier(defuzzifier) { }
+    _defuzzifier(defuzzifier) {
+    }
 
     Configuration::~Configuration() {
         delete _defuzzifier;
@@ -26,35 +28,35 @@ namespace fl {
         delete _tnorm;
     }
 
-    void Configuration::setTnorm(Operator* tnorm) {
+    void Configuration::setTnorm(TNorm* tnorm) {
         this->_tnorm = tnorm;
     }
 
-    Operator* Configuration::getTnorm() const {
+    TNorm* Configuration::getTnorm() const {
         return this->_tnorm;
     }
 
-    void Configuration::setSnorm(Operator* snorm) {
+    void Configuration::setSnorm(SNorm* snorm) {
         this->_snorm = snorm;
     }
 
-    Operator* Configuration::getSnorm() const {
+    SNorm* Configuration::getSnorm() const {
         return this->_snorm;
     }
 
-    void Configuration::setActivation(Operator* activation) {
+    void Configuration::setActivation(TNorm* activation) {
         this->_activation = activation;
     }
 
-    Operator* Configuration::getActivation() const {
+    TNorm* Configuration::getActivation() const {
         return this->_activation;
     }
 
-    void Configuration::setAccumulation(Operator* accumulation) {
+    void Configuration::setAccumulation(SNorm* accumulation) {
         this->_accumulation = accumulation;
     }
 
-    Operator* Configuration::getAccumulation() const {
+    SNorm* Configuration::getAccumulation() const {
         return this->_accumulation;
     }
 
@@ -78,4 +80,4 @@ namespace fl {
         return ss.str();
     }
 
-} /* namespace fl */
+}

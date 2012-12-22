@@ -14,16 +14,18 @@
 
 namespace fl {
 
-    class Operator;
+    class SNorm;
 
     class Accumulated : public Term {
     protected:
         std::vector<const Term*> _terms;
-        const Operator* _accumulation;
         scalar _minimum, _maximum;
+        const SNorm* _accumulation;
     public:
         Accumulated(const std::string& name = "",
-                const Operator* accumulation = NULL);
+                scalar minimum = -std::numeric_limits<scalar>::infinity(),
+                scalar maximum = std::numeric_limits<scalar>::infinity(),
+                const SNorm* accumulation = NULL);
         ~Accumulated();
 
         std::string className() const;
@@ -32,11 +34,14 @@ namespace fl {
         scalar membership(scalar x) const;
         std::string toString() const;
 
-        scalar minimum() const;
-        scalar maximum() const;
+        void setMinimum(scalar minimum);
+        scalar getMinimum() const;
 
-        void setAccumulation(const Operator* accumulation);
-        const Operator* getAccumulation() const;
+        void setMaximum(scalar maximum);
+        scalar getMaximum() const;
+
+        void setAccumulation(const SNorm* accumulation);
+        const SNorm* getAccumulation() const;
 
         /**
          * Operations for std::vector _terms
@@ -53,5 +58,5 @@ namespace fl {
 
     };
 
-} /* namespace fl */
+}
 #endif /* FL_ACCUMULATED_H_ */

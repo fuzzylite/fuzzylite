@@ -33,5 +33,5 @@ namespace fl {
 
         };
     }
-} /* namespace fl */
+} 
 #endif /* FLQT_MODEL_H_ */

@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
                     << (wait - w) << " seconds...");
             sleep(1);
         }
-        //        example->test();
+        example->test();
     }
 
     FL_LOG("Bye, FuzzyLite!");

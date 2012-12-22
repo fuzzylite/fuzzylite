@@ -15,7 +15,8 @@
 
 namespace fl {
     class Engine;
-    class Operator;
+    class TNorm;
+    class SNorm;
     class MamdaniExpression;
 
     class MamdaniAntecedent : public Antecedent {
@@ -28,9 +29,9 @@ namespace fl {
 
         virtual void load(const std::string& antecedent, const Engine* engine);
 
-        virtual scalar firingStrength(const Operator* tnorm, const Operator* snorm, const MamdaniExpression* node) const;
+        virtual scalar firingStrength(const TNorm* tnorm, const SNorm* snorm, const MamdaniExpression* node) const;
 
-        virtual scalar firingStrength(const Operator* tnorm, const Operator* snorm) const;
+        virtual scalar firingStrength(const TNorm* tnorm, const SNorm* snorm) const;
 
         virtual std::string toString() const;
 
@@ -40,5 +41,5 @@ namespace fl {
 
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_MAMDANIANTECEDENT_H_ */

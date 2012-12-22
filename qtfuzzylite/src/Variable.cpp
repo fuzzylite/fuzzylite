@@ -16,7 +16,7 @@ namespace fl {
     namespace qt {
 
         Variable::Variable(QWidget* parent, Qt::WindowFlags f)
-        : QDialog(parent, f),
+        : QDialog(parent, f), _previouslySelected(NULL),
         ui(new Ui::Variable), variable(NULL) {
             setWindowFlags(Qt::Tool);
         }
@@ -27,24 +27,27 @@ namespace fl {
         }
 
         void Variable::setup(VariableType type) {
+            if (type == INPUT_VARIABLE)
+                variable = new InputVariable("", 0, 1);
+            else if (type == OUTPUT_VARIABLE)
+                variable = new OutputVariable("", 0, 1);
+
             ui->setupUi(this);
+            ui->control->setup(variable);
             setWindowTitle("Add variable");
 
-            if (type == INPUT_VARIABLE)
-                variable = new InputVariable;
-            else if (type == OUTPUT_VARIABLE)
-                variable = new OutputVariable;
 
-            ui->canvas->adjustSize();
-            ui->lvw_terms->adjustSize();
+            ui->control->setFixedSize(QSize(200, 100));
+//            ui->control->adjustSize();
 
+            adjustSize();
+            QSize thisSize = size();
             if (type != OUTPUT_VARIABLE) {
-                QSize thisSize = this->size();
                 thisSize.setHeight(thisSize.height() - 85);
-                setFixedSize(thisSize);
-            } else {
-                setFixedSize(size());
             }
+            setFixedSize(thisSize);
+
+
 
             ui->gbx_output->setVisible(type == OUTPUT_VARIABLE);
 
@@ -73,6 +76,13 @@ namespace fl {
                     this, SLOT(onSelectTerm()));
             QObject::connect(ui->lvw_terms, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
                     this, SLOT(onDoubleClickTerm(QListWidgetItem*)));
+            QObject::connect(ui->lvw_terms, SIGNAL(itemClicked(QListWidgetItem*)),
+                    this, SLOT(onClickTerm(QListWidgetItem*)));
+
+            QObject::connect(ui->sbx_min, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeMinRange(double)));
+            QObject::connect(ui->sbx_max, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeMaxRange(double)));
 
             QObject::connect(ui->btn_wizard, SIGNAL(clicked()),
                     this, SLOT(onClickWizard()));
@@ -99,37 +109,46 @@ namespace fl {
                     this, SLOT(onDoubleClickTerm(QListWidgetItem*)));
 
 
+            QObject::disconnect(ui->sbx_min, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeMinRange(double)));
+            QObject::disconnect(ui->sbx_max, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeMaxRange(double)));
+
             QObject::disconnect(ui->btn_wizard, SIGNAL(clicked()),
                     this, SLOT(onClickWizard()));
         }
 
         void Variable::showEvent(QShowEvent* event) {
-            ui->canvas->scene()->setSceneRect(ui->canvas->viewport()->rect());
-            ui->canvas->fitInView(0, 0, ui->canvas->scene()->width(),
-                    ui->canvas->scene()->height(), Qt::IgnoreAspectRatio);
+            //            ui->canvas->scene()->setSceneRect(ui->canvas->viewport()->rect());
+            //            ui->canvas->fitInView(0, 0, ui->canvas->scene()->width(),
+            //                    ui->canvas->scene()->height(), Qt::IgnoreAspectRatio);
             reloadModel();
             QWidget::showEvent(event);
 
         }
 
         void Variable::edit(const InputVariable* inputVariable) {
+            variable->setMinimum(inputVariable->getMinimum());
+            variable->setMaximum(inputVariable->getMaximum());
+            for (int i = 0; i < inputVariable->numberOfTerms(); ++i) {
+                this->variable->addTerm(inputVariable->getTerm(i)->copy());
+            }
+
             setWindowTitle("Edit variable");
             ui->led_name->setText(QString::fromStdString(inputVariable->getName()));
-            for (int i = 0; i < inputVariable->numberOfTerms(); ++i) {
-                //                FL_LOG("Copying " << inputVariable->getTerm(i)->toString());
-                fl::Term* copy = inputVariable->getTerm(i)->copy();
-                //                FL_LOG("Copied: " << copy->toString());
-                this->variable->addTerm(copy);
-            }
             reloadModel();
         }
 
         void Variable::edit(const OutputVariable* outputVariable) {
-            setWindowTitle("Edit variable");
-            ui->led_name->setText(QString::fromStdString(outputVariable->getName()));
+            variable->setMinimum(outputVariable->getMinimum());
+            variable->setMaximum(outputVariable->getMaximum());
             for (int i = 0; i < outputVariable->numberOfTerms(); ++i) {
                 this->variable->addTerm(outputVariable->getTerm(i)->copy());
             }
+
+            setWindowTitle("Edit variable");
+            ui->led_name->setText(QString::fromStdString(outputVariable->getName()));
+
             OutputVariable* editable = dynamic_cast<OutputVariable*> (this->variable);
             editable->setDefaultValue(outputVariable->getDefaultValue());
             editable->setDefuzzifier(outputVariable->getDefuzzifier());
@@ -137,9 +156,22 @@ namespace fl {
             editable->setDefuzzifiedValue(outputVariable->getDefuzzifiedValue());
             editable->setLockDefuzzifiedValue(outputVariable->lockDefuzzifiedValue());
 
-            editable->setMininumOutputRange(outputVariable->getMinimumOutputRange());
-            editable->setMaximumOutputRange(outputVariable->getMaximumOutputRange());
             reloadModel();
+        }
+
+        void Variable::redraw() {
+            ui->ptx_terms->clear();
+            ui->control->drawVariable();
+            bool empty = true;
+            for (int i = 0; i < ui->lvw_terms->count(); ++i) {
+                if (ui->lvw_terms->item(i)->isSelected()) {
+                    empty = false;
+                    ui->control->canvas->draw(variable->getTerm(i));
+                    ui->ptx_terms->appendPlainText(QString::fromStdString(
+                            variable->getTerm(i)->toString()));
+                }
+            }
+            if (empty) ui->ptx_terms->appendPlainText("No terms selected");
         }
 
         /**
@@ -152,10 +184,6 @@ namespace fl {
                 try {
                     outputVariable->setDefaultValue(
                             fl::Op::Scalar(ui->led_default->text().toStdString()));
-                    outputVariable->setMininumOutputRange(
-                            fl::Op::Scalar(ui->led_min_range->text().toStdString()));
-                    outputVariable->setMaximumOutputRange(
-                            fl::Op::Scalar(ui->led_max_range->text().toStdString()));
                 } catch (fl::Exception& ex) {
                     std::ostringstream message;
                     message << ex.what() << std::endl <<
@@ -178,6 +206,26 @@ namespace fl {
             QDialog::reject();
         }
 
+        void Variable::onChangeMinRange(double) {
+            if (fl::Op::IsGE(ui->sbx_min->value(), ui->sbx_max->value())) {
+                ui->sbx_max->setValue(ui->sbx_min->value() + .1);
+            }
+            variable->setMinimum(ui->sbx_min->value());
+            variable->setMaximum(ui->sbx_max->value());
+
+            redraw();
+        }
+
+        void Variable::onChangeMaxRange(double) {
+            if (fl::Op::IsLE(ui->sbx_max->value(), ui->sbx_min->value())) {
+                ui->sbx_min->setValue(ui->sbx_max->value() - .1);
+            }
+            variable->setMinimum(ui->sbx_min->value());
+            variable->setMaximum(ui->sbx_max->value());
+
+            redraw();
+        }
+
         void Variable::onClickWizard() {
             Wizard* window = new Wizard(this);
             window->setup(ui->led_name->text().toStdString());
@@ -191,7 +239,7 @@ namespace fl {
 
         void Variable::onClickAddTerm() {
             Term* window = new Term(this);
-            window->setup();
+            window->setup(variable);
             if (window->exec()) {
                 variable->addTerm(window->copySelectedTerm());
                 reloadModel();
@@ -252,7 +300,7 @@ namespace fl {
                 if (ui->lvw_terms->item(i)->isSelected()) {
                     selected.push_back(i);
                     Term* window = new Term(this);
-                    window->setup();
+                    window->setup(variable);
                     window->edit(variable->getTerm(i));
                     if (window->exec()) {
                         fl::Term* term = window->copySelectedTerm();
@@ -275,29 +323,21 @@ namespace fl {
                     ui->lvw_terms->selectedItems().size() > 0);
             ui->btn_term_down->setEnabled(ui->lvw_terms->selectedItems().size() > 0);
             ui->btn_term_up->setEnabled(ui->lvw_terms->selectedItems().size() > 0);
-
-            ui->ptx_terms->clear();
-            ui->canvas->clear();
-            ui->canvas->draw(variable);
-            scalar minimum = std::numeric_limits<scalar>::infinity();
-            scalar maximum = -std::numeric_limits<scalar>::infinity();
-            for (int i = 0; i < ui->lvw_terms->count(); ++i) {
-                if (ui->lvw_terms->item(i)->isSelected()) {
-                    ui->canvas->draw(variable->getTerm(i));
-                    ui->ptx_terms->appendPlainText(QString::fromStdString(
-                            variable->getTerm(i)->toString()));
-                    minimum = fl::Op::Min(minimum, variable->getTerm(i)->minimum());
-                    maximum = fl::Op::Max(maximum, variable->getTerm(i)->maximum());
-                }
-            }
-            ui->led_min->setText(QString::number(minimum, 'g', 2));
-            ui->led_max->setText(QString::number(maximum, 'g', 2));
-
+            redraw();
         }
 
         void Variable::onDoubleClickTerm(QListWidgetItem* item) {
             if (item) {
                 onClickEditTerm();
+            }
+        }
+
+        void Variable::onClickTerm(QListWidgetItem* item) {
+            if (item == _previouslySelected) {
+                _previouslySelected = NULL;
+                item->setSelected(false);
+            } else {
+                _previouslySelected = item;
             }
         }
 
@@ -351,24 +391,16 @@ namespace fl {
             for (int i = 0; i < variable->numberOfTerms(); ++i) {
                 ui->lvw_terms->addItem(QString::fromStdString(variable->getTerm(i)->getName()));
             }
-            ui->canvas->clear();
-            if (variable->numberOfTerms() > 0) {
-                ui->canvas->draw(variable);
-            }
-            ui->led_min->setText(QString::number(variable->minimum(), 'g', 2));
-            ui->led_max->setText(QString::number(variable->maximum(), 'g', 2));
+
             OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (variable);
             if (outputVariable) {
                 ui->led_default->setText(QString::number(outputVariable->getDefaultValue()));
                 ui->chx_lock->setChecked(outputVariable->lockDefuzzifiedValue());
-                std::ostringstream min, max;
-                min << outputVariable->getMinimumOutputRange();
-                max << outputVariable->getMaximumOutputRange();
-                ui->led_min_range->setText(QString::fromStdString(min.str()));
-                ui->led_max_range->setText(QString::fromStdString(max.str()));
             }
+
+            redraw();
 
         }
 
-    } /* namespace qt */
-} /* namespace fl */
+    }
+}

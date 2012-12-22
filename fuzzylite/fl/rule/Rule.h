@@ -16,7 +16,8 @@ namespace fl {
 
     class Antecedent;
     class Consequent;
-    class Operator;
+    class TNorm;
+    class SNorm;
 
     class Rule {
     protected:
@@ -33,8 +34,8 @@ namespace fl {
         virtual void setConsequent(Consequent* consequent);
         virtual Consequent* getConsequent() const;
 
-        virtual scalar firingStrength(const Operator* tnorm, const Operator* snorm) const;
-        virtual void fire(scalar strength, const Operator* activation) const;
+        virtual scalar firingStrength(const TNorm* tnorm, const SNorm* snorm) const;
+        virtual void fire(scalar strength, const TNorm* activation) const;
 
         virtual std::string toString() const;
 

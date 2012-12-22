@@ -7,7 +7,7 @@
 
 #include "fl/term/Trapezoid.h"
 
-#include "fl/engine/Operator.h"
+#include "fl/operator/Operator.h"
 
 #include <sstream>
 
@@ -15,9 +15,11 @@ namespace fl {
 
     Trapezoid::Trapezoid(const std::string& name, scalar a, scalar b, scalar c,
             scalar d)
-    : Term(name), _a(a), _b(b), _c(c), _d(d) { }
+    : Term(name), _a(a), _b(b), _c(c), _d(d) {
+    }
 
-    Trapezoid::~Trapezoid() { }
+    Trapezoid::~Trapezoid() {
+    }
 
     std::string Trapezoid::className() const {
         return "Trapezoid";
@@ -44,17 +46,9 @@ namespace fl {
 
     std::string Trapezoid::toString() const {
         std::stringstream ss;
-        ss << "Trapezoid (" << _a << ", " << _b << ", " << _c << ", "
+        ss << className() << " (" << _a << ", " << _b << ", " << _c << ", "
                 << _d << ")";
         return ss.str();
-    }
-
-    scalar Trapezoid::minimum() const {
-        return this->_a;
-    }
-
-    scalar Trapezoid::maximum() const {
-        return this->_d;
     }
 
     void Trapezoid::setA(scalar a) {
@@ -89,4 +83,4 @@ namespace fl {
         return this->_d;
     }
 
-} /* namespace fl */
+}

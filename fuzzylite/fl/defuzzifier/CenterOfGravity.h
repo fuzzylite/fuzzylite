@@ -17,9 +17,9 @@ namespace fl {
         CenterOfGravity(int divisions = 100);
 
         std::string name() const;
-        scalar defuzzify(const Term* term) const;
+        scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;
 
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_CENTEROFGRAVITY_H_ */

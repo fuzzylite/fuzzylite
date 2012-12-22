@@ -12,9 +12,8 @@
 
 namespace fl {
 
-    Sigmoid::Sigmoid(const std::string& name, scalar inflection, scalar slope,
-            scalar minimum, scalar maximum)
-    : Term(name), _inflection(inflection), _slope(slope), _minimum(minimum), _maximum(maximum) { }
+    Sigmoid::Sigmoid(const std::string& name, scalar inflection, scalar slope)
+    : Term(name), _inflection(inflection), _slope(slope){ }
 
     Sigmoid::~Sigmoid() { }
 
@@ -32,8 +31,7 @@ namespace fl {
 
     std::string Sigmoid::toString() const {
         std::stringstream ss;
-        ss << "Sigmoid (" << _inflection << ", " << _slope << ", "
-                << _minimum << ", " << _maximum << ")";
+        ss << className() << " (" << _inflection << ", " << _slope << ")";
 
         return ss.str();
     }
@@ -54,20 +52,4 @@ namespace fl {
         return this->_inflection;
     }
 
-    void Sigmoid::setMinimum(scalar minimum) {
-        this->_minimum = minimum;
-    }
-
-    scalar Sigmoid::minimum() const {
-        return this->_minimum;
-    }
-
-    void Sigmoid::setMaximum(scalar maximum) {
-        this->_maximum = maximum;
-    }
-
-    scalar Sigmoid::maximum() const {
-        return this->_maximum;
-    }
-
-} /* namespace fl */
+} 

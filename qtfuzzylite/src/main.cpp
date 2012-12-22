@@ -18,8 +18,9 @@ int main(int argc, char* argv[]){
     QApplication fuzzylite(argc,argv);
 //    fl::qt::Canvas::main();
 //    fl::qt::Configuration::main();
-    fl::qt::Window::main();
 //    fl::qt::Term::main();
+    fl::qt::Window::main();
+    
 //http://octave.sourceforge.net/fuzzy-logic-toolkit/overview.html
     return fuzzylite.exec();
 

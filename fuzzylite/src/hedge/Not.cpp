@@ -17,4 +17,4 @@ namespace fl {
         return 1 - x;
     }
 
-} /* namespace fl */
+} 

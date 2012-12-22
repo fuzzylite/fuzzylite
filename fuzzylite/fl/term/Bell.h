@@ -17,14 +17,11 @@ namespace fl {
         scalar _center;
         scalar _width;
         scalar _slope;
-        scalar _minimum, _maximum;
     public:
         Bell(const std::string& name = "",
                 scalar center = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar width = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar slope = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar minimum = -std::numeric_limits<scalar>::infinity(),
-                scalar maximum = std::numeric_limits<scalar>::infinity());
+                scalar slope = std::numeric_limits<scalar>::quiet_NaN());
         ~Bell();
 
         std::string className() const;
@@ -43,16 +40,7 @@ namespace fl {
         void setSlope(scalar slope);
         scalar getSlope() const;
 
+    };
 
-
-        void setMinimum(scalar minimum);
-        scalar minimum() const;
-
-        void setMaximum(scalar maximum);
-        scalar maximum() const;
-
-    }
-    ;
-
-} /* namespace fl */
+}
 #endif /* FL_BELL_H_ */

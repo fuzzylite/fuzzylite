@@ -26,9 +26,6 @@ namespace fl {
         std::string className() const;
         Trapezoid* copy() const;
 
-        scalar minimum() const;
-        scalar maximum() const;
-
         scalar membership(scalar x) const;
         std::string toString() const;
 
@@ -46,5 +43,5 @@ namespace fl {
 
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_TRAPEZOID_H_ */

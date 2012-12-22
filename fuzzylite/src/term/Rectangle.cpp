@@ -7,7 +7,7 @@
 
 #include "fl/term/Rectangle.h"
 
-#include "fl/engine/Operator.h"
+#include "fl/operator/Operator.h"
 
 #include <sstream>
 
@@ -35,7 +35,7 @@ namespace fl {
 
     std::string Rectangle::toString() const {
         std::stringstream ss;
-        ss << "Rectangle (" << _minimum << ", " << _maximum << ")";
+        ss << className() << " (" << _minimum << ", " << _maximum << ")";
         return ss.str();
     }
 
@@ -43,7 +43,7 @@ namespace fl {
         this->_minimum = minimum;
     }
 
-    scalar Rectangle::minimum() const {
+    scalar Rectangle::getMinimum() const {
         return this->_minimum;
     }
 
@@ -51,8 +51,8 @@ namespace fl {
         this->_maximum = maximum;
     }
 
-    scalar Rectangle::maximum() const {
+    scalar Rectangle::getMaximum() const {
         return this->_maximum;
     }
 
-} /* namespace fl */
+} 

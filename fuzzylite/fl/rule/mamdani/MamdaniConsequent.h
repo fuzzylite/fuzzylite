@@ -26,11 +26,11 @@ namespace fl {
 
         virtual void load(const std::string& consequent, const Engine* engine);
 
-        virtual void fire(scalar strength, const Operator* activation);
+        virtual void fire(scalar strength, const TNorm* activation);
 
         virtual std::string toString() const;
 
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_MAMDANICONSEQUENT_H_ */

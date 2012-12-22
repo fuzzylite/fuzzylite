@@ -34,9 +34,6 @@ namespace fl {
             return this->_name;
         }
 
-        virtual scalar minimum() const = 0;
-        virtual scalar maximum() const = 0;
-
         virtual scalar membership(scalar x) const = 0;
 
         virtual std::string className() const = 0;
@@ -47,5 +44,5 @@ namespace fl {
 
     };
 
-} /* namespace fl */
+} 
 #endif /* FL_TERM_H_ */

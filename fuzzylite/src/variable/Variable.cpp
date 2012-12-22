@@ -9,14 +9,15 @@
 
 #include "fl/term/Term.h"
 
-#include "fl/engine/Operator.h"
+#include "fl/operator/Operator.h"
 
 #include <sstream>
 
 namespace fl {
 
-    Variable::Variable(const std::string& name)
-    : _name(name) { }
+    Variable::Variable(const std::string& name, scalar minimum, scalar maximum)
+    : _name(name), _minimum(minimum), _maximum(maximum) {
+    }
 
     Variable::Variable(const Variable& copy) {
         for (int i = 0; i < copy.numberOfTerms(); ++i) {
@@ -44,14 +45,20 @@ namespace fl {
 
     //It is assumed the terms are inserted in ascending order
 
-    scalar Variable::minimum() const {
-        if (_terms.size() > 0) return _terms[0]->minimum();
-        return -std::numeric_limits<scalar>::infinity();
+    void Variable::setMinimum(scalar minimum) {
+        this->_minimum = minimum;
     }
 
-    scalar Variable::maximum() const {
-        if (_terms.size() > 0) return _terms[_terms.size() - 1]->maximum();
-        return std::numeric_limits<scalar>::infinity();
+    scalar Variable::getMinimum() const {
+        return this->_minimum;
+    }
+
+    void Variable::setMaximum(scalar maximum) {
+        this->_maximum = maximum;
+    }
+
+    scalar Variable::getMaximum() const {
+        return this->_maximum;
     }
 
     std::string Variable::fuzzify(scalar x) const {

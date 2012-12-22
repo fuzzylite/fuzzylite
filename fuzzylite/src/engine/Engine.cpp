@@ -66,7 +66,7 @@ namespace fl {
         FL_BEGIN_DEBUG_BLOCK;
         FL_DBG("===============");
         FL_DBG("CURRENT OUTPUTS:");
-        for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             FL_DBG(_outputVariables[i]->getName() << ".defaultValue= "
                     << _outputVariables[i]->getDefaultValue());
             FL_DBG(_outputVariables[i]->getName() << ".lockDefuzzifiedValue= "
@@ -247,4 +247,4 @@ namespace fl {
         return this->_hedges;
     }
 
-} /* namespace fl */
+} 

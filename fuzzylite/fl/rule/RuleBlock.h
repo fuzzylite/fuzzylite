@@ -14,16 +14,17 @@
 namespace fl {
 
     class Rule;
-    class Operator;
+    class TNorm;
+    class SNorm;
     class Configuration;
 
     class RuleBlock {
     protected:
         std::vector<Rule*> _rules;
         std::string _name;
-        const Operator* _tnorm;
-        const Operator* _snorm;
-        const Operator* _activation;
+        const TNorm* _tnorm;
+        const SNorm* _snorm;
+        const TNorm* _activation;
     public:
         RuleBlock(const std::string& name = "");
         virtual ~RuleBlock();
@@ -35,14 +36,14 @@ namespace fl {
         virtual void setName(std::string name);
         virtual std::string getName() const;
 
-        virtual void setTnorm(const Operator* tnorm);
-        virtual const Operator* getTnorm() const;
+        virtual void setTnorm(const TNorm* tnorm);
+        virtual const TNorm* getTnorm() const;
 
-        virtual void setSnorm(const Operator* snorm);
-        virtual const Operator* getSnorm() const;
+        virtual void setSnorm(const SNorm* snorm);
+        virtual const SNorm* getSnorm() const;
 
-        virtual void setActivation(const Operator* activation);
-        virtual const Operator* getActivation() const;
+        virtual void setActivation(const TNorm* activation);
+        virtual const TNorm* getActivation() const;
 
         virtual std::string toString() const;
 
@@ -60,5 +61,5 @@ namespace fl {
 
     };
 
-} /* namespace fl */
+} 
 #endif /* RULEBLOCK_H_ */

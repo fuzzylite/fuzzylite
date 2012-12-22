@@ -16,22 +16,34 @@ namespace fl {
 
         Configuration::Configuration(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::Configuration) {
-                setWindowFlags(Qt::Tool);
-            _andOperators.push_back(std::pair<std::string, Operator*>
-                    (Min().name(), new Min));
-            _andOperators.push_back(std::pair<std::string, Operator*>
-                    (Prod().name(), new Prod));
-            _andOperators.push_back(std::pair<std::string, Operator*>
-                    (BDif().name(), new BDif));
+            setWindowFlags(Qt::Tool);
+            _andOperators.push_back(std::pair<std::string, TNorm*>
+                    (Minimum().name(), new Minimum));
+            _andOperators.push_back(std::pair<std::string, TNorm*>
+                    (AlgebraicProduct().name(), new AlgebraicProduct));
+            _andOperators.push_back(std::pair<std::string, TNorm*>
+                    (BoundedDifference().name(), new BoundedDifference));
+            _andOperators.push_back(std::pair<std::string, TNorm*>
+                    (DrasticProduct().name(), new DrasticProduct));
+            _andOperators.push_back(std::pair<std::string, TNorm*>
+                    (EinsteinProduct().name(), new EinsteinProduct));
+            _andOperators.push_back(std::pair<std::string, TNorm*>
+                    (HamacherProduct().name(), new HamacherProduct));
 
-            _orOperators.push_back(std::pair<std::string, Operator*>
-                    (Max().name(), new Max));
-            _orOperators.push_back(std::pair<std::string, Operator*>
-                    (ASum().name(), new ASum));
-            _orOperators.push_back(std::pair<std::string, Operator*>
-                    (BSum().name(), new BSum));
-            _orOperators.push_back(std::pair<std::string, Operator*>
-                    (NSum().name(), new NSum));
+            _orOperators.push_back(std::pair<std::string, SNorm*>
+                    (Maximum().name(), new Maximum));
+            _orOperators.push_back(std::pair<std::string, SNorm*>
+                    (AlgebraicSum().name(), new AlgebraicSum));
+            _orOperators.push_back(std::pair<std::string, SNorm*>
+                    (BoundedSum().name(), new BoundedSum));
+            _orOperators.push_back(std::pair<std::string, SNorm*>
+                    (NormalizedSum().name(), new NormalizedSum));
+            _orOperators.push_back(std::pair<std::string, SNorm*>
+                    (DrasticSum().name(), new DrasticSum));
+            _orOperators.push_back(std::pair<std::string, SNorm*>
+                    (EinsteinSum().name(), new EinsteinSum));
+            _orOperators.push_back(std::pair<std::string, SNorm*>
+                    (HamacherSum().name(), new HamacherSum));
 
             _defuzzifiers.push_back(std::pair<std::string, Defuzzifier*>
                     (CenterOfGravity().name(), new CenterOfGravity));
@@ -208,5 +220,5 @@ namespace fl {
 
         }
 
-    } /* namespace qt */
-} /* namespace fl */
+    } 
+} 

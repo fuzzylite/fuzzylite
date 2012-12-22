@@ -5,7 +5,7 @@
  *      Author: jcrada
  */
 
-#include "fl/fcl/FclImporter.h"
+#include "fl/imex/FclImporter.h"
 
 #include "fl/Headers.h"
 
@@ -13,6 +13,12 @@
 #include <iostream>
 
 namespace fl {
+
+    FclImporter::FclImporter() {
+    }
+
+    FclImporter::~FclImporter() {
+    }
 
     Engine* FclImporter::fromFcl(const std::string& fcl) {
         _engine = new Engine;
@@ -205,7 +211,7 @@ namespace fl {
             } else if (firstToken == "METHOD") {
                 outputVariable->setDefuzzifier(extractDefuzzifier(line));
             } else if (firstToken == "ACCU") {
-                outputVariable->output()->setAccumulation(extractOperator(line));
+                outputVariable->output()->setAccumulation(extractSNorm(line));
             } else if (firstToken == "DEFAULT") {
                 bool lockDefuzzifiedValue;
                 outputVariable->setDefaultValue(extractDefaultValue(line, lockDefuzzifiedValue));
@@ -213,8 +219,8 @@ namespace fl {
             } else if (firstToken == "RANGE") {
                 scalar minimum, maximum;
                 extractRange(line, minimum, maximum);
-                outputVariable->setMininumOutputRange(minimum);
-                outputVariable->setMaximumOutputRange(maximum);
+                outputVariable->setMinimum(minimum);
+                outputVariable->setMaximum(maximum);
             } else {
                 std::ostringstream ex;
                 ex << "[syntax error] unexpected token <" << firstToken <<
@@ -239,11 +245,11 @@ namespace fl {
         while (getline(blockReader, line)) {
             std::string firstToken = line.substr(0, line.find_first_of(' '));
             if (firstToken == "AND") {
-                ruleblock->setTnorm(extractOperator(line));
+                ruleblock->setTnorm(extractTNorm(line));
             } else if (firstToken == "OR") {
-                ruleblock->setSnorm(extractOperator(line));
+                ruleblock->setSnorm(extractSNorm(line));
             } else if (firstToken == "ACT") {
-                ruleblock->setActivation(extractOperator(line));
+                ruleblock->setActivation(extractTNorm(line));
             } else if (firstToken == "RULE") {
                 std::string rule = line.substr(line.find_first_of(':') + 1);
                 ruleblock->addRule(MamdaniRule::parse(rule, this->_engine));
@@ -257,7 +263,7 @@ namespace fl {
         }
     }
 
-    Operator* FclImporter::extractOperator(const std::string& line) const {
+    TNorm* FclImporter::extractTNorm(const std::string& line) const {
         std::vector<std::string> token = Op::Split(line, ":");
         if (token.size() != 2) {
             std::ostringstream ex;
@@ -266,16 +272,38 @@ namespace fl {
             throw fl::Exception(ex.str());
         }
         std::string name = Op::FindReplace(Op::Trim(token[1]), ";", "");
-        if (name == Min().name()) return new Min;
-        if (name == Prod().name()) return new Prod;
-        if (name == BDif().name()) return new BDif;
-        if (name == Max().name()) return new Max;
-        if (name == ASum().name()) return new ASum;
-        if (name == BSum().name()) return new BSum;
-        if (name == NSum().name()) return new NSum;
+        if (name == "MIN") return new Minimum;
+        if (name == "PROD") return new AlgebraicProduct;
+        if (name == "BDIF") return new BoundedDifference;
+        if (name == "DPROD") return new DrasticProduct;
+        if (name == "EPROD") return new EinsteinProduct;
+        if (name == "HPROD") return new HamacherProduct;
 
         std::ostringstream ex;
-        ex << "[syntax error] operator <" << name << "> not recognized in line:"
+        ex << "[syntax error] T-Norm <" << name << "> not recognized in line:"
+                << std::endl << line;
+        throw fl::Exception(ex.str());
+    }
+
+    SNorm* FclImporter::extractSNorm(const std::string& line) const {
+        std::vector<std::string> token = Op::Split(line, ":");
+        if (token.size() != 2) {
+            std::ostringstream ex;
+            ex << "[syntax error] expected property of type (key : value) in line: "
+                    << std::endl << line;
+            throw fl::Exception(ex.str());
+        }
+        std::string name = Op::FindReplace(Op::Trim(token[1]), ";", "");
+        if (name == "MAX") return new Maximum;
+        if (name == "ASUM") return new AlgebraicSum;
+        if (name == "BSUM") return new BoundedSum;
+        if (name == "NSUM") return new NormalizedSum;
+        if (name == "DSUM") return new DrasticSum;
+        if (name == "ESUM") return new EinsteinSum;
+        if (name == "HSUM") return new HamacherSum;
+
+        std::ostringstream ex;
+        ex << "[syntax error] S-Norm <" << name << "> not recognized in line:"
                 << std::endl << line;
         throw fl::Exception(ex.str());
     }
@@ -346,8 +374,8 @@ namespace fl {
         int requiredParams = 0;
 
         if (termClass == Bell().className()) {
-            if (params.size() == (requiredParams = 5)) {
-                return new Bell(name, params[0], params[1], params[2], params[3], params[4]);
+            if (params.size() == (requiredParams = 3)) {
+                return new Bell(name, params[0], params[1], params[2]);
             }
         }
 
@@ -363,10 +391,24 @@ namespace fl {
         }
 
         if (termClass == Gaussian().className()) {
-            if (params.size() == (requiredParams = 4)) {
-                return new Gaussian(name, params[0], params[1], params[2], params[3]);
+            if (params.size() == (requiredParams = 2)) {
+                return new Gaussian(name, params[0], params[1]);
             }
         }
+
+
+        if (termClass == PiShape().className()) {
+            if (params.size() == (requiredParams = 4)) {
+                return new PiShape(name, params[0], params[1]);
+            }
+        }
+
+        if (termClass == Ramp().className()) {
+            if (params.size() == (requiredParams = 2)) {
+                return new Ramp(name, params[0], params[1]);
+            }
+        }
+
 
         if (termClass == Rectangle().className()) {
             if (params.size() == (requiredParams = 2)) {
@@ -374,21 +416,16 @@ namespace fl {
             }
         }
 
-        if (termClass == LeftShoulder().className()) {
+        if (termClass == SShape().className()) {
             if (params.size() == (requiredParams = 2)) {
-                return new LeftShoulder(name, params[0], params[1]);
+                return new SShape(name, params[0], params[1]);
             }
         }
 
-        if (termClass == RightShoulder().className()) {
-            if (params.size() == (requiredParams = 2)) {
-                return new RightShoulder(name, params[0], params[1]);
-            }
-        }
 
         if (termClass == Sigmoid().className()) {
-            if (params.size() == (requiredParams = 4)) {
-                return new Sigmoid(name, params[0], params[1], params[2], params[3]);
+            if (params.size() == (requiredParams = 2)) {
+                return new Sigmoid(name, params[0], params[1]);
             }
         }
 
@@ -401,6 +438,13 @@ namespace fl {
             if (params.size() == (requiredParams = 3))
                 return new Triangle(name, params[0], params[1], params[2]);
         }
+
+        if (termClass == ZShape().className()) {
+            if (params.size() == (requiredParams = 2)) {
+                return new ZShape(name, params[0], params[1]);
+            }
+        }
+
 
         std::ostringstream ex;
         if (requiredParams != 0) {
@@ -523,4 +567,4 @@ namespace fl {
     }
 
 
-} /* namespace fl */
+}

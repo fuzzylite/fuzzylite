@@ -23,9 +23,9 @@ namespace fl {
         engine->addInputVariable(ambientLight);
 
         InputVariable* electricity = new InputVariable("Electricity");
-        electricity->addTerm(new Sigmoid("CHEAP", .5, -7, 0, 1));
-        electricity->addTerm(new Gaussian("REGULAR", 0.7, .2, 0, 1.4));
-        electricity->addTerm(new Sigmoid("EXPENSIVE", 1, 7, .5, 1.5));
+        electricity->addTerm(new Sigmoid("CHEAP", .5, -7));
+        electricity->addTerm(new Gaussian("REGULAR", 0.7, .2));
+        electricity->addTerm(new Sigmoid("EXPENSIVE", 1, 7));
         engine->addInputVariable(electricity);
 
         OutputVariable* bulbPower = new OutputVariable("BulbPower",
@@ -60,8 +60,8 @@ namespace fl {
         scalar step = 1.0 / 10.0;
         InputVariable* ambientLight = engine->getInputVariable("AmbientLight");
         OutputVariable* bulbPower = engine->getOutputVariable("BulbPower");
-        for (scalar input = ambientLight->minimum();
-                input <= ambientLight->maximum() + step; input += step) {
+        for (scalar input = ambientLight->getMinimum();
+                input <= ambientLight->getMaximum() + step; input += step) {
             ambientLight->setInput(input);
             engine->process();
             bulbPower->defuzzify();
@@ -76,4 +76,4 @@ namespace fl {
         sm.test();
     }
 
-} /* namespace fl */
+} 

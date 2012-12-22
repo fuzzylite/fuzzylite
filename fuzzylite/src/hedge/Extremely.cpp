@@ -7,7 +7,7 @@
 
 #include "fl/hedge/Extremely.h"
 
-#include "fl/engine/Operator.h"
+#include "fl/operator/Operator.h"
 
 namespace fl {
 
@@ -20,4 +20,4 @@ namespace fl {
                 ? 2 * x * x
                 : 1 - 2 * (1 - x) * (1 - x);
     }
-} /* namespace fl */
+} 

@@ -26,15 +26,23 @@ namespace fl {
             void onClickMoveUp();
             void onClickMoveDown();
             
+            void onChangeMinRange(double);
+            void onChangeMaxRange(double);
+            
+            void onClickTerm(QListWidgetItem* item);
             void onDoubleClickTerm(QListWidgetItem* item);
 
             void onSelectTerm();
+            
             void onClickWizard();
+            
+            void redraw();
 
             void accept();
             void reject();
 
         protected:
+            QListWidgetItem* _previouslySelected;
             void connect();
             void disconnect();
 
@@ -60,6 +68,6 @@ namespace fl {
 
         };
 
-    } /* namespace qt */
-} /* namespace fl */
+    } 
+} 
 #endif /* FLQT_VARIABLE_H_ */
