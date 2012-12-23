@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icons">
+    <file>icons/qtfuzzylite.svg</file>
     <file>icons/1uparrow.png</file>
     <file>icons/down.png</file>
     <file>icons/up.png</file>
@@ -12,6 +13,5 @@
     <file>icons/edit_remove.png</file>
     <file>icons/pencil.png</file>
     <file>icons/apply.png</file>
-    <file>icons/fuzzylite.png</file>
   </qresource>
 </RCC>

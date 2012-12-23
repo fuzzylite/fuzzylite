@@ -8,17 +8,23 @@
 #include "fl/qt/Variable.h"
 #include "fl/qt/Term.h"
 #include "fl/qt/Wizard.h"
+#include "fl/qt/Viewer.h"
+
+
 #include <fl/Headers.h>
 
 #include <QtGui/QMessageBox>
 #include <QtGui/QListWidgetItem>
+#include <QtGui/QSplitter>
+
 namespace fl {
     namespace qt {
 
         Variable::Variable(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), _previouslySelected(NULL),
-        ui(new Ui::Variable), variable(NULL) {
-            setWindowFlags(Qt::Tool);
+        ui(new Ui::Variable), viewer(new Viewer),
+        variable(NULL) {
+//            setWindowFlags(Qt::DI);
         }
 
         Variable::~Variable() {
@@ -33,21 +39,21 @@ namespace fl {
                 variable = new OutputVariable("", 0, 1);
 
             ui->setupUi(this);
-            ui->control->setup(variable);
+            
+            QList<int> sizes;
+            sizes << .75 * size().width() << .25 * size().width() ;
+            ui->splitter2->setSizes(sizes);
+//            ui->splitter2->setStretchFactor(1,0);
+            
+            viewer->setup(variable);
+            ui->splitter->addWidget(viewer);
             setWindowTitle("Add variable");
 
-
-            ui->control->setFixedSize(QSize(200, 100));
-//            ui->control->adjustSize();
-
-            adjustSize();
-            QSize thisSize = size();
-            if (type != OUTPUT_VARIABLE) {
-                thisSize.setHeight(thisSize.height() - 85);
-            }
-            setFixedSize(thisSize);
-
-
+//            adjustSize();
+//            QSize thisSize = size();
+//            if (type != OUTPUT_VARIABLE) {
+//                thisSize.setHeight(thisSize.height() - 85);
+//            }
 
             ui->gbx_output->setVisible(type == OUTPUT_VARIABLE);
 
@@ -86,6 +92,9 @@ namespace fl {
 
             QObject::connect(ui->btn_wizard, SIGNAL(clicked()),
                     this, SLOT(onClickWizard()));
+
+            QObject::connect(viewer, SIGNAL(valueChanged(double)),
+                    this, SLOT(showSelectedTerms()), Qt::QueuedConnection);
         }
 
         void Variable::disconnect() {
@@ -160,13 +169,17 @@ namespace fl {
         }
 
         void Variable::redraw() {
+            viewer->refresh();
+            showSelectedTerms();
+        }
+
+        void Variable::showSelectedTerms() {
             ui->ptx_terms->clear();
-            ui->control->drawVariable();
             bool empty = true;
             for (int i = 0; i < ui->lvw_terms->count(); ++i) {
                 if (ui->lvw_terms->item(i)->isSelected()) {
                     empty = false;
-                    ui->control->canvas->draw(variable->getTerm(i));
+                    viewer->draw(variable->getTerm(i));
                     ui->ptx_terms->appendPlainText(QString::fromStdString(
                             variable->getTerm(i)->toString()));
                 }
@@ -397,6 +410,9 @@ namespace fl {
                 ui->led_default->setText(QString::number(outputVariable->getDefaultValue()));
                 ui->chx_lock->setChecked(outputVariable->lockDefuzzifiedValue());
             }
+
+            ui->sbx_min->setValue(variable->getMinimum());
+            ui->sbx_max->setValue(variable->getMaximum());
 
             redraw();
 

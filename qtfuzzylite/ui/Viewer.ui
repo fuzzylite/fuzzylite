@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Control</class>
- <widget class="QWidget" name="Control">
+ <class>Viewer</class>
+ <widget class="QWidget" name="Viewer">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>274</width>
-    <height>214</height>
+    <height>269</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -22,7 +22,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Control</string>
+   <string>Viewer</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="spacing">
@@ -44,7 +44,7 @@
        <item>
         <widget class="QLabel" name="lbl_min">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -55,28 +55,76 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="led_x">
+        <widget class="Line" name="line_2">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="text">
-          <string/>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="sbx_x">
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="accelerated">
+          <bool>true</bool>
+         </property>
+         <property name="minimum">
+          <double>-100.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>100.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.100000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="led_x">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>70</width>
+           <height>16777215</height>
+          </size>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
          <property name="readOnly">
-          <bool>false</bool>
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QLabel" name="lbl_max">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -103,12 +151,24 @@
         <number>8</number>
        </property>
        <item>
-        <widget class="fl::qt::Canvas" name="canvas">
+        <widget class="QGraphicsView" name="canvas">
          <property name="sizePolicy">
           <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="interactive">
+          <bool>false</bool>
+         </property>
+         <property name="renderHints">
+          <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
+         </property>
+         <property name="viewportUpdateMode">
+          <enum>QGraphicsView::FullViewportUpdate</enum>
+         </property>
+         <property name="optimizationFlags">
+          <set>QGraphicsView::DontClipPainter|QGraphicsView::DontSavePainterState</set>
          </property>
         </widget>
        </item>
@@ -193,13 +253,6 @@ border-radius: 8px;
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>fl::qt::Canvas</class>
-   <extends>QGraphicsView</extends>
-   <header>fl/qt/Canvas.h</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="resources.qrc"/>
  </resources>

@@ -22,7 +22,7 @@ namespace fl {
         Q_OBJECT
 
         signals:
-        void outputValueChanged();
+        void processOutput();
 
         protected slots:
             void onChangeInputSelection();

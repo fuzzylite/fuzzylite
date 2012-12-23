@@ -40,7 +40,11 @@ namespace fl {
             virtual QRect drawingRect() const;
 
             virtual void draw(const fl::Variable* variable,
-                    const std::vector<int>& notDrawableTermIndexes = std::vector<int>(),
+                    const QColor& from = QColor(255, 255, 0, 75),
+                    const QColor& to = QColor(255, 0, 0, 175));
+
+            virtual void draw(const std::vector<fl::Term*>& terms,
+                    scalar minimum, scalar maximum,
                     const QColor& from = QColor(255, 255, 0, 75),
                     const QColor& to = QColor(255, 0, 0, 175));
 

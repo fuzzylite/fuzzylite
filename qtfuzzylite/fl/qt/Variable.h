@@ -12,9 +12,11 @@
 
 #include "ui/ui_Variable.h"
 
+#include <fl/Headers.h>
+
 namespace fl {
     namespace qt {
-
+        class Viewer;
         class Variable: public QDialog {
         Q_OBJECT
 
@@ -37,6 +39,7 @@ namespace fl {
             void onClickWizard();
             
             void redraw();
+            void showSelectedTerms();
 
             void accept();
             void reject();
@@ -48,6 +51,7 @@ namespace fl {
 
         public:
             Ui::Variable* ui;
+            Viewer* viewer;
             fl::Variable* variable;
 
             enum VariableType {

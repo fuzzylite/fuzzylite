@@ -5,3 +5,9 @@
 /fuzzylite/build/
 /qtfuzzylite/build/
 /qtfuzzylite/dist/
+bin/
+lib/
+\.*
+gui~/
+nbproject/
+qtfuzzylite/ui/ui_*

@@ -12,6 +12,8 @@
 #include <QtGui/QToolBox>
 #include "ui/ui_Term.h"
 
+
+
 #include <QtGui/QDoubleSpinBox>
 #include <vector>
 
@@ -19,6 +21,7 @@
 
 namespace fl {
     namespace qt {
+        class Viewer;
 
         class Term : public QDialog {
             Q_OBJECT
@@ -40,12 +43,12 @@ namespace fl {
             void onChangeSpinBoxSShape(double);
             void onChangeSpinBoxZShape(double);
 
+            void redraw();
+            void showSelectedTerm();
+
             void accept();
 
         protected:
-            scalar _minimum, _maximum;
-
-            QToolBox* _termToolBox;
 
             void loadTerms(scalar min, scalar max);
             void connect();
@@ -61,20 +64,21 @@ namespace fl {
 
         public:
             Ui::Term* ui;
-            const fl::Variable* variable;
-            const fl::Term* editingTerm;
+            Viewer* viewer;
+            fl::Variable* dummyVariable;
+            int indexOfEditingTerm;
 
             Term(QWidget* parent = NULL, Qt::WindowFlags f = 0);
-            virtual ~Term();
+            ~Term();
 
-            virtual void setup(const fl::Variable* variable);
-            virtual void setup(scalar minimum, scalar maximum);
+            void setup(const fl::Variable* variable);
+            void setup(scalar minimum, scalar maximum);
 
-            virtual fl::Term* copySelectedTerm() const;
-            virtual void edit(const fl::Term* term);
-            virtual void refresh();
+            fl::Term* copySelectedTerm() const;
+            void edit(const fl::Term* term);
 
-            virtual fl::Term* getSelectedTerm() const;
+
+            fl::Term* getSelectedTerm() const;
             static void main();
         };
 

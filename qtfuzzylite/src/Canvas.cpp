@@ -65,25 +65,33 @@ namespace fl {
             return viewport()->rect();
         }
 
-        void Canvas::draw(const fl::Variable* variable, const std::vector<int>& notDrawableTermIndexes,
+        void Canvas::draw(const fl::Variable* variable,
                 const QColor& from, const QColor& to) {
-            setMinimum(variable->getMinimum());
-            setMaximum(variable->getMaximum());
-            for (int i = 0; i < variable->numberOfTerms(); ++i) {
-                bool doDraw = true;
-                for (std::size_t index = 0; index < notDrawableTermIndexes.size(); ++index) {
-                    if (notDrawableTermIndexes[index] == i) {
-                        doDraw = false;
-                        break;
-                    }
-                }
-                if (not doDraw)continue;
+            draw(variable->terms(), variable->getMinimum(), variable->getMaximum(),
+                    from, to);
+//            setMinimum(variable->getMinimum());
+//            setMaximum(variable->getMaximum());
+//            for (int i = 0; i < variable->numberOfTerms(); ++i) {
+//                int r, g, b, a;
+//                int degree = ((i + 1.0) / (variable->numberOfTerms())) * 255;
+//                ColorGradient(degree, r, g, b, a,
+//                        from.red(), from.green(), from.blue(), from.alpha(),
+//                        to.red(), to.green(), to.blue(), to.alpha());
+//                draw(variable->getTerm(i), QColor(r, g, b, a));
+//            }
+        }
+
+        void Canvas::draw(const std::vector<fl::Term*>& terms,
+                scalar minimum, scalar maximum, const QColor& from, const QColor& to) {
+            setMinimum(minimum);
+            setMaximum(maximum);
+            for (std::size_t i = 0; i < terms.size(); ++i) {
                 int r, g, b, a;
-                int degree = ((i + 1.0) / (variable->numberOfTerms() - notDrawableTermIndexes.size())) * 255;
+                int degree = ((i + 1.0) / (terms.size())) * 255;
                 ColorGradient(degree, r, g, b, a,
                         from.red(), from.green(), from.blue(), from.alpha(),
                         to.red(), to.green(), to.blue(), to.alpha());
-                draw(variable->getTerm(i), QColor(r, g, b, a));
+                draw(terms[i], QColor(r, g, b, a));
             }
         }
 

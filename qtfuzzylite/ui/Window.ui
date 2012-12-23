@@ -27,7 +27,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
-    <normaloff>:/icons/icons/fuzzylite.png</normaloff>:/icons/icons/fuzzylite.png</iconset>
+    <normaloff>:/icons/icons/qtfuzzylite.svg</normaloff>:/icons/icons/qtfuzzylite.svg</iconset>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>

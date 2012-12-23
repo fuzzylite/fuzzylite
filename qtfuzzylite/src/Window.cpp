@@ -37,12 +37,12 @@ namespace fl {
 
         void Window::setup() {
             ui->setupUi(this);
-            setGeometry(0,0,800,600);
+            setGeometry(0, 0, 800, 600);
             _configurationWindow = new fl::qt::Configuration(this);
             _configurationWindow->setup();
             ui->tab_container->setCurrentIndex(0);
-            
-            
+
+
             QRect scr = QApplication::desktop()->screenGeometry();
             move(scr.center() - rect().center());
 
@@ -148,7 +148,7 @@ namespace fl {
                 QLayoutItem* item = layout->itemAt(i);
                 Control* control = dynamic_cast<Control*> (item->widget());
                 if (control) {
-                    QObject::disconnect(control, SIGNAL(crispValueChanged()),
+                    QObject::disconnect(control, SIGNAL(valueChanged(double)),
                             this, SLOT(onInputValueChanged()));
                 }
                 layout->removeItem(item);
@@ -166,8 +166,8 @@ namespace fl {
                 QLayoutItem* item = layout->itemAt(i);
                 Control* control = dynamic_cast<Control*> (item->widget());
                 if (control) {
-                    QObject::disconnect(control, SIGNAL(crispValueChanged()),
-                            this, SLOT(onInputValueChanged()));
+                    QObject::disconnect(this, SIGNAL(processOutput()),
+                            control, SLOT(updateOutput()));
                 }
                 layout->removeItem(item);
                 delete item->widget();
@@ -185,16 +185,16 @@ namespace fl {
                 Control* control = new Control;
                 control->setup(engine->getInputVariable(i));
                 layout->addWidget(control);
-                
+
                 QFrame* line = new QFrame;
                 line->setObjectName(QString::fromUtf8("line"));
                 line->setGeometry(QRect(320, 150, 118, 3));
                 line->setFrameShape(QFrame::HLine);
                 line->setFrameShadow(QFrame::Sunken);
                 layout->addWidget(line);
-                
-                QObject::connect(control, SIGNAL(crispValueChanged()), this,
-                        SLOT(onInputValueChanged()));
+
+                QObject::connect(control, SIGNAL(valueChanged(double)),
+                        this, SLOT(onInputValueChanged()));
             }
             layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
 
@@ -221,23 +221,20 @@ namespace fl {
             for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
                 Control* control = new Control;
                 control->setup(engine->getOutputVariable(i));
-                control->setReadOnly(true);
                 layout->addWidget(control);
-                
+
                 QFrame* line = new QFrame;
                 line->setObjectName(QString::fromUtf8("line"));
                 line->setGeometry(QRect(320, 150, 118, 3));
                 line->setFrameShape(QFrame::HLine);
                 line->setFrameShadow(QFrame::Sunken);
                 layout->addWidget(line);
-                
-                QObject::connect(this, SIGNAL(outputValueChanged()),
-                        control, SLOT(drawOutputVariable()), Qt::QueuedConnection);
-            }
-            layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored,
-                    QSizePolicy::Expanding));
 
-            //            ui->tab_container->setCurrentIndex(1);
+                QObject::connect(this, SIGNAL(processOutput()),
+                        control, SLOT(updateOutput()), Qt::QueuedConnection);
+            }
+            layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
+
         }
 
         void Window::removeRules() {
@@ -300,8 +297,8 @@ namespace fl {
         }
 
         void Window::onInputValueChanged() {
-            
-            
+
+
             QColor from_color(Qt::white);
             QColor to_color(0, 200, 0);
             fl::RuleBlock* ruleblock = Model::Default()->engine()->getRuleBlock(0);
@@ -311,7 +308,7 @@ namespace fl {
                         ruleblock->getSnorm());
 
                 int red, green, blue, alpha;
-                Canvas::ColorGradient((int) (degree * 255), red, green, blue, alpha,
+                Viewer::ColorGradient((int) (degree * 255), red, green, blue, alpha,
                         from_color.red(), from_color.green(), from_color.blue(), from_color.alpha(),
                         to_color.red(), to_color.green(), to_color.blue(), to_color.alpha());
 
@@ -325,7 +322,7 @@ namespace fl {
             }
 
             Model::Default()->engine()->process();
-            emit(outputValueChanged());
+            emit(processOutput());
         }
 
         /**

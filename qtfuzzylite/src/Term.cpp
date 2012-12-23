@@ -6,18 +6,21 @@
  */
 
 #include "fl/qt/Term.h"
+
+#include "fl/qt/Viewer.h"
+
 #include <fl/Headers.h>
+
 #include <QtGui/QMessageBox>
 #include <unistd.h>
+
 namespace fl {
     namespace qt {
 
         Term::Term(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f),
-        _minimum(-std::numeric_limits<scalar>::infinity()),
-        _maximum(std::numeric_limits<scalar>::infinity()),
-        ui(new Ui::Term),
-        variable(NULL), editingTerm(NULL) {
+        ui(new Ui::Term), viewer(NULL), dummyVariable(new Variable),
+        indexOfEditingTerm(-1) {
             setWindowFlags(Qt::Tool);
         }
 
@@ -30,6 +33,10 @@ namespace fl {
             for (std::size_t i = 0; i < _extendedTerms.size(); ++i) {
                 delete _extendedTerms[i];
             }
+            for (int i = dummyVariable->numberOfTerms() - 1; i >= 0; --i) {
+                dummyVariable->removeTerm(i);
+            }
+            delete dummyVariable;
 
         }
 
@@ -61,24 +68,22 @@ namespace fl {
 
         }
 
-        void Term::setup(const fl::Variable* variable) {
-            this->variable = variable;
-            setup(variable->getMinimum(), variable->getMaximum());
-        }
-
-        void Term::setup(scalar min, scalar max) {
-            loadTerms(min, max);
-            _minimum = min;
-            _maximum = max;
+        void Term::setup(scalar minimum, scalar maximum) {
+            dummyVariable->setMinimum(minimum);
+            dummyVariable->setMaximum(maximum);
+            loadTerms(dummyVariable->getMinimum(), dummyVariable->getMaximum());
+            dummyVariable->addTerm(_basicTerms[0]); //Add the triangle by default
             ui->setupUi(this);
+
+            viewer = new Viewer;
+            viewer->setup(dummyVariable);
+            ui->lyt_terms->insertWidget(0, viewer);
+
             setWindowTitle("Add term");
             layout()->setSizeConstraint(QLayout::SetFixedSize);
             this->adjustSize();
             QRect scr = parentWidget()->geometry();
             move(scr.center() - rect().center());
-
-            ui->lbl_minimum->setText("Minimum: " + QString::number(_minimum, 'g', 3));
-            ui->lbl_maximum->setText("Maximum: " + QString::number(_maximum, 'g', 3));
 
             ui->basicTermToolbox->setCurrentIndex(0);
             ui->extendedTermToolbox->setCurrentIndex(0);
@@ -124,7 +129,7 @@ namespace fl {
             for (std::size_t i = 0; i < _sbx.size(); ++i) {
                 _sbx[i]->setMinimum(-100);
                 _sbx[i]->setMaximum(100);
-                _sbx[i]->setValue(0);
+                _sbx[i]->setValue(0.0);
                 _sbx[i]->setSingleStep(.1);
             }
 
@@ -135,6 +140,15 @@ namespace fl {
                 loadFrom(_extendedTerms[i]);
             }
             connect();
+        }
+
+        void Term::setup(const fl::Variable* variable) {
+            dummyVariable->setMinimum(variable->getMinimum());
+            dummyVariable->setMaximum(variable->getMaximum());
+            for (int i = 0; i < variable->numberOfTerms(); ++i) {
+                dummyVariable->addTerm(variable->getTerm(i));
+            }
+            setup(dummyVariable->getMinimum(), dummyVariable->getMaximum());
         }
 
         fl::Term* Term::getSelectedTerm() const {
@@ -159,6 +173,9 @@ namespace fl {
 
             QObject::connect(ui->tabTerms, SIGNAL(currentChanged(int)),
                     this, SLOT(onChangeTab(int)), Qt::QueuedConnection);
+
+            QObject::connect(viewer, SIGNAL(valueChanged(double)),
+                    this, SLOT(showSelectedTerm()));
 
             //Triangle
             QObject::connect(ui->sbx_triangle_a, SIGNAL(valueChanged(double)),
@@ -247,6 +264,8 @@ namespace fl {
 
             QObject::disconnect(ui->tabTerms, SIGNAL(currentChanged(int)),
                     this, SLOT(onChangeTab(int)));
+            QObject::disconnect(viewer, SIGNAL(valueChanged(double)),
+                    this, SLOT(redraw()));
 
             //Triangle
             QObject::disconnect(ui->sbx_triangle_a, SIGNAL(valueChanged(double)),
@@ -327,41 +346,39 @@ namespace fl {
         }
 
         void Term::showEvent(QShowEvent* event) {
-            ui->canvas->scene()->setSceneRect(ui->canvas->viewport()->rect());
-            ui->canvas->fitInView(0, 0, ui->canvas->scene()->width(),
-                    ui->canvas->scene()->height(), Qt::IgnoreAspectRatio);
-            refresh();
+            redraw();
             QWidget::showEvent(event);
         }
 
         void Term::resizeEvent(QResizeEvent* event) {
-            refresh();
+            redraw();
             QWidget::resizeEvent(event);
         }
 
-        void Term::refresh() {
+        void Term::redraw() {
+            viewer->refresh();
+            showSelectedTerm();
+        }
+
+        void Term::showSelectedTerm() {
+            FL_LOG("Redrawing terms");
             fl::Term* selectedTerm = getSelectedTerm();
-            ui->canvas->clear();
-            if (variable) {
-                ui->canvas->setMinimum(variable->getMinimum());
-                ui->canvas->setMaximum(variable->getMaximum());
-                std::vector<int> indexToNotDraw;
-                for (int i = 0; i < variable->numberOfTerms(); ++i) {
-                    if (variable->getTerm(i) == editingTerm) {
-                        indexToNotDraw.push_back(i);
-                        break;
-                    }
-                }
-                ui->canvas->draw(variable, indexToNotDraw);
-            } else {
-                ui->canvas->setMinimum(_minimum);
-                ui->canvas->setMaximum(_maximum);
-            }
-            ui->canvas->draw(selectedTerm);
+            FL_LOG("Selecgted: " << selectedTerm->toString());
+            //            if (indexOfEditingTerm >= 0)
+            viewer->draw(selectedTerm);
         }
 
         void Term::edit(const fl::Term* x) {
-            this->editingTerm = x;
+            //remove added term at setup.
+            dummyVariable->removeTerm(dummyVariable->numberOfTerms() - 1);
+            for (int i = 0; i < dummyVariable->numberOfTerms(); ++i) {
+                if (dummyVariable->getTerm(i) == x) {
+                    indexOfEditingTerm = i;
+                    break;
+                }
+            }
+            FL_LOG("Editing: " << indexOfEditingTerm);
+            FL_LOG(dummyVariable->toString());
             setWindowTitle("Edit term");
             ui->led_name->setText(QString::fromStdString(x->getName()));
             if (x->className() == Triangle().className()) {
@@ -410,6 +427,7 @@ namespace fl {
             }
 
             loadFrom(x);
+            redraw();
         }
 
         fl::Term* Term::copySelectedTerm() const {
@@ -468,14 +486,24 @@ namespace fl {
          */
         void Term::onChangeToolBoxIndex(int index) {
             (void) index;
-            refresh();
+            FL_LOG("before: " << dummyVariable->toString());
+            if (indexOfEditingTerm >= 0) {
+                dummyVariable->removeTerm(indexOfEditingTerm);
+                dummyVariable->insertTerm(getSelectedTerm(), indexOfEditingTerm);
+            } else {
+                dummyVariable->removeTerm(dummyVariable->numberOfTerms() - 1);
+                dummyVariable->addTerm(getSelectedTerm());
+            }
+            FL_LOG(dummyVariable->toString());
+            redraw();
             this->adjustSize();
         }
 
         void Term::onChangeTab(int index) {
             ui->basicTermToolbox->setVisible(index == 0);
             ui->extendedTermToolbox->setVisible(index == 1);
-            refresh();
+            onChangeToolBoxIndex(-1);
+            redraw();
             this->adjustSize();
         }
 
@@ -495,7 +523,7 @@ namespace fl {
             term->setB(ui->sbx_triangle_b->value());
             term->setC(ui->sbx_triangle_c->value());
 
-            refresh();
+            redraw();
         }
 
         void Term::onChangeSpinBoxTrapezoid(double) {
@@ -517,7 +545,7 @@ namespace fl {
             term->setB(ui->sbx_trapezoid_b->value());
             term->setC(ui->sbx_trapezoid_c->value());
             term->setD(ui->sbx_trapezoid_d->value());
-            refresh();
+            redraw();
         }
 
         void Term::onChangeSpinBoxRectangle(double) {
@@ -527,14 +555,14 @@ namespace fl {
             Rectangle* term = dynamic_cast<Rectangle*> (getSelectedTerm());
             term->setMinimum(ui->sbx_rectangle_min->value());
             term->setMaximum(ui->sbx_rectangle_max->value());
-            refresh();
+            redraw();
         }
 
         void Term::onChangeSpinBoxRamp(double) {
             Ramp* term = dynamic_cast<Ramp*> (getSelectedTerm());
             term->setStart(ui->sbx_ramp_start->value());
             term->setEnd(ui->sbx_ramp_end->value());
-            refresh();
+            redraw();
         }
 
         void Term::onClickDiscreteParser() {
@@ -570,14 +598,14 @@ namespace fl {
                         "[Discrete] Vectors x and y must contain numeric values",
                         QMessageBox::Ok);
             }
-            refresh();
+            redraw();
         }
 
         void Term::onChangeSpinBoxGaussian(double) {
             Gaussian* term = dynamic_cast<Gaussian*> (getSelectedTerm());
             term->setMean(ui->sbx_gaussian_center->value());
             term->setSigma(ui->sbx_gaussian_width->value());
-            refresh();
+            redraw();
         }
 
         void Term::onChangeSpinBoxBell(double) {
@@ -585,7 +613,7 @@ namespace fl {
             term->setCenter(ui->sbx_bell_center->value());
             term->setWidth(ui->sbx_bell_width->value());
             term->setSlope(ui->sbx_bell_slope->value());
-            refresh();
+            redraw();
         }
 
         void Term::onChangeSpinBoxPiShape(double) {
@@ -594,14 +622,14 @@ namespace fl {
             term->setB(ui->sbx_pishape_b->value());
             term->setC(ui->sbx_pishape_c->value());
             term->setD(ui->sbx_pishape_d->value());
-            refresh();
+            redraw();
         }
 
         void Term::onChangeSpinBoxSigmoid(double) {
             Sigmoid* term = dynamic_cast<Sigmoid*> (getSelectedTerm());
             term->setInflection(ui->sbx_sigmoid_inflection->value());
             term->setSlope(ui->sbx_sigmoid_slope->value());
-            refresh();
+            redraw();
         }
 
         void Term::onChangeSpinBoxSShape(double) {
@@ -611,7 +639,7 @@ namespace fl {
             SShape* term = dynamic_cast<SShape*> (getSelectedTerm());
             term->setStart(ui->sbx_sshape_start->value());
             term->setEnd(ui->sbx_sshape_end->value());
-            refresh();
+            redraw();
         }
 
         void Term::onChangeSpinBoxZShape(double) {
@@ -621,7 +649,7 @@ namespace fl {
             ZShape* term = dynamic_cast<ZShape*> (getSelectedTerm());
             term->setStart(ui->sbx_zshape_start->value());
             term->setEnd(ui->sbx_zshape_end->value());
-            refresh();
+            redraw();
         }
 
         void Term::loadFrom(const fl::Term* x) {

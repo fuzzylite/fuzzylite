@@ -12,7 +12,7 @@
 namespace fl {
 
     InputVariable::InputVariable(const std::string& name, scalar minimum, scalar maximum)
-    : Variable(name, minimum, maximum), _input(0) {
+    : Variable(name, minimum, maximum), _input(std::numeric_limits<scalar>::quiet_NaN()) {
     }
 
     InputVariable::~InputVariable() {
