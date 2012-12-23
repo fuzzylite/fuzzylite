@@ -14,7 +14,7 @@ UI_SOURCES_DIR = ui
 RESOURCES += ui/resources.qrc
 RCC_DIR = ui/
 
-LIBS += -Lbin/ -lfuzzylite -lQtSvg
+LIBS += -Lbin/ -lfuzzylite #-lQtSvg
 
 FORMS += Window.ui Configuration.ui
 FORMS += Variable.ui Wizard.ui Term.ui FCL.ui Viewer.ui

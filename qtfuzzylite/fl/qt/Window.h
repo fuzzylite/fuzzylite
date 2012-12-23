@@ -18,11 +18,12 @@
 namespace fl {
     namespace qt {
         class Configuration;
-        class Window: public QMainWindow {
-        Q_OBJECT
+
+        class Window : public QMainWindow {
+            Q_OBJECT
 
         signals:
-        void processOutput();
+            void processOutput();
 
         protected slots:
             void onChangeInputSelection();
@@ -48,7 +49,7 @@ namespace fl {
 
             //Test
             void onInputValueChanged();
-            
+
 
 
 
@@ -69,8 +70,8 @@ namespace fl {
             void onMenuAbout();
             void onMenuQuit();
 
-//            //Examples
-//            virtual void onMenuExample
+            //            //Examples
+            //            virtual void onMenuExample
 
         protected:
             std::vector<QWidget*> _inputs, _outputs;
@@ -88,16 +89,19 @@ namespace fl {
 
             void resizeEvent(QResizeEvent* e);
             void showEvent(QShowEvent* e);
-
-        public:
-            Ui::Window* ui;
+            
             Window(QWidget* parent = NULL, Qt::WindowFlags flags = 0);
             ~Window();
-
+            static Window* instance;
+        public:
+            Ui::Window* ui;
+            
+            static Window* mainWindow();
+            
             void setup();
 
             static void main();
         };
     }
-} 
+}
 #endif /* FLQT_WINDOW_H_ */

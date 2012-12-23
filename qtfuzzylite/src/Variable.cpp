@@ -9,7 +9,7 @@
 #include "fl/qt/Term.h"
 #include "fl/qt/Wizard.h"
 #include "fl/qt/Viewer.h"
-
+#include "fl/qt/Window.h"
 
 #include <fl/Headers.h>
 
@@ -43,21 +43,14 @@ namespace fl {
             QList<int> sizes;
             sizes << .75 * size().width() << .25 * size().width() ;
             ui->splitter2->setSizes(sizes);
-//            ui->splitter2->setStretchFactor(1,0);
             
             viewer->setup(variable);
             ui->splitter->addWidget(viewer);
             setWindowTitle("Add variable");
 
-//            adjustSize();
-//            QSize thisSize = size();
-//            if (type != OUTPUT_VARIABLE) {
-//                thisSize.setHeight(thisSize.height() - 85);
-//            }
-
             ui->gbx_output->setVisible(type == OUTPUT_VARIABLE);
 
-            QRect scr = parentWidget()->geometry();
+            QRect scr = Window::mainWindow()->geometry();
             move(scr.center() - rect().center());
             connect();
 
@@ -90,9 +83,6 @@ namespace fl {
             QObject::connect(ui->sbx_max, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeMaxRange(double)));
 
-            QObject::connect(ui->btn_wizard, SIGNAL(clicked()),
-                    this, SLOT(onClickWizard()));
-
             QObject::connect(viewer, SIGNAL(valueChanged(double)),
                     this, SLOT(showSelectedTerms()), Qt::QueuedConnection);
         }
@@ -123,8 +113,6 @@ namespace fl {
             QObject::disconnect(ui->sbx_max, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeMaxRange(double)));
 
-            QObject::disconnect(ui->btn_wizard, SIGNAL(clicked()),
-                    this, SLOT(onClickWizard()));
         }
 
         void Variable::showEvent(QShowEvent* event) {
@@ -213,7 +201,6 @@ namespace fl {
         }
 
         void Variable::reject() {
-            FL_LOG("Deleting variable " << variable->toString());
             delete variable;
             variable = NULL;
             QDialog::reject();
@@ -239,16 +226,6 @@ namespace fl {
             redraw();
         }
 
-        void Variable::onClickWizard() {
-            Wizard* window = new Wizard(this);
-            window->setup(ui->led_name->text().toStdString());
-            if (window->exec()) {
-                for (std::size_t i = 0; i < window->terms.size(); ++i) {
-                    variable->addTerm(window->terms[i]);
-                }
-                reloadModel();
-            }
-        }
 
         void Variable::onClickAddTerm() {
             Term* window = new Term(this);

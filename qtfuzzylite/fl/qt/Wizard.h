@@ -19,36 +19,26 @@
 namespace fl {
     namespace qt {
 
-        class Wizard: public QDialog {
-        Q_OBJECT
+        class Wizard : public QDialog {
+            Q_OBJECT
 
         protected slots:
-            void onCurrentTermChanged(int index);
-            void onClickGenerate();
-            void accept();
-            void reject();
-            protected:
-            virtual void connect();
-            virtual void disconnect();
-
-            static std::vector<std::pair<scalar, scalar> >
-            Overlap(int number_of_sections,
-                    scalar min, scalar max, scalar factor = 0.5) ;
-            virtual void createTerms(int number, scalar min, scalar max,
-                    const std::string& classname, bool shoulders);
+            void autoGenerate(int);
+        protected:
+            void connect();
+            void disconnect();
 
         public:
             std::string prefix;
-            std::vector<fl::Term*> terms;
             Ui::Wizard* ui;
 
             Wizard(QWidget* parent = NULL, Qt::WindowFlags = 0);
-            virtual ~Wizard();
+            ~Wizard();
 
-            virtual void setup(const std::string& prefix);
+            void setup(const std::string& prefix);
 
         };
 
-    } 
-} 
+    }
+}
 #endif /* FLQT_WIZARD_H_ */

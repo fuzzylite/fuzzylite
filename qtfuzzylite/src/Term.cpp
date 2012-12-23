@@ -8,11 +8,13 @@
 #include "fl/qt/Term.h"
 
 #include "fl/qt/Viewer.h"
+#include "fl/qt/Window.h"
+#include "fl/qt/Wizard.h"
+#include "fl/qt/Model.h"
 
 #include <fl/Headers.h>
 
 #include <QtGui/QMessageBox>
-#include <unistd.h>
 
 namespace fl {
     namespace qt {
@@ -82,7 +84,7 @@ namespace fl {
             setWindowTitle("Add term");
             layout()->setSizeConstraint(QLayout::SetFixedSize);
             this->adjustSize();
-            QRect scr = parentWidget()->geometry();
+            QRect scr = Window::mainWindow()->geometry();
             move(scr.center() - rect().center());
 
             ui->basicTermToolbox->setCurrentIndex(0);
@@ -127,10 +129,10 @@ namespace fl {
             _sbx.push_back(ui->sbx_zshape_end);
 
             for (std::size_t i = 0; i < _sbx.size(); ++i) {
-                _sbx[i]->setMinimum(-100);
-                _sbx[i]->setMaximum(100);
+                _sbx[i]->setMinimum(-1000);
+                _sbx[i]->setMaximum(1000);
                 _sbx[i]->setValue(0.0);
-                _sbx[i]->setSingleStep(.1);
+                _sbx[i]->setSingleStep((maximum - minimum) / 100);
             }
 
             for (std::size_t i = 0; i < _basicTerms.size(); ++i) {
@@ -176,6 +178,9 @@ namespace fl {
 
             QObject::connect(viewer, SIGNAL(valueChanged(double)),
                     this, SLOT(showSelectedTerm()));
+
+            QObject::connect(ui->btn_wizard, SIGNAL(clicked()),
+                    this, SLOT(onClickWizard()));
 
             //Triangle
             QObject::connect(ui->sbx_triangle_a, SIGNAL(valueChanged(double)),
@@ -361,10 +366,7 @@ namespace fl {
         }
 
         void Term::showSelectedTerm() {
-            FL_LOG("Redrawing terms");
             fl::Term* selectedTerm = getSelectedTerm();
-            FL_LOG("Selecgted: " << selectedTerm->toString());
-            //            if (indexOfEditingTerm >= 0)
             viewer->draw(selectedTerm);
         }
 
@@ -377,13 +379,12 @@ namespace fl {
                     break;
                 }
             }
-            FL_LOG("Editing: " << indexOfEditingTerm);
-            FL_LOG(dummyVariable->toString());
             setWindowTitle("Edit term");
             ui->led_name->setText(QString::fromStdString(x->getName()));
             if (x->className() == Triangle().className()) {
                 ui->basicTermToolbox->setCurrentIndex(0);
                 ui->tabTerms->setCurrentIndex(0);
+                onChangeToolBoxIndex(-1);
             } else if (x->className() == Trapezoid().className()) {
                 ui->basicTermToolbox->setCurrentIndex(1);
                 ui->tabTerms->setCurrentIndex(0);
@@ -484,9 +485,92 @@ namespace fl {
         /**
          * Events
          */
+
+        void Term::onClickWizard() {
+            Wizard window(this);
+            window.setup(ui->led_name->text().toStdString());
+            if (not window.exec()) return;
+
+            int copies = window.ui->sbx_copies->value();
+            QStringList names = window.ui->ptx_terms->toPlainText().split(
+                    QRegExp("\\s+"));
+            while (names.size() < copies) {
+                names.append("");
+            }
+
+            scalar x = Model::Default()->configuration()->getDefuzzifier()->defuzzify(getSelectedTerm(),
+                    dummyVariable->getMinimum(), dummyVariable->getMaximum());
+            double separationDistance = window.ui->sbx_separation->value();
+            for (int i = 0; i < copies; ++i) {
+                scalar separation = x + (i + 1) * separationDistance;
+                fl::Term* term = copySelectedTerm();
+                term->setName(names[i].toStdString());
+                newTerms.push_back(term);
+                if (indexOfEditingTerm >= 0)
+                    dummyVariable->insertTerm(term, indexOfEditingTerm + 1);
+                else
+                    dummyVariable->insertTerm(term, dummyVariable->numberOfTerms());
+                if (term->className() == Triangle().className()) {
+                    Triangle* term = dynamic_cast<Triangle*> (term);
+                    term->setA(term->getA() + separation);
+                    term->setB(term->getB() + separation);
+                    term->setC(term->getC() + separation);
+
+                } else if (term->className() == Trapezoid().className()) {
+                    Trapezoid* term = dynamic_cast<Trapezoid*> (term);
+                    term->setA(term->getA() + separation);
+                    term->setB(term->getB() + separation);
+                    term->setC(term->getC() + separation);
+                    term->setD(term->getD() + separation);
+
+                } else if (term->className() == Rectangle().className()) {
+                    Rectangle* term = dynamic_cast<Rectangle*> (term);
+                    term->setMinimum(term->getMinimum() + separation);
+                    term->setMaximum(term->getMaximum() + separation);
+
+                } else if (term->className() == Ramp().className()) {
+                    Ramp* term = dynamic_cast<Ramp*> (term);
+                    term->setStart(term->getStart() + separation);
+                    term->setEnd(term->getEnd() + separation);
+
+                } else if (term->className() == Discrete().className()) {
+                    Discrete* term = dynamic_cast<Discrete*> (term);
+                    for (std::size_t i = 0; i < term->x.size(); ++i) {
+                        term->x[i] = term->x[i] + separation;
+                    }
+                } else if (term->className() == Gaussian().className()) {
+                    Gaussian* term = dynamic_cast<Gaussian*> (term);
+                    term->setMean(term->getMean() + separation);
+
+                } else if (term->className() == Bell().className()) {
+                    Bell* term = dynamic_cast<Bell*> (term);
+                    term->setCenter(term->getCenter() + separation);
+
+                } else if (term->className() == PiShape().className()) {
+                    PiShape* term = dynamic_cast<PiShape*> (term);
+                    term->setB(term->getB() + separation);
+                    term->setC(term->getC() + separation);
+
+                } else if (term->className() == Sigmoid().className()) {
+                    Sigmoid* term = dynamic_cast<Sigmoid*> (term);
+                    term->setInflection(term->getInflection() + separation);
+
+                } else if (term->className() == SShape().className()) {
+                    SShape* term = dynamic_cast<SShape*> (term);
+                    term->setStart(term->getStart() + separation);
+                    term->setEnd(term->getEnd() + separation);
+
+                } else if (term->className() == ZShape().className()) {
+                    ZShape* term = dynamic_cast<ZShape*> (term);
+                    term->setStart(term->getStart() + separation);
+                    term->setEnd(term->getEnd() + separation);
+                }
+            }
+
+        }
+
         void Term::onChangeToolBoxIndex(int index) {
             (void) index;
-            FL_LOG("before: " << dummyVariable->toString());
             if (indexOfEditingTerm >= 0) {
                 dummyVariable->removeTerm(indexOfEditingTerm);
                 dummyVariable->insertTerm(getSelectedTerm(), indexOfEditingTerm);
@@ -494,7 +578,6 @@ namespace fl {
                 dummyVariable->removeTerm(dummyVariable->numberOfTerms() - 1);
                 dummyVariable->addTerm(getSelectedTerm());
             }
-            FL_LOG(dummyVariable->toString());
             redraw();
             this->adjustSize();
         }

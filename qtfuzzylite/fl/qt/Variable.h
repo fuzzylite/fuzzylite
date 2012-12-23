@@ -36,8 +36,6 @@ namespace fl {
 
             void onSelectTerm();
             
-            void onClickWizard();
-            
             void redraw();
             void showSelectedTerms();
 

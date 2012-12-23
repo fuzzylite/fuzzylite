@@ -11,7 +11,7 @@
 
 
 #include <QtGui/QGraphicsPolygonItem>
-#include <QtSvg/QSvgGenerator>
+//#include <QtSvg/QSvgGenerator>
 
 
 namespace fl {
@@ -35,7 +35,7 @@ namespace fl {
                     | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
             ui->canvas->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->canvas->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
+            ui->sbx_x->setFocus();
             connect();
         }
 
@@ -87,7 +87,7 @@ namespace fl {
 
         void Viewer::onPressSlider() {
             ui->sld_x->setCursor(QCursor(Qt::ClosedHandCursor));
-            exportToSvg("/tmp/qtfuzzylite.svg");
+//            exportToSvg("/tmp/qtfuzzylite.svg");
         }
 
         void Viewer::onReleaseSlider() {
@@ -123,6 +123,8 @@ namespace fl {
         }
 
         void Viewer::refresh() {
+            ui->sbx_x->setSingleStep(
+                    (constVariable->getMaximum()- constVariable->getMinimum()) / 100);
             scalar x = fl::Op::Scale(ui->sld_x->value(),
                     ui->sld_x->minimum(), ui->sld_x->maximum(),
                     constVariable->getMinimum(), constVariable->getMaximum());
@@ -253,20 +255,20 @@ namespace fl {
 
         void Viewer::exportToSvg(const std::string& filepath) {
             (void) filepath;
-            QSvgGenerator svgGen;
-
-            svgGen.setFileName(QString::fromStdString(filepath));
-            svgGen.setSize(ui->canvas->viewport()->size());
-            svgGen.setViewBox(ui->canvas->viewport()->rect());
-            svgGen.setTitle("qtfuzzylite");
-            svgGen.setDescription("A fuzzy logic controller graphic user interface written in Qt");
-
-            QBrush background = QBrush(Qt::white);
-            QPainter painter;
-            painter.begin(&svgGen);
-            painter.fillRect(ui->canvas->viewport()->rect(), background);
-            ui->canvas->scene()->render(&painter);
-            painter.end();
+//            QSvgGenerator svgGen;
+//
+//            svgGen.setFileName(QString::fromStdString(filepath));
+//            svgGen.setSize(ui->canvas->viewport()->size());
+//            svgGen.setViewBox(ui->canvas->viewport()->rect());
+//            svgGen.setTitle("qtfuzzylite");
+//            svgGen.setDescription("A fuzzy logic controller graphic user interface written in Qt");
+//
+//            QBrush background = QBrush(Qt::white);
+//            QPainter painter;
+//            painter.begin(&svgGen);
+//            painter.fillRect(ui->canvas->viewport()->rect(), background);
+//            ui->canvas->scene()->render(&painter);
+//            painter.end();
         }
 
         void Viewer::main() {

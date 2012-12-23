@@ -42,6 +42,8 @@ namespace fl {
             void onChangeSpinBoxSigmoid(double);
             void onChangeSpinBoxSShape(double);
             void onChangeSpinBoxZShape(double);
+            
+            void onClickWizard();
 
             void redraw();
             void showSelectedTerm();
@@ -67,6 +69,7 @@ namespace fl {
             Viewer* viewer;
             fl::Variable* dummyVariable;
             int indexOfEditingTerm;
+            std::vector<fl::Term*> newTerms;
 
             Term(QWidget* parent = NULL, Qt::WindowFlags f = 0);
             ~Term();

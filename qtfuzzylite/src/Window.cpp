@@ -23,7 +23,16 @@
 
 namespace fl {
     namespace qt {
-
+        
+        Window* Window::instance = NULL;
+        
+        Window* Window::mainWindow(){
+            if (not instance){
+                instance = new Window;
+            }
+            return instance;
+        }
+        
         Window::Window(QWidget* parent, Qt::WindowFlags flags) :
         QMainWindow(parent, flags), _configurationWindow(NULL),
         ui(new Ui::Window) {
@@ -730,7 +739,7 @@ namespace fl {
         }
 
         void Window::main() {
-            Window* w = new Window;
+            Window* w = mainWindow();
             w->setup();
             w->show();
         }
