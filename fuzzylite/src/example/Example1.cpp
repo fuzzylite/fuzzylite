@@ -44,7 +44,7 @@ namespace fl {
     void Example1::test() {
         FclExporter exporter;
         FL_LOG("Make sure fuzzylite was compiled with -DFL_DEBUG=true to display the demo");
-        FL_LOG("Fuzzy Control Language:" << std::endl << exporter.toFcl(engine));
+        FL_LOG("Fuzzy Control Language:" << std::endl << exporter.toString(engine));
         scalar step = 1.0 / 10.0;
         InputVariable* ambientLight = engine->getInputVariable("AmbientLight");
         OutputVariable* bulbPower = engine->getOutputVariable("BulbPower");

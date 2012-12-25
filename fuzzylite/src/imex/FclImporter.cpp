@@ -20,7 +20,11 @@ namespace fl {
     FclImporter::~FclImporter() {
     }
 
-    Engine* FclImporter::fromFcl(const std::string& fcl) {
+    std::string FclImporter::name() const{
+        return "FclImporter";
+    }
+    
+    Engine* FclImporter::fromString(const std::string& fcl) {
         _engine = new Engine;
         std::map<std::string, std::string> tags;
         tags["VAR_INPUT"] = "END_VAR";
@@ -466,16 +470,10 @@ namespace fl {
         }
 
         std::string name = Op::Trim(Op::FindReplace(token[1], ";", ""));
-        if (name == CenterOfGravity().name()) return new CenterOfGravity;
-
-        if (name == MaximumDefuzzifier(MaximumDefuzzifier::SMALLEST).name())
-            return new MaximumDefuzzifier(MaximumDefuzzifier::SMALLEST);
-
-        if (name == MaximumDefuzzifier(MaximumDefuzzifier::LARGEST).name())
-            return new MaximumDefuzzifier(MaximumDefuzzifier::LARGEST);
-
-        if (name == MaximumDefuzzifier(MaximumDefuzzifier::MEAN).name())
-            return new MaximumDefuzzifier(MaximumDefuzzifier::MEAN);
+        if (name == "COG") return new CenterOfGravity;
+        if (name == "SOM") return new SmallestOfMaximum;
+        if (name == "LOM") return new LargestOfMaximum;
+        if (name == "MOM") return new MeanOfMaximum;
 
         std::ostringstream ex;
         ex << "[syntax error] defuzzifier <" << name << "> not recognized in line:"

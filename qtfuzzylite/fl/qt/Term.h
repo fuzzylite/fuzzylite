@@ -53,9 +53,13 @@ namespace fl {
         protected:
 
             void loadTerms(scalar min, scalar max);
+            void loadFrom(const fl::Term* term);
+            
+            fl::Term* selectedTerm() const;
+            
             void connect();
             void disconnect();
-            void loadFrom(const fl::Term* term);
+            
 
             void showEvent(QShowEvent* event);
             void resizeEvent(QResizeEvent* event);
@@ -69,19 +73,12 @@ namespace fl {
             Viewer* viewer;
             fl::Variable* dummyVariable;
             int indexOfEditingTerm;
-            std::vector<fl::Term*> newTerms;
 
             Term(QWidget* parent = NULL, Qt::WindowFlags f = 0);
             ~Term();
 
-            void setup(const fl::Variable* variable);
-            void setup(scalar minimum, scalar maximum);
+            void setup(const fl::Variable& variable, const fl::Term* edit = NULL);
 
-            fl::Term* copySelectedTerm() const;
-            void edit(const fl::Term* term);
-
-
-            fl::Term* getSelectedTerm() const;
             static void main();
         };
 

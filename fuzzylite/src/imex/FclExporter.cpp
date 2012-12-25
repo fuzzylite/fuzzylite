@@ -18,6 +18,9 @@
 #include "fl/operator/TNorm.h"
 #include "fl/operator/SNorm.h"
 
+#include "fl/defuzzifier/CenterOfGravity.h"
+#include "fl/defuzzifier/MaximumDefuzzifier.h"
+
 #include "fl/rule/Rule.h"
 #include "fl/rule/RuleBlock.h"
 
@@ -30,6 +33,10 @@ namespace fl {
 
     FclExporter::~FclExporter() {
     }
+    
+    std::string FclExporter::name() const{
+        return "FclExporter";
+    }
 
     std::string FclExporter::toFcl(const TNorm * tnorm) const {
         if (not tnorm) return "";
@@ -40,9 +47,7 @@ namespace fl {
         if (name == DrasticProduct().name()) return "DPROD";
         if (name == EinsteinProduct().name()) return "EPROD";
         if (name == HamacherProduct().name()) return "HPROD";
-        std::ostringstream ex;
-        ex << "[internal error] T-Norm <" << name << "> not registered in FclExporter";
-        throw fl::Exception(ex.str());
+        return tnorm->name();
     }
 
     std::string FclExporter::toFcl(const SNorm * snorm) const {
@@ -54,12 +59,19 @@ namespace fl {
         if (name == DrasticSum().name()) return "DSUM";
         if (name == EinsteinSum().name()) return "ESUM";
         if (name == HamacherSum().name()) return "HSUM";
-        std::ostringstream ex;
-        ex << "[internal error] S-Norm <" << name << "> not registered in FclExporter";
-        throw fl::Exception(ex.str());
+        return snorm->name();
+    }
+    
+    std::string FclExporter::toFcl(const Defuzzifier* defuzzifier) const{
+        if (not defuzzifier) return "";
+        if (defuzzifier->name() == CenterOfGravity().name()) return "COG";
+        if (defuzzifier->name() == SmallestOfMaximum().name()) return "SOM";
+        if (defuzzifier->name() == LargestOfMaximum().name()) return "LOM";
+        if (defuzzifier->name() == MeanOfMaximum().name()) return "MOM";
+        return defuzzifier->name();
     }
 
-    std::string FclExporter::toFcl(const Engine * engine) {
+    std::string FclExporter::toString(const Engine * engine) {
         std::ostringstream fcl;
         fcl << "FUNCTION_BLOCK " << engine->getName() << std::endl;
         fcl << std::endl;
@@ -108,10 +120,8 @@ namespace fl {
             }
             fcl << std::endl;
 
-            fcl << "METHOD : ";
-            if (outputVariable->getDefuzzifier())
-                fcl << outputVariable->getDefuzzifier()->name() << ";";
-            fcl << std::endl;
+            fcl << "METHOD : " << toFcl(outputVariable->getDefuzzifier()) << ";"
+                    << std::endl;
 
             fcl << "ACCU : " << toFcl(outputVariable->output()->getAccumulation())
                     << ";" << std::endl;

@@ -19,17 +19,17 @@
 namespace fl {
 
     Engine::Engine(const std::string& name)
-    : _name(name), _configuration(NULL) { }
+    : _name(name), _configuration(NULL) {
+    }
 
     Engine::~Engine() {
         if (_configuration)
             delete _configuration;
     }
 
-    void Engine::configure(Configuration* config, bool storeToDelete) {
-        if (storeToDelete) {
-            this->_configuration = config;
-        }
+    void Engine::configure(Configuration* config) {
+        this->_configuration = config;
+
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
             _inputVariables[i]->configure(config);
         }
@@ -39,6 +39,10 @@ namespace fl {
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
             _ruleblocks[i]->configure(config);
         }
+    }
+
+    Configuration* Engine::getConfiguration() const {
+        return this->_configuration;
     }
 
     void Engine::process() {
@@ -247,4 +251,4 @@ namespace fl {
         return this->_hedges;
     }
 
-} 
+}

@@ -34,8 +34,8 @@ namespace fl {
         Engine(const std::string& name = "");
         virtual ~Engine();
 
-        virtual void configure(Configuration* config,
-                bool storeToDelete = false);
+        virtual void configure(Configuration* config);
+        virtual Configuration* getConfiguration() const;
         
         virtual void process();
 

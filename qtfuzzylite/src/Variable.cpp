@@ -24,7 +24,7 @@ namespace fl {
         : QDialog(parent, f), _previouslySelected(NULL),
         ui(new Ui::Variable), viewer(new Viewer),
         variable(NULL) {
-//            setWindowFlags(Qt::DI);
+            //            setWindowFlags(Qt::DI);
         }
 
         Variable::~Variable() {
@@ -39,11 +39,11 @@ namespace fl {
                 variable = new OutputVariable("", 0, 1);
 
             ui->setupUi(this);
-            
+
             QList<int> sizes;
-            sizes << .75 * size().width() << .25 * size().width() ;
+            sizes << .75 * size().width() << .25 * size().width();
             ui->splitter2->setSizes(sizes);
-            
+
             viewer->setup(variable);
             ui->splitter->addWidget(viewer);
             setWindowTitle("Add variable");
@@ -226,12 +226,14 @@ namespace fl {
             redraw();
         }
 
-
         void Variable::onClickAddTerm() {
             Term* window = new Term(this);
-            window->setup(variable);
+            window->setup(*variable);
             if (window->exec()) {
-                variable->addTerm(window->copySelectedTerm());
+                for (int i = 0; i < window->dummyVariable->numberOfTerms(); ++i) {
+                    variable->addTerm(window->dummyVariable->getTerm(i)->copy());
+                }
+
                 reloadModel();
                 ui->lvw_terms->setFocus();
                 ui->lvw_terms->item(ui->lvw_terms->count() - 1)->setSelected(true);
@@ -290,12 +292,12 @@ namespace fl {
                 if (ui->lvw_terms->item(i)->isSelected()) {
                     selected.push_back(i);
                     Term* window = new Term(this);
-                    window->setup(variable);
-                    window->edit(variable->getTerm(i));
+                    window->setup(*variable, variable->getTerm(i));
                     if (window->exec()) {
-                        fl::Term* term = window->copySelectedTerm();
                         delete variable->removeTerm(i);
-                        variable->insertTerm(term, i);
+                        for (int t = 0; t < window->dummyVariable->numberOfTerms(); ++t) {
+                            variable->insertTerm(window->dummyVariable->getTerm(t)->copy(), i+t);
+                        }
                     }
                     delete window;
                 }

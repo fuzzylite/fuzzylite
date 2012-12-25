@@ -10,6 +10,7 @@
 #include "fl/term/Term.h"
 
 #include "fl/operator/Operator.h"
+#include "fl/Exception.h"
 
 
 namespace fl {
@@ -21,13 +22,13 @@ namespace fl {
     std::string MaximumDefuzzifier::name() const {
         switch (_type) {
             case SMALLEST:
-                return "SOM";
+                return "SmallestOfMaximum";
             case LARGEST:
-                return "LOM";
+                return "LargestOfMaximum";
             case MEAN:
-                return "MOM";
+                return "MeanOfMaximum";
             default:
-                return "???";
+                throw fl::Exception("[internal error]");
         }
     }
 

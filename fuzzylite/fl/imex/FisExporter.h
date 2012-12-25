@@ -8,10 +8,28 @@
 #ifndef FL_FISEXPORTER_H
 #define	FL_FISEXPORTER_H
 
-namespace fl {
+#include "fl/imex/Exporter.h"
 
-    
-    
+namespace fl {
+    class TNorm;
+    class SNorm;
+    class Defuzzifier;
+    class Term;
+
+    class FisExporter : public Exporter {
+    protected:
+        std::string toFis(const TNorm* tnorm) const;
+        std::string toFis(const SNorm* snorm) const;
+        std::string toFis(const Defuzzifier* defuzzifier) const;
+        std::string toFis(const Term* term) const;
+    public:
+        FisExporter();
+        virtual ~FisExporter();
+
+        virtual std::string name() const;
+        virtual std::string toString(const Engine* engine);
+    };
+
 }
 
 #endif	/* FL_FISEXPORTER_H */

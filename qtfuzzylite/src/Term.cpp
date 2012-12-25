@@ -36,7 +36,7 @@ namespace fl {
                 delete _extendedTerms[i];
             }
             for (int i = dummyVariable->numberOfTerms() - 1; i >= 0; --i) {
-                dummyVariable->removeTerm(i);
+                delete dummyVariable->removeTerm(i);
             }
             delete dummyVariable;
 
@@ -70,26 +70,36 @@ namespace fl {
 
         }
 
-        void Term::setup(scalar minimum, scalar maximum) {
-            dummyVariable->setMinimum(minimum);
-            dummyVariable->setMaximum(maximum);
-            loadTerms(dummyVariable->getMinimum(), dummyVariable->getMaximum());
-            dummyVariable->addTerm(_basicTerms[0]); //Add the triangle by default
+        void Term::setup(const fl::Variable& variable, const fl::Term* edit) {
+            loadTerms(variable.getMinimum(), variable.getMaximum());
+
+            dummyVariable->setMinimum(variable.getMinimum());
+            dummyVariable->setMaximum(variable.getMaximum());
+            for (int i = 0; i < variable.numberOfTerms(); ++i) {
+                dummyVariable->addTerm(variable.getTerm(i)->copy());
+                if (variable.getTerm(i) == edit) {
+                    indexOfEditingTerm = i;
+                }
+            }
+            if (not edit) {
+                dummyVariable->addTerm(_basicTerms[0]->copy()); //Add the triangle by default
+                indexOfEditingTerm = dummyVariable->numberOfTerms() - 1;
+            }
+
+
             ui->setupUi(this);
 
             viewer = new Viewer;
             viewer->setup(dummyVariable);
             ui->lyt_terms->insertWidget(0, viewer);
 
-            setWindowTitle("Add term");
+            setWindowTitle(edit ? "Edit term" : "Add term");
+
             layout()->setSizeConstraint(QLayout::SetFixedSize);
             this->adjustSize();
+
             QRect scr = Window::mainWindow()->geometry();
             move(scr.center() - rect().center());
-
-            ui->basicTermToolbox->setCurrentIndex(0);
-            ui->extendedTermToolbox->setCurrentIndex(0);
-            ui->tabTerms->setCurrentIndex(0);
 
             _sbx.clear();
             _sbx.push_back(ui->sbx_bell_center);
@@ -132,7 +142,8 @@ namespace fl {
                 _sbx[i]->setMinimum(-1000);
                 _sbx[i]->setMaximum(1000);
                 _sbx[i]->setValue(0.0);
-                _sbx[i]->setSingleStep((maximum - minimum) / 100);
+                _sbx[i]->setSingleStep(
+                        (dummyVariable->getMaximum() - dummyVariable->getMinimum()) / 100);
             }
 
             for (std::size_t i = 0; i < _basicTerms.size(); ++i) {
@@ -141,29 +152,16 @@ namespace fl {
             for (std::size_t i = 0; i < _extendedTerms.size(); ++i) {
                 loadFrom(_extendedTerms[i]);
             }
+
+            ui->basicTermToolbox->setCurrentIndex(0);
+            ui->extendedTermToolbox->setCurrentIndex(0);
+            ui->tabTerms->setCurrentIndex(0);
             connect();
         }
 
-        void Term::setup(const fl::Variable* variable) {
-            dummyVariable->setMinimum(variable->getMinimum());
-            dummyVariable->setMaximum(variable->getMaximum());
-            for (int i = 0; i < variable->numberOfTerms(); ++i) {
-                dummyVariable->addTerm(variable->getTerm(i));
-            }
-            setup(dummyVariable->getMinimum(), dummyVariable->getMaximum());
-        }
-
-        fl::Term* Term::getSelectedTerm() const {
-            if (ui->tabTerms->currentIndex() == 0) {
-                int index = ui->basicTermToolbox->currentIndex();
-                return _basicTerms[index];
-            }
-            int index = ui->extendedTermToolbox->currentIndex();
-            return _extendedTerms[index];
-        }
-
         void Term::accept() {
-            getSelectedTerm()->setName(ui->led_name->text().toStdString());
+            dummyVariable->getTerm(indexOfEditingTerm)->setName(
+                    ui->led_name->text().toStdString());
             QDialog::accept();
         }
 
@@ -366,120 +364,11 @@ namespace fl {
         }
 
         void Term::showSelectedTerm() {
-            fl::Term* selectedTerm = getSelectedTerm();
-            viewer->draw(selectedTerm);
+            viewer->draw(dummyVariable->getTerm(indexOfEditingTerm));
         }
 
-        void Term::edit(const fl::Term* x) {
-            //remove added term at setup.
-            dummyVariable->removeTerm(dummyVariable->numberOfTerms() - 1);
-            for (int i = 0; i < dummyVariable->numberOfTerms(); ++i) {
-                if (dummyVariable->getTerm(i) == x) {
-                    indexOfEditingTerm = i;
-                    break;
-                }
-            }
-            setWindowTitle("Edit term");
-            ui->led_name->setText(QString::fromStdString(x->getName()));
-            if (x->className() == Triangle().className()) {
-                ui->basicTermToolbox->setCurrentIndex(0);
-                ui->tabTerms->setCurrentIndex(0);
-                onChangeToolBoxIndex(-1);
-            } else if (x->className() == Trapezoid().className()) {
-                ui->basicTermToolbox->setCurrentIndex(1);
-                ui->tabTerms->setCurrentIndex(0);
-
-            } else if (x->className() == Rectangle().className()) {
-                ui->basicTermToolbox->setCurrentIndex(2);
-                ui->tabTerms->setCurrentIndex(0);
-
-            } else if (x->className() == Ramp().className()) {
-                ui->basicTermToolbox->setCurrentIndex(3);
-                ui->tabTerms->setCurrentIndex(0);
-
-            } else if (x->className() == Discrete().className()) {
-                ui->basicTermToolbox->setCurrentIndex(4);
-                ui->tabTerms->setCurrentIndex(0);
-
-            } else if (x->className() == Gaussian().className()) {
-                ui->extendedTermToolbox->setCurrentIndex(0);
-                ui->tabTerms->setCurrentIndex(1);
-
-            } else if (x->className() == Bell().className()) {
-                ui->extendedTermToolbox->setCurrentIndex(1);
-                ui->tabTerms->setCurrentIndex(1);
-
-            } else if (x->className() == PiShape().className()) {
-                ui->extendedTermToolbox->setCurrentIndex(2);
-                ui->tabTerms->setCurrentIndex(1);
-
-            } else if (x->className() == Sigmoid().className()) {
-                ui->extendedTermToolbox->setCurrentIndex(3);
-                ui->tabTerms->setCurrentIndex(1);
-
-            } else if (x->className() == SShape().className()) {
-                ui->extendedTermToolbox->setCurrentIndex(4);
-                ui->tabTerms->setCurrentIndex(1);
-
-            } else if (x->className() == ZShape().className()) {
-                ui->extendedTermToolbox->setCurrentIndex(5);
-                ui->tabTerms->setCurrentIndex(1);
-
-            }
-
-            loadFrom(x);
-            redraw();
-        }
-
-        fl::Term* Term::copySelectedTerm() const {
-            fl::Term* x = getSelectedTerm();
-            if (x->className() == Triangle().className()) {
-                const Triangle* term = dynamic_cast<const Triangle*> (x);
-                return new Triangle(*term);
-
-            } else if (x->className() == Trapezoid().className()) {
-                const Trapezoid* term = dynamic_cast<const Trapezoid*> (x);
-                return new Trapezoid(*term);
-
-            } else if (x->className() == Rectangle().className()) {
-                const Rectangle* term = dynamic_cast<const Rectangle*> (x);
-                return new Rectangle(*term);
-
-            } else if (x->className() == Ramp().className()) {
-                const Ramp* term = dynamic_cast<const Ramp*> (x);
-                return new Ramp(*term);
-
-            } else if (x->className() == Discrete().className()) {
-                const Discrete* term = dynamic_cast<const Discrete*> (x);
-                return new Discrete(*term);
-
-            } else if (x->className() == Gaussian().className()) {
-                const Gaussian* term = dynamic_cast<const Gaussian*> (x);
-                return new Gaussian(*term);
-
-            } else if (x->className() == Bell().className()) {
-                const Bell* term = dynamic_cast<const Bell*> (x);
-                return new Bell(*term);
-
-            } else if (x->className() == PiShape().className()) {
-                const PiShape* term = dynamic_cast<const PiShape*> (x);
-                return new PiShape(*term);
-
-            } else if (x->className() == Sigmoid().className()) {
-                const Sigmoid* term = dynamic_cast<const Sigmoid*> (x);
-                return new Sigmoid(*term);
-
-            } else if (x->className() == SShape().className()) {
-                const SShape* term = dynamic_cast<const SShape*> (x);
-                return new SShape(*term);
-
-            } else if (x->className() == ZShape().className()) {
-                const ZShape* term = dynamic_cast<const ZShape*> (x);
-                return new ZShape(*term);
-            }
-            std::ostringstream ex;
-            ex << "trying to copy unknown term class <" << x->className() << ">";
-            throw fl::Exception(ex.str());
+        fl::Term* Term::selectedTerm() const {
+            return dummyVariable->getTerm(indexOfEditingTerm);
         }
 
         /**
@@ -498,86 +387,83 @@ namespace fl {
                 names.append("");
             }
 
-            scalar x = Model::Default()->configuration()->getDefuzzifier()->defuzzify(getSelectedTerm(),
+            scalar x = CenterOfGravity().defuzzify(dummyVariable->getTerm(indexOfEditingTerm),
                     dummyVariable->getMinimum(), dummyVariable->getMaximum());
+
             double separationDistance = window.ui->sbx_separation->value();
             for (int i = 0; i < copies; ++i) {
-                scalar separation = x + (i + 1) * separationDistance;
-                fl::Term* term = copySelectedTerm();
-                term->setName(names[i].toStdString());
-                newTerms.push_back(term);
-                if (indexOfEditingTerm >= 0)
-                    dummyVariable->insertTerm(term, indexOfEditingTerm + 1);
-                else
-                    dummyVariable->insertTerm(term, dummyVariable->numberOfTerms());
-                if (term->className() == Triangle().className()) {
-                    Triangle* term = dynamic_cast<Triangle*> (term);
-                    term->setA(term->getA() + separation);
-                    term->setB(term->getB() + separation);
-                    term->setC(term->getC() + separation);
+                scalar centroid = x + (i + 1) * separationDistance;
+                fl::Term* copy = dummyVariable->getTerm(indexOfEditingTerm)->copy();
+                copy->setName(names[i].toStdString());
 
-                } else if (term->className() == Trapezoid().className()) {
-                    Trapezoid* term = dynamic_cast<Trapezoid*> (term);
-                    term->setA(term->getA() + separation);
-                    term->setB(term->getB() + separation);
-                    term->setC(term->getC() + separation);
-                    term->setD(term->getD() + separation);
+                dummyVariable->insertTerm(copy, indexOfEditingTerm + i + 1);
+                if (copy->className() == Triangle().className()) {
+                    Triangle* term = dynamic_cast<Triangle*> (copy);
+                    term->setA(centroid - (term->getB() - term->getA()));
+                    term->setC(centroid + (term->getC() - term->getB()));
+                    term->setB(centroid);
+                } else if (copy->className() == Trapezoid().className()) {
+                    Trapezoid* term = dynamic_cast<Trapezoid*> (copy);
+//                    term->setA(centroid - () );
+                    term->setB(term->getB() + centroid);
+                    term->setC(term->getC() + centroid);
+                    term->setD(term->getD() + centroid);
 
-                } else if (term->className() == Rectangle().className()) {
-                    Rectangle* term = dynamic_cast<Rectangle*> (term);
-                    term->setMinimum(term->getMinimum() + separation);
-                    term->setMaximum(term->getMaximum() + separation);
+                } else if (copy->className() == Rectangle().className()) {
+                    Rectangle* term = dynamic_cast<Rectangle*> (copy);
+//                    term->setMinimum(centroid - );
+                    term->setMaximum(term->getMaximum() + centroid);
 
-                } else if (term->className() == Ramp().className()) {
-                    Ramp* term = dynamic_cast<Ramp*> (term);
-                    term->setStart(term->getStart() + separation);
-                    term->setEnd(term->getEnd() + separation);
+                } else if (copy->className() == Ramp().className()) {
+                    Ramp* term = dynamic_cast<Ramp*> (copy);
+                    term->setStart(term->getStart() + centroid);
+                    term->setEnd(term->getEnd() + centroid);
 
-                } else if (term->className() == Discrete().className()) {
-                    Discrete* term = dynamic_cast<Discrete*> (term);
+                } else if (copy->className() == Discrete().className()) {
+                    Discrete* term = dynamic_cast<Discrete*> (copy);
                     for (std::size_t i = 0; i < term->x.size(); ++i) {
-                        term->x[i] = term->x[i] + separation;
+                        term->x[i] = term->x[i] + centroid;
                     }
-                } else if (term->className() == Gaussian().className()) {
-                    Gaussian* term = dynamic_cast<Gaussian*> (term);
-                    term->setMean(term->getMean() + separation);
+                } else if (copy->className() == Gaussian().className()) {
+                    Gaussian* term = dynamic_cast<Gaussian*> (copy);
+                    term->setMean(term->getMean() + centroid);
 
-                } else if (term->className() == Bell().className()) {
-                    Bell* term = dynamic_cast<Bell*> (term);
-                    term->setCenter(term->getCenter() + separation);
+                } else if (copy->className() == Bell().className()) {
+                    Bell* term = dynamic_cast<Bell*> (copy);
+                    term->setCenter(term->getCenter() + centroid);
 
-                } else if (term->className() == PiShape().className()) {
-                    PiShape* term = dynamic_cast<PiShape*> (term);
-                    term->setB(term->getB() + separation);
-                    term->setC(term->getC() + separation);
+                } else if (copy->className() == PiShape().className()) {
+                    PiShape* term = dynamic_cast<PiShape*> (copy);
+                    term->setB(term->getB() + centroid);
+                    term->setC(term->getC() + centroid);
 
-                } else if (term->className() == Sigmoid().className()) {
-                    Sigmoid* term = dynamic_cast<Sigmoid*> (term);
-                    term->setInflection(term->getInflection() + separation);
+                } else if (copy->className() == Sigmoid().className()) {
+                    Sigmoid* term = dynamic_cast<Sigmoid*> (copy);
+                    term->setInflection(term->getInflection() + centroid);
 
-                } else if (term->className() == SShape().className()) {
-                    SShape* term = dynamic_cast<SShape*> (term);
-                    term->setStart(term->getStart() + separation);
-                    term->setEnd(term->getEnd() + separation);
+                } else if (copy->className() == SShape().className()) {
+                    SShape* term = dynamic_cast<SShape*> (copy);
+                    term->setStart(term->getStart() + centroid);
+                    term->setEnd(term->getEnd() + centroid);
 
-                } else if (term->className() == ZShape().className()) {
-                    ZShape* term = dynamic_cast<ZShape*> (term);
-                    term->setStart(term->getStart() + separation);
-                    term->setEnd(term->getEnd() + separation);
+                } else if (copy->className() == ZShape().className()) {
+                    ZShape* term = dynamic_cast<ZShape*> (copy);
+                    term->setStart(term->getStart() + centroid);
+                    term->setEnd(term->getEnd() + centroid);
                 }
             }
-
+            redraw();
         }
 
         void Term::onChangeToolBoxIndex(int index) {
             (void) index;
-            if (indexOfEditingTerm >= 0) {
-                dummyVariable->removeTerm(indexOfEditingTerm);
-                dummyVariable->insertTerm(getSelectedTerm(), indexOfEditingTerm);
-            } else {
-                dummyVariable->removeTerm(dummyVariable->numberOfTerms() - 1);
-                dummyVariable->addTerm(getSelectedTerm());
-            }
+            delete dummyVariable->removeTerm(indexOfEditingTerm);
+            if (ui->tabTerms->currentIndex() == 0)
+                dummyVariable->insertTerm(_basicTerms[ui->basicTermToolbox->currentIndex()]->copy(),
+                    indexOfEditingTerm);
+            else
+                dummyVariable->insertTerm(_extendedTerms[ui->extendedTermToolbox->currentIndex()]->copy(),
+                    indexOfEditingTerm);
             redraw();
             this->adjustSize();
         }
@@ -601,7 +487,7 @@ namespace fl {
                 ui->sbx_triangle_c->setValue(ui->sbx_triangle_a->value() + .1);
             }
 
-            Triangle* term = dynamic_cast<Triangle*> (getSelectedTerm());
+            Triangle* term = dynamic_cast<Triangle*> (selectedTerm());
             term->setA(ui->sbx_triangle_a->value());
             term->setB(ui->sbx_triangle_b->value());
             term->setC(ui->sbx_triangle_c->value());
@@ -623,7 +509,7 @@ namespace fl {
                 ui->sbx_trapezoid_d->setValue(ui->sbx_trapezoid_a->value() + .1);
             }
 
-            Trapezoid* term = dynamic_cast<Trapezoid*> (getSelectedTerm());
+            Trapezoid* term = dynamic_cast<Trapezoid*> (selectedTerm());
             term->setA(ui->sbx_trapezoid_a->value());
             term->setB(ui->sbx_trapezoid_b->value());
             term->setC(ui->sbx_trapezoid_c->value());
@@ -635,14 +521,14 @@ namespace fl {
             if (fl::Op::IsGE(ui->sbx_rectangle_min->value(), ui->sbx_rectangle_max->value())) {
                 ui->sbx_rectangle_max->setValue(ui->sbx_rectangle_min->value() + .1);
             }
-            Rectangle* term = dynamic_cast<Rectangle*> (getSelectedTerm());
+            Rectangle* term = dynamic_cast<Rectangle*> (selectedTerm());
             term->setMinimum(ui->sbx_rectangle_min->value());
             term->setMaximum(ui->sbx_rectangle_max->value());
             redraw();
         }
 
         void Term::onChangeSpinBoxRamp(double) {
-            Ramp* term = dynamic_cast<Ramp*> (getSelectedTerm());
+            Ramp* term = dynamic_cast<Ramp*> (selectedTerm());
             term->setStart(ui->sbx_ramp_start->value());
             term->setEnd(ui->sbx_ramp_end->value());
             redraw();
@@ -665,7 +551,7 @@ namespace fl {
                         message, QMessageBox::Ok);
             }
 
-            Discrete* term = dynamic_cast<Discrete*> (getSelectedTerm());
+            Discrete* term = dynamic_cast<Discrete*> (selectedTerm());
             term->x.clear();
             term->y.clear();
 
@@ -685,14 +571,14 @@ namespace fl {
         }
 
         void Term::onChangeSpinBoxGaussian(double) {
-            Gaussian* term = dynamic_cast<Gaussian*> (getSelectedTerm());
+            Gaussian* term = dynamic_cast<Gaussian*> (selectedTerm());
             term->setMean(ui->sbx_gaussian_center->value());
             term->setSigma(ui->sbx_gaussian_width->value());
             redraw();
         }
 
         void Term::onChangeSpinBoxBell(double) {
-            Bell* term = dynamic_cast<Bell*> (getSelectedTerm());
+            Bell* term = dynamic_cast<Bell*> (selectedTerm());
             term->setCenter(ui->sbx_bell_center->value());
             term->setWidth(ui->sbx_bell_width->value());
             term->setSlope(ui->sbx_bell_slope->value());
@@ -700,7 +586,7 @@ namespace fl {
         }
 
         void Term::onChangeSpinBoxPiShape(double) {
-            PiShape* term = dynamic_cast<PiShape*> (getSelectedTerm());
+            PiShape* term = dynamic_cast<PiShape*> (selectedTerm());
             term->setA(ui->sbx_pishape_a->value());
             term->setB(ui->sbx_pishape_b->value());
             term->setC(ui->sbx_pishape_c->value());
@@ -709,7 +595,7 @@ namespace fl {
         }
 
         void Term::onChangeSpinBoxSigmoid(double) {
-            Sigmoid* term = dynamic_cast<Sigmoid*> (getSelectedTerm());
+            Sigmoid* term = dynamic_cast<Sigmoid*> (selectedTerm());
             term->setInflection(ui->sbx_sigmoid_inflection->value());
             term->setSlope(ui->sbx_sigmoid_slope->value());
             redraw();
@@ -719,7 +605,7 @@ namespace fl {
             if (fl::Op::IsGE(ui->sbx_sshape_start->value(), ui->sbx_sshape_end->value())) {
                 ui->sbx_sshape_end->setValue(ui->sbx_sshape_start->value() + .1);
             }
-            SShape* term = dynamic_cast<SShape*> (getSelectedTerm());
+            SShape* term = dynamic_cast<SShape*> (selectedTerm());
             term->setStart(ui->sbx_sshape_start->value());
             term->setEnd(ui->sbx_sshape_end->value());
             redraw();
@@ -729,7 +615,7 @@ namespace fl {
             if (fl::Op::IsGE(ui->sbx_zshape_start->value(), ui->sbx_zshape_end->value())) {
                 ui->sbx_zshape_end->setValue(ui->sbx_zshape_start->value() + .1);
             }
-            ZShape* term = dynamic_cast<ZShape*> (getSelectedTerm());
+            ZShape* term = dynamic_cast<ZShape*> (selectedTerm());
             term->setStart(ui->sbx_zshape_start->value());
             term->setEnd(ui->sbx_zshape_end->value());
             redraw();
@@ -741,6 +627,8 @@ namespace fl {
                 ui->sbx_triangle_a->setValue(term->getA());
                 ui->sbx_triangle_b->setValue(term->getB());
                 ui->sbx_triangle_c->setValue(term->getC());
+                ui->basicTermToolbox->setCurrentIndex(0);
+                ui->tabTerms->setCurrentIndex(0);
 
             } else if (x->className() == Trapezoid().className()) {
                 const Trapezoid* term = dynamic_cast<const Trapezoid*> (x);
@@ -748,16 +636,22 @@ namespace fl {
                 ui->sbx_trapezoid_b->setValue(term->getB());
                 ui->sbx_trapezoid_c->setValue(term->getC());
                 ui->sbx_trapezoid_d->setValue(term->getD());
+                ui->basicTermToolbox->setCurrentIndex(1);
+                ui->tabTerms->setCurrentIndex(0);
 
             } else if (x->className() == Rectangle().className()) {
                 const Rectangle* term = dynamic_cast<const Rectangle*> (x);
                 ui->sbx_rectangle_min->setValue(term->getMinimum());
                 ui->sbx_rectangle_max->setValue(term->getMaximum());
+                ui->basicTermToolbox->setCurrentIndex(2);
+                ui->tabTerms->setCurrentIndex(0);
 
             } else if (x->className() == Ramp().className()) {
                 const Ramp* term = dynamic_cast<const Ramp*> (x);
                 ui->sbx_ramp_start->setValue(term->getStart());
                 ui->sbx_ramp_end->setValue(term->getEnd());
+                ui->basicTermToolbox->setCurrentIndex(3);
+                ui->tabTerms->setCurrentIndex(0);
 
             } else if (x->className() == Discrete().className()) {
                 const Discrete* term = dynamic_cast<const Discrete*> (x);
@@ -773,39 +667,53 @@ namespace fl {
                 }
                 ui->led_discrete_x->setText(QString::fromStdString(ssX.str()));
                 ui->led_discrete_y->setText(QString::fromStdString(ssY.str()));
+                ui->basicTermToolbox->setCurrentIndex(4);
+                ui->tabTerms->setCurrentIndex(0);
 
             } else if (x->className() == Gaussian().className()) {
                 const Gaussian* term = dynamic_cast<const Gaussian*> (x);
                 ui->sbx_gaussian_center->setValue(term->getMean());
                 ui->sbx_gaussian_width->setValue(term->getSigma());
+                ui->extendedTermToolbox->setCurrentIndex(0);
+                ui->tabTerms->setCurrentIndex(1);
 
             } else if (x->className() == Bell().className()) {
                 const Bell* term = dynamic_cast<const Bell*> (x);
                 ui->sbx_bell_center->setValue(term->getCenter());
                 ui->sbx_bell_width->setValue(term->getWidth());
                 ui->sbx_bell_slope->setValue(term->getSlope());
-
+                ui->extendedTermToolbox->setCurrentIndex(1);
+                ui->tabTerms->setCurrentIndex(1);
             } else if (x->className() == PiShape().className()) {
                 const PiShape* term = dynamic_cast<const PiShape*> (x);
                 ui->sbx_pishape_a->setValue(term->getA());
                 ui->sbx_pishape_b->setValue(term->getB());
                 ui->sbx_pishape_c->setValue(term->getC());
                 ui->sbx_pishape_d->setValue(term->getD());
+                ui->extendedTermToolbox->setCurrentIndex(2);
+                ui->tabTerms->setCurrentIndex(1);
 
             } else if (x->className() == Sigmoid().className()) {
                 const Sigmoid* term = dynamic_cast<const Sigmoid*> (x);
                 ui->sbx_sigmoid_inflection->setValue(term->getInflection());
                 ui->sbx_sigmoid_slope->setValue(term->getSlope());
+                ui->extendedTermToolbox->setCurrentIndex(3);
+                ui->tabTerms->setCurrentIndex(1);
 
             } else if (x->className() == SShape().className()) {
                 const SShape* term = dynamic_cast<const SShape*> (x);
                 ui->sbx_sshape_start->setValue(term->getStart());
                 ui->sbx_sshape_end->setValue(term->getEnd());
+                ui->extendedTermToolbox->setCurrentIndex(4);
+                ui->tabTerms->setCurrentIndex(1);
+
 
             } else if (x->className() == ZShape().className()) {
                 const ZShape* term = dynamic_cast<const ZShape*> (x);
                 ui->sbx_zshape_start->setValue(term->getStart());
                 ui->sbx_zshape_end->setValue(term->getEnd());
+                ui->extendedTermToolbox->setCurrentIndex(5);
+                ui->tabTerms->setCurrentIndex(1);
             } else {
                 std::ostringstream ex;
                 ex << "[internal error] Term class <" << x->className() << "> not registered";
@@ -815,7 +723,7 @@ namespace fl {
 
         void Term::main() {
             Term* t = new Term;
-            t->setup(0, 1);
+            t->setup(fl::Variable("", 0, 1));
             t->show();
         }
 

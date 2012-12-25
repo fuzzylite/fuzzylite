@@ -23,16 +23,16 @@
 
 namespace fl {
     namespace qt {
-        
+
         Window* Window::instance = NULL;
-        
-        Window* Window::mainWindow(){
-            if (not instance){
+
+        Window* Window::mainWindow() {
+            if (not instance) {
                 instance = new Window;
             }
             return instance;
         }
-        
+
         Window::Window(QWidget* parent, Qt::WindowFlags flags) :
         QMainWindow(parent, flags), _configurationWindow(NULL),
         ui(new Ui::Window) {
@@ -639,7 +639,7 @@ namespace fl {
 
         void Window::onMenuTerms() {
             Term* window = new Term(this);
-            window->setup(0, 1);
+            window->setup(fl::Variable("Term-Toolbox", 0, 1));
             window->setWindowTitle("Term toolbox");
             window->ui->buttonBox->setVisible(false);
             window->show();
@@ -657,7 +657,7 @@ namespace fl {
                 Engine* engine = NULL;
                 FclImporter importer;
                 try {
-                    engine = importer.fromFcl(fclString);
+                    engine = importer.fromString(fclString);
                 } catch (fl::Exception& ex) {
                     QMessageBox::critical(this, "Error importing from FCL",
                             QString::fromStdString(ex.what()),
@@ -672,7 +672,7 @@ namespace fl {
 
         void Window::onMenuExport() {
             FclExporter exporter;
-            std::string fclString = exporter.toFcl(Model::Default()->engine());
+            std::string fclString = exporter.toString(Model::Default()->engine());
             Ui::FCL fclUi;
             QDialog fclDialog(this);
             fclUi.setupUi(&fclDialog);

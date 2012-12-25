@@ -8,19 +8,21 @@
 #ifndef FL_FCLIMPORTER_H_
 #define FL_FCLIMPORTER_H_
 
+#include "fl/imex/Importer.h"
+
 #include "fl/scalar.h"
+
 #include <string>
 #include <vector>
 
 namespace fl {
-    class Engine;
     class Operator;
     class TNorm;
     class SNorm;
     class Term;
     class Defuzzifier;
 
-    class FclImporter {
+    class FclImporter : public Importer{
     protected:
         Engine* _engine;
 
@@ -44,7 +46,9 @@ namespace fl {
         FclImporter();
         virtual ~FclImporter();
         
-        virtual Engine* fromFcl(const std::string& fcl);
+        virtual std::string name() const;
+        
+        virtual Engine* fromString(const std::string& fcl);
 
     };
 
