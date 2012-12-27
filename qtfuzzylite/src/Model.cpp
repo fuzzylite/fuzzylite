@@ -45,7 +45,7 @@ namespace fl {
         }
 
         void Model::update() {
-            this->_engine->configure(this->_configuration, false);
+            this->_engine->configure(this->_configuration);
         }
     }
 } 

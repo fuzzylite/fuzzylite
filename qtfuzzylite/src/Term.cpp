@@ -374,7 +374,7 @@ namespace fl {
         /**
          * Events
          */
-
+ 
         void Term::onClickWizard() {
             Wizard window(this);
             window.setup(ui->led_name->text().toStdString());
@@ -387,69 +387,66 @@ namespace fl {
                 names.append("");
             }
 
-            scalar x = CenterOfGravity().defuzzify(dummyVariable->getTerm(indexOfEditingTerm),
-                    dummyVariable->getMinimum(), dummyVariable->getMaximum());
-
-            double separationDistance = window.ui->sbx_separation->value();
+            double distance = window.ui->sbx_separation->value();
             for (int i = 0; i < copies; ++i) {
-                scalar centroid = x + (i + 1) * separationDistance;
                 fl::Term* copy = dummyVariable->getTerm(indexOfEditingTerm)->copy();
                 copy->setName(names[i].toStdString());
-
+                scalar separationDistance = distance * (i + 1); 
                 dummyVariable->insertTerm(copy, indexOfEditingTerm + i + 1);
                 if (copy->className() == Triangle().className()) {
                     Triangle* term = dynamic_cast<Triangle*> (copy);
-                    term->setA(centroid - (term->getB() - term->getA()));
-                    term->setC(centroid + (term->getC() - term->getB()));
-                    term->setB(centroid);
+                    term->setA(term->getA() + separationDistance);
+                    term->setB(term->getB() + separationDistance);
+                    term->setC(term->getC() + separationDistance);
+
                 } else if (copy->className() == Trapezoid().className()) {
                     Trapezoid* term = dynamic_cast<Trapezoid*> (copy);
-//                    term->setA(centroid - () );
-                    term->setB(term->getB() + centroid);
-                    term->setC(term->getC() + centroid);
-                    term->setD(term->getD() + centroid);
+                    term->setA(term->getA() + separationDistance);
+                    term->setB(term->getB() + separationDistance);
+                    term->setC(term->getC() + separationDistance);
+                    term->setD(term->getD() + separationDistance);
 
                 } else if (copy->className() == Rectangle().className()) {
                     Rectangle* term = dynamic_cast<Rectangle*> (copy);
-//                    term->setMinimum(centroid - );
-                    term->setMaximum(term->getMaximum() + centroid);
+                    term->setMinimum(term->getMinimum() + separationDistance);
+                    term->setMaximum(term->getMaximum() + separationDistance);
 
                 } else if (copy->className() == Ramp().className()) {
                     Ramp* term = dynamic_cast<Ramp*> (copy);
-                    term->setStart(term->getStart() + centroid);
-                    term->setEnd(term->getEnd() + centroid);
+                    term->setStart(term->getStart() + separationDistance);
+                    term->setEnd(term->getEnd() + separationDistance);
 
                 } else if (copy->className() == Discrete().className()) {
                     Discrete* term = dynamic_cast<Discrete*> (copy);
                     for (std::size_t i = 0; i < term->x.size(); ++i) {
-                        term->x[i] = term->x[i] + centroid;
+                        term->x[i] = term->x[i] + separationDistance;
                     }
                 } else if (copy->className() == Gaussian().className()) {
                     Gaussian* term = dynamic_cast<Gaussian*> (copy);
-                    term->setMean(term->getMean() + centroid);
+                    term->setMean(term->getMean() + separationDistance);
 
                 } else if (copy->className() == Bell().className()) {
                     Bell* term = dynamic_cast<Bell*> (copy);
-                    term->setCenter(term->getCenter() + centroid);
+                    term->setCenter(term->getCenter() + separationDistance);
 
                 } else if (copy->className() == PiShape().className()) {
                     PiShape* term = dynamic_cast<PiShape*> (copy);
-                    term->setB(term->getB() + centroid);
-                    term->setC(term->getC() + centroid);
+                    term->setB(term->getB() + separationDistance);
+                    term->setC(term->getC() + separationDistance);
 
                 } else if (copy->className() == Sigmoid().className()) {
                     Sigmoid* term = dynamic_cast<Sigmoid*> (copy);
-                    term->setInflection(term->getInflection() + centroid);
+                    term->setInflection(term->getInflection() + separationDistance);
 
                 } else if (copy->className() == SShape().className()) {
                     SShape* term = dynamic_cast<SShape*> (copy);
-                    term->setStart(term->getStart() + centroid);
-                    term->setEnd(term->getEnd() + centroid);
+                    term->setStart(term->getStart() + separationDistance);
+                    term->setEnd(term->getEnd() + separationDistance);
 
                 } else if (copy->className() == ZShape().className()) {
                     ZShape* term = dynamic_cast<ZShape*> (copy);
-                    term->setStart(term->getStart() + centroid);
-                    term->setEnd(term->getEnd() + centroid);
+                    term->setStart(term->getStart() + separationDistance);
+                    term->setEnd(term->getEnd() + separationDistance);
                 }
             }
             redraw();

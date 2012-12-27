@@ -9,10 +9,13 @@
 #define FL_VARIABLE_H_
 
 #include "fl/scalar.h"
+#include "fl/defuzzifier/CenterOfGravity.h"
+#include "fl/operator/Operator.h"
 
 #include <string>
 #include <vector>
 #include <limits>
+
 namespace fl {
 
     class Term;
@@ -23,6 +26,17 @@ namespace fl {
         std::string _name;
         std::vector<Term*> _terms;
         scalar _minimum, _maximum;
+
+        struct SortByCoG {
+            scalar minimum, maximum;
+            CenterOfGravity cog;
+
+            bool operator() (const Term* a, const Term * b) {
+                return fl::Op::IsLt(
+                        cog.defuzzify(a, minimum, maximum),
+                        cog.defuzzify(b, minimum, maximum));
+            }
+        };
 
     public:
         Variable(const std::string& name = "",
@@ -51,6 +65,7 @@ namespace fl {
         /**
          * Operations for iterable datatype _terms
          */
+        virtual void sort();
         virtual void addTerm(Term* term);
         virtual void insertTerm(Term* term, int index);
         virtual Term* getTerm(int index) const;

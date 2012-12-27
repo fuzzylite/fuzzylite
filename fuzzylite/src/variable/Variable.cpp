@@ -11,6 +11,7 @@
 
 #include "fl/operator/Operator.h"
 
+#include <algorithm>
 #include <sstream>
 
 namespace fl {
@@ -99,6 +100,14 @@ namespace fl {
     /**
      * Operations for datatype _terms
      */
+
+    void Variable::sort() {
+        SortByCoG criterion;
+        criterion.minimum = _minimum;
+        criterion.maximum = _maximum;
+        std::sort(_terms.begin(), _terms.end(), criterion);
+    }
+
     void Variable::addTerm(Term* term) {
         this->_terms.push_back(term);
     }

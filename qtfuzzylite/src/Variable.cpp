@@ -39,6 +39,8 @@ namespace fl {
                 variable = new OutputVariable("", 0, 1);
 
             ui->setupUi(this);
+            ui->btn_term_down->setVisible(false);
+            ui->btn_term_up->setVisible(false);
 
             QList<int> sizes;
             sizes << .75 * size().width() << .25 * size().width();
@@ -207,20 +209,20 @@ namespace fl {
         }
 
         void Variable::onChangeMinRange(double) {
-            if (fl::Op::IsGE(ui->sbx_min->value(), ui->sbx_max->value())) {
+            if (fl::Op::IsGt(ui->sbx_min->value(), ui->sbx_max->value())) {
                 ui->sbx_max->setValue(ui->sbx_min->value() + .1);
             }
             variable->setMinimum(ui->sbx_min->value());
-            variable->setMaximum(ui->sbx_max->value());
+//            variable->setMaximum(ui->sbx_max->value());
 
             redraw();
         }
 
         void Variable::onChangeMaxRange(double) {
-            if (fl::Op::IsLE(ui->sbx_max->value(), ui->sbx_min->value())) {
+            if (fl::Op::IsLt(ui->sbx_max->value(), ui->sbx_min->value())) {
                 ui->sbx_min->setValue(ui->sbx_max->value() - .1);
             }
-            variable->setMinimum(ui->sbx_min->value());
+//            variable->setMinimum(ui->sbx_min->value());
             variable->setMaximum(ui->sbx_max->value());
 
             redraw();
@@ -230,9 +232,13 @@ namespace fl {
             Term* window = new Term(this);
             window->setup(*variable);
             if (window->exec()) {
+                for (int i = variable->numberOfTerms() - 1; i >= 0; --i) {
+                    delete variable->removeTerm(i);
+                }
                 for (int i = 0; i < window->dummyVariable->numberOfTerms(); ++i) {
                     variable->addTerm(window->dummyVariable->getTerm(i)->copy());
                 }
+                variable->sort();
 
                 reloadModel();
                 ui->lvw_terms->setFocus();
@@ -294,10 +300,13 @@ namespace fl {
                     Term* window = new Term(this);
                     window->setup(*variable, variable->getTerm(i));
                     if (window->exec()) {
-                        delete variable->removeTerm(i);
-                        for (int t = 0; t < window->dummyVariable->numberOfTerms(); ++t) {
-                            variable->insertTerm(window->dummyVariable->getTerm(t)->copy(), i+t);
+                        for (int i = variable->numberOfTerms() - 1; i >= 0; --i) {
+                            delete variable->removeTerm(i);
                         }
+                        for (int t = 0; t < window->dummyVariable->numberOfTerms(); ++t) {
+                            variable->addTerm(window->dummyVariable->getTerm(t)->copy());
+                        }
+                        variable->sort();
                     }
                     delete window;
                 }
