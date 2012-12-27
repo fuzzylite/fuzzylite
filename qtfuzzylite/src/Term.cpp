@@ -81,11 +81,6 @@ namespace fl {
                     indexOfEditingTerm = i;
                 }
             }
-            if (not edit) {
-                dummyVariable->addTerm(_basicTerms[0]->copy()); //Add the triangle by default
-                indexOfEditingTerm = dummyVariable->numberOfTerms() - 1;
-            }
-
 
             ui->setupUi(this);
 
@@ -156,6 +151,15 @@ namespace fl {
             ui->basicTermToolbox->setCurrentIndex(0);
             ui->extendedTermToolbox->setCurrentIndex(0);
             ui->tabTerms->setCurrentIndex(0);
+
+            if (edit) {
+                loadFrom(edit);
+                ui->led_name->setText(QString::fromStdString(edit->getName()));
+            } else {
+                dummyVariable->addTerm(_basicTerms[0]->copy()); //Add the triangle by default
+                indexOfEditingTerm = dummyVariable->numberOfTerms() - 1;
+            }
+
             connect();
         }
 
@@ -374,10 +378,15 @@ namespace fl {
         /**
          * Events
          */
- 
+
         void Term::onClickWizard() {
             Wizard window(this);
             window.setup(ui->led_name->text().toStdString());
+            window.ui->sbx_separation->setMinimum(-1000);
+            window.ui->sbx_separation->setMaximum(1000);
+            window.ui->sbx_separation->setSingleStep(
+                    (dummyVariable->getMaximum() - dummyVariable->getMinimum()) / 100);
+                    
             if (not window.exec()) return;
 
             int copies = window.ui->sbx_copies->value();
@@ -391,7 +400,7 @@ namespace fl {
             for (int i = 0; i < copies; ++i) {
                 fl::Term* copy = dummyVariable->getTerm(indexOfEditingTerm)->copy();
                 copy->setName(names[i].toStdString());
-                scalar separationDistance = distance * (i + 1); 
+                scalar separationDistance = distance * (i + 1);
                 dummyVariable->insertTerm(copy, indexOfEditingTerm + i + 1);
                 if (copy->className() == Triangle().className()) {
                     Triangle* term = dynamic_cast<Triangle*> (copy);

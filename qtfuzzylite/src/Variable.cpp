@@ -21,8 +21,7 @@ namespace fl {
     namespace qt {
 
         Variable::Variable(QWidget* parent, Qt::WindowFlags f)
-        : QDialog(parent, f), _previouslySelected(NULL),
-        ui(new Ui::Variable), viewer(new Viewer),
+        : QDialog(parent, f), ui(new Ui::Variable), viewer(new Viewer),
         variable(NULL) {
             //            setWindowFlags(Qt::DI);
         }
@@ -213,7 +212,7 @@ namespace fl {
                 ui->sbx_max->setValue(ui->sbx_min->value() + .1);
             }
             variable->setMinimum(ui->sbx_min->value());
-//            variable->setMaximum(ui->sbx_max->value());
+            //            variable->setMaximum(ui->sbx_max->value());
 
             redraw();
         }
@@ -222,7 +221,7 @@ namespace fl {
             if (fl::Op::IsLt(ui->sbx_max->value(), ui->sbx_min->value())) {
                 ui->sbx_min->setValue(ui->sbx_max->value() - .1);
             }
-//            variable->setMinimum(ui->sbx_min->value());
+            //            variable->setMinimum(ui->sbx_min->value());
             variable->setMaximum(ui->sbx_max->value());
 
             redraw();
@@ -235,14 +234,12 @@ namespace fl {
                 for (int i = variable->numberOfTerms() - 1; i >= 0; --i) {
                     delete variable->removeTerm(i);
                 }
+
                 for (int i = 0; i < window->dummyVariable->numberOfTerms(); ++i) {
                     variable->addTerm(window->dummyVariable->getTerm(i)->copy());
                 }
                 variable->sort();
-
                 reloadModel();
-                ui->lvw_terms->setFocus();
-                ui->lvw_terms->item(ui->lvw_terms->count() - 1)->setSelected(true);
             }
             delete window;
         }
@@ -293,15 +290,15 @@ namespace fl {
                 }
             }
 
-            std::vector<int> selected;
+            bool reload = false;
             for (int i = 0; i < ui->lvw_terms->count(); ++i) {
                 if (ui->lvw_terms->item(i)->isSelected()) {
-                    selected.push_back(i);
                     Term* window = new Term(this);
                     window->setup(*variable, variable->getTerm(i));
                     if (window->exec()) {
-                        for (int i = variable->numberOfTerms() - 1; i >= 0; --i) {
-                            delete variable->removeTerm(i);
+                        reload |= true;
+                        for (int t = variable->numberOfTerms() - 1; t >= 0; --t) {
+                            delete variable->removeTerm(t);
                         }
                         for (int t = 0; t < window->dummyVariable->numberOfTerms(); ++t) {
                             variable->addTerm(window->dummyVariable->getTerm(t)->copy());
@@ -311,10 +308,7 @@ namespace fl {
                     delete window;
                 }
             }
-            reloadModel();
-            for (std::size_t i = 0; i < selected.size(); ++i) {
-                ui->lvw_terms->item(selected[i])->setSelected(true);
-            }
+            if (reload) reloadModel();
         }
 
         void Variable::onSelectTerm() {
@@ -333,14 +327,10 @@ namespace fl {
             }
         }
 
-        void Variable::onClickTerm(QListWidgetItem* item) {
-            if (item == _previouslySelected) {
-                _previouslySelected = NULL;
-                item->setSelected(false);
-            } else {
-                _previouslySelected = item;
-            }
-        }
+        void Variable::onClickTerm(QListWidgetItem*) {
+            redraw();
+        } 
+
 
         void Variable::onClickMoveUp() {
             std::vector<int> newPositions;

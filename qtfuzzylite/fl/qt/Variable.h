@@ -43,7 +43,6 @@ namespace fl {
             void reject();
 
         protected:
-            QListWidgetItem* _previouslySelected;
             void connect();
             void disconnect();
 

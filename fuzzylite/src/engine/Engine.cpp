@@ -23,8 +23,8 @@ namespace fl {
     }
 
     Engine::~Engine() {
-        if (_configuration)
-            delete _configuration;
+        //if (_configuration) delete _configuration;
+        //Left to user for deletion/.
     }
 
     void Engine::configure(Configuration* config) {
