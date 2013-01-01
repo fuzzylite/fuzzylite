@@ -32,7 +32,7 @@ namespace fl {
 
         virtual ~Operator() { }
 
-        virtual std::string name() const = 0;
+        virtual std::string className() const = 0;
         virtual scalar compute(scalar a, scalar b) const = 0;
 
     };
@@ -140,7 +140,7 @@ namespace fl {
             return RightTrim(LeftTrim(text));
         }
 
-        static scalar Scalar(const std::string& x, bool quiet = false,
+        static scalar toScalar(const std::string& x, bool quiet = false,
                 scalar alternative = std::numeric_limits<scalar>::quiet_NaN())
         throw (fl::Exception) {
             std::istringstream iss(x);

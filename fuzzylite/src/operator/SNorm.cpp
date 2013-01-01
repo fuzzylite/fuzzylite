@@ -11,7 +11,7 @@ namespace fl {
 
     //class Maximum : public SNorm {
 
-    std::string Maximum::name() const {
+    std::string Maximum::className() const {
         return "Maximum";
     }
 
@@ -22,8 +22,8 @@ namespace fl {
 
     //class Sum : public SNorm {
 
-    std::string AlgebraicSum::name() const {
-        return "Sum";
+    std::string AlgebraicSum::className() const {
+        return "AlgebraicSum";
     }
 
     scalar AlgebraicSum::compute(scalar a, scalar b) const {
@@ -33,7 +33,7 @@ namespace fl {
 
     //class BoundedSum : public SNorm {
 
-    std::string BoundedSum::name() const {
+    std::string BoundedSum::className() const {
         return "BoundedSum";
     }
 
@@ -44,7 +44,7 @@ namespace fl {
 
     //class NormalizedSum : public SNorm {
 
-    std::string NormalizedSum::name() const {
+    std::string NormalizedSum::className() const {
         return "NormalizedSum";
     }
 
@@ -55,7 +55,7 @@ namespace fl {
 
     //class DrasticSum : public SNorm {
 
-    std::string DrasticSum::name() const {
+    std::string DrasticSum::className() const {
         return "DrasticSum";
     }
 
@@ -69,7 +69,7 @@ namespace fl {
 
     //class EinsteinSum : public SNorm {
 
-    std::string EinsteinSum::name() const {
+    std::string EinsteinSum::className() const {
         return "EinsteinSum";
     }
 
@@ -80,7 +80,7 @@ namespace fl {
 
     //class HamacherSum : public SNorm {
 
-    std::string HamacherSum::name() const {
+    std::string HamacherSum::className() const {
         return "HamacherSum";
     }
 

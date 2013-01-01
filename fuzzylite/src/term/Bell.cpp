@@ -31,16 +31,6 @@ namespace fl {
     scalar Bell::membership(scalar x) const {
         //from octave: gbellmf.m
         return 1.0 / (1.0 + std::pow(std::abs((x - _center) / _width), 2 * _slope));
-        // from matlab: gbellmf.m
-        //        scalar tmp = ((x - _center) / _width) * ((x - _center) / _width);
-        //        if (Op::IsEq(tmp, 0.0) and Op::IsEq(_slope, 0.0))
-        //            return 0.5;
-        //        else if (Op::IsEq(tmp, 0.0) and Op::IsLt(_slope, 0.0))
-        //            return 0.0;
-        //        else {
-        //            tmp = std::pow(tmp, _slope);
-        //            return 1.0 / (1.0 + tmp);
-        //        }
     }
 
     std::string Bell::toString() const {

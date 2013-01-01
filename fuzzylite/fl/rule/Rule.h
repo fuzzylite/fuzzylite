@@ -23,7 +23,10 @@ namespace fl {
     protected:
         Antecedent* _antecedent;
         Consequent* _consequent;
+        scalar _weight;
+        std::string _unparsedRule;
 
+        virtual void setUnparsedRule(const std::string& unparsedRule);
     public:
         Rule();
         virtual ~Rule();
@@ -36,6 +39,11 @@ namespace fl {
 
         virtual scalar firingStrength(const TNorm* tnorm, const SNorm* snorm) const;
         virtual void fire(scalar strength, const TNorm* activation) const;
+        
+        virtual void setWeight(scalar weight);
+        virtual scalar getWeight() const;
+        
+        virtual std::string getUnparsedRule() const;
 
         virtual std::string toString() const;
 

@@ -24,13 +24,11 @@ namespace fl {
 
     class FclImporter : public Importer{
     protected:
-        Engine* _engine;
-
-        virtual void processBlock(const std::string& tag, const std::string& block);
-        virtual void processVar(const std::string& var, const std::string& block);
-        virtual void processFuzzify(const std::string& block);
-        virtual void processDefuzzify(const std::string& block);
-        virtual void processRuleBlock(const std::string& block);
+        virtual void processBlock(const std::string& tag, const std::string& block, Engine* engine) const;
+        virtual void processVar(const std::string& var, const std::string& block, Engine* engine)const;
+        virtual void processFuzzify(const std::string& block, Engine* engine)const;
+        virtual void processDefuzzify(const std::string& block, Engine* engine)const;
+        virtual void processRuleBlock(const std::string& block, Engine* engine)const;
 
         virtual TNorm* extractTNorm(const std::string& line) const;
         virtual SNorm* extractSNorm(const std::string& line) const;
@@ -48,7 +46,7 @@ namespace fl {
         
         virtual std::string name() const;
         
-        virtual Engine* fromString(const std::string& fcl);
+        virtual Engine* fromString(const std::string& fcl) const;
 
     };
 

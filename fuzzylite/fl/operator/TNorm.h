@@ -18,37 +18,37 @@ namespace fl {
 
     class Minimum : public TNorm {
     public:
-        std::string name() const;
+        std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
     class AlgebraicProduct : public TNorm {
     public:
-        std::string name() const;
+        std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
     class BoundedDifference : public TNorm {
     public:
-        std::string name() const;
+        std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
     class DrasticProduct : public TNorm {
     public:
-        std::string name() const;
+        std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
     class EinsteinProduct : public TNorm {
     public:
-        std::string name() const;
+        std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
     class HamacherProduct : public TNorm {
     public:
-        std::string name() const;
+        std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 

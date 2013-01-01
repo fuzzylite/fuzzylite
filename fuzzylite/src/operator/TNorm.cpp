@@ -11,7 +11,7 @@ namespace fl {
 
     // Minimum : public TNorm {
 
-    std::string Minimum::name() const {
+    std::string Minimum::className() const {
         return "Minimum";
     }
 
@@ -21,8 +21,8 @@ namespace fl {
 
     // Product : public TNorm {
 
-    std::string AlgebraicProduct::name() const {
-        return "Product";
+    std::string AlgebraicProduct::className() const {
+        return "AlgebraicProduct";
     }
 
     scalar AlgebraicProduct::compute(scalar a, scalar b) const {
@@ -31,7 +31,7 @@ namespace fl {
 
     // BoundedDifference : public TNorm {
 
-    std::string BoundedDifference::name() const {
+    std::string BoundedDifference::className() const {
         return "BoundedDifference";
     }
 
@@ -42,7 +42,7 @@ namespace fl {
 
     // DrasticProduct : public TNorm {
 
-    std::string DrasticProduct::name() const {
+    std::string DrasticProduct::className() const {
         return "DrasticProduct";
     }
 
@@ -56,7 +56,7 @@ namespace fl {
 
     // EinsteinProduct : public TNorm {
 
-    std::string EinsteinProduct::name() const {
+    std::string EinsteinProduct::className() const {
         return "EinsteinProduct";
     }
 
@@ -67,7 +67,7 @@ namespace fl {
 
     // HamacherProduct : public TNorm {
 
-    std::string HamacherProduct::name() const {
+    std::string HamacherProduct::className() const {
         return "HamacherProduct";
     }
 

@@ -14,18 +14,16 @@
 
 namespace fl {
 
-    FclImporter::FclImporter() {
-    }
+    FclImporter::FclImporter() { }
 
-    FclImporter::~FclImporter() {
-    }
+    FclImporter::~FclImporter() { }
 
-    std::string FclImporter::name() const{
+    std::string FclImporter::name() const {
         return "FclImporter";
     }
-    
-    Engine* FclImporter::fromString(const std::string& fcl) {
-        _engine = new Engine;
+
+    Engine* FclImporter::fromString(const std::string& fcl) const {
+        Engine* engine = new Engine;
         std::map<std::string, std::string> tags;
         tags["VAR_INPUT"] = "END_VAR";
         tags["VAR_OUTPUT"] = "END_VAR";
@@ -39,86 +37,91 @@ namespace fl {
         std::istringstream fclReader(fcl);
         std::string line;
         int lineNumber = 0;
-        while (std::getline(fclReader, line)) {
-            ++lineNumber;
-            line = Op::Trim(line);
-            if (line.empty() or line[0] == '#')
-                continue;
+        try {
+            while (std::getline(fclReader, line)) {
+                ++lineNumber;
+                line = Op::Trim(line);
+                if (line.empty() or line[0] == '#')
+                    continue;
 
-            std::istringstream tokenizer(line);
-            std::string firstToken;
-            tokenizer >> firstToken;
+                std::istringstream tokenizer(line);
+                std::string firstToken;
+                tokenizer >> firstToken;
 
-            if (firstToken == "FUNCTION_BLOCK") {
-                if (tokenizer.rdbuf()->in_avail() > 0) {
-                    std::string name;
-                    tokenizer >> name;
-                    this->_engine->setName(name);
+                if (firstToken == "FUNCTION_BLOCK") {
+                    if (tokenizer.rdbuf()->in_avail() > 0) {
+                        std::string name;
+                        tokenizer >> name;
+                        engine->setName(name);
+                    }
+                    continue;
                 }
-                continue;
-            }
-            if (firstToken == "END_FUNCTION_BLOCK") {
-                break;
-            }
-
-            if (currentTag.empty()) {
-                tagFinder = tags.find(firstToken);
-                if (tagFinder == tags.end()) {
-                    std::ostringstream ex;
-                    ex << "[syntax error] unknown block definition <" << firstToken
-                            << "> " << " in line " << lineNumber << ": "
-                            << std::endl << line;
-                    throw fl::Exception(ex.str());
+                if (firstToken == "END_FUNCTION_BLOCK") {
+                    break;
                 }
-                currentTag = tagFinder->first;
-                closingTag = tagFinder->second;
-                block.clear();
-                block.str("");
-                block << line << std::endl;
-                continue;
+
+                if (currentTag.empty()) {
+                    tagFinder = tags.find(firstToken);
+                    if (tagFinder == tags.end()) {
+                        std::ostringstream ex;
+                        ex << "[syntax error] unknown block definition <" << firstToken
+                                << "> " << " in line " << lineNumber << ": "
+                                << std::endl << line;
+                        throw fl::Exception(ex.str());
+                    }
+                    currentTag = tagFinder->first;
+                    closingTag = tagFinder->second;
+                    block.clear();
+                    block.str("");
+                    block << line << std::endl;
+                    continue;
+                }
+
+                if (not currentTag.empty()) {
+                    if (firstToken == closingTag) {
+                        processBlock(currentTag, block.str(), engine);
+                        currentTag = "";
+                        closingTag = "";
+                    } else if (tags.find(firstToken) != tags.end()) {
+                        //if opening new block without closing the previous one
+                        std::ostringstream ex;
+                        ex << "[syntax error] expected <" << closingTag << "> before <"
+                                << firstToken << "> in line: " << std::endl << line;
+                        throw fl::Exception(ex.str());
+                    } else {
+                        block << line << std::endl;
+                    }
+                    continue;
+                }
             }
 
             if (not currentTag.empty()) {
-                if (firstToken == closingTag) {
-                    processBlock(currentTag, block.str());
-                    currentTag = "";
-                    closingTag = "";
-                } else if (tags.find(firstToken) != tags.end()) {
-                    //if opening new block without closing the previous one
-                    std::ostringstream ex;
-                    ex << "[syntax error] expected <" << closingTag << "> before <"
-                            << firstToken << "> in line: " << std::endl << line;
-                    throw fl::Exception(ex.str());
+                std::ostringstream ex;
+                ex << "[syntax error] ";
+                if (block.rdbuf()->in_avail() > 0) {
+                    ex << "expected <" << closingTag << "> for block:" << std::endl
+                            << block.str();
                 } else {
-                    block << line << std::endl;
+                    ex << "expected <" << closingTag << ">, but not found";
                 }
-                continue;
+                throw fl::Exception(ex.str());
             }
+        } catch (fl::Exception& ex) {
+            delete engine;
+            throw ex;
         }
-
-        if (not currentTag.empty()) {
-            std::ostringstream ex;
-            ex << "[syntax error] ";
-            if (block.rdbuf()->in_avail() > 0) {
-                ex << "expected <" << closingTag << "> for block:" << std::endl
-                        << block.str();
-            } else {
-                ex << "expected <" << closingTag << ">, but not found";
-            }
-            throw fl::Exception(ex.str());
-        }
-        return _engine;
+        return engine;
     }
 
-    void FclImporter::processBlock(const std::string& tag, const std::string& block) {
+    void FclImporter::processBlock(const std::string& tag, const std::string& block, Engine* engine) const {
         if (tag == "VAR_INPUT" or tag == "VAR_OUTPUT") {
-            processVar(tag, block);
+            processVar(tag, block, engine);
         } else if (tag == "FUZZIFY") {
-            processFuzzify(block);
+            processFuzzify(block, engine);
         } else if (tag == "DEFUZZIFY") {
-            processDefuzzify(block);
+            processDefuzzify(block, engine);
         } else if (tag == "RULEBLOCK") {
-            processRuleBlock(block);
+            processRuleBlock(block, engine);
         } else {
             std::ostringstream ex;
             ex << "[syntax error] unexpected tag <" << tag << "> for block:"
@@ -127,7 +130,7 @@ namespace fl {
         }
     }
 
-    void FclImporter::processVar(const std::string& tag, const std::string& block) {
+    void FclImporter::processVar(const std::string& tag, const std::string& block, Engine* engine)const {
         std::istringstream blockReader(block);
         std::string line;
 
@@ -142,9 +145,9 @@ namespace fl {
             }
             std::string name = Op::Trim(token[0]);
             if (tag == "VAR_INPUT")
-                this->_engine->addInputVariable(new InputVariable(name));
+                engine->addInputVariable(new InputVariable(name));
             else if (tag == "VAR_OUTPUT")
-                this->_engine->addOutputVariable(new OutputVariable(name));
+                engine->addOutputVariable(new OutputVariable(name));
             else {
                 std::ostringstream ex;
                 ex << "[syntax error] unexpected tag <" << tag << "> in line:"
@@ -154,7 +157,7 @@ namespace fl {
         }
     }
 
-    void FclImporter::processFuzzify(const std::string& block) {
+    void FclImporter::processFuzzify(const std::string& block, Engine* engine)const {
         std::istringstream blockReader(block);
         std::string line;
 
@@ -169,7 +172,7 @@ namespace fl {
                     << std::endl << line;
             throw fl::Exception(ex.str());
         }
-        if (not this->_engine->hasInputVariable(name)) {
+        if (not engine->hasInputVariable(name)) {
             std::ostringstream ex;
             ex << "[syntax error] input variable <" << name
                     << "> not registered in engine. "
@@ -177,14 +180,29 @@ namespace fl {
             throw fl::Exception(ex.str());
         }
 
-        InputVariable* inputVariable = this->_engine->getInputVariable(name);
+        InputVariable* inputVariable = engine->getInputVariable(name);
         while (std::getline(blockReader, line)) {
-            inputVariable->addTerm(extractTerm(line));
+            std::istringstream ss(line);
+            std::string firstToken;
+            ss >> firstToken;
+            try {
+                if (firstToken == "RANGE") {
+                    scalar minimum, maximum;
+                    extractRange(line, minimum, maximum);
+                    inputVariable->setMinimum(minimum);
+                    inputVariable->setMaximum(maximum);
+                } else if (firstToken == "TERM") {
+                    inputVariable->addTerm(extractTerm(line));
+                } else throw fl::Exception("[syntax error] token <" + firstToken + " not recognized");
+            } catch (fl::Exception& ex) {
+                ex.appendDetail(" At line: <" + line + ">");
+                throw ex;
+            }
         }
 
     }
 
-    void FclImporter::processDefuzzify(const std::string& block) {
+    void FclImporter::processDefuzzify(const std::string& block, Engine* engine)const {
         std::istringstream blockReader(block);
         std::string line;
 
@@ -199,7 +217,7 @@ namespace fl {
                     << std::endl << line;
             throw fl::Exception(ex.str());
         }
-        if (not this->_engine->hasOutputVariable(name)) {
+        if (not engine->hasOutputVariable(name)) {
             std::ostringstream ex;
             ex << "[syntax error] output variable <" << name
                     << "> not registered in engine. "
@@ -207,7 +225,7 @@ namespace fl {
             throw fl::Exception(ex.str());
         }
 
-        OutputVariable* outputVariable = this->_engine->getOutputVariable(name);
+        OutputVariable* outputVariable = engine->getOutputVariable(name);
         while (std::getline(blockReader, line)) {
             std::string firstToken = line.substr(0, line.find_first_of(' '));
             if (firstToken == "TERM") {
@@ -235,7 +253,7 @@ namespace fl {
 
     }
 
-    void FclImporter::processRuleBlock(const std::string& block) {
+    void FclImporter::processRuleBlock(const std::string& block, Engine* engine)const {
         std::istringstream blockReader(block);
         std::string line;
 
@@ -244,7 +262,7 @@ namespace fl {
         std::size_t index = line.find_last_of(' ');
         if (index != std::string::npos) name = line.substr(index);
         RuleBlock* ruleblock = new RuleBlock(name);
-        this->_engine->addRuleBlock(ruleblock);
+        engine->addRuleBlock(ruleblock);
 
         while (getline(blockReader, line)) {
             std::string firstToken = line.substr(0, line.find_first_of(' '));
@@ -256,7 +274,7 @@ namespace fl {
                 ruleblock->setActivation(extractTNorm(line));
             } else if (firstToken == "RULE") {
                 std::string rule = line.substr(line.find_first_of(':') + 1);
-                ruleblock->addRule(MamdaniRule::parse(rule, this->_engine));
+                ruleblock->addRule(MamdaniRule::parse(rule, engine));
             } else {
                 std::ostringstream ex;
                 ex << "[syntax error] keyword <" << firstToken
@@ -349,7 +367,7 @@ namespace fl {
                 continue;
             }
             if (state == S_TERMCLASS) {
-                termClass = token;
+                if (token != "(") termClass = token;
                 state = S_PARAMETERS;
                 continue;
             }
@@ -359,7 +377,7 @@ namespace fl {
                 if (token == ";") break;
                 scalar parameter;
                 try {
-                    parameter = Op::Scalar(token);
+                    parameter = Op::toScalar(token);
                 } catch (...) {
                     std::ostringstream ex;
                     ex << "[syntax error] expected numeric value, but found <"
@@ -377,21 +395,25 @@ namespace fl {
             const std::string& name, const std::vector<scalar>& params) const {
         int requiredParams = 0;
 
-        if (termClass == Bell().className()) {
-            if (params.size() == (requiredParams = 3)) {
-                return new Bell(name, params[0], params[1], params[2]);
-            }
-        }
-
-        if (termClass == Discrete().className()) {
+        if (termClass.empty() or termClass == Discrete().className()) {
             if (params.size() % 2 == 0) {
                 Discrete* term = new Discrete(name);
                 for (std::size_t i = 0; i < params.size() - 1; i += 2) {
                     term->x.push_back(params[i]);
                     term->y.push_back(params[i + 1]);
                 }
+            } else {
+                std::ostringstream ex;
+                ex << "[syntax error] a discrete term requires an even list of values, "
+                        "but found <" << params.size() << ">";
+                throw fl::Exception(ex.str());
             }
-            requiredParams = 2;
+        }
+
+        if (termClass == Bell().className()) {
+            if (params.size() == (requiredParams = 3)) {
+                return new Bell(name, params[0], params[1], params[2]);
+            }
         }
 
         if (termClass == Gaussian().className()) {
@@ -400,6 +422,11 @@ namespace fl {
             }
         }
 
+        if (termClass == GaussianProduct().className()) {
+            if (params.size() == (requiredParams = 4)) {
+                return new GaussianProduct(name, params[0], params[1], params[2], params[3]);
+            }
+        }
 
         if (termClass == PiShape().className()) {
             if (params.size() == (requiredParams = 4)) {
@@ -430,6 +457,16 @@ namespace fl {
         if (termClass == Sigmoid().className()) {
             if (params.size() == (requiredParams = 2)) {
                 return new Sigmoid(name, params[0], params[1]);
+            }
+        }
+        if (termClass == SigmoidDifference().className()) {
+            if (params.size() == (requiredParams = 4)) {
+                return new SigmoidDifference(name, params[0], params[1], params[2], params[3]);
+            }
+        }
+        if (termClass == SigmoidProduct().className()) {
+            if (params.size() == (requiredParams = 4)) {
+                return new SigmoidProduct(name, params[0], params[1], params[2], params[3]);
             }
         }
 
@@ -495,7 +532,7 @@ namespace fl {
 
         scalar value;
         try {
-            value = Op::Scalar(token[0]);
+            value = Op::toScalar(token[0]);
         } catch (...) {
             std::ostringstream ex;
             ex << "[syntax error] expected numeric value, "
@@ -546,7 +583,7 @@ namespace fl {
         }
 
         try {
-            minimum = Op::Scalar(token[0]);
+            minimum = Op::toScalar(token[0]);
         } catch (...) {
             std::ostringstream ex;
             ex << "[syntax error] expected numeric value, but found <" << token[0] << "> in "
@@ -554,7 +591,7 @@ namespace fl {
             throw fl::Exception(ex.str());
         }
         try {
-            maximum = Op::Scalar(token[1]);
+            maximum = Op::toScalar(token[1]);
         } catch (...) {
             std::ostringstream ex;
             ex << "[syntax error] expected numeric value, but found <" << token[1] << "> in "

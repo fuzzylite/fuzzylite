@@ -18,32 +18,32 @@ namespace fl {
         : QDialog(parent, f), ui(new Ui::Configuration) {
             setWindowFlags(Qt::Tool);
             _andOperators.push_back(std::pair<std::string, TNorm*>
-                    (Minimum().name(), new Minimum));
+                    (Minimum().className(), new Minimum));
             _andOperators.push_back(std::pair<std::string, TNorm*>
-                    (AlgebraicProduct().name(), new AlgebraicProduct));
+                    (AlgebraicProduct().className(), new AlgebraicProduct));
             _andOperators.push_back(std::pair<std::string, TNorm*>
-                    (BoundedDifference().name(), new BoundedDifference));
+                    (BoundedDifference().className(), new BoundedDifference));
             _andOperators.push_back(std::pair<std::string, TNorm*>
-                    (DrasticProduct().name(), new DrasticProduct));
+                    (DrasticProduct().className(), new DrasticProduct));
             _andOperators.push_back(std::pair<std::string, TNorm*>
-                    (EinsteinProduct().name(), new EinsteinProduct));
+                    (EinsteinProduct().className(), new EinsteinProduct));
             _andOperators.push_back(std::pair<std::string, TNorm*>
-                    (HamacherProduct().name(), new HamacherProduct));
+                    (HamacherProduct().className(), new HamacherProduct));
 
             _orOperators.push_back(std::pair<std::string, SNorm*>
-                    (Maximum().name(), new Maximum));
+                    (Maximum().className(), new Maximum));
             _orOperators.push_back(std::pair<std::string, SNorm*>
-                    (AlgebraicSum().name(), new AlgebraicSum));
+                    (AlgebraicSum().className(), new AlgebraicSum));
             _orOperators.push_back(std::pair<std::string, SNorm*>
-                    (BoundedSum().name(), new BoundedSum));
+                    (BoundedSum().className(), new BoundedSum));
             _orOperators.push_back(std::pair<std::string, SNorm*>
-                    (NormalizedSum().name(), new NormalizedSum));
+                    (NormalizedSum().className(), new NormalizedSum));
             _orOperators.push_back(std::pair<std::string, SNorm*>
-                    (DrasticSum().name(), new DrasticSum));
+                    (DrasticSum().className(), new DrasticSum));
             _orOperators.push_back(std::pair<std::string, SNorm*>
-                    (EinsteinSum().name(), new EinsteinSum));
+                    (EinsteinSum().className(), new EinsteinSum));
             _orOperators.push_back(std::pair<std::string, SNorm*>
-                    (HamacherSum().name(), new HamacherSum));
+                    (HamacherSum().className(), new HamacherSum));
 
             _defuzzifiers.push_back(std::pair<std::string, Defuzzifier*>
                     (CenterOfGravity().name(), new CenterOfGravity));
@@ -128,28 +128,28 @@ namespace fl {
 
         void Configuration::refresh() {
             fl::Configuration* configuration = Model::Default()->configuration();
-            std::string tnorm = configuration->getTnorm()->name();
+            std::string tnorm = configuration->getTnorm()->className();
             for (std::size_t i = 0; i < _andOperators.size(); ++i) {
                 if (_andOperators[i].first == tnorm) {
                     ui->cbx_tnorm->setCurrentIndex(i);
                 }
             }
 
-            std::string activation = configuration->getActivation()->name();
+            std::string activation = configuration->getActivation()->className();
             for (std::size_t i = 0; i < _andOperators.size(); ++i) {
                 if (_andOperators[i].first == activation) {
                     ui->cbx_activation->setCurrentIndex(i);
                 }
             }
 
-            std::string snorm = configuration->getSnorm()->name();
+            std::string snorm = configuration->getSnorm()->className();
             for (std::size_t i = 0; i < _orOperators.size(); ++i) {
                 if (_orOperators[i].first == snorm) {
                     ui->cbx_snorm->setCurrentIndex(i);
                 }
             }
 
-            std::string accumulation = configuration->getAccumulation()->name();
+            std::string accumulation = configuration->getAccumulation()->className();
             for (std::size_t i = 0; i < _orOperators.size(); ++i) {
                 if (_orOperators[i].first == accumulation) {
                     ui->cbx_accumulation->setCurrentIndex(i);

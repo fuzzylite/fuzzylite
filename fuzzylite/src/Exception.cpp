@@ -20,7 +20,13 @@ namespace fl {
     void Exception::setWhat(const std::string& what) {
         this->_what = what;
     }
-
+    
+    void Exception::appendDetail(const std::string& detail){
+        std::ostringstream ss;
+        ss << this->_what << std::endl << detail;
+        this->_what = ss.str();
+    }
+    
     const char* Exception::what() const throw () {
         return this->_what.c_str();
     }

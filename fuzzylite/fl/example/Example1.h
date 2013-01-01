@@ -8,8 +8,6 @@
 #ifndef FL_EXAMPLE1_H_
 #define FL_EXAMPLE1_H_
 
-#include <fl/Headers.h>
-
 #include "fl/example/Example.h"
 
 namespace fl {

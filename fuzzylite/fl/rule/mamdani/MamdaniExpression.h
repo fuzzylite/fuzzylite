@@ -37,28 +37,17 @@ namespace fl {
         virtual std::string toString() const = 0;
     };
 
-    class MamdaniAntecedentProposition : public MamdaniExpression {
+    class MamdaniProposition : public MamdaniExpression {
     public:
-        InputVariable* inputVariable;
+        Variable* variable;
         std::vector<Hedge*> hedges;
         Term* term;
 
-        MamdaniAntecedentProposition();
+        MamdaniProposition();
 
         std::string toString() const;
     };
 
-    class MamdaniConsequentProposition : public MamdaniExpression {
-    public:
-        OutputVariable* outputVariable;
-        std::vector<Hedge*> hedges;
-        Term* term;
-        scalar weight;
-
-        MamdaniConsequentProposition();
-
-        std::string toString() const;
-    };
 
     class MamdaniOperator : public MamdaniExpression {
     public:

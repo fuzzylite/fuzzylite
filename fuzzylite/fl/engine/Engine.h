@@ -27,7 +27,7 @@ namespace fl {
         std::vector<InputVariable*> _inputVariables;
         std::vector<OutputVariable*> _outputVariables;
         std::vector<RuleBlock*> _ruleblocks;
-        std::map<std::string, Hedge*> _hedges;
+        std::vector<Hedge*> _hedges;
         Configuration* _configuration;
 
     public:
@@ -36,7 +36,7 @@ namespace fl {
 
         virtual void configure(Configuration* config);
         virtual Configuration* getConfiguration() const;
-        
+
         virtual void process();
 
         virtual void setName(const std::string& name);
@@ -79,16 +79,19 @@ namespace fl {
         virtual const std::vector<RuleBlock*>& ruleBlocks() const;
 
         /**
-         * Operations for map _hedges
+         * Operations for std::vector _hedges
          */
         virtual void addHedge(Hedge* hedge);
-        virtual Hedge* removeHedge(const std::string& name);
-        virtual Hedge* getHedge(const std::string& name) const;
-        virtual bool hasHedge(const std::string& name) const;
-        virtual const std::map<std::string, Hedge*>& hedges() const;
+        virtual Hedge* getHedge(int index) const;
+        virtual Hedge* getHedge(const std::string& name);
+        virtual Hedge* removeHedge(int index);
+        virtual int numberOfHedges() const;
+        virtual const std::vector<Hedge*>& hedges() const;
+
+
 
 
     };
 
-} 
+}
 #endif /* FL_ENGINE_H_ */

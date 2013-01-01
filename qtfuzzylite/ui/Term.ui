@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>237</width>
-    <height>408</height>
+    <height>472</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -79,7 +79,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideMiddle</enum>
@@ -112,7 +112,7 @@
               <x>0</x>
               <y>0</y>
               <width>195</width>
-              <height>114</height>
+              <height>209</height>
              </rect>
             </property>
             <attribute name="label">
@@ -163,8 +163,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>182</width>
-              <height>146</height>
+              <width>195</width>
+              <height>212</height>
              </rect>
             </property>
             <attribute name="label">
@@ -226,7 +226,7 @@
               <x>0</x>
               <y>0</y>
               <width>195</width>
-              <height>114</height>
+              <height>212</height>
              </rect>
             </property>
             <attribute name="label">
@@ -262,55 +262,13 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="page_9">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>195</width>
-              <height>114</height>
-             </rect>
-            </property>
-            <attribute name="label">
-             <string>Ramp</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_10">
-             <item>
-              <layout class="QFormLayout" name="formLayout_9">
-               <property name="fieldGrowthPolicy">
-                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-               </property>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_27">
-                 <property name="text">
-                  <string>start</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QDoubleSpinBox" name="sbx_ramp_start"/>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_28">
-                 <property name="text">
-                  <string>end</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QDoubleSpinBox" name="sbx_ramp_end"/>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </widget>
            <widget class="QWidget" name="page_5">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
               <width>195</width>
-              <height>114</height>
+              <height>212</height>
              </rect>
             </property>
             <attribute name="label">
@@ -388,7 +346,7 @@
             </size>
            </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>4</number>
            </property>
            <widget class="QWidget" name="page_6">
             <property name="geometry">
@@ -396,7 +354,7 @@
               <x>0</x>
               <y>0</y>
               <width>195</width>
-              <height>83</height>
+              <height>147</height>
              </rect>
             </property>
             <attribute name="label">
@@ -432,13 +390,64 @@
              </item>
             </layout>
            </widget>
+           <widget class="QWidget" name="page_10">
+            <attribute name="label">
+             <string>Gaussian Product</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <layout class="QFormLayout" name="formLayout_12">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_29">
+                 <property name="text">
+                  <string>centerA</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_30">
+                 <property name="text">
+                  <string>widthA</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_31">
+                 <property name="text">
+                  <string>centerB</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_32">
+                 <property name="text">
+                  <string>widthB</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_center_a"/>
+               </item>
+               <item row="1" column="1">
+                <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_width_a"/>
+               </item>
+               <item row="2" column="1">
+                <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_center_b"/>
+               </item>
+               <item row="3" column="1">
+                <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_width_b"/>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
            <widget class="QWidget" name="page_7">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>211</width>
-              <height>113</height>
+              <width>195</width>
+              <height>147</height>
              </rect>
             </property>
             <attribute name="label">
@@ -489,8 +498,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>211</width>
-              <height>146</height>
+              <width>195</width>
+              <height>147</height>
              </rect>
             </property>
             <attribute name="label">
@@ -556,18 +565,194 @@
             </layout>
            </widget>
            <widget class="QWidget" name="page_8">
+            <attribute name="label">
+             <string>Sigmoid Difference</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_13">
+             <item>
+              <layout class="QFormLayout" name="formLayout_13">
+               <property name="sizeConstraint">
+                <enum>QLayout::SetMinimumSize</enum>
+               </property>
+               <property name="fieldGrowthPolicy">
+                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+               </property>
+               <item row="0" column="1">
+                <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_left"/>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_33">
+                 <property name="text">
+                  <string>rising</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_rising"/>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_36">
+                 <property name="text">
+                  <string>right</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_right"/>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_35">
+                 <property name="text">
+                  <string>falling</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_falling"/>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_34">
+                 <property name="text">
+                  <string>left</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="page_11">
+            <attribute name="label">
+             <string>Sigmoid Product</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_9">
+             <item>
+              <layout class="QFormLayout" name="formLayout_14">
+               <property name="fieldGrowthPolicy">
+                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_38">
+                 <property name="text">
+                  <string>left</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_left"/>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_37">
+                 <property name="text">
+                  <string>rising</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_rising"/>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_40">
+                 <property name="text">
+                  <string>right</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_right"/>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_39">
+                 <property name="text">
+                  <string>falling</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_falling"/>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_3">
+        <attribute name="title">
+         <string>Edges</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_16">
+         <item>
+          <widget class="QToolBox" name="edgeTermToolbox">
+           <property name="currentIndex">
+            <number>2</number>
+           </property>
+           <widget class="QWidget" name="page_12">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>199</width>
-              <height>116</height>
+              <width>195</width>
+              <height>212</height>
+             </rect>
+            </property>
+            <attribute name="label">
+             <string>Ramp</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_15">
+             <item>
+              <layout class="QFormLayout" name="formLayout_9">
+               <property name="fieldGrowthPolicy">
+                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_27">
+                 <property name="text">
+                  <string>start</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QDoubleSpinBox" name="sbx_ramp_start"/>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_28">
+                 <property name="text">
+                  <string>end</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QDoubleSpinBox" name="sbx_ramp_end"/>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="page_13">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>195</width>
+              <height>212</height>
              </rect>
             </property>
             <attribute name="label">
              <string>Sigmoid</string>
             </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_9">
+            <layout class="QVBoxLayout" name="verticalLayout_14">
              <item>
               <layout class="QFormLayout" name="formLayout_8">
                <property name="fieldGrowthPolicy">
@@ -604,19 +789,11 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="page_10">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>199</width>
-              <height>116</height>
-             </rect>
-            </property>
+           <widget class="QWidget" name="page_9">
             <attribute name="label">
              <string>S-Shape</string>
             </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
+            <layout class="QVBoxLayout" name="verticalLayout_11">
              <item>
               <layout class="QFormLayout" name="formLayout_10">
                <item row="0" column="0">
@@ -643,19 +820,11 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="page_11">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>199</width>
-              <height>116</height>
-             </rect>
-            </property>
+           <widget class="QWidget" name="page_14">
             <attribute name="label">
              <string>Z-Shape</string>
             </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_13">
+            <layout class="QVBoxLayout" name="verticalLayout_10">
              <item>
               <layout class="QFormLayout" name="formLayout_11">
                <item row="0" column="0">

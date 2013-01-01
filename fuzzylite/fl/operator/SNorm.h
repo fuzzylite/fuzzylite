@@ -18,43 +18,43 @@ namespace fl {
 
     class Maximum : public SNorm {
     public:
-        std::string name() const;
+        std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
     class AlgebraicSum : public SNorm {
     public:
-        std::string name() const;
+        std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
     class BoundedSum : public SNorm {
     public:
-        std::string name() const;
+        std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
     class NormalizedSum : public SNorm {
     public:
-        std::string name() const;
+        std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
     class DrasticSum : public SNorm {
     public:
-        std::string name() const;
+        std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
     class EinsteinSum : public SNorm {
     public:
-        std::string name() const;
+        std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
     class HamacherSum : public SNorm {
     public:
-        std::string name() const;
+        std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 

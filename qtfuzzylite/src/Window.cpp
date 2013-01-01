@@ -212,8 +212,11 @@ namespace fl {
 
                 QString rule = QString::number(i + 1) + ": " +
                         QString::fromStdString(engine->getRuleBlock(0)->getRule(i)->toString());
-                ui->lsw_test_rules->addItem(rule);
-                QListWidgetItem* item = new QListWidgetItem;
+                QListWidgetItem* item = new QListWidgetItem(rule);
+                item->setToolTip(rule);
+                ui->lsw_test_rules->addItem(item);
+                
+                item = new QListWidgetItem;
                 item->setText("-");
                 item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
                 ui->lsw_test_rules_activation->addItem(item);
@@ -681,6 +684,9 @@ namespace fl {
             fclUi.pte_fcl->setReadOnly(true);
             fclUi.pte_fcl->document()->setPlainText(
                     QString::fromStdString(fclString));
+            QTextCursor tc = fclUi.pte_fcl->textCursor();
+            tc.movePosition(QTextCursor::Start);
+            fclUi.pte_fcl->setTextCursor(tc);
             fclDialog.exec();
         }
 

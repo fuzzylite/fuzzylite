@@ -29,7 +29,7 @@ namespace fl {
         Variable::~Variable() {
             disconnect();
             delete ui;
-        }
+        } 
 
         void Variable::setup(VariableType type) {
             if (type == INPUT_VARIABLE)
@@ -185,7 +185,7 @@ namespace fl {
             if (outputVariable) {
                 try {
                     outputVariable->setDefaultValue(
-                            fl::Op::Scalar(ui->led_default->text().toStdString()));
+                            fl::Op::toScalar(ui->led_default->text().toStdString()));
                 } catch (fl::Exception& ex) {
                     std::ostringstream message;
                     message << ex.what() << std::endl <<

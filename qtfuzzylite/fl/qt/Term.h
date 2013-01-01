@@ -33,12 +33,16 @@ namespace fl {
             void onChangeSpinBoxTriangle(double);
             void onChangeSpinBoxTrapezoid(double);
             void onChangeSpinBoxRectangle(double);
-            void onChangeSpinBoxRamp(double);
             void onClickDiscreteParser();
 
             void onChangeSpinBoxGaussian(double);
+            void onChangeSpinBoxGaussianProduct(double);
             void onChangeSpinBoxBell(double);
             void onChangeSpinBoxPiShape(double);
+            void onChangeSpinBoxSigmoidDiff(double);
+            void onChangeSpinBoxSigmoidProd(double);
+            
+            void onChangeSpinBoxRamp(double);
             void onChangeSpinBoxSigmoid(double);
             void onChangeSpinBoxSShape(double);
             void onChangeSpinBoxZShape(double);
@@ -60,6 +64,8 @@ namespace fl {
             void connect();
             void disconnect();
             
+            void setCurrentToolbox(int index);
+            
 
             void showEvent(QShowEvent* event);
             void resizeEvent(QResizeEvent* event);
@@ -67,6 +73,7 @@ namespace fl {
             std::vector<QDoubleSpinBox*> _sbx;
             std::vector<fl::Term*> _basicTerms;
             std::vector<fl::Term*> _extendedTerms;
+            std::vector<fl::Term*> _edgeTerms;
 
         public:
             Ui::Term* ui;

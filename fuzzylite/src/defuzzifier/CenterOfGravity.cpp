@@ -9,6 +9,7 @@
 
 #include "fl/term/Term.h"
 #include "fl/term/Accumulated.h"
+#include "fl/definitions.h"
 
 namespace fl {
 
@@ -20,6 +21,11 @@ namespace fl {
     }
 
     scalar CenterOfGravity::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
+        if (maximum - minimum > _divisions) {
+            FL_LOG("[accuracy warning] the number of divisions ( " << _divisions << ") "
+                    "is less than the range (" << minimum << ", " << maximum << "). In order to "
+                    "improve the accuracy, the number of divisions should be greater than the range.");
+        }
         scalar dx = (maximum - minimum) / _divisions;
         scalar x, y;
         scalar area = 0, xcentroid = 0, ycentroid = 0;
@@ -37,4 +43,4 @@ namespace fl {
         return xcentroid;
     }
 
-} 
+}

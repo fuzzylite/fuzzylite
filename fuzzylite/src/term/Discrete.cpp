@@ -10,11 +10,18 @@
 #include "fl/operator/Operator.h"
 
 #include <sstream>
-
+#include <stdarg.h>
 namespace fl {
 
-    Discrete::Discrete(const std::string& name)
+    Discrete::Discrete(const std::string& name, int pairs, ...)
     : Term(name) {
+        va_list list;
+        va_start(list, scalar);
+        for (int i = 0 ; i  < pairs; ++i){
+            x.push_back(va_arg(list, scalar));
+            y.push_back(va_arg(list, scalar));
+        }
+        
     }
 
     Discrete::Discrete(const std::string& name,
@@ -67,7 +74,7 @@ namespace fl {
 
     std::string Discrete::toString() const {
         std::stringstream ss;
-        ss << className() << " (";
+        ss << className() << " (" << x.size() << ", ";
         for (std::size_t i = 0; i < x.size(); ++i) {
             ss << x[i] << " " << y[i];
             if (i < x.size() - 1) ss << ", ";

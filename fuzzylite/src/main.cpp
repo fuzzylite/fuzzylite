@@ -30,12 +30,19 @@ int main(int argc, char** argv) {
     std::vector<Example*> examples;
     examples.push_back(new Example1);
     FL_LOG("The examples will start running now");
+    FclExporter exporter; FclImporter importer;
     for (std::size_t i = 0; i < examples.size(); ++i) {
         Example* example = examples[i];
         for (int w = 0; w < wait; ++w) {
             FL_LOG("Example <" << example->name() << "> will start running in "
                     << (wait - w) << " seconds...");
             sleep(1);
+        }
+        std::string fcl = exporter.toString(example->engine);
+        Engine* engine = importer.fromString(fcl);
+        std::string fclAgain = exporter.toString(engine);
+        if (fcl != fclAgain) {
+            throw fl::Exception("FCL Importer/Exporter not working");
         }
         example->test();
     }

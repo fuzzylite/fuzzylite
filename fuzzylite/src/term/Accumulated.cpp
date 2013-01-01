@@ -45,7 +45,7 @@ namespace fl {
             if (i < _terms.size() - 1)
                 ss << ", ";
         }
-        ss << ") using " << _accumulation->name();
+        ss << ") using " << _accumulation->className();
         return ss.str();
     }
 

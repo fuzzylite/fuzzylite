@@ -12,12 +12,13 @@
 #include "fl/operator/Operator.h"
 #include "fl/Exception.h"
 
+#include "fl/definitions.h"
+
 
 namespace fl {
 
     MaximumDefuzzifier::MaximumDefuzzifier(Type type, int divisions)
-    : Defuzzifier(divisions), _type(type) {
-    }
+    : Defuzzifier(divisions), _type(type) { }
 
     std::string MaximumDefuzzifier::name() const {
         switch (_type) {
@@ -33,6 +34,11 @@ namespace fl {
     }
 
     scalar MaximumDefuzzifier::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
+        if (maximum - minimum > _divisions) {
+            FL_LOG("[accuracy warning] the number of divisions ( " << _divisions << ") "
+                    "is less than the range (" << minimum << ", " << maximum << "). In order to "
+                    "improve the accuracy, the number of divisions should be greater than the range.");
+        }
         scalar dx = (maximum - minimum) / _divisions;
         scalar x, y;
         scalar ymax = -1.0, xsmallest, xlargest;

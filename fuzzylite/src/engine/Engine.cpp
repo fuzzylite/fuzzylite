@@ -19,12 +19,28 @@
 namespace fl {
 
     Engine::Engine(const std::string& name)
-    : _name(name), _configuration(NULL) {
-    }
+    : _name(name), _configuration(NULL) { }
 
     Engine::~Engine() {
         //if (_configuration) delete _configuration;
         //Left to user for deletion/.
+        for (int i = numberOfRuleBlocks() - 1; i >= 0; --i) {
+            delete removeRuleBlock(i);
+        }
+
+        for (std::map<std::string, Hedge*>::iterator it = _hedges.begin();
+                it != _hedges.end();) {
+            delete it->second;
+            _hedges.erase(it++);
+        }
+
+        for (int i = numberOfOutputVariables() - 1; i >= 0; --i) {
+            delete removeOutputVariable(i);
+        }
+
+        for (int i = numberOfInputVariables() - 1; i >= 0; --i) {
+            delete removeInputVariable(i);
+        }
     }
 
     void Engine::configure(Configuration* config) {
@@ -219,36 +235,38 @@ namespace fl {
         return this->_ruleblocks;
     }
 
-    /**
-     * Operations for map _hedges
+/**
+     * Operations for std::vector _hedges
      */
-
     void Engine::addHedge(Hedge* hedge) {
-        this->_hedges[hedge->name()] = hedge;
+        this->_hedges.push_back(hedge);
     }
 
-    Hedge* Engine::removeHedge(const std::string& name) {
-        std::map<std::string, Hedge*>::iterator it = this->_hedges.find(name);
-        if (it == this->_hedges.end())
-            return NULL;
-        Hedge* result = it->second;
-        this->_hedges.erase(it);
+    Hedge* Engine::getHedge(int index) const {
+        return this->_hedges[index];
+    }
+    void Engine::getHedge(const std::string& name) {
+        for (std::size_t i = 0 ; i < this->_hedges.size(); ++i){
+            if (name == this->_hedges[i]->name()){
+                return this->_hedges[i];
+            }
+        }
+        return NULL;
+    }
+
+    Hedge* Engine::removeHedge(int index) {
+        Hedge* result = this->_hedges[index];
+        this->_hedges.erase(this->_hedges.begin() + index);
         return result;
     }
 
-    Hedge* Engine::getHedge(const std::string& name) const {
-        std::map<std::string, Hedge*>::const_iterator it = this->_hedges.find(name);
-        if (it == this->_hedges.end())
-            return NULL;
-        return it->second;
+    int Engine::numberOfHedges() const {
+        return this->_hedges.size();
     }
 
-    bool Engine::hasHedge(const std::string& name) const {
-        return getHedge(name) != NULL;
-    }
-
-    const std::map<std::string, Hedge*>& Engine::hedges() const {
+    const std::vector<Hedge*>& Engine::hedges() const {
         return this->_hedges;
     }
+
 
 }

@@ -20,7 +20,8 @@
 
 namespace fl {
 
-    MamdaniConsequent::MamdaniConsequent() { }
+    MamdaniConsequent::MamdaniConsequent() {
+    }
 
     MamdaniConsequent::~MamdaniConsequent() {
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
@@ -30,15 +31,16 @@ namespace fl {
 
     void MamdaniConsequent::fire(scalar strength, const TNorm* activation) {
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
-            MamdaniConsequentProposition* proposition = _conclusions[i];
-            scalar threshold = strength * proposition->weight;
+            MamdaniProposition* proposition = _conclusions[i];
+            scalar threshold = strength;
             for (std::size_t h = 0; h < proposition->hedges.size(); ++h) {
                 threshold = proposition->hedges[h]->hedge(threshold);
             }
             Thresholded* term = new Thresholded(_conclusions[i]->term);
             term->setThreshold(threshold);
             term->setActivation(activation);
-            proposition->outputVariable->output()->addTerm(term);
+            OutputVariable* outputVariable = dynamic_cast<OutputVariable*>(proposition->variable);
+            outputVariable->output()->addTerm(term);
             FL_DBG("Accumulating " << term->toString());
         }
     }
@@ -57,21 +59,21 @@ namespace fl {
          */
         enum FSM {
             S_VARIABLE = 1, S_IS = 2, S_HEDGE = 4, S_TERM = 8,
-            S_AND = 16, S_WITH = 32, S_FLOAT = 64
+            S_AND = 16
         };
         int state = S_VARIABLE;
 
         _conclusions.clear();
 
-        MamdaniConsequentProposition* proposition;
+        MamdaniProposition* proposition;
 
         std::stringstream tokenizer(consequent);
         std::string token;
         while (tokenizer >> token) {
             if (state bitand S_VARIABLE) {
                 if (engine->hasOutputVariable(token)) {
-                    proposition = new MamdaniConsequentProposition;
-                    proposition->outputVariable = engine->getOutputVariable(token);
+                    proposition = new MamdaniProposition;
+                    proposition->variable = engine->getOutputVariable(token);
                     _conclusions.push_back(proposition);
 
                     state = S_IS;
@@ -95,9 +97,9 @@ namespace fl {
             }
 
             if (state bitand S_TERM) {
-                if (proposition->outputVariable->hasTerm(token)) {
-                    proposition->term = proposition->outputVariable->getTerm(token);
-                    state = S_AND | S_WITH;
+                if (proposition->variable->hasTerm(token)) {
+                    proposition->term = proposition->variable->getTerm(token);
+                    state = S_AND ;
                     continue;
                 }
             }
@@ -105,22 +107,6 @@ namespace fl {
             if (state bitand S_AND) {
                 if (token == Rule::FL_AND) {
                     state = S_VARIABLE;
-                    continue;
-                }
-            }
-
-            if (state bitand S_WITH) {
-                if (token == Rule::FL_WITH) {
-                    state = S_FLOAT;
-                    continue;
-                }
-            }
-
-            if (state bitand S_FLOAT) {
-                std::stringstream ss(token);
-                ss >> proposition->weight;
-                if (not ss.fail()) {
-                    state = S_AND;
                     continue;
                 }
             }
@@ -144,20 +130,13 @@ namespace fl {
                 throw fl::Exception(ex.str());
             }
 
-            if ((state bitand S_AND) or (state bitand S_WITH)) {
+            if (state bitand S_AND) {
                 std::ostringstream ex;
-                ex << "[syntax error] expected operators <" << Rule::FL_AND << "> or <"
-                        << Rule::FL_WITH << ">, "
+                ex << "[syntax error] expected operator <" << Rule::FL_AND << ">, "
                         << "but found <" << token << ">";
                 throw fl::Exception(ex.str());
             }
 
-            if (state bitand S_FLOAT) {
-                std::ostringstream ex;
-                ex << "[syntax error] expected numeric value to weight the proposition, "
-                        << "but found <" << token << ">";
-                throw fl::Exception(ex.str());
-            }
             std::ostringstream ex;
             ex << "[syntax error] unexpected token <" << token << ">";
             throw fl::Exception(ex.str());
@@ -174,4 +153,4 @@ namespace fl {
         return ss.str();
     }
 
-} 
+}

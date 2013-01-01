@@ -28,7 +28,8 @@
 namespace fl {
 
     MamdaniAntecedent::MamdaniAntecedent()
-    : _root(NULL) { }
+    : _root(NULL) {
+    }
 
     MamdaniAntecedent::~MamdaniAntecedent() {
         if (_root)
@@ -38,10 +39,10 @@ namespace fl {
     scalar MamdaniAntecedent::firingStrength(const TNorm* tnorm, const SNorm* snorm,
             const MamdaniExpression* node) const {
         if (not node->isOperator) { //is Proposition
-            const MamdaniAntecedentProposition* proposition =
-                    dynamic_cast<const MamdaniAntecedentProposition*> (node);
-
-            scalar result = proposition->term->membership(proposition->inputVariable->getInput());
+            const MamdaniProposition* proposition =
+                    dynamic_cast<const MamdaniProposition*> (node);
+            InputVariable* inputVariable = dynamic_cast<InputVariable*>(proposition->variable);
+            scalar result = proposition->term->membership(inputVariable->getInput());
             for (std::size_t i = 0; i < proposition->hedges.size(); ++i) {
                 result = proposition->hedges[i]->hedge(result);
             }
@@ -93,13 +94,14 @@ namespace fl {
         };
         int state = S_VARIABLE;
         std::stack<MamdaniExpression*> expressionStack;
-        MamdaniAntecedentProposition* proposition = NULL;
+        MamdaniProposition* proposition = NULL;
         while (tokenizer >> token) {
             if (state bitand S_VARIABLE) {
                 if (engine->hasInputVariable(token)) {
-                    proposition = new MamdaniAntecedentProposition;
+                    proposition = new MamdaniProposition;
+                    proposition->variable = engine->getInputVariable(token);
                     expressionStack.push(proposition);
-                    proposition->inputVariable = engine->getInputVariable(token);
+                    
                     state = S_IS;
                     continue;
                 }
@@ -113,8 +115,9 @@ namespace fl {
             }
 
             if (state bitand S_HEDGE) {
-                if (engine->hasHedge(token)) {
-                    proposition->hedges.push_back(engine->getHedge(token));
+                Hedge* hedge = engine->getHedge(token);
+                if (hedge) {
+                    proposition->hedges.push_back(hedge);
                     if (token == Any().name()) {
                         state = S_VARIABLE bitor S_OPERATOR;
                     } else {
@@ -125,9 +128,9 @@ namespace fl {
             }
 
             if (state bitand S_TERM) {
-                if (proposition->inputVariable->hasTerm(token)) {
+                if (proposition->variable->hasTerm(token)) {
                     proposition->term =
-                            proposition->inputVariable->getTerm(token);
+                            proposition->variable->getTerm(token);
                     state = S_VARIABLE bitor S_OPERATOR;
                     continue;
                 }
@@ -234,4 +237,4 @@ namespace fl {
     }
 
 
-} 
+}

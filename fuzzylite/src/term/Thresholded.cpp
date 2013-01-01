@@ -37,7 +37,7 @@ namespace fl {
     std::string Thresholded::toString() const {
         std::stringstream ss;
         ss << className() << " (" << _term->toString() << ") to " << _threshold
-                << " activated using " << _activation->name();
+                << " activated using " << _activation->className();
         return ss.str();
     }
 

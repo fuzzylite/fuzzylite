@@ -14,11 +14,11 @@
 
 namespace fl {
     class Engine;
-    class MamdaniConsequentProposition;
+    class MamdaniProposition;
 
     class MamdaniConsequent : public Consequent {
     protected:
-        std::vector<MamdaniConsequentProposition*> _conclusions;
+        std::vector<MamdaniProposition*> _conclusions;
 
     public:
         MamdaniConsequent();

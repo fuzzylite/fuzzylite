@@ -19,8 +19,9 @@ namespace fl {
     public:
         Exception(const std::string& what, bool log = true);
         virtual ~Exception() throw ();
-
+        
         virtual void setWhat(const std::string& what);
+        virtual void appendDetail(const std::string& detail);
 
         virtual const char* what() const throw ();
     };

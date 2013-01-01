@@ -18,7 +18,7 @@ namespace fl {
         virtual ~Exporter(){}
         
         virtual std::string name() const = 0;
-        virtual std::string toString(const Engine* engine) = 0;
+        virtual std::string toString(const Engine* engine) const = 0;
         
     };
     

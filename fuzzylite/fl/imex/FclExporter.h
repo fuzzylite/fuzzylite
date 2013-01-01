@@ -14,18 +14,21 @@ namespace fl {
     class TNorm;
     class SNorm;
     class Defuzzifier;
-    class FclExporter : public Exporter{
+    class Term;
+
+    class FclExporter : public Exporter {
     protected:
         virtual std::string toFcl(const TNorm* tnorm) const;
         virtual std::string toFcl(const SNorm* snorm) const;
         virtual std::string toFcl(const Defuzzifier* defuzzifier) const;
+        virtual std::string toFcl(const Term* term) const;
 
     public:
         FclExporter();
         virtual ~FclExporter();
-        
+
         virtual std::string name() const;
-        virtual std::string toString(const Engine* engine);
+        virtual std::string toString(const Engine* engine) const;
     };
 
 }

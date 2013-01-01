@@ -21,6 +21,7 @@ namespace fl {
     }
 
     Configuration::~Configuration() {
+        //These will be deleted by ruleblocks, and output variables.
         delete _defuzzifier;
         delete _accumulation;
         delete _activation;
@@ -71,10 +72,10 @@ namespace fl {
     std::string Configuration::toString() const {
         std::ostringstream ss;
         ss
-                << "tnorm='" << _tnorm->name() << "' "
-                << "snorm='" << _snorm->name() << "' "
-                << "activation='" << _activation->name() << "' "
-                << "accumulation='" << _accumulation->name() << "' "
+                << "tnorm='" << _tnorm->className() << "' "
+                << "snorm='" << _snorm->className() << "' "
+                << "activation='" << _activation->className() << "' "
+                << "accumulation='" << _accumulation->className() << "' "
                 << "defuzzifier='" << _defuzzifier->name() << "' "
                 ;
         return ss.str();
