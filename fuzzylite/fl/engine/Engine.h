@@ -83,7 +83,7 @@ namespace fl {
          */
         virtual void addHedge(Hedge* hedge);
         virtual Hedge* getHedge(int index) const;
-        virtual Hedge* getHedge(const std::string& name);
+        virtual Hedge* getHedge(const std::string& name) const;
         virtual Hedge* removeHedge(int index);
         virtual int numberOfHedges() const;
         virtual const std::vector<Hedge*>& hedges() const;

@@ -89,8 +89,9 @@ namespace fl {
             }
 
             if (state bitand S_HEDGE) {
-                if (engine->hasHedge(token)) {
-                    proposition->hedges.push_back(engine->getHedge(token));
+                Hedge* hedge = engine->getHedge(token);
+                if (hedge) {
+                    proposition->hedges.push_back(hedge);
                     state = S_HEDGE | S_TERM;
                     continue;
                 }

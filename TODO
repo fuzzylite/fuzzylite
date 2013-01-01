@@ -1,1 +1,6 @@
-Finish FIS Exporter/Importer
+Finish the Rules in FIS Exporter/Importer .
+Test CppExporter, FisExporter/Importer
+Test hedge Any 
+Add new exporters/importers to qtfuzzylite
+Utilize fl::Op::toString<scalar>() everywhere.
+

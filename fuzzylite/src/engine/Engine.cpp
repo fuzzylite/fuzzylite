@@ -28,10 +28,8 @@ namespace fl {
             delete removeRuleBlock(i);
         }
 
-        for (std::map<std::string, Hedge*>::iterator it = _hedges.begin();
-                it != _hedges.end();) {
-            delete it->second;
-            _hedges.erase(it++);
+        for (int i = numberOfHedges() - 1; i >= 0; --i) {
+            delete removeHedge(i);
         }
 
         for (int i = numberOfOutputVariables() - 1; i >= 0; --i) {
@@ -235,7 +233,7 @@ namespace fl {
         return this->_ruleblocks;
     }
 
-/**
+        /**
      * Operations for std::vector _hedges
      */
     void Engine::addHedge(Hedge* hedge) {
@@ -245,9 +243,10 @@ namespace fl {
     Hedge* Engine::getHedge(int index) const {
         return this->_hedges[index];
     }
-    void Engine::getHedge(const std::string& name) {
-        for (std::size_t i = 0 ; i < this->_hedges.size(); ++i){
-            if (name == this->_hedges[i]->name()){
+
+    Hedge* Engine::getHedge(const std::string& name) const {
+        for (std::size_t i = 0; i < this->_hedges.size(); ++i) {
+            if (name == this->_hedges[i]->name()) {
                 return this->_hedges[i];
             }
         }

@@ -20,7 +20,7 @@ namespace fl {
     MaximumDefuzzifier::MaximumDefuzzifier(Type type, int divisions)
     : Defuzzifier(divisions), _type(type) { }
 
-    std::string MaximumDefuzzifier::name() const {
+    std::string MaximumDefuzzifier::className() const {
         switch (_type) {
             case SMALLEST:
                 return "SmallestOfMaximum";

@@ -64,8 +64,13 @@ namespace fl {
             void onMenuConfiguration();
             void onMenuTerms();
 
-            void onMenuImport();
-            void onMenuExport();
+            void onMenuImportFromFCL();
+            void onMenuExportToFCL();
+            void onMenuImportFromFIS();
+            void onMenuExportToFIS();
+            void onMenuImportFromFile();
+            void onMenuExportToCpp();
+            
             void onMenuReset();
             void onMenuAbout();
             void onMenuQuit();

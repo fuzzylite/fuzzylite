@@ -23,7 +23,7 @@ namespace fl {
     public:
         MaximumDefuzzifier(Type type, int divisions = FL_DEFAULT_DIVISIONS);
 
-        std::string name() const;
+        std::string className() const;
         scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;
 
         void setType(Type type);

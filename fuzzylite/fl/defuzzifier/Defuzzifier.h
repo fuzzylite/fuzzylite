@@ -25,7 +25,7 @@ namespace fl {
         Defuzzifier(int divisions = FL_DEFAULT_DIVISIONS);
         virtual ~Defuzzifier();
 
-        virtual std::string name() const = 0;
+        virtual std::string className() const = 0;
         virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const = 0;
 
         virtual void setDivisions(int divisions);

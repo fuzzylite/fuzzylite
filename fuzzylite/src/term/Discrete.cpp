@@ -13,22 +13,13 @@
 #include <stdarg.h>
 namespace fl {
 
-    Discrete::Discrete(const std::string& name, int pairs, ...)
-    : Term(name) {
-        va_list list;
-        va_start(list, scalar);
-        for (int i = 0 ; i  < pairs; ++i){
-            x.push_back(va_arg(list, scalar));
-            y.push_back(va_arg(list, scalar));
-        }
-        
-    }
+    Discrete::Discrete(const std::string& name)
+    : Term(name) { }
 
     Discrete::Discrete(const std::string& name,
             const std::vector<scalar>& x,
             const std::vector<scalar>& y)
-    : Term(name), x(x), y(y) {
-    }
+    : Term(name), x(x), y(y) { }
 
     Discrete::Discrete(const std::string& name,
             const std::vector<std::pair<scalar, scalar> >& xy)
@@ -39,8 +30,7 @@ namespace fl {
         }
     }
 
-    Discrete::~Discrete() {
-    }
+    Discrete::~Discrete() { }
 
     std::string Discrete::className() const {
         return "Discrete";
@@ -74,7 +64,7 @@ namespace fl {
 
     std::string Discrete::toString() const {
         std::stringstream ss;
-        ss << className() << " (" << x.size() << ", ";
+        ss << className() << " (";
         for (std::size_t i = 0; i < x.size(); ++i) {
             ss << x[i] << " " << y[i];
             if (i < x.size() - 1) ss << ", ";

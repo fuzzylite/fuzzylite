@@ -11,17 +11,24 @@
 #include "fl/imex/Exporter.h"
 
 namespace fl {
+    class Engine;
+    class InputVariable;
+    class OutputVariable;
+    class Term;
+    class RuleBlock;
 
-    class CppExporter : public Exporter{
+    class Hedge;
+
+    class CppExporter : public Exporter {
     protected:
-        std::string toString(const Hedge* hedge) const;
+        virtual std::string toCpp(const Hedge* hedge) const;
+        virtual std::string toCpp(const Term* term) const;
     public:
-        std::string name() const;
-        std::string toString(const Engine* engine) const;
-        
-        std::string toString(const InputVariable* input) const;
-        std::string toString(const OutputVariable* output) const;
-        std::string toString(const RuleBlock* ruleblock) const;
+        CppExporter();
+        virtual ~CppExporter();
+        virtual std::string name() const;
+        virtual std::string toString(const Engine* engine) const;
+
     };
 }
 #endif	/* FL_CPPEXPORTER_H */

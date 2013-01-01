@@ -16,7 +16,7 @@ namespace fl {
     CenterOfGravity::CenterOfGravity(int divisions)
     : Defuzzifier(divisions) { }
 
-    std::string CenterOfGravity::name() const {
+    std::string CenterOfGravity::className() const {
         return "CenterOfGravity";
     }
 

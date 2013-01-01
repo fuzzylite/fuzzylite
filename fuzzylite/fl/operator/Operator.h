@@ -22,15 +22,17 @@
 #include <iostream>
 #include <limits>
 #include <utility>
-
+#include <stdarg.h>
 namespace fl {
 
     class Operator {
     public:
 
-        Operator() { }
+        Operator() {
+        }
 
-        virtual ~Operator() { }
+        virtual ~Operator() {
+        }
 
         virtual std::string className() const = 0;
         virtual scalar compute(scalar a, scalar b) const = 0;
@@ -165,6 +167,28 @@ namespace fl {
                 throw fl::Exception(ex.str());
             }
             return alternative;
+        }
+
+        template <typename T>
+        static std::string toString(T x, int precision = 3) {
+            std::ostringstream ss;
+            ss << std::setprecision(precision) << std::fixed;
+            ss << x;
+            return ss.str();
+        }
+        
+        template <typename T>
+        static std::string toString(int precision = 3,
+                const std::string& separator = " ", int argc = 0, ...) {
+            std::ostringstream ss;
+            ss << std::setprecision(precision) << std::fixed;
+            va_list list;
+            va_start(list, argc);
+            for (int i = 0; i < argc; ++i) {
+                ss << separator << va_arg(list, T);
+            }
+            va_end(list);
+            return ss.str();
         }
 
         static std::vector<std::pair<scalar, scalar> >

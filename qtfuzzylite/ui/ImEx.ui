@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FCL</class>
- <widget class="QDialog" name="FCL">
+ <class>ImEx</class>
+ <widget class="QDialog" name="ImEx">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -17,16 +17,16 @@
    <bool>true</bool>
   </property>
   <property name="windowTitle">
-   <string>Fuzzy Controller Language</string>
+   <string>ImEx - format</string>
   </property>
   <property name="modal">
    <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="lbl_format">
      <property name="text">
-      <string>Fuzzy Controller Language (FCL):</string>
+      <string>[format]</string>
      </property>
     </widget>
    </item>
@@ -50,7 +50,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>FCL</receiver>
+   <receiver>ImEx</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -66,7 +66,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>FCL</receiver>
+   <receiver>ImEx</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

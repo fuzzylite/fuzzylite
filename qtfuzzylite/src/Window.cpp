@@ -13,7 +13,7 @@
 #include "fl/qt/Control.h"
 
 #include "fl/qt/definitions.h"
-#include "ui/ui_FCL.h"
+#include "ui/ui_ImEx.h"
 
 #include <QtGui/QListWidgetItem>
 #include <QtGui/QScrollBar>
@@ -35,8 +35,7 @@ namespace fl {
 
         Window::Window(QWidget* parent, Qt::WindowFlags flags) :
         QMainWindow(parent, flags), _configurationWindow(NULL),
-        ui(new Ui::Window) {
-        }
+        ui(new Ui::Window) { }
 
         Window::~Window() {
             disconnect();
@@ -63,16 +62,29 @@ namespace fl {
                     this, SLOT(onMenuConfiguration()));
             QObject::connect(ui->actionTerms, SIGNAL(triggered()),
                     this, SLOT(onMenuTerms()));
-            QObject::connect(ui->actionImport, SIGNAL(triggered()),
-                    this, SLOT(onMenuImport()));
-            QObject::connect(ui->actionExport, SIGNAL(triggered()),
-                    this, SLOT(onMenuExport()));
             QObject::connect(ui->actionReset, SIGNAL(triggered()),
                     this, SLOT(onMenuReset()));
             QObject::connect(ui->actionAbout, SIGNAL(triggered()),
                     this, SLOT(onMenuAbout()));
             QObject::connect(ui->actionQuit, SIGNAL(triggered()),
                     this, SLOT(onMenuQuit()));
+
+            QObject::connect(ui->actionImportFromFCL, SIGNAL(triggered()),
+                    this, SLOT(onMenuImportFromFCL()));
+            QObject::connect(ui->actionExportToFCL, SIGNAL(triggered()),
+                    this, SLOT(onMenuExportToFCL()));
+
+            QObject::connect(ui->actionImportFromFIS, SIGNAL(triggered()),
+                    this, SLOT(onMenuImportFromFIS()));
+            QObject::connect(ui->actionExportToFIS, SIGNAL(triggered()),
+                    this, SLOT(onMenuExportToFIS()));
+
+            QObject::connect(ui->actionImportFromFile, SIGNAL(triggered()),
+                    this, SLOT(onMenuImportFromFile()));
+
+            QObject::connect(ui->actionExportToCpp, SIGNAL(triggered()),
+                    this, SLOT(onMenuExportToCpp()));
+
 
             QObject::connect(ui->actionDimmer1x1, SIGNAL(triggered()),
                     this, SLOT(onMenuExample1()));
@@ -215,7 +227,7 @@ namespace fl {
                 QListWidgetItem* item = new QListWidgetItem(rule);
                 item->setToolTip(rule);
                 ui->lsw_test_rules->addItem(item);
-                
+
                 item = new QListWidgetItem;
                 item->setText("-");
                 item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -629,11 +641,9 @@ namespace fl {
             }
         }
 
-        void Window::onMenuExample3() {
-        }
+        void Window::onMenuExample3() { }
 
-        void Window::onMenuExample4() {
-        }
+        void Window::onMenuExample4() { }
 
         void Window::onMenuConfiguration() {
             _configurationWindow->setFocus();
@@ -650,11 +660,13 @@ namespace fl {
 
         }
 
-        void Window::onMenuImport() {
-            Ui::FCL fclUi;
+        void Window::onMenuImportFromFCL() {
+            Ui::ImEx fclUi;
             QDialog fclDialog(this);
             fclUi.setupUi(&fclDialog);
             fclDialog.setWindowTitle("Import from FCL");
+            fclUi.lbl_format->setText("Fuzzy Controller Language (FCL):");
+
             if (fclDialog.exec()) {
                 std::string fclString = fclUi.pte_fcl->document()->toPlainText().toStdString();
                 Engine* engine = NULL;
@@ -673,14 +685,65 @@ namespace fl {
             }
         }
 
-        void Window::onMenuExport() {
+        void Window::onMenuImportFromFIS() {
+            Ui::ImEx fclUi;
+            QDialog fclDialog(this);
+            fclUi.setupUi(&fclDialog);
+            fclDialog.setWindowTitle("Import from FIS");
+            fclUi.lbl_format->setText("Fuzzy Inference System (FIS):");
+
+            if (fclDialog.exec()) {
+                std::string fclString = fclUi.pte_fcl->document()->toPlainText().toStdString();
+                Engine* engine = NULL;
+                FisImporter importer;
+                try {
+                    engine = importer.fromString(fclString);
+                } catch (fl::Exception& ex) {
+                    QMessageBox::critical(this, "Error importing from FIS",
+                            QString::fromStdString(ex.what()),
+                            QMessageBox::Ok);
+                    return;
+                }
+                Model::Default()->changeEngine(engine);
+                reloadModel();
+                onClickParseAllRules();
+            }
+        }
+
+        void Window::onMenuImportFromFile() {
+            Ui::ImEx fclUi;
+            QDialog fclDialog(this);
+            fclUi.setupUi(&fclDialog);
+            fclDialog.setWindowTitle("Import from FIS");
+            fclUi.lbl_format->setText("Fuzzy Inference System (FIS):");
+
+            if (fclDialog.exec()) {
+                std::string fclString = fclUi.pte_fcl->document()->toPlainText().toStdString();
+                Engine* engine = NULL;
+                FisImporter importer;
+                try {
+                    engine = importer.fromString(fclString);
+                } catch (fl::Exception& ex) {
+                    QMessageBox::critical(this, "Error importing from FIS",
+                            QString::fromStdString(ex.what()),
+                            QMessageBox::Ok);
+                    return;
+                }
+                Model::Default()->changeEngine(engine);
+                reloadModel();
+                onClickParseAllRules();
+            }
+        }
+
+        void Window::onMenuExportToFCL() {
             FclExporter exporter;
             std::string fclString = exporter.toString(Model::Default()->engine());
-            Ui::FCL fclUi;
+            Ui::ImEx fclUi;
             QDialog fclDialog(this);
             fclUi.setupUi(&fclDialog);
             fclUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
             fclDialog.setWindowTitle("Export to FCL");
+            fclUi.lbl_format->setText("Fuzzy Controller Language (FCL):");
             fclUi.pte_fcl->setReadOnly(true);
             fclUi.pte_fcl->document()->setPlainText(
                     QString::fromStdString(fclString));
@@ -688,6 +751,42 @@ namespace fl {
             tc.movePosition(QTextCursor::Start);
             fclUi.pte_fcl->setTextCursor(tc);
             fclDialog.exec();
+        }
+
+        void Window::onMenuExportToFIS() {
+            FisExporter exporter;
+            std::string fclString = exporter.toString(Model::Default()->engine());
+            Ui::ImEx fclUi;
+            QDialog fclDialog(this);
+            fclUi.setupUi(&fclDialog);
+            fclUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
+            fclDialog.setWindowTitle("Export to FIS");
+            fclUi.lbl_format->setText("Fuzzy Inference System (FIS):");
+            fclUi.pte_fcl->setReadOnly(true);
+            fclUi.pte_fcl->document()->setPlainText(
+                    QString::fromStdString(fclString));
+            QTextCursor tc = fclUi.pte_fcl->textCursor();
+            tc.movePosition(QTextCursor::Start);
+            fclUi.pte_fcl->setTextCursor(tc);
+            fclDialog.exec();
+        }
+
+        void Window::onMenuExportToCpp() {
+            CppExporter exporter;
+            std::string fclString = exporter.toString(Model::Default()->engine());
+            Ui::ImEx fclUi;
+            QDialog fclDialog(this);
+            fclUi.setupUi(&fclDialog);
+            fclUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
+            fclDialog.setWindowTitle("Export to C++");
+            fclUi.lbl_format->setText("fuzzylite:");
+            fclUi.pte_fcl->setReadOnly(true);
+            fclUi.pte_fcl->document()->setPlainText(
+                    QString::fromStdString(fclString));
+            QTextCursor tc = fclUi.pte_fcl->textCursor();
+            tc.movePosition(QTextCursor::Start);
+            fclUi.pte_fcl->setTextCursor(tc);
+            fclDialog.exec(); 
         }
 
         void Window::onMenuReset() {

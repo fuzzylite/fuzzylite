@@ -46,13 +46,13 @@ namespace fl {
                     (HamacherSum().className(), new HamacherSum));
 
             _defuzzifiers.push_back(std::pair<std::string, Defuzzifier*>
-                    (CenterOfGravity().name(), new CenterOfGravity));
+                    (CenterOfGravity().className(), new CenterOfGravity));
             _defuzzifiers.push_back(std::pair<std::string, Defuzzifier*>
-                    (SmallestOfMaximum().name(), new SmallestOfMaximum));
+                    (SmallestOfMaximum().className(), new SmallestOfMaximum));
             _defuzzifiers.push_back(std::pair<std::string, Defuzzifier*>
-                    (LargestOfMaximum().name(), new LargestOfMaximum));
+                    (LargestOfMaximum().className(), new LargestOfMaximum));
             _defuzzifiers.push_back(std::pair<std::string, Defuzzifier*>
-                    (MeanOfMaximum().name(), new MeanOfMaximum));
+                    (MeanOfMaximum().className(), new MeanOfMaximum));
 
         }
 
@@ -156,7 +156,7 @@ namespace fl {
                 }
             }
 
-            std::string defuzzifier = configuration->getDefuzzifier()->name();
+            std::string defuzzifier = configuration->getDefuzzifier()->className();
             for (std::size_t i = 0; i < _defuzzifiers.size(); ++i) {
                 if (_defuzzifiers[i].first == defuzzifier) {
                     ui->cbx_defuzzifier->setCurrentIndex(i);

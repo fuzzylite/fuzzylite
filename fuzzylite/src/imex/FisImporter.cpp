@@ -56,16 +56,16 @@ namespace fl {
         try {
             for (std::size_t i = 0; i < sections.size(); ++i) {
                 if ("[System]" == sections[i].substr(0, std::string("[System]").size()))
-                    loadSystem(sections[i], engine);
+                    importSystem(sections[i], engine);
                 else if ("[Input" == sections[i].substr(0, std::string("[Input").size()))
-                    loadInput(sections[i], engine);
+                    importInput(sections[i], engine);
                 else if ("[Output" == sections[i].substr(0, std::string("[Output").size()))
-                    loadOutput(sections[i], engine);
+                    importOutput(sections[i], engine);
                 else if ("[Rules]" == sections[i].substr(0, std::string("[Rules]").size()))
-                    loadRules(sections[i], engine);
+                    importRules(sections[i], engine);
                 else
                     throw fl::Exception("[internal error] no rule to parse section: "
-                        << sections[i]);
+                        + sections[i]);
             }
         } catch (fl::Exception& ex) {
             delete engine;
@@ -76,7 +76,7 @@ namespace fl {
         return engine;
     }
 
-    void FisImporter::loadSystem(const std::string& section, Engine * engine) const {
+    void FisImporter::importSystem(const std::string& section, Engine * engine) const {
         std::istringstream reader(section);
         std::string line;
         std::getline(reader, line); //ignore first line [System]
@@ -109,7 +109,7 @@ namespace fl {
         }
     }
 
-    void FisImporter::loadInput(const std::string& section, Engine* engine) const {
+    void FisImporter::importInput(const std::string& section, Engine* engine) const {
         std::istringstream reader(section);
 
         InputVariable* input = new InputVariable;
@@ -137,7 +137,7 @@ namespace fl {
         }
     }
 
-    void FisImporter::loadOutput(const std::string& section, Engine* engine) const {
+    void FisImporter::importOutput(const std::string& section, Engine* engine) const {
         std::istringstream reader(section);
 
         OutputVariable* output = new OutputVariable;
@@ -169,6 +169,9 @@ namespace fl {
         }
     }
 
+    void FisImporter::importRules(const std::string& section, Engine* engine) const {
+ }
+
     TNorm* FisImporter::extractTNorm(const std::string& name) const {
         if (name == "min") return new Minimum;
         if (name == "algebraic_product") return new AlgebraicProduct;
@@ -194,33 +197,35 @@ namespace fl {
 
     Term* FisImporter::extractTerm(const std::string& fis) const {
         std::ostringstream ss;
-        for (std::size_t i = 0; i < fis.size(); ++i){
-            if (not (fis[i] == '[' or fis[i] == ']')){
+        for (std::size_t i = 0; i < fis.size(); ++i) {
+            if (not (fis[i] == '[' or fis[i] == ']')) {
                 ss << fis[i];
             }
         }
         std::string line = ss.str();
-        
+
         std::vector<std::string> nameTerm = fl::Op::Split(line, ":");
-        if (nameTerm.size() != 2){
+        if (nameTerm.size() != 2) {
             throw fl::Exception("[syntax error] expected term in format 'name':'class',[params], "
-                "but found " + line);
+                    "but found " + line);
         }
-        std::vector<std::string> termParams = fl::Op::Split( nameTerm[1], ",");
-        if (termParams.size() != 2){
+        std::vector<std::string> termParams = fl::Op::Split(nameTerm[1], ",");
+        if (termParams.size() != 2) {
             throw fl::Exception("[syntax error] expected term in format 'name':'class',[params], "
-                "but found " + line);
+                    "but found " + line);
         }
-        
+
         std::vector<std::string> strParams = fl::Op::Split(termParams[1], " ");
         std::vector<scalar> params;
-        for (std::size_t i = 0 ; i < strParams.size(); ++i){
+        for (std::size_t i = 0; i < strParams.size(); ++i) {
             params.push_back(fl::Op::toScalar(strParams[i]));
         }
-        
+
         return createInstance(termParams[0], nameTerm[0], params);
     }
+
     
+
     Term* FisImporter::createInstance(const std::string& termClass,
             const std::string& name, const std::vector<scalar>& params) const {
         int requiredParams = 0;
@@ -316,7 +321,6 @@ namespace fl {
             }
         }
 
-
         std::ostringstream ex;
         if (requiredParams != 0) {
             ex << "[syntax error] " << termClass << " requires "
@@ -327,5 +331,27 @@ namespace fl {
         throw fl::Exception(ex.str());
     }
     
+    Defuzzifier* FisImporter::extractDefuzzifier(const std::string& name) const{
+        if (name == "centroid") return new CenterOfGravity;
+        if (name == "som") return new SmallestOfMaximum;
+        if (name == "lom") return new LargestOfMaximum;
+        if (name == "mom") return new MeanOfMaximum;
+        throw fl::Exception("[syntax error] defuzzifier <" + name + "> not recognized");
+    }
+    void FisImporter::extractRange(const std::string& range, scalar& minimum, scalar& maximum) const {
+        std::vector<std::string> parts = fl::Op::Split(range, " ");
+        if (parts.size() != 2)
+            throw fl::Exception("[syntax error] expected range in format '[begin end]',"
+                " but found <" + range + ">");
+        std::string begin = parts[0], end = parts[1];
+        if (begin[0] != '[' or end[end.size() - 1] != ']')
+            throw fl::Exception("[syntax error] expected range in format '[begin end]',"
+                " but found <" + range + ">");
+        minimum = fl::Op::toScalar(begin.substr(1));
+        maximum = fl::Op::toScalar(end.substr(0, end.size() - 1));
+    }
+    
+    
+
 
 }

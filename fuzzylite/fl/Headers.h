@@ -19,8 +19,11 @@
 #include "fl/engine/Configuration.h"
 #include "fl/engine/Engine.h"
 
-#include "fl/imex/FclExporter.h"
+#include "fl/imex/CppExporter.h"
 #include "fl/imex/FclImporter.h"
+#include "fl/imex/FclExporter.h"
+#include "fl/imex/FisImporter.h"
+#include "fl/imex/FisExporter.h"
 
 #include "fl/hedge/Any.h"
 #include "fl/hedge/Extremely.h"

@@ -19,7 +19,7 @@ namespace fl {
         std::vector<scalar> x;
         std::vector<scalar> y;
 
-        Discrete(const std::string& name = "", ...);
+        Discrete(const std::string& name = "");
 
         Discrete(const std::string& name,
                 const std::vector<scalar>& x,

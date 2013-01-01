@@ -676,12 +676,29 @@
     <property name="title">
      <string>Engine</string>
     </property>
+    <widget class="QMenu" name="menuImport">
+     <property name="title">
+      <string>Import...</string>
+     </property>
+     <addaction name="actionImportFromFCL"/>
+     <addaction name="actionImportFromFIS"/>
+     <addaction name="separator"/>
+     <addaction name="actionImportFromFile"/>
+    </widget>
+    <widget class="QMenu" name="menuExport">
+     <property name="title">
+      <string>Export...</string>
+     </property>
+     <addaction name="actionExportToFCL"/>
+     <addaction name="actionExportToFIS"/>
+     <addaction name="actionExportToCpp"/>
+    </widget>
     <addaction name="actionConfiguration"/>
     <addaction name="separator"/>
     <addaction name="actionTerms"/>
     <addaction name="separator"/>
-    <addaction name="actionImport"/>
-    <addaction name="actionExport"/>
+    <addaction name="menuImport"/>
+    <addaction name="menuExport"/>
     <addaction name="separator"/>
     <addaction name="actionReset"/>
     <addaction name="separator"/>
@@ -769,14 +786,14 @@
     <string>Takagi-Sugeno</string>
    </property>
   </action>
-  <action name="actionImport">
+  <action name="actionImportFromFCL">
    <property name="text">
-    <string>Import...</string>
+    <string>from FCL</string>
    </property>
   </action>
-  <action name="actionExport">
+  <action name="actionExportToFCL">
    <property name="text">
-    <string>Export...</string>
+    <string>to FCL</string>
    </property>
   </action>
   <action name="actionConfiguration">
@@ -835,6 +852,26 @@
   <action name="actionDimmer2x1">
    <property name="text">
     <string>Dimmer (2x1)</string>
+   </property>
+  </action>
+  <action name="actionImportFromFIS">
+   <property name="text">
+    <string>from FIS</string>
+   </property>
+  </action>
+  <action name="actionImportFromFile">
+   <property name="text">
+    <string>from file...</string>
+   </property>
+  </action>
+  <action name="actionExportToFIS">
+   <property name="text">
+    <string>to FIS</string>
+   </property>
+  </action>
+  <action name="actionExportToCpp">
+   <property name="text">
+    <string>to C++</string>
    </property>
   </action>
  </widget>

@@ -19,62 +19,138 @@ namespace fl {
         return "FisExporter";
     }
 
-    std::string FisExporter::toString(const Engine* engine) {
-        Configuration* configuration = engine->getConfiguration();
-        if (not configuration) {
-            throw fl::Exception("[engine error] a configuration object is required within "
-                    "the engine to export to FIS format");
-        }
-        std::ostringstream fcl;
-        fcl << "[System]\n";
-        fcl << "Name='" << engine->getName() << "'\n";
-        fcl << "Type='mamdani'\n";
-        fcl << "Version=" << FL_VERSION << "\n";
-        fcl << "NumInputs=" << engine->numberOfInputVariables() << "\n";
-        fcl << "NumOutputs=" << engine->numberOfOutputVariables() << "\n";
-        fcl << "NumRules=" << engine->getRuleBlock(0)->numberOfRules() << "\n";
+    std::string FisExporter::toString(const Engine* engine) const {
+        std::ostringstream fis;
+        fis << exportSystem(engine) << "\n";
 
-        fcl << "AndMethod='" << toFis(configuration->getTnorm()) << "\n";
-        fcl << "OrMethod='" << toFis(configuration->getSnorm()) << "\n";
-        fcl << "ImpMethod='" << toFis(configuration->getActivation()) << "\n";
-        fcl << "AggMethod='" << toFis(configuration->getAccumulation()) << "\n";
-        fcl << "DefuzzMethod='" << toFis(configuration->getDefuzzifier()) << "\n";
+        fis << exportInputs(engine) << "\n";
 
-        fcl << "\n";
+        fis << exportOutputs(engine) << "\n";
 
-        for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
-            InputVariable* var = engine->getInputVariable(i);
-            fcl << "[Input" << (i + 1) << "]\n";
-            fcl << "Name='" << var->getName() << "'\n";
-            fcl << "Range=[" << var->getMinimum() << " " << var->getMaximum() << "]\n";
-            fcl << "NumMFs=" << var->numberOfTerms() << "\n";
-            for (int t = 0; t < var->numberOfTerms(); ++t) {
-                fcl << "MF" << (t + 1) << "='" << var->getTerm(t)->getName() << "':"
-                        << toFis(var->getTerm(t)) << "\n";
-            }
-        }
-        fcl << "\n";
+        fis << exportRules(engine) << "\n";
 
-        for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-            OutputVariable* var = engine->getOutputVariable(i);
-            fcl << "[Output" << (i + 1) << "]\n";
-            fcl << "Name='" << var->getName() << "'\n";
-            fcl << "Range=[" << var->getMinimum() << " " << var->getMaximum() << "]\n";
-            fcl << "Default=" << var->getDefaultValue() << "\n";
-            fcl << "Lock=" << var->lockDefuzzifiedValue() << "\n";
-            fcl << "NumMFs=" << var->numberOfTerms() << "\n";
-            for (int t = 0; t < var->numberOfTerms(); ++t) {
-                fcl << "MF" << (t + 1) << "='" << var->getTerm(t)->getName() << "':"
-                        << toFis(var->getTerm(t)) << "\n";
-            }
-        }
-        fcl << "\n";
-
-        fcl << "[Rules]\n";
-
-        return fcl.str();
+        return fis.str();
     }
 
+    std::string FisExporter::exportSystem(const Engine* engine) const {
+        std::ostringstream fis;
+        fis << "[System]\n";
+        fis << "Name='" << engine->getName() << "'\n";
+        fis << "Type='mamdani'\n";
+        fis << "Version=" << FL_VERSION << "\n";
+        fis << "NumInputs=" << engine->numberOfInputVariables() << "\n";
+        fis << "NumOutputs=" << engine->numberOfOutputVariables() << "\n";
+        fis << "NumRules=" << engine->getRuleBlock(0)->numberOfRules() << "\n";
+
+        const TNorm* tnorm = NULL;
+        const SNorm* snorm = NULL;
+        const TNorm* activation = NULL;
+        std::string nullptrError, uniquenessError;
+        for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
+            RuleBlock* rb = engine->getRuleBlock(i);
+            if (not rb->getTnorm()) nullptrError = "T-Norm";
+            if (not rb->getSnorm()) nullptrError = "S-Norm";
+            if (not rb->getActivation()) nullptrError = "activation T-Norm";
+            if (not nullptrError.empty()) break;
+
+            if (not tnorm) tnorm = rb->getTnorm();
+            else if (tnorm->className() != rb->getTnorm()->className())
+                uniquenessError = "T-Norm";
+
+            if (not snorm) snorm = rb->getSnorm();
+            else if (snorm->className() != rb->getSnorm()->className())
+                uniquenessError = "S-Norm";
+
+            if (not activation) activation = rb->getActivation();
+            else if (activation->className() != rb->getActivation()->className())
+                uniquenessError = "activation T-Norm";
+            if (not uniquenessError.empty()) break;
+        }
+
+        if (not nullptrError.empty())
+            throw fl::Exception("[nullptr error] expected a " + nullptrError +
+                ", but none was set");
+
+        if (not uniquenessError.empty())
+            throw fl::Exception("[format error] fis files require all ruleblocks "
+                "to have the same " + uniquenessError);
+
+        fis << "AndMethod='" << toFis(tnorm) << "'\n";
+        fis << "OrMethod='" << toFis(snorm) << "'\n";
+        fis << "ImpMethod='" << toFis(activation) << "'\n";
+
+        const SNorm* accumulation = NULL;
+        Defuzzifier* defuzzifier = NULL;
+        for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+            OutputVariable* outputVariable = engine->getOutputVariable(i);
+            if (not outputVariable->getDefuzzifier()) nullptrError = "defuzzifier";
+            if (not outputVariable->output()->getAccumulation()) nullptrError = "accumulation S-Norm";
+            if (not nullptrError.empty()) break;
+
+            if (not defuzzifier) defuzzifier = outputVariable->getDefuzzifier();
+            else if (defuzzifier->className() != outputVariable->getDefuzzifier()->className())
+                uniquenessError = "defuzzifier";
+            if (not accumulation) accumulation = outputVariable->output()->getAccumulation();
+            else if (accumulation->className() != outputVariable->output()->getAccumulation()->className())
+                uniquenessError = "accumulation S-Norm";
+            if (not uniquenessError.empty()) break;
+        }
+
+        if (not nullptrError.empty())
+            throw fl::Exception("[nullptr error] expected a " + nullptrError +
+                ", but none was set");
+
+        if (not uniquenessError.empty())
+            throw fl::Exception("[format error] fis files require all ruleblocks "
+                "to have the same " + uniquenessError);
+
+        fis << "AggMethod='" << toFis(accumulation) << "'\n";
+        fis << "DefuzzMethod='" << toFis(defuzzifier) << "'\n";
+        return fis.str();
+    }
+
+    std::string FisExporter::exportInputs(const Engine* engine) const {
+        std::ostringstream fis;
+        for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
+            InputVariable* var = engine->getInputVariable(i);
+            fis << "[Input" << (i + 1) << "]\n";
+            fis << "Name='" << var->getName() << "'\n";
+            fis << "Range=[" << var->getMinimum() << " " << var->getMaximum() << "]\n";
+            fis << "NumMFs=" << var->numberOfTerms() << "\n";
+            for (int t = 0; t < var->numberOfTerms(); ++t) {
+                fis << "MF" << (t + 1) << "='" << var->getTerm(t)->getName() << "':"
+                        << toFis(var->getTerm(t)) << "\n";
+            }
+        }
+        fis << "\n";
+        return fis.str();
+    }
+
+    std::string FisExporter::exportOutputs(const Engine* engine) const{
+        std::ostringstream fis;
+        for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+            OutputVariable* var = engine->getOutputVariable(i);
+            fis << "[Output" << (i + 1) << "]\n";
+            fis << "Name='" << var->getName() << "'\n";
+            fis << "Range=[" << var->getMinimum() << " " << var->getMaximum() << "]\n";
+            fis << "Default=" << var->getDefaultValue() << "\n";
+            fis << "Lock=" << var->lockDefuzzifiedValue() << "\n";
+            fis << "NumMFs=" << var->numberOfTerms() << "\n";
+            for (int t = 0; t < var->numberOfTerms(); ++t) {
+                fis << "MF" << (t + 1) << "='" << var->getTerm(t)->getName() << "':"
+                        << toFis(var->getTerm(t)) << "\n";
+            }
+        }
+        fis << "\n";
+        return fis.str();
+    }
+    
+    std::string FisExporter::exportRules(const Engine* engine) const{
+        std::ostringstream fis;
+        fis << "[Rules]\n";
+        return fis.str();
+    }
+    
     std::string FisExporter::toFis(const TNorm* tnorm) const {
         if (not tnorm) return "";
         std::string name = tnorm->className();
@@ -102,11 +178,11 @@ namespace fl {
 
     std::string FisExporter::toFis(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier) return "";
-        if (defuzzifier->name() == CenterOfGravity().name()) return "centroid";
-        if (defuzzifier->name() == SmallestOfMaximum().name()) return "som";
-        if (defuzzifier->name() == LargestOfMaximum().name()) return "lom";
-        if (defuzzifier->name() == MeanOfMaximum().name()) return "mom";
-        return defuzzifier->name();
+        if (defuzzifier->className() == CenterOfGravity().className()) return "centroid";
+        if (defuzzifier->className() == SmallestOfMaximum().className()) return "som";
+        if (defuzzifier->className() == LargestOfMaximum().className()) return "lom";
+        if (defuzzifier->className() == MeanOfMaximum().className()) return "mom";
+        return defuzzifier->className();
     }
 
     std::string FisExporter::toFis(const Term* term) const {

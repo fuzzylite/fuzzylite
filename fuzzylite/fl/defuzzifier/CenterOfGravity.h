@@ -14,9 +14,9 @@ namespace fl {
 
     class CenterOfGravity : public Defuzzifier {
     public:
-        CenterOfGravity(int divisions = 100);
+        CenterOfGravity(int divisions = FL_DEFAULT_DIVISIONS);
 
-        std::string name() const;
+        std::string className() const;
         scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;
 
     };

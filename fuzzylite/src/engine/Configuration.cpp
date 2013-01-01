@@ -76,7 +76,7 @@ namespace fl {
                 << "snorm='" << _snorm->className() << "' "
                 << "activation='" << _activation->className() << "' "
                 << "accumulation='" << _accumulation->className() << "' "
-                << "defuzzifier='" << _defuzzifier->name() << "' "
+                << "defuzzifier='" << _defuzzifier->className() << "' "
                 ;
         return ss.str();
     }
