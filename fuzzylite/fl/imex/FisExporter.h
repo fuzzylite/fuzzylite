@@ -10,11 +10,16 @@
 
 #include "fl/imex/Exporter.h"
 
+#include <vector>
+
 namespace fl {
     class TNorm;
     class SNorm;
     class Defuzzifier;
     class Term;
+    class MamdaniRule;
+    class MamdaniProposition;
+    class Variable;
 
     class FisExporter : public Exporter {
     protected:
@@ -22,7 +27,11 @@ namespace fl {
         std::string exportInputs(const Engine* engine) const;
         std::string exportOutputs(const Engine* engine) const;
         std::string exportRules(const Engine* engine) const;
-
+        std::string exportRule(const MamdaniRule* rule, const Engine* engine) const;
+        std::string translate(const std::vector<MamdaniProposition*>& propositions,
+            const std::vector<Variable*> variables) const;
+        
+        
         std::string toFis(const TNorm* tnorm) const;
         std::string toFis(const SNorm* snorm) const;
         std::string toFis(const Defuzzifier* defuzzifier) const;

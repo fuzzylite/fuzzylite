@@ -398,7 +398,7 @@ namespace fl {
         if (termClass.empty() or termClass == Discrete().className()) {
             if (params.size() % 2 == 0) {
                 Discrete* term = new Discrete(name);
-                for (std::size_t i = 0; i < params.size() - 1; i += 2) {
+                for (std::size_t i = 0; i < params.size() - 2; i += 2) {
                     term->x.push_back(params[i]);
                     term->y.push_back(params[i + 1]);
                 }

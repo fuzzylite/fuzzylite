@@ -12,7 +12,7 @@
 
 #include <string>
 
-#define FL_DEFAULT_DIVISIONS 100
+#define FL_DEFAULT_DIVISIONS 500
 
 namespace fl {
     class Term;

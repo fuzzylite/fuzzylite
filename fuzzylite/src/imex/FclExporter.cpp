@@ -58,8 +58,8 @@ namespace fl {
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
             InputVariable* inputVariable = engine->getInputVariable(i);
             fcl << "FUZZIFY " << inputVariable->getName() << "\n";
-            fcl << "RANGE := (" << inputVariable->getMinimum() << " .. "
-                    << inputVariable->getMaximum() << ");\n";
+            scalar range[] = {inputVariable->getMinimum(), inputVariable->getMaximum()};
+            fcl << "RANGE := (" << fl::Op::str(2, range, " .. ") << ");\n";
 
             for (int t = 0; t < inputVariable->numberOfTerms(); ++t) {
                 Term* term = inputVariable->getTerm(t);
@@ -72,8 +72,8 @@ namespace fl {
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
             fcl << "DEFUZZIFY " << outputVariable->getName() << "\n";
-            fcl << "RANGE := (" << outputVariable->getMinimum() << " .. "
-                    << outputVariable->getMaximum() << ");\n";
+            scalar range[] = {outputVariable->getMinimum(), outputVariable->getMaximum()};
+            fcl << "RANGE := (" << fl::Op::str(2, range, " .. ") << ");\n";
 
             for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
                 Term* term = outputVariable->getTerm(t);
@@ -88,7 +88,7 @@ namespace fl {
             fcl << "ACCU : " << toFcl(outputVariable->output()->getAccumulation())
                     << ";\n";
 
-            fcl << "DEFAULT := " << outputVariable->getDefaultValue();
+            fcl << "DEFAULT := " << fl::Op::str(outputVariable->getDefaultValue());
             if (outputVariable->lockDefuzzifiedValue()) {
                 fcl << " | NC";
             }
@@ -158,8 +158,9 @@ namespace fl {
         if (term->className() == Discrete().className()) {
             const Discrete* discrete = dynamic_cast<const Discrete*> (term);
             std::ostringstream ss;
-            for (std::size_t i = 0 ; i < discrete->x.size(); ++i){
-                ss << "(" << discrete->x[i] << ", " << discrete->y[i] << ")";
+            for (std::size_t i = 0; i < discrete->x.size(); ++i) {
+                ss << "(" << fl::Op::str(discrete->x[i]) << ", "
+                        << fl::Op::str(discrete->y[i]) << ")";
                 if (i < discrete->x.size() - 1) ss << " ";
             }
             ss << ";";
@@ -167,7 +168,5 @@ namespace fl {
         }
         return term->toString();
     }
-
-
 
 }

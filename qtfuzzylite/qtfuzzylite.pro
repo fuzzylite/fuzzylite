@@ -19,8 +19,8 @@ LIBS += -Lbin/ -lfuzzylite #-lQtSvg
 FORMS += Window.ui Configuration.ui
 FORMS += Variable.ui Wizard.ui Term.ui ImEx.ui Viewer.ui
 
-HEADERS += fl/qt/Window.h fl/qt/Canvas.h fl/qt/Configuration.h  
-SOURCES += src/Window.cpp src/Canvas.cpp src/Configuration.cpp 
+HEADERS += fl/qt/Window.h fl/qt/Configuration.h  
+SOURCES += src/Window.cpp src/Configuration.cpp 
 
 HEADERS += fl/qt/Term.h fl/qt/Variable.h fl/qt/Wizard.h
 SOURCES += src/Term.cpp src/Variable.cpp src/Wizard.cpp

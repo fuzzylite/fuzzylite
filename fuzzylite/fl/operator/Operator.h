@@ -169,25 +169,33 @@ namespace fl {
             return alternative;
         }
 
-        template <typename T>
-        static std::string toString(T x, int precision = 3) {
+        static std::string str(scalar x, int precision = FL_DECIMALS) {
             std::ostringstream ss;
             ss << std::setprecision(precision) << std::fixed;
             ss << x;
             return ss.str();
         }
-        
-        template <typename T>
-        static std::string toString(int precision = 3,
-                const std::string& separator = " ", int argc = 0, ...) {
+
+        static std::string str(int items, scalar* x, const std::string& separator = ",",
+                int precision = FL_DECIMALS) {
             std::ostringstream ss;
             ss << std::setprecision(precision) << std::fixed;
-            va_list list;
-            va_start(list, argc);
-            for (int i = 0; i < argc; ++i) {
-                ss << separator << va_arg(list, T);
+            for (int  i = 0; i < items; ++i) {
+                ss << x[i];
+                if (i < items - 1) ss << separator;
             }
-            va_end(list);
+            return ss.str();
+        }
+
+        template <typename T>
+        static std::string str(const std::vector<T>& x,
+                const std::string& separator = ", ", int precision = FL_DECIMALS) {
+            std::ostringstream ss;
+            ss << std::setprecision(precision) << std::fixed;
+            for (std::size_t i = 0; i < x.size(); ++i) {
+                ss << x[i];
+                if (i < x.size() - 1) ss << separator;
+            }
             return ss.str();
         }
 

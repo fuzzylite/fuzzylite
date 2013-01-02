@@ -16,7 +16,7 @@
 #define FL_VERSION "2.0"
 #define FL_DATE "01/2013"
 
-#define FL_FORMAT_NUMBERS std::setprecision(3) << std::fixed
+#define FL_DECIMALS 3
 
 #ifdef FL_NO_LOG
 #define FL_LOG(message)

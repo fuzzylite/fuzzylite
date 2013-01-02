@@ -21,8 +21,6 @@ namespace fl {
 
     class Rule {
     protected:
-        Antecedent* _antecedent;
-        Consequent* _consequent;
         scalar _weight;
         std::string _unparsedRule;
 
@@ -31,11 +29,9 @@ namespace fl {
         Rule();
         virtual ~Rule();
 
-        virtual void setAntecedent(Antecedent* antecedent);
-        virtual Antecedent* getAntecedent() const;
+        virtual Antecedent* getAntecedent() const = 0;
 
-        virtual void setConsequent(Consequent* consequent);
-        virtual Consequent* getConsequent() const;
+        virtual Consequent* getConsequent() const = 0;
 
         virtual scalar firingStrength(const TNorm* tnorm, const SNorm* snorm) const;
         virtual void fire(scalar strength, const TNorm* activation) const;

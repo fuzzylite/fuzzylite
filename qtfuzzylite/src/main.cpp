@@ -8,7 +8,6 @@
 #include <QtGui/QApplication>
 #include <fl/Headers.h>
 
-#include "fl/qt/Canvas.h"
 #include "fl/qt/Configuration.h"
 #include "fl/qt/Window.h"
 #include "fl/qt/Term.h"

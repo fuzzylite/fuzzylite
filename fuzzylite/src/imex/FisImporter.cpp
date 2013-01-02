@@ -111,11 +111,12 @@ namespace fl {
 
     void FisImporter::importInput(const std::string& section, Engine* engine) const {
         std::istringstream reader(section);
+        std::string line;
+        std::getline(reader, line); //ignore first line [Input#]
 
         InputVariable* input = new InputVariable;
         engine->addInputVariable(input);
 
-        std::string line;
         while (std::getline(reader, line)) {
             std::vector<std::string> keyValue = fl::Op::Split(line, "=");
             if (keyValue.size() != 2)
@@ -139,11 +140,13 @@ namespace fl {
 
     void FisImporter::importOutput(const std::string& section, Engine* engine) const {
         std::istringstream reader(section);
+        std::string line;
+        std::getline(reader, line); //ignore first line [Output#]
 
         OutputVariable* output = new OutputVariable;
         engine->addOutputVariable(output);
 
-        std::string line;
+
         while (std::getline(reader, line)) {
             std::vector<std::string> keyValue = fl::Op::Split(line, "=");
             if (keyValue.size() != 2)
@@ -170,7 +173,25 @@ namespace fl {
     }
 
     void FisImporter::importRules(const std::string& section, Engine* engine) const {
- }
+        std::istringstream reader(section);
+        std::string line;
+        std::getline(reader, line); //ignore first line [Rules]
+
+        engine->addHedge(new Any);
+        engine->addHedge(new Extremely);
+        engine->addHedge(new Not);
+        engine->addHedge(new Seldom);
+        engine->addHedge(new Somewhat);
+        engine->addHedge(new Very);
+
+        RuleBlock* ruleblock = new RuleBlock;
+        engine->addRuleBlock(ruleblock);
+
+
+        while (std::getline(reader, line)) {
+            ruleblock->addRule(MamdaniRule::parse(line, engine));
+        }
+    }
 
     TNorm* FisImporter::extractTNorm(const std::string& name) const {
         if (name == "min") return new Minimum;
@@ -223,8 +244,6 @@ namespace fl {
 
         return createInstance(termParams[0], nameTerm[0], params);
     }
-
-    
 
     Term* FisImporter::createInstance(const std::string& termClass,
             const std::string& name, const std::vector<scalar>& params) const {
@@ -330,14 +349,15 @@ namespace fl {
         }
         throw fl::Exception(ex.str());
     }
-    
-    Defuzzifier* FisImporter::extractDefuzzifier(const std::string& name) const{
+
+    Defuzzifier* FisImporter::extractDefuzzifier(const std::string& name) const {
         if (name == "centroid") return new CenterOfGravity;
         if (name == "som") return new SmallestOfMaximum;
         if (name == "lom") return new LargestOfMaximum;
         if (name == "mom") return new MeanOfMaximum;
         throw fl::Exception("[syntax error] defuzzifier <" + name + "> not recognized");
     }
+
     void FisImporter::extractRange(const std::string& range, scalar& minimum, scalar& maximum) const {
         std::vector<std::string> parts = fl::Op::Split(range, " ");
         if (parts.size() != 2)
@@ -350,8 +370,8 @@ namespace fl {
         minimum = fl::Op::toScalar(begin.substr(1));
         maximum = fl::Op::toScalar(end.substr(0, end.size() - 1));
     }
-    
-    
+
+
 
 
 }

@@ -18,8 +18,7 @@ namespace fl {
     namespace qt {
 
         Viewer::Viewer(QWidget* parent, Qt::WindowFlags f) :
-        QWidget(parent, f), constVariable(NULL), ui(new Ui::Viewer) {
-        }
+        QWidget(parent, f), constVariable(NULL), ui(new Ui::Viewer) { }
 
         Viewer::~Viewer() {
             delete ui;
@@ -87,7 +86,7 @@ namespace fl {
 
         void Viewer::onPressSlider() {
             ui->sld_x->setCursor(QCursor(Qt::ClosedHandCursor));
-//            exportToSvg("/tmp/qtfuzzylite.svg");
+            //            exportToSvg("/tmp/qtfuzzylite.svg");
         }
 
         void Viewer::onReleaseSlider() {
@@ -124,7 +123,7 @@ namespace fl {
 
         void Viewer::refresh() {
             ui->sbx_x->setSingleStep(
-                    (constVariable->getMaximum()- constVariable->getMinimum()) / 100);
+                    (constVariable->getMaximum() - constVariable->getMinimum()) / 100);
             scalar x = fl::Op::Scale(ui->sld_x->value(),
                     ui->sld_x->minimum(), ui->sld_x->maximum(),
                     constVariable->getMinimum(), constVariable->getMaximum());
@@ -263,10 +262,11 @@ namespace fl {
 //            svgGen.setTitle("qtfuzzylite");
 //            svgGen.setDescription("A fuzzy logic controller graphic user interface written in Qt");
 //
-//            QBrush background = QBrush(Qt::white);
+//
 //            QPainter painter;
 //            painter.begin(&svgGen);
-//            painter.fillRect(ui->canvas->viewport()->rect(), background);
+//            //            QBrush background = QBrush(Qt::white);
+//            //            painter.fillRect(ui->canvas->viewport()->rect(), background);
 //            ui->canvas->scene()->render(&painter);
 //            painter.end();
         }

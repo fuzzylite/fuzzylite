@@ -33,8 +33,10 @@ namespace fl {
             InputVariable* input = engine->getInputVariable(i);
             cpp << "fl::InputVariable* inputVariable" << (i + 1) << " = new fl::InputVariable;\n";
             cpp << "inputVariable" << (i + 1) << "->setName(\"" << input->getName() << "\");\n";
-            cpp << "inputVariable" << (i + 1) << "->setMinimum(" << input->getMinimum() << ");\n";
-            cpp << "inputVariable" << (i + 1) << "->setMaximum(" << input->getMaximum() << ");\n";
+            cpp << "inputVariable" << (i + 1) << "->setMinimum(" <<
+                    fl::Op::str(input->getMinimum()) << ");\n";
+            cpp << "inputVariable" << (i + 1) << "->setMaximum(" <<
+                    fl::Op::str(input->getMaximum()) << ");\n";
             for (int t = 0; t < input->numberOfTerms(); ++t) {
                 cpp << "inputVariable" << (i + 1) << "->addTerm(new fl::" <<
                         toCpp(input->getTerm(t)) << ");\n";
@@ -46,8 +48,10 @@ namespace fl {
             OutputVariable* output = engine->getOutputVariable(i);
             cpp << "fl::OutputVariable* outputVariable" << (i + 1) << " = new fl::OutputVariable;\n";
             cpp << "outputVariable" << (i + 1) << "->setName(\"" << output->getName() << "\");\n";
-            cpp << "outputVariable" << (i + 1) << "->setMinimum(" << output->getMinimum() << ");\n";
-            cpp << "outputVariable" << (i + 1) << "->setMaximum(" << output->getMaximum() << ");\n";
+            cpp << "outputVariable" << (i + 1) << "->setMinimum(" <<
+                    fl::Op::str(output->getMinimum()) << ");\n";
+            cpp << "outputVariable" << (i + 1) << "->setMaximum(" <<
+                    fl::Op::str(output->getMaximum()) << ");\n";
 
             cpp << "outputVariable" << (i + 1) << "->setDefaultValue(";
             scalar defaultValue = output->getDefaultValue();
@@ -55,7 +59,7 @@ namespace fl {
                 cpp << "std::numeric_limits<scalar>::quiet_NaN()";
             else if (fl::Op::IsInf(defaultValue))
                 cpp << (defaultValue < 0 ? "-" : "") << "std::numeric_limits<scalar>::infinity()";
-            else cpp << defaultValue;
+            else cpp << fl::Op::str(defaultValue);
             cpp << ");\n";
 
             cpp << "outputVariable" << (i + 1) << "->setLockDefuzzifiedValue(" <<
@@ -91,113 +95,119 @@ namespace fl {
         return cpp.str();
     }
 
-    std::string CppExporter::toCpp(const Term* term) const { 
+    std::string CppExporter::toCpp(const Term* term) const {
         std::ostringstream ss;
-        throw fl::Exception("Missing imoplementation of discrete");
         ss << term->className() << "(\"" << term->getName() << "\", ";
-        ss << std::setprecision(5);
+
         if (term->className() == Bell().className()) {
             const Bell* x = dynamic_cast<const Bell*> (term);
-            ss << x->getCenter() << ", " << x->getWidth() << ", " << x->getSlope()
-                    << ")";
+            scalar params[] = {x->getCenter(), x->getWidth(), x->getSlope()};
+            ss << fl::Op::str(3, params) << ")";
             return ss.str();
         }
 
         if (term->className() == Discrete().className()) {
-            ss << "'discretemf',[";
             const Discrete* x = dynamic_cast<const Discrete*> (term);
+            ss << x->x.size() << ",";
             for (std::size_t i = 0; i < x->x.size(); ++i) {
-                ss << x->x[i] << " " << x->y[i];
-                if (i < x->x.size() - 1) ss << " ";
+                ss << fl::Op::str(x->x[i]) << "," << fl::Op::str(x->y[i]);
+                if (i < x->x.size() - 1) ss << ",";
             }
-            ss << "]";
+            ss << ")";
             return ss.str();
         }
 
         if (term->className() == Gaussian().className()) {
             const Gaussian* x = dynamic_cast<const Gaussian*> (term);
-            ss << x->getMean() << ", " << x->getSigma() << ")";
+            scalar params[] = {x->getMean(), x->getSigma()};
+            ss << fl::Op::str(2, params) << ")";
             return ss.str();
         }
 
         if (term->className() == GaussianProduct().className()) {
             const GaussianProduct* x = dynamic_cast<const GaussianProduct*> (term);
-            ss << x->getMeanA() << ", " << x->getSigmaA() << ", "
-                    << 
-            ss << "'gauss2mf',[" << x->getSigmaA() << " " << x->getMeanA() <<
-                    x->getSigmaB() << " " << x->getMeanB() << "]";
+            scalar params[] = {x->getMeanA(), x->getSigmaA(), x->getMeanB(), x->getSigmaB()};
+            ss << fl::Op::str(4, params) << ")";
             return ss.str();
         }
 
         if (term->className() == PiShape().className()) {
             const PiShape* x = dynamic_cast<const PiShape*> (term);
-            ss << "'pimf',[" << x->getA() << " " << x->getB() << " "
-                    << x->getC() << " " << x->getD() << "]";
+            scalar params[] = {x->getA(), x->getB(), x->getC(), x->getD()};
+            ss << fl::Op::str(4, params) << ")";
             return ss.str();
         }
 
         if (term->className() == Ramp().className()) {
             const Ramp* x = dynamic_cast<const Ramp*> (term);
-            ss << "'rampmf',[" << x->getStart() << " " << x->getEnd() << "]";
+            scalar params[] = {x->getStart(), x->getEnd()};
+            ss << fl::Op::str(2, params) << ")";
             return ss.str();
         }
 
         if (term->className() == Rectangle().className()) {
             const Rectangle* x = dynamic_cast<const Rectangle*> (term);
-            ss << "'rectmf',[" << x->getMinimum() << " " << x->getMaximum() << "]";
+            scalar params[] = {x->getMinimum(), x->getMaximum()};
+            ss << fl::Op::str(2, params) << ")";
             return ss.str();
         }
 
         if (term->className() == SShape().className()) {
             const SShape* x = dynamic_cast<const SShape*> (term);
-            ss << "'smf',[" << x->getStart() << " " << x->getEnd() << "]";
+            scalar params[] = {x->getStart(), x->getEnd()};
+            ss << fl::Op::str(2, params) << ")";
             return ss.str();
         }
 
         if (term->className() == Sigmoid().className()) {
             const Sigmoid* x = dynamic_cast<const Sigmoid*> (term);
-            ss << "'sigmf',[" << x->getSlope() << " " << x->getInflection() << "]";
+            scalar params[] = {x->getInflection(), x->getSlope()};
+            ss << fl::Op::str(2, params) << ")";
             return ss.str();
         }
 
         if (term->className() == SigmoidDifference().className()) {
             const SigmoidDifference* x = dynamic_cast<const SigmoidDifference*> (term);
-            ss << "'dsigmf',[" << x->getRisingSlope() << " " << x->getLeftInflection() <<
-                    " " << x->getFallingSlope() << " " << x->getRightInflection() << "]";
+            scalar params[] = {x->getLeftInflection(), x->getRisingSlope(),
+                x->getRightInflection(), x->getFallingSlope()};
+            ss << fl::Op::str(4, params) << ")";
             return ss.str();
         }
 
         if (term->className() == SigmoidProduct().className()) {
             const SigmoidProduct* x = dynamic_cast<const SigmoidProduct*> (term);
-            ss << "'psigmf',[" << x->getRisingSlope() << " " << x->getLeftInflection() <<
-                    " " << x->getFallingSlope() << " " << x->getRightInflection() << "]";
+            scalar params[] = {x->getLeftInflection(), x->getRisingSlope(),
+                x->getRightInflection(), x->getFallingSlope()};
+            ss << fl::Op::str(4, params) << ")";
             return ss.str();
         }
 
         if (term->className() == Trapezoid().className()) {
             const Trapezoid* x = dynamic_cast<const Trapezoid*> (term);
-            ss << "'trapmf',[" << x->getA() << " " << x->getB() << " " <<
-                    x->getC() << " " << x->getD() << "]";
+            scalar params[] = {x->getA(), x->getB(), x->getC(), x->getD()};
+            ss << fl::Op::str(4, params) << ")";
             return ss.str();
         }
 
         if (term->className() == Triangle().className()) {
             const Triangle* x = dynamic_cast<const Triangle*> (term);
-            ss << "'trimf',[" << x->getA() << " " << x->getB() << " " << x->getC() << "]";
+            scalar params[] = {x->getA(), x->getB(), x->getC()};
+            ss << fl::Op::str(3, params) << ")";
             return ss.str();
         }
 
         if (term->className() == ZShape().className()) {
             const ZShape* x = dynamic_cast<const ZShape*> (term);
-            ss << "'zmf',[" << x->getStart() << " " << x->getEnd() << "]";
+            scalar params[] = {x->getStart(), x->getEnd()};
+            ss << fl::Op::str(2, params) << ")";
             return ss.str();
         }
 
-        ss << "[term error] term of class <" << term->className() << "> not supported";
+        ss << "[export error] term of class <" << term->className() << "> not supported";
         throw fl::Exception(ss.str());
     }
 
-    std::string CppExporter::toCpp(const Hedge* hedge) const {
+    std::string CppExporter::toCpp(const Hedge * hedge) const {
         if (hedge->name() == Any().name()) return "Any";
         if (hedge->name() == Extremely().name()) return "Extremely";
         if (hedge->name() == Not().name()) return "Not";

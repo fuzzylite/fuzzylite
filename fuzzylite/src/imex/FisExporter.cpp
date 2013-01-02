@@ -8,7 +8,7 @@
 #include "fl/imex/FisExporter.h"
 
 #include "fl/Headers.h"
-
+#include <queue>
 namespace fl {
 
     FisExporter::FisExporter() { }
@@ -72,7 +72,7 @@ namespace fl {
                 ", but none was set");
 
         if (not uniquenessError.empty())
-            throw fl::Exception("[format error] fis files require all ruleblocks "
+            throw fl::Exception("[export error] fis files require all ruleblocks "
                 "to have the same " + uniquenessError);
 
         fis << "AndMethod='" << toFis(tnorm) << "'\n";
@@ -101,7 +101,7 @@ namespace fl {
                 ", but none was set");
 
         if (not uniquenessError.empty())
-            throw fl::Exception("[format error] fis files require all ruleblocks "
+            throw fl::Exception("[export error] fis files require all ruleblocks "
                 "to have the same " + uniquenessError);
 
         fis << "AggMethod='" << toFis(accumulation) << "'\n";
@@ -126,7 +126,7 @@ namespace fl {
         return fis.str();
     }
 
-    std::string FisExporter::exportOutputs(const Engine* engine) const{
+    std::string FisExporter::exportOutputs(const Engine* engine) const {
         std::ostringstream fis;
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* var = engine->getOutputVariable(i);
@@ -144,14 +144,114 @@ namespace fl {
         fis << "\n";
         return fis.str();
     }
-    
-    std::string FisExporter::exportRules(const Engine* engine) const{
+
+    std::string FisExporter::exportRules(const Engine* engine) const {
         std::ostringstream fis;
         fis << "[Rules]\n";
+        for (int ruleBlockIndex = 0; ruleBlockIndex < engine->numberOfRuleBlocks(); ++ruleBlockIndex) {
+            RuleBlock* rb = engine->getRuleBlock(ruleBlockIndex);
+            fis << "# RuleBlock " << rb->getName() << "\n";
+            for (int ruleIndex = 0; ruleIndex < rb->numberOfRules(); ++ruleIndex) {
+                fis << exportRule(dynamic_cast<MamdaniRule*> (rb->getRule(ruleIndex)), engine) << "\n";
+            }
+        }
         return fis.str();
     }
-    
-    std::string FisExporter::toFis(const TNorm* tnorm) const {
+
+    std::string FisExporter::exportRule(const MamdaniRule* rule, const Engine* engine) const {
+        std::vector<MamdaniProposition*> propositions;
+        std::vector<MamdaniOperator*> operators;
+
+        std::queue<MamdaniExpression*> bfsQueue;
+        bfsQueue.push(rule->getAntecedent()->getRoot());
+        while (not bfsQueue.empty()) {
+            MamdaniExpression* front = bfsQueue.front();
+            bfsQueue.pop();
+            if (front->isOperator) {
+                MamdaniOperator* op = dynamic_cast<MamdaniOperator*> (front);
+                bfsQueue.push(op->left);
+                bfsQueue.push(op->right);
+                operators.push_back(op);
+            } else {
+                propositions.push_back(dynamic_cast<MamdaniProposition*> (front));
+            }
+        }
+
+        bool equalOperators = true;
+        for (int i = 0; i < (int) operators.size() - 1; ++i) {
+            if (operators[i]->name != operators[i + 1]->name) {
+                equalOperators = false;
+                break;
+            }
+        }
+        if (not equalOperators)
+            throw fl::Exception("[export error] "
+                "fis files do not support rules with different connectors "
+                "(i.e. ['and', 'or']). All connectors within a rule must be the same");
+
+        std::ostringstream fis;
+        std::vector<Variable*> inputVariables, outputVariables;
+        for (int i = 0; i < engine->numberOfInputVariables(); ++i)
+            inputVariables.push_back(engine->getInputVariable(i));
+        for (int i = 0; i < engine->numberOfOutputVariables(); ++i)
+            outputVariables.push_back(engine->getOutputVariable(i));
+
+        fis << "[" << translate(propositions, inputVariables) << ", ";
+        fis << translate(rule->getConsequent()->conclusions(), outputVariables);
+        fis << "(" << rule->getWeight() << ") : ";
+        if (operators.size() == 0) fis << "1"; //does not matter
+        else {
+            if (operators[0]->name == Rule::FL_AND) fis << "1";
+            else if (operators[0]->name == Rule::FL_OR) fis << "2";
+            else fis << operators[0]->name;
+        }
+        fis << "]";
+        return fis.str();
+    }
+
+    std::string FisExporter::translate(const std::vector<MamdaniProposition*>& propositions,
+            const std::vector<Variable*> variables) const {
+        std::ostringstream ss;
+        for (std::size_t ixVariable = 0; ixVariable < variables.size(); ++ixVariable) {
+            Variable* variable = variables[ixVariable];
+            int termIndexPlusOne = 0;
+            scalar plusHedge = 0.0;
+            for (std::size_t ixProposition = 0; ixProposition < propositions.size(); ++ixProposition) {
+                MamdaniProposition* proposition = propositions[ixProposition];
+                if (proposition->variable != variable) continue;
+
+                for (int termIndex = 0; termIndex < variable->numberOfTerms(); ++termIndex) {
+                    if (variable->getTerm(termIndex) == proposition->term) {
+                        termIndexPlusOne = termIndex + 1;
+                        break;
+                    }
+                }
+                std::vector<Hedge*> hedges = proposition->hedges;
+                if (hedges.size() > 0) {
+                    FL_LOG("[export warning] multiple hedges are not supported, "
+                            "only considering the first hedge except for double hedge 'very'");
+                    Hedge* hedge = hedges[0];
+                    if (hedge->name() == Not().name()) plusHedge = -1;
+                    else if (hedge->name() == Somewhat().name()) plusHedge += 5;
+                    else if (hedge->name() == Extremely().name()) plusHedge += 3;
+                    else if (hedge->name() == Very().name()) {
+                        plusHedge += 2;
+                        if (propositions[ixProposition]->hedges.size() > 1
+                                and hedges[1]->name() == Very().name())
+                            plusHedge += 2;
+                    } else plusHedge = std::numeric_limits<scalar>::quiet_NaN();
+                }
+            }
+            if (fl::Op::IsEq(plusHedge, -1)) ss << "-";
+            ss << termIndexPlusOne;
+            if (not fl::Op::IsEq(plusHedge, 0.0))
+                ss << "." << fl::Op::str(plusHedge, 0);
+            ss << " ";
+        }
+        return ss.str();
+    }
+
+    std::string FisExporter::toFis(const TNorm * tnorm) const {
         if (not tnorm) return "";
         std::string name = tnorm->className();
         if (name == Minimum().className()) return "min";
@@ -176,7 +276,7 @@ namespace fl {
         return snorm->className();
     }
 
-    std::string FisExporter::toFis(const Defuzzifier* defuzzifier) const {
+    std::string FisExporter::toFis(const Defuzzifier * defuzzifier) const {
         if (not defuzzifier) return "";
         if (defuzzifier->className() == CenterOfGravity().className()) return "centroid";
         if (defuzzifier->className() == SmallestOfMaximum().className()) return "som";
@@ -185,7 +285,7 @@ namespace fl {
         return defuzzifier->className();
     }
 
-    std::string FisExporter::toFis(const Term* term) const {
+    std::string FisExporter::toFis(const Term * term) const {
         std::ostringstream ss;
         if (term->className() == Bell().className()) {
             const Bell* x = dynamic_cast<const Bell*> (term);
@@ -282,7 +382,7 @@ namespace fl {
             return ss.str();
         }
 
-        ss << "[term error] term of class <" << term->className() << "> not supported";
+        ss << "[export error] term of class <" << term->className() << "> not supported";
         throw fl::Exception(ss.str());
     }
 }

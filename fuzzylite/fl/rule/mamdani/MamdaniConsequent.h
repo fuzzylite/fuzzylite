@@ -23,7 +23,9 @@ namespace fl {
     public:
         MamdaniConsequent();
         virtual ~MamdaniConsequent();
-
+        
+        virtual std::vector<MamdaniProposition*> conclusions() const;
+        
         virtual void load(const std::string& consequent, const Engine* engine);
 
         virtual void fire(scalar strength, const TNorm* activation);

@@ -22,12 +22,31 @@ namespace fl {
     MamdaniRule::MamdaniRule()
     : Rule() { }
 
-    MamdaniRule::~MamdaniRule() { }
+    MamdaniRule::~MamdaniRule() {
+        delete _consequent;
+        delete _antecedent;
+    }
+
+    void MamdaniRule::setAntecedent(MamdaniAntecedent* antecedent) {
+        this->_antecedent = antecedent;
+    }
+
+    MamdaniAntecedent* MamdaniRule::getAntecedent() const {
+        return this->_antecedent;
+    }
+
+    void MamdaniRule::setConsequent(MamdaniConsequent* consequent) {
+        this->_consequent = consequent;
+    }
+
+    MamdaniConsequent* MamdaniRule::getConsequent() const {
+        return this->_consequent;
+    }
 
     MamdaniRule* MamdaniRule::parse(const std::string& rule, const Engine* engine) {
         MamdaniRule* result = new MamdaniRule();
         result->setUnparsedRule(rule);
-        
+
         std::istringstream tokenizer(rule);
         std::string token;
         std::ostringstream ossAntecedent, ossConsequent;
@@ -85,43 +104,16 @@ namespace fl {
                 throw fl::Exception(ex.str());
             }
 
-            MamdaniAntecedent* antecedent = new MamdaniAntecedent;
-            antecedent->load(ossAntecedent.str(), engine);
-            result->setAntecedent(antecedent);
+            result->_antecedent = new MamdaniAntecedent;
+            result->_antecedent->load(ossAntecedent.str(), engine);
 
-            MamdaniConsequent* consequent = new MamdaniConsequent;
-            consequent->load(ossConsequent.str(), engine);
-            result->setConsequent(consequent);
+            result->_consequent = new MamdaniConsequent;
+            result->_consequent->load(ossConsequent.str(), engine);
         } catch (fl::Exception& ex) {
             delete result;
             throw ex;
         }
         return result;
-    }
-
-    void MamdaniRule::main() {
-        //        std::vector<std::string> tokens;
-        //        regex_t regexCompiled;
-        //        regcomp(&regexCompiled, "(^\\s*if\\s+)(.*)(\\s+then\\s+)(.*)", REG_EXTENDED);
-        //
-        //        int numberOfTokens = regexCompiled.re_nsub + 1;
-        //        regmatch_t matches[numberOfTokens];
-        //
-        //        if (regexec(&regexCompiled, rule.c_str(), numberOfTokens, matches, 0)
-        //                == 0) {
-        //            for (int i = 0; i < numberOfTokens; ++i) {
-        //                if (matches[i].rm_so == -1) { //FL_LOG("No more tokens");
-        //                    break;
-        //                }
-        //                std::string token = rule.substr(matches[i].rm_so,
-        //                        matches[i].rm_eo - matches[i].rm_so);
-        //                tokens.push_back(token);
-        //            }
-        //        }
-        //        regfree(&regexCompiled);
-        //        if (tokens.size() != 5) {
-        //            FL_LOG("expected five (5) tokens, but found " << tokens.size() << " in rule: " << rule);
-        //        }
     }
 
 }

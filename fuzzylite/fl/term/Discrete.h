@@ -10,10 +10,12 @@
 
 #include "fl/term/Term.h"
 
+#include "fl/Exception.h"
+
 #include <vector>
 #include <utility>
 namespace fl {
-
+    
     class Discrete : public Term {
     public:
         std::vector<scalar> x;
@@ -21,15 +23,17 @@ namespace fl {
 
         Discrete(const std::string& name = "");
 
+        Discrete(const std::string& name, int argc, ...) throw (fl::Exception);
+
         Discrete(const std::string& name,
                 const std::vector<scalar>& x,
                 const std::vector<scalar>& y);
 
         Discrete(const std::string& name,
                 const std::vector<std::pair<scalar, scalar> >& xy);
-        
-        
-        
+
+
+
         ~Discrete();
 
         std::string className() const;
@@ -43,5 +47,5 @@ namespace fl {
 
     };
 
-} 
+}
 #endif /* FL_DISCRETE_H_ */

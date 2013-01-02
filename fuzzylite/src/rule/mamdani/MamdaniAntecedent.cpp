@@ -35,6 +35,10 @@ namespace fl {
         if (_root)
             delete _root;
     }
+    
+    MamdaniExpression* MamdaniAntecedent::getRoot() const{
+        return this->_root;
+    }
 
     scalar MamdaniAntecedent::firingStrength(const TNorm* tnorm, const SNorm* snorm,
             const MamdaniExpression* node) const {

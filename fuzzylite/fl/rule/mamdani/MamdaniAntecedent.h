@@ -27,6 +27,8 @@ namespace fl {
         MamdaniAntecedent();
         virtual ~MamdaniAntecedent();
 
+        virtual MamdaniExpression* getRoot() const;
+        
         virtual void load(const std::string& antecedent, const Engine* engine);
 
         virtual scalar firingStrength(const TNorm* tnorm, const SNorm* snorm, const MamdaniExpression* node) const;

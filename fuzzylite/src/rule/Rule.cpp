@@ -22,29 +22,9 @@ namespace fl {
     std::string Rule::FL_OR = "or";
     std::string Rule::FL_WITH = "with";
 
-    Rule::Rule()
-    : _antecedent(NULL), _consequent(NULL), _weight(1.0) {
-    }
+    Rule::Rule() : _weight(1.0) { }
 
     Rule::~Rule() {
-        delete _consequent;
-        delete _antecedent;
-    }
-
-    void Rule::setAntecedent(Antecedent* antecedent) {
-        this->_antecedent = antecedent;
-    }
-
-    Antecedent* Rule::getAntecedent() const {
-        return this->_antecedent;
-    }
-
-    void Rule::setConsequent(Consequent* consequent) {
-        this->_consequent = consequent;
-    }
-
-    Consequent* Rule::getConsequent() const {
-        return this->_consequent;
     }
 
     void Rule::setWeight(scalar weight) {
@@ -57,25 +37,25 @@ namespace fl {
 
     scalar Rule::firingStrength(const TNorm* tnorm,
             const SNorm* snorm) const {
-        return this->_antecedent->firingStrength(tnorm, snorm);
+        return getAntecedent()->firingStrength(tnorm, snorm);
     }
 
     void Rule::fire(scalar strength, const TNorm* activation) const {
-        return this->_consequent->fire(strength * _weight, activation);
+        return getConsequent()->fire(strength * _weight, activation);
     }
-    
-    
-    void Rule::setUnparsedRule(const std::string& unparsedRule){
+
+    void Rule::setUnparsedRule(const std::string& unparsedRule) {
         this->_unparsedRule = unparsedRule;
     }
-    std::string Rule::getUnparsedRule() const{
+
+    std::string Rule::getUnparsedRule() const {
         return this->_unparsedRule;
     }
 
     std::string Rule::toString() const {
         std::stringstream ss;
-        ss << FL_IF << " " << _antecedent->toString() << " "
-                << FL_THEN << " " << _consequent->toString();
+        ss << FL_IF << " " << getAntecedent()->toString() << " "
+                << FL_THEN << " " << getConsequent()->toString();
         if (not fl::Op::IsEq(_weight, 1.0)) {
             ss << " " << FL_WITH << " " << _weight;
         }

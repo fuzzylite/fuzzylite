@@ -29,6 +29,10 @@ namespace fl {
         }
     }
 
+    std::vector<MamdaniProposition*> MamdaniConsequent::conclusions() const{
+        return this->_conclusions;
+    }
+    
     void MamdaniConsequent::fire(scalar strength, const TNorm* activation) {
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
             MamdaniProposition* proposition = _conclusions[i];
