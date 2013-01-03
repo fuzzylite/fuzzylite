@@ -668,10 +668,10 @@ namespace fl {
 
         void Term::onClickDiscreteParser() {
             std::string xString = ui->led_discrete_x->text().toStdString();
-            std::vector<std::string> xValues = fl::Op::Split(xString, " ");
+            std::vector<std::string> xValues = fl::Op::split(xString, " ");
 
             std::string yString = ui->led_discrete_y->text().toStdString();
-            std::vector<std::string> yValues = fl::Op::Split(yString, " ");
+            std::vector<std::string> yValues = fl::Op::split(yString, " ");
 
             if (xValues.size() != yValues.size()) {
                 QString xSize = QString::number(xValues.size());

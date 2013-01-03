@@ -136,7 +136,7 @@ namespace fl {
 
         std::getline(blockReader, line); //discard first line as it is VAR_INPUT
         while (getline(blockReader, line)) {
-            std::vector<std::string> token = Op::Split(line, ":");
+            std::vector<std::string> token = Op::split(line, ":");
             if (token.size() != 2) {
                 std::ostringstream ex;
                 ex << "[syntax error] expected property of type (key : value) in line:"
@@ -286,7 +286,7 @@ namespace fl {
     }
 
     TNorm* FclImporter::extractTNorm(const std::string& line) const {
-        std::vector<std::string> token = Op::Split(line, ":");
+        std::vector<std::string> token = Op::split(line, ":");
         if (token.size() != 2) {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key : value) in line: "
@@ -308,7 +308,7 @@ namespace fl {
     }
 
     SNorm* FclImporter::extractSNorm(const std::string& line) const {
-        std::vector<std::string> token = Op::Split(line, ":");
+        std::vector<std::string> token = Op::split(line, ":");
         if (token.size() != 2) {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key : value) in line: "
@@ -398,10 +398,11 @@ namespace fl {
         if (termClass.empty() or termClass == Discrete().className()) {
             if (params.size() % 2 == 0) {
                 Discrete* term = new Discrete(name);
-                for (std::size_t i = 0; i < params.size() - 2; i += 2) {
+                for (std::size_t i = 0; i < params.size() - 1; i += 2) {
                     term->x.push_back(params[i]);
                     term->y.push_back(params[i + 1]);
                 }
+                return term;
             } else {
                 std::ostringstream ex;
                 ex << "[syntax error] a discrete term requires an even list of values, "
@@ -430,7 +431,7 @@ namespace fl {
 
         if (termClass == PiShape().className()) {
             if (params.size() == (requiredParams = 4)) {
-                return new PiShape(name, params[0], params[1]);
+                return new PiShape(name, params[0], params[1], params[2], params[3]);
             }
         }
 
@@ -498,7 +499,7 @@ namespace fl {
     }
 
     Defuzzifier* FclImporter::extractDefuzzifier(const std::string& line) const {
-        std::vector<std::string> token = Op::Split(line, ":");
+        std::vector<std::string> token = Op::split(line, ":");
         if (token.size() != 2) {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key : value) in "
@@ -519,7 +520,7 @@ namespace fl {
     }
 
     scalar FclImporter::extractDefaultValue(const std::string& line, bool& lockDefuzzifiedValue) const {
-        std::vector<std::string> token = Op::Split(line, ":=");
+        std::vector<std::string> token = Op::split(line, ":=");
         if (token.size() != 2) {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key := value) in line: "
@@ -528,7 +529,7 @@ namespace fl {
         }
 
         std::string defaultValue = Op::FindReplace(token[1], " ", "");
-        token = Op::Split(defaultValue, "|");
+        token = Op::split(defaultValue, "|");
 
         scalar value;
         try {
@@ -558,7 +559,7 @@ namespace fl {
     }
 
     void FclImporter::extractRange(const std::string& line, scalar& minimum, scalar& maximum) const {
-        std::vector<std::string> token = Op::Split(line, ":=");
+        std::vector<std::string> token = Op::split(line, ":=");
         if (token.size() != 2) {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key := value) in line: "
@@ -573,11 +574,10 @@ namespace fl {
                 continue;
             range << character;
         }
-
-        token = Op::Split(range.str(), "..");
+        token = Op::split(range.str(), "..");
         if (token.size() != 2) {
             std::ostringstream ex;
-            ex << "[syntax error] expected property of type (key .. value) in line: "
+            ex << "[syntax error] expected property of type 'start .. end' in line: "
                     << std::endl << line;
             throw fl::Exception(ex.str());
         }

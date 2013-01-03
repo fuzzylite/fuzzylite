@@ -18,9 +18,7 @@ namespace fl {
     public:
         Engine* engine;
 
-        Example() :
-        engine(NULL) {
-        }
+        Example() : engine(NULL) { }
 
         virtual ~Example() {
             if (engine) delete engine;

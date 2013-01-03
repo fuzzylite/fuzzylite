@@ -81,7 +81,7 @@ namespace fl {
         std::string line;
         std::getline(reader, line); //ignore first line [System]
         while (std::getline(reader, line)) {
-            std::vector<std::string> keyValue = fl::Op::Split(line, "=");
+            std::vector<std::string> keyValue = fl::Op::split(line, "=");
             if (keyValue.size() != 2)
                 throw fl::Exception("[syntax error] expected a property of type "
                     "'key=value', but found < " + line + ">");
@@ -118,7 +118,7 @@ namespace fl {
         engine->addInputVariable(input);
 
         while (std::getline(reader, line)) {
-            std::vector<std::string> keyValue = fl::Op::Split(line, "=");
+            std::vector<std::string> keyValue = fl::Op::split(line, "=");
             if (keyValue.size() != 2)
                 throw fl::Exception("[syntax error] expected a property of type "
                     "'key=value', but found < " + line + ">");
@@ -148,7 +148,7 @@ namespace fl {
 
 
         while (std::getline(reader, line)) {
-            std::vector<std::string> keyValue = fl::Op::Split(line, "=");
+            std::vector<std::string> keyValue = fl::Op::split(line, "=");
             if (keyValue.size() != 2)
                 throw fl::Exception("[syntax error] expected a property of type "
                     "'key=value', but found < " + line + ">");
@@ -188,9 +188,9 @@ namespace fl {
         engine->addRuleBlock(ruleblock);
 
 
-        while (std::getline(reader, line)) {
-            ruleblock->addRule(MamdaniRule::parse(line, engine));
-        }
+//        while (std::getline(reader, line)) {
+//            ruleblock->addRule(MamdaniRule::parse(line, engine));
+//        }
     }
 
     TNorm* FisImporter::extractTNorm(const std::string& name) const {
@@ -225,18 +225,18 @@ namespace fl {
         }
         std::string line = ss.str();
 
-        std::vector<std::string> nameTerm = fl::Op::Split(line, ":");
+        std::vector<std::string> nameTerm = fl::Op::split(line, ":");
         if (nameTerm.size() != 2) {
             throw fl::Exception("[syntax error] expected term in format 'name':'class',[params], "
                     "but found " + line);
         }
-        std::vector<std::string> termParams = fl::Op::Split(nameTerm[1], ",");
+        std::vector<std::string> termParams = fl::Op::split(nameTerm[1], ",");
         if (termParams.size() != 2) {
             throw fl::Exception("[syntax error] expected term in format 'name':'class',[params], "
                     "but found " + line);
         }
 
-        std::vector<std::string> strParams = fl::Op::Split(termParams[1], " ");
+        std::vector<std::string> strParams = fl::Op::split(termParams[1], " ");
         std::vector<scalar> params;
         for (std::size_t i = 0; i < strParams.size(); ++i) {
             params.push_back(fl::Op::toScalar(strParams[i]));
@@ -359,7 +359,7 @@ namespace fl {
     }
 
     void FisImporter::extractRange(const std::string& range, scalar& minimum, scalar& maximum) const {
-        std::vector<std::string> parts = fl::Op::Split(range, " ");
+        std::vector<std::string> parts = fl::Op::split(range, " ");
         if (parts.size() != 2)
             throw fl::Exception("[syntax error] expected range in format '[begin end]',"
                 " but found <" + range + ">");

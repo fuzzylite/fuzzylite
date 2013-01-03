@@ -41,6 +41,7 @@ namespace fl {
                 cpp << "inputVariable" << (i + 1) << "->addTerm(new fl::" <<
                         toCpp(input->getTerm(t)) << ");\n";
             }
+            cpp << "engine->addInputVariable(inputVariable" << (i + 1) << ");\n";
             cpp << "\n";
         }
 
@@ -75,22 +76,28 @@ namespace fl {
                 cpp << "outputVariable" << (i + 1) << "->addTerm(new fl::" <<
                         toCpp(output->getTerm(t)) << ");\n";
             }
+            cpp << "engine->addOutputVariable(outputVariable" << (i + 1) << ");\n";
             cpp << "\n";
         }
 
         for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
             RuleBlock* ruleblock = engine->getRuleBlock(i);
             cpp << "fl::RuleBlock* ruleblock" << (i + 1) << " = new fl::RuleBlock;\n";
-            cpp << "ruleblock->setName(\"" << ruleblock->getName() << "\");\n";
-            cpp << "ruleblock->setTnorm(new fl::" << ruleblock->getTnorm()->className() << ");\n";
-            cpp << "ruleblock->setSnorm(new fl::" << ruleblock->getSnorm()->className() << ");\n";
-            cpp << "ruleblock->setActivation(new fl::" << ruleblock->getActivation()->className() << ");\n";
+            cpp << "ruleblock" << (i + 1) << "->setName(\"" << ruleblock->getName() << "\");\n";
+            cpp << "ruleblock" << (i + 1) << "->setTnorm(new fl::"
+                    << ruleblock->getTnorm()->className() << ");\n";
+            cpp << "ruleblock" << (i + 1) << "->setSnorm(new fl::"
+                    << ruleblock->getSnorm()->className() << ");\n";
+            cpp << "ruleblock" << (i + 1) << "->setActivation(new fl::"
+                    << ruleblock->getActivation()->className() << ");\n";
 
             for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
-                cpp << "ruleblock->addRule(fl::MamdaniRule::parse(\"" <<
+                cpp << "ruleblock" << (i + 1) << "->addRule(fl::MamdaniRule::parse(\"" <<
                         ruleblock->getRule(r)->getUnparsedRule() << "\", engine));\n";
             }
+            cpp << "engine->addRuleBlock(ruleblock" << (i + 1) << ");\n";
         }
+        cpp << "\n";
 
         return cpp.str();
     }
@@ -108,7 +115,7 @@ namespace fl {
 
         if (term->className() == Discrete().className()) {
             const Discrete* x = dynamic_cast<const Discrete*> (term);
-            ss << x->x.size() << ",";
+            ss << x->x.size() + x->y.size() << ",";
             for (std::size_t i = 0; i < x->x.size(); ++i) {
                 ss << fl::Op::str(x->x[i]) << "," << fl::Op::str(x->y[i]);
                 if (i < x->x.size() - 1) ss << ",";

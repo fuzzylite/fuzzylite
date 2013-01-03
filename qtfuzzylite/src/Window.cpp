@@ -94,6 +94,9 @@ namespace fl {
                     this, SLOT(onMenuExample3()));
             QObject::connect(ui->actionExample4, SIGNAL(triggered()),
                     this, SLOT(onMenuExample4()));
+            QObject::connect(ui->actionAllTerms, SIGNAL(triggered()),
+                    this, SLOT(onMenuExampleAllTerms()));
+
 
             QObject::connect(ui->lvw_inputs, SIGNAL(itemSelectionChanged()),
                     this, SLOT(onChangeInputSelection()));
@@ -636,14 +639,24 @@ namespace fl {
                 Example2* example = new Example2;
                 Model::Default()->changeEngine(example->engine);
                 //Not deleted, as it will be deleted upon change.
-                reloadModel();
-                onClickParseAllRules();
-            }
-        }
+                reloadModel();  
+                onClickParseAllRules(); 
+            }  
+        } 
 
         void Window::onMenuExample3() { }
-
+ 
         void Window::onMenuExample4() { }
+
+        void Window::onMenuExampleAllTerms() {
+            if (onMenuExample(ui->actionAllTerms->text().toStdString())) {
+                AllTermsExample* example = new AllTermsExample;
+                Model::Default()->changeEngine(example->engine);
+                //Not deleted, as it will be deleted upon change.
+                reloadModel();
+                onClickParseAllRules(); 
+            }
+        } 
 
         void Window::onMenuConfiguration() {
             _configurationWindow->setFocus();
@@ -786,7 +799,7 @@ namespace fl {
             QTextCursor tc = fclUi.pte_fcl->textCursor();
             tc.movePosition(QTextCursor::Start);
             fclUi.pte_fcl->setTextCursor(tc);
-            fclDialog.exec(); 
+            fclDialog.exec();
         }
 
         void Window::onMenuReset() {

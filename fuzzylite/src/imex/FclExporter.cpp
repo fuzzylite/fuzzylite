@@ -163,7 +163,6 @@ namespace fl {
                         << fl::Op::str(discrete->y[i]) << ")";
                 if (i < discrete->x.size() - 1) ss << " ";
             }
-            ss << ";";
             return ss.str();
         }
         return term->toString();

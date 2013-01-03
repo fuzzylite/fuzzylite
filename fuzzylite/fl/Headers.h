@@ -73,5 +73,6 @@
 #include "fl/example/Example.h"
 #include "fl/example/Example1.h"
 #include "fl/example/Example2.h"
+#include "example/AllTermsExample.h"
 
 #endif /* FL_HEADERS_H_ */

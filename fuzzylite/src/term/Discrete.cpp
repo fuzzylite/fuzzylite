@@ -24,9 +24,11 @@ namespace fl {
         }
         va_list args;
         va_start(args, argc);
-        for (int i = 0; i < argc - 2; ++i) {
-            x.push_back(va_arg(args, scalar));
-            y.push_back(va_arg(args, scalar));
+        bool xTurn = true;
+        for (int i = 0; i < argc; ++i) {
+            if (xTurn) x.push_back(va_arg(args, scalar));
+            else y.push_back(va_arg(args, scalar));
+            xTurn = not xTurn;
         }
         va_end(args);
     }

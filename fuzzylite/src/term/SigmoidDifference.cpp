@@ -16,7 +16,7 @@ namespace fl {
     SigmoidDifference::SigmoidDifference(const std::string& name,
             scalar leftInflection, scalar risingSlope,
             scalar rightInflection, scalar fallingSlope)
-    : _leftInflection(leftInflection), _risingSlope(risingSlope),
+    : Term(name), _leftInflection(leftInflection), _risingSlope(risingSlope),
     _rightInflection(rightInflection), _fallingSlope(fallingSlope) { }
 
     std::string SigmoidDifference::className() const {

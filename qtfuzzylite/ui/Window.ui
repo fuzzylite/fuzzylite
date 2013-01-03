@@ -335,8 +335,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>455</width>
-         <height>375</height>
+         <width>338</width>
+         <height>122</height>
         </rect>
        </property>
        <attribute name="label">
@@ -401,8 +401,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>76</width>
-                    <height>333</height>
+                    <width>100</width>
+                    <height>30</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -612,8 +612,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>76</width>
-                    <height>333</height>
+                    <width>100</width>
+                    <height>30</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -715,6 +715,7 @@
     <addaction name="actionDimmer2x1"/>
     <addaction name="actionExample2"/>
     <addaction name="actionExample3"/>
+    <addaction name="actionAllTerms"/>
     <addaction name="separator"/>
     <addaction name="actionSugeno"/>
    </widget>
@@ -872,6 +873,11 @@
   <action name="actionExportToCpp">
    <property name="text">
     <string>to C++</string>
+   </property>
+  </action>
+  <action name="actionAllTerms">
+   <property name="text">
+    <string>AllTerms (1x1)</string>
    </property>
   </action>
  </widget>

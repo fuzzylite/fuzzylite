@@ -49,7 +49,7 @@ namespace fl {
 
             //Test
             void onInputValueChanged();
-
+ 
 
 
 
@@ -59,6 +59,7 @@ namespace fl {
             void onMenuExample2();
             void onMenuExample3();
             void onMenuExample4();
+            void onMenuExampleAllTerms();
 
             //MenuBar
             void onMenuConfiguration();

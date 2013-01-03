@@ -28,11 +28,9 @@ namespace fl {
     class Operator {
     public:
 
-        Operator() {
-        }
+        Operator() { }
 
-        virtual ~Operator() {
-        }
+        virtual ~Operator() { }
 
         virtual std::string className() const = 0;
         virtual scalar compute(scalar a, scalar b) const = 0;
@@ -104,21 +102,23 @@ namespace fl {
             return result.str();
         }
 
-        static std::vector<std::string> Split(const std::string& str, const std::string& delimiters) {
+        static std::vector<std::string> split(const std::string& str,
+                const std::string& delimiter, bool ignoreEmpty = true) {
             std::vector<std::string> result;
-            std::string::size_type last_pos =
-                    str.find_first_not_of(delimiters, 0);
-            // Find first "non-delimiter".
-            std::string::size_type pos =
-                    str.find_first_of(delimiters, last_pos);
+            if (delimiter.empty()) {
+                result.push_back(str);
+                return result;
+            }
+            std::string::const_iterator position = str.begin(), next;
+            while (next != str.end()) {
+                next = std::search(position, str.end(), delimiter.begin(), delimiter.end());
+                std::string token(position, next);
 
-            while (std::string::npos != pos || std::string::npos != last_pos) {
-                // Found a token, add it to the vector.
-                result.push_back(str.substr(last_pos, pos - last_pos));
-                // Skip delimiters.  Note the "not_of"
-                last_pos = str.find_first_not_of(delimiters, pos);
-                // Find next "non-delimiter"
-                pos = str.find_first_of(delimiters, last_pos);
+                if (not (token.empty() and ignoreEmpty)) {
+                    result.push_back(token);
+                }
+
+                position = next + delimiter.size();
             }
             return result;
         }
@@ -180,7 +180,7 @@ namespace fl {
                 int precision = FL_DECIMALS) {
             std::ostringstream ss;
             ss << std::setprecision(precision) << std::fixed;
-            for (int  i = 0; i < items; ++i) {
+            for (int i = 0; i < items; ++i) {
                 ss << x[i];
                 if (i < items - 1) ss << separator;
             }

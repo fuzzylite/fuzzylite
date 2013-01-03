@@ -10,10 +10,17 @@
 #include <typeinfo>
 
 #include <unistd.h>
-
+#include <algorithm>
 using namespace fl;
 
+
 int main(int argc, char** argv) {
+    std::vector<std::string> s = fl::Op::split("RANGE  :=  (-2.000 ..  17.400);", " ", false);
+    for (std::size_t i = 0; i < s.size(); ++i) {
+        FL_LOG(s[i]);
+    }
+    return 0;
+
     FL_LOG("Hello, FuzzyLite!");
     FL_LOG("Version: " << FL_VERSION);
     scalar someScalar = 0;
@@ -29,6 +36,7 @@ int main(int argc, char** argv) {
 
     std::vector<Example*> examples;
     examples.push_back(new Example1);
+    examples.push_back(new AllTermsExample);
     FL_LOG("The examples will start running now");
     FisExporter exporter;
     FisImporter importer;
@@ -41,12 +49,12 @@ int main(int argc, char** argv) {
         }
         std::string fcl = exporter.toString(example->engine);
         FL_LOG(fcl);
-//        Engine* engine = importer.fromString(fcl);
-//        std::string fclAgain = exporter.toString(engine);
-//        if (fcl != fclAgain) {
-//            throw fl::Exception("FCL Importer/Exporter not working");
-//        }
-        
+        //        Engine* engine = importer.fromString(fcl);
+        //        std::string fclAgain = exporter.toString(engine);
+        //        if (fcl != fclAgain) {
+        //            throw fl::Exception("FCL Importer/Exporter not working");
+        //        }
+
         example->test();
     }
 

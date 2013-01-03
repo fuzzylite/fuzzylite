@@ -13,7 +13,7 @@ namespace fl {
 
     GaussianProduct::GaussianProduct(const std::string& name,
             scalar meanA, scalar sigmaA, scalar meanB, scalar sigmaB)
-    : _meanA(meanA), _sigmaA(sigmaA), _meanB(meanB), _sigmaB(sigmaB) { }
+    : Term(name), _meanA(meanA), _sigmaA(sigmaA), _meanB(meanB), _sigmaB(sigmaB) { }
 
     std::string GaussianProduct::className() const {
         return "GaussianProduct";

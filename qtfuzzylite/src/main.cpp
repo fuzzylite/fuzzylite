@@ -11,10 +11,10 @@
 #include "fl/qt/Configuration.h"
 #include "fl/qt/Window.h"
 #include "fl/qt/Term.h"
-#include "fl/qt/Viewer.h"
+#include "fl/qt/Viewer.h" 
 
-int main(int argc, char* argv[]){
-
+int main(int argc, char* argv[]){ 
+ 
     QApplication fuzzylite(argc,argv);
 //    fl::qt::Canvas::main();
 //    fl::qt::Configuration::main();
