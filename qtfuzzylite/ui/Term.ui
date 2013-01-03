@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>237</width>
-    <height>472</height>
+    <width>240</width>
+    <height>488</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -26,38 +26,46 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <property name="sizeConstraint">
-      <enum>QLayout::SetDefaultConstraint</enum>
-     </property>
-     <item>
-      <widget class="QLabel" name="lbl_name">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Name</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="led_name"/>
-     </item>
-     <item>
-      <widget class="QToolButton" name="btn_wizard">
-       <property name="text">
-        <string>Create multiple copies of current term</string>
-       </property>
-       <property name="icon">
-        <iconset resource="resources.qrc">
-         <normaloff>:/icons/icons/wizard.png</normaloff>:/icons/icons/wizard.png</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QFrame" name="qfr_name">
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
+      <property name="margin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="lbl_name">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Name</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="led_name"/>
+      </item>
+      <item>
+       <widget class="QToolButton" name="btn_wizard">
+        <property name="text">
+         <string>Create multiple copies of current term</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/icons/icons/wizard.png</normaloff>:/icons/icons/wizard.png</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <layout class="QVBoxLayout" name="lyt_terms">
@@ -79,7 +87,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideMiddle</enum>
@@ -104,15 +112,15 @@
             </size>
            </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="page">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>195</width>
-              <height>209</height>
+              <width>198</width>
+              <height>227</height>
              </rect>
             </property>
             <attribute name="label">
@@ -163,8 +171,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>195</width>
-              <height>212</height>
+              <width>198</width>
+              <height>227</height>
              </rect>
             </property>
             <attribute name="label">
@@ -225,8 +233,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>195</width>
-              <height>212</height>
+              <width>198</width>
+              <height>227</height>
              </rect>
             </property>
             <attribute name="label">
@@ -267,8 +275,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>195</width>
-              <height>212</height>
+              <width>124</width>
+              <height>82</height>
              </rect>
             </property>
             <attribute name="label">
@@ -353,8 +361,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>195</width>
-              <height>147</height>
+              <width>138</width>
+              <height>80</height>
              </rect>
             </property>
             <attribute name="label">
@@ -391,6 +399,14 @@
             </layout>
            </widget>
            <widget class="QWidget" name="page_10">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>147</width>
+              <height>146</height>
+             </rect>
+            </property>
             <attribute name="label">
              <string>Gaussian Product</string>
             </attribute>
@@ -446,8 +462,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>195</width>
-              <height>147</height>
+              <width>138</width>
+              <height>113</height>
              </rect>
             </property>
             <attribute name="label">
@@ -498,8 +514,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>195</width>
-              <height>147</height>
+              <width>102</width>
+              <height>146</height>
              </rect>
             </property>
             <attribute name="label">
@@ -565,6 +581,14 @@
             </layout>
            </widget>
            <widget class="QWidget" name="page_8">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>198</width>
+              <height>165</height>
+             </rect>
+            </property>
             <attribute name="label">
              <string>Sigmoid Difference</string>
             </attribute>
@@ -622,6 +646,14 @@
             </layout>
            </widget>
            <widget class="QWidget" name="page_11">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>136</width>
+              <height>146</height>
+             </rect>
+            </property>
             <attribute name="label">
              <string>Sigmoid Product</string>
             </attribute>
@@ -695,16 +727,22 @@
         <layout class="QVBoxLayout" name="verticalLayout_16">
          <item>
           <widget class="QToolBox" name="edgeTermToolbox">
+           <property name="minimumSize">
+            <size>
+             <width>195</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="page_12">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>195</width>
-              <height>212</height>
+              <width>198</width>
+              <height>227</height>
              </rect>
             </property>
             <attribute name="label">
@@ -745,8 +783,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>195</width>
-              <height>212</height>
+              <width>198</width>
+              <height>227</height>
              </rect>
             </property>
             <attribute name="label">
@@ -790,6 +828,14 @@
             </layout>
            </widget>
            <widget class="QWidget" name="page_9">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>198</width>
+              <height>227</height>
+             </rect>
+            </property>
             <attribute name="label">
              <string>S-Shape</string>
             </attribute>
@@ -821,6 +867,14 @@
             </layout>
            </widget>
            <widget class="QWidget" name="page_14">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>126</width>
+              <height>80</height>
+             </rect>
+            </property>
             <attribute name="label">
              <string>Z-Shape</string>
             </attribute>

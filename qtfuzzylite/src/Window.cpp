@@ -667,6 +667,7 @@ namespace fl {
             Term* window = new Term(this);
             window->setup(fl::Variable("Term-Toolbox", 0, 1));
             window->setWindowTitle("Term toolbox");
+            window->ui->qfr_name->setVisible(false);
             window->ui->buttonBox->setVisible(false);
             window->show();
             //            delete window;

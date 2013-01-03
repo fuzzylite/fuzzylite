@@ -27,6 +27,9 @@ namespace fl {
         void Viewer::setup(const fl::Variable* model) {
             this->constVariable = model;
             ui->setupUi(this);
+            ui->lbl_name->setText(QString::fromStdString(model->getName()));
+            if (constVariable->getName().empty())
+                ui->lbl_name->setVisible(false);
             ui->led_x->setVisible(false);
             setMinimumSize(200, 170);
             ui->canvas->setScene(new QGraphicsScene(ui->canvas));
@@ -141,6 +144,9 @@ namespace fl {
                 if (i < constVariable->numberOfTerms() - 1) fuzzify += " + ";
             }
             ui->lbl_fuzzy->setText(fuzzify);
+            ui->lbl_name->setText(QString::fromStdString(constVariable->getName()));
+            if (constVariable->getName().empty())
+                ui->lbl_name->setVisible(false);
             draw();
             drawGuide(x, y);
         }

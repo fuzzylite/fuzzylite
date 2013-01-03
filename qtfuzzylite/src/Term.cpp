@@ -918,6 +918,7 @@ namespace fl {
                 ex << "[internal error] Term class <" << x->className() << "> not registered";
                 throw fl::Exception(ex.str());
             }
+            redraw();
         }
 
         void Term::main() {
