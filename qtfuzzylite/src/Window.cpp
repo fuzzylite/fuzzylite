@@ -810,7 +810,8 @@ namespace fl {
             QMessageBox::StandardButton clicked =
                     QMessageBox::warning(this, "Reset engine",
                     QString::fromStdString(message.str()),
-                    QMessageBox::Yes | QMessageBox::No);
+                    QMessageBox::Yes | QMessageBox::No,
+                    QMessageBox::Yes);
 
             if (clicked == QMessageBox::No) return;
 

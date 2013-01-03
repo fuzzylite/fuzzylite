@@ -25,7 +25,6 @@ namespace fl {
 
     Engine* FisImporter::fromString(const std::string& fis) const {
         Engine* engine = new Engine;
-        Configuration* configuration = new Configuration;
 
         std::istringstream fisReader(fis);
         std::string line;
@@ -34,8 +33,8 @@ namespace fl {
         std::vector<std::string> sections;
         while (std::getline(fisReader, line)) {
             ++lineNumber;
-            line = Op::Trim(line);
-            line = fl::Op::FindReplace(line, "'", "");
+            line = Op::trim(line);
+            line = fl::Op::findReplace(line, "'", "");
             if (line.empty() or line[0] == '#')
                 continue;
 
@@ -53,10 +52,12 @@ namespace fl {
                 }
             }
         }
+        std::string andMethod, orMethod, impMethod, aggMethod, defuzzMethod;
         try {
             for (std::size_t i = 0; i < sections.size(); ++i) {
                 if ("[System]" == sections[i].substr(0, std::string("[System]").size()))
-                    importSystem(sections[i], engine);
+                    importSystem(sections[i], engine,
+                        andMethod, orMethod, impMethod, aggMethod, defuzzMethod);
                 else if ("[Input" == sections[i].substr(0, std::string("[Input").size()))
                     importInput(sections[i], engine);
                 else if ("[Output" == sections[i].substr(0, std::string("[Output").size()))
@@ -69,14 +70,16 @@ namespace fl {
             }
         } catch (fl::Exception& ex) {
             delete engine;
-            delete configuration;
             throw ex;
         }
 
         return engine;
     }
 
-    void FisImporter::importSystem(const std::string& section, Engine * engine) const {
+    void FisImporter::importSystem(const std::string& section, Engine * engine,
+            std::string& andMethod, std::string& orMethod,
+            std::string& impMethod, std::string& aggMethod,
+            std::string& defuzzMethod) const {
         std::istringstream reader(section);
         std::string line;
         std::getline(reader, line); //ignore first line [System]
@@ -90,22 +93,16 @@ namespace fl {
             if (key == "Name") engine->setName(value);
             else if (key == "Type") {
                 if (value != "mamdani")
-                    throw fl::Exception("[implementation error] only mamdani-type "
-                        "engines are supported at the moment");
+                    throw fl::Exception("[error] fuzzylite supports only mamdani-type "
+                        "engines at the moment");
 
-            } else if (key == "AndMethod") {
-                engine->getConfiguration()->setTnorm(extractTNorm(value));
-            } else if (key == "OrMethod") {
-                engine->getConfiguration()->setSnorm(extractSNorm(value));
-            } else if (key == "ImpMethod") {
-                engine->getConfiguration()->setActivation(extractTNorm(value));
-            } else if (key == "AggMethod") {
-                engine->getConfiguration()->setAccumulation(extractSNorm(value));
-            } else if (key == "DefuzzMethod") {
-                engine->getConfiguration()->setDefuzzifier(extractDefuzzifier(value));
-            } else {
-                FL_LOG("[info] ignoring redundant or non-relevant information from line: " << line);
-            }
+            } else if (key == "AndMethod") andMethod = value;
+            else if (key == "OrMethod") orMethod = value;
+            else if (key == "ImpMethod") impMethod = value;
+            else if (key == "AggMethod") aggMethod = value;
+            else if (key == "DefuzzMethod") defuzzMethod = value;
+            else FL_LOG("[info] ignoring redundant or non-relevant information "
+                    "from line: " << line);
         }
     }
 
@@ -187,13 +184,122 @@ namespace fl {
         RuleBlock* ruleblock = new RuleBlock;
         engine->addRuleBlock(ruleblock);
 
+        while (std::getline(reader, line)) {
+            std::vector<std::string> inputsAndRest = fl::Op::split(line, ",");
+            if (inputsAndRest.size() != 2)
+                throw fl::Exception("[syntax error] expected rule to match pattern "
+                    "<'i '+, 'o '+ (w) : '1|2'>, but found instead <" + line + ">");
 
-//        while (std::getline(reader, line)) {
-//            ruleblock->addRule(MamdaniRule::parse(line, engine));
-//        }
+            std::vector <std::string> outputsAndRest = fl::Op::split(inputsAndRest[1], ":");
+            if (outputsAndRest.size() != 2)
+                throw fl::Exception("[syntax error] expected rule to match pattern "
+                    "<'i '+, 'o '+ (w) : '1|2'>, but found instead <" + line + ">");
+
+            std::vector<std::string> inputs = fl::Op::split(inputsAndRest[0], " ");
+            std::vector<std::string> outputs = fl::Op::split(outputsAndRest[0], " ");
+            std::string weightInParenthesis = outputs[outputs.size() - 1];
+            outputs.erase(outputs.begin() + outputs.size() - 1);
+            std::string connector = outputsAndRest[1];
+
+            if ((int)inputs.size() != engine->numberOfInputVariables())
+                throw fl::Exception("[syntax error] missing input variables in rule <"
+                    + line + ">");
+
+            if ((int)outputs.size() != engine->numberOfOutputVariables())
+                throw fl::Exception("[syntax error] missing output variables in rule <"
+                    + line + ">");
+
+            std::vector<std::string> antecedent, consequent;
+
+            for (std::size_t i = 0; i < inputs.size(); ++i) {
+                std::ostringstream ss;
+                scalar inputCode = fl::Op::toScalar(inputs[i]);
+                if (fl::Op::isEq(inputCode, 0.0)) continue;
+                ss << engine->getInputVariable(i)->getName() << " "
+                        << fl::Rule::FL_IS << " "
+                        << translateProposition(inputCode, engine->getInputVariable(i));
+                antecedent.push_back(ss.str());
+            }
+
+            for (std::size_t i = 0; i < outputs.size(); ++i) {
+                std::ostringstream ss;
+                scalar outputCode = fl::Op::toScalar(inputs[i]);
+                if (fl::Op::isEq(outputCode, 0.0)) continue;
+                ss << engine->getOutputVariable(i)->getName() << " "
+                        << fl::Rule::FL_IS << " "
+                        << translateProposition(outputCode, engine->getOutputVariable(i));
+                consequent.push_back(ss.str());
+            }
+
+            std::ostringstream rule;
+
+            rule << fl::Rule::FL_IF << " ";
+            for (std::size_t i = 0; i < antecedent.size(); ++i) {
+                rule << antecedent[i];
+                if (i < antecedent.size() - 1) {
+                    rule << " ";
+                    if (connector == "1") rule << fl::Rule::FL_AND << " ";
+                    else if (connector == "2") rule << fl::Rule::FL_OR << " ";
+                    else throw fl::Exception("[syntax error] connector <"
+                            + connector + "> not recognized");
+                }
+            }
+
+            rule << " " << fl::Rule::FL_THEN << " ";
+            for (std::size_t i = 0; i < consequent.size(); ++i) {
+                rule << consequent[i];
+                if (i < consequent.size() - 1) {
+                    rule << " " << fl::Rule::FL_AND << " ";
+                }
+            }
+
+            std::ostringstream ss;
+            for (std::size_t i = 0; i < weightInParenthesis.size(); ++i) {
+                if (weightInParenthesis[i] == '('
+                        or weightInParenthesis[i] == ')'
+                        or weightInParenthesis[i] == ' ') continue;
+                ss << weightInParenthesis[i];
+            }
+
+            scalar weight = fl::Op::toScalar(ss.str());
+            if (not fl::Op::isEq(weight, 1.0))
+                rule << " " << fl::Rule::FL_WITH << weight;
+
+            FL_LOG("Rule: " << rule.str());
+
+            ruleblock->addRule(fl::MamdaniRule::parse(rule.str(), engine));
+        }
     }
 
-    TNorm* FisImporter::extractTNorm(const std::string& name) const {
+    std::string FisImporter::translateProposition(scalar code, Variable* variable) const {
+        scalar intPartScalar;
+        scalar fracPartScalar = std::modf(code, &intPartScalar);
+
+        int intPart = (int) std::abs(intPartScalar) - 1;
+        int fracPart = (int) std::abs(fracPartScalar);
+
+        if (intPart < 0 or intPart >= variable->numberOfTerms()) {
+            std::ostringstream ex;
+            ex << "[syntax error] the code <" << code << "> refers to a term "
+                    "out of range from variable <" << variable->toString() << ">";
+            throw fl::Exception(ex.str());
+        }
+
+        std::ostringstream ss;
+        if (code < 0) ss << Not().name() << " ";
+        if (fracPart == 5) ss << Somewhat().name() << " ";
+        else if (fracPart == 20) ss << Very().name() << " ";
+        else if (fracPart == 30) ss << Extremely().name() << " ";
+        else if (fracPart == 40) ss << Very().name() << " " << Very().name() << " ";
+        else if (fracPart != 0)
+            throw fl::Exception("[syntax error] no hedge defined in fis format for <"
+                + fl::Op::str(fracPartScalar) + ">");
+
+        ss << variable->getTerm(intPart)->getName();
+        return ss.str();
+    }
+
+    TNorm * FisImporter::extractTNorm(const std::string & name) const {
         if (name == "min") return new Minimum;
         if (name == "algebraic_product") return new AlgebraicProduct;
         if (name == "bounded_difference") return new BoundedDifference;
@@ -204,7 +310,7 @@ namespace fl {
         throw fl::Exception("[syntax error] T-Norm <" + name + "> not recognized");
     }
 
-    SNorm* FisImporter::extractSNorm(const std::string& name) const {
+    SNorm * FisImporter::extractSNorm(const std::string & name) const {
         if (name == "max") return new Maximum;
         if (name == "algebraic_sum") return new AlgebraicSum;
         if (name == "bounded_sum") return new BoundedSum;
@@ -216,7 +322,7 @@ namespace fl {
         throw fl::Exception("[syntax error] S-Norm <" + name + "> not recognized");
     }
 
-    Term* FisImporter::extractTerm(const std::string& fis) const {
+    Term * FisImporter::extractTerm(const std::string & fis) const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < fis.size(); ++i) {
             if (not (fis[i] == '[' or fis[i] == ']')) {
@@ -245,7 +351,7 @@ namespace fl {
         return createInstance(termParams[0], nameTerm[0], params);
     }
 
-    Term* FisImporter::createInstance(const std::string& termClass,
+    Term * FisImporter::createInstance(const std::string& termClass,
             const std::string& name, const std::vector<scalar>& params) const {
         int requiredParams = 0;
 
@@ -256,6 +362,7 @@ namespace fl {
                     term->x.push_back(params[i]);
                     term->y.push_back(params[i + 1]);
                 }
+                return term;
             } else {
                 std::ostringstream ex;
                 ex << "[syntax error] a discrete term requires an even list of values, "
@@ -350,7 +457,7 @@ namespace fl {
         throw fl::Exception(ex.str());
     }
 
-    Defuzzifier* FisImporter::extractDefuzzifier(const std::string& name) const {
+    Defuzzifier * FisImporter::extractDefuzzifier(const std::string & name) const {
         if (name == "centroid") return new CenterOfGravity;
         if (name == "som") return new SmallestOfMaximum;
         if (name == "lom") return new LargestOfMaximum;
@@ -358,7 +465,7 @@ namespace fl {
         throw fl::Exception("[syntax error] defuzzifier <" + name + "> not recognized");
     }
 
-    void FisImporter::extractRange(const std::string& range, scalar& minimum, scalar& maximum) const {
+    void FisImporter::extractRange(const std::string& range, scalar& minimum, scalar & maximum) const {
         std::vector<std::string> parts = fl::Op::split(range, " ");
         if (parts.size() != 2)
             throw fl::Exception("[syntax error] expected range in format '[begin end]',"

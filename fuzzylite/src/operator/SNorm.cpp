@@ -16,7 +16,7 @@ namespace fl {
     }
 
     scalar Maximum::compute(scalar a, scalar b) const {
-        return Op::Max(a, b);
+        return Op::max(a, b);
     }
 
 
@@ -38,7 +38,7 @@ namespace fl {
     }
 
     scalar BoundedSum::compute(scalar a, scalar b) const {
-        return Op::Min(1, a + b);
+        return Op::min(1, a + b);
     }
 
 
@@ -49,7 +49,7 @@ namespace fl {
     }
 
     scalar NormalizedSum::compute(scalar a, scalar b) const {
-        return a + b / Op::Max(1, Op::Max(a, b));
+        return a + b / Op::max(1, Op::max(a, b));
     }
 
 
@@ -60,8 +60,8 @@ namespace fl {
     }
 
     scalar DrasticSum::compute(scalar a, scalar b) const {
-        if (Op::IsEq(Op::Min(a, b), 0.0)) {
-            return Op::Max(a, b);
+        if (Op::isEq(Op::min(a, b), 0.0)) {
+            return Op::max(a, b);
         }
         return 1.0;
     }

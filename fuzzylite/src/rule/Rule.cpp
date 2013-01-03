@@ -56,7 +56,7 @@ namespace fl {
         std::stringstream ss;
         ss << FL_IF << " " << getAntecedent()->toString() << " "
                 << FL_THEN << " " << getConsequent()->toString();
-        if (not fl::Op::IsEq(_weight, 1.0)) {
+        if (not fl::Op::isEq(_weight, 1.0)) {
             ss << " " << FL_WITH << " " << _weight;
         }
         return ss.str();

@@ -32,7 +32,7 @@ namespace fl {
             CenterOfGravity cog;
 
             bool operator() (const Term* a, const Term * b) {
-                return fl::Op::IsLt(
+                return fl::Op::isLt(
                         cog.defuzzify(a, minimum, maximum),
                         cog.defuzzify(b, minimum, maximum));
             }

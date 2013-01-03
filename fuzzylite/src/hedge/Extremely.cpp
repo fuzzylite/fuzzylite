@@ -16,7 +16,7 @@ namespace fl {
     }
 
     scalar Extremely::hedge(scalar x) const {
-        return Op::IsLE(x, 0.5)
+        return Op::isLE(x, 0.5)
                 ? 2 * x * x
                 : 1 - 2 * (1 - x) * (1 - x);
     }

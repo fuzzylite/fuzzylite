@@ -69,7 +69,7 @@ namespace fl {
 
         std::string infix = infixString;
         for (std::size_t i = 0; i < space.size(); ++i) {
-            Op::FindReplace(infix, space[i], " " + space[i] + " ", true);
+            Op::findReplace(infix, space[i], " " + space[i] + " ", true);
         }
 
         std::queue<std::string> queue;

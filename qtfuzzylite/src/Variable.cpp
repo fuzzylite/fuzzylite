@@ -208,7 +208,7 @@ namespace fl {
         }
 
         void Variable::onChangeMinRange(double) {
-            if (fl::Op::IsGt(ui->sbx_min->value(), ui->sbx_max->value())) {
+            if (fl::Op::isGt(ui->sbx_min->value(), ui->sbx_max->value())) {
                 ui->sbx_max->setValue(ui->sbx_min->value() + .1);
             }
             variable->setMinimum(ui->sbx_min->value());
@@ -218,7 +218,7 @@ namespace fl {
         }
 
         void Variable::onChangeMaxRange(double) {
-            if (fl::Op::IsLt(ui->sbx_max->value(), ui->sbx_min->value())) {
+            if (fl::Op::isLt(ui->sbx_max->value(), ui->sbx_min->value())) {
                 ui->sbx_min->setValue(ui->sbx_max->value() - .1);
             }
             //            variable->setMinimum(ui->sbx_min->value());

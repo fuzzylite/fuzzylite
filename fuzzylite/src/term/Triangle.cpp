@@ -31,11 +31,11 @@ namespace fl {
     scalar Triangle::membership(scalar x) const {
         scalar minimum = _a;
         scalar maximum = _c;
-        if (Op::IsLE(x, minimum) or Op::IsGE(x, maximum))
+        if (Op::isLE(x, minimum) or Op::isGE(x, maximum))
             return 0.0;
-        else if (Op::IsEq(x, _b))
+        else if (Op::isEq(x, _b))
             return 1.0;
-        else if (Op::IsLt(x, _b))
+        else if (Op::isLt(x, _b))
             return (x - minimum) / (_b - minimum);
         else
             return (maximum - x) / (maximum - _b);

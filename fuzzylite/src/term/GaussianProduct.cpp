@@ -24,10 +24,10 @@ namespace fl {
     }
 
     scalar GaussianProduct::membership(scalar x) const {
-        bool xLEa = fl::Op::IsLE(x, _meanA);
+        bool xLEa = fl::Op::isLE(x, _meanA);
         scalar a = std::exp((-(x - _meanA) * (x - _meanA)) / (2 * _sigmaA * _sigmaA))
                 * xLEa + (1 - xLEa);
-        bool xGEb = fl::Op::IsGE(x, _meanB);
+        bool xGEb = fl::Op::isGE(x, _meanB);
         scalar b = std::exp((-(x - _meanB) * (x - _meanB)) / (2 * _sigmaB * _sigmaB))
                 * xGEb + (1 - xGEb);
         return a * b;

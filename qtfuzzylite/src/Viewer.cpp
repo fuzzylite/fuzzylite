@@ -94,24 +94,24 @@ namespace fl {
         }
 
         void Viewer::onChangeSliderValue(int position) {
-            scalar value = fl::Op::Scale(position,
+            scalar value = fl::Op::scale(position,
                     ui->sld_x->minimum(), ui->sld_x->maximum(),
                     constVariable->getMinimum(), constVariable->getMaximum());
             double tolerance = 1.0 / std::pow(10, ui->sbx_x->decimals());
-            if (not fl::Op::IsEq(value, ui->sbx_x->value(), tolerance)) {
+            if (not fl::Op::isEq(value, ui->sbx_x->value(), tolerance)) {
                 ui->sbx_x->setValue(value);
             }
         }
 
         void Viewer::onEditInputValue() {
             scalar value = ui->sbx_x->value();
-            scalar sliderValue = fl::Op::Scale(ui->sld_x->value(),
+            scalar sliderValue = fl::Op::scale(ui->sld_x->value(),
                     ui->sld_x->minimum(), ui->sld_x->maximum(),
                     constVariable->getMinimum(), constVariable->getMaximum());
 
             double tolerance = 1.0 / std::pow(10, ui->sbx_x->decimals());
-            if (not fl::Op::IsEq(value, sliderValue, tolerance)) {
-                int position = (int) fl::Op::Scale(value,
+            if (not fl::Op::isEq(value, sliderValue, tolerance)) {
+                int position = (int) fl::Op::scale(value,
                         constVariable->getMinimum(), constVariable->getMaximum(),
                         ui->sld_x->minimum(), ui->sld_x->maximum());
                 if (position != ui->sld_x->value()) {
@@ -124,7 +124,7 @@ namespace fl {
         void Viewer::refresh() {
             ui->sbx_x->setSingleStep(
                     (constVariable->getMaximum() - constVariable->getMinimum()) / 100);
-            scalar x = fl::Op::Scale(ui->sld_x->value(),
+            scalar x = fl::Op::scale(ui->sld_x->value(),
                     ui->sld_x->minimum(), ui->sld_x->maximum(),
                     constVariable->getMinimum(), constVariable->getMaximum());
             scalar y = 0;
@@ -188,21 +188,21 @@ namespace fl {
             area *= dx;
 
             QPolygon polygon;
-            scalar start = Op::Scale(xSamples[0],
+            scalar start = fl::Op::scale(xSamples[0],
                     minimum, maximum,
                     rect.left(), rect.right());
             polygon.append(QPoint(start, rect.bottom()));
             for (std::size_t j = 0; j < xSamples.size(); ++j) {
-                scalar x = Op::Scale(xSamples[j], minimum, maximum,
+                scalar x = fl::Op::scale(xSamples[j], minimum, maximum,
                         rect.left(), rect.right());
 
-                scalar y = Op::Scale(ySamples[j], 0, 1, rect.bottom(), rect.top());
+                scalar y = fl::Op::scale(ySamples[j], 0, 1, rect.bottom(), rect.top());
 
                 //            FL_LOG("(" << xSamples[j] << ", " << ySamples[j] << ")"
                 //                    << "->(" << x << ", " << y << ")");
                 polygon.append(QPoint(x, y));
             }
-            scalar end = Op::Scale(xSamples[xSamples.size() - 1],
+            scalar end = fl::Op::scale(xSamples[xSamples.size() - 1],
                     minimum, maximum,
                     rect.left(), rect.right());
             polygon.append(QPoint(end, rect.bottom()));
@@ -223,9 +223,9 @@ namespace fl {
 
         void Viewer::drawCentroid(scalar xcentroid, scalar ycentroid) {
             QRect rect = ui->canvas->viewport()->rect();
-            scalar x = Op::Scale(xcentroid, constVariable->getMinimum(), constVariable->getMaximum(),
+            scalar x = fl::Op::scale(xcentroid, constVariable->getMinimum(), constVariable->getMaximum(),
                     rect.left(), rect.right());
-            scalar y = Op::Scale(ycentroid, 0, 1, rect.bottom(), rect.top());
+            scalar y = fl::Op::scale(ycentroid, 0, 1, rect.bottom(), rect.top());
             QPen pen;
             pen.setColor(QColor(Qt::blue));
             ui->canvas->scene()->addEllipse(x, y, 3, 3, pen);
@@ -233,9 +233,9 @@ namespace fl {
 
         void Viewer::drawGuide(scalar x, scalar y) {
             QRect rect = ui->canvas->viewport()->rect();
-            x = Op::Scale(x, constVariable->getMinimum(), constVariable->getMaximum(),
+            x = fl::Op::scale(x, constVariable->getMinimum(), constVariable->getMaximum(),
                     rect.left(), rect.right());
-            y = Op::Scale(y, 0, 1, rect.bottom(), rect.top());
+            y = fl::Op::scale(y, 0, 1, rect.bottom(), rect.top());
             QPen pen;
             pen.setColor(QColor(0, 0, 255));
             pen.setStyle(Qt::DashLine);
@@ -246,29 +246,29 @@ namespace fl {
         void Viewer::ColorGradient(int degree, int& red, int& green, int& blue, int& alpha,
                 int from_r, int from_g, int from_b, int from_a,
                 int to_r, int to_g, int to_b, int to_a) {
-            red = (int) Op::Scale(degree, 0, 255, from_r, to_r);
-            green = (int) Op::Scale(degree, 0, 255, from_g, to_g);
-            blue = (int) Op::Scale(degree, 0, 255, from_b, to_b);
-            alpha = (int) Op::Scale(degree, 0, 255, from_a, to_a);
+            red = (int) fl::Op::scale(degree, 0, 255, from_r, to_r);
+            green = (int) fl::Op::scale(degree, 0, 255, from_g, to_g);
+            blue = (int) fl::Op::scale(degree, 0, 255, from_b, to_b);
+            alpha = (int) fl::Op::scale(degree, 0, 255, from_a, to_a);
         }
 
         void Viewer::exportToSvg(const std::string& filepath) {
             (void) filepath;
-//            QSvgGenerator svgGen;
-//
-//            svgGen.setFileName(QString::fromStdString(filepath));
-//            svgGen.setSize(ui->canvas->viewport()->size());
-//            svgGen.setViewBox(ui->canvas->viewport()->rect());
-//            svgGen.setTitle("qtfuzzylite");
-//            svgGen.setDescription("A fuzzy logic controller graphic user interface written in Qt");
-//
-//
-//            QPainter painter;
-//            painter.begin(&svgGen);
-//            //            QBrush background = QBrush(Qt::white);
-//            //            painter.fillRect(ui->canvas->viewport()->rect(), background);
-//            ui->canvas->scene()->render(&painter);
-//            painter.end();
+            //            QSvgGenerator svgGen;
+            //
+            //            svgGen.setFileName(QString::fromStdString(filepath));
+            //            svgGen.setSize(ui->canvas->viewport()->size());
+            //            svgGen.setViewBox(ui->canvas->viewport()->rect());
+            //            svgGen.setTitle("qtfuzzylite");
+            //            svgGen.setDescription("A fuzzy logic controller graphic user interface written in Qt");
+            //
+            //
+            //            QPainter painter;
+            //            painter.begin(&svgGen);
+            //            //            QBrush background = QBrush(Qt::white);
+            //            //            painter.fillRect(ui->canvas->viewport()->rect(), background);
+            //            ui->canvas->scene()->render(&painter);
+            //            painter.end();
         }
 
         void Viewer::main() {

@@ -47,13 +47,13 @@ namespace fl {
             x = minimum + (i + 0.5) * dx;
             y = term->membership(x);
 
-            if (Op::IsGt(y, ymax)) {
+            if (Op::isGt(y, ymax)) {
                 xsmallest = x;
                 ymax = y;
                 samePlateau = true;
-            } else if (Op::IsEq(y, ymax) and samePlateau) {
+            } else if (Op::isEq(y, ymax) and samePlateau) {
                 xlargest = x;
-            } else if (Op::IsLt(y, ymax)) {
+            } else if (Op::isLt(y, ymax)) {
                 samePlateau = false;
             }
         }

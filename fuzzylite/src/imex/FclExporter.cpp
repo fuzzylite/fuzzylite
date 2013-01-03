@@ -77,7 +77,7 @@ namespace fl {
 
             for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
                 Term* term = outputVariable->getTerm(t);
-                fcl << "TERM " << term->getName() << " := " << term->toString()
+                fcl << "TERM " << term->getName() << " := " << toFcl(term)
                         << ";\n";
             }
             fcl << "\n";
@@ -93,8 +93,6 @@ namespace fl {
                 fcl << " | NC";
             }
             fcl << ";\n";
-
-
 
             fcl << "END_DEFUZZIFY\n";
             fcl << "\n";

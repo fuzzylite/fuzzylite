@@ -37,6 +37,7 @@ namespace fl {
                     fl::Op::str(input->getMinimum()) << ");\n";
             cpp << "inputVariable" << (i + 1) << "->setMaximum(" <<
                     fl::Op::str(input->getMaximum()) << ");\n";
+            cpp << "\n";
             for (int t = 0; t < input->numberOfTerms(); ++t) {
                 cpp << "inputVariable" << (i + 1) << "->addTerm(new fl::" <<
                         toCpp(input->getTerm(t)) << ");\n";
@@ -56,9 +57,9 @@ namespace fl {
 
             cpp << "outputVariable" << (i + 1) << "->setDefaultValue(";
             scalar defaultValue = output->getDefaultValue();
-            if (fl::Op::IsNan(defaultValue))
+            if (fl::Op::isNan(defaultValue))
                 cpp << "std::numeric_limits<scalar>::quiet_NaN()";
-            else if (fl::Op::IsInf(defaultValue))
+            else if (fl::Op::isInf(defaultValue))
                 cpp << (defaultValue < 0 ? "-" : "") << "std::numeric_limits<scalar>::infinity()";
             else cpp << fl::Op::str(defaultValue);
             cpp << ");\n";
@@ -71,7 +72,7 @@ namespace fl {
                     "(" << output->getDefuzzifier()->getDivisions() << "));\n";
             cpp << "outputVariable" << (i + 1) << "->output()->setAccumulation(new fl::" <<
                     output->output()->getAccumulation()->className() << ");\n";
-
+            cpp << "\n";
             for (int t = 0; t < output->numberOfTerms(); ++t) {
                 cpp << "outputVariable" << (i + 1) << "->addTerm(new fl::" <<
                         toCpp(output->getTerm(t)) << ");\n";
@@ -90,9 +91,9 @@ namespace fl {
                     << ruleblock->getSnorm()->className() << ");\n";
             cpp << "ruleblock" << (i + 1) << "->setActivation(new fl::"
                     << ruleblock->getActivation()->className() << ");\n";
-
+            cpp << "\n";
             for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
-                cpp << "ruleblock" << (i + 1) << "->addRule(fl::MamdaniRule::parse(\"" <<
+                cpp << "ruleblock" << (i + 1) << "->addRule(fl::MamdaniRule::parse(\n\t\"" <<
                         ruleblock->getRule(r)->getUnparsedRule() << "\", engine));\n";
             }
             cpp << "engine->addRuleBlock(ruleblock" << (i + 1) << ");\n";

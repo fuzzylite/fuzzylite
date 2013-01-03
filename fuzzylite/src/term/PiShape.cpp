@@ -29,21 +29,21 @@ namespace fl {
         scalar c_d_ave = (_c + _d) / 2.0;
         scalar d_minus_c = _d - _c;
 
-        if (Op::IsLE(x, _a)) return 0.0;
+        if (Op::isLE(x, _a)) return 0.0;
 
-        else if (Op::IsLE(x, a_b_ave))
+        else if (Op::isLE(x, a_b_ave))
             return 2.0 * std::pow((x - _a) / b_minus_a, 2);
 
-        else if (Op::IsLt(x, _b))
+        else if (Op::isLt(x, _b))
             return 1.0 - 2.0 * std::pow((x - _b) / b_minus_a, 2);
 
-        else if (Op::IsLE(x, _c))
+        else if (Op::isLE(x, _c))
             return 1;
 
-        else if (Op::IsLE(x, c_d_ave))
+        else if (Op::isLE(x, c_d_ave))
             return 1 - 2 * std::pow((x - _c) / d_minus_c, 2);
 
-        else if (Op::IsLt(x, _d))
+        else if (Op::isLt(x, _d))
             return 2 * std::pow((x - _d) / d_minus_c, 2);
 
         return 0.0;

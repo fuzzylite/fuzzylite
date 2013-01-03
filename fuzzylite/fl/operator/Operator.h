@@ -40,55 +40,55 @@ namespace fl {
     class Op {
     public:
 
-        static scalar Min(scalar a, scalar b) {
+        static scalar min(scalar a, scalar b) {
             return a < b ? a : b;
         }
 
-        static scalar Max(scalar a, scalar b) {
+        static scalar max(scalar a, scalar b) {
             return a > b ? a : b;
         }
 
-        static bool IsInf(scalar x) {
+        static bool isInf(scalar x) {
             return std::isinf(x);
         }
 
-        static bool IsNan(scalar x) {
+        static bool isNan(scalar x) {
             return std::isnan(x);
         }
 
         //Is less than
 
-        static bool IsLt(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
-            return not IsEq(a, b, tolerance) and a < b;
+        static bool isLt(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
+            return not isEq(a, b, tolerance) and a < b;
         }
 
         //Is less than
 
-        static bool IsLE(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
-            return IsEq(a, b, tolerance) or a < b;
+        static bool isLE(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
+            return isEq(a, b, tolerance) or a < b;
         }
 
         //Is equal
 
-        static bool IsEq(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
+        static bool isEq(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
             return std::fabs(a - b) < tolerance;
         }
 
         //Is greater than
 
-        static bool IsGt(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
-            return not IsEq(a, b, tolerance) and a > b;
+        static bool isGt(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
+            return not isEq(a, b, tolerance) and a > b;
         }
 
-        static bool IsGE(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
-            return IsEq(a, b, tolerance) or a > b;
+        static bool isGE(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
+            return isEq(a, b, tolerance) or a > b;
         }
 
-        static scalar Scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax) {
+        static scalar scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax) {
             return (toMax - toMin) / (fromMax - fromMin) * (x - fromMin) + toMin;
         }
 
-        static std::string FindReplace(const std::string& str, const std::string& find,
+        static std::string findReplace(const std::string& str, const std::string& find,
                 const std::string& replace, bool replaceAll = true) {
             std::ostringstream result;
             std::size_t fromIndex = 0, nextIndex;
@@ -103,7 +103,7 @@ namespace fl {
         }
 
         static std::vector<std::string> split(const std::string& str,
-                const std::string& delimiter, bool ignoreEmpty = true) {
+                const std::string& delimiter = " ", bool ignoreEmpty = true) {
             std::vector<std::string> result;
             if (delimiter.empty()) {
                 result.push_back(str);
@@ -123,14 +123,14 @@ namespace fl {
             return result;
         }
 
-        static std::string LeftTrim(const std::string& text) {
+        static std::string leftTrim(const std::string& text) {
             std::size_t index = text.find_first_not_of(" ");
             if (index != std::string::npos)
                 return text.substr(index);
             return text;
         }
 
-        static std::string RightTrim(const std::string& text) {
+        static std::string rightTrim(const std::string& text) {
             std::size_t index = text.find_last_not_of(" ");
             if (index != std::string::npos) {
                 return text.substr(0, index + 1);
@@ -138,8 +138,8 @@ namespace fl {
             return text;
         }
 
-        static std::string Trim(const std::string& text) {
-            return RightTrim(LeftTrim(text));
+        static std::string trim(const std::string& text) {
+            return rightTrim(leftTrim(text));
         }
 
         static scalar toScalar(const std::string& x, bool quiet = false,
@@ -197,20 +197,6 @@ namespace fl {
                 if (i < x.size() - 1) ss << separator;
             }
             return ss.str();
-        }
-
-        static std::vector<std::pair<scalar, scalar> >
-        Overlap(int number_of_sections,
-                scalar min, scalar max, scalar factor = 0.5) {
-            std::vector<std::pair<scalar, scalar> > limits;
-            scalar range = (max - min) / (factor * (number_of_sections + 1));
-            scalar current_step = min;
-            for (int i = 0; i < number_of_sections; ++i) {
-                limits.push_back(std::make_pair(current_step,
-                        current_step + range));
-                current_step += factor * range;
-            }
-            return limits;
         }
     };
 }

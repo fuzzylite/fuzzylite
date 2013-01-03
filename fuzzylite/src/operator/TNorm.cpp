@@ -16,7 +16,7 @@ namespace fl {
     }
 
     scalar Minimum::compute(scalar a, scalar b) const {
-        return Op::Min(a, b);
+        return Op::min(a, b);
     }
 
     // Product : public TNorm {
@@ -36,7 +36,7 @@ namespace fl {
     }
 
     scalar BoundedDifference::compute(scalar a, scalar b) const {
-        return Op::Max(0, a + b - 1);
+        return Op::max(0, a + b - 1);
     }
 
 
@@ -47,8 +47,8 @@ namespace fl {
     }
 
     scalar DrasticProduct::compute(scalar a, scalar b) const {
-        if (Op::IsEq(Op::Max(a, b), 1.0)) {
-            return Op::Min(a, b);
+        if (Op::isEq(Op::max(a, b), 1.0)) {
+            return Op::min(a, b);
         }
         return 0.0;
     }

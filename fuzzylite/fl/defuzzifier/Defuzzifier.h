@@ -9,10 +9,9 @@
 #define FL_DEFUZZIFIER_H_
 
 #include "fl/scalar.h"
+#include "fl/definitions.h"
 
 #include <string>
-
-#define FL_DEFAULT_DIVISIONS 500
 
 namespace fl {
     class Term;

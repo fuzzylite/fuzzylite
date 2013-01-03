@@ -41,6 +41,10 @@ namespace fl {
         }
     }
 
+    void Engine::configure(const std::string& tnorm, const std::string& snorm,
+            const std::string& activationTnorm, const std::string& accumulationSnorm,
+            const std::string& defuzzifier, int divisions) { }
+
     void Engine::configure(Configuration* config) {
         this->_configuration = config;
 
@@ -233,7 +237,7 @@ namespace fl {
         return this->_ruleblocks;
     }
 
-        /**
+    /**
      * Operations for std::vector _hedges
      */
     void Engine::addHedge(Hedge* hedge) {

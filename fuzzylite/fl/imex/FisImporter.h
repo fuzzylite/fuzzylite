@@ -20,16 +20,20 @@ namespace fl {
     class SNorm;
     class Term;
     class Defuzzifier;
+    class Variable;
 
     class FisImporter : public Importer {
     protected:
 
-        virtual void importSystem(const std::string& section, Engine* engine) const;
+        virtual void importSystem(const std::string& section, Engine* engine,
+                std::string& andMethod, std::string& orMethod,
+                std::string& impMethod, std::string& aggMethod,
+                std::string& defuzzMethod) const;
         virtual void importInput(const std::string& section, Engine* engine) const;
         virtual void importOutput(const std::string& section, Engine* engine) const;
         virtual void importRules(const std::string& section, Engine* engine) const;
-        
-        
+        virtual std::string translateProposition(scalar code, Variable* variable) const;
+
         virtual TNorm* extractTNorm(const std::string& name) const;
         virtual SNorm* extractSNorm(const std::string& name) const;
         virtual Term* extractTerm(const std::string& line) const;
@@ -46,7 +50,7 @@ namespace fl {
 
         virtual Engine* fromString(const std::string& fcl) const;
     };
-    
+
 }
 #endif	/* FL_FISIMPORTER_H */
 

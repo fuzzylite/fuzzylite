@@ -26,15 +26,15 @@ namespace fl {
     }
 
     scalar Ramp::membership(scalar x) const {
-        if (Op::IsEq(_start, _end)) return 0.0;
+        if (Op::isEq(_start, _end)) return 0.0;
 
-        if (Op::IsLt(_start, _end)) {
-            if (Op::IsLt(x, _start)) return 0.0;
-            if (Op::IsGt(x, _end)) return 1.0;
+        if (Op::isLt(_start, _end)) {
+            if (Op::isLt(x, _start)) return 0.0;
+            if (Op::isGt(x, _end)) return 1.0;
             return (x - _start) / (_end - _start);
         } else {
-            if (Op::IsLt(x, _start)) return 1.0;
-            if (Op::IsGt(x, _end)) return 0.0;
+            if (Op::isLt(x, _start)) return 1.0;
+            if (Op::isGt(x, _end)) return 0.0;
             return (_end - x) / (_end - _start);
         }
     }

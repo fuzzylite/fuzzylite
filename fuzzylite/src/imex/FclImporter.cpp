@@ -40,7 +40,7 @@ namespace fl {
         try {
             while (std::getline(fclReader, line)) {
                 ++lineNumber;
-                line = Op::Trim(line);
+                line = Op::trim(line);
                 if (line.empty() or line[0] == '#')
                     continue;
 
@@ -143,7 +143,7 @@ namespace fl {
                         << std::endl << line;
                 throw fl::Exception(ex.str());
             }
-            std::string name = Op::Trim(token[0]);
+            std::string name = Op::trim(token[0]);
             if (tag == "VAR_INPUT")
                 engine->addInputVariable(new InputVariable(name));
             else if (tag == "VAR_OUTPUT")
@@ -293,7 +293,7 @@ namespace fl {
                     << std::endl << line;
             throw fl::Exception(ex.str());
         }
-        std::string name = Op::FindReplace(Op::Trim(token[1]), ";", "");
+        std::string name = Op::findReplace(Op::trim(token[1]), ";", "");
         if (name == "MIN") return new Minimum;
         if (name == "PROD") return new AlgebraicProduct;
         if (name == "BDIF") return new BoundedDifference;
@@ -315,7 +315,7 @@ namespace fl {
                     << std::endl << line;
             throw fl::Exception(ex.str());
         }
-        std::string name = Op::FindReplace(Op::Trim(token[1]), ";", "");
+        std::string name = Op::findReplace(Op::trim(token[1]), ";", "");
         if (name == "MAX") return new Maximum;
         if (name == "ASUM") return new AlgebraicSum;
         if (name == "BSUM") return new BoundedSum;
@@ -406,7 +406,7 @@ namespace fl {
             } else {
                 std::ostringstream ex;
                 ex << "[syntax error] a discrete term requires an even list of values, "
-                        "but found <" << params.size() << ">";
+                        "but found <" << params.size() << "> values";
                 throw fl::Exception(ex.str());
             }
         }
@@ -507,7 +507,7 @@ namespace fl {
             throw fl::Exception(ex.str());
         }
 
-        std::string name = Op::Trim(Op::FindReplace(token[1], ";", ""));
+        std::string name = Op::trim(Op::findReplace(token[1], ";", ""));
         if (name == "COG") return new CenterOfGravity;
         if (name == "SOM") return new SmallestOfMaximum;
         if (name == "LOM") return new LargestOfMaximum;
@@ -528,7 +528,7 @@ namespace fl {
             throw fl::Exception(ex.str());
         }
 
-        std::string defaultValue = Op::FindReplace(token[1], " ", "");
+        std::string defaultValue = Op::findReplace(token[1], " ", "");
         token = Op::split(defaultValue, "|");
 
         scalar value;
@@ -545,7 +545,7 @@ namespace fl {
         lockDefuzzifiedValue = false;
 
         if (token.size() == 2) {
-            std::string noChangeFlag = Op::FindReplace(Op::Trim(token[1]), ";", "");
+            std::string noChangeFlag = Op::findReplace(Op::trim(token[1]), ";", "");
             if (noChangeFlag == "NC")
                 lockDefuzzifiedValue = true;
             else {

@@ -8,6 +8,8 @@
 #ifndef FL_ENGINE_H_
 #define FL_ENGINE_H_
 
+#include "fl/definitions.h"
+
 #include <vector>
 #include <string>
 #include <map>
@@ -34,6 +36,9 @@ namespace fl {
         Engine(const std::string& name = "");
         virtual ~Engine();
 
+        virtual void configure(const std::string& tnorm, const std::string& snorm,
+                const std::string& activationTnorm, const std::string& accumulationSnorm,
+                const std::string& defuzzifier, int divisions = FL_DEFAULT_DIVISIONS);
         virtual void configure(Configuration* config);
         virtual Configuration* getConfiguration() const;
 

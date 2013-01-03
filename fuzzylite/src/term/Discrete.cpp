@@ -62,21 +62,21 @@ namespace fl {
         int lower = -1, upper = -1;
 
         for (std::size_t i = 0; i < x.size(); ++i) {
-            if (Op::IsEq(x[i], mu)) return y[i];
+            if (Op::isEq(x[i], mu)) return y[i];
             //approximate on the left
-            if (Op::IsLt(x[i], mu) and Op::IsGt(x[i], lowerApprox)) {
+            if (Op::isLt(x[i], mu) and Op::isGt(x[i], lowerApprox)) {
                 lowerApprox = x[i];
                 lower = i;
             }
             //get the immediate next one on the right
-            if (Op::IsGt(x[i], mu)) {
+            if (Op::isGt(x[i], mu)) {
                 upper = i;
                 break;
             }
         }
         //        return ((y[upper] - y[lower]) / (x[upper] - x[lower])) *
         //                (mu - x[lower]) + y[lower];
-        return Op::Scale(mu, x[lower], x[upper], y[lower], y[upper]);
+        return Op::scale(mu, x[lower], x[upper], y[lower], y[upper]);
     }
 
     std::string Discrete::toString() const {

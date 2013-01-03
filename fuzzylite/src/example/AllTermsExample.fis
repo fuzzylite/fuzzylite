@@ -1,0 +1,72 @@
+[System]
+Name='all-terms'
+Type='mamdani'
+Version=2.0
+NumInputs=1
+NumOutputs=1
+NumRules=14
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='InputAllTerms'
+Range=[-2 17.4]
+NumMFs=14
+MF1='A':'sigmf',[-2.462 -0.060]
+MF2='B':'zmf',[-5.492 4.984]
+MF3='C':'trimf',[0.000 0.500 1.000]
+MF4='D':'trapmf',[0.240 0.780 1.500 2.000]
+MF5='E':'rectmf',[1.050 2.190]
+MF6='F':'discretemf',[2 0 2.25 1 2.5 0.5 2.75 1 3 0]
+MF7='G':'gaussmf',[0.550 3.500]
+MF8='H':'gauss2mf',[0.926 4.750 0.998 3.910]
+MF9='I':'gbellmf',[0.988 3.000 5.928]
+MF10='J':'pimf',[4.598 8.060 7.354 9.214]
+MF11='K':'dsigmf',[5.306 8.424 1.526 10.584]
+MF12='L':'psigmf',[1.390 9.648 -9.598 12.672]
+MF13='M':'rampmf',[8.208 14.688]
+MF14='N':'smf',[8.670 18.952]
+
+
+[Output1]
+Name='OutputAllTerms'
+Range=[-2 17.4]
+Default=nan
+Lock=1
+NumMFs=14
+MF1='A':'sigmf',[-2.462 -0.060]
+MF2='B':'zmf',[-5.492 4.984]
+MF3='C':'trimf',[0.000 0.500 1.000]
+MF4='D':'trapmf',[0.240 0.780 1.500 2.000]
+MF5='E':'rectmf',[1.050 2.190]
+MF6='F':'discretemf',[2 0 2.25 1 2.5 0.5 2.75 1 3 0]
+MF7='G':'gaussmf',[0.550 3.500]
+MF8='H':'gauss2mf',[0.926 4.750 0.998 3.910]
+MF9='I':'gbellmf',[0.988 3.000 5.928]
+MF10='J':'pimf',[4.598 8.060 7.354 9.214]
+MF11='K':'dsigmf',[5.306 8.424 1.526 10.584]
+MF12='L':'psigmf',[1.390 9.648 -9.598 12.672]
+MF13='M':'rampmf',[8.208 14.688]
+MF14='N':'smf',[8.670 18.952]
+
+
+[Rules]
+# RuleBlock 
+1 , 14 (1) : 1
+2 , 13 (1) : 1
+3 , 12 (1) : 1
+4 , 11 (1) : 1
+5 , 10 (1) : 1
+6 , 9 (1) : 1
+7 , 8 (1) : 1
+8 , 7 (1) : 1
+9 , 6 (1) : 1
+10 , 5 (1) : 1
+11 , 4 (1) : 1
+12 , 3 (1) : 1
+13 , 2 (1) : 1
+14 , 1 (1) : 1
+

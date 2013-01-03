@@ -40,7 +40,8 @@ namespace fl {
         fis << "Version=" << FL_VERSION << "\n";
         fis << "NumInputs=" << engine->numberOfInputVariables() << "\n";
         fis << "NumOutputs=" << engine->numberOfOutputVariables() << "\n";
-        fis << "NumRules=" << engine->getRuleBlock(0)->numberOfRules() << "\n";
+        if (engine->numberOfRuleBlocks() > 0)
+            fis << "NumRules=" << engine->getRuleBlock(0)->numberOfRules() << "\n";
 
         const TNorm* tnorm = NULL;
         const SNorm* snorm = NULL;
@@ -87,6 +88,7 @@ namespace fl {
             if (not outputVariable->output()->getAccumulation()) nullptrError = "accumulation S-Norm";
             if (not nullptrError.empty()) break;
 
+
             if (not defuzzifier) defuzzifier = outputVariable->getDefuzzifier();
             else if (defuzzifier->className() != outputVariable->getDefuzzifier()->className())
                 uniquenessError = "defuzzifier";
@@ -111,15 +113,15 @@ namespace fl {
 
     std::string FisExporter::exportInputs(const Engine* engine) const {
         std::ostringstream fis;
-        for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
-            InputVariable* var = engine->getInputVariable(i);
-            fis << "[Input" << (i + 1) << "]\n";
+        for (int ixVar = 0; ixVar < engine->numberOfInputVariables(); ++ixVar) {
+            InputVariable* var = engine->getInputVariable(ixVar);
+            fis << "[Input" << (ixVar + 1) << "]\n";
             fis << "Name='" << var->getName() << "'\n";
             fis << "Range=[" << var->getMinimum() << " " << var->getMaximum() << "]\n";
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
-            for (int t = 0; t < var->numberOfTerms(); ++t) {
-                fis << "MF" << (t + 1) << "='" << var->getTerm(t)->getName() << "':"
-                        << toFis(var->getTerm(t)) << "\n";
+            for (int ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
+                fis << "MF" << (ixTerm + 1) << "='" << var->getTerm(ixTerm)->getName() << "':"
+                        << toFis(var->getTerm(ixTerm)) << "\n";
             }
         }
         fis << "\n";
@@ -128,17 +130,17 @@ namespace fl {
 
     std::string FisExporter::exportOutputs(const Engine* engine) const {
         std::ostringstream fis;
-        for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-            OutputVariable* var = engine->getOutputVariable(i);
-            fis << "[Output" << (i + 1) << "]\n";
+        for (int ixVar = 0; ixVar < engine->numberOfOutputVariables(); ++ixVar) {
+            OutputVariable* var = engine->getOutputVariable(ixVar);
+            fis << "[Output" << (ixVar + 1) << "]\n";
             fis << "Name='" << var->getName() << "'\n";
             fis << "Range=[" << var->getMinimum() << " " << var->getMaximum() << "]\n";
             fis << "Default=" << var->getDefaultValue() << "\n";
             fis << "Lock=" << var->lockDefuzzifiedValue() << "\n";
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
-            for (int t = 0; t < var->numberOfTerms(); ++t) {
-                fis << "MF" << (t + 1) << "='" << var->getTerm(t)->getName() << "':"
-                        << toFis(var->getTerm(t)) << "\n";
+            for (int ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
+                fis << "MF" << (ixTerm + 1) << "='" << var->getTerm(ixTerm)->getName() << "':"
+                        << toFis(var->getTerm(ixTerm)) << "\n";
             }
         }
         fis << "\n";
@@ -148,17 +150,18 @@ namespace fl {
     std::string FisExporter::exportRules(const Engine* engine) const {
         std::ostringstream fis;
         fis << "[Rules]\n";
-        for (int ruleBlockIndex = 0; ruleBlockIndex < engine->numberOfRuleBlocks(); ++ruleBlockIndex) {
-            RuleBlock* rb = engine->getRuleBlock(ruleBlockIndex);
+        for (int ixRuleBlock = 0; ixRuleBlock < engine->numberOfRuleBlocks(); ++ixRuleBlock) {
+            RuleBlock* rb = engine->getRuleBlock(ixRuleBlock);
             fis << "# RuleBlock " << rb->getName() << "\n";
-            for (int ruleIndex = 0; ruleIndex < rb->numberOfRules(); ++ruleIndex) {
-                fis << exportRule(dynamic_cast<MamdaniRule*> (rb->getRule(ruleIndex)), engine) << "\n";
+            for (int ixRule = 0; ixRule < rb->numberOfRules(); ++ixRule) {
+                fis << exportRule(dynamic_cast<MamdaniRule*> (rb->getRule(ixRule)), engine) << "\n";
             }
         }
         return fis.str();
     }
 
     std::string FisExporter::exportRule(const MamdaniRule* rule, const Engine* engine) const {
+        if (not rule) return "";
         std::vector<MamdaniProposition*> propositions;
         std::vector<MamdaniOperator*> operators;
 
@@ -196,7 +199,7 @@ namespace fl {
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i)
             outputVariables.push_back(engine->getOutputVariable(i));
 
-        fis << "[" << translate(propositions, inputVariables) << ", ";
+        fis << translate(propositions, inputVariables) << ", ";
         fis << translate(rule->getConsequent()->conclusions(), outputVariables);
         fis << "(" << rule->getWeight() << ") : ";
         if (operators.size() == 0) fis << "1"; //does not matter
@@ -205,7 +208,6 @@ namespace fl {
             else if (operators[0]->name == Rule::FL_OR) fis << "2";
             else fis << operators[0]->name;
         }
-        fis << "]";
         return fis.str();
     }
 
@@ -241,10 +243,11 @@ namespace fl {
                             plusHedge += 2;
                     } else plusHedge = std::numeric_limits<scalar>::quiet_NaN();
                 }
+                break;
             }
-            if (fl::Op::IsEq(plusHedge, -1)) ss << "-";
+            if (fl::Op::isEq(plusHedge, -1)) ss << "-";
             ss << termIndexPlusOne;
-            if (not fl::Op::IsEq(plusHedge, 0.0))
+            if (not fl::Op::isEq(plusHedge, 0.0))
                 ss << "." << fl::Op::str(plusHedge, 0);
             ss << " ";
         }
@@ -289,8 +292,8 @@ namespace fl {
         std::ostringstream ss;
         if (term->className() == Bell().className()) {
             const Bell* x = dynamic_cast<const Bell*> (term);
-            ss << "'gbellmf',[" << x->getWidth() << " " << x->getSlope() << " "
-                    << x->getCenter() << "]";
+            scalar params[] = {x->getWidth(), x->getSlope(), x->getCenter()};
+            ss << "'gbellmf',[" << fl::Op::str(3, params, " ") << "]";
             return ss.str();
         }
 
@@ -307,78 +310,87 @@ namespace fl {
 
         if (term->className() == Gaussian().className()) {
             const Gaussian* x = dynamic_cast<const Gaussian*> (term);
-            ss << "'gaussmf',[" << x->getSigma() << " " << x->getMean() << "]";
+            scalar params[] = {x->getSigma(), x->getMean()};
+            ss << "'gaussmf',[" << fl::Op::str(2, params, " ") << "]";
             return ss.str();
         }
 
         if (term->className() == GaussianProduct().className()) {
             const GaussianProduct* x = dynamic_cast<const GaussianProduct*> (term);
-            ss << "'gauss2mf',[" << x->getSigmaA() << " " << x->getMeanA() <<
-                    x->getSigmaB() << " " << x->getMeanB() << "]";
+            scalar params[] = {x->getSigmaA(), x->getMeanA(), x->getSigmaB(), x->getMeanB()};
+            ss << "'gauss2mf',[" << fl::Op::str(4, params, " ") << "]";
             return ss.str();
         }
 
         if (term->className() == PiShape().className()) {
             const PiShape* x = dynamic_cast<const PiShape*> (term);
-            ss << "'pimf',[" << x->getA() << " " << x->getB() << " "
-                    << x->getC() << " " << x->getD() << "]";
+            scalar params[] = {x->getA(), x->getB(), x->getC(), x->getD()};
+            ss << "'pimf',[" << fl::Op::str(4, params, " ") << "]";
             return ss.str();
         }
 
         if (term->className() == Ramp().className()) {
             const Ramp* x = dynamic_cast<const Ramp*> (term);
-            ss << "'rampmf',[" << x->getStart() << " " << x->getEnd() << "]";
+            scalar params[] = {x->getStart(), x->getEnd()};
+            ss << "'rampmf',[" << fl::Op::str(2, params, " ") << "]";
             return ss.str();
         }
 
         if (term->className() == Rectangle().className()) {
             const Rectangle* x = dynamic_cast<const Rectangle*> (term);
-            ss << "'rectmf',[" << x->getMinimum() << " " << x->getMaximum() << "]";
+            scalar params[] = {x->getMinimum(), x->getMaximum()};
+            ss << "'rectmf',[" << fl::Op::str(2, params, " ") << "]";
             return ss.str();
         }
 
         if (term->className() == SShape().className()) {
             const SShape* x = dynamic_cast<const SShape*> (term);
-            ss << "'smf',[" << x->getStart() << " " << x->getEnd() << "]";
+            scalar params[] = {x->getStart(), x->getEnd()};
+            ss << "'smf',[" << fl::Op::str(2, params, " ") << "]";
             return ss.str();
         }
 
         if (term->className() == Sigmoid().className()) {
             const Sigmoid* x = dynamic_cast<const Sigmoid*> (term);
-            ss << "'sigmf',[" << x->getSlope() << " " << x->getInflection() << "]";
+            scalar params[] = {x->getSlope(), x->getInflection()};
+            ss << "'sigmf',[" << fl::Op::str(2, params, " ") << "]";
             return ss.str();
         }
 
         if (term->className() == SigmoidDifference().className()) {
             const SigmoidDifference* x = dynamic_cast<const SigmoidDifference*> (term);
-            ss << "'dsigmf',[" << x->getRisingSlope() << " " << x->getLeftInflection() <<
-                    " " << x->getFallingSlope() << " " << x->getRightInflection() << "]";
+            scalar params[] = {x->getRisingSlope(), x->getLeftInflection(),
+                x->getFallingSlope(), x->getRightInflection()};
+            ss << "'dsigmf',[" << fl::Op::str(4, params, " ") << "]";
             return ss.str();
         }
 
         if (term->className() == SigmoidProduct().className()) {
             const SigmoidProduct* x = dynamic_cast<const SigmoidProduct*> (term);
-            ss << "'psigmf',[" << x->getRisingSlope() << " " << x->getLeftInflection() <<
-                    " " << x->getFallingSlope() << " " << x->getRightInflection() << "]";
+            scalar params[] = {x->getRisingSlope(), x->getLeftInflection(),
+                x->getFallingSlope(), x->getRightInflection()};
+            ss << "'psigmf',[" << fl::Op::str(4, params, " ") << "]";
             return ss.str();
         }
 
         if (term->className() == Trapezoid().className()) {
             const Trapezoid* x = dynamic_cast<const Trapezoid*> (term);
-            ss << "'trapmf',[" << x->getA() << " " << x->getB() << " " <<
-                    x->getC() << " " << x->getD() << "]";
+            scalar params[] = {x->getA(), x->getB(), x->getC(), x->getD()};
+            ss << "'trapmf',[" << fl::Op::str(4, params, " ") << "]";
             return ss.str();
         }
 
         if (term->className() == Triangle().className()) {
             const Triangle* x = dynamic_cast<const Triangle*> (term);
-            ss << "'trimf',[" << x->getA() << " " << x->getB() << " " << x->getC() << "]";
+            scalar params[] = {x->getA(), x->getB(), x->getC()};
+            ss << "'trimf',[" << fl::Op::str(3, params, " ") << "]";
             return ss.str();
         }
 
         if (term->className() == ZShape().className()) {
             const ZShape* x = dynamic_cast<const ZShape*> (term);
-            ss << "'zmf',[" << x->getStart() << " " << x->getEnd() << "]";
+            scalar params[] = {x->getStart(), x->getEnd()};
+            ss << "'zmf',[" << fl::Op::str(2, params, " ") << "]";
             return ss.str();
         }
 
