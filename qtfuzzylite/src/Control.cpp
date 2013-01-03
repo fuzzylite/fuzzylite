@@ -31,11 +31,11 @@ namespace fl {
             this->variable = model;
 
             if (dynamic_cast<OutputVariable*> (variable)) {
-//                ui->sld_x->setEnabled(false);
+                ui->sld_x->setEnabled(false);
                 ui->sbx_x->setVisible(false);
                 ui->led_x->setVisible(true);
-                //                QObject::connect(this, SIGNAL(valueChanged(double)),
-                //                        this, SLOT(updateOutput()), Qt::QueuedConnection);
+//                QObject::connect(this, SIGNAL(valueChanged(double)),
+//                        this, SLOT(updateOutput()), Qt::QueuedConnection);
             } else if (dynamic_cast<InputVariable*> (variable)) {
                 QObject::connect(this, SIGNAL(valueChanged(double)),
                         this, SLOT(updateInput(double)));

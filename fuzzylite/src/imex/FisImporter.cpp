@@ -199,7 +199,7 @@ namespace fl {
             std::vector<std::string> outputs = fl::Op::split(outputsAndRest[0], " ");
             std::string weightInParenthesis = outputs[outputs.size() - 1];
             outputs.erase(outputs.begin() + outputs.size() - 1);
-            std::string connector = outputsAndRest[1];
+            std::string connector = fl::Op::trim(outputsAndRest[1]);
 
             if ((int)inputs.size() != engine->numberOfInputVariables())
                 throw fl::Exception("[syntax error] missing input variables in rule <"
@@ -373,25 +373,25 @@ namespace fl {
 
         if (termClass == "gbellmf") {
             if (params.size() == (requiredParams = 3)) {
-                return new Bell(name, params[0], params[1], params[2]);
+                return new Bell(name, params[2], params[0], params[1]);
             }
         }
 
         if (termClass == "gaussmf") {
             if (params.size() == (requiredParams = 2)) {
-                return new Gaussian(name, params[0], params[1]);
+                return new Gaussian(name, params[1], params[0]);
             }
         }
 
         if (termClass == "gauss2mf") {
             if (params.size() == (requiredParams = 4)) {
-                return new GaussianProduct(name, params[0], params[1], params[2], params[3]);
+                return new GaussianProduct(name, params[1], params[0], params[3], params[2]);
             }
         }
 
         if (termClass == "pimf") {
             if (params.size() == (requiredParams = 4)) {
-                return new PiShape(name, params[0], params[1]);
+                return new PiShape(name, params[0], params[1], params[2], params[3]);
             }
         }
 
@@ -417,17 +417,17 @@ namespace fl {
 
         if (termClass == "sigmf") {
             if (params.size() == (requiredParams = 2)) {
-                return new Sigmoid(name, params[0], params[1]);
+                return new Sigmoid(name, params[1], params[0]);
             }
         }
         if (termClass == "dsigmf") {
             if (params.size() == (requiredParams = 4)) {
-                return new SigmoidDifference(name, params[0], params[1], params[2], params[3]);
+                return new SigmoidDifference(name, params[1], params[0], params[3], params[2]);
             }
         }
         if (termClass == "psigmf") {
             if (params.size() == (requiredParams = 4)) {
-                return new SigmoidProduct(name, params[0], params[1], params[2], params[3]);
+                return new SigmoidProduct(name, params[1], params[0], params[3], params[2]);
             }
         }
 
