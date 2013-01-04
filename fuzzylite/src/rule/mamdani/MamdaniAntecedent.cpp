@@ -58,20 +58,20 @@ namespace fl {
         if (not mamdaniOperator->left or not mamdaniOperator->right) {
             std::ostringstream ex;
             ex << "[syntax error] left and right operands must exist";
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
         if (mamdaniOperator->name == Rule::FL_AND)
             return tnorm->compute(
                 this->firingStrength(tnorm, snorm, mamdaniOperator->left),
                 this->firingStrength(tnorm, snorm, mamdaniOperator->right));
 
-        if (mamdaniOperator->name == Rule::FL_AND)
+        if (mamdaniOperator->name == Rule::FL_OR)
             return snorm->compute(
                 this->firingStrength(tnorm, snorm, mamdaniOperator->left),
                 this->firingStrength(tnorm, snorm, mamdaniOperator->right));
         std::ostringstream ex;
         ex << "[syntax error] operator <" << mamdaniOperator->name << "> not recognized";
-        throw fl::Exception(ex.str());
+        throw fl::Exception(ex.str(), FL_AT);
 
     }
 
@@ -146,7 +146,7 @@ namespace fl {
                         std::ostringstream ex;
                         ex << "[syntax error] operator <" << token << "> expects 2 operands,"
                                 << "but found " << expressionStack.size();
-                        throw fl::Exception(ex.str());
+                        throw fl::Exception(ex.str(), FL_AT);
                     }
                     MamdaniOperator* mamdaniOperator = new MamdaniOperator;
                     mamdaniOperator->name = token;
@@ -165,28 +165,28 @@ namespace fl {
             if ((state bitand S_VARIABLE) or (state bitand S_OPERATOR)) {
                 std::ostringstream ex;
                 ex << "[syntax error] expected input variable or operator, but found <" << token << ">";
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
             if (state bitand S_IS) {
                 std::ostringstream ex;
                 ex << "[syntax error] expected keyword <" << Rule::FL_IS << ">, but found <" << token << ">";
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
             if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
                 std::ostringstream ex;
-                ex << "[syntax error] expected hedge or term, but found <" << token << "> not registered in engine";
-                throw fl::Exception(ex.str());
+                ex << "[syntax error] expected hedge or term, but found <" << token << ">";
+                throw fl::Exception(ex.str(), FL_AT);
             }
             std::ostringstream ex;
             ex << "[syntax error] unexpected token <" << token << ">";
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
 
         if (expressionStack.size() != 1) {
             std::ostringstream ex;
             ex << "[syntax error] stack expected to contain the root, but contains "
                     << expressionStack.size() << " nodes";
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
         this->_root = expressionStack.top();
     }

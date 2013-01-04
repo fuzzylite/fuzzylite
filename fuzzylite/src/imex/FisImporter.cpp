@@ -65,9 +65,12 @@ namespace fl {
                 else if ("[Rules]" == sections[i].substr(0, std::string("[Rules]").size()))
                     importRules(sections[i], engine);
                 else
-                    throw fl::Exception("[internal error] no rule to parse section: "
-                        + sections[i]);
+                    throw fl::Exception("[internal error] unable to parse section: "
+                        + sections[i], FL_AT);
             }
+            engine->configure(flTnorm(andMethod), flSnorm(orMethod),
+                    flTnorm(impMethod), flSnorm(aggMethod),
+                    flDefuzzifier(defuzzMethod));
         } catch (fl::Exception& ex) {
             delete engine;
             throw ex;
@@ -87,14 +90,15 @@ namespace fl {
             std::vector<std::string> keyValue = fl::Op::split(line, "=");
             if (keyValue.size() != 2)
                 throw fl::Exception("[syntax error] expected a property of type "
-                    "'key=value', but found < " + line + ">");
-            std::string key = keyValue[0], value = keyValue[1];
+                    "'key=value', but found < " + line + ">", FL_AT);
+            std::string key = fl::Op::trim(keyValue[0]);
+            std::string value = fl::Op::trim(keyValue[1]);
 
             if (key == "Name") engine->setName(value);
             else if (key == "Type") {
                 if (value != "mamdani")
                     throw fl::Exception("[error] fuzzylite supports only mamdani-type "
-                        "engines at the moment");
+                        "engines at the moment", FL_AT);
 
             } else if (key == "AndMethod") andMethod = value;
             else if (key == "OrMethod") orMethod = value;
@@ -118,8 +122,9 @@ namespace fl {
             std::vector<std::string> keyValue = fl::Op::split(line, "=");
             if (keyValue.size() != 2)
                 throw fl::Exception("[syntax error] expected a property of type "
-                    "'key=value', but found < " + line + ">");
-            std::string key = keyValue[0], value = keyValue[1];
+                    "'key=value', but found < " + line + ">", FL_AT);
+            std::string key = fl::Op::trim(keyValue[0]);
+            std::string value = fl::Op::trim(keyValue[1]);
 
             if (key == "Name") input->setName(value);
             else if (key == "Range") {
@@ -148,8 +153,9 @@ namespace fl {
             std::vector<std::string> keyValue = fl::Op::split(line, "=");
             if (keyValue.size() != 2)
                 throw fl::Exception("[syntax error] expected a property of type "
-                    "'key=value', but found < " + line + ">");
-            std::string key = keyValue[0], value = keyValue[1];
+                    "'key=value', but found < " + line + ">", FL_AT);
+            std::string key = fl::Op::trim(keyValue[0]);
+            std::string value = fl::Op::trim(keyValue[1]);
 
             if (key == "Name") output->setName(value);
             else if (key == "Range") {
@@ -188,12 +194,12 @@ namespace fl {
             std::vector<std::string> inputsAndRest = fl::Op::split(line, ",");
             if (inputsAndRest.size() != 2)
                 throw fl::Exception("[syntax error] expected rule to match pattern "
-                    "<'i '+, 'o '+ (w) : '1|2'>, but found instead <" + line + ">");
+                    "<'i '+, 'o '+ (w) : '1|2'>, but found instead <" + line + ">", FL_AT);
 
             std::vector <std::string> outputsAndRest = fl::Op::split(inputsAndRest[1], ":");
             if (outputsAndRest.size() != 2)
                 throw fl::Exception("[syntax error] expected rule to match pattern "
-                    "<'i '+, 'o '+ (w) : '1|2'>, but found instead <" + line + ">");
+                    "<'i '+, 'o '+ (w) : '1|2'>, but found instead <" + line + ">", FL_AT);
 
             std::vector<std::string> inputs = fl::Op::split(inputsAndRest[0], " ");
             std::vector<std::string> outputs = fl::Op::split(outputsAndRest[0], " ");
@@ -201,13 +207,13 @@ namespace fl {
             outputs.erase(outputs.begin() + outputs.size() - 1);
             std::string connector = fl::Op::trim(outputsAndRest[1]);
 
-            if ((int)inputs.size() != engine->numberOfInputVariables())
+            if ((int) inputs.size() != engine->numberOfInputVariables())
                 throw fl::Exception("[syntax error] missing input variables in rule <"
-                    + line + ">");
+                    + line + ">", FL_AT);
 
-            if ((int)outputs.size() != engine->numberOfOutputVariables())
+            if ((int) outputs.size() != engine->numberOfOutputVariables())
                 throw fl::Exception("[syntax error] missing output variables in rule <"
-                    + line + ">");
+                    + line + ">", FL_AT);
 
             std::vector<std::string> antecedent, consequent;
 
@@ -223,7 +229,7 @@ namespace fl {
 
             for (std::size_t i = 0; i < outputs.size(); ++i) {
                 std::ostringstream ss;
-                scalar outputCode = fl::Op::toScalar(inputs[i]);
+                scalar outputCode = fl::Op::toScalar(outputs[i]);
                 if (fl::Op::isEq(outputCode, 0.0)) continue;
                 ss << engine->getOutputVariable(i)->getName() << " "
                         << fl::Rule::FL_IS << " "
@@ -241,7 +247,7 @@ namespace fl {
                     if (connector == "1") rule << fl::Rule::FL_AND << " ";
                     else if (connector == "2") rule << fl::Rule::FL_OR << " ";
                     else throw fl::Exception("[syntax error] connector <"
-                            + connector + "> not recognized");
+                            + connector + "> not recognized", FL_AT);
                 }
             }
 
@@ -263,7 +269,7 @@ namespace fl {
 
             scalar weight = fl::Op::toScalar(ss.str());
             if (not fl::Op::isEq(weight, 1.0))
-                rule << " " << fl::Rule::FL_WITH << weight;
+                rule << " " << fl::Rule::FL_WITH << " " << weight;
 
             FL_LOG("Rule: " << rule.str());
 
@@ -282,7 +288,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] the code <" << code << "> refers to a term "
                     "out of range from variable <" << variable->toString() << ">";
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
 
         std::ostringstream ss;
@@ -293,33 +299,41 @@ namespace fl {
         else if (fracPart == 40) ss << Very().name() << " " << Very().name() << " ";
         else if (fracPart != 0)
             throw fl::Exception("[syntax error] no hedge defined in fis format for <"
-                + fl::Op::str(fracPartScalar) + ">");
+                + fl::Op::str(fracPartScalar) + ">", FL_AT);
 
         ss << variable->getTerm(intPart)->getName();
         return ss.str();
     }
 
-    TNorm * FisImporter::extractTNorm(const std::string & name) const {
-        if (name == "min") return new Minimum;
-        if (name == "algebraic_product") return new AlgebraicProduct;
-        if (name == "bounded_difference") return new BoundedDifference;
-        if (name == "drastic_product") return new DrasticProduct;
-        if (name == "einstein_product") return new EinsteinProduct;
-        if (name == "hamacher_product") return new HamacherProduct;
+    std::string FisImporter::flTnorm(const std::string & name) const {
+        if (name == "min") return "Minimum";
+        if (name == "prod") return "AlgebraicProduct";
+        if (name == "bounded_difference") return "BoundedDifference";
+        if (name == "drastic_product") return "DrasticProduct";
+        if (name == "einstein_product") return "EinsteinProduct";
+        if (name == "hamacher_product") return "HamacherProduct";
 
-        throw fl::Exception("[syntax error] T-Norm <" + name + "> not recognized");
+        throw fl::Exception("[syntax error] T-Norm <" + name + "> not recognized", FL_AT);
     }
 
-    SNorm * FisImporter::extractSNorm(const std::string & name) const {
-        if (name == "max") return new Maximum;
-        if (name == "algebraic_sum") return new AlgebraicSum;
-        if (name == "bounded_sum") return new BoundedSum;
-        if (name == "normalized_sum") return new NormalizedSum;
-        if (name == "drastic_sum") return new DrasticSum;
-        if (name == "einstein_sum") return new EinsteinSum;
-        if (name == "hamacher_sum") return new HamacherSum;
+    std::string FisImporter::flSnorm(const std::string & name) const {
+        if (name == "max") return "Maximum";
+        if (name == "sum") return "AlgebraicSum";
+        if (name == "bounded_sum") return "BoundedSum";
+        if (name == "normalized_sum") return "NormalizedSum";
+        if (name == "drastic_sum") return "DrasticSum";
+        if (name == "einstein_sum") return "EinsteinSum";
+        if (name == "hamacher_sum") return "HamacherSum";
 
-        throw fl::Exception("[syntax error] S-Norm <" + name + "> not recognized");
+        throw fl::Exception("[syntax error] S-Norm <" + name + "> not recognized", FL_AT);
+    }
+
+    std::string FisImporter::flDefuzzifier(const std::string & name) const {
+        if (name == "centroid") return "CenterOfGravity";
+        if (name == "som") return "SmallestOfMaximum";
+        if (name == "lom") return "LargestOfMaximum";
+        if (name == "mom") return "MeanOfMaximum";
+        throw fl::Exception("[syntax error] defuzzifier <" + name + "> not recognized", FL_AT);
     }
 
     Term * FisImporter::extractTerm(const std::string & fis) const {
@@ -334,12 +348,12 @@ namespace fl {
         std::vector<std::string> nameTerm = fl::Op::split(line, ":");
         if (nameTerm.size() != 2) {
             throw fl::Exception("[syntax error] expected term in format 'name':'class',[params], "
-                    "but found " + line);
+                    "but found " + line, FL_AT);
         }
         std::vector<std::string> termParams = fl::Op::split(nameTerm[1], ",");
         if (termParams.size() != 2) {
             throw fl::Exception("[syntax error] expected term in format 'name':'class',[params], "
-                    "but found " + line);
+                    "but found " + line, FL_AT);
         }
 
         std::vector<std::string> strParams = fl::Op::split(termParams[1], " ");
@@ -367,82 +381,82 @@ namespace fl {
                 std::ostringstream ex;
                 ex << "[syntax error] a discrete term requires an even list of values, "
                         "but found <" << params.size() << ">";
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
         }
 
         if (termClass == "gbellmf") {
-            if (params.size() == (requiredParams = 3)) {
+            if (params.size() >= (requiredParams = 3)) {
                 return new Bell(name, params[2], params[0], params[1]);
             }
         }
 
         if (termClass == "gaussmf") {
-            if (params.size() == (requiredParams = 2)) {
+            if (params.size() >= (requiredParams = 2)) {
                 return new Gaussian(name, params[1], params[0]);
             }
         }
 
         if (termClass == "gauss2mf") {
-            if (params.size() == (requiredParams = 4)) {
+            if (params.size() >= (requiredParams = 4)) {
                 return new GaussianProduct(name, params[1], params[0], params[3], params[2]);
             }
         }
 
         if (termClass == "pimf") {
-            if (params.size() == (requiredParams = 4)) {
+            if (params.size() >= (requiredParams = 4)) {
                 return new PiShape(name, params[0], params[1], params[2], params[3]);
             }
         }
 
         if (termClass == "rampmf") {
-            if (params.size() == (requiredParams = 2)) {
+            if (params.size() >= (requiredParams = 2)) {
                 return new Ramp(name, params[0], params[1]);
             }
         }
 
 
         if (termClass == "rectmf") {
-            if (params.size() == (requiredParams = 2)) {
+            if (params.size() >= (requiredParams = 2)) {
                 return new Rectangle(name, params[0], params[1]);
             }
         }
 
         if (termClass == "smf") {
-            if (params.size() == (requiredParams = 2)) {
+            if (params.size() >= (requiredParams = 2)) {
                 return new SShape(name, params[0], params[1]);
             }
         }
 
 
         if (termClass == "sigmf") {
-            if (params.size() == (requiredParams = 2)) {
+            if (params.size() >= (requiredParams = 2)) {
                 return new Sigmoid(name, params[1], params[0]);
             }
         }
         if (termClass == "dsigmf") {
-            if (params.size() == (requiredParams = 4)) {
+            if (params.size() >= (requiredParams = 4)) {
                 return new SigmoidDifference(name, params[1], params[0], params[3], params[2]);
             }
         }
         if (termClass == "psigmf") {
-            if (params.size() == (requiredParams = 4)) {
+            if (params.size() >= (requiredParams = 4)) {
                 return new SigmoidProduct(name, params[1], params[0], params[3], params[2]);
             }
         }
 
         if (termClass == "trapmf") {
-            if (params.size() == (requiredParams = 4))
+            if (params.size() >= (requiredParams = 4))
                 return new Trapezoid(name, params[0], params[1], params[2], params[3]);
         }
 
         if (termClass == "trimf") {
-            if (params.size() == (requiredParams = 3))
+            if (params.size() >= (requiredParams = 3))
                 return new Triangle(name, params[0], params[1], params[2]);
         }
 
         if (termClass == "zmf") {
-            if (params.size() == (requiredParams = 2)) {
+            if (params.size() >= (requiredParams = 2)) {
                 return new ZShape(name, params[0], params[1]);
             }
         }
@@ -454,26 +468,18 @@ namespace fl {
         } else {
             ex << "[syntax error] term of class <" << termClass << "> not recognized";
         }
-        throw fl::Exception(ex.str());
-    }
-
-    Defuzzifier * FisImporter::extractDefuzzifier(const std::string & name) const {
-        if (name == "centroid") return new CenterOfGravity;
-        if (name == "som") return new SmallestOfMaximum;
-        if (name == "lom") return new LargestOfMaximum;
-        if (name == "mom") return new MeanOfMaximum;
-        throw fl::Exception("[syntax error] defuzzifier <" + name + "> not recognized");
+        throw fl::Exception(ex.str(), FL_AT);
     }
 
     void FisImporter::extractRange(const std::string& range, scalar& minimum, scalar & maximum) const {
         std::vector<std::string> parts = fl::Op::split(range, " ");
         if (parts.size() != 2)
             throw fl::Exception("[syntax error] expected range in format '[begin end]',"
-                " but found <" + range + ">");
+                " but found <" + range + ">", FL_AT);
         std::string begin = parts[0], end = parts[1];
         if (begin[0] != '[' or end[end.size() - 1] != ']')
             throw fl::Exception("[syntax error] expected range in format '[begin end]',"
-                " but found <" + range + ">");
+                " but found <" + range + ">", FL_AT);
         minimum = fl::Op::toScalar(begin.substr(1));
         maximum = fl::Op::toScalar(end.substr(0, end.size() - 1));
     }

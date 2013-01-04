@@ -9,10 +9,14 @@
 #include "fl/definitions.h"
 
 namespace fl {
-
-    Exception::Exception(const std::string& what, bool log)
-    : std::exception(), _what(what) {
-        if (log) FL_LOG(what);
+    
+    Exception::Exception(const std::string& what, const std::string& file, int line,
+                const std::string& function, bool log)
+    : std::exception(), _what(what){
+        std::ostringstream detail;
+        detail << "{" << file << "::" << function << "() [line:" << line << "]}";
+        appendDetail(detail.str());
+        if (log) FL_LOGP(detail.str() << ": " << what);
     }
 
     Exception::~Exception() throw () { }
@@ -23,7 +27,7 @@ namespace fl {
     
     void Exception::appendDetail(const std::string& detail){
         std::ostringstream ss;
-        ss << this->_what << std::endl << detail;
+        ss << this->_what << "\n" << detail;
         this->_what = ss.str();
     }
     

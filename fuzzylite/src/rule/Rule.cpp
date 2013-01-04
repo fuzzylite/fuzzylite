@@ -37,11 +37,11 @@ namespace fl {
 
     scalar Rule::firingStrength(const TNorm* tnorm,
             const SNorm* snorm) const {
-        return getAntecedent()->firingStrength(tnorm, snorm);
+        return getAntecedent()->firingStrength(tnorm, snorm) * _weight;
     }
 
     void Rule::fire(scalar strength, const TNorm* activation) const {
-        return getConsequent()->fire(strength * _weight, activation);
+        return getConsequent()->fire(strength, activation);
     }
 
     void Rule::setUnparsedRule(const std::string& unparsedRule) {

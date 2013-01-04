@@ -22,6 +22,9 @@ namespace fl {
     class RuleBlock;
     class Hedge;
     class Configuration;
+    class TNorm;
+    class SNorm;
+    class Defuzzifier;
 
     class Engine {
     protected:

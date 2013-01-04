@@ -70,11 +70,11 @@ namespace fl {
 
         if (not nullptrError.empty())
             throw fl::Exception("[nullptr error] expected a " + nullptrError +
-                ", but none was set");
+                ", but none was set", FL_AT);
 
         if (not uniquenessError.empty())
             throw fl::Exception("[export error] fis files require all ruleblocks "
-                "to have the same " + uniquenessError);
+                "to have the same " + uniquenessError, FL_AT);
 
         fis << "AndMethod='" << toFis(tnorm) << "'\n";
         fis << "OrMethod='" << toFis(snorm) << "'\n";
@@ -100,11 +100,11 @@ namespace fl {
 
         if (not nullptrError.empty())
             throw fl::Exception("[nullptr error] expected a " + nullptrError +
-                ", but none was set");
+                ", but none was set", FL_AT);
 
         if (not uniquenessError.empty())
             throw fl::Exception("[export error] fis files require all ruleblocks "
-                "to have the same " + uniquenessError);
+                "to have the same " + uniquenessError, FL_AT);
 
         fis << "AggMethod='" << toFis(accumulation) << "'\n";
         fis << "DefuzzMethod='" << toFis(defuzzifier) << "'\n";
@@ -190,7 +190,7 @@ namespace fl {
         if (not equalOperators)
             throw fl::Exception("[export error] "
                 "fis files do not support rules with different connectors "
-                "(i.e. ['and', 'or']). All connectors within a rule must be the same");
+                "(i.e. ['and', 'or']). All connectors within a rule must be the same", FL_AT);
 
         std::ostringstream fis;
         std::vector<Variable*> inputVariables, outputVariables;
@@ -217,7 +217,7 @@ namespace fl {
         for (std::size_t ixVariable = 0; ixVariable < variables.size(); ++ixVariable) {
             Variable* variable = variables[ixVariable];
             int termIndexPlusOne = 0;
-            scalar plusHedge = 0.0;
+            scalar plusHedge = 0;
             for (std::size_t ixProposition = 0; ixProposition < propositions.size(); ++ixProposition) {
                 MamdaniProposition* proposition = propositions[ixProposition];
                 if (proposition->variable != variable) continue;
@@ -395,6 +395,6 @@ namespace fl {
         }
 
         ss << "[export error] term of class <" << term->className() << "> not supported";
-        throw fl::Exception(ss.str());
+        throw fl::Exception(ss.str(), FL_AT);
     }
 }

@@ -706,21 +706,7 @@
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
-   <widget class="QMenu" name="menuExamples">
-    <property name="title">
-     <string>Examples</string>
-    </property>
-    <addaction name="actionMamdani"/>
-    <addaction name="actionDimmer1x1"/>
-    <addaction name="actionDimmer2x1"/>
-    <addaction name="actionExample2"/>
-    <addaction name="actionExample3"/>
-    <addaction name="actionAllTerms"/>
-    <addaction name="separator"/>
-    <addaction name="actionSugeno"/>
-   </widget>
    <addaction name="menuGui"/>
-   <addaction name="menuExamples"/>
   </widget>
   <action name="actionDimmer1x1">
    <property name="text">

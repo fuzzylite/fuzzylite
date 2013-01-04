@@ -56,22 +56,23 @@ namespace fl {
 
     std::string Infix::toPostfix(const std::string& infixString) {
         //TODO: inserts spaces in all operators, parentheses, and commas.
-        std::vector<std::string> space;
-        std::map<std::string, GenericOperator*>::const_iterator itGO = this->_genericOperators.begin();
-        for (; itGO != this->_genericOperators.end(); ++itGO) {
-            if (itGO->first == Rule::FL_AND or itGO->first == Rule::FL_OR)
-                continue;
-            space.push_back(itGO->first);
-        }
-        space.push_back("(");
-        space.push_back(")");
-        space.push_back(",");
-
+//        std::vector<std::string> space;
+//        std::map<std::string, GenericOperator*>::const_iterator itGO = this->_genericOperators.begin();
+//        for (; itGO != this->_genericOperators.end(); ++itGO) {
+//            if (itGO->first == Rule::FL_AND or itGO->first == Rule::FL_OR)
+//                continue;
+//            space.push_back(itGO->first);
+//        }
+//        space.push_back("(");
+//        space.push_back(")");
+//        space.push_back(",");
+//
         std::string infix = infixString;
-        for (std::size_t i = 0; i < space.size(); ++i) {
-            Op::findReplace(infix, space[i], " " + space[i] + " ", true);
-        }
-
+//        for (std::size_t i = 0; i < space.size(); ++i) {
+//            infix = Op::findReplace(infix, space[i], " " + space[i] + " ", true);
+//        }
+////        FL_LOG("infix=" << infix);
+        
         std::queue<std::string> queue;
         std::stack<std::string> stack;
 
@@ -92,7 +93,7 @@ namespace fl {
                 if (stack.empty() or stack.top() != "(") {
                     std::ostringstream ex;
                     ex << "mismatching parentheses in: " << infixString;
-                    throw fl::Exception(ex.str());
+                    throw fl::Exception(ex.str(), FL_AT);
                 }
 
             } else if (isOperator(token)) {
@@ -124,7 +125,7 @@ namespace fl {
                 if (stack.empty() or stack.top() != "(") {
                     std::ostringstream ex;
                     ex << "mismatching parentheses in: " << infixString;
-                    throw fl::Exception(ex.str());
+                    throw fl::Exception(ex.str(), FL_AT);
                 }
                 stack.pop(); //get rid of "("
 
@@ -135,7 +136,7 @@ namespace fl {
             } else {
                 std::ostringstream ex;
                 ex << "this should have never occurred!";
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
         }
 
@@ -143,7 +144,7 @@ namespace fl {
             if (stack.top() == "(" or stack.top() == ")") {
                 std::ostringstream ex;
                 ex << "mismatching parentheses in: " << infixString;
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
             queue.push(stack.top());
             stack.pop();

@@ -1,6 +1,4 @@
-Finish the Rules in FIS Exporter/Importer .
-Test CppExporter, FisExporter/Importer
 Test hedge Any 
 Add new exporters/importers to qtfuzzylite
-Utilize fl::Op::toString<scalar>() everywhere.
+R Exporter to draw surfaces and the things that octave does.
 

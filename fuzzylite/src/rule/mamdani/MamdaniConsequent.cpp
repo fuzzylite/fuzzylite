@@ -120,31 +120,31 @@ namespace fl {
             if (state bitand S_VARIABLE) {
                 std::ostringstream ex;
                 ex << "[syntax error] expected output variable, but found <" << token << ">";
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
             if (state bitand S_IS) {
                 std::ostringstream ex;
                 ex << "[syntax error] expected keyword <" << Rule::FL_IS << ">, but found <"
                         << token << ">";
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
 
             if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
                 std::ostringstream ex;
                 ex << "[syntax error] expected hedge or term, but found <" << token << ">";
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
 
             if (state bitand S_AND) {
                 std::ostringstream ex;
                 ex << "[syntax error] expected operator <" << Rule::FL_AND << ">, "
                         << "but found <" << token << ">";
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
 
             std::ostringstream ex;
             ex << "[syntax error] unexpected token <" << token << ">";
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
     }
 

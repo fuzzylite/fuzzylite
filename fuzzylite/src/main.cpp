@@ -15,13 +15,7 @@ using namespace fl;
 
 
 int main(int argc, char** argv) {
-    std::vector<std::string> s = fl::Op::split("RANGE  :=  (-2.000 ..  17.400);", " ", false);
-    for (std::size_t i = 0; i < s.size(); ++i) {
-        FL_LOG(s[i]);
-    }
-    return 0;
-
-    FL_LOG("Hello, FuzzyLite!");
+    FL_LOG("Hello, fuzzylite!");
     FL_LOG("Version: " << FL_VERSION);
     scalar someScalar = 0;
     int scalarSize = sizeof (someScalar);
@@ -52,13 +46,13 @@ int main(int argc, char** argv) {
         //        Engine* engine = importer.fromString(fcl);
         //        std::string fclAgain = exporter.toString(engine);
         //        if (fcl != fclAgain) {
-        //            throw fl::Exception("FCL Importer/Exporter not working");
+        //            throw fl::Exception("FCL Importer/Exporter not working", FL_AT);
         //        }
 
         example->test();
     }
 
-    FL_LOG("Bye, FuzzyLite!");
+    FL_LOG("Bye, fuzzylite!");
 
 }
 

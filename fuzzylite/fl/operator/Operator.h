@@ -164,7 +164,7 @@ namespace fl {
             if (!quiet) {
                 std::ostringstream ex;
                 ex << "[conversion error] from <" << x << "> to scalar";
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
             return alternative;
         }

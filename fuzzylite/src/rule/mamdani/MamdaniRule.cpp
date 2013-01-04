@@ -20,11 +20,11 @@
 namespace fl {
 
     MamdaniRule::MamdaniRule()
-    : Rule() { }
+    : Rule(), _antecedent(NULL), _consequent(NULL) { }
 
     MamdaniRule::~MamdaniRule() {
-        delete _consequent;
-        delete _antecedent;
+        if (_consequent) delete _consequent;
+        if (_antecedent) delete _antecedent;
     }
 
     void MamdaniRule::setAntecedent(MamdaniAntecedent* antecedent) {
@@ -86,22 +86,22 @@ namespace fl {
                     case S_END:
                         std::ostringstream ex;
                         ex << "[syntax error] unexpected token <" << token << "> after the end of rule";
-                        throw fl::Exception(ex.str());
+                        throw fl::Exception(ex.str(), FL_AT);
                 }
             }
             if (state == S_NONE) {
                 std::ostringstream ex;
                 ex << "[syntax error] keyword <" << Rule::FL_IF << "> not found in rule: " << rule;
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             } else if (state == S_IF) {
                 std::ostringstream ex;
                 ex << "[syntax error] keyword <" << Rule::FL_THEN << "> not found in rule: " << rule;
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             } else if (state == S_WITH) {
                 std::ostringstream ex;
                 ex << "[syntax error] expected a numeric value as the weight of the rule: "
                         << rule;
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
 
             result->_antecedent = new MamdaniAntecedent;

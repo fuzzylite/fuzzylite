@@ -177,18 +177,19 @@ namespace fl {
             ui->basicTermToolbox->setCurrentIndex(0);
             ui->extendedTermToolbox->setCurrentIndex(0);
             ui->edgeTermToolbox->setCurrentIndex(0);
-
-            connect();
-
-
             if (edit) {
                 loadFrom(edit);
                 ui->led_name->setText(QString::fromStdString(edit->getName()));
+                redraw();
             } else {
                 dummyVariable->addTerm(_basicTerms[0]->copy()); //Add the triangle by default
                 indexOfEditingTerm = dummyVariable->numberOfTerms() - 1;
                 setCurrentToolbox(0);
             }
+            connect();
+
+
+
 
         }
 
@@ -580,7 +581,7 @@ namespace fl {
                     std::ostringstream ex;
                     ex << "[internal error] term of class <" <<
                             copy->className() << "> not implemented for copying";
-                    throw fl::Exception(ex.str());
+                    throw fl::Exception(ex.str(), FL_AT);
                 }
             }
             redraw();
@@ -602,7 +603,7 @@ namespace fl {
                             indexOfEditingTerm);
                     break;
                 default:
-                    throw fl::Exception("[internal error] index out of bounds");
+                    throw fl::Exception("[internal error] index out of bounds", FL_AT);
             }
             redraw();
             this->adjustSize();
@@ -916,9 +917,8 @@ namespace fl {
             } else {
                 std::ostringstream ex;
                 ex << "[internal error] Term class <" << x->className() << "> not registered";
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
-            redraw();
         }
 
         void Term::main() {

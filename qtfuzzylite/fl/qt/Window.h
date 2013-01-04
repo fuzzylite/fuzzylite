@@ -49,22 +49,12 @@ namespace fl {
 
             //Test
             void onInputValueChanged();
- 
-
-
-
-            //Examples
-            bool onMenuExample(const std::string& example);
-            void onMenuExample1();
-            void onMenuExample2();
-            void onMenuExample3();
-            void onMenuExample4();
-            void onMenuExampleAllTerms();
 
             //MenuBar
             void onMenuConfiguration();
             void onMenuTerms();
-
+            
+            bool confirmImporting() ;
             void onMenuImportFromFCL();
             void onMenuExportToFCL();
             void onMenuImportFromFIS();
@@ -82,6 +72,7 @@ namespace fl {
         protected:
             std::vector<QWidget*> _inputs, _outputs;
             Configuration* _configurationWindow;
+            QString _lastOpenedFilePath;
             void connect();
             void disconnect();
 

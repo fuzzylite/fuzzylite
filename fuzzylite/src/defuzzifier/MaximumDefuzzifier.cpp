@@ -20,6 +20,8 @@ namespace fl {
     MaximumDefuzzifier::MaximumDefuzzifier(Type type, int divisions)
     : Defuzzifier(divisions), _type(type) { }
 
+    MaximumDefuzzifier::~MaximumDefuzzifier() { }
+
     std::string MaximumDefuzzifier::className() const {
         switch (_type) {
             case SMALLEST:
@@ -29,7 +31,7 @@ namespace fl {
             case MEAN:
                 return "MeanOfMaximum";
             default:
-                throw fl::Exception("[internal error]");
+                throw fl::Exception("[internal error]", FL_AT);
         }
     }
 
@@ -69,5 +71,22 @@ namespace fl {
                 return std::numeric_limits<scalar>::quiet_NaN();
         }
     }
+    
+    void MaximumDefuzzifier::setType(Type type){
+        this->_type = type;
+    }
+    
+    MaximumDefuzzifier::Type MaximumDefuzzifier::getType() const{
+        return this->_type;
+    }
+
+    SmallestOfMaximum::SmallestOfMaximum(int divisions)
+    : MaximumDefuzzifier(SMALLEST, divisions) { }
+
+    MeanOfMaximum::MeanOfMaximum(int divisions)
+    : MaximumDefuzzifier(MEAN, divisions) { }
+
+    LargestOfMaximum::LargestOfMaximum(int divisions)
+    : MaximumDefuzzifier(LARGEST, divisions) { }
 
 }

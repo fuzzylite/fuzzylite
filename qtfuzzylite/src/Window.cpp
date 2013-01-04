@@ -20,6 +20,8 @@
 #include <QtGui/QMessageBox>
 #include <QtGui/QDesktopWidget>
 #include <QtGui/QPushButton>
+#include <QtGui/QFileDialog>
+#include <QtCore/QTextStream>
 
 namespace fl {
     namespace qt {
@@ -35,7 +37,7 @@ namespace fl {
 
         Window::Window(QWidget* parent, Qt::WindowFlags flags) :
         QMainWindow(parent, flags), _configurationWindow(NULL),
-        ui(new Ui::Window) { }
+        _lastOpenedFilePath("."), ui(new Ui::Window) { }
 
         Window::~Window() {
             disconnect();
@@ -84,19 +86,6 @@ namespace fl {
 
             QObject::connect(ui->actionExportToCpp, SIGNAL(triggered()),
                     this, SLOT(onMenuExportToCpp()));
-
-
-            QObject::connect(ui->actionDimmer1x1, SIGNAL(triggered()),
-                    this, SLOT(onMenuExample1()));
-            QObject::connect(ui->actionDimmer2x1, SIGNAL(triggered()),
-                    this, SLOT(onMenuExample2()));
-            QObject::connect(ui->actionExample3, SIGNAL(triggered()),
-                    this, SLOT(onMenuExample3()));
-            QObject::connect(ui->actionExample4, SIGNAL(triggered()),
-                    this, SLOT(onMenuExample4()));
-            QObject::connect(ui->actionAllTerms, SIGNAL(triggered()),
-                    this, SLOT(onMenuExampleAllTerms()));
-
 
             QObject::connect(ui->lvw_inputs, SIGNAL(itemSelectionChanged()),
                     this, SLOT(onChangeInputSelection()));
@@ -155,6 +144,8 @@ namespace fl {
                         engine->getOutputVariable(i)->getName()));
             }
             ui->ptx_rules->clear();
+            if (engine->numberOfRuleBlocks() == 0)
+                throw fl::Exception("[ruleblock error] no ruleblocks in current engine", FL_AT);
             RuleBlock* ruleblock = engine->getRuleBlock(0);
             for (int i = 0; i < ruleblock->numberOfRules(); ++i) {
                 ui->ptx_rules->appendPlainText(
@@ -592,7 +583,7 @@ namespace fl {
                     QString::fromStdString(message.str()) + "</font>");
             if (goodRules > 0 and badRules == 0) {
                 ui->ptx_rules->appendHtml("<font color='blue'>" +
-                        QString("# You may proceed to test the engine") + "</font>");
+                        QString("# You may proceed to control the engine") + "</font>");
             }
             reloadTest();
         }
@@ -601,62 +592,6 @@ namespace fl {
             if (index == 1) {
             }
         }
-
-        /**
-         * Menu actions...
-         */
-
-        bool Window::onMenuExample(const std::string& example) {
-            Engine* engine = Model::Default()->engine();
-            if (not (engine->numberOfInputVariables() or engine->numberOfOutputVariables())) {
-                return true;
-            }
-            std::ostringstream message;
-            message << "Example " << example << " needs to reset the engine."
-                    << "All the input and output variables, together with the rules "
-                    << "in current engine will be deleted"
-                    << "Do you want to continue loading the example?" << std::endl;
-            QMessageBox::StandardButton clicked =
-                    QMessageBox::warning(this, "Loading example",
-                    QString::fromStdString(message.str()),
-                    QMessageBox::Yes | QMessageBox::No);
-
-            return clicked == QMessageBox::Yes;
-        }
-
-        void Window::onMenuExample1() {
-            if (onMenuExample(ui->actionDimmer1x1->text().toStdString())) {
-                Example1* example = new Example1;
-                Model::Default()->changeEngine(example->engine);
-                //Not deleted, as it will be deleted upon change.
-                reloadModel();
-                onClickParseAllRules();
-            }
-        }
-
-        void Window::onMenuExample2() {
-            if (onMenuExample(ui->actionDimmer2x1->text().toStdString())) {
-                Example2* example = new Example2;
-                Model::Default()->changeEngine(example->engine);
-                //Not deleted, as it will be deleted upon change.
-                reloadModel();  
-                onClickParseAllRules(); 
-            }  
-        } 
-
-        void Window::onMenuExample3() { }
- 
-        void Window::onMenuExample4() { }
-
-        void Window::onMenuExampleAllTerms() {
-            if (onMenuExample(ui->actionAllTerms->text().toStdString())) {
-                AllTermsExample* example = new AllTermsExample;
-                Model::Default()->changeEngine(example->engine);
-                //Not deleted, as it will be deleted upon change.
-                reloadModel();
-                onClickParseAllRules(); 
-            }
-        } 
 
         void Window::onMenuConfiguration() {
             _configurationWindow->setFocus();
@@ -674,6 +609,21 @@ namespace fl {
 
         }
 
+        bool Window::confirmImporting()  {
+            Engine* engine = Model::Default()->engine();
+            if (not (engine->numberOfInputVariables() or engine->numberOfOutputVariables())) {
+                return true;
+            }
+            QMessageBox::StandardButton clicked =
+                    QMessageBox::warning(this, "qtfuzzylite",
+                    "Importing a fuzzy logic engine will reset the current engine. \n\n"
+                    "Do you want to continue importing?",
+                    QMessageBox::Yes | QMessageBox::No,
+                    QMessageBox::Yes);
+
+            return clicked == QMessageBox::Yes;
+        }
+
         void Window::onMenuImportFromFCL() {
             Ui::ImEx fclUi;
             QDialog fclDialog(this);
@@ -687,15 +637,21 @@ namespace fl {
                 FclImporter importer;
                 try {
                     engine = importer.fromString(fclString);
+                    if (not confirmImporting()) {
+                        delete engine;
+                        return;
+                    }
+                    Model::Default()->changeEngine(engine);
+                    reloadModel();
+                    onClickParseAllRules();
                 } catch (fl::Exception& ex) {
+                    if (engine) delete engine;
                     QMessageBox::critical(this, "Error importing from FCL",
                             QString::fromStdString(ex.what()),
                             QMessageBox::Ok);
+
                     return;
                 }
-                Model::Default()->changeEngine(engine);
-                reloadModel();
-                onClickParseAllRules();
             }
         }
 
@@ -712,41 +668,85 @@ namespace fl {
                 FisImporter importer;
                 try {
                     engine = importer.fromString(fclString);
+                    if (not confirmImporting()) {
+                        delete engine;
+                        return;
+                    }
+                    Model::Default()->changeEngine(engine);
+                    reloadModel();
+                    onClickParseAllRules();
                 } catch (fl::Exception& ex) {
                     QMessageBox::critical(this, "Error importing from FIS",
                             QString::fromStdString(ex.what()),
                             QMessageBox::Ok);
                     return;
                 }
-                Model::Default()->changeEngine(engine);
-                reloadModel();
-                onClickParseAllRules();
+
             }
         }
 
         void Window::onMenuImportFromFile() {
-            Ui::ImEx fclUi;
-            QDialog fclDialog(this);
-            fclUi.setupUi(&fclDialog);
-            fclDialog.setWindowTitle("Import from FIS");
-            fclUi.lbl_format->setText("Fuzzy Inference System (FIS):");
+            QString filename = QFileDialog::getOpenFileName(this,
+                    "Import fuzzy logic engine from file", _lastOpenedFilePath,
+                    "Supported formats [*.fcl, *.fis] (*.fcl *.fis);;"
+                    "Fuzzy Logic Controller [*.fcl] (*.fcl);;"
+                    "Fuzzy Inference System [*.fis] (*.fis)");
 
-            if (fclDialog.exec()) {
-                std::string fclString = fclUi.pte_fcl->document()->toPlainText().toStdString();
-                Engine* engine = NULL;
-                FisImporter importer;
-                try {
-                    engine = importer.fromString(fclString);
-                } catch (fl::Exception& ex) {
-                    QMessageBox::critical(this, "Error importing from FIS",
-                            QString::fromStdString(ex.what()),
-                            QMessageBox::Ok);
+            if (filename.size() == 0) return;
+            _lastOpenedFilePath = QFileInfo(filename).path();
+
+            enum Format {
+                FCL, FIS, UNSUPPORTED
+            } format;
+
+            if (filename.endsWith("fcl", Qt::CaseInsensitive)) format = FCL;
+            else if (filename.endsWith(".fis", Qt::CaseInsensitive)) format = FIS;
+            else format = UNSUPPORTED;
+
+            if (format == UNSUPPORTED) {
+                QMessageBox::critical(this, "qtfuzzylite",
+                        "Unsupported file for a fuzzy logic engine: " + filename
+                        + ". The only supported files are *.fcl and *.fis",
+                        QMessageBox::Ok);
+                return;
+            }
+
+            QFile file(filename);
+            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                QMessageBox::critical(this, "qtfuzzylite",
+                        "Error opening file: " + filename,
+                        QMessageBox::Ok);
+                return;
+            }
+            QTextStream in(&file);
+            std::ostringstream reader;
+            while (!in.atEnd()) {
+                reader << in.readLine().toStdString() << "\n";
+            }
+
+            Engine* engine = NULL;
+            Importer* importer = NULL;
+            if (format == FCL) importer = new FclImporter;
+            else if (format == FIS) importer = new FisImporter;
+            try {
+                engine = importer->fromString(reader.str());
+                if (not confirmImporting()) {
+                    delete engine;
+                    delete importer;
                     return;
                 }
                 Model::Default()->changeEngine(engine);
                 reloadModel();
                 onClickParseAllRules();
+            } catch (fl::Exception& ex) {
+                QMessageBox::critical(this, "Error importing from FIS",
+                        QString::fromStdString(ex.what()),
+                        QMessageBox::Ok);
+                delete importer;
+                delete engine;
+                return;
             }
+            delete importer;
         }
 
         void Window::onMenuExportToFCL() {
@@ -839,12 +839,24 @@ namespace fl {
                     " (" << FLQT_DATE << ")" << std::endl;
             message << "with fuzzylite v." << FL_VERSION <<
                     " (" << FL_DATE << ")" << std::endl;
-            message << "http://code.google.com/p/fuzzylite" << std::endl
+            message << "<a href='http://code.google.com/p/fuzzylite'>" << std::endl
                     << std::endl;
             message << "Developed by Juan Rada-Vilela." << std::endl;
             message << "jcrada@gmail.com" << std::endl;
             QMessageBox::about(this, "qtfuzzylite",
-                    QString::fromStdString(message.str()));
+                    "<qt>"
+                    "<b>qtfuzzylite v. " FLQT_VERSION " (" FLQT_DATE ")</b><br>"
+                    "<b>fuzzylite v. " FL_VERSION " (" FL_DATE ")</b><br>"
+                    "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a><br><br>"
+                    "Developed by Juan Rada-Vilela &nbsp;"
+                    "<a href='mailto:jcrada@gmail.com'>jcrada@gmail.com</a><br><br>"
+                    "Please consider making a <b>donation</b> to help maintain this project! "
+                    "It would be mostly appreciated!<br><br>Visit &nbsp;"
+                    "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a><br><br>"
+                    "... and do not hesitate to provide feedback, feature requests, "
+                    "alternative licencing options, custom enhancements, or anything else!"
+                    "</qt>"
+                    );
         }
 
         void Window::onMenuQuit() {

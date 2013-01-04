@@ -67,7 +67,7 @@ namespace fl {
                         ex << "[syntax error] unknown block definition <" << firstToken
                                 << "> " << " in line " << lineNumber << ": "
                                 << std::endl << line;
-                        throw fl::Exception(ex.str());
+                        throw fl::Exception(ex.str(), FL_AT);
                     }
                     currentTag = tagFinder->first;
                     closingTag = tagFinder->second;
@@ -87,7 +87,7 @@ namespace fl {
                         std::ostringstream ex;
                         ex << "[syntax error] expected <" << closingTag << "> before <"
                                 << firstToken << "> in line: " << std::endl << line;
-                        throw fl::Exception(ex.str());
+                        throw fl::Exception(ex.str(), FL_AT);
                     } else {
                         block << line << std::endl;
                     }
@@ -104,7 +104,7 @@ namespace fl {
                 } else {
                     ex << "expected <" << closingTag << ">, but not found";
                 }
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
         } catch (fl::Exception& ex) {
             delete engine;
@@ -126,7 +126,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] unexpected tag <" << tag << "> for block:"
                     << std::endl << block;
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
     }
 
@@ -141,7 +141,7 @@ namespace fl {
                 std::ostringstream ex;
                 ex << "[syntax error] expected property of type (key : value) in line:"
                         << std::endl << line;
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
             std::string name = Op::trim(token[0]);
             if (tag == "VAR_INPUT")
@@ -152,7 +152,7 @@ namespace fl {
                 std::ostringstream ex;
                 ex << "[syntax error] unexpected tag <" << tag << "> in line:"
                         << std::endl << line;
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
         }
     }
@@ -170,14 +170,14 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected an input variable name in line:"
                     << std::endl << line;
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
         if (not engine->hasInputVariable(name)) {
             std::ostringstream ex;
             ex << "[syntax error] input variable <" << name
                     << "> not registered in engine. "
                     << "Line: " << std::endl << line;
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
 
         InputVariable* inputVariable = engine->getInputVariable(name);
@@ -193,7 +193,7 @@ namespace fl {
                     inputVariable->setMaximum(maximum);
                 } else if (firstToken == "TERM") {
                     inputVariable->addTerm(extractTerm(line));
-                } else throw fl::Exception("[syntax error] token <" + firstToken + " not recognized");
+                } else throw fl::Exception("[syntax error] token <" + firstToken + " not recognized", FL_AT);
             } catch (fl::Exception& ex) {
                 ex.appendDetail(" At line: <" + line + ">");
                 throw ex;
@@ -215,14 +215,14 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected an output variable name in line: "
                     << std::endl << line;
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
         if (not engine->hasOutputVariable(name)) {
             std::ostringstream ex;
             ex << "[syntax error] output variable <" << name
                     << "> not registered in engine. "
                     << "Line: " << std::endl << line;
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
 
         OutputVariable* outputVariable = engine->getOutputVariable(name);
@@ -247,7 +247,7 @@ namespace fl {
                 std::ostringstream ex;
                 ex << "[syntax error] unexpected token <" << firstToken <<
                         "> in line: " << std::endl << line;
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
         }
 
@@ -279,7 +279,7 @@ namespace fl {
                 std::ostringstream ex;
                 ex << "[syntax error] keyword <" << firstToken
                         << "> not recognized in line: " << std::endl << line;
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
 
         }
@@ -291,7 +291,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key : value) in line: "
                     << std::endl << line;
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
         std::string name = Op::findReplace(Op::trim(token[1]), ";", "");
         if (name == "MIN") return new Minimum;
@@ -304,7 +304,7 @@ namespace fl {
         std::ostringstream ex;
         ex << "[syntax error] T-Norm <" << name << "> not recognized in line:"
                 << std::endl << line;
-        throw fl::Exception(ex.str());
+        throw fl::Exception(ex.str(), FL_AT);
     }
 
     SNorm* FclImporter::extractSNorm(const std::string& line) const {
@@ -313,7 +313,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key : value) in line: "
                     << std::endl << line;
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
         std::string name = Op::findReplace(Op::trim(token[1]), ";", "");
         if (name == "MAX") return new Maximum;
@@ -327,7 +327,7 @@ namespace fl {
         std::ostringstream ex;
         ex << "[syntax error] S-Norm <" << name << "> not recognized in line:"
                 << std::endl << line;
-        throw fl::Exception(ex.str());
+        throw fl::Exception(ex.str(), FL_AT);
     }
 
     Term* FclImporter::extractTerm(const std::string& line) const {
@@ -382,7 +382,7 @@ namespace fl {
                     std::ostringstream ex;
                     ex << "[syntax error] expected numeric value, but found <"
                             << token << "> in line: " << std::endl << line;
-                    throw fl::Exception(ex.str());
+                    throw fl::Exception(ex.str(), FL_AT);
                 }
                 parameters.push_back(parameter);
             }
@@ -407,7 +407,7 @@ namespace fl {
                 std::ostringstream ex;
                 ex << "[syntax error] a discrete term requires an even list of values, "
                         "but found <" << params.size() << "> values";
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
         }
 
@@ -495,7 +495,7 @@ namespace fl {
         } else {
             ex << "[syntax error] term of class <" << termClass << "> not recognized";
         }
-        throw fl::Exception(ex.str());
+        throw fl::Exception(ex.str(), FL_AT);
     }
 
     Defuzzifier* FclImporter::extractDefuzzifier(const std::string& line) const {
@@ -504,7 +504,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key : value) in "
                     << "line: " << std::endl << line;
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
 
         std::string name = Op::trim(Op::findReplace(token[1], ";", ""));
@@ -516,7 +516,7 @@ namespace fl {
         std::ostringstream ex;
         ex << "[syntax error] defuzzifier <" << name << "> not recognized in line:"
                 << std::endl << line;
-        throw fl::Exception(ex.str());
+        throw fl::Exception(ex.str(), FL_AT);
     }
 
     scalar FclImporter::extractDefaultValue(const std::string& line, bool& lockDefuzzifiedValue) const {
@@ -525,7 +525,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key := value) in line: "
                     << std::endl << line;
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
 
         std::string defaultValue = Op::findReplace(token[1], " ", "");
@@ -539,7 +539,7 @@ namespace fl {
             ex << "[syntax error] expected numeric value, "
                     << "but found <" << token[0] << "> in line: "
                     << std::endl << line;
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
 
         lockDefuzzifiedValue = false;
@@ -552,7 +552,7 @@ namespace fl {
                 std::ostringstream ex;
                 ex << "expected keyword <NC>, but found<" << noChangeFlag << "> in "
                         << "line: " << std::endl << line;
-                throw fl::Exception(ex.str());
+                throw fl::Exception(ex.str(), FL_AT);
             }
         }
         return value;
@@ -564,7 +564,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key := value) in line: "
                     << std::endl << line;
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
 
         std::ostringstream range;
@@ -579,7 +579,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type 'start .. end' in line: "
                     << std::endl << line;
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
 
         try {
@@ -588,7 +588,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected numeric value, but found <" << token[0] << "> in "
                     << "line: " << std::endl << line;
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
         try {
             maximum = Op::toScalar(token[1]);
@@ -596,7 +596,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected numeric value, but found <" << token[1] << "> in "
                     << "line: " << std::endl << line;
-            throw fl::Exception(ex.str());
+            throw fl::Exception(ex.str(), FL_AT);
         }
 
     }

@@ -6,24 +6,41 @@
  */
 
 #include <QtGui/QApplication>
+#include <QtGui/QMessageBox>
 #include <fl/Headers.h>
 
-#include "fl/qt/Configuration.h" 
-#include "fl/qt/Window.h"
+#include "fl/qt/Configuration.h"  
+#include "fl/qt/Window.h" 
 #include "fl/qt/Term.h"
-#include "fl/qt/Viewer.h"  
- 
-int main(int argc, char* argv[]){ 
-  
-    QApplication fuzzylite(argc,argv);
-//    fl::qt::Canvas::main(); 
-//    fl::qt::Configuration::main();
-//    fl::qt::Term::main(); 
-    fl::qt::Window::main(); 
-//    fl::qt::Viewer::main(); 
-      
-//http://octave.sourceforge.net/fuzzy-logic-toolkit/overview.html
-    return fuzzylite.exec();
+#include "fl/qt/Viewer.h"   
 
+int main(int argc, char* argv[]) {
+    QApplication fuzzylite(argc, argv);
+    try {
+        //    fl::qt::Canvas::main(); 
+        //    fl::qt::Configuration::main(); 
+        //    fl::qt::Term::main();   
+        fl::qt::Window::main();
+        //    fl::qt::Viewer::main(); 
+//        throw fl::Exception("Testing exception", FL_AT);
+        return fuzzylite.exec();  
+
+    } catch (std::exception& ex) {
+        QString error = QString::fromUtf8(ex.what());
+//        error.replace("\n", "<br>"); 
+         
+        QMessageBox::critical(NULL, "Internal Error",
+                "<qt><b>qtfuzzylite</b> has experienced an internal error and will exit.<br><br>"
+                "Please report this error at:<br><br><a href='http://code.google.com/p/fuzzylite/issues/'>"
+                "http://code.google.com/p/fuzzylite/issues/</a><br><br>"
+
+                "Your report will help to make fuzzylite and qtfuzzylite a better "
+                "<b>open source and free</b> fuzzy logic library!<br><br>"
+                "Many thanks in advance for your help!<br><br>"
+                "Error message:<br><br> " +
+                Qt::escape(error) + "</qt>",
+                QMessageBox::Ok);
+    }
+    return 1;
 }
 

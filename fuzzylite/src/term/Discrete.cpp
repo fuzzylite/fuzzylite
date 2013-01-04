@@ -20,7 +20,7 @@ namespace fl {
     : Term(name) {
         if (argc % 2 != 0) {
             throw fl::Exception("[discrete term] constructor expected even number "
-                    "of variable arguments (x,y)*, but passed <" + fl::Op::str((scalar) argc, 0) + "> arguments");
+                    "of variable arguments (x,y)*, but passed <" + fl::Op::str((scalar) argc, 0) + "> arguments", FL_AT);
         }
         va_list args;
         va_start(args, argc);

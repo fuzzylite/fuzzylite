@@ -212,7 +212,7 @@ namespace fl {
         }
 
         ss << "[export error] term of class <" << term->className() << "> not supported";
-        throw fl::Exception(ss.str());
+        throw fl::Exception(ss.str(), FL_AT);
     }
 
     std::string CppExporter::toCpp(const Hedge * hedge) const {

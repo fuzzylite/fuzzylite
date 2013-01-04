@@ -34,6 +34,8 @@ namespace fl {
                 ui->sld_x->setEnabled(false);
                 ui->sbx_x->setVisible(false);
                 ui->led_x->setVisible(true);
+                ui->lbl_fuzzy_out->setVisible(true);
+                ui->lbl_fuzzy->setVisible(false);
 //                QObject::connect(this, SIGNAL(valueChanged(double)),
 //                        this, SLOT(updateOutput()), Qt::QueuedConnection);
             } else if (dynamic_cast<InputVariable*> (variable)) {
@@ -52,7 +54,7 @@ namespace fl {
         void Control::updateOutput() {
             fl::OutputVariable* outputVariable = dynamic_cast<fl::OutputVariable*> (variable);
             if (not outputVariable) {
-                throw fl::Exception("[cast error] trying to cast OutputVariable");
+                throw fl::Exception("[cast error] trying to cast OutputVariable", FL_AT);
             }
 
             scalar x = outputVariable->defuzzify();
@@ -62,6 +64,17 @@ namespace fl {
             ui->sbx_x->setValue(x);
             refresh();
             draw(outputVariable->output());
+            
+            QString fuzzify;
+            Accumulated* output = outputVariable->output();
+            
+            for (int i = 0; i < output->numberOfTerms(); ++i) {
+                fuzzify += QString::number(output->getTerm(i)->membership(x), 'f', 2)
+                        + "/" + QString::fromStdString(output->getTerm(i)->getName());
+
+                if (i < output->numberOfTerms() - 1) fuzzify += " + ";
+            }
+            ui->lbl_fuzzy_out->setText("&#956;=" + fuzzify);
         }
 
     }

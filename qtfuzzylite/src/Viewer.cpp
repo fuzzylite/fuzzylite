@@ -38,6 +38,8 @@ namespace fl {
             ui->canvas->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->canvas->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->sbx_x->setFocus();
+            ui->lbl_fuzzy_out->setVisible(false);
+            
             connect();
         }
 
@@ -143,7 +145,7 @@ namespace fl {
 
                 if (i < constVariable->numberOfTerms() - 1) fuzzify += " + ";
             }
-            ui->lbl_fuzzy->setText(fuzzify);
+            ui->lbl_fuzzy->setText("&#956;=" + fuzzify);
             ui->lbl_name->setText(QString::fromStdString(constVariable->getName()));
             if (constVariable->getName().empty())
                 ui->lbl_name->setVisible(false);

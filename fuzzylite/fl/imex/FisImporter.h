@@ -34,12 +34,14 @@ namespace fl {
         virtual void importRules(const std::string& section, Engine* engine) const;
         virtual std::string translateProposition(scalar code, Variable* variable) const;
 
-        virtual TNorm* extractTNorm(const std::string& name) const;
-        virtual SNorm* extractSNorm(const std::string& name) const;
+        virtual std::string flTnorm(const std::string& tnorm) const;
+        virtual std::string flSnorm(const std::string& tnorm) const;
+        virtual std::string flDefuzzifier(const std::string& tnorm) const;
+        
+        
         virtual Term* extractTerm(const std::string& line) const;
         virtual Term* createInstance(const std::string& termClass, const std::string& name,
                 const std::vector<scalar>& params) const;
-        virtual Defuzzifier* extractDefuzzifier(const std::string& name) const;
         virtual void extractRange(const std::string& range, scalar& minimum, scalar& maximum) const;
 
     public:

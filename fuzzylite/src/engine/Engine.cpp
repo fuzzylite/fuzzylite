@@ -12,7 +12,21 @@
 #include "fl/variable/InputVariable.h"
 #include "fl/variable/OutputVariable.h"
 #include "fl/rule/RuleBlock.h"
+
 #include "fl/hedge/Hedge.h"
+#include "fl/hedge/Any.h"
+#include "fl/hedge/Extremely.h"
+#include "fl/hedge/Not.h"
+#include "fl/hedge/Seldom.h"
+#include "fl/hedge/Somewhat.h"
+#include "fl/hedge/Very.h"
+
+#include "fl/operator/TNorm.h"
+#include "fl/operator/SNorm.h"
+
+#include "fl/defuzzifier/CenterOfGravity.h"
+#include "fl/defuzzifier/MaximumDefuzzifier.h"
+
 
 #include "fl/term/Accumulated.h"
 
@@ -22,8 +36,6 @@ namespace fl {
     : _name(name), _configuration(NULL) { }
 
     Engine::~Engine() {
-        //if (_configuration) delete _configuration;
-        //Left to user for deletion/.
         for (int i = numberOfRuleBlocks() - 1; i >= 0; --i) {
             delete removeRuleBlock(i);
         }
@@ -48,7 +60,7 @@ namespace fl {
         if (classname == DrasticProduct().className()) return new DrasticProduct;
         if (classname == EinsteinProduct().className()) return new EinsteinProduct;
         if (classname == HamacherProduct().className()) return new HamacherProduct;
-        throw fl::Exception("[syntax error] T-Norm of class <" + classname "> not recognized");
+        throw fl::Exception("[syntax error] T-Norm of class <" + classname + "> not recognized", FL_AT);
     }
 
     SNorm* Engine::createSnorm(const std::string& classname) const {
@@ -58,7 +70,7 @@ namespace fl {
         if (classname == DrasticSum().className()) return new DrasticSum;
         if (classname == EinsteinSum().className()) return new EinsteinSum;
         if (classname == HamacherSum().className()) return new HamacherSum;
-        throw fl::Exception("[syntax error] S-Norm of class <" + classname "> not recognized");
+        throw fl::Exception("[syntax error] S-Norm of class <" + classname + "> not recognized", FL_AT);
     }
 
     Defuzzifier* Engine::createDefuzzifier(const std::string& classname) const {
@@ -66,7 +78,7 @@ namespace fl {
         if (classname == SmallestOfMaximum().className()) return new SmallestOfMaximum;
         if (classname == LargestOfMaximum().className()) return new LargestOfMaximum;
         if (classname == MeanOfMaximum().className()) return new MeanOfMaximum;
-        throw fl::Exception("[syntax error] Defuzzifier of class <" + classname "> not recognized");
+        throw fl::Exception("[syntax error] Defuzzifier of class <" + classname + "> not recognized", FL_AT);
     }
 
     void Engine::configure(const std::string& tnorm, const std::string& snorm,

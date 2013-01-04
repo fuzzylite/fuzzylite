@@ -22,36 +22,31 @@ namespace fl {
         Type _type;
     public:
         MaximumDefuzzifier(Type type, int divisions = FL_DEFAULT_DIVISIONS);
+        virtual ~MaximumDefuzzifier();
+        
+        virtual std::string className() const;
+        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;
 
-        std::string className() const;
-        scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;
-
-        void setType(Type type);
-        Type getType() const;
+        virtual void setType(Type type);
+        virtual Type getType() const;
     };
 
     class MeanOfMaximum : public MaximumDefuzzifier {
     public:
 
-        MeanOfMaximum(int divisions = FL_DEFAULT_DIVISIONS)
-        : MaximumDefuzzifier(MEAN, divisions) {
-        }
+        MeanOfMaximum(int divisions = FL_DEFAULT_DIVISIONS);
     };
 
     class SmallestOfMaximum : public MaximumDefuzzifier {
     public:
 
-        SmallestOfMaximum(int divisions = FL_DEFAULT_DIVISIONS)
-        : MaximumDefuzzifier(SMALLEST, divisions) {
-        }
+        SmallestOfMaximum(int divisions = FL_DEFAULT_DIVISIONS);
     };
 
     class LargestOfMaximum : public MaximumDefuzzifier {
     public:
 
-        LargestOfMaximum(int divisions = FL_DEFAULT_DIVISIONS)
-        : MaximumDefuzzifier(LARGEST, divisions) {
-        }
+        LargestOfMaximum(int divisions = FL_DEFAULT_DIVISIONS);
     };
 
 }
