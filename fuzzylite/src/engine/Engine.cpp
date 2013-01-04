@@ -41,9 +41,49 @@ namespace fl {
         }
     }
 
+    TNorm* Engine::createTnorm(const std::string& classname) const {
+        if (classname == Minimum().className()) return new Minimum;
+        if (classname == AlgebraicProduct().className()) return new AlgebraicProduct;
+        if (classname == BoundedDifference().className()) return new BoundedDifference;
+        if (classname == DrasticProduct().className()) return new DrasticProduct;
+        if (classname == EinsteinProduct().className()) return new EinsteinProduct;
+        if (classname == HamacherProduct().className()) return new HamacherProduct;
+        throw fl::Exception("[syntax error] T-Norm of class <" + classname "> not recognized");
+    }
+
+    SNorm* Engine::createSnorm(const std::string& classname) const {
+        if (classname == Maximum().className()) return new Maximum;
+        if (classname == AlgebraicSum().className()) return new AlgebraicSum;
+        if (classname == BoundedSum().className()) return new BoundedSum;
+        if (classname == DrasticSum().className()) return new DrasticSum;
+        if (classname == EinsteinSum().className()) return new EinsteinSum;
+        if (classname == HamacherSum().className()) return new HamacherSum;
+        throw fl::Exception("[syntax error] S-Norm of class <" + classname "> not recognized");
+    }
+
+    Defuzzifier* Engine::createDefuzzifier(const std::string& classname) const {
+        if (classname == CenterOfGravity().className()) return new CenterOfGravity;
+        if (classname == SmallestOfMaximum().className()) return new SmallestOfMaximum;
+        if (classname == LargestOfMaximum().className()) return new LargestOfMaximum;
+        if (classname == MeanOfMaximum().className()) return new MeanOfMaximum;
+        throw fl::Exception("[syntax error] Defuzzifier of class <" + classname "> not recognized");
+    }
+
     void Engine::configure(const std::string& tnorm, const std::string& snorm,
             const std::string& activationTnorm, const std::string& accumulationSnorm,
-            const std::string& defuzzifier, int divisions) { }
+            const std::string& defuzzifier, int divisions) {
+        for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
+            _ruleblocks[i]->setTnorm(createTnorm(tnorm));
+            _ruleblocks[i]->setSnorm(createSnorm(snorm));
+            _ruleblocks[i]->setActivation(createTnorm(activationTnorm));
+        }
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            _outputVariables[i]->setDefuzzifier(createDefuzzifier(defuzzifier));
+            _outputVariables[i]->getDefuzzifier()->setDivisions(divisions);
+            _outputVariables[i]->output()->setAccumulation(
+                    createSnorm(accumulationSnorm));
+        }
+    }
 
     void Engine::configure(Configuration* config) {
         this->_configuration = config;

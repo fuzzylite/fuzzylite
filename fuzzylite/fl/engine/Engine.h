@@ -32,6 +32,11 @@ namespace fl {
         std::vector<Hedge*> _hedges;
         Configuration* _configuration;
 
+        virtual TNorm* createTnorm(const std::string& tnorm) const;
+        virtual SNorm* createSnorm(const std::string& snorm) const;
+        virtual Defuzzifier* createDefuzzifier(const std::string& defuzzifier) const;
+
+
     public:
         Engine(const std::string& name = "");
         virtual ~Engine();
