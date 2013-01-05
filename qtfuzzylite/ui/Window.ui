@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>455</width>
-    <height>484</height>
+    <width>640</width>
+    <height>520</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -30,7 +30,7 @@
     <normaloff>:/icons/icons/qtfuzzylite.svg</normaloff>:/icons/icons/qtfuzzylite.svg</iconset>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
-   <bool>true</bool>
+   <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -47,8 +47,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>455</width>
-         <height>375</height>
+         <width>640</width>
+         <height>418</height>
         </rect>
        </property>
        <attribute name="label">
@@ -90,6 +90,9 @@
                   <property name="icon">
                    <iconset resource="resources.qrc">
                     <normaloff>:/icons/icons/edit_add.png</normaloff>:/icons/icons/edit_add.png</iconset>
+                  </property>
+                  <property name="shortcut">
+                   <string>Ctrl+Shift+I</string>
                   </property>
                  </widget>
                 </item>
@@ -173,6 +176,9 @@
                   <property name="icon">
                    <iconset resource="resources.qrc">
                     <normaloff>:/icons/icons/edit_add.png</normaloff>:/icons/icons/edit_add.png</iconset>
+                  </property>
+                  <property name="shortcut">
+                   <string>Ctrl+Shift+O</string>
                   </property>
                  </widget>
                 </item>
@@ -293,6 +299,9 @@
                    <iconset resource="resources.qrc">
                     <normaloff>:/icons/icons/spellcheck.png</normaloff>:/icons/icons/spellcheck.png</iconset>
                   </property>
+                  <property name="shortcut">
+                   <string>Ctrl+Shift+Return</string>
+                  </property>
                  </widget>
                 </item>
                </layout>
@@ -335,8 +344,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>338</width>
-         <height>122</height>
+         <width>640</width>
+         <height>418</height>
         </rect>
        </property>
        <attribute name="label">
@@ -401,8 +410,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>100</width>
-                    <height>30</height>
+                    <width>138</width>
+                    <height>376</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -612,8 +621,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>100</width>
-                    <height>30</height>
+                    <width>138</width>
+                    <height>376</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -662,208 +671,144 @@
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>455</width>
-     <height>25</height>
-    </rect>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>qtfuzzylite</string>
    </property>
-   <widget class="QMenu" name="menuGui">
-    <property name="title">
-     <string>Engine</string>
-    </property>
-    <widget class="QMenu" name="menuImport">
-     <property name="title">
-      <string>Import...</string>
-     </property>
-     <addaction name="actionImportFromFCL"/>
-     <addaction name="actionImportFromFIS"/>
-     <addaction name="separator"/>
-     <addaction name="actionImportFromFile"/>
-    </widget>
-    <widget class="QMenu" name="menuExport">
-     <property name="title">
-      <string>Export...</string>
-     </property>
-     <addaction name="actionExportToFCL"/>
-     <addaction name="actionExportToFIS"/>
-     <addaction name="actionExportToCpp"/>
-    </widget>
-    <addaction name="actionConfiguration"/>
-    <addaction name="separator"/>
-    <addaction name="actionTerms"/>
-    <addaction name="separator"/>
-    <addaction name="menuImport"/>
-    <addaction name="menuExport"/>
-    <addaction name="separator"/>
-    <addaction name="actionReset"/>
-    <addaction name="separator"/>
-    <addaction name="actionAbout"/>
-    <addaction name="separator"/>
-    <addaction name="actionQuit"/>
-   </widget>
-   <addaction name="menuGui"/>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::AllToolBarAreas</set>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionReset"/>
+   <addaction name="separator"/>
+   <addaction name="actionConfigure"/>
+   <addaction name="separator"/>
+   <addaction name="actionTerms"/>
+   <addaction name="separator"/>
+   <addaction name="actionImport"/>
+   <addaction name="actionExport"/>
+   <addaction name="separator"/>
+   <addaction name="actionAbout"/>
+   <addaction name="separator"/>
+   <addaction name="actionQuit"/>
   </widget>
-  <action name="actionDimmer1x1">
-   <property name="text">
-    <string>Dimmer (1x1)</string>
-   </property>
-  </action>
-  <action name="actionExample4">
-   <property name="text">
-    <string>Power (3x1)</string>
-   </property>
-  </action>
-  <action name="actionSetup">
+  <action name="actionConfigure">
    <property name="checkable">
-    <bool>false</bool>
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/icons/configure.png</normaloff>:/icons/icons/configure.png</iconset>
    </property>
    <property name="text">
-    <string>Setup</string>
+    <string>Configure</string>
    </property>
-  </action>
-  <action name="actionTest">
-   <property name="checkable">
-    <bool>false</bool>
+   <property name="toolTip">
+    <string>Configure this engine</string>
    </property>
-   <property name="text">
-    <string>Test</string>
-   </property>
-  </action>
-  <action name="actionTile">
-   <property name="text">
-    <string>Tile</string>
-   </property>
-  </action>
-  <action name="actionCascade">
-   <property name="text">
-    <string>Cascade</string>
-   </property>
-  </action>
-  <action name="actionLog">
-   <property name="checkable">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Log</string>
-   </property>
-  </action>
-  <action name="actionApproximation_1x1">
-   <property name="text">
-    <string>Approximation (1x1)</string>
-   </property>
-  </action>
-  <action name="actionMamdani">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Mamdani</string>
-   </property>
-  </action>
-  <action name="actionTakagi_Sugeno">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Takagi-Sugeno</string>
-   </property>
-  </action>
-  <action name="actionImportFromFCL">
-   <property name="text">
-    <string>from FCL</string>
-   </property>
-  </action>
-  <action name="actionExportToFCL">
-   <property name="text">
-    <string>to FCL</string>
-   </property>
-  </action>
-  <action name="actionConfiguration">
-   <property name="text">
-    <string>Configuration</string>
-   </property>
-  </action>
-  <action name="actionAbout">
-   <property name="text">
-    <string>About</string>
-   </property>
-  </action>
-  <action name="actionQuit">
-   <property name="text">
-    <string>Quit</string>
+   <property name="shortcut">
+    <string>Ctrl+;</string>
    </property>
   </action>
   <action name="actionTerms">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/icons/colorize.png</normaloff>:/icons/icons/colorize.png</iconset>
+   </property>
    <property name="text">
-    <string>Term toolbox</string>
+    <string>Terms</string>
+   </property>
+   <property name="toolTip">
+    <string>Term Toolbox</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
    </property>
   </action>
-  <action name="actionInputs">
+  <action name="actionImport">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/icons/bottom.png</normaloff>:/icons/icons/bottom.png</iconset>
+   </property>
    <property name="text">
-    <string>Inputs...</string>
+    <string>Import...</string>
+   </property>
+   <property name="toolTip">
+    <string>Import</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
    </property>
   </action>
-  <action name="actionOutputs">
+  <action name="actionExport">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/icons/top.png</normaloff>:/icons/icons/top.png</iconset>
+   </property>
    <property name="text">
-    <string>Outputs...</string>
+    <string>Export...</string>
+   </property>
+   <property name="toolTip">
+    <string>Export...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
    </property>
   </action>
   <action name="actionReset">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/icons/filenew.png</normaloff>:/icons/icons/filenew.png</iconset>
+   </property>
    <property name="text">
     <string>Reset...</string>
    </property>
-  </action>
-  <action name="actionExample2">
-   <property name="text">
-    <string>Restaurant (1x1)</string>
+   <property name="toolTip">
+    <string>Reset engine...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
   </action>
-  <action name="actionExample3">
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/icons/messagebox_info.png</normaloff>:/icons/icons/messagebox_info.png</iconset>
+   </property>
    <property name="text">
-    <string>Restaurant (2x1)</string>
+    <string>About...</string>
+   </property>
+   <property name="toolTip">
+    <string>About qtfuzzylite</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+?</string>
    </property>
   </action>
-  <action name="actionSugeno">
-   <property name="enabled">
-    <bool>false</bool>
+  <action name="actionQuit">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/icons/exit.png</normaloff>:/icons/icons/exit.png</iconset>
    </property>
    <property name="text">
-    <string>Sugeno</string>
+    <string>Quit...</string>
    </property>
-  </action>
-  <action name="actionDimmer2x1">
-   <property name="text">
-    <string>Dimmer (2x1)</string>
+   <property name="toolTip">
+    <string>Quit qtfuzzylite</string>
    </property>
-  </action>
-  <action name="actionImportFromFIS">
-   <property name="text">
-    <string>from FIS</string>
-   </property>
-  </action>
-  <action name="actionImportFromFile">
-   <property name="text">
-    <string>from file...</string>
-   </property>
-  </action>
-  <action name="actionExportToFIS">
-   <property name="text">
-    <string>to FIS</string>
-   </property>
-  </action>
-  <action name="actionExportToCpp">
-   <property name="text">
-    <string>to C++</string>
-   </property>
-  </action>
-  <action name="actionAllTerms">
-   <property name="text">
-    <string>AllTerms (1x1)</string>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
  </widget>

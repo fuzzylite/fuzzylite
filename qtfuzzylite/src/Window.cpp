@@ -60,7 +60,7 @@ namespace fl {
         }
 
         void Window::connect() {
-            QObject::connect(ui->actionConfiguration, SIGNAL(triggered()),
+            QObject::connect(ui->actionConfigure, SIGNAL(triggered()),
                     this, SLOT(onMenuConfiguration()));
             QObject::connect(ui->actionTerms, SIGNAL(triggered()),
                     this, SLOT(onMenuTerms()));
@@ -71,21 +71,21 @@ namespace fl {
             QObject::connect(ui->actionQuit, SIGNAL(triggered()),
                     this, SLOT(onMenuQuit()));
 
-            QObject::connect(ui->actionImportFromFCL, SIGNAL(triggered()),
-                    this, SLOT(onMenuImportFromFCL()));
-            QObject::connect(ui->actionExportToFCL, SIGNAL(triggered()),
-                    this, SLOT(onMenuExportToFCL()));
-
-            QObject::connect(ui->actionImportFromFIS, SIGNAL(triggered()),
-                    this, SLOT(onMenuImportFromFIS()));
-            QObject::connect(ui->actionExportToFIS, SIGNAL(triggered()),
-                    this, SLOT(onMenuExportToFIS()));
-
-            QObject::connect(ui->actionImportFromFile, SIGNAL(triggered()),
-                    this, SLOT(onMenuImportFromFile()));
-
-            QObject::connect(ui->actionExportToCpp, SIGNAL(triggered()),
-                    this, SLOT(onMenuExportToCpp()));
+//            QObject::connect(ui->actionImportFromFCL, SIGNAL(triggered()),
+//                    this, SLOT(onMenuImportFromFCL()));
+//            QObject::connect(ui->actionExportToFCL, SIGNAL(triggered()),
+//                    this, SLOT(onMenuExportToFCL()));
+//
+//            QObject::connect(ui->actionImportFromFIS, SIGNAL(triggered()),
+//                    this, SLOT(onMenuImportFromFIS()));
+//            QObject::connect(ui->actionExportToFIS, SIGNAL(triggered()),
+//                    this, SLOT(onMenuExportToFIS()));
+//
+//            QObject::connect(ui->actionImportFromFile, SIGNAL(triggered()),
+//                    this, SLOT(onMenuImportFromFile()));
+//
+//            QObject::connect(ui->actionExportToCpp, SIGNAL(triggered()),
+//                    this, SLOT(onMenuExportToCpp()));
 
             QObject::connect(ui->lvw_inputs, SIGNAL(itemSelectionChanged()),
                     this, SLOT(onChangeInputSelection()));
@@ -804,13 +804,11 @@ namespace fl {
         }
 
         void Window::onMenuReset() {
-            std::ostringstream message;
-            message << "Do you want to reset the engine?" << std::endl
-                    << "All the input and output variables, together with the rules "
-                    << "will be deleted";
             QMessageBox::StandardButton clicked =
                     QMessageBox::warning(this, "Reset engine",
-                    QString::fromStdString(message.str()),
+                    "<qt>Do you want to reset the engine?<br><br>"
+                    "All the input and output variables, together with the rules "
+                    "will be deleted!</qt>",
                     QMessageBox::Yes | QMessageBox::No,
                     QMessageBox::Yes);
 
@@ -861,8 +859,9 @@ namespace fl {
 
         void Window::onMenuQuit() {
             int result = QMessageBox::question(this, tr("qtfuzzylite"),
-                    tr("Do you want to quit?"),
-                    QMessageBox::Yes | QMessageBox::No);
+                    tr("<qt>Do you want to quit <b>qtfuzzylite</b>?</qt>"),
+                    QMessageBox::Yes | QMessageBox::No,
+                    QMessageBox::Yes);
             if (result == QMessageBox::Yes) {
                 this->close();
             } else {
