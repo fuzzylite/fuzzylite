@@ -16,6 +16,8 @@ namespace fl {
     class OutputVariable;
     class Term;
     class RuleBlock;
+    class Operator;
+    class Defuzzifier;
 
     class Hedge;
 
@@ -23,6 +25,8 @@ namespace fl {
     protected:
         virtual std::string toCpp(const Hedge* hedge) const;
         virtual std::string toCpp(const Term* term) const;
+        virtual std::string toCpp(const Operator* op) const;
+        virtual std::string toCpp(const Defuzzifier* defuzzifier) const;
     public:
         CppExporter();
         virtual ~CppExporter();

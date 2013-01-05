@@ -46,7 +46,6 @@ namespace fl {
     MamdaniRule* MamdaniRule::parse(const std::string& rule, const Engine* engine) {
         MamdaniRule* result = new MamdaniRule();
         result->setUnparsedRule(rule);
-
         std::istringstream tokenizer(rule);
         std::string token;
         std::ostringstream ossAntecedent, ossConsequent;
@@ -99,8 +98,7 @@ namespace fl {
                 throw fl::Exception(ex.str(), FL_AT);
             } else if (state == S_WITH) {
                 std::ostringstream ex;
-                ex << "[syntax error] expected a numeric value as the weight of the rule: "
-                        << rule;
+                ex << "[syntax error] expected a numeric value as the weight of the rule: " << rule;
                 throw fl::Exception(ex.str(), FL_AT);
             }
 

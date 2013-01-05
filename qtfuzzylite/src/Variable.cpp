@@ -29,17 +29,18 @@ namespace fl {
         Variable::~Variable() {
             disconnect();
             delete ui;
-        } 
+        }
 
         void Variable::setup(VariableType type) {
             if (type == INPUT_VARIABLE)
                 variable = new InputVariable("", 0, 1);
             else if (type == OUTPUT_VARIABLE)
                 variable = new OutputVariable("", 0, 1);
-
             ui->setupUi(this);
             ui->btn_term_down->setVisible(false);
             ui->btn_term_up->setVisible(false);
+            ui->sbx_min->setSingleStep(0.01);
+            ui->sbx_max->setSingleStep(0.01);
 
             QList<int> sizes;
             sizes << .75 * size().width() << .25 * size().width();
@@ -52,7 +53,8 @@ namespace fl {
             ui->gbx_output->setVisible(type == OUTPUT_VARIABLE);
 
             QRect scr = Window::mainWindow()->geometry();
-            move(scr.center() - rect().center());
+            move(scr.center().x() - rect().center().x(), scr.top());
+
             connect();
 
         }
@@ -131,6 +133,8 @@ namespace fl {
             for (int i = 0; i < inputVariable->numberOfTerms(); ++i) {
                 this->variable->addTerm(inputVariable->getTerm(i)->copy());
             }
+            ui->sbx_min->setSingleStep((variable->getMaximum() - variable->getMinimum()) / 100);
+            ui->sbx_max->setSingleStep((variable->getMaximum() - variable->getMinimum()) / 100);
 
             setWindowTitle("Edit variable");
             ui->led_name->setText(QString::fromStdString(inputVariable->getName()));
@@ -143,6 +147,9 @@ namespace fl {
             for (int i = 0; i < outputVariable->numberOfTerms(); ++i) {
                 this->variable->addTerm(outputVariable->getTerm(i)->copy());
             }
+            
+            ui->sbx_min->setSingleStep((variable->getMaximum() - variable->getMinimum()) / 100);
+            ui->sbx_max->setSingleStep((variable->getMaximum() - variable->getMinimum()) / 100);
 
             setWindowTitle("Edit variable");
             ui->led_name->setText(QString::fromStdString(outputVariable->getName()));
@@ -329,8 +336,7 @@ namespace fl {
 
         void Variable::onClickTerm(QListWidgetItem*) {
             redraw();
-        } 
-
+        }
 
         void Variable::onClickMoveUp() {
             std::vector<int> newPositions;
@@ -388,9 +394,10 @@ namespace fl {
                 ui->led_default->setText(QString::number(outputVariable->getDefaultValue()));
                 ui->chx_lock->setChecked(outputVariable->lockDefuzzifiedValue());
             }
-
-            ui->sbx_min->setValue(variable->getMinimum());
-            ui->sbx_max->setValue(variable->getMaximum());
+            scalar minimum = variable->getMinimum();
+            scalar maximum = variable->getMaximum();
+            ui->sbx_min->setValue(minimum);
+            ui->sbx_max->setValue(maximum);
 
             redraw();
 

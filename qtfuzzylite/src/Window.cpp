@@ -22,6 +22,7 @@
 #include <QtGui/QPushButton>
 #include <QtGui/QFileDialog>
 #include <QtCore/QTextStream>
+#include <QtGui/QMenu>
 
 namespace fl {
     namespace qt {
@@ -52,16 +53,22 @@ namespace fl {
             _configurationWindow->setup();
             ui->tab_container->setCurrentIndex(0);
 
+            QList<int> sizes;
+            sizes << .75 * size().width() << .25 * size().width();
+            ui->spl_control_inout_rules->setSizes(sizes);
+            sizes.clear();
+            sizes << .90 * size().width() << .10 * size().width();
+            ui->spl_control_rule_strength->setSizes(sizes);
 
             QRect scr = QApplication::desktop()->screenGeometry();
             move(scr.center() - rect().center());
 
-            connect();
+            connect(); 
         }
 
         void Window::connect() {
             QObject::connect(ui->actionConfigure, SIGNAL(triggered()),
-                    this, SLOT(onMenuConfiguration()));
+                    this, SLOT(onMenuConfigure()));
             QObject::connect(ui->actionTerms, SIGNAL(triggered()),
                     this, SLOT(onMenuTerms()));
             QObject::connect(ui->actionReset, SIGNAL(triggered()),
@@ -71,21 +78,10 @@ namespace fl {
             QObject::connect(ui->actionQuit, SIGNAL(triggered()),
                     this, SLOT(onMenuQuit()));
 
-//            QObject::connect(ui->actionImportFromFCL, SIGNAL(triggered()),
-//                    this, SLOT(onMenuImportFromFCL()));
-//            QObject::connect(ui->actionExportToFCL, SIGNAL(triggered()),
-//                    this, SLOT(onMenuExportToFCL()));
-//
-//            QObject::connect(ui->actionImportFromFIS, SIGNAL(triggered()),
-//                    this, SLOT(onMenuImportFromFIS()));
-//            QObject::connect(ui->actionExportToFIS, SIGNAL(triggered()),
-//                    this, SLOT(onMenuExportToFIS()));
-//
-//            QObject::connect(ui->actionImportFromFile, SIGNAL(triggered()),
-//                    this, SLOT(onMenuImportFromFile()));
-//
-//            QObject::connect(ui->actionExportToCpp, SIGNAL(triggered()),
-//                    this, SLOT(onMenuExportToCpp()));
+            QObject::connect(ui->actionImport, SIGNAL(triggered()),
+                    this, SLOT(onMenuImport()));
+            QObject::connect(ui->actionExport, SIGNAL(triggered()),
+                    this, SLOT(onMenuExport()));
 
             QObject::connect(ui->lvw_inputs, SIGNAL(itemSelectionChanged()),
                     this, SLOT(onChangeInputSelection()));
@@ -188,8 +184,6 @@ namespace fl {
                 delete item->widget();
                 delete item;
             }
-
-            //
         }
 
         void Window::reloadTest() {
@@ -201,23 +195,16 @@ namespace fl {
                 control->setup(engine->getInputVariable(i));
                 layout->addWidget(control);
 
-                QFrame* line = new QFrame;
-                line->setObjectName(QString::fromUtf8("line"));
-                line->setGeometry(QRect(320, 150, 118, 3));
-                line->setFrameShape(QFrame::HLine);
-                line->setFrameShadow(QFrame::Sunken);
-                layout->addWidget(line);
-
                 QObject::connect(control, SIGNAL(valueChanged(double)),
                         this, SLOT(onInputValueChanged()));
             }
-            layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
+//            layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
 
             //Rules
             for (int i = 0; i < engine->getRuleBlock(0)->numberOfRules(); ++i) {
 
                 QString rule = QString::number(i + 1) + ": " +
-                        QString::fromStdString(engine->getRuleBlock(0)->getRule(i)->toString());
+                        QString::fromStdString(engine->getRuleBlock(0)->getRule(i)->getUnparsedRule());
                 QListWidgetItem* item = new QListWidgetItem(rule);
                 item->setToolTip(rule);
                 ui->lsw_test_rules->addItem(item);
@@ -227,12 +214,6 @@ namespace fl {
                 item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
                 ui->lsw_test_rules_activation->addItem(item);
             }
-            for (int i = 0; i < engine->getRuleBlock(0)->numberOfRules(); ++i) {
-                QListWidgetItem* rule = ui->lsw_test_rules->item(i);
-                QListWidgetItem* act = ui->lsw_test_rules_activation->item(i);
-                QRect rect = ui->lsw_test_rules->visualItemRect(rule);
-                act->setSizeHint(rect.size());
-            }
 
             layout = ui->grx_test_outputs->layout();
             //Outputs
@@ -241,18 +222,10 @@ namespace fl {
                 control->setup(engine->getOutputVariable(i));
                 layout->addWidget(control);
 
-                QFrame* line = new QFrame;
-                line->setObjectName(QString::fromUtf8("line"));
-                line->setGeometry(QRect(320, 150, 118, 3));
-                line->setFrameShape(QFrame::HLine);
-                line->setFrameShadow(QFrame::Sunken);
-                layout->addWidget(line);
-
                 QObject::connect(this, SIGNAL(processOutput()),
                         control, SLOT(updateOutput()), Qt::QueuedConnection);
             }
-            layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
-
+//            layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
         }
 
         void Window::removeRules() {
@@ -263,7 +236,7 @@ namespace fl {
             }
             reloadModel();
         }
-
+ 
         void Window::fixDependencies() {
             QString rules = ui->ptx_rules->toPlainText();
             removeRules();
@@ -593,7 +566,7 @@ namespace fl {
             }
         }
 
-        void Window::onMenuConfiguration() {
+        void Window::onMenuConfigure() {
             _configurationWindow->setFocus();
             _configurationWindow->show();
         }
@@ -609,7 +582,19 @@ namespace fl {
 
         }
 
-        bool Window::confirmImporting()  {
+        void Window::onMenuImport() {
+            if (ui->actionImport->isChecked()) {
+                QMenu menu(this);
+                menu.addAction("Fuzzy Control Language (FCL)", this, SLOT(onMenuImportFromFCL()));
+                menu.addAction("Fuzzy Inference System (FIS)", this, SLOT(onMenuImportFromFIS()));
+                menu.addSeparator();
+                menu.addAction("from file...", this, SLOT(onMenuImportFromFile()));
+                menu.exec(QCursor::pos());
+                ui->actionImport->setChecked(false);
+            }
+        }
+
+        bool Window::confirmImporting() {
             Engine* engine = Model::Default()->engine();
             if (not (engine->numberOfInputVariables() or engine->numberOfOutputVariables())) {
                 return true;
@@ -749,9 +734,29 @@ namespace fl {
             delete importer;
         }
 
+        void Window::onMenuExport() {
+            if (ui->actionExport->isChecked()) {
+                QMenu menu(this);
+                menu.addAction("FuzzyLite C++", this, SLOT(onMenuExportToCpp()));
+                menu.addSeparator();
+                menu.addAction("Fuzzy Control Language (FCL)", this, SLOT(onMenuExportToFCL()));
+                menu.addAction("Fuzzy Inference System (FIS)", this, SLOT(onMenuExportToFIS()));
+                menu.exec(QCursor::pos());
+                ui->actionExport->setChecked(false);
+            }
+        }
+
         void Window::onMenuExportToFCL() {
             FclExporter exporter;
-            std::string fclString = exporter.toString(Model::Default()->engine());
+            std::string fclString;
+            try {
+                fclString = exporter.toString(Model::Default()->engine());
+            } catch (fl::Exception& ex) {
+                QMessageBox::critical(this, "Error exporting to FCL",
+                        QString::fromStdString(ex.what()),
+                        QMessageBox::Ok);
+                return;
+            }
             Ui::ImEx fclUi;
             QDialog fclDialog(this);
             fclUi.setupUi(&fclDialog);
@@ -769,7 +774,15 @@ namespace fl {
 
         void Window::onMenuExportToFIS() {
             FisExporter exporter;
-            std::string fclString = exporter.toString(Model::Default()->engine());
+            std::string fis; 
+            try {
+                fis = exporter.toString(Model::Default()->engine());
+            } catch (fl::Exception& ex) {
+                QMessageBox::critical(this, "Error exporting to FIS",
+                        QString::fromStdString(ex.what()),
+                        QMessageBox::Ok);
+                return;
+            }
             Ui::ImEx fclUi;
             QDialog fclDialog(this);
             fclUi.setupUi(&fclDialog);
@@ -778,7 +791,7 @@ namespace fl {
             fclUi.lbl_format->setText("Fuzzy Inference System (FIS):");
             fclUi.pte_fcl->setReadOnly(true);
             fclUi.pte_fcl->document()->setPlainText(
-                    QString::fromStdString(fclString));
+                    QString::fromStdString(fis));
             QTextCursor tc = fclUi.pte_fcl->textCursor();
             tc.movePosition(QTextCursor::Start);
             fclUi.pte_fcl->setTextCursor(tc);
@@ -787,16 +800,24 @@ namespace fl {
 
         void Window::onMenuExportToCpp() {
             CppExporter exporter;
-            std::string fclString = exporter.toString(Model::Default()->engine());
+            std::string cpp;
+            try {
+                cpp = exporter.toString(Model::Default()->engine());
+            } catch (fl::Exception& ex) {
+                QMessageBox::critical(this, "Error exporting to C++",
+                        QString::fromStdString(ex.what()),
+                        QMessageBox::Ok);
+                return;
+            }
             Ui::ImEx fclUi;
             QDialog fclDialog(this);
             fclUi.setupUi(&fclDialog);
             fclUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
             fclDialog.setWindowTitle("Export to C++");
-            fclUi.lbl_format->setText("fuzzylite:");
+            fclUi.lbl_format->setText("fuzzylite (C++):");
             fclUi.pte_fcl->setReadOnly(true);
             fclUi.pte_fcl->document()->setPlainText(
-                    QString::fromStdString(fclString));
+                    QString::fromStdString(cpp));
             QTextCursor tc = fclUi.pte_fcl->textCursor();
             tc.movePosition(QTextCursor::Start);
             fclUi.pte_fcl->setTextCursor(tc);

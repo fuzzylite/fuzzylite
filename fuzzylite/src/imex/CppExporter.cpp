@@ -67,14 +67,13 @@ namespace fl {
             cpp << "outputVariable" << (i + 1) << "->setLockDefuzzifiedValue(" <<
                     (output->lockDefuzzifiedValue() ? "true" : "false") << ");\n";
 
-            cpp << "outputVariable" << (i + 1) << "->setDefuzzifier(new fl::" <<
-                    output->getDefuzzifier()->className() <<
-                    "(" << output->getDefuzzifier()->getDivisions() << "));\n";
-            cpp << "outputVariable" << (i + 1) << "->output()->setAccumulation(new fl::" <<
-                    output->output()->getAccumulation()->className() << ");\n";
+            cpp << "outputVariable" << (i + 1) << "->setDefuzzifier(" <<
+                    toCpp(output->getDefuzzifier()) << ");\n";
+            cpp << "outputVariable" << (i + 1) << "->output()->setAccumulation(" <<
+                    toCpp(output->output()->getAccumulation()) << ");\n";
             cpp << "\n";
             for (int t = 0; t < output->numberOfTerms(); ++t) {
-                cpp << "outputVariable" << (i + 1) << "->addTerm(new fl::" <<
+                cpp << "outputVariable" << (i + 1) << "->addTerm(" <<
                         toCpp(output->getTerm(t)) << ");\n";
             }
             cpp << "engine->addOutputVariable(outputVariable" << (i + 1) << ");\n";
@@ -85,12 +84,12 @@ namespace fl {
             RuleBlock* ruleblock = engine->getRuleBlock(i);
             cpp << "fl::RuleBlock* ruleblock" << (i + 1) << " = new fl::RuleBlock;\n";
             cpp << "ruleblock" << (i + 1) << "->setName(\"" << ruleblock->getName() << "\");\n";
-            cpp << "ruleblock" << (i + 1) << "->setTnorm(new fl::"
-                    << ruleblock->getTnorm()->className() << ");\n";
-            cpp << "ruleblock" << (i + 1) << "->setSnorm(new fl::"
-                    << ruleblock->getSnorm()->className() << ");\n";
-            cpp << "ruleblock" << (i + 1) << "->setActivation(new fl::"
-                    << ruleblock->getActivation()->className() << ");\n";
+            cpp << "ruleblock" << (i + 1) << "->setTnorm(" <<
+                    toCpp(ruleblock->getTnorm()) << ");\n";
+            cpp << "ruleblock" << (i + 1) << "->setSnorm("
+                    << toCpp(ruleblock->getSnorm()) << ");\n";
+            cpp << "ruleblock" << (i + 1) << "->setActivation("
+                    << toCpp(ruleblock->getActivation()) << ");\n";
             cpp << "\n";
             for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
                 cpp << "ruleblock" << (i + 1) << "->addRule(fl::MamdaniRule::parse(\n\t\"" <<
@@ -104,8 +103,9 @@ namespace fl {
     }
 
     std::string CppExporter::toCpp(const Term* term) const {
+        if (not term) return "NULL";
         std::ostringstream ss;
-        ss << term->className() << "(\"" << term->getName() << "\", ";
+        ss << "new fl::" << term->className() << "(\"" << term->getName() << "\", ";
 
         if (term->className() == Bell().className()) {
             const Bell* x = dynamic_cast<const Bell*> (term);
@@ -216,13 +216,24 @@ namespace fl {
     }
 
     std::string CppExporter::toCpp(const Hedge * hedge) const {
-        if (hedge->name() == Any().name()) return "Any";
-        if (hedge->name() == Extremely().name()) return "Extremely";
-        if (hedge->name() == Not().name()) return "Not";
-        if (hedge->name() == Seldom().name()) return "Seldom";
-        if (hedge->name() == Somewhat().name()) return "Somewhat";
-        if (hedge->name() == Very().name()) return "Very";
+        if (hedge->name() == Any().name()) return "new fl::Any";
+        if (hedge->name() == Extremely().name()) return "new fl::Extremely";
+        if (hedge->name() == Not().name()) return "new fl::Not";
+        if (hedge->name() == Seldom().name()) return "new fl::Seldom";
+        if (hedge->name() == Somewhat().name()) return "new fl::Somewhat";
+        if (hedge->name() == Very().name()) return "new fl::Very";
         return hedge->name();
+    }
+
+    std::string CppExporter::toCpp(const Operator* op) const {
+        if (not op) return "NULL";
+        return "new fl::" + op->className();
+    }
+
+    std::string CppExporter::toCpp(const Defuzzifier* defuzzifier) const {
+        if (not defuzzifier) return "NULL";
+        return "new fl::" + defuzzifier->className() + "("
+                + fl::Op::str((scalar)defuzzifier->getDivisions(), 0) + ")";
     }
 
 }

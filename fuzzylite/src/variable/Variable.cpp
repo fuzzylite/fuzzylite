@@ -45,6 +45,11 @@ namespace fl {
     }
 
     //It is assumed the terms are inserted in ascending order
+    
+    void Variable::setRange(scalar minimum, scalar maximum){
+        this->_minimum = minimum;
+        this->_maximum = maximum;
+    }
 
     void Variable::setMinimum(scalar minimum) {
         this->_minimum = minimum;

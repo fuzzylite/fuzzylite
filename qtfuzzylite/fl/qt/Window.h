@@ -51,10 +51,12 @@ namespace fl {
             void onInputValueChanged();
 
             //MenuBar
-            void onMenuConfiguration();
+            void onMenuConfigure();
             void onMenuTerms();
             
             bool confirmImporting() ;
+            void onMenuImport();
+            void onMenuExport();
             void onMenuImportFromFCL();
             void onMenuExportToFCL();
             void onMenuImportFromFIS();

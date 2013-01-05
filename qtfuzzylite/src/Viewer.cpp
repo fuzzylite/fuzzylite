@@ -27,8 +27,9 @@ namespace fl {
         void Viewer::setup(const fl::Variable* model) {
             this->constVariable = model;
             ui->setupUi(this);
+            ui->sbx_x->setSingleStep((model->getMaximum() - model->getMinimum()) / 100);
             ui->lbl_name->setText(QString::fromStdString(model->getName()));
-            if (constVariable->getName().empty())
+            if (constVariable->getName().empty()) 
                 ui->lbl_name->setVisible(false);
             ui->led_x->setVisible(false);
             setMinimumSize(200, 170);

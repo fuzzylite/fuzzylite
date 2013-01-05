@@ -271,18 +271,14 @@ namespace fl {
             if (not fl::Op::isEq(weight, 1.0))
                 rule << " " << fl::Rule::FL_WITH << " " << weight;
 
-            FL_LOG("Rule: " << rule.str());
-
             ruleblock->addRule(fl::MamdaniRule::parse(rule.str(), engine));
         }
     }
 
     std::string FisImporter::translateProposition(scalar code, Variable* variable) const {
         scalar intPartScalar;
-        scalar fracPartScalar = std::modf(code, &intPartScalar);
-
+        scalar fracPart = std::abs(std::modf(code, &intPartScalar));
         int intPart = (int) std::abs(intPartScalar) - 1;
-        int fracPart = (int) std::abs(fracPartScalar);
 
         if (intPart < 0 or intPart >= variable->numberOfTerms()) {
             std::ostringstream ex;
@@ -293,13 +289,13 @@ namespace fl {
 
         std::ostringstream ss;
         if (code < 0) ss << Not().name() << " ";
-        if (fracPart == 5) ss << Somewhat().name() << " ";
-        else if (fracPart == 20) ss << Very().name() << " ";
-        else if (fracPart == 30) ss << Extremely().name() << " ";
-        else if (fracPart == 40) ss << Very().name() << " " << Very().name() << " ";
-        else if (fracPart != 0)
+        if (fl::Op::isEq(fracPart, 0.05)) ss << Somewhat().name() << " ";
+        else if (fl::Op::isEq(fracPart, 0.2)) ss << Very().name() << " ";
+        else if (fl::Op::isEq(fracPart, 0.3)) ss << Extremely().name() << " ";
+        else if (fl::Op::isEq(fracPart, 0.4)) ss << Very().name() << " " << Very().name() << " ";
+        else if (not fl::Op::isEq(fracPart,  0))
             throw fl::Exception("[syntax error] no hedge defined in fis format for <"
-                + fl::Op::str(fracPartScalar) + ">", FL_AT);
+                + fl::Op::str(fracPart) + ">", FL_AT);
 
         ss << variable->getTerm(intPart)->getName();
         return ss.str();

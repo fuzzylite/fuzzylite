@@ -17,9 +17,7 @@ namespace fl {
         std::stringstream ss;
         ss << variable->getName() << " " << Rule::FL_IS << " ";
         for (std::size_t i = 0; i < hedges.size(); ++i) {
-            ss << hedges[i]->name();
-            if (i < hedges.size() - 1)
-                ss << " ";
+            ss << hedges[i]->name() << " ";
         }
         ss << term->getName();
         return ss.str();

@@ -46,13 +46,12 @@ namespace fl {
         const TNorm* tnorm = NULL;
         const SNorm* snorm = NULL;
         const TNorm* activation = NULL;
-        std::string nullptrError, uniquenessError;
+        std::string uniquenessError;
         for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
             RuleBlock* rb = engine->getRuleBlock(i);
-            if (not rb->getTnorm()) nullptrError = "T-Norm";
-            if (not rb->getSnorm()) nullptrError = "S-Norm";
-            if (not rb->getActivation()) nullptrError = "activation T-Norm";
-            if (not nullptrError.empty()) break;
+            if (not rb->getTnorm()) continue;
+            if (not rb->getSnorm()) continue;
+            if (not rb->getActivation()) continue;
 
             if (not tnorm) tnorm = rb->getTnorm();
             else if (tnorm->className() != rb->getTnorm()->className())
@@ -68,10 +67,6 @@ namespace fl {
             if (not uniquenessError.empty()) break;
         }
 
-        if (not nullptrError.empty())
-            throw fl::Exception("[nullptr error] expected a " + nullptrError +
-                ", but none was set", FL_AT);
-
         if (not uniquenessError.empty())
             throw fl::Exception("[export error] fis files require all ruleblocks "
                 "to have the same " + uniquenessError, FL_AT);
@@ -84,10 +79,8 @@ namespace fl {
         Defuzzifier* defuzzifier = NULL;
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
-            if (not outputVariable->getDefuzzifier()) nullptrError = "defuzzifier";
-            if (not outputVariable->output()->getAccumulation()) nullptrError = "accumulation S-Norm";
-            if (not nullptrError.empty()) break;
-
+            if (not outputVariable->getDefuzzifier()) continue;
+            if (not outputVariable->output()->getAccumulation()) continue;
 
             if (not defuzzifier) defuzzifier = outputVariable->getDefuzzifier();
             else if (defuzzifier->className() != outputVariable->getDefuzzifier()->className())
@@ -97,10 +90,6 @@ namespace fl {
                 uniquenessError = "accumulation S-Norm";
             if (not uniquenessError.empty()) break;
         }
-
-        if (not nullptrError.empty())
-            throw fl::Exception("[nullptr error] expected a " + nullptrError +
-                ", but none was set", FL_AT);
 
         if (not uniquenessError.empty())
             throw fl::Exception("[export error] fis files require all ruleblocks "
@@ -218,6 +207,7 @@ namespace fl {
             Variable* variable = variables[ixVariable];
             int termIndexPlusOne = 0;
             scalar plusHedge = 0;
+            scalar negated = 1;
             for (std::size_t ixProposition = 0; ixProposition < propositions.size(); ++ixProposition) {
                 MamdaniProposition* proposition = propositions[ixProposition];
                 if (proposition->variable != variable) continue;
@@ -228,24 +218,24 @@ namespace fl {
                         break;
                     }
                 }
+
+
                 std::vector<Hedge*> hedges = proposition->hedges;
                 if (hedges.size() > 0) {
-                    FL_LOG("[export warning] multiple hedges are not supported, "
-                            "only considering the first hedge except for double hedge 'very'");
-                    Hedge* hedge = hedges[0];
-                    if (hedge->name() == Not().name()) plusHedge = -1;
+                    FL_LOG("[export warning] only a few combinations of multiple hedges are supported");
+                }
+                for (std::size_t ixHedge = 0; ixHedge < hedges.size(); ++ixHedge) {
+                    Hedge* hedge = hedges[ixHedge];
+                    if (hedge->name() == Not().name()) negated *= -1;
                     else if (hedge->name() == Somewhat().name()) plusHedge += 5;
                     else if (hedge->name() == Extremely().name()) plusHedge += 3;
-                    else if (hedge->name() == Very().name()) {
-                        plusHedge += 2;
-                        if (propositions[ixProposition]->hedges.size() > 1
-                                and hedges[1]->name() == Very().name())
-                            plusHedge += 2;
-                    } else plusHedge = std::numeric_limits<scalar>::quiet_NaN();
+                    else if (hedge->name() == Very().name()) plusHedge += 2;
+                    else plusHedge = std::numeric_limits<scalar>::quiet_NaN();
                 }
+
                 break;
             }
-            if (fl::Op::isEq(plusHedge, -1)) ss << "-";
+            if (negated < 0) ss << "-";
             ss << termIndexPlusOne;
             if (not fl::Op::isEq(plusHedge, 0.0))
                 ss << "." << fl::Op::str(plusHedge, 0);

@@ -101,8 +101,10 @@ namespace fl {
             layout()->setSizeConstraint(QLayout::SetFixedSize);
             this->adjustSize();
 
-            QRect scr = Window::mainWindow()->geometry();
-            move(scr.center() - rect().center());
+
+            QRect scr = parentWidget()
+                    ? parentWidget()->geometry() : Window::mainWindow()->geometry();
+            move(scr.center().x() - rect().center().x(), scr.top());
 
             _sbx.clear();
             _sbx.push_back(ui->sbx_bell_center);
@@ -157,11 +159,12 @@ namespace fl {
             _sbx.push_back(ui->sbx_zshape_end);
 
             for (std::size_t i = 0; i < _sbx.size(); ++i) {
-                _sbx[i]->setMinimum(-1000);
-                _sbx[i]->setMaximum(1000);
+                _sbx[i]->setMinimum(-10000000);
+                _sbx[i]->setMaximum(10000000);
                 _sbx[i]->setValue(0.0);
                 _sbx[i]->setSingleStep(
                         (dummyVariable->getMaximum() - dummyVariable->getMinimum()) / 100);
+                _sbx[i]->setAlignment(Qt::AlignHCenter);
             }
 
             for (std::size_t i = 0; i < _basicTerms.size(); ++i) {
@@ -460,6 +463,7 @@ namespace fl {
         void Term::redraw() {
             viewer->refresh();
             showSelectedTerm();
+            this->adjustSize();
         }
 
         void Term::showSelectedTerm() {
@@ -484,8 +488,8 @@ namespace fl {
         void Term::onClickWizard() {
             Wizard window(this);
             window.setup(ui->led_name->text().toStdString());
-            window.ui->sbx_separation->setMinimum(-1000);
-            window.ui->sbx_separation->setMaximum(1000);
+            window.ui->sbx_separation->setMinimum(-10000000);
+            window.ui->sbx_separation->setMaximum(10000000);
             window.ui->sbx_separation->setSingleStep(
                     (dummyVariable->getMaximum() - dummyVariable->getMinimum()) / 100);
 
@@ -606,14 +610,14 @@ namespace fl {
                     throw fl::Exception("[internal error] index out of bounds", FL_AT);
             }
             redraw();
-            this->adjustSize();
+//            this->adjustSize();
         }
 
         void Term::onChangeTab(int index) {
             setCurrentToolbox(index);
             onChangeToolBoxIndex(-1);
             redraw();
-            this->adjustSize();
+//            this->adjustSize();
         }
 
         void Term::onChangeSpinBoxTriangle(double) {
@@ -794,25 +798,28 @@ namespace fl {
             //BASIC
             if (x->className() == Triangle().className()) {
                 const Triangle* term = dynamic_cast<const Triangle*> (x);
-                ui->sbx_triangle_a->setValue(term->getA());
-                ui->sbx_triangle_b->setValue(term->getB());
-                ui->sbx_triangle_c->setValue(term->getC());
+                scalar params[] = {term->getA(), term->getB(), term->getC()};
+                ui->sbx_triangle_a->setValue(params[0]);
+                ui->sbx_triangle_b->setValue(params[1]);
+                ui->sbx_triangle_c->setValue(params[2]);
                 ui->basicTermToolbox->setCurrentIndex(0);
                 setCurrentToolbox(0);
 
             } else if (x->className() == Trapezoid().className()) {
                 const Trapezoid* term = dynamic_cast<const Trapezoid*> (x);
-                ui->sbx_trapezoid_a->setValue(term->getA());
-                ui->sbx_trapezoid_b->setValue(term->getB());
-                ui->sbx_trapezoid_c->setValue(term->getC());
-                ui->sbx_trapezoid_d->setValue(term->getD());
+                scalar params[] = {term->getA(), term->getB(), term->getC(), term->getD()};
+                ui->sbx_trapezoid_a->setValue(params[0]);
+                ui->sbx_trapezoid_b->setValue(params[1]);
+                ui->sbx_trapezoid_c->setValue(params[2]);
+                ui->sbx_trapezoid_d->setValue(params[3]);
                 ui->basicTermToolbox->setCurrentIndex(1);
                 setCurrentToolbox(0);
 
             } else if (x->className() == Rectangle().className()) {
                 const Rectangle* term = dynamic_cast<const Rectangle*> (x);
-                ui->sbx_rectangle_min->setValue(term->getMinimum());
-                ui->sbx_rectangle_max->setValue(term->getMaximum());
+                scalar params[] = {term->getMinimum(), term->getMaximum()};
+                ui->sbx_rectangle_min->setValue(params[0]);
+                ui->sbx_rectangle_max->setValue(params[1]);
                 ui->basicTermToolbox->setCurrentIndex(2);
                 setCurrentToolbox(0);
 
@@ -833,85 +840,102 @@ namespace fl {
                 ui->led_discrete_y->setText(QString::fromStdString(ssY.str()));
                 ui->basicTermToolbox->setCurrentIndex(3);
                 setCurrentToolbox(0);
+//                onClickDiscreteParser();
 
                 //EXTENDED
             } else if (x->className() == Gaussian().className()) {
                 const Gaussian* term = dynamic_cast<const Gaussian*> (x);
-                ui->sbx_gaussian_center->setValue(term->getMean());
-                ui->sbx_gaussian_width->setValue(term->getSigma());
+                scalar params[] = {term->getMean(), term->getSigma()};
+                ui->sbx_gaussian_center->setValue(params[0]);
+                ui->sbx_gaussian_width->setValue(params[1]);
                 ui->extendedTermToolbox->setCurrentIndex(0);
                 setCurrentToolbox(1);
 
             } else if (x->className() == GaussianProduct().className()) {
                 const GaussianProduct* term = dynamic_cast<const GaussianProduct*> (x);
-                ui->sbx_gaussian_prod_center_a->setValue(term->getMeanA());
-                ui->sbx_gaussian_prod_center_b->setValue(term->getMeanB());
-                ui->sbx_gaussian_prod_width_a->setValue(term->getSigmaA());
-                ui->sbx_gaussian_prod_width_b->setValue(term->getSigmaB());
+                scalar params[] = {term->getMeanA(), term->getMeanB(),
+                    term->getSigmaA(), term->getSigmaB()};
+                ui->sbx_gaussian_prod_center_a->setValue(params[0]);
+                ui->sbx_gaussian_prod_center_b->setValue(params[1]);
+                ui->sbx_gaussian_prod_width_a->setValue(params[2]);
+                ui->sbx_gaussian_prod_width_b->setValue(params[3]);
                 ui->extendedTermToolbox->setCurrentIndex(1);
                 setCurrentToolbox(1);
 
             } else if (x->className() == Bell().className()) {
                 const Bell* term = dynamic_cast<const Bell*> (x);
-                ui->sbx_bell_center->setValue(term->getCenter());
-                ui->sbx_bell_width->setValue(term->getWidth());
-                ui->sbx_bell_slope->setValue(term->getSlope());
+                scalar params[] = {term->getCenter(), term->getWidth(), term->getSlope()};
+                ui->sbx_bell_center->setValue(params[0]);
+                ui->sbx_bell_width->setValue(params[1]);
+                ui->sbx_bell_slope->setValue(params[2]);
                 ui->extendedTermToolbox->setCurrentIndex(2);
                 setCurrentToolbox(1);
 
             } else if (x->className() == PiShape().className()) {
                 const PiShape* term = dynamic_cast<const PiShape*> (x);
-                ui->sbx_pishape_a->setValue(term->getA());
-                ui->sbx_pishape_b->setValue(term->getB());
-                ui->sbx_pishape_c->setValue(term->getC());
-                ui->sbx_pishape_d->setValue(term->getD());
+                scalar params[] = {term->getA(), term->getB(), term->getC(), term->getD()};
+                ui->sbx_pishape_a->setValue(params[0]);
+                ui->sbx_pishape_b->setValue(params[1]);
+                ui->sbx_pishape_c->setValue(params[2]);
+                ui->sbx_pishape_d->setValue(params[3]);
                 ui->extendedTermToolbox->setCurrentIndex(3);
                 setCurrentToolbox(1);
 
             } else if (x->className() == SigmoidDifference().className()) {
                 const SigmoidDifference* term = dynamic_cast<const SigmoidDifference*> (x);
-                ui->sbx_sigmoid_diff_falling->setValue(term->getFallingSlope());
-                ui->sbx_sigmoid_diff_left->setValue(term->getLeftInflection());
-                ui->sbx_sigmoid_diff_right->setValue(term->getRightInflection());
-                ui->sbx_sigmoid_diff_rising->setValue(term->getRisingSlope());
+                scalar params[] = {term->getLeftInflection(), term->getRisingSlope(),
+                term->getRightInflection(), term->getFallingSlope()};
+                ui->sbx_sigmoid_diff_left->setValue(params[0]);
+                ui->sbx_sigmoid_diff_rising->setValue(params[1]);
+                ui->sbx_sigmoid_diff_right->setValue(params[2]);
+                ui->sbx_sigmoid_diff_falling->setValue(params[3]);
+                
+                
                 ui->extendedTermToolbox->setCurrentIndex(4);
                 setCurrentToolbox(1);
 
             } else if (x->className() == SigmoidProduct().className()) {
                 const SigmoidProduct* term = dynamic_cast<const SigmoidProduct*> (x);
-                ui->sbx_sigmoid_prod_falling->setValue(term->getFallingSlope());
-                ui->sbx_sigmoid_prod_left->setValue(term->getLeftInflection());
-                ui->sbx_sigmoid_prod_right->setValue(term->getRightInflection());
-                ui->sbx_sigmoid_prod_rising->setValue(term->getRisingSlope());
+                scalar params[] = {term->getLeftInflection(), term->getRisingSlope(),
+                term->getRightInflection(), term->getFallingSlope()};
+                ui->sbx_sigmoid_prod_left->setValue(params[0]);
+                ui->sbx_sigmoid_prod_rising->setValue(params[1]);
+                ui->sbx_sigmoid_prod_right->setValue(params[2]);
+                ui->sbx_sigmoid_prod_falling->setValue(params[3]);
+                
                 ui->extendedTermToolbox->setCurrentIndex(5);
                 setCurrentToolbox(1);
 
                 //EDGE
             } else if (x->className() == Ramp().className()) {
                 const Ramp* term = dynamic_cast<const Ramp*> (x);
-                ui->sbx_ramp_start->setValue(term->getStart());
-                ui->sbx_ramp_end->setValue(term->getEnd());
+                scalar params[] = {term->getStart(), term->getEnd()};
+                ui->sbx_ramp_start->setValue(params[0]);
+                ui->sbx_ramp_end->setValue(params[1]);
                 ui->edgeTermToolbox->setCurrentIndex(0);
                 setCurrentToolbox(2);
 
             } else if (x->className() == Sigmoid().className()) {
                 const Sigmoid* term = dynamic_cast<const Sigmoid*> (x);
-                ui->sbx_sigmoid_inflection->setValue(term->getInflection());
-                ui->sbx_sigmoid_slope->setValue(term->getSlope());
+                scalar params[] = {term->getInflection(), term->getSlope()};
+                ui->sbx_sigmoid_inflection->setValue(params[0]);
+                ui->sbx_sigmoid_slope->setValue(params[1]);
                 ui->edgeTermToolbox->setCurrentIndex(1);
                 setCurrentToolbox(2);
 
             } else if (x->className() == SShape().className()) {
                 const SShape* term = dynamic_cast<const SShape*> (x);
-                ui->sbx_sshape_start->setValue(term->getStart());
-                ui->sbx_sshape_end->setValue(term->getEnd());
+                scalar params[] = {term->getStart(), term->getEnd()};
+                ui->sbx_sshape_start->setValue(params[0]);
+                ui->sbx_sshape_end->setValue(params[1]);
                 ui->edgeTermToolbox->setCurrentIndex(2);
                 setCurrentToolbox(2);
 
             } else if (x->className() == ZShape().className()) {
                 const ZShape* term = dynamic_cast<const ZShape*> (x);
-                ui->sbx_zshape_start->setValue(term->getStart());
-                ui->sbx_zshape_end->setValue(term->getEnd());
+                scalar params[] = {term->getStart(), term->getEnd()};
+                ui->sbx_zshape_start->setValue(params[0]);
+                ui->sbx_zshape_end->setValue(params[1]);
                 ui->edgeTermToolbox->setCurrentIndex(3);
                 setCurrentToolbox(2);
             } else {

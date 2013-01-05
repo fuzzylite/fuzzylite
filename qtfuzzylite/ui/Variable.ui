@@ -107,10 +107,10 @@
           <set>Qt::AlignCenter</set>
          </property>
          <property name="minimum">
-          <double>-100.000000000000000</double>
+          <double>-10000000.000000000000000</double>
          </property>
          <property name="maximum">
-          <double>100.000000000000000</double>
+          <double>10000000.000000000000000</double>
          </property>
          <property name="singleStep">
           <double>0.100000000000000</double>
@@ -156,10 +156,10 @@
           <set>Qt::AlignCenter</set>
          </property>
          <property name="minimum">
-          <double>-100.000000000000000</double>
+          <double>-10000000.000000000000000</double>
          </property>
          <property name="maximum">
-          <double>100.000000000000000</double>
+          <double>10000000.000000000000000</double>
          </property>
          <property name="singleStep">
           <double>0.100000000000000</double>
