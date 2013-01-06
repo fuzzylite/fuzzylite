@@ -5,7 +5,7 @@
  *      Author: jcrada
  */
 
-#include "fl/defuzzifier/CenterOfGravity.h"
+#include "fl/defuzzifier/Centroid.h"
 
 #include "fl/term/Term.h"
 #include "fl/term/Accumulated.h"
@@ -13,14 +13,14 @@
 
 namespace fl {
 
-    CenterOfGravity::CenterOfGravity(int divisions)
+    Centroid::Centroid(int divisions)
     : Defuzzifier(divisions) { }
 
-    std::string CenterOfGravity::className() const {
-        return "CenterOfGravity";
+    std::string Centroid::className() const {
+        return "Centroid";
     }
 
-    scalar CenterOfGravity::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
+    scalar Centroid::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
         if (maximum - minimum > _divisions) {
             FL_LOG("[accuracy warning] the number of divisions ( " << _divisions << ") "
                     "is less than the range (" << minimum << ", " << maximum << "). In order to "

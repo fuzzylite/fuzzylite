@@ -32,9 +32,6 @@ namespace fl {
         }
     }
 
-    void Variable::configure(Configuration* config) {
-        //do nothing
-    }
 
     void Variable::setName(const std::string& name) {
         this->_name = name;
@@ -44,8 +41,6 @@ namespace fl {
         return this->_name;
     }
 
-    //It is assumed the terms are inserted in ascending order
-    
     void Variable::setRange(scalar minimum, scalar maximum){
         this->_minimum = minimum;
         this->_maximum = maximum;

@@ -15,37 +15,32 @@ namespace fl {
         Model* Model::Default() {
             if (not singleton) {
                 singleton = new Model;
-                singleton->_engine->addRuleBlock(new RuleBlock);
+                singleton->reset();
             }
             return singleton;
         }
 
-        Model::Model()
-                : _engine(new fl::Engine("qtfuzzylite")),
-                  _configuration(new fl::Configuration) {
-        }
+        Model::Model() : _engine(NULL) { }
 
         Model::~Model() {
-            delete _engine;
-            delete _configuration;
-        }
-
-        void Model::changeEngine(Engine* engine) {
-            delete _engine;
-            _engine = engine;
-            _engine->configure(_configuration);
+            if (_engine) delete _engine;
         }
 
         fl::Engine* Model::engine() const {
             return this->_engine;
         }
 
-        fl::Configuration* Model::configuration() const {
-            return this->_configuration;
+        void Model::change(Engine* engine) {
+            if (_engine) delete _engine;
+            _engine = engine;
+            if (_engine->numberOfRuleBlocks() == 0)
+                _engine->addRuleBlock(new fl::RuleBlock);
         }
 
-        void Model::update() {
-            this->_engine->configure(this->_configuration);
+        void Model::reset() {
+            fl::Engine e = new fl::Engine("qtfuzzylite");
+            e->addRuleBlock(new fl::RuleBlock);
+            change(e);
         }
     }
-} 
+}

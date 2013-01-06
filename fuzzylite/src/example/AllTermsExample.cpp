@@ -38,7 +38,7 @@ namespace fl {
         outputVariable1->setMaximum(17.400);
         outputVariable1->setDefaultValue(std::numeric_limits<scalar>::quiet_NaN());
         outputVariable1->setLockDefuzzifiedValue(true);
-        outputVariable1->setDefuzzifier(new fl::CenterOfGravity(500));
+        outputVariable1->setDefuzzifier(new fl::Centroid(500));
         outputVariable1->output()->setAccumulation(new fl::Maximum);
         outputVariable1->addTerm(new fl::Sigmoid("A", -0.060, -2.462));
         outputVariable1->addTerm(new fl::ZShape("B", -5.492, 4.984));

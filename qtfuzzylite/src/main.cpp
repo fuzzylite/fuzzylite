@@ -10,7 +10,7 @@
 #include <fl/Headers.h>
 
 #include "fl/qt/Configuration.h"  
-#include "fl/qt/Window.h" 
+#include "fl/qt/Window.h"  
 #include "fl/qt/Term.h"
 #include "fl/qt/Viewer.h"   
  
@@ -24,7 +24,6 @@ public:
             return QApplication::notify(receiver, event);
         } catch (std::exception& ex) {
             QString error = QString::fromUtf8(ex.what());
-            //        error.replace("\n", "<br>"); 
 
             QMessageBox::critical(NULL, "Internal Error",
                     "<qt><b>qtfuzzylite</b> has experienced an internal error and will exit.<br><br>"
@@ -50,7 +49,6 @@ int main(int argc, char* argv[]) {
         return qtfuzzylite.exec();  
     } catch (std::exception& ex) {
         QString error = QString::fromUtf8(ex.what());
-        //        error.replace("\n", "<br>"); 
  
         QMessageBox::critical(NULL, "Internal Error",
                 "<qt><b>qtfuzzylite</b> has experienced an internal error and will exit.<br><br>"

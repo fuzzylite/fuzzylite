@@ -21,27 +21,26 @@
 namespace fl {
     namespace qt {
 
-        class Configuration: public QDialog {
-        Q_OBJECT
+        class Configuration : public QDialog {
+            Q_OBJECT
 
         protected slots:
-            virtual void onChangeTNorm(int index);
-            virtual void onChangeSNorm(int index);
-            virtual void onChangeActivation(int index);
-            virtual void onChangeAccumulation(int index);
-            virtual void onChangeDefuzzifier(int index);
-            virtual void onChangeDivisions(int value);
-
+            virtual void onChangeConfiguration(int);
+            virtual void onChangeHedgeSelection(int);
 
         protected:
-            std::vector<std::pair<std::string, TNorm*> > _andOperators;
-            std::vector<std::pair<std::string, SNorm*> > _orOperators;
-            std::vector<std::pair<std::string, Defuzzifier*> > _defuzzifiers;
-
-
+            std::vector<std::string> _andOperators;
+            std::vector<std::string> _orOperators;
+            std::vector<std::string> _defuzzifiers;
 
             virtual void connect();
             virtual void disconnect();
+            
+            virtual int indexOfTnorm(const std::string& tnorm);
+            virtual int indexOfSnorm(const std::string& snorm);
+            virtual int indexOfDefuzzifier(const std::string& defuzzifier);
+            
+            virtual void loadFromModel();
 
         public:
             Ui::Configuration* ui;
@@ -51,10 +50,10 @@ namespace fl {
 
             virtual void setup();
 
-            virtual void refresh();
+            virtual void applyDefaults();
 
             static void main();
         };
-    } 
-} 
+    }
+}
 #endif /* FLQT_CONFIGURATION_H_ */

@@ -16,7 +16,6 @@ namespace fl {
     class Rule;
     class TNorm;
     class SNorm;
-    class Configuration;
 
     class RuleBlock {
     protected:
@@ -28,8 +27,6 @@ namespace fl {
     public:
         RuleBlock(const std::string& name = "");
         virtual ~RuleBlock();
-
-        virtual void configure(Configuration* config);
 
         virtual void fireRules();
 

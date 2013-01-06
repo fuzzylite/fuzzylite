@@ -70,7 +70,7 @@
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <layout class="QVBoxLayout" name="verticalLayout_2">
              <property name="spacing">
               <number>0</number>
@@ -158,7 +158,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <layout class="QVBoxLayout" name="verticalLayout_3">
              <property name="spacing">
               <number>0</number>
@@ -247,7 +247,7 @@
             </layout>
            </widget>
           </widget>
-          <widget class="QWidget" name="">
+          <widget class="QWidget" name="layoutWidget">
            <layout class="QVBoxLayout" name="verticalLayout_10">
             <property name="spacing">
              <number>0</number>
@@ -351,8 +351,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>613</width>
-         <height>501</height>
+         <width>184</width>
+         <height>216</height>
         </rect>
        </property>
        <attribute name="label">
@@ -368,7 +368,7 @@
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <layout class="QVBoxLayout" name="verticalLayout_16">
              <property name="spacing">
               <number>0</number>
@@ -426,8 +426,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>293</width>
-                     <height>129</height>
+                     <width>100</width>
+                     <height>30</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -458,7 +458,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <layout class="QVBoxLayout" name="verticalLayout_18">
              <property name="spacing">
               <number>0</number>
@@ -522,8 +522,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>292</width>
-                     <height>129</height>
+                     <width>100</width>
+                     <height>30</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -707,7 +707,7 @@
     <string>Configure</string>
    </property>
    <property name="toolTip">
-    <string>Configure this engine</string>
+    <string>Configure</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+;</string>
@@ -740,7 +740,7 @@
     <string>Import...</string>
    </property>
    <property name="toolTip">
-    <string>Import</string>
+    <string>Import...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+I</string>
@@ -773,7 +773,7 @@
     <string>Reset...</string>
    </property>
    <property name="toolTip">
-    <string>Reset engine...</string>
+    <string>Reset...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
@@ -788,7 +788,7 @@
     <string>About...</string>
    </property>
    <property name="toolTip">
-    <string>About qtfuzzylite</string>
+    <string>About...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+?</string>
@@ -803,7 +803,7 @@
     <string>Quit...</string>
    </property>
    <property name="toolTip">
-    <string>Quit qtfuzzylite</string>
+    <string>Quit...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>

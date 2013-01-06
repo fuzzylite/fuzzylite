@@ -40,7 +40,6 @@ namespace fl {
 
         engine->addRuleBlock(ruleblock);
 
-        engine->configure(new Configuration);
     }
 
     void Example1::test() {

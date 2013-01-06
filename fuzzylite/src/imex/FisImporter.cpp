@@ -293,7 +293,7 @@ namespace fl {
         else if (fl::Op::isEq(fracPart, 0.2)) ss << Very().name() << " ";
         else if (fl::Op::isEq(fracPart, 0.3)) ss << Extremely().name() << " ";
         else if (fl::Op::isEq(fracPart, 0.4)) ss << Very().name() << " " << Very().name() << " ";
-        else if (not fl::Op::isEq(fracPart,  0))
+        else if (not fl::Op::isEq(fracPart, 0))
             throw fl::Exception("[syntax error] no hedge defined in fis format for <"
                 + fl::Op::str(fracPart) + ">", FL_AT);
 
@@ -302,33 +302,33 @@ namespace fl {
     }
 
     std::string FisImporter::flTnorm(const std::string & name) const {
-        if (name == "min") return "Minimum";
-        if (name == "prod") return "AlgebraicProduct";
-        if (name == "bounded_difference") return "BoundedDifference";
-        if (name == "drastic_product") return "DrasticProduct";
-        if (name == "einstein_product") return "EinsteinProduct";
-        if (name == "hamacher_product") return "HamacherProduct";
+        if (name == "min") return Minimum().className();
+        if (name == "prod") return AlgebraicProduct().className();
+        if (name == "bounded_difference") return BoundedDifference().className();
+        if (name == "drastic_product") return DrasticProduct().className();
+        if (name == "einstein_product") return EinsteinProduct().className();
+        if (name == "hamacher_product") return HamacherProduct().className();
 
         throw fl::Exception("[syntax error] T-Norm <" + name + "> not recognized", FL_AT);
     }
 
     std::string FisImporter::flSnorm(const std::string & name) const {
-        if (name == "max") return "Maximum";
-        if (name == "sum") return "AlgebraicSum";
-        if (name == "bounded_sum") return "BoundedSum";
-        if (name == "normalized_sum") return "NormalizedSum";
-        if (name == "drastic_sum") return "DrasticSum";
-        if (name == "einstein_sum") return "EinsteinSum";
-        if (name == "hamacher_sum") return "HamacherSum";
+        if (name == "max") return Maximum().className();
+        if (name == "sum") return AlgebraicSum().className();
+        if (name == "bounded_sum") return BoundedSum().className();
+        if (name == "normalized_sum") return NormalizedSum().className();
+        if (name == "drastic_sum") return DrasticSum().className();
+        if (name == "einstein_sum") return EinsteinSum().className();
+        if (name == "hamacher_sum") return HamacherSum().className();
 
         throw fl::Exception("[syntax error] S-Norm <" + name + "> not recognized", FL_AT);
     }
 
     std::string FisImporter::flDefuzzifier(const std::string & name) const {
-        if (name == "centroid") return "CenterOfGravity";
-        if (name == "som") return "SmallestOfMaximum";
-        if (name == "lom") return "LargestOfMaximum";
-        if (name == "mom") return "MeanOfMaximum";
+        if (name == "centroid") return Centroid().className();
+        if (name == "som") return SmallestOfMaximum().className();
+        if (name == "lom") return LargestOfMaximum().className();
+        if (name == "mom") return MeanOfMaximum().className();
         throw fl::Exception("[syntax error] defuzzifier <" + name + "> not recognized", FL_AT);
     }
 

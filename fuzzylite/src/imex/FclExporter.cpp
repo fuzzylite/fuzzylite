@@ -7,7 +7,7 @@
 
 #include "fl/imex/FclExporter.h"
 
-#include "fl/engine/Engine.h"
+#include "fl/Engine.h"
 #include "fl/variable/InputVariable.h"
 #include "fl/variable/OutputVariable.h"
 #include "fl/term/Term.h"
@@ -19,7 +19,7 @@
 #include "fl/operator/TNorm.h"
 #include "fl/operator/SNorm.h"
 
-#include "fl/defuzzifier/CenterOfGravity.h"
+#include "fl/defuzzifier/Centroid.h"
 #include "fl/defuzzifier/MaximumDefuzzifier.h"
 
 #include "fl/rule/Rule.h"
@@ -145,7 +145,7 @@ namespace fl {
 
     std::string FclExporter::toFcl(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier) return "";
-        if (defuzzifier->className() == CenterOfGravity().className()) return "COG";
+        if (defuzzifier->className() == Centroid().className()) return "COG";
         if (defuzzifier->className() == SmallestOfMaximum().className()) return "SOM";
         if (defuzzifier->className() == LargestOfMaximum().className()) return "LOM";
         if (defuzzifier->className() == MeanOfMaximum().className()) return "MOM";

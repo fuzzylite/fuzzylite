@@ -9,7 +9,7 @@
 #define FL_VARIABLE_H_
 
 #include "fl/scalar.h"
-#include "fl/defuzzifier/CenterOfGravity.h"
+#include "fl/defuzzifier/Centroid.h"
 #include "fl/operator/Operator.h"
 
 #include <string>
@@ -19,8 +19,7 @@
 namespace fl {
 
     class Term;
-    class Configuration;
-
+    
     class Variable {
     protected:
         std::string _name;
@@ -29,7 +28,7 @@ namespace fl {
 
         struct SortByCoG {
             scalar minimum, maximum;
-            CenterOfGravity cog;
+            Centroid cog;
 
             bool operator() (const Term* a, const Term * b) {
                 return fl::Op::isLt(
@@ -45,8 +44,6 @@ namespace fl {
         Variable(const Variable& copy);
 
         virtual ~Variable();
-
-        virtual void configure(Configuration* config);
 
         virtual void setName(const std::string& name);
         virtual std::string getName() const;

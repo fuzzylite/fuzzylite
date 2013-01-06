@@ -17,42 +17,25 @@ namespace fl {
         Configuration::Configuration(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::Configuration) {
             setWindowFlags(Qt::Tool);
-            _andOperators.push_back(std::pair<std::string, TNorm*>
-                    (Minimum().className(), new Minimum));
-            _andOperators.push_back(std::pair<std::string, TNorm*>
-                    (AlgebraicProduct().className(), new AlgebraicProduct));
-            _andOperators.push_back(std::pair<std::string, TNorm*>
-                    (BoundedDifference().className(), new BoundedDifference));
-            _andOperators.push_back(std::pair<std::string, TNorm*>
-                    (DrasticProduct().className(), new DrasticProduct));
-            _andOperators.push_back(std::pair<std::string, TNorm*>
-                    (EinsteinProduct().className(), new EinsteinProduct));
-            _andOperators.push_back(std::pair<std::string, TNorm*>
-                    (HamacherProduct().className(), new HamacherProduct));
+            _andOperators.push_back(Minimum().className());
+            _andOperators.push_back(AlgebraicProduct().className());
+            _andOperators.push_back(BoundedDifference().className());
+            _andOperators.push_back(DrasticProduct().className());
+            _andOperators.push_back(EinsteinProduct().className());
+            _andOperators.push_back(HamacherProduct().className());
 
-            _orOperators.push_back(std::pair<std::string, SNorm*>
-                    (Maximum().className(), new Maximum));
-            _orOperators.push_back(std::pair<std::string, SNorm*>
-                    (AlgebraicSum().className(), new AlgebraicSum));
-            _orOperators.push_back(std::pair<std::string, SNorm*>
-                    (BoundedSum().className(), new BoundedSum));
-            _orOperators.push_back(std::pair<std::string, SNorm*>
-                    (NormalizedSum().className(), new NormalizedSum));
-            _orOperators.push_back(std::pair<std::string, SNorm*>
-                    (DrasticSum().className(), new DrasticSum));
-            _orOperators.push_back(std::pair<std::string, SNorm*>
-                    (EinsteinSum().className(), new EinsteinSum));
-            _orOperators.push_back(std::pair<std::string, SNorm*>
-                    (HamacherSum().className(), new HamacherSum));
+            _orOperators.push_back(Maximum().className());
+            _orOperators.push_back(AlgebraicSum().className());
+            _orOperators.push_back(BoundedSum().className());
+            _orOperators.push_back(NormalizedSum().className());
+            _orOperators.push_back(DrasticSum().className());
+            _orOperators.push_back(EinsteinSum().className());
+            _orOperators.push_back(HamacherSum().className());
 
-            _defuzzifiers.push_back(std::pair<std::string, Defuzzifier*>
-                    (CenterOfGravity().className(), new CenterOfGravity));
-            _defuzzifiers.push_back(std::pair<std::string, Defuzzifier*>
-                    (SmallestOfMaximum().className(), new SmallestOfMaximum));
-            _defuzzifiers.push_back(std::pair<std::string, Defuzzifier*>
-                    (LargestOfMaximum().className(), new LargestOfMaximum));
-            _defuzzifiers.push_back(std::pair<std::string, Defuzzifier*>
-                    (MeanOfMaximum().className(), new MeanOfMaximum));
+            _defuzzifiers.push_back(Centroid().className());
+            _defuzzifiers.push_back(SmallestOfMaximum().className());
+            _defuzzifiers.push_back(LargestOfMaximum().className());
+            _defuzzifiers.push_back(MeanOfMaximum().className());
 
         }
 
@@ -67,109 +50,155 @@ namespace fl {
             QStringList andOperators;
 
             for (std::size_t i = 0; i < _andOperators.size(); ++i) {
-                andOperators.append(QString::fromStdString(_andOperators[i].first));
+                andOperators.append(QString::fromStdString(_andOperators[i]));
             }
             ui->cbx_tnorm->addItems(andOperators);
             ui->cbx_activation->addItems(andOperators);
 
             QStringList orOperators;
             for (std::size_t i = 0; i < _orOperators.size(); ++i) {
-                orOperators.append(QString::fromStdString(_orOperators[i].first));
+                orOperators.append(QString::fromStdString(_orOperators[i]));
             }
             ui->cbx_snorm->addItems(orOperators);
             ui->cbx_accumulation->addItems(orOperators);
 
             QStringList defuzzifiers;
             for (std::size_t i = 0; i < _defuzzifiers.size(); ++i) {
-                defuzzifiers.append(QString::fromStdString(_defuzzifiers[i].first));
+                defuzzifiers.append(QString::fromStdString(_defuzzifiers[i]));
             }
             ui->cbx_defuzzifier->addItems(defuzzifiers);
 
             ui->sbx_divisions->setValue(FL_DEFAULT_DIVISIONS);
 
             this->adjustSize();
-            if (parentWidget()) {
-                QRect scr = parentWidget()->geometry();
-                move(scr.center() - rect().center());
-            }
-            refresh();
+            QRect scr = Window::mainWindow()->geometry();
+            move(scr.center().x() - rect().center().x(), scr.top());
+
+            loadFromModel();
             connect();
         }
 
         void Configuration::connect() {
-            QObject::connect(ui->cbx_tnorm, SIGNAL(currentIndexChanged(int)), this,
-                    SLOT(onChangeTNorm(int)));
-            QObject::connect(ui->cbx_snorm, SIGNAL(currentIndexChanged(int)), this,
-                    SLOT(onChangeSNorm(int)));
+            QObject::connect(ui->cbx_tnorm, SIGNAL(currentIndexChanged(int)),
+                    this, SLOT(onChangeConfiguration(int)));
+            QObject::connect(ui->cbx_snorm, SIGNAL(currentIndexChanged(int)),
+                    this, SLOT(onChangeConfiguration(int)));
             QObject::connect(ui->cbx_activation, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onChangeActivation(int)));
+                    this, SLOT(onChangeConfiguration(int)));
             QObject::connect(ui->cbx_accumulation, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onChangeAccumulation(int)));
+                    this, SLOT(onChangeConfiguration(int)));
             QObject::connect(ui->cbx_defuzzifier, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onChangeDefuzzifier(int)));
-            QObject::connect(ui->sbx_divisions, SIGNAL(valueChanged(int)), this,
-                    SLOT(onChangeDivisions(int)));
+                    this, SLOT(onChangeConfiguration(int)));
+            QObject::connect(ui->sbx_divisions, SIGNAL(valueChanged(int)),
+                    this, SLOT(onChangeConfiguration(int)));
+
+            QObject::connect(ui->ckx_any, SIGNAL(stateChanged(int)),
+                    this, SLOT(onChangeHedgeSelection(int)));
+            QObject::connect(ui->ckx_extremely, SIGNAL(stateChanged(int)),
+                    this, SLOT(onChangeHedgeSelection(int)));
+            QObject::connect(ui->ckx_not, SIGNAL(stateChanged(int)),
+                    this, SLOT(onChangeHedgeSelection(int)));
+            QObject::connect(ui->ckx_seldom, SIGNAL(stateChanged(int)),
+                    this, SLOT(onChangeHedgeSelection(int)));
+            QObject::connect(ui->ckx_somewhat, SIGNAL(stateChanged(int)),
+                    this, SLOT(onChangeHedgeSelection(int)));
+            QObject::connect(ui->ckx_very, SIGNAL(stateChanged(int)),
+                    this, SLOT(onChangeHedgeSelection(int)));
+
+
         }
 
         void Configuration::disconnect() {
-            QObject::disconnect(ui->cbx_tnorm, SIGNAL(currentIndexChanged(int)), this,
-                    SLOT(onChangeTNorm(int)));
-            QObject::disconnect(ui->cbx_snorm, SIGNAL(currentIndexChanged(int)), this,
-                    SLOT(onChangeSNorm(int)));
+            QObject::disconnect(ui->cbx_tnorm, SIGNAL(currentIndexChanged(int)),
+                    this, SLOT(onChangeConfiguration(int)));
+            QObject::disconnect(ui->cbx_snorm, SIGNAL(currentIndexChanged(int)),
+                    this, SLOT(onChangeConfiguration(int)));
             QObject::disconnect(ui->cbx_activation, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onChangeActivation(int)));
+                    this, SLOT(onChangeConfiguration(int)));
             QObject::disconnect(ui->cbx_accumulation, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onChangeAccumulation(int)));
+                    this, SLOT(onChangeConfiguration(int)));
             QObject::disconnect(ui->cbx_defuzzifier, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onChangeDefuzzifier(int)));
-            QObject::disconnect(ui->sbx_divisions, SIGNAL(valueChanged(int)), this,
-                    SLOT(onChangeDivisions(int)));
+                    this, SLOT(onChangeConfiguration(int)));
+            QObject::disconnect(ui->sbx_divisions, SIGNAL(valueChanged(int)),
+                    this, SLOT(onChangeConfiguration(int)));
+
+            QObject::disconnect(ui->ckx_any, SIGNAL(stateChanged(int)),
+                    this, SLOT(onChangeHedgeSelection(int)));
+            QObject::disconnect(ui->ckx_extremely, SIGNAL(stateChanged(int)),
+                    this, SLOT(onChangeHedgeSelection(int)));
+            QObject::disconnect(ui->ckx_not, SIGNAL(stateChanged(int)),
+                    this, SLOT(onChangeHedgeSelection(int)));
+            QObject::disconnect(ui->ckx_seldom, SIGNAL(stateChanged(int)),
+                    this, SLOT(onChangeHedgeSelection(int)));
+            QObject::disconnect(ui->ckx_somewhat, SIGNAL(stateChanged(int)),
+                    this, SLOT(onChangeHedgeSelection(int)));
+            QObject::disconnect(ui->ckx_very, SIGNAL(stateChanged(int)),
+                    this, SLOT(onChangeHedgeSelection(int)));
         }
 
-        void Configuration::refresh() {
-            fl::Configuration* configuration = Model::Default()->configuration();
-            std::string tnorm = configuration->getTnorm()->className();
-            for (std::size_t i = 0; i < _andOperators.size(); ++i) {
-                if (_andOperators[i].first == tnorm) {
-                    ui->cbx_tnorm->setCurrentIndex(i);
-                }
+        void Configuration::applyDefaults() {
+            fl::Engine* engine = Model::Default()->engine();
+            for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
+                RuleBlock rb = engine->getRuleBlock(i);
+                if (not rb->getTnorm()) rb->setTnorm(new Minimum);
+                if (not rb->getSnorm()) rb->setSnorm(new Maximum);
+                if (not rb->getActivation()) rb->setActivation(new Minimum);
             }
 
-            std::string activation = configuration->getActivation()->className();
-            for (std::size_t i = 0; i < _andOperators.size(); ++i) {
-                if (_andOperators[i].first == activation) {
-                    ui->cbx_activation->setCurrentIndex(i);
-                }
+            for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+                OutputVariable* variable = engine->getOutputVariable(i);
+                if (not variable->getDefuzzifier()) variable->setDefuzzifier(new Centroid);
+                if (not variable->output()->getAccumulation())
+                    variable->output()->setAccumulation(new Maximum);
+            }
+        }
+
+        void Configuration::loadFromModel() {
+            fl::Engine* engine = Model::Default()->engine();
+            if (engine->numberOfRuleBlocks() != 0) {
+                QMessageBox::critical(this, "Error",
+                        "<qt>"
+                        "<b>qtfuzzylite</b> only supports engines with a single RuleBlock, "
+                        "but found <" + fl::Op::str((scalar) engine->numberOfRuleBlocks(), 0) + ">"
+                        "</qt>",
+                        QMessageBox::Ok);
+                return;
             }
 
-            std::string snorm = configuration->getSnorm()->className();
-            for (std::size_t i = 0; i < _orOperators.size(); ++i) {
-                if (_orOperators[i].first == snorm) {
-                    ui->cbx_snorm->setCurrentIndex(i);
+            RuleBlock* rb = engine->getRuleBlock(0);
+
+            ui->cbx_tnorm->setCurrentIndex(indexOfTnorm(rb->getTnorm()->className()));
+            ui->cbx_snorm->setCurrentIndex(indexOfSnorm(rb->getSnorm()->className()));
+            ui->cbx_activation->setCurrentIndex(indexOfTnorm(rb->getActivation()->className()));
+
+            std::string accumulation, error;
+            Defuzzifier* defuzzifier = NULL;
+            for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+                OutputVariable* variable = engine->getOutputVariable(i);
+                if (not defuzzifier) defuzzifier = variable->getDefuzzifier();
+                else if (defuzzifier->className() != variable->getDefuzzifier()->className()) {
+                    error = "defuzzifiers";
+                    break;
+                }
+
+                if (accumulation.empty()) accumulation = variable->output()->getAccumulation()->className();
+                else if (accumulation != variable->output()->getAccumulation()->className()) {
+                    error = "accumulation S-Norms";
+                    break;
                 }
             }
-
-            std::string accumulation = configuration->getAccumulation()->className();
-            for (std::size_t i = 0; i < _orOperators.size(); ++i) {
-                if (_orOperators[i].first == accumulation) {
-                    ui->cbx_accumulation->setCurrentIndex(i);
-                }
+            if (not error.empty()) {
+                QMessageBox::critical(this, "Error",
+                        "<qt><b>qtfuzzylite</b> does not support engines whose "
+                        "output variables have different " + error + "</qt>",
+                        QMessageBox::Ok);
+                return;
             }
-
-            std::string defuzzifier = configuration->getDefuzzifier()->className();
-            for (std::size_t i = 0; i < _defuzzifiers.size(); ++i) {
-                if (_defuzzifiers[i].first == defuzzifier) {
-                    ui->cbx_defuzzifier->setCurrentIndex(i);
-                }
-            }
-            ui->sbx_divisions->setValue(configuration->getDefuzzifier()->getDivisions());
-
-            std::ostringstream ossConfig;
-            ossConfig << configuration->toString()
-                    << " with divisions="
-                    << configuration->getDefuzzifier()->getDivisions();
-            ui->ted_configuration->document()->setPlainText(
-                    QString::fromStdString(ossConfig.str()));
+            
+            ui->cbx_accumulation->setCurrentIndex(indexOfSnorm(accumulation));
+            
+            ui->cbx_defuzzifier->setCurrentIndex(indexOfDefuzzifier(defuzzifier->className()));
+            ui->sbx_divisions->setValue(defuzzifier->getDivisions());
         }
 
         void Configuration::onChangeTNorm(int index) {
@@ -220,5 +249,5 @@ namespace fl {
 
         }
 
-    } 
-} 
+    }
+}

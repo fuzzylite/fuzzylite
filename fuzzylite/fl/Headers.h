@@ -10,14 +10,14 @@
 
 #include "fl/definitions.h"
 #include "fl/scalar.h"
+#include "fl/Engine.h"
 #include "fl/Exception.h"
 
-#include "fl/defuzzifier/CenterOfGravity.h"
+#include "fl/defuzzifier/Centroid.h"
 #include "fl/defuzzifier/Defuzzifier.h"
 #include "fl/defuzzifier/MaximumDefuzzifier.h"
 
-#include "fl/engine/Configuration.h"
-#include "fl/engine/Engine.h"
+
 
 #include "fl/imex/CppExporter.h"
 #include "fl/imex/FclImporter.h"

@@ -28,9 +28,11 @@ namespace fl {
     class Operator {
     public:
 
-        Operator() { }
+        Operator() {
+        }
 
-        virtual ~Operator() { }
+        virtual ~Operator() {
+        }
 
         virtual std::string className() const = 0;
         virtual scalar compute(scalar a, scalar b) const = 0;
@@ -61,8 +63,6 @@ namespace fl {
         static bool isLt(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
             return not isEq(a, b, tolerance) and a < b;
         }
-
-        //Is less than
 
         static bool isLE(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
             return isEq(a, b, tolerance) or a < b;

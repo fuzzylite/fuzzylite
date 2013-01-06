@@ -5,9 +5,7 @@
  *      Author: jcrada
  */
 
-#include "fl/engine/Engine.h"
-
-#include "fl/engine/Configuration.h"
+#include "fl/Engine.h"
 
 #include "fl/variable/InputVariable.h"
 #include "fl/variable/OutputVariable.h"
@@ -24,7 +22,7 @@
 #include "fl/operator/TNorm.h"
 #include "fl/operator/SNorm.h"
 
-#include "fl/defuzzifier/CenterOfGravity.h"
+#include "fl/defuzzifier/Centroid.h"
 #include "fl/defuzzifier/MaximumDefuzzifier.h"
 
 
@@ -32,8 +30,7 @@
 
 namespace fl {
 
-    Engine::Engine(const std::string& name)
-    : _name(name), _configuration(NULL) { }
+    Engine::Engine(const std::string& name) : _name(name) { }
 
     Engine::~Engine() {
         for (int i = numberOfRuleBlocks() - 1; i >= 0; --i) {
@@ -74,7 +71,7 @@ namespace fl {
     }
 
     Defuzzifier* Engine::createDefuzzifier(const std::string& classname) const {
-        if (classname == CenterOfGravity().className()) return new CenterOfGravity;
+        if (classname == Centroid().className()) return new Centroid;
         if (classname == SmallestOfMaximum().className()) return new SmallestOfMaximum;
         if (classname == LargestOfMaximum().className()) return new LargestOfMaximum;
         if (classname == MeanOfMaximum().className()) return new MeanOfMaximum;
@@ -89,30 +86,13 @@ namespace fl {
             _ruleblocks[i]->setSnorm(createSnorm(snorm));
             _ruleblocks[i]->setActivation(createTnorm(activationTnorm));
         }
+
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             _outputVariables[i]->setDefuzzifier(createDefuzzifier(defuzzifier));
             _outputVariables[i]->getDefuzzifier()->setDivisions(divisions);
             _outputVariables[i]->output()->setAccumulation(
                     createSnorm(accumulationSnorm));
         }
-    }
-
-    void Engine::configure(Configuration* config) {
-        this->_configuration = config;
-
-        for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
-            _inputVariables[i]->configure(config);
-        }
-        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            _outputVariables[i]->configure(config);
-        }
-        for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            _ruleblocks[i]->configure(config);
-        }
-    }
-
-    Configuration* Engine::getConfiguration() const {
-        return this->_configuration;
     }
 
     void Engine::process() {
@@ -296,6 +276,10 @@ namespace fl {
         this->_hedges.push_back(hedge);
     }
 
+    void Engine::insertHedge(Hedge* hedge, int index) {
+        this->_hedges.insert(this->_hedges.begin() + index, hedge);
+    }
+
     Hedge* Engine::getHedge(int index) const {
         return this->_hedges[index];
     }
@@ -307,6 +291,10 @@ namespace fl {
             }
         }
         return NULL;
+    }
+
+    bool Engine::hasHedge(const std::string& name) const {
+        return getHedge(name) != NULL;
     }
 
     Hedge* Engine::removeHedge(int index) {

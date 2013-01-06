@@ -19,17 +19,14 @@ namespace fl {
         protected:
             static Model* singleton;
             fl::Engine* _engine;
-            fl::Configuration* _configuration;
 
         public:
             Model();
             virtual ~Model();
 
-            virtual void changeEngine(Engine* engine);
             virtual fl::Engine* engine() const;
-            virtual fl::Configuration* configuration() const;
-
-            virtual void update();
+            virtual void change(Engine* engine);
+            virtual void reset();
 
         };
     }

@@ -33,9 +33,8 @@ namespace fl {
             InputVariable* input = engine->getInputVariable(i);
             cpp << "fl::InputVariable* inputVariable" << (i + 1) << " = new fl::InputVariable;\n";
             cpp << "inputVariable" << (i + 1) << "->setName(\"" << input->getName() << "\");\n";
-            cpp << "inputVariable" << (i + 1) << "->setMinimum(" <<
-                    fl::Op::str(input->getMinimum()) << ");\n";
-            cpp << "inputVariable" << (i + 1) << "->setMaximum(" <<
+            cpp << "inputVariable" << (i + 1) << "->setRange(" <<
+                    fl::Op::str(input->getMinimum()) << ", " <<
                     fl::Op::str(input->getMaximum()) << ");\n";
             cpp << "\n";
             for (int t = 0; t < input->numberOfTerms(); ++t) {
@@ -50,9 +49,8 @@ namespace fl {
             OutputVariable* output = engine->getOutputVariable(i);
             cpp << "fl::OutputVariable* outputVariable" << (i + 1) << " = new fl::OutputVariable;\n";
             cpp << "outputVariable" << (i + 1) << "->setName(\"" << output->getName() << "\");\n";
-            cpp << "outputVariable" << (i + 1) << "->setMinimum(" <<
-                    fl::Op::str(output->getMinimum()) << ");\n";
-            cpp << "outputVariable" << (i + 1) << "->setMaximum(" <<
+            cpp << "outputVariable" << (i + 1) << "->setRange(" <<
+                    fl::Op::str(output->getMinimum()) << ", " <<
                     fl::Op::str(output->getMaximum()) << ");\n";
 
             cpp << "outputVariable" << (i + 1) << "->setDefaultValue(";
@@ -233,7 +231,7 @@ namespace fl {
     std::string CppExporter::toCpp(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier) return "NULL";
         return "new fl::" + defuzzifier->className() + "("
-                + fl::Op::str((scalar)defuzzifier->getDivisions(), 0) + ")";
+                + fl::Op::str((scalar) defuzzifier->getDivisions(), 0) + ")";
     }
 
 }

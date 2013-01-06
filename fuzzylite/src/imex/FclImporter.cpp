@@ -508,7 +508,7 @@ namespace fl {
         }
 
         std::string name = Op::trim(Op::findReplace(token[1], ";", ""));
-        if (name == "COG") return new CenterOfGravity;
+        if (name == "COG") return new Centroid;
         if (name == "SOM") return new SmallestOfMaximum;
         if (name == "LOM") return new LargestOfMaximum;
         if (name == "MOM") return new MeanOfMaximum;

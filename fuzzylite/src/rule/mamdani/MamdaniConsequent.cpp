@@ -11,7 +11,7 @@
 
 #include "fl/rule/mamdani/MamdaniExpression.h"
 
-#include "fl/engine/Engine.h"
+#include "fl/Engine.h"
 
 #include "fl/term/Thresholded.h"
 #include "fl/term/Accumulated.h"

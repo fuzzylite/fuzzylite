@@ -10,8 +10,6 @@
 #include "fl/term/Accumulated.h"
 #include "fl/defuzzifier/Defuzzifier.h"
 
-#include "fl/engine/Configuration.h"
-
 #include <sstream>
 
 namespace fl {
@@ -29,11 +27,6 @@ namespace fl {
         delete _output;
     }
 
-    void OutputVariable::configure(Configuration* config) {
-        this->_defuzzifier = config->getDefuzzifier();
-        this->_output->setAccumulation(config->getAccumulation());
-    }
-
     Accumulated* OutputVariable::output() const {
         return this->_output;
     }
@@ -49,6 +42,7 @@ namespace fl {
     }
 
     void OutputVariable::setDefuzzifier(Defuzzifier* defuzzifier) {
+        if (this->_defuzzifier) delete this->_defuzzifier;
         this->_defuzzifier = defuzzifier;
     }
 

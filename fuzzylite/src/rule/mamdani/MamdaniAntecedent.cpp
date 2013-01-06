@@ -9,7 +9,7 @@
 
 #include "fl/rule/mamdani/MamdaniExpression.h"
 
-#include "fl/engine/Engine.h"
+#include "fl/Engine.h"
 #include "fl/variable/InputVariable.h"
 #include "fl/hedge/Hedge.h"
 #include "fl/hedge/Any.h"
@@ -45,6 +45,11 @@ namespace fl {
         if (not node->isOperator) { //is Proposition
             const MamdaniProposition* proposition =
                     dynamic_cast<const MamdaniProposition*> (node);
+            bool isAny = false;
+            for (std::size_t i = 0; i < proposition->hedges.size(); ++i) {
+                isAny |= proposition->hedges[i]->name() == Any().name();
+                if (isAny) return 1.0;
+            }
             InputVariable* inputVariable = dynamic_cast<InputVariable*>(proposition->variable);
             scalar result = proposition->term->membership(inputVariable->getInput());
             for (std::size_t i = 0; i < proposition->hedges.size(); ++i) {

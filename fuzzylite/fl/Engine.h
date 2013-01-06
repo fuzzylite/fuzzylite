@@ -21,7 +21,6 @@ namespace fl {
     class OutputVariable;
     class RuleBlock;
     class Hedge;
-    class Configuration;
     class TNorm;
     class SNorm;
     class Defuzzifier;
@@ -33,7 +32,6 @@ namespace fl {
         std::vector<OutputVariable*> _outputVariables;
         std::vector<RuleBlock*> _ruleblocks;
         std::vector<Hedge*> _hedges;
-        Configuration* _configuration;
 
         virtual TNorm* createTnorm(const std::string& tnorm) const;
         virtual SNorm* createSnorm(const std::string& snorm) const;
@@ -44,11 +42,12 @@ namespace fl {
         Engine(const std::string& name = "");
         virtual ~Engine();
 
-        virtual void configure(const std::string& tnorm, const std::string& snorm,
-                const std::string& activationTnorm, const std::string& accumulationSnorm,
-                const std::string& defuzzifier, int divisions = FL_DEFAULT_DIVISIONS);
-        virtual void configure(Configuration* config);
-        virtual Configuration* getConfiguration() const;
+        virtual void configure(const std::string& tnorm = "Minimum",
+                const std::string& snorm = "Maximum",
+                const std::string& activationTnorm = "Minimum",
+                const std::string& accumulationSnorm = "Maximum",
+                const std::string& defuzzifier = "CenterOfGravity",
+                int divisions = FL_DEFAULT_DIVISIONS);
 
         virtual void process();
 
@@ -95,8 +94,10 @@ namespace fl {
          * Operations for std::vector _hedges
          */
         virtual void addHedge(Hedge* hedge);
+        virtual void insertHedge(Hedge* hedge, int index);
         virtual Hedge* getHedge(int index) const;
         virtual Hedge* getHedge(const std::string& name) const;
+        virtual bool hasHedge(const std::string& name) const;
         virtual Hedge* removeHedge(int index);
         virtual int numberOfHedges() const;
         virtual const std::vector<Hedge*>& hedges() const;

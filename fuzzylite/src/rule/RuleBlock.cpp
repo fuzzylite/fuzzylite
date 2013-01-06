@@ -9,7 +9,6 @@
 
 #include "fl/rule/Rule.h"
 
-#include "fl/engine/Configuration.h"
 #include "fl/operator/TNorm.h"
 #include "fl/operator/SNorm.h"
 
@@ -24,12 +23,6 @@ namespace fl {
         for (std::size_t i = 0; i < _rules.size(); ++i) {
             delete _rules[i];
         }
-    }
-
-    void RuleBlock::configure(Configuration* config) {
-        this->_tnorm = config->getTnorm();
-        this->_snorm = config->getSnorm();
-        this->_activation = config->getActivation();
     }
 
     void RuleBlock::fireRules() {
@@ -53,6 +46,7 @@ namespace fl {
     }
 
     void RuleBlock::setTnorm(const TNorm* tnorm) {
+        if (this->_tnorm) delete this->_tnorm;
         this->_tnorm = tnorm;
     }
 
@@ -61,6 +55,7 @@ namespace fl {
     }
 
     void RuleBlock::setSnorm(const SNorm* snorm) {
+        if (this->_snorm) delete this->_snorm;
         this->_snorm = snorm;
     }
 
@@ -69,6 +64,7 @@ namespace fl {
     }
 
     void RuleBlock::setActivation(const TNorm* activation) {
+        if (this->_activation) delete this->_activation;
         this->_activation = activation;
     }
 
@@ -115,4 +111,4 @@ namespace fl {
         return this->_rules;
     }
 
-} 
+}
