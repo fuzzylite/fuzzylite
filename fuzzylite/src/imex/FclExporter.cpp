@@ -136,6 +136,7 @@ namespace fl {
         std::string name = snorm->className();
         if (name == Maximum().className()) return "MAX";
         if (name == AlgebraicSum().className()) return "ASUM";
+        if (name == NormalizedSum().className()) return "NSUM";
         if (name == BoundedSum().className()) return "BSUM";
         if (name == DrasticSum().className()) return "DSUM";
         if (name == EinsteinSum().className()) return "ESUM";

@@ -28,15 +28,13 @@
 namespace fl {
 
     MamdaniAntecedent::MamdaniAntecedent()
-    : _root(NULL) {
-    }
+    : _root(NULL) { }
 
     MamdaniAntecedent::~MamdaniAntecedent() {
-        if (_root)
-            delete _root;
+        if (_root) delete _root;
     }
-    
-    MamdaniExpression* MamdaniAntecedent::getRoot() const{
+
+    MamdaniExpression* MamdaniAntecedent::getRoot() const {
         return this->_root;
     }
 
@@ -50,7 +48,7 @@ namespace fl {
                 isAny |= proposition->hedges[i]->name() == Any().name();
                 if (isAny) return 1.0;
             }
-            InputVariable* inputVariable = dynamic_cast<InputVariable*>(proposition->variable);
+            InputVariable* inputVariable = dynamic_cast<InputVariable*> (proposition->variable);
             scalar result = proposition->term->membership(inputVariable->getInput());
             for (std::size_t i = 0; i < proposition->hedges.size(); ++i) {
                 result = proposition->hedges[i]->hedge(result);
@@ -110,7 +108,7 @@ namespace fl {
                     proposition = new MamdaniProposition;
                     proposition->variable = engine->getInputVariable(token);
                     expressionStack.push(proposition);
-                    
+
                     state = S_IS;
                     continue;
                 }

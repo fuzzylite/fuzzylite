@@ -38,7 +38,7 @@ namespace fl {
         }
 
         void Model::reset() {
-            fl::Engine e = new fl::Engine("qtfuzzylite");
+            fl::Engine* e = new fl::Engine("qtfuzzylite");
             e->addRuleBlock(new fl::RuleBlock);
             change(e);
         }

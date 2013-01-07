@@ -9,6 +9,8 @@
 
 #include "fl/qt/Model.h"
 
+#include "fl/qt/Window.h"
+#include "fl/qt/Configuration.h"
 
 #include <QtGui/QGraphicsPolygonItem>
 //#include <QtSvg/QSvgGenerator>
@@ -29,7 +31,7 @@ namespace fl {
             ui->setupUi(this);
             ui->sbx_x->setSingleStep((model->getMaximum() - model->getMinimum()) / 100);
             ui->lbl_name->setText(QString::fromStdString(model->getName()));
-            if (constVariable->getName().empty()) 
+            if (constVariable->getName().empty())
                 ui->lbl_name->setVisible(false);
             ui->led_x->setVisible(false);
             setMinimumSize(200, 170);
@@ -40,7 +42,7 @@ namespace fl {
             ui->canvas->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->sbx_x->setFocus();
             ui->lbl_fuzzy_out->setVisible(false);
-            
+
             connect();
         }
 
@@ -178,8 +180,8 @@ namespace fl {
             scalar maximum = constVariable->getMaximum();
 
             std::vector<scalar> xSamples, ySamples;
-            Defuzzifier* defuzzifier = Model::Default()->configuration()->getDefuzzifier();
-            int divisions = defuzzifier->getDivisions();
+            int divisions = Window::mainWindow()->
+                    configuration->ui->sbx_divisions->value();
             scalar dx = (maximum - minimum) / divisions;
             scalar area = 0;
             scalar xcentroid = 0, ycentroid = 0;

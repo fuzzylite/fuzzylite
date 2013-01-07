@@ -73,7 +73,6 @@ namespace fl {
 
         protected:
             std::vector<QWidget*> _inputs, _outputs;
-            Configuration* _configurationWindow;
             QString _lastOpenedFilePath;
             void connect();
             void disconnect();
@@ -81,7 +80,7 @@ namespace fl {
             void reloadModel();
             void removeRules();
 
-            void fixDependencies();
+            
 
             void reloadTest();
             void resetTest();
@@ -94,8 +93,11 @@ namespace fl {
             static Window* instance;
         public:
             Ui::Window* ui;
+            Configuration* configuration;
             
             static Window* mainWindow();
+            
+            void fixDependencies();
             
             void setup();
 

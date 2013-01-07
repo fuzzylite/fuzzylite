@@ -40,8 +40,8 @@ namespace fl {
             virtual int indexOfSnorm(const std::string& snorm);
             virtual int indexOfDefuzzifier(const std::string& defuzzifier);
             
-            virtual void loadFromModel();
-
+            virtual void showEvent(QShowEvent*);
+            
         public:
             Ui::Configuration* ui;
 
@@ -51,6 +51,7 @@ namespace fl {
             virtual void setup();
 
             virtual void applyDefaults();
+            virtual void loadFromModel();
 
             static void main();
         };

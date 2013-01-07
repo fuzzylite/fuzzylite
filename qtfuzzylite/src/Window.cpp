@@ -37,20 +37,20 @@ namespace fl {
         }
 
         Window::Window(QWidget* parent, Qt::WindowFlags flags) :
-        QMainWindow(parent, flags), _configurationWindow(NULL),
-        _lastOpenedFilePath("."), ui(new Ui::Window) { }
+        QMainWindow(parent, flags), _lastOpenedFilePath("."),
+        ui(new Ui::Window), configuration(NULL) { }
 
         Window::~Window() {
             disconnect();
-            if (_configurationWindow) delete _configurationWindow;
+            if (configuration) delete configuration;
             delete ui;
         }
 
         void Window::setup() {
             ui->setupUi(this);
             setGeometry(0, 0, 800, 600);
-            _configurationWindow = new fl::qt::Configuration(this);
-            _configurationWindow->setup();
+            configuration = new fl::qt::Configuration(this);
+            configuration->setup();
             ui->tab_container->setCurrentIndex(0);
 
             QList<int> sizes;
@@ -63,7 +63,7 @@ namespace fl {
             QRect scr = QApplication::desktop()->screenGeometry();
             move(scr.center() - rect().center());
 
-            connect(); 
+            connect();
         }
 
         void Window::connect() {
@@ -123,10 +123,64 @@ namespace fl {
         }
 
         void Window::disconnect() {
-            FL_LOG("TODO: disconnect");
+            QObject::disconnect(ui->actionConfigure, SIGNAL(triggered()),
+                    this, SLOT(onMenuConfigure()));
+            QObject::disconnect(ui->actionTerms, SIGNAL(triggered()),
+                    this, SLOT(onMenuTerms()));
+            QObject::disconnect(ui->actionReset, SIGNAL(triggered()),
+                    this, SLOT(onMenuReset()));
+            QObject::disconnect(ui->actionAbout, SIGNAL(triggered()),
+                    this, SLOT(onMenuAbout()));
+            QObject::disconnect(ui->actionQuit, SIGNAL(triggered()),
+                    this, SLOT(onMenuQuit()));
+
+            QObject::disconnect(ui->actionImport, SIGNAL(triggered()),
+                    this, SLOT(onMenuImport()));
+            QObject::disconnect(ui->actionExport, SIGNAL(triggered()),
+                    this, SLOT(onMenuExport()));
+
+            QObject::disconnect(ui->lvw_inputs, SIGNAL(itemSelectionChanged()),
+                    this, SLOT(onChangeInputSelection()));
+            QObject::disconnect(ui->lvw_outputs, SIGNAL(itemSelectionChanged()),
+                    this, SLOT(onChangeOutputSelection()));
+
+            QObject::disconnect(ui->lvw_inputs, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+                    this, SLOT(onDoubleClickInputItem(QListWidgetItem*)));
+            QObject::disconnect(ui->lvw_outputs, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+                    this, SLOT(onDoubleClickOutputItem(QListWidgetItem*)));
+
+            QObject::disconnect(ui->btn_add_input, SIGNAL(clicked()),
+                    this, SLOT(onClickAddInputVariable()));
+            QObject::disconnect(ui->btn_remove_input, SIGNAL(clicked()),
+                    this, SLOT(onClickRemoveInputVariable()));
+            QObject::disconnect(ui->btn_edit_input, SIGNAL(clicked()),
+                    this, SLOT(onClickEditInputVariable()));
+
+            QObject::disconnect(ui->btn_add_output, SIGNAL(clicked()),
+                    this, SLOT(onClickAddOutputVariable()));
+            QObject::disconnect(ui->btn_remove_output, SIGNAL(clicked()),
+                    this, SLOT(onClickRemoveOutputVariable()));
+            QObject::disconnect(ui->btn_edit_output, SIGNAL(clicked()),
+                    this, SLOT(onClickEditOutputVariable()));
+
+            QObject::disconnect(ui->btn_generate_rules, SIGNAL(clicked()),
+                    this, SLOT(onClickGenerateAllRules()));
+            QObject::disconnect(ui->btn_parse_rules, SIGNAL(clicked()),
+                    this, SLOT(onClickParseAllRules()));
+
+            QObject::disconnect(ui->tab_container, SIGNAL(currentChanged(int)),
+                    this, SLOT(onTabChange(int)));
+
+            QObject::disconnect(ui->lsw_test_rules->verticalScrollBar(), SIGNAL(valueChanged(int)),
+                    ui->lsw_test_rules_activation->verticalScrollBar(), SLOT(setValue(int)));
+            QObject::disconnect(ui->lsw_test_rules_activation->verticalScrollBar(), SIGNAL(valueChanged(int)),
+                    ui->lsw_test_rules->verticalScrollBar(), SLOT(setValue(int)));
         }
 
         void Window::reloadModel() {
+            configuration->applyDefaults();
+            configuration->loadFromModel();
+
             Engine* engine = Model::Default()->engine();
             ui->lvw_inputs->clear();
             ui->lvw_outputs->clear();
@@ -147,7 +201,6 @@ namespace fl {
                 ui->ptx_rules->appendPlainText(
                         QString::fromStdString(ruleblock->getRule(i)->toString()));
             }
-            Model::Default()->update();
             reloadTest();
         }
 
@@ -198,7 +251,7 @@ namespace fl {
                 QObject::connect(control, SIGNAL(valueChanged(double)),
                         this, SLOT(onInputValueChanged()));
             }
-//            layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
+            //            layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
 
             //Rules
             for (int i = 0; i < engine->getRuleBlock(0)->numberOfRules(); ++i) {
@@ -225,7 +278,7 @@ namespace fl {
                 QObject::connect(this, SIGNAL(processOutput()),
                         control, SLOT(updateOutput()), Qt::QueuedConnection);
             }
-//            layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
+            //            layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
         }
 
         void Window::removeRules() {
@@ -236,7 +289,7 @@ namespace fl {
             }
             reloadModel();
         }
- 
+
         void Window::fixDependencies() {
             QString rules = ui->ptx_rules->toPlainText();
             removeRules();
@@ -567,8 +620,8 @@ namespace fl {
         }
 
         void Window::onMenuConfigure() {
-            _configurationWindow->setFocus();
-            _configurationWindow->show();
+            configuration->setFocus();
+            configuration->show();
         }
 
         void Window::onMenuTerms() {
@@ -626,7 +679,7 @@ namespace fl {
                         delete engine;
                         return;
                     }
-                    Model::Default()->changeEngine(engine);
+                    Model::Default()->change(engine);
                     reloadModel();
                     onClickParseAllRules();
                 } catch (fl::Exception& ex) {
@@ -657,7 +710,7 @@ namespace fl {
                         delete engine;
                         return;
                     }
-                    Model::Default()->changeEngine(engine);
+                    Model::Default()->change(engine);
                     reloadModel();
                     onClickParseAllRules();
                 } catch (fl::Exception& ex) {
@@ -720,7 +773,7 @@ namespace fl {
                     delete importer;
                     return;
                 }
-                Model::Default()->changeEngine(engine);
+                Model::Default()->change(engine);
                 reloadModel();
                 onClickParseAllRules();
             } catch (fl::Exception& ex) {
@@ -774,7 +827,7 @@ namespace fl {
 
         void Window::onMenuExportToFIS() {
             FisExporter exporter;
-            std::string fis; 
+            std::string fis;
             try {
                 fis = exporter.toString(Model::Default()->engine());
             } catch (fl::Exception& ex) {
@@ -835,20 +888,8 @@ namespace fl {
 
             if (clicked == QMessageBox::No) return;
 
-            Engine* engine = Model::Default()->engine();
+            Model::Default()->reset();
 
-            for (int i = engine->getRuleBlock(0)->numberOfRules() - 1; i >= 0;
-                    --i) {
-                delete engine->getRuleBlock(0)->removeRule(i);
-            }
-
-            for (int i = engine->numberOfInputVariables() - 1; i >= 0; --i) {
-                delete engine->removeInputVariable(i);
-            }
-
-            for (int i = engine->numberOfOutputVariables() - 1; i >= 0; --i) {
-                delete engine->removeOutputVariable(i);
-            }
             reloadModel();
         }
 

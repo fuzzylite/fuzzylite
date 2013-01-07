@@ -64,6 +64,7 @@ namespace fl {
         if (classname == Maximum().className()) return new Maximum;
         if (classname == AlgebraicSum().className()) return new AlgebraicSum;
         if (classname == BoundedSum().className()) return new BoundedSum;
+        if (classname == NormalizedSum().className()) return new NormalizedSum;
         if (classname == DrasticSum().className()) return new DrasticSum;
         if (classname == EinsteinSum().className()) return new EinsteinSum;
         if (classname == HamacherSum().className()) return new HamacherSum;

@@ -7,8 +7,11 @@
 
 #include "fl/qt/Configuration.h"
 
+#include "fl/qt/Window.h"
+
 #include "fl/qt/Model.h"
 
+#include <QtGui/QMessageBox>
 #include <sstream>
 
 namespace fl {
@@ -70,11 +73,6 @@ namespace fl {
 
             ui->sbx_divisions->setValue(FL_DEFAULT_DIVISIONS);
 
-            this->adjustSize();
-            QRect scr = Window::mainWindow()->geometry();
-            move(scr.center().x() - rect().center().x(), scr.top());
-
-            loadFromModel();
             connect();
         }
 
@@ -136,110 +134,140 @@ namespace fl {
                     this, SLOT(onChangeHedgeSelection(int)));
         }
 
+        void Configuration::showEvent(QShowEvent*) {
+            this->adjustSize();
+            QRect scr = Window::mainWindow()->geometry();
+            move(scr.center().x() - rect().center().x(), scr.top());
+            
+            applyDefaults();
+            loadFromModel();
+        }
+
         void Configuration::applyDefaults() {
             fl::Engine* engine = Model::Default()->engine();
-            for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
-                RuleBlock rb = engine->getRuleBlock(i);
-                if (not rb->getTnorm()) rb->setTnorm(new Minimum);
-                if (not rb->getSnorm()) rb->setSnorm(new Maximum);
-                if (not rb->getActivation()) rb->setActivation(new Minimum);
-            }
 
-            for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-                OutputVariable* variable = engine->getOutputVariable(i);
-                if (not variable->getDefuzzifier()) variable->setDefuzzifier(new Centroid);
-                if (not variable->output()->getAccumulation())
-                    variable->output()->setAccumulation(new Maximum);
+            if (engine->numberOfRuleBlocks() == 0) {
+                QMessageBox::critical(this, "Error",
+                        "Current engine has no rule blocks. "
+                        "At least one ruleblock was expected.",
+                        QMessageBox::Ok);
+                return;
             }
+            std::string tnorm = Minimum().className();
+            std::string snorm = Maximum().className();
+            std::string activation = Minimum().className();
+
+            RuleBlock* ruleblock = engine->getRuleBlock(0);
+            if (ruleblock->getTnorm()) tnorm = ruleblock->getTnorm()->className();
+            if (ruleblock->getSnorm()) snorm = ruleblock->getSnorm()->className();
+            if (ruleblock->getActivation()) activation = ruleblock->getActivation()->className();
+
+            std::string defuzzifier = Centroid().className();
+            int divisions = FL_DEFAULT_DIVISIONS;
+            std::string accumulation = Maximum().className();
+
+            if (engine->numberOfOutputVariables() > 0) {
+                OutputVariable* variable = engine->getOutputVariable(0);
+                if (variable->getDefuzzifier()) {
+                    defuzzifier = variable->getDefuzzifier()->className();
+                    divisions = variable->getDefuzzifier()->getDivisions();
+                }
+                if (variable->output()->getAccumulation())
+                    accumulation = variable->output()->getAccumulation()->className();
+            }
+            engine->configure(tnorm, snorm, activation, accumulation, defuzzifier, divisions);
         }
 
         void Configuration::loadFromModel() {
             fl::Engine* engine = Model::Default()->engine();
-            if (engine->numberOfRuleBlocks() != 0) {
+            if (engine->numberOfRuleBlocks() == 0) {
                 QMessageBox::critical(this, "Error",
-                        "<qt>"
-                        "<b>qtfuzzylite</b> only supports engines with a single RuleBlock, "
-                        "but found <" + fl::Op::str((scalar) engine->numberOfRuleBlocks(), 0) + ">"
-                        "</qt>",
+                        "Current engine has no rule blocks. "
+                        "At least one ruleblock was expected.",
                         QMessageBox::Ok);
                 return;
             }
+            RuleBlock* ruleblock = engine->getRuleBlock(0);
+            ui->cbx_tnorm->setCurrentIndex(indexOfTnorm(ruleblock->getTnorm()->className()));
+            ui->cbx_snorm->setCurrentIndex(indexOfSnorm(ruleblock->getSnorm()->className()));
+            ui->cbx_activation->setCurrentIndex(indexOfTnorm(ruleblock->getActivation()->className()));
+            if (engine->numberOfOutputVariables() > 0) {
+                OutputVariable* variable = engine->getOutputVariable(0);
+                ui->cbx_defuzzifier->setCurrentIndex(
+                        indexOfDefuzzifier(variable->getDefuzzifier()->className()));
+                ui->sbx_divisions->setValue(variable->getDefuzzifier()->getDivisions());
 
-            RuleBlock* rb = engine->getRuleBlock(0);
-
-            ui->cbx_tnorm->setCurrentIndex(indexOfTnorm(rb->getTnorm()->className()));
-            ui->cbx_snorm->setCurrentIndex(indexOfSnorm(rb->getSnorm()->className()));
-            ui->cbx_activation->setCurrentIndex(indexOfTnorm(rb->getActivation()->className()));
-
-            std::string accumulation, error;
-            Defuzzifier* defuzzifier = NULL;
-            for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-                OutputVariable* variable = engine->getOutputVariable(i);
-                if (not defuzzifier) defuzzifier = variable->getDefuzzifier();
-                else if (defuzzifier->className() != variable->getDefuzzifier()->className()) {
-                    error = "defuzzifiers";
-                    break;
-                }
-
-                if (accumulation.empty()) accumulation = variable->output()->getAccumulation()->className();
-                else if (accumulation != variable->output()->getAccumulation()->className()) {
-                    error = "accumulation S-Norms";
-                    break;
-                }
+                ui->cbx_accumulation->setCurrentIndex(
+                        indexOfSnorm(variable->output()->getAccumulation()->className()));
             }
-            if (not error.empty()) {
-                QMessageBox::critical(this, "Error",
-                        "<qt><b>qtfuzzylite</b> does not support engines whose "
-                        "output variables have different " + error + "</qt>",
-                        QMessageBox::Ok);
-                return;
+            for (int i = 0; i < engine->numberOfHedges(); ++i) {
+                ui->ckx_any->setChecked(engine->getHedge(i)->name() == Any().name());
+                ui->ckx_extremely->setChecked(engine->getHedge(i)->name() == Extremely().name());
+                ui->ckx_not->setChecked(engine->getHedge(i)->name() == Not().name());
+                ui->ckx_seldom->setChecked(engine->getHedge(i)->name() == Seldom().name());
+                ui->ckx_somewhat->setChecked(engine->getHedge(i)->name() == Somewhat().name());
+                ui->ckx_very->setChecked(engine->getHedge(i)->name() == Very().name());
             }
+        }
+
+        int Configuration::indexOfTnorm(const std::string& tnorm) {
+            int result = ui->cbx_tnorm->findText(QString::fromStdString(tnorm));
+            if (result == -1) throw fl::Exception("[internal error] T-Norm <"
+                    + tnorm + "> not registered", FL_AT);
+            return result;
+        }
+
+        int Configuration::indexOfSnorm(const std::string& snorm) {
+            int result = ui->cbx_snorm->findText(QString::fromStdString(snorm));
+            if (result == -1) throw fl::Exception("[internal error] S-Norm <"
+                    + snorm + "> not registered", FL_AT);
+            return result;
+        }
+
+        int Configuration::indexOfDefuzzifier(const std::string& defuzzifier) {
+            int result = ui->cbx_defuzzifier->findText(QString::fromStdString(defuzzifier));
+            if (result == -1) throw fl::Exception("[internal error] Defuzzifier <"
+                    + defuzzifier + "> not registered", FL_AT);
+            return result;
+        }
+
+        void Configuration::onChangeConfiguration(int) {
+            std::string tnorm = ui->cbx_tnorm->currentText().toStdString();
+            std::string snorm = ui->cbx_snorm->currentText().toStdString();
+            std::string activation = ui->cbx_activation->currentText().toStdString();
+
+            std::string accumulation = ui->cbx_accumulation->currentText().toStdString();
+            std::string defuzzifier = ui->cbx_defuzzifier->currentText().toStdString();
+            int divisions = ui->sbx_divisions->value();
+            fl::Engine* engine = Model::Default()->engine();
+            engine->configure(tnorm, snorm, activation, accumulation, defuzzifier, divisions);
+        }
+
+        void Configuration::onChangeHedgeSelection(int) {
+            fl::Engine* engine = Model::Default()->engine();
+            for (int i = engine->numberOfHedges() - 1; i >= 0; --i) {
+                delete engine->removeHedge(i);
+            }
+
+            if (ui->ckx_any->isChecked() and not engine->hasHedge(Any().name()))
+                engine->addHedge(new Any);
+
+            if (ui->ckx_extremely->isChecked() and not engine->hasHedge(Extremely().name()))
+                engine->addHedge(new Extremely);
+
+            if (ui->ckx_not->isChecked() and not engine->hasHedge(Not().name()))
+                engine->addHedge(new Not);
+
+            if (ui->ckx_seldom->isChecked() and not engine->hasHedge(Seldom().name()))
+                engine->addHedge(new Seldom);
+
+            if (ui->ckx_somewhat->isChecked() and not engine->hasHedge(Somewhat().name()))
+                engine->addHedge(new Somewhat);
+
+            if (ui->ckx_very->isChecked() and not engine->hasHedge(Very().name()))
+                engine->addHedge(new Very);
             
-            ui->cbx_accumulation->setCurrentIndex(indexOfSnorm(accumulation));
-            
-            ui->cbx_defuzzifier->setCurrentIndex(indexOfDefuzzifier(defuzzifier->className()));
-            ui->sbx_divisions->setValue(defuzzifier->getDivisions());
-        }
-
-        void Configuration::onChangeTNorm(int index) {
-            Model::Default()->configuration()->setTnorm(
-                    _andOperators[index].second);
-            Model::Default()->update();
-            refresh();
-        }
-
-        void Configuration::onChangeActivation(int index) {
-            Model::Default()->configuration()->setActivation(
-                    _andOperators[index].second);
-            Model::Default()->update();
-            refresh();
-        }
-
-        void Configuration::onChangeSNorm(int index) {
-            Model::Default()->configuration()->setSnorm(
-                    _orOperators[index].second);
-            Model::Default()->update();
-            refresh();
-        }
-
-        void Configuration::onChangeAccumulation(int index) {
-            Model::Default()->configuration()->setAccumulation(
-                    _orOperators[index].second);
-            Model::Default()->update();
-            refresh();
-        }
-
-        void Configuration::onChangeDefuzzifier(int index) {
-            Model::Default()->configuration()->setDefuzzifier(
-                    _defuzzifiers[index].second);
-            Model::Default()->update();
-            refresh();
-        }
-
-        void Configuration::onChangeDivisions(int value) {
-            Model::Default()->configuration()->getDefuzzifier()->setDivisions(value);
-            Model::Default()->update();
-            refresh();
+            Window::mainWindow()->fixDependencies();
         }
 
         void Configuration::main() {
