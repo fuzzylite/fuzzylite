@@ -25,7 +25,13 @@ namespace fl {
             Q_OBJECT
 
         protected slots:
-            virtual void onChangeConfiguration(int);
+            virtual void onChangeTNorm(int);
+            virtual void onChangeSNorm(int);
+            virtual void onChangeActivation(int);
+            virtual void onChangeAccumulation(int);
+            virtual void onChangeDefuzzifier(int);
+            
+            
             virtual void onChangeHedgeSelection(int);
 
         protected:

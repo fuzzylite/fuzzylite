@@ -138,12 +138,13 @@ namespace fl {
             this->adjustSize();
             QRect scr = Window::mainWindow()->geometry();
             move(scr.center().x() - rect().center().x(), scr.top());
-            
+
             applyDefaults();
             loadFromModel();
         }
 
         void Configuration::applyDefaults() {
+            return;
             fl::Engine* engine = Model::Default()->engine();
 
             if (engine->numberOfRuleBlocks() == 0) {
@@ -231,6 +232,10 @@ namespace fl {
             return result;
         }
 
+        void Configuration::onChangeTNorm(int){
+            
+        }
+        
         void Configuration::onChangeConfiguration(int) {
             std::string tnorm = ui->cbx_tnorm->currentText().toStdString();
             std::string snorm = ui->cbx_snorm->currentText().toStdString();
@@ -266,7 +271,7 @@ namespace fl {
 
             if (ui->ckx_very->isChecked() and not engine->hasHedge(Very().name()))
                 engine->addHedge(new Very);
-            
+
             Window::mainWindow()->fixDependencies();
         }
 

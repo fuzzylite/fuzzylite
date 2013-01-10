@@ -179,7 +179,7 @@ namespace fl {
 
         void Window::reloadModel() {
             configuration->applyDefaults();
-            configuration->loadFromModel();
+//            configuration->loadFromModel();
 
             Engine* engine = Model::Default()->engine();
             ui->lvw_inputs->clear();
