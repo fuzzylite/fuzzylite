@@ -1,0 +1,45 @@
+% $Revision: 1.1 $
+[System]
+Name='tank'
+Type='mamdani'
+NumInputs=2
+NumOutputs=1
+NumRules=5
+AndMethod='prod'
+OrMethod='probor'
+ImpMethod='prod'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='level'
+Range=[-1 1]
+NumMFs=3
+MF1='high':'gaussmf',[0.3 -1]
+MF2='okay':'gaussmf',[0.3 0]
+MF3='low':'gaussmf',[0.3 1]
+
+[Input2]
+Name='rate'
+Range=[-0.1 0.1]
+NumMFs=3
+MF1='negative':'gaussmf',[0.03 -0.1]
+MF2='none':'gaussmf',[0.03 0]
+MF3='positive':'gaussmf',[0.03 0.1]
+
+[Output1]
+Name='valve'
+Range=[-1 1]
+NumMFs=5
+MF1='close_fast':'trimf',[-1 -0.9 -0.8]
+MF2='close_slow':'trimf',[-0.6 -0.5 -0.4]
+MF3='no_change':'trimf',[-0.1 0 0.1]
+MF4='open_slow':'trimf',[0.2 0.3 0.4]
+MF5='open_fast':'trimf',[0.8 0.9 1]
+
+[Rules]
+2 0, 3 (1) : 1 
+3 0, 5 (1) : 1 
+1 0, 1 (1) : 1 
+2 3, 2 (1) : 1 
+2 1, 4 (1) : 1 

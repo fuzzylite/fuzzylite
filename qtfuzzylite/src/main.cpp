@@ -5,7 +5,7 @@
  *      Author: jcrada 
  */
 
-#include <QtGui/QApplication>
+#include <QtGui/QApplication> 
 #include <QtGui/QMessageBox>
 #include <fl/Headers.h>
 

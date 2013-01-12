@@ -315,7 +315,7 @@ namespace fl {
     std::string FisImporter::flSnorm(const std::string & name) const {
         std::string className = name;
         if (name == "max") className = Maximum().className();
-        else if (name == "sum") className = AlgebraicSum().className();
+        else if (name == "sum" or name == "probor") className = AlgebraicSum().className();
         else if (name == "bounded_sum") className = BoundedSum().className();
         else if (name == "normalized_sum") className = NormalizedSum().className();
         else if (name == "drastic_sum") className = DrasticSum().className();
