@@ -9,17 +9,18 @@
 #define	FL_TNORMFACTORY_H
 
 #include <string>
+#include <vector>
 
 namespace fl {
     class TNorm;
-    
+
     class TNormFactory {
     public:
         TNormFactory();
         virtual ~TNormFactory();
 
         virtual TNorm* create(const std::string& className) const;
-
+        virtual std::vector<std::string> available() const;
     };
 }
 #endif	/* FL_TNORMFACTORY_H */

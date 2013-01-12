@@ -1,0 +1,39 @@
+FUNCTION_BLOCK simple-dimmer
+
+VAR_INPUT
+AmbientLight: REAL;
+END_VAR
+
+VAR_OUTPUT
+BulbPower: REAL;
+END_VAR
+
+FUZZIFY AmbientLight
+RANGE := (0.000 .. 1.000);
+TERM LOW := Triangle (0, 0.25, 0.5);
+TERM MEDIUM := Triangle (0.25, 0.5, 0.75);
+TERM HIGH := Triangle (0.5, 0.75, 1);
+END_FUZZIFY
+
+DEFUZZIFY BulbPower
+RANGE := (0.000 .. 2.000);
+TERM LOW := Triangle (0, 0.5, 1);
+TERM MEDIUM := Triangle (0.5, 1, 1.5);
+TERM HIGH := Triangle (1, 1.5, 2);
+
+METHOD : COG;
+ACCU : MAX;
+DEFAULT := nan | NC;
+END_DEFUZZIFY
+
+RULEBLOCK 
+AND : MIN;
+OR : MAX;
+ACT : MIN;
+
+RULE 1 : if AmbientLight is LOW then BulbPower is LOW
+RULE 2 : if AmbientLight is MEDIUM then BulbPower is MEDIUM
+RULE 3 : if AmbientLight is HIGH then BulbPower is HIGH
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

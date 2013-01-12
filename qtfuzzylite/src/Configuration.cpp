@@ -9,8 +9,8 @@
 
 #include "fl/qt/Window.h"
 
-#include "fl/qt/Model.h"
-
+#include "fl/qt/Model.h" 
+ 
 #include <QtGui/QMessageBox>
 #include <sstream>
 
@@ -20,25 +20,6 @@ namespace fl {
         Configuration::Configuration(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::Configuration) {
             setWindowFlags(Qt::Tool);
-            _andOperators.push_back(Minimum().className());
-            _andOperators.push_back(AlgebraicProduct().className());
-            _andOperators.push_back(BoundedDifference().className());
-            _andOperators.push_back(DrasticProduct().className());
-            _andOperators.push_back(EinsteinProduct().className());
-            _andOperators.push_back(HamacherProduct().className());
-
-            _orOperators.push_back(Maximum().className());
-            _orOperators.push_back(AlgebraicSum().className());
-            _orOperators.push_back(BoundedSum().className());
-            _orOperators.push_back(NormalizedSum().className());
-            _orOperators.push_back(DrasticSum().className());
-            _orOperators.push_back(EinsteinSum().className());
-            _orOperators.push_back(HamacherSum().className());
-
-            _defuzzifiers.push_back(Centroid().className());
-            _defuzzifiers.push_back(SmallestOfMaximum().className());
-            _defuzzifiers.push_back(LargestOfMaximum().className());
-            _defuzzifiers.push_back(MeanOfMaximum().className());
 
         }
 
@@ -51,25 +32,25 @@ namespace fl {
             ui->setupUi(this);
 
             QStringList andOperators;
-
-            for (std::size_t i = 0; i < _andOperators.size(); ++i) {
-                andOperators.append(QString::fromStdString(_andOperators[i]));
+            std::vector<std::string> tnorms = fl::Factory::instance()->tnorm()->available();
+            for (std::size_t i = 0; i < tnorms.size(); ++i) {
+                andOperators.append(QString::fromStdString(tnorms.at(i)));
             }
             ui->cbx_tnorm->addItems(andOperators);
             ui->cbx_activation->addItems(andOperators);
 
             QStringList orOperators;
-            for (std::size_t i = 0; i < _orOperators.size(); ++i) {
-                orOperators.append(QString::fromStdString(_orOperators[i]));
+            std::vector<std::string> snorms = fl::Factory::instance()->snorm()->available();
+            for (std::size_t i = 0; i < snorms.size(); ++i) {
+                orOperators.append(QString::fromStdString(snorms.at(i)));
             }
             ui->cbx_snorm->addItems(orOperators);
             ui->cbx_accumulation->addItems(orOperators);
 
-            QStringList defuzzifiers;
-            for (std::size_t i = 0; i < _defuzzifiers.size(); ++i) {
-                defuzzifiers.append(QString::fromStdString(_defuzzifiers[i]));
+            std::vector<std::string> defuzzifiers = fl::Factory::instance()->defuzzifier()->available();
+            for (std::size_t i = 0; i < defuzzifiers.size(); ++i) {
+                ui->cbx_defuzzifier->addItem(QString::fromStdString(defuzzifiers[i]));
             }
-            ui->cbx_defuzzifier->addItems(defuzzifiers);
 
             ui->sbx_divisions->setValue(FL_DEFAULT_DIVISIONS);
 
@@ -78,17 +59,17 @@ namespace fl {
 
         void Configuration::connect() {
             QObject::connect(ui->cbx_tnorm, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onChangeConfiguration(int)));
+                    this, SLOT(onChangeTNorm(int)));
             QObject::connect(ui->cbx_snorm, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onChangeConfiguration(int)));
+                    this, SLOT(onChangeSNorm(int)));
             QObject::connect(ui->cbx_activation, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onChangeConfiguration(int)));
+                    this, SLOT(onChangeActivation(int)));
             QObject::connect(ui->cbx_accumulation, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onChangeConfiguration(int)));
+                    this, SLOT(onChangeAccumulation(int)));
             QObject::connect(ui->cbx_defuzzifier, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onChangeConfiguration(int)));
+                    this, SLOT(onChangeDefuzzifier(int)));
             QObject::connect(ui->sbx_divisions, SIGNAL(valueChanged(int)),
-                    this, SLOT(onChangeConfiguration(int)));
+                    this, SLOT(onChangeDivisions(int)));
 
             QObject::connect(ui->ckx_any, SIGNAL(stateChanged(int)),
                     this, SLOT(onChangeHedgeSelection(int)));
@@ -108,17 +89,17 @@ namespace fl {
 
         void Configuration::disconnect() {
             QObject::disconnect(ui->cbx_tnorm, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onChangeConfiguration(int)));
+                    this, SLOT(onChangeTNorm(int)));
             QObject::disconnect(ui->cbx_snorm, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onChangeConfiguration(int)));
+                    this, SLOT(onChangeSNorm(int)));
             QObject::disconnect(ui->cbx_activation, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onChangeConfiguration(int)));
+                    this, SLOT(onChangeActivation(int)));
             QObject::disconnect(ui->cbx_accumulation, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onChangeConfiguration(int)));
+                    this, SLOT(onChangeAccumulation(int)));
             QObject::disconnect(ui->cbx_defuzzifier, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onChangeConfiguration(int)));
+                    this, SLOT(onChangeDefuzzifier(int)));
             QObject::disconnect(ui->sbx_divisions, SIGNAL(valueChanged(int)),
-                    this, SLOT(onChangeConfiguration(int)));
+                    this, SLOT(onChangeDivisions(int)));
 
             QObject::disconnect(ui->ckx_any, SIGNAL(stateChanged(int)),
                     this, SLOT(onChangeHedgeSelection(int)));
@@ -144,7 +125,6 @@ namespace fl {
         }
 
         void Configuration::applyDefaults() {
-            return;
             fl::Engine* engine = Model::Default()->engine();
 
             if (engine->numberOfRuleBlocks() == 0) {
@@ -180,6 +160,7 @@ namespace fl {
         }
 
         void Configuration::loadFromModel() {
+            disconnect();
             fl::Engine* engine = Model::Default()->engine();
             if (engine->numberOfRuleBlocks() == 0) {
                 QMessageBox::critical(this, "Error",
@@ -200,15 +181,21 @@ namespace fl {
 
                 ui->cbx_accumulation->setCurrentIndex(
                         indexOfSnorm(variable->output()->getAccumulation()->className()));
+            } else {
+                ui->cbx_defuzzifier->setCurrentIndex(0);
+                ui->sbx_divisions->setValue(FL_DEFAULT_DIVISIONS);
+                ui->cbx_accumulation->setCurrentIndex(0);
             }
-            for (int i = 0; i < engine->numberOfHedges(); ++i) {
-                ui->ckx_any->setChecked(engine->getHedge(i)->name() == Any().name());
-                ui->ckx_extremely->setChecked(engine->getHedge(i)->name() == Extremely().name());
-                ui->ckx_not->setChecked(engine->getHedge(i)->name() == Not().name());
-                ui->ckx_seldom->setChecked(engine->getHedge(i)->name() == Seldom().name());
-                ui->ckx_somewhat->setChecked(engine->getHedge(i)->name() == Somewhat().name());
-                ui->ckx_very->setChecked(engine->getHedge(i)->name() == Very().name());
-            }
+
+            ui->ckx_any->setChecked(engine->hasHedge(Any().name()));
+
+            ui->ckx_extremely->setChecked(engine->hasHedge(Extremely().name()));
+            ui->ckx_not->setChecked(engine->hasHedge(Not().name()));
+            ui->ckx_seldom->setChecked(engine->hasHedge(Seldom().name()));
+            ui->ckx_somewhat->setChecked(engine->hasHedge(Somewhat().name()));
+            ui->ckx_very->setChecked(engine->hasHedge(Very().name()));
+
+            connect();
         }
 
         int Configuration::indexOfTnorm(const std::string& tnorm) {
@@ -232,45 +219,92 @@ namespace fl {
             return result;
         }
 
-        void Configuration::onChangeTNorm(int){
-            
-        }
-        
-        void Configuration::onChangeConfiguration(int) {
+        void Configuration::onChangeTNorm(int) {
             std::string tnorm = ui->cbx_tnorm->currentText().toStdString();
-            std::string snorm = ui->cbx_snorm->currentText().toStdString();
-            std::string activation = ui->cbx_activation->currentText().toStdString();
-
-            std::string accumulation = ui->cbx_accumulation->currentText().toStdString();
-            std::string defuzzifier = ui->cbx_defuzzifier->currentText().toStdString();
-            int divisions = ui->sbx_divisions->value();
             fl::Engine* engine = Model::Default()->engine();
-            engine->configure(tnorm, snorm, activation, accumulation, defuzzifier, divisions);
+            for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
+                RuleBlock* ruleblock = engine->getRuleBlock(i);
+                ruleblock->setTnorm(Factory::instance()->tnorm()->create(tnorm));
+            }
+        }
+
+        void Configuration::onChangeSNorm(int) {
+            std::string snorm = ui->cbx_snorm->currentText().toStdString();
+            fl::Engine* engine = Model::Default()->engine();
+            for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
+                RuleBlock* ruleblock = engine->getRuleBlock(i);
+                ruleblock->setSnorm(Factory::instance()->snorm()->create(snorm));
+            }
+        }
+
+        void Configuration::onChangeActivation(int) {
+            std::string activation = ui->cbx_activation->currentText().toStdString();
+            fl::Engine* engine = Model::Default()->engine();
+            for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
+                RuleBlock* ruleblock = engine->getRuleBlock(i);
+                ruleblock->setActivation(Factory::instance()->tnorm()->create(activation));
+            }
+        }
+
+        void Configuration::onChangeAccumulation(int) {
+            std::string accumulation = ui->cbx_accumulation->currentText().toStdString();
+            fl::Engine* engine = Model::Default()->engine();
+            for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+                OutputVariable* outputVariable = engine->getOutputVariable(i);
+                outputVariable->output()->setAccumulation(
+                        Factory::instance()->snorm()->create(accumulation));
+            }
+        }
+
+        void Configuration::onChangeDefuzzifier(int) {
+            std::string defuzzifier = ui->cbx_defuzzifier->currentText().toStdString();
+            fl::Engine* engine = Model::Default()->engine();
+            for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+                OutputVariable* outputVariable = engine->getOutputVariable(i);
+                outputVariable->setDefuzzifier(
+                        Factory::instance()->defuzzifier()->create(defuzzifier));
+            }
+        }
+
+        void Configuration::onChangeDivisions(int value) {
+            fl::Engine* engine = Model::Default()->engine();
+            for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+                OutputVariable* outputVariable = engine->getOutputVariable(i);
+                outputVariable->getDefuzzifier()->setDivisions(value);
+            }
         }
 
         void Configuration::onChangeHedgeSelection(int) {
             fl::Engine* engine = Model::Default()->engine();
-            for (int i = engine->numberOfHedges() - 1; i >= 0; --i) {
-                delete engine->removeHedge(i);
-            }
-
             if (ui->ckx_any->isChecked() and not engine->hasHedge(Any().name()))
                 engine->addHedge(new Any);
+            else if (not ui->ckx_any->isChecked() and engine->hasHedge(Any().name()))
+                delete engine->removeHedge(Any().name());
 
             if (ui->ckx_extremely->isChecked() and not engine->hasHedge(Extremely().name()))
                 engine->addHedge(new Extremely);
+            else if (not ui->ckx_extremely->isChecked() and engine->hasHedge(Extremely().name()))
+                delete engine->removeHedge(Extremely().name());
 
             if (ui->ckx_not->isChecked() and not engine->hasHedge(Not().name()))
                 engine->addHedge(new Not);
+            else if (not ui->ckx_not->isChecked() and engine->hasHedge(Not().name()))
+                delete engine->removeHedge(Not().name());
 
             if (ui->ckx_seldom->isChecked() and not engine->hasHedge(Seldom().name()))
                 engine->addHedge(new Seldom);
+            else if (not ui->ckx_seldom->isChecked() and engine->hasHedge(Seldom().name()))
+                delete engine->removeHedge(Seldom().name());
 
             if (ui->ckx_somewhat->isChecked() and not engine->hasHedge(Somewhat().name()))
                 engine->addHedge(new Somewhat);
+            else if (not ui->ckx_somewhat->isChecked() and engine->hasHedge(Somewhat().name()))
+                delete engine->removeHedge(Somewhat().name());
 
             if (ui->ckx_very->isChecked() and not engine->hasHedge(Very().name()))
                 engine->addHedge(new Very);
+            else if (not ui->ckx_very->isChecked() and engine->hasHedge(Very().name()))
+                delete engine->removeHedge(Very().name());
 
             Window::mainWindow()->fixDependencies();
         }
@@ -279,7 +313,6 @@ namespace fl {
             Configuration* c = new Configuration;
             c->setup();
             c->show();
-
         }
 
     }

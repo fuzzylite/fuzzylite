@@ -3,7 +3,7 @@
  *
  *  Created on: 11/12/2012
  *      Author: jcrada
- */
+ */ 
 
 #include "fl/qt/Window.h"
 #include "fl/qt/Configuration.h"
@@ -178,10 +178,11 @@ namespace fl {
         }
 
         void Window::reloadModel() {
-            configuration->applyDefaults();
-//            configuration->loadFromModel();
-
             Engine* engine = Model::Default()->engine();
+
+            configuration->applyDefaults();
+            if (configuration->isVisible()) configuration->loadFromModel();
+
             ui->lvw_inputs->clear();
             ui->lvw_outputs->clear();
             for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
@@ -193,13 +194,18 @@ namespace fl {
                 ui->lvw_outputs->addItem(QString::fromStdString(
                         engine->getOutputVariable(i)->getName()));
             }
+
+            if (engine->numberOfRuleBlocks() != 1) {
+                std::ostringstream ex;
+                ex << "[ruleblock error] expected one ruleblock, but found <"
+                        << engine->numberOfRuleBlocks() << "> in the current engine";
+                throw fl::Exception(ex.str(), FL_AT);
+            }
             ui->ptx_rules->clear();
-            if (engine->numberOfRuleBlocks() == 0)
-                throw fl::Exception("[ruleblock error] no ruleblocks in current engine", FL_AT);
             RuleBlock* ruleblock = engine->getRuleBlock(0);
             for (int i = 0; i < ruleblock->numberOfRules(); ++i) {
                 ui->ptx_rules->appendPlainText(
-                        QString::fromStdString(ruleblock->getRule(i)->toString()));
+                        QString::fromStdString(ruleblock->getRule(i)->getUnparsedRule()));
             }
             reloadTest();
         }
@@ -602,14 +608,21 @@ namespace fl {
                     + "</font>");
 
             std::ostringstream message;
-            message << "# Total rules: " << badRules + goodRules
-                    << ". Good Rules: " << goodRules
-                    << ". Bad Rules: " << badRules << ".";
-            ui->ptx_rules->appendHtml("<font color='blue'>" +
-                    QString::fromStdString(message.str()) + "</font>");
+            message << "<font color='gray'>"
+                    << "# Total rules: " << badRules + goodRules << ". "
+                    << "</font>"
+                    << "<font color='green'>"
+                    << "Good Rules: " << goodRules << ". "
+                    << "</font>"
+                    << "<font color='red'>"
+                    << "Bad Rules: " << badRules << "."
+                    << "</font>";
+            ui->ptx_rules->appendHtml("" +
+                    QString::fromStdString(message.str()));
             if (goodRules > 0 and badRules == 0) {
-                ui->ptx_rules->appendHtml("<font color='blue'>" +
-                        QString("# You may proceed to control the engine") + "</font>");
+                ui->ptx_rules->appendHtml("<font color='blue'>"
+                        "# You may proceed to control the engine"
+                        "</font>");
             }
             reloadTest();
         }
@@ -685,7 +698,7 @@ namespace fl {
                 } catch (fl::Exception& ex) {
                     if (engine) delete engine;
                     QMessageBox::critical(this, "Error importing from FCL",
-                            QString::fromStdString(ex.what()),
+                            Qt::escape(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                             QMessageBox::Ok);
 
                     return;
@@ -715,7 +728,7 @@ namespace fl {
                     onClickParseAllRules();
                 } catch (fl::Exception& ex) {
                     QMessageBox::critical(this, "Error importing from FIS",
-                            QString::fromStdString(ex.what()),
+                            Qt::escape(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                             QMessageBox::Ok);
                     return;
                 }
@@ -778,7 +791,7 @@ namespace fl {
                 onClickParseAllRules();
             } catch (fl::Exception& ex) {
                 QMessageBox::critical(this, "Error importing from FIS",
-                        QString::fromStdString(ex.what()),
+                        Qt::escape(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                         QMessageBox::Ok);
                 delete importer;
                 delete engine;
@@ -790,7 +803,7 @@ namespace fl {
         void Window::onMenuExport() {
             if (ui->actionExport->isChecked()) {
                 QMenu menu(this);
-                menu.addAction("FuzzyLite C++", this, SLOT(onMenuExportToCpp()));
+                menu.addAction("fuzzylite (C++)", this, SLOT(onMenuExportToCpp()));
                 menu.addSeparator();
                 menu.addAction("Fuzzy Control Language (FCL)", this, SLOT(onMenuExportToFCL()));
                 menu.addAction("Fuzzy Inference System (FIS)", this, SLOT(onMenuExportToFIS()));
@@ -806,7 +819,7 @@ namespace fl {
                 fclString = exporter.toString(Model::Default()->engine());
             } catch (fl::Exception& ex) {
                 QMessageBox::critical(this, "Error exporting to FCL",
-                        QString::fromStdString(ex.what()),
+                        Qt::escape(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                         QMessageBox::Ok);
                 return;
             }
@@ -832,7 +845,7 @@ namespace fl {
                 fis = exporter.toString(Model::Default()->engine());
             } catch (fl::Exception& ex) {
                 QMessageBox::critical(this, "Error exporting to FIS",
-                        QString::fromStdString(ex.what()),
+                        Qt::escape(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                         QMessageBox::Ok);
                 return;
             }
@@ -857,8 +870,8 @@ namespace fl {
             try {
                 cpp = exporter.toString(Model::Default()->engine());
             } catch (fl::Exception& ex) {
-                QMessageBox::critical(this, "Error exporting to C++",
-                        QString::fromStdString(ex.what()),
+                QMessageBox::critical(this, "Error exporting to fuzzylite (C++)",
+                        Qt::escape(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                         QMessageBox::Ok);
                 return;
             }
@@ -866,7 +879,7 @@ namespace fl {
             QDialog fclDialog(this);
             fclUi.setupUi(&fclDialog);
             fclUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
-            fclDialog.setWindowTitle("Export to C++");
+            fclDialog.setWindowTitle("Export to fuzzylite");
             fclUi.lbl_format->setText("fuzzylite (C++):");
             fclUi.pte_fcl->setReadOnly(true);
             fclUi.pte_fcl->document()->setPlainText(

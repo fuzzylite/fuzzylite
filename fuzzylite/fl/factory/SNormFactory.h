@@ -9,6 +9,7 @@
 #define	FL_SNORMFACTORY_H
 
 #include <string>
+#include <vector>
 
 namespace fl {
     class SNorm;
@@ -19,6 +20,7 @@ namespace fl {
         virtual ~SNormFactory();
         
         virtual SNorm* create(const std::string& className) const;
+        virtual std::vector<std::string> available() const;
     };
 }
 #endif	/* FL_SNORMFACTORY_H */

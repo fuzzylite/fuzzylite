@@ -109,7 +109,8 @@ namespace fl {
             fcl << "\n";
 
             for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
-                fcl << "RULE " << (r + 1) << " : " << ruleblock->getRule(r)->toString() << "\n";
+                fcl << "RULE " << (r + 1) << " : " <<
+                        ruleblock->getRule(r)->getUnparsedRule() << "\n";
             }
             fcl << "END_RULEBLOCK\n";
             fcl << "\n";

@@ -30,14 +30,11 @@ namespace fl {
             virtual void onChangeActivation(int);
             virtual void onChangeAccumulation(int);
             virtual void onChangeDefuzzifier(int);
-            
+            virtual void onChangeDivisions(int);
             
             virtual void onChangeHedgeSelection(int);
 
         protected:
-            std::vector<std::string> _andOperators;
-            std::vector<std::string> _orOperators;
-            std::vector<std::string> _defuzzifiers;
 
             virtual void connect();
             virtual void disconnect();

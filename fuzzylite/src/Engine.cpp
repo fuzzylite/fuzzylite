@@ -10,23 +10,15 @@
 #include "fl/variable/InputVariable.h"
 #include "fl/variable/OutputVariable.h"
 #include "fl/rule/RuleBlock.h"
-
 #include "fl/hedge/Hedge.h"
-#include "fl/hedge/Any.h"
-#include "fl/hedge/Extremely.h"
-#include "fl/hedge/Not.h"
-#include "fl/hedge/Seldom.h"
-#include "fl/hedge/Somewhat.h"
-#include "fl/hedge/Very.h"
-
-#include "fl/operator/TNorm.h"
-#include "fl/operator/SNorm.h"
-
-#include "fl/defuzzifier/Centroid.h"
-#include "fl/defuzzifier/MaximumDefuzzifier.h"
-
 
 #include "fl/term/Accumulated.h"
+
+#include "fl/factory/Factory.h"
+#include "fl/factory/DefuzzifierFactory.h"
+#include "fl/factory/SNormFactory.h"
+#include "fl/factory/TNormFactory.h"
+
 
 namespace fl {
 
@@ -51,47 +43,45 @@ namespace fl {
     }
 
     TNorm* Engine::createTnorm(const std::string& classname) const {
-        if (classname == Minimum().className()) return new Minimum;
-        if (classname == AlgebraicProduct().className()) return new AlgebraicProduct;
-        if (classname == BoundedDifference().className()) return new BoundedDifference;
-        if (classname == DrasticProduct().className()) return new DrasticProduct;
-        if (classname == EinsteinProduct().className()) return new EinsteinProduct;
-        if (classname == HamacherProduct().className()) return new HamacherProduct;
-        throw fl::Exception("[syntax error] T-Norm of class <" + classname + "> not recognized", FL_AT);
+        try {
+            return Factory::instance()->tnorm()->create(classname);
+        } catch (fl::Exception& ex) {
+            ex.addCall(FL_AT);
+            throw ex;
+        }
     }
 
     SNorm* Engine::createSnorm(const std::string& classname) const {
-        if (classname == Maximum().className()) return new Maximum;
-        if (classname == AlgebraicSum().className()) return new AlgebraicSum;
-        if (classname == BoundedSum().className()) return new BoundedSum;
-        if (classname == NormalizedSum().className()) return new NormalizedSum;
-        if (classname == DrasticSum().className()) return new DrasticSum;
-        if (classname == EinsteinSum().className()) return new EinsteinSum;
-        if (classname == HamacherSum().className()) return new HamacherSum;
-        throw fl::Exception("[syntax error] S-Norm of class <" + classname + "> not recognized", FL_AT);
+        try {
+            return Factory::instance()->snorm()->create(classname);
+        } catch (fl::Exception& ex) {
+            ex.addCall(FL_AT);
+            throw ex;
+        }
     }
 
     Defuzzifier* Engine::createDefuzzifier(const std::string& classname) const {
-        if (classname == Centroid().className()) return new Centroid;
-        if (classname == SmallestOfMaximum().className()) return new SmallestOfMaximum;
-        if (classname == LargestOfMaximum().className()) return new LargestOfMaximum;
-        if (classname == MeanOfMaximum().className()) return new MeanOfMaximum;
-        throw fl::Exception("[syntax error] Defuzzifier of class <" + classname + "> not recognized", FL_AT);
+        try {
+            return Factory::instance()->defuzzifier()->create(classname);
+        } catch (fl::Exception& ex) {
+            ex.addCall(FL_AT);
+            throw ex;
+        }
     }
 
     void Engine::configure(const std::string& tnorm, const std::string& snorm,
             const std::string& activationTnorm, const std::string& accumulationSnorm,
             const std::string& defuzzifier, int divisions) {
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            _ruleblocks[i]->setTnorm(createTnorm(tnorm));
-            _ruleblocks[i]->setSnorm(createSnorm(snorm));
-            _ruleblocks[i]->setActivation(createTnorm(activationTnorm));
+            _ruleblocks.at(i)->setTnorm(createTnorm(tnorm));
+            _ruleblocks.at(i)->setSnorm(createSnorm(snorm));
+            _ruleblocks.at(i)->setActivation(createTnorm(activationTnorm));
         }
 
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            _outputVariables[i]->setDefuzzifier(createDefuzzifier(defuzzifier));
-            _outputVariables[i]->getDefuzzifier()->setDivisions(divisions);
-            _outputVariables[i]->output()->setAccumulation(
+            _outputVariables.at(i)->setDefuzzifier(createDefuzzifier(defuzzifier));
+            _outputVariables.at(i)->getDefuzzifier()->setDivisions(divisions);
+            _outputVariables.at(i)->output()->setAccumulation(
                     createSnorm(accumulationSnorm));
         }
     }
@@ -99,22 +89,22 @@ namespace fl {
     void Engine::process() {
 
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            _outputVariables[i]->output()->clear();
+            _outputVariables.at(i)->output()->clear();
         }
 
         FL_BEGIN_DEBUG_BLOCK;
         FL_DBG("===============");
         FL_DBG("CURRENT INPUTS:");
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
-            scalar input = _inputVariables[i]->getInput();
-            FL_DBG(_inputVariables[i]->getName() << ".input = " << input);
-            FL_DBG(_inputVariables[i]->getName() << ".fuzzyfiedInput = " << _inputVariables[i]->fuzzify(input));
+            scalar input = _inputVariables.at(i)->getInput();
+            FL_DBG(_inputVariables.at(i)->getName() << ".input = " << input);
+            FL_DBG(_inputVariables.at(i)->getName() << ".fuzzyfiedInput = " << _inputVariables.at(i)->fuzzify(input));
         }
         FL_END_DEBUG_BLOCK
 
 
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            _ruleblocks[i]->fireRules();
+            _ruleblocks.at(i)->fireRules();
         }
 
 
@@ -122,16 +112,16 @@ namespace fl {
         FL_DBG("===============");
         FL_DBG("CURRENT OUTPUTS:");
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            FL_DBG(_outputVariables[i]->getName() << ".defaultValue= "
-                    << _outputVariables[i]->getDefaultValue());
-            FL_DBG(_outputVariables[i]->getName() << ".lockDefuzzifiedValue= "
-                    << _outputVariables[i]->lockDefuzzifiedValue()
+            FL_DBG(_outputVariables.at(i)->getName() << ".defaultValue= "
+                    << _outputVariables.at(i)->getDefaultValue());
+            FL_DBG(_outputVariables.at(i)->getName() << ".lockDefuzzifiedValue= "
+                    << _outputVariables.at(i)->lockDefuzzifiedValue()
                     << " (no locking ever performed during this debugging block, i.e., defuzzify(true)");
-            scalar output = _outputVariables[i]->defuzzifyIgnoreLock(); // override to not change the system
-            FL_DBG(_outputVariables[i]->getName() << ".defuzzifiedOutput = " << output);
-            FL_DBG(_outputVariables[i]->getName() << ".fuzzifiedOutput = " <<
-                    _outputVariables[i]->fuzzify(output));
-            FL_DBG(_outputVariables[i]->output()->toString());
+            scalar output = _outputVariables.at(i)->defuzzifyIgnoreLock(); // override to not change the system
+            FL_DBG(_outputVariables.at(i)->getName() << ".defuzzifiedOutput = " << output);
+            FL_DBG(_outputVariables.at(i)->getName() << ".fuzzifiedOutput = " <<
+                    _outputVariables.at(i)->fuzzify(output));
+            FL_DBG(_outputVariables.at(i)->output()->toString());
         }
         FL_DBG("==============");
         FL_END_DEBUG_BLOCK
@@ -158,25 +148,40 @@ namespace fl {
     }
 
     InputVariable* Engine::getInputVariable(int index) const {
-        return this->_inputVariables[index];
+        return this->_inputVariables.at(index);
     }
 
     InputVariable* Engine::getInputVariable(const std::string& name) const {
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
-            if (_inputVariables[i]->getName() == name)
-                return _inputVariables[i];
+            if (_inputVariables.at(i)->getName() == name)
+                return _inputVariables.at(i);
         }
-        return NULL;
+        throw fl::Exception("[engine error] input variable <" + name + "> not found", FL_AT);
     }
 
     bool Engine::hasInputVariable(const std::string& name) const {
-        return getInputVariable(name) != NULL;
+        for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
+            if (_inputVariables.at(i)->getName() == name)
+                return true;
+        }
+        return false;
     }
 
     InputVariable* Engine::removeInputVariable(int index) {
-        InputVariable* result = this->_inputVariables[index];
+        InputVariable* result = this->_inputVariables.at(index);
         this->_inputVariables.erase(this->_inputVariables.begin() + index);
         return result;
+    }
+
+    InputVariable* Engine::removeInputVariable(const std::string& name) {
+        for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
+            if (_inputVariables.at(i)->getName() == name) {
+                InputVariable* result = this->_inputVariables.at(i);
+                this->_inputVariables.erase(this->_inputVariables.begin() + i);
+                return result;
+            }
+        }
+        throw fl::Exception("[engine error] input variable <" + name + "> not found", FL_AT);
     }
 
     int Engine::numberOfInputVariables() const {
@@ -200,25 +205,40 @@ namespace fl {
     }
 
     OutputVariable* Engine::getOutputVariable(int index) const {
-        return this->_outputVariables[index];
+        return this->_outputVariables.at(index);
     }
 
     OutputVariable* Engine::getOutputVariable(const std::string& name) const {
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            if (_outputVariables[i]->getName() == name)
-                return _outputVariables[i];
+            if (_outputVariables.at(i)->getName() == name)
+                return _outputVariables.at(i);
         }
-        return NULL;
+        throw fl::Exception("[engine error] output variable <" + name + "> not found", FL_AT);
     }
 
     bool Engine::hasOutputVariable(const std::string& name) const {
-        return getOutputVariable(name) != NULL;
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            if (_outputVariables.at(i)->getName() == name)
+                return true;
+        }
+        return false;
     }
 
     OutputVariable* Engine::removeOutputVariable(int index) {
-        OutputVariable* result = this->_outputVariables[index];
+        OutputVariable* result = this->_outputVariables.at(index);
         this->_outputVariables.erase(this->_outputVariables.begin() + index);
         return result;
+    }
+
+    OutputVariable* Engine::removeOutputVariable(const std::string& name) {
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            if (_outputVariables.at(i)->getName() == name) {
+                OutputVariable* result = this->_outputVariables.at(i);
+                this->_outputVariables.erase(this->_outputVariables.begin() + i);
+                return result;
+            }
+        }
+        throw fl::Exception("[engine error] output variable <" + name + "> not found", FL_AT);
     }
 
     int Engine::numberOfOutputVariables() const {
@@ -241,25 +261,40 @@ namespace fl {
     }
 
     RuleBlock* Engine::getRuleBlock(int index) const {
-        return this->_ruleblocks[index];
+        return this->_ruleblocks.at(index);
     }
 
     RuleBlock* Engine::getRuleBlock(const std::string& name) const {
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            if (_ruleblocks[i]->getName() == name)
-                return _ruleblocks[i];
+            if (_ruleblocks.at(i)->getName() == name)
+                return _ruleblocks.at(i);
         }
-        return NULL;
+        throw fl::Exception("[engine error] rule block <" + name + "> not found", FL_AT);
     }
 
     bool Engine::hasRuleBlock(const std::string& name) const {
-        return getRuleBlock(name) != NULL;
+        for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
+            if (_ruleblocks.at(i)->getName() == name)
+                return true;
+        }
+        return false;
     }
 
     RuleBlock* Engine::removeRuleBlock(int index) {
-        RuleBlock* result = this->_ruleblocks[index];
+        RuleBlock* result = this->_ruleblocks.at(index);
         this->_ruleblocks.erase(this->_ruleblocks.begin() + index);
         return result;
+    }
+
+    RuleBlock* Engine::removeRuleBlock(const std::string& name) {
+        for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
+            if (_ruleblocks.at(i)->getName() == name) {
+                RuleBlock* result = this->_ruleblocks.at(i);
+                this->_ruleblocks.erase(this->_ruleblocks.begin() + i);
+                return result;
+            }
+        }
+        throw fl::Exception("[engine error] rule block <" + name + "> not found", FL_AT);
     }
 
     int Engine::numberOfRuleBlocks() const {
@@ -282,26 +317,40 @@ namespace fl {
     }
 
     Hedge* Engine::getHedge(int index) const {
-        return this->_hedges[index];
+        return this->_hedges.at(index);
     }
 
     Hedge* Engine::getHedge(const std::string& name) const {
         for (std::size_t i = 0; i < this->_hedges.size(); ++i) {
-            if (name == this->_hedges[i]->name()) {
-                return this->_hedges[i];
-            }
+            if (name == this->_hedges.at(i)->name())
+                return this->_hedges.at(i);
         }
-        return NULL;
+        throw fl::Exception("[engine error] hedge <" + name + "> not found", FL_AT);
     }
 
     bool Engine::hasHedge(const std::string& name) const {
-        return getHedge(name) != NULL;
+        for (std::size_t i = 0; i < this->_hedges.size(); ++i) {
+            if (name == this->_hedges.at(i)->name())
+                return true;
+        }
+        return false;
     }
 
     Hedge* Engine::removeHedge(int index) {
-        Hedge* result = this->_hedges[index];
+        Hedge* result = this->_hedges.at(index);
         this->_hedges.erase(this->_hedges.begin() + index);
         return result;
+    }
+
+    Hedge* Engine::removeHedge(const std::string& name) {
+        for (std::size_t i = 0; i < this->_hedges.size(); ++i) {
+            if (name == this->_hedges.at(i)->name()) {
+                Hedge* result = this->_hedges.at(i);
+                this->_hedges.erase(this->_hedges.begin() + i);
+                return result;
+            }
+        }
+        throw fl::Exception("[engine error] hedge <" + name + "> not found", FL_AT);
     }
 
     int Engine::numberOfHedges() const {

@@ -22,7 +22,18 @@ namespace fl {
         if (className == DrasticSum().className()) return new DrasticSum;
         if (className == EinsteinSum().className()) return new EinsteinSum;
         if (className == HamacherSum().className()) return new HamacherSum;
-        throw fl::Exception("[factory error] S-Norm of class<" + className + "> not recognized", FL_AT);
+        throw fl::Exception("[factory error] S-Norm of class <" + className + "> not recognized", FL_AT);
     }
 
+    std::vector<std::string> SNormFactory::available() const {
+        std::vector<std::string> result;
+        result.push_back(Maximum().className());
+        result.push_back(AlgebraicSum().className());
+        result.push_back(BoundedSum().className());
+        result.push_back(NormalizedSum().className());
+        result.push_back(DrasticSum().className());
+        result.push_back(EinsteinSum().className());
+        result.push_back(HamacherSum().className());
+        return result;
+    }
 }

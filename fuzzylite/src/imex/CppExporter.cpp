@@ -56,7 +56,7 @@ namespace fl {
             cpp << "outputVariable" << (i + 1) << "->setDefaultValue(";
             scalar defaultValue = output->getDefaultValue();
             if (fl::Op::isNan(defaultValue))
-                cpp << "std::numeric_limits<scalar>::quiet_NaN()";
+                cpp << "std::numeric_limits<fl::scalar>::quiet_NaN()";
             else if (fl::Op::isInf(defaultValue))
                 cpp << (defaultValue < 0 ? "-" : "") << "std::numeric_limits<scalar>::infinity()";
             else cpp << fl::Op::str(defaultValue);

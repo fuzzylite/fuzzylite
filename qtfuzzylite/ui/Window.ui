@@ -158,7 +158,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="layoutWidget">
+           <widget class="QWidget" name="layoutWidget1">
             <layout class="QVBoxLayout" name="verticalLayout_3">
              <property name="spacing">
               <number>0</number>
@@ -247,7 +247,7 @@
             </layout>
            </widget>
           </widget>
-          <widget class="QWidget" name="layoutWidget">
+          <widget class="QWidget" name="layoutWidget2">
            <layout class="QVBoxLayout" name="verticalLayout_10">
             <property name="spacing">
              <number>0</number>
@@ -322,8 +322,10 @@
              <widget class="QPlainTextEdit" name="ptx_rules">
               <property name="font">
                <font>
-                <family>Ubuntu Mono</family>
-                <pointsize>13</pointsize>
+                <family>Monospace</family>
+                <pointsize>11</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
                </font>
               </property>
               <property name="verticalScrollBarPolicy">
@@ -368,7 +370,7 @@
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <widget class="QWidget" name="layoutWidget">
+           <widget class="QWidget" name="layoutWidget3">
             <layout class="QVBoxLayout" name="verticalLayout_16">
              <property name="spacing">
               <number>0</number>
@@ -458,7 +460,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="layoutWidget">
+           <widget class="QWidget" name="layoutWidget4">
             <layout class="QVBoxLayout" name="verticalLayout_18">
              <property name="spacing">
               <number>0</number>
@@ -591,6 +593,14 @@
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="font">
+                <font>
+                 <family>Monospace</family>
+                 <pointsize>9</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
                <property name="selectionMode">
                 <enum>QAbstractItemView::NoSelection</enum>
                </property>
@@ -638,7 +648,10 @@
                </property>
                <property name="font">
                 <font>
-                 <pointsize>10</pointsize>
+                 <family>Monospace</family>
+                 <pointsize>9</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="horizontalScrollBarPolicy">
@@ -737,10 +750,10 @@
      <normaloff>:/icons/icons/bottom.png</normaloff>:/icons/icons/bottom.png</iconset>
    </property>
    <property name="text">
-    <string>Import...</string>
+    <string>Import</string>
    </property>
    <property name="toolTip">
-    <string>Import...</string>
+    <string>Import</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+I</string>
@@ -755,10 +768,10 @@
      <normaloff>:/icons/icons/top.png</normaloff>:/icons/icons/top.png</iconset>
    </property>
    <property name="text">
-    <string>Export...</string>
+    <string>Export</string>
    </property>
    <property name="toolTip">
-    <string>Export...</string>
+    <string>Export</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
@@ -770,10 +783,10 @@
      <normaloff>:/icons/icons/filenew.png</normaloff>:/icons/icons/filenew.png</iconset>
    </property>
    <property name="text">
-    <string>Reset...</string>
+    <string>Reset</string>
    </property>
    <property name="toolTip">
-    <string>Reset...</string>
+    <string>Reset</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
@@ -785,10 +798,10 @@
      <normaloff>:/icons/icons/messagebox_info.png</normaloff>:/icons/icons/messagebox_info.png</iconset>
    </property>
    <property name="text">
-    <string>About...</string>
+    <string>About</string>
    </property>
    <property name="toolTip">
-    <string>About...</string>
+    <string>About</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+?</string>
@@ -800,10 +813,10 @@
      <normaloff>:/icons/icons/exit.png</normaloff>:/icons/icons/exit.png</iconset>
    </property>
    <property name="text">
-    <string>Quit...</string>
+    <string>Quit</string>
    </property>
    <property name="toolTip">
-    <string>Quit...</string>
+    <string>Quit</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>

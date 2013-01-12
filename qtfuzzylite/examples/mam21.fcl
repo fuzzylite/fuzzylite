@@ -1,0 +1,47 @@
+FUNCTION_BLOCK mam21
+
+VAR_INPUT
+angle: REAL;
+velocity: REAL;
+END_VAR
+
+VAR_OUTPUT
+force: REAL;
+END_VAR
+
+FUZZIFY angle
+RANGE := (-5.000 .. 5.000);
+TERM small := Bell (-5, 5, 8);
+TERM big := Bell (5, 5, 8);
+END_FUZZIFY
+
+FUZZIFY velocity
+RANGE := (-5.000 .. 5.000);
+TERM small := Bell (-5, 5, 2);
+TERM big := Bell (5, 5, 2);
+END_FUZZIFY
+
+DEFUZZIFY force
+RANGE := (-5.000 .. 5.000);
+TERM negBig := Bell (-5, 1.67, 8);
+TERM negSmall := Bell (-1.67, 1.67, 8);
+TERM posSmall := Bell (1.67, 1.67, 8);
+TERM posBig := Bell (5, 1.67, 8);
+
+METHOD : COG;
+ACCU : MAX;
+DEFAULT := nan | NC;
+END_DEFUZZIFY
+
+RULEBLOCK 
+AND : MIN;
+OR : MAX;
+ACT : MIN;
+
+RULE 1 :  if angle is small and velocity is small then force is negBig
+RULE 2 :  if angle is small and velocity is big then force is negSmall
+RULE 3 :  if angle is big and velocity is small then force is posSmall
+RULE 4 :  if angle is big and velocity is big then force is posBig
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

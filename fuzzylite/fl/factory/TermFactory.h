@@ -11,7 +11,7 @@
 
 #include "fl/scalar.h"
 
-#include <map>
+#include <vector>
 #include <string>
 
 namespace fl {
@@ -22,8 +22,10 @@ namespace fl {
         TermFactory();
         virtual ~TermFactory();
 
-        virtual Term* createTerm(const std::string& className,
-                const std::map<std::string, scalar>& params) const;
+        virtual Term* create(const std::string& className,
+                const std::vector<scalar>& params) const;
+
+        virtual std::vector<std::string> available() const;
 
     };
 }

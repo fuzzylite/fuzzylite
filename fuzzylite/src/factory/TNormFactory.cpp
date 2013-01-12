@@ -22,7 +22,18 @@ namespace fl {
         if (className == DrasticProduct().className()) return new DrasticProduct;
         if (className == EinsteinProduct().className()) return new EinsteinProduct;
         if (className == HamacherProduct().className()) return new HamacherProduct;
-        throw fl::Exception("[factory error] T-Norm of class<" + className + "> not recognized", FL_AT);
+        throw fl::Exception("[factory error] T-Norm of class <" + className + "> not recognized", FL_AT);
+    }
+
+    std::vector<std::string> TNormFactory::available() const {
+        std::vector<std::string> result;
+        result.push_back(Minimum().className());
+        result.push_back(AlgebraicProduct().className());
+        result.push_back(BoundedDifference().className());
+        result.push_back(DrasticProduct().className());
+        result.push_back(EinsteinProduct().className());
+        result.push_back(HamacherProduct().className());
+        return result;
     }
 
 }

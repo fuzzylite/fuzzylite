@@ -112,8 +112,8 @@ namespace fl {
                 fis << "MF" << (ixTerm + 1) << "='" << var->getTerm(ixTerm)->getName() << "':"
                         << toFis(var->getTerm(ixTerm)) << "\n";
             }
+            fis << "\n";
         }
-        fis << "\n";
         return fis.str();
     }
 
@@ -131,8 +131,8 @@ namespace fl {
                 fis << "MF" << (ixTerm + 1) << "='" << var->getTerm(ixTerm)->getName() << "':"
                         << toFis(var->getTerm(ixTerm)) << "\n";
             }
+            fis << "\n";
         }
-        fis << "\n";
         return fis.str();
     }
 
@@ -141,7 +141,7 @@ namespace fl {
         fis << "[Rules]\n";
         for (int ixRuleBlock = 0; ixRuleBlock < engine->numberOfRuleBlocks(); ++ixRuleBlock) {
             RuleBlock* rb = engine->getRuleBlock(ixRuleBlock);
-            fis << "# RuleBlock " << rb->getName() << "\n";
+            if (engine->numberOfRuleBlocks() > 1) fis << "# RuleBlock " << rb->getName() << "\n";
             for (int ixRule = 0; ixRule < rb->numberOfRules(); ++ixRule) {
                 fis << exportRule(dynamic_cast<MamdaniRule*> (rb->getRule(ixRule)), engine) << "\n";
             }
@@ -248,7 +248,7 @@ namespace fl {
         if (not tnorm) return "";
         std::string name = tnorm->className();
         if (name == Minimum().className()) return "min";
-        if (name == AlgebraicProduct().className()) return "algebraic_product";
+        if (name == AlgebraicProduct().className()) return "prod";
         if (name == BoundedDifference().className()) return "bounded_difference";
         if (name == DrasticProduct().className()) return "drastic_product";
         if (name == EinsteinProduct().className()) return "einstein_product";
@@ -260,7 +260,7 @@ namespace fl {
         if (not snorm) return "";
         std::string name = snorm->className();
         if (name == Maximum().className()) return "max";
-        if (name == AlgebraicSum().className()) return "algebraic_sum";
+        if (name == AlgebraicSum().className()) return "sum";
         if (name == BoundedSum().className()) return "bounded_sum";
         if (name == NormalizedSum().className()) return "normalized_sum";
         if (name == DrasticSum().className()) return "drastic_sum";

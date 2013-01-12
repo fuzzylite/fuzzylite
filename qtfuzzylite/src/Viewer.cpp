@@ -282,13 +282,6 @@ namespace fl {
             //            painter.end();
         }
 
-        void Viewer::main() {
-            Example1 ex1;
-
-            Viewer* window = new Viewer;
-            window->setup(ex1.engine->getInputVariable(0));
-            window->show();
-        }
     }
 
 

@@ -11,6 +11,7 @@
 #include "fl/definitions.h"
 
 #include <string>
+#include <vector>
 
 namespace fl {
     class Defuzzifier;
@@ -22,6 +23,9 @@ namespace fl {
 
         virtual Defuzzifier* create(const std::string& className,
                 int divisions = FL_DEFAULT_DIVISIONS);
+        
+        virtual std::vector<std::string> available() const;
+        
     };
 }
 #endif	/* DEFUZZIFIERFACTORY_H */

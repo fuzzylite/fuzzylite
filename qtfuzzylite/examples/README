@@ -1,0 +1,19 @@
+README:
+
+
+Many of the examples contained in this folder were generated using fuzzylite's
+CppExporter, FisImporter/FisExporter, and FclImporter/FclExporter. However, 
+some of the original examples come from GNU Octave's fuzzy-logic-toolbox package
+and from Matlab's fuzzy logic toolbox. Specifically, the examples from such 
+third-parties are:
+
+GNU Octave: (original files)
+investment_portfolio.fis 
+mamdani_tip_calculator.fis
+
+Matlab: (original files)
+mam21.fis
+mam22.fis
+shower.fis
+tipper.fis
+

@@ -41,7 +41,7 @@ namespace fl {
         this->_tnorm = tnorm;
     }
 
-    TNormFactory* Factory::getTnorm() const {
+    TNormFactory* Factory::tnorm() const {
         return this->_tnorm;
     }
 
@@ -50,7 +50,7 @@ namespace fl {
         this->_snorm = snorm;
     }
 
-    SNormFactory* Factory::getSnorm() const {
+    SNormFactory* Factory::snorm() const {
         return this->_snorm;
     }
 
@@ -59,7 +59,7 @@ namespace fl {
         this->_defuzzifier = defuzzifier;
     }
 
-    DefuzzifierFactory* Factory::getDefuzzifier() const {
+    DefuzzifierFactory* Factory::defuzzifier() const {
         return this->_defuzzifier;
     }
 
@@ -68,7 +68,7 @@ namespace fl {
         this->_term = term;
     }
 
-    TermFactory* Factory::getTerm() const {
+    TermFactory* Factory::term() const {
         return this->_term;
     }
 

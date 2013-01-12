@@ -25,7 +25,14 @@ namespace fl {
 
     Engine* FisImporter::fromString(const std::string& fis) const {
         Engine* engine = new Engine;
-
+        
+        engine->addHedge(new Any);
+        engine->addHedge(new Extremely);
+        engine->addHedge(new Not);
+        engine->addHedge(new Seldom);
+        engine->addHedge(new Somewhat);
+        engine->addHedge(new Very);
+        
         std::istringstream fisReader(fis);
         std::string line;
         int lineNumber = 0;
@@ -35,7 +42,7 @@ namespace fl {
             ++lineNumber;
             line = Op::trim(line);
             line = fl::Op::findReplace(line, "'", "");
-            if (line.empty() or line[0] == '#')
+            if (line.empty() or line[0] == '#' or line[0] == '%')
                 continue;
 
             if ("[System]" == line.substr(0, std::string("[System]").size())
@@ -180,13 +187,6 @@ namespace fl {
         std::string line;
         std::getline(reader, line); //ignore first line [Rules]
 
-        engine->addHedge(new Any);
-        engine->addHedge(new Extremely);
-        engine->addHedge(new Not);
-        engine->addHedge(new Seldom);
-        engine->addHedge(new Somewhat);
-        engine->addHedge(new Very);
-
         RuleBlock* ruleblock = new RuleBlock;
         engine->addRuleBlock(ruleblock);
 
@@ -302,34 +302,35 @@ namespace fl {
     }
 
     std::string FisImporter::flTnorm(const std::string & name) const {
-        if (name == "min") return Minimum().className();
-        if (name == "prod") return AlgebraicProduct().className();
-        if (name == "bounded_difference") return BoundedDifference().className();
-        if (name == "drastic_product") return DrasticProduct().className();
-        if (name == "einstein_product") return EinsteinProduct().className();
-        if (name == "hamacher_product") return HamacherProduct().className();
-
-        throw fl::Exception("[syntax error] T-Norm <" + name + "> not recognized", FL_AT);
+        std::string className = name;
+        if (name == "min") className = Minimum().className();
+        else if (name == "prod") className = AlgebraicProduct().className();
+        else if (name == "bounded_difference") className = BoundedDifference().className();
+        else if (name == "drastic_product") className = DrasticProduct().className();
+        else if (name == "einstein_product") className = EinsteinProduct().className();
+        else if (name == "hamacher_product") className = HamacherProduct().className();
+        return className;
     }
 
     std::string FisImporter::flSnorm(const std::string & name) const {
-        if (name == "max") return Maximum().className();
-        if (name == "sum") return AlgebraicSum().className();
-        if (name == "bounded_sum") return BoundedSum().className();
-        if (name == "normalized_sum") return NormalizedSum().className();
-        if (name == "drastic_sum") return DrasticSum().className();
-        if (name == "einstein_sum") return EinsteinSum().className();
-        if (name == "hamacher_sum") return HamacherSum().className();
-
-        throw fl::Exception("[syntax error] S-Norm <" + name + "> not recognized", FL_AT);
+        std::string className = name;
+        if (name == "max") className = Maximum().className();
+        else if (name == "sum") className = AlgebraicSum().className();
+        else if (name == "bounded_sum") className = BoundedSum().className();
+        else if (name == "normalized_sum") className = NormalizedSum().className();
+        else if (name == "drastic_sum") className = DrasticSum().className();
+        else if (name == "einstein_sum") className = EinsteinSum().className();
+        else if (name == "hamacher_sum") className = HamacherSum().className();
+        return className;
     }
 
     std::string FisImporter::flDefuzzifier(const std::string & name) const {
-        if (name == "centroid") return Centroid().className();
-        if (name == "som") return SmallestOfMaximum().className();
-        if (name == "lom") return LargestOfMaximum().className();
-        if (name == "mom") return MeanOfMaximum().className();
-        throw fl::Exception("[syntax error] defuzzifier <" + name + "> not recognized", FL_AT);
+        std::string className = name;
+        if (name == "centroid") className = Centroid().className();
+        else if (name == "som") className = SmallestOfMaximum().className();
+        else if (name == "lom") className = LargestOfMaximum().className();
+        else if (name == "mom") className = MeanOfMaximum().className();
+        return className;
     }
 
     Term * FisImporter::extractTerm(const std::string & fis) const {
@@ -361,110 +362,64 @@ namespace fl {
         return createInstance(termParams[0], nameTerm[0], params);
     }
 
-    Term * FisImporter::createInstance(const std::string& termClass,
+    Term * FisImporter::createInstance(const std::string& mClass,
             const std::string& name, const std::vector<scalar>& params) const {
-        int requiredParams = 0;
+        std::map<std::string, std::string> mapping;
+        mapping["discretemf"] = Discrete().className();
+        mapping["gbellmf"] = Bell().className();
+        mapping["gaussmf"] = Gaussian().className();
+        mapping["gauss2mf"] = GaussianProduct().className();
+        mapping["pimf"] = PiShape().className();
+        mapping["rampmf"] = Ramp().className();
+        mapping["rectmf"] = Rectangle().className();
+        mapping["smf"] = SShape().className();
+        mapping["sigmf"] = Sigmoid().className();
+        mapping["dsigmf"] = SigmoidDifference().className();
+        mapping["psigmf"] = SigmoidProduct().className();
+        mapping["trapmf"] = Trapezoid().className();
+        mapping["trimf"] = Triangle().className();
+        mapping["zmf"] = ZShape().className();
 
-        if (termClass == "discretemf") {
-            if (params.size() % 2 == 0) {
-                Discrete* term = new Discrete(name);
-                for (std::size_t i = 0; i < params.size() - 1; i += 2) {
-                    term->x.push_back(params[i]);
-                    term->y.push_back(params[i + 1]);
-                }
-                return term;
-            } else {
-                std::ostringstream ex;
-                ex << "[syntax error] a discrete term requires an even list of values, "
-                        "but found <" << params.size() << ">";
-                throw fl::Exception(ex.str(), FL_AT);
-            }
+        std::vector<scalar> sortedParams = params;
+        if (mClass == "gbellmf" and params.size() >= 3) {
+            sortedParams.at(0) = params.at(2);
+            sortedParams.at(1) = params.at(0);
+            sortedParams.at(2) = params.at(1);
+        } else if (mClass == "gaussmf" and params.size() >= 2) {
+            sortedParams.at(0) = params.at(1);
+            sortedParams.at(1) = params.at(0);
+        } else if (mClass == "gauss2mf" and params.size() >= 4) {
+            sortedParams.at(0) = params.at(1);
+            sortedParams.at(1) = params.at(0);
+            sortedParams.at(2) = params.at(3);
+            sortedParams.at(3) = params.at(2);
+        } else if (mClass == "sigmf" and params.size() >= 2) {
+            sortedParams.at(0) = params.at(1);
+            sortedParams.at(1) = params.at(0);
+        } else if (mClass == "dsigmf" and params.size() >= 4) {
+            sortedParams.at(0) = params.at(1);
+            sortedParams.at(1) = params.at(0);
+            sortedParams.at(2) = params.at(3);
+            sortedParams.at(3) = params.at(2);
+        } else if (mClass == "psigmf" and params.size() >= 4) {
+            sortedParams.at(0) = params.at(1);
+            sortedParams.at(1) = params.at(0);
+            sortedParams.at(2) = params.at(3);
+            sortedParams.at(3) = params.at(2);
         }
 
-        if (termClass == "gbellmf") {
-            if (params.size() >= (requiredParams = 3)) {
-                return new Bell(name, params[2], params[0], params[1]);
-            }
-        }
+        std::string flClass = mClass;
+        std::map<std::string, std::string>::const_iterator it = mapping.find(mClass);
+        if (it != mapping.end()) flClass = it->second;
 
-        if (termClass == "gaussmf") {
-            if (params.size() >= (requiredParams = 2)) {
-                return new Gaussian(name, params[1], params[0]);
-            }
+        try {
+            Term* result = Factory::instance()->term()->create(flClass, sortedParams);
+            result->setName(name);
+            return result;
+        } catch (fl::Exception& ex) {
+            ex.addCall(FL_AT);
+            throw ex;
         }
-
-        if (termClass == "gauss2mf") {
-            if (params.size() >= (requiredParams = 4)) {
-                return new GaussianProduct(name, params[1], params[0], params[3], params[2]);
-            }
-        }
-
-        if (termClass == "pimf") {
-            if (params.size() >= (requiredParams = 4)) {
-                return new PiShape(name, params[0], params[1], params[2], params[3]);
-            }
-        }
-
-        if (termClass == "rampmf") {
-            if (params.size() >= (requiredParams = 2)) {
-                return new Ramp(name, params[0], params[1]);
-            }
-        }
-
-
-        if (termClass == "rectmf") {
-            if (params.size() >= (requiredParams = 2)) {
-                return new Rectangle(name, params[0], params[1]);
-            }
-        }
-
-        if (termClass == "smf") {
-            if (params.size() >= (requiredParams = 2)) {
-                return new SShape(name, params[0], params[1]);
-            }
-        }
-
-
-        if (termClass == "sigmf") {
-            if (params.size() >= (requiredParams = 2)) {
-                return new Sigmoid(name, params[1], params[0]);
-            }
-        }
-        if (termClass == "dsigmf") {
-            if (params.size() >= (requiredParams = 4)) {
-                return new SigmoidDifference(name, params[1], params[0], params[3], params[2]);
-            }
-        }
-        if (termClass == "psigmf") {
-            if (params.size() >= (requiredParams = 4)) {
-                return new SigmoidProduct(name, params[1], params[0], params[3], params[2]);
-            }
-        }
-
-        if (termClass == "trapmf") {
-            if (params.size() >= (requiredParams = 4))
-                return new Trapezoid(name, params[0], params[1], params[2], params[3]);
-        }
-
-        if (termClass == "trimf") {
-            if (params.size() >= (requiredParams = 3))
-                return new Triangle(name, params[0], params[1], params[2]);
-        }
-
-        if (termClass == "zmf") {
-            if (params.size() >= (requiredParams = 2)) {
-                return new ZShape(name, params[0], params[1]);
-            }
-        }
-
-        std::ostringstream ex;
-        if (requiredParams != 0) {
-            ex << "[syntax error] " << termClass << " requires "
-                    << requiredParams << " parameters";
-        } else {
-            ex << "[syntax error] term of class <" << termClass << "> not recognized";
-        }
-        throw fl::Exception(ex.str(), FL_AT);
     }
 
     void FisImporter::extractRange(const std::string& range, scalar& minimum, scalar & maximum) const {

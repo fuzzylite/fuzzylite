@@ -62,6 +62,7 @@ namespace fl {
         virtual InputVariable* getInputVariable(int index) const;
         virtual InputVariable* getInputVariable(const std::string& name) const;
         virtual InputVariable* removeInputVariable(int index);
+        virtual InputVariable* removeInputVariable(const std::string& name);
         virtual bool hasInputVariable(const std::string& name) const;
         virtual int numberOfInputVariables() const;
         virtual const std::vector<InputVariable*>& inputVariables() const;
@@ -75,6 +76,7 @@ namespace fl {
         virtual OutputVariable* getOutputVariable(const std::string& name) const;
         virtual bool hasOutputVariable(const std::string& name) const;
         virtual OutputVariable* removeOutputVariable(int index);
+        virtual OutputVariable* removeOutputVariable(const std::string& name);
         virtual int numberOfOutputVariables() const;
         virtual const std::vector<OutputVariable*>& outputVariables() const;
 
@@ -87,6 +89,7 @@ namespace fl {
         virtual RuleBlock* getRuleBlock(const std::string& name) const;
         virtual bool hasRuleBlock(const std::string& name) const;
         virtual RuleBlock* removeRuleBlock(int index);
+        virtual RuleBlock* removeRuleBlock(const std::string& name);
         virtual int numberOfRuleBlocks() const;
         virtual const std::vector<RuleBlock*>& ruleBlocks() const;
 
@@ -99,6 +102,7 @@ namespace fl {
         virtual Hedge* getHedge(const std::string& name) const;
         virtual bool hasHedge(const std::string& name) const;
         virtual Hedge* removeHedge(int index);
+        virtual Hedge* removeHedge(const std::string& name);
         virtual int numberOfHedges() const;
         virtual const std::vector<Hedge*>& hedges() const;
 

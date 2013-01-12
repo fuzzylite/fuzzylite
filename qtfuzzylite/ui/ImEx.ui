@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>285</width>
-    <height>424</height>
+    <width>400</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -31,7 +31,17 @@
     </widget>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="pte_fcl"/>
+    <widget class="QPlainTextEdit" name="pte_fcl">
+     <property name="font">
+      <font>
+       <family>Monospace</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="lineWrapMode">
+      <enum>QPlainTextEdit::NoWrap</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

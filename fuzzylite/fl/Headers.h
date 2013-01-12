@@ -17,7 +17,12 @@
 #include "fl/defuzzifier/Defuzzifier.h"
 #include "fl/defuzzifier/MaximumDefuzzifier.h"
 
-
+#include "fl/factory/Factory.h"
+#include "fl/factory/DefuzzifierFactory.h"
+#include "fl/factory/HedgeFactory.h"
+#include "fl/factory/SNormFactory.h"
+#include "fl/factory/TNormFactory.h"
+#include "fl/factory/TermFactory.h"
 
 #include "fl/imex/CppExporter.h"
 #include "fl/imex/FclImporter.h"
@@ -70,9 +75,5 @@
 #include "fl/variable/OutputVariable.h"
 #include "fl/variable/Variable.h"
 
-#include "fl/example/Example.h"
-#include "fl/example/Example1.h"
-#include "fl/example/Example2.h"
-#include "example/AllTermsExample.h"
 
 #endif /* FL_HEADERS_H_ */

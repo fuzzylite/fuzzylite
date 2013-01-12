@@ -22,7 +22,16 @@ namespace fl {
         if (className == SmallestOfMaximum().className()) return new SmallestOfMaximum(divisions);
         if (className == LargestOfMaximum().className()) return new LargestOfMaximum(divisions);
         if (className == MeanOfMaximum().className()) return new MeanOfMaximum(divisions);
-        throw fl::Exception("[factory error] Defuzzifier of class<" + className + "> not recognized", FL_AT);
+        throw fl::Exception("[factory error] Defuzzifier of class <" + className + "> not recognized", FL_AT);
+    }
+
+    std::vector<std::string> DefuzzifierFactory::available() const {
+        std::vector<std::string> result;
+        result.push_back(Centroid().className());
+        result.push_back(SmallestOfMaximum().className());
+        result.push_back(LargestOfMaximum().className());
+        result.push_back(MeanOfMaximum().className());
+        return result;
     }
 
 }

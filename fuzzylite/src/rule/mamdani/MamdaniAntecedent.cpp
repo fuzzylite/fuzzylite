@@ -122,8 +122,8 @@ namespace fl {
             }
 
             if (state bitand S_HEDGE) {
-                Hedge* hedge = engine->getHedge(token);
-                if (hedge) {
+                if (engine->hasHedge(token)) {
+                    Hedge* hedge = engine->getHedge(token);
                     proposition->hedges.push_back(hedge);
                     if (token == Any().name()) {
                         state = S_VARIABLE bitor S_OPERATOR;

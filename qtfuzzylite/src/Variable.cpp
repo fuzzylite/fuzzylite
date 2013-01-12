@@ -198,7 +198,7 @@ namespace fl {
                     message << ex.what() << std::endl <<
                             "Expected numeric values (including nan or inf)" << std::endl;
                     QMessageBox::critical(this, tr("Error"),
-                            QString::fromStdString(message.str()),
+                            Qt::escape(QString::fromStdString(message.str())),
                             QMessageBox::Ok);
                     return;
                 }

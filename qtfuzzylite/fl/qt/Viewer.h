@@ -63,7 +63,6 @@ namespace fl {
                     int from_r, int from_g, int from_b,
                     int from_a, int to_r, int to_g, int to_b, int to_a);
 
-            static void main();
 
         };
     }

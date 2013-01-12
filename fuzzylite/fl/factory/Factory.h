@@ -31,16 +31,16 @@ namespace fl {
         static Factory* instance();
 
         virtual void setTnorm(TNormFactory* tnorm);
-        virtual TNormFactory* getTnorm() const;
+        virtual TNormFactory* tnorm() const;
 
         virtual void setSnorm(SNormFactory* snorm);
-        virtual SNormFactory* getSnorm() const;
+        virtual SNormFactory* snorm() const;
 
         virtual void setDefuzzifier(DefuzzifierFactory* defuzzifier);
-        virtual DefuzzifierFactory* getDefuzzifier() const;
+        virtual DefuzzifierFactory* defuzzifier() const;
 
         virtual void setTerm(TermFactory* term);
-        virtual TermFactory* getTerm() const;
+        virtual TermFactory* term() const;
 
 
 
