@@ -28,8 +28,8 @@ int main(int argc, char** argv) {
     FL_LOG("An example will start running in 3 seconds...\n");
     if (not FL_DEBUG)
         FL_LOG("No output is shown because fuzzylite was not compiled with "
-                "preprocessor definition -DFL_DEBUG=true \n");
-    else    sleep(3);
+            "preprocessor definition -DFL_DEBUG=true \n");
+    else sleep(3);
 
     Engine* engine = new Engine("simple-dimmer");
 
@@ -64,10 +64,8 @@ int main(int argc, char** argv) {
         engine->process();
         bulbPower->defuzzify();
     }
-    FL_LOG("FCL:");
-    FL_LOG(FclExporter().toString(engine) << "\n\n");
-    FL_LOG("FIS:");
-    FL_LOG(FisExporter().toString(engine) << "\n\n");
+    FL_LOG("=============================\n#FCL:\n" << FclExporter().toString(engine) << "\n\n");
+    FL_LOG("=============================\n%FIS:\n" << FisExporter().toString(engine) << "\n\n");
 
     FL_LOG("Bye, fuzzylite!");
 

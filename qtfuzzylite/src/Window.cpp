@@ -651,10 +651,10 @@ namespace fl {
         void Window::onMenuImport() {
             if (ui->actionImport->isChecked()) {
                 QMenu menu(this);
+                menu.addAction("from file...", this, SLOT(onMenuImportFromFile()));
+                menu.addSeparator();
                 menu.addAction("Fuzzy Control Language (FCL)", this, SLOT(onMenuImportFromFCL()));
                 menu.addAction("Fuzzy Inference System (FIS)", this, SLOT(onMenuImportFromFIS()));
-                menu.addSeparator();
-                menu.addAction("from file...", this, SLOT(onMenuImportFromFile()));
                 menu.exec(QCursor::pos());
                 ui->actionImport->setChecked(false);
             }
