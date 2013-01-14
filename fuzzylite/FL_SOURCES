@@ -43,7 +43,6 @@ src/hedge/Seldom.cpp
 src/hedge/Not.cpp
 src/hedge/Extremely.cpp
 src/hedge/Very.cpp
-src/.cproject
 src/imex/FclExporter.cpp
 src/imex/FisExporter.cpp
 src/imex/CppExporter.cpp
