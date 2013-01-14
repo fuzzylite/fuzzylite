@@ -1,10 +1,8 @@
-
-
-CONFIG-=app debug
+CONFIG-= app release
 
 MAKEFILE = Makefile
 TEMPLATE = app
-TARGET = bin/qtfuzzylite
+TARGET = qtfuzzylite
 DEPENDPATH += . src ui
 INCLUDEPATH += . /usr/include/qt4
 MOC_DIR = tmp/moc
@@ -14,7 +12,10 @@ UI_SOURCES_DIR = ui
 RESOURCES += ui/resources.qrc
 RCC_DIR = ui/
 
-LIBS +=-lfuzzylite #-lQtSvg
+LIBS += -L/usr/local/lib -lfuzzylite #-lQtSvg
+
+target.path += bin
+INSTALLS += target
 
 FORMS += Window.ui Configuration.ui
 FORMS += Variable.ui Wizard.ui Term.ui ImEx.ui Viewer.ui

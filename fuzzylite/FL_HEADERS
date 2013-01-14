@@ -1,5 +1,5 @@
-fl/Headers.h
 fl/definitions.h
+fl/Headers.h
 fl/defuzzifier/MaximumDefuzzifier.h
 fl/defuzzifier/Defuzzifier.h
 fl/defuzzifier/Centroid.h

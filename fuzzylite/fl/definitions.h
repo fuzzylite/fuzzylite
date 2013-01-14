@@ -21,12 +21,12 @@
 #define FL_DECIMALS 3 //for formatting strings
 #define FL_DEFAULT_DIVISIONS 500 //for defuzzifiers
 
+#define FL_LOG_PREFIX __FILE__ << " [" << __LINE__ << "]:"
+
 #ifdef FL_NO_LOG
 #define FL_LOG(message)
 #define FL_LOGP(message)
 #else
-
-#define FL_LOG_PREFIX __FILE__ << " [" << __LINE__ << "]:"
 #define FL_LOG(message) std::cout << FL_LOG_PREFIX << message << std::endl
 #define FL_LOGP(message) std::cout << message << std::endl
 #endif

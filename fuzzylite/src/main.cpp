@@ -59,13 +59,13 @@ int main(int argc, char** argv) {
 
     scalar step = 1.0 / 10.0;
     for (scalar input = ambientLight->getMinimum();
-            input <= ambientLight->getMaximum() + step; input += step) {
+            input <= ambientLight->getMaximum() ; input += step) {
         ambientLight->setInput(input);
         engine->process();
         bulbPower->defuzzify();
     }
-    FL_LOG("=============================\n#FCL:\n" << FclExporter().toString(engine) << "\n\n");
-    FL_LOG("=============================\n%FIS:\n" << FisExporter().toString(engine) << "\n\n");
+//    FL_LOG("=============================\n#FCL:\n" << FclExporter().toString(engine) << "\n\n");
+//    FL_LOG("=============================\n%FIS:\n" << FisExporter().toString(engine) << "\n\n");
 
     FL_LOG("Bye, fuzzylite!");
 
