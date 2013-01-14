@@ -42,6 +42,8 @@ void MidPointRectangle::centroid(const LinguisticTerm* term, flScalar& x,
 
 flScalar MidPointRectangle::areaAndCentroid(const LinguisticTerm* term,
 		flScalar& centroid_x, flScalar& centroid_y, int samples) const {
+	centroid_x = 0.0;
+	centroid_y = 0.0;
 	flScalar dx = (term->maximum() - term->minimum()) / samples;
 	flScalar area = 0.0;
 	flScalar x, y;
