@@ -11,7 +11,6 @@
 #include "fl/qt/Viewer.h"
 #include "fl/qt/Window.h"
 
-#include <fl/Headers.h>
 
 #include <QtGui/QMessageBox>
 #include <QtGui/QListWidgetItem>

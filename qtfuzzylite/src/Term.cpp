@@ -12,7 +12,6 @@
 #include "fl/qt/Wizard.h"
 #include "fl/qt/Model.h"
 
-#include <fl/Headers.h>
 
 #include <QtGui/QMessageBox>
 
