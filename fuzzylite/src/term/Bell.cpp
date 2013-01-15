@@ -35,6 +35,7 @@ namespace fl {
 
     std::string Bell::toString() const {
         std::ostringstream ss;
+        ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << className() << " (" << _center << ", " << _width << ", " << _slope << ")";
         return ss.str();
     }

@@ -41,6 +41,7 @@ namespace fl {
 
     std::string ZShape::toString() const {
         std::ostringstream ss;
+        ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << className() << " (" << _start << ", " << _end << ")";
         return ss.str();
     }

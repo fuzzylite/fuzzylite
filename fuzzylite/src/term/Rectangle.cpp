@@ -34,7 +34,8 @@ namespace fl {
     }
 
     std::string Rectangle::toString() const {
-        std::stringstream ss;
+        std::ostringstream ss;
+        ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << className() << " (" << _minimum << ", " << _maximum << ")";
         return ss.str();
     }

@@ -36,7 +36,8 @@ namespace fl {
     }
 
     std::string Accumulated::toString() const {
-        std::stringstream ss;
+        std::ostringstream ss;
+        ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << className() << " (";
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             ss << _terms[i]->toString();

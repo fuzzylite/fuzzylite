@@ -33,7 +33,8 @@ namespace fl {
     }
 
     std::string Gaussian::toString() const {
-        std::stringstream ss;
+        std::ostringstream ss;
+        ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << className() << " (" << _mean << ", " << _sigma << ")";
         return ss.str();
     }

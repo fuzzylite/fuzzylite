@@ -10,8 +10,11 @@
 
 #include "fl/scalar.h"
 
+#include "fl/config.h"
+
 #include <string>
 #include <limits>
+#include <iomanip>
 
 namespace fl {
 

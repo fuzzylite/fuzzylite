@@ -52,6 +52,7 @@ namespace fl {
 
     std::string PiShape::toString() const {
         std::ostringstream ss;
+        ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << className() << " (" << _a << ", " << _b << ", " << _c << ", " << _d << ")";
         return ss.str();
     }

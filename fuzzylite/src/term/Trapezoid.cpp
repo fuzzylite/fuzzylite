@@ -45,7 +45,8 @@ namespace fl {
     }
 
     std::string Trapezoid::toString() const {
-        std::stringstream ss;
+        std::ostringstream ss;
+        ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << className() << " (" << _a << ", " << _b << ", " << _c << ", "
                 << _d << ")";
         return ss.str();

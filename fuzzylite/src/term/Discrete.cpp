@@ -80,7 +80,8 @@ namespace fl {
     }
 
     std::string Discrete::toString() const {
-        std::stringstream ss;
+        std::ostringstream ss;
+        ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << className() << " (";
         for (std::size_t i = 0; i < x.size(); ++i) {
             ss << x[i] << " " << y[i];

@@ -33,6 +33,7 @@ namespace fl {
 
     std::string SigmoidProduct::toString() const {
         std::ostringstream ss;
+        ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << "SigmoidProduct (" << _leftInflection << ", " << _risingSlope << ", "
                 << _rightInflection << ", " << _fallingSlope << ")";
         return ss.str();

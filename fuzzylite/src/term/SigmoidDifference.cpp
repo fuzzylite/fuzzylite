@@ -35,6 +35,7 @@ namespace fl {
 
     std::string SigmoidDifference::toString() const {
         std::ostringstream ss;
+        ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << "SigmoidDifference (" << _leftInflection << ", " << _risingSlope << ", "
                 << _rightInflection << ", " << _fallingSlope << ")";
         return ss.str();

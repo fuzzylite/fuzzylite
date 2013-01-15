@@ -8,33 +8,39 @@
 #include "fl/Headers.h"
 
 #include <typeinfo>
-#include <unistd.h>
+#include <iomanip>
 
 using namespace fl;
 
 int main(int argc, char** argv) {
-    std::cout << "Hello, fuzzylite!\n" 
-            "\nVersion: " << FL_VERSION << " (" << FL_DATE << ")\n";
+    std::cout << "\nHello, fuzzylite!" << std::endl
+            << "Version: " << FL_VERSION << " (" << FL_DATE << ")\n" << std::endl;
     scalar someScalar = 0;
     int scalarSize = sizeof (someScalar);
     (void) scalarSize;
 #ifdef FL_USE_FLOAT
     std::cout << "scalar is defined as type <" << (typeid (scalar).name()) << "> "
-            "(float) with " << scalarSize << " bytes\n";
+            "(float) with " << scalarSize << " bytes" << std::endl;
 #else
     std::cout << "scalar is defined as type <" << (typeid (scalar).name()) << "> "
             "(double) with " << scalarSize << " bytes\n";
 #endif
-    std::cout << "FL_PRECISION: tolerance to floating-point value is " << FL_PRECISION << "\n"
-            << "FL_DECIMALS: number of decimals to print is " << FL_DECIMALS << "\n"
-            << "FL_USE_LOG: flag is set to: " << FL_LOG << "\n"
-            << "FL_DEBUG: flag is set to: " << FL_DEBUG << "\n\n";
+    std::cout << "tolerance to floating-point value is " << FL_PRECISION
+            << " (FL_PRECISION)" << std::endl
+            << FL_DECIMALS << " decimals are printed (FL_DECIMALS)" << std::endl;
+#ifdef FL_NO_LOG
+    std::cout << "Macro FL_LOG will not print anything because of directive -DFL_NO_LOG\n";
+#else
+    std::cout << "FL_LOG is enabled\n";
+#endif
+    if (FL_DEBUG)
+        std::cout << "FL_DEBUG is enabled. Use with CARE. Very detailed information will be printed to console "
+            "everytime the fl::Engine::process() is called. NOT good for performance!\n"
+            << std::endl;
+    else
+        std::cout << "FL_DEBUG is disabled. FL_DBG and FL_BEGIN_BLOCKs are disabled.\n";
 
-    std::cout << "An example will start running in 3 seconds...\n\n";
-    if (not FL_DEBUG)
-        std::cout << "No output will be shown because fuzzylite was not compiled with "
-            "preprocessor definition -DFL_DEBUG=true \n";
-    else sleep(3);
+    std::cout << std::setprecision(FL_DECIMALS) << std::fixed;
 
     Engine* engine = new Engine("simple-dimmer");
 
@@ -62,17 +68,29 @@ int main(int argc, char** argv) {
 
     engine->configure("Minimum", "Maximum", "Minimum", "Maximum", "Centroid", FL_DIVISIONS);
 
-    scalar step = 1.0 / 10.0;
+    std::cout << "\nPress Enter to continue with the examples..." << std::endl;
+    std::cin.get();
+    std::cout << "\n\n" << FclExporter().toString(engine) << "\n" << std::endl;
+    std::cout << "The example described above will be tested next...\n" << std::endl;
+    if (not FL_DEBUG)
+        std::cout << "[info] For a more detailed output, build fuzzylite with "
+            "preprocessor definition -DFL_DEBUG=true (e.g. cmake -DFL_DEBUG=true ..) \n" << std::endl;
+
+    std::cout << "Press Enter to continue with the test..." << std::endl;
+    std::cin.get();
+
+    scalar step = 1.0 / 25.0;
     for (scalar input = ambientLight->getMinimum();
             input <= ambientLight->getMaximum(); input += step) {
         ambientLight->setInput(input);
+        std::cout << "ambientLight.input=" << input << " -> ";
         engine->process();
-        bulbPower->defuzzify();
+        std::cout << "bulbPower.output.defuzzify=" << bulbPower->defuzzify() << std::endl;
     }
-    //    FL_LOG("=============================\n#FCL:\n" << FclExporter().toString(engine) << "\n\n");
-    //    FL_LOG("=============================\n%FIS:\n" << FisExporter().toString(engine) << "\n\n");
 
-    FL_LOG("Bye, fuzzylite!");
+    std::cout << "\n\n";
+
+    std::cout << "Bye, fuzzylite!\n" << std::endl;
 
 }
 
