@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_TRIANGLE_H_
-#define FL_TRIANGLE_H_
+#ifndef FL_TRIANGLE_H
+#define FL_TRIANGLE_H
 
 #include "fl/term/Term.h"
 
@@ -43,4 +43,4 @@ namespace fl {
     };
 
 } 
-#endif /* FL_TRIANGLE_H_ */
+#endif /* FL_TRIANGLE_H */

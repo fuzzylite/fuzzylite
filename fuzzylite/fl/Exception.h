@@ -5,10 +5,10 @@
  *      Author: jcrada
  */
 
-#ifndef FL_EXCEPTION_H_
-#define FL_EXCEPTION_H_
+#ifndef FL_EXCEPTION_H
+#define FL_EXCEPTION_H
 
-#include "fl/definitions.h"
+#include "fl/config.h"
 #include <exception>
 #include <string>
 #include <vector>
@@ -52,4 +52,4 @@ namespace fl {
     };
 
 }
-#endif /* FL_EXCEPTION_H_ */
+#endif /* FL_EXCEPTION_H */

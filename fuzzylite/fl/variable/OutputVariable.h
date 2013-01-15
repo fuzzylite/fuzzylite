@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_OUTPUTVARIABLE_H_
-#define FL_OUTPUTVARIABLE_H_
+#ifndef FL_OUTPUTVARIABLE_H
+#define FL_OUTPUTVARIABLE_H
 
 #include "fl/variable/Variable.h"
 
@@ -53,4 +53,4 @@ namespace fl {
     };
 
 }
-#endif /* FL_OUTPUTVARIABLE_H_ */
+#endif /* FL_OUTPUTVARIABLE_H */

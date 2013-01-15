@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_FCLIMPORTER_H_
-#define FL_FCLIMPORTER_H_
+#ifndef FL_FCLIMPORTER_H
+#define FL_FCLIMPORTER_H
 
 #include "fl/imex/Importer.h"
 
@@ -51,4 +51,4 @@ namespace fl {
     };
 
 }
-#endif /* FL_FCLIMPORTER_H_ */
+#endif /* FL_FCLIMPORTER_H */

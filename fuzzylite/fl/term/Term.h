@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_TERM_H_
-#define FL_TERM_H_
+#ifndef FL_TERM_H
+#define FL_TERM_H
 
 #include "fl/scalar.h"
 
@@ -45,4 +45,4 @@ namespace fl {
     };
 
 } 
-#endif /* FL_TERM_H_ */
+#endif /* FL_TERM_H */

@@ -5,11 +5,11 @@
  *      Author: jcrada
  */
 
-#ifndef FL_DEFUZZIFIER_H_
-#define FL_DEFUZZIFIER_H_
+#ifndef FL_DEFUZZIFIER_H
+#define FL_DEFUZZIFIER_H
 
 #include "fl/scalar.h"
-#include "fl/definitions.h"
+#include "fl/config.h"
 
 #include <string>
 
@@ -21,7 +21,7 @@ namespace fl {
         int _divisions;
 
     public:
-        Defuzzifier(int divisions = FL_DEFAULT_DIVISIONS);
+        Defuzzifier(int divisions = FL_DIVISIONS);
         virtual ~Defuzzifier();
 
         virtual std::string className() const = 0;
@@ -35,4 +35,4 @@ namespace fl {
     };
 
 } 
-#endif /* FL_DEFUZZIFIER_H_ */
+#endif /* FL_DEFUZZIFIER_H */

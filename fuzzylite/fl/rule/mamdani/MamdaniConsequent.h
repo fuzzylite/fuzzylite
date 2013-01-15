@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_MAMDANICONSEQUENT_H_
-#define FL_MAMDANICONSEQUENT_H_
+#ifndef FL_MAMDANICONSEQUENT_H
+#define FL_MAMDANICONSEQUENT_H
 
 #include "fl/rule/Consequent.h"
 
@@ -35,4 +35,4 @@ namespace fl {
     };
 
 } 
-#endif /* FL_MAMDANICONSEQUENT_H_ */
+#endif /* FL_MAMDANICONSEQUENT_H */

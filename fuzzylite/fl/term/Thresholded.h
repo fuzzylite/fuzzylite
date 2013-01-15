@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_THRESHOLDED_H_
-#define FL_THRESHOLDED_H_
+#ifndef FL_THRESHOLDED_H
+#define FL_THRESHOLDED_H
 
 #include "fl/term/Term.h"
 
@@ -44,4 +44,4 @@ namespace fl {
     };
 
 } 
-#endif /* FL_THRESHOLDED_H_ */
+#endif /* FL_THRESHOLDED_H */

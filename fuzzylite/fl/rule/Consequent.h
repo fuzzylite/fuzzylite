@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_CONSEQUENT_H_
-#define FL_CONSEQUENT_H_
+#ifndef FL_CONSEQUENT_H
+#define FL_CONSEQUENT_H
 
 #include "fl/scalar.h"
 
@@ -30,4 +30,4 @@ namespace fl {
 
 }
 
-#endif /* FL_CONSEQUENT_H_ */
+#endif /* FL_CONSEQUENT_H */

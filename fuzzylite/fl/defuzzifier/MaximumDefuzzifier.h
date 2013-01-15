@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_MAXIMUMDEFUZZIFIER_H_
-#define FL_MAXIMUMDEFUZZIFIER_H_
+#ifndef FL_MAXIMUMDEFUZZIFIER_H
+#define FL_MAXIMUMDEFUZZIFIER_H
 
 #include "fl/defuzzifier/Defuzzifier.h"
 
@@ -21,7 +21,7 @@ namespace fl {
     protected:
         Type _type;
     public:
-        MaximumDefuzzifier(Type type, int divisions = FL_DEFAULT_DIVISIONS);
+        MaximumDefuzzifier(Type type, int divisions = FL_DIVISIONS);
         virtual ~MaximumDefuzzifier();
         
         virtual std::string className() const;
@@ -34,20 +34,20 @@ namespace fl {
     class MeanOfMaximum : public MaximumDefuzzifier {
     public:
 
-        MeanOfMaximum(int divisions = FL_DEFAULT_DIVISIONS);
+        MeanOfMaximum(int divisions = FL_DIVISIONS);
     };
 
     class SmallestOfMaximum : public MaximumDefuzzifier {
     public:
 
-        SmallestOfMaximum(int divisions = FL_DEFAULT_DIVISIONS);
+        SmallestOfMaximum(int divisions = FL_DIVISIONS);
     };
 
     class LargestOfMaximum : public MaximumDefuzzifier {
     public:
 
-        LargestOfMaximum(int divisions = FL_DEFAULT_DIVISIONS);
+        LargestOfMaximum(int divisions = FL_DIVISIONS);
     };
 
 }
-#endif /* FL_MAXIMUMDEFUZZIFIER_H_ */
+#endif /* FL_MAXIMUMDEFUZZIFIER_H */

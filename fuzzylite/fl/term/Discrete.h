@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_DISCRETE_H_
-#define FL_DISCRETE_H_
+#ifndef FL_DISCRETE_H
+#define FL_DISCRETE_H
 
 #include "fl/term/Term.h"
 
@@ -23,7 +23,7 @@ namespace fl {
 
         Discrete(const std::string& name = "");
 
-        Discrete(const std::string& name, int argc, ...) throw (fl::Exception);
+//        Discrete(const std::string& name, int argc, ...) throw (fl::Exception);
 
         Discrete(const std::string& name,
                 const std::vector<scalar>& x,
@@ -48,4 +48,4 @@ namespace fl {
     };
 
 }
-#endif /* FL_DISCRETE_H_ */
+#endif /* FL_DISCRETE_H */

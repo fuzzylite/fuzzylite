@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_RECTANGLE_H_
-#define FL_RECTANGLE_H_
+#ifndef FL_RECTANGLE_H
+#define FL_RECTANGLE_H
 
 #include "fl/term/Term.h"
 
@@ -37,4 +37,4 @@ namespace fl {
     };
 
 } 
-#endif /* FL_RECTANGLE_H_ */
+#endif /* FL_RECTANGLE_H */

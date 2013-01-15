@@ -5,10 +5,10 @@
  *      Author: jcrada
  */
 
-#ifndef FL_HEADERS_H_
-#define FL_HEADERS_H_
+#ifndef FL_HEADERS_H
+#define FL_HEADERS_H
 
-#include "fl/definitions.h"
+#include "fl/config.h"
 #include "fl/scalar.h"
 #include "fl/Engine.h"
 #include "fl/Exception.h"
@@ -76,4 +76,4 @@
 #include "fl/variable/Variable.h"
 
 
-#endif /* FL_HEADERS_H_ */
+#endif /* FL_HEADERS_H */

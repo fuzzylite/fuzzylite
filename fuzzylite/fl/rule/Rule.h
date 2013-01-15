@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_RULE_H_
-#define FL_RULE_H_
+#ifndef FL_RULE_H
+#define FL_RULE_H
 
 #include "fl/scalar.h"
 
@@ -55,4 +55,4 @@ namespace fl {
 
 
 
-#endif /* FL_RULE_H_ */
+#endif /* FL_RULE_H */

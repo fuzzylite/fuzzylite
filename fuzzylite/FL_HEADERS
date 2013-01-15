@@ -1,4 +1,4 @@
-fl/definitions.h
+fl/config.h
 fl/Headers.h
 fl/defuzzifier/MaximumDefuzzifier.h
 fl/defuzzifier/Defuzzifier.h

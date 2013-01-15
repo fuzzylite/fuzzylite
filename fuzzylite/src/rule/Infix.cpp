@@ -10,7 +10,7 @@
 #include "fl/rule/Rule.h"
 #include "fl/operator/Operator.h"
 
-#include "fl/definitions.h"
+#include "fl/config.h"
 
 #include <cmath>
 #include <queue>
@@ -268,8 +268,8 @@ namespace fl {
 
     void Infix::main() {
         Infix infix;
-        GenericFunction* f = infix.getGenericFunction("acos");
-        FL_LOG("acos(0.4) = " << f->oneArgFunction(0.4));
+//        GenericFunction* f = infix.getGenericFunction("acos");
+//        FL_LOG("acos(0.4) = " << f->oneArgFunction(0.4));
         std::map<std::string, GenericFunction*> gf = infix.genericFunctions();
         std::map<std::string, GenericFunction*>::const_iterator it = gf.begin();
         for (; it != gf.end(); ++it) {

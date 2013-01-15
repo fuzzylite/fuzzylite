@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_MAMDANIANTECEDENT_H_
-#define FL_MAMDANIANTECEDENT_H_
+#ifndef FL_MAMDANIANTECEDENT_H
+#define FL_MAMDANIANTECEDENT_H
 
 #include "fl/rule/Antecedent.h"
 
@@ -44,4 +44,4 @@ namespace fl {
     };
 
 } 
-#endif /* FL_MAMDANIANTECEDENT_H_ */
+#endif /* FL_MAMDANIANTECEDENT_H */

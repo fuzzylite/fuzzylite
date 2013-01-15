@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_ACCUMULATED_H_
-#define FL_ACCUMULATED_H_
+#ifndef FL_ACCUMULATED_H
+#define FL_ACCUMULATED_H
 
 #include "fl/term/Term.h"
 
@@ -59,4 +59,4 @@ namespace fl {
     };
 
 }
-#endif /* FL_ACCUMULATED_H_ */
+#endif /* FL_ACCUMULATED_H */

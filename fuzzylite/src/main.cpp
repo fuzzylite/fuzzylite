@@ -13,22 +13,27 @@
 using namespace fl;
 
 int main(int argc, char** argv) {
-    FL_LOG("Hello, fuzzylite!");
-    FL_LOG("Version: " << FL_VERSION);
+    std::cout << "Hello, fuzzylite!\n" 
+            "\nVersion: " << FL_VERSION << " (" << FL_DATE << ")\n";
     scalar someScalar = 0;
     int scalarSize = sizeof (someScalar);
-#ifdef FL_USE_SINGLE_PRECISION
-    FL_LOG("scalar is defined as type <" << (typeid (scalar).name()) << "> (float) with " << scalarSize << " bytes");
+    (void) scalarSize;
+#ifdef FL_USE_FLOAT
+    std::cout << "scalar is defined as type <" << (typeid (scalar).name()) << "> "
+            "(float) with " << scalarSize << " bytes\n";
 #else
-    FL_LOG("scalar is defined as type <" << (typeid (scalar).name()) << "> (double) with " << scalarSize << " bytes");
+    std::cout << "scalar is defined as type <" << (typeid (scalar).name()) << "> "
+            "(double) with " << scalarSize << " bytes\n";
 #endif
-    FL_LOG("tolerance to floating-point value is " << FL_EPSILON);
-    FL_LOG("FL_DEBUG flag is set to: " << FL_DEBUG);
+    std::cout << "FL_PRECISION: tolerance to floating-point value is " << FL_PRECISION << "\n"
+            << "FL_DECIMALS: number of decimals to print is " << FL_DECIMALS << "\n"
+            << "FL_USE_LOG: flag is set to: " << FL_LOG << "\n"
+            << "FL_DEBUG: flag is set to: " << FL_DEBUG << "\n\n";
 
-    FL_LOG("An example will start running in 3 seconds...\n");
+    std::cout << "An example will start running in 3 seconds...\n\n";
     if (not FL_DEBUG)
-        FL_LOG("No output is shown because fuzzylite was not compiled with "
-            "preprocessor definition -DFL_DEBUG=true \n");
+        std::cout << "No output will be shown because fuzzylite was not compiled with "
+            "preprocessor definition -DFL_DEBUG=true \n";
     else sleep(3);
 
     Engine* engine = new Engine("simple-dimmer");
@@ -55,17 +60,17 @@ int main(int argc, char** argv) {
 
     engine->addRuleBlock(ruleblock);
 
-    engine->configure("Minimum", "Maximum", "Minimum", "Maximum", "Centroid", FL_DEFAULT_DIVISIONS);
+    engine->configure("Minimum", "Maximum", "Minimum", "Maximum", "Centroid", FL_DIVISIONS);
 
     scalar step = 1.0 / 10.0;
     for (scalar input = ambientLight->getMinimum();
-            input <= ambientLight->getMaximum() ; input += step) {
+            input <= ambientLight->getMaximum(); input += step) {
         ambientLight->setInput(input);
         engine->process();
         bulbPower->defuzzify();
     }
-//    FL_LOG("=============================\n#FCL:\n" << FclExporter().toString(engine) << "\n\n");
-//    FL_LOG("=============================\n%FIS:\n" << FisExporter().toString(engine) << "\n\n");
+    //    FL_LOG("=============================\n#FCL:\n" << FclExporter().toString(engine) << "\n\n");
+    //    FL_LOG("=============================\n%FIS:\n" << FisExporter().toString(engine) << "\n\n");
 
     FL_LOG("Bye, fuzzylite!");
 

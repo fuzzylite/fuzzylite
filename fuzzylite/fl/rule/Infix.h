@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_INFIX_H_
-#define FL_INFIX_H_
+#ifndef FL_INFIX_H
+#define FL_INFIX_H
 
 #include "fl/scalar.h"
 
@@ -41,8 +41,8 @@ namespace fl {
 
         };
 
-        typedef scalar(*OneArgFunction)(scalar);
-        typedef scalar(*TwoArgFunction)(scalar, scalar);
+        typedef double(*OneArgFunction)(double);
+        typedef double(*TwoArgFunction)(double, double);
 
         class GenericFunction {
         public:
@@ -111,4 +111,4 @@ namespace fl {
     };
 
 } 
-#endif /* FL_INFIX_H_ */
+#endif /* FL_INFIX_H */

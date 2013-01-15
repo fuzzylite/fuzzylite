@@ -10,7 +10,7 @@
 
 #include "fl/scalar.h"
 
-#include "fl/definitions.h"
+#include "fl/config.h"
 
 #include "fl/Exception.h"
 
@@ -20,6 +20,7 @@
 #include <vector>
 #include <sstream>
 #include <iostream>
+#include <iomanip>
 #include <limits>
 #include <utility>
 #include <stdarg.h>
@@ -60,27 +61,27 @@ namespace fl {
 
         //Is less than
 
-        static bool isLt(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
+        static bool isLt(scalar a, scalar b, scalar tolerance = FL_PRECISION) {
             return not isEq(a, b, tolerance) and a < b;
         }
 
-        static bool isLE(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
+        static bool isLE(scalar a, scalar b, scalar tolerance = FL_PRECISION) {
             return isEq(a, b, tolerance) or a < b;
         }
 
         //Is equal
 
-        static bool isEq(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
+        static bool isEq(scalar a, scalar b, scalar tolerance = FL_PRECISION) {
             return std::fabs(a - b) < tolerance;
         }
 
         //Is greater than
 
-        static bool isGt(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
+        static bool isGt(scalar a, scalar b, scalar tolerance = FL_PRECISION) {
             return not isEq(a, b, tolerance) and a > b;
         }
 
-        static bool isGE(scalar a, scalar b, scalar tolerance = FL_EPSILON) {
+        static bool isGE(scalar a, scalar b, scalar tolerance = FL_PRECISION) {
             return isEq(a, b, tolerance) or a > b;
         }
 

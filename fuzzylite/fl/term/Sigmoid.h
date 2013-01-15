@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_SIGMOID_H_
-#define FL_SIGMOID_H_
+#ifndef FL_SIGMOID_H
+#define FL_SIGMOID_H
 
 #include "fl/term/Term.h"
 
@@ -38,4 +38,4 @@ namespace fl {
     };
 
 } 
-#endif /* FL_SIGMOID_H_ */
+#endif /* FL_SIGMOID_H */

@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_BELL_H_
-#define FL_BELL_H_
+#ifndef FL_BELL_H
+#define FL_BELL_H
 
 #include "fl/term/Term.h"
 
@@ -43,4 +43,4 @@ namespace fl {
     };
 
 }
-#endif /* FL_BELL_H_ */
+#endif /* FL_BELL_H */

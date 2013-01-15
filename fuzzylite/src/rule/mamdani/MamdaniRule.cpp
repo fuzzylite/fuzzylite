@@ -12,7 +12,7 @@
 
 #include "fl/operator/Operator.h"
 
-#include "fl/definitions.h"
+#include "fl/config.h"
 #include "fl/Exception.h"
 
 #include <vector>

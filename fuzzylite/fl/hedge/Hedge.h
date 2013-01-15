@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_HEDGE_H_
-#define FL_HEDGE_H_
+#ifndef FL_HEDGE_H
+#define FL_HEDGE_H
 
 #include "fl/scalar.h"
 
@@ -27,4 +27,4 @@ namespace fl {
     };
 }
 
-#endif /* FL_HEDGE_H_ */
+#endif /* FL_HEDGE_H */

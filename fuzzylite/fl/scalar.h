@@ -5,19 +5,18 @@
  *      Author: jcrada
  */
 
-#ifndef FL_SCALAR_H_
-#define FL_SCALAR_H_
+#ifndef FL_SCALAR_H
+#define FL_SCALAR_H
 
 namespace fl {
-#ifdef FL_USE_SINGLE_PRECISION
+#ifdef FL_USE_FLOAT
     typedef float scalar;
-#define FL_EPSILON 1e-5
-
 #else
     typedef double scalar;
-#define FL_EPSILON 1e-5
 #endif
+    
+
 
 }
 
-#endif /* FL_SCALAR_H_ */
+#endif /* FL_SCALAR_H */

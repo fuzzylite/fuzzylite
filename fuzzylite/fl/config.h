@@ -1,16 +1,15 @@
 /*
- * definitions.h
+ * config.h
  *
  *  Created on: 29/11/2012
  *      Author: jcrada
  */
 
-#ifndef FL_DEFINITIONS_H_
-#define FL_DEFINITIONS_H_
+#ifndef FL_CONFIG_H
+#define FL_CONFIG_H
 
 #include <iostream>
 #include <sstream>
-#include <iomanip>
 
 
 #define FL_VERSION "2.0"
@@ -18,8 +17,17 @@
 
 #define FL_AT __FILE__, __LINE__, __FUNCTION__
 
+#ifndef FL_DECIMALS
 #define FL_DECIMALS 3 //for formatting strings
-#define FL_DEFAULT_DIVISIONS 500 //for defuzzifiers
+#endif
+
+#ifndef FL_DIVISIONS
+#define FL_DIVISIONS 500 //for defuzzifiers
+#endif
+
+#ifndef FL_PRECISION
+#define FL_PRECISION 1e-5
+#endif
 
 #define FL_LOG_PREFIX __FILE__ << " [" << __LINE__ << "]:"
 
@@ -44,4 +52,4 @@
         FL_END_DEBUG_BLOCK
 
 
-#endif /* FL_DEFINITIONS_H_ */
+#endif /* FL_DEFINITIONS_H */

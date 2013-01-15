@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_RULEBLOCK_H_
-#define FL_RULEBLOCK_H_
+#ifndef FL_RULEBLOCK_H
+#define FL_RULEBLOCK_H
 
 #include <vector>
 #include <string>
@@ -59,4 +59,4 @@ namespace fl {
     };
 
 } 
-#endif /* RULEBLOCK_H_ */
+#endif /* RULEBLOCK_H */

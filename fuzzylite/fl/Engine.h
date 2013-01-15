@@ -5,10 +5,10 @@
  *      Author: jcrada
  */
 
-#ifndef FL_ENGINE_H_
-#define FL_ENGINE_H_
+#ifndef FL_ENGINE_H
+#define FL_ENGINE_H
 
-#include "fl/definitions.h"
+#include "fl/config.h"
 
 #include <vector>
 #include <string>
@@ -47,7 +47,7 @@ namespace fl {
                 const std::string& activationTnorm = "Minimum",
                 const std::string& accumulationSnorm = "Maximum",
                 const std::string& defuzzifier = "CenterOfGravity",
-                int divisions = FL_DEFAULT_DIVISIONS);
+                int divisions = FL_DIVISIONS);
 
         virtual void process();
 
@@ -112,4 +112,4 @@ namespace fl {
     };
 
 }
-#endif /* FL_ENGINE_H_ */
+#endif /* FL_ENGINE_H */

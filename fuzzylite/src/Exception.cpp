@@ -6,7 +6,7 @@
  */
 
 #include "fl/Exception.h"
-#include "fl/definitions.h"
+#include "fl/config.h"
 
 namespace fl {
 

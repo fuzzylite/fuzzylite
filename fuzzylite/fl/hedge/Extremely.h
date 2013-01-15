@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_EXTREMELY_H_
-#define FL_EXTREMELY_H_
+#ifndef FL_EXTREMELY_H
+#define FL_EXTREMELY_H
 
 #include "fl/hedge/Hedge.h"
 
@@ -19,4 +19,4 @@ namespace fl {
     };
 
 } 
-#endif /* FL_EXTREMELY_H_ */
+#endif /* FL_EXTREMELY_H */

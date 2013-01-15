@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_MAMDANIEXPRESSION_H_
-#define FL_MAMDANIEXPRESSION_H_
+#ifndef FL_MAMDANIEXPRESSION_H
+#define FL_MAMDANIEXPRESSION_H
 
 #include "fl/scalar.h"
 
@@ -62,4 +62,4 @@ namespace fl {
     };
 
 }
-#endif /* FL_MAMDANIEXPRESSION_H_ */
+#endif /* FL_MAMDANIEXPRESSION_H */

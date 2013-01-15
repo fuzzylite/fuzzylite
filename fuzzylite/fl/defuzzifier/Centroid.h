@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_CENTROID_H_
-#define FL_CENTROID_H_
+#ifndef FL_CENTROID_H
+#define FL_CENTROID_H
 
 #include "fl/defuzzifier/Defuzzifier.h"
 
@@ -14,7 +14,7 @@ namespace fl {
 
     class Centroid : public Defuzzifier {
     public:
-        Centroid(int divisions = FL_DEFAULT_DIVISIONS);
+        Centroid(int divisions = FL_DIVISIONS);
 
         std::string className() const;
         scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;
@@ -22,4 +22,4 @@ namespace fl {
     };
 
 } 
-#endif /* FL_CENTROID_H_ */
+#endif /* FL_CENTROID_H */

@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_ANY_H_
-#define FL_ANY_H_
+#ifndef FL_ANY_H
+#define FL_ANY_H
 
 #include "fl/hedge/Hedge.h"
 
@@ -19,4 +19,4 @@ namespace fl {
     };
 
 } 
-#endif /* FL_ANY_H_ */
+#endif /* FL_ANY_H */

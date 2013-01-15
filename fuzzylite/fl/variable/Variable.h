@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_VARIABLE_H_
-#define FL_VARIABLE_H_
+#ifndef FL_VARIABLE_H
+#define FL_VARIABLE_H
 
 #include "fl/scalar.h"
 #include "fl/defuzzifier/Centroid.h"
@@ -78,4 +78,4 @@ namespace fl {
 
 }
 
-#endif /* FL_VARIABLE_H_ */
+#endif /* FL_VARIABLE_H */

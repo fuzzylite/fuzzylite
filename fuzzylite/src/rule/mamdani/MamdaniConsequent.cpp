@@ -16,7 +16,7 @@
 #include "fl/term/Thresholded.h"
 #include "fl/term/Accumulated.h"
 
-#include "fl/definitions.h"
+#include "fl/config.h"
 
 namespace fl {
 

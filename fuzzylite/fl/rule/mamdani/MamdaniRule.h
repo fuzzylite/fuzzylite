@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_MAMDANIRULE_H_
-#define FL_MAMDANIRULE_H_
+#ifndef FL_MAMDANIRULE_H
+#define FL_MAMDANIRULE_H
 
 #include "fl/rule/Rule.h"
 #include "fl/rule/mamdani/MamdaniAntecedent.h"
@@ -34,4 +34,4 @@ namespace fl {
     };
 
 }
-#endif /* FL_MAMDANIRULE_H_ */
+#endif /* FL_MAMDANIRULE_H */

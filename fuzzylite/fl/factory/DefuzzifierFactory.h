@@ -8,7 +8,7 @@
 #ifndef FL_DEFUZZIFIERFACTORY_H
 #define	FL_DEFUZZIFIERFACTORY_H
 
-#include "fl/definitions.h"
+#include "fl/config.h"
 
 #include <string>
 #include <vector>
@@ -22,7 +22,7 @@ namespace fl {
         virtual ~DefuzzifierFactory();
 
         virtual Defuzzifier* create(const std::string& className,
-                int divisions = FL_DEFAULT_DIVISIONS);
+                int divisions = FL_DIVISIONS);
         
         virtual std::vector<std::string> available() const;
         

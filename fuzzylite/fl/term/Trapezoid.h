@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_TRAPEZOID_H_
-#define FL_TRAPEZOID_H_
+#ifndef FL_TRAPEZOID_H
+#define FL_TRAPEZOID_H
 
 #include "fl/term/Term.h"
 
@@ -44,4 +44,4 @@ namespace fl {
     };
 
 } 
-#endif /* FL_TRAPEZOID_H_ */
+#endif /* FL_TRAPEZOID_H */

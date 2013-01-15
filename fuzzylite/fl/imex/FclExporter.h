@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_FCLEXPORTER_H_
-#define FL_FCLEXPORTER_H_
+#ifndef FL_FCLEXPORTER_H
+#define FL_FCLEXPORTER_H
 
 #include "fl/imex/Exporter.h"
 
@@ -32,4 +32,4 @@ namespace fl {
     };
 
 }
-#endif /* FL_FCLEXPORTER_H_ */
+#endif /* FL_FCLEXPORTER_H */

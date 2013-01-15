@@ -1,10 +1,42 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(fuzzylite)
+project(fuzzylite CXX)
 
-set(CMAKE_VERBOSE_MAKEFILE true)
-set(CMAKE_CXX_FLAGS "-g -Wall -DFL_NO_LOG")
-option(USE_SINGLE_PRECISION "Use single precision"	OFF)
+option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
+option(FL_USE_LOG "Enable the macro FL_LOG to print information" ON)
+option(FL_DEBUG "Enable additional debugging information" OFF)
+
+option(FL_PRECISION "Precision to differentiate numbers" 1e-5)
+option(FL_DECIMALS "Number of decimals to print information" 3)
+
+
+#set(CMAKE_VERBOSE_MAKEFILE true)
+
+set(CMAKE_CXX_FLAGS "-Werror")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2")
+
+
+if(FL_USE_FLOAT)
+    add_definitions(-DFL_USE_FLOAT)
+endif(FL_USE_FLOAT)
+
+if(NOT FL_USE_LOG)
+    add_definitions(-DFL_NO_LOG)
+endif(NOT FL_USE_LOG)
+
+if(FL_DEBUG)
+    add_definitions(-DFL_DEBUG=true)
+endif(FL_DEBUG)
+
+if(FL_PRECISION)
+    add_definitions(-DFL_PRECISION=${FL_PRECISION})
+endif(FL_PRECISION)
+
+if(FL_DECIMALS)
+    add_definitions(-DFL_DECIMALS=${FL_DECIMALS})
+endif(FL_DECIMALS)
+
 
 include_directories(.)
 
@@ -34,7 +66,7 @@ if("${isSystemDir}" STREQUAL "-1")
    SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 endif("${isSystemDir}" STREQUAL "-1")
 
-#add_definitions(-DFL_USE_SINGLE_PRECISION)
+
 
 add_library(fl-shared SHARED ${fl-headers} ${fl-sources})
 set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
@@ -45,7 +77,6 @@ set_target_properties(fl-static PROPERTIES OUTPUT_NAME fuzzylite)
 
 add_executable(fl-bin src/main.cpp)
 set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
-set_target_properties(fl-bin PROPERTIES COMPILE_FLAGS -DFL_DEBUG=true)
 target_link_libraries(fl-bin fl-shared)
 
 

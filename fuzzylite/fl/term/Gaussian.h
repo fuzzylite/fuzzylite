@@ -5,8 +5,8 @@
  *      Author: jcrada
  */
 
-#ifndef FL_GAUSSIAN_H_
-#define FL_GAUSSIAN_H_
+#ifndef FL_GAUSSIAN_H
+#define FL_GAUSSIAN_H
 
 #include "fl/term/Term.h"
 
@@ -38,4 +38,4 @@ namespace fl {
     };
 
 } 
-#endif /* FL_GAUSSIAN_H_ */
+#endif /* FL_GAUSSIAN_H */
