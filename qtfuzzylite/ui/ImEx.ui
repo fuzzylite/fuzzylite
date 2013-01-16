@@ -13,6 +13,11 @@
     <height>500</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+   </font>
+  </property>
   <property name="acceptDrops">
    <bool>true</bool>
   </property>
@@ -34,7 +39,7 @@
     <widget class="QPlainTextEdit" name="pte_fcl">
      <property name="font">
       <font>
-       <family>Lucida Sans Typewriter</family>
+       <family>Courier New</family>
        <pointsize>11</pointsize>
       </font>
      </property>

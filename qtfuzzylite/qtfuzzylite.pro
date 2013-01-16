@@ -15,7 +15,7 @@ UI_SOURCES_DIR = ui
 RESOURCES += ui/resources.qrc
 RCC_DIR = ui
 
-LIBS += -L../fuzzylite/Lib -lfuzzylite #-lQtSvg
+LIBS += -L../fuzzylite/lib  -lfuzzylite   #-lQtSvg
 
 target.path += bin
 INSTALLS += target

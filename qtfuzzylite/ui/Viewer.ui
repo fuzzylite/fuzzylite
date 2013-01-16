@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>290</width>
-    <height>303</height>
+    <width>293</width>
+    <height>317</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,7 +18,8 @@
   </property>
   <property name="font">
    <font>
-    <pointsize>9</pointsize>
+    <family>Arial</family>
+    <pointsize>11</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -57,15 +58,9 @@
        </property>
        <item>
         <widget class="QLabel" name="lbl_min">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -90,7 +85,7 @@
         <widget class="QDoubleSpinBox" name="sbx_x">
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="alignment">
@@ -115,12 +110,6 @@
        </item>
        <item>
         <widget class="QLineEdit" name="led_x">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
          <property name="maximumSize">
           <size>
            <width>70</width>
@@ -155,15 +144,9 @@
        </item>
        <item>
         <widget class="QLabel" name="lbl_max">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -280,7 +263,7 @@ border-radius: 8px;
          </property>
          <property name="font">
           <font>
-           <pointsize>11</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -313,7 +296,7 @@ border-radius: 8px;
          </property>
          <property name="font">
           <font>
-           <pointsize>11</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">

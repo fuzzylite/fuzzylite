@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>284</width>
+    <width>290</width>
     <height>348</height>
    </rect>
   </property>
@@ -18,6 +18,11 @@
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Variable</string>
@@ -68,11 +73,6 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
          <property name="text">
           <string>Minimum</string>
          </property>
@@ -83,11 +83,6 @@
        </item>
        <item>
         <widget class="QDoubleSpinBox" name="sbx_min">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
@@ -117,11 +112,6 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
          <property name="text">
           <string>Maximum</string>
          </property>
@@ -132,11 +122,6 @@
        </item>
        <item>
         <widget class="QDoubleSpinBox" name="sbx_max">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
@@ -327,7 +312,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>11</pointsize>
+            <pointsize>10</pointsize>
            </font>
           </property>
           <property name="lineWrapMode">

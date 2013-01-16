@@ -16,6 +16,11 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Term</string>
   </property>
@@ -43,13 +48,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="led_name">
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-       </widget>
+       <widget class="QLineEdit" name="led_name"/>
       </item>
       <item>
        <widget class="QToolButton" name="btn_wizard">
@@ -81,11 +80,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
        <property name="autoFillBackground">
         <bool>true</bool>
        </property>
@@ -93,7 +87,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideMiddle</enum>
@@ -120,24 +114,19 @@
              <height>0</height>
             </size>
            </property>
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
            <property name="autoFillBackground">
             <bool>true</bool>
            </property>
            <property name="currentIndex">
-            <number>3</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="page">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>195</width>
-              <height>196</height>
+              <width>215</width>
+              <height>200</height>
              </rect>
             </property>
             <attribute name="label">
@@ -200,8 +189,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>102</width>
-              <height>132</height>
+              <width>215</width>
+              <height>200</height>
              </rect>
             </property>
             <attribute name="label">
@@ -274,8 +263,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>121</width>
-              <height>62</height>
+              <width>215</width>
+              <height>200</height>
              </rect>
             </property>
             <attribute name="label">
@@ -328,8 +317,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>207</width>
-              <height>196</height>
+              <width>215</width>
+              <height>200</height>
              </rect>
             </property>
             <attribute name="label">
@@ -437,8 +426,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>207</width>
-              <height>134</height>
+              <width>215</width>
+              <height>136</height>
              </rect>
             </property>
             <attribute name="label">
@@ -491,8 +480,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>207</width>
-              <height>134</height>
+              <width>146</width>
+              <height>132</height>
              </rect>
             </property>
             <attribute name="label">
@@ -572,8 +561,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>207</width>
-              <height>134</height>
+              <width>137</width>
+              <height>98</height>
              </rect>
             </property>
             <attribute name="label">
@@ -636,7 +625,7 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>102</width>
+              <width>104</width>
               <height>132</height>
              </rect>
             </property>
@@ -719,7 +708,7 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>133</width>
+              <width>134</width>
               <height>132</height>
              </rect>
             </property>
@@ -796,8 +785,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>195</width>
-              <height>134</height>
+              <width>134</width>
+              <height>132</height>
              </rect>
             </property>
             <attribute name="label">
@@ -904,8 +893,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>207</width>
-              <height>196</height>
+              <width>215</width>
+              <height>200</height>
              </rect>
             </property>
             <attribute name="label">
@@ -954,6 +943,14 @@
             </layout>
            </widget>
            <widget class="QWidget" name="page_15">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>182</width>
+              <height>64</height>
+             </rect>
+            </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1038,8 +1035,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>195</width>
-              <height>196</height>
+              <width>124</width>
+              <height>64</height>
              </rect>
             </property>
             <attribute name="label">
@@ -1092,8 +1089,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>195</width>
-              <height>165</height>
+              <width>124</width>
+              <height>64</height>
              </rect>
             </property>
             <attribute name="label">
