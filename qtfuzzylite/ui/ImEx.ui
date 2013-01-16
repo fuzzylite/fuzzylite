@@ -34,8 +34,8 @@
     <widget class="QPlainTextEdit" name="pte_fcl">
      <property name="font">
       <font>
-       <family>Monospace</family>
-       <pointsize>9</pointsize>
+       <family>Lucida Sans Typewriter</family>
+       <pointsize>11</pointsize>
       </font>
      </property>
      <property name="lineWrapMode">

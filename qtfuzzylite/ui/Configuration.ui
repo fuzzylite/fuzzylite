@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>289</width>
-    <height>311</height>
+    <width>285</width>
+    <height>309</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -155,21 +155,36 @@
    </item>
    <item>
     <widget class="QGroupBox" name="formGroupBox">
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
      <property name="title">
       <string>Hedges</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
      <layout class="QGridLayout" name="gridLayout">
-      <property name="rightMargin">
+      <property name="horizontalSpacing">
        <number>0</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>6</number>
+      </property>
+      <property name="leftMargin">
+       <number>12</number>
+      </property>
+      <property name="rightMargin">
+       <number>12</number>
       </property>
       <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <property name="spacing">
-       <number>0</number>
+       <number>12</number>
       </property>
       <item row="0" column="0">
        <widget class="QCheckBox" name="ckx_not">

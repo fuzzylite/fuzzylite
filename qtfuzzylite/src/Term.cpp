@@ -90,7 +90,6 @@ namespace fl {
             }
 
             ui->setupUi(this);
-
             viewer = new Viewer;
             viewer->setup(dummyVariable);
             ui->lyt_terms->insertWidget(0, viewer);

@@ -54,7 +54,7 @@
          <x>0</x>
          <y>0</y>
          <width>613</width>
-         <height>501</height>
+         <height>491</height>
         </rect>
        </property>
        <attribute name="label">
@@ -81,8 +81,8 @@
                 <widget class="QLabel" name="lbl_inputs">
                  <property name="font">
                   <font>
-                   <weight>75</weight>
-                   <bold>true</bold>
+                   <weight>50</weight>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -169,8 +169,8 @@
                 <widget class="QLabel" name="lbl_outputs">
                  <property name="font">
                   <font>
-                   <weight>75</weight>
-                   <bold>true</bold>
+                   <weight>50</weight>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -273,8 +273,8 @@
                 </property>
                 <property name="font">
                  <font>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <weight>50</weight>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -322,8 +322,8 @@
              <widget class="QPlainTextEdit" name="ptx_rules">
               <property name="font">
                <font>
-                <family>Monospace</family>
-                <pointsize>11</pointsize>
+                <family>Lucida Sans Typewriter</family>
+                <pointsize>13</pointsize>
                 <weight>50</weight>
                 <bold>false</bold>
                </font>
@@ -354,7 +354,7 @@
          <x>0</x>
          <y>0</y>
          <width>613</width>
-         <height>501</height>
+         <height>491</height>
         </rect>
        </property>
        <attribute name="label">
@@ -382,8 +382,8 @@
               <widget class="QLabel" name="label_2">
                <property name="font">
                 <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <weight>50</weight>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="text">
@@ -428,8 +428,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>293</width>
-                     <height>129</height>
+                     <width>289</width>
+                     <height>124</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -475,8 +475,8 @@
               <widget class="QLabel" name="label_4">
                <property name="font">
                 <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <weight>50</weight>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="text">
@@ -524,8 +524,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>292</width>
-                     <height>129</height>
+                     <width>289</width>
+                     <height>124</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -573,8 +573,8 @@
                </property>
                <property name="font">
                 <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <weight>50</weight>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="text">
@@ -595,10 +595,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Monospace</family>
-                 <pointsize>9</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
+                 <family>Lucida Sans Typewriter</family>
+                 <pointsize>11</pointsize>
                 </font>
                </property>
                <property name="selectionMode">
@@ -626,8 +624,8 @@
                </property>
                <property name="font">
                 <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <weight>50</weight>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="text">
@@ -648,10 +646,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Monospace</family>
-                 <pointsize>9</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
+                 <family>Lucida Sans Typewriter</family>
+                 <pointsize>11</pointsize>
                 </font>
                </property>
                <property name="horizontalScrollBarPolicy">
@@ -699,16 +695,11 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionReset"/>
-   <addaction name="separator"/>
    <addaction name="actionConfigure"/>
-   <addaction name="separator"/>
    <addaction name="actionTerms"/>
-   <addaction name="separator"/>
    <addaction name="actionImport"/>
    <addaction name="actionExport"/>
-   <addaction name="separator"/>
    <addaction name="actionAbout"/>
-   <addaction name="separator"/>
    <addaction name="actionQuit"/>
   </widget>
   <action name="actionConfigure">

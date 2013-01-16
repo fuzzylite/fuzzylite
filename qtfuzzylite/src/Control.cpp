@@ -26,9 +26,9 @@ namespace fl {
 //            }
         }
 
-        void Control::setup(fl::Variable* model) {
+        void Control::setup(const fl::Variable* model) {
             Viewer::setup(model);
-            this->variable = model;
+            this->variable = const_cast<fl::Variable*>(model);
 
             if (dynamic_cast<OutputVariable*> (variable)) {
                 ui->sld_x->setEnabled(false);

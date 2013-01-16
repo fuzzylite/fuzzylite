@@ -48,6 +48,7 @@ namespace fl {
 
         void Window::setup() {
             ui->setupUi(this);
+            setUnifiedTitleAndToolBarOnMac(true);
             setGeometry(0, 0, 800, 600);
             configuration = new fl::qt::Configuration(this);
             configuration->setup();
@@ -261,8 +262,12 @@ namespace fl {
 
             //Rules
             for (int i = 0; i < engine->getRuleBlock(0)->numberOfRules(); ++i) {
-
-                QString rule = QString::number(i + 1) + ": " +
+                QString number;
+                if (i + 1 < 10 and engine->getRuleBlock(0)->numberOfRules() >=10)
+                    number = "0";
+                number += QString::number(i + 1);
+                
+                QString rule = number + ": " +
                         QString::fromStdString(engine->getRuleBlock(0)->getRule(i)->getUnparsedRule());
                 QListWidgetItem* item = new QListWidgetItem(rule);
                 item->setToolTip(rule);
@@ -298,6 +303,7 @@ namespace fl {
 
         void Window::fixDependencies() {
             QString rules = ui->ptx_rules->toPlainText();
+            if (rules.isEmpty()) return;
             removeRules();
             ui->ptx_rules->setPlainText(rules);
             onClickParseAllRules();
@@ -739,9 +745,9 @@ namespace fl {
         void Window::onMenuImportFromFile() {
             QString filename = QFileDialog::getOpenFileName(this,
                     "Import fuzzy logic engine from file", _lastOpenedFilePath,
-                    "Supported formats [*.fcl, *.fis] (*.fcl *.fis);;"
-                    "Fuzzy Logic Controller [*.fcl] (*.fcl);;"
-                    "Fuzzy Inference System [*.fis] (*.fis)");
+                    "Supported formats (*.fcl *.fis);;"
+                    "Fuzzy Logic Controller (*.fcl);;"
+                    "Fuzzy Inference System (*.fis)");
 
             if (filename.size() == 0) return;
             _lastOpenedFilePath = QFileInfo(filename).path();
@@ -917,7 +923,7 @@ namespace fl {
             message << "Developed by Juan Rada-Vilela." << std::endl;
             message << "jcrada@gmail.com" << std::endl;
             QMessageBox::about(this, "qtfuzzylite",
-                    "<qt>"
+                    "<qt><span style='font-weight:0; font-size:12pt'>"
                     "<b>qtfuzzylite v. " FLQT_VERSION " (" FLQT_DATE ")</b><br>"
                     "<b>fuzzylite v. " FL_VERSION " (" FL_DATE ")</b><br>"
                     "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a><br><br>"
@@ -928,7 +934,7 @@ namespace fl {
                     "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a><br><br>"
                     "... and do not hesitate to provide feedback, feature requests, "
                     "alternative licencing options, custom enhancements, or anything else!"
-                    "</qt>"
+                    "</span></qt>"
                     );
         }
 
