@@ -83,7 +83,7 @@ target_link_libraries(fl-bin fl-shared)
 install(TARGETS fl-bin fl-shared fl-static
 		RUNTIME DESTINATION bin
 		LIBRARY DESTINATION lib
-		ARCHIVE DESTINATION Lib)
+		ARCHIVE DESTINATION lib)
 
 install(DIRECTORY fl/ DESTINATION include/fl)
 

@@ -1,4 +1,4 @@
-CONFIG-= app release
+CONFIG-= app release warn_on
 
 MAKEFILE = Makefile
 TEMPLATE = app
@@ -12,7 +12,7 @@ UI_SOURCES_DIR = ui
 RESOURCES += ui/resources.qrc
 RCC_DIR = ui/
 
-LIBS += -L/usr/local/lib -lfuzzylite #-lQtSvg
+LIBS += -lfuzzylite #-lQtSvg
 
 target.path += bin
 INSTALLS += target
