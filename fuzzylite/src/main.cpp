@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
             "everytime the fl::Engine::process() is called. NOT good for performance!\n"
             << std::endl;
     else
-        std::cout << "FL_DEBUG is disabled. FL_DBG and FL_BEGIN_BLOCKs are disabled.\n";
+        std::cout << "FL_DEBUG is disabled.\nFL_DBG and FL_BEGIN_BLOCKs are disabled.\n";
 
     std::cout << std::setprecision(FL_DECIMALS) << std::fixed;
 
@@ -68,24 +68,20 @@ int main(int argc, char** argv) {
 
     engine->configure("Minimum", "Maximum", "Minimum", "Maximum", "Centroid", FL_DIVISIONS);
 
-    std::cout << "\nPress Enter to continue with the examples..." << std::endl;
+    std::cout << "\nPress Enter to continue with an example..." << std::endl;
     std::cin.get();
     std::cout << "\n\n" << FclExporter().toString(engine) << "\n" << std::endl;
-    std::cout << "The example described above will be tested next...\n" << std::endl;
-    if (not FL_DEBUG)
-        std::cout << "[info] For a more detailed output, build fuzzylite with "
-            "preprocessor definition -DFL_DEBUG=true (e.g. cmake -DFL_DEBUG=true ..) \n" << std::endl;
-
-    std::cout << "Press Enter to continue with the test..." << std::endl;
+    
+    std::cout << "Press Enter to continue with the example..." << std::endl;
     std::cin.get();
 
     scalar step = 1.0 / 25.0;
     for (scalar input = ambientLight->getMinimum();
             input <= ambientLight->getMaximum(); input += step) {
         ambientLight->setInput(input);
-        std::cout << "ambientLight.input=" << input << " -> ";
+        std::cout << "AmbientLight.input=" << input << " -> ";
         engine->process();
-        std::cout << "bulbPower.output.defuzzify=" << bulbPower->defuzzify() << std::endl;
+        std::cout << "BulbPower.output.defuzzify=" << bulbPower->defuzzify() << std::endl;
     }
 
     std::cout << "\n\n";

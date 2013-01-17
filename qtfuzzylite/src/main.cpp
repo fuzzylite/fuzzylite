@@ -46,6 +46,9 @@ public:
 int main(int argc, char* argv[]) {
     QtFuzzyLite qtfuzzylite(argc, argv);   
     try {
+//        QFont font();
+//        font.setHintingPreference(QFont::PreferDefaultHinting);
+//        QtFuzzyLite::setFont(font);
         fl::qt::Window::main(); 
         return qtfuzzylite.exec();  
     } catch (std::exception& ex) {

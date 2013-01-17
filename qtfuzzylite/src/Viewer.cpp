@@ -105,7 +105,7 @@ namespace fl {
             scalar value = fl::Op::scale(position,
                     ui->sld_x->minimum(), ui->sld_x->maximum(),
                     constVariable->getMinimum(), constVariable->getMaximum());
-            double tolerance = 1.0 / std::pow(10, ui->sbx_x->decimals());
+            double tolerance = 1.0 / std::pow(10.0, ui->sbx_x->decimals());
             if (not fl::Op::isEq(value, ui->sbx_x->value(), tolerance)) {
                 ui->sbx_x->setValue(value);
             }
@@ -117,7 +117,7 @@ namespace fl {
                     ui->sld_x->minimum(), ui->sld_x->maximum(),
                     constVariable->getMinimum(), constVariable->getMaximum());
 
-            double tolerance = 1.0 / std::pow(10, ui->sbx_x->decimals());
+            double tolerance = 1.0 / std::pow(10.0, ui->sbx_x->decimals());
             if (not fl::Op::isEq(value, sliderValue, tolerance)) {
                 int position = (int) fl::Op::scale(value,
                         constVariable->getMinimum(), constVariable->getMaximum(),

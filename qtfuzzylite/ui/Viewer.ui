@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>274</width>
-    <height>303</height>
+    <width>293</width>
+    <height>317</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -16,11 +16,7 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="font">
-   <font>
-    <pointsize>9</pointsize>
-   </font>
-  </property>
+
   <property name="windowTitle">
    <string>Viewer</string>
   </property>
@@ -37,13 +33,6 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="Line" name="line_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QLabel" name="lbl_name">
        <property name="text">
         <string>name</string>
@@ -57,12 +46,7 @@
        </property>
        <item>
         <widget class="QLabel" name="lbl_min">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+
          <property name="text">
           <string>min</string>
          </property>
@@ -83,6 +67,7 @@
        </item>
        <item>
         <widget class="QDoubleSpinBox" name="sbx_x">
+
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
@@ -105,18 +90,13 @@
        </item>
        <item>
         <widget class="QLineEdit" name="led_x">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
          <property name="maximumSize">
           <size>
            <width>70</width>
            <height>16777215</height>
           </size>
          </property>
+
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
@@ -140,12 +120,7 @@
        </item>
        <item>
         <widget class="QLabel" name="lbl_max">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+
          <property name="text">
           <string>max</string>
          </property>
@@ -198,7 +173,7 @@
        </property>
        <property name="styleSheet">
         <string notr="true">QSlider::handle:horizontal {
-image: url(:/icons/icons/1uparrow.png);  
+image: url(:/icons/icons/1uparrow.png);
 padding-left: -4px; padding-right: -4px;
  border: 1px solid #5c5c5c;
 border-radius: 8px;
@@ -258,11 +233,7 @@ border-radius: 8px;
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
+
          <property name="text">
           <string/>
          </property>
@@ -277,6 +248,9 @@ border-radius: 8px;
          </property>
          <property name="wordWrap">
           <bool>true</bool>
+         </property>
+         <property name="textInteractionFlags">
+          <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
          </property>
         </widget>
        </item>
@@ -288,11 +262,7 @@ border-radius: 8px;
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
+
          <property name="text">
           <string/>
          </property>
@@ -308,11 +278,21 @@ border-radius: 8px;
          <property name="wordWrap">
           <bool>true</bool>
          </property>
+         <property name="textInteractionFlags">
+          <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+         </property>
         </widget>
        </item>
       </layout>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

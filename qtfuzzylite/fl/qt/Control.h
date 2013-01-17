@@ -28,9 +28,9 @@ namespace fl {
             fl::Variable* variable;
 
             Control(QWidget* parent = NULL, Qt::WindowFlags f = 0);
-            ~Control();
+            virtual ~Control();
 
-            void setup(fl::Variable* variable);
+          void setup(const fl::Variable* variable);
 
         };
 

@@ -170,16 +170,16 @@ namespace fl {
 
         void Variable::showSelectedTerms() {
             ui->ptx_terms->clear();
-            bool empty = true;
+//            bool empty =true true;
             for (int i = 0; i < ui->lvw_terms->count(); ++i) {
                 if (ui->lvw_terms->item(i)->isSelected()) {
-                    empty = false;
+//                    empty = false;
                     viewer->draw(variable->getTerm(i));
                     ui->ptx_terms->appendPlainText(QString::fromStdString(
                             variable->getTerm(i)->toString()));
                 }
             }
-            if (empty) ui->ptx_terms->appendPlainText("No terms selected");
+//            if (empty) ui->ptx_terms->appendPlainText("No terms selected");
         }
 
         /**

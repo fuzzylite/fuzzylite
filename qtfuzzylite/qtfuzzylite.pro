@@ -1,8 +1,11 @@
-CONFIG-= app release warn_on
+CONFIG+= qt app release warn_on
 
 MAKEFILE = Makefile
 TEMPLATE = app
+
 TARGET = qtfuzzylite
+ICON = ui/icons/qtfuzzylite.icns
+VERSION = 2.0
 DEPENDPATH += . src ui
 INCLUDEPATH += . /usr/include/qt4
 MOC_DIR = tmp/moc
@@ -10,11 +13,11 @@ OBJECTS_DIR = tmp
 UI_HEADERS_DIR = ui
 UI_SOURCES_DIR = ui
 RESOURCES += ui/resources.qrc
-RCC_DIR = ui/
+RCC_DIR = ui
 
-LIBS += -lfuzzylite #-lQtSvg
+LIBS += -L/usr/local/lib -lfuzzylite #-lQtSvg
 
-target.path += bin
+target.path += /usr/local/bin
 INSTALLS += target
 
 FORMS += Window.ui Configuration.ui

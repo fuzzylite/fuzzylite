@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>265</width>
-    <height>340</height>
+    <width>290</width>
+    <height>348</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,11 +19,7 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="font">
-   <font>
-    <pointsize>11</pointsize>
-   </font>
-  </property>
+
   <property name="windowTitle">
    <string>Variable</string>
   </property>
@@ -38,11 +34,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-        </font>
-       </property>
        <property name="text">
         <string>Name</string>
        </property>
@@ -55,11 +46,6 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-        </font>
        </property>
       </widget>
      </item>
@@ -83,11 +69,7 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
+
          <property name="text">
           <string>Minimum</string>
          </property>
@@ -98,11 +80,6 @@
        </item>
        <item>
         <widget class="QDoubleSpinBox" name="sbx_min">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
@@ -132,11 +109,7 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
+
          <property name="text">
           <string>Maximum</string>
          </property>
@@ -147,11 +120,6 @@
        </item>
        <item>
         <widget class="QDoubleSpinBox" name="sbx_max">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
@@ -190,11 +158,6 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
            <property name="text">
             <string>Terms</string>
            </property>
@@ -202,11 +165,7 @@
          </item>
          <item>
           <widget class="QToolButton" name="btn_add_term">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
+
            <property name="text">
             <string/>
            </property>
@@ -221,11 +180,7 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
+
            <property name="text">
             <string/>
            </property>
@@ -240,11 +195,7 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
+
            <property name="text">
             <string/>
            </property>
@@ -259,11 +210,7 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
+
            <property name="text">
             <string/>
            </property>
@@ -278,11 +225,7 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
+
            <property name="text">
             <string/>
            </property>
@@ -328,11 +271,6 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
           <property name="autoScrollMargin">
            <number>0</number>
           </property>
@@ -350,10 +288,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="font">
-           <font>
-            <pointsize>8</pointsize>
-           </font>
+
+          <property name="lineWrapMode">
+           <enum>QPlainTextEdit::NoWrap</enum>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -370,11 +307,7 @@
    </item>
    <item>
     <widget class="Line" name="line_2">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
+
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -382,11 +315,7 @@
    </item>
    <item>
     <widget class="QFrame" name="gbx_output">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
+
      <property name="styleSheet">
       <string notr="true"/>
      </property>
@@ -399,13 +328,7 @@
       </property>
       <item>
        <widget class="QLabel" name="label">
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
+
         <property name="text">
          <string>Output</string>
         </property>
@@ -413,11 +336,7 @@
       </item>
       <item>
        <widget class="Line" name="line">
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
+
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -432,11 +351,6 @@
          <widget class="QLabel" name="lbl_default">
           <property name="enabled">
            <bool>true</bool>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
           </property>
           <property name="text">
            <string>Default</string>
@@ -457,11 +371,7 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
+
           <property name="text">
            <string/>
           </property>
@@ -471,11 +381,6 @@
          <widget class="QCheckBox" name="chx_lock">
           <property name="enabled">
            <bool>true</bool>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
           </property>
           <property name="text">
            <string>lock</string>
@@ -489,11 +394,7 @@
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
+
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>

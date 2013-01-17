@@ -30,7 +30,8 @@ namespace fl {
 
         void Configuration::setup() {
             ui->setupUi(this);
-
+            layout()->setSizeConstraint(QLayout::SetFixedSize);
+            this->adjustSize();
             QStringList andOperators;
             std::vector<std::string> tnorms = fl::Factory::instance()->tnorm()->available();
             for (std::size_t i = 0; i < tnorms.size(); ++i) {
@@ -52,8 +53,8 @@ namespace fl {
                 ui->cbx_defuzzifier->addItem(QString::fromStdString(defuzzifiers[i]));
             }
 
-            ui->sbx_divisions->setValue(FL_DEFAULT_DIVISIONS);
-
+            ui->sbx_divisions->setValue(FL_DIVISIONS);
+            
             connect();
         }
 
@@ -144,7 +145,7 @@ namespace fl {
             if (ruleblock->getActivation()) activation = ruleblock->getActivation()->className();
 
             std::string defuzzifier = Centroid().className();
-            int divisions = FL_DEFAULT_DIVISIONS;
+            int divisions = FL_DIVISIONS;
             std::string accumulation = Maximum().className();
 
             if (engine->numberOfOutputVariables() > 0) {
@@ -183,7 +184,7 @@ namespace fl {
                         indexOfSnorm(variable->output()->getAccumulation()->className()));
             } else {
                 ui->cbx_defuzzifier->setCurrentIndex(0);
-                ui->sbx_divisions->setValue(FL_DEFAULT_DIVISIONS);
+                ui->sbx_divisions->setValue(FL_DIVISIONS);
                 ui->cbx_accumulation->setCurrentIndex(0);
             }
 
