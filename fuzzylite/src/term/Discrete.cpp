@@ -16,22 +16,23 @@ namespace fl {
     Discrete::Discrete(const std::string& name)
     : Term(name) { }
 
-//    Discrete::Discrete(const std::string& name, int argc, ...) throw (fl::Exception)
-//    : Term(name) {
-//        if (argc % 2 != 0) {
-//            throw fl::Exception("[discrete term] constructor expected even number "
-//                    "of variable arguments (x,y)*, but passed <" + fl::Op::str((scalar) argc, 0) + "> arguments", FL_AT);
-//        }
-//        va_list args;
-//        va_start(args, argc);
-//        bool xTurn = true;
-//        for (int i = 0; i < argc; ++i) {
-//            if (xTurn) x.push_back(va_arg(args, scalar));
-//            else y.push_back(va_arg(args, scalar));
-//            xTurn = not xTurn;
-//        }
-//        va_end(args);
-//    }
+    Discrete::Discrete(const std::string& name, int argc, ...) throw (fl::Exception)
+    : Term(name) {
+        if (argc % 2 != 0) {
+            throw fl::Exception("[discrete term] constructor expected even number "
+                    "of variable arguments (x,y)*, but passed "
+                    "<" + fl::Op::str(argc) + "> arguments", FL_AT);
+        }
+        va_list args;
+        va_start(args, argc);
+        bool xTurn = true;
+        for (int i = 0; i < argc; ++i) {
+            if (xTurn) x.push_back((scalar) va_arg(args, double));
+            else y.push_back((scalar) va_arg(args, double));
+            xTurn = not xTurn;
+        }
+        va_end(args);
+    }
 
     Discrete::Discrete(const std::string& name,
             const std::vector<scalar>& x,
@@ -74,8 +75,6 @@ namespace fl {
                 break;
             }
         }
-        //        return ((y[upper] - y[lower]) / (x[upper] - x[lower])) *
-        //                (mu - x[lower]) + y[lower];
         return Op::scale(mu, x[lower], x[upper], y[lower], y[upper]);
     }
 

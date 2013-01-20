@@ -52,11 +52,11 @@ namespace fl {
         }
 
         static bool isInf(scalar x) {
-            return std::isinf(x);
+            return std::abs(x) == std::numeric_limits<scalar>::infinity();
         }
 
         static bool isNan(scalar x) {
-            return std::isnan(x);
+            return not (x == x);
         }
 
         //Is less than
@@ -170,6 +170,12 @@ namespace fl {
             return alternative;
         }
 
+        static std::string str(int x){
+            std::ostringstream ss;
+            ss << x;
+            return ss.str();
+        }
+        
         static std::string str(scalar x, int precision = FL_DECIMALS) {
             std::ostringstream ss;
             ss << std::setprecision(precision) << std::fixed;

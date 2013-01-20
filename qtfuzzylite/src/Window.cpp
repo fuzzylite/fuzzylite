@@ -3,7 +3,7 @@
  *
  *  Created on: 11/12/2012
  *      Author: jcrada
- */ 
+ */
 
 #include "fl/qt/Window.h"
 #include "fl/qt/Configuration.h"
@@ -48,13 +48,10 @@ namespace fl {
 
         void Window::setup() {
             ui->setupUi(this);
-            QFont ttFont = QApplication::font();
-            ttFont.setStyleHint(QFont::TypeWriter);
-            ui->ptx_rules->setFont(ttFont);
-            ui->lsw_test_rules->setFont(ttFont);
-            ui->lsw_test_rules_activation->setFont(ttFont);
-            
-            
+            ui->ptx_rules->setFont(typeWriterFont());
+            ui->lsw_test_rules->setFont(typeWriterFont());
+            ui->lsw_test_rules_activation->setFont(typeWriterFont());
+
             setUnifiedTitleAndToolBarOnMac(true);
             setGeometry(0, 0, 800, 600);
             configuration = new fl::qt::Configuration(this);
@@ -70,6 +67,16 @@ namespace fl {
 
             QRect scr = QApplication::desktop()->screenGeometry();
             move(scr.center() - rect().center());
+
+            setContextMenuPolicy(Qt::NoContextMenu);
+
+            QWidget* widget = new QWidget;
+            QHBoxLayout* spacerLayout = new QHBoxLayout;
+            QSpacerItem* spacer = new QSpacerItem(1, 1,
+                    QSizePolicy::Expanding, QSizePolicy::Minimum);
+            spacerLayout->addSpacerItem(spacer);
+            widget->setLayout(spacerLayout);
+            ui->toolBar->insertWidget(ui->toolBar->actions().last(), widget);
 
             connect();
         }
@@ -270,10 +277,10 @@ namespace fl {
             //Rules
             for (int i = 0; i < engine->getRuleBlock(0)->numberOfRules(); ++i) {
                 QString number;
-                if (i + 1 < 10 and engine->getRuleBlock(0)->numberOfRules() >=10)
+                if (i + 1 < 10 and engine->getRuleBlock(0)->numberOfRules() >= 10)
                     number = "0";
                 number += QString::number(i + 1);
-                
+
                 QString rule = number + ": " +
                         QString::fromStdString(engine->getRuleBlock(0)->getRule(i)->getUnparsedRule());
                 QListWidgetItem* item = new QListWidgetItem(rule);
@@ -694,9 +701,10 @@ namespace fl {
             fclUi.setupUi(&fclDialog);
             fclDialog.setWindowTitle("Import from FCL");
             fclUi.lbl_format->setText("Fuzzy Controller Language (FCL):");
+            fclUi.pte_code->setFont(typeWriterFont());
 
             if (fclDialog.exec()) {
-                std::string fclString = fclUi.pte_fcl->document()->toPlainText().toStdString();
+                std::string fclString = fclUi.pte_code->document()->toPlainText().toStdString();
                 Engine* engine = NULL;
                 FclImporter importer;
                 try {
@@ -725,9 +733,10 @@ namespace fl {
             fclUi.setupUi(&fclDialog);
             fclDialog.setWindowTitle("Import from FIS");
             fclUi.lbl_format->setText("Fuzzy Inference System (FIS):");
+            fclUi.pte_code->setFont(typeWriterFont());
 
             if (fclDialog.exec()) {
-                std::string fclString = fclUi.pte_fcl->document()->toPlainText().toStdString();
+                std::string fclString = fclUi.pte_code->document()->toPlainText().toStdString();
                 Engine* engine = NULL;
                 FisImporter importer;
                 try {
@@ -842,12 +851,13 @@ namespace fl {
             fclUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
             fclDialog.setWindowTitle("Export to FCL");
             fclUi.lbl_format->setText("Fuzzy Controller Language (FCL):");
-            fclUi.pte_fcl->setReadOnly(true);
-            fclUi.pte_fcl->document()->setPlainText(
+            fclUi.pte_code->setFont(typeWriterFont());
+            fclUi.pte_code->setReadOnly(true);
+            fclUi.pte_code->document()->setPlainText(
                     QString::fromStdString(fclString));
-            QTextCursor tc = fclUi.pte_fcl->textCursor();
+            QTextCursor tc = fclUi.pte_code->textCursor();
             tc.movePosition(QTextCursor::Start);
-            fclUi.pte_fcl->setTextCursor(tc);
+            fclUi.pte_code->setTextCursor(tc);
             fclDialog.exec();
         }
 
@@ -868,12 +878,13 @@ namespace fl {
             fclUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
             fclDialog.setWindowTitle("Export to FIS");
             fclUi.lbl_format->setText("Fuzzy Inference System (FIS):");
-            fclUi.pte_fcl->setReadOnly(true);
-            fclUi.pte_fcl->document()->setPlainText(
+            fclUi.pte_code->setFont(typeWriterFont());
+            fclUi.pte_code->setReadOnly(true);
+            fclUi.pte_code->document()->setPlainText(
                     QString::fromStdString(fis));
-            QTextCursor tc = fclUi.pte_fcl->textCursor();
+            QTextCursor tc = fclUi.pte_code->textCursor();
             tc.movePosition(QTextCursor::Start);
-            fclUi.pte_fcl->setTextCursor(tc);
+            fclUi.pte_code->setTextCursor(tc);
             fclDialog.exec();
         }
 
@@ -894,12 +905,13 @@ namespace fl {
             fclUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
             fclDialog.setWindowTitle("Export to fuzzylite");
             fclUi.lbl_format->setText("fuzzylite (C++):");
-            fclUi.pte_fcl->setReadOnly(true);
-            fclUi.pte_fcl->document()->setPlainText(
+            fclUi.pte_code->setFont(typeWriterFont());
+            fclUi.pte_code->setReadOnly(true);
+            fclUi.pte_code->document()->setPlainText(
                     QString::fromStdString(cpp));
-            QTextCursor tc = fclUi.pte_fcl->textCursor();
+            QTextCursor tc = fclUi.pte_code->textCursor();
             tc.movePosition(QTextCursor::Start);
-            fclUi.pte_fcl->setTextCursor(tc);
+            fclUi.pte_code->setTextCursor(tc);
             fclDialog.exec();
         }
 
@@ -936,11 +948,17 @@ namespace fl {
                     "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a><br><br>"
                     "Developed by Juan Rada-Vilela &nbsp;"
                     "<a href='mailto:jcrada@gmail.com'>jcrada@gmail.com</a><br><br>"
-                    "Please consider making a <b>donation</b> to help maintain this project! "
-                    "It would be mostly appreciated!<br><br>Visit &nbsp;"
-                    "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a><br><br>"
+                    "Please consider making a <b>donation</b> to support and further "
+                    "improve these projects.<br>"
+                    "<div align='left'><a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HAGFHRMSZVDKN'>"
+                    "<img src=':ui/icons/btn_donateCC_LG.gif'></a></div>"
+                    "<br>Visit &nbsp;"
+                    "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a> "
+                    "to find out how your contribution will be utilized.<br><br>"
+                    "There are still many things to do!"
+                    "<br><br>"
                     "... and do not hesitate to provide feedback, feature requests, "
-                    "alternative licencing options, custom enhancements, or anything else!"
+                    "custom enhancements, or anything else!"
                     "</span></qt>"
                     );
         }
@@ -956,6 +974,42 @@ namespace fl {
                 // do nothing
             }
         }
+
+        QFont Window::typeWriterFont() const {
+
+#ifdef Q_WS_X11
+            QFont tt("Ubuntu Mono");
+            tt.setStyleHint(QFont::TypeWriter);
+            return tt;
+#endif
+
+#ifdef Q_WS_MAC
+            QFont tt("Monaco");
+            tt.setStyleHint(QFont::TypeWriter);
+            return tt;
+#endif
+
+#ifdef Q_WS_WIN
+            QFont tt("Lucida Console");
+            tt.setStyleHint(QFont::TypeWriter);
+            return tt;
+#endif
+        }
+
+        //        RuleTextEdit::RuleTextEdit(QWidget* parent)
+        //        : QPlainTextEdit(parent) { }
+        //        
+        //        void RuleTextEdit::focusInEvent(QFocusEvent* e){
+        //            QPlainTextEdit::focusInEvent(e);
+        //            FL_LOG("Focus in");
+        //            emit focusIn();
+        //        }
+        //        
+        //        void RuleTextEdit::focusOutEvent(QFocusEvent* e){
+        //            QPlainTextEdit::focusOutEvent(e);
+        //            FL_LOG("Focus out");
+        //            emit focusOut();
+        //        }
 
         void Window::main() {
             Window* w = mainWindow();

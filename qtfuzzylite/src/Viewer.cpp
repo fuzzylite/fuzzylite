@@ -42,7 +42,12 @@ namespace fl {
             ui->canvas->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->sbx_x->setFocus();
             ui->lbl_fuzzy_out->setVisible(false);
-
+            
+            QFont smallFont = ui->lbl_fuzzy->font();
+            smallFont.setPointSize(smallFont.pointSize() - 3);
+            ui->lbl_fuzzy->setFont(smallFont);
+            ui->lbl_fuzzy_out->setFont(smallFont);
+            
             connect();
         }
 
@@ -141,13 +146,13 @@ namespace fl {
             ui->lbl_min->setText(QString::number(constVariable->getMinimum(), 'f', 2));
             ui->lbl_max->setText(QString::number(constVariable->getMaximum(), 'f', 2));
 
-            QString fuzzify;
-            for (int i = 0; i < constVariable->numberOfTerms(); ++i) {
-                fuzzify += QString::number(constVariable->getTerm(i)->membership(x), 'f', 2)
-                        + "/" + QString::fromStdString(constVariable->getTerm(i)->getName());
-
-                if (i < constVariable->numberOfTerms() - 1) fuzzify += " + ";
-            }
+            QString fuzzify = QString::fromStdString(constVariable->fuzzify(x));
+//            for (int i = 0; i < constVariable->numberOfTerms(); ++i) {
+//                fuzzify += QString::number(constVariable->getTerm(i)->membership(x), 'f', 2)
+//                        + "/" + QString::fromStdString(constVariable->getTerm(i)->getName());
+//
+//                if (i < constVariable->numberOfTerms() - 1) fuzzify += " + ";
+//            }
             ui->lbl_fuzzy->setText("&#956;=" + fuzzify);
             ui->lbl_name->setText(QString::fromStdString(constVariable->getName()));
             if (constVariable->getName().empty())

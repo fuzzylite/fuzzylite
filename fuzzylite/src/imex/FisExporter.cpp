@@ -314,7 +314,7 @@ namespace fl {
 
         if (term->className() == PiShape().className()) {
             const PiShape* x = dynamic_cast<const PiShape*> (term);
-            scalar params[] = {x->getA(), x->getB(), x->getC(), x->getD()};
+            scalar params[] = {x->getBottomLeft(), x->getTopLeft(), x->getBottomRight(), x->getTopRight()};
             ss << "'pimf',[" << fl::Op::str(4, params, " ") << "]";
             return ss.str();
         }
@@ -349,16 +349,16 @@ namespace fl {
 
         if (term->className() == SigmoidDifference().className()) {
             const SigmoidDifference* x = dynamic_cast<const SigmoidDifference*> (term);
-            scalar params[] = {x->getRisingSlope(), x->getLeftInflection(),
-                x->getFallingSlope(), x->getRightInflection()};
+            scalar params[] = {x->getRising(), x->getLeft(),
+                x->getFalling(), x->getRight()};
             ss << "'dsigmf',[" << fl::Op::str(4, params, " ") << "]";
             return ss.str();
         }
 
         if (term->className() == SigmoidProduct().className()) {
             const SigmoidProduct* x = dynamic_cast<const SigmoidProduct*> (term);
-            scalar params[] = {x->getRisingSlope(), x->getLeftInflection(),
-                x->getFallingSlope(), x->getRightInflection()};
+            scalar params[] = {x->getRising(), x->getLeft(),
+                x->getFalling(), x->getRight()};
             ss << "'psigmf',[" << fl::Op::str(4, params, " ") << "]";
             return ss.str();
         }

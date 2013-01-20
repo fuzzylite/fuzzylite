@@ -13,17 +13,17 @@ namespace fl {
 
     class PiShape : public Term {
     protected:
-        scalar _a;
-        scalar _b;
-        scalar _c;
-        scalar _d;
+        scalar _bottomLeft;
+        scalar _topLeft;
+        scalar _topRight;
+        scalar _bottomRight;
 
     public:
         PiShape(const std::string& name = "",
-                scalar _a = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar _b = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar _c = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar _d = std::numeric_limits<scalar>::quiet_NaN());
+                scalar bottomLeft = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar topLeft = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar topRight = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar bottomRight = std::numeric_limits<scalar>::quiet_NaN());
 
 
         std::string className() const;
@@ -33,18 +33,17 @@ namespace fl {
         std::string toString() const;
 
 
-         void setA(scalar a);
-         scalar getA() const;
+        void setBottomLeft(scalar a);
+        scalar getBottomLeft() const;
 
-         void setB(scalar b);
-         scalar getB() const;
+        void setTopLeft(scalar b);
+        scalar getTopLeft() const;
 
-         void setC(scalar c);
-         scalar getC() const;
+        void setTopRight(scalar d);
+        scalar getTopRight() const;
 
-         void setD(scalar d);
-         scalar getD() const;
-
+        void setBottomRight(scalar c);
+        scalar getBottomRight() const;
 
     };
 }

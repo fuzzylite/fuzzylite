@@ -13,6 +13,9 @@
 using namespace fl;
 
 int main(int argc, char** argv) {
+    scalar x = 2 * std::numeric_limits<scalar>::max();
+    FL_LOG(x << " " << fl::Operator::isInf(x));
+    return 0;
     std::cout << "\nHello, fuzzylite!" << std::endl
             << "Version: " << FL_VERSION << " (" << FL_DATE << ")\n" << std::endl;
     scalar someScalar = 0;
@@ -41,6 +44,11 @@ int main(int argc, char** argv) {
         std::cout << "FL_DEBUG is disabled.\nFL_DBG and FL_BEGIN_BLOCKs are disabled.\n";
 
     std::cout << std::setprecision(FL_DECIMALS) << std::fixed;
+
+    std::cout << "infinity values are printed as: " << std::numeric_limits<scalar>::infinity() << "\n"
+            << "NaN values are printed as: " << std::numeric_limits<scalar>::quiet_NaN() << "\n";
+
+
 
     Engine* engine = new Engine("simple-dimmer");
 
@@ -71,7 +79,7 @@ int main(int argc, char** argv) {
     std::cout << "\nPress Enter to continue with an example..." << std::endl;
     std::cin.get();
     std::cout << "\n\n" << FclExporter().toString(engine) << "\n" << std::endl;
-    
+
     std::cout << "Press Enter to continue with the example..." << std::endl;
     std::cin.get();
 
@@ -87,6 +95,7 @@ int main(int argc, char** argv) {
     std::cout << "\n\n";
 
     std::cout << "Bye, fuzzylite!\n" << std::endl;
+    std::cin.get();
 
 }
 

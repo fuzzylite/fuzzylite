@@ -14,10 +14,9 @@
 namespace fl {
 
     SigmoidDifference::SigmoidDifference(const std::string& name,
-            scalar leftInflection, scalar risingSlope,
-            scalar rightInflection, scalar fallingSlope)
-    : Term(name), _leftInflection(leftInflection), _risingSlope(risingSlope),
-    _rightInflection(rightInflection), _fallingSlope(fallingSlope) { }
+            scalar left, scalar rising,
+            scalar right, scalar falling)
+    : Term(name), _left(left), _rising(rising), _right(right), _falling(falling) { }
 
     std::string SigmoidDifference::className() const {
         return "SigmoidDifference";
@@ -28,50 +27,50 @@ namespace fl {
     }
 
     scalar SigmoidDifference::membership(scalar x) const {
-        scalar a = 1.0 / (1 + std::exp(-_risingSlope * (x - _leftInflection)));
-        scalar b = 1.0 / (1 + std::exp(-_fallingSlope * (x - _rightInflection)));
+        scalar a = 1.0 / (1 + std::exp(-_rising * (x - _left)));
+        scalar b = 1.0 / (1 + std::exp(-_falling * (x - _right)));
         return std::abs(a - b);
     }
 
     std::string SigmoidDifference::toString() const {
         std::ostringstream ss;
         ss << std::setprecision(FL_DECIMALS) << std::fixed;
-        ss << "SigmoidDifference (" << _leftInflection << ", " << _risingSlope << ", "
-                << _rightInflection << ", " << _fallingSlope << ")";
+        ss << "SigmoidDifference (" << _left << ", " << _rising << ", "
+                << _right << ", " << _falling << ")";
         return ss.str();
 
     }
 
-    void SigmoidDifference::setLeftInflection(scalar leftInflection) {
-        this->_leftInflection = leftInflection;
+    void SigmoidDifference::setLeft(scalar leftInflection) {
+        this->_left = leftInflection;
     }
 
-    scalar SigmoidDifference::getLeftInflection() const {
-        return this->_leftInflection;
+    scalar SigmoidDifference::getLeft() const {
+        return this->_left;
     }
 
-    void SigmoidDifference::setRisingSlope(scalar risingSlope) {
-        this->_risingSlope = risingSlope;
+    void SigmoidDifference::setRising(scalar risingSlope) {
+        this->_rising = risingSlope;
     }
 
-    scalar SigmoidDifference::getRisingSlope() const {
-        return this->_risingSlope;
+    scalar SigmoidDifference::getRising() const {
+        return this->_rising;
     }
 
-    void SigmoidDifference::setRightInflection(scalar rightInflection) {
-        this->_rightInflection = rightInflection;
+    void SigmoidDifference::setRight(scalar rightInflection) {
+        this->_right = rightInflection;
     }
 
-    scalar SigmoidDifference::getRightInflection() const {
-        return this->_rightInflection;
+    scalar SigmoidDifference::getRight() const {
+        return this->_right;
     }
 
-    void SigmoidDifference::setFallingSlope(scalar fallingSlope) {
-        this->_fallingSlope = fallingSlope;
+    void SigmoidDifference::setFalling(scalar fallingSlope) {
+        this->_falling = fallingSlope;
     }
 
-    scalar SigmoidDifference::getFallingSlope() const {
-        return this->_fallingSlope;
+    scalar SigmoidDifference::getFalling() const {
+        return this->_falling;
     }
 
 

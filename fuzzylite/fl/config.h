@@ -11,6 +11,22 @@
 #include <iostream>
 #include <sstream>
 
+#ifdef __WINDOWS__
+
+#define and &&
+#define or ||
+#define not !
+#define bitand &
+#define bitor |
+
+#define acosh(x)
+#define asinh(x)
+#define atanh(x)
+#define log1p
+
+#pragma warning( disable : 4290 )
+
+#endif
 
 #define FL_VERSION "2.0"
 #define FL_DATE "01/2013"

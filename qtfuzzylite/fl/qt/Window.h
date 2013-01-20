@@ -53,8 +53,8 @@ namespace fl {
             //MenuBar
             void onMenuConfigure();
             void onMenuTerms();
-            
-            bool confirmImporting() ;
+
+            bool confirmImporting();
             void onMenuImport();
             void onMenuExport();
             void onMenuImportFromFCL();
@@ -63,7 +63,7 @@ namespace fl {
             void onMenuExportToFIS();
             void onMenuImportFromFile();
             void onMenuExportToCpp();
-            
+
             void onMenuReset();
             void onMenuAbout();
             void onMenuQuit();
@@ -80,29 +80,31 @@ namespace fl {
             void reloadModel();
             void removeRules();
 
-            
-
             void reloadTest();
             void resetTest();
 
             void resizeEvent(QResizeEvent* e);
             void showEvent(QShowEvent* e);
-            
+
             Window(QWidget* parent = NULL, Qt::WindowFlags flags = 0);
             ~Window();
             static Window* instance;
         public:
             Ui::Window* ui;
             Configuration* configuration;
-            
+
             static Window* mainWindow();
-            
+
             void fixDependencies();
-            
+
             void setup();
+
+            QFont typeWriterFont() const;
 
             static void main();
         };
+
+        
     }
 }
 #endif /* FLQT_WINDOW_H_ */

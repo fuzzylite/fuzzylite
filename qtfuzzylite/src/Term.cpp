@@ -99,7 +99,6 @@ namespace fl {
             layout()->setSizeConstraint(QLayout::SetFixedSize);
             this->adjustSize();
 
-
             QRect scr = parentWidget()
                     ? parentWidget()->geometry() : Window::mainWindow()->geometry();
             move(scr.center().x() - rect().center().x(), scr.top());
@@ -117,10 +116,10 @@ namespace fl {
             _sbx.push_back(ui->sbx_gaussian_prod_width_a);
             _sbx.push_back(ui->sbx_gaussian_prod_width_b);
 
-            _sbx.push_back(ui->sbx_pishape_a);
-            _sbx.push_back(ui->sbx_pishape_b);
-            _sbx.push_back(ui->sbx_pishape_c);
-            _sbx.push_back(ui->sbx_pishape_d);
+            _sbx.push_back(ui->sbx_pishape_bl);
+            _sbx.push_back(ui->sbx_pishape_tl);
+            _sbx.push_back(ui->sbx_pishape_tr);
+            _sbx.push_back(ui->sbx_pishape_br);
 
             _sbx.push_back(ui->sbx_ramp_start);
             _sbx.push_back(ui->sbx_ramp_end);
@@ -271,13 +270,13 @@ namespace fl {
                     this, SLOT(onChangeSpinBoxBell(double)));
 
             //Pi-Shape
-            QObject::connect(ui->sbx_pishape_a, SIGNAL(valueChanged(double)),
+            QObject::connect(ui->sbx_pishape_bl, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxPiShape(double)));
-            QObject::connect(ui->sbx_pishape_b, SIGNAL(valueChanged(double)),
+            QObject::connect(ui->sbx_pishape_tl, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxPiShape(double)));
-            QObject::connect(ui->sbx_pishape_c, SIGNAL(valueChanged(double)),
+            QObject::connect(ui->sbx_pishape_tr, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxPiShape(double)));
-            QObject::connect(ui->sbx_pishape_d, SIGNAL(valueChanged(double)),
+            QObject::connect(ui->sbx_pishape_br, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxPiShape(double)));
 
             //SigmoidDiff
@@ -392,13 +391,13 @@ namespace fl {
                     this, SLOT(onChangeSpinBoxBell(double)));
 
             //Pi-Shape
-            QObject::disconnect(ui->sbx_pishape_a, SIGNAL(valueChanged(double)),
+            QObject::disconnect(ui->sbx_pishape_bl, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxPiShape(double)));
-            QObject::disconnect(ui->sbx_pishape_b, SIGNAL(valueChanged(double)),
+            QObject::disconnect(ui->sbx_pishape_tl, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxPiShape(double)));
-            QObject::disconnect(ui->sbx_pishape_c, SIGNAL(valueChanged(double)),
+            QObject::disconnect(ui->sbx_pishape_tr, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxPiShape(double)));
-            QObject::disconnect(ui->sbx_pishape_d, SIGNAL(valueChanged(double)),
+            QObject::disconnect(ui->sbx_pishape_br, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxPiShape(double)));
 
             //SigmoidDiff
@@ -547,18 +546,20 @@ namespace fl {
 
                 } else if (copy->className() == PiShape().className()) {
                     PiShape* term = dynamic_cast<PiShape*> (copy);
-                    term->setB(term->getB() + separationDistance);
-                    term->setC(term->getC() + separationDistance);
+                    term->setBottomLeft(term->getBottomLeft() + separationDistance);
+                    term->setTopLeft(term->getTopLeft() + separationDistance);
+                    term->setTopRight(term->getTopRight() + separationDistance);
+                    term->setBottomRight(term->getBottomRight() + separationDistance);
 
                 } else if (copy->className() == SigmoidDifference().className()) {
                     SigmoidDifference* term = dynamic_cast<SigmoidDifference*> (copy);
-                    term->setLeftInflection(term->getLeftInflection() + separationDistance);
-                    term->setRightInflection(term->getRightInflection() + separationDistance);
+                    term->setLeft(term->getLeft() + separationDistance);
+                    term->setRight(term->getRight() + separationDistance);
 
                 } else if (copy->className() == SigmoidProduct().className()) {
                     SigmoidProduct* term = dynamic_cast<SigmoidProduct*> (copy);
-                    term->setLeftInflection(term->getLeftInflection() + separationDistance);
-                    term->setRightInflection(term->getRightInflection() + separationDistance);
+                    term->setLeft(term->getLeft() + separationDistance);
+                    term->setRight(term->getRight() + separationDistance);
 
                     //EDGE
                 } else if (copy->className() == Ramp().className()) {
@@ -607,15 +608,37 @@ namespace fl {
                 default:
                     throw fl::Exception("[internal error] index out of bounds", FL_AT);
             }
+            std::string className = selectedTerm()->className();
+            //BASIC
+            if (className == Triangle().className()) onChangeSpinBoxTriangle(0);
+            else if (className == Trapezoid().className()) onChangeSpinBoxTrapezoid(0);
+            else if (className == Rectangle().className()) onChangeSpinBoxRectangle(0);
+            else if (className == Discrete().className()) onClickDiscreteParser();
+                //EXTENDED
+            else if (className == Gaussian().className()) onChangeSpinBoxGaussian(0);
+            else if (className == GaussianProduct().className()) onChangeSpinBoxGaussianProduct(0);
+            else if (className == Bell().className()) onChangeSpinBoxBell(0);
+            else if (className == PiShape().className()) onChangeSpinBoxPiShape(0);
+            else if (className == SigmoidDifference().className()) onChangeSpinBoxSigmoidDiff(0);
+            else if (className == SigmoidProduct().className()) onChangeSpinBoxSigmoidProd(0);
+                //EDGES
+            else if (className == Ramp().className()) onChangeSpinBoxRamp(0);
+            else if (className == Sigmoid().className()) onChangeSpinBoxSigmoid(0);
+            else if (className == SShape().className()) onChangeSpinBoxSShape(0);
+            else if (className == ZShape().className()) onChangeSpinBoxZShape(0);
+            else throw fl::Exception("[term error] term of class <" + 
+                    className + "> not recognized", FL_AT);
+
+
             redraw();
-//            this->adjustSize();
+            //            this->adjustSize();
         }
 
         void Term::onChangeTab(int index) {
             setCurrentToolbox(index);
             onChangeToolBoxIndex(-1);
             redraw();
-//            this->adjustSize();
+            //            this->adjustSize();
         }
 
         void Term::onChangeSpinBoxTriangle(double) {
@@ -693,7 +716,7 @@ namespace fl {
             int size = std::min(xValues.size(), yValues.size());
             try {
                 for (int i = 0; i < size; ++i) {
-                    FL_LOG("<" << xValues[i] << "," << yValues[i] << ">");
+//                    FL_LOG("<" << xValues[i] << "," << yValues[i] << ">");
                     term->x.push_back(fl::Op::toScalar(xValues[i]));
                     term->y.push_back(fl::Op::toScalar(yValues[i]));
                 }
@@ -731,28 +754,28 @@ namespace fl {
 
         void Term::onChangeSpinBoxPiShape(double) {
             PiShape* term = dynamic_cast<PiShape*> (selectedTerm());
-            term->setA(ui->sbx_pishape_a->value());
-            term->setB(ui->sbx_pishape_b->value());
-            term->setC(ui->sbx_pishape_c->value());
-            term->setD(ui->sbx_pishape_d->value());
+            term->setBottomLeft(ui->sbx_pishape_bl->value());
+            term->setTopLeft(ui->sbx_pishape_tl->value());
+            term->setTopRight(ui->sbx_pishape_tr->value());
+            term->setBottomRight(ui->sbx_pishape_br->value());
             redraw();
         }
 
         void Term::onChangeSpinBoxSigmoidDiff(double) {
             SigmoidDifference* term = dynamic_cast<SigmoidDifference*> (selectedTerm());
-            term->setFallingSlope(ui->sbx_sigmoid_diff_falling->value());
-            term->setLeftInflection(ui->sbx_sigmoid_diff_left->value());
-            term->setRightInflection(ui->sbx_sigmoid_diff_right->value());
-            term->setRisingSlope(ui->sbx_sigmoid_diff_rising->value());
+            term->setFalling(ui->sbx_sigmoid_diff_falling->value());
+            term->setLeft(ui->sbx_sigmoid_diff_left->value());
+            term->setRight(ui->sbx_sigmoid_diff_right->value());
+            term->setRising(ui->sbx_sigmoid_diff_rising->value());
             redraw();
         }
 
         void Term::onChangeSpinBoxSigmoidProd(double) {
             SigmoidProduct* term = dynamic_cast<SigmoidProduct*> (selectedTerm());
-            term->setFallingSlope(ui->sbx_sigmoid_prod_falling->value());
-            term->setLeftInflection(ui->sbx_sigmoid_prod_left->value());
-            term->setRightInflection(ui->sbx_sigmoid_prod_right->value());
-            term->setRisingSlope(ui->sbx_sigmoid_prod_rising->value());
+            term->setFalling(ui->sbx_sigmoid_prod_falling->value());
+            term->setLeft(ui->sbx_sigmoid_prod_left->value());
+            term->setRight(ui->sbx_sigmoid_prod_right->value());
+            term->setRising(ui->sbx_sigmoid_prod_rising->value());
             redraw();
         }
 
@@ -838,7 +861,7 @@ namespace fl {
                 ui->led_discrete_y->setText(QString::fromStdString(ssY.str()));
                 ui->basicTermToolbox->setCurrentIndex(3);
                 setCurrentToolbox(0);
-//                onClickDiscreteParser();
+                //                onClickDiscreteParser();
 
                 //EXTENDED
             } else if (x->className() == Gaussian().className()) {
@@ -871,36 +894,37 @@ namespace fl {
 
             } else if (x->className() == PiShape().className()) {
                 const PiShape* term = dynamic_cast<const PiShape*> (x);
-                scalar params[] = {term->getA(), term->getB(), term->getC(), term->getD()};
-                ui->sbx_pishape_a->setValue(params[0]);
-                ui->sbx_pishape_b->setValue(params[1]);
-                ui->sbx_pishape_c->setValue(params[2]);
-                ui->sbx_pishape_d->setValue(params[3]);
+                scalar params[] = {term->getBottomLeft(), term->getTopLeft(),
+                    term->getTopRight(), term->getBottomRight()};
+                ui->sbx_pishape_bl->setValue(params[0]);
+                ui->sbx_pishape_tl->setValue(params[1]);
+                ui->sbx_pishape_tr->setValue(params[2]);
+                ui->sbx_pishape_br->setValue(params[3]);
                 ui->extendedTermToolbox->setCurrentIndex(3);
                 setCurrentToolbox(1);
 
             } else if (x->className() == SigmoidDifference().className()) {
                 const SigmoidDifference* term = dynamic_cast<const SigmoidDifference*> (x);
-                scalar params[] = {term->getLeftInflection(), term->getRisingSlope(),
-                term->getRightInflection(), term->getFallingSlope()};
+                scalar params[] = {term->getLeft(), term->getRising(),
+                    term->getRight(), term->getFalling()};
                 ui->sbx_sigmoid_diff_left->setValue(params[0]);
                 ui->sbx_sigmoid_diff_rising->setValue(params[1]);
                 ui->sbx_sigmoid_diff_right->setValue(params[2]);
                 ui->sbx_sigmoid_diff_falling->setValue(params[3]);
-                
-                
+
+
                 ui->extendedTermToolbox->setCurrentIndex(4);
                 setCurrentToolbox(1);
 
             } else if (x->className() == SigmoidProduct().className()) {
                 const SigmoidProduct* term = dynamic_cast<const SigmoidProduct*> (x);
-                scalar params[] = {term->getLeftInflection(), term->getRisingSlope(),
-                term->getRightInflection(), term->getFallingSlope()};
+                scalar params[] = {term->getLeft(), term->getRising(),
+                    term->getRight(), term->getFalling()};
                 ui->sbx_sigmoid_prod_left->setValue(params[0]);
                 ui->sbx_sigmoid_prod_rising->setValue(params[1]);
                 ui->sbx_sigmoid_prod_right->setValue(params[2]);
                 ui->sbx_sigmoid_prod_falling->setValue(params[3]);
-                
+
                 ui->extendedTermToolbox->setCurrentIndex(5);
                 setCurrentToolbox(1);
 

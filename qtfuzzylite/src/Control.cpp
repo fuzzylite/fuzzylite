@@ -58,22 +58,20 @@ namespace fl {
             }
 
             scalar x = outputVariable->defuzzify();
-            std::ostringstream oss;
-            oss << std::setprecision(5) <<  x;
-            ui->led_x->setText(QString::fromStdString(oss.str()));
+            ui->led_x->setText(QString::number(x, 'f', FL_DECIMALS));
             ui->sbx_x->setValue(x);
             refresh();
             draw(outputVariable->output());
             
-            QString fuzzify;
-            Accumulated* output = outputVariable->output();
+            QString fuzzify = QString::fromStdString(outputVariable->fuzzify(x));
+//            Accumulated* output = outputVariable->output();
             
-            for (int i = 0; i < output->numberOfTerms(); ++i) {
-                fuzzify += QString::number(output->getTerm(i)->membership(x), 'f', 2)
-                        + "/" + QString::fromStdString(output->getTerm(i)->getName());
-
-                if (i < output->numberOfTerms() - 1) fuzzify += " + ";
-            }
+//            for (int i = 0; i < output->numberOfTerms(); ++i) {
+//                fuzzify += QString::number(output->getTerm(i)->membership(x), 'f', 2)
+//                        + "/" + QString::fromStdString(output->getTerm(i)->getName());
+//
+//                if (i < output->numberOfTerms() - 1) fuzzify += " + ";
+//            }
             ui->lbl_fuzzy_out->setText("&#956;=" + fuzzify);
         }
 

@@ -13,7 +13,6 @@
     <height>500</height>
    </rect>
   </property>
-
   <property name="acceptDrops">
    <bool>true</bool>
   </property>
@@ -32,8 +31,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="pte_fcl">
-
+    <widget class="QPlainTextEdit" name="pte_code">
      <property name="lineWrapMode">
       <enum>QPlainTextEdit::NoWrap</enum>
      </property>

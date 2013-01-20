@@ -1,4 +1,4 @@
-CONFIG+= qt app release warn_on
+CONFIG+= qt app release warn_on static
 
 MAKEFILE = Makefile
 TEMPLATE = app
@@ -15,7 +15,7 @@ UI_SOURCES_DIR = ui
 RESOURCES += ui/resources.qrc
 RCC_DIR = ui
 
-LIBS += -L/usr/local/lib -lfuzzylite #-lQtSvg
+LIBS +=  -lfuzzylite #-lQtSvg
 
 target.path += /usr/local/bin
 INSTALLS += target

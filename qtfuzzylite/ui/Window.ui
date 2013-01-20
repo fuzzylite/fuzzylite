@@ -22,7 +22,6 @@
     <height>0</height>
    </size>
   </property>
-
   <property name="windowTitle">
    <string>qtfuzzylite</string>
   </property>
@@ -55,7 +54,7 @@
          <x>0</x>
          <y>0</y>
          <width>613</width>
-         <height>499</height>
+         <height>501</height>
         </rect>
        </property>
        <attribute name="label">
@@ -80,7 +79,6 @@
               <layout class="QHBoxLayout" name="horizontalLayout_2">
                <item>
                 <widget class="QLabel" name="lbl_inputs">
-
                  <property name="text">
                   <string>Inputs</string>
                  </property>
@@ -163,7 +161,6 @@
               <layout class="QHBoxLayout" name="horizontalLayout_3">
                <item>
                 <widget class="QLabel" name="lbl_outputs">
-
                  <property name="text">
                   <string>Outputs</string>
                  </property>
@@ -262,7 +259,6 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-
                 <property name="text">
                  <string>Rules</string>
                 </property>
@@ -306,7 +302,6 @@
             </item>
             <item>
              <widget class="QPlainTextEdit" name="ptx_rules">
-
               <property name="verticalScrollBarPolicy">
                <enum>Qt::ScrollBarAlwaysOn</enum>
               </property>
@@ -332,8 +327,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>613</width>
-         <height>499</height>
+         <width>184</width>
+         <height>216</height>
         </rect>
        </property>
        <attribute name="label">
@@ -359,7 +354,6 @@
              </property>
              <item>
               <widget class="QLabel" name="label_2">
-
                <property name="text">
                 <string>Inputs</string>
                </property>
@@ -402,8 +396,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>293</width>
-                     <height>128</height>
+                     <width>100</width>
+                     <height>30</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -447,7 +441,6 @@
              </property>
              <item>
               <widget class="QLabel" name="label_4">
-
                <property name="text">
                 <string>Outputs</string>
                </property>
@@ -493,8 +486,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>292</width>
-                     <height>128</height>
+                     <width>100</width>
+                     <height>30</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -540,7 +533,6 @@
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-
                <property name="text">
                 <string>Rules</string>
                </property>
@@ -557,7 +549,6 @@
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-
                <property name="selectionMode">
                 <enum>QAbstractItemView::NoSelection</enum>
                </property>
@@ -581,7 +572,6 @@
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-
                <property name="text">
                 <string>Strength</string>
                </property>
@@ -598,7 +588,6 @@
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-
                <property name="horizontalScrollBarPolicy">
                 <enum>Qt::ScrollBarAlwaysOff</enum>
                </property>
@@ -644,10 +633,13 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionReset"/>
+   <addaction name="separator"/>
    <addaction name="actionConfigure"/>
    <addaction name="actionTerms"/>
+   <addaction name="separator"/>
    <addaction name="actionImport"/>
    <addaction name="actionExport"/>
+   <addaction name="separator"/>
    <addaction name="actionAbout"/>
    <addaction name="actionQuit"/>
   </widget>

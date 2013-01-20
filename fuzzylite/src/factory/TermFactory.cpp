@@ -35,7 +35,7 @@ namespace fl {
             const std::vector<scalar>& params) const {
         int requiredParams = -1;
         if (className == Discrete().className()) {
-            if (params.size() % 2 == 0) {
+            if ((int)params.size() % 2 == 0) {
                 Discrete* term = new Discrete();
                 for (std::size_t i = 0; i < params.size() - 1; i += 2) {
                     term->x.push_back(params[i]);
@@ -51,78 +51,78 @@ namespace fl {
         }
 
         if (className == Bell().className()) {
-            if (params.size() >= (requiredParams = 3)) {
+            if ((int)params.size() >= (requiredParams = 3)) {
                 return new Bell("", params[0], params[1], params[2]);
             }
         }
 
         if (className == Gaussian().className()) {
-            if (params.size() >= (requiredParams = 2)) {
+            if ((int)params.size() >= (requiredParams = 2)) {
                 return new Gaussian("", params[0], params[1]);
             }
         }
 
         if (className == GaussianProduct().className()) {
-            if (params.size() >= (requiredParams = 4)) {
+            if ((int)params.size() >= (requiredParams = 4)) {
                 return new GaussianProduct("", params[0], params[1], params[2], params[3]);
             }
         }
 
         if (className == PiShape().className()) {
-            if (params.size() >= (requiredParams = 4)) {
+            if ((int)params.size() >= (requiredParams = 4)) {
                 return new PiShape("", params[0], params[1], params[2], params[3]);
             }
         }
 
         if (className == Ramp().className()) {
-            if (params.size() >= (requiredParams = 2)) {
+            if ((int)params.size() >= (requiredParams = 2)) {
                 return new Ramp("", params[0], params[1]);
             }
         }
 
 
         if (className == Rectangle().className()) {
-            if (params.size() >= (requiredParams = 2)) {
+            if ((int)params.size() >= (requiredParams = 2)) {
                 return new Rectangle("", params[0], params[1]);
             }
         }
 
         if (className == SShape().className()) {
-            if (params.size() >= (requiredParams = 2)) {
+            if ((int)params.size() >= (requiredParams = 2)) {
                 return new SShape("", params[0], params[1]);
             }
         }
 
         if (className == Sigmoid().className()) {
-            if (params.size() >= (requiredParams = 2)) {
+            if ((int)params.size() >= (requiredParams = 2)) {
                 return new Sigmoid("", params[0], params[1]);
             }
         }
 
         if (className == SigmoidDifference().className()) {
-            if (params.size() >= (requiredParams = 4)) {
+            if ((int)params.size() >= (requiredParams = 4)) {
                 return new SigmoidDifference("", params[0], params[1], params[2], params[3]);
             }
         }
 
         if (className == SigmoidProduct().className()) {
-            if (params.size() >= (requiredParams = 4)) {
+            if ((int)params.size() >= (requiredParams = 4)) {
                 return new SigmoidProduct("", params[0], params[1], params[2], params[3]);
             }
         }
 
         if (className == Trapezoid().className()) {
-            if (params.size() >= (requiredParams = 4))
+            if ((int)params.size() >= (requiredParams = 4))
                 return new Trapezoid("", params[0], params[1], params[2], params[3]);
         }
 
         if (className == Triangle().className()) {
-            if (params.size() >= (requiredParams = 3))
+            if ((int)params.size() >= (requiredParams = 3))
                 return new Triangle("", params[0], params[1], params[2]);
         }
 
         if (className == ZShape().className()) {
-            if (params.size() >= (requiredParams = 2)) {
+            if ((int)params.size() >= (requiredParams = 2)) {
                 return new ZShape("", params[0], params[1]);
             }
         }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>222</width>
-    <height>434</height>
+    <width>262</width>
+    <height>465</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -82,7 +82,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideMiddle</enum>
@@ -113,15 +113,15 @@
             <bool>true</bool>
            </property>
            <property name="currentIndex">
-            <number>3</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="page">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>198</width>
-              <height>136</height>
+              <width>238</width>
+              <height>222</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -149,7 +149,13 @@
              <item>
               <layout class="QFormLayout" name="formLayout">
                <property name="fieldGrowthPolicy">
-                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+               </property>
+               <property name="labelAlignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="formAlignment">
+                <set>Qt::AlignCenter</set>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label">
@@ -190,8 +196,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>198</width>
-              <height>136</height>
+              <width>238</width>
+              <height>222</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -219,7 +225,13 @@
              <item>
               <layout class="QFormLayout" name="formLayout_2">
                <property name="fieldGrowthPolicy">
-                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+               </property>
+               <property name="labelAlignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="formAlignment">
+                <set>Qt::AlignCenter</set>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_4">
@@ -270,8 +282,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>198</width>
-              <height>136</height>
+              <width>238</width>
+              <height>222</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -299,7 +311,13 @@
              <item>
               <layout class="QFormLayout" name="formLayout_3">
                <property name="fieldGrowthPolicy">
-                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+               </property>
+               <property name="labelAlignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="formAlignment">
+                <set>Qt::AlignCenter</set>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_8">
@@ -330,8 +348,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>198</width>
-              <height>136</height>
+              <width>238</width>
+              <height>222</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -364,7 +382,13 @@
                <item>
                 <layout class="QFormLayout" name="formLayout_6">
                  <property name="fieldGrowthPolicy">
-                  <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                  <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+                 </property>
+                 <property name="labelAlignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                 <property name="formAlignment">
+                  <set>Qt::AlignCenter</set>
                  </property>
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_16">
@@ -433,15 +457,15 @@
             <bool>true</bool>
            </property>
            <property name="currentIndex">
-            <number>5</number>
+            <number>3</number>
            </property>
            <widget class="QWidget" name="page_6">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>198</width>
-              <height>74</height>
+              <width>132</width>
+              <height>62</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -469,12 +493,18 @@
              <item>
               <layout class="QFormLayout" name="formLayout_5">
                <property name="fieldGrowthPolicy">
-                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+               </property>
+               <property name="labelAlignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="formAlignment">
+                <set>Qt::AlignCenter</set>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_14">
                  <property name="text">
-                  <string>center</string>
+                  <string>mean</string>
                  </property>
                 </widget>
                </item>
@@ -484,7 +514,7 @@
                <item row="1" column="0">
                 <widget class="QLabel" name="label_15">
                  <property name="text">
-                  <string>width</string>
+                  <string>sigma</string>
                  </property>
                 </widget>
                </item>
@@ -495,85 +525,72 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="page_10">
+           <widget class="QWidget" name="page_13">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>185</width>
+              <width>143</width>
               <height>128</height>
              </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
             </property>
             <attribute name="label">
              <string>Gaussian Product</string>
             </attribute>
             <layout class="QVBoxLayout" name="verticalLayout_3">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
              <property name="topMargin">
               <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
              </property>
              <property name="bottomMargin">
               <number>0</number>
              </property>
              <item>
-              <layout class="QFormLayout" name="formLayout_12">
+              <layout class="QFormLayout" name="formLayout_8">
                <property name="fieldGrowthPolicy">
-                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+               </property>
+               <property name="labelAlignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="formAlignment">
+                <set>Qt::AlignCenter</set>
                </property>
                <item row="0" column="0">
-                <widget class="QLabel" name="label_29">
+                <widget class="QLabel" name="label_25">
                  <property name="text">
-                  <string>centerA</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_30">
-                 <property name="text">
-                  <string>widthA</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_31">
-                 <property name="text">
-                  <string>centerB</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_32">
-                 <property name="text">
-                  <string>widthB</string>
+                  <string>meanA</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_center_a">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
+                <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_center_a"/>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_26">
+                 <property name="text">
+                  <string>sigmaA</string>
                  </property>
                 </widget>
                </item>
                <item row="1" column="1">
                 <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_width_a"/>
                </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_43">
+                 <property name="text">
+                  <string>meanB</string>
+                 </property>
+                </widget>
+               </item>
                <item row="2" column="1">
                 <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_center_b"/>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_44">
+                 <property name="text">
+                  <string>sigmaB</string>
+                 </property>
+                </widget>
                </item>
                <item row="3" column="1">
                 <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_width_b"/>
@@ -587,7 +604,7 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>185</width>
+              <width>138</width>
               <height>95</height>
              </rect>
             </property>
@@ -616,7 +633,13 @@
              <item>
               <layout class="QFormLayout" name="formLayout_7">
                <property name="fieldGrowthPolicy">
-                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+               </property>
+               <property name="labelAlignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="formAlignment">
+                <set>Qt::AlignCenter</set>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_22">
@@ -657,8 +680,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>185</width>
-              <height>128</height>
+              <width>238</width>
+              <height>160</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -686,7 +709,13 @@
              <item>
               <layout class="QFormLayout" name="formLayout_4">
                <property name="fieldGrowthPolicy">
-                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+               </property>
+               <property name="labelAlignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="formAlignment">
+                <set>Qt::AlignCenter</set>
                </property>
                <property name="topMargin">
                 <number>0</number>
@@ -700,42 +729,42 @@
                <item row="0" column="0">
                 <widget class="QLabel" name="label_10">
                  <property name="text">
-                  <string>a</string>
+                  <string>left</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QDoubleSpinBox" name="sbx_pishape_a"/>
+                <widget class="QDoubleSpinBox" name="sbx_pishape_bl"/>
                </item>
                <item row="1" column="0">
                 <widget class="QLabel" name="label_11">
                  <property name="text">
-                  <string>b</string>
+                  <string>Left</string>
                  </property>
                 </widget>
                </item>
                <item row="1" column="1">
-                <widget class="QDoubleSpinBox" name="sbx_pishape_b"/>
+                <widget class="QDoubleSpinBox" name="sbx_pishape_tl"/>
                </item>
                <item row="2" column="0">
                 <widget class="QLabel" name="label_12">
                  <property name="text">
-                  <string>c</string>
+                  <string>Right</string>
                  </property>
                 </widget>
                </item>
                <item row="2" column="1">
-                <widget class="QDoubleSpinBox" name="sbx_pishape_c"/>
+                <widget class="QDoubleSpinBox" name="sbx_pishape_tr"/>
                </item>
                <item row="3" column="0">
                 <widget class="QLabel" name="label_13">
                  <property name="text">
-                  <string>d</string>
+                  <string>right</string>
                  </property>
                 </widget>
                </item>
                <item row="3" column="1">
-                <widget class="QDoubleSpinBox" name="sbx_pishape_d"/>
+                <widget class="QDoubleSpinBox" name="sbx_pishape_br"/>
                </item>
               </layout>
              </item>
@@ -746,7 +775,7 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>185</width>
+              <width>136</width>
               <height>128</height>
              </rect>
             </property>
@@ -774,11 +803,14 @@
              </property>
              <item>
               <layout class="QFormLayout" name="formLayout_13">
-               <property name="sizeConstraint">
-                <enum>QLayout::SetMinimumSize</enum>
-               </property>
                <property name="fieldGrowthPolicy">
-                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+               </property>
+               <property name="labelAlignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="formAlignment">
+                <set>Qt::AlignCenter</set>
                </property>
                <item row="0" column="1">
                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_left"/>
@@ -829,7 +861,7 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>185</width>
+              <width>136</width>
               <height>128</height>
              </rect>
             </property>
@@ -858,7 +890,13 @@
              <item>
               <layout class="QFormLayout" name="formLayout_14">
                <property name="fieldGrowthPolicy">
-                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+               </property>
+               <property name="labelAlignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="formAlignment">
+                <set>Qt::AlignCenter</set>
                </property>
                <property name="topMargin">
                 <number>0</number>
@@ -943,15 +981,15 @@
             <bool>true</bool>
            </property>
            <property name="currentIndex">
-            <number>1</number>
+            <number>3</number>
            </property>
            <widget class="QWidget" name="page_12">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>198</width>
-              <height>136</height>
+              <width>238</width>
+              <height>222</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -979,7 +1017,13 @@
              <item>
               <layout class="QFormLayout" name="formLayout_9">
                <property name="fieldGrowthPolicy">
-                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+               </property>
+               <property name="labelAlignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="formAlignment">
+                <set>Qt::AlignCenter</set>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_27">
@@ -1010,8 +1054,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>198</width>
-              <height>191</height>
+              <width>238</width>
+              <height>222</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1038,25 +1082,22 @@
              </property>
              <item>
               <layout class="QFormLayout" name="formLayout_15">
-               <property name="sizeConstraint">
-                <enum>QLayout::SetMinimumSize</enum>
-               </property>
                <property name="fieldGrowthPolicy">
-                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+               </property>
+               <property name="labelAlignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="formAlignment">
+                <set>Qt::AlignCenter</set>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_41">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
                  <property name="toolTip">
                   <string/>
                  </property>
                  <property name="text">
-                  <string>inflection</string>
+                  <string>infl.</string>
                  </property>
                  <property name="textFormat">
                   <enum>Qt::PlainText</enum>
@@ -1070,14 +1111,7 @@
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QDoubleSpinBox" name="sbx_sigmoid_inflection">
-                 <property name="minimum">
-                  <double>-10000.000000000000000</double>
-                 </property>
-                 <property name="maximum">
-                  <double>10000.000000000000000</double>
-                 </property>
-                </widget>
+                <widget class="QDoubleSpinBox" name="sbx_sigmoid_inflection"/>
                </item>
                <item row="1" column="0">
                 <widget class="QLabel" name="label_42">
@@ -1098,8 +1132,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>198</width>
-              <height>136</height>
+              <width>238</width>
+              <height>222</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1127,7 +1161,13 @@
              <item>
               <layout class="QFormLayout" name="formLayout_10">
                <property name="fieldGrowthPolicy">
-                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+               </property>
+               <property name="labelAlignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="formAlignment">
+                <set>Qt::AlignCenter</set>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_18">
@@ -1158,8 +1198,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>198</width>
-              <height>136</height>
+              <width>238</width>
+              <height>222</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1187,7 +1227,13 @@
              <item>
               <layout class="QFormLayout" name="formLayout_11">
                <property name="fieldGrowthPolicy">
-                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+               </property>
+               <property name="labelAlignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="formAlignment">
+                <set>Qt::AlignCenter</set>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_23">

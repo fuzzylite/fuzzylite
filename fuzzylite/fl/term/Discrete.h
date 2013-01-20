@@ -15,7 +15,7 @@
 #include <vector>
 #include <utility>
 namespace fl {
-    
+
     class Discrete : public Term {
     public:
         std::vector<scalar> x;
@@ -23,7 +23,7 @@ namespace fl {
 
         Discrete(const std::string& name = "");
 
-//        Discrete(const std::string& name, int argc, ...) throw (fl::Exception);
+        Discrete(const std::string& name, int argc, ...) throw (fl::Exception);
 
         Discrete(const std::string& name,
                 const std::vector<scalar>& x,

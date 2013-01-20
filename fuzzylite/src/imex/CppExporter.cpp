@@ -25,7 +25,7 @@ namespace fl {
         cpp << "engine->setName(\"" << engine->getName() << "\");\n";
 
         for (int i = 0; i < engine->numberOfHedges(); ++i) {
-            cpp << "engine->addHedge(new " << toCpp(engine->getHedge(i)) << ");\n";
+            cpp << "engine->addHedge(" << toCpp(engine->getHedge(i)) << ");\n";
         }
         cpp << "\n";
 
@@ -38,7 +38,7 @@ namespace fl {
                     fl::Op::str(input->getMaximum()) << ");\n";
             cpp << "\n";
             for (int t = 0; t < input->numberOfTerms(); ++t) {
-                cpp << "inputVariable" << (i + 1) << "->addTerm(new fl::" <<
+                cpp << "inputVariable" << (i + 1) << "->addTerm(" <<
                         toCpp(input->getTerm(t)) << ");\n";
             }
             cpp << "engine->addInputVariable(inputVariable" << (i + 1) << ");\n";
@@ -139,7 +139,7 @@ namespace fl {
 
         if (term->className() == PiShape().className()) {
             const PiShape* x = dynamic_cast<const PiShape*> (term);
-            scalar params[] = {x->getA(), x->getB(), x->getC(), x->getD()};
+            scalar params[] = {x->getBottomLeft(), x->getTopLeft(), x->getBottomRight(), x->getTopRight()};
             ss << fl::Op::str(4, params) << ")";
             return ss.str();
         }
@@ -174,16 +174,16 @@ namespace fl {
 
         if (term->className() == SigmoidDifference().className()) {
             const SigmoidDifference* x = dynamic_cast<const SigmoidDifference*> (term);
-            scalar params[] = {x->getLeftInflection(), x->getRisingSlope(),
-                x->getRightInflection(), x->getFallingSlope()};
+            scalar params[] = {x->getLeft(), x->getRising(),
+                x->getRight(), x->getFalling()};
             ss << fl::Op::str(4, params) << ")";
             return ss.str();
         }
 
         if (term->className() == SigmoidProduct().className()) {
             const SigmoidProduct* x = dynamic_cast<const SigmoidProduct*> (term);
-            scalar params[] = {x->getLeftInflection(), x->getRisingSlope(),
-                x->getRightInflection(), x->getFallingSlope()};
+            scalar params[] = {x->getLeft(), x->getRising(),
+                x->getRight(), x->getFalling()};
             ss << fl::Op::str(4, params) << ")";
             return ss.str();
         }

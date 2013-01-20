@@ -14,16 +14,16 @@ namespace fl {
 
     class SigmoidDifference : public Term {
     protected:
-        scalar _leftInflection;
-        scalar _risingSlope;
-        scalar _rightInflection;
-        scalar _fallingSlope;
+        scalar _left;
+        scalar _rising;
+        scalar _right;
+        scalar _falling;
     public:
         SigmoidDifference(const std::string& name = "",
-                scalar leftInflection = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar risingSlope = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar rightInflection = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar fallingSlope = std::numeric_limits<scalar>::quiet_NaN());
+                scalar left = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar rising = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar right = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar falling = std::numeric_limits<scalar>::quiet_NaN());
 
         std::string className() const;
         SigmoidDifference* copy() const;
@@ -33,17 +33,17 @@ namespace fl {
         std::string toString() const;
 
 
-        void setLeftInflection(scalar leftInflection);
-        scalar getLeftInflection() const;
+        void setLeft(scalar leftInflection);
+        scalar getLeft() const;
 
-        void setRisingSlope(scalar risingSlope);
-        scalar getRisingSlope() const;
+        void setRising(scalar risingSlope);
+        scalar getRising() const;
 
-        void setRightInflection(scalar rightInflection);
-        scalar getRightInflection() const;
+        void setRight(scalar rightInflection);
+        scalar getRight() const;
 
-        void setFallingSlope(scalar fallingSlope);
-        scalar getFallingSlope() const;
+        void setFalling(scalar fallingSlope);
+        scalar getFalling() const;
 
 
     };

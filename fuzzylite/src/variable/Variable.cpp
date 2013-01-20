@@ -28,7 +28,7 @@ namespace fl {
 
     Variable::~Variable() {
         for (std::size_t i = 0; i < _terms.size(); ++i) {
-            delete _terms[i];
+            delete _terms.at(i);
         }
     }
 
@@ -64,10 +64,11 @@ namespace fl {
 
     std::string Variable::fuzzify(scalar x) const {
         std::ostringstream ss;
+        ss << std::setprecision(FL_DECIMALS) << std::fixed;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
-            ss << _terms[i]->membership(x) << "/" << _terms[i]->getName();
+            ss << _terms.at(i)->membership(x) << "/" << _terms.at(i)->getName();
             if (i < _terms.size() - 1)
-                ss << ", ";
+                ss << " + ";
         }
         return ss.str();
     }
@@ -76,10 +77,10 @@ namespace fl {
         Term* result = NULL;
         scalar ymax = 0;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
-            scalar y = _terms[i]->membership(x);
+            scalar y = _terms.at(i)->membership(x);
             if (fl::Op::isGt(y, ymax)) {
                 ymax = y;
-                result = _terms[i];
+                result = _terms.at(i);
             }
         }
         if (yhighest) *yhighest = ymax;
@@ -90,7 +91,7 @@ namespace fl {
         std::ostringstream ss;
         ss << getName() << " [";
         for (std::size_t i = 0; i < _terms.size(); ++i) {
-            ss << _terms[i]->toString();
+            ss << _terms.at(i)->toString();
             if (i < _terms.size() - 1) ss << ", ";
         }
         ss << "]";
@@ -117,16 +118,17 @@ namespace fl {
     }
 
     Term* Variable::getTerm(int index) const {
-        return this->_terms[index];
+        return this->_terms.at(index);
     }
 
     Term* Variable::getTerm(const std::string& name) const {
         for (std::size_t i = 0; i < _terms.size(); ++i) {
-            if (_terms[i]->getName() == name) {
-                return _terms[i];
+            if (_terms.at(i)->getName() == name) {
+                return _terms.at(i);
             }
         }
-        return NULL;
+        throw fl::Exception("[variable error] term <" + name + "> "
+                "not found in variable <" + this->_name + ">", FL_AT);
     }
 
     bool Variable::hasTerm(const std::string& name) const {
@@ -134,7 +136,7 @@ namespace fl {
     }
 
     Term* Variable::removeTerm(int index) {
-        Term* result = this->_terms[index];
+        Term* result = this->_terms.at(index);
         this->_terms.erase(this->_terms.begin() + index);
         return result;
     }
