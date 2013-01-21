@@ -13,9 +13,6 @@
 using namespace fl;
 
 int main(int argc, char** argv) {
-    scalar x = 2 * std::numeric_limits<scalar>::max();
-    FL_LOG(x << " " << fl::Operator::isInf(x));
-    return 0;
     std::cout << "\nHello, fuzzylite!" << std::endl
             << "Version: " << FL_VERSION << " (" << FL_DATE << ")\n" << std::endl;
     scalar someScalar = 0;
@@ -95,7 +92,7 @@ int main(int argc, char** argv) {
     std::cout << "\n\n";
 
     std::cout << "Bye, fuzzylite!\n" << std::endl;
-    std::cin.get();
+//    std::cin.get();
 
 }
 
