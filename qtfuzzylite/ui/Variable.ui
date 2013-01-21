@@ -171,7 +171,7 @@
            </property>
            <property name="icon">
             <iconset resource="resources.qrc">
-             <normaloff>:/icons/icons/edit_add.png</normaloff>:/icons/icons/edit_add.png</iconset>
+             <normaloff>:/icons/edit_add.png</normaloff>:/icons/edit_add.png</iconset>
            </property>
           </widget>
          </item>
@@ -186,7 +186,7 @@
            </property>
            <property name="icon">
             <iconset resource="resources.qrc">
-             <normaloff>:/icons/icons/edit_remove.png</normaloff>:/icons/icons/edit_remove.png</iconset>
+             <normaloff>:/icons/edit_remove.png</normaloff>:/icons/edit_remove.png</iconset>
            </property>
           </widget>
          </item>
@@ -201,7 +201,7 @@
            </property>
            <property name="icon">
             <iconset resource="resources.qrc">
-             <normaloff>:/icons/icons/pencil.png</normaloff>:/icons/icons/pencil.png</iconset>
+             <normaloff>:/icons/pencil.png</normaloff>:/icons/pencil.png</iconset>
            </property>
           </widget>
          </item>
@@ -216,7 +216,7 @@
            </property>
            <property name="icon">
             <iconset resource="resources.qrc">
-             <normaloff>:/icons/icons/up.png</normaloff>:/icons/icons/up.png</iconset>
+             <normaloff>:/icons/up.png</normaloff>:/icons/up.png</iconset>
            </property>
           </widget>
          </item>
@@ -231,7 +231,7 @@
            </property>
            <property name="icon">
             <iconset resource="resources.qrc">
-             <normaloff>:/icons/icons/down.png</normaloff>:/icons/icons/down.png</iconset>
+             <normaloff>:/icons/down.png</normaloff>:/icons/down.png</iconset>
            </property>
           </widget>
          </item>

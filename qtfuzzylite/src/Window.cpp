@@ -951,7 +951,7 @@ namespace fl {
                     "Please consider making a <b>donation</b> to support and further "
                     "improve these projects.<br>"
                     "<div align='left'><a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HAGFHRMSZVDKN'>"
-                    "<img src=':ui/icons/btn_donateCC_LG.gif'></a></div>"
+                    "<img src=':/icons/btn_donateCC_LG.gif'></a></div>"
                     "<br>Visit &nbsp;"
                     "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a> "
                     "to find out how your contribution will be utilized.<br><br>"
@@ -964,14 +964,18 @@ namespace fl {
         }
 
         void Window::onMenuQuit() {
+            this->close();
+        }
+        
+        void Window::closeEvent(QCloseEvent* e){
             int result = QMessageBox::question(this, tr("qtfuzzylite"),
-                    tr("<qt>Do you want to quit <b>qtfuzzylite</b>?</qt>"),
-                    QMessageBox::Yes | QMessageBox::No,
-                    QMessageBox::Yes);
-            if (result == QMessageBox::Yes) {
-                this->close();
+                                               tr("<qt>Do you want to quit <b>qtfuzzylite</b>?</qt>"),
+                                               QMessageBox::Yes | QMessageBox::No,
+                                               QMessageBox::Yes);
+            if (result == QMessageBox::No) {
+                e->ignore();
             } else {
-                // do nothing
+                e->accept();
             }
         }
 

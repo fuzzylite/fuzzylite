@@ -68,8 +68,7 @@ namespace fl {
             void onMenuAbout();
             void onMenuQuit();
 
-            //            //Examples
-            //            virtual void onMenuExample
+            void closeEvent(QCloseEvent* e);
 
         protected:
             std::vector<QWidget*> _inputs, _outputs;

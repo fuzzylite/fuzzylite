@@ -27,10 +27,10 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
-    <normaloff>:/icons/icons/qtfuzzylite.svg</normaloff>:/icons/icons/qtfuzzylite.svg</iconset>
+    <normaloff>:/icons/qtfuzzylite.svg</normaloff>:/icons/qtfuzzylite.svg</iconset>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
-   <bool>false</bool>
+   <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -54,7 +54,7 @@
          <x>0</x>
          <y>0</y>
          <width>613</width>
-         <height>501</height>
+         <height>491</height>
         </rect>
        </property>
        <attribute name="label">
@@ -97,7 +97,7 @@
                  </property>
                  <property name="icon">
                   <iconset resource="resources.qrc">
-                   <normaloff>:/icons/icons/edit_add.png</normaloff>:/icons/icons/edit_add.png</iconset>
+                   <normaloff>:/icons/edit_add.png</normaloff>:/icons/edit_add.png</iconset>
                  </property>
                  <property name="shortcut">
                   <string>Ctrl+Shift+I</string>
@@ -117,7 +117,7 @@
                  </property>
                  <property name="icon">
                   <iconset resource="resources.qrc">
-                   <normaloff>:/icons/icons/edit_remove.png</normaloff>:/icons/icons/edit_remove.png</iconset>
+                   <normaloff>:/icons/edit_remove.png</normaloff>:/icons/edit_remove.png</iconset>
                  </property>
                 </widget>
                </item>
@@ -134,7 +134,7 @@
                  </property>
                  <property name="icon">
                   <iconset resource="resources.qrc">
-                   <normaloff>:/icons/icons/pencil.png</normaloff>:/icons/icons/pencil.png</iconset>
+                   <normaloff>:/icons/pencil.png</normaloff>:/icons/pencil.png</iconset>
                  </property>
                 </widget>
                </item>
@@ -179,7 +179,7 @@
                  </property>
                  <property name="icon">
                   <iconset resource="resources.qrc">
-                   <normaloff>:/icons/icons/edit_add.png</normaloff>:/icons/icons/edit_add.png</iconset>
+                   <normaloff>:/icons/edit_add.png</normaloff>:/icons/edit_add.png</iconset>
                  </property>
                  <property name="shortcut">
                   <string>Ctrl+Shift+O</string>
@@ -199,7 +199,7 @@
                  </property>
                  <property name="icon">
                   <iconset resource="resources.qrc">
-                   <normaloff>:/icons/icons/edit_remove.png</normaloff>:/icons/icons/edit_remove.png</iconset>
+                   <normaloff>:/icons/edit_remove.png</normaloff>:/icons/edit_remove.png</iconset>
                  </property>
                 </widget>
                </item>
@@ -216,7 +216,7 @@
                  </property>
                  <property name="icon">
                   <iconset resource="resources.qrc">
-                   <normaloff>:/icons/icons/pencil.png</normaloff>:/icons/icons/pencil.png</iconset>
+                   <normaloff>:/icons/pencil.png</normaloff>:/icons/pencil.png</iconset>
                  </property>
                 </widget>
                </item>
@@ -277,7 +277,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="resources.qrc">
-                  <normaloff>:/icons/icons/wizard.png</normaloff>:/icons/icons/wizard.png</iconset>
+                  <normaloff>:/icons/wizard.png</normaloff>:/icons/wizard.png</iconset>
                 </property>
                </widget>
               </item>
@@ -291,7 +291,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="resources.qrc">
-                  <normaloff>:/icons/icons/spellcheck.png</normaloff>:/icons/icons/spellcheck.png</iconset>
+                  <normaloff>:/icons/spellcheck.png</normaloff>:/icons/spellcheck.png</iconset>
                 </property>
                 <property name="shortcut">
                  <string>Ctrl+Shift+Return</string>
@@ -327,8 +327,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>184</width>
-         <height>216</height>
+         <width>613</width>
+         <height>491</height>
         </rect>
        </property>
        <attribute name="label">
@@ -396,8 +396,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>100</width>
-                     <height>30</height>
+                     <width>289</width>
+                     <height>124</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -486,8 +486,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>100</width>
-                     <height>30</height>
+                     <width>289</width>
+                     <height>124</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -646,7 +646,7 @@
   <action name="actionConfigure">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/icons/configure.png</normaloff>:/icons/icons/configure.png</iconset>
+     <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>
    </property>
    <property name="text">
     <string>Configure</string>
@@ -661,7 +661,7 @@
   <action name="actionTerms">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/icons/colorize.png</normaloff>:/icons/icons/colorize.png</iconset>
+     <normaloff>:/icons/colorize.png</normaloff>:/icons/colorize.png</iconset>
    </property>
    <property name="text">
     <string>Terms</string>
@@ -679,7 +679,7 @@
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/icons/bottom.png</normaloff>:/icons/icons/bottom.png</iconset>
+     <normaloff>:/icons/bottom.png</normaloff>:/icons/bottom.png</iconset>
    </property>
    <property name="text">
     <string>Import</string>
@@ -697,7 +697,7 @@
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/icons/top.png</normaloff>:/icons/icons/top.png</iconset>
+     <normaloff>:/icons/top.png</normaloff>:/icons/top.png</iconset>
    </property>
    <property name="text">
     <string>Export</string>
@@ -712,7 +712,7 @@
   <action name="actionReset">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/icons/filenew.png</normaloff>:/icons/icons/filenew.png</iconset>
+     <normaloff>:/icons/filenew.png</normaloff>:/icons/filenew.png</iconset>
    </property>
    <property name="text">
     <string>Reset</string>
@@ -727,7 +727,7 @@
   <action name="actionAbout">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/icons/messagebox_info.png</normaloff>:/icons/icons/messagebox_info.png</iconset>
+     <normaloff>:/icons/messagebox_info.png</normaloff>:/icons/messagebox_info.png</iconset>
    </property>
    <property name="text">
     <string>About</string>
@@ -742,7 +742,7 @@
   <action name="actionQuit">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/icons/exit.png</normaloff>:/icons/icons/exit.png</iconset>
+     <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
    </property>
    <property name="text">
     <string>Quit</string>

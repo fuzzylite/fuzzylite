@@ -7,7 +7,7 @@ TARGET = qtfuzzylite
 ICON = ui/icons/qtfuzzylite.icns
 VERSION = 2.0
 DEPENDPATH += . src ui
-INCLUDEPATH += . /usr/include/qt4
+INCLUDEPATH += . ../fuzzylite /usr/include/qt4
 MOC_DIR = tmp/moc
 OBJECTS_DIR = tmp
 UI_HEADERS_DIR = ui
@@ -15,7 +15,7 @@ UI_SOURCES_DIR = ui
 RESOURCES += ui/resources.qrc
 RCC_DIR = ui
 
-LIBS +=  -lfuzzylite #-lQtSvg
+LIBS += -L../fuzzylite/build -lfuzzylite #-lQtSvg
 
 target.path += /usr/local/bin
 INSTALLS += target

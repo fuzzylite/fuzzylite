@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>262</width>
-    <height>465</height>
+    <width>251</width>
+    <height>468</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -47,12 +47,15 @@
       </item>
       <item>
        <widget class="QToolButton" name="btn_wizard">
+        <property name="focusPolicy">
+         <enum>Qt::StrongFocus</enum>
+        </property>
         <property name="text">
          <string>Create multiple copies of current term</string>
         </property>
         <property name="icon">
          <iconset resource="resources.qrc">
-          <normaloff>:/icons/icons/wizard.png</normaloff>:/icons/icons/wizard.png</iconset>
+          <normaloff>:/icons/wizard.png</normaloff>:/icons/wizard.png</iconset>
         </property>
        </widget>
       </item>
@@ -75,6 +78,9 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="autoFillBackground">
         <bool>true</bool>
        </property>
@@ -82,7 +88,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideMiddle</enum>
@@ -109,19 +115,22 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
            <property name="autoFillBackground">
             <bool>true</bool>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>3</number>
            </property>
            <widget class="QWidget" name="page">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>238</width>
-              <height>222</height>
+              <width>219</width>
+              <height>202</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -129,6 +138,9 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
             </property>
             <attribute name="label">
              <string>Triangle</string>
@@ -196,8 +208,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>238</width>
-              <height>222</height>
+              <width>219</width>
+              <height>202</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -205,6 +217,9 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
             </property>
             <attribute name="label">
              <string>Trapezoid</string>
@@ -282,8 +297,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>238</width>
-              <height>222</height>
+              <width>219</width>
+              <height>202</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -291,6 +306,9 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
             </property>
             <attribute name="label">
              <string>Rectangle</string>
@@ -348,8 +366,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>238</width>
-              <height>222</height>
+              <width>219</width>
+              <height>202</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -357,6 +375,9 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
             </property>
             <attribute name="label">
              <string>Discrete</string>
@@ -375,7 +396,7 @@
               <number>0</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <layout class="QVBoxLayout" name="verticalLayout_14">
                <property name="topMargin">
                 <number>0</number>
                </property>
@@ -398,7 +419,14 @@
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QLineEdit" name="led_discrete_x"/>
+                  <widget class="QLineEdit" name="led_discrete_x">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_17">
@@ -408,20 +436,43 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QLineEdit" name="led_discrete_y"/>
+                  <widget class="QLineEdit" name="led_discrete_y">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>
                <item>
-                <widget class="QToolButton" name="btn_discrete_parse">
-                 <property name="text">
-                  <string/>
+                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <property name="bottomMargin">
+                  <number>6</number>
                  </property>
-                 <property name="icon">
-                  <iconset resource="resources.qrc">
-                   <normaloff>:/icons/icons/spellcheck.png</normaloff>:/icons/icons/spellcheck.png</iconset>
-                 </property>
-                </widget>
+                 <item>
+                  <widget class="QToolButton" name="btn_discrete_parse">
+                   <property name="focusPolicy">
+                    <enum>Qt::StrongFocus</enum>
+                   </property>
+                   <property name="text">
+                    <string>Process (x, y)</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="resources.qrc">
+                     <normaloff>:/icons/spellcheck.png</normaloff>:/icons/spellcheck.png</iconset>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="arrowType">
+                    <enum>Qt::NoArrow</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
               </layout>
              </item>
@@ -457,15 +508,15 @@
             <bool>true</bool>
            </property>
            <property name="currentIndex">
-            <number>3</number>
+            <number>5</number>
            </property>
            <widget class="QWidget" name="page_6">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>132</width>
-              <height>62</height>
+              <width>219</width>
+              <height>134</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -530,8 +581,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>143</width>
-              <height>128</height>
+              <width>219</width>
+              <height>134</height>
              </rect>
             </property>
             <attribute name="label">
@@ -604,8 +655,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>138</width>
-              <height>95</height>
+              <width>219</width>
+              <height>134</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -680,8 +731,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>238</width>
-              <height>160</height>
+              <width>219</width>
+              <height>134</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -775,8 +826,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>136</width>
-              <height>128</height>
+              <width>219</width>
+              <height>134</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -861,8 +912,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>136</width>
-              <height>128</height>
+              <width>219</width>
+              <height>134</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -988,8 +1039,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>238</width>
-              <height>222</height>
+              <width>219</width>
+              <height>202</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1054,8 +1105,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>238</width>
-              <height>222</height>
+              <width>219</width>
+              <height>202</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1132,8 +1183,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>238</width>
-              <height>222</height>
+              <width>219</width>
+              <height>202</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1198,8 +1249,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>238</width>
-              <height>222</height>
+              <width>219</width>
+              <height>202</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1279,6 +1330,53 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>led_name</tabstop>
+  <tabstop>btn_wizard</tabstop>
+  <tabstop>tabTerms</tabstop>
+  <tabstop>sbx_triangle_a</tabstop>
+  <tabstop>sbx_triangle_b</tabstop>
+  <tabstop>sbx_triangle_c</tabstop>
+  <tabstop>sbx_trapezoid_a</tabstop>
+  <tabstop>sbx_trapezoid_b</tabstop>
+  <tabstop>sbx_trapezoid_c</tabstop>
+  <tabstop>sbx_trapezoid_d</tabstop>
+  <tabstop>sbx_rectangle_min</tabstop>
+  <tabstop>sbx_rectangle_max</tabstop>
+  <tabstop>led_discrete_x</tabstop>
+  <tabstop>led_discrete_y</tabstop>
+  <tabstop>btn_discrete_parse</tabstop>
+  <tabstop>sbx_gaussian_center</tabstop>
+  <tabstop>sbx_gaussian_width</tabstop>
+  <tabstop>sbx_gaussian_prod_center_a</tabstop>
+  <tabstop>sbx_gaussian_prod_width_a</tabstop>
+  <tabstop>sbx_gaussian_prod_center_b</tabstop>
+  <tabstop>sbx_gaussian_prod_width_b</tabstop>
+  <tabstop>sbx_bell_center</tabstop>
+  <tabstop>sbx_bell_width</tabstop>
+  <tabstop>sbx_bell_slope</tabstop>
+  <tabstop>sbx_pishape_bl</tabstop>
+  <tabstop>sbx_pishape_tl</tabstop>
+  <tabstop>sbx_pishape_tr</tabstop>
+  <tabstop>sbx_pishape_br</tabstop>
+  <tabstop>sbx_sigmoid_diff_left</tabstop>
+  <tabstop>sbx_sigmoid_diff_rising</tabstop>
+  <tabstop>sbx_sigmoid_diff_right</tabstop>
+  <tabstop>sbx_sigmoid_diff_falling</tabstop>
+  <tabstop>sbx_sigmoid_prod_left</tabstop>
+  <tabstop>sbx_sigmoid_prod_rising</tabstop>
+  <tabstop>sbx_sigmoid_prod_right</tabstop>
+  <tabstop>sbx_sigmoid_prod_falling</tabstop>
+  <tabstop>sbx_ramp_start</tabstop>
+  <tabstop>sbx_ramp_end</tabstop>
+  <tabstop>sbx_sigmoid_inflection</tabstop>
+  <tabstop>sbx_sigmoid_slope</tabstop>
+  <tabstop>sbx_sshape_start</tabstop>
+  <tabstop>sbx_sshape_end</tabstop>
+  <tabstop>sbx_zshape_start</tabstop>
+  <tabstop>sbx_zshape_end</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources>
   <include location="resources.qrc"/>
  </resources>
@@ -1290,8 +1388,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>244</x>
+     <y>463</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -1306,8 +1404,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>244</x>
+     <y>463</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
