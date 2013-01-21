@@ -379,19 +379,20 @@ namespace fl {
                 fl::Rule* rule = ruleblock->getRule(i);
                 scalar degree = rule->firingStrength(ruleblock->getTnorm(),
                         ruleblock->getSnorm());
+                if (not fl::Op::isInf(degree) and not fl::Op::isNan(degree)) {
+                    int red, green, blue, alpha;
+                    Viewer::ColorGradient((int) (degree * 255), red, green, blue, alpha,
+                            from_color.red(), from_color.green(), from_color.blue(), from_color.alpha(),
+                            to_color.red(), to_color.green(), to_color.blue(), to_color.alpha());
 
-                int red, green, blue, alpha;
-                Viewer::ColorGradient((int) (degree * 255), red, green, blue, alpha,
-                        from_color.red(), from_color.green(), from_color.blue(), from_color.alpha(),
-                        to_color.red(), to_color.green(), to_color.blue(), to_color.alpha());
+                    QColor color = QColor(red, green, blue, alpha);
 
-                QColor color = QColor(red, green, blue, alpha);
-
-                ui->lsw_test_rules->item(i)->setBackground(QBrush(color));
-                ui->lsw_test_rules_activation->item(i)->setBackground(QBrush(
-                        color));
-                ui->lsw_test_rules_activation->item(i)->setText(
-                        QString::number(degree, 'f', 3));
+                    ui->lsw_test_rules->item(i)->setBackground(QBrush(color));
+                    ui->lsw_test_rules_activation->item(i)->setBackground(QBrush(
+                            color));
+                    ui->lsw_test_rules_activation->item(i)->setText(
+                            QString::number(degree, 'f', 3));
+                }
             }
 
             Model::Default()->engine()->process();
@@ -980,7 +981,7 @@ namespace fl {
             this->close();
         }
 
-        void Window::closeEvent(QCloseEvent* e) {
+        void Window::closeEvent(QCloseEvent * e) {
             int result = QMessageBox::question(this, tr("qtfuzzylite"),
                     tr("<qt>Do you want to quit <b>qtfuzzylite</b>?</qt>"),
                     QMessageBox::Yes | QMessageBox::No,

@@ -10,38 +10,38 @@ END_VAR
 
 FUZZIFY InputAllTerms
 RANGE := (-2.000 .. 17.400);
-TERM A := Sigmoid (-0.060, -2.462);
+TERM A := Sigmoid (-0.06, -2.462);
 TERM B := ZShape (-5.492, 4.984);
-TERM C := Triangle (0.000, 0.500, 1.000);
-TERM D := Trapezoid (0.240, 0.780, 1.500, 2.000);
-TERM E := Rectangle (1.050, 2.190);
+TERM C := Triangle (0, 0.5, 1);
+TERM D := Trapezoid (0.24, 0.78, 1.5, 2);
+TERM E := Rectangle (1.05, 2.19);
 TERM F := (2.000, 0.000) (2.250, 1.000) (2.500, 0.500) (2.750, 1.000) (3.000, 0.000);
-TERM G := Gaussian (3.500, 0.550);
-TERM H := GaussianProduct (4.750, 0.926, 3.910, 0.998);
-TERM I := Bell (5.928, 0.988, 3.000);
-TERM J := PiShape (4.598, 8.060, 7.354, 9.214);
-TERM K := SigmoidDifference (8.424, 5.306, 1.526, 10.584);
-TERM L := SigmoidProduct (9.648, 1.390, -9.598, 12.672);
+TERM G := Gaussian (3.5, 0.55);
+TERM H := GaussianProduct (4.75, 0.926, 3.91, 0.998);
+TERM I := Bell (5.928, 0.988, 3);
+TERM J := PiShape (4.598, 8.06, 7.354, 9.214);
+TERM K := SigmoidDifference (8.424, 5.306, 10.584, 1.526);
+TERM L := SigmoidProduct (9.648, 1.39, 12.672, -9.598);
 TERM M := Ramp (8.208, 14.688);
-TERM N := SShape (8.670, 18.952);
+TERM N := SShape (8.67, 18.952);
 END_FUZZIFY
 
 DEFUZZIFY OutputAllTerms
 RANGE := (-2.000 .. 17.400);
-TERM A := Sigmoid (-0.060, -2.462);
+TERM A := Sigmoid (-0.06, -2.462);
 TERM B := ZShape (-5.492, 4.984);
-TERM C := Triangle (0.000, 0.500, 1.000);
-TERM D := Trapezoid (0.240, 0.780, 1.500, 2.000);
-TERM E := Rectangle (1.050, 2.190);
+TERM C := Triangle (0, 0.5, 1);
+TERM D := Trapezoid (0.24, 0.78, 1.5, 2);
+TERM E := Rectangle (1.05, 2.19);
 TERM F := (2.000, 0.000) (2.250, 1.000) (2.500, 0.500) (2.750, 1.000) (3.000, 0.000);
-TERM G := Gaussian (3.500, 0.550);
-TERM H := GaussianProduct (4.750, 0.926, 3.910, 0.998);
-TERM I := Bell (5.928, 0.988, 3.000);
-TERM J := PiShape (4.598, 8.060, 7.354, 9.214);
-TERM K := SigmoidDifference (8.424, 5.306, 1.526, 10.584);
-TERM L := SigmoidProduct (9.648, 1.390, -9.598, 12.672);
+TERM G := Gaussian (3.5, 0.55);
+TERM H := GaussianProduct (4.75, 0.926, 3.91, 0.998);
+TERM I := Bell (5.928, 0.988, 3);
+TERM J := PiShape (4.598, 8.06, 7.354, 9.214);
+TERM K := SigmoidDifference (8.424, 5.306, 10.584, 1.526);
+TERM L := SigmoidProduct (9.648, 1.39, 12.672, -9.598);
 TERM M := Ramp (8.208, 14.688);
-TERM N := SShape (8.670, 18.952);
+TERM N := SShape (8.67, 18.952);
 
 METHOD : COG;
 ACCU : MAX;

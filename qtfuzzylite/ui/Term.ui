@@ -155,7 +155,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="groupBox1">
               <layout class="QFormLayout" name="formLayout">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -248,7 +248,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="groupBox2">
               <layout class="QFormLayout" name="formLayout_2">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -351,7 +351,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="groupBox3">
               <layout class="QFormLayout" name="formLayout_3">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -434,7 +434,7 @@
              <number>6</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="groupBox4">
               <layout class="QVBoxLayout" name="verticalLayout_14">
                <property name="leftMargin">
                 <number>0</number>
@@ -588,7 +588,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="groupBox5">
               <layout class="QFormLayout" name="formLayout_5">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -656,7 +656,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="groupBox6">
               <layout class="QFormLayout" name="formLayout_8">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -756,7 +756,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="groupBox7">
               <layout class="QFormLayout" name="formLayout_7">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -846,7 +846,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="groupBox8">
               <layout class="QFormLayout" name="formLayout_4">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -946,7 +946,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="groupBox9">
               <layout class="QFormLayout" name="formLayout_13">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -1046,7 +1046,7 @@
              <number>6</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="groupBox10">
               <layout class="QFormLayout" name="formLayout_14">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -1178,7 +1178,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="groupBox11">
               <layout class="QFormLayout" name="formLayout_9">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -1258,7 +1258,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="groupBox12">
               <layout class="QFormLayout" name="formLayout_15">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -1350,7 +1350,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="groupBox13">
               <layout class="QFormLayout" name="formLayout_10">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -1430,7 +1430,7 @@
              <number>6</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="groupBox14">
               <layout class="QFormLayout" name="formLayout_11">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>

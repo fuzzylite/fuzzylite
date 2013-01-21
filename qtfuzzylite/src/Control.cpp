@@ -37,7 +37,7 @@ namespace fl {
                 ui->lbl_fuzzy_out->setVisible(true);
                 ui->lbl_fuzzy->setVisible(false);
 //                QObject::connect(this, SIGNAL(valueChanged(double)),
-//                        this, SLOT(updateOutput()), Qt::QueuedConnection);
+//                        this, SLOT(updateOutput()));
             } else if (dynamic_cast<InputVariable*> (variable)) {
                 QObject::connect(this, SIGNAL(valueChanged(double)),
                         this, SLOT(updateInput(double)));
@@ -61,7 +61,8 @@ namespace fl {
             ui->led_x->setText(QString::number(x, 'f', FL_DECIMALS));
             ui->sbx_x->setValue(x);
             refresh();
-            draw(outputVariable->output());
+            if (not outputVariable->output()->isEmpty())
+                draw(outputVariable->output());
             
             QString fuzzify = QString::fromStdString(outputVariable->fuzzify(x));
 //            Accumulated* output = outputVariable->output();
