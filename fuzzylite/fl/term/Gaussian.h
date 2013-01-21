@@ -15,7 +15,7 @@ namespace fl {
     class Gaussian : public Term {
     protected:
         scalar _mean;
-        scalar _sigma;
+        scalar _standardDeviation;
 
     public:
         Gaussian(const std::string& name = "",
@@ -32,8 +32,8 @@ namespace fl {
         void setMean(scalar c);
         scalar getMean() const;
 
-        void setSigma(scalar sigma);
-        scalar getSigma() const;
+        void setStandardDeviation(scalar sigma);
+        scalar getStandardDeviation() const;
 
     };
 

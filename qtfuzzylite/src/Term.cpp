@@ -66,9 +66,9 @@ namespace fl {
             _extendedTerms.push_back(new Bell("", average, .25 * diff, 3.0));
             _extendedTerms.push_back(new PiShape("", min, average, average, max));
             _extendedTerms.push_back(new SigmoidDifference("", min + .25 * diff, 20 / diff,
-                    min + .75 * diff, 20 / diff));
+                     20 / diff, min + .75 * diff));
             _extendedTerms.push_back(new SigmoidProduct("", min + .25 * diff, 20 / diff,
-                    min + .75 * diff, -20 / diff));
+                    -20 / diff, min + .75 * diff));
 
             _edgeTerms.push_back(new Ramp("", min, max));
             _edgeTerms.push_back(new Sigmoid("", average, 20 / diff));
@@ -737,7 +737,7 @@ namespace fl {
         void Term::onChangeSpinBoxGaussian(double) {
             Gaussian* term = dynamic_cast<Gaussian*> (selectedTerm());
             term->setMean(ui->sbx_gaussian_center->value());
-            term->setSigma(ui->sbx_gaussian_width->value());
+            term->setStandardDeviation(ui->sbx_gaussian_width->value());
             redraw();
         }
 
@@ -745,8 +745,8 @@ namespace fl {
             GaussianProduct* term = dynamic_cast<GaussianProduct*> (selectedTerm());
             term->setMeanA(ui->sbx_gaussian_prod_center_a->value());
             term->setMeanB(ui->sbx_gaussian_prod_center_b->value());
-            term->setSigmaA(ui->sbx_gaussian_prod_width_a->value());
-            term->setSigmaB(ui->sbx_gaussian_prod_width_b->value());
+            term->setStandardDeviationA(ui->sbx_gaussian_prod_width_a->value());
+            term->setStandardDeviationB(ui->sbx_gaussian_prod_width_b->value());
             redraw();
         }
 
@@ -872,7 +872,7 @@ namespace fl {
                 //EXTENDED
             } else if (x->className() == Gaussian().className()) {
                 const Gaussian* term = dynamic_cast<const Gaussian*> (x);
-                scalar params[] = {term->getMean(), term->getSigma()};
+                scalar params[] = {term->getMean(), term->getStandardDeviation()};
                 ui->sbx_gaussian_center->setValue(params[0]);
                 ui->sbx_gaussian_width->setValue(params[1]);
                 ui->extendedTermToolbox->setCurrentIndex(0);
@@ -880,11 +880,11 @@ namespace fl {
 
             } else if (x->className() == GaussianProduct().className()) {
                 const GaussianProduct* term = dynamic_cast<const GaussianProduct*> (x);
-                scalar params[] = {term->getMeanA(), term->getMeanB(),
-                    term->getSigmaA(), term->getSigmaB()};
+                scalar params[] = {term->getMeanA(), term->getStandardDeviationA(), 
+                    term->getMeanB(),term->getStandardDeviationB()};
                 ui->sbx_gaussian_prod_center_a->setValue(params[0]);
-                ui->sbx_gaussian_prod_center_b->setValue(params[1]);
-                ui->sbx_gaussian_prod_width_a->setValue(params[2]);
+                ui->sbx_gaussian_prod_width_a->setValue(params[1]);
+                ui->sbx_gaussian_prod_center_b->setValue(params[2]);
                 ui->sbx_gaussian_prod_width_b->setValue(params[3]);
                 ui->extendedTermToolbox->setCurrentIndex(1);
                 setCurrentToolbox(1);
@@ -912,24 +912,23 @@ namespace fl {
             } else if (x->className() == SigmoidDifference().className()) {
                 const SigmoidDifference* term = dynamic_cast<const SigmoidDifference*> (x);
                 scalar params[] = {term->getLeft(), term->getRising(),
-                    term->getRight(), term->getFalling()};
+                    term->getFalling(), term->getRight()};
                 ui->sbx_sigmoid_diff_left->setValue(params[0]);
                 ui->sbx_sigmoid_diff_rising->setValue(params[1]);
-                ui->sbx_sigmoid_diff_right->setValue(params[2]);
-                ui->sbx_sigmoid_diff_falling->setValue(params[3]);
-
-
+                ui->sbx_sigmoid_diff_falling->setValue(params[2]);
+                ui->sbx_sigmoid_diff_right->setValue(params[3]);
+                
                 ui->extendedTermToolbox->setCurrentIndex(4);
                 setCurrentToolbox(1);
 
             } else if (x->className() == SigmoidProduct().className()) {
                 const SigmoidProduct* term = dynamic_cast<const SigmoidProduct*> (x);
                 scalar params[] = {term->getLeft(), term->getRising(),
-                    term->getRight(), term->getFalling()};
+                    term->getFalling(), term->getRight()};
                 ui->sbx_sigmoid_prod_left->setValue(params[0]);
                 ui->sbx_sigmoid_prod_rising->setValue(params[1]);
-                ui->sbx_sigmoid_prod_right->setValue(params[2]);
-                ui->sbx_sigmoid_prod_falling->setValue(params[3]);
+                ui->sbx_sigmoid_prod_falling->setValue(params[2]);
+                ui->sbx_sigmoid_prod_right->setValue(params[3]);
 
                 ui->extendedTermToolbox->setCurrentIndex(5);
                 setCurrentToolbox(1);

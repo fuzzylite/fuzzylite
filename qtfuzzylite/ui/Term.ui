@@ -125,8 +125,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>240</width>
-             <height>225</height>
+             <width>108</width>
+             <height>123</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -155,7 +155,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="">
+             <widget class="QGroupBox" name="groupBox">
               <layout class="QFormLayout" name="formLayout">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -218,8 +218,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>238</width>
-             <height>224</height>
+             <width>108</width>
+             <height>156</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -248,7 +248,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="">
+             <widget class="QGroupBox" name="groupBox">
               <layout class="QFormLayout" name="formLayout_2">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -321,8 +321,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>238</width>
-             <height>224</height>
+             <width>128</width>
+             <height>90</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -351,7 +351,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="">
+             <widget class="QGroupBox" name="groupBox">
               <layout class="QFormLayout" name="formLayout_3">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -404,8 +404,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>240</width>
-             <height>225</height>
+             <width>170</width>
+             <height>131</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -434,7 +434,7 @@
              <number>6</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="">
+             <widget class="QGroupBox" name="groupBox">
               <layout class="QVBoxLayout" name="verticalLayout_14">
                <property name="leftMargin">
                 <number>0</number>
@@ -554,15 +554,15 @@
            <bool>true</bool>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>5</number>
           </property>
           <widget class="QWidget" name="page_6">
            <property name="geometry">
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>240</width>
-             <height>157</height>
+             <width>138</width>
+             <height>90</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -588,7 +588,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="">
+             <widget class="QGroupBox" name="groupBox">
               <layout class="QFormLayout" name="formLayout_5">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -641,8 +641,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>240</width>
-             <height>157</height>
+             <width>248</width>
+             <height>187</height>
             </rect>
            </property>
            <attribute name="label">
@@ -656,7 +656,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="">
+             <widget class="QGroupBox" name="groupBox">
               <layout class="QFormLayout" name="formLayout_8">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -729,8 +729,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>238</width>
-             <height>156</height>
+             <width>144</width>
+             <height>123</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -756,7 +756,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="">
+             <widget class="QGroupBox" name="groupBox">
               <layout class="QFormLayout" name="formLayout_7">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -819,8 +819,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>238</width>
-             <height>156</height>
+             <width>248</width>
+             <height>187</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -846,7 +846,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="">
+             <widget class="QGroupBox" name="groupBox">
               <layout class="QFormLayout" name="formLayout_4">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -919,8 +919,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>238</width>
-             <height>156</height>
+             <width>248</width>
+             <height>187</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -946,7 +946,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="">
+             <widget class="QGroupBox" name="groupBox">
               <layout class="QFormLayout" name="formLayout_13">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -969,6 +969,13 @@
                <property name="bottomMargin">
                 <number>6</number>
                </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_34">
+                 <property name="text">
+                  <string>left</string>
+                 </property>
+                </widget>
+               </item>
                <item row="0" column="1">
                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_left"/>
                </item>
@@ -983,31 +990,24 @@
                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_rising"/>
                </item>
                <item row="2" column="0">
-                <widget class="QLabel" name="label_36">
-                 <property name="text">
-                  <string>right</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_right"/>
-               </item>
-               <item row="3" column="0">
                 <widget class="QLabel" name="label_35">
                  <property name="text">
                   <string>falling</string>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="1">
+               <item row="2" column="1">
                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_falling"/>
                </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_34">
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_36">
                  <property name="text">
-                  <string>left</string>
+                  <string>right</string>
                  </property>
                 </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_right"/>
                </item>
               </layout>
              </widget>
@@ -1019,8 +1019,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>240</width>
-             <height>157</height>
+             <width>248</width>
+             <height>187</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1046,7 +1046,7 @@
              <number>6</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="">
+             <widget class="QGroupBox" name="groupBox">
               <layout class="QFormLayout" name="formLayout_14">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -1090,24 +1090,24 @@
                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_rising"/>
                </item>
                <item row="2" column="0">
-                <widget class="QLabel" name="label_40">
-                 <property name="text">
-                  <string>right</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_right"/>
-               </item>
-               <item row="3" column="0">
                 <widget class="QLabel" name="label_39">
                  <property name="text">
                   <string>falling</string>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="1">
+               <item row="2" column="1">
                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_falling"/>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_40">
+                 <property name="text">
+                  <string>right</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_right"/>
                </item>
               </layout>
              </widget>
@@ -1151,8 +1151,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>238</width>
-             <height>224</height>
+             <width>132</width>
+             <height>90</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1178,7 +1178,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="">
+             <widget class="QGroupBox" name="groupBox">
               <layout class="QFormLayout" name="formLayout_9">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -1231,8 +1231,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>238</width>
-             <height>224</height>
+             <width>137</width>
+             <height>90</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1258,7 +1258,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="">
+             <widget class="QGroupBox" name="groupBox">
               <layout class="QFormLayout" name="formLayout_15">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -1323,8 +1323,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>238</width>
-             <height>224</height>
+             <width>132</width>
+             <height>90</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1350,7 +1350,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="">
+             <widget class="QGroupBox" name="groupBox">
               <layout class="QFormLayout" name="formLayout_10">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -1403,8 +1403,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>240</width>
-             <height>225</height>
+             <width>132</width>
+             <height>96</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1430,7 +1430,7 @@
              <number>6</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="">
+             <widget class="QGroupBox" name="groupBox">
               <layout class="QFormLayout" name="formLayout_11">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -1529,11 +1529,9 @@
   <tabstop>sbx_sigmoid_diff_left</tabstop>
   <tabstop>sbx_sigmoid_diff_rising</tabstop>
   <tabstop>sbx_sigmoid_diff_right</tabstop>
-  <tabstop>sbx_sigmoid_diff_falling</tabstop>
   <tabstop>sbx_sigmoid_prod_left</tabstop>
   <tabstop>sbx_sigmoid_prod_rising</tabstop>
   <tabstop>sbx_sigmoid_prod_right</tabstop>
-  <tabstop>sbx_sigmoid_prod_falling</tabstop>
   <tabstop>sbx_ramp_start</tabstop>
   <tabstop>sbx_ramp_end</tabstop>
   <tabstop>sbx_sigmoid_inflection</tabstop>

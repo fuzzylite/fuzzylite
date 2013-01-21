@@ -125,21 +125,21 @@ namespace fl {
 
         if (term->className() == Gaussian().className()) {
             const Gaussian* x = dynamic_cast<const Gaussian*> (term);
-            scalar params[] = {x->getMean(), x->getSigma()};
+            scalar params[] = {x->getMean(), x->getStandardDeviation()};
             ss << fl::Op::str(2, params) << ")";
             return ss.str();
         }
 
         if (term->className() == GaussianProduct().className()) {
             const GaussianProduct* x = dynamic_cast<const GaussianProduct*> (term);
-            scalar params[] = {x->getMeanA(), x->getSigmaA(), x->getMeanB(), x->getSigmaB()};
+            scalar params[] = {x->getMeanA(), x->getStandardDeviationA(), x->getMeanB(), x->getStandardDeviationB()};
             ss << fl::Op::str(4, params) << ")";
             return ss.str();
         }
 
         if (term->className() == PiShape().className()) {
             const PiShape* x = dynamic_cast<const PiShape*> (term);
-            scalar params[] = {x->getBottomLeft(), x->getTopLeft(), x->getBottomRight(), x->getTopRight()};
+            scalar params[] = {x->getBottomLeft(), x->getTopLeft(), x->getTopRight(), x->getBottomRight()};
             ss << fl::Op::str(4, params) << ")";
             return ss.str();
         }
@@ -175,7 +175,7 @@ namespace fl {
         if (term->className() == SigmoidDifference().className()) {
             const SigmoidDifference* x = dynamic_cast<const SigmoidDifference*> (term);
             scalar params[] = {x->getLeft(), x->getRising(),
-                x->getRight(), x->getFalling()};
+                x->getFalling(), x->getRight()};
             ss << fl::Op::str(4, params) << ")";
             return ss.str();
         }
@@ -183,7 +183,7 @@ namespace fl {
         if (term->className() == SigmoidProduct().className()) {
             const SigmoidProduct* x = dynamic_cast<const SigmoidProduct*> (term);
             scalar params[] = {x->getLeft(), x->getRising(),
-                x->getRight(), x->getFalling()};
+                x->getFalling(), x->getRight()};
             ss << fl::Op::str(4, params) << ")";
             return ss.str();
         }

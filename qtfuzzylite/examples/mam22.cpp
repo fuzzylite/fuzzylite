@@ -11,27 +11,27 @@ int main(int argc, char* argv[]) {
 
     fl::Engine* engine = new fl::Engine;
     engine->setName("mam21");
-    engine->addHedge(new new fl::Any);
-    engine->addHedge(new new fl::Extremely);
-    engine->addHedge(new new fl::Not);
-    engine->addHedge(new new fl::Seldom);
-    engine->addHedge(new new fl::Somewhat);
-    engine->addHedge(new new fl::Very);
+    engine->addHedge(new fl::Any);
+    engine->addHedge(new fl::Extremely);
+    engine->addHedge(new fl::Not);
+    engine->addHedge(new fl::Seldom);
+    engine->addHedge(new fl::Somewhat);
+    engine->addHedge(new fl::Very);
 
     fl::InputVariable* inputVariable1 = new fl::InputVariable;
     inputVariable1->setName("angle");
     inputVariable1->setRange(-5.000, 5.000);
 
-    inputVariable1->addTerm(new fl::new fl::Bell("small", -5.000, 5.000, 8.000));
-    inputVariable1->addTerm(new fl::new fl::Bell("big", 5.000, 5.000, 8.000));
+    inputVariable1->addTerm(new fl::Bell("small", -5.000, 5.000, 8.000));
+    inputVariable1->addTerm(new fl::Bell("big", 5.000, 5.000, 8.000));
     engine->addInputVariable(inputVariable1);
 
     fl::InputVariable* inputVariable2 = new fl::InputVariable;
     inputVariable2->setName("velocity");
     inputVariable2->setRange(-5.000, 5.000);
 
-    inputVariable2->addTerm(new fl::new fl::Bell("small", -5.000, 5.000, 2.000));
-    inputVariable2->addTerm(new fl::new fl::Bell("big", 5.000, 5.000, 2.000));
+    inputVariable2->addTerm(new fl::Bell("small", -5.000, 5.000, 2.000));
+    inputVariable2->addTerm(new fl::Bell("big", 5.000, 5.000, 2.000));
     engine->addInputVariable(inputVariable2);
 
     fl::OutputVariable* outputVariable1 = new fl::OutputVariable;
@@ -77,5 +77,7 @@ int main(int argc, char* argv[]) {
     ruleblock1->addRule(fl::MamdaniRule::parse(
             "if angle is big and velocity is big then force is posBig and force2 is negBig2", engine));
     engine->addRuleBlock(ruleblock1);
+
+
 
 }

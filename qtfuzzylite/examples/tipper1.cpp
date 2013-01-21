@@ -46,11 +46,11 @@ int main(int argc, char* argv[]) {
     ruleblock1->setActivation(new fl::Minimum);
 
     ruleblock1->addRule(fl::MamdaniRule::parse(
-            " if service is poor then tip is cheap", engine));
+            "if service is poor then tip is cheap", engine));
     ruleblock1->addRule(fl::MamdaniRule::parse(
-            " if service is good then tip is average", engine));
+            "if service is good then tip is average", engine));
     ruleblock1->addRule(fl::MamdaniRule::parse(
-            " if service is excellent then tip is generous", engine));
+            "if service is excellent then tip is generous", engine));
     engine->addRuleBlock(ruleblock1);
 
 }

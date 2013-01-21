@@ -13,7 +13,7 @@ namespace fl {
 
     GaussianProduct::GaussianProduct(const std::string& name,
             scalar meanA, scalar sigmaA, scalar meanB, scalar sigmaB)
-    : Term(name), _meanA(meanA), _sigmaA(sigmaA), _meanB(meanB), _sigmaB(sigmaB) { }
+    : Term(name), _meanA(meanA), _standardDeviationA(sigmaA), _meanB(meanB), _standardDeviationB(sigmaB) { }
 
     std::string GaussianProduct::className() const {
         return "GaussianProduct";
@@ -25,10 +25,10 @@ namespace fl {
 
     scalar GaussianProduct::membership(scalar x) const {
         bool xLEa = fl::Op::isLE(x, _meanA);
-        scalar a = std::exp((-(x - _meanA) * (x - _meanA)) / (2 * _sigmaA * _sigmaA))
+        scalar a = std::exp((-(x - _meanA) * (x - _meanA)) / (2 * _standardDeviationA * _standardDeviationA))
                 * xLEa + (1 - xLEa);
         bool xGEb = fl::Op::isGE(x, _meanB);
-        scalar b = std::exp((-(x - _meanB) * (x - _meanB)) / (2 * _sigmaB * _sigmaB))
+        scalar b = std::exp((-(x - _meanB) * (x - _meanB)) / (2 * _standardDeviationB * _standardDeviationB))
                 * xGEb + (1 - xGEb);
         return a * b;
     }
@@ -36,8 +36,8 @@ namespace fl {
     std::string GaussianProduct::toString() const {
         std::ostringstream ss;
         ss << std::setprecision(FL_DECIMALS) << std::fixed;
-        ss << className() << " (" << _meanA << ", " << _sigmaA << ", "
-                << _meanB << ", " << _sigmaB << ")";
+        ss << className() << " (" << _meanA << ", " << _standardDeviationA << ", "
+                << _meanB << ", " << _standardDeviationB << ")";
         return ss.str();
     }
 
@@ -49,12 +49,12 @@ namespace fl {
         return this->_meanA;
     }
 
-    void GaussianProduct::setSigmaA(scalar sigmaA) {
-        this->_sigmaA = sigmaA;
+    void GaussianProduct::setStandardDeviationA(scalar sigmaA) {
+        this->_standardDeviationA = sigmaA;
     }
 
-    scalar GaussianProduct::getSigmaA() const {
-        return this->_sigmaA;
+    scalar GaussianProduct::getStandardDeviationA() const {
+        return this->_standardDeviationA;
     }
 
     void GaussianProduct::setMeanB(scalar meanB) {
@@ -65,12 +65,12 @@ namespace fl {
         return this->_meanB;
     }
 
-    void GaussianProduct::setSigmaB(scalar sigmaB) {
-        this->_sigmaB = sigmaB;
+    void GaussianProduct::setStandardDeviationB(scalar sigmaB) {
+        this->_standardDeviationB = sigmaB;
     }
 
-    scalar GaussianProduct::getSigmaB() const {
-        return this->_sigmaB;
+    scalar GaussianProduct::getStandardDeviationB() const {
+        return this->_standardDeviationB;
     }
 
 }

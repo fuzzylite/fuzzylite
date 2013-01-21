@@ -15,9 +15,9 @@ namespace fl {
     class GaussianProduct : public Term {
     protected:
         scalar _meanA;
-        scalar _sigmaA;
+        scalar _standardDeviationA;
         scalar _meanB;
-        scalar _sigmaB;
+        scalar _standardDeviationB;
 
     public:
         GaussianProduct(const std::string& name = "",
@@ -36,14 +36,14 @@ namespace fl {
         void setMeanA(scalar meanA);
         scalar getMeanA() const;
 
-        void setSigmaA(scalar sigmaA);
-        scalar getSigmaA() const;
+        void setStandardDeviationA(scalar sigmaA);
+        scalar getStandardDeviationA() const;
 
         void setMeanB(scalar meanB);
         scalar getMeanB() const;
 
-        void setSigmaB(scalar sigmaB);
-        scalar getSigmaB() const;
+        void setStandardDeviationB(scalar sigmaB);
+        scalar getStandardDeviationB() const;
 
 
 

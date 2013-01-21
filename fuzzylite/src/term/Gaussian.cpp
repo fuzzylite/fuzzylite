@@ -14,7 +14,7 @@ namespace fl {
 
     Gaussian::Gaussian(const std::string& name,
             scalar mean, scalar sigma)
-    : Term(name), _mean(mean), _sigma(sigma) {
+    : Term(name), _mean(mean), _standardDeviation(sigma) {
     }
 
     Gaussian::~Gaussian() {
@@ -29,13 +29,13 @@ namespace fl {
     }
 
     scalar Gaussian::membership(scalar x) const {
-        return std::exp((-(x - _mean) * (x - _mean)) / (2 * _sigma * _sigma));
+        return std::exp((-(x - _mean) * (x - _mean)) / (2 * _standardDeviation * _standardDeviation));
     }
 
     std::string Gaussian::toString() const {
         std::ostringstream ss;
         ss << std::setprecision(FL_DECIMALS) << std::fixed;
-        ss << className() << " (" << _mean << ", " << _sigma << ")";
+        ss << className() << " (" << _mean << ", " << _standardDeviation << ")";
         return ss.str();
     }
 
@@ -47,12 +47,12 @@ namespace fl {
         return this->_mean;
     }
 
-    void Gaussian::setSigma(scalar sigma) {
-        this->_sigma = sigma;
+    void Gaussian::setStandardDeviation(scalar sigma) {
+        this->_standardDeviation = sigma;
     }
 
-    scalar Gaussian::getSigma() const {
-        return this->_sigma;
+    scalar Gaussian::getStandardDeviation() const {
+        return this->_standardDeviation;
     }
 
 }

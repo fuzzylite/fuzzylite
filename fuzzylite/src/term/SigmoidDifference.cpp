@@ -15,8 +15,8 @@ namespace fl {
 
     SigmoidDifference::SigmoidDifference(const std::string& name,
             scalar left, scalar rising,
-            scalar right, scalar falling)
-    : Term(name), _left(left), _rising(rising), _right(right), _falling(falling) { }
+            scalar falling, scalar right)
+    : Term(name), _left(left), _rising(rising), _falling(falling), _right(right) { }
 
     std::string SigmoidDifference::className() const {
         return "SigmoidDifference";
@@ -36,7 +36,7 @@ namespace fl {
         std::ostringstream ss;
         ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << "SigmoidDifference (" << _left << ", " << _rising << ", "
-                << _right << ", " << _falling << ")";
+                << _falling << ", " << _right << ")";
         return ss.str();
 
     }
@@ -57,6 +57,14 @@ namespace fl {
         return this->_rising;
     }
 
+    void SigmoidDifference::setFalling(scalar fallingSlope) {
+        this->_falling = fallingSlope;
+    }
+
+    scalar SigmoidDifference::getFalling() const {
+        return this->_falling;
+    }
+
     void SigmoidDifference::setRight(scalar rightInflection) {
         this->_right = rightInflection;
     }
@@ -65,13 +73,7 @@ namespace fl {
         return this->_right;
     }
 
-    void SigmoidDifference::setFalling(scalar fallingSlope) {
-        this->_falling = fallingSlope;
-    }
 
-    scalar SigmoidDifference::getFalling() const {
-        return this->_falling;
-    }
 
 
 

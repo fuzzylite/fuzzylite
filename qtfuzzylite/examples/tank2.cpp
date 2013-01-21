@@ -21,18 +21,17 @@ int main(int argc, char* argv[]) {
     inputVariable1->setName("level");
     inputVariable1->setRange(-1.000, 1.000);
 
-    inputVariable1->addTerm(new fl::Gaussian("high", -1.000, 0.300));
-    inputVariable1->addTerm(new fl::Gaussian("okay", 0.000, 0.300));
-    inputVariable1->addTerm(new fl::Gaussian("low", 1.000, 0.300));
+    inputVariable1->addTerm(new fl::Trapezoid("high", -2.000, -1.000, -0.800, -0.001));
+    inputVariable1->addTerm(new fl::Triangle("good", -0.150, 0.000, 0.500));
+    inputVariable1->addTerm(new fl::Trapezoid("low", 0.001, 0.800, 1.000, 1.500));
     engine->addInputVariable(inputVariable1);
 
     fl::InputVariable* inputVariable2 = new fl::InputVariable;
-    inputVariable2->setName("rate");
+    inputVariable2->setName("change");
     inputVariable2->setRange(-0.100, 0.100);
 
-    inputVariable2->addTerm(new fl::Gaussian("negative", -0.100, 0.030));
-    inputVariable2->addTerm(new fl::Gaussian("none", 0.000, 0.030));
-    inputVariable2->addTerm(new fl::Gaussian("positive", 0.100, 0.030));
+    inputVariable2->addTerm(new fl::Trapezoid("falling", -0.140, -0.100, -0.060, 0.000));
+    inputVariable2->addTerm(new fl::Trapezoid("rising", -0.001, 0.060, 0.100, 0.140));
     engine->addInputVariable(inputVariable2);
 
     fl::OutputVariable* outputVariable1 = new fl::OutputVariable;
@@ -46,7 +45,7 @@ int main(int argc, char* argv[]) {
     outputVariable1->addTerm(new fl::Triangle("close_fast", -1.000, -0.900, -0.800));
     outputVariable1->addTerm(new fl::Triangle("close_slow", -0.600, -0.500, -0.400));
     outputVariable1->addTerm(new fl::Triangle("no_change", -0.100, 0.000, 0.100));
-    outputVariable1->addTerm(new fl::Triangle("open_slow", 0.200, 0.300, 0.400));
+    outputVariable1->addTerm(new fl::Triangle("open_slow", 0.400, 0.500, 0.600));
     outputVariable1->addTerm(new fl::Triangle("open_fast", 0.800, 0.900, 1.000));
     engine->addOutputVariable(outputVariable1);
 
@@ -57,15 +56,14 @@ int main(int argc, char* argv[]) {
     ruleblock1->setActivation(new fl::AlgebraicProduct);
 
     ruleblock1->addRule(fl::MamdaniRule::parse(
-            "if level is okay then valve is no_change", engine));
-    ruleblock1->addRule(fl::MamdaniRule::parse(
             "if level is low then valve is open_fast", engine));
     ruleblock1->addRule(fl::MamdaniRule::parse(
             "if level is high then valve is close_fast", engine));
     ruleblock1->addRule(fl::MamdaniRule::parse(
-            "if level is okay and rate is positive then valve is close_slow", engine));
+            "if level is good and change is rising then valve is close_slow", engine));
     ruleblock1->addRule(fl::MamdaniRule::parse(
-            "if level is okay and rate is negative then valve is open_slow", engine));
+            "if level is good and change is falling then valve is open_slow", engine));
     engine->addRuleBlock(ruleblock1);
+
 
 }

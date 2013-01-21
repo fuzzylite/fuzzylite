@@ -16,14 +16,15 @@ namespace fl {
     protected:
         scalar _left;
         scalar _rising;
-        scalar _right;
         scalar _falling;
+        scalar _right;
+
     public:
         SigmoidProduct(const std::string& name = "",
                 scalar left = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar rising = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar right = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar falling = std::numeric_limits<scalar>::quiet_NaN());
+                scalar falling = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar right = std::numeric_limits<scalar>::quiet_NaN());
 
         std::string className() const;
         SigmoidProduct* copy() const;
@@ -39,11 +40,11 @@ namespace fl {
         void setRising(scalar risingSlope);
         scalar getRising() const;
 
-        void setRight(scalar rightInflection);
-        scalar getRight() const;
-
         void setFalling(scalar fallingSlope);
         scalar getFalling() const;
+
+        void setRight(scalar rightInflection);
+        scalar getRight() const;
 
 
     };

@@ -399,13 +399,13 @@ namespace fl {
         } else if (mClass == "dsigmf" and params.size() >= 4) {
             sortedParams.at(0) = params.at(1);
             sortedParams.at(1) = params.at(0);
-            sortedParams.at(2) = params.at(3);
-            sortedParams.at(3) = params.at(2);
+            sortedParams.at(2) = params.at(2);
+            sortedParams.at(3) = params.at(3);
         } else if (mClass == "psigmf" and params.size() >= 4) {
             sortedParams.at(0) = params.at(1);
             sortedParams.at(1) = params.at(0);
-            sortedParams.at(2) = params.at(3);
-            sortedParams.at(3) = params.at(2);
+            sortedParams.at(2) = params.at(2);
+            sortedParams.at(3) = params.at(3);
         }
 
         std::string flClass = mClass;

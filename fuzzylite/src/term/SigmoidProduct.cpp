@@ -13,8 +13,8 @@ namespace fl {
 
     SigmoidProduct::SigmoidProduct(const std::string& name,
             scalar left, scalar rising,
-            scalar right, scalar falling)
-    : Term(name), _left(left), _rising(rising), _right(right), _falling(falling) { }
+            scalar falling, scalar right)
+    : Term(name), _left(left), _rising(rising), _falling(falling), _right(right) { }
 
     std::string SigmoidProduct::className() const {
         return "SigmoidProduct";
@@ -34,7 +34,7 @@ namespace fl {
         std::ostringstream ss;
         ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << "SigmoidProduct (" << _left << ", " << _rising << ", "
-                << _right << ", " << _falling << ")";
+                << _falling << ", " << _right << ")";
         return ss.str();
     }
 
@@ -54,6 +54,14 @@ namespace fl {
         return this->_left;
     }
 
+    void SigmoidProduct::setRight(scalar rightInflection) {
+        this->_right = rightInflection;
+    }
+
+    scalar SigmoidProduct::getRight() const {
+        return this->_right;
+    }
+
     void SigmoidProduct::setFalling(scalar fallingSlope) {
         this->_falling = fallingSlope;
     }
@@ -62,12 +70,6 @@ namespace fl {
         return this->_falling;
     }
 
-    void SigmoidProduct::setRight(scalar rightInflection) {
-        this->_right = rightInflection;
-    }
 
-    scalar SigmoidProduct::getRight() const {
-        return this->_right;
-    }
 
 }

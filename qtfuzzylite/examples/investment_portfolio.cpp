@@ -10,27 +10,27 @@
 int main(int argc, char* argv[]) {
     fl::Engine* engine = new fl::Engine;
     engine->setName("Investment-Portfolio");
-    engine->addHedge(new new fl::Any);
-    engine->addHedge(new new fl::Extremely);
-    engine->addHedge(new new fl::Not);
-    engine->addHedge(new new fl::Seldom);
-    engine->addHedge(new new fl::Somewhat);
-    engine->addHedge(new new fl::Very);
+    engine->addHedge(new fl::Any);
+    engine->addHedge(new fl::Extremely);
+    engine->addHedge(new fl::Not);
+    engine->addHedge(new fl::Seldom);
+    engine->addHedge(new fl::Somewhat);
+    engine->addHedge(new fl::Very);
 
     fl::InputVariable* inputVariable1 = new fl::InputVariable;
     inputVariable1->setName("Age");
     inputVariable1->setRange(20.000, 100.000);
 
-    inputVariable1->addTerm(new fl::new fl::ZShape("Young", 30.000, 90.000));
-    inputVariable1->addTerm(new fl::new fl::SShape("Old", 30.000, 90.000));
+    inputVariable1->addTerm(new fl::ZShape("Young", 30.000, 90.000));
+    inputVariable1->addTerm(new fl::SShape("Old", 30.000, 90.000));
     engine->addInputVariable(inputVariable1);
 
     fl::InputVariable* inputVariable2 = new fl::InputVariable;
     inputVariable2->setName("Risk-Tolerance");
     inputVariable2->setRange(0.000, 10.000);
 
-    inputVariable2->addTerm(new fl::new fl::ZShape("Low", 2.000, 8.000));
-    inputVariable2->addTerm(new fl::new fl::SShape("High", 2.000, 8.000));
+    inputVariable2->addTerm(new fl::ZShape("Low", 2.000, 8.000));
+    inputVariable2->addTerm(new fl::SShape("High", 2.000, 8.000));
     engine->addInputVariable(inputVariable2);
 
     fl::OutputVariable* outputVariable1 = new fl::OutputVariable;
@@ -61,4 +61,6 @@ int main(int argc, char* argv[]) {
     ruleblock1->addRule(fl::MamdaniRule::parse(
             " if Age is not extremely Young and Risk-Tolerance is not extremely High  then Percentage-In-Stocks is About-Fifty with 0.5", engine));
     engine->addRuleBlock(ruleblock1);
+
+
 }

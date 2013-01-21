@@ -300,21 +300,21 @@ namespace fl {
 
         if (term->className() == Gaussian().className()) {
             const Gaussian* x = dynamic_cast<const Gaussian*> (term);
-            scalar params[] = {x->getSigma(), x->getMean()};
+            scalar params[] = {x->getStandardDeviation(), x->getMean()};
             ss << "'gaussmf',[" << fl::Op::str(2, params, " ") << "]";
             return ss.str();
         }
 
         if (term->className() == GaussianProduct().className()) {
             const GaussianProduct* x = dynamic_cast<const GaussianProduct*> (term);
-            scalar params[] = {x->getSigmaA(), x->getMeanA(), x->getSigmaB(), x->getMeanB()};
+            scalar params[] = {x->getStandardDeviationA(), x->getMeanA(), x->getStandardDeviationB(), x->getMeanB()};
             ss << "'gauss2mf',[" << fl::Op::str(4, params, " ") << "]";
             return ss.str();
         }
 
         if (term->className() == PiShape().className()) {
             const PiShape* x = dynamic_cast<const PiShape*> (term);
-            scalar params[] = {x->getBottomLeft(), x->getTopLeft(), x->getBottomRight(), x->getTopRight()};
+            scalar params[] = {x->getBottomLeft(), x->getTopLeft(), x->getTopRight(), x->getBottomRight()};
             ss << "'pimf',[" << fl::Op::str(4, params, " ") << "]";
             return ss.str();
         }

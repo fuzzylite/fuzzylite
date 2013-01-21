@@ -9,27 +9,27 @@
 int main(int argc, char* argv[]) {
     fl::Engine* engine = new fl::Engine;
     engine->setName("Mamdani-Tip-Calculator");
-    engine->addHedge(new new fl::Any);
-    engine->addHedge(new new fl::Extremely);
-    engine->addHedge(new new fl::Not);
-    engine->addHedge(new new fl::Seldom);
-    engine->addHedge(new new fl::Somewhat);
-    engine->addHedge(new new fl::Very);
+    engine->addHedge(new fl::Any);
+    engine->addHedge(new fl::Extremely);
+    engine->addHedge(new fl::Not);
+    engine->addHedge(new fl::Seldom);
+    engine->addHedge(new fl::Somewhat);
+    engine->addHedge(new fl::Very);
 
     fl::InputVariable* inputVariable1 = new fl::InputVariable;
     inputVariable1->setName("Food-Quality");
     inputVariable1->setRange(1.000, 10.000);
 
-    inputVariable1->addTerm(new fl::new fl::Trapezoid("Bad", 0.000, 1.000, 3.000, 7.000));
-    inputVariable1->addTerm(new fl::new fl::Trapezoid("Good", 3.000, 7.000, 10.000, 11.000));
+    inputVariable1->addTerm(new fl::Trapezoid("Bad", 0.000, 1.000, 3.000, 7.000));
+    inputVariable1->addTerm(new fl::Trapezoid("Good", 3.000, 7.000, 10.000, 11.000));
     engine->addInputVariable(inputVariable1);
 
     fl::InputVariable* inputVariable2 = new fl::InputVariable;
     inputVariable2->setName("Service");
     inputVariable2->setRange(1.000, 10.000);
 
-    inputVariable2->addTerm(new fl::new fl::Trapezoid("Bad", 0.000, 1.000, 3.000, 7.000));
-    inputVariable2->addTerm(new fl::new fl::Trapezoid("Good", 3.000, 7.000, 10.000, 11.000));
+    inputVariable2->addTerm(new fl::Trapezoid("Bad", 0.000, 1.000, 3.000, 7.000));
+    inputVariable2->addTerm(new fl::Trapezoid("Good", 3.000, 7.000, 10.000, 11.000));
     engine->addInputVariable(inputVariable2);
 
     fl::OutputVariable* outputVariable1 = new fl::OutputVariable;
@@ -65,12 +65,14 @@ int main(int argc, char* argv[]) {
     ruleblock1->setActivation(new fl::Minimum);
 
     ruleblock1->addRule(fl::MamdaniRule::parse(
-            "if Food-Quality is Bad and Service is Bad then Tip is About-Ten-Percent and Check-Plus-Tip is Plus-About-Ten-Percent", engine));
+            " if Food-Quality is Bad and Service is Bad  then Tip is About-Ten-Percent and Check-Plus-Tip is Plus-About-Ten-Percent", engine));
     ruleblock1->addRule(fl::MamdaniRule::parse(
-            "if Food-Quality is Bad and Service is Good then Tip is About-Fifteen-Percent and Check-Plus-Tip is Plus-About-Fifteen-Percent", engine));
+            " if Food-Quality is Bad and Service is Good  then Tip is About-Fifteen-Percent and Check-Plus-Tip is Plus-About-Fifteen-Percent", engine));
     ruleblock1->addRule(fl::MamdaniRule::parse(
-            "if Food-Quality is Good and Service is Bad then Tip is About-Fifteen-Percent and Check-Plus-Tip is Plus-About-Fifteen-Percent", engine));
+            " if Food-Quality is Good and Service is Bad  then Tip is About-Fifteen-Percent and Check-Plus-Tip is Plus-About-Fifteen-Percent", engine));
     ruleblock1->addRule(fl::MamdaniRule::parse(
-            "if Food-Quality is Good and Service is Good then Tip is About-Twenty-Percent and Check-Plus-Tip is Plus-About-Twenty-Percent", engine));
+            " if Food-Quality is Good and Service is Good  then Tip is About-Twenty-Percent and Check-Plus-Tip is Plus-About-Twenty-Percent", engine));
     engine->addRuleBlock(ruleblock1);
+
+
 }

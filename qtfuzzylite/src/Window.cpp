@@ -678,7 +678,7 @@ namespace fl {
                 menu.addSeparator();
                 menu.addAction("Fuzzy Control Language (FCL)", this, SLOT(onMenuImportFromFCL()));
                 menu.addAction("Fuzzy Inference System (FIS)", this, SLOT(onMenuImportFromFIS()));
-                menu.exec(QCursor::pos());
+                menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionImport->setChecked(false);
             }
         }
@@ -705,7 +705,7 @@ namespace fl {
             fclDialog.setWindowTitle("Import from FCL");
             fclUi.lbl_format->setText("Fuzzy Controller Language (FCL):");
             QFont font = typeWriterFont();
-            font.setPointSize(font.pointSize()- 1);
+            font.setPointSize(font.pointSize() - 1);
             fclUi.pte_code->setFont(font);
 
             if (fclDialog.exec()) {
@@ -739,7 +739,7 @@ namespace fl {
             fclDialog.setWindowTitle("Import from FIS");
             fclUi.lbl_format->setText("Fuzzy Inference System (FIS):");
             QFont font = typeWriterFont();
-            font.setPointSize(font.pointSize()- 1);
+            font.setPointSize(font.pointSize() - 1);
             fclUi.pte_code->setFont(font);
 
             if (fclDialog.exec()) {
@@ -836,7 +836,7 @@ namespace fl {
                 menu.addSeparator();
                 menu.addAction("Fuzzy Control Language (FCL)", this, SLOT(onMenuExportToFCL()));
                 menu.addAction("Fuzzy Inference System (FIS)", this, SLOT(onMenuExportToFIS()));
-                menu.exec(QCursor::pos());
+                menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionExport->setChecked(false);
             }
         }
@@ -859,7 +859,7 @@ namespace fl {
             fclDialog.setWindowTitle("Export to FCL");
             fclUi.lbl_format->setText("Fuzzy Controller Language (FCL):");
             QFont font = typeWriterFont();
-            font.setPointSize(font.pointSize()- 1);
+            font.setPointSize(font.pointSize() - 1);
             fclUi.pte_code->setFont(font);
             fclUi.pte_code->setReadOnly(true);
             fclUi.pte_code->document()->setPlainText(
@@ -888,7 +888,7 @@ namespace fl {
             fclDialog.setWindowTitle("Export to FIS");
             fclUi.lbl_format->setText("Fuzzy Inference System (FIS):");
             QFont font = typeWriterFont();
-            font.setPointSize(font.pointSize()- 1);
+            font.setPointSize(font.pointSize() - 1);
             fclUi.pte_code->setFont(font);
             fclUi.pte_code->setReadOnly(true);
             fclUi.pte_code->document()->setPlainText(
@@ -917,7 +917,7 @@ namespace fl {
             fclDialog.setWindowTitle("Export to fuzzylite");
             fclUi.lbl_format->setText("fuzzylite (C++):");
             QFont font = typeWriterFont();
-            font.setPointSize(font.pointSize()- 1);
+            font.setPointSize(font.pointSize() - 1);
             fclUi.pte_code->setFont(font);
             fclUi.pte_code->setReadOnly(true);
             fclUi.pte_code->document()->setPlainText(
@@ -979,12 +979,12 @@ namespace fl {
         void Window::onMenuQuit() {
             this->close();
         }
-        
-        void Window::closeEvent(QCloseEvent* e){
+
+        void Window::closeEvent(QCloseEvent* e) {
             int result = QMessageBox::question(this, tr("qtfuzzylite"),
-                                               tr("<qt>Do you want to quit <b>qtfuzzylite</b>?</qt>"),
-                                               QMessageBox::Yes | QMessageBox::No,
-                                               QMessageBox::Yes);
+                    tr("<qt>Do you want to quit <b>qtfuzzylite</b>?</qt>"),
+                    QMessageBox::Yes | QMessageBox::No,
+                    QMessageBox::Yes);
             if (result == QMessageBox::No) {
                 e->ignore();
             } else {
