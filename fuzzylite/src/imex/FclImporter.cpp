@@ -274,6 +274,7 @@ namespace fl {
                 ruleblock->setActivation(extractTNorm(line));
             } else if (firstToken == "RULE") {
                 std::string rule = line.substr(line.find_first_of(':') + 1);
+                rule = fl::Op::trim(rule);
                 ruleblock->addRule(MamdaniRule::parse(rule, engine));
             } else {
                 std::ostringstream ex;
