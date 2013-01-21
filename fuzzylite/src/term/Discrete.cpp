@@ -75,6 +75,8 @@ namespace fl {
                 break;
             }
         }
+        if (fl::Op::isLt(mu, x[lower])) return y[lower];
+        if (fl::Op::isGt(mu, x[upper])) return y[upper];
         return Op::scale(mu, x[lower], x[upper], y[lower], y[upper]);
     }
 

@@ -701,7 +701,9 @@ namespace fl {
             fclUi.setupUi(&fclDialog);
             fclDialog.setWindowTitle("Import from FCL");
             fclUi.lbl_format->setText("Fuzzy Controller Language (FCL):");
-            fclUi.pte_code->setFont(typeWriterFont());
+            QFont font = typeWriterFont();
+            font.setPointSize(font.pointSize()- 1);
+            fclUi.pte_code->setFont(font);
 
             if (fclDialog.exec()) {
                 std::string fclString = fclUi.pte_code->document()->toPlainText().toStdString();
@@ -733,7 +735,9 @@ namespace fl {
             fclUi.setupUi(&fclDialog);
             fclDialog.setWindowTitle("Import from FIS");
             fclUi.lbl_format->setText("Fuzzy Inference System (FIS):");
-            fclUi.pte_code->setFont(typeWriterFont());
+            QFont font = typeWriterFont();
+            font.setPointSize(font.pointSize()- 1);
+            fclUi.pte_code->setFont(font);
 
             if (fclDialog.exec()) {
                 std::string fclString = fclUi.pte_code->document()->toPlainText().toStdString();
@@ -851,7 +855,9 @@ namespace fl {
             fclUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
             fclDialog.setWindowTitle("Export to FCL");
             fclUi.lbl_format->setText("Fuzzy Controller Language (FCL):");
-            fclUi.pte_code->setFont(typeWriterFont());
+            QFont font = typeWriterFont();
+            font.setPointSize(font.pointSize()- 1);
+            fclUi.pte_code->setFont(font);
             fclUi.pte_code->setReadOnly(true);
             fclUi.pte_code->document()->setPlainText(
                     QString::fromStdString(fclString));
@@ -878,7 +884,9 @@ namespace fl {
             fclUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
             fclDialog.setWindowTitle("Export to FIS");
             fclUi.lbl_format->setText("Fuzzy Inference System (FIS):");
-            fclUi.pte_code->setFont(typeWriterFont());
+            QFont font = typeWriterFont();
+            font.setPointSize(font.pointSize()- 1);
+            fclUi.pte_code->setFont(font);
             fclUi.pte_code->setReadOnly(true);
             fclUi.pte_code->document()->setPlainText(
                     QString::fromStdString(fis));
@@ -905,7 +913,9 @@ namespace fl {
             fclUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
             fclDialog.setWindowTitle("Export to fuzzylite");
             fclUi.lbl_format->setText("fuzzylite (C++):");
-            fclUi.pte_code->setFont(typeWriterFont());
+            QFont font = typeWriterFont();
+            font.setPointSize(font.pointSize()- 1);
+            fclUi.pte_code->setFont(font);
             fclUi.pte_code->setReadOnly(true);
             fclUi.pte_code->document()->setPlainText(
                     QString::fromStdString(cpp));
