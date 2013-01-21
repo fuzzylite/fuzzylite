@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>613</width>
-    <height>603</height>
+    <width>560</width>
+    <height>510</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -53,23 +53,38 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>613</width>
-         <height>491</height>
+         <width>560</width>
+         <height>408</height>
         </rect>
        </property>
        <attribute name="label">
         <string>Setup</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
         <item>
          <widget class="QGroupBox" name="groupBox">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>100</height>
-           </size>
-          </property>
           <layout class="QVBoxLayout" name="verticalLayout_7">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>9</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <item>
             <widget class="QSplitter" name="spl_setup_inout_rules">
              <property name="orientation">
@@ -339,17 +354,41 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>613</width>
-         <height>491</height>
+         <width>560</width>
+         <height>408</height>
         </rect>
        </property>
        <attribute name="label">
         <string>Control</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_6">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
         <item>
          <widget class="QGroupBox" name="groupBox">
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
           <layout class="QVBoxLayout" name="verticalLayout_17">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>9</number>
+           </property>
+           <property name="bottomMargin">
+            <number>3</number>
+           </property>
            <item>
             <widget class="QSplitter" name="spl_control_inout_rules">
              <property name="orientation">
@@ -411,8 +450,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>274</width>
-                        <height>115</height>
+                        <width>267</width>
+                        <height>99</height>
                        </rect>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -504,8 +543,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>274</width>
-                        <height>115</height>
+                        <width>266</width>
+                        <height>99</height>
                        </rect>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_13">
