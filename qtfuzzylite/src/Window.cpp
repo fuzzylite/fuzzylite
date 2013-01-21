@@ -267,10 +267,12 @@ namespace fl {
             for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
                 Control* control = new Control;
                 control->setup(engine->getInputVariable(i));
+                control->ui->bottom_line->setVisible(i != engine->numberOfInputVariables() - 1);
                 layout->addWidget(control);
 
                 QObject::connect(control, SIGNAL(valueChanged(double)),
                         this, SLOT(onInputValueChanged()));
+
             }
             //            layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
 
@@ -298,10 +300,11 @@ namespace fl {
             for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
                 Control* control = new Control;
                 control->setup(engine->getOutputVariable(i));
+                control->ui->bottom_line->setVisible(i != engine->numberOfOutputVariables() - 1);
                 layout->addWidget(control);
 
                 QObject::connect(this, SIGNAL(processOutput()),
-                        control, SLOT(updateOutput()), Qt::QueuedConnection);
+                        control, SLOT(updateOutput()));
             }
             //            layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
         }

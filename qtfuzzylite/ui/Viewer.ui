@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>293</width>
+    <width>296</width>
     <height>317</height>
    </rect>
   </property>
@@ -16,7 +16,6 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-
   <property name="windowTitle">
    <string>Viewer</string>
   </property>
@@ -46,7 +45,6 @@
        </property>
        <item>
         <widget class="QLabel" name="lbl_min">
-
          <property name="text">
           <string>min</string>
          </property>
@@ -67,7 +65,6 @@
        </item>
        <item>
         <widget class="QDoubleSpinBox" name="sbx_x">
-
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
@@ -96,7 +93,6 @@
            <height>16777215</height>
           </size>
          </property>
-
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
@@ -120,7 +116,6 @@
        </item>
        <item>
         <widget class="QLabel" name="lbl_max">
-
          <property name="text">
           <string>max</string>
          </property>
@@ -233,7 +228,6 @@ border-radius: 8px;
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-
          <property name="text">
           <string/>
          </property>
@@ -262,7 +256,6 @@ border-radius: 8px;
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-
          <property name="text">
           <string/>
          </property>
@@ -288,7 +281,7 @@ border-radius: 8px;
     </layout>
    </item>
    <item>
-    <widget class="Line" name="line_3">
+    <widget class="Line" name="bottom_line">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>

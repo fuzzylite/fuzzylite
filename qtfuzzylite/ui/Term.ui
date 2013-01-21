@@ -63,52 +63,72 @@
     </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="lyt_terms">
-     <property name="spacing">
-      <number>0</number>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="topMargin">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QTabWidget" name="tabTerms">
+     <widget class="QTabWidget" name="tabTerms">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <property name="elideMode">
+       <enum>Qt::ElideMiddle</enum>
+      </property>
+      <widget class="QWidget" name="tab_2">
        <property name="sizePolicy">
         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="focusPolicy">
-        <enum>Qt::StrongFocus</enum>
-       </property>
-       <property name="autoFillBackground">
-        <bool>true</bool>
-       </property>
-       <property name="tabShape">
-        <enum>QTabWidget::Rounded</enum>
-       </property>
-       <property name="currentIndex">
-        <number>2</number>
-       </property>
-       <property name="elideMode">
-        <enum>Qt::ElideMiddle</enum>
-       </property>
-       <widget class="QWidget" name="tab_2">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+       <attribute name="title">
+        <string>Basic</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <property name="margin">
+         <number>0</number>
         </property>
-        <attribute name="title">
-         <string>Basic</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_7">
-         <property name="margin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QToolBox" name="basicTermToolbox">
+        <item>
+         <widget class="QToolBox" name="basicTermToolbox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>true</bool>
+          </property>
+          <property name="currentIndex">
+           <number>3</number>
+          </property>
+          <widget class="QWidget" name="page">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>240</width>
+             <height>225</height>
+            </rect>
+           </property>
            <property name="sizePolicy">
             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
              <horstretch>0</horstretch>
@@ -118,47 +138,24 @@
            <property name="focusPolicy">
             <enum>Qt::NoFocus</enum>
            </property>
-           <property name="autoFillBackground">
-            <bool>true</bool>
-           </property>
-           <property name="currentIndex">
-            <number>3</number>
-           </property>
-           <widget class="QWidget" name="page">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>219</width>
-              <height>202</height>
-             </rect>
+           <attribute name="label">
+            <string>Triangle</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <property name="leftMargin">
+             <number>9</number>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+            <property name="topMargin">
+             <number>0</number>
             </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
+            <property name="rightMargin">
+             <number>9</number>
             </property>
-            <attribute name="label">
-             <string>Triangle</string>
-            </attribute>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QGroupBox" name="">
               <layout class="QFormLayout" name="formLayout">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -168,6 +165,18 @@
                </property>
                <property name="formAlignment">
                 <set>Qt::AlignCenter</set>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>6</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>6</number>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label">
@@ -200,44 +209,46 @@
                 <widget class="QDoubleSpinBox" name="sbx_triangle_c"/>
                </item>
               </layout>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="page_2">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>219</width>
-              <height>202</height>
-             </rect>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_2">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>238</width>
+             <height>224</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <attribute name="label">
+            <string>Trapezoid</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="leftMargin">
+             <number>9</number>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+            <property name="topMargin">
+             <number>0</number>
             </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
+            <property name="rightMargin">
+             <number>9</number>
             </property>
-            <attribute name="label">
-             <string>Trapezoid</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_2">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QGroupBox" name="">
               <layout class="QFormLayout" name="formLayout_2">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -247,6 +258,18 @@
                </property>
                <property name="formAlignment">
                 <set>Qt::AlignCenter</set>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>6</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>6</number>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_4">
@@ -289,44 +312,46 @@
                 <widget class="QDoubleSpinBox" name="sbx_trapezoid_d"/>
                </item>
               </layout>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="page_3">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>219</width>
-              <height>202</height>
-             </rect>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_3">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>238</width>
+             <height>224</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <attribute name="label">
+            <string>Rectangle</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <property name="leftMargin">
+             <number>9</number>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+            <property name="topMargin">
+             <number>0</number>
             </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
+            <property name="rightMargin">
+             <number>9</number>
             </property>
-            <attribute name="label">
-             <string>Rectangle</string>
-            </attribute>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QGroupBox" name="">
               <layout class="QFormLayout" name="formLayout_3">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -336,6 +361,18 @@
                </property>
                <property name="formAlignment">
                 <set>Qt::AlignCenter</set>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>6</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>6</number>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_8">
@@ -358,46 +395,54 @@
                 <widget class="QDoubleSpinBox" name="sbx_rectangle_max"/>
                </item>
               </layout>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="page_5">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>238</width>
-              <height>224</height>
-             </rect>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_5">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>240</width>
+             <height>225</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <attribute name="label">
+            <string>Discrete</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="leftMargin">
+             <number>9</number>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+            <property name="topMargin">
+             <number>0</number>
             </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
+            <property name="rightMargin">
+             <number>6</number>
             </property>
-            <attribute name="label">
-             <string>Discrete</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_4">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
+            <property name="bottomMargin">
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QGroupBox" name="">
               <layout class="QVBoxLayout" name="verticalLayout_14">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
                <property name="topMargin">
+                <number>6</number>
+               </property>
+               <property name="rightMargin">
                 <number>0</number>
                </property>
                <property name="bottomMargin">
@@ -452,9 +497,6 @@
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_3">
-                 <property name="bottomMargin">
-                  <number>0</number>
-                 </property>
                  <item>
                   <widget class="QToolButton" name="btn_discrete_parse">
                    <property name="focusPolicy">
@@ -478,73 +520,75 @@
                 </layout>
                </item>
               </layout>
-             </item>
-            </layout>
-           </widget>
+             </widget>
+            </item>
+           </layout>
           </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="tab">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <attribute name="title">
+        <string>Extended</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <property name="margin">
+         <number>0</number>
         </property>
-        <attribute name="title">
-         <string>Extended</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_6">
-         <property name="margin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QToolBox" name="extendedTermToolbox">
+        <item>
+         <widget class="QToolBox" name="extendedTermToolbox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="autoFillBackground">
+           <bool>true</bool>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <widget class="QWidget" name="page_6">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>240</width>
+             <height>157</height>
+            </rect>
+           </property>
            <property name="sizePolicy">
             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="autoFillBackground">
-            <bool>true</bool>
-           </property>
-           <property name="currentIndex">
-            <number>5</number>
-           </property>
-           <widget class="QWidget" name="page_6">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>219</width>
-              <height>134</height>
-             </rect>
+           <attribute name="label">
+            <string>Gaussian</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <property name="leftMargin">
+             <number>9</number>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+            <property name="topMargin">
+             <number>0</number>
             </property>
-            <attribute name="label">
-             <string>Gaussian</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_5">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
+            <property name="rightMargin">
+             <number>9</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QGroupBox" name="">
               <layout class="QFormLayout" name="formLayout_5">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -554,6 +598,18 @@
                </property>
                <property name="formAlignment">
                 <set>Qt::AlignCenter</set>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>6</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>6</number>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_14">
@@ -568,7 +624,7 @@
                <item row="1" column="0">
                 <widget class="QLabel" name="label_15">
                  <property name="text">
-                  <string>sigma</string>
+                  <string>stdev</string>
                  </property>
                 </widget>
                </item>
@@ -576,29 +632,31 @@
                 <widget class="QDoubleSpinBox" name="sbx_gaussian_width"/>
                </item>
               </layout>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="page_13">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>219</width>
-              <height>134</height>
-             </rect>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_13">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>240</width>
+             <height>157</height>
+            </rect>
+           </property>
+           <attribute name="label">
+            <string>Gaussian Product</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <property name="topMargin">
+             <number>0</number>
             </property>
-            <attribute name="label">
-             <string>Gaussian Product</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QGroupBox" name="">
               <layout class="QFormLayout" name="formLayout_8">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -609,10 +667,22 @@
                <property name="formAlignment">
                 <set>Qt::AlignCenter</set>
                </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>6</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>6</number>
+               </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_25">
                  <property name="text">
-                  <string>meanA</string>
+                  <string>mean1</string>
                  </property>
                 </widget>
                </item>
@@ -622,7 +692,7 @@
                <item row="1" column="0">
                 <widget class="QLabel" name="label_26">
                  <property name="text">
-                  <string>sigmaA</string>
+                  <string>stdev1</string>
                  </property>
                 </widget>
                </item>
@@ -632,7 +702,7 @@
                <item row="2" column="0">
                 <widget class="QLabel" name="label_43">
                  <property name="text">
-                  <string>meanB</string>
+                  <string>mean2</string>
                  </property>
                 </widget>
                </item>
@@ -642,7 +712,7 @@
                <item row="3" column="0">
                 <widget class="QLabel" name="label_44">
                  <property name="text">
-                  <string>sigmaB</string>
+                  <string>stdev2</string>
                  </property>
                 </widget>
                </item>
@@ -650,41 +720,43 @@
                 <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_width_b"/>
                </item>
               </layout>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="page_7">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>219</width>
-              <height>134</height>
-             </rect>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_7">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>238</width>
+             <height>156</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <attribute name="label">
+            <string>Bell</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_8">
+            <property name="leftMargin">
+             <number>9</number>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+            <property name="topMargin">
+             <number>0</number>
             </property>
-            <attribute name="label">
-             <string>Bell</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_8">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
+            <property name="rightMargin">
+             <number>9</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QGroupBox" name="">
               <layout class="QFormLayout" name="formLayout_7">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -694,6 +766,18 @@
                </property>
                <property name="formAlignment">
                 <set>Qt::AlignCenter</set>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>6</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>6</number>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_22">
@@ -726,41 +810,43 @@
                 <widget class="QDoubleSpinBox" name="sbx_bell_slope"/>
                </item>
               </layout>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="page_4">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>219</width>
-              <height>134</height>
-             </rect>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_4">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>238</width>
+             <height>156</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <attribute name="label">
+            <string>Pi-Shape</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_12">
+            <property name="leftMargin">
+             <number>9</number>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+            <property name="topMargin">
+             <number>0</number>
             </property>
-            <attribute name="label">
-             <string>Pi-Shape</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_12">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
+            <property name="rightMargin">
+             <number>9</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QGroupBox" name="">
               <layout class="QFormLayout" name="formLayout_4">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -771,14 +857,17 @@
                <property name="formAlignment">
                 <set>Qt::AlignCenter</set>
                </property>
-               <property name="topMargin">
+               <property name="leftMargin">
                 <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>6</number>
                </property>
                <property name="rightMargin">
                 <number>0</number>
                </property>
                <property name="bottomMargin">
-                <number>0</number>
+                <number>6</number>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_10">
@@ -821,41 +910,43 @@
                 <widget class="QDoubleSpinBox" name="sbx_pishape_br"/>
                </item>
               </layout>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="page_8">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>219</width>
-              <height>134</height>
-             </rect>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_8">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>238</width>
+             <height>156</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <attribute name="label">
+            <string>Sigmoid Difference</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_13">
+            <property name="leftMargin">
+             <number>9</number>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+            <property name="topMargin">
+             <number>0</number>
             </property>
-            <attribute name="label">
-             <string>Sigmoid Difference</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_13">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
+            <property name="rightMargin">
+             <number>9</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QGroupBox" name="">
               <layout class="QFormLayout" name="formLayout_13">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -865,6 +956,18 @@
                </property>
                <property name="formAlignment">
                 <set>Qt::AlignCenter</set>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>6</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>6</number>
                </property>
                <item row="0" column="1">
                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_left"/>
@@ -907,41 +1010,43 @@
                 </widget>
                </item>
               </layout>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="page_11">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>238</width>
-              <height>156</height>
-             </rect>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_11">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>240</width>
+             <height>157</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <attribute name="label">
+            <string>Sigmoid Product</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_9">
+            <property name="leftMargin">
+             <number>9</number>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+            <property name="topMargin">
+             <number>0</number>
             </property>
-            <attribute name="label">
-             <string>Sigmoid Product</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_9">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>6</number>
-             </property>
-             <item>
+            <property name="rightMargin">
+             <number>9</number>
+            </property>
+            <property name="bottomMargin">
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QGroupBox" name="">
               <layout class="QFormLayout" name="formLayout_14">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -952,14 +1057,17 @@
                <property name="formAlignment">
                 <set>Qt::AlignCenter</set>
                </property>
-               <property name="topMargin">
+               <property name="leftMargin">
                 <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>6</number>
                </property>
                <property name="rightMargin">
                 <number>0</number>
                </property>
                <property name="bottomMargin">
-                <number>0</number>
+                <number>6</number>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_38">
@@ -1002,73 +1110,75 @@
                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_falling"/>
                </item>
               </layout>
-             </item>
-            </layout>
-           </widget>
+             </widget>
+            </item>
+           </layout>
           </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="tab_3">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_3">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <attribute name="title">
+        <string>Edges</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_16">
+        <property name="margin">
+         <number>0</number>
         </property>
-        <attribute name="title">
-         <string>Edges</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_16">
-         <property name="margin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QToolBox" name="edgeTermToolbox">
+        <item>
+         <widget class="QToolBox" name="edgeTermToolbox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="autoFillBackground">
+           <bool>true</bool>
+          </property>
+          <property name="currentIndex">
+           <number>3</number>
+          </property>
+          <widget class="QWidget" name="page_12">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>238</width>
+             <height>224</height>
+            </rect>
+           </property>
            <property name="sizePolicy">
             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="autoFillBackground">
-            <bool>true</bool>
-           </property>
-           <property name="currentIndex">
-            <number>3</number>
-           </property>
-           <widget class="QWidget" name="page_12">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>238</width>
-              <height>224</height>
-             </rect>
+           <attribute name="label">
+            <string>Ramp</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_15">
+            <property name="leftMargin">
+             <number>9</number>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+            <property name="topMargin">
+             <number>0</number>
             </property>
-            <attribute name="label">
-             <string>Ramp</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_15">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
+            <property name="rightMargin">
+             <number>9</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QGroupBox" name="">
               <layout class="QFormLayout" name="formLayout_9">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -1078,6 +1188,18 @@
                </property>
                <property name="formAlignment">
                 <set>Qt::AlignCenter</set>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>6</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>6</number>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_27">
@@ -1100,41 +1222,43 @@
                 <widget class="QDoubleSpinBox" name="sbx_ramp_end"/>
                </item>
               </layout>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="page_15">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>219</width>
-              <height>202</height>
-             </rect>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_15">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>238</width>
+             <height>224</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <attribute name="label">
+            <string>Sigmoid</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_17">
+            <property name="leftMargin">
+             <number>9</number>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+            <property name="topMargin">
+             <number>0</number>
             </property>
-            <attribute name="label">
-             <string>Sigmoid</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_17">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
+            <property name="rightMargin">
+             <number>9</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QGroupBox" name="">
               <layout class="QFormLayout" name="formLayout_15">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -1144,6 +1268,18 @@
                </property>
                <property name="formAlignment">
                 <set>Qt::AlignCenter</set>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>6</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>6</number>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_41">
@@ -1178,41 +1314,43 @@
                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_slope"/>
                </item>
               </layout>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="page_9">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>219</width>
-              <height>202</height>
-             </rect>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_9">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>238</width>
+             <height>224</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <attribute name="label">
+            <string>S-Shape</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_11">
+            <property name="leftMargin">
+             <number>9</number>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+            <property name="topMargin">
+             <number>0</number>
             </property>
-            <attribute name="label">
-             <string>S-Shape</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_11">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
+            <property name="rightMargin">
+             <number>9</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QGroupBox" name="">
               <layout class="QFormLayout" name="formLayout_10">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -1222,6 +1360,18 @@
                </property>
                <property name="formAlignment">
                 <set>Qt::AlignCenter</set>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>6</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>6</number>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_18">
@@ -1244,41 +1394,43 @@
                 <widget class="QDoubleSpinBox" name="sbx_sshape_end"/>
                </item>
               </layout>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="page_14">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>238</width>
-              <height>224</height>
-             </rect>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_14">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>240</width>
+             <height>225</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <attribute name="label">
+            <string>Z-Shape</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_10">
+            <property name="leftMargin">
+             <number>9</number>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+            <property name="topMargin">
+             <number>0</number>
             </property>
-            <attribute name="label">
-             <string>Z-Shape</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_10">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>6</number>
-             </property>
-             <item>
+            <property name="rightMargin">
+             <number>9</number>
+            </property>
+            <property name="bottomMargin">
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QGroupBox" name="">
               <layout class="QFormLayout" name="formLayout_11">
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
@@ -1288,6 +1440,18 @@
                </property>
                <property name="formAlignment">
                 <set>Qt::AlignCenter</set>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>6</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>6</number>
                </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_23">
@@ -1310,16 +1474,16 @@
                 <widget class="QDoubleSpinBox" name="sbx_zshape_end"/>
                </item>
               </layout>
-             </item>
-            </layout>
-           </widget>
+             </widget>
+            </item>
+           </layout>
           </widget>
-         </item>
-        </layout>
-       </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
-     </item>
-    </layout>
+     </widget>
+    </widget>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

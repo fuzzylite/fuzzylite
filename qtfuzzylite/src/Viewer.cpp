@@ -202,7 +202,7 @@ namespace fl {
             xcentroid /= area;
             ycentroid /= 2 * area;
             area *= dx;
-
+            (void) area;
             QPolygon polygon;
             scalar start = fl::Op::scale(xSamples[0],
                     minimum, maximum,

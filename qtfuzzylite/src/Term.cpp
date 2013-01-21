@@ -92,8 +92,14 @@ namespace fl {
             ui->setupUi(this);
             viewer = new Viewer;
             viewer->setup(dummyVariable);
-            ui->lyt_terms->insertWidget(0, viewer);
-
+            //ui->lyt_terms->insertWidget(0, viewer);
+            viewer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            ui->splitter->insertWidget(0, viewer);
+            QList<int> sizes;
+            sizes << .25 * size().width() << .75 * size().width();
+            ui->splitter->setSizes(sizes);
+            
+            
             setWindowTitle(edit ? "Edit term" : "Add term");
 
             layout()->setSizeConstraint(QLayout::SetFixedSize);

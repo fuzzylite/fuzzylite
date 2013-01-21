@@ -1,4 +1,20 @@
-CONFIG+= qt app release warn_on static
+#CONFIG+= qt app release warn_on static
+#http://doc.qt.digia.com/qt/qmake-platform-notes.html
+
+
+win32{
+
+}
+
+macx{
+
+}
+
+unix{
+
+}
+
+message($$CONFIG)
 
 MAKEFILE = Makefile
 TEMPLATE = app
