@@ -98,7 +98,8 @@ namespace fl {
             QList<int> sizes;
             sizes << .25 * size().width() << .75 * size().width();
             ui->splitter->setSizes(sizes);
-
+//            ui->splitter->setEnabled(false);
+            
             QFont ttFont = Window::mainWindow()->typeWriterFont();
             ttFont.setPointSize(ttFont.pointSize() - 1);
             ui->ptx_discrete->setFont(ttFont);

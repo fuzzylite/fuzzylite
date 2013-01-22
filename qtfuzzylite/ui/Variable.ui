@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>290</width>
+    <width>292</width>
     <height>348</height>
    </rect>
   </property>
@@ -19,7 +19,6 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-
   <property name="windowTitle">
    <string>Variable</string>
   </property>
@@ -69,7 +68,6 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-
          <property name="text">
           <string>Minimum</string>
          </property>
@@ -109,7 +107,6 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-
          <property name="text">
           <string>Maximum</string>
          </property>
@@ -165,7 +162,6 @@
          </item>
          <item>
           <widget class="QToolButton" name="btn_add_term">
-
            <property name="text">
             <string/>
            </property>
@@ -180,7 +176,6 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
-
            <property name="text">
             <string/>
            </property>
@@ -195,7 +190,6 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
-
            <property name="text">
             <string/>
            </property>
@@ -210,7 +204,6 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
-
            <property name="text">
             <string/>
            </property>
@@ -225,7 +218,6 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
-
            <property name="text">
             <string/>
            </property>
@@ -288,7 +280,6 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-
           <property name="lineWrapMode">
            <enum>QPlainTextEdit::NoWrap</enum>
           </property>
@@ -306,42 +297,20 @@
     </widget>
    </item>
    <item>
-    <widget class="Line" name="line_2">
-
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QFrame" name="gbx_output">
-
+    <widget class="QGroupBox" name="gbx_output">
      <property name="styleSheet">
       <string notr="true"/>
+     </property>
+     <property name="title">
+      <string>Output</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <property name="spacing">
        <number>0</number>
       </property>
       <property name="margin">
-       <number>0</number>
+       <number>6</number>
       </property>
-      <item>
-       <widget class="QLabel" name="label">
-
-        <property name="text">
-         <string>Output</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="Line" name="line">
-
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <property name="bottomMargin">
@@ -352,11 +321,17 @@
           <property name="enabled">
            <bool>true</bool>
           </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>Default</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -371,9 +346,11 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-
           <property name="text">
            <string/>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -394,7 +371,6 @@
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
-
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>

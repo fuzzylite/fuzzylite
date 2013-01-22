@@ -17,5 +17,6 @@
     <file>icons/edit_remove.png</file>
     <file>icons/pencil.png</file>
     <file>icons/btn_donateCC_LG.gif</file>
+    <file>icons/panoramic.svg</file>
   </qresource>
 </RCC>

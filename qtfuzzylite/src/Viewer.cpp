@@ -13,8 +13,11 @@
 #include "fl/qt/Configuration.h"
 
 #include <QtGui/QGraphicsPolygonItem>
-//#include <QtSvg/QSvgGenerator>
 
+//#define FL_EXPORT_SVG
+#ifdef FL_EXPORT_SVG
+#include <QtSvg/QSvgGenerator>
+#endif
 
 namespace fl {
     namespace qt {
@@ -36,8 +39,9 @@ namespace fl {
             ui->led_x->setVisible(false);
             setMinimumSize(200, 170);
             ui->canvas->setScene(new QGraphicsScene(ui->canvas));
-            ui->canvas->setRenderHints(ui->canvas->renderHints() | QPainter::Antialiasing
-                    | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
+            //TODO: find out if this make a difference at all
+            //            ui->canvas->setRenderHints(ui->canvas->renderHints() | QPainter::Antialiasing
+            //                    | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
             ui->canvas->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->canvas->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->sbx_x->setFocus();
@@ -99,7 +103,9 @@ namespace fl {
 
         void Viewer::onPressSlider() {
             ui->sld_x->setCursor(QCursor(Qt::ClosedHandCursor));
-//            exportToSvg("/tmp/qtfuzzylite.svg");
+#ifdef FL_EXPORT_SVG
+            exportToSvg("/tmp/qtfuzzylite.svg");
+#endif
         }
 
         void Viewer::onReleaseSlider() {
@@ -159,21 +165,28 @@ namespace fl {
         void Viewer::draw() {
             ui->canvas->scene()->clear();
             ui->canvas->scene()->setSceneRect(ui->canvas->viewport()->rect());
-            QColor from = QColor(255, 255, 0, 75);
-            QColor to = QColor(255, 0, 0, 175);
+
+            QColor from = QColor(255, 255, 0, (0.33 + .1) * 255);
+            QColor to = QColor(255, 0, 0, (0.66 + .1) * 255);
             for (int i = 0; i < constVariable->numberOfTerms(); ++i) {
-                int r, g, b, a;
-                int degree = ((i + 1.0) / (constVariable->numberOfTerms())) * 255;
-                ColorGradient(degree, r, g, b, a,
-                        from.red(), from.green(), from.blue(), from.alpha(),
-                        to.red(), to.green(), to.blue(), to.alpha());
-                draw(constVariable->getTerm(i), QColor(r, g, b, a));
+                QColor color;
+                if (constVariable->numberOfTerms() == 1) {
+                    color = to;
+                } else {
+                    int r, g, b, a;
+                    int degree = (i / (constVariable->numberOfTerms() - 1.0)) * 255;
+                    ColorGradient(degree, r, g, b, a,
+                            from.red(), from.green(), from.blue(), from.alpha(),
+                            to.red(), to.green(), to.blue(), to.alpha());
+                    color = QColor(r, g, b, a);
+                }
+                draw(constVariable->getTerm(i), color);
             }
 
         }
 
         void Viewer::draw(const fl::Term* term, const QColor& color) {
-            int line_width = 1;
+            int line_width = 2;
             QRect rect = ui->canvas->viewport()->rect();
 
             scalar minimum = constVariable->getMinimum();
@@ -227,7 +240,7 @@ namespace fl {
             static qreal zvalue = INT_MIN; //each figure will be on top.
             item->setZValue(++zvalue);
 
-            drawCentroid(xcentroid, ycentroid);
+            //            drawCentroid(xcentroid, ycentroid);
         }
 
         void Viewer::drawCentroid(scalar xcentroid, scalar ycentroid) {
@@ -263,22 +276,24 @@ namespace fl {
 
         void Viewer::exportToSvg(const std::string& filepath) {
             (void) filepath;
-//            QSvgGenerator svgGen;
-//
-//            svgGen.setFileName(QString::fromStdString(filepath));
-//            svgGen.setSize(ui->canvas->viewport()->size());
-//            svgGen.setViewBox(ui->canvas->viewport()->rect());
-//            svgGen.setTitle("qtfuzzylite");
-//            svgGen.setDescription("A fuzzy logic controller graphic user interface written in Qt");
-//            
-//            /* To paint background white instead of transparent
-//            QBrush background = QBrush(Qt::white);
-//            painter.fillRect(ui->canvas->viewport()->rect(), background);
-//            */
-//            QPainter painter;
-//            painter.begin(&svgGen);
-//            ui->canvas->scene()->render(&painter);
-//            painter.end();
+#ifdef FL_EXPORT_SVG
+            QSvgGenerator svgGen;
+
+            svgGen.setFileName(QString::fromStdString(filepath));
+            svgGen.setSize(ui->canvas->viewport()->size());
+            svgGen.setViewBox(ui->canvas->viewport()->rect());
+            svgGen.setTitle("qtfuzzylite");
+            svgGen.setDescription("A fuzzy logic controller graphic user interface written in Qt");
+
+            /* To paint background white instead of transparent
+            QBrush background = QBrush(Qt::white);
+            painter.fillRect(ui->canvas->viewport()->rect(), background);
+             */
+            QPainter painter;
+            painter.begin(&svgGen);
+            ui->canvas->scene()->render(&painter);
+            painter.end();
+#endif
         }
 
     }

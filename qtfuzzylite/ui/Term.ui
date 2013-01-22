@@ -10,6 +10,12 @@
     <height>489</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>200</width>
+    <height>0</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Term</string>
   </property>
@@ -78,7 +84,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideMiddle</enum>
@@ -119,8 +125,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>233</width>
-             <height>248</height>
+             <width>108</width>
+             <height>123</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -212,8 +218,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>233</width>
-             <height>248</height>
+             <width>108</width>
+             <height>156</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -315,8 +321,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>233</width>
-             <height>248</height>
+             <width>128</width>
+             <height>90</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -539,12 +545,6 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize">
-           <size>
-            <width>225</width>
-            <height>0</height>
-           </size>
-          </property>
           <property name="autoFillBackground">
            <bool>true</bool>
           </property>
@@ -556,8 +556,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>233</width>
-             <height>186</height>
+             <width>138</width>
+             <height>90</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -636,8 +636,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>233</width>
-             <height>186</height>
+             <width>146</width>
+             <height>156</height>
             </rect>
            </property>
            <attribute name="label">
@@ -724,8 +724,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>233</width>
-             <height>186</height>
+             <width>144</width>
+             <height>123</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -814,8 +814,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>233</width>
-             <height>186</height>
+             <width>136</width>
+             <height>156</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -914,8 +914,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>233</width>
-             <height>186</height>
+             <width>142</width>
+             <height>156</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1226,8 +1226,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>233</width>
-             <height>248</height>
+             <width>137</width>
+             <height>90</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1318,8 +1318,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>233</width>
-             <height>248</height>
+             <width>132</width>
+             <height>90</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1398,8 +1398,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>233</width>
-             <height>248</height>
+             <width>132</width>
+             <height>96</height>
             </rect>
            </property>
            <property name="sizePolicy">

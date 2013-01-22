@@ -950,7 +950,7 @@ namespace fl {
             "<b>fuzzylite v. " FL_VERSION " (" FL_DATE ")</b><br>"
             "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a><br><br>"
             "Developed by Juan Rada-Vilela &nbsp;"
-            "<a href='mailto:jcrada@gmail.com'>jcrada@gmail.com</a><br><br>"
+            "<a href='mailto:jcrada@gmail.com'>jcrada@fuzzylite.com</a><br><br>"
             "Please consider making a <b>donation</b> to support and further "
             "improve these projects.<br>"
             "<div align='left'><a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HAGFHRMSZVDKN'>"
@@ -962,6 +962,7 @@ namespace fl {
             "<br><br>"
             "... and do not hesitate to provide feedback, feature requests, "
             "custom enhancements, or anything else!"
+            "<a href='http://www.fuzzylite.com'></a>"
             "</span></qt>";
             
 //            QMessageBox about("qtfuzzylite", message, QMessageBox::Information,
