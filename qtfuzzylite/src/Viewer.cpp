@@ -99,7 +99,7 @@ namespace fl {
 
         void Viewer::onPressSlider() {
             ui->sld_x->setCursor(QCursor(Qt::ClosedHandCursor));
-            //exportToSvg("/tmp/qtfuzzylite.svg");
+//            exportToSvg("/tmp/qtfuzzylite.svg");
         }
 
         void Viewer::onReleaseSlider() {
@@ -270,8 +270,11 @@ namespace fl {
 //            svgGen.setViewBox(ui->canvas->viewport()->rect());
 //            svgGen.setTitle("qtfuzzylite");
 //            svgGen.setDescription("A fuzzy logic controller graphic user interface written in Qt");
-//
-//
+//            
+//            /* To paint background white instead of transparent
+//            QBrush background = QBrush(Qt::white);
+//            painter.fillRect(ui->canvas->viewport()->rect(), background);
+//            */
 //            QPainter painter;
 //            painter.begin(&svgGen);
 //            ui->canvas->scene()->render(&painter);
