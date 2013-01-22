@@ -200,7 +200,7 @@ namespace fl {
             std::ostringstream ss;
             ss << std::setprecision(precision) << std::fixed;
             for (std::size_t i = 0; i < x.size(); ++i) {
-                ss << x[i];
+                ss << x.at(i);
                 if (i < x.size() - 1) ss << separator;
             }
             return ss.str();

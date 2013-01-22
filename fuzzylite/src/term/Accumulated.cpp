@@ -28,9 +28,10 @@ namespace fl {
     }
 
     scalar Accumulated::membership(scalar x) const {
+        if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
         scalar mu = 0.0;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
-            mu = _accumulation->compute(mu, _terms[i]->membership(x));
+            mu = _accumulation->compute(mu, _terms.at(i)->membership(x));
         }
         return mu;
     }
@@ -40,7 +41,7 @@ namespace fl {
         ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << className() << " (";
         for (std::size_t i = 0; i < _terms.size(); ++i) {
-            ss << _terms[i]->toString();
+            ss << _terms.at(i)->toString();
             if (i < _terms.size() - 1)
                 ss << ", ";
         }
@@ -81,20 +82,20 @@ namespace fl {
     }
 
     const Term* Accumulated::removeTerm(int index) {
-        const Term* result = this->_terms[index];
+        const Term* result = this->_terms.at(index);
         this->_terms.erase(this->_terms.begin() + index);
         return result;
     }
 
     void Accumulated::clear() {
         for (std::size_t i = 0; i < _terms.size(); ++i) {
-            delete _terms[i];
+            delete _terms.at(i);
         }
         _terms.clear();
     }
 
     const Term* Accumulated::getTerm(int index) const {
-        return this->_terms[index];
+        return this->_terms.at(index);
     }
 
     const std::vector<const Term*>& Accumulated::terms() const {

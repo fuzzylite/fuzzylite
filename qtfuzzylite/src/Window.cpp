@@ -274,7 +274,6 @@ namespace fl {
                         this, SLOT(onInputValueChanged()));
 
             }
-            //            layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
 
             //Rules
             for (int i = 0; i < engine->getRuleBlock(0)->numberOfRules(); ++i) {
@@ -306,7 +305,6 @@ namespace fl {
                 QObject::connect(this, SIGNAL(processOutput()),
                                  control, SLOT(updateOutput()), Qt::QueuedConnection);
             }
-            //            layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
         }
 
         void Window::removeRules() {

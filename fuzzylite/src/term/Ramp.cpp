@@ -6,16 +6,13 @@
  */
 
 #include "fl/term/Ramp.h"
-#include "fl/operator/Operator.h"
 
 namespace fl {
 
     Ramp::Ramp(const std::string& name, scalar start, scalar end)
-    : Term(name), _start(start), _end(end) {
-    }
+    : Term(name), _start(start), _end(end) { }
 
-    Ramp::~Ramp() {
-    }
+    Ramp::~Ramp() { }
 
     std::string Ramp::className() const {
         return "Ramp";
@@ -26,16 +23,18 @@ namespace fl {
     }
 
     scalar Ramp::membership(scalar x) const {
+        if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
+        
         if (Op::isEq(_start, _end)) return 0.0;
 
         if (Op::isLt(_start, _end)) {
-            if (Op::isLt(x, _start)) return 0.0;
-            if (Op::isGt(x, _end)) return 1.0;
+            if (Op::isLE(x, _start)) return 0.0;
+            if (Op::isGE(x, _end)) return 1.0;
             return (x - _start) / (_end - _start);
         } else {
-            if (Op::isLt(x, _start)) return 1.0;
-            if (Op::isGt(x, _end)) return 0.0;
-            return (_end - x) / (_end - _start);
+            if (Op::isGE(x, _start)) return 0.0;
+            if (Op::isLE(x, _end)) return 1.0;
+            return (_start - x) / ( _start - _end);
         }
     }
 

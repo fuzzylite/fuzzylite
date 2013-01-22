@@ -45,13 +45,13 @@ namespace fl {
                     dynamic_cast<const MamdaniProposition*> (node);
             bool isAny = false;
             for (std::size_t i = 0; i < proposition->hedges.size(); ++i) {
-                isAny |= proposition->hedges[i]->name() == Any().name();
+                isAny |= proposition->hedges.at(i)->name() == Any().name();
                 if (isAny) return 1.0;
             }
             InputVariable* inputVariable = dynamic_cast<InputVariable*> (proposition->variable);
             scalar result = proposition->term->membership(inputVariable->getInput());
             for (std::size_t i = 0; i < proposition->hedges.size(); ++i) {
-                result = proposition->hedges[i]->hedge(result);
+                result = proposition->hedges.at(i)->hedge(result);
             }
             return result;
         }

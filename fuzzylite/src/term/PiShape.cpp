@@ -6,7 +6,6 @@
  */
 
 #include "fl/term/PiShape.h"
-#include "fl/operator/Operator.h"
 
 namespace fl {
 
@@ -24,6 +23,7 @@ namespace fl {
     }
 
     scalar PiShape::membership(scalar x) const {
+        if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
         //from Octave smf.m
         scalar a_b_ave = (_bottomLeft + _topLeft) / 2.0;
         scalar b_minus_a = _topLeft - _bottomLeft;

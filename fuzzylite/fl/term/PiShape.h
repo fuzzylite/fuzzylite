@@ -7,6 +7,7 @@
 
 #ifndef FL_PISHAPE_H
 #define	FL_PISHAPE_H
+
 #include "fl/term/Term.h"
 
 namespace fl {

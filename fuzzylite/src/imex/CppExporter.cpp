@@ -116,7 +116,7 @@ namespace fl {
             const Discrete* x = dynamic_cast<const Discrete*> (term);
             ss << x->x.size() + x->y.size() << ",";
             for (std::size_t i = 0; i < x->x.size(); ++i) {
-                ss << fl::Op::str(x->x[i]) << "," << fl::Op::str(x->y[i]);
+                ss << fl::Op::str(x->x.at(i)) << "," << fl::Op::str(x->y.at(i));
                 if (i < x->x.size() - 1) ss << ",";
             }
             ss << ")";
@@ -174,16 +174,14 @@ namespace fl {
 
         if (term->className() == SigmoidDifference().className()) {
             const SigmoidDifference* x = dynamic_cast<const SigmoidDifference*> (term);
-            scalar params[] = {x->getLeft(), x->getRising(),
-                x->getFalling(), x->getRight()};
+            scalar params[] = {x->getLeft(), x->getRising(), x->getFalling(), x->getRight()};
             ss << fl::Op::str(4, params) << ")";
             return ss.str();
         }
 
         if (term->className() == SigmoidProduct().className()) {
             const SigmoidProduct* x = dynamic_cast<const SigmoidProduct*> (term);
-            scalar params[] = {x->getLeft(), x->getRising(),
-                x->getFalling(), x->getRight()};
+            scalar params[] = {x->getLeft(), x->getRising(), x->getFalling(), x->getRight()};
             ss << fl::Op::str(4, params) << ")";
             return ss.str();
         }

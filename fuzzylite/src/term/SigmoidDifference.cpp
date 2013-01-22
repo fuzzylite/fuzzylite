@@ -7,8 +7,6 @@
 
 #include "fl/term/SigmoidDifference.h"
 
-#include "fl/operator/Operator.h"
-
 #include <cmath>
 #include <sstream>
 namespace fl {
@@ -27,6 +25,8 @@ namespace fl {
     }
 
     scalar SigmoidDifference::membership(scalar x) const {
+        if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
+        
         scalar a = 1.0 / (1 + std::exp(-_rising * (x - _left)));
         scalar b = 1.0 / (1 + std::exp(-_falling * (x - _right)));
         return std::abs(a - b);

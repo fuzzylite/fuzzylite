@@ -25,7 +25,6 @@ public:
             return QApplication::notify(receiver, event);
         } catch (std::exception& ex) {
             QString error = QString::fromUtf8(ex.what());
-
             QMessageBox::critical(NULL, "Internal Error",
                     "<qt><b>qtfuzzylite</b> has experienced an internal error and will exit.<br><br>"
                     "Please report this error at:<br><br><a href='http://code.google.com/p/fuzzylite/issues/'>"
@@ -38,6 +37,7 @@ public:
                     Qt::escape(error) + "</qt>",
                     QMessageBox::Ok);
             QApplication::quit();
+            throw ex;
         } 
         return false;
     }
@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
                 "Error message:<br><br> " +
                 Qt::escape(error) + "</qt>",
                 QMessageBox::Ok);
+        throw ex;
     }
-    return 1;
 }
 

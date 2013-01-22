@@ -7,8 +7,6 @@
 
 #include "fl/term/Triangle.h"
 
-#include "fl/operator/Operator.h"
-
 #include <sstream>
 
 namespace fl {
@@ -29,6 +27,8 @@ namespace fl {
     }
 
     scalar Triangle::membership(scalar x) const {
+        if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
+        
         scalar minimum = _a;
         scalar maximum = _c;
         if (Op::isLE(x, minimum) or Op::isGE(x, maximum))

@@ -12,6 +12,8 @@
 
 #include "fl/config.h"
 
+#include "fl/operator/Operator.h"
+
 #include <string>
 #include <limits>
 #include <iomanip>

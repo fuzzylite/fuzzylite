@@ -36,13 +36,13 @@ namespace fl {
         std::istringstream fisReader(fis);
         std::string line;
         int lineNumber = 0;
-
+        
         std::vector<std::string> sections;
         while (std::getline(fisReader, line)) {
             ++lineNumber;
             line = Op::trim(line);
             line = fl::Op::findReplace(line, "'", "");
-            if (line.empty() or line[0] == '#' or line[0] == '%')
+            if (line.empty() or line.at(0) == '#' or line.at(0) == '%')
                 continue;
 
             if ("[System]" == line.substr(0, std::string("[System]").size())
@@ -55,25 +55,25 @@ namespace fl {
                     FL_LOG("[importer warning] ignoring line because it does not "
                             "belong to any section: " << line);
                 } else {
-                    sections[sections.size() - 1] += "\n" + line;
+                    sections.at(sections.size() - 1) += "\n" + line;
                 }
             }
         }
         std::string andMethod, orMethod, impMethod, aggMethod, defuzzMethod;
         try {
             for (std::size_t i = 0; i < sections.size(); ++i) {
-                if ("[System]" == sections[i].substr(0, std::string("[System]").size()))
-                    importSystem(sections[i], engine,
+                if ("[System]" == sections.at(i).substr(0, std::string("[System]").size()))
+                    importSystem(sections.at(i), engine,
                         andMethod, orMethod, impMethod, aggMethod, defuzzMethod);
-                else if ("[Input" == sections[i].substr(0, std::string("[Input").size()))
-                    importInput(sections[i], engine);
-                else if ("[Output" == sections[i].substr(0, std::string("[Output").size()))
-                    importOutput(sections[i], engine);
-                else if ("[Rules]" == sections[i].substr(0, std::string("[Rules]").size()))
-                    importRules(sections[i], engine);
+                else if ("[Input" == sections.at(i).substr(0, std::string("[Input").size()))
+                    importInput(sections.at(i), engine);
+                else if ("[Output" == sections.at(i).substr(0, std::string("[Output").size()))
+                    importOutput(sections.at(i), engine);
+                else if ("[Rules]" == sections.at(i).substr(0, std::string("[Rules]").size()))
+                    importRules(sections.at(i), engine);
                 else
                     throw fl::Exception("[internal error] unable to parse section: "
-                        + sections[i], FL_AT);
+                        + sections.at(i), FL_AT);
             }
             engine->configure(flTnorm(andMethod), flSnorm(orMethod),
                     flTnorm(impMethod), flSnorm(aggMethod),
@@ -98,8 +98,8 @@ namespace fl {
             if (keyValue.size() != 2)
                 throw fl::Exception("[syntax error] expected a property of type "
                     "'key=value', but found < " + line + ">", FL_AT);
-            std::string key = fl::Op::trim(keyValue[0]);
-            std::string value = fl::Op::trim(keyValue[1]);
+            std::string key = fl::Op::trim(keyValue.at(0));
+            std::string value = fl::Op::trim(keyValue.at(1));
 
             if (key == "Name") engine->setName(value);
             else if (key == "Type") {
@@ -130,8 +130,8 @@ namespace fl {
             if (keyValue.size() != 2)
                 throw fl::Exception("[syntax error] expected a property of type "
                     "'key=value', but found < " + line + ">", FL_AT);
-            std::string key = fl::Op::trim(keyValue[0]);
-            std::string value = fl::Op::trim(keyValue[1]);
+            std::string key = fl::Op::trim(keyValue.at(0));
+            std::string value = fl::Op::trim(keyValue.at(1));
 
             if (key == "Name") input->setName(value);
             else if (key == "Range") {
@@ -161,8 +161,8 @@ namespace fl {
             if (keyValue.size() != 2)
                 throw fl::Exception("[syntax error] expected a property of type "
                     "'key=value', but found < " + line + ">", FL_AT);
-            std::string key = fl::Op::trim(keyValue[0]);
-            std::string value = fl::Op::trim(keyValue[1]);
+            std::string key = fl::Op::trim(keyValue.at(0));
+            std::string value = fl::Op::trim(keyValue.at(1));
 
             if (key == "Name") output->setName(value);
             else if (key == "Range") {
@@ -196,16 +196,16 @@ namespace fl {
                 throw fl::Exception("[syntax error] expected rule to match pattern "
                     "<'i '+, 'o '+ (w) : '1|2'>, but found instead <" + line + ">", FL_AT);
 
-            std::vector <std::string> outputsAndRest = fl::Op::split(inputsAndRest[1], ":");
+            std::vector <std::string> outputsAndRest = fl::Op::split(inputsAndRest.at(1), ":");
             if (outputsAndRest.size() != 2)
                 throw fl::Exception("[syntax error] expected rule to match pattern "
                     "<'i '+, 'o '+ (w) : '1|2'>, but found instead <" + line + ">", FL_AT);
 
-            std::vector<std::string> inputs = fl::Op::split(inputsAndRest[0], " ");
-            std::vector<std::string> outputs = fl::Op::split(outputsAndRest[0], " ");
-            std::string weightInParenthesis = outputs[outputs.size() - 1];
+            std::vector<std::string> inputs = fl::Op::split(inputsAndRest.at(0), " ");
+            std::vector<std::string> outputs = fl::Op::split(outputsAndRest.at(0), " ");
+            std::string weightInParenthesis = outputs.at(outputs.size() - 1);
             outputs.erase(outputs.begin() + outputs.size() - 1);
-            std::string connector = fl::Op::trim(outputsAndRest[1]);
+            std::string connector = fl::Op::trim(outputsAndRest.at(1));
 
             if ((int) inputs.size() != engine->numberOfInputVariables())
                 throw fl::Exception("[syntax error] missing input variables in rule <"
@@ -219,7 +219,7 @@ namespace fl {
 
             for (std::size_t i = 0; i < inputs.size(); ++i) {
                 std::ostringstream ss;
-                scalar inputCode = fl::Op::toScalar(inputs[i]);
+                scalar inputCode = fl::Op::toScalar(inputs.at(i));
                 if (fl::Op::isEq(inputCode, 0.0)) continue;
                 ss << engine->getInputVariable(i)->getName() << " "
                         << fl::Rule::FL_IS << " "
@@ -229,7 +229,7 @@ namespace fl {
 
             for (std::size_t i = 0; i < outputs.size(); ++i) {
                 std::ostringstream ss;
-                scalar outputCode = fl::Op::toScalar(outputs[i]);
+                scalar outputCode = fl::Op::toScalar(outputs.at(i));
                 if (fl::Op::isEq(outputCode, 0.0)) continue;
                 ss << engine->getOutputVariable(i)->getName() << " "
                         << fl::Rule::FL_IS << " "
@@ -241,7 +241,7 @@ namespace fl {
 
             rule << fl::Rule::FL_IF << " ";
             for (std::size_t i = 0; i < antecedent.size(); ++i) {
-                rule << antecedent[i];
+                rule << antecedent.at(i);
                 if (i < antecedent.size() - 1) {
                     rule << " ";
                     if (connector == "1") rule << fl::Rule::FL_AND << " ";
@@ -253,7 +253,7 @@ namespace fl {
 
             rule << " " << fl::Rule::FL_THEN << " ";
             for (std::size_t i = 0; i < consequent.size(); ++i) {
-                rule << consequent[i];
+                rule << consequent.at(i);
                 if (i < consequent.size() - 1) {
                     rule << " " << fl::Rule::FL_AND << " ";
                 }
@@ -261,10 +261,10 @@ namespace fl {
 
             std::ostringstream ss;
             for (std::size_t i = 0; i < weightInParenthesis.size(); ++i) {
-                if (weightInParenthesis[i] == '('
-                        or weightInParenthesis[i] == ')'
-                        or weightInParenthesis[i] == ' ') continue;
-                ss << weightInParenthesis[i];
+                if (weightInParenthesis.at(i) == '('
+                        or weightInParenthesis.at(i) == ')'
+                        or weightInParenthesis.at(i) == ' ') continue;
+                ss << weightInParenthesis.at(i);
             }
 
             scalar weight = fl::Op::toScalar(ss.str());
@@ -336,8 +336,8 @@ namespace fl {
     Term * FisImporter::extractTerm(const std::string & fis) const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < fis.size(); ++i) {
-            if (not (fis[i] == '[' or fis[i] == ']')) {
-                ss << fis[i];
+            if (not (fis.at(i) == '[' or fis.at(i) == ']')) {
+                ss << fis.at(i);
             }
         }
         std::string line = ss.str();
@@ -347,19 +347,19 @@ namespace fl {
             throw fl::Exception("[syntax error] expected term in format 'name':'class',[params], "
                     "but found " + line, FL_AT);
         }
-        std::vector<std::string> termParams = fl::Op::split(nameTerm[1], ",");
+        std::vector<std::string> termParams = fl::Op::split(nameTerm.at(1), ",");
         if (termParams.size() != 2) {
             throw fl::Exception("[syntax error] expected term in format 'name':'class',[params], "
                     "but found " + line, FL_AT);
         }
 
-        std::vector<std::string> strParams = fl::Op::split(termParams[1], " ");
+        std::vector<std::string> strParams = fl::Op::split(termParams.at(1), " ");
         std::vector<scalar> params;
         for (std::size_t i = 0; i < strParams.size(); ++i) {
-            params.push_back(fl::Op::toScalar(strParams[i]));
+            params.push_back(fl::Op::toScalar(strParams.at(i)));
         }
 
-        return createInstance(termParams[0], nameTerm[0], params);
+        return createInstance(termParams.at(0), nameTerm.at(0), params);
     }
 
     Term * FisImporter::createInstance(const std::string& mClass,
@@ -427,8 +427,8 @@ namespace fl {
         if (parts.size() != 2)
             throw fl::Exception("[syntax error] expected range in format '[begin end]',"
                 " but found <" + range + ">", FL_AT);
-        std::string begin = parts[0], end = parts[1];
-        if (begin[0] != '[' or end[end.size() - 1] != ']')
+        std::string begin = parts.at(0), end = parts.at(1);
+        if (begin.at(0) != '[' or end.at(end.size() - 1) != ']')
             throw fl::Exception("[syntax error] expected range in format '[begin end]',"
                 " but found <" + range + ">", FL_AT);
         minimum = fl::Op::toScalar(begin.substr(1));

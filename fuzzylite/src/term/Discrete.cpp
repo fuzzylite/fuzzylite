@@ -7,8 +7,6 @@
 
 #include "fl/term/Discrete.h"
 
-#include "fl/operator/Operator.h"
-
 #include <sstream>
 #include <cstdarg>
 namespace fl {
@@ -43,8 +41,8 @@ namespace fl {
             const std::vector<std::pair<scalar, scalar> >& xy)
     : Term(name) {
         for (std::size_t i = 0; i < xy.size(); ++i) {
-            x.push_back(xy[i].first);
-            y.push_back(xy[i].second);
+            x.push_back(xy.at(i).first);
+            y.push_back(xy.at(i).second);
         }
     }
 
@@ -58,26 +56,45 @@ namespace fl {
         return new Discrete(*this);
     }
 
-    scalar Discrete::membership(scalar mu) const {
-        scalar lowerApprox = -std::numeric_limits<scalar>::infinity();
+    scalar Discrete::membership(scalar _x_) const {
+        if (fl::Op::isNan(_x_)) return std::numeric_limits<scalar>::quiet_NaN();
+        if (x.empty() or y.empty()) return 0.0;
+        if (x.size() != y.size()) {
+            std::ostringstream ex;
+            ex << "[term error] discrete term has vectors x["
+                    << x.size() << "] and y[" << y.size() << "] with different sizes";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        
+        /*                ______________________
+         *               /                      \
+         *              /                        \
+         * ____________/                          \____________
+         *            x[0]                      x[n-1]
+         */
+        
+        
+        if (fl::Op::isLE(_x_, x.at(0))) return y.at(0);
+        if (fl::Op::isGE(_x_, x.at(x.size() - 1))) return y.at(y.size() - 1);
+        
         int lower = -1, upper = -1;
-
+        
         for (std::size_t i = 0; i < x.size(); ++i) {
-            if (Op::isEq(x[i], mu)) return y[i];
+            if (Op::isEq(x.at(i), _x_)) return y.at(i);
             //approximate on the left
-            if (Op::isLt(x[i], mu) and Op::isGt(x[i], lowerApprox)) {
-                lowerApprox = x[i];
+            if (Op::isLt(x.at(i), _x_)) {
                 lower = i;
             }
             //get the immediate next one on the right
-            if (Op::isGt(x[i], mu)) {
+            if (Op::isGt(x.at(i), _x_)) {
                 upper = i;
                 break;
             }
         }
-        if (fl::Op::isLt(mu, x[lower])) return y[lower];
-        if (fl::Op::isGt(mu, x[upper])) return y[upper];
-        return Op::scale(mu, x[lower], x[upper], y[lower], y[upper]);
+        if (upper < 0) upper = x.size() - 1;
+        if (lower < 0) lower = 0;
+
+        return Op::scale(_x_, x.at(lower), x.at(upper), y.at(lower), y.at(upper));
     }
 
     std::string Discrete::toString() const {
@@ -85,7 +102,7 @@ namespace fl {
         ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << className() << " (";
         for (std::size_t i = 0; i < x.size(); ++i) {
-            ss << x[i] << " " << y[i];
+            ss << x.at(i) << " " << y.at(i);
             if (i < x.size() - 1) ss << ", ";
         }
         ss << ")";

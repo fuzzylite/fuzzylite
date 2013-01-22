@@ -7,8 +7,6 @@
 
 #include "fl/term/Trapezoid.h"
 
-#include "fl/operator/Operator.h"
-
 #include <sstream>
 
 namespace fl {
@@ -30,6 +28,8 @@ namespace fl {
     }
 
     scalar Trapezoid::membership(scalar x) const {
+        if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
+        
         scalar minimum = _a;
         scalar maximum = _d;
         if (Op::isLE(x, minimum) or Op::isGE(x, maximum))

@@ -51,7 +51,7 @@ namespace fl {
             _basicTerms.push_back(new Triangle("", min, average, max));
             _basicTerms.push_back(new Trapezoid("", min, min + .25 * diff,
                     min + .75 * diff, max));
-            _basicTerms.push_back(new Rectangle("", min + .25 * diff, min + .75 * max));
+            _basicTerms.push_back(new Rectangle("", min + .25 * diff, min + .75 * diff));
 
             std::vector<std::pair<scalar, scalar> > xy;
             xy.push_back(std::make_pair(min, 0));

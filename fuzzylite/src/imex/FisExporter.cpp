@@ -171,7 +171,7 @@ namespace fl {
 
         bool equalOperators = true;
         for (int i = 0; i < (int) operators.size() - 1; ++i) {
-            if (operators[i]->name != operators[i + 1]->name) {
+            if (operators.at(i)->name != operators.at(i + 1)->name) {
                 equalOperators = false;
                 break;
             }
@@ -193,9 +193,9 @@ namespace fl {
         fis << "(" << rule->getWeight() << ") : ";
         if (operators.size() == 0) fis << "1"; //does not matter
         else {
-            if (operators[0]->name == Rule::FL_AND) fis << "1";
-            else if (operators[0]->name == Rule::FL_OR) fis << "2";
-            else fis << operators[0]->name;
+            if (operators.at(0)->name == Rule::FL_AND) fis << "1";
+            else if (operators.at(0)->name == Rule::FL_OR) fis << "2";
+            else fis << operators.at(0)->name;
         }
         return fis.str();
     }
@@ -204,12 +204,12 @@ namespace fl {
             const std::vector<Variable*> variables) const {
         std::ostringstream ss;
         for (std::size_t ixVariable = 0; ixVariable < variables.size(); ++ixVariable) {
-            Variable* variable = variables[ixVariable];
+            Variable* variable = variables.at(ixVariable);
             int termIndexPlusOne = 0;
             scalar plusHedge = 0;
             scalar negated = 1;
             for (std::size_t ixProposition = 0; ixProposition < propositions.size(); ++ixProposition) {
-                MamdaniProposition* proposition = propositions[ixProposition];
+                MamdaniProposition* proposition = propositions.at(ixProposition);
                 if (proposition->variable != variable) continue;
 
                 for (int termIndex = 0; termIndex < variable->numberOfTerms(); ++termIndex) {
@@ -225,7 +225,7 @@ namespace fl {
                     FL_LOG("[export warning] only a few combinations of multiple hedges are supported");
                 }
                 for (std::size_t ixHedge = 0; ixHedge < hedges.size(); ++ixHedge) {
-                    Hedge* hedge = hedges[ixHedge];
+                    Hedge* hedge = hedges.at(ixHedge);
                     if (hedge->name() == Not().name()) negated *= -1;
                     else if (hedge->name() == Somewhat().name()) plusHedge += 5;
                     else if (hedge->name() == Extremely().name()) plusHedge += 3;
@@ -291,7 +291,7 @@ namespace fl {
             ss << "'discretemf',[";
             const Discrete* x = dynamic_cast<const Discrete*> (term);
             for (std::size_t i = 0; i < x->x.size(); ++i) {
-                ss << x->x[i] << " " << x->y[i];
+                ss << x->x.at(i) << " " << x->y.at(i);
                 if (i < x->x.size() - 1) ss << " ";
             }
             ss << "]";
@@ -349,16 +349,14 @@ namespace fl {
 
         if (term->className() == SigmoidDifference().className()) {
             const SigmoidDifference* x = dynamic_cast<const SigmoidDifference*> (term);
-            scalar params[] = {x->getRising(), x->getLeft(),
-                x->getFalling(), x->getRight()};
+            scalar params[] = {x->getRising(), x->getLeft(), x->getFalling(), x->getRight()};
             ss << "'dsigmf',[" << fl::Op::str(4, params, " ") << "]";
             return ss.str();
         }
 
         if (term->className() == SigmoidProduct().className()) {
             const SigmoidProduct* x = dynamic_cast<const SigmoidProduct*> (term);
-            scalar params[] = {x->getRising(), x->getLeft(),
-                x->getFalling(), x->getRight()};
+            scalar params[] = {x->getRising(), x->getLeft(), x->getFalling(), x->getRight()};
             ss << "'psigmf',[" << fl::Op::str(4, params, " ") << "]";
             return ss.str();
         }

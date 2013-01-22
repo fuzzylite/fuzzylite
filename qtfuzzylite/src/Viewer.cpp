@@ -42,12 +42,12 @@ namespace fl {
             ui->canvas->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->sbx_x->setFocus();
             ui->lbl_fuzzy_out->setVisible(false);
-            
+
             QFont smallFont = ui->lbl_fuzzy->font();
             smallFont.setPointSize(smallFont.pointSize() - 3);
             ui->lbl_fuzzy->setFont(smallFont);
             ui->lbl_fuzzy_out->setFont(smallFont);
-            
+
             connect();
         }
 
@@ -99,7 +99,7 @@ namespace fl {
 
         void Viewer::onPressSlider() {
             ui->sld_x->setCursor(QCursor(Qt::ClosedHandCursor));
-            //            exportToSvg("/tmp/qtfuzzylite.svg");
+            //exportToSvg("/tmp/qtfuzzylite.svg");
         }
 
         void Viewer::onReleaseSlider() {
@@ -147,12 +147,7 @@ namespace fl {
             ui->lbl_max->setText(QString::number(constVariable->getMaximum(), 'f', 2));
 
             QString fuzzify = QString::fromStdString(constVariable->fuzzify(x));
-//            for (int i = 0; i < constVariable->numberOfTerms(); ++i) {
-//                fuzzify += QString::number(constVariable->getTerm(i)->membership(x), 'f', 2)
-//                        + "/" + QString::fromStdString(constVariable->getTerm(i)->getName());
-//
-//                if (i < constVariable->numberOfTerms() - 1) fuzzify += " + ";
-//            }
+
             ui->lbl_fuzzy->setText("&#956;=" + fuzzify);
             ui->lbl_name->setText(QString::fromStdString(constVariable->getName()));
             if (constVariable->getName().empty())
@@ -214,8 +209,6 @@ namespace fl {
 
                 scalar y = fl::Op::scale(ySamples[j], 0, 1, rect.bottom(), rect.top());
 
-                //            FL_LOG("(" << xSamples[j] << ", " << ySamples[j] << ")"
-                //                    << "->(" << x << ", " << y << ")");
                 polygon.append(QPoint(x, y));
             }
             scalar end = fl::Op::scale(xSamples[xSamples.size() - 1],
@@ -270,21 +263,19 @@ namespace fl {
 
         void Viewer::exportToSvg(const std::string& filepath) {
             (void) filepath;
-            //            QSvgGenerator svgGen;
-            //
-            //            svgGen.setFileName(QString::fromStdString(filepath));
-            //            svgGen.setSize(ui->canvas->viewport()->size());
-            //            svgGen.setViewBox(ui->canvas->viewport()->rect());
-            //            svgGen.setTitle("qtfuzzylite");
-            //            svgGen.setDescription("A fuzzy logic controller graphic user interface written in Qt");
-            //
-            //
-            //            QPainter painter;
-            //            painter.begin(&svgGen);
-            //            //            QBrush background = QBrush(Qt::white);
-            //            //            painter.fillRect(ui->canvas->viewport()->rect(), background);
-            //            ui->canvas->scene()->render(&painter);
-            //            painter.end();
+//            QSvgGenerator svgGen;
+//
+//            svgGen.setFileName(QString::fromStdString(filepath));
+//            svgGen.setSize(ui->canvas->viewport()->size());
+//            svgGen.setViewBox(ui->canvas->viewport()->rect());
+//            svgGen.setTitle("qtfuzzylite");
+//            svgGen.setDescription("A fuzzy logic controller graphic user interface written in Qt");
+//
+//
+//            QPainter painter;
+//            painter.begin(&svgGen);
+//            ui->canvas->scene()->render(&painter);
+//            painter.end();
         }
 
     }

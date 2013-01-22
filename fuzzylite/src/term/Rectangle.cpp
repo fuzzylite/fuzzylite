@@ -7,8 +7,6 @@
 
 #include "fl/term/Rectangle.h"
 
-#include "fl/operator/Operator.h"
-
 #include <sstream>
 
 namespace fl {
@@ -28,7 +26,8 @@ namespace fl {
     }
 
     scalar Rectangle::membership(scalar x) const {
-        if (Op::isLt(x, _minimum) or Op::isGt(x, _maximum))
+        if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
+        if (fl::Op::isLt(x, _minimum) or fl::Op::isGt(x, _maximum))
             return 0.0;
         return 1.0;
     }

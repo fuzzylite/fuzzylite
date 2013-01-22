@@ -25,7 +25,7 @@ namespace fl {
 
     MamdaniConsequent::~MamdaniConsequent() {
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
-            delete _conclusions[i];
+            delete _conclusions.at(i);
         }
     }
 
@@ -35,12 +35,12 @@ namespace fl {
     
     void MamdaniConsequent::fire(scalar strength, const TNorm* activation) {
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
-            MamdaniProposition* proposition = _conclusions[i];
+            MamdaniProposition* proposition = _conclusions.at(i);
             scalar threshold = strength;
             for (std::size_t h = 0; h < proposition->hedges.size(); ++h) {
-                threshold = proposition->hedges[h]->hedge(threshold);
+                threshold = proposition->hedges.at(h)->hedge(threshold);
             }
-            Thresholded* term = new Thresholded(_conclusions[i]->term);
+            Thresholded* term = new Thresholded(_conclusions.at(i)->term);
             term->setThreshold(threshold);
             term->setActivation(activation);
             OutputVariable* outputVariable = dynamic_cast<OutputVariable*>(proposition->variable);
@@ -152,7 +152,7 @@ namespace fl {
     std::string MamdaniConsequent::toString() const {
         std::stringstream ss;
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
-            ss << _conclusions[i]->toString();
+            ss << _conclusions.at(i)->toString();
             if (i < _conclusions.size() - 1)
                 ss << " " << Rule::FL_AND << " ";
         }

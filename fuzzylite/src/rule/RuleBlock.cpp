@@ -21,7 +21,7 @@ namespace fl {
 
     RuleBlock::~RuleBlock() {
         for (std::size_t i = 0; i < _rules.size(); ++i) {
-            delete _rules[i];
+            delete _rules.at(i);
         }
     }
 
@@ -29,10 +29,10 @@ namespace fl {
         FL_DBG("===================");
         FL_DBG("FIRING RULEBLOCK " << _name);
         for (std::size_t i = 0; i < _rules.size(); ++i) {
-            scalar strength = _rules[i]->firingStrength(_tnorm, _snorm);
-            FL_DBG(_rules[i]->toString() << " [strength=" << strength << "]");
+            scalar strength = _rules.at(i)->firingStrength(_tnorm, _snorm);
+            FL_DBG(_rules.at(i)->toString() << " [strength=" << strength << "]");
             if (Op::isGt(strength, 0.0)) {
-                _rules[i]->fire(strength, _activation);
+                _rules.at(i)->fire(strength, _activation);
             }
         }
     }
@@ -94,11 +94,11 @@ namespace fl {
     }
 
     Rule* RuleBlock::getRule(int index) const {
-        return this->_rules[index];
+        return this->_rules.at(index);
     }
 
     Rule* RuleBlock::removeRule(int index) {
-        Rule* result = this->_rules[index];
+        Rule* result = this->_rules.at(index);
         this->_rules.erase(this->_rules.begin() + index);
         return result;
     }

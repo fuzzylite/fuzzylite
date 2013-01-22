@@ -159,8 +159,8 @@ namespace fl {
             const Discrete* discrete = dynamic_cast<const Discrete*> (term);
             std::ostringstream ss;
             for (std::size_t i = 0; i < discrete->x.size(); ++i) {
-                ss << "(" << fl::Op::str(discrete->x[i]) << ", "
-                        << fl::Op::str(discrete->y[i]) << ")";
+                ss << "(" << fl::Op::str(discrete->x.at(i)) << ", "
+                        << fl::Op::str(discrete->y.at(i)) << ")";
                 if (i < discrete->x.size() - 1) ss << " ";
             }
             return ss.str();

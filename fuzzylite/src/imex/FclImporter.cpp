@@ -48,7 +48,7 @@ namespace fl {
             while (std::getline(fclReader, line)) {
                 ++lineNumber;
                 line = Op::trim(line);
-                if (line.empty() or line[0] == '#')
+                if (line.empty() or line.at(0) == '#')
                     continue;
 
                 std::istringstream tokenizer(line);
@@ -146,7 +146,7 @@ namespace fl {
                 ex << "[syntax error] expected property of type (key : value) in line: " << line;
                 throw fl::Exception(ex.str(), FL_AT);
             }
-            std::string name = Op::trim(token[0]);
+            std::string name = Op::trim(token.at(0));
             if (tag == "VAR_INPUT")
                 engine->addInputVariable(new InputVariable(name));
             else if (tag == "VAR_OUTPUT")
@@ -294,7 +294,7 @@ namespace fl {
                     << line;
             throw fl::Exception(ex.str(), FL_AT);
         }
-        std::string name = Op::findReplace(Op::trim(token[1]), ";", "");
+        std::string name = Op::findReplace(Op::trim(token.at(1)), ";", "");
         std::string className = name;
         if (name == "MIN") className = Minimum().className();
         else if (name == "PROD") className = AlgebraicProduct().className();
@@ -320,7 +320,7 @@ namespace fl {
                     << line;
             throw fl::Exception(ex.str(), FL_AT);
         }
-        std::string name = Op::findReplace(Op::trim(token[1]), ";", "");
+        std::string name = Op::findReplace(Op::trim(token.at(1)), ";", "");
         std::string className = name;
         if (name == "MAX") className = Maximum().className();
         else if (name == "ASUM") className = AlgebraicSum().className();
@@ -342,14 +342,14 @@ namespace fl {
     Term* FclImporter::extractTerm(const std::string& line) const {
         std::ostringstream spacer;
         for (std::size_t i = 0; i < line.size(); ++i) {
-            if (line[i] == '(' or line[i] == ')' or line[i] == ',') {
-                spacer << " " << line[i] << " ";
-            } else if (line[i] == ':') {
+            if (line.at(i) == '(' or line.at(i) == ')' or line.at(i) == ',') {
+                spacer << " " << line.at(i) << " ";
+            } else if (line.at(i) == ':') {
                 spacer << " :";
-            } else if (line[i] == '=') {
+            } else if (line.at(i) == '=') {
                 spacer << "= ";
             } else
-                spacer << line[i];
+                spacer << line.at(i);
         }
         std::string spacedLine = spacer.str();
 
@@ -396,6 +396,8 @@ namespace fl {
                 parameters.push_back(parameter);
             }
         }
+        if (state <= S_ASSIGN) 
+            throw fl::Exception("[syntax error] malformed term in line: " + line, FL_AT);
         try {
             if (termClass.empty()) termClass = Discrete().className();
             Term* result = Factory::instance()->term()->create(termClass, parameters);
@@ -416,7 +418,7 @@ namespace fl {
             throw fl::Exception(ex.str(), FL_AT);
         }
 
-        std::string name = Op::trim(Op::findReplace(token[1], ";", ""));
+        std::string name = Op::trim(Op::findReplace(token.at(1), ";", ""));
         std::string className = name;
         if (name == "COG") className = Centroid().className();
         if (name == "SOM") className = SmallestOfMaximum().className();
@@ -441,16 +443,16 @@ namespace fl {
             throw fl::Exception(ex.str(), FL_AT);
         }
 
-        std::string defaultValue = Op::findReplace(token[1], " ", "");
+        std::string defaultValue = Op::findReplace(token.at(1), " ", "");
         token = Op::split(defaultValue, "|");
 
         scalar value;
         try {
-            value = Op::toScalar(token[0]);
+            value = Op::toScalar(token.at(0));
         } catch (...) {
             std::ostringstream ex;
             ex << "[syntax error] expected numeric value, "
-                    << "but found <" << token[0] << "> in line: "
+                    << "but found <" << token.at(0) << "> in line: "
                     << line;
             throw fl::Exception(ex.str(), FL_AT);
         }
@@ -458,7 +460,7 @@ namespace fl {
         lockDefuzzifiedValue = false;
 
         if (token.size() == 2) {
-            std::string noChangeFlag = Op::findReplace(Op::trim(token[1]), ";", "");
+            std::string noChangeFlag = Op::findReplace(Op::trim(token.at(1)), ";", "");
             if (noChangeFlag == "NC")
                 lockDefuzzifiedValue = true;
             else {
@@ -479,10 +481,12 @@ namespace fl {
                     << line;
             throw fl::Exception(ex.str(), FL_AT);
         }
-
+        
+        std::string rangeToken = token.at(1);
+        
         std::ostringstream range;
-        for (std::size_t i = 0; i < token[1].size(); ++i) {
-            char character = token[1][i];
+        for (std::size_t i = 0; i < rangeToken.size(); ++i) {
+            char character = rangeToken.at(i);
             if (character == '(' or character == ')' or character == ' ' or character == ';')
                 continue;
             range << character;
@@ -496,131 +500,23 @@ namespace fl {
         }
 
         try {
-            minimum = Op::toScalar(token[0]);
+            minimum = Op::toScalar(token.at(0));
         } catch (...) {
             std::ostringstream ex;
-            ex << "[syntax error] expected numeric value, but found <" << token[0] << "> in "
+            ex << "[syntax error] expected numeric value, but found <" << token.at(0) << "> in "
                     << "line: " << line;
             throw fl::Exception(ex.str(), FL_AT);
         }
         try {
-            maximum = Op::toScalar(token[1]);
+            maximum = Op::toScalar(token.at(1));
         } catch (...) {
             std::ostringstream ex;
-            ex << "[syntax error] expected numeric value, but found <" << token[1] << "> in "
+            ex << "[syntax error] expected numeric value, but found <" << token.at(1) << "> in "
                     << "line: " << line;
             throw fl::Exception(ex.str(), FL_AT);
         }
 
     }
-
-    //    Term* FclImporter::createInstance(const std::string& termClass,
-    //            const std::string& name, const std::vector<scalar>& params) const {
-    //        int requiredParams = 0;
-    //
-    //        if (termClass.empty() or termClass == Discrete().className()) {
-    //            if (params.size() % 2 == 0) {
-    //                Discrete* term = new Discrete(name);
-    //                for (std::size_t i = 0; i < params.size() - 1; i += 2) {
-    //                    term->x.push_back(params[i]);
-    //                    term->y.push_back(params[i + 1]);
-    //                }
-    //                return term;
-    //            } else {
-    //                std::ostringstream ex;
-    //                ex << "[syntax error] a discrete term requires an even list of values, "
-    //                        "but found <" << params.size() << "> values";
-    //                throw fl::Exception(ex.str(), FL_AT);
-    //            }
-    //        }
-    //
-    //        if (termClass == Bell().className()) {
-    //            if (params.size() == (requiredParams = 3)) {
-    //                return new Bell(name, params[0], params[1], params[2]);
-    //            }
-    //        }
-    //
-    //        if (termClass == Gaussian().className()) {
-    //            if (params.size() == (requiredParams = 2)) {
-    //                return new Gaussian(name, params[0], params[1]);
-    //            }
-    //        }
-    //
-    //        if (termClass == GaussianProduct().className()) {
-    //            if (params.size() == (requiredParams = 4)) {
-    //                return new GaussianProduct(name, params[0], params[1], params[2], params[3]);
-    //            }
-    //        }
-    //
-    //        if (termClass == PiShape().className()) {
-    //            if (params.size() == (requiredParams = 4)) {
-    //                return new PiShape(name, params[0], params[1], params[2], params[3]);
-    //            }
-    //        }
-    //
-    //        if (termClass == Ramp().className()) {
-    //            if (params.size() == (requiredParams = 2)) {
-    //                return new Ramp(name, params[0], params[1]);
-    //            }
-    //        }
-    //
-    //
-    //        if (termClass == Rectangle().className()) {
-    //            if (params.size() == (requiredParams = 2)) {
-    //                return new Rectangle(name, params[0], params[1]);
-    //            }
-    //        }
-    //
-    //        if (termClass == SShape().className()) {
-    //            if (params.size() == (requiredParams = 2)) {
-    //                return new SShape(name, params[0], params[1]);
-    //            }
-    //        }
-    //
-    //
-    //        if (termClass == Sigmoid().className()) {
-    //            if (params.size() == (requiredParams = 2)) {
-    //                return new Sigmoid(name, params[0], params[1]);
-    //            }
-    //        }
-    //        if (termClass == SigmoidDifference().className()) {
-    //            if (params.size() == (requiredParams = 4)) {
-    //                return new SigmoidDifference(name, params[0], params[1], params[2], params[3]);
-    //            }
-    //        }
-    //        if (termClass == SigmoidProduct().className()) {
-    //            if (params.size() == (requiredParams = 4)) {
-    //                return new SigmoidProduct(name, params[0], params[1], params[2], params[3]);
-    //            }
-    //        }
-    //
-    //        if (termClass == Trapezoid().className()) {
-    //            if (params.size() == (requiredParams = 4))
-    //                return new Trapezoid(name, params[0], params[1], params[2], params[3]);
-    //        }
-    //
-    //        if (termClass == Triangle().className()) {
-    //            if (params.size() == (requiredParams = 3))
-    //                return new Triangle(name, params[0], params[1], params[2]);
-    //        }
-    //
-    //        if (termClass == ZShape().className()) {
-    //            if (params.size() == (requiredParams = 2)) {
-    //                return new ZShape(name, params[0], params[1]);
-    //            }
-    //        }
-    //
-    //
-    //        std::ostringstream ex;
-    //        if (requiredParams != 0) {
-    //            ex << "[syntax error] " << termClass << " requires "
-    //                    << requiredParams << " parameters";
-    //        } else {
-    //            ex << "[syntax error] term of class <" << termClass << "> not recognized";
-    //        }
-    //        throw fl::Exception(ex.str(), FL_AT);
-    //    }
-
 
 
 }

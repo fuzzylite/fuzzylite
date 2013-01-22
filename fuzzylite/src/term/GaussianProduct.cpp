@@ -7,8 +7,6 @@
 
 #include "fl/term/GaussianProduct.h"
 
-#include "fl/operator/Operator.h"
-
 namespace fl {
 
     GaussianProduct::GaussianProduct(const std::string& name,
@@ -24,6 +22,7 @@ namespace fl {
     }
 
     scalar GaussianProduct::membership(scalar x) const {
+        if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
         bool xLEa = fl::Op::isLE(x, _meanA);
         scalar a = std::exp((-(x - _meanA) * (x - _meanA)) / (2 * _standardDeviationA * _standardDeviationA))
                 * xLEa + (1 - xLEa);
