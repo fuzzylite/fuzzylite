@@ -66,7 +66,7 @@ namespace fl {
             _extendedTerms.push_back(new Bell("", average, .25 * diff, 3.0));
             _extendedTerms.push_back(new PiShape("", min, average, average, max));
             _extendedTerms.push_back(new SigmoidDifference("", min + .25 * diff, 20 / diff,
-                     20 / diff, min + .75 * diff));
+                    20 / diff, min + .75 * diff));
             _extendedTerms.push_back(new SigmoidProduct("", min + .25 * diff, 20 / diff,
                     -20 / diff, min + .75 * diff));
 
@@ -98,11 +98,11 @@ namespace fl {
             QList<int> sizes;
             sizes << .25 * size().width() << .75 * size().width();
             ui->splitter->setSizes(sizes);
-            
+
             QFont ttFont = Window::mainWindow()->typeWriterFont();
             ttFont.setPointSize(ttFont.pointSize() - 1);
             ui->ptx_discrete->setFont(ttFont);
-            
+
             setWindowTitle(edit ? "Edit term" : "Add term");
 
             layout()->setSizeConstraint(QLayout::SetFixedSize);
@@ -253,7 +253,7 @@ namespace fl {
             //Discrete
             QObject::connect(ui->btn_discrete_parse, SIGNAL(clicked()),
                     this, SLOT(onClickDiscreteParser()));
-
+            
             //EXTENDED
             //Gaussian
             QObject::connect(ui->sbx_gaussian_center, SIGNAL(valueChanged(double)),
@@ -635,7 +635,7 @@ namespace fl {
             else if (className == Sigmoid().className()) onChangeSpinBoxSigmoid(0);
             else if (className == SShape().className()) onChangeSpinBoxSShape(0);
             else if (className == ZShape().className()) onChangeSpinBoxZShape(0);
-            else throw fl::Exception("[term error] term of class <" + 
+            else throw fl::Exception("[term error] term of class <" +
                     className + "> not recognized", FL_AT);
 
 
@@ -703,45 +703,46 @@ namespace fl {
 
         void Term::onClickDiscreteParser() {
             std::string values = ui->ptx_discrete->toPlainText().toStdString();
-            for (std::size_t i = 0 ; i < values.size(); ++i){
-                if (values[i] == '.' or (values[i] >= '0' and values[i] <='9')){
+            for (std::size_t i = 0; i < values.size(); ++i) {
+                if (values[i] == '.' or (values[i] >= '0' and values[i] <= '9')) {
                     //do nothing
-                }else{//ignore the rest
+                } else {//ignore the rest
                     values[i] = ' ';
                 }
             }
-            
+
             std::vector<scalar> xValues, yValues;
             std::istringstream tokenizer(values);
             std::string token;
             bool next = true;
-            while(tokenizer >> token){
-                try{
-                    scalar value =fl::Op::toScalar(token);
+            while (tokenizer >> token) {
+                try {
+                    scalar value = fl::Op::toScalar(token);
                     if (next) xValues.push_back(value);
                     else {
-                        if (fl::Op::isLt(value, 0.0) or fl::Op::isGt(value, 1.0)){
+                        if (fl::Op::isLt(value, 0.0) or fl::Op::isGt(value, 1.0)) {
                             QMessageBox::critical(this, tr("Error"),
-                                                  "[discrete term] y values must lie within [0.0, 1.0]",
-                                                  QMessageBox::Ok);
+                                    "[discrete term] y values must lie within [0.0, 1.0]",
+                                    QMessageBox::Ok);
                             return;
                         }
                         yValues.push_back(value);
                     }
                     next = not next;
-                }catch(...){
+                } catch (...) {
                     QMessageBox::critical(this, tr("Error"),
-                                          "[discrete term] vectors x and y must contain numeric values",
-                                          QMessageBox::Ok);
+                            "[discrete term] vectors x and y must contain numeric values",
+                            QMessageBox::Ok);
                     return;
                 }
             }
-            
-            if (xValues.size() != yValues.size()){
+
+            if (xValues.size() != yValues.size()) {
                 QString message = QString("[discrete term] the lengths of vectors x and y differ: ");
-                message += QString("x[") + xValues.size() + QString("] and y[") + xValues.size() + QString("]");
+                message += QString("x[") + QString::number(xValues.size()) +
+                        QString("] and y[") + QString::number(xValues.size()) + QString("]");
                 QMessageBox::critical(this, tr("Error"),
-                                        message, QMessageBox::Ok);
+                        message, QMessageBox::Ok);
                 return;
             }
 
@@ -749,7 +750,12 @@ namespace fl {
             term->x = xValues;
             term->y = yValues;
 
+            loadFrom(term);
             redraw();
+            ui->ptx_discrete->setFocus();
+            QTextCursor tc = ui->ptx_discrete->textCursor();
+            tc.movePosition(QTextCursor::End);
+            ui->ptx_discrete->setTextCursor(tc);
         }
 
         void Term::onChangeSpinBoxGaussian(double) {
@@ -877,6 +883,7 @@ namespace fl {
                     xy << "(" << term->x.at(i) << "," << term->y.at(i) << ")";
                     if (i < size - 1) xy << " ";
                 }
+                
                 ui->ptx_discrete->setPlainText(QString::fromStdString(xy.str()));
 
                 ui->basicTermToolbox->setCurrentIndex(3);
@@ -894,8 +901,8 @@ namespace fl {
 
             } else if (x->className() == GaussianProduct().className()) {
                 const GaussianProduct* term = dynamic_cast<const GaussianProduct*> (x);
-                scalar params[] = {term->getMeanA(), term->getStandardDeviationA(), 
-                    term->getMeanB(),term->getStandardDeviationB()};
+                scalar params[] = {term->getMeanA(), term->getStandardDeviationA(),
+                    term->getMeanB(), term->getStandardDeviationB()};
                 ui->sbx_gaussian_prod_center_a->setValue(params[0]);
                 ui->sbx_gaussian_prod_width_a->setValue(params[1]);
                 ui->sbx_gaussian_prod_center_b->setValue(params[2]);
@@ -931,7 +938,7 @@ namespace fl {
                 ui->sbx_sigmoid_diff_rising->setValue(params[1]);
                 ui->sbx_sigmoid_diff_falling->setValue(params[2]);
                 ui->sbx_sigmoid_diff_right->setValue(params[3]);
-                
+
                 ui->extendedTermToolbox->setCurrentIndex(4);
                 setCurrentToolbox(1);
 
