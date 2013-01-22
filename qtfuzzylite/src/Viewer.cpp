@@ -40,8 +40,8 @@ namespace fl {
             setMinimumSize(200, 170);
             ui->canvas->setScene(new QGraphicsScene(ui->canvas));
             //TODO: find out if this make a difference at all
-            //            ui->canvas->setRenderHints(ui->canvas->renderHints() | QPainter::Antialiasing
-            //                    | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
+            ui->canvas->setRenderHints(ui->canvas->renderHints() | QPainter::Antialiasing
+                    | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
             ui->canvas->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->canvas->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->sbx_x->setFocus();
