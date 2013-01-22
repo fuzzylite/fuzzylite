@@ -99,6 +99,9 @@ namespace fl {
             sizes << .25 * size().width() << .75 * size().width();
             ui->splitter->setSizes(sizes);
             
+            QFont ttFont = Window::mainWindow()->typeWriterFont();
+            ttFont.setPointSize(ttFont.pointSize() - 1);
+            ui->ptx_discrete->setFont(ttFont);
             
             setWindowTitle(edit ? "Edit term" : "Add term");
 
@@ -699,38 +702,53 @@ namespace fl {
         }
 
         void Term::onClickDiscreteParser() {
-            std::string xString = ui->led_discrete_x->text().toStdString();
-            std::vector<std::string> xValues = fl::Op::split(xString, " ");
-
-            std::string yString = ui->led_discrete_y->text().toStdString();
-            std::vector<std::string> yValues = fl::Op::split(yString, " ");
-
-            if (xValues.size() != yValues.size()) {
-                QString xSize = QString::number(xValues.size());
-                QString ySize = QString::number(yValues.size());
-
-                QString message = QString("[Discrete] The lengths of vectors x and y differ: ");
-                message += QString("x[") + xSize + QString("] and y[") + ySize + QString("]");
-                QMessageBox::warning(this, tr("Warning"),
-                        message, QMessageBox::Ok);
+            std::string values = ui->ptx_discrete->toPlainText().toStdString();
+            for (std::size_t i = 0 ; i < values.size(); ++i){
+                if (values[i] == '.' or (values[i] >= '0' and values[i] <='9')){
+                    //do nothing
+                }else{//ignore the rest
+                    values[i] = ' ';
+                }
+            }
+            
+            std::vector<scalar> xValues, yValues;
+            std::istringstream tokenizer(values);
+            std::string token;
+            bool next = true;
+            while(tokenizer >> token){
+                try{
+                    scalar value =fl::Op::toScalar(token);
+                    if (next) xValues.push_back(value);
+                    else {
+                        if (fl::Op::isLt(value, 0.0) or fl::Op::isGt(value, 1.0)){
+                            QMessageBox::critical(this, tr("Error"),
+                                                  "[discrete term] y values must lie within [0.0, 1.0]",
+                                                  QMessageBox::Ok);
+                            return;
+                        }
+                        yValues.push_back(value);
+                    }
+                    next = not next;
+                }catch(...){
+                    QMessageBox::critical(this, tr("Error"),
+                                          "[discrete term] vectors x and y must contain numeric values",
+                                          QMessageBox::Ok);
+                    return;
+                }
+            }
+            
+            if (xValues.size() != yValues.size()){
+                QString message = QString("[discrete term] the lengths of vectors x and y differ: ");
+                message += QString("x[") + xValues.size() + QString("] and y[") + xValues.size() + QString("]");
+                QMessageBox::critical(this, tr("Error"),
+                                        message, QMessageBox::Ok);
+                return;
             }
 
             Discrete* term = dynamic_cast<Discrete*> (selectedTerm());
-            term->x.clear();
-            term->y.clear();
+            term->x = xValues;
+            term->y = yValues;
 
-            int size = std::min(xValues.size(), yValues.size());
-            try {
-                for (int i = 0; i < size; ++i) {
-//                    FL_LOG("<" << xValues[i] << "," << yValues[i] << ">");
-                    term->x.push_back(fl::Op::toScalar(xValues[i]));
-                    term->y.push_back(fl::Op::toScalar(yValues[i]));
-                }
-            } catch (...) {
-                QMessageBox::critical(this, tr("Error"),
-                        "[Discrete] Vectors x and y must contain numeric values",
-                        QMessageBox::Ok);
-            }
             redraw();
         }
 
@@ -853,18 +871,14 @@ namespace fl {
 
             } else if (x->className() == Discrete().className()) {
                 const Discrete* term = dynamic_cast<const Discrete*> (x);
-                std::ostringstream ssX, ssY;
+                std::ostringstream xy;
                 int size = std::min(term->x.size(), term->y.size());
                 for (int i = 0; i < size; ++i) {
-                    ssX << term->x[i];
-                    ssY << term->y[i];
-                    if (i < size - 1) {
-                        ssX << " ";
-                        ssY << " ";
-                    }
+                    xy << "(" << term->x.at(i) << "," << term->y.at(i) << ")";
+                    if (i < size - 1) xy << " ";
                 }
-                ui->led_discrete_x->setText(QString::fromStdString(ssX.str()));
-                ui->led_discrete_y->setText(QString::fromStdString(ssY.str()));
+                ui->ptx_discrete->setPlainText(QString::fromStdString(xy.str()));
+
                 ui->basicTermToolbox->setCurrentIndex(3);
                 setCurrentToolbox(0);
                 //                onClickDiscreteParser();

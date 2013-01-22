@@ -49,8 +49,8 @@ int main(int argc, char* argv[]) {
 //        QFont font();
 //        font.setHintingPreference(QFont::PreferDefaultHinting);
 //        QtFuzzyLite::setFont(font);
-        fl::qt::Window::main(); 
-        return qtfuzzylite.exec();  
+        fl::qt::Window::main();
+        return qtfuzzylite.exec();
     } catch (std::exception& ex) {
         QString error = QString::fromUtf8(ex.what());
  

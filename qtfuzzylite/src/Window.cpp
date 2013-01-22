@@ -304,7 +304,7 @@ namespace fl {
                 layout->addWidget(control);
 
                 QObject::connect(this, SIGNAL(processOutput()),
-                        control, SLOT(updateOutput()));
+                                 control, SLOT(updateOutput()), Qt::QueuedConnection);
             }
             //            layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Ignored, QSizePolicy::Expanding));
         }
@@ -663,8 +663,8 @@ namespace fl {
 
         void Window::onMenuTerms() {
             Term* window = new Term(this);
-            window->setup(fl::Variable("Term-Toolbox", 0, 1));
-            window->setWindowTitle("Term toolbox");
+            window->setup(fl::Variable("Terms", 0, 1));
+            window->setWindowTitle("Terms");
             window->ui->qfr_name->setVisible(false);
             window->ui->buttonBox->setVisible(false);
             window->show();
@@ -946,35 +946,34 @@ namespace fl {
         }
 
         void Window::onMenuAbout() {
-            std::ostringstream message;
-            message << "qtfuzzylite v." << FLQT_VERSION <<
-                    " (" << FLQT_DATE << ")" << std::endl;
-            message << "with fuzzylite v." << FL_VERSION <<
-                    " (" << FL_DATE << ")" << std::endl;
-            message << "<a href='http://code.google.com/p/fuzzylite'>" << std::endl
-                    << std::endl;
-            message << "Developed by Juan Rada-Vilela." << std::endl;
-            message << "jcrada@gmail.com" << std::endl;
-            QMessageBox::about(this, "qtfuzzylite",
-                    "<qt><span style='font-weight:0;'>"
-                    "<b>qtfuzzylite v. " FLQT_VERSION " (" FLQT_DATE ")</b><br>"
-                    "<b>fuzzylite v. " FL_VERSION " (" FL_DATE ")</b><br>"
-                    "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a><br><br>"
-                    "Developed by Juan Rada-Vilela &nbsp;"
-                    "<a href='mailto:jcrada@gmail.com'>jcrada@gmail.com</a><br><br>"
-                    "Please consider making a <b>donation</b> to support and further "
-                    "improve these projects.<br>"
-                    "<div align='left'><a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HAGFHRMSZVDKN'>"
-                    "<img src=':/icons/btn_donateCC_LG.gif'></a></div>"
-                    "<br>Visit &nbsp;"
-                    "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a> "
-                    "to find out how your contribution will be utilized.<br><br>"
-                    "There are still many things to do!"
-                    "<br><br>"
-                    "... and do not hesitate to provide feedback, feature requests, "
-                    "custom enhancements, or anything else!"
-                    "</span></qt>"
-                    );
+            QString message =
+            "<qt><span style='font-weight:0;'>"
+            "<b>qtfuzzylite v. " FLQT_VERSION " (" FLQT_DATE ")</b><br>"
+            "<b>fuzzylite v. " FL_VERSION " (" FL_DATE ")</b><br>"
+            "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a><br><br>"
+            "Developed by Juan Rada-Vilela &nbsp;"
+            "<a href='mailto:jcrada@gmail.com'>jcrada@gmail.com</a><br><br>"
+            "Please consider making a <b>donation</b> to support and further "
+            "improve these projects.<br>"
+            "<div align='left'><a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HAGFHRMSZVDKN'>"
+            "<img src=':/icons/btn_donateCC_LG.gif'></a></div>"
+            "<br>Visit &nbsp;"
+            "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a> "
+            "to find out how your contribution will be utilized.<br><br>"
+            "There are still many things to do!"
+            "<br><br>"
+            "... and do not hesitate to provide feedback, feature requests, "
+            "custom enhancements, or anything else!"
+            "</span></qt>";
+            
+//            QMessageBox about("qtfuzzylite", message, QMessageBox::Information,
+//                              0,0,0, this, Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+//            QIcon icon = about.windowIcon();
+//            QSize size = icon.actualSize(QSize(64, 64));
+//            about.setIconPixmap(icon.pixmap(size));
+//            about.addButton(QMessageBox::Ok);
+//            about.exec();
+            QMessageBox::about(this, "qtfuzzylite", message);
         }
 
         void Window::onMenuQuit() {
@@ -1032,6 +1031,7 @@ namespace fl {
         void Window::main() {
             Window* w = mainWindow();
             w->setup();
+            w->onMenuAbout();
             w->show();
         }
 

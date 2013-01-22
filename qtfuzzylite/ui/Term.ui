@@ -6,15 +6,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>270</width>
-    <height>490</height>
+    <width>255</width>
+    <height>489</height>
    </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Term</string>
@@ -84,7 +78,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideMiddle</enum>
@@ -125,8 +119,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>108</width>
-             <height>123</height>
+             <width>225</width>
+             <height>224</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -218,8 +212,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>108</width>
-             <height>156</height>
+             <width>225</width>
+             <height>224</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -321,8 +315,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>128</width>
-             <height>90</height>
+             <width>225</width>
+             <height>224</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -404,8 +398,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>170</width>
-             <height>131</height>
+             <width>225</width>
+             <height>224</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -449,47 +443,39 @@
                 <number>6</number>
                </property>
                <item>
-                <layout class="QFormLayout" name="formLayout_6">
-                 <property name="fieldGrowthPolicy">
-                  <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+                <layout class="QVBoxLayout" name="verticalLayout_19">
+                 <property name="spacing">
+                  <number>1</number>
                  </property>
-                 <property name="labelAlignment">
-                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                 </property>
-                 <property name="formAlignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                 <item row="0" column="0">
+                 <item>
                   <widget class="QLabel" name="label_16">
-                   <property name="text">
-                    <string>x</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QLineEdit" name="led_discrete_x">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_17">
                    <property name="text">
-                    <string>y</string>
+                    <string>Pairs (x,y):</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="1">
-                  <widget class="QLineEdit" name="led_discrete_y">
+                 <item>
+                  <widget class="QPlainTextEdit" name="ptx_discrete">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                    <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>100</height>
+                    </size>
+                   </property>
+                   <property name="tabChangesFocus">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -497,13 +483,16 @@
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <property name="sizeConstraint">
+                  <enum>QLayout::SetDefaultConstraint</enum>
+                 </property>
                  <item>
                   <widget class="QToolButton" name="btn_discrete_parse">
                    <property name="focusPolicy">
                     <enum>Qt::StrongFocus</enum>
                    </property>
                    <property name="text">
-                    <string>Process (x, y)</string>
+                    <string>Process (x,y)</string>
                    </property>
                    <property name="icon">
                     <iconset resource="resources.qrc">
@@ -550,19 +539,25 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>225</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="autoFillBackground">
            <bool>true</bool>
           </property>
           <property name="currentIndex">
-           <number>5</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="page_6">
            <property name="geometry">
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>138</width>
-             <height>90</height>
+             <width>132</width>
+             <height>79</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -641,8 +636,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>248</width>
-             <height>187</height>
+             <width>225</width>
+             <height>156</height>
             </rect>
            </property>
            <attribute name="label">
@@ -729,8 +724,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>144</width>
-             <height>123</height>
+             <width>137</width>
+             <height>114</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -819,8 +814,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>248</width>
-             <height>187</height>
+             <width>130</width>
+             <height>149</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -919,8 +914,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>248</width>
-             <height>187</height>
+             <width>137</width>
+             <height>149</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1019,8 +1014,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>248</width>
-             <height>187</height>
+             <width>240</width>
+             <height>157</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1151,8 +1146,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>132</width>
-             <height>90</height>
+             <width>126</width>
+             <height>79</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1231,8 +1226,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>137</width>
-             <height>90</height>
+             <width>131</width>
+             <height>79</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1323,8 +1318,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>132</width>
-             <height>90</height>
+             <width>126</width>
+             <height>79</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1403,8 +1398,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>132</width>
-             <height>96</height>
+             <width>225</width>
+             <height>224</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1510,8 +1505,6 @@
   <tabstop>sbx_trapezoid_d</tabstop>
   <tabstop>sbx_rectangle_min</tabstop>
   <tabstop>sbx_rectangle_max</tabstop>
-  <tabstop>led_discrete_x</tabstop>
-  <tabstop>led_discrete_y</tabstop>
   <tabstop>btn_discrete_parse</tabstop>
   <tabstop>sbx_gaussian_center</tabstop>
   <tabstop>sbx_gaussian_width</tabstop>
