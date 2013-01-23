@@ -37,7 +37,7 @@ LIBS += -L../fuzzylite/build -lfuzzylite -lQtSvg
 target.path += /usr/local/bin
 INSTALLS += target
 
-FORMS += Window.ui Configuration.ui
+FORMS += Window.ui Configuration.ui About.ui
 FORMS += Variable.ui Wizard.ui Term.ui ImEx.ui Viewer.ui
 
 HEADERS += fl/qt/Window.h fl/qt/Configuration.h

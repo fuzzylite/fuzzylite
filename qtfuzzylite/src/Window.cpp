@@ -14,6 +14,7 @@
 
 #include "fl/qt/definitions.h"
 #include "ui/ui_ImEx.h"
+#include "ui/ui_About.h"
 
 #include <QtGui/QListWidgetItem>
 #include <QtGui/QScrollBar>
