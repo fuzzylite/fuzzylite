@@ -45,7 +45,7 @@
          <enum>Qt::StrongFocus</enum>
         </property>
         <property name="text">
-         <string>Create multiple copies of current term</string>
+         <string>Create multiple copies</string>
         </property>
         <property name="icon">
          <iconset resource="resources.qrc">
@@ -126,8 +126,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>108</width>
-              <height>123</height>
+              <width>221</width>
+              <height>190</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -219,8 +219,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>108</width>
-              <height>156</height>
+              <width>221</width>
+              <height>190</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -322,8 +322,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>128</width>
-              <height>90</height>
+              <width>221</width>
+              <height>190</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -481,6 +481,12 @@
                       <height>100</height>
                      </size>
                     </property>
+                    <property name="toolTip">
+                     <string>Introduce the pairs of the 
+discrete term using any 
+notation you like, just make 
+sure 'x' is followed by 'y'.</string>
+                    </property>
                     <property name="tabChangesFocus">
                      <bool>true</bool>
                     </property>
@@ -497,6 +503,9 @@
                    <widget class="QToolButton" name="btn_discrete_parse">
                     <property name="focusPolicy">
                      <enum>Qt::StrongFocus</enum>
+                    </property>
+                    <property name="toolTip">
+                     <string>Process pairs (x,y)</string>
                     </property>
                     <property name="text">
                      <string>Process (x,y)</string>

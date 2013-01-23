@@ -65,6 +65,9 @@
        </item>
        <item>
         <widget class="QDoubleSpinBox" name="sbx_x">
+         <property name="toolTip">
+          <string>Input value</string>
+         </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
@@ -92,6 +95,9 @@
            <width>70</width>
            <height>16777215</height>
           </size>
+         </property>
+         <property name="toolTip">
+          <string>Defuzzified output</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>

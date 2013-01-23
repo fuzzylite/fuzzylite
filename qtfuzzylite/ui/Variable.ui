@@ -162,6 +162,9 @@
          </item>
          <item>
           <widget class="QToolButton" name="btn_add_term">
+           <property name="toolTip">
+            <string>Add term</string>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -176,6 +179,9 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
+           <property name="toolTip">
+            <string>Remove term</string>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -189,6 +195,9 @@
           <widget class="QToolButton" name="btn_edit_term">
            <property name="enabled">
             <bool>false</bool>
+           </property>
+           <property name="toolTip">
+            <string>Edit term</string>
            </property>
            <property name="text">
             <string/>
