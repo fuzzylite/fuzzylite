@@ -40,8 +40,8 @@ namespace fl {
             setMinimumSize(200, 170);
             ui->canvas->setScene(new QGraphicsScene(ui->canvas));
             //TODO: find out if this make a difference at all
-            ui->canvas->setRenderHints(ui->canvas->renderHints() | QPainter::Antialiasing
-                    | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
+//            ui->canvas->setRenderHints(ui->canvas->renderHints() | QPainter::Antialiasing
+//                    | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
             ui->canvas->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->canvas->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->sbx_x->setFocus();
@@ -104,6 +104,7 @@ namespace fl {
         void Viewer::onPressSlider() {
             ui->sld_x->setCursor(QCursor(Qt::ClosedHandCursor));
 #ifdef FL_EXPORT_SVG
+            ui->canvas->viewport()->setFixedSize(128, 128);
             exportToSvg("/tmp/qtfuzzylite.svg");
 #endif
         }
@@ -159,7 +160,9 @@ namespace fl {
             if (constVariable->getName().empty())
                 ui->lbl_name->setVisible(false);
             draw();
+#ifndef FL_EXPORT_SVG
             drawGuide(x, y);
+#endif
         }
 
         void Viewer::draw() {
@@ -168,6 +171,11 @@ namespace fl {
 
             QColor from = QColor(255, 255, 0, (0.33 + .1) * 255);
             QColor to = QColor(255, 0, 0, (0.66 + .1) * 255);
+#ifdef FL_EXPORT_SVG
+            //No transparency
+            from = QColor(255, 255, 0, 255);
+            to = QColor(255, 0, 0, 255);
+#endif
             for (int i = 0; i < constVariable->numberOfTerms(); ++i) {
                 QColor color;
                 if (constVariable->numberOfTerms() == 1) {
@@ -186,7 +194,7 @@ namespace fl {
         }
 
         void Viewer::draw(const fl::Term* term, const QColor& color) {
-            int line_width = 2;
+            int line_width = 3;
             QRect rect = ui->canvas->viewport()->rect();
 
             scalar minimum = constVariable->getMinimum();
@@ -240,7 +248,9 @@ namespace fl {
             static qreal zvalue = INT_MIN; //each figure will be on top.
             item->setZValue(++zvalue);
 
-            //            drawCentroid(xcentroid, ycentroid);
+#ifndef FL_EXPORT_SVG
+            drawCentroid(xcentroid, ycentroid);
+#endif
         }
 
         void Viewer::drawCentroid(scalar xcentroid, scalar ycentroid) {

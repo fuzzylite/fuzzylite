@@ -18,10 +18,10 @@ namespace fl {
 
         Control::~Control() {
             //Exception on reset?
-//            if (dynamic_cast<InputVariable*> (variable)) {
-//                QObject::disconnect(this, SIGNAL(valueChanged(double)),
-//                        this, SLOT(updateInput(double)));
-//            }
+            //            if (dynamic_cast<InputVariable*> (variable)) {
+            //                QObject::disconnect(this, SIGNAL(valueChanged(double)),
+            //                        this, SLOT(updateInput(double)));
+            //            }
         }
 
         void Control::setup(const fl::Variable* model) {

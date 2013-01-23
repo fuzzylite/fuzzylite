@@ -965,6 +965,8 @@ namespace fl {
             "<a href='http://www.fuzzylite.com'></a>"
             "</span></qt>";
             
+            
+            
 //            QMessageBox about("qtfuzzylite", message, QMessageBox::Information,
 //                              0,0,0, this, Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
 //            QIcon icon = about.windowIcon();
