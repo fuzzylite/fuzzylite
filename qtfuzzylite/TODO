@@ -2,10 +2,16 @@
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="NEP8FHAW8FJ8S">
 <table>
-<tr><td><input type="hidden" name="on0" value="Level of Generosity">Level of Generosity</td></tr><tr><td><select name="os0">
-	<option value="LOW">LOW $25.00 NZD</option>
-	<option value="MEDIUM">MEDIUM $50.00 NZD</option>
-	<option value="HIGH">HIGH $100.00 NZD</option>
+<tr><td><input type="hidden" name="on0" value="Generosity">Generosity</td></tr><tr><td><select name="os0">
+	<option value="low">low $10.00 NZD</option>
+	<option value="Low">Low $20.00 NZD</option>
+	<option value="LOW">LOW $50.00 NZD</option>
+	<option value="medium">medium $100.00 NZD</option>
+	<option value="Medium">Medium $200.00 NZD</option>
+	<option value="MEDIUM">MEDIUM $500.00 NZD</option>
+	<option value="high">high $1,000.00 NZD</option>
+	<option value="High">High $2,000.00 NZD</option>
+	<option value="HIGH">HIGH $5,000.00 NZD</option>
 </select> </td></tr>
 </table>
 <input type="hidden" name="currency_code" value="NZD">
@@ -14,4 +20,4 @@
 </form>
 
 
-https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=LOW
+https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=low

@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>424</width>
-    <height>485</height>
+    <width>381</width>
+    <height>502</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,63 +21,33 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QFormLayout" name="formLayout">
-     <property name="fieldGrowthPolicy">
-      <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string/>
      </property>
-     <property name="horizontalSpacing">
-      <number>20</number>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
-     <property name="bottomMargin">
-      <number>0</number>
-     </property>
-     <item row="0" column="0">
-      <widget class="QGroupBox" name="groupBox">
-       <property name="title">
-        <string/>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <property name="margin">
-         <number>6</number>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="margin">
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;
-&lt;div align='center'&gt;&lt;a href='http://www.fuzzylite.com'&gt;&lt;img src=&quot;:/icons/qtfuzzylite.svg&quot;/&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="scaledContents">
-           <bool>true</bool>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <property name="openExternalLinks">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="header">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;
-&lt;b&gt;qtfuzzylite v.2.0 (02/2013)&lt;/b&gt; 
+        <property name="text">
+         <string>&lt;html&gt;
+&lt;div align='center'&gt;
+&lt;table&gt;
+&lt;tr &gt;
+&lt;td align='center' valign='middle'&gt;&lt;a href='http://www.fuzzylite.com'&gt;&lt;img src=&quot;:/icons/qtfuzzylite.svg&quot;/&gt;&lt;/a&gt;
+&lt;/td&gt;
+&lt;td align='left' valign='top'&gt;&lt;b&gt;qtfuzzylite v.2.0 (02/2013)&lt;/b&gt; 
 &lt;br&gt;
 &lt;b&gt;fuzzylite v.2.0 (02/2013)&lt;/b&gt;
 &lt;br&gt;
@@ -87,19 +57,23 @@
 &lt;br&gt;
 Developed by Juan Rada-Vilela
 &lt;br&gt;
-&lt;a href=&quot;mailto:jcrada@fuzzylite.com&quot;&gt;jcrada@fuzzylite.com&lt;/a&gt;
+&lt;a href=&quot;mailto:jcrada@fuzzylite.com&quot;&gt;jcrada@fuzzylite.com&lt;/a&gt;&lt;/td&gt;
 
-&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::RichText</enum>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-       </property>
-      </widget>
-     </item>
-    </layout>
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/html&gt;</string>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <widget class="QFrame" name="frame">
@@ -135,10 +109,10 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to help supporting these pr
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <property name="spacing">
-          <number>0</number>
+          <number>6</number>
          </property>
          <property name="margin">
-          <number>3</number>
+          <number>6</number>
          </property>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -210,19 +184,25 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to help supporting these pr
            <item>
             <widget class="QSlider" name="horizontalSlider">
              <property name="minimum">
-              <number>1</number>
+              <number>0</number>
              </property>
              <property name="maximum">
-              <number>9</number>
+              <number>8</number>
              </property>
              <property name="pageStep">
-              <number>3</number>
+              <number>2</number>
              </property>
              <property name="value">
-              <number>5</number>
+              <number>4</number>
              </property>
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="invertedAppearance">
+              <bool>false</bool>
+             </property>
+             <property name="invertedControls">
+              <bool>false</bool>
              </property>
              <property name="tickPosition">
               <enum>QSlider::TicksAbove</enum>
@@ -366,6 +346,38 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to help supporting these pr
     <hint type="destinationlabel">
      <x>208</x>
      <y>272</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>comboBox</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>140</x>
+     <y>352</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>280</x>
+     <y>266</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>horizontalSlider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>280</x>
+     <y>266</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>140</x>
+     <y>352</y>
     </hint>
    </hints>
   </connection>
