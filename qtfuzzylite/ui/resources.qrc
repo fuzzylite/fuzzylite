@@ -1,5 +1,6 @@
 <RCC>
   <qresource>
+    <file>icons/generosity.svg</file>
     <file>icons/colorize.png</file>
     <file>icons/messagebox_info.png</file>
     <file>icons/exit.png</file>

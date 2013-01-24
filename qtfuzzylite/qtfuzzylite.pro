@@ -32,7 +32,7 @@ RESOURCES += ui/resources.qrc
 RCC_DIR = ui
 
 
-LIBS += -L../fuzzylite/build -lfuzzylite -lQtSvg
+LIBS += -L../fuzzylite/build -lfuzzylite # -lQtSvg
 
 target.path += /usr/local/bin
 INSTALLS += target
