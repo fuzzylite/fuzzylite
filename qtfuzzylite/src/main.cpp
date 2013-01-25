@@ -14,7 +14,9 @@
 #include "fl/qt/Window.h"  
 #include "fl/qt/Term.h"
 #include "fl/qt/Viewer.h"   
- 
+
+#include <signal.h>
+
 class QtFuzzyLite : public QApplication {
 public:
 
@@ -24,48 +26,42 @@ public:
         try {
             return QApplication::notify(receiver, event);
         } catch (std::exception& ex) {
-            QString error = QString::fromUtf8(ex.what());
-            QMessageBox::critical(NULL, "Internal Error",
-                    "<qt><b>qtfuzzylite</b> has experienced an internal error and will exit.<br><br>"
-                    "Please report this error at:<br><br><a href='http://code.google.com/p/fuzzylite/issues/'>"
-                    "http://code.google.com/p/fuzzylite/issues/</a><br><br>"
- 
-                    "Your report will help to make fuzzylite and qtfuzzylite a better "
-                    "<b>open source and free</b> fuzzy logic library!<br><br>"
-                    "Many thanks in advance for your help!<br><br>"
-                    "Error message:<br><br> " +
-                    Qt::escape(error) + "</qt>",
-                    QMessageBox::Ok);
-            QApplication::quit();
-            throw ex;
-        } 
+            this->catchException(ex);
+        }
         return false;
     }
+
+    void catchException(const std::exception& ex) {
+        QString error = QString::fromUtf8(ex.what());
+        QMessageBox::critical(NULL, "Internal Error",
+                "<qt><b>qtfuzzylite</b> has experienced an internal error and will exit.<br><br>"
+                "Please report this error to &nbsp; <a href='mailto:errors@fuzzylite.com'>"
+                "errors@fuzzylite.com</a><br><br>"
+
+                "Your report will help to make <b>fuzzylite</b> and <b>qtfuzzylite</b> a better "
+                "free open source fuzzy logic library!<br><br>"
+                "Many thanks in advance for your help!<br><br>"
+                "Error message:"
+                "<br><br> <font size='2'> <tt>" +
+                Qt::escape(error) +
+                "</tt></font></qt>",
+                QMessageBox::Ok);
+        QApplication::quit();
+    }
+
 };
 
 int main(int argc, char* argv[]) {
-    QtFuzzyLite qtfuzzylite(argc, argv);   
+    QtFuzzyLite qtfuzzylite(argc, argv);
+    signal(SIGSEGV, fl::Exception::signalHandler);
     try {
-//        QFont font();
-//        font.setHintingPreference(QFont::PreferDefaultHinting);
-//        QtFuzzyLite::setFont(font);
         fl::qt::Window::main();
+        //        int *x = (int*) - 1; // make a bad pointer
+        //        FL_LOG(*x);
         return qtfuzzylite.exec();
     } catch (std::exception& ex) {
-        QString error = QString::fromUtf8(ex.what());
- 
-        QMessageBox::critical(NULL, "Internal Error",
-                "<qt><b>qtfuzzylite</b> has experienced an internal error and will exit.<br><br>"
-                "Please report this error at:<br><br><a href='http://code.google.com/p/fuzzylite/issues/'>"
-                "http://code.google.com/p/fuzzylite/issues/</a><br><br>"
-   
-                "Your report will help to make fuzzylite and qtfuzzylite a better "
-                "<b>open source and free</b> fuzzy logic library!<br><br>"
-                "Many thanks in advance for your help!<br><br>"
-                "Error message:<br><br> " +
-                Qt::escape(error) + "</qt>",
-                QMessageBox::Ok);
-        throw ex;
+        qtfuzzylite.catchException(ex);
+        return EXIT_FAILURE;
     }
 }
 

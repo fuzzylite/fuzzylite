@@ -11,6 +11,14 @@
 #include <iostream>
 #include <sstream>
 
+//#ifndef __USE_GNU 
+//#define __USE_GNU
+//#endif
+//
+//#ifndef _GNU_SOURCE
+//#define _GNU_SOURCE
+//#endif
+
 #ifdef __WINDOWS__
 
 #define and &&

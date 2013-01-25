@@ -27,6 +27,13 @@ namespace fl {
 
         virtual void setWhat(const std::string& what);
         virtual const char* what() const throw ();
+        
+        static std::string btCallStack();
+        
+        static void signalHandler(int signal);
+        
+        
+        
 
         /**
          * Operations for std::vector _details

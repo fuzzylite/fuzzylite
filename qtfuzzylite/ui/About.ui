@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>About</class>
+ <widget class="QDialog" name="About">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>
@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>381</width>
-    <height>502</height>
+    <height>485</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -70,6 +70,9 @@ Developed by Juan Rada-Vilela
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
+        <property name="openExternalLinks">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
      </layout>
@@ -94,7 +97,7 @@ Developed by Juan Rada-Vilela
         </property>
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;
-Please consider making a &lt;b&gt;donation&lt;/b&gt; to help supporting these projects. There are still many things to do!
+Please consider making a &lt;b&gt;donation&lt;/b&gt; to support these projects. There are still many things to do!
 &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="wordWrap">
@@ -109,7 +112,7 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to help supporting these pr
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <property name="spacing">
-          <number>6</number>
+          <number>12</number>
          </property>
          <property name="margin">
           <number>6</number>
@@ -151,6 +154,9 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to help supporting these pr
              <property name="scaledContents">
               <bool>true</bool>
              </property>
+             <property name="margin">
+              <number>0</number>
+             </property>
             </widget>
            </item>
            <item>
@@ -182,7 +188,7 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to help supporting these pr
             </layout>
            </item>
            <item>
-            <widget class="QSlider" name="horizontalSlider">
+            <widget class="QSlider" name="sld_generosity">
              <property name="minimum">
               <number>0</number>
              </property>
@@ -208,7 +214,7 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to help supporting these pr
               <enum>QSlider::TicksAbove</enum>
              </property>
              <property name="tickInterval">
-              <number>1</number>
+              <number>2</number>
              </property>
             </widget>
            </item>
@@ -220,59 +226,20 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to help supporting these pr
             <number>0</number>
            </property>
            <item>
-            <widget class="QComboBox" name="comboBox">
+            <widget class="QComboBox" name="cbx_generosity">
              <property name="maxCount">
               <number>9</number>
              </property>
-             <item>
-              <property name="text">
-               <string>$10</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>$20</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>$50</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>$100</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>$200</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>$500</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>$1000</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>$2000</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>$5000</string>
-              </property>
-             </item>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="donate">
+            <widget class="QLabel" name="lbl_donate">
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
              <property name="text">
               <string/>
              </property>
@@ -283,7 +250,7 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to help supporting these pr
               <set>Qt::AlignCenter</set>
              </property>
              <property name="openExternalLinks">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -301,7 +268,7 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to help supporting these pr
          </sizepolicy>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;... and do not hesitate to provide feedback, submit feature requests, ask for custom enhancements, or anything else!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;... and do not hesitate to provide feedback, submit feature requests, or anything else!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="textFormat">
          <enum>Qt::RichText</enum>
@@ -336,7 +303,7 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to help supporting these pr
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>About</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -346,38 +313,6 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to help supporting these pr
     <hint type="destinationlabel">
      <x>208</x>
      <y>272</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>horizontalSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>comboBox</receiver>
-   <slot>setCurrentIndex(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>140</x>
-     <y>352</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>280</x>
-     <y>266</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBox</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>horizontalSlider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>280</x>
-     <y>266</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>140</x>
-     <y>352</y>
     </hint>
    </hints>
   </connection>

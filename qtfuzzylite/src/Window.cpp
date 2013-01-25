@@ -6,6 +6,7 @@
  */
 
 #include "fl/qt/Window.h"
+#include "fl/qt/About.h"
 #include "fl/qt/Configuration.h"
 #include "fl/qt/Term.h"
 #include "fl/qt/Variable.h"
@@ -739,17 +740,17 @@ namespace fl {
         }
 
         void Window::onMenuImportFromFIS() {
-            Ui::ImEx fclUi;
+            Ui::ImEx fisUi;
             QDialog fclDialog(this);
-            fclUi.setupUi(&fclDialog);
+            fisUi.setupUi(&fclDialog);
             fclDialog.setWindowTitle("Import from FIS");
-            fclUi.lbl_format->setText("Fuzzy Inference System (FIS):");
+            fisUi.lbl_format->setText("Fuzzy Inference System (FIS):");
             QFont font = typeWriterFont();
             font.setPointSize(font.pointSize() - 1);
-            fclUi.pte_code->setFont(font);
+            fisUi.pte_code->setFont(font);
 
             if (fclDialog.exec()) {
-                std::string fclString = fclUi.pte_code->document()->toPlainText().toStdString();
+                std::string fclString = fisUi.pte_code->document()->toPlainText().toStdString();
                 Engine* engine = NULL;
                 FisImporter importer;
                 try {
@@ -887,21 +888,21 @@ namespace fl {
                         QMessageBox::Ok);
                 return;
             }
-            Ui::ImEx fclUi;
+            Ui::ImEx fisUi;
             QDialog fclDialog(this);
-            fclUi.setupUi(&fclDialog);
-            fclUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
+            fisUi.setupUi(&fclDialog);
+            fisUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
             fclDialog.setWindowTitle("Export to FIS");
-            fclUi.lbl_format->setText("Fuzzy Inference System (FIS):");
+            fisUi.lbl_format->setText("Fuzzy Inference System (FIS):");
             QFont font = typeWriterFont();
             font.setPointSize(font.pointSize() - 1);
-            fclUi.pte_code->setFont(font);
-            fclUi.pte_code->setReadOnly(true);
-            fclUi.pte_code->document()->setPlainText(
+            fisUi.pte_code->setFont(font);
+            fisUi.pte_code->setReadOnly(true);
+            fisUi.pte_code->document()->setPlainText(
                     QString::fromStdString(fis));
-            QTextCursor tc = fclUi.pte_code->textCursor();
+            QTextCursor tc = fisUi.pte_code->textCursor();
             tc.movePosition(QTextCursor::Start);
-            fclUi.pte_code->setTextCursor(tc);
+            fisUi.pte_code->setTextCursor(tc);
             fclDialog.exec();
         }
 
@@ -916,21 +917,21 @@ namespace fl {
                         QMessageBox::Ok);
                 return;
             }
-            Ui::ImEx fclUi;
+            Ui::ImEx cppUi;
             QDialog fclDialog(this);
-            fclUi.setupUi(&fclDialog);
-            fclUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
+            cppUi.setupUi(&fclDialog);
+            cppUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
             fclDialog.setWindowTitle("Export to fuzzylite");
-            fclUi.lbl_format->setText("fuzzylite (C++):");
+            cppUi.lbl_format->setText("fuzzylite (C++):");
             QFont font = typeWriterFont();
             font.setPointSize(font.pointSize() - 1);
-            fclUi.pte_code->setFont(font);
-            fclUi.pte_code->setReadOnly(true);
-            fclUi.pte_code->document()->setPlainText(
+            cppUi.pte_code->setFont(font);
+            cppUi.pte_code->setReadOnly(true);
+            cppUi.pte_code->document()->setPlainText(
                     QString::fromStdString(cpp));
-            QTextCursor tc = fclUi.pte_code->textCursor();
+            QTextCursor tc = cppUi.pte_code->textCursor();
             tc.movePosition(QTextCursor::Start);
-            fclUi.pte_code->setTextCursor(tc);
+            cppUi.pte_code->setTextCursor(tc);
             fclDialog.exec();
         }
 
@@ -951,37 +952,42 @@ namespace fl {
         }
 
         void Window::onMenuAbout() {
-            QString message =
-                    "<qt><span style='font-weight:0;'>"
-                    "<b>qtfuzzylite v. " FLQT_VERSION " (" FLQT_DATE ")</b><br>"
-                    "<b>fuzzylite v. " FL_VERSION " (" FL_DATE ")</b><br>"
-                    "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a><br><br>"
-                    "Developed by Juan Rada-Vilela &nbsp;"
-                    "<a href='mailto:jcrada@gmail.com'>jcrada@fuzzylite.com</a><br><br>"
-                    "Please consider making a <b>donation</b> to support and further "
-                    "improve these projects.<br>"
-                    "<div align='left'><a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HAGFHRMSZVDKN'>"
-                    "<img src=':/icons/btn_donateCC_LG.gif'></a></div>"
-                    "<br>Visit &nbsp;"
-                    "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a> "
-                    "to find out how your contribution will be utilized.<br><br>"
-                    "There are still many things to do!"
-                    "<br><br>"
-                    "... and do not hesitate to provide feedback, feature requests, "
-                    "custom enhancements, or anything else!"
-                    "<a href='http://www.fuzzylite.com'></a>"
-                    "</span></qt>";
-
-
-
-            //            QMessageBox about("qtfuzzylite", message, QMessageBox::Information,
-            //                              0,0,0, this, Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
-            //            QIcon icon = about.windowIcon();
-            //            QSize size = icon.actualSize(QSize(64, 64));
-            //            about.setIconPixmap(icon.pixmap(size));
-            //            about.addButton(QMessageBox::Ok);
-            //            about.exec();
-            QMessageBox::about(this, "qtfuzzylite", message);
+            About about(this);
+            about.setup();
+            about.exec();
+            
+//            
+//            QString message =
+//                    "<qt><span style='font-weight:0;'>"
+//                    "<b>qtfuzzylite v. " FLQT_VERSION " (" FLQT_DATE ")</b><br>"
+//                    "<b>fuzzylite v. " FL_VERSION " (" FL_DATE ")</b><br>"
+//                    "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a><br><br>"
+//                    "Developed by Juan Rada-Vilela &nbsp;"
+//                    "<a href='mailto:jcrada@gmail.com'>jcrada@fuzzylite.com</a><br><br>"
+//                    "Please consider making a <b>donation</b> to support and further "
+//                    "improve these projects.<br>"
+//                    "<div align='left'><a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HAGFHRMSZVDKN'>"
+//                    "<img src=':/icons/btn_donateCC_LG.gif'></a></div>"
+//                    "<br>Visit &nbsp;"
+//                    "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a> "
+//                    "to find out how your contribution will be utilized.<br><br>"
+//                    "There are still many things to do!"
+//                    "<br><br>"
+//                    "... and do not hesitate to provide feedback, feature requests, "
+//                    "custom enhancements, or anything else!"
+//                    "<a href='http://www.fuzzylite.com'></a>"
+//                    "</span></qt>";
+//
+//
+//
+//            //            QMessageBox about("qtfuzzylite", message, QMessageBox::Information,
+//            //                              0,0,0, this, Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+//            //            QIcon icon = about.windowIcon();
+//            //            QSize size = icon.actualSize(QSize(64, 64));
+//            //            about.setIconPixmap(icon.pixmap(size));
+//            //            about.addButton(QMessageBox::Ok);
+//            //            about.exec();
+//            QMessageBox::about(this, "qtfuzzylite", message);
         }
 
         void Window::onMenuQuit() {
