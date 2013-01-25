@@ -46,7 +46,7 @@ namespace fl {
             virtual void showEvent(QShowEvent*);
             
         public:
-            Ui::Configuration* ui;
+            Ui::Preferences* ui;
 
             Configuration(QWidget* parent = NULL, Qt::WindowFlags f = 0);
             virtual ~Configuration();

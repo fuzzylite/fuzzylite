@@ -17,6 +17,7 @@
 
 namespace fl {
     namespace qt {
+        class Viewer;
         class Configuration;
 
         class Window : public QMainWindow {
@@ -88,6 +89,10 @@ namespace fl {
             Window(QWidget* parent = NULL, Qt::WindowFlags flags = 0);
             ~Window();
             static Window* instance;
+            
+            Viewer* _inputViewer;
+            Viewer* _outputViewer;
+            
         public:
             Ui::Window* ui;
             Configuration* configuration;

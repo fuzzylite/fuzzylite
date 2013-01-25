@@ -18,8 +18,8 @@ namespace fl {
     namespace qt {
 
         Configuration::Configuration(QWidget* parent, Qt::WindowFlags f)
-        : QDialog(parent, f), ui(new Ui::Configuration) {
-            setWindowFlags(Qt::Tool);
+        : QDialog(parent, f), ui(new Ui::Preferences) {
+            setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint);
 
         }
 

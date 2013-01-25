@@ -7,7 +7,7 @@
 
 #include <QtGui/QApplication> 
 #include <QtGui/QMessageBox>
-
+#include <QtGui/QMenuBar>
 #include <fl/Headers.h>
 
 #include "fl/qt/Configuration.h"  
@@ -26,6 +26,9 @@ public:
         try {
             return QApplication::notify(receiver, event);
         } catch (std::exception& ex) {
+            this->catchException(ex);
+        } catch(...){
+            fl::Exception ex("[uncaught exception]", FL_AT);
             this->catchException(ex);
         }
         return false;
@@ -54,14 +57,24 @@ public:
 int main(int argc, char* argv[]) {
     QtFuzzyLite qtfuzzylite(argc, argv);
     signal(SIGSEGV, fl::Exception::signalHandler);
+//    signal(SIGABRT, fl::Exception::signalHandler);
+    signal(SIGILL, fl::Exception::signalHandler);
+    signal(SIGSEGV, fl::Exception::signalHandler);
+    signal(SIGFPE, fl::Exception::signalHandler);
+    signal(SIGBUS, fl::Exception::signalHandler);
+    signal(SIGPIPE, fl::Exception::signalHandler);
     try {
         fl::qt::Window::main();
-        //        int *x = (int*) - 1; // make a bad pointer
-        //        FL_LOG(*x);
+//                int *x = (int*) - 1; // make a bad pointer
+//                FL_LOG(*x);
+//        throw 0;
         return qtfuzzylite.exec();
     } catch (std::exception& ex) {
         qtfuzzylite.catchException(ex);
-        return EXIT_FAILURE;
+    } catch (...){
+        fl::Exception ex("[uncaught exception]", FL_AT);
+        qtfuzzylite.catchException(ex);
     }
+    return EXIT_FAILURE;
 }
 

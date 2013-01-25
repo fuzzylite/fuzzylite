@@ -12,7 +12,8 @@ namespace fl {
 
         About::About(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::About) {
-            setWindowFlags(Qt::Dialog);
+//            setWindowFlags(Qt::Dialog);
+            
         }
 
         About::~About() {
@@ -22,38 +23,47 @@ namespace fl {
 
         void About::setup() {
             ui->setupUi(this);
+            
+            _generosityTerm.push_back("low");
+            _generosityValue.push_back(10);
+            _generosityTerm.push_back("Low");
+            _generosityValue.push_back(20);
+            _generosityTerm.push_back("LOW");
+            _generosityValue.push_back(50);
 
-            std::vector<int> generosity;
-            generosity.push_back(10);
-            generosity.push_back(20);
-            generosity.push_back(50);
+            _generosityTerm.push_back("medium");
+            _generosityValue.push_back(100);
+            _generosityTerm.push_back("Medium");
+            _generosityValue.push_back(200);
+            _generosityTerm.push_back("MEDIUM");
+            _generosityValue.push_back(500);
 
-            generosity.push_back(100);
-            generosity.push_back(200);
-            generosity.push_back(500);
-
-            generosity.push_back(1000);
-            generosity.push_back(2000);
-            generosity.push_back(5000);
+            _generosityTerm.push_back("high");
+            _generosityValue.push_back(1000);
+            _generosityTerm.push_back("High");
+            _generosityValue.push_back(2000);
+            _generosityTerm.push_back("HIGH");
+            _generosityValue.push_back(5000);
 
             ui->sld_generosity->setMinimum(0);
-            ui->sld_generosity->setMaximum(generosity.size() - 1);
-            ui->sld_generosity->setValue((generosity.size() - 1) / 2);
+            ui->sld_generosity->setMaximum(_generosityTerm.size() - 1);
+            ui->sld_generosity->setValue((_generosityTerm.size() - 1) / 2);
             ui->sld_generosity->setSingleStep(1);
             ui->sld_generosity->setPageStep(1);
             ui->sld_generosity->setTickInterval(1);
 
-            for (std::size_t i = 0; i < generosity.size(); ++i) {
-                ui->cbx_generosity->addItem("$" + QString::number(generosity.at(i)));
+            for (std::size_t i = 0; i < _generosityTerm.size(); ++i) {
+                ui->cbx_generosity->addItem("$" + QString::number(_generosityValue.at(i)) + " - " + QString::fromStdString(_generosityTerm.at(i)));
             }
 
             ui->lbl_donate->setTextFormat(Qt::RichText);
             ui->lbl_donate->setOpenExternalLinks(true);
 
             layout()->setSizeConstraint(QLayout::SetFixedSize);
-            this->adjustSize();
+            setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+
             connect();
-            ui->cbx_generosity->setCurrentIndex((generosity.size() - 1) / 2);
+            ui->cbx_generosity->setCurrentIndex((_generosityTerm.size() - 1) / 2);
         }
 
         void About::connect() {
@@ -82,22 +92,9 @@ namespace fl {
         }
 
         void About::changeDonation() {
-            std::vector<std::string> generosity;
-            generosity.push_back("low");
-            generosity.push_back("Low");
-            generosity.push_back("LOW");
-
-            generosity.push_back("medium");
-            generosity.push_back("Medium");
-            generosity.push_back("MEDIUM");
-
-            generosity.push_back("high");
-            generosity.push_back("High");
-            generosity.push_back("HIGH");
-
             std::string href = "https://www.paypal.com/cgi-bin/webscr?"
                     "cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity";
-            std::string param = "&os0=" + generosity.at(ui->sld_generosity->value());
+            std::string param = "&os0=" + _generosityTerm.at(ui->sld_generosity->value());
             ui->lbl_donate->setText(QString::fromStdString(
                     "<qt><a href='" + href + param + "'>"
                     "<img src=':/icons/btn_donateCC_LG.gif'/></a></qt>"));

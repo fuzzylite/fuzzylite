@@ -27,6 +27,7 @@
 #include <QtCore/QTextStream>
 #include <QtGui/QMenu>
 #include <QtCore/QDateTime>
+#include <QtGui/QMenuBar>
 namespace fl {
     namespace qt {
 
@@ -46,6 +47,8 @@ namespace fl {
         Window::~Window() {
             disconnect();
             if (configuration) delete configuration;
+            if (_inputViewer) delete _inputViewer;
+            if (_outputViewer) delete _outputViewer;
             delete ui;
         }
 
@@ -61,16 +64,41 @@ namespace fl {
             configuration->setup();
             ui->tab_container->setCurrentIndex(0);
 
+            ui->menuTools->addAction("About qtfuzzylite", this, SLOT(onMenuAbout()));
+            ui->menuTools->addSeparator();
+            ui->menuTools->addAction("Preferences...", this, SLOT(onMenuConfigure()));
+            ui->menuTools->addSeparator();
+            ui->menuTools->addAction(ui->actionTerms);
+            ui->menuTools->addSeparator();
+            
+            QMenu* importMenu = new QMenu("Import");
+            importMenu->addAction("from file...", this, SLOT(onMenuImportFromFile()));
+            importMenu->addSeparator();
+            importMenu->addAction("Fuzzy Controller Language (FCL)", this, SLOT(onMenuImportFromFCL()));
+            importMenu->addAction("Fuzzy Inference System (FIS)", this, SLOT(onMenuImportFromFIS()));
+            ui->menuTools->addMenu(importMenu);
+ 
+            QMenu* exportMenu = new QMenu("Export");
+            exportMenu->addAction("fuzzylite (C++)", this, SLOT(onMenuExportToCpp()));
+            exportMenu->addSeparator();
+            exportMenu->addAction("Fuzzy Controller Language (FCL)", this, SLOT(onMenuExportToFCL()));
+            exportMenu->addAction("Fuzzy Inference System (FIS)", this, SLOT(onMenuExportToFIS()));
+            ui->menuTools->addMenu(exportMenu);
+
             QList<int> sizes;
             sizes << .75 * size().width() << .25 * size().width();
             ui->spl_control_inout_rules->setSizes(sizes);
             sizes.clear();
             sizes << .90 * size().width() << .10 * size().width();
             ui->spl_control_rule_strength->setSizes(sizes);
+            
+//            _inputViewer = new Viewer;
+//            ui->splInput->addWidget(_inputViewer);
+//            _outputViewer = new Viewer;
 
             QRect scr = QApplication::desktop()->screenGeometry();
             move(scr.center() - rect().center());
-
+ 
             setContextMenuPolicy(Qt::NoContextMenu);
 
             QWidget* widget = new QWidget;
@@ -343,6 +371,13 @@ namespace fl {
                     ui->lvw_inputs->selectedItems().size() > 0);
             ui->btn_edit_input->setEnabled(
                     ui->lvw_inputs->selectedItems().size() > 0);
+            if (ui->lvw_inputs->selectedItems().size() > 0){
+                std::string selectedVariable =
+                ui->lvw_inputs->selectedItems().last()->text().toStdString();
+                _inputViewer->constVariable =
+                    Model::Default()->engine()->getInputVariable(selectedVariable);
+            }
+            
         }
 
         void Window::onChangeOutputSelection() {
@@ -663,7 +698,7 @@ namespace fl {
         }
 
         void Window::onMenuConfigure() {
-            configuration->setFocus();
+            configuration->hide();
             configuration->show();
         }
 
@@ -674,6 +709,7 @@ namespace fl {
             window->ui->qfr_name->setVisible(false);
             window->ui->buttonBox->setVisible(false);
             window->show();
+
             //            delete window;
 
         }
@@ -938,9 +974,7 @@ namespace fl {
         void Window::onMenuReset() {
             QMessageBox::StandardButton clicked =
                     QMessageBox::warning(this, "Reset engine",
-                    "<qt>Do you want to reset the engine?<br><br>"
-                    "All the input and output variables and the rules "
-                    "will be deleted</qt>",
+                    "Do you want to reset the engine?",
                     QMessageBox::Yes | QMessageBox::No,
                     QMessageBox::Yes);
 
@@ -952,7 +986,7 @@ namespace fl {
         }
 
         void Window::onMenuAbout() {
-            About about(this);
+            About about;
             about.setup();
             about.exec();
             

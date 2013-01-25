@@ -22,7 +22,7 @@ namespace fl {
         : QDialog(parent, f),
         ui(new Ui::Term), viewer(NULL), dummyVariable(new Variable),
         indexOfEditingTerm(-1) {
-            setWindowFlags(Qt::Tool);
+            setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint);
         }
 
         Term::~Term() {

@@ -28,7 +28,9 @@ namespace fl {
             void disconnect();
             
             void changeDonation();
-
+            
+            std::vector<std::string> _generosityTerm;
+            std::vector<int> _generosityValue;
 
 
         public:

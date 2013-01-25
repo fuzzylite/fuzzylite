@@ -1,3 +1,4 @@
+Throw exception on Importers when text is empty.
 Add new exporters/importers to qtfuzzylite
 R Exporter to draw surfaces and the things that octave does.
 pyfuzzylite exporter

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Configuration</class>
- <widget class="QDialog" name="Configuration">
+ <class>Preferences</class>
+ <widget class="QDialog" name="Preferences">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,7 +17,11 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Configuration</string>
+   <string>Preferences</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>
   </property>
   <property name="sizeGripEnabled">
    <bool>false</bool>
@@ -213,6 +217,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
