@@ -78,7 +78,7 @@ namespace fl {
                             std::ostringstream ex;
                             ex << "[syntax error] expected a numeric value as the weight of the rule: "
                                     << rule;
-                            e.addDetail(ex.str(), FL_AT);
+                            e.append(ex.str(), FL_AT);
                             throw e;
                         }
                         break;

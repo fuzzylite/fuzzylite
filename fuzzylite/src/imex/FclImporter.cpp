@@ -196,7 +196,7 @@ namespace fl {
                     inputVariable->addTerm(extractTerm(line));
                 } else throw fl::Exception("[syntax error] token <" + firstToken + " not recognized", FL_AT);
             } catch (fl::Exception& ex) {
-                ex.addDetail("At line: <" + line + ">");
+                ex.append("At line: <" + line + ">");
                 throw ex;
             }
         }
@@ -306,7 +306,7 @@ namespace fl {
         try {
             return Factory::instance()->tnorm()->create(className);
         } catch (fl::Exception& ex) {
-            ex.addDetail("[syntax error] T-Norm <" + name + "> not recognized in line:\n"
+            ex.append("[syntax error] T-Norm <" + name + "> not recognized in line:\n"
                     + line, FL_AT);
             throw ex;
         }
@@ -333,7 +333,7 @@ namespace fl {
         try {
             return Factory::instance()->snorm()->create(className);
         } catch (fl::Exception& ex) {
-            ex.addDetail("[syntax error] S-Norm <" + name + "> not recognized in line:\n"
+            ex.append("[syntax error] S-Norm <" + name + "> not recognized in line:\n"
                     + line, FL_AT);
             throw ex;
         }
@@ -404,7 +404,7 @@ namespace fl {
             result->setName(name);
             return result;
         } catch (fl::Exception& ex) {
-            ex.addCall(FL_AT);
+            ex.append(FL_AT);
             throw ex;
         }
     }
@@ -428,7 +428,7 @@ namespace fl {
         try {
             return Factory::instance()->defuzzifier()->create(className);
         } catch (fl::Exception& ex) {
-            ex.addDetail("[syntax error] defuzzifier <" + name +
+            ex.append("[syntax error] defuzzifier <" + name +
                     "> not recognized in line:\n" + line, FL_AT);
             throw ex;
         }

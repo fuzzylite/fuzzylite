@@ -10,7 +10,7 @@
 #include "fl/qt/Model.h"
 
 #include "fl/qt/Window.h"
-#include "fl/qt/Configuration.h"
+#include "fl/qt/Preferences.h"
 
 #include <QtGui/QGraphicsPolygonItem>
 
@@ -202,7 +202,7 @@ namespace fl {
 
             std::vector<scalar> xSamples, ySamples;
             int divisions = Window::mainWindow()->
-                    configuration->ui->sbx_divisions->value();
+                    preferences->ui->sbx_divisions->value();
             scalar dx = (maximum - minimum) / divisions;
             scalar area = 0;
             scalar xcentroid = 0, ycentroid = 0;

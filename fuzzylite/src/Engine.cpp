@@ -46,7 +46,7 @@ namespace fl {
         try {
             return Factory::instance()->tnorm()->create(classname);
         } catch (fl::Exception& ex) {
-            ex.addCall(FL_AT);
+            ex.append(FL_AT);
             throw ex;
         }
     }
@@ -55,7 +55,7 @@ namespace fl {
         try {
             return Factory::instance()->snorm()->create(classname);
         } catch (fl::Exception& ex) {
-            ex.addCall(FL_AT);
+            ex.append(FL_AT);
             throw ex;
         }
     }
@@ -64,7 +64,7 @@ namespace fl {
         try {
             return Factory::instance()->defuzzifier()->create(classname);
         } catch (fl::Exception& ex) {
-            ex.addCall(FL_AT);
+            ex.append(FL_AT);
             throw ex;
         }
     }

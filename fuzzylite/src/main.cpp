@@ -14,25 +14,22 @@
 
 using namespace fl;
 
-void baz(){
-    int *x = (int*) - 1; // make a bad pointer
-    FL_LOG("%d\n" <<  *x); // causes segfault
-}
-
-void bar(){
-    baz();
-}
-
-void foo(){
-    bar();
-}
+//void baz(){
+//    int *x = (int*) - 1; // make a bad pointer
+//    FL_LOG("%d\n" <<  *x); // causes segfault
+//}
+//
+//void bar(){
+//    baz();
+//}
+//
+//void foo(){
+//    bar();
+//}
 
 int main(int argc, char** argv) {
-    //    std::set_terminate()
     signal(SIGSEGV, fl::Exception::signalHandler);
-    foo();
-
-
+//    foo();
     std::cout << "\nHello, fuzzylite!" << std::endl
             << "Version: " << FL_VERSION << " (" << FL_DATE << ")\n" << std::endl;
     scalar someScalar = 0;

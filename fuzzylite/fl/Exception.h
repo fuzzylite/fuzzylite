@@ -18,44 +18,23 @@ namespace fl {
     class Exception : public std::exception {
     protected:
         std::string _what;
-        std::vector<std::string> _details;
-        std::vector<std::string> _calls;
     public:
         Exception(const std::string& what, const std::string& file, int line,
                 const std::string& function, bool log = true);
         virtual ~Exception() throw ();
 
         virtual void setWhat(const std::string& what);
+        virtual std::string getWhat() const;
         virtual const char* what() const throw ();
         
-        static std::string btCallStack();
-        
+        virtual void append(const std::string& whatMore);
+        virtual void append(const std::string& file, int line, const std::string& function);
+        virtual void append(const std::string& whatMore,
+            const std::string& file, int line, const std::string& function);
+
+        static std::string btCallStack(int maxCalls = 10);
+
         static void signalHandler(int signal);
-        
-        
-        
-
-        /**
-         * Operations for std::vector _details
-         */
-        virtual void addDetail(const std::string& detail);
-        virtual void addDetail(const std::string& detail,
-                const std::string& file, int line, const std::string& function);
-        virtual std::string getDetail(int index) const;
-        virtual std::string removeDetail(int index);
-        virtual int numberOfDetails() const;
-        virtual const std::vector<std::string>& details() const;
-
-        /**
-         * Operations for std::vector _calls
-         */
-        virtual void addCall(const std::string& file, int line, const std::string& function);
-        virtual std::string getCall(int index) const;
-        virtual std::string removeCall(int index);
-        virtual int numberOfCalls() const;
-        virtual const std::vector<std::string>& calls() const;
-
-
     };
 
 }

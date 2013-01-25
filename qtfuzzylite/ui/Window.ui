@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>560</width>
-    <height>524</height>
+    <height>541</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -63,7 +63,7 @@
          <x>0</x>
          <y>0</y>
          <width>560</width>
-         <height>384</height>
+         <height>408</height>
         </rect>
        </property>
        <attribute name="label">
@@ -379,8 +379,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>185</width>
-         <height>210</height>
+         <width>186</width>
+         <height>222</height>
         </rect>
        </property>
        <attribute name="label">
@@ -722,7 +722,7 @@
    </attribute>
    <addaction name="actionReset"/>
    <addaction name="separator"/>
-   <addaction name="actionConfigure"/>
+   <addaction name="actionPreferences"/>
    <addaction name="actionTerms"/>
    <addaction name="separator"/>
    <addaction name="actionImport"/>
@@ -737,7 +737,7 @@
      <x>0</x>
      <y>0</y>
      <width>560</width>
-     <height>22</height>
+     <height>25</height>
     </rect>
    </property>
    <property name="defaultUp">
@@ -750,7 +750,7 @@
    </widget>
    <addaction name="menuTools"/>
   </widget>
-  <action name="actionConfigure">
+  <action name="actionPreferences">
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>

@@ -417,7 +417,7 @@ namespace fl {
             result->setName(name);
             return result;
         } catch (fl::Exception& ex) {
-            ex.addCall(FL_AT);
+            ex.append(FL_AT);
             throw ex;
         }
     }

@@ -1,17 +1,17 @@
 /*
- * Configuration.h
+ * Preferences.h
  *
  *  Created on: 11/12/2012
  *      Author: jcrada
  */
 
-#ifndef FLQT_CONFIGURATION_H_
-#define FLQT_CONFIGURATION_H_
+#ifndef FLQT_PREFERENCES_H_
+#define FLQT_PREFERENCES_H_
 
 #include <QtGui/QDialog>
 #include <QtGui/QWidget>
 
-#include "ui/ui_Configuration.h"
+#include "ui/ui_Preferences.h"
 
 #include <fl/Headers.h>
 
@@ -21,7 +21,7 @@
 namespace fl {
     namespace qt {
 
-        class Configuration : public QDialog {
+        class Preferences : public QDialog {
             Q_OBJECT
 
         protected slots:
@@ -48,8 +48,8 @@ namespace fl {
         public:
             Ui::Preferences* ui;
 
-            Configuration(QWidget* parent = NULL, Qt::WindowFlags f = 0);
-            virtual ~Configuration();
+            Preferences(QWidget* parent = NULL, Qt::WindowFlags f = 0);
+            virtual ~Preferences();
 
             virtual void setup();
 
@@ -60,4 +60,4 @@ namespace fl {
         };
     }
 }
-#endif /* FLQT_CONFIGURATION_H_ */
+#endif /* FLQT_PREFERENCES_H_ */

@@ -18,7 +18,7 @@
 namespace fl {
     namespace qt {
         class Viewer;
-        class Configuration;
+        class Preferences;
 
         class Window : public QMainWindow {
             Q_OBJECT
@@ -52,7 +52,7 @@ namespace fl {
             void onInputValueChanged();
 
             //MenuBar
-            void onMenuConfigure();
+            void onMenuPreferences();
             void onMenuTerms();
 
             bool confirmImporting();
@@ -72,7 +72,7 @@ namespace fl {
             void closeEvent(QCloseEvent* e);
 
         protected:
-            std::vector<QWidget*> _inputs, _outputs;
+//            std::vector<QWidget*> _inputs, _outputs;
             QString _lastOpenedFilePath;
             void connect();
             void disconnect();
@@ -95,7 +95,7 @@ namespace fl {
             
         public:
             Ui::Window* ui;
-            Configuration* configuration;
+            Preferences* preferences;
 
             static Window* mainWindow();
 

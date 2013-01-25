@@ -6,14 +6,15 @@
  */
 
 #include "fl/qt/About.h"
+#include "fl/qt/config.h"
 #include <fl/Headers.h>
 namespace fl {
     namespace qt {
 
         About::About(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::About) {
-//            setWindowFlags(Qt::Dialog);
-            
+            setWindowFlags(Qt::Dialog);
+
         }
 
         About::~About() {
@@ -23,7 +24,7 @@ namespace fl {
 
         void About::setup() {
             ui->setupUi(this);
-            
+
             _generosityTerm.push_back("low");
             _generosityValue.push_back(10);
             _generosityTerm.push_back("Low");
@@ -60,8 +61,35 @@ namespace fl {
             ui->lbl_donate->setOpenExternalLinks(true);
 
             layout()->setSizeConstraint(QLayout::SetFixedSize);
-            setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+            setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
+            std::string header =
+                    "<html>"
+                    "<div align='center'>"
+                    "<table>"
+                    "<tr >"
+                    "<td align='center' valign='middle'>"
+                    "<a href='http://www.fuzzylite.com'><img src=':/icons/qtfuzzylite.svg'/></a>"
+                    "</td>"
+                    "<td align='left' valign='top'><b>qtfuzzylite v."
+                    FLQT_VERSION " (" FLQT_DATE ")</b> "
+                    "<br>"
+                    "<b>fuzzylite v." FL_VERSION " (" FL_DATE ")</b>"
+                    "<br>"
+                    "</b>"
+                    "<a href='http://www.fuzzylite.com'>www.fuzzylite.com</a>"
+                    "<br>"
+                    "<br>"
+                    "Developed by Juan Rada-Vilela"
+                    "<br>"
+                    "<a href='mailto:jcrada@fuzzylite.com'>jcrada@fuzzylite.com</a></td>"
+                    "</tr>"
+                    "</table>"
+                    "</div>"
+                    "</html>";
+            ui->lbl_header->setTextFormat(Qt::RichText);
+            ui->lbl_header->setOpenExternalLinks(true);
+            ui->lbl_header->setText(QString::fromStdString(header));
             connect();
             ui->cbx_generosity->setCurrentIndex((_generosityTerm.size() - 1) / 2);
         }

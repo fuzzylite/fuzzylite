@@ -7,13 +7,13 @@
 
 #include "fl/qt/Window.h"
 #include "fl/qt/About.h"
-#include "fl/qt/Configuration.h"
+#include "fl/qt/Preferences.h"
 #include "fl/qt/Term.h"
 #include "fl/qt/Variable.h"
 #include "fl/qt/Model.h"
 #include "fl/qt/Control.h"
 
-#include "fl/qt/definitions.h"
+#include "fl/qt/config.h"
 #include "ui/ui_ImEx.h"
 #include "ui/ui_About.h"
 
@@ -42,11 +42,11 @@ namespace fl {
 
         Window::Window(QWidget* parent, Qt::WindowFlags flags) :
         QMainWindow(parent, flags), _lastOpenedFilePath("."),
-        ui(new Ui::Window), configuration(NULL) { }
+        ui(new Ui::Window), preferences(NULL) { }
 
         Window::~Window() {
             disconnect();
-            if (configuration) delete configuration;
+            if (preferences) delete preferences;
             if (_inputViewer) delete _inputViewer;
             if (_outputViewer) delete _outputViewer;
             delete ui;
@@ -60,13 +60,13 @@ namespace fl {
 
             setUnifiedTitleAndToolBarOnMac(true);
             setGeometry(0, 0, 800, 600);
-            configuration = new fl::qt::Configuration(this);
-            configuration->setup();
+            preferences = new fl::qt::Preferences(this);
+            preferences->setup();
             ui->tab_container->setCurrentIndex(0);
 
             ui->menuTools->addAction("About qtfuzzylite", this, SLOT(onMenuAbout()));
             ui->menuTools->addSeparator();
-            ui->menuTools->addAction("Preferences...", this, SLOT(onMenuConfigure()));
+            ui->menuTools->addAction("Preferences...", this, SLOT(onMenuPreferences()));
             ui->menuTools->addSeparator();
             ui->menuTools->addAction(ui->actionTerms);
             ui->menuTools->addSeparator();
@@ -92,10 +92,6 @@ namespace fl {
             sizes << .90 * size().width() << .10 * size().width();
             ui->spl_control_rule_strength->setSizes(sizes);
             
-//            _inputViewer = new Viewer;
-//            ui->splInput->addWidget(_inputViewer);
-//            _outputViewer = new Viewer;
-
             QRect scr = QApplication::desktop()->screenGeometry();
             move(scr.center() - rect().center());
  
@@ -113,8 +109,8 @@ namespace fl {
         }
 
         void Window::connect() {
-            QObject::connect(ui->actionConfigure, SIGNAL(triggered()),
-                    this, SLOT(onMenuConfigure()));
+            QObject::connect(ui->actionPreferences, SIGNAL(triggered()),
+                    this, SLOT(onMenuPreferences()));
             QObject::connect(ui->actionTerms, SIGNAL(triggered()),
                     this, SLOT(onMenuTerms()));
             QObject::connect(ui->actionReset, SIGNAL(triggered()),
@@ -169,8 +165,8 @@ namespace fl {
         }
 
         void Window::disconnect() {
-            QObject::disconnect(ui->actionConfigure, SIGNAL(triggered()),
-                    this, SLOT(onMenuConfigure()));
+            QObject::disconnect(ui->actionPreferences, SIGNAL(triggered()),
+                    this, SLOT(onMenuPreferences()));
             QObject::disconnect(ui->actionTerms, SIGNAL(triggered()),
                     this, SLOT(onMenuTerms()));
             QObject::disconnect(ui->actionReset, SIGNAL(triggered()),
@@ -226,8 +222,8 @@ namespace fl {
         void Window::reloadModel() {
             Engine* engine = Model::Default()->engine();
 
-            configuration->applyDefaults();
-            if (configuration->isVisible()) configuration->loadFromModel();
+            preferences->applyDefaults();
+            if (preferences->isVisible()) preferences->loadFromModel();
 
             ui->lvw_inputs->clear();
             ui->lvw_outputs->clear();
@@ -371,13 +367,6 @@ namespace fl {
                     ui->lvw_inputs->selectedItems().size() > 0);
             ui->btn_edit_input->setEnabled(
                     ui->lvw_inputs->selectedItems().size() > 0);
-            if (ui->lvw_inputs->selectedItems().size() > 0){
-                std::string selectedVariable =
-                ui->lvw_inputs->selectedItems().last()->text().toStdString();
-                _inputViewer->constVariable =
-                    Model::Default()->engine()->getInputVariable(selectedVariable);
-            }
-            
         }
 
         void Window::onChangeOutputSelection() {
@@ -697,9 +686,9 @@ namespace fl {
             }
         }
 
-        void Window::onMenuConfigure() {
-            configuration->hide();
-            configuration->show();
+        void Window::onMenuPreferences() {
+            preferences->hide();
+            preferences->show();
         }
 
         void Window::onMenuTerms() {
