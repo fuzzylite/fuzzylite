@@ -96,7 +96,7 @@ namespace fl {
             for (int i = 0; i < backtraceSize; ++i) {
                 SymFromAddr(GetCurrentProcess(), (DWORD64) (buffer[ i ]), 0, btSymbol);
                 btStream << (backtraceSize - i - 1) << ": " <<
-                        btSymbol->Name << "- 0x" << btSymbol->Address << "\n";
+                        btSymbol->Name << " at 0x" << btSymbol->Address << "\n";
             }
         }
         free(btSymbol);

@@ -110,15 +110,23 @@ namespace fl {
                 return result;
             }
             std::string::const_iterator position = str.begin(), next = str.begin();
+			FL_LOG("string: " << str);
+			FL_LOG("split: " << delimiter);
             while (next != str.end()) {
                 next = std::search(position, str.end(), delimiter.begin(), delimiter.end());
                 std::string token(position, next);
-
+				FL_LOG("token: " << token);
                 if (not (token.empty() and ignoreEmpty)) {
                     result.push_back(token);
                 }
-
-                position = next + delimiter.size();
+				if (next != str.end()){
+					position = next + delimiter.size();
+					/* In Windows, an exception could be thrown in the previous line due to 'position' going past the str.end(). An alternative solution could be this:
+					for (std::size_t i = 0 ; i < delimiter.size() and position != str.end(); ++i){
+						position++;
+					}
+					*/
+				}
             }
             return result;
         }
@@ -155,11 +163,11 @@ namespace fl {
             pInf << std::numeric_limits<scalar>::infinity();
             nInf << (-std::numeric_limits<scalar>::infinity());
 
-            if (x == nan.str())
+            if (x == nan.str() or x == "nan")
                 return std::numeric_limits<scalar>::quiet_NaN();
-            if (x == pInf.str())
+            if (x == pInf.str() or x == "inf")
                 return std::numeric_limits<scalar>::infinity();
-            if (x == nInf.str())
+            if (x == nInf.str() or x == "-inf")
                 return -std::numeric_limits<scalar>::infinity();
             if (!quiet) {
                 std::ostringstream ex;
@@ -178,16 +186,19 @@ namespace fl {
         static std::string str(scalar x, int precision = FL_DECIMALS) {
             std::ostringstream ss;
             ss << std::setprecision(precision) << std::fixed;
-            ss << x;
+			if (fl::Op::isNan(x)) ss << "nan";
+			else if (fl::Op::isInf(x)){
+				if (x < 0) ss <<"-";
+				ss << "inf";
+			}else ss << x;
             return ss.str();
         }
 
         static std::string str(int items, scalar* x, const std::string& separator = ",",
                 int precision = FL_DECIMALS) {
             std::ostringstream ss;
-            ss << std::setprecision(precision) << std::fixed;
             for (int i = 0; i < items; ++i) {
-                ss << x[i];
+                ss << fl::Op::str(x[i], precision);
                 if (i < items - 1) ss << separator;
             }
             return ss.str();
@@ -197,9 +208,8 @@ namespace fl {
         static std::string str(const std::vector<T>& x,
                 const std::string& separator = ", ", int precision = FL_DECIMALS) {
             std::ostringstream ss;
-            ss << std::setprecision(precision) << std::fixed;
             for (std::size_t i = 0; i < x.size(); ++i) {
-                ss << x.at(i);
+                ss << fl::Op::str(x.at(i), precision);
                 if (i < x.size() - 1) ss << separator;
             }
             return ss.str();

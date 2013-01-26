@@ -124,7 +124,7 @@ namespace fl {
             fis << "[Output" << (ixVar + 1) << "]\n";
             fis << "Name='" << var->getName() << "'\n";
             fis << "Range=[" << var->getMinimum() << " " << var->getMaximum() << "]\n";
-            fis << "Default=" << var->getDefaultValue() << "\n";
+            fis << "Default=" << fl::Op::str(var->getDefaultValue()) << "\n";
             fis << "Lock=" << var->lockDefuzzifiedValue() << "\n";
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
             for (int ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {

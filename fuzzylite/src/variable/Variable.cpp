@@ -66,7 +66,7 @@ namespace fl {
         std::ostringstream ss;
         ss << std::setprecision(FL_DECIMALS) << std::fixed;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
-            ss << _terms.at(i)->membership(x) << "/" << _terms.at(i)->getName();
+            ss << fl::Op::str(_terms.at(i)->membership(x)) << "/" << _terms.at(i)->getName();
             if (i < _terms.size() - 1)
                 ss << " + ";
         }
