@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    class MaximumDefuzzifier : public Defuzzifier {
+    flclass MaximumDefuzzifier : public Defuzzifier {
     public:
 
         enum Type {
@@ -31,19 +31,19 @@ namespace fl {
         virtual Type getType() const;
     };
 
-    class MeanOfMaximum : public MaximumDefuzzifier {
+    flclass MeanOfMaximum : public MaximumDefuzzifier {
     public:
 
         MeanOfMaximum(int divisions = FL_DIVISIONS);
     };
 
-    class SmallestOfMaximum : public MaximumDefuzzifier {
+    flclass SmallestOfMaximum : public MaximumDefuzzifier {
     public:
 
         SmallestOfMaximum(int divisions = FL_DIVISIONS);
     };
 
-    class LargestOfMaximum : public MaximumDefuzzifier {
+    flclass LargestOfMaximum : public MaximumDefuzzifier {
     public:
 
         LargestOfMaximum(int divisions = FL_DIVISIONS);

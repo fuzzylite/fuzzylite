@@ -22,7 +22,7 @@ namespace fl {
     class Defuzzifier;
     class Variable;
 
-    class FisImporter : public Importer {
+    flclass FisImporter : public Importer {
     protected:
 
         virtual void importSystem(const std::string& section, Engine* engine,

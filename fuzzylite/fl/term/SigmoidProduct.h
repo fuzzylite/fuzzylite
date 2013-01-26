@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    class SigmoidProduct : public Term {
+    flclass SigmoidProduct : public Term {
     protected:
         scalar _left;
         scalar _rising;

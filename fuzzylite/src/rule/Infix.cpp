@@ -192,12 +192,9 @@ namespace fl {
 
     void Infix::loadGenericFunctions() {
         this->_genericFunctions["acos"] = new GenericFunction("acos", &(std::acos));
-        this->_genericFunctions["acosh"] = new GenericFunction("acosh", &(acosh));
         this->_genericFunctions["asin"] = new GenericFunction("asin", &(std::asin));
-        this->_genericFunctions["asinh"] = new GenericFunction("asinh", &(asinh));
         this->_genericFunctions["atan"] = new GenericFunction("atan", &(std::atan));
         this->_genericFunctions["atan2"] = new GenericFunction("atan2", &(std::atan2));
-        this->_genericFunctions["atanh"] = new GenericFunction("atanh", &(atanh));
         this->_genericFunctions["ceil"] = new GenericFunction("ceil", &(std::ceil));
         this->_genericFunctions["cos"] = new GenericFunction("cos", &(std::cos));
         this->_genericFunctions["cosh"] = new GenericFunction("cosh", &(std::cosh));
@@ -206,13 +203,20 @@ namespace fl {
         this->_genericFunctions["floor"] = new GenericFunction("floor", &(std::floor));
         this->_genericFunctions["log"] = new GenericFunction("log", &(std::log));
         this->_genericFunctions["log10"] = new GenericFunction("log10", &(std::log10));
-        this->_genericFunctions["log1p"] = new GenericFunction("log1p", &(log1p));
         this->_genericFunctions["pow"] = new GenericFunction("pow", &(std::pow));
         this->_genericFunctions["sin"] = new GenericFunction("sin", &(std::sin));
         this->_genericFunctions["sinh"] = new GenericFunction("sinh", &(std::sinh));
         this->_genericFunctions["sqrt"] = new GenericFunction("sqrt", &(std::sqrt));
         this->_genericFunctions["tan"] = new GenericFunction("tan", &(std::tan));
         this->_genericFunctions["tanh"] = new GenericFunction("tanh", &(std::tanh));
+		
+		#ifdef FL_UNIX
+		//not found in Windows
+		this->_genericFunctions["log1p"] = new GenericFunction("log1p", &(log1p));
+		this->_genericFunctions["acosh"] = new GenericFunction("acosh", &(acosh));
+        this->_genericFunctions["asinh"] = new GenericFunction("asinh", &(asinh));
+        this->_genericFunctions["atanh"] = new GenericFunction("atanh", &(atanh));
+		#endif
         //        this->_genericFunctions["X"] = new GenericFunction("X", &(std::X));
     }
 

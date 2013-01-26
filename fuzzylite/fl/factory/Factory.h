@@ -7,7 +7,7 @@
 
 #ifndef FL_FACTORY_H
 #define	FL_FACTORY_H
-
+#include "fl/config.h"
 
 namespace fl {
     class TNormFactory;
@@ -15,7 +15,7 @@ namespace fl {
     class DefuzzifierFactory;
     class TermFactory;
 
-    class Factory {
+    flclass Factory {
     protected:
         static Factory* _instance;
 

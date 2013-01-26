@@ -9,10 +9,10 @@
 #define	FL_EXPORTER_H
 
 #include <string>
-
+#include "fl/config.h"
 namespace fl {
     class Engine;
-    class Exporter{
+    flclass Exporter{
     public:
         Exporter(){}
         virtual ~Exporter(){}

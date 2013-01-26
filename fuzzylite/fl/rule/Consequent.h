@@ -15,7 +15,7 @@
 namespace fl {
     class TNorm;
 
-    class Consequent {
+    flclass Consequent {
     public:
 
         Consequent() { }

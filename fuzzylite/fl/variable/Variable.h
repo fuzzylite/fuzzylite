@@ -20,7 +20,7 @@ namespace fl {
 
     class Term;
     
-    class Variable {
+    flclass Variable {
     protected:
         std::string _name;
         std::vector<Term*> _terms;

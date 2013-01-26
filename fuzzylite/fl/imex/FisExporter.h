@@ -21,7 +21,7 @@ namespace fl {
     class MamdaniProposition;
     class Variable;
 
-    class FisExporter : public Exporter {
+    flclass FisExporter : public Exporter {
     protected:
         std::string exportSystem(const Engine* engine) const;
         std::string exportInputs(const Engine* engine) const;

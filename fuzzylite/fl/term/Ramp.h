@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    class Ramp : public Term {
+    flclass Ramp : public Term {
     protected:
         scalar _start, _end;
 

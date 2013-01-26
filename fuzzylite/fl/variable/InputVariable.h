@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    class InputVariable : public Variable {
+    flclass InputVariable : public Variable {
     protected:
         scalar _input;
     public:

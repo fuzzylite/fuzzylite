@@ -12,9 +12,10 @@ option(FL_DECIMALS "Number of decimals to print information" 3)
 
 #set(CMAKE_VERBOSE_MAKEFILE true)
 
-set(CMAKE_CXX_FLAGS "-Werror -g3 -O0")
+#set(CMAKE_CXX_FLAGS "/Werror /g2 /O0")
 #set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2")
+add_definitions(-DFL_WINDOWS)
 
 
 if(FL_USE_FLOAT)
@@ -70,20 +71,22 @@ endif("${isSystemDir}" STREQUAL "-1")
 
 add_library(fl-shared SHARED ${fl-headers} ${fl-sources})
 set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
+target_link_libraries(fl-shared dbghelp)
 
 add_library(fl-static STATIC ${fl-headers} ${fl-sources})
-set_target_properties(fl-static PROPERTIES OUTPUT_NAME fuzzylite)
-
+set_target_properties(fl-static PROPERTIES OUTPUT_NAME fuzzylite-static)
+target_link_libraries(fl-static dbghelp)
 
 add_executable(fl-bin src/main.cpp)
-set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
-target_link_libraries(fl-bin fl-shared)
+set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite-demo)
+target_link_libraries(fl-bin fl-shared dbghelp)
 
 
-install(TARGETS fl-bin fl-shared fl-static
+install(TARGETS fl-bin fl-shared #fl-static
 		RUNTIME DESTINATION bin
 		LIBRARY DESTINATION lib
-		ARCHIVE DESTINATION lib)
+		ARCHIVE DESTINATION lib
+		)
 
 install(DIRECTORY fl/ DESTINATION include/fl)
 

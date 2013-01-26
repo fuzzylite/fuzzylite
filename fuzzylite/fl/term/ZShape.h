@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    class ZShape : public Term {
+    flclass ZShape : public Term {
     protected:
         scalar _start, _end;
 

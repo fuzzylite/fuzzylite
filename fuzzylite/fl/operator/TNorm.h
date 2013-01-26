@@ -12,11 +12,11 @@
 
 namespace fl {
 
-    class TNorm : public Operator {
+    flclass TNorm : public Operator {
         //dummy class
     };
 
-    class Minimum : public TNorm {
+    flclass Minimum : public TNorm {
     public:
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
@@ -28,25 +28,25 @@ namespace fl {
         scalar compute(scalar a, scalar b) const;
     };
 
-    class BoundedDifference : public TNorm {
+    flclass BoundedDifference : public TNorm {
     public:
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
-    class DrasticProduct : public TNorm {
+    flclass DrasticProduct : public TNorm {
     public:
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
-    class EinsteinProduct : public TNorm {
+    flclass EinsteinProduct : public TNorm {
     public:
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
-    class HamacherProduct : public TNorm {
+    flclass HamacherProduct : public TNorm {
     public:
         std::string className() const;
         scalar compute(scalar a, scalar b) const;

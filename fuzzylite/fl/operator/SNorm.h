@@ -12,47 +12,47 @@
 
 namespace fl {
 
-    class SNorm : public Operator {
-        //Dummy class
+    flclass SNorm : public Operator {
+        //Dummy flclass
     };
 
-    class Maximum : public SNorm {
+    flclass Maximum : public SNorm {
     public:
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
-    class AlgebraicSum : public SNorm {
+    flclass AlgebraicSum : public SNorm {
     public:
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
-    class BoundedSum : public SNorm {
+    flclass BoundedSum : public SNorm {
     public:
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
-    class NormalizedSum : public SNorm {
+    flclass NormalizedSum : public SNorm {
     public:
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
-    class DrasticSum : public SNorm {
+    flclass DrasticSum : public SNorm {
     public:
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
-    class EinsteinSum : public SNorm {
+    flclass EinsteinSum : public SNorm {
     public:
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
     };
 
-    class HamacherSum : public SNorm {
+    flclass HamacherSum : public SNorm {
     public:
         std::string className() const;
         scalar compute(scalar a, scalar b) const;

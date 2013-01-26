@@ -99,16 +99,18 @@ int main(int argc, char* argv[]) {
     std::set_unexpected(fl::terminate);
     fl::qtfuzzylite = new fl::QtFuzzyLite(argc, argv);
     signal(SIGSEGV, fl::signalHandler);
-    signal(SIGABRT, fl::Exception::signalHandler);
+    signal(SIGABRT, fl::signalHandler);
     signal(SIGILL, fl::signalHandler);
     signal(SIGSEGV, fl::signalHandler);
     signal(SIGFPE, fl::signalHandler);
+	#ifdef FL_UNIX
     signal(SIGBUS, fl::signalHandler);
     signal(SIGPIPE, fl::signalHandler);
+	#endif
     try {
         fl::qt::Window::main();
-        //                int *x = (int*) - 1; // make a bad pointer
-        //                FL_LOG(*x);
+                        //int *x = (int*) - 1; // make a bad pointer
+                        //FL_LOG(*x);
         //        throw 0;
         int result = fl::qtfuzzylite->exec();
         delete fl::qtfuzzylite;

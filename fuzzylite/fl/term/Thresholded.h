@@ -13,7 +13,7 @@
 namespace fl {
     class TNorm;
 
-    class Thresholded : public Term {
+    flclass Thresholded : public Term {
     protected:
         const Term* _term;
         scalar _threshold;

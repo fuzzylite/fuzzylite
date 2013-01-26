@@ -10,10 +10,10 @@
 
 #include <string>
 #include <vector>
-
+#include "fl/config.h"
 namespace fl {
     class Hedge;
-    class HedgeFactory {
+    flclass HedgeFactory {
     public:
         HedgeFactory();
         virtual ~HedgeFactory();

@@ -9,11 +9,11 @@
 #define	FL_IMPORTER_H
 
 #include <string>
-
+#include "fl/config.h"
 namespace fl {
     class Engine;
 
-    class Importer {
+    flclass Importer {
     public:
 
         Importer() {

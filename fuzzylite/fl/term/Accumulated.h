@@ -16,7 +16,7 @@ namespace fl {
 
     class SNorm;
 
-    class Accumulated : public Term {
+    flclass Accumulated : public Term {
     protected:
         std::vector<const Term*> _terms;
         scalar _minimum, _maximum;

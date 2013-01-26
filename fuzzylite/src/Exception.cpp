@@ -8,7 +8,13 @@
 #include "fl/Exception.h"
 #include "fl/config.h"
 
+#ifdef FL_UNIX
 #include <execinfo.h>
+#elif defined FL_WINDOWS
+#include <windows.h>
+#include <winbase.h>
+#include <dbghelp.h>
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -55,33 +61,58 @@ namespace fl {
         append(file, line, function);
     }
 
-    std::string Exception::btCallStack(int maxCalls) {
+    std::string Exception::btCallStack(const int maxCalls) {
+		std::ostringstream backtrace;
+		#ifdef FL_UNIX
         int bufferSize = maxCalls;
         void* buffer[bufferSize];
-
         int backtraceSize = backtrace(buffer, bufferSize);
-
-        /* The call backtrace_symbols_fd(buffer, nptrs, STDOUT_FILENO)
-           would produce similar output to the following: */
-
-        std::ostringstream backtrace;
         char **btSymbols = backtrace_symbols(buffer, backtraceSize);
         if (btSymbols == NULL) {
             backtrace << "[backtrace error] no symbols could be retrieved";
         } else {
+			if (backtraceSize == 0) backtrace << "[backtrace is empty]";
             for (int i = 0; i < backtraceSize; ++i) {
                 backtrace << btSymbols[i] << "\n";
             }
         }
         free(btSymbols);
-        return backtrace.str();
+		/**
+		*	WINDOWS:
+		*/
+		#elif defined FL_WINDOWS
+		(void) maxCalls; //Can't allocate an with non-constant size in Windows
+		 const int bufferSize = 30;
+		 void* buffer[bufferSize];
+		  SymInitialize(GetCurrentProcess(), NULL, TRUE);
+
+		int backtraceSize  = CaptureStackBackTrace( 0, bufferSize, buffer, NULL);
+		SYMBOL_INFO* btSymbol  = ( SYMBOL_INFO * )calloc( sizeof( SYMBOL_INFO ) + 256 * sizeof( char ), 1 );
+		btSymbol->MaxNameLen   = 255;
+		btSymbol->SizeOfStruct = sizeof( SYMBOL_INFO );
+
+		if (not btSymbol){
+			backtrace << "[backtrace error] no symbols could be retrieved";
+		}else{
+		if (backtraceSize == 0) backtrace << "[backtrace is empty]";
+     for(int i = 0; i < backtraceSize; ++i )     {
+         SymFromAddr(GetCurrentProcess(), (DWORD64)( buffer[ i ] ), 0, btSymbol);
+         backtrace << (backtraceSize - i - 1) << ": " <<
+					btSymbol->Name << "- 0x" << btSymbol->Address << "\n";
+     }
+}
+     free( btSymbol );
+		#else
+		backtrace << "[backtrace error] backtrace not implemented for your operating system";
+		#endif
+		return backtrace.str();
     }
     //execinfo
 
     void Exception::signalHandler(int signal) {
         std::ostringstream ex;
         ex << "[caught signal " << signal << "] backtrace:\n";
-        ex << btCallStack();
+        ex << fl::Exception::btCallStack();
         throw fl::Exception(ex.str(), FL_AT);
     }
 

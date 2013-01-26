@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    class SShape  : public Term{
+    flclass SShape  : public Term{
     protected:
         scalar _start, _end;
 

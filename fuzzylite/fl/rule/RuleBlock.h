@@ -10,14 +10,14 @@
 
 #include <vector>
 #include <string>
-
+#include "fl/config.h"
 namespace fl {
 
     class Rule;
     class TNorm;
     class SNorm;
 
-    class RuleBlock {
+    flclass RuleBlock {
     protected:
         std::vector<Rule*> _rules;
         std::string _name;

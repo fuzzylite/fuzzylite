@@ -10,11 +10,11 @@
 
 #include <string>
 #include <vector>
-
+#include "fl/config.h"
 namespace fl {
     class TNorm;
 
-    class TNormFactory {
+    flclass TNormFactory {
     public:
         TNormFactory();
         virtual ~TNormFactory();

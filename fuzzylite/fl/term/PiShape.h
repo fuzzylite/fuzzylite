@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    class PiShape : public Term {
+    flclass PiShape : public Term {
     protected:
         scalar _bottomLeft;
         scalar _topLeft;

@@ -3,7 +3,9 @@
 
 
 win32{
-
+	DEFINES += FL_WINDOWS
+	CONFIG -= debug_and_release release
+	LIBS += -ldbghelp
 }
 
 macx{
@@ -23,7 +25,7 @@ TARGET = qtfuzzylite
 ICON = ui/icons/qtfuzzylite.icns
 VERSION = 2.0
 DEPENDPATH += . src ui
-INCLUDEPATH += . ../fuzzylite /usr/include/qt4
+INCLUDEPATH += . ../fuzzylite /usr/include/qt4 /Qt/4.8.4/include
 MOC_DIR = tmp/moc
 OBJECTS_DIR = tmp
 UI_HEADERS_DIR = ui
@@ -32,7 +34,7 @@ RESOURCES += ui/resources.qrc
 RCC_DIR = ui
 
 
-LIBS += -L../fuzzylite/build -lfuzzylite # -lQtSvg
+LIBS += -L../fuzzylite/build -lfuzzylite-static# -lQtSvg
 
 target.path += /usr/local/bin
 INSTALLS += target

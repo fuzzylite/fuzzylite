@@ -21,7 +21,7 @@ namespace fl {
 
     class Hedge;
 
-    class CppExporter : public Exporter {
+    flclass CppExporter : public Exporter {
     protected:
         virtual std::string toCpp(const Hedge* hedge) const;
         virtual std::string toCpp(const Term* term) const;

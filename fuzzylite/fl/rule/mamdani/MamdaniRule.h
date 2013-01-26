@@ -16,7 +16,7 @@
 
 namespace fl {
     class Engine;
-    class MamdaniRule : public Rule {
+    flclass MamdaniRule : public Rule {
     protected:
         MamdaniAntecedent* _antecedent;
         MamdaniConsequent* _consequent;

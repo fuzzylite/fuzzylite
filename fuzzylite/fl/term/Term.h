@@ -20,7 +20,7 @@
 
 namespace fl {
 
-    class Term {
+    flclass Term {
     protected:
         std::string _name;
 

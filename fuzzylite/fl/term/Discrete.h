@@ -16,7 +16,7 @@
 #include <utility>
 namespace fl {
 
-    class Discrete : public Term {
+    flclass Discrete : public Term {
     public:
         std::vector<scalar> x;
         std::vector<scalar> y;

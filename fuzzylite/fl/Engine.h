@@ -25,7 +25,7 @@ namespace fl {
     class SNorm;
     class Defuzzifier;
 
-    class Engine {
+    flclass Engine {
     protected:
         std::string _name;
         std::vector<InputVariable*> _inputVariables;

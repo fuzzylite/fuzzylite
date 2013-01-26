@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    class Not : public Hedge {
+    flclass Not : public Hedge {
     public:
         std::string name() const;
         scalar hedge(scalar x) const;

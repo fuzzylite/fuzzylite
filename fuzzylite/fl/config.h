@@ -11,28 +11,34 @@
 #include <iostream>
 #include <sstream>
 
-//#ifndef __USE_GNU 
-//#define __USE_GNU
-//#endif
-//
-//#ifndef _GNU_SOURCE
-//#define _GNU_SOURCE
-//#endif
+#ifdef FL_WINDOWS
+#define flclass class  __declspec(dllexport)
+#else
+#define flclass class
+#endif
 
-#ifdef __WINDOWS__
+#ifdef FL_WINDOWS
+#include <ciso646> //alternative operator spellings:
+//#define and &&
+//#define or ||
+//#define not !
+//#define bitand &
+//#define bitor |
 
-#define and &&
-#define or ||
-#define not !
-#define bitand &
-#define bitor |
+//#define acosh(x)
+//#define asinh(x)
+//#define atanh(x)
+//#define log1p
 
-#define acosh(x)
-#define asinh(x)
-#define atanh(x)
-#define log1p
+//C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+//http://msdn.microsoft.com/en-us/library/sa28fef8%28v=vs.80%29.aspx
+//to ignore warnings dealing with exceptions in Windows
+#pragma warning(disable:4290) 
 
-#pragma warning( disable : 4290 )
+//Windows NMake complains I should have pointers in all headers instead of 
+//stack allocated objects. For example, std::string* instead of std::string.
+#pragma warning(disable:4251)
+#else 
 
 #endif
 

@@ -16,7 +16,7 @@ namespace fl {
     class TNorm;
     class SNorm;
 
-    class Antecedent {
+    flclass Antecedent {
     public:
 
         Antecedent() { }

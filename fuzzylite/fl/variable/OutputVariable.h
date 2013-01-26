@@ -16,7 +16,7 @@ namespace fl {
     class Accumulated;
     class Defuzzifier;
 
-    class OutputVariable : public Variable {
+    flclass OutputVariable : public Variable {
     protected:
         Accumulated* _output;
         Defuzzifier* _defuzzifier;

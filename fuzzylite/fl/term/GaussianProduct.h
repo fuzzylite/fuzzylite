@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    class GaussianProduct : public Term {
+    flclass GaussianProduct : public Term {
     protected:
         scalar _meanA;
         scalar _standardDeviationA;

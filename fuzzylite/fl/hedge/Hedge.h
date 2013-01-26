@@ -14,7 +14,7 @@
 
 namespace fl {
 
-    class Hedge {
+    flclass Hedge {
     public:
 
         Hedge() { }

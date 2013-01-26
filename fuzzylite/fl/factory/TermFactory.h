@@ -13,11 +13,11 @@
 
 #include <vector>
 #include <string>
-
+#include "fl/config.h"
 namespace fl {
     class Term;
 
-    class TermFactory {
+    flclass TermFactory {
     public:
         TermFactory();
         virtual ~TermFactory();

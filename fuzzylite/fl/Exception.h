@@ -15,7 +15,7 @@
 
 namespace fl {
 
-    class Exception : public std::exception {
+    flclass Exception : public std::exception {
     protected:
         std::string _what;
     public:
@@ -32,7 +32,7 @@ namespace fl {
         virtual void append(const std::string& whatMore,
             const std::string& file, int line, const std::string& function);
 
-        static std::string btCallStack(int maxCalls = 10);
+        static std::string btCallStack(const int maxCalls = 30);
 
         static void signalHandler(int signal);
     };

@@ -7,6 +7,7 @@
 
 #ifndef FL_SCALAR_H
 #define FL_SCALAR_H
+#include "fl/config.h"
 
 namespace fl {
 #ifdef FL_USE_FLOAT

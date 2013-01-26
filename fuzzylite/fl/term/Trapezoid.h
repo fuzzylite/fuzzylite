@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    class Trapezoid : public Term {
+    flclass Trapezoid : public Term {
     protected:
         scalar _a, _b, _c, _d;
     public:

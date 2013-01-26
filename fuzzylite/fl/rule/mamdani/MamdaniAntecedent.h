@@ -19,7 +19,7 @@ namespace fl {
     class SNorm;
     class MamdaniExpression;
 
-    class MamdaniAntecedent : public Antecedent {
+    flclass MamdaniAntecedent : public Antecedent {
     protected:
         MamdaniExpression* _root;
 

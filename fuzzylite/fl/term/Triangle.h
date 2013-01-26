@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    class Triangle : public Term {
+    flclass Triangle : public Term {
     protected:
         scalar _a;
         scalar _b;
