@@ -165,12 +165,18 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to support these projects. 
                <property name="text">
                 <string>MED</string>
                </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
               </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_5">
                <property name="text">
                 <string>HIGH</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
               </widget>
              </item>

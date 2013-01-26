@@ -8,9 +8,11 @@
 #ifndef FL_RULEBLOCK_H
 #define FL_RULEBLOCK_H
 
+#include "fl/config.h"
+
 #include <vector>
 #include <string>
-#include "fl/config.h"
+
 namespace fl {
 
     class Rule;

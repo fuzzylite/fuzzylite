@@ -11,6 +11,7 @@
 #include <iostream>
 #include <sstream>
 
+//flclass is require to build DLLs in Windows.
 #ifdef FL_WINDOWS
 #define flclass class  __declspec(dllexport)
 #else
@@ -25,6 +26,7 @@
 //#define bitand &
 //#define bitor |
 
+//TODO: add these functions in Infix.cpp
 //#define acosh(x)
 //#define asinh(x)
 //#define atanh(x)

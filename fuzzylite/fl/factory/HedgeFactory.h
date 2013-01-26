@@ -8,9 +8,11 @@
 #ifndef FL_HEDGEFACTORY_H
 #define	FL_HEDGEFACTORY_H
 
+#include "fl/config.h"
+
 #include <string>
 #include <vector>
-#include "fl/config.h"
+
 namespace fl {
     class Hedge;
     flclass HedgeFactory {

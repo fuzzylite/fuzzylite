@@ -14,6 +14,7 @@
 
 #include <vector>
 #include <utility>
+
 namespace fl {
 
     flclass Discrete : public Term {

@@ -8,8 +8,10 @@
 #ifndef FL_IMPORTER_H
 #define	FL_IMPORTER_H
 
-#include <string>
 #include "fl/config.h"
+
+#include <string>
+
 namespace fl {
     class Engine;
 

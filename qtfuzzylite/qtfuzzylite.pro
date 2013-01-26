@@ -3,17 +3,13 @@
 
 
 win32{
-	DEFINES += FL_WINDOWS
-	CONFIG -= debug_and_release release
-	LIBS += -ldbghelp
-}
-
-macx{
-
+    DEFINES += FL_WINDOWS
+    CONFIG -= debug_and_release release
+    LIBS += -ldbghelp
 }
 
 unix{
-
+    DEFINES += FL_UNIX
 }
 
 message($$CONFIG)
@@ -25,7 +21,7 @@ TARGET = qtfuzzylite
 ICON = ui/icons/qtfuzzylite.icns
 VERSION = 2.0
 DEPENDPATH += . src ui
-INCLUDEPATH += . ../fuzzylite /usr/include/qt4 /Qt/4.8.4/include
+INCLUDEPATH += . ../fuzzylite #/usr/include/qt4 /Qt/4.8.4/include
 MOC_DIR = tmp/moc
 OBJECTS_DIR = tmp
 UI_HEADERS_DIR = ui

@@ -9,7 +9,6 @@
 #define FL_DEFUZZIFIER_H
 
 #include "fl/scalar.h"
-#include "fl/config.h"
 
 #include <string>
 

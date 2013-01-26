@@ -10,8 +10,6 @@
 
 #include "fl/scalar.h"
 
-#include "fl/config.h"
-
 #include "fl/Exception.h"
 
 #include <string>
@@ -105,12 +103,13 @@ namespace fl {
 
         static std::vector<std::string> split(const std::string& str,
                 const std::string& delimiter = " ", bool ignoreEmpty = true) {
+//            ERROR HERE ON WINDOWS!
             std::vector<std::string> result;
             if (delimiter.empty()) {
                 result.push_back(str);
                 return result;
             }
-            std::string::const_iterator position = str.begin(), next;
+            std::string::const_iterator position = str.begin(), next = str.begin();
             while (next != str.end()) {
                 next = std::search(position, str.end(), delimiter.begin(), delimiter.end());
                 std::string token(position, next);

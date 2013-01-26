@@ -10,17 +10,15 @@
 
 #ifdef FL_UNIX
 #include <execinfo.h>
+
 #elif defined FL_WINDOWS
 #include <windows.h>
 #include <winbase.h>
 #include <dbghelp.h>
 #endif
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <cstring>
 
-//TODO:Get rid of many things here.
 
 namespace fl {
 
@@ -62,50 +60,50 @@ namespace fl {
     }
 
     std::string Exception::btCallStack(const int maxCalls) {
-		std::ostringstream backtrace;
-		#ifdef FL_UNIX
+        std::ostringstream btStream;
+#ifdef FL_UNIX
         int bufferSize = maxCalls;
         void* buffer[bufferSize];
         int backtraceSize = backtrace(buffer, bufferSize);
         char **btSymbols = backtrace_symbols(buffer, backtraceSize);
         if (btSymbols == NULL) {
-            backtrace << "[backtrace error] no symbols could be retrieved";
+            btStream << "[backtrace error] no symbols could be retrieved";
         } else {
-			if (backtraceSize == 0) backtrace << "[backtrace is empty]";
+            if (backtraceSize == 0) btStream << "[backtrace is empty]";
             for (int i = 0; i < backtraceSize; ++i) {
-                backtrace << btSymbols[i] << "\n";
+                btStream << btSymbols[i] << "\n";
             }
         }
         free(btSymbols);
-		/**
-		*	WINDOWS:
-		*/
-		#elif defined FL_WINDOWS
-		(void) maxCalls; //Can't allocate an with non-constant size in Windows
-		 const int bufferSize = 30;
-		 void* buffer[bufferSize];
-		  SymInitialize(GetCurrentProcess(), NULL, TRUE);
+        /**
+         *	WINDOWS:
+         */
+#elif defined FL_WINDOWS
+        (void) maxCalls; //Can't allocate an with non-constant size in Windows
+        const int bufferSize = 30;
+        void* buffer[bufferSize];
+        SymInitialize(GetCurrentProcess(), NULL, TRUE);
 
-		int backtraceSize  = CaptureStackBackTrace( 0, bufferSize, buffer, NULL);
-		SYMBOL_INFO* btSymbol  = ( SYMBOL_INFO * )calloc( sizeof( SYMBOL_INFO ) + 256 * sizeof( char ), 1 );
-		btSymbol->MaxNameLen   = 255;
-		btSymbol->SizeOfStruct = sizeof( SYMBOL_INFO );
+        int backtraceSize = CaptureStackBackTrace(0, bufferSize, buffer, NULL);
+        SYMBOL_INFO* btSymbol = (SYMBOL_INFO *) calloc(sizeof ( SYMBOL_INFO) + 256 * sizeof ( char), 1);
+        btSymbol->MaxNameLen = 255;
+        btSymbol->SizeOfStruct = sizeof ( SYMBOL_INFO);
 
-		if (not btSymbol){
-			backtrace << "[backtrace error] no symbols could be retrieved";
-		}else{
-		if (backtraceSize == 0) backtrace << "[backtrace is empty]";
-     for(int i = 0; i < backtraceSize; ++i )     {
-         SymFromAddr(GetCurrentProcess(), (DWORD64)( buffer[ i ] ), 0, btSymbol);
-         backtrace << (backtraceSize - i - 1) << ": " <<
-					btSymbol->Name << "- 0x" << btSymbol->Address << "\n";
-     }
-}
-     free( btSymbol );
-		#else
-		backtrace << "[backtrace error] backtrace not implemented for your operating system";
-		#endif
-		return backtrace.str();
+        if (not btSymbol) {
+            btStream << "[backtrace error] no symbols could be retrieved";
+        } else {
+            if (backtraceSize == 0) btStream << "[backtrace is empty]";
+            for (int i = 0; i < backtraceSize; ++i) {
+                SymFromAddr(GetCurrentProcess(), (DWORD64) (buffer[ i ]), 0, btSymbol);
+                btStream << (backtraceSize - i - 1) << ": " <<
+                        btSymbol->Name << "- 0x" << btSymbol->Address << "\n";
+            }
+        }
+        free(btSymbol);
+#else
+        btStream << "[backtrace error] backtrace not implemented for your operating system";
+#endif
+        return btStream.str();
     }
     //execinfo
 

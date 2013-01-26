@@ -8,8 +8,10 @@
 #ifndef FL_EXPORTER_H
 #define	FL_EXPORTER_H
 
-#include <string>
 #include "fl/config.h"
+
+#include <string>
+
 namespace fl {
     class Engine;
     flclass Exporter{

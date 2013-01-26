@@ -8,9 +8,11 @@
 #ifndef FL_TNORMFACTORY_H
 #define	FL_TNORMFACTORY_H
 
+#include "fl/config.h"
+
 #include <string>
 #include <vector>
-#include "fl/config.h"
+
 namespace fl {
     class TNorm;
 
