@@ -155,13 +155,13 @@
           <bool>false</bool>
          </property>
          <property name="renderHints">
-          <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
+          <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen|QPainter::SmoothPixmapTransform</set>
+         </property>
+         <property name="cacheMode">
+          <set>QGraphicsView::CacheBackground</set>
          </property>
          <property name="viewportUpdateMode">
-          <enum>QGraphicsView::FullViewportUpdate</enum>
-         </property>
-         <property name="optimizationFlags">
-          <set>QGraphicsView::DontClipPainter|QGraphicsView::DontSavePainterState</set>
+          <enum>QGraphicsView::MinimalViewportUpdate</enum>
          </property>
         </widget>
        </item>

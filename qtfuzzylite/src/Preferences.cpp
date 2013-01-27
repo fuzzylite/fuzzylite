@@ -19,8 +19,7 @@ namespace fl {
 
         Preferences::Preferences(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::Preferences) {
-            setWindowFlags((Qt::Dialog | Qt::WindowStaysOnTopHint)
-                    & ~Qt::WindowContextHelpButtonHint);
+            setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint | Qt::WindowSystemMenuHint);
 
         }
 

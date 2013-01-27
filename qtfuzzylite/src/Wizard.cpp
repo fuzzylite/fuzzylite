@@ -14,7 +14,7 @@ namespace fl {
 
         Wizard::Wizard(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::Wizard) {
-            setWindowFlags(Qt::Tool & !Qt::WindowContextHelpButtonHint);
+            setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint | Qt::WindowSystemMenuHint);
         }
 
         Wizard::~Wizard() {

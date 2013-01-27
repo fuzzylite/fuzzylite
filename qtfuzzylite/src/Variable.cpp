@@ -22,7 +22,7 @@ namespace fl {
         Variable::Variable(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::Variable), viewer(new Viewer),
         variable(NULL) {
-            setWindowFlags(Qt::Dialog & !Qt::WindowContextHelpButtonHint);
+            setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint | Qt::WindowSystemMenuHint);
         }
 
         Variable::~Variable() {

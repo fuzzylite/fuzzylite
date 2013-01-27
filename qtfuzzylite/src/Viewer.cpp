@@ -39,16 +39,20 @@ namespace fl {
             ui->led_x->setVisible(false);
             setMinimumSize(200, 170);
             ui->canvas->setScene(new QGraphicsScene(ui->canvas));
-            //TODO: find out if this make a difference at all
-//            ui->canvas->setRenderHints(ui->canvas->renderHints() | QPainter::Antialiasing
-//                    | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
+			ui->canvas->setRenderHints(QPainter::Antialiasing
+                    | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing |
+					QPainter::NonCosmeticDefaultPen);
             ui->canvas->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->canvas->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->sbx_x->setFocus();
             ui->lbl_fuzzy_out->setVisible(false);
 
             QFont smallFont = ui->lbl_fuzzy->font();
-            smallFont.setPointSize(smallFont.pointSize() - 2);
+#ifdef Q_WS_WIN			
+            smallFont.setPointSize(smallFont.pointSize() - 1);
+#else
+			smallFont.setPointSize(smallFont.pointSize() - 2);
+#endif
             ui->lbl_fuzzy->setFont(smallFont);
             ui->lbl_fuzzy_out->setFont(smallFont);
 
