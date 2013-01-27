@@ -151,14 +151,17 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
          <property name="interactive">
           <bool>false</bool>
          </property>
-         <property name="renderHints">
-          <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen|QPainter::SmoothPixmapTransform</set>
-         </property>
          <property name="cacheMode">
-          <set>QGraphicsView::CacheBackground</set>
+          <set>QGraphicsView::CacheNone</set>
          </property>
          <property name="viewportUpdateMode">
           <enum>QGraphicsView::MinimalViewportUpdate</enum>

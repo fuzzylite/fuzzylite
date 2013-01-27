@@ -14,7 +14,10 @@ namespace fl {
 
         Wizard::Wizard(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::Wizard) {
-            setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint | Qt::WindowSystemMenuHint);
+            setWindowFlags(Qt::Dialog
+                    | Qt::WindowSystemMenuHint
+                    | Qt::WindowCloseButtonHint
+                    | Qt::WindowStaysOnTopHint);
         }
 
         Wizard::~Wizard() {

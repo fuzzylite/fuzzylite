@@ -22,7 +22,10 @@ namespace fl {
         Variable::Variable(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::Variable), viewer(new Viewer),
         variable(NULL) {
-            setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint | Qt::WindowSystemMenuHint);
+            setWindowFlags(Qt::Dialog
+                    | Qt::WindowSystemMenuHint
+                    | Qt::WindowCloseButtonHint
+                    | Qt::WindowStaysOnTopHint);
         }
 
         Variable::~Variable() {
@@ -218,7 +221,6 @@ namespace fl {
                 ui->sbx_max->setValue(ui->sbx_min->value() + .1);
             }
             variable->setMinimum(ui->sbx_min->value());
-            //            variable->setMaximum(ui->sbx_max->value());
 
             redraw();
         }
@@ -227,7 +229,6 @@ namespace fl {
             if (fl::Op::isLt(ui->sbx_max->value(), ui->sbx_min->value())) {
                 ui->sbx_min->setValue(ui->sbx_max->value() - .1);
             }
-            //            variable->setMinimum(ui->sbx_min->value());
             variable->setMaximum(ui->sbx_max->value());
 
             redraw();
@@ -252,13 +253,13 @@ namespace fl {
 
         void Variable::onClickRemoveTerm() {
             std::ostringstream message;
-            message << "Do you want to delete the following terms?"
-                    << std::endl;
+            message << "Do you want to delete the following terms?\n\n";
 
             for (int i = 0; i < ui->lvw_terms->count(); ++i) {
                 if (ui->lvw_terms->item(i)->isSelected()) {
                     message << "<" << variable->getTerm(i)->getName() << ">: "
-                            << variable->getTerm(i)->toString() << std::endl;
+                            << variable->getTerm(i)->toString();
+                    if (i < ui->lvw_terms->selectedItems().size() - 1) message << "\n\n";
                 }
             }
 
@@ -279,15 +280,15 @@ namespace fl {
         void Variable::onClickEditTerm() {
             if (ui->lvw_terms->selectedItems().size() > 1) {
                 std::ostringstream message;
-                message << "Do you want to edit the following terms?"
-                        << std::endl;
+                message << "Do you want to edit the following terms?\n\n";
                 for (int i = 0; i < ui->lvw_terms->count(); ++i) {
                     if (ui->lvw_terms->item(i)->isSelected()) {
                         message << "<" << variable->getTerm(i)->getName() << ">: "
-                                << variable->getTerm(i)->toString() << std::endl;
+                                << variable->getTerm(i)->toString();
+                        if (i < ui->lvw_terms->selectedItems().size() - 1) message << "\n\n";
                     }
                 }
-                QMessageBox::StandardButton clicked = QMessageBox::warning(this,
+                QMessageBox::StandardButton clicked = QMessageBox::information(this,
                         "Edit multiple terms",
                         QString::fromStdString(message.str()),
                         QMessageBox::Yes | QMessageBox::No);

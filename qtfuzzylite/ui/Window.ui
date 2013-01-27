@@ -795,6 +795,9 @@
    <property name="toolTip">
     <string>Import</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
   </action>
   <action name="actionExport">
    <property name="checkable">
@@ -809,6 +812,9 @@
    </property>
    <property name="toolTip">
     <string>Export</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
    </property>
   </action>
   <action name="actionNew">

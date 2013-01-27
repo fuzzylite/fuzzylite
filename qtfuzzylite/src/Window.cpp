@@ -73,23 +73,23 @@ namespace fl {
             ui->menuTools->addSeparator();
             ui->menuTools->addAction(ui->actionTerms);
             ui->menuTools->addSeparator();
-            
+
             QMenu* importMenu = new QMenu("&Import");
             importMenu->setIcon(QIcon(":/icons/bottom.png"));
-            importMenu->addAction("from file...", this, SLOT(onMenuImportFromFile()));
+            importMenu->addAction("from &file...", this, SLOT(onMenuImportFromFile()));
             importMenu->addSeparator();
-            importMenu->addAction("Fuzzy Controller Language (FCL)", this, SLOT(onMenuImportFromFCL()));
-            importMenu->addAction("Fuzzy Inference System (FIS)", this, SLOT(onMenuImportFromFIS()));
+            importMenu->addAction("Fuzzy Controller &Language (FCL)", this, SLOT(onMenuImportFromFCL()));
+            importMenu->addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuImportFromFIS()));
             ui->menuTools->addMenu(importMenu);
 
             QMenu* exportMenu = new QMenu("&Export");
             exportMenu->setIcon(QIcon(":/icons/top.png"));
-            exportMenu->addAction("fuzzylite (C++)", this, SLOT(onMenuExportToCpp()));
+            exportMenu->addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
             exportMenu->addSeparator();
-            exportMenu->addAction("Fuzzy Controller Language (FCL)", this, SLOT(onMenuExportToFCL()));
-            exportMenu->addAction("Fuzzy Inference System (FIS)", this, SLOT(onMenuExportToFIS()));
+            exportMenu->addAction("Fuzzy Controller Language (FC&L)", this, SLOT(onMenuExportToFCL()));
+            exportMenu->addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuExportToFIS()));
             ui->menuTools->addMenu(exportMenu);
-            
+
 #ifndef Q_WS_MAC
             ui->menuTools->addSeparator();
             ui->menuTools->addAction(ui->actionPreferences);
@@ -455,18 +455,30 @@ namespace fl {
 
         void Window::onClickRemoveInputVariable() {
             std::ostringstream message;
-            message << "Do you want to delete the following input variables?"
-                    << std::endl;
+            message << "Do you want to delete the following input variable";
+            std::string title;
+            if (ui->lvw_inputs->selectedItems().size() > 1) {
+                title = "Delete multiple input variables";
+                message << "s";
+            } else {
+                title = "Delete input variable";
+            }
+            message << "?\n\n";
+
+
             Engine* engine = Model::Default()->engine();
             for (int i = 0; i < ui->lvw_inputs->count(); ++i) {
                 if (ui->lvw_inputs->item(i)->isSelected()) {
                     message << "<" << engine->getInputVariable(i)->getName() << ">: "
-                            << engine->getInputVariable(i)->toString() << std::endl;
+                            << engine->getInputVariable(i)->toString();
+                    if (i < ui->lvw_inputs->selectedItems().size() - 1) message << "\n\n";
                 }
             }
 
+
+
             QMessageBox::StandardButton clicked = QMessageBox::warning(this,
-                    "Delete input variable",
+                    QString::fromStdString(title),
                     QString::fromStdString(message.str()),
                     QMessageBox::Yes | QMessageBox::No);
             if (clicked == QMessageBox::Yes) {
@@ -484,16 +496,16 @@ namespace fl {
             Engine* engine = Model::Default()->engine();
             if (ui->lvw_inputs->selectedItems().size() > 1) {
                 std::ostringstream message;
-                message << "Do you want to edit the following input variables?"
-                        << std::endl;
+                message << "Do you want to edit the following input variables?\n\n";
                 for (int i = 0; i < ui->lvw_inputs->count(); ++i) {
                     if (ui->lvw_inputs->item(i)->isSelected()) {
                         message << "<" << engine->getInputVariable(i)->getName() << ">: "
-                                << engine->getInputVariable(i)->toString() << std::endl;
+                                << engine->getInputVariable(i)->toString();
+                        if (i < ui->lvw_inputs->selectedItems().size() - 1) message << "\n\n";
                     }
                 }
-                QMessageBox::StandardButton clicked = QMessageBox::warning(this,
-                        "Edit multiple input variables",
+                QMessageBox::StandardButton clicked = QMessageBox::information(this,
+                        "Edit multiple variables",
                         QString::fromStdString(message.str()),
                         QMessageBox::Yes | QMessageBox::No);
                 if (clicked == QMessageBox::No) {
@@ -532,18 +544,26 @@ namespace fl {
 
         void Window::onClickRemoveOutputVariable() {
             std::ostringstream message;
-            message << "Do you want to delete the following output variables?"
-                    << std::endl;
+            message << "Do you want to delete the following output variable";
+            std::string title;
+            if (ui->lvw_outputs->selectedItems().size() > 1){
+                title = "Delete multiple output variables";
+                message << "s";
+            }
+            else title = "Delete output variable";
+            message << "?\n\n";
+            
             Engine* engine = Model::Default()->engine();
             for (int i = 0; i < ui->lvw_outputs->count(); ++i) {
                 if (ui->lvw_outputs->item(i)->isSelected()) {
                     message << "<" << engine->getOutputVariable(i)->getName() << ">: "
-                            << engine->getOutputVariable(i)->toString() << std::endl;
+                            << engine->getOutputVariable(i)->toString();
+                    if (i < ui->lvw_outputs->selectedItems().size() - 1) message << "\n\n";
                 }
             }
-
+            
             QMessageBox::StandardButton clicked = QMessageBox::warning(this,
-                    "Delete output variable",
+                    QString::fromStdString(title),
                     QString::fromStdString(message.str()),
                     QMessageBox::Yes | QMessageBox::No);
             if (clicked == QMessageBox::Yes) {
@@ -561,16 +581,16 @@ namespace fl {
             Engine* engine = Model::Default()->engine();
             if (ui->lvw_outputs->selectedItems().size() > 1) {
                 std::ostringstream message;
-                message << "Do you want to edit the following output variables?"
-                        << std::endl;
+                message << "Do you want to edit the following output variables?\n\n";
                 for (int i = 0; i < ui->lvw_outputs->count(); ++i) {
                     if (ui->lvw_outputs->item(i)->isSelected()) {
                         message << "<" << engine->getOutputVariable(i)->getName() << ">: "
-                                << engine->getOutputVariable(i)->toString() << std::endl;
+                                << engine->getOutputVariable(i)->toString();
+                        if (i < ui->lvw_outputs->selectedItems().size() - 1) message << "\n\n";
                     }
                 }
-                QMessageBox::StandardButton clicked = QMessageBox::warning(this,
-                        "Edit multiple output variables",
+                QMessageBox::StandardButton clicked = QMessageBox::information(this,
+                        "Edit multiple variables",
                         QString::fromStdString(message.str()),
                         QMessageBox::Yes | QMessageBox::No);
                 if (clicked == QMessageBox::No) {
@@ -720,10 +740,10 @@ namespace fl {
         void Window::onMenuImport() {
             if (ui->actionImport->isChecked()) {
                 QMenu menu(this);
-                menu.addAction("from file...", this, SLOT(onMenuImportFromFile()));
+                menu.addAction("from &file...", this, SLOT(onMenuImportFromFile()));
                 menu.addSeparator();
-                menu.addAction("Fuzzy Control Language (FCL)", this, SLOT(onMenuImportFromFCL()));
-                menu.addAction("Fuzzy Inference System (FIS)", this, SLOT(onMenuImportFromFIS()));
+                menu.addAction("Fuzzy Control Language (FC&L)", this, SLOT(onMenuImportFromFCL()));
+                menu.addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuImportFromFIS()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionImport->setChecked(false);
             }
@@ -748,8 +768,8 @@ namespace fl {
             Ui::ImEx fclUi;
             QDialog fclDialog(this);
             fclUi.setupUi(&fclDialog);
-            fclDialog.setWindowTitle("Import from FCL");
-            fclUi.lbl_format->setText("Fuzzy Controller Language (FCL):");
+            fclDialog.setWindowTitle("Import...");
+            fclUi.lbl_format->setText("Import from Fuzzy Controller Language (FCL):");
             QFont font = typeWriterFont();
             font.setPointSize(font.pointSize() - 1);
             fclUi.pte_code->setFont(font);
@@ -782,8 +802,8 @@ namespace fl {
             Ui::ImEx fisUi;
             QDialog fclDialog(this);
             fisUi.setupUi(&fclDialog);
-            fclDialog.setWindowTitle("Import from FIS");
-            fisUi.lbl_format->setText("Fuzzy Inference System (FIS):");
+            fclDialog.setWindowTitle("Import...");
+            fisUi.lbl_format->setText("Import from Fuzzy Inference System (FIS):");
             QFont font = typeWriterFont();
             font.setPointSize(font.pointSize() - 1);
             fisUi.pte_code->setFont(font);
@@ -878,10 +898,10 @@ namespace fl {
         void Window::onMenuExport() {
             if (ui->actionExport->isChecked()) {
                 QMenu menu(this);
-                menu.addAction("fuzzylite (C++)", this, SLOT(onMenuExportToCpp()));
+                menu.addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
                 menu.addSeparator();
-                menu.addAction("Fuzzy Control Language (FCL)", this, SLOT(onMenuExportToFCL()));
-                menu.addAction("Fuzzy Inference System (FIS)", this, SLOT(onMenuExportToFIS()));
+                menu.addAction("Fuzzy Control Language (FC&L)", this, SLOT(onMenuExportToFCL()));
+                menu.addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuExportToFIS()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionExport->setChecked(false);
             }
@@ -902,8 +922,8 @@ namespace fl {
             QDialog fclDialog(this);
             fclUi.setupUi(&fclDialog);
             fclUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
-            fclDialog.setWindowTitle("Export to FCL");
-            fclUi.lbl_format->setText("Fuzzy Controller Language (FCL):");
+            fclDialog.setWindowTitle("Export...");
+            fclUi.lbl_format->setText("Export to Fuzzy Controller Language (FCL):");
             QFont font = typeWriterFont();
             font.setPointSize(font.pointSize() - 1);
             fclUi.pte_code->setFont(font);
@@ -931,8 +951,8 @@ namespace fl {
             QDialog fclDialog(this);
             fisUi.setupUi(&fclDialog);
             fisUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
-            fclDialog.setWindowTitle("Export to FIS");
-            fisUi.lbl_format->setText("Fuzzy Inference System (FIS):");
+            fclDialog.setWindowTitle("Export...");
+            fisUi.lbl_format->setText("Export to Fuzzy Inference System (FIS):");
             QFont font = typeWriterFont();
             font.setPointSize(font.pointSize() - 1);
             fisUi.pte_code->setFont(font);
@@ -960,8 +980,8 @@ namespace fl {
             QDialog fclDialog(this);
             cppUi.setupUi(&fclDialog);
             cppUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
-            fclDialog.setWindowTitle("Export to fuzzylite");
-            cppUi.lbl_format->setText("fuzzylite (C++):");
+            fclDialog.setWindowTitle("Export...");
+            cppUi.lbl_format->setText("Export to fuzzylite (C++):");
             QFont font = typeWriterFont();
             font.setPointSize(font.pointSize() - 1);
             cppUi.pte_code->setFont(font);
@@ -992,39 +1012,6 @@ namespace fl {
             About about;
             about.setup();
             about.exec();
-
-            //            
-            //            QString message =
-            //                    "<qt><span style='font-weight:0;'>"
-            //                    "<b>qtfuzzylite v. " FLQT_VERSION " (" FLQT_DATE ")</b><br>"
-            //                    "<b>fuzzylite v. " FL_VERSION " (" FL_DATE ")</b><br>"
-            //                    "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a><br><br>"
-            //                    "Developed by Juan Rada-Vilela &nbsp;"
-            //                    "<a href='mailto:jcrada@gmail.com'>jcrada@fuzzylite.com</a><br><br>"
-            //                    "Please consider making a <b>donation</b> to support and further "
-            //                    "improve these projects.<br>"
-            //                    "<div align='left'><a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HAGFHRMSZVDKN'>"
-            //                    "<img src=':/icons/btn_donateCC_LG.gif'></a></div>"
-            //                    "<br>Visit &nbsp;"
-            //                    "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a> "
-            //                    "to find out how your contribution will be utilized.<br><br>"
-            //                    "There are still many things to do!"
-            //                    "<br><br>"
-            //                    "... and do not hesitate to provide feedback, feature requests, "
-            //                    "custom enhancements, or anything else!"
-            //                    "<a href='http://www.fuzzylite.com'></a>"
-            //                    "</span></qt>";
-            //
-            //
-            //
-            //            //            QMessageBox about("qtfuzzylite", message, QMessageBox::Information,
-            //            //                              0,0,0, this, Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
-            //            //            QIcon icon = about.windowIcon();
-            //            //            QSize size = icon.actualSize(QSize(64, 64));
-            //            //            about.setIconPixmap(icon.pixmap(size));
-            //            //            about.addButton(QMessageBox::Ok);
-            //            //            about.exec();
-            //            QMessageBox::about(this, "qtfuzzylite", message);
         }
 
         void Window::onMenuQuit() {
@@ -1063,21 +1050,6 @@ namespace fl {
             return tt;
 #endif
         }
-
-        //        RuleTextEdit::RuleTextEdit(QWidget* parent)
-        //        : QPlainTextEdit(parent) { }
-        //        
-        //        void RuleTextEdit::focusInEvent(QFocusEvent* e){
-        //            QPlainTextEdit::focusInEvent(e);
-        //            FL_LOG("Focus in");
-        //            emit focusIn();
-        //        }
-        //        
-        //        void RuleTextEdit::focusOutEvent(QFocusEvent* e){
-        //            QPlainTextEdit::focusOutEvent(e);
-        //            FL_LOG("Focus out");
-        //            emit focusOut();
-        //        }
 
         void Window::main() {
             Window* w = mainWindow();

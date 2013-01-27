@@ -1,1 +1,2 @@
-Change font size of fuzzy label in Viewer (too small in Windows)
+Cache background on QGraphicsView. It should improve performance a lot.
+Add viewers next to the inputs and outputs in Window

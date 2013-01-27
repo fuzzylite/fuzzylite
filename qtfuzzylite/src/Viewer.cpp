@@ -278,7 +278,7 @@ namespace fl {
             pen.setWidth(1);
             ui->canvas->scene()->addLine(x, rect.bottom(), x, y, pen);
         }
-
+        
         void Viewer::ColorGradient(int degree, int& red, int& green, int& blue, int& alpha,
                 int from_r, int from_g, int from_b, int from_a,
                 int to_r, int to_g, int to_b, int to_a) {
