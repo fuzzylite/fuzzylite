@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    flclass Bell : public Term {
+    class FL_EXPORT Bell : public Term {
     protected:
         scalar _center;
         scalar _width;

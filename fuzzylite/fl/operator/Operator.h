@@ -24,7 +24,7 @@
 #include <stdarg.h>
 namespace fl {
 
-    flclass Operator {
+    class FL_EXPORT Operator {
     public:
 
         Operator() {
@@ -38,7 +38,7 @@ namespace fl {
 
     };
 
-    flclass Op {
+    class FL_EXPORT Op {
     public:
 
         static scalar min(scalar a, scalar b) {

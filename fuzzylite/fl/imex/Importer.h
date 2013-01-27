@@ -15,7 +15,7 @@
 namespace fl {
     class Engine;
 
-    flclass Importer {
+    class FL_EXPORT Importer {
     public:
 
         Importer() {

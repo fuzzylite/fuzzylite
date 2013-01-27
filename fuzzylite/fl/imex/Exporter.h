@@ -14,7 +14,7 @@
 
 namespace fl {
     class Engine;
-    flclass Exporter{
+    class FL_EXPORT Exporter{
     public:
         Exporter(){}
         virtual ~Exporter(){}

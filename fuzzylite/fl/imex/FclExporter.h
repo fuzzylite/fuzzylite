@@ -16,7 +16,7 @@ namespace fl {
     class Defuzzifier;
     class Term;
 
-    flclass FclExporter : public Exporter {
+    class FL_EXPORT FclExporter : public Exporter {
     protected:
         virtual std::string toFcl(const TNorm* tnorm) const;
         virtual std::string toFcl(const SNorm* snorm) const;

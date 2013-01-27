@@ -20,7 +20,7 @@ namespace fl {
 
     class Term;
     
-    flclass Variable {
+    class FL_EXPORT Variable {
     protected:
         std::string _name;
         std::vector<Term*> _terms;

@@ -15,7 +15,7 @@
 namespace fl {
     class TNorm;
 
-    flclass Consequent {
+    class FL_EXPORT Consequent {
     public:
 
         Consequent() { }

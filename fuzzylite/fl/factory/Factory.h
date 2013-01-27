@@ -16,7 +16,7 @@ namespace fl {
     class DefuzzifierFactory;
     class TermFactory;
 
-    flclass Factory {
+    class FL_EXPORT Factory {
     protected:
         static Factory* _instance;
 

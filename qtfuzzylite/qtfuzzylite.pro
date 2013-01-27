@@ -1,28 +1,39 @@
-#CONFIG+= qt app release warn_on static
 #http://doc.qt.digia.com/qt/qmake-platform-notes.html
 
 
 win32{
     DEFINES += FL_WINDOWS
-    CONFIG -= debug_and_release release 
     LIBS += -ldbghelp
-	RC_FILE = ui/fl_windows.rc
+    RC_FILE = ui/fl_windows.rc
 }
 
 unix{
     DEFINES += FL_UNIX
+    ICON = ui/icons/qtfuzzylite.icns
 }
 
-macx{
-	ICON = ui/icons/qtfuzzylite.icns
-}
 
 message($$CONFIG)
 
 MAKEFILE = Makefile
 TEMPLATE = app
 
-TARGET = qtfuzzylite
+LIBS += -L../fuzzylite/build
+
+CONFIG(debug, debug|release){
+    message("debug")
+    TARGET = qtfuzzylite-dbg
+    LIBS += -lfuzzylite-dbg # -lQtSvg
+}
+CONFIG(release, debug|release){
+    message("release")
+    TARGET = qtfuzzylite
+    LIBS += -lfuzzylite
+}
+
+
+target.path += /usr/local/bin
+INSTALLS += target
 
 VERSION = 2.0
 DEPENDPATH += . src ui
@@ -35,10 +46,7 @@ RESOURCES += ui/resources.qrc
 RCC_DIR = ui
 
 
-LIBS += -L../fuzzylite/build -lfuzzylite# -lQtSvg
 
-target.path += /usr/local/bin
-INSTALLS += target
 
 FORMS += Window.ui Preferences.ui About.ui
 FORMS += Variable.ui Wizard.ui Term.ui ImEx.ui Viewer.ui

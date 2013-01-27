@@ -17,7 +17,7 @@
 namespace fl {
     class Term;
 
-    flclass TermFactory {
+    class FL_EXPORT TermFactory {
     public:
         TermFactory();
         virtual ~TermFactory();

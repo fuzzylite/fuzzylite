@@ -15,7 +15,7 @@
 
 namespace fl {
 
-    flclass Exception : public std::exception {
+    class FL_EXPORT Exception : public std::exception {
     protected:
         std::string _what;
     public:

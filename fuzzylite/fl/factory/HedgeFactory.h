@@ -15,7 +15,7 @@
 
 namespace fl {
     class Hedge;
-    flclass HedgeFactory {
+    class FL_EXPORT HedgeFactory {
     public:
         HedgeFactory();
         virtual ~HedgeFactory();

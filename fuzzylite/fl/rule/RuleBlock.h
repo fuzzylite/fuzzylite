@@ -19,7 +19,7 @@ namespace fl {
     class TNorm;
     class SNorm;
 
-    flclass RuleBlock {
+    class FL_EXPORT RuleBlock {
     protected:
         std::vector<Rule*> _rules;
         std::string _name;

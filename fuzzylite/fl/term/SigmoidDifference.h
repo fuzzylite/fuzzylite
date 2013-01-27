@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    flclass SigmoidDifference : public Term {
+    class FL_EXPORT SigmoidDifference : public Term {
     protected:
         scalar _left;
         scalar _rising;

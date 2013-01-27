@@ -11,11 +11,11 @@
 #include <iostream>
 #include <sstream>
 
-//flclass is require to build DLLs in Windows.
+//class FL_EXPORT is require to build DLLs in Windows.
 #ifdef FL_WINDOWS
-#define flclass class  __declspec(dllexport)
+#define FL_EXPORT __declspec(dllexport)
 #else
-#define flclass class
+#define FL_EXPORT 
 #endif
 
 #ifdef FL_WINDOWS

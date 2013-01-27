@@ -17,7 +17,7 @@
 
 namespace fl {
 
-    flclass Discrete : public Term {
+    class FL_EXPORT Discrete : public Term {
     public:
         std::vector<scalar> x;
         std::vector<scalar> y;

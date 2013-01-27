@@ -27,7 +27,7 @@
 
 namespace fl {
 
-    flclass MamdaniExpression {
+    class FL_EXPORT MamdaniExpression {
     public:
         const bool isOperator;
 
@@ -37,7 +37,7 @@ namespace fl {
         virtual std::string toString() const = 0;
     };
 
-    flclass MamdaniProposition : public MamdaniExpression {
+    class FL_EXPORT MamdaniProposition : public MamdaniExpression {
     public:
         Variable* variable;
         std::vector<Hedge*> hedges;
@@ -49,7 +49,7 @@ namespace fl {
     };
 
 
-    flclass MamdaniOperator : public MamdaniExpression {
+    class FL_EXPORT MamdaniOperator : public MamdaniExpression {
     public:
         std::string name;
         MamdaniExpression* left;

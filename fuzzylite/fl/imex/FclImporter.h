@@ -22,7 +22,7 @@ namespace fl {
     class Term;
     class Defuzzifier;
 
-    flclass FclImporter : public Importer {
+    class FL_EXPORT FclImporter : public Importer {
     protected:
         virtual void processBlock(const std::string& tag, const std::string& block, Engine* engine) const;
         virtual void processVar(const std::string& var, const std::string& block, Engine* engine)const;

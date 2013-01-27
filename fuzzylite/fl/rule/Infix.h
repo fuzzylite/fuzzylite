@@ -15,7 +15,7 @@
 #include <sstream>
 namespace fl {
 
-    flclass Infix {
+    class FL_EXPORT Infix {
     public:
 
         class GenericOperator {

@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    flclass Extremely : public Hedge {
+    class FL_EXPORT Extremely : public Hedge {
     public:
         std::string name() const;
         scalar hedge(scalar x) const;

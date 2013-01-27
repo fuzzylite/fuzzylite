@@ -23,8 +23,8 @@
    <string>About qtfuzzylite</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/icons/qtfuzzylite.svg</normaloff>:/icons/qtfuzzylite.svg</iconset>
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/qtfuzzylite.png</normaloff>:/icons/qtfuzzylite.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="sizeConstraint">

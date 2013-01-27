@@ -16,7 +16,7 @@
 namespace fl {
     class Defuzzifier;
     
-    flclass DefuzzifierFactory {
+    class FL_EXPORT DefuzzifierFactory {
     public:
         DefuzzifierFactory();
         virtual ~DefuzzifierFactory();

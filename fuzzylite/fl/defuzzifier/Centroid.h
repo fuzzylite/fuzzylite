@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    flclass Centroid : public Defuzzifier {
+    class FL_EXPORT Centroid : public Defuzzifier {
     public:
         Centroid(int divisions = FL_DIVISIONS);
 

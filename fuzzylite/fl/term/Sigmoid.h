@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    flclass Sigmoid : public Term {
+    class FL_EXPORT Sigmoid : public Term {
     protected:
         scalar _inflection;
         scalar _slope;

@@ -16,7 +16,7 @@
 namespace fl {
     class TNorm;
 
-    flclass TNormFactory {
+    class FL_EXPORT TNormFactory {
     public:
         TNormFactory();
         virtual ~TNormFactory();

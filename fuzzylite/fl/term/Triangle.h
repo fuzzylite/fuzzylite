@@ -12,7 +12,7 @@
 
 namespace fl {
 
-    flclass Triangle : public Term {
+    class FL_EXPORT Triangle : public Term {
     protected:
         scalar _a;
         scalar _b;

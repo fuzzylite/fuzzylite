@@ -17,8 +17,9 @@ set(FL_LIBS)
 if(UNIX)
     add_definitions(-DFL_UNIX)
     set(CMAKE_CXX_FLAGS "-Werror")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g2 -O0")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
+    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
     
 elseif(WIN32)
     add_definitions(-DFL_WINDOWS)
@@ -75,7 +76,7 @@ if("${isSystemDir}" STREQUAL "-1")
    SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 endif("${isSystemDir}" STREQUAL "-1")
 
-
+set(CMAKE_DEBUG_POSTFIX -dbg)
 
 add_library(fl-shared SHARED ${fl-headers} ${fl-sources})
 set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
@@ -88,10 +89,11 @@ target_link_libraries(fl-static ${FL_LIBS})
 
 add_executable(fl-bin src/main.cpp)
 set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite-demo)
+set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -dbg) 
 target_link_libraries(fl-bin fl-shared ${FL_LIBS})
 
 
-install(TARGETS fl-bin fl-shared #fl-static
+install(TARGETS fl-bin fl-shared fl-static
 		RUNTIME DESTINATION bin
 		LIBRARY DESTINATION lib
 		ARCHIVE DESTINATION lib

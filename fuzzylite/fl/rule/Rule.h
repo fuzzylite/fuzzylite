@@ -19,7 +19,7 @@ namespace fl {
     class TNorm;
     class SNorm;
 
-    flclass Rule {
+    class FL_EXPORT Rule {
     protected:
         scalar _weight;
         std::string _unparsedRule;

@@ -15,7 +15,7 @@
 namespace fl {
     class Term;
 
-    flclass Defuzzifier {
+    class FL_EXPORT Defuzzifier {
     protected:
         int _divisions;
 
