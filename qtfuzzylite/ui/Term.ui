@@ -89,7 +89,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideMiddle</enum>
@@ -130,8 +130,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>106</width>
-              <height>114</height>
+              <width>108</width>
+              <height>123</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -223,8 +223,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>106</width>
-              <height>149</height>
+              <width>108</width>
+              <height>156</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -326,8 +326,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>125</width>
-              <height>79</height>
+              <width>128</width>
+              <height>90</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -409,8 +409,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>219</width>
-              <height>183</height>
+              <width>227</width>
+              <height>206</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -563,15 +563,15 @@ sure 'x' is followed by 'y'.</string>
             <bool>true</bool>
            </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="page_6">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>132</width>
-              <height>79</height>
+              <width>227</width>
+              <height>144</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -650,8 +650,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>146</width>
-              <height>149</height>
+              <width>214</width>
+              <height>156</height>
              </rect>
             </property>
             <attribute name="label">
@@ -691,7 +691,7 @@ sure 'x' is followed by 'y'.</string>
                 <item row="0" column="0">
                  <widget class="QLabel" name="label_25">
                   <property name="text">
-                   <string>mean1</string>
+                   <string>meanA</string>
                   </property>
                  </widget>
                 </item>
@@ -701,7 +701,7 @@ sure 'x' is followed by 'y'.</string>
                 <item row="1" column="0">
                  <widget class="QLabel" name="label_26">
                   <property name="text">
-                   <string>stdev1</string>
+                   <string>stdevA</string>
                   </property>
                  </widget>
                 </item>
@@ -711,7 +711,7 @@ sure 'x' is followed by 'y'.</string>
                 <item row="2" column="0">
                  <widget class="QLabel" name="label_43">
                   <property name="text">
-                   <string>mean2</string>
+                   <string>meanB</string>
                   </property>
                  </widget>
                 </item>
@@ -721,7 +721,7 @@ sure 'x' is followed by 'y'.</string>
                 <item row="3" column="0">
                  <widget class="QLabel" name="label_44">
                   <property name="text">
-                   <string>stdev2</string>
+                   <string>stdevB</string>
                   </property>
                  </widget>
                 </item>
@@ -738,8 +738,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>137</width>
-              <height>114</height>
+              <width>144</width>
+              <height>123</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -828,8 +828,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>130</width>
-              <height>149</height>
+              <width>214</width>
+              <height>156</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -928,8 +928,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>137</width>
-              <height>149</height>
+              <width>142</width>
+              <height>156</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1028,8 +1028,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>137</width>
-              <height>154</height>
+              <width>142</width>
+              <height>162</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1160,8 +1160,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>126</width>
-              <height>79</height>
+              <width>132</width>
+              <height>90</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1240,8 +1240,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>131</width>
-              <height>79</height>
+              <width>137</width>
+              <height>90</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1332,8 +1332,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>126</width>
-              <height>79</height>
+              <width>132</width>
+              <height>90</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1412,8 +1412,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>126</width>
-              <height>84</height>
+              <width>132</width>
+              <height>96</height>
              </rect>
             </property>
             <property name="sizePolicy">

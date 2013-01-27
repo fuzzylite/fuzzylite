@@ -65,7 +65,7 @@ namespace fl {
             void onMenuImportFromFile();
             void onMenuExportToCpp();
 
-            void onMenuReset();
+            void onMenuNew();
             void onMenuAbout();
             void onMenuQuit();
 

@@ -48,7 +48,7 @@ namespace fl {
             ui->lbl_fuzzy_out->setVisible(false);
 
             QFont smallFont = ui->lbl_fuzzy->font();
-            smallFont.setPointSize(smallFont.pointSize() - 3);
+            smallFont.setPointSize(smallFont.pointSize() - 2);
             ui->lbl_fuzzy->setFont(smallFont);
             ui->lbl_fuzzy_out->setFont(smallFont);
 

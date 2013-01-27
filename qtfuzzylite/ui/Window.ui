@@ -720,13 +720,14 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionReset"/>
+   <addaction name="actionNew"/>
    <addaction name="separator"/>
-   <addaction name="actionPreferences"/>
    <addaction name="actionTerms"/>
    <addaction name="separator"/>
    <addaction name="actionImport"/>
    <addaction name="actionExport"/>
+   <addaction name="separator"/>
+   <addaction name="actionPreferences"/>
    <addaction name="separator"/>
    <addaction name="actionAbout"/>
    <addaction name="actionQuit"/>
@@ -756,13 +757,13 @@
      <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>
    </property>
    <property name="text">
-    <string>Preferences</string>
+    <string>&amp;Preferences</string>
    </property>
    <property name="toolTip">
     <string>Preferences</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+;</string>
+    <string>Ctrl+,</string>
    </property>
   </action>
   <action name="actionTerms">
@@ -771,7 +772,7 @@
      <normaloff>:/icons/colorize.png</normaloff>:/icons/colorize.png</iconset>
    </property>
    <property name="text">
-    <string>Terms</string>
+    <string>&amp;Terms</string>
    </property>
    <property name="toolTip">
     <string>Terms</string>
@@ -789,13 +790,10 @@
      <normaloff>:/icons/bottom.png</normaloff>:/icons/bottom.png</iconset>
    </property>
    <property name="text">
-    <string>Import</string>
+    <string>&amp;Import</string>
    </property>
    <property name="toolTip">
     <string>Import</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+I</string>
    </property>
   </action>
   <action name="actionExport">
@@ -807,28 +805,25 @@
      <normaloff>:/icons/top.png</normaloff>:/icons/top.png</iconset>
    </property>
    <property name="text">
-    <string>Export</string>
+    <string>&amp;Export</string>
    </property>
    <property name="toolTip">
     <string>Export</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+E</string>
-   </property>
   </action>
-  <action name="actionReset">
+  <action name="actionNew">
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/icons/filenew.png</normaloff>:/icons/filenew.png</iconset>
    </property>
    <property name="text">
-    <string>Reset</string>
+    <string>&amp;New engine</string>
    </property>
    <property name="toolTip">
-    <string>Reset</string>
+    <string>New engine</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+R</string>
+    <string>Ctrl+N</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -837,10 +832,10 @@
      <normaloff>:/icons/messagebox_info.png</normaloff>:/icons/messagebox_info.png</iconset>
    </property>
    <property name="text">
-    <string>About</string>
+    <string>&amp;About qtfuzzylite</string>
    </property>
    <property name="toolTip">
-    <string>About</string>
+    <string>About qtfuzzylite</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+?</string>
@@ -852,7 +847,7 @@
      <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
    </property>
    <property name="text">
-    <string>Quit</string>
+    <string>&amp;Quit</string>
    </property>
    <property name="toolTip">
     <string>Quit</string>

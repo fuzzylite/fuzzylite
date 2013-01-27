@@ -22,7 +22,8 @@ namespace fl {
         : QDialog(parent, f),
         ui(new Ui::Term), viewer(NULL), dummyVariable(new Variable),
         indexOfEditingTerm(-1) {
-            setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint);
+            setWindowFlags((Qt::Dialog | Qt::WindowStaysOnTopHint)
+                    & ~Qt::WindowContextHelpButtonHint);
         }
 
         Term::~Term() {
@@ -93,13 +94,13 @@ namespace fl {
             viewer = new Viewer;
             viewer->setup(dummyVariable);
             ui->toolboxLayout->insertWidget(0, viewer);
-//            viewer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-//            ui->splitter->insertWidget(0, viewer);
-//            QList<int> sizes;
-//            sizes << .25 * size().width() << .75 * size().width();
-//            ui->splitter->setSizes(sizes);
-//            ui->splitter->setEnabled(false);
-            
+            //            viewer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            //            ui->splitter->insertWidget(0, viewer);
+            //            QList<int> sizes;
+            //            sizes << .25 * size().width() << .75 * size().width();
+            //            ui->splitter->setSizes(sizes);
+            //            ui->splitter->setEnabled(false);
+
             QFont ttFont = Window::mainWindow()->typeWriterFont();
             ttFont.setPointSize(ttFont.pointSize() - 1);
             ui->ptx_discrete->setFont(ttFont);
@@ -254,7 +255,7 @@ namespace fl {
             //Discrete
             QObject::connect(ui->btn_discrete_parse, SIGNAL(clicked()),
                     this, SLOT(onClickDiscreteParser()));
-            
+
             //EXTENDED
             //Gaussian
             QObject::connect(ui->sbx_gaussian_center, SIGNAL(valueChanged(double)),
@@ -884,7 +885,7 @@ namespace fl {
                     xy << "(" << term->x.at(i) << "," << term->y.at(i) << ")";
                     if (i < size - 1) xy << " ";
                 }
-                
+
                 ui->ptx_discrete->setPlainText(QString::fromStdString(xy.str()));
 
                 ui->basicTermToolbox->setCurrentIndex(3);

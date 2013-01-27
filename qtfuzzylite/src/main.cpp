@@ -94,6 +94,26 @@ namespace fl {
     }
 }
 
+//std::string flPlatform() {
+//#ifdef Q_WS_X11
+//    return "Linux";
+//#endif
+//
+//#ifdef Q_WS_MAC
+//    return "Mac";
+//#endif
+//
+//#ifdef Q_WS_QWS
+//    //    return "Embedded Linux";
+//    return "Linux";
+//#endif
+//
+//#ifdef Q_WS_WIN
+//    return "Windows";
+//#endif
+//}
+
+
 int main(int argc, char* argv[]) {
     std::set_terminate(fl::terminate);
     std::set_unexpected(fl::terminate);
@@ -103,14 +123,14 @@ int main(int argc, char* argv[]) {
     signal(SIGILL, fl::signalHandler);
     signal(SIGSEGV, fl::signalHandler);
     signal(SIGFPE, fl::signalHandler);
-	#ifdef FL_UNIX
+#ifdef FL_UNIX
     signal(SIGBUS, fl::signalHandler);
     signal(SIGPIPE, fl::signalHandler);
-	#endif
+#endif
     try {
         fl::qt::Window::main();
-                        //int *x = (int*) - 1; // make a bad pointer
-                        //FL_LOG(*x);
+        //int *x = (int*) - 1; // make a bad pointer
+        //FL_LOG(*x);
         //        throw 0;
         int result = fl::qtfuzzylite->exec();
         delete fl::qtfuzzylite;

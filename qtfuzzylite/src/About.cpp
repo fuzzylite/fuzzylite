@@ -13,8 +13,8 @@ namespace fl {
 
         About::About(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::About) {
-            setWindowFlags(Qt::Dialog);
-
+            setWindowFlags((Qt::Dialog | Qt::WindowStaysOnTopHint)
+                    & ~Qt::WindowContextHelpButtonHint);
         }
 
         About::~About() {

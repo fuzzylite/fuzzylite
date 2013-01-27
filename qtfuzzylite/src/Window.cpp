@@ -64,26 +64,40 @@ namespace fl {
             preferences->setup();
             ui->tab_container->setCurrentIndex(0);
 
+#ifdef Q_WS_MAC
             ui->menuTools->addAction("About qtfuzzylite", this, SLOT(onMenuAbout()));
             ui->menuTools->addSeparator();
             ui->menuTools->addAction("Preferences...", this, SLOT(onMenuPreferences()));
+#endif
+            ui->menuTools->addAction(ui->actionNew);
             ui->menuTools->addSeparator();
             ui->menuTools->addAction(ui->actionTerms);
             ui->menuTools->addSeparator();
             
-            QMenu* importMenu = new QMenu("Import");
+            QMenu* importMenu = new QMenu("&Import");
+            importMenu->setIcon(QIcon(":/icons/bottom.png"));
             importMenu->addAction("from file...", this, SLOT(onMenuImportFromFile()));
             importMenu->addSeparator();
             importMenu->addAction("Fuzzy Controller Language (FCL)", this, SLOT(onMenuImportFromFCL()));
             importMenu->addAction("Fuzzy Inference System (FIS)", this, SLOT(onMenuImportFromFIS()));
             ui->menuTools->addMenu(importMenu);
- 
-            QMenu* exportMenu = new QMenu("Export");
+
+            QMenu* exportMenu = new QMenu("&Export");
+            exportMenu->setIcon(QIcon(":/icons/top.png"));
             exportMenu->addAction("fuzzylite (C++)", this, SLOT(onMenuExportToCpp()));
             exportMenu->addSeparator();
             exportMenu->addAction("Fuzzy Controller Language (FCL)", this, SLOT(onMenuExportToFCL()));
             exportMenu->addAction("Fuzzy Inference System (FIS)", this, SLOT(onMenuExportToFIS()));
             ui->menuTools->addMenu(exportMenu);
+            
+#ifndef Q_WS_MAC
+            ui->menuTools->addSeparator();
+            ui->menuTools->addAction(ui->actionPreferences);
+            ui->menuTools->addSeparator();
+            ui->menuTools->addAction(ui->actionAbout);
+            ui->menuTools->addSeparator();
+            ui->menuTools->addAction(ui->actionQuit);
+#endif
 
             QList<int> sizes;
             sizes << .75 * size().width() << .25 * size().width();
@@ -91,10 +105,10 @@ namespace fl {
             sizes.clear();
             sizes << .90 * size().width() << .10 * size().width();
             ui->spl_control_rule_strength->setSizes(sizes);
-            
+
             QRect scr = QApplication::desktop()->screenGeometry();
             move(scr.center() - rect().center());
- 
+
             setContextMenuPolicy(Qt::NoContextMenu);
 
             QWidget* widget = new QWidget;
@@ -113,8 +127,8 @@ namespace fl {
                     this, SLOT(onMenuPreferences()));
             QObject::connect(ui->actionTerms, SIGNAL(triggered()),
                     this, SLOT(onMenuTerms()));
-            QObject::connect(ui->actionReset, SIGNAL(triggered()),
-                    this, SLOT(onMenuReset()));
+            QObject::connect(ui->actionNew, SIGNAL(triggered()),
+                    this, SLOT(onMenuNew()));
             QObject::connect(ui->actionAbout, SIGNAL(triggered()),
                     this, SLOT(onMenuAbout()));
             QObject::connect(ui->actionQuit, SIGNAL(triggered()),
@@ -169,8 +183,8 @@ namespace fl {
                     this, SLOT(onMenuPreferences()));
             QObject::disconnect(ui->actionTerms, SIGNAL(triggered()),
                     this, SLOT(onMenuTerms()));
-            QObject::disconnect(ui->actionReset, SIGNAL(triggered()),
-                    this, SLOT(onMenuReset()));
+            QObject::disconnect(ui->actionNew, SIGNAL(triggered()),
+                    this, SLOT(onMenuNew()));
             QObject::disconnect(ui->actionAbout, SIGNAL(triggered()),
                     this, SLOT(onMenuAbout()));
             QObject::disconnect(ui->actionQuit, SIGNAL(triggered()),
@@ -960,10 +974,10 @@ namespace fl {
             fclDialog.exec();
         }
 
-        void Window::onMenuReset() {
+        void Window::onMenuNew() {
             QMessageBox::StandardButton clicked =
-                    QMessageBox::warning(this, "Reset engine",
-                    "Do you want to reset the engine?",
+                    QMessageBox::question(this, "New engine",
+                    "Do you want to create a new engine?",
                     QMessageBox::Yes | QMessageBox::No,
                     QMessageBox::Yes);
 
@@ -978,39 +992,39 @@ namespace fl {
             About about;
             about.setup();
             about.exec();
-            
-//            
-//            QString message =
-//                    "<qt><span style='font-weight:0;'>"
-//                    "<b>qtfuzzylite v. " FLQT_VERSION " (" FLQT_DATE ")</b><br>"
-//                    "<b>fuzzylite v. " FL_VERSION " (" FL_DATE ")</b><br>"
-//                    "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a><br><br>"
-//                    "Developed by Juan Rada-Vilela &nbsp;"
-//                    "<a href='mailto:jcrada@gmail.com'>jcrada@fuzzylite.com</a><br><br>"
-//                    "Please consider making a <b>donation</b> to support and further "
-//                    "improve these projects.<br>"
-//                    "<div align='left'><a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HAGFHRMSZVDKN'>"
-//                    "<img src=':/icons/btn_donateCC_LG.gif'></a></div>"
-//                    "<br>Visit &nbsp;"
-//                    "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a> "
-//                    "to find out how your contribution will be utilized.<br><br>"
-//                    "There are still many things to do!"
-//                    "<br><br>"
-//                    "... and do not hesitate to provide feedback, feature requests, "
-//                    "custom enhancements, or anything else!"
-//                    "<a href='http://www.fuzzylite.com'></a>"
-//                    "</span></qt>";
-//
-//
-//
-//            //            QMessageBox about("qtfuzzylite", message, QMessageBox::Information,
-//            //                              0,0,0, this, Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
-//            //            QIcon icon = about.windowIcon();
-//            //            QSize size = icon.actualSize(QSize(64, 64));
-//            //            about.setIconPixmap(icon.pixmap(size));
-//            //            about.addButton(QMessageBox::Ok);
-//            //            about.exec();
-//            QMessageBox::about(this, "qtfuzzylite", message);
+
+            //            
+            //            QString message =
+            //                    "<qt><span style='font-weight:0;'>"
+            //                    "<b>qtfuzzylite v. " FLQT_VERSION " (" FLQT_DATE ")</b><br>"
+            //                    "<b>fuzzylite v. " FL_VERSION " (" FL_DATE ")</b><br>"
+            //                    "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a><br><br>"
+            //                    "Developed by Juan Rada-Vilela &nbsp;"
+            //                    "<a href='mailto:jcrada@gmail.com'>jcrada@fuzzylite.com</a><br><br>"
+            //                    "Please consider making a <b>donation</b> to support and further "
+            //                    "improve these projects.<br>"
+            //                    "<div align='left'><a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HAGFHRMSZVDKN'>"
+            //                    "<img src=':/icons/btn_donateCC_LG.gif'></a></div>"
+            //                    "<br>Visit &nbsp;"
+            //                    "<a href='http://code.google.com/p/fuzzylite'>http://code.google.com/p/fuzzylite</a> "
+            //                    "to find out how your contribution will be utilized.<br><br>"
+            //                    "There are still many things to do!"
+            //                    "<br><br>"
+            //                    "... and do not hesitate to provide feedback, feature requests, "
+            //                    "custom enhancements, or anything else!"
+            //                    "<a href='http://www.fuzzylite.com'></a>"
+            //                    "</span></qt>";
+            //
+            //
+            //
+            //            //            QMessageBox about("qtfuzzylite", message, QMessageBox::Information,
+            //            //                              0,0,0, this, Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+            //            //            QIcon icon = about.windowIcon();
+            //            //            QSize size = icon.actualSize(QSize(64, 64));
+            //            //            about.setIconPixmap(icon.pixmap(size));
+            //            //            about.addButton(QMessageBox::Ok);
+            //            //            about.exec();
+            //            QMessageBox::about(this, "qtfuzzylite", message);
         }
 
         void Window::onMenuQuit() {
@@ -1044,7 +1058,7 @@ namespace fl {
 #endif
 
 #ifdef Q_WS_WIN
-            QFont tt("Lucida Console");
+            QFont tt("Fixedsys");
             tt.setStyleHint(QFont::TypeWriter);
             return tt;
 #endif

@@ -10,7 +10,7 @@
 #include "fl/qt/Window.h"
 
 #include "fl/qt/Model.h" 
- 
+
 #include <QtGui/QMessageBox>
 #include <sstream>
 
@@ -19,7 +19,8 @@ namespace fl {
 
         Preferences::Preferences(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::Preferences) {
-            setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint);
+            setWindowFlags((Qt::Dialog | Qt::WindowStaysOnTopHint)
+                    & ~Qt::WindowContextHelpButtonHint);
 
         }
 
@@ -54,7 +55,7 @@ namespace fl {
             }
 
             ui->sbx_divisions->setValue(FL_DIVISIONS);
-            
+
             connect();
         }
 

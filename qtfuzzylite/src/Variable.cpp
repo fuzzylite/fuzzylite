@@ -22,7 +22,7 @@ namespace fl {
         Variable::Variable(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::Variable), viewer(new Viewer),
         variable(NULL) {
-            //            setWindowFlags(Qt::DI);
+            setWindowFlags(Qt::Dialog & !Qt::WindowContextHelpButtonHint);
         }
 
         Variable::~Variable() {
@@ -146,7 +146,7 @@ namespace fl {
             for (int i = 0; i < outputVariable->numberOfTerms(); ++i) {
                 this->variable->addTerm(outputVariable->getTerm(i)->copy());
             }
-            
+
             ui->sbx_min->setSingleStep((variable->getMaximum() - variable->getMinimum()) / 100);
             ui->sbx_max->setSingleStep((variable->getMaximum() - variable->getMinimum()) / 100);
 
@@ -170,16 +170,16 @@ namespace fl {
 
         void Variable::showSelectedTerms() {
             ui->ptx_terms->clear();
-//            bool empty =true true;
+            //            bool empty =true true;
             for (int i = 0; i < ui->lvw_terms->count(); ++i) {
                 if (ui->lvw_terms->item(i)->isSelected()) {
-//                    empty = false;
+                    //                    empty = false;
                     viewer->draw(variable->getTerm(i));
                     ui->ptx_terms->appendPlainText(QString::fromStdString(
                             variable->getTerm(i)->toString()));
                 }
             }
-//            if (empty) ui->ptx_terms->appendPlainText("No terms selected");
+            //            if (empty) ui->ptx_terms->appendPlainText("No terms selected");
         }
 
         /**
