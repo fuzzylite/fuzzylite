@@ -43,16 +43,23 @@ namespace fl {
 
         virtual std::string toString() const;
 
-        static std::string FL_IF;
-        static std::string FL_IS;
-        static std::string FL_THEN;
-        static std::string FL_AND;
-        static std::string FL_OR;
-        static std::string FL_WITH;
+        static  std::string FL_IF;
+        static  std::string FL_IS;
+        static  std::string FL_THEN;
+        static  std::string FL_AND;
+        static  std::string FL_OR;
+        static  std::string FL_WITH;
+		
+		static std::string ifKeyword();
+		static std::string isKeyword();
+		static std::string thenKeyword();
+		static std::string andKeyword();
+		static std::string orKeyword();
+		static std::string withKeyword();
+		
+		
     };
 }
-
-
 
 
 #endif /* FL_RULE_H */

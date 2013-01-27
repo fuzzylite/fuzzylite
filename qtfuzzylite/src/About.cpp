@@ -71,7 +71,7 @@ namespace fl {
                     "<table>"
                     "<tr >"
                     "<td align='center' valign='middle'>"
-                    "<a href='http://www.fuzzylite.com'><img src=':/icons/qtfuzzylite.svg'/></a>"
+                    "<a href='http://www.fuzzylite.com'><img src=':/icons/qtfuzzylite.png'/></a>"
                     "</td>"
                     "<td align='left' valign='top'><b>qtfuzzylite v."
                     FLQT_VERSION " (" FLQT_DATE ")</b> "

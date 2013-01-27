@@ -1,6 +1,5 @@
 <RCC>
   <qresource>
-    <file>icons/generosity.svg</file>
     <file>icons/colorize.png</file>
     <file>icons/messagebox_info.png</file>
     <file>icons/exit.png</file>
@@ -8,7 +7,6 @@
     <file>icons/configure.png</file>
     <file>icons/top.png</file>
     <file>icons/bottom.png</file>
-    <file>icons/qtfuzzylite.svg</file>
     <file>icons/1uparrow.png</file>
     <file>icons/down.png</file>
     <file>icons/up.png</file>
@@ -18,6 +16,7 @@
     <file>icons/edit_remove.png</file>
     <file>icons/pencil.png</file>
     <file>icons/btn_donateCC_LG.gif</file>
-    <file>icons/panoramic.svg</file>
+    <file>icons/qtfuzzylite.png</file>
+    <file>icons/generosity.png</file>
   </qresource>
 </RCC>

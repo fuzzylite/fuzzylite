@@ -23,7 +23,7 @@
    <string>About qtfuzzylite</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
+   <iconset>
     <normaloff>:/icons/qtfuzzylite.svg</normaloff>:/icons/qtfuzzylite.svg</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -138,7 +138,7 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to support these projects. 
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="resources.qrc">:/icons/generosity.svg</pixmap>
+              <pixmap resource="resources.qrc">:/icons/generosity.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>

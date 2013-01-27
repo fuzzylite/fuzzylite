@@ -627,22 +627,22 @@ namespace fl {
 
             for (int nRule = 0; nRule < numberOfRules; ++nRule) {
                 std::ostringstream rule;
-                rule << fl::Rule::FL_IF << " ";
+                rule << fl::Rule::ifKeyword() << " ";
                 for (int input = 0; input < engine->numberOfInputVariables();
                         ++input) {
                     fl::Variable* var = engine->getInputVariable(input);
-                    rule << var->getName() << " " << fl::Rule::FL_IS << " "
+                    rule << var->getName() << " " << fl::Rule::isKeyword() << " "
                             << var->getTerm(terms[input])->getName() << " ";
                     if (input < engine->numberOfInputVariables() - 1) {
-                        rule << fl::Rule::FL_AND << " ";
+                        rule << fl::Rule::andKeyword() << " ";
                     }
                 }
-                rule << fl::Rule::FL_THEN;
+                rule << fl::Rule::thenKeyword();
                 for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
                     rule << " " << engine->getOutputVariable(i)->getName() << " "
-                            << fl::Rule::FL_IS << " ?";
+                            << fl::Rule::isKeyword() << " ?";
                     if (i < engine->numberOfOutputVariables() - 1) {
-                        rule << " " << fl::Rule::FL_AND << " ";
+                        rule << " " << fl::Rule::andKeyword() << " ";
                     }
                 }
                 ui->ptx_rules->appendPlainText(QString::fromStdString(rule.str()));
