@@ -25,18 +25,18 @@ namespace fl {
 
     Engine* FisImporter::fromString(const std::string& fis) const {
         Engine* engine = new Engine;
-        
+
         engine->addHedge(new Any);
         engine->addHedge(new Extremely);
         engine->addHedge(new Not);
         engine->addHedge(new Seldom);
         engine->addHedge(new Somewhat);
         engine->addHedge(new Very);
-        
+
         std::istringstream fisReader(fis);
         std::string line;
         int lineNumber = 0;
-        
+
         std::vector<std::string> sections;
         while (std::getline(fisReader, line)) {
             ++lineNumber;
@@ -72,8 +72,16 @@ namespace fl {
                 else if ("[Rules]" == sections.at(i).substr(0, std::string("[Rules]").size()))
                     importRules(sections.at(i), engine);
                 else
-                    throw fl::Exception("[internal error] unable to parse section: "
+                    throw fl::Exception("[importer error] unable to parse section: "
                         + sections.at(i), FL_AT);
+            }
+            if (engine->numberOfInputVariables() == 0
+                    and engine->numberOfOutputVariables() == 0
+                    and (engine->numberOfRuleBlocks() == 0
+                    or engine->getRuleBlock(0)->numberOfRules() == 0)) {
+                std::ostringstream ex;
+                ex << "[importer error] the FIS code introduced produces an empty engine";
+                throw fl::Exception(ex.str(), FL_AT);
             }
             engine->configure(flTnorm(andMethod), flSnorm(orMethod),
                     flTnorm(impMethod), flSnorm(aggMethod),
@@ -104,7 +112,7 @@ namespace fl {
             if (key == "Name") engine->setName(value);
             else if (key == "Type") {
                 if (value != "mamdani")
-                    throw fl::Exception("[error] fuzzylite supports only mamdani-type "
+                    throw fl::Exception("[importer error] fuzzylite supports only mamdani-type "
                         "engines at the moment", FL_AT);
 
             } else if (key == "AndMethod") andMethod = value;
@@ -294,7 +302,7 @@ namespace fl {
         else if (fl::Op::isEq(fracPart, 0.3)) ss << Extremely().name() << " ";
         else if (fl::Op::isEq(fracPart, 0.4)) ss << Very().name() << " " << Very().name() << " ";
         else if (not fl::Op::isEq(fracPart, 0))
-            throw fl::Exception("[syntax error] no hedge defined in fis format for <"
+            throw fl::Exception("[syntax error] no hedge defined in FIS format for <"
                 + fl::Op::str(fracPart) + ">", FL_AT);
 
         ss << variable->getTerm(intPart)->getName();

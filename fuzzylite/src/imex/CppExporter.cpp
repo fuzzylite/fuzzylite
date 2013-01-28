@@ -207,7 +207,7 @@ namespace fl {
             return ss.str();
         }
 
-        ss << "[export error] term of class <" << term->className() << "> not supported";
+        ss << "[exporter error] term of class <" << term->className() << "> not supported";
         throw fl::Exception(ss.str(), FL_AT);
     }
 

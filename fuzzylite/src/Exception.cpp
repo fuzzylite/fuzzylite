@@ -24,7 +24,7 @@ namespace fl {
 
     Exception::Exception(const std::string& what, const std::string& file, int line,
             const std::string& function, bool log)
-    : std::exception(), _what(what) {
+    : std::exception(), _what(what + "\n") {
         append(file, line, function);
         if (log) FL_LOGP(this->what());
     }
@@ -44,7 +44,7 @@ namespace fl {
     }
 
     void Exception::append(const std::string& whatMore) {
-        this->_what += "\n" + whatMore;
+        this->_what += whatMore + "\n";
     }
 
     void Exception::append(const std::string& file, int line, const std::string& function) {

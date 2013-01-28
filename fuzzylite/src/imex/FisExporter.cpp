@@ -68,7 +68,7 @@ namespace fl {
         }
 
         if (not uniquenessError.empty())
-            throw fl::Exception("[export error] fis files require all ruleblocks "
+            throw fl::Exception("[exporter error] fis files require all ruleblocks "
                 "to have the same " + uniquenessError, FL_AT);
 
         fis << "AndMethod='" << toFis(tnorm) << "'\n";
@@ -92,7 +92,7 @@ namespace fl {
         }
 
         if (not uniquenessError.empty())
-            throw fl::Exception("[export error] fis files require all ruleblocks "
+            throw fl::Exception("[exporter error] fis files require all ruleblocks "
                 "to have the same " + uniquenessError, FL_AT);
 
         fis << "AggMethod='" << toFis(accumulation) << "'\n";
@@ -177,7 +177,7 @@ namespace fl {
             }
         }
         if (not equalOperators)
-            throw fl::Exception("[export error] "
+            throw fl::Exception("[exporter error] "
                 "fis files do not support rules with different connectors "
                 "(i.e. ['and', 'or']). All connectors within a rule must be the same", FL_AT);
 
@@ -222,7 +222,8 @@ namespace fl {
 
                 std::vector<Hedge*> hedges = proposition->hedges;
                 if (hedges.size() > 0) {
-                    FL_LOG("[export warning] only a few combinations of multiple hedges are supported");
+                    FL_LOG("[exporter warning] only a few combinations of multiple "
+                            "hedges are supported in fis files");
                 }
                 for (std::size_t ixHedge = 0; ixHedge < hedges.size(); ++ixHedge) {
                     Hedge* hedge = hedges.at(ixHedge);
@@ -382,7 +383,7 @@ namespace fl {
             return ss.str();
         }
 
-        ss << "[export error] term of class <" << term->className() << "> not supported";
+        ss << "[exporter error] term of class <" << term->className() << "> not supported";
         throw fl::Exception(ss.str(), FL_AT);
     }
 }

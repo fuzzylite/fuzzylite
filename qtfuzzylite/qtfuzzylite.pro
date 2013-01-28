@@ -22,6 +22,7 @@ LIBS += -L../fuzzylite/build
 
 CONFIG(debug, debug|release){
     message("debug")
+    DEFINES += FL_DEBUG
     TARGET = qtfuzzylite-dbg
     LIBS += -lfuzzylite-dbg # -lQtSvg
 }

@@ -111,6 +111,14 @@ namespace fl {
                 }
                 throw fl::Exception(ex.str(), FL_AT);
             }
+            if (engine->numberOfInputVariables() == 0
+                    and engine->numberOfOutputVariables() == 0
+                    and (engine->numberOfRuleBlocks() == 0
+                    or engine->getRuleBlock(0)->numberOfRules() == 0)) {
+                std::ostringstream ex;
+                ex << "[importer error] the FCL code introduced produces an empty engine";
+                throw fl::Exception(ex.str(), FL_AT);
+            }
         } catch (fl::Exception& ex) {
             delete engine;
             throw ex;
@@ -261,7 +269,7 @@ namespace fl {
         std::getline(blockReader, line);
         std::size_t index = line.find_last_of(' ');
         if (index != std::string::npos) name = line.substr(index);
-        RuleBlock* ruleblock = new RuleBlock(name);
+        RuleBlock * ruleblock = new RuleBlock(name);
         engine->addRuleBlock(ruleblock);
 
         while (getline(blockReader, line)) {
@@ -396,11 +404,11 @@ namespace fl {
                 parameters.push_back(parameter);
             }
         }
-        if (state <= S_ASSIGN) 
+        if (state <= S_ASSIGN)
             throw fl::Exception("[syntax error] malformed term in line: " + line, FL_AT);
         try {
             if (termClass.empty()) termClass = Discrete().className();
-            Term* result = Factory::instance()->term()->create(termClass, parameters);
+            Term * result = Factory::instance()->term()->create(termClass, parameters);
             result->setName(name);
             return result;
         } catch (fl::Exception& ex) {
@@ -481,9 +489,9 @@ namespace fl {
                     << line;
             throw fl::Exception(ex.str(), FL_AT);
         }
-        
+
         std::string rangeToken = token.at(1);
-        
+
         std::ostringstream range;
         for (std::size_t i = 0; i < rangeToken.size(); ++i) {
             char character = rangeToken.at(i);

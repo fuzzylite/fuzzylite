@@ -31,7 +31,10 @@ namespace fl {
             case MEAN:
                 return "MeanOfMaximum";
             default:
-                throw fl::Exception("[internal error]", FL_AT);
+                std::ostringstream ex;
+                ex << "[defuzzifier error] maximum defuzzifier of type <" <<  _type << ">"
+                        " not recognized";
+                throw fl::Exception(ex.str(), FL_AT);
         }
     }
 

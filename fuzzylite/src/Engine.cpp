@@ -116,7 +116,7 @@ namespace fl {
                     << _outputVariables.at(i)->getDefaultValue());
             FL_DBG(_outputVariables.at(i)->getName() << ".lockDefuzzifiedValue= "
                     << _outputVariables.at(i)->lockDefuzzifiedValue()
-                    << " (no locking ever performed during this debugging block, i.e., defuzzify(true)");
+                    << " (no locking ever performed during this debugging block, i.e., defuzzifyIgnoreLock()");
             scalar output = _outputVariables.at(i)->defuzzifyIgnoreLock(); // override to not change the system
             FL_DBG(_outputVariables.at(i)->getName() << ".defuzzifiedOutput = " << output);
             FL_DBG(_outputVariables.at(i)->getName() << ".fuzzifiedOutput = " <<

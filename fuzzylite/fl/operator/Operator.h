@@ -103,30 +103,21 @@ namespace fl {
 
         static std::vector<std::string> split(const std::string& str,
                 const std::string& delimiter = " ", bool ignoreEmpty = true) {
-//            ERROR HERE ON WINDOWS!
             std::vector<std::string> result;
             if (delimiter.empty()) {
                 result.push_back(str);
                 return result;
             }
             std::string::const_iterator position = str.begin(), next = str.begin();
-			FL_LOG("string: " << str);
-			FL_LOG("split: " << delimiter);
             while (next != str.end()) {
                 next = std::search(position, str.end(), delimiter.begin(), delimiter.end());
                 std::string token(position, next);
-				FL_LOG("token: " << token);
                 if (not (token.empty() and ignoreEmpty)) {
                     result.push_back(token);
                 }
-				if (next != str.end()){
-					position = next + delimiter.size();
-					/* In Windows, an exception could be thrown in the previous line due to 'position' going past the str.end(). An alternative solution could be this:
-					for (std::size_t i = 0 ; i < delimiter.size() and position != str.end(); ++i){
-						position++;
-					}
-					*/
-				}
+                if (next != str.end()) {
+                    position = next + delimiter.size();
+                }
             }
             return result;
         }
@@ -177,20 +168,20 @@ namespace fl {
             return alternative;
         }
 
-        static std::string str(int x){
+        static std::string str(int x) {
             std::ostringstream ss;
             ss << x;
             return ss.str();
         }
-        
+
         static std::string str(scalar x, int precision = FL_DECIMALS) {
             std::ostringstream ss;
             ss << std::setprecision(precision) << std::fixed;
-			if (fl::Op::isNan(x)) ss << "nan";
-			else if (fl::Op::isInf(x)){
-				if (x < 0) ss <<"-";
-				ss << "inf";
-			}else ss << x;
+            if (fl::Op::isNan(x)) ss << "nan";
+            else if (fl::Op::isInf(x)) {
+                if (x < 0) ss << "-";
+                ss << "inf";
+            } else ss << x;
             return ss.str();
         }
 
