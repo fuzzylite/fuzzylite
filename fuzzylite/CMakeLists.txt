@@ -9,6 +9,10 @@ option(FL_DEBUG "Enable additional debugging information" OFF)
 option(FL_PRECISION "Precision to differentiate numbers" 1e-5)
 option(FL_DECIMALS "Number of decimals to print information" 3)
 
+if(FL_DEBUG)
+#    add_definitions(-DFL_DEBUG=true)
+    set(CMAKE_BUILD_TYPE Debug)
+endif(FL_DEBUG)
 
 set(CMAKE_VERBOSE_MAKEFILE true)
 
@@ -19,8 +23,10 @@ if(UNIX)
     set(CMAKE_CXX_FLAGS "-Werror")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DFL_DEBUG")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
-    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
-    
+if(NOT APPLE)
+    set(CMAKE_SHARED_LINKER_FLAGS "-Wl --no-undefined") #apple does not recognise these
+endif(NOT APPLE)
+
 elseif(WIN32)
     add_definitions(-DFL_WINDOWS)
     set(FL_LIBS dbghelp)
@@ -35,9 +41,7 @@ if(NOT FL_USE_LOG)
     add_definitions(-DFL_NO_LOG)
 endif(NOT FL_USE_LOG)
 
-if(FL_DEBUG)
-    add_definitions(-DFL_DEBUG=true)
-endif(FL_DEBUG)
+
 
 if(FL_PRECISION)
     add_definitions(-DFL_PRECISION=${FL_PRECISION})
