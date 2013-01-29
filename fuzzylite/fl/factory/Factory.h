@@ -8,7 +8,7 @@
 #ifndef FL_FACTORY_H
 #define	FL_FACTORY_H
 
-#include "fl/config.h"
+#include "fl/definitions.h"
 
 namespace fl {
     class TNormFactory;

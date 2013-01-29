@@ -8,7 +8,7 @@
 #ifndef FL_HEADERS_H
 #define FL_HEADERS_H
 
-#include "fl/config.h"
+#include "fl/definitions.h"
 #include "fl/scalar.h"
 #include "fl/Engine.h"
 #include "fl/Exception.h"

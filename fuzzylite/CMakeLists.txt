@@ -12,6 +12,8 @@ option(FL_DECIMALS "Number of decimals to print information" 3)
 
 set(CMAKE_VERBOSE_MAKEFILE true)
 
+add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
+
 set(FL_LIBS)
 
 if(UNIX)

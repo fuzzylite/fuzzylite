@@ -7,16 +7,21 @@
 
 #include "fl/rule/mamdani/MamdaniConsequent.h"
 
-#include "fl/operator/TNorm.h"
-
 #include "fl/rule/mamdani/MamdaniExpression.h"
 
+#include "fl/rule/Rule.h"
+
 #include "fl/Engine.h"
+#include "fl/variable/OutputVariable.h"
+
+
+#include "fl/hedge/Hedge.h"
+#include "fl/operator/TNorm.h"
 
 #include "fl/term/Thresholded.h"
 #include "fl/term/Accumulated.h"
 
-#include "fl/config.h"
+
 
 namespace fl {
 

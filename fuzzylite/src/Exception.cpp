@@ -6,7 +6,7 @@
  */
 
 #include "fl/Exception.h"
-#include "fl/config.h"
+
 
 #ifdef FL_UNIX
 #include <execinfo.h>

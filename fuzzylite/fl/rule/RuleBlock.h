@@ -8,7 +8,7 @@
 #ifndef FL_RULEBLOCK_H
 #define FL_RULEBLOCK_H
 
-#include "fl/config.h"
+#include "fl/definitions.h"
 
 #include <vector>
 #include <string>

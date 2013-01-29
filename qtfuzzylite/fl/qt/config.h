@@ -5,7 +5,7 @@
  *      Author: jcrada
  */
 
-#include <fl/config.h>
+#include <fl/definitions.h>
  
 #ifndef FLQT_CONFIG_H_
 #define FLQT_CONFIG_H_

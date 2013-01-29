@@ -8,7 +8,7 @@
 #ifndef FL_EXPORTER_H
 #define	FL_EXPORTER_H
 
-#include "fl/config.h"
+#include "fl/definitions.h"
 
 #include <string>
 

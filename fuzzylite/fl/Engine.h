@@ -8,7 +8,7 @@
 #ifndef FL_ENGINE_H
 #define FL_ENGINE_H
 
-#include "fl/config.h"
+#include "fl/definitions.h"
 
 #include <vector>
 #include <string>

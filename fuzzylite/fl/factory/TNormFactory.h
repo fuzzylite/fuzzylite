@@ -8,7 +8,7 @@
 #ifndef FL_TNORMFACTORY_H
 #define	FL_TNORMFACTORY_H
 
-#include "fl/config.h"
+#include "fl/definitions.h"
 
 #include <string>
 #include <vector>

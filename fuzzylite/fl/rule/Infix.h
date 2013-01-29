@@ -8,6 +8,8 @@
 #ifndef FL_INFIX_H
 #define FL_INFIX_H
 
+#include "fl/definitions.h"
+
 #include "fl/scalar.h"
 
 #include <map>

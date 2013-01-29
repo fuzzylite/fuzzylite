@@ -8,7 +8,8 @@
 #ifndef FL_EXCEPTION_H
 #define FL_EXCEPTION_H
 
-#include "fl/config.h"
+#include "fl/definitions.h"
+
 #include <exception>
 #include <string>
 #include <vector>

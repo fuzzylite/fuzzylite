@@ -8,25 +8,18 @@
 #ifndef FL_MAMDANIEXPRESSION_H
 #define FL_MAMDANIEXPRESSION_H
 
-#include "fl/scalar.h"
-
-#include "fl/rule/Rule.h"
-
-#include "fl/operator/Operator.h"
-#include "fl/variable/InputVariable.h"
-#include "fl/variable/OutputVariable.h"
-#include "fl/term/Term.h"
-#include "fl/hedge/Hedge.h"
-
+#include "fl/definitions.h"
 
 #include <string>
-#include <sstream>
 #include <vector>
 
 
 
 namespace fl {
-
+    class Variable;
+    class Hedge;
+    class Term;
+    
     class FL_EXPORT MamdaniExpression {
     public:
         const bool isOperator;

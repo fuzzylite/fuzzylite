@@ -8,9 +8,9 @@
 #ifndef FL_TERM_H
 #define FL_TERM_H
 
-#include "fl/scalar.h"
+#include "fl/definitions.h"
 
-#include "fl/config.h"
+#include "fl/scalar.h"
 
 #include "fl/operator/Operator.h"
 

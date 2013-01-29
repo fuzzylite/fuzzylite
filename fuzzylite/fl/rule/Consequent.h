@@ -8,6 +8,8 @@
 #ifndef FL_CONSEQUENT_H
 #define FL_CONSEQUENT_H
 
+#include "fl/definitions.h"
+
 #include "fl/scalar.h"
 
 #include <string>

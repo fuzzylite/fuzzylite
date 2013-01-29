@@ -8,7 +8,7 @@
 #ifndef FL_HEDGEFACTORY_H
 #define	FL_HEDGEFACTORY_H
 
-#include "fl/config.h"
+#include "fl/definitions.h"
 
 #include <string>
 #include <vector>

@@ -1,4 +1,5 @@
-fl/config.h
+fl/definitions.h
+fl/scalar.h
 fl/Headers.h
 fl/defuzzifier/MaximumDefuzzifier.h
 fl/defuzzifier/Defuzzifier.h
@@ -57,4 +58,4 @@ fl/imex/Exporter.h
 fl/imex/FclImporter.h
 fl/imex/CppExporter.h
 fl/imex/Importer.h
-fl/scalar.h
+

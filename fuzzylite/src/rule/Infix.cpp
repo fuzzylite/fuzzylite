@@ -10,7 +10,7 @@
 #include "fl/rule/Rule.h"
 #include "fl/operator/Operator.h"
 
-#include "fl/config.h"
+
 
 #include <cmath>
 #include <queue>

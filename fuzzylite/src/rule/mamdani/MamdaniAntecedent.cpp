@@ -21,7 +21,7 @@
 #include "fl/operator/SNorm.h"
 
 
-#include "fl/config.h"
+
 
 #include <stack>
 

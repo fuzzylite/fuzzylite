@@ -12,7 +12,7 @@
 #include "fl/operator/Operator.h"
 #include "fl/Exception.h"
 
-#include "fl/config.h"
+
 
 
 namespace fl {

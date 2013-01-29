@@ -13,6 +13,7 @@
 #include <signal.h>
 
 using namespace fl;
+
 /*
 void baz(){
     int *x = (int*) - 1; // make a bad pointer
@@ -26,13 +27,23 @@ void bar(){
 void foo(){
     bar();
 }
-*/
+ */
 
 int main(int argc, char** argv) {
     signal(SIGSEGV, fl::Exception::signalHandler);
-   // foo();
+    signal(SIGABRT, fl::Exception::signalHandler);
+    signal(SIGILL, fl::Exception::signalHandler);
+    signal(SIGSEGV, fl::Exception::signalHandler);
+    signal(SIGFPE, fl::Exception::signalHandler);
+#ifdef FL_UNIX
+    signal(SIGBUS, fl::Exception::signalHandler);
+    signal(SIGPIPE, fl::Exception::signalHandler);
+#endif
+    // foo();
     std::cout << "\nHello, fuzzylite!" << std::endl
-            << "Version: " << FL_VERSION << " (" << FL_DATE << ")\n" << std::endl;
+            << "Version: " << FL_VERSION << " (" << FL_DATE << ")\n" << std::endl
+            << "fuzzylite was built from " << FL_BUILD_PATH << std::endl;
+
     scalar someScalar = 0;
     int scalarSize = sizeof (someScalar);
     (void) scalarSize;
@@ -50,13 +61,15 @@ int main(int argc, char** argv) {
     std::cout << "Macro FL_LOG will not print anything because of directive -DFL_NO_LOG\n";
 #else
     std::cout << "FL_LOG is enabled\n";
+    std::cout << "FL_LOG will output information to the console as follows: " << std::endl;
+    FL_LOG("This is a message from FL_LOG");
 #endif
     if (FL_DEBUG)
-        std::cout << "FL_DEBUG is enabled. Use with CARE. Very detailed information will be printed to console "
-            "everytime the fl::Engine::process() is called. NOT good for performance!\n"
-            << std::endl;
+        std::cout << "FL_DEBUG is enabled" << std::endl;
     else
         std::cout << "FL_DEBUG is disabled.\nFL_DBG and FL_BEGIN_BLOCKs are disabled.\n";
+
+
 
     std::cout << std::setprecision(FL_DECIMALS) << std::fixed;
 
@@ -110,7 +123,6 @@ int main(int argc, char** argv) {
     std::cout << "\n\n";
 
     std::cout << "Bye, fuzzylite!\n" << std::endl;
-    //    std::cin.get();
 
 }
 

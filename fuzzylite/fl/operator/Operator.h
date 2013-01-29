@@ -8,6 +8,8 @@
 #ifndef FL_OPERATOR_H
 #define	FL_OPERATOR_H
 
+#include "fl/definitions.h"
+
 #include "fl/scalar.h"
 
 #include "fl/Exception.h"

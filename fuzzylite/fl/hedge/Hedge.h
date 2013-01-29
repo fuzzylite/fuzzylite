@@ -8,6 +8,8 @@
 #ifndef FL_HEDGE_H
 #define FL_HEDGE_H
 
+#include "fl/definitions.h"
+
 #include "fl/scalar.h"
 
 #include <string>

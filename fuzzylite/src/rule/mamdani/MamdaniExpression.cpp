@@ -1,5 +1,10 @@
 #include "fl/rule/mamdani/MamdaniExpression.h"
 
+#include "fl/variable/Variable.h"
+#include "fl/hedge/Hedge.h"
+#include "fl/term/Term.h"
+#include "fl/rule/Rule.h"
+
 namespace fl {
 
     MamdaniExpression::MamdaniExpression(bool isOperator)
