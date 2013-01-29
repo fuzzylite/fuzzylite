@@ -2,14 +2,21 @@
 
 
 win32{
+    message("Windows")
     DEFINES += FL_WINDOWS
     LIBS += -ldbghelp
     RC_FILE = ui/fl_windows.rc
 }
 
 unix{
+    message("Unix")
     DEFINES += FL_UNIX
     ICON = ui/icons/qtfuzzylite.icns
+}
+
+macx{
+    message("MacOS")
+#macdeployqt app-bundle
 }
 
 
@@ -18,7 +25,8 @@ message($$CONFIG)
 MAKEFILE = Makefile
 TEMPLATE = app
 
-LIBS += -L../fuzzylite/build
+LIBS += -L../fuzzylite/lib
+
 
 CONFIG(debug, debug|release){
     message("debug")
@@ -37,7 +45,7 @@ target.path += /usr/local/bin
 INSTALLS += target
 
 VERSION = 2.0
-DEPENDPATH += . src ui
+DEPENDPATH += . ui
 INCLUDEPATH += . ../fuzzylite #/usr/include/qt4 /Qt/4.8.4/include
 MOC_DIR = tmp/moc
 OBJECTS_DIR = tmp
