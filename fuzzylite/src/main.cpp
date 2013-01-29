@@ -61,6 +61,7 @@ int main(int argc, char** argv) {
     std::cout << "Macro FL_LOG will not print anything because of directive -DFL_NO_LOG\n";
 #else
     std::cout << "FL_LOG is enabled\n";
+    std::cout << "FL_LOG_PREFIX is e.g. " << FL_LOG_PREFIX << "\n";
     std::cout << "FL_LOG will output information to the console as follows: " << std::endl;
     FL_LOG("This is a message from FL_LOG");
 #endif
