@@ -28,9 +28,9 @@ if(UNIX)
     set(CMAKE_CXX_FLAGS "-Werror")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DFL_DEBUG")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
-#if(NOT APPLE) #TODO: check again in apple...
+if(NOT APPLE) #TODO: check again in apple...
     set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined") #apple does not recognise these
-#endif(NOT APPLE)
+endif(NOT APPLE)
 
 elseif(WIN32)
     add_definitions(-DFL_WINDOWS)

@@ -6,17 +6,27 @@ find_package(Qt4 REQUIRED)
 
 include(${QT_USE_FILE})
 
-include_directories(. ../fuzzylite)
+include_directories(. ${CMAKE_SOURCE_DIR}/../fuzzylite)
+#set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${CMAKE_SOURCE_DIR}/../fuzzylite/lib)
 
 
-set(FL_LIBRARY fuzzylite)
+message("source:" ${CMAKE_SOURCE_DIR})
+message("library_path:" ${CMAKE_LIBRARY_PATH})
+
+set(CMAKE_VERBOSE_MAKEFILE true)
+set(CMAKE_BUILD_TYPE Release)
+
+find_library(fl-shared fuzzylite ${CMAKE_SOURCE_DIR}/../fuzzylite/lib) 
+if(FL_DEBUG)
+   set(CMAKE_BUILD_TYPE Debug)
+   find_library(fl-shared fuzzylite-dbg ${CMAKE_SOURCE_DIR}/../fuzzylite/lib)  
+endif(FL_DEBUG)
 
 
 
 set(qtfl-headers
     fl/qt/About.h
     fl/qt/Control.h
-    fl/qt/Model.h
     fl/qt/Preferences.h
     fl/qt/Term.h
     fl/qt/Variable.h
@@ -46,11 +56,14 @@ set(qtfl-uis
     ui/Window.ui
     ui/Wizard.ui)
 
-SET(_moc ${CMAKE_CURRENT_BINARY_DIR}/tmp/moc)
 
 qt4_wrap_cpp(qtfl-output ${qtfl-headers})
 qt4_wrap_ui(qtfl-output  ${qtfl-uis})
 qt4_add_resources(qtfl-output ui/qtfuzzylite.qrc)
+
+set(OSX_ICON_FILES ${CMAKE_CURRENT_SOURCE_DIR}/ui/icons/qtfuzzylite.icns) 
+set_source_files_properties( ${OSX_ICON_FILES} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+set(qtfl-output ${qtfl-output} ${OSX_ICON_FILES})
 
 add_definitions(${QT_DEFINITIONS})
 
@@ -60,8 +73,21 @@ add_executable(qtfuzzylite
                 ${qtfl-sources} ${qtfl-output} 
                 #for the ide
                 ${qtfl-headers} ${qtfl-uis} ${qtfl-mocs} ${qtfl-res})
+set_target_properties(qtfuzzylite PROPERTIES DEBUG_POSTFIX -dbg) 
+target_link_libraries(qtfuzzylite ${QT_LIBRARIES} ${fl-shared})
 
-target_link_libraries(qtfuzzylite ${QT_LIBRARIES} ${FL_LIBRARY})
+set_target_properties(qtfuzzylite PROPERTIES
+	MACOSX_BUNDLE_INFO_STRING "qtfuzzylite Version ${VERSION_STRING}, Copyright © 2013, Juan Rada-Vilela, All Rights Reserved."
+	MACOSX_BUNDLE_ICON_FILE qtfuzzylite.icns
+	MACOSX_BUNDLE_GUI_IDENTIFIER "qtfuzzylite"
+	MACOSX_BUNDLE_BUNDLE_NAME "qtfuzzylite"
+	MACOSX_BUNDLE_BUNDLE_VERSION "commit"
+	MACOSX_BUNDLE_LONG_VERSION_STRING "qtfuzzylite Version 2.0, commit:"
+	MACOSX_BUNDLE_SHORT_VERSION_STRING "2.0"
+	MACOSX_BUNDLE_COPYRIGHT "Copyright © 2013, Juan Rada-Vilela, All Rights Reserved."
+)
+#macdeployqt qtfuzzylite.app
+
 
 #include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
