@@ -10,7 +10,7 @@
 
 #include <QtGui/QDialog>
 
-#include "ui/ui_Variable.h"
+#include "ui_Variable.h"
 
 #include <fl/Headers.h>
 

@@ -11,7 +11,7 @@
 #include <QtGui/QDialog>
 #include <QtGui/QWidget>
 
-#include "ui/ui_Preferences.h"
+#include "ui_Preferences.h"
 
 #include <fl/Headers.h>
 

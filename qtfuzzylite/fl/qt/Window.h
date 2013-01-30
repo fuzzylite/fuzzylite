@@ -11,7 +11,7 @@
 #include <QtGui/QMainWindow>
 #include <QtGui/QAction>
 
-#include "ui/ui_Window.h"
+#include "ui_Window.h"
 #include <fl/Headers.h>
 
 

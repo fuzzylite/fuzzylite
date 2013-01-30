@@ -9,7 +9,7 @@
 #define	FLQT_VIEWER_H
 
 #include <QtGui/QWidget>
-#include "ui/ui_Viewer.h"
+#include "ui_Viewer.h"
 
 #include <fl/Headers.h>
 

@@ -10,7 +10,7 @@
 
 #include <QtGui/QDialog>
 
-#include "ui/ui_About.h"
+#include "ui_About.h"
 
 namespace fl {
     namespace qt {

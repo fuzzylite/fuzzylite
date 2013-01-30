@@ -14,8 +14,8 @@
 #include "fl/qt/Control.h"
 
 #include "fl/qt/config.h"
-#include "ui/ui_ImEx.h"
-#include "ui/ui_About.h"
+#include "ui_ImEx.h"
+#include "ui_About.h"
 
 
 #include <QtGui/QListWidgetItem>

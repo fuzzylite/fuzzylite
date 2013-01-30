@@ -51,7 +51,7 @@ MOC_DIR = tmp/moc
 OBJECTS_DIR = tmp
 UI_HEADERS_DIR = ui
 UI_SOURCES_DIR = ui
-RESOURCES += ui/resources.qrc
+RESOURCES += ui/qtfuzzylite.qrc
 RCC_DIR = ui
 
 

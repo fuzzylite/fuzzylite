@@ -10,7 +10,7 @@
 
 #include <QtGui/QDialog>
 #include <QtGui/QToolBox>
-#include "ui/ui_Term.h"
+#include "ui_Term.h"
 
 
 

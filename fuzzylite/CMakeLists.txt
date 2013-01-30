@@ -18,6 +18,9 @@ set(CMAKE_VERBOSE_MAKEFILE true)
 
 add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
 
+set(EXECUTABLE_OUTPUT_PATH bin)
+set(LIBRARY_OUTPUT_PATH lib)
+
 set(FL_LIBS)
 
 if(UNIX)
@@ -62,25 +65,8 @@ file(STRINGS FL_SOURCES fl-sources)
 string(REGEX REPLACE "\n" " " ${fl-headers} ${fl-headers})
 string(REGEX REPLACE "\n" " " ${fl-sources} ${fl-sources})
 
-# Always full RPATH from http://www.cmake.org/Wiki/CMake_RPATH_handling
-# use, i.e. don't skip the full RPATH for the build tree
-set(CMAKE_SKIP_BUILD_RPATH  FALSE)
+message("${exepath}")
 
-# when building, don't use the install RPATH already
-# (but later on when installing)
-set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
-
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
-
-# add the automatically determined parts of the RPATH
-# which point to directories outside the build tree to the install RPATH
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-
-# the RPATH to be used when installing, but only if it's not a system directory
-list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/lib" isSystemDir)
-if("${isSystemDir}" STREQUAL "-1")
-   SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
-endif("${isSystemDir}" STREQUAL "-1")
 
 set(CMAKE_DEBUG_POSTFIX -dbg)
 
@@ -108,3 +94,14 @@ install(TARGETS fl-bin fl-shared fl-static
 install(DIRECTORY fl/ DESTINATION include/fl)
 
 
+# uninstall target
+#configure_file(
+    #"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+    #"${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    #IMMEDIATE @ONLY)
+
+#add_custom_target(uninstall
+    #COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/uninstall.cmake)
+ 
+#unix uninstall
+#xargs rm < install_manifest.txt

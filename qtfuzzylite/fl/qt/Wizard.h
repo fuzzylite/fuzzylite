@@ -11,7 +11,7 @@
 #include <QtGui/QDialog>
 #include <fl/Headers.h>
 
-#include "ui/ui_Wizard.h"
+#include "ui_Wizard.h"
 
 #include <vector>
 #include <string>
