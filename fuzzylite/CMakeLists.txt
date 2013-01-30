@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
+#in windows, cmake . -G "NMake Makefiles"
+
 project(fuzzylite CXX)
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
@@ -12,6 +14,8 @@ option(FL_DECIMALS "Number of decimals to print information" 3)
 if(FL_DEBUG)
 #    add_definitions(-DFL_DEBUG=true)
     set(CMAKE_BUILD_TYPE Debug)
+else()
+	set(CMAKE_BUILD_TYPE Release)
 endif(FL_DEBUG)
 
 set(CMAKE_VERBOSE_MAKEFILE true)

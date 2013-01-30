@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 project(qtfuzzylite CXX)
 
 set(CMAKE_VERBOSE_MAKEFILE true)
-
+message("Source path:" ${CMAKE_SOURCE_DIR})
 if(FL_DEBUG)
    message("Configuration: Debug")
    set(CMAKE_BUILD_TYPE Debug)
@@ -12,14 +12,23 @@ if(FL_DEBUG)
 else(FL_DEBUG)
    message("Configuration: Release")
    set(CMAKE_BUILD_TYPE Release)
-   set(FL_CONF )
+   set(FL_CONF)
    find_library(fl-shared fuzzylite ${CMAKE_SOURCE_DIR}/../fuzzylite/lib) 
 endif(FL_DEBUG)
+
 
 find_package(Qt4 REQUIRED)
 
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
+
+if(WIN32)
+    message("Windows building")
+	add_definitions(-DFL_WINDOWS)
+	#set(${QT_LIBRARIES} qtmain ${QT_LIBRARIES})
+	set(CMAKE_SHARED_LINKER_FLAGS ${CMAKE_SHARED_LINKER_FLAGS}  "/subsystem:windows /ENTRY:mainCRTStartup" )
+	#set(CMAKE_SHARED_LINKER_FLAGS ${CMAKE_SHARED_LINKER_FLAGS}  "/NODEFAULTLIBS:MSVCPRT" )
+endif()
 
 include_directories(. ${CMAKE_SOURCE_DIR}/../fuzzylite)
 
@@ -74,9 +83,12 @@ if(APPLE)
     set(qtfl-output ${qtfl-output} ${OSX_ICON_FILES})
 endif(APPLE)
 
+if(WIN32)
+	set(qtfl-sources ${qtfl-sources} ui/qtfuzzylite.rc)
+endif()
 
 add_executable(qtfuzzylite
-                MACOSX_BUNDLE
+#                MACOSX_BUNDLE
                 WIN32
                 ${qtfl-sources} ${qtfl-output} 
                 #for the ide

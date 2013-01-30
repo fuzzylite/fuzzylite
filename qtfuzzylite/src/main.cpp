@@ -115,9 +115,9 @@ namespace fl {
 
 
 int main(int argc, char* argv[]) {
-    std::set_terminate(fl::terminate);
+	fl::qtfuzzylite = new fl::QtFuzzyLite(argc, argv);
+	std::set_terminate(fl::terminate);
     std::set_unexpected(fl::terminate);
-    fl::qtfuzzylite = new fl::QtFuzzyLite(argc, argv);
     signal(SIGSEGV, fl::signalHandler);
     signal(SIGABRT, fl::signalHandler);
     signal(SIGILL, fl::signalHandler);
@@ -143,4 +143,15 @@ int main(int argc, char* argv[]) {
     }
     return EXIT_FAILURE;
 }
+
+#ifdef FL_WINDOWS
+#include <windows.h>
+int WINAPI WinMain(HINSTANCE hInstance,
+    HINSTANCE hPrevInstance,
+    LPSTR lpCmdLine,
+    int nCmdShow
+){
+	return main(0, NULL);
+}
+#endif
 
