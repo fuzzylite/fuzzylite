@@ -2,25 +2,26 @@ cmake_minimum_required(VERSION 2.8)
 
 project(qtfuzzylite CXX)
 
+set(CMAKE_VERBOSE_MAKEFILE true)
+
+if(FL_DEBUG)
+   message("Configuration: Debug")
+   set(CMAKE_BUILD_TYPE Debug)
+   set(FL_CONF -dbg)
+   find_library(fl-shared-dbg fuzzylite-dbg ${CMAKE_SOURCE_DIR}/../fuzzylite/lib)  
+else(FL_DEBUG)
+   message("Configuration: Release")
+   set(CMAKE_BUILD_TYPE Release)
+   set(FL_CONF )
+   find_library(fl-shared fuzzylite ${CMAKE_SOURCE_DIR}/../fuzzylite/lib) 
+endif(FL_DEBUG)
+
 find_package(Qt4 REQUIRED)
 
 include(${QT_USE_FILE})
+add_definitions(${QT_DEFINITIONS})
 
 include_directories(. ${CMAKE_SOURCE_DIR}/../fuzzylite)
-#set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${CMAKE_SOURCE_DIR}/../fuzzylite/lib)
-
-
-message("source:" ${CMAKE_SOURCE_DIR})
-message("library_path:" ${CMAKE_LIBRARY_PATH})
-
-set(CMAKE_VERBOSE_MAKEFILE true)
-set(CMAKE_BUILD_TYPE Release)
-
-find_library(fl-shared fuzzylite ${CMAKE_SOURCE_DIR}/../fuzzylite/lib) 
-if(FL_DEBUG)
-   set(CMAKE_BUILD_TYPE Debug)
-   find_library(fl-shared fuzzylite-dbg ${CMAKE_SOURCE_DIR}/../fuzzylite/lib)  
-endif(FL_DEBUG)
 
 
 
@@ -61,11 +62,18 @@ qt4_wrap_cpp(qtfl-output ${qtfl-headers})
 qt4_wrap_ui(qtfl-output  ${qtfl-uis})
 qt4_add_resources(qtfl-output ui/qtfuzzylite.qrc)
 
-set(OSX_ICON_FILES ${CMAKE_CURRENT_SOURCE_DIR}/ui/icons/qtfuzzylite.icns) 
-set_source_files_properties( ${OSX_ICON_FILES} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
-set(qtfl-output ${qtfl-output} ${OSX_ICON_FILES})
+if(APPLE)
+    if(CMAKE_GENERATOR STREQUAL Xcode)
+        set( WORK_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release" )
+    else()
+        set( WORK_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" )
+    endif()
 
-add_definitions(${QT_DEFINITIONS})
+    set(qtfl-icon ${CMAKE_CURRENT_SOURCE_DIR}/ui/icons/qtfuzzylite.icns) 
+    set_source_files_properties( ${qtfl-icon} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+    set(qtfl-output ${qtfl-output} ${OSX_ICON_FILES})
+endif(APPLE)
+
 
 add_executable(qtfuzzylite
                 MACOSX_BUNDLE
@@ -74,124 +82,37 @@ add_executable(qtfuzzylite
                 #for the ide
                 ${qtfl-headers} ${qtfl-uis} ${qtfl-mocs} ${qtfl-res})
 set_target_properties(qtfuzzylite PROPERTIES DEBUG_POSTFIX -dbg) 
-target_link_libraries(qtfuzzylite ${QT_LIBRARIES} ${fl-shared})
+target_link_libraries(qtfuzzylite ${QT_LIBRARIES} ${fl-shared${FL_CONF}})
 
+if(APPLE) #TODO: check if can be merged with previous if(APPLE)
 set_target_properties(qtfuzzylite PROPERTIES
 	MACOSX_BUNDLE_INFO_STRING "qtfuzzylite Version ${VERSION_STRING}, Copyright © 2013, Juan Rada-Vilela, All Rights Reserved."
 	MACOSX_BUNDLE_ICON_FILE qtfuzzylite.icns
 	MACOSX_BUNDLE_GUI_IDENTIFIER "qtfuzzylite"
 	MACOSX_BUNDLE_BUNDLE_NAME "qtfuzzylite"
-	MACOSX_BUNDLE_BUNDLE_VERSION "commit"
-	MACOSX_BUNDLE_LONG_VERSION_STRING "qtfuzzylite Version 2.0, commit:"
+	MACOSX_BUNDLE_BUNDLE_VERSION "${FL_COMMIT_ID}"
+	MACOSX_BUNDLE_LONG_VERSION_STRING "qtfuzzylite Version 2.0, ${FL_COMMIT_ID}"
 	MACOSX_BUNDLE_SHORT_VERSION_STRING "2.0"
 	MACOSX_BUNDLE_COPYRIGHT "Copyright © 2013, Juan Rada-Vilela, All Rights Reserved."
 )
-#macdeployqt qtfuzzylite.app
+    add_custom_target(  addframeworks ALL 
+                        COMMAND ${QT_BINARY_DIR}/macdeployqt qtfuzzylite.app
+                        WORKING_DIRECTORY ${WORK_DIR}
+                        DEPENDS ${PROJECT_NAME})
 
-
-#include_directories(${CMAKE_CURRENT_BINARY_DIR})
-
-
-#option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
-#option(FL_USE_LOG "Enable the macro FL_LOG to print information" ON)
-#option(FL_DEBUG "Enable additional debugging information" OFF)
-
-#option(FL_PRECISION "Precision to differentiate numbers" 1e-5)
-#option(FL_DECIMALS "Number of decimals to print information" 3)
-
-#if(FL_DEBUG)
-##    add_definitions(-DFL_DEBUG=true)
-    #set(CMAKE_BUILD_TYPE Debug)
-#endif(FL_DEBUG)
-
-#set(CMAKE_VERBOSE_MAKEFILE true)
-
-#add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
-
-#set(EXECUTABLE_OUTPUT_PATH bin)
-#set(LIBRARY_OUTPUT_PATH lib)
-
-#set(FL_LIBS)
-
-#if(UNIX)
-    #add_definitions(-DFL_UNIX)
-    #set(CMAKE_CXX_FLAGS "-Werror")
-    #set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DFL_DEBUG")
-    #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
-##if(NOT APPLE) #TODO: check again in apple...
-    #set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined") #apple does not recognise these
-##endif(NOT APPLE)
-
-#elseif(WIN32)
-    #add_definitions(-DFL_WINDOWS)
-    #set(FL_LIBS dbghelp)
-#endif(UNIX)
-
-
-#if(FL_USE_FLOAT)
-    #add_definitions(-DFL_USE_FLOAT)
-#endif(FL_USE_FLOAT)
-
-#if(NOT FL_USE_LOG)
-    #add_definitions(-DFL_NO_LOG)
-#endif(NOT FL_USE_LOG)
-
-
-
-#if(FL_PRECISION)
-    #add_definitions(-DFL_PRECISION=${FL_PRECISION})
-#endif(FL_PRECISION)
-
-#if(FL_DECIMALS)
-    #add_definitions(-DFL_DECIMALS=${FL_DECIMALS})
-#endif(FL_DECIMALS)
-
-
-#include_directories(.)
-
-#file(STRINGS FL_HEADERS fl-headers)
-#file(STRINGS FL_SOURCES fl-sources)
-
-#string(REGEX REPLACE "\n" " " ${fl-headers} ${fl-headers})
-#string(REGEX REPLACE "\n" " " ${fl-sources} ${fl-sources})
-
-#message("${exepath}")
-
-
-#set(CMAKE_DEBUG_POSTFIX -dbg)
-
-#add_library(fl-shared SHARED ${fl-headers} ${fl-sources})
-#set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
-#target_link_libraries(fl-shared ${FL_LIBS})
-
-
-#add_library(fl-static STATIC ${fl-headers} ${fl-sources})
-#set_target_properties(fl-static PROPERTIES OUTPUT_NAME fuzzylite-static)
-#target_link_libraries(fl-static ${FL_LIBS})
-
-#add_executable(fl-bin src/main.cpp)
-#set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite-demo)
-#set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -dbg) 
-#target_link_libraries(fl-bin fl-shared ${FL_LIBS})
-
-
-#install(TARGETS fl-bin fl-shared fl-static
-		#RUNTIME DESTINATION bin
-		#LIBRARY DESTINATION lib
-		#ARCHIVE DESTINATION lib
-		#)
-
-#install(DIRECTORY fl/ DESTINATION include/fl)
-
-
-## uninstall target
-#configure_file(
-    #"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
-    #"${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
-    #IMMEDIATE @ONLY)
-
-#add_custom_target(uninstall
-    #COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/uninstall.cmake)
+#TODO:check if -no-plugins are needed
+    add_custom_target(  makedmg 
+                        COMMAND ${QT_BINARY_DIR}/macdeployqt FlightCrew-gui.app -dmg -no-plugins
+                        WORKING_DIRECTORY ${WORK_DIR}
+                        DEPENDS addframeworks )
  
+
+#macdeployqt qtfuzzylite.app
+#http://dragly.org/2012/01/13/deploy-qt-applications-for-mac-os-x/
+endif(APPLE)
+
+
+install(TARGETS qtfuzzylite RUNTIME DESTINATION bin)
+
 ##unix uninstall
 ##xargs rm < install_manifest.txt
