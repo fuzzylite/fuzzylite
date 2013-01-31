@@ -16,6 +16,8 @@ else(FL_DEBUG)
    find_library(fl-shared fuzzylite ${CMAKE_SOURCE_DIR}/../fuzzylite/lib) 
 endif(FL_DEBUG)
 
+message("fuzzylite library: ${fl-shared}${FL_CONF}")
+
 
 find_package(Qt4 REQUIRED)
 
@@ -24,10 +26,10 @@ add_definitions(${QT_DEFINITIONS})
 
 if(WIN32)
     message("Windows building")
-	add_definitions(-DFL_WINDOWS)
-	#set(${QT_LIBRARIES} qtmain ${QT_LIBRARIES})
-	set(CMAKE_SHARED_LINKER_FLAGS ${CMAKE_SHARED_LINKER_FLAGS}  "/subsystem:windows /ENTRY:mainCRTStartup" )
-	#set(CMAKE_SHARED_LINKER_FLAGS ${CMAKE_SHARED_LINKER_FLAGS}  "/NODEFAULTLIBS:MSVCPRT" )
+    add_definitions(-DFL_WINDOWS)
+    #set(${QT_LIBRARIES} qtmain ${QT_LIBRARIES})
+    set(CMAKE_SHARED_LINKER_FLAGS ${CMAKE_SHARED_LINKER_FLAGS}  "/subsystem:windows /ENTRY:mainCRTStartup" )
+    #set(CMAKE_SHARED_LINKER_FLAGS ${CMAKE_SHARED_LINKER_FLAGS}  "/NODEFAULTLIBS:MSVCPRT" )
 endif()
 
 include_directories(. ${CMAKE_SOURCE_DIR}/../fuzzylite)
@@ -72,23 +74,17 @@ qt4_wrap_ui(qtfl-output  ${qtfl-uis})
 qt4_add_resources(qtfl-output ui/qtfuzzylite.qrc)
 
 if(APPLE)
-    if(CMAKE_GENERATOR STREQUAL Xcode)
-        set( WORK_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release" )
-    else()
-        set( WORK_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" )
-    endif()
-
     set(qtfl-icon ${CMAKE_CURRENT_SOURCE_DIR}/ui/icons/qtfuzzylite.icns) 
     set_source_files_properties( ${qtfl-icon} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
-    set(qtfl-output ${qtfl-output} ${OSX_ICON_FILES})
+    set(qtfl-output ${qtfl-output} ${qtfl-icon})
 endif(APPLE)
 
 if(WIN32)
-	set(qtfl-sources ${qtfl-sources} ui/qtfuzzylite.rc)
+    set(qtfl-sources ${qtfl-sources} ui/qtfuzzylite.rc)
 endif()
 
 add_executable(qtfuzzylite
-#                MACOSX_BUNDLE
+                MACOSX_BUNDLE
                 WIN32
                 ${qtfl-sources} ${qtfl-output} 
                 #for the ide
@@ -96,35 +92,32 @@ add_executable(qtfuzzylite
 set_target_properties(qtfuzzylite PROPERTIES DEBUG_POSTFIX -dbg) 
 target_link_libraries(qtfuzzylite ${QT_LIBRARIES} ${fl-shared${FL_CONF}})
 
-if(APPLE) #TODO: check if can be merged with previous if(APPLE)
-set_target_properties(qtfuzzylite PROPERTIES
-	MACOSX_BUNDLE_INFO_STRING "qtfuzzylite Version ${VERSION_STRING}, Copyright © 2013, Juan Rada-Vilela, All Rights Reserved."
-	MACOSX_BUNDLE_ICON_FILE qtfuzzylite.icns
-	MACOSX_BUNDLE_GUI_IDENTIFIER "qtfuzzylite"
-	MACOSX_BUNDLE_BUNDLE_NAME "qtfuzzylite"
-	MACOSX_BUNDLE_BUNDLE_VERSION "${FL_COMMIT_ID}"
-	MACOSX_BUNDLE_LONG_VERSION_STRING "qtfuzzylite Version 2.0, ${FL_COMMIT_ID}"
-	MACOSX_BUNDLE_SHORT_VERSION_STRING "2.0"
-	MACOSX_BUNDLE_COPYRIGHT "Copyright © 2013, Juan Rada-Vilela, All Rights Reserved."
+if(APPLE) 
+    set_target_properties(qtfuzzylite PROPERTIES
+    MACOSX_BUNDLE_INFO_STRING "qtfuzzylite Version ${VERSION_STRING}, Copyright © 2013, Juan Rada-Vilela, All Rights Reserved."
+    MACOSX_BUNDLE_ICON_FILE qtfuzzylite.icns
+    MACOSX_BUNDLE_GUI_IDENTIFIER "qtfuzzylite"
+    MACOSX_BUNDLE_BUNDLE_NAME "qtfuzzylite"
+    MACOSX_BUNDLE_BUNDLE_VERSION "${FL_COMMIT_ID}"
+    MACOSX_BUNDLE_LONG_VERSION_STRING "qtfuzzylite Version 2.0, ${FL_COMMIT_ID}"
+    MACOSX_BUNDLE_SHORT_VERSION_STRING "2.0"
+    MACOSX_BUNDLE_COPYRIGHT "Copyright © 2013, Juan Rada-Vilela, All Rights Reserved."
 )
-    add_custom_target(  addframeworks ALL 
+    add_custom_target(  mac-deploy ALL 
                         COMMAND ${QT_BINARY_DIR}/macdeployqt qtfuzzylite.app
                         WORKING_DIRECTORY ${WORK_DIR}
                         DEPENDS ${PROJECT_NAME})
-
-#TODO:check if -no-plugins are needed
-    add_custom_target(  makedmg 
-                        COMMAND ${QT_BINARY_DIR}/macdeployqt FlightCrew-gui.app -dmg -no-plugins
+    add_custom_target(  mac-dmg 
+                        COMMAND ${QT_BINARY_DIR}/macdeployqt qtfuzzylite.app -dmg -no-plugins
                         WORKING_DIRECTORY ${WORK_DIR}
                         DEPENDS addframeworks )
- 
-
-#macdeployqt qtfuzzylite.app
 #http://dragly.org/2012/01/13/deploy-qt-applications-for-mac-os-x/
 endif(APPLE)
 
 
-install(TARGETS qtfuzzylite RUNTIME DESTINATION bin)
 
+if(NOT APPLE)
+    install(TARGETS qtfuzzylite RUNTIME DESTINATION bin)
+endif()
 ##unix uninstall
 ##xargs rm < install_manifest.txt
