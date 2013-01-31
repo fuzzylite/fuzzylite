@@ -6,7 +6,7 @@
  */
 
 #include "fl/qt/About.h"
-#include "fl/qt/config.h"
+#include "fl/qt/definitions.h"
 #include <fl/Headers.h>
 namespace fl {
     namespace qt {
@@ -74,9 +74,9 @@ namespace fl {
                     "<a href='http://www.fuzzylite.com'><img src=':/icons/qtfuzzylite.png'/></a>"
                     "</td>"
                     "<td align='left' valign='top'><b>qtfuzzylite v."
-                    FLQT_VERSION " (" FLQT_DATE ")</b> "
+                    + fl::qt::longVersion() +"</b> "
                     "<br>"
-                    "<b>fuzzylite v." FL_VERSION " (" FL_DATE ")</b>"
+                    "<b>fuzzylite v." + fl::longVersion() + "</b>"
                     "<br>"
                     "</b>"
                     "<a href='http://www.fuzzylite.com'>www.fuzzylite.com</a>"

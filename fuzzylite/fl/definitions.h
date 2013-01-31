@@ -11,8 +11,27 @@
 #include <iostream>
 #include <sstream>
 
+#ifndef FL_VERSION
 #define FL_VERSION "2.0"
+#endif
+
+#ifndef FL_DATE
 #define FL_DATE "02/2013"
+#endif
+
+namespace fl{
+    static std::string version(){
+        return FL_VERSION;
+    }
+    
+    static std::string date(){
+        return FL_DATE;
+    }
+    
+    static std::string longVersion(){
+        return FL_VERSION "-" FL_DATE;
+    }
+}
 
 #ifndef FL_BUILD_PATH
 #define FL_BUILD_PATH ""
@@ -57,7 +76,7 @@
         FL_END_DEBUG_BLOCK
 
 
-    //class FL_EXPORT is require to build DLLs in Windows.
+//class FL_EXPORT is require to build DLLs in Windows.
 #ifdef FL_WINDOWS
 #define FL_EXPORT __declspec(dllexport)
 #else
@@ -66,25 +85,25 @@
 
 #ifdef FL_WINDOWS
 #include <ciso646> //alternative operator spellings:
-    //#define and &&
-    //#define or ||
-    //#define not !
-    //#define bitand &
-    //#define bitor |
+//#define and &&
+//#define or ||
+//#define not !
+//#define bitand &
+//#define bitor |
 
-    //TODO: add these functions in Infix.cpp
-    //#define acosh(x)
-    //#define asinh(x)
-    //#define atanh(x)
-    //#define log1p
+//TODO: add these functions in Infix.cpp
+//#define acosh(x)
+//#define asinh(x)
+//#define atanh(x)
+//#define log1p
 
-    //C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-    //http://msdn.microsoft.com/en-us/library/sa28fef8%28v=vs.80%29.aspx
-    //to ignore warnings dealing with exceptions in Windows
+//C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+//http://msdn.microsoft.com/en-us/library/sa28fef8%28v=vs.80%29.aspx
+//to ignore warnings dealing with exceptions in Windows
 #pragma warning(disable:4290) 
 
-    //Windows NMake complains I should have pointers in all headers instead of 
-    //stack allocated objects. For example, std::string* instead of std::string.
+//Windows NMake complains I should have pointers in all headers instead of 
+//stack allocated objects. For example, std::string* instead of std::string.
 #pragma warning(disable:4251)
 #else 
 

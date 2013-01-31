@@ -13,7 +13,7 @@
 #include "fl/qt/Model.h"
 #include "fl/qt/Control.h"
 
-#include "fl/qt/config.h"
+#include "fl/qt/definitions.h"
 #include "ui_ImEx.h"
 #include "ui_About.h"
 

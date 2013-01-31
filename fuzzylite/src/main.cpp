@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
 #endif
     // foo();
     std::cout << "\nHello, fuzzylite!" << std::endl
-            << "Version: " << FL_VERSION << " (" << FL_DATE << ")\n" << std::endl
+            << "Version: " << fl::longVersion() << std::endl
             << "fuzzylite was built from " << FL_BUILD_PATH << std::endl;
 
     scalar someScalar = 0;

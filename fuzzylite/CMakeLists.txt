@@ -4,6 +4,27 @@ cmake_minimum_required(VERSION 2.8)
 
 project(fuzzylite CXX)
 
+MACRO (TODAY RESULT)
+    IF (WIN32)
+        EXECUTE_PROCESS(COMMAND "cmd" " /C date /T" OUTPUT_VARIABLE ${RESULT})
+        string(REGEX REPLACE "(..)/(..)/..(..).*" "\\3\\2\\1" ${RESULT} ${${RESULT}})
+    ELSEIF(UNIX)
+        EXECUTE_PROCESS(COMMAND "date" "+%d/%m/%Y" OUTPUT_VARIABLE ${RESULT})
+        string(REGEX REPLACE "(..)/(..)/..(..).*" "\\3\\2\\1" ${RESULT} ${${RESULT}})
+    ELSE ()
+        MESSAGE(SEND_ERROR "date not implemented")
+        SET(${RESULT} 000000)
+    ENDIF (WIN32)
+ENDMACRO (TODAY)
+
+TODAY(FL_DATE)
+add_definitions(-DFL_DATE="${FL_DATE}")
+
+set(FL_VERSION 2.0)
+add_definitions(-DFL_VERSION="${FL_VERSION}")
+
+message("fuzzylite v.${FL_VERSION}-${FL_DATE}")
+
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_USE_LOG "Enable the macro FL_LOG to print information" ON)
 option(FL_DEBUG "Enable additional debugging information" OFF)

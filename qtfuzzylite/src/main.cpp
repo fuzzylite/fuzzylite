@@ -14,7 +14,7 @@
 #include "fl/qt/Window.h"  
 #include "fl/qt/Term.h"
 #include "fl/qt/Viewer.h"   
- 
+
 #include <signal.h>
 
 namespace fl {
@@ -113,10 +113,9 @@ namespace fl {
 //#endif
 //}
 
-
 int main(int argc, char* argv[]) {
-	fl::qtfuzzylite = new fl::QtFuzzyLite(argc, argv);
-	std::set_terminate(fl::terminate);
+    fl::qtfuzzylite = new fl::QtFuzzyLite(argc, argv);
+    std::set_terminate(fl::terminate);
     std::set_unexpected(fl::terminate);
     signal(SIGSEGV, fl::signalHandler);
     signal(SIGABRT, fl::signalHandler);
@@ -131,7 +130,7 @@ int main(int argc, char* argv[]) {
         fl::qt::Window::main();
         //int *x = (int*) - 1; // make a bad pointer
         //FL_LOG(*x);
-        //        throw 0;
+        //                throw 0;
         int result = fl::qtfuzzylite->exec();
         delete fl::qtfuzzylite;
         return result;
@@ -146,12 +145,13 @@ int main(int argc, char* argv[]) {
 
 #ifdef FL_WINDOWS
 #include <windows.h>
+
 int WINAPI WinMain(HINSTANCE hInstance,
-    HINSTANCE hPrevInstance,
-    LPSTR lpCmdLine,
-    int nCmdShow
-){
-	return main(0, NULL);
+        HINSTANCE hPrevInstance,
+        LPSTR lpCmdLine,
+        int nCmdShow
+        ) {
+    return main(0, NULL);
 }
 #endif
 
