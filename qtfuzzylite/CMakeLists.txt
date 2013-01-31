@@ -5,7 +5,7 @@ project(qtfuzzylite CXX)
 MACRO (TODAY RESULT)
     IF (WIN32)
         EXECUTE_PROCESS(COMMAND "cmd" " /C date /T" OUTPUT_VARIABLE ${RESULT})
-        string(REGEX REPLACE "(..)/(..)/..(..).*" "\\3\\2\\1" ${RESULT} ${${RESULT}})
+        string(REGEX REPLACE ".*(..)/(..)/..(..).*" "\\3\\2\\1" ${RESULT} ${${RESULT}})
     ELSEIF(UNIX)
         EXECUTE_PROCESS(COMMAND "date" "+%d/%m/%Y" OUTPUT_VARIABLE ${RESULT})
         string(REGEX REPLACE "(..)/(..)/..(..).*" "\\3\\2\\1" ${RESULT} ${${RESULT}})
@@ -48,9 +48,6 @@ add_definitions(${QT_DEFINITIONS})
 if(WIN32)
     message("Windows building")
 	add_definitions(-DFL_WINDOWS)
-	#set(${QT_LIBRARIES} qtmain ${QT_LIBRARIES})
-	#set(CMAKE_SHARED_LINKER_FLAGS ${CMAKE_SHARED_LINKER_FLAGS}  "/subsystem:windows /ENTRY:mainCRTStartup" )
-	#set(CMAKE_SHARED_LINKER_FLAGS ${CMAKE_SHARED_LINKER_FLAGS}  "/NODEFAULTLIBS:MSVCPRT" )
 endif()
 
 include_directories(. ${CMAKE_SOURCE_DIR}/../fuzzylite)
@@ -104,7 +101,7 @@ if(WIN32)
     set(qtfl-sources ${qtfl-sources} ui/qtfuzzylite.rc)
 endif()
 
-#TODO:Check if works on windows with both at the same time
+
 add_executable(qtfuzzylite
                 MACOSX_BUNDLE
                 WIN32
