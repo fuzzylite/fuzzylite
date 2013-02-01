@@ -44,11 +44,9 @@ namespace fl {
     }
 
     std::string fuzzylite::configuration() {
-#ifdef FL_DEBUG
-        return "Debug";
-#else
+        if (FL_DEBUG)
+            return "Debug";
         return "Release";
-#endif
     }
 
     std::string fuzzylite::floatingPoint() {

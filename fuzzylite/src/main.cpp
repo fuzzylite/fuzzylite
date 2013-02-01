@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
     if (fl::fuzzylite::logEnabled()) {
         std::cout << "FL_LOG is enabled and prints in console as follows:\n";
         FL_LOG("message from FL_LOG");
-        std::cout << "where " << FL_LOG_PREFIX << " is the prefix\n";
+        std::cout << "where " << FL_LOG_PREFIX << " indicates the origin of the call\n";
     } else {
         std::cout << "FL_LOG is NOT enabled and hence will not print anything\n";
     }
