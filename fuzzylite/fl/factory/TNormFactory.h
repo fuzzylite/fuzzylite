@@ -8,7 +8,7 @@
 #ifndef FL_TNORMFACTORY_H
 #define	FL_TNORMFACTORY_H
 
-#include "fl/definitions.h"
+#include "fl/fuzzylite.h"
 
 #include <string>
 #include <vector>

@@ -8,8 +8,8 @@
 #ifndef FL_HEADERS_H
 #define FL_HEADERS_H
 
-#include "fl/definitions.h"
-#include "fl/scalar.h"
+#include "fl/fuzzylite.h"
+
 #include "fl/Engine.h"
 #include "fl/Exception.h"
 
@@ -38,6 +38,7 @@
 #include "fl/hedge/Somewhat.h"
 #include "fl/hedge/Very.h"
 
+#include "fl/operator/Operation.h"
 #include "fl/operator/Operator.h"
 #include "fl/operator/SNorm.h"
 #include "fl/operator/TNorm.h"

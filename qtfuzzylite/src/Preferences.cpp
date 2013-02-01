@@ -56,7 +56,7 @@ namespace fl {
                 ui->cbx_defuzzifier->addItem(QString::fromStdString(defuzzifiers[i]));
             }
 
-            ui->sbx_divisions->setValue(FL_DIVISIONS);
+            ui->sbx_divisions->setValue(fl::fuzzylite::defaultDivisions());
 
             connect();
         }
@@ -148,7 +148,7 @@ namespace fl {
             if (ruleblock->getActivation()) activation = ruleblock->getActivation()->className();
 
             std::string defuzzifier = Centroid().className();
-            int divisions = FL_DIVISIONS;
+            int divisions = fl::fuzzylite::defaultDivisions();
             std::string accumulation = Maximum().className();
 
             if (engine->numberOfOutputVariables() > 0) {
@@ -187,7 +187,7 @@ namespace fl {
                         indexOfSnorm(variable->output()->getAccumulation()->className()));
             } else {
                 ui->cbx_defuzzifier->setCurrentIndex(0);
-                ui->sbx_divisions->setValue(FL_DIVISIONS);
+                ui->sbx_divisions->setValue(fl::fuzzylite::defaultDivisions());
                 ui->cbx_accumulation->setCurrentIndex(0);
             }
 

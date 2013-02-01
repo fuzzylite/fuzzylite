@@ -8,7 +8,7 @@
 #ifndef FL_ENGINE_H
 #define FL_ENGINE_H
 
-#include "fl/definitions.h"
+#include "fl/fuzzylite.h"
 
 #include <vector>
 #include <string>
@@ -53,6 +53,10 @@ namespace fl {
 
         virtual void setName(const std::string& name);
         virtual std::string getName() const;
+        
+        static std::string shortVersion();
+        
+        static std::string longVersion();
 
         /**
          * Operations for iterable datatype _inputVariables

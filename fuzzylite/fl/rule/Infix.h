@@ -8,9 +8,9 @@
 #ifndef FL_INFIX_H
 #define FL_INFIX_H
 
-#include "fl/definitions.h"
+#include "fl/fuzzylite.h"
 
-#include "fl/scalar.h"
+
 
 #include <map>
 #include <string>

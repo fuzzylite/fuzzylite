@@ -8,7 +8,7 @@
 #ifndef FL_RULEBLOCK_H
 #define FL_RULEBLOCK_H
 
-#include "fl/definitions.h"
+#include "fl/fuzzylite.h"
 
 #include <vector>
 #include <string>

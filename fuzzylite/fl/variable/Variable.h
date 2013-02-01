@@ -8,9 +8,9 @@
 #ifndef FL_VARIABLE_H
 #define FL_VARIABLE_H
 
-#include "fl/definitions.h"
+#include "fl/fuzzylite.h"
 
-#include "fl/scalar.h"
+
 #include "fl/defuzzifier/Centroid.h"
 #include "fl/operator/Operator.h"
 

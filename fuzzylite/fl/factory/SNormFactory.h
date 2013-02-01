@@ -8,7 +8,7 @@
 #ifndef FL_SNORMFACTORY_H
 #define	FL_SNORMFACTORY_H
 
-#include "fl/definitions.h"
+#include "fl/fuzzylite.h"
 
 #include <string>
 #include <vector>

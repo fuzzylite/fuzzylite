@@ -8,7 +8,7 @@
 #ifndef FL_EXPORTER_H
 #define	FL_EXPORTER_H
 
-#include "fl/definitions.h"
+#include "fl/fuzzylite.h"
 
 #include <string>
 

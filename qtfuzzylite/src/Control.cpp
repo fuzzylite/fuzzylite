@@ -54,7 +54,7 @@ namespace fl {
             }
 
             scalar x = outputVariable->defuzzify();
-            ui->led_x->setText(QString::number(x, 'f', FL_DECIMALS));
+            ui->led_x->setText(QString::number(x, 'f', fl::fuzzylite::decimals()));
             ui->sbx_x->setValue(x);
             refresh();
             if (not outputVariable->output()->isEmpty())

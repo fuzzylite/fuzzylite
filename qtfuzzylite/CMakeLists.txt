@@ -55,6 +55,7 @@ include_directories(. ${CMAKE_SOURCE_DIR}/../fuzzylite)
 
 
 set(qtfl-headers
+    fl/qt/qtfuzzylite.h
     fl/qt/About.h
     fl/qt/Control.h
     fl/qt/Preferences.h
@@ -65,6 +66,7 @@ set(qtfl-headers
     fl/qt/Wizard.h)
 
 set(qtfl-sources
+    src/qtfuzzylite.cpp
     src/About.cpp
     src/Control.cpp
     src/main.cpp

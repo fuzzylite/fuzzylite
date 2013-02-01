@@ -8,9 +8,9 @@
 #ifndef FL_RULE_H
 #define FL_RULE_H
 
-#include "fl/definitions.h"
+#include "fl/fuzzylite.h"
 
-#include "fl/scalar.h"
+
 
 #include <string>
 

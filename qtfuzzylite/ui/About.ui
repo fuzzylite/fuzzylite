@@ -23,7 +23,7 @@
    <string>About qtfuzzylite</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
+   <iconset resource="qtfuzzylite.qrc">
     <normaloff>:/icons/qtfuzzylite.png</normaloff>:/icons/qtfuzzylite.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -61,6 +61,9 @@
         </property>
         <property name="openExternalLinks">
          <bool>true</bool>
+        </property>
+        <property name="textInteractionFlags">
+         <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
         </property>
        </widget>
       </item>
@@ -138,7 +141,7 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to support these projects. 
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="resources.qrc">:/icons/generosity.png</pixmap>
+              <pixmap resource="qtfuzzylite.qrc">:/icons/generosity.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -238,9 +241,6 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to support these projects. 
              <property name="text">
               <string/>
              </property>
-             <property name="pixmap">
-              <pixmap resource="resources.qrc">:/icons/btn_donateCC_LG.gif</pixmap>
-             </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
              </property>
@@ -292,7 +292,8 @@ Please consider making a &lt;b&gt;donation&lt;/b&gt; to support these projects. 
   </layout>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="qtfuzzylite.qrc"/>
+  <include location="qtfuzzylite.qrc"/>
  </resources>
  <connections>
   <connection>

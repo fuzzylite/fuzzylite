@@ -8,7 +8,7 @@
 #ifndef FL_MAMDANIEXPRESSION_H
 #define FL_MAMDANIEXPRESSION_H
 
-#include "fl/definitions.h"
+#include "fl/fuzzylite.h"
 
 #include <string>
 #include <vector>

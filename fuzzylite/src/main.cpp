@@ -40,44 +40,30 @@ int main(int argc, char** argv) {
     signal(SIGPIPE, fl::Exception::signalHandler);
 #endif
     // foo();
-    std::cout << "\nHello, fuzzylite!" << std::endl
-            << "Version: " << fl::longVersion() << std::endl
-            << "fuzzylite was built from " << FL_BUILD_PATH << std::endl;
+    std::cout << "\nHello, " << fl::fuzzylite::name() << "!\n"
+            << "=================\n"
+            << "Version " << fl::fuzzylite::longVersion() << "\n"
+            << "Built on " << fl::fuzzylite::platform() << " "
+            << "in " << fl::fuzzylite::configuration() << " mode\n"
+            << "Floating-point " << fl::fuzzylite::floatingPoint() << "\n"
+            << "Precision is set to " << fl::fuzzylite::precision() << "\n"
+            << "Only " << fl::fuzzylite::decimals() << " decimals are printed\n"
+            << std::setprecision(FL_DECIMALS) << std::fixed
+            << "Infinity is printed as: (" << (-std::numeric_limits<scalar>::infinity())
+            << " , " << std::numeric_limits<scalar>::infinity() << ")\n"
+            << "NaN values are printed as: " << std::numeric_limits<scalar>::quiet_NaN() << "\n"
+            << "Defuzzifiers by default use " << fl::fuzzylite::defaultDivisions() << " divisions\n";
+    if (fl::fuzzylite::logEnabled()) {
+        std::cout << "FL_LOG is enabled and prints in console as follows:\n";
+        FL_LOG("message from FL_LOG");
+        std::cout << "where " << FL_LOG_PREFIX << " is the prefix\n";
+    } else {
+        std::cout << "FL_LOG is NOT enabled and hence will not print anything\n";
+    }
 
-    scalar someScalar = 0;
-    int scalarSize = sizeof (someScalar);
-    (void) scalarSize;
-#ifdef FL_USE_FLOAT
-    std::cout << "scalar is defined as type <" << (typeid (scalar).name()) << "> "
-            "(float) with " << scalarSize << " bytes" << std::endl;
-#else
-    std::cout << "scalar is defined as type <" << (typeid (scalar).name()) << "> "
-            "(double) with " << scalarSize << " bytes\n";
-#endif
-    std::cout << "tolerance to floating-point value is " << FL_PRECISION
-            << " (FL_PRECISION)" << std::endl
-            << FL_DECIMALS << " decimals are printed (FL_DECIMALS)" << std::endl;
-#ifdef FL_NO_LOG
-    std::cout << "Macro FL_LOG will not print anything because of directive -DFL_NO_LOG\n";
-#else
-    std::cout << "FL_LOG is enabled\n";
-    std::cout << "FL_LOG_PREFIX is e.g. " << FL_LOG_PREFIX << "\n";
-    std::cout << "FL_LOG will output information to the console as follows: " << std::endl;
-    FL_LOG("This is a message from FL_LOG");
-#endif
-    if (FL_DEBUG)
-        std::cout << "FL_DEBUG is enabled" << std::endl;
-    else
-        std::cout << "FL_DEBUG is disabled.\nFL_DBG and FL_BEGIN_BLOCKs are disabled.\n";
-
-
-
-    std::cout << std::setprecision(FL_DECIMALS) << std::fixed;
-
-    std::cout << "infinity values are printed as: " << std::numeric_limits<scalar>::infinity() << "\n"
-            << "NaN values are printed as: " << std::numeric_limits<scalar>::quiet_NaN() << "\n";
-
-
+    std::cout << "\nPress Enter to continue with an example..." << std::endl;
+    std::cin.get();
+    std::cout << "\n==========================================\n";
 
     Engine* engine = new Engine("simple-dimmer");
 
@@ -90,7 +76,7 @@ int main(int argc, char** argv) {
 
     OutputVariable* bulbPower = new OutputVariable("BulbPower", 0, 2);
     bulbPower->setDefaultValue(std::numeric_limits<scalar>::quiet_NaN());
-    bulbPower->setLockDefuzzifiedValue(true);
+    bulbPower->setLockDefuzzifiedValue(false);
     bulbPower->addTerm(new Triangle("LOW", 0.0, 0.5, 1));
     bulbPower->addTerm(new Triangle("MEDIUM", 0.5, 1, 1.5));
     bulbPower->addTerm(new Triangle("HIGH", 1, 1.5, 2));
@@ -105,16 +91,16 @@ int main(int argc, char** argv) {
 
     engine->configure("Minimum", "Maximum", "Minimum", "Maximum", "Centroid", FL_DIVISIONS);
 
-    std::cout << "\nPress Enter to continue with an example..." << std::endl;
-    std::cin.get();
-    std::cout << "\n\n" << FclExporter().toString(engine) << "\n" << std::endl;
 
-    std::cout << "Press Enter to continue with the example..." << std::endl;
+    std::cout << FclExporter().toString(engine) << "\n" << std::endl;
+
+    std::cout << "Press Enter to test the example..." << std::endl;
     std::cin.get();
+    std::cout << "==================================\n\n" << std::endl;
 
     scalar step = 1.0 / 25.0;
     for (scalar input = ambientLight->getMinimum();
-            input <= ambientLight->getMaximum(); input += step) {
+            input <= ambientLight->getMaximum() + step; input += step) {
         ambientLight->setInput(input);
         std::cout << "AmbientLight.input=" << input << " -> ";
         engine->process();
@@ -123,7 +109,10 @@ int main(int argc, char** argv) {
 
     std::cout << "\n\n";
 
-    std::cout << "Bye, fuzzylite!\n" << std::endl;
+    std::cout << "Bye, " << fl::fuzzylite::name() << "!\n\n";
+    std::cout << "Please visit http://www.fuzzylite.com\n\n"
+            "...and consider making a *donation* to support this project.\n\n"
+            "There are still many things to do!\n\n";
 
 }
 

@@ -8,9 +8,9 @@
 #ifndef FL_ANTECEDENT_H
 #define FL_ANTECEDENT_H
 
-#include "fl/definitions.h"
+#include "fl/fuzzylite.h"
 
-#include "fl/scalar.h"
+
 
 #include <string>
 

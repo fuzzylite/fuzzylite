@@ -5,9 +5,11 @@
  * Created on 25 January 2013, 6:00 PM
  */
 
-#include "fl/qt/About.h"
-#include "fl/qt/definitions.h"
 #include <fl/Headers.h>
+
+#include "fl/qt/About.h"
+#include "fl/qt/qtfuzzylite.h"
+
 namespace fl {
     namespace qt {
 
@@ -73,10 +75,10 @@ namespace fl {
                     "<td align='center' valign='middle'>"
                     "<a href='http://www.fuzzylite.com'><img src=':/icons/qtfuzzylite.png'/></a>"
                     "</td>"
-                    "<td align='left' valign='top'><b>qtfuzzylite v."
-                    + fl::qt::longVersion() +"</b> "
+                    "<td align='left' valign='top'>"
+                    "<b>" + fl::qt::qtfuzzylite::fullname() + "</b> "
                     "<br>"
-                    "<b>fuzzylite v." + fl::longVersion() + "</b>"
+                    "<b>" + fl::fuzzylite::fullname() + "</b>"
                     "<br>"
                     "</b>"
                     "<a href='http://www.fuzzylite.com'>www.fuzzylite.com</a>"
@@ -127,7 +129,7 @@ namespace fl {
             std::string param = "&os0=" + _generosityTerm.at(ui->sld_generosity->value());
             ui->lbl_donate->setText(QString::fromStdString(
                     "<qt><a href='" + href + param + "'>"
-                    "<img src=':/icons/btn_donateCC_LG.gif'/></a></qt>"));
+                    "<img src=':/icons/donate.png'/></a></qt>"));
         }
 
     }

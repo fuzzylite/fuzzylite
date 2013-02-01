@@ -8,9 +8,9 @@
 #ifndef FL_TERMFACTORY_H
 #define	FL_TERMFACTORY_H
 
-#include "fl/definitions.h"
+#include "fl/fuzzylite.h"
 
-#include "fl/scalar.h"
+
 
 #include <vector>
 #include <string>

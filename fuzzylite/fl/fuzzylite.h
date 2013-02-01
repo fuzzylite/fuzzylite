@@ -1,41 +1,37 @@
-/*
- * definitions.h
+/* 
+ * File:   fuzzylite.h
+ * Author: jcrada
  *
- *  Created on: 29/11/2012
- *      Author: jcrada
+ * Created on 1 February 2013, 10:47 AM
  */
 
-#ifndef FL_DEFINITIONS_H
-#define FL_DEFINITIONS_H
+#ifndef FL_FUZZYLITE_H
+#define	FL_FUZZYLITE_H
+
 
 #include <iostream>
 #include <sstream>
 
 #ifndef FL_VERSION
-#define FL_VERSION "2.0"
+#define FL_VERSION "?"
 #endif
 
 #ifndef FL_DATE
-#define FL_DATE "02/2013"
+#define FL_DATE "?"
 #endif
-
-namespace fl{
-    static std::string version(){
-        return FL_VERSION;
-    }
-    
-    static std::string date(){
-        return FL_DATE;
-    }
-    
-    static std::string longVersion(){
-        return FL_VERSION "-" FL_DATE;
-    }
-}
 
 #ifndef FL_BUILD_PATH
 #define FL_BUILD_PATH ""
 #endif
+
+namespace fl {
+#ifdef FL_USE_FLOAT
+    typedef float scalar;
+#else
+    typedef double scalar;
+#endif
+
+}
 
 #define FL__FILE__ std::string(__FILE__).substr(std::string(FL_BUILD_PATH).size())
 
@@ -99,16 +95,39 @@ namespace fl{
 
 //C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
 //http://msdn.microsoft.com/en-us/library/sa28fef8%28v=vs.80%29.aspx
-//to ignore warnings dealing with exceptions in Windows
+//to ignore warnings dealing with exceptions in Windows:
 #pragma warning(disable:4290) 
 
 //Windows NMake complains I should have pointers in all headers instead of 
 //stack allocated objects. For example, std::string* instead of std::string.
-#pragma warning(disable:4251)
+#pragma warning(disable:4251):
 #else 
-
 #endif
 
+namespace fl {
+
+    class FL_EXPORT fuzzylite {
+    public:
+        static std::string name();
+        static std::string fullname();
+        static std::string shortVersion();
+        static std::string longVersion();
+        static std::string author();
+        
+        static std::string date();
+        static std::string platform();
+        static std::string configuration();
+        
+        static std::string floatingPoint();
+        
+        static int decimals();
+        static scalar precision();
+        static int defaultDivisions();
+        
+        static bool logEnabled();
+    };
+}
 
 
-#endif /* FL_DEFINITIONS_H */
+#endif	/* FL_FUZZYLITE_H */
+

@@ -13,7 +13,7 @@
 #include "fl/qt/Model.h"
 #include "fl/qt/Control.h"
 
-#include "fl/qt/definitions.h"
+#include "fl/qt/qtfuzzylite.h"
 #include "ui_ImEx.h"
 #include "ui_About.h"
 
@@ -1019,8 +1019,8 @@ namespace fl {
         }
 
         void Window::closeEvent(QCloseEvent * e) {
-            int result = QMessageBox::question(this, tr("qtfuzzylite"),
-                    tr("<qt>Do you want to quit <b>qtfuzzylite</b>?</qt>"),
+            int result = QMessageBox::question(this, "Quit",
+                    "<qt>Do you want to quit <b>qtfuzzylite</b>?</qt>",
                     QMessageBox::Yes | QMessageBox::No,
                     QMessageBox::Yes);
             if (result == QMessageBox::No) {

@@ -1,3 +1,4 @@
+src/fuzzylite.cpp
 src/defuzzifier/Defuzzifier.cpp
 src/defuzzifier/Centroid.cpp
 src/defuzzifier/MaximumDefuzzifier.cpp
@@ -16,6 +17,7 @@ src/rule/mamdani/MamdaniRule.cpp
 src/rule/mamdani/MamdaniAntecedent.cpp
 src/rule/mamdani/MamdaniExpression.cpp
 src/rule/mamdani/MamdaniConsequent.cpp
+src/operator/Operation.cpp
 src/operator/TNorm.cpp
 src/operator/SNorm.cpp
 src/term/Discrete.cpp

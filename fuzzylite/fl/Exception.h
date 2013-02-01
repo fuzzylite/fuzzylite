@@ -8,7 +8,7 @@
 #ifndef FL_EXCEPTION_H
 #define FL_EXCEPTION_H
 
-#include "fl/definitions.h"
+#include "fl/fuzzylite.h"
 
 #include <exception>
 #include <string>

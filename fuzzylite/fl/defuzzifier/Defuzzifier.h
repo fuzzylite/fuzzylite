@@ -8,9 +8,7 @@
 #ifndef FL_DEFUZZIFIER_H
 #define FL_DEFUZZIFIER_H
 
-#include "fl/definitions.h"
-
-#include "fl/scalar.h"
+#include "fl/fuzzylite.h"
 
 #include <string>
 

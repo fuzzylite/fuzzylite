@@ -8,7 +8,7 @@
 #ifndef FL_DEFUZZIFIERFACTORY_H
 #define	FL_DEFUZZIFIERFACTORY_H
 
-#include "fl/definitions.h"
+#include "fl/fuzzylite.h"
 
 #include <string>
 #include <vector>

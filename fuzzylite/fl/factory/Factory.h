@@ -8,7 +8,7 @@
 #ifndef FL_FACTORY_H
 #define	FL_FACTORY_H
 
-#include "fl/definitions.h"
+#include "fl/fuzzylite.h"
 
 namespace fl {
     class TNormFactory;

@@ -8,7 +8,7 @@
 #ifndef FL_MAMDANIRULE_H
 #define FL_MAMDANIRULE_H
 
-#include "fl/definitions.h"
+#include "fl/fuzzylite.h"
 
 #include "fl/rule/Rule.h"
 

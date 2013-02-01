@@ -20,7 +20,7 @@
    <string>Preferences</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
+   <iconset resource="qtfuzzylite.qrc">
     <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -253,7 +253,7 @@
   <tabstop>ckx_seldom</tabstop>
  </tabstops>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="qtfuzzylite.qrc"/>
  </resources>
  <connections/>
 </ui>

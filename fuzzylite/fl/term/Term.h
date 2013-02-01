@@ -8,15 +8,14 @@
 #ifndef FL_TERM_H
 #define FL_TERM_H
 
-#include "fl/definitions.h"
-
-#include "fl/scalar.h"
+#include "fl/fuzzylite.h"
 
 #include "fl/operator/Operator.h"
 
 #include <string>
 #include <limits>
 #include <iomanip>
+#include <cmath>
 
 namespace fl {
 

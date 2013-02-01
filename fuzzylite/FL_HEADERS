@@ -1,6 +1,5 @@
-fl/definitions.h
-fl/scalar.h
 fl/Headers.h
+fl/fuzzylite.h
 fl/defuzzifier/MaximumDefuzzifier.h
 fl/defuzzifier/Defuzzifier.h
 fl/defuzzifier/Centroid.h
@@ -22,6 +21,7 @@ fl/rule/mamdani/MamdaniAntecedent.h
 fl/rule/mamdani/MamdaniRule.h
 fl/rule/mamdani/MamdaniExpression.h
 fl/operator/Operator.h
+fl/operator/Operation.h
 fl/operator/SNorm.h
 fl/operator/TNorm.h
 fl/term/Thresholded.h

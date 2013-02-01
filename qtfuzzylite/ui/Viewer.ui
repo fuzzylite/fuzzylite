@@ -299,7 +299,7 @@ border-radius: 8px;
   </layout>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="qtfuzzylite.qrc"/>
  </resources>
  <connections/>
 </ui>

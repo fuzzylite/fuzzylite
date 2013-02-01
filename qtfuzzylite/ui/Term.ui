@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>251</width>
-    <height>449</height>
+    <height>462</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Term</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
+   <iconset resource="qtfuzzylite.qrc">
     <normaloff>:/icons/colorize.png</normaloff>:/icons/colorize.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -52,7 +52,7 @@
          <string>Create multiple copies</string>
         </property>
         <property name="icon">
-         <iconset resource="resources.qrc">
+         <iconset resource="qtfuzzylite.qrc">
           <normaloff>:/icons/wizard.png</normaloff>:/icons/wizard.png</iconset>
         </property>
        </widget>
@@ -409,8 +409,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>227</width>
-              <height>206</height>
+              <width>140</width>
+              <height>189</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -515,7 +515,7 @@ sure 'x' is followed by 'y'.</string>
                      <string>Process (x,y)</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="resources.qrc">
+                     <iconset resource="qtfuzzylite.qrc">
                       <normaloff>:/icons/spellcheck.png</normaloff>:/icons/spellcheck.png</iconset>
                     </property>
                     <property name="toolButtonStyle">
@@ -570,8 +570,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>227</width>
-              <height>144</height>
+              <width>138</width>
+              <height>90</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -650,8 +650,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>214</width>
-              <height>156</height>
+              <width>227</width>
+              <height>157</height>
              </rect>
             </property>
             <attribute name="label">
@@ -828,7 +828,7 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>214</width>
+              <width>136</width>
               <height>156</height>
              </rect>
             </property>
@@ -1554,7 +1554,7 @@ sure 'x' is followed by 'y'.</string>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="qtfuzzylite.qrc"/>
  </resources>
  <connections>
   <connection>

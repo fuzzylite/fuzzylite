@@ -8,7 +8,7 @@
 #ifndef FL_HEDGEFACTORY_H
 #define	FL_HEDGEFACTORY_H
 
-#include "fl/definitions.h"
+#include "fl/fuzzylite.h"
 
 #include <string>
 #include <vector>
