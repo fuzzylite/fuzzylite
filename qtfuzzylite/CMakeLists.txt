@@ -21,7 +21,10 @@ add_definitions(-DFLQT_DATE="${FLQT_DATE}")
 set(FLQT_VERSION 2.0)
 add_definitions(-DFLQT_VERSION="${FLQT_VERSION}")
 
-message("qtfuzzylite v.${FLQT_VERSION}-${FLQT_DATE}")
+set(FLQT_LONG_VERSION "${FLQT_VERSION}b${FLQT_DATE}")
+set(FLQT_FULLNAME "qtfuzzylite-${FLQT_LONG_VERSION}")
+
+message("${FLQT_FULLNAME}")
 
 set(CMAKE_VERBOSE_MAKEFILE true)
 message("Source path:" ${CMAKE_SOURCE_DIR})
@@ -46,7 +49,7 @@ include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
 
 if(WIN32)
-    message("Windows building")
+    message("Windows")
 	add_definitions(-DFL_WINDOWS)
 endif()
 
@@ -55,7 +58,6 @@ include_directories(. ${CMAKE_SOURCE_DIR}/../fuzzylite)
 
 
 set(qtfl-headers
-    fl/qt/qtfuzzylite.h
     fl/qt/About.h
     fl/qt/Control.h
     fl/qt/Preferences.h
@@ -115,12 +117,12 @@ target_link_libraries(qtfuzzylite ${QT_LIBRARIES} ${fl-shared${FL_CONF}})
 
 if(APPLE)
     set_target_properties(qtfuzzylite PROPERTIES
-    MACOSX_BUNDLE_INFO_STRING "qtfuzzylite Version ${FLQT_VERSION}-${FLQT_DATE}, Copyright © 2013, Juan Rada-Vilela, All Rights Reserved."
+    MACOSX_BUNDLE_INFO_STRING "${FLQT_FULLNAME}, Copyright © 2013, Juan Rada-Vilela, All Rights Reserved."
     MACOSX_BUNDLE_ICON_FILE qtfuzzylite.icns
-    MACOSX_BUNDLE_GUI_IDENTIFIER "qtfuzzylite"
-    MACOSX_BUNDLE_BUNDLE_NAME "qtfuzzylite"
-    MACOSX_BUNDLE_BUNDLE_VERSION "${FLQT_VERSION}-${FLQT_DATE}"
-    MACOSX_BUNDLE_LONG_VERSION_STRING "qtfuzzylite Version ${FLQT_VERSION}-${FLQT_DATE}"
+    MACOSX_BUNDLE_GUI_IDENTIFIER "${PROJECT_NAME}"
+    MACOSX_BUNDLE_BUNDLE_NAME "${PROJECT_NAME}"
+    MACOSX_BUNDLE_BUNDLE_VERSION "${FLQT_DATE}"
+    MACOSX_BUNDLE_LONG_VERSION_STRING "${FLQT_LONG_VERSION}"
     MACOSX_BUNDLE_SHORT_VERSION_STRING "${FLQT_VERSION}"
     MACOSX_BUNDLE_COPYRIGHT "Copyright © 2013, Juan Rada-Vilela, All Rights Reserved."
 )
@@ -138,8 +140,6 @@ if(APPLE)
 #http://dragly.org/2012/01/13/deploy-qt-applications-for-mac-os-x/
 endif(APPLE)
 
-
-install(TARGETS qtfuzzylite RUNTIME DESTINATION bin)
 
 if(NOT APPLE)
     install(TARGETS qtfuzzylite RUNTIME DESTINATION bin)
