@@ -23,14 +23,19 @@ add_definitions(-DFL_DATE="${FL_DATE}")
 set(FL_VERSION 2.0)
 add_definitions(-DFL_VERSION="${FL_VERSION}")
 
-message("fuzzylite v.${FL_VERSION}b${FL_DATE}")
-
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_USE_LOG "Enable the macro FL_LOG to print information" ON)
 option(FL_DEBUG "Enable additional debugging information" OFF)
 
 option(FL_PRECISION "Precision to differentiate numbers" 1e-5)
 option(FL_DECIMALS "Number of decimals to print information" 3)
+
+message("fuzzylite v.${FL_VERSION}b${FL_DATE}\n")
+message("FL_DEBUG=${FL_DEBUG}")
+message("FL_USE_FLOAT=${FL_USE_FLOAT}")
+message("FL_PRECISION=${FL_PRECISION}")
+message("FL_DECIMALS=${FL_DECIMALS}")
+message("FL_USE_LOG=${FL_USE_LOG}")
 
 if(FL_DEBUG)
 #    add_definitions(-DFL_DEBUG=true)

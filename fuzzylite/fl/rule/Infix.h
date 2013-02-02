@@ -20,7 +20,7 @@ namespace fl {
     class FL_EXPORT Infix {
     public:
 
-        class GenericOperator {
+        class FL_EXPORT GenericOperator {
         public:
             std::string name;
             short precedence;
@@ -46,7 +46,7 @@ namespace fl {
         typedef double(*OneArgFunction)(double);
         typedef double(*TwoArgFunction)(double, double);
 
-        class GenericFunction {
+        class FL_EXPORT GenericFunction {
         public:
             std::string name;
             short arity;
