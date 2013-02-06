@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 2.8)
 
 project(fuzzylite CXX)
 
+#set(CMAKE_VERBOSE_MAKEFILE true)
+
 MACRO (TODAY RESULT)
     IF (WIN32)
         EXECUTE_PROCESS(COMMAND "cmd" " /C date /T" OUTPUT_VARIABLE ${RESULT})
@@ -44,7 +46,7 @@ else()
 	set(CMAKE_BUILD_TYPE Release)
 endif(FL_DEBUG)
 
-set(CMAKE_VERBOSE_MAKEFILE true)
+
 
 add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
 
@@ -58,7 +60,7 @@ if(UNIX)
     set(CMAKE_CXX_FLAGS "-Werror")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DFL_DEBUG")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
-if(NOT APPLE) 
+if(NOT APPLE)
     set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined") #apple does not recognise these
 endif(NOT APPLE)
 
@@ -111,7 +113,7 @@ target_link_libraries(fl-static ${FL_LIBS})
 
 add_executable(fl-bin src/main.cpp)
 set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite-demo)
-set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -dbg) 
+set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -dbg)
 target_link_libraries(fl-bin fl-shared ${FL_LIBS})
 
 
@@ -132,6 +134,6 @@ install(DIRECTORY fl/ DESTINATION include/fl)
 
 #add_custom_target(uninstall
     #COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/uninstall.cmake)
- 
+
 #unix uninstall
 #xargs rm < install_manifest.txt

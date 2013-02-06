@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 
 project(qtfuzzylite CXX)
 
+#set(CMAKE_VERBOSE_MAKEFILE true)
+
 MACRO (TODAY RESULT)
     IF (WIN32)
         EXECUTE_PROCESS(COMMAND "cmd" " /C date /T" OUTPUT_VARIABLE ${RESULT})
@@ -26,7 +28,6 @@ set(FLQT_FULLNAME "qtfuzzylite-${FLQT_LONG_VERSION}")
 
 message("${FLQT_FULLNAME}")
 
-set(CMAKE_VERBOSE_MAKEFILE true)
 message("Source path:" ${CMAKE_SOURCE_DIR})
 if(FL_DEBUG)
    message("Configuration: Debug")
