@@ -115,7 +115,7 @@ namespace fl {
 
 //Windows NMake complains I should have pointers in all headers instead of 
 //stack allocated objects. For example, std::string* instead of std::string.
-#pragma warning(disable:4251):
+#pragma warning(disable:4251)
 #else 
 #endif
 
