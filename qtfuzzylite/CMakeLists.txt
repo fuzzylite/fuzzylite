@@ -133,7 +133,7 @@ if(APPLE)
     MACOSX_BUNDLE_BUNDLE_VERSION "${FLQT_DATE}"
     MACOSX_BUNDLE_LONG_VERSION_STRING "${FLQT_LONG_VERSION}"
     MACOSX_BUNDLE_SHORT_VERSION_STRING "${FLQT_VERSION}"
-    MACOSX_BUNDLE_COPYRIGHT "Copyright © 2013, Juan Rada-Vilela, All Rights Reserved."
+    MACOSX_BUNDLE_COPYRIGHT "Copyright © 2013 Juan Rada-Vilela, Licensed under the GNU General Public License (GPL-2.0)"
 )
     add_custom_target(  mac-deploy ALL
                         COMMAND ${QT_BINARY_DIR}/macdeployqt qtfuzzylite.app
