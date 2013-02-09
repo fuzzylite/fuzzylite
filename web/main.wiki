@@ -1,5 +1,6 @@
 #summary A Fuzzy Logic Control Library written in C++
 
+== Donations ==
 Please consider making a *donation* to support these projects.
 There are still many things to do!
 
@@ -74,9 +75,9 @@ fl::InputVariable* ambientLight = new fl::InputVariable;
 ambientLight->setName("AmbientLight");
 ambientLight->setRange(0.000, 1.000);
 
-ambientLight->addTerm(new fl::Triangle("LOW", 0.000,0.250,0.500));
-ambientLight->addTerm(new fl::Triangle("MEDIUM", 0.250,0.500,0.750));
-ambientLight->addTerm(new fl::Triangle("HIGH", 0.500,0.750,1.000));
+ambientLight->addTerm(new fl::Triangle("LOW", 0.000, 0.250, 0.500));
+ambientLight->addTerm(new fl::Triangle("MEDIUM", 0.250, 0.500, 0.750));
+ambientLight->addTerm(new fl::Triangle("HIGH", 0.500, 0.750, 1.000));
 engine->addInputVariable(ambientLight);
 
 fl::OutputVariable* bulbPower = new fl::OutputVariable;
@@ -100,7 +101,6 @@ engine->configure("Minimum", "Maximum", "AlgebraicProduct", "AlgebraicSum", "Cen
 An example of *`fuzzylite-1.x`* working in real-time:
 
 <wiki:video url="http://www.youtube.com/watch?v=YOKk8G_5aRA"/>
-
 
 
 = What's next? =
@@ -158,3 +158,20 @@ Building from source requires you to have CMake installed. Once installed, it is
 	This version was the product of using my free time to relax myself from my current PhD studies, but also to flirt with the possibility of making a living out of open source software. Therefore, if you find this library useful and you do have the resources, please _seriously_ consider making a *donation* to support these projects. Thank you *very* much!
 
 	Previous versions of this work were possible thanks to the Foundation for the Advancement of Soft Computing, to the Master of Soft Computing and Intelligent Data Analysis at the European Centre for Soft Computing, and especially to Sergio Guadarrama and Luis Magdalena for their support.
+
+
+= Screenshots =
+
+Ubuntu
+
+http://fuzzylite.googlecode.com/git/web/ubuntu.png
+
+MacOSX
+
+http://fuzzylite.googlecode.com/git/web/macosx.png
+
+Windows
+
+http://fuzzylite.googlecode.com/git/web/Windows.png
+
+
