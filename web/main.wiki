@@ -55,7 +55,7 @@ year={2013}
   * No need to worry about an integration algorithm, this time only one is included and works!
   * Hedges any, not, extremely, seldom, somewhat, very
   * Engines are allowed to have multiple ruleblocks containing any number of (possibly weighted) rules, and different T-norms, S-norms, and activation operators
-  * Mamdani rules are written just naturally (e.g. "`if !AmbientLight is LOW then !BulbPower is LOW`")
+  * Mamdani rules are written just naturally (e.g. "`if AmbientLight is LOW then BulbPower is LOW`")
   * Output variables can return default values or the last valid value whenever defuzzification is out of range or empty, thus ensuring the output at every moment
   * Import to *`fuzzylite`* your fuzzy engines created with Octave or Matlab (`.fis` files)
   * ... or export your *`fuzzylite`* engines to `.fis` format to be used in Octave or Matlab
