@@ -4,15 +4,15 @@ cmake_minimum_required(VERSION 2.8)
 
 project(fuzzylite CXX)
 
-#set(CMAKE_VERBOSE_MAKEFILE true)
+set(CMAKE_VERBOSE_MAKEFILE true)
 
 MACRO (TODAY RESULT)
     IF (WIN32)
         EXECUTE_PROCESS(COMMAND "cmd" " /C date /T" OUTPUT_VARIABLE ${RESULT})
-        string(REGEX REPLACE ".*(..)/(..)/..(..).*" "\\3\\2\\1" ${RESULT} ${${RESULT}})
+        string(REGEX REPLACE ".*../(..)/..(..).*" "\\2\\1" ${RESULT} ${${RESULT}})
     ELSEIF(UNIX)
         EXECUTE_PROCESS(COMMAND "date" "+%d/%m/%Y" OUTPUT_VARIABLE ${RESULT})
-        string(REGEX REPLACE "(..)/(..)/..(..).*" "\\3\\2\\1" ${RESULT} ${${RESULT}})
+        string(REGEX REPLACE ".*../(..)/..(..).*" "\\2\\1" ${RESULT} ${${RESULT}})
     ELSE ()
         MESSAGE(SEND_ERROR "date not implemented")
         SET(${RESULT} 000000)
@@ -32,12 +32,6 @@ option(FL_DEBUG "Enable additional debugging information" OFF)
 option(FL_PRECISION "Precision to differentiate numbers" 1e-5)
 option(FL_DECIMALS "Number of decimals to print information" 3)
 
-message("fuzzylite v.${FL_VERSION}b${FL_DATE}\n")
-message("FL_DEBUG=${FL_DEBUG}")
-message("FL_USE_FLOAT=${FL_USE_FLOAT}")
-message("FL_PRECISION=${FL_PRECISION}")
-message("FL_DECIMALS=${FL_DECIMALS}")
-message("FL_USE_LOG=${FL_USE_LOG}")
 
 if(FL_DEBUG)
 #    add_definitions(-DFL_DEBUG=true)
@@ -82,10 +76,14 @@ endif(NOT FL_USE_LOG)
 
 if(FL_PRECISION)
     add_definitions(-DFL_PRECISION=${FL_PRECISION})
+else()
+    set(FL_PRECISION 1e-5)
 endif(FL_PRECISION)
 
 if(FL_DECIMALS)
     add_definitions(-DFL_DECIMALS=${FL_DECIMALS})
+else()
+    set(FL_DECIMALS 3)
 endif(FL_DECIMALS)
 
 
@@ -125,6 +123,15 @@ install(TARGETS fl-bin fl-shared fl-static
 
 install(DIRECTORY fl/ DESTINATION include/fl)
 
+
+message("=====================================")
+message("fuzzylite v.${FL_VERSION}b${FL_DATE}\n")
+message("FL_DEBUG=${FL_DEBUG}")
+message("FL_USE_LOG=${FL_USE_LOG}")
+message("FL_USE_FLOAT=${FL_USE_FLOAT}")
+message("FL_PRECISION=${FL_PRECISION}")
+message("FL_DECIMALS=${FL_DECIMALS}")
+message("=====================================\n")
 
 # uninstall target
 #configure_file(

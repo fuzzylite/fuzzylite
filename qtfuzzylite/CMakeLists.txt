@@ -2,15 +2,15 @@ cmake_minimum_required(VERSION 2.8)
 
 project(qtfuzzylite CXX)
 
-#set(CMAKE_VERBOSE_MAKEFILE true)
+set(CMAKE_VERBOSE_MAKEFILE true)
 
 MACRO (TODAY RESULT)
     IF (WIN32)
         EXECUTE_PROCESS(COMMAND "cmd" " /C date /T" OUTPUT_VARIABLE ${RESULT})
-        string(REGEX REPLACE ".*(..)/(..)/..(..).*" "\\3\\2\\1" ${RESULT} ${${RESULT}})
+        string(REGEX REPLACE ".*../(..)/..(..).*" "\\2\\1" ${RESULT} ${${RESULT}})
     ELSEIF(UNIX)
         EXECUTE_PROCESS(COMMAND "date" "+%d/%m/%Y" OUTPUT_VARIABLE ${RESULT})
-        string(REGEX REPLACE "(..)/(..)/..(..).*" "\\3\\2\\1" ${RESULT} ${${RESULT}})
+        string(REGEX REPLACE ".*../(..)/..(..).*" "\\2\\1" ${RESULT} ${${RESULT}})
     ELSE ()
         MESSAGE(SEND_ERROR "date not implemented")
         SET(${RESULT} 000000)
@@ -26,22 +26,30 @@ add_definitions(-DFLQT_VERSION="${FLQT_VERSION}")
 set(FLQT_LONG_VERSION "${FLQT_VERSION}b${FLQT_DATE}")
 set(FLQT_FULLNAME "qtfuzzylite-${FLQT_LONG_VERSION}")
 
-message("${FLQT_FULLNAME}")
+option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
+option(FL_USE_LOG "Enable the macro FL_LOG to print information" ON)
+option(FL_DEBUG "Enable additional debugging information" OFF)
 
-message("Source path:" ${CMAKE_SOURCE_DIR})
+
 if(FL_DEBUG)
-   message("Configuration: Debug")
    set(CMAKE_BUILD_TYPE Debug)
    set(FL_CONF -dbg)
    find_library(fl-shared-dbg fuzzylite-dbg ${CMAKE_SOURCE_DIR}/../fuzzylite/lib)
 else(FL_DEBUG)
-   message("Configuration: Release")
    set(CMAKE_BUILD_TYPE Release)
    set(FL_CONF)
    find_library(fl-shared fuzzylite ${CMAKE_SOURCE_DIR}/../fuzzylite/lib)
 endif(FL_DEBUG)
 
-message("fuzzylite library: ${fl-shared}${FL_CONF}")
+
+if(FL_USE_FLOAT)
+    add_definitions(-DFL_USE_FLOAT)
+endif(FL_USE_FLOAT)
+
+if(NOT FL_USE_LOG)
+    add_definitions(-DFL_NO_LOG)
+endif(NOT FL_USE_LOG)
+
 
 
 find_package(Qt4 REQUIRED)
@@ -118,7 +126,7 @@ target_link_libraries(qtfuzzylite ${QT_LIBRARIES} ${fl-shared${FL_CONF}})
 
 if(APPLE)
     set_target_properties(qtfuzzylite PROPERTIES
-    MACOSX_BUNDLE_INFO_STRING "${FLQT_FULLNAME}, Copyright © 2013, Juan Rada-Vilela, All Rights Reserved."
+    MACOSX_BUNDLE_INFO_STRING "${FLQT_FULLNAME}, Licensed under GNU GPL. Copyright © Juan Rada-Vilela, All Rights Reserved."
     MACOSX_BUNDLE_ICON_FILE qtfuzzylite.icns
     MACOSX_BUNDLE_GUI_IDENTIFIER "${PROJECT_NAME}"
     MACOSX_BUNDLE_BUNDLE_NAME "${PROJECT_NAME}"
@@ -145,5 +153,15 @@ endif(APPLE)
 if(NOT APPLE)
     install(TARGETS qtfuzzylite RUNTIME DESTINATION bin)
 endif()
+
+
+message("=====================================")
+message("${FLQT_FULLNAME}\n")
+message("FL_DEBUG=${FL_DEBUG}")
+message("FL_USE_LOG=${FL_USE_LOG}")
+message("FL_USE_FLOAT=${FL_USE_FLOAT}")
+message("fuzzylite=${fl-shared}${FL_CONF}")
+message("=====================================\n")
+
 ##unix uninstall
 ##xargs rm < install_manifest.txt
