@@ -1,0 +1,152 @@
+fuzzylite
+A Fuzzy Logic Control Library written in C++
+http://www.fuzzylite.com
+
+
+Please consider making a *donation* to support these projects.
+There are still many things to do!
+
+
+
+== Current Version: 2.0 (February/2013) ==
+Developed by Juan Rada-Vilela, jcrada@fuzzylite.com
+http://www.fuzzylite.com/jcrada
+
+=== News ===
+
+== Version 2.0 released (February/2013) ==
+
+I have rewritten *fuzzylite* and *qtfuzzylite* from the ground up, incorporating *MANY* new features, taking much more care coding, and using the experience gained over the past years. Also, I have configured a PayPal account hoping to receive *donations* and be able to provide more maintainance and keep updating both projects much more frequently.
+
+I do hope you enjoy this version as much as I did working on it during my free time!
+
+
+
+= Introduction =
+
+*fuzzylite* is a cross-platform, free open-source Fuzzy Logic Control Library written in C++. Simplicity is the essence of *fuzzylite*. It provides a natural and simple way of creating a fuzzy logic engine in a few steps using object-oriented programming. It allows you to easily add your own features to the library by just using inheritance. It only relies on the Standard Template Library (STL) that comes with C++, *no* other third-party library (e.g. boost) are involved. Furthermore, as a library, it only contains the functions you need from a fuzzy logic controller.
+
+*qtfuzzylite* is a Graphic User Interface that uses *fuzzylite* to provide a nice and easy way to visually create your fuzzy logic controllers. It is cross-platform, free and open source too, and it is based on the Qt framework. It allows you to design your fuzzy logic controller and interactively play with it while observing its operation in real-time. Furthermore, it allows you to export your controller to actual *fuzzylite* C++ code, so you only need to copy and paste it into your C++ application and _voilà_!
+
+If you are going to cite this library in your article, please do so as:
+
+Juan Rada-Vilela. fuzzylite: A fuzzy logic control library written in C++, 2013. URL http://www.fuzzylite.com.
+
+@misc{fl::fuzzylite,
+author={Juan Rada-Vilela},
+title={fuzzylite: A fuzzy logic control library written in \texttt{C++}},
+url={http://www.fuzzylite.com},
+year={2013}
+}
+
+
+
+= License =
+*fuzzylite* is licensed under the Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
+
+*qtfuzzylite* is licensed under the GNU General Public License (http://www.gnu.org/licenses/gpl.html)
+
+= Features =
+  * Over a dozen of linguistic terms to choose from (e.g. triangle, trapezoid, discrete, gaussian, bell, pi-shape, ramp, sigmoid, s-shape, z-shape, and more)
+  * Over a dozen fuzzy logic operators (e.g. algebraic, drastic, Einstein's and Hamacher's products and sums, and others) to be used as T-Norms, S-Norms, activation and accumulation
+  * Centroid and Maximum (smallest, mean and largest) defuzzifiers
+  * No need to worry about an integration algorithm, this time only one is included and works!
+  * Hedges any, not, extremely, seldom, somewhat, very
+  * Engines are allowed to have multiple ruleblocks containing any number of (possibly weighted) rules, and different T-norms, S-norms, and activation operators
+  * Mamdani rules are written just naturally (e.g. "if AmbientLight is LOW then BulbPower is LOW")
+  * Output variables can return default values or the last valid value whenever defuzzification is out of range or empty, thus ensuring the output at every moment
+  * Import to *fuzzylite* your fuzzy engines created with Octave or Matlab ('.fis' files)
+  * ... or export your *fuzzylite* engines to '.fis' format to be used in Octave or Matlab
+  * Import and export from and to the Fuzzy Controller Language (FCL) specification
+  * Plus, the object-oriented approach taken allows you to easily extend every component of *fuzzylite* to create your own and be used seamlessly
+  * Besides these core features, a dozen of examples from Octave, Matlab, and ours are included in 'fcl' and 'fis' format, as well as in *fuzzylite* 'C++'
+  * CMake scripts make life easy to build *fuzzylite* and *qtfuzzylite* from source in Linux, Mac, and Windows (natively using MSVC)
+  * Binaries are provided in the Downloads page for the following  platforms: Ubuntu, MacOSX and Windows
+
+
+= Example =
+fl::Engine* engine = new fl::Engine("simple-dimmer");
+
+fl::InputVariable* ambientLight = new fl::InputVariable;
+ambientLight->setName("AmbientLight");
+ambientLight->setRange(0.000, 1.000);
+
+ambientLight->addTerm(new fl::Triangle("LOW", 0.000,0.250,0.500));
+ambientLight->addTerm(new fl::Triangle("MEDIUM", 0.250,0.500,0.750));
+ambientLight->addTerm(new fl::Triangle("HIGH", 0.500,0.750,1.000));
+engine->addInputVariable(ambientLight);
+
+fl::OutputVariable* bulbPower = new fl::OutputVariable;
+bulbPower->setName("BulbPower");
+bulbPower->setRange(0.000, 2.000);
+bulbPower->setDefaultValue(0);
+
+bulbPower->addTerm(new fl::Triangle("LOW", 0.000, 0.500, .000));
+bulbPower->addTerm(new fl::Triangle("MEDIUM", 0.500, 1.000, 1.500));
+bulbPower->addTerm(new fl::Triangle("HIGH", 1.000, 1.500, 2.000));
+engine->addOutputVariable(bulbPower);
+
+fl::RuleBlock* ruleblock = new fl::RuleBlock;
+ruleblock->addRule(fl::MamdaniRule::parse("if AmbientLight is LOW then BulbPower is LOW", engine));
+ruleblock->addRule(fl::MamdaniRule::parse("if AmbientLight is MEDIUM then BulbPower is MEDIUM", engine));
+ruleblock->addRule(fl::MamdaniRule::parse("if AmbientLight is HIGH then BulbPower is HIGH", engine));
+engine->addRuleBlock(ruleblock);
+
+engine->configure("Minimum", "Maximum", "AlgebraicProduct", "AlgebraicSum", "Centroid");
+
+
+
+
+= What's next? =
+  * Takagi-sugeno rules
+  * Documentation using Doxygen
+  * R Exporters to generate the surface of each output based on the inputs
+  * Develop the Adaptive Neuro-Fuzzy Inference System (ANFIS)
+  * Develop the fuzzy C-means data clustering
+
+= Known bugs =
+  * No known bugs at the moment
+
+
+= Building from source =
+Building from source requires you to have CMake installed. Once installed, it is as easy as it gets:
+
+  * In Unix:
+  #from fuzzylite/fuzzylite:
+  cmake . 
+  make
+  sudo make install #optional
+
+  #from fuzzylite/qtfuzzylite:
+  cmake . 
+  make
+  
+  #if Linux:
+  sudo make install #optional
+  
+  #if MacOSX, qtfuzzylite.app will be created for you
+
+  * In Windows:
+  #from fuzzylite/fuzzylite:
+  cmake . -G "NMake Makefiles"
+  nmake
+
+  #from fuzzylite/qtfuzzylite:
+  cmake . -G "NMake Makefiles"
+  nmake
+
+  The instructions above will produce the following files. 'libfuzzylite.(so|dylib|dll)' which is the shared library. 'libfuzzylite.(a|lib)' which is the static library to build stand-alone applications. 'fuzzylite-demo(.exe)' an executable  of a simple console demo application using *fuzzylite* as a shared library. 'qtfuzzylite(.app|.exe)' the graphic user interface using *fuzzylite* as a shared library.
+  The extensions of the output files depend on the platform. Specifically, '.so|.a' in Linux, '.dylib|.a' in Mac, '.dll|.lib' in Windows. Note that on Windows, the libraries must be placed manually in the same folder of the executable file. Also, the library 'dbghelp' is used on Windows to retrieve the backtrace in case of errors, but such a library should be included by default on your Windows distribution.
+
+  Furthermore, the following additional building flags can be set upon executing 'cmake', either to build *fuzzylite* or *qtfuzzylite*, just remember to use the same flags in both.
+
+  * '-DFL_DEBUG=ON' will build in Debug mode which also prints more information to console (default is 'OFF')
+  * '-DFL_USE_LOG=OFF' will not log information to console (default is 'ON')
+  * '-DFL_USE_FLOAT=ON' the floating-point numbers are taken as 'float' instead of 'double' (default is 'OFF', i.e. 'double' is used)
+  * '-DFL_PRECISION=x' defines 'x' as the precision to which two floating-point numbers will be different ('x' defaults to '1e-5')
+  * '-DFL_DECIMALS=y'  defines 'y' as the number of decimals to use when printing floating-point numbers to console and files ('y' defaults to '3')
+
+= Acknowledgements =
+	This version was the product of using my free time to relax myself from my current PhD studies, but also to flirt with the possibility of making a living out of open source software. Therefore, if you find this library useful and you do have the resources, please _seriously_ consider making a *donation* to support these projects. Thank you *very* much!
+
+	Previous versions of this work were possible thanks to the Foundation for the Advancement of Soft Computing, to the Master of Soft Computing and Intelligent Data Analysis at the European Centre for Soft Computing, and especially to Sergio Guadarrama and Luis Magdalena for their support.
