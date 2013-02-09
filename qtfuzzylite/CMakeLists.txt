@@ -142,7 +142,7 @@ if(APPLE)
     add_custom_target(  mac-dmg
                         COMMAND ${QT_BINARY_DIR}/macdeployqt qtfuzzylite.app -dmg -no-plugins
                         WORKING_DIRECTORY ${WORK_DIR}
-                        DEPENDS addframeworks )
+                        DEPENDS mac-deploy )
 
 
 #macdeployqt qtfuzzylite.app
