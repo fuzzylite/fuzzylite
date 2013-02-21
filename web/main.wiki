@@ -111,7 +111,21 @@ An example of *`fuzzylite-1.x`* working in real-time:
   * Develop the fuzzy C-means data clustering
 
 = Known bugs =
-  * No known bugs at the moment
+  * The membership function of Triangle returns 0 when a=b or when b=c. This can be fixed by changing line 49 of src/term/Triangle.cpp as:
+<code language="cpp">
+//from:
+//if (Op::isLE(x, minimum) or Op::isGE(x, maximum))
+//to:
+if (Op::isLt(x, minimum) or Op::isGt(x, maximum))
+</code>
+  * Similarly, the membership function of Trapezoid returns 0 when a=b or when c=d. This can be fixed by changing line 50 of src/term/Trapezoid.cpp as:
+<code language="cpp">
+//from:
+//if (Op::isLE(x, minimum) or Op::isGE(x, maximum))
+//to:
+if (Op::isLt(x, minimum) or Op::isGt(x, maximum))
+</code>
+
 
 
 = Building from source =
@@ -120,17 +134,17 @@ Building from source requires you to have CMake installed. Once installed, it is
   * In Unix:
 <code language="sh">
   #from fuzzylite/fuzzylite:
-  cmake . 
+  cmake .
   make
   sudo make install #optional
 
   #from fuzzylite/qtfuzzylite:
-  cmake . 
+  cmake .
   make
-  
+
   #if Linux:
   sudo make install #optional
-  
+
   #if MacOSX, qtfuzzylite.app will be created for you</code>
 
   * In Windows:
@@ -143,8 +157,8 @@ Building from source requires you to have CMake installed. Once installed, it is
   cmake . -G "NMake Makefiles"
   nmake</code>
 
-  The instructions above will produce the following files. `libfuzzylite.(so|dylib|dll)` which is the shared library. `libfuzzylite.(a|lib)` which is the static library to build stand-alone applications. `fuzzylite-demo(.exe)` an executable  of a simple console demo application using `*fuzzylite*` as a shared library. `qtfuzzylite(.app|.exe)` the graphic user interface using `*fuzzylite*` as a shared library.
-  The extensions of the output files depend on the platform. Specifically, `.so|.a` in Linux, `.dylib|.a` in Mac, `.dll|.lib` in Windows. Note that on Windows, the libraries must be placed manually in the same folder of the executable file. Also, the library `dbghelp` is used on Windows to retrieve the backtrace in case of errors, but such a library should be included by default on your Windows distribution.
+  The instructions above will produce the following files. `libfuzzylite.(so|dylib|dll)` which is the shared library. `libfuzzylite.(a|lib)` which is the static library to build stand-alone applications. `fuzzylite-demo(.exe)` an executable  of a simple console demo application using *`fuzzylite`* as a shared library. `qtfuzzylite(.app|.exe)` the graphic user interface using *`fuzzylite`* as a shared library.
+  The extensions of the output files depend on the platform. Specifically, `.so|.a` in Linux, `.dylib|.a` in Mac, `.dll|.lib` in Windows. Notice that, on Windows, the libraries must be placed manually in the same folder of the executable file. Also, the library `dbghelp` is used on Windows to retrieve the backtrace in case of errors, but such a library should be included by default on your Windows distribution.
 
   Furthermore, the following additional building flags can be set upon executing `cmake`, either to build *`fuzzylite`* or *`qtfuzzylite`*, just remember to use the same flags in both.
 
@@ -156,6 +170,8 @@ Building from source requires you to have CMake installed. Once installed, it is
 
 = Acknowledgements =
 	This version was the product of using my free time to relax myself from my current PhD studies, but also to flirt with the possibility of making a living out of open source software. Therefore, if you find this library useful and you do have the resources, please _seriously_ consider making a *donation* to support these projects. Thank you *very* much!
+
+	Also, very important has been the feedback I have had over the past years from the community. All the suggestions and critics have really helped me to identify problems and improve the library in general. Thank you *very* much to all of you for your great support.
 
 	Previous versions of this work were possible thanks to the Foundation for the Advancement of Soft Computing, to the Master of Soft Computing and Intelligent Data Analysis at the European Centre for Soft Computing, and especially to Sergio Guadarrama and Luis Magdalena for their support.
 
@@ -173,5 +189,4 @@ http://fuzzylite.googlecode.com/git/web/macosx.png
 Windows
 
 http://fuzzylite.googlecode.com/git/web/Windows.png
-
 

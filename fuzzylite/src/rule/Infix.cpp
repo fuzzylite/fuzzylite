@@ -69,25 +69,28 @@ namespace fl {
         return _genericFunctions.find(name) != _genericFunctions.end();
     }
 
-    std::string Infix::toPostfix(const std::string& infixString) {
-        //TODO: inserts spaces in all operators, parentheses, and commas.
-//        std::vector<std::string> space;
-//        std::map<std::string, GenericOperator*>::const_iterator itGO = this->_genericOperators.begin();
-//        for (; itGO != this->_genericOperators.end(); ++itGO) {
-//            if (itGO->first == Rule::FL_AND or itGO->first == Rule::FL_OR)
-//                continue;
-//            space.push_back(itGO->first);
-//        }
-//        space.push_back("(");
-//        space.push_back(")");
-//        space.push_back(",");
-//
+    std::string Infix::toPostfix(const std::string& infixString, SpacingLevel spaceLevel) {
         std::string infix = infixString;
-//        for (std::size_t i = 0; i < space.size(); ++i) {
-//            infix = Op::findReplace(infix, space[i], " " + space[i] + " ", true);
-//        }
-////        FL_LOG("infix=" << infix);
-        
+
+        //TODO: inserts spaces in all operators, parentheses, and commas.
+        if (spaceLevel > NO_SPACING) {
+            std::vector<std::string> space;
+            space.push_back("(");
+            space.push_back(")");
+            space.push_back(",");
+
+            if (spaceLevel > BASIC_SPACING) {
+                std::map<std::string, GenericOperator*>::const_iterator itGO = this->_genericOperators.begin();
+                for (; itGO != this->_genericOperators.end(); ++itGO) {
+                    space.push_back(itGO->first);
+                }
+            }
+
+            for (std::size_t i = 0; i < space.size(); ++i) {
+                infix = fl::Op::findReplace(infix, space[i], " " + space[i] + " ", true);
+            }
+            FL_DBG("infix=" << infix);
+        }
         std::queue<std::string> queue;
         std::stack<std::string> stack;
 
@@ -171,6 +174,7 @@ namespace fl {
             queue.pop();
             if (not queue.empty()) ssPostfix << " ";
         }
+        FL_DBG("postfix=" << ssPostfix.str());
         return ssPostfix.str();
     }
 
@@ -192,17 +196,6 @@ namespace fl {
         this->_genericOperators["&"] = new GenericOperator("&", p);
         --p; //Bitwise OR
         this->_genericOperators["|"] = new GenericOperator("|", p);
-        --p; //Logical AND (symbolic and verbose)
-        this->_genericOperators[Rule::FL_AND] = new GenericOperator(Rule::FL_AND, p);
-        --p; //Logical OR (symbolic and verbose)
-        this->_genericOperators[Rule::FL_OR] = new GenericOperator(Rule::FL_OR, p);
-
-        //Excluded to provide simplicity due to spacing all these characters before & |
-        //TODO: Incorporate them as long as they are spaced properly before parsing.
-        //        this->_genericOperators["&&"] = new GenericOperator("&&", p);
-        //        this->_genericOperators["&&"]->regex = "\\&\\&";
-        //        this->_genericOperators["||"] = new GenericOperator("||", p);
-        //        this->_genericOperators["||"]->regex = "\\|\\|";
     }
 
     void Infix::loadGenericFunctions() {
@@ -224,14 +217,14 @@ namespace fl {
         this->_genericFunctions["sqrt"] = new GenericFunction("sqrt", &(std::sqrt));
         this->_genericFunctions["tan"] = new GenericFunction("tan", &(std::tan));
         this->_genericFunctions["tanh"] = new GenericFunction("tanh", &(std::tanh));
-		
-		#ifdef FL_UNIX
-		//not found in Windows
-		this->_genericFunctions["log1p"] = new GenericFunction("log1p", &(log1p));
-		this->_genericFunctions["acosh"] = new GenericFunction("acosh", &(acosh));
+
+#ifdef FL_UNIX
+        //not found in Windows
+        this->_genericFunctions["log1p"] = new GenericFunction("log1p", &(log1p));
+        this->_genericFunctions["acosh"] = new GenericFunction("acosh", &(acosh));
         this->_genericFunctions["asinh"] = new GenericFunction("asinh", &(asinh));
         this->_genericFunctions["atanh"] = new GenericFunction("atanh", &(atanh));
-		#endif
+#endif
         //        this->_genericFunctions["X"] = new GenericFunction("X", &(std::X));
     }
 
@@ -287,8 +280,8 @@ namespace fl {
 
     void Infix::main() {
         Infix infix;
-//        GenericFunction* f = infix.getGenericFunction("acos");
-//        FL_LOG("acos(0.4) = " << f->oneArgFunction(0.4));
+        //        GenericFunction* f = infix.getGenericFunction("acos");
+        //        FL_LOG("acos(0.4) = " << f->oneArgFunction(0.4));
         std::map<std::string, GenericFunction*> gf = infix.genericFunctions();
         std::map<std::string, GenericFunction*>::const_iterator it = gf.begin();
         for (; it != gf.end(); ++it) {
@@ -307,11 +300,11 @@ namespace fl {
         FL_LOG(infix.toPostfix(notation));
         //y x * sin 2 ^ x /
 
-        notation = "(Temperature is High and Oxigen is Low) or \
-            (Temperature is Low and (Oxigen is Low or Oxigen is High))";
+        notation = "(Temperature is High and Oxigen is Low) or "
+            "(Temperature is Low and (Oxigen is Low or Oxigen is High))";
         FL_LOG(infix.toPostfix(notation));
         //Temperature is High Oxigen is Low and Temperature is Low Oxigen is Low Oxigen is High or and or
 
     }
 
-} 
+}

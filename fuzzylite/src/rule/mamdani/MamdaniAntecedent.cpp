@@ -107,7 +107,7 @@ namespace fl {
          4) After a term comes a variable or an operator
          */
         Infix infix;
-        std::string postfix = infix.toPostfix(antecedent);
+        std::string postfix = infix.toPostfix(antecedent, Infix::BASIC_SPACING);
         std::stringstream tokenizer(postfix);
         std::string token;
 

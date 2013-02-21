@@ -44,7 +44,8 @@ namespace fl {
 
             GenericOperator(const std::string& name, short precedence, short arity = 2,
                     short associativity = -1)
-            : name(name), precedence(precedence), arity(arity), associativity(associativity) { }
+            : name(name), precedence(precedence), arity(arity), associativity(associativity) {
+            }
 
             std::string toString() const {
                 std::stringstream ss;
@@ -71,15 +72,18 @@ namespace fl {
 
             GenericFunction(const std::string& name, short arity = 1)
             : name(name), arity(arity), associativity(-1),
-            oneArgFunction(NULL), twoArgFunction(NULL) { }
+            oneArgFunction(NULL), twoArgFunction(NULL) {
+            }
 
             GenericFunction(const std::string&name, OneArgFunction oneArgFunction)
             : name(name), arity(1), associativity(-1), oneArgFunction(oneArgFunction),
-            twoArgFunction(NULL) { }
+            twoArgFunction(NULL) {
+            }
 
             GenericFunction(const std::string&name, TwoArgFunction twoArgFunction)
             : name(name), arity(2), associativity(-1), oneArgFunction(NULL),
-            twoArgFunction(twoArgFunction) { }
+            twoArgFunction(twoArgFunction) {
+            }
 
             std::string toString() const {
                 std::stringstream ss;
@@ -102,7 +106,12 @@ namespace fl {
         Infix();
         virtual ~Infix();
 
-        virtual std::string toPostfix(const std::string& infixString);
+        enum SpacingLevel {
+            NO_SPACING = 0, BASIC_SPACING = 1, EXTENDED_SPACING = 2
+        };
+
+        virtual std::string toPostfix(const std::string& infixString,
+                SpacingLevel spacingLevel = BASIC_SPACING);
 
         virtual bool isOperand(const std::string& token) const;
         virtual bool isOperator(const std::string& token) const;
@@ -127,5 +136,5 @@ namespace fl {
         static void main();
     };
 
-} 
+}
 #endif /* FL_INFIX_H */
