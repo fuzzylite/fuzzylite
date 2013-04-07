@@ -43,10 +43,10 @@ namespace fl {
 
     scalar Triangle::membership(scalar x) const {
         if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
-        
+
         scalar minimum = _a;
         scalar maximum = _c;
-        if (Op::isLE(x, minimum) or Op::isGE(x, maximum))
+        if (Op::isLt(x, minimum) or Op::isGt(x, maximum))
             return 0.0;
         else if (Op::isEq(x, _b))
             return 1.0;
