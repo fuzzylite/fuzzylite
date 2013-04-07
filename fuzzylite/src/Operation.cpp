@@ -13,7 +13,7 @@
  limitations under the License.
  */
 
-#include "fl/operator/Operation.h"
+#include "fl/Operation.h"
 
 #include <algorithm>
 #include <cmath>
@@ -27,10 +27,14 @@
 namespace fl {
 
     scalar Operation::min(scalar a, scalar b) {
+        if (isNan(a)) return b;
+        if (isNan(b)) return a;
         return a < b ? a : b;
     }
 
     scalar Operation::max(scalar a, scalar b) {
+        if (isNan(a)) return b;
+        if (isNan(b)) return a;
         return a > b ? a : b;
     }
 

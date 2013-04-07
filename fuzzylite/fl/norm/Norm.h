@@ -14,34 +14,34 @@
  */
 
 /* 
- * File:   Operator.h
+ * File:   Norm.h
  * Author: jcrada
  *
- * Created on 21 December 2012, 9:31 AM
+ * Created on 7 April 2013, 10:06 PM
  */
 
-#ifndef FL_OPERATOR_H
-#define	FL_OPERATOR_H
+#ifndef FL_NORM_H
+#define	FL_NORM_H
 
 #include "fl/fuzzylite.h"
 
-#include "fl/operator/Operation.h"
+#include "fl/Operation.h"
 
 #include <string>
 
 namespace fl {
 
-    class FL_EXPORT Operator {
+    class FL_EXPORT Norm {
     public:
 
-        Operator() { }
+        Norm() { }
 
-        virtual ~Operator() { }
+        virtual ~Norm() { }
 
         virtual std::string className() const = 0;
         virtual scalar compute(scalar a, scalar b) const = 0;
 
     };
 }
-#endif	/* FL_OPERATOR_H */
+#endif	/* FL_NORM_H */
 

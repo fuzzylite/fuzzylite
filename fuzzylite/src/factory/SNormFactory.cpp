@@ -21,7 +21,7 @@
  */
 
 #include "fl/factory/SNormFactory.h"
-#include "fl/operator/SNorm.h"
+#include "fl/norm/SNorm.h"
 
 namespace fl {
 

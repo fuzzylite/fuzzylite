@@ -25,7 +25,7 @@
 
 #include "fl/fuzzylite.h"
 
-#include "fl/operator/Operator.h"
+#include "fl/norm/Norm.h"
 
 #include <string>
 #include <limits>

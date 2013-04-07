@@ -21,8 +21,7 @@
  */
 
 #include "fl/hedge/Seldom.h"
-
-#include "fl/operator/Operator.h"
+#include "fl/Operation.h"
 
 #include <cmath>
 

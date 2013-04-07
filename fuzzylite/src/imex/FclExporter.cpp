@@ -30,9 +30,9 @@
 #include "fl/term/Discrete.h"
 
 #include "fl/defuzzifier/Defuzzifier.h"
-#include "fl/operator/Operator.h"
-#include "fl/operator/TNorm.h"
-#include "fl/operator/SNorm.h"
+#include "fl/norm/Norm.h"
+#include "fl/norm/TNorm.h"
+#include "fl/norm/SNorm.h"
 
 #include "fl/defuzzifier/Centroid.h"
 #include "fl/defuzzifier/MaximumDefuzzifier.h"

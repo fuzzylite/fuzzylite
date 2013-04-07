@@ -236,7 +236,7 @@ namespace fl {
         return hedge->name();
     }
 
-    std::string CppExporter::toCpp(const Operator* op) const {
+    std::string CppExporter::toCpp(const Norm* op) const {
         if (not op) return "NULL";
         return "new fl::" + op->className();
     }

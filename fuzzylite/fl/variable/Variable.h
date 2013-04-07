@@ -27,7 +27,7 @@
 
 
 #include "fl/defuzzifier/Centroid.h"
-#include "fl/operator/Operator.h"
+#include "fl/norm/Norm.h"
 
 #include <string>
 #include <vector>

@@ -24,8 +24,8 @@
 
 #include "fl/rule/Rule.h"
 
-#include "fl/operator/TNorm.h"
-#include "fl/operator/SNorm.h"
+#include "fl/norm/TNorm.h"
+#include "fl/norm/SNorm.h"
 
 #include <sstream>
 

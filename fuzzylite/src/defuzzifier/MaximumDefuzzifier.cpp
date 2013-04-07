@@ -24,7 +24,6 @@
 
 #include "fl/term/Term.h"
 
-#include "fl/operator/Operator.h"
 #include "fl/Exception.h"
 
 

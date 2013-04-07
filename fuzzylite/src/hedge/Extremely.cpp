@@ -21,8 +21,7 @@
  */
 
 #include "fl/hedge/Extremely.h"
-
-#include "fl/operator/Operator.h"
+#include "fl/Operation.h"
 
 namespace fl {
 

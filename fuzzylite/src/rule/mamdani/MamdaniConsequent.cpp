@@ -31,7 +31,7 @@
 
 
 #include "fl/hedge/Hedge.h"
-#include "fl/operator/TNorm.h"
+#include "fl/norm/TNorm.h"
 
 #include "fl/term/Thresholded.h"
 #include "fl/term/Accumulated.h"

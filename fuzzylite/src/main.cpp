@@ -80,6 +80,17 @@ int main(int argc, char** argv) {
     std::cin.get();
     std::cout << "\n==========================================\n";
 
+//    example();
+    Infix::main();
+    
+    std::cout << "Bye, " << fl::fuzzylite::name() << "!\n\n";
+    std::cout << "Please visit http://www.fuzzylite.com\n\n"
+            "...and consider making a *donation* to support this project.\n\n"
+            "There are still many things to do!\n\n";
+
+}
+
+void example() {
     Engine* engine = new Engine("simple-dimmer");
 
     InputVariable* ambientLight = new InputVariable("AmbientLight", 0, 1);
@@ -123,11 +134,4 @@ int main(int argc, char** argv) {
     }
 
     std::cout << "\n\n";
-
-    std::cout << "Bye, " << fl::fuzzylite::name() << "!\n\n";
-    std::cout << "Please visit http://www.fuzzylite.com\n\n"
-            "...and consider making a *donation* to support this project.\n\n"
-            "There are still many things to do!\n\n";
-
 }
-

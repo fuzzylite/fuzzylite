@@ -22,7 +22,7 @@ ENDMACRO (TODAY)
 TODAY(FL_DATE)
 add_definitions(-DFL_DATE="${FL_DATE}")
 
-set(FL_VERSION 2.0)
+set(FL_VERSION 3.0)
 add_definitions(-DFL_VERSION="${FL_VERSION}")
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)

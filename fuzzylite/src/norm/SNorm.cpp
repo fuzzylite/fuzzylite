@@ -20,7 +20,7 @@
  * Created on 21 December 2012, 9:34 AM
  */
 
-#include "fl/operator/SNorm.h"
+#include "fl/norm/SNorm.h"
 
 namespace fl {
 

@@ -22,7 +22,7 @@
 
 #include "fl/factory/TNormFactory.h"
 
-#include "fl/operator/TNorm.h"
+#include "fl/norm/TNorm.h"
 
 namespace fl {
 

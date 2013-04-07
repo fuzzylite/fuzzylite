@@ -30,7 +30,7 @@
 #include <vector>
 
 namespace fl {
-    class Operator;
+    class Norm;
     class TNorm;
     class SNorm;
     class Term;

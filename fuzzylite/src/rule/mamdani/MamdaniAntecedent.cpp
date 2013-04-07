@@ -32,8 +32,8 @@
 
 #include "fl/rule/Rule.h"
 #include "fl/rule/Infix.h"
-#include "fl/operator/TNorm.h"
-#include "fl/operator/SNorm.h"
+#include "fl/norm/TNorm.h"
+#include "fl/norm/SNorm.h"
 
 
 
@@ -110,7 +110,7 @@ namespace fl {
         std::string postfix = infix.toPostfix(antecedent, Infix::BASIC_SPACING);
         std::stringstream tokenizer(postfix);
         std::string token;
-
+        
         enum FSM {
             S_VARIABLE = 1, S_IS = 2, S_HEDGE = 4, S_TERM = 8, S_OPERATOR = 16
         };

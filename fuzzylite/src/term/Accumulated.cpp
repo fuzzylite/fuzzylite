@@ -22,7 +22,7 @@
 
 #include "fl/term/Accumulated.h"
 
-#include "fl/operator/SNorm.h"
+#include "fl/norm/SNorm.h"
 
 #include <sstream>
 

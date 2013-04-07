@@ -25,7 +25,7 @@
 #include "fl/rule/Antecedent.h"
 #include "fl/rule/Consequent.h"
 
-#include "fl/operator/Operator.h"
+#include "fl/norm/Norm.h"
 #include <sstream>
 
 namespace fl {

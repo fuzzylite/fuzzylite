@@ -24,7 +24,7 @@
 
 #include "fl/term/Term.h"
 
-#include "fl/operator/Operator.h"
+#include "fl/norm/Norm.h"
 
 #include <algorithm>
 #include <sstream>

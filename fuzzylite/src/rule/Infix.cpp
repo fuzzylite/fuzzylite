@@ -23,13 +23,14 @@
 #include "fl/rule/Infix.h"
 
 #include "fl/rule/Rule.h"
-#include "fl/operator/Operator.h"
+#include "fl/norm/Norm.h"
 
 
 
 #include <cmath>
 #include <queue>
 #include <stack>
+#include <algorithm>
 
 namespace fl {
 
@@ -62,7 +63,8 @@ namespace fl {
     }
 
     bool Infix::isOperator(const std::string& name) const {
-        return _genericOperators.find(name) != _genericOperators.end();
+        return name == fl::Rule::FL_AND || name == fl::Rule::FL_OR ||
+                _genericOperators.find(name) != _genericOperators.end();
     }
 
     bool Infix::isFunction(const std::string& name) const {
@@ -301,7 +303,7 @@ namespace fl {
         //y x * sin 2 ^ x /
 
         notation = "(Temperature is High and Oxigen is Low) or "
-            "(Temperature is Low and (Oxigen is Low or Oxigen is High))";
+                "(Temperature is Low and (Oxigen is Low or Oxigen is High))";
         FL_LOG(infix.toPostfix(notation));
         //Temperature is High Oxigen is Low and Temperature is Low Oxigen is Low Oxigen is High or and or
 

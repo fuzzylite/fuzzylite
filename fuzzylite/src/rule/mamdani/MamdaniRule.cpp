@@ -25,7 +25,7 @@
 #include "fl/rule/mamdani/MamdaniAntecedent.h"
 #include "fl/rule/mamdani/MamdaniConsequent.h"
 
-#include "fl/operator/Operator.h"
+#include "fl/norm/Norm.h"
 
 #include "fl/Exception.h"
 

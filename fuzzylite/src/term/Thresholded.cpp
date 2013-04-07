@@ -22,7 +22,7 @@
 
 #include "fl/term/Thresholded.h"
 
-#include "fl/operator/TNorm.h"
+#include "fl/norm/TNorm.h"
 
 
 #include <sstream>

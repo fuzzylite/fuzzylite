@@ -53,10 +53,10 @@
 #include "fl/hedge/Somewhat.h"
 #include "fl/hedge/Very.h"
 
-#include "fl/operator/Operation.h"
-#include "fl/operator/Operator.h"
-#include "fl/operator/SNorm.h"
-#include "fl/operator/TNorm.h"
+#include "fl/Operation.h"
+#include "fl/norm/Norm.h"
+#include "fl/norm/SNorm.h"
+#include "fl/norm/TNorm.h"
 
 #include "fl/rule/Antecedent.h"
 #include "fl/rule/Consequent.h"

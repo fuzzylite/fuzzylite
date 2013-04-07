@@ -50,13 +50,12 @@ namespace fl {
         if (Op::isLt(x, minimum) or Op::isGt(x, maximum))
             return 0.0;
         else if (Op::isLE(x, _b))
-            return (x - minimum) / (_b - minimum);
+            return Op::min(1.0, (x - minimum) / (_b - minimum));
         else if (Op::isLE(x, _c))
             return 1.0;
         else if (Op::isLE(x, maximum))
             return (maximum - x) / (maximum - _c);
-        else
-            return 0.0;
+        return 0.0;
     }
 
     std::string Trapezoid::toString() const {
