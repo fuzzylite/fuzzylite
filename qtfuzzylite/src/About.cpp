@@ -16,7 +16,7 @@
 
     Juan Rada-Vilela, 01 February 2013
     jcrada@fuzzylite.com
-**/
+ **/
 
 /* 
  * File:   About.cpp
@@ -29,6 +29,9 @@
 
 #include "fl/qt/About.h"
 #include "fl/qt/qtfuzzylite.h"
+
+#include <QtGui/QDesktopServices>
+#include <QtCore/QUrl>
 
 namespace fl {
     namespace qt {
@@ -50,25 +53,25 @@ namespace fl {
             ui->setupUi(this);
 
             _generosityTerm.push_back("low");
-            _generosityValue.push_back(10);
+            _generosityValue.push_back("$1");
             _generosityTerm.push_back("Low");
-            _generosityValue.push_back(20);
+            _generosityValue.push_back("$2");
             _generosityTerm.push_back("LOW");
-            _generosityValue.push_back(50);
+            _generosityValue.push_back("$5");
 
             _generosityTerm.push_back("medium");
-            _generosityValue.push_back(100);
+            _generosityValue.push_back("$10");
             _generosityTerm.push_back("Medium");
-            _generosityValue.push_back(200);
+            _generosityValue.push_back("$20");
             _generosityTerm.push_back("MEDIUM");
-            _generosityValue.push_back(500);
+            _generosityValue.push_back("$50");
 
             _generosityTerm.push_back("high");
-            _generosityValue.push_back(1000);
+            _generosityValue.push_back("$100");
             _generosityTerm.push_back("High");
-            _generosityValue.push_back(2000);
+            _generosityValue.push_back("$200");
             _generosityTerm.push_back("HIGH");
-            _generosityValue.push_back(5000);
+            _generosityValue.push_back("$500");
 
             ui->sld_generosity->setMinimum(0);
             ui->sld_generosity->setMaximum(_generosityTerm.size() - 1);
@@ -78,7 +81,9 @@ namespace fl {
             ui->sld_generosity->setTickInterval(1);
 
             for (std::size_t i = 0; i < _generosityTerm.size(); ++i) {
-                ui->cbx_generosity->addItem("$" + QString::number(_generosityValue.at(i)) + " - " + QString::fromStdString(_generosityTerm.at(i)));
+                ui->cbx_generosity->addItem(
+                        QString::fromStdString(_generosityValue.at(i)) + " - " +
+                        QString::fromStdString(_generosityTerm.at(i)));
             }
 
             ui->lbl_donate->setTextFormat(Qt::RichText);
@@ -144,12 +149,18 @@ namespace fl {
         }
 
         void About::changeDonation() {
-            std::string href = "https://www.paypal.com/cgi-bin/webscr?"
-                    "cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity";
-            std::string param = "&os0=" + _generosityTerm.at(ui->sld_generosity->value());
+            std::string href = "http://www.fuzzylite.com/donation.php";
+            std::string param = "?generosity=" + _generosityTerm.at(ui->sld_generosity->value());
             ui->lbl_donate->setText(QString::fromStdString(
                     "<qt><a href='" + href + param + "'>"
                     "<img src=':/icons/donate.png'/></a></qt>"));
+        }
+
+        void About::accept() {
+            std::string href = "http://www.fuzzylite.com/donation.php";
+            std::string param = "?generosity=" + _generosityTerm.at(ui->sld_generosity->value());
+            QDesktopServices::openUrl(QUrl(QString::fromStdString(href + param)));
+            QDialog::accept();
         }
 
     }

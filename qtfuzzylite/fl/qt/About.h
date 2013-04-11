@@ -50,7 +50,7 @@ namespace fl {
             void changeDonation();
             
             std::vector<std::string> _generosityTerm;
-            std::vector<int> _generosityValue;
+            std::vector<std::string> _generosityValue;
 
 
         public:
@@ -59,6 +59,7 @@ namespace fl {
             ~About();
 
             void setup();
+            void accept();
         };
     }
 }
