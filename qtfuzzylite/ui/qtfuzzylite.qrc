@@ -1,22 +1,23 @@
 <RCC>
   <qresource>
-    <file>icons/colorize.png</file>
-    <file>icons/messagebox_info.png</file>
-    <file>icons/exit.png</file>
-    <file>icons/filenew.png</file>
-    <file>icons/configure.png</file>
-    <file>icons/top.png</file>
-    <file>icons/bottom.png</file>
-    <file>icons/1uparrow.png</file>
-    <file>icons/down.png</file>
-    <file>icons/up.png</file>
-    <file>icons/spellcheck.png</file>
-    <file>icons/wizard.png</file>
-    <file>icons/edit_add.png</file>
-    <file>icons/edit_remove.png</file>
-    <file>icons/pencil.png</file>
-    <file>icons/donate.png</file>
-    <file>icons/qtfuzzylite.png</file>
-    <file>icons/generosity.png</file>
+    <file alias="terms.png">icons/document-page-setup.png</file>
+    <file alias="about.png">icons/help-about.png</file>
+    <file alias="quit.png">icons/system-shutdown-restart-panel.png</file>
+    <file alias="new.png">icons/document-new.png</file>
+    <file alias="settings.png">icons/document-properties.png</file>
+    <file alias="export.png">icons/document-export.png</file>
+    <file alias="import.png">icons/document-import.png</file>
+    <file alias="down.png">icons/go-down.png</file>
+    <file alias="up.png">icons/go-up.png</file>
+    <file alias="spellcheck.png">icons/tools-check-spelling.png</file>
+    <file alias="create-rules.png">icons/format-indent-more.png</file>
+    <file alias="clone.png">icons/view-list-icons-symbolic.png</file>
+    <file alias="process.png">icons/system-run.png</file>
+    <file alias="add.png">icons/list-add.png</file>
+    <file alias="remove.png">icons/list-remove.png</file>
+    <file alias="edit.png">icons/gtk-edit.png</file>
+    <file alias="donate.png">icons/donate.png</file>
+    <file alias="qtfuzzylite.png">icons/qtfuzzylite.png</file>
+    <file alias="generosity.png">icons/generosity.png</file>
   </qresource>
 </RCC>

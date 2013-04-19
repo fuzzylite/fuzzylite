@@ -20,7 +20,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Wizard</string>
+   <string>Multiple copies</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>

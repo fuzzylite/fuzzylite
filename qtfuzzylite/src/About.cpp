@@ -18,10 +18,10 @@
     jcrada@fuzzylite.com
  **/
 
-/* 
+/*
  * File:   About.cpp
  * Author: jcrada
- * 
+ *
  * Created on 25 January 2013, 6:00 PM
  */
 
@@ -98,7 +98,7 @@ namespace fl {
                     "<table>"
                     "<tr >"
                     "<td align='center' valign='middle'>"
-                    "<a href='http://www.fuzzylite.com'><img src=':/icons/qtfuzzylite.png'/></a>"
+                    "<a href='http://www.fuzzylite.com'><img src=':/qtfuzzylite.png'/></a>"
                     "</td>"
                     "<td align='left' valign='top'>"
                     "<b>" + fl::qt::qtfuzzylite::fullname() + "</b> "
@@ -153,7 +153,7 @@ namespace fl {
             std::string param = "?generosity=" + _generosityTerm.at(ui->sld_generosity->value());
             ui->lbl_donate->setText(QString::fromStdString(
                     "<qt><a href='" + href + param + "'>"
-                    "<img src=':/icons/donate.png'/></a></qt>"));
+                    "<img src=':/donate.png'/></a></qt>"));
         }
 
         void About::accept() {

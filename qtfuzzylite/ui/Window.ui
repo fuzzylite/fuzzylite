@@ -26,7 +26,7 @@
    <string>qtfuzzylite</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="qtfuzzylite.qrc">
+   <iconset>
     <normaloff>:/icons/qtfuzzylite.png</normaloff>:/icons/qtfuzzylite.png</iconset>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
@@ -133,7 +133,7 @@
                     </property>
                     <property name="icon">
                      <iconset resource="qtfuzzylite.qrc">
-                      <normaloff>:/icons/edit_add.png</normaloff>:/icons/edit_add.png</iconset>
+                      <normaloff>:/add.png</normaloff>:/add.png</iconset>
                     </property>
                     <property name="shortcut">
                      <string>Ctrl+Shift+I</string>
@@ -153,7 +153,7 @@
                     </property>
                     <property name="icon">
                      <iconset resource="qtfuzzylite.qrc">
-                      <normaloff>:/icons/edit_remove.png</normaloff>:/icons/edit_remove.png</iconset>
+                      <normaloff>:/remove.png</normaloff>:/remove.png</iconset>
                     </property>
                    </widget>
                   </item>
@@ -170,7 +170,7 @@
                     </property>
                     <property name="icon">
                      <iconset resource="qtfuzzylite.qrc">
-                      <normaloff>:/icons/pencil.png</normaloff>:/icons/pencil.png</iconset>
+                      <normaloff>:/edit.png</normaloff>:/edit.png</iconset>
                     </property>
                    </widget>
                   </item>
@@ -223,7 +223,7 @@
                     </property>
                     <property name="icon">
                      <iconset resource="qtfuzzylite.qrc">
-                      <normaloff>:/icons/edit_add.png</normaloff>:/icons/edit_add.png</iconset>
+                      <normaloff>:/add.png</normaloff>:/add.png</iconset>
                     </property>
                     <property name="shortcut">
                      <string>Ctrl+Shift+O</string>
@@ -243,7 +243,7 @@
                     </property>
                     <property name="icon">
                      <iconset resource="qtfuzzylite.qrc">
-                      <normaloff>:/icons/edit_remove.png</normaloff>:/icons/edit_remove.png</iconset>
+                      <normaloff>:/remove.png</normaloff>:/remove.png</iconset>
                     </property>
                    </widget>
                   </item>
@@ -260,7 +260,7 @@
                     </property>
                     <property name="icon">
                      <iconset resource="qtfuzzylite.qrc">
-                      <normaloff>:/icons/pencil.png</normaloff>:/icons/pencil.png</iconset>
+                      <normaloff>:/edit.png</normaloff>:/edit.png</iconset>
                     </property>
                    </widget>
                   </item>
@@ -326,7 +326,7 @@
                    </property>
                    <property name="icon">
                     <iconset resource="qtfuzzylite.qrc">
-                     <normaloff>:/icons/wizard.png</normaloff>:/icons/wizard.png</iconset>
+                     <normaloff>:/create-rules.png</normaloff>:/create-rules.png</iconset>
                    </property>
                   </widget>
                  </item>
@@ -340,7 +340,7 @@
                    </property>
                    <property name="icon">
                     <iconset resource="qtfuzzylite.qrc">
-                     <normaloff>:/icons/spellcheck.png</normaloff>:/icons/spellcheck.png</iconset>
+                     <normaloff>:/spellcheck.png</normaloff>:/spellcheck.png</iconset>
                    </property>
                    <property name="shortcut">
                     <string>Ctrl+Shift+Return</string>
@@ -754,7 +754,7 @@
   <action name="actionPreferences">
    <property name="icon">
     <iconset resource="qtfuzzylite.qrc">
-     <normaloff>:/icons/configure.png</normaloff>:/icons/configure.png</iconset>
+     <normaloff>:/settings.png</normaloff>:/settings.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Preferences</string>
@@ -769,7 +769,7 @@
   <action name="actionTerms">
    <property name="icon">
     <iconset resource="qtfuzzylite.qrc">
-     <normaloff>:/icons/colorize.png</normaloff>:/icons/colorize.png</iconset>
+     <normaloff>:/terms.png</normaloff>:/terms.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Terms</string>
@@ -787,7 +787,7 @@
    </property>
    <property name="icon">
     <iconset resource="qtfuzzylite.qrc">
-     <normaloff>:/icons/bottom.png</normaloff>:/icons/bottom.png</iconset>
+     <normaloff>:/import.png</normaloff>:/import.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Import</string>
@@ -805,7 +805,7 @@
    </property>
    <property name="icon">
     <iconset resource="qtfuzzylite.qrc">
-     <normaloff>:/icons/top.png</normaloff>:/icons/top.png</iconset>
+     <normaloff>:/export.png</normaloff>:/export.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Export</string>
@@ -820,7 +820,7 @@
   <action name="actionNew">
    <property name="icon">
     <iconset resource="qtfuzzylite.qrc">
-     <normaloff>:/icons/filenew.png</normaloff>:/icons/filenew.png</iconset>
+     <normaloff>:/new.png</normaloff>:/new.png</iconset>
    </property>
    <property name="text">
     <string>&amp;New engine</string>
@@ -834,8 +834,8 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset resource="qtfuzzylite.qrc">
-     <normaloff>:/icons/messagebox_info.png</normaloff>:/icons/messagebox_info.png</iconset>
+    <iconset>
+     <normaloff>:/about.png</normaloff>:/about.png</iconset>
    </property>
    <property name="text">
     <string>&amp;About qtfuzzylite</string>
@@ -850,7 +850,7 @@
   <action name="actionQuit">
    <property name="icon">
     <iconset resource="qtfuzzylite.qrc">
-     <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
+     <normaloff>:/quit.png</normaloff>:/quit.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Quit</string>

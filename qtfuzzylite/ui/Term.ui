@@ -14,7 +14,7 @@
    <string>Term</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="qtfuzzylite.qrc">
+   <iconset>
     <normaloff>:/icons/colorize.png</normaloff>:/icons/colorize.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -48,12 +48,18 @@
         <property name="focusPolicy">
          <enum>Qt::StrongFocus</enum>
         </property>
-        <property name="text">
+        <property name="toolTip">
          <string>Create multiple copies</string>
+        </property>
+        <property name="whatsThis">
+         <string/>
+        </property>
+        <property name="text">
+         <string/>
         </property>
         <property name="icon">
          <iconset resource="qtfuzzylite.qrc">
-          <normaloff>:/icons/wizard.png</normaloff>:/icons/wizard.png</iconset>
+          <normaloff>:/clone.png</normaloff>:/clone.png</iconset>
         </property>
        </widget>
       </item>
@@ -89,7 +95,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideMiddle</enum>
@@ -123,15 +129,15 @@
             <bool>true</bool>
            </property>
            <property name="currentIndex">
-            <number>3</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="page">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>108</width>
-              <height>123</height>
+              <width>227</width>
+              <height>219</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -516,7 +522,7 @@ sure 'x' is followed by 'y'.</string>
                     </property>
                     <property name="icon">
                      <iconset resource="qtfuzzylite.qrc">
-                      <normaloff>:/icons/spellcheck.png</normaloff>:/icons/spellcheck.png</iconset>
+                      <normaloff>:/process.png</normaloff>:/process.png</iconset>
                     </property>
                     <property name="toolButtonStyle">
                      <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -650,8 +656,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>227</width>
-              <height>157</height>
+              <width>147</width>
+              <height>156</height>
              </rect>
             </property>
             <attribute name="label">

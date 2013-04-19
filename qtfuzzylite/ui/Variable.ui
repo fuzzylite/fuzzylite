@@ -170,7 +170,7 @@
            </property>
            <property name="icon">
             <iconset resource="qtfuzzylite.qrc">
-             <normaloff>:/icons/edit_add.png</normaloff>:/icons/edit_add.png</iconset>
+             <normaloff>:/add.png</normaloff>:/add.png</iconset>
            </property>
           </widget>
          </item>
@@ -187,7 +187,7 @@
            </property>
            <property name="icon">
             <iconset resource="qtfuzzylite.qrc">
-             <normaloff>:/icons/edit_remove.png</normaloff>:/icons/edit_remove.png</iconset>
+             <normaloff>:/remove.png</normaloff>:/remove.png</iconset>
            </property>
           </widget>
          </item>
@@ -204,7 +204,7 @@
            </property>
            <property name="icon">
             <iconset resource="qtfuzzylite.qrc">
-             <normaloff>:/icons/pencil.png</normaloff>:/icons/pencil.png</iconset>
+             <normaloff>:/edit.png</normaloff>:/edit.png</iconset>
            </property>
           </widget>
          </item>
@@ -218,7 +218,7 @@
            </property>
            <property name="icon">
             <iconset resource="qtfuzzylite.qrc">
-             <normaloff>:/icons/up.png</normaloff>:/icons/up.png</iconset>
+             <normaloff>:/up.png</normaloff>:/up.png</iconset>
            </property>
           </widget>
          </item>
@@ -232,7 +232,7 @@
            </property>
            <property name="icon">
             <iconset resource="qtfuzzylite.qrc">
-             <normaloff>:/icons/down.png</normaloff>:/icons/down.png</iconset>
+             <normaloff>:/down.png</normaloff>:/down.png</iconset>
            </property>
           </widget>
          </item>
