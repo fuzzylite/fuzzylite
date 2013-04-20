@@ -181,7 +181,7 @@
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
-                  <widget class="QListWidget" name="lvw_inputs">
+                  <widget class="fl::qt::TermListWidget" name="lvw_inputs">
                    <property name="selectionMode">
                     <enum>QAbstractItemView::ExtendedSelection</enum>
                    </property>
@@ -271,7 +271,7 @@
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
-                  <widget class="QListWidget" name="lvw_outputs">
+                  <widget class="fl::qt::TermListWidget" name="lvw_outputs">
                    <property name="selectionMode">
                     <enum>QAbstractItemView::ExtendedSelection</enum>
                    </property>
@@ -317,35 +317,88 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QToolButton" name="btn_generate_rules">
-                   <property name="toolTip">
-                    <string notr="true">Generate all possible of rules</string>
+                  <spacer name="horizontalSpacer_2">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
                    </property>
-                   <property name="text">
-                    <string/>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
                    </property>
-                   <property name="icon">
-                    <iconset resource="qtfuzzylite.qrc">
-                     <normaloff>:/create-rules.png</normaloff>:/create-rules.png</iconset>
-                   </property>
-                  </widget>
+                  </spacer>
                  </item>
                  <item>
-                  <widget class="QToolButton" name="btn_parse_rules">
-                   <property name="toolTip">
-                    <string>Parse all rules</string>
+                  <layout class="QHBoxLayout" name="horizontalLayout">
+                   <property name="leftMargin">
+                    <number>0</number>
                    </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="qtfuzzylite.qrc">
-                     <normaloff>:/spellcheck.png</normaloff>:/spellcheck.png</iconset>
-                   </property>
-                   <property name="shortcut">
-                    <string>Ctrl+Shift+Return</string>
-                   </property>
-                  </widget>
+                   <item>
+                    <spacer name="horizontalSpacer">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="cbx_rule_model">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string>Mamdani</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Takagi-Sugeno</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QToolButton" name="btn_generate_rules">
+                     <property name="toolTip">
+                      <string notr="true">Generate all possible of rules</string>
+                     </property>
+                     <property name="text">
+                      <string/>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="qtfuzzylite.qrc">
+                       <normaloff>:/create-rules.png</normaloff>:/create-rules.png</iconset>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QToolButton" name="btn_parse_rules">
+                     <property name="toolTip">
+                      <string>Parse all rules</string>
+                     </property>
+                     <property name="text">
+                      <string/>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="qtfuzzylite.qrc">
+                       <normaloff>:/spellcheck.png</normaloff>:/spellcheck.png</iconset>
+                     </property>
+                     <property name="shortcut">
+                      <string>Ctrl+Shift+Return</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </item>
                 </layout>
                </item>
@@ -757,10 +810,10 @@
      <normaloff>:/settings.png</normaloff>:/settings.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Preferences</string>
+    <string>&amp;Settings</string>
    </property>
    <property name="toolTip">
-    <string>Preferences</string>
+    <string>Settings</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+,</string>
@@ -834,7 +887,7 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset>
+    <iconset resource="qtfuzzylite.qrc">
      <normaloff>:/about.png</normaloff>:/about.png</iconset>
    </property>
    <property name="text">
@@ -863,6 +916,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>fl::qt::TermListWidget</class>
+   <extends>QListWidget</extends>
+   <header>fl/qt/TermListWidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="qtfuzzylite.qrc"/>
  </resources>

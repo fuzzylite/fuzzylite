@@ -138,6 +138,9 @@ namespace fl {
             spacerLayout->addSpacerItem(spacer);
             widget->setLayout(spacerLayout);
             ui->toolBar->insertWidget(ui->toolBar->actions().last(), widget);
+            
+            ui->lvw_inputs->setVariableType("input");
+            ui->lvw_outputs->setVariableType("output");
 
             connect();
         }
@@ -396,6 +399,15 @@ namespace fl {
         /**
          * Events
          */
+        
+        void Window::onContextMenuRequest(const QPoint& point){
+            FL_LOG("Context menu requested at " << point.x() << ", " << point.y());
+            QWidget* widget = this->childAt(point);
+            if (widget){
+                FL_LOG(widget->objectName().toStdString());
+            }
+        }
+        
         void Window::onChangeInputSelection() {
             ui->btn_remove_input->setEnabled(
                     ui->lvw_inputs->selectedItems().size() > 0);

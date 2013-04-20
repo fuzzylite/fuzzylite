@@ -71,6 +71,7 @@ set(qtfl-headers
     fl/qt/Control.h
     fl/qt/Preferences.h
     fl/qt/Term.h
+    fl/qt/TermListWidget.h
     fl/qt/Variable.h
     fl/qt/Viewer.h
     fl/qt/Window.h
@@ -84,6 +85,7 @@ set(qtfl-sources
     src/Model.cpp
     src/Preferences.cpp
     src/Term.cpp
+    src/TermListWidget.cpp
     src/Variable.cpp
     src/Viewer.cpp
     src/Window.cpp

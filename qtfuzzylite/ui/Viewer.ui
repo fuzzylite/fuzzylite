@@ -27,7 +27,7 @@
     <number>0</number>
    </property>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="mainLayout">
      <property name="spacing">
       <number>0</number>
      </property>

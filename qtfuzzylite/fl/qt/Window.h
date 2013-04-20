@@ -30,7 +30,6 @@
 
 #include <QtGui/QMainWindow>
 #include <QtGui/QAction>
-
 #include "ui_Window.h"
 #include <fl/Headers.h>
 
@@ -48,6 +47,8 @@ namespace fl {
             void processOutput();
 
         protected slots:
+            void onContextMenuRequest(const QPoint&);
+            
             void onChangeInputSelection();
             void onChangeOutputSelection();
             void onDoubleClickInputItem(QListWidgetItem* item);
