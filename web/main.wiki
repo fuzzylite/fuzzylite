@@ -5,8 +5,8 @@ Please consider making a *donation* to support these projects.
 There are still many things to do!
 
 <div style="text-align: center;">
-|| *NZD* || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=low 10$] || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=Low 20$] || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=LOW 50$] || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=medium 100$] || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=Medium 200$] || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=MEDIUM 500$] || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=high 1000$] || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=High 2000$] || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=HIGH 5000$] ||
-|| *Generosity* ||  [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=low low ] || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=Low Low ] || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=LOW LOW ] || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=medium med ] || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=Medium Med ] || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=MEDIUM MED ] || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=high high ] || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=High High ] || [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NEP8FHAW8FJ8S&on0=Generosity&os0=HIGH HIGH ] || https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif ||
+|| *NZD* || [http://www.fuzzylite.com/donation.php?generosity=low 1$] || [http://www.fuzzylite.com/donation.php?generosity=Low 2$] || [http://www.fuzzylite.com/donation.php?generosity=LOW 5$] || [http://www.fuzzylite.com/donation.php?generosity=medium 10$] || [http://www.fuzzylite.com/donation.php?generosity=Medium 20$] || [http://www.fuzzylite.com/donation.php?generosity=MEDIUM 50$] || [http://www.fuzzylite.com/donation.php?generosity=high 100$] || [http://www.fuzzylite.com/donation.php?generosity=High 200$] || [http://www.fuzzylite.com/donation.php?generosity=HIGH 500$] ||
+|| *Generosity* ||  [http://www.fuzzylite.com/donation.php?generosity=low low ] || [http://www.fuzzylite.com/donation.php?generosity=Low Low ] || [http://www.fuzzylite.com/donation.php?generosity=LOW LOW ] || [http://www.fuzzylite.com/donation.php?generosity=medium med ] || [http://www.fuzzylite.com/donation.php?generosity=Medium Med ] || [http://www.fuzzylite.com/donation.php?generosity=MEDIUM MED ] || [http://www.fuzzylite.com/donation.php?generosity=high high ] || [http://www.fuzzylite.com/donation.php?generosity=High High ] || [http://www.fuzzylite.com/donation.php?generosity=HIGH HIGH ] || https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif ||
 </div>
 
 
@@ -116,15 +116,24 @@ An example of *`fuzzylite-1.x`* working in real-time:
 //from:
 //if (Op::isLE(x, minimum) or Op::isGE(x, maximum))
 //to:
-if (Op::isLt(x, minimum) or Op::isGt(x, maximum))
-</code>
-  * Similarly, the membership function of Trapezoid returns 0 when a=b or when c=d. This can be fixed by changing line 50 of src/term/Trapezoid.cpp as:
+if (Op::isLt(x, minimum) or Op::isGt(x, maximum))</code>
+
+  * Similarly, the membership function of Trapezoid returns 0 when a=b or when c=d. This can be fixed by changing the method Trapezoid::membership(scalar) in src/term/Trapezoid.cpp to:
 <code language="cpp">
-//from:
-//if (Op::isLE(x, minimum) or Op::isGE(x, maximum))
-//to:
-if (Op::isLt(x, minimum) or Op::isGt(x, maximum))
-</code>
+scalar Trapezoid::membership(scalar x) const {
+    if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
+    scalar minimum = _a;
+    scalar maximum = _d;
+    if (Op::isLt(x, minimum) or Op::isGt(x, maximum))
+        return 0.0;
+    else if (Op::isLE(x, _b))
+        return (Op::isEq(_b, minimum)) ? 1.0 : (x - minimum) / (_b - minimum);
+    else if (Op::isLE(x, _c))
+        return 1.0;
+    else if (Op::isLE(x, maximum))
+        return (maximum - x) / (maximum - _c);
+    return 0.0;
+}</code>
 
 
 
