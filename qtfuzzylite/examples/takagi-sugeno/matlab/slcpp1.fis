@@ -1,0 +1,87 @@
+% $Revision: 1.1 $
+[System]
+Name = 'slcpp'
+Type = 'sugeno'
+NumInputs = 7
+NumOutputs = 1
+NumRules = 11
+AndMethod = 'prod'
+OrMethod = 'max'
+ImpMethod = 'prod'
+AggMethod = 'max'
+DefuzzMethod = 'wtaver'
+
+[Input1]
+Name = 'in1'
+Range = [-0.3 0.3]
+NumMFs = 0
+
+[Input2]
+Name = 'in2'
+Range = [-1 1]
+NumMFs = 0
+
+[Input3]
+Name = 'in3'
+Range = [-3 3]
+NumMFs = 0
+
+[Input4]
+Name = 'in4'
+Range = [-3 3]
+NumMFs = 0
+
+[Input5]
+Name = 'in5'
+Range = [-3 3]
+NumMFs = 0
+
+[Input6]
+Name = 'in6'
+Range = [-3 3]
+NumMFs = 0
+
+[Input7]
+Name = 'pole_length'
+Range = [0.5 1.5]
+NumMFs = 11
+MF1='mf1':'zmf',    [0.5 0.6 0 0]
+MF2='mf2':'pimf',   [0.5 0.6 0.6 0.7]
+MF3='mf3':'pimf',   [0.6 0.7 0.7 0.8]
+MF4='mf4':'pimf',   [0.7 0.8 0.8 0.9]
+MF5='mf5':'pimf',   [0.8 0.9 0.9 1.0]
+MF6='mf6':'pimf',   [0.9 1.0 1.0 1.1]
+MF7='mf7':'pimf',   [1.0 1.1 1.1 1.2]
+MF8='mf8':'pimf',   [1.1 1.2 1.2 1.3]
+MF9='mf9':'pimf',   [1.2 1.3 1.3 1.4]
+MF10='mf10':'pimf', [1.3 1.4 1.4 1.5]
+MF11='mf11':'smf',  [1.4 1.5 0 0]
+
+[Output1]
+Name = 'out'
+Range = [-10 10]
+NumMFs = 11
+MF1='outmf1':'linear',[  168.40   31.00  -188.05  -49.25 -1.00 -2.70 0 0]
+MF2='outmf2':'linear',[  233.95   47.19  -254.52  -66.58 -1.00 -2.74 0 0]
+MF3='outmf3':'linear',[  342.94   74.73  -364.37  -95.23 -1.00 -2.78 0 0]
+MF4='outmf4':'linear',[  560.71  130.67  -582.96 -152.24 -1.00 -2.81 0 0]
+MF5='outmf5':'linear',[ 1213.88  300.19 -1236.90 -322.80 -1.00 -2.84 0 0]
+MF6='outmf6':'linear',[0 0 0 0 0 0 0 0]
+MF7='outmf7':'linear',[-1399.12 -382.95  1374.63  358.34 -1.00 -2.90 0 0]
+MF8='outmf8':'linear',[ -746.07 -213.42   720.90  187.84 -1.00 -2.93 0 0]
+MF9='outmf9':'linear',[ -528.52 -157.46   502.68  130.92 -1.00 -2.96 0 0]
+MF10='outmf10':'linear',[-419.87 -129.89  393.38  102.41 -1.00 -2.98 0 0]
+MF11='outmf11':'linear',[-354.77 -113.68  327.65   85.27 -1.00 -3.01 0 0]
+
+[Rules]
+0 0 0 0 0 0 1, 1 (1) : 1  
+0 0 0 0 0 0 2, 2 (1) : 1  
+0 0 0 0 0 0 3, 3 (1) : 1  
+0 0 0 0 0 0 4, 4 (1) : 1  
+0 0 0 0 0 0 5, 5 (1) : 1  
+0 0 0 0 0 0 6, 6 (1) : 1  
+0 0 0 0 0 0 7, 7 (1) : 1  
+0 0 0 0 0 0 8, 8 (1) : 1  
+0 0 0 0 0 0 9, 9 (1) : 1  
+0 0 0 0 0 0 10, 10 (1) : 1  
+0 0 0 0 0 0 11, 11 (1) : 1  

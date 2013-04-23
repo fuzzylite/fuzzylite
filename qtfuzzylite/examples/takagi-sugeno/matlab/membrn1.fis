@@ -1,0 +1,41 @@
+% $Revision: 1.1 $
+[System]
+Name='anfis'
+Type='sugeno'
+NumInputs=2
+NumOutputs=1
+NumRules=4
+AndMethod='prod'
+OrMethod='max'
+ImpMethod='prod'
+AggMethod='max'
+DefuzzMethod='wtaver'
+
+[Input1]
+Name='in_n1'
+Range=[1 31]
+NumMFs=2
+MF1='in1mf1':'gbellmf',[16.2199055462293 5.05020338286727 2.25254640934887]
+MF2='in1mf2':'gbellmf',[15.0210593527954 1.84261943614387 31.259908325848]
+
+[Input2]
+Name='in_n2'
+Range=[1 31]
+NumMFs=2
+MF1='in2mf1':'gbellmf',[15.0211175980181 1.84261726909921 0.740149747023421]
+MF2='in2mf2':'gbellmf',[16.2199082216667 5.05018533737635 29.74745555681]
+
+[Output1]
+Name='out1'
+Range=[-0.333847051599131 1]
+NumMFs=4
+MF1='out1mf1':'linear',[0.0260009146421495 0.0706901268840033 -0.615444922441688]
+MF2='out1mf2':'linear',[-0.0357887304009632 0.0357890670361583 -1.16903427964498]
+MF3='out1mf3':'linear',[-0.0940312692422006 0.0940315480738297 2.23076004069898]
+MF4='out1mf4':'linear',[-0.0706897401818134 -0.0260006482594766 2.47864420002172]
+
+[Rules]
+1 1, 1 (1) : 1 
+1 2, 2 (1) : 1 
+2 1, 3 (1) : 1 
+2 2, 4 (1) : 1 

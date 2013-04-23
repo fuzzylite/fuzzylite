@@ -1,0 +1,30 @@
+% $Revision: 1.1 $
+[System]
+Name='sugeno'
+Type='sugeno'
+NumInputs=1
+NumOutputs=1
+NumRules=2
+AndMethod='prod'
+OrMethod='probor'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='wtaver'
+
+[Input1]
+Name='input'
+Range=[-5 5]
+NumMFs=2
+MF1='low':'gaussmf',[4 -5]
+MF2='high':'gaussmf',[4 5]
+
+[Output1]
+Name='output'
+Range=[0 1]
+NumMFs=2
+MF1='line1':'linear',[-1 -1]
+MF2='line2':'linear',[1 -1]
+
+[Rules]
+1, 1 (1) : 1 
+2, 2 (1) : 1 

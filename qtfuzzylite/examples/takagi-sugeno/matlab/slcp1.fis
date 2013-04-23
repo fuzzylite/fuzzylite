@@ -1,0 +1,53 @@
+% $Revision: 1.1 $
+[System]
+Name = 'slcp1'
+Type = 'sugeno'
+NumInputs = 5
+NumOutputs = 1
+NumRules = 3
+AndMethod = 'prod'
+OrMethod = 'max'
+ImpMethod = 'prod'
+AggMethod = 'max'
+DefuzzMethod = 'wtaver'
+
+[Input1]
+Name = 'in1'
+Range = [-0.3 0.3]
+NumMFs = 0
+
+[Input2]
+Name = 'in2'
+Range = [-1 1]
+NumMFs = 0
+
+[Input3]
+Name = 'in3'
+Range = [-3 3]
+NumMFs = 0
+
+[Input4]
+Name = 'in4'
+Range = [-3 3]
+NumMFs = 0
+
+[Input5]
+Name = 'in5'
+Range = [0.5 1.5]
+NumMFs = 3
+MF1='small':'gaussmf', [0.2 0.5 0 0]
+MF2='medium':'gaussmf',[0.2 1   0 0]
+MF2='large':'gaussmf', [0.2 1.5 0 0]
+
+[Output1]
+Name = 'out'
+Range = [-10 10]
+NumMFs = 3
+MF1='outmf1':'linear',[32.1664    5.8351    3.1623    3.7574 0 0]
+MF2='outmf2':'linear',[39.0119    9.9474    3.1623    4.2685 0 0]
+MF3='outmf3':'linear',[45.0094   13.9847    3.1623    4.6663 0 0]
+
+[Rules]
+0 0 0 0 1, 1 (1) : 1  
+0 0 0 0 2, 2 (1) : 1  
+0 0 0 0 3, 3 (1) : 1  

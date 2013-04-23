@@ -1,0 +1,40 @@
+% $Revision: 1.2 $
+[System]
+Name='sugeno tipper'
+Type='sugeno'
+NumInputs=2
+NumOutputs=1
+NumRules=3
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='wtaver'
+
+[Input1]
+Name='service'
+Range=[0 10]
+NumMFs=3
+MF1='poor':'gaussmf',[1.5 0]
+MF2='average':'gaussmf',[1.5 5]
+MF3='good':'gaussmf',[1.5 10]
+
+[Input2]
+Name='food'
+Range=[0 10]
+NumMFs=2
+MF1='rancid':'trapmf',[-5 0 1 3]
+MF2='delicious':'trapmf',[7 9 10 15]
+
+[Output1]
+Name='tip'
+Range=[-30 30]
+NumMFs=3
+MF1='cheap':'linear',[0 0 5]
+MF2='average':'linear',[0 0 15]
+MF3='generous':'linear',[0 0 25]
+
+[Rules]
+1 1, 1 (1) : 2 
+2 0, 2 (1) : 1 
+3 2, 3 (1) : 2 
