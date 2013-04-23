@@ -64,10 +64,10 @@
 #include "fl/rule/Rule.h"
 #include "fl/rule/RuleBlock.h"
 
-#include "fl/rule/mamdani/MamdaniAntecedent.h"
-#include "fl/rule/mamdani/MamdaniConsequent.h"
-#include "fl/rule/mamdani/MamdaniExpression.h"
-#include "fl/rule/mamdani/MamdaniRule.h"
+#include "fl/mamdani/MamdaniAntecedent.h"
+#include "fl/mamdani/MamdaniConsequent.h"
+#include "fl/mamdani/MamdaniExpression.h"
+#include "fl/mamdani/MamdaniRule.h"
 
 #include "fl/term/Accumulated.h"
 #include "fl/term/Bell.h"

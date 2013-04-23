@@ -29,6 +29,12 @@
 #include <string>
 #include <map>
 
+/**
+ * @class fl::Engine
+ * @brief A fuzzy engine.
+ * @file Engine.cpp
+ * 
+ */
 
 namespace fl {
 
@@ -42,12 +48,23 @@ namespace fl {
 
     class FL_EXPORT Engine {
     protected:
+        /** The name of the engine used for identification purposes only*/
         std::string _name;
+        /** The input variables registered in the engine*/
         std::vector<InputVariable*> _inputVariables;
+        /** The output variables registered in the engine*/
         std::vector<OutputVariable*> _outputVariables;
+        /** The rule blocks registered in the engine*/
         std::vector<RuleBlock*> _ruleblocks;
+        /** The hedges registered in the engine to be used by fuzzy rules. @see fl::HedgeFactory*/
         std::vector<Hedge*> _hedges;
 
+        /**
+         * Creates an instance of a T-Norm
+         * @param tnorm The full name in CamelCase of the T-Norm. 
+         * For supported T-Norms @see fl::TNormFactory
+         * @return A pointer to a new instance of the specified T-Norm
+         */
         virtual TNorm* createTnorm(const std::string& tnorm) const;
         virtual SNorm* createSnorm(const std::string& snorm) const;
         virtual Defuzzifier* createDefuzzifier(const std::string& defuzzifier) const;
