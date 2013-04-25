@@ -13,28 +13,30 @@
  limitations under the License.
  */
 
-/*
- * Centroid.h
+/* 
+ * File:   Bisector.h
+ * Author: jcrada
  *
- *  Created on: 2/12/2012
- *      Author: jcrada
+ * Created on 25 April 2013, 3:55 PM
  */
 
-#ifndef FL_CENTROID_H
-#define FL_CENTROID_H
+#ifndef FL_BISECTOR_H
+#define	FL_BISECTOR_H
 
 #include "fl/defuzzifier/Defuzzifier.h"
 
 namespace fl {
 
-    class FL_EXPORT Centroid : public Defuzzifier {
+    class FL_EXPORT Bisector : public Defuzzifier {
     public:
-        Centroid(int divisions = FL_DIVISIONS);
+        Bisector(int divisions = FL_DIVISIONS);
 
         std::string className() const;
         scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;
 
     };
 
-} 
-#endif /* FL_CENTROID_H */
+}
+
+#endif	/* FL_BISECTOR_H */
+

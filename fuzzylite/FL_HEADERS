@@ -3,6 +3,7 @@ fl/fuzzylite.h
 fl/defuzzifier/MaximumDefuzzifier.h
 fl/defuzzifier/Defuzzifier.h
 fl/defuzzifier/Centroid.h
+fl/defuzzifier/Bisector.h
 fl/Engine.h
 fl/Exception.h
 fl/factory/Factory.h

@@ -13,14 +13,14 @@
  limitations under the License.
  */
 
-/*
- * Centroid.cpp
+/* 
+ * File:   Bisector.cpp
+ * Author: jcrada
  *
- *  Created on: 2/12/2012
- *      Author: jcrada
+ * Created on 25 April 2013, 3:56 PM
  */
 
-#include "fl/defuzzifier/Centroid.h"
+#include "fl/defuzzifier/Bisector.h"
 
 
 
@@ -30,34 +30,40 @@
 
 namespace fl {
 
-    Centroid::Centroid(int divisions)
+    Bisector::Bisector(int divisions)
     : Defuzzifier(divisions) { }
 
-    std::string Centroid::className() const {
-        return "Centroid";
+    std::string Bisector::className() const {
+        return "Bisector";
     }
 
-    scalar Centroid::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
+    scalar Bisector::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
         if (maximum - minimum > _divisions) {
             FL_LOG("[accuracy warning] the number of divisions ( " << _divisions << ") "
                     "is less than the range (" << minimum << ", " << maximum << "). In order to "
                     "improve the accuracy, the number of divisions should be greater than the range.");
         }
         scalar dx = (maximum - minimum) / _divisions;
-        scalar x, y;
-        scalar area = 0, xcentroid = 0, ycentroid = 0;
-        for (int i = 0; i < _divisions; ++i) {
-            x = minimum + (i + 0.5) * dx;
-            y = term->membership(x);
 
-            xcentroid += y * x;
-            ycentroid += y * y;
-            area += y;
+        int counter = _divisions;
+        int left = 0, right = 0;
+        scalar leftArea = 0, rightArea = 0;
+        scalar xLeft, xRight;
+        while (counter-- > 0) {
+            if (fl::Op::isLE(leftArea, rightArea)) {
+                xLeft = minimum + (left + 0.5) * dx;
+                leftArea += term->membership(xLeft);
+                left++;
+            } else {
+                xRight = maximum - (right + 0.5) * dx;
+                rightArea += term->membership(xRight);
+                right++;
+            }
         }
-        xcentroid /= area;
-        ycentroid /= 2 * area;
-        area *= dx; //total area... unused, but for future reference.
-        return xcentroid;
+        
+        //Inverse weighted average to compensate
+        scalar bisector = (leftArea * xRight + rightArea * xLeft) / (leftArea + rightArea);
+        return bisector;
     }
 
 }

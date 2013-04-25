@@ -22,23 +22,7 @@
 
 #include "fl/imex/FclExporter.h"
 
-#include "fl/Engine.h"
-#include "fl/variable/InputVariable.h"
-#include "fl/variable/OutputVariable.h"
-#include "fl/term/Term.h"
-#include "fl/term/Accumulated.h"
-#include "fl/term/Discrete.h"
-
-#include "fl/defuzzifier/Defuzzifier.h"
-#include "fl/norm/Norm.h"
-#include "fl/norm/TNorm.h"
-#include "fl/norm/SNorm.h"
-
-#include "fl/defuzzifier/Centroid.h"
-#include "fl/defuzzifier/MaximumDefuzzifier.h"
-
-#include "fl/rule/Rule.h"
-#include "fl/rule/RuleBlock.h"
+#include "fl/Headers.h"
 
 #include <sstream>
 
@@ -163,6 +147,7 @@ namespace fl {
     std::string FclExporter::toFcl(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier) return "";
         if (defuzzifier->className() == Centroid().className()) return "COG";
+        if (defuzzifier->className() == Bisector().className()) return "BIS";
         if (defuzzifier->className() == SmallestOfMaximum().className()) return "SOM";
         if (defuzzifier->className() == LargestOfMaximum().className()) return "LOM";
         if (defuzzifier->className() == MeanOfMaximum().className()) return "MOM";

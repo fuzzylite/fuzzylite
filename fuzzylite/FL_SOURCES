@@ -1,5 +1,6 @@
 src/fuzzylite.cpp
 src/defuzzifier/Defuzzifier.cpp
+src/defuzzifier/Bisector.cpp
 src/defuzzifier/Centroid.cpp
 src/defuzzifier/MaximumDefuzzifier.cpp
 src/Exception.cpp

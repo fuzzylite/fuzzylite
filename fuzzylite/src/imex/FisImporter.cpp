@@ -350,6 +350,7 @@ namespace fl {
     std::string FisImporter::flDefuzzifier(const std::string & name) const {
         std::string className = name;
         if (name == "centroid") className = Centroid().className();
+        else if (name == "bisector") className = Bisector().className();
         else if (name == "som") className = SmallestOfMaximum().className();
         else if (name == "lom") className = LargestOfMaximum().className();
         else if (name == "mom") className = MeanOfMaximum().className();

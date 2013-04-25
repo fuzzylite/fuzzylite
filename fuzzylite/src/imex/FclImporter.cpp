@@ -444,6 +444,7 @@ namespace fl {
         std::string name = Op::trim(Op::findReplace(token.at(1), ";", ""));
         std::string className = name;
         if (name == "COG") className = Centroid().className();
+        if (name == "BIS") className = Bisector().className();
         if (name == "SOM") className = SmallestOfMaximum().className();
         if (name == "LOM") className = LargestOfMaximum().className();
         if (name == "MOM") className = MeanOfMaximum().className();

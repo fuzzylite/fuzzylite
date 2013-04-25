@@ -28,6 +28,7 @@
 #include "fl/Engine.h"
 #include "fl/Exception.h"
 
+#include "fl/defuzzifier/Bisector.h"
 #include "fl/defuzzifier/Centroid.h"
 #include "fl/defuzzifier/Defuzzifier.h"
 #include "fl/defuzzifier/MaximumDefuzzifier.h"

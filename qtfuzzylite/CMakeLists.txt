@@ -30,15 +30,17 @@ option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_USE_LOG "Enable the macro FL_LOG to print information" ON)
 option(FL_DEBUG "Enable additional debugging information" OFF)
 
-
+message("CMAKE_SOURCE_DIR=${CMAKE_SOURCE_DIR}")
 if(FL_DEBUG)
    set(CMAKE_BUILD_TYPE Debug)
    set(FL_CONF -dbg)
-   find_library(fl-shared-dbg fuzzylite-dbg ${CMAKE_SOURCE_DIR}/../fuzzylite/lib)
+   find_library(fl-shared-dbg fuzzylite-dbg 
+        HINTS "${CMAKE_SOURCE_DIR}/../fuzzylite/lib")
 else(FL_DEBUG)
    set(CMAKE_BUILD_TYPE Release)
    set(FL_CONF)
-   find_library(fl-shared fuzzylite ${CMAKE_SOURCE_DIR}/../fuzzylite/lib)
+   find_library(fl-shared NAMES fuzzylite 
+        HINTS "${CMAKE_SOURCE_DIR}/../fuzzylite/lib")
 endif(FL_DEBUG)
 
 

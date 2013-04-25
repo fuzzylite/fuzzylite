@@ -288,6 +288,7 @@ namespace fl {
     std::string FisExporter::toFis(const Defuzzifier * defuzzifier) const {
         if (not defuzzifier) return "";
         if (defuzzifier->className() == Centroid().className()) return "centroid";
+        if (defuzzifier->className() == Bisector().className()) return "bisector";
         if (defuzzifier->className() == SmallestOfMaximum().className()) return "som";
         if (defuzzifier->className() == LargestOfMaximum().className()) return "lom";
         if (defuzzifier->className() == MeanOfMaximum().className()) return "mom";
