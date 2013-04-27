@@ -28,8 +28,8 @@
 #ifndef FLQT_WINDOW_H_
 #define FLQT_WINDOW_H_
 
-#include <QtGui/QMainWindow>
-#include <QtGui/QAction>
+#include <QMainWindow>
+#include <QAction>
 #include "ui_Window.h"
 #include <fl/Headers.h>
 
@@ -126,6 +126,8 @@ namespace fl {
             void setup();
 
             QFont typeWriterFont() const;
+            
+            static QString toHtmlEscaped(const QString& x);
 
             static void main();
         };

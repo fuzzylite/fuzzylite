@@ -28,7 +28,7 @@
 #ifndef FLQT_VARIABLE_H_
 #define FLQT_VARIABLE_H_
 
-#include <QtGui/QDialog>
+#include <QDialog>
 
 #include "ui_Variable.h"
 

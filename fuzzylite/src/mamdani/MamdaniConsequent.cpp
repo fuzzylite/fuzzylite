@@ -20,9 +20,9 @@
  *      Author: jcrada
  */
 
-#include "fl/rule/mamdani/MamdaniConsequent.h"
+#include "fl/mamdani/MamdaniConsequent.h"
 
-#include "fl/rule/mamdani/MamdaniExpression.h"
+#include "fl/mamdani/MamdaniExpression.h"
 
 #include "fl/rule/Rule.h"
 

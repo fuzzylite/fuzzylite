@@ -28,8 +28,8 @@
 #ifndef FLQT_PREFERENCES_H_
 #define FLQT_PREFERENCES_H_
 
-#include <QtGui/QDialog>
-#include <QtGui/QWidget>
+#include <QDialog>
+#include <QWidget>
 
 #include "ui_Preferences.h"
 

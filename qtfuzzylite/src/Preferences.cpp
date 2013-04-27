@@ -31,7 +31,7 @@
 
 #include "fl/qt/Model.h" 
 
-#include <QtGui/QMessageBox>
+#include <QMessageBox>
 #include <sstream>
 
 namespace fl {

@@ -28,7 +28,7 @@
 #ifndef CONTROL_H_
 #define CONTROL_H_
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include "fl/qt/Viewer.h"
 
 #include <fl/Headers.h>

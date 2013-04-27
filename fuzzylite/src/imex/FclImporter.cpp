@@ -444,10 +444,10 @@ namespace fl {
         std::string name = Op::trim(Op::findReplace(token.at(1), ";", ""));
         std::string className = name;
         if (name == "COG") className = Centroid().className();
-        if (name == "BIS") className = Bisector().className();
-        if (name == "SOM") className = SmallestOfMaximum().className();
-        if (name == "LOM") className = LargestOfMaximum().className();
-        if (name == "MOM") className = MeanOfMaximum().className();
+        if (name == "COA") className = Bisector().className();
+        if (name == "LM") className = SmallestOfMaximum().className();
+        if (name == "RM") className = LargestOfMaximum().className();
+        if (name == "MM") className = MeanOfMaximum().className();
 
         try {
             return Factory::instance()->defuzzifier()->create(className);

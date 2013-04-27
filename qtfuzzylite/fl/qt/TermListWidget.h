@@ -9,7 +9,7 @@
 #define	FL_TERMLISTWIDGET_H
 
 
-#include <QtGui/QListWidget>
+#include <QListWidget>
 
 namespace fl {
     namespace qt {

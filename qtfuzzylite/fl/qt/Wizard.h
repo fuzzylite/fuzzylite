@@ -28,7 +28,7 @@
 #ifndef FLQT_WIZARD_H_
 #define FLQT_WIZARD_H_
 
-#include <QtGui/QDialog>
+#include <QDialog>
 #include <fl/Headers.h>
 
 #include "ui_Wizard.h"

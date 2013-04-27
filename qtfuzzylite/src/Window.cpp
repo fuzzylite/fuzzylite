@@ -16,7 +16,7 @@
 
     Juan Rada-Vilela, 01 February 2013
     jcrada@fuzzylite.com
-**/
+ **/
 
 /*
  * Window.cpp
@@ -38,16 +38,16 @@
 #include "ui_About.h"
 
 
-#include <QtGui/QListWidgetItem>
-#include <QtGui/QScrollBar>
-#include <QtGui/QMessageBox>
-#include <QtGui/QDesktopWidget>
-#include <QtGui/QPushButton>
-#include <QtGui/QFileDialog>
-#include <QtCore/QTextStream>
-#include <QtGui/QMenu>
-#include <QtCore/QDateTime>
-#include <QtGui/QMenuBar>
+#include <QListWidgetItem>
+#include <QScrollBar>
+#include <QMessageBox>
+#include <QDesktopWidget>
+#include <QPushButton>
+#include <QFileDialog>
+#include <QTextStream>
+#include <QMenu>
+#include <QDateTime>
+#include <QMenuBar>
 namespace fl {
     namespace qt {
 
@@ -138,7 +138,7 @@ namespace fl {
             spacerLayout->addSpacerItem(spacer);
             widget->setLayout(spacerLayout);
             ui->toolBar->insertWidget(ui->toolBar->actions().last(), widget);
-            
+
             ui->lvw_inputs->setVariableType("input");
             ui->lvw_outputs->setVariableType("output");
 
@@ -399,15 +399,15 @@ namespace fl {
         /**
          * Events
          */
-        
-        void Window::onContextMenuRequest(const QPoint& point){
+
+        void Window::onContextMenuRequest(const QPoint& point) {
             FL_LOG("Context menu requested at " << point.x() << ", " << point.y());
             QWidget* widget = this->childAt(point);
-            if (widget){
+            if (widget) {
                 FL_LOG(widget->objectName().toStdString());
             }
         }
-        
+
         void Window::onChangeInputSelection() {
             ui->btn_remove_input->setEnabled(
                     ui->lvw_inputs->selectedItems().size() > 0);
@@ -578,13 +578,12 @@ namespace fl {
             std::ostringstream message;
             message << "Do you want to delete the following output variable";
             std::string title;
-            if (ui->lvw_outputs->selectedItems().size() > 1){
+            if (ui->lvw_outputs->selectedItems().size() > 1) {
                 title = "Delete multiple output variables";
                 message << "s";
-            }
-            else title = "Delete output variable";
+            } else title = "Delete output variable";
             message << "?\n\n";
-            
+
             Engine* engine = Model::Default()->engine();
             for (int i = 0; i < ui->lvw_outputs->count(); ++i) {
                 if (ui->lvw_outputs->item(i)->isSelected()) {
@@ -593,7 +592,7 @@ namespace fl {
                     if (i < ui->lvw_outputs->selectedItems().size() - 1) message << "\n\n";
                 }
             }
-            
+
             QMessageBox::StandardButton clicked = QMessageBox::warning(this,
                     QString::fromStdString(title),
                     QString::fromStdString(message.str()),
@@ -707,13 +706,13 @@ namespace fl {
                 try {
                     ruleblock->addRule(MamdaniRule::parse(rules[i].toStdString(), engine));
                     ui->ptx_rules->appendHtml("<font color='green'>" +
-                            Qt::escape(rules[i]) + "</font>");
+                            toHtmlEscaped(rules[i]) + "</font>");
                     ++goodRules;
                 } catch (fl::Exception& ex) {
                     ui->ptx_rules->appendHtml("<font color='red'>" +
-                            Qt::escape(rules[i]) + "</font>");
+                            toHtmlEscaped(rules[i]) + "</font>");
                     ui->ptx_rules->appendHtml("<font color='gray'>#" +
-                            Qt::escape(QString::fromStdString(ex.what()))
+                            toHtmlEscaped(QString::fromStdString(ex.what()))
                             + "</font>");
                     ++badRules;
                 }
@@ -822,7 +821,7 @@ namespace fl {
                 } catch (fl::Exception& ex) {
                     if (engine) delete engine;
                     QMessageBox::critical(this, "Error importing from FCL",
-                            Qt::escape(QString::fromStdString(ex.what())).replace("\n", "<br>"),
+                            toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                             QMessageBox::Ok);
 
                     return;
@@ -855,7 +854,7 @@ namespace fl {
                     onClickParseAllRules();
                 } catch (fl::Exception& ex) {
                     QMessageBox::critical(this, "Error importing from FIS",
-                            Qt::escape(QString::fromStdString(ex.what())).replace("\n", "<br>"),
+                            toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                             QMessageBox::Ok);
                     return;
                 }
@@ -918,7 +917,7 @@ namespace fl {
                 onClickParseAllRules();
             } catch (fl::Exception& ex) {
                 QMessageBox::critical(this, "Error importing from FIS",
-                        Qt::escape(QString::fromStdString(ex.what())).replace("\n", "<br>"),
+                        toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                         QMessageBox::Ok);
                 delete importer;
                 delete engine;
@@ -946,7 +945,7 @@ namespace fl {
                 fclString = exporter.toString(Model::Default()->engine());
             } catch (fl::Exception& ex) {
                 QMessageBox::critical(this, "Error exporting to FCL",
-                        Qt::escape(QString::fromStdString(ex.what())).replace("\n", "<br>"),
+                        toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                         QMessageBox::Ok);
                 return;
             }
@@ -975,7 +974,7 @@ namespace fl {
                 fis = exporter.toString(Model::Default()->engine());
             } catch (fl::Exception& ex) {
                 QMessageBox::critical(this, "Error exporting to FIS",
-                        Qt::escape(QString::fromStdString(ex.what())).replace("\n", "<br>"),
+                        toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                         QMessageBox::Ok);
                 return;
             }
@@ -1004,7 +1003,7 @@ namespace fl {
                 cpp = exporter.toString(Model::Default()->engine());
             } catch (fl::Exception& ex) {
                 QMessageBox::critical(this, "Error exporting to fuzzylite (C++)",
-                        Qt::escape(QString::fromStdString(ex.what())).replace("\n", "<br>"),
+                        toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                         QMessageBox::Ok);
                 return;
             }
@@ -1082,6 +1081,14 @@ namespace fl {
             return tt;
 #endif
         }
+
+        QString Window::toHtmlEscaped(const QString& x) {
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
+            return Qt::escape(x);
+#else
+            return x.toHtmlEscaped();
+#endif
+ }
 
         void Window::main() {
             Window* w = mainWindow();

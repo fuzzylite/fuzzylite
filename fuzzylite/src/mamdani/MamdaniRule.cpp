@@ -20,10 +20,10 @@
  *      Author: jcrada
  */
 
-#include "fl/rule/mamdani/MamdaniRule.h"
+#include "fl/mamdani/MamdaniRule.h"
 
-#include "fl/rule/mamdani/MamdaniAntecedent.h"
-#include "fl/rule/mamdani/MamdaniConsequent.h"
+#include "fl/mamdani/MamdaniAntecedent.h"
+#include "fl/mamdani/MamdaniConsequent.h"
 
 #include "fl/norm/Norm.h"
 

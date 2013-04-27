@@ -27,7 +27,7 @@
 
 #include "fl/qt/Control.h"
 
-#include <QtGui/QMessageBox>
+#include <QMessageBox>
 
 #include "fl/qt/Model.h"
 namespace fl {

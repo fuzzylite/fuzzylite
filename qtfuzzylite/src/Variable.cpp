@@ -16,7 +16,7 @@
 
     Juan Rada-Vilela, 01 February 2013
     jcrada@fuzzylite.com
-**/
+ **/
 
 /*
  * InputVariable.cpp
@@ -32,9 +32,9 @@
 #include "fl/qt/Window.h"
 
 
-#include <QtGui/QMessageBox>
-#include <QtGui/QListWidgetItem>
-#include <QtGui/QSplitter>
+#include <QMessageBox>
+#include <QListWidgetItem>
+#include <QSplitter>
 
 namespace fl {
     namespace qt {
@@ -220,7 +220,8 @@ namespace fl {
                     message << ex.what() << std::endl <<
                             "Expected numeric values (including nan or inf)" << std::endl;
                     QMessageBox::critical(this, tr("Error"),
-                            Qt::escape(QString::fromStdString(message.str())),
+                            fl::qt::Window::toHtmlEscaped(
+                            QString::fromStdString(message.str())),
                             QMessageBox::Ok);
                     return;
                 }

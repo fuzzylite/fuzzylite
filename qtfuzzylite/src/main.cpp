@@ -25,9 +25,9 @@
  *      Author: jcrada 
  */
 
-#include <QtGui/QApplication> 
-#include <QtGui/QMessageBox>
-#include <QtGui/QMenuBar>
+#include <QApplication> 
+#include <QMessageBox>
+#include <QMenuBar>
 #include <fl/Headers.h>
 
 #include "fl/qt/Preferences.h"  

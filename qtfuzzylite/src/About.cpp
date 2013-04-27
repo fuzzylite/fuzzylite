@@ -30,8 +30,8 @@
 #include "fl/qt/About.h"
 #include "fl/qt/qtfuzzylite.h"
 
-#include <QtGui/QDesktopServices>
-#include <QtCore/QUrl>
+#include <QDesktopServices>
+#include <QUrl>
 
 namespace fl {
     namespace qt {

@@ -28,8 +28,8 @@
 #include "fl/rule/Rule.h"
 
 //Needed here for covariant return
-#include "fl/rule/mamdani/MamdaniAntecedent.h"
-#include "fl/rule/mamdani/MamdaniConsequent.h"
+#include "fl/mamdani/MamdaniAntecedent.h"
+#include "fl/mamdani/MamdaniConsequent.h"
 
 #include <string>
 

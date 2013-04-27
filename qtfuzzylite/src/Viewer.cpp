@@ -32,7 +32,7 @@
 #include "fl/qt/Window.h"
 #include "fl/qt/Preferences.h"
 
-#include <QtGui/QGraphicsPolygonItem>
+#include <QGraphicsPolygonItem>
 
 //#define FL_EXPORT_SVG
 #ifdef FL_EXPORT_SVG

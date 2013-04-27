@@ -147,10 +147,10 @@ namespace fl {
     std::string FclExporter::toFcl(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier) return "";
         if (defuzzifier->className() == Centroid().className()) return "COG";
-        if (defuzzifier->className() == Bisector().className()) return "BIS";
-        if (defuzzifier->className() == SmallestOfMaximum().className()) return "SOM";
-        if (defuzzifier->className() == LargestOfMaximum().className()) return "LOM";
-        if (defuzzifier->className() == MeanOfMaximum().className()) return "MOM";
+        if (defuzzifier->className() == Bisector().className()) return "COA";
+        if (defuzzifier->className() == SmallestOfMaximum().className()) return "LM";
+        if (defuzzifier->className() == LargestOfMaximum().className()) return "RM";
+        if (defuzzifier->className() == MeanOfMaximum().className()) return "MM";
         return defuzzifier->className();
     }
 

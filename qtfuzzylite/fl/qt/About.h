@@ -16,7 +16,7 @@
 
     Juan Rada-Vilela, 01 February 2013
     jcrada@fuzzylite.com
-**/
+ **/
 
 /* 
  * File:   About.h
@@ -28,7 +28,7 @@
 #ifndef FL_ABOUT_H
 #define	FL_ABOUT_H
 
-#include <QtGui/QDialog>
+#include <QDialog>
 
 #include "ui_About.h"
 
@@ -41,14 +41,14 @@ namespace fl {
         protected slots:
             void onChangeSliderGenerosity(int);
             void onChangeComboGenerosity(int);
-            
-            
+
+
         protected:
             void connect();
             void disconnect();
-            
+
             void changeDonation();
-            
+
             std::vector<std::string> _generosityTerm;
             std::vector<std::string> _generosityValue;
 

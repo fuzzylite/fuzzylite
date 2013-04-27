@@ -28,7 +28,7 @@
 #ifndef FLQT_VIEWER_H
 #define	FLQT_VIEWER_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include "ui_Viewer.h"
 
 #include <fl/Headers.h>

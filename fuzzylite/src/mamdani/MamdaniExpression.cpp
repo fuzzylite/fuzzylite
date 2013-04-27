@@ -13,7 +13,7 @@
  limitations under the License.
  */
 
-#include "fl/rule/mamdani/MamdaniExpression.h"
+#include "fl/mamdani/MamdaniExpression.h"
 
 #include "fl/variable/Variable.h"
 #include "fl/hedge/Hedge.h"

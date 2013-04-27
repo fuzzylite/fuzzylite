@@ -28,13 +28,13 @@
 #ifndef FLQT_TERM_H_
 #define FLQT_TERM_H_
 
-#include <QtGui/QDialog>
-#include <QtGui/QToolBox>
+#include <QDialog>
+#include <QToolBox>
 #include "ui_Term.h"
 
 
 
-#include <QtGui/QDoubleSpinBox>
+#include <QDoubleSpinBox>
 #include <vector>
 
 #include <fl/Headers.h>

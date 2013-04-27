@@ -11,8 +11,8 @@
 
 #include <fl/Headers.h>
 
-#include <QtGui/QWidgetAction>
-#include <QtGui/QMenu>
+#include <QWidgetAction>
+#include <QMenu>
 
 #include <vector>
 
