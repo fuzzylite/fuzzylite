@@ -39,7 +39,6 @@ fl/rule/Consequent.h
 fl/rule/RuleBlock.h
 fl/rule/Infix.h
 fl/rule/Rule.h
-fl/term/Function.h
 fl/term/Thresholded.h
 fl/term/SShape.h
 fl/term/Ramp.h

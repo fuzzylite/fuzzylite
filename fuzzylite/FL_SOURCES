@@ -22,7 +22,6 @@ src/rule/Infix.cpp
 src/rule/RuleBlock.cpp
 src/rule/Rule.cpp
 src/term/Discrete.cpp
-src/term/Function.cpp
 src/term/Sigmoid.cpp
 src/term/Triangle.cpp
 src/term/Trapezoid.cpp

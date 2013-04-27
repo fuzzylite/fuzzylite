@@ -123,9 +123,9 @@ namespace fl {
             //            ui->splitter->setSizes(sizes);
             //            ui->splitter->setEnabled(false);
 
-            QFont ttFont = Window::mainWindow()->typeWriterFont();
-            ttFont.setPointSize(ttFont.pointSize() - 1);
-            ui->ptx_discrete->setFont(ttFont);
+//            QFont ttFont = Window::mainWindow()->typeWriterFont();
+//            ttFont.setPointSize(ttFont.pointSize() - 1);
+//            ui->ptx_discrete->setFont(ttFont);
 
             setWindowTitle(edit ? "Edit term" : "Add term");
 
