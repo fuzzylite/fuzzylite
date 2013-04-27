@@ -84,7 +84,7 @@ namespace fl {
             preferences->setup();
             ui->tab_container->setCurrentIndex(0);
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
             ui->menuTools->addAction("About qtfuzzylite", this, SLOT(onMenuAbout()));
             ui->menuTools->addSeparator();
             ui->menuTools->addAction("Preferences...", this, SLOT(onMenuPreferences()));
@@ -110,7 +110,7 @@ namespace fl {
             exportMenu->addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuExportToFIS()));
             ui->menuTools->addMenu(exportMenu);
 
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
             ui->menuTools->addSeparator();
             ui->menuTools->addAction(ui->actionPreferences);
             ui->menuTools->addSeparator();
@@ -1063,19 +1063,19 @@ namespace fl {
 
         QFont Window::typeWriterFont() const {
 
-#ifdef Q_WS_X11
+#ifdef Q_OS_X11
             QFont tt("Ubuntu Mono");
             tt.setStyleHint(QFont::TypeWriter);
             return tt;
 #endif
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
             QFont tt("Monaco");
             tt.setStyleHint(QFont::TypeWriter);
             return tt;
 #endif
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
             QFont tt("Fixedsys");
             tt.setStyleHint(QFont::TypeWriter);
             return tt;

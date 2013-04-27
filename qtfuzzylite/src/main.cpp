@@ -115,20 +115,20 @@ namespace fl {
 }
 
 //std::string flPlatform() {
-//#ifdef Q_WS_X11
+//#ifdef Q_OS_X11
 //    return "Linux";
 //#endif
 //
-//#ifdef Q_WS_MAC
+//#ifdef Q_OS_MAC
 //    return "Mac";
 //#endif
 //
-//#ifdef Q_WS_QWS
+//#ifdef Q_OS_QWS
 //    //    return "Embedded Linux";
 //    return "Linux";
 //#endif
 //
-//#ifdef Q_WS_WIN
+//#ifdef Q_OS_WIN
 //    return "Windows";
 //#endif
 //}

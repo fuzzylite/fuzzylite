@@ -189,13 +189,13 @@ Building from source requires you to have CMake installed. Once installed, it is
 
 Ubuntu
 
-http://fuzzylite.googlecode.com/git/web/ubuntu.png
+http://fuzzylite.googlecode.com/git/webfuzzylite/ubuntu.png
 
 MacOSX
 
-http://fuzzylite.googlecode.com/git/web/macosx.png
+http://fuzzylite.googlecode.com/git/webfuzzylite/macosx.png
 
 Windows
 
-http://fuzzylite.googlecode.com/git/web/Windows.png
+http://fuzzylite.googlecode.com/git/webfuzzylite/Windows.png
 
