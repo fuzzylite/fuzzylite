@@ -19,10 +19,11 @@ MACRO (TODAY RESULT)
     ENDIF (WIN32)
 ENDMACRO (TODAY)
 
-TODAY(FL_DATE)
+#TODAY(FL_DATE)
+set(FL_DATE 1305)
 add_definitions(-DFL_DATE="${FL_DATE}")
 
-set(FL_VERSION 3.0)
+set(FL_VERSION 2.5)
 add_definitions(-DFL_VERSION="${FL_VERSION}")
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
