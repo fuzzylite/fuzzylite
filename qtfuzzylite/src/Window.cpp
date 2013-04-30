@@ -141,6 +141,8 @@ namespace fl {
 
             ui->lvw_inputs->setVariableType("input");
             ui->lvw_outputs->setVariableType("output");
+            
+            ui->cbx_rule_model->setVisible(false);
 
             connect();
         }
@@ -1091,7 +1093,7 @@ namespace fl {
         void Window::main() {
             Window* w = mainWindow();
             w->setup();
-            w->onMenuAbout();
+//            w->onMenuAbout();
             w->show();
         }
 
