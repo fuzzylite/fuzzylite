@@ -6,6 +6,8 @@ fl/defuzzifier/Centroid.h
 fl/defuzzifier/SmallestOfMaximum.h
 fl/defuzzifier/LargestOfMaximum.h
 fl/defuzzifier/MeanOfMaximum.h
+fl/defuzzifier/WeightedAverage.h
+fl/defuzzifier/WeightedSum.h
 fl/Engine.h
 fl/Exception.h
 fl/factory/Factory.h
@@ -38,9 +40,15 @@ fl/norm/TNorm.h
 fl/Operation.h
 fl/rule/Antecedent.h
 fl/rule/Consequent.h
+fl/rule/FuzzyAntecedent.h
+fl/rule/FuzzyConsequent.h
+fl/rule/FuzzyExpression.h
+fl/rule/FuzzyRule.h
 fl/rule/RuleBlock.h
 fl/rule/Infix.h
 fl/rule/Rule.h
+fl/term/Constant.h
+fl/term/Linear.h
 fl/term/Thresholded.h
 fl/term/SShape.h
 fl/term/Ramp.h

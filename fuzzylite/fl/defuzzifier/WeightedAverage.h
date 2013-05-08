@@ -18,9 +18,9 @@ namespace fl {
         WeightedAverage();
         virtual ~WeightedAverage();
 
-        virtual std::string className() const = 0;
+        virtual std::string className() const;
         virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const = 0;
+                scalar minimum, scalar maximum) const;
 
     };
 }

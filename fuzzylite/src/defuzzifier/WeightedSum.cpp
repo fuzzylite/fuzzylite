@@ -1,6 +1,8 @@
 
 #include "fl/defuzzifier/WeightedSum.h"
 
+#include "fl/term/Accumulated.h"
+#include "fl/term/Thresholded.h"
 
 namespace fl {
 
@@ -16,7 +18,7 @@ namespace fl {
             scalar minimum, scalar maximum) const {
         (void) minimum;
         (void) maximum;
-        const Accumulated* takagiSugeno = dynamic_cast<Accumulated*> (term);
+        const Accumulated* takagiSugeno = dynamic_cast<const Accumulated*> (term);
         if (not takagiSugeno) {
             std::ostringstream ss;
             ss << "[defuzzification error]"
@@ -27,8 +29,8 @@ namespace fl {
 
         scalar sum = 0.0;
         for (int i = 0; i < takagiSugeno->numberOfTerms(); ++i) {
-            Weighted* weightedTerm = dynamic_cast<Weighted*> (takagiSugeno->getTerm(i));
-            if (not weightedTerm) {
+            const Thresholded* thresholded = dynamic_cast<const Thresholded*> (takagiSugeno->getTerm(i));
+            if (not thresholded) {
                 std::ostringstream ss;
                 ss << "[defuzzification error]"
                         << "expected a Weighted term instead of"
@@ -36,7 +38,7 @@ namespace fl {
                 throw fl::Exception(ss.str(), FL_AT);
             }
 
-            sum += weightedTerm->getWeight() * weightedTerm->getTerm()->membership();
+            sum += thresholded->getThreshold() * thresholded->getTerm()->membership(0);
         }
 
         return sum;

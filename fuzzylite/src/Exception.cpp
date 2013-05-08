@@ -126,7 +126,7 @@ namespace fl {
         std::ostringstream ex;
         ex << "[caught signal " << signal << "] backtrace:\n";
         ex << fl::Exception::btCallStack();
-        throw fl::Exception(ex.str(), FL_AT);
+//        throw fl::Exception(ex.str(), FL_AT);
     }
 
 }

@@ -4,8 +4,7 @@
 
 namespace fl {
 
-    Linear::Linear(const std::string& name = "")
-    : Term(name) { }
+    Linear::Linear(const std::string& name) : Term(name) { }
 
     Linear::~Linear() { }
 
@@ -14,7 +13,7 @@ namespace fl {
     }
 
     Linear* Linear::copy() const {
-        return new Linear(this);
+        return new Linear(*this);
     }
 
     scalar Linear::membership(scalar x) const {
@@ -57,22 +56,22 @@ namespace fl {
         std::map<std::string, std::pair<scalar, const InputVariable*> >::const_iterator it =
                 this->_coefficients.find(inputVariable);
         if (it == this->_coefficients.end()) return std::numeric_limits<scalar>::quiet_NaN();
-        return it->second->first;
+        return it->second.first;
     }
 
     scalar Linear::removeCoefficient(const std::string& inputVariable) {
         std::map<std::string, std::pair<scalar, const InputVariable*> >::iterator it =
                 this->_coefficients.find(inputVariable);
         if (it == this->_coefficients.end()) return std::numeric_limits<scalar>::quiet_NaN();
-        scalar result = it->second->first;
+        scalar result = it->second.first;
         this->_coefficients.erase(it);
         return result;
     }
 
     bool Linear::hasCoefficient(const std::string& inputVariable) const {
-        std::map<std::string, std::pair<scalar, const InputVariable*> >::iterator it =
+        std::map<std::string, std::pair<scalar, const InputVariable*> >::const_iterator it =
                 this->_coefficients.find(inputVariable);
-        return not this->_coefficients.end();
+        return it != this->_coefficients.end();
     }
 
     void Linear::clearCoefficients() {

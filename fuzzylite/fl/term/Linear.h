@@ -9,8 +9,10 @@
 #define	FL_LINEAR_H
 
 #include "fl/term/Term.h"
+#include "fl/variable/InputVariable.h"
 
 #include <map>
+#include <utility>
 
 namespace fl {
 
@@ -25,16 +27,16 @@ namespace fl {
         virtual void setCoefficient(scalar coefficient, const InputVariable* input);
         virtual scalar getCoefficient(const std::string& input) const;
         virtual scalar removeCoefficient(const std::string& input);
-        virtual bool hasCoefficient() const;
-        
+        virtual bool hasCoefficient(const std::string& input) const;
+
         virtual void clearCoefficients();
 
-        virtual scalar membership(scalar x) const = 0;
+        virtual scalar membership(scalar x) const;
 
-        virtual std::string className() const = 0;
-        virtual std::string toString() const = 0;
+        virtual std::string className() const;
+        virtual std::string toString() const;
 
-        virtual Linear* copy() const = 0;
+        virtual Linear* copy() const;
 
     };
 

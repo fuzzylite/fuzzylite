@@ -12,11 +12,12 @@ namespace fl {
     }
 
     scalar Constant::membership(scalar x) const {
-        return fl::Op::isEq(x, this->_value);
+//        return fl::Op::isEq(x, this->_value);
+        return this->_value;
     }
 
     Constant* Constant::copy() const {
-        return new Constant(this);
+        return new Constant(*this);
     }
 
     std::string Constant::toString() const {

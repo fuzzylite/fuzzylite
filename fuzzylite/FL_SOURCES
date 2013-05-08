@@ -5,6 +5,8 @@ src/defuzzifier/Centroid.cpp
 src/defuzzifier/SmallestOfMaximum.cpp
 src/defuzzifier/LargestOfMaximum.cpp
 src/defuzzifier/MeanOfMaximum.cpp
+src/defuzzifier/WeightedAverage.cpp
+src/defuzzifier/WeightedSum.cpp
 src/Exception.cpp
 src/Engine.cpp
 src/factory/TNormFactory.cpp
@@ -20,9 +22,15 @@ src/mamdani/MamdaniConsequent.cpp
 src/norm/TNorm.cpp
 src/norm/SNorm.cpp
 src/Operation.cpp
+src/rule/FuzzyAntecedent.cpp
+src/rule/FuzzyConsequent.cpp
+src/rule/FuzzyExpression.cpp
+src/rule/FuzzyRule.cpp
 src/rule/Infix.cpp
 src/rule/RuleBlock.cpp
 src/rule/Rule.cpp
+src/term/Constant.cpp
+src/term/Linear.cpp
 src/term/Discrete.cpp
 src/term/Sigmoid.cpp
 src/term/Triangle.cpp

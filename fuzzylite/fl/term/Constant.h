@@ -17,15 +17,16 @@ namespace fl {
         scalar _value;
 
     public:
-        Constant(const std::string& name = "", scalar value);
+        Constant(const std::string& name = "", 
+                scalar value = std::numeric_limits<scalar>::quiet_NaN());
         virtual ~Constant();
 
-        virtual scalar membership(scalar x) const = 0;
+        virtual scalar membership(scalar x) const;
 
-        virtual std::string className() const = 0;
-        virtual std::string toString() const = 0;
+        virtual std::string className() const;
+        virtual std::string toString() const;
 
-        virtual Term* copy() const = 0;
+        virtual Constant* copy() const;
 
         virtual void setValue(scalar value);
         virtual scalar getValue() const;

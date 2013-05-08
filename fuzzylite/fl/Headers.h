@@ -34,6 +34,8 @@
 #include "fl/defuzzifier/SmallestOfMaximum.h"
 #include "fl/defuzzifier/LargestOfMaximum.h"
 #include "fl/defuzzifier/MeanOfMaximum.h"
+#include "fl/defuzzifier/WeightedAverage.h"
+#include "fl/defuzzifier/WeightedSum.h"
 
 #include "fl/factory/Factory.h"
 #include "fl/factory/DefuzzifierFactory.h"
@@ -66,6 +68,10 @@
 #include "fl/rule/Infix.h"
 #include "fl/rule/Rule.h"
 #include "fl/rule/RuleBlock.h"
+#include "fl/rule/FuzzyAntecedent.h"
+#include "fl/rule/FuzzyConsequent.h"
+#include "fl/rule/FuzzyExpression.h"
+#include "fl/rule/FuzzyRule.h"
 
 #include "fl/mamdani/MamdaniAntecedent.h"
 #include "fl/mamdani/MamdaniConsequent.h"
@@ -74,9 +80,11 @@
 
 #include "fl/term/Accumulated.h"
 #include "fl/term/Bell.h"
+#include "fl/term/Constant.h"
 #include "fl/term/Discrete.h"
 #include "fl/term/Gaussian.h"
 #include "fl/term/GaussianProduct.h"
+#include "fl/term/Linear.h"
 #include "fl/term/PiShape.h"
 #include "fl/term/Ramp.h"
 #include "fl/term/Rectangle.h"
