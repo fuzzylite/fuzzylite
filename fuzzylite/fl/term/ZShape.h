@@ -36,18 +36,19 @@ namespace fl {
                 scalar _start = -std::numeric_limits<scalar>::infinity(),
                 scalar _end = std::numeric_limits<scalar>::infinity());
 
+        virtual ~ZShape();
 
-        std::string className() const;
-        ZShape* copy() const;
+        virtual std::string className() const;
+        virtual ZShape* copy() const;
 
-        scalar membership(scalar x) const;
-        std::string toString() const;
+        virtual scalar membership(scalar x) const;
+        virtual std::string toString() const;
 
-        void setStart(scalar start);
-        scalar getStart() const;
+        virtual void setStart(scalar start);
+        virtual scalar getStart() const;
 
-        void setEnd(scalar end);
-        scalar getEnd() const;
+        virtual void setEnd(scalar end);
+        virtual scalar getEnd() const;
     };
 }
 #endif	/* ZSHAPE_H */

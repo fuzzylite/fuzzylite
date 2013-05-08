@@ -31,6 +31,8 @@ namespace fl {
             scalar falling, scalar right)
     : Term(name), _left(left), _rising(rising), _falling(falling), _right(right) { }
 
+    SigmoidProduct::~SigmoidProduct() { }
+
     std::string SigmoidProduct::className() const {
         return "SigmoidProduct";
     }

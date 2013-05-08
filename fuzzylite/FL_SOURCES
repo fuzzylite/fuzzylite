@@ -2,7 +2,9 @@ src/fuzzylite.cpp
 src/defuzzifier/Defuzzifier.cpp
 src/defuzzifier/Bisector.cpp
 src/defuzzifier/Centroid.cpp
-src/defuzzifier/MaximumDefuzzifier.cpp
+src/defuzzifier/SmallestOfMaximum.cpp
+src/defuzzifier/LargestOfMaximum.cpp
+src/defuzzifier/MeanOfMaximum.cpp
 src/Exception.cpp
 src/Engine.cpp
 src/factory/TNormFactory.cpp

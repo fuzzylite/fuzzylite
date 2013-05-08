@@ -41,27 +41,26 @@ namespace fl {
                 scalar meanB = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar sigmaB = std::numeric_limits<scalar>::quiet_NaN());
 
-        std::string className() const;
-        GaussianProduct* copy() const;
+        virtual ~GaussianProduct();
 
-        scalar membership(scalar x) const;
+        virtual std::string className() const;
+        virtual GaussianProduct* copy() const;
 
-        std::string toString() const;
+        virtual scalar membership(scalar x) const;
 
-        void setMeanA(scalar meanA);
-        scalar getMeanA() const;
+        virtual std::string toString() const;
 
-        void setStandardDeviationA(scalar sigmaA);
-        scalar getStandardDeviationA() const;
+        virtual void setMeanA(scalar meanA);
+        virtual scalar getMeanA() const;
 
-        void setMeanB(scalar meanB);
-        scalar getMeanB() const;
+        virtual void setStandardDeviationA(scalar sigmaA);
+        virtual scalar getStandardDeviationA() const;
 
-        void setStandardDeviationB(scalar sigmaB);
-        scalar getStandardDeviationB() const;
+        virtual void setMeanB(scalar meanB);
+        virtual scalar getMeanB() const;
 
-
-
+        virtual void setStandardDeviationB(scalar sigmaB);
+        virtual scalar getStandardDeviationB() const;
 
     };
 }

@@ -31,6 +31,8 @@ namespace fl {
             scalar falling, scalar right)
     : Term(name), _left(left), _rising(rising), _falling(falling), _right(right) { }
 
+    SigmoidDifference::~SigmoidDifference() { }
+
     std::string SigmoidDifference::className() const {
         return "SigmoidDifference";
     }
@@ -41,7 +43,7 @@ namespace fl {
 
     scalar SigmoidDifference::membership(scalar x) const {
         if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
-        
+
         scalar a = 1.0 / (1 + std::exp(-_rising * (x - _left)));
         scalar b = 1.0 / (1 + std::exp(-_falling * (x - _right)));
         return std::abs(a - b);

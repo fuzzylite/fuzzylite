@@ -28,6 +28,8 @@ namespace fl {
             scalar meanA, scalar sigmaA, scalar meanB, scalar sigmaB)
     : Term(name), _meanA(meanA), _standardDeviationA(sigmaA), _meanB(meanB), _standardDeviationB(sigmaB) { }
 
+    GaussianProduct::~GaussianProduct() { }
+
     std::string GaussianProduct::className() const {
         return "GaussianProduct";
     }

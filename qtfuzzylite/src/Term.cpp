@@ -16,7 +16,7 @@
 
     Juan Rada-Vilela, 01 February 2013
     jcrada@fuzzylite.com
-**/
+ **/
 
 /*
  * Term.cpp
@@ -113,6 +113,10 @@ namespace fl {
             }
 
             ui->setupUi(this);
+            if (ui->tabTerms->count() > 3) {
+                ui->tabTerms->removeTab(ui->tabTerms->count() - 1);
+                FL_LOG("[in development] Tab deleted from Terms");
+            }
             viewer = new Viewer;
             viewer->setup(dummyVariable);
             ui->toolboxLayout->insertWidget(0, viewer);
@@ -123,9 +127,9 @@ namespace fl {
             //            ui->splitter->setSizes(sizes);
             //            ui->splitter->setEnabled(false);
 
-//            QFont ttFont = Window::mainWindow()->typeWriterFont();
-//            ttFont.setPointSize(ttFont.pointSize() - 1);
-//            ui->ptx_discrete->setFont(ttFont);
+            //            QFont ttFont = Window::mainWindow()->typeWriterFont();
+            //            ttFont.setPointSize(ttFont.pointSize() - 1);
+            //            ui->ptx_discrete->setFont(ttFont);
 
             setWindowTitle(edit ? "Edit term" : "Add term");
 
@@ -675,15 +679,15 @@ namespace fl {
         }
 
         void Term::onChangeSpinBoxTriangle(double) {
-//            if (fl::Op::isGt(ui->sbx_triangle_a->value(), ui->sbx_triangle_b->value())) {
-//                ui->sbx_triangle_b->setValue(ui->sbx_triangle_a->value() + .1);
-//            }
-//            if (fl::Op::isGt(ui->sbx_triangle_b->value(), ui->sbx_triangle_c->value())) {
-//                ui->sbx_triangle_c->setValue(ui->sbx_triangle_b->value() + .1);
-//            }
-//            if (fl::Op::isGE(ui->sbx_triangle_a->value(), ui->sbx_triangle_c->value())) {
-//                ui->sbx_triangle_c->setValue(ui->sbx_triangle_a->value() + .1);
-//            }
+            //            if (fl::Op::isGt(ui->sbx_triangle_a->value(), ui->sbx_triangle_b->value())) {
+            //                ui->sbx_triangle_b->setValue(ui->sbx_triangle_a->value() + .1);
+            //            }
+            //            if (fl::Op::isGt(ui->sbx_triangle_b->value(), ui->sbx_triangle_c->value())) {
+            //                ui->sbx_triangle_c->setValue(ui->sbx_triangle_b->value() + .1);
+            //            }
+            //            if (fl::Op::isGE(ui->sbx_triangle_a->value(), ui->sbx_triangle_c->value())) {
+            //                ui->sbx_triangle_c->setValue(ui->sbx_triangle_a->value() + .1);
+            //            }
 
             Triangle* term = dynamic_cast<Triangle*> (selectedTerm());
             term->setA(ui->sbx_triangle_a->value());
@@ -694,18 +698,18 @@ namespace fl {
         }
 
         void Term::onChangeSpinBoxTrapezoid(double) {
-//            if (fl::Op::isGt(ui->sbx_trapezoid_a->value(), ui->sbx_trapezoid_b->value())) {
-//                ui->sbx_trapezoid_b->setValue(ui->sbx_trapezoid_a->value() + .1);
-//            }
-//            if (fl::Op::isGt(ui->sbx_trapezoid_b->value(), ui->sbx_trapezoid_c->value())) {
-//                ui->sbx_trapezoid_c->setValue(ui->sbx_trapezoid_b->value() + .1);
-//            }
-//            if (fl::Op::isGt(ui->sbx_trapezoid_c->value(), ui->sbx_trapezoid_d->value())) {
-//                ui->sbx_trapezoid_d->setValue(ui->sbx_trapezoid_c->value() + .1);
-//            }
-//            if (fl::Op::isGE(ui->sbx_trapezoid_a->value(), ui->sbx_trapezoid_d->value())) {
-//                ui->sbx_trapezoid_d->setValue(ui->sbx_trapezoid_a->value() + .1);
-//            }
+            //            if (fl::Op::isGt(ui->sbx_trapezoid_a->value(), ui->sbx_trapezoid_b->value())) {
+            //                ui->sbx_trapezoid_b->setValue(ui->sbx_trapezoid_a->value() + .1);
+            //            }
+            //            if (fl::Op::isGt(ui->sbx_trapezoid_b->value(), ui->sbx_trapezoid_c->value())) {
+            //                ui->sbx_trapezoid_c->setValue(ui->sbx_trapezoid_b->value() + .1);
+            //            }
+            //            if (fl::Op::isGt(ui->sbx_trapezoid_c->value(), ui->sbx_trapezoid_d->value())) {
+            //                ui->sbx_trapezoid_d->setValue(ui->sbx_trapezoid_c->value() + .1);
+            //            }
+            //            if (fl::Op::isGE(ui->sbx_trapezoid_a->value(), ui->sbx_trapezoid_d->value())) {
+            //                ui->sbx_trapezoid_d->setValue(ui->sbx_trapezoid_a->value() + .1);
+            //            }
 
             Trapezoid* term = dynamic_cast<Trapezoid*> (selectedTerm());
             term->setA(ui->sbx_trapezoid_a->value());
@@ -716,9 +720,9 @@ namespace fl {
         }
 
         void Term::onChangeSpinBoxRectangle(double) {
-//            if (fl::Op::isGE(ui->sbx_rectangle_min->value(), ui->sbx_rectangle_max->value())) {
-//                ui->sbx_rectangle_max->setValue(ui->sbx_rectangle_min->value() + .1);
-//            }
+            //            if (fl::Op::isGE(ui->sbx_rectangle_min->value(), ui->sbx_rectangle_max->value())) {
+            //                ui->sbx_rectangle_max->setValue(ui->sbx_rectangle_min->value() + .1);
+            //            }
             Rectangle* term = dynamic_cast<Rectangle*> (selectedTerm());
             term->setMinimum(ui->sbx_rectangle_min->value());
             term->setMaximum(ui->sbx_rectangle_max->value());
@@ -850,9 +854,9 @@ namespace fl {
         }
 
         void Term::onChangeSpinBoxSShape(double) {
-//            if (fl::Op::isGE(ui->sbx_sshape_start->value(), ui->sbx_sshape_end->value())) {
-//                ui->sbx_sshape_end->setValue(ui->sbx_sshape_start->value() + .1);
-//            }
+            //            if (fl::Op::isGE(ui->sbx_sshape_start->value(), ui->sbx_sshape_end->value())) {
+            //                ui->sbx_sshape_end->setValue(ui->sbx_sshape_start->value() + .1);
+            //            }
             SShape* term = dynamic_cast<SShape*> (selectedTerm());
             term->setStart(ui->sbx_sshape_start->value());
             term->setEnd(ui->sbx_sshape_end->value());
@@ -860,9 +864,9 @@ namespace fl {
         }
 
         void Term::onChangeSpinBoxZShape(double) {
-//            if (fl::Op::isGE(ui->sbx_zshape_start->value(), ui->sbx_zshape_end->value())) {
-//                ui->sbx_zshape_end->setValue(ui->sbx_zshape_start->value() + .1);
-//            }
+            //            if (fl::Op::isGE(ui->sbx_zshape_start->value(), ui->sbx_zshape_end->value())) {
+            //                ui->sbx_zshape_end->setValue(ui->sbx_zshape_start->value() + .1);
+            //            }
             ZShape* term = dynamic_cast<ZShape*> (selectedTerm());
             term->setStart(ui->sbx_zshape_start->value());
             term->setEnd(ui->sbx_zshape_end->value());

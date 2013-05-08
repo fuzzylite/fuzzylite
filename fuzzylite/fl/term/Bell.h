@@ -37,23 +37,23 @@ namespace fl {
                 scalar center = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar width = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar slope = std::numeric_limits<scalar>::quiet_NaN());
-        ~Bell();
+        virtual ~Bell();
 
-        std::string className() const;
-        Bell* copy() const;
+        virtual std::string className() const;
+        virtual Bell* copy() const;
 
-        scalar membership(scalar x) const;
+        virtual scalar membership(scalar x) const;
 
-        std::string toString() const;
+        virtual std::string toString() const;
 
-        void setCenter(scalar center);
-        scalar getCenter() const;
+        virtual void setCenter(scalar center);
+        virtual scalar getCenter() const;
 
-        void setWidth(scalar width);
-        scalar getWidth() const;
+        virtual void setWidth(scalar width);
+        virtual scalar getWidth() const;
 
-        void setSlope(scalar slope);
-        scalar getSlope() const;
+        virtual void setSlope(scalar slope);
+        virtual scalar getSlope() const;
 
     };
 

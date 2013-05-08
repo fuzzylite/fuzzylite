@@ -50,14 +50,14 @@ namespace fl {
 
 
 
-        ~Discrete();
+        virtual ~Discrete();
 
-        std::string className() const;
-        Discrete* copy() const;
+        virtual std::string className() const;
+        virtual Discrete* copy() const;
 
-        scalar membership(scalar x) const;
+        virtual scalar membership(scalar x) const;
 
-        std::string toString() const;
+        virtual std::string toString() const;
 
 
 

@@ -28,6 +28,8 @@ namespace fl {
             scalar topRight, scalar bottomRight)
     : Term(name), _bottomLeft(bottomLeft), _topLeft(topLeft),
     _topRight(topRight), _bottomRight(bottomRight) { }
+    
+    PiShape::~PiShape(){}
 
     std::string PiShape::className() const {
         return "PiShape";

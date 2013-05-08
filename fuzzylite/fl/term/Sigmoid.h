@@ -35,22 +35,22 @@ namespace fl {
         Sigmoid(const std::string& name = "",
                 scalar inflection = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar slope = std::numeric_limits<scalar>::quiet_NaN());
-        ~Sigmoid();
+        virtual ~Sigmoid();
 
-        std::string className() const;
-        Sigmoid* copy() const;
+        virtual std::string className() const;
+        virtual Sigmoid* copy() const;
 
-        scalar membership(scalar x) const;
+        virtual scalar membership(scalar x) const;
 
-        std::string toString() const;
+        virtual std::string toString() const;
 
-        void setInflection(scalar inflection);
-        scalar getInflection() const;
+        virtual void setInflection(scalar inflection);
+        virtual scalar getInflection() const;
 
-        void setSlope(scalar slope);
-        scalar getSlope() const;
+        virtual void setSlope(scalar slope);
+        virtual scalar getSlope() const;
 
     };
 
-} 
+}
 #endif /* FL_SIGMOID_H */

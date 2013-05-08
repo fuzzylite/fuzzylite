@@ -41,25 +41,25 @@ namespace fl {
                 scalar topRight = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar bottomRight = std::numeric_limits<scalar>::quiet_NaN());
 
+        virtual ~PiShape();
 
-        std::string className() const;
-        PiShape* copy() const;
+        virtual std::string className() const;
+        virtual PiShape* copy() const;
 
-        scalar membership(scalar x) const;
-        std::string toString() const;
+        virtual scalar membership(scalar x) const;
+        virtual std::string toString() const;
 
+        virtual void setBottomLeft(scalar a);
+        virtual scalar getBottomLeft() const;
 
-        void setBottomLeft(scalar a);
-        scalar getBottomLeft() const;
+        virtual void setTopLeft(scalar b);
+        virtual scalar getTopLeft() const;
 
-        void setTopLeft(scalar b);
-        scalar getTopLeft() const;
+        virtual void setTopRight(scalar d);
+        virtual scalar getTopRight() const;
 
-        void setTopRight(scalar d);
-        scalar getTopRight() const;
-
-        void setBottomRight(scalar c);
-        scalar getBottomRight() const;
+        virtual void setBottomRight(scalar c);
+        virtual scalar getBottomRight() const;
 
     };
 }

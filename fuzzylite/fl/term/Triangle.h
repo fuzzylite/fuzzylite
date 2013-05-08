@@ -37,25 +37,25 @@ namespace fl {
                 scalar a = -std::numeric_limits<scalar>::infinity(),
                 scalar b = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar c = std::numeric_limits<scalar>::infinity());
-        ~Triangle();
+        virtual ~Triangle();
 
-        std::string className() const;
-        Triangle* copy() const;
+        virtual std::string className() const;
+        virtual Triangle* copy() const;
 
-        scalar membership(scalar x) const;
+        virtual scalar membership(scalar x) const;
 
-        std::string toString() const;
+        virtual std::string toString() const;
 
-        void setA(scalar a);
-        scalar getA() const;
+        virtual void setA(scalar a);
+        virtual scalar getA() const;
 
-        void setB(scalar b);
-        scalar getB() const;
+        virtual void setB(scalar b);
+        virtual scalar getB() const;
 
-        void setC(scalar c);
-        scalar getC() const;
+        virtual void setC(scalar c);
+        virtual scalar getC() const;
 
     };
 
-} 
+}
 #endif /* FL_TRIANGLE_H */

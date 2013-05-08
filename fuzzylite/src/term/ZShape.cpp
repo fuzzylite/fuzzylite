@@ -26,8 +26,9 @@
 namespace fl {
 
     ZShape::ZShape(const std::string& name, scalar start, scalar end)
-    : Term(name), _start(start), _end(end) {
-    }
+    : Term(name), _start(start), _end(end) { }
+
+    ZShape::~ZShape() { }
 
     std::string ZShape::className() const {
         return "ZShape";

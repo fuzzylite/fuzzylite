@@ -27,7 +27,7 @@
 
 namespace fl {
 
-    class FL_EXPORT SShape  : public Term{
+    class FL_EXPORT SShape : public Term {
     protected:
         scalar _start, _end;
 
@@ -35,19 +35,19 @@ namespace fl {
         SShape(const std::string& name = "",
                 scalar _start = -std::numeric_limits<scalar>::infinity(),
                 scalar _end = std::numeric_limits<scalar>::infinity());
+        virtual ~SShape();
 
+        virtual std::string className() const;
+        virtual SShape* copy() const;
 
-        std::string className() const;
-        SShape* copy() const;
+        virtual scalar membership(scalar x) const;
+        virtual std::string toString() const;
 
-        scalar membership(scalar x) const;
-        std::string toString() const;
+        virtual void setStart(scalar start);
+        virtual scalar getStart() const;
 
-        void setStart(scalar start);
-        scalar getStart() const;
-
-        void setEnd(scalar end);
-        scalar getEnd() const;
+        virtual void setEnd(scalar end);
+        virtual scalar getEnd() const;
     };
 }
 

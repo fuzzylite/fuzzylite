@@ -36,27 +36,27 @@ namespace fl {
                 scalar b = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar c = std::numeric_limits<scalar>::quiet_NaN(),
                 scalar d = std::numeric_limits<scalar>::infinity());
-        ~Trapezoid();
+        virtual ~Trapezoid();
 
-        std::string className() const;
-        Trapezoid* copy() const;
+        virtual std::string className() const;
+        virtual Trapezoid* copy() const;
 
-        scalar membership(scalar x) const;
-        std::string toString() const;
+        virtual scalar membership(scalar x) const;
+        virtual std::string toString() const;
 
-        void setA(scalar a);
-        scalar getA() const;
+        virtual void setA(scalar a);
+        virtual scalar getA() const;
 
-        void setB(scalar b);
-        scalar getB() const;
+        virtual void setB(scalar b);
+        virtual scalar getB() const;
 
-        void setC(scalar c);
-        scalar getC() const;
+        virtual void setC(scalar c);
+        virtual scalar getC() const;
 
-        void setD(scalar d);
-        scalar getD() const;
+        virtual void setD(scalar d);
+        virtual scalar getD() const;
 
     };
 
-} 
+}
 #endif /* FL_TRAPEZOID_H */

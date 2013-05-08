@@ -1,9 +1,11 @@
 fl/Headers.h
 fl/fuzzylite.h
-fl/defuzzifier/MaximumDefuzzifier.h
 fl/defuzzifier/Defuzzifier.h
-fl/defuzzifier/Centroid.h
 fl/defuzzifier/Bisector.h
+fl/defuzzifier/Centroid.h
+fl/defuzzifier/SmallestOfMaximum.h
+fl/defuzzifier/LargestOfMaximum.h
+fl/defuzzifier/MeanOfMaximum.h
 fl/Engine.h
 fl/Exception.h
 fl/factory/Factory.h

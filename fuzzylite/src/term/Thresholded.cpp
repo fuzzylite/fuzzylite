@@ -34,8 +34,7 @@ namespace fl {
         if (term) this->_name = term->getName();
     }
 
-    Thresholded::~Thresholded() {
-    }
+    Thresholded::~Thresholded() { }
 
     std::string Thresholded::className() const {
         return "Thresholded";

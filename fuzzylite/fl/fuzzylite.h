@@ -128,17 +128,17 @@ namespace fl {
         static std::string shortVersion();
         static std::string longVersion();
         static std::string author();
-        
+
         static std::string date();
         static std::string platform();
         static std::string configuration();
-        
+
         static std::string floatingPoint();
-        
+
         static int decimals();
         static scalar precision();
         static int defaultDivisions();
-        
+
         static bool logEnabled();
     };
 }

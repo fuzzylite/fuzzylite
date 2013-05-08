@@ -24,7 +24,9 @@
 
 #include "fl/defuzzifier/Centroid.h"
 #include "fl/defuzzifier/Bisector.h"
-#include "fl/defuzzifier/MaximumDefuzzifier.h"
+#include "fl/defuzzifier/SmallestOfMaximum.h"
+#include "fl/defuzzifier/LargestOfMaximum.h"
+#include "fl/defuzzifier/MeanOfMaximum.h"
 #include "fl/Exception.h"
 
 namespace fl {
@@ -37,8 +39,8 @@ namespace fl {
         if (className == Centroid().className()) return new Centroid(divisions);
         if (className == Bisector().className()) return new Bisector(divisions);
         if (className == SmallestOfMaximum().className()) return new SmallestOfMaximum(divisions);
-        if (className == LargestOfMaximum().className()) return new LargestOfMaximum(divisions);
         if (className == MeanOfMaximum().className()) return new MeanOfMaximum(divisions);
+        if (className == LargestOfMaximum().className()) return new LargestOfMaximum(divisions);
         throw fl::Exception("[factory error] Defuzzifier of class <" + className + "> not recognized", FL_AT);
     }
 
@@ -47,8 +49,8 @@ namespace fl {
         result.push_back(Centroid().className());
         result.push_back(Bisector().className());
         result.push_back(SmallestOfMaximum().className());
-        result.push_back(LargestOfMaximum().className());
         result.push_back(MeanOfMaximum().className());
+        result.push_back(LargestOfMaximum().className());
         return result;
     }
 

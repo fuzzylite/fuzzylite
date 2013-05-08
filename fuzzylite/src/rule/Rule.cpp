@@ -29,7 +29,7 @@
 #include <sstream>
 
 namespace fl {
-	std::string Rule::FL_IF = "if";
+    std::string Rule::FL_IF = "if";
     std::string Rule::FL_IS = "is";
     std::string Rule::FL_THEN = "then";
     std::string Rule::FL_AND = "and";
@@ -38,8 +38,7 @@ namespace fl {
 
     Rule::Rule() : _weight(1.0) { }
 
-    Rule::~Rule() {
-    }
+    Rule::~Rule() { }
 
     void Rule::setWeight(scalar weight) {
         this->_weight = weight;
@@ -75,34 +74,36 @@ namespace fl {
         }
         return ss.str();
     }
-	
-	std::string Rule::ifKeyword(){
-		return fl::Rule::FL_IF;
-	}
-	std::string Rule::isKeyword(){
-		return fl::Rule::FL_IS;
-	}
-	std::string Rule::thenKeyword(){
-		return fl::Rule::FL_THEN;
-	}
-	
-	std::string Rule::andKeyword(){
-		return fl::Rule::FL_AND;
-	}
-	
-	std::string Rule::orKeyword(){
-		return fl::Rule::FL_OR;
-	}
-	
-	std::string Rule::withKeyword(){
-		return fl::Rule::FL_WITH;
-	}
-	
-	
-	
-	
-	
-	
-	
+
+    std::string Rule::ifKeyword() {
+        return fl::Rule::FL_IF;
+    }
+
+    std::string Rule::isKeyword() {
+        return fl::Rule::FL_IS;
+    }
+
+    std::string Rule::thenKeyword() {
+        return fl::Rule::FL_THEN;
+    }
+
+    std::string Rule::andKeyword() {
+        return fl::Rule::FL_AND;
+    }
+
+    std::string Rule::orKeyword() {
+        return fl::Rule::FL_OR;
+    }
+
+    std::string Rule::withKeyword() {
+        return fl::Rule::FL_WITH;
+    }
+
+
+
+
+
+
+
 }
 

@@ -1,3 +1,4 @@
+
 /*   Copyright 2013 Juan Rada-Vilela
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,13 +15,13 @@
  */
 
 /*
- * MaximumDefuzzifier.cpp
+ * MeanOfMaximum.cpp
  *
  *  Created on: 2/12/2012
  *      Author: jcrada
  */
 
-#include "fl/defuzzifier/MaximumDefuzzifier.h"
+#include "fl/defuzzifier/MeanOfMaximum.h"
 
 #include "fl/term/Term.h"
 
@@ -31,28 +32,16 @@
 
 namespace fl {
 
-    MaximumDefuzzifier::MaximumDefuzzifier(Type type, int divisions)
-    : Defuzzifier(divisions), _type(type) { }
+    MeanOfMaximum::MeanOfMaximum(int divisions)
+    : Defuzzifier(divisions) { }
 
-    MaximumDefuzzifier::~MaximumDefuzzifier() { }
+    MeanOfMaximum::~MeanOfMaximum() { }
 
-    std::string MaximumDefuzzifier::className() const {
-        switch (_type) {
-            case SMALLEST:
-                return "SmallestOfMaximum";
-            case LARGEST:
-                return "LargestOfMaximum";
-            case MEAN:
-                return "MeanOfMaximum";
-            default:
-                std::ostringstream ex;
-                ex << "[defuzzifier error] maximum defuzzifier of type <" <<  _type << ">"
-                        " not recognized";
-                throw fl::Exception(ex.str(), FL_AT);
-        }
+    std::string MeanOfMaximum::className() const {
+        return "MeanOfMaximum";
     }
 
-    scalar MaximumDefuzzifier::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
+    scalar MeanOfMaximum::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
         if (maximum - minimum > _divisions) {
             FL_LOG("[accuracy warning] the number of divisions ( " << _divisions << ") "
                     "is less than the range (" << minimum << ", " << maximum << "). In order to "
@@ -67,8 +56,11 @@ namespace fl {
             y = term->membership(x);
 
             if (Op::isGt(y, ymax)) {
-                xsmallest = x;
                 ymax = y;
+
+                xsmallest = x;
+                xlargest = x;
+
                 samePlateau = true;
             } else if (Op::isEq(y, ymax) and samePlateau) {
                 xlargest = x;
@@ -77,23 +69,6 @@ namespace fl {
             }
         }
 
-        switch (_type) {
-            case SMALLEST:
-                return xsmallest;
-            case LARGEST:
-                return xlargest;
-            case MEAN:
-                return (xlargest + xsmallest) / 2.0;
-            default:
-                return std::numeric_limits<scalar>::quiet_NaN();
-        }
-    }
-    
-    void MaximumDefuzzifier::setType(Type type){
-        this->_type = type;
-    }
-    
-    MaximumDefuzzifier::Type MaximumDefuzzifier::getType() const{
-        return this->_type;
+        return (xlargest + xsmallest) / 2.0;
     }
 }

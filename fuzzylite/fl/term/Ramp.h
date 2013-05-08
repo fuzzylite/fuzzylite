@@ -35,19 +35,19 @@ namespace fl {
         Ramp(const std::string& name = "",
                 scalar start = -std::numeric_limits<scalar>::infinity(),
                 scalar end = std::numeric_limits<scalar>::infinity());
-        ~Ramp();
+        virtual ~Ramp();
 
-        std::string className() const;
-        Ramp* copy() const;
+        virtual std::string className() const;
+        virtual Ramp* copy() const;
 
-        scalar membership(scalar x) const;
-        std::string toString() const;
+        virtual scalar membership(scalar x) const;
+        virtual std::string toString() const;
 
-        void setStart(scalar start);
-        scalar getStart() const;
+        virtual void setStart(scalar start);
+        virtual scalar getStart() const;
 
-        void setEnd(scalar end);
-        scalar getEnd() const;
+        virtual void setEnd(scalar end);
+        virtual scalar getEnd() const;
 
     };
 }

@@ -33,5 +33,5 @@ namespace fl {
         scalar hedge(scalar x) const;
     };
 
-} 
+}
 #endif /* FL_ANY_H */
