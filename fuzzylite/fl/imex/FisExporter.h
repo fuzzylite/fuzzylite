@@ -32,8 +32,8 @@ namespace fl {
     class SNorm;
     class Defuzzifier;
     class Term;
-    class MamdaniRule;
-    class MamdaniProposition;
+    class FuzzyRule;
+    class FuzzyProposition;
     class Variable;
 
     class FL_EXPORT FisExporter : public Exporter {
@@ -42,8 +42,8 @@ namespace fl {
         std::string exportInputs(const Engine* engine) const;
         std::string exportOutputs(const Engine* engine) const;
         std::string exportRules(const Engine* engine) const;
-        std::string exportRule(const MamdaniRule* rule, const Engine* engine) const;
-        std::string translate(const std::vector<MamdaniProposition*>& propositions,
+        std::string exportRule(const FuzzyRule* rule, const Engine* engine) const;
+        std::string translate(const std::vector<FuzzyProposition*>& propositions,
             const std::vector<Variable*> variables) const;
         
         

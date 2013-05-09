@@ -55,7 +55,7 @@ namespace fl {
 #define FL_AT FL__FILE__, __LINE__, __FUNCTION__
 
 #ifndef FL_DECIMALS
-#define FL_DECIMALS 3 //for formatting strings
+#define FL_DECIMALS 3//for formatting strings
 #endif
 
 #ifndef FL_DIVISIONS

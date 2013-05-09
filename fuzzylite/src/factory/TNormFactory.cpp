@@ -31,6 +31,7 @@ namespace fl {
     TNormFactory::~TNormFactory() { }
 
     TNorm* TNormFactory::create(const std::string& className) const {
+        if (className == "") return NULL;
         if (className == Minimum().className()) return new Minimum;
         if (className == AlgebraicProduct().className()) return new AlgebraicProduct;
         if (className == BoundedDifference().className()) return new BoundedDifference;

@@ -158,29 +158,29 @@ namespace fl {
             RuleBlock* rb = engine->getRuleBlock(ixRuleBlock);
             if (engine->numberOfRuleBlocks() > 1) fis << "# RuleBlock " << rb->getName() << "\n";
             for (int ixRule = 0; ixRule < rb->numberOfRules(); ++ixRule) {
-                fis << exportRule(dynamic_cast<MamdaniRule*> (rb->getRule(ixRule)), engine) << "\n";
+                fis << exportRule(dynamic_cast<FuzzyRule*> (rb->getRule(ixRule)), engine) << "\n";
             }
         }
         return fis.str();
     }
 
-    std::string FisExporter::exportRule(const MamdaniRule* rule, const Engine* engine) const {
+    std::string FisExporter::exportRule(const FuzzyRule* rule, const Engine* engine) const {
         if (not rule) return "";
-        std::vector<MamdaniProposition*> propositions;
-        std::vector<MamdaniOperator*> operators;
+        std::vector<FuzzyProposition*> propositions;
+        std::vector<FuzzyOperator*> operators;
 
-        std::queue<MamdaniExpression*> bfsQueue;
+        std::queue<FuzzyExpression*> bfsQueue;
         bfsQueue.push(rule->getAntecedent()->getRoot());
         while (not bfsQueue.empty()) {
-            MamdaniExpression* front = bfsQueue.front();
+            FuzzyExpression* front = bfsQueue.front();
             bfsQueue.pop();
             if (front->isOperator) {
-                MamdaniOperator* op = dynamic_cast<MamdaniOperator*> (front);
+                FuzzyOperator* op = dynamic_cast<FuzzyOperator*> (front);
                 bfsQueue.push(op->left);
                 bfsQueue.push(op->right);
                 operators.push_back(op);
             } else {
-                propositions.push_back(dynamic_cast<MamdaniProposition*> (front));
+                propositions.push_back(dynamic_cast<FuzzyProposition*> (front));
             }
         }
 
@@ -215,7 +215,7 @@ namespace fl {
         return fis.str();
     }
 
-    std::string FisExporter::translate(const std::vector<MamdaniProposition*>& propositions,
+    std::string FisExporter::translate(const std::vector<FuzzyProposition*>& propositions,
             const std::vector<Variable*> variables) const {
         std::ostringstream ss;
         for (std::size_t ixVariable = 0; ixVariable < variables.size(); ++ixVariable) {
@@ -224,7 +224,7 @@ namespace fl {
             scalar plusHedge = 0;
             scalar negated = 1;
             for (std::size_t ixProposition = 0; ixProposition < propositions.size(); ++ixProposition) {
-                MamdaniProposition* proposition = propositions.at(ixProposition);
+                FuzzyProposition* proposition = propositions.at(ixProposition);
                 if (proposition->variable != variable) continue;
 
                 for (int termIndex = 0; termIndex < variable->numberOfTerms(); ++termIndex) {

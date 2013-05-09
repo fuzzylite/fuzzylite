@@ -45,7 +45,7 @@ void foo(){
  */
 
 
-void exampleMamdani() {
+void exampleFuzzy() {
     Engine* engine = new Engine("simple-dimmer");
 
     InputVariable* ambientLight = new InputVariable("AmbientLight", 0, 1);
@@ -64,9 +64,9 @@ void exampleMamdani() {
     engine->addOutputVariable(bulbPower);
 
     RuleBlock* ruleblock = new RuleBlock();
-    ruleblock->addRule(MamdaniRule::parse("if AmbientLight is LOW then BulbPower is LOW", engine));
-    ruleblock->addRule(MamdaniRule::parse("if AmbientLight is MEDIUM then BulbPower is MEDIUM", engine));
-    ruleblock->addRule(MamdaniRule::parse("if AmbientLight is HIGH then BulbPower is HIGH", engine));
+    ruleblock->addRule(FuzzyRule::parse("if AmbientLight is LOW then BulbPower is LOW", engine));
+    ruleblock->addRule(FuzzyRule::parse("if AmbientLight is MEDIUM then BulbPower is MEDIUM", engine));
+    ruleblock->addRule(FuzzyRule::parse("if AmbientLight is HIGH then BulbPower is HIGH", engine));
 
     engine->addRuleBlock(ruleblock);
 
@@ -142,29 +142,38 @@ void exampleTakagiSugeno() {
     engine->configure("AlgebraicProduct", "AlgebraicSum", "AlgebraicProduct", "Maximum", "Centroid", FL_DIVISIONS);
     fx->setDefuzzifier(new WeightedAverage());
 
-    int n = 5;
+    int n = 100;
     scalar mse = 0;
+    std::ostringstream r;
+    r << "x = c(";
     for (fl::scalar in = x->getMinimum(); in < x->getMaximum();
             in += (x->getMinimum() + x->getMaximum()) / n) {
         x->setInput(in);
         engine->process();
-        scalar expected = 0;
-        //        flScalar expected = fx->getTerm(0)->membership(in);
-        scalar obtained = fx->defuzzify();
-        scalar se = (expected - obtained) * (expected - obtained);
-        mse += isnan(se) ? 0 : se;
-        FL_LOG("x=" << in << "\texpected_out=" << expected << "\tobtained_out=" << obtained
+        scalar expected = std::sin(in) / in;
+        scalar out = fx->defuzzify();
+        scalar se = (expected - out) * (expected - out);
+        if (not isnan(se)) {
+            mse += se;
+            r << out << ", ";
+        }
+
+        FL_LOG("x=" << in << "\tout=" << out << "\texpected=" << expected
                 << "\tse=" << se);
     }
+    r << ");";
+
     FL_LOG("MSE=" << mse / n);
+    FL_LOG(r.str());
 
     //    std::cout << FclExporter().toString(engine) << "\n" << std::endl;
 
     std::cout << "\n\n";
 }
 
-
 int main(int argc, char** argv) {
+    std::set_terminate(fl::Exception::terminate);
+    std::set_unexpected(fl::Exception::terminate);
     signal(SIGSEGV, fl::Exception::signalHandler);
     signal(SIGABRT, fl::Exception::signalHandler);
     signal(SIGILL, fl::Exception::signalHandler);
@@ -200,7 +209,7 @@ int main(int argc, char** argv) {
     std::cin.get();
     std::cout << "\n==========================================\n";
 
-//    exampleMamdani();
+    //    exampleFuzzy();
     exampleTakagiSugeno();
 
     std::cout << "Bye, " << fl::fuzzylite::name() << "!\n\n";

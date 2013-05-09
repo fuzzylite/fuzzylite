@@ -1505,7 +1505,7 @@ sure 'x' is followed by 'y'.</string>
          <item>
           <widget class="QToolBox" name="toolBox">
            <property name="currentIndex">
-            <number>1</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="page_16">
             <property name="geometry">
@@ -1564,6 +1564,14 @@ sure 'x' is followed by 'y'.</string>
             </layout>
            </widget>
            <widget class="QWidget" name="page_18">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>203</width>
+              <height>190</height>
+             </rect>
+            </property>
             <attribute name="label">
              <string>Custom</string>
             </attribute>
@@ -1613,8 +1621,6 @@ sure 'x' is followed by 'y'.</string>
               </layout>
              </item>
             </layout>
-            <zorder>verticalGroupBox</zorder>
-            <zorder>layoutWidget</zorder>
            </widget>
           </widget>
          </item>

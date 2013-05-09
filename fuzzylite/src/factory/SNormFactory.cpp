@@ -30,6 +30,7 @@ namespace fl {
     SNormFactory::~SNormFactory() { }
 
     SNorm* SNormFactory::create(const std::string& className) const {
+        if (className == "") return NULL;
         if (className == Maximum().className()) return new Maximum;
         if (className == AlgebraicSum().className()) return new AlgebraicSum;
         if (className == BoundedSum().className()) return new BoundedSum;

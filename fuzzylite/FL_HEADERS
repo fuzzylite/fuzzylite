@@ -30,10 +30,6 @@ fl/imex/Exporter.h
 fl/imex/FclImporter.h
 fl/imex/CppExporter.h
 fl/imex/Importer.h
-fl/mamdani/MamdaniConsequent.h
-fl/mamdani/MamdaniAntecedent.h
-fl/mamdani/MamdaniRule.h
-fl/mamdani/MamdaniExpression.h
 fl/norm/Norm.h
 fl/norm/SNorm.h
 fl/norm/TNorm.h

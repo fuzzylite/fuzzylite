@@ -38,6 +38,7 @@ namespace fl {
     HedgeFactory::~HedgeFactory() { }
 
     Hedge* HedgeFactory::create(const std::string& name) const {
+        if (name == "") return NULL;
         if (name == Any().name()) return new Any;
         if (name == Extremely().name()) return new Extremely;
         if (name == Not().name()) return new Not;

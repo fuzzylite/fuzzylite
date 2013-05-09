@@ -294,7 +294,7 @@ namespace fl {
             if (not fl::Op::isEq(weight, 1.0))
                 rule << " " << fl::Rule::FL_WITH << " " << weight;
 
-            ruleblock->addRule(fl::MamdaniRule::parse(rule.str(), engine));
+            ruleblock->addRule(fl::FuzzyRule::parse(rule.str(), engine));
         }
     }
 

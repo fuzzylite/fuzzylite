@@ -126,7 +126,14 @@ namespace fl {
         std::ostringstream ex;
         ex << "[caught signal " << signal << "] backtrace:\n";
         ex << fl::Exception::btCallStack();
-//        throw fl::Exception(ex.str(), FL_AT);
+        throw fl::Exception(ex.str(), FL_AT);
+    }
+    
+    void Exception::terminate(){
+        std::string message = "[unexpected exception] backtrace:\n"
+                + fl::Exception::btCallStack(50);
+        fl::Exception ex(message, FL_AT);
+        exit(EXIT_FAILURE);
     }
 
 }

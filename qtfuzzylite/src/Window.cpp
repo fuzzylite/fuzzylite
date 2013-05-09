@@ -704,7 +704,7 @@ namespace fl {
             for (int i = 0; i < rules.size(); ++i) {
                 if (rules[i].trimmed().startsWith("#")) continue;
                 try {
-                    ruleblock->addRule(MamdaniRule::parse(rules[i].toStdString(), engine));
+                    ruleblock->addRule(FuzzyRule::parse(rules[i].toStdString(), engine));
                     ui->ptx_rules->appendHtml("<font color='green'>" +
                             toHtmlEscaped(rules[i]) + "</font>");
                     ++goodRules;

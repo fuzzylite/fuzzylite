@@ -73,10 +73,6 @@
 #include "fl/rule/FuzzyExpression.h"
 #include "fl/rule/FuzzyRule.h"
 
-#include "fl/mamdani/MamdaniAntecedent.h"
-#include "fl/mamdani/MamdaniConsequent.h"
-#include "fl/mamdani/MamdaniExpression.h"
-#include "fl/mamdani/MamdaniRule.h"
 
 #include "fl/term/Accumulated.h"
 #include "fl/term/Bell.h"

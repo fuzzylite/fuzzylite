@@ -27,6 +27,8 @@
 #include "fl/defuzzifier/SmallestOfMaximum.h"
 #include "fl/defuzzifier/LargestOfMaximum.h"
 #include "fl/defuzzifier/MeanOfMaximum.h"
+#include "fl/defuzzifier/WeightedAverage.h"
+#include "fl/defuzzifier/WeightedSum.h"
 #include "fl/Exception.h"
 
 namespace fl {
@@ -36,11 +38,14 @@ namespace fl {
     DefuzzifierFactory::~DefuzzifierFactory() { }
 
     Defuzzifier* DefuzzifierFactory::create(const std::string& className, int divisions) {
+        if (className == "") return NULL;
         if (className == Centroid().className()) return new Centroid(divisions);
         if (className == Bisector().className()) return new Bisector(divisions);
         if (className == SmallestOfMaximum().className()) return new SmallestOfMaximum(divisions);
         if (className == MeanOfMaximum().className()) return new MeanOfMaximum(divisions);
         if (className == LargestOfMaximum().className()) return new LargestOfMaximum(divisions);
+        if (className == WeightedAverage().className()) return new WeightedAverage;
+        if (className == WeightedSum().className()) return new WeightedSum;
         throw fl::Exception("[factory error] Defuzzifier of class <" + className + "> not recognized", FL_AT);
     }
 
@@ -51,6 +56,8 @@ namespace fl {
         result.push_back(SmallestOfMaximum().className());
         result.push_back(MeanOfMaximum().className());
         result.push_back(LargestOfMaximum().className());
+        result.push_back(WeightedAverage().className());
+        result.push_back(WeightedSum().className());
         return result;
     }
 

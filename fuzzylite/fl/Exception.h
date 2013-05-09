@@ -51,6 +51,8 @@ namespace fl {
         static std::string btCallStack(const int maxCalls = 30);
 
         static void signalHandler(int signal);
+        
+        static void terminate();
     };
 
 }

@@ -15,10 +15,6 @@ src/factory/TermFactory.cpp
 src/factory/SNormFactory.cpp
 src/factory/Factory.cpp
 src/factory/HedgeFactory.cpp
-src/mamdani/MamdaniRule.cpp
-src/mamdani/MamdaniAntecedent.cpp
-src/mamdani/MamdaniExpression.cpp
-src/mamdani/MamdaniConsequent.cpp
 src/norm/TNorm.cpp
 src/norm/SNorm.cpp
 src/Operation.cpp
