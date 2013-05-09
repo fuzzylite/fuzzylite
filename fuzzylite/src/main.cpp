@@ -45,7 +45,7 @@ void foo(){
  */
 
 
-void exampleFuzzy() {
+void exampleMamdani() {
     Engine* engine = new Engine("simple-dimmer");
 
     InputVariable* ambientLight = new InputVariable("AmbientLight", 0, 1);
@@ -92,7 +92,7 @@ void exampleFuzzy() {
 }
 
 void exampleTakagiSugeno() {
-    Engine* engine = new Engine("simple-dimmer");
+    Engine* engine = new Engine("sin(x)/x");
 
     fl::InputVariable* x = new fl::InputVariable("x");
     x->setRange(0, 10);
@@ -139,10 +139,17 @@ void exampleTakagiSugeno() {
 
     engine->addRuleBlock(block);
 
-    engine->configure("AlgebraicProduct", "AlgebraicSum", "AlgebraicProduct", "Maximum", "Centroid", FL_DIVISIONS);
+    engine->configure("AlgebraicProduct", "AlgebraicSum", "AlgebraicProduct",
+            "", "Centroid", FL_DIVISIONS);
     fx->setDefuzzifier(new WeightedAverage());
 
-    int n = 100;
+    std::cout << FclExporter().toString(engine) << "\n" << std::endl;
+
+    std::cout << "Press Enter to test the example..." << std::endl;
+    std::cin.get();
+    std::cout << "==================================\n\n" << std::endl;
+
+    int n = 50;
     scalar mse = 0;
     std::ostringstream r;
     r << "x = c(";
@@ -164,7 +171,7 @@ void exampleTakagiSugeno() {
     r << ");";
 
     FL_LOG("MSE=" << mse / n);
-    FL_LOG(r.str());
+    //    FL_LOG(r.str());
 
     //    std::cout << FclExporter().toString(engine) << "\n" << std::endl;
 
@@ -207,11 +214,16 @@ int main(int argc, char** argv) {
         std::cout << "FL_LOG is NOT enabled and hence will not print anything\n";
     }
 
-    std::cout << "\nPress Enter to continue with an example..." << std::endl;
+    std::cout << "\nPress Enter to continue with a Mamdani example..." << std::endl;
     std::cin.get();
     std::cout << "\n==========================================\n";
 
-    //    exampleFuzzy();
+    exampleMamdani();
+
+    std::cout << "\nPress Enter to continue with a Takagi-Sugeno example..." << std::endl;
+    std::cin.get();
+    std::cout << "\n==========================================\n";
+
     exampleTakagiSugeno();
 
     std::cout << "Bye, " << fl::fuzzylite::name() << "!\n\n";
