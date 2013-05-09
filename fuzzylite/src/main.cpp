@@ -172,6 +172,8 @@ void exampleTakagiSugeno() {
 }
 
 int main(int argc, char** argv) {
+    (void) argc;
+    (void) argv;
     std::set_terminate(fl::Exception::terminate);
     std::set_unexpected(fl::Exception::terminate);
     signal(SIGSEGV, fl::Exception::signalHandler);

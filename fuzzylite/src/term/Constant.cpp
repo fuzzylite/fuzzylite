@@ -12,7 +12,7 @@ namespace fl {
     }
 
     scalar Constant::membership(scalar x) const {
-//        return fl::Op::isEq(x, this->_value);
+        (void) x;
         return this->_value;
     }
 

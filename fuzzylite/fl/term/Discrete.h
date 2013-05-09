@@ -39,6 +39,7 @@ namespace fl {
 
         Discrete(const std::string& name = "");
 
+        //Parameters *MUST* be double.
         Discrete(const std::string& name, int argc, ...) throw (fl::Exception);
 
         Discrete(const std::string& name,

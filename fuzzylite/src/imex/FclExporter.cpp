@@ -151,6 +151,8 @@ namespace fl {
         if (defuzzifier->className() == SmallestOfMaximum().className()) return "LM";
         if (defuzzifier->className() == LargestOfMaximum().className()) return "RM";
         if (defuzzifier->className() == MeanOfMaximum().className()) return "MM";
+        if (defuzzifier->className() == WeightedAverage().className()) return "COGS";
+        if (defuzzifier->className() == WeightedSum().className()) return "WS";
         return defuzzifier->className();
     }
 
@@ -164,6 +166,18 @@ namespace fl {
                 if (i < discrete->x.size() - 1) ss << " ";
             }
             return ss.str();
+        }
+        if (term->className() == Constant().className()){
+            const Constant* constant = dynamic_cast<const Constant*> (term);
+            std::ostringstream ss;
+            ss << constant->getValue();
+            return ss.str();
+        }
+        if (term->className() == Linear().className()){
+            const Linear* linear = dynamic_cast<const Linear*> (term);
+            for (int  i = 0 ; i < linear->getNumberOfCoefficients(); ++i){
+                //TODO: Find out how to write to FCL a Linear term.
+            }
         }
         return term->toString();
     }

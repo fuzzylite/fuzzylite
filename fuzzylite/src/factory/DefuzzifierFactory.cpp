@@ -39,11 +39,11 @@ namespace fl {
 
     Defuzzifier* DefuzzifierFactory::create(const std::string& className, int divisions) {
         if (className == "") return NULL;
-        if (className == Centroid().className()) return new Centroid(divisions);
         if (className == Bisector().className()) return new Bisector(divisions);
-        if (className == SmallestOfMaximum().className()) return new SmallestOfMaximum(divisions);
-        if (className == MeanOfMaximum().className()) return new MeanOfMaximum(divisions);
+        if (className == Centroid().className()) return new Centroid(divisions);
         if (className == LargestOfMaximum().className()) return new LargestOfMaximum(divisions);
+        if (className == MeanOfMaximum().className()) return new MeanOfMaximum(divisions);
+        if (className == SmallestOfMaximum().className()) return new SmallestOfMaximum(divisions);
         if (className == WeightedAverage().className()) return new WeightedAverage;
         if (className == WeightedSum().className()) return new WeightedSum;
         throw fl::Exception("[factory error] Defuzzifier of class <" + className + "> not recognized", FL_AT);
@@ -51,11 +51,11 @@ namespace fl {
 
     std::vector<std::string> DefuzzifierFactory::available() const {
         std::vector<std::string> result;
-        result.push_back(Centroid().className());
         result.push_back(Bisector().className());
-        result.push_back(SmallestOfMaximum().className());
-        result.push_back(MeanOfMaximum().className());
+        result.push_back(Centroid().className());
         result.push_back(LargestOfMaximum().className());
+        result.push_back(MeanOfMaximum().className());
+        result.push_back(SmallestOfMaximum().className());
         result.push_back(WeightedAverage().className());
         result.push_back(WeightedSum().className());
         return result;

@@ -48,7 +48,7 @@ namespace fl {
         }
         scalar dx = (maximum - minimum) / _divisions;
         scalar x, y;
-        scalar ymax = -1.0, xsmallest;
+        scalar ymax = -1.0, xsmallest = minimum;
         for (int i = 0; i < _divisions; ++i) {
             x = minimum + (i + 0.5) * dx;
             y = term->membership(x);

@@ -48,7 +48,7 @@ namespace fl {
         int counter = _divisions;
         int left = 0, right = 0;
         scalar leftArea = 0, rightArea = 0;
-        scalar xLeft, xRight;
+        scalar xLeft = minimum, xRight = maximum;
         while (counter-- > 0) {
             if (fl::Op::isLE(leftArea, rightArea)) {
                 xLeft = minimum + (left + 0.5) * dx;

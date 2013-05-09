@@ -26,9 +26,11 @@
 #include "fl/Exception.h"
 
 #include "fl/term/Bell.h"
+#include "fl/term/Constant.h"
 #include "fl/term/Discrete.h"
 #include "fl/term/Gaussian.h"
 #include "fl/term/GaussianProduct.h"
+#include "fl/term/Linear.h"
 #include "fl/term/PiShape.h"
 #include "fl/term/Ramp.h"
 #include "fl/term/Rectangle.h"
@@ -70,6 +72,12 @@ namespace fl {
                 return new Bell("", params.at(0), params.at(1), params.at(2));
             }
         }
+        
+        if (className == Constant().className()){
+            if ((int)params.size() == (requiredParams = 1)){
+                return new Constant("", params.at(0));
+            }
+        }
 
         if (className == Gaussian().className()) {
             if ((int)params.size() >= (requiredParams = 2)) {
@@ -80,6 +88,12 @@ namespace fl {
         if (className == GaussianProduct().className()) {
             if ((int)params.size() >= (requiredParams = 4)) {
                 return new GaussianProduct("", params.at(0), params.at(1), params.at(2), params.at(3));
+            }
+        }
+        
+        if (className == Linear().className()){
+            if ((int)params.size() >= (requiredParams = 1)){
+                return new Linear("", params);
             }
         }
 
@@ -155,8 +169,10 @@ namespace fl {
         std::vector<std::string> result;
         result.push_back(Discrete().className());
         result.push_back(Bell().className());
+        result.push_back(Constant().className());
         result.push_back(Gaussian().className());
         result.push_back(GaussianProduct().className());
+        result.push_back(Linear().className());
 
         result.push_back(PiShape().className());
         result.push_back(Ramp().className());

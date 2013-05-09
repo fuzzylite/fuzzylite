@@ -2,10 +2,23 @@
 
 #include "fl/term/Linear.h"
 
+#include <cstdarg>
+
 namespace fl {
 
-    Linear::Linear(const std::string& name) : Term(name) { }
+    Linear::Linear(const std::string& name, const std::vector<scalar>& coefficients)
+    : Term(name), _coefficients(coefficients) { }
 
+    Linear::Linear(const std::string& name, int argc, ...) throw (fl::Exception)
+    : Term(name) {
+        va_list args;
+        va_start(args, argc);
+        for (int i = 0; i < argc; ++i) {
+            _coefficients.push_back((scalar) va_arg(args, double));
+        }
+        va_end(args);
+    }
+    
     Linear::~Linear() { }
 
     std::string Linear::className() const {
@@ -18,64 +31,70 @@ namespace fl {
 
     scalar Linear::membership(scalar x) const {
         (void) x;
-        std::map<std::string, std::pair<scalar, const InputVariable*> >::const_iterator it =
-                this->_coefficients.begin();
-        scalar result = 0.0;
-        while (it != this->_coefficients.end()) {
-            std::pair<scalar, const InputVariable*> weightVariable = it->second;
-            result += weightVariable.first * weightVariable.second->getInput();
-            it++;
+        if (_coefficients.size() < _inputVariables.size() or
+                _coefficients.size() > _inputVariables.size() + 1) {
+            std::ostringstream ss;
+            ss << "[term error] the number of coefficients "
+                    "(" << _coefficients.size() << ") must match the number "
+                    "of input variables (" << _inputVariables.size() << ") or "
+                    "exceed it by one";
+            throw fl::Exception(ss.str(), FL_AT);
         }
+        scalar result = 0;
+        for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
+            result += _coefficients.at(i) * _inputVariables.at(i)->getInput();
+        }
+        if (_coefficients.size() > _inputVariables.size()) {
+            result += _coefficients.back();
+        }
+
         return result;
     }
 
     std::string Linear::toString() const {
-        std::map<std::string, std::pair<scalar, const InputVariable*> >::const_iterator it =
-                this->_coefficients.begin();
         std::ostringstream ss;
         ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << className() << " (";
-        while (it != this->_coefficients.end()) {
-            std::pair<scalar, const InputVariable*> weightVariable = it->second;
-            ss << weightVariable.first << "*" << weightVariable.second->getName();
-            it++;
-            if (it != this->_coefficients.end()) {
+        for (std::size_t i = 0; i < _coefficients.size(); ++i) {
+            ss << _coefficients.at(i);
+            if (i < _coefficients.size() - 1) {
                 ss << ", ";
             }
         }
         ss << ")";
         return ss.str();
     }
-
-    void Linear::setCoefficient(scalar coefficient, const InputVariable* input) {
-        this->_coefficients.at(input->getName()) =
-                std::pair<scalar, const InputVariable*>(coefficient, input);
+    
+    void Linear::setInputVariables(const std::vector<const InputVariable*>& inputVariables) {
+        this->_inputVariables = inputVariables;
     }
 
-    scalar Linear::getCoefficient(const std::string& inputVariable) const {
-        std::map<std::string, std::pair<scalar, const InputVariable*> >::const_iterator it =
-                this->_coefficients.find(inputVariable);
-        if (it == this->_coefficients.end()) return std::numeric_limits<scalar>::quiet_NaN();
-        return it->second.first;
+    const std::vector<const InputVariable*>& Linear::getInputVariables() const {
+        return this->_inputVariables;
     }
 
-    scalar Linear::removeCoefficient(const std::string& inputVariable) {
-        std::map<std::string, std::pair<scalar, const InputVariable*> >::iterator it =
-                this->_coefficients.find(inputVariable);
-        if (it == this->_coefficients.end()) return std::numeric_limits<scalar>::quiet_NaN();
-        scalar result = it->second.first;
-        this->_coefficients.erase(it);
-        return result;
+    void Linear::setCoefficients(const std::vector<scalar>& coefficients) {
+        this->_coefficients = coefficients;
     }
 
-    bool Linear::hasCoefficient(const std::string& inputVariable) const {
-        std::map<std::string, std::pair<scalar, const InputVariable*> >::const_iterator it =
-                this->_coefficients.find(inputVariable);
-        return it != this->_coefficients.end();
+    const std::vector<scalar>& Linear::getCoefficients() const {
+        return this->_coefficients;
     }
 
-    void Linear::clearCoefficients() {
-        this->_coefficients.clear();
+    void Linear::setNumberOfCoefficients(int coefficients) {
+        this->_coefficients = std::vector<scalar>(coefficients);
+    }
+
+    int Linear::getNumberOfCoefficients() const {
+        return this->_coefficients.size();
+    }
+
+    void Linear::setCoefficient(int index, scalar coefficient) {
+        this->_coefficients.at(index) = coefficient;
+    }
+
+    scalar Linear::getCoefficient(int index) const {
+        return this->_coefficients.at(index);
     }
 
 }

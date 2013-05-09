@@ -126,9 +126,9 @@ namespace fl {
 
             if (key == "Name") engine->setName(value);
             else if (key == "Type") {
-                if (value != "mamdani")
-                    throw fl::Exception("[importer error] fuzzylite supports only mamdani-type "
-                        "engines at the moment", FL_AT);
+                if (not (value == "mamdani" or value == "sugeno" or value == "takagi-sugeno"))
+                    throw fl::Exception("[importer error] fuzzylite supports only mamdani or sugeno "
+                        "engines", FL_AT);
 
             } else if (key == "AndMethod") andMethod = value;
             else if (key == "OrMethod") orMethod = value;
@@ -194,7 +194,15 @@ namespace fl {
                 output->setMinimum(minimum);
                 output->setMaximum(maximum);
             } else if (key.substr(0, 2) == "MF") {
-                output->addTerm(extractTerm(value));
+                Term* term = extractTerm(value);
+                if (term->className() == Linear().className()) {
+                    Linear* linear = dynamic_cast<Linear*> (term);
+                    linear->setInputVariables(
+                            std::vector<const InputVariable*>
+                            (engine->inputVariables().begin(),
+                            engine->inputVariables().end()));
+                }
+                output->addTerm(term);
             } else if (key == "Default") {
                 output->setDefaultValue(fl::Op::toScalar(value));
             } else if (key == "Lock") {
@@ -348,13 +356,14 @@ namespace fl {
     }
 
     std::string FisImporter::flDefuzzifier(const std::string & name) const {
-        std::string className = name;
-        if (name == "centroid") className = Centroid().className();
-        else if (name == "bisector") className = Bisector().className();
-        else if (name == "som") className = SmallestOfMaximum().className();
-        else if (name == "lom") className = LargestOfMaximum().className();
-        else if (name == "mom") className = MeanOfMaximum().className();
-        return className;
+        if (name == "centroid") return Centroid().className();
+        if (name == "bisector") return Bisector().className();
+        if (name == "lom") return LargestOfMaximum().className();
+        if (name == "mom") return MeanOfMaximum().className();
+        if (name == "som") return SmallestOfMaximum().className();
+        if (name == "wtaver") return WeightedAverage().className();
+        if (name == "wtsum") return WeightedSum().className();
+        return name;
     }
 
     Term * FisImporter::extractTerm(const std::string & fis) const {
@@ -390,9 +399,11 @@ namespace fl {
             const std::string& name, const std::vector<scalar>& params) const {
         std::map<std::string, std::string> mapping;
         mapping["discretemf"] = Discrete().className();
+        mapping["constant"] = Constant().className();
         mapping["gbellmf"] = Bell().className();
         mapping["gaussmf"] = Gaussian().className();
         mapping["gauss2mf"] = GaussianProduct().className();
+        mapping["linear"] = Linear().className();
         mapping["pimf"] = PiShape().className();
         mapping["rampmf"] = Ramp().className();
         mapping["rectmf"] = Rectangle().className();
@@ -458,8 +469,4 @@ namespace fl {
         minimum = fl::Op::toScalar(begin.substr(1));
         maximum = fl::Op::toScalar(end.substr(0, end.size() - 1));
     }
-
-
-
-
 }

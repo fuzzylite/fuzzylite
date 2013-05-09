@@ -29,7 +29,8 @@ namespace fl {
     }
 
     scalar Any::hedge(scalar x) const {
+        (void) x;
         return 1.0;
     }
 
-} 
+}

@@ -86,7 +86,14 @@ namespace fl {
 
         template <typename T>
         static std::string str(const std::vector<T>& x,
-                const std::string& separator = ", ", int precision = FL_DECIMALS);
+                const std::string& separator = ", ", int precision = FL_DECIMALS) {
+            std::ostringstream ss;
+            for (std::size_t i = 0; i < x.size(); ++i) {
+                ss << str(x.at(i), precision);
+                if (i < x.size() - 1) ss << separator;
+            }
+            return ss.str();
+        }
     };
 
     typedef Operation Op;

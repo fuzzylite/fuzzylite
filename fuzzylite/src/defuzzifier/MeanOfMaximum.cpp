@@ -49,7 +49,9 @@ namespace fl {
         }
         scalar dx = (maximum - minimum) / _divisions;
         scalar x, y;
-        scalar ymax = -1.0, xsmallest, xlargest;
+        scalar ymax = -1.0;
+        scalar xsmallest = minimum;
+        scalar xlargest = maximum;
         bool samePlateau = false;
         for (int i = 0; i < _divisions; ++i) {
             x = minimum + (i + 0.5) * dx;

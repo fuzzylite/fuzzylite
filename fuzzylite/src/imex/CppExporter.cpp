@@ -127,12 +127,29 @@ namespace fl {
             return ss.str();
         }
 
+        if (term->className() == Constant().className()) {
+            const Constant* x = dynamic_cast<const Constant*> (term);
+            ss << fl::Op::str(x->getValue()) << ")";
+            return ss.str();
+        }
+
         if (term->className() == Discrete().className()) {
             const Discrete* x = dynamic_cast<const Discrete*> (term);
             ss << x->x.size() + x->y.size() << ",";
             for (std::size_t i = 0; i < x->x.size(); ++i) {
                 ss << fl::Op::str(x->x.at(i)) << "," << fl::Op::str(x->y.at(i));
-                if (i < x->x.size() - 1) ss << ",";
+                if (i < x->x.size() - 1) ss << ", ";
+            }
+            ss << ")";
+            return ss.str();
+        }
+
+        if (term->className() == Linear().className()) {
+            const Linear* x = dynamic_cast<const Linear*> (term);
+            ss << x->getNumberOfCoefficients() << ",";
+            for (int i = 0; i < x->getNumberOfCoefficients(); ++i) {
+                ss << fl::Op::str(x->getCoefficient(i));
+                if (i < x->getNumberOfCoefficients() - 1) ss << ", ";
             }
             ss << ")";
             return ss.str();
@@ -243,6 +260,10 @@ namespace fl {
 
     std::string CppExporter::toCpp(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier) return "NULL";
+        if (defuzzifier->className() == WeightedAverage().className()
+                or defuzzifier->className() == WeightedSum().className()){
+            return "new fl::" + defuzzifier->className() + "()";
+        }
         return "new fl::" + defuzzifier->className() + "("
                 + fl::Op::str((scalar) defuzzifier->getDivisions(), 0) + ")";
     }

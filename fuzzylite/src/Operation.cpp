@@ -177,14 +177,14 @@ namespace fl {
         return ss.str();
     }
 
-    template <typename T>
-    std::string Operation::str(const std::vector<T>& x,
-            const std::string& separator, int precision) {
-        std::ostringstream ss;
-        for (std::size_t i = 0; i < x.size(); ++i) {
-            ss << fl::Op::str(x.at(i), precision);
-            if (i < x.size() - 1) ss << separator;
-        }
-        return ss.str();
-    }
+//    template <typename T>
+//    std::string Operation::str(const std::vector<T>& x,
+//            const std::string& separator, int precision) {
+//        std::ostringstream ss;
+//        for (std::size_t i = 0; i < x.size(); ++i) {
+//            ss << fl::Op::str(x.at(i), precision);
+//            if (i < x.size() - 1) ss << separator;
+//        }
+//        return ss.str();
+//    }
 }

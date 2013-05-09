@@ -22,7 +22,6 @@
 
 #include "fl/term/Discrete.h"
 
-#include <sstream>
 #include <cstdarg>
 namespace fl {
 

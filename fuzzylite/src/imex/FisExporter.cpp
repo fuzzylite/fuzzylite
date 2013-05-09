@@ -51,7 +51,26 @@ namespace fl {
         std::ostringstream fis;
         fis << "[System]\n";
         fis << "Name='" << engine->getName() << "'\n";
-        fis << "Type='mamdani'\n";
+        std::string type = "unknown";
+        if (engine->numberOfOutputVariables() > 0) {
+            int sugeno = 0, mamdani = 0;
+            for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+                Defuzzifier* defuzzifier = engine->getOutputVariable(i)->getDefuzzifier();
+                if (defuzzifier) {
+                    if (defuzzifier->className() == WeightedAverage().className()
+                            or defuzzifier->className() == WeightedSum().className()) {
+                        sugeno++;
+                    } else {
+                        mamdani++;
+                    }
+                }
+            }
+            if (mamdani > 0 and sugeno == 0) type = "mamdani";
+            else if (mamdani == 0 and sugeno > 0) type = "sugeno";
+            else type = "unknown";
+        }
+        fis << "Type='" << type << "'\n";
+
         fis << "Version=" << FL_VERSION << "\n";
         fis << "NumInputs=" << engine->numberOfInputVariables() << "\n";
         fis << "NumOutputs=" << engine->numberOfOutputVariables() << "\n";
@@ -289,9 +308,11 @@ namespace fl {
         if (not defuzzifier) return "";
         if (defuzzifier->className() == Centroid().className()) return "centroid";
         if (defuzzifier->className() == Bisector().className()) return "bisector";
-        if (defuzzifier->className() == SmallestOfMaximum().className()) return "som";
         if (defuzzifier->className() == LargestOfMaximum().className()) return "lom";
         if (defuzzifier->className() == MeanOfMaximum().className()) return "mom";
+        if (defuzzifier->className() == SmallestOfMaximum().className()) return "som";
+        if (defuzzifier->className() == WeightedAverage().className()) return "wtaver";
+        if (defuzzifier->className() == WeightedSum().className()) return "wtsum";
         return defuzzifier->className();
     }
 
@@ -304,11 +325,17 @@ namespace fl {
             return ss.str();
         }
 
+        if (term->className() == Constant().className()) {
+            const Constant* x = dynamic_cast<const Constant*> (term);
+            ss << "'constant',[" << fl::Op::str(x->getValue()) << "]";
+            return ss.str();
+        }
+
         if (term->className() == Discrete().className()) {
             ss << "'discretemf',[";
             const Discrete* x = dynamic_cast<const Discrete*> (term);
             for (std::size_t i = 0; i < x->x.size(); ++i) {
-                ss << x->x.at(i) << " " << x->y.at(i);
+                ss << fl::Op::str(x->x.at(i)) << " " << fl::Op::str(x->y.at(i));
                 if (i < x->x.size() - 1) ss << " ";
             }
             ss << "]";
@@ -328,6 +355,13 @@ namespace fl {
             ss << "'gauss2mf',[" << fl::Op::str(4, params, " ") << "]";
             return ss.str();
         }
+
+        if (term->className() == Linear().className()) {
+            const Linear* x = dynamic_cast<const Linear*> (term);
+            ss << "'linear',[" << fl::Op::str<scalar>(x->getCoefficients(), " ") << "]";
+            return ss.str();
+        }
+
 
         if (term->className() == PiShape().className()) {
             const PiShape* x = dynamic_cast<const PiShape*> (term);

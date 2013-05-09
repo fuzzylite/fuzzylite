@@ -51,7 +51,7 @@ set(FL_LIBS)
 
 if(UNIX)
     add_definitions(-DFL_UNIX)
-    set(CMAKE_CXX_FLAGS "-Werror")
+    set(CMAKE_CXX_FLAGS "-Werror -Wall -Wextra")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DFL_DEBUG")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 if(NOT APPLE)
@@ -60,6 +60,7 @@ endif(NOT APPLE)
 
 elseif(WIN32)
     add_definitions(-DFL_WINDOWS)
+    set(CMAKE_CXX_FLAGS "/Wall -WX")
     set(FL_LIBS dbghelp)
 endif(UNIX)
 

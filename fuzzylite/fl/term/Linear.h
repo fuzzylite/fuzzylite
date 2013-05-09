@@ -11,25 +11,32 @@
 #include "fl/term/Term.h"
 #include "fl/variable/InputVariable.h"
 
-#include <map>
-#include <utility>
 
 namespace fl {
 
     class FL_EXPORT Linear : public Term {
     protected:
-        std::map<std::string, std::pair<scalar, const InputVariable*> > _coefficients;
+        std::vector<scalar> _coefficients;
+        std::vector<const InputVariable*> _inputVariables;
 
     public:
-        Linear(const std::string& name = "");
+        Linear(const std::string& name = "",
+                const std::vector<scalar>& coefficients = std::vector<scalar>());
+        //Arguments *MUST* be double
+        Linear(const std::string& name, int argc, ...) throw (fl::Exception);
         virtual ~Linear();
 
-        virtual void setCoefficient(scalar coefficient, const InputVariable* input);
-        virtual scalar getCoefficient(const std::string& input) const;
-        virtual scalar removeCoefficient(const std::string& input);
-        virtual bool hasCoefficient(const std::string& input) const;
+        virtual void setInputVariables(const std::vector<const InputVariable*>& inputVariables);
+        virtual const std::vector<const InputVariable*>& getInputVariables() const;
+        
+        virtual void setCoefficients(const std::vector<scalar>& coefficients);
+        virtual const std::vector<scalar>& getCoefficients() const;
 
-        virtual void clearCoefficients();
+        virtual void setNumberOfCoefficients(int coefficients);
+        virtual int getNumberOfCoefficients() const;
+
+        virtual void setCoefficient(int index, scalar coefficient);
+        virtual scalar getCoefficient(int index) const;
 
         virtual scalar membership(scalar x) const;
 
