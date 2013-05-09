@@ -85,7 +85,7 @@ namespace fl {
             case MEAN:
                 return (xlargest + xsmallest) / 2.0;
             default:
-                return std::numeric_limits<scalar>::quiet_NaN();
+                return fl::nan;
         }
     }
     

@@ -36,10 +36,10 @@ namespace fl {
 
     public:
         PiShape(const std::string& name = "",
-                scalar bottomLeft = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar topLeft = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar topRight = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar bottomRight = std::numeric_limits<scalar>::quiet_NaN());
+                scalar bottomLeft = fl::nan,
+                scalar topLeft = fl::nan,
+                scalar topRight = fl::nan,
+                scalar bottomRight = fl::nan);
 
         virtual ~PiShape();
 

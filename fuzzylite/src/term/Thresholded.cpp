@@ -45,7 +45,7 @@ namespace fl {
     }
 
     scalar Thresholded::membership(scalar x) const {
-        if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
+        if (fl::Op::isNan(x)) return fl::nan;
         return _activation->compute(this->_term->membership(x), _threshold);
     }
 

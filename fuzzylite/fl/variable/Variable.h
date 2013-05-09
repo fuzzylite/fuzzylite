@@ -56,8 +56,8 @@ namespace fl {
 
     public:
         Variable(const std::string& name = "",
-                scalar minimum = -std::numeric_limits<scalar>::infinity(),
-                scalar maximum = std::numeric_limits<scalar>::infinity());
+                scalar minimum = -fl::inf,
+                scalar maximum = fl::inf);
         Variable(const Variable& copy);
 
         virtual ~Variable();

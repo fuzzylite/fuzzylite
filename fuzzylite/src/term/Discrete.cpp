@@ -71,7 +71,7 @@ namespace fl {
     }
 
     scalar Discrete::membership(scalar _x_) const {
-        if (fl::Op::isNan(_x_)) return std::numeric_limits<scalar>::quiet_NaN();
+        if (fl::Op::isNan(_x_)) return fl::nan;
         if (x.empty() or y.empty()) return 0.0;
         if (x.size() != y.size()) {
             std::ostringstream ex;

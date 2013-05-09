@@ -33,8 +33,8 @@ namespace fl {
 
     public:
         Rectangle(const std::string& name = "",
-                scalar minimum = -std::numeric_limits<scalar>::infinity(),
-                scalar maximum = std::numeric_limits<scalar>::infinity());
+                scalar minimum = -fl::inf,
+                scalar maximum = fl::inf);
         virtual ~Rectangle();
 
         virtual std::string className() const;

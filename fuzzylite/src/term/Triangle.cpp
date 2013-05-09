@@ -42,7 +42,7 @@ namespace fl {
     }
 
     scalar Triangle::membership(scalar x) const {
-        if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
+        if (fl::Op::isNan(x)) return fl::nan;
         
         scalar minimum = _a;
         scalar maximum = _c;

@@ -56,7 +56,7 @@ void exampleFuzzy() {
 
 
     OutputVariable* bulbPower = new OutputVariable("BulbPower", 0, 2);
-    bulbPower->setDefaultValue(std::numeric_limits<scalar>::quiet_NaN());
+    bulbPower->setDefaultValue(fl::nan);
     bulbPower->setLockDefuzzifiedValue(false);
     bulbPower->addTerm(new Triangle("LOW", 0.0, 0.5, 1));
     bulbPower->addTerm(new Triangle("MEDIUM", 0.5, 1, 1.5));
@@ -123,7 +123,7 @@ void exampleTakagiSugeno() {
     fx->addTerm(new Constant("f8", 0.12));
     fx->addTerm(new Constant("f9", 0.04));
 
-    //    bulbPower->setDefaultValue(std::numeric_limits<scalar>::quiet_NaN());
+    //    bulbPower->setDefaultValue(fl::nan);
     //    bulbPower->setLockDefuzzifiedValue(false);
 
     fl::RuleBlock* block = new fl::RuleBlock();
@@ -195,9 +195,9 @@ int main(int argc, char** argv) {
             << "Precision is set to " << fl::fuzzylite::precision() << "\n"
             << "Only " << fl::fuzzylite::decimals() << " decimals are printed\n"
             << std::setprecision(FL_DECIMALS) << std::fixed
-            << "Infinity is printed as: (" << (-std::numeric_limits<scalar>::infinity())
-            << " , " << std::numeric_limits<scalar>::infinity() << ")\n"
-            << "NaN values are printed as: " << std::numeric_limits<scalar>::quiet_NaN() << "\n"
+            << "Infinity is printed as: (" << (-fl::inf)
+            << " , " << fl::inf << ")\n"
+            << "NaN values are printed as: " << fl::nan << "\n"
             << "Defuzzifiers by default use " << fl::fuzzylite::defaultDivisions() << " divisions\n";
     if (fl::fuzzylite::logEnabled()) {
         std::cout << "FL_LOG is enabled and prints in console as follows:\n";

@@ -38,8 +38,8 @@ namespace fl {
         const SNorm* _accumulation;
     public:
         Accumulated(const std::string& name = "",
-                scalar minimum = -std::numeric_limits<scalar>::infinity(),
-                scalar maximum = std::numeric_limits<scalar>::infinity(),
+                scalar minimum = -fl::inf,
+                scalar maximum = fl::inf,
                 const SNorm* accumulation = NULL);
         virtual ~Accumulated();
 

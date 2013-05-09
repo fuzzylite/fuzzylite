@@ -42,7 +42,7 @@ namespace fl {
     }
 
     scalar SigmoidDifference::membership(scalar x) const {
-        if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
+        if (fl::Op::isNan(x)) return fl::nan;
 
         scalar a = 1.0 / (1 + std::exp(-_rising * (x - _left)));
         scalar b = 1.0 / (1 + std::exp(-_falling * (x - _right)));

@@ -43,7 +43,7 @@ namespace fl {
     }
 
     scalar Bell::membership(scalar x) const {
-        if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
+        if (fl::Op::isNan(x)) return fl::nan;
         //from octave: gbellmf.m
         return 1.0 / (1.0 + std::pow(std::abs((x - _center) / _width), 2 * _slope));
     }

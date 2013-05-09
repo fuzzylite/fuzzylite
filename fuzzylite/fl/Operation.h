@@ -75,7 +75,7 @@ namespace fl {
         static std::string trim(const std::string& text);
 
         static scalar toScalar(const std::string& x, bool quiet = false,
-                scalar alternative = std::numeric_limits<scalar>::quiet_NaN())
+                scalar alternative = fl::nan)
         throw (fl::Exception);
 
         static std::string str(int x);

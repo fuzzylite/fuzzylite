@@ -36,10 +36,10 @@ namespace fl {
 
     public:
         SigmoidDifference(const std::string& name = "",
-                scalar left = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar rising = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar falling = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar right = std::numeric_limits<scalar>::quiet_NaN());
+                scalar left = fl::nan,
+                scalar rising = fl::nan,
+                scalar falling = fl::nan,
+                scalar right = fl::nan);
 
         virtual ~SigmoidDifference();
 

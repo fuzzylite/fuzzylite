@@ -41,7 +41,7 @@ namespace fl {
     }
 
     scalar Sigmoid::membership(scalar x) const {
-        if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
+        if (fl::Op::isNan(x)) return fl::nan;
         return 1.0 / (1.0 + std::exp(-_slope * (x - _inflection)));
     }
 

@@ -39,7 +39,7 @@ namespace fl {
     }
 
     bool Operation::isInf(scalar x) {
-        return std::abs(x) == std::numeric_limits<scalar>::infinity();
+        return std::abs(x) == fl::inf;
     }
 
     bool Operation::isNan(scalar x) {
@@ -132,16 +132,16 @@ namespace fl {
         if (not iss.fail()) return result;
 
         std::ostringstream nan, pInf, nInf;
-        nan << std::numeric_limits<scalar>::quiet_NaN();
-        pInf << std::numeric_limits<scalar>::infinity();
-        nInf << (-std::numeric_limits<scalar>::infinity());
+        nan << fl::nan;
+        pInf << fl::inf;
+        nInf << (-fl::inf);
 
         if (x == nan.str() or x == "nan")
-            return std::numeric_limits<scalar>::quiet_NaN();
+            return fl::nan;
         if (x == pInf.str() or x == "inf")
-            return std::numeric_limits<scalar>::infinity();
+            return fl::inf;
         if (x == nInf.str() or x == "-inf")
-            return -std::numeric_limits<scalar>::infinity();
+            return -fl::inf;
         if (!quiet) {
             std::ostringstream ex;
             ex << "[conversion error] from <" << x << "> to scalar";

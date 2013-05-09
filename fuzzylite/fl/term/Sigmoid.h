@@ -33,8 +33,8 @@ namespace fl {
         scalar _slope;
     public:
         Sigmoid(const std::string& name = "",
-                scalar inflection = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar slope = std::numeric_limits<scalar>::quiet_NaN());
+                scalar inflection = fl::nan,
+                scalar slope = fl::nan);
         virtual ~Sigmoid();
 
         virtual std::string className() const;

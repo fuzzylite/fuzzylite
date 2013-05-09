@@ -33,8 +33,8 @@ namespace fl {
 
     public:
         Ramp(const std::string& name = "",
-                scalar start = -std::numeric_limits<scalar>::infinity(),
-                scalar end = std::numeric_limits<scalar>::infinity());
+                scalar start = -fl::inf,
+                scalar end = fl::inf);
         virtual ~Ramp();
 
         virtual std::string className() const;

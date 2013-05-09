@@ -265,7 +265,7 @@ namespace fl {
                     else if (hedge->name() == Somewhat().name()) plusHedge += 5;
                     else if (hedge->name() == Extremely().name()) plusHedge += 3;
                     else if (hedge->name() == Very().name()) plusHedge += 2;
-                    else plusHedge = std::numeric_limits<scalar>::quiet_NaN();
+                    else plusHedge = fl::nan;
                 }
 
                 break;

@@ -34,9 +34,9 @@ namespace fl {
         scalar _c;
     public:
         Triangle(const std::string& name = "",
-                scalar a = -std::numeric_limits<scalar>::infinity(),
-                scalar b = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar c = std::numeric_limits<scalar>::infinity());
+                scalar a = -fl::inf,
+                scalar b = fl::nan,
+                scalar c = fl::inf);
         virtual ~Triangle();
 
         virtual std::string className() const;

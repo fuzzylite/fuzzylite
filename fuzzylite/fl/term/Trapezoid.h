@@ -32,10 +32,10 @@ namespace fl {
         scalar _a, _b, _c, _d;
     public:
         Trapezoid(const std::string& name = "",
-                scalar a = -std::numeric_limits<scalar>::infinity(),
-                scalar b = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar c = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar d = std::numeric_limits<scalar>::infinity());
+                scalar a = -fl::inf,
+                scalar b = fl::nan,
+                scalar c = fl::nan,
+                scalar d = fl::inf);
         virtual ~Trapezoid();
 
         virtual std::string className() const;

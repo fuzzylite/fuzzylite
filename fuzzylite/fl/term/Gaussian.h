@@ -34,8 +34,8 @@ namespace fl {
 
     public:
         Gaussian(const std::string& name = "",
-                scalar mean = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar sigma = -std::numeric_limits<scalar>::quiet_NaN());
+                scalar mean = fl::nan,
+                scalar sigma = -fl::nan);
         virtual ~Gaussian();
 
         virtual std::string className() const;

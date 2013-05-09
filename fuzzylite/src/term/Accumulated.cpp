@@ -43,7 +43,7 @@ namespace fl {
     }
 
     scalar Accumulated::membership(scalar x) const {
-        if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
+        if (fl::Op::isNan(x)) return fl::nan;
         scalar mu = 0.0;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             mu = _accumulation->compute(mu, _terms.at(i)->membership(x));

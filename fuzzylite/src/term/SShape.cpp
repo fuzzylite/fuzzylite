@@ -38,7 +38,7 @@ namespace fl {
     }
 
     scalar SShape::membership(scalar x) const {
-        if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
+        if (fl::Op::isNan(x)) return fl::nan;
         //from Octave smf.m
         scalar average = (_start + _end) / 2;
         scalar difference = _end - _start;

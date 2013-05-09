@@ -41,8 +41,8 @@ namespace fl {
 
     public:
         OutputVariable(const std::string& name = "",
-                scalar minimum = -std::numeric_limits<scalar>::infinity(),
-                scalar maximum = std::numeric_limits<scalar>::infinity());
+                scalar minimum = -fl::inf,
+                scalar maximum = fl::inf);
         virtual ~OutputVariable();
 
         virtual Accumulated* output() const;

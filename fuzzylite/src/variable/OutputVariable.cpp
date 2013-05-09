@@ -33,8 +33,8 @@ namespace fl {
             scalar minimum, scalar maximum)
     : Variable(name, minimum, maximum),
     _output(new Accumulated("output", minimum, maximum)),
-    _defuzzifier(NULL), _defaultValue(std::numeric_limits<scalar>::quiet_NaN()),
-    _defuzzifiedValue(std::numeric_limits<scalar>::quiet_NaN()),
+    _defuzzifier(NULL), _defaultValue(fl::nan),
+    _defuzzifiedValue(fl::nan),
     _lockDefuzzifiedValue(true) {
     }
 

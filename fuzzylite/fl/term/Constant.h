@@ -18,7 +18,7 @@ namespace fl {
 
     public:
         Constant(const std::string& name = "", 
-                scalar value = std::numeric_limits<scalar>::quiet_NaN());
+                scalar value = fl::nan);
         virtual ~Constant();
 
         virtual scalar membership(scalar x) const;

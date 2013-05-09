@@ -33,8 +33,8 @@ namespace fl {
 
     public:
         SShape(const std::string& name = "",
-                scalar _start = -std::numeric_limits<scalar>::infinity(),
-                scalar _end = std::numeric_limits<scalar>::infinity());
+                scalar _start = -fl::inf,
+                scalar _end = fl::inf);
         virtual ~SShape();
 
         virtual std::string className() const;

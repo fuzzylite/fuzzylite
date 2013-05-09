@@ -26,6 +26,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <limits>
 
 #ifndef FL_VERSION
 #define FL_VERSION "?"
@@ -46,6 +47,8 @@ namespace fl {
     typedef double scalar;
 #endif
 
+    static const scalar nan = std::numeric_limits<scalar>::quiet_NaN();
+    static const scalar inf = std::numeric_limits<scalar>::infinity();
 }
 
 #define FL__FILE__ std::string(__FILE__).substr(std::string(FL_BUILD_PATH).size())

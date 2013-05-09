@@ -73,7 +73,7 @@ namespace fl {
             if (fl::Op::isNan(defaultValue))
                 cpp << "std::numeric_limits<fl::scalar>::quiet_NaN()";
             else if (fl::Op::isInf(defaultValue))
-                cpp << (defaultValue < 0 ? "-" : "") << "std::numeric_limits<scalar>::infinity()";
+                cpp << (defaultValue < 0 ? "-" : "") << "fl::inf";
             else cpp << fl::Op::str(defaultValue);
             cpp << ");\n";
 

@@ -36,10 +36,10 @@ namespace fl {
 
     public:
         GaussianProduct(const std::string& name = "",
-                scalar meanA = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar sigmaA = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar meanB = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar sigmaB = std::numeric_limits<scalar>::quiet_NaN());
+                scalar meanA = fl::nan,
+                scalar sigmaA = fl::nan,
+                scalar meanB = fl::nan,
+                scalar sigmaB = fl::nan);
 
         virtual ~GaussianProduct();
 

@@ -34,9 +34,9 @@ namespace fl {
         scalar _slope;
     public:
         Bell(const std::string& name = "",
-                scalar center = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar width = std::numeric_limits<scalar>::quiet_NaN(),
-                scalar slope = std::numeric_limits<scalar>::quiet_NaN());
+                scalar center = fl::nan,
+                scalar width = fl::nan,
+                scalar slope = fl::nan);
         virtual ~Bell();
 
         virtual std::string className() const;

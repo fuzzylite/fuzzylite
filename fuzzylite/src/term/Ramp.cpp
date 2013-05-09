@@ -38,7 +38,7 @@ namespace fl {
     }
 
     scalar Ramp::membership(scalar x) const {
-        if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
+        if (fl::Op::isNan(x)) return fl::nan;
         
         if (Op::isEq(_start, _end)) return 0.0;
 
