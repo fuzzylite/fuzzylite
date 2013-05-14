@@ -34,9 +34,9 @@ namespace fl {
         scalar _c;
     public:
         Triangle(const std::string& name = "",
-                scalar a = -fl::inf,
+                scalar a = fl::nan,
                 scalar b = fl::nan,
-                scalar c = fl::inf);
+                scalar c = fl::nan);
         virtual ~Triangle();
 
         virtual std::string className() const;

@@ -28,10 +28,13 @@ namespace fl {
 
     Triangle::Triangle(const std::string& name, scalar a, scalar b, scalar c)
     : Term(name), _a(a), _b(b), _c(c) {
+        if (fl::Op::isNan(c)) {
+            this->_c = b;
+            this->_b = (a + b) / 2.0;
+        }
     }
 
-    Triangle::~Triangle() {
-    }
+    Triangle::~Triangle() { }
 
     std::string Triangle::className() const {
         return "Triangle";
@@ -43,7 +46,7 @@ namespace fl {
 
     scalar Triangle::membership(scalar x) const {
         if (fl::Op::isNan(x)) return fl::nan;
-        
+
         scalar minimum = _a;
         scalar maximum = _c;
         if (Op::isLt(x, minimum) or Op::isGt(x, maximum))
