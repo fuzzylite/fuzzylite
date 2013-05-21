@@ -136,7 +136,8 @@ void exampleTakagiSugeno() {
     block->addRule(fl::FuzzyRule::parse("if x is NEAR_6 then fx = f6", engine));
     block->addRule(fl::FuzzyRule::parse("if x is NEAR_7 then fx = f7", engine));
     block->addRule(fl::FuzzyRule::parse("if x is NEAR_8 then fx = f8", engine));
-    block->addRule(fl::FuzzyRule::parse("if x is NEAR_9 then fx = f10", engine));
+	block->addRule(fl::FuzzyRule::parse("if x is NEAR_9 then fx = f9", engine));
+    //block->addRule(fl::FuzzyRule::parse("if x is NEAR_9 then fx = f10", engine));
 
     engine->addRuleBlock(block);
 
@@ -161,7 +162,7 @@ void exampleTakagiSugeno() {
         scalar expected = std::sin(in) / in;
         scalar out = fx->defuzzify();
         scalar se = (expected - out) * (expected - out);
-        if (not isnan(se)) {
+        if (not fl::Op::isNan(se)) {
             mse += se;
             r << out << ", ";
         }

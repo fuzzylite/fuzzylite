@@ -60,7 +60,8 @@ endif(NOT APPLE)
 
 elseif(WIN32)
     add_definitions(-DFL_WINDOWS)
-    set(CMAKE_CXX_FLAGS "/Wall -WX")
+	#http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
+    set(CMAKE_CXX_FLAGS " /W4 /EHsc")
     set(FL_LIBS dbghelp)
 endif(UNIX)
 

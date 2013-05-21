@@ -66,6 +66,7 @@ namespace fl {
 
     std::string fuzzylite::floatingPoint() {
         scalar someScalar = 0;
+		(void) someScalar;
         std::string type;
 
         std::ostringstream ss;

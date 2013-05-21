@@ -119,6 +119,9 @@ namespace fl {
 //Windows NMake complains I should have pointers in all headers instead of 
 //stack allocated objects. For example, std::string* instead of std::string.
 #pragma warning(disable:4251)
+
+//Ignore conditional expression constant of FL_DBG and alike
+#pragma warning(disable:4127)
 #else 
 #endif
 

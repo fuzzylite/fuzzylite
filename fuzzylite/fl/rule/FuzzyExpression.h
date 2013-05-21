@@ -37,7 +37,7 @@ namespace fl {
     
     class FL_EXPORT FuzzyExpression {
     public:
-        const bool isOperator;
+        bool isOperator;
 
         FuzzyExpression(bool isOperator);
         virtual ~FuzzyExpression();
