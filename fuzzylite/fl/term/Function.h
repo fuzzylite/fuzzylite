@@ -48,18 +48,18 @@ namespace fl {
     protected:
         //        Element* _root;
 
-        Function(const std::string& name = "",
-                const std::string& infixFunction = "");
-        virtual ~Function();
-
-        virtual std::string className() const;
-        virtual Function* copy() const;
-
-        virtual scalar membership(scalar x) const;
-        virtual std::string toString() const;
-
-        virtual void setInfixFunction(const std::string& infixFunction);
-        virtual std::string getInfixFunction() const;
+//        Function(const std::string& name = "",
+//                const std::string& infixFunction = "");
+//        virtual ~Function();
+//
+//        virtual std::string className() const;
+//        virtual Function* copy() const;
+//
+//        virtual scalar membership(scalar x) const;
+//        virtual std::string toString() const;
+//
+//        virtual void setInfixFunction(const std::string& infixFunction);
+//        virtual std::string getInfixFunction() const;
     };
 
 }

@@ -26,8 +26,8 @@
    <string>qtfuzzylite</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/icons/qtfuzzylite.png</normaloff>:/icons/qtfuzzylite.png</iconset>
+   <iconset resource="qtfuzzylite.qrc">
+    <normaloff>:/qtfuzzylite.png</normaloff>:/qtfuzzylite.png</iconset>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
@@ -495,8 +495,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>78</width>
-                        <height>76</height>
+                        <width>100</width>
+                        <height>30</height>
                        </rect>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -588,8 +588,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>78</width>
-                        <height>76</height>
+                        <width>100</width>
+                        <height>30</height>
                        </rect>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_13">

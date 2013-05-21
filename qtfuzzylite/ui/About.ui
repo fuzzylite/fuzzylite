@@ -23,8 +23,8 @@
    <string>About qtfuzzylite</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/icons/qtfuzzylite.png</normaloff>:/icons/qtfuzzylite.png</iconset>
+   <iconset resource="qtfuzzylite.qrc">
+    <normaloff>:/qtfuzzylite.png</normaloff>:/qtfuzzylite.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="sizeConstraint">
@@ -98,16 +98,7 @@ There are still many things to do!&lt;/p&gt;
          <property name="spacing">
           <number>12</number>
          </property>
-         <property name="leftMargin">
-          <number>6</number>
-         </property>
-         <property name="topMargin">
-          <number>6</number>
-         </property>
-         <property name="rightMargin">
-          <number>6</number>
-         </property>
-         <property name="bottomMargin">
+         <property name="margin">
           <number>6</number>
          </property>
          <item>

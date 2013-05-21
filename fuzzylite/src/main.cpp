@@ -122,6 +122,7 @@ void exampleTakagiSugeno() {
     fx->addTerm(new Constant("f7", 0.09));
     fx->addTerm(new Constant("f8", 0.12));
     fx->addTerm(new Constant("f9", 0.04));
+    fx->addTerm(new Linear("f10", engine->inputVariables(), 2, 1.0, 0.0));
 
     //    bulbPower->setDefaultValue(fl::nan);
     //    bulbPower->setLockDefuzzifiedValue(false);
@@ -135,7 +136,7 @@ void exampleTakagiSugeno() {
     block->addRule(fl::FuzzyRule::parse("if x is NEAR_6 then fx = f6", engine));
     block->addRule(fl::FuzzyRule::parse("if x is NEAR_7 then fx = f7", engine));
     block->addRule(fl::FuzzyRule::parse("if x is NEAR_8 then fx = f8", engine));
-    block->addRule(fl::FuzzyRule::parse("if x is NEAR_9 then fx = f9", engine));
+    block->addRule(fl::FuzzyRule::parse("if x is NEAR_9 then fx = f10", engine));
 
     engine->addRuleBlock(block);
 

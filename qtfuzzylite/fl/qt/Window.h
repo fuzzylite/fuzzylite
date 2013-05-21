@@ -38,7 +38,7 @@
 namespace fl {
     namespace qt {
         class Viewer;
-        class Preferences;
+        class Settings;
 
         class Window : public QMainWindow {
             Q_OBJECT
@@ -74,7 +74,7 @@ namespace fl {
             void onInputValueChanged();
 
             //MenuBar
-            void onMenuPreferences();
+            void onMenuSettings();
             void onMenuTerms();
 
             bool confirmImporting();
@@ -117,7 +117,7 @@ namespace fl {
             
         public:
             Ui::Window* ui;
-            Preferences* preferences;
+            Settings* settings;
 
             static Window* mainWindow();
 

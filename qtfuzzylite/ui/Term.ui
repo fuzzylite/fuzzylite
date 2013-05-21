@@ -14,8 +14,8 @@
    <string>Term</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/icons/colorize.png</normaloff>:/icons/colorize.png</iconset>
+   <iconset resource="qtfuzzylite.qrc">
+    <normaloff>:/terms.png</normaloff>:/terms.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -136,8 +136,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>221</width>
-              <height>219</height>
+              <width>108</width>
+              <height>123</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -229,8 +229,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>221</width>
-              <height>219</height>
+              <width>108</width>
+              <height>156</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -332,8 +332,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>221</width>
-              <height>219</height>
+              <width>128</width>
+              <height>90</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -415,8 +415,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>221</width>
-              <height>219</height>
+              <width>140</width>
+              <height>189</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -656,8 +656,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>221</width>
-              <height>157</height>
+              <width>147</width>
+              <height>156</height>
              </rect>
             </property>
             <attribute name="label">
@@ -1166,8 +1166,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>221</width>
-              <height>219</height>
+              <width>132</width>
+              <height>90</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1512,8 +1512,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>203</width>
-              <height>190</height>
+              <width>131</width>
+              <height>45</height>
              </rect>
             </property>
             <attribute name="label">
@@ -1543,8 +1543,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>203</width>
-              <height>190</height>
+              <width>125</width>
+              <height>68</height>
              </rect>
             </property>
             <attribute name="label">

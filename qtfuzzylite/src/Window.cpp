@@ -27,7 +27,7 @@
 
 #include "fl/qt/Window.h"
 #include "fl/qt/About.h"
-#include "fl/qt/Preferences.h"
+#include "fl/qt/Settings.h"
 #include "fl/qt/Term.h"
 #include "fl/qt/Variable.h"
 #include "fl/qt/Model.h"
@@ -62,11 +62,11 @@ namespace fl {
 
         Window::Window(QWidget* parent, Qt::WindowFlags flags) :
         QMainWindow(parent, flags), _lastOpenedFilePath("."),
-        ui(new Ui::Window), preferences(NULL) { }
+        ui(new Ui::Window), settings(NULL) { }
 
         Window::~Window() {
             disconnect();
-            if (preferences) delete preferences;
+            if (settings) delete settings;
             if (_inputViewer) delete _inputViewer;
             if (_outputViewer) delete _outputViewer;
             delete ui;
@@ -80,14 +80,14 @@ namespace fl {
 
             setUnifiedTitleAndToolBarOnMac(true);
             setGeometry(0, 0, 800, 600);
-            preferences = new fl::qt::Preferences(this);
-            preferences->setup();
+            settings = new fl::qt::Settings(this);
+            settings->setup();
             ui->tab_container->setCurrentIndex(0);
 
 #ifdef Q_OS_MAC
             ui->menuTools->addAction("About qtfuzzylite", this, SLOT(onMenuAbout()));
             ui->menuTools->addSeparator();
-            ui->menuTools->addAction("Preferences...", this, SLOT(onMenuPreferences()));
+            ui->menuTools->addAction("Preferences...", this, SLOT(onMenuSettings()));
 #endif
             ui->menuTools->addAction(ui->actionNew);
             ui->menuTools->addSeparator();
@@ -95,7 +95,7 @@ namespace fl {
             ui->menuTools->addSeparator();
 
             QMenu* importMenu = new QMenu("&Import");
-            importMenu->setIcon(QIcon(":/icons/bottom.png"));
+            importMenu->setIcon(QIcon(":/import.png"));
             importMenu->addAction("from &file...", this, SLOT(onMenuImportFromFile()));
             importMenu->addSeparator();
             importMenu->addAction("Fuzzy Controller &Language (FCL)", this, SLOT(onMenuImportFromFCL()));
@@ -103,7 +103,7 @@ namespace fl {
             ui->menuTools->addMenu(importMenu);
 
             QMenu* exportMenu = new QMenu("&Export");
-            exportMenu->setIcon(QIcon(":/icons/top.png"));
+            exportMenu->setIcon(QIcon(":/export.png"));
             exportMenu->addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
             exportMenu->addSeparator();
             exportMenu->addAction("Fuzzy Controller Language (FC&L)", this, SLOT(onMenuExportToFCL()));
@@ -147,7 +147,7 @@ namespace fl {
 
         void Window::connect() {
             QObject::connect(ui->actionPreferences, SIGNAL(triggered()),
-                    this, SLOT(onMenuPreferences()));
+                    this, SLOT(onMenuSettings()));
             QObject::connect(ui->actionTerms, SIGNAL(triggered()),
                     this, SLOT(onMenuTerms()));
             QObject::connect(ui->actionNew, SIGNAL(triggered()),
@@ -203,7 +203,7 @@ namespace fl {
 
         void Window::disconnect() {
             QObject::disconnect(ui->actionPreferences, SIGNAL(triggered()),
-                    this, SLOT(onMenuPreferences()));
+                    this, SLOT(onMenuSettings()));
             QObject::disconnect(ui->actionTerms, SIGNAL(triggered()),
                     this, SLOT(onMenuTerms()));
             QObject::disconnect(ui->actionNew, SIGNAL(triggered()),
@@ -259,8 +259,8 @@ namespace fl {
         void Window::reloadModel() {
             Engine* engine = Model::Default()->engine();
 
-            preferences->applyDefaults();
-            if (preferences->isVisible()) preferences->loadFromModel();
+            settings->applyDefaults();
+            if (settings->isVisible()) settings->loadFromModel();
 
             ui->lvw_inputs->clear();
             ui->lvw_outputs->clear();
@@ -751,9 +751,9 @@ namespace fl {
             }
         }
 
-        void Window::onMenuPreferences() {
-            preferences->hide();
-            preferences->show();
+        void Window::onMenuSettings() {
+            settings->hide();
+            settings->show();
         }
 
         void Window::onMenuTerms() {

@@ -19,13 +19,13 @@
 **/
 
 /*
- * Preferences.cpp
+ * Settings.cpp
  *
  *  Created on: 11/12/2012
  *      Author: jcrada
  */
 
-#include "fl/qt/Preferences.h"
+#include "fl/qt/Settings.h"
 
 #include "fl/qt/Window.h"
 
@@ -37,8 +37,8 @@
 namespace fl {
     namespace qt {
 
-        Preferences::Preferences(QWidget* parent, Qt::WindowFlags f)
-        : QDialog(parent, f), ui(new Ui::Preferences) {
+        Settings::Settings(QWidget* parent, Qt::WindowFlags f)
+        : QDialog(parent, f), ui(new Ui::Settings) {
             setWindowFlags(Qt::Dialog
                     | Qt::WindowSystemMenuHint
                     | Qt::WindowCloseButtonHint
@@ -46,12 +46,12 @@ namespace fl {
 
         }
 
-        Preferences::~Preferences() {
+        Settings::~Settings() {
             disconnect();
             delete ui;
         }
 
-        void Preferences::setup() {
+        void Settings::setup() {
             ui->setupUi(this);
             layout()->setSizeConstraint(QLayout::SetFixedSize);
             this->adjustSize();
@@ -81,7 +81,7 @@ namespace fl {
             connect();
         }
 
-        void Preferences::connect() {
+        void Settings::connect() {
             QObject::connect(ui->cbx_tnorm, SIGNAL(currentIndexChanged(int)),
                     this, SLOT(onChangeTNorm(int)));
             QObject::connect(ui->cbx_snorm, SIGNAL(currentIndexChanged(int)),
@@ -111,7 +111,7 @@ namespace fl {
 
         }
 
-        void Preferences::disconnect() {
+        void Settings::disconnect() {
             QObject::disconnect(ui->cbx_tnorm, SIGNAL(currentIndexChanged(int)),
                     this, SLOT(onChangeTNorm(int)));
             QObject::disconnect(ui->cbx_snorm, SIGNAL(currentIndexChanged(int)),
@@ -139,7 +139,7 @@ namespace fl {
                     this, SLOT(onChangeHedgeSelection(int)));
         }
 
-        void Preferences::showEvent(QShowEvent*) {
+        void Settings::showEvent(QShowEvent*) {
             this->adjustSize();
             QRect scr = Window::mainWindow()->geometry();
             move(scr.center().x() - rect().center().x(), scr.top());
@@ -148,7 +148,7 @@ namespace fl {
             loadFromModel();
         }
 
-        void Preferences::applyDefaults() {
+        void Settings::applyDefaults() {
             fl::Engine* engine = Model::Default()->engine();
 
             if (engine->numberOfRuleBlocks() == 0) {
@@ -183,7 +183,7 @@ namespace fl {
             engine->configure(tnorm, snorm, activation, accumulation, defuzzifier, divisions);
         }
 
-        void Preferences::loadFromModel() {
+        void Settings::loadFromModel() {
             disconnect();
             fl::Engine* engine = Model::Default()->engine();
             if (engine->numberOfRuleBlocks() == 0) {
@@ -222,28 +222,28 @@ namespace fl {
             connect();
         }
 
-        int Preferences::indexOfTnorm(const std::string& tnorm) {
+        int Settings::indexOfTnorm(const std::string& tnorm) {
             int result = ui->cbx_tnorm->findText(QString::fromStdString(tnorm));
             if (result == -1) throw fl::Exception("[internal error] T-Norm <"
                     + tnorm + "> not registered", FL_AT);
             return result;
         }
 
-        int Preferences::indexOfSnorm(const std::string& snorm) {
+        int Settings::indexOfSnorm(const std::string& snorm) {
             int result = ui->cbx_snorm->findText(QString::fromStdString(snorm));
             if (result == -1) throw fl::Exception("[internal error] S-Norm <"
                     + snorm + "> not registered", FL_AT);
             return result;
         }
 
-        int Preferences::indexOfDefuzzifier(const std::string& defuzzifier) {
+        int Settings::indexOfDefuzzifier(const std::string& defuzzifier) {
             int result = ui->cbx_defuzzifier->findText(QString::fromStdString(defuzzifier));
             if (result == -1) throw fl::Exception("[internal error] Defuzzifier <"
                     + defuzzifier + "> not registered", FL_AT);
             return result;
         }
 
-        void Preferences::onChangeTNorm(int) {
+        void Settings::onChangeTNorm(int) {
             std::string tnorm = ui->cbx_tnorm->currentText().toStdString();
             fl::Engine* engine = Model::Default()->engine();
             for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
@@ -252,7 +252,7 @@ namespace fl {
             }
         }
 
-        void Preferences::onChangeSNorm(int) {
+        void Settings::onChangeSNorm(int) {
             std::string snorm = ui->cbx_snorm->currentText().toStdString();
             fl::Engine* engine = Model::Default()->engine();
             for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
@@ -261,7 +261,7 @@ namespace fl {
             }
         }
 
-        void Preferences::onChangeActivation(int) {
+        void Settings::onChangeActivation(int) {
             std::string activation = ui->cbx_activation->currentText().toStdString();
             fl::Engine* engine = Model::Default()->engine();
             for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
@@ -270,7 +270,7 @@ namespace fl {
             }
         }
 
-        void Preferences::onChangeAccumulation(int) {
+        void Settings::onChangeAccumulation(int) {
             std::string accumulation = ui->cbx_accumulation->currentText().toStdString();
             fl::Engine* engine = Model::Default()->engine();
             for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
@@ -280,7 +280,7 @@ namespace fl {
             }
         }
 
-        void Preferences::onChangeDefuzzifier(int) {
+        void Settings::onChangeDefuzzifier(int) {
             std::string defuzzifier = ui->cbx_defuzzifier->currentText().toStdString();
             fl::Engine* engine = Model::Default()->engine();
             for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
@@ -290,7 +290,7 @@ namespace fl {
             }
         }
 
-        void Preferences::onChangeDivisions(int value) {
+        void Settings::onChangeDivisions(int value) {
             fl::Engine* engine = Model::Default()->engine();
             for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
                 OutputVariable* outputVariable = engine->getOutputVariable(i);
@@ -298,7 +298,7 @@ namespace fl {
             }
         }
 
-        void Preferences::onChangeHedgeSelection(int) {
+        void Settings::onChangeHedgeSelection(int) {
             fl::Engine* engine = Model::Default()->engine();
             if (ui->ckx_any->isChecked() and not engine->hasHedge(Any().name()))
                 engine->addHedge(new Any);
@@ -333,8 +333,8 @@ namespace fl {
             Window::mainWindow()->fixDependencies();
         }
 
-        void Preferences::main() {
-            Preferences* c = new Preferences;
+        void Settings::main() {
+            Settings* c = new Settings;
             c->setup();
             c->show();
         }

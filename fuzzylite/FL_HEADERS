@@ -45,6 +45,7 @@ fl/rule/Infix.h
 fl/rule/Rule.h
 fl/term/Constant.h
 fl/term/Linear.h
+fl/term/Function.h
 fl/term/Thresholded.h
 fl/term/SShape.h
 fl/term/Ramp.h

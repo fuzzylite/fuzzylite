@@ -27,6 +27,7 @@ src/rule/RuleBlock.cpp
 src/rule/Rule.cpp
 src/term/Constant.cpp
 src/term/Linear.cpp
+src/term/Function.cpp
 src/term/Discrete.cpp
 src/term/Sigmoid.cpp
 src/term/Triangle.cpp

@@ -25,7 +25,7 @@ message($$CONFIG)
 MAKEFILE = Makefile
 TEMPLATE = app
 
-LIBS += -L../fuzzylite/lib
+LIBS += -L/home/jcrada/Development/fuzzylite/fuzzylite/lib/
 
 
 CONFIG(debug, debug|release){
@@ -57,7 +57,7 @@ RCC_DIR = ui
 
 
 
-FORMS += Window.ui Preferences.ui About.ui
+FORMS += Window.ui Preferences.ui About.ui 
 FORMS += Variable.ui Wizard.ui Term.ui ImEx.ui Viewer.ui
 
 HEADERS += fl/qt/Window.h fl/qt/Preferences.h fl/qt/About.h
@@ -69,5 +69,8 @@ SOURCES += src/Term.cpp src/Variable.cpp src/Wizard.cpp
 HEADERS += fl/qt/Model.h fl/qt/Control.h fl/qt/Viewer.h
 SOURCES += src/Model.cpp src/Control.cpp src/Viewer.cpp
 
+HEADERS += fl/qt/TermListWidget.h
+SOURCES += src/TermListWidget.cpp
 
-SOURCES += src/main.cpp
+HEADERS += fl/qt/qtfuzzylite.h
+SOURCES += src/qtfuzzylite.cpp src/main.cpp

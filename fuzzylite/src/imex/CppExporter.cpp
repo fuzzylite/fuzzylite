@@ -71,7 +71,7 @@ namespace fl {
             cpp << "outputVariable" << (i + 1) << "->setDefaultValue(";
             scalar defaultValue = output->getDefaultValue();
             if (fl::Op::isNan(defaultValue))
-                cpp << "std::numeric_limits<fl::scalar>::quiet_NaN()";
+                cpp << "fl::nan";
             else if (fl::Op::isInf(defaultValue))
                 cpp << (defaultValue < 0 ? "-" : "") << "fl::inf";
             else cpp << fl::Op::str(defaultValue);
@@ -105,7 +105,7 @@ namespace fl {
                     << toCpp(ruleblock->getActivation()) << ");\n";
             cpp << "\n";
             for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
-                cpp << "ruleblock" << (i + 1) << "->addRule(fl::MamdaniRule::parse(\n\t\"" <<
+                cpp << "ruleblock" << (i + 1) << "->addRule(fl::FuzzyRule::parse(\n\t\"" <<
                         ruleblock->getRule(r)->getUnparsedRule() << "\", engine));\n";
             }
             cpp << "engine->addRuleBlock(ruleblock" << (i + 1) << ");\n";

@@ -21,14 +21,18 @@ namespace fl {
 
     public:
         Linear(const std::string& name = "",
-                const std::vector<scalar>& coefficients = std::vector<scalar>());
+                const std::vector<scalar>& coefficients = std::vector<scalar>(),
+                const std::vector<InputVariable*>& inputVariables = std::vector<InputVariable*>());
+
         //Arguments *MUST* be double
-        Linear(const std::string& name, int argc, ...) throw (fl::Exception);
+        Linear(const std::string& name, const std::vector<InputVariable*>& inputVariables,
+                int argc, ...) throw (fl::Exception);
         virtual ~Linear();
 
+        virtual void setInputVariables(const std::vector<InputVariable*>& inputVariables);
         virtual void setInputVariables(const std::vector<const InputVariable*>& inputVariables);
         virtual const std::vector<const InputVariable*>& getInputVariables() const;
-        
+
         virtual void setCoefficients(const std::vector<scalar>& coefficients);
         virtual const std::vector<scalar>& getCoefficients() const;
 

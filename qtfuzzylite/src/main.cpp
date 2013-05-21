@@ -16,7 +16,7 @@
 
     Juan Rada-Vilela, 01 February 2013
     jcrada@fuzzylite.com
-**/
+ **/
 
 /*
  * main.cpp
@@ -30,7 +30,7 @@
 #include <QMenuBar>
 #include <fl/Headers.h>
 
-#include "fl/qt/Preferences.h"  
+#include "fl/qt/Settings.h"  
 #include "fl/qt/Window.h"  
 #include "fl/qt/Term.h"
 #include "fl/qt/Viewer.h"   
@@ -42,7 +42,9 @@ namespace fl {
     class QtFuzzyLite : public QApplication {
     public:
 
-        QtFuzzyLite(int& argc, char ** argv) : QApplication(argc, argv) { }
+        QtFuzzyLite(int& argc, char ** argv) : QApplication(argc, argv) {
+            QApplication::setWindowIcon(QIcon(":/qtfuzzylite.png"));
+        }
 
         bool notify(QObject * receiver, QEvent * event) {
             try {

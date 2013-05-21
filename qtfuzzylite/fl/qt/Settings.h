@@ -19,19 +19,19 @@
 **/
 
 /*
- * Preferences.h
+ * Settings.h
  *
  *  Created on: 11/12/2012
  *      Author: jcrada
  */
 
-#ifndef FLQT_PREFERENCES_H_
-#define FLQT_PREFERENCES_H_
+#ifndef FLQT_SETTINGS_H_
+#define FLQT_SETTINGS_H_
 
 #include <QDialog>
 #include <QWidget>
 
-#include "ui_Preferences.h"
+#include "ui_Settings.h"
 
 #include <fl/Headers.h>
 
@@ -41,7 +41,7 @@
 namespace fl {
     namespace qt {
 
-        class Preferences : public QDialog {
+        class Settings : public QDialog {
             Q_OBJECT
 
         protected slots:
@@ -66,10 +66,10 @@ namespace fl {
             virtual void showEvent(QShowEvent*);
             
         public:
-            Ui::Preferences* ui;
+            Ui::Settings* ui;
 
-            Preferences(QWidget* parent = NULL, Qt::WindowFlags f = 0);
-            virtual ~Preferences();
+            Settings(QWidget* parent = NULL, Qt::WindowFlags f = 0);
+            virtual ~Settings();
 
             virtual void setup();
 
@@ -80,4 +80,4 @@ namespace fl {
         };
     }
 }
-#endif /* FLQT_PREFERENCES_H_ */
+#endif /* FLQT_SETTINGS_H_ */

@@ -6,11 +6,25 @@
 
 namespace fl {
 
-    Linear::Linear(const std::string& name, const std::vector<scalar>& coefficients)
-    : Term(name), _coefficients(coefficients) { }
+    Linear::Linear(const std::string& name,
+            const std::vector<scalar>& coefficients,
+            const std::vector<InputVariable*>& inputVariables)
+    : Term(name), _coefficients(coefficients) {
+        _inputVariables = std::vector<const InputVariable*>(inputVariables.begin(), inputVariables.end());
+    }
 
-    Linear::Linear(const std::string& name, int argc, ...) throw (fl::Exception)
+    Linear::Linear(const std::string& name, const std::vector<InputVariable*>& inputVariables,
+            int argc, ...) throw (fl::Exception)
     : Term(name) {
+        _inputVariables = std::vector<const InputVariable*>(inputVariables.begin(), inputVariables.end());
+        if (not (argc == (int) _inputVariables.size() or
+                argc == (int) _inputVariables.size() + 1)) {
+            std::ostringstream ss;
+            ss << "[term error] linear term expects the number of "
+                    "coefficients <" << argc << "> to be equal or greater by one "
+                    "to the number of input variables <" << _inputVariables.size() << ">";
+            throw fl::Exception(ss.str(), FL_AT);
+        }
         va_list args;
         va_start(args, argc);
         for (int i = 0; i < argc; ++i) {
@@ -18,7 +32,7 @@ namespace fl {
         }
         va_end(args);
     }
-    
+
     Linear::~Linear() { }
 
     std::string Linear::className() const {
@@ -31,8 +45,8 @@ namespace fl {
 
     scalar Linear::membership(scalar x) const {
         (void) x;
-        if (_coefficients.size() < _inputVariables.size() or
-                _coefficients.size() > _inputVariables.size() + 1) {
+        if (not (_coefficients.size() == _inputVariables.size() or
+                _coefficients.size() == _inputVariables.size() + 1)) {
             std::ostringstream ss;
             ss << "[term error] the number of coefficients "
                     "(" << _coefficients.size() << ") must match the number "
@@ -62,9 +76,16 @@ namespace fl {
             }
         }
         ss << ")";
+
         return ss.str();
     }
-    
+
+    void Linear::setInputVariables(const std::vector<InputVariable*>& inputVariables) {
+        this->_inputVariables = std::vector<const InputVariable*>(
+                inputVariables.begin(),
+                inputVariables.end());
+    }
+
     void Linear::setInputVariables(const std::vector<const InputVariable*>& inputVariables) {
         this->_inputVariables = inputVariables;
     }
