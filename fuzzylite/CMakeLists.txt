@@ -52,7 +52,7 @@ set(FL_LIBS)
 if(UNIX)
     add_definitions(-DFL_UNIX)
     set(CMAKE_CXX_FLAGS "-Werror -Wall -Wextra")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DFL_DEBUG")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DFL_DEBUG -fallow-parameterless-variadic-functions")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 if(NOT APPLE)
     set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined") #apple does not recognise these

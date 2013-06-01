@@ -17,34 +17,42 @@
 
 #include <algorithm>
 #include <cmath>
-//#include <sstream>
-//#include <iostream>
 #include <iomanip>
-//#include <limits>
-//#include <utility>
-//#include <stdarg.h>
+#include <cstdarg>
 
 namespace fl {
 
-    scalar Operation::min(scalar a, scalar b) {
+    template <typename T>
+    T Operation::min(T a, T b) {
         if (isNan(a)) return b;
         if (isNan(b)) return a;
         return a < b ? a : b;
     }
+    template scalar Operation::min(scalar a, scalar b);
+    template int Operation::min(int a, int b);
 
-    scalar Operation::max(scalar a, scalar b) {
+    template <typename T>
+    T Operation::max(T a, T b) {
         if (isNan(a)) return b;
         if (isNan(b)) return a;
         return a > b ? a : b;
     }
+    template scalar Operation::max(scalar a, scalar b);
+    template int Operation::max(int a, int b);
 
-    bool Operation::isInf(scalar x) {
+    template <typename T>
+    bool Operation::isInf(T x) {
         return std::abs(x) == fl::inf;
     }
+    template bool Operation::isInf(int x);
+    template bool Operation::isInf(scalar x);
 
-    bool Operation::isNan(scalar x) {
+    template <typename T>
+    bool Operation::isNan(T x) {
         return not (x == x);
     }
+    template bool Operation::isNan(int x);
+    template bool Operation::isNan(scalar x);
 
     bool Operation::isLt(scalar a, scalar b, scalar tolerance) {
         return not isEq(a, b, tolerance) and a < b;
@@ -150,13 +158,8 @@ namespace fl {
         return alternative;
     }
 
-    std::string Operation::str(int x) {
-        std::ostringstream ss;
-        ss << x;
-        return ss.str();
-    }
-
-    std::string Operation::str(scalar x, int precision) {
+    template <typename T>
+    std::string Operation::str(T x, int precision) {
         std::ostringstream ss;
         ss << std::setprecision(precision) << std::fixed;
         if (fl::Op::isNan(x)) ss << "nan";
@@ -166,25 +169,47 @@ namespace fl {
         } else ss << x;
         return ss.str();
     }
+    template std::string Operation::str(int x, int precision);
+    template std::string Operation::str(scalar x, int precision);
 
-    std::string Operation::str(int items, scalar* x, const std::string& separator,
-            int precision) {
+    template <> std::string Operation::str(const std::string& x, int precision) {
+        (void) precision;
+        return x;
+    }
+
+    template <typename T>
+    std::string Operation::str(const std::vector<T>& x,
+            const std::string& separator) {
         std::ostringstream ss;
-        for (int i = 0; i < items; ++i) {
-            ss << fl::Op::str(x[i], precision);
-            if (i < items - 1) ss << separator;
+        for (std::size_t i = 0; i < x.size(); ++i) {
+            ss << str(x.at(i));
+            if (i + 1 < x.size()) ss << separator;
         }
         return ss.str();
     }
+    template std::string Operation::str(const std::vector<int>& x,
+            const std::string& separator);
+    template std::string Operation::str(const std::vector<scalar>& x,
+            const std::string& separator);
 
-//    template <typename T>
-//    std::string Operation::str(const std::vector<T>& x,
-//            const std::string& separator, int precision) {
-//        std::ostringstream ss;
-//        for (std::size_t i = 0; i < x.size(); ++i) {
-//            ss << fl::Op::str(x.at(i), precision);
-//            if (i < x.size() - 1) ss << separator;
-//        }
-//        return ss.str();
-//    }
+    template <typename T>
+    std::string Operation::str(int items, const std::string& separator, T first, ...) {
+        std::ostringstream ss;
+        ss << str(first);
+        if (items > 1) ss << separator;
+        va_list args;
+        va_start(args, first);
+        for (int i = 0; i < items - 1; ++i) {
+            ss << str(va_arg(args, T));
+            if (i + 1 < items - 1) ss << separator;
+        }
+        va_end(args);
+        return ss.str();
+    }
+
+    template std::string Operation::str(int items, const std::string& separator,
+            int first, ...);
+    template std::string Operation::str(int items, const std::string& separator,
+            scalar first, ...);
+
 }

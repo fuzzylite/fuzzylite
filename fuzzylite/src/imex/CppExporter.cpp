@@ -105,7 +105,7 @@ namespace fl {
                     << toCpp(ruleblock->getActivation()) << ");\n";
             cpp << "\n";
             for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
-                cpp << "ruleblock" << (i + 1) << "->addRule(fl::FuzzyRule::parse(\n\t\"" <<
+                cpp << "ruleblock" << (i + 1) << "->addRule(fl::FuzzyRule::parse(\t\"" <<
                         ruleblock->getRule(r)->getUnparsedRule() << "\", engine));\n";
             }
             cpp << "engine->addRuleBlock(ruleblock" << (i + 1) << ");\n";
@@ -122,8 +122,8 @@ namespace fl {
 
         if (term->className() == Bell().className()) {
             const Bell* x = dynamic_cast<const Bell*> (term);
-            scalar params[] = {x->getCenter(), x->getWidth(), x->getSlope()};
-            ss << fl::Op::str(3, params) << ")";
+            ss << fl::Op::str(3, ", ",
+                    x->getCenter(), x->getWidth(), x->getSlope()) << ")";
             return ss.str();
         }
 
@@ -135,7 +135,9 @@ namespace fl {
 
         if (term->className() == Discrete().className()) {
             const Discrete* x = dynamic_cast<const Discrete*> (term);
-            ss << x->x.size() + x->y.size() << ",";
+            ss.str(std::string()); //clear stream
+            ss << "fl::" << term->className() << "::create(\"" << term->getName() << "\", ";
+            ss << x->x.size() + x->y.size() << ", ";
             for (std::size_t i = 0; i < x->x.size(); ++i) {
                 ss << fl::Op::str(x->x.at(i)) << "," << fl::Op::str(x->y.at(i));
                 if (i < x->x.size() - 1) ss << ", ";
@@ -146,6 +148,9 @@ namespace fl {
 
         if (term->className() == Linear().className()) {
             const Linear* x = dynamic_cast<const Linear*> (term);
+            ss.str(std::string()); //clear stream
+            ss << "fl::" << x->className() << "::create(\"" << x->getName() << "\", "
+                    << "engine->inputVariables(), ";
             ss << x->getNumberOfCoefficients() << ",";
             for (int i = 0; i < x->getNumberOfCoefficients(); ++i) {
                 ss << fl::Op::str(x->getCoefficient(i));
@@ -157,85 +162,89 @@ namespace fl {
 
         if (term->className() == Gaussian().className()) {
             const Gaussian* x = dynamic_cast<const Gaussian*> (term);
-            scalar params[] = {x->getMean(), x->getStandardDeviation()};
-            ss << fl::Op::str(2, params) << ")";
+            ss << fl::Op::str(2, ", ",
+                    x->getMean(), x->getStandardDeviation()) << ")";
             return ss.str();
         }
 
         if (term->className() == GaussianProduct().className()) {
             const GaussianProduct* x = dynamic_cast<const GaussianProduct*> (term);
-            scalar params[] = {x->getMeanA(), x->getStandardDeviationA(), x->getMeanB(), x->getStandardDeviationB()};
-            ss << fl::Op::str(4, params) << ")";
+            ss << fl::Op::str(4, ", ",
+                    x->getMeanA(), x->getStandardDeviationA(),
+                    x->getMeanB(), x->getStandardDeviationB()) << ")";
             return ss.str();
         }
 
         if (term->className() == PiShape().className()) {
             const PiShape* x = dynamic_cast<const PiShape*> (term);
-            scalar params[] = {x->getBottomLeft(), x->getTopLeft(), x->getTopRight(), x->getBottomRight()};
-            ss << fl::Op::str(4, params) << ")";
+            ss << fl::Op::str(4, ", ",
+                    x->getBottomLeft(), x->getTopLeft(),
+                    x->getTopRight(), x->getBottomRight()) << ")";
             return ss.str();
         }
 
         if (term->className() == Ramp().className()) {
             const Ramp* x = dynamic_cast<const Ramp*> (term);
-            scalar params[] = {x->getStart(), x->getEnd()};
-            ss << fl::Op::str(2, params) << ")";
+            ss << fl::Op::str(2, ", ",
+                    x->getStart(), x->getEnd()) << ")";
             return ss.str();
         }
 
         if (term->className() == Rectangle().className()) {
             const Rectangle* x = dynamic_cast<const Rectangle*> (term);
-            scalar params[] = {x->getMinimum(), x->getMaximum()};
-            ss << fl::Op::str(2, params) << ")";
+            ss << fl::Op::str(2, ", ",
+                    x->getMinimum(), x->getMaximum()) << ")";
             return ss.str();
         }
 
         if (term->className() == SShape().className()) {
             const SShape* x = dynamic_cast<const SShape*> (term);
-            scalar params[] = {x->getStart(), x->getEnd()};
-            ss << fl::Op::str(2, params) << ")";
+            ss << fl::Op::str(2, ", ",
+                    x->getStart(), x->getEnd()) << ")";
             return ss.str();
         }
 
         if (term->className() == Sigmoid().className()) {
             const Sigmoid* x = dynamic_cast<const Sigmoid*> (term);
-            scalar params[] = {x->getInflection(), x->getSlope()};
-            ss << fl::Op::str(2, params) << ")";
+            ss << fl::Op::str(2, ", ",
+                    x->getInflection(), x->getSlope()) << ")";
             return ss.str();
         }
 
         if (term->className() == SigmoidDifference().className()) {
             const SigmoidDifference* x = dynamic_cast<const SigmoidDifference*> (term);
-            scalar params[] = {x->getLeft(), x->getRising(), x->getFalling(), x->getRight()};
-            ss << fl::Op::str(4, params) << ")";
+            ss << fl::Op::str(4, ", ",
+                    x->getLeft(), x->getRising(),
+                    x->getFalling(), x->getRight()) << ")";
             return ss.str();
         }
 
         if (term->className() == SigmoidProduct().className()) {
             const SigmoidProduct* x = dynamic_cast<const SigmoidProduct*> (term);
-            scalar params[] = {x->getLeft(), x->getRising(), x->getFalling(), x->getRight()};
-            ss << fl::Op::str(4, params) << ")";
+            ss << fl::Op::str(4, ", ",
+                    x->getLeft(), x->getRising(),
+                    x->getFalling(), x->getRight()) << ")";
             return ss.str();
         }
 
         if (term->className() == Trapezoid().className()) {
             const Trapezoid* x = dynamic_cast<const Trapezoid*> (term);
-            scalar params[] = {x->getA(), x->getB(), x->getC(), x->getD()};
-            ss << fl::Op::str(4, params) << ")";
+            ss << fl::Op::str(4, ", ",
+                    x->getA(), x->getB(), x->getC(), x->getD()) << ")";
             return ss.str();
         }
 
         if (term->className() == Triangle().className()) {
             const Triangle* x = dynamic_cast<const Triangle*> (term);
-            scalar params[] = {x->getA(), x->getB(), x->getC()};
-            ss << fl::Op::str(3, params) << ")";
+            ss << fl::Op::str(3, ", ",
+                    x->getA(), x->getB(), x->getC()) << ")";
             return ss.str();
         }
 
         if (term->className() == ZShape().className()) {
             const ZShape* x = dynamic_cast<const ZShape*> (term);
-            scalar params[] = {x->getStart(), x->getEnd()};
-            ss << fl::Op::str(2, params) << ")";
+            ss << fl::Op::str(2, ", ",
+                    x->getStart(), x->getEnd()) << ")";
             return ss.str();
         }
 
@@ -261,7 +270,7 @@ namespace fl {
     std::string CppExporter::toCpp(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier) return "NULL";
         if (defuzzifier->className() == WeightedAverage().className()
-                or defuzzifier->className() == WeightedSum().className()){
+                or defuzzifier->className() == WeightedSum().className()) {
             return "new fl::" + defuzzifier->className() + "()";
         }
         return "new fl::" + defuzzifier->className() + "("

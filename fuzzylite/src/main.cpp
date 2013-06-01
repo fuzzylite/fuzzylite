@@ -122,7 +122,10 @@ void exampleTakagiSugeno() {
     fx->addTerm(new Constant("f7", 0.09));
     fx->addTerm(new Constant("f8", 0.12));
     fx->addTerm(new Constant("f9", 0.04));
-    fx->addTerm(new Linear("f10", engine->inputVariables(), 2, 1.0, 0.0));
+    fx->addTerm(Linear::create("f10", engine->inputVariables(), 2, 1.5, 2.4));
+    
+    FL_LOG(Linear::create("f10", engine->inputVariables(), 2)->toString());
+    std::cin.get();
 
     //    bulbPower->setDefaultValue(fl::nan);
     //    bulbPower->setLockDefuzzifiedValue(false);
@@ -142,8 +145,7 @@ void exampleTakagiSugeno() {
     engine->addRuleBlock(block);
 
     engine->configure("AlgebraicProduct", "AlgebraicSum", "AlgebraicProduct",
-            "", "Centroid", FL_DIVISIONS);
-    fx->setDefuzzifier(new WeightedAverage());
+            "", "WeightedAverage", FL_DIVISIONS);
 
     std::cout << FclExporter().toString(engine) << "\n" << std::endl;
 
@@ -220,7 +222,7 @@ int main(int argc, char** argv) {
     std::cin.get();
     std::cout << "\n==========================================\n";
 
-    exampleMamdani();
+//    exampleMamdani();
 
     std::cout << "\nPress Enter to continue with a Takagi-Sugeno example..." << std::endl;
     std::cin.get();

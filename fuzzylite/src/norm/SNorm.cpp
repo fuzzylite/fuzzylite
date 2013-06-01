@@ -45,7 +45,7 @@ namespace fl {
     }
 
     scalar BoundedSum::compute(scalar a, scalar b) const {
-        return Op::min(1, a + b);
+        return Op::min(1.0, a + b);
     }
 
     std::string NormalizedSum::className() const {
@@ -53,7 +53,7 @@ namespace fl {
     }
 
     scalar NormalizedSum::compute(scalar a, scalar b) const {
-        return a + b / Op::max(1, Op::max(a, b));
+        return a + b / Op::max(1.0, Op::max(a, b));
     }
 
     std::string DrasticSum::className() const {
@@ -72,7 +72,7 @@ namespace fl {
     }
 
     scalar EinsteinSum::compute(scalar a, scalar b) const {
-        return (a + b) / (1 + a * b);
+        return (a + b) / (1.0 + a * b);
     }
 
     std::string HamacherSum::className() const {

@@ -23,6 +23,9 @@
 #include "fl/Exception.h"
 
 
+#ifdef FL_NO_BACKTRACE
+//do nothing
+#else
 #ifdef FL_UNIX
 #include <execinfo.h>
 
@@ -30,6 +33,8 @@
 #include <windows.h>
 #include <winbase.h>
 #include <dbghelp.h>
+#endif
+
 #endif
 
 #include <stdlib.h>
@@ -75,8 +80,11 @@ namespace fl {
     }
 
     std::string Exception::btCallStack(const int maxCalls) {
-        std::ostringstream btStream;
+#ifdef FL_NO_BACKTRACE
+        return "[backtrace missing] fuzzylite was built with flag -DFL_NO_BACKTRACE";
+#else
 #ifdef FL_UNIX
+        std::ostringstream btStream;
         int bufferSize = maxCalls;
         void* buffer[bufferSize];
         int backtraceSize = backtrace(buffer, bufferSize);
@@ -90,10 +98,11 @@ namespace fl {
             }
         }
         free(btSymbols);
-        /**
-         *	WINDOWS:
-         */
+        return btStream.str();
+
+
 #elif defined FL_WINDOWS
+        std::ostringstream btStream;
         (void) maxCalls; //Can't allocate an with non-constant size in Windows
         const int bufferSize = 30;
         void* buffer[bufferSize];
@@ -115,10 +124,12 @@ namespace fl {
             }
         }
         free(btSymbol);
-#else
-        btStream << "[backtrace error] backtrace not implemented for your operating system";
-#endif
         return btStream.str();
+#else
+        return "[backtrace missing] supported only in Unix and Windows platforms";
+#endif
+
+#endif
     }
     //execinfo
 
@@ -128,8 +139,8 @@ namespace fl {
         ex << fl::Exception::btCallStack();
         throw fl::Exception(ex.str(), FL_AT);
     }
-    
-    void Exception::terminate(){
+
+    void Exception::terminate() {
         std::string message = "[unexpected exception] backtrace:\n"
                 + fl::Exception::btCallStack(50);
         fl::Exception ex(message, FL_AT);

@@ -57,8 +57,9 @@ namespace fl {
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
             InputVariable* inputVariable = engine->getInputVariable(i);
             fcl << "FUZZIFY " << inputVariable->getName() << "\n";
-            scalar range[] = {inputVariable->getMinimum(), inputVariable->getMaximum()};
-            fcl << "RANGE := (" << fl::Op::str(2, range, " .. ") << ");\n";
+            fcl << "RANGE := (" << fl::Op::str(2, " .. ",
+                    inputVariable->getMinimum(), inputVariable->getMaximum())
+                    << ");\n";
 
             for (int t = 0; t < inputVariable->numberOfTerms(); ++t) {
                 Term* term = inputVariable->getTerm(t);
@@ -71,8 +72,9 @@ namespace fl {
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
             fcl << "DEFUZZIFY " << outputVariable->getName() << "\n";
-            scalar range[] = {outputVariable->getMinimum(), outputVariable->getMaximum()};
-            fcl << "RANGE := (" << fl::Op::str(2, range, " .. ") << ");\n";
+            fcl << "RANGE := (" << fl::Op::str(2, " .. ",
+                    outputVariable->getMinimum(), outputVariable->getMaximum())
+                    << ");\n";
 
             for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
                 Term* term = outputVariable->getTerm(t);
@@ -167,15 +169,15 @@ namespace fl {
             }
             return ss.str();
         }
-        if (term->className() == Constant().className()){
+        if (term->className() == Constant().className()) {
             const Constant* constant = dynamic_cast<const Constant*> (term);
             std::ostringstream ss;
             ss << constant->getValue();
             return ss.str();
         }
-        if (term->className() == Linear().className()){
+        if (term->className() == Linear().className()) {
             const Linear* linear = dynamic_cast<const Linear*> (term);
-            for (int  i = 0 ; i < linear->getNumberOfCoefficients(); ++i){
+            for (int i = 0; i < linear->getNumberOfCoefficients(); ++i) {
                 //TODO: Find out how to write to FCL a Linear term.
             }
         }

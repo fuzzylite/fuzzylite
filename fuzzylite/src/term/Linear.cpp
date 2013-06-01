@@ -13,27 +13,31 @@ namespace fl {
         _inputVariables = std::vector<const InputVariable*>(inputVariables.begin(), inputVariables.end());
     }
 
-    Linear::Linear(const std::string& name, const std::vector<InputVariable*>& inputVariables,
-            int argc, ...) throw (fl::Exception)
-    : Term(name) {
-        _inputVariables = std::vector<const InputVariable*>(inputVariables.begin(), inputVariables.end());
-        if (not (argc == (int) _inputVariables.size() or
-                argc == (int) _inputVariables.size() + 1)) {
-            std::ostringstream ss;
-            ss << "[term error] linear term expects the number of "
-                    "coefficients <" << argc << "> to be equal or greater by one "
-                    "to the number of input variables <" << _inputVariables.size() << ">";
-            throw fl::Exception(ss.str(), FL_AT);
-        }
+    Linear::~Linear() { }
+
+    template <typename T>
+    Linear* Linear::create(const std::string& name,
+            const std::vector<InputVariable*>& inputVariables,
+            T firstCoefficient, ...) throw (fl::Exception) {
+        std::vector<scalar> coefficients;
+        coefficients.push_back(firstCoefficient);
+
         va_list args;
-        va_start(args, argc);
-        for (int i = 0; i < argc; ++i) {
-            _coefficients.push_back((scalar) va_arg(args, double));
+        va_start(args, firstCoefficient);
+        for (std::size_t i = 0; i < inputVariables.size(); ++i) {
+            coefficients.push_back((scalar) va_arg(args, T));
         }
         va_end(args);
+        return new Linear(name, coefficients, inputVariables);
     }
 
-    Linear::~Linear() { }
+    template Linear* Linear::create(const std::string& name,
+            const std::vector<InputVariable*>& inputVariables,
+            scalar firstCoefficient, ...) throw (fl::Exception);
+
+    template Linear* Linear::create(const std::string& name,
+            const std::vector<InputVariable*>& inputVariables,
+            int firstCoefficient, ...) throw (fl::Exception);
 
     std::string Linear::className() const {
         return "Linear";
@@ -45,13 +49,12 @@ namespace fl {
 
     scalar Linear::membership(scalar x) const {
         (void) x;
-        if (not (_coefficients.size() == _inputVariables.size() or
-                _coefficients.size() == _inputVariables.size() + 1)) {
+        if (_coefficients.size() != _inputVariables.size() + 1) {
             std::ostringstream ss;
-            ss << "[term error] the number of coefficients "
-                    "(" << _coefficients.size() << ") must match the number "
-                    "of input variables (" << _inputVariables.size() << ") or "
-                    "exceed it by one";
+            ss << "[linear term] the number of coefficients <" << _coefficients.size() << "> "
+                    "need to be equal to the number of input variables "
+                    "<" << _inputVariables.size() << "> plus a constant c "
+                    "(i.e. ax + by + c)";
             throw fl::Exception(ss.str(), FL_AT);
         }
         scalar result = 0;

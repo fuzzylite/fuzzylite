@@ -35,14 +35,17 @@ namespace fl {
 
     class FL_EXPORT Operation {
     public:
+        template <typename T>
+        static T min(T a, T b);
 
-        static scalar min(scalar a, scalar b);
+        template <typename T>
+        static T max(T a, T b);
 
-        static scalar max(scalar a, scalar b);
+        template <typename T>
+        static bool isInf(T x);
 
-        static bool isInf(scalar x);
-
-        static bool isNan(scalar x);
+        template <typename T>
+        static bool isNan(T x);
 
         //Is less than
 
@@ -60,7 +63,8 @@ namespace fl {
 
         static bool isGE(scalar a, scalar b, scalar tolerance = FL_PRECISION);
 
-        static scalar scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax);
+        static scalar scale(scalar x, scalar fromMin, scalar fromMax,
+                scalar toMin, scalar toMax);
 
         static std::string findReplace(const std::string& str, const std::string& find,
                 const std::string& replace, bool replaceAll = true);
@@ -78,22 +82,15 @@ namespace fl {
                 scalar alternative = fl::nan)
         throw (fl::Exception);
 
-        static std::string str(int x);
-        static std::string str(scalar x, int precision = FL_DECIMALS);
-
-        static std::string str(int items, scalar* x, const std::string& separator = ",",
-                int precision = FL_DECIMALS);
+        template <typename T>
+        static std::string str(T x, int precision = FL_DECIMALS);
 
         template <typename T>
         static std::string str(const std::vector<T>& x,
-                const std::string& separator = ", ", int precision = FL_DECIMALS) {
-            std::ostringstream ss;
-            for (std::size_t i = 0; i < x.size(); ++i) {
-                ss << str(x.at(i), precision);
-                if (i < x.size() - 1) ss << separator;
-            }
-            return ss.str();
-        }
+                const std::string& separator = ", ");
+
+        template <typename T>
+        static std::string str(int items, const std::string& separator, T first, ...);
     };
 
     typedef Operation Op;
