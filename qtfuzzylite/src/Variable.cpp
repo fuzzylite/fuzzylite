@@ -180,8 +180,10 @@ namespace fl {
             editable->setDefaultValue(outputVariable->getDefaultValue());
             editable->setDefuzzifier(outputVariable->getDefuzzifier());
 
-            editable->setDefuzzifiedValue(outputVariable->getDefuzzifiedValue());
-            editable->setLockDefuzzifiedValue(outputVariable->lockDefuzzifiedValue());
+            editable->setLastValidOutput(fl::nan);
+
+            editable->setLockValidOutput(outputVariable->isLockingValidOutput());
+            editable->setLockOutputRange(outputVariable->isLockingOutputRange());
 
             reloadModel();
         }
@@ -225,7 +227,8 @@ namespace fl {
                             QMessageBox::Ok);
                     return;
                 }
-                outputVariable->setLockDefuzzifiedValue(ui->chx_lock->isChecked());
+                outputVariable->setLockValidOutput(ui->chx_lock_valid->isChecked());
+                outputVariable->setLockOutputRange(ui->chx_lock_range->isChecked());
             }
             variable->setName(ui->led_name->text().toStdString());
             QDialog::accept();
@@ -413,7 +416,8 @@ namespace fl {
             OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (variable);
             if (outputVariable) {
                 ui->led_default->setText(QString::number(outputVariable->getDefaultValue()));
-                ui->chx_lock->setChecked(outputVariable->lockDefuzzifiedValue());
+                ui->chx_lock_range->setChecked(outputVariable->isLockingOutputRange());
+                ui->chx_lock_valid->setChecked(outputVariable->isLockingValidOutput());
             }
             scalar minimum = variable->getMinimum();
             scalar maximum = variable->getMaximum();

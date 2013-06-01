@@ -212,17 +212,17 @@ void exampleTakagiSugeno2() {
     outputVariable1->setDefuzzifier(new fl::WeightedAverage());
     outputVariable1->output()->setAccumulation(new fl::Maximum);
 
-    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Neg-Five", engine->inputVariables(), 2, 75.000, 250.000));
-    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Neg-Four", engine->inputVariables(), 2, 48.000, 128.000));
-    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Neg-Three", engine->inputVariables(), 2, 27.000, 54.000));
-    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Neg-Two", engine->inputVariables(), 2, 12.000, 16.000));
-    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Neg-One", engine->inputVariables(), 2, 3.000, 2.000));
-    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Zero", engine->inputVariables(), 2, 0.000, 0.000));
-    outputVariable1->addTerm(fl::Linear::create("Tangent-at-One", engine->inputVariables(), 2, 3.000, -2.000));
-    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Two", engine->inputVariables(), 2, 12.000, -16.000));
-    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Three", engine->inputVariables(), 2, 27.000, -54.000));
-    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Four", engine->inputVariables(), 2, 48.000, -128.000));
-    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Five", engine->inputVariables(), 2, 75.000, -250.000));
+    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Neg-Five", engine->inputVariables(), 75.000, 250.000));
+    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Neg-Four", engine->inputVariables(), 48.000, 128.000));
+    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Neg-Three", engine->inputVariables(), 27.000, 54.000));
+    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Neg-Two", engine->inputVariables(), 12.000, 16.000));
+    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Neg-One", engine->inputVariables(), 3.000, 2.000));
+    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Zero", engine->inputVariables(), 0.000, 0.000));
+    outputVariable1->addTerm(fl::Linear::create("Tangent-at-One", engine->inputVariables(), 3.000, -2.000));
+    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Two", engine->inputVariables(), 12.000, -16.000));
+    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Three", engine->inputVariables(), 27.000, -54.000));
+    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Four", engine->inputVariables(), 48.000, -128.000));
+    outputVariable1->addTerm(fl::Linear::create("Tangent-at-Five", engine->inputVariables(), 75.000, -250.000));
     engine->addOutputVariable(outputVariable1);
 
     fl::RuleBlock* ruleblock1 = new fl::RuleBlock;
@@ -295,7 +295,7 @@ int main(int argc, char** argv) {
     std::cin.get();
     std::cout << "\n==========================================\n";
 
-                    exampleMamdani();
+    exampleMamdani();
 
     std::cout << "\nPress Enter to continue with a Takagi-Sugeno example..." << std::endl;
     std::cin.get();

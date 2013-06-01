@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>292</width>
-    <height>348</height>
+    <width>272</width>
+    <height>376</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -321,30 +321,11 @@
        <number>6</number>
       </property>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <layout class="QFormLayout" name="formLayout">
         <property name="bottomMargin">
          <number>0</number>
         </property>
-        <item>
-         <widget class="QLabel" name="lbl_default">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Default</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
+        <item row="0" column="1">
          <widget class="QLineEdit" name="led_default">
           <property name="enabled">
            <bool>true</bool>
@@ -363,15 +344,40 @@
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QCheckBox" name="chx_lock">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>lock</string>
+           <string>Default</string>
           </property>
          </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Lock</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QCheckBox" name="chx_lock_range">
+            <property name="text">
+             <string>Range</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="chx_lock_valid">
+            <property name="text">
+             <string>Valid</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>

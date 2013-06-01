@@ -153,7 +153,6 @@ namespace fl {
             ss.str(std::string()); //clear stream
             ss << "fl::" << x->className() << "::create(\"" << x->getName() << "\", "
                     << "engine->inputVariables(), ";
-            ss << x->getNumberOfCoefficients() << ",";
             for (int i = 0; i < x->getNumberOfCoefficients(); ++i) {
                 ss << fl::Op::str(x->getCoefficient(i));
                 if (i < x->getNumberOfCoefficients() - 1) ss << ", ";
