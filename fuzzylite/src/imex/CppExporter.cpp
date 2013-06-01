@@ -67,6 +67,8 @@ namespace fl {
             cpp << "outputVariable" << (i + 1) << "->setRange(" <<
                     fl::Op::str(output->getMinimum()) << ", " <<
                     fl::Op::str(output->getMaximum()) << ");\n";
+            cpp << "outputVariable" << (i + 1) << "->setLockOutputRange(" <<
+                    (output->isLockingOutputRange() ? "true" : "false") << ");\n";
 
             cpp << "outputVariable" << (i + 1) << "->setDefaultValue(";
             scalar defaultValue = output->getDefaultValue();
@@ -77,9 +79,9 @@ namespace fl {
             else cpp << fl::Op::str(defaultValue);
             cpp << ");\n";
 
-            cpp << "outputVariable" << (i + 1) << "->setLockDefuzzifiedValue(" <<
-                    (output->lockDefuzzifiedValue() ? "true" : "false") << ");\n";
-
+            cpp << "outputVariable" << (i + 1) << "->setLockValidOutput(" <<
+                    (output->isLockingValidOutput() ? "true" : "false") << ");\n";
+            
             cpp << "outputVariable" << (i + 1) << "->setDefuzzifier(" <<
                     toCpp(output->getDefuzzifier()) << ");\n";
             cpp << "outputVariable" << (i + 1) << "->output()->setAccumulation(" <<
@@ -105,7 +107,7 @@ namespace fl {
                     << toCpp(ruleblock->getActivation()) << ");\n";
             cpp << "\n";
             for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
-                cpp << "ruleblock" << (i + 1) << "->addRule(fl::FuzzyRule::parse(\t\"" <<
+                cpp << "ruleblock" << (i + 1) << "->addRule(fl::FuzzyRule::parse(\"" <<
                         ruleblock->getRule(r)->getUnparsedRule() << "\", engine));\n";
             }
             cpp << "engine->addRuleBlock(ruleblock" << (i + 1) << ");\n";

@@ -129,10 +129,15 @@ namespace fl {
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             FL_DBG(_outputVariables.at(i)->getName() << ".defaultValue= "
                     << _outputVariables.at(i)->getDefaultValue());
-            FL_DBG(_outputVariables.at(i)->getName() << ".lockDefuzzifiedValue= "
-                    << _outputVariables.at(i)->lockDefuzzifiedValue()
-                    << " (no locking ever performed during this debugging block, i.e., defuzzifyIgnoreLock()");
-            scalar output = _outputVariables.at(i)->defuzzifyIgnoreLock(); // override to not change the system
+
+            FL_DBG(_outputVariables.at(i)->getName() << ".lockingRange= "
+                    << _outputVariables.at(i)->isLockingOutputRange());
+
+            FL_DBG(_outputVariables.at(i)->getName() << ".lockingValid= "
+                    << _outputVariables.at(i)->isLockingValidOutput());
+
+            //no locking is ever performed during this debugging block;
+            scalar output = _outputVariables.at(i)->defuzzifyNoLocks();
             FL_DBG(_outputVariables.at(i)->getName() << ".defuzzifiedOutput = " << output);
             FL_DBG(_outputVariables.at(i)->getName() << ".fuzzifiedOutput = " <<
                     _outputVariables.at(i)->fuzzify(output));

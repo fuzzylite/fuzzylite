@@ -90,7 +90,7 @@ namespace fl {
                     << ";\n";
 
             fcl << "DEFAULT := " << fl::Op::str(outputVariable->getDefaultValue());
-            if (outputVariable->lockDefuzzifiedValue()) {
+            if (outputVariable->isLockingValidOutput()) {
                 fcl << " | NC";
             }
             fcl << ";\n";

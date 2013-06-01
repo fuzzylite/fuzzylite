@@ -67,7 +67,7 @@ Additionally, check the list of *[#Applications Applications]* and *[#Publicatio
   * Export your *`fuzzylite`* engines to the `.fis` format and use them in Octave or Matlab
   * Import and export using the Fuzzy Controller Language (FCL) specification
   * Use multiple ruleblocks within an engine, each containing any number of (possibly weighted) rules, and different T-norms, T-conorms, and activation operators
-  * Write Mamdani rules just naturally e.g. "`if Ambient is DARK then BulbPower is HIGH`"
+  * Write Mamdani rules just naturally e.g. "`if Ambient is DARK then Power is HIGH`"
   * Return a default value or the last known valid one in output variables when no rules are activated
   * Play with over a dozen of examples from Octave, Matlab, and ours included in `fcl` and `fis` format, and also in *`fuzzylite`* C++
   * Easily build from sources using the CMake scripts to build *`fuzzylite`* and *`qtfuzzylite`*  in Linux, Mac, and Windows (natively using MSVC)
@@ -87,23 +87,33 @@ ambient->addTerm(new fl::Triangle("MEDIUM", 0.250, 0.500, 0.750));
 ambient->addTerm(new fl::Triangle("BRIGHT", 0.500, 0.750, 1.000));
 engine->addInputVariable(ambient);
 
- fl::OutputVariable* bulbPower = new fl::OutputVariable;
-bulbPower->setName("BulbPower");
-bulbPower->setRange(0.000, 2.000);
-bulbPower->setDefaultValue(0);
+ fl::OutputVariable* power = new fl::OutputVariable;
+power->setName("Power");
+power->setRange(0.000, 2.000);
+power->setDefaultValue(0);
 
- bulbPower->addTerm(new fl::Triangle("LOW", 0.000, 0.500, 1.000));
-bulbPower->addTerm(new fl::Triangle("MEDIUM", 0.500, 1.000, 1.500));
-bulbPower->addTerm(new fl::Triangle("HIGH", 1.000, 1.500, 2.000));
-engine->addOutputVariable(bulbPower);
+ power->addTerm(new fl::Triangle("LOW", 0.000, 0.500, 1.000));
+power->addTerm(new fl::Triangle("MEDIUM", 0.500, 1.000, 1.500));
+power->addTerm(new fl::Triangle("HIGH", 1.000, 1.500, 2.000));
+engine->addOutputVariable(power);
 
  fl::RuleBlock* ruleblock = new fl::RuleBlock;
-ruleblock->addRule(fl::MamdaniRule::parse("if Ambient is DARK then BulbPower is HIGH", engine));
-ruleblock->addRule(fl::MamdaniRule::parse("if Ambient is MEDIUM then BulbPower is MEDIUM", engine));
-ruleblock->addRule(fl::MamdaniRule::parse("if Ambient is BRIGHT then BulbPower is LOW", engine));
+ruleblock->addRule(fl::MamdaniRule::parse("if Ambient is DARK then Power is HIGH", engine));
+ruleblock->addRule(fl::MamdaniRule::parse("if Ambient is MEDIUM then Power is MEDIUM", engine));
+ruleblock->addRule(fl::MamdaniRule::parse("if Ambient is BRIGHT then Power is LOW", engine));
 engine->addRuleBlock(ruleblock);
 
- engine->configure("Minimum", "Maximum", "AlgebraicProduct", "AlgebraicSum", "Centroid");</code>
+ engine->configure("Minimum", "Maximum", "AlgebraicProduct", "AlgebraicSum", "Centroid");
+ 
+ 
+fl::scalar range = ambient->getMaximum() - ambient->getMinimum();
+for (int i = 0 ; i < 50; ++i){
+    fl::scalar light = ambient->getMinimum() + i * (range / 50);
+    ambient->setInput(light);
+    engine->process();
+    FL_LOG("Ambient.input = " << fl::Op::str(light) << " -> " << 
+           "Power.output = " << fl::Op::str(power->defuzzify()));
+}</code>
 
 Watch a tutorial on *`qtfuzzylite`*:
 

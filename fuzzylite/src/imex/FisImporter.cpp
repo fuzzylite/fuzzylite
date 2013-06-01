@@ -205,8 +205,10 @@ namespace fl {
                 output->addTerm(term);
             } else if (key == "Default") {
                 output->setDefaultValue(fl::Op::toScalar(value));
-            } else if (key == "Lock") {
-                output->setLockDefuzzifiedValue((int) fl::Op::toScalar(value) == 1);
+            } else if (key == "LockValid") {
+                output->setLockValidOutput((int) fl::Op::toScalar(value) == 1);
+            }else if (key == "LockRange"){
+                output->setLockOutputRange((int) fl::Op::toScalar(value) == 1);
             } else {
                 FL_LOG("[info] ignoring redundant or non-relevant information from line: " << line);
             }
@@ -389,10 +391,11 @@ namespace fl {
         std::vector<std::string> strParams = fl::Op::split(termParams.at(1), " ");
         std::vector<scalar> params;
         for (std::size_t i = 0; i < strParams.size(); ++i) {
-            params.push_back(fl::Op::toScalar(strParams.at(i)));
+            params.push_back(fl::Op::toScalar(fl::Op::trim(strParams.at(i))));
         }
 
-        return createInstance(termParams.at(0), nameTerm.at(0), params);
+        return createInstance(fl::Op::trim(termParams.at(0)), fl::Op::trim(nameTerm.at(0)),
+                params);
     }
 
     Term * FisImporter::createInstance(const std::string& mClass,

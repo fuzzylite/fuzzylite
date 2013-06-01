@@ -258,9 +258,9 @@ namespace fl {
             } else if (firstToken == "ACCU") {
                 outputVariable->output()->setAccumulation(extractSNorm(line));
             } else if (firstToken == "DEFAULT") {
-                bool lockDefuzzifiedValue;
-                outputVariable->setDefaultValue(extractDefaultValue(line, lockDefuzzifiedValue));
-                outputVariable->setLockDefuzzifiedValue(lockDefuzzifiedValue);
+                bool lockValidOutput;
+                outputVariable->setDefaultValue(extractDefaultValue(line, lockValidOutput));
+                outputVariable->setLockValidOutput(lockValidOutput);
             } else if (firstToken == "RANGE") {
                 scalar minimum, maximum;
                 extractRange(line, minimum, maximum);
@@ -458,7 +458,7 @@ namespace fl {
         }
     }
 
-    scalar FclImporter::extractDefaultValue(const std::string& line, bool& lockDefuzzifiedValue) const {
+    scalar FclImporter::extractDefaultValue(const std::string& line, bool& lockValidOutput) const {
         std::vector<std::string> token = Op::split(line, ":=");
         if (token.size() != 2) {
             std::ostringstream ex;
@@ -481,12 +481,12 @@ namespace fl {
             throw fl::Exception(ex.str(), FL_AT);
         }
 
-        lockDefuzzifiedValue = false;
+        lockValidOutput = false;
 
         if (token.size() == 2) {
             std::string noChangeFlag = Op::findReplace(Op::trim(token.at(1)), ";", "");
             if (noChangeFlag == "NC")
-                lockDefuzzifiedValue = true;
+                lockValidOutput = true;
             else {
                 std::ostringstream ex;
                 ex << "expected keyword <NC>, but found<" << noChangeFlag << "> in "

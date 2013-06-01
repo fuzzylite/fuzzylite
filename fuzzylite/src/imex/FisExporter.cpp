@@ -83,20 +83,20 @@ namespace fl {
         std::string uniquenessError;
         for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
             RuleBlock* rb = engine->getRuleBlock(i);
-            if (not rb->getTnorm()) continue;
-            if (not rb->getSnorm()) continue;
-            if (not rb->getActivation()) continue;
+            std::string tnormClass = (rb->getTnorm()? rb->getTnorm()->className() : "");
+            std::string snormClass = (rb->getSnorm()? rb->getSnorm()->className() : "");
+            std::string activationClass = (rb->getActivation() ? rb->getActivation()->className() : "");
 
             if (not tnorm) tnorm = rb->getTnorm();
-            else if (tnorm->className() != rb->getTnorm()->className())
+            else if (tnorm->className() != tnormClass)
                 uniquenessError = "T-Norm";
 
             if (not snorm) snorm = rb->getSnorm();
-            else if (snorm->className() != rb->getSnorm()->className())
+            else if (snorm->className() != snormClass)
                 uniquenessError = "S-Norm";
 
             if (not activation) activation = rb->getActivation();
-            else if (activation->className() != rb->getActivation()->className())
+            else if (activation->className() != activationClass)
                 uniquenessError = "activation T-Norm";
             if (not uniquenessError.empty()) break;
         }
@@ -113,14 +113,16 @@ namespace fl {
         Defuzzifier* defuzzifier = NULL;
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
-            if (not outputVariable->getDefuzzifier()) continue;
-            if (not outputVariable->output()->getAccumulation()) continue;
+            std::string defuzzClass = outputVariable->getDefuzzifier() ?
+                outputVariable->getDefuzzifier()->className() : "";
+            std::string accumClass =  outputVariable->output()->getAccumulation() ?
+                 outputVariable->output()->getAccumulation()->className() : "";
 
             if (not defuzzifier) defuzzifier = outputVariable->getDefuzzifier();
-            else if (defuzzifier->className() != outputVariable->getDefuzzifier()->className())
+            else if (defuzzifier->className() != defuzzClass)
                 uniquenessError = "defuzzifier";
             if (not accumulation) accumulation = outputVariable->output()->getAccumulation();
-            else if (accumulation->className() != outputVariable->output()->getAccumulation()->className())
+            else if (accumulation->className() != accumClass)
                 uniquenessError = "accumulation S-Norm";
             if (not uniquenessError.empty()) break;
         }
@@ -159,7 +161,8 @@ namespace fl {
             fis << "Name='" << var->getName() << "'\n";
             fis << "Range=[" << fl::Op::str(2, " ", var->getMinimum(), var->getMaximum()) << "]\n";
             fis << "Default=" << fl::Op::str(var->getDefaultValue()) << "\n";
-            fis << "Lock=" << var->lockDefuzzifiedValue() << "\n";
+            fis << "LockValid=" << var->isLockingValidOutput() << "\n";
+            fis << "LockRange=" << var->isLockingOutputRange() << "\n";
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
             for (int ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
                 fis << "MF" << (ixTerm + 1) << "='" << var->getTerm(ixTerm)->getName() << "':"
