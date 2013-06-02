@@ -22,7 +22,6 @@ src/rule/FuzzyAntecedent.cpp
 src/rule/FuzzyConsequent.cpp
 src/rule/FuzzyExpression.cpp
 src/rule/FuzzyRule.cpp
-src/rule/Infix.cpp
 src/rule/RuleBlock.cpp
 src/rule/Rule.cpp
 src/term/Constant.cpp

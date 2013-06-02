@@ -65,7 +65,6 @@
 
 #include "fl/rule/Antecedent.h"
 #include "fl/rule/Consequent.h"
-#include "fl/rule/Infix.h"
 #include "fl/rule/Rule.h"
 #include "fl/rule/RuleBlock.h"
 #include "fl/rule/FuzzyAntecedent.h"
@@ -78,6 +77,7 @@
 #include "fl/term/Bell.h"
 #include "fl/term/Constant.h"
 #include "fl/term/Discrete.h"
+#include "fl/term/Function.h"
 #include "fl/term/Gaussian.h"
 #include "fl/term/GaussianProduct.h"
 #include "fl/term/Linear.h"

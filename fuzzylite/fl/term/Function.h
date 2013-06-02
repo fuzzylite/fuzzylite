@@ -10,56 +10,125 @@
 
 #include "fl/term/Term.h"
 
+#include <map>
+#include <string>
 
 namespace fl {
+
+    class Engine;
 
     class FL_EXPORT Function : public Term {
     public:
 
-        //        struct FL_EXPORT Element {
-        //            std::string name;
-        //            Element(const std::string& name);
-        //            virtual scalar evaluate(const std::map<std::string, scalar>* variables) const;
-        //            virtual std::string toString() const;
-        //        };
-        //
-        //        struct FL_EXPORT Operator : public Element {
-        //            short precedence;
-        //            short arity;
-        //            short associativity;
-        //            Operator(const std::string& name, short precedence, short arity = 2,
-        //                    short associativity = -1);
-        //
+        /****************************
+         * Parsing Elements
+         ****************************/
+
+    public:
+
+        struct FL_EXPORT Element {
+            std::string name;
+            Element(const std::string& name);
+
+            virtual std::string toString() const = 0;
+
+        };
+
+        typedef double(*Unary)(double);
+        typedef double(*Binary)(double, double);
+        //        typedef double(*Tertiary)(double, double, double);
+
+        template <typename T>
+        struct FL_EXPORT Operator : public Element {
+            T functionPointer;
+            short precedence;
+            short arity;
+            short associativity;
+            Operator(const std::string& name, T functionPointer, short precedence = 0,
+                    short arity = 2, short associativity = -1);
+
+            std::string toString() const;
+        };
+
+        template <typename T>
+        struct FL_EXPORT BuiltInFunction : public Element {
+            T functionPointer;
+            short arity;
+            short associativity;
+
+            BuiltInFunction(const std::string& name, T functionPointer,
+                    short arity = 1, short associativity = -1);
+            std::string toString() const;
+        };
+
+        //        template <class T>
+        //        struct FL_EXPORT LinguisticVariable<T> : public Element{
+        //            T variable;
+        //            LinguisticVariable(T variable);
+        //            
+        //            scalar evaluate() const;
         //            std::string toString() const;
         //        };
-        //
-        //        typedef double(*OneArgFunction)(double);
-        //        typedef double(*TwoArgFunction)(double, double);
-        //
-        //        struct FL_EXPORT BuiltInFunction : public Element {
-        //            std::string name;
-        //            short arity;
-        //            short associativity;
-        //            OneArgFunction oneArgFunction;
-        //            TwoArgFunction twoArgFunction;
-        //
-        //            BuiltInFunction(const std::string& name, short arity = 1, short associativity = -1);
-        //        };
-    protected:
-        //        Element* _root;
 
-//        Function(const std::string& name = "",
-//                const std::string& infixFunction = "");
-//        virtual ~Function();
-//
-//        virtual std::string className() const;
-//        virtual Function* copy() const;
-//
-//        virtual scalar membership(scalar x) const;
-//        virtual std::string toString() const;
-//
-//        virtual void setInfixFunction(const std::string& infixFunction);
-//        virtual std::string getInfixFunction() const;
+        /**************************
+         * Tree elements
+         **************************/
+
+        /******************************
+         * Term
+         ******************************/
+    protected:
+        std::string _infix;
+        const Engine* _engine;
+        //        std::map<std::string, Operator<Unary>*> _unaryOperators;
+        std::map<std::string, Operator<Binary>*> _binaryOperators;
+        std::map<std::string, BuiltInFunction<Unary>*> _unaryFunctions;
+        std::map<std::string, BuiltInFunction<Binary>*> _binaryFunctions;
+
+        virtual void loadOperators();
+        virtual void loadBuiltInFunctions();
+
+        /**
+         * Parsing methods
+         */
+
+        //        template <typename T>
+        Operator<Binary>* getOperator(const std::string& key) const;
+
+        template <typename T>
+        BuiltInFunction<T>* getBuiltInFunction(const std::string& key) const;
+
+
+    public:
+        Function(const std::string& name = "", bool loadBuiltInFunctions = true);
+        virtual ~Function();
+
+        static Function* create(const std::string& name,
+                const std::string& infix,
+                const Engine* engine = NULL) throw (fl::Exception);
+
+        virtual scalar membership(scalar x) const;
+
+        virtual std::string className() const;
+        virtual std::string toString() const;
+
+        virtual Function* copy() const;
+
+        virtual void load(const std::string& infix,
+                const Engine* engine = NULL) throw (fl::Exception);
+        virtual std::string getInfix() const;
+        virtual const Engine* getEngine() const;
+
+        virtual std::string toPostfix(const std::string& infix) const;
+        virtual bool isOperand(const std::string& token) const;
+        virtual bool isBuiltInFunction(const std::string& token) const;
+        virtual bool isOperator(const std::string& token) const;
+        
+        
+        //        static void doSomething(scalar function(scalar, scalar));
+
+        static void main();
+
     };
 
 }

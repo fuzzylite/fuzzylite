@@ -31,10 +31,10 @@
 #include "fl/term/Term.h"
 
 #include "fl/rule/Rule.h"
-#include "fl/rule/Infix.h"
 #include "fl/norm/TNorm.h"
 #include "fl/norm/SNorm.h"
 
+#include "fl/term/Function.h"
 
 
 
@@ -106,8 +106,10 @@ namespace fl {
          3) After a hedge comes a hedge or a term
          4) After a term comes a variable or an operator
          */
-        Infix infix;
-        std::string postfix = infix.toPostfix(antecedent, Infix::BASIC_SPACING);
+        
+        Function function;
+        
+        std::string postfix = function.toPostfix(antecedent);
         std::stringstream tokenizer(postfix);
         std::string token;
         
@@ -159,7 +161,7 @@ namespace fl {
             }
 
             if (state bitand S_OPERATOR) {
-                if (infix.isOperator(token)) {
+                if (function.isOperator(token)) {
                     if (expressionStack.size() < 2) {
                         std::ostringstream ex;
                         ex << "[syntax error] operator <" << token << "> expects 2 operands,"

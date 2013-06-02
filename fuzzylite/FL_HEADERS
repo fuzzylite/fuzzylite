@@ -41,7 +41,6 @@ fl/rule/FuzzyConsequent.h
 fl/rule/FuzzyExpression.h
 fl/rule/FuzzyRule.h
 fl/rule/RuleBlock.h
-fl/rule/Infix.h
 fl/rule/Rule.h
 fl/term/Constant.h
 fl/term/Linear.h

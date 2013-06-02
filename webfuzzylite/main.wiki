@@ -1,5 +1,5 @@
 #summary A Fuzzy Logic Control Library and Application in C++
-Last updated: 01/June/2013
+Wiki last updated: 01/June/2013
 
 == Donations ==
 Please, consider making a *donation* to support these projects.
@@ -90,7 +90,7 @@ engine->addInputVariable(ambient);
  fl::OutputVariable* power = new fl::OutputVariable;
 power->setName("Power");
 power->setRange(0.000, 2.000);
-power->setDefaultValue(0);
+power->setDefaultValue(0.000);
 
  power->addTerm(new fl::Triangle("LOW", 0.000, 0.500, 1.000));
 power->addTerm(new fl::Triangle("MEDIUM", 0.500, 1.000, 1.500));

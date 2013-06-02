@@ -256,6 +256,8 @@ void exampleTakagiSugeno2() {
 }
 
 int main(int argc, char** argv) {
+    fl::Function::main();
+    return 0;
     (void) argc;
     (void) argv;
     std::set_terminate(fl::Exception::terminate);

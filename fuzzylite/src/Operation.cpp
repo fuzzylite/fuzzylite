@@ -78,6 +78,26 @@ namespace fl {
         return (toMax - toMin) / (fromMax - fromMin) * (x - fromMin) + toMin;
     }
 
+    scalar Operation::plus(scalar a, scalar b) {
+        return a + b;
+    }
+
+    scalar Operation::minus(scalar a, scalar b) {
+        return a - b;
+    }
+
+    scalar Operation::multiplies(scalar a, scalar b) {
+        return a*b;
+    }
+
+    scalar Operation::divides(scalar a, scalar b) {
+        return a / b;
+    }
+
+    scalar Operation::modulus(scalar a, scalar b) {
+        return fmod(a, b);
+    }
+
     std::string Operation::findReplace(const std::string& str, const std::string& find,
             const std::string& replace, bool replaceAll) {
         std::ostringstream result;

@@ -66,6 +66,12 @@ namespace fl {
         static scalar scale(scalar x, scalar fromMin, scalar fromMax,
                 scalar toMin, scalar toMax);
 
+        static scalar plus(scalar a, scalar b);
+        static scalar minus(scalar a, scalar b);
+        static scalar multiplies(scalar a, scalar b);
+        static scalar divides(scalar a, scalar b);
+        static scalar modulus(scalar a, scalar b);
+        
         static std::string findReplace(const std::string& str, const std::string& find,
                 const std::string& replace, bool replaceAll = true);
 
