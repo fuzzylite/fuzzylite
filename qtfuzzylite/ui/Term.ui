@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>245</width>
-    <height>462</height>
+    <height>481</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -86,7 +86,7 @@
         </size>
        </property>
        <property name="focusPolicy">
-        <enum>Qt::StrongFocus</enum>
+        <enum>Qt::NoFocus</enum>
        </property>
        <property name="autoFillBackground">
         <bool>true</bool>
@@ -111,9 +111,6 @@
          <string>Basic</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_7">
-         <property name="margin">
-          <number>0</number>
-         </property>
          <item>
           <widget class="QToolBox" name="basicTermToolbox">
            <property name="sizePolicy">
@@ -136,8 +133,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>108</width>
-              <height>123</height>
+              <width>203</width>
+              <height>220</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -152,75 +149,36 @@
             <attribute name="label">
              <string>Triangle</string>
             </attribute>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QGroupBox" name="groupBox1">
-               <layout class="QFormLayout" name="formLayout">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-                </property>
-                <property name="labelAlignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-                <property name="formAlignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>6</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>6</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label">
-                  <property name="text">
-                   <string>a</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_triangle_a"/>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_2">
-                  <property name="text">
-                   <string>b</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_triangle_b"/>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_3">
-                  <property name="text">
-                   <string>c</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_triangle_c"/>
-                </item>
-               </layout>
+            <layout class="QFormLayout" name="formLayout">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>a</string>
+               </property>
               </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_triangle_a"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>b</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_triangle_b"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>c</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_triangle_c"/>
              </item>
             </layout>
            </widget>
@@ -229,8 +187,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>108</width>
-              <height>156</height>
+              <width>203</width>
+              <height>220</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -245,85 +203,46 @@
             <attribute name="label">
              <string>Trapezoid</string>
             </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_2">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QGroupBox" name="groupBox2">
-               <layout class="QFormLayout" name="formLayout_2">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-                </property>
-                <property name="labelAlignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-                <property name="formAlignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>6</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>6</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_4">
-                  <property name="text">
-                   <string>a</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_trapezoid_a"/>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_5">
-                  <property name="text">
-                   <string>b</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_trapezoid_b"/>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_6">
-                  <property name="text">
-                   <string>c</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_trapezoid_c"/>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_7">
-                  <property name="text">
-                   <string>d</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_trapezoid_d"/>
-                </item>
-               </layout>
+            <layout class="QFormLayout" name="formLayout_2">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>a</string>
+               </property>
               </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_trapezoid_a"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>b</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_trapezoid_b"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>c</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_trapezoid_c"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>d</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_trapezoid_d"/>
              </item>
             </layout>
            </widget>
@@ -332,8 +251,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>128</width>
-              <height>90</height>
+              <width>203</width>
+              <height>220</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -348,64 +267,25 @@
             <attribute name="label">
              <string>Rectangle</string>
             </attribute>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QGroupBox" name="groupBox3">
-               <layout class="QFormLayout" name="formLayout_3">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-                </property>
-                <property name="labelAlignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-                <property name="formAlignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>6</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>6</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_8">
-                  <property name="text">
-                   <string>min</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_rectangle_min"/>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_9">
-                  <property name="text">
-                   <string>max</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_rectangle_max"/>
-                </item>
-               </layout>
+            <layout class="QFormLayout" name="formLayout_3">
+             <item row="4" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_rectangle_max"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_8">
+               <property name="text">
+                <string>min</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_rectangle_min"/>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_9">
+               <property name="text">
+                <string>max</string>
+               </property>
               </widget>
              </item>
             </layout>
@@ -415,8 +295,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>140</width>
-              <height>189</height>
+              <width>203</width>
+              <height>220</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -431,111 +311,75 @@
             <attribute name="label">
              <string>Discrete</string>
             </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_4">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>6</number>
-             </property>
-             <property name="bottomMargin">
-              <number>6</number>
-             </property>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
              <item>
-              <widget class="QGroupBox" name="groupBox4">
-               <layout class="QVBoxLayout" name="verticalLayout_14">
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>6</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>6</number>
-                </property>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_19">
-                  <property name="spacing">
-                   <number>1</number>
-                  </property>
-                  <item>
-                   <widget class="QLabel" name="label_16">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="text">
-                     <string>Pairs (x,y):</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPlainTextEdit" name="ptx_discrete">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>100</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Introduce the pairs of the 
+              <layout class="QVBoxLayout" name="verticalLayout_19">
+               <item>
+                <widget class="QLabel" name="label_16">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Pairs (x,y):</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPlainTextEdit" name="ptx_discrete">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>100</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Introduce the pairs of the 
 discrete term using any 
 notation you like, just make 
 sure 'x' is followed by 'y'.</string>
-                    </property>
-                    <property name="tabChangesFocus">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_3">
-                  <property name="sizeConstraint">
-                   <enum>QLayout::SetDefaultConstraint</enum>
-                  </property>
-                  <item>
-                   <widget class="QToolButton" name="btn_discrete_parse">
-                    <property name="focusPolicy">
-                     <enum>Qt::StrongFocus</enum>
-                    </property>
-                    <property name="toolTip">
-                     <string>Process pairs (x,y)</string>
-                    </property>
-                    <property name="text">
-                     <string>Process (x,y)</string>
-                    </property>
-                    <property name="icon">
-                     <iconset resource="qtfuzzylite.qrc">
-                      <normaloff>:/process.png</normaloff>:/process.png</iconset>
-                    </property>
-                    <property name="toolButtonStyle">
-                     <enum>Qt::ToolButtonTextBesideIcon</enum>
-                    </property>
-                    <property name="arrowType">
-                     <enum>Qt::NoArrow</enum>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
-              </widget>
+                 </property>
+                 <property name="tabChangesFocus">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <item>
+                  <widget class="QToolButton" name="btn_discrete_parse">
+                   <property name="focusPolicy">
+                    <enum>Qt::StrongFocus</enum>
+                   </property>
+                   <property name="toolTip">
+                    <string>Process pairs (x,y)</string>
+                   </property>
+                   <property name="text">
+                    <string>Process (x,y)</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="qtfuzzylite.qrc">
+                     <normaloff>:/process.png</normaloff>:/process.png</iconset>
+                   </property>
+                   <property name="toolButtonStyle">
+                    <enum>Qt::ToolButtonTextBesideIcon</enum>
+                   </property>
+                   <property name="arrowType">
+                    <enum>Qt::NoArrow</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
              </item>
             </layout>
            </widget>
@@ -554,9 +398,6 @@ sure 'x' is followed by 'y'.</string>
          <string>Extended</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_6">
-         <property name="margin">
-          <number>0</number>
-         </property>
          <item>
           <widget class="QToolBox" name="extendedTermToolbox">
            <property name="sizePolicy">
@@ -569,15 +410,15 @@ sure 'x' is followed by 'y'.</string>
             <bool>true</bool>
            </property>
            <property name="currentIndex">
-            <number>1</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="page_6">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>138</width>
-              <height>90</height>
+              <width>203</width>
+              <height>158</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -589,65 +430,26 @@ sure 'x' is followed by 'y'.</string>
             <attribute name="label">
              <string>Gaussian</string>
             </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_5">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QGroupBox" name="groupBox5">
-               <layout class="QFormLayout" name="formLayout_5">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-                </property>
-                <property name="labelAlignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-                <property name="formAlignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>6</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>6</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_14">
-                  <property name="text">
-                   <string>mean</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_gaussian_center"/>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_15">
-                  <property name="text">
-                   <string>stdev</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_gaussian_width"/>
-                </item>
-               </layout>
+            <layout class="QFormLayout" name="formLayout_5">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_14">
+               <property name="text">
+                <string>mean</string>
+               </property>
               </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_gaussian_center"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_15">
+               <property name="text">
+                <string>stdev</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_gaussian_width"/>
              </item>
             </layout>
            </widget>
@@ -656,86 +458,53 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>147</width>
-              <height>156</height>
+              <width>203</width>
+              <height>158</height>
              </rect>
             </property>
             <attribute name="label">
              <string>Gaussian Product</string>
             </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QGroupBox" name="groupBox6">
-               <layout class="QFormLayout" name="formLayout_8">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-                </property>
-                <property name="labelAlignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-                <property name="formAlignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>6</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>6</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_25">
-                  <property name="text">
-                   <string>meanA</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_center_a"/>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_26">
-                  <property name="text">
-                   <string>stdevA</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_width_a"/>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_43">
-                  <property name="text">
-                   <string>meanB</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_center_b"/>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_44">
-                  <property name="text">
-                   <string>stdevB</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_width_b"/>
-                </item>
-               </layout>
+            <layout class="QFormLayout" name="formLayout_14">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_25">
+               <property name="text">
+                <string>meanA</string>
+               </property>
               </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_center_a"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_26">
+               <property name="text">
+                <string>stdevA</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_width_a"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_43">
+               <property name="text">
+                <string>meanB</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_center_b"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_44">
+               <property name="text">
+                <string>stdevB</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_gaussian_prod_width_b"/>
              </item>
             </layout>
            </widget>
@@ -744,8 +513,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>144</width>
-              <height>123</height>
+              <width>203</width>
+              <height>158</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -757,75 +526,36 @@ sure 'x' is followed by 'y'.</string>
             <attribute name="label">
              <string>Bell</string>
             </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_8">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QGroupBox" name="groupBox7">
-               <layout class="QFormLayout" name="formLayout_7">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-                </property>
-                <property name="labelAlignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-                <property name="formAlignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>6</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>6</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_22">
-                  <property name="text">
-                   <string>center</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_bell_center"/>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_20">
-                  <property name="text">
-                   <string>width</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_bell_width"/>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_21">
-                  <property name="text">
-                   <string>slope</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_bell_slope"/>
-                </item>
-               </layout>
+            <layout class="QFormLayout" name="formLayout_13">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_22">
+               <property name="text">
+                <string>center</string>
+               </property>
               </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_bell_center"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_20">
+               <property name="text">
+                <string>width</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_bell_width"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_21">
+               <property name="text">
+                <string>slope</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_bell_slope"/>
              </item>
             </layout>
            </widget>
@@ -834,8 +564,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>136</width>
-              <height>156</height>
+              <width>203</width>
+              <height>158</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -847,85 +577,46 @@ sure 'x' is followed by 'y'.</string>
             <attribute name="label">
              <string>Pi-Shape</string>
             </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_12">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QGroupBox" name="groupBox8">
-               <layout class="QFormLayout" name="formLayout_4">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-                </property>
-                <property name="labelAlignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-                <property name="formAlignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>6</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>6</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_10">
-                  <property name="text">
-                   <string>left</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_pishape_bl"/>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_11">
-                  <property name="text">
-                   <string>Left</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_pishape_tl"/>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_12">
-                  <property name="text">
-                   <string>Right</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_pishape_tr"/>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_13">
-                  <property name="text">
-                   <string>right</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_pishape_br"/>
-                </item>
-               </layout>
+            <layout class="QFormLayout" name="formLayout_12">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string>left</string>
+               </property>
               </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_pishape_bl"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_11">
+               <property name="text">
+                <string>Left</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_pishape_tl"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_12">
+               <property name="text">
+                <string>Right</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_pishape_tr"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_13">
+               <property name="text">
+                <string>right</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_pishape_br"/>
              </item>
             </layout>
            </widget>
@@ -934,8 +625,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>142</width>
-              <height>156</height>
+              <width>203</width>
+              <height>158</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -947,85 +638,46 @@ sure 'x' is followed by 'y'.</string>
             <attribute name="label">
              <string>Sigmoid Difference</string>
             </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_13">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QGroupBox" name="groupBox9">
-               <layout class="QFormLayout" name="formLayout_13">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-                </property>
-                <property name="labelAlignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-                <property name="formAlignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>6</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>6</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_34">
-                  <property name="text">
-                   <string>left</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_left"/>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_33">
-                  <property name="text">
-                   <string>rising</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_rising"/>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_35">
-                  <property name="text">
-                   <string>falling</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_falling"/>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_36">
-                  <property name="text">
-                   <string>right</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_right"/>
-                </item>
-               </layout>
+            <layout class="QFormLayout" name="formLayout_11">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_34">
+               <property name="text">
+                <string>left</string>
+               </property>
               </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_left"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_33">
+               <property name="text">
+                <string>rising</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_rising"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_35">
+               <property name="text">
+                <string>falling</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_falling"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_36">
+               <property name="text">
+                <string>right</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sigmoid_diff_right"/>
              </item>
             </layout>
            </widget>
@@ -1034,8 +686,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>142</width>
-              <height>162</height>
+              <width>203</width>
+              <height>158</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1047,85 +699,46 @@ sure 'x' is followed by 'y'.</string>
             <attribute name="label">
              <string>Sigmoid Product</string>
             </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_9">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>6</number>
-             </property>
-             <item>
-              <widget class="QGroupBox" name="groupBox10">
-               <layout class="QFormLayout" name="formLayout_14">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-                </property>
-                <property name="labelAlignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-                <property name="formAlignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>6</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>6</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_38">
-                  <property name="text">
-                   <string>left</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_left"/>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_37">
-                  <property name="text">
-                   <string>rising</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_rising"/>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_39">
-                  <property name="text">
-                   <string>falling</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_falling"/>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_40">
-                  <property name="text">
-                   <string>right</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_right"/>
-                </item>
-               </layout>
+            <layout class="QFormLayout" name="formLayout_10">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_38">
+               <property name="text">
+                <string>left</string>
+               </property>
               </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_left"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_37">
+               <property name="text">
+                <string>rising</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_rising"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_39">
+               <property name="text">
+                <string>falling</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_falling"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_40">
+               <property name="text">
+                <string>right</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sigmoid_prod_right"/>
              </item>
             </layout>
            </widget>
@@ -1144,9 +757,6 @@ sure 'x' is followed by 'y'.</string>
          <string>Edges</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_16">
-         <property name="margin">
-          <number>0</number>
-         </property>
          <item>
           <widget class="QToolBox" name="edgeTermToolbox">
            <property name="sizePolicy">
@@ -1166,8 +776,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>132</width>
-              <height>90</height>
+              <width>203</width>
+              <height>220</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1179,65 +789,26 @@ sure 'x' is followed by 'y'.</string>
             <attribute name="label">
              <string>Ramp</string>
             </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_15">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QGroupBox" name="groupBox11">
-               <layout class="QFormLayout" name="formLayout_9">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-                </property>
-                <property name="labelAlignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-                <property name="formAlignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>6</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>6</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_27">
-                  <property name="text">
-                   <string>start</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_ramp_start"/>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_28">
-                  <property name="text">
-                   <string>end</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_ramp_end"/>
-                </item>
-               </layout>
+            <layout class="QFormLayout" name="formLayout_9">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_27">
+               <property name="text">
+                <string>start</string>
+               </property>
               </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_28">
+               <property name="text">
+                <string>end</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_ramp_start"/>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_ramp_end"/>
              </item>
             </layout>
            </widget>
@@ -1246,8 +817,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>137</width>
-              <height>90</height>
+              <width>203</width>
+              <height>220</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1259,77 +830,38 @@ sure 'x' is followed by 'y'.</string>
             <attribute name="label">
              <string>Sigmoid</string>
             </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_17">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QGroupBox" name="groupBox12">
-               <layout class="QFormLayout" name="formLayout_15">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-                </property>
-                <property name="labelAlignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-                <property name="formAlignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>6</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>6</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_41">
-                  <property name="toolTip">
-                   <string/>
-                  </property>
-                  <property name="text">
-                   <string>infl.</string>
-                  </property>
-                  <property name="textFormat">
-                   <enum>Qt::PlainText</enum>
-                  </property>
-                  <property name="scaledContents">
-                   <bool>false</bool>
-                  </property>
-                  <property name="wordWrap">
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_inflection"/>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_42">
-                  <property name="text">
-                   <string>slope</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_sigmoid_slope"/>
-                </item>
-               </layout>
+            <layout class="QFormLayout" name="formLayout_8">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_41">
+               <property name="toolTip">
+                <string/>
+               </property>
+               <property name="text">
+                <string>infl.</string>
+               </property>
+               <property name="textFormat">
+                <enum>Qt::PlainText</enum>
+               </property>
+               <property name="scaledContents">
+                <bool>false</bool>
+               </property>
+               <property name="wordWrap">
+                <bool>false</bool>
+               </property>
               </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sigmoid_inflection"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_42">
+               <property name="text">
+                <string>slope</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sigmoid_slope"/>
              </item>
             </layout>
            </widget>
@@ -1338,8 +870,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>132</width>
-              <height>90</height>
+              <width>203</width>
+              <height>220</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1351,64 +883,25 @@ sure 'x' is followed by 'y'.</string>
             <attribute name="label">
              <string>S-Shape</string>
             </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_11">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QGroupBox" name="groupBox13">
-               <layout class="QFormLayout" name="formLayout_10">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-                </property>
-                <property name="labelAlignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-                <property name="formAlignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>6</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>6</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_18">
-                  <property name="text">
-                   <string>start</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_19">
-                  <property name="text">
-                   <string>end</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_sshape_start"/>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_sshape_end"/>
-                </item>
-               </layout>
+            <layout class="QFormLayout" name="formLayout_7">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_18">
+               <property name="text">
+                <string>start</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sshape_start"/>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_sshape_end"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_19">
+               <property name="text">
+                <string>end</string>
+               </property>
               </widget>
              </item>
             </layout>
@@ -1418,8 +911,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>132</width>
-              <height>96</height>
+              <width>203</width>
+              <height>220</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1431,64 +924,25 @@ sure 'x' is followed by 'y'.</string>
             <attribute name="label">
              <string>Z-Shape</string>
             </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_10">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <property name="bottomMargin">
-              <number>6</number>
-             </property>
-             <item>
-              <widget class="QGroupBox" name="groupBox14">
-               <layout class="QFormLayout" name="formLayout_11">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-                </property>
-                <property name="labelAlignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-                <property name="formAlignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>6</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>6</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_23">
-                  <property name="text">
-                   <string>start</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_24">
-                  <property name="text">
-                   <string>end</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_zshape_start"/>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QDoubleSpinBox" name="sbx_zshape_end"/>
-                </item>
-               </layout>
+            <layout class="QFormLayout" name="formLayout_4">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_23">
+               <property name="text">
+                <string>start</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_zshape_start"/>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_zshape_end"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_24">
+               <property name="text">
+                <string>end</string>
+               </property>
               </widget>
              </item>
             </layout>
@@ -1503,25 +957,28 @@ sure 'x' is followed by 'y'.</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_23">
          <item>
-          <widget class="QToolBox" name="toolBox">
+          <widget class="QToolBox" name="fxTermToolbox">
+           <property name="autoFillBackground">
+            <bool>true</bool>
+           </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="page_16">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>131</width>
-              <height>45</height>
+              <width>203</width>
+              <height>251</height>
              </rect>
             </property>
             <attribute name="label">
              <string>Constant</string>
             </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_25">
-             <item>
-              <widget class="QDoubleSpinBox" name="doubleSpinBox">
+            <layout class="QFormLayout" name="formLayout_6">
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="sbx_constant">
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
                </property>
@@ -1536,6 +993,13 @@ sure 'x' is followed by 'y'.</string>
                </property>
               </widget>
              </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_17">
+               <property name="text">
+                <string>f(x)=</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
            <widget class="QWidget" name="page_17">
@@ -1543,8 +1007,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>125</width>
-              <height>68</height>
+              <width>203</width>
+              <height>251</height>
              </rect>
             </property>
             <attribute name="label">
@@ -1552,14 +1016,65 @@ sure 'x' is followed by 'y'.</string>
             </attribute>
             <layout class="QVBoxLayout" name="verticalLayout_24">
              <item>
-              <widget class="QLabel" name="label_17">
+              <widget class="QLabel" name="label_29">
                <property name="text">
                 <string>f(x) = ax + by + c</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit"/>
+              <layout class="QHBoxLayout" name="horizontalLayout_6">
+               <item>
+                <widget class="QListWidget" name="lst_variables">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>100</height>
+                  </size>
+                 </property>
+                 <property name="editTriggers">
+                  <set>QAbstractItemView::NoEditTriggers</set>
+                 </property>
+                 <property name="alternatingRowColors">
+                  <bool>true</bool>
+                 </property>
+                 <property name="selectionBehavior">
+                  <enum>QAbstractItemView::SelectRows</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QListWidget" name="lst_coefficients">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>100</height>
+                  </size>
+                 </property>
+                 <property name="editTriggers">
+                  <set>QAbstractItemView::AllEditTriggers</set>
+                 </property>
+                 <property name="alternatingRowColors">
+                  <bool>true</bool>
+                 </property>
+                 <property name="selectionBehavior">
+                  <enum>QAbstractItemView::SelectRows</enum>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
             </layout>
            </widget>
@@ -1569,22 +1084,32 @@ sure 'x' is followed by 'y'.</string>
               <x>0</x>
               <y>0</y>
               <width>203</width>
-              <height>190</height>
+              <height>251</height>
              </rect>
             </property>
             <attribute name="label">
-             <string>Custom</string>
+             <string>Function</string>
             </attribute>
             <layout class="QVBoxLayout" name="verticalLayout_22">
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_21">
+              <layout class="QVBoxLayout" name="verticalLayout_18">
                <property name="topMargin">
                 <number>0</number>
                </property>
                <item>
-                <widget class="QTextEdit" name="textEdit">
+                <widget class="QLabel" name="label_30">
+                 <property name="text">
+                  <string>f(x)=</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPlainTextEdit" name="ptx_function">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Ignored" vsizetype="Minimum">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
@@ -1603,7 +1128,7 @@ sure 'x' is followed by 'y'.</string>
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="toolButton">
+                  <widget class="QToolButton" name="btn_function_process">
                    <property name="text">
                     <string>Process</string>
                    </property>
@@ -1616,23 +1141,39 @@ sure 'x' is followed by 'y'.</string>
                    </property>
                   </widget>
                  </item>
+                 <item>
+                  <widget class="QToolButton" name="btn_function_variable">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="qtfuzzylite.qrc">
+                     <normaloff>:/create-rules.png</normaloff>:/create-rules.png</iconset>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="btn_function_builtin">
+                   <property name="text">
+                    <string>Σ</string>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </item>
               </layout>
              </item>
             </layout>
            </widget>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="verticalGroupBox">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_20"/>
           </widget>
          </item>
         </layout>
@@ -1657,26 +1198,6 @@ sure 'x' is followed by 'y'.</string>
   <tabstop>led_name</tabstop>
   <tabstop>btn_wizard</tabstop>
   <tabstop>tabTerms</tabstop>
-  <tabstop>sbx_triangle_a</tabstop>
-  <tabstop>sbx_triangle_b</tabstop>
-  <tabstop>sbx_triangle_c</tabstop>
-  <tabstop>sbx_trapezoid_a</tabstop>
-  <tabstop>sbx_trapezoid_b</tabstop>
-  <tabstop>sbx_trapezoid_c</tabstop>
-  <tabstop>sbx_trapezoid_d</tabstop>
-  <tabstop>sbx_rectangle_min</tabstop>
-  <tabstop>sbx_rectangle_max</tabstop>
-  <tabstop>ptx_discrete</tabstop>
-  <tabstop>btn_discrete_parse</tabstop>
-  <tabstop>sbx_gaussian_center</tabstop>
-  <tabstop>sbx_gaussian_width</tabstop>
-  <tabstop>sbx_gaussian_prod_center_a</tabstop>
-  <tabstop>sbx_gaussian_prod_width_a</tabstop>
-  <tabstop>sbx_gaussian_prod_center_b</tabstop>
-  <tabstop>sbx_gaussian_prod_width_b</tabstop>
-  <tabstop>sbx_bell_center</tabstop>
-  <tabstop>sbx_bell_width</tabstop>
-  <tabstop>sbx_bell_slope</tabstop>
   <tabstop>sbx_pishape_bl</tabstop>
   <tabstop>sbx_pishape_tl</tabstop>
   <tabstop>sbx_pishape_tr</tabstop>
@@ -1689,14 +1210,6 @@ sure 'x' is followed by 'y'.</string>
   <tabstop>sbx_sigmoid_prod_rising</tabstop>
   <tabstop>sbx_sigmoid_prod_falling</tabstop>
   <tabstop>sbx_sigmoid_prod_right</tabstop>
-  <tabstop>sbx_ramp_start</tabstop>
-  <tabstop>sbx_ramp_end</tabstop>
-  <tabstop>sbx_sigmoid_inflection</tabstop>
-  <tabstop>sbx_sigmoid_slope</tabstop>
-  <tabstop>sbx_sshape_start</tabstop>
-  <tabstop>sbx_sshape_end</tabstop>
-  <tabstop>sbx_zshape_start</tabstop>
-  <tabstop>sbx_zshape_end</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>

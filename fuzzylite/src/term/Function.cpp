@@ -18,12 +18,110 @@
 #include <signal.h>
 namespace fl {
 
+    /**********************************
+     * Function class.
+     **********************************/
+    Function::Function(const std::string& name,
+            const std::string& infix, const Engine* engine,
+            bool loadBuiltInFunctions)
+    : Term(name), _infix(infix), _engine(engine), _root(NULL) {
+        loadOperators();
+        if (loadBuiltInFunctions) {
+            this->loadBuiltInFunctions();
+        }
+    }
+
+    Function::~Function() {
+        if (this->_root) delete this->_root;
+        for (std::map<std::string, Operator*>::iterator it = this->_operators.begin();
+                it != this->_operators.end(); ++it) {
+            delete it->second;
+        }
+        for (std::map<std::string, BuiltInFunction*>::iterator it = this->_functions.begin();
+                it != this->_functions.end(); ++it) {
+            delete it->second;
+        }
+    }
+
+    Function* Function::create(const std::string& name,
+            const std::string& infix, const Engine* engine) throw (fl::Exception) {
+        Function* result = new Function(name);
+        result->load(infix, engine);
+        return result;
+    }
+
+    scalar Function::membership(scalar x) const {
+        if (not this->_root) return fl::nan;
+//            throw fl::Exception("[function error] function not loaded", FL_AT);
+        if (this->_engine) {
+            for (int i = 0; i < this->_engine->numberOfInputVariables(); ++i) {
+                InputVariable* input = this->_engine->getInputVariable(i);
+                const_cast<Function*> (this)->variables[input->getName()] =
+                        input->getInput();
+            }
+            for (int i = 0; i < this->_engine->numberOfOutputVariables(); ++i) {
+                OutputVariable* output = this->_engine->getOutputVariable(i);
+                const_cast<Function*> (this)->variables[output->getName()] =
+                        output->getLastValidOutput();
+            }
+        }
+        const_cast<Function*> (this)->variables["x"] = x;
+        return this->_root->evaluate(&this->variables);
+    }
+
+    std::string Function::className() const {
+        return "Function";
+    }
+
+    std::string Function::toString() const {
+        return "Function (" + _infix + ")";
+    }
+
+    Function* Function::copy() const {
+        Function* result = new Function(this->_name);
+        try {
+            result->load(this->_infix, this->_engine);
+        } catch (fl::Exception& ex) {
+            FL_LOG("catched: " << ex.what());
+        }
+        return result;
+    }
+
+    void Function::load() throw (fl::Exception) {
+        load(this->_infix, this->_engine);
+    }
+
+    void Function::load(const std::string& infix,
+            const Engine* engine) throw (fl::Exception) {
+        this->_root = parse(infix);
+        this->_infix = infix;
+        this->_engine = engine;
+    }
+
+    void Function::setInfix(const std::string& infix) {
+        this->_infix = infix;
+    }
+
+    std::string Function::getInfix() const {
+        return this->_infix;
+    }
+
+    void Function::setEngine(const Engine* engine) {
+        this->_engine = engine;
+    }
+
+    const Engine* Function::getEngine() const {
+        return this->_engine;
+    }
+
     /**
      * Parsing elements
      */
 
     Function::Element::Element(const std::string& name)
     : name(name) { }
+
+    Function::Element::~Element() { }
 
     Function::Operator::Operator(const std::string& name, Unary unary,
             short precedence, short associativity)
@@ -129,93 +227,30 @@ namespace fl {
         this->_functions["fmod"] = new BuiltInFunction("fmod", &(std::fmod));
     }
 
-    /**********************************
-     * Function class.
-     **********************************/
-    Function::Function(const std::string& name, bool loadBuiltInFunctions)
-    : Term(name) {
-        loadOperators();
-        if (loadBuiltInFunctions) {
-            this->loadBuiltInFunctions();
-        }
-    }
-
-    Function::~Function() { }
-
-    Function* Function::create(const std::string& name,
-            const std::string& infix, const Engine* engine) throw (fl::Exception) {
-        Function* result = new Function(name);
-        result->load(infix, engine);
-        return result;
-    }
-
-    scalar Function::membership(scalar x) const {
-        if (not this->_root)
-            throw fl::Exception("[function error] function not loaded", FL_AT);
-        if (this->_engine) {
-            for (int i = 0; i < this->_engine->numberOfInputVariables(); ++i) {
-                InputVariable* input = this->_engine->getInputVariable(i);
-                const_cast<Function*> (this)->variables[input->getName()] =
-                        input->getInput();
-            }
-            for (int i = 0; i < this->_engine->numberOfOutputVariables(); ++i) {
-                OutputVariable* output = this->_engine->getOutputVariable(i);
-                const_cast<Function*> (this)->variables[output->getName()] =
-                        output->getLastValidOutput();
-            }
-        }
-        const_cast<Function*> (this)->variables["x"] = x;
-        return this->_root->evaluate(&this->variables);
-    }
-
-    std::string Function::className() const {
-        return "Function";
-    }
-
-    std::string Function::toString() const {
-        return "Function (" + _infix + ")";
-    }
-
-    Function* Function::copy() const {
-        //TODO: Not sure this is correct. Deep clone?
-        return new Function(*this);
-    }
-
-    void Function::load(const std::string& infix,
-            const Engine* engine) throw (fl::Exception) {
-        this->_root = parse(infix);
-        this->_infix = infix;
-        this->_engine = engine;
-    }
-
-    std::string Function::getInfix() const {
-        return this->_infix;
-    }
-
-    const Engine* Function::getEngine() const {
-        return this->_engine;
-    }
-
     /**
      * Infix to Postfix
      */
 
-    std::string Function::toPostfix(const std::string& rawInfix) const throw (fl::Exception) {
-        std::string infix = rawInfix;
-
-        std::vector<std::string> space;
-        space.push_back("(");
-        space.push_back(")");
-        space.push_back(",");
+    std::string Function::space(const std::string& infix) const {
+        std::vector<std::string> chars;
+        chars.push_back("(");
+        chars.push_back(")");
+        chars.push_back(",");
 
         for (std::map<std::string, Operator*>::const_iterator itOp = this->_operators.begin();
                 itOp != this->_operators.end(); ++itOp) {
-            space.push_back(itOp->first);
+            chars.push_back(itOp->first);
         }
 
-        for (std::size_t i = 0; i < space.size(); ++i) {
-            infix = fl::Op::findReplace(infix, space[i], " " + space[i] + " ", true);
+        std::string result = infix;
+        for (std::size_t i = 0; i < chars.size(); ++i) {
+            result = fl::Op::findReplace(result, chars.at(i), " " + chars.at(i) + " ");
         }
+        return result;
+    }
+
+    std::string Function::toPostfix(const std::string& rawInfix) const throw (fl::Exception) {
+        std::string infix = space(rawInfix);
         FL_DBG("infix=" << infix);
 
         std::queue<std::string> queue;
@@ -463,6 +498,7 @@ namespace fl {
      ***************************************/
 
     Function::Node* Function::parse(const std::string& infix) throw (fl::Exception) {
+        if (infix.empty()) return NULL;
         std::string postfix = toPostfix(infix);
 
         std::stack<Node*> stack;

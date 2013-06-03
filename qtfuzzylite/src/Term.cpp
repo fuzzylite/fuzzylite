@@ -34,6 +34,7 @@
 
 
 #include <QMessageBox>
+#include <QScrollBar>
 
 namespace fl {
     namespace qt {
@@ -52,13 +53,16 @@ namespace fl {
             disconnect();
             delete ui;
             for (std::size_t i = 0; i < _basicTerms.size(); ++i) {
-                delete _basicTerms[i];
+                delete _basicTerms.at(i);
             }
             for (std::size_t i = 0; i < _extendedTerms.size(); ++i) {
-                delete _extendedTerms[i];
+                delete _extendedTerms.at(i);
             }
             for (std::size_t i = 0; i < _edgeTerms.size(); ++i) {
-                delete _edgeTerms[i];
+                delete _edgeTerms.at(i);
+            }
+            for (std::size_t i = 0; i < _fxTerms.size(); ++i) {
+                delete _fxTerms.at(i);
             }
             for (int i = dummyVariable->numberOfTerms() - 1; i >= 0; --i) {
                 delete dummyVariable->removeTerm(i);
@@ -98,6 +102,13 @@ namespace fl {
             _edgeTerms.push_back(new SShape("", min, max));
             _edgeTerms.push_back(new ZShape("", min, max));
 
+            _fxTerms.push_back(new Constant("", 0.0));
+
+            const Engine* engine = Model::Default()->engine();
+            _fxTerms.push_back(new Linear("",
+                    std::vector<scalar>(engine->inputVariables().size() + 1),
+                    engine->inputVariables()));
+            _fxTerms.push_back(new Function("", "", engine));
         }
 
         void Term::setup(const fl::Variable& variable, const fl::Term* edit) {
@@ -113,10 +124,7 @@ namespace fl {
             }
 
             ui->setupUi(this);
-            if (ui->tabTerms->count() > 3) {
-                ui->tabTerms->removeTab(ui->tabTerms->count() - 1);
-                FL_LOG("[in development] Tab deleted from Terms");
-            }
+            
             viewer = new Viewer;
             viewer->setup(dummyVariable);
             ui->toolboxLayout->insertWidget(0, viewer);
@@ -192,42 +200,44 @@ namespace fl {
             _sbx.push_back(ui->sbx_zshape_start);
             _sbx.push_back(ui->sbx_zshape_end);
 
+            _sbx.push_back(ui->sbx_constant);
+
             for (std::size_t i = 0; i < _sbx.size(); ++i) {
-                _sbx[i]->setMinimum(-10000000);
-                _sbx[i]->setMaximum(10000000);
-                _sbx[i]->setValue(0.0);
-                _sbx[i]->setSingleStep(
+                _sbx.at(i)->setMinimum(-10000000);
+                _sbx.at(i)->setMaximum(10000000);
+                _sbx.at(i)->setValue(0.0);
+                _sbx.at(i)->setSingleStep(
                         (dummyVariable->getMaximum() - dummyVariable->getMinimum()) / 100);
-                _sbx[i]->setAlignment(Qt::AlignHCenter);
+                _sbx.at(i)->setAlignment(Qt::AlignHCenter);
             }
 
             for (std::size_t i = 0; i < _basicTerms.size(); ++i) {
-                loadFrom(_basicTerms[i]);
+                loadFrom(_basicTerms.at(i));
             }
             for (std::size_t i = 0; i < _extendedTerms.size(); ++i) {
-                loadFrom(_extendedTerms[i]);
+                loadFrom(_extendedTerms.at(i));
             }
             for (std::size_t i = 0; i < _edgeTerms.size(); ++i) {
-                loadFrom(_edgeTerms[i]);
+                loadFrom(_edgeTerms.at(i));
+            }
+            for (std::size_t i = 0; i < _fxTerms.size(); ++i) {
+                loadFrom(_fxTerms.at(i));
             }
 
             ui->basicTermToolbox->setCurrentIndex(0);
             ui->extendedTermToolbox->setCurrentIndex(0);
             ui->edgeTermToolbox->setCurrentIndex(0);
+            ui->fxTermToolbox->setCurrentIndex(0);
             if (edit) {
                 loadFrom(edit);
                 ui->led_name->setText(QString::fromStdString(edit->getName()));
                 redraw();
             } else {
-                dummyVariable->addTerm(_basicTerms[0]->copy()); //Add the triangle by default
+                dummyVariable->addTerm(_basicTerms.front()->copy()); //Add the triangle by default
                 indexOfEditingTerm = dummyVariable->numberOfTerms() - 1;
                 setCurrentToolbox(0);
             }
             connect();
-
-
-
-
         }
 
         void Term::accept() {
@@ -242,6 +252,8 @@ namespace fl {
             QObject::connect(ui->extendedTermToolbox, SIGNAL(currentChanged(int)),
                     this, SLOT(onChangeToolBoxIndex(int)), Qt::QueuedConnection);
             QObject::connect(ui->edgeTermToolbox, SIGNAL(currentChanged(int)),
+                    this, SLOT(onChangeToolBoxIndex(int)), Qt::QueuedConnection);
+            QObject::connect(ui->fxTermToolbox, SIGNAL(currentChanged(int)),
                     this, SLOT(onChangeToolBoxIndex(int)), Qt::QueuedConnection);
 
             QObject::connect(ui->tabTerms, SIGNAL(currentChanged(int)),
@@ -359,6 +371,25 @@ namespace fl {
                     this, SLOT(onChangeSpinBoxZShape(double)));
             QObject::connect(ui->sbx_zshape_end, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxZShape(double)));
+
+            //FX TERMS
+            //Constant
+            QObject::connect(ui->sbx_constant, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxConstant(double)));
+
+            QObject::connect(ui->lst_coefficients, SIGNAL(currentTextChanged(QString)),
+                    this, SLOT(onChangeLinearCoefficient(QString)));
+            QObject::connect(ui->lst_variables->verticalScrollBar(), SIGNAL(valueChanged(int)),
+                    ui->lst_coefficients->verticalScrollBar(), SLOT(setValue(int)));
+            QObject::connect(ui->lst_coefficients->verticalScrollBar(), SIGNAL(valueChanged(int)),
+                    ui->lst_variables->verticalScrollBar(), SLOT(setValue(int)));
+
+            QObject::connect(ui->btn_function_process, SIGNAL(clicked()),
+                    this, SLOT(onClickFunctionProcess()));
+            QObject::connect(ui->btn_function_variable, SIGNAL(clicked()),
+                    this, SLOT(onClickFunctionVariable()));
+            QObject::connect(ui->btn_function_builtin, SIGNAL(clicked()),
+                    this, SLOT(onClickFunctionBuiltIn()));
         }
 
         void Term::disconnect() {
@@ -481,6 +512,22 @@ namespace fl {
             QObject::disconnect(ui->sbx_zshape_end, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxZShape(double)));
 
+            QObject::disconnect(ui->sbx_constant, SIGNAL(valueChanged(double)),
+                    this, SLOT(onChangeSpinBoxConstant(double)));
+
+            QObject::disconnect(ui->lst_coefficients, SIGNAL(currentTextChanged(QString)),
+                    this, SLOT(onChangeLinearCoefficient(QString)));
+            QObject::disconnect(ui->lst_variables->verticalScrollBar(), SIGNAL(valueChanged(int)),
+                    ui->lst_coefficients->verticalScrollBar(), SLOT(setValue(int)));
+            QObject::disconnect(ui->lst_coefficients->verticalScrollBar(), SIGNAL(valueChanged(int)),
+                    ui->lst_variables->verticalScrollBar(), SLOT(setValue(int)));
+
+            QObject::disconnect(ui->btn_function_process, SIGNAL(clicked()),
+                    this, SLOT(onClickFunctionProcess()));
+            QObject::disconnect(ui->btn_function_variable, SIGNAL(clicked()),
+                    this, SLOT(onClickFunctionVariable()));
+            QObject::disconnect(ui->btn_function_builtin, SIGNAL(clicked()),
+                    this, SLOT(onClickFunctionBuiltIn()));
 
         }
 
@@ -512,6 +559,7 @@ namespace fl {
             ui->basicTermToolbox->setVisible(index == 0);
             ui->extendedTermToolbox->setVisible(index == 1);
             ui->edgeTermToolbox->setVisible(index == 2);
+            ui->fxTermToolbox->setVisible(index == 3);
             ui->tabTerms->setCurrentIndex(index);
         }
 
@@ -539,7 +587,7 @@ namespace fl {
             double distance = window.ui->sbx_separation->value();
             for (int i = 0; i < copies; ++i) {
                 fl::Term* copy = dummyVariable->getTerm(indexOfEditingTerm)->copy();
-                copy->setName(names[i].toStdString());
+                copy->setName(names.at(i).toStdString());
                 scalar separationDistance = distance * (i + 1);
                 dummyVariable->insertTerm(copy, indexOfEditingTerm + i + 1);
                 //BASIC
@@ -564,7 +612,7 @@ namespace fl {
                 } else if (copy->className() == Discrete().className()) {
                     Discrete* term = dynamic_cast<Discrete*> (copy);
                     for (std::size_t i = 0; i < term->x.size(); ++i) {
-                        term->x[i] = term->x[i] + separationDistance;
+                        term->x.at(i) = term->x.at(i) + separationDistance;
                     }
 
                     //EXTENDED
@@ -617,6 +665,27 @@ namespace fl {
                     ZShape* term = dynamic_cast<ZShape*> (copy);
                     term->setStart(term->getStart() + separationDistance);
                     term->setEnd(term->getEnd() + separationDistance);
+
+                    //FX
+                } else if (copy->className() == Constant().className()) {
+                    Constant* term = dynamic_cast<Constant*> (copy);
+                    term->setValue(term->getValue() + separationDistance);
+
+                } else if (copy->className() == Linear().className()) {
+                    Linear* term = dynamic_cast<Linear*> (copy);
+                    if (not term->coefficients.empty())
+                        term->coefficients.back() =
+                            term->coefficients.back() + separationDistance;
+
+                } else if (copy->className() == Function().className()) {
+                    Function* term = dynamic_cast<Function*> (copy);
+                    std::string infix = term->space(term->getInfix());
+                    std::string replacement = " x ";
+                    replacement += (separationDistance < 0 ? "- " : "+ ");
+                    infix = fl::Op::findReplace(infix, " x ",
+                            replacement + fl::Op::str(std::fabs(separationDistance)));
+                    term->load(infix, term->getEngine());
+
                 } else {
                     std::ostringstream ex;
                     ex << "[internal error] term of class <" <<
@@ -642,6 +711,10 @@ namespace fl {
                     dummyVariable->insertTerm(_edgeTerms[ui->edgeTermToolbox->currentIndex()]->copy(),
                             indexOfEditingTerm);
                     break;
+                case 3:
+                    dummyVariable->insertTerm(_fxTerms[ui->fxTermToolbox->currentIndex()]->copy(),
+                            indexOfEditingTerm);
+                    break;
                 default:
                     throw fl::Exception("[internal error] index out of bounds", FL_AT);
             }
@@ -663,6 +736,11 @@ namespace fl {
             else if (className == Sigmoid().className()) onChangeSpinBoxSigmoid(0);
             else if (className == SShape().className()) onChangeSpinBoxSShape(0);
             else if (className == ZShape().className()) onChangeSpinBoxZShape(0);
+                //FX
+            else if (className == Constant().className()) onChangeSpinBoxConstant(0);
+            else if (className == Linear().className()) onChangeLinearCoefficient("");
+            else if (className == Function().className()) onClickFunctionProcess();
+
             else throw fl::Exception("[term error] term of class <" +
                     className + "> not recognized", FL_AT);
 
@@ -679,16 +757,6 @@ namespace fl {
         }
 
         void Term::onChangeSpinBoxTriangle(double) {
-            //            if (fl::Op::isGt(ui->sbx_triangle_a->value(), ui->sbx_triangle_b->value())) {
-            //                ui->sbx_triangle_b->setValue(ui->sbx_triangle_a->value() + .1);
-            //            }
-            //            if (fl::Op::isGt(ui->sbx_triangle_b->value(), ui->sbx_triangle_c->value())) {
-            //                ui->sbx_triangle_c->setValue(ui->sbx_triangle_b->value() + .1);
-            //            }
-            //            if (fl::Op::isGE(ui->sbx_triangle_a->value(), ui->sbx_triangle_c->value())) {
-            //                ui->sbx_triangle_c->setValue(ui->sbx_triangle_a->value() + .1);
-            //            }
-
             Triangle* term = dynamic_cast<Triangle*> (selectedTerm());
             term->setA(ui->sbx_triangle_a->value());
             term->setB(ui->sbx_triangle_b->value());
@@ -698,19 +766,6 @@ namespace fl {
         }
 
         void Term::onChangeSpinBoxTrapezoid(double) {
-            //            if (fl::Op::isGt(ui->sbx_trapezoid_a->value(), ui->sbx_trapezoid_b->value())) {
-            //                ui->sbx_trapezoid_b->setValue(ui->sbx_trapezoid_a->value() + .1);
-            //            }
-            //            if (fl::Op::isGt(ui->sbx_trapezoid_b->value(), ui->sbx_trapezoid_c->value())) {
-            //                ui->sbx_trapezoid_c->setValue(ui->sbx_trapezoid_b->value() + .1);
-            //            }
-            //            if (fl::Op::isGt(ui->sbx_trapezoid_c->value(), ui->sbx_trapezoid_d->value())) {
-            //                ui->sbx_trapezoid_d->setValue(ui->sbx_trapezoid_c->value() + .1);
-            //            }
-            //            if (fl::Op::isGE(ui->sbx_trapezoid_a->value(), ui->sbx_trapezoid_d->value())) {
-            //                ui->sbx_trapezoid_d->setValue(ui->sbx_trapezoid_a->value() + .1);
-            //            }
-
             Trapezoid* term = dynamic_cast<Trapezoid*> (selectedTerm());
             term->setA(ui->sbx_trapezoid_a->value());
             term->setB(ui->sbx_trapezoid_b->value());
@@ -720,9 +775,6 @@ namespace fl {
         }
 
         void Term::onChangeSpinBoxRectangle(double) {
-            //            if (fl::Op::isGE(ui->sbx_rectangle_min->value(), ui->sbx_rectangle_max->value())) {
-            //                ui->sbx_rectangle_max->setValue(ui->sbx_rectangle_min->value() + .1);
-            //            }
             Rectangle* term = dynamic_cast<Rectangle*> (selectedTerm());
             term->setMinimum(ui->sbx_rectangle_min->value());
             term->setMaximum(ui->sbx_rectangle_max->value());
@@ -732,10 +784,10 @@ namespace fl {
         void Term::onClickDiscreteParser() {
             std::string values = ui->ptx_discrete->toPlainText().toStdString();
             for (std::size_t i = 0; i < values.size(); ++i) {
-                if (values[i] == '.' or (values[i] >= '0' and values[i] <= '9')) {
+                if (values.at(i) == '.' or (values.at(i) >= '0' and values.at(i) <= '9')) {
                     //do nothing
                 } else {//ignore the rest
-                    values[i] = ' ';
+                    values.at(i) = ' ';
                 }
             }
 
@@ -854,9 +906,6 @@ namespace fl {
         }
 
         void Term::onChangeSpinBoxSShape(double) {
-            //            if (fl::Op::isGE(ui->sbx_sshape_start->value(), ui->sbx_sshape_end->value())) {
-            //                ui->sbx_sshape_end->setValue(ui->sbx_sshape_start->value() + .1);
-            //            }
             SShape* term = dynamic_cast<SShape*> (selectedTerm());
             term->setStart(ui->sbx_sshape_start->value());
             term->setEnd(ui->sbx_sshape_end->value());
@@ -864,14 +913,38 @@ namespace fl {
         }
 
         void Term::onChangeSpinBoxZShape(double) {
-            //            if (fl::Op::isGE(ui->sbx_zshape_start->value(), ui->sbx_zshape_end->value())) {
-            //                ui->sbx_zshape_end->setValue(ui->sbx_zshape_start->value() + .1);
-            //            }
             ZShape* term = dynamic_cast<ZShape*> (selectedTerm());
             term->setStart(ui->sbx_zshape_start->value());
             term->setEnd(ui->sbx_zshape_end->value());
             redraw();
         }
+
+        void Term::onChangeSpinBoxConstant(double) {
+            Constant* term = dynamic_cast<Constant*> (selectedTerm());
+            term->setValue(ui->sbx_constant->value());
+            redraw();
+        }
+
+        void Term::onChangeLinearCoefficient(QString) {
+            redraw();
+        }
+
+        void Term::onClickFunctionProcess() {
+            Function* term = dynamic_cast<Function*> (selectedTerm());
+            std::string infix = ui->ptx_function->toPlainText().toStdString();
+            term->setInfix(infix);
+            try {
+                term->load();
+                redraw();
+            } catch (fl::Exception& ex) {
+                QMessageBox::critical(this, tr("Function Error"),
+                        QString::fromStdString(ex.getWhat()), QMessageBox::Ok);
+            }
+        }
+
+        void Term::onClickFunctionVariable() { }
+
+        void Term::onClickFunctionBuiltIn() { }
 
         void Term::loadFrom(const fl::Term* x) {
             //BASIC
@@ -1014,6 +1087,36 @@ namespace fl {
                 ui->sbx_zshape_end->setValue(params[1]);
                 ui->edgeTermToolbox->setCurrentIndex(3);
                 setCurrentToolbox(2);
+
+                //FX
+            } else if (x->className() == Constant().className()) {
+                const Constant* term = dynamic_cast<const Constant*> (x);
+                ui->sbx_constant->setValue(term->getValue());
+                ui->edgeTermToolbox->setCurrentIndex(0);
+                setCurrentToolbox(3);
+
+            } else if (x->className() == Linear().className()) {
+                const Linear* term = dynamic_cast<const Linear*> (x);
+                for (std::size_t i = 0; i < term->inputVariables.size(); ++i) {
+                    ui->lst_variables->addItem(QString::fromStdString(
+                            term->inputVariables.at(i)->getName()));
+                }
+                ui->lst_variables->addItem("constant c");
+
+                for (std::size_t i = 0; i < term->coefficients.size(); ++i) {
+                    ui->lst_coefficients->addItem(QString::fromStdString(
+                            fl::Op::str(term->coefficients.at(i))));
+                }
+
+                ui->edgeTermToolbox->setCurrentIndex(1);
+                setCurrentToolbox(3);
+
+            } else if (x->className() == Function().className()) {
+                const Function* term = dynamic_cast<const Function*> (x);
+                ui->ptx_function->setPlainText(QString::fromStdString(term->getInfix()));
+                ui->edgeTermToolbox->setCurrentIndex(2);
+                setCurrentToolbox(3);
+
             } else {
                 std::ostringstream ex;
                 ex << "[internal error] Term class <" << x->className() << "> not registered";

@@ -37,13 +37,12 @@ namespace fl {
             static Model* Default();
 
         protected:
+            Model();
+            virtual ~Model();
             static Model* singleton;
             fl::Engine* _engine;
 
         public:
-            Model();
-            virtual ~Model();
-
             virtual fl::Engine* engine() const;
             virtual void change(Engine* engine);
             virtual void reset();

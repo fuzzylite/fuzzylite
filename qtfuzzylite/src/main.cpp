@@ -63,8 +63,8 @@ namespace fl {
         void catchException(const std::exception& ex) {
             QString error = QString::fromUtf8(ex.what());
             QString message = "<qt><b>qtfuzzylite</b> has experienced an internal error and will exit.<br><br>"
-                    "Please report this error to &nbsp; <a href='mailto:errors@fuzzylite.com'>"
-                    "errors@fuzzylite.com</a><br><br>"
+                    "Please report this error to &nbsp; <a href='mailto:community@fuzzylite.com'>"
+                    "community@fuzzylite.com</a><br><br>"
                     "Your report will help to make <b>fuzzylite</b> and <b>qtfuzzylite</b> a better "
                     "free open source fuzzy logic library!<br><br>"
                     "Many thanks in advance for your help!"
@@ -92,6 +92,7 @@ namespace fl {
             view->layout()->addWidget(&viewError);
             x.layout()->addWidget(view);
             x.exec();
+//            QApplication::quit();
         }
 
     };

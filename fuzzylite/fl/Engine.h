@@ -83,7 +83,11 @@ namespace fl {
         virtual void process();
 
         virtual void setName(const std::string& name);
-        virtual std::string getName() const; 
+        virtual std::string getName() const;
+
+        virtual std::string toStringFis() const;
+        virtual std::string toStringFcl() const;
+        virtual std::string toStringCpp() const;
 
         /**
          * Operations for iterable datatype _inputVariables

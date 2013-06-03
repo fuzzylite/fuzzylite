@@ -34,6 +34,9 @@
 #include "fl/factory/SNormFactory.h"
 #include "fl/factory/TNormFactory.h"
 
+#include "fl/imex/CppExporter.h"
+#include "fl/imex/FclExporter.h"
+#include "fl/imex/FisExporter.h"
 
 namespace fl {
 
@@ -153,6 +156,18 @@ namespace fl {
 
     std::string Engine::getName() const {
         return this->_name;
+    }
+
+    std::string Engine::toStringCpp() const {
+        return CppExporter().toString(this);
+    }
+
+    std::string Engine::toStringFcl() const {
+        return FclExporter().toString(this);
+    }
+
+    std::string Engine::toStringFis() const {
+        return FisExporter().toString(this);
     }
 
     /**

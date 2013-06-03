@@ -197,17 +197,16 @@ namespace fl {
                 Term* term = extractTerm(value);
                 if (term->className() == Linear().className()) {
                     Linear* linear = dynamic_cast<Linear*> (term);
-                    linear->setInputVariables(
-                            std::vector<const InputVariable*>
+                    linear->inputVariables = std::vector<const InputVariable*>
                             (engine->inputVariables().begin(),
-                            engine->inputVariables().end()));
+                            engine->inputVariables().end());
                 }
                 output->addTerm(term);
             } else if (key == "Default") {
                 output->setDefaultValue(fl::Op::toScalar(value));
             } else if (key == "LockValid") {
                 output->setLockValidOutput((int) fl::Op::toScalar(value) == 1);
-            }else if (key == "LockRange"){
+            } else if (key == "LockRange") {
                 output->setLockOutputRange((int) fl::Op::toScalar(value) == 1);
             } else {
                 FL_LOG("[info] ignoring redundant or non-relevant information from line: " << line);

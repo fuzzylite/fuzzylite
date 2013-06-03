@@ -177,7 +177,8 @@ namespace fl {
         }
         if (term->className() == Linear().className()) {
             const Linear* linear = dynamic_cast<const Linear*> (term);
-            for (int i = 0; i < linear->getNumberOfCoefficients(); ++i) {
+            for (std::size_t i = 0; i < linear->coefficients.size(); ++i) {
+                
                 //TODO: Find out how to write to FCL a Linear term.
             }
         }

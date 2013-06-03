@@ -362,7 +362,7 @@ namespace fl {
 
         if (term->className() == Linear().className()) {
             const Linear* x = dynamic_cast<const Linear*> (term);
-            ss << "'linear',[" << fl::Op::str<scalar>(x->getCoefficients(), " ") << "]";
+            ss << "'linear',[" << fl::Op::str<scalar>(x->coefficients, " ") << "]";
             return ss.str();
         }
 

@@ -29,6 +29,7 @@ namespace fl {
         struct FL_EXPORT Element {
             std::string name;
             Element(const std::string& name);
+            virtual ~Element();
 
             virtual std::string toString() const = 0;
 
@@ -117,7 +118,9 @@ namespace fl {
 
     public:
         std::map<std::string, scalar> variables;
-        Function(const std::string& name = "", bool loadBuiltInFunctions = true);
+        Function(const std::string& name = "",
+                const std::string& infix = "", const Engine* engine = NULL,
+                bool loadBuiltInFunctions = true);
         virtual ~Function();
 
         static Function* create(const std::string& name,
@@ -131,8 +134,13 @@ namespace fl {
 
         virtual Function* copy() const;
 
+        virtual void setInfix(const std::string& infix);
         virtual std::string getInfix() const;
+        
+        virtual void setEngine(const Engine* engine);
         virtual const Engine* getEngine() const;
+        
+        virtual void load() throw (fl::Exception);
 
         virtual void load(const std::string& infix,
                 const Engine* engine = NULL) throw (fl::Exception);
@@ -140,6 +148,8 @@ namespace fl {
         virtual Node* parse(const std::string& infix) throw (fl::Exception);
 
         virtual std::string toPostfix(const std::string& infix) const throw (fl::Exception);
+
+        virtual std::string space(const std::string& infix) const;
 
         virtual bool isOperand(const std::string& token) const;
         virtual bool isBuiltInFunction(const std::string& token) const;

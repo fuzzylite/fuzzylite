@@ -67,6 +67,14 @@ namespace fl {
             void onChangeSpinBoxSShape(double);
             void onChangeSpinBoxZShape(double);
             
+            void onChangeSpinBoxConstant(double);
+
+            void onChangeLinearCoefficient(QString);
+            
+            void onClickFunctionProcess();
+            void onClickFunctionVariable();
+            void onClickFunctionBuiltIn();
+            
             void onClickWizard();
 
             void redraw();
@@ -94,6 +102,7 @@ namespace fl {
             std::vector<fl::Term*> _basicTerms;
             std::vector<fl::Term*> _extendedTerms;
             std::vector<fl::Term*> _edgeTerms;
+            std::vector<fl::Term*> _fxTerms;
 
         public:
             Ui::Term* ui;

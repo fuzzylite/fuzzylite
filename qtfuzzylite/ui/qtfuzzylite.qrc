@@ -1,5 +1,6 @@
 <RCC>
   <qresource>
+    <file alias="create-rules.png">icons/insert-text.png</file>
     <file alias="terms.png">icons/document-page-setup.png</file>
     <file alias="about.png">icons/help-about.png</file>
     <file alias="quit.png">icons/system-shutdown-restart-panel.png</file>
@@ -10,7 +11,6 @@
     <file alias="down.png">icons/go-down.png</file>
     <file alias="up.png">icons/go-up.png</file>
     <file alias="spellcheck.png">icons/tools-check-spelling.png</file>
-    <file alias="create-rules.png">icons/format-indent-more.png</file>
     <file alias="clone.png">icons/view-list-icons-symbolic.png</file>
     <file alias="process.png">icons/system-run.png</file>
     <file alias="add.png">icons/list-add.png</file>
