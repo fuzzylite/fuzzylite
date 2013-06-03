@@ -36,16 +36,16 @@ namespace fl {
         std::string _what;
     public:
         Exception(const std::string& what, const std::string& file, int line,
-                const std::string& function, bool log = true);
+                const std::string& function, bool log = false);
         virtual ~Exception() throw ();
 
         virtual void setWhat(const std::string& what);
         virtual std::string getWhat() const;
         virtual const char* what() const throw ();
         
-        virtual void append(const std::string& whatMore);
+        virtual void append(const std::string& whatElse);
         virtual void append(const std::string& file, int line, const std::string& function);
-        virtual void append(const std::string& whatMore,
+        virtual void append(const std::string& whatElse,
             const std::string& file, int line, const std::string& function);
 
         static std::string btCallStack(const int maxCalls = 30);

@@ -24,7 +24,7 @@
 
 #include <typeinfo>
 #include <iomanip>
-
+#include <cstdlib>
 #include <signal.h>
 
 using namespace fl;
@@ -255,22 +255,9 @@ void exampleTakagiSugeno2() {
     }
 }
 
-int main(int argc, char** argv) {
+void examples() throw (fl::Exception) {
     fl::Function::main();
-    return 0;
-    (void) argc;
-    (void) argv;
-    std::set_terminate(fl::Exception::terminate);
-    std::set_unexpected(fl::Exception::terminate);
-    signal(SIGSEGV, fl::Exception::signalHandler);
-    signal(SIGABRT, fl::Exception::signalHandler);
-    signal(SIGILL, fl::Exception::signalHandler);
-    signal(SIGSEGV, fl::Exception::signalHandler);
-    signal(SIGFPE, fl::Exception::signalHandler);
-#ifdef FL_UNIX
-    signal(SIGBUS, fl::Exception::signalHandler);
-    signal(SIGPIPE, fl::Exception::signalHandler);
-#endif
+    return;
     // foo();
     std::cout << "\nHello, " << fl::fuzzylite::name() << "!\n"
             << "=================\n"
@@ -312,3 +299,30 @@ int main(int argc, char** argv) {
             "There are still many things to do!\n\n";
 
 }
+
+
+int main(int argc, char** argv) {
+    (void) argc;
+    (void) argv;
+    std::set_terminate(fl::Exception::terminate);
+    std::set_unexpected(fl::Exception::terminate);
+    signal(SIGSEGV, fl::Exception::signalHandler);
+    signal(SIGABRT, fl::Exception::signalHandler);
+    signal(SIGILL, fl::Exception::signalHandler);
+    signal(SIGSEGV, fl::Exception::signalHandler);
+    signal(SIGFPE, fl::Exception::signalHandler);
+#ifdef FL_UNIX
+    signal(SIGBUS, fl::Exception::signalHandler);
+    signal(SIGPIPE, fl::Exception::signalHandler);
+#endif
+
+    try {
+        examples();
+    } catch (fl::Exception& e) {
+        FL_LOG(e.what());
+        FL_LOG(e.btCallStack());
+        return EXIT_FAILURE;
+    }
+    return EXIT_SUCCESS;
+}
+

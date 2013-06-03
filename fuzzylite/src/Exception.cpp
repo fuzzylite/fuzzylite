@@ -63,8 +63,8 @@ namespace fl {
         return this->_what.c_str();
     }
 
-    void Exception::append(const std::string& whatMore) {
-        this->_what += whatMore + "\n";
+    void Exception::append(const std::string& whatElse) {
+        this->_what += whatElse + "\n";
     }
 
     void Exception::append(const std::string& file, int line, const std::string& function) {
@@ -73,9 +73,9 @@ namespace fl {
         _what += "\n" + ss.str();
     }
 
-    void Exception::append(const std::string& whatMore,
+    void Exception::append(const std::string& whatElse,
             const std::string& file, int line, const std::string& function) {
-        append(whatMore);
+        append(whatElse);
         append(file, line, function);
     }
 
@@ -125,11 +125,9 @@ namespace fl {
         }
         free(btSymbol);
         return btStream.str();
-#else
+#endif
+#endif
         return "[backtrace missing] supported only in Unix and Windows platforms";
-#endif
-
-#endif
     }
     //execinfo
 
@@ -137,13 +135,13 @@ namespace fl {
         std::ostringstream ex;
         ex << "[caught signal " << signal << "] backtrace:\n";
         ex << fl::Exception::btCallStack();
-        throw fl::Exception(ex.str(), FL_AT);
+        throw fl::Exception(ex.str(), FL_AT, true);
     }
 
     void Exception::terminate() {
         std::string message = "[unexpected exception] backtrace:\n"
                 + fl::Exception::btCallStack(50);
-        fl::Exception ex(message, FL_AT);
+        FL_LOGP(message);
         exit(EXIT_FAILURE);
     }
 

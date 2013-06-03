@@ -7,11 +7,15 @@
 
 #include "fl/term/Function.h"
 
+#include "fl/Engine.h"
+#include "fl/variable/InputVariable.h"
+#include "fl/variable/OutputVariable.h"
 #include "fl/rule/Rule.h"
 
 #include <functional>
 #include <queue>
 #include <stack>
+#include <signal.h>
 namespace fl {
 
     /**
@@ -21,55 +25,46 @@ namespace fl {
     Function::Element::Element(const std::string& name)
     : name(name) { }
 
-    template <typename T>
-    Function::Operator<T>::Operator(const std::string& name, T functionPointer,
-            short precedence, short arity, short associativity)
-    : Element(name), functionPointer(functionPointer),
-    precedence(precedence), arity(arity), associativity(associativity) { }
+    Function::Operator::Operator(const std::string& name, Unary unary,
+            short precedence, short associativity)
+    : Element(name), unary(unary), binary(NULL),
+    precedence(precedence), arity(1), associativity(associativity) { }
 
-    template Function::Operator<Function::Unary>::Operator(const std::string& name,
-            Function::Unary functionPointer,
-            short precedence, short arity, short associativity);
-    template Function::Operator<Function::Binary>::Operator(const std::string& name,
-            Function::Binary functionPointer,
-            short precedence, short arity, short associativity);
-    //    template Function::Operator<Function::Tertiary>::Operator(const std::string& name,
-    //            Function::Tertiary functionPointer,
-    //            short precedence, short arity, short associativity);
+    Function::Operator::Operator(const std::string& name, Binary binary,
+            short precedence, short associativity)
+    : Element(name), unary(NULL), binary(binary),
+    precedence(precedence), arity(2), associativity(associativity) { }
 
-    template <typename T>
-    std::string Function::Operator<T>::toString() const {
+    std::string Function::Operator::toString() const {
         std::ostringstream ss;
         ss << "Operator (name=" << name << ", "
                 << "precedence=" << precedence << ", "
                 << "arity=" << arity << ", "
-                << "associativity=" << associativity << ", "
-                << "pointer=" << functionPointer
-                << ")";
+                << "associativity=" << associativity << ", ";
+        if (arity == 1) ss << "pointer=" << unary;
+        else if (arity == 2) ss << "pointer=" << binary;
+        else ss << "pointer=error";
+        ss << ")";
         return ss.str();
     }
 
-    template <typename T>
-    Function::BuiltInFunction<T>::BuiltInFunction(const std::string& name,
-            T functionPointer, short arity, short associativity)
-    : Element(name), functionPointer(functionPointer),
-    arity(arity), associativity(associativity) { }
+    Function::BuiltInFunction::BuiltInFunction(const std::string& name,
+            Unary unary, short associativity)
+    : Element(name), unary(unary), binary(NULL), arity(1), associativity(associativity) { }
 
-    template Function::BuiltInFunction<Function::Unary>::BuiltInFunction(const std::string& name,
-            Function::Unary functionPointer, short arity, short associativity);
-    template Function::BuiltInFunction<Function::Binary>::BuiltInFunction(const std::string& name,
-            Function::Binary functionPointer, short arity, short associativity);
-    //    template Function::BuiltInFunction<Function::Tertiary>::BuiltInFunction(const std::string& name,
-    //            Function::Tertiary functionPointer, short arity, short associativity);
+    Function::BuiltInFunction::BuiltInFunction(const std::string& name,
+            Binary binary, short associativity)
+    : Element(name), unary(NULL), binary(binary), arity(2), associativity(associativity) { }
 
-    template <typename T>
-    std::string Function::BuiltInFunction<T>::toString() const {
+    std::string Function::BuiltInFunction::toString() const {
         std::ostringstream ss;
         ss << "BuiltInFunction (name=" << name << ", "
                 << "arity=" << arity << ", "
-                << "associativity=" << associativity << ", "
-                << "pointer=" << functionPointer
-                << ")";
+                << "associativity=" << associativity << ", ";
+        if (arity == 1) ss << "pointer=" << unary;
+        else if (arity == 2) ss << "pointer=" << binary;
+        else ss << "pointer=error";
+        ss << ")";
         return ss.str();
     }
 
@@ -83,14 +78,14 @@ namespace fl {
         //        this->_unaryOperators["!"] = new Operator<Unary>("!", std::logical_not<scalar>, p, 1);
         //        this->_unaryOperators["~"] = new Operator<Unary>("~", Function::complement, 1);
         --p; //Power
-        this->_binaryOperators["^"] = new Operator<Binary>("^", std::pow, p, 2, 1);
+        this->_operators["^"] = new Operator("^", std::pow, p, 1);
         --p; //Multiplication, Division, and Modulo
-        this->_binaryOperators["*"] = new Operator<Binary>("*", fl::Op::multiplies, p);
-        this->_binaryOperators["/"] = new Operator<Binary>("/", fl::Op::divides, p);
-        this->_binaryOperators["%"] = new Operator<Binary>("%", fl::Op::modulus, p);
+        this->_operators["*"] = new Operator("*", fl::Op::multiplies, p);
+        this->_operators["/"] = new Operator("/", fl::Op::divides, p);
+        this->_operators["%"] = new Operator("%", fl::Op::modulus, p);
         --p; //Addition, Subtraction
-        this->_binaryOperators["+"] = new Operator<Binary>("+", fl::Op::plus, p);
-        this->_binaryOperators["-"] = new Operator<Binary>("-", fl::Op::minus, p);
+        this->_operators["+"] = new Operator("+", fl::Op::plus, p);
+        this->_operators["-"] = new Operator("-", fl::Op::minus, p);
         //        --p; //Bitwise AND
         //        this->_binaryOperators["&"] = new Operator<Binary>("&", std::bit_and, p);
         //        --p; //Bitwise OR
@@ -102,36 +97,36 @@ namespace fl {
     }
 
     void Function::loadBuiltInFunctions() {
-        this->_unaryFunctions["acos"] = new BuiltInFunction<Unary>("acos", &(std::acos));
-        this->_unaryFunctions["asin"] = new BuiltInFunction<Unary>("asin", &(std::asin));
-        this->_unaryFunctions["atan"] = new BuiltInFunction<Unary>("atan", &(std::atan));
+        this->_functions["acos"] = new BuiltInFunction("acos", &(std::acos));
+        this->_functions["asin"] = new BuiltInFunction("asin", &(std::asin));
+        this->_functions["atan"] = new BuiltInFunction("atan", &(std::atan));
 
-        this->_unaryFunctions["ceil"] = new BuiltInFunction<Unary>("ceil", &(std::ceil));
-        this->_unaryFunctions["cos"] = new BuiltInFunction<Unary>("cos", &(std::cos));
-        this->_unaryFunctions["cosh"] = new BuiltInFunction<Unary>("cosh", &(std::cosh));
-        this->_unaryFunctions["exp"] = new BuiltInFunction<Unary>("exp", &(std::exp));
-        this->_unaryFunctions["fabs"] = new BuiltInFunction<Unary>("fabs", &(std::fabs));
-        this->_unaryFunctions["floor"] = new BuiltInFunction<Unary>("floor", &(std::floor));
-        this->_unaryFunctions["log"] = new BuiltInFunction<Unary>("log", &(std::log));
-        this->_unaryFunctions["log10"] = new BuiltInFunction<Unary>("log10", &(std::log10));
+        this->_functions["ceil"] = new BuiltInFunction("ceil", &(std::ceil));
+        this->_functions["cos"] = new BuiltInFunction("cos", &(std::cos));
+        this->_functions["cosh"] = new BuiltInFunction("cosh", &(std::cosh));
+        this->_functions["exp"] = new BuiltInFunction("exp", &(std::exp));
+        this->_functions["fabs"] = new BuiltInFunction("fabs", &(std::fabs));
+        this->_functions["floor"] = new BuiltInFunction("floor", &(std::floor));
+        this->_functions["log"] = new BuiltInFunction("log", &(std::log));
+        this->_functions["log10"] = new BuiltInFunction("log10", &(std::log10));
 
-        this->_unaryFunctions["sin"] = new BuiltInFunction<Unary>("sin", &(std::sin));
-        this->_unaryFunctions["sinh"] = new BuiltInFunction<Unary>("sinh", &(std::sinh));
-        this->_unaryFunctions["sqrt"] = new BuiltInFunction<Unary>("sqrt", &(std::sqrt));
-        this->_unaryFunctions["tan"] = new BuiltInFunction<Unary>("tan", &(std::tan));
-        this->_unaryFunctions["tanh"] = new BuiltInFunction<Unary>("tanh", &(std::tanh));
+        this->_functions["sin"] = new BuiltInFunction("sin", &(std::sin));
+        this->_functions["sinh"] = new BuiltInFunction("sinh", &(std::sinh));
+        this->_functions["sqrt"] = new BuiltInFunction("sqrt", &(std::sqrt));
+        this->_functions["tan"] = new BuiltInFunction("tan", &(std::tan));
+        this->_functions["tanh"] = new BuiltInFunction("tanh", &(std::tanh));
 
 #ifdef FL_UNIX
         //not found in Windows
-        this->_unaryFunctions["log1p"] = new BuiltInFunction<Unary>("log1p", &(log1p));
-        this->_unaryFunctions["acosh"] = new BuiltInFunction<Unary>("acosh", &(acosh));
-        this->_unaryFunctions["asinh"] = new BuiltInFunction<Unary>("asinh", &(asinh));
-        this->_unaryFunctions["atanh"] = new BuiltInFunction<Unary>("atanh", &(atanh));
+        this->_functions["log1p"] = new BuiltInFunction("log1p", &(log1p));
+        this->_functions["acosh"] = new BuiltInFunction("acosh", &(acosh));
+        this->_functions["asinh"] = new BuiltInFunction("asinh", &(asinh));
+        this->_functions["atanh"] = new BuiltInFunction("atanh", &(atanh));
 #endif
 
-        this->_binaryFunctions["pow"] = new BuiltInFunction<Binary>("pow", &(std::pow));
-        this->_binaryFunctions["atan2"] = new BuiltInFunction<Binary>("atan2", &(std::atan2));
-        this->_binaryFunctions["fmod"] = new BuiltInFunction<Binary>("fmod", &(std::fmod));
+        this->_functions["pow"] = new BuiltInFunction("pow", &(std::pow));
+        this->_functions["atan2"] = new BuiltInFunction("atan2", &(std::atan2));
+        this->_functions["fmod"] = new BuiltInFunction("fmod", &(std::fmod));
     }
 
     /**********************************
@@ -155,10 +150,22 @@ namespace fl {
     }
 
     scalar Function::membership(scalar x) const {
-        (void) x;
-        //        std::map<std::string, scalar> mapping;
-        //TODO:load 
-        return 0;
+        if (not this->_root)
+            throw fl::Exception("[function error] function not loaded", FL_AT);
+        if (this->_engine) {
+            for (int i = 0; i < this->_engine->numberOfInputVariables(); ++i) {
+                InputVariable* input = this->_engine->getInputVariable(i);
+                const_cast<Function*> (this)->variables[input->getName()] =
+                        input->getInput();
+            }
+            for (int i = 0; i < this->_engine->numberOfOutputVariables(); ++i) {
+                OutputVariable* output = this->_engine->getOutputVariable(i);
+                const_cast<Function*> (this)->variables[output->getName()] =
+                        output->getLastValidOutput();
+            }
+        }
+        const_cast<Function*> (this)->variables["x"] = x;
+        return this->_root->evaluate(&this->variables);
     }
 
     std::string Function::className() const {
@@ -176,10 +183,9 @@ namespace fl {
 
     void Function::load(const std::string& infix,
             const Engine* engine) throw (fl::Exception) {
+        this->_root = parse(infix);
         this->_infix = infix;
         this->_engine = engine;
-        std::string postfix = toPostfix(infix);
-        (void) postfix;
     }
 
     std::string Function::getInfix() const {
@@ -194,19 +200,17 @@ namespace fl {
      * Infix to Postfix
      */
 
-    std::string Function::toPostfix(const std::string& rawInfix) const {
+    std::string Function::toPostfix(const std::string& rawInfix) const throw (fl::Exception) {
         std::string infix = rawInfix;
 
-        //TODO: inserts spaces in all operators, parentheses, and commas.
         std::vector<std::string> space;
         space.push_back("(");
         space.push_back(")");
         space.push_back(",");
-        {
-            std::map<std::string, Operator<Binary>*>::const_iterator itOp = this->_binaryOperators.begin();
-            for (; itOp != this->_binaryOperators.end(); ++itOp) {
-                space.push_back(itOp->first);
-            }
+
+        for (std::map<std::string, Operator*>::const_iterator itOp = this->_operators.begin();
+                itOp != this->_operators.end(); ++itOp) {
+            space.push_back(itOp->first);
         }
 
         for (std::size_t i = 0; i < space.size(); ++i) {
@@ -238,9 +242,9 @@ namespace fl {
                 }
 
             } else if (isOperator(token)) {
-                Operator<Binary>* op1 = getOperator(token);
+                Operator* op1 = getOperator(token);
                 while (true) {
-                    Operator<Binary>* op2 = NULL;
+                    Operator* op2 = NULL;
                     if (not stack.empty() and isOperator(stack.top())) {
                         op2 = this->getOperator(stack.top());
                     } else
@@ -301,27 +305,18 @@ namespace fl {
         return ssPostfix.str();
     }
 
-    Function::Operator<Function::Binary>*
-    Function::getOperator(const std::string& key) const {
-        std::map<std::string, Operator<Binary>*>::const_iterator it =
-                this->_binaryOperators.find(key);
-        if (it == this->_binaryOperators.end()) return NULL;
+    Function::Operator* Function::getOperator(const std::string& key) const {
+        std::map<std::string, Operator*>::const_iterator it =
+                this->_operators.find(key);
+        if (it == this->_operators.end()) return NULL;
         return it->second;
     }
 
-    template<> Function::BuiltInFunction<Function::Unary>*
+    Function::BuiltInFunction*
     Function::getBuiltInFunction(const std::string& key) const {
-        std::map<std::string, Function::BuiltInFunction<Function::Unary>*>::const_iterator it =
-                this->_unaryFunctions.find(key);
-        if (it == this->_unaryFunctions.end()) return NULL;
-        return it->second;
-    }
-
-    template<> Function::BuiltInFunction<Function::Binary>*
-    Function::getBuiltInFunction(const std::string& key) const {
-        std::map<std::string, Function::BuiltInFunction<Function::Binary>*>::const_iterator it =
-                this->_binaryFunctions.find(key);
-        if (it == this->_binaryFunctions.end()) return NULL;
+        std::map<std::string, BuiltInFunction*>::const_iterator it =
+                this->_functions.find(key);
+        if (it == this->_functions.end()) return NULL;
         return it->second;
     }
 
@@ -338,26 +333,213 @@ namespace fl {
 
     bool Function::isOperator(const std::string& name) const {
         return name == fl::Rule::andKeyword() || name == fl::Rule::orKeyword() ||
-                _binaryOperators.find(name) != _binaryOperators.end();
+                _operators.find(name) != _operators.end();
     }
 
     bool Function::isBuiltInFunction(const std::string& name) const {
-        return _unaryFunctions.find(name) != _unaryFunctions.end() or
-                _binaryFunctions.find(name) != _binaryFunctions.end();
+        return _functions.find(name) != _functions.end();
+    }
+
+    /******************************
+     * Tree Node Elements
+     ******************************/
+
+    Function::Node::Node(Operator* foperator, Node* left, Node* right)
+    : foperator(foperator), function(NULL), reference(""), value(fl::nan),
+    left(left), right(right) { }
+
+    Function::Node::Node(BuiltInFunction* function, Node* left, Node* right)
+    : foperator(NULL), function(function), reference(""), value(fl::nan),
+    left(left), right(right) { }
+
+    Function::Node::Node(const std::string& reference)
+    : foperator(NULL), function(NULL), reference(reference), value(fl::nan),
+    left(NULL), right(NULL) { }
+
+    Function::Node::Node(scalar value)
+    : foperator(NULL), function(NULL), value(value), left(NULL), right(NULL) { }
+
+    scalar Function::Node::evaluate(const std::map<std::string, scalar>* refs) const {
+        scalar result = fl::nan;
+        if (foperator) {
+            if (foperator->arity == 1) {
+                result = foperator->unary(left->evaluate(refs));
+            } else if (foperator->arity == 2) {
+                result = foperator->binary(right->evaluate(refs), left->evaluate(refs));
+            } else {
+                throw fl::Exception("[function error] <" + fl::Op::str(foperator->arity) + ">-ary"
+                        " operators are not supported, only unary or binary are", FL_AT);
+            }
+        } else if (function) {
+            if (function->arity == 1) {
+                result = function->unary(left->evaluate(refs));
+            } else if (function->arity == 2) {
+                result = function->binary(right->evaluate(refs), left->evaluate(refs));
+            } else {
+                throw fl::Exception("[function error] <" + fl::Op::str(foperator->arity) + ">-ary"
+                        " functions are not supported, only unary or binary are", FL_AT);
+            }
+        } else if (not reference.empty()) {
+            if (not refs) {
+                throw fl::Exception("[function error] "
+                        "expected reference map, but none was provided", FL_AT);
+            }
+            std::map<std::string, scalar>::const_iterator it = refs->find(reference);
+            if (it != refs->end()) result = it->second;
+            else throw fl::Exception("[function error] "
+                    "reference <" + reference + "> not found in map provided", FL_AT);
+        } else {
+            result = value;
+        }
+        FL_DBG(toPostfix() << " = " << result);
+        return result;
+    }
+
+    std::string Function::Node::toString() const {
+        std::ostringstream ss;
+        if (foperator) ss << foperator->name;
+        else if (function) ss << function->name;
+        else if (not reference.empty()) ss << reference;
+        else ss << fl::Op::str(value);
+        return ss.str();
+    }
+
+    std::string Function::Node::toPrefix(const Node* node) const {
+        if (not node) node = this;
+        if (not fl::Op::isNan(node->value)) { //is terminal
+            return fl::Op::str(node->value);
+        }
+        if (not reference.empty()) {
+            return reference;
+        }
+
+        std::ostringstream ss;
+        ss << node->toString();
+        if (node->left)
+            ss << " " << this->toPrefix(node->left);
+        if (node->right)
+            ss << " " << this->toPrefix(node->right);
+        return ss.str();
+    }
+
+    std::string Function::Node::toInfix(const Node* node) const {
+        if (not node) node = this;
+        if (not fl::Op::isNan(node->value)) { //is proposition
+            return fl::Op::str(node->value);
+        }
+        if (not reference.empty()) {
+            return reference;
+        }
+
+        std::ostringstream ss;
+        if (node->left)
+            ss << this->toInfix(node->left) << " ";
+        ss << node->toString();
+        if (node->right)
+            ss << " " << this->toInfix(node->right);
+        return ss.str();
+    }
+
+    std::string Function::Node::toPostfix(const Node* node) const {
+        if (not node) node = this;
+        if (not fl::Op::isNan(node->value)) { //is proposition
+            return fl::Op::str(node->value);
+        }
+        if (not reference.empty()) {
+            return reference;
+        }
+
+        std::ostringstream ss;
+        if (node->left)
+            ss << this->toPostfix(node->left) << " ";
+        if (node->right)
+            ss << this->toPostfix(node->right) << " ";
+        ss << node->toString();
+        return ss.str();
+    }
+
+    /****************************************
+     * The Glorious Parser
+     ***************************************/
+
+    Function::Node* Function::parse(const std::string& infix) throw (fl::Exception) {
+        std::string postfix = toPostfix(infix);
+
+        std::stack<Node*> stack;
+
+        std::istringstream tokenizer(postfix);
+        std::string token;
+        while (tokenizer >> token) {
+            if (isOperator(token)) {
+                Operator* op = getOperator(token);
+                if (op->arity > (int) stack.size()) {
+                    std::ostringstream ss;
+                    ss << "[function error] stack size <" << stack.size() << "> "
+                            "does not meet arity <" << op->arity << "> of "
+                            "operator <" << op->name << ">";
+                    throw fl::Exception(ss.str(), FL_AT);
+                }
+
+                Node* node = new Node(op);
+                node->left = stack.top();
+                stack.pop();
+                if (op->arity == 2) {
+                    node->right = stack.top();
+                    stack.pop();
+                }
+                stack.push(node);
+            } else if (isBuiltInFunction(token)) {
+                BuiltInFunction* function = getBuiltInFunction(token);
+                if (function->arity > (int) stack.size()) {
+                    std::ostringstream ss;
+                    ss << "[function error] stack size <" << stack.size() << "> "
+                            "does not meet arity <" << function->arity << "> of "
+                            "function <" << function->name << ">";
+                    throw fl::Exception(ss.str(), FL_AT);
+                }
+
+                Node* node = new Node(function);
+                node->left = stack.top();
+                stack.pop();
+                if (function->arity == 2) {
+                    node->right = stack.top();
+                    stack.pop();
+                }
+                stack.push(node);
+
+            } else if (isOperand(token)) {
+                Node* node;
+                try {
+                    scalar value = fl::Op::toScalar(token, false);
+                    node = new Node(value);
+                } catch (fl::Exception& e) {
+                    node = new Node(token);
+                }
+                stack.push(node);
+            }
+        }
+
+        if (stack.size() != 1)
+            throw fl::Exception("[function error] malformed stack", FL_AT);
+
+        return stack.top();
     }
 
     void Function::main() {
         Function f;
         std::string notation = "3+4*2/(1-5)^2^3";
         FL_LOG(f.toPostfix(notation));
+        FL_LOG("P: " << f.parse(notation)->toInfix());
+        FL_LOG(f.parse(notation)->evaluate());
         //3 4 2 * 1 5 - 2 3 ^ ^ / +
 
-        notation = "3+4*2/(1-5)^2^3";
-        FL_LOG(f.toPostfix(notation));
-        //3 4 2 * 1 5 - 2 3 ^ ^ / +
-
+        f.variables["y"] = 1.0;
         notation = "sin(y*x)^2/x";
-        FL_LOG(f.toPostfix(notation));
+        FL_LOG("pre: " << f.parse(notation)->toPrefix());
+        FL_LOG("in: " << f.parse(notation)->toInfix());
+        FL_LOG("pos: " << f.parse(notation)->toPostfix());
+        f.load(notation);
+        FL_LOG("Result: " << f.membership(1));
         //y x * sin 2 ^ x /
 
         notation = "(Temperature is High and Oxigen is Low) or "

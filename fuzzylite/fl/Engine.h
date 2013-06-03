@@ -27,7 +27,6 @@
 
 #include <vector>
 #include <string>
-#include <map>
 
 /**
  * @class fl::Engine
@@ -84,7 +83,7 @@ namespace fl {
         virtual void process();
 
         virtual void setName(const std::string& name);
-        virtual std::string getName() const;
+        virtual std::string getName() const; 
 
         /**
          * Operations for iterable datatype _inputVariables

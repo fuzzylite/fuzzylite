@@ -36,43 +36,62 @@ namespace fl {
 
         typedef double(*Unary)(double);
         typedef double(*Binary)(double, double);
-        //        typedef double(*Tertiary)(double, double, double);
 
-        template <typename T>
         struct FL_EXPORT Operator : public Element {
-            T functionPointer;
+            Unary unary;
+            Binary binary;
             short precedence;
             short arity;
             short associativity;
-            Operator(const std::string& name, T functionPointer, short precedence = 0,
-                    short arity = 2, short associativity = -1);
+            Operator(const std::string& name, Unary unary, short precedence = 0,
+                    short associativity = -1);
+            Operator(const std::string& name, Binary unary, short precedence = 0,
+                    short associativity = -1);
 
             std::string toString() const;
         };
 
-        template <typename T>
         struct FL_EXPORT BuiltInFunction : public Element {
-            T functionPointer;
+            Unary unary;
+            Binary binary;
             short arity;
             short associativity;
 
-            BuiltInFunction(const std::string& name, T functionPointer,
-                    short arity = 1, short associativity = -1);
+            BuiltInFunction(const std::string& name, Unary functionPointer,
+                    short associativity = -1);
+            BuiltInFunction(const std::string& name, Binary functionPointer,
+                    short associativity = -1);
             std::string toString() const;
         };
 
-        //        template <class T>
-        //        struct FL_EXPORT LinguisticVariable<T> : public Element{
-        //            T variable;
-        //            LinguisticVariable(T variable);
-        //            
-        //            scalar evaluate() const;
-        //            std::string toString() const;
-        //        };
-
         /**************************
-         * Tree elements
+         * Tree elements, wrap Elements into Nodes.
          **************************/
+
+        struct FL_EXPORT Node {
+            Operator* foperator;
+            BuiltInFunction* function;
+            std::string reference;
+            scalar value;
+            Node* left;
+            Node* right;
+
+            Node(Operator* foperator, Node* left = NULL, Node* right = NULL);
+            Node(BuiltInFunction* function, Node* left = NULL, Node* right = NULL);
+            Node(const std::string& reference);
+            Node(scalar value);
+
+            scalar evaluate(const std::map<std::string, scalar>*
+                    references = NULL) const;
+
+            std::string toString() const;
+            std::string toPrefix(const Node* node = NULL) const;
+            std::string toInfix(const Node* node = NULL) const;
+            std::string toPostfix(const Node* node = NULL) const;
+        };
+
+
+
 
         /******************************
          * Term
@@ -80,10 +99,9 @@ namespace fl {
     protected:
         std::string _infix;
         const Engine* _engine;
-        //        std::map<std::string, Operator<Unary>*> _unaryOperators;
-        std::map<std::string, Operator<Binary>*> _binaryOperators;
-        std::map<std::string, BuiltInFunction<Unary>*> _unaryFunctions;
-        std::map<std::string, BuiltInFunction<Binary>*> _binaryFunctions;
+        std::map<std::string, Operator*> _operators;
+        std::map<std::string, BuiltInFunction*> _functions;
+        Node* _root;
 
         virtual void loadOperators();
         virtual void loadBuiltInFunctions();
@@ -92,14 +110,13 @@ namespace fl {
          * Parsing methods
          */
 
-        //        template <typename T>
-        Operator<Binary>* getOperator(const std::string& key) const;
+        Operator* getOperator(const std::string& key) const;
 
-        template <typename T>
-        BuiltInFunction<T>* getBuiltInFunction(const std::string& key) const;
+        BuiltInFunction* getBuiltInFunction(const std::string& key) const;
 
 
     public:
+        std::map<std::string, scalar> variables;
         Function(const std::string& name = "", bool loadBuiltInFunctions = true);
         virtual ~Function();
 
@@ -114,17 +131,21 @@ namespace fl {
 
         virtual Function* copy() const;
 
-        virtual void load(const std::string& infix,
-                const Engine* engine = NULL) throw (fl::Exception);
         virtual std::string getInfix() const;
         virtual const Engine* getEngine() const;
 
-        virtual std::string toPostfix(const std::string& infix) const;
+        virtual void load(const std::string& infix,
+                const Engine* engine = NULL) throw (fl::Exception);
+
+        virtual Node* parse(const std::string& infix) throw (fl::Exception);
+
+        virtual std::string toPostfix(const std::string& infix) const throw (fl::Exception);
+
         virtual bool isOperand(const std::string& token) const;
         virtual bool isBuiltInFunction(const std::string& token) const;
         virtual bool isOperator(const std::string& token) const;
-        
-        
+
+
         //        static void doSomething(scalar function(scalar, scalar));
 
         static void main();

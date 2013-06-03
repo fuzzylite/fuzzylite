@@ -189,6 +189,7 @@ namespace fl {
         } else ss << x;
         return ss.str();
     }
+    template std::string Operation::str(short x, int precision);
     template std::string Operation::str(int x, int precision);
     template std::string Operation::str(scalar x, int precision);
 
