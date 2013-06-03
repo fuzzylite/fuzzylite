@@ -33,12 +33,12 @@ namespace fl {
 
     Function::~Function() {
         if (this->_root) delete this->_root;
-        for (std::map<std::string, Operator*>::iterator it = this->_operators.begin();
-                it != this->_operators.end(); ++it) {
+        for (std::map<std::string, Operator*>::iterator it = this->operators.begin();
+                it != this->operators.end(); ++it) {
             delete it->second;
         }
-        for (std::map<std::string, BuiltInFunction*>::iterator it = this->_functions.begin();
-                it != this->_functions.end(); ++it) {
+        for (std::map<std::string, BuiltInFunction*>::iterator it = this->functions.begin();
+                it != this->functions.end(); ++it) {
             delete it->second;
         }
     }
@@ -52,7 +52,7 @@ namespace fl {
 
     scalar Function::membership(scalar x) const {
         if (not this->_root) return fl::nan;
-//            throw fl::Exception("[function error] function not loaded", FL_AT);
+        //            throw fl::Exception("[function error] function not loaded", FL_AT);
         if (this->_engine) {
             for (int i = 0; i < this->_engine->numberOfInputVariables(); ++i) {
                 InputVariable* input = this->_engine->getInputVariable(i);
@@ -176,14 +176,14 @@ namespace fl {
         //        this->_unaryOperators["!"] = new Operator<Unary>("!", std::logical_not<scalar>, p, 1);
         //        this->_unaryOperators["~"] = new Operator<Unary>("~", Function::complement, 1);
         --p; //Power
-        this->_operators["^"] = new Operator("^", std::pow, p, 1);
+        this->operators["^"] = new Operator("^", std::pow, p, 1);
         --p; //Multiplication, Division, and Modulo
-        this->_operators["*"] = new Operator("*", fl::Op::multiplies, p);
-        this->_operators["/"] = new Operator("/", fl::Op::divides, p);
-        this->_operators["%"] = new Operator("%", fl::Op::modulus, p);
+        this->operators["*"] = new Operator("*", fl::Op::multiplies, p);
+        this->operators["/"] = new Operator("/", fl::Op::divides, p);
+        this->operators["%"] = new Operator("%", fl::Op::modulus, p);
         --p; //Addition, Subtraction
-        this->_operators["+"] = new Operator("+", fl::Op::plus, p);
-        this->_operators["-"] = new Operator("-", fl::Op::minus, p);
+        this->operators["+"] = new Operator("+", fl::Op::plus, p);
+        this->operators["-"] = new Operator("-", fl::Op::minus, p);
         //        --p; //Bitwise AND
         //        this->_binaryOperators["&"] = new Operator<Binary>("&", std::bit_and, p);
         //        --p; //Bitwise OR
@@ -195,36 +195,36 @@ namespace fl {
     }
 
     void Function::loadBuiltInFunctions() {
-        this->_functions["acos"] = new BuiltInFunction("acos", &(std::acos));
-        this->_functions["asin"] = new BuiltInFunction("asin", &(std::asin));
-        this->_functions["atan"] = new BuiltInFunction("atan", &(std::atan));
+        this->functions["acos"] = new BuiltInFunction("acos", &(std::acos));
+        this->functions["asin"] = new BuiltInFunction("asin", &(std::asin));
+        this->functions["atan"] = new BuiltInFunction("atan", &(std::atan));
 
-        this->_functions["ceil"] = new BuiltInFunction("ceil", &(std::ceil));
-        this->_functions["cos"] = new BuiltInFunction("cos", &(std::cos));
-        this->_functions["cosh"] = new BuiltInFunction("cosh", &(std::cosh));
-        this->_functions["exp"] = new BuiltInFunction("exp", &(std::exp));
-        this->_functions["fabs"] = new BuiltInFunction("fabs", &(std::fabs));
-        this->_functions["floor"] = new BuiltInFunction("floor", &(std::floor));
-        this->_functions["log"] = new BuiltInFunction("log", &(std::log));
-        this->_functions["log10"] = new BuiltInFunction("log10", &(std::log10));
+        this->functions["ceil"] = new BuiltInFunction("ceil", &(std::ceil));
+        this->functions["cos"] = new BuiltInFunction("cos", &(std::cos));
+        this->functions["cosh"] = new BuiltInFunction("cosh", &(std::cosh));
+        this->functions["exp"] = new BuiltInFunction("exp", &(std::exp));
+        this->functions["fabs"] = new BuiltInFunction("fabs", &(std::fabs));
+        this->functions["floor"] = new BuiltInFunction("floor", &(std::floor));
+        this->functions["log"] = new BuiltInFunction("log", &(std::log));
+        this->functions["log10"] = new BuiltInFunction("log10", &(std::log10));
 
-        this->_functions["sin"] = new BuiltInFunction("sin", &(std::sin));
-        this->_functions["sinh"] = new BuiltInFunction("sinh", &(std::sinh));
-        this->_functions["sqrt"] = new BuiltInFunction("sqrt", &(std::sqrt));
-        this->_functions["tan"] = new BuiltInFunction("tan", &(std::tan));
-        this->_functions["tanh"] = new BuiltInFunction("tanh", &(std::tanh));
+        this->functions["sin"] = new BuiltInFunction("sin", &(std::sin));
+        this->functions["sinh"] = new BuiltInFunction("sinh", &(std::sinh));
+        this->functions["sqrt"] = new BuiltInFunction("sqrt", &(std::sqrt));
+        this->functions["tan"] = new BuiltInFunction("tan", &(std::tan));
+        this->functions["tanh"] = new BuiltInFunction("tanh", &(std::tanh));
 
 #ifdef FL_UNIX
         //not found in Windows
-        this->_functions["log1p"] = new BuiltInFunction("log1p", &(log1p));
-        this->_functions["acosh"] = new BuiltInFunction("acosh", &(acosh));
-        this->_functions["asinh"] = new BuiltInFunction("asinh", &(asinh));
-        this->_functions["atanh"] = new BuiltInFunction("atanh", &(atanh));
+        this->functions["log1p"] = new BuiltInFunction("log1p", &(log1p));
+        this->functions["acosh"] = new BuiltInFunction("acosh", &(acosh));
+        this->functions["asinh"] = new BuiltInFunction("asinh", &(asinh));
+        this->functions["atanh"] = new BuiltInFunction("atanh", &(atanh));
 #endif
 
-        this->_functions["pow"] = new BuiltInFunction("pow", &(std::pow));
-        this->_functions["atan2"] = new BuiltInFunction("atan2", &(std::atan2));
-        this->_functions["fmod"] = new BuiltInFunction("fmod", &(std::fmod));
+        this->functions["pow"] = new BuiltInFunction("pow", &(std::pow));
+        this->functions["atan2"] = new BuiltInFunction("atan2", &(std::atan2));
+        this->functions["fmod"] = new BuiltInFunction("fmod", &(std::fmod));
     }
 
     /**
@@ -237,8 +237,8 @@ namespace fl {
         chars.push_back(")");
         chars.push_back(",");
 
-        for (std::map<std::string, Operator*>::const_iterator itOp = this->_operators.begin();
-                itOp != this->_operators.end(); ++itOp) {
+        for (std::map<std::string, Operator*>::const_iterator itOp = this->operators.begin();
+                itOp != this->operators.end(); ++itOp) {
             chars.push_back(itOp->first);
         }
 
@@ -342,16 +342,16 @@ namespace fl {
 
     Function::Operator* Function::getOperator(const std::string& key) const {
         std::map<std::string, Operator*>::const_iterator it =
-                this->_operators.find(key);
-        if (it == this->_operators.end()) return NULL;
+                this->operators.find(key);
+        if (it == this->operators.end()) return NULL;
         return it->second;
     }
 
     Function::BuiltInFunction*
     Function::getBuiltInFunction(const std::string& key) const {
         std::map<std::string, BuiltInFunction*>::const_iterator it =
-                this->_functions.find(key);
-        if (it == this->_functions.end()) return NULL;
+                this->functions.find(key);
+        if (it == this->functions.end()) return NULL;
         return it->second;
     }
 
@@ -368,11 +368,11 @@ namespace fl {
 
     bool Function::isOperator(const std::string& name) const {
         return name == fl::Rule::andKeyword() || name == fl::Rule::orKeyword() ||
-                _operators.find(name) != _operators.end();
+                operators.find(name) != operators.end();
     }
 
     bool Function::isBuiltInFunction(const std::string& name) const {
-        return _functions.find(name) != _functions.end();
+        return functions.find(name) != functions.end();
     }
 
     /******************************
@@ -510,9 +510,11 @@ namespace fl {
                 Operator* op = getOperator(token);
                 if (op->arity > (int) stack.size()) {
                     std::ostringstream ss;
-                    ss << "[function error] stack size <" << stack.size() << "> "
-                            "does not meet arity <" << op->arity << "> of "
-                            "operator <" << op->name << ">";
+                    ss << "[function error] "
+                            "operator <" << op->name << "> has arity <" << op->arity << ">, "
+                            "but <" << stack.size() << "> element" <<
+                            (stack.size() == 1 ? " is " : "s are") <<
+                            " available";
                     throw fl::Exception(ss.str(), FL_AT);
                 }
 
@@ -528,9 +530,11 @@ namespace fl {
                 BuiltInFunction* function = getBuiltInFunction(token);
                 if (function->arity > (int) stack.size()) {
                     std::ostringstream ss;
-                    ss << "[function error] stack size <" << stack.size() << "> "
-                            "does not meet arity <" << function->arity << "> of "
-                            "function <" << function->name << ">";
+                    ss << "[function error] "
+                            "function <" << function->name << "> has arity <" << function->arity << ">, "
+                            "but <" << stack.size() << "> element" <<
+                            (stack.size() == 1 ? " is " : "s are") <<
+                            " available";
                     throw fl::Exception(ss.str(), FL_AT);
                 }
 
@@ -556,7 +560,8 @@ namespace fl {
         }
 
         if (stack.size() != 1)
-            throw fl::Exception("[function error] malformed stack", FL_AT);
+            throw fl::Exception("[function error] malformed function <" +
+                infix + ">", FL_AT);
 
         return stack.top();
     }

@@ -69,11 +69,13 @@ namespace fl {
             
             void onChangeSpinBoxConstant(double);
 
-            void onChangeLinearCoefficient(QString);
+            void onChangeLinearCoefficient(const QString&);
             
             void onClickFunctionProcess();
             void onClickFunctionVariable();
+            void onClickVariable(const QString&);
             void onClickFunctionBuiltIn();
+            void onClickBuiltIn(const QString&);
             
             void onClickWizard();
 
@@ -103,7 +105,7 @@ namespace fl {
             std::vector<fl::Term*> _extendedTerms;
             std::vector<fl::Term*> _edgeTerms;
             std::vector<fl::Term*> _fxTerms;
-
+            
         public:
             Ui::Term* ui;
             Viewer* viewer;

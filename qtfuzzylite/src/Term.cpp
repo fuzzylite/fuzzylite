@@ -35,7 +35,7 @@
 
 #include <QMessageBox>
 #include <QScrollBar>
-
+#include <QSignalMapper>
 namespace fl {
     namespace qt {
 
@@ -124,7 +124,7 @@ namespace fl {
             }
 
             ui->setupUi(this);
-            
+
             viewer = new Viewer;
             viewer->setup(dummyVariable);
             ui->toolboxLayout->insertWidget(0, viewer);
@@ -925,7 +925,7 @@ namespace fl {
             redraw();
         }
 
-        void Term::onChangeLinearCoefficient(QString) {
+        void Term::onChangeLinearCoefficient(const QString&) {
             redraw();
         }
 
@@ -942,9 +942,101 @@ namespace fl {
             }
         }
 
-        void Term::onClickFunctionVariable() { }
+        void Term::onClickFunctionVariable() {
+            if (ui->btn_function_variable->isChecked()) {
+                std::vector<QAction*> actions;
+                actions.push_back(new QAction("x", this));
+                actions.push_back(NULL);
+                const Engine* engine = Model::Default()->engine();
+                for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
+                    actions.push_back(new QAction(QString::fromStdString(
+                            engine->getInputVariable(i)->getName()), this));
+                }
+                actions.push_back(NULL);
+                for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+                    actions.push_back(new QAction(QString::fromStdString(
+                            engine->getOutputVariable(i)->getName()), this));
+                }
 
-        void Term::onClickFunctionBuiltIn() { }
+                QMenu menu(this);
+                QSignalMapper signalMapper(this);
+                for (std::size_t i = 0; i < actions.size(); ++i) {
+                    if (actions.at(i)) {
+                        signalMapper.setMapping(actions.at(i), actions.at(i)->text());
+                        QObject::connect(actions.at(i), SIGNAL(triggered()),
+                                &signalMapper, SLOT(map()));
+
+                        menu.addAction(actions.at(i));
+                    } else {
+                        menu.addSeparator();
+                    }
+                }
+                QObject::connect(&signalMapper, SIGNAL(mapped(const QString &)),
+                        this, SLOT(onClickVariable(const QString &)));
+
+                menu.exec(QCursor::pos() + QPoint(1, 0));
+                for (std::size_t i = 0; i < actions.size(); ++i) {
+                    if (actions.at(i)) {
+                        actions.at(i)->deleteLater();
+                    }
+                }
+                ui->btn_function_variable->setChecked(false);
+            }
+        }
+
+        void Term::onClickVariable(const QString& variable) {
+            QTextCursor cursor = ui->ptx_function->textCursor();
+            cursor.insertText(variable);
+        }
+
+        void Term::onClickFunctionBuiltIn() {
+            if (ui->btn_function_builtin->isChecked()) {
+                std::vector<QAction*> actions;
+
+                Function f;
+                for (std::map<std::string, Function::Operator*>::iterator it =
+                        f.operators.begin(); it != f.operators.end(); ++it) {
+                    actions.push_back(new QAction(QString::fromStdString(
+                            it->first), this));
+                }
+                
+                actions.push_back(NULL);
+                for (std::map<std::string, Function::BuiltInFunction*>::iterator it =
+                        f.functions.begin(); it != f.functions.end(); ++it) {
+                    actions.push_back(new QAction(QString::fromStdString(
+                            it->first), this));
+                }
+
+                QMenu menu(this);
+                QSignalMapper signalMapper(this);
+                for (std::size_t i = 0; i < actions.size(); ++i) {
+                    if (actions.at(i)) {
+                        signalMapper.setMapping(actions.at(i), actions.at(i)->text());
+                        QObject::connect(actions.at(i), SIGNAL(triggered()),
+                                &signalMapper, SLOT(map()));
+
+                        menu.addAction(actions.at(i));
+                    } else {
+                        menu.addSeparator();
+                    }
+                }
+                QObject::connect(&signalMapper, SIGNAL(mapped(const QString &)),
+                        this, SLOT(onClickBuiltIn(const QString &)));
+
+                menu.exec(QCursor::pos() + QPoint(1, 0));
+                for (std::size_t i = 0; i < actions.size(); ++i) {
+                    if (actions.at(i)) {
+                        actions.at(i)->deleteLater();
+                    }
+                }
+                ui->btn_function_builtin->setChecked(false);
+            }
+        }
+
+        void Term::onClickBuiltIn(const QString& builtIn) {
+            QTextCursor cursor = ui->ptx_function->textCursor();
+            cursor.insertText(builtIn);
+        }
 
         void Term::loadFrom(const fl::Term* x) {
             //BASIC

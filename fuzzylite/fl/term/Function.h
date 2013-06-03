@@ -100,8 +100,6 @@ namespace fl {
     protected:
         std::string _infix;
         const Engine* _engine;
-        std::map<std::string, Operator*> _operators;
-        std::map<std::string, BuiltInFunction*> _functions;
         Node* _root;
 
         virtual void loadOperators();
@@ -118,6 +116,8 @@ namespace fl {
 
     public:
         std::map<std::string, scalar> variables;
+        std::map<std::string, Operator*> operators;
+        std::map<std::string, BuiltInFunction*> functions;
         Function(const std::string& name = "",
                 const std::string& infix = "", const Engine* engine = NULL,
                 bool loadBuiltInFunctions = true);
