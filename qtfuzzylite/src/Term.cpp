@@ -377,8 +377,8 @@ namespace fl {
             QObject::connect(ui->sbx_constant, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxConstant(double)));
 
-            QObject::connect(ui->lst_coefficients, SIGNAL(currentTextChanged(QString)),
-                    this, SLOT(onChangeLinearCoefficient(QString)));
+            QObject::connect(ui->lst_coefficients, SIGNAL(itemChanged(QListWidgetItem*)),
+                    this, SLOT(onChangeLinearCoefficient(QListWidgetItem*)));
             QObject::connect(ui->lst_variables->verticalScrollBar(), SIGNAL(valueChanged(int)),
                     ui->lst_coefficients->verticalScrollBar(), SLOT(setValue(int)));
             QObject::connect(ui->lst_coefficients->verticalScrollBar(), SIGNAL(valueChanged(int)),
@@ -515,8 +515,8 @@ namespace fl {
             QObject::disconnect(ui->sbx_constant, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeSpinBoxConstant(double)));
 
-            QObject::disconnect(ui->lst_coefficients, SIGNAL(currentTextChanged(QString)),
-                    this, SLOT(onChangeLinearCoefficient(QString)));
+            QObject::disconnect(ui->lst_coefficients, SIGNAL(itemChanged(QListWidgetItem*)),
+                    this, SLOT(onChangeLinearCoefficient(QListWidgetItem*)));
             QObject::disconnect(ui->lst_variables->verticalScrollBar(), SIGNAL(valueChanged(int)),
                     ui->lst_coefficients->verticalScrollBar(), SLOT(setValue(int)));
             QObject::disconnect(ui->lst_coefficients->verticalScrollBar(), SIGNAL(valueChanged(int)),
@@ -738,7 +738,7 @@ namespace fl {
             else if (className == ZShape().className()) onChangeSpinBoxZShape(0);
                 //FX
             else if (className == Constant().className()) onChangeSpinBoxConstant(0);
-            else if (className == Linear().className()) onChangeLinearCoefficient("");
+            else if (className == Linear().className()) onChangeLinearCoefficient(NULL);
             else if (className == Function().className()) onClickFunctionProcess();
 
             else throw fl::Exception("[term error] term of class <" +
@@ -925,7 +925,26 @@ namespace fl {
             redraw();
         }
 
-        void Term::onChangeLinearCoefficient(const QString&) {
+        void Term::onChangeLinearCoefficient(QListWidgetItem* item) {
+            if (not item) return;
+            try {
+                item->setText(QString::fromStdString(fl::Op::str(fl::Op::toScalar(
+                        item->text().toStdString()))));
+            } catch (fl::Exception& ex) {
+                QMessageBox::critical(this, tr("Linear Error"),
+                        QString::fromStdString(ex.getWhat()), QMessageBox::Ok);
+                item->setText(QString::fromStdString(fl::Op::str(0.0)));
+            }
+            Linear* term = dynamic_cast<Linear*> (selectedTerm());
+            for (int i = 0; i < ui->lst_coefficients->count(); ++i) {
+                try {
+                    term->coefficients.at(i) =
+                            fl::Op::toScalar(ui->lst_coefficients->item(i)->text().toStdString());
+                } catch (fl::Exception& ex) {
+                    FL_LOG(ex.what());
+                    term->coefficients.at(i) = 0.0;
+                }
+            }
             redraw();
         }
 
@@ -984,11 +1003,6 @@ namespace fl {
             }
         }
 
-        void Term::onClickVariable(const QString& variable) {
-            QTextCursor cursor = ui->ptx_function->textCursor();
-            cursor.insertText(variable);
-        }
-
         void Term::onClickFunctionBuiltIn() {
             if (ui->btn_function_builtin->isChecked()) {
                 std::vector<QAction*> actions;
@@ -999,7 +1013,7 @@ namespace fl {
                     actions.push_back(new QAction(QString::fromStdString(
                             it->first), this));
                 }
-                
+
                 actions.push_back(NULL);
                 for (std::map<std::string, Function::BuiltInFunction*>::iterator it =
                         f.functions.begin(); it != f.functions.end(); ++it) {
@@ -1033,9 +1047,16 @@ namespace fl {
             }
         }
 
+        void Term::onClickVariable(const QString& variable) {
+            QTextCursor cursor = ui->ptx_function->textCursor();
+            cursor.insertText(variable);
+            ui->ptx_function->setFocus();
+        }
+
         void Term::onClickBuiltIn(const QString& builtIn) {
             QTextCursor cursor = ui->ptx_function->textCursor();
             cursor.insertText(builtIn);
+            ui->ptx_function->setFocus();
         }
 
         void Term::loadFrom(const fl::Term* x) {
@@ -1184,29 +1205,36 @@ namespace fl {
             } else if (x->className() == Constant().className()) {
                 const Constant* term = dynamic_cast<const Constant*> (x);
                 ui->sbx_constant->setValue(term->getValue());
-                ui->edgeTermToolbox->setCurrentIndex(0);
+                ui->fxTermToolbox->setCurrentIndex(0);
                 setCurrentToolbox(3);
 
             } else if (x->className() == Linear().className()) {
+                ui->lst_variables->clear();
+                ui->lst_coefficients->clear();
                 const Linear* term = dynamic_cast<const Linear*> (x);
                 for (std::size_t i = 0; i < term->inputVariables.size(); ++i) {
-                    ui->lst_variables->addItem(QString::fromStdString(
+                    QListWidgetItem* item = new QListWidgetItem(QString::fromStdString(
                             term->inputVariables.at(i)->getName()));
+                    item->setToolTip(item->text());
+                    ui->lst_variables->addItem(item);
                 }
-                ui->lst_variables->addItem("constant c");
+                ui->lst_variables->addItem("c");
 
                 for (std::size_t i = 0; i < term->coefficients.size(); ++i) {
-                    ui->lst_coefficients->addItem(QString::fromStdString(
+                    QListWidgetItem* item = new QListWidgetItem(QString::fromStdString(
                             fl::Op::str(term->coefficients.at(i))));
+                    item->setToolTip(item->text());
+                    item->setFlags(item->flags() | Qt::ItemIsEditable);
+                    ui->lst_coefficients->addItem(item);
                 }
 
-                ui->edgeTermToolbox->setCurrentIndex(1);
+                ui->fxTermToolbox->setCurrentIndex(1);
                 setCurrentToolbox(3);
 
             } else if (x->className() == Function().className()) {
                 const Function* term = dynamic_cast<const Function*> (x);
                 ui->ptx_function->setPlainText(QString::fromStdString(term->getInfix()));
-                ui->edgeTermToolbox->setCurrentIndex(2);
+                ui->fxTermToolbox->setCurrentIndex(2);
                 setCurrentToolbox(3);
 
             } else {

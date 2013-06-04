@@ -69,7 +69,7 @@ namespace fl {
             
             void onChangeSpinBoxConstant(double);
 
-            void onChangeLinearCoefficient(const QString&);
+            void onChangeLinearCoefficient(QListWidgetItem*);
             
             void onClickFunctionProcess();
             void onClickFunctionVariable();
