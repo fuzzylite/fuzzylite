@@ -88,14 +88,11 @@
        <property name="focusPolicy">
         <enum>Qt::NoFocus</enum>
        </property>
-       <property name="autoFillBackground">
-        <bool>true</bool>
-       </property>
        <property name="tabShape">
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>0</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideMiddle</enum>
@@ -121,9 +118,6 @@
            </property>
            <property name="focusPolicy">
             <enum>Qt::NoFocus</enum>
-           </property>
-           <property name="autoFillBackground">
-            <bool>true</bool>
            </property>
            <property name="currentIndex">
             <number>0</number>
@@ -405,9 +399,6 @@ sure 'x' is followed by 'y'.</string>
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
-           </property>
-           <property name="autoFillBackground">
-            <bool>true</bool>
            </property>
            <property name="currentIndex">
             <number>0</number>
@@ -765,9 +756,6 @@ sure 'x' is followed by 'y'.</string>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="autoFillBackground">
-            <bool>true</bool>
-           </property>
            <property name="currentIndex">
             <number>0</number>
            </property>
@@ -958,11 +946,8 @@ sure 'x' is followed by 'y'.</string>
         <layout class="QVBoxLayout" name="verticalLayout_23">
          <item>
           <widget class="QToolBox" name="fxTermToolbox">
-           <property name="autoFillBackground">
-            <bool>true</bool>
-           </property>
            <property name="currentIndex">
-            <number>1</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="page_16">
             <property name="geometry">
