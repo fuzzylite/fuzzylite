@@ -60,7 +60,10 @@ namespace fl {
             if (i < _terms.size() - 1)
                 ss << ", ";
         }
-        ss << ") using " << _accumulation->className();
+        ss << ") using ";
+        if (_accumulation)
+            ss << _accumulation->className();
+        else ss << "no accumulation operator";
         return ss.str();
     }
 

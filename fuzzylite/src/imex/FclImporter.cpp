@@ -72,9 +72,12 @@ namespace fl {
 
                 if (firstToken == "FUNCTION_BLOCK") {
                     if (tokenizer.rdbuf()->in_avail() > 0) {
-                        std::string name;
-                        tokenizer >> name;
-                        engine->setName(name);
+                        std::ostringstream ss;
+                        std::string token;
+                        while(tokenizer >> token){
+                            ss << token;
+                        }
+                        engine->setName(ss.str());
                     }
                     continue;
                 }

@@ -1,4 +1,4 @@
-FUNCTION_BLOCK CubicApproximator
+FUNCTION_BLOCK Cubic-Approximator
 
 VAR_INPUT
 X: REAL;

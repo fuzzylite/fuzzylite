@@ -1,4 +1,4 @@
-FUNCTION_BLOCK sugenotipper
+FUNCTION_BLOCK sugeno tipper
 
 VAR_INPUT
 service: REAL;

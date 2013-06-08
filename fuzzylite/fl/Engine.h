@@ -58,17 +58,6 @@ namespace fl {
         /** The hedges registered in the engine to be used by fuzzy rules. @see fl::HedgeFactory*/
         std::vector<Hedge*> _hedges;
 
-        /**
-         * Creates an instance of a T-Norm
-         * @param tnorm The full name in CamelCase of the T-Norm. 
-         * For supported T-Norms @see fl::TNormFactory
-         * @return A pointer to a new instance of the specified T-Norm
-         */
-        virtual TNorm* createTnorm(const std::string& tnorm) const;
-        virtual SNorm* createSnorm(const std::string& snorm) const;
-        virtual Defuzzifier* createDefuzzifier(const std::string& defuzzifier) const;
-
-
     public:
         Engine(const std::string& name = "");
         virtual ~Engine();

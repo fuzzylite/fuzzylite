@@ -325,7 +325,7 @@ void exportAllExamples(const std::string& from, const std::string& to) {
                 std::string copy = FclExporter().toString(fclEngine);
                 delete fclEngine;
                 if (fcl != copy) {
-                    throw fl::Exception("[fcl error] at " + examples.at(i) + "." + from, FL_AT);
+                    errors << "[fcl error] at " + examples.at(i) + "." + from;
                 }
             }
 
@@ -336,7 +336,7 @@ void exportAllExamples(const std::string& from, const std::string& to) {
                 std::string copy = FisExporter().toString(fisEngine);
                 delete fisEngine;
                 if (fis != copy) {
-                    throw fl::Exception("[fis error] at " + examples.at(i) + "." + from, FL_AT);
+                    errors << "[fis error] at " + examples.at(i) + "." + from;
                 }
             }
 
@@ -368,8 +368,8 @@ void exportAllExamples(const std::string& from, const std::string& to) {
 }
 
 void examples() throw (fl::Exception) {
-    exportAllExamples("fis", "fcl");
-    return;
+//    exportAllExamples("fis", "fcl");
+//    return;
     // foo();
     std::cout << "\nHello, " << fl::fuzzylite::name() << "!\n"
             << "=================\n"

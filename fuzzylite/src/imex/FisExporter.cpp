@@ -259,7 +259,7 @@ namespace fl {
 
                 std::vector<Hedge*> hedges = proposition->hedges;
                 if (hedges.size() > 0) {
-                    FL_LOG("[exporter warning] only a few combinations of multiple "
+                    FL_DBG("[exporter warning] only a few combinations of multiple "
                             "hedges are supported in fis files");
                 }
                 for (std::size_t ixHedge = 0; ixHedge < hedges.size(); ++ixHedge) {

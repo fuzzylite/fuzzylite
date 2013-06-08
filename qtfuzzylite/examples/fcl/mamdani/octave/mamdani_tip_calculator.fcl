@@ -1,4 +1,4 @@
-FUNCTION_BLOCK MamdaniTipCalculator
+FUNCTION_BLOCK Mamdani-Tip-Calculator
 
 VAR_INPUT
 FoodQuality: REAL;

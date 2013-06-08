@@ -60,52 +60,27 @@ namespace fl {
         }
     }
 
-    TNorm* Engine::createTnorm(const std::string& classname) const {
-        try {
-            return Factory::instance()->tnorm()->create(classname);
-        } catch (fl::Exception& ex) {
-            ex.append(FL_AT);
-            throw ex;
-        }
-    }
-
-    SNorm* Engine::createSnorm(const std::string& classname) const {
-        try {
-            return Factory::instance()->snorm()->create(classname);
-        } catch (fl::Exception& ex) {
-            ex.append(FL_AT);
-            throw ex;
-        }
-    }
-
-    Defuzzifier* Engine::createDefuzzifier(const std::string& classname) const {
-        try {
-            return Factory::instance()->defuzzifier()->create(classname);
-        } catch (fl::Exception& ex) {
-            ex.append(FL_AT);
-            throw ex;
-        }
-    }
-
     void Engine::configure(const std::string& tnorm, const std::string& snorm,
             const std::string& activationTnorm, const std::string& accumulationSnorm,
             const std::string& defuzzifier, int divisions) {
+        TNormFactory* tnormFactory = Factory::instance()->tnorm();
+        SNormFactory* snormFactory = Factory::instance()->snorm();
+        DefuzzifierFactory* defuzzFactory = Factory::instance()->defuzzifier();
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            _ruleblocks.at(i)->setTnorm(createTnorm(tnorm));
-            _ruleblocks.at(i)->setSnorm(createSnorm(snorm));
-            _ruleblocks.at(i)->setActivation(createTnorm(activationTnorm));
+            _ruleblocks.at(i)->setTnorm(tnormFactory->create(tnorm));
+            _ruleblocks.at(i)->setSnorm(snormFactory->create(snorm));
+            _ruleblocks.at(i)->setActivation(tnormFactory->create(activationTnorm));
         }
 
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            _outputVariables.at(i)->setDefuzzifier(createDefuzzifier(defuzzifier));
+            _outputVariables.at(i)->setDefuzzifier(defuzzFactory->create(defuzzifier));
             _outputVariables.at(i)->getDefuzzifier()->setDivisions(divisions);
             _outputVariables.at(i)->output()->setAccumulation(
-                    createSnorm(accumulationSnorm));
+                    snormFactory->create(accumulationSnorm));
         }
     }
 
     void Engine::process() {
-
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             _outputVariables.at(i)->output()->clear();
         }
