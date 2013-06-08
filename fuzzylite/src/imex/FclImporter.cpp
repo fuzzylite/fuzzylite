@@ -489,6 +489,8 @@ namespace fl {
         if (name == "LM") className = SmallestOfMaximum().className();
         if (name == "RM") className = LargestOfMaximum().className();
         if (name == "MM") className = MeanOfMaximum().className();
+        if (name == "COGS") className = WeightedAverage().className();
+        if (name == "COGSS") className = WeightedSum().className();
 
         try {
             return Factory::instance()->defuzzifier()->create(className);
@@ -508,7 +510,7 @@ namespace fl {
             throw fl::Exception(ex.str(), FL_AT);
         }
 
-        std::string defaultValue = Op::findReplace(token.at(1), " ", "");
+        std::string defaultValue = Op::format(token.at(1), isalnum);
         token = Op::split(defaultValue, "|");
 
         scalar value;

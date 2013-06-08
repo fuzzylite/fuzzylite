@@ -319,6 +319,26 @@ void exportAllExamples(const std::string& from, const std::string& to) {
             } else throw fl::Exception("[examples error] file not found: " + input, FL_AT);
 
             Engine* engine = importer->fromString(ss.str());
+            {//Test FCL
+                std::string fcl = FclExporter().toString(engine);
+                Engine* fclEngine = FclImporter().fromString(fcl);
+                std::string copy = FclExporter().toString(fclEngine);
+                delete fclEngine;
+                if (fcl != copy) {
+                    throw fl::Exception("[fcl error] at " + examples.at(i) + "." + from, FL_AT);
+                }
+            }
+
+            {
+                //Test FIS
+                std::string fis = FisExporter().toString(engine);
+                Engine* fisEngine = FisImporter().fromString(fis);
+                std::string copy = FisExporter().toString(fisEngine);
+                delete fisEngine;
+                if (fis != copy) {
+                    throw fl::Exception("[fis error] at " + examples.at(i) + "." + from, FL_AT);
+                }
+            }
 
             std::string output = targetBase + examples.at(i) + "." + to;
             std::ofstream target(output.c_str());
@@ -348,8 +368,8 @@ void exportAllExamples(const std::string& from, const std::string& to) {
 }
 
 void examples() throw (fl::Exception) {
-//    exportAllExamples("fis", "cpp");
-//    return;
+    exportAllExamples("fis", "fcl");
+    return;
     // foo();
     std::cout << "\nHello, " << fl::fuzzylite::name() << "!\n"
             << "=================\n"

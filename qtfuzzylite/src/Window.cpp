@@ -118,7 +118,7 @@ namespace fl {
             ui->menuTools->addSeparator();
             ui->menuTools->addAction(ui->actionQuit);
 #endif
-            
+
             QList<int> sizes;
             sizes << .75 * size().width() << .25 * size().width();
             ui->spl_control_inout_rules->setSizes(sizes);
@@ -1062,19 +1062,19 @@ namespace fl {
         }
 
         QFont Window::typeWriterFont() const {
-		std::string font = "Courier";
-		#ifdef Q_OS_MAC
+            std::string font = "Courier";
+#ifdef Q_OS_MAC
             font = "Monaco";
-		#endif
-		#ifdef Q_OS_WIN
+#endif
+#ifdef Q_OS_WIN
             font = "Fixedsys";
-		#endif
-		#ifdef Q_OS_LINUX
-            font = "Ubuntu Mono"
-        #endif
-		QFont tt(QString::fromStdString(font));
-        tt.setStyleHint(QFont::TypeWriter);
-        return tt;   
+#endif
+#ifdef Q_OS_LINUX
+            font = "Ubuntu Mono";
+#endif
+            QFont tt(QString::fromStdString(font));
+            tt.setStyleHint(QFont::TypeWriter);
+            return tt;
         }
 
         QString Window::toHtmlEscaped(const QString& x) {

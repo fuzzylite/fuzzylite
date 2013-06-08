@@ -46,7 +46,7 @@ namespace fl {
         return std::abs(x) == fl::inf;
     }
     template FL_EXPORT bool Operation::isInf(int x);
-    template FL_EXPORT  bool Operation::isInf(scalar x);
+    template FL_EXPORT bool Operation::isInf(scalar x);
 
     template <typename T>
     bool Operation::isNan(T x) {
@@ -211,7 +211,7 @@ namespace fl {
             fl::Op::toScalar(x);
             return true;
         } catch (fl::Exception& ex) {
-			(void) ex;
+            (void) ex;
             return false;
         }
     }
@@ -231,7 +231,7 @@ namespace fl {
     template FL_EXPORT std::string Operation::str(int x, int precision);
     template FL_EXPORT std::string Operation::str(scalar x, int precision);
 
-    template <>  FL_EXPORT std::string Operation::str(const std::string& x, int precision) {
+    template <> FL_EXPORT std::string Operation::str(const std::string& x, int precision) {
         (void) precision;
         return x;
     }
@@ -246,12 +246,12 @@ namespace fl {
         }
         return ss.str();
     }
-    template  FL_EXPORT std::string Operation::str(const std::vector<int>& x,
+    template FL_EXPORT std::string Operation::str(const std::vector<int>& x,
             const std::string& separator);
-    template  FL_EXPORT std::string Operation::str(const std::vector<scalar>& x,
+    template FL_EXPORT std::string Operation::str(const std::vector<scalar>& x,
             const std::string& separator);
 
-    template <>  FL_EXPORT 
+    template <> FL_EXPORT
     std::string Operation::str(const std::vector<std::string>& x,
             const std::string& separator) {
         std::ostringstream ss;
@@ -277,12 +277,12 @@ namespace fl {
         return ss.str();
     }
 
-    template FL_EXPORT  std::string Operation::str(int items, const std::string& separator,
+    template FL_EXPORT std::string Operation::str(int items, const std::string& separator,
             int first, ...);
-    template FL_EXPORT  std::string Operation::str(int items, const std::string& separator,
+    template FL_EXPORT std::string Operation::str(int items, const std::string& separator,
             scalar first, ...);
 
-    template <>  FL_EXPORT 
+    template <> FL_EXPORT
     std::string Operation::str(int items, const std::string& separator, const char* first, ...) {
         std::ostringstream ss;
         ss << first;

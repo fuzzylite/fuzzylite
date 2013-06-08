@@ -46,7 +46,7 @@ namespace fl {
     Discrete::~Discrete() { }
 
     template <typename T>
-    Discrete* Discrete::create(const std::string& name, int argc, 
+    Discrete* Discrete::create(const std::string& name, int argc,
             T x1, T y1, ...) throw (fl::Exception) {
         if (argc % 2 != 0 or argc < 2) {
             throw fl::Exception("[discrete term] expected an even number of "
@@ -67,10 +67,10 @@ namespace fl {
         va_end(args);
         return new Discrete(name, x, y);
     }
-    
-    template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc, 
+
+    template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc,
             scalar x1, scalar y1, ...) throw (fl::Exception);
-    template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc, 
+    template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc,
             int x1, int y1, ...) throw (fl::Exception);
 
     std::string Discrete::className() const {

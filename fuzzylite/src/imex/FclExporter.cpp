@@ -154,7 +154,7 @@ namespace fl {
         if (defuzzifier->className() == LargestOfMaximum().className()) return "RM";
         if (defuzzifier->className() == MeanOfMaximum().className()) return "MM";
         if (defuzzifier->className() == WeightedAverage().className()) return "COGS";
-        if (defuzzifier->className() == WeightedSum().className()) return "WS";
+        if (defuzzifier->className() == WeightedSum().className()) return "COGSS";
         return defuzzifier->className();
     }
 

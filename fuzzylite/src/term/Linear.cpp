@@ -91,7 +91,7 @@ namespace fl {
     }
 
     void Linear::set(const std::vector<scalar>& coefficients,
-            const std::vector<const InputVariable*>& inputVariables) throw (fl::Exception){
+            const std::vector<const InputVariable*>& inputVariables) throw (fl::Exception) {
         if (coefficients.size() != inputVariables.size() + 1) {
             std::ostringstream ss;
             ss << "[linear term] the number of coefficients <" << coefficients.size() << "> "

@@ -7,7 +7,7 @@ in3: REAL;
 in4: REAL;
 in5: REAL;
 in6: REAL;
-polelength: REAL;
+pole_length: REAL;
 END_VAR
 
 VAR_OUTPUT
@@ -38,7 +38,7 @@ FUZZIFY in6
 RANGE := (-3.000 .. 3.000);
 END_FUZZIFY
 
-FUZZIFY polelength
+FUZZIFY pole_length
 RANGE := (0.500 .. 1.500);
 TERM mf1 := ZShape (0.500, 0.600);
 TERM mf2 := PiShape (0.500, 0.600, 0.600, 0.700);
@@ -77,17 +77,17 @@ AND : PROD;
 OR : MAX;
 ACT : PROD;
 
-RULE 1 : if polelength is mf1 then out is outmf1
-RULE 2 : if polelength is mf2 then out is outmf2
-RULE 3 : if polelength is mf3 then out is outmf3
-RULE 4 : if polelength is mf4 then out is outmf4
-RULE 5 : if polelength is mf5 then out is outmf5
-RULE 6 : if polelength is mf6 then out is outmf6
-RULE 7 : if polelength is mf7 then out is outmf7
-RULE 8 : if polelength is mf8 then out is outmf8
-RULE 9 : if polelength is mf9 then out is outmf9
-RULE 10 : if polelength is mf10 then out is outmf10
-RULE 11 : if polelength is mf11 then out is outmf11
+RULE 1 : if pole_length is mf1 then out is outmf1
+RULE 2 : if pole_length is mf2 then out is outmf2
+RULE 3 : if pole_length is mf3 then out is outmf3
+RULE 4 : if pole_length is mf4 then out is outmf4
+RULE 5 : if pole_length is mf5 then out is outmf5
+RULE 6 : if pole_length is mf6 then out is outmf6
+RULE 7 : if pole_length is mf7 then out is outmf7
+RULE 8 : if pole_length is mf8 then out is outmf8
+RULE 9 : if pole_length is mf9 then out is outmf9
+RULE 10 : if pole_length is mf10 then out is outmf10
+RULE 11 : if pole_length is mf11 then out is outmf11
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK
