@@ -16,6 +16,7 @@
 #include <queue>
 #include <stack>
 #include <signal.h>
+#include <cctype>
 namespace fl {
 
     /**********************************
@@ -24,7 +25,7 @@ namespace fl {
     Function::Function(const std::string& name,
             const std::string& infix, const Engine* engine,
             bool loadBuiltInFunctions)
-    : Term(name), _infix(infix), _engine(engine), _root(NULL) {
+    : Term(name), _infix(infix), _engine(engine), root(NULL) {
         loadOperators();
         if (loadBuiltInFunctions) {
             this->loadBuiltInFunctions();
@@ -32,7 +33,7 @@ namespace fl {
     }
 
     Function::~Function() {
-        if (this->_root) delete this->_root;
+        if (this->root) delete this->root;
         for (std::map<std::string, Operator*>::iterator it = this->operators.begin();
                 it != this->operators.end(); ++it) {
             delete it->second;
@@ -51,7 +52,7 @@ namespace fl {
     }
 
     scalar Function::membership(scalar x) const {
-        if (not this->_root) return fl::nan;
+        if (not this->root) return fl::nan;
         //            throw fl::Exception("[function error] function not loaded", FL_AT);
         if (this->_engine) {
             for (int i = 0; i < this->_engine->numberOfInputVariables(); ++i) {
@@ -66,7 +67,7 @@ namespace fl {
             }
         }
         const_cast<Function*> (this)->variables["x"] = x;
-        return this->_root->evaluate(&this->variables);
+        return this->root->evaluate(&this->variables);
     }
 
     std::string Function::className() const {
@@ -93,7 +94,7 @@ namespace fl {
 
     void Function::load(const std::string& infix,
             const Engine* engine) throw (fl::Exception) {
-        this->_root = parse(infix);
+        this->root = parse(infix);
         this->_infix = infix;
         this->_engine = engine;
     }
@@ -185,13 +186,15 @@ namespace fl {
         this->operators["+"] = new Operator("+", fl::Op::plus, p);
         this->operators["-"] = new Operator("-", fl::Op::minus, p);
         //        --p; //Bitwise AND
-        //        this->_binaryOperators["&"] = new Operator<Binary>("&", std::bit_and, p);
+        //        this->_binaryOperators["&"] = new Operator("&", std::bit_and, p);
         //        --p; //Bitwise OR
-        //        this->_binaryOperators["|"] = new Operator<Binary>("|", std::bit_or, p);
-        //        --p; //Logical AND
-        //        this->_binaryOperators["&&"] = new Operator<Binary>("&&", std::logical_and, p);
-        //        --p; //Logical OR
-        //        this->_binaryOperators["||"] = new Operator<Binary>("||", std::logical_or, p);
+        //        this->_binaryOperators["|"] = new Operator("|", std::bit_or, p);
+        --p; //Logical AND
+        this->operators[fl::Rule::andKeyword()] = 
+                new Operator(fl::Rule::andKeyword(), fl::Op::logical_and, p);
+        --p; //Logical OR
+        this->operators[fl::Rule::orKeyword()] = 
+                new Operator(fl::Rule::orKeyword(), fl::Op::logical_or, p);
     }
 
     void Function::loadBuiltInFunctions() {
@@ -239,7 +242,9 @@ namespace fl {
 
         for (std::map<std::string, Operator*>::const_iterator itOp = this->operators.begin();
                 itOp != this->operators.end(); ++itOp) {
-            chars.push_back(itOp->first);
+            if (itOp->first != fl::Rule::andKeyword() and itOp->first != fl::Rule::orKeyword()){
+                chars.push_back(itOp->first);
+            }
         }
 
         std::string result = infix;
@@ -248,6 +253,8 @@ namespace fl {
         }
         return result;
     }
+    
+    
 
     std::string Function::toPostfix(const std::string& rawInfix) const throw (fl::Exception) {
         std::string infix = space(rawInfix);
@@ -272,7 +279,7 @@ namespace fl {
                 }
                 if (stack.empty() or stack.top() != "(") {
                     std::ostringstream ex;
-                    ex << "mismatching parentheses in: " << rawInfix;
+                    ex << "[parsing error] mismatching parentheses in: " << rawInfix;
                     throw fl::Exception(ex.str(), FL_AT);
                 }
 
@@ -282,8 +289,7 @@ namespace fl {
                     Operator* op2 = NULL;
                     if (not stack.empty() and isOperator(stack.top())) {
                         op2 = this->getOperator(stack.top());
-                    } else
-                        break;
+                    } else break;
 
                     if ((op1->associativity < 0 and op1->precedence <= op2->precedence)
                             or op1->precedence < op2->precedence) {
@@ -304,7 +310,7 @@ namespace fl {
                 }
                 if (stack.empty() or stack.top() != "(") {
                     std::ostringstream ex;
-                    ex << "mismatching parentheses in: " << rawInfix;
+                    ex << "[parsing error] mismatching parentheses in: " << rawInfix;
                     throw fl::Exception(ex.str(), FL_AT);
                 }
                 stack.pop(); //get rid of "("
@@ -315,7 +321,7 @@ namespace fl {
                 }
             } else {
                 std::ostringstream ex;
-                ex << "this should have never occurred!";
+                ex << "[parsing error] unexpected error with token <" << token << ">";
                 throw fl::Exception(ex.str(), FL_AT);
             }
         }
@@ -323,7 +329,7 @@ namespace fl {
         while (not stack.empty()) {
             if (stack.top() == "(" or stack.top() == ")") {
                 std::ostringstream ex;
-                ex << "mismatching parentheses in: " << rawInfix;
+                ex << "[parsing error] mismatching parentheses in: " << rawInfix;
                 throw fl::Exception(ex.str(), FL_AT);
             }
             queue.push(stack.top());
@@ -367,8 +373,7 @@ namespace fl {
     }
 
     bool Function::isOperator(const std::string& name) const {
-        return name == fl::Rule::andKeyword() || name == fl::Rule::orKeyword() ||
-                operators.find(name) != operators.end();
+        return operators.find(name) != operators.end();
     }
 
     bool Function::isBuiltInFunction(const std::string& name) const {
@@ -417,12 +422,12 @@ namespace fl {
         } else if (not reference.empty()) {
             if (not refs) {
                 throw fl::Exception("[function error] "
-                        "expected reference map, but none was provided", FL_AT);
+                        "expected a reference map, but none was provided", FL_AT);
             }
             std::map<std::string, scalar>::const_iterator it = refs->find(reference);
             if (it != refs->end()) result = it->second;
             else throw fl::Exception("[function error] "
-                    "reference <" + reference + "> not found in map provided", FL_AT);
+                    "unknown reference <" + reference + ">", FL_AT);
         } else {
             result = value;
         }

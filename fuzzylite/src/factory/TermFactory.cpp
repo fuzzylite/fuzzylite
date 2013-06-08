@@ -28,6 +28,7 @@
 #include "fl/term/Bell.h"
 #include "fl/term/Constant.h"
 #include "fl/term/Discrete.h"
+#include "fl/term/Function.h"
 #include "fl/term/Gaussian.h"
 #include "fl/term/GaussianProduct.h"
 #include "fl/term/Linear.h"
@@ -76,6 +77,12 @@ namespace fl {
         if (className == Constant().className()){
             if ((int)params.size() == (requiredParams = 1)){
                 return new Constant("", params.at(0));
+            }
+        }
+        
+        if (className == Function().className()){
+            if ((int)params.size() == (requiredParams = 0)){
+                return new Function;
             }
         }
 
@@ -170,6 +177,7 @@ namespace fl {
         result.push_back(Discrete().className());
         result.push_back(Bell().className());
         result.push_back(Constant().className());
+        result.push_back(Function().className());
         result.push_back(Gaussian().className());
         result.push_back(GaussianProduct().className());
         result.push_back(Linear().className());

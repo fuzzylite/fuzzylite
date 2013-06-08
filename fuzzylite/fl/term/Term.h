@@ -45,6 +45,11 @@ namespace fl {
 
         virtual ~Term() { }
 
+        /**
+         * Sets the name of this term. It <b>must</b> contain only AlphaNumeric 
+         * characters
+         * @param name
+         */
         virtual void setName(const std::string& name) {
             this->_name = name;
         }

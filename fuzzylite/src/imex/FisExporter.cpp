@@ -344,6 +344,12 @@ namespace fl {
             ss << "]";
             return ss.str();
         }
+        
+        if (term->className() == Function().className()) {
+            const Function* x = dynamic_cast<const Function*> (term);
+            ss << "'function',[" << x->getInfix() << "]";
+            return ss.str();
+        }
 
         if (term->className() == Gaussian().className()) {
             const Gaussian* x = dynamic_cast<const Gaussian*> (term);

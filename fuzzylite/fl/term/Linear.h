@@ -31,7 +31,7 @@ namespace fl {
                 const std::vector<InputVariable*>& inputVariables) throw (fl::Exception);
         virtual void set(const std::vector<scalar>& coefficients,
                 const std::vector<const InputVariable*>& inputVariables) throw (fl::Exception);
-
+        
         virtual scalar membership(scalar x) const;
 
         virtual std::string className() const;

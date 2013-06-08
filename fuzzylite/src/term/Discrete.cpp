@@ -99,8 +99,8 @@ namespace fl {
          */
 
 
-        if (fl::Op::isLE(_x_, x.at(0))) return y.at(0);
-        if (fl::Op::isGE(_x_, x.at(x.size() - 1))) return y.at(y.size() - 1);
+        if (fl::Op::isLE(_x_, x.front())) return y.front();
+        if (fl::Op::isGE(_x_, x.back())) return y.back();
 
         int lower = -1, upper = -1;
 

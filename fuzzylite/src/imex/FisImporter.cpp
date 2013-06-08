@@ -26,7 +26,7 @@
 
 #include <sstream>
 #include <iostream>
-
+#include <cctype>
 
 namespace fl {
 
@@ -98,9 +98,9 @@ namespace fl {
                 ex << "[importer error] the FIS code introduced produces an empty engine";
                 throw fl::Exception(ex.str(), FL_AT);
             }
-            engine->configure(flTnorm(andMethod), flSnorm(orMethod),
-                    flTnorm(impMethod), flSnorm(aggMethod),
-                    flDefuzzifier(defuzzMethod));
+            engine->configure(tnorm(andMethod), snorm(orMethod),
+                    tnorm(impMethod), snorm(aggMethod),
+                    defuzzifier(defuzzMethod));
         } catch (fl::Exception& ex) {
             delete engine;
             throw ex;
@@ -156,14 +156,14 @@ namespace fl {
             std::string key = fl::Op::trim(keyValue.at(0));
             std::string value = fl::Op::trim(keyValue.at(1));
 
-            if (key == "Name") input->setName(value);
+            if (key == "Name") input->setName(fl::Op::format(value, isalnum));
             else if (key == "Range") {
                 scalar minimum, maximum;
                 extractRange(value, minimum, maximum);
                 input->setMinimum(minimum);
                 input->setMaximum(maximum);
             } else if (key.substr(0, 2) == "MF") {
-                input->addTerm(extractTerm(value));
+                input->addTerm(prepareTerm(extractTerm(value), engine));
             } else {
                 FL_LOG("[info] ignoring redundant or non-relevant information from line: " << line);
             }
@@ -187,21 +187,14 @@ namespace fl {
             std::string key = fl::Op::trim(keyValue.at(0));
             std::string value = fl::Op::trim(keyValue.at(1));
 
-            if (key == "Name") output->setName(value);
+            if (key == "Name") output->setName(fl::Op::format(value, isalnum));
             else if (key == "Range") {
                 scalar minimum, maximum;
                 extractRange(value, minimum, maximum);
                 output->setMinimum(minimum);
                 output->setMaximum(maximum);
             } else if (key.substr(0, 2) == "MF") {
-                Term* term = extractTerm(value);
-                if (term->className() == Linear().className()) {
-                    Linear* linear = dynamic_cast<Linear*> (term);
-                    linear->inputVariables = std::vector<const InputVariable*>
-                            (engine->inputVariables().begin(),
-                            engine->inputVariables().end());
-                }
-                output->addTerm(term);
+                output->addTerm(prepareTerm(extractTerm(value), engine));
             } else if (key == "Default") {
                 output->setDefaultValue(fl::Op::toScalar(value));
             } else if (key == "LockValid") {
@@ -333,7 +326,7 @@ namespace fl {
         return ss.str();
     }
 
-    std::string FisImporter::flTnorm(const std::string & name) const {
+    std::string FisImporter::tnorm(const std::string & name) const {
         std::string className = name;
         if (name == "min") className = Minimum().className();
         else if (name == "prod") className = AlgebraicProduct().className();
@@ -344,7 +337,7 @@ namespace fl {
         return className;
     }
 
-    std::string FisImporter::flSnorm(const std::string & name) const {
+    std::string FisImporter::snorm(const std::string & name) const {
         std::string className = name;
         if (name == "max") className = Maximum().className();
         else if (name == "sum" or name == "probor") className = AlgebraicSum().className();
@@ -356,7 +349,7 @@ namespace fl {
         return className;
     }
 
-    std::string FisImporter::flDefuzzifier(const std::string & name) const {
+    std::string FisImporter::defuzzifier(const std::string & name) const {
         if (name == "centroid") return Centroid().className();
         if (name == "bisector") return Bisector().className();
         if (name == "lom") return LargestOfMaximum().className();
@@ -388,20 +381,33 @@ namespace fl {
         }
 
         std::vector<std::string> strParams = fl::Op::split(termParams.at(1), " ");
-        std::vector<scalar> params;
         for (std::size_t i = 0; i < strParams.size(); ++i) {
-            params.push_back(fl::Op::toScalar(fl::Op::trim(strParams.at(i))));
+            strParams.at(i) = fl::Op::trim(strParams.at(i));
         }
-
         return createInstance(fl::Op::trim(termParams.at(0)), fl::Op::trim(nameTerm.at(0)),
-                params);
+                strParams);
+    }
+
+    Term* FisImporter::prepareTerm(Term* term, const Engine* engine) const {
+        if (term->className() == Linear().className()) {
+            Linear* linear = dynamic_cast<Linear*> (term);
+            linear->inputVariables = std::vector<const InputVariable*>
+                    (engine->inputVariables().begin(),
+                    engine->inputVariables().end());
+        } else if (term->className() == Function().className()) {
+            Function* function = dynamic_cast<Function*> (term);
+            function->setEngine(engine);
+            function->load();
+        }
+        return term;
     }
 
     Term * FisImporter::createInstance(const std::string& mClass,
-            const std::string& name, const std::vector<scalar>& params) const {
+            const std::string& name, const std::vector<std::string>& params) const {
         std::map<std::string, std::string> mapping;
         mapping["discretemf"] = Discrete().className();
         mapping["constant"] = Constant().className();
+        mapping["function"] = Function().className();
         mapping["gbellmf"] = Bell().className();
         mapping["gaussmf"] = Gaussian().className();
         mapping["gauss2mf"] = GaussianProduct().className();
@@ -417,41 +423,56 @@ namespace fl {
         mapping["trimf"] = Triangle().className();
         mapping["zmf"] = ZShape().className();
 
-        std::vector<scalar> sortedParams = params;
-        if (mClass == "gbellmf" and params.size() >= 3) {
-            sortedParams.at(0) = params.at(2);
-            sortedParams.at(1) = params.at(0);
-            sortedParams.at(2) = params.at(1);
-        } else if (mClass == "gaussmf" and params.size() >= 2) {
-            sortedParams.at(0) = params.at(1);
-            sortedParams.at(1) = params.at(0);
-        } else if (mClass == "gauss2mf" and params.size() >= 4) {
-            sortedParams.at(0) = params.at(1);
-            sortedParams.at(1) = params.at(0);
-            sortedParams.at(2) = params.at(3);
-            sortedParams.at(3) = params.at(2);
-        } else if (mClass == "sigmf" and params.size() >= 2) {
-            sortedParams.at(0) = params.at(1);
-            sortedParams.at(1) = params.at(0);
-        } else if (mClass == "dsigmf" and params.size() >= 4) {
-            sortedParams.at(0) = params.at(1);
-            sortedParams.at(1) = params.at(0);
-            sortedParams.at(2) = params.at(2);
-            sortedParams.at(3) = params.at(3);
-        } else if (mClass == "psigmf" and params.size() >= 4) {
-            sortedParams.at(0) = params.at(1);
-            sortedParams.at(1) = params.at(0);
-            sortedParams.at(2) = params.at(2);
-            sortedParams.at(3) = params.at(3);
+        std::vector<scalar> sortedParams;
+        if (mClass != "function") {
+            for (std::size_t i = 0; i < params.size(); ++i) {
+                sortedParams.push_back(fl::Op::toScalar(params.at(i)));
+            }
         }
 
-        std::string flClass = mClass;
+        if (mClass == "gbellmf" and params.size() >= 3) {
+            sortedParams.at(0) = fl::Op::toScalar(params.at(2));
+            sortedParams.at(1) = fl::Op::toScalar(params.at(0));
+            sortedParams.at(2) = fl::Op::toScalar(params.at(1));
+        } else if (mClass == "gaussmf" and params.size() >= 2) {
+            sortedParams.at(0) = fl::Op::toScalar(params.at(1));
+            sortedParams.at(1) = fl::Op::toScalar(params.at(0));
+        } else if (mClass == "gauss2mf" and params.size() >= 4) {
+            sortedParams.at(0) = fl::Op::toScalar(params.at(1));
+            sortedParams.at(1) = fl::Op::toScalar(params.at(0));
+            sortedParams.at(2) = fl::Op::toScalar(params.at(3));
+            sortedParams.at(3) = fl::Op::toScalar(params.at(2));
+        } else if (mClass == "sigmf" and params.size() >= 2) {
+            sortedParams.at(0) = fl::Op::toScalar(params.at(1));
+            sortedParams.at(1) = fl::Op::toScalar(params.at(0));
+        } else if (mClass == "dsigmf" and params.size() >= 4) {
+            sortedParams.at(0) = fl::Op::toScalar(params.at(1));
+            sortedParams.at(1) = fl::Op::toScalar(params.at(0));
+            sortedParams.at(2) = fl::Op::toScalar(params.at(2));
+            sortedParams.at(3) = fl::Op::toScalar(params.at(3));
+        } else if (mClass == "psigmf" and params.size() >= 4) {
+            sortedParams.at(0) = fl::Op::toScalar(params.at(1));
+            sortedParams.at(1) = fl::Op::toScalar(params.at(0));
+            sortedParams.at(2) = fl::Op::toScalar(params.at(2));
+            sortedParams.at(3) = fl::Op::toScalar(params.at(3));
+        }
+
+        std::string flClass;
         std::map<std::string, std::string>::const_iterator it = mapping.find(mClass);
         if (it != mapping.end()) flClass = it->second;
+        else flClass = mClass;
 
         try {
             Term* result = Factory::instance()->term()->create(flClass, sortedParams);
-            result->setName(name);
+            result->setName(fl::Op::format(name, isalnum));
+            if (mClass == "function" and not params.empty()) {
+                std::ostringstream ss;
+                for (std::size_t i = 0; i < params.size(); ++i) {
+                    ss << params.at(i);
+                }
+                dynamic_cast<Function*> (result)->setInfix(ss.str());
+            }
+            FL_LOG(result->getName() << ": " << result->toString());
             return result;
         } catch (fl::Exception& ex) {
             ex.append(FL_AT);

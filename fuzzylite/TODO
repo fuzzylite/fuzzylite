@@ -3,8 +3,6 @@ Add new exporters/importers to qtfuzzylite
 R Exporter to draw surfaces and the things that octave does.
 pyfuzzylite exporter
 
-Test Linear with TS Rules
-Implement Custom function
 Add importers and exporters the TS rules
 Parse the new terms and add them to the Factory
 

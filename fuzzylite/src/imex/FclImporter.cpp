@@ -169,7 +169,7 @@ namespace fl {
                 ex << "[syntax error] expected property of type (key : value) in line: " << line;
                 throw fl::Exception(ex.str(), FL_AT);
             }
-            std::string name = Op::trim(token.at(0));
+            std::string name = fl::Op::format(token.at(0), isalnum);
             if (tag == "VAR_INPUT")
                 engine->addInputVariable(new InputVariable(name));
             else if (tag == "VAR_OUTPUT")
@@ -190,7 +190,7 @@ namespace fl {
         std::string name;
         std::size_t index = line.find_first_of(' ');
         if (index != std::string::npos) {
-            name = line.substr(index + 1);
+            name = fl::Op::format(line.substr(index + 1), isalnum);
         } else {
             std::ostringstream ex;
             ex << "[syntax error] expected an input variable name in line: " << line;
@@ -216,7 +216,7 @@ namespace fl {
                     inputVariable->setMinimum(minimum);
                     inputVariable->setMaximum(maximum);
                 } else if (firstToken == "TERM") {
-                    inputVariable->addTerm(extractTerm(line));
+                    inputVariable->addTerm(prepareTerm(extractTerm(line), engine));
                 } else throw fl::Exception("[syntax error] token <" + firstToken + " not recognized", FL_AT);
             } catch (fl::Exception& ex) {
                 ex.append("At line: <" + line + ">");
@@ -226,7 +226,7 @@ namespace fl {
 
     }
 
-    void FclImporter::processDefuzzify(const std::string& block, Engine* engine)const {
+    void FclImporter::processDefuzzify(const std::string& block, Engine* engine) const {
         std::istringstream blockReader(block);
         std::string line;
 
@@ -234,7 +234,7 @@ namespace fl {
         std::string name;
         std::size_t index = line.find_first_of(' ');
         if (index != std::string::npos) {
-            name = line.substr(index + 1);
+            name = fl::Op::format(line.substr(index + 1), isalnum);
         } else {
             std::ostringstream ex;
             ex << "[syntax error] expected an output variable name in line: " << line;
@@ -252,7 +252,7 @@ namespace fl {
         while (std::getline(blockReader, line)) {
             std::string firstToken = line.substr(0, line.find_first_of(' '));
             if (firstToken == "TERM") {
-                outputVariable->addTerm(extractTerm(line));
+                outputVariable->addTerm(prepareTerm(extractTerm(line), engine));
             } else if (firstToken == "METHOD") {
                 outputVariable->setDefuzzifier(extractDefuzzifier(line));
             } else if (firstToken == "ACCU") {
@@ -383,7 +383,7 @@ namespace fl {
         std::istringstream tokenizer(spacedLine);
         std::string token;
         std::string name, termClass;
-        std::vector<scalar> parameters;
+        std::vector<std::string> strParams;
         while (tokenizer >> token) {
             if (state == S_KWTERM and token == "TERM") {
                 state = S_NAME;
@@ -399,37 +399,78 @@ namespace fl {
                 continue;
             }
             if (state == S_TERMCLASS) {
-                if (token != "(") termClass = token;
+                if (fl::Op::isNumeric(token)) {
+                    termClass = Constant().className();
+                    strParams.push_back(token);
+                } else if (token == "(") {
+                    termClass = Discrete().className();
+                } else {
+                    termClass = token;
+                }
                 state = S_PARAMETERS;
                 continue;
             }
             if (state == S_PARAMETERS) {
-                if (token == "(" or token == ")" or token == ",")
+                if (termClass != Function().className() and
+                        (token == "(" or token == ")" or token == ",")) {
                     continue;
-                if (token == ";") break;
-                scalar parameter;
-                try {
-                    parameter = Op::toScalar(token);
-                } catch (...) {
-                    std::ostringstream ex;
-                    ex << "[syntax error] expected numeric value, but found <"
-                            << token << "> in line: " << line;
-                    throw fl::Exception(ex.str(), FL_AT);
                 }
-                parameters.push_back(parameter);
+                if (token == ";") break;
+                strParams.push_back(fl::Op::trim(token));
             }
         }
         if (state <= S_ASSIGN)
             throw fl::Exception("[syntax error] malformed term in line: " + line, FL_AT);
+
+        std::vector<scalar> params;
+        if (termClass != Function().className()) {
+            try {
+                for (std::size_t i = 0; i < strParams.size(); ++i) {
+                    params.push_back(fl::Op::toScalar(strParams.at(i)));
+                }
+            } catch (...) {
+                std::ostringstream ex;
+                ex << "[syntax error] expected numeric value, but found <"
+                        << token << "> in line: " << line;
+                throw fl::Exception(ex.str(), FL_AT);
+            }
+        }
+
         try {
-            if (termClass.empty()) termClass = Discrete().className();
-            Term * result = Factory::instance()->term()->create(termClass, parameters);
-            result->setName(name);
+            Term * result = Factory::instance()->term()->create(termClass, params);
+            result->setName(fl::Op::format(name, isalnum));
+
+            if (termClass == Function().className() and not strParams.empty()) {
+                std::ostringstream ss;
+                for (std::size_t i = 0; i < strParams.size(); ++i) {
+                    ss << strParams.at(i);
+                }
+                std::string infix = ss.str();
+                if (infix.size() > 1 and infix.at(0) == '(' and infix.at(infix.size()-1) == ')'){
+                    infix = infix.substr(1, infix.size() - 2);
+                }
+                dynamic_cast<Function*> (result)->setInfix(infix);
+            }
+
             return result;
         } catch (fl::Exception& ex) {
             ex.append(FL_AT);
             throw ex;
         }
+    }
+
+    Term* FclImporter::prepareTerm(Term* term, const Engine* engine) const {
+        if (term->className() == Linear().className()) {
+            Linear* linear = dynamic_cast<Linear*> (term);
+            linear->inputVariables = std::vector<const InputVariable*>
+                    (engine->inputVariables().begin(),
+                    engine->inputVariables().end());
+        } else if (term->className() == Function().className()) {
+            Function* function = dynamic_cast<Function*> (term);
+            function->setEngine(engine);
+            function->load();
+        }
+        return term;
     }
 
     Defuzzifier* FclImporter::extractDefuzzifier(const std::string& line) const {

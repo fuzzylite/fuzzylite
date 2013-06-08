@@ -100,7 +100,6 @@ namespace fl {
     protected:
         std::string _infix;
         const Engine* _engine;
-        Node* _root;
 
         virtual void loadOperators();
         virtual void loadBuiltInFunctions();
@@ -115,6 +114,7 @@ namespace fl {
 
 
     public:
+        Node* root;
         std::map<std::string, scalar> variables;
         std::map<std::string, Operator*> operators;
         std::map<std::string, BuiltInFunction*> functions;
@@ -136,10 +136,10 @@ namespace fl {
 
         virtual void setInfix(const std::string& infix);
         virtual std::string getInfix() const;
-        
+
         virtual void setEngine(const Engine* engine);
         virtual const Engine* getEngine() const;
-        
+
         virtual void load() throw (fl::Exception);
 
         virtual void load(const std::string& infix,
@@ -150,6 +150,7 @@ namespace fl {
         virtual std::string toPostfix(const std::string& infix) const throw (fl::Exception);
 
         virtual std::string space(const std::string& infix) const;
+        
 
         virtual bool isOperand(const std::string& token) const;
         virtual bool isBuiltInFunction(const std::string& token) const;

@@ -19,6 +19,7 @@
 #include <cmath>
 #include <iomanip>
 #include <cstdarg>
+#include <cctype>
 
 namespace fl {
 
@@ -98,6 +99,14 @@ namespace fl {
         return fmod(a, b);
     }
 
+    scalar Operation::logical_and(scalar a, scalar b) {
+        return not (isEq(a, 0.0) or isEq(b, 0.0));
+    }
+
+    scalar Operation::logical_or(scalar a, scalar b) {
+        return not (isEq(a, 0.0) and isEq(b, 0.0));
+    }
+
     std::string Operation::findReplace(const std::string& str, const std::string& find,
             const std::string& replace, bool replaceAll) {
         std::ostringstream result;
@@ -152,6 +161,21 @@ namespace fl {
         return rightTrim(leftTrim(text));
     }
 
+    std::string Operation::format(const std::string& text, int matchesChar(int),
+            const std::string& replacement) {
+        std::ostringstream ss;
+        std::string::const_iterator it = text.begin();
+        while (it != text.end()) {
+            if (matchesChar(*it)) {
+                ss << *it;
+            }else{
+                ss << replacement;
+            }
+            ++it;
+        }
+        return ss.str();
+    }
+
     scalar Operation::toScalar(const std::string& x, bool quiet, scalar alternative)
     throw (fl::Exception) {
         std::istringstream iss(x);
@@ -176,6 +200,15 @@ namespace fl {
             throw fl::Exception(ex.str(), FL_AT);
         }
         return alternative;
+    }
+
+    bool Operation::isNumeric(const std::string& x) {
+        try {
+            fl::Op::toScalar(x);
+            return true;
+        } catch (fl::Exception& ex) {
+            return false;
+        }
     }
 
     template <typename T>
@@ -213,6 +246,17 @@ namespace fl {
     template std::string Operation::str(const std::vector<scalar>& x,
             const std::string& separator);
 
+    template <>
+    std::string Operation::str(const std::vector<std::string>& x,
+            const std::string& separator) {
+        std::ostringstream ss;
+        for (std::size_t i = 0; i < x.size(); ++i) {
+            ss << x.at(i);
+            if (i + 1 < x.size()) ss << separator;
+        }
+        return ss.str();
+    }
+
     template <typename T>
     std::string Operation::str(int items, const std::string& separator, T first, ...) {
         std::ostringstream ss;
@@ -232,5 +276,20 @@ namespace fl {
             int first, ...);
     template std::string Operation::str(int items, const std::string& separator,
             scalar first, ...);
+
+    template <>
+    std::string Operation::str(int items, const std::string& separator, const char* first, ...) {
+        std::ostringstream ss;
+        ss << first;
+        if (items > 1) ss << separator;
+        va_list args;
+        va_start(args, first);
+        for (int i = 0; i < items - 1; ++i) {
+            ss << va_arg(args, const char*);
+            if (i + 1 < items - 1) ss << separator;
+        }
+        va_end(args);
+        return ss.str();
+    }
 
 }

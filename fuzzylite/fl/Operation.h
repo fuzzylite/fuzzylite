@@ -71,7 +71,11 @@ namespace fl {
         static scalar multiplies(scalar a, scalar b);
         static scalar divides(scalar a, scalar b);
         static scalar modulus(scalar a, scalar b);
-        
+        static scalar logical_and(scalar a, scalar b);
+        static scalar logical_or(scalar a, scalar b);
+
+
+
         static std::string findReplace(const std::string& str, const std::string& find,
                 const std::string& replace, bool replaceAll = true);
 
@@ -84,9 +88,13 @@ namespace fl {
 
         static std::string trim(const std::string& text);
 
+        static std::string format(const std::string& text, int matchesChar(int),
+                const std::string& replacement = "");
+
         static scalar toScalar(const std::string& x, bool quiet = false,
-                scalar alternative = fl::nan)
-        throw (fl::Exception);
+                scalar alternative = fl::nan) throw (fl::Exception);
+
+        static bool isNumeric(const std::string& x);
 
         template <typename T>
         static std::string str(T x, int precision = FL_DECIMALS);

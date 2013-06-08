@@ -926,10 +926,15 @@ namespace fl {
         }
 
         void Term::onChangeLinearCoefficient(QListWidgetItem* item) {
-            if (not item) return;
+            FL_LOG(selectedTerm()->toString());
+            if (not item) {
+                redraw();
+                return;
+            }
             try {
-                item->setText(QString::fromStdString(fl::Op::str(fl::Op::toScalar(
-                        item->text().toStdString()))));
+                //                item->setText(QString::fromStdString(fl::Op::str(fl::Op::toScalar(
+                //                        item->text().toStdString()))));
+                fl::Op::toScalar(item->text().toStdString());
             } catch (fl::Exception& ex) {
                 QMessageBox::critical(this, tr("Linear Error"),
                         QString::fromStdString(ex.getWhat()), QMessageBox::Ok);
@@ -940,11 +945,14 @@ namespace fl {
                 try {
                     term->coefficients.at(i) =
                             fl::Op::toScalar(ui->lst_coefficients->item(i)->text().toStdString());
+                    FL_LOG("coeff:" << term->coefficients.at(i));
+
                 } catch (fl::Exception& ex) {
                     FL_LOG(ex.what());
                     term->coefficients.at(i) = 0.0;
                 }
             }
+            FL_LOG(selectedTerm()->toString());
             redraw();
         }
 
@@ -1209,9 +1217,12 @@ namespace fl {
                 setCurrentToolbox(3);
 
             } else if (x->className() == Linear().className()) {
+                const Linear* term = dynamic_cast<const Linear*> (x);
+                FL_LOG("loadfrom:" << term->toString());
+                        ;
                 ui->lst_variables->clear();
                 ui->lst_coefficients->clear();
-                const Linear* term = dynamic_cast<const Linear*> (x);
+                
                 for (std::size_t i = 0; i < term->inputVariables.size(); ++i) {
                     QListWidgetItem* item = new QListWidgetItem(QString::fromStdString(
                             term->inputVariables.at(i)->getName()));
@@ -1230,6 +1241,7 @@ namespace fl {
 
                 ui->fxTermToolbox->setCurrentIndex(1);
                 setCurrentToolbox(3);
+                FL_LOG("loadfrom:" << term->toString());
 
             } else if (x->className() == Function().className()) {
                 const Function* term = dynamic_cast<const Function*> (x);

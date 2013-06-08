@@ -169,19 +169,14 @@ namespace fl {
             }
             return ss.str();
         }
+
         if (term->className() == Constant().className()) {
             const Constant* constant = dynamic_cast<const Constant*> (term);
             std::ostringstream ss;
             ss << constant->getValue();
             return ss.str();
         }
-        if (term->className() == Linear().className()) {
-            const Linear* linear = dynamic_cast<const Linear*> (term);
-            for (std::size_t i = 0; i < linear->coefficients.size(); ++i) {
-                
-                //TODO: Find out how to write to FCL a Linear term.
-            }
-        }
+        
         return term->toString();
     }
 

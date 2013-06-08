@@ -81,7 +81,7 @@ namespace fl {
 
             cpp << "outputVariable" << (i + 1) << "->setLockValidOutput(" <<
                     (output->isLockingValidOutput() ? "true" : "false") << ");\n";
-            
+
             cpp << "outputVariable" << (i + 1) << "->setDefuzzifier(" <<
                     toCpp(output->getDefuzzifier()) << ");\n";
             cpp << "outputVariable" << (i + 1) << "->output()->setAccumulation(" <<
@@ -148,16 +148,11 @@ namespace fl {
             return ss.str();
         }
 
-        if (term->className() == Linear().className()) {
-            const Linear* x = dynamic_cast<const Linear*> (term);
+        if (term->className() == Function().className()) {
+            const Function* x = dynamic_cast<const Function*> (term);
             ss.str(std::string()); //clear stream
             ss << "fl::" << x->className() << "::create(\"" << x->getName() << "\", "
-                    << "engine->inputVariables(), ";
-            for (std::size_t i = 0; i < x->coefficients.size(); ++i) {
-                ss << fl::Op::str(x->coefficients.at(i));
-                if (i < x->coefficients.size() - 1) ss << ", ";
-            }
-            ss << ")";
+                    << "\"" << x->getInfix() << "\", engine)";
             return ss.str();
         }
 
@@ -173,6 +168,19 @@ namespace fl {
             ss << fl::Op::str(4, ", ",
                     x->getMeanA(), x->getStandardDeviationA(),
                     x->getMeanB(), x->getStandardDeviationB()) << ")";
+            return ss.str();
+        }
+
+        if (term->className() == Linear().className()) {
+            const Linear* x = dynamic_cast<const Linear*> (term);
+            ss.str(std::string()); //clear stream
+            ss << "fl::" << x->className() << "::create(\"" << x->getName() << "\", "
+                    << "engine->inputVariables(), ";
+            for (std::size_t i = 0; i < x->coefficients.size(); ++i) {
+                ss << fl::Op::str(x->coefficients.at(i));
+                if (i < x->coefficients.size() - 1) ss << ", ";
+            }
+            ss << ")";
             return ss.str();
         }
 
