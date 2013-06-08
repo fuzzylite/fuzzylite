@@ -242,7 +242,8 @@ namespace fl {
 
         void Term::accept() {
             dummyVariable->getTerm(indexOfEditingTerm)->setName(
-                    ui->led_name->text().toStdString());
+                    fl::Op::format(ui->led_name->text().toStdString(), 
+                    fl::Op::isValidForName));
             QDialog::accept();
         }
 
@@ -587,7 +588,7 @@ namespace fl {
             double distance = window.ui->sbx_separation->value();
             for (int i = 0; i < copies; ++i) {
                 fl::Term* copy = dummyVariable->getTerm(indexOfEditingTerm)->copy();
-                copy->setName(names.at(i).toStdString());
+                copy->setName(fl::Op::format(names.at(i).toStdString(), fl::Op::isValidForName));
                 scalar separationDistance = distance * (i + 1);
                 dummyVariable->insertTerm(copy, indexOfEditingTerm + i + 1);
                 //BASIC

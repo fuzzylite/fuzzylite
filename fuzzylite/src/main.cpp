@@ -180,6 +180,7 @@ void exampleTakagiSugeno() {
 }
 
 void exampleTakagiSugeno2() {
+    //From Octave
     fl::Engine* engine = new fl::Engine;
     engine->setName("Cubic-Approximator");
     engine->addHedge(new fl::Any);
@@ -322,13 +323,13 @@ void exportAllExamples(const std::string& from, const std::string& to) {
             std::string output = targetBase + examples.at(i) + "." + to;
             std::ofstream target(output.c_str());
             if (target.is_open()) {
-                if (to == "cpp"){
+                if (to == "cpp") {
                     target << "#include <fl/Headers.h>\n\n";
                     target << "int main(int argc, char** argv){\n";
                     target << exporter->toString(engine);
                     target << "\n}\n";
-                }else{
-                target << exporter->toString(engine);
+                } else {
+                    target << exporter->toString(engine);
                 }
             }
             target.close();
@@ -339,8 +340,11 @@ void exportAllExamples(const std::string& from, const std::string& to) {
     }
     delete importer;
     delete exporter;
-    
-    FL_LOG("The following errors occured while exporting files:" << errors.str());
+    if (errors.str().empty()) {
+        FL_LOG("No errors were found exporting files");
+    } else {
+        FL_LOG("The following errors occured while exporting files:" << errors.str());
+    }
 }
 
 void examples() throw (fl::Exception) {
@@ -365,7 +369,7 @@ void examples() throw (fl::Exception) {
         FL_LOG("message from FL_LOG");
         std::cout << "where " << FL_LOG_PREFIX << " indicates the origin of the call\n";
     } else {
-        std::cout << "FL_LOG is NOT enabled and hence will not print anything\n";
+        std::cout << "FL_LOG is NOT enabled and hence will print nothing\n";
     }
 
     std::cout << "\nPress Enter to continue with a Mamdani example..." << std::endl;
@@ -378,8 +382,8 @@ void examples() throw (fl::Exception) {
     std::cin.get();
     std::cout << "\n==========================================\n";
 
-    //    exampleTakagiSugeno();
-    exampleTakagiSugeno2();
+    exampleTakagiSugeno();
+    //    exampleTakagiSugeno2();
 
     std::cout << "Bye, " << fl::fuzzylite::name() << "!\n\n";
     std::cout << "Please visit http://www.fuzzylite.com\n\n"

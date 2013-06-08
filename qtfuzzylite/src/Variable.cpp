@@ -230,7 +230,8 @@ namespace fl {
                 outputVariable->setLockValidOutput(ui->chx_lock_valid->isChecked());
                 outputVariable->setLockOutputRange(ui->chx_lock_range->isChecked());
             }
-            variable->setName(ui->led_name->text().toStdString());
+            variable->setName(fl::Op::format(ui->led_name->text().toStdString(),
+                    fl::Op::isValidForName));
             QDialog::accept();
         }
 

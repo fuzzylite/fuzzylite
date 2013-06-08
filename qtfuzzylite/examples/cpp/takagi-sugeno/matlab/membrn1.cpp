@@ -11,7 +11,7 @@ engine->addHedge(new fl::Somewhat);
 engine->addHedge(new fl::Very);
 
 fl::InputVariable* inputVariable1 = new fl::InputVariable;
-inputVariable1->setName("inn1");
+inputVariable1->setName("in_n1");
 inputVariable1->setRange(1.000, 31.000);
 
 inputVariable1->addTerm(new fl::Bell("in1mf1", 2.253, 16.220, 5.050));
@@ -19,7 +19,7 @@ inputVariable1->addTerm(new fl::Bell("in1mf2", 31.260, 15.021, 1.843));
 engine->addInputVariable(inputVariable1);
 
 fl::InputVariable* inputVariable2 = new fl::InputVariable;
-inputVariable2->setName("inn2");
+inputVariable2->setName("in_n2");
 inputVariable2->setRange(1.000, 31.000);
 
 inputVariable2->addTerm(new fl::Bell("in2mf1", 0.740, 15.021, 1.843));
@@ -47,10 +47,10 @@ ruleblock1->setTnorm(new fl::AlgebraicProduct);
 ruleblock1->setSnorm(new fl::Maximum);
 ruleblock1->setActivation(new fl::AlgebraicProduct);
 
-ruleblock1->addRule(fl::FuzzyRule::parse("if inn1 is in1mf1 and inn2 is in2mf1 then out1 is out1mf1", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if inn1 is in1mf1 and inn2 is in2mf2 then out1 is out1mf2", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if inn1 is in1mf2 and inn2 is in2mf1 then out1 is out1mf3", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if inn1 is in1mf2 and inn2 is in2mf2 then out1 is out1mf4", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if in_n1 is in1mf1 and in_n2 is in2mf1 then out1 is out1mf1", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if in_n1 is in1mf1 and in_n2 is in2mf2 then out1 is out1mf2", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if in_n1 is in1mf2 and in_n2 is in2mf1 then out1 is out1mf3", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if in_n1 is in1mf2 and in_n2 is in2mf2 then out1 is out1mf4", engine));
 engine->addRuleBlock(ruleblock1);
 
 

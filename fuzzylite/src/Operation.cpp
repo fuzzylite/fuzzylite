@@ -107,6 +107,10 @@ namespace fl {
         return not (isEq(a, 0.0) and isEq(b, 0.0));
     }
 
+    int Operation::isValidForName(int character) {
+        return character == '_' or character == '.' or isalnum(character);
+    }
+
     std::string Operation::findReplace(const std::string& str, const std::string& find,
             const std::string& replace, bool replaceAll) {
         std::ostringstream result;
@@ -168,7 +172,7 @@ namespace fl {
         while (it != text.end()) {
             if (matchesChar(*it)) {
                 ss << *it;
-            }else{
+            } else {
                 ss << replacement;
             }
             ++it;

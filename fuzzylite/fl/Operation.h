@@ -74,6 +74,7 @@ namespace fl {
         static scalar logical_and(scalar a, scalar b);
         static scalar logical_or(scalar a, scalar b);
 
+        static int isValidForName(int character);
 
 
         static std::string findReplace(const std::string& str, const std::string& find,

@@ -86,7 +86,7 @@ namespace fl {
 
 
 #define FL_DBG(message) FL_BEGIN_DEBUG_BLOCK \
-        std::cout << __FILE__ << "::" << __FUNCTION__ << "[" << __LINE__ << "]:" \
+        std::cout << FL__FILE__ << "::" << __FUNCTION__ << "[" << __LINE__ << "]:" \
                 << message << std::endl;\
         FL_END_DEBUG_BLOCK
 

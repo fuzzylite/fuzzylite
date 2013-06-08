@@ -47,7 +47,7 @@ inputVariable6->setRange(-3.000, 3.000);
 engine->addInputVariable(inputVariable6);
 
 fl::InputVariable* inputVariable7 = new fl::InputVariable;
-inputVariable7->setName("polelength");
+inputVariable7->setName("pole_length");
 inputVariable7->setRange(0.500, 1.500);
 
 inputVariable7->addTerm(new fl::ZShape("mf1", 0.500, 0.600));
@@ -91,17 +91,17 @@ ruleblock1->setTnorm(new fl::AlgebraicProduct);
 ruleblock1->setSnorm(new fl::Maximum);
 ruleblock1->setActivation(new fl::AlgebraicProduct);
 
-ruleblock1->addRule(fl::FuzzyRule::parse("if polelength is mf1 then out is outmf1", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if polelength is mf2 then out is outmf2", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if polelength is mf3 then out is outmf3", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if polelength is mf4 then out is outmf4", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if polelength is mf5 then out is outmf5", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if polelength is mf6 then out is outmf6", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if polelength is mf7 then out is outmf7", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if polelength is mf8 then out is outmf8", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if polelength is mf9 then out is outmf9", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if polelength is mf10 then out is outmf10", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if polelength is mf11 then out is outmf11", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if pole_length is mf1 then out is outmf1", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if pole_length is mf2 then out is outmf2", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if pole_length is mf3 then out is outmf3", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if pole_length is mf4 then out is outmf4", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if pole_length is mf5 then out is outmf5", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if pole_length is mf6 then out is outmf6", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if pole_length is mf7 then out is outmf7", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if pole_length is mf8 then out is outmf8", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if pole_length is mf9 then out is outmf9", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if pole_length is mf10 then out is outmf10", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if pole_length is mf11 then out is outmf11", engine));
 engine->addRuleBlock(ruleblock1);
 
 

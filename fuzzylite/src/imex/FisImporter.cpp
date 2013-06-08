@@ -135,7 +135,7 @@ namespace fl {
             else if (key == "ImpMethod") impMethod = value;
             else if (key == "AggMethod") aggMethod = value;
             else if (key == "DefuzzMethod") defuzzMethod = value;
-            else FL_LOG("[info] ignoring redundant or non-relevant information "
+            else FL_DBG("[info] ignoring redundant or irrelevant information "
                     "from line: " << line);
         }
     }
@@ -156,7 +156,7 @@ namespace fl {
             std::string key = fl::Op::trim(keyValue.at(0));
             std::string value = fl::Op::trim(keyValue.at(1));
 
-            if (key == "Name") input->setName(fl::Op::format(value, isalnum));
+            if (key == "Name") input->setName(fl::Op::format(value, fl::Op::isValidForName));
             else if (key == "Range") {
                 scalar minimum, maximum;
                 extractRange(value, minimum, maximum);
@@ -165,7 +165,7 @@ namespace fl {
             } else if (key.substr(0, 2) == "MF") {
                 input->addTerm(prepareTerm(extractTerm(value), engine));
             } else {
-                FL_LOG("[info] ignoring redundant or non-relevant information from line: " << line);
+                FL_DBG("[info] ignoring redundant or irrelevant information from line: " << line);
             }
         }
     }
@@ -187,7 +187,7 @@ namespace fl {
             std::string key = fl::Op::trim(keyValue.at(0));
             std::string value = fl::Op::trim(keyValue.at(1));
 
-            if (key == "Name") output->setName(fl::Op::format(value, isalnum));
+            if (key == "Name") output->setName(fl::Op::format(value, fl::Op::isValidForName));
             else if (key == "Range") {
                 scalar minimum, maximum;
                 extractRange(value, minimum, maximum);
@@ -202,7 +202,7 @@ namespace fl {
             } else if (key == "LockRange") {
                 output->setLockOutputRange((int) fl::Op::toScalar(value) == 1);
             } else {
-                FL_LOG("[info] ignoring redundant or non-relevant information from line: " << line);
+                FL_DBG("[info] ignoring redundant or irrelevant information from line: " << line);
             }
         }
     }
@@ -464,7 +464,7 @@ namespace fl {
 
         try {
             Term* result = Factory::instance()->term()->create(flClass, sortedParams);
-            result->setName(fl::Op::format(name, isalnum));
+            result->setName(fl::Op::format(name, fl::Op::isValidForName));
             if (mClass == "function" and not params.empty()) {
                 std::ostringstream ss;
                 for (std::size_t i = 0; i < params.size(); ++i) {
@@ -472,7 +472,6 @@ namespace fl {
                 }
                 dynamic_cast<Function*> (result)->setInfix(ss.str());
             }
-            FL_LOG(result->getName() << ": " << result->toString());
             return result;
         } catch (fl::Exception& ex) {
             ex.append(FL_AT);

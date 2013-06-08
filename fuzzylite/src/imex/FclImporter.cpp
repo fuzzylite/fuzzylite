@@ -169,7 +169,7 @@ namespace fl {
                 ex << "[syntax error] expected property of type (key : value) in line: " << line;
                 throw fl::Exception(ex.str(), FL_AT);
             }
-            std::string name = fl::Op::format(token.at(0), isalnum);
+            std::string name = fl::Op::format(token.at(0), fl::Op::isValidForName);
             if (tag == "VAR_INPUT")
                 engine->addInputVariable(new InputVariable(name));
             else if (tag == "VAR_OUTPUT")
@@ -190,7 +190,7 @@ namespace fl {
         std::string name;
         std::size_t index = line.find_first_of(' ');
         if (index != std::string::npos) {
-            name = fl::Op::format(line.substr(index + 1), isalnum);
+            name = fl::Op::format(line.substr(index + 1), fl::Op::isValidForName);
         } else {
             std::ostringstream ex;
             ex << "[syntax error] expected an input variable name in line: " << line;
@@ -234,7 +234,7 @@ namespace fl {
         std::string name;
         std::size_t index = line.find_first_of(' ');
         if (index != std::string::npos) {
-            name = fl::Op::format(line.substr(index + 1), isalnum);
+            name = fl::Op::format(line.substr(index + 1), fl::Op::isValidForName);
         } else {
             std::ostringstream ex;
             ex << "[syntax error] expected an output variable name in line: " << line;
@@ -438,7 +438,7 @@ namespace fl {
 
         try {
             Term * result = Factory::instance()->term()->create(termClass, params);
-            result->setName(fl::Op::format(name, isalnum));
+            result->setName(fl::Op::format(name, fl::Op::isValidForName));
 
             if (termClass == Function().className() and not strParams.empty()) {
                 std::ostringstream ss;

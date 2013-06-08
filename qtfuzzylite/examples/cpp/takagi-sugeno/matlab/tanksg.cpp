@@ -37,11 +37,11 @@ outputVariable1->setLockValidOutput(false);
 outputVariable1->setDefuzzifier(new fl::WeightedAverage());
 outputVariable1->output()->setAccumulation(new fl::Maximum);
 
-outputVariable1->addTerm(new fl::Constant("closefast", -0.900));
-outputVariable1->addTerm(new fl::Constant("closeslow", -0.500));
-outputVariable1->addTerm(new fl::Constant("nochange", 0.000));
-outputVariable1->addTerm(new fl::Constant("openslow", 0.300));
-outputVariable1->addTerm(new fl::Constant("openfast", 0.900));
+outputVariable1->addTerm(new fl::Constant("close_fast", -0.900));
+outputVariable1->addTerm(new fl::Constant("close_slow", -0.500));
+outputVariable1->addTerm(new fl::Constant("no_change", 0.000));
+outputVariable1->addTerm(new fl::Constant("open_slow", 0.300));
+outputVariable1->addTerm(new fl::Constant("open_fast", 0.900));
 engine->addOutputVariable(outputVariable1);
 
 fl::RuleBlock* ruleblock1 = new fl::RuleBlock;
@@ -50,11 +50,11 @@ ruleblock1->setTnorm(new fl::AlgebraicProduct);
 ruleblock1->setSnorm(new fl::AlgebraicSum);
 ruleblock1->setActivation(new fl::AlgebraicProduct);
 
-ruleblock1->addRule(fl::FuzzyRule::parse("if level is okay then valve is nochange", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if level is low then valve is openfast", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if level is high then valve is closefast", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if level is okay and rate is positive then valve is closeslow", engine));
-ruleblock1->addRule(fl::FuzzyRule::parse("if level is okay and rate is negative then valve is openslow", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if level is okay then valve is no_change", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if level is low then valve is open_fast", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if level is high then valve is close_fast", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if level is okay and rate is positive then valve is close_slow", engine));
+ruleblock1->addRule(fl::FuzzyRule::parse("if level is okay and rate is negative then valve is open_slow", engine));
 engine->addRuleBlock(ruleblock1);
 
 
