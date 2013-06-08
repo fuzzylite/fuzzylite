@@ -32,11 +32,11 @@ namespace fl {
         return new Linear(name, coefficients, inputVariables);
     }
 
-    template Linear* Linear::create(const std::string& name,
+    template FL_EXPORT Linear* Linear::create(const std::string& name,
             const std::vector<InputVariable*>& inputVariables,
             scalar firstCoefficient, ...) throw (fl::Exception);
 
-    template Linear* Linear::create(const std::string& name,
+    template FL_EXPORT Linear* Linear::create(const std::string& name,
             const std::vector<InputVariable*>& inputVariables,
             int firstCoefficient, ...) throw (fl::Exception);
 

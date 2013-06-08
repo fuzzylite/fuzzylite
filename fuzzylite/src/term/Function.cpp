@@ -557,7 +557,8 @@ namespace fl {
                 try {
                     scalar value = fl::Op::toScalar(token, false);
                     node = new Node(value);
-                } catch (fl::Exception& e) {
+                } catch (fl::Exception& ex) {
+					(void) ex;
                     node = new Node(token);
                 }
                 stack.push(node);

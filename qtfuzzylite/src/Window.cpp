@@ -1062,22 +1062,19 @@ namespace fl {
         }
 
         QFont Window::typeWriterFont() const {
-#ifdef Q_OS_MAC
-            QFont tt("Monaco");
-            tt.setStyleHint(QFont::TypeWriter);
-            return tt;
-#endif
-
-#ifdef Q_OS_WIN
-            QFont tt("Fixedsys");
-            tt.setStyleHint(QFont::TypeWriter);
-            return tt;
-#endif
-            //#ifdef Q_OS_LINUX
-            QFont tt("Ubuntu Mono");
-            tt.setStyleHint(QFont::TypeWriter);
-            return tt;
-            //#endif
+		std::string font = "Courier";
+		#ifdef Q_OS_MAC
+            font = "Monaco";
+		#endif
+		#ifdef Q_OS_WIN
+            font = "Fixedsys";
+		#endif
+		#ifdef Q_OS_LINUX
+            font = "Ubuntu Mono"
+        #endif
+		QFont tt(QString::fromStdString(font));
+        tt.setStyleHint(QFont::TypeWriter);
+        return tt;   
         }
 
         QString Window::toHtmlEscaped(const QString& x) {

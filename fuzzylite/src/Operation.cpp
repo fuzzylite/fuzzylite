@@ -29,8 +29,8 @@ namespace fl {
         if (isNan(b)) return a;
         return a < b ? a : b;
     }
-    template scalar Operation::min(scalar a, scalar b);
-    template int Operation::min(int a, int b);
+    template FL_EXPORT scalar Operation::min(scalar a, scalar b);
+    template FL_EXPORT int Operation::min(int a, int b);
 
     template <typename T>
     T Operation::max(T a, T b) {
@@ -38,22 +38,22 @@ namespace fl {
         if (isNan(b)) return a;
         return a > b ? a : b;
     }
-    template scalar Operation::max(scalar a, scalar b);
-    template int Operation::max(int a, int b);
+    template FL_EXPORT scalar Operation::max(scalar a, scalar b);
+    template FL_EXPORT int Operation::max(int a, int b);
 
     template <typename T>
     bool Operation::isInf(T x) {
         return std::abs(x) == fl::inf;
     }
-    template bool Operation::isInf(int x);
-    template bool Operation::isInf(scalar x);
+    template FL_EXPORT bool Operation::isInf(int x);
+    template FL_EXPORT  bool Operation::isInf(scalar x);
 
     template <typename T>
     bool Operation::isNan(T x) {
         return not (x == x);
     }
-    template bool Operation::isNan(int x);
-    template bool Operation::isNan(scalar x);
+    template FL_EXPORT bool Operation::isNan(int x);
+    template FL_EXPORT bool Operation::isNan(scalar x);
 
     bool Operation::isLt(scalar a, scalar b, scalar tolerance) {
         return not isEq(a, b, tolerance) and a < b;
@@ -211,6 +211,7 @@ namespace fl {
             fl::Op::toScalar(x);
             return true;
         } catch (fl::Exception& ex) {
+			(void) ex;
             return false;
         }
     }
@@ -226,11 +227,11 @@ namespace fl {
         } else ss << x;
         return ss.str();
     }
-    template std::string Operation::str(short x, int precision);
-    template std::string Operation::str(int x, int precision);
-    template std::string Operation::str(scalar x, int precision);
+    template FL_EXPORT std::string Operation::str(short x, int precision);
+    template FL_EXPORT std::string Operation::str(int x, int precision);
+    template FL_EXPORT std::string Operation::str(scalar x, int precision);
 
-    template <> std::string Operation::str(const std::string& x, int precision) {
+    template <>  FL_EXPORT std::string Operation::str(const std::string& x, int precision) {
         (void) precision;
         return x;
     }
@@ -245,12 +246,12 @@ namespace fl {
         }
         return ss.str();
     }
-    template std::string Operation::str(const std::vector<int>& x,
+    template  FL_EXPORT std::string Operation::str(const std::vector<int>& x,
             const std::string& separator);
-    template std::string Operation::str(const std::vector<scalar>& x,
+    template  FL_EXPORT std::string Operation::str(const std::vector<scalar>& x,
             const std::string& separator);
 
-    template <>
+    template <>  FL_EXPORT 
     std::string Operation::str(const std::vector<std::string>& x,
             const std::string& separator) {
         std::ostringstream ss;
@@ -276,12 +277,12 @@ namespace fl {
         return ss.str();
     }
 
-    template std::string Operation::str(int items, const std::string& separator,
+    template FL_EXPORT  std::string Operation::str(int items, const std::string& separator,
             int first, ...);
-    template std::string Operation::str(int items, const std::string& separator,
+    template FL_EXPORT  std::string Operation::str(int items, const std::string& separator,
             scalar first, ...);
 
-    template <>
+    template <>  FL_EXPORT 
     std::string Operation::str(int items, const std::string& separator, const char* first, ...) {
         std::ostringstream ss;
         ss << first;

@@ -74,6 +74,7 @@ namespace fl {
 
         std::string qtfuzzylite::floatingPoint() {
             scalar someScalar = 0;
+			(void) someScalar;
             std::string type;
 
             std::ostringstream ss;

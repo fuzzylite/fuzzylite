@@ -88,7 +88,7 @@ namespace fl {
 
         _conclusions.clear();
 
-        FuzzyProposition* proposition;
+        FuzzyProposition* proposition = NULL;
 
         std::stringstream tokenizer(consequent);
         std::string token;
