@@ -85,6 +85,7 @@ namespace fl {
             virtual void edit(const InputVariable* variable);
             virtual void edit(const OutputVariable* variable);
 
+        public slots:
             virtual void reloadModel();
 
         };

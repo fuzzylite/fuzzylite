@@ -161,9 +161,22 @@
           </widget>
          </item>
          <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
           <widget class="QToolButton" name="btn_add_term">
            <property name="toolTip">
-            <string>Add term</string>
+            <string>Add a new term</string>
            </property>
            <property name="text">
             <string/>
@@ -180,7 +193,7 @@
             <bool>false</bool>
            </property>
            <property name="toolTip">
-            <string>Remove term</string>
+            <string>Remove selected terms</string>
            </property>
            <property name="text">
             <string/>
@@ -197,7 +210,7 @@
             <bool>false</bool>
            </property>
            <property name="toolTip">
-            <string>Edit term</string>
+            <string>Edit selected terms</string>
            </property>
            <property name="text">
             <string/>
@@ -205,34 +218,6 @@
            <property name="icon">
             <iconset resource="qtfuzzylite.qrc">
              <normaloff>:/edit.png</normaloff>:/edit.png</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="btn_term_up">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="qtfuzzylite.qrc">
-             <normaloff>:/up.png</normaloff>:/up.png</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="btn_term_down">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="qtfuzzylite.qrc">
-             <normaloff>:/down.png</normaloff>:/down.png</iconset>
            </property>
           </widget>
          </item>
@@ -248,6 +233,66 @@
             </size>
            </property>
           </spacer>
+         </item>
+         <item>
+          <widget class="QToolButton" name="btn_sort_centroid">
+           <property name="toolTip">
+            <string>Sort all terms by centroid</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="qtfuzzylite.qrc">
+             <normaloff>:/sort-terms.png</normaloff>:/sort-terms.png</iconset>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="btn_term_up">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="toolTip">
+            <string>Shift selected terms up</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="qtfuzzylite.qrc">
+             <normaloff>:/up.png</normaloff>:/up.png</iconset>
+           </property>
+           <property name="autoRepeat">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="btn_term_down">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="toolTip">
+            <string>Shift selected terms down</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="qtfuzzylite.qrc">
+             <normaloff>:/down.png</normaloff>:/down.png</iconset>
+           </property>
+           <property name="autoRepeat">
+            <bool>false</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -336,6 +381,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>Default output value of this variable (e.g. nan, 0.0, inf)</string>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -365,6 +413,9 @@
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
            <widget class="QCheckBox" name="chx_lock_range">
+            <property name="toolTip">
+             <string>Locks the output values to the range of this variable</string>
+            </property>
             <property name="text">
              <string>Range</string>
             </property>
@@ -372,6 +423,9 @@
           </item>
           <item>
            <widget class="QCheckBox" name="chx_lock_valid">
+            <property name="toolTip">
+             <string>Locks the last known valid value if no rules are activated</string>
+            </property>
             <property name="text">
              <string>Valid</string>
             </property>

@@ -59,8 +59,7 @@ namespace fl {
             else if (type == OUTPUT_VARIABLE)
                 variable = new OutputVariable("", 0, 1);
             ui->setupUi(this);
-            ui->btn_term_down->setVisible(false);
-            ui->btn_term_up->setVisible(false);
+
             ui->sbx_min->setSingleStep(0.01);
             ui->sbx_max->setSingleStep(0.01);
 
@@ -89,6 +88,8 @@ namespace fl {
             QObject::connect(ui->btn_remove_term, SIGNAL(clicked()),
                     this, SLOT(onClickRemoveTerm()));
 
+            QObject::connect(ui->btn_sort_centroid, SIGNAL(clicked()),
+                    this, SLOT(reloadModel()));
             QObject::connect(ui->btn_term_up, SIGNAL(clicked()),
                     this, SLOT(onClickMoveUp()));
             QObject::connect(ui->btn_term_down, SIGNAL(clicked()),
@@ -120,6 +121,8 @@ namespace fl {
             QObject::disconnect(ui->btn_remove_term, SIGNAL(clicked()),
                     this, SLOT(onClickRemoveTerm()));
 
+            QObject::disconnect(ui->btn_sort_centroid, SIGNAL(clicked()),
+                    this, SLOT(reloadModel()));
             QObject::disconnect(ui->btn_term_up, SIGNAL(clicked()),
                     this, SLOT(onClickMoveUp()));
             QObject::disconnect(ui->btn_term_down, SIGNAL(clicked()),
@@ -270,7 +273,6 @@ namespace fl {
                 for (int i = 0; i < window->dummyVariable->numberOfTerms(); ++i) {
                     variable->addTerm(window->dummyVariable->getTerm(i)->copy());
                 }
-                variable->sort();
                 reloadModel();
             }
             delete window;
@@ -335,7 +337,6 @@ namespace fl {
                         for (int t = 0; t < window->dummyVariable->numberOfTerms(); ++t) {
                             variable->addTerm(window->dummyVariable->getTerm(t)->copy());
                         }
-                        variable->sort();
                     }
                     delete window;
                 }
@@ -348,8 +349,10 @@ namespace fl {
                     ui->lvw_terms->selectedItems().size() > 0);
             ui->btn_remove_term->setEnabled(
                     ui->lvw_terms->selectedItems().size() > 0);
-            ui->btn_term_down->setEnabled(ui->lvw_terms->selectedItems().size() > 0);
-            ui->btn_term_up->setEnabled(ui->lvw_terms->selectedItems().size() > 0);
+            ui->btn_term_down->setEnabled(not ui->btn_sort_centroid->isChecked()
+                    and ui->lvw_terms->selectedItems().size() > 0);
+            ui->btn_term_up->setEnabled(not ui->btn_sort_centroid->isChecked()
+                    and ui->lvw_terms->selectedItems().size() > 0);
             redraw();
         }
 
@@ -409,6 +412,10 @@ namespace fl {
         }
 
         void Variable::reloadModel() {
+            if (ui->btn_sort_centroid->isChecked()) {
+                variable->sort();
+            }
+
             ui->lvw_terms->clear();
             for (int i = 0; i < variable->numberOfTerms(); ++i) {
                 ui->lvw_terms->addItem(QString::fromStdString(variable->getTerm(i)->getName()));
@@ -425,6 +432,11 @@ namespace fl {
             ui->sbx_min->setValue(minimum);
             ui->sbx_max->setValue(maximum);
 
+            ui->btn_term_down->setEnabled(not ui->btn_sort_centroid->isChecked()
+                    and ui->lvw_terms->selectedItems().size() > 0);
+            ui->btn_term_up->setEnabled(not ui->btn_sort_centroid->isChecked()
+                    and ui->lvw_terms->selectedItems().size() > 0);
+            
             redraw();
 
         }
