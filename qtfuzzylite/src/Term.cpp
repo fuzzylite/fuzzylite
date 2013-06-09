@@ -927,7 +927,6 @@ namespace fl {
         }
 
         void Term::onChangeLinearCoefficient(QListWidgetItem* item) {
-            FL_LOG(selectedTerm()->toString());
             if (not item) {
                 redraw();
                 return;
@@ -1219,8 +1218,6 @@ namespace fl {
 
             } else if (x->className() == Linear().className()) {
                 const Linear* term = dynamic_cast<const Linear*> (x);
-                FL_LOG("loadfrom:" << term->toString());
-                        ;
                 ui->lst_variables->clear();
                 ui->lst_coefficients->clear();
                 
@@ -1242,7 +1239,6 @@ namespace fl {
 
                 ui->fxTermToolbox->setCurrentIndex(1);
                 setCurrentToolbox(3);
-                FL_LOG("loadfrom:" << term->toString());
 
             } else if (x->className() == Function().className()) {
                 const Function* term = dynamic_cast<const Function*> (x);
