@@ -1,5 +1,7 @@
 <RCC>
   <qresource>
+    <file alias="output-view.png">icons/document-save.png</file>
+    <file alias="term-view.png">icons/document-page-setup.png</file>
     <file alias="sort-terms.png">icons/view-sort-ascending.png</file>
     <file alias="create-rules.png">icons/insert-text.png</file>
     <file alias="terms.png">icons/document-page-setup.png</file>

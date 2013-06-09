@@ -76,6 +76,8 @@ namespace fl {
             ui->lbl_fuzzy->setFont(smallFont);
             ui->lbl_fuzzy_out->setFont(smallFont);
 
+            ui->btn_graph->setVisible(false);
+            
             connect();
         }
 
