@@ -337,7 +337,7 @@
                    <item>
                     <widget class="QToolButton" name="btn_generate_rules">
                      <property name="toolTip">
-                      <string notr="true">Generate all possible of rules</string>
+                      <string notr="true">Create combinations of rules</string>
                      </property>
                      <property name="text">
                       <string/>
@@ -351,7 +351,7 @@
                    <item>
                     <widget class="QToolButton" name="btn_parse_rules">
                      <property name="toolTip">
-                      <string>Parse all rules</string>
+                      <string>Check rules</string>
                      </property>
                      <property name="text">
                       <string/>
@@ -399,8 +399,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>186</width>
-         <height>222</height>
+         <width>560</width>
+         <height>408</height>
         </rect>
        </property>
        <attribute name="label">
@@ -495,8 +495,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>100</width>
-                        <height>30</height>
+                        <width>265</width>
+                        <height>98</height>
                        </rect>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -588,8 +588,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>100</width>
-                        <height>30</height>
+                        <width>265</width>
+                        <height>98</height>
                        </rect>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_13">

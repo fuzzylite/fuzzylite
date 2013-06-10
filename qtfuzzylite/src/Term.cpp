@@ -945,14 +945,11 @@ namespace fl {
                 try {
                     term->coefficients.at(i) =
                             fl::Op::toScalar(ui->lst_coefficients->item(i)->text().toStdString());
-                    FL_LOG("coeff:" << term->coefficients.at(i));
-
                 } catch (fl::Exception& ex) {
                     FL_LOG(ex.what());
                     term->coefficients.at(i) = 0.0;
                 }
             }
-            FL_LOG(selectedTerm()->toString());
             redraw();
         }
 

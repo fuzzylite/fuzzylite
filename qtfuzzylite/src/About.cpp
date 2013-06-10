@@ -29,6 +29,7 @@
 
 #include "fl/qt/About.h"
 #include "fl/qt/qtfuzzylite.h"
+#include "fl/qt/Window.h"
 
 #include <QDesktopServices>
 #include <QUrl>
@@ -51,7 +52,7 @@ namespace fl {
 
         void About::setup() {
             ui->setupUi(this);
-
+            
             _generosityTerm.push_back("low");
             _generosityValue.push_back("$1");
             _generosityTerm.push_back("Low");
@@ -91,7 +92,7 @@ namespace fl {
 
             layout()->setSizeConstraint(QLayout::SetFixedSize);
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-
+            
             std::string header =
                     "<html>"
                     "<div align='center'>"
@@ -122,6 +123,10 @@ namespace fl {
             ui->lbl_header->setText(QString::fromStdString(header));
             connect();
             ui->cbx_generosity->setCurrentIndex((_generosityTerm.size() - 1) / 2);
+            
+            adjustSize();
+            QRect scr = Window::mainWindow()->geometry();
+            move(scr.center().x() - rect().center().x(), scr.top());
         }
 
         void About::connect() {
