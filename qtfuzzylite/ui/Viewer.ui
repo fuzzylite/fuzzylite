@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>296</width>
-    <height>317</height>
+    <height>326</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -172,7 +172,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <layout class="QHBoxLayout" name="lyt_canvas">
        <property name="leftMargin">
         <number>8</number>
        </property>

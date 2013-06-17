@@ -209,6 +209,7 @@ namespace fl {
                 _sbx.at(i)->setSingleStep(
                         (dummyVariable->getMaximum() - dummyVariable->getMinimum()) / 100);
                 _sbx.at(i)->setAlignment(Qt::AlignHCenter);
+                _sbx.at(i)->setAccelerated(true);
             }
 
             for (std::size_t i = 0; i < _basicTerms.size(); ++i) {

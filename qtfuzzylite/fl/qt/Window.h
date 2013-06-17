@@ -70,6 +70,12 @@ namespace fl {
             void onSelectTestRule(int selected);
             void onSelectTestActivation(int selected);
 
+            void onSelectTnorm(int selected);
+            void onSelectSnorm(int selected);
+            void onSelectActivation(int selected);
+            void onClickHedges();
+            void onActionHedge(const QString& action);
+            
             //Test
             void onInputValueChanged();
 

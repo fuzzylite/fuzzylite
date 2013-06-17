@@ -46,8 +46,10 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QMenu>
+#include <QSignalMapper>
 #include <QDateTime>
 #include <QMenuBar>
+
 namespace fl {
     namespace qt {
 
@@ -86,8 +88,8 @@ namespace fl {
 
 #ifdef Q_OS_MAC
             ui->menuTools->addAction("About qtfuzzylite", this, SLOT(onMenuAbout()));
-            ui->menuTools->addSeparator();
-            ui->menuTools->addAction("Preferences...", this, SLOT(onMenuSettings()));
+//            ui->menuTools->addSeparator();
+//            ui->menuTools->addAction("Preferences...", this, SLOT(onMenuSettings()));
 #endif
             ui->menuTools->addAction(ui->actionNew);
             ui->menuTools->addSeparator();
@@ -112,8 +114,9 @@ namespace fl {
 
 #ifndef Q_OS_MAC
             ui->menuTools->addSeparator();
-            ui->menuTools->addAction(ui->actionPreferences);
-            ui->menuTools->addSeparator();
+            ui->actionPreferences->setEnabled(false);
+//            ui->menuTools->addAction(ui->actionPreferences);
+//            ui->menuTools->addSeparator();
             ui->menuTools->addAction(ui->actionAbout);
             ui->menuTools->addSeparator();
             ui->menuTools->addAction(ui->actionQuit);
@@ -141,6 +144,17 @@ namespace fl {
 
             ui->lvw_inputs->setVariableType("input");
             ui->lvw_outputs->setVariableType("output");
+
+            std::vector<std::string> tnorms = Factory::instance()->tnorm()->available();
+            for (std::size_t i = 0; i < tnorms.size(); ++i) {
+                ui->cbxTnorm->addItem(QString::fromStdString(tnorms.at(i)));
+                ui->cbxActivation->addItem(QString::fromStdString(tnorms.at(i)));
+            }
+
+            std::vector<std::string> snorms = Factory::instance()->snorm()->available();
+            for (std::size_t i = 0; i < snorms.size(); ++i) {
+                ui->cbxSnorm->addItem(QString::fromStdString(snorms.at(i)));
+            }
 
             connect();
         }
@@ -199,6 +213,15 @@ namespace fl {
             QObject::connect(ui->lsw_test_rules_activation->verticalScrollBar(), SIGNAL(valueChanged(int)),
                     ui->lsw_test_rules->verticalScrollBar(), SLOT(setValue(int)));
 
+            QObject::connect(ui->cbxTnorm, SIGNAL(currentIndexChanged(int)),
+                    this, SLOT(onSelectTnorm(int)));
+            QObject::connect(ui->cbxSnorm, SIGNAL(currentIndexChanged(int)),
+                    this, SLOT(onSelectSnorm(int)));
+            QObject::connect(ui->cbxActivation, SIGNAL(currentIndexChanged(int)),
+                    this, SLOT(onSelectActivation(int)));
+            QObject::connect(ui->btn_hedges, SIGNAL(clicked()),
+                    this, SLOT(onClickHedges()));
+
         }
 
         void Window::disconnect() {
@@ -254,6 +277,13 @@ namespace fl {
                     ui->lsw_test_rules_activation->verticalScrollBar(), SLOT(setValue(int)));
             QObject::disconnect(ui->lsw_test_rules_activation->verticalScrollBar(), SIGNAL(valueChanged(int)),
                     ui->lsw_test_rules->verticalScrollBar(), SLOT(setValue(int)));
+
+            QObject::disconnect(ui->cbxTnorm, SIGNAL(currentIndexChanged(int)),
+                    this, SLOT(onSelectTnorm(int)));
+            QObject::disconnect(ui->cbxSnorm, SIGNAL(currentIndexChanged(int)),
+                    this, SLOT(onSelectSnorm(int)));
+            QObject::disconnect(ui->cbxActivation, SIGNAL(currentIndexChanged(int)),
+                    this, SLOT(onSelectActivation(int)));
         }
 
         void Window::reloadModel() {
@@ -286,6 +316,25 @@ namespace fl {
                 ui->ptx_rules->appendPlainText(
                         QString::fromStdString(ruleblock->getRule(i)->getUnparsedRule()));
             }
+
+            if (ruleblock->getTnorm()) {
+                ui->cbxTnorm->setCurrentIndex(
+                        ui->cbxTnorm->findText(QString::fromStdString(
+                        ruleblock->getTnorm()->className())));
+            } else ui->cbxTnorm->setCurrentIndex(-1);
+            
+            if (ruleblock->getSnorm()) {
+                ui->cbxSnorm->setCurrentIndex(
+                        ui->cbxSnorm->findText(QString::fromStdString(
+                        ruleblock->getSnorm()->className())));
+            } else ui->cbxSnorm->setCurrentIndex(-1);
+            
+            if (ruleblock->getActivation()) {
+                ui->cbxActivation->setCurrentIndex(
+                        ui->cbxActivation->findText(QString::fromStdString(
+                        ruleblock->getActivation()->className())));
+            } else ui->cbxActivation->setCurrentIndex(-1);
+
             reloadTest();
         }
 
@@ -441,8 +490,6 @@ namespace fl {
         }
 
         void Window::onInputValueChanged() {
-
-
             QColor from_color(Qt::white);
             QColor to_color(0, 200, 0);
             fl::RuleBlock* ruleblock = Model::Default()->engine()->getRuleBlock(0);
@@ -746,10 +793,96 @@ namespace fl {
             reloadTest();
         }
 
-        void Window::onTabChange(int index) {
-            if (index == 1) {
+        void Window::onSelectTnorm(int selected) {
+            TNorm* tnorm = Factory::instance()->tnorm()->create(
+                    ui->cbxTnorm->currentText().toStdString());
+            Model::Default()->engine()->getRuleBlock(0)->setTnorm(tnorm);
+        }
+
+        void Window::onSelectSnorm(int selected) {
+            SNorm* snorm = Factory::instance()->snorm()->create(
+                    ui->cbxSnorm->currentText().toStdString());
+            Model::Default()->engine()->getRuleBlock(0)->setSnorm(snorm);
+        }
+
+        void Window::onSelectActivation(int selected) {
+            TNorm* tnorm = Factory::instance()->tnorm()->create(
+                    ui->cbxActivation->currentText().toStdString());
+            Model::Default()->engine()->getRuleBlock(0)->setActivation(tnorm);
+        }
+
+        void Window::onClickHedges() {
+            QSignalMapper signalMapper(this);
+            QMenu menu;
+            std::vector<QAction*> actions;
+
+            QAction* all = new QAction("all", this);
+            signalMapper.setMapping(all, all->text());
+            actions.push_back(all);
+            actions.push_back(NULL);
+
+            std::vector<std::string> hedges = Factory::instance()->hedge()->available();
+            for (std::size_t i = 0; i < hedges.size(); ++i) {
+                QAction* action = new QAction(this);
+                action->setText(QString::fromStdString(hedges.at(i)));
+                action->setCheckable(true);
+                action->setChecked(Model::Default()->engine()->hasHedge(hedges.at(i)));
+                actions.push_back(action);
+            }
+
+            actions.push_back(NULL);
+
+            QAction* none = new QAction("none", this);
+            signalMapper.setMapping(none, none->text());
+            actions.push_back(none);
+
+            for (std::size_t i = 0; i < actions.size(); ++i) {
+                QAction* action = actions.at(i);
+                if (action) {
+                    signalMapper.setMapping(action, action->text());
+                    QObject::connect(action, SIGNAL(triggered()),
+                            &signalMapper, SLOT(map()));
+                    menu.addAction(action);
+                } else menu.addSeparator();
+            }
+
+            QObject::connect(&signalMapper, SIGNAL(mapped(const QString &)),
+                    this, SLOT(onActionHedge(const QString &)));
+
+            menu.exec(QCursor::pos() + QPoint(1, 0));
+            for (std::size_t i = 0; i < actions.size(); ++i) {
+                if (actions.at(i)) {
+                    actions.at(i)->deleteLater();
+                }
+            }
+            ui->btn_hedges->setChecked(false);
+        }
+
+        void Window::onActionHedge(const QString& action) {
+            Engine* engine = Model::Default()->engine();
+
+            if (action.toStdString() == "all") {
+                std::vector<std::string> hedges = Factory::instance()->hedge()->available();
+                for (std::size_t i = 0; i < hedges.size(); ++i) {
+                    if (not engine->hasHedge(hedges.at(i))) {
+                        engine->addHedge(Factory::instance()->hedge()->create(hedges.at(i)));
+                    }
+                }
+            } else if (action.toStdString() == "none") {
+                for (int i = engine->numberOfHedges() - 1; i >= 0; --i) {
+                    delete engine->removeHedge(i);
+                }
+            } else {
+
+                if (engine->hasHedge(action.toStdString())) {
+                    delete engine->removeHedge(action.toStdString());
+                } else {
+                    engine->addHedge(Factory::instance()->hedge()->create(action.toStdString()));
+                }
             }
         }
+
+        void Window::onTabChange(int index) { }
 
         void Window::onMenuSettings() {
             settings->hide();

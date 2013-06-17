@@ -25,6 +25,7 @@
 #include "fl/factory/SNormFactory.h"
 #include "fl/factory/TNormFactory.h"
 #include "fl/factory/TermFactory.h"
+#include "fl/factory/HedgeFactory.h"
 
 namespace fl {
 
@@ -37,14 +38,16 @@ namespace fl {
             _instance->setSnorm(new SNormFactory);
             _instance->setDefuzzifier(new DefuzzifierFactory);
             _instance->setTerm(new TermFactory);
+            _instance->setHedge(new HedgeFactory);
         }
         return _instance;
     }
 
     Factory::Factory() :
-    _tnorm(NULL), _snorm(NULL), _defuzzifier(NULL), _term(NULL) { }
+    _tnorm(NULL), _snorm(NULL), _defuzzifier(NULL), _term(NULL), _hedge(NULL) { }
 
     Factory::~Factory() {
+        if (_hedge) delete _hedge;
         if (_term) delete _term;
         if (_defuzzifier) delete _defuzzifier;
         if (_snorm) delete _snorm;
@@ -85,6 +88,14 @@ namespace fl {
 
     TermFactory* Factory::term() const {
         return this->_term;
+    }
+    
+    void Factory::setHedge(HedgeFactory* hedge){
+        this->_hedge = hedge;
+    }
+    
+    HedgeFactory* Factory::hedge() const{
+        return this->_hedge;
     }
 
 }

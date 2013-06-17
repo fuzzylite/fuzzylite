@@ -56,6 +56,8 @@ namespace fl {
 
             void onSelectTerm();
             
+            void onSelectDefuzzifier(int);
+            
             void redraw();
             void showSelectedTerms();
 

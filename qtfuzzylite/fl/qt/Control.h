@@ -16,7 +16,7 @@
 
     Juan Rada-Vilela, 01 February 2013
     jcrada@fuzzylite.com
-**/
+ **/
 
 /*
  * Control.h
@@ -39,18 +39,30 @@ namespace fl {
         class Control : public Viewer {
             Q_OBJECT
 
+        protected:
+            std::vector<scalar> _outputs;
+            int _outputIndex;
+            bool _viewOutput;
+            bool _isTakagiSugeno;
+            scalar _min, _max;
         protected slots:
             void updateInput(double value);
             void updateOutput();
-
-
+            void onChangeSliderValue(int position);
+            void onClickGraph();
+            void onActionGraph(const QString& action);
         public:
             fl::Variable* variable;
 
             Control(QWidget* parent = NULL, Qt::WindowFlags f = 0);
             virtual ~Control();
 
-          void setup(const fl::Variable* variable);
+            void setup(const fl::Variable* variable);
+
+        public slots:
+            virtual void refresh();
+            virtual void draw();
+            virtual void draw(const fl::Term* term, const QColor& color = QColor(0, 210, 0, 200));
 
         };
 

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>560</width>
+    <width>553</width>
     <height>541</height>
    </rect>
   </property>
@@ -62,7 +62,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>560</width>
+         <width>553</width>
          <height>408</height>
         </rect>
        </property>
@@ -330,6 +330,50 @@
                   </spacer>
                  </item>
                  <item>
+                  <widget class="QComboBox" name="cbxTnorm">
+                   <property name="toolTip">
+                    <string>T-Norm</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="cbxSnorm">
+                   <property name="toolTip">
+                    <string>S-Norm</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="cbxActivation">
+                   <property name="toolTip">
+                    <string>Activation</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="btn_hedges">
+                   <property name="text">
+                    <string>Hedges</string>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
                   <layout class="QHBoxLayout" name="horizontalLayout">
                    <property name="leftMargin">
                     <number>0</number>
@@ -351,14 +395,14 @@
                    <item>
                     <widget class="QToolButton" name="btn_parse_rules">
                      <property name="toolTip">
-                      <string>Check rules</string>
+                      <string>Process rules</string>
                      </property>
                      <property name="text">
                       <string/>
                      </property>
                      <property name="icon">
                       <iconset resource="qtfuzzylite.qrc">
-                       <normaloff>:/spellcheck.png</normaloff>:/spellcheck.png</iconset>
+                       <normaloff>:/process.png</normaloff>:/process.png</iconset>
                      </property>
                      <property name="shortcut">
                       <string>Ctrl+Shift+Return</string>
@@ -399,8 +443,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>560</width>
-         <height>408</height>
+         <width>186</width>
+         <height>222</height>
         </rect>
        </property>
        <attribute name="label">
@@ -495,8 +539,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>265</width>
-                        <height>98</height>
+                        <width>100</width>
+                        <height>30</height>
                        </rect>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -588,8 +632,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>265</width>
-                        <height>98</height>
+                        <width>100</width>
+                        <height>30</height>
                        </rect>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -747,8 +791,6 @@
    <addaction name="actionImport"/>
    <addaction name="actionExport"/>
    <addaction name="separator"/>
-   <addaction name="actionPreferences"/>
-   <addaction name="separator"/>
    <addaction name="actionAbout"/>
    <addaction name="actionQuit"/>
   </widget>
@@ -757,7 +799,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>560</width>
+     <width>553</width>
      <height>25</height>
     </rect>
    </property>

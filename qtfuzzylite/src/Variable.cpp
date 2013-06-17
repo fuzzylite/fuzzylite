@@ -73,6 +73,25 @@ namespace fl {
 
             ui->gbx_output->setVisible(type == OUTPUT_VARIABLE);
 
+            std::vector<std::string> accumulation = Factory::instance()->snorm()->available();
+            for (std::size_t i = 0; i < accumulation.size(); ++i) {
+                ui->cbx_accumulation->addItem(QString::fromStdString(
+                        accumulation.at(i)));
+            }
+
+            std::vector<std::string> defuzzifiers = Factory::instance()->defuzzifier()->available();
+            for (std::size_t i = 0; i < defuzzifiers.size(); ++i) {
+                ui->cbx_defuzzifier->addItem(QString::fromStdString(
+                        defuzzifiers.at(i)));
+            }
+            int indexOfCentroid = ui->cbx_defuzzifier->findText(
+                    QString::fromStdString(fl::Centroid().className()));
+            ui->cbx_defuzzifier->setCurrentIndex(indexOfCentroid);
+            ui->cbx_defuzzifier->insertSeparator(ui->cbx_defuzzifier->findText(
+                    QString::fromStdString(fl::WeightedAverage().className())));
+
+            ui->sbx_accuracy->setValue(fl::fuzzylite::defaultDivisions());
+
             QRect scr = Window::mainWindow()->geometry();
             move(scr.center().x() - rect().center().x(), scr.top());
 
@@ -103,6 +122,9 @@ namespace fl {
                     this, SLOT(onDoubleClickTerm(QListWidgetItem*)));
             QObject::connect(ui->lvw_terms, SIGNAL(itemClicked(QListWidgetItem*)),
                     this, SLOT(onClickTerm(QListWidgetItem*)));
+
+            QObject::connect(ui->cbx_defuzzifier, SIGNAL(currentIndexChanged(int)),
+                    this, SLOT(onSelectDefuzzifier(int)));
 
             QObject::connect(ui->sbx_min, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeMinRange(double)));
@@ -135,6 +157,8 @@ namespace fl {
             QObject::disconnect(ui->lvw_terms, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
                     this, SLOT(onDoubleClickTerm(QListWidgetItem*)));
 
+            QObject::disconnect(ui->cbx_defuzzifier, SIGNAL(currentIndexChanged(int)),
+                    this, SLOT(onSelectDefuzzifier(int)));
 
             QObject::disconnect(ui->sbx_min, SIGNAL(valueChanged(double)),
                     this, SLOT(onChangeMinRange(double)));
@@ -181,12 +205,13 @@ namespace fl {
 
             OutputVariable* editable = dynamic_cast<OutputVariable*> (this->variable);
             editable->setDefaultValue(outputVariable->getDefaultValue());
-            editable->setDefuzzifier(outputVariable->getDefuzzifier());
-
             editable->setLastValidOutput(fl::nan);
-
             editable->setLockValidOutput(outputVariable->isLockingValidOutput());
             editable->setLockOutputRange(outputVariable->isLockingOutputRange());
+
+            editable->output()->setAccumulation(outputVariable->output()->getAccumulation());
+            editable->setDefuzzifier(outputVariable->getDefuzzifier());
+            editable->getDefuzzifier()->setDivisions(outputVariable->getDefuzzifier()->getDivisions());
 
             reloadModel();
         }
@@ -232,6 +257,16 @@ namespace fl {
                 }
                 outputVariable->setLockValidOutput(ui->chx_lock_valid->isChecked());
                 outputVariable->setLockOutputRange(ui->chx_lock_range->isChecked());
+
+                SNorm* accumulation = Factory::instance()->snorm()->create(
+                        ui->cbx_accumulation->currentText().toStdString());
+                outputVariable->output()->setAccumulation(accumulation);
+
+                Defuzzifier* defuzzifier = Factory::instance()->defuzzifier()->create(
+                        ui->cbx_defuzzifier->currentText().toStdString(),
+                        ui->sbx_accuracy->value());
+                outputVariable->setDefuzzifier(defuzzifier);
+
             }
             variable->setName(fl::Op::format(ui->led_name->text().toStdString(),
                     fl::Op::isValidForName));
@@ -366,6 +401,21 @@ namespace fl {
             redraw();
         }
 
+        void Variable::onSelectDefuzzifier(int index) {
+            (void) index;
+            std::string defuzzifier = ui->cbx_defuzzifier->currentText().toStdString();
+            if (defuzzifier == fl::WeightedAverage().className() or
+                    defuzzifier == fl::WeightedSum().className()) {
+                ui->sbx_accuracy->setEnabled(false);
+                ui->cbx_accumulation->setEnabled(false);
+
+            } else {
+                ui->sbx_accuracy->setEnabled(true);
+                ui->cbx_accumulation->setEnabled(true);
+            }
+
+        }
+
         void Variable::onClickMoveUp() {
             std::vector<int> newPositions;
             bool rotate = false;
@@ -376,9 +426,9 @@ namespace fl {
                         newPosition = ui->lvw_terms->count() - 1;
                         newPositions.push_back(newPosition);
                         rotate = true;
-                    } else
+                    } else {
                         newPositions.push_back(newPosition - rotate);
-
+                    }
                     fl::Term* term = variable->removeTerm(i);
                     variable->insertTerm(term, newPosition);
                 }
@@ -399,8 +449,9 @@ namespace fl {
                         newPosition = 0;
                         newPositions.push_back(newPosition);
                         rotate = true;
-                    } else
+                    } else {
                         newPositions.push_back(newPosition + rotate);
+                    }
                     fl::Term* term = variable->removeTerm(i);
                     variable->insertTerm(term, newPosition);
                 }
@@ -426,6 +477,19 @@ namespace fl {
                 ui->led_default->setText(QString::number(outputVariable->getDefaultValue()));
                 ui->chx_lock_range->setChecked(outputVariable->isLockingOutputRange());
                 ui->chx_lock_valid->setChecked(outputVariable->isLockingValidOutput());
+                if (outputVariable->output()->getAccumulation()) {
+                    ui->cbx_accumulation->setCurrentIndex(
+                            ui->cbx_accumulation->findText(
+                            QString::fromStdString(
+                            outputVariable->output()->getAccumulation()->className())));
+                }
+                if (outputVariable->getDefuzzifier()) {
+                    ui->cbx_defuzzifier->setCurrentIndex(
+                            ui->cbx_defuzzifier->findText(
+                            QString::fromStdString(
+                            outputVariable->getDefuzzifier()->className())));
+                    ui->sbx_accuracy->setValue(outputVariable->getDefuzzifier()->getDivisions());
+                }
             }
             scalar minimum = variable->getMinimum();
             scalar maximum = variable->getMaximum();
@@ -436,7 +500,7 @@ namespace fl {
                     and ui->lvw_terms->selectedItems().size() > 0);
             ui->btn_term_up->setEnabled(not ui->btn_sort_centroid->isChecked()
                     and ui->lvw_terms->selectedItems().size() > 0);
-            
+
             redraw();
 
         }
