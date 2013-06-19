@@ -74,7 +74,7 @@
      <item>
       <widget class="QTabWidget" name="tabTerms">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -408,8 +408,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>203</width>
-              <height>158</height>
+              <width>130</width>
+              <height>78</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -764,8 +764,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>203</width>
-              <height>220</height>
+              <width>124</width>
+              <height>78</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -954,8 +954,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>203</width>
-              <height>251</height>
+              <width>169</width>
+              <height>45</height>
              </rect>
             </property>
             <attribute name="label">
@@ -992,8 +992,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>203</width>
-              <height>251</height>
+              <width>125</width>
+              <height>121</height>
              </rect>
             </property>
             <attribute name="label">

@@ -51,6 +51,8 @@ namespace fl {
 
         public slots:
             virtual void refresh();
+            virtual void onClickGraph();
+            virtual void onActionGraph(const QString& action);
 
         signals:
             void valueChanged(double);

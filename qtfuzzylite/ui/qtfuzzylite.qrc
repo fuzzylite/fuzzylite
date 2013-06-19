@@ -1,5 +1,6 @@
 <RCC>
   <qresource>
+    <file alias="visualization.png">icons/visualization.png</file>
     <file alias="output-view.png">icons/document-save.png</file>
     <file alias="term-view.png">icons/document-page-setup.png</file>
     <file alias="sort-terms.png">icons/view-sort-ascending.png</file>
@@ -13,7 +14,6 @@
     <file alias="import.png">icons/document-import.png</file>
     <file alias="down.png">icons/go-down.png</file>
     <file alias="up.png">icons/go-up.png</file>
-    <file alias="spellcheck.png">icons/tools-check-spelling.png</file>
     <file alias="clone.png">icons/view-list-icons-symbolic.png</file>
     <file alias="process.png">icons/system-run.png</file>
     <file alias="add.png">icons/list-add.png</file>

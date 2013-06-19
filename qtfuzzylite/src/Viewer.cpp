@@ -16,7 +16,7 @@
 
     Juan Rada-Vilela, 01 February 2013
     jcrada@fuzzylite.com
-**/
+ **/
 
 /* 
  * File:   Viewer.cpp
@@ -33,6 +33,13 @@
 #include "fl/qt/Settings.h"
 
 #include <QGraphicsPolygonItem>
+
+#include <QMenu>
+#include <QSignalMapper>
+#include <QAction>
+
+#include <vector>
+
 
 //#define FL_EXPORT_SVG
 #ifdef FL_EXPORT_SVG
@@ -59,9 +66,9 @@ namespace fl {
             ui->led_x->setVisible(false);
             setMinimumSize(200, 170);
             ui->canvas->setScene(new QGraphicsScene(ui->canvas));
-			ui->canvas->setRenderHints(QPainter::Antialiasing
+            ui->canvas->setRenderHints(QPainter::Antialiasing
                     | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing |
-					QPainter::NonCosmeticDefaultPen);
+                    QPainter::NonCosmeticDefaultPen);
             ui->canvas->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->canvas->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->sbx_x->setFocus();
@@ -71,13 +78,11 @@ namespace fl {
 #ifdef Q_OS_WIN			
             smallFont.setPointSize(smallFont.pointSize() - 1);
 #else
-			smallFont.setPointSize(smallFont.pointSize() - 2);
+            smallFont.setPointSize(smallFont.pointSize() - 2);
 #endif
             ui->lbl_fuzzy->setFont(smallFont);
             ui->lbl_fuzzy_out->setFont(smallFont);
 
-            ui->btn_graph->setVisible(false);
-            
             connect();
         }
 
@@ -96,7 +101,8 @@ namespace fl {
             QObject::connect(this, SIGNAL(valueChanged(double)),
                     this, SLOT(refresh()));
 
-
+            QObject::connect(ui->btn_properties, SIGNAL(clicked()),
+                    this, SLOT(onClickGraph()));
         }
 
         void Viewer::disconnect() {
@@ -113,6 +119,9 @@ namespace fl {
                     SLOT(onEditInputValue()));
             QObject::disconnect(this, SIGNAL(valueChanged(double)),
                     this, SLOT(refresh()));
+
+            QObject::disconnect(ui->btn_properties, SIGNAL(clicked()),
+                    this, SLOT(onClickGraph()));
         }
 
         void Viewer::showEvent(QShowEvent*) {
@@ -121,6 +130,53 @@ namespace fl {
 
         void Viewer::resizeEvent(QResizeEvent*) {
             refresh();
+        }
+
+        void Viewer::onClickGraph() {
+            std::vector<QAction*> actions;
+            QMenu menu(this);
+
+            actions.push_back(new QAction("show/hide", this));
+
+            QSignalMapper signalMapper(this);
+            for (std::size_t i = 0; i < actions.size(); ++i) {
+                if (actions.at(i)) {
+                    signalMapper.setMapping(actions.at(i), actions.at(i)->text());
+                    QObject::connect(actions.at(i), SIGNAL(triggered()),
+                            &signalMapper, SLOT(map()));
+
+                    menu.addAction(actions.at(i));
+                } else {
+                    menu.addSeparator();
+                }
+            }
+            QObject::connect(&signalMapper, SIGNAL(mapped(const QString &)),
+                    this, SLOT(onActionGraph(const QString &)));
+
+            menu.exec(QCursor::pos() + QPoint(1, 0));
+            for (std::size_t i = 0; i < actions.size(); ++i) {
+                if (actions.at(i)) {
+                    actions.at(i)->deleteLater();
+                }
+            }
+            ui->btn_properties->setChecked(false);
+        }
+
+        void Viewer::onActionGraph(const QString& action) {
+            if (action == "show/hide") {
+                ui->mainWidget->setVisible(not ui->mainWidget->isVisible());
+                if (ui->mainWidget->isVisible()) {
+                    setMinimumSize(0, 0);
+                    setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+                    setSizePolicy(QSizePolicy::MinimumExpanding,
+                            QSizePolicy::MinimumExpanding);
+
+                } else {
+                    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+                    setFixedHeight(30);
+                }
+                adjustSize();
+            }
         }
 
         /**
@@ -300,7 +356,7 @@ namespace fl {
             pen.setWidth(1);
             ui->canvas->scene()->addLine(x, rect.bottom(), x, y, pen);
         }
-        
+
         void Viewer::ColorGradient(int degree, int& red, int& green, int& blue, int& alpha,
                 int from_r, int from_g, int from_b, int from_a,
                 int to_r, int to_g, int to_b, int to_a) {

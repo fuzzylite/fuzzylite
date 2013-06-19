@@ -59,7 +59,7 @@ namespace fl {
                 ui->led_x->setVisible(true);
                 ui->lbl_fuzzy_out->setVisible(true);
                 ui->lbl_fuzzy->setVisible(false);
-                ui->btn_graph->setVisible(true);
+                ui->btn_properties->setVisible(true);
 
                 _isTakagiSugeno = false;
                 for (int i = 0; i < variable->numberOfTerms(); ++i) {
@@ -73,7 +73,7 @@ namespace fl {
                 if (_isTakagiSugeno) {
                     _min = variable->getMinimum();
                     _max = variable->getMaximum();
-                    
+
                     fl::OutputVariable* outputVariable = dynamic_cast<fl::OutputVariable*> (variable);
                     _outputs = std::vector<scalar>(
                             outputVariable->getDefuzzifier()->getDivisions(),
@@ -81,9 +81,6 @@ namespace fl {
                     _outputIndex = 0;
                     onActionGraph("view output");
                 }
-
-                QObject::connect(ui->btn_graph, SIGNAL(clicked()),
-                        this, SLOT(onClickGraph()));
 
             } else if (dynamic_cast<InputVariable*> (variable)) {
                 QObject::connect(this, SIGNAL(valueChanged(double)),
@@ -137,30 +134,26 @@ namespace fl {
         }
 
         void Control::onClickGraph() {
-            std::vector<QAction*> actions;
             QMenu menu(this);
-            QAction* actionView = new QAction("view output", this);
-            actionView->setEnabled(not _isTakagiSugeno);
-            actionView->setCheckable(true);
-            actionView->setChecked(_viewOutput);
-            actions.push_back(actionView);
+            std::vector<QAction*> actions;
+            actions.push_back(new QAction("show/hide", this));
 
-            actions.push_back(NULL);
+            if (_isTakagiSugeno) {
+                actions.push_back(NULL);
+                QAction* actionView = new QAction("view output", this);
+                if (_viewOutput) {
+                    actionView->setCheckable(true);
+                    actionView->setChecked(true);
+                }
 
-            QAction* actionAutoScale = new QAction("autoscale", this);
-            actionAutoScale->setEnabled(_viewOutput);
-            actions.push_back(actionAutoScale);
 
-            QAction* actionFixScale = new QAction("fix scale", this);
-            actionFixScale->setEnabled(_viewOutput);
-            actions.push_back(actionFixScale);
+                actions.push_back(actionView);
 
-            actions.push_back(NULL);
+                QAction* actionClear = new QAction("clear", this);
+                actionClear->setEnabled(_viewOutput);
 
-            QAction* actionClear = new QAction("clear", this);
-            actionView->setEnabled(_viewOutput);
-            actions.push_back(actionClear);
-
+                actions.push_back(actionClear);
+            }
             QSignalMapper signalMapper(this);
             for (std::size_t i = 0; i < actions.size(); ++i) {
                 if (actions.at(i)) {
@@ -182,10 +175,21 @@ namespace fl {
                     actions.at(i)->deleteLater();
                 }
             }
+            ui->btn_properties->setChecked(false);
         }
 
         void Control::onActionGraph(const QString& action) {
-            if (action == "view output") {
+            if (action == "show/hide") {
+                ui->mainWidget->setVisible(not ui->mainWidget->isVisible());
+                if (ui->mainWidget->isVisible()) {
+                    setSizePolicy(QSizePolicy::MinimumExpanding,
+                            QSizePolicy::Minimum);
+                } else {
+                    setSizePolicy(QSizePolicy::Minimum,
+                            QSizePolicy::Minimum);
+                }
+                adjustSize();
+            } else if (action == "view output") {
                 _viewOutput = not _viewOutput;
                 if (_viewOutput) {
                     ui->mainLayout->removeWidget(ui->sld_x);
@@ -198,10 +202,6 @@ namespace fl {
                     ui->sld_x->setOrientation(Qt::Horizontal);
                     ui->mainLayout->addWidget(ui->sld_x);
                 }
-            } else if (action == "autoscale") {
-
-            } else if (action == "fix scale") {
-
             } else if (action == "clear") {
                 fl::OutputVariable* outputVariable =
                         dynamic_cast<fl::OutputVariable*> (variable);
