@@ -1,5 +1,5 @@
 #summary A Fuzzy Logic Control Library and Application in C++
-Wiki last updated: 01/June/2013
+Wiki last updated: 18/June/2013
 
 == Donations ==
 Please, consider making a *donation* to support these projects.
@@ -10,7 +10,7 @@ There are still _many_ things to do!
 || *Generosity* ||  [http://www.fuzzylite.com/donation.php?generosity=low low ] || [http://www.fuzzylite.com/donation.php?generosity=Low Low ] || [http://www.fuzzylite.com/donation.php?generosity=LOW LOW ] || [http://www.fuzzylite.com/donation.php?generosity=medium med ] || [http://www.fuzzylite.com/donation.php?generosity=Medium Med ] || [http://www.fuzzylite.com/donation.php?generosity=MEDIUM MED ] || [http://www.fuzzylite.com/donation.php?generosity=high high ] || [http://www.fuzzylite.com/donation.php?generosity=High High ] || [http://www.fuzzylite.com/donation.php?generosity=HIGH HIGH ] || https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif ||
 </div>
 
-... and please, let us all give a standing ovation to the *[#Donors Donors]*.
+==... and please, let us all give a standing ovation to the *[#Donors Donors]*.==
 
 
 === News ===
@@ -248,5 +248,7 @@ Please, let us all give a standing ovation to:
 
   # *[http://www.internetone.it InternetONE.it]*
   # *[http://www.xgen.com.br XGEN]*
+  # *[http://www.schneefernerhaus.de/ Zugspitze Measurement Station for Global Atmosphere Watch]*
+  # *[http://beathespread.com Jean-Yves Torres]*
 
 If you wish to appear in this list, please make a donation :)

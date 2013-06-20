@@ -71,9 +71,6 @@ namespace fl {
                 }
 
                 if (_isTakagiSugeno) {
-                    _min = variable->getMinimum();
-                    _max = variable->getMaximum();
-
                     fl::OutputVariable* outputVariable = dynamic_cast<fl::OutputVariable*> (variable);
                     _outputs = std::vector<scalar>(
                             outputVariable->getDefuzzifier()->getDivisions(),
@@ -86,6 +83,8 @@ namespace fl {
                 QObject::connect(this, SIGNAL(valueChanged(double)),
                         this, SLOT(updateInput(double)));
             }
+            _min = variable->getMinimum();
+            _max = variable->getMaximum();
         }
 
         void Control::updateInput(double value) {
@@ -96,6 +95,8 @@ namespace fl {
         }
 
         void Control::onChangeSliderValue(int position) {
+            //            Viewer::onChangeSliderValue(position);
+            //TODO: Check this crazy thing.
             if (not _viewOutput) {
                 Viewer::onChangeSliderValue(position);
             } else {
@@ -115,16 +116,18 @@ namespace fl {
                 throw fl::Exception("[cast error] trying to cast OutputVariable", FL_AT);
             }
 
-            scalar x = outputVariable->defuzzify();
+            scalar y = outputVariable->defuzzify();
 
             if (_viewOutput) {
-                _outputs.at(_outputIndex) = x;
+                _outputs.at(_outputIndex) = y;
                 _outputIndex = (_outputIndex + 1) % _outputs.size();
+                if (y > _max) _max = y;
+                if (y < _min) _min = y;
             }
-            ui->led_x->setText(QString::number(x, 'f', fl::fuzzylite::decimals()));
-            ui->sbx_x->setValue(x);
+            ui->led_x->setText(QString::number(y, 'f', fl::fuzzylite::decimals()));
+            ui->sbx_x->setValue(y);
 
-            QString fuzzify = QString::fromStdString(outputVariable->fuzzify(x));
+            QString fuzzify = QString::fromStdString(outputVariable->fuzzify(y));
             ui->lbl_fuzzy_out->setText("&#956;=" + fuzzify);
 
             refresh();
@@ -209,6 +212,8 @@ namespace fl {
                         outputVariable->getDefuzzifier()->getDivisions(),
                         (outputVariable->getMaximum() - outputVariable->getMinimum()) / 2.0);
                 _outputIndex = 0;
+                _min = outputVariable->getMinimum();
+                _max = outputVariable->getMaximum();
             }
 
 
@@ -232,6 +237,7 @@ namespace fl {
             fl::OutputVariable* outputVariable =
                     dynamic_cast<fl::OutputVariable*> (variable);
 
+            //TODO: Handle change of resolution
             if (false and _outputs.size() != outputVariable->getDefuzzifier()->getDivisions()) {
                 std::vector<scalar> replace = std::vector<scalar>(
                         outputVariable->getDefuzzifier()->getDivisions(),
@@ -245,54 +251,54 @@ namespace fl {
                 _outputIndex = replace.size() - 1;
             }
 
-            scalar min = outputVariable->getMinimum();
-            scalar max = outputVariable->getMaximum();
-            //            scalar min = fl::inf;
-            //            scalar max = -fl::inf;
-            for (std::size_t x = 0; x < _outputs.size(); ++x) {
-                scalar y = _outputs.at(x);
-                if (fl::Op::isNan(y)) continue;
-                if (y > max) max = y;
-                if (y < min) min = y;
-            }
+            //            scalar mean = (outputVariable->getMaximum() - outputVariable->getMinimum()) / 2.0;
+            //            scalar dx = std::max(std::fabs(max - mean), std::fabs(min - mean));
+            //            min = mean - dx;
+            //            max = mean + dx;
 
-            scalar mean = (outputVariable->getMaximum() - outputVariable->getMinimum()) / 2.0;
-            scalar dx = std::max(std::fabs(max - mean), std::fabs(min - mean));
-            min = mean - dx;
-            max = mean + dx;
+//            scalar mean = (outputVariable->getMaximum() - outputVariable->getMinimum()) / 2.0;
+//            scalar dx = std::max(std::fabs(max - mean), std::fabs(min - mean));
+//            min = mean - dx;
+//            max = mean + dx;
+            
+            scalar bound = std::max(std::fabs(_min), std::fabs(_max));
 
             ui->canvas->scene()->clear();
             ui->canvas->scene()->setSceneRect(ui->canvas->viewport()->rect());
             QRect rect = ui->canvas->viewport()->rect();
+
+            QPainterPath path;
+            scalar x0ui, y0ui, x1ui, y1ui;
+            for (std::size_t i = 0; i + 1 < _outputs.size(); ++i) {
+                int ix0 = (_outputIndex + i) % _outputs.size();
+                scalar y0 = _outputs.at(ix0);
+
+                int ix1 = (_outputIndex + i + 1) % _outputs.size();
+                scalar y1 = _outputs.at(ix1);
+
+                x0ui = fl::Op::scale(i, 0, _outputs.size(),
+                        rect.left(), rect.right());
+                y0ui = fl::Op::scale(y0, -bound, bound,
+                        rect.bottom(), rect.top());
+
+                path.moveTo(x0ui, y0ui);
+
+                x1ui = fl::Op::scale(i + 1, 0, _outputs.size(),
+                        rect.left(), rect.right());
+                y1ui = fl::Op::scale(y1, -bound, bound,
+                        rect.bottom(), rect.top());
+
+                path.lineTo(x1ui, y1ui);
+            }
+
             QPen pen;
             pen.setColor(QColor(0, 210, 0, 200));
             pen.setStyle(Qt::SolidLine);
-            pen.setWidth(3);
+            pen.setCapStyle(Qt::RoundCap);
+            pen.setJoinStyle(Qt::MiterJoin);
+            pen.setWidth(5);
 
-            scalar uix0 = fl::nan, uiy0 = fl::nan;
-            scalar uix1 = fl::nan, uiy1 = fl::nan;
-
-            for (std::size_t x = 0; x < _outputs.size() - 1; ++x) {
-                int index = (_outputIndex + x + 1) % _outputs.size();
-                scalar y = _outputs.at(index);
-                if (fl::Op::isNan(y)) continue;
-                if (fl::Op::isNan(uix0)) {
-                    uix0 = fl::Op::scale(x, 0, _outputs.size(),
-                            rect.left(), rect.right());
-                    uiy0 = fl::Op::scale(y, min, max,
-                            rect.bottom(), rect.top());
-                } else {
-                    if (not fl::Op::isNan(uix1)) {
-                        uix0 = uix1;
-                        uiy0 = uiy1;
-                    }
-                    uix1 = fl::Op::scale(x, 0, _outputs.size(),
-                            rect.left(), rect.right());
-                    uiy1 = fl::Op::scale(y, min, max,
-                            rect.bottom(), rect.top());
-                    ui->canvas->scene()->addLine(uix0, uiy0, uix1, uiy1, pen);
-                }
-            }
+            ui->canvas->scene()->addPath(path, pen);
         }
 
         void Control::draw(const fl::Term* term, const QColor& color) {

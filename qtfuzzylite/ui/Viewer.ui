@@ -207,11 +207,8 @@
           <property name="interactive">
            <bool>false</bool>
           </property>
-          <property name="cacheMode">
-           <set>QGraphicsView::CacheNone</set>
-          </property>
-          <property name="viewportUpdateMode">
-           <enum>QGraphicsView::MinimalViewportUpdate</enum>
+          <property name="renderHints">
+           <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform</set>
           </property>
          </widget>
         </item>

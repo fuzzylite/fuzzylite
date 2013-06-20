@@ -37,6 +37,7 @@ namespace fl {
         return "Centroid";
     }
 
+//TODO: check  http://en.wikipedia.org/wiki/Adaptive_quadrature
     scalar Centroid::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
         if (maximum - minimum > _divisions) {
             FL_LOG("[accuracy warning] the number of divisions ( " << _divisions << ") "

@@ -89,12 +89,13 @@ namespace fl {
     TermFactory* Factory::term() const {
         return this->_term;
     }
-    
-    void Factory::setHedge(HedgeFactory* hedge){
+
+    void Factory::setHedge(HedgeFactory* hedge) {
+        if (this->_hedge) delete this->_hedge;
         this->_hedge = hedge;
     }
-    
-    HedgeFactory* Factory::hedge() const{
+
+    HedgeFactory* Factory::hedge() const {
         return this->_hedge;
     }
 

@@ -49,6 +49,7 @@
 #include <QSignalMapper>
 #include <QDateTime>
 #include <QMenuBar>
+#include <QThread>
 
 namespace fl {
     namespace qt {
@@ -88,8 +89,8 @@ namespace fl {
 
 #ifdef Q_OS_MAC
             ui->menuTools->addAction("About qtfuzzylite", this, SLOT(onMenuAbout()));
-//            ui->menuTools->addSeparator();
-//            ui->menuTools->addAction("Preferences...", this, SLOT(onMenuSettings()));
+            //            ui->menuTools->addSeparator();
+            //            ui->menuTools->addAction("Preferences...", this, SLOT(onMenuSettings()));
 #endif
             ui->menuTools->addAction(ui->actionNew);
             ui->menuTools->addSeparator();
@@ -115,8 +116,8 @@ namespace fl {
 #ifndef Q_OS_MAC
             ui->menuTools->addSeparator();
             ui->actionPreferences->setEnabled(false);
-//            ui->menuTools->addAction(ui->actionPreferences);
-//            ui->menuTools->addSeparator();
+            //            ui->menuTools->addAction(ui->actionPreferences);
+            //            ui->menuTools->addSeparator();
             ui->menuTools->addAction(ui->actionAbout);
             ui->menuTools->addSeparator();
             ui->menuTools->addAction(ui->actionQuit);
@@ -322,13 +323,13 @@ namespace fl {
                         ui->cbxTnorm->findText(QString::fromStdString(
                         ruleblock->getTnorm()->className())));
             } else ui->cbxTnorm->setCurrentIndex(-1);
-            
+
             if (ruleblock->getSnorm()) {
                 ui->cbxSnorm->setCurrentIndex(
                         ui->cbxSnorm->findText(QString::fromStdString(
                         ruleblock->getSnorm()->className())));
             } else ui->cbxSnorm->setCurrentIndex(-1);
-            
+
             if (ruleblock->getActivation()) {
                 ui->cbxActivation->setCurrentIndex(
                         ui->cbxActivation->findText(QString::fromStdString(
@@ -1221,8 +1222,9 @@ namespace fl {
         void Window::main() {
             Window* w = mainWindow();
             w->setup();
+            w->showMinimized();
             w->onMenuAbout();
-            w->show();
+            w->showNormal();
         }
 
     }
