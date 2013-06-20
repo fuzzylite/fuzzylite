@@ -50,8 +50,9 @@ namespace fl {
 
     std::string Gaussian::toString() const {
         std::ostringstream ss;
-        ss << std::setprecision(FL_DECIMALS) << std::fixed;
-        ss << className() << " (" << _mean << ", " << _standardDeviation << ")";
+        ss << className()
+                << " (" <<fl::Op::str( _mean) << ", " 
+                << fl::Op::str(_standardDeviation) << ")";
         return ss.str();
     }
 

@@ -70,9 +70,11 @@ namespace fl {
 
     std::string PiShape::toString() const {
         std::ostringstream ss;
-        ss << std::setprecision(FL_DECIMALS) << std::fixed;
-        ss << className() << " (" << _bottomLeft << ", " << _topLeft << ", "
-                << _topRight << ", " << _bottomRight << ")";
+        ss << className() << " ("
+                << fl::Op::str(_bottomLeft) << ", " 
+                << fl::Op::str(_topLeft) << ", "
+                << fl::Op::str(_topRight) << ", "
+                << fl::Op::str(_bottomRight) << ")";
         return ss.str();
     }
 

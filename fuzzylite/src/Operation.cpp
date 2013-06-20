@@ -88,7 +88,7 @@ namespace fl {
     }
 
     scalar Operation::multiplies(scalar a, scalar b) {
-        return a*b;
+        return a * b;
     }
 
     scalar Operation::divides(scalar a, scalar b) {
@@ -217,13 +217,16 @@ namespace fl {
     }
 
     template <typename T>
-    std::string Operation::str(T x, int precision) {
+    std::string Operation::str(T x, int decimals) {
         std::ostringstream ss;
-        ss << std::setprecision(precision) << std::fixed;
-        if (fl::Op::isNan(x)) ss << "nan";
-        else if (fl::Op::isInf(x)) {
-            if (x < 0) ss << "-";
+        ss << std::setprecision(decimals) << std::fixed;
+        if (fl::Op::isNan(x)) {
+            ss << "nan";
+        } else if (fl::Op::isInf(x)) {
+            if (fl::Op::isLt(x, 0.0)) ss << "-";
             ss << "inf";
+        } else if (fl::Op::isEq(x, 0.0)) {
+            ss << std::fabs((x * 0)); //believe it or not, -1.33227e-15 * 0.0 = -0.0
         } else ss << x;
         return ss.str();
     }

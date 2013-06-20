@@ -55,8 +55,9 @@ namespace fl {
 
     std::string Ramp::toString() const {
         std::ostringstream ss;
-        ss << std::setprecision(FL_DECIMALS) << std::fixed;
-        ss << className() << " (" << _start << ", " << _end << ")";
+        ss << className() << " (" 
+                << fl::Op::str(_start) << ", " 
+                << fl::Op::str(_end) << ")";
         return ss.str();
     }
 

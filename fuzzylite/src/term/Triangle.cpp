@@ -61,8 +61,10 @@ namespace fl {
 
     std::string Triangle::toString() const {
         std::ostringstream ss;
-        ss << std::setprecision(FL_DECIMALS) << std::fixed;
-        ss << className() << " (" << _a << ", " << _b << ", " << _c << ")";
+        ss << className() << " (" 
+                << fl::Op::str(_a) << ", " 
+                << fl::Op::str(_b) << ", "
+                << fl::Op::str(_c) << ")";
         return ss.str();
     }
 

@@ -71,10 +71,9 @@ namespace fl {
 
     std::string Linear::toString() const {
         std::ostringstream ss;
-        ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << className() << " (";
         for (std::size_t i = 0; i < coefficients.size(); ++i) {
-            ss << coefficients.at(i);
+            ss << fl::Op::str(coefficients.at(i));
             if (i < coefficients.size() - 1) {
                 ss << ", ";
             }

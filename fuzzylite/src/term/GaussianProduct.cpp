@@ -51,9 +51,11 @@ namespace fl {
 
     std::string GaussianProduct::toString() const {
         std::ostringstream ss;
-        ss << std::setprecision(FL_DECIMALS) << std::fixed;
-        ss << className() << " (" << _meanA << ", " << _standardDeviationA << ", "
-                << _meanB << ", " << _standardDeviationB << ")";
+        ss << className() << " ("
+                << fl::Op::str(_meanA) << ", "
+                << fl::Op::str(_standardDeviationA) << ", "
+                << fl::Op::str(_meanB) << ", "
+                << fl::Op::str(_standardDeviationB) << ")";
         return ss.str();
     }
 

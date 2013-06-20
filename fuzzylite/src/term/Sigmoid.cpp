@@ -47,9 +47,9 @@ namespace fl {
 
     std::string Sigmoid::toString() const {
         std::ostringstream ss;
-        ss << std::setprecision(FL_DECIMALS) << std::fixed;
-        ss << className() << " (" << _inflection << ", " << _slope << ")";
-
+        ss << className() << " (" 
+                << fl::Op::str(_inflection) << ", " 
+                << fl::Op::str(_slope) << ")";
         return ss.str();
     }
 

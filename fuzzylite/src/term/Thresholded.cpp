@@ -51,8 +51,8 @@ namespace fl {
 
     std::string Thresholded::toString() const {
         std::ostringstream ss;
-        ss << std::setprecision(FL_DECIMALS) << std::fixed;
-        ss << className() << " (" << _term->toString() << ") thresholded to " << _threshold
+        ss << className() << " (" << _term->toString() << ") thresholded to " 
+                << fl::Op::str(_threshold)
                 << " using <" << _activation->className() << "> activation";
         return ss.str();
     }

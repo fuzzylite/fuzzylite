@@ -85,7 +85,7 @@ void exampleMamdani() {
         fl::scalar light = ambient->getMinimum() + i * (range / steps);
         ambient->setInput(light);
         engine->process();
-        std::cout << "Ambient.input = " << light << " -> " <<
+        std::cout << "Ambient.input = " << fl::Op::str(light) << " -> " <<
                 "BulbPower.output = " << fl::Op::str(power->defuzzify()) << std::endl;
     }
 }
@@ -163,18 +163,17 @@ void exampleTakagiSugeno() {
         scalar se = (expected - out) * (expected - out);
         if (not fl::Op::isNan(se)) {
             mse += se;
-            r << out << ", ";
+            r << fl::Op::str(out) << ", ";
         }
 
-        FL_LOG("x=" << xValue << "\tout=" << out << "\texpected=" << expected
-                << "\tse=" << se);
+        FL_LOG("x=" << fl::Op::str(xValue)
+                << "\tout=" << fl::Op::str(out)
+                << "\texpected=" << fl::Op::str(expected)
+                << "\tse=" << fl::Op::str(se));
     }
     r << ");";
 
     FL_LOG("MSE=" << mse / n);
-    //    FL_LOG(r.str());
-
-    //    std::cout << FclExporter().toString(engine) << "\n" << std::endl;
 
     std::cout << "\n\n";
 }
@@ -252,7 +251,7 @@ void exampleTakagiSugeno2() {
         fl::scalar light = inputVariable1->getMinimum() + i * (range / steps);
         inputVariable1->setInput(light);
         engine->process();
-        std::cout << "x.input = " << light << " -> " <<
+        std::cout << "x.input = " << fl::Op::str(light) << " -> " <<
                 "x^3.output = " << fl::Op::str(outputVariable1->defuzzify()) << std::endl;
     }
 }
@@ -368,8 +367,8 @@ void exportAllExamples(const std::string& from, const std::string& to) {
 }
 
 void examples() throw (fl::Exception) {
-//    exportAllExamples("fis", "fcl");
-//    return;
+    //    exportAllExamples("fis", "fcl");
+    //    return;
     // foo();
     std::cout << "\nHello, " << fl::fuzzylite::name() << "!\n"
             << "=================\n"
@@ -379,10 +378,9 @@ void examples() throw (fl::Exception) {
             << "Floating-point " << fl::fuzzylite::floatingPoint() << "\n"
             << "Precision is set to " << fl::fuzzylite::precision() << "\n"
             << "Only " << fl::fuzzylite::decimals() << " decimals are printed\n"
-            << std::setprecision(FL_DECIMALS) << std::fixed
-            << "Infinity is printed as: (" << (-fl::inf)
+            << "Infinity is printed as: (" << fl::Op::str(-fl::inf)
             << " , " << fl::inf << ")\n"
-            << "NaN values are printed as: " << fl::nan << "\n"
+            << "NaN values are printed as: " << fl::Op::str(fl::nan) << "\n"
             << "Defuzzifiers by default use " << fl::fuzzylite::defaultDivisions() << " divisions\n";
     if (fl::fuzzylite::logEnabled()) {
         std::cout << "FL_LOG is enabled and prints in console as follows:\n";

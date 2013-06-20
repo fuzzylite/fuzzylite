@@ -135,9 +135,11 @@ namespace fl {
         void Viewer::onClickGraph() {
             std::vector<QAction*> actions;
             QMenu menu(this);
-
-            actions.push_back(new QAction("show/hide", this));
-
+            if (ui->mainWidget->isVisible()) {
+                actions.push_back(new QAction("hide", this));
+            } else {
+                actions.push_back(new QAction("show", this));
+            }
             QSignalMapper signalMapper(this);
             for (std::size_t i = 0; i < actions.size(); ++i) {
                 if (actions.at(i)) {
@@ -163,20 +165,21 @@ namespace fl {
         }
 
         void Viewer::onActionGraph(const QString& action) {
-            if (action == "show/hide") {
-                ui->mainWidget->setVisible(not ui->mainWidget->isVisible());
+            if (action == "show") {
+                ui->mainWidget->setVisible(true);
                 if (ui->mainWidget->isVisible()) {
                     setMinimumSize(0, 0);
                     setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
                     setSizePolicy(QSizePolicy::MinimumExpanding,
                             QSizePolicy::MinimumExpanding);
-
-                } else {
-                    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-                    setFixedHeight(30);
                 }
-                adjustSize();
+            } else { //if (action=="hide") {
+                ui->mainWidget->setVisible(false);
+                setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+                setFixedHeight(30);
             }
+            adjustSize();
+            if (parentWidget()) parentWidget()->adjustSize();
         }
 
         /**

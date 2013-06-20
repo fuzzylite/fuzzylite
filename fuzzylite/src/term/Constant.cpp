@@ -22,7 +22,7 @@ namespace fl {
 
     std::string Constant::toString() const {
         std::ostringstream ss;
-        ss << className() << "(" << this->_value << ")";
+        ss << className() << "(" << fl::Op::str(this->_value) << ")";
         return ss.str();
     }
 

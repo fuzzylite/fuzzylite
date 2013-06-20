@@ -50,8 +50,10 @@ namespace fl {
 
     std::string Bell::toString() const {
         std::ostringstream ss;
-        ss << std::setprecision(FL_DECIMALS) << std::fixed;
-        ss << className() << " (" << _center << ", " << _width << ", " << _slope << ")";
+        ss << className() << " (" << 
+                fl::Op::str(_center) << ", " << 
+                fl::Op::str(_width) << ", " << 
+                fl::Op::str(_slope) << ")";
         return ss.str();
     }
 

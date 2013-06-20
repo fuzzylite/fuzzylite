@@ -98,7 +98,7 @@ namespace fl {
         static bool isNumeric(const std::string& x);
 
         template <typename T>
-        static std::string str(T x, int precision = FL_DECIMALS);
+        static std::string str(T x, int decimals = FL_DECIMALS);
 
         template <typename T>
         static std::string str(const std::vector<T>& x,

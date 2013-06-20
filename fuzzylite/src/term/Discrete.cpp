@@ -124,10 +124,9 @@ namespace fl {
 
     std::string Discrete::toString() const {
         std::ostringstream ss;
-        ss << std::setprecision(FL_DECIMALS) << std::fixed;
         ss << className() << " (";
         for (std::size_t i = 0; i < x.size(); ++i) {
-            ss << x.at(i) << " " << y.at(i);
+            ss << fl::Op::str(x.at(i)) << " " << fl::Op::str(y.at(i));
             if (i < x.size() - 1) ss << ", ";
         }
         ss << ")";

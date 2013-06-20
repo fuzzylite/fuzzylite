@@ -283,7 +283,7 @@ namespace fl {
             return "new fl::" + defuzzifier->className() + "()";
         }
         return "new fl::" + defuzzifier->className() + "("
-                + fl::Op::str((scalar) defuzzifier->getDivisions(), 0) + ")";
+                + fl::Op::str(defuzzifier->getDivisions()) + ")";
     }
 
 }

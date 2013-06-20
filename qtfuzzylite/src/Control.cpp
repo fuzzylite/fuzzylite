@@ -39,7 +39,8 @@ namespace fl {
 
         Control::Control(QWidget* parent, Qt::WindowFlags f) :
         Viewer(parent, f), _outputIndex(0), _viewOutput(false),
-        _isTakagiSugeno(false), _min(fl::nan), _max(fl::nan) { }
+        _isTakagiSugeno(false), _minOutput(fl::nan), _maxOutput(fl::nan),
+        _allowsOutputView(false) { }
 
         Control::~Control() {
             //Exception on reset?
@@ -69,22 +70,30 @@ namespace fl {
                         break;
                     }
                 }
-
-                if (_isTakagiSugeno) {
-                    fl::OutputVariable* outputVariable = dynamic_cast<fl::OutputVariable*> (variable);
-                    _outputs = std::vector<scalar>(
-                            outputVariable->getDefuzzifier()->getDivisions(),
-                            (outputVariable->getMaximum() - outputVariable->getMinimum()) / 2.0);
-                    _outputIndex = 0;
-                    onActionGraph("view output");
-                }
-
             } else if (dynamic_cast<InputVariable*> (variable)) {
                 QObject::connect(this, SIGNAL(valueChanged(double)),
                         this, SLOT(updateInput(double)));
             }
-            _min = variable->getMinimum();
-            _max = variable->getMaximum();
+        }
+
+        void Control::setAllowOutputView(bool allow) {
+            _allowsOutputView = allow;
+            if (_allowsOutputView) {
+                fl::OutputVariable* outputVariable = dynamic_cast<fl::OutputVariable*> (variable);
+                if (outputVariable) {
+                    _outputs = std::vector<scalar>(
+                            outputVariable->getDefuzzifier()->getDivisions(),
+                            (outputVariable->getMaximum() - outputVariable->getMinimum()) / 2.0);
+                    _outputIndex = 0;
+                    _minOutput = variable->getMinimum();
+                    _maxOutput = variable->getMaximum();
+                    if (_isTakagiSugeno) onActionGraph("output view");
+                }
+            }
+        }
+
+        bool Control::allowsOutputView() const {
+            return this->_allowsOutputView;
         }
 
         void Control::updateInput(double value) {
@@ -96,17 +105,37 @@ namespace fl {
 
         void Control::onChangeSliderValue(int position) {
             //            Viewer::onChangeSliderValue(position);
-            //TODO: Check this crazy thing.
             if (not _viewOutput) {
                 Viewer::onChangeSliderValue(position);
             } else {
-                scalar value = fl::Op::scale(position,
+            }
+        }
+
+        void Control::onEditInputValue() {
+            if (not _viewOutput) {
+                Viewer::onEditInputValue();
+            } else {
+                scalar mean = (variable->getMaximum() - variable->getMinimum()) / 2.0;
+                scalar dx = std::max(std::fabs(_maxOutput - mean), std::fabs(_minOutput - mean));
+                scalar min = mean - dx;
+                scalar max = mean + dx;
+
+                scalar value = ui->sbx_x->value();
+                scalar sliderValue = fl::Op::scale(ui->sld_x->value(),
                         ui->sld_x->minimum(), ui->sld_x->maximum(),
-                        _min, _max);
+                        min, max);
+
                 double tolerance = 1.0 / std::pow(10.0, ui->sbx_x->decimals());
-                if (not fl::Op::isEq(value, ui->sbx_x->value(), tolerance)) {
-                    ui->sbx_x->setValue(value);
+                if (not fl::Op::isEq(value, sliderValue, tolerance)) {
+                    int position = (int) fl::Op::scale(value,
+                            min, max,
+                            ui->sld_x->minimum(), ui->sld_x->maximum());
+                    if (position != ui->sld_x->value()) {
+                        ui->sld_x->setValue(position);
+                    }
                 }
+
+                emit valueChanged(value);
             }
         }
 
@@ -121,8 +150,8 @@ namespace fl {
             if (_viewOutput) {
                 _outputs.at(_outputIndex) = y;
                 _outputIndex = (_outputIndex + 1) % _outputs.size();
-                if (y > _max) _max = y;
-                if (y < _min) _min = y;
+                if (y > _maxOutput) _maxOutput = y;
+                if (y < _minOutput) _minOutput = y;
             }
             ui->led_x->setText(QString::number(y, 'f', fl::fuzzylite::decimals()));
             ui->sbx_x->setValue(y);
@@ -139,24 +168,27 @@ namespace fl {
         void Control::onClickGraph() {
             QMenu menu(this);
             std::vector<QAction*> actions;
-            actions.push_back(new QAction("show/hide", this));
+            if (not ui->mainWidget->isVisible()) {
+                actions.push_back(new QAction("show", this));
+            } else {
+                actions.push_back(new QAction("hide", this));
 
-            if (_isTakagiSugeno) {
-                actions.push_back(NULL);
-                QAction* actionView = new QAction("view output", this);
-                if (_viewOutput) {
-                    actionView->setCheckable(true);
-                    actionView->setChecked(true);
+                if (allowsOutputView()) {
+                    actions.push_back(NULL);
+
+                    if (not _isTakagiSugeno) {
+                        QAction* actionView = new QAction("output view", this);
+                        if (_viewOutput) {
+                            actionView->setCheckable(true);
+                            actionView->setChecked(true);
+                        }
+                        actions.push_back(actionView);
+                    }
+
+                    if (_viewOutput) actions.push_back(new QAction("clear", this));
                 }
-
-
-                actions.push_back(actionView);
-
-                QAction* actionClear = new QAction("clear", this);
-                actionClear->setEnabled(_viewOutput);
-
-                actions.push_back(actionClear);
             }
+
             QSignalMapper signalMapper(this);
             for (std::size_t i = 0; i < actions.size(); ++i) {
                 if (actions.at(i)) {
@@ -182,17 +214,23 @@ namespace fl {
         }
 
         void Control::onActionGraph(const QString& action) {
-            if (action == "show/hide") {
-                ui->mainWidget->setVisible(not ui->mainWidget->isVisible());
+            if (action == "show") {
+                ui->mainWidget->setVisible(true);
                 if (ui->mainWidget->isVisible()) {
+                    setMinimumSize(0, 0);
+                    setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
                     setSizePolicy(QSizePolicy::MinimumExpanding,
-                            QSizePolicy::Minimum);
-                } else {
-                    setSizePolicy(QSizePolicy::Minimum,
-                            QSizePolicy::Minimum);
+                            QSizePolicy::MinimumExpanding);
+                    adjustSize();
+                    if (parentWidget()) parentWidget()->adjustSize();
                 }
+            } else if (action == "hide") {
+                ui->mainWidget->setVisible(false);
+                setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+                setFixedHeight(30);
                 adjustSize();
-            } else if (action == "view output") {
+                if (parentWidget()) parentWidget()->adjustSize();
+            } else if (action == "output view") {
                 _viewOutput = not _viewOutput;
                 if (_viewOutput) {
                     ui->mainLayout->removeWidget(ui->sld_x);
@@ -212,10 +250,10 @@ namespace fl {
                         outputVariable->getDefuzzifier()->getDivisions(),
                         (outputVariable->getMaximum() - outputVariable->getMinimum()) / 2.0);
                 _outputIndex = 0;
-                _min = outputVariable->getMinimum();
-                _max = outputVariable->getMaximum();
+                _minOutput = outputVariable->getMinimum();
+                _maxOutput = outputVariable->getMaximum();
+                ui->sbx_x->setValue((_maxOutput - _minOutput) / 2.0);
             }
-
 
             refresh();
         }
@@ -251,17 +289,11 @@ namespace fl {
                 _outputIndex = replace.size() - 1;
             }
 
-            //            scalar mean = (outputVariable->getMaximum() - outputVariable->getMinimum()) / 2.0;
-            //            scalar dx = std::max(std::fabs(max - mean), std::fabs(min - mean));
-            //            min = mean - dx;
-            //            max = mean + dx;
 
-//            scalar mean = (outputVariable->getMaximum() - outputVariable->getMinimum()) / 2.0;
-//            scalar dx = std::max(std::fabs(max - mean), std::fabs(min - mean));
-//            min = mean - dx;
-//            max = mean + dx;
-            
-            scalar bound = std::max(std::fabs(_min), std::fabs(_max));
+            scalar mean = (outputVariable->getMaximum() - outputVariable->getMinimum()) / 2.0;
+            scalar dx = std::max(std::fabs(_maxOutput - mean), std::fabs(_minOutput - mean));
+            scalar min = mean - dx;
+            scalar max = mean + dx;
 
             ui->canvas->scene()->clear();
             ui->canvas->scene()->setSceneRect(ui->canvas->viewport()->rect());
@@ -278,14 +310,14 @@ namespace fl {
 
                 x0ui = fl::Op::scale(i, 0, _outputs.size(),
                         rect.left(), rect.right());
-                y0ui = fl::Op::scale(y0, -bound, bound,
+                y0ui = fl::Op::scale(y0, min, max,
                         rect.bottom(), rect.top());
 
                 path.moveTo(x0ui, y0ui);
 
                 x1ui = fl::Op::scale(i + 1, 0, _outputs.size(),
                         rect.left(), rect.right());
-                y1ui = fl::Op::scale(y1, -bound, bound,
+                y1ui = fl::Op::scale(y1, min, max,
                         rect.bottom(), rect.top());
 
                 path.lineTo(x1ui, y1ui);

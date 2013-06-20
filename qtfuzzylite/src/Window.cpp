@@ -379,7 +379,7 @@ namespace fl {
             Engine* engine = Model::Default()->engine();
             QLayout* layout = ui->grx_test_inputs->layout();
             for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
-                Control* control = new Control;
+                Control* control = new Control(ui->grx_test_inputs);
                 control->setup(engine->getInputVariable(i));
                 control->ui->bottom_line->setVisible(i != engine->numberOfInputVariables() - 1);
                 layout->addWidget(control);
@@ -411,8 +411,9 @@ namespace fl {
             layout = ui->grx_test_outputs->layout();
             //Outputs
             for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-                Control* control = new Control;
+                Control* control = new Control(ui->grx_test_outputs);
                 control->setup(engine->getOutputVariable(i));
+                control->setAllowOutputView(true);
                 control->ui->bottom_line->setVisible(i != engine->numberOfOutputVariables() - 1);
                 layout->addWidget(control);
 

@@ -28,11 +28,9 @@ namespace fl {
 
     Trapezoid::Trapezoid(const std::string& name, scalar a, scalar b, scalar c,
             scalar d)
-    : Term(name), _a(a), _b(b), _c(c), _d(d) {
-    }
+    : Term(name), _a(a), _b(b), _c(c), _d(d) { }
 
-    Trapezoid::~Trapezoid() {
-    }
+    Trapezoid::~Trapezoid() { }
 
     std::string Trapezoid::className() const {
         return "Trapezoid";
@@ -44,7 +42,7 @@ namespace fl {
 
     scalar Trapezoid::membership(scalar x) const {
         if (fl::Op::isNan(x)) return fl::nan;
-        
+
         scalar minimum = _a;
         scalar maximum = _d;
         if (Op::isLt(x, minimum) or Op::isGt(x, maximum))
@@ -60,9 +58,11 @@ namespace fl {
 
     std::string Trapezoid::toString() const {
         std::ostringstream ss;
-        ss << std::setprecision(FL_DECIMALS) << std::fixed;
-        ss << className() << " (" << _a << ", " << _b << ", " << _c << ", "
-                << _d << ")";
+        ss << className() << " ("
+                << fl::Op::str(_a) << ", "
+                << fl::Op::str(_b) << ", "
+                << fl::Op::str(_c) << ", "
+                << fl::Op::str(_d) << ")";
         return ss.str();
     }
 

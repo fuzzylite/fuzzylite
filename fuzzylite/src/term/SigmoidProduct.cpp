@@ -49,9 +49,11 @@ namespace fl {
 
     std::string SigmoidProduct::toString() const {
         std::ostringstream ss;
-        ss << std::setprecision(FL_DECIMALS) << std::fixed;
-        ss << "SigmoidProduct (" << _left << ", " << _rising << ", "
-                << _falling << ", " << _right << ")";
+        ss << "SigmoidProduct (" 
+                << fl::Op::str(_left) << ", "
+                << fl::Op::str(_rising) << ", "
+                << fl::Op::str(_falling) << ", " 
+                << fl::Op::str(_right) << ")";
         return ss.str();
     }
 

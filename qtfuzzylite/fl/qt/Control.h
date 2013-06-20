@@ -44,13 +44,15 @@ namespace fl {
             int _outputIndex;
             bool _viewOutput;
             bool _isTakagiSugeno;
-            scalar _min, _max;
+            scalar _minOutput, _maxOutput;
+            bool _allowsOutputView;
         protected slots:
             void updateInput(double value);
             void updateOutput();
             void onChangeSliderValue(int position);
-            virtual void onClickGraph();
-            virtual void onActionGraph(const QString& action);
+            void onEditInputValue();
+            void onClickGraph();
+            void onActionGraph(const QString& action);
         public:
             fl::Variable* variable;
 
@@ -58,6 +60,8 @@ namespace fl {
             virtual ~Control();
 
             void setup(const fl::Variable* variable);
+            void setAllowOutputView(bool allow);
+            bool allowsOutputView() const;
 
         public slots:
             virtual void refresh();

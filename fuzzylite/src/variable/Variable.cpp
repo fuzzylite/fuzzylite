@@ -32,8 +32,7 @@
 namespace fl {
 
     Variable::Variable(const std::string& name, scalar minimum, scalar maximum)
-    : _name(name), _minimum(minimum), _maximum(maximum) {
-    }
+    : _name(name), _minimum(minimum), _maximum(maximum) { }
 
     Variable::Variable(const Variable& copy) {
         for (int i = 0; i < copy.numberOfTerms(); ++i) {
@@ -47,7 +46,6 @@ namespace fl {
         }
     }
 
-
     void Variable::setName(const std::string& name) {
         this->_name = name;
     }
@@ -56,7 +54,7 @@ namespace fl {
         return this->_name;
     }
 
-    void Variable::setRange(scalar minimum, scalar maximum){
+    void Variable::setRange(scalar minimum, scalar maximum) {
         this->_minimum = minimum;
         this->_maximum = maximum;
     }
@@ -79,7 +77,6 @@ namespace fl {
 
     std::string Variable::fuzzify(scalar x) const {
         std::ostringstream ss;
-        ss << std::setprecision(FL_DECIMALS) << std::fixed;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             ss << fl::Op::str(_terms.at(i)->membership(x)) << "/" << _terms.at(i)->getName();
             if (i < _terms.size() - 1)
