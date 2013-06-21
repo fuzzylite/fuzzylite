@@ -50,7 +50,7 @@
 #include <QDateTime>
 #include <QMenuBar>
 #include <QThread>
-
+#include <QSplashScreen>
 namespace fl {
     namespace qt {
 
@@ -1221,11 +1221,18 @@ namespace fl {
         }
 
         void Window::main() {
+            QPixmap pixmap(":/qtfuzzylite.png");
+            QSplashScreen splash(pixmap);
+            
+            splash.setEnabled(false);
+            splash.show();
+            
             Window* w = mainWindow();
             w->setup();
             w->showMinimized();
+            splash.finish(w);
             w->onMenuAbout();
-            w->showNormal();
+            w->activateWindow();
         }
 
     }

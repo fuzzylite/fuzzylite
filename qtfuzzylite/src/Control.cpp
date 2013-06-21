@@ -83,7 +83,7 @@ namespace fl {
                 if (outputVariable) {
                     _outputs = std::vector<scalar>(
                             outputVariable->getDefuzzifier()->getDivisions(),
-                            (outputVariable->getMaximum() - outputVariable->getMinimum()) / 2.0);
+                            (outputVariable->getMaximum() + outputVariable->getMinimum()) / 2.0);
                     _outputIndex = 0;
                     _minOutput = variable->getMinimum();
                     _maxOutput = variable->getMaximum();
@@ -115,8 +115,8 @@ namespace fl {
             if (not _viewOutput) {
                 Viewer::onEditInputValue();
             } else {
-                scalar mean = (variable->getMaximum() - variable->getMinimum()) / 2.0;
-                scalar dx = std::max(std::fabs(_maxOutput - mean), std::fabs(_minOutput - mean));
+                scalar mean = (variable->getMaximum() + variable->getMinimum()) / 2.0;
+                scalar dx = std::max(std::fabs(_maxOutput), std::fabs(_minOutput));
                 scalar min = mean - dx;
                 scalar max = mean + dx;
 
@@ -205,6 +205,7 @@ namespace fl {
                     this, SLOT(onActionGraph(const QString &)));
 
             menu.exec(QCursor::pos() + QPoint(1, 0));
+
             for (std::size_t i = 0; i < actions.size(); ++i) {
                 if (actions.at(i)) {
                     actions.at(i)->deleteLater();
@@ -248,11 +249,11 @@ namespace fl {
                         dynamic_cast<fl::OutputVariable*> (variable);
                 _outputs = std::vector<scalar>(
                         outputVariable->getDefuzzifier()->getDivisions(),
-                        (outputVariable->getMaximum() - outputVariable->getMinimum()) / 2.0);
+                        (outputVariable->getMaximum() + outputVariable->getMinimum()) / 2.0);
                 _outputIndex = 0;
                 _minOutput = outputVariable->getMinimum();
                 _maxOutput = outputVariable->getMaximum();
-                ui->sbx_x->setValue((_maxOutput - _minOutput) / 2.0);
+                ui->sbx_x->setValue((_maxOutput + _minOutput) / 2.0);
             }
 
             refresh();
@@ -290,10 +291,13 @@ namespace fl {
             }
 
 
-            scalar mean = (outputVariable->getMaximum() - outputVariable->getMinimum()) / 2.0;
-            scalar dx = std::max(std::fabs(_maxOutput - mean), std::fabs(_minOutput - mean));
+            scalar mean = (outputVariable->getMaximum() + outputVariable->getMinimum()) / 2.0;
+            scalar dx = std::max(std::fabs(_maxOutput), std::fabs(_minOutput));
             scalar min = mean - dx;
             scalar max = mean + dx;
+
+            ui->lbl_min->setText(QString::fromStdString(fl::Op::str(min)));
+            ui->lbl_max->setText(QString::fromStdString(fl::Op::str(max)));
 
             ui->canvas->scene()->clear();
             ui->canvas->scene()->setSceneRect(ui->canvas->viewport()->rect());

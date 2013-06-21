@@ -164,7 +164,7 @@
          <item>
           <widget class="QCheckBox" name="chx_auto_generate">
            <property name="text">
-            <string>auto-generate</string>
+            <string>automatic</string>
            </property>
            <property name="checked">
             <bool>true</bool>

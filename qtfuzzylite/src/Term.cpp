@@ -127,6 +127,7 @@ namespace fl {
 
             viewer = new Viewer;
             viewer->setup(dummyVariable);
+            viewer->enablePropertiesButton(false);
             ui->toolboxLayout->insertWidget(0, viewer);
             //            viewer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             //            ui->splitter->insertWidget(0, viewer);

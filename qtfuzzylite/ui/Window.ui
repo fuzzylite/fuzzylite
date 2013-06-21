@@ -443,8 +443,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>186</width>
-         <height>222</height>
+         <width>553</width>
+         <height>408</height>
         </rect>
        </property>
        <attribute name="label">
@@ -539,8 +539,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>100</width>
-                        <height>30</height>
+                        <width>262</width>
+                        <height>98</height>
                        </rect>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -552,9 +552,6 @@
                        </property>
                        <item>
                         <widget class="QGroupBox" name="grx_test_inputs">
-                         <property name="autoFillBackground">
-                          <bool>true</bool>
-                         </property>
                          <layout class="QVBoxLayout" name="verticalLayout_8">
                           <property name="spacing">
                            <number>0</number>
@@ -632,8 +629,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>100</width>
-                        <height>30</height>
+                        <width>261</width>
+                        <height>98</height>
                        </rect>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -645,9 +642,6 @@
                        </property>
                        <item>
                         <widget class="QGroupBox" name="grx_test_outputs">
-                         <property name="autoFillBackground">
-                          <bool>true</bool>
-                         </property>
                          <layout class="QVBoxLayout" name="verticalLayout_15">
                           <property name="margin">
                            <number>0</number>
@@ -900,7 +894,7 @@
      <normaloff>:/about.png</normaloff>:/about.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;About qtfuzzylite</string>
+    <string>&amp;About...</string>
    </property>
    <property name="toolTip">
     <string>About qtfuzzylite</string>

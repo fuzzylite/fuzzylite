@@ -68,6 +68,7 @@ namespace fl {
             ui->splitter2->setSizes(sizes);
 
             viewer->setup(variable);
+            viewer->enablePropertiesButton(false);
             ui->splitter->addWidget(viewer);
             setWindowTitle("Add variable");
 

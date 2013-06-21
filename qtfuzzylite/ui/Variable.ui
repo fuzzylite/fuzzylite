@@ -243,7 +243,7 @@
          <item>
           <widget class="QToolButton" name="btn_sort_centroid">
            <property name="toolTip">
-            <string>Sort all terms by centroid</string>
+            <string>Sort terms by centroid</string>
            </property>
            <property name="text">
             <string/>
@@ -266,7 +266,7 @@
             <bool>false</bool>
            </property>
            <property name="toolTip">
-            <string>Shift selected terms up</string>
+            <string>Move selected terms up</string>
            </property>
            <property name="text">
             <string/>
@@ -286,7 +286,7 @@
             <bool>false</bool>
            </property>
            <property name="toolTip">
-            <string>Shift selected terms down</string>
+            <string>Move selected terms down</string>
            </property>
            <property name="text">
             <string/>

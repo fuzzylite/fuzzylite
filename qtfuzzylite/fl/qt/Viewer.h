@@ -58,6 +58,7 @@ namespace fl {
             void valueChanged(double);
 
         protected:
+            
             virtual void connect();
             virtual void disconnect();
             virtual void showEvent(QShowEvent*);
@@ -68,11 +69,13 @@ namespace fl {
         public:
             const fl::Variable* constVariable;
             Ui::Viewer* ui;
-
+            
             Viewer(QWidget* parent = NULL, Qt::WindowFlags f = 0);
             virtual ~Viewer();
 
             virtual void setup(const fl::Variable* variable);
+            
+            virtual void enablePropertiesButton(bool show);
 
             virtual void draw();
             virtual void draw(const fl::Term* term, const QColor& color = QColor(0, 210, 0, 200));

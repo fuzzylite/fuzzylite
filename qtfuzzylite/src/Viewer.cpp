@@ -60,6 +60,8 @@ namespace fl {
             this->constVariable = model;
             ui->setupUi(this);
             ui->sbx_x->setSingleStep((model->getMaximum() - model->getMinimum()) / 100);
+            ui->sbx_x->setDecimals(fl::fuzzylite::decimals());
+            
             ui->lbl_name->setText(QString::fromStdString(model->getName()));
             if (constVariable->getName().empty())
                 ui->lbl_name->setVisible(false);
@@ -69,6 +71,7 @@ namespace fl {
             ui->canvas->setRenderHints(QPainter::Antialiasing
                     | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing |
                     QPainter::NonCosmeticDefaultPen);
+            ui->canvas->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
             ui->canvas->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->canvas->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             ui->sbx_x->setFocus();
@@ -130,6 +133,10 @@ namespace fl {
 
         void Viewer::resizeEvent(QResizeEvent*) {
             refresh();
+        }
+
+        void Viewer::enablePropertiesButton(bool show) {
+            ui->btn_properties->setVisible(show);
         }
 
         void Viewer::onClickGraph() {
@@ -235,8 +242,8 @@ namespace fl {
             scalar y = 0;
             constVariable->highestMembership(x, &y);
 
-            ui->lbl_min->setText(QString::number(constVariable->getMinimum(), 'f', 2));
-            ui->lbl_max->setText(QString::number(constVariable->getMaximum(), 'f', 2));
+            ui->lbl_min->setText(QString::fromStdString(fl::Op::str(constVariable->getMinimum())));
+            ui->lbl_max->setText(QString::fromStdString(fl::Op::str(constVariable->getMaximum())));
 
             QString fuzzify = QString::fromStdString(constVariable->fuzzify(x));
 
