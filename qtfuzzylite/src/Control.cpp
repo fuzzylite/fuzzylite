@@ -62,6 +62,9 @@ namespace fl {
                 ui->lbl_fuzzy->setVisible(false);
                 ui->btn_properties->setVisible(true);
 
+                _minOutput = variable->getMinimum();
+                _maxOutput = variable->getMaximum();
+
                 _isTakagiSugeno = false;
                 for (int i = 0; i < variable->numberOfTerms(); ++i) {
                     if (variable->getTerm(i)->className() == Constant().className() or
@@ -115,11 +118,10 @@ namespace fl {
             if (not _viewOutput) {
                 Viewer::onEditInputValue();
             } else {
-                scalar mean = (variable->getMaximum() + variable->getMinimum()) / 2.0;
-                scalar dx = std::max(std::fabs(_maxOutput), std::fabs(_minOutput));
-                scalar min = mean - dx;
-                scalar max = mean + dx;
 
+                scalar min = fl::Op::min(_minOutput, variable->getMinimum());
+                scalar max = fl::Op::max(_maxOutput, variable->getMaximum());
+                
                 scalar value = ui->sbx_x->value();
                 scalar sliderValue = fl::Op::scale(ui->sld_x->value(),
                         ui->sld_x->minimum(), ui->sld_x->maximum(),
@@ -291,10 +293,8 @@ namespace fl {
             }
 
 
-            scalar mean = (outputVariable->getMaximum() + outputVariable->getMinimum()) / 2.0;
-            scalar dx = std::max(std::fabs(_maxOutput), std::fabs(_minOutput));
-            scalar min = mean - dx;
-            scalar max = mean + dx;
+            scalar min = fl::Op::min(_minOutput, outputVariable->getMinimum());
+            scalar max = fl::Op::max(_maxOutput, outputVariable->getMaximum());
 
             ui->lbl_min->setText(QString::fromStdString(fl::Op::str(min)));
             ui->lbl_max->setText(QString::fromStdString(fl::Op::str(max)));
@@ -332,7 +332,7 @@ namespace fl {
             pen.setStyle(Qt::SolidLine);
             pen.setCapStyle(Qt::RoundCap);
             pen.setJoinStyle(Qt::MiterJoin);
-            pen.setWidth(5);
+            pen.setWidth(3);
 
             ui->canvas->scene()->addPath(path, pen);
         }

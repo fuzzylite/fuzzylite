@@ -61,7 +61,7 @@ namespace fl {
             ui->setupUi(this);
             ui->sbx_x->setSingleStep((model->getMaximum() - model->getMinimum()) / 100);
             ui->sbx_x->setDecimals(fl::fuzzylite::decimals());
-            
+
             ui->lbl_name->setText(QString::fromStdString(model->getName()));
             if (constVariable->getName().empty())
                 ui->lbl_name->setVisible(false);

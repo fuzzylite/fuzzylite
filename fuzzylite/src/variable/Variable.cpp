@@ -79,7 +79,7 @@ namespace fl {
         std::ostringstream ss;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             ss << fl::Op::str(_terms.at(i)->membership(x)) << "/" << _terms.at(i)->getName();
-            if (i < _terms.size() - 1)
+            if (i + 1 < _terms.size())
                 ss << " + ";
         }
         return ss.str();

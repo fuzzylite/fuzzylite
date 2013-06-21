@@ -211,6 +211,7 @@ namespace fl {
                         (dummyVariable->getMaximum() - dummyVariable->getMinimum()) / 100);
                 _sbx.at(i)->setAlignment(Qt::AlignHCenter);
                 _sbx.at(i)->setAccelerated(true);
+                _sbx.at(i)->setDecimals(fl::fuzzylite::decimals());
             }
 
             for (std::size_t i = 0; i < _basicTerms.size(); ++i) {
@@ -244,7 +245,7 @@ namespace fl {
 
         void Term::accept() {
             dummyVariable->getTerm(indexOfEditingTerm)->setName(
-                    fl::Op::format(ui->led_name->text().toStdString(), 
+                    fl::Op::format(ui->led_name->text().toStdString(),
                     fl::Op::isValidForName));
             QDialog::accept();
         }
@@ -1101,8 +1102,10 @@ namespace fl {
                 std::ostringstream xy;
                 int size = std::min(term->x.size(), term->y.size());
                 for (int i = 0; i < size; ++i) {
-                    xy << "(" << term->x.at(i) << "," << term->y.at(i) << ")";
-                    if (i < size - 1) xy << " ";
+                    xy << "("
+                            << fl::Op::str(term->x.at(i)) << ", "
+                            << fl::Op::str(term->y.at(i)) << ")";
+                    if (i + 1 < size) xy << "\n";
                 }
 
                 ui->ptx_discrete->setPlainText(QString::fromStdString(xy.str()));
@@ -1219,7 +1222,7 @@ namespace fl {
                 const Linear* term = dynamic_cast<const Linear*> (x);
                 ui->lst_variables->clear();
                 ui->lst_coefficients->clear();
-                
+
                 for (std::size_t i = 0; i < term->inputVariables.size(); ++i) {
                     QListWidgetItem* item = new QListWidgetItem(QString::fromStdString(
                             term->inputVariables.at(i)->getName()));
