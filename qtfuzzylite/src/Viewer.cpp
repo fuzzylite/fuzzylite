@@ -31,6 +31,7 @@
 
 #include "fl/qt/Window.h"
 #include "fl/qt/Settings.h"
+#include "fl/qt/qtfuzzylite.h"
 
 #include <QGraphicsPolygonItem>
 
@@ -59,8 +60,9 @@ namespace fl {
         void Viewer::setup(const fl::Variable* model) {
             this->constVariable = model;
             ui->setupUi(this);
-            ui->sbx_x->setSingleStep((model->getMaximum() - model->getMinimum()) / 100);
-            ui->sbx_x->setDecimals(fl::fuzzylite::decimals());
+            ui->sbx_x->setSingleStep(fl::Op::max(0.01,
+                    model->getMaximum() - model->getMinimum()) / 100);
+            ui->sbx_x->setDecimals(qtfuzzylite::decimals());
 
             ui->lbl_name->setText(QString::fromStdString(model->getName()));
             if (constVariable->getName().empty())
@@ -140,53 +142,11 @@ namespace fl {
         }
 
         void Viewer::onClickGraph() {
-            std::vector<QAction*> actions;
-            QMenu menu(this);
-            if (ui->mainWidget->isVisible()) {
-                actions.push_back(new QAction("hide", this));
-            } else {
-                actions.push_back(new QAction("show", this));
-            }
-            QSignalMapper signalMapper(this);
-            for (std::size_t i = 0; i < actions.size(); ++i) {
-                if (actions.at(i)) {
-                    signalMapper.setMapping(actions.at(i), actions.at(i)->text());
-                    QObject::connect(actions.at(i), SIGNAL(triggered()),
-                            &signalMapper, SLOT(map()));
-
-                    menu.addAction(actions.at(i));
-                } else {
-                    menu.addSeparator();
-                }
-            }
-            QObject::connect(&signalMapper, SIGNAL(mapped(const QString &)),
-                    this, SLOT(onActionGraph(const QString &)));
-
-            menu.exec(QCursor::pos() + QPoint(1, 0));
-            for (std::size_t i = 0; i < actions.size(); ++i) {
-                if (actions.at(i)) {
-                    actions.at(i)->deleteLater();
-                }
-            }
-            ui->btn_properties->setChecked(false);
+            //do nothing.
         }
 
         void Viewer::onActionGraph(const QString& action) {
-            if (action == "show") {
-                ui->mainWidget->setVisible(true);
-                if (ui->mainWidget->isVisible()) {
-                    setMinimumSize(0, 0);
-                    setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-                    setSizePolicy(QSizePolicy::MinimumExpanding,
-                            QSizePolicy::MinimumExpanding);
-                }
-            } else { //if (action=="hide") {
-                ui->mainWidget->setVisible(false);
-                setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-                setFixedHeight(30);
-            }
-            adjustSize();
-            if (parentWidget()) parentWidget()->adjustSize();
+            //do nothing
         }
 
         /**
@@ -242,10 +202,13 @@ namespace fl {
             scalar y = 0;
             constVariable->highestMembership(x, &y);
 
-            ui->lbl_min->setText(QString::fromStdString(fl::Op::str(constVariable->getMinimum())));
-            ui->lbl_max->setText(QString::fromStdString(fl::Op::str(constVariable->getMaximum())));
+            ui->lbl_min->setText(QString::fromStdString(
+                    fl::Op::str(constVariable->getMinimum(), qtfuzzylite::decimals())));
+            ui->lbl_max->setText(QString::fromStdString(
+                    fl::Op::str(constVariable->getMaximum(), qtfuzzylite::decimals())));
 
-            QString fuzzify = QString::fromStdString(constVariable->fuzzify(x));
+            QString fuzzify = QString::fromStdString(
+                    constVariable->fuzzify(x, qtfuzzylite::decimals()));
 
             ui->lbl_fuzzy->setText("&#956;=" + fuzzify);
             ui->lbl_name->setText(QString::fromStdString(constVariable->getName()));

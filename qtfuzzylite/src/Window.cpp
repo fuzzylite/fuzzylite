@@ -355,10 +355,6 @@ namespace fl {
                 delete item;
             }
 
-            //Rules
-            ui->lsw_test_rules->clear();
-            ui->lsw_test_rules_activation->clear();
-
             //Outputs
             layout = ui->grx_test_outputs->layout();
             for (int i = layout->count() - 1; i >= 0; --i) {
@@ -372,6 +368,10 @@ namespace fl {
                 delete item->widget();
                 delete item;
             }
+
+            //Rules
+            ui->lsw_test_rules->clear();
+            ui->lsw_test_rules_activation->clear();
         }
 
         void Window::reloadTest() {
@@ -387,6 +387,19 @@ namespace fl {
                 QObject::connect(control, SIGNAL(valueChanged(double)),
                         this, SLOT(onInputValueChanged()));
 
+            }
+
+            layout = ui->grx_test_outputs->layout();
+            //Outputs
+            for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+                Control* control = new Control(ui->grx_test_outputs);
+                control->setup(engine->getOutputVariable(i));
+                control->setAllowOutputView(true);
+                control->ui->bottom_line->setVisible(i != engine->numberOfOutputVariables() - 1);
+                layout->addWidget(control);
+
+                QObject::connect(this, SIGNAL(processOutput()),
+                        control, SLOT(updateOutput()), Qt::QueuedConnection);
             }
 
             //Rules
@@ -407,19 +420,7 @@ namespace fl {
                 item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
                 ui->lsw_test_rules_activation->addItem(item);
             }
-
-            layout = ui->grx_test_outputs->layout();
-            //Outputs
-            for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-                Control* control = new Control(ui->grx_test_outputs);
-                control->setup(engine->getOutputVariable(i));
-                control->setAllowOutputView(true);
-                control->ui->bottom_line->setVisible(i != engine->numberOfOutputVariables() - 1);
-                layout->addWidget(control);
-
-                QObject::connect(this, SIGNAL(processOutput()),
-                        control, SLOT(updateOutput()), Qt::QueuedConnection);
-            }
+            ui->grx_test_inputs->adjustSize();
         }
 
         void Window::removeRules() {
@@ -1223,10 +1224,10 @@ namespace fl {
         void Window::main() {
             QPixmap pixmap(":/qtfuzzylite.png");
             QSplashScreen splash(pixmap);
-            
+
             splash.setEnabled(false);
             splash.show();
-            
+
             Window* w = mainWindow();
             w->setup();
             w->showMinimized();

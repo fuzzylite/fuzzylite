@@ -75,12 +75,17 @@ namespace fl {
         return this->_maximum;
     }
 
-    std::string Variable::fuzzify(scalar x) const {
+    std::string Variable::fuzzify(scalar x, int decimals) const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
-            ss << fl::Op::str(_terms.at(i)->membership(x)) << "/" << _terms.at(i)->getName();
-            if (i + 1 < _terms.size())
-                ss << " + ";
+            scalar fx = _terms.at(i)->membership(x);
+            if (i == 0){
+                ss << fl::Op::str(fx, decimals);
+            }else{
+                if (fl::Op::isGE(fx, 0.0)) ss << " + " << fl::Op::str(fx, decimals);
+                else ss << " - " << fl::Op::str(std::fabs(fx), decimals);
+            }
+            ss  << "/" << _terms.at(i)->getName();
         }
         return ss.str();
     }

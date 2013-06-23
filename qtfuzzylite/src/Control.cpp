@@ -27,6 +27,7 @@
 
 #include "fl/qt/Control.h"
 
+#include "fl/qt/qtfuzzylite.h"
 
 #include <QMessageBox>
 #include <QMenu>
@@ -85,7 +86,7 @@ namespace fl {
                 fl::OutputVariable* outputVariable = dynamic_cast<fl::OutputVariable*> (variable);
                 if (outputVariable) {
                     _outputs = std::vector<scalar>(
-                            outputVariable->getDefuzzifier()->getDivisions(),
+                            fl::fuzzylite::defaultDivisions(),
                             (outputVariable->getMaximum() + outputVariable->getMinimum()) / 2.0);
                     _outputIndex = 0;
                     _minOutput = variable->getMinimum();
@@ -121,7 +122,7 @@ namespace fl {
 
                 scalar min = fl::Op::min(_minOutput, variable->getMinimum());
                 scalar max = fl::Op::max(_maxOutput, variable->getMaximum());
-                
+
                 scalar value = ui->sbx_x->value();
                 scalar sliderValue = fl::Op::scale(ui->sld_x->value(),
                         ui->sld_x->minimum(), ui->sld_x->maximum(),
@@ -152,13 +153,17 @@ namespace fl {
             if (_viewOutput) {
                 _outputs.at(_outputIndex) = y;
                 _outputIndex = (_outputIndex + 1) % _outputs.size();
-                if (y > _maxOutput) _maxOutput = y;
-                if (y < _minOutput) _minOutput = y;
+                if (not (fl::Op::isNan(y) or fl::Op::isInf(y))) {
+                    if (y > _maxOutput) _maxOutput = y;
+                    if (y < _minOutput) _minOutput = y;
+                }
             }
-            ui->led_x->setText(QString::number(y, 'f', fl::fuzzylite::decimals()));
+            ui->led_x->setText(QString::fromStdString(
+                    fl::Op::str(y, qtfuzzylite::decimals())));
             ui->sbx_x->setValue(y);
 
-            QString fuzzify = QString::fromStdString(outputVariable->fuzzify(y));
+            QString fuzzify = QString::fromStdString(
+                    outputVariable->fuzzify(y, qtfuzzylite::decimals()));
             ui->lbl_fuzzy_out->setText("&#956;=" + fuzzify);
 
             refresh();
@@ -170,10 +175,10 @@ namespace fl {
         void Control::onClickGraph() {
             QMenu menu(this);
             std::vector<QAction*> actions;
-            if (not ui->mainWidget->isVisible()) {
-                actions.push_back(new QAction("show", this));
+            if (not ui->wdg_canvas->isVisible()) {
+                actions.push_back(new QAction("maximize", this));
             } else {
-                actions.push_back(new QAction("hide", this));
+                actions.push_back(new QAction("minimize", this));
 
                 if (allowsOutputView()) {
                     actions.push_back(NULL);
@@ -204,7 +209,7 @@ namespace fl {
                 }
             }
             QObject::connect(&signalMapper, SIGNAL(mapped(const QString &)),
-                    this, SLOT(onActionGraph(const QString &)));
+                    this, SLOT(onActionGraph(const QString &)), Qt::QueuedConnection);
 
             menu.exec(QCursor::pos() + QPoint(1, 0));
 
@@ -217,22 +222,15 @@ namespace fl {
         }
 
         void Control::onActionGraph(const QString& action) {
-            if (action == "show") {
-                ui->mainWidget->setVisible(true);
-                if (ui->mainWidget->isVisible()) {
-                    setMinimumSize(0, 0);
-                    setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-                    setSizePolicy(QSizePolicy::MinimumExpanding,
-                            QSizePolicy::MinimumExpanding);
-                    adjustSize();
-                    if (parentWidget()) parentWidget()->adjustSize();
-                }
-            } else if (action == "hide") {
-                ui->mainWidget->setVisible(false);
-                setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-                setFixedHeight(30);
-                adjustSize();
-                if (parentWidget()) parentWidget()->adjustSize();
+            //            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            if (action == "maximize") {
+                ui->wdg_canvas->setVisible(true);
+                ui->wdg_out->setVisible(true);
+                setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            } else if (action == "minimize") {
+                ui->wdg_canvas->setVisible(false);
+                ui->wdg_out->setVisible(false);
+                setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
             } else if (action == "output view") {
                 _viewOutput = not _viewOutput;
                 if (_viewOutput) {
@@ -250,14 +248,16 @@ namespace fl {
                 fl::OutputVariable* outputVariable =
                         dynamic_cast<fl::OutputVariable*> (variable);
                 _outputs = std::vector<scalar>(
-                        outputVariable->getDefuzzifier()->getDivisions(),
+                        fl::fuzzylite::defaultDivisions(),
                         (outputVariable->getMaximum() + outputVariable->getMinimum()) / 2.0);
                 _outputIndex = 0;
                 _minOutput = outputVariable->getMinimum();
                 _maxOutput = outputVariable->getMaximum();
                 ui->sbx_x->setValue((_maxOutput + _minOutput) / 2.0);
             }
-
+            if (parentWidget()) parentWidget()->adjustSize();
+            adjustSize();
+            
             refresh();
         }
 
@@ -278,26 +278,13 @@ namespace fl {
             fl::OutputVariable* outputVariable =
                     dynamic_cast<fl::OutputVariable*> (variable);
 
-            //TODO: Handle change of resolution
-            if (false and _outputs.size() != outputVariable->getDefuzzifier()->getDivisions()) {
-                std::vector<scalar> replace = std::vector<scalar>(
-                        outputVariable->getDefuzzifier()->getDivisions(),
-                        (outputVariable->getMaximum() - outputVariable->getMinimum()) / 2.0);
-
-                for (std::size_t i = 0; i < std::min(replace.size(), _outputs.size()); ++i) {
-                    replace.at(i) =
-                            _outputs.at((_outputIndex - i) % _outputs.size());
-                }
-                _outputs = replace;
-                _outputIndex = replace.size() - 1;
-            }
-
-
             scalar min = fl::Op::min(_minOutput, outputVariable->getMinimum());
             scalar max = fl::Op::max(_maxOutput, outputVariable->getMaximum());
 
-            ui->lbl_min->setText(QString::fromStdString(fl::Op::str(min)));
-            ui->lbl_max->setText(QString::fromStdString(fl::Op::str(max)));
+            ui->lbl_min->setText(QString::fromStdString(
+                    fl::Op::str(min, qtfuzzylite::decimals())));
+            ui->lbl_max->setText(QString::fromStdString(
+                    fl::Op::str(max, qtfuzzylite::decimals())));
 
             ui->canvas->scene()->clear();
             ui->canvas->scene()->setSceneRect(ui->canvas->viewport()->rect());
@@ -317,12 +304,16 @@ namespace fl {
                 y0ui = fl::Op::scale(y0, min, max,
                         rect.bottom(), rect.top());
 
-                path.moveTo(x0ui, y0ui);
-
                 x1ui = fl::Op::scale(i + 1, 0, _outputs.size(),
                         rect.left(), rect.right());
                 y1ui = fl::Op::scale(y1, min, max,
                         rect.bottom(), rect.top());
+
+                if (fl::Op::isNan(y0ui) or fl::Op::isInf(y0ui)) {
+                    path.moveTo(x1ui, y1ui);
+                } else {
+                    path.moveTo(x0ui, y0ui);
+                }
 
                 path.lineTo(x1ui, y1ui);
             }

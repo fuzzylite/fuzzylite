@@ -87,6 +87,10 @@ namespace fl {
                     sizeof (someScalar) << " bytes";
             return ss.str();
         }
+        
+        int qtfuzzylite::decimals(){
+            return std::max(0, fl::fuzzylite::decimals() - 1);
+        }
 
         bool qtfuzzylite::logEnabled() {
 #ifdef FL_NO_LOG

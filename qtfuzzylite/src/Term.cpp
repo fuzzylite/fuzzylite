@@ -32,6 +32,7 @@
 #include "fl/qt/Wizard.h"
 #include "fl/qt/Model.h"
 
+#include "fl/qt/qtfuzzylite.h"
 
 #include <QMessageBox>
 #include <QScrollBar>
@@ -207,11 +208,11 @@ namespace fl {
                 _sbx.at(i)->setMinimum(-10000000);
                 _sbx.at(i)->setMaximum(10000000);
                 _sbx.at(i)->setValue(0.0);
-                _sbx.at(i)->setSingleStep(
-                        (dummyVariable->getMaximum() - dummyVariable->getMinimum()) / 100);
+                _sbx.at(i)->setSingleStep(fl::Op::max(0.01,
+                        (dummyVariable->getMaximum() - dummyVariable->getMinimum()) / 100));
                 _sbx.at(i)->setAlignment(Qt::AlignHCenter);
                 _sbx.at(i)->setAccelerated(true);
-                _sbx.at(i)->setDecimals(fl::fuzzylite::decimals());
+                _sbx.at(i)->setDecimals(qtfuzzylite::decimals());
             }
 
             for (std::size_t i = 0; i < _basicTerms.size(); ++i) {
@@ -576,8 +577,8 @@ namespace fl {
             window.setup(ui->led_name->text().toStdString());
             window.ui->sbx_separation->setMinimum(-10000000);
             window.ui->sbx_separation->setMaximum(10000000);
-            window.ui->sbx_separation->setSingleStep(
-                    (dummyVariable->getMaximum() - dummyVariable->getMinimum()) / 100);
+            window.ui->sbx_separation->setSingleStep(fl::Op::max(0.01,
+                    (dummyVariable->getMaximum() - dummyVariable->getMinimum()) / 100));
 
             if (not window.exec()) return;
 

@@ -30,7 +30,7 @@
 #include "fl/qt/Wizard.h"
 #include "fl/qt/Viewer.h"
 #include "fl/qt/Window.h"
-
+#include "fl/qt/qtfuzzylite.h"
 
 #include <QMessageBox>
 #include <QListWidgetItem>
@@ -62,6 +62,9 @@ namespace fl {
 
             ui->sbx_min->setSingleStep(0.01);
             ui->sbx_max->setSingleStep(0.01);
+
+            ui->sbx_min->setDecimals(qtfuzzylite::decimals());
+            ui->sbx_max->setDecimals(qtfuzzylite::decimals());
 
             QList<int> sizes;
             sizes << .75 * size().width() << .25 * size().width();
@@ -183,8 +186,9 @@ namespace fl {
             for (int i = 0; i < inputVariable->numberOfTerms(); ++i) {
                 this->variable->addTerm(inputVariable->getTerm(i)->copy());
             }
-            ui->sbx_min->setSingleStep((variable->getMaximum() - variable->getMinimum()) / 100);
-            ui->sbx_max->setSingleStep((variable->getMaximum() - variable->getMinimum()) / 100);
+            scalar singleStep = (variable->getMaximum() - variable->getMinimum()) / 100;
+            ui->sbx_min->setSingleStep(std::max(0.01, singleStep));
+            ui->sbx_max->setSingleStep(std::max(0.01, singleStep));
 
             setWindowTitle("Edit variable");
             ui->led_name->setText(QString::fromStdString(inputVariable->getName()));
@@ -198,8 +202,9 @@ namespace fl {
                 this->variable->addTerm(outputVariable->getTerm(i)->copy());
             }
 
-            ui->sbx_min->setSingleStep((variable->getMaximum() - variable->getMinimum()) / 100);
-            ui->sbx_max->setSingleStep((variable->getMaximum() - variable->getMinimum()) / 100);
+            scalar singleStep = (variable->getMaximum() - variable->getMinimum()) / 100;
+            ui->sbx_min->setSingleStep(std::max(0.01, singleStep));
+            ui->sbx_max->setSingleStep(std::max(0.01, singleStep));
 
             setWindowTitle("Edit variable");
             ui->led_name->setText(QString::fromStdString(outputVariable->getName()));
@@ -281,7 +286,7 @@ namespace fl {
         }
 
         void Variable::onChangeMinRange(double) {
-            if (fl::Op::isGt(ui->sbx_min->value(), ui->sbx_max->value())) {
+            if (fl::Op::isGE(ui->sbx_min->value(), ui->sbx_max->value())) {
                 ui->sbx_max->setValue(ui->sbx_min->value() + .1);
             }
             variable->setMinimum(ui->sbx_min->value());
@@ -290,7 +295,7 @@ namespace fl {
         }
 
         void Variable::onChangeMaxRange(double) {
-            if (fl::Op::isLt(ui->sbx_max->value(), ui->sbx_min->value())) {
+            if (fl::Op::isLE(ui->sbx_max->value(), ui->sbx_min->value())) {
                 ui->sbx_min->setValue(ui->sbx_max->value() - .1);
             }
             variable->setMaximum(ui->sbx_max->value());

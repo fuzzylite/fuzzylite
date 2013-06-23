@@ -73,7 +73,7 @@ namespace fl {
         virtual void setMaximum(scalar maximum);
         virtual scalar getMaximum() const;
 
-        virtual std::string fuzzify(scalar x) const;
+        virtual std::string fuzzify(scalar x, int decimals = FL_DECIMALS) const;
         virtual Term* highestMembership(scalar x, scalar* yhighest = NULL) const;
 
         virtual std::string toString() const;
