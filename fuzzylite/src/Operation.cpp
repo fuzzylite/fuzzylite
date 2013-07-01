@@ -106,6 +106,10 @@ namespace fl {
     scalar Operation::logical_or(scalar a, scalar b) {
         return not (isEq(a, 0.0) and isEq(b, 0.0));
     }
+    
+    scalar Operation::negate(scalar a){
+        return -a;
+    }
 
     int Operation::isValidForName(int character) {
         return character == '_' or character == '.' or isalnum(character);

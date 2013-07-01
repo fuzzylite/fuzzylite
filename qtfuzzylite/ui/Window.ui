@@ -483,9 +483,21 @@
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
+             <property name="handleWidth">
+              <number>12</number>
+             </property>
              <widget class="QSplitter" name="spl_control_inout">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="handleWidth">
+               <number>12</number>
               </property>
               <widget class="QWidget" name="layoutWidget3">
                <layout class="QVBoxLayout" name="verticalLayout_16">
@@ -497,6 +509,12 @@
                 </property>
                 <item>
                  <widget class="QLabel" name="label_2">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="text">
                    <string>Inputs</string>
                   </property>
@@ -506,12 +524,12 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QScrollArea" name="sca_test_inputs">
-                  <property name="frameShape">
-                   <enum>QFrame::NoFrame</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Plain</enum>
+                 <widget class="QScrollArea" name="scrollArea">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
                   </property>
                   <property name="horizontalScrollBarPolicy">
                    <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -527,9 +545,15 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>262</width>
-                     <height>98</height>
+                     <width>221</width>
+                     <height>76</height>
                     </rect>
+                   </property>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_11">
                     <property name="spacing">
@@ -539,18 +563,29 @@
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QGroupBox" name="grx_test_inputs">
+                     <widget class="QFrame" name="inputVariables">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
                       <layout class="QVBoxLayout" name="verticalLayout_8">
                        <property name="spacing">
-                        <number>0</number>
+                        <number>6</number>
                        </property>
-                       <property name="margin">
-                        <number>0</number>
+                       <property name="leftMargin">
+                        <number>3</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>3</number>
                        </property>
                       </layout>
                      </widget>
                     </item>
                    </layout>
+                   <zorder>inputVariables</zorder>
+                   <zorder>inputVariables</zorder>
                   </widget>
                  </widget>
                 </item>
@@ -569,6 +604,12 @@
                 </property>
                 <item>
                  <widget class="QLabel" name="label_4">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="text">
                    <string>Outputs</string>
                   </property>
@@ -578,12 +619,12 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QScrollArea" name="sca_test_outputs">
-                  <property name="frameShape">
-                   <enum>QFrame::NoFrame</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Plain</enum>
+                 <widget class="QScrollArea" name="scrollArea_2">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
                   </property>
                   <property name="horizontalScrollBarPolicy">
                    <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -599,11 +640,17 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>261</width>
-                     <height>98</height>
+                     <width>292</width>
+                     <height>76</height>
                     </rect>
                    </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_13">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_12">
                     <property name="spacing">
                      <number>0</number>
                     </property>
@@ -611,10 +658,22 @@
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QGroupBox" name="grx_test_outputs">
-                      <layout class="QVBoxLayout" name="verticalLayout_15">
-                       <property name="margin">
-                        <number>0</number>
+                     <widget class="QFrame" name="outputVariables">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_9">
+                       <property name="spacing">
+                        <number>6</number>
+                       </property>
+                       <property name="leftMargin">
+                        <number>3</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>3</number>
                        </property>
                       </layout>
                      </widget>
@@ -629,6 +688,9 @@
              <widget class="QSplitter" name="spl_control_rule_strength">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="handleWidth">
+               <number>12</number>
               </property>
               <widget class="QWidget" name="verticalLayoutWidget">
                <layout class="QVBoxLayout" name="verticalLayout_5">

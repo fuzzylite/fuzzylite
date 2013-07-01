@@ -39,7 +39,7 @@ namespace fl {
     namespace qt {
 
         Control::Control(QWidget* parent, Qt::WindowFlags f) :
-        Viewer(parent, f), _outputIndex(0), _viewOutput(false),
+        Viewer(parent, f), _outputIndex(0), _outputView(false),
         _isTakagiSugeno(false), _minOutput(fl::nan), _maxOutput(fl::nan),
         _allowsOutputView(false) { }
 
@@ -54,7 +54,6 @@ namespace fl {
         void Control::setup(const fl::Variable* model) {
             Viewer::setup(model);
             this->variable = const_cast<fl::Variable*> (model);
-
             if (dynamic_cast<fl::OutputVariable*> (variable)) {
                 ui->sld_x->setEnabled(false);
                 ui->sbx_x->setVisible(false);
@@ -109,14 +108,14 @@ namespace fl {
 
         void Control::onChangeSliderValue(int position) {
             //            Viewer::onChangeSliderValue(position);
-            if (not _viewOutput) {
+            if (not _outputView) {
                 Viewer::onChangeSliderValue(position);
             } else {
             }
         }
 
         void Control::onEditInputValue() {
-            if (not _viewOutput) {
+            if (not _outputView) {
                 Viewer::onEditInputValue();
             } else {
 
@@ -150,7 +149,7 @@ namespace fl {
 
             scalar y = outputVariable->defuzzify();
 
-            if (_viewOutput) {
+            if (_outputView) {
                 _outputs.at(_outputIndex) = y;
                 _outputIndex = (_outputIndex + 1) % _outputs.size();
                 if (not (fl::Op::isNan(y) or fl::Op::isInf(y))) {
@@ -185,14 +184,14 @@ namespace fl {
 
                     if (not _isTakagiSugeno) {
                         QAction* actionView = new QAction("output view", this);
-                        if (_viewOutput) {
+                        if (_outputView) {
                             actionView->setCheckable(true);
                             actionView->setChecked(true);
                         }
                         actions.push_back(actionView);
                     }
 
-                    if (_viewOutput) actions.push_back(new QAction("clear", this));
+                    if (_outputView) actions.push_back(new QAction("clear", this));
                 }
             }
 
@@ -209,7 +208,7 @@ namespace fl {
                 }
             }
             QObject::connect(&signalMapper, SIGNAL(mapped(const QString &)),
-                    this, SLOT(onActionGraph(const QString &)), Qt::QueuedConnection);
+                    this, SLOT(onActionGraph(const QString &)));
 
             menu.exec(QCursor::pos() + QPoint(1, 0));
 
@@ -222,18 +221,36 @@ namespace fl {
         }
 
         void Control::onActionGraph(const QString& action) {
-            //            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             if (action == "maximize") {
                 ui->wdg_canvas->setVisible(true);
                 ui->wdg_out->setVisible(true);
+
+                if (_outputView) {
+                    ui->mainLayout->removeWidget(ui->sld_x);
+                    ui->sld_x->setOrientation(Qt::Vertical);
+                    ui->lyt_canvas->addWidget(ui->sld_x);
+                    ui->canvas->setBackgroundBrush(QBrush(Qt::black));
+                }
                 setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+                setMinimumSize(0, 0);
+                setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
             } else if (action == "minimize") {
                 ui->wdg_canvas->setVisible(false);
                 ui->wdg_out->setVisible(false);
-                setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+                if (_outputView) {
+                    ui->canvas->setBackgroundBrush(QBrush(Qt::white));
+                    ui->lyt_canvas->removeWidget(ui->sld_x);
+                    ui->sld_x->setOrientation(Qt::Horizontal);
+                    ui->mainLayout->addWidget(ui->sld_x);
+                }
+
+                setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+                setFixedHeight(minimumSizeHint().height() + ui->sld_x->sizeHint().height());
+
             } else if (action == "output view") {
-                _viewOutput = not _viewOutput;
-                if (_viewOutput) {
+                _outputView = not _outputView;
+                if (_outputView) {
                     ui->mainLayout->removeWidget(ui->sld_x);
                     ui->sld_x->setOrientation(Qt::Vertical);
                     ui->lyt_canvas->addWidget(ui->sld_x);
@@ -255,14 +272,17 @@ namespace fl {
                 _maxOutput = outputVariable->getMaximum();
                 ui->sbx_x->setValue((_maxOutput + _minOutput) / 2.0);
             }
-            if (parentWidget()) parentWidget()->adjustSize();
-            adjustSize();
+            if (action != "clear") {
+                if (parentWidget()) parentWidget()->adjustSize();
+                adjustSize();
+            }
             
-            refresh();
+            if (action == "maximize") emit signalRefresh();
+            else refresh();
         }
 
         void Control::refresh() {
-            if (not _viewOutput) {
+            if (not _outputView) {
                 Viewer::refresh();
                 return;
             }
@@ -270,7 +290,7 @@ namespace fl {
         }
 
         void Control::draw() {
-            if (not _viewOutput) {
+            if (not _outputView) {
                 Viewer::draw();
                 return;
             }
@@ -329,7 +349,7 @@ namespace fl {
         }
 
         void Control::draw(const fl::Term* term, const QColor& color) {
-            if (not _viewOutput) {
+            if (not _outputView) {
                 Viewer::draw(term, color);
                 return;
             }

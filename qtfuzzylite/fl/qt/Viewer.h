@@ -16,7 +16,7 @@
 
     Juan Rada-Vilela, 01 February 2013
     jcrada@fuzzylite.com
-**/
+ **/
 
 /* 
  * File:   Viewer.h
@@ -53,12 +53,13 @@ namespace fl {
             virtual void refresh();
             virtual void onClickGraph();
             virtual void onActionGraph(const QString& action);
-            
+
         signals:
             void valueChanged(double);
+            void signalRefresh();
 
         protected:
-            
+
             virtual void connect();
             virtual void disconnect();
             virtual void showEvent(QShowEvent*);
@@ -69,12 +70,12 @@ namespace fl {
         public:
             const fl::Variable* constVariable;
             Ui::Viewer* ui;
-            
+
             Viewer(QWidget* parent = NULL, Qt::WindowFlags f = 0);
             virtual ~Viewer();
 
             virtual void setup(const fl::Variable* variable);
-            
+
             virtual void enablePropertiesButton(bool show);
 
             virtual void draw();

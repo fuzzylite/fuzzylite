@@ -108,6 +108,9 @@ namespace fl {
 
             QObject::connect(ui->btn_properties, SIGNAL(clicked()),
                     this, SLOT(onClickGraph()));
+            QObject::connect(this, SIGNAL(signalRefresh()),
+                    this, SLOT(refresh()), Qt::QueuedConnection);
+
         }
 
         void Viewer::disconnect() {
@@ -127,6 +130,8 @@ namespace fl {
 
             QObject::disconnect(ui->btn_properties, SIGNAL(clicked()),
                     this, SLOT(onClickGraph()));
+            QObject::disconnect(this, SIGNAL(signalRefresh()),
+                    this, SLOT(refresh()));
         }
 
         void Viewer::showEvent(QShowEvent*) {
@@ -249,6 +254,10 @@ namespace fl {
         }
 
         void Viewer::draw(const fl::Term* term, const QColor& color) {
+            if (term->className() == Constant().className() or 
+                    term->className() == Linear().className()){
+                return ;
+            }
             int line_width = 3;
             QRect rect = ui->canvas->viewport()->rect();
 

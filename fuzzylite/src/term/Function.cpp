@@ -67,6 +67,14 @@ namespace fl {
             }
         }
         const_cast<Function*> (this)->variables["x"] = x;
+        return this->evaluate(&this->variables);
+    }
+
+    scalar Function::evaluate(const std::map<std::string, scalar>* localVariables = NULL) const {
+        if (not this->root)
+            throw fl::Exception("[function error] evaluation failed because function is not loaded", FL_AT);
+        if (localVariables)
+            return this->root->evaluate(localVariables);
         return this->root->evaluate(&this->variables);
     }
 
@@ -174,8 +182,9 @@ namespace fl {
     void Function::loadOperators() {
         char p = 7;
         // (!) Logical and (~) Bitwise NOT
-        //        this->_unaryOperators["!"] = new Operator<Unary>("!", std::logical_not<scalar>, p, 1);
-        //        this->_unaryOperators["~"] = new Operator<Unary>("~", Function::complement, 1);
+        //        this->_unaryOperators["!"] = new Operator("!", std::logical_not<scalar>, p, 1);
+        // ~ negates a number
+        this->operators["~"] = new Operator("~", fl::Op::negate, p, 1);
         --p; //Power
         this->operators["^"] = new Operator("^", std::pow, p, 1);
         --p; //Multiplication, Division, and Modulo
@@ -190,10 +199,10 @@ namespace fl {
         //        --p; //Bitwise OR
         //        this->_binaryOperators["|"] = new Operator("|", std::bit_or, p);
         --p; //Logical AND
-        this->operators[fl::Rule::andKeyword()] = 
+        this->operators[fl::Rule::andKeyword()] =
                 new Operator(fl::Rule::andKeyword(), fl::Op::logical_and, p);
         --p; //Logical OR
-        this->operators[fl::Rule::orKeyword()] = 
+        this->operators[fl::Rule::orKeyword()] =
                 new Operator(fl::Rule::orKeyword(), fl::Op::logical_or, p);
     }
 
@@ -242,7 +251,7 @@ namespace fl {
 
         for (std::map<std::string, Operator*>::const_iterator itOp = this->operators.begin();
                 itOp != this->operators.end(); ++itOp) {
-            if (itOp->first != fl::Rule::andKeyword() and itOp->first != fl::Rule::orKeyword()){
+            if (itOp->first != fl::Rule::andKeyword() and itOp->first != fl::Rule::orKeyword()) {
                 chars.push_back(itOp->first);
             }
         }
@@ -253,8 +262,6 @@ namespace fl {
         }
         return result;
     }
-    
-    
 
     std::string Function::toPostfix(const std::string& rawInfix) const throw (fl::Exception) {
         std::string infix = space(rawInfix);
@@ -558,7 +565,7 @@ namespace fl {
                     scalar value = fl::Op::toScalar(token, false);
                     node = new Node(value);
                 } catch (fl::Exception& ex) {
-					(void) ex;
+                    (void) ex;
                     node = new Node(token);
                 }
                 stack.push(node);
@@ -592,6 +599,23 @@ namespace fl {
         notation = "(Temperature is High and Oxigen is Low) or "
                 "(Temperature is Low and (Oxigen is Low or Oxigen is High))";
         FL_LOG(f.toPostfix(notation));
+
+        f.variables["pi"] = 3.14;
+        notation = "-5 *4/sin(-pi/2)";
+        FL_LOG(f.toPostfix(notation));
+        try {
+            FL_LOG(f.parse(notation)->evaluate());
+        } catch (fl::Exception& e) {
+            FL_LOG(e.getWhat());
+        }
+        f.variables["pi"] = 3.14;
+        notation = "~5 *4/sin(~pi/2)";
+        FL_LOG(f.toPostfix(notation));
+        try {
+            FL_LOG(f.parse(notation)->evaluate(&f.variables));
+        } catch (fl::Exception& e) {
+            FL_LOG(e.getWhat());
+        }
     }
 
 

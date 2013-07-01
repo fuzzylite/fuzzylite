@@ -156,6 +156,7 @@ namespace fl {
             for (std::size_t i = 0; i < snorms.size(); ++i) {
                 ui->cbxSnorm->addItem(QString::fromStdString(snorms.at(i)));
             }
+            
 
             connect();
         }
@@ -341,7 +342,7 @@ namespace fl {
 
         void Window::resetTest() {
             //Inputs
-            QLayout* layout = ui->grx_test_inputs->layout();
+            QLayout* layout = ui->inputVariables->layout();
 
             for (int i = layout->count() - 1; i >= 0; --i) {
                 QLayoutItem* item = layout->itemAt(i);
@@ -356,7 +357,7 @@ namespace fl {
             }
 
             //Outputs
-            layout = ui->grx_test_outputs->layout();
+            layout = ui->outputVariables->layout();
             for (int i = layout->count() - 1; i >= 0; --i) {
                 QLayoutItem* item = layout->itemAt(i);
                 Control* control = dynamic_cast<Control*> (item->widget());
@@ -377,9 +378,9 @@ namespace fl {
         void Window::reloadTest() {
             resetTest();
             Engine* engine = Model::Default()->engine();
-            QLayout* layout = ui->grx_test_inputs->layout();
+            QVBoxLayout* layout = dynamic_cast<QVBoxLayout*> (ui->inputVariables->layout());
             for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
-                Control* control = new Control(ui->grx_test_inputs);
+                Control* control = new Control(ui->inputVariables);
                 control->setup(engine->getInputVariable(i));
                 control->ui->bottom_line->setVisible(i != engine->numberOfInputVariables() - 1);
                 layout->addWidget(control);
@@ -389,10 +390,10 @@ namespace fl {
 
             }
 
-            layout = ui->grx_test_outputs->layout();
+            layout = dynamic_cast<QVBoxLayout*> (ui->outputVariables->layout());
             //Outputs
             for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-                Control* control = new Control(ui->grx_test_outputs);
+                Control* control = new Control(ui->outputVariables);
                 control->setup(engine->getOutputVariable(i));
                 control->setAllowOutputView(true);
                 control->ui->bottom_line->setVisible(i != engine->numberOfOutputVariables() - 1);
@@ -420,7 +421,7 @@ namespace fl {
                 item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
                 ui->lsw_test_rules_activation->addItem(item);
             }
-            ui->grx_test_inputs->adjustSize();
+            ui->inputVariables->adjustSize();
         }
 
         void Window::removeRules() {

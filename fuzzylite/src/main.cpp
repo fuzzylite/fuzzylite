@@ -367,9 +367,6 @@ void exportAllExamples(const std::string& from, const std::string& to) {
 }
 
 void examples() throw (fl::Exception) {
-    //    exportAllExamples("fis", "fcl");
-    //    return;
-    // foo();
     std::cout << "\nHello, " << fl::fuzzylite::name() << "!\n"
             << "=================\n"
             << "Version " << fl::fuzzylite::longVersion() << "\n"

@@ -42,7 +42,7 @@ namespace fl {
         protected:
             std::vector<scalar> _outputs;
             int _outputIndex;
-            bool _viewOutput;
+            bool _outputView;
             bool _isTakagiSugeno;
             scalar _minOutput, _maxOutput;
             bool _allowsOutputView;

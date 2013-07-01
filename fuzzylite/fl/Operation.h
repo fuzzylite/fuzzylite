@@ -73,6 +73,7 @@ namespace fl {
         static scalar modulus(scalar a, scalar b);
         static scalar logical_and(scalar a, scalar b);
         static scalar logical_or(scalar a, scalar b);
+        static scalar negate(scalar a);
 
         static int isValidForName(int character);
 

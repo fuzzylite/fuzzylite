@@ -83,7 +83,7 @@ namespace fl {
             Node(scalar value);
 
             scalar evaluate(const std::map<std::string, scalar>*
-                    references = NULL) const;
+                    variables = NULL) const;
 
             std::string toString() const;
             std::string toPrefix(const Node* node = NULL) const;
@@ -128,6 +128,8 @@ namespace fl {
                 const Engine* engine = NULL) throw (fl::Exception);
 
         virtual scalar membership(scalar x) const;
+        
+        virtual scalar evaluate(const std::map<std::string, scalar>* variables) const;
 
         virtual std::string className() const;
         virtual std::string toString() const;
