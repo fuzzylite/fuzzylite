@@ -30,7 +30,6 @@
 #include <QMenuBar>
 #include <fl/Headers.h>
 
-#include "fl/qt/Settings.h"  
 #include "fl/qt/Window.h"  
 #include "fl/qt/Term.h"
 #include "fl/qt/Viewer.h"   

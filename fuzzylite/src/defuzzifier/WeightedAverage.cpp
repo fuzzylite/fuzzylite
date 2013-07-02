@@ -6,7 +6,7 @@
 
 namespace fl {
 
-    WeightedAverage::WeightedAverage() { }
+    WeightedAverage::WeightedAverage(int divisions) : Defuzzifier(divisions) { }
 
     WeightedAverage::~WeightedAverage() { }
 
@@ -41,10 +41,10 @@ namespace fl {
             }
 
             FL_DBG(thresholded->toString());
-            
+
             sum += thresholded->getThreshold() * thresholded->getTerm()->membership(0);
             weights += thresholded->getThreshold();
-            FL_DBG("sum=" << sum <<"\tweights=" << weights);
+            FL_DBG("sum=" << sum << "\tweights=" << weights);
         }
 
         return sum / weights;

@@ -6,7 +6,7 @@
 
 namespace fl {
 
-    WeightedSum::WeightedSum() { }
+    WeightedSum::WeightedSum(int divisions) : Defuzzifier(divisions) { }
 
     WeightedSum::~WeightedSum() { }
 

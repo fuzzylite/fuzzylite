@@ -16,7 +16,7 @@
 
     Juan Rada-Vilela, 01 February 2013
     jcrada@fuzzylite.com
-**/
+ **/
 
 /*
  * Window.h
@@ -38,7 +38,6 @@
 namespace fl {
     namespace qt {
         class Viewer;
-        class Settings;
 
         class Window : public QMainWindow {
             Q_OBJECT
@@ -48,7 +47,7 @@ namespace fl {
 
         protected slots:
             void onContextMenuRequest(const QPoint&);
-            
+
             void onChangeInputSelection();
             void onChangeOutputSelection();
             void onDoubleClickInputItem(QListWidgetItem* item);
@@ -75,12 +74,11 @@ namespace fl {
             void onSelectActivation(int selected);
             void onClickHedges();
             void onActionHedge(const QString& action);
-            
+
             //Test
             void onInputValueChanged();
 
             //MenuBar
-            void onMenuSettings();
             void onMenuTerms();
 
             bool confirmImporting();
@@ -100,7 +98,7 @@ namespace fl {
             void closeEvent(QCloseEvent* e);
 
         protected:
-//            std::vector<QWidget*> _inputs, _outputs;
+            //            std::vector<QWidget*> _inputs, _outputs;
             QString _lastOpenedFilePath;
             void connect();
             void disconnect();
@@ -117,13 +115,12 @@ namespace fl {
             Window(QWidget* parent = NULL, Qt::WindowFlags flags = 0);
             ~Window();
             static Window* instance;
-            
+
             Viewer* _inputViewer;
             Viewer* _outputViewer;
-            
+
         public:
             Ui::Window* ui;
-            Settings* settings;
 
             static Window* mainWindow();
 
@@ -132,13 +129,23 @@ namespace fl {
             void setup();
 
             QFont typeWriterFont() const;
-            
+
             static QString toHtmlEscaped(const QString& x);
 
             static void main();
         };
 
-        
+        class QScrollAreaFilter : public QObject {
+        public:
+
+            bool eventFilter(QObject* object, QEvent* event) {
+                if (event->type() == QEvent::Wheel) {
+                    event->accept();
+                    return true;
+                }
+                return false;
+            }
+        };
     }
 }
 #endif /* FLQT_WINDOW_H_ */

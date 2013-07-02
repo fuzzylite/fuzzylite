@@ -15,7 +15,7 @@ namespace fl {
     class FL_EXPORT WeightedAverage : public Defuzzifier {
     public:
 
-        WeightedAverage();
+        WeightedAverage(int divisions = FL_DIVISIONS);
         virtual ~WeightedAverage();
 
         virtual std::string className() const;

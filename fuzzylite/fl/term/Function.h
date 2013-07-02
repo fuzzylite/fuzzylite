@@ -72,14 +72,14 @@ namespace fl {
         struct FL_EXPORT Node {
             Operator* foperator;
             BuiltInFunction* function;
-            std::string reference;
+            std::string variable;
             scalar value;
             Node* left;
             Node* right;
 
             Node(Operator* foperator, Node* left = NULL, Node* right = NULL);
             Node(BuiltInFunction* function, Node* left = NULL, Node* right = NULL);
-            Node(const std::string& reference);
+            Node(const std::string& variable);
             Node(scalar value);
 
             scalar evaluate(const std::map<std::string, scalar>*
@@ -152,15 +152,13 @@ namespace fl {
         virtual std::string toPostfix(const std::string& infix) const throw (fl::Exception);
 
         virtual std::string space(const std::string& infix) const;
-        
 
         virtual bool isOperand(const std::string& token) const;
         virtual bool isBuiltInFunction(const std::string& token) const;
         virtual bool isOperator(const std::string& token) const;
 
-
-        //        static void doSomething(scalar function(scalar, scalar));
-
+        
+        
         static void main();
 
     };

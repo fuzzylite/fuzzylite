@@ -392,49 +392,49 @@ namespace fl {
      ******************************/
 
     Function::Node::Node(Operator* foperator, Node* left, Node* right)
-    : foperator(foperator), function(NULL), reference(""), value(fl::nan),
+    : foperator(foperator), function(NULL), variable(""), value(fl::nan),
     left(left), right(right) { }
 
     Function::Node::Node(BuiltInFunction* function, Node* left, Node* right)
-    : foperator(NULL), function(function), reference(""), value(fl::nan),
+    : foperator(NULL), function(function), variable(""), value(fl::nan),
     left(left), right(right) { }
 
-    Function::Node::Node(const std::string& reference)
-    : foperator(NULL), function(NULL), reference(reference), value(fl::nan),
+    Function::Node::Node(const std::string& variable)
+    : foperator(NULL), function(NULL), variable(variable), value(fl::nan),
     left(NULL), right(NULL) { }
 
     Function::Node::Node(scalar value)
-    : foperator(NULL), function(NULL), value(value), left(NULL), right(NULL) { }
+    : foperator(NULL), function(NULL), variable(""), value(value), left(NULL), right(NULL) { }
 
-    scalar Function::Node::evaluate(const std::map<std::string, scalar>* refs) const {
+    scalar Function::Node::evaluate(const std::map<std::string, scalar>* variables) const {
         scalar result = fl::nan;
         if (foperator) {
             if (foperator->arity == 1) {
-                result = foperator->unary(left->evaluate(refs));
+                result = foperator->unary(left->evaluate(variables));
             } else if (foperator->arity == 2) {
-                result = foperator->binary(right->evaluate(refs), left->evaluate(refs));
+                result = foperator->binary(right->evaluate(variables), left->evaluate(variables));
             } else {
                 throw fl::Exception("[function error] <" + fl::Op::str(foperator->arity) + ">-ary"
                         " operators are not supported, only unary or binary are", FL_AT);
             }
         } else if (function) {
             if (function->arity == 1) {
-                result = function->unary(left->evaluate(refs));
+                result = function->unary(left->evaluate(variables));
             } else if (function->arity == 2) {
-                result = function->binary(right->evaluate(refs), left->evaluate(refs));
+                result = function->binary(right->evaluate(variables), left->evaluate(variables));
             } else {
                 throw fl::Exception("[function error] <" + fl::Op::str(foperator->arity) + ">-ary"
                         " functions are not supported, only unary or binary are", FL_AT);
             }
-        } else if (not reference.empty()) {
-            if (not refs) {
+        } else if (not variable.empty()) {
+            if (not variables) {
                 throw fl::Exception("[function error] "
-                        "expected a reference map, but none was provided", FL_AT);
+                        "expected a map of variables, but none was provided", FL_AT);
             }
-            std::map<std::string, scalar>::const_iterator it = refs->find(reference);
-            if (it != refs->end()) result = it->second;
+            std::map<std::string, scalar>::const_iterator it = variables->find(variable);
+            if (it != variables->end()) result = it->second;
             else throw fl::Exception("[function error] "
-                    "unknown reference <" + reference + ">", FL_AT);
+                    "unknown variable <" + variable + ">", FL_AT);
         } else {
             result = value;
         }
@@ -446,7 +446,7 @@ namespace fl {
         std::ostringstream ss;
         if (foperator) ss << foperator->name;
         else if (function) ss << function->name;
-        else if (not reference.empty()) ss << reference;
+        else if (not variable.empty()) ss << variable;
         else ss << fl::Op::str(value);
         return ss.str();
     }
@@ -456,8 +456,8 @@ namespace fl {
         if (not fl::Op::isNan(node->value)) { //is terminal
             return fl::Op::str(node->value);
         }
-        if (not reference.empty()) {
-            return reference;
+        if (not variable.empty()) {
+            return variable;
         }
 
         std::ostringstream ss;
@@ -474,8 +474,8 @@ namespace fl {
         if (not fl::Op::isNan(node->value)) { //is proposition
             return fl::Op::str(node->value);
         }
-        if (not reference.empty()) {
-            return reference;
+        if (not variable.empty()) {
+            return variable;
         }
 
         std::ostringstream ss;
@@ -492,8 +492,8 @@ namespace fl {
         if (not fl::Op::isNan(node->value)) { //is proposition
             return fl::Op::str(node->value);
         }
-        if (not reference.empty()) {
-            return reference;
+        if (not variable.empty()) {
+            return variable;
         }
 
         std::ostringstream ss;
@@ -507,6 +507,8 @@ namespace fl {
 
     /****************************************
      * The Glorious Parser
+     * Shunting-yard algorithm
+     * TODO: Maybe change it for http://en.wikipedia.org/wiki/Operator-precedence_parser
      ***************************************/
 
     Function::Node* Function::parse(const std::string& infix) throw (fl::Exception) {

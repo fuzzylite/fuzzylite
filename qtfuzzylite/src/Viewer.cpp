@@ -30,7 +30,6 @@
 #include "fl/qt/Model.h"
 
 #include "fl/qt/Window.h"
-#include "fl/qt/Settings.h"
 #include "fl/qt/qtfuzzylite.h"
 
 #include <QGraphicsPolygonItem>
@@ -265,8 +264,7 @@ namespace fl {
             scalar maximum = constVariable->getMaximum();
 
             std::vector<scalar> xSamples, ySamples;
-            int divisions = Window::mainWindow()->
-                    settings->ui->sbx_divisions->value();
+            int divisions = fl::fuzzylite::defaultDivisions();
             scalar dx = (maximum - minimum) / divisions;
             scalar area = 0;
             scalar xcentroid = 0, ycentroid = 0;

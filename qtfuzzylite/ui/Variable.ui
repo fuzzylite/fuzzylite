@@ -472,6 +472,9 @@
         </item>
         <item row="4" column="0">
          <widget class="QLabel" name="label_5">
+          <property name="toolTip">
+           <string>Greater resolution improves accuracy, but increases computational cost</string>
+          </property>
           <property name="text">
            <string>Accuracy</string>
           </property>

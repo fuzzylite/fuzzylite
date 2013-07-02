@@ -2,7 +2,5 @@ Cache background on QGraphicsView. It should improve performance a lot.
 
 Add save to file and determine extension at runtime
 
-
-Decimals 2 everywhere
-Fix drawing of TS
-Fix sizing of ins and outs
+Fix defuzzifiers in OutputVariables.
+Test fuzzy operators.

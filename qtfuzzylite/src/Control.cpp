@@ -33,6 +33,7 @@
 #include <QMenu>
 #include <QSignalMapper>
 #include <QAction>
+#include <QInputDialog>
 
 #include "fl/qt/Model.h"
 namespace fl {
@@ -85,7 +86,7 @@ namespace fl {
                 fl::OutputVariable* outputVariable = dynamic_cast<fl::OutputVariable*> (variable);
                 if (outputVariable) {
                     _outputs = std::vector<scalar>(
-                            fl::fuzzylite::defaultDivisions(),
+                            outputVariable->getDefuzzifier()->getDivisions(),
                             (outputVariable->getMaximum() + outputVariable->getMinimum()) / 2.0);
                     _outputIndex = 0;
                     _minOutput = variable->getMinimum();
@@ -191,7 +192,11 @@ namespace fl {
                         actions.push_back(actionView);
                     }
 
-                    if (_outputView) actions.push_back(new QAction("clear", this));
+                    if (_outputView) {
+                        actions.push_back(new QAction("resolution...", this));
+                        actions.push_back(NULL);
+                        actions.push_back(new QAction("clear", this));
+                    }
                 }
             }
 
@@ -263,18 +268,35 @@ namespace fl {
                     ui->sld_x->setOrientation(Qt::Horizontal);
                     ui->mainLayout->addWidget(ui->sld_x);
                 }
+            } else if (action == "resolution...") {
+                bool ok;
+                int resolution = QInputDialog::getInteger(this,
+                        "Resolution of Output View",
+                        "How many defuzzified values do you want to show?", 
+                        _outputs.size(), 50, 5000, 10, &ok);
+                if (ok) { //clear
+                    fl::OutputVariable* outputVariable =
+                            dynamic_cast<fl::OutputVariable*> (variable);
+                    _outputs = std::vector<scalar>(
+                            resolution,
+                            (outputVariable->getMaximum() + outputVariable->getMinimum()) / 2.0);
+                    _outputIndex = 0;
+                    _minOutput = outputVariable->getMinimum();
+                    _maxOutput = outputVariable->getMaximum();
+                    ui->sbx_x->setValue((_maxOutput + _minOutput) / 2.0);
+                }
             } else if (action == "clear") {
                 fl::OutputVariable* outputVariable =
                         dynamic_cast<fl::OutputVariable*> (variable);
                 _outputs = std::vector<scalar>(
-                        fl::fuzzylite::defaultDivisions(),
+                        outputVariable->getDefuzzifier()->getDivisions(),
                         (outputVariable->getMaximum() + outputVariable->getMinimum()) / 2.0);
                 _outputIndex = 0;
                 _minOutput = outputVariable->getMinimum();
                 _maxOutput = outputVariable->getMaximum();
                 ui->sbx_x->setValue((_maxOutput + _minOutput) / 2.0);
             }
-            if (action != "clear") {
+            if (not (action == "clear" or action == "resolution...")) {
                 if (parentWidget()) parentWidget()->adjustSize();
                 adjustSize();
             }

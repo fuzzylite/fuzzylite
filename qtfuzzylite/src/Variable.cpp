@@ -216,8 +216,12 @@ namespace fl {
             editable->setLockOutputRange(outputVariable->isLockingOutputRange());
 
             editable->output()->setAccumulation(outputVariable->output()->getAccumulation());
-            editable->setDefuzzifier(outputVariable->getDefuzzifier());
-            editable->getDefuzzifier()->setDivisions(outputVariable->getDefuzzifier()->getDivisions());
+//            Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
+//            if (not defuzzifier) {
+//                defuzzifier = Factory::instance()->defuzzifier()->
+//                        create(Centroid().className(), fl::fuzzylite::defaultDivisions());
+//            }
+//            editable->setDefuzzifier(defuzzifier);
 
             reloadModel();
         }
@@ -414,12 +418,13 @@ namespace fl {
                     defuzzifier == fl::WeightedSum().className()) {
                 ui->sbx_accuracy->setEnabled(false);
                 ui->cbx_accumulation->setEnabled(false);
-
+                fl::OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (variable);
+                outputVariable->output()->setAccumulation(NULL);
+                ui->cbx_accumulation->setCurrentIndex(-1);
             } else {
                 ui->sbx_accuracy->setEnabled(true);
                 ui->cbx_accumulation->setEnabled(true);
             }
-
         }
 
         void Variable::onClickMoveUp() {
@@ -488,6 +493,8 @@ namespace fl {
                             ui->cbx_accumulation->findText(
                             QString::fromStdString(
                             outputVariable->output()->getAccumulation()->className())));
+                } else {
+                    ui->cbx_accumulation->setCurrentIndex(-1);
                 }
                 if (outputVariable->getDefuzzifier()) {
                     ui->cbx_defuzzifier->setCurrentIndex(
@@ -495,6 +502,8 @@ namespace fl {
                             QString::fromStdString(
                             outputVariable->getDefuzzifier()->className())));
                     ui->sbx_accuracy->setValue(outputVariable->getDefuzzifier()->getDivisions());
+                } else {
+                    ui->cbx_defuzzifier->setCurrentIndex(-1);
                 }
             }
             scalar minimum = variable->getMinimum();

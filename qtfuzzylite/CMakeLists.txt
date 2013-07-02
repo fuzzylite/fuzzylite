@@ -65,7 +65,6 @@ include_directories(. ${CMAKE_SOURCE_DIR}/../fuzzylite)
 set(qtfl-headers
     fl/qt/About.h
     fl/qt/Control.h
-    fl/qt/Settings.h
     fl/qt/Term.h
     fl/qt/TermListWidget.h
     fl/qt/Variable.h
@@ -79,7 +78,6 @@ set(qtfl-sources
     src/Control.cpp
     src/main.cpp
     src/Model.cpp
-    src/Settings.cpp
     src/Term.cpp
     src/TermListWidget.cpp
     src/Variable.cpp
@@ -90,7 +88,6 @@ set(qtfl-sources
 set(qtfl-uis
     ui/About.ui
     ui/ImEx.ui
-    ui/Settings.ui
     ui/Term.ui
     ui/Variable.ui
     ui/Viewer.ui

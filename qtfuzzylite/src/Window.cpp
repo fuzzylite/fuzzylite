@@ -27,7 +27,6 @@
 
 #include "fl/qt/Window.h"
 #include "fl/qt/About.h"
-#include "fl/qt/Settings.h"
 #include "fl/qt/Term.h"
 #include "fl/qt/Variable.h"
 #include "fl/qt/Model.h"
@@ -65,11 +64,10 @@ namespace fl {
 
         Window::Window(QWidget* parent, Qt::WindowFlags flags) :
         QMainWindow(parent, flags), _lastOpenedFilePath("."),
-        ui(new Ui::Window), settings(NULL) { }
+        ui(new Ui::Window) { }
 
         Window::~Window() {
             disconnect();
-            if (settings) delete settings;
             if (_inputViewer) delete _inputViewer;
             if (_outputViewer) delete _outputViewer;
             delete ui;
@@ -83,8 +81,6 @@ namespace fl {
 
             setUnifiedTitleAndToolBarOnMac(true);
             setGeometry(0, 0, 800, 600);
-            settings = new fl::qt::Settings(this);
-            settings->setup();
             ui->tab_container->setCurrentIndex(0);
 
 #ifdef Q_OS_MAC
@@ -157,13 +153,13 @@ namespace fl {
                 ui->cbxSnorm->addItem(QString::fromStdString(snorms.at(i)));
             }
             
+            ui->scrollAreaInput->viewport()->installEventFilter(new fl::qt::QScrollAreaFilter);
+            ui->scrollAreaOutput->viewport()->installEventFilter(new fl::qt::QScrollAreaFilter);
 
             connect();
         }
 
         void Window::connect() {
-            QObject::connect(ui->actionPreferences, SIGNAL(triggered()),
-                    this, SLOT(onMenuSettings()));
             QObject::connect(ui->actionTerms, SIGNAL(triggered()),
                     this, SLOT(onMenuTerms()));
             QObject::connect(ui->actionNew, SIGNAL(triggered()),
@@ -227,8 +223,6 @@ namespace fl {
         }
 
         void Window::disconnect() {
-            QObject::disconnect(ui->actionPreferences, SIGNAL(triggered()),
-                    this, SLOT(onMenuSettings()));
             QObject::disconnect(ui->actionTerms, SIGNAL(triggered()),
                     this, SLOT(onMenuTerms()));
             QObject::disconnect(ui->actionNew, SIGNAL(triggered()),
@@ -290,9 +284,6 @@ namespace fl {
 
         void Window::reloadModel() {
             Engine* engine = Model::Default()->engine();
-
-            settings->applyDefaults();
-            if (settings->isVisible()) settings->loadFromModel();
 
             ui->lvw_inputs->clear();
             ui->lvw_outputs->clear();
@@ -888,10 +879,6 @@ namespace fl {
 
         void Window::onTabChange(int index) { }
 
-        void Window::onMenuSettings() {
-            settings->hide();
-            settings->show();
-        }
 
         void Window::onMenuTerms() {
             Term* window = new Term(this);
