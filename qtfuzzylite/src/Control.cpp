@@ -243,10 +243,12 @@ namespace fl {
                     ui->lyt_canvas->removeWidget(ui->sld_x);
                     ui->sld_x->setOrientation(Qt::Horizontal);
                     ui->mainLayout->addWidget(ui->sld_x);
+                    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+                    setFixedHeight(minimumSizeHint().height() + ui->sld_x->sizeHint().height());
+                } else {
+                    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+                    setFixedHeight(minimumSizeHint().height());
                 }
-
-                setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-                setFixedHeight(minimumSizeHint().height() + ui->sld_x->sizeHint().height());
 
             } else if (action == "output view") {
                 _outputView = not _outputView;
@@ -276,7 +278,7 @@ namespace fl {
                 if (parentWidget()) parentWidget()->adjustSize();
                 adjustSize();
             }
-            
+
             if (action == "maximize") emit signalRefresh();
             else refresh();
         }
