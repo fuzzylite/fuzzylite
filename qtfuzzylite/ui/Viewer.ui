@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>328</width>
-    <height>305</height>
+    <height>306</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -62,6 +62,9 @@
        </property>
        <property name="checked">
         <bool>false</bool>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextBesideIcon</enum>
        </property>
        <property name="autoRaise">
         <bool>true</bool>

@@ -1,7 +1,11 @@
 <RCC>
   <qresource>
+    <file alias="save-as.png">icons/document-save-as.png</file>
+    <file alias="output.png">icons/view-fullscreen.png</file>
+    <file alias="input.png">icons/view-restore.png</file>
     <file alias="visualization.png">icons/visualization.png</file>
-    <file alias="output-view.png">icons/document-save.png</file>
+    <file alias="save.png">icons/document-save.png</file>
+    <file alias="open.png">icons/document-open.png</file>
     <file alias="term-view.png">icons/document-page-setup.png</file>
     <file alias="sort-terms.png">icons/view-sort-ascending.png</file>
     <file alias="create-rules.png">icons/insert-text.png</file>
@@ -9,7 +13,7 @@
     <file alias="about.png">icons/help-about.png</file>
     <file alias="quit.png">icons/system-shutdown-restart-panel.png</file>
     <file alias="new.png">icons/document-new.png</file>
-    <file alias="settings.png">icons/document-properties.png</file>
+    <file alias="properties.png">icons/document-properties.png</file>
     <file alias="export.png">icons/document-export.png</file>
     <file alias="import.png">icons/document-import.png</file>
     <file alias="down.png">icons/go-down.png</file>

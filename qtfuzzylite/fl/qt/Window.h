@@ -77,6 +77,10 @@ namespace fl {
 
             //Test
             void onInputValueChanged();
+            void onClickInputButton();
+            void onClickOutputButton();
+            void onActionInputButton(const QString& action);
+            void onActionOutputButton(const QString& action);
 
             //MenuBar
             void onMenuTerms();
@@ -100,6 +104,7 @@ namespace fl {
         protected:
             //            std::vector<QWidget*> _inputs, _outputs;
             QString _lastOpenedFilePath;
+            void setupMenuAndToolbar();
             void connect();
             void disconnect();
 

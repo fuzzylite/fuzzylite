@@ -62,6 +62,7 @@ namespace fl {
                 ui->lbl_fuzzy_out->setVisible(true);
                 ui->lbl_fuzzy->setVisible(false);
                 ui->btn_name->setVisible(true);
+                ui->btn_name->setIcon(QIcon(":/output.png"));
 
                 _minOutput = variable->getMinimum();
                 _maxOutput = variable->getMaximum();
@@ -77,6 +78,7 @@ namespace fl {
             } else if (dynamic_cast<InputVariable*> (variable)) {
                 QObject::connect(this, SIGNAL(valueChanged(double)),
                         this, SLOT(updateInput(double)));
+                ui->btn_name->setIcon(QIcon(":/input.png"));
             }
         }
 
@@ -86,7 +88,7 @@ namespace fl {
                 fl::OutputVariable* outputVariable = dynamic_cast<fl::OutputVariable*> (variable);
                 if (outputVariable) {
                     _outputs = std::vector<scalar>(
-                            outputVariable->getDefuzzifier()->getDivisions(),
+                            250,
                             (outputVariable->getMaximum() + outputVariable->getMinimum()) / 2.0);
                     _outputIndex = 0;
                     _minOutput = variable->getMinimum();
@@ -289,7 +291,7 @@ namespace fl {
                 fl::OutputVariable* outputVariable =
                         dynamic_cast<fl::OutputVariable*> (variable);
                 _outputs = std::vector<scalar>(
-                        outputVariable->getDefuzzifier()->getDivisions(),
+                        _outputs.size(),
                         (outputVariable->getMaximum() + outputVariable->getMinimum()) / 2.0);
                 _outputIndex = 0;
                 _minOutput = outputVariable->getMinimum();

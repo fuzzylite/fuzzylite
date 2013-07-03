@@ -4,3 +4,15 @@ Add save to file and determine extension at runtime
 
 Fix defuzzifiers in OutputVariables.
 Test fuzzy operators.
+
+
+New, Open, Save, Save as, Properties
+Engine Name
+Associate files
+Accept file at open
+Preferences: Line thickness, gradients, show centroids and guides, 
+             default resolution, default divisions, 
+
+QSettings: 
+    http://www.java2s.com/Code/Cpp/Qt/Recentfilemenu.htm
+    http://harmattan-dev.nokia.com/docs/library/html/qt4/mainwindows-application.html

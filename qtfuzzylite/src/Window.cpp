@@ -75,49 +75,17 @@ namespace fl {
 
         void Window::setup() {
             ui->setupUi(this);
+            setupMenuAndToolbar();
+
+            setGeometry(0, 0, 800, 600);
+            QRect scr = QApplication::desktop()->screenGeometry();
+            move(scr.center() - rect().center());
+
             ui->ptx_rules->setFont(typeWriterFont());
             ui->lsw_test_rules->setFont(typeWriterFont());
             ui->lsw_test_rules_activation->setFont(typeWriterFont());
 
-            setUnifiedTitleAndToolBarOnMac(true);
-            setGeometry(0, 0, 800, 600);
             ui->tab_container->setCurrentIndex(0);
-
-#ifdef Q_OS_MAC
-            ui->menuTools->addAction("About qtfuzzylite", this, SLOT(onMenuAbout()));
-            //            ui->menuTools->addSeparator();
-            //            ui->menuTools->addAction("Preferences...", this, SLOT(onMenuSettings()));
-#endif
-            ui->menuTools->addAction(ui->actionNew);
-            ui->menuTools->addSeparator();
-            ui->menuTools->addAction(ui->actionTerms);
-            ui->menuTools->addSeparator();
-
-            QMenu* importMenu = new QMenu("&Import");
-            importMenu->setIcon(QIcon(":/import.png"));
-            importMenu->addAction("from &file...", this, SLOT(onMenuImportFromFile()));
-            importMenu->addSeparator();
-            importMenu->addAction("Fuzzy Controller &Language (FCL)", this, SLOT(onMenuImportFromFCL()));
-            importMenu->addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuImportFromFIS()));
-            ui->menuTools->addMenu(importMenu);
-
-            QMenu* exportMenu = new QMenu("&Export");
-            exportMenu->setIcon(QIcon(":/export.png"));
-            exportMenu->addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
-            exportMenu->addSeparator();
-            exportMenu->addAction("Fuzzy Controller Language (FC&L)", this, SLOT(onMenuExportToFCL()));
-            exportMenu->addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuExportToFIS()));
-            ui->menuTools->addMenu(exportMenu);
-
-#ifndef Q_OS_MAC
-            ui->menuTools->addSeparator();
-            ui->actionPreferences->setEnabled(false);
-            //            ui->menuTools->addAction(ui->actionPreferences);
-            //            ui->menuTools->addSeparator();
-            ui->menuTools->addAction(ui->actionAbout);
-            ui->menuTools->addSeparator();
-            ui->menuTools->addAction(ui->actionQuit);
-#endif
 
             QList<int> sizes;
             sizes << .75 * size().width() << .25 * size().width();
@@ -125,19 +93,6 @@ namespace fl {
             sizes.clear();
             sizes << .90 * size().width() << .10 * size().width();
             ui->spl_control_rule_strength->setSizes(sizes);
-
-            QRect scr = QApplication::desktop()->screenGeometry();
-            move(scr.center() - rect().center());
-
-            setContextMenuPolicy(Qt::NoContextMenu);
-
-            QWidget* widget = new QWidget;
-            QHBoxLayout* spacerLayout = new QHBoxLayout;
-            QSpacerItem* spacer = new QSpacerItem(1, 1,
-                    QSizePolicy::Expanding, QSizePolicy::Minimum);
-            spacerLayout->addSpacerItem(spacer);
-            widget->setLayout(spacerLayout);
-            ui->toolBar->insertWidget(ui->toolBar->actions().last(), widget);
 
             ui->lvw_inputs->setVariableType("input");
             ui->lvw_outputs->setVariableType("output");
@@ -152,11 +107,68 @@ namespace fl {
             for (std::size_t i = 0; i < snorms.size(); ++i) {
                 ui->cbxSnorm->addItem(QString::fromStdString(snorms.at(i)));
             }
-            
+
             ui->scrollAreaInput->viewport()->installEventFilter(new fl::qt::QScrollAreaFilter);
             ui->scrollAreaOutput->viewport()->installEventFilter(new fl::qt::QScrollAreaFilter);
 
             connect();
+        }
+
+        void Window::setupMenuAndToolbar() {
+            setUnifiedTitleAndToolBarOnMac(true);
+            setContextMenuPolicy(Qt::NoContextMenu);
+
+#ifdef Q_OS_MAC
+            ui->menuBar->addAction("About qtfuzzylite", this, SLOT(onMenuAbout()));
+            ui->menuTools->addSeparator();
+            //            ui->menuTools->addAction("Preferences...", this, SLOT(onMenuSettings()));
+#endif
+            ui->menuFile->addAction(ui->actionNew);
+            ui->menuFile->addAction(ui->actionOpen);
+            ui->menuFile->addMenu("Open recent...");
+            ui->menuFile->addSeparator();
+
+            ui->menuFile->addAction(ui->actionSave);
+            ui->menuFile->addAction(ui->actionSaveAs);
+
+            ui->menuFile->addSeparator();
+
+            QMenu* importMenu = new QMenu("&Import");
+            importMenu->setIcon(QIcon(":/import.png"));
+            importMenu->addAction("from &file...", this, SLOT(onMenuImportFromFile()));
+            importMenu->addSeparator();
+            importMenu->addAction("Fuzzy &Controller Language (FCL)", this, SLOT(onMenuImportFromFCL()));
+            importMenu->addAction("Fuzzy &Inference System (FIS)", this, SLOT(onMenuImportFromFIS()));
+            ui->menuFile->addMenu(importMenu);
+
+            QMenu* exportMenu = new QMenu("&Export");
+            exportMenu->setIcon(QIcon(":/export.png"));
+            exportMenu->addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
+            exportMenu->addSeparator();
+            exportMenu->addAction("Fuzzy Controller Language (F&CL)", this, SLOT(onMenuExportToFCL()));
+            exportMenu->addAction("Fuzzy Inference System (F&IS)", this, SLOT(onMenuExportToFIS()));
+            ui->menuFile->addMenu(exportMenu);
+
+            ui->menuFile->addSeparator();
+            ui->menuFile->addAction(ui->actionProperties);
+            ui->menuFile->addSeparator();
+            
+#ifndef Q_OS_MAC
+            ui->menuFile->addSeparator();
+            ui->menuFile->addAction(ui->actionQuit);
+            
+            ui->menuHelp->addAction(ui->actionAbout);
+#endif
+
+            ui->menuTools->addAction(ui->actionTerms);
+
+            QWidget* widget = new QWidget;
+            QHBoxLayout* spacerLayout = new QHBoxLayout;
+            QSpacerItem* spacer = new QSpacerItem(1, 1,
+                    QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
+            spacerLayout->addSpacerItem(spacer);
+            widget->setLayout(spacerLayout);
+            ui->toolBar->insertWidget(ui->toolBar->actions().last(), widget);
         }
 
         void Window::connect() {
@@ -220,6 +232,11 @@ namespace fl {
             QObject::connect(ui->btn_hedges, SIGNAL(clicked()),
                     this, SLOT(onClickHedges()));
 
+            QObject::connect(ui->btn_inputs, SIGNAL(clicked()),
+                    this, SLOT(onClickInputButton()));
+            QObject::connect(ui->btn_outputs, SIGNAL(clicked()),
+                    this, SLOT(onClickOutputButton()));
+
         }
 
         void Window::disconnect() {
@@ -280,6 +297,11 @@ namespace fl {
                     this, SLOT(onSelectSnorm(int)));
             QObject::disconnect(ui->cbxActivation, SIGNAL(currentIndexChanged(int)),
                     this, SLOT(onSelectActivation(int)));
+
+            QObject::disconnect(ui->btn_inputs, SIGNAL(clicked()),
+                    this, SLOT(onClickInputButton()));
+            QObject::disconnect(ui->btn_outputs, SIGNAL(clicked()),
+                    this, SLOT(onClickOutputButton()));
         }
 
         void Window::reloadModel() {
@@ -879,6 +901,13 @@ namespace fl {
 
         void Window::onTabChange(int index) { }
 
+        void Window::onClickInputButton() { }
+
+        void Window::onActionInputButton(const QString& action) { }
+
+        void Window::onClickOutputButton() { }
+
+        void Window::onActionOutputButton(const QString& action) { }
 
         void Window::onMenuTerms() {
             Term* window = new Term(this);
