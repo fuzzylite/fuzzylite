@@ -1,9 +1,9 @@
 <RCC>
   <qresource>
     <file alias="save-as.png">icons/document-save-as.png</file>
-    <file alias="output.png">icons/view-fullscreen.png</file>
-    <file alias="input.png">icons/view-restore.png</file>
     <file alias="visualization.png">icons/visualization.png</file>
+    <file alias="input.png">icons/input.png</file>
+    <file alias="output.png">icons/output.png</file>
     <file alias="save.png">icons/document-save.png</file>
     <file alias="open.png">icons/document-open.png</file>
     <file alias="term-view.png">icons/document-page-setup.png</file>
