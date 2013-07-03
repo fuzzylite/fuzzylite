@@ -63,9 +63,9 @@ namespace fl {
                     model->getMaximum() - model->getMinimum()) / 100);
             ui->sbx_x->setDecimals(qtfuzzylite::decimals());
 
-            ui->lbl_name->setText(QString::fromStdString(model->getName()));
+            ui->btn_name->setText(QString::fromStdString(model->getName()));
             if (constVariable->getName().empty())
-                ui->lbl_name->setVisible(false);
+                ui->btn_name->setVisible(false);
             ui->led_x->setVisible(false);
             setMinimumSize(200, 170);
             ui->canvas->setScene(new QGraphicsScene(ui->canvas));
@@ -105,8 +105,8 @@ namespace fl {
             QObject::connect(this, SIGNAL(valueChanged(double)),
                     this, SLOT(refresh()));
 
-            QObject::connect(ui->btn_properties, SIGNAL(clicked()),
-                    this, SLOT(onClickGraph()));
+            QObject::connect(ui->btn_name, SIGNAL(clicked()),
+                    this, SLOT(onClickVariableName()));
             QObject::connect(this, SIGNAL(signalRefresh()),
                     this, SLOT(refresh()), Qt::QueuedConnection);
 
@@ -127,8 +127,8 @@ namespace fl {
             QObject::disconnect(this, SIGNAL(valueChanged(double)),
                     this, SLOT(refresh()));
 
-            QObject::disconnect(ui->btn_properties, SIGNAL(clicked()),
-                    this, SLOT(onClickGraph()));
+            QObject::disconnect(ui->btn_name, SIGNAL(clicked()),
+                    this, SLOT(onClickVariableName()));
             QObject::disconnect(this, SIGNAL(signalRefresh()),
                     this, SLOT(refresh()));
         }
@@ -142,14 +142,14 @@ namespace fl {
         }
 
         void Viewer::enablePropertiesButton(bool show) {
-            ui->btn_properties->setVisible(show);
+            ui->btn_name->setVisible(show);
         }
 
-        void Viewer::onClickGraph() {
+        void Viewer::onClickVariableName() {
             //do nothing.
         }
 
-        void Viewer::onActionGraph(const QString& action) {
+        void Viewer::onActionVariableName(const QString& action) {
             //do nothing
         }
 
@@ -215,9 +215,9 @@ namespace fl {
                     constVariable->fuzzify(x, qtfuzzylite::decimals()));
 
             ui->lbl_fuzzy->setText("&#956;=" + fuzzify);
-            ui->lbl_name->setText(QString::fromStdString(constVariable->getName()));
+            ui->btn_name->setText(QString::fromStdString(constVariable->getName()));
             if (constVariable->getName().empty())
-                ui->lbl_name->setVisible(false);
+                ui->btn_name->setVisible(false);
             draw();
 #ifndef FL_EXPORT_SVG
             drawGuide(x, y);

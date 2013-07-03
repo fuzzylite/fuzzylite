@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>553</width>
+    <width>554</width>
     <height>541</height>
    </rect>
   </property>
@@ -62,7 +62,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>553</width>
+         <width>554</width>
          <height>408</height>
         </rect>
        </property>
@@ -452,7 +452,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>553</width>
+         <width>554</width>
          <height>408</height>
         </rect>
        </property>
@@ -514,9 +514,9 @@
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QLabel" name="label_2">
+                 <widget class="QToolButton" name="toolButton">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
@@ -524,8 +524,11 @@
                   <property name="text">
                    <string>Inputs</string>
                   </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
+                  <property name="checkable">
+                   <bool>true</bool>
+                  </property>
+                  <property name="autoRaise">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
@@ -558,7 +561,7 @@
                      <x>0</x>
                      <y>0</y>
                      <width>248</width>
-                     <height>92</height>
+                     <height>85</height>
                     </rect>
                    </property>
                    <property name="sizePolicy">
@@ -613,9 +616,9 @@
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QLabel" name="label_4">
+                 <widget class="QToolButton" name="toolButton_2">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
@@ -623,8 +626,11 @@
                   <property name="text">
                    <string>Outputs</string>
                   </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
+                  <property name="checkable">
+                   <bool>true</bool>
+                  </property>
+                  <property name="autoRaise">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
@@ -656,8 +662,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>247</width>
-                     <height>92</height>
+                     <width>248</width>
+                     <height>85</height>
                     </rect>
                    </property>
                    <property name="sizePolicy">
@@ -838,7 +844,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>553</width>
+     <width>554</width>
      <height>25</height>
     </rect>
    </property>

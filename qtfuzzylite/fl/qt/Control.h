@@ -51,8 +51,8 @@ namespace fl {
             void updateOutput();
             void onChangeSliderValue(int position);
             void onEditInputValue();
-            void onClickGraph();
-            void onActionGraph(const QString& action);
+            void onClickVariableName();
+            void onActionVariableName(const QString& action);
         public:
             fl::Variable* variable;
 

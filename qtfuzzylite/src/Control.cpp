@@ -61,7 +61,7 @@ namespace fl {
                 ui->led_x->setVisible(true);
                 ui->lbl_fuzzy_out->setVisible(true);
                 ui->lbl_fuzzy->setVisible(false);
-                ui->btn_properties->setVisible(true);
+                ui->btn_name->setVisible(true);
 
                 _minOutput = variable->getMinimum();
                 _maxOutput = variable->getMaximum();
@@ -91,7 +91,7 @@ namespace fl {
                     _outputIndex = 0;
                     _minOutput = variable->getMinimum();
                     _maxOutput = variable->getMaximum();
-                    if (_isTakagiSugeno) onActionGraph("output view");
+                    if (_isTakagiSugeno) onActionVariableName("output view");
                 }
             }
         }
@@ -172,7 +172,7 @@ namespace fl {
 
         }
 
-        void Control::onClickGraph() {
+        void Control::onClickVariableName() {
             QMenu menu(this);
             std::vector<QAction*> actions;
             if (not ui->wdg_canvas->isVisible()) {
@@ -213,7 +213,7 @@ namespace fl {
                 }
             }
             QObject::connect(&signalMapper, SIGNAL(mapped(const QString &)),
-                    this, SLOT(onActionGraph(const QString &)));
+                    this, SLOT(onActionVariableName(const QString &)));
 
             menu.exec(QCursor::pos() + QPoint(1, 0));
 
@@ -222,10 +222,10 @@ namespace fl {
                     actions.at(i)->deleteLater();
                 }
             }
-            ui->btn_properties->setChecked(false);
+            ui->btn_name->setChecked(false);
         }
 
-        void Control::onActionGraph(const QString& action) {
+        void Control::onActionVariableName(const QString& action) {
             if (action == "maximize") {
                 ui->wdg_canvas->setVisible(true);
                 ui->wdg_out->setVisible(true);
@@ -273,7 +273,7 @@ namespace fl {
                 int resolution = QInputDialog::getInteger(this,
                         "Resolution of Output View",
                         "How many defuzzified values do you want to show?", 
-                        _outputs.size(), 50, 5000, 10, &ok);
+                        _outputs.size(), 50, 1000, 10, &ok);
                 if (ok) { //clear
                     fl::OutputVariable* outputVariable =
                             dynamic_cast<fl::OutputVariable*> (variable);
