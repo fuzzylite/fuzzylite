@@ -48,6 +48,8 @@ namespace fl {
         protected slots:
             void onContextMenuRequest(const QPoint&);
 
+            void onChangeEngineName();
+            
             void onChangeInputSelection();
             void onChangeOutputSelection();
             void onDoubleClickInputItem(QListWidgetItem* item);
@@ -83,30 +85,40 @@ namespace fl {
             void onActionOutputButton(const QString& action);
 
             //MenuBar
+            void onMenuAbout();
+            void onMenuAboutQt();
+            
+            void onMenuNew();
+            void onMenuOpen();
+            void onMenuOpenRecent();
+            void openFile(const QString& file);
+            
             void onMenuTerms();
-
+            
             bool confirmImporting();
+            
             void onMenuImport();
             void onMenuExport();
             void onMenuImportFromFCL();
             void onMenuExportToFCL();
             void onMenuImportFromFIS();
             void onMenuExportToFIS();
-            void onMenuImportFromFile();
             void onMenuExportToCpp();
 
-            void onMenuNew();
-            void onMenuAbout();
+            void onMenuAskForHelp();
+            
             void onMenuQuit();
+            
+            
 
             void closeEvent(QCloseEvent* e);
 
         protected:
-            //            std::vector<QWidget*> _inputs, _outputs;
-            QString _lastOpenedFilePath;
             void setupMenuAndToolbar();
             void connect();
-            void disconnect();
+            
+            QMenu* _recentFiles;
+            void updateRecentFiles();
 
             void reloadModel();
             void removeRules();

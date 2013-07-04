@@ -26,6 +26,7 @@
  */
 
 #include <QApplication> 
+#include <QCoreApplication>
 #include <QMessageBox>
 #include <QMenuBar>
 #include <fl/Headers.h>
@@ -42,6 +43,10 @@ namespace fl {
     public:
 
         QtFuzzyLite(int& argc, char ** argv) : QApplication(argc, argv) {
+            QCoreApplication::setOrganizationName("fuzzylite");
+            QCoreApplication::setOrganizationDomain("fuzzylite.com");
+            QCoreApplication::setApplicationName("qtfuzzylite");
+            
             QApplication::setWindowIcon(QIcon(":/qtfuzzylite.png"));
         }
 

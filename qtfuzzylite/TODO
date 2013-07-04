@@ -16,3 +16,5 @@ Preferences: Line thickness, gradients, show centroids and guides,
 QSettings: 
     http://www.java2s.com/Code/Cpp/Qt/Recentfilemenu.htm
     http://harmattan-dev.nokia.com/docs/library/html/qt4/mainwindows-application.html
+
+add StatusBar

@@ -161,6 +161,10 @@ namespace fl {
     int Variable::numberOfTerms() const {
         return this->_terms.size();
     }
+    
+    bool Variable::isEmpty() const{
+        return this->_terms.empty();
+    }
 
     const std::vector<Term*>& Variable::terms() const {
         return this->_terms;

@@ -89,6 +89,7 @@ namespace fl {
         virtual bool hasTerm(const std::string& name) const;
         virtual Term* removeTerm(int index);
         virtual int numberOfTerms() const;
+        virtual bool isEmpty() const ;
         virtual const std::vector<Term*>& terms() const;
 
     };

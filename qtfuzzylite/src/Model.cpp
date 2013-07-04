@@ -58,7 +58,7 @@ namespace fl {
         }
 
         void Model::reset() {
-            fl::Engine* e = new fl::Engine("qtfuzzylite");
+            fl::Engine* e = new fl::Engine("");
             fl::RuleBlock* rb= new fl::RuleBlock;
             
             rb->setTnorm(new Minimum);

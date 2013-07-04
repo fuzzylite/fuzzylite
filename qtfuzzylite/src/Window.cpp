@@ -50,6 +50,10 @@
 #include <QMenuBar>
 #include <QThread>
 #include <QSplashScreen>
+#include <QSettings>
+#include <QDesktopServices>
+#include <QUrl>
+
 namespace fl {
     namespace qt {
 
@@ -63,11 +67,10 @@ namespace fl {
         }
 
         Window::Window(QWidget* parent, Qt::WindowFlags flags) :
-        QMainWindow(parent, flags), _lastOpenedFilePath("."),
+        QMainWindow(parent, flags), _recentFiles(NULL),
         ui(new Ui::Window) { }
 
         Window::~Window() {
-            disconnect();
             if (_inputViewer) delete _inputViewer;
             if (_outputViewer) delete _outputViewer;
             delete ui;
@@ -75,15 +78,14 @@ namespace fl {
 
         void Window::setup() {
             ui->setupUi(this);
+
+            setWindowTitle("qtfuzzylite - untitled");
+
             setupMenuAndToolbar();
 
             setGeometry(0, 0, 800, 600);
             QRect scr = QApplication::desktop()->screenGeometry();
             move(scr.center() - rect().center());
-
-            ui->ptx_rules->setFont(typeWriterFont());
-            ui->lsw_test_rules->setFont(typeWriterFont());
-            ui->lsw_test_rules_activation->setFont(typeWriterFont());
 
             ui->tab_container->setCurrentIndex(0);
 
@@ -115,6 +117,7 @@ namespace fl {
         }
 
         void Window::setupMenuAndToolbar() {
+
             setUnifiedTitleAndToolBarOnMac(true);
             setContextMenuPolicy(Qt::NoContextMenu);
 
@@ -123,44 +126,79 @@ namespace fl {
             ui->menuTools->addSeparator();
             //            ui->menuTools->addAction("Preferences...", this, SLOT(onMenuSettings()));
 #endif
-            ui->menuFile->addAction(ui->actionNew);
-            ui->menuFile->addAction(ui->actionOpen);
-            ui->menuFile->addMenu("Open recent...");
-            ui->menuFile->addSeparator();
+            QMenu* menuFile = new QMenu("&File", this);
 
-            ui->menuFile->addAction(ui->actionSave);
-            ui->menuFile->addAction(ui->actionSaveAs);
+            menuFile->addAction(ui->actionNew);
+            QObject::connect(ui->actionNew, SIGNAL(triggered()), this, SLOT(onMenuNew()));
 
-            ui->menuFile->addSeparator();
+            menuFile->addSeparator();
 
-            QMenu* importMenu = new QMenu("&Import");
-            importMenu->setIcon(QIcon(":/import.png"));
-            importMenu->addAction("from &file...", this, SLOT(onMenuImportFromFile()));
-            importMenu->addSeparator();
-            importMenu->addAction("Fuzzy &Controller Language (FCL)", this, SLOT(onMenuImportFromFCL()));
-            importMenu->addAction("Fuzzy &Inference System (FIS)", this, SLOT(onMenuImportFromFIS()));
-            ui->menuFile->addMenu(importMenu);
+            menuFile->addAction(ui->actionOpen);
+            QObject::connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(onMenuOpen()));
 
-            QMenu* exportMenu = new QMenu("&Export");
-            exportMenu->setIcon(QIcon(":/export.png"));
-            exportMenu->addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
-            exportMenu->addSeparator();
-            exportMenu->addAction("Fuzzy Controller Language (F&CL)", this, SLOT(onMenuExportToFCL()));
-            exportMenu->addAction("Fuzzy Inference System (F&IS)", this, SLOT(onMenuExportToFIS()));
-            ui->menuFile->addMenu(exportMenu);
+            _recentFiles = new QMenu("Open Re&cent", menuFile);
+            _recentFiles->setIcon(QIcon(":/open-recent.png"));
+            updateRecentFiles();
+            menuFile->addMenu(_recentFiles);
 
-            ui->menuFile->addSeparator();
-            ui->menuFile->addAction(ui->actionProperties);
-            ui->menuFile->addSeparator();
-            
+            menuFile->addSeparator();
+
+            menuFile->addAction(ui->actionSave);
+            menuFile->addAction(ui->actionSaveAs);
+            menuFile->addAction(ui->actionReload);
+
+            menuFile->addSeparator();
+
+            QMenu* menuImport = new QMenu("&Import from...", menuFile);
+            menuImport->setIcon(QIcon(":/import.png"));
+            QObject::connect(ui->actionImport, SIGNAL(triggered()), this, SLOT(onMenuImport()));
+
+            menuImport->addAction("Fuzzy &Controller Language (FCL)", this, SLOT(onMenuImportFromFCL()));
+            menuImport->addAction("Fuzzy &Inference System (FIS)", this, SLOT(onMenuImportFromFIS()));
+
+            menuFile->addMenu(menuImport);
+
+            QMenu* menuExport = new QMenu("&Export to...", menuFile);
+            menuExport->setIcon(QIcon(":/export.png"));
+            QObject::connect(ui->actionExport, SIGNAL(triggered()), this, SLOT(onMenuExport()));
+
+            menuExport->addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
+            menuExport->addSeparator();
+            menuExport->addAction("Fuzzy Controller Language (F&CL)", this, SLOT(onMenuExportToFCL()));
+            menuExport->addAction("Fuzzy Inference System (F&IS)", this, SLOT(onMenuExportToFIS()));
+            menuFile->addMenu(menuExport);
+
+            menuFile->addSeparator();
+
+            menuFile->addAction(ui->actionProperties);
+
+            menuFile->addSeparator();
+
+            menuFile->addAction(ui->actionQuit);
+            QObject::connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(onMenuQuit()));
+
+            ui->menuBar->addMenu(menuFile);
+
+            QMenu* menuTools = new QMenu("&Tools", this);
+            menuTools->addAction(ui->actionTerms);
+            QObject::connect(ui->actionTerms, SIGNAL(triggered()), this, SLOT(onMenuTerms()));
+
+            ui->menuBar->addMenu(menuTools);
+
+            QMenu* menuHelp = new QMenu("&Help", this);
+
+            menuHelp->addAction(ui->actionAskForHelp);
+            QObject::connect(ui->actionAskForHelp, SIGNAL(triggered()), this, SLOT(onMenuAskForHelp()));
+
+            menuHelp->addSeparator();
 #ifndef Q_OS_MAC
-            ui->menuFile->addSeparator();
-            ui->menuFile->addAction(ui->actionQuit);
-            
-            ui->menuHelp->addAction(ui->actionAbout);
+            menuHelp->addAction(ui->actionAbout);
+            QObject::connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(onMenuAbout()));
 #endif
+            menuHelp->addAction(ui->actionAboutQt);
+            QObject::connect(ui->actionAboutQt, SIGNAL(triggered()), this, SLOT(onMenuAboutQt()));
 
-            ui->menuTools->addAction(ui->actionTerms);
+            ui->menuBar->addMenu(menuHelp);
 
             QWidget* widget = new QWidget;
             QHBoxLayout* spacerLayout = new QHBoxLayout;
@@ -172,20 +210,6 @@ namespace fl {
         }
 
         void Window::connect() {
-            QObject::connect(ui->actionTerms, SIGNAL(triggered()),
-                    this, SLOT(onMenuTerms()));
-            QObject::connect(ui->actionNew, SIGNAL(triggered()),
-                    this, SLOT(onMenuNew()));
-            QObject::connect(ui->actionAbout, SIGNAL(triggered()),
-                    this, SLOT(onMenuAbout()));
-            QObject::connect(ui->actionQuit, SIGNAL(triggered()),
-                    this, SLOT(onMenuQuit()));
-
-            QObject::connect(ui->actionImport, SIGNAL(triggered()),
-                    this, SLOT(onMenuImport()));
-            QObject::connect(ui->actionExport, SIGNAL(triggered()),
-                    this, SLOT(onMenuExport()));
-
             QObject::connect(ui->lvw_inputs, SIGNAL(itemSelectionChanged()),
                     this, SLOT(onChangeInputSelection()));
             QObject::connect(ui->lvw_outputs, SIGNAL(itemSelectionChanged()),
@@ -237,75 +261,20 @@ namespace fl {
             QObject::connect(ui->btn_outputs, SIGNAL(clicked()),
                     this, SLOT(onClickOutputButton()));
 
-        }
+            QObject::connect(ui->led_name, SIGNAL(editingFinished()),
+                    this, SLOT(onChangeEngineName()));
 
-        void Window::disconnect() {
-            QObject::disconnect(ui->actionTerms, SIGNAL(triggered()),
-                    this, SLOT(onMenuTerms()));
-            QObject::disconnect(ui->actionNew, SIGNAL(triggered()),
-                    this, SLOT(onMenuNew()));
-            QObject::disconnect(ui->actionAbout, SIGNAL(triggered()),
-                    this, SLOT(onMenuAbout()));
-            QObject::disconnect(ui->actionQuit, SIGNAL(triggered()),
-                    this, SLOT(onMenuQuit()));
-
-            QObject::disconnect(ui->actionImport, SIGNAL(triggered()),
-                    this, SLOT(onMenuImport()));
-            QObject::disconnect(ui->actionExport, SIGNAL(triggered()),
-                    this, SLOT(onMenuExport()));
-
-            QObject::disconnect(ui->lvw_inputs, SIGNAL(itemSelectionChanged()),
-                    this, SLOT(onChangeInputSelection()));
-            QObject::disconnect(ui->lvw_outputs, SIGNAL(itemSelectionChanged()),
-                    this, SLOT(onChangeOutputSelection()));
-
-            QObject::disconnect(ui->lvw_inputs, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-                    this, SLOT(onDoubleClickInputItem(QListWidgetItem*)));
-            QObject::disconnect(ui->lvw_outputs, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-                    this, SLOT(onDoubleClickOutputItem(QListWidgetItem*)));
-
-            QObject::disconnect(ui->btn_add_input, SIGNAL(clicked()),
-                    this, SLOT(onClickAddInputVariable()));
-            QObject::disconnect(ui->btn_remove_input, SIGNAL(clicked()),
-                    this, SLOT(onClickRemoveInputVariable()));
-            QObject::disconnect(ui->btn_edit_input, SIGNAL(clicked()),
-                    this, SLOT(onClickEditInputVariable()));
-
-            QObject::disconnect(ui->btn_add_output, SIGNAL(clicked()),
-                    this, SLOT(onClickAddOutputVariable()));
-            QObject::disconnect(ui->btn_remove_output, SIGNAL(clicked()),
-                    this, SLOT(onClickRemoveOutputVariable()));
-            QObject::disconnect(ui->btn_edit_output, SIGNAL(clicked()),
-                    this, SLOT(onClickEditOutputVariable()));
-
-            QObject::disconnect(ui->btn_generate_rules, SIGNAL(clicked()),
-                    this, SLOT(onClickGenerateAllRules()));
-            QObject::disconnect(ui->btn_parse_rules, SIGNAL(clicked()),
-                    this, SLOT(onClickParseAllRules()));
-
-            QObject::disconnect(ui->tab_container, SIGNAL(currentChanged(int)),
-                    this, SLOT(onTabChange(int)));
-
-            QObject::disconnect(ui->lsw_test_rules->verticalScrollBar(), SIGNAL(valueChanged(int)),
-                    ui->lsw_test_rules_activation->verticalScrollBar(), SLOT(setValue(int)));
-            QObject::disconnect(ui->lsw_test_rules_activation->verticalScrollBar(), SIGNAL(valueChanged(int)),
-                    ui->lsw_test_rules->verticalScrollBar(), SLOT(setValue(int)));
-
-            QObject::disconnect(ui->cbxTnorm, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onSelectTnorm(int)));
-            QObject::disconnect(ui->cbxSnorm, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onSelectSnorm(int)));
-            QObject::disconnect(ui->cbxActivation, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onSelectActivation(int)));
-
-            QObject::disconnect(ui->btn_inputs, SIGNAL(clicked()),
-                    this, SLOT(onClickInputButton()));
-            QObject::disconnect(ui->btn_outputs, SIGNAL(clicked()),
-                    this, SLOT(onClickOutputButton()));
         }
 
         void Window::reloadModel() {
             Engine* engine = Model::Default()->engine();
+
+            ui->led_name->setText(QString::fromStdString(engine->getName()));
+            
+            QFont typeWriter = typeWriterFont();
+            ui->ptx_rules->setFont(typeWriter);
+            ui->lsw_test_rules->setFont(typeWriter);
+            ui->lsw_test_rules_activation->setFont(typeWriter);
 
             ui->lvw_inputs->clear();
             ui->lvw_outputs->clear();
@@ -472,6 +441,10 @@ namespace fl {
             if (widget) {
                 FL_LOG(widget->objectName().toStdString());
             }
+        }
+
+        void Window::onChangeEngineName() {
+            Model::Default()->engine()->setName(ui->led_name->text().toStdString());
         }
 
         void Window::onChangeInputSelection() {
@@ -909,6 +882,140 @@ namespace fl {
 
         void Window::onActionOutputButton(const QString& action) { }
 
+        /**
+         * Toolbar events
+         **/
+        void Window::onMenuNew() {
+            QMessageBox::StandardButton clicked =
+                    QMessageBox::question(this, "New engine",
+                    "Do you want to create a new engine?",
+                    QMessageBox::Yes | QMessageBox::No,
+                    QMessageBox::Yes);
+
+            if (clicked == QMessageBox::No) return;
+
+            Model::Default()->reset();
+
+            setWindowTitle("qtfuzzylite - untitled");
+
+            reloadModel();
+        }
+
+        void Window::onMenuOpen() {
+            QSettings settings("fuzzylite", "qtfuzzylite");
+            QString lastOpenedLocation = settings.value("file/lastOpenedLocation", ".").toString();
+
+            QString filename = QFileDialog::getOpenFileName(this,
+                    "Open", lastOpenedLocation,
+                    "Supported formats (*.fcl *.fis);;"
+                    "Fuzzy Logic Controller (*.fcl);;"
+                    "Fuzzy Inference System (*.fis)");
+
+            if (filename.size() == 0) return;
+            openFile(filename);
+        }
+
+        void Window::onMenuOpenRecent() {
+            QAction* action = qobject_cast<QAction *>(sender());
+            if (action) openFile(action->data().toString());
+        }
+
+        void Window::openFile(const QString& filename) {
+            QSettings settings;
+            settings.setValue("file/lastOpenedLocation", QFileInfo(filename).path());
+
+            enum Format {
+                FCL, FIS, UNSUPPORTED
+            } format;
+
+            if (filename.endsWith(".fcl", Qt::CaseInsensitive)) format = FCL;
+            else if (filename.endsWith(".fis", Qt::CaseInsensitive)) format = FIS;
+            else format = UNSUPPORTED;
+
+            QFile file(filename);
+            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                QMessageBox::critical(this, "qtfuzzylite",
+                        "Error opening file: " + filename,
+                        QMessageBox::Ok);
+                return;
+            }
+            QTextStream in(&file);
+            std::ostringstream reader;
+            while (!in.atEnd()) {
+                reader << in.readLine().toStdString() << "\n";
+            }
+
+            Engine* engine = NULL;
+            Importer* importer = NULL;
+            try {
+                if (format == FCL) importer = new FclImporter;
+                else if (format == FIS) importer = new FisImporter;
+                else throw fl::Exception("[import error] Unsupported filetype for file: "
+                        + filename.toStdString(), FL_AT);
+
+                engine = importer->fromString(reader.str());
+
+                int maxRecentFiles = settings.value("file/maxRecentFiles", 5).toInt();
+                QStringList recentFiles = settings.value("file/recentFiles").toStringList();
+                recentFiles.push_front(filename);
+                recentFiles.removeDuplicates();
+                ;
+                while (not recentFiles.empty() and recentFiles.size() > maxRecentFiles) {
+                    recentFiles.removeLast();
+                }
+                settings.setValue("file/recentFiles", recentFiles);
+
+                updateRecentFiles();
+
+                if (not confirmImporting()) {
+                    delete engine;
+                    delete importer;
+                    return;
+                }
+                Model::Default()->change(engine);
+                setWindowTitle("qtfuzzylite - " + QFileInfo(filename).fileName());
+                reloadModel();
+                onClickParseAllRules();
+            } catch (fl::Exception& ex) {
+                QMessageBox::critical(this, "Error opening file: " + filename,
+                        toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
+                        QMessageBox::Ok);
+                delete importer;
+                delete engine;
+                return;
+            }
+            delete importer;
+        }
+
+        void Window::updateRecentFiles() {
+            _recentFiles->clear();
+            
+            QSettings settings;
+            int maxRecentFiles = settings.value("file/maxRecentFiles", 5).toInt();
+            QStringList recentFiles = settings.value("file/recentFiles").toStringList();
+            bool update = false;
+            while (not recentFiles.empty() and recentFiles.size() > maxRecentFiles) {
+                recentFiles.removeLast();
+                update = true;
+            }
+            if (update) settings.setValue("file/recentFiles", recentFiles);
+
+            for (int i = 0; i < recentFiles.size(); ++i) {
+//                QString text = "&" + QString::number(i + 1) + "   " + QFileInfo(recentFiles.at(i)).fileName();
+                QString text =  QFileInfo(recentFiles.at(i)).absoluteFilePath();
+                QString data = QFileInfo(recentFiles.at(i)).absoluteFilePath();
+
+                QAction* actionFile = new QAction(_recentFiles);
+                actionFile->setText(text);
+                actionFile->setStatusTip(data);
+                actionFile->setData(data);
+                QObject::connect(actionFile, SIGNAL(triggered()),
+                        this, SLOT(onMenuOpenRecent()));
+
+                _recentFiles->addAction(actionFile);
+            }
+        }
+
         void Window::onMenuTerms() {
             Term* window = new Term(this);
             window->setup(fl::Variable("Terms", 0, 1));
@@ -924,10 +1031,8 @@ namespace fl {
         void Window::onMenuImport() {
             if (ui->actionImport->isChecked()) {
                 QMenu menu(this);
-                menu.addAction("from &file...", this, SLOT(onMenuImportFromFile()));
-                menu.addSeparator();
-                menu.addAction("Fuzzy Control Language (FC&L)", this, SLOT(onMenuImportFromFCL()));
-                menu.addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuImportFromFIS()));
+                menu.addAction("Fuzzy &Control Language (FCL)", this, SLOT(onMenuImportFromFCL()));
+                menu.addAction("Fuzzy &Inference System (FIS)", this, SLOT(onMenuImportFromFIS()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionImport->setChecked(false);
             }
@@ -1015,77 +1120,13 @@ namespace fl {
             }
         }
 
-        void Window::onMenuImportFromFile() {
-            QString filename = QFileDialog::getOpenFileName(this,
-                    "Import fuzzy logic engine from file", _lastOpenedFilePath,
-                    "Supported formats (*.fcl *.fis);;"
-                    "Fuzzy Logic Controller (*.fcl);;"
-                    "Fuzzy Inference System (*.fis)");
-
-            if (filename.size() == 0) return;
-            _lastOpenedFilePath = QFileInfo(filename).path();
-
-            enum Format {
-                FCL, FIS, UNSUPPORTED
-            } format;
-
-            if (filename.endsWith("fcl", Qt::CaseInsensitive)) format = FCL;
-            else if (filename.endsWith(".fis", Qt::CaseInsensitive)) format = FIS;
-            else format = UNSUPPORTED;
-
-            if (format == UNSUPPORTED) {
-                QMessageBox::critical(this, "qtfuzzylite",
-                        "Unsupported file for a fuzzy logic engine: " + filename
-                        + ". The only supported files are *.fcl and *.fis",
-                        QMessageBox::Ok);
-                return;
-            }
-
-            QFile file(filename);
-            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                QMessageBox::critical(this, "qtfuzzylite",
-                        "Error opening file: " + filename,
-                        QMessageBox::Ok);
-                return;
-            }
-            QTextStream in(&file);
-            std::ostringstream reader;
-            while (!in.atEnd()) {
-                reader << in.readLine().toStdString() << "\n";
-            }
-
-            Engine* engine = NULL;
-            Importer* importer = NULL;
-            if (format == FCL) importer = new FclImporter;
-            else if (format == FIS) importer = new FisImporter;
-            try {
-                engine = importer->fromString(reader.str());
-                if (not confirmImporting()) {
-                    delete engine;
-                    delete importer;
-                    return;
-                }
-                Model::Default()->change(engine);
-                reloadModel();
-                onClickParseAllRules();
-            } catch (fl::Exception& ex) {
-                QMessageBox::critical(this, "Error importing from FIS",
-                        toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
-                        QMessageBox::Ok);
-                delete importer;
-                delete engine;
-                return;
-            }
-            delete importer;
-        }
-
         void Window::onMenuExport() {
             if (ui->actionExport->isChecked()) {
                 QMenu menu(this);
-                menu.addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
+                menu.addAction("&fuzzylite (C++)", this, SLOT(onMenuExportToCpp()));
                 menu.addSeparator();
-                menu.addAction("Fuzzy Control Language (FC&L)", this, SLOT(onMenuExportToFCL()));
-                menu.addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuExportToFIS()));
+                menu.addAction("Fuzzy &Control Language (FCL)", this, SLOT(onMenuExportToFCL()));
+                menu.addAction("Fuzzy &Inference System (FIS)", this, SLOT(onMenuExportToFIS()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionExport->setChecked(false);
             }
@@ -1178,24 +1219,19 @@ namespace fl {
             fclDialog.exec();
         }
 
-        void Window::onMenuNew() {
-            QMessageBox::StandardButton clicked =
-                    QMessageBox::question(this, "New engine",
-                    "Do you want to create a new engine?",
-                    QMessageBox::Yes | QMessageBox::No,
-                    QMessageBox::Yes);
-
-            if (clicked == QMessageBox::No) return;
-
-            Model::Default()->reset();
-
-            reloadModel();
-        }
-
         void Window::onMenuAbout() {
             About about;
             about.setup();
             about.exec();
+        }
+
+        void Window::onMenuAboutQt() {
+            QApplication::aboutQt();
+        }
+
+        void Window::onMenuAskForHelp() {
+            QDesktopServices::openUrl(QUrl(
+                    "mailto:community@fuzzylite.com?subject=Help with <insert topic here>"));
         }
 
         void Window::onMenuQuit() {
@@ -1215,7 +1251,7 @@ namespace fl {
         }
 
         QFont Window::typeWriterFont() const {
-            std::string font = "Courier";
+            std::string font = "Courier"; 
 #ifdef Q_OS_MAC
             font = "Monaco";
 #endif
@@ -1225,6 +1261,10 @@ namespace fl {
 #ifdef Q_OS_LINUX
             font = "Ubuntu Mono";
 #endif
+            QSettings settings;
+            std::string preferredFontFamily = settings.value("view/monospacedFontFamily").toString().toStdString();
+            if (not preferredFontFamily.empty()) font = preferredFontFamily;
+            
             QFont tt(QString::fromStdString(font));
             tt.setStyleHint(QFont::TypeWriter);
             return tt;

@@ -34,6 +34,7 @@
 #include <QSignalMapper>
 #include <QAction>
 #include <QInputDialog>
+#include <QSettings>
 
 #include "fl/qt/Model.h"
 namespace fl {
@@ -44,17 +45,21 @@ namespace fl {
         _isTakagiSugeno(false), _minOutput(fl::nan), _maxOutput(fl::nan),
         _allowsOutputView(false) { }
 
-        Control::~Control() {
-            //Exception on reset?
-            //            if (dynamic_cast<InputVariable*> (variable)) {
-            //                QObject::disconnect(this, SIGNAL(valueChanged(double)),
-            //                        this, SLOT(updateInput(double)));
-            //            }
-        }
+        Control::~Control() { }
 
         void Control::setup(const fl::Variable* model) {
             Viewer::setup(model);
             this->variable = const_cast<fl::Variable*> (model);
+
+            _isTakagiSugeno = false;
+            for (int i = 0; i < variable->numberOfTerms(); ++i) {
+                if (variable->getTerm(i)->className() == Constant().className() or
+                        variable->getTerm(i)->className() == Linear().className()) {
+                    _isTakagiSugeno = true;
+                    break;
+                }
+            }
+
             if (dynamic_cast<fl::OutputVariable*> (variable)) {
                 ui->sld_x->setEnabled(false);
                 ui->sbx_x->setVisible(false);
@@ -66,19 +71,13 @@ namespace fl {
 
                 _minOutput = variable->getMinimum();
                 _maxOutput = variable->getMaximum();
-
-                _isTakagiSugeno = false;
-                for (int i = 0; i < variable->numberOfTerms(); ++i) {
-                    if (variable->getTerm(i)->className() == Constant().className() or
-                            variable->getTerm(i)->className() == Linear().className()) {
-                        _isTakagiSugeno = true;
-                        break;
-                    }
-                }
             } else if (dynamic_cast<InputVariable*> (variable)) {
                 QObject::connect(this, SIGNAL(valueChanged(double)),
                         this, SLOT(updateInput(double)));
                 ui->btn_name->setIcon(QIcon(":/input.png"));
+                if (_isTakagiSugeno or variable->isEmpty()) {
+                    onActionVariableName("minimize");
+                }
             }
         }
 
@@ -87,8 +86,11 @@ namespace fl {
             if (_allowsOutputView) {
                 fl::OutputVariable* outputVariable = dynamic_cast<fl::OutputVariable*> (variable);
                 if (outputVariable) {
+                    QSettings settings;
+                    int defaultOutputViewResolution =
+                            settings.value("view/defaultOutputViewResolution", 250).toInt();
                     _outputs = std::vector<scalar>(
-                            250,
+                            defaultOutputViewResolution,
                             (outputVariable->getMaximum() + outputVariable->getMinimum()) / 2.0);
                     _outputIndex = 0;
                     _minOutput = variable->getMinimum();
@@ -271,11 +273,17 @@ namespace fl {
                     ui->mainLayout->addWidget(ui->sld_x);
                 }
             } else if (action == "resolution...") {
+                QSettings settings;
+                int minOutputViewResolution =
+                        settings.value("view/minOutputViewResolution", 50).toInt();
+                int maxOutputViewResolution =
+                        settings.value("view/maxOutputViewResolution", 1000).toInt();
                 bool ok;
                 int resolution = QInputDialog::getInteger(this,
                         "Resolution of Output View",
-                        "How many defuzzified values do you want to show?", 
-                        _outputs.size(), 50, 1000, 10, &ok);
+                        "How many defuzzified values do you want to show?",
+                        _outputs.size(), minOutputViewResolution, maxOutputViewResolution,
+                        10, &ok);
                 if (ok) { //clear
                     fl::OutputVariable* outputVariable =
                             dynamic_cast<fl::OutputVariable*> (variable);
@@ -369,7 +377,9 @@ namespace fl {
             pen.setStyle(Qt::SolidLine);
             pen.setCapStyle(Qt::RoundCap);
             pen.setJoinStyle(Qt::MiterJoin);
-            pen.setWidth(3);
+            QSettings settings;
+            int penWidthOutputView = settings.value("view/penWidthOutputView", 3).toInt();
+            pen.setWidth(penWidthOutputView);
 
             ui->canvas->scene()->addPath(path, pen);
         }

@@ -98,7 +98,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="lineEdit"/>
+           <widget class="QLineEdit" name="led_name"/>
           </item>
          </layout>
         </item>
@@ -470,7 +470,7 @@
          <x>0</x>
          <y>0</y>
          <width>554</width>
-         <height>408</height>
+         <height>386</height>
         </rect>
        </property>
        <attribute name="label">
@@ -593,7 +593,7 @@
                         <x>0</x>
                         <y>0</y>
                         <width>242</width>
-                        <height>90</height>
+                        <height>82</height>
                        </rect>
                       </property>
                       <property name="sizePolicy">
@@ -713,7 +713,7 @@
                         <x>0</x>
                         <y>0</y>
                         <width>242</width>
-                        <height>90</height>
+                        <height>82</height>
                        </rect>
                       </property>
                       <property name="sizePolicy">
@@ -888,12 +888,10 @@
    <addaction name="actionSave"/>
    <addaction name="actionSaveAs"/>
    <addaction name="separator"/>
-   <addaction name="actionProperties"/>
-   <addaction name="separator"/>
-   <addaction name="actionTerms"/>
-   <addaction name="separator"/>
    <addaction name="actionImport"/>
    <addaction name="actionExport"/>
+   <addaction name="separator"/>
+   <addaction name="actionTerms"/>
    <addaction name="separator"/>
    <addaction name="actionAbout"/>
    <addaction name="actionQuit"/>
@@ -910,40 +908,7 @@
    <property name="defaultUp">
     <bool>false</bool>
    </property>
-   <widget class="QMenu" name="menuTools">
-    <property name="title">
-     <string>Tools</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>Help</string>
-    </property>
-   </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuTools"/>
-   <addaction name="menuHelp"/>
   </widget>
-  <action name="actionPreferences">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/settings.png</normaloff>:/settings.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Settings</string>
-   </property>
-   <property name="toolTip">
-    <string>Settings</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+,</string>
-   </property>
-  </action>
   <action name="actionTerms">
    <property name="icon">
     <iconset resource="qtfuzzylite.qrc">
@@ -957,6 +922,9 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+T</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
   <action name="actionImport">
@@ -976,6 +944,9 @@
    <property name="shortcut">
     <string>Ctrl+I</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="actionExport">
    <property name="checkable">
@@ -994,6 +965,9 @@
    <property name="shortcut">
     <string>Ctrl+E</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="actionNew">
    <property name="icon">
@@ -1009,6 +983,9 @@
    <property name="shortcut">
     <string>Ctrl+N</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="actionAbout">
    <property name="icon">
@@ -1016,13 +993,19 @@
      <normaloff>:/about.png</normaloff>:/about.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;About...</string>
+    <string>About qt&amp;fuzzylite</string>
    </property>
    <property name="toolTip">
     <string>About qtfuzzylite</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+?</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::AboutRole</enum>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
   <action name="actionQuit">
@@ -1039,6 +1022,12 @@
    <property name="shortcut">
     <string>Ctrl+Q</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::QuitRole</enum>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="actionOpen">
    <property name="icon">
@@ -1053,6 +1042,9 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
   <action name="actionSave">
@@ -1069,23 +1061,26 @@
    <property name="shortcut">
     <string>Ctrl+S</string>
    </property>
-  </action>
-  <action name="actionSaveAs">
-   <property name="checkable">
+   <property name="iconVisibleInMenu">
     <bool>true</bool>
    </property>
+  </action>
+  <action name="actionSaveAs">
    <property name="icon">
     <iconset resource="qtfuzzylite.qrc">
      <normaloff>:/save-as.png</normaloff>:/save-as.png</iconset>
    </property>
    <property name="text">
-    <string>Save as...</string>
+    <string>Sa&amp;ve as...</string>
    </property>
    <property name="toolTip">
     <string>Save as...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
   <action name="actionProperties">
@@ -1102,10 +1097,77 @@
    <property name="shortcut">
     <string>Ctrl+P</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
   </action>
-  <action name="actionTerms_2">
+  <action name="actionOpenRecent">
+   <property name="icon">
+    <iconset resource="qtfuzzylite.qrc">
+     <normaloff>:/open-recent.png</normaloff>:/open-recent.png</iconset>
+   </property>
    <property name="text">
-    <string>Terms</string>
+    <string>Open &amp;Recent</string>
+   </property>
+   <property name="toolTip">
+    <string>Open a recently opened file</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionReload">
+   <property name="icon">
+    <iconset resource="qtfuzzylite.qrc">
+     <normaloff>:/reload.png</normaloff>:/reload.png</iconset>
+   </property>
+   <property name="text">
+    <string>Re&amp;load</string>
+   </property>
+   <property name="toolTip">
+    <string>Reload engine</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionAboutQt">
+   <property name="icon">
+    <iconset resource="qtfuzzylite.qrc">
+     <normaloff>:/qt-logo.png</normaloff>:/qt-logo.png</iconset>
+   </property>
+   <property name="text">
+    <string>About &amp;Qt</string>
+   </property>
+   <property name="toolTip">
+    <string>About Qt</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::AboutQtRole</enum>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionAskForHelp">
+   <property name="icon">
+    <iconset resource="qtfuzzylite.qrc">
+     <normaloff>:/help.png</normaloff>:/help.png</iconset>
+   </property>
+   <property name="text">
+    <string>Ask for &amp;help...</string>
+   </property>
+   <property name="toolTip">
+    <string>Prepares an email to community@fuzzylite.com</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
  </widget>
