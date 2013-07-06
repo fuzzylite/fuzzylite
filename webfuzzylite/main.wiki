@@ -15,7 +15,7 @@ There are still _many_ things to do!
 
 === News ===
 
-30/05/2013: Join the *`fuzzylite`* !LinkedIn [http://www.linkedin.com/groups/fuzzylite-5043005?trk=myg_ugrp_ovr group]
+30/05/2013: Join the *`fuzzylite`* [http://groups.google.com/group/fuzzylite community] to receive news and updates
 
 == Current Version: 2.0 (February/2013) ==
 
@@ -31,7 +31,7 @@ http://www.fuzzylite.com/jcrada
 
 = Introduction =
 
-*`fuzzylite`* is a cross-platform, free open-source Fuzzy Logic Control Library written in C++. Simplicity is the essence of *`fuzzylite`*. It provides a natural and simple way of creating a fuzzy logic engine in a few steps using object-oriented programming. It allows you to easily add your own features to the library by just using inheritance. It only relies on the Standard Template Library (STL) that comes with C++, *no* other third-party library (e.g. boost) are involved. Furthermore, as a library, it only contains the functions you need from a fuzzy logic controller.
+*`fuzzylite`* is a cross-platform, free open-source Fuzzy Logic Control Library written in C++. Simplicity is the essence of *`fuzzylite`*. It provides a natural and simple way of creating a fuzzy logic engine in a few steps using object-oriented programming. It allows you to easily add your own features to the library by just using inheritance. It only relies on the Standard Template Library (STL) that comes with C++, *no* other third-party library (e.g. boost) is involved. Furthermore, as a library, it only contains the functions you need from a fuzzy logic controller.
 
 *`qtfuzzylite`* is a Graphic User Interface that uses *`fuzzylite`* to provide a nice and easy way to visually create your fuzzy logic controllers. It is cross-platform, free and open source too, and it is based on the Qt framework. It allows you to design your fuzzy logic controller and interactively play with it while observing its operation in real-time. Furthermore, it allows you to export your controller to actual *`fuzzylite`* C++ code, so you only need to copy and paste it into your C++ application and _voilà_!
 
@@ -59,14 +59,14 @@ Additionally, check the list of *[#Applications Applications]* and *[#Publicatio
 = Features =
   * Linguistic terms: triangle, trapezoid, rectangle, discrete, gaussian, gaussian product, bell, pi-shape, sigmoid difference, sigmoid product, ramp, sigmoid, s-shape, z-shape, and you can create more
   * T-norms and activation operators: minimum, algebraic product, bounded difference, drastic product, einstein product, hamacher product, and you can create more
-  * T-conorms and accumulation operators: maximum, algebraic sum, bounded sum, normalized sum, drastic sum, einstein sum, hamacher sum, and you can create more
+  * S-norms and accumulation operators: maximum, algebraic sum, bounded sum, normalized sum, drastic sum, einstein sum, hamacher sum, and you can create more
   * Defuzzifiers: centroid, smallest of maximum, largest of maximum, mean of maximum, and you can create more
   * Hedges: any, not, extremely, seldom, somewhat, very, and you can create more.
   * Extend every component of *`fuzzylite`* and use it seamlessly thanks to the neat object-oriented approach 
   * Import your fuzzy engines from Octave or Matlab using the `fis` format
   * Export your *`fuzzylite`* engines to the `.fis` format and use them in Octave or Matlab
   * Import and export using the Fuzzy Controller Language (FCL) specification
-  * Use multiple ruleblocks within an engine, each containing any number of (possibly weighted) rules, and different T-norms, T-conorms, and activation operators
+  * Use multiple ruleblocks within an engine, each containing any number of (possibly weighted) rules, and different T-norms, S-norms, and activation operators
   * Write Mamdani rules just naturally e.g. "`if Ambient is DARK then Power is HIGH`"
   * Return a default value or the last known valid one in output variables when no rules are activated
   * Play with over a dozen of examples from Octave, Matlab, and ours included in `fcl` and `fis` format, and also in *`fuzzylite`* C++

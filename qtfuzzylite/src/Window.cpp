@@ -53,6 +53,7 @@
 #include <QSettings>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QInputDialog>
 
 namespace fl {
     namespace qt {
@@ -67,8 +68,8 @@ namespace fl {
         }
 
         Window::Window(QWidget* parent, Qt::WindowFlags flags) :
-        QMainWindow(parent, flags), _recentFiles(NULL),
-        ui(new Ui::Window) { }
+        QMainWindow(parent, flags), _recentFiles(NULL), _currentFile(""),
+        _currentFileModified(false), ui(new Ui::Window) { }
 
         Window::~Window() {
             if (_inputViewer) delete _inputViewer;
@@ -79,7 +80,7 @@ namespace fl {
         void Window::setup() {
             ui->setupUi(this);
 
-            setWindowTitle("qtfuzzylite - untitled");
+            updateWindowTitle();
 
             setupMenuAndToolbar();
 
@@ -116,6 +117,26 @@ namespace fl {
             connect();
         }
 
+        void Window::setCurrentFile(bool modified, const QString* filename) {
+            this->_currentFileModified = modified;
+            if (filename) this->_currentFile = *filename;
+            updateWindowTitle();
+        }
+
+        void Window::updateWindowTitle() {
+            QString title = "";
+            if (_currentFileModified) title += "*";
+            if (_currentFile.isEmpty()) title += "untitled";
+            else title += QFileInfo(_currentFile).fileName();
+            title += " - qtfuzzylite";
+            setWindowTitle(title);
+
+            ui->actionReload->setEnabled(not _currentFile.isEmpty());
+            ui->actionNew->setEnabled(not _currentFile.isEmpty() or _currentFileModified);
+            ui->actionSave->setEnabled(_currentFileModified and not _currentFile.isEmpty());
+            
+        }
+
         void Window::setupMenuAndToolbar() {
 
             setUnifiedTitleAndToolBarOnMac(true);
@@ -144,9 +165,11 @@ namespace fl {
             menuFile->addSeparator();
 
             menuFile->addAction(ui->actionSave);
+            QObject::connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(onMenuSave()));
             menuFile->addAction(ui->actionSaveAs);
+            QObject::connect(ui->actionSaveAs, SIGNAL(triggered()), this, SLOT(onMenuSaveAs()));
             menuFile->addAction(ui->actionReload);
-
+            QObject::connect(ui->actionReload, SIGNAL(triggered()), this, SLOT(onMenuReload()));
             menuFile->addSeparator();
 
             QMenu* menuImport = new QMenu("&Import from...", menuFile);
@@ -170,9 +193,9 @@ namespace fl {
 
             menuFile->addSeparator();
 
-            menuFile->addAction(ui->actionProperties);
-
-            menuFile->addSeparator();
+//            menuFile->addAction(ui->actionProperties);
+//
+//            menuFile->addSeparator();
 
             menuFile->addAction(ui->actionQuit);
             QObject::connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(onMenuQuit()));
@@ -189,6 +212,9 @@ namespace fl {
 
             menuHelp->addAction(ui->actionAskForHelp);
             QObject::connect(ui->actionAskForHelp, SIGNAL(triggered()), this, SLOT(onMenuAskForHelp()));
+
+            menuHelp->addAction(ui->actionJoinTheCommunity);
+            QObject::connect(ui->actionJoinTheCommunity, SIGNAL(triggered()), this, SLOT(onMenuJoinTheCommunity()));
 
             menuHelp->addSeparator();
 #ifndef Q_OS_MAC
@@ -261,16 +287,18 @@ namespace fl {
             QObject::connect(ui->btn_outputs, SIGNAL(clicked()),
                     this, SLOT(onClickOutputButton()));
 
-            QObject::connect(ui->led_name, SIGNAL(editingFinished()),
-                    this, SLOT(onChangeEngineName()));
+            QObject::connect(ui->led_name, SIGNAL(textEdited(const QString&)),
+                    this, SLOT(onChangeEngineName(const QString&)));
 
         }
 
         void Window::reloadModel() {
             Engine* engine = Model::Default()->engine();
 
+            updateWindowTitle();
+
             ui->led_name->setText(QString::fromStdString(engine->getName()));
-            
+
             QFont typeWriter = typeWriterFont();
             ui->ptx_rules->setFont(typeWriter);
             ui->lsw_test_rules->setFont(typeWriter);
@@ -443,8 +471,10 @@ namespace fl {
             }
         }
 
-        void Window::onChangeEngineName() {
-            Model::Default()->engine()->setName(ui->led_name->text().toStdString());
+        void Window::onChangeEngineName(const QString& text) {
+            (void) text;
+            Model::Default()->engine()->setName(text.toStdString());
+            setCurrentFile(true);
         }
 
         void Window::onChangeInputSelection() {
@@ -517,6 +547,7 @@ namespace fl {
             if (window->exec()) {
                 Model::Default()->engine()->addInputVariable(
                         dynamic_cast<InputVariable*> (window->variable));
+                _currentFileModified = true;
                 reloadModel();
             }
             delete window;
@@ -557,6 +588,7 @@ namespace fl {
                         fixDependencies();
                     }
                 }
+                _currentFileModified = true;
                 reloadModel();
             }
         }
@@ -593,6 +625,7 @@ namespace fl {
                                 dynamic_cast<InputVariable*> (window->variable),
                                 i);
                         fixDependencies();
+                        _currentFileModified = true;
                     }
                 }
             }
@@ -606,6 +639,7 @@ namespace fl {
             if (window->exec()) {
                 Model::Default()->engine()->addOutputVariable(
                         dynamic_cast<OutputVariable*> (window->variable));
+                _currentFileModified = true;
                 reloadModel();
             }
             delete window;
@@ -639,6 +673,7 @@ namespace fl {
                     if (ui->lvw_outputs->item(i)->isSelected()) {
                         delete engine->removeOutputVariable(i);
                         fixDependencies();
+                        _currentFileModified = true;
                     }
                 }
                 reloadModel();
@@ -677,6 +712,7 @@ namespace fl {
                                 dynamic_cast<OutputVariable*> (window->variable),
                                 i);
                         fixDependencies();
+                        _currentFileModified = true;
                     }
                 }
             }
@@ -735,6 +771,7 @@ namespace fl {
             QStringList rules = ui->ptx_rules->toPlainText().split("\n",
                     QString::SkipEmptyParts);
             removeRules();
+            _currentFileModified = true;
             Engine* engine = Model::Default()->engine();
             RuleBlock* ruleblock = Model::Default()->engine()->getRuleBlock(0);
             int goodRules = 0, badRules = 0;
@@ -787,18 +824,24 @@ namespace fl {
             TNorm* tnorm = Factory::instance()->tnorm()->create(
                     ui->cbxTnorm->currentText().toStdString());
             Model::Default()->engine()->getRuleBlock(0)->setTnorm(tnorm);
+            _currentFileModified = true;
+            updateWindowTitle();
         }
 
         void Window::onSelectSnorm(int selected) {
             SNorm* snorm = Factory::instance()->snorm()->create(
                     ui->cbxSnorm->currentText().toStdString());
             Model::Default()->engine()->getRuleBlock(0)->setSnorm(snorm);
+            _currentFileModified = true;
+            updateWindowTitle();
         }
 
         void Window::onSelectActivation(int selected) {
             TNorm* tnorm = Factory::instance()->tnorm()->create(
                     ui->cbxActivation->currentText().toStdString());
             Model::Default()->engine()->getRuleBlock(0)->setActivation(tnorm);
+            _currentFileModified = true;
+            updateWindowTitle();
         }
 
         void Window::onClickHedges() {
@@ -885,32 +928,54 @@ namespace fl {
         /**
          * Toolbar events
          **/
-        void Window::onMenuNew() {
+
+        bool Window::confirmSaveChanges(const QString& before) {
+            if (not _currentFileModified) return true;
+            
+            QString currentFilename;
+            if (_currentFile.isEmpty()) currentFilename = "untitled";
+            else currentFilename = QFileInfo(_currentFile).fileName();
             QMessageBox::StandardButton clicked =
-                    QMessageBox::question(this, "New engine",
-                    "Do you want to create a new engine?",
+                    QMessageBox::question(this, "Save engine",
+                    "Do you want to save the changes made to "
+                    "\"" + currentFilename + "\""
+                    " before " + before + "?",
                     QMessageBox::Yes | QMessageBox::No,
                     QMessageBox::Yes);
+            if (clicked == QMessageBox::Yes) {
+                if (_currentFile.isEmpty()) onMenuSaveAs();
+                else saveFile(QFileInfo(_currentFile).absoluteFilePath());
+                return true;
+            }
+            return false;
+        }
 
-            if (clicked == QMessageBox::No) return;
+        void Window::onMenuNew() {
+            if (not confirmSaveChanges("creating a new one")) return ;
 
             Model::Default()->reset();
-
-            setWindowTitle("qtfuzzylite - untitled");
-
             reloadModel();
+            QString empty;
+            setCurrentFile(false, &empty);
         }
 
         void Window::onMenuOpen() {
-            QSettings settings("fuzzylite", "qtfuzzylite");
-            QString lastOpenedLocation = settings.value("file/lastOpenedLocation", ".").toString();
-
+            QSettings settings;
+            QString recentLocation = settings.value("file/recentLocation", ".").toString();
+            QString recentFilter = settings.value("file/recentFilter").toString();
+            QStringList formats;
+            formats << "All files (*.*)"
+                    << "Supported formats (*.fcl *.fis)"
+                    << "Fuzzy Logic Controller (*.fcl)"
+                    << "Fuzzy Inference System (*.fis)";
+            int recentFilterIndex = formats.indexOf(recentFilter);
+            if (recentFilterIndex < 0) recentFilterIndex = 1;
+            QString filter = formats.at(recentFilterIndex);
             QString filename = QFileDialog::getOpenFileName(this,
-                    "Open", lastOpenedLocation,
-                    "Supported formats (*.fcl *.fis);;"
-                    "Fuzzy Logic Controller (*.fcl);;"
-                    "Fuzzy Inference System (*.fis)");
-
+                    "Open", recentLocation,
+                    formats.join(";;"),
+                    &filter);
+            settings.setValue("file/recentFilter", filter);
             if (filename.size() == 0) return;
             openFile(filename);
         }
@@ -922,15 +987,7 @@ namespace fl {
 
         void Window::openFile(const QString& filename) {
             QSettings settings;
-            settings.setValue("file/lastOpenedLocation", QFileInfo(filename).path());
-
-            enum Format {
-                FCL, FIS, UNSUPPORTED
-            } format;
-
-            if (filename.endsWith(".fcl", Qt::CaseInsensitive)) format = FCL;
-            else if (filename.endsWith(".fis", Qt::CaseInsensitive)) format = FIS;
-            else format = UNSUPPORTED;
+            settings.setValue("file/recentLocation", QFileInfo(filename).path());
 
             QFile file(filename);
             if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -939,10 +996,40 @@ namespace fl {
                         QMessageBox::Ok);
                 return;
             }
+
             QTextStream in(&file);
             std::ostringstream reader;
             while (!in.atEnd()) {
                 reader << in.readLine().toStdString() << "\n";
+            }
+
+            enum Format {
+                FCL, FIS, UNSUPPORTED
+            } format;
+
+            if (filename.endsWith(".fcl", Qt::CaseInsensitive)) format = FCL;
+            else if (filename.endsWith(".fis", Qt::CaseInsensitive)) format = FIS;
+            else {
+                QSettings settings;
+                QString recentFormat = settings.value("file/recentFormat").toString();
+                bool ok;
+                QStringList formats;
+                formats << "Fuzzy Controller Language (*.fcl)"
+                        << "Fuzzy Inference System (*.fis)";
+                int recentFormatIndex = formats.indexOf(recentFormat);
+                if (recentFormatIndex < 0) recentFormatIndex = 0;
+                QString selectedFormat = QInputDialog::getItem(this, "File format",
+                        "Please select the format of the file",
+                        formats, recentFormatIndex, false, &ok);
+                if (not ok) return;
+                settings.setValue("file/recentFormat", selectedFormat);
+                if (selectedFormat == formats.first()) {
+                    format = FCL;
+                } else if (selectedFormat == formats.last()) {
+                    format = FIS;
+                } else {
+                    format = UNSUPPORTED;
+                }
             }
 
             Engine* engine = NULL;
@@ -959,7 +1046,6 @@ namespace fl {
                 QStringList recentFiles = settings.value("file/recentFiles").toStringList();
                 recentFiles.push_front(filename);
                 recentFiles.removeDuplicates();
-                ;
                 while (not recentFiles.empty() and recentFiles.size() > maxRecentFiles) {
                     recentFiles.removeLast();
                 }
@@ -967,17 +1053,13 @@ namespace fl {
 
                 updateRecentFiles();
 
-                if (not confirmImporting()) {
-                    delete engine;
-                    delete importer;
-                    return;
-                }
+
                 Model::Default()->change(engine);
-                setWindowTitle("qtfuzzylite - " + QFileInfo(filename).fileName());
                 reloadModel();
                 onClickParseAllRules();
+                setCurrentFile(false, &filename);
             } catch (fl::Exception& ex) {
-                QMessageBox::critical(this, "Error opening file: " + filename,
+                QMessageBox::critical(this, "Error opening " + QFileInfo(filename).fileName(),
                         toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                         QMessageBox::Ok);
                 delete importer;
@@ -989,7 +1071,7 @@ namespace fl {
 
         void Window::updateRecentFiles() {
             _recentFiles->clear();
-            
+
             QSettings settings;
             int maxRecentFiles = settings.value("file/maxRecentFiles", 5).toInt();
             QStringList recentFiles = settings.value("file/recentFiles").toStringList();
@@ -1001,8 +1083,7 @@ namespace fl {
             if (update) settings.setValue("file/recentFiles", recentFiles);
 
             for (int i = 0; i < recentFiles.size(); ++i) {
-//                QString text = "&" + QString::number(i + 1) + "   " + QFileInfo(recentFiles.at(i)).fileName();
-                QString text =  QFileInfo(recentFiles.at(i)).absoluteFilePath();
+                QString text = QFileInfo(recentFiles.at(i)).absoluteFilePath();
                 QString data = QFileInfo(recentFiles.at(i)).absoluteFilePath();
 
                 QAction* actionFile = new QAction(_recentFiles);
@@ -1016,6 +1097,111 @@ namespace fl {
             }
         }
 
+        void Window::onMenuSave() {
+            if (_currentFile.isEmpty()) {
+                onMenuSaveAs();
+                return;
+            }
+            saveFile(QFileInfo(_currentFile).absoluteFilePath());
+        }
+
+        void Window::onMenuSaveAs() {
+            QSettings settings;
+            QString recentLocation = settings.value("file/recentLocation", ".").toString();
+            QString recentFilter = settings.value("file/recentFilter").toString();
+            QStringList filters;
+            filters << "All files (*.*)"
+                    << "Supported files (*.fcl *.fis)"
+                    << "Fuzzy Logic Controller (*.fcl)"
+                    << "Fuzzy Inference System (*.fis)";
+            int recentFilterIndex = filters.indexOf(recentFilter);
+            if (recentFilterIndex < 0) recentFilterIndex = 1;
+            QString filter = filters.at(recentFilterIndex);
+            QString filename = QFileDialog::getSaveFileName(this,
+                    "Save as", recentLocation,
+                    filters.join(";;"),
+                    &filter);
+            settings.setValue("file/recentFilter", filter);
+            if (filename.size() == 0) return;
+            saveFile(filename);
+        }
+
+        void Window::saveFile(QString filename) {
+
+            enum Format {
+                FCL, FIS, UNSUPPORTED
+            } format;
+
+            if (filename.endsWith(".fcl", Qt::CaseInsensitive)) format = FCL;
+            else if (filename.endsWith(".fis", Qt::CaseInsensitive)) format = FIS;
+            else {
+                QSettings settings;
+                QString recentFormat = settings.value("file/recentFormat").toString();
+                bool ok;
+                QStringList formats;
+                formats << "Fuzzy Controller Language (*.fcl)"
+                        << "Fuzzy Inference System (*.fis)";
+                int recentFormatIndex = formats.indexOf(recentFormat);
+                if (recentFormatIndex < 0) recentFormatIndex = 0;
+                QString selectedFormat = QInputDialog::getItem(this, "File format",
+                        "Please select the format of the file",
+                        formats, recentFormatIndex, false, &ok);
+                if (not ok) return;
+                settings.setValue("file/recentFormat", selectedFormat);
+                if (selectedFormat == formats.first()) {
+                    format = FCL;
+                    filename += ".fcl";
+                } else if (selectedFormat == formats.last()) {
+                    format = FIS;
+                    filename += ".fis";
+                } else {
+                    format = UNSUPPORTED;
+                }
+            }
+
+            Engine* engine = Model::Default()->engine();
+            Exporter* exporter = NULL;
+            try {
+                if (format == FCL) exporter = new FclExporter;
+                else if (format == FIS) exporter = new FisExporter;
+                else throw fl::Exception("[import error] Unsupported filetype for file: "
+                        + filename.toStdString(), FL_AT);
+
+                QString exportedEngine = QString::fromStdString(exporter->toString(engine));
+                QFile file(filename);
+                if (not file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                    throw fl::Exception("[save error] Error saving file: "
+                            + filename.toStdString(), FL_AT);
+                }
+
+                QTextStream out(&file);
+                out << exportedEngine;
+                setCurrentFile(false, &filename);
+            } catch (fl::Exception& ex) {
+                QMessageBox::critical(this, "Error saving " + QFileInfo(filename).fileName(),
+                        toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
+                        QMessageBox::Ok);
+                delete exporter;
+                return;
+            }
+            delete exporter;
+        }
+
+        void Window::onMenuReload() {
+            if (not _currentFile.isEmpty() and _currentFileModified) {
+                QMessageBox::StandardButton clicked =
+                        QMessageBox::question(this, "Reload",
+                        "Reloading from "
+                        "\"" + QFileInfo(_currentFile).fileName() + "\""
+                        " will discard unsaved changes.<br><br>"
+                        "Do you want to continue reloading?",
+                        QMessageBox::Yes | QMessageBox::No,
+                        QMessageBox::Yes);
+                if (clicked == QMessageBox::No) return;
+                else openFile(_currentFile);
+            }
+        }
+
         void Window::onMenuTerms() {
             Term* window = new Term(this);
             window->setup(fl::Variable("Terms", 0, 1));
@@ -1023,9 +1209,6 @@ namespace fl {
             window->ui->qfr_name->setVisible(false);
             window->ui->buttonBox->setVisible(false);
             window->show();
-
-            //            delete window;
-
         }
 
         void Window::onMenuImport() {
@@ -1038,20 +1221,7 @@ namespace fl {
             }
         }
 
-        bool Window::confirmImporting() {
-            Engine* engine = Model::Default()->engine();
-            if (not (engine->numberOfInputVariables() or engine->numberOfOutputVariables())) {
-                return true;
-            }
-            QMessageBox::StandardButton clicked =
-                    QMessageBox::warning(this, "qtfuzzylite",
-                    "Importing a fuzzy logic engine will reset the current engine. \n\n"
-                    "Do you want to continue importing?",
-                    QMessageBox::Yes | QMessageBox::No,
-                    QMessageBox::Yes);
-
-            return clicked == QMessageBox::Yes;
-        }
+        
 
         void Window::onMenuImportFromFCL() {
             Ui::ImEx fclUi;
@@ -1069,13 +1239,15 @@ namespace fl {
                 FclImporter importer;
                 try {
                     engine = importer.fromString(fclString);
-                    if (not confirmImporting()) {
+                    if (not confirmSaveChanges("importing from FCL")) {
                         delete engine;
                         return;
                     }
                     Model::Default()->change(engine);
                     reloadModel();
                     onClickParseAllRules();
+                    QString empty;
+                    setCurrentFile(false, &empty);
                 } catch (fl::Exception& ex) {
                     if (engine) delete engine;
                     QMessageBox::critical(this, "Error importing from FCL",
@@ -1089,27 +1261,29 @@ namespace fl {
 
         void Window::onMenuImportFromFIS() {
             Ui::ImEx fisUi;
-            QDialog fclDialog(this);
-            fisUi.setupUi(&fclDialog);
-            fclDialog.setWindowTitle("Import...");
+            QDialog fisDialog(this);
+            fisUi.setupUi(&fisDialog);
+            fisDialog.setWindowTitle("Import...");
             fisUi.lbl_format->setText("Import from Fuzzy Inference System (FIS):");
             QFont font = typeWriterFont();
             font.setPointSize(font.pointSize() - 1);
             fisUi.pte_code->setFont(font);
 
-            if (fclDialog.exec()) {
-                std::string fclString = fisUi.pte_code->document()->toPlainText().toStdString();
+            if (fisDialog.exec()) {
+                std::string fisString = fisUi.pte_code->document()->toPlainText().toStdString();
                 Engine* engine = NULL;
                 FisImporter importer;
                 try {
-                    engine = importer.fromString(fclString);
-                    if (not confirmImporting()) {
+                    engine = importer.fromString(fisString);
+                    if (not confirmSaveChanges("importing from FIS")) {
                         delete engine;
                         return;
                     }
                     Model::Default()->change(engine);
                     reloadModel();
                     onClickParseAllRules();
+                    QString empty;
+                    setCurrentFile(false, &empty);
                 } catch (fl::Exception& ex) {
                     QMessageBox::critical(this, "Error importing from FIS",
                             toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
@@ -1230,8 +1404,12 @@ namespace fl {
         }
 
         void Window::onMenuAskForHelp() {
-            QDesktopServices::openUrl(QUrl(
-                    "mailto:community@fuzzylite.com?subject=Help with <insert topic here>"));
+            QDesktopServices::openUrl(QUrl("mailto:community@fuzzylite.com?"
+                    "subject=Help with <insert topic here>"));
+        }
+
+        void Window::onMenuJoinTheCommunity() {
+            QDesktopServices::openUrl(QUrl("http://www.fuzzylite.com/community"));
         }
 
         void Window::onMenuQuit() {
@@ -1251,7 +1429,7 @@ namespace fl {
         }
 
         QFont Window::typeWriterFont() const {
-            std::string font = "Courier"; 
+            std::string font = "Courier";
 #ifdef Q_OS_MAC
             font = "Monaco";
 #endif
@@ -1264,7 +1442,7 @@ namespace fl {
             QSettings settings;
             std::string preferredFontFamily = settings.value("view/monospacedFontFamily").toString().toStdString();
             if (not preferredFontFamily.empty()) font = preferredFontFamily;
-            
+
             QFont tt(QString::fromStdString(font));
             tt.setStyleHint(QFont::TypeWriter);
             return tt;

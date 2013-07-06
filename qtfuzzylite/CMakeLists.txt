@@ -26,6 +26,8 @@ add_definitions(-DFLQT_VERSION="${FLQT_VERSION}")
 set(FLQT_LONG_VERSION "${FLQT_VERSION}b${FLQT_DATE}")
 set(FLQT_FULLNAME "qtfuzzylite-${FLQT_LONG_VERSION}")
 
+add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
+
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_USE_LOG "Enable the macro FL_LOG to print information" ON)
 option(FL_DEBUG "Enable additional debugging information" OFF)

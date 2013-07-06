@@ -29,6 +29,8 @@
 #include <QCoreApplication>
 #include <QMessageBox>
 #include <QMenuBar>
+#include <QFileInfo>
+
 #include <fl/Headers.h>
 
 #include "fl/qt/Window.h"  
@@ -46,7 +48,7 @@ namespace fl {
             QCoreApplication::setOrganizationName("fuzzylite");
             QCoreApplication::setOrganizationDomain("fuzzylite.com");
             QCoreApplication::setApplicationName("qtfuzzylite");
-            
+
             QApplication::setWindowIcon(QIcon(":/qtfuzzylite.png"));
         }
 
@@ -96,7 +98,7 @@ namespace fl {
             view->layout()->addWidget(&viewError);
             x.layout()->addWidget(view);
             x.exec();
-//            QApplication::quit();
+            //            QApplication::quit();
         }
 
     };
@@ -155,6 +157,12 @@ int main(int argc, char* argv[]) {
 #endif
     try {
         fl::qt::Window::main();
+        QString openFile;
+        if (argc > 1) {
+            openFile = QFileInfo(QString(argv[1])).absoluteFilePath();
+            FL_LOG("opening: " << openFile.toStdString());
+            fl::qt::Window::mainWindow()->openFile(openFile);
+        }
         //int *x = (int*) - 1; // make a bad pointer
         //FL_LOG(*x);
         //                throw 0;

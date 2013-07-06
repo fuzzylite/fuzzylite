@@ -469,8 +469,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>554</width>
-         <height>386</height>
+         <width>222</width>
+         <height>255</height>
         </rect>
        </property>
        <attribute name="label">
@@ -592,8 +592,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>242</width>
-                        <height>82</height>
+                        <width>100</width>
+                        <height>30</height>
                        </rect>
                       </property>
                       <property name="sizePolicy">
@@ -712,8 +712,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>242</width>
-                        <height>82</height>
+                        <width>100</width>
+                        <height>30</height>
                        </rect>
                       </property>
                       <property name="sizePolicy">
@@ -887,6 +887,7 @@
    <addaction name="actionOpen"/>
    <addaction name="actionSave"/>
    <addaction name="actionSaveAs"/>
+   <addaction name="actionReload"/>
    <addaction name="separator"/>
    <addaction name="actionImport"/>
    <addaction name="actionExport"/>
@@ -1125,7 +1126,7 @@
     <string>Re&amp;load</string>
    </property>
    <property name="toolTip">
-    <string>Reload engine</string>
+    <string>Reload</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
@@ -1168,6 +1169,18 @@
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionJoinTheCommunity">
+   <property name="icon">
+    <iconset resource="qtfuzzylite.qrc">
+     <normaloff>:/community.png</normaloff>:/community.png</iconset>
+   </property>
+   <property name="text">
+    <string>Join the community...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+J</string>
    </property>
   </action>
  </widget>

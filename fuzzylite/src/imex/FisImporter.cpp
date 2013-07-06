@@ -90,14 +90,14 @@ namespace fl {
                     throw fl::Exception("[importer error] unable to parse section: "
                         + sections.at(i), FL_AT);
             }
-            if (engine->numberOfInputVariables() == 0
-                    and engine->numberOfOutputVariables() == 0
-                    and (engine->numberOfRuleBlocks() == 0
-                    or engine->getRuleBlock(0)->numberOfRules() == 0)) {
-                std::ostringstream ex;
-                ex << "[importer error] the FIS code introduced produces an empty engine";
-                throw fl::Exception(ex.str(), FL_AT);
-            }
+//            if (engine->numberOfInputVariables() == 0
+//                    and engine->numberOfOutputVariables() == 0
+//                    and (engine->numberOfRuleBlocks() == 0
+//                    or engine->getRuleBlock(0)->numberOfRules() == 0)) {
+//                std::ostringstream ex;
+//                ex << "[importer error] the FIS code introduced produces an empty engine";
+//                throw fl::Exception(ex.str(), FL_AT);
+//            }
             engine->configure(tnorm(andMethod), snorm(orMethod),
                     tnorm(impMethod), snorm(aggMethod),
                     defuzzifier(defuzzMethod));
@@ -118,19 +118,15 @@ namespace fl {
         std::getline(reader, line); //ignore first line [System]
         while (std::getline(reader, line)) {
             std::vector<std::string> keyValue = fl::Op::split(line, "=");
-            if (keyValue.size() != 2)
-                throw fl::Exception("[syntax error] expected a property of type "
-                    "'key=value', but found < " + line + ">", FL_AT);
+
             std::string key = fl::Op::trim(keyValue.at(0));
-            std::string value = fl::Op::trim(keyValue.at(1));
-
+            std::string value;
+            for (std::size_t i = 1; i < keyValue.size(); ++i) {
+                value += keyValue.at(i);
+            }
+            value = fl::Op::trim(value);
             if (key == "Name") engine->setName(value);
-            else if (key == "Type") {
-                if (not (value == "mamdani" or value == "sugeno" or value == "takagi-sugeno"))
-                    throw fl::Exception("[importer error] fuzzylite supports only mamdani or sugeno "
-                        "engines", FL_AT);
-
-            } else if (key == "AndMethod") andMethod = value;
+            else if (key == "AndMethod") andMethod = value;
             else if (key == "OrMethod") orMethod = value;
             else if (key == "ImpMethod") impMethod = value;
             else if (key == "AggMethod") aggMethod = value;

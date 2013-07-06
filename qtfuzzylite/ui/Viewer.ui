@@ -101,6 +101,9 @@
       </item>
       <item>
        <widget class="QDoubleSpinBox" name="sbx_x">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="toolTip">
          <string/>
         </property>

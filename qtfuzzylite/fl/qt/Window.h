@@ -48,7 +48,7 @@ namespace fl {
         protected slots:
             void onContextMenuRequest(const QPoint&);
 
-            void onChangeEngineName();
+            void onChangeEngineName(const QString&);
             
             void onChangeInputSelection();
             void onChangeOutputSelection();
@@ -91,11 +91,16 @@ namespace fl {
             void onMenuNew();
             void onMenuOpen();
             void onMenuOpenRecent();
-            void openFile(const QString& file);
+            
+            
+            void onMenuSave();
+            void onMenuSaveAs();
+            void saveFile(QString filename);
+            void onMenuReload();
             
             void onMenuTerms();
             
-            bool confirmImporting();
+            bool confirmSaveChanges(const QString& before);
             
             void onMenuImport();
             void onMenuExport();
@@ -106,6 +111,7 @@ namespace fl {
             void onMenuExportToCpp();
 
             void onMenuAskForHelp();
+            void onMenuJoinTheCommunity();
             
             void onMenuQuit();
             
@@ -118,7 +124,11 @@ namespace fl {
             void connect();
             
             QMenu* _recentFiles;
+            QString _currentFile;
+            bool _currentFileModified;
+            void setCurrentFile(bool modified, const QString* filename = NULL);
             void updateRecentFiles();
+            void updateWindowTitle();
 
             void reloadModel();
             void removeRules();
@@ -140,6 +150,8 @@ namespace fl {
             Ui::Window* ui;
 
             static Window* mainWindow();
+            
+            void openFile(const QString& filename);
 
             void fixDependencies();
 

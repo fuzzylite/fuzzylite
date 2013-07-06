@@ -1,5 +1,6 @@
 <RCC>
   <qresource>
+    <file alias="community.png">icons/internet-radio-new.png</file>
     <file alias="qt-logo.png">icons/qt-logo.png</file>
     <file alias="help.png">icons/help-contents.png</file>
     <file alias="reload.png">icons/view-refresh.png</file>
