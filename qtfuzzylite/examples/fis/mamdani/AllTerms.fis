@@ -37,7 +37,6 @@ MF16='P':'sigmf',[20.000 6.000]
 Name='AllOutputTerms'
 Range=[0 6.5]
 Default=nan
-Lock=1
 NumMFs=16
 MF1='A':'sigmf',[-20.000 0.500]
 MF2='B':'zmf',[0.000 1.000]

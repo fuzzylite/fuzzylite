@@ -27,14 +27,13 @@
 
 #include "fl/qt/Window.h"
 #include "fl/qt/About.h"
+#include "fl/qt/ImEx.h"
 #include "fl/qt/Term.h"
 #include "fl/qt/Variable.h"
 #include "fl/qt/Model.h"
 #include "fl/qt/Control.h"
 
 #include "fl/qt/qtfuzzylite.h"
-#include "ui_ImEx.h"
-#include "ui_About.h"
 
 
 #include <QListWidgetItem>
@@ -134,7 +133,7 @@ namespace fl {
             ui->actionReload->setEnabled(not _currentFile.isEmpty());
             ui->actionNew->setEnabled(not _currentFile.isEmpty() or _currentFileModified);
             ui->actionSave->setEnabled(_currentFileModified and not _currentFile.isEmpty());
-            
+
         }
 
         void Window::setupMenuAndToolbar() {
@@ -193,9 +192,9 @@ namespace fl {
 
             menuFile->addSeparator();
 
-//            menuFile->addAction(ui->actionProperties);
-//
-//            menuFile->addSeparator();
+            //            menuFile->addAction(ui->actionProperties);
+            //
+            //            menuFile->addSeparator();
 
             menuFile->addAction(ui->actionQuit);
             QObject::connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(onMenuQuit()));
@@ -547,7 +546,7 @@ namespace fl {
             if (window->exec()) {
                 Model::Default()->engine()->addInputVariable(
                         dynamic_cast<InputVariable*> (window->variable));
-                _currentFileModified = true;
+                setCurrentFile(true);
                 reloadModel();
             }
             delete window;
@@ -588,7 +587,7 @@ namespace fl {
                         fixDependencies();
                     }
                 }
-                _currentFileModified = true;
+                setCurrentFile(true);
                 reloadModel();
             }
         }
@@ -625,7 +624,7 @@ namespace fl {
                                 dynamic_cast<InputVariable*> (window->variable),
                                 i);
                         fixDependencies();
-                        _currentFileModified = true;
+                        setCurrentFile(true);
                     }
                 }
             }
@@ -639,7 +638,7 @@ namespace fl {
             if (window->exec()) {
                 Model::Default()->engine()->addOutputVariable(
                         dynamic_cast<OutputVariable*> (window->variable));
-                _currentFileModified = true;
+                setCurrentFile(true);
                 reloadModel();
             }
             delete window;
@@ -673,7 +672,7 @@ namespace fl {
                     if (ui->lvw_outputs->item(i)->isSelected()) {
                         delete engine->removeOutputVariable(i);
                         fixDependencies();
-                        _currentFileModified = true;
+                        setCurrentFile(true);
                     }
                 }
                 reloadModel();
@@ -712,7 +711,7 @@ namespace fl {
                                 dynamic_cast<OutputVariable*> (window->variable),
                                 i);
                         fixDependencies();
-                        _currentFileModified = true;
+                        setCurrentFile(true);
                     }
                 }
             }
@@ -722,7 +721,7 @@ namespace fl {
         void Window::onClickGenerateAllRules() {
             removeRules();
             Engine* engine = Model::Default()->engine();
-
+            setCurrentFile(true);
             int numberOfRules = 1;
             for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
                 numberOfRules *= engine->getInputVariable(i)->numberOfTerms();
@@ -771,7 +770,7 @@ namespace fl {
             QStringList rules = ui->ptx_rules->toPlainText().split("\n",
                     QString::SkipEmptyParts);
             removeRules();
-            _currentFileModified = true;
+            setCurrentFile(true);
             Engine* engine = Model::Default()->engine();
             RuleBlock* ruleblock = Model::Default()->engine()->getRuleBlock(0);
             int goodRules = 0, badRules = 0;
@@ -931,7 +930,7 @@ namespace fl {
 
         bool Window::confirmSaveChanges(const QString& before) {
             if (not _currentFileModified) return true;
-            
+
             QString currentFilename;
             if (_currentFile.isEmpty()) currentFilename = "untitled";
             else currentFilename = QFileInfo(_currentFile).fileName();
@@ -940,18 +939,29 @@ namespace fl {
                     "Do you want to save the changes made to "
                     "\"" + currentFilename + "\""
                     " before " + before + "?",
-                    QMessageBox::Yes | QMessageBox::No,
+                    QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel,
                     QMessageBox::Yes);
             if (clicked == QMessageBox::Yes) {
                 if (_currentFile.isEmpty()) onMenuSaveAs();
                 else saveFile(QFileInfo(_currentFile).absoluteFilePath());
-                return true;
             }
-            return false;
+            return clicked != QMessageBox::Cancel;
         }
 
         void Window::onMenuNew() {
-            if (not confirmSaveChanges("creating a new one")) return ;
+            if (_currentFileModified) {
+                QString name = QFileInfo(_currentFile).fileName();
+                if (name.isEmpty()) name = "untitled";
+                QMessageBox::StandardButton clicked =
+                        QMessageBox::critical(this, "New Engine",
+                        "Any unsaved changes to "
+                        "\"" + name + "\""
+                        " will be lost.<br><br>"
+                        "Do you want to continue?",
+                        QMessageBox::Yes | QMessageBox::No,
+                        QMessageBox::Yes);
+                if (clicked == QMessageBox::No) return;
+            }
 
             Model::Default()->reset();
             reloadModel();
@@ -972,7 +982,7 @@ namespace fl {
             if (recentFilterIndex < 0) recentFilterIndex = 1;
             QString filter = formats.at(recentFilterIndex);
             QString filename = QFileDialog::getOpenFileName(this,
-                    "Open", recentLocation,
+                    "Open Engine", recentLocation,
                     formats.join(";;"),
                     &filter);
             settings.setValue("file/recentFilter", filter);
@@ -985,7 +995,7 @@ namespace fl {
             if (action) openFile(action->data().toString());
         }
 
-        void Window::openFile(const QString& filename) {
+        void Window::openFile(const QString& filename, const QString& unsavedChangesTitle) {
             QSettings settings;
             settings.setValue("file/recentLocation", QFileInfo(filename).path());
 
@@ -1042,22 +1052,33 @@ namespace fl {
 
                 engine = importer->fromString(reader.str());
 
-                int maxRecentFiles = settings.value("file/maxRecentFiles", 5).toInt();
-                QStringList recentFiles = settings.value("file/recentFiles").toStringList();
-                recentFiles.push_front(filename);
-                recentFiles.removeDuplicates();
-                while (not recentFiles.empty() and recentFiles.size() > maxRecentFiles) {
-                    recentFiles.removeLast();
-                }
-                settings.setValue("file/recentFiles", recentFiles);
-
+                addRecentFile(filename);
                 updateRecentFiles();
 
+                bool doOpen = true;
+                if (_currentFileModified) {
+                    QString name = QFileInfo(_currentFile).fileName();
+                    if (name.isEmpty())name = "untitled";
+                    QMessageBox::StandardButton clicked =
+                            QMessageBox::critical(this, unsavedChangesTitle,
+                            "Any unsaved changes to "
+                            "\"" + name + "\""
+                            " will be lost.<br><br>"
+                            "Do you want to continue?",
+                            QMessageBox::Yes | QMessageBox::No,
+                            QMessageBox::Yes);
+                    doOpen = clicked == QMessageBox::Yes;
+                }
 
-                Model::Default()->change(engine);
-                reloadModel();
-                onClickParseAllRules();
-                setCurrentFile(false, &filename);
+                if (doOpen) {
+                    Model::Default()->change(engine);
+                    reloadModel();
+                    onClickParseAllRules();
+                    setCurrentFile(false, &filename);
+                } else {
+                    delete importer;
+                    delete engine;
+                }
             } catch (fl::Exception& ex) {
                 QMessageBox::critical(this, "Error opening " + QFileInfo(filename).fileName(),
                         toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
@@ -1066,7 +1087,6 @@ namespace fl {
                 delete engine;
                 return;
             }
-            delete importer;
         }
 
         void Window::updateRecentFiles() {
@@ -1097,6 +1117,18 @@ namespace fl {
             }
         }
 
+        void Window::addRecentFile(const QString& filepath) {
+            QSettings settings;
+            int maxRecentFiles = settings.value("file/maxRecentFiles", 5).toInt();
+            QStringList recentFiles = settings.value("file/recentFiles").toStringList();
+            recentFiles.push_front(filepath);
+            recentFiles.removeDuplicates();
+            while (not recentFiles.empty() and recentFiles.size() > maxRecentFiles) {
+                recentFiles.removeLast();
+            }
+            settings.setValue("file/recentFiles", recentFiles);
+        }
+
         void Window::onMenuSave() {
             if (_currentFile.isEmpty()) {
                 onMenuSaveAs();
@@ -1118,11 +1150,12 @@ namespace fl {
             if (recentFilterIndex < 0) recentFilterIndex = 1;
             QString filter = filters.at(recentFilterIndex);
             QString filename = QFileDialog::getSaveFileName(this,
-                    "Save as", recentLocation,
+                    "Save Engine As", recentLocation,
                     filters.join(";;"),
                     &filter);
-            settings.setValue("file/recentFilter", filter);
             if (filename.size() == 0) return;
+            settings.setValue("file/recentFilter", filter);
+            settings.setValue("file/recentLocation", QFileInfo(filename).absoluteFilePath());
             saveFile(filename);
         }
 
@@ -1176,6 +1209,10 @@ namespace fl {
 
                 QTextStream out(&file);
                 out << exportedEngine;
+
+                addRecentFile(filename);
+                updateRecentFiles();
+
                 setCurrentFile(false, &filename);
             } catch (fl::Exception& ex) {
                 QMessageBox::critical(this, "Error saving " + QFileInfo(filename).fileName(),
@@ -1188,18 +1225,19 @@ namespace fl {
         }
 
         void Window::onMenuReload() {
-            if (not _currentFile.isEmpty() and _currentFileModified) {
-                QMessageBox::StandardButton clicked =
-                        QMessageBox::question(this, "Reload",
-                        "Reloading from "
-                        "\"" + QFileInfo(_currentFile).fileName() + "\""
-                        " will discard unsaved changes.<br><br>"
-                        "Do you want to continue reloading?",
-                        QMessageBox::Yes | QMessageBox::No,
-                        QMessageBox::Yes);
-                if (clicked == QMessageBox::No) return;
-                else openFile(_currentFile);
-            }
+            //            if (not _currentFile.isEmpty() and _currentFileModified) {
+            //                QMessageBox::StandardButton clicked =
+            //                        QMessageBox::critical(this, "Reload Engine from File",
+            //                        "Any unsaved changes to "
+            //                        "\"" + QFileInfo(_currentFile).fileName() + "\""
+            //                        " will be lost.<br><br>"
+            //                        "Do you want to continue?",
+            //                        QMessageBox::Yes | QMessageBox::No,
+            //                        QMessageBox::Yes);
+            //                if (clicked == QMessageBox::No) return;
+            //                else openFile(_currentFile);
+            //            }
+            openFile(_currentFile, "Reload Engine");
         }
 
         void Window::onMenuTerms() {
@@ -1221,20 +1259,17 @@ namespace fl {
             }
         }
 
-        
-
         void Window::onMenuImportFromFCL() {
-            Ui::ImEx fclUi;
-            QDialog fclDialog(this);
-            fclUi.setupUi(&fclDialog);
-            fclDialog.setWindowTitle("Import...");
-            fclUi.lbl_format->setText("Import from Fuzzy Controller Language (FCL):");
+            ImEx imex;
+            imex.setup();
+            imex.setWindowTitle("Import Engine from...");
+            imex.ui->lbl_format->setText("Fuzzy Controller Language (FCL):");
             QFont font = typeWriterFont();
             font.setPointSize(font.pointSize() - 1);
-            fclUi.pte_code->setFont(font);
+            imex.ui->pte_code->setFont(font);
 
-            if (fclDialog.exec()) {
-                std::string fclString = fclUi.pte_code->document()->toPlainText().toStdString();
+            if (imex.exec()) {
+                std::string fclString = imex.ui->pte_code->document()->toPlainText().toStdString();
                 Engine* engine = NULL;
                 FclImporter importer;
                 try {
@@ -1247,7 +1282,7 @@ namespace fl {
                     reloadModel();
                     onClickParseAllRules();
                     QString empty;
-                    setCurrentFile(false, &empty);
+                    setCurrentFile(true, &empty);
                 } catch (fl::Exception& ex) {
                     if (engine) delete engine;
                     QMessageBox::critical(this, "Error importing from FCL",
@@ -1260,17 +1295,16 @@ namespace fl {
         }
 
         void Window::onMenuImportFromFIS() {
-            Ui::ImEx fisUi;
-            QDialog fisDialog(this);
-            fisUi.setupUi(&fisDialog);
-            fisDialog.setWindowTitle("Import...");
-            fisUi.lbl_format->setText("Import from Fuzzy Inference System (FIS):");
+            ImEx imex;
+            imex.setup();
+            imex.setWindowTitle("Import Engine from...");
+            imex.ui->lbl_format->setText("Fuzzy Inference System (FIS):");
             QFont font = typeWriterFont();
             font.setPointSize(font.pointSize() - 1);
-            fisUi.pte_code->setFont(font);
+            imex.ui->pte_code->setFont(font);
 
-            if (fisDialog.exec()) {
-                std::string fisString = fisUi.pte_code->document()->toPlainText().toStdString();
+            if (imex.exec()) {
+                std::string fisString = imex.ui->pte_code->document()->toPlainText().toStdString();
                 Engine* engine = NULL;
                 FisImporter importer;
                 try {
@@ -1283,7 +1317,7 @@ namespace fl {
                     reloadModel();
                     onClickParseAllRules();
                     QString empty;
-                    setCurrentFile(false, &empty);
+                    setCurrentFile(true, &empty);
                 } catch (fl::Exception& ex) {
                     QMessageBox::critical(this, "Error importing from FIS",
                             toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
@@ -1456,7 +1490,7 @@ namespace fl {
 #endif
         }
 
-        void Window::main() {
+        void Window::main(int argc, char** argv) {
             QPixmap pixmap(":/qtfuzzylite.png");
             QSplashScreen splash(pixmap);
 
@@ -1469,6 +1503,13 @@ namespace fl {
             splash.finish(w);
             w->onMenuAbout();
             w->activateWindow();
+
+            QString openFile;
+            if (argc > 1) {
+                openFile = QFileInfo(QString(argv[1])).absoluteFilePath();
+                FL_LOG("opening: " << openFile.toStdString());
+                w->openFile(openFile);
+            }
         }
 
     }

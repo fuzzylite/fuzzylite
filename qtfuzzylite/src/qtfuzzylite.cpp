@@ -26,6 +26,7 @@
  */
 
 #include "fl/qt/qtfuzzylite.h"
+#include <QSettings>
 
 namespace fl {
     namespace qt {
@@ -89,7 +90,9 @@ namespace fl {
         }
         
         int qtfuzzylite::decimals(){
-            return std::max(0, fl::fuzzylite::decimals() - 1);
+            QSettings settings;
+            int decimals = settings.value("view/numberOfDecimals", 2).toInt();
+            return qMax(1, decimals);
         }
 
         bool qtfuzzylite::logEnabled() {

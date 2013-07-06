@@ -67,8 +67,7 @@ namespace fl {
                 sections.push_back(line);
             } else {
                 if (sections.size() == 0) {
-                    FL_LOG("[importer warning] ignoring line because it does not "
-                            "belong to any section: " << line);
+                    throw fl::Exception("[import error] line  <" + line + "> does not belong to any section", FL_AT);
                 } else {
                     sections.at(sections.size() - 1) += "\n" + line;
                 }
@@ -90,14 +89,14 @@ namespace fl {
                     throw fl::Exception("[importer error] unable to parse section: "
                         + sections.at(i), FL_AT);
             }
-//            if (engine->numberOfInputVariables() == 0
-//                    and engine->numberOfOutputVariables() == 0
-//                    and (engine->numberOfRuleBlocks() == 0
-//                    or engine->getRuleBlock(0)->numberOfRules() == 0)) {
-//                std::ostringstream ex;
-//                ex << "[importer error] the FIS code introduced produces an empty engine";
-//                throw fl::Exception(ex.str(), FL_AT);
-//            }
+            //            if (engine->numberOfInputVariables() == 0
+            //                    and engine->numberOfOutputVariables() == 0
+            //                    and (engine->numberOfRuleBlocks() == 0
+            //                    or engine->getRuleBlock(0)->numberOfRules() == 0)) {
+            //                std::ostringstream ex;
+            //                ex << "[importer error] the FIS code introduced produces an empty engine";
+            //                throw fl::Exception(ex.str(), FL_AT);
+            //            }
             engine->configure(tnorm(andMethod), snorm(orMethod),
                     tnorm(impMethod), snorm(aggMethod),
                     defuzzifier(defuzzMethod));
@@ -131,8 +130,11 @@ namespace fl {
             else if (key == "ImpMethod") impMethod = value;
             else if (key == "AggMethod") aggMethod = value;
             else if (key == "DefuzzMethod") defuzzMethod = value;
-            else FL_DBG("[info] ignoring redundant or irrelevant information "
-                    "from line: " << line);
+            else if (key == "Type" or key == "Version"
+                    or key == "NumInputs" or key == "NumOutputs"
+                    or key == "NumRules" or key == "NumMFs") {
+                //ignore because are redundant.
+            } else throw fl::Exception("[import error] token <" + key + "> not recognized", FL_AT);
         }
     }
 
@@ -160,8 +162,10 @@ namespace fl {
                 input->setMaximum(maximum);
             } else if (key.substr(0, 2) == "MF") {
                 input->addTerm(prepareTerm(extractTerm(value), engine));
+            } else if (key == "NumMFs") {
+                //ignore
             } else {
-                FL_DBG("[info] ignoring redundant or irrelevant information from line: " << line);
+                throw fl::Exception("[import error] token <" + key + "> not recognized", FL_AT);
             }
         }
     }
@@ -197,8 +201,10 @@ namespace fl {
                 output->setLockValidOutput((int) fl::Op::toScalar(value) == 1);
             } else if (key == "LockRange") {
                 output->setLockOutputRange((int) fl::Op::toScalar(value) == 1);
+            } else if (key == "NumMFs") {
+                //ignore
             } else {
-                FL_DBG("[info] ignoring redundant or irrelevant information from line: " << line);
+                throw fl::Exception("[import error] token <" + key + "> not recognized", FL_AT);
             }
         }
     }

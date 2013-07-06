@@ -324,7 +324,8 @@ void exportAllExamples(const std::string& from, const std::string& to) {
                 std::string copy = FclExporter().toString(fclEngine);
                 delete fclEngine;
                 if (fcl != copy) {
-                    errors << "[fcl error] at " + examples.at(i) + "." + from;
+                    errors << "[fcl error] at " + examples.at(i) + "." + from + ":\n";
+                    errors << fcl << "\n\n" << copy << "\n";
                 }
             }
 
@@ -423,6 +424,8 @@ int main(int argc, char** argv) {
 #endif
 
     try {
+        exportAllExamples("fis", "fcl");
+        return 0;
         examples();
     } catch (fl::Exception& e) {
         FL_LOG(e.what());

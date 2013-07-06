@@ -49,7 +49,7 @@ namespace fl {
             void onContextMenuRequest(const QPoint&);
 
             void onChangeEngineName(const QString&);
-            
+
             void onChangeInputSelection();
             void onChangeOutputSelection();
             void onDoubleClickInputItem(QListWidgetItem* item);
@@ -87,21 +87,21 @@ namespace fl {
             //MenuBar
             void onMenuAbout();
             void onMenuAboutQt();
-            
+
             void onMenuNew();
             void onMenuOpen();
             void onMenuOpenRecent();
-            
-            
+            void openFile(const QString& filename, const QString& unsavedChangedTitle = "Open Engine");
+
             void onMenuSave();
             void onMenuSaveAs();
             void saveFile(QString filename);
             void onMenuReload();
-            
+
             void onMenuTerms();
-            
+
             bool confirmSaveChanges(const QString& before);
-            
+
             void onMenuImport();
             void onMenuExport();
             void onMenuImportFromFCL();
@@ -112,22 +112,23 @@ namespace fl {
 
             void onMenuAskForHelp();
             void onMenuJoinTheCommunity();
-            
+
             void onMenuQuit();
-            
-            
+
+
 
             void closeEvent(QCloseEvent* e);
 
         protected:
             void setupMenuAndToolbar();
             void connect();
-            
+
             QMenu* _recentFiles;
             QString _currentFile;
             bool _currentFileModified;
             void setCurrentFile(bool modified, const QString* filename = NULL);
             void updateRecentFiles();
+            void addRecentFile(const QString& filepath);
             void updateWindowTitle();
 
             void reloadModel();
@@ -150,8 +151,6 @@ namespace fl {
             Ui::Window* ui;
 
             static Window* mainWindow();
-            
-            void openFile(const QString& filename);
 
             void fixDependencies();
 
@@ -161,7 +160,7 @@ namespace fl {
 
             static QString toHtmlEscaped(const QString& x);
 
-            static void main();
+            static void main(int argc, char** argv);
         };
 
         class QScrollAreaFilter : public QObject {

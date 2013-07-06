@@ -74,8 +74,10 @@ namespace fl {
                     if (tokenizer.rdbuf()->in_avail() > 0) {
                         std::ostringstream ss;
                         std::string token;
+                        tokenizer >> token;
+                        ss << token;
                         while(tokenizer >> token){
-                            ss << token;
+                            ss << " " << token;
                         }
                         engine->setName(ss.str());
                     }

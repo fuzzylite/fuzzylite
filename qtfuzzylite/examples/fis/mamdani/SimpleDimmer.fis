@@ -24,7 +24,6 @@ MF3='HIGH':'trimf',[0.500 0.750 1.000]
 Name='BulbPower'
 Range=[0 2]
 Default=nan
-Lock=1
 NumMFs=3
 MF1='LOW':'trimf',[0.000 0.500 1.000]
 MF2='MEDIUM':'trimf',[0.500 1.000 1.500]

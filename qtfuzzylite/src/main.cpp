@@ -156,13 +156,7 @@ int main(int argc, char* argv[]) {
     signal(SIGPIPE, fl::signalHandler);
 #endif
     try {
-        fl::qt::Window::main();
-        QString openFile;
-        if (argc > 1) {
-            openFile = QFileInfo(QString(argv[1])).absoluteFilePath();
-            FL_LOG("opening: " << openFile.toStdString());
-            fl::qt::Window::mainWindow()->openFile(openFile);
-        }
+        fl::qt::Window::main(argc, argv);
         //int *x = (int*) - 1; // make a bad pointer
         //FL_LOG(*x);
         //                throw 0;
