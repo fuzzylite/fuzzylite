@@ -106,8 +106,8 @@ namespace fl {
     scalar Operation::logical_or(scalar a, scalar b) {
         return not (isEq(a, 0.0) and isEq(b, 0.0));
     }
-    
-    scalar Operation::negate(scalar a){
+
+    scalar Operation::negate(scalar a) {
         return -a;
     }
 
@@ -150,23 +150,20 @@ namespace fl {
         return result;
     }
 
-    std::string Operation::leftTrim(const std::string& text) {
-        std::size_t index = text.find_first_not_of(" ");
-        if (index != std::string::npos)
-            return text.substr(index);
-        return text;
-    }
-
-    std::string Operation::rightTrim(const std::string& text) {
-        std::size_t index = text.find_last_not_of(" ");
-        if (index != std::string::npos) {
-            return text.substr(0, index + 1);
-        }
-        return text;
-    }
-
     std::string Operation::trim(const std::string& text) {
-        return rightTrim(leftTrim(text));
+        if (text.empty()) return text;
+        if (not (std::isspace(text.at(0)) or std::isspace(text.at(text.size() - 1))))
+            return text;
+        int start = 0, end = text.size() - 1;
+        while (start <= end and std::isspace(text.at(start))) {
+            ++start;
+        }
+        while (end >= start and std::isspace(text.at(end))) {
+            --end;
+        }
+        int length = end - start + 1;
+        if (length <= 0) return "";
+        return text.substr(start, length);
     }
 
     std::string Operation::format(const std::string& text, int matchesChar(int),

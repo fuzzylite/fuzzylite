@@ -74,7 +74,9 @@ namespace fl {
 
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             _outputVariables.at(i)->setDefuzzifier(defuzzFactory->create(defuzzifier));
-            _outputVariables.at(i)->getDefuzzifier()->setDivisions(divisions);
+            if (_outputVariables.at(i)->getDefuzzifier()) {
+                _outputVariables.at(i)->getDefuzzifier()->setDivisions(divisions);
+            }
             _outputVariables.at(i)->output()->setAccumulation(
                     snormFactory->create(accumulationSnorm));
         }

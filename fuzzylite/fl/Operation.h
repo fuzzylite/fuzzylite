@@ -84,10 +84,6 @@ namespace fl {
         static std::vector<std::string> split(const std::string& str,
                 const std::string& delimiter = " ", bool ignoreEmpty = true);
 
-        static std::string leftTrim(const std::string& text);
-
-        static std::string rightTrim(const std::string& text);
-
         static std::string trim(const std::string& text);
 
         static std::string format(const std::string& text, int matchesChar(int),

@@ -66,7 +66,6 @@ namespace fl {
 
         protected:
             void connect();
-            void disconnect();
 
         public:
             Ui::Variable* ui;

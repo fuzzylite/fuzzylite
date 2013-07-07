@@ -49,7 +49,6 @@ namespace fl {
         }
 
         Variable::~Variable() {
-            disconnect();
             delete ui;
         }
 
@@ -139,38 +138,6 @@ namespace fl {
                     this, SLOT(showSelectedTerms()), Qt::QueuedConnection);
         }
 
-        void Variable::disconnect() {
-            QObject::disconnect(ui->btn_add_term, SIGNAL(clicked()),
-                    this, SLOT(onClickAddTerm()));
-            QObject::disconnect(ui->btn_edit_term, SIGNAL(clicked()),
-                    this, SLOT(onClickEditTerm()));
-            QObject::disconnect(ui->btn_remove_term, SIGNAL(clicked()),
-                    this, SLOT(onClickRemoveTerm()));
-
-            QObject::disconnect(ui->btn_sort_centroid, SIGNAL(clicked()),
-                    this, SLOT(reloadModel()));
-            QObject::disconnect(ui->btn_term_up, SIGNAL(clicked()),
-                    this, SLOT(onClickMoveUp()));
-            QObject::disconnect(ui->btn_term_down, SIGNAL(clicked()),
-                    this, SLOT(onClickMoveDown()));
-
-            QObject::disconnect(ui->lvw_terms, SIGNAL(itemSelectionChanged()),
-                    this, SLOT(onSelectTerm()));
-            QObject::disconnect(ui->lvw_terms, SIGNAL(itemSelectionChanged()),
-                    this, SLOT(onSelectTerm()));
-            QObject::disconnect(ui->lvw_terms, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-                    this, SLOT(onDoubleClickTerm(QListWidgetItem*)));
-
-            QObject::disconnect(ui->cbx_defuzzifier, SIGNAL(currentIndexChanged(int)),
-                    this, SLOT(onSelectDefuzzifier(int)));
-
-            QObject::disconnect(ui->sbx_min, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeMinRange(double)));
-            QObject::disconnect(ui->sbx_max, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeMaxRange(double)));
-
-        }
-
         void Variable::showEvent(QShowEvent* event) {
             //            ui->canvas->scene()->setSceneRect(ui->canvas->viewport()->rect());
             //            ui->canvas->fitInView(0, 0, ui->canvas->scene()->width(),
@@ -216,12 +183,12 @@ namespace fl {
             editable->setLockOutputRange(outputVariable->isLockingOutputRange());
 
             editable->output()->setAccumulation(outputVariable->output()->getAccumulation());
-//            Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
-//            if (not defuzzifier) {
-//                defuzzifier = Factory::instance()->defuzzifier()->
-//                        create(Centroid().className(), fl::fuzzylite::defaultDivisions());
-//            }
-//            editable->setDefuzzifier(defuzzifier);
+            Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
+            //            if (not defuzzifier) {
+            //                defuzzifier = Factory::instance()->defuzzifier()->
+            //                        create(Centroid().className(), fl::fuzzylite::defaultDivisions());
+            //            }
+            editable->setDefuzzifier(defuzzifier);
 
             reloadModel();
         }
@@ -271,10 +238,12 @@ namespace fl {
                 SNorm* accumulation = Factory::instance()->snorm()->create(
                         ui->cbx_accumulation->currentText().toStdString());
                 outputVariable->output()->setAccumulation(accumulation);
-
-                Defuzzifier* defuzzifier = Factory::instance()->defuzzifier()->create(
-                        ui->cbx_defuzzifier->currentText().toStdString(),
-                        ui->sbx_accuracy->value());
+                Defuzzifier* defuzzifier = NULL;
+                if (ui->cbx_defuzzifier->currentIndex() >= 0) {
+                    defuzzifier= Factory::instance()->defuzzifier()->create(
+                            ui->cbx_defuzzifier->currentText().toStdString(),
+                            ui->sbx_accuracy->value());
+                }
                 outputVariable->setDefuzzifier(defuzzifier);
 
             }

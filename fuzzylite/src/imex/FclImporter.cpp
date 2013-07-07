@@ -255,6 +255,7 @@ namespace fl {
 
         OutputVariable* outputVariable = engine->getOutputVariable(name);
         while (std::getline(blockReader, line)) {
+            line = fl::Op::trim(line);
             std::string firstToken = line.substr(0, line.find_first_of(' '));
             if (firstToken == "TERM") {
                 outputVariable->addTerm(prepareTerm(extractTerm(line), engine));
@@ -487,7 +488,7 @@ namespace fl {
             throw fl::Exception(ex.str(), FL_AT);
         }
 
-        std::string name = Op::trim(Op::findReplace(token.at(1), ";", ""));
+        std::string name = fl::Op::trim(fl::Op::findReplace(token.at(1), ";", ""));
         std::string className = name;
         if (name == "COG") className = Centroid().className();
         if (name == "COA") className = Bisector().className();
