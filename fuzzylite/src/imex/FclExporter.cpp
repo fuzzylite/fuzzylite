@@ -94,6 +94,19 @@ namespace fl {
                 fcl << " | NC";
             }
             fcl << ";\n";
+            
+            if (outputVariable->isLockingValidOutput() or outputVariable->isLockingOutputRange()) {
+                fcl << "LOCK : ";
+                std::string lock;
+                if (outputVariable->isLockingValidOutput()){
+                    lock = "VALID";
+                }
+                if (outputVariable->isLockingOutputRange()){
+                    if (not lock.empty()) lock += " | ";
+                    else lock = "RANGE";
+                }
+                fcl << ";\n";
+            }
 
             fcl << "END_DEFUZZIFY\n";
             fcl << "\n";

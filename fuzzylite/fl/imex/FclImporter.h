@@ -54,6 +54,7 @@ namespace fl {
         virtual Defuzzifier* extractDefuzzifier(const std::string& line) const;
         virtual scalar extractDefaultValue(const std::string& line, bool& lockDefuzzifiedValue) const;
         virtual void extractRange(const std::string& line, scalar& minimum, scalar& maximum) const;
+        virtual void extractLock(const std::string& line, bool& valid, bool& range) const ;
 
     public:
         FclImporter();

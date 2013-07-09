@@ -76,7 +76,7 @@ namespace fl {
                         std::string token;
                         tokenizer >> token;
                         ss << token;
-                        while(tokenizer >> token){
+                        while (tokenizer >> token) {
                             ss << " " << token;
                         }
                         engine->setName(ss.str());
@@ -131,14 +131,14 @@ namespace fl {
                 }
                 throw fl::Exception(ex.str(), FL_AT);
             }
-//            if (engine->numberOfInputVariables() == 0
-//                    and engine->numberOfOutputVariables() == 0
-//                    and (engine->numberOfRuleBlocks() == 0
-//                    or engine->getRuleBlock(0)->numberOfRules() == 0)) {
-//                std::ostringstream ex;
-//                ex << "[importer error] the FCL code introduced produces an empty engine";
-//                throw fl::Exception(ex.str(), FL_AT);
-//            }
+            //            if (engine->numberOfInputVariables() == 0
+            //                    and engine->numberOfOutputVariables() == 0
+            //                    and (engine->numberOfRuleBlocks() == 0
+            //                    or engine->getRuleBlock(0)->numberOfRules() == 0)) {
+            //                std::ostringstream ex;
+            //                ex << "[importer error] the FCL code introduced produces an empty engine";
+            //                throw fl::Exception(ex.str(), FL_AT);
+            //            }
         } catch (fl::Exception& ex) {
             delete engine;
             throw ex;
@@ -272,6 +272,11 @@ namespace fl {
                 extractRange(line, minimum, maximum);
                 outputVariable->setMinimum(minimum);
                 outputVariable->setMaximum(maximum);
+            } else if (firstToken == "LOCK") {
+                bool valid,range;
+                extractLock(line, valid, range);
+                outputVariable->setLockValidOutput(valid);
+                outputVariable->setLockOutputRange(range);
             } else {
                 std::ostringstream ex;
                 ex << "[syntax error] unexpected token <" << firstToken <<
@@ -452,7 +457,7 @@ namespace fl {
                     ss << strParams.at(i);
                 }
                 std::string infix = ss.str();
-                if (infix.size() > 1 and infix.at(0) == '(' and infix.at(infix.size()-1) == ')'){
+                if (infix.size() > 1 and infix.at(0) == '(' and infix.at(infix.size() - 1) == ')') {
                     infix = infix.substr(1, infix.size() - 2);
                 }
                 dynamic_cast<Function*> (result)->setInfix(infix);
@@ -588,7 +593,10 @@ namespace fl {
                     << "line: " << line;
             throw fl::Exception(ex.str(), FL_AT);
         }
-
+    }
+    
+    void FclImporter::extractLock(const std::string& line, bool& valid, bool& range) const{
+        
     }
 
 
