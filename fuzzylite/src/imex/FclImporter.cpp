@@ -273,7 +273,7 @@ namespace fl {
                 outputVariable->setMinimum(minimum);
                 outputVariable->setMaximum(maximum);
             } else if (firstToken == "LOCK") {
-                bool valid,range;
+                bool valid, range;
                 extractLock(line, valid, range);
                 outputVariable->setLockValidOutput(valid);
                 outputVariable->setLockOutputRange(range);
@@ -521,6 +521,8 @@ namespace fl {
             throw fl::Exception(ex.str(), FL_AT);
         }
 
+        //TODO fix default value;
+        int fix;
         std::string defaultValue = Op::format(token.at(1), isalnum);
         token = Op::split(defaultValue, "|");
 
@@ -594,9 +596,36 @@ namespace fl {
             throw fl::Exception(ex.str(), FL_AT);
         }
     }
-    
-    void FclImporter::extractLock(const std::string& line, bool& valid, bool& range) const{
-        
+
+    void FclImporter::extractLock(const std::string& line, bool& valid, bool& range) const {
+        std::size_t index = line.find_first_of(":");
+        if (index == std::string::npos) {
+            throw fl::Exception("[syntax error] expected property of type "
+                    "'key : value' in line: " + line, FL_AT);
+        }
+        std::string value = fl::Op::findReplace(line.substr(index + 1), ";", "");
+        std::vector<std::string> flags = fl::Op::split(value, "|");
+        if (flags.size() == 1) {
+            std::string flag = fl::Op::trim(flags.front());
+            valid = (flag == "VALID");
+            range = (flag == "RANGE");
+            if (not (valid or range)) {
+                throw fl::Exception("[syntax error] expected locking flags "
+                        "<VALID|RANGE>, but found <" + flag + "> in line: " + line, FL_AT);
+            }
+        } else if (flags.size() == 2) {
+            std::string flagA = fl::Op::trim(flags.front());
+            std::string flagB = fl::Op::trim(flags.back());
+            valid = (flagA == "VALID" or flagB == "VALID");
+            range = (flagA == "RANGE" or flagB == "RANGE");
+            if (not (valid and range)) {
+                throw fl::Exception("[syntax error] expected locking flags "
+                        "<VALID|RANGE>, but found "
+                        "<" + flags.front() + "|" + flags.back() + "> in line: " + line, FL_AT);
+            }
+        } else throw fl::Exception("[syntax error] expected locking flags "
+                "<VALID|RANGE>, but found "
+                "<" + value + "> in line: " + line, FL_AT);
     }
 
 

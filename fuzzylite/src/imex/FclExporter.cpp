@@ -36,7 +36,7 @@ namespace fl {
         return "FclExporter";
     }
 
-    std::string FclExporter::toString(const Engine * engine) const {
+    std::string FclExporter::toString(const Engine* engine) const {
         std::ostringstream fcl;
         fcl << "FUNCTION_BLOCK " << engine->getName() << "\n\n";
 
@@ -103,9 +103,9 @@ namespace fl {
                 }
                 if (outputVariable->isLockingOutputRange()){
                     if (not lock.empty()) lock += " | ";
-                    else lock = "RANGE";
+                    lock += "RANGE";
                 }
-                fcl << ";\n";
+                fcl << lock << ";\n";
             }
 
             fcl << "END_DEFUZZIFY\n";
