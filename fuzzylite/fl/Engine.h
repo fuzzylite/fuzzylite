@@ -69,6 +69,8 @@ namespace fl {
                 const std::string& defuzzifier = "CenterOfGravity",
                 int divisions = FL_DIVISIONS);
 
+        virtual bool isReady(std::string* status = NULL) const;
+        
         virtual void process();
 
         virtual void setName(const std::string& name);

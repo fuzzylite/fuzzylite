@@ -387,6 +387,7 @@ namespace fl {
         void Window::reloadTest() {
             resetTest();
             Engine* engine = Model::Default()->engine();
+
             QVBoxLayout* layout = dynamic_cast<QVBoxLayout*> (ui->inputVariables->layout());
             for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
                 Control* control = new Control(ui->inputVariables);
@@ -532,7 +533,18 @@ namespace fl {
                 }
             }
 
-            Model::Default()->engine()->process();
+            Engine* engine = Model::Default()->engine();
+
+            std::string status;
+            if (not engine->isReady(&status)) {
+                QMessageBox::critical(this, "Engine not ready",
+                        "<qt>The following errors were encountered:<br><br>" +
+                        toHtmlEscaped(QString::fromStdString(status)).replace("\n", "<br>")
+                        + "</qt>");
+
+                return;
+            }
+            engine->process();
             emit(processOutput());
         }
 
@@ -584,9 +596,9 @@ namespace fl {
                 for (int i = ui->lvw_inputs->count() - 1; i >= 0; --i) {
                     if (ui->lvw_inputs->item(i)->isSelected()) {
                         delete engine->removeInputVariable(i);
-                        fixDependencies();
                     }
                 }
+                fixDependencies();
                 setCurrentFile(true);
                 reloadModel();
             }
@@ -623,11 +635,11 @@ namespace fl {
                         engine->insertInputVariable(
                                 dynamic_cast<InputVariable*> (window->variable),
                                 i);
-                        fixDependencies();
-                        setCurrentFile(true);
                     }
                 }
             }
+            fixDependencies();
+            setCurrentFile(true);
             reloadModel();
 
         }
@@ -671,10 +683,10 @@ namespace fl {
                 for (int i = ui->lvw_outputs->count() - 1; i >= 0; --i) {
                     if (ui->lvw_outputs->item(i)->isSelected()) {
                         delete engine->removeOutputVariable(i);
-                        fixDependencies();
-                        setCurrentFile(true);
                     }
                 }
+                fixDependencies();
+                setCurrentFile(true);
                 reloadModel();
             }
         }
@@ -710,11 +722,11 @@ namespace fl {
                         engine->insertOutputVariable(
                                 dynamic_cast<OutputVariable*> (window->variable),
                                 i);
-                        fixDependencies();
-                        setCurrentFile(true);
                     }
                 }
             }
+            fixDependencies();
+            setCurrentFile(true);
             reloadModel();
         }
 

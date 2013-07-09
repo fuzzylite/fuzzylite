@@ -121,6 +121,10 @@ namespace fl {
     int RuleBlock::numberOfRules() const {
         return this->_rules.size();
     }
+    
+    bool RuleBlock::isEmpty() const{
+        return this->_rules.empty();
+    }
 
     const std::vector<Rule*>& RuleBlock::rules() const {
         return this->_rules;
