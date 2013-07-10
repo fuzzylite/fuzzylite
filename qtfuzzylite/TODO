@@ -10,5 +10,6 @@ Associate files
 Preferences: Line thickness, gradients, show centroids and guides, 
              default resolution, default divisions, 
 
+Fix NULL pointer exception when Terms:Linear loaded with one engine, reset engine, change Linear.
 
-
+Change spinbox minimum, maximum and step from QSettings

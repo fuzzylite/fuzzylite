@@ -32,6 +32,7 @@
 #include "fl/qt/Variable.h"
 #include "fl/qt/Model.h"
 #include "fl/qt/Control.h"
+#include "fl/qt/Surface2D.h"
 
 #include "fl/qt/qtfuzzylite.h"
 
@@ -1267,7 +1268,9 @@ namespace fl {
         }
         
         void Window::onMenuSurface2D(){
-            
+            Surface2D surface(this);
+            surface.setup();
+            surface.exec();
         }
 
         void Window::onMenuImport() {

@@ -68,6 +68,7 @@ set(qtfl-headers
     fl/qt/About.h
     fl/qt/Control.h
     fl/qt/ImEx.h
+    fl/qt/Surface2D.h
     fl/qt/Term.h
     fl/qt/TermListWidget.h
     fl/qt/Variable.h
@@ -82,6 +83,7 @@ set(qtfl-sources
     src/ImEx.cpp
     src/main.cpp
     src/Model.cpp
+    src/Surface2D.cpp
     src/Term.cpp
     src/TermListWidget.cpp
     src/Variable.cpp
@@ -92,6 +94,7 @@ set(qtfl-sources
 set(qtfl-uis
     ui/About.ui
     ui/ImEx.ui
+    ui/Surface2D.ui
     ui/Term.ui
     ui/Variable.ui
     ui/Viewer.ui
