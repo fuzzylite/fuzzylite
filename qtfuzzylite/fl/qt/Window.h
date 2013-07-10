@@ -99,6 +99,7 @@ namespace fl {
             void onMenuReload();
 
             void onMenuTerms();
+            void onMenuSurface2D();
 
             bool confirmSaveChanges(const QString& before);
 

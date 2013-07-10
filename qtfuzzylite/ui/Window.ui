@@ -1183,6 +1183,21 @@
     <string>Ctrl+J</string>
    </property>
   </action>
+  <action name="actionSurface2D">
+   <property name="icon">
+    <iconset resource="qtfuzzylite.qrc">
+     <normaloff>:/surface2d.png</normaloff>:/surface2d.png</iconset>
+   </property>
+   <property name="text">
+    <string>Surface 2D</string>
+   </property>
+   <property name="toolTip">
+    <string>Surface 2D</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+2</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

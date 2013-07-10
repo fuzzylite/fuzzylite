@@ -520,36 +520,34 @@ namespace fl {
                     << line;
             throw fl::Exception(ex.str(), FL_AT);
         }
-
-        //TODO fix default value;
-        int fix;
-        std::string defaultValue = Op::format(token.at(1), isalnum);
-        token = Op::split(defaultValue, "|");
-
+        
+        std::vector<std::string> values = Op::split(token.at(1), "|");
+        
+        std::string defaultValue = values.front();
+        std::string nc;
+        if (values.size() == 2) nc = values.back();
+        
+        defaultValue = fl::Op::trim(fl::Op::findReplace(defaultValue,";", ""));
+        nc = fl::Op::trim(fl::Op::findReplace(nc,";", ""));
+        
         scalar value;
         try {
-            value = Op::toScalar(token.at(0));
+            value = fl::Op::toScalar(defaultValue);
         } catch (...) {
             std::ostringstream ex;
             ex << "[syntax error] expected numeric value, "
-                    << "but found <" << token.at(0) << "> in line: "
+                    << "but found <" << defaultValue << "> in line: "
                     << line;
             throw fl::Exception(ex.str(), FL_AT);
         }
-
-        lockValidOutput = false;
-
-        if (token.size() == 2) {
-            std::string noChangeFlag = Op::findReplace(Op::trim(token.at(1)), ";", "");
-            if (noChangeFlag == "NC")
-                lockValidOutput = true;
-            else {
-                std::ostringstream ex;
-                ex << "expected keyword <NC>, but found<" << noChangeFlag << "> in "
-                        << "line: " << line;
-                throw fl::Exception(ex.str(), FL_AT);
-            }
+        
+        lockValidOutput = (nc == "NC");
+        
+        if (not (lockValidOutput or nc.empty())){
+            throw fl::Exception("[syntax error] expected keyword <NC>, "
+                    "but found <" + nc + "> in line: " + line, FL_AT);
         }
+        
         return value;
     }
 

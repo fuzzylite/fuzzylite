@@ -204,6 +204,11 @@ namespace fl {
             QMenu* menuTools = new QMenu("&Tools", this);
             menuTools->addAction(ui->actionTerms);
             QObject::connect(ui->actionTerms, SIGNAL(triggered()), this, SLOT(onMenuTerms()));
+            
+            menuTools->addSeparator();
+            
+            menuTools->addAction(ui->actionSurface2D);
+            QObject::connect(ui->actionSurface2D, SIGNAL(triggered()), this, SLOT(onMenuSurface2D()));
 
             ui->menuBar->addMenu(menuTools);
 
@@ -1259,6 +1264,10 @@ namespace fl {
             window->ui->qfr_name->setVisible(false);
             window->ui->buttonBox->setVisible(false);
             window->show();
+        }
+        
+        void Window::onMenuSurface2D(){
+            
         }
 
         void Window::onMenuImport() {
