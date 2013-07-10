@@ -1,5 +1,6 @@
 <RCC>
   <qresource>
+    <file alias="swap.png">icons/mail-send-receive.png</file>
     <file alias="surface2d.png">icons/applications-graphics.png</file>
     <file alias="community.png">icons/internet-radio-new.png</file>
     <file alias="qt-logo.png">icons/qt-logo.png</file>
