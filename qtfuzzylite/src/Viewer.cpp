@@ -240,12 +240,8 @@ namespace fl {
                 if (constVariable->numberOfTerms() == 1) {
                     color = to;
                 } else {
-                    int r, g, b, a;
                     int degree = (i / (constVariable->numberOfTerms() - 1.0)) * 255;
-                    ColorGradient(degree, r, g, b, a,
-                            from.red(), from.green(), from.blue(), from.alpha(),
-                            to.red(), to.green(), to.blue(), to.alpha());
-                    color = QColor(r, g, b, a);
+                    color = Window::mainWindow()->gradient(degree, from,to);
                 }
                 draw(constVariable->getTerm(i), color);
             }
@@ -253,9 +249,9 @@ namespace fl {
         }
 
         void Viewer::draw(const fl::Term* term, const QColor& color) {
-            if (term->className() == Constant().className() or 
-                    term->className() == Linear().className()){
-                return ;
+            if (term->className() == Constant().className() or
+                    term->className() == Linear().className()) {
+                return;
             }
             int line_width = 3;
             QRect rect = ui->canvas->viewport()->rect();
@@ -337,14 +333,6 @@ namespace fl {
             ui->canvas->scene()->addLine(x, rect.bottom(), x, y, pen);
         }
 
-        void Viewer::ColorGradient(int degree, int& red, int& green, int& blue, int& alpha,
-                int from_r, int from_g, int from_b, int from_a,
-                int to_r, int to_g, int to_b, int to_a) {
-            red = (int) fl::Op::scale(degree, 0, 255, from_r, to_r);
-            green = (int) fl::Op::scale(degree, 0, 255, from_g, to_g);
-            blue = (int) fl::Op::scale(degree, 0, 255, from_b, to_b);
-            alpha = (int) fl::Op::scale(degree, 0, 255, from_a, to_a);
-        }
 
         void Viewer::exportToSvg(const std::string& filepath) {
             (void) filepath;

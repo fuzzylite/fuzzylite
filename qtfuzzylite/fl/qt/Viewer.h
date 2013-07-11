@@ -84,12 +84,6 @@ namespace fl {
             virtual void drawGuide(scalar x, scalar y);
 
             virtual void exportToSvg(const std::string& filepath);
-
-            static void ColorGradient(int degree, int& red, int& green, int& blue, int& alpha,
-                    int from_r, int from_g, int from_b,
-                    int from_a, int to_r, int to_g, int to_b, int to_a);
-
-
         };
     }
 }

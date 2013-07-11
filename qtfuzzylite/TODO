@@ -13,3 +13,7 @@ Preferences: Line thickness, gradients, show centroids and guides,
 Fix NULL pointer exception when Terms:Linear loaded with one engine, reset engine, change Linear.
 
 Change spinbox minimum, maximum and step from QSettings
+
+Swap, and save image in Surface 2d.
+Contour lines in Surface 2d at variable densities (scroller)
+tooltips in surface

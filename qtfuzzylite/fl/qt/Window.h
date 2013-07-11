@@ -157,7 +157,8 @@ namespace fl {
 
             void setup();
 
-            QFont typeWriterFont() const;
+            static QColor gradient(int x, const QColor& min, const QColor& max);
+            static QFont typeWriterFont();
 
             static QString toHtmlEscaped(const QString& x);
 

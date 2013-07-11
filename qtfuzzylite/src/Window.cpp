@@ -205,9 +205,9 @@ namespace fl {
             QMenu* menuTools = new QMenu("&Tools", this);
             menuTools->addAction(ui->actionTerms);
             QObject::connect(ui->actionTerms, SIGNAL(triggered()), this, SLOT(onMenuTerms()));
-            
+
             menuTools->addSeparator();
-            
+
             menuTools->addAction(ui->actionSurface2D);
             QObject::connect(ui->actionSurface2D, SIGNAL(triggered()), this, SLOT(onMenuSurface2D()));
 
@@ -524,12 +524,8 @@ namespace fl {
                 scalar degree = rule->firingStrength(ruleblock->getTnorm(),
                         ruleblock->getSnorm());
                 if (not fl::Op::isInf(degree) and not fl::Op::isNan(degree)) {
-                    int red, green, blue, alpha;
-                    Viewer::ColorGradient((int) (degree * 255), red, green, blue, alpha,
-                            from_color.red(), from_color.green(), from_color.blue(), from_color.alpha(),
-                            to_color.red(), to_color.green(), to_color.blue(), to_color.alpha());
-
-                    QColor color = QColor(red, green, blue, alpha);
+                    QColor color = Window::mainWindow()->gradient(degree * 255,
+                            from_color, to_color);
 
                     ui->lsw_test_rules->item(i)->setBackground(QBrush(color));
                     ui->lsw_test_rules_activation->item(i)->setBackground(QBrush(
@@ -1266,11 +1262,11 @@ namespace fl {
             window->ui->buttonBox->setVisible(false);
             window->show();
         }
-        
-        void Window::onMenuSurface2D(){
-            Surface2D surface(this);
-            surface.setup();
-            surface.exec();
+
+        void Window::onMenuSurface2D() {
+            Surface2D* surface = new Surface2D(this);
+            surface->setup();
+            surface->show();
         }
 
         void Window::onMenuImport() {
@@ -1486,7 +1482,16 @@ namespace fl {
             }
         }
 
-        QFont Window::typeWriterFont() const {
+        QColor Window::gradient(int x, const QColor& min, const QColor& max) {
+            QColor result;
+            result.setRed(fl::Op::scale(x, 0, 255, min.red(), max.red()));
+            result.setBlue(fl::Op::scale(x, 0, 255, min.blue(), max.blue()));
+            result.setGreen(fl::Op::scale(x, 0, 255, min.green(), max.green()));
+            result.setAlpha(fl::Op::scale(x, 0, 255, min.alpha(), max.alpha()));
+            return result;
+        }
+
+        QFont Window::typeWriterFont()  {
             std::string font = "Courier";
 #ifdef Q_OS_MAC
             font = "Monaco";

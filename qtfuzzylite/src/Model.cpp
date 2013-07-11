@@ -16,7 +16,7 @@
 
     Juan Rada-Vilela, 01 February 2013
     jcrada@fuzzylite.com
-**/
+ **/
 
 /*
  * Model.cpp
@@ -55,16 +55,17 @@ namespace fl {
             _engine = engine;
             if (_engine->numberOfRuleBlocks() == 0)
                 _engine->addRuleBlock(new fl::RuleBlock);
+            emit engineChanged();
         }
 
         void Model::reset() {
             fl::Engine* e = new fl::Engine("");
-            fl::RuleBlock* rb= new fl::RuleBlock;
-            
+            fl::RuleBlock* rb = new fl::RuleBlock;
+
             rb->setTnorm(new Minimum);
             rb->setSnorm(new Maximum);
             rb->setActivation(new Minimum);
-            
+
             e->addRuleBlock(rb);
             change(e);
         }

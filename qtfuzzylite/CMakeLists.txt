@@ -68,6 +68,7 @@ set(qtfl-headers
     fl/qt/About.h
     fl/qt/Control.h
     fl/qt/ImEx.h
+    fl/qt/Model.h
     fl/qt/Surface2D.h
     fl/qt/Term.h
     fl/qt/TermListWidget.h

@@ -71,6 +71,7 @@ namespace fl {
             delete dummyVariable;
 
         }
+        
 
         void Term::loadTerms(scalar min, scalar max) {
             scalar average = (min + max) / 2;

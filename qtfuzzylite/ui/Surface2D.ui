@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>414</width>
-    <height>513</height>
+    <width>396</width>
+    <height>355</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@
        <item>
         <widget class="QFrame" name="frame">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -42,10 +42,7 @@
           <enum>QFrame::Sunken</enum>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
-          <property name="topMargin">
-           <number>6</number>
-          </property>
-          <property name="bottomMargin">
+          <property name="margin">
            <number>6</number>
           </property>
           <item>
@@ -247,6 +244,12 @@
        </item>
        <item>
         <widget class="QFrame" name="horizontalFrame">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="frameShape">
           <enum>QFrame::Box</enum>
          </property>
@@ -292,9 +295,6 @@
           </item>
           <item row="1" column="1">
            <widget class="QDoubleSpinBox" name="sbx_min_output">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -303,14 +303,14 @@
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
           <item row="1" column="2">
            <widget class="QDoubleSpinBox" name="sbx_max_output">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -319,6 +319,9 @@
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -381,8 +384,14 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout">
+       <property name="margin">
+        <number>6</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <item row="0" column="0">
-        <widget class="QToolButton" name="btn_swap_axes">
+        <widget class="QToolButton" name="btn_options">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
            <horstretch>0</horstretch>
@@ -390,7 +399,7 @@
           </sizepolicy>
          </property>
          <property name="toolTip">
-          <string>Swap axes</string>
+          <string>Options...</string>
          </property>
          <property name="text">
           <string>...</string>
@@ -408,7 +417,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QLabel" name="lbl_min_h">
+           <widget class="QLabel" name="lbl_min_a">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
               <horstretch>0</horstretch>
@@ -434,7 +443,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="lbl_max_h">
+           <widget class="QLabel" name="lbl_max_a">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
               <horstretch>0</horstretch>
@@ -456,7 +465,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QLabel" name="lbl_min_v">
+           <widget class="QLabel" name="lbl_min_b">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
               <horstretch>0</horstretch>
@@ -485,7 +494,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="lbl_max_v">
+           <widget class="QLabel" name="lbl_max_b">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
               <horstretch>0</horstretch>
@@ -504,18 +513,30 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QGraphicsView" name="canvas">
+        <widget class="QLabel" name="canvas">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="renderHints">
-          <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
+         <property name="mouseTracking">
+          <bool>true</bool>
          </property>
-         <property name="viewportUpdateMode">
-          <enum>QGraphicsView::FullViewportUpdate</enum>
+         <property name="styleSheet">
+          <string notr="true">background:white</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -556,16 +577,16 @@
            <string>px</string>
           </property>
           <property name="minimum">
-           <number>128</number>
+           <number>8</number>
           </property>
           <property name="maximum">
-           <number>2048</number>
+           <number>640</number>
           </property>
           <property name="singleStep">
            <number>8</number>
           </property>
           <property name="value">
-           <number>640</number>
+           <number>64</number>
           </property>
          </widget>
         </item>
@@ -588,16 +609,16 @@
            <string>px</string>
           </property>
           <property name="minimum">
-           <number>128</number>
+           <number>8</number>
           </property>
           <property name="maximum">
-           <number>2048</number>
+           <number>640</number>
           </property>
           <property name="singleStep">
            <number>8</number>
           </property>
           <property name="value">
-           <number>480</number>
+           <number>64</number>
           </property>
          </widget>
         </item>

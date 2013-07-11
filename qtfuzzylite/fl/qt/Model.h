@@ -16,7 +16,7 @@
 
     Juan Rada-Vilela, 01 February 2013
     jcrada@fuzzylite.com
-**/
+ **/
 
 /*
  * Model.h
@@ -30,11 +30,18 @@
 
 #include <fl/Headers.h>
 
+#include <QObject>
+
 namespace fl {
     namespace qt {
-        class Model {
+
+        class Model : public QObject {
+            Q_OBJECT
         public:
             static Model* Default();
+
+        signals:
+            void engineChanged();
 
         protected:
             Model();
@@ -46,8 +53,9 @@ namespace fl {
             virtual fl::Engine* engine() const;
             virtual void change(Engine* engine);
             virtual void reset();
-
         };
+
+
     }
-} 
+}
 #endif /* FLQT_MODEL_H_ */
