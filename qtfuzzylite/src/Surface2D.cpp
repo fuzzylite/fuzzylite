@@ -41,7 +41,7 @@ namespace fl {
                     this, SLOT(onChangeInputB(int)));
             QObject::connect(ui->cbx_output, SIGNAL(currentIndexChanged(int)),
                     this, SLOT(onChangeOutput(int)));
-            
+
             QObject::connect(ui->btn_inputs, SIGNAL(clicked()),
                     this, SLOT(onClickInputs()));
 
@@ -80,12 +80,12 @@ namespace fl {
 
             QSettings settings;
 
-            QColor minColor = settings.value("view/surface2DMinColor").value<QColor>();
+            QColor minColor = settings.value("view/surface2DMinColor", QColor(Qt::white)).value<QColor>();
             QPixmap minIcon(16, 16);
             minIcon.fill(minColor);
             ui->btn_min_color->setIcon(minIcon);
 
-            QColor maxColor = settings.value("view/surface2DMaxColor").value<QColor>();
+            QColor maxColor = settings.value("view/surface2DMaxColor", QColor(Qt::black)).value<QColor>();
             QPixmap maxIcon(16, 16);
             maxIcon.fill(maxColor);
             ui->btn_max_color->setIcon(maxIcon);
@@ -116,8 +116,8 @@ namespace fl {
             ui->sbx_min_inputB->setValue(inputVariable->getMinimum());
             ui->sbx_max_inputB->setValue(inputVariable->getMaximum());
         }
-        
-        void Surface2D::onChangeOutput(int index){
+
+        void Surface2D::onChangeOutput(int index) {
             Engine* engine = Model::Default()->engine();
             OutputVariable* outputVariable = engine->getOutputVariable(index);
             ui->sbx_min_output->setValue(outputVariable->getMinimum());
@@ -130,23 +130,30 @@ namespace fl {
             QSettings settings;
 
             QColor minColor = settings.value("view/surface2DMinColor").value<QColor>();
+            if (not minColor.isValid()) minColor = QColor(Qt::white);
+
             minColor = QColorDialog::getColor(minColor, this, "Select minimum color");
-            settings.setValue("view/surface2DMinColor", minColor);
-            QPixmap minIcon(16, 16);
-            minIcon.fill(minColor);
-            ui->btn_min_color->setIcon(minIcon);
+            if (minColor.isValid()) {
+                settings.setValue("view/surface2DMinColor", minColor);
+                QPixmap minIcon(16, 16);
+                minIcon.fill(minColor);
+                ui->btn_min_color->setIcon(minIcon);
+            }
         }
 
         void Surface2D::onClickMaximumColor() {
             QSettings settings;
 
             QColor maxColor = settings.value("view/surface2DMaxColor").value<QColor>();
-            maxColor = QColorDialog::getColor(maxColor, this, "Select maximum color");
-            settings.setValue("view/surface2DMaxColor", maxColor);
+            if (not maxColor.isValid()) maxColor = QColor(Qt::black);
 
-            QPixmap maxIcon(16, 16);
-            maxIcon.fill(maxColor);
-            ui->btn_max_color->setIcon(maxIcon);
+            maxColor = QColorDialog::getColor(maxColor, this, "Select maximum color");
+            if (maxColor.isValid()) {
+                settings.setValue("view/surface2DMaxColor", maxColor);
+                QPixmap maxIcon(16, 16);
+                maxIcon.fill(maxColor);
+                ui->btn_max_color->setIcon(maxIcon);
+            }
         }
 
         void Surface2D::onClickSwapAxes() { }

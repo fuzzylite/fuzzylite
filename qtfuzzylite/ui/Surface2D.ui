@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>408</width>
-    <height>515</height>
+    <width>414</width>
+    <height>513</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -397,7 +397,7 @@
          </property>
          <property name="icon">
           <iconset resource="qtfuzzylite.qrc">
-           <normaloff>:/swap.png</normaloff>:/swap.png</iconset>
+           <normaloff>:/visualization.png</normaloff>:/visualization.png</iconset>
          </property>
         </widget>
        </item>
@@ -605,7 +605,7 @@
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer_2">
+      <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -634,6 +634,12 @@
        <property name="icon">
         <iconset resource="qtfuzzylite.qrc">
          <normaloff>:/surface2d.png</normaloff>:/surface2d.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>22</width>
+         <height>22</height>
+        </size>
        </property>
        <property name="toolButtonStyle">
         <enum>Qt::ToolButtonTextBesideIcon</enum>

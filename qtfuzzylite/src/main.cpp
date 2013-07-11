@@ -35,7 +35,8 @@
 
 #include "fl/qt/Window.h"  
 #include "fl/qt/Term.h"
-#include "fl/qt/Viewer.h"   
+#include "fl/qt/Viewer.h"  
+#include "fl/qt/qtfuzzylite.h"
 
 #include <signal.h>
 
@@ -47,7 +48,9 @@ namespace fl {
         QtFuzzyLite(int& argc, char ** argv) : QApplication(argc, argv) {
             QCoreApplication::setOrganizationName("fuzzylite");
             QCoreApplication::setOrganizationDomain("fuzzylite.com");
-            QCoreApplication::setApplicationName("qtfuzzylite");
+            QCoreApplication::setApplicationName(
+                    QString::fromStdString("qtfuzzylite-" +
+                    fl::qt::qtfuzzylite::shortVersion()));
 
             QApplication::setWindowIcon(QIcon(":/qtfuzzylite.png"));
         }
