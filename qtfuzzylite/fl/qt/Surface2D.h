@@ -9,9 +9,13 @@
 #define	FLQT_SURFACE2D_H
 
 #include <QDialog>
+#include <QMouseEvent>
+#include <QToolTip>
+
 #include "ui_Surface2D.h"
 
 #include <fl/Headers.h>
+
 
 namespace fl {
     namespace qt {
@@ -23,7 +27,7 @@ namespace fl {
             void onChangeInputA(int);
             void onChangeInputB(int);
             void onChangeOutput(int);
-            
+
             void onChangeSpinBox(double);
 
             void onClickInputs();
@@ -36,15 +40,25 @@ namespace fl {
             void onClickMaximumColor();
 
             void onClickGenerate();
-            
+
             void onEngineChanged();
 
         protected:
             bool _swap;
-            std::vector<std::vector<scalar> > _matrix;
+
+            struct tuple {
+                scalar inputA, inputB, output;
+
+                tuple() {
+                }
+
+                tuple(scalar a, scalar b, scalar o) : inputA(a), inputB(b), output(o) {
+                }
+            };
+            std::vector<std::vector<tuple> > _matrix;
             void generateLockingRange();
             void generateRangeFree();
-            
+
             void updateWindowTitle();
 
         public:
@@ -66,7 +80,22 @@ namespace fl {
                 bool eventFilter(QObject* object, QEvent* event) {
                     if (object == _owner->ui->canvas and
                             event->type() == QEvent::MouseMove) {
-                        
+                        if (_owner->_matrix.size() > 0) {
+                            QMouseEvent* e = (QMouseEvent*) (event);
+                            QLabel* canvas = _owner->ui->canvas;
+                            int x = fl::Op::scale(e->x(), 0, canvas->width(),
+                                    0, _owner->_matrix.size());
+                            int y = fl::Op::scale(e->y(), 0, canvas->height(),
+                                    0, _owner->_matrix.at(x).size());
+                            std::ostringstream ss;
+                            tuple t = _owner->_matrix.at(x).at(y);
+                            ss << "[" << fl::Op::str(t.inputA) << ", "
+                                    << fl::Op::str(t.inputB) << "]->"
+                                    << fl::Op::str(t.output);
+                            QToolTip::showText(e->globalPos(),
+                                    QString::fromStdString(ss.str()),
+                                    _owner->ui->canvas);
+                        }
                         return true;
                     }
                     return false;

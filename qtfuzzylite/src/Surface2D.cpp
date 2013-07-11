@@ -146,7 +146,6 @@ namespace fl {
         }
 
         void Surface2D::generateRangeFree() {
-            FL_LOG("range free");
             Engine* engine = Model::Default()->engine();
             InputVariable* inputA = engine->getInputVariable(ui->cbx_inputA->currentIndex());
             InputVariable* inputB = engine->getInputVariable(ui->cbx_inputB->currentIndex());
@@ -175,7 +174,8 @@ namespace fl {
                     engine->process();
 
                     scalar oValue = output->defuzzify();
-                    _matrix.at(a).at(b) = oValue;
+                    
+                    _matrix.at(a).at(b) = tuple(aValue, bValue, oValue);
                     if (not fl::Op::isNan(oValue)) {
                         if (oValue < minOutput) minOutput = oValue;
                         if (oValue > maxOutput) maxOutput = oValue;
@@ -192,7 +192,7 @@ namespace fl {
             for (int x = 0; x < width; ++x) {
                 for (int y = 0; y < height; ++y) {
                     QColor pixel = invalidColor;
-                    scalar output = _matrix.at(x).at(y);
+                    scalar output = _matrix.at(x).at(y).output;
                     if (not (fl::Op::isInf(output) or fl::Op::isNan(output))) {
                         int gradient = (int) fl::Op::scale(output, minOutput, maxOutput, 0, 255);
                         pixel = Window::mainWindow()->gradient(gradient, minColor, maxColor);
@@ -205,7 +205,6 @@ namespace fl {
         }
 
         void Surface2D::generateLockingRange() {
-            FL_LOG("locking range");
             Engine* engine = Model::Default()->engine();
             InputVariable* inputA = engine->getInputVariable(ui->cbx_inputA->currentIndex());
             InputVariable* inputB = engine->getInputVariable(ui->cbx_inputB->currentIndex());
@@ -241,7 +240,7 @@ namespace fl {
                     engine->process();
 
                     scalar oValue = output->defuzzify();
-                    _matrix.at(a).at(b) = oValue;
+                    _matrix.at(a).at(b) = tuple(aValue, bValue, oValue);
 
                     QColor pixel = invalidColor;
                     if (not (fl::Op::isInf(oValue) or fl::Op::isNan(oValue))) {
