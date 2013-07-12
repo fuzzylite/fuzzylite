@@ -82,8 +82,10 @@ namespace fl {
             if (i == 0){
                 ss << fl::Op::str(fx, decimals);
             }else{
-                if (fl::Op::isGE(fx, 0.0)) ss << " + " << fl::Op::str(fx, decimals);
-                else ss << " - " << fl::Op::str(std::fabs(fx), decimals);
+                if (fl::Op::isNan(fx) or fl::Op::isGE(fx, 0.0))
+                    ss << " + " << fl::Op::str(fx, decimals);
+                else 
+                    ss << " - " << fl::Op::str(std::fabs(fx), decimals);
             }
             ss  << "/" << _terms.at(i)->getName();
         }

@@ -88,38 +88,38 @@ namespace fl {
     bool Engine::isReady(std::string* status) const {
         std::ostringstream ss;
         if (_inputVariables.size() == 0) {
-            ss << "-Engine has no input variables\n";
+            ss << "- Engine has no input variables\n";
         }
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
             InputVariable* inputVariable = _inputVariables.at(i);
             if (not inputVariable) {
-                ss << "-Engine has a NULL input variable at index <" << i << ">\n";
+                ss << "- Engine has a NULL input variable at index <" << i << ">\n";
             } else if (inputVariable->isEmpty()) {
-                ss << "-Input variable <" << _inputVariables.at(i)->getName() << ">"
+                ss << "- Input variable <" << _inputVariables.at(i)->getName() << ">"
                         << " has no terms\n";
             }
         }
 
         if (_outputVariables.size() == 0) {
-            ss << "-Engine has no output variables\n";
+            ss << "- Engine has no output variables\n";
         }
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             OutputVariable* outputVariable = _outputVariables.at(i);
             if (not outputVariable) {
-                ss << "-Engine has a NULL output variable at index <" << i << ">\n";
+                ss << "- Engine has a NULL output variable at index <" << i << ">\n";
             } else {
                 if (outputVariable->isEmpty()) {
-                    ss << "-Output variable <" << outputVariable->getName() << ">"
+                    ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no terms\n";
                 }
                 Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
                 if (not defuzzifier) {
-                    ss << "-Output variable <" << outputVariable->getName() << ">"
+                    ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no defuzzifier\n";
                 } else if (not (defuzzifier->className() == WeightedAverage().className()
                         or defuzzifier->className() == WeightedSum().className())) {
                     if (not outputVariable->output()->getAccumulation()) {
-                        ss << "-Output variable <" << outputVariable->getName() << ">"
+                        ss << "- Output variable <" << outputVariable->getName() << ">"
                                 << " has no accumulation S-Norm\n";
                     }
                 }
@@ -127,24 +127,24 @@ namespace fl {
         }
 
         if (_ruleblocks.size() == 0) {
-            ss << "-Engine has no rule blocks\n";
+            ss << "- Engine has no rule blocks\n";
         }
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
             RuleBlock* ruleblock = _ruleblocks.at(i);
             if (not ruleblock) {
-                ss << "-Engine has a NULL rule block at index <" << i << ">\n";
+                ss << "- Engine has a NULL rule block at index <" << i << ">\n";
             } else {
                 if (ruleblock->isEmpty()) {
-                    ss << "-Rule block <" << ruleblock->getName() << "> has no rules\n";
+                    ss << "- Rule block <" << ruleblock->getName() << "> has no rules\n";
                 }
                 if (not ruleblock->getTnorm()) {
-                    ss << "-Rule block <" << ruleblock->getName() << "> has no T-Norm\n";
+                    ss << "- Rule block <" << ruleblock->getName() << "> has no T-Norm\n";
                 }
                 if (not ruleblock->getSnorm()) {
-                    ss << "-Rule block <" << ruleblock->getName() << "> has no S-Norm\n";
+                    ss << "- Rule block <" << ruleblock->getName() << "> has no S-Norm\n";
                 }
                 if (not ruleblock->getActivation()) {
-                    ss << "-Rule block <" << ruleblock->getName() << "> has no activation T-Norm\n";
+                    ss << "- Rule block <" << ruleblock->getName() << "> has no activation T-Norm\n";
                 }
             }
         }

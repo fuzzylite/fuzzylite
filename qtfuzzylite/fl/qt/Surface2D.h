@@ -13,6 +13,7 @@
 #include <QToolTip>
 
 #include "ui_Surface2D.h"
+#include "qwt/qwt_raster_data.h"
 
 #include <fl/Headers.h>
 
@@ -34,7 +35,9 @@ namespace fl {
 
             void onClickOptions();
             void onOptionTriggered();
-
+            
+            void setNumberOfContours(int);
+            void setWidthOfContours(int);
 
             void onClickMinimumColor();
             void onClickMaximumColor();
@@ -44,7 +47,6 @@ namespace fl {
             void onEngineChanged();
 
         protected:
-            bool _swap;
 
             struct tuple {
                 scalar inputA, inputB, output;
@@ -56,10 +58,15 @@ namespace fl {
                 }
             };
             std::vector<std::vector<tuple> > _matrix;
-            void generateLockingRange();
-            void generateRangeFree();
+            QImage _surface;
+            scalar minInputA, maxInputA;
+            scalar minInputB, maxInputB;
+            scalar minOutput, maxOutput;
+            void drawContours();
 
             void updateWindowTitle();
+            
+            void saveAs(const QString& filename);
 
         public:
             Ui::Surface2D* ui;
@@ -67,6 +74,19 @@ namespace fl {
             ~Surface2D();
 
             void setup();
+
+            class RasterData : public QwtRasterData {
+            protected:
+                Surface2D* _owner;
+            public:
+
+                RasterData(Surface2D* owner) : _owner(owner) {
+                }
+
+                double value(double x, double y) const {
+                    return _owner->_matrix.at(x).at(y).output;
+                }
+            };
 
             class MouseTrackingFilter : public QObject {
             protected:

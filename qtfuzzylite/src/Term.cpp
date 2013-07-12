@@ -51,7 +51,6 @@ namespace fl {
         }
 
         Term::~Term() {
-            disconnect();
             delete ui;
             for (std::size_t i = 0; i < _basicTerms.size(); ++i) {
                 delete _basicTerms.at(i);
@@ -71,7 +70,23 @@ namespace fl {
             delete dummyVariable;
 
         }
-        
+
+        void Term::onEngineVariableChanged() {
+            Linear* linear;
+            for (std::size_t i = 0; i < _fxTerms.size(); ++i) {
+                linear = dynamic_cast<Linear*> (_fxTerms.at(i));
+                if (linear) {
+                    Engine* engine = Model::Default()->engine();
+                    linear->set(std::vector<scalar>(engine->numberOfInputVariables() + 1),
+                            engine->inputVariables());
+//                    if (ui->fxTermToolbox->isVisible() and
+//                            ui->fxTermToolbox->currentIndex() == 1) {
+                        loadFrom(linear);
+//                    }
+                    break;
+                }
+            }
+        }
 
         void Term::loadTerms(scalar min, scalar max) {
             scalar average = (min + max) / 2;
@@ -253,6 +268,8 @@ namespace fl {
         }
 
         void Term::connect() {
+            QObject::connect(Window::mainWindow(), SIGNAL(engineVariableChanged()),
+                    this, SLOT(onEngineVariableChanged()));
             QObject::connect(ui->basicTermToolbox, SIGNAL(currentChanged(int)),
                     this, SLOT(onChangeToolBoxIndex(int)), Qt::QueuedConnection);
             QObject::connect(ui->extendedTermToolbox, SIGNAL(currentChanged(int)),
@@ -396,145 +413,6 @@ namespace fl {
                     this, SLOT(onClickFunctionVariable()));
             QObject::connect(ui->btn_function_builtin, SIGNAL(clicked()),
                     this, SLOT(onClickFunctionBuiltIn()));
-        }
-
-        void Term::disconnect() {
-            QObject::disconnect(ui->basicTermToolbox, SIGNAL(currentChanged(int)),
-                    this, SLOT(onChangeToolBoxIndex(int)));
-            QObject::disconnect(ui->extendedTermToolbox, SIGNAL(currentChanged(int)),
-                    this, SLOT(onChangeToolBoxIndex(int)));
-            QObject::disconnect(ui->edgeTermToolbox, SIGNAL(currentChanged(int)),
-                    this, SLOT(onChangeToolBoxIndex(int)));
-
-            QObject::disconnect(ui->tabTerms, SIGNAL(currentChanged(int)),
-                    this, SLOT(onChangeTab(int)));
-            QObject::disconnect(viewer, SIGNAL(valueChanged(double)),
-                    this, SLOT(redraw()));
-
-            //BASIC
-            //Triangle
-            QObject::disconnect(ui->sbx_triangle_a, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxTriangle(double)));
-            QObject::disconnect(ui->sbx_triangle_b, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxTriangle(double)));
-            QObject::disconnect(ui->sbx_triangle_c, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxTriangle(double)));
-
-            //Trapezoid
-            QObject::disconnect(ui->sbx_trapezoid_a, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxTrapezoid(double)));
-            QObject::disconnect(ui->sbx_trapezoid_b, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxTrapezoid(double)));
-            QObject::disconnect(ui->sbx_trapezoid_c, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxTrapezoid(double)));
-            QObject::disconnect(ui->sbx_trapezoid_d, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxTrapezoid(double)));
-
-            //Rectangle
-            QObject::disconnect(ui->sbx_rectangle_min, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxRectangle(double)));
-            QObject::disconnect(ui->sbx_rectangle_max, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxRectangle(double)));
-
-            //Discrete
-            QObject::disconnect(ui->btn_discrete_parse, SIGNAL(clicked()),
-                    this, SLOT(onClickDiscreteParser()));
-
-            //EXTENDED
-            //Gaussian
-            QObject::disconnect(ui->sbx_gaussian_center, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxGaussian(double)));
-            QObject::disconnect(ui->sbx_gaussian_width, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxGaussian(double)));
-
-            //GaussianProduct
-            QObject::disconnect(ui->sbx_gaussian_prod_center_a, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxGaussianProduct(double)));
-            QObject::disconnect(ui->sbx_gaussian_prod_center_b, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxGaussianProduct(double)));
-            QObject::disconnect(ui->sbx_gaussian_prod_width_a, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxGaussianProduct(double)));
-            QObject::disconnect(ui->sbx_gaussian_prod_width_b, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxGaussianProduct(double)));
-            //Bell
-            QObject::disconnect(ui->sbx_bell_center, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxBell(double)));
-            QObject::disconnect(ui->sbx_bell_width, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxBell(double)));
-            QObject::disconnect(ui->sbx_bell_slope, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxBell(double)));
-
-            //Pi-Shape
-            QObject::disconnect(ui->sbx_pishape_bl, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxPiShape(double)));
-            QObject::disconnect(ui->sbx_pishape_tl, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxPiShape(double)));
-            QObject::disconnect(ui->sbx_pishape_tr, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxPiShape(double)));
-            QObject::disconnect(ui->sbx_pishape_br, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxPiShape(double)));
-
-            //SigmoidDiff
-            QObject::disconnect(ui->sbx_sigmoid_diff_rising, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxSigmoidDiff(double)));
-            QObject::disconnect(ui->sbx_sigmoid_diff_left, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxSigmoidDiff(double)));
-            QObject::disconnect(ui->sbx_sigmoid_diff_falling, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxSigmoidDiff(double)));
-            QObject::disconnect(ui->sbx_sigmoid_diff_right, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxSigmoidDiff(double)));
-
-            //SigmoidProd
-            QObject::disconnect(ui->sbx_sigmoid_prod_rising, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxSigmoidProd(double)));
-            QObject::disconnect(ui->sbx_sigmoid_prod_left, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxSigmoidProd(double)));
-            QObject::disconnect(ui->sbx_sigmoid_prod_falling, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxSigmoidProd(double)));
-            QObject::disconnect(ui->sbx_sigmoid_prod_right, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxSigmoidProd(double)));
-            //EDGES
-            //Ramp
-            QObject::disconnect(ui->sbx_ramp_start, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxRamp(double)));
-            QObject::disconnect(ui->sbx_ramp_end, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxRamp(double)));
-
-            //Sigmoid
-            QObject::disconnect(ui->sbx_sigmoid_inflection, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxSigmoid(double)));
-            QObject::disconnect(ui->sbx_sigmoid_slope, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxSigmoid(double)));
-
-            //S-Shape
-            QObject::disconnect(ui->sbx_sshape_start, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxSShape(double)));
-            QObject::disconnect(ui->sbx_sshape_end, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxSShape(double)));
-
-            //Z-Shape
-            QObject::disconnect(ui->sbx_zshape_start, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxZShape(double)));
-            QObject::disconnect(ui->sbx_zshape_end, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxZShape(double)));
-
-            QObject::disconnect(ui->sbx_constant, SIGNAL(valueChanged(double)),
-                    this, SLOT(onChangeSpinBoxConstant(double)));
-
-            QObject::disconnect(ui->lst_coefficients, SIGNAL(itemChanged(QListWidgetItem*)),
-                    this, SLOT(onChangeLinearCoefficient(QListWidgetItem*)));
-            QObject::disconnect(ui->lst_variables->verticalScrollBar(), SIGNAL(valueChanged(int)),
-                    ui->lst_coefficients->verticalScrollBar(), SLOT(setValue(int)));
-            QObject::disconnect(ui->lst_coefficients->verticalScrollBar(), SIGNAL(valueChanged(int)),
-                    ui->lst_variables->verticalScrollBar(), SLOT(setValue(int)));
-
-            QObject::disconnect(ui->btn_function_process, SIGNAL(clicked()),
-                    this, SLOT(onClickFunctionProcess()));
-            QObject::disconnect(ui->btn_function_variable, SIGNAL(clicked()),
-                    this, SLOT(onClickFunctionVariable()));
-            QObject::disconnect(ui->btn_function_builtin, SIGNAL(clicked()),
-                    this, SLOT(onClickFunctionBuiltIn()));
-
         }
 
         void Term::showEvent(QShowEvent* event) {

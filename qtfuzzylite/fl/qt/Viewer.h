@@ -51,8 +51,6 @@ namespace fl {
 
         public slots:
             virtual void refresh();
-            virtual void onClickVariableName();
-            virtual void onActionVariableName(const QString& action);
 
         signals:
             void valueChanged(double);
@@ -61,7 +59,6 @@ namespace fl {
         protected:
 
             virtual void connect();
-            virtual void disconnect();
             virtual void showEvent(QShowEvent*);
             virtual void resizeEvent(QResizeEvent*);
 
@@ -77,7 +74,11 @@ namespace fl {
             virtual void setup(const fl::Variable* variable);
 
             virtual void enablePropertiesButton(bool show);
-
+            virtual void minimizeViewer();
+            virtual void maximizeViewer();
+            bool isMinimizedViewer() const ;
+            bool isMaximizedViewer() const ;
+            
             virtual void draw();
             virtual void draw(const fl::Term* term, const QColor& color = QColor(0, 210, 0, 200));
             virtual void drawCentroid(scalar xcentroid, scalar ycentroid);

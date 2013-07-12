@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>396</width>
-    <height>355</height>
+    <width>544</width>
+    <height>523</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,11 +22,17 @@
      <property name="handleWidth">
       <number>12</number>
      </property>
-     <property name="childrenCollapsible">
-      <bool>true</bool>
-     </property>
-     <widget class="QWidget" name="verticalLayoutWidget">
+     <widget class="QFrame" name="verticalFrame">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="margin">
+        <number>0</number>
+       </property>
        <item>
         <widget class="QFrame" name="frame">
          <property name="sizePolicy">
@@ -515,7 +521,7 @@
        <item row="1" column="1">
         <widget class="QLabel" name="canvas">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+          <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -524,7 +530,7 @@
           <bool>true</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">background:white</string>
+          <string notr="true"/>
          </property>
          <property name="frameShape">
           <enum>QFrame::Box</enum>
@@ -639,22 +645,13 @@
       </spacer>
      </item>
      <item>
-      <widget class="QToolButton" name="btn_generate">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
-       </property>
+      <widget class="QPushButton" name="btn_generate">
        <property name="text">
         <string>Generate</string>
        </property>
        <property name="icon">
         <iconset resource="qtfuzzylite.qrc">
-         <normaloff>:/surface2d.png</normaloff>:/surface2d.png</iconset>
+         <normaloff>:/surface2d-generate.png</normaloff>:/surface2d-generate.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -662,8 +659,11 @@
          <height>22</height>
         </size>
        </property>
-       <property name="toolButtonStyle">
-        <enum>Qt::ToolButtonTextBesideIcon</enum>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

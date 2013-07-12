@@ -30,8 +30,13 @@
 
 #include <QMainWindow>
 #include <QAction>
+#include <QWidgetAction>
 #include "ui_Window.h"
+
 #include <fl/Headers.h>
+
+#include "fl/qt/Model.h"
+#include "fl/qt/Viewer.h"
 
 
 
@@ -44,6 +49,7 @@ namespace fl {
 
         signals:
             void processOutput();
+            void engineVariableChanged();
 
         protected slots:
             void onContextMenuRequest(const QPoint&);
@@ -79,10 +85,8 @@ namespace fl {
 
             //Test
             void onInputValueChanged();
-            void onClickInputButton();
-            void onClickOutputButton();
-            void onActionInputButton(const QString& action);
-            void onActionOutputButton(const QString& action);
+            void onClickInputOutputButton();
+            void onActionInputOutputButton();
 
             //MenuBar
             void onMenuAbout();
@@ -170,6 +174,52 @@ namespace fl {
 
             bool eventFilter(QObject* object, QEvent* event) {
                 if (event->type() == QEvent::Wheel) {
+                    event->accept();
+                    return true;
+                }
+                return false;
+            }
+        };
+
+        class VariableContextMenu : public QObject {
+        protected:
+            QListWidget* _sender;
+            std::string _type;
+        public:
+
+            VariableContextMenu(QListWidget* sender, const std::string& type) :
+            _sender(sender), _type(type) {
+            }
+
+            bool eventFilter(QObject* object, QEvent* event) {
+                if (event->type() == QEvent::ContextMenu) {
+                    std::vector<fl::Variable*> selectedVariables;
+                    Engine* engine = Model::Default()->engine();
+                    for (int i = 0; i < _sender->count(); ++i) {
+                        if (_sender->item(i)->isSelected()) {
+                            if (_type == "input")
+                                selectedVariables.push_back(engine->getInputVariable(i));
+                            else if (_type == "output")
+                                selectedVariables.push_back(engine->getOutputVariable(i));
+                            else
+                                throw fl::Exception("[internal error] unrecognized variable type", FL_AT);
+                        }
+                    }
+
+                    if (selectedVariables.size() > 0) {
+
+                        QMenu menu(_sender);
+                        for (std::size_t i = 0; i < selectedVariables.size(); ++i) {
+                            Viewer* viewer = new Viewer(&menu);
+                            viewer->setup(selectedVariables.at(i));
+                            viewer->ui->mainLayout->setContentsMargins(3, 0, 3, 0);
+                            QWidgetAction* action = new QWidgetAction(&menu);
+                            action->setDefaultWidget(viewer);
+
+                            menu.addAction(action);
+                        }
+                        menu.exec(QCursor::pos() + QPoint(1, 0));
+                    }
                     event->accept();
                     return true;
                 }

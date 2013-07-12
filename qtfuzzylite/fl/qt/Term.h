@@ -47,6 +47,8 @@ namespace fl {
             Q_OBJECT
 
         protected slots:
+            void onEngineVariableChanged();
+            
             void onChangeToolBoxIndex(int index);
             void onChangeTab(int index);
 
@@ -92,7 +94,6 @@ namespace fl {
             fl::Term* selectedTerm() const;
             
             void connect();
-            void disconnect();
             
             void setCurrentToolbox(int index);
             

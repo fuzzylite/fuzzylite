@@ -59,7 +59,9 @@ namespace fl {
                     break;
                 }
             }
-
+            ui->btn_name->setEnabled(true);
+            QObject::connect(ui->btn_name, SIGNAL(clicked()),
+                    this, SLOT(onClickVariableName()));
             if (dynamic_cast<fl::OutputVariable*> (variable)) {
                 ui->sld_x->setEnabled(false);
                 ui->sbx_x->setVisible(false);
@@ -75,9 +77,10 @@ namespace fl {
                 QObject::connect(this, SIGNAL(valueChanged(double)),
                         this, SLOT(updateInput(double)));
                 ui->btn_name->setIcon(QIcon(":/input.png"));
-                if (_isTakagiSugeno or variable->isEmpty()) {
-                    onActionVariableName("minimize");
-                }
+            }
+
+            if (_isTakagiSugeno or variable->isEmpty()) {
+                minimizeViewer();
             }
         }
 
@@ -95,7 +98,7 @@ namespace fl {
                     _outputIndex = 0;
                     _minOutput = variable->getMinimum();
                     _maxOutput = variable->getMaximum();
-                    if (_isTakagiSugeno) onActionVariableName("output view");
+                    if (_isTakagiSugeno) swapOutputView();
                 }
             }
         }
@@ -112,7 +115,6 @@ namespace fl {
         }
 
         void Control::onChangeSliderValue(int position) {
-            //            Viewer::onChangeSliderValue(position);
             if (not _outputView) {
                 Viewer::onChangeSliderValue(position);
             } else {
@@ -178,101 +180,49 @@ namespace fl {
 
         void Control::onClickVariableName() {
             QMenu menu(this);
-            std::vector<QAction*> actions;
             if (not ui->wdg_canvas->isVisible()) {
-                actions.push_back(new QAction("maximize", this));
+                menu.addAction("maximize", this, SLOT(onActionVariableName()));
             } else {
-                actions.push_back(new QAction("minimize", this));
+                menu.addAction("minimize", this, SLOT(onActionVariableName()));
 
                 if (allowsOutputView()) {
-                    actions.push_back(NULL);
+                    menu.addSeparator();
 
                     if (not _isTakagiSugeno) {
-                        QAction* actionView = new QAction("output view", this);
+                        QAction* actionView = new QAction("output view", &menu);
+                        QObject::connect(actionView, SIGNAL(triggered()), 
+                                this, SLOT(onActionVariableName()));
                         if (_outputView) {
                             actionView->setCheckable(true);
                             actionView->setChecked(true);
                         }
-                        actions.push_back(actionView);
+                        menu.addAction(actionView);
                     }
 
                     if (_outputView) {
-                        actions.push_back(new QAction("resolution...", this));
-                        actions.push_back(NULL);
-                        actions.push_back(new QAction("clear", this));
+                        menu.addAction("resolution...", this, SLOT(onActionVariableName()));
+                        menu.addSeparator();
+                        menu.addAction("clear", this, SLOT(onActionVariableName()));
                     }
                 }
             }
 
-            QSignalMapper signalMapper(this);
-            for (std::size_t i = 0; i < actions.size(); ++i) {
-                if (actions.at(i)) {
-                    signalMapper.setMapping(actions.at(i), actions.at(i)->text());
-                    QObject::connect(actions.at(i), SIGNAL(triggered()),
-                            &signalMapper, SLOT(map()));
-
-                    menu.addAction(actions.at(i));
-                } else {
-                    menu.addSeparator();
-                }
-            }
-            QObject::connect(&signalMapper, SIGNAL(mapped(const QString &)),
-                    this, SLOT(onActionVariableName(const QString &)));
-
             menu.exec(QCursor::pos() + QPoint(1, 0));
 
-            for (std::size_t i = 0; i < actions.size(); ++i) {
-                if (actions.at(i)) {
-                    actions.at(i)->deleteLater();
-                }
-            }
             ui->btn_name->setChecked(false);
         }
 
-        void Control::onActionVariableName(const QString& action) {
-            if (action == "maximize") {
-                ui->wdg_canvas->setVisible(true);
-                ui->wdg_out->setVisible(true);
+        void Control::onActionVariableName() {
+            QAction* action = qobject_cast<QAction*>(sender());
+            if (not action) return;
 
-                if (_outputView) {
-                    ui->mainLayout->removeWidget(ui->sld_x);
-                    ui->sld_x->setOrientation(Qt::Vertical);
-                    ui->lyt_canvas->addWidget(ui->sld_x);
-                    ui->canvas->setBackgroundBrush(QBrush(Qt::black));
-                }
-                setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-                setMinimumSize(0, 0);
-                setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-            } else if (action == "minimize") {
-                ui->wdg_canvas->setVisible(false);
-                ui->wdg_out->setVisible(false);
-
-                if (_outputView) {
-                    ui->canvas->setBackgroundBrush(QBrush(Qt::white));
-                    ui->lyt_canvas->removeWidget(ui->sld_x);
-                    ui->sld_x->setOrientation(Qt::Horizontal);
-                    ui->mainLayout->addWidget(ui->sld_x);
-                    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-                    setFixedHeight(minimumSizeHint().height() + ui->sld_x->sizeHint().height());
-                } else {
-                    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-                    setFixedHeight(minimumSizeHint().height());
-                }
-
-            } else if (action == "output view") {
-                _outputView = not _outputView;
-                if (_outputView) {
-                    ui->mainLayout->removeWidget(ui->sld_x);
-                    ui->sld_x->setOrientation(Qt::Vertical);
-                    ui->lyt_canvas->addWidget(ui->sld_x);
-                    ui->canvas->setBackgroundBrush(QBrush(Qt::black));
-                } else {
-                    ui->canvas->setBackgroundBrush(QBrush(Qt::white));
-                    ui->lyt_canvas->removeWidget(ui->sld_x);
-                    ui->sld_x->setOrientation(Qt::Horizontal);
-                    ui->mainLayout->addWidget(ui->sld_x);
-                }
-            } else if (action == "resolution...") {
+            if (action->text() == "maximize") {
+                maximizeViewer();
+            } else if (action->text() == "minimize") {
+                minimizeViewer();
+            } else if (action->text() == "output view") {
+                swapOutputView();
+            } else if (action->text() == "resolution...") {
                 QSettings settings;
                 int minOutputViewResolution =
                         settings.value("view/minOutputViewResolution", 50).toInt();
@@ -295,7 +245,7 @@ namespace fl {
                     _maxOutput = outputVariable->getMaximum();
                     ui->sbx_x->setValue((_maxOutput + _minOutput) / 2.0);
                 }
-            } else if (action == "clear") {
+            } else if (action->text() == "clear") {
                 fl::OutputVariable* outputVariable =
                         dynamic_cast<fl::OutputVariable*> (variable);
                 _outputs = std::vector<scalar>(
@@ -306,13 +256,63 @@ namespace fl {
                 _maxOutput = outputVariable->getMaximum();
                 ui->sbx_x->setValue((_maxOutput + _minOutput) / 2.0);
             }
-            if (not (action == "clear" or action == "resolution...")) {
+            if (not (action->text() == "clear" or action->text() == "resolution...")) {
                 if (parentWidget()) parentWidget()->adjustSize();
                 adjustSize();
             }
 
-            if (action == "maximize") emit signalRefresh();
+            if (action->text() == "maximize") emit signalRefresh();
             else refresh();
+        }
+
+        void Control::minimizeViewer() {
+            if (isMinimizedViewer()) return;
+            ui->wdg_canvas->setVisible(false);
+            ui->wdg_out->setVisible(false);
+
+            if (_outputView) {
+                ui->canvas->setBackgroundBrush(QBrush(Qt::white));
+                ui->lyt_canvas->removeWidget(ui->sld_x);
+                ui->sld_x->setOrientation(Qt::Horizontal);
+                ui->mainLayout->addWidget(ui->sld_x);
+                setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+                setFixedHeight(minimumSizeHint().height() + ui->sld_x->sizeHint().height());
+            } else {
+                setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+                setFixedHeight(minimumSizeHint().height());
+            }
+
+        }
+
+        void Control::maximizeViewer() {
+            if (isMaximizedViewer()) return;
+            ui->wdg_canvas->setVisible(true);
+            ui->wdg_out->setVisible(true);
+
+            if (_outputView) {
+                ui->mainLayout->removeWidget(ui->sld_x);
+                ui->sld_x->setOrientation(Qt::Vertical);
+                ui->lyt_canvas->addWidget(ui->sld_x);
+                ui->canvas->setBackgroundBrush(QBrush(Qt::black));
+            }
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            setMinimumSize(0, 0);
+            setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+        }
+
+        void Control::swapOutputView() {
+            _outputView = not _outputView;
+            if (_outputView) {
+                ui->mainLayout->removeWidget(ui->sld_x);
+                ui->sld_x->setOrientation(Qt::Vertical);
+                ui->lyt_canvas->addWidget(ui->sld_x);
+                ui->canvas->setBackgroundBrush(QBrush(Qt::black));
+            } else {
+                ui->canvas->setBackgroundBrush(QBrush(Qt::white));
+                ui->lyt_canvas->removeWidget(ui->sld_x);
+                ui->sld_x->setOrientation(Qt::Horizontal);
+                ui->mainLayout->addWidget(ui->sld_x);
+            }
         }
 
         void Control::refresh() {

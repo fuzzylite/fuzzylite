@@ -71,11 +71,11 @@ set(qtfl-headers
     fl/qt/Model.h
     fl/qt/Surface2D.h
     fl/qt/Term.h
-    fl/qt/TermListWidget.h
     fl/qt/Variable.h
     fl/qt/Viewer.h
     fl/qt/Window.h
-    fl/qt/Wizard.h)
+    fl/qt/Wizard.h
+)
 
 set(qtfl-sources
     src/qtfuzzylite.cpp
@@ -86,11 +86,12 @@ set(qtfl-sources
     src/Model.cpp
     src/Surface2D.cpp
     src/Term.cpp
-    src/TermListWidget.cpp
     src/Variable.cpp
     src/Viewer.cpp
     src/Window.cpp
-    src/Wizard.cpp)
+    src/Wizard.cpp
+    qwt/qwt_interval.cpp
+    qwt/qwt_raster_data.cpp)
 
 set(qtfl-uis
     ui/About.ui

@@ -74,7 +74,12 @@ namespace fl {
                 switch (state) {
                     case S_NONE:
                         if (token == Rule::FL_IF) state = S_IF;
-                        else FL_LOG("ignored token <" << token << "> in rule: " << rule);
+                        else {
+                            std::ostringstream ex;
+                            ex << "[syntax error] expected keyword <" << Rule::FL_IF << 
+                                    ">, but found <" << token << ": " << rule;
+                            throw fl::Exception(ex.str(), FL_AT);
+                        }
                         break;
                     case S_IF:
                         if (token == Rule::FL_THEN) state = S_THEN;

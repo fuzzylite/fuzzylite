@@ -207,7 +207,7 @@
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
-                  <widget class="fl::qt::TermListWidget" name="lvw_inputs">
+                  <widget class="QListWidget" name="lvw_inputs">
                    <property name="selectionMode">
                     <enum>QAbstractItemView::ExtendedSelection</enum>
                    </property>
@@ -297,7 +297,7 @@
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
-                  <widget class="fl::qt::TermListWidget" name="lvw_outputs">
+                  <widget class="QListWidget" name="lvw_outputs">
                    <property name="selectionMode">
                     <enum>QAbstractItemView::ExtendedSelection</enum>
                    </property>
@@ -893,6 +893,7 @@
    <addaction name="actionExport"/>
    <addaction name="separator"/>
    <addaction name="actionTerms"/>
+   <addaction name="actionSurface2D"/>
    <addaction name="separator"/>
    <addaction name="actionAbout"/>
    <addaction name="actionQuit"/>
@@ -1199,13 +1200,6 @@
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>fl::qt::TermListWidget</class>
-   <extends>QListWidget</extends>
-   <header>fl/qt/TermListWidget.h</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="qtfuzzylite.qrc"/>
  </resources>

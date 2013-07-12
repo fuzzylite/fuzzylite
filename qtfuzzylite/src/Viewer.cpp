@@ -86,7 +86,7 @@ namespace fl {
 #endif
             ui->lbl_fuzzy->setFont(smallFont);
             ui->lbl_fuzzy_out->setFont(smallFont);
-
+            ui->btn_name->setEnabled(false);
             connect();
         }
 
@@ -105,32 +105,9 @@ namespace fl {
             QObject::connect(this, SIGNAL(valueChanged(double)),
                     this, SLOT(refresh()));
 
-            QObject::connect(ui->btn_name, SIGNAL(clicked()),
-                    this, SLOT(onClickVariableName()));
             QObject::connect(this, SIGNAL(signalRefresh()),
                     this, SLOT(refresh()), Qt::QueuedConnection);
 
-        }
-
-        void Viewer::disconnect() {
-            QObject::disconnect(ui->sld_x, SIGNAL(valueChanged(int)),
-                    this, SLOT(onChangeSliderValue(int)));
-
-            QObject::disconnect(ui->sld_x, SIGNAL(sliderPressed()),
-                    this, SLOT(onPressSlider()));
-
-            QObject::disconnect(ui->sld_x, SIGNAL(sliderReleased()),
-                    this, SLOT(onReleaseSlider()));
-
-            QObject::disconnect(ui->sbx_x, SIGNAL(valueChanged(double)), this,
-                    SLOT(onEditInputValue()));
-            QObject::disconnect(this, SIGNAL(valueChanged(double)),
-                    this, SLOT(refresh()));
-
-            QObject::disconnect(ui->btn_name, SIGNAL(clicked()),
-                    this, SLOT(onClickVariableName()));
-            QObject::disconnect(this, SIGNAL(signalRefresh()),
-                    this, SLOT(refresh()));
         }
 
         void Viewer::showEvent(QShowEvent*) {
@@ -145,12 +122,28 @@ namespace fl {
             ui->btn_name->setVisible(show);
         }
 
-        void Viewer::onClickVariableName() {
-            //do nothing.
+        void Viewer::minimizeViewer() {
+            ui->wdg_canvas->setVisible(false);
+            ui->wdg_out->setVisible(false);
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+            setFixedHeight(minimumSizeHint().height());
         }
 
-        void Viewer::onActionVariableName(const QString& action) {
-            //do nothing
+        void Viewer::maximizeViewer() {
+            ui->wdg_canvas->setVisible(true);
+            ui->wdg_out->setVisible(true);
+
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            setMinimumSize(0, 0);
+            setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+        }
+
+        bool Viewer::isMinimizedViewer() const {
+            return not ui->wdg_canvas->isVisible();
+        }
+
+        bool Viewer::isMaximizedViewer() const {
+            return ui->wdg_canvas->isVisible();
         }
 
         /**
@@ -241,7 +234,7 @@ namespace fl {
                     color = to;
                 } else {
                     int degree = (i / (constVariable->numberOfTerms() - 1.0)) * 255;
-                    color = Window::mainWindow()->gradient(degree, from,to);
+                    color = Window::mainWindow()->gradient(degree, from, to);
                 }
                 draw(constVariable->getTerm(i), color);
             }
@@ -332,7 +325,6 @@ namespace fl {
             pen.setWidth(1);
             ui->canvas->scene()->addLine(x, rect.bottom(), x, y, pen);
         }
-
 
         void Viewer::exportToSvg(const std::string& filepath) {
             (void) filepath;

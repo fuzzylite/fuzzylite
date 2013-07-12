@@ -97,9 +97,6 @@ namespace fl {
             sizes << .90 * size().width() << .10 * size().width();
             ui->spl_control_rule_strength->setSizes(sizes);
 
-            ui->lvw_inputs->setVariableType("input");
-            ui->lvw_outputs->setVariableType("output");
-
             std::vector<std::string> tnorms = Factory::instance()->tnorm()->available();
             for (std::size_t i = 0; i < tnorms.size(); ++i) {
                 ui->cbxTnorm->addItem(QString::fromStdString(tnorms.at(i)));
@@ -111,8 +108,17 @@ namespace fl {
                 ui->cbxSnorm->addItem(QString::fromStdString(snorms.at(i)));
             }
 
+            ui->btn_inputs->setEnabled(false);
+            ui->btn_outputs->setEnabled(false);
+
             ui->scrollAreaInput->viewport()->installEventFilter(new fl::qt::QScrollAreaFilter);
             ui->scrollAreaOutput->viewport()->installEventFilter(new fl::qt::QScrollAreaFilter);
+
+            ui->lvw_inputs->viewport()->installEventFilter(
+                    new fl::qt::VariableContextMenu(ui->lvw_inputs, "input"));
+            ui->lvw_outputs->viewport()->installEventFilter(
+                    new fl::qt::VariableContextMenu(ui->lvw_outputs, "output"));
+
 
             connect();
         }
@@ -288,9 +294,9 @@ namespace fl {
                     this, SLOT(onClickHedges()));
 
             QObject::connect(ui->btn_inputs, SIGNAL(clicked()),
-                    this, SLOT(onClickInputButton()));
+                    this, SLOT(onClickInputOutputButton()));
             QObject::connect(ui->btn_outputs, SIGNAL(clicked()),
-                    this, SLOT(onClickOutputButton()));
+                    this, SLOT(onClickInputOutputButton()));
 
             QObject::connect(ui->led_name, SIGNAL(textEdited(const QString&)),
                     this, SLOT(onChangeEngineName(const QString&)));
@@ -357,6 +363,8 @@ namespace fl {
 
         void Window::resetTest() {
             //Inputs
+            ui->btn_inputs->setEnabled(false);
+            ui->btn_outputs->setEnabled(false);
             QLayout* layout = ui->inputVariables->layout();
 
             for (int i = layout->count() - 1; i >= 0; --i) {
@@ -403,8 +411,9 @@ namespace fl {
 
                 QObject::connect(control, SIGNAL(valueChanged(double)),
                         this, SLOT(onInputValueChanged()));
-
             }
+            ui->btn_inputs->setEnabled(engine->numberOfInputVariables() > 0);
+
 
             layout = dynamic_cast<QVBoxLayout*> (ui->outputVariables->layout());
             //Outputs
@@ -418,6 +427,7 @@ namespace fl {
                 QObject::connect(this, SIGNAL(processOutput()),
                         control, SLOT(updateOutput()), Qt::QueuedConnection);
             }
+            ui->btn_outputs->setEnabled(engine->numberOfOutputVariables() > 0);
 
             //Rules
             for (int i = 0; i < engine->getRuleBlock(0)->numberOfRules(); ++i) {
@@ -539,7 +549,7 @@ namespace fl {
 
             std::string status;
             if (not engine->isReady(&status)) {
-                QMessageBox::critical(this, "Engine not ready",
+                QMessageBox::critical(this, "Engine Error",
                         "<qt>The following errors were encountered:<br><br>" +
                         toHtmlEscaped(QString::fromStdString(status)).replace("\n", "<br>")
                         + "</qt>");
@@ -562,6 +572,7 @@ namespace fl {
                         dynamic_cast<InputVariable*> (window->variable));
                 setCurrentFile(true);
                 reloadModel();
+                emit engineVariableChanged();
             }
             delete window;
         }
@@ -603,6 +614,7 @@ namespace fl {
                 fixDependencies();
                 setCurrentFile(true);
                 reloadModel();
+                emit engineVariableChanged();
             }
         }
 
@@ -643,6 +655,7 @@ namespace fl {
             fixDependencies();
             setCurrentFile(true);
             reloadModel();
+            emit engineVariableChanged();
 
         }
 
@@ -654,6 +667,7 @@ namespace fl {
                         dynamic_cast<OutputVariable*> (window->variable));
                 setCurrentFile(true);
                 reloadModel();
+                emit engineVariableChanged();
             }
             delete window;
         }
@@ -690,6 +704,7 @@ namespace fl {
                 fixDependencies();
                 setCurrentFile(true);
                 reloadModel();
+                emit engineVariableChanged();
             }
         }
 
@@ -730,6 +745,7 @@ namespace fl {
             fixDependencies();
             setCurrentFile(true);
             reloadModel();
+            emit engineVariableChanged();
         }
 
         void Window::onClickGenerateAllRules() {
@@ -930,13 +946,78 @@ namespace fl {
 
         void Window::onTabChange(int index) { }
 
-        void Window::onClickInputButton() { }
+        void Window::onClickInputOutputButton() {
+            QToolButton* button = qobject_cast<QToolButton*>(sender());
+            if (not button) return;
+            QString type;
+            QLayout* layout;
+            if (button == ui->btn_inputs) {
+                type = "input";
+                layout = ui->inputVariables->layout();
+            } else if (button == ui->btn_outputs) {
+                type = "output";
+                layout = ui->outputVariables->layout();
+            }
 
-        void Window::onActionInputButton(const QString& action) { }
+            bool allMaximized = true;
+            bool allMinimized = true;
+            for (int i = 0; i < layout->count(); ++i) {
+                QLayoutItem* item = layout->itemAt(i);
+                Control* control = dynamic_cast<Control*> (item->widget());
+                if (control) {
+                    allMaximized &= control->isMaximizedViewer();
+                    allMinimized &= control->isMinimizedViewer();
+                }
+            }
 
-        void Window::onClickOutputButton() { }
+            QMenu menu(this);
+            QAction* minimizeAll = new QAction(&menu);
+            minimizeAll->setText("minimize all");
+            minimizeAll->setData(type);
+            QObject::connect(minimizeAll, SIGNAL(triggered()),
+                    this, SLOT(onActionInputOutputButton()));
 
-        void Window::onActionOutputButton(const QString& action) { }
+            QAction* maximizeAll = new QAction(&menu);
+            maximizeAll->setText("maximize all");
+            maximizeAll->setData(type);
+            QObject::connect(maximizeAll, SIGNAL(triggered()),
+                    this, SLOT(onActionInputOutputButton()));
+
+            if (allMaximized) {
+                menu.addAction(minimizeAll);
+            } else if (allMinimized) {
+                menu.addAction(maximizeAll);
+            } else {
+                menu.addAction(minimizeAll);
+                menu.addAction(maximizeAll);
+            }
+            menu.exec(QCursor::pos() + QPoint(1, 0));
+            button->setChecked(false);
+        }
+
+        void Window::onActionInputOutputButton() {
+            QAction* action = qobject_cast<QAction*>(sender());
+            if (not action) return;
+            QLayout* layout;
+            if (action->data().value<QString>() == "input") {
+                layout = ui->inputVariables->layout();
+            }
+            if (action->data().value<QString>() == "output") {
+                layout = ui->outputVariables->layout();
+            }
+
+            for (int i = 0; i < layout->count(); ++i) {
+                QLayoutItem* item = layout->itemAt(i);
+                Control* control = dynamic_cast<Control*> (item->widget());
+                if (control) {
+                    if (action->text() == "minimize all") control->minimizeViewer();
+                    else if (action->text() == "maximize all") control->maximizeViewer();
+                    else throw fl::Exception("[internal error] unexpected action" +
+                            action->text().toStdString(), FL_AT);
+                }
+            }
+
+        }
 
         /**
          * Toolbar events
@@ -1491,7 +1572,7 @@ namespace fl {
             return result;
         }
 
-        QFont Window::typeWriterFont()  {
+        QFont Window::typeWriterFont() {
             std::string font = "Courier";
 #ifdef Q_OS_MAC
             font = "Monaco";
@@ -1536,7 +1617,6 @@ namespace fl {
             QString openFile;
             if (argc > 1) {
                 openFile = QFileInfo(QString(argv[1])).absoluteFilePath();
-                FL_LOG("opening: " << openFile.toStdString());
                 w->openFile(openFile);
             }
         }

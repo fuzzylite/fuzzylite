@@ -52,7 +52,9 @@ namespace fl {
             void onChangeSliderValue(int position);
             void onEditInputValue();
             void onClickVariableName();
-            void onActionVariableName(const QString& action);
+            void onActionVariableName();
+            
+            void swapOutputView();
         public:
             fl::Variable* variable;
 
@@ -62,6 +64,9 @@ namespace fl {
             void setup(const fl::Variable* variable);
             void setAllowOutputView(bool allow);
             bool allowsOutputView() const;
+            
+            void minimizeViewer();
+            void maximizeViewer();
 
         public slots:
             virtual void refresh();
