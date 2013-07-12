@@ -76,7 +76,7 @@ namespace fl {
                     this, SLOT(onClickMaximumColor()));
 
             QObject::connect(ui->btn_generate, SIGNAL(clicked()),
-                    this, SLOT(onClickGenerate()));
+                    this, SLOT(onClickGenerate()),Qt::QueuedConnection);
 
             Engine* engine = Model::Default()->engine();
             QStringList inputs, outputs;
@@ -124,6 +124,9 @@ namespace fl {
             QSettings settings;
             settings.setValue("view/surface2DWidth", ui->sbx_width->value());
             settings.setValue("view/surface2DHeight", ui->sbx_height->value());
+
+            ui->canvas->setPixmap(QPixmap());
+            ui->canvas->repaint();
 
             Engine* engine = Model::Default()->engine();
             std::string status;
