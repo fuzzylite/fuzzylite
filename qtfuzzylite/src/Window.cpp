@@ -1641,7 +1641,7 @@ namespace fl {
             w->showMinimized();
             splash.finish(w);
             w->onMenuAbout();
-            w->activateWindow();
+            w->showNormal();
 
             QString openFile;
             if (argc > 1) {

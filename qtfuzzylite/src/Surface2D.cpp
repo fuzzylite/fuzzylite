@@ -347,7 +347,7 @@ namespace fl {
         void Surface2D::onClickInputs() {
             Engine* engine = Model::Default()->engine();
             QMenu menu(this);
-            for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i) {
+            for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
                 if (ui->cbx_inputA->currentIndex() == i) continue;
                 if (ui->cbx_inputB->currentIndex() == i) continue;
 
@@ -432,6 +432,7 @@ namespace fl {
             menu.addAction("About...", this, SLOT(onOptionTriggered()));
 
             menu.exec(QCursor::pos() + QPoint(1, 0));
+			ui->btn_options->setChecked(false);
         }
 
         void Surface2D::onOptionTriggered() {

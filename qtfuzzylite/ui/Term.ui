@@ -13,10 +13,6 @@
   <property name="windowTitle">
    <string>Term</string>
   </property>
-  <property name="windowIcon">
-   <iconset resource="qtfuzzylite.qrc">
-    <normaloff>:/terms.png</normaloff>:/terms.png</iconset>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QFrame" name="qfr_name">
@@ -92,7 +88,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>3</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideMiddle</enum>
@@ -128,7 +124,7 @@
               <x>0</x>
               <y>0</y>
               <width>203</width>
-              <height>220</height>
+              <height>253</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -181,8 +177,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>100</width>
-              <height>144</height>
+              <width>96</width>
+              <height>116</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -245,8 +241,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>120</width>
-              <height>96</height>
+              <width>97</width>
+              <height>82</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -289,8 +285,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>137</width>
-              <height>176</height>
+              <width>119</width>
+              <height>169</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -408,8 +404,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>130</width>
-              <height>78</height>
+              <width>203</width>
+              <height>199</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -449,8 +445,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>139</width>
-              <height>144</height>
+              <width>111</width>
+              <height>116</height>
              </rect>
             </property>
             <attribute name="label">
@@ -504,8 +500,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>136</width>
-              <height>111</height>
+              <width>108</width>
+              <height>90</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -555,8 +551,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>128</width>
-              <height>144</height>
+              <width>102</width>
+              <height>116</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -616,8 +612,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>134</width>
-              <height>144</height>
+              <width>105</width>
+              <height>116</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -677,8 +673,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>134</width>
-              <height>144</height>
+              <width>105</width>
+              <height>116</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -764,8 +760,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>124</width>
-              <height>78</height>
+              <width>203</width>
+              <height>253</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -805,8 +801,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>129</width>
-              <height>78</height>
+              <width>102</width>
+              <height>64</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -858,8 +854,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>124</width>
-              <height>78</height>
+              <width>100</width>
+              <height>64</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -899,8 +895,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>124</width>
-              <height>78</height>
+              <width>100</width>
+              <height>64</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -947,15 +943,15 @@ sure 'x' is followed by 'y'.</string>
          <item>
           <widget class="QToolBox" name="fxTermToolbox">
            <property name="currentIndex">
-            <number>0</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="page_16">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>169</width>
-              <height>45</height>
+              <width>137</width>
+              <height>38</height>
              </rect>
             </property>
             <attribute name="label">
@@ -992,8 +988,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>125</width>
-              <height>121</height>
+              <width>203</width>
+              <height>280</height>
              </rect>
             </property>
             <attribute name="label">
@@ -1003,7 +999,7 @@ sure 'x' is followed by 'y'.</string>
              <item>
               <widget class="QLabel" name="label_29">
                <property name="text">
-                <string>f(x) = ax + by + c</string>
+                <string>f(x) = aj + bk + c</string>
                </property>
               </widget>
              </item>
@@ -1022,6 +1018,9 @@ sure 'x' is followed by 'y'.</string>
                    <width>16777215</width>
                    <height>100</height>
                   </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Variables (e.g. j, k)</string>
                  </property>
                  <property name="horizontalScrollBarPolicy">
                   <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -1051,6 +1050,9 @@ sure 'x' is followed by 'y'.</string>
                    <height>100</height>
                   </size>
                  </property>
+                 <property name="toolTip">
+                  <string>Coefficients (e.g. a, b, c)</string>
+                 </property>
                  <property name="horizontalScrollBarPolicy">
                   <enum>Qt::ScrollBarAlwaysOff</enum>
                  </property>
@@ -1074,8 +1076,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>162</width>
-              <height>154</height>
+              <width>203</width>
+              <height>280</height>
              </rect>
             </property>
             <attribute name="label">
@@ -1120,6 +1122,9 @@ sure 'x' is followed by 'y'.</string>
                  </property>
                  <item>
                   <widget class="QToolButton" name="btn_function_process">
+                   <property name="toolTip">
+                    <string>Process function</string>
+                   </property>
                    <property name="text">
                     <string>Process</string>
                    </property>
@@ -1134,6 +1139,9 @@ sure 'x' is followed by 'y'.</string>
                  </item>
                  <item>
                   <widget class="QToolButton" name="btn_function_variable">
+                   <property name="toolTip">
+                    <string>Available variables</string>
+                   </property>
                    <property name="text">
                     <string/>
                    </property>
@@ -1148,6 +1156,9 @@ sure 'x' is followed by 'y'.</string>
                  </item>
                  <item>
                   <widget class="QToolButton" name="btn_function_builtin">
+                   <property name="toolTip">
+                    <string>Available operators and functions</string>
+                   </property>
                    <property name="text">
                     <string>Σ</string>
                    </property>
