@@ -227,7 +227,7 @@ namespace fl {
             if (fl::Op::isLt(x, 0.0)) ss << "-";
             ss << "inf";
         } else if (fl::Op::isEq(x, 0.0)) {
-            ss << std::fabs((x * 0)); //believe it or not, -1.33227e-15 * 0.0 = -0.0
+            ss << std::fabs((x * 0.0)); //believe it or not, -1.33227e-15 * 0.0 = -0.0
         } else ss << x;
         return ss.str();
     }

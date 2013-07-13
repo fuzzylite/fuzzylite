@@ -10,6 +10,7 @@
 
 #include <QDialog>
 #include "ui_ImEx.h"
+#include <fl/Headers.h>
 
 namespace fl {
     namespace qt {

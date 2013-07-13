@@ -411,6 +411,9 @@
           <iconset resource="qtfuzzylite.qrc">
            <normaloff>:/visualization.png</normaloff>:/visualization.png</iconset>
          </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item row="0" column="1">
@@ -652,8 +655,8 @@
        </property>
        <property name="iconSize">
         <size>
-         <width>22</width>
-         <height>22</height>
+         <width>16</width>
+         <height>16</height>
         </size>
        </property>
        <property name="autoDefault">
