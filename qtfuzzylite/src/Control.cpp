@@ -266,7 +266,7 @@ namespace fl {
         }
 
         void Control::minimizeViewer() {
-            if (isMinimizedViewer()) return;
+//            if (isMinimizedViewer()) return;
             ui->wdg_canvas->setVisible(false);
             ui->wdg_out->setVisible(false);
 
@@ -285,7 +285,7 @@ namespace fl {
         }
 
         void Control::maximizeViewer() {
-            if (isMaximizedViewer()) return;
+//            if (isMaximizedViewer()) return;
             ui->wdg_canvas->setVisible(true);
             ui->wdg_out->setVisible(true);
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>554</width>
-    <height>541</height>
+    <width>588</width>
+    <height>543</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -62,7 +62,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>554</width>
+         <width>588</width>
          <height>408</height>
         </rect>
        </property>
@@ -469,8 +469,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>222</width>
-         <height>255</height>
+         <width>588</width>
+         <height>408</height>
         </rect>
        </property>
        <attribute name="label">
@@ -506,9 +506,6 @@
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
-             <property name="handleWidth">
-              <number>12</number>
-             </property>
              <widget class="QSplitter" name="spl_control_inout">
               <property name="sizePolicy">
                <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
@@ -518,9 +515,6 @@
               </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="handleWidth">
-               <number>12</number>
               </property>
               <widget class="QWidget" name="layoutWidget3">
                <layout class="QVBoxLayout" name="verticalLayout_16">
@@ -592,8 +586,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>100</width>
-                        <height>30</height>
+                        <width>262</width>
+                        <height>94</height>
                        </rect>
                       </property>
                       <property name="sizePolicy">
@@ -712,8 +706,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>100</width>
-                        <height>30</height>
+                        <width>262</width>
+                        <height>94</height>
                        </rect>
                       </property>
                       <property name="sizePolicy">
@@ -763,9 +757,6 @@
              <widget class="QSplitter" name="spl_control_rule_strength">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="handleWidth">
-               <number>12</number>
               </property>
               <widget class="QWidget" name="verticalLayoutWidget">
                <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -903,8 +894,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>554</width>
-     <height>25</height>
+     <width>588</width>
+     <height>27</height>
     </rect>
    </property>
    <property name="defaultUp">

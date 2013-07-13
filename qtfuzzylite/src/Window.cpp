@@ -409,6 +409,7 @@ namespace fl {
                 control->ui->bottom_line->setVisible(i != engine->numberOfInputVariables() - 1);
                 layout->addWidget(control);
 
+
                 QObject::connect(control, SIGNAL(valueChanged(double)),
                         this, SLOT(onInputValueChanged()));
             }
@@ -466,10 +467,9 @@ namespace fl {
             ui->ptx_rules->setPlainText(rules);
             onClickParseAllRules();
         }
-        
-        void Window::fixDependencies(const fl::Variable* variable){
-            
-        }
+
+        void Window::fixDependencies(const fl::Variable* variable) {
+ }
 
         void Window::resizeEvent(QResizeEvent*) {
             //            FL_LOG("resizing Window");
@@ -1039,9 +1039,11 @@ namespace fl {
                 QLayoutItem* item = layout->itemAt(i);
                 Control* control = dynamic_cast<Control*> (item->widget());
                 if (control) {
-                    if (action->text() == "minimize all") control->minimizeViewer();
-                    else if (action->text() == "maximize all") control->maximizeViewer();
-                    else throw fl::Exception("[internal error] unexpected action" +
+                    if (action->text() == "minimize all") {
+                        if (control->isMaximizedViewer()) control->minimizeViewer();
+                    } else if (action->text() == "maximize all") {
+                        if (control->isMinimizedViewer()) control->maximizeViewer();
+                    } else throw fl::Exception("[internal error] unexpected action" +
                             action->text().toStdString(), FL_AT);
                 }
             }

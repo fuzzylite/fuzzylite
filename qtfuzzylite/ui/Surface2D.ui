@@ -19,9 +19,6 @@
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="handleWidth">
-      <number>12</number>
-     </property>
      <widget class="QFrame" name="verticalFrame">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
