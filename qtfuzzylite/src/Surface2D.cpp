@@ -117,9 +117,9 @@ namespace fl {
             ui->btn_max_color->setIcon(maxIcon);
 
             ui->sbx_width->setValue(
-                    settings.value("surface2D/width", 64).toInt());
+                    settings.value("surface2D/width", 128).toInt());
             ui->sbx_height->setValue(
-                    settings.value("surface2D/height", 64).toInt());
+                    settings.value("surface2D/height", 128).toInt());
 
             ui->canvas->installEventFilter(new MouseTrackingFilter(this));
             updateWindowTitle();
@@ -280,6 +280,8 @@ namespace fl {
             InputVariable* inputVariable = engine->getInputVariable(index);
             ui->sbx_min_inputA->setValue(inputVariable->getMinimum());
             ui->sbx_max_inputA->setValue(inputVariable->getMaximum());
+            ui->lbl_min_a->setText(ui->sbx_min_inputA->text());
+            ui->lbl_max_a->setText(ui->sbx_max_inputA->text());
             updateWindowTitle();
         }
 
@@ -288,6 +290,8 @@ namespace fl {
             InputVariable* inputVariable = engine->getInputVariable(index);
             ui->sbx_min_inputB->setValue(inputVariable->getMinimum());
             ui->sbx_max_inputB->setValue(inputVariable->getMaximum());
+            ui->lbl_min_b->setText(ui->sbx_min_inputB->text());
+            ui->lbl_max_b->setText(ui->sbx_max_inputB->text());
             updateWindowTitle();
         }
 
@@ -333,6 +337,11 @@ namespace fl {
             ui->canvas->setPixmap(QPixmap());
             ui->canvas->repaint();
             ui->btn_options->setEnabled(false);
+            
+            ui->lbl_min_a->setText(ui->sbx_min_inputA->text());
+            ui->lbl_max_a->setText(ui->sbx_max_inputA->text());
+            ui->lbl_min_b->setText(ui->sbx_min_inputB->text());
+            ui->lbl_max_b->setText(ui->sbx_max_inputB->text());
         }
 
         void Surface2D::onClickInputs() {
@@ -372,7 +381,7 @@ namespace fl {
             QSettings settings;
 
             QColor minColor = settings.value("surface2D/minColor").value<QColor>();
-            if (not minColor.isValid()) minColor = QColor(Qt::white);
+            if (not minColor.isValid()) minColor = QColor(Qt::yellow);
 
             minColor = QColorDialog::getColor(minColor, this, "Select minimum color");
             if (minColor.isValid()) {
@@ -387,7 +396,7 @@ namespace fl {
             QSettings settings;
 
             QColor maxColor = settings.value("surface2D/maxColor").value<QColor>();
-            if (not maxColor.isValid()) maxColor = QColor(Qt::black);
+            if (not maxColor.isValid()) maxColor = QColor(Qt::red);
 
             maxColor = QColorDialog::getColor(maxColor, this, "Select maximum color");
             if (maxColor.isValid()) {

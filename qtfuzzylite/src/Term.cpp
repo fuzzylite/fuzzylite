@@ -37,6 +37,8 @@
 #include <QMessageBox>
 #include <QScrollBar>
 #include <QSignalMapper>
+#include <QCoreApplication>
+
 namespace fl {
     namespace qt {
 
@@ -71,21 +73,23 @@ namespace fl {
 
         }
 
-        void Term::onEngineVariableChanged() {
-            Linear* linear;
-            for (std::size_t i = 0; i < _fxTerms.size(); ++i) {
-                linear = dynamic_cast<Linear*> (_fxTerms.at(i));
-                if (linear) {
-                    Engine* engine = Model::Default()->engine();
-                    linear->set(std::vector<scalar>(engine->numberOfInputVariables() + 1),
-                            engine->inputVariables());
-//                    if (ui->fxTermToolbox->isVisible() and
-//                            ui->fxTermToolbox->currentIndex() == 1) {
-                        loadFrom(linear);
-//                    }
-                    break;
-                }
-            }
+        void Term::onEngineChanged() {
+            close();
+//            
+//            fl::Term* current = selectedTerm();
+//            Linear* linear;
+//            for (std::size_t i = 0; i < _fxTerms.size(); ++i) {
+//                linear = dynamic_cast<Linear*> (_fxTerms.at(i));
+//                if (linear) {
+//                    Engine* engine = Model::Default()->engine();
+//                    linear->set(std::vector<scalar>(engine->numberOfInputVariables() + 1),
+//                            engine->inputVariables());
+//                    loadFrom(linear);
+//                    break;
+//                }
+//            }
+//
+//            if (current != linear) loadFrom(current);
         }
 
         void Term::loadTerms(scalar min, scalar max) {
@@ -268,8 +272,10 @@ namespace fl {
         }
 
         void Term::connect() {
+            QObject::connect(Model::Default(), SIGNAL(engineChanged()),
+                    this, SLOT(onEngineChanged()));
             QObject::connect(Window::mainWindow(), SIGNAL(engineVariableChanged()),
-                    this, SLOT(onEngineVariableChanged()));
+                    this, SLOT(onEngineChanged()));
             QObject::connect(ui->basicTermToolbox, SIGNAL(currentChanged(int)),
                     this, SLOT(onChangeToolBoxIndex(int)), Qt::QueuedConnection);
             QObject::connect(ui->extendedTermToolbox, SIGNAL(currentChanged(int)),
@@ -815,8 +821,6 @@ namespace fl {
                 return;
             }
             try {
-                //                item->setText(QString::fromStdString(fl::Op::str(fl::Op::toScalar(
-                //                        item->text().toStdString()))));
                 fl::Op::toScalar(item->text().toStdString());
             } catch (fl::Exception& ex) {
                 QMessageBox::critical(this, tr("Linear Error"),

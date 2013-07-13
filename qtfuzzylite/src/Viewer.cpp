@@ -37,6 +37,7 @@
 #include <QMenu>
 #include <QSignalMapper>
 #include <QAction>
+#include <QSettings>
 
 #include <vector>
 
@@ -252,8 +253,10 @@ namespace fl {
             scalar minimum = constVariable->getMinimum();
             scalar maximum = constVariable->getMaximum();
 
+            QSettings settings;
+            int divisions = settings.value("view/termResolution",1000).toInt();
+
             std::vector<scalar> xSamples, ySamples;
-            int divisions = fl::fuzzylite::defaultDivisions();
             scalar dx = (maximum - minimum) / divisions;
             scalar area = 0;
             scalar xcentroid = 0, ycentroid = 0;

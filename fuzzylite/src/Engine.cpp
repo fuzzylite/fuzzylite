@@ -95,8 +95,9 @@ namespace fl {
             if (not inputVariable) {
                 ss << "- Engine has a NULL input variable at index <" << i << ">\n";
             } else if (inputVariable->isEmpty()) {
-                ss << "- Input variable <" << _inputVariables.at(i)->getName() << ">"
-                        << " has no terms\n";
+                //ignore because sometimes inputs can be empty: takagi-sugeno/matlab/slcpp1.fis
+                //                ss << "- Input variable <" << _inputVariables.at(i)->getName() << ">"
+                //                        << " has no terms\n";
             }
         }
 
@@ -116,8 +117,8 @@ namespace fl {
                 if (not defuzzifier) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no defuzzifier\n";
-                } else if (not (defuzzifier->className() == WeightedAverage().className()
-                        or defuzzifier->className() == WeightedSum().className())) {
+                } else if (defuzzifier->className() != WeightedAverage().className()
+                        and defuzzifier->className() != WeightedSum().className()) {
                     if (not outputVariable->output()->getAccumulation()) {
                         ss << "- Output variable <" << outputVariable->getName() << ">"
                                 << " has no accumulation S-Norm\n";

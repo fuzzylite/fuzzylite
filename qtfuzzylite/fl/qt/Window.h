@@ -138,6 +138,7 @@ namespace fl {
 
             void reloadModel();
             void removeRules();
+            void fixDependencies(const fl::Variable* variable);
 
             void reloadTest();
             void resetTest();

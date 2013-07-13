@@ -62,7 +62,7 @@ namespace fl {
 #endif
 
 #ifndef FL_DIVISIONS
-#define FL_DIVISIONS 500 //for defuzzifiers
+#define FL_DIVISIONS 200 //for defuzzifiers
 #endif
 
 #ifndef FL_PRECISION

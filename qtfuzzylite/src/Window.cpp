@@ -466,6 +466,10 @@ namespace fl {
             ui->ptx_rules->setPlainText(rules);
             onClickParseAllRules();
         }
+        
+        void Window::fixDependencies(const fl::Variable* variable){
+            
+        }
 
         void Window::resizeEvent(QResizeEvent*) {
             //            FL_LOG("resizing Window");
@@ -571,7 +575,10 @@ namespace fl {
                 Model::Default()->engine()->addInputVariable(
                         dynamic_cast<InputVariable*> (window->variable));
                 setCurrentFile(true);
+                QString rules = ui->ptx_rules->toPlainText();
                 reloadModel();
+                ui->ptx_rules->setPlainText(rules);
+                onClickParseAllRules();
                 emit engineVariableChanged();
             }
             delete window;
@@ -608,12 +615,18 @@ namespace fl {
             if (clicked == QMessageBox::Yes) {
                 for (int i = ui->lvw_inputs->count() - 1; i >= 0; --i) {
                     if (ui->lvw_inputs->item(i)->isSelected()) {
-                        delete engine->removeInputVariable(i);
+                        fl::Variable* toRemove = engine->removeInputVariable(i);
+                        fixDependencies(toRemove);
+                        delete toRemove;
                     }
                 }
+                QString rules = ui->ptx_rules->toPlainText();
                 fixDependencies();
                 setCurrentFile(true);
                 reloadModel();
+                ui->ptx_rules->setPlainText(rules);
+                onClickParseAllRules();
+
                 emit engineVariableChanged();
             }
         }
@@ -652,9 +665,13 @@ namespace fl {
                     }
                 }
             }
+            QString rules = ui->ptx_rules->toPlainText();
             fixDependencies();
             setCurrentFile(true);
             reloadModel();
+            ui->ptx_rules->setPlainText(rules);
+            onClickParseAllRules();
+
             emit engineVariableChanged();
 
         }
@@ -666,7 +683,11 @@ namespace fl {
                 Model::Default()->engine()->addOutputVariable(
                         dynamic_cast<OutputVariable*> (window->variable));
                 setCurrentFile(true);
+                QString rules = ui->ptx_rules->toPlainText();
                 reloadModel();
+                ui->ptx_rules->setPlainText(rules);
+                onClickParseAllRules();
+
                 emit engineVariableChanged();
             }
             delete window;
@@ -701,9 +722,13 @@ namespace fl {
                         delete engine->removeOutputVariable(i);
                     }
                 }
+                QString rules = ui->ptx_rules->toPlainText();
                 fixDependencies();
                 setCurrentFile(true);
                 reloadModel();
+                ui->ptx_rules->setPlainText(rules);
+                onClickParseAllRules();
+
                 emit engineVariableChanged();
             }
         }
@@ -742,9 +767,13 @@ namespace fl {
                     }
                 }
             }
+            QString rules = ui->ptx_rules->toPlainText();
             fixDependencies();
             setCurrentFile(true);
             reloadModel();
+            ui->ptx_rules->setPlainText(rules);
+            onClickParseAllRules();
+
             emit engineVariableChanged();
         }
 

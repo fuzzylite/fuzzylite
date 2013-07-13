@@ -77,7 +77,7 @@ namespace fl {
                         else {
                             std::ostringstream ex;
                             ex << "[syntax error] expected keyword <" << Rule::FL_IF << 
-                                    ">, but found <" << token << ": " << rule;
+                                    ">, but found <" << token << "> in rule: " << rule;
                             throw fl::Exception(ex.str(), FL_AT);
                         }
                         break;

@@ -3,6 +3,7 @@ Properties of files
 
 Associate files
 
-Fix NULL pointer exception when Terms:Linear loaded with one engine, reset engine, change Linear.
+fix dependencies of Linear and Functions upon deletion
+
 
 Change spinbox minimum, maximum and step from QSettings

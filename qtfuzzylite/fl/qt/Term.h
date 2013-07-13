@@ -47,7 +47,7 @@ namespace fl {
             Q_OBJECT
 
         protected slots:
-            void onEngineVariableChanged();
+            void onEngineChanged();
             
             void onChangeToolBoxIndex(int index);
             void onChangeTab(int index);

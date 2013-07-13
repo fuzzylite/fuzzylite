@@ -586,13 +586,13 @@
            <number>8</number>
           </property>
           <property name="maximum">
-           <number>640</number>
+           <number>2048</number>
           </property>
           <property name="singleStep">
            <number>8</number>
           </property>
           <property name="value">
-           <number>64</number>
+           <number>128</number>
           </property>
          </widget>
         </item>
@@ -618,13 +618,13 @@
            <number>8</number>
           </property>
           <property name="maximum">
-           <number>640</number>
+           <number>2048</number>
           </property>
           <property name="singleStep">
            <number>8</number>
           </property>
           <property name="value">
-           <number>64</number>
+           <number>128</number>
           </property>
          </widget>
         </item>
