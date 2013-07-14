@@ -186,8 +186,9 @@ namespace fl {
         std::istringstream iss(x);
         scalar result;
         iss >> result;
-        if (not iss.fail()) return result;
-
+        char strict;
+        if (not (iss.fail() or iss.get(strict))) return result;
+        
         std::ostringstream nan, pInf, nInf;
         nan << fl::nan;
         pInf << fl::inf;

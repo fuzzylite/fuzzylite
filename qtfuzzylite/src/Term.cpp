@@ -75,21 +75,21 @@ namespace fl {
 
         void Term::onEngineChanged() {
             close();
-//            
-//            fl::Term* current = selectedTerm();
-//            Linear* linear;
-//            for (std::size_t i = 0; i < _fxTerms.size(); ++i) {
-//                linear = dynamic_cast<Linear*> (_fxTerms.at(i));
-//                if (linear) {
-//                    Engine* engine = Model::Default()->engine();
-//                    linear->set(std::vector<scalar>(engine->numberOfInputVariables() + 1),
-//                            engine->inputVariables());
-//                    loadFrom(linear);
-//                    break;
-//                }
-//            }
-//
-//            if (current != linear) loadFrom(current);
+            //            
+            //            fl::Term* current = selectedTerm();
+            //            Linear* linear;
+            //            for (std::size_t i = 0; i < _fxTerms.size(); ++i) {
+            //                linear = dynamic_cast<Linear*> (_fxTerms.at(i));
+            //                if (linear) {
+            //                    Engine* engine = Model::Default()->engine();
+            //                    linear->set(std::vector<scalar>(engine->numberOfInputVariables() + 1),
+            //                            engine->inputVariables());
+            //                    loadFrom(linear);
+            //                    break;
+            //                }
+            //            }
+            //
+            //            if (current != linear) loadFrom(current);
         }
 
         void Term::loadTerms(scalar min, scalar max) {
@@ -846,10 +846,16 @@ namespace fl {
             term->setInfix(infix);
             try {
                 term->load();
+                term->membership(0);
+                QString postfix = "f(x)=";
+                if (term->root) {
+                    postfix += QString::fromStdString(term->root->toPostfix());
+                }
+                ui->lbl_function->setText(postfix);
                 redraw();
             } catch (fl::Exception& ex) {
-                QMessageBox::critical(this, tr("Function Error"),
-                        QString::fromStdString(ex.getWhat()), QMessageBox::Ok);
+                QMessageBox::critical(this, "Function error",
+                        Window::toHtmlEscaped(QString::fromStdString(ex.getWhat())));
             }
         }
 
@@ -1129,6 +1135,17 @@ namespace fl {
             } else if (x->className() == Function().className()) {
                 const Function* term = dynamic_cast<const Function*> (x);
                 ui->ptx_function->setPlainText(QString::fromStdString(term->getInfix()));
+                QString postfix = "f(x)=";
+                if (term->root) {
+                    try {
+                        term->membership(0);
+                        postfix += QString::fromStdString(term->root->toPostfix());
+                    } catch (fl::Exception& ex) {
+                        QMessageBox::critical(this, "Function error",
+                                Window::toHtmlEscaped(QString::fromStdString(ex.getWhat())));
+                    }
+                }
+                ui->lbl_function->setText(postfix);
                 ui->fxTermToolbox->setCurrentIndex(2);
                 setCurrentToolbox(3);
 

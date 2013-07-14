@@ -123,8 +123,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>203</width>
-              <height>253</height>
+              <width>98</width>
+              <height>111</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -177,8 +177,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>96</width>
-              <height>116</height>
+              <width>98</width>
+              <height>144</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -241,8 +241,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>97</width>
-              <height>82</height>
+              <width>110</width>
+              <height>96</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -285,8 +285,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>119</width>
-              <height>169</height>
+              <width>137</width>
+              <height>183</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -404,8 +404,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>203</width>
-              <height>199</height>
+              <width>117</width>
+              <height>78</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -445,8 +445,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>111</width>
-              <height>116</height>
+              <width>128</width>
+              <height>144</height>
              </rect>
             </property>
             <attribute name="label">
@@ -500,8 +500,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>108</width>
-              <height>90</height>
+              <width>124</width>
+              <height>111</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -551,8 +551,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>102</width>
-              <height>116</height>
+              <width>115</width>
+              <height>144</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -612,8 +612,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>105</width>
-              <height>116</height>
+              <width>121</width>
+              <height>144</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -673,8 +673,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>105</width>
-              <height>116</height>
+              <width>121</width>
+              <height>144</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -760,8 +760,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>203</width>
-              <height>253</height>
+              <width>112</width>
+              <height>78</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -801,8 +801,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>102</width>
-              <height>64</height>
+              <width>117</width>
+              <height>78</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -854,8 +854,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>100</width>
-              <height>64</height>
+              <width>112</width>
+              <height>78</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -895,8 +895,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>100</width>
-              <height>64</height>
+              <width>112</width>
+              <height>78</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -950,8 +950,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>137</width>
-              <height>38</height>
+              <width>152</width>
+              <height>45</height>
              </rect>
             </property>
             <attribute name="label">
@@ -989,7 +989,7 @@ sure 'x' is followed by 'y'.</string>
               <x>0</x>
               <y>0</y>
               <width>203</width>
-              <height>280</height>
+              <height>246</height>
              </rect>
             </property>
             <attribute name="label">
@@ -1020,7 +1020,7 @@ sure 'x' is followed by 'y'.</string>
                   </size>
                  </property>
                  <property name="toolTip">
-                  <string>Variables (e.g. j, k)</string>
+                  <string>Variables (j, k)</string>
                  </property>
                  <property name="horizontalScrollBarPolicy">
                   <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -1051,7 +1051,7 @@ sure 'x' is followed by 'y'.</string>
                   </size>
                  </property>
                  <property name="toolTip">
-                  <string>Coefficients (e.g. a, b, c)</string>
+                  <string>Coefficients (a, b, c)</string>
                  </property>
                  <property name="horizontalScrollBarPolicy">
                   <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -1077,7 +1077,7 @@ sure 'x' is followed by 'y'.</string>
               <x>0</x>
               <y>0</y>
               <width>203</width>
-              <height>280</height>
+              <height>246</height>
              </rect>
             </property>
             <attribute name="label">
@@ -1090,12 +1090,30 @@ sure 'x' is followed by 'y'.</string>
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_30">
+                <widget class="QLabel" name="lbl_function">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Function in postfix notation</string>
+                 </property>
                  <property name="text">
                   <string>f(x)=</string>
                  </property>
+                 <property name="scaledContents">
+                  <bool>false</bool>
+                 </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                 <property name="textInteractionFlags">
+                  <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                  </property>
                 </widget>
                </item>

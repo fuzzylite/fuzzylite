@@ -19,7 +19,7 @@ namespace fl {
     template <typename T>
     Linear* Linear::create(const std::string& name,
             const std::vector<InputVariable*>& inputVariables,
-            T firstCoefficient, ...) throw (fl::Exception) {
+            T firstCoefficient, ...)  {
         std::vector<scalar> coefficients;
         coefficients.push_back(firstCoefficient);
 

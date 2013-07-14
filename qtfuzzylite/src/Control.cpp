@@ -77,10 +77,9 @@ namespace fl {
                 QObject::connect(this, SIGNAL(valueChanged(double)),
                         this, SLOT(updateInput(double)));
                 ui->btn_name->setIcon(QIcon(":/input.png"));
-            }
-
-            if (_isTakagiSugeno or variable->isEmpty()) {
-                minimizeViewer();
+                if (_isTakagiSugeno or variable->isEmpty()) {
+                    minimizeViewer();
+                }
             }
         }
 
@@ -190,7 +189,7 @@ namespace fl {
 
                     if (not _isTakagiSugeno) {
                         QAction* actionView = new QAction("output view", &menu);
-                        QObject::connect(actionView, SIGNAL(triggered()), 
+                        QObject::connect(actionView, SIGNAL(triggered()),
                                 this, SLOT(onActionVariableName()));
                         if (_outputView) {
                             actionView->setCheckable(true);

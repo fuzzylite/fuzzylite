@@ -163,7 +163,7 @@ namespace fl {
             menuFile->addAction(ui->actionOpen);
             QObject::connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(onMenuOpen()));
 
-            _recentFiles = new QMenu("Open Re&cent", menuFile);
+            _recentFiles = new QMenu("Open re&cent", menuFile);
             _recentFiles->setIcon(QIcon(":/open-recent.png"));
             updateRecentFiles();
             menuFile->addMenu(_recentFiles);
@@ -468,8 +468,66 @@ namespace fl {
             onClickParseAllRules();
         }
 
-        void Window::fixDependencies(const fl::Variable* variable) {
- }
+        void Window::fixVariableDependencies() {
+            Engine* engine = Model::Default()->engine();
+            std::ostringstream warnings;
+            std::vector<fl::Variable*> variables;
+            for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
+                variables.push_back(engine->getInputVariable(i));
+            }
+            for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+                variables.push_back(engine->getOutputVariable(i));
+            }
+
+            std::vector<fl::Term*> references;
+            QString updatedReferences, errorMessages;
+            for (std::size_t i = 0; i < variables.size(); ++i) {
+                fl::Variable* variable = variables.at(i);
+                for (int t = 0; t < variable->numberOfTerms(); ++t) {
+                    fl::Term* term = variable->getTerm(t);
+                    if (term->className() == Linear().className()) {
+                        Linear* linear = dynamic_cast<Linear*> (term);
+                        if (linear->coefficients.size() != engine->numberOfInputVariables() + 1) {
+                            linear->coefficients.resize(engine->numberOfInputVariables() + 1);
+                            updatedReferences += QString::fromStdString(
+                                    "- " + variable->getName() + "::" +
+                                    linear->getName() + " [" +
+                                    linear->toString() + "]\n");
+                        }
+                        linear->inputVariables = std::vector<const InputVariable*>
+                                (engine->inputVariables().begin(),
+                                engine->inputVariables().end())
+                                ;
+                    } else if (term->className() == Function().className()) {
+                        Function* function = dynamic_cast<Function*> (term);
+                        try {
+                            function->load(function->getInfix(), engine);
+                        } catch (fl::Exception& ex) {
+                            updatedReferences += QString::fromStdString(
+                                    "- " + variable->getName() + "::" +
+                                    function->getName() + " [" +
+                                    function->toString() + "]\n");
+                            errorMessages += QString::fromStdString(
+                                    "- " + variable->getName() + "::" +
+                                    function->getName() + " " + ex.getWhat());
+                        }
+                    }
+                }
+            }
+
+            if (not updatedReferences.isEmpty()) {
+                QString message = "The following references have been updated due to "
+                        "your recent changes:<br><br>"
+                        + toHtmlEscaped(updatedReferences).replace("\n", "<br>");
+                if (errorMessages.isEmpty())
+                    QMessageBox::information(this, "References updated", message);
+                else {
+                    message += "<br>However, such changes led to the following errors "
+                            "which you need to fix:<br><br>" + errorMessages.replace("\n", "<br>");
+                    QMessageBox::critical(this, "Error updating references", message);
+                }
+            }
+        }
 
         void Window::resizeEvent(QResizeEvent*) {
             //            FL_LOG("resizing Window");
@@ -483,13 +541,6 @@ namespace fl {
          * Events
          */
 
-        void Window::onContextMenuRequest(const QPoint& point) {
-            FL_LOG("Context menu requested at " << point.x() << ", " << point.y());
-            QWidget* widget = this->childAt(point);
-            if (widget) {
-                FL_LOG(widget->objectName().toStdString());
-            }
-        }
 
         void Window::onChangeEngineName(const QString& text) {
             (void) text;
@@ -575,6 +626,7 @@ namespace fl {
                 Model::Default()->engine()->addInputVariable(
                         dynamic_cast<InputVariable*> (window->variable));
                 setCurrentFile(true);
+                fixVariableDependencies();
                 QString rules = ui->ptx_rules->toPlainText();
                 reloadModel();
                 ui->ptx_rules->setPlainText(rules);
@@ -615,11 +667,10 @@ namespace fl {
             if (clicked == QMessageBox::Yes) {
                 for (int i = ui->lvw_inputs->count() - 1; i >= 0; --i) {
                     if (ui->lvw_inputs->item(i)->isSelected()) {
-                        fl::Variable* toRemove = engine->removeInputVariable(i);
-                        fixDependencies(toRemove);
-                        delete toRemove;
+                        delete engine->removeInputVariable(i);
                     }
                 }
+                fixVariableDependencies();
                 QString rules = ui->ptx_rules->toPlainText();
                 fixDependencies();
                 setCurrentFile(true);
@@ -660,11 +711,11 @@ namespace fl {
                     if (window->exec()) {
                         delete engine->removeInputVariable(i);
                         engine->insertInputVariable(
-                                dynamic_cast<InputVariable*> (window->variable),
-                                i);
+                                dynamic_cast<InputVariable*> (window->variable), i);
                     }
                 }
             }
+            fixVariableDependencies();
             QString rules = ui->ptx_rules->toPlainText();
             fixDependencies();
             setCurrentFile(true);
@@ -682,6 +733,9 @@ namespace fl {
             if (window->exec()) {
                 Model::Default()->engine()->addOutputVariable(
                         dynamic_cast<OutputVariable*> (window->variable));
+
+                fixVariableDependencies();
+
                 setCurrentFile(true);
                 QString rules = ui->ptx_rules->toPlainText();
                 reloadModel();
@@ -722,6 +776,7 @@ namespace fl {
                         delete engine->removeOutputVariable(i);
                     }
                 }
+                fixVariableDependencies();
                 QString rules = ui->ptx_rules->toPlainText();
                 fixDependencies();
                 setCurrentFile(true);
@@ -767,6 +822,7 @@ namespace fl {
                     }
                 }
             }
+            fixVariableDependencies();
             QString rules = ui->ptx_rules->toPlainText();
             fixDependencies();
             setCurrentFile(true);
@@ -1079,7 +1135,7 @@ namespace fl {
                 QString name = QFileInfo(_currentFile).fileName();
                 if (name.isEmpty()) name = "untitled";
                 QMessageBox::StandardButton clicked =
-                        QMessageBox::critical(this, "New Engine",
+                        QMessageBox::critical(this, "New engine",
                         "Any unsaved changes to "
                         "\"" + name + "\""
                         " will be lost.<br><br>"
@@ -1276,7 +1332,7 @@ namespace fl {
             if (recentFilterIndex < 0) recentFilterIndex = 1;
             QString filter = filters.at(recentFilterIndex);
             QString filename = QFileDialog::getSaveFileName(this,
-                    "Save Engine As", recentLocation,
+                    "Save engine as", recentLocation,
                     filters.join(";;"),
                     &filter);
             if (filename.size() == 0) return;
@@ -1363,7 +1419,7 @@ namespace fl {
             //                if (clicked == QMessageBox::No) return;
             //                else openFile(_currentFile);
             //            }
-            openFile(_currentFile, "Reload Engine");
+            openFile(_currentFile, "Reload engine");
         }
 
         void Window::onMenuTerms() {
@@ -1384,6 +1440,10 @@ namespace fl {
         void Window::onMenuImport() {
             if (ui->actionImport->isChecked()) {
                 QMenu menu(this);
+                QAction* title = new QAction("Import from...", &menu);
+                title->setEnabled(false);
+                menu.addAction(title);
+                menu.addSeparator();
                 menu.addAction("Fuzzy &Control Language (FCL)", this, SLOT(onMenuImportFromFCL()));
                 menu.addAction("Fuzzy &Inference System (FIS)", this, SLOT(onMenuImportFromFIS()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
@@ -1463,6 +1523,10 @@ namespace fl {
         void Window::onMenuExport() {
             if (ui->actionExport->isChecked()) {
                 QMenu menu(this);
+                QAction* title = new QAction("Export to...", &menu);
+                title->setEnabled(false);
+                menu.addAction(title);
+                menu.addSeparator();
                 menu.addAction("&fuzzylite (C++)", this, SLOT(onMenuExportToCpp()));
                 menu.addSeparator();
                 menu.addAction("Fuzzy &Control Language (FCL)", this, SLOT(onMenuExportToFCL()));

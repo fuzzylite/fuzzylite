@@ -7,3 +7,5 @@ fix dependencies of Linear and Functions upon deletion
 
 
 Change spinbox minimum, maximum and step from QSettings
+
+Change graphicsview for qlabel

@@ -52,8 +52,6 @@ namespace fl {
             void engineVariableChanged();
 
         protected slots:
-            void onContextMenuRequest(const QPoint&);
-
             void onChangeEngineName(const QString&);
 
             void onChangeInputSelection();
@@ -138,7 +136,7 @@ namespace fl {
 
             void reloadModel();
             void removeRules();
-            void fixDependencies(const fl::Variable* variable);
+            void fixVariableDependencies();
 
             void reloadTest();
             void resetTest();

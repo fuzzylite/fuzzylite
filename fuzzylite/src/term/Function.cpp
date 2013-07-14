@@ -47,7 +47,12 @@ namespace fl {
     Function* Function::create(const std::string& name,
             const std::string& infix, const Engine* engine) throw (fl::Exception) {
         Function* result = new Function(name);
-        result->load(infix, engine);
+        try {
+            result->load(infix, engine);
+        } catch (fl::Exception& ex) {
+            delete result;
+            throw ex;
+        }
         return result;
     }
 
