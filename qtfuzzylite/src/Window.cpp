@@ -1634,12 +1634,30 @@ namespace fl {
         }
 
         void Window::onMenuAskForHelp() {
-            QDesktopServices::openUrl(QUrl("mailto:community@fuzzylite.com?"
+            QMessageBox::StandardButton result =
+                    QMessageBox::information(this, "Ask for help",
+                    "If you need help, please send an email to "
+                    "<a href='community@fuzzylite.com'>community@fuzzylite.com</a>. "
+                    "The community will be more than happy to answer your questions as best and "
+                    "timely as possible.<br><br>"
+                    "Do you want to ask for help now?",
+                    QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+            if (result == QMessageBox::Yes)
+                QDesktopServices::openUrl(QUrl("mailto:community@fuzzylite.com?"
                     "subject=Help with <insert topic here>"));
         }
 
         void Window::onMenuJoinTheCommunity() {
-            QDesktopServices::openUrl(QUrl("http://www.fuzzylite.com/community"));
+            QMessageBox::StandardButton result =
+                    QMessageBox::information(this, "Join the community",
+                    "Visit "
+                    "<a href='http://www.fuzzylite.com/community'>http://www.fuzzylite.com/community</a> "
+                    "to join the <b>fuzzylite</b> community, receive news and updates, and help others "
+                    "with their questions if you can.<br><br>"
+                    "Do you want to join the community now?",
+                    QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+            if (result == QMessageBox::Yes)
+                QDesktopServices::openUrl(QUrl("http://www.fuzzylite.com/community"));
         }
 
         void Window::onMenuQuit() {
