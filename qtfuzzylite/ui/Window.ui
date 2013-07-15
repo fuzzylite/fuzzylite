@@ -63,7 +63,7 @@
          <x>0</x>
          <y>0</y>
          <width>588</width>
-         <height>408</height>
+         <height>410</height>
         </rect>
        </property>
        <attribute name="label">
@@ -469,8 +469,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>588</width>
-         <height>408</height>
+         <width>216</width>
+         <height>249</height>
         </rect>
        </property>
        <attribute name="label">
@@ -586,8 +586,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>262</width>
-                        <height>94</height>
+                        <width>100</width>
+                        <height>30</height>
                        </rect>
                       </property>
                       <property name="sizePolicy">
@@ -706,8 +706,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>262</width>
-                        <height>94</height>
+                        <width>100</width>
+                        <height>30</height>
                        </rect>
                       </property>
                       <property name="sizePolicy">
@@ -895,7 +895,7 @@
      <x>0</x>
      <y>0</y>
      <width>588</width>
-     <height>27</height>
+     <height>25</height>
     </rect>
    </property>
    <property name="defaultUp">
@@ -1133,7 +1133,7 @@
      <normaloff>:/qt-logo.png</normaloff>:/qt-logo.png</iconset>
    </property>
    <property name="text">
-    <string>About &amp;Qt</string>
+    <string>About Q&amp;t</string>
    </property>
    <property name="toolTip">
     <string>About Qt</string>
@@ -1169,7 +1169,7 @@
      <normaloff>:/community.png</normaloff>:/community.png</iconset>
    </property>
    <property name="text">
-    <string>Join the community...</string>
+    <string>&amp;Join the community...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+J</string>
@@ -1181,7 +1181,7 @@
      <normaloff>:/surface2d.png</normaloff>:/surface2d.png</iconset>
    </property>
    <property name="text">
-    <string>Surface 2D</string>
+    <string>Surface &amp;2D</string>
    </property>
    <property name="toolTip">
     <string>Surface 2D</string>

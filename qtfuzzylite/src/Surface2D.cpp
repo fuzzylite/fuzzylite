@@ -470,9 +470,9 @@ namespace fl {
                 ui->btn_generate->click();
 
             } else if (action->text() == "Contours...") {
-                int contours = settings.value("surface2D/contours", 3).toInt();
-                QMenu* menu = new QMenu(this);
-                QSpinBox* sbxContours = new QSpinBox(menu);
+                int contours = settings.value("surface2D/contours", 0).toInt();
+                QMenu menu(this);
+                QSpinBox* sbxContours = new QSpinBox(&menu);
                 sbxContours->setMinimum(0);
                 sbxContours->setMaximum(1000);
                 sbxContours->setValue(contours);
@@ -480,10 +480,10 @@ namespace fl {
                 sbxContours->setToolTip("Number of contours");
                 QObject::connect(sbxContours, SIGNAL(valueChanged(int)),
                         this, SLOT(setNumberOfContours(int)));
-                QWidgetAction* action = new QWidgetAction(menu);
+                QWidgetAction* action = new QWidgetAction(&menu);
                 action->setDefaultWidget(sbxContours);
-                menu->addAction(action);
-                menu->exec(ui->btn_options->parentWidget()->mapToGlobal(ui->btn_options->pos()));
+                menu.addAction(action);
+                menu.exec(ui->btn_options->parentWidget()->mapToGlobal(ui->btn_options->pos()));
 
             } else if (action->text() == "Color...") {
                 QColor color = settings.value("surface2D/contourColor",
@@ -498,8 +498,8 @@ namespace fl {
 
             } else if (action->text() == "Width...") {
                 int width = settings.value("surface2D/contourWidth", 1).toInt();
-                QMenu* menu = new QMenu(this);
-                QSpinBox* contourWidth = new QSpinBox(menu);
+                QMenu menu(this);
+                QSpinBox* contourWidth = new QSpinBox(&menu);
                 contourWidth->setMinimum(1);
                 contourWidth->setMaximum(100);
                 contourWidth->setValue(width);
@@ -507,10 +507,10 @@ namespace fl {
                 contourWidth->setToolTip("Width of contours");
                 QObject::connect(contourWidth, SIGNAL(valueChanged(int)),
                         this, SLOT(setWidthOfContours(int)));
-                QWidgetAction* action = new QWidgetAction(menu);
+                QWidgetAction* action = new QWidgetAction(&menu);
                 action->setDefaultWidget(contourWidth);
-                menu->addAction(action);
-                menu->exec(ui->btn_options->parentWidget()->mapToGlobal(ui->btn_options->pos()));
+                menu.addAction(action);
+                menu.exec(ui->btn_options->parentWidget()->mapToGlobal(ui->btn_options->pos()));
             } else if (action->text() == "About...") {
                 QMessageBox::information(this, "About contours",
                         "The contours are based in part on the work of "

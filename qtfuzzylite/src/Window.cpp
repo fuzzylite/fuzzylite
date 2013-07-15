@@ -1637,14 +1637,14 @@ namespace fl {
             QMessageBox::StandardButton result =
                     QMessageBox::information(this, "Ask for help",
                     "If you need help, please send an email to "
-                    "<a href='community@fuzzylite.com'>community@fuzzylite.com</a>. "
+                    "<a href='community@fuzzylite.com'>community@fuzzylite.com</a>.<br><br>"
                     "The community will be more than happy to answer your questions as best and "
                     "timely as possible.<br><br>"
                     "Do you want to ask for help now?",
                     QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
             if (result == QMessageBox::Yes)
-                QDesktopServices::openUrl(QUrl("mailto:community@fuzzylite.com?"
-                    "subject=Help with <insert topic here>"));
+                QDesktopServices::openUrl(QUrl("mailto:community@fuzzylite.com"
+                    "?subject=Help with <insert topic here>"));
         }
 
         void Window::onMenuJoinTheCommunity() {
@@ -1725,7 +1725,8 @@ namespace fl {
             w->showMinimized();
             splash.finish(w);
             w->onMenuAbout();
-            w->showNormal();
+//            w->showNormal(); //Does not show file toolbar in ubuntu 13.04
+            w->activateWindow(); //Does not maximize window in xfce
 
             QString openFile;
             if (argc > 1) {
