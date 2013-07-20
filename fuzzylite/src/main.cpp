@@ -288,8 +288,8 @@ void exportAllExamples(const std::string& from, const std::string& to) {
     examples.push_back("/takagi-sugeno/octave/linear_tip_calculator");
     examples.push_back("/takagi-sugeno/octave/sugeno_tip_calculator");
 
-    std::string sourceBase = "/home/jcrada/Development/fuzzylite/qtfuzzylite/examples/" + from;
-    std::string targetBase = "/home/jcrada/Development/fuzzylite/qtfuzzylite/examples/" + to;
+    std::string sourceBase = "/home/jcrada/Development/fuzzylite/examples/" + from;
+    std::string targetBase = "/home/jcrada/Development/fuzzylite/examples/" + to;
 
     Importer* importer;
     if (from == "fis") importer = new FisImporter;
