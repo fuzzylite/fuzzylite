@@ -1539,22 +1539,23 @@ namespace fl {
                         QMessageBox::Ok);
                 return;
             }
-            Ui::ImEx fclUi;
-            QDialog fclDialog(this);
-            fclUi.setupUi(&fclDialog);
-            fclUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
-            fclDialog.setWindowTitle("Export...");
-            fclUi.lbl_format->setText("Export to Fuzzy Controller Language (FCL):");
+
+            ImEx imex;
+            imex.setup();
+            imex.setWindowTitle("Export engine to");
+            imex.ui->lbl_format->setText("Fuzzy Controller Language (FCL):");
+            imex.ui->buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
+
             QFont font = typeWriterFont();
             font.setPointSize(font.pointSize() - 1);
-            fclUi.pte_code->setFont(font);
-            fclUi.pte_code->setReadOnly(true);
-            fclUi.pte_code->document()->setPlainText(
+            imex.ui->pte_code->setFont(font);
+            imex.ui->pte_code->setReadOnly(true);
+            imex.ui->pte_code->document()->setPlainText(
                     QString::fromStdString(fclString));
-            QTextCursor tc = fclUi.pte_code->textCursor();
+            QTextCursor tc = imex.ui->pte_code->textCursor();
             tc.movePosition(QTextCursor::Start);
-            fclUi.pte_code->setTextCursor(tc);
-            fclDialog.exec();
+            imex.ui->pte_code->setTextCursor(tc);
+            imex.exec();
         }
 
         void Window::onMenuExportToFIS() {
@@ -1568,22 +1569,23 @@ namespace fl {
                         QMessageBox::Ok);
                 return;
             }
-            Ui::ImEx fisUi;
-            QDialog fclDialog(this);
-            fisUi.setupUi(&fclDialog);
-            fisUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
-            fclDialog.setWindowTitle("Export...");
-            fisUi.lbl_format->setText("Export to Fuzzy Inference System (FIS):");
+
+            ImEx imex;
+            imex.setup();
+            imex.setWindowTitle("Export engine to");
+            imex.ui->lbl_format->setText("Fuzzy Inference System (FIS):");
+            imex.ui->buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
+
             QFont font = typeWriterFont();
             font.setPointSize(font.pointSize() - 1);
-            fisUi.pte_code->setFont(font);
-            fisUi.pte_code->setReadOnly(true);
-            fisUi.pte_code->document()->setPlainText(
+            imex.ui->pte_code->setFont(font);
+            imex.ui->pte_code->setReadOnly(true);
+            imex.ui->pte_code->document()->setPlainText(
                     QString::fromStdString(fis));
-            QTextCursor tc = fisUi.pte_code->textCursor();
+            QTextCursor tc = imex.ui->pte_code->textCursor();
             tc.movePosition(QTextCursor::Start);
-            fisUi.pte_code->setTextCursor(tc);
-            fclDialog.exec();
+            imex.ui->pte_code->setTextCursor(tc);
+            imex.exec();
         }
 
         void Window::onMenuExportToCpp() {
@@ -1597,22 +1599,23 @@ namespace fl {
                         QMessageBox::Ok);
                 return;
             }
-            Ui::ImEx cppUi;
-            QDialog fclDialog(this);
-            cppUi.setupUi(&fclDialog);
-            cppUi.buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
-            fclDialog.setWindowTitle("Export...");
-            cppUi.lbl_format->setText("Export to fuzzylite (C++):");
+
+            ImEx imex;
+            imex.setup();
+            imex.setWindowTitle("Export engine to");
+            imex.ui->lbl_format->setText("fuzzylite (C++):");
+            imex.ui->buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
+
             QFont font = typeWriterFont();
             font.setPointSize(font.pointSize() - 1);
-            cppUi.pte_code->setFont(font);
-            cppUi.pte_code->setReadOnly(true);
-            cppUi.pte_code->document()->setPlainText(
+            imex.ui->pte_code->setFont(font);
+            imex.ui->pte_code->setReadOnly(true);
+            imex.ui->pte_code->document()->setPlainText(
                     QString::fromStdString(cpp));
-            QTextCursor tc = cppUi.pte_code->textCursor();
+            QTextCursor tc = imex.ui->pte_code->textCursor();
             tc.movePosition(QTextCursor::Start);
-            cppUi.pte_code->setTextCursor(tc);
-            fclDialog.exec();
+            imex.ui->pte_code->setTextCursor(tc);
+            imex.exec();
         }
 
         void Window::onMenuAbout() {
@@ -1718,7 +1721,7 @@ namespace fl {
             splash.finish(w);
             w->onMenuAbout();
             w->activateWindow(); //Ubuntu needs to display filebar properly
-			w->showNormal(); //Windows needs it to maximize window
+            w->show(); //Windows needs it to maximize window
 
             QString openFile;
             if (argc > 1) {

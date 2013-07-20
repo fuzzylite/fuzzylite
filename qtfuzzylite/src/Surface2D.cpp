@@ -25,13 +25,13 @@ namespace fl {
     namespace qt {
 
         Surface2D::Surface2D(QWidget* parent, Qt::WindowFlags f) :
-        QDialog(parent, f), ui(new Ui::Surface2D) { 
-		setWindowFlags(Qt::Dialog
+        QDialog(parent, f), ui(new Ui::Surface2D) {
+            setWindowFlags(Qt::Dialog
                     | Qt::WindowSystemMenuHint
                     | Qt::WindowCloseButtonHint
-					| Qt::WindowMaximizeButtonHint
-					| Qt::WindowMinimizeButtonHint);
-		}
+                    | Qt::WindowMaximizeButtonHint
+                    | Qt::WindowMinimizeButtonHint);
+        }
 
         Surface2D::~Surface2D() { }
 
@@ -343,7 +343,7 @@ namespace fl {
             ui->canvas->setPixmap(QPixmap());
             ui->canvas->repaint();
             ui->btn_options->setEnabled(false);
-            
+
             ui->lbl_min_a->setText(ui->sbx_min_inputA->text());
             ui->lbl_max_a->setText(ui->sbx_max_inputA->text());
             ui->lbl_min_b->setText(ui->sbx_min_inputB->text());
@@ -438,7 +438,7 @@ namespace fl {
             menu.addAction("About...", this, SLOT(onOptionTriggered()));
 
             menu.exec(QCursor::pos() + QPoint(1, 0));
-			ui->btn_options->setChecked(false);
+            ui->btn_options->setChecked(false);
         }
 
         void Surface2D::onOptionTriggered() {

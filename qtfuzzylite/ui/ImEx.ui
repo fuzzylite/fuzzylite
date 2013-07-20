@@ -3,7 +3,7 @@
  <class>ImEx</class>
  <widget class="QDialog" name="ImEx">
   <property name="windowModality">
-   <enum>Qt::WindowModal</enum>
+   <enum>Qt::ApplicationModal</enum>
   </property>
   <property name="geometry">
    <rect>
