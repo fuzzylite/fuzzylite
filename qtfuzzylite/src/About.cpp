@@ -39,8 +39,7 @@ namespace fl {
 
         About::About(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::About) {
-            setWindowFlags(Qt::Dialog 
-                    | Qt::WindowSystemMenuHint
+            setWindowFlags(Qt::WindowSystemMenuHint
                     | Qt::WindowCloseButtonHint
                     | Qt::WindowStaysOnTopHint);
         }

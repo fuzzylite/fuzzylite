@@ -1711,18 +1711,21 @@ namespace fl {
         void Window::main(int argc, char** argv) {
             QPixmap pixmap(":/qtfuzzylite.png");
             QSplashScreen splash(pixmap);
-
             splash.setEnabled(false);
             splash.show();
 
             Window* w = mainWindow();
             w->setup();
-            w->showMinimized();
+            w->show();
             splash.finish(w);
             w->onMenuAbout();
-            w->activateWindow(); //Ubuntu needs to display filebar properly
-            w->show(); //Windows needs it to maximize window
-
+            
+            //            w->showMinimized();
+            //            splash.finish(w);
+            //            w->onMenuAbout();
+            //            w->activateWindow(); //Ubuntu needs to display filebar properly
+            //            w->show(); //Windows needs it to maximize window
+            //            w->showMinimized();
             QString openFile;
             if (argc > 1) {
                 openFile = QFileInfo(QString(argv[1])).absoluteFilePath();
