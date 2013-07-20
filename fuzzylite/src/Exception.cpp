@@ -83,8 +83,7 @@ namespace fl {
 #ifdef FL_BACKTRACE_OFF
         (void) maxCalls;
         return "[backtrace missing] fuzzylite was built with option -DFL_BACKTRACE_OFF";
-#else
-#ifdef FL_UNIX
+#elif defined FL_UNIX
         std::ostringstream btStream;
         int bufferSize = maxCalls;
         void* buffer[bufferSize];
@@ -126,9 +125,9 @@ namespace fl {
         }
         free(btSymbol);
         return btStream.str();
-#endif
-#endif
+#else
         return "[backtrace missing] supported only in Unix and Windows platforms";
+#endif
     }
     //execinfo
 

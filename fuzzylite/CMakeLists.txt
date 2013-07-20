@@ -36,8 +36,12 @@ option(FL_BACKTRACE "Provide backtrace information in case of errors" ON)
 if(FL_DEBUG)
 #    add_definitions(-DFL_DEBUG=true)
     set(CMAKE_BUILD_TYPE Debug)
+	set(FL_CONF -dbg)
+
 else()
 	set(CMAKE_BUILD_TYPE Release)
+	set(FL_CONF)
+
 endif(FL_DEBUG)
 
 
@@ -127,6 +131,14 @@ install(TARGETS fl-bin fl-shared fl-static
 
 install(DIRECTORY fl/ DESTINATION include/fl)
 
+if(WIN32)
+	set(fl-suffix)
+	
+	add_custom_command(TARGET fl-bin POST_BUILD 
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different 
+        "${CMAKE_SOURCE_DIR}/lib/fuzzylite${FL_CONF}.dll"
+        ${CMAKE_SOURCE_DIR}/bin)                 # <--this is out-file path
+endif()
 
 message("=====================================")
 message("fuzzylite v.${FL_VERSION}b${FL_DATE}\n")

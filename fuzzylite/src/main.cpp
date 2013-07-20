@@ -377,7 +377,7 @@ void examples() throw (fl::Exception) {
             << "Precision is set to " << fl::fuzzylite::precision() << "\n"
             << "Only " << fl::fuzzylite::decimals() << " decimals are printed\n"
             << "Infinity is printed as: (" << fl::Op::str(-fl::inf)
-            << " , " << fl::inf << ")\n"
+            << " , " << fl::Op::str(fl::inf) << ")\n"
             << "NaN values are printed as: " << fl::Op::str(fl::nan) << "\n"
             << "Defuzzifiers by default use " << fl::fuzzylite::defaultDivisions() << " divisions\n";
     if (fl::fuzzylite::logEnabled()) {

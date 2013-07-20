@@ -1699,6 +1699,7 @@ namespace fl {
         void Window::main(int argc, char** argv) {
             QPixmap pixmap(":/qtfuzzylite.png");
             QSplashScreen splash(pixmap);
+			splash.setWindowFlags(splash.windowFlags() |  Qt::WindowStaysOnTopHint);
             splash.setEnabled(false);
             splash.show();
 
