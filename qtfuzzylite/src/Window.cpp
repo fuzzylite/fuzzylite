@@ -604,7 +604,7 @@ namespace fl {
 
             std::string status;
             if (not engine->isReady(&status)) {
-                QMessageBox::critical(this, "Engine Error",
+                QMessageBox::critical(this, "Engine not ready",
                         "<qt>The following errors were encountered:<br><br>" +
                         toHtmlEscaped(QString::fromStdString(status)).replace("\n", "<br>")
                         + "</qt>");
@@ -1242,7 +1242,7 @@ namespace fl {
                     QString name = QFileInfo(_currentFile).fileName();
                     if (name.isEmpty())name = "untitled";
                     QMessageBox::StandardButton clicked =
-                            QMessageBox::critical(this, unsavedChangesTitle,
+                            QMessageBox::warning(this, unsavedChangesTitle,
                             "Any unsaved changes to "
                             "\"" + name + "\""
                             " will be lost.<br><br>"
@@ -1407,18 +1407,6 @@ namespace fl {
         }
 
         void Window::onMenuReload() {
-            //            if (not _currentFile.isEmpty() and _currentFileModified) {
-            //                QMessageBox::StandardButton clicked =
-            //                        QMessageBox::critical(this, "Reload Engine from File",
-            //                        "Any unsaved changes to "
-            //                        "\"" + QFileInfo(_currentFile).fileName() + "\""
-            //                        " will be lost.<br><br>"
-            //                        "Do you want to continue?",
-            //                        QMessageBox::Yes | QMessageBox::No,
-            //                        QMessageBox::Yes);
-            //                if (clicked == QMessageBox::No) return;
-            //                else openFile(_currentFile);
-            //            }
             openFile(_currentFile, "Reload engine");
         }
 

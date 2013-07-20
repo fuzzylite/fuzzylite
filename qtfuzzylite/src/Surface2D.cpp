@@ -142,7 +142,7 @@ namespace fl {
             Engine* engine = Model::Default()->engine();
             std::string status;
             if (not engine->isReady(&status)) {
-                QMessageBox::critical(this, "Engine Error",
+                QMessageBox::critical(this, "Engine not ready",
                         "<qt>The following errors were encountered:<br><br>" +
                         Window::mainWindow()->toHtmlEscaped(
                         QString::fromStdString(status)).replace("\n", "<br>")
