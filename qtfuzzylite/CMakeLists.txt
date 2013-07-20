@@ -212,6 +212,14 @@ if(APPLE)
 #http://dragly.org/2012/01/13/deploy-qt-applications-for-mac-os-x/
 endif(APPLE)
 
+if(WIN32)
+	message("copying ${CMAKE_SOURCE_DIR}/../fuzzylite/lib/fuzzylite${FL_CONF}.dll")
+	add_custom_command(TARGET qtfuzzylite POST_BUILD 
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different 
+        "${CMAKE_SOURCE_DIR}/../fuzzylite/lib/fuzzylite${FL_CONF}.dll"
+        ${CMAKE_SOURCE_DIR})                 # <--this is out-file path
+endif()
+
 
 if(NOT APPLE)
     install(TARGETS qtfuzzylite RUNTIME DESTINATION bin)
