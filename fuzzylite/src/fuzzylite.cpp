@@ -23,8 +23,7 @@
 #include "fl/fuzzylite.h"
 
 namespace fl {
-    const scalar nan = std::numeric_limits<scalar>::quiet_NaN();
-    const scalar inf = std::numeric_limits<scalar>::infinity();
+     
 
     std::string fuzzylite::name() {
         return "fuzzylite";

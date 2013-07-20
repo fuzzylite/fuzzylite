@@ -14,7 +14,12 @@ namespace fl {
     namespace qt {
 
         ImEx::ImEx(QWidget* parent, Qt::WindowFlags f) :
-        QDialog(parent, f), ui(new Ui::ImEx) { }
+        QDialog(parent, f), ui(new Ui::ImEx) { 
+			setWindowFlags(Qt::Dialog
+                    | Qt::WindowSystemMenuHint
+                    | Qt::WindowCloseButtonHint
+					| Qt::WindowMaximizeButtonHint);
+		}
         
         ImEx::~ImEx(){
             delete ui;

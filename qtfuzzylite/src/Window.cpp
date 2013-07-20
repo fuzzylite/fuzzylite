@@ -1440,10 +1440,6 @@ namespace fl {
         void Window::onMenuImport() {
             if (ui->actionImport->isChecked()) {
                 QMenu menu(this);
-                QAction* title = new QAction("Import from...", &menu);
-                title->setEnabled(false);
-                menu.addAction(title);
-                menu.addSeparator();
                 menu.addAction("Fuzzy &Control Language (FCL)", this, SLOT(onMenuImportFromFCL()));
                 menu.addAction("Fuzzy &Inference System (FIS)", this, SLOT(onMenuImportFromFIS()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
@@ -1523,10 +1519,6 @@ namespace fl {
         void Window::onMenuExport() {
             if (ui->actionExport->isChecked()) {
                 QMenu menu(this);
-                QAction* title = new QAction("Export to...", &menu);
-                title->setEnabled(false);
-                menu.addAction(title);
-                menu.addSeparator();
                 menu.addAction("&fuzzylite (C++)", this, SLOT(onMenuExportToCpp()));
                 menu.addSeparator();
                 menu.addAction("Fuzzy &Control Language (FCL)", this, SLOT(onMenuExportToFCL()));
@@ -1725,8 +1717,8 @@ namespace fl {
             w->showMinimized();
             splash.finish(w);
             w->onMenuAbout();
-//            w->showNormal(); //Does not show file toolbar in ubuntu 13.04
-            w->activateWindow(); //Does not maximize window in xfce
+            w->activateWindow(); //Ubuntu needs to display filebar properly
+			w->showNormal(); //Windows needs it to maximize window
 
             QString openFile;
             if (argc > 1) {

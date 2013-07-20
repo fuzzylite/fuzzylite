@@ -35,7 +35,6 @@ option(FL_USE_QT5 "Utilize Qt5 instead of Qt4" OFF)
 
 message("CMAKE_SOURCE_DIR=${CMAKE_SOURCE_DIR}")
 
-link_directories("${CMAKE_SOURCE_DIR}/../fuzzylite/lib")
 
 if(FL_DEBUG)
    set(CMAKE_BUILD_TYPE Debug)
