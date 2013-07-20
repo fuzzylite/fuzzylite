@@ -49,8 +49,8 @@ namespace fl {
 
             void changeDonation();
 
-            std::vector<std::string> _generosityTerm;
-            std::vector<std::string> _generosityValue;
+            std::vector<std::string> _donationTerm;
+            std::vector<std::string> _donationValue;
 
 
         public:

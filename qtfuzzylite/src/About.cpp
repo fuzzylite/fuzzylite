@@ -53,38 +53,38 @@ namespace fl {
         void About::setup() {
             ui->setupUi(this);
             
-            _generosityTerm.push_back("low");
-            _generosityValue.push_back("$1");
-            _generosityTerm.push_back("Low");
-            _generosityValue.push_back("$2");
-            _generosityTerm.push_back("LOW");
-            _generosityValue.push_back("$5");
+            _donationTerm.push_back("low");
+            _donationValue.push_back("$1");
+            _donationTerm.push_back("Low");
+            _donationValue.push_back("$2");
+            _donationTerm.push_back("LOW");
+            _donationValue.push_back("$5");
 
-            _generosityTerm.push_back("medium");
-            _generosityValue.push_back("$10");
-            _generosityTerm.push_back("Medium");
-            _generosityValue.push_back("$20");
-            _generosityTerm.push_back("MEDIUM");
-            _generosityValue.push_back("$50");
+            _donationTerm.push_back("medium");
+            _donationValue.push_back("$10");
+            _donationTerm.push_back("Medium");
+            _donationValue.push_back("$20");
+            _donationTerm.push_back("MEDIUM");
+            _donationValue.push_back("$50");
 
-            _generosityTerm.push_back("high");
-            _generosityValue.push_back("$100");
-            _generosityTerm.push_back("High");
-            _generosityValue.push_back("$200");
-            _generosityTerm.push_back("HIGH");
-            _generosityValue.push_back("$500");
+            _donationTerm.push_back("high");
+            _donationValue.push_back("$100");
+            _donationTerm.push_back("High");
+            _donationValue.push_back("$200");
+            _donationTerm.push_back("HIGH");
+            _donationValue.push_back("$500");
 
-            ui->sld_generosity->setMinimum(0);
-            ui->sld_generosity->setMaximum(_generosityTerm.size() - 1);
-            ui->sld_generosity->setValue((_generosityTerm.size() - 1) / 2);
-            ui->sld_generosity->setSingleStep(1);
-            ui->sld_generosity->setPageStep(1);
-            ui->sld_generosity->setTickInterval(1);
+            ui->sld_donation->setMinimum(0);
+            ui->sld_donation->setMaximum(_donationTerm.size() - 1);
+            ui->sld_donation->setValue((_donationTerm.size() - 1) / 2);
+            ui->sld_donation->setSingleStep(1);
+            ui->sld_donation->setPageStep(1);
+            ui->sld_donation->setTickInterval(1);
 
-            for (std::size_t i = 0; i < _generosityTerm.size(); ++i) {
-                ui->cbx_generosity->addItem(
-                        QString::fromStdString(_generosityValue.at(i)) + " - " +
-                        QString::fromStdString(_generosityTerm.at(i)));
+            for (std::size_t i = 0; i < _donationTerm.size(); ++i) {
+                ui->cbx_donation->addItem(
+                        QString::fromStdString(_donationValue.at(i)) + " - " +
+                        QString::fromStdString(_donationTerm.at(i)));
             }
 
             ui->lbl_donate->setTextFormat(Qt::RichText);
@@ -122,7 +122,7 @@ namespace fl {
             ui->lbl_header->setOpenExternalLinks(true);
             ui->lbl_header->setText(QString::fromStdString(header));
             connect();
-            ui->cbx_generosity->setCurrentIndex((_generosityTerm.size() - 1) / 2);
+            ui->cbx_donation->setCurrentIndex((_donationTerm.size() - 1) / 2);
             
             adjustSize();
             QRect scr = Window::mainWindow()->geometry();
@@ -130,33 +130,33 @@ namespace fl {
         }
 
         void About::connect() {
-            QObject::connect(ui->sld_generosity, SIGNAL(valueChanged(int)),
+            QObject::connect(ui->sld_donation, SIGNAL(valueChanged(int)),
                     this, SLOT(onChangeSliderGenerosity(int)));
-            QObject::connect(ui->cbx_generosity, SIGNAL(currentIndexChanged(int)),
+            QObject::connect(ui->cbx_donation, SIGNAL(currentIndexChanged(int)),
                     this, SLOT(onChangeComboGenerosity(int)));
         }
 
         void About::disconnect() {
-            QObject::disconnect(ui->sld_generosity, SIGNAL(valueChanged(int)),
+            QObject::disconnect(ui->sld_donation, SIGNAL(valueChanged(int)),
                     this, SLOT(onChangeSliderGenerosity(int)));
-            QObject::disconnect(ui->cbx_generosity, SIGNAL(currentIndexChanged(int)),
+            QObject::disconnect(ui->cbx_donation, SIGNAL(currentIndexChanged(int)),
                     this, SLOT(onChangeComboGenerosity(int)));
         }
 
         void About::onChangeSliderGenerosity(int) {
-            ui->cbx_generosity->setCurrentIndex(ui->sld_generosity->value());
+            ui->cbx_donation->setCurrentIndex(ui->sld_donation->value());
         }
 
         void About::onChangeComboGenerosity(int) {
-            if (ui->sld_generosity->value() != ui->cbx_generosity->currentIndex()) {
-                ui->sld_generosity->setValue(ui->cbx_generosity->currentIndex());
+            if (ui->sld_donation->value() != ui->cbx_donation->currentIndex()) {
+                ui->sld_donation->setValue(ui->cbx_donation->currentIndex());
             }
             changeDonation();
         }
 
         void About::changeDonation() {
             std::string href = "http://www.fuzzylite.com/donation.php";
-            std::string param = "?generosity=" + _generosityTerm.at(ui->sld_generosity->value());
+            std::string param = "?value=" + _donationTerm.at(ui->sld_donation->value());
             ui->lbl_donate->setText(QString::fromStdString(
                     "<qt><a href='" + href + param + "'>"
                     "<img src=':/donate.png'/></a></qt>"));
@@ -164,7 +164,7 @@ namespace fl {
 
         void About::accept() {
             std::string href = "http://www.fuzzylite.com/donation.php";
-            std::string param = "?generosity=" + _generosityTerm.at(ui->sld_generosity->value());
+            std::string param = "?value=" + _donationTerm.at(ui->sld_donation->value());
             QDesktopServices::openUrl(QUrl(QString::fromStdString(href + param)));
             QDialog::accept();
         }

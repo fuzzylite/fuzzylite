@@ -65,7 +65,7 @@ namespace fl {
                 line = Op::trim(line);
                 if (line.empty() or line.at(0) == '#')
                     continue;
-
+                line = fl::Op::findReplace(line, ";", "");
                 std::istringstream tokenizer(line);
                 std::string firstToken;
                 tokenizer >> firstToken;
@@ -328,7 +328,7 @@ namespace fl {
                     << line;
             throw fl::Exception(ex.str(), FL_AT);
         }
-        std::string name = Op::findReplace(Op::trim(token.at(1)), ";", "");
+        std::string name = Op::trim(token.at(1));
         std::string className = name;
         if (name == "MIN") className = Minimum().className();
         else if (name == "PROD") className = AlgebraicProduct().className();
@@ -354,7 +354,7 @@ namespace fl {
                     << line;
             throw fl::Exception(ex.str(), FL_AT);
         }
-        std::string name = Op::findReplace(Op::trim(token.at(1)), ";", "");
+        std::string name = Op::trim(token.at(1));
         std::string className = name;
         if (name == "MAX") className = Maximum().className();
         else if (name == "ASUM") className = AlgebraicSum().className();
@@ -520,16 +520,16 @@ namespace fl {
                     << line;
             throw fl::Exception(ex.str(), FL_AT);
         }
-        
+
         std::vector<std::string> values = Op::split(token.at(1), "|");
-        
+
         std::string defaultValue = values.front();
         std::string nc;
         if (values.size() == 2) nc = values.back();
-        
-        defaultValue = fl::Op::trim(fl::Op::findReplace(defaultValue,";", ""));
-        nc = fl::Op::trim(fl::Op::findReplace(nc,";", ""));
-        
+
+        defaultValue = fl::Op::trim(fl::Op::findReplace(defaultValue, ";", ""));
+        nc = fl::Op::trim(fl::Op::findReplace(nc, ";", ""));
+
         scalar value;
         try {
             value = fl::Op::toScalar(defaultValue);
@@ -540,14 +540,14 @@ namespace fl {
                     << line;
             throw fl::Exception(ex.str(), FL_AT);
         }
-        
+
         lockValidOutput = (nc == "NC");
-        
-        if (not (lockValidOutput or nc.empty())){
+
+        if (not (lockValidOutput or nc.empty())) {
             throw fl::Exception("[syntax error] expected keyword <NC>, "
                     "but found <" + nc + "> in line: " + line, FL_AT);
         }
-        
+
         return value;
     }
 

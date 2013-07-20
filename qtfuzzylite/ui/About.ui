@@ -119,7 +119,7 @@ There are still many things to do!&lt;/p&gt;
             </font>
            </property>
            <property name="text">
-            <string>Generosity</string>
+            <string>Donation</string>
            </property>
            <property name="textFormat">
             <enum>Qt::PlainText</enum>
@@ -143,7 +143,7 @@ There are still many things to do!&lt;/p&gt;
               <number>0</number>
              </property>
              <item>
-              <widget class="QLabel" name="generosity">
+              <widget class="QLabel" name="donation">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                  <horstretch>0</horstretch>
@@ -214,7 +214,7 @@ There are still many things to do!&lt;/p&gt;
               </layout>
              </item>
              <item>
-              <widget class="QSlider" name="sld_generosity">
+              <widget class="QSlider" name="sld_donation">
                <property name="focusPolicy">
                 <enum>Qt::NoFocus</enum>
                </property>
@@ -255,7 +255,7 @@ There are still many things to do!&lt;/p&gt;
               <number>0</number>
              </property>
              <item>
-              <widget class="QComboBox" name="cbx_generosity">
+              <widget class="QComboBox" name="cbx_donation">
                <property name="maxCount">
                 <number>9</number>
                </property>

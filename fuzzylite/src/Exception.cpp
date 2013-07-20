@@ -23,7 +23,7 @@
 #include "fl/Exception.h"
 
 
-#ifdef FL_NO_BACKTRACE
+#ifdef FL_BACKTRACE_OFF
 //do nothing
 #else
 #ifdef FL_UNIX
@@ -80,8 +80,9 @@ namespace fl {
     }
 
     std::string Exception::btCallStack(const int maxCalls) {
-#ifdef FL_NO_BACKTRACE
-        return "[backtrace missing] fuzzylite was built with flag -DFL_NO_BACKTRACE";
+#ifdef FL_BACKTRACE_OFF
+        (void) maxCalls;
+        return "[backtrace missing] fuzzylite was built with option -DFL_BACKTRACE_OFF";
 #else
 #ifdef FL_UNIX
         std::ostringstream btStream;

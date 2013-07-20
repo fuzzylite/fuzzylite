@@ -6,21 +6,20 @@ project(fuzzylite CXX)
 
 set(CMAKE_VERBOSE_MAKEFILE true)
 
-MACRO (TODAY RESULT)
-    IF (WIN32)
-        EXECUTE_PROCESS(COMMAND "cmd" " /C date /T" OUTPUT_VARIABLE ${RESULT})
-        string(REGEX REPLACE ".*../(..)/..(..).*" "\\2\\1" ${RESULT} ${${RESULT}})
-    ELSEIF(UNIX)
-        EXECUTE_PROCESS(COMMAND "date" "+%d/%m/%Y" OUTPUT_VARIABLE ${RESULT})
-        string(REGEX REPLACE ".*../(..)/..(..).*" "\\2\\1" ${RESULT} ${${RESULT}})
-    ELSE ()
-        MESSAGE(SEND_ERROR "date not implemented")
-        SET(${RESULT} 000000)
-    ENDIF (WIN32)
-ENDMACRO (TODAY)
-
-TODAY(FL_DATE)
-add_definitions(-DFL_DATE="${FL_DATE}")
+#MACRO (TODAY RESULT)
+    #IF (WIN32)
+        #EXECUTE_PROCESS(COMMAND "cmd" " /C date /T" OUTPUT_VARIABLE ${RESULT})
+        #string(REGEX REPLACE ".*../(..)/..(..).*" "\\2\\1" ${RESULT} ${${RESULT}})
+    #ELSEIF(UNIX)
+        #EXECUTE_PROCESS(COMMAND "date" "+%d/%m/%Y" OUTPUT_VARIABLE ${RESULT})
+        #string(REGEX REPLACE ".*../(..)/..(..).*" "\\2\\1" ${RESULT} ${${RESULT}})
+    #ELSE ()
+        #MESSAGE(SEND_ERROR "date not implemented")
+        #SET(${RESULT} 000000)
+    #ENDIF (WIN32)
+#ENDMACRO (TODAY)
+#TODAY(FL_DATE)
+add_definitions(-DFL_DATE="1307")
 
 set(FL_VERSION 3.0)
 add_definitions(-DFL_VERSION="${FL_VERSION}")
@@ -31,6 +30,7 @@ option(FL_DEBUG "Enable additional debugging information" OFF)
 
 option(FL_PRECISION "Precision to differentiate numbers" 1e-5)
 option(FL_DECIMALS "Number of decimals to print information" 3)
+option(FL_BACKTRACE "Provide backtrace information in case of errors" ON)
 
 
 if(FL_DEBUG)
@@ -75,7 +75,6 @@ if(NOT FL_USE_LOG)
 endif(NOT FL_USE_LOG)
 
 
-
 if(FL_PRECISION)
     add_definitions(-DFL_PRECISION=${FL_PRECISION})
 else()
@@ -88,6 +87,9 @@ else()
     set(FL_DECIMALS 3)
 endif(FL_DECIMALS)
 
+if(NOT FL_BACKTRACE)
+    add_definitions(-DFL_BACKTRACE_OFF)
+endif()
 
 include_directories(.)
 
@@ -133,6 +135,7 @@ message("FL_USE_LOG=${FL_USE_LOG}")
 message("FL_USE_FLOAT=${FL_USE_FLOAT}")
 message("FL_PRECISION=${FL_PRECISION}")
 message("FL_DECIMALS=${FL_DECIMALS}")
+message("FL_BACKTRACE=${FL_BACKTRACE}")
 message("=====================================\n")
 
 # uninstall target
