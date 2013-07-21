@@ -1716,8 +1716,9 @@ namespace fl {
 #ifdef FL_UNIX
             sleep(1);
 #elif defined FL_WINDOWS
-            w->show();
+            Sleep(1);
 #endif
+            w->show();
             splash.finish(w);
             w->onMenuAbout();
             
