@@ -4,19 +4,22 @@ project(qtfuzzylite CXX)
 
 set(CMAKE_VERBOSE_MAKEFILE true)
 
-#MACRO (TODAY RESULT)
-    #IF (WIN32)
-        #EXECUTE_PROCESS(COMMAND "cmd" " /C date /T" OUTPUT_VARIABLE ${RESULT})
-        #string(REGEX REPLACE ".*../(..)/..(..).*" "\\2\\1" ${RESULT} ${${RESULT}})
-    #ELSEIF(UNIX)
-        #EXECUTE_PROCESS(COMMAND "date" "+%d/%m/%Y" OUTPUT_VARIABLE ${RESULT})
-        #string(REGEX REPLACE ".*../(..)/..(..).*" "\\2\\1" ${RESULT} ${${RESULT}})
-    #ELSE ()
-        #MESSAGE(SEND_ERROR "date not implemented")
-        #SET(${RESULT} 000000)
-    #ENDIF (WIN32)
-#ENDMACRO (TODAY)
-#TODAY(FLQT_DATE)
+
+if(WIN32)
+    message("Windows")
+    add_definitions(-DFL_WINDOWS)
+endif()
+
+if (UNIX)
+    message("Unix")
+    add_definitions(-DFL_UNIX)
+endif()
+
+if (APPLE)
+    message("Apple")
+    add_definitions(-DFL_APPLE)
+endif()
+
 
 add_definitions(-DFLQT_DATE="1307")
 
@@ -57,11 +60,6 @@ if(NOT FL_USE_LOG)
     add_definitions(-DFL_NO_LOG)
 endif(NOT FL_USE_LOG)
 
-
-if(WIN32)
-    message("Windows")
-	add_definitions(-DFL_WINDOWS)
-endif()
 
 include_directories(. ${CMAKE_SOURCE_DIR}/../fuzzylite)
 

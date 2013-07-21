@@ -54,7 +54,11 @@
 #include <QUrl>
 #include <QInputDialog>
 
+#ifdef FL_UNIX
 #include <unistd.h>
+#elif defined FL_WINDOWS
+#include <windows.h>
+#endif
 
 
 namespace fl {
@@ -1709,8 +1713,11 @@ namespace fl {
             Window* w = mainWindow();
             w->setup();
             QApplication::processEvents();
+#ifdef FL_UNIX
             sleep(1);
+#elif defined FL_WINDOWS
             w->show();
+#endif
             splash.finish(w);
             w->onMenuAbout();
             

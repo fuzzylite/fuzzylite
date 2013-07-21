@@ -6,19 +6,23 @@ project(fuzzylite CXX)
 
 set(CMAKE_VERBOSE_MAKEFILE true)
 
-#MACRO (TODAY RESULT)
-    #IF (WIN32)
-        #EXECUTE_PROCESS(COMMAND "cmd" " /C date /T" OUTPUT_VARIABLE ${RESULT})
-        #string(REGEX REPLACE ".*../(..)/..(..).*" "\\2\\1" ${RESULT} ${${RESULT}})
-    #ELSEIF(UNIX)
-        #EXECUTE_PROCESS(COMMAND "date" "+%d/%m/%Y" OUTPUT_VARIABLE ${RESULT})
-        #string(REGEX REPLACE ".*../(..)/..(..).*" "\\2\\1" ${RESULT} ${${RESULT}})
-    #ELSE ()
-        #MESSAGE(SEND_ERROR "date not implemented")
-        #SET(${RESULT} 000000)
-    #ENDIF (WIN32)
-#ENDMACRO (TODAY)
-#TODAY(FL_DATE)
+
+if(WIN32)
+    message("Windows")
+    add_definitions(-DFL_WINDOWS)
+endif()
+
+if (UNIX)
+    message("Unix")
+    add_definitions(-DFL_UNIX)
+endif()
+
+if (APPLE)
+    message("Apple")
+    add_definitions(-DFL_APPLE)
+endif()
+
+
 add_definitions(-DFL_DATE="1307")
 
 set(FL_VERSION 3.0)
@@ -34,14 +38,12 @@ option(FL_BACKTRACE "Provide backtrace information in case of errors" ON)
 
 
 if(FL_DEBUG)
-#    add_definitions(-DFL_DEBUG=true)
+    add_definitions(-DFL_DEBUG=true)
     set(CMAKE_BUILD_TYPE Debug)
-	set(FL_CONF -dbg)
-
+    set(FL_CONF -dbg)
 else()
-	set(CMAKE_BUILD_TYPE Release)
-	set(FL_CONF)
-
+    set(CMAKE_BUILD_TYPE Release)
+    set(FL_CONF)
 endif(FL_DEBUG)
 
 
@@ -54,20 +56,18 @@ set(LIBRARY_OUTPUT_PATH lib)
 set(FL_LIBS)
 
 if(UNIX)
-    add_definitions(-DFL_UNIX)
     set(CMAKE_CXX_FLAGS "-Werror -Wall -Wextra")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DFL_DEBUG")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 if(NOT APPLE)
     set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined") #apple does not recognise these
-endif(NOT APPLE)
+endif()
 
 elseif(WIN32)
-    add_definitions(-DFL_WINDOWS)
-	#http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
+    #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
     set(CMAKE_CXX_FLAGS " /WX /W4 /EHsc")
     set(FL_LIBS dbghelp)
-endif(UNIX)
+endif()
 
 
 if(FL_USE_FLOAT)
