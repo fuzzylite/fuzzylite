@@ -36,7 +36,6 @@
 
 #include "fl/qt/qtfuzzylite.h"
 
-
 #include <QListWidgetItem>
 #include <QScrollBar>
 #include <QMessageBox>
@@ -54,6 +53,9 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QInputDialog>
+
+#include <unistd.h>
+
 
 namespace fl {
     namespace qt {
@@ -1695,6 +1697,7 @@ namespace fl {
             return x.toHtmlEscaped();
 #endif
         }
+        
 
         void Window::main(int argc, char** argv) {
             QPixmap pixmap(":/qtfuzzylite.png");
@@ -1705,6 +1708,8 @@ namespace fl {
 
             Window* w = mainWindow();
             w->setup();
+            QApplication::processEvents();
+            sleep(2);
             w->show();
             splash.finish(w);
             w->onMenuAbout();
