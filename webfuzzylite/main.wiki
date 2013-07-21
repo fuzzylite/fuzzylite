@@ -216,15 +216,15 @@ Furthermore, you can utilize the following options upon building:
 
 Ubuntu
 
-http://fuzzylite.googlecode.com/git/webfuzzylite/ubuntu.png
+http://fuzzylite.googlecode.com/git/webfuzzylite/figure/ubuntu.png
 
 Mac OSX (coming soon)
 
-http://fuzzylite.googlecode.com/git/webfuzzylite/macosx.png
+http://fuzzylite.googlecode.com/git/webfuzzylite/figure/macosx.png
 
 Windows
 
-http://fuzzylite.googlecode.com/git/webfuzzylite/win32.png
+http://fuzzylite.googlecode.com/git/webfuzzylite/figure/win32.png
 
 
 = Applications =
