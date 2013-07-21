@@ -1716,7 +1716,8 @@ namespace fl {
 #ifdef FL_UNIX
             sleep(1);
 #elif defined FL_WINDOWS
-            Sleep(1);
+            Sleep(1000);
+			FL_LOG("Slept 1");
 #endif
             w->show();
             splash.finish(w);
