@@ -1,13 +1,13 @@
 #summary A Fuzzy Logic Control Library and Application in C++
-Wiki last updated: 18/June/2013
+Page last updated: 21/July/2013
 
 == Donations ==
 Please, consider making a *donation* to support these projects.
 There are still _many_ things to do!
 
 <div style="text-align: center;">
-|| *NZD* || [http://www.fuzzylite.com/donation.php?generosity=low 1$] || [http://www.fuzzylite.com/donation.php?generosity=Low 2$] || [http://www.fuzzylite.com/donation.php?generosity=LOW 5$] || [http://www.fuzzylite.com/donation.php?generosity=medium 10$] || [http://www.fuzzylite.com/donation.php?generosity=Medium 20$] || [http://www.fuzzylite.com/donation.php?generosity=MEDIUM 50$] || [http://www.fuzzylite.com/donation.php?generosity=high 100$] || [http://www.fuzzylite.com/donation.php?generosity=High 200$] || [http://www.fuzzylite.com/donation.php?generosity=HIGH 500$] ||
-|| *Generosity* ||  [http://www.fuzzylite.com/donation.php?generosity=low low ] || [http://www.fuzzylite.com/donation.php?generosity=Low Low ] || [http://www.fuzzylite.com/donation.php?generosity=LOW LOW ] || [http://www.fuzzylite.com/donation.php?generosity=medium med ] || [http://www.fuzzylite.com/donation.php?generosity=Medium Med ] || [http://www.fuzzylite.com/donation.php?generosity=MEDIUM MED ] || [http://www.fuzzylite.com/donation.php?generosity=high high ] || [http://www.fuzzylite.com/donation.php?generosity=High High ] || [http://www.fuzzylite.com/donation.php?generosity=HIGH HIGH ] || https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif ||
+|| *NZD* || [http://www.fuzzylite.com/donation.php?value=low 1$] || [http://www.fuzzylite.com/donation.php?value=Low 2$] || [http://www.fuzzylite.com/donation.php?value=LOW 5$] || [http://www.fuzzylite.com/donation.php?value=medium 10$] || [http://www.fuzzylite.com/donation.php?value=Medium 20$] || [http://www.fuzzylite.com/donation.php?value=MEDIUM 50$] || [http://www.fuzzylite.com/donation.php?value=high 100$] || [http://www.fuzzylite.com/donation.php?value=High 200$] || [http://www.fuzzylite.com/donation.php?value=HIGH 500$] ||
+|| *value* ||  [http://www.fuzzylite.com/donation.php?value=low low ] || [http://www.fuzzylite.com/donation.php?value=Low Low ] || [http://www.fuzzylite.com/donation.php?value=LOW LOW ] || [http://www.fuzzylite.com/donation.php?value=medium med ] || [http://www.fuzzylite.com/donation.php?value=Medium Med ] || [http://www.fuzzylite.com/donation.php?value=MEDIUM MED ] || [http://www.fuzzylite.com/donation.php?value=high high ] || [http://www.fuzzylite.com/donation.php?value=High High ] || [http://www.fuzzylite.com/donation.php?value=HIGH HIGH ] || https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif ||
 </div>
 
 ==... and please, let us all give a standing ovation to the *[#Donors Donors]*.==
@@ -15,13 +15,13 @@ There are still _many_ things to do!
 
 === News ===
 
+21/07/2013: *`fuzzylite`* 3.0 released!<br>
+21/07/2013: *`fuzzylite`* statistics in [http://www.ohloh.net/p/fuzzylite ohloh]<br>
 30/05/2013: Join the *`fuzzylite`* [http://groups.google.com/group/fuzzylite community] to receive news and updates
 
-== Current Version: 2.0 (February/2013) ==
+== Current Version: 3.0 (July/2013) ==
 
-I have rewritten *`fuzzylite`* and *`qtfuzzylite`* from the ground up, incorporating *MANY* new features, taking much more care coding, and using the experience gained over the past years. Also, I have configured a !PayPal account hoping to receive *donations* and be able to provide more maintainance and keep updating both projects much more frequently.
-
-I do hope that you enjoy this version as much as I did working on it during my free time!
+I have developed an important set of new features for *`fuzzylite`* and *`qtfuzzylite`* that I hope you will like and find very useful to your needs. 
 
 Sincerely yours,
 
@@ -31,9 +31,9 @@ http://www.fuzzylite.com/jcrada
 
 = Introduction =
 
-*`fuzzylite`* is a cross-platform, free open-source Fuzzy Logic Control Library written in C++. Simplicity is the essence of *`fuzzylite`*. It provides a natural and simple way of creating a fuzzy logic engine in a few steps using object-oriented programming. It allows you to easily add your own features to the library by just using inheritance. It only relies on the Standard Template Library (STL) that comes with C++, *no* other third-party library (e.g. boost) is involved. Furthermore, as a library, it only contains the functions you need from a fuzzy logic controller.
+*`fuzzylite`* is a cross-platform, free open-source fuzzy logic control library written in C++. Its goal is to allow you to easily create fuzzy logic controllers in a few steps utilizing object-oriented programming without requiring any third-party libraries. 
 
-*`qtfuzzylite`* is a Graphic User Interface that uses *`fuzzylite`* to provide a nice and easy way to visually create your fuzzy logic controllers. It is cross-platform, free and open source too, and it is based on the Qt framework. It allows you to design your fuzzy logic controller and interactively play with it while observing its operation in real-time. Furthermore, it allows you to export your controller to actual *`fuzzylite`* C++ code, so you only need to copy and paste it into your C++ application and _voilà_!
+*`qtfuzzylite`* is a cross-platform, free open-source Qt-based Graphic User Interface for *`fuzzylite`*. Its goal is to allow you to visually design your *`fuzzylite`* controllers and  interact with them in real time. 
 
 If you are going to cite this library in your article, please do so as:
 
@@ -48,8 +48,6 @@ year={2013}
 }</code>
 
 
-Additionally, check the list of *[#Applications Applications]* and *[#Publications Publications]* using *`fuzzylite`*
-
 
 = License =
 *`fuzzylite`* is licensed under the [http://www.apache.org/licenses/LICENSE-2.0.html Apache License 2.0]
@@ -57,21 +55,26 @@ Additionally, check the list of *[#Applications Applications]* and *[#Publicatio
 *`qtfuzzylite`* is licensed under the [http://www.gnu.org/licenses/gpl.html GNU General Public License 3.0]
 
 = Features =
-  * Linguistic terms: triangle, trapezoid, rectangle, discrete, gaussian, gaussian product, bell, pi-shape, sigmoid difference, sigmoid product, ramp, sigmoid, s-shape, z-shape, and you can create more
-  * T-norms and activation operators: minimum, algebraic product, bounded difference, drastic product, einstein product, hamacher product, and you can create more
-  * S-norms and accumulation operators: maximum, algebraic sum, bounded sum, normalized sum, drastic sum, einstein sum, hamacher sum, and you can create more
-  * Defuzzifiers: centroid, smallest of maximum, largest of maximum, mean of maximum, and you can create more
-  * Hedges: any, not, extremely, seldom, somewhat, very, and you can create more.
-  * Extend every component of *`fuzzylite`* and use it seamlessly thanks to the neat object-oriented approach 
+  * Controllers: Mamdani and Takagi-Sugeno 
+  * Linguistic terms: triangle, trapezoid, rectangle, discrete, gaussian, gaussian product, bell, pi-shape, sigmoid difference, sigmoid product, ramp, sigmoid, s-shape, z-shape, constant, linear, function
+  * T-norms and activation operators: minimum, algebraic product, bounded difference, drastic product, einstein product, hamacher product
+  * S-norms and accumulation operators: maximum, algebraic sum, bounded sum, normalized sum, drastic sum, einstein sum, hamacher sum
+  * Defuzzifiers: centroid, bisector, smallest of maximum, largest of maximum, mean of maximum
+  * Hedges: any, not, extremely, seldom, somewhat, very
+  
+  Additionally, you can:
+  
+  * Extend every component of *`fuzzylite`*, create new ones, and easily incorporate them in your engine
   * Import your fuzzy engines from Octave or Matlab using the `fis` format
   * Export your *`fuzzylite`* engines to the `.fis` format and use them in Octave or Matlab
-  * Import and export using the Fuzzy Controller Language (FCL) specification
-  * Use multiple ruleblocks within an engine, each containing any number of (possibly weighted) rules, and different T-norms, S-norms, and activation operators
-  * Write Mamdani rules just naturally e.g. "`if Ambient is DARK then Power is HIGH`"
-  * Return a default value or the last known valid one in output variables when no rules are activated
-  * Play with over a dozen of examples from Octave, Matlab, and ours included in `fcl` and `fis` format, and also in *`fuzzylite`* C++
-  * Easily build from sources using the CMake scripts to build *`fuzzylite`* and *`qtfuzzylite`*  in Linux, Mac, and Windows (natively using MSVC)
-  * Download the binaries in the [http://http://code.google.com/p/fuzzylite/downloads/ Downloads] page for the following platforms: Ubuntu, Mac OSX and Windows
+  * Import and export any engine using the Fuzzy Controller Language (FCL) specification
+  * Utilize multiple ruleblocks within a single engine, each containing any number of (possibly weighted) rules, and different T-norms, S-norms, and activation operators
+  * Write Mamdani and Takagi-Sugeno rules just naturally e.g. "`if Ambient is DARK then Power is HIGH`"
+  * Return a default output value, lock the last valid output value when no rules are activated, and lock the output values to be within specific ranges
+  * Play with 30 examples of Mamdani and Takagi-Sugeno controllers from Octave, Matlab, and *`fuzzylite`* each included in `fis`, `fcl`, and *`fuzzylite`* C++
+  * Create the surface of any controller in 2D and draw its contours
+  * Easily build *`fuzzylite`* and *`qtfuzzylite`* from source in Linux, Mac, and Windows (natively using MSVC) using CMake scripts 
+  * Download the binaries in the [http://http://code.google.com/p/fuzzylite/downloads/ Downloads] page for the major platforms: Linux, Mac and Windows
 
 
 = Example =
@@ -81,30 +84,32 @@ fl::Engine* engine = new fl::Engine("simple-dimmer");
  fl::InputVariable* ambient = new fl::InputVariable;
 ambient->setName("Ambient");
 ambient->setRange(0.000, 1.000);
-
- ambient->addTerm(new fl::Triangle("DARK", 0.000, 0.250, 0.500));
-ambient->addTerm(new fl::Triangle("MEDIUM", 0.250, 0.500, 0.750));
-ambient->addTerm(new fl::Triangle("BRIGHT", 0.500, 0.750, 1.000));
+ambient->addTerm(new fl::Triangle("DARK", 0.000, 0.500));
+ambient->addTerm(new fl::Triangle("MEDIUM", 0.250, 0.750));
+ambient->addTerm(new fl::Triangle("BRIGHT", 0.500, 1.000));
 engine->addInputVariable(ambient);
 
  fl::OutputVariable* power = new fl::OutputVariable;
 power->setName("Power");
 power->setRange(0.000, 2.000);
-power->setDefaultValue(0.000);
-
- power->addTerm(new fl::Triangle("LOW", 0.000, 0.500, 1.000));
-power->addTerm(new fl::Triangle("MEDIUM", 0.500, 1.000, 1.500));
-power->addTerm(new fl::Triangle("HIGH", 1.000, 1.500, 2.000));
+power->setDefaultValue(fl::nan);
+power->addTerm(new fl::Triangle("LOW", 0.000, 1.000));
+power->addTerm(new fl::Triangle("MEDIUM", 0.500, 1.500));
+power->addTerm(new fl::Triangle("HIGH", 1.000, 2.000));
 engine->addOutputVariable(power);
 
  fl::RuleBlock* ruleblock = new fl::RuleBlock;
-ruleblock->addRule(fl::MamdaniRule::parse("if Ambient is DARK then Power is HIGH", engine));
-ruleblock->addRule(fl::MamdaniRule::parse("if Ambient is MEDIUM then Power is MEDIUM", engine));
-ruleblock->addRule(fl::MamdaniRule::parse("if Ambient is BRIGHT then Power is LOW", engine));
+ruleblock->addRule(fl::FuzzyRule::parse("if Ambient is DARK then Power is HIGH", engine));
+ruleblock->addRule(fl::FuzzyRule::parse("if Ambient is MEDIUM then Power is MEDIUM", engine));
+ruleblock->addRule(fl::FuzzyRule::parse("if Ambient is BRIGHT then Power is LOW", engine));
 engine->addRuleBlock(ruleblock);
 
  engine->configure("Minimum", "Maximum", "AlgebraicProduct", "AlgebraicSum", "Centroid");
  
+std::string status;
+if (not engine->isReady(&status)
+     throw fl::Exception("Engine not ready. "
+           "The following errors were encountered:\n" + status, FL_AT);
  
 fl::scalar range = ambient->getMaximum() - ambient->getMinimum();
 for (int i = 0 ; i < 50; ++i){
@@ -123,39 +128,32 @@ Watch a tutorial on *`qtfuzzylite`*:
 
 <wiki:video url="http://www.youtube.com/watch?v=YOKk8G_5aRA"/>
 
+= What's new? =
+== *`fuzzylite`* ==
+  * Takagi-Sugeno controller with Constant, Linear, and Function terms
+  * Over 20 Takagi-Sugeno examples from Matlab and Octave
+  * Function term allows you to create any function utilizing the inputs and outputs of your engine
+  * Bisector defuzzifier
+  * Unified rule parsing for Mamdani and Takagi-Sugeno via !FuzzyRule
+  * `Engine::isReady(std::string*)` checks for common mistakes setting up the engine
+  * Constants `fl::nan` and `fl::inf` to refer to not-a-number and infinity
+  * Bug fixes
+  
+== *`qtfuzzylite`* ==
+  * Remodeled to work as a Single Document Interface whereby engines are treated as documents in `fis` or `fcl` format
+  * New output view to observe the output of engines in time 
+  * 2D Surfaces (with contours) between the inputs and outputs
+  * Adjusted changes in *`fuzzylite`*
+  * Icons changed to the more stylish [https://code.google.com/p/faenza-icon-theme/ Faenza] icon theme
+   
 
 = What's next? =
-  * Takagi-Sugeno rules
-  * Documentation using Doxygen
-  * R Exporters to generate the surface of each output based on the inputs
-  * Develop the Adaptive Neuro-Fuzzy Inference System (ANFIS)
-  * Develop the fuzzy C-means data clustering
+  * Documentation
+  * Adaptive Neuro-Fuzzy Inference System (ANFIS)
+  * Fuzzy C-means data clustering
 
 = Known bugs =
-  * The membership function of Triangle returns 0 when a=b or when b=c. This can be fixed by changing line 49 of src/term/Triangle.cpp as:
-<code language="cpp">
-//from:
-//if (Op::isLE(x, minimum) or Op::isGE(x, maximum))
-//to:
-if (Op::isLt(x, minimum) or Op::isGt(x, maximum))</code>
-
-  * Similarly, the membership function of Trapezoid returns 0 when a=b or when c=d. This can be fixed by changing the method Trapezoid::membership(scalar) in src/term/Trapezoid.cpp to:
-<code language="cpp">
-scalar Trapezoid::membership(scalar x) const {
-    if (fl::Op::isNan(x)) return std::numeric_limits<scalar>::quiet_NaN();
-    scalar minimum = _a;
-    scalar maximum = _d;
-    if (Op::isLt(x, minimum) or Op::isGt(x, maximum))
-        return 0.0;
-    else if (Op::isLE(x, _b))
-        return (Op::isEq(_b, minimum)) ? 1.0 : (x - minimum) / (_b - minimum);
-    else if (Op::isLE(x, _c))
-        return 1.0;
-    else if (Op::isLE(x, maximum))
-        return (maximum - x) / (maximum - _c);
-    return 0.0;
-}</code>
-
+  No bugs have been reported
 
 
 = Building from source =
@@ -172,10 +170,10 @@ Building from source requires you to have CMake installed. Once installed, it is
   cmake .
   make
 
-  #if Linux:
-  sudo make install #optional
+  #in Linux (optional):
+  sudo make install
 
-  #if MacOSX, qtfuzzylite.app will be created for you</code>
+  #in MacOS, qtfuzzylite.app will be created for you</code>
 
   * In Windows:
 <code language="sh">
@@ -186,24 +184,32 @@ Building from source requires you to have CMake installed. Once installed, it is
   #from fuzzylite/qtfuzzylite:
   cmake . -G "NMake Makefiles"
   nmake</code>
+  
+The CMake scripts will create the following binaries:
 
-  The instructions above will produce the following files. `libfuzzylite.(so|dylib|dll)` which is the shared library. `libfuzzylite-static.(a|lib)` which is the static library to build stand-alone applications. `fuzzylite-demo(.exe)` an executable  of a simple console demo application using *`fuzzylite`* as a shared library. `qtfuzzylite(.app|.exe)` the graphic user interface using *`fuzzylite`* as a shared library.
-  The extensions of the output files depend on the platform. Specifically, `.so|.a` in Linux, `.dylib|.a` in Mac, `.dll|.lib` in Windows. Notice that, on Windows, the libraries must be placed manually in the same folder of the executable file. Also, the library `dbghelp` is used on Windows to retrieve the backtrace in case of errors, but such a library should be included by default in your Windows distribution.
+|| *Platform* || *Shared Library* || *Static Library* || *Console Demo* || *Application* ||
+|| Linux || `libfuzzylite.so` || `libfuzzylite-static.a` || `fuzzylite-bin` || `qtfuzzylite`||
+||MacOS || `libfuzzylite.dylib` || `libfuzzylite-static.a` || `fuzzylite-bin` || `qtfuzzylite.app`||
+|| Windows || `fuzzylite.dll` || `fuzzylite-static.lib` || `fuzzylite-bin.exe` || `qtfuzzylite.exe`||
 
-  Furthermore, the following additional building flags can be set upon executing `cmake`, either to build *`fuzzylite`* or *`qtfuzzylite`*, just remember to use the same flags in both.
+
+
+
+Furthermore, you can utilize the following options upon building: 
 
   * `-DFL_DEBUG=ON` will build in Debug mode which also prints more information to console (default is `OFF`)
   * `-DFL_USE_LOG=OFF` will not log information to console (default is `ON`)
   * `-DFL_USE_FLOAT=ON` the floating-point numbers are taken as `float` instead of `double` (default is `OFF`, i.e. `double` is used)
-  * `-DFL_PRECISION=x` defines `x` as the precision to which two floating-point numbers will be different (`x` defaults to `1e-5`)
-  * `-DFL_DECIMALS=y`  defines `y` as the number of decimals to use when printing floating-point numbers to console and files (`y` defaults to `3`)
+  * `-DFL_PRECISION=x` (only *`fuzzylite`*) defines `x` as the precision to which two floating-point numbers will be different (`x` defaults to `1e-5`)
+  * `-DFL_DECIMALS=y` (only *`fuzzylite`*) defines `y` as the number of decimals to use when printing floating-point numbers to console and files (`y` defaults to `3`)
+  * `-DFL_BACKTRACE=OFF` (only *`fuzzylite`*) disables the backtrace information in case of errors (default is ON). In Windows, the backtrace information requires the library `dbghelp` which should be available in your system
+  * `-DFL_USE_QT5=ON` (only *`qtfuzzylite`*) builds utilizing Qt5 libraries instead of Qt4 (default is OFF)
 
 = Acknowledgements =
-	This version was the product of using my free time to relax from my current PhD studies, for which I am earning less than minimum wage to support myself. Therefore, if you find this library useful and you do have the resources, please _seriously_ consider making a *donation* to support these projects. Thank you *very* much!
-
-	Very important has been the feedback I have had over the past years from the community. All the suggestions and critics have really helped me to identify problems and improve the library in general. Thank you *very* much to all of you for your great support.
-
-	Previous versions of this work were possible thanks to the Foundation for the Advancement of Soft Computing, to the Master of Soft Computing and Intelligent Data Analysis at the European Centre for Soft Computing, and especially to Sergio Guadarrama and Luis Magdalena for their support.
+	I want to thank all the *donors* whose generous contributions allowed me to upgrade the RAM of my laptop.
+	The *community* for its _very_ important feedback.
+	The *[http://softcomputing.es European Centre for Soft Computing]*, the Foundation for the Advancement of Soft Computing, and especially Sergio Guadarrama and Luis Magdalena for their support creating the early versions of *`fuzzylite`*.
+	Thank you all *very* much!
 
 
 = Screenshots =
@@ -212,13 +218,13 @@ Ubuntu
 
 http://fuzzylite.googlecode.com/git/webfuzzylite/ubuntu.png
 
-Mac OSX
+Mac OSX (coming soon)
 
 http://fuzzylite.googlecode.com/git/webfuzzylite/macosx.png
 
 Windows
 
-http://fuzzylite.googlecode.com/git/webfuzzylite/Windows.png
+http://fuzzylite.googlecode.com/git/webfuzzylite/win32.png
 
 
 = Applications =
@@ -228,7 +234,7 @@ http://fuzzylite.googlecode.com/git/webfuzzylite/Windows.png
   # *[http://www.fuzzylite.com qtfuzzylite]*: A Fuzzy Logic Control Application in C++
 
 
-If you want your application to appear in this list, please [mailto:jcrada@fuzzylite.com email] me the name of your application, URL, and a very brief summary (max. 20 words). If your application is not free, please make a donation.
+If you want your application to appear in this list, please [mailto:jcrada@fuzzylite.com email] me the name of your application, URL, and a very brief summary (max. 20 words)
 
 
 = Publications =
@@ -240,15 +246,12 @@ If you want your application to appear in this list, please [mailto:jcrada@fuzzy
 If you want your publication to appear in this list, please [mailto:jcrada@fuzzylite.com email] me your citation as "Authors. Publication title. Conference or Journal. Year. URL."
 
 
-
-
 = Donors =
 
 Please, let us all give a standing ovation to:
-
-  # *[http://www.internetone.it InternetONE.it]*
-  # *[http://www.xgen.com.br XGEN]*
-  # *[http://www.schneefernerhaus.de/ Zugspitze Measurement Station for Global Atmosphere Watch]*
+  # _Anonymous Donor_
+  # _Anonymous Donor_
   # *[http://beathespread.com Jean-Yves Torres]*
-
-If you wish to appear in this list, please make a donation :)
+  # *[http://www.schneefernerhaus.de/ Zugspitze Measurement Station for Global Atmosphere Watch]*
+  # *[http://www.xgen.com.br XGEN]*
+  # *[http://www.internetone.it InternetONE.it]*
