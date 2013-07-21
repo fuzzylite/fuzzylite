@@ -1709,7 +1709,7 @@ namespace fl {
             Window* w = mainWindow();
             w->setup();
             QApplication::processEvents();
-            sleep(2);
+            sleep(1);
             w->show();
             splash.finish(w);
             w->onMenuAbout();
