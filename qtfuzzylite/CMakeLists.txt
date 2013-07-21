@@ -21,6 +21,7 @@ if (APPLE)
 endif()
 
 
+set(FLQT_DATE "1307")
 add_definitions(-DFLQT_DATE="1307")
 
 set(FLQT_VERSION 3.0)
