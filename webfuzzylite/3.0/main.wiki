@@ -1,5 +1,5 @@
 #summary A Fuzzy Logic Control Library and Application in C++
-Wiki last updated: 18/June/2013
+Page last updated: 21/July/2013
 
 == Donations ==
 Please, consider making a *donation* to support these projects.
@@ -15,12 +15,12 @@ There are still _many_ things to do!
 
 === News ===
 
-===21/07/2013 *`fuzzylite`* 3.0 released!===<br>
+21/07/2013 *`fuzzylite`* 3.0 released!<br>
 30/05/2013: Join the *`fuzzylite`* [http://groups.google.com/group/fuzzylite community] to receive news and updates
 
 == Current Version: 3.0 (July/2013) ==
 
-I have developed for *`fuzzylite`* and *`qtfuzzylite`* an important set of new features that I hope you will like and find very useful to your needs. 
+I have developed an important set of new features for *`fuzzylite`* and *`qtfuzzylite`* that I hope you will like and find very useful to your needs. 
 
 Sincerely yours,
 
@@ -139,7 +139,7 @@ Watch a tutorial on *`qtfuzzylite`*:
   * Bug fixes
   
 == *`qtfuzzylite`* ==
-  * Remodeled to work as a Single Document Interface whereby engines are treated as documents
+  * Remodeled to work as a Single Document Interface whereby engines are treated as documents in `fis` or `fcl` format
   * New output view to observe the output of engines in time 
   * 2D Surfaces (with [http://qwt.sf.net contours]) between the inputs and outputs
   * Reflect changes in *`fuzzylite`*
@@ -223,7 +223,7 @@ http://fuzzylite.googlecode.com/git/webfuzzylite/3.0/macosx.png
 
 Windows
 
-http://fuzzylite.googlecode.com/git/webfuzzylite/3.0/Windows.png
+http://fuzzylite.googlecode.com/git/webfuzzylite/3.0/win32.png
 
 
 = Applications =
