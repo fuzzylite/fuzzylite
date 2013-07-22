@@ -658,9 +658,8 @@ namespace fl {
             Engine* engine = Model::Default()->engine();
             for (int i = 0; i < ui->lvw_inputs->count(); ++i) {
                 if (ui->lvw_inputs->item(i)->isSelected()) {
-                    message << "<" << engine->getInputVariable(i)->getName() << ">: "
-                            << engine->getInputVariable(i)->toString();
-                    if (i < ui->lvw_inputs->selectedItems().size() - 1) message << "\n\n";
+                    message << "- " << engine->getInputVariable(i)->toString();
+                    if (i + 1 < ui->lvw_inputs->selectedItems().size()) message << "\n\n";
                 }
             }
 
@@ -695,9 +694,8 @@ namespace fl {
                 message << "Do you want to edit the following input variables?\n\n";
                 for (int i = 0; i < ui->lvw_inputs->count(); ++i) {
                     if (ui->lvw_inputs->item(i)->isSelected()) {
-                        message << "<" << engine->getInputVariable(i)->getName() << ">: "
-                                << engine->getInputVariable(i)->toString();
-                        if (i < ui->lvw_inputs->selectedItems().size() - 1) message << "\n\n";
+                        message << "- " << engine->getInputVariable(i)->toString();
+                        if (i + 1 < ui->lvw_inputs->selectedItems().size()) message << "\n\n";
                     }
                 }
                 QMessageBox::StandardButton clicked = QMessageBox::information(this,
@@ -766,9 +764,8 @@ namespace fl {
             Engine* engine = Model::Default()->engine();
             for (int i = 0; i < ui->lvw_outputs->count(); ++i) {
                 if (ui->lvw_outputs->item(i)->isSelected()) {
-                    message << "<" << engine->getOutputVariable(i)->getName() << ">: "
-                            << engine->getOutputVariable(i)->toString();
-                    if (i < ui->lvw_outputs->selectedItems().size() - 1) message << "\n\n";
+                    message << "- " << engine->getOutputVariable(i)->toString();
+                    if (i+1 < ui->lvw_outputs->selectedItems().size()) message << "\n\n";
                 }
             }
 
@@ -801,9 +798,8 @@ namespace fl {
                 message << "Do you want to edit the following output variables?\n\n";
                 for (int i = 0; i < ui->lvw_outputs->count(); ++i) {
                     if (ui->lvw_outputs->item(i)->isSelected()) {
-                        message << "<" << engine->getOutputVariable(i)->getName() << ">: "
-                                << engine->getOutputVariable(i)->toString();
-                        if (i < ui->lvw_outputs->selectedItems().size() - 1) message << "\n\n";
+                        message << "- " << engine->getOutputVariable(i)->toString();
+                        if (i+1 < ui->lvw_outputs->selectedItems().size()) message << "\n\n";
                     }
                 }
                 QMessageBox::StandardButton clicked = QMessageBox::information(this,
@@ -1141,7 +1137,7 @@ namespace fl {
                 QString name = QFileInfo(_currentFile).fileName();
                 if (name.isEmpty()) name = "untitled";
                 QMessageBox::StandardButton clicked =
-                        QMessageBox::critical(this, "New engine",
+                        QMessageBox::warning(this, "New engine",
                         "Any unsaved changes to "
                         "\"" + name + "\""
                         " will be lost.<br><br>"
@@ -1701,12 +1697,11 @@ namespace fl {
             return x.toHtmlEscaped();
 #endif
         }
-        
 
         void Window::main(int argc, char** argv) {
             QPixmap pixmap(":/qtfuzzylite.png");
             QSplashScreen splash(pixmap);
-			splash.setWindowFlags(splash.windowFlags() |  Qt::WindowStaysOnTopHint);
+            splash.setWindowFlags(splash.windowFlags() | Qt::WindowStaysOnTopHint);
             splash.setEnabled(false);
             splash.show();
 
@@ -1717,12 +1712,12 @@ namespace fl {
             sleep(1);
 #elif defined FL_WINDOWS
             Sleep(1000);
-			FL_LOG("Slept 1");
+            FL_LOG("Slept 1");
 #endif
             w->show();
             splash.finish(w);
             w->onMenuAbout();
-            
+
             //            w->showMinimized();
             //            splash.finish(w);
             //            w->onMenuAbout();

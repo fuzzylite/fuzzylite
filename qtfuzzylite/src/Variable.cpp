@@ -240,7 +240,7 @@ namespace fl {
                 outputVariable->output()->setAccumulation(accumulation);
                 Defuzzifier* defuzzifier = NULL;
                 if (ui->cbx_defuzzifier->currentIndex() >= 0) {
-                    defuzzifier= Factory::instance()->defuzzifier()->create(
+                    defuzzifier = Factory::instance()->defuzzifier()->create(
                             ui->cbx_defuzzifier->currentText().toStdString(),
                             ui->sbx_accuracy->value());
                 }
@@ -298,9 +298,9 @@ namespace fl {
 
             for (int i = 0; i < ui->lvw_terms->count(); ++i) {
                 if (ui->lvw_terms->item(i)->isSelected()) {
-                    message << "<" << variable->getTerm(i)->getName() << ">: "
+                    message << "- " << variable->getTerm(i)->getName() << ": "
                             << variable->getTerm(i)->toString();
-                    if (i < ui->lvw_terms->selectedItems().size() - 1) message << "\n\n";
+                    if (i + 1 < ui->lvw_terms->selectedItems().size()) message << "\n\n";
                 }
             }
 
@@ -324,9 +324,9 @@ namespace fl {
                 message << "Do you want to edit the following terms?\n\n";
                 for (int i = 0; i < ui->lvw_terms->count(); ++i) {
                     if (ui->lvw_terms->item(i)->isSelected()) {
-                        message << "<" << variable->getTerm(i)->getName() << ">: "
+                        message << "- " << variable->getTerm(i)->getName() << ": "
                                 << variable->getTerm(i)->toString();
-                        if (i < ui->lvw_terms->selectedItems().size() - 1) message << "\n\n";
+                        if (i + 1 < ui->lvw_terms->selectedItems().size()) message << "\n\n";
                     }
                 }
                 QMessageBox::StandardButton clicked = QMessageBox::information(this,

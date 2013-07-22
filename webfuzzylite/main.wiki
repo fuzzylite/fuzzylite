@@ -107,7 +107,7 @@ engine->addRuleBlock(ruleblock);
  engine->configure("Minimum", "Maximum", "AlgebraicProduct", "AlgebraicSum", "Centroid");
  
 std::string status;
-if (not engine->isReady(&status)
+if (not engine->isReady(&status))
      throw fl::Exception("Engine not ready. "
            "The following errors were encountered:\n" + status, FL_AT);
  

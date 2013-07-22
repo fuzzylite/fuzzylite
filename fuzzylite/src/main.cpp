@@ -424,8 +424,8 @@ int main(int argc, char** argv) {
 #endif
     
     try {
-//        exportAllExamples("fis", "fcl");
-//        return 0;
+        exportAllExamples("fis", "fcl");
+        return 0;
         examples();
     } catch (fl::Exception& e) {
         FL_LOG(e.what());
