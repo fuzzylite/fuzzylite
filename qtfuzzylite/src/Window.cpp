@@ -154,11 +154,6 @@ namespace fl {
             setUnifiedTitleAndToolBarOnMac(true);
             setContextMenuPolicy(Qt::NoContextMenu);
 
-#ifdef Q_OS_MAC
-            ui->menuBar->addAction("About qtfuzzylite", this, SLOT(onMenuAbout()));
-            ui->menuTools->addSeparator();
-            //            ui->menuTools->addAction("Preferences...", this, SLOT(onMenuSettings()));
-#endif
             QMenu* menuFile = new QMenu("&File", this);
 
             menuFile->addAction(ui->actionNew);
@@ -234,10 +229,10 @@ namespace fl {
             QObject::connect(ui->actionJoinTheCommunity, SIGNAL(triggered()), this, SLOT(onMenuJoinTheCommunity()));
 
             menuHelp->addSeparator();
-#ifndef Q_OS_MAC
+
             menuHelp->addAction(ui->actionAbout);
             QObject::connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(onMenuAbout()));
-#endif
+
             menuHelp->addAction(ui->actionAboutQt);
             QObject::connect(ui->actionAboutQt, SIGNAL(triggered()), this, SLOT(onMenuAboutQt()));
 
