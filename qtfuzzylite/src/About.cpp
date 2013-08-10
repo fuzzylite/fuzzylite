@@ -39,9 +39,12 @@ namespace fl {
 
         About::About(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::About) {
-            setWindowFlags(Qt::WindowSystemMenuHint
+                setWindowFlags(Qt::Dialog
+                    | Qt::WindowSystemMenuHint
                     | Qt::WindowCloseButtonHint
-                    | Qt::WindowStaysOnTopHint);
+                    | Qt::WindowStaysOnTopHint
+                    | Qt::CustomizeWindowHint
+                    );
         }
 
         About::~About() {
@@ -90,7 +93,7 @@ namespace fl {
             ui->lbl_donate->setOpenExternalLinks(true);
 
             layout()->setSizeConstraint(QLayout::SetFixedSize);
-            setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            //setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             
             std::string header =
                     "<html>"
