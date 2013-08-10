@@ -49,7 +49,7 @@ namespace fl {
             if (not thresholded) {
                 std::ostringstream ss;
                 ss << "[defuzzification error]"
-                        << "expected a Weighted term instead of"
+                        << "expected a Thresholded term instead of"
                         << "<" << takagiSugeno->getTerm(i)->toString() << ">";
                 throw fl::Exception(ss.str(), FL_AT);
             }
