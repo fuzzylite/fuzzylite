@@ -8,3 +8,7 @@ Change spinbox minimum, maximum and step from QSettings
 Change graphicsview for qlabel
 
 Check for updates automatically
+
+Interface to change QSettings
+
+Show comments from files and View Source

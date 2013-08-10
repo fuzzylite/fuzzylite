@@ -228,9 +228,6 @@ Windows
 
 http://fuzzylite.googlecode.com/git/webfuzzylite/figure/win32.png
 
-2D Surface with Contours
-
-http://fuzzylite.googlecode.com/git/webfuzzylite/figure/contours.png
 
 = Applications =
 
