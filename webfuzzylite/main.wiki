@@ -1,5 +1,5 @@
 #summary A Fuzzy Logic Control Library and Application in C++
-Page last updated: 21/July/2013
+Page last updated: 08/August/2013
 
 == Donations ==
 Please, consider making a *donation* to support these projects.
@@ -149,6 +149,8 @@ Watch a tutorial on *`qtfuzzylite`*:
 
 = What's next? =
   * Documentation
+  * Tsukamoto Fuzzy Logic Controller
+  * Type-2 Fuzzy Logic Controllers
   * Adaptive Neuro-Fuzzy Inference System (ANFIS)
   * Fuzzy C-means data clustering
 
@@ -226,6 +228,9 @@ Windows
 
 http://fuzzylite.googlecode.com/git/webfuzzylite/figure/win32.png
 
+2D Surface with Contours
+
+http://fuzzylite.googlecode.com/git/webfuzzylite/figure/contours.png
 
 = Applications =
 
@@ -249,6 +254,8 @@ If you want your publication to appear in this list, please [mailto:jcrada@fuzzy
 = Donors =
 
 Please, let us all give a standing ovation to:
+  # *[http://www.linkedin.com/pub/flavio-massimo-saldicco/33/a07/615 Flavio Massimo Saldicco]*
+  # _Anonymous Donor_
   # _Anonymous Donor_
   # _Anonymous Donor_
   # *[http://beathespread.com Jean-Yves Torres]*
