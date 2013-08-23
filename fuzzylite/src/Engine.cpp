@@ -41,6 +41,11 @@
 #include "fl/defuzzifier/WeightedAverage.h"
 #include "fl/defuzzifier/WeightedSum.h"
 
+#include "fl/term/Constant.h"
+#include "fl/term/Linear.h"
+#include "fl/term/Function.h"
+
+
 namespace fl {
 
     Engine::Engine(const std::string& name) : _name(name) { }
@@ -117,13 +122,14 @@ namespace fl {
                 if (not defuzzifier) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no defuzzifier\n";
-                } else if (defuzzifier->className() != WeightedAverage().className()
-                        and defuzzifier->className() != WeightedSum().className()) {
+                } else if (not (defuzzifier->className() == WeightedAverage().className()
+                        or defuzzifier->className() == WeightedSum().className())) {
+                    
                     if (not outputVariable->output()->getAccumulation()) {
                         ss << "- Output variable <" << outputVariable->getName() << ">"
                                 << " has no accumulation S-Norm\n";
                     }
-                }
+                } 
             }
         }
 

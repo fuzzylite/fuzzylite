@@ -52,13 +52,13 @@ namespace fl {
             this->variable = const_cast<fl::Variable*> (model);
 
             _isTakagiSugeno = false;
-            for (int i = 0; i < variable->numberOfTerms(); ++i) {
-                if (variable->getTerm(i)->className() == Constant().className() or
-                        variable->getTerm(i)->className() == Linear().className()) {
-                    _isTakagiSugeno = true;
-                    break;
-                }
-            }
+//            for (int i = 0; i < variable->numberOfTerms(); ++i) {
+//                if (variable->getTerm(i)->className() == Constant().className() or
+//                        variable->getTerm(i)->className() == Linear().className()) {
+//                    _isTakagiSugeno = true;
+//                    break;
+//                }
+//            }
             ui->btn_name->setEnabled(true);
             QObject::connect(ui->btn_name, SIGNAL(clicked()),
                     this, SLOT(onClickVariableName()));
@@ -73,6 +73,13 @@ namespace fl {
 
                 _minOutput = variable->getMinimum();
                 _maxOutput = variable->getMaximum();
+                
+                OutputVariable* outputVariable = dynamic_cast<fl::OutputVariable*> (variable);
+                fl::Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
+                _isTakagiSugeno = defuzzifier and
+                        (defuzzifier->className() == WeightedAverage().className() or
+                        defuzzifier->className() == WeightedSum().className());
+                
             } else if (dynamic_cast<InputVariable*> (variable)) {
                 QObject::connect(this, SIGNAL(valueChanged(double)),
                         this, SLOT(updateInput(double)));
