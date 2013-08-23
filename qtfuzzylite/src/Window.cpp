@@ -406,7 +406,9 @@ namespace fl {
             QVBoxLayout* layout = dynamic_cast<QVBoxLayout*> (ui->inputVariables->layout());
             for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
                 Control* control = new Control(ui->inputVariables);
-                control->setup(engine->getInputVariable(i));
+                InputVariable* inputVariable = engine->getInputVariable(i);
+                inputVariable->setInput(inputVariable->getMinimum());
+                control->setup(inputVariable);
                 control->ui->bottom_line->setVisible(i != engine->numberOfInputVariables() - 1);
                 layout->addWidget(control);
 
@@ -450,6 +452,7 @@ namespace fl {
                 ui->lsw_test_rules_activation->addItem(item);
             }
             ui->inputVariables->adjustSize();
+//            onInputValueChanged();
         }
 
         void Window::removeRules() {

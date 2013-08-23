@@ -1,5 +1,5 @@
 #summary A Fuzzy Logic Control Library and Application in C++
-Page last updated: 08/August/2013
+Page last updated: 15/August/2013
 
 == Donations ==
 Please, consider making a *donation* to support these projects.
@@ -15,6 +15,7 @@ There are still _many_ things to do!
 
 === News ===
 
+15/08/2013: *`fuzzylite`* paper/presentation/documentation to appear at the *[http://osdc.org.nz/conference-schedule/wednesday-23rd-october/ Open Source Developers Conference]*<br>
 21/07/2013: *`fuzzylite`* 3.0 released!<br>
 21/07/2013: *`fuzzylite`* statistics in [http://www.ohloh.net/p/fuzzylite ohloh]<br>
 30/05/2013: Join the *`fuzzylite`* [http://groups.google.com/group/fuzzylite community] to receive news and updates
