@@ -52,7 +52,15 @@ namespace fl {
                 throw fl::Exception(ss.str(), FL_AT);
             }
 
+            /**z is tsukamoto, and when it is takagi, it will not matter as it will be a function
+            previously, takagi-sugeno was:
             sum += thresholded->getThreshold() * thresholded->getTerm()->membership(0);
+            so replacing 0 with threshold w will give the same for takagi-sugeno, 
+            plus provide tsukamoto**/
+            
+            scalar z = thresholded->getTerm()->membership(thresholded->getThreshold());
+            
+            sum += thresholded->getThreshold() * z;
         }
 
         return sum;
