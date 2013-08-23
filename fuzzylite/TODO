@@ -2,3 +2,4 @@ on windows, hyperbolic functions in infix and log1p
 pyfuzzylite exporter
 
 
+Remove insert/add"Element" from Engine, and change for simple insert/add polymorphic.

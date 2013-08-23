@@ -29,6 +29,9 @@ namespace fl {
 
     class FL_EXPORT SNorm : public Norm {
         //Dummy class FL_EXPORT
+    public:
+        SNorm(){}
+        virtual ~SNorm(){}
     };
 
     class FL_EXPORT Maximum : public SNorm {

@@ -77,12 +77,14 @@ namespace fl {
             ui->gbx_output->setVisible(type == OUTPUT_VARIABLE);
 
             std::vector<std::string> accumulation = Factory::instance()->snorm()->available();
+            ui->cbx_accumulation->addItem("");
             for (std::size_t i = 0; i < accumulation.size(); ++i) {
                 ui->cbx_accumulation->addItem(QString::fromStdString(
                         accumulation.at(i)));
             }
 
             std::vector<std::string> defuzzifiers = Factory::instance()->defuzzifier()->available();
+            ui->cbx_defuzzifier->addItem("");
             for (std::size_t i = 0; i < defuzzifiers.size(); ++i) {
                 ui->cbx_defuzzifier->addItem(QString::fromStdString(
                         defuzzifiers.at(i)));
@@ -386,13 +388,13 @@ namespace fl {
             if (defuzzifier == fl::WeightedAverage().className() or
                     defuzzifier == fl::WeightedSum().className()) {
                 ui->sbx_accuracy->setEnabled(false);
-                ui->cbx_accumulation->setEnabled(false);
-                fl::OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (variable);
-                outputVariable->output()->setAccumulation(NULL);
-                ui->cbx_accumulation->setCurrentIndex(-1);
+                //                ui->cbx_accumulation->setEnabled(false);
+                //                fl::OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (variable);
+                //                outputVariable->output()->setAccumulation(NULL);
+                //                ui->cbx_accumulation->setCurrentIndex(-1);
             } else {
                 ui->sbx_accuracy->setEnabled(true);
-                ui->cbx_accumulation->setEnabled(true);
+                //                ui->cbx_accumulation->setEnabled(true);
             }
         }
 

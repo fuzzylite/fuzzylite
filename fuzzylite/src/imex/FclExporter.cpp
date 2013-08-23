@@ -86,22 +86,23 @@ namespace fl {
             fcl << "METHOD : " << toFcl(outputVariable->getDefuzzifier()) << ";"
                     << "\n";
 
-            fcl << "ACCU : " << toFcl(outputVariable->output()->getAccumulation())
-                    << ";\n";
+            if (outputVariable->output()->getAccumulation())
+                fcl << "ACCU : " << toFcl(outputVariable->output()->getAccumulation())
+                << ";\n";
 
             fcl << "DEFAULT := " << fl::Op::str(outputVariable->getDefaultValue());
             if (outputVariable->isLockingValidOutput()) {
                 fcl << " | NC";
             }
             fcl << ";\n";
-            
+
             if (outputVariable->isLockingValidOutput() or outputVariable->isLockingOutputRange()) {
                 fcl << "LOCK : ";
                 std::string lock;
-                if (outputVariable->isLockingValidOutput()){
+                if (outputVariable->isLockingValidOutput()) {
                     lock = "VALID";
                 }
-                if (outputVariable->isLockingOutputRange()){
+                if (outputVariable->isLockingOutputRange()) {
                     if (not lock.empty()) lock += " | ";
                     lock += "RANGE";
                 }
@@ -116,9 +117,12 @@ namespace fl {
             RuleBlock* ruleblock = engine->getRuleBlock(i);
             fcl << "RULEBLOCK " << ruleblock->getName() << "\n";
 
-            fcl << "AND : " << toFcl(ruleblock->getTnorm()) << ";\n";
-            fcl << "OR : " << toFcl(ruleblock->getSnorm()) << ";\n";
-            fcl << "ACT : " << toFcl(ruleblock->getActivation()) << ";\n";
+            if (ruleblock->getTnorm())
+                fcl << "AND : " << toFcl(ruleblock->getTnorm()) << ";\n";
+            if (ruleblock->getSnorm())
+                fcl << "OR : " << toFcl(ruleblock->getSnorm()) << ";\n";
+            if (ruleblock->getActivation())
+                fcl << "ACT : " << toFcl(ruleblock->getActivation()) << ";\n";
 
             fcl << "\n";
 
@@ -189,7 +193,7 @@ namespace fl {
             ss << constant->getValue();
             return ss.str();
         }
-        
+
         return term->toString();
     }
 

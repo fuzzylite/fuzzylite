@@ -285,7 +285,7 @@ namespace fl {
 
     std::string Function::toPostfix(const std::string& rawInfix) const throw (fl::Exception) {
         std::string infix = space(rawInfix);
-        FL_DBG("infix=" << infix);
+//        FL_DBG("infix=" << infix);
 
         std::queue<std::string> queue;
         std::stack<std::string> stack;
@@ -369,7 +369,7 @@ namespace fl {
             queue.pop();
             if (not queue.empty()) ssPostfix << " ";
         }
-        FL_DBG("postfix=" << ssPostfix.str());
+//        FL_DBG("postfix=" << ssPostfix.str());
         return ssPostfix.str();
     }
 

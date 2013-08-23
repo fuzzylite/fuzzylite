@@ -47,7 +47,7 @@ namespace fl {
     typedef double scalar;
 #endif
 
-	static const scalar nan = std::numeric_limits<scalar>::quiet_NaN();
+    static const scalar nan = std::numeric_limits<scalar>::quiet_NaN();
     static const scalar inf = std::numeric_limits<scalar>::infinity();
 }
 

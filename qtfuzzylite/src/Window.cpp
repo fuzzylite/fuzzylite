@@ -104,12 +104,15 @@ namespace fl {
             ui->spl_control_rule_strength->setSizes(sizes);
 
             std::vector<std::string> tnorms = Factory::instance()->tnorm()->available();
+            ui->cbxTnorm->addItem("");
+            ui->cbxActivation->addItem("");
             for (std::size_t i = 0; i < tnorms.size(); ++i) {
                 ui->cbxTnorm->addItem(QString::fromStdString(tnorms.at(i)));
                 ui->cbxActivation->addItem(QString::fromStdString(tnorms.at(i)));
             }
 
             std::vector<std::string> snorms = Factory::instance()->snorm()->available();
+            ui->cbxSnorm->addItem("");
             for (std::size_t i = 0; i < snorms.size(); ++i) {
                 ui->cbxSnorm->addItem(QString::fromStdString(snorms.at(i)));
             }
@@ -345,19 +348,19 @@ namespace fl {
                 ui->cbxTnorm->setCurrentIndex(
                         ui->cbxTnorm->findText(QString::fromStdString(
                         ruleblock->getTnorm()->className())));
-            } else ui->cbxTnorm->setCurrentIndex(-1);
+            } else ui->cbxTnorm->setCurrentIndex(0);
 
             if (ruleblock->getSnorm()) {
                 ui->cbxSnorm->setCurrentIndex(
                         ui->cbxSnorm->findText(QString::fromStdString(
                         ruleblock->getSnorm()->className())));
-            } else ui->cbxSnorm->setCurrentIndex(-1);
+            } else ui->cbxSnorm->setCurrentIndex(0);
 
             if (ruleblock->getActivation()) {
                 ui->cbxActivation->setCurrentIndex(
                         ui->cbxActivation->findText(QString::fromStdString(
                         ruleblock->getActivation()->className())));
-            } else ui->cbxActivation->setCurrentIndex(-1);
+            } else ui->cbxActivation->setCurrentIndex(0);
 
             reloadTest();
         }
@@ -452,7 +455,6 @@ namespace fl {
                 ui->lsw_test_rules_activation->addItem(item);
             }
             ui->inputVariables->adjustSize();
-//            onInputValueChanged();
         }
 
         void Window::removeRules() {
@@ -474,7 +476,6 @@ namespace fl {
 
         void Window::fixVariableDependencies() {
             Engine* engine = Model::Default()->engine();
-            std::ostringstream warnings;
             std::vector<fl::Variable*> variables;
             for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
                 variables.push_back(engine->getInputVariable(i));
@@ -483,7 +484,6 @@ namespace fl {
                 variables.push_back(engine->getOutputVariable(i));
             }
 
-            std::vector<fl::Term*> references;
             QString updatedReferences, errorMessages;
             for (std::size_t i = 0; i < variables.size(); ++i) {
                 fl::Variable* variable = variables.at(i);
@@ -500,8 +500,8 @@ namespace fl {
                         }
                         linear->inputVariables = std::vector<const InputVariable*>
                                 (engine->inputVariables().begin(),
-                                engine->inputVariables().end())
-                                ;
+                                engine->inputVariables().end());
+
                     } else if (term->className() == Function().className()) {
                         Function* function = dynamic_cast<Function*> (term);
                         try {
@@ -585,6 +585,18 @@ namespace fl {
         }
 
         void Window::onInputValueChanged() {
+            Engine* engine = Model::Default()->engine();
+
+            std::string status;
+            if (not engine->isReady(&status)) {
+                QMessageBox::critical(this, "Engine not ready",
+                        "<qt>The following errors were encountered:<br><br>" +
+                        toHtmlEscaped(QString::fromStdString(status)).replace("\n", "<br>")
+                        + "</qt>");
+
+                return;
+            }
+
             QColor from_color(Qt::white);
             QColor to_color(0, 200, 0);
             fl::RuleBlock* ruleblock = Model::Default()->engine()->getRuleBlock(0);
@@ -604,17 +616,6 @@ namespace fl {
                 }
             }
 
-            Engine* engine = Model::Default()->engine();
-
-            std::string status;
-            if (not engine->isReady(&status)) {
-                QMessageBox::critical(this, "Engine not ready",
-                        "<qt>The following errors were encountered:<br><br>" +
-                        toHtmlEscaped(QString::fromStdString(status)).replace("\n", "<br>")
-                        + "</qt>");
-
-                return;
-            }
             engine->process();
             emit(processOutput());
         }
@@ -715,6 +716,7 @@ namespace fl {
                         engine->insertInputVariable(
                                 dynamic_cast<InputVariable*> (window->variable), i);
                     }
+                    delete window;
                 }
             }
             fixVariableDependencies();
@@ -763,7 +765,7 @@ namespace fl {
             for (int i = 0; i < ui->lvw_outputs->count(); ++i) {
                 if (ui->lvw_outputs->item(i)->isSelected()) {
                     message << "- " << engine->getOutputVariable(i)->toString();
-                    if (i+1 < ui->lvw_outputs->selectedItems().size()) message << "\n\n";
+                    if (i + 1 < ui->lvw_outputs->selectedItems().size()) message << "\n\n";
                 }
             }
 
@@ -797,7 +799,7 @@ namespace fl {
                 for (int i = 0; i < ui->lvw_outputs->count(); ++i) {
                     if (ui->lvw_outputs->item(i)->isSelected()) {
                         message << "- " << engine->getOutputVariable(i)->toString();
-                        if (i+1 < ui->lvw_outputs->selectedItems().size()) message << "\n\n";
+                        if (i + 1 < ui->lvw_outputs->selectedItems().size()) message << "\n\n";
                     }
                 }
                 QMessageBox::StandardButton clicked = QMessageBox::information(this,
@@ -820,6 +822,7 @@ namespace fl {
                                 dynamic_cast<OutputVariable*> (window->variable),
                                 i);
                     }
+                    delete window;
                 }
             }
             fixVariableDependencies();

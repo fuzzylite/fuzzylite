@@ -23,7 +23,6 @@
 #include "fl/fuzzylite.h"
 
 namespace fl {
-     
 
     std::string fuzzylite::name() {
         return "fuzzylite";
@@ -67,7 +66,7 @@ namespace fl {
 
     std::string fuzzylite::floatingPoint() {
         scalar someScalar = 0;
-		(void) someScalar;
+        (void) someScalar;
         std::string type;
 
         std::ostringstream ss;

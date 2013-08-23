@@ -28,7 +28,9 @@
 namespace fl {
 
     class FL_EXPORT TNorm : public Norm {
-        //dummy class
+    public:
+        TNorm(){}
+        virtual ~TNorm(){}
     };
 
     class FL_EXPORT Minimum : public TNorm {
