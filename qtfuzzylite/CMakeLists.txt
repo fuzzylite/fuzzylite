@@ -21,10 +21,10 @@ if (APPLE)
 endif()
 
 
-set(FLQT_DATE "1307")
-add_definitions(-DFLQT_DATE="1307")
+set(FLQT_DATE "1308")
+add_definitions(-DFLQT_DATE="1308")
 
-set(FLQT_VERSION 3.0)
+set(FLQT_VERSION 3.1)
 add_definitions(-DFLQT_VERSION="${FLQT_VERSION}")
 
 set(FLQT_LONG_VERSION "${FLQT_VERSION}b${FLQT_DATE}")
