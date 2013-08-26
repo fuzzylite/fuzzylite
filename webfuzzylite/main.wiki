@@ -15,6 +15,7 @@ There are still _many_ things to do!
 
 === News ===
 
+25/08/2013: follow *`fuzzylite`* on Twitter [https://twitter.com/fuzzylite @fuzzylite]<br>
 15/08/2013: *`fuzzylite`* paper/presentation/documentation to appear at the *[http://osdc.org.nz/conference-schedule/wednesday-23rd-october/ Open Source Developers Conference]*<br>
 21/07/2013: *`fuzzylite`* 3.0 released!<br>
 21/07/2013: *`fuzzylite`* statistics in [http://www.ohloh.net/p/fuzzylite ohloh]<br>

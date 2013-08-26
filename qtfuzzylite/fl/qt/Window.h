@@ -115,6 +115,7 @@ namespace fl {
 
             void onMenuAskForHelp();
             void onMenuJoinTheCommunity();
+            void onMenuFollowOnTwitter();
 
             void onMenuQuit();
 

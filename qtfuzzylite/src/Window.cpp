@@ -230,6 +230,9 @@ namespace fl {
 
             menuHelp->addAction(ui->actionJoinTheCommunity);
             QObject::connect(ui->actionJoinTheCommunity, SIGNAL(triggered()), this, SLOT(onMenuJoinTheCommunity()));
+            
+            menuHelp->addAction(ui->actionFollowOnTwitter);
+            QObject::connect(ui->actionFollowOnTwitter, SIGNAL(triggered()), this, SLOT(onMenuFollowOnTwitter()));
 
             menuHelp->addSeparator();
 
@@ -1644,6 +1647,18 @@ namespace fl {
                     QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
             if (result == QMessageBox::Yes)
                 QDesktopServices::openUrl(QUrl("http://www.fuzzylite.com/community"));
+        }
+        
+        void Window::onMenuFollowOnTwitter() {
+            QMessageBox::StandardButton result =
+                    QMessageBox::information(this, "Follow on Twitter",
+                    "Visit "
+                    "<a href='http://www.twitter.com/fuzzylite'>http://www.twitter.com/fuzzylite</a> "
+                    "to follow <b>@fuzzylite</b> for news and updates<br><br>"
+                    "Do you want to start following @fuzzylite now?",
+                    QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+            if (result == QMessageBox::Yes)
+                QDesktopServices::openUrl(QUrl("http://www.twitter.com/fuzzylite"));
         }
 
         void Window::onMenuQuit() {
