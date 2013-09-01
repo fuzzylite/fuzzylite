@@ -13,6 +13,3 @@ Interface to change QSettings
 
 Show comments from files and View Source
 
-Fix bug in qtfuzzylite. Editing twice an output variable of a TS engine deletes the last term within the variable.
-
-Change to 3 decimals
