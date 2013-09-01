@@ -14,20 +14,25 @@ There are still _many_ things to do!
 
 
 === News ===
+01/09/2013: *`fuzzylite`* 3.1 released!<br>
 30/08/2013: Follow *[http://twitter.com/fuzzylite @fuzzylite]* on Twitter for news and updates<br>
 15/08/2013: *`fuzzylite`* paper/presentation/documentation to appear at the *[http://osdc.org.nz/conference-schedule/wednesday-23rd-october/ Open Source Developers Conference]*<br>
 21/07/2013: *`fuzzylite`* 3.0 released!<br>
 21/07/2013: *`fuzzylite`* statistics in [http://www.ohloh.net/p/fuzzylite ohloh]<br>
 30/05/2013: Join the *`fuzzylite`* [http://groups.google.com/group/fuzzylite community] to receive news and updates
 
-== Current Version: 3.0 (July/2013) ==
+== Current Version: 3.1 (September/2013) ==
+
+I have included Tsukamoto controllers and fixed bugs in *`qtfuzzylite`* 
+
+=== Version: 3.0 (July/2013) ===
 
 I have developed an important set of new features for *`fuzzylite`* and *`qtfuzzylite`* that I hope you will like and find very useful to your needs. 
 
 Sincerely yours,
 
 *Juan Rada-Vilela*<br>
-[mailto:jcrada@fuzzylite.com jcrada@fuzzylite.com]<br>
+[mailto:jcrada@fuzzylite.com juan.rada-vilela@fuzzylite.com]<br>
 http://www.fuzzylite.com/jcrada  
 
 = Introduction =

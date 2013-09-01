@@ -39,7 +39,7 @@ namespace fl {
 
         About::About(QWidget* parent, Qt::WindowFlags f)
         : QDialog(parent, f), ui(new Ui::About) {
-                setWindowFlags(Qt::Dialog
+            setWindowFlags(Qt::Dialog
                     | Qt::WindowSystemMenuHint
                     | Qt::WindowCloseButtonHint
                     | Qt::WindowStaysOnTopHint
@@ -54,7 +54,7 @@ namespace fl {
 
         void About::setup() {
             ui->setupUi(this);
-            
+
             _donationTerm.push_back("low");
             _donationValue.push_back("$1");
             _donationTerm.push_back("Low");
@@ -94,7 +94,7 @@ namespace fl {
 
             layout()->setSizeConstraint(QLayout::SetFixedSize);
             //setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            
+
             std::string header =
                     "<html>"
                     "<div align='center'>"
@@ -125,7 +125,7 @@ namespace fl {
             ui->lbl_header->setText(QString::fromStdString(header));
             connect();
             ui->cbx_donation->setCurrentIndex((_donationTerm.size() - 1) / 2);
-            
+
             adjustSize();
             QRect scr = Window::mainWindow()->geometry();
             move(scr.center().x() - rect().center().x(), scr.top());

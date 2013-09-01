@@ -25,9 +25,9 @@ END_FUZZIFY
 
 DEFUZZIFY CheapTip
 RANGE := (5.000 .. 25.000);
-TERM Low := 10;
-TERM Medium := 15;
-TERM High := 20;
+TERM Low := 10.000;
+TERM Medium := 15.000;
+TERM High := 20.000;
 
 METHOD : COGS;
 ACCU : ASUM;
@@ -36,9 +36,9 @@ END_DEFUZZIFY
 
 DEFUZZIFY AverageTip
 RANGE := (5.000 .. 25.000);
-TERM Low := 10;
-TERM Medium := 15;
-TERM High := 20;
+TERM Low := 10.000;
+TERM Medium := 15.000;
+TERM High := 20.000;
 
 METHOD : COGS;
 ACCU : ASUM;
@@ -47,9 +47,9 @@ END_DEFUZZIFY
 
 DEFUZZIFY GenerousTip
 RANGE := (5.000 .. 25.000);
-TERM Low := 10;
-TERM Medium := 15;
-TERM High := 20;
+TERM Low := 10.000;
+TERM Medium := 15.000;
+TERM High := 20.000;
 
 METHOD : COGS;
 ACCU : ASUM;

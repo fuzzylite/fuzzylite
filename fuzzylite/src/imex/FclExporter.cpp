@@ -189,9 +189,7 @@ namespace fl {
 
         if (term->className() == Constant().className()) {
             const Constant* constant = dynamic_cast<const Constant*> (term);
-            std::ostringstream ss;
-            ss << constant->getValue();
-            return ss.str();
+            return fl::Op::str(constant->getValue());
         }
 
         return term->toString();

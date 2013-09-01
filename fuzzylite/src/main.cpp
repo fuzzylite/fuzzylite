@@ -269,6 +269,7 @@ void exportAllExamples(const std::string& from, const std::string& to) {
     examples.push_back("/mamdani/matlab/tipper1");
     examples.push_back("/mamdani/octave/investment_portfolio");
     examples.push_back("/mamdani/octave/mamdani_tip_calculator");
+    examples.push_back("/takagi-sugeno/SimpleDimmer");
     examples.push_back("/takagi-sugeno/matlab/fpeaks");
     examples.push_back("/takagi-sugeno/matlab/invkine1");
     examples.push_back("/takagi-sugeno/matlab/invkine2");
@@ -424,8 +425,8 @@ int main(int argc, char** argv) {
 #endif
     
     try {
-        exportAllExamples("fis", "fcl");
-        return 0;
+//        exportAllExamples("fis", "cpp");
+//        return 0;
         examples();
     } catch (fl::Exception& e) {
         FL_LOG(e.what());

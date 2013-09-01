@@ -32,7 +32,7 @@ outputVariable1->setRange(-5.000, 5.000);
 outputVariable1->setLockOutputRange(false);
 outputVariable1->setDefaultValue(fl::nan);
 outputVariable1->setLockValidOutput(false);
-outputVariable1->setDefuzzifier(new fl::Centroid(500));
+outputVariable1->setDefuzzifier(new fl::Centroid(200));
 outputVariable1->output()->setAccumulation(new fl::Maximum);
 
 outputVariable1->addTerm(new fl::Bell("negBig", -5.000, 1.670, 8.000));

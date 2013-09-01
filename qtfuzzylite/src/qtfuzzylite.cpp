@@ -16,7 +16,7 @@
 
     Juan Rada-Vilela, 01 February 2013
     jcrada@fuzzylite.com
-**/
+ **/
 
 /*
  * qtfuzzylite.h
@@ -75,7 +75,7 @@ namespace fl {
 
         std::string qtfuzzylite::floatingPoint() {
             scalar someScalar = 0;
-			(void) someScalar;
+            (void) someScalar;
             std::string type;
 
             std::ostringstream ss;
@@ -88,10 +88,10 @@ namespace fl {
                     sizeof (someScalar) << " bytes";
             return ss.str();
         }
-        
-        int qtfuzzylite::decimals(){
+
+        int qtfuzzylite::decimals() {
             QSettings settings;
-            int decimals = settings.value("view/numberOfDecimals", 2).toInt();
+            int decimals = settings.value("view/numberOfDecimals", 3).toInt();
             return qMax(1, decimals);
         }
 

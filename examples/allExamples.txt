@@ -9,6 +9,7 @@
 /home/jcrada/Development/fuzzylite/qtfuzzylite/examples/fis/mamdani/matlab/tipper1.fis
 /home/jcrada/Development/fuzzylite/qtfuzzylite/examples/fis/mamdani/octave/investment_portfolio.fis
 /home/jcrada/Development/fuzzylite/qtfuzzylite/examples/fis/mamdani/octave/mamdani_tip_calculator.fis
+/home/jcrada/Development/fuzzylite/qtfuzzylite/examples/fis/takagi-sugeno/SimpleDimmer.fis
 /home/jcrada/Development/fuzzylite/qtfuzzylite/examples/fis/takagi-sugeno/matlab/fpeaks.fis
 /home/jcrada/Development/fuzzylite/qtfuzzylite/examples/fis/takagi-sugeno/matlab/invkine1.fis
 /home/jcrada/Development/fuzzylite/qtfuzzylite/examples/fis/takagi-sugeno/matlab/invkine2.fis

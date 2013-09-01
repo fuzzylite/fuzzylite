@@ -25,11 +25,11 @@ END_FUZZIFY
 
 DEFUZZIFY valve
 RANGE := (-1.000 .. 1.000);
-TERM close_fast := -0.9;
-TERM close_slow := -0.5;
-TERM no_change := 0;
-TERM open_slow := 0.3;
-TERM open_fast := 0.9;
+TERM close_fast := -0.900;
+TERM close_slow := -0.500;
+TERM no_change := 0.000;
+TERM open_slow := 0.300;
+TERM open_fast := 0.900;
 
 METHOD : COGS;
 ACCU : MAX;

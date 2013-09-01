@@ -670,7 +670,8 @@ namespace fl {
             QMessageBox::StandardButton clicked = QMessageBox::warning(this,
                     QString::fromStdString(title),
                     QString::fromStdString(message.str()),
-                    QMessageBox::Yes | QMessageBox::No);
+                    QMessageBox::Yes | QMessageBox::No,
+                    QMessageBox::Yes);
             if (clicked == QMessageBox::Yes) {
                 for (int i = ui->lvw_inputs->count() - 1; i >= 0; --i) {
                     if (ui->lvw_inputs->item(i)->isSelected()) {
@@ -703,7 +704,8 @@ namespace fl {
                 QMessageBox::StandardButton clicked = QMessageBox::information(this,
                         "Edit multiple variables",
                         QString::fromStdString(message.str()),
-                        QMessageBox::Yes | QMessageBox::No);
+                        QMessageBox::Yes | QMessageBox::No,
+                        QMessageBox::Yes);
                 if (clicked == QMessageBox::No) {
                     return;
                 }
@@ -775,7 +777,8 @@ namespace fl {
             QMessageBox::StandardButton clicked = QMessageBox::warning(this,
                     QString::fromStdString(title),
                     QString::fromStdString(message.str()),
-                    QMessageBox::Yes | QMessageBox::No);
+                    QMessageBox::Yes | QMessageBox::No,
+                    QMessageBox::Yes);
             if (clicked == QMessageBox::Yes) {
                 for (int i = ui->lvw_outputs->count() - 1; i >= 0; --i) {
                     if (ui->lvw_outputs->item(i)->isSelected()) {
@@ -808,7 +811,8 @@ namespace fl {
                 QMessageBox::StandardButton clicked = QMessageBox::information(this,
                         "Edit multiple variables",
                         QString::fromStdString(message.str()),
-                        QMessageBox::Yes | QMessageBox::No);
+                        QMessageBox::Yes | QMessageBox::No,
+                        QMessageBox::Yes);
                 if (clicked == QMessageBox::No) {
                     return;
                 }

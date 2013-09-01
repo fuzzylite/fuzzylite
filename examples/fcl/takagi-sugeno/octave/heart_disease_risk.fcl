@@ -27,11 +27,11 @@ END_FUZZIFY
 
 DEFUZZIFY HeartDiseaseRisk
 RANGE := (0.000 .. 10.000);
-TERM NoRisk := 0;
-TERM LowRisk := 2.5;
-TERM MediumRisk := 5;
-TERM HighRisk := 7.5;
-TERM ExtremeRisk := 10;
+TERM NoRisk := 0.000;
+TERM LowRisk := 2.500;
+TERM MediumRisk := 5.000;
+TERM HighRisk := 7.500;
+TERM ExtremeRisk := 10.000;
 
 METHOD : COGS;
 ACCU : MAX;

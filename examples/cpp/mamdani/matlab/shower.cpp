@@ -34,7 +34,7 @@ outputVariable1->setRange(-1.000, 1.000);
 outputVariable1->setLockOutputRange(false);
 outputVariable1->setDefaultValue(fl::nan);
 outputVariable1->setLockValidOutput(false);
-outputVariable1->setDefuzzifier(new fl::Centroid(500));
+outputVariable1->setDefuzzifier(new fl::Centroid(200));
 outputVariable1->output()->setAccumulation(new fl::Maximum);
 
 outputVariable1->addTerm(new fl::Triangle("closeFast", -1.000, -0.600, -0.300));
@@ -50,7 +50,7 @@ outputVariable2->setRange(-1.000, 1.000);
 outputVariable2->setLockOutputRange(false);
 outputVariable2->setDefaultValue(fl::nan);
 outputVariable2->setLockValidOutput(false);
-outputVariable2->setDefuzzifier(new fl::Centroid(500));
+outputVariable2->setDefuzzifier(new fl::Centroid(200));
 outputVariable2->output()->setAccumulation(new fl::Maximum);
 
 outputVariable2->addTerm(new fl::Triangle("closeFast", -1.000, -0.600, -0.300));

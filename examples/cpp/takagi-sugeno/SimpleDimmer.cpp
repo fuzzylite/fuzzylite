@@ -25,12 +25,12 @@ outputVariable1->setRange(0.000, 1.000);
 outputVariable1->setLockOutputRange(false);
 outputVariable1->setDefaultValue(fl::nan);
 outputVariable1->setLockValidOutput(false);
-outputVariable1->setDefuzzifier(new fl::Centroid(200));
-outputVariable1->output()->setAccumulation(new fl::Maximum);
+outputVariable1->setDefuzzifier(new fl::WeightedAverage());
+outputVariable1->output()->setAccumulation(NULL);
 
-outputVariable1->addTerm(new fl::Triangle("LOW", 0.000, 0.250, 0.500));
-outputVariable1->addTerm(new fl::Triangle("MEDIUM", 0.250, 0.500, 0.750));
-outputVariable1->addTerm(new fl::Triangle("HIGH", 0.500, 0.750, 1.000));
+outputVariable1->addTerm(new fl::Constant("LOW", 0.250));
+outputVariable1->addTerm(new fl::Constant("MEDIUM", 0.500));
+outputVariable1->addTerm(new fl::Constant("HIGH", 0.750));
 engine->addOutputVariable(outputVariable1);
 
 fl::RuleBlock* ruleblock1 = new fl::RuleBlock;

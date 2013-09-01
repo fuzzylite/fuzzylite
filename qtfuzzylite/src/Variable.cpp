@@ -308,7 +308,8 @@ namespace fl {
 
             QMessageBox::StandardButton clicked = QMessageBox::warning(this, "Delete term",
                     QString::fromStdString(message.str()),
-                    QMessageBox::Yes | QMessageBox::No);
+                    QMessageBox::Yes | QMessageBox::No,
+                    QMessageBox::Yes);
             if (clicked == QMessageBox::Yes) {
                 for (int i = ui->lvw_terms->count() - 1; i >= 0; --i) {
                     if (ui->lvw_terms->item(i)->isSelected()) {
@@ -334,7 +335,8 @@ namespace fl {
                 QMessageBox::StandardButton clicked = QMessageBox::information(this,
                         "Edit multiple terms",
                         QString::fromStdString(message.str()),
-                        QMessageBox::Yes | QMessageBox::No);
+                        QMessageBox::Yes | QMessageBox::No,
+                        QMessageBox::Yes);
                 if (clicked == QMessageBox::No) {
                     return;
                 }
