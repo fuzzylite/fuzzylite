@@ -1,5 +1,5 @@
 #summary A Fuzzy Logic Control Library and Application in C++
-Page last updated: 15/August/2013
+Page last updated: 30/August/2013
 
 == Donations ==
 Please, consider making a *donation* to support these projects.
@@ -14,8 +14,7 @@ There are still _many_ things to do!
 
 
 === News ===
-
-25/08/2013: follow *`fuzzylite`* on Twitter [https://twitter.com/fuzzylite @fuzzylite]<br>
+30/08/2013: Follow *[http://twitter.com/fuzzylite @fuzzylite]* on Twitter for news and updates<br>
 15/08/2013: *`fuzzylite`* paper/presentation/documentation to appear at the *[http://osdc.org.nz/conference-schedule/wednesday-23rd-october/ Open Source Developers Conference]*<br>
 21/07/2013: *`fuzzylite`* 3.0 released!<br>
 21/07/2013: *`fuzzylite`* statistics in [http://www.ohloh.net/p/fuzzylite ohloh]<br>
@@ -61,7 +60,7 @@ year={2013}
   * Linguistic terms: triangle, trapezoid, rectangle, discrete, gaussian, gaussian product, bell, pi-shape, sigmoid difference, sigmoid product, ramp, sigmoid, s-shape, z-shape, constant, linear, function
   * T-norms and activation operators: minimum, algebraic product, bounded difference, drastic product, einstein product, hamacher product
   * S-norms and accumulation operators: maximum, algebraic sum, bounded sum, normalized sum, drastic sum, einstein sum, hamacher sum
-  * Defuzzifiers: centroid, bisector, smallest of maximum, largest of maximum, mean of maximum
+  * Defuzzifiers: centroid, bisector, smallest of maximum, largest of maximum, mean of maximum, weighted average, weighted sum
   * Hedges: any, not, extremely, seldom, somewhat, very
   
   Additionally, you can:
@@ -222,7 +221,7 @@ Ubuntu
 
 http://fuzzylite.googlecode.com/git/webfuzzylite/figure/ubuntu.png
 
-Mac OSX (coming soon)
+Mac OSX
 
 http://fuzzylite.googlecode.com/git/webfuzzylite/figure/macosx.png
 
