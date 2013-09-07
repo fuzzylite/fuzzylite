@@ -239,7 +239,8 @@ namespace fl {
             int resolution = QInputDialog::getInteger(this,
                         "Resolution of Output View",
                         "How many defuzzified values do you want to show?",
-                        _outputs.size(), , &ok);
+                        _outputs.size(), minOutputViewResolution, maxOutputViewResolution,
+                        10, &ok);
 #else
             int resolution = QInputDialog::getInt(this,
                         "Resolution of Output View",
