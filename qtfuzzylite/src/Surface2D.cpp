@@ -46,11 +46,6 @@ namespace fl {
 
         Surface2D::Surface2D(QWidget* parent, Qt::WindowFlags f) :
         QDialog(parent, f), ui(new Ui::Surface2D) {
-            /*setWindowFlags(Qt::Dialog
-                    | Qt::WindowSystemMenuHint
-                    | Qt::WindowCloseButtonHint
-                    | Qt::WindowMaximizeButtonHint
-                    | Qt::WindowMinimizeButtonHint);*/
             setWindowFlags(Qt::Dialog
                     | Qt::WindowSystemMenuHint
                     | Qt::WindowCloseButtonHint

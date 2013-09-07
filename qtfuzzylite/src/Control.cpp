@@ -235,11 +235,20 @@ namespace fl {
                 int maxOutputViewResolution =
                         settings.value("view/maxOutputViewResolution", 1000).toInt();
                 bool ok;
-                int resolution = QInputDialog::getInteger(this,
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
+            int resolution = QInputDialog::getInteger(this,
+                        "Resolution of Output View",
+                        "How many defuzzified values do you want to show?",
+                        _outputs.size(), , &ok);
+#else
+            int resolution = QInputDialog::getInt(this,
                         "Resolution of Output View",
                         "How many defuzzified values do you want to show?",
                         _outputs.size(), minOutputViewResolution, maxOutputViewResolution,
                         10, &ok);
+#endif
+				
+				
                 if (ok) { //clear
                     fl::OutputVariable* outputVariable =
                             dynamic_cast<fl::OutputVariable*> (variable);
