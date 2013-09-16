@@ -47,6 +47,7 @@ namespace fl {
     : std::exception(), _what(what + "\n") {
         append(file, line, function);
         if (log) FL_LOGP(this->what());
+		else FL_DBG(this->what());
     }
 
     Exception::~Exception() throw () { }
