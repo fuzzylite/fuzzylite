@@ -1,5 +1,5 @@
 #summary A Fuzzy Logic Control Library and Application in C++
-Page last updated: 01/September/2013
+Page last updated: 17/September/2013
 
 == Donations ==
 Please, consider making a *donation* to support these projects.
@@ -14,6 +14,7 @@ There are still _many_ things to do!
 
 
 === News ===
+17/09/2013: *`fuzzylite`* documentation available for *[http://code.google.com/p/fuzzylite/downloads/detail?name=fuzzylite-3.1.pdf download]*<br>
 01/09/2013: *`fuzzylite`* 3.1 released!<br>
 30/08/2013: Follow *[http://twitter.com/fuzzylite @fuzzylite]* on Twitter for news and updates<br>
 15/08/2013: *`fuzzylite`* paper/presentation/documentation to appear at the *[http://osdc.org.nz/conference-schedule/wednesday-23rd-october/ Open Source Developers Conference]*<br>
@@ -48,7 +49,7 @@ Juan Rada-Vilela. fuzzylite: A fuzzy logic control library in C++, 2013. URL htt
 <code language="bib">
 @misc{fl::fuzzylite,
 author={Juan Rada-Vilela},
-title={fuzzylite: A fuzzy logic control library in C++},
+title={fuzzylite: a fuzzy logic control library in {C\tt++},
 url={http://www.fuzzylite.com},
 year={2013}
 }</code>
@@ -63,8 +64,8 @@ year={2013}
 = Features =
   * Controllers: Mamdani, Takagi-Sugeno and Tsukamoto
   * Linguistic terms: triangle, trapezoid, rectangle, discrete, gaussian, gaussian product, bell, pi-shape, sigmoid difference, sigmoid product, ramp, sigmoid, s-shape, z-shape, constant, linear, function
-  * T-norms and activation operators: minimum, algebraic product, bounded difference, drastic product, einstein product, hamacher product
-  * S-norms and accumulation operators: maximum, algebraic sum, bounded sum, normalized sum, drastic sum, einstein sum, hamacher sum
+  * T-Norms and activation operators: minimum, algebraic product, bounded difference, drastic product, einstein product, hamacher product
+  * S-Norms and accumulation operators: maximum, algebraic sum, bounded sum, normalized sum, drastic sum, einstein sum, hamacher sum
   * Defuzzifiers: centroid, bisector, smallest of maximum, largest of maximum, mean of maximum, weighted average, weighted sum
   * Hedges: any, not, extremely, seldom, somewhat, very
   
@@ -72,7 +73,7 @@ year={2013}
   
   * Extend every component of *`fuzzylite`*, create new ones, and easily incorporate them in your engine
   * Import and export your controllers in `fcl` or `fis` (Matlab/Octave) formats
-  * Utilize multiple ruleblocks within a single engine, each containing any number of (possibly weighted) rules, and different T-norms, S-norms, and activation operators
+  * Utilize multiple ruleblocks within a single engine, each containing any number of (possibly weighted) rules, and different T-Norms, S-Norms, and activation operators
   * Write inference rules just naturally e.g. "`if Ambient is DARK then Power is HIGH`"
   * Return a default output value, lock the last valid output value when no rules are activated, and lock the output values to be within specific ranges
   * Play with 30 examples of Mamdani and Takagi-Sugeno controllers from Octave, Matlab, and *`fuzzylite`* each included in `fis`, `fcl`, and *`fuzzylite`* C++
@@ -158,10 +159,10 @@ Watch a tutorial on *`qtfuzzylite`*:
    
 
 = What's next? =
-  * Documentation
   * Type-2 Fuzzy Logic Controllers
   * Adaptive Neuro-Fuzzy Inference System (ANFIS)
   * Fuzzy C-means data clustering
+  * Source code documentation
 
 = Known bugs =
   No bugs have been reported
@@ -250,9 +251,10 @@ If you want your application to appear in this list, please [mailto:jcrada@fuzzy
 
 = Publications =
 
-*`fuzzylite`* has been utilized in the following publications:
+*`fuzzylite`* has been cited in the following publications:
 
-  #
+  # [http://code.google.com/p/fuzzylite/downloads/detail?name=fuzzylite-3.1.pdf [paper]] J. Rada-Vilela. "fuzzylite: a fuzzy logic control library in C++". In _Proceedings of the Open Source Developers Conference_, 2013. Auckland, New Zealand (to appear) 
+  # [http://dcs.di.unipmn.it/mex/?Homepage:Publications:Proceedings_of_International_Conferences_or_Workshops [paper]] L. Albano, C. Anglano, M. Canonico, M. Guazzone.  "Fuzzy-Q&E: achieving QoS guarantees and energy savings for cloud applications with fuzzy control". In _Proceedings of the 3rd International Conference on Cloud and Green Computing_, 2013 
 
 If you want your publication to appear in this list, please [mailto:jcrada@fuzzylite.com email] me your citation as "Authors. Publication title. Conference or Journal. Year. URL."
 
