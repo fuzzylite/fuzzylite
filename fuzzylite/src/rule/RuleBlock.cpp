@@ -89,7 +89,7 @@ namespace fl {
 
     std::string RuleBlock::toString() const {
         std::stringstream ss;
-        ss << "name ='" << _name << "' "
+        ss << "name='" << _name << "' "
                 << "tnorm='" << _tnorm->className() << "' "
                 << "snorm='" << _snorm->className() << "' "
                 << "activation='" << _activation->className() << "' "
