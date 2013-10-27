@@ -1,5 +1,5 @@
 #summary A Fuzzy Logic Control Library and Application in C++
-Page last updated: 17/September/2013
+Page last updated: 28/October/2013
 
 == Donations ==
 Please, consider making a *donation* to support these projects.
@@ -14,7 +14,8 @@ There are still _many_ things to do!
 
 
 === News ===
-17/09/2013: *`fuzzylite`* documentation available for *[http://code.google.com/p/fuzzylite/downloads/detail?name=fuzzylite-3.1.pdf download]*<br>
+28/10/2013: New tutorial on *`fuzzylite`* available *[http://www.youtube.com/watch?v=rSAlWPyaA34 here]*, and its slides are available *[http://fuzzylite.googlecode.com/files/fuzzylite-3.1-keynote.pdf here]*<br>
+17/09/2013: *`fuzzylite`* documentation available for download *[http://fuzzylite.googlecode.com/files/fuzzylite-3.1.pdf here]*<br>
 01/09/2013: *`fuzzylite`* 3.1 released!<br>
 30/08/2013: Follow *[http://twitter.com/fuzzylite @fuzzylite]* on Twitter for news and updates<br>
 15/08/2013: *`fuzzylite`* paper/presentation/documentation to appear at the *[http://osdc.org.nz/conference-schedule/wednesday-23rd-october/ Open Source Developers Conference]*<br>
@@ -125,11 +126,11 @@ for (int i = 0 ; i < 50; ++i){
            "Power.output = " << fl::Op::str(power->defuzzify()));
 }</code>
 
-Watch a tutorial on *`qtfuzzylite`*:
+Watch a tutorial on *`fuzzylite`*:
 
-<wiki:video url="http://www.youtube.com/watch?v=8UQghVz8N9A"/>
+<wiki:video url="http://www.youtube.com/watch?v=rSAlWPyaA34"/>
 
-... and an example of *`fuzzylite-1.x`* working in real-time:
+... or an example of *`fuzzylite-1.x`* working in real-time:
 
 <wiki:video url="http://www.youtube.com/watch?v=YOKk8G_5aRA"/>
 
@@ -165,7 +166,25 @@ Watch a tutorial on *`qtfuzzylite`*:
   * Source code documentation
 
 = Known bugs =
-  No bugs have been reported
+    * Compiling error in *`qtfuzzylite`* when using Qt5.x is solved by either replacing file qtfuzzylite/src/Control.cpp with *[https://fuzzylite.googlecode.com/git-history/fuzzylite-3.x/qtfuzzylite/src/Control.cpp Control.cpp]*, or just replacing its line 238 (i.e. `int resolution = ...`) with:
+  
+<code language="cpp">
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
+            int resolution = QInputDialog::getInteger(this,
+                        "Resolution of Output View",
+                        "How many defuzzified values do you want to show?",
+                        _outputs.size(), minOutputViewResolution, maxOutputViewResolution,
+                        10, &ok);
+#else
+            int resolution = QInputDialog::getInt(this,
+                        "Resolution of Output View",
+                        "How many defuzzified values do you want to show?",
+                        _outputs.size(), minOutputViewResolution, maxOutputViewResolution,
+                        10, &ok);
+#endif
+</code>
+
+
 
 
 = Building from source =
@@ -264,9 +283,6 @@ If you want your publication to appear in this list, please [mailto:jcrada@fuzzy
 Please, let us all give a standing ovation to:
   # *[http://www.tekplanner.com TekPlanner]*
   # *[http://www.linkedin.com/pub/flavio-massimo-saldicco/33/a07/615 Flavio Massimo Saldicco]*
-  # _Anonymous Donor_
-  # _Anonymous Donor_
-  # _Anonymous Donor_
   # *[http://beathespread.com Jean-Yves Torres]*
   # *[http://www.schneefernerhaus.de/ Zugspitze Measurement Station for Global Atmosphere Watch]*
   # *[http://www.xgen.com.br XGEN]*
