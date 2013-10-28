@@ -100,11 +100,11 @@ namespace fl {
     }
 
     scalar Operation::logical_and(scalar a, scalar b) {
-        return not (isEq(a, 0.0) or isEq(b, 0.0));
+        return (isEq(a, 1.0) and isEq(b, 1.0)) ? 1.0 : 0.0;
     }
 
     scalar Operation::logical_or(scalar a, scalar b) {
-        return not (isEq(a, 0.0) and isEq(b, 0.0));
+        return (isEq(a, 1.0) or isEq(b, 1.0)) ? 1.0 : 0.0;
     }
 
     scalar Operation::negate(scalar a) {

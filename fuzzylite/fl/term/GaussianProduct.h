@@ -37,9 +37,9 @@ namespace fl {
     public:
         GaussianProduct(const std::string& name = "",
                 scalar meanA = fl::nan,
-                scalar sigmaA = fl::nan,
+                scalar standardDeviationA = fl::nan,
                 scalar meanB = fl::nan,
-                scalar sigmaB = fl::nan);
+                scalar standardDeviationB = fl::nan);
 
         virtual ~GaussianProduct();
 

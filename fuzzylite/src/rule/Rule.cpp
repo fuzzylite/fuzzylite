@@ -71,7 +71,7 @@ namespace fl {
         ss << FL_IF << " " << getAntecedent()->toString() << " "
                 << FL_THEN << " " << getConsequent()->toString();
         if (not fl::Op::isEq(_weight, 1.0)) {
-            ss << " " << FL_WITH << " " << _weight;
+            ss << " " << FL_WITH << " " << fl::Op::str(_weight);
         }
         return ss.str();
     }
@@ -83,7 +83,7 @@ namespace fl {
     std::string Rule::isKeyword() {
         return fl::Rule::FL_IS;
     }
-    
+
     std::string Rule::assignKeyword() {
         return fl::Rule::FL_ASSIGN;
     }

@@ -103,7 +103,7 @@ namespace fl {
                         break;
                     case S_END:
                         std::ostringstream ex;
-                        ex << "[syntax error] unexpected token <" << token << "> after the end of rule";
+                        ex << "[syntax error] unexpected token <" << token << "> at the end of rule";
                         throw fl::Exception(ex.str(), FL_AT);
                 }
             }

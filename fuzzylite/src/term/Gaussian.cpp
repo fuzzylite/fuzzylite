@@ -28,8 +28,8 @@
 namespace fl {
 
     Gaussian::Gaussian(const std::string& name,
-            scalar mean, scalar sigma)
-    : Term(name), _mean(mean), _standardDeviation(sigma) {
+            scalar mean, scalar standardDeviation)
+    : Term(name), _mean(mean), _standardDeviation(standardDeviation) {
     }
 
     Gaussian::~Gaussian() {

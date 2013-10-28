@@ -35,7 +35,7 @@ namespace fl {
     public:
         Gaussian(const std::string& name = "",
                 scalar mean = fl::nan,
-                scalar sigma = -fl::nan);
+                scalar standardDeviation = fl::nan);
         virtual ~Gaussian();
 
         virtual std::string className() const;

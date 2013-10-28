@@ -35,6 +35,9 @@ namespace fl {
     : _name(name), _minimum(minimum), _maximum(maximum) { }
 
     Variable::Variable(const Variable& copy) {
+        this->_name = copy._name;
+        this->_minimum = copy._minimum;
+        this->_maximum = copy._maximum;
         for (int i = 0; i < copy.numberOfTerms(); ++i) {
             addTerm(copy.getTerm(i)->copy());
         }
@@ -55,8 +58,8 @@ namespace fl {
     }
 
     void Variable::setRange(scalar minimum, scalar maximum) {
-        this->_minimum = minimum;
-        this->_maximum = maximum;
+        setMinimum(minimum);
+        setMaximum(maximum);
     }
 
     void Variable::setMinimum(scalar minimum) {
@@ -79,15 +82,15 @@ namespace fl {
         std::ostringstream ss;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             scalar fx = _terms.at(i)->membership(x);
-            if (i == 0){
+            if (i == 0) {
                 ss << fl::Op::str(fx, decimals);
-            }else{
+            } else {
                 if (fl::Op::isNan(fx) or fl::Op::isGE(fx, 0.0))
                     ss << " + " << fl::Op::str(fx, decimals);
-                else 
+                else
                     ss << " - " << fl::Op::str(std::fabs(fx), decimals);
             }
-            ss  << "/" << _terms.at(i)->getName();
+            ss << "/" << _terms.at(i)->getName();
         }
         return ss.str();
     }
@@ -163,8 +166,8 @@ namespace fl {
     int Variable::numberOfTerms() const {
         return this->_terms.size();
     }
-    
-    bool Variable::isEmpty() const{
+
+    bool Variable::isEmpty() const {
         return this->_terms.empty();
     }
 

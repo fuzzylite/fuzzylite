@@ -30,12 +30,12 @@
 namespace fl {
 
     OutputVariable::OutputVariable(const std::string& name,
-            scalar minimum, scalar maximum, bool lockOutputRange)
+            scalar minimum, scalar maximum)
     : Variable(name, minimum, maximum),
     _output(new Accumulated("output", minimum, maximum)),
     _defuzzifier(NULL), _defaultValue(fl::nan),
     _lastValidOutput(fl::nan),
-    _lockOutputRange(lockOutputRange),
+    _lockOutputRange(false),
     _lockValidOutput(false) { }
 
     OutputVariable::~OutputVariable() {
@@ -125,7 +125,7 @@ namespace fl {
         scalar result = fl::nan;
         bool isValid = not this->_output->isEmpty();
         if (isValid) {
-            result = this->_defuzzifier->defuzzify(this->_output, _minimum, _maximum);
+            result = this->_defuzzifier->defuzzify(_output, _minimum, _maximum);
         } else {
             result = _defaultValue;
         }

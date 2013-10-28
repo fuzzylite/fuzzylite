@@ -25,8 +25,9 @@
 namespace fl {
 
     GaussianProduct::GaussianProduct(const std::string& name,
-            scalar meanA, scalar sigmaA, scalar meanB, scalar sigmaB)
-    : Term(name), _meanA(meanA), _standardDeviationA(sigmaA), _meanB(meanB), _standardDeviationB(sigmaB) { }
+            scalar meanA, scalar standardDeviationA, scalar meanB, scalar standardDeviationB)
+    : Term(name), _meanA(meanA), _standardDeviationA(standardDeviationA),
+    _meanB(meanB), _standardDeviationB(standardDeviationB) { }
 
     GaussianProduct::~GaussianProduct() { }
 

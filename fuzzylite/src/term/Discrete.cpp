@@ -51,7 +51,7 @@ namespace fl {
         if (argc % 2 != 0 or argc < 2) {
             throw fl::Exception("[discrete term] expected an even number of "
                     "parameters matching (x,y)+, but passed "
-                    "<" + fl::Op::str(argc) + "> arguments", FL_AT);
+                    "<" + fl::Op::str(argc) + "> parameters", FL_AT);
         }
         std::vector<scalar> x, y;
         x.push_back(x1);
@@ -86,8 +86,8 @@ namespace fl {
         if (x.empty() or y.empty()) return 0.0;
         if (x.size() != y.size()) {
             std::ostringstream ex;
-            ex << "[term error] discrete term has vectors x["
-                    << x.size() << "] and y[" << y.size() << "] with different sizes";
+            ex << "[discrete term] vectors x["
+                    << x.size() << "] and y[" << y.size() << "] have different sizes";
             throw fl::Exception(ex.str(), FL_AT);
         }
 

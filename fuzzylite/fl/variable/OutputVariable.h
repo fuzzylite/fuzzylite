@@ -42,15 +42,14 @@ namespace fl {
 
     public:
         OutputVariable(const std::string& name = "",
-                scalar minimum = -fl::inf, scalar maximum = fl::inf,
-                bool lockOutputRange = false);
+                scalar minimum = -fl::inf, scalar maximum = fl::inf);
         virtual ~OutputVariable();
 
         virtual Accumulated* output() const;
 
         virtual void setMinimum(scalar minimum);
         virtual void setMaximum(scalar maximum);
-
+        
         virtual void setDefuzzifier(Defuzzifier* defuzzifier);
         virtual Defuzzifier* getDefuzzifier() const;
 
