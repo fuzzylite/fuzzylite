@@ -12,8 +12,8 @@ There are still _many_ things to do!
 
 ==... and please, let us all give a standing ovation to the *[#Donors Donors]*.==
 
-
 === News ===
+01/11/2013: Read the technical support policy *[http://code.google.com/p/fuzzylite/#Technical_Support_Policy here]*<br>
 28/10/2013: New tutorial on *`fuzzylite`* available *[http://www.youtube.com/watch?v=rSAlWPyaA34 here]*, and its slides are available *[http://fuzzylite.googlecode.com/files/fuzzylite-3.1-keynote.pdf here]*<br>
 17/09/2013: *`fuzzylite`* documentation available for download *[http://fuzzylite.googlecode.com/files/fuzzylite-3.1.pdf here]*<br>
 01/09/2013: *`fuzzylite`* 3.1 released!<br>
@@ -34,7 +34,7 @@ I have developed an important set of new features for *`fuzzylite`* and *`qtfuzz
 Sincerely yours,
 
 *Juan Rada-Vilela*<br>
-[mailto:jcrada@fuzzylite.com juan.rada-vilela@fuzzylite.com]<br>
+[mailto:jcrada@fuzzylite.com jcrada@fuzzylite.com]<br>
 http://www.fuzzylite.com/jcrada  
 
 = Introduction =
@@ -239,7 +239,7 @@ Furthermore, you can utilize the following options upon building:
 = Acknowledgements =
 	I want to thank all the *donors* whose generous contributions allowed me to upgrade the RAM of my laptop.
 	The *community* for its _very_ important feedback.
-	The *[http://softcomputing.es European Centre for Soft Computing]*, the Foundation for the Advancement of Soft Computing, and especially Sergio Guadarrama and Luis Magdalena for their support creating the early versions of *`fuzzylite`*.
+	The *[http://softcomputing.es European Centre for Soft Computing]*, the Foundation for the Advancement of Soft Computing, and Sergio Guadarrama and Luis Magdalena for their support creating the first version of *`fuzzylite`*.
 	Thank you all *very* much!
 
 
@@ -287,3 +287,19 @@ Please, let us all give a standing ovation to:
   # *[http://www.schneefernerhaus.de/ Zugspitze Measurement Station for Global Atmosphere Watch]*
   # *[http://www.xgen.com.br XGEN]*
   # *[http://www.internetone.it InternetONE.it]*
+
+
+= Technical Support Policy =
+Dear user, <br>
+
+I am _more_ than happy to help you resolve any problem you find in *`fuzzylite`* and *`qtfuzzylite`* free of charge. However, the only condition attached is that our conversation needs to be freely available to everyone as well.
+
+If you want to have support free of charge, please send your enquiry to [mailto:community@fuzzylite.com community@fuzzylite.com], where I and others will be very happy to help you as best and soon as possible free of charge.
+
+However, if you prefer a private conversation, please send your enquiry to [mailto:jcrada@fuzzylite.com jcrada@fuzzylite.com], but you will be asked to make a donation to *`fuzzylite`* to pay for my time.
+
+Sincerely yours,
+
+*Juan Rada-Vilela*<br>
+[mailto:jcrada@fuzzylite.com jcrada@fuzzylite.com]<br>
+http://www.fuzzylite.com/jcrada  
