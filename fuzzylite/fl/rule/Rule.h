@@ -25,12 +25,10 @@
 
 #include "fl/fuzzylite.h"
 
-
-
 #include <string>
 
 namespace fl {
-
+    class Engine;
     class Antecedent;
     class Consequent;
     class TNorm;
@@ -40,15 +38,19 @@ namespace fl {
     protected:
         scalar _weight;
         std::string _unparsedRule;
+        Antecedent* _antecedent;
+        Consequent* _consequent;
 
         virtual void setUnparsedRule(const std::string& unparsedRule);
     public:
         Rule();
         virtual ~Rule();
 
-        virtual Antecedent* getAntecedent() const = 0;
+        virtual void setAntecedent(Antecedent* antecedent);
+        virtual Antecedent* getAntecedent() const;
 
-        virtual Consequent* getConsequent() const = 0;
+        virtual void setConsequent(Consequent* consequent);
+        virtual Consequent* getConsequent() const;
 
         virtual scalar firingStrength(const TNorm* tnorm, const SNorm* snorm) const;
         virtual void fire(scalar strength, const TNorm* activation) const;
@@ -59,6 +61,8 @@ namespace fl {
         virtual std::string getUnparsedRule() const;
 
         virtual std::string toString() const;
+
+        static Rule* parse(const std::string& rule, const Engine* engine);
 
         static std::string FL_IF;
         static std::string FL_IS;

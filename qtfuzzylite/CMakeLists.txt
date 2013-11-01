@@ -21,10 +21,10 @@ if (APPLE)
 endif()
 
 
-set(FLQT_DATE "1309")
-add_definitions(-DFLQT_DATE="1309")
+set(FLQT_DATE "1401")
+add_definitions(-DFLQT_DATE="${FLQT_DATE}")
 
-set(FLQT_VERSION 3.1)
+set(FLQT_VERSION 4.0)
 add_definitions(-DFLQT_VERSION="${FLQT_VERSION}")
 
 set(FLQT_LONG_VERSION "${FLQT_VERSION}b${FLQT_DATE}")
@@ -35,7 +35,7 @@ add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FI
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_USE_LOG "Enable the macro FL_LOG to print information" ON)
 option(FL_DEBUG "Enable additional debugging information" OFF)
-option(FL_USE_QT5 "Utilize Qt5 instead of Qt4" OFF)
+option(FL_USE_QT5 "Utilize Qt5 instead of Qt4" ON)
 
 message("CMAKE_SOURCE_DIR=${CMAKE_SOURCE_DIR}")
 
@@ -158,8 +158,6 @@ target_link_libraries(qtfuzzylite ${fl-shared${FL_CONF}})
 #qt5_wrap_cpp(qtfl-output ${qtfl-headers})
 #qt5_wrap_ui(qtfl-output  ${qtfl-uis})
 #qt5_add_resources(qtfl-output ui/qtfuzzylite.qrc)
-
-
 
 
 else()

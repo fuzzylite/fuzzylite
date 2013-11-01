@@ -25,24 +25,29 @@
 
 #include "fl/fuzzylite.h"
 
-
-
 #include <string>
+#include <vector>
 
 namespace fl {
+    class Engine;
+    class Proposition;
     class TNorm;
 
     class FL_EXPORT Consequent {
+    protected:
+        std::vector<Proposition*> _conclusions;
+
     public:
+        Consequent();
+        virtual ~Consequent();
 
-        Consequent() { }
+        virtual std::vector<Proposition*> conclusions() const;
 
-        virtual ~Consequent() { }
+        virtual void load(const std::string& consequent, const Engine* engine);
 
-        virtual void fire(scalar strength, const TNorm* activation) = 0;
+        virtual void fire(scalar strength, const TNorm* activation);
 
-        virtual std::string toString() const = 0;
-
+        virtual std::string toString() const;
     };
 
 }

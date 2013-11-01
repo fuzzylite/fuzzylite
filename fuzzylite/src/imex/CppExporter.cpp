@@ -107,7 +107,7 @@ namespace fl {
                     << toCpp(ruleblock->getActivation()) << ");\n";
             cpp << "\n";
             for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
-                cpp << "ruleblock" << (i + 1) << "->addRule(fl::FuzzyRule::parse(\"" <<
+                cpp << "ruleblock" << (i + 1) << "->addRule(fl::Rule::parse(\"" <<
                         ruleblock->getRule(r)->getUnparsedRule() << "\", engine));\n";
             }
             cpp << "engine->addRuleBlock(ruleblock" << (i + 1) << ");\n";

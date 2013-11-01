@@ -64,9 +64,9 @@ void exampleMamdani() {
     engine->addOutputVariable(power);
 
     RuleBlock* ruleblock = new RuleBlock();
-    ruleblock->addRule(FuzzyRule::parse("if Ambient is DARK then Power is HIGH", engine));
-    ruleblock->addRule(FuzzyRule::parse("if Ambient is MEDIUM then Power is MEDIUM", engine));
-    ruleblock->addRule(FuzzyRule::parse("if Ambient is BRIGHT then Power is LOW", engine));
+    ruleblock->addRule(Rule::parse("if Ambient is DARK then Power is HIGH", engine));
+    ruleblock->addRule(Rule::parse("if Ambient is MEDIUM then Power is MEDIUM", engine));
+    ruleblock->addRule(Rule::parse("if Ambient is BRIGHT then Power is LOW", engine));
 
     engine->addRuleBlock(ruleblock);
 
@@ -126,16 +126,16 @@ void exampleTakagiSugeno() {
     fx->setDefaultValue(fl::nan);
 
     fl::RuleBlock* block = new fl::RuleBlock();
-    block->addRule(fl::FuzzyRule::parse("if x is NEAR_1 then fx = f1", engine));
-    block->addRule(fl::FuzzyRule::parse("if x is NEAR_2 then fx = f2", engine));
-    block->addRule(fl::FuzzyRule::parse("if x is NEAR_3 then fx = f3", engine));
-    block->addRule(fl::FuzzyRule::parse("if x is NEAR_4 then fx = f4", engine));
-    block->addRule(fl::FuzzyRule::parse("if x is NEAR_5 then fx = f5", engine));
-    block->addRule(fl::FuzzyRule::parse("if x is NEAR_6 then fx = f6", engine));
-    block->addRule(fl::FuzzyRule::parse("if x is NEAR_7 then fx = f7", engine));
-    block->addRule(fl::FuzzyRule::parse("if x is NEAR_8 then fx = f8", engine));
-    block->addRule(fl::FuzzyRule::parse("if x is NEAR_9 then fx = f9", engine));
-    //block->addRule(fl::FuzzyRule::parse("if x is NEAR_9 then fx = f10", engine));
+    block->addRule(fl::Rule::parse("if x is NEAR_1 then fx = f1", engine));
+    block->addRule(fl::Rule::parse("if x is NEAR_2 then fx = f2", engine));
+    block->addRule(fl::Rule::parse("if x is NEAR_3 then fx = f3", engine));
+    block->addRule(fl::Rule::parse("if x is NEAR_4 then fx = f4", engine));
+    block->addRule(fl::Rule::parse("if x is NEAR_5 then fx = f5", engine));
+    block->addRule(fl::Rule::parse("if x is NEAR_6 then fx = f6", engine));
+    block->addRule(fl::Rule::parse("if x is NEAR_7 then fx = f7", engine));
+    block->addRule(fl::Rule::parse("if x is NEAR_8 then fx = f8", engine));
+    block->addRule(fl::Rule::parse("if x is NEAR_9 then fx = f9", engine));
+    //block->addRule(fl::Rule::parse("if x is NEAR_9 then fx = f10", engine));
 
     engine->addRuleBlock(block);
 
@@ -232,17 +232,17 @@ void exampleTakagiSugeno2() {
     ruleblock1->setSnorm(new fl::Maximum);
     ruleblock1->setActivation(new fl::Minimum);
 
-    ruleblock1->addRule(fl::FuzzyRule::parse("if X is About-Neg-Five then Approx-X-Cubed is Tangent-at-Neg-Five", engine));
-    ruleblock1->addRule(fl::FuzzyRule::parse("if X is About-Neg-Four then Approx-X-Cubed is Tangent-at-Neg-Four", engine));
-    ruleblock1->addRule(fl::FuzzyRule::parse("if X is About-Neg-Three then Approx-X-Cubed is Tangent-at-Neg-Three", engine));
-    ruleblock1->addRule(fl::FuzzyRule::parse("if X is About-Neg-Two then Approx-X-Cubed is Tangent-at-Neg-Two", engine));
-    ruleblock1->addRule(fl::FuzzyRule::parse("if X is About-Neg-One then Approx-X-Cubed is Tangent-at-Neg-One", engine));
-    ruleblock1->addRule(fl::FuzzyRule::parse("if X is About-Zero then Approx-X-Cubed is Tangent-at-Zero", engine));
-    ruleblock1->addRule(fl::FuzzyRule::parse("if X is About-One then Approx-X-Cubed is Tangent-at-One", engine));
-    ruleblock1->addRule(fl::FuzzyRule::parse("if X is About-Two then Approx-X-Cubed is Tangent-at-Two", engine));
-    ruleblock1->addRule(fl::FuzzyRule::parse("if X is About-Three then Approx-X-Cubed is Tangent-at-Three", engine));
-    ruleblock1->addRule(fl::FuzzyRule::parse("if X is About-Four then Approx-X-Cubed is Tangent-at-Four", engine));
-    ruleblock1->addRule(fl::FuzzyRule::parse("if X is About-Five then Approx-X-Cubed is Tangent-at-Five", engine));
+    ruleblock1->addRule(fl::Rule::parse("if X is About-Neg-Five then Approx-X-Cubed is Tangent-at-Neg-Five", engine));
+    ruleblock1->addRule(fl::Rule::parse("if X is About-Neg-Four then Approx-X-Cubed is Tangent-at-Neg-Four", engine));
+    ruleblock1->addRule(fl::Rule::parse("if X is About-Neg-Three then Approx-X-Cubed is Tangent-at-Neg-Three", engine));
+    ruleblock1->addRule(fl::Rule::parse("if X is About-Neg-Two then Approx-X-Cubed is Tangent-at-Neg-Two", engine));
+    ruleblock1->addRule(fl::Rule::parse("if X is About-Neg-One then Approx-X-Cubed is Tangent-at-Neg-One", engine));
+    ruleblock1->addRule(fl::Rule::parse("if X is About-Zero then Approx-X-Cubed is Tangent-at-Zero", engine));
+    ruleblock1->addRule(fl::Rule::parse("if X is About-One then Approx-X-Cubed is Tangent-at-One", engine));
+    ruleblock1->addRule(fl::Rule::parse("if X is About-Two then Approx-X-Cubed is Tangent-at-Two", engine));
+    ruleblock1->addRule(fl::Rule::parse("if X is About-Three then Approx-X-Cubed is Tangent-at-Three", engine));
+    ruleblock1->addRule(fl::Rule::parse("if X is About-Four then Approx-X-Cubed is Tangent-at-Four", engine));
+    ruleblock1->addRule(fl::Rule::parse("if X is About-Five then Approx-X-Cubed is Tangent-at-Five", engine));
     engine->addRuleBlock(ruleblock1);
 
     scalar range = inputVariable1->getMaximum() - inputVariable1->getMinimum();

@@ -36,10 +36,7 @@ fl/norm/TNorm.h
 fl/Operation.h
 fl/rule/Antecedent.h
 fl/rule/Consequent.h
-fl/rule/FuzzyAntecedent.h
-fl/rule/FuzzyConsequent.h
-fl/rule/FuzzyExpression.h
-fl/rule/FuzzyRule.h
+fl/rule/Expression.h
 fl/rule/RuleBlock.h
 fl/rule/Rule.h
 fl/term/Constant.h

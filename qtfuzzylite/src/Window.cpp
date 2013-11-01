@@ -75,7 +75,8 @@ namespace fl {
 
         Window::Window(QWidget* parent, Qt::WindowFlags flags) :
         QMainWindow(parent, flags), _recentFiles(NULL), _currentFile(""),
-        _currentFileModified(false), ui(new Ui::Window) { }
+        _currentFileModified(false), ui(new Ui::Window) {
+        }
 
         Window::~Window() {
             if (_inputViewer) delete _inputViewer;
@@ -230,7 +231,7 @@ namespace fl {
 
             menuHelp->addAction(ui->actionJoinTheCommunity);
             QObject::connect(ui->actionJoinTheCommunity, SIGNAL(triggered()), this, SLOT(onMenuJoinTheCommunity()));
-            
+
             menuHelp->addAction(ui->actionFollowOnTwitter);
             QObject::connect(ui->actionFollowOnTwitter, SIGNAL(triggered()), this, SLOT(onMenuFollowOnTwitter()));
 
@@ -902,7 +903,7 @@ namespace fl {
             for (int i = 0; i < rules.size(); ++i) {
                 if (rules[i].trimmed().startsWith("#")) continue;
                 try {
-                    ruleblock->addRule(FuzzyRule::parse(rules[i].toStdString(), engine));
+                    ruleblock->addRule(Rule::parse(rules[i].toStdString(), engine));
                     ui->ptx_rules->appendHtml("<font color='green'>" +
                             toHtmlEscaped(rules[i]) + "</font>");
                     ++goodRules;
@@ -1039,7 +1040,8 @@ namespace fl {
             }
         }
 
-        void Window::onTabChange(int index) { }
+        void Window::onTabChange(int index) {
+        }
 
         void Window::onClickInputOutputButton() {
             QToolButton* button = qobject_cast<QToolButton*>(sender());
@@ -1652,7 +1654,7 @@ namespace fl {
             if (result == QMessageBox::Yes)
                 QDesktopServices::openUrl(QUrl("http://www.fuzzylite.com/community"));
         }
-        
+
         void Window::onMenuFollowOnTwitter() {
             QMessageBox::StandardButton result =
                     QMessageBox::information(this, "Follow on Twitter",

@@ -25,24 +25,36 @@
 
 #include "fl/fuzzylite.h"
 
-
-
 #include <string>
 
 namespace fl {
+    class Engine;
     class TNorm;
     class SNorm;
+    class Expression;
 
     class FL_EXPORT Antecedent {
+    protected:
+        Expression* _root;
+
     public:
+        Antecedent();
+        virtual ~Antecedent();
 
-        Antecedent() { }
+        virtual Expression* getRoot() const;
 
-        virtual ~Antecedent() { }
+        virtual void load(const std::string& antecedent, const Engine* engine);
 
-        virtual scalar firingStrength(const TNorm* tnorm, const SNorm* snorm) const = 0;
+        virtual scalar firingStrength(const TNorm* tnorm, const SNorm* snorm,
+                const Expression* node) const;
 
-        virtual std::string toString() const = 0;
+        virtual scalar firingStrength(const TNorm* tnorm, const SNorm* snorm) const;
+
+        virtual std::string toString() const;
+
+        virtual std::string toStringPrefix(const Expression* node = NULL) const;
+        virtual std::string toStringInfix(const Expression* node = NULL) const;
+        virtual std::string toStringPostfix(const Expression* node = NULL) const;
     };
 
 }

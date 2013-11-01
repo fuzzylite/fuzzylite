@@ -18,10 +18,9 @@ src/factory/HedgeFactory.cpp
 src/norm/TNorm.cpp
 src/norm/SNorm.cpp
 src/Operation.cpp
-src/rule/FuzzyAntecedent.cpp
-src/rule/FuzzyConsequent.cpp
-src/rule/FuzzyExpression.cpp
-src/rule/FuzzyRule.cpp
+src/rule/Antecedent.cpp
+src/rule/Consequent.cpp
+src/rule/Expression.cpp
 src/rule/RuleBlock.cpp
 src/rule/Rule.cpp
 src/term/Constant.cpp

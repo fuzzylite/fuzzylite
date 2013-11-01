@@ -475,8 +475,8 @@ namespace fl {
         if (not fl::Op::isNan(node->value)) { //is terminal
             return fl::Op::str(node->value);
         }
-        if (not node.variable.empty()) {
-            return node.variable;
+        if (not node->variable.empty()) {
+            return node->variable;
         }
 
         std::ostringstream ss;
@@ -493,8 +493,8 @@ namespace fl {
         if (not fl::Op::isNan(node->value)) { //is proposition
             return fl::Op::str(node->value);
         }
-        if (not node.variable.empty()) {
-            return node.variable;
+        if (not node->variable.empty()) {
+            return node->variable;
         }
 
         std::ostringstream ss;
@@ -511,8 +511,8 @@ namespace fl {
         if (not fl::Op::isNan(node->value)) { //is proposition
             return fl::Op::str(node->value);
         }
-        if (not node.variable.empty()) {
-            return node.variable;
+        if (not node->variable.empty()) {
+            return node->variable;
         }
 
         std::ostringstream ss;

@@ -67,10 +67,7 @@
 #include "fl/rule/Consequent.h"
 #include "fl/rule/Rule.h"
 #include "fl/rule/RuleBlock.h"
-#include "fl/rule/FuzzyAntecedent.h"
-#include "fl/rule/FuzzyConsequent.h"
-#include "fl/rule/FuzzyExpression.h"
-#include "fl/rule/FuzzyRule.h"
+#include "fl/rule/Expression.h"
 
 
 #include "fl/term/Accumulated.h"

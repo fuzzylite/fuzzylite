@@ -180,29 +180,29 @@ namespace fl {
             RuleBlock* rb = engine->getRuleBlock(ixRuleBlock);
             if (engine->numberOfRuleBlocks() > 1) fis << "# RuleBlock " << rb->getName() << "\n";
             for (int ixRule = 0; ixRule < rb->numberOfRules(); ++ixRule) {
-                fis << exportRule(dynamic_cast<FuzzyRule*> (rb->getRule(ixRule)), engine) << "\n";
+                fis << exportRule(dynamic_cast<Rule*> (rb->getRule(ixRule)), engine) << "\n";
             }
         }
         return fis.str();
     }
 
-    std::string FisExporter::exportRule(const FuzzyRule* rule, const Engine* engine) const {
+    std::string FisExporter::exportRule(const Rule* rule, const Engine* engine) const {
         if (not rule) return "";
-        std::vector<FuzzyProposition*> propositions;
-        std::vector<FuzzyOperator*> operators;
+        std::vector<Proposition*> propositions;
+        std::vector<Operator*> operators;
 
-        std::queue<FuzzyExpression*> bfsQueue;
+        std::queue<Expression*> bfsQueue;
         bfsQueue.push(rule->getAntecedent()->getRoot());
         while (not bfsQueue.empty()) {
-            FuzzyExpression* front = bfsQueue.front();
+            Expression* front = bfsQueue.front();
             bfsQueue.pop();
             if (front->isOperator) {
-                FuzzyOperator* op = dynamic_cast<FuzzyOperator*> (front);
+                Operator* op = dynamic_cast<Operator*> (front);
                 bfsQueue.push(op->left);
                 bfsQueue.push(op->right);
                 operators.push_back(op);
             } else {
-                propositions.push_back(dynamic_cast<FuzzyProposition*> (front));
+                propositions.push_back(dynamic_cast<Proposition*> (front));
             }
         }
 
@@ -237,7 +237,7 @@ namespace fl {
         return fis.str();
     }
 
-    std::string FisExporter::translate(const std::vector<FuzzyProposition*>& propositions,
+    std::string FisExporter::translate(const std::vector<Proposition*>& propositions,
             const std::vector<Variable*> variables) const {
         std::ostringstream ss;
         for (std::size_t ixVariable = 0; ixVariable < variables.size(); ++ixVariable) {
@@ -246,7 +246,7 @@ namespace fl {
             scalar plusHedge = 0;
             scalar negated = 1;
             for (std::size_t ixProposition = 0; ixProposition < propositions.size(); ++ixProposition) {
-                FuzzyProposition* proposition = propositions.at(ixProposition);
+                Proposition* proposition = propositions.at(ixProposition);
                 if (proposition->variable != variable) continue;
 
                 for (int termIndex = 0; termIndex < variable->numberOfTerms(); ++termIndex) {
