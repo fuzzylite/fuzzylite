@@ -472,7 +472,7 @@ namespace fl {
                 for (std::size_t i = 0; i < params.size(); ++i) {
                     ss << params.at(i);
                 }
-                dynamic_cast<Function*> (result)->setInfix(ss.str());
+                dynamic_cast<Function*> (result)->setText(ss.str());
             }
             return result;
         } catch (fl::Exception& ex) {

@@ -460,7 +460,7 @@ namespace fl {
                 if (infix.size() > 1 and infix.at(0) == '(' and infix.at(infix.size() - 1) == ')') {
                     infix = infix.substr(1, infix.size() - 2);
                 }
-                dynamic_cast<Function*> (result)->setInfix(infix);
+                dynamic_cast<Function*> (result)->setText(infix);
             }
 
             return result;

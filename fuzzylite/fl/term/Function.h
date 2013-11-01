@@ -113,8 +113,7 @@ namespace fl {
          * Term
          ******************************/
     protected:
-        //TODO: rename infix to text.
-        std::string _infix;
+        std::string _text;
         const Engine* _engine;
 
         virtual void loadOperators();
@@ -152,8 +151,8 @@ namespace fl {
 
         virtual Function* copy() const;
 
-        virtual void setInfix(const std::string& infix);
-        virtual std::string getInfix() const;
+        virtual void setText(const std::string& infix);
+        virtual std::string getText() const;
 
         virtual void setEngine(const Engine* engine);
         virtual const Engine* getEngine() const;

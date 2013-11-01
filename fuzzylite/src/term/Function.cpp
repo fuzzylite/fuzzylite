@@ -40,7 +40,7 @@ namespace fl {
     Function::Function(const std::string& name,
             const std::string& infix, const Engine* engine,
             bool loadBuiltInFunctions)
-    : Term(name), _infix(infix), _engine(engine), root(NULL) {
+    : Term(name), _text(infix), _engine(engine), root(NULL) {
         loadOperators();
         if (loadBuiltInFunctions) {
             this->loadBuiltInFunctions();
@@ -102,13 +102,13 @@ namespace fl {
     }
 
     std::string Function::toString() const {
-        return "Function (" + _infix + ")";
+        return "Function (" + _text + ")";
     }
 
     Function* Function::copy() const {
         Function* result = new Function(this->_name);
         try {
-            result->load(this->_infix, this->_engine);
+            result->load(this->_text, this->_engine);
         } catch (fl::Exception& ex) {
             FL_LOG("catched: " << ex.what());
         }
@@ -116,22 +116,22 @@ namespace fl {
     }
 
     void Function::load() throw (fl::Exception) {
-        load(this->_infix, this->_engine);
+        load(this->_text, this->_engine);
     }
 
     void Function::load(const std::string& infix,
             const Engine* engine) throw (fl::Exception) {
         this->root = parse(infix);
-        this->_infix = infix;
+        this->_text = infix;
         this->_engine = engine;
     }
 
-    void Function::setInfix(const std::string& infix) {
-        this->_infix = infix;
+    void Function::setText(const std::string& infix) {
+        this->_text = infix;
     }
 
-    std::string Function::getInfix() const {
-        return this->_infix;
+    std::string Function::getText() const {
+        return this->_text;
     }
 
     void Function::setEngine(const Engine* engine) {
@@ -207,12 +207,12 @@ namespace fl {
         --p; //Power
         this->operators["^"] = new Operator("^", std::pow, p, 1);
         --p; //Multiplication, Division, and Modulo
-        this->operators["*"] = new Operator("*", fl::Op::multiplies, p);
-        this->operators["/"] = new Operator("/", fl::Op::divides, p);
-        this->operators["%"] = new Operator("%", fl::Op::modulus, p);
+        this->operators["*"] = new Operator("*", fl::Op::multiply, p);
+        this->operators["/"] = new Operator("/", fl::Op::divide, p);
+        this->operators["%"] = new Operator("%", fl::Op::modulo, p);
         --p; //Addition, Subtraction
-        this->operators["+"] = new Operator("+", fl::Op::plus, p);
-        this->operators["-"] = new Operator("-", fl::Op::minus, p);
+        this->operators["+"] = new Operator("+", fl::Op::add, p);
+        this->operators["-"] = new Operator("-", fl::Op::subtract, p);
         //        --p; //Bitwise AND
         //        this->_binaryOperators["&"] = new Operator("&", std::bit_and, p);
         //        --p; //Bitwise OR

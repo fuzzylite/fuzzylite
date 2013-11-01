@@ -152,7 +152,7 @@ namespace fl {
             const Function* x = dynamic_cast<const Function*> (term);
             ss.str(std::string()); //clear stream
             ss << "fl::" << x->className() << "::create(\"" << x->getName() << "\", "
-                    << "\"" << x->getInfix() << "\", engine)";
+                    << "\"" << x->getText() << "\", engine)";
             return ss.str();
         }
 

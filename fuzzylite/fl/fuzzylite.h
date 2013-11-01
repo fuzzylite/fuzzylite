@@ -106,7 +106,7 @@ namespace fl {
 //#define bitand &
 //#define bitor |
 
-//TODO: add these functions in Infix.cpp
+//TODO: add these functions in Windows
 //#define acosh(x)
 //#define asinh(x)
 //#define atanh(x)

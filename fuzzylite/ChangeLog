@@ -13,4 +13,6 @@ Version 4.0
 * Renamed divisions from IntegralDefuzzifier to resolution, FL_DIVISIONS to FL_RESOLUTION
 * Deleted MaximumDefuzzifier
 * Centroid, Bisector, and Largest/Smallest/Mean Defuzzifiers inherit from IntegralDefuzzifier
+* Changed names of arithmetic operations in fl::Operation
+* Renamed Function::get/set(Infix) to get/set(Text)
 

@@ -66,12 +66,11 @@ namespace fl {
         static scalar scale(scalar x, scalar fromMin, scalar fromMax,
                 scalar toMin, scalar toMax);
 
-        //TODO: Change names of arithmetic operations
-        static scalar plus(scalar a, scalar b);
-        static scalar minus(scalar a, scalar b);
-        static scalar multiplies(scalar a, scalar b);
-        static scalar divides(scalar a, scalar b);
-        static scalar modulus(scalar a, scalar b);
+        static scalar add(scalar a, scalar b);
+        static scalar subtract(scalar a, scalar b);
+        static scalar multiply(scalar a, scalar b);
+        static scalar divide(scalar a, scalar b);
+        static scalar modulo(scalar a, scalar b);
         static scalar logical_and(scalar a, scalar b);
         static scalar logical_or(scalar a, scalar b);
         static scalar negate(scalar a);

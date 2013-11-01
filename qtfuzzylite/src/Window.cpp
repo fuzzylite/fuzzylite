@@ -509,7 +509,7 @@ namespace fl {
                     } else if (term->className() == Function().className()) {
                         Function* function = dynamic_cast<Function*> (term);
                         try {
-                            function->load(function->getInfix(), engine);
+                            function->load(function->getText(), engine);
                         } catch (fl::Exception& ex) {
                             updatedReferences += QString::fromStdString(
                                     "- " + variable->getName() + "::" +
@@ -1634,7 +1634,7 @@ namespace fl {
                     "If you need help, please send an email to "
                     "<a href='community@fuzzylite.com'>community@fuzzylite.com</a>.<br><br>"
                     "The community will be more than happy to answer your questions as best and "
-                    "timely as possible.<br><br>"
+                    "soon as possible.<br><br>"
                     "Do you want to ask for help now?",
                     QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
             if (result == QMessageBox::Yes)

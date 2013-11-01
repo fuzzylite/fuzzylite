@@ -15,7 +15,7 @@
     along with qtfuzzylite.  If not, see <http://www.gnu.org/licenses/>.
 
     Juan Rada-Vilela, 01 February 2013
-    jcrada@fuzzylite.com
+    jcrada@fuzzylite.com 
  **/
 
 /*
