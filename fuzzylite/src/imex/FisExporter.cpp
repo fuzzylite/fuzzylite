@@ -83,15 +83,15 @@ namespace fl {
         std::string uniquenessError;
         for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
             RuleBlock* rb = engine->getRuleBlock(i);
-            std::string tnormClass = (rb->getTnorm()? rb->getTnorm()->className() : "");
-            std::string snormClass = (rb->getSnorm()? rb->getSnorm()->className() : "");
+            std::string tnormClass = (rb->getConjunction()? rb->getConjunction()->className() : "");
+            std::string snormClass = (rb->getDisjunction()? rb->getDisjunction()->className() : "");
             std::string activationClass = (rb->getActivation() ? rb->getActivation()->className() : "");
 
-            if (not tnorm) tnorm = rb->getTnorm();
+            if (not tnorm) tnorm = rb->getConjunction();
             else if (tnorm->className() != tnormClass)
                 uniquenessError = "T-Norm";
 
-            if (not snorm) snorm = rb->getSnorm();
+            if (not snorm) snorm = rb->getDisjunction();
             else if (snorm->className() != snormClass)
                 uniquenessError = "S-Norm";
 

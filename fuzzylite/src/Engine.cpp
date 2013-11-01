@@ -25,6 +25,7 @@
 #include "fl/variable/InputVariable.h"
 #include "fl/variable/OutputVariable.h"
 #include "fl/rule/RuleBlock.h"
+#include "fl/rule/Rule.h"
 #include "fl/hedge/Hedge.h"
 
 #include "fl/term/Accumulated.h"
@@ -48,7 +49,8 @@
 
 namespace fl {
 
-    Engine::Engine(const std::string& name) : _name(name) { }
+    Engine::Engine(const std::string& name) : _name(name) {
+    }
 
     Engine::~Engine() {
         for (int i = numberOfRuleBlocks() - 1; i >= 0; --i) {
@@ -70,20 +72,24 @@ namespace fl {
 
     void Engine::configure(const std::string& tnorm, const std::string& snorm,
             const std::string& activationTnorm, const std::string& accumulationSnorm,
-            const std::string& defuzzifier, int divisions) {
+            const std::string& defuzzifier, int resolution) {
         TNormFactory* tnormFactory = Factory::instance()->tnorm();
         SNormFactory* snormFactory = Factory::instance()->snorm();
         DefuzzifierFactory* defuzzFactory = Factory::instance()->defuzzifier();
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            _ruleblocks.at(i)->setTnorm(tnormFactory->create(tnorm));
-            _ruleblocks.at(i)->setSnorm(snormFactory->create(snorm));
+            _ruleblocks.at(i)->setConjunction(tnormFactory->create(tnorm));
+            _ruleblocks.at(i)->setDisjunction(snormFactory->create(snorm));
             _ruleblocks.at(i)->setActivation(tnormFactory->create(activationTnorm));
         }
 
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             _outputVariables.at(i)->setDefuzzifier(defuzzFactory->create(defuzzifier));
             if (_outputVariables.at(i)->getDefuzzifier()) {
-                _outputVariables.at(i)->getDefuzzifier()->setDivisions(divisions);
+                IntegralDefuzzifier* integralDefuzzifier =
+                        dynamic_cast<IntegralDefuzzifier*> (_outputVariables.at(i)->getDefuzzifier());
+                if (integralDefuzzifier) {
+                    integralDefuzzifier->setResolution(resolution);
+                }
             }
             _outputVariables.at(i)->output()->setAccumulation(
                     snormFactory->create(accumulationSnorm));
@@ -124,12 +130,12 @@ namespace fl {
                             << " has no defuzzifier\n";
                 } else if (not (defuzzifier->className() == WeightedAverage().className()
                         or defuzzifier->className() == WeightedSum().className())) {
-                    
+
                     if (not outputVariable->output()->getAccumulation()) {
                         ss << "- Output variable <" << outputVariable->getName() << ">"
                                 << " has no accumulation S-Norm\n";
                     }
-                } 
+                }
             }
         }
 
@@ -144,14 +150,37 @@ namespace fl {
                 if (ruleblock->isEmpty()) {
                     ss << "- Rule block <" << ruleblock->getName() << "> has no rules\n";
                 }
-                if (not ruleblock->getTnorm()) {
-                    ss << "- Rule block <" << ruleblock->getName() << "> has no T-Norm\n";
+                int requiresConjunction = 0;
+                int requiresDisjunction = 0;
+                for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
+                    Rule* rule = ruleblock->getRule(r);
+                    if (not rule) {
+                        ss << "- Rule block <" << ruleblock->getName() << "> has a NULL rule at index <" << r << ">\n";
+                    } else {
+                        std::size_t andIndex = rule->getText().find(" " + Rule::andKeyword() + " ");
+                        std::size_t orIndex = rule->getText().find(" " + Rule::orKeyword() + " ");
+                        if (andIndex != std::string::npos) {
+                            ++requiresConjunction;
+                        }
+                        if (orIndex != std::string::npos) {
+                            ++requiresDisjunction;
+                        }
+                    }
                 }
-                if (not ruleblock->getSnorm()) {
-                    ss << "- Rule block <" << ruleblock->getName() << "> has no S-Norm\n";
+                if (requiresConjunction > 0 and not ruleblock->getConjunction()) {
+                    ss << "- Rule block <" << ruleblock->getName() << "> has no Conjunction\n";
+                    ss << "- Rule block <" << ruleblock->getName() << "> has "
+                            << requiresConjunction << " rules that require Conjunction\n";
                 }
+
+                if (requiresDisjunction > 0 and not ruleblock->getDisjunction()) {
+                    ss << "- Rule block <" << ruleblock->getName() << "> has no Disjunction\n";
+                    ss << "- Rule block <" << ruleblock->getName() << "> has "
+                            << requiresDisjunction << " rules that require Disjunction\n";
+                }
+
                 if (not ruleblock->getActivation()) {
-                    ss << "- Rule block <" << ruleblock->getName() << "> has no activation T-Norm\n";
+                    ss << "- Rule block <" << ruleblock->getName() << "> has no Activation\n";
                 }
             }
         }
@@ -176,7 +205,7 @@ namespace fl {
 
 
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            _ruleblocks.at(i)->fireRules();
+            _ruleblocks.at(i)->activate();
         }
 
 

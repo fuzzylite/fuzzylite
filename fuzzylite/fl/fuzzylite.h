@@ -61,8 +61,8 @@ namespace fl {
 #define FL_DECIMALS 3//for formatting strings
 #endif
 
-#ifndef FL_DIVISIONS
-#define FL_DIVISIONS 200 //for defuzzifiers
+#ifndef FL_RESOLUTION
+#define FL_RESOLUTION 200 //for defuzzifiers
 #endif
 
 #ifndef FL_PRECISION
@@ -144,7 +144,7 @@ namespace fl {
 
         static int decimals();
         static scalar precision();
-        static int defaultDivisions();
+        static int defaultResolution();
 
         static bool logEnabled();
     };

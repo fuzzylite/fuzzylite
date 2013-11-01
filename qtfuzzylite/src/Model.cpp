@@ -62,9 +62,9 @@ namespace fl {
             fl::Engine* e = new fl::Engine("");
             fl::RuleBlock* rb = new fl::RuleBlock;
 
-            rb->setTnorm(new Minimum);
-            rb->setSnorm(new Maximum);
-            rb->setActivation(new Minimum);
+//            rb->setConjunction(new Minimum);
+//            rb->setDisjunction(new Maximum);
+//            rb->setActivation(new Minimum);
 
             e->addRuleBlock(rb);
             change(e);

@@ -345,19 +345,19 @@ namespace fl {
             RuleBlock* ruleblock = engine->getRuleBlock(0);
             for (int i = 0; i < ruleblock->numberOfRules(); ++i) {
                 ui->ptx_rules->appendPlainText(
-                        QString::fromStdString(ruleblock->getRule(i)->getUnparsedRule()));
+                        QString::fromStdString(ruleblock->getRule(i)->getText()));
             }
 
-            if (ruleblock->getTnorm()) {
+            if (ruleblock->getConjunction()) {
                 ui->cbxTnorm->setCurrentIndex(
                         ui->cbxTnorm->findText(QString::fromStdString(
-                        ruleblock->getTnorm()->className())));
+                        ruleblock->getConjunction()->className())));
             } else ui->cbxTnorm->setCurrentIndex(0);
 
-            if (ruleblock->getSnorm()) {
+            if (ruleblock->getDisjunction()) {
                 ui->cbxSnorm->setCurrentIndex(
                         ui->cbxSnorm->findText(QString::fromStdString(
-                        ruleblock->getSnorm()->className())));
+                        ruleblock->getDisjunction()->className())));
             } else ui->cbxSnorm->setCurrentIndex(0);
 
             if (ruleblock->getActivation()) {
@@ -448,7 +448,7 @@ namespace fl {
                 number += QString::number(i + 1);
 
                 QString rule = number + ": " +
-                        QString::fromStdString(engine->getRuleBlock(0)->getRule(i)->getUnparsedRule());
+                        QString::fromStdString(engine->getRuleBlock(0)->getRule(i)->getText());
                 QListWidgetItem* item = new QListWidgetItem(rule);
                 item->setToolTip(rule);
                 ui->lsw_test_rules->addItem(item);
@@ -606,8 +606,8 @@ namespace fl {
             fl::RuleBlock* ruleblock = Model::Default()->engine()->getRuleBlock(0);
             for (int i = 0; i < ruleblock->numberOfRules(); ++i) {
                 fl::Rule* rule = ruleblock->getRule(i);
-                scalar degree = rule->firingStrength(ruleblock->getTnorm(),
-                        ruleblock->getSnorm());
+                scalar degree = rule->activationDegree(ruleblock->getConjunction(),
+                        ruleblock->getDisjunction());
                 if (not fl::Op::isInf(degree) and not fl::Op::isNan(degree)) {
                     QColor color = Window::mainWindow()->gradient(degree * 255,
                             from_color, to_color);
@@ -948,7 +948,7 @@ namespace fl {
         void Window::onSelectTnorm(int selected) {
             TNorm* tnorm = Factory::instance()->tnorm()->create(
                     ui->cbxTnorm->currentText().toStdString());
-            Model::Default()->engine()->getRuleBlock(0)->setTnorm(tnorm);
+            Model::Default()->engine()->getRuleBlock(0)->setConjunction(tnorm);
             _currentFileModified = true;
             updateWindowTitle();
         }
@@ -956,7 +956,7 @@ namespace fl {
         void Window::onSelectSnorm(int selected) {
             SNorm* snorm = Factory::instance()->snorm()->create(
                     ui->cbxSnorm->currentText().toStdString());
-            Model::Default()->engine()->getRuleBlock(0)->setSnorm(snorm);
+            Model::Default()->engine()->getRuleBlock(0)->setDisjunction(snorm);
             _currentFileModified = true;
             updateWindowTitle();
         }

@@ -44,8 +44,8 @@ namespace fl {
         if (className == LargestOfMaximum().className()) return new LargestOfMaximum(divisions);
         if (className == MeanOfMaximum().className()) return new MeanOfMaximum(divisions);
         if (className == SmallestOfMaximum().className()) return new SmallestOfMaximum(divisions);
-        if (className == WeightedAverage().className()) return new WeightedAverage(divisions);
-        if (className == WeightedSum().className()) return new WeightedSum(divisions);
+        if (className == WeightedAverage().className()) return new WeightedAverage();
+        if (className == WeightedSum().className()) return new WeightedSum();
         throw fl::Exception("[factory error] Defuzzifier of class <" + className + "> not recognized", FL_AT);
     }
 

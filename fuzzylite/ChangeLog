@@ -1,0 +1,16 @@
+
+Version 4.0
+* FuzzyRule merged with Rule, and FuzzyRule deleted.
+* FuzzyAntecedent merged with Antecedent, and FuzzyAntecedent deleted
+* FuzzyConsequent merged with Consequent, and FuzzyConsequent deleted
+* FuzzyExpression renamed Expression
+* Renamed Rule::get/setUnparsedRule to get/setText
+* Renamed RuleBlock::get/set(Tnorm|Snorm) to get/set(Conjunction|Disjunction)
+* Renamed RuleBlock::fireRules to activate
+* Renamed Rule::fireStrength to activationDegree, fire to activate
+* Renamed Consequent::fire to modify
+* Created IntegralDefuzzifier to extract divisions from Defuzzifier
+* Renamed divisions from IntegralDefuzzifier to resolution, FL_DIVISIONS to FL_RESOLUTION
+* Deleted MaximumDefuzzifier
+* Centroid, Bisector, and Largest/Smallest/Mean Defuzzifiers inherit from IntegralDefuzzifier
+

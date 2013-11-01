@@ -23,13 +23,13 @@
 #ifndef FL_MEANOFMAXIMUM_H
 #define	FL_MEANOFMAXIMUM_H
 
-#include "fl/defuzzifier/Defuzzifier.h"
+#include "fl/defuzzifier/IntegralDefuzzifier.h"
 
 namespace fl {
 
-    class FL_EXPORT MeanOfMaximum : public Defuzzifier {
+    class FL_EXPORT MeanOfMaximum : public IntegralDefuzzifier {
     public:
-        MeanOfMaximum(int divisions = FL_DIVISIONS);
+        MeanOfMaximum(int resolution = FL_RESOLUTION);
         virtual ~MeanOfMaximum();
 
         virtual std::string className() const;

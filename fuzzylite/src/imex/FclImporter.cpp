@@ -301,9 +301,9 @@ namespace fl {
         while (getline(blockReader, line)) {
             std::string firstToken = line.substr(0, line.find_first_of(' '));
             if (firstToken == "AND") {
-                ruleblock->setTnorm(extractTNorm(line));
+                ruleblock->setConjunction(extractTNorm(line));
             } else if (firstToken == "OR") {
-                ruleblock->setSnorm(extractSNorm(line));
+                ruleblock->setDisjunction(extractSNorm(line));
             } else if (firstToken == "ACT") {
                 ruleblock->setActivation(extractTNorm(line));
             } else if (firstToken == "RULE") {

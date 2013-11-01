@@ -100,15 +100,15 @@ namespace fl {
             cpp << "fl::RuleBlock* ruleblock" << (i + 1) << " = new fl::RuleBlock;\n";
             cpp << "ruleblock" << (i + 1) << "->setName(\"" << ruleblock->getName() << "\");\n";
             cpp << "ruleblock" << (i + 1) << "->setTnorm(" <<
-                    toCpp(ruleblock->getTnorm()) << ");\n";
+                    toCpp(ruleblock->getConjunction()) << ");\n";
             cpp << "ruleblock" << (i + 1) << "->setSnorm("
-                    << toCpp(ruleblock->getSnorm()) << ");\n";
+                    << toCpp(ruleblock->getDisjunction()) << ");\n";
             cpp << "ruleblock" << (i + 1) << "->setActivation("
                     << toCpp(ruleblock->getActivation()) << ");\n";
             cpp << "\n";
             for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
                 cpp << "ruleblock" << (i + 1) << "->addRule(fl::Rule::parse(\"" <<
-                        ruleblock->getRule(r)->getUnparsedRule() << "\", engine));\n";
+                        ruleblock->getRule(r)->getText() << "\", engine));\n";
             }
             cpp << "engine->addRuleBlock(ruleblock" << (i + 1) << ");\n";
         }
@@ -282,8 +282,10 @@ namespace fl {
                 or defuzzifier->className() == WeightedSum().className()) {
             return "new fl::" + defuzzifier->className() + "()";
         }
-        return "new fl::" + defuzzifier->className() + "("
-                + fl::Op::str(defuzzifier->getDivisions()) + ")";
+        const IntegralDefuzzifier* integralDefuzzifier= 
+                dynamic_cast<const IntegralDefuzzifier*> (defuzzifier);
+        return "new fl::" + integralDefuzzifier->className() + "("
+                + fl::Op::str(integralDefuzzifier->getResolution()) + ")";
     }
 
 }

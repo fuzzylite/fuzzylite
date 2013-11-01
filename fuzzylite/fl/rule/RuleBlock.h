@@ -38,23 +38,23 @@ namespace fl {
     protected:
         std::vector<Rule*> _rules;
         std::string _name;
-        const TNorm* _tnorm;
-        const SNorm* _snorm;
+        const TNorm* _conjunction;
+        const SNorm* _disjunction;
         const TNorm* _activation;
     public:
         RuleBlock(const std::string& name = "");
         virtual ~RuleBlock();
 
-        virtual void fireRules();
+        virtual void activate();
 
         virtual void setName(std::string name);
         virtual std::string getName() const;
 
-        virtual void setTnorm(const TNorm* tnorm);
-        virtual const TNorm* getTnorm() const;
+        virtual void setConjunction(const TNorm* conjunction);
+        virtual const TNorm* getConjunction() const;
 
-        virtual void setSnorm(const SNorm* snorm);
-        virtual const SNorm* getSnorm() const;
+        virtual void setDisjunction(const SNorm* disjunction);
+        virtual const SNorm* getDisjunction() const;
 
         virtual void setActivation(const TNorm* activation);
         virtual const TNorm* getActivation() const;

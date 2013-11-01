@@ -95,7 +95,7 @@ namespace fl {
             ui->cbx_defuzzifier->insertSeparator(ui->cbx_defuzzifier->findText(
                     QString::fromStdString(fl::WeightedAverage().className())));
 
-            ui->sbx_accuracy->setValue(fl::fuzzylite::defaultDivisions());
+            ui->sbx_accuracy->setValue(fl::fuzzylite::defaultResolution());
 
             QRect scr = Window::mainWindow()->geometry();
             move(scr.center().x() - rect().center().x(), scr.top());
@@ -474,7 +474,11 @@ namespace fl {
                             ui->cbx_defuzzifier->findText(
                             QString::fromStdString(
                             outputVariable->getDefuzzifier()->className())));
-                    ui->sbx_accuracy->setValue(outputVariable->getDefuzzifier()->getDivisions());
+                    IntegralDefuzzifier* integralDefuzzifier =
+                            dynamic_cast<IntegralDefuzzifier*> (outputVariable->getDefuzzifier());
+                    if (integralDefuzzifier) {
+                        ui->sbx_accuracy->setValue(integralDefuzzifier->getResolution());
+                    }
                 } else {
                     ui->cbx_defuzzifier->setCurrentIndex(-1);
                 }

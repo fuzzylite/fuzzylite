@@ -32,7 +32,7 @@
 namespace fl {
 
     RuleBlock::RuleBlock(const std::string& name)
-    : _name(name), _tnorm(NULL), _snorm(NULL), _activation(NULL) { }
+    : _name(name), _conjunction(NULL), _disjunction(NULL), _activation(NULL) { }
 
     RuleBlock::~RuleBlock() {
         for (std::size_t i = 0; i < _rules.size(); ++i) {
@@ -40,14 +40,14 @@ namespace fl {
         }
     }
 
-    void RuleBlock::fireRules() {
+    void RuleBlock::activate() {
         FL_DBG("===================");
-        FL_DBG("FIRING RULEBLOCK " << _name);
+        FL_DBG("ACTIVATING RULEBLOCK " << _name);
         for (std::size_t i = 0; i < _rules.size(); ++i) {
-            scalar strength = _rules.at(i)->firingStrength(_tnorm, _snorm);
-            FL_DBG(_rules.at(i)->toString() << " [strength=" << strength << "]");
-            if (Op::isGt(strength, 0.0)) {
-                _rules.at(i)->fire(strength, _activation);
+            scalar activationDegree = _rules.at(i)->activationDegree(_conjunction, _disjunction);
+            FL_DBG(_rules.at(i)->toString() << " [activationDegree=" << activationDegree << "]");
+            if (Op::isGt(activationDegree, 0.0)) {
+                _rules.at(i)->activate(activationDegree, _activation);
             }
         }
     }
@@ -60,22 +60,22 @@ namespace fl {
         return this->_name;
     }
 
-    void RuleBlock::setTnorm(const TNorm* tnorm) {
-        if (this->_tnorm) delete this->_tnorm;
-        this->_tnorm = tnorm;
+    void RuleBlock::setConjunction(const TNorm* tnorm) {
+        if (this->_conjunction) delete this->_conjunction;
+        this->_conjunction = tnorm;
     }
 
-    const TNorm* RuleBlock::getTnorm() const {
-        return this->_tnorm;
+    const TNorm* RuleBlock::getConjunction() const {
+        return this->_conjunction;
     }
 
-    void RuleBlock::setSnorm(const SNorm* snorm) {
-        if (this->_snorm) delete this->_snorm;
-        this->_snorm = snorm;
+    void RuleBlock::setDisjunction(const SNorm* snorm) {
+        if (this->_disjunction) delete this->_disjunction;
+        this->_disjunction = snorm;
     }
 
-    const SNorm* RuleBlock::getSnorm() const {
-        return this->_snorm;
+    const SNorm* RuleBlock::getDisjunction() const {
+        return this->_disjunction;
     }
 
     void RuleBlock::setActivation(const TNorm* activation) {
@@ -90,8 +90,8 @@ namespace fl {
     std::string RuleBlock::toString() const {
         std::stringstream ss;
         ss << "name='" << _name << "' "
-                << "tnorm='" << _tnorm->className() << "' "
-                << "snorm='" << _snorm->className() << "' "
+                << "conjunction='" << _conjunction->className() << "' "
+                << "disjunction='" << _disjunction->className() << "' "
                 << "activation='" << _activation->className() << "' "
                 ;
         return ss.str();

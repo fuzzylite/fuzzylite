@@ -23,11 +23,11 @@ if (APPLE)
 endif()
 
 
-set(FL_VERSION 3.1)
+set(FL_VERSION 4.0)
 add_definitions(-DFL_VERSION="${FL_VERSION}")
 
-set(FL_DATE "1309")
-add_definitions(-DFL_DATE="1309")
+set(FL_DATE "1401")
+add_definitions(-DFL_DATE="1401")
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_USE_LOG "Enable the macro FL_LOG to print information" ON)

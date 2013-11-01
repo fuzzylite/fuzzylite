@@ -23,13 +23,13 @@
 #ifndef FL_LARGESTOFMAXIMUM_H
 #define	FL_LARGESTOFMAXIMUM_H
 
-#include "fl/defuzzifier/Defuzzifier.h"
+#include "fl/defuzzifier/IntegralDefuzzifier.h"
 
 namespace fl {
 
-    class FL_EXPORT LargestOfMaximum : public Defuzzifier {
+    class FL_EXPORT LargestOfMaximum : public IntegralDefuzzifier {
     public:
-        LargestOfMaximum(int divisions = FL_DIVISIONS);
+        LargestOfMaximum(int resolution = FL_RESOLUTION);
         virtual ~LargestOfMaximum();
 
         virtual std::string className() const;

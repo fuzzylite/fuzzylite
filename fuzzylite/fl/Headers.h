@@ -31,6 +31,7 @@
 #include "fl/defuzzifier/Bisector.h"
 #include "fl/defuzzifier/Centroid.h"
 #include "fl/defuzzifier/Defuzzifier.h"
+#include "fl/defuzzifier/IntegralDefuzzifier.h"
 #include "fl/defuzzifier/SmallestOfMaximum.h"
 #include "fl/defuzzifier/LargestOfMaximum.h"
 #include "fl/defuzzifier/MeanOfMaximum.h"

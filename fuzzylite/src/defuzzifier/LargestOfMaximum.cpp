@@ -31,8 +31,8 @@
 
 namespace fl {
 
-    LargestOfMaximum::LargestOfMaximum(int divisions)
-    : Defuzzifier(divisions) { }
+    LargestOfMaximum::LargestOfMaximum(int resolution)
+    : IntegralDefuzzifier(resolution) { }
 
     LargestOfMaximum::~LargestOfMaximum() { }
 
@@ -41,15 +41,15 @@ namespace fl {
     }
 
     scalar LargestOfMaximum::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
-        if (maximum - minimum > _divisions) {
-            FL_LOG("[accuracy warning] the number of divisions ( " << _divisions << ") "
-                    "is less than the range (" << minimum << ", " << maximum << "). In order to "
-                    "improve the accuracy, the number of divisions should be greater than the range.");
+        if (maximum - minimum > _resolution) {
+            FL_LOG("[accuracy warning] the resolution < " << _resolution << "> "
+                    "is smaller than the range <" << minimum << ", " << maximum << ">. In order to "
+                    "improve the accuracy, the resolution should be at least equal to the range.");
         }
-        scalar dx = (maximum - minimum) / _divisions;
+        scalar dx = (maximum - minimum) / _resolution;
         scalar x, y;
         scalar ymax = -1.0, xlargest = maximum;
-        for (int i = 0; i < _divisions; ++i) {
+        for (int i = 0; i < _resolution; ++i) {
             x = minimum + (i + 0.5) * dx;
             y = term->membership(x);
 

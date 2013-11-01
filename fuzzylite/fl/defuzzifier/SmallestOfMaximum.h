@@ -23,13 +23,13 @@
 #ifndef FL_SMALLESTOFMAXIMUM_H
 #define	FL_SMALLESTOFMAXIMUM_H
 
-#include "fl/defuzzifier/Defuzzifier.h"
+#include "fl/defuzzifier/IntegralDefuzzifier.h"
 
 namespace fl {
 
-    class FL_EXPORT SmallestOfMaximum : public Defuzzifier {
+    class FL_EXPORT SmallestOfMaximum : public IntegralDefuzzifier {
     public:
-        SmallestOfMaximum(int divisions = FL_DIVISIONS);
+        SmallestOfMaximum(int resolution = FL_RESOLUTION);
         virtual ~SmallestOfMaximum();
 
         virtual std::string className() const;

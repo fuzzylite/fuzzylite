@@ -31,7 +31,7 @@ namespace fl {
     class FL_EXPORT WeightedSum : public Defuzzifier {
     public:
 
-        WeightedSum(int divisions = FL_DIVISIONS);
+        WeightedSum();
         virtual ~WeightedSum();
 
         virtual std::string className() const ;

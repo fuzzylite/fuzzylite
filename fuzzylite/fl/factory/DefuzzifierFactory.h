@@ -37,7 +37,7 @@ namespace fl {
         virtual ~DefuzzifierFactory();
 
         virtual Defuzzifier* create(const std::string& className,
-                int divisions = FL_DIVISIONS);
+                int resolution = FL_RESOLUTION);
         
         virtual std::vector<std::string> available() const;
         

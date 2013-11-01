@@ -67,7 +67,7 @@ namespace fl {
                 const std::string& activationTnorm = "Minimum",
                 const std::string& accumulationSnorm = "Maximum",
                 const std::string& defuzzifier = "CenterOfGravity",
-                int divisions = FL_DIVISIONS);
+                int resolution = FL_RESOLUTION);
 
         virtual bool isReady(std::string* status = NULL) const;
         

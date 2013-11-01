@@ -1,6 +1,7 @@
 fl/Headers.h
 fl/fuzzylite.h
 fl/defuzzifier/Defuzzifier.h
+fl/defuzzifier/IntegralDefuzzifier.h
 fl/defuzzifier/Bisector.h
 fl/defuzzifier/Centroid.h
 fl/defuzzifier/SmallestOfMaximum.h

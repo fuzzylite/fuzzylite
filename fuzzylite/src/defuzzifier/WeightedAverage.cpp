@@ -20,7 +20,7 @@
 
 namespace fl {
 
-    WeightedAverage::WeightedAverage(int divisions) : Defuzzifier(divisions) { }
+    WeightedAverage::WeightedAverage() : Defuzzifier() { }
 
     WeightedAverage::~WeightedAverage() { }
 

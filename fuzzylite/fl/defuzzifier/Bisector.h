@@ -23,13 +23,13 @@
 #ifndef FL_BISECTOR_H
 #define	FL_BISECTOR_H
 
-#include "fl/defuzzifier/Defuzzifier.h"
+#include "fl/defuzzifier/IntegralDefuzzifier.h"
 
 namespace fl {
 
-    class FL_EXPORT Bisector : public Defuzzifier {
+    class FL_EXPORT Bisector : public IntegralDefuzzifier {
     public:
-        Bisector(int divisions = FL_DIVISIONS);
+        Bisector(int resolution = FL_RESOLUTION);
 
         std::string className() const;
         scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;

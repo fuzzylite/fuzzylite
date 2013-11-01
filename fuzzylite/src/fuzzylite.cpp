@@ -88,8 +88,8 @@ namespace fl {
         return FL_PRECISION;
     }
 
-    int fuzzylite::defaultDivisions() {
-        return FL_DIVISIONS;
+    int fuzzylite::defaultResolution() {
+        return FL_RESOLUTION;
     }
 
     bool fuzzylite::logEnabled() {

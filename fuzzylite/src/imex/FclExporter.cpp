@@ -117,10 +117,10 @@ namespace fl {
             RuleBlock* ruleblock = engine->getRuleBlock(i);
             fcl << "RULEBLOCK " << ruleblock->getName() << "\n";
 
-            if (ruleblock->getTnorm())
-                fcl << "AND : " << toFcl(ruleblock->getTnorm()) << ";\n";
-            if (ruleblock->getSnorm())
-                fcl << "OR : " << toFcl(ruleblock->getSnorm()) << ";\n";
+            if (ruleblock->getConjunction())
+                fcl << "AND : " << toFcl(ruleblock->getConjunction()) << ";\n";
+            if (ruleblock->getDisjunction())
+                fcl << "OR : " << toFcl(ruleblock->getDisjunction()) << ";\n";
             if (ruleblock->getActivation())
                 fcl << "ACT : " << toFcl(ruleblock->getActivation()) << ";\n";
 
@@ -128,7 +128,7 @@ namespace fl {
 
             for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
                 fcl << "RULE " << (r + 1) << " : " <<
-                        ruleblock->getRule(r)->getUnparsedRule() << "\n";
+                        ruleblock->getRule(r)->getText() << "\n";
             }
             fcl << "END_RULEBLOCK\n";
             fcl << "\n";

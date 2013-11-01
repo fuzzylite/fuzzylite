@@ -76,21 +76,21 @@ namespace fl {
         return this->_consequent;
     }
 
-    scalar Rule::firingStrength(const TNorm* tnorm,
+    scalar Rule::activationDegree(const TNorm* tnorm,
             const SNorm* snorm) const {
         return getAntecedent()->firingStrength(tnorm, snorm) * _weight;
     }
 
-    void Rule::fire(scalar strength, const TNorm* activation) const {
-        return getConsequent()->fire(strength, activation);
+    void Rule::activate(scalar strength, const TNorm* activation) const {
+        return getConsequent()->modify(strength, activation);
     }
 
-    void Rule::setUnparsedRule(const std::string& unparsedRule) {
-        this->_unparsedRule = unparsedRule;
+    void Rule::setText(const std::string& text) {
+        this->_text = text;
     }
 
-    std::string Rule::getUnparsedRule() const {
-        return this->_unparsedRule;
+    std::string Rule::getText() const {
+        return this->_text;
     }
 
     std::string Rule::toString() const {
@@ -133,7 +133,7 @@ namespace fl {
 
     Rule* Rule::parse(const std::string& rule, const Engine* engine) {
         Rule* result = new Rule();
-        result->setUnparsedRule(rule);
+        result->setText(rule);
         std::istringstream tokenizer(rule);
         std::string token;
         std::ostringstream ossAntecedent, ossConsequent;

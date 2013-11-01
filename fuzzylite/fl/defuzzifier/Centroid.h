@@ -23,13 +23,13 @@
 #ifndef FL_CENTROID_H
 #define FL_CENTROID_H
 
-#include "fl/defuzzifier/Defuzzifier.h"
+#include "fl/defuzzifier/IntegralDefuzzifier.h"
 
 namespace fl {
 
-    class FL_EXPORT Centroid : public Defuzzifier {
+    class FL_EXPORT Centroid : public IntegralDefuzzifier {
     public:
-        Centroid(int divisions = FL_DIVISIONS);
+        Centroid(int resolution = FL_RESOLUTION);
 
         std::string className() const;
         scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;

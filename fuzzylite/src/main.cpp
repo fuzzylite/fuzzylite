@@ -70,7 +70,7 @@ void exampleMamdani() {
 
     engine->addRuleBlock(ruleblock);
 
-    engine->configure("Minimum", "Maximum", "Minimum", "Maximum", "Centroid", FL_DIVISIONS);
+    engine->configure("Minimum", "Maximum", "Minimum", "Maximum", "Centroid", FL_RESOLUTION);
 
 
     std::cout << FclExporter().toString(engine) << "\n";
@@ -140,7 +140,7 @@ void exampleTakagiSugeno() {
     engine->addRuleBlock(block);
 
     engine->configure("AlgebraicProduct", "AlgebraicSum", "AlgebraicProduct",
-            "", "WeightedAverage", FL_DIVISIONS);
+            "", "WeightedAverage");
 
     std::cout << FisExporter().toString(engine) << "\n" << std::endl;
 
@@ -228,8 +228,8 @@ void exampleTakagiSugeno2() {
 
     fl::RuleBlock* ruleblock1 = new fl::RuleBlock;
     ruleblock1->setName("");
-    ruleblock1->setTnorm(new fl::Minimum);
-    ruleblock1->setSnorm(new fl::Maximum);
+    ruleblock1->setConjunction(new fl::Minimum);
+    ruleblock1->setDisjunction(new fl::Maximum);
     ruleblock1->setActivation(new fl::Minimum);
 
     ruleblock1->addRule(fl::Rule::parse("if X is About-Neg-Five then Approx-X-Cubed is Tangent-at-Neg-Five", engine));
@@ -380,7 +380,7 @@ void examples() throw (fl::Exception) {
             << "Infinity is printed as: (" << fl::Op::str(-fl::inf)
             << " , " << fl::Op::str(fl::inf) << ")\n"
             << "NaN values are printed as: " << fl::Op::str(fl::nan) << "\n"
-            << "Defuzzifiers by default use " << fl::fuzzylite::defaultDivisions() << " divisions\n";
+            << "Integral Defuzzifiers use by default resolution " << fl::fuzzylite::defaultResolution() << "\n";
     if (fl::fuzzylite::logEnabled()) {
         std::cout << "FL_LOG is enabled and prints in console as follows:\n";
         FL_LOG("message from FL_LOG");

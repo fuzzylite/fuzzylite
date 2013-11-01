@@ -30,22 +30,23 @@
 
 namespace fl {
 
-    Bisector::Bisector(int divisions)
-    : Defuzzifier(divisions) { }
+    Bisector::Bisector(int resolution)
+    : IntegralDefuzzifier(resolution) {
+    }
 
     std::string Bisector::className() const {
         return "Bisector";
     }
 
     scalar Bisector::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
-        if (maximum - minimum > _divisions) {
-            FL_LOG("[accuracy warning] the number of divisions ( " << _divisions << ") "
-                    "is less than the range (" << minimum << ", " << maximum << "). In order to "
-                    "improve the accuracy, the number of divisions should be greater than the range.");
+        if (maximum - minimum > _resolution) {
+            FL_LOG("[accuracy warning] the resolution < " << _resolution << "> "
+                    "is smaller than the range <" << minimum << ", " << maximum << ">. In order to "
+                    "improve the accuracy, the resolution should be at least equal to the range.");
         }
-        scalar dx = (maximum - minimum) / _divisions;
+        scalar dx = (maximum - minimum) / _resolution;
 
-        int counter = _divisions;
+        int counter = _resolution;
         int left = 0, right = 0;
         scalar leftArea = 0, rightArea = 0;
         scalar xLeft = minimum, xRight = maximum;
@@ -60,7 +61,7 @@ namespace fl {
                 right++;
             }
         }
-        
+
         //Inverse weighted average to compensate
         scalar bisector = (leftArea * xRight + rightArea * xLeft) / (leftArea + rightArea);
         return bisector;

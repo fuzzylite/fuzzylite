@@ -37,11 +37,11 @@ namespace fl {
     class FL_EXPORT Rule {
     protected:
         scalar _weight;
-        std::string _unparsedRule;
+        std::string _text;
         Antecedent* _antecedent;
         Consequent* _consequent;
 
-        virtual void setUnparsedRule(const std::string& unparsedRule);
+        virtual void setText(const std::string& text);
     public:
         Rule();
         virtual ~Rule();
@@ -52,13 +52,13 @@ namespace fl {
         virtual void setConsequent(Consequent* consequent);
         virtual Consequent* getConsequent() const;
 
-        virtual scalar firingStrength(const TNorm* tnorm, const SNorm* snorm) const;
-        virtual void fire(scalar strength, const TNorm* activation) const;
+        virtual scalar activationDegree(const TNorm* tnorm, const SNorm* snorm) const;
+        virtual void activate(scalar strength, const TNorm* activation) const;
 
         virtual void setWeight(scalar weight);
         virtual scalar getWeight() const;
 
-        virtual std::string getUnparsedRule() const;
+        virtual std::string getText() const;
 
         virtual std::string toString() const;
 
