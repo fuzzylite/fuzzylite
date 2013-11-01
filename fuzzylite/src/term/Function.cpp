@@ -73,7 +73,6 @@ namespace fl {
 
     scalar Function::membership(scalar x) const {
         if (not this->root) return fl::nan;
-        //            throw fl::Exception("[function error] function not loaded", FL_AT);
         if (this->_engine) {
             for (int i = 0; i < this->_engine->numberOfInputVariables(); ++i) {
                 InputVariable* input = this->_engine->getInputVariable(i);
@@ -476,8 +475,8 @@ namespace fl {
         if (not fl::Op::isNan(node->value)) { //is terminal
             return fl::Op::str(node->value);
         }
-        if (not variable.empty()) {
-            return variable;
+        if (not node.variable.empty()) {
+            return node.variable;
         }
 
         std::ostringstream ss;
@@ -494,8 +493,8 @@ namespace fl {
         if (not fl::Op::isNan(node->value)) { //is proposition
             return fl::Op::str(node->value);
         }
-        if (not variable.empty()) {
-            return variable;
+        if (not node.variable.empty()) {
+            return node.variable;
         }
 
         std::ostringstream ss;
@@ -512,8 +511,8 @@ namespace fl {
         if (not fl::Op::isNan(node->value)) { //is proposition
             return fl::Op::str(node->value);
         }
-        if (not variable.empty()) {
-            return variable;
+        if (not node.variable.empty()) {
+            return node.variable;
         }
 
         std::ostringstream ss;

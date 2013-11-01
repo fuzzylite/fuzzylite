@@ -113,6 +113,7 @@ namespace fl {
          * Term
          ******************************/
     protected:
+        //TODO: rename infix to text.
         std::string _infix;
         const Engine* _engine;
 
