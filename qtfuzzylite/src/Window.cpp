@@ -414,7 +414,7 @@ namespace fl {
             for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
                 Control* control = new Control(ui->inputVariables);
                 InputVariable* inputVariable = engine->getInputVariable(i);
-                inputVariable->setInput(inputVariable->getMinimum());
+                inputVariable->setInputValue(inputVariable->getMinimum());
                 control->setup(inputVariable);
                 control->ui->bottom_line->setVisible(i != engine->numberOfInputVariables() - 1);
                 layout->addWidget(control);

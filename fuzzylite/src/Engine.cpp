@@ -98,7 +98,7 @@ namespace fl {
 
     bool Engine::isReady(std::string* status) const {
         std::ostringstream ss;
-        if (_inputVariables.size() == 0) {
+        if (_inputVariables.empty()) {
             ss << "- Engine has no input variables\n";
         }
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
@@ -112,7 +112,7 @@ namespace fl {
             }
         }
 
-        if (_outputVariables.size() == 0) {
+        if (_outputVariables.empty()) {
             ss << "- Engine has no output variables\n";
         }
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
@@ -128,18 +128,19 @@ namespace fl {
                 if (not defuzzifier) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no defuzzifier\n";
+                    //TODO: if dynamic_cast<IntegralDefuzzifier> and accu is null
                 } else if (not (defuzzifier->className() == WeightedAverage().className()
                         or defuzzifier->className() == WeightedSum().className())) {
 
                     if (not outputVariable->output()->getAccumulation()) {
                         ss << "- Output variable <" << outputVariable->getName() << ">"
-                                << " has no accumulation S-Norm\n";
+                                << " has no Accumulation\n";
                     }
                 }
             }
         }
 
-        if (_ruleblocks.size() == 0) {
+        if (_ruleblocks.empty()) {
             ss << "- Engine has no rule blocks\n";
         }
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
@@ -155,7 +156,8 @@ namespace fl {
                 for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
                     Rule* rule = ruleblock->getRule(r);
                     if (not rule) {
-                        ss << "- Rule block <" << ruleblock->getName() << "> has a NULL rule at index <" << r << ">\n";
+                        ss << "- Rule block <" << ruleblock->getName() 
+                                << "> has a NULL rule at index <" << r << ">\n";
                     } else {
                         std::size_t andIndex = rule->getText().find(" " + Rule::andKeyword() + " ");
                         std::size_t orIndex = rule->getText().find(" " + Rule::orKeyword() + " ");
@@ -197,9 +199,9 @@ namespace fl {
         FL_DBG("===============");
         FL_DBG("CURRENT INPUTS:");
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
-            scalar input = _inputVariables.at(i)->getInput();
-            FL_DBG(_inputVariables.at(i)->getName() << ".input = " << input);
-            FL_DBG(_inputVariables.at(i)->getName() << ".fuzzyfiedInput = " << _inputVariables.at(i)->fuzzify(input));
+            scalar inputValue = _inputVariables.at(i)->getInputValue();
+            FL_DBG(_inputVariables.at(i)->getName() << ".input = " << Op::str(inputValue));
+            FL_DBG(_inputVariables.at(i)->getName() << ".fuzzy= " << _inputVariables.at(i)->fuzzify(inputValue));
         }
         FL_END_DEBUG_BLOCK
 
@@ -213,19 +215,19 @@ namespace fl {
         FL_DBG("===============");
         FL_DBG("CURRENT OUTPUTS:");
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            FL_DBG(_outputVariables.at(i)->getName() << ".defaultValue= "
+            FL_DBG(_outputVariables.at(i)->getName() << ".default= "
                     << _outputVariables.at(i)->getDefaultValue());
 
-            FL_DBG(_outputVariables.at(i)->getName() << ".lockingRange= "
+            FL_DBG(_outputVariables.at(i)->getName() << ".lockRange= "
                     << _outputVariables.at(i)->isLockingOutputRange());
 
-            FL_DBG(_outputVariables.at(i)->getName() << ".lockingValid= "
+            FL_DBG(_outputVariables.at(i)->getName() << ".lockValid= "
                     << _outputVariables.at(i)->isLockingValidOutput());
 
             //no locking is ever performed during this debugging block;
             scalar output = _outputVariables.at(i)->defuzzifyNoLocks();
-            FL_DBG(_outputVariables.at(i)->getName() << ".defuzzifiedOutput = " << output);
-            FL_DBG(_outputVariables.at(i)->getName() << ".fuzzifiedOutput = " <<
+            FL_DBG(_outputVariables.at(i)->getName() << ".output = " << output);
+            FL_DBG(_outputVariables.at(i)->getName() << ".fuzzy = " <<
                     _outputVariables.at(i)->fuzzify(output));
             FL_DBG(_outputVariables.at(i)->output()->toString());
         }

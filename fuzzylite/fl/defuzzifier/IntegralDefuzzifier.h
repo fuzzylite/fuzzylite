@@ -13,33 +13,36 @@
  limitations under the License.
  */
 
-/*
- * InputVariable.h
+/* 
+ * File:   IntegralDefuzzifier.h
+ * Author: jcrada
  *
- *  Created on: 2/12/2012
- *      Author: jcrada
+ * Created on 2 November 2013, 9:18 AM
  */
 
-#ifndef FL_INPUTVARIABLE_H
-#define FL_INPUTVARIABLE_H
+#ifndef FL_INTEGRALDEFUZZIFIER_H
+#define	FL_INTEGRALDEFUZZIFIER_H
 
-#include "fl/variable/Variable.h"
+#include "fl/defuzzifier/Defuzzifier.h"
 
 namespace fl {
+    //TODO: check  http://en.wikipedia.org/wiki/Adaptive_quadrature    
 
-    class FL_EXPORT InputVariable : public Variable {
+    class IntegralDefuzzifier : public Defuzzifier {
     protected:
-        scalar _inputValue;
+        int _resolution;
     public:
-        InputVariable(const std::string& name = "", 
-                scalar minimum = -fl::inf,
-                scalar maximum = fl::inf);
-        virtual ~InputVariable();
 
-        virtual void setInputValue(scalar inputValue);
-        virtual scalar getInputValue() const;
+        IntegralDefuzzifier(int resolution = FL_RESOLUTION);
+        virtual ~IntegralDefuzzifier();
+
+        virtual void setResolution(int resolution);
+        virtual int getResolution() const;
+
 
     };
 
-} 
-#endif /* FL_INPUTVARIABLE_H */
+}
+
+#endif	/* INTEGRALDEFUZZIFIER_H */
+

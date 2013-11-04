@@ -28,9 +28,11 @@
 
 namespace fl {
 
-    FclExporter::FclExporter() { }
+    FclExporter::FclExporter() {
+    }
 
-    FclExporter::~FclExporter() { }
+    FclExporter::~FclExporter() {
+    }
 
     std::string FclExporter::name() const {
         return "FclExporter";
@@ -42,14 +44,14 @@ namespace fl {
 
         fcl << "VAR_INPUT\n";
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
-            fcl << engine->getInputVariable(i)->getName() << ": REAL;"
+            fcl << "  " << engine->getInputVariable(i)->getName() << ": REAL;"
                     << "\n";
         }
         fcl << "END_VAR\n\n";
 
         fcl << "VAR_OUTPUT\n";
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-            fcl << engine->getOutputVariable(i)->getName() << ": REAL;"
+            fcl << "  " << engine->getOutputVariable(i)->getName() << ": REAL;"
                     << "\n";
         }
         fcl << "END_VAR\n\n";
@@ -57,13 +59,13 @@ namespace fl {
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
             InputVariable* inputVariable = engine->getInputVariable(i);
             fcl << "FUZZIFY " << inputVariable->getName() << "\n";
-            fcl << "RANGE := (" << fl::Op::str(2, " .. ",
+            fcl << "  " << "RANGE := (" << fl::Op::str(2, " .. ",
                     inputVariable->getMinimum(), inputVariable->getMaximum())
                     << ");\n";
 
             for (int t = 0; t < inputVariable->numberOfTerms(); ++t) {
                 Term* term = inputVariable->getTerm(t);
-                fcl << "TERM " << term->getName() << " := " << toFcl(term)
+                fcl << "  " << "TERM " << term->getName() << " := " << toFcl(term)
                         << ";\n";
             }
             fcl << "END_FUZZIFY\n\n";
@@ -72,32 +74,32 @@ namespace fl {
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
             fcl << "DEFUZZIFY " << outputVariable->getName() << "\n";
-            fcl << "RANGE := (" << fl::Op::str(2, " .. ",
+            fcl << "  " << "RANGE := (" << fl::Op::str(2, " .. ",
                     outputVariable->getMinimum(), outputVariable->getMaximum())
                     << ");\n";
 
             for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
                 Term* term = outputVariable->getTerm(t);
-                fcl << "TERM " << term->getName() << " := " << toFcl(term)
+                fcl << "  " << "TERM " << term->getName() << " := " << toFcl(term)
                         << ";\n";
             }
             fcl << "\n";
 
-            fcl << "METHOD : " << toFcl(outputVariable->getDefuzzifier()) << ";"
+            fcl << "  " << "METHOD : " << toFcl(outputVariable->getDefuzzifier()) << ";"
                     << "\n";
 
             if (outputVariable->output()->getAccumulation())
-                fcl << "ACCU : " << toFcl(outputVariable->output()->getAccumulation())
+                fcl << "  " << "ACCU : " << toFcl(outputVariable->output()->getAccumulation())
                 << ";\n";
 
-            fcl << "DEFAULT := " << fl::Op::str(outputVariable->getDefaultValue());
+            fcl << "  " << "DEFAULT := " << fl::Op::str(outputVariable->getDefaultValue());
             if (outputVariable->isLockingValidOutput()) {
                 fcl << " | NC";
             }
             fcl << ";\n";
 
             if (outputVariable->isLockingValidOutput() or outputVariable->isLockingOutputRange()) {
-                fcl << "LOCK : ";
+                fcl << "  " << "LOCK : ";
                 std::string lock;
                 if (outputVariable->isLockingValidOutput()) {
                     lock = "VALID";
@@ -118,16 +120,16 @@ namespace fl {
             fcl << "RULEBLOCK " << ruleblock->getName() << "\n";
 
             if (ruleblock->getConjunction())
-                fcl << "AND : " << toFcl(ruleblock->getConjunction()) << ";\n";
+                fcl << "  " << "AND : " << toFcl(ruleblock->getConjunction()) << ";\n";
             if (ruleblock->getDisjunction())
-                fcl << "OR : " << toFcl(ruleblock->getDisjunction()) << ";\n";
+                fcl << "  " << "OR : " << toFcl(ruleblock->getDisjunction()) << ";\n";
             if (ruleblock->getActivation())
-                fcl << "ACT : " << toFcl(ruleblock->getActivation()) << ";\n";
+                fcl << "  " << "ACT : " << toFcl(ruleblock->getActivation()) << ";\n";
 
             fcl << "\n";
 
             for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
-                fcl << "RULE " << (r + 1) << " : " <<
+                fcl << "  " << "RULE " << (r + 1) << " : " <<
                         ruleblock->getRule(r)->getText() << "\n";
             }
             fcl << "END_RULEBLOCK\n";

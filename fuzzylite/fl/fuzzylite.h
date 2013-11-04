@@ -77,6 +77,7 @@ namespace fl {
 #define FL_LOGP(message) std::cout << message << std::endl
 #endif
 
+//TODO: Make debug as a static variable to be set in runtime.
 #ifndef FL_DEBUG
 #define FL_DEBUG false
 #endif

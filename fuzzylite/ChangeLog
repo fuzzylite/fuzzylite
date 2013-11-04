@@ -15,4 +15,4 @@ Version 4.0
 * Centroid, Bisector, and Largest/Smallest/Mean Defuzzifiers inherit from IntegralDefuzzifier
 * Changed names of arithmetic operations in fl::Operation
 * Renamed Function::get/set(Infix) to get/set(Text)
-
+* Renamed InputVariable::get/set(Input) to get/set(InputValue)

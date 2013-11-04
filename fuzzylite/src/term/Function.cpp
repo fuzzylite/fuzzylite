@@ -77,7 +77,7 @@ namespace fl {
             for (int i = 0; i < this->_engine->numberOfInputVariables(); ++i) {
                 InputVariable* input = this->_engine->getInputVariable(i);
                 const_cast<Function*> (this)->variables[input->getName()] =
-                        input->getInput();
+                        input->getInputValue();
             }
             for (int i = 0; i < this->_engine->numberOfOutputVariables(); ++i) {
                 OutputVariable* output = this->_engine->getOutputVariable(i);

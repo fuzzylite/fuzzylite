@@ -66,9 +66,10 @@ namespace fl {
                 const std::string& snorm = "Maximum",
                 const std::string& activationTnorm = "Minimum",
                 const std::string& accumulationSnorm = "Maximum",
-                const std::string& defuzzifier = "CenterOfGravity",
+                const std::string& defuzzifier = "Centroid",
                 int resolution = FL_RESOLUTION);
 
+        //TODO: Change NULL to 0
         virtual bool isReady(std::string* status = NULL) const;
         
         virtual void process();
@@ -80,6 +81,7 @@ namespace fl {
         virtual std::string toStringFcl() const;
         virtual std::string toStringCpp() const;
 
+        //TODO: Compare the following operations with jfuzzylite
         /**
          * Operations for iterable datatype _inputVariables
          */

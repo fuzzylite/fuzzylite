@@ -83,7 +83,7 @@ void exampleMamdani() {
     int steps = 50;
     for (int i = 0; i < steps; ++i) {
         fl::scalar light = ambient->getMinimum() + i * (range / steps);
-        ambient->setInput(light);
+        ambient->setInputValue(light);
         engine->process();
         std::cout << "Ambient.input = " << fl::Op::str(light) << " -> " <<
                 "BulbPower.output = " << fl::Op::str(power->defuzzify()) << std::endl;
@@ -156,7 +156,7 @@ void exampleTakagiSugeno() {
     int steps = 50;
     for (int i = 0; i < steps; ++i) {
         fl::scalar xValue = x->getMinimum() + i * (range / steps);
-        x->setInput(xValue);
+        x->setInputValue(xValue);
         engine->process();
         scalar expected = std::sin(xValue) / xValue;
         scalar out = fx->defuzzify();
@@ -249,7 +249,7 @@ void exampleTakagiSugeno2() {
     int steps = 10;
     for (int i = 0; i < steps; ++i) {
         fl::scalar light = inputVariable1->getMinimum() + i * (range / steps);
-        inputVariable1->setInput(light);
+        inputVariable1->setInputValue(light);
         engine->process();
         std::cout << "x.input = " << fl::Op::str(light) << " -> " <<
                 "x^3.output = " << fl::Op::str(outputVariable1->defuzzify()) << std::endl;

@@ -74,7 +74,7 @@ namespace fl {
         }
         scalar result = 0;
         for (std::size_t i = 0; i < inputVariables.size(); ++i) {
-            result += coefficients.at(i) * inputVariables.at(i)->getInput();
+            result += coefficients.at(i) * inputVariables.at(i)->getInputValue();
         }
         if (coefficients.size() > inputVariables.size()) {
             result += coefficients.back();

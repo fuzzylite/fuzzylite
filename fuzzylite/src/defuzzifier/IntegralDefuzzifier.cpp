@@ -13,33 +13,29 @@
  limitations under the License.
  */
 
-/*
- * InputVariable.cpp
+/* 
+ * File:   IntegralDefuzzifier.cpp
+ * Author: jcrada
  *
- *  Created on: 2/12/2012
- *      Author: jcrada
+ * Created on 2 November 2013, 9:24 AM
  */
 
-#include "fl/variable/InputVariable.h"
-
-#include <sstream>
+#include "fl/defuzzifier/IntegralDefuzzifier.h"
 
 namespace fl {
 
-    InputVariable::InputVariable(const std::string& name, scalar minimum, scalar maximum)
-    : Variable(name, minimum, maximum), _inputValue(fl::nan) {
+    IntegralDefuzzifier::IntegralDefuzzifier(int resolution)
+    : Defuzzifier(), _resolution(resolution) {
     }
 
-    InputVariable::~InputVariable() {
+    IntegralDefuzzifier::~IntegralDefuzzifier() {
     }
 
-    void InputVariable::setInputValue(scalar inputValue) {
-        this->_inputValue = inputValue;
+    void IntegralDefuzzifier::setResolution(int resolution) {
+        this->_resolution = resolution;
     }
 
-    scalar InputVariable::getInputValue() const {
-        return this->_inputValue;
+    int IntegralDefuzzifier::getResolution() const {
+        return this->_resolution;
     }
-
-
 }

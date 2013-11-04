@@ -116,7 +116,7 @@ namespace fl {
         void Control::updateInput(double value) {
             fl::InputVariable* inputVariable = dynamic_cast<fl::InputVariable*> (variable);
             if (inputVariable) {
-                inputVariable->setInput(value);
+                inputVariable->setInputValue(value);
             }
         }
 

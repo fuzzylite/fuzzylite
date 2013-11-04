@@ -209,7 +209,7 @@ namespace fl {
             for (int a = 0; a < width; ++a) {
                 scalar aValue = fl::Op::scale(a, 0, width - 1,
                         minInputA, maxInputA);
-                inputA->setInput(aValue);
+                inputA->setInputValue(aValue);
                 _matrix.at(a).resize(height);
                 int progress = fl::Op::scale(a, 0, width, 0, 100);
                 ui->canvas->setText(QString::number(progress) + "%");
@@ -217,7 +217,7 @@ namespace fl {
                 for (int b = 0; b < height; ++b) {
                     scalar bValue = fl::Op::scale(b, 0, height - 1,
                             minInputB, maxInputB);
-                    inputB->setInput(bValue);
+                    inputB->setInputValue(bValue);
 
                     engine->process();
 
@@ -387,7 +387,7 @@ namespace fl {
                 control->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
                 control->setFixedHeight(control->minimumSizeHint().height());
 
-                control->ui->sbx_x->setValue(engine->getInputVariable(i)->getInput());
+                control->ui->sbx_x->setValue(engine->getInputVariable(i)->getInputValue());
 
                 QWidgetAction* action = new QWidgetAction(&menu);
                 action->setDefaultWidget(control);
