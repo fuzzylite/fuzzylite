@@ -99,9 +99,9 @@ namespace fl {
             RuleBlock* ruleblock = engine->getRuleBlock(i);
             cpp << "fl::RuleBlock* ruleblock" << (i + 1) << " = new fl::RuleBlock;\n";
             cpp << "ruleblock" << (i + 1) << "->setName(\"" << ruleblock->getName() << "\");\n";
-            cpp << "ruleblock" << (i + 1) << "->setTnorm(" <<
+            cpp << "ruleblock" << (i + 1) << "->setConjunction(" <<
                     toCpp(ruleblock->getConjunction()) << ");\n";
-            cpp << "ruleblock" << (i + 1) << "->setSnorm("
+            cpp << "ruleblock" << (i + 1) << "->setDisjunction("
                     << toCpp(ruleblock->getDisjunction()) << ");\n";
             cpp << "ruleblock" << (i + 1) << "->setActivation("
                     << toCpp(ruleblock->getActivation()) << ");\n";
