@@ -53,7 +53,7 @@ namespace fl {
         return this->_root;
     }
 
-    scalar Antecedent::firingStrength(const TNorm* tnorm, const SNorm* snorm,
+    scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction,
             const Expression* node) const {
         if (not node->isOperator) { //is Proposition
             const Proposition* proposition =
@@ -79,22 +79,22 @@ namespace fl {
             throw fl::Exception(ex.str(), FL_AT);
         }
         if (fuzzyOperator->name == Rule::FL_AND)
-            return tnorm->compute(
-                this->firingStrength(tnorm, snorm, fuzzyOperator->left),
-                this->firingStrength(tnorm, snorm, fuzzyOperator->right));
+            return conjunction->compute(
+                this->activationDegree(conjunction, disjunction, fuzzyOperator->left),
+                this->activationDegree(conjunction, disjunction, fuzzyOperator->right));
 
         if (fuzzyOperator->name == Rule::FL_OR)
-            return snorm->compute(
-                this->firingStrength(tnorm, snorm, fuzzyOperator->left),
-                this->firingStrength(tnorm, snorm, fuzzyOperator->right));
+            return disjunction->compute(
+                this->activationDegree(conjunction, disjunction, fuzzyOperator->left),
+                this->activationDegree(conjunction, disjunction, fuzzyOperator->right));
         std::ostringstream ex;
         ex << "[syntax error] operator <" << fuzzyOperator->name << "> not recognized";
         throw fl::Exception(ex.str(), FL_AT);
 
     }
 
-    scalar Antecedent::firingStrength(const TNorm* tnorm, const SNorm* snorm) const {
-        return this->firingStrength(tnorm, snorm, this->_root);
+    scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction) const {
+        return this->activationDegree(conjunction, disjunction, this->_root);
     }
 
     void Antecedent::load(const std::string& antecedent, const Engine* engine) {
@@ -212,10 +212,10 @@ namespace fl {
     }
 
     std::string Antecedent::toString() const {
-        return this->toStringInfix(this->_root);
+        return this->toInfix(this->_root);
     }
 
-    std::string Antecedent::toStringPrefix(const Expression* node) const {
+    std::string Antecedent::toPrefix(const Expression* node) const {
         if (not node)
             node = this->_root;
         if (not node->isOperator) { //is proposition
@@ -225,12 +225,12 @@ namespace fl {
                 dynamic_cast<const Operator*> (node);
         std::stringstream ss;
         ss << fuzzyOperator->toString() << " "
-                << this->toStringPrefix(fuzzyOperator->left) << " "
-                << this->toStringPrefix(fuzzyOperator->right) << " ";
+                << this->toPrefix(fuzzyOperator->left) << " "
+                << this->toPrefix(fuzzyOperator->right) << " ";
         return ss.str();
     }
 
-    std::string Antecedent::toStringInfix(const Expression* node) const {
+    std::string Antecedent::toInfix(const Expression* node) const {
         if (not node)
             node = this->_root;
         if (not node->isOperator) { //is proposition
@@ -239,13 +239,13 @@ namespace fl {
         const Operator* fuzzyOperator =
                 dynamic_cast<const Operator*> (node);
         std::stringstream ss;
-        ss << this->toStringInfix(fuzzyOperator->left) << " "
+        ss << this->toInfix(fuzzyOperator->left) << " "
                 << fuzzyOperator->toString() << " "
-                << this->toStringInfix(fuzzyOperator->right) << " ";
+                << this->toInfix(fuzzyOperator->right) << " ";
         return ss.str();
     }
 
-    std::string Antecedent::toStringPostfix(const Expression* node) const {
+    std::string Antecedent::toPostfix(const Expression* node) const {
         if (not node)
             node = this->_root;
         if (not node->isOperator) { //is proposition
@@ -254,8 +254,8 @@ namespace fl {
         const Operator* fuzzyOperator =
                 dynamic_cast<const Operator*> (node);
         std::stringstream ss;
-        ss << this->toStringPostfix(fuzzyOperator->left) << " "
-                << this->toStringPostfix(fuzzyOperator->right) << " "
+        ss << this->toPostfix(fuzzyOperator->left) << " "
+                << this->toPostfix(fuzzyOperator->right) << " "
                 << fuzzyOperator->toString() << " ";
         return ss.str();
     }

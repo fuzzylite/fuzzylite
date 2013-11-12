@@ -16,3 +16,5 @@ Version 4.0
 * Changed names of arithmetic operations in fl::Operation
 * Renamed Function::get/set(Infix) to get/set(Text)
 * Renamed InputVariable::get/set(Input) to get/set(InputValue)
+* Renamed Antecedent::firingStrength to activationDegree
+* Renamed Antecedent::toString/(Prefix,Infix,Postfix) to to/(Prefix,Infix,Postfix)

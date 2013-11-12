@@ -147,19 +147,23 @@ namespace fl {
      */
 
     Function::Element::Element(const std::string& name)
-    : name(name) { }
+    : name(name) {
+    }
 
-    Function::Element::~Element() { }
+    Function::Element::~Element() {
+    }
 
     Function::Operator::Operator(const std::string& name, Unary unary,
             short precedence, short associativity)
     : Element(name), unary(unary), binary(NULL),
-    precedence(precedence), arity(1), associativity(associativity) { }
+    precedence(precedence), arity(1), associativity(associativity) {
+    }
 
     Function::Operator::Operator(const std::string& name, Binary binary,
             short precedence, short associativity)
     : Element(name), unary(NULL), binary(binary),
-    precedence(precedence), arity(2), associativity(associativity) { }
+    precedence(precedence), arity(2), associativity(associativity) {
+    }
 
     std::string Function::Operator::toString() const {
         std::ostringstream ss;
@@ -176,11 +180,13 @@ namespace fl {
 
     Function::BuiltInFunction::BuiltInFunction(const std::string& name,
             Unary unary, short associativity)
-    : Element(name), unary(unary), binary(NULL), arity(1), associativity(associativity) { }
+    : Element(name), unary(unary), binary(NULL), arity(1), associativity(associativity) {
+    }
 
     Function::BuiltInFunction::BuiltInFunction(const std::string& name,
             Binary binary, short associativity)
-    : Element(name), unary(NULL), binary(binary), arity(2), associativity(associativity) { }
+    : Element(name), unary(NULL), binary(binary), arity(2), associativity(associativity) {
+    }
 
     std::string Function::BuiltInFunction::toString() const {
         std::ostringstream ss;
@@ -199,7 +205,7 @@ namespace fl {
      ***********************************/
 
     void Function::loadOperators() {
-        char p = 7;
+        short p = 7;
         // (!) Logical and (~) Bitwise NOT
         //        this->_unaryOperators["!"] = new Operator("!", std::logical_not<scalar>, p, 1);
         // ~ negates a number
@@ -284,7 +290,7 @@ namespace fl {
 
     std::string Function::toPostfix(const std::string& rawInfix) const throw (fl::Exception) {
         std::string infix = space(rawInfix);
-//        FL_DBG("infix=" << infix);
+        //        FL_DBG("infix=" << infix);
 
         std::queue<std::string> queue;
         std::stack<std::string> stack;
@@ -368,7 +374,7 @@ namespace fl {
             queue.pop();
             if (not queue.empty()) ssPostfix << " ";
         }
-//        FL_DBG("postfix=" << ssPostfix.str());
+        //        FL_DBG("postfix=" << ssPostfix.str());
         return ssPostfix.str();
     }
 
@@ -412,18 +418,22 @@ namespace fl {
 
     Function::Node::Node(Operator* foperator, Node* left, Node* right)
     : foperator(foperator), function(NULL), variable(""), value(fl::nan),
-    left(left), right(right) { }
+    left(left), right(right) {
+    }
 
     Function::Node::Node(BuiltInFunction* function, Node* left, Node* right)
     : foperator(NULL), function(function), variable(""), value(fl::nan),
-    left(left), right(right) { }
+    left(left), right(right) {
+    }
 
     Function::Node::Node(const std::string& variable)
     : foperator(NULL), function(NULL), variable(variable), value(fl::nan),
-    left(NULL), right(NULL) { }
+    left(NULL), right(NULL) {
+    }
 
     Function::Node::Node(scalar value)
-    : foperator(NULL), function(NULL), variable(""), value(value), left(NULL), right(NULL) { }
+    : foperator(NULL), function(NULL), variable(""), value(value), left(NULL), right(NULL) {
+    }
 
     scalar Function::Node::evaluate(const std::map<std::string, scalar>* variables) const {
         scalar result = fl::nan;

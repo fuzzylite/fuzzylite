@@ -78,7 +78,7 @@ namespace fl {
 
     scalar Rule::activationDegree(const TNorm* tnorm,
             const SNorm* snorm) const {
-        return getAntecedent()->firingStrength(tnorm, snorm) * _weight;
+        return getAntecedent()->activationDegree(tnorm, snorm) * _weight;
     }
 
     void Rule::activate(scalar strength, const TNorm* activation) const {

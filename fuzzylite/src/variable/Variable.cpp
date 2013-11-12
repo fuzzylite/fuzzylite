@@ -125,6 +125,7 @@ namespace fl {
      */
 
     void Variable::sort() {
+        //TODO:Replace with sorted list.of defuzzified values.
         SortByCoG criterion;
         criterion.minimum = _minimum;
         criterion.maximum = _maximum;

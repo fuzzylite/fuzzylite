@@ -45,16 +45,16 @@ namespace fl {
 
         virtual void load(const std::string& antecedent, const Engine* engine);
 
-        virtual scalar firingStrength(const TNorm* tnorm, const SNorm* snorm,
+        virtual scalar activationDegree(const TNorm* conjunction, const SNorm* disjunction,
                 const Expression* node) const;
 
-        virtual scalar firingStrength(const TNorm* tnorm, const SNorm* snorm) const;
+        virtual scalar activationDegree(const TNorm* conjunction, const SNorm* disjunction) const;
 
         virtual std::string toString() const;
 
-        virtual std::string toStringPrefix(const Expression* node = NULL) const;
-        virtual std::string toStringInfix(const Expression* node = NULL) const;
-        virtual std::string toStringPostfix(const Expression* node = NULL) const;
+        virtual std::string toPrefix(const Expression* node = NULL) const;
+        virtual std::string toInfix(const Expression* node = NULL) const;
+        virtual std::string toPostfix(const Expression* node = NULL) const;
     };
 
 }
