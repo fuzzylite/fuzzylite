@@ -40,24 +40,25 @@ namespace fl {
          ****************************/
 
     public:
+        typedef double(*Unary)(double);
+        typedef double(*Binary)(double, double);
 
         struct FL_EXPORT Element {
             std::string name;
+            Unary unary;
+            Binary binary;
+            short arity;
             Element(const std::string& name);
+            Element(const std::string& name, Unary unary);
+            Element(const std::string& name, Binary binary);
             virtual ~Element();
 
             virtual std::string toString() const = 0;
 
         };
 
-        typedef double(*Unary)(double);
-        typedef double(*Binary)(double, double);
-
         struct FL_EXPORT Operator : public Element {
-            Unary unary;
-            Binary binary;
             short precedence;
-            short arity;
             short associativity;
             Operator(const std::string& name, Unary unary, short precedence = 0,
                     short associativity = -1);
@@ -68,8 +69,6 @@ namespace fl {
         };
 
         struct FL_EXPORT BuiltInFunction : public Element {
-            Unary unary;
-            Binary binary;
             short arity;
             short associativity;
 
@@ -143,7 +142,7 @@ namespace fl {
                 const Engine* engine = NULL) throw (fl::Exception);
 
         virtual scalar membership(scalar x) const;
-        
+
         virtual scalar evaluate(const std::map<std::string, scalar>* variables) const;
 
         virtual std::string className() const;
@@ -172,8 +171,8 @@ namespace fl {
         virtual bool isBuiltInFunction(const std::string& token) const;
         virtual bool isOperator(const std::string& token) const;
 
-        
-        
+
+
         static void main();
 
     };

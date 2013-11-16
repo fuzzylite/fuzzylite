@@ -39,6 +39,8 @@ namespace fl {
         cpp << "fl::Engine* engine = new fl::Engine;\n";
         cpp << "engine->setName(\"" << engine->getName() << "\");\n";
 
+        //TODO: add the hedges based on their existence in rules
+        
         for (int i = 0; i < engine->numberOfHedges(); ++i) {
             cpp << "engine->addHedge(" << toCpp(engine->getHedge(i)) << ");\n";
         }

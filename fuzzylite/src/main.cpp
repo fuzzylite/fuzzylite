@@ -427,6 +427,7 @@ int main(int argc, char** argv) {
     try {
 //        exportAllExamples("fis", "cpp");
 //        return 0;
+//        fl::Function::main();
         examples();
     } catch (fl::Exception& e) {
         FL_LOG(e.what());

@@ -147,7 +147,15 @@ namespace fl {
      */
 
     Function::Element::Element(const std::string& name)
-    : name(name) {
+    : name(name), unary(NULL), binary(NULL) {
+    }
+
+    Function::Element::Element(const std::string& name, Unary unary)
+    : name(name), unary(unary), binary(NULL), arity(1) {
+    }
+
+    Function::Element::Element(const std::string& name, Binary binary)
+    : name(name), unary(NULL), binary(binary), arity(2) {
     }
 
     Function::Element::~Element() {
@@ -155,14 +163,12 @@ namespace fl {
 
     Function::Operator::Operator(const std::string& name, Unary unary,
             short precedence, short associativity)
-    : Element(name), unary(unary), binary(NULL),
-    precedence(precedence), arity(1), associativity(associativity) {
+    : Element(name, unary), precedence(precedence), associativity(associativity) {
     }
 
     Function::Operator::Operator(const std::string& name, Binary binary,
             short precedence, short associativity)
-    : Element(name), unary(NULL), binary(binary),
-    precedence(precedence), arity(2), associativity(associativity) {
+    : Element(name, binary), precedence(precedence), associativity(associativity) {
     }
 
     std::string Function::Operator::toString() const {
@@ -180,12 +186,12 @@ namespace fl {
 
     Function::BuiltInFunction::BuiltInFunction(const std::string& name,
             Unary unary, short associativity)
-    : Element(name), unary(unary), binary(NULL), arity(1), associativity(associativity) {
+    : Element(name, unary), associativity(associativity) {
     }
 
     Function::BuiltInFunction::BuiltInFunction(const std::string& name,
             Binary binary, short associativity)
-    : Element(name), unary(NULL), binary(binary), arity(2), associativity(associativity) {
+    : Element(name, binary), associativity(associativity) {
     }
 
     std::string Function::BuiltInFunction::toString() const {
@@ -276,9 +282,11 @@ namespace fl {
 
         for (std::map<std::string, Operator*>::const_iterator itOp = this->operators.begin();
                 itOp != this->operators.end(); ++itOp) {
-            if (itOp->first != fl::Rule::andKeyword() and itOp->first != fl::Rule::orKeyword()) {
-                chars.push_back(itOp->first);
+            if (itOp->first == fl::Rule::andKeyword() or
+                    itOp->first == fl::Rule::orKeyword()) {
+                continue;
             }
+            chars.push_back(itOp->first);
         }
 
         std::string result = infix;
@@ -612,38 +620,38 @@ namespace fl {
 
     void Function::main() {
         Function f;
-        std::string notation = "3+4*2/(1-5)^2^3";
-        FL_LOG(f.toPostfix(notation));
-        FL_LOG("P: " << f.parse(notation)->toInfix());
-        FL_LOG(f.parse(notation)->evaluate());
+        std::string text = "3+4*2/(1-5)^2^3";
+        FL_LOG(f.toPostfix(text));
+        FL_LOG("P: " << f.parse(text)->toInfix());
+        FL_LOG(">" << f.parse(text)->evaluate());
         //3 4 2 * 1 5 - 2 3 ^ ^ / +
 
         f.variables["y"] = 1.0;
-        notation = "sin(y*x)^2/x";
-        FL_LOG("pre: " << f.parse(notation)->toPrefix());
-        FL_LOG("in: " << f.parse(notation)->toInfix());
-        FL_LOG("pos: " << f.parse(notation)->toPostfix());
-        f.load(notation);
+        text = "sin(y*x)^2/x";
+        FL_LOG("pre: " << f.parse(text)->toPrefix());
+        FL_LOG("in: " << f.parse(text)->toInfix());
+        FL_LOG("pos: " << f.parse(text)->toPostfix());
+        f.load(text);
         FL_LOG("Result: " << f.membership(1));
         //y x * sin 2 ^ x /
 
-        notation = "(Temperature is High and Oxigen is Low) or "
+        text = "(Temperature is High and Oxigen is Low) or "
                 "(Temperature is Low and (Oxigen is Low or Oxigen is High))";
-        FL_LOG(f.toPostfix(notation));
+        FL_LOG(f.toPostfix(text));
 
         f.variables["pi"] = 3.14;
-        notation = "-5 *4/sin(-pi/2)";
-        FL_LOG(f.toPostfix(notation));
+        text = "-5 *4/sin(-pi/2)";
+        FL_LOG(f.toPostfix(text));
         try {
-            FL_LOG(f.parse(notation)->evaluate());
+            FL_LOG(f.parse(text)->evaluate());
         } catch (fl::Exception& e) {
             FL_LOG(e.getWhat());
         }
         f.variables["pi"] = 3.14;
-        notation = "~5 *4/sin(~pi/2)";
-        FL_LOG(f.toPostfix(notation));
+        text = "~5 *4/sin(~pi/2)";
+        FL_LOG(f.toPostfix(text));
         try {
-            FL_LOG(f.parse(notation)->evaluate(&f.variables));
+            FL_LOG(f.parse(text)->evaluate(&f.variables));
         } catch (fl::Exception& e) {
             FL_LOG(e.getWhat());
         }

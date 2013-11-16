@@ -66,7 +66,7 @@ namespace fl {
 
         static std::string FL_IF;
         static std::string FL_IS;
-        static std::string FL_ASSIGN;
+        static std::string FL_EQUALS;
         static std::string FL_THEN;
         static std::string FL_AND;
         static std::string FL_OR;

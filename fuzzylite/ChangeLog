@@ -18,3 +18,4 @@ Version 4.0
 * Renamed InputVariable::get/set(Input) to get/set(InputValue)
 * Renamed Antecedent::firingStrength to activationDegree
 * Renamed Antecedent::toString/(Prefix,Infix,Postfix) to to/(Prefix,Infix,Postfix)
+* Renamed Rule::FL_ASSIGN to Rule::FL_EQUALS

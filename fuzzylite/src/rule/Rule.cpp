@@ -37,7 +37,7 @@ namespace fl {
 
     std::string Rule::FL_IF = "if";
     std::string Rule::FL_IS = "is";
-    std::string Rule::FL_ASSIGN = "=";
+    std::string Rule::FL_EQUALS = "=";
     std::string Rule::FL_THEN = "then";
     std::string Rule::FL_AND = "and";
     std::string Rule::FL_OR = "or";
@@ -112,7 +112,7 @@ namespace fl {
     }
 
     std::string Rule::assignKeyword() {
-        return fl::Rule::FL_ASSIGN;
+        return fl::Rule::FL_EQUALS;
     }
 
     std::string Rule::thenKeyword() {

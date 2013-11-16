@@ -114,7 +114,7 @@ namespace fl {
         std::string token;
         
         enum FSM {
-            S_VARIABLE = 1, S_IS = 2, S_HEDGE = 4, S_TERM = 8, S_OPERATOR = 16
+            S_VARIABLE = 1, S_IS = 2, S_HEDGE = 4, S_TERM = 8, S_AND_OR = 16
         };
         int state = S_VARIABLE;
         std::stack<Expression*> expressionStack;
@@ -142,8 +142,8 @@ namespace fl {
                 if (engine->hasHedge(token)) {
                     Hedge* hedge = engine->getHedge(token);
                     proposition->hedges.push_back(hedge);
-                    if (token == Any().name()) {
-                        state = S_VARIABLE bitor S_OPERATOR;
+                    if (dynamic_cast<Any*>(hedge)) {
+                        state = S_VARIABLE bitor S_AND_OR;
                     } else {
                         state = S_HEDGE bitor S_TERM;
                     }
@@ -155,16 +155,16 @@ namespace fl {
                 if (proposition->variable->hasTerm(token)) {
                     proposition->term =
                             proposition->variable->getTerm(token);
-                    state = S_VARIABLE bitor S_OPERATOR;
+                    state = S_VARIABLE bitor S_AND_OR;
                     continue;
                 }
             }
 
-            if (state bitand S_OPERATOR) {
-                if (function.isOperator(token)) {
+            if (state bitand S_AND_OR) {
+                if (token == Rule::FL_AND or token == Rule::FL_OR) {
                     if (expressionStack.size() < 2) {
                         std::ostringstream ex;
-                        ex << "[syntax error] operator <" << token << "> expects 2 operands,"
+                        ex << "[syntax error] logical operator <" << token << "> expects two operands,"
                                 << "but found " << expressionStack.size();
                         throw fl::Exception(ex.str(), FL_AT);
                     }
@@ -176,15 +176,15 @@ namespace fl {
                     expressionStack.pop();
                     expressionStack.push(fuzzyOperator);
 
-                    state = S_VARIABLE bitor S_OPERATOR;
+                    state = S_VARIABLE bitor S_AND_OR;
                     continue;
                 }
             }
 
             //If reached this point, there was an error
-            if ((state bitand S_VARIABLE) or (state bitand S_OPERATOR)) {
+            if ((state bitand S_VARIABLE) or (state bitand S_AND_OR)) {
                 std::ostringstream ex;
-                ex << "[syntax error] expected input variable or operator, but found <" << token << ">";
+                ex << "[syntax error] expected input variable or logical operator, but found <" << token << ">";
                 throw fl::Exception(ex.str(), FL_AT);
             }
             if (state bitand S_IS) {

@@ -105,7 +105,7 @@ namespace fl {
             }
 
             if (state bitand S_IS) {
-                if (token == Rule::FL_IS or token == Rule::FL_ASSIGN) {
+                if (token == Rule::FL_IS or token == Rule::FL_EQUALS) {
                     state = S_HEDGE | S_TERM;
                     continue;
                 }
@@ -145,7 +145,7 @@ namespace fl {
             if (state bitand S_IS) {
                 std::ostringstream ex;
                 ex << "[syntax error] expected keyword <" << Rule::FL_IS << "> or <"
-                        << Rule::FL_ASSIGN << ">, but found <" << token << ">";
+                        << Rule::FL_EQUALS << ">, but found <" << token << ">";
                 throw fl::Exception(ex.str(), FL_AT);
             }
 

@@ -130,7 +130,11 @@ Watch a tutorial on *`fuzzylite`*:
 
 <wiki:video url="http://www.youtube.com/watch?v=rSAlWPyaA34"/>
 
-... or an example of *`fuzzylite-1.x`* working in real-time:
+Watch a tutorial on *`qtfuzzylite`*:
+
+<wiki:video url="http://www.youtube.com/watch?v=8UQghVz8N9A"/>
+
+Watch an example of *`fuzzylite-1.x`* working in real-time:
 
 <wiki:video url="http://www.youtube.com/watch?v=YOKk8G_5aRA"/>
 
