@@ -156,7 +156,7 @@ namespace fl {
                 for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
                     Rule* rule = ruleblock->getRule(r);
                     if (not rule) {
-                        ss << "- Rule block <" << ruleblock->getName() 
+                        ss << "- Rule block <" << ruleblock->getName()
                                 << "> has a NULL rule at index <" << r << ">\n";
                     } else {
                         std::size_t andIndex = rule->getText().find(" " + Rule::andKeyword() + " ");
@@ -235,12 +235,32 @@ namespace fl {
         FL_END_DEBUG_BLOCK
     }
 
+    void Engine::restart() {
+        for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
+            _inputVariables[i]->setInputValue(fl::nan);
+        }
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            _outputVariables[i]->setLastValidOutput(fl::nan);
+            _outputVariables[i]->output()->clear();
+        }
+    }
+
     void Engine::setName(const std::string& name) {
         this->_name = name;
     }
 
     std::string Engine::getName() const {
         return this->_name;
+    }
+
+    void Engine::setInputValue(const std::string& name, scalar value) {
+        InputVariable* inputVariable = getInputVariable(name);
+        inputVariable->setInputValue(value);
+    }
+
+    scalar Engine::getOutputValue(const std::string& name) {
+        OutputVariable* outputVariable = getOutputVariable(name);
+        return outputVariable->defuzzify();
     }
 
     std::string Engine::toStringCpp() const {

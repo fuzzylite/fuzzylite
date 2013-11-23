@@ -71,11 +71,16 @@ namespace fl {
 
         //TODO: Change NULL to 0
         virtual bool isReady(std::string* status = NULL) const;
-        
+
         virtual void process();
+
+        virtual void restart();
 
         virtual void setName(const std::string& name);
         virtual std::string getName() const;
+
+        virtual void setInputValue(const std::string& name, scalar value);
+        virtual scalar getOutputValue(const std::string& name);
 
         virtual std::string toStringFis() const;
         virtual std::string toStringFcl() const;
