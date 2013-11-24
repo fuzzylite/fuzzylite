@@ -126,7 +126,7 @@ namespace fl {
 
         if (term->className() == Bell().className()) {
             const Bell* x = dynamic_cast<const Bell*> (term);
-            ss << fl::Op::str(3, ", ",
+            ss << fl::Op::join(3, ", ",
                     x->getCenter(), x->getWidth(), x->getSlope()) << ")";
             return ss.str();
         }
@@ -160,14 +160,14 @@ namespace fl {
 
         if (term->className() == Gaussian().className()) {
             const Gaussian* x = dynamic_cast<const Gaussian*> (term);
-            ss << fl::Op::str(2, ", ",
+            ss << fl::Op::join(2, ", ",
                     x->getMean(), x->getStandardDeviation()) << ")";
             return ss.str();
         }
 
         if (term->className() == GaussianProduct().className()) {
             const GaussianProduct* x = dynamic_cast<const GaussianProduct*> (term);
-            ss << fl::Op::str(4, ", ",
+            ss << fl::Op::join(4, ", ",
                     x->getMeanA(), x->getStandardDeviationA(),
                     x->getMeanB(), x->getStandardDeviationB()) << ")";
             return ss.str();
@@ -188,7 +188,7 @@ namespace fl {
 
         if (term->className() == PiShape().className()) {
             const PiShape* x = dynamic_cast<const PiShape*> (term);
-            ss << fl::Op::str(4, ", ",
+            ss << fl::Op::join(4, ", ",
                     x->getBottomLeft(), x->getTopLeft(),
                     x->getTopRight(), x->getBottomRight()) << ")";
             return ss.str();
@@ -196,35 +196,35 @@ namespace fl {
 
         if (term->className() == Ramp().className()) {
             const Ramp* x = dynamic_cast<const Ramp*> (term);
-            ss << fl::Op::str(2, ", ",
+            ss << fl::Op::join(2, ", ",
                     x->getStart(), x->getEnd()) << ")";
             return ss.str();
         }
 
         if (term->className() == Rectangle().className()) {
             const Rectangle* x = dynamic_cast<const Rectangle*> (term);
-            ss << fl::Op::str(2, ", ",
+            ss << fl::Op::join(2, ", ",
                     x->getMinimum(), x->getMaximum()) << ")";
             return ss.str();
         }
 
         if (term->className() == SShape().className()) {
             const SShape* x = dynamic_cast<const SShape*> (term);
-            ss << fl::Op::str(2, ", ",
+            ss << fl::Op::join(2, ", ",
                     x->getStart(), x->getEnd()) << ")";
             return ss.str();
         }
 
         if (term->className() == Sigmoid().className()) {
             const Sigmoid* x = dynamic_cast<const Sigmoid*> (term);
-            ss << fl::Op::str(2, ", ",
+            ss << fl::Op::join(2, ", ",
                     x->getInflection(), x->getSlope()) << ")";
             return ss.str();
         }
 
         if (term->className() == SigmoidDifference().className()) {
             const SigmoidDifference* x = dynamic_cast<const SigmoidDifference*> (term);
-            ss << fl::Op::str(4, ", ",
+            ss << fl::Op::join(4, ", ",
                     x->getLeft(), x->getRising(),
                     x->getFalling(), x->getRight()) << ")";
             return ss.str();
@@ -232,7 +232,7 @@ namespace fl {
 
         if (term->className() == SigmoidProduct().className()) {
             const SigmoidProduct* x = dynamic_cast<const SigmoidProduct*> (term);
-            ss << fl::Op::str(4, ", ",
+            ss << fl::Op::join(4, ", ",
                     x->getLeft(), x->getRising(),
                     x->getFalling(), x->getRight()) << ")";
             return ss.str();
@@ -240,21 +240,21 @@ namespace fl {
 
         if (term->className() == Trapezoid().className()) {
             const Trapezoid* x = dynamic_cast<const Trapezoid*> (term);
-            ss << fl::Op::str(4, ", ",
+            ss << fl::Op::join(4, ", ",
                     x->getA(), x->getB(), x->getC(), x->getD()) << ")";
             return ss.str();
         }
 
         if (term->className() == Triangle().className()) {
             const Triangle* x = dynamic_cast<const Triangle*> (term);
-            ss << fl::Op::str(3, ", ",
+            ss << fl::Op::join(3, ", ",
                     x->getA(), x->getB(), x->getC()) << ")";
             return ss.str();
         }
 
         if (term->className() == ZShape().className()) {
             const ZShape* x = dynamic_cast<const ZShape*> (term);
-            ss << fl::Op::str(2, ", ",
+            ss << fl::Op::join(2, ", ",
                     x->getStart(), x->getEnd()) << ")";
             return ss.str();
         }

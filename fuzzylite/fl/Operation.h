@@ -98,11 +98,11 @@ namespace fl {
         static std::string str(T x, int decimals = FL_DECIMALS);
 
         template <typename T>
-        static std::string str(const std::vector<T>& x,
+        static std::string join(const std::vector<T>& x,
                 const std::string& separator = ", ");
 
         template <typename T>
-        static std::string str(int items, const std::string& separator, T first, ...);
+        static std::string join(int items, const std::string& separator, T first, ...);
     };
 
     typedef Operation Op;

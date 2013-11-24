@@ -59,7 +59,7 @@ namespace fl {
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
             InputVariable* inputVariable = engine->getInputVariable(i);
             fcl << "FUZZIFY " << inputVariable->getName() << "\n";
-            fcl << "  " << "RANGE := (" << fl::Op::str(2, " .. ",
+            fcl << "  " << "RANGE := (" << fl::Op::join(2, " .. ",
                     inputVariable->getMinimum(), inputVariable->getMaximum())
                     << ");\n";
 
@@ -74,7 +74,7 @@ namespace fl {
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
             fcl << "DEFUZZIFY " << outputVariable->getName() << "\n";
-            fcl << "  " << "RANGE := (" << fl::Op::str(2, " .. ",
+            fcl << "  " << "RANGE := (" << fl::Op::join(2, " .. ",
                     outputVariable->getMinimum(), outputVariable->getMaximum())
                     << ");\n";
 

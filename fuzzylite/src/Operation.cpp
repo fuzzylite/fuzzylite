@@ -242,7 +242,7 @@ namespace fl {
     }
 
     template <typename T>
-    std::string Operation::str(const std::vector<T>& x,
+    std::string Operation::join(const std::vector<T>& x,
             const std::string& separator) {
         std::ostringstream ss;
         for (std::size_t i = 0; i < x.size(); ++i) {
@@ -251,13 +251,13 @@ namespace fl {
         }
         return ss.str();
     }
-    template FL_EXPORT std::string Operation::str(const std::vector<int>& x,
+    template FL_EXPORT std::string Operation::join(const std::vector<int>& x,
             const std::string& separator);
-    template FL_EXPORT std::string Operation::str(const std::vector<scalar>& x,
+    template FL_EXPORT std::string Operation::join(const std::vector<scalar>& x,
             const std::string& separator);
 
     template <> FL_EXPORT
-    std::string Operation::str(const std::vector<std::string>& x,
+    std::string Operation::join(const std::vector<std::string>& x,
             const std::string& separator) {
         std::ostringstream ss;
         for (std::size_t i = 0; i < x.size(); ++i) {
@@ -268,7 +268,7 @@ namespace fl {
     }
 
     template <typename T>
-    std::string Operation::str(int items, const std::string& separator, T first, ...) {
+    std::string Operation::join(int items, const std::string& separator, T first, ...) {
         std::ostringstream ss;
         ss << str(first);
         if (items > 1) ss << separator;
@@ -282,13 +282,13 @@ namespace fl {
         return ss.str();
     }
 
-    template FL_EXPORT std::string Operation::str(int items, const std::string& separator,
+    template FL_EXPORT std::string Operation::join(int items, const std::string& separator,
             int first, ...);
-    template FL_EXPORT std::string Operation::str(int items, const std::string& separator,
+    template FL_EXPORT std::string Operation::join(int items, const std::string& separator,
             scalar first, ...);
 
     template <> FL_EXPORT
-    std::string Operation::str(int items, const std::string& separator, const char* first, ...) {
+    std::string Operation::join(int items, const std::string& separator, const char* first, ...) {
         std::ostringstream ss;
         ss << first;
         if (items > 1) ss << separator;

@@ -1,4 +1,3 @@
-
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.
 * FuzzyAntecedent merged with Antecedent, and FuzzyAntecedent deleted
@@ -21,3 +20,4 @@ Version 4.0
 * Renamed Rule::FL_ASSIGN to Rule::FL_EQUALS
 * New method restart in Engine
 * New methods Engine::setInputValue(name, value), scalar Engine::getOutputValue(name)
+* Renamed Op::str(vector/varargs) to Op::join(vector/varargs)
