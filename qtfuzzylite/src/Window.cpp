@@ -1038,6 +1038,7 @@ namespace fl {
                     engine->addHedge(Factory::instance()->hedge()->create(action.toStdString()));
                 }
             }
+            onClickParseAllRules();
         }
 
         void Window::onTabChange(int index) {

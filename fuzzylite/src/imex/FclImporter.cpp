@@ -39,12 +39,6 @@ namespace fl {
 
     Engine* FclImporter::fromString(const std::string& fcl) const {
         Engine* engine = new Engine;
-        engine->addHedge(new Any);
-        engine->addHedge(new Extremely);
-        engine->addHedge(new Not);
-        engine->addHedge(new Seldom);
-        engine->addHedge(new Somewhat);
-        engine->addHedge(new Very);
 
         std::map<std::string, std::string> tags;
         tags["VAR_INPUT"] = "END_VAR";

@@ -147,15 +147,15 @@ namespace fl {
      */
 
     Function::Element::Element(const std::string& name)
-    : name(name), unary(NULL), binary(NULL) {
+    : name(name), unary(NULL), binary(NULL), arity(0), associativity(-1) {
     }
 
-    Function::Element::Element(const std::string& name, Unary unary)
-    : name(name), unary(unary), binary(NULL), arity(1) {
+    Function::Element::Element(const std::string& name, Unary unary, short associativity)
+    : name(name), unary(unary), binary(NULL), arity(1), associativity(associativity) {
     }
 
-    Function::Element::Element(const std::string& name, Binary binary)
-    : name(name), unary(NULL), binary(binary), arity(2) {
+    Function::Element::Element(const std::string& name, Binary binary, short associativity)
+    : name(name), unary(NULL), binary(binary), arity(2), associativity(associativity) {
     }
 
     Function::Element::~Element() {
@@ -163,12 +163,12 @@ namespace fl {
 
     Function::Operator::Operator(const std::string& name, Unary unary,
             short precedence, short associativity)
-    : Element(name, unary), precedence(precedence), associativity(associativity) {
+    : Element(name, unary, associativity), precedence(precedence) {
     }
 
     Function::Operator::Operator(const std::string& name, Binary binary,
             short precedence, short associativity)
-    : Element(name, binary), precedence(precedence), associativity(associativity) {
+    : Element(name, binary, associativity), precedence(precedence) {
     }
 
     std::string Function::Operator::toString() const {
@@ -186,12 +186,12 @@ namespace fl {
 
     Function::BuiltInFunction::BuiltInFunction(const std::string& name,
             Unary unary, short associativity)
-    : Element(name, unary), associativity(associativity) {
+    : Element(name, unary, associativity) {
     }
 
     Function::BuiltInFunction::BuiltInFunction(const std::string& name,
             Binary binary, short associativity)
-    : Element(name, binary), associativity(associativity) {
+    : Element(name, binary,associativity) {
     }
 
     std::string Function::BuiltInFunction::toString() const {

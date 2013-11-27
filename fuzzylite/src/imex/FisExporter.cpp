@@ -26,9 +26,11 @@
 #include <queue>
 namespace fl {
 
-    FisExporter::FisExporter() { }
+    FisExporter::FisExporter() {
+    }
 
-    FisExporter::~FisExporter() { }
+    FisExporter::~FisExporter() {
+    }
 
     std::string FisExporter::name() const {
         return "FisExporter";
@@ -56,13 +58,10 @@ namespace fl {
             int sugeno = 0, mamdani = 0;
             for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
                 Defuzzifier* defuzzifier = engine->getOutputVariable(i)->getDefuzzifier();
-                if (defuzzifier) {
-                    if (defuzzifier->className() == WeightedAverage().className()
-                            or defuzzifier->className() == WeightedSum().className()) {
-                        sugeno++;
-                    } else {
-                        mamdani++;
-                    }
+                if (dynamic_cast<IntegralDefuzzifier*> (defuzzifier)) {
+                    ++mamdani;
+                } else {
+                    ++sugeno;
                 }
             }
             if (mamdani > 0 and sugeno == 0) type = "mamdani";
@@ -83,8 +82,8 @@ namespace fl {
         std::string uniquenessError;
         for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
             RuleBlock* rb = engine->getRuleBlock(i);
-            std::string tnormClass = (rb->getConjunction()? rb->getConjunction()->className() : "");
-            std::string snormClass = (rb->getDisjunction()? rb->getDisjunction()->className() : "");
+            std::string tnormClass = (rb->getConjunction() ? rb->getConjunction()->className() : "");
+            std::string snormClass = (rb->getDisjunction() ? rb->getDisjunction()->className() : "");
             std::string activationClass = (rb->getActivation() ? rb->getActivation()->className() : "");
 
             if (not tnorm) tnorm = rb->getConjunction();
@@ -114,9 +113,9 @@ namespace fl {
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
             std::string defuzzClass = outputVariable->getDefuzzifier() ?
-                outputVariable->getDefuzzifier()->className() : "";
-            std::string accumClass =  outputVariable->output()->getAccumulation() ?
-                 outputVariable->output()->getAccumulation()->className() : "";
+                    outputVariable->getDefuzzifier()->className() : "";
+            std::string accumClass = outputVariable->output()->getAccumulation() ?
+                    outputVariable->output()->getAccumulation()->className() : "";
 
             if (not defuzzifier) defuzzifier = outputVariable->getDefuzzifier();
             else if (defuzzifier->className() != defuzzClass)
@@ -128,7 +127,7 @@ namespace fl {
         }
 
         if (not uniquenessError.empty())
-            throw fl::Exception("[exporter error] fis files require all ruleblocks "
+            throw fl::Exception("[exporter error] fis files require all output variables "
                 "to have the same " + uniquenessError, FL_AT);
 
         fis << "AggMethod='" << toFis(accumulation) << "'\n";
@@ -180,7 +179,7 @@ namespace fl {
             RuleBlock* rb = engine->getRuleBlock(ixRuleBlock);
             if (engine->numberOfRuleBlocks() > 1) fis << "# RuleBlock " << rb->getName() << "\n";
             for (int ixRule = 0; ixRule < rb->numberOfRules(); ++ixRule) {
-                fis << exportRule(dynamic_cast<Rule*> (rb->getRule(ixRule)), engine) << "\n";
+                fis << exportRule(rb->getRule(ixRule), engine) << "\n";
             }
         }
         return fis.str();
@@ -213,11 +212,11 @@ namespace fl {
                 break;
             }
         }
-        if (not equalOperators)
+        if (not equalOperators) {
             throw fl::Exception("[exporter error] "
-                "fis files do not support rules with different connectors "
-                "(i.e. ['and', 'or']). All connectors within a rule must be the same", FL_AT);
-
+                    "fis files do not support rules with different connectors "
+                    "(i.e. ['and', 'or']). All connectors within a rule must be the same", FL_AT);
+        }
         std::ostringstream fis;
         std::vector<Variable*> inputVariables, outputVariables;
         for (int i = 0; i < engine->numberOfInputVariables(); ++i)
@@ -344,7 +343,7 @@ namespace fl {
             ss << "]";
             return ss.str();
         }
-        
+
         if (term->className() == Function().className()) {
             const Function* x = dynamic_cast<const Function*> (term);
             ss << "'function',[" << x->getText() << "]";
@@ -394,11 +393,12 @@ namespace fl {
                     x->getMinimum(), x->getMaximum()) << "]";
             return ss.str();
         }
-
-        if (term->className() == SShape().className()) {
-            const SShape* x = dynamic_cast<const SShape*> (term);
-            ss << "'smf',[" << fl::Op::join(2, " ",
-                    x->getStart(), x->getEnd()) << "]";
+        
+        if (term->className() == SigmoidDifference().className()) {
+            const SigmoidDifference* x = dynamic_cast<const SigmoidDifference*> (term);
+            ss << "'dsigmf',[" << fl::Op::join(4, " ",
+                    x->getRising(), x->getLeft(),
+                    x->getFalling(), x->getRight()) << "]";
             return ss.str();
         }
 
@@ -408,20 +408,19 @@ namespace fl {
                     x->getSlope(), x->getInflection()) << "]";
             return ss.str();
         }
-
-        if (term->className() == SigmoidDifference().className()) {
-            const SigmoidDifference* x = dynamic_cast<const SigmoidDifference*> (term);
-            ss << "'dsigmf',[" << fl::Op::join(4, " ",
-                    x->getRising(), x->getLeft(),
-                    x->getFalling(), x->getRight()) << "]";
-            return ss.str();
-        }
-
+        
         if (term->className() == SigmoidProduct().className()) {
             const SigmoidProduct* x = dynamic_cast<const SigmoidProduct*> (term);
             ss << "'psigmf',[" << fl::Op::join(4, " ",
                     x->getRising(), x->getLeft(),
                     x->getFalling(), x->getRight()) << "]";
+            return ss.str();
+        }
+
+        if (term->className() == SShape().className()) {
+            const SShape* x = dynamic_cast<const SShape*> (term);
+            ss << "'smf',[" << fl::Op::join(2, " ",
+                    x->getStart(), x->getEnd()) << "]";
             return ss.str();
         }
 

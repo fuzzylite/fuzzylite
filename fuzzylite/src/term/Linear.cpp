@@ -28,12 +28,13 @@ namespace fl {
                 (inputVariables.begin(), inputVariables.end());
     }
 
-    Linear::~Linear() { }
+    Linear::~Linear() {
+    }
 
     template <typename T>
     Linear* Linear::create(const std::string& name,
             const std::vector<InputVariable*>& inputVariables,
-            T firstCoefficient, ...)  {
+            T firstCoefficient, ...) {
         std::vector<scalar> coefficients;
         coefficients.push_back(firstCoefficient);
 
@@ -48,11 +49,11 @@ namespace fl {
 
     template FL_EXPORT Linear* Linear::create(const std::string& name,
             const std::vector<InputVariable*>& inputVariables,
-            scalar firstCoefficient, ...) throw (fl::Exception);
+            scalar firstCoefficient, ...);
 
     template FL_EXPORT Linear* Linear::create(const std::string& name,
             const std::vector<InputVariable*>& inputVariables,
-            int firstCoefficient, ...) throw (fl::Exception);
+            int firstCoefficient, ...);
 
     std::string Linear::className() const {
         return "Linear";
@@ -66,10 +67,10 @@ namespace fl {
         (void) x;
         if (coefficients.size() != inputVariables.size() + 1) {
             std::ostringstream ss;
-            ss << "[linear term] the number of coefficients <" << coefficients.size() << "> "
+            ss << "[linear error] the number of coefficients <" << coefficients.size() << "> "
                     "need to be equal to the number of input variables "
                     "<" << inputVariables.size() << "> plus a constant c "
-                    "(i.e. ax + by + c)";
+                    "(e.g. ax + by + c)";
             throw fl::Exception(ss.str(), FL_AT);
         }
         scalar result = 0;
@@ -85,15 +86,7 @@ namespace fl {
 
     std::string Linear::toString() const {
         std::ostringstream ss;
-        ss << className() << " (";
-        for (std::size_t i = 0; i < coefficients.size(); ++i) {
-            ss << fl::Op::str(coefficients.at(i));
-            if (i < coefficients.size() - 1) {
-                ss << ", ";
-            }
-        }
-        ss << ")";
-
+        ss << className() << " (" << Op::join(this->coefficients, ", ") << ")";
         return ss.str();
     }
 

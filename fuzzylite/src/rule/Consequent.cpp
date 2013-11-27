@@ -36,11 +36,15 @@
 #include "fl/term/Thresholded.h"
 #include "fl/term/Accumulated.h"
 
+#include "fl/factory/Factory.h"
+#include "fl/factory/HedgeFactory.h"
 
+#include <algorithm>
 
 namespace fl {
 
-    Consequent::Consequent() { }
+    Consequent::Consequent() {
+    }
 
     Consequent::~Consequent() {
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
@@ -112,9 +116,18 @@ namespace fl {
             }
 
             if (state bitand S_HEDGE) {
-
+                Hedge* hedge = NULL;
                 if (engine->hasHedge(token)) {
-                    Hedge* hedge = engine->getHedge(token);
+                    hedge = engine->getHedge(token);
+                } else {
+                    std::vector<std::string> hedges = Factory::instance()->hedge()->available();
+                    if (std::find(hedges.begin(), hedges.end(), token) != hedges.end()) {
+                        hedge = Factory::instance()->hedge()->create(token);
+                        //TODO: find a better way, eventually.
+                        const_cast<Engine*> (engine)->addHedge(hedge);
+                    }
+                }
+                if (hedge) {
                     proposition->hedges.push_back(hedge);
                     state = S_HEDGE | S_TERM;
                     continue;

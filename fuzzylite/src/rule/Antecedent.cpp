@@ -36,9 +36,11 @@
 
 #include "fl/term/Function.h"
 
-
+#include "fl/factory/Factory.h"
+#include "fl/factory/HedgeFactory.h"
 
 #include <stack>
+#include <algorithm>
 
 namespace fl {
 
@@ -139,8 +141,18 @@ namespace fl {
             }
 
             if (state bitand S_HEDGE) {
-                if (engine->hasHedge(token)) {
-                    Hedge* hedge = engine->getHedge(token);
+                Hedge* hedge = NULL;
+                if (engine->hasHedge(token)){
+                    hedge = engine->getHedge(token);
+                }else{
+                    std::vector<std::string> hedges = Factory::instance()->hedge()->available();
+                    if (std::find(hedges.begin(), hedges.end(), token) != hedges.end()){
+                        hedge = Factory::instance()->hedge()->create(token);
+                        //TODO: find a better way, eventually.
+                        const_cast<Engine*>(engine)->addHedge(hedge);
+                    }
+                }
+                if (hedge) {
                     proposition->hedges.push_back(hedge);
                     if (dynamic_cast<Any*>(hedge)) {
                         state = S_VARIABLE bitor S_AND_OR;

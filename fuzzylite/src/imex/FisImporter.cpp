@@ -30,9 +30,11 @@
 
 namespace fl {
 
-    FisImporter::FisImporter() { }
+    FisImporter::FisImporter() {
+    }
 
-    FisImporter::~FisImporter() { }
+    FisImporter::~FisImporter() {
+    }
 
     std::string FisImporter::name() const {
         return "FisImporter";
@@ -40,13 +42,6 @@ namespace fl {
 
     Engine* FisImporter::fromString(const std::string& fis) const {
         Engine* engine = new Engine;
-
-        engine->addHedge(new Any);
-        engine->addHedge(new Extremely);
-        engine->addHedge(new Not);
-        engine->addHedge(new Seldom);
-        engine->addHedge(new Somewhat);
-        engine->addHedge(new Very);
 
         std::istringstream fisReader(fis);
         std::string line;

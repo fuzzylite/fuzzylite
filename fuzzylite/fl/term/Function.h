@@ -48,9 +48,10 @@ namespace fl {
             Unary unary;
             Binary binary;
             short arity;
+            short associativity;
             Element(const std::string& name);
-            Element(const std::string& name, Unary unary);
-            Element(const std::string& name, Binary binary);
+            Element(const std::string& name, Unary unary, short associativity = -1);
+            Element(const std::string& name, Binary binary, short associativity = -1);
             virtual ~Element();
 
             virtual std::string toString() const = 0;
@@ -59,23 +60,18 @@ namespace fl {
 
         struct FL_EXPORT Operator : public Element {
             short precedence;
-            short associativity;
-            Operator(const std::string& name, Unary unary, short precedence = 0,
-                    short associativity = -1);
-            Operator(const std::string& name, Binary unary, short precedence = 0,
-                    short associativity = -1);
+
+            Operator(const std::string& name, Unary unary, short precedence = 0, short associativity = -1);
+            Operator(const std::string& name, Binary unary, short precedence = 0, short associativity = -1);
 
             std::string toString() const;
         };
 
         struct FL_EXPORT BuiltInFunction : public Element {
             short arity;
-            short associativity;
 
-            BuiltInFunction(const std::string& name, Unary functionPointer,
-                    short associativity = -1);
-            BuiltInFunction(const std::string& name, Binary functionPointer,
-                    short associativity = -1);
+            BuiltInFunction(const std::string& name, Unary functionPointer, short associativity = -1);
+            BuiltInFunction(const std::string& name, Binary functionPointer, short associativity = -1);
             std::string toString() const;
         };
 
@@ -137,6 +133,7 @@ namespace fl {
                 bool loadBuiltInFunctions = true);
         virtual ~Function();
 
+        //TODO: Modify as in jfuzzylite
         static Function* create(const std::string& name,
                 const std::string& infix,
                 const Engine* engine = NULL) throw (fl::Exception);
