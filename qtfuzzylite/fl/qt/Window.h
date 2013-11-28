@@ -112,6 +112,7 @@ namespace fl {
             void onMenuImportFromFIS();
             void onMenuExportToFIS();
             void onMenuExportToCpp();
+            void onMenuExportToJava();
 
             void onMenuAskForHelp();
             void onMenuJoinTheCommunity();

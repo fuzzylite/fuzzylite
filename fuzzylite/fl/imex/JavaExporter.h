@@ -14,40 +14,47 @@
  */
 
 /* 
- * File:   CppExporter.h
+ * File:   JavaExporter.h
  * Author: jcrada
  *
- * Created on 1 January 2013, 2:41 PM
+ * Created on 28 November 2013, 10:20 PM
  */
 
-#ifndef FL_CPPEXPORTER_H
-#define	FL_CPPEXPORTER_H
+#ifndef FL_JAVAEXPORTER_H
+#define	FL_JAVAEXPORTER_H
 
 #include "fl/imex/Exporter.h"
 
 namespace fl {
+
     class Engine;
     class InputVariable;
     class OutputVariable;
-    class Term;
     class RuleBlock;
-    class Norm;
+    class Term;
     class Defuzzifier;
-    class Hedge;
+    class Norm;
 
-    class FL_EXPORT CppExporter : public Exporter {
-    protected:
-        virtual std::string toCpp(const Hedge* hedge) const;
-        virtual std::string toCpp(const Term* term) const;
-        virtual std::string toCpp(const Norm* op) const;
-        virtual std::string toCpp(const Defuzzifier* defuzzifier) const;
+    class FL_EXPORT JavaExporter : public Exporter {
     public:
-        CppExporter();
-        virtual ~CppExporter();
+
+        JavaExporter();
+        virtual ~JavaExporter();
+
         virtual std::string name() const;
+
         virtual std::string toString(const Engine* engine) const;
+        virtual std::string toString(const InputVariable* inputVariable, const Engine* engine) const;
+        virtual std::string toString(const OutputVariable* outputVariable, const Engine* engine) const;
+        virtual std::string toString(const RuleBlock* ruleBlock, const Engine* engine) const;
+        virtual std::string toString(const Term* term) const;
+        virtual std::string toString(const Defuzzifier* defuzzifier) const;
+        virtual std::string toString(const Norm* norm) const ;
+        virtual std::string toString(scalar value) const;
 
     };
+
 }
-#endif	/* FL_CPPEXPORTER_H */
+
+#endif	/* FL_JAVAEXPORTER_H */
 

@@ -56,3 +56,4 @@ src/imex/FisExporter.cpp
 src/imex/CppExporter.cpp
 src/imex/FisImporter.cpp
 src/imex/FclImporter.cpp
+src/imex/JavaExporter.cpp

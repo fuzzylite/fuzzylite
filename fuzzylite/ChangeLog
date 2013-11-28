@@ -21,3 +21,6 @@ Version 4.0
 * New method restart in Engine
 * New methods Engine::setInputValue(name, value), scalar Engine::getOutputValue(name)
 * Renamed Op::str(vector/varargs) to Op::join(vector/varargs)
+* Refactored associtativity, unary and binary properties in Element within Function
+* Removed unnecessary Hedges creation upon importing engines, now is automatic via Factories
+* Added JavaExporter

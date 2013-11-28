@@ -30,6 +30,7 @@ fl/imex/FclExporter.h
 fl/imex/Exporter.h
 fl/imex/FclImporter.h
 fl/imex/CppExporter.h
+fl/imex/JavaExporter.h
 fl/imex/Importer.h
 fl/norm/Norm.h
 fl/norm/SNorm.h

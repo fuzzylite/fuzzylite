@@ -50,6 +50,7 @@
 #include "fl/imex/FclExporter.h"
 #include "fl/imex/FisImporter.h"
 #include "fl/imex/FisExporter.h"
+#include "fl/imex/JavaExporter.h"
 
 #include "fl/hedge/Any.h"
 #include "fl/hedge/Extremely.h"

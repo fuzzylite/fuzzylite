@@ -197,6 +197,7 @@ namespace fl {
             QObject::connect(ui->actionExport, SIGNAL(triggered()), this, SLOT(onMenuExport()));
 
             menuExport->addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
+            menuExport->addAction("jfuzzylite (&Java)", this, SLOT(onMenuExportToJava()));
             menuExport->addSeparator();
             menuExport->addAction("Fuzzy Controller Language (F&CL)", this, SLOT(onMenuExportToFCL()));
             menuExport->addAction("Fuzzy Inference System (F&IS)", this, SLOT(onMenuExportToFIS()));
@@ -1521,6 +1522,7 @@ namespace fl {
             if (ui->actionExport->isChecked()) {
                 QMenu menu(this);
                 menu.addAction("&fuzzylite (C++)", this, SLOT(onMenuExportToCpp()));
+                menu.addAction("&jfuzzylite (Java)", this, SLOT(onMenuExportToJava()));
                 menu.addSeparator();
                 menu.addAction("Fuzzy &Control Language (FCL)", this, SLOT(onMenuExportToFCL()));
                 menu.addAction("Fuzzy &Inference System (FIS)", this, SLOT(onMenuExportToFIS()));
@@ -1613,6 +1615,36 @@ namespace fl {
             imex.ui->pte_code->setReadOnly(true);
             imex.ui->pte_code->document()->setPlainText(
                     QString::fromStdString(cpp));
+            QTextCursor tc = imex.ui->pte_code->textCursor();
+            tc.movePosition(QTextCursor::Start);
+            imex.ui->pte_code->setTextCursor(tc);
+            imex.exec();
+        }
+        
+        void Window::onMenuExportToJava() {
+            JavaExporter exporter;
+            std::string java;
+            try {
+                java = exporter.toString(Model::Default()->engine());
+            } catch (fl::Exception& ex) {
+                QMessageBox::critical(this, "Error exporting to jfuzzylite (Java)",
+                        toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
+                        QMessageBox::Ok);
+                return;
+            }
+
+            ImEx imex;
+            imex.setup();
+            imex.setWindowTitle("Export engine to");
+            imex.ui->lbl_format->setText("jfuzzylite (Java):");
+            imex.ui->buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
+
+            QFont font = typeWriterFont();
+            font.setPointSize(font.pointSize() - 1);
+            imex.ui->pte_code->setFont(font);
+            imex.ui->pte_code->setReadOnly(true);
+            imex.ui->pte_code->document()->setPlainText(
+                    QString::fromStdString(java));
             QTextCursor tc = imex.ui->pte_code->textCursor();
             tc.movePosition(QTextCursor::Start);
             imex.ui->pte_code->setTextCursor(tc);

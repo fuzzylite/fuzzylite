@@ -27,6 +27,7 @@
 #include "fl/factory/TermFactory.h"
 #include "fl/factory/HedgeFactory.h"
 
+//TODO: Register types in Factories.
 namespace fl {
 
     Factory* Factory::_instance = NULL;
