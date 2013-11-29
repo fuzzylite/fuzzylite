@@ -125,14 +125,6 @@ namespace fl {
                 }
                 throw fl::Exception(ex.str(), FL_AT);
             }
-            //            if (engine->numberOfInputVariables() == 0
-            //                    and engine->numberOfOutputVariables() == 0
-            //                    and (engine->numberOfRuleBlocks() == 0
-            //                    or engine->getRuleBlock(0)->numberOfRules() == 0)) {
-            //                std::ostringstream ex;
-            //                ex << "[importer error] the FCL code introduced produces an empty engine";
-            //                throw fl::Exception(ex.str(), FL_AT);
-            //            }
         } catch (fl::Exception& ex) {
             delete engine;
             throw ex;
