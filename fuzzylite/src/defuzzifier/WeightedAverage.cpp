@@ -68,5 +68,9 @@ namespace fl {
 
         return sum / weights;
     }
+    
+    Defuzzifier* WeightedAverage::create(){
+        return new WeightedAverage;
+    }
 
 }

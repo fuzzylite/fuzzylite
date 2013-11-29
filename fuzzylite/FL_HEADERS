@@ -12,6 +12,7 @@ fl/defuzzifier/WeightedSum.h
 fl/Engine.h
 fl/Exception.h
 fl/factory/Factory.h
+fl/factory/FactoryManager.h
 fl/factory/DefuzzifierFactory.h
 fl/factory/SNormFactory.h
 fl/factory/TNormFactory.h
@@ -35,6 +36,19 @@ fl/imex/Importer.h
 fl/norm/Norm.h
 fl/norm/SNorm.h
 fl/norm/TNorm.h
+fl/norm/s/AlgebraicSum.h
+fl/norm/s/BoundedSum.h
+fl/norm/s/DrasticSum.h
+fl/norm/s/EinsteinSum.h
+fl/norm/s/HamacherSum.h
+fl/norm/s/Maximum.h
+fl/norm/s/NormalizedSum.h
+fl/norm/t/AlgebraicProduct.h
+fl/norm/t/BoundedDifference.h
+fl/norm/t/DrasticProduct.h
+fl/norm/t/EinsteinProduct.h
+fl/norm/t/HamacherProduct.h
+fl/norm/t/Minimum.h
 fl/Operation.h
 fl/rule/Antecedent.h
 fl/rule/Consequent.h

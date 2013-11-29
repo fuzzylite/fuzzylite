@@ -460,7 +460,7 @@ namespace fl {
         else flClass = mClass;
 
         try {
-            Term* result = Factory::instance()->term()->create(flClass, sortedParams);
+            Term* result = FactoryManager::instance()->term()->create(flClass, sortedParams);
             result->setName(fl::Op::format(name, fl::Op::isValidForName));
             if (mClass == "function" and not params.empty()) {
                 std::ostringstream ss;

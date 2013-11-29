@@ -25,18 +25,16 @@
 
 #include "fl/fuzzylite.h"
 
-#include <string>
-#include <vector>
+#include "fl/factory/Factory.h"
+#include "fl/hedge/Hedge.h"
 
 namespace fl {
-    class Hedge;
-    class FL_EXPORT HedgeFactory {
+    
+    class FL_EXPORT HedgeFactory : public Factory<Hedge*>{
     public:
         HedgeFactory();
         virtual ~HedgeFactory();
         
-        virtual Hedge* create(const std::string& name) const;
-        virtual std::vector<std::string> available() const;
     };
 }
 #endif	/* FL_HEDGEFACTORY_H */

@@ -61,4 +61,8 @@ namespace fl {
         return xcentroid;
     }
 
+    Defuzzifier* Centroid::create() {
+        return new Centroid;
+    }
+
 }

@@ -22,34 +22,25 @@
 
 #include "fl/factory/TNormFactory.h"
 
-#include "fl/norm/TNorm.h"
+#include "fl/norm/t/AlgebraicProduct.h"
+#include "fl/norm/t/BoundedDifference.h"
+#include "fl/norm/t/DrasticProduct.h"
+#include "fl/norm/t/EinsteinProduct.h"
+#include "fl/norm/t/HamacherProduct.h"
+#include "fl/norm/t/Minimum.h"
 
 namespace fl {
 
-    TNormFactory::TNormFactory() { }
-
-    TNormFactory::~TNormFactory() { }
-
-    TNorm* TNormFactory::create(const std::string& className) const {
-        if (className == "") return NULL;
-        if (className == Minimum().className()) return new Minimum;
-        if (className == AlgebraicProduct().className()) return new AlgebraicProduct;
-        if (className == BoundedDifference().className()) return new BoundedDifference;
-        if (className == DrasticProduct().className()) return new DrasticProduct;
-        if (className == EinsteinProduct().className()) return new EinsteinProduct;
-        if (className == HamacherProduct().className()) return new HamacherProduct;
-        throw fl::Exception("[factory error] T-Norm of class <" + className + "> not recognized", FL_AT);
+    TNormFactory::TNormFactory() {
+        registerClass(Minimum().className(), &(Minimum::create));
+        registerClass(AlgebraicProduct().className(), &(AlgebraicProduct::create));
+        registerClass(BoundedDifference().className(), &(BoundedDifference::create));
+        registerClass(DrasticProduct().className(), &(DrasticProduct::create));
+        registerClass(EinsteinProduct().className(), &(EinsteinProduct::create));
+        registerClass(HamacherProduct().className(), &(HamacherProduct::create));
     }
 
-    std::vector<std::string> TNormFactory::available() const {
-        std::vector<std::string> result;
-        result.push_back(Minimum().className());
-        result.push_back(AlgebraicProduct().className());
-        result.push_back(BoundedDifference().className());
-        result.push_back(DrasticProduct().className());
-        result.push_back(EinsteinProduct().className());
-        result.push_back(HamacherProduct().className());
-        return result;
+    TNormFactory::~TNormFactory() {
     }
 
 }

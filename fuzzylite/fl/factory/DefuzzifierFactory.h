@@ -25,22 +25,19 @@
 
 #include "fl/fuzzylite.h"
 
+#include "fl/factory/Factory.h"
+
 #include <string>
 #include <vector>
 
 namespace fl {
     class Defuzzifier;
     
-    class FL_EXPORT DefuzzifierFactory {
+    class FL_EXPORT DefuzzifierFactory : public Factory<Defuzzifier*>{
     public:
         DefuzzifierFactory();
         virtual ~DefuzzifierFactory();
 
-        virtual Defuzzifier* create(const std::string& className,
-                int resolution = FL_RESOLUTION);
-        
-        virtual std::vector<std::string> available() const;
-        
     };
 }
 #endif	/* DEFUZZIFIERFACTORY_H */

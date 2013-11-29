@@ -65,7 +65,7 @@ namespace fl {
 
             for (int t = 0; t < inputVariable->numberOfTerms(); ++t) {
                 Term* term = inputVariable->getTerm(t);
-                fcl << "  " << "TERM " << term->getName() << " := " << toFcl(term)
+                fcl << "  " << "TERM " << term->getName() << " := " << toString(term)
                         << ";\n";
             }
             fcl << "END_FUZZIFY\n\n";
@@ -80,16 +80,16 @@ namespace fl {
 
             for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
                 Term* term = outputVariable->getTerm(t);
-                fcl << "  " << "TERM " << term->getName() << " := " << toFcl(term)
+                fcl << "  " << "TERM " << term->getName() << " := " << toString(term)
                         << ";\n";
             }
             fcl << "\n";
 
-            fcl << "  " << "METHOD : " << toFcl(outputVariable->getDefuzzifier()) << ";"
+            fcl << "  " << "METHOD : " << toString(outputVariable->getDefuzzifier()) << ";"
                     << "\n";
 
             if (outputVariable->output()->getAccumulation())
-                fcl << "  " << "ACCU : " << toFcl(outputVariable->output()->getAccumulation())
+                fcl << "  " << "ACCU : " << toString(outputVariable->output()->getAccumulation())
                 << ";\n";
 
             fcl << "  " << "DEFAULT := " << fl::Op::str(outputVariable->getDefaultValue());
@@ -120,11 +120,11 @@ namespace fl {
             fcl << "RULEBLOCK " << ruleblock->getName() << "\n";
 
             if (ruleblock->getConjunction())
-                fcl << "  " << "AND : " << toFcl(ruleblock->getConjunction()) << ";\n";
+                fcl << "  " << "AND : " << toString(ruleblock->getConjunction()) << ";\n";
             if (ruleblock->getDisjunction())
-                fcl << "  " << "OR : " << toFcl(ruleblock->getDisjunction()) << ";\n";
+                fcl << "  " << "OR : " << toString(ruleblock->getDisjunction()) << ";\n";
             if (ruleblock->getActivation())
-                fcl << "  " << "ACT : " << toFcl(ruleblock->getActivation()) << ";\n";
+                fcl << "  " << "ACT : " << toString(ruleblock->getActivation()) << ";\n";
 
             fcl << "\n";
 
@@ -140,7 +140,7 @@ namespace fl {
         return fcl.str();
     }
 
-    std::string FclExporter::toFcl(const TNorm * tnorm) const {
+    std::string FclExporter::toString(const TNorm * tnorm) const {
         if (not tnorm) return "";
         std::string name = tnorm->className();
         if (name == Minimum().className()) return "MIN";
@@ -152,7 +152,7 @@ namespace fl {
         return tnorm->className();
     }
 
-    std::string FclExporter::toFcl(const SNorm * snorm) const {
+    std::string FclExporter::toString(const SNorm * snorm) const {
         if (not snorm) return "";
         std::string name = snorm->className();
         if (name == Maximum().className()) return "MAX";
@@ -165,7 +165,7 @@ namespace fl {
         return snorm->className();
     }
 
-    std::string FclExporter::toFcl(const Defuzzifier* defuzzifier) const {
+    std::string FclExporter::toString(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier) return "";
         if (defuzzifier->className() == Centroid().className()) return "COG";
         if (defuzzifier->className() == Bisector().className()) return "COA";
@@ -177,7 +177,7 @@ namespace fl {
         return defuzzifier->className();
     }
 
-    std::string FclExporter::toFcl(const Term* term) const {
+    std::string FclExporter::toString(const Term* term) const {
         if (term->className() == Discrete().className()) {
             const Discrete* discrete = dynamic_cast<const Discrete*> (term);
             std::ostringstream ss;

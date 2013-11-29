@@ -62,5 +62,9 @@ namespace fl {
         }
         return xsmallest;
     }
+    
+    Defuzzifier* SmallestOfMaximum::create(){
+        return new SmallestOfMaximum;
+    }
 }
 

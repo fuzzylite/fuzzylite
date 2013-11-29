@@ -47,10 +47,10 @@ namespace fl {
             const std::vector<Variable*> variables) const;
         
         
-        std::string toFis(const TNorm* tnorm) const;
-        std::string toFis(const SNorm* snorm) const;
-        std::string toFis(const Defuzzifier* defuzzifier) const;
-        std::string toFis(const Term* term) const;
+        std::string toString(const TNorm* tnorm) const;
+        std::string toString(const SNorm* snorm) const;
+        std::string toString(const Defuzzifier* defuzzifier) const;
+        std::string toString(const Term* term) const;
     public:
         FisExporter();
         virtual ~FisExporter();

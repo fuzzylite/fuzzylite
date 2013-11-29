@@ -104,9 +104,9 @@ namespace fl {
             throw fl::Exception("[exporter error] fis files require all ruleblocks "
                 "to have the same " + uniquenessError, FL_AT);
 
-        fis << "AndMethod='" << toFis(tnorm) << "'\n";
-        fis << "OrMethod='" << toFis(snorm) << "'\n";
-        fis << "ImpMethod='" << toFis(activation) << "'\n";
+        fis << "AndMethod='" << toString(tnorm) << "'\n";
+        fis << "OrMethod='" << toString(snorm) << "'\n";
+        fis << "ImpMethod='" << toString(activation) << "'\n";
 
         const SNorm* accumulation = NULL;
         Defuzzifier* defuzzifier = NULL;
@@ -130,8 +130,8 @@ namespace fl {
             throw fl::Exception("[exporter error] fis files require all output variables "
                 "to have the same " + uniquenessError, FL_AT);
 
-        fis << "AggMethod='" << toFis(accumulation) << "'\n";
-        fis << "DefuzzMethod='" << toFis(defuzzifier) << "'\n";
+        fis << "AggMethod='" << toString(accumulation) << "'\n";
+        fis << "DefuzzMethod='" << toString(defuzzifier) << "'\n";
         return fis.str();
     }
 
@@ -145,7 +145,7 @@ namespace fl {
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
             for (int ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
                 fis << "MF" << (ixTerm + 1) << "='" << var->getTerm(ixTerm)->getName() << "':"
-                        << toFis(var->getTerm(ixTerm)) << "\n";
+                        << toString(var->getTerm(ixTerm)) << "\n";
             }
             fis << "\n";
         }
@@ -165,7 +165,7 @@ namespace fl {
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
             for (int ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
                 fis << "MF" << (ixTerm + 1) << "='" << var->getTerm(ixTerm)->getName() << "':"
-                        << toFis(var->getTerm(ixTerm)) << "\n";
+                        << toString(var->getTerm(ixTerm)) << "\n";
             }
             fis << "\n";
         }
@@ -281,7 +281,7 @@ namespace fl {
         return ss.str();
     }
 
-    std::string FisExporter::toFis(const TNorm * tnorm) const {
+    std::string FisExporter::toString(const TNorm * tnorm) const {
         if (not tnorm) return "";
         std::string name = tnorm->className();
         if (name == Minimum().className()) return "min";
@@ -293,7 +293,7 @@ namespace fl {
         return tnorm->className();
     }
 
-    std::string FisExporter::toFis(const SNorm * snorm) const {
+    std::string FisExporter::toString(const SNorm * snorm) const {
         if (not snorm) return "";
         std::string name = snorm->className();
         if (name == Maximum().className()) return "max";
@@ -306,7 +306,7 @@ namespace fl {
         return snorm->className();
     }
 
-    std::string FisExporter::toFis(const Defuzzifier * defuzzifier) const {
+    std::string FisExporter::toString(const Defuzzifier * defuzzifier) const {
         if (not defuzzifier) return "";
         if (defuzzifier->className() == Centroid().className()) return "centroid";
         if (defuzzifier->className() == Bisector().className()) return "bisector";
@@ -318,7 +318,7 @@ namespace fl {
         return defuzzifier->className();
     }
 
-    std::string FisExporter::toFis(const Term * term) const {
+    std::string FisExporter::toString(const Term * term) const {
         std::ostringstream ss;
         if (term->className() == Bell().className()) {
             const Bell* x = dynamic_cast<const Bell*> (term);

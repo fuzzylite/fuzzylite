@@ -17,7 +17,7 @@
  * File:   Factory.h
  * Author: jcrada
  *
- * Created on 8 January 2013, 11:10 PM
+ * Created on 29 November 2013, 7:15 AM
  */
 
 #ifndef FL_FACTORY_H
@@ -25,48 +25,32 @@
 
 #include "fl/fuzzylite.h"
 
+#include <map>
+#include <string>
+#include <vector>
+
 namespace fl {
-    class TNormFactory;
-    class SNormFactory;
-    class DefuzzifierFactory;
-    class TermFactory;
-    class HedgeFactory;
 
+    template <typename T>
     class FL_EXPORT Factory {
+    public:
+        typedef T(*Creator)();
+
     protected:
-        static Factory* _instance;
+        std::map<std::string, Creator> map;
 
-        TNormFactory* _tnorm;
-        SNormFactory* _snorm;
-        DefuzzifierFactory* _defuzzifier;
-        TermFactory* _term;
-        HedgeFactory* _hedge;
-
+    public:
         Factory();
         virtual ~Factory();
 
-    public:
-        static Factory* instance();
-
-        virtual void setTnorm(TNormFactory* tnorm);
-        virtual TNormFactory* tnorm() const;
-
-        virtual void setSnorm(SNormFactory* snorm);
-        virtual SNormFactory* snorm() const;
-
-        virtual void setDefuzzifier(DefuzzifierFactory* defuzzifier);
-        virtual DefuzzifierFactory* defuzzifier() const;
-
-        virtual void setTerm(TermFactory* term);
-        virtual TermFactory* term() const;
-
-        virtual void setHedge(HedgeFactory* hedge);
-        virtual HedgeFactory* hedge() const;
-
-
-
-
+        virtual void registerClass(const std::string& key, Creator creator);
+        virtual void deregisterClass(const std::string& key);
+        virtual bool hasRegisteredClass(const std::string& key) const;
+        virtual std::vector<std::string> available() const;
+        virtual T createInstance(const std::string& key) const;
     };
+    
 }
+
 #endif	/* FL_FACTORY_H */
 

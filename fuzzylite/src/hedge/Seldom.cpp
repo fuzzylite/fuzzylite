@@ -36,5 +36,9 @@ namespace fl {
                 ? std::sqrt(x / 2)
                 : 1 - std::sqrt((1 - x) / 2);
     }
+    
+    Hedge* Seldom::create(){
+        return new Seldom;
+    }
 
 } 

@@ -31,5 +31,9 @@ namespace fl {
     scalar Not::hedge(scalar x) const {
         return 1 - x;
     }
+    
+    Hedge* Not::create(){
+        return new Not;
+    }
 
 } 

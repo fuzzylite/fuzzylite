@@ -21,35 +21,28 @@
  */
 
 #include "fl/factory/SNormFactory.h"
-#include "fl/norm/SNorm.h"
+
+#include "fl/norm/s/AlgebraicSum.h"
+#include "fl/norm/s/BoundedSum.h"
+#include "fl/norm/s/DrasticSum.h"
+#include "fl/norm/s/EinsteinSum.h"
+#include "fl/norm/s/HamacherSum.h"
+#include "fl/norm/s/Maximum.h"
+#include "fl/norm/s/NormalizedSum.h"
 
 namespace fl {
 
-    SNormFactory::SNormFactory() { }
-
-    SNormFactory::~SNormFactory() { }
-
-    SNorm* SNormFactory::create(const std::string& className) const {
-        if (className == "") return NULL;
-        if (className == Maximum().className()) return new Maximum;
-        if (className == AlgebraicSum().className()) return new AlgebraicSum;
-        if (className == BoundedSum().className()) return new BoundedSum;
-        if (className == NormalizedSum().className()) return new NormalizedSum;
-        if (className == DrasticSum().className()) return new DrasticSum;
-        if (className == EinsteinSum().className()) return new EinsteinSum;
-        if (className == HamacherSum().className()) return new HamacherSum;
-        throw fl::Exception("[factory error] S-Norm of class <" + className + "> not recognized", FL_AT);
+    SNormFactory::SNormFactory() {
+        registerClass(AlgebraicSum().className(), &(AlgebraicSum::create));
+        registerClass(BoundedSum().className(), &(BoundedSum::create));
+        registerClass(DrasticSum().className(), &(DrasticSum::create));
+        registerClass(EinsteinSum().className(), &(EinsteinSum::create));
+        registerClass(HamacherSum().className(), &(HamacherSum::create));
+        registerClass(Maximum().className(), &(Maximum::create));
+        registerClass(NormalizedSum().className(), &(NormalizedSum::create));
     }
 
-    std::vector<std::string> SNormFactory::available() const {
-        std::vector<std::string> result;
-        result.push_back(Maximum().className());
-        result.push_back(AlgebraicSum().className());
-        result.push_back(BoundedSum().className());
-        result.push_back(NormalizedSum().className());
-        result.push_back(DrasticSum().className());
-        result.push_back(EinsteinSum().className());
-        result.push_back(HamacherSum().className());
-        return result;
+    SNormFactory::~SNormFactory() {
     }
+
 }

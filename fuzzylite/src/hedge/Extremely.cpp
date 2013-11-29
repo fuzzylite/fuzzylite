@@ -34,4 +34,8 @@ namespace fl {
                 ? 2 * x * x
                 : 1 - 2 * (1 - x) * (1 - x);
     }
+    
+    Hedge* Extremely::create(){
+        return new Extremely;
+    }
 } 

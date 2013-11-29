@@ -25,19 +25,15 @@
 
 #include "fl/fuzzylite.h"
 
-#include <string>
-#include <vector>
+#include "fl/factory/Factory.h"
+#include "fl/norm/SNorm.h"
 
 namespace fl {
-    class SNorm;
-    
-    class FL_EXPORT SNormFactory {
+
+    class FL_EXPORT SNormFactory : public Factory<SNorm*> {
     public:
         SNormFactory();
         virtual ~SNormFactory();
-        
-        virtual SNorm* create(const std::string& className) const;
-        virtual std::vector<std::string> available() const;
     };
 }
 #endif	/* FL_SNORMFACTORY_H */

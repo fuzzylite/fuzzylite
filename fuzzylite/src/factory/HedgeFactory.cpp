@@ -29,35 +29,19 @@
 #include "fl/hedge/Somewhat.h"
 #include "fl/hedge/Very.h"
 
-#include "fl/Exception.h"
 
 namespace fl {
 
-    HedgeFactory::HedgeFactory() { }
-
-    HedgeFactory::~HedgeFactory() { }
-
-    Hedge* HedgeFactory::create(const std::string& name) const {
-        if (name == "") return NULL;
-        if (name == Any().name()) return new Any;
-        if (name == Extremely().name()) return new Extremely;
-        if (name == Not().name()) return new Not;
-        if (name == Seldom().name()) return new Seldom;
-        if (name == Somewhat().name()) return new Somewhat;
-        if (name == Very().name()) return new Very;
-        throw fl::Exception("[factory error] hedge of name <" + name + " not recognized", FL_AT);
+    HedgeFactory::HedgeFactory() {
+        registerClass(Any().name(), &(Any::create));
+        registerClass(Extremely().name(), Extremely::create);
+        registerClass(Not().name(), Not::create);
+        registerClass(Seldom().name(), Seldom::create);
+        registerClass(Somewhat().name(), Somewhat::create);
+        registerClass(Very().name(), Very::create);
     }
 
-    std::vector<std::string> HedgeFactory::available() const {
-        std::vector<std::string> result;
-        result.push_back(Any().name());
-        result.push_back(Extremely().name());
-        result.push_back(Not().name());
-        result.push_back(Seldom().name());
-        result.push_back(Somewhat().name());
-        result.push_back(Very().name());
-        return result;
+    HedgeFactory::~HedgeFactory() {
     }
-
 
 }

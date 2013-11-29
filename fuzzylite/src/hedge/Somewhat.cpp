@@ -33,5 +33,9 @@ namespace fl {
     scalar Somewhat::hedge(scalar x) const {
         return std::sqrt(x);
     }
+    
+    Hedge* Somewhat::create(){
+        return new Somewhat;
+    }
 
 } 

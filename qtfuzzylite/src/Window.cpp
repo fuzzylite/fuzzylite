@@ -104,7 +104,7 @@ namespace fl {
             sizes << .90 * size().width() << .10 * size().width();
             ui->spl_control_rule_strength->setSizes(sizes);
 
-            std::vector<std::string> tnorms = Factory::instance()->tnorm()->available();
+            std::vector<std::string> tnorms = FactoryManager::instance()->tnorm()->available();
             ui->cbxTnorm->addItem("");
             ui->cbxActivation->addItem("");
             for (std::size_t i = 0; i < tnorms.size(); ++i) {
@@ -112,7 +112,7 @@ namespace fl {
                 ui->cbxActivation->addItem(QString::fromStdString(tnorms.at(i)));
             }
 
-            std::vector<std::string> snorms = Factory::instance()->snorm()->available();
+            std::vector<std::string> snorms = FactoryManager::instance()->snorm()->available();
             ui->cbxSnorm->addItem("");
             for (std::size_t i = 0; i < snorms.size(); ++i) {
                 ui->cbxSnorm->addItem(QString::fromStdString(snorms.at(i)));
@@ -187,8 +187,8 @@ namespace fl {
             menuImport->setIcon(QIcon(":/import.png"));
             QObject::connect(ui->actionImport, SIGNAL(triggered()), this, SLOT(onMenuImport()));
 
-            menuImport->addAction("Fuzzy &Controller Language (FCL)", this, SLOT(onMenuImportFromFCL()));
-            menuImport->addAction("Fuzzy &Inference System (FIS)", this, SLOT(onMenuImportFromFIS()));
+            menuImport->addAction("Fuzzy Controller Language (FC&L)", this, SLOT(onMenuImportFromFCL()));
+            menuImport->addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuImportFromFIS()));
 
             menuFile->addMenu(menuImport);
 
@@ -199,8 +199,8 @@ namespace fl {
             menuExport->addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
             menuExport->addAction("jfuzzylite (&Java)", this, SLOT(onMenuExportToJava()));
             menuExport->addSeparator();
-            menuExport->addAction("Fuzzy Controller Language (F&CL)", this, SLOT(onMenuExportToFCL()));
-            menuExport->addAction("Fuzzy Inference System (F&IS)", this, SLOT(onMenuExportToFIS()));
+            menuExport->addAction("Fuzzy Controller Language (FC&L)", this, SLOT(onMenuExportToFCL()));
+            menuExport->addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuExportToFIS()));
             menuFile->addMenu(menuExport);
 
             menuFile->addSeparator();
@@ -947,7 +947,7 @@ namespace fl {
         }
 
         void Window::onSelectTnorm(int selected) {
-            TNorm* tnorm = Factory::instance()->tnorm()->create(
+            TNorm* tnorm = FactoryManager::instance()->tnorm()->createInstance(
                     ui->cbxTnorm->currentText().toStdString());
             Model::Default()->engine()->getRuleBlock(0)->setConjunction(tnorm);
             _currentFileModified = true;
@@ -955,7 +955,7 @@ namespace fl {
         }
 
         void Window::onSelectSnorm(int selected) {
-            SNorm* snorm = Factory::instance()->snorm()->create(
+            SNorm* snorm = FactoryManager::instance()->snorm()->createInstance(
                     ui->cbxSnorm->currentText().toStdString());
             Model::Default()->engine()->getRuleBlock(0)->setDisjunction(snorm);
             _currentFileModified = true;
@@ -963,7 +963,7 @@ namespace fl {
         }
 
         void Window::onSelectActivation(int selected) {
-            TNorm* tnorm = Factory::instance()->tnorm()->create(
+            TNorm* tnorm = FactoryManager::instance()->tnorm()->createInstance(
                     ui->cbxActivation->currentText().toStdString());
             Model::Default()->engine()->getRuleBlock(0)->setActivation(tnorm);
             _currentFileModified = true;
@@ -980,7 +980,7 @@ namespace fl {
             actions.push_back(all);
             actions.push_back(NULL);
 
-            std::vector<std::string> hedges = Factory::instance()->hedge()->available();
+            std::vector<std::string> hedges = FactoryManager::instance()->hedge()->available();
             for (std::size_t i = 0; i < hedges.size(); ++i) {
                 QAction* action = new QAction(this);
                 action->setText(QString::fromStdString(hedges.at(i)));
@@ -1021,10 +1021,12 @@ namespace fl {
             Engine* engine = Model::Default()->engine();
 
             if (action.toStdString() == "all") {
-                std::vector<std::string> hedges = Factory::instance()->hedge()->available();
+                std::vector<std::string> hedges = FactoryManager::instance()->
+                        hedge()->available();
                 for (std::size_t i = 0; i < hedges.size(); ++i) {
                     if (not engine->hasHedge(hedges.at(i))) {
-                        engine->addHedge(Factory::instance()->hedge()->create(hedges.at(i)));
+                        engine->addHedge(FactoryManager::instance()->
+                                hedge()->createInstance(hedges.at(i)));
                     }
                 }
             } else if (action.toStdString() == "none") {
@@ -1036,7 +1038,8 @@ namespace fl {
                 if (engine->hasHedge(action.toStdString())) {
                     delete engine->removeHedge(action.toStdString());
                 } else {
-                    engine->addHedge(Factory::instance()->hedge()->create(action.toStdString()));
+                    engine->addHedge(FactoryManager::instance()->
+                            hedge()->createInstance(action.toStdString()));
                 }
             }
             onClickParseAllRules();
@@ -1442,8 +1445,8 @@ namespace fl {
         void Window::onMenuImport() {
             if (ui->actionImport->isChecked()) {
                 QMenu menu(this);
-                menu.addAction("Fuzzy &Control Language (FCL)", this, SLOT(onMenuImportFromFCL()));
-                menu.addAction("Fuzzy &Inference System (FIS)", this, SLOT(onMenuImportFromFIS()));
+                menu.addAction("Fuzzy Control Language (FC&L)", this, SLOT(onMenuImportFromFCL()));
+                menu.addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuImportFromFIS()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionImport->setChecked(false);
             }
@@ -1521,11 +1524,11 @@ namespace fl {
         void Window::onMenuExport() {
             if (ui->actionExport->isChecked()) {
                 QMenu menu(this);
-                menu.addAction("&fuzzylite (C++)", this, SLOT(onMenuExportToCpp()));
-                menu.addAction("&jfuzzylite (Java)", this, SLOT(onMenuExportToJava()));
+                menu.addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
+                menu.addAction("jfuzzylite (&Java)", this, SLOT(onMenuExportToJava()));
                 menu.addSeparator();
-                menu.addAction("Fuzzy &Control Language (FCL)", this, SLOT(onMenuExportToFCL()));
-                menu.addAction("Fuzzy &Inference System (FIS)", this, SLOT(onMenuExportToFIS()));
+                menu.addAction("Fuzzy Control Language (FC&L)", this, SLOT(onMenuExportToFCL()));
+                menu.addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuExportToFIS()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionExport->setChecked(false);
             }
@@ -1620,7 +1623,7 @@ namespace fl {
             imex.ui->pte_code->setTextCursor(tc);
             imex.exec();
         }
-        
+
         void Window::onMenuExportToJava() {
             JavaExporter exporter;
             std::string java;

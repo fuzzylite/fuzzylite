@@ -37,15 +37,18 @@ namespace fl {
 
     class FL_EXPORT CppExporter : public Exporter {
     protected:
-        virtual std::string toCpp(const Hedge* hedge) const;
-        virtual std::string toCpp(const Term* term) const;
-        virtual std::string toCpp(const Norm* op) const;
-        virtual std::string toCpp(const Defuzzifier* defuzzifier) const;
+        virtual std::string toString(const Hedge* hedge) const;
+        virtual std::string toString(const Term* term) const;
+        virtual std::string toString(const Norm* op) const;
+        virtual std::string toString(const Defuzzifier* defuzzifier) const;
+        
     public:
         CppExporter();
         virtual ~CppExporter();
         virtual std::string name() const;
         virtual std::string toString(const Engine* engine) const;
+
+
 
     };
 }

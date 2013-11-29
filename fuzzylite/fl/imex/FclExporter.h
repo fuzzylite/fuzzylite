@@ -33,11 +33,11 @@ namespace fl {
 
     class FL_EXPORT FclExporter : public Exporter {
     protected:
-        virtual std::string toFcl(const TNorm* tnorm) const;
-        virtual std::string toFcl(const SNorm* snorm) const;
-        virtual std::string toFcl(const Defuzzifier* defuzzifier) const;
-        virtual std::string toFcl(const Term* term) const;
-
+        virtual std::string toString(const TNorm* tnorm) const;
+        virtual std::string toString(const SNorm* snorm) const;
+        virtual std::string toString(const Defuzzifier* defuzzifier) const;
+        virtual std::string toString(const Term* term) const;
+        
     public:
         FclExporter();
         virtual ~FclExporter();

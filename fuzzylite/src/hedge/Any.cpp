@@ -32,5 +32,9 @@ namespace fl {
         (void) x;
         return 1.0;
     }
+    
+    Hedge* Any::create(){
+        return new Any;
+    }
 
 }

@@ -423,11 +423,11 @@ int main(int argc, char** argv) {
     signal(SIGBUS, fl::Exception::signalHandler);
     signal(SIGPIPE, fl::Exception::signalHandler);
 #endif
-    
+
     try {
-//        exportAllExamples("fis", "cpp");
-//        return 0;
-//        fl::Function::main();
+        //        exportAllExamples("fis", "cpp");
+        //        return 0;
+        //        fl::Function::main();
         examples();
     } catch (fl::Exception& e) {
         FL_LOG(e.what());

@@ -51,7 +51,7 @@ namespace fl {
             cpp << "\n";
             for (int t = 0; t < input->numberOfTerms(); ++t) {
                 cpp << "inputVariable" << (i + 1) << "->addTerm(" <<
-                        toCpp(input->getTerm(t)) << ");\n";
+                        toString(input->getTerm(t)) << ");\n";
             }
             cpp << "engine->addInputVariable(inputVariable" << (i + 1) << ");\n";
             cpp << "\n";
@@ -80,13 +80,13 @@ namespace fl {
                     (output->isLockingValidOutput() ? "true" : "false") << ");\n";
 
             cpp << "outputVariable" << (i + 1) << "->setDefuzzifier(" <<
-                    toCpp(output->getDefuzzifier()) << ");\n";
+                    toString(output->getDefuzzifier()) << ");\n";
             cpp << "outputVariable" << (i + 1) << "->output()->setAccumulation(" <<
-                    toCpp(output->output()->getAccumulation()) << ");\n";
+                    toString(output->output()->getAccumulation()) << ");\n";
             cpp << "\n";
             for (int t = 0; t < output->numberOfTerms(); ++t) {
                 cpp << "outputVariable" << (i + 1) << "->addTerm(" <<
-                        toCpp(output->getTerm(t)) << ");\n";
+                        toString(output->getTerm(t)) << ");\n";
             }
             cpp << "engine->addOutputVariable(outputVariable" << (i + 1) << ");\n";
             cpp << "\n";
@@ -97,11 +97,11 @@ namespace fl {
             cpp << "fl::RuleBlock* ruleblock" << (i + 1) << " = new fl::RuleBlock;\n";
             cpp << "ruleblock" << (i + 1) << "->setName(\"" << ruleblock->getName() << "\");\n";
             cpp << "ruleblock" << (i + 1) << "->setConjunction(" <<
-                    toCpp(ruleblock->getConjunction()) << ");\n";
+                    toString(ruleblock->getConjunction()) << ");\n";
             cpp << "ruleblock" << (i + 1) << "->setDisjunction("
-                    << toCpp(ruleblock->getDisjunction()) << ");\n";
+                    << toString(ruleblock->getDisjunction()) << ");\n";
             cpp << "ruleblock" << (i + 1) << "->setActivation("
-                    << toCpp(ruleblock->getActivation()) << ");\n";
+                    << toString(ruleblock->getActivation()) << ");\n";
             cpp << "\n";
             for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
                 cpp << "ruleblock" << (i + 1) << "->addRule(fl::Rule::parse(\"" <<
@@ -114,7 +114,7 @@ namespace fl {
         return cpp.str();
     }
 
-    std::string CppExporter::toCpp(const Term* term) const {
+    std::string CppExporter::toString(const Term* term) const {
         if (not term) return "NULL";
         std::ostringstream ss;
         ss << "new fl::" << term->className() << "(\"" << term->getName() << "\", ";
@@ -258,7 +258,7 @@ namespace fl {
         throw fl::Exception(ss.str(), FL_AT);
     }
 
-    std::string CppExporter::toCpp(const Hedge * hedge) const {
+    std::string CppExporter::toString(const Hedge * hedge) const {
         if (hedge->name() == Any().name()) return "new fl::Any";
         if (hedge->name() == Extremely().name()) return "new fl::Extremely";
         if (hedge->name() == Not().name()) return "new fl::Not";
@@ -268,12 +268,12 @@ namespace fl {
         return hedge->name();
     }
 
-    std::string CppExporter::toCpp(const Norm* op) const {
+    std::string CppExporter::toString(const Norm* op) const {
         if (not op) return "NULL";
         return "new fl::" + op->className();
     }
 
-    std::string CppExporter::toCpp(const Defuzzifier* defuzzifier) const {
+    std::string CppExporter::toString(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier) return "NULL";
         if (defuzzifier->className() == WeightedAverage().className()
                 or defuzzifier->className() == WeightedSum().className()) {

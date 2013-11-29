@@ -76,14 +76,14 @@ namespace fl {
 
             ui->gbx_output->setVisible(type == OUTPUT_VARIABLE);
 
-            std::vector<std::string> accumulation = Factory::instance()->snorm()->available();
+            std::vector<std::string> accumulation = FactoryManager::instance()->snorm()->available();
             ui->cbx_accumulation->addItem("");
             for (std::size_t i = 0; i < accumulation.size(); ++i) {
                 ui->cbx_accumulation->addItem(QString::fromStdString(
                         accumulation.at(i)));
             }
 
-            std::vector<std::string> defuzzifiers = Factory::instance()->defuzzifier()->available();
+            std::vector<std::string> defuzzifiers = FactoryManager::instance()->defuzzifier()->available();
             ui->cbx_defuzzifier->addItem("");
             for (std::size_t i = 0; i < defuzzifiers.size(); ++i) {
                 ui->cbx_defuzzifier->addItem(QString::fromStdString(
@@ -237,14 +237,18 @@ namespace fl {
                 outputVariable->setLockValidOutput(ui->chx_lock_valid->isChecked());
                 outputVariable->setLockOutputRange(ui->chx_lock_range->isChecked());
 
-                SNorm* accumulation = Factory::instance()->snorm()->create(
+                SNorm* accumulation = FactoryManager::instance()->snorm()->createInstance(
                         ui->cbx_accumulation->currentText().toStdString());
                 outputVariable->output()->setAccumulation(accumulation);
                 Defuzzifier* defuzzifier = NULL;
                 if (ui->cbx_defuzzifier->currentIndex() >= 0) {
-                    defuzzifier = Factory::instance()->defuzzifier()->create(
-                            ui->cbx_defuzzifier->currentText().toStdString(),
-                            ui->sbx_accuracy->value());
+                    defuzzifier = FactoryManager::instance()->defuzzifier()->createInstance(
+                            ui->cbx_defuzzifier->currentText().toStdString());
+                    IntegralDefuzzifier* integralDefuzzifier = 
+                            dynamic_cast<IntegralDefuzzifier*> (defuzzifier);
+                    if (integralDefuzzifier){
+                        integralDefuzzifier->setResolution(ui->sbx_accuracy->value());
+                    }
                 }
                 outputVariable->setDefuzzifier(defuzzifier);
 

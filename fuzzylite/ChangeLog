@@ -24,3 +24,8 @@ Version 4.0
 * Refactored associtativity, unary and binary properties in Element within Function
 * Removed unnecessary Hedges creation upon importing engines, now is automatic via Factories
 * Added JavaExporter
+* Renamed methods within Fis/Fcl/CppExporter to toString(*);
+* Extracted TNorms and SNorms from TNorm.h/cpp and SNorm.h/cpp
+* Created proper Factories with registration of classes and constructors
+* Renamed method Factory::create to Factory::createInstance
+* Added static constructor method to every Defuzzifier, Hedge, TNorm, and SNorm

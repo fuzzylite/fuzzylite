@@ -332,7 +332,7 @@ namespace fl {
         else if (name == "HPROD") className = HamacherProduct().className();
 
         try {
-            return Factory::instance()->tnorm()->create(className);
+            return FactoryManager::instance()->tnorm()->createInstance(className);
         } catch (fl::Exception& ex) {
             ex.append("[syntax error] T-Norm <" + name + "> not recognized in line:\n"
                     + line, FL_AT);
@@ -359,7 +359,7 @@ namespace fl {
         else if (name == "HSUM") className = HamacherSum().className();
 
         try {
-            return Factory::instance()->snorm()->create(className);
+            return FactoryManager::instance()->snorm()->createInstance(className);
         } catch (fl::Exception& ex) {
             ex.append("[syntax error] S-Norm <" + name + "> not recognized in line:\n"
                     + line, FL_AT);
@@ -442,7 +442,7 @@ namespace fl {
         }
 
         try {
-            Term * result = Factory::instance()->term()->create(termClass, params);
+            Term * result = FactoryManager::instance()->term()->create(termClass, params);
             result->setName(fl::Op::format(name, fl::Op::isValidForName));
 
             if (termClass == Function().className() and not strParams.empty()) {
@@ -498,7 +498,7 @@ namespace fl {
         if (name == "COGSS") className = WeightedSum().className();
 
         try {
-            return Factory::instance()->defuzzifier()->create(className);
+            return FactoryManager::instance()->defuzzifier()->createInstance(className);
         } catch (fl::Exception& ex) {
             ex.append("[syntax error] defuzzifier <" + name +
                     "> not recognized in line:\n" + line, FL_AT);

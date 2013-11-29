@@ -30,7 +30,7 @@
 
 #include "fl/term/Accumulated.h"
 
-#include "fl/factory/Factory.h"
+#include "fl/factory/FactoryManager.h"
 #include "fl/factory/DefuzzifierFactory.h"
 #include "fl/factory/SNormFactory.h"
 #include "fl/factory/TNormFactory.h"
@@ -73,17 +73,17 @@ namespace fl {
     void Engine::configure(const std::string& tnorm, const std::string& snorm,
             const std::string& activationTnorm, const std::string& accumulationSnorm,
             const std::string& defuzzifier, int resolution) {
-        TNormFactory* tnormFactory = Factory::instance()->tnorm();
-        SNormFactory* snormFactory = Factory::instance()->snorm();
-        DefuzzifierFactory* defuzzFactory = Factory::instance()->defuzzifier();
+        TNormFactory* tnormFactory = FactoryManager::instance()->tnorm();
+        SNormFactory* snormFactory = FactoryManager::instance()->snorm();
+        DefuzzifierFactory* defuzzFactory = FactoryManager::instance()->defuzzifier();
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            _ruleblocks.at(i)->setConjunction(tnormFactory->create(tnorm));
-            _ruleblocks.at(i)->setDisjunction(snormFactory->create(snorm));
-            _ruleblocks.at(i)->setActivation(tnormFactory->create(activationTnorm));
+            _ruleblocks.at(i)->setConjunction(tnormFactory->createInstance(tnorm));
+            _ruleblocks.at(i)->setDisjunction(snormFactory->createInstance(snorm));
+            _ruleblocks.at(i)->setActivation(tnormFactory->createInstance(activationTnorm));
         }
 
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            _outputVariables.at(i)->setDefuzzifier(defuzzFactory->create(defuzzifier));
+            _outputVariables.at(i)->setDefuzzifier(defuzzFactory->createInstance(defuzzifier));
             if (_outputVariables.at(i)->getDefuzzifier()) {
                 IntegralDefuzzifier* integralDefuzzifier =
                         dynamic_cast<IntegralDefuzzifier*> (_outputVariables.at(i)->getDefuzzifier());
@@ -92,7 +92,7 @@ namespace fl {
                 }
             }
             _outputVariables.at(i)->output()->setAccumulation(
-                    snormFactory->create(accumulationSnorm));
+                    snormFactory->createInstance(accumulationSnorm));
         }
     }
 

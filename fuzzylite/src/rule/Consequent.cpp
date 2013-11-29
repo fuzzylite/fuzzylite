@@ -36,7 +36,7 @@
 #include "fl/term/Thresholded.h"
 #include "fl/term/Accumulated.h"
 
-#include "fl/factory/Factory.h"
+#include "fl/factory/FactoryManager.h"
 #include "fl/factory/HedgeFactory.h"
 
 #include <algorithm>
@@ -120,9 +120,9 @@ namespace fl {
                 if (engine->hasHedge(token)) {
                     hedge = engine->getHedge(token);
                 } else {
-                    std::vector<std::string> hedges = Factory::instance()->hedge()->available();
+                    std::vector<std::string> hedges = FactoryManager::instance()->hedge()->available();
                     if (std::find(hedges.begin(), hedges.end(), token) != hedges.end()) {
-                        hedge = Factory::instance()->hedge()->create(token);
+                        hedge = FactoryManager::instance()->hedge()->createInstance(token);
                         //TODO: find a better way, eventually.
                         const_cast<Engine*> (engine)->addHedge(hedge);
                     }

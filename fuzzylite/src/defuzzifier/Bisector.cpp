@@ -67,4 +67,8 @@ namespace fl {
         return bisector;
     }
 
+    Defuzzifier* Bisector::create() {
+        return new Bisector;
+    }
+
 }

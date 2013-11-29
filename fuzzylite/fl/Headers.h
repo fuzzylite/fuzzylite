@@ -39,6 +39,7 @@
 #include "fl/defuzzifier/WeightedSum.h"
 
 #include "fl/factory/Factory.h"
+#include "fl/factory/FactoryManager.h"
 #include "fl/factory/DefuzzifierFactory.h"
 #include "fl/factory/HedgeFactory.h"
 #include "fl/factory/SNormFactory.h"
@@ -64,6 +65,21 @@
 #include "fl/norm/Norm.h"
 #include "fl/norm/SNorm.h"
 #include "fl/norm/TNorm.h"
+
+#include "fl/norm/s/AlgebraicSum.h"
+#include "fl/norm/s/BoundedSum.h"
+#include "fl/norm/s/DrasticSum.h"
+#include "fl/norm/s/EinsteinSum.h"
+#include "fl/norm/s/HamacherSum.h"
+#include "fl/norm/s/Maximum.h"
+#include "fl/norm/s/NormalizedSum.h"
+
+#include "fl/norm/t/AlgebraicProduct.h"
+#include "fl/norm/t/BoundedDifference.h"
+#include "fl/norm/t/DrasticProduct.h"
+#include "fl/norm/t/EinsteinProduct.h"
+#include "fl/norm/t/HamacherProduct.h"
+#include "fl/norm/t/Minimum.h"
 
 #include "fl/rule/Antecedent.h"
 #include "fl/rule/Consequent.h"

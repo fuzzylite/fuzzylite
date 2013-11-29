@@ -16,88 +16,81 @@
 /* 
  * File:   Factory.cpp
  * Author: jcrada
- * 
- * Created on 8 January 2013, 11:10 PM
+ *
+ * Created on 29 November 2013, 11:48 PM
  */
 
 #include "fl/factory/Factory.h"
-#include "fl/factory/DefuzzifierFactory.h"
-#include "fl/factory/SNormFactory.h"
-#include "fl/factory/TNormFactory.h"
-#include "fl/factory/TermFactory.h"
-#include "fl/factory/HedgeFactory.h"
+#include "fl/Exception.h"
 
-//TODO: Register types in Factories.
+#include "fl/defuzzifier/Defuzzifier.h"
+#include "fl/hedge/Hedge.h"
+#include "fl/norm/SNorm.h"
+#include "fl/norm/TNorm.h"
+#include "fl/term/Term.h"
+
+
 namespace fl {
 
-    Factory* Factory::_instance = NULL;
+    template <typename T>
+    Factory<T>::Factory() {
 
-    Factory* Factory::instance() {
-        if (not _instance) {
-            _instance = new Factory;
-            _instance->setTnorm(new TNormFactory);
-            _instance->setSnorm(new SNormFactory);
-            _instance->setDefuzzifier(new DefuzzifierFactory);
-            _instance->setTerm(new TermFactory);
-            _instance->setHedge(new HedgeFactory);
+    }
+
+    template <typename T>
+    Factory<T>::~Factory() {
+
+    }
+
+    template <typename T>
+    void Factory<T>::registerClass(const std::string& key, Creator creator) {
+        this->map[key] = creator;
+    }
+
+    template <typename T>
+    void Factory<T>::deregisterClass(const std::string& key) {
+        typename std::map<std::string, Creator>::iterator it = this->map.find(key);
+        if (it != this->map.end()) {
+            this->map.erase(it);
         }
-        return _instance;
     }
 
-    Factory::Factory() :
-    _tnorm(NULL), _snorm(NULL), _defuzzifier(NULL), _term(NULL), _hedge(NULL) { }
-
-    Factory::~Factory() {
-        if (_hedge) delete _hedge;
-        if (_term) delete _term;
-        if (_defuzzifier) delete _defuzzifier;
-        if (_snorm) delete _snorm;
-        if (_tnorm) delete _tnorm;
+    template <typename T>
+    bool Factory<T>::hasRegisteredClass(const std::string& key) const {
+        typename std::map<std::string, Creator>::const_iterator it = this->map.find(key);
+        return (it != this->map.end());
     }
 
-    void Factory::setTnorm(TNormFactory* tnorm) {
-        if (this->_tnorm) delete this->_tnorm;
-        this->_tnorm = tnorm;
+    template <typename T>
+    std::vector<std::string> Factory<T>::available() const {
+        std::vector<std::string> result;
+        typename std::map<std::string, Creator>::const_iterator it = this->map.begin();
+        while (it != this->map.end()) {
+            result.push_back(it->first);
+            ++it;
+        }
+        return result;
     }
 
-    TNormFactory* Factory::tnorm() const {
-        return this->_tnorm;
+    template <typename T>
+    T Factory<T>::createInstance(const std::string& key) const {
+        typename std::map<std::string, Creator>::const_iterator it = this->map.find(key);
+        if (it != this->map.end()) {
+            if (it->second) {
+                return it->second();
+            }
+            return NULL;
+        }
+        std::ostringstream ss;
+        ss << "[factory error] class <" << key << "> not registered";
+        throw fl::Exception(ss.str(), FL_AT);
     }
-
-    void Factory::setSnorm(SNormFactory* snorm) {
-        if (this->_snorm) delete this->_snorm;
-        this->_snorm = snorm;
-    }
-
-    SNormFactory* Factory::snorm() const {
-        return this->_snorm;
-    }
-
-    void Factory::setDefuzzifier(DefuzzifierFactory* defuzzifier) {
-        if (this->_defuzzifier) delete this->_defuzzifier;
-        this->_defuzzifier = defuzzifier;
-    }
-
-    DefuzzifierFactory* Factory::defuzzifier() const {
-        return this->_defuzzifier;
-    }
-
-    void Factory::setTerm(TermFactory* term) {
-        if (this->_term) delete this->_term;
-        this->_term = term;
-    }
-
-    TermFactory* Factory::term() const {
-        return this->_term;
-    }
-
-    void Factory::setHedge(HedgeFactory* hedge) {
-        if (this->_hedge) delete this->_hedge;
-        this->_hedge = hedge;
-    }
-
-    HedgeFactory* Factory::hedge() const {
-        return this->_hedge;
-    }
-
 }
+
+template class fl::Factory<fl::Defuzzifier*>;
+template class fl::Factory<fl::Hedge*>;
+template class fl::Factory<fl::SNorm*>;
+template class fl::Factory<fl::TNorm*>;
+template class fl::Factory<fl::Term*>;
+
+
