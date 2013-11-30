@@ -62,8 +62,8 @@ namespace fl {
             ui->sbx_min->setSingleStep(0.01);
             ui->sbx_max->setSingleStep(0.01);
 
-            ui->sbx_min->setDecimals(qtfuzzylite::decimals());
-            ui->sbx_max->setDecimals(qtfuzzylite::decimals());
+            ui->sbx_min->setDecimals(fuzzylite::decimals());
+            ui->sbx_max->setDecimals(fuzzylite::decimals());
 
             QList<int> sizes;
             sizes << .75 * size().width() << .25 * size().width();
@@ -95,7 +95,7 @@ namespace fl {
             ui->cbx_defuzzifier->insertSeparator(ui->cbx_defuzzifier->findText(
                     QString::fromStdString(fl::WeightedAverage().className())));
 
-            ui->sbx_accuracy->setValue(fl::fuzzylite::defaultResolution());
+            ui->sbx_accuracy->setValue(fl::IntegralDefuzzifier::defaultResolution());
 
             QRect scr = Window::mainWindow()->geometry();
             move(scr.center().x() - rect().center().x(), scr.top());

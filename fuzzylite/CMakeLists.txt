@@ -30,11 +30,7 @@ set(FL_DATE "1401")
 add_definitions(-DFL_DATE="1401")
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
-option(FL_USE_LOG "Enable the macro FL_LOG to print information" ON)
 option(FL_DEBUG "Enable additional debugging information" OFF)
-
-option(FL_PRECISION "Precision to differentiate numbers" 1e-5)
-option(FL_DECIMALS "Number of decimals to print information" 3)
 option(FL_BACKTRACE "Provide backtrace information in case of errors" ON)
 
 
@@ -74,23 +70,6 @@ endif()
 if(FL_USE_FLOAT)
     add_definitions(-DFL_USE_FLOAT)
 endif(FL_USE_FLOAT)
-
-if(NOT FL_USE_LOG)
-    add_definitions(-DFL_NO_LOG)
-endif(NOT FL_USE_LOG)
-
-
-if(FL_PRECISION)
-    add_definitions(-DFL_PRECISION=${FL_PRECISION})
-else()
-    set(FL_PRECISION 1e-5)
-endif(FL_PRECISION)
-
-if(FL_DECIMALS)
-    add_definitions(-DFL_DECIMALS=${FL_DECIMALS})
-else()
-    set(FL_DECIMALS 3)
-endif(FL_DECIMALS)
 
 if(NOT FL_BACKTRACE)
     add_definitions(-DFL_BACKTRACE_OFF)
@@ -144,10 +123,7 @@ endif()
 message("=====================================")
 message("fuzzylite v.${FL_VERSION}b${FL_DATE}\n")
 message("FL_DEBUG=${FL_DEBUG}")
-message("FL_USE_LOG=${FL_USE_LOG}")
 message("FL_USE_FLOAT=${FL_USE_FLOAT}")
-message("FL_PRECISION=${FL_PRECISION}")
-message("FL_DECIMALS=${FL_DECIMALS}")
 message("FL_BACKTRACE=${FL_BACKTRACE}")
 message("=====================================\n")
 

@@ -51,7 +51,8 @@ namespace fl {
     namespace qt {
 
         Viewer::Viewer(QWidget* parent, Qt::WindowFlags f) :
-        QWidget(parent, f), constVariable(NULL), ui(new Ui::Viewer) { }
+        QWidget(parent, f), constVariable(NULL), ui(new Ui::Viewer) {
+        }
 
         Viewer::~Viewer() {
             delete ui;
@@ -62,7 +63,7 @@ namespace fl {
             ui->setupUi(this);
             ui->sbx_x->setSingleStep(fl::Op::max(0.01,
                     model->getMaximum() - model->getMinimum()) / 100);
-            ui->sbx_x->setDecimals(qtfuzzylite::decimals());
+            ui->sbx_x->setDecimals(fuzzylite::decimals());
 
             ui->btn_name->setText(QString::fromStdString(model->getName()));
             if (constVariable->getName().empty())
@@ -201,12 +202,11 @@ namespace fl {
             constVariable->highestMembership(x, &y);
 
             ui->lbl_min->setText(QString::fromStdString(
-                    fl::Op::str(constVariable->getMinimum(), qtfuzzylite::decimals())));
+                    fl::Op::str(constVariable->getMinimum())));
             ui->lbl_max->setText(QString::fromStdString(
-                    fl::Op::str(constVariable->getMaximum(), qtfuzzylite::decimals())));
+                    fl::Op::str(constVariable->getMaximum())));
 
-            QString fuzzify = QString::fromStdString(
-                    constVariable->fuzzify(x, qtfuzzylite::decimals()));
+            QString fuzzify = QString::fromStdString(constVariable->fuzzify(x));
 
             ui->lbl_fuzzy->setText("&#956;=" + fuzzify);
             ui->btn_name->setText(QString::fromStdString(constVariable->getName()));
@@ -254,7 +254,7 @@ namespace fl {
             scalar maximum = constVariable->getMaximum();
 
             QSettings settings;
-            int divisions = settings.value("view/termResolution",1000).toInt();
+            int divisions = settings.value("view/termResolution", 1000).toInt();
 
             std::vector<scalar> xSamples, ySamples;
             scalar dx = (maximum - minimum) / divisions;

@@ -55,24 +55,24 @@ namespace fl {
     template FL_EXPORT bool Operation::isNan(int x);
     template FL_EXPORT bool Operation::isNan(scalar x);
 
-    bool Operation::isLt(scalar a, scalar b, scalar tolerance) {
-        return not isEq(a, b, tolerance) and a < b;
+    bool Operation::isLt(scalar a, scalar b, scalar macheps) {
+        return not isEq(a, b, macheps) and a < b;
     }
 
-    bool Operation::isLE(scalar a, scalar b, scalar tolerance) {
-        return isEq(a, b, tolerance) or a < b;
+    bool Operation::isLE(scalar a, scalar b, scalar macheps) {
+        return isEq(a, b, macheps) or a < b;
     }
 
-    bool Operation::isEq(scalar a, scalar b, scalar tolerance) {
-        return std::fabs(a - b) < tolerance;
+    bool Operation::isEq(scalar a, scalar b, scalar macheps) {
+        return std::fabs(a - b) < macheps;
     }
 
-    bool Operation::isGt(scalar a, scalar b, scalar tolerance) {
-        return not isEq(a, b, tolerance) and a > b;
+    bool Operation::isGt(scalar a, scalar b, scalar macheps) {
+        return not isEq(a, b, macheps) and a > b;
     }
 
-    bool Operation::isGE(scalar a, scalar b, scalar tolerance) {
-        return isEq(a, b, tolerance) or a > b;
+    bool Operation::isGE(scalar a, scalar b, scalar macheps) {
+        return isEq(a, b, macheps) or a > b;
     }
 
     scalar Operation::scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax) {

@@ -29,7 +29,7 @@ namespace fl {
 
     class FL_EXPORT Centroid : public IntegralDefuzzifier {
     public:
-        Centroid(int resolution = FL_RESOLUTION);
+        Centroid(int resolution = defaultResolution());
 
         std::string className() const;
         scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;

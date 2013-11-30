@@ -26,7 +26,6 @@
  */
 
 #include "fl/qt/qtfuzzylite.h"
-#include <QSettings>
 
 namespace fl {
     namespace qt {
@@ -48,7 +47,7 @@ namespace fl {
         }
 
         std::string qtfuzzylite::author() {
-            return "Juan Rada-Vilela, jcrada@fuzzylite.com";
+            return "Juan Rada-Vilela";
         }
 
         std::string qtfuzzylite::date() {
@@ -89,19 +88,6 @@ namespace fl {
             return ss.str();
         }
 
-        int qtfuzzylite::decimals() {
-            QSettings settings;
-            int decimals = settings.value("view/numberOfDecimals", 3).toInt();
-            return qMax(1, decimals);
-        }
-
-        bool qtfuzzylite::logEnabled() {
-#ifdef FL_NO_LOG
-            return false;
-#else
-            return true;
-#endif
-        }
     }
 }
 

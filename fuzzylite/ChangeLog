@@ -29,3 +29,7 @@ Version 4.0
 * Created proper Factories with registration of classes and constructors
 * Renamed method Factory::create to Factory::createInstance
 * Added static constructor method to every Defuzzifier, Hedge, TNorm, and SNorm
+* Removed FL_PRECISION, FL_DECIMALS as Macros, and created static variables in fuzzylite.h
+* Renamed FL_PRECISION to macheps, i.e., machine epsilon to differentiate real numbers
+* Removed FL_DEBUG and created a static variable in fuzzylite.h
+* Removed FL_NO_LOG as it is now controlled with fuzzylite::logging(), previously named logEnabled()

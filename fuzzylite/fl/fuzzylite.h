@@ -57,35 +57,15 @@ namespace fl {
 
 #define FL_AT FL__FILE__, __LINE__, __FUNCTION__
 
-//TODO: Move decimals to variable
-#ifndef FL_DECIMALS
-#define FL_DECIMALS 3//for formatting strings
-#endif
+#define FL_LOG(message) if (fl::fuzzylite::logging()){std::cout << FL_LOG_PREFIX << message << std::endl;}
+#define FL_LOGP(message) if (fl::fuzzylite::logging()){std::cout << message << std::endl;}
 
-#ifndef FL_RESOLUTION
-#define FL_RESOLUTION 200 //for defuzzifiers
-#endif
-
-#ifndef FL_PRECISION
-#define FL_PRECISION 1e-5
-#endif
-
-#ifdef FL_NO_LOG
-#define FL_LOG(message)
-#define FL_LOGP(message)
-#else
-#define FL_LOG(message) std::cout << FL_LOG_PREFIX << message << std::endl
-#define FL_LOGP(message) std::cout << message << std::endl
-#endif
-
-//TODO: Make debug as a static variable to be set in runtime.
 #ifndef FL_DEBUG
 #define FL_DEBUG false
 #endif
 
-#define FL_BEGIN_DEBUG_BLOCK if (FL_DEBUG == 1){
+#define FL_BEGIN_DEBUG_BLOCK if (fl::fuzzylite::debug()){
 #define FL_END_DEBUG_BLOCK }
-
 
 #define FL_DBG(message) FL_BEGIN_DEBUG_BLOCK \
         std::cout << FL__FILE__ << "::" << __FUNCTION__ << "[" << __LINE__ << "]:" \
@@ -131,6 +111,12 @@ namespace fl {
 namespace fl {
 
     class FL_EXPORT fuzzylite {
+    protected:
+        static int _decimals;
+        static scalar _macheps;
+        static bool _debug;
+        static bool _logging;
+
     public:
         static std::string name();
         static std::string fullname();
@@ -144,11 +130,17 @@ namespace fl {
 
         static std::string floatingPoint();
 
-        static int decimals();
-        static scalar precision();
-        static int defaultResolution();
+        static bool debug();
+        static void setDebug(bool debug);
 
-        static bool logEnabled();
+        static int decimals();
+        static void setDecimals(int decimals);
+
+        static scalar macheps();
+        static void setMachEps(scalar macheps);
+
+        static bool logging();
+        static void setLogging(bool logging);
     };
 }
 

@@ -29,7 +29,7 @@ namespace fl {
 
     class FL_EXPORT LargestOfMaximum : public IntegralDefuzzifier {
     public:
-        LargestOfMaximum(int resolution = FL_RESOLUTION);
+        LargestOfMaximum(int resolution = defaultResolution());
         virtual ~LargestOfMaximum();
 
         virtual std::string className() const;

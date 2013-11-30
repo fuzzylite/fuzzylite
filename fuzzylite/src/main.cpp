@@ -70,7 +70,7 @@ void exampleMamdani() {
 
     engine->addRuleBlock(ruleblock);
 
-    engine->configure("Minimum", "Maximum", "Minimum", "Maximum", "Centroid", FL_RESOLUTION);
+    engine->configure("Minimum", "Maximum", "Minimum", "Maximum", "Centroid");
 
 
     std::cout << FclExporter().toString(engine) << "\n";
@@ -375,13 +375,12 @@ void examples() throw (fl::Exception) {
             << "Built on " << fl::fuzzylite::platform() << " "
             << "in " << fl::fuzzylite::configuration() << " mode\n"
             << "Floating-point " << fl::fuzzylite::floatingPoint() << "\n"
-            << "Precision is set to " << fl::fuzzylite::precision() << "\n"
+            << "Precision is set to " << fl::fuzzylite::macheps() << "\n"
             << "Only " << fl::fuzzylite::decimals() << " decimals are printed\n"
             << "Infinity is printed as: (" << fl::Op::str(-fl::inf)
             << " , " << fl::Op::str(fl::inf) << ")\n"
-            << "NaN values are printed as: " << fl::Op::str(fl::nan) << "\n"
-            << "Integral Defuzzifiers use by default resolution " << fl::fuzzylite::defaultResolution() << "\n";
-    if (fl::fuzzylite::logEnabled()) {
+            << "NaN values are printed as: " << fl::Op::str(fl::nan) << "\n";
+    if (fl::fuzzylite::logging()) {
         std::cout << "FL_LOG is enabled and prints in console as follows:\n";
         FL_LOG("message from FL_LOG");
         std::cout << "where " << FL_LOG_PREFIX << " indicates the origin of the call\n";
@@ -428,6 +427,7 @@ int main(int argc, char** argv) {
         //        exportAllExamples("fis", "cpp");
         //        return 0;
         //        fl::Function::main();
+        fuzzylite::setDecimals(8);
         examples();
     } catch (fl::Exception& e) {
         FL_LOG(e.what());

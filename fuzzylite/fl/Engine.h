@@ -24,6 +24,7 @@
 #define FL_ENGINE_H
 
 #include "fl/fuzzylite.h"
+#include "fl/defuzzifier/IntegralDefuzzifier.h"
 
 #include <vector>
 #include <string>
@@ -67,7 +68,7 @@ namespace fl {
                 const std::string& activationTnorm = "Minimum",
                 const std::string& accumulationSnorm = "Maximum",
                 const std::string& defuzzifier = "Centroid",
-                int resolution = FL_RESOLUTION);
+                int resolution = IntegralDefuzzifier::defaultResolution());
 
         //TODO: Change NULL to 0
         virtual bool isReady(std::string* status = NULL) const;

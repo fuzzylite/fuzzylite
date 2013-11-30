@@ -33,7 +33,6 @@ set(FLQT_FULLNAME "qtfuzzylite-${FLQT_LONG_VERSION}")
 add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
-option(FL_USE_LOG "Enable the macro FL_LOG to print information" ON)
 option(FL_DEBUG "Enable additional debugging information" OFF)
 option(FL_USE_QT4 "Utilize Qt4 instead of Qt5" OFF)
 
@@ -56,11 +55,6 @@ endif(FL_DEBUG)
 if(FL_USE_FLOAT)
     add_definitions(-DFL_USE_FLOAT)
 endif(FL_USE_FLOAT)
-
-if(NOT FL_USE_LOG)
-    add_definitions(-DFL_NO_LOG)
-endif(NOT FL_USE_LOG)
-
 
 include_directories(. ${CMAKE_SOURCE_DIR}/../fuzzylite)
 
@@ -210,7 +204,6 @@ endif()
 message("=====================================")
 message("${FLQT_FULLNAME}\n")
 message("FL_DEBUG=${FL_DEBUG}")
-message("FL_USE_LOG=${FL_USE_LOG}")
 message("FL_USE_FLOAT=${FL_USE_FLOAT}")
 message("FL_USE_QT4=${FL_USE_QT4}")
 message("fuzzylite=${fl-shared}${FL_CONF}")

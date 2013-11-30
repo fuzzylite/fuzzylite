@@ -24,6 +24,11 @@
 
 namespace fl {
 
+    int fuzzylite::_decimals = 3;
+    scalar fuzzylite::_macheps = 1e-5;
+    bool fuzzylite::_debug = FL_DEBUG;
+    bool fuzzylite::_logging = true;
+
     std::string fuzzylite::name() {
         return "fuzzylite";
     }
@@ -80,24 +85,36 @@ namespace fl {
         return ss.str();
     }
 
+    void fuzzylite::setDebug(bool debug) {
+        _debug = debug;
+    }
+
+    bool fuzzylite::debug() {
+        return _debug;
+    }
+
+    void fuzzylite::setDecimals(int decimals) {
+        _decimals = decimals;
+    }
+
     int fuzzylite::decimals() {
-        return FL_DECIMALS;
+        return _decimals;
     }
 
-    scalar fuzzylite::precision() {
-        return FL_PRECISION;
+    void fuzzylite::setMachEps(scalar macheps) {
+        _macheps = macheps;
     }
 
-    int fuzzylite::defaultResolution() {
-        return FL_RESOLUTION;
+    scalar fuzzylite::macheps() {
+        return _macheps;
     }
 
-    bool fuzzylite::logEnabled() {
-#ifdef FL_NO_LOG
-        return false;
-#else
-        return true;
-#endif
+    void fuzzylite::setLogging(bool logging) {
+        _logging = logging;
+    }
+
+    bool fuzzylite::logging() {
+        return _logging;
     }
 
 }

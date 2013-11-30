@@ -33,7 +33,11 @@ namespace fl {
         int _resolution;
     public:
 
-        IntegralDefuzzifier(int resolution = FL_RESOLUTION);
+        static int defaultResolution() {
+            return 200;
+        }
+
+        IntegralDefuzzifier(int resolution = defaultResolution());
         virtual ~IntegralDefuzzifier();
 
         virtual void setResolution(int resolution);

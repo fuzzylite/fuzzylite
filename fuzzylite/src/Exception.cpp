@@ -43,14 +43,14 @@
 namespace fl {
 
     Exception::Exception(const std::string& what, const std::string& file, int line,
-            const std::string& function, bool log)
+            const std::string& function)
     : std::exception(), _what(what + "\n") {
         append(file, line, function);
-        if (log) FL_LOGP(this->what());
-		else FL_DBG(this->what());
+        FL_DBG(this->what());
     }
 
-    Exception::~Exception() throw () { }
+    Exception::~Exception() throw () {
+    }
 
     void Exception::setWhat(const std::string& what) {
         this->_what = what;
@@ -136,7 +136,7 @@ namespace fl {
         std::ostringstream ex;
         ex << "[caught signal " << signal << "] backtrace:\n";
         ex << fl::Exception::btCallStack();
-        throw fl::Exception(ex.str(), FL_AT, true);
+        throw fl::Exception(ex.str(), FL_AT);
     }
 
     void Exception::terminate() {

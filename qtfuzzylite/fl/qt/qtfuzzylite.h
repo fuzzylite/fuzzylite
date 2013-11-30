@@ -53,9 +53,6 @@ namespace fl {
             static std::string platform();
             static std::string configuration();
             static std::string floatingPoint();
-            static int decimals();
-
-            static bool logEnabled();
         };
     }
 }

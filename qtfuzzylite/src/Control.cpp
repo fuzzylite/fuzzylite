@@ -172,12 +172,10 @@ namespace fl {
                     if (y < _minOutput) _minOutput = y;
                 }
             }
-            ui->led_x->setText(QString::fromStdString(
-                    fl::Op::str(y, qtfuzzylite::decimals())));
+            ui->led_x->setText(QString::fromStdString(fl::Op::str(y)));
             ui->sbx_x->setValue(y);
 
-            QString fuzzify = QString::fromStdString(
-                    outputVariable->fuzzify(y, qtfuzzylite::decimals()));
+            QString fuzzify = QString::fromStdString(outputVariable->fuzzify(y));
             ui->lbl_fuzzy_out->setText("&#956;=" + fuzzify);
 
             refresh();
@@ -353,10 +351,8 @@ namespace fl {
             scalar min = fl::Op::min(_minOutput, outputVariable->getMinimum());
             scalar max = fl::Op::max(_maxOutput, outputVariable->getMaximum());
 
-            ui->lbl_min->setText(QString::fromStdString(
-                    fl::Op::str(min, qtfuzzylite::decimals())));
-            ui->lbl_max->setText(QString::fromStdString(
-                    fl::Op::str(max, qtfuzzylite::decimals())));
+            ui->lbl_min->setText(QString::fromStdString(fl::Op::str(min)));
+            ui->lbl_max->setText(QString::fromStdString(fl::Op::str(max)));
 
             ui->canvas->scene()->clear();
             ui->canvas->scene()->setSceneRect(ui->canvas->viewport()->rect());

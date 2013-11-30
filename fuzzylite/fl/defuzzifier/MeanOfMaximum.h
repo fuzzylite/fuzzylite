@@ -29,7 +29,7 @@ namespace fl {
 
     class FL_EXPORT MeanOfMaximum : public IntegralDefuzzifier {
     public:
-        MeanOfMaximum(int resolution = FL_RESOLUTION);
+        MeanOfMaximum(int resolution = defaultResolution());
         virtual ~MeanOfMaximum();
 
         virtual std::string className() const;

@@ -232,7 +232,7 @@ namespace fl {
                         (dummyVariable->getMaximum() - dummyVariable->getMinimum()) / 100));
                 _sbx.at(i)->setAlignment(Qt::AlignHCenter);
                 _sbx.at(i)->setAccelerated(true);
-                _sbx.at(i)->setDecimals(qtfuzzylite::decimals());
+                _sbx.at(i)->setDecimals(fuzzylite::decimals());
             }
 
             for (std::size_t i = 0; i < _basicTerms.size(); ++i) {
