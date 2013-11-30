@@ -97,8 +97,8 @@ add_library(fl-static STATIC ${fl-headers} ${fl-sources})
 set_target_properties(fl-static PROPERTIES OUTPUT_NAME fuzzylite-static)
 target_link_libraries(fl-static ${FL_LIBS})
 
-add_executable(fl-bin src/main.cpp)
-set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite-bin)
+add_executable(fl-bin fl/Console.h src/Console.cpp src/main.cpp)
+set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
 set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -dbg)
 target_link_libraries(fl-bin fl-shared ${FL_LIBS})
 

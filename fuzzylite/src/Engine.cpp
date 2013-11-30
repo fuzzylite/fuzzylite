@@ -200,6 +200,7 @@ namespace fl {
         FL_DBG("CURRENT INPUTS:");
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
             scalar inputValue = _inputVariables.at(i)->getInputValue();
+            (void)inputValue;
             FL_DBG(_inputVariables.at(i)->getName() << ".input = " << Op::str(inputValue));
             FL_DBG(_inputVariables.at(i)->getName() << ".fuzzy= " << _inputVariables.at(i)->fuzzify(inputValue));
         }
@@ -226,6 +227,7 @@ namespace fl {
 
             //no locking is ever performed during this debugging block;
             scalar output = _outputVariables.at(i)->defuzzifyNoLocks();
+            (void)output;
             FL_DBG(_outputVariables.at(i)->getName() << ".output = " << output);
             FL_DBG(_outputVariables.at(i)->getName() << ".fuzzy = " <<
                     _outputVariables.at(i)->fuzzify(output));

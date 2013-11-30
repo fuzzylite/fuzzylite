@@ -57,6 +57,7 @@ namespace fl {
 
 #define FL_AT FL__FILE__, __LINE__, __FUNCTION__
 
+
 #define FL_LOG(message) if (fl::fuzzylite::logging()){std::cout << FL_LOG_PREFIX << message << std::endl;}
 #define FL_LOGP(message) if (fl::fuzzylite::logging()){std::cout << message << std::endl;}
 
@@ -71,7 +72,6 @@ namespace fl {
         std::cout << FL__FILE__ << "::" << __FUNCTION__ << "[" << __LINE__ << "]:" \
                 << message << std::endl;\
         FL_END_DEBUG_BLOCK
-
 
 //class FL_EXPORT is require to build DLLs in Windows.
 #ifdef FL_WINDOWS
@@ -119,7 +119,6 @@ namespace fl {
 
     public:
         static std::string name();
-        static std::string fullname();
         static std::string shortVersion();
         static std::string longVersion();
         static std::string author();

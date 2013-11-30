@@ -149,6 +149,7 @@ void exampleTakagiSugeno() {
     std::cout << "==================================\n\n" << std::endl;
 
     int n = 50;
+    (void) n;
     scalar mse = 0;
     std::ostringstream r;
     r << "x = c(";
@@ -426,14 +427,12 @@ int main(int argc, char** argv) {
     try {
         //        exportAllExamples("fis", "cpp");
         //        return 0;
-        //        fl::Function::main();
-        fuzzylite::setDecimals(8);
-        examples();
+        //        examples();
+        return Console::main(argc, argv);
     } catch (fl::Exception& e) {
         FL_LOG(e.what());
         FL_LOG(e.btCallStack());
         return EXIT_FAILURE;
     }
-    return EXIT_SUCCESS;
 }
 
