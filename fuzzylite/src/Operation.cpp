@@ -111,6 +111,27 @@ namespace fl {
         return -a;
     }
 
+    bool Operation::increment(std::vector<int>& x, std::vector<int>& min, std::vector<int>& max) {
+        return increment(x, (int) x.size() - 1, min, max);
+    }
+
+    bool Operation::increment(std::vector<int>& x, int position, std::vector<int>& min, std::vector<int>& max) {
+        if (position < 0) return true;
+        
+        bool overflow = false;
+        if (x.at(position) < max.at(position)) {
+            ++x.at(position);
+        } else {
+            overflow = (position == 0);
+            x.at(position) = min.at(position);
+            --position;
+            if (position >= 0) {
+                overflow = increment(x, position, min, max);
+            }
+        }
+        return overflow;
+    }
+
     int Operation::isValidForName(int character) {
         return character == '_' or character == '.' or isalnum(character);
     }
@@ -188,7 +209,7 @@ namespace fl {
         iss >> result;
         char strict;
         if (not (iss.fail() or iss.get(strict))) return result;
-        
+
         std::ostringstream nan, pInf, nInf;
         nan << fl::nan;
         pInf << fl::inf;

@@ -25,6 +25,7 @@ fl/hedge/Not.h
 fl/hedge/Hedge.h
 fl/hedge/Extremely.h
 fl/hedge/Seldom.h
+fl/imex/DataExporter.h
 fl/imex/FisImporter.h
 fl/imex/FisExporter.h
 fl/imex/FclExporter.h

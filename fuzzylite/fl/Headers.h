@@ -47,6 +47,7 @@
 #include "fl/factory/TermFactory.h"
 
 #include "fl/imex/CppExporter.h"
+#include "fl/imex/DataExporter.h"
 #include "fl/imex/FclImporter.h"
 #include "fl/imex/FclExporter.h"
 #include "fl/imex/FisImporter.h"

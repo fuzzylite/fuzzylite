@@ -54,6 +54,8 @@
 #include <QUrl>
 #include <QInputDialog>
 
+#include <fstream>
+
 #ifdef FL_UNIX
 #include <unistd.h>
 #elif defined FL_WINDOWS
@@ -199,15 +201,14 @@ namespace fl {
             menuExport->addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
             menuExport->addAction("jfuzzylite (&Java)", this, SLOT(onMenuExportToJava()));
             menuExport->addSeparator();
+            menuExport->addAction("data (&view)", this, SLOT(onMenuExportToDataView()));
+            menuExport->addAction("data (&file)", this, SLOT(onMenuExportToDataFile()));
+            menuExport->addSeparator();
             menuExport->addAction("Fuzzy Controller Language (FC&L)", this, SLOT(onMenuExportToFCL()));
             menuExport->addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuExportToFIS()));
             menuFile->addMenu(menuExport);
 
             menuFile->addSeparator();
-
-            //            menuFile->addAction(ui->actionProperties);
-            //
-            //            menuFile->addSeparator();
 
             menuFile->addAction(ui->actionQuit);
             QObject::connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(onMenuQuit()));
@@ -1527,6 +1528,9 @@ namespace fl {
                 menu.addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
                 menu.addAction("jfuzzylite (&Java)", this, SLOT(onMenuExportToJava()));
                 menu.addSeparator();
+                menu.addAction("data (&view)", this, SLOT(onMenuExportToDataView()));
+                menu.addAction("data (&file)", this, SLOT(onMenuExportToDataFile()));
+                menu.addSeparator();
                 menu.addAction("Fuzzy Control Language (FC&L)", this, SLOT(onMenuExportToFCL()));
                 menu.addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuExportToFIS()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
@@ -1648,6 +1652,145 @@ namespace fl {
             imex.ui->pte_code->setReadOnly(true);
             imex.ui->pte_code->document()->setPlainText(
                     QString::fromStdString(java));
+            QTextCursor tc = imex.ui->pte_code->textCursor();
+            tc.movePosition(QTextCursor::Start);
+            imex.ui->pte_code->setTextCursor(tc);
+            imex.exec();
+        }
+
+        void Window::onMenuExportToDataView() {
+            QSettings settings;
+            int minVariableResolution =
+                    settings.value("view/minVariableResolution", 10).toInt();
+            int maxVariableResolution =
+                    settings.value("view/maxVariableResolution", 1000).toInt();
+            bool ok;
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
+            int resolution = QInputDialog::getInteger(this,
+                    "Resolution of Input Variable",
+                    "Please, specify the number of samples $s$ to perform for each input variable,\n"
+                    "but have in mind that the number of results $r$ grow exponentially\n"
+                    "according to the number of input variables $i$ as follows: $r=s^i$.\n"
+                    "Therefore, exporting the data may take a while depending on $s$ and $i$.\n"
+                    "For a large number of results, it is better to export the data to a file.",
+                    50, minVariableResolution, maxVariableResolution, 10, &ok);
+#else
+            int resolution = QInputDialog::getInt(this,
+                    "Resolution of Input Variable",
+                    "Please, specify the number of samples $s$ to perform for each input variable,\n"
+                    "but have in mind that the number of results $r$ grow exponentially\n"
+                    "according to the number of input variables $i$ as follows: $r=s^i$.\n"
+                    "Therefore, exporting the data may take a while depending on $s$ and $i$.\n"
+                    "For a large number of results, it is better to export the data to a file.",
+                    50, minVariableResolution, maxVariableResolution, 10, &ok);
+#endif
+            if (not ok) {
+                return;
+            }
+
+            DataExporter exporter(" ", resolution);
+            std::string data;
+            try {
+                data = exporter.toString(Model::Default()->engine());
+            } catch (fl::Exception& ex) {
+                QMessageBox::critical(this, "Error exporting data (view)",
+                        toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
+                        QMessageBox::Ok);
+                return;
+            }
+
+            ImEx imex;
+            imex.setup();
+            imex.setWindowTitle("Export engine to");
+            imex.ui->lbl_format->setText("data (view):");
+            imex.ui->buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
+
+            QFont font = typeWriterFont();
+            font.setPointSize(font.pointSize() - 1);
+            imex.ui->pte_code->setFont(font);
+            imex.ui->pte_code->setReadOnly(true);
+            imex.ui->pte_code->document()->setPlainText(
+                    QString::fromStdString(data));
+            QTextCursor tc = imex.ui->pte_code->textCursor();
+            tc.movePosition(QTextCursor::Start);
+            imex.ui->pte_code->setTextCursor(tc);
+            imex.exec();
+        }
+
+        void Window::onMenuExportToDataFile() {
+            QSettings settings;
+            QString recentLocation = settings.value("file/recentDataLocation", ".").toString();
+            QStringList filters;
+            filters << "All files (*.*)"
+                    << "Data file (*.dat)";
+
+            QString filter = filters.at(1);
+            QString filename = QFileDialog::getSaveFileName(this,
+                    "Export data to", recentLocation,
+                    filters.join(";;"),
+                    &filter);
+            if (filename.size() == 0) return;
+            settings.setValue("file/recentDataLocation", QFileInfo(filename).absoluteFilePath());
+
+            int minVariableResolution =
+                    settings.value("view/minVariableResolution", 10).toInt();
+            int maxVariableResolution =
+                    settings.value("view/maxVariableResolution", 1000).toInt();
+            bool ok;
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
+            int resolution = QInputDialog::getInteger(this,
+                    "Resolution of Input Variable",
+                    "Please, specify the number of samples $s$ to perform for each input variable,\n"
+                    "but have in mind that the number of results $r$ grow exponentially\n"
+                    "according to the number of input variables $i$ as follows: $r=s^i$.\n"
+                    "Therefore, exporting the data may take a while depending on $s$ and $i$.",
+                    50, minVariableResolution, maxVariableResolution, 10, &ok);
+#else
+            int resolution = QInputDialog::getInt(this,
+                    "Resolution of Input Variable",
+                    "Please, specify the number of samples $s$ to perform for each input variable,\n"
+                    "but have in mind that the number of results $r$ grow exponentially\n"
+                    "according to the number of input variables $i$ as follows: $r=s^i$.\n"
+                    "Therefore, exporting the data may take a while depending on $s$ and $i$.",
+                    50, minVariableResolution, maxVariableResolution, 10, &ok);
+#endif
+            if (not ok) {
+                return;
+            }
+
+            std::ofstream dataFile(filename.toStdString().c_str());
+            if (not dataFile.is_open()) {
+                std::ostringstream ss;
+                ss << "The file <" << filename.toStdString() << "> could not be created";
+                QMessageBox::critical(this, "Error exporting data (file)",
+                        toHtmlEscaped(QString::fromStdString(ss.str())),
+                        QMessageBox::Ok);
+                return;
+            }
+
+            DataExporter exporter(" ", resolution);
+            try {
+                exporter.toWriter(Model::Default()->engine(), dataFile, " ", resolution);
+            } catch (fl::Exception& ex) {
+                QMessageBox::critical(this, "Error exporting data (file)",
+                        toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
+                        QMessageBox::Ok);
+                return;
+            }
+
+            ImEx imex;
+            imex.setup();
+            imex.setWindowTitle("Export engine to");
+            imex.ui->lbl_format->setText("data (file):");
+            imex.ui->buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
+
+            QFont font = typeWriterFont();
+            font.setPointSize(font.pointSize() - 1);
+            imex.ui->pte_code->setFont(font);
+            imex.ui->pte_code->setReadOnly(true);
+            imex.ui->pte_code->document()->setPlainText(filename);
             QTextCursor tc = imex.ui->pte_code->textCursor();
             tc.movePosition(QTextCursor::Start);
             imex.ui->pte_code->setTextCursor(tc);

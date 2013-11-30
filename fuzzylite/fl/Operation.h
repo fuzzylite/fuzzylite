@@ -75,8 +75,10 @@ namespace fl {
         static scalar logical_or(scalar a, scalar b);
         static scalar negate(scalar a);
 
-        static int isValidForName(int character);
+        static bool increment(std::vector<int>& x, std::vector<int>& min, std::vector<int>& max);
+        static bool increment(std::vector<int>& x, int position, std::vector<int>& min, std::vector<int>& max);
 
+        static int isValidForName(int character);
 
         static std::string findReplace(const std::string& str, const std::string& find,
                 const std::string& replace, bool replaceAll = true);

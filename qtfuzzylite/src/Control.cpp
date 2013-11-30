@@ -43,22 +43,24 @@ namespace fl {
         Control::Control(QWidget* parent, Qt::WindowFlags f) :
         Viewer(parent, f), _outputIndex(0), _outputView(false),
         _isTakagiSugeno(false), _minOutput(fl::nan), _maxOutput(fl::nan),
-        _allowsOutputView(false) { }
+        _allowsOutputView(false) {
+        }
 
-        Control::~Control() { }
+        Control::~Control() {
+        }
 
         void Control::setup(const fl::Variable* model) {
             Viewer::setup(model);
             this->variable = const_cast<fl::Variable*> (model);
 
             _isTakagiSugeno = false;
-//            for (int i = 0; i < variable->numberOfTerms(); ++i) {
-//                if (variable->getTerm(i)->className() == Constant().className() or
-//                        variable->getTerm(i)->className() == Linear().className()) {
-//                    _isTakagiSugeno = true;
-//                    break;
-//                }
-//            }
+            //            for (int i = 0; i < variable->numberOfTerms(); ++i) {
+            //                if (variable->getTerm(i)->className() == Constant().className() or
+            //                        variable->getTerm(i)->className() == Linear().className()) {
+            //                    _isTakagiSugeno = true;
+            //                    break;
+            //                }
+            //            }
             ui->btn_name->setEnabled(true);
             QObject::connect(ui->btn_name, SIGNAL(clicked()),
                     this, SLOT(onClickVariableName()));
@@ -73,13 +75,13 @@ namespace fl {
 
                 _minOutput = variable->getMinimum();
                 _maxOutput = variable->getMaximum();
-                
+
                 OutputVariable* outputVariable = dynamic_cast<fl::OutputVariable*> (variable);
                 fl::Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
                 _isTakagiSugeno = defuzzifier and
                         (defuzzifier->className() == WeightedAverage().className() or
                         defuzzifier->className() == WeightedSum().className());
-                
+
             } else if (dynamic_cast<InputVariable*> (variable)) {
                 QObject::connect(this, SIGNAL(valueChanged(double)),
                         this, SLOT(updateInput(double)));
@@ -236,20 +238,20 @@ namespace fl {
                         settings.value("view/maxOutputViewResolution", 1000).toInt();
                 bool ok;
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-            int resolution = QInputDialog::getInteger(this,
+                int resolution = QInputDialog::getInteger(this,
                         "Resolution of Output View",
                         "How many defuzzified values do you want to show?",
                         _outputs.size(), minOutputViewResolution, maxOutputViewResolution,
                         10, &ok);
 #else
-            int resolution = QInputDialog::getInt(this,
+                int resolution = QInputDialog::getInt(this,
                         "Resolution of Output View",
                         "How many defuzzified values do you want to show?",
                         _outputs.size(), minOutputViewResolution, maxOutputViewResolution,
                         10, &ok);
 #endif
-				
-				
+
+
                 if (ok) { //clear
                     fl::OutputVariable* outputVariable =
                             dynamic_cast<fl::OutputVariable*> (variable);
@@ -282,7 +284,7 @@ namespace fl {
         }
 
         void Control::minimizeViewer() {
-//            if (isMinimizedViewer()) return;
+            //            if (isMinimizedViewer()) return;
             ui->wdg_canvas->setVisible(false);
             ui->wdg_out->setVisible(false);
 
@@ -301,7 +303,7 @@ namespace fl {
         }
 
         void Control::maximizeViewer() {
-//            if (isMaximizedViewer()) return;
+            //            if (isMaximizedViewer()) return;
             ui->wdg_canvas->setVisible(true);
             ui->wdg_out->setVisible(true);
 

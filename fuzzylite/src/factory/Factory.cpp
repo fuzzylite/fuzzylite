@@ -74,6 +74,7 @@ namespace fl {
 
     template <typename T>
     T Factory<T>::createInstance(const std::string& key) const {
+        if (key.empty()) return NULL;
         typename std::map<std::string, Creator>::const_iterator it = this->map.find(key);
         if (it != this->map.end()) {
             if (it->second) {
