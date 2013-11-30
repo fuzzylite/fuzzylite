@@ -70,7 +70,6 @@ namespace fl {
                 const std::string& defuzzifier = "Centroid",
                 int resolution = IntegralDefuzzifier::defaultResolution());
 
-        //TODO: Change NULL to 0
         virtual bool isReady(std::string* status = NULL) const;
 
         virtual void process();

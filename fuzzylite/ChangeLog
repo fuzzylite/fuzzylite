@@ -33,3 +33,4 @@ Version 4.0
 * Renamed FL_PRECISION to macheps, i.e., machine epsilon to differentiate real numbers
 * Removed FL_DEBUG and created a static variable in fuzzylite.h
 * Removed FL_NO_LOG as it is now controlled with fuzzylite::logging(), previously named logEnabled()
+* Libraries and Console application are both built in folder bin/ (previously libraries were at lib/)

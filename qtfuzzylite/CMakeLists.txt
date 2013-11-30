@@ -43,12 +43,12 @@ if(FL_DEBUG)
    set(CMAKE_BUILD_TYPE Debug)
    set(FL_CONF -dbg)
    find_library(fl-shared-dbg fuzzylite-dbg 
-        HINTS "${CMAKE_SOURCE_DIR}/../fuzzylite/lib")
+        HINTS "${CMAKE_SOURCE_DIR}/../fuzzylite/bin")
 else(FL_DEBUG)
    set(CMAKE_BUILD_TYPE Release)
    set(FL_CONF)
    find_library(fl-shared NAMES fuzzylite 
-        HINTS "${CMAKE_SOURCE_DIR}/../fuzzylite/lib")
+        HINTS "${CMAKE_SOURCE_DIR}/../fuzzylite/bin")
 endif(FL_DEBUG)
 
 
@@ -188,10 +188,10 @@ if(APPLE)
 endif(APPLE)
 
 if(WIN32)
-	message("copying ${CMAKE_SOURCE_DIR}/../fuzzylite/lib/fuzzylite${FL_CONF}.dll")
+	message("copying ${CMAKE_SOURCE_DIR}/../fuzzylite/bin/fuzzylite${FL_CONF}.dll")
 	add_custom_command(TARGET qtfuzzylite POST_BUILD 
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different 
-        "${CMAKE_SOURCE_DIR}/../fuzzylite/lib/fuzzylite${FL_CONF}.dll"
+        "${CMAKE_SOURCE_DIR}/../fuzzylite/bin/fuzzylite${FL_CONF}.dll"
         ${CMAKE_SOURCE_DIR})                 # <--this is out-file path
 endif()
 

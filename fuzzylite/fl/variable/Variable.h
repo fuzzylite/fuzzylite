@@ -32,11 +32,11 @@
 #include <string>
 #include <vector>
 #include <limits>
-
+#include <map>
 namespace fl {
 
     class Term;
-    
+
     class FL_EXPORT Variable {
     protected:
         std::string _name;
@@ -44,13 +44,12 @@ namespace fl {
         scalar _minimum, _maximum;
 
         struct SortByCoG {
-            scalar minimum, maximum;
-            Centroid cog;
+            std::map<const Term*, scalar> centroids;
 
             bool operator() (const Term* a, const Term * b) {
                 return fl::Op::isLt(
-                        cog.defuzzify(a, minimum, maximum),
-                        cog.defuzzify(b, minimum, maximum));
+                        centroids.find(a)->second,
+                        centroids.find(b)->second);
             }
         };
 
@@ -64,7 +63,7 @@ namespace fl {
 
         virtual void setName(const std::string& name);
         virtual std::string getName() const;
-        
+
         virtual void setRange(scalar minimum, scalar maximum);
 
         virtual void setMinimum(scalar minimum);
@@ -89,7 +88,7 @@ namespace fl {
         virtual bool hasTerm(const std::string& name) const;
         virtual Term* removeTerm(int index);
         virtual int numberOfTerms() const;
-        virtual bool isEmpty() const ;
+        virtual bool isEmpty() const;
         virtual const std::vector<Term*>& terms() const;
 
     };

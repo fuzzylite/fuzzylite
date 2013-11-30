@@ -32,7 +32,8 @@
 namespace fl {
 
     Variable::Variable(const std::string& name, scalar minimum, scalar maximum)
-    : _name(name), _minimum(minimum), _maximum(maximum) { }
+    : _name(name), _minimum(minimum), _maximum(maximum) {
+    }
 
     Variable::Variable(const Variable& copy) {
         this->_name = copy._name;
@@ -125,10 +126,14 @@ namespace fl {
      */
 
     void Variable::sort() {
-        //TODO:Replace with sorted list.of defuzzified values.
+        std::map<const Term*, scalar> centroids;
+        Centroid defuzzifier;
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
+            Term* term = _terms.at(i);
+            centroids[term] = defuzzifier.defuzzify(term, _minimum, _maximum);
+        }
         SortByCoG criterion;
-        criterion.minimum = _minimum;
-        criterion.maximum = _maximum;
+        criterion.centroids = centroids;
         std::sort(_terms.begin(), _terms.end(), criterion);
     }
 
