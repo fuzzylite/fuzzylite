@@ -48,7 +48,7 @@ namespace fl {
 
     class FL_EXPORT Engine {
     protected:
-        /** The name of the engine used for identification purposes only*/
+        /** The name of the engine used for information only*/
         std::string _name;
         /** The input variables registered in the engine*/
         std::vector<InputVariable*> _inputVariables;
@@ -86,7 +86,6 @@ namespace fl {
         virtual std::string toStringFcl() const;
         virtual std::string toStringCpp() const;
 
-        //TODO: Compare the following operations with jfuzzylite
         /**
          * Operations for iterable datatype _inputVariables
          */
@@ -138,9 +137,6 @@ namespace fl {
         virtual Hedge* removeHedge(const std::string& name);
         virtual int numberOfHedges() const;
         virtual const std::vector<Hedge*>& hedges() const;
-
-
-
 
     };
 

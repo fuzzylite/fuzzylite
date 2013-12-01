@@ -32,7 +32,7 @@ namespace fl {
         return x * x;
     }
 
-    Hedge* Very::create() {
+    Hedge* Very::constructor() {
         return new Very;
     }
 

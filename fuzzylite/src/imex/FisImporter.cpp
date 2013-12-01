@@ -394,6 +394,7 @@ namespace fl {
         } else if (term->className() == Function().className()) {
             Function* function = dynamic_cast<Function*> (term);
             function->setEngine(engine);
+            function->loadBuiltInFunctions();
             function->load();
         }
         return term;
@@ -460,7 +461,7 @@ namespace fl {
         else flClass = mClass;
 
         try {
-            Term* result = FactoryManager::instance()->term()->create(flClass, sortedParams);
+            Term* result = FactoryManager::instance()->term()->createInstance(flClass, sortedParams);
             result->setName(fl::Op::format(name, fl::Op::isValidForName));
             if (mClass == "function" and not params.empty()) {
                 std::ostringstream ss;

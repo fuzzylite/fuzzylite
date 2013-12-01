@@ -56,6 +56,9 @@ namespace fl {
         virtual void setD(scalar d);
         virtual scalar getD() const;
 
+        virtual void configure(const std::vector<scalar>& parameters);
+        
+        static Term* constructor();
     };
 
 }

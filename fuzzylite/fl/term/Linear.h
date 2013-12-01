@@ -53,6 +53,10 @@ namespace fl {
         virtual std::string toString() const;
 
         virtual Linear* copy() const;
+        
+        virtual void configure(const std::vector<scalar>& parameters);
+        
+        static Term* constructor();
     };
 
 }

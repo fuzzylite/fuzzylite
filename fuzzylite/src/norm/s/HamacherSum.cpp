@@ -32,7 +32,7 @@ namespace fl {
         return (a + b - 2 * a * b) / (1 - a * b);
     }
 
-    SNorm* HamacherSum::create() {
+    SNorm* HamacherSum::constructor() {
         return new HamacherSum;
     }
 }

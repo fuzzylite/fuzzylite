@@ -38,13 +38,9 @@ namespace fl {
      * Function class.
      **********************************/
     Function::Function(const std::string& name,
-            const std::string& infix, const Engine* engine,
-            bool loadBuiltInFunctions)
+            const std::string& infix, const Engine* engine)
     : Term(name), _text(infix), _engine(engine), root(NULL) {
         loadOperators();
-        if (loadBuiltInFunctions) {
-            this->loadBuiltInFunctions();
-        }
     }
 
     Function::~Function() {
@@ -60,8 +56,12 @@ namespace fl {
     }
 
     Function* Function::create(const std::string& name,
-            const std::string& infix, const Engine* engine) throw (fl::Exception) {
+            const std::string& infix, const Engine* engine,
+            bool requiresFunctions) throw (fl::Exception) {
         Function* result = new Function(name);
+        if (requiresFunctions) {
+            result->loadBuiltInFunctions();
+        }
         try {
             result->load(infix, engine);
         } catch (fl::Exception& ex) {
@@ -89,7 +89,7 @@ namespace fl {
         return this->evaluate(&this->variables);
     }
 
-    scalar Function::evaluate(const std::map<std::string, scalar>* localVariables = NULL) const {
+    scalar Function::evaluate(const std::map<std::string, scalar>* localVariables) const {
         if (not this->root)
             throw fl::Exception("[function error] evaluation failed because function is not loaded", FL_AT);
         if (localVariables)
@@ -107,6 +107,9 @@ namespace fl {
 
     Function* Function::copy() const {
         Function* result = new Function(this->_name);
+        if (not functions.empty()) {
+            result->loadBuiltInFunctions();
+        }
         try {
             result->load(this->_text, this->_engine);
         } catch (fl::Exception& ex) {
@@ -191,7 +194,7 @@ namespace fl {
 
     Function::BuiltInFunction::BuiltInFunction(const std::string& name,
             Binary binary, short associativity)
-    : Element(name, binary,associativity) {
+    : Element(name, binary, associativity) {
     }
 
     std::string Function::BuiltInFunction::toString() const {
@@ -618,8 +621,17 @@ namespace fl {
         return stack.top();
     }
 
+    void Function::configure(const std::vector<scalar>& parameters) {
+        (void) parameters;
+    }
+
+    Term* Function::constructor() {
+        return fl::Function::create("", "");
+    }
+
     void Function::main() {
         Function f;
+        f.loadBuiltInFunctions();
         std::string text = "3+4*2/(1-5)^2^3";
         FL_LOG(f.toPostfix(text));
         FL_LOG("P: " << f.parse(text)->toInfix());
@@ -634,6 +646,7 @@ namespace fl {
         f.load(text);
         FL_LOG("Result: " << f.membership(1));
         //y x * sin 2 ^ x /
+        return;
 
         text = "(Temperature is High and Oxigen is Low) or "
                 "(Temperature is Low and (Oxigen is Low or Oxigen is High))";

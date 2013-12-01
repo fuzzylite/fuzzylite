@@ -50,6 +50,9 @@ namespace fl {
         virtual void setSlope(scalar slope);
         virtual scalar getSlope() const;
 
+        virtual void configure(const std::vector<scalar>& parameters);
+        
+        static Term* constructor();
     };
 
 }

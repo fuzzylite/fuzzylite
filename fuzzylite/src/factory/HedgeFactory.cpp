@@ -33,12 +33,12 @@
 namespace fl {
 
     HedgeFactory::HedgeFactory() {
-        registerClass(Any().name(), &(Any::create));
-        registerClass(Extremely().name(), Extremely::create);
-        registerClass(Not().name(), Not::create);
-        registerClass(Seldom().name(), Seldom::create);
-        registerClass(Somewhat().name(), Somewhat::create);
-        registerClass(Very().name(), Very::create);
+        registerClass(Any().name(), &(Any::constructor));
+        registerClass(Extremely().name(), Extremely::constructor);
+        registerClass(Not().name(), Not::constructor);
+        registerClass(Seldom().name(), Seldom::constructor);
+        registerClass(Somewhat().name(), Somewhat::constructor);
+        registerClass(Very().name(), Very::constructor);
     }
 
     HedgeFactory::~HedgeFactory() {

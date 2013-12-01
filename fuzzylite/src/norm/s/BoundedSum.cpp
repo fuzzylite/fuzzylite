@@ -32,7 +32,7 @@ namespace fl {
         return Op::min(1.0, a + b);
     }
 
-    SNorm* BoundedSum::create() {
+    SNorm* BoundedSum::constructor() {
         return new BoundedSum;
     }
 }

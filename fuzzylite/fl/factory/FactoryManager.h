@@ -63,9 +63,6 @@ namespace fl {
         virtual void setHedge(HedgeFactory* hedge);
         virtual HedgeFactory* hedge() const;
 
-
-
-
     };
 }
 #endif	/* FL_FACTORYMANAGER_H */

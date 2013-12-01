@@ -35,7 +35,7 @@ namespace fl {
         return 0.0;
     }
 
-    TNorm* DrasticProduct::create() {
+    TNorm* DrasticProduct::constructor() {
         return new DrasticProduct;
     }
 

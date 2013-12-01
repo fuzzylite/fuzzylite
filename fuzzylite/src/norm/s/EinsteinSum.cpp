@@ -32,7 +32,7 @@ namespace fl {
         return (a + b) / (1.0 + a * b);
     }
 
-    SNorm* EinsteinSum::create() {
+    SNorm* EinsteinSum::constructor() {
         return new EinsteinSum;
     }
 }

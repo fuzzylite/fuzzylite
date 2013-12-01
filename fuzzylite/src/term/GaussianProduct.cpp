@@ -27,9 +27,11 @@ namespace fl {
     GaussianProduct::GaussianProduct(const std::string& name,
             scalar meanA, scalar standardDeviationA, scalar meanB, scalar standardDeviationB)
     : Term(name), _meanA(meanA), _standardDeviationA(standardDeviationA),
-    _meanB(meanB), _standardDeviationB(standardDeviationB) { }
+    _meanB(meanB), _standardDeviationB(standardDeviationB) {
+    }
 
-    GaussianProduct::~GaussianProduct() { }
+    GaussianProduct::~GaussianProduct() {
+    }
 
     std::string GaussianProduct::className() const {
         return "GaussianProduct";
@@ -90,6 +92,23 @@ namespace fl {
 
     scalar GaussianProduct::getStandardDeviationB() const {
         return this->_standardDeviationB;
+    }
+
+     void GaussianProduct::configure(const std::vector<scalar>& parameters){
+         if (parameters.size() < 4){
+             std::ostringstream ex;
+             ex << "[configuration error] term <" << className() << ">"
+                     << " requires <" << 4 << "> parameters";
+             throw fl::Exception(ex.str(), FL_AT);
+         }
+         setMeanA(parameters.at(0));
+         setStandardDeviationA(parameters.at(1));
+         setMeanB(parameters.at(2));
+         setStandardDeviationB(parameters.at(3));
+     }
+    
+    Term* GaussianProduct::constructor() {
+        return new GaussianProduct;
     }
 
 }

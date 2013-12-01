@@ -32,7 +32,7 @@ namespace fl {
         return (a * b) / (2 - (a + b - a * b));
     }
 
-    TNorm* EinsteinProduct::create() {
+    TNorm* EinsteinProduct::constructor() {
         return new EinsteinProduct;
     }
 

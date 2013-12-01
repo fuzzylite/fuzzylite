@@ -25,9 +25,11 @@
 namespace fl {
 
     SShape::SShape(const std::string& name, scalar start, scalar end)
-    : Term(name), _start(start), _end(end) { }
+    : Term(name), _start(start), _end(end) {
+    }
 
-    SShape::~SShape() { }
+    SShape::~SShape() {
+    }
 
     std::string SShape::className() const {
         return "SShape";
@@ -56,7 +58,7 @@ namespace fl {
 
     std::string SShape::toString() const {
         std::ostringstream ss;
-        ss << className() << " (" 
+        ss << className() << " ("
                 << fl::Op::str(_start) << ", "
                 << fl::Op::str(_end) << ")";
         return ss.str();
@@ -78,6 +80,20 @@ namespace fl {
         return this->_end;
     }
 
+    void SShape::configure(const std::vector<scalar>& parameters) {
+        if (parameters.size() < 2) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << 2 << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setStart(parameters.at(0));
+        setEnd(parameters.at(1));
+    }
+
+    Term* SShape::constructor() {
+        return new SShape;
+    }
 
 
 

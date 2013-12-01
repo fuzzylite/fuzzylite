@@ -63,8 +63,9 @@ namespace fl {
         virtual void setRight(scalar rightInflection);
         virtual scalar getRight() const;
 
-
-
+        virtual void configure(const std::vector<scalar>& parameters);
+        
+        static Term* constructor();
     };
 }
 #endif	/* FL_SIGMOIDDIFFERENCE_H */

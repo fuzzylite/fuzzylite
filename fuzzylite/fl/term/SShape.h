@@ -48,6 +48,10 @@ namespace fl {
 
         virtual void setEnd(scalar end);
         virtual scalar getEnd() const;
+        
+        virtual void configure(const std::vector<scalar>& parameters);
+        
+        static Term* constructor();
     };
 }
 

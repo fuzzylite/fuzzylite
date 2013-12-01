@@ -32,7 +32,7 @@ namespace fl {
         return a * b;
     }
 
-    TNorm* AlgebraicProduct::create() {
+    TNorm* AlgebraicProduct::constructor() {
         return new AlgebraicProduct;
     }
 

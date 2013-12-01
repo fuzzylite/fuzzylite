@@ -71,5 +71,20 @@ namespace fl {
     scalar Gaussian::getStandardDeviation() const {
         return this->_standardDeviation;
     }
+    
+     void Gaussian::configure(const std::vector<scalar>& parameters){
+         if (parameters.size() < 2){
+             std::ostringstream ex;
+             ex << "[configuration error] term <" << className() << ">"
+                     << " requires <" << 2 << "> parameters";
+             throw fl::Exception(ex.str(), FL_AT);
+         }
+         setMean(parameters.at(0));
+         setStandardDeviation(parameters.at(1));
+     }
+    
+    Term* Gaussian::constructor(){
+        return new Gaussian; 
+    }
 
 }

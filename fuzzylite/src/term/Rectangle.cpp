@@ -28,9 +28,11 @@ namespace fl {
 
     Rectangle::Rectangle(const std::string& name, scalar minimum,
             scalar maximum)
-    : Term(name), _minimum(minimum), _maximum(maximum) { }
+    : Term(name), _minimum(minimum), _maximum(maximum) {
+    }
 
-    Rectangle::~Rectangle() { }
+    Rectangle::~Rectangle() {
+    }
 
     std::string Rectangle::className() const {
         return "Rectangle";
@@ -69,6 +71,21 @@ namespace fl {
 
     scalar Rectangle::getMaximum() const {
         return this->_maximum;
+    }
+
+    void Rectangle::configure(const std::vector<scalar>& parameters) {
+        if (parameters.size() < 2) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << 2 << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setMinimum(parameters.at(0));
+        setMaximum(parameters.at(1));
+    }
+
+    Term* Rectangle::constructor() {
+        return new Rectangle;
     }
 
 }

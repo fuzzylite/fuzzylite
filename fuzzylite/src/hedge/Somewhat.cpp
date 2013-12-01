@@ -34,7 +34,7 @@ namespace fl {
         return std::sqrt(x);
     }
     
-    Hedge* Somewhat::create(){
+    Hedge* Somewhat::constructor(){
         return new Somewhat;
     }
 

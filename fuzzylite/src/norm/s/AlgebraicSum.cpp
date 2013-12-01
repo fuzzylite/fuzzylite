@@ -32,7 +32,7 @@ namespace fl {
         return a + b - (a * b);
     }
 
-    SNorm* AlgebraicSum::create() {
+    SNorm* AlgebraicSum::constructor() {
         return new AlgebraicSum;
     }
 }

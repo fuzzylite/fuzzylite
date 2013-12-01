@@ -68,7 +68,6 @@ namespace fl {
         };
 
         struct FL_EXPORT BuiltInFunction : public Element {
-            short arity;
 
             BuiltInFunction(const std::string& name, Unary functionPointer, short associativity = -1);
             BuiltInFunction(const std::string& name, Binary functionPointer, short associativity = -1);
@@ -107,12 +106,13 @@ namespace fl {
         /******************************
          * Term
          ******************************/
+
+    private:
+        virtual void loadOperators();
+        
     protected:
         std::string _text;
         const Engine* _engine;
-
-        virtual void loadOperators();
-        virtual void loadBuiltInFunctions();
 
         /**
          * Parsing methods
@@ -129,14 +129,13 @@ namespace fl {
         std::map<std::string, Operator*> operators;
         std::map<std::string, BuiltInFunction*> functions;
         Function(const std::string& name = "",
-                const std::string& infix = "", const Engine* engine = NULL,
-                bool loadBuiltInFunctions = true);
+                const std::string& infix = "", const Engine* engine = NULL);
         virtual ~Function();
 
-        //TODO: Modify as in jfuzzylite
         static Function* create(const std::string& name,
                 const std::string& infix,
-                const Engine* engine = NULL) throw (fl::Exception);
+                const Engine* engine = NULL,
+                bool requiresFunctions = true) throw (fl::Exception);
 
         virtual scalar membership(scalar x) const;
 
@@ -157,6 +156,8 @@ namespace fl {
 
         virtual void load(const std::string& infix,
                 const Engine* engine = NULL) throw (fl::Exception);
+        
+        virtual void loadBuiltInFunctions();
 
         virtual Node* parse(const std::string& infix) throw (fl::Exception);
 
@@ -168,7 +169,9 @@ namespace fl {
         virtual bool isBuiltInFunction(const std::string& token) const;
         virtual bool isOperator(const std::string& token) const;
 
-
+        virtual void configure(const std::vector<scalar>& parameters);
+        
+        static Term* constructor();
 
         static void main();
 

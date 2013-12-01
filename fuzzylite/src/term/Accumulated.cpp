@@ -30,9 +30,11 @@ namespace fl {
 
     Accumulated::Accumulated(const std::string& name, scalar minimum, scalar maximum,
             const SNorm* accumulation)
-    : Term(name), _minimum(minimum), _maximum(maximum), _accumulation(accumulation) { }
+    : Term(name), _minimum(minimum), _maximum(maximum), _accumulation(accumulation) {
+    }
 
-    Accumulated::~Accumulated() { }
+    Accumulated::~Accumulated() {
+    }
 
     std::string Accumulated::className() const {
         return "Accumulated";
@@ -125,6 +127,10 @@ namespace fl {
 
     bool Accumulated::isEmpty() const {
         return _terms.size() == 0;
+    }
+
+    void Accumulated::configure(const std::vector<scalar>& parameters) {
+        (void) parameters;
     }
 
 }

@@ -32,7 +32,7 @@ namespace fl {
         return Op::min(a, b);
     }
 
-    TNorm* Minimum::create() {
+    TNorm* Minimum::constructor() {
         return new Minimum;
     }
 

@@ -33,13 +33,13 @@
 namespace fl {
 
     SNormFactory::SNormFactory() {
-        registerClass(AlgebraicSum().className(), &(AlgebraicSum::create));
-        registerClass(BoundedSum().className(), &(BoundedSum::create));
-        registerClass(DrasticSum().className(), &(DrasticSum::create));
-        registerClass(EinsteinSum().className(), &(EinsteinSum::create));
-        registerClass(HamacherSum().className(), &(HamacherSum::create));
-        registerClass(Maximum().className(), &(Maximum::create));
-        registerClass(NormalizedSum().className(), &(NormalizedSum::create));
+        registerClass(AlgebraicSum().className(), &(AlgebraicSum::constructor));
+        registerClass(BoundedSum().className(), &(BoundedSum::constructor));
+        registerClass(DrasticSum().className(), &(DrasticSum::constructor));
+        registerClass(EinsteinSum().className(), &(EinsteinSum::constructor));
+        registerClass(HamacherSum().className(), &(HamacherSum::constructor));
+        registerClass(Maximum().className(), &(Maximum::constructor));
+        registerClass(NormalizedSum().className(), &(NormalizedSum::constructor));
     }
 
     SNormFactory::~SNormFactory() {

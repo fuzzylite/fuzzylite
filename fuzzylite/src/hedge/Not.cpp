@@ -32,7 +32,7 @@ namespace fl {
         return 1 - x;
     }
     
-    Hedge* Not::create(){
+    Hedge* Not::constructor(){
         return new Not;
     }
 

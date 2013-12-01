@@ -75,7 +75,7 @@ namespace fl {
         return (xlargest + xsmallest) / 2.0;
     }
 
-    Defuzzifier* MeanOfMaximum::create() {
+    Defuzzifier* MeanOfMaximum::constructor() {
         return new MeanOfMaximum;
     }
 }

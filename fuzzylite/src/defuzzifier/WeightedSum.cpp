@@ -66,7 +66,7 @@ namespace fl {
         return sum;
     }
     
-    Defuzzifier* WeightedSum::create(){
+    Defuzzifier* WeightedSum::constructor(){
         return new WeightedSum;
     }
 

@@ -33,7 +33,7 @@ namespace fl {
         return 1.0;
     }
     
-    Hedge* Any::create(){
+    Hedge* Any::constructor(){
         return new Any;
     }
 

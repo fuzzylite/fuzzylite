@@ -49,7 +49,10 @@ namespace fl {
 
         virtual void setStandardDeviation(scalar sigma);
         virtual scalar getStandardDeviation() const;
+        
+        virtual void configure(const std::vector<scalar>& parameters);
 
+        static Term* constructor();
     };
 
 }

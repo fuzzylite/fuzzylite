@@ -91,5 +91,21 @@ namespace fl {
     scalar Triangle::getC() const {
         return this->_c;
     }
+    
+     void Triangle::configure(const std::vector<scalar>& parameters){
+         if (parameters.size() < 3){
+             std::ostringstream ex;
+             ex << "[configuration error] term <" << className() << ">"
+                     << " requires <" << 3 << "> parameters";
+             throw fl::Exception(ex.str(), FL_AT);
+         }
+         setA(parameters.at(0));
+         setB(parameters.at(1));
+         setC(parameters.at(2));
+     }
+     
+    Term* Triangle::constructor(){
+        return new Triangle; 
+    }
 
 }

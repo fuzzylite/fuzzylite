@@ -32,12 +32,12 @@
 namespace fl {
 
     TNormFactory::TNormFactory() {
-        registerClass(Minimum().className(), &(Minimum::create));
-        registerClass(AlgebraicProduct().className(), &(AlgebraicProduct::create));
-        registerClass(BoundedDifference().className(), &(BoundedDifference::create));
-        registerClass(DrasticProduct().className(), &(DrasticProduct::create));
-        registerClass(EinsteinProduct().className(), &(EinsteinProduct::create));
-        registerClass(HamacherProduct().className(), &(HamacherProduct::create));
+        registerClass(Minimum().className(), &(Minimum::constructor));
+        registerClass(AlgebraicProduct().className(), &(AlgebraicProduct::constructor));
+        registerClass(BoundedDifference().className(), &(BoundedDifference::constructor));
+        registerClass(DrasticProduct().className(), &(DrasticProduct::constructor));
+        registerClass(EinsteinProduct().className(), &(EinsteinProduct::constructor));
+        registerClass(HamacherProduct().className(), &(HamacherProduct::constructor));
     }
 
     TNormFactory::~TNormFactory() {

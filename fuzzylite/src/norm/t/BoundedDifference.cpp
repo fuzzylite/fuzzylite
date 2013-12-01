@@ -33,7 +33,7 @@ namespace fl {
         return Op::max(0.0, a + b - 1);
     }
 
-    TNorm* BoundedDifference::create() {
+    TNorm* BoundedDifference::constructor() {
         return new BoundedDifference;
     }
 }

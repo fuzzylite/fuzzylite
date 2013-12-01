@@ -21,7 +21,7 @@
  */
 
 
-//TODO Check http://en.wikipedia.org/wiki/Defuzzification
+//TODO Check http://en.wikipedia.org/wiki/Defuzzification for other defuzzifiers.
 
 #ifndef FL_DEFUZZIFIER_H
 #define FL_DEFUZZIFIER_H

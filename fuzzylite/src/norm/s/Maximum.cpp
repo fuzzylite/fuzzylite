@@ -32,7 +32,7 @@ namespace fl {
         return Op::max(a, b);
     }
 
-    SNorm* Maximum::create() {
+    SNorm* Maximum::constructor() {
         return new Maximum;
     }
 }

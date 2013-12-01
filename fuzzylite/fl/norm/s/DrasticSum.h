@@ -31,7 +31,7 @@ namespace fl {
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
         
-        static SNorm* create();
+        static SNorm* constructor();
     };
 
 }

@@ -49,6 +49,9 @@ namespace fl {
         virtual void setMaximum(scalar maximum);
         virtual scalar getMaximum() const;
 
+        virtual void configure(const std::vector<scalar>& parameters);
+        
+        static Term* constructor();
     };
 
 }

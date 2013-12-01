@@ -69,7 +69,7 @@ namespace fl {
         virtual bool isEmpty() const;
         virtual void clear();
 
-
+        virtual void configure(const std::vector<scalar>& parameters);
 
     };
 

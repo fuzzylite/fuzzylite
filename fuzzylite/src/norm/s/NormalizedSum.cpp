@@ -32,7 +32,7 @@ namespace fl {
         return a + b / Op::max(1.0, Op::max(a, b));
     }
 
-    SNorm* NormalizedSum::create() {
+    SNorm* NormalizedSum::constructor() {
         return new NormalizedSum;
     }
 

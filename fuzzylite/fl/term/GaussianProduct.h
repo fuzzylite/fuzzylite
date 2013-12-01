@@ -61,7 +61,10 @@ namespace fl {
 
         virtual void setStandardDeviationB(scalar sigmaB);
         virtual scalar getStandardDeviationB() const;
+        
+        virtual void configure(const std::vector<scalar>& parameters);
 
+        static Term* constructor();
     };
 }
 #endif	/* FL_GAUSSIANPRODUCT_H */

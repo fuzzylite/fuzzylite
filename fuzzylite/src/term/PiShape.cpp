@@ -109,4 +109,21 @@ namespace fl {
     scalar PiShape::getBottomRight() const {
         return this->_bottomRight;
     }
+    
+     void PiShape::configure(const std::vector<scalar>& parameters){
+         if (parameters.size() < 4){
+             std::ostringstream ex;
+             ex << "[configuration error] term <" << className() << ">"
+                     << " requires <" << 4 << "> parameters";
+             throw fl::Exception(ex.str(), FL_AT);
+         }
+         setBottomLeft(parameters.at(0));
+         setTopLeft(parameters.at(1));
+         setTopRight(parameters.at(2));
+         setBottomRight(parameters.at(3));
+     }
+    
+    Term* PiShape::constructor(){
+        return new PiShape;
+    }
 }

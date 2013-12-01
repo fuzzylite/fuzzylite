@@ -25,9 +25,11 @@
 namespace fl {
 
     Ramp::Ramp(const std::string& name, scalar start, scalar end)
-    : Term(name), _start(start), _end(end) { }
+    : Term(name), _start(start), _end(end) {
+    }
 
-    Ramp::~Ramp() { }
+    Ramp::~Ramp() {
+    }
 
     std::string Ramp::className() const {
         return "Ramp";
@@ -39,7 +41,7 @@ namespace fl {
 
     scalar Ramp::membership(scalar x) const {
         if (fl::Op::isNan(x)) return fl::nan;
-        
+
         if (Op::isEq(_start, _end)) return 0.0;
 
         if (Op::isLt(_start, _end)) {
@@ -49,14 +51,14 @@ namespace fl {
         } else {
             if (Op::isGE(x, _start)) return 0.0;
             if (Op::isLE(x, _end)) return 1.0;
-            return (_start - x) / ( _start - _end);
+            return (_start - x) / (_start - _end);
         }
     }
 
     std::string Ramp::toString() const {
         std::ostringstream ss;
-        ss << className() << " (" 
-                << fl::Op::str(_start) << ", " 
+        ss << className() << " ("
+                << fl::Op::str(_start) << ", "
                 << fl::Op::str(_end) << ")";
         return ss.str();
     }
@@ -75,6 +77,21 @@ namespace fl {
 
     scalar Ramp::getEnd() const {
         return this->_end;
+    }
+
+    void Ramp::configure(const std::vector<scalar>& parameters) {
+        if (parameters.size() < 2) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << 2 << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setStart(parameters.at(0));
+        setEnd(parameters.at(1));
+    }
+
+    Term* Ramp::constructor() {
+        return new Ramp;
     }
 
 }

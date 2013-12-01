@@ -61,6 +61,9 @@ namespace fl {
         virtual void setBottomRight(scalar c);
         virtual scalar getBottomRight() const;
 
+        virtual void configure(const std::vector<scalar>& parameters);
+        
+        static Term* constructor();
     };
 }
 

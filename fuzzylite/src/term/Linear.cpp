@@ -109,4 +109,12 @@ namespace fl {
         this->coefficients = coefficients;
         this->inputVariables = inputVariables;
     }
+    
+     void Linear::configure(const std::vector<scalar>& parameters){
+         this->coefficients = parameters;
+     }
+    
+    Term* Linear::constructor(){
+        return new Linear;
+    }
 }

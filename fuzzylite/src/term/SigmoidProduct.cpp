@@ -29,9 +29,11 @@ namespace fl {
     SigmoidProduct::SigmoidProduct(const std::string& name,
             scalar left, scalar rising,
             scalar falling, scalar right)
-    : Term(name), _left(left), _rising(rising), _falling(falling), _right(right) { }
+    : Term(name), _left(left), _rising(rising), _falling(falling), _right(right) {
+    }
 
-    SigmoidProduct::~SigmoidProduct() { }
+    SigmoidProduct::~SigmoidProduct() {
+    }
 
     std::string SigmoidProduct::className() const {
         return "SigmoidProduct";
@@ -49,10 +51,10 @@ namespace fl {
 
     std::string SigmoidProduct::toString() const {
         std::ostringstream ss;
-        ss << "SigmoidProduct (" 
+        ss << "SigmoidProduct ("
                 << fl::Op::str(_left) << ", "
                 << fl::Op::str(_rising) << ", "
-                << fl::Op::str(_falling) << ", " 
+                << fl::Op::str(_falling) << ", "
                 << fl::Op::str(_right) << ")";
         return ss.str();
     }
@@ -89,6 +91,21 @@ namespace fl {
         return this->_falling;
     }
 
-
+     void SigmoidProduct::configure(const std::vector<scalar>& parameters){
+         if (parameters.size() < 4){
+             std::ostringstream ex;
+             ex << "[configuration error] term <" << className() << ">"
+                     << " requires <" << 4 << "> parameters";
+             throw fl::Exception(ex.str(), FL_AT);
+         }
+         setLeft(parameters.at(0));
+         setRising(parameters.at(1));
+         setFalling(parameters.at(2));
+         setRight(parameters.at(3));
+     }
+     
+    Term* SigmoidProduct::constructor() {
+        return new SigmoidProduct;
+    }
 
 }

@@ -63,7 +63,7 @@ namespace fl {
         return xlargest;
     }
 
-    Defuzzifier* LargestOfMaximum::create() {
+    Defuzzifier* LargestOfMaximum::constructor() {
         return new LargestOfMaximum;
     }
 }

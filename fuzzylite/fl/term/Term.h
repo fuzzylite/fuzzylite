@@ -31,6 +31,7 @@
 #include <limits>
 #include <iomanip>
 #include <cmath>
+#include <vector>
 
 namespace fl {
 
@@ -65,6 +66,7 @@ namespace fl {
 
         virtual Term* copy() const = 0;
 
+        virtual void configure(const std::vector<scalar>& parameters) = 0;
 
     };
 

@@ -28,9 +28,11 @@ namespace fl {
 
     Trapezoid::Trapezoid(const std::string& name, scalar a, scalar b, scalar c,
             scalar d)
-    : Term(name), _a(a), _b(b), _c(c), _d(d) { }
+    : Term(name), _a(a), _b(b), _c(c), _d(d) {
+    }
 
-    Trapezoid::~Trapezoid() { }
+    Trapezoid::~Trapezoid() {
+    }
 
     std::string Trapezoid::className() const {
         return "Trapezoid";
@@ -96,6 +98,23 @@ namespace fl {
 
     scalar Trapezoid::getD() const {
         return this->_d;
+    }
+    
+     void Trapezoid::configure(const std::vector<scalar>& parameters){
+         if (parameters.size() < 4){
+             std::ostringstream ex;
+             ex << "[configuration error] term <" << className() << ">"
+                     << " requires <" << 4 << "> parameters";
+             throw fl::Exception(ex.str(), FL_AT);
+         }
+         setA(parameters.at(0));
+         setB(parameters.at(1));
+         setC(parameters.at(2));
+         setD(parameters.at(3));
+     }
+
+    Term* Trapezoid::constructor() {
+        return new Trapezoid;
     }
 
 }

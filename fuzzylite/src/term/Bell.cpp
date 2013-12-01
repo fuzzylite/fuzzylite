@@ -50,9 +50,9 @@ namespace fl {
 
     std::string Bell::toString() const {
         std::ostringstream ss;
-        ss << className() << " (" << 
-                fl::Op::str(_center) << ", " << 
-                fl::Op::str(_width) << ", " << 
+        ss << className() << " (" <<
+                fl::Op::str(_center) << ", " <<
+                fl::Op::str(_width) << ", " <<
                 fl::Op::str(_slope) << ")";
         return ss.str();
     }
@@ -79,6 +79,22 @@ namespace fl {
 
     scalar Bell::getCenter() const {
         return this->_center;
+    }
+
+    void Bell::configure(const std::vector<scalar>& parameters) {
+        if (parameters.size() < 3) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << 3 << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setCenter(parameters.at(0));
+        setWidth(parameters.at(1));
+        setSlope(parameters.at(2));
+    }
+
+    Term* Bell::constructor() {
+        return new Bell;
     }
 
 }

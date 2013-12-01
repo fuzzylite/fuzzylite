@@ -35,7 +35,7 @@ namespace fl {
                 : 1 - 2 * (1 - x) * (1 - x);
     }
     
-    Hedge* Extremely::create(){
+    Hedge* Extremely::constructor(){
         return new Extremely;
     }
 } 

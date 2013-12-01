@@ -34,13 +34,13 @@
 namespace fl {
 
     DefuzzifierFactory::DefuzzifierFactory() {
-        registerClass(Bisector().className(), &(Bisector::create));
-        registerClass(Centroid().className(), &(Centroid::create));
-        registerClass(LargestOfMaximum().className(), &(LargestOfMaximum::create));
-        registerClass(MeanOfMaximum().className(), &(MeanOfMaximum::create));
-        registerClass(SmallestOfMaximum().className(), &(SmallestOfMaximum::create));
-        registerClass(WeightedAverage().className(), &(WeightedAverage::create));
-        registerClass(WeightedSum().className(), &(WeightedSum::create));
+        registerClass(Bisector().className(), &(Bisector::constructor));
+        registerClass(Centroid().className(), &(Centroid::constructor));
+        registerClass(LargestOfMaximum().className(), &(LargestOfMaximum::constructor));
+        registerClass(MeanOfMaximum().className(), &(MeanOfMaximum::constructor));
+        registerClass(SmallestOfMaximum().className(), &(SmallestOfMaximum::constructor));
+        registerClass(WeightedAverage().className(), &(WeightedAverage::constructor));
+        registerClass(WeightedSum().className(), &(WeightedSum::constructor));
     }
 
     DefuzzifierFactory::~DefuzzifierFactory() {

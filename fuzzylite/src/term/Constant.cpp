@@ -18,9 +18,11 @@
 namespace fl {
 
     Constant::Constant(const std::string& name, scalar value)
-    : Term(name), _value(value) { }
+    : Term(name), _value(value) {
+    }
 
-    Constant::~Constant() { }
+    Constant::~Constant() {
+    }
 
     std::string Constant::className() const {
         return "Constant";
@@ -47,6 +49,20 @@ namespace fl {
 
     scalar Constant::getValue() const {
         return this->_value;
+    }
+
+    void Constant::configure(const std::vector<scalar>& parameters) {
+        if (parameters.size() < 1) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << 1 << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setValue(parameters.at(0));
+    }
+
+    Term* Constant::constructor() {
+        return new Constant;
     }
 
 }

@@ -29,9 +29,11 @@ namespace fl {
     SigmoidDifference::SigmoidDifference(const std::string& name,
             scalar left, scalar rising,
             scalar falling, scalar right)
-    : Term(name), _left(left), _rising(rising), _falling(falling), _right(right) { }
+    : Term(name), _left(left), _rising(rising), _falling(falling), _right(right) {
+    }
 
-    SigmoidDifference::~SigmoidDifference() { }
+    SigmoidDifference::~SigmoidDifference() {
+    }
 
     std::string SigmoidDifference::className() const {
         return "SigmoidDifference";
@@ -51,10 +53,10 @@ namespace fl {
 
     std::string SigmoidDifference::toString() const {
         std::ostringstream ss;
-        ss << className() << " (" 
+        ss << className() << " ("
                 << fl::Op::str(_left) << ", "
                 << fl::Op::str(_rising) << ", "
-                << fl::Op::str(_falling) << ", " 
+                << fl::Op::str(_falling) << ", "
                 << fl::Op::str(_right) << ")";
         return ss.str();
 
@@ -92,8 +94,21 @@ namespace fl {
         return this->_right;
     }
 
-
-
-
+     void SigmoidDifference::configure(const std::vector<scalar>& parameters){
+         if (parameters.size() < 4){
+             std::ostringstream ex;
+             ex << "[configuration error] term <" << className() << ">"
+                     << " requires <" << 4 << "> parameters";
+             throw fl::Exception(ex.str(), FL_AT);
+         }
+         setLeft(parameters.at(0));
+         setRising(parameters.at(1));
+         setFalling(parameters.at(2));
+         setRight(parameters.at(3));
+     }
+     
+    Term* SigmoidDifference::constructor() {
+        return new SigmoidDifference;
+    }
 
 }

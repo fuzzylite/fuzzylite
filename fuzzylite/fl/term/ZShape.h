@@ -49,6 +49,9 @@ namespace fl {
 
         virtual void setEnd(scalar end);
         virtual scalar getEnd() const;
+        
+        static Term* constructor();
+        virtual void configure(const std::vector<scalar>& parameters);
     };
 }
 #endif	/* ZSHAPE_H */

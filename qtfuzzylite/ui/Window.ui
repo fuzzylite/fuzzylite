@@ -476,8 +476,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>216</width>
-         <height>249</height>
+         <width>588</width>
+         <height>408</height>
         </rect>
        </property>
        <attribute name="label">
@@ -599,8 +599,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>100</width>
-                        <height>30</height>
+                        <width>262</width>
+                        <height>92</height>
                        </rect>
                       </property>
                       <property name="sizePolicy">
@@ -737,8 +737,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>100</width>
-                        <height>30</height>
+                        <width>262</width>
+                        <height>92</height>
                        </rect>
                       </property>
                       <property name="sizePolicy">
@@ -851,7 +851,7 @@
                    </sizepolicy>
                   </property>
                   <property name="text">
-                   <string>Strength</string>
+                   <string>Degree</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>

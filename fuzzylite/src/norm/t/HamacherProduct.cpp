@@ -33,7 +33,7 @@ namespace fl {
         return (a * b) / (a + b - a * b);
     }
 
-    TNorm* HamacherProduct::create() {
+    TNorm* HamacherProduct::constructor() {
         return new HamacherProduct;
     }
 }

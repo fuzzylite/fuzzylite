@@ -434,7 +434,7 @@ namespace fl {
         }
 
         try {
-            Term * result = FactoryManager::instance()->term()->create(termClass, params);
+            Term * result = FactoryManager::instance()->term()->createInstance(termClass, params);
             result->setName(fl::Op::format(name, fl::Op::isValidForName));
 
             if (termClass == Function().className() and not strParams.empty()) {

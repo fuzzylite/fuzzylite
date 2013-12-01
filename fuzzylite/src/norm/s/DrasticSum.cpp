@@ -35,7 +35,7 @@ namespace fl {
         return 1.0;
     }
 
-    SNorm* DrasticSum::create() {
+    SNorm* DrasticSum::constructor() {
         return new DrasticSum;
     }
 

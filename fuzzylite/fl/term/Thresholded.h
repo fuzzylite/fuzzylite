@@ -56,6 +56,7 @@ namespace fl {
 
         virtual std::string toString() const;
 
+        virtual void configure(const std::vector<scalar>& parameters);
     };
 
 }

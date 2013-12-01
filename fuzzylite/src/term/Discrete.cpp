@@ -27,12 +27,14 @@
 namespace fl {
 
     Discrete::Discrete(const std::string& name)
-    : Term(name) { }
+    : Term(name) {
+    }
 
     Discrete::Discrete(const std::string& name,
             const std::vector<scalar>& x,
             const std::vector<scalar>& y)
-    : Term(name), x(x), y(y) { }
+    : Term(name), x(x), y(y) {
+    }
 
     Discrete::Discrete(const std::string& name,
             const std::vector<std::pair<scalar, scalar> >& xy)
@@ -43,7 +45,8 @@ namespace fl {
         }
     }
 
-    Discrete::~Discrete() { }
+    Discrete::~Discrete() {
+    }
 
     template <typename T>
     Discrete* Discrete::create(const std::string& name, int argc,
@@ -131,6 +134,25 @@ namespace fl {
         }
         ss << ")";
         return ss.str();
+    }
+
+    void Discrete::configure(const std::vector<scalar>& parameters) {
+        if ((int) parameters.size() % 2 == 0) {
+            for (int i = 0; i < (int) parameters.size() - 1; i += 2) {
+                this->x.push_back(parameters.at(i));
+                this->y.push_back(parameters.at(i + 1));
+            }
+        } else {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << "> requires "
+                    "a parameters for values (x,y), "
+                    "but found <" << parameters.size() << "> values";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+    }
+
+    Term* Discrete::constructor() {
+        return new Discrete;
     }
 
 }

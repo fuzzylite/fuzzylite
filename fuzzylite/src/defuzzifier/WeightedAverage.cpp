@@ -69,7 +69,7 @@ namespace fl {
         return sum / weights;
     }
     
-    Defuzzifier* WeightedAverage::create(){
+    Defuzzifier* WeightedAverage::constructor(){
         return new WeightedAverage;
     }
 

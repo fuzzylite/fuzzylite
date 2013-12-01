@@ -34,7 +34,7 @@ namespace fl {
         std::string className() const;
         scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;
 
-        static Defuzzifier* create();
+        static Defuzzifier* constructor();
     };
 
 } 

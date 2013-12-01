@@ -129,7 +129,7 @@ namespace fl {
             _fxTerms.push_back(new Linear("",
                     std::vector<scalar>(engine->inputVariables().size() + 1),
                     engine->inputVariables()));
-            _fxTerms.push_back(new Function("", "", engine));
+            _fxTerms.push_back(fl::Function::create("","",engine));
         }
 
         void Term::setup(const fl::Variable& variable, const fl::Term* edit) {
@@ -906,6 +906,7 @@ namespace fl {
                 std::vector<QAction*> actions;
 
                 Function f;
+                f.loadBuiltInFunctions();
                 for (std::map<std::string, Function::Operator*>::iterator it =
                         f.operators.begin(); it != f.operators.end(); ++it) {
                     actions.push_back(new QAction(QString::fromStdString(

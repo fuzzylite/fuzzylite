@@ -25,24 +25,21 @@
 
 #include "fl/fuzzylite.h"
 
-
+#include "fl/factory/Factory.h"
+#include "fl/term/Term.h"
 
 #include <vector>
 #include <string>
 
 namespace fl {
-    class Term;
 
-    class FL_EXPORT TermFactory {
+    class FL_EXPORT TermFactory : public Factory<Term*>{
     public:
         TermFactory();
         virtual ~TermFactory();
 
-        virtual Term* create(const std::string& className,
+        virtual Term* createInstance(const std::string& className,
                 const std::vector<scalar>& params) const;
-
-        virtual std::vector<std::string> available() const;
-
     };
 }
 #endif	/* FL_TERMFACTORY_H */

@@ -80,5 +80,9 @@ namespace fl {
     const TNorm* Thresholded::getActivation() const {
         return this->_activation;
     }
+    
+     void Thresholded::configure(const std::vector<scalar>& parameters){
+         (void) parameters;
+     }
 
 }

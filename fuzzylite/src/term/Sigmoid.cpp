@@ -28,9 +28,11 @@
 namespace fl {
 
     Sigmoid::Sigmoid(const std::string& name, scalar inflection, scalar slope)
-    : Term(name), _inflection(inflection), _slope(slope){ }
+    : Term(name), _inflection(inflection), _slope(slope) {
+    }
 
-    Sigmoid::~Sigmoid() { }
+    Sigmoid::~Sigmoid() {
+    }
 
     std::string Sigmoid::className() const {
         return "Sigmoid";
@@ -47,8 +49,8 @@ namespace fl {
 
     std::string Sigmoid::toString() const {
         std::ostringstream ss;
-        ss << className() << " (" 
-                << fl::Op::str(_inflection) << ", " 
+        ss << className() << " ("
+                << fl::Op::str(_inflection) << ", "
                 << fl::Op::str(_slope) << ")";
         return ss.str();
     }
@@ -69,4 +71,18 @@ namespace fl {
         return this->_inflection;
     }
 
-} 
+    void Sigmoid::configure(const std::vector<scalar>& parameters) {
+        if (parameters.size() < 2) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << 2 << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setInflection(parameters.at(0));
+        setSlope(parameters.at(1));
+    }
+
+    Term* Sigmoid::constructor() {
+        return new Sigmoid;
+    }
+}

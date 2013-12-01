@@ -78,5 +78,20 @@ namespace fl {
     scalar ZShape::getEnd() const {
         return this->_end;
     }
+    
+     void ZShape::configure(const std::vector<scalar>& parameters){
+         if (parameters.size() < 2){
+             std::ostringstream ex;
+             ex << "[configuration error] term <" << className() << ">"
+                     << " requires <" << 2 << "> parameters";
+             throw fl::Exception(ex.str(), FL_AT);
+         }
+         setStart(parameters.at(0));
+         setEnd(parameters.at(1));
+     }
+    
+    Term* ZShape::constructor(){
+        return new ZShape;
+    }
 
 }
