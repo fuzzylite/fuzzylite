@@ -62,11 +62,11 @@ namespace fl {
     public:
         Engine(const std::string& name = "");
         virtual ~Engine();
-
-        virtual void configure(const std::string& tnorm = "Minimum",
-                const std::string& snorm = "Maximum",
-                const std::string& activationTnorm = "Minimum",
-                const std::string& accumulationSnorm = "Maximum",
+        
+        virtual void configure(const std::string& conjunctionT = "Minimum",
+                const std::string& disjunctionS = "Maximum",
+                const std::string& activationT = "Minimum",
+                const std::string& accumulationS = "Maximum",
                 const std::string& defuzzifier = "Centroid",
                 int resolution = IntegralDefuzzifier::defaultResolution());
 

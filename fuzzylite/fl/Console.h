@@ -12,13 +12,15 @@
 #include <map>
 
 namespace fl {
-
+    class Engine;
+    
     class Console {
     public:
         static const std::string KW_INPUT_FILE;
         static const std::string KW_INPUT_FORMAT;
         static const std::string KW_OUTPUT_FILE;
         static const std::string KW_OUTPUT_FORMAT;
+        static const std::string KW_EXAMPLE;
         static const std::string KW_DATA_RESOLUTION;
         static const std::string KW_DATA_SEPARATOR;
 
@@ -30,6 +32,9 @@ namespace fl {
         static void process(const std::string& input, T& writer,
                 const std::string& inputFormat, const std::string& outputFormat,
                 const std::map<std::string, std::string>& options);
+        
+        static Engine* mamdani();
+        static Engine* takagiSugeno();
 
     public:
         static std::string usage();

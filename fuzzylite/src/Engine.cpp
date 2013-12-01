@@ -70,16 +70,17 @@ namespace fl {
         }
     }
 
-    void Engine::configure(const std::string& tnorm, const std::string& snorm,
-            const std::string& activationTnorm, const std::string& accumulationSnorm,
+    
+    void Engine::configure(const std::string& conjunctionT, const std::string& disjunctionS,
+            const std::string& activationT, const std::string& accumulationS,
             const std::string& defuzzifier, int resolution) {
         TNormFactory* tnormFactory = FactoryManager::instance()->tnorm();
         SNormFactory* snormFactory = FactoryManager::instance()->snorm();
         DefuzzifierFactory* defuzzFactory = FactoryManager::instance()->defuzzifier();
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            _ruleblocks.at(i)->setConjunction(tnormFactory->createInstance(tnorm));
-            _ruleblocks.at(i)->setDisjunction(snormFactory->createInstance(snorm));
-            _ruleblocks.at(i)->setActivation(tnormFactory->createInstance(activationTnorm));
+            _ruleblocks.at(i)->setConjunction(tnormFactory->createInstance(conjunctionT));
+            _ruleblocks.at(i)->setDisjunction(snormFactory->createInstance(disjunctionS));
+            _ruleblocks.at(i)->setActivation(tnormFactory->createInstance(activationT));
         }
 
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
@@ -92,7 +93,7 @@ namespace fl {
                 }
             }
             _outputVariables.at(i)->output()->setAccumulation(
-                    snormFactory->createInstance(accumulationSnorm));
+                    snormFactory->createInstance(accumulationS));
         }
     }
 
@@ -200,7 +201,7 @@ namespace fl {
         FL_DBG("CURRENT INPUTS:");
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
             scalar inputValue = _inputVariables.at(i)->getInputValue();
-            (void)inputValue;
+            (void) inputValue;
             FL_DBG(_inputVariables.at(i)->getName() << ".input = " << Op::str(inputValue));
             FL_DBG(_inputVariables.at(i)->getName() << ".fuzzy= " << _inputVariables.at(i)->fuzzify(inputValue));
         }
@@ -227,7 +228,7 @@ namespace fl {
 
             //no locking is ever performed during this debugging block;
             scalar output = _outputVariables.at(i)->defuzzifyNoLocks();
-            (void)output;
+            (void) output;
             FL_DBG(_outputVariables.at(i)->getName() << ".output = " << output);
             FL_DBG(_outputVariables.at(i)->getName() << ".fuzzy = " <<
                     _outputVariables.at(i)->fuzzify(output));

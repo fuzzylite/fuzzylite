@@ -20,6 +20,7 @@ namespace fl {
     const std::string Console::KW_INPUT_FORMAT = "-if";
     const std::string Console::KW_OUTPUT_FILE = "-o";
     const std::string Console::KW_OUTPUT_FORMAT = "-of";
+    const std::string Console::KW_EXAMPLE = "-ex";
     const std::string Console::KW_DATA_RESOLUTION = "-res";
     const std::string Console::KW_DATA_SEPARATOR = "-sep";
 
@@ -29,6 +30,7 @@ namespace fl {
         options.push_back(std::pair<std::string, std::string>(KW_INPUT_FORMAT, "fis,fcl"));
         options.push_back(std::pair<std::string, std::string>(KW_OUTPUT_FILE, "outputfile"));
         options.push_back(std::pair<std::string, std::string>(KW_OUTPUT_FORMAT, "fis,fcl,cpp,java,dat"));
+        options.push_back(std::pair<std::string, std::string>(KW_EXAMPLE, "(m)amdani,(t)akagi-sugeno"));
         options.push_back(std::pair<std::string, std::string>(KW_DATA_RESOLUTION, "resolution"));
         options.push_back(std::pair<std::string, std::string>(KW_DATA_SEPARATOR, "separator"));
 
@@ -71,34 +73,57 @@ namespace fl {
     }
 
     void Console::process(const std::map<std::string, std::string>& options) {
-        std::map<std::string, std::string>::const_iterator it = options.find(KW_INPUT_FILE);
-        if (it == options.end()) {
-            throw fl::Exception("[option error] no input file specified", FL_AT);
-        }
-        std::string inputFilename = it->second;
-        std::ifstream inputFile(inputFilename.c_str());
-        if (not inputFile.is_open()) {
-            throw fl::Exception("[file error] file <" + inputFilename + "> could not be opened", FL_AT);
-        }
-        std::ostringstream textEngine;
-        std::string line;
-        while (inputFile.good()) {
-            std::getline(inputFile, line);
-            textEngine << line << std::endl;
-        }
-        inputFile.close();
+        std::map<std::string, std::string>::const_iterator it;
 
-
+        std::string example;
         std::string inputFormat;
-        it = options.find(KW_INPUT_FORMAT);
-        if (it != options.end()) {
-            inputFormat = it->second;
-        } else {
-            std::size_t extensionIndex = inputFilename.find_last_of(".");
-            if (extensionIndex != std::string::npos) {
-                inputFormat = inputFilename.substr(extensionIndex + 1);
+        std::ostringstream textEngine;
+
+        it = options.find(KW_EXAMPLE);
+
+        bool isExample = (it != options.end());
+
+        if (isExample) {
+            example = it->second;
+            Engine* engine;
+            if (example == "m" or example == "mamdani") {
+                engine = mamdani();
+            } else if (example == "t" or example == "ts" or example == "takagi-sugeno") {
+                engine = takagiSugeno();
             } else {
-                throw fl::Exception("[format error] unspecified format of input file", FL_AT);
+                throw fl::Exception("[option error] example <" + example + "> not available", FL_AT);
+            }
+            inputFormat = "fcl";
+            textEngine << FclExporter().toString(engine);
+            delete engine;
+
+        } else {
+            it = options.find(KW_INPUT_FILE);
+            if (it == options.end()) {
+                throw fl::Exception("[option error] no input file specified", FL_AT);
+            }
+            std::string inputFilename = it->second;
+            std::ifstream inputFile(inputFilename.c_str());
+            if (not inputFile.is_open()) {
+                throw fl::Exception("[file error] file <" + inputFilename + "> could not be opened", FL_AT);
+            }
+            std::string line;
+            while (inputFile.good()) {
+                std::getline(inputFile, line);
+                textEngine << line << std::endl;
+            }
+            inputFile.close();
+
+            it = options.find(KW_INPUT_FORMAT);
+            if (it != options.end()) {
+                inputFormat = it->second;
+            } else {
+                std::size_t extensionIndex = inputFilename.find_last_of(".");
+                if (extensionIndex != std::string::npos) {
+                    inputFormat = inputFilename.substr(extensionIndex + 1);
+                } else {
+                    throw fl::Exception("[format error] unspecified format of input file", FL_AT);
+                }
             }
         }
 
@@ -196,6 +221,94 @@ namespace fl {
     template void Console::process(const std::string& input, std::ofstream& writer,
             const std::string& inputFormat, const std::string& outputFormat,
             const std::map<std::string, std::string>& options);
+
+    Engine* Console::mamdani() {
+        Engine* engine = new Engine("simple-dimmer");
+
+        InputVariable* ambient = new InputVariable("Ambient", 0, 1);
+        ambient->addTerm(new Triangle("DARK", .0, .25, .5));
+        ambient->addTerm(new Triangle("MEDIUM", .25, .5, .75));
+        ambient->addTerm(new Triangle("BRIGHT", .5, .75, 1));
+        engine->addInputVariable(ambient);
+
+
+        OutputVariable* power = new OutputVariable("Power", 0, 2);
+        power->setDefaultValue(fl::nan);
+        power->addTerm(new Triangle("LOW", 0.0, 0.5, 1));
+        power->addTerm(new Triangle("MEDIUM", 0.5, 1, 1.5));
+        power->addTerm(new Triangle("HIGH", 1, 1.5, 2));
+        engine->addOutputVariable(power);
+
+        RuleBlock* ruleblock = new RuleBlock();
+        ruleblock->addRule(Rule::parse("if Ambient is DARK then Power is HIGH", engine));
+        ruleblock->addRule(Rule::parse("if Ambient is MEDIUM then Power is MEDIUM", engine));
+        ruleblock->addRule(Rule::parse("if Ambient is BRIGHT then Power is LOW", engine));
+
+        engine->addRuleBlock(ruleblock);
+
+        engine->configure("", "", "Minimum", "Maximum", "Centroid");
+        return engine;
+    }
+
+    Engine* Console::takagiSugeno() {
+        Engine* engine = new Engine("approximation of sin(x)/x");
+
+        fl::InputVariable* inputX = new fl::InputVariable("inputX");
+        inputX->setRange(0, 10);
+        inputX->addTerm(new fl::Triangle("NEAR_1", 0, 1, 2));
+        inputX->addTerm(new fl::Triangle("NEAR_2", 1, 2, 3));
+        inputX->addTerm(new fl::Triangle("NEAR_3", 2, 3, 4));
+        inputX->addTerm(new fl::Triangle("NEAR_4", 3, 4, 5));
+        inputX->addTerm(new fl::Triangle("NEAR_5", 4, 5, 6));
+        inputX->addTerm(new fl::Triangle("NEAR_6", 5, 6, 7));
+        inputX->addTerm(new fl::Triangle("NEAR_7", 6, 7, 8));
+        inputX->addTerm(new fl::Triangle("NEAR_8", 7, 8, 9));
+        inputX->addTerm(new fl::Triangle("NEAR_9", 8, 9, 10));
+        engine->addInputVariable(inputX);
+
+
+        fl::OutputVariable* outputFx = new fl::OutputVariable("outputFx");
+        outputFx->setRange(-1, 1);
+        outputFx->setDefaultValue(fl::nan);
+        outputFx->setLockValidOutput(true); //To use its value with diffFx
+        outputFx->addTerm(new Constant("f1", 0.84));
+        outputFx->addTerm(new Constant("f2", 0.45));
+        outputFx->addTerm(new Constant("f3", 0.04));
+        outputFx->addTerm(new Constant("f4", -0.18));
+        outputFx->addTerm(new Constant("f5", -0.19));
+        outputFx->addTerm(new Constant("f6", -0.04));
+        outputFx->addTerm(new Constant("f7", 0.09));
+        outputFx->addTerm(new Constant("f8", 0.12));
+        outputFx->addTerm(new Constant("f9", 0.04));
+        engine->addOutputVariable(outputFx);
+
+        fl::OutputVariable* trueFx = new fl::OutputVariable("trueFx");
+        trueFx->setRange(fl::nan, fl::nan);
+        trueFx->setLockValidOutput(true); //To use its value with diffFx
+        trueFx->addTerm(fl::Function::create("fx", "sin(inputX)/inputX"));
+        engine->addOutputVariable(trueFx);
+
+        fl::OutputVariable* diffFx = new fl::OutputVariable("diffFx");
+        diffFx->addTerm(fl::Function::create("diff", "fabs(outputFx-trueFx)", engine));
+        diffFx->setRange(fl::nan, fl::nan);
+        engine->addOutputVariable(diffFx);
+
+        fl::RuleBlock* block = new fl::RuleBlock();
+        block->addRule(fl::Rule::parse("if inputX is NEAR_1 then outputFx = f1", engine));
+        block->addRule(fl::Rule::parse("if inputX is NEAR_2 then outputFx = f2", engine));
+        block->addRule(fl::Rule::parse("if inputX is NEAR_3 then outputFx = f3", engine));
+        block->addRule(fl::Rule::parse("if inputX is NEAR_4 then outputFx = f4", engine));
+        block->addRule(fl::Rule::parse("if inputX is NEAR_5 then outputFx = f5", engine));
+        block->addRule(fl::Rule::parse("if inputX is NEAR_6 then outputFx = f6", engine));
+        block->addRule(fl::Rule::parse("if inputX is NEAR_7 then outputFx = f7", engine));
+        block->addRule(fl::Rule::parse("if inputX is NEAR_8 then outputFx = f8", engine));
+        block->addRule(fl::Rule::parse("if inputX is NEAR_9 then outputFx = f9", engine));
+        block->addRule(fl::Rule::parse("if inputX is any then trueFx = fx and diffFx = diff", engine));
+        engine->addRuleBlock(block);
+
+        engine->configure("", "", "AlgebraicProduct", "", "WeightedAverage");
+        return engine;
+    }
 
     int Console::main(int argc, char** argv) {
         (void) argc;
