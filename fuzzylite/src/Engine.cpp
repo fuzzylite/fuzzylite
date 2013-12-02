@@ -160,12 +160,13 @@ namespace fl {
                         ss << "- Rule block <" << ruleblock->getName()
                                 << "> has a NULL rule at index <" << r << ">\n";
                     } else {
+                        std::size_t thenIndex = rule->getText().find(" " + Rule::thenKeyword() + " ");
                         std::size_t andIndex = rule->getText().find(" " + Rule::andKeyword() + " ");
                         std::size_t orIndex = rule->getText().find(" " + Rule::orKeyword() + " ");
-                        if (andIndex != std::string::npos) {
+                        if (andIndex != std::string::npos and andIndex < thenIndex)  {
                             ++requiresConjunction;
                         }
-                        if (orIndex != std::string::npos) {
+                        if (orIndex != std::string::npos and orIndex < thenIndex) {
                             ++requiresDisjunction;
                         }
                     }
