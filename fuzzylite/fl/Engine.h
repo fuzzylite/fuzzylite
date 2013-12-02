@@ -82,10 +82,6 @@ namespace fl {
         virtual void setInputValue(const std::string& name, scalar value);
         virtual scalar getOutputValue(const std::string& name);
 
-        virtual std::string toStringFis() const;
-        virtual std::string toStringFcl() const;
-        virtual std::string toStringCpp() const;
-
         /**
          * Operations for iterable datatype _inputVariables
          */

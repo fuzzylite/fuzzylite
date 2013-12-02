@@ -34,3 +34,4 @@ Version 4.0
 * Removed FL_DEBUG and created a static variable in fuzzylite.h
 * Removed FL_NO_LOG as it is now controlled with fuzzylite::logging(), previously named logEnabled()
 * Libraries and Console application are both built in folder bin/ (previously libraries were at lib/)
+* Removed Engine::toStringFis/Fcl/Cpp to encourage use of Fcl/Fis/CppExporters instead

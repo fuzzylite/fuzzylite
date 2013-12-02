@@ -266,18 +266,6 @@ namespace fl {
         return outputVariable->defuzzify();
     }
 
-    std::string Engine::toStringCpp() const {
-        return CppExporter().toString(this);
-    }
-
-    std::string Engine::toStringFcl() const {
-        return FclExporter().toString(this);
-    }
-
-    std::string Engine::toStringFis() const {
-        return FisExporter().toString(this);
-    }
-
     /**
      * Operations for iterable datatype _inputVariables
      */

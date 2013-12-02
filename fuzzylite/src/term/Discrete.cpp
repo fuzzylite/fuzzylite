@@ -137,17 +137,18 @@ namespace fl {
     }
 
     void Discrete::configure(const std::vector<scalar>& parameters) {
-        if ((int) parameters.size() % 2 == 0) {
-            for (int i = 0; i < (int) parameters.size() - 1; i += 2) {
-                this->x.push_back(parameters.at(i));
-                this->y.push_back(parameters.at(i + 1));
-            }
-        } else {
+        if ((int) parameters.size() % 2 != 0) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << "> requires "
-                    "a parameters for values (x,y), "
+                    "a set of parameters for values (x,y), "
                     "but found <" << parameters.size() << "> values";
             throw fl::Exception(ex.str(), FL_AT);
+        }
+        this->x.clear();
+        this->y.clear();
+        for (int i = 0; i < (int) parameters.size() - 1; i += 2) {
+            this->x.push_back(parameters.at(i));
+            this->y.push_back(parameters.at(i + 1));
         }
     }
 
