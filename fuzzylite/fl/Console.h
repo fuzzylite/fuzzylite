@@ -21,7 +21,8 @@ namespace fl {
         static const std::string KW_OUTPUT_FILE;
         static const std::string KW_OUTPUT_FORMAT;
         static const std::string KW_EXAMPLE;
-        static const std::string KW_DATA_RESOLUTION;
+        static const std::string KW_DATA_RESOLUTION_VARIABLE;
+        static const std::string KW_DATA_RESOLUTION_TOTAL;
         static const std::string KW_DATA_SEPARATOR;
 
     protected:
