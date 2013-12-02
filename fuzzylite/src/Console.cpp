@@ -14,24 +14,25 @@
 #include <stdlib.h>
 #include <fstream>
 
-
 namespace fl {
     const std::string Console::KW_INPUT_FILE = "-i";
     const std::string Console::KW_INPUT_FORMAT = "-if";
     const std::string Console::KW_OUTPUT_FILE = "-o";
     const std::string Console::KW_OUTPUT_FORMAT = "-of";
     const std::string Console::KW_EXAMPLE = "-ex";
-    const std::string Console::KW_DATA_RESOLUTION = "-res";
+    const std::string Console::KW_DATA_RESOLUTION_VARIABLE = "-rv";
+    const std::string Console::KW_DATA_RESOLUTION_TOTAL = "-rt";
     const std::string Console::KW_DATA_SEPARATOR = "-sep";
 
     std::string Console::usage() {
-        std::vector<std::pair<std::string, std::string> > options;
+        std::vector<std::pair<std::string, std::string> > options; //not a map to keep order;
         options.push_back(std::pair<std::string, std::string>(KW_INPUT_FILE, "inputfile"));
         options.push_back(std::pair<std::string, std::string>(KW_INPUT_FORMAT, "fis,fcl"));
         options.push_back(std::pair<std::string, std::string>(KW_OUTPUT_FILE, "outputfile"));
         options.push_back(std::pair<std::string, std::string>(KW_OUTPUT_FORMAT, "fis,fcl,cpp,java,dat"));
         options.push_back(std::pair<std::string, std::string>(KW_EXAMPLE, "(m)amdani,(t)akagi-sugeno"));
-        options.push_back(std::pair<std::string, std::string>(KW_DATA_RESOLUTION, "resolution"));
+        options.push_back(std::pair<std::string, std::string>(KW_DATA_RESOLUTION_VARIABLE, "resolution(variable)"));
+        options.push_back(std::pair<std::string, std::string>(KW_DATA_RESOLUTION_TOTAL, "resolution(total)"));
         options.push_back(std::pair<std::string, std::string>(KW_DATA_SEPARATOR, "separator"));
 
         std::ostringstream ss;
@@ -56,6 +57,9 @@ namespace fl {
     }
 
     std::map<std::string, std::string> Console::parse(int argc, char** argv) {
+        if ((argc - 1) % 2 != 0) {
+            throw fl::Exception("[option error] incomplete number of parameters [key value]", FL_AT);
+        }
         std::map<std::string, std::string> options;
         for (int i = 1; i < argc - 1; i += 2) {
             std::string key = std::string(argv[i]);
@@ -67,6 +71,22 @@ namespace fl {
             if (it->first.at(0) != '-') {
                 options[KW_INPUT_FILE] = it->first;
                 options[KW_OUTPUT_FILE] = it->second;
+            }
+        } else {
+            std::map<std::string, std::string> valid;
+            valid[KW_INPUT_FILE] = "inputfile";
+            valid[KW_INPUT_FORMAT] = "fis,fcl";
+            valid[KW_OUTPUT_FILE] = "outputfile";
+            valid[KW_OUTPUT_FORMAT] = "fis,fcl,cpp,java,dat";
+            valid[KW_EXAMPLE] = "(m)amdani,(t)akagi-sugeno";
+            valid[KW_DATA_RESOLUTION_VARIABLE] = "resolution(variable)";
+            valid[KW_DATA_RESOLUTION_TOTAL] = "resolution(total)";
+            valid[KW_DATA_SEPARATOR] = "separator";
+            for (std::map<std::string, std::string>::const_iterator it = options.begin();
+                    it != options.end(); ++it) {
+                if (valid.find(it->first) == valid.end()) {
+                    throw fl::Exception("[option error] option <" + it->first + "> not supported", FL_AT);
+                }
             }
         }
         return options;
@@ -174,6 +194,15 @@ namespace fl {
                     "not supported", FL_AT);
         }
 
+        Engine* engine = NULL;
+        try {
+            engine = importer->fromString(input);
+        } catch (fl::Exception& ex) {
+            if (engine) delete engine;
+            delete importer;
+            throw ex;
+        }
+
         Exporter* exporter;
         if ("fcl" == outputFormat) {
             exporter = new FclExporter;
@@ -192,9 +221,18 @@ namespace fl {
             }
 
             int resolution = 100;
-            it = options.find(KW_DATA_RESOLUTION);
+            it = options.find(KW_DATA_RESOLUTION_VARIABLE);
             if (it != options.end()) {
                 resolution = (int) Op::toScalar(it->second);
+            } else {
+                it = options.find(KW_DATA_RESOLUTION_TOTAL);
+                if (it != options.end()) {
+                    // r = s^i
+                    // s = e(log(r)/i)
+                    int total = (int) Op::toScalar(it->second);
+                    resolution = std::max(1, (int) round(std::exp(
+                            std::log(total) / engine->numberOfInputVariables())));
+                }
             }
             exporter = new DataExporter(separator, resolution);
         } else {
@@ -202,9 +240,7 @@ namespace fl {
                     "not supported", FL_AT);
         }
 
-        Engine* engine = NULL;
         try {
-            engine = importer->fromString(input);
             writer << exporter->toString(engine);
         } catch (fl::Exception& ex) {
             if (engine) delete engine;
@@ -247,6 +283,7 @@ namespace fl {
         engine->addRuleBlock(ruleblock);
 
         engine->configure("", "", "Minimum", "Maximum", "Centroid");
+
         return engine;
     }
 
@@ -307,6 +344,7 @@ namespace fl {
         engine->addRuleBlock(block);
 
         engine->configure("", "", "AlgebraicProduct", "", "WeightedAverage");
+
         return engine;
     }
 
@@ -318,8 +356,8 @@ namespace fl {
             return EXIT_SUCCESS;
         }
 
-        std::map<std::string, std::string> options = parse(argc, argv);
         try {
+            std::map<std::string, std::string> options = parse(argc, argv);
             process(options);
         } catch (fl::Exception& ex) {
             std::cout << ex.getWhat() << std::endl;

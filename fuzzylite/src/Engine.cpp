@@ -70,7 +70,6 @@ namespace fl {
         }
     }
 
-    
     void Engine::configure(const std::string& conjunctionT, const std::string& disjunctionS,
             const std::string& activationT, const std::string& accumulationS,
             const std::string& defuzzifier, int resolution) {
@@ -129,14 +128,10 @@ namespace fl {
                 if (not defuzzifier) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no defuzzifier\n";
-                    //TODO: if dynamic_cast<IntegralDefuzzifier> and accu is null
-                } else if (not (defuzzifier->className() == WeightedAverage().className()
-                        or defuzzifier->className() == WeightedSum().className())) {
-
-                    if (not outputVariable->output()->getAccumulation()) {
-                        ss << "- Output variable <" << outputVariable->getName() << ">"
-                                << " has no Accumulation\n";
-                    }
+                } else if (dynamic_cast<IntegralDefuzzifier*> (defuzzifier)
+                        and not outputVariable->output()->getAccumulation()) {
+                    ss << "- Output variable <" << outputVariable->getName() << ">"
+                            << " has no Accumulation\n";
                 }
             }
         }
@@ -160,12 +155,13 @@ namespace fl {
                         ss << "- Rule block <" << ruleblock->getName()
                                 << "> has a NULL rule at index <" << r << ">\n";
                     } else {
+                        std::size_t thenIndex = rule->getText().find(" " + Rule::thenKeyword() + " ");
                         std::size_t andIndex = rule->getText().find(" " + Rule::andKeyword() + " ");
                         std::size_t orIndex = rule->getText().find(" " + Rule::orKeyword() + " ");
-                        if (andIndex != std::string::npos) {
+                        if (andIndex != std::string::npos and andIndex < thenIndex) {
                             ++requiresConjunction;
                         }
-                        if (orIndex != std::string::npos) {
+                        if (orIndex != std::string::npos and orIndex < thenIndex) {
                             ++requiresDisjunction;
                         }
                     }
