@@ -382,7 +382,7 @@ namespace fl {
         std::istringstream tokenizer(spacedLine);
         std::string token;
         std::string name, termClass;
-        std::vector<std::string> strParams;
+        std::vector<std::string> parameters;
         while (tokenizer >> token) {
             if (state == S_KWTERM and token == "TERM") {
                 state = S_NAME;
@@ -400,7 +400,7 @@ namespace fl {
             if (state == S_TERMCLASS) {
                 if (fl::Op::isNumeric(token)) {
                     termClass = Constant().className();
-                    strParams.push_back(token);
+                    parameters.push_back(token);
                 } else if (token == "(") {
                     termClass = Discrete().className();
                 } else {
@@ -415,34 +415,36 @@ namespace fl {
                     continue;
                 }
                 if (token == ";") break;
-                strParams.push_back(fl::Op::trim(token));
+                parameters.push_back(fl::Op::trim(token));
             }
         }
         if (state <= S_ASSIGN)
             throw fl::Exception("[syntax error] malformed term in line: " + line, FL_AT);
 
-        std::vector<scalar> params;
+        std::vector<scalar> values;
         if (termClass != Function().className()) {
+            std::string parameter;
             try {
-                for (std::size_t i = 0; i < strParams.size(); ++i) {
-                    params.push_back(fl::Op::toScalar(strParams.at(i)));
+                for (std::size_t i = 0; i < parameters.size(); ++i) {
+                    parameter = parameters.at(i);
+                    values.push_back(fl::Op::toScalar(parameter));
                 }
             } catch (...) {
                 std::ostringstream ex;
                 ex << "[syntax error] expected numeric value, but found <"
-                        << token << "> in line: " << line;
+                        << parameter << "> in line: " << line;
                 throw fl::Exception(ex.str(), FL_AT);
             }
         }
 
         try {
-            Term * result = FactoryManager::instance()->term()->createInstance(termClass, params);
+            Term * result = FactoryManager::instance()->term()->createInstance(termClass, values);
             result->setName(fl::Op::format(name, fl::Op::isValidForName));
 
-            if (termClass == Function().className() and not strParams.empty()) {
+            if (termClass == Function().className() and not parameters.empty()) {
                 std::ostringstream ss;
-                for (std::size_t i = 0; i < strParams.size(); ++i) {
-                    ss << strParams.at(i);
+                for (std::size_t i = 0; i < parameters.size(); ++i) {
+                    ss << parameters.at(i);
                 }
                 std::string infix = ss.str();
                 if (infix.size() > 1 and infix.at(0) == '(' and infix.at(infix.size() - 1) == ')') {
