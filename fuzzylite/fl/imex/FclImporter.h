@@ -29,6 +29,7 @@
 
 #include <string>
 #include <vector>
+#include <utility>
 
 namespace fl {
     class Norm;
@@ -52,9 +53,9 @@ namespace fl {
         virtual Term* prepareTerm(Term* term, const Engine* engine) const;
         
         virtual Defuzzifier* extractDefuzzifier(const std::string& line) const;
-        virtual scalar extractDefaultValue(const std::string& line, bool& lockDefuzzifiedValue) const;
-        virtual void extractRange(const std::string& line, scalar& minimum, scalar& maximum) const;
-        virtual void extractLock(const std::string& line, bool& valid, bool& range) const ;
+        virtual std::pair<scalar, bool> extractDefaultValue(const std::string& line) const;
+        virtual std::pair<scalar, scalar> extractRange(const std::string& line) const;
+        virtual std::pair<bool, bool> extractLocksOutputRange(const std::string& line) const ;
 
     public:
         FclImporter();

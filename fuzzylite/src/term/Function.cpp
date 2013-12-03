@@ -235,10 +235,10 @@ namespace fl {
         //        this->_binaryOperators["|"] = new Operator("|", std::bit_or, p);
         --p; //Logical AND
         this->operators[fl::Rule::andKeyword()] =
-                new Operator(fl::Rule::andKeyword(), fl::Op::logical_and, p);
+                new Operator(fl::Rule::andKeyword(), fl::Op::logicalAnd, p);
         --p; //Logical OR
         this->operators[fl::Rule::orKeyword()] =
-                new Operator(fl::Rule::orKeyword(), fl::Op::logical_or, p);
+                new Operator(fl::Rule::orKeyword(), fl::Op::logicalOr, p);
     }
 
     void Function::loadBuiltInFunctions() {

@@ -71,8 +71,8 @@ namespace fl {
         static scalar multiply(scalar a, scalar b);
         static scalar divide(scalar a, scalar b);
         static scalar modulo(scalar a, scalar b);
-        static scalar logical_and(scalar a, scalar b);
-        static scalar logical_or(scalar a, scalar b);
+        static scalar logicalAnd(scalar a, scalar b);
+        static scalar logicalOr(scalar a, scalar b);
         static scalar negate(scalar a);
 
         static bool increment(std::vector<int>& x, std::vector<int>& min, std::vector<int>& max);

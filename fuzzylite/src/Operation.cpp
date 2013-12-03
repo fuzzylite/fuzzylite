@@ -99,11 +99,11 @@ namespace fl {
         return fmod(a, b);
     }
 
-    scalar Operation::logical_and(scalar a, scalar b) {
+    scalar Operation::logicalAnd(scalar a, scalar b) {
         return (isEq(a, 1.0) and isEq(b, 1.0)) ? 1.0 : 0.0;
     }
 
-    scalar Operation::logical_or(scalar a, scalar b) {
+    scalar Operation::logicalOr(scalar a, scalar b) {
         return (isEq(a, 1.0) or isEq(b, 1.0)) ? 1.0 : 0.0;
     }
 

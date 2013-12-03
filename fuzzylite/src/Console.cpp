@@ -228,10 +228,11 @@ namespace fl {
                 it = options.find(KW_DATA_RESOLUTION_TOTAL);
                 if (it != options.end()) {
                     // r = s^i
-                    // s = e(log(r)/i)
+                    // s = exp(log(r)/i) = r^(1/i)
+                    //TODO: do this in qtfuzzylite
                     int total = (int) Op::toScalar(it->second);
-                    resolution = std::max(1, (int) round(std::exp(
-                            std::log(total) / engine->numberOfInputVariables())));
+                    resolution = std::max(1, (int) round(
+                            std::pow(total, 1.0 / engine->numberOfInputVariables())));
                 }
             }
             exporter = new DataExporter(separator, resolution);
@@ -328,6 +329,7 @@ namespace fl {
         fl::OutputVariable* diffFx = new fl::OutputVariable("diffFx");
         diffFx->addTerm(fl::Function::create("diff", "fabs(outputFx-trueFx)", engine));
         diffFx->setRange(fl::nan, fl::nan);
+        //        diffFx->setLockValidOutput(true); //To use in input diffPreviousFx
         engine->addOutputVariable(diffFx);
 
         fl::RuleBlock* block = new fl::RuleBlock();
@@ -341,6 +343,7 @@ namespace fl {
         block->addRule(fl::Rule::parse("if inputX is NEAR_8 then outputFx = f8", engine));
         block->addRule(fl::Rule::parse("if inputX is NEAR_9 then outputFx = f9", engine));
         block->addRule(fl::Rule::parse("if inputX is any then trueFx = fx and diffFx = diff", engine));
+        //        block->addRule(fl::Rule::parse("if diffPreviousFx is any then trueFx = fx and diffFx = diff", engine));
         engine->addRuleBlock(block);
 
         engine->configure("", "", "AlgebraicProduct", "", "WeightedAverage");
