@@ -36,5 +36,8 @@ Version 4.0
 * Libraries and Console application are both built in folder bin/ (previously libraries were at lib/)
 * Removed Engine::toStringFis/Fcl/Cpp to encourage use of Fcl/Fis/CppExporters instead
 * Renamed Op::logical_and to Op::logicalAnd, Op::logical_or to Op::logicalOr
+* Added support to Fis/FclImporters to treat comments (%,#,//,/*) in fis and fcl files 
+* Created the Console application instead of previous demo
+
 
 

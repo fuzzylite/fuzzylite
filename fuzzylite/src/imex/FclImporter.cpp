@@ -58,6 +58,14 @@ namespace fl {
         try {
             while (std::getline(fclReader, line)) {
                 ++lineNumber;
+                std::size_t comment = line.find_first_of("//");
+                if (comment != std::string::npos){
+                    line = line.substr(0, comment);
+                }
+                comment = line.find_first_of("/*");
+                if (comment != std::string::npos){
+                    line = line.substr(0, comment);
+                }
                 line = Op::trim(line);
                 if (line.empty() or line.at(0) == '#')
                     continue;

@@ -50,9 +50,21 @@ namespace fl {
         std::vector<std::string> sections;
         while (std::getline(fisReader, line)) {
             ++lineNumber;
+            std::size_t comment = line.find_first_of("//");
+            if (comment != std::string::npos) {
+                line = line.substr(0, comment);
+            }
+            comment = line.find_first_of("/*");
+            if (comment != std::string::npos) {
+                line = line.substr(0, comment);
+            }
+            comment = line.find_first_of("#");
+            if (comment != std::string::npos) {
+                line = line.substr(0, comment);
+            }
             line = Op::trim(line);
             line = fl::Op::findReplace(line, "'", "");
-            if (line.empty() or line.at(0) == '#' or line.at(0) == '%')
+            if (line.empty()  or line.at(0) == '%')
                 continue;
 
             if ("[System]" == line.substr(0, std::string("[System]").size())
@@ -61,10 +73,11 @@ namespace fl {
                     or "[Rules]" == line.substr(0, std::string("[Rules]").size())) {
                 sections.push_back(line);
             } else {
-                if (sections.size() == 0) {
-                    throw fl::Exception("[import error] line  <" + line + "> does not belong to any section", FL_AT);
-                } else {
+                if (not sections.empty()) {
                     sections.at(sections.size() - 1) += "\n" + line;
+                } else {
+                    throw fl::Exception("[import error] line  <" + line + "> "
+                            "does not belong to any section", FL_AT);
                 }
             }
         }
@@ -81,17 +94,9 @@ namespace fl {
                 else if ("[Rules]" == sections.at(i).substr(0, std::string("[Rules]").size()))
                     importRules(sections.at(i), engine);
                 else
-                    throw fl::Exception("[importer error] unable to parse section: "
-                        + sections.at(i), FL_AT);
+                    throw fl::Exception("[import error] section <"
+                        + sections.at(i) + "> not recognized", FL_AT);
             }
-            //            if (engine->numberOfInputVariables() == 0
-            //                    and engine->numberOfOutputVariables() == 0
-            //                    and (engine->numberOfRuleBlocks() == 0
-            //                    or engine->getRuleBlock(0)->numberOfRules() == 0)) {
-            //                std::ostringstream ex;
-            //                ex << "[importer error] the FIS code introduced produces an empty engine";
-            //                throw fl::Exception(ex.str(), FL_AT);
-            //            }
             engine->configure(tnorm(andMethod), snorm(orMethod),
                     tnorm(impMethod), snorm(aggMethod),
                     defuzzifier(defuzzMethod));
