@@ -64,7 +64,7 @@ namespace fl {
             }
             line = Op::trim(line);
             line = fl::Op::findReplace(line, "'", "");
-            if (line.empty()  or line.at(0) == '%')
+            if (line.empty() or line.at(0) == '%')
                 continue;
 
             if ("[System]" == line.substr(0, std::string("[System]").size())
@@ -156,10 +156,9 @@ namespace fl {
 
             if (key == "Name") input->setName(fl::Op::format(value, fl::Op::isValidForName));
             else if (key == "Range") {
-                scalar minimum, maximum;
-                extractRange(value, minimum, maximum);
-                input->setMinimum(minimum);
-                input->setMaximum(maximum);
+                std::pair<scalar, scalar> minmax = extractRange(value);
+                input->setMinimum(minmax.first);
+                input->setMaximum(minmax.second);
             } else if (key.substr(0, 2) == "MF") {
                 input->addTerm(prepareTerm(extractTerm(value), engine));
             } else if (key == "NumMFs") {
@@ -189,10 +188,9 @@ namespace fl {
 
             if (key == "Name") output->setName(fl::Op::format(value, fl::Op::isValidForName));
             else if (key == "Range") {
-                scalar minimum, maximum;
-                extractRange(value, minimum, maximum);
-                output->setMinimum(minimum);
-                output->setMaximum(maximum);
+                std::pair<scalar, scalar> minmax = extractRange(value);
+                output->setMinimum(minmax.first);
+                output->setMaximum(minmax.second);
             } else if (key.substr(0, 2) == "MF") {
                 output->addTerm(prepareTerm(extractTerm(value), engine));
             } else if (key == "Default") {
@@ -234,20 +232,27 @@ namespace fl {
             outputs.erase(outputs.begin() + outputs.size() - 1);
             std::string connector = fl::Op::trim(outputsAndRest.at(1));
 
-            if ((int) inputs.size() != engine->numberOfInputVariables())
-                throw fl::Exception("[syntax error] missing input variables in rule <"
-                    + line + ">", FL_AT);
-
-            if ((int) outputs.size() != engine->numberOfOutputVariables())
-                throw fl::Exception("[syntax error] missing output variables in rule <"
-                    + line + ">", FL_AT);
+            if ((int) inputs.size() != engine->numberOfInputVariables()) {
+                std::ostringstream ss;
+                ss << "[syntax error] expected <" << engine->numberOfInputVariables() << ">"
+                        " input variables, but found <" << inputs.size() << ">"
+                        " input variables in rule <" << line << ">";
+                throw fl::Exception(ss.str(), FL_AT);
+            }
+            if ((int) outputs.size() != engine->numberOfOutputVariables()) {
+                std::ostringstream ss;
+                ss << "[syntax error] expected <" << engine->numberOfOutputVariables() << ">"
+                        " output variables, but found <" << outputs.size() << ">"
+                        " output variables in rule <" << line << ">";
+                throw fl::Exception(ss.str(), FL_AT);
+            }
 
             std::vector<std::string> antecedent, consequent;
 
             for (std::size_t i = 0; i < inputs.size(); ++i) {
-                std::ostringstream ss;
                 scalar inputCode = fl::Op::toScalar(inputs.at(i));
                 if (fl::Op::isEq(inputCode, 0.0)) continue;
+                std::ostringstream ss;
                 ss << engine->getInputVariable(i)->getName() << " "
                         << fl::Rule::FL_IS << " "
                         << translateProposition(inputCode, engine->getInputVariable(i));
@@ -255,9 +260,9 @@ namespace fl {
             }
 
             for (std::size_t i = 0; i < outputs.size(); ++i) {
-                std::ostringstream ss;
                 scalar outputCode = fl::Op::toScalar(outputs.at(i));
                 if (fl::Op::isEq(outputCode, 0.0)) continue;
+                std::ostringstream ss;
                 ss << engine->getOutputVariable(i)->getName() << " "
                         << fl::Rule::FL_IS << " "
                         << translateProposition(outputCode, engine->getOutputVariable(i));
@@ -296,13 +301,14 @@ namespace fl {
 
             scalar weight = fl::Op::toScalar(ss.str());
             if (not fl::Op::isEq(weight, 1.0))
-                rule << " " << fl::Rule::FL_WITH << " " << weight;
+                rule << " " << fl::Rule::FL_WITH << " " << Op::str(weight);
 
             ruleblock->addRule(fl::Rule::parse(rule.str(), engine));
         }
     }
 
     std::string FisImporter::translateProposition(scalar code, Variable* variable) const {
+        //TODO: Change to jfuzzylite's method of int/fracParts
         scalar intPartScalar;
         scalar fracPart = std::abs(std::modf(code, &intPartScalar));
         int intPart = (int) std::abs(intPartScalar) - 1;
@@ -329,26 +335,24 @@ namespace fl {
     }
 
     std::string FisImporter::tnorm(const std::string & name) const {
-        std::string className = name;
-        if (name == "min") className = Minimum().className();
-        else if (name == "prod") className = AlgebraicProduct().className();
-        else if (name == "bounded_difference") className = BoundedDifference().className();
-        else if (name == "drastic_product") className = DrasticProduct().className();
-        else if (name == "einstein_product") className = EinsteinProduct().className();
-        else if (name == "hamacher_product") className = HamacherProduct().className();
-        return className;
+        if (name == "min") return Minimum().className();
+        else if (name == "prod") return AlgebraicProduct().className();
+        else if (name == "bounded_difference") return BoundedDifference().className();
+        else if (name == "drastic_product") return DrasticProduct().className();
+        else if (name == "einstein_product") return EinsteinProduct().className();
+        else if (name == "hamacher_product") return HamacherProduct().className();
+        return name;
     }
 
     std::string FisImporter::snorm(const std::string & name) const {
-        std::string className = name;
-        if (name == "max") className = Maximum().className();
-        else if (name == "sum" or name == "probor") className = AlgebraicSum().className();
-        else if (name == "bounded_sum") className = BoundedSum().className();
-        else if (name == "normalized_sum") className = NormalizedSum().className();
-        else if (name == "drastic_sum") className = DrasticSum().className();
-        else if (name == "einstein_sum") className = EinsteinSum().className();
-        else if (name == "hamacher_sum") className = HamacherSum().className();
-        return className;
+        if (name == "max") return Maximum().className();
+        else if (name == "sum" or name == "probor") return AlgebraicSum().className();
+        else if (name == "bounded_sum") return BoundedSum().className();
+        else if (name == "normalized_sum") return NormalizedSum().className();
+        else if (name == "drastic_sum") return DrasticSum().className();
+        else if (name == "einstein_sum") return EinsteinSum().className();
+        else if (name == "hamacher_sum") return HamacherSum().className();
+        return name;
     }
 
     std::string FisImporter::defuzzifier(const std::string & name) const {
@@ -360,6 +364,21 @@ namespace fl {
         if (name == "wtaver") return WeightedAverage().className();
         if (name == "wtsum") return WeightedSum().className();
         return name;
+    }
+
+    std::pair<scalar, scalar> FisImporter::extractRange(const std::string& range) const {
+        std::vector<std::string> parts = fl::Op::split(range, " ");
+        if (parts.size() != 2)
+            throw fl::Exception("[syntax error] expected range in format '[begin end]',"
+                " but found <" + range + ">", FL_AT);
+        std::string begin = parts.at(0), end = parts.at(1);
+        if (begin.at(0) != '[' or end.at(end.size() - 1) != ']')
+            throw fl::Exception("[syntax error] expected range in format '[begin end]',"
+                " but found <" + range + ">", FL_AT);
+        std::pair<scalar, scalar> result;
+        result.first = fl::Op::toScalar(begin.substr(1));
+        result.second = fl::Op::toScalar(end.substr(0, end.size() - 1));
+        return result;
     }
 
     Term * FisImporter::extractTerm(const std::string & fis) const {
@@ -374,7 +393,7 @@ namespace fl {
         std::vector<std::string> nameTerm = fl::Op::split(line, ":");
         if (nameTerm.size() != 2) {
             throw fl::Exception("[syntax error] expected term in format 'name':'class',[params], "
-                    "but found " + line, FL_AT);
+                    "but found <" + line + ">", FL_AT);
         }
         std::vector<std::string> termParams = fl::Op::split(nameTerm.at(1), ",");
         if (termParams.size() != 2) {
@@ -382,12 +401,14 @@ namespace fl {
                     "but found " + line, FL_AT);
         }
 
-        std::vector<std::string> strParams = fl::Op::split(termParams.at(1), " ");
-        for (std::size_t i = 0; i < strParams.size(); ++i) {
-            strParams.at(i) = fl::Op::trim(strParams.at(i));
+        std::vector<std::string> parameters = fl::Op::split(termParams.at(1), " ");
+        for (std::size_t i = 0; i < parameters.size(); ++i) {
+            parameters.at(i) = fl::Op::trim(parameters.at(i));
         }
-        return createInstance(fl::Op::trim(termParams.at(0)), fl::Op::trim(nameTerm.at(0)),
-                strParams);
+        return createInstance(
+                fl::Op::trim(termParams.at(0)),
+                fl::Op::trim(nameTerm.at(0)),
+                parameters);
     }
 
     Term* FisImporter::prepareTerm(Term* term, const Engine* engine) const {
@@ -399,7 +420,8 @@ namespace fl {
         } else if (term->className() == Function().className()) {
             Function* function = dynamic_cast<Function*> (term);
             function->setEngine(engine);
-            function->loadBuiltInFunctions();
+            //function->loadBuiltInFunctions();
+            //builtin functions are loaded from TermFactory calling Function::create
             function->load();
         }
         return term;
@@ -482,16 +504,5 @@ namespace fl {
         }
     }
 
-    void FisImporter::extractRange(const std::string& range, scalar& minimum, scalar & maximum) const {
-        std::vector<std::string> parts = fl::Op::split(range, " ");
-        if (parts.size() != 2)
-            throw fl::Exception("[syntax error] expected range in format '[begin end]',"
-                " but found <" + range + ">", FL_AT);
-        std::string begin = parts.at(0), end = parts.at(1);
-        if (begin.at(0) != '[' or end.at(end.size() - 1) != ']')
-            throw fl::Exception("[syntax error] expected range in format '[begin end]',"
-                " but found <" + range + ">", FL_AT);
-        minimum = fl::Op::toScalar(begin.substr(1));
-        maximum = fl::Op::toScalar(end.substr(0, end.size() - 1));
-    }
+
 }

@@ -25,9 +25,8 @@
 
 #include "fl/imex/Importer.h"
 
-
-
 #include <vector>
+#include <utility>
 
 namespace fl {
     class Norm;
@@ -58,7 +57,7 @@ namespace fl {
         virtual Term* prepareTerm(Term* term, const Engine* engine) const ;
         virtual Term* createInstance(const std::string& termClass, const std::string& name,
                 const std::vector<std::string>& params) const;
-        virtual void extractRange(const std::string& range, scalar& minimum, scalar& maximum) const;
+        virtual std::pair<scalar,scalar> extractRange(const std::string& range) const;
 
     public:
         FisImporter();
