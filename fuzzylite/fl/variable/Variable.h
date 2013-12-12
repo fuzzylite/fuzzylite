@@ -65,6 +65,7 @@ namespace fl {
         virtual std::string getName() const;
 
         virtual void setRange(scalar minimum, scalar maximum);
+        virtual scalar range() const;
 
         virtual void setMinimum(scalar minimum);
         virtual scalar getMinimum() const;

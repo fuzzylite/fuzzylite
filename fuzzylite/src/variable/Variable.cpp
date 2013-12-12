@@ -63,6 +63,10 @@ namespace fl {
         setMaximum(maximum);
     }
 
+    scalar Variable::range() const {
+        return this->_maximum - this->_minimum;
+    }
+
     void Variable::setMinimum(scalar minimum) {
         this->_minimum = minimum;
     }

@@ -98,7 +98,7 @@ namespace fl {
                 toString(outputVariable->getDefaultValue()) << ");\n";
         ss << "outputVariable" << index << ".setDefuzzifier(" <<
                 toString(outputVariable->getDefuzzifier()) << ");\n";
-        ss << "outputVariable" << index << ".getOutput().setAccumulation(" <<
+        ss << "outputVariable" << index << ".output().setAccumulation(" <<
                 toString(outputVariable->output()->getAccumulation()) << ");\n";
 
         for (int i = 0; i < outputVariable->numberOfTerms(); ++i) {
