@@ -5,6 +5,7 @@ src/defuzzifier/Centroid.cpp
 src/defuzzifier/SmallestOfMaximum.cpp
 src/defuzzifier/LargestOfMaximum.cpp
 src/defuzzifier/MeanOfMaximum.cpp
+src/defuzzifier/Tsukamoto.cpp
 src/defuzzifier/WeightedAverage.cpp
 src/defuzzifier/WeightedSum.cpp
 src/Exception.cpp
