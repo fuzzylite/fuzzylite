@@ -38,6 +38,6 @@ Version 4.0
 * Renamed Op::logical_and to Op::logicalAnd, Op::logical_or to Op::logicalOr
 * Added support to Fis/FclImporters to treat comments (%,#,//,/*) in fis and fcl files 
 * Created the Console application instead of previous demo
-
+* Added Variable::range() to return (maximum - minimum)
 
 

@@ -231,8 +231,8 @@ namespace fl {
                     // s = exp(log(r)/i) = r^(1/i)
                     //TODO: do this in qtfuzzylite
                     int total = (int) Op::toScalar(it->second);
-                    resolution = std::max(1, (int) round(
-                            std::pow(total, 1.0 / engine->numberOfInputVariables())));
+                    resolution = std::max(1, -1 + (int) (std::pow(
+                            total, 1.0 / engine->numberOfInputVariables())));
                 }
             }
             exporter = new DataExporter(separator, resolution);

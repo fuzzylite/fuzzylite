@@ -1660,36 +1660,30 @@ namespace fl {
 
         void Window::onMenuExportToDataView() {
             QSettings settings;
-            int minVariableResolution =
-                    settings.value("view/minVariableResolution", 10).toInt();
-            int maxVariableResolution =
-                    settings.value("view/maxVariableResolution", 1000).toInt();
+            int minResolution =
+                    settings.value("view/minVariableResolution", 5).toInt();
+            int maxResolution =
+                    settings.value("view/maxVariableResolution", 1000000000).toInt();
             bool ok;
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-            int resolution = QInputDialog::getInteger(this,
-                    "Resolution of Input Variable",
-                    "Please, specify the number of samples $s$ to perform for each input variable,\n"
-                    "but have in mind that the number of results $r$ grow exponentially\n"
-                    "according to the number of input variables $i$ as follows: $r=s^i$.\n"
-                    "Therefore, exporting the data may take a while depending on $s$ and $i$.\n"
-                    "For a large number of results, it is better to export the data to a file.",
-                    50, minVariableResolution, maxVariableResolution, 10, &ok);
+            int results = QInputDialog::getInteger(this,
+                    "Number of Results",
+                    "Please, specify the number of results you want to produce:",
+                    50, minResolution, maxResolution, 10, &ok);
 #else
-            int resolution = QInputDialog::getInt(this,
-                    "Resolution of Input Variable",
-                    "Please, specify the number of samples $s$ to perform for each input variable,\n"
-                    "but have in mind that the number of results $r$ grow exponentially\n"
-                    "according to the number of input variables $i$ as follows: $r=s^i$.\n"
-                    "Therefore, exporting the data may take a while depending on $s$ and $i$.\n"
-                    "For a large number of results, it is better to export the data to a file.",
-                    50, minVariableResolution, maxVariableResolution, 10, &ok);
+            int results = QInputDialog::getInt(this,
+                    "Number of Results",
+                    "Please, specify the number of results you want to produce:",
+                    50, minResolution, maxResolution, 10, &ok);
 #endif
             if (not ok) {
                 return;
             }
 
-            DataExporter exporter(" ", resolution);
+            DataExporter exporter(" ");
+            exporter.setResolution(std::max(1, -1 +(int) (std::pow(results,
+                    1.0 / Model::Default()->engine()->numberOfInputVariables()))));
             std::string data;
             try {
                 data = exporter.toString(Model::Default()->engine());
@@ -1733,28 +1727,22 @@ namespace fl {
             if (filename.size() == 0) return;
             settings.setValue("file/recentDataLocation", QFileInfo(filename).absoluteFilePath());
 
-            int minVariableResolution =
-                    settings.value("view/minVariableResolution", 10).toInt();
-            int maxVariableResolution =
-                    settings.value("view/maxVariableResolution", 1000).toInt();
+            int minResolution =
+                    settings.value("view/minVariableResolution", 5).toInt();
+            int maxResolution =
+                    settings.value("view/maxVariableResolution", 1000000000).toInt();
             bool ok;
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-            int resolution = QInputDialog::getInteger(this,
-                    "Resolution of Input Variable",
-                    "Please, specify the number of samples $s$ to perform for each input variable,\n"
-                    "but have in mind that the number of results $r$ grow exponentially\n"
-                    "according to the number of input variables $i$ as follows: $r=s^i$.\n"
-                    "Therefore, exporting the data may take a while depending on $s$ and $i$.",
-                    50, minVariableResolution, maxVariableResolution, 10, &ok);
+            int results = QInputDialog::getInteger(this,
+                    "Number of Results",
+                    "Please, specify the number of results you want to produce:",
+                    50, minResolution, maxResolution, 10, &ok);
 #else
-            int resolution = QInputDialog::getInt(this,
-                    "Resolution of Input Variable",
-                    "Please, specify the number of samples $s$ to perform for each input variable,\n"
-                    "but have in mind that the number of results $r$ grow exponentially\n"
-                    "according to the number of input variables $i$ as follows: $r=s^i$.\n"
-                    "Therefore, exporting the data may take a while depending on $s$ and $i$.",
-                    50, minVariableResolution, maxVariableResolution, 10, &ok);
+            int results = QInputDialog::getInt(this,
+                    "Number of Results",
+                    "Please, specify the number of results you want to produce:",
+                    50, minResolution, maxResolution, 10, &ok);
 #endif
             if (not ok) {
                 return;
@@ -1770,7 +1758,9 @@ namespace fl {
                 return;
             }
 
-            DataExporter exporter(" ", resolution);
+            DataExporter exporter(" ");
+            int resolution = std::max(1, -1 + (int) (std::pow(results,
+                    1.0 / Model::Default()->engine()->numberOfInputVariables())));
             try {
                 exporter.toWriter(Model::Default()->engine(), dataFile, " ", resolution);
             } catch (fl::Exception& ex) {

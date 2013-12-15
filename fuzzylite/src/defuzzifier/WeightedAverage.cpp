@@ -65,7 +65,8 @@ namespace fl {
             plus provide tsukamoto**/
 
             scalar w = thresholded->getThreshold();
-            scalar z = Tsukamoto::tsukamoto(thresholded, takagiSugeno->getMinimum(), takagiSugeno->getMaximum());
+            scalar z = Tsukamoto::tsukamoto(thresholded, 
+                    takagiSugeno->getMinimum(), takagiSugeno->getMaximum());
             sum += w * z;
             weights += w;
         }

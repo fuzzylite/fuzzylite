@@ -17,12 +17,15 @@
 
 #include "fl/term/Accumulated.h"
 #include "fl/term/Thresholded.h"
+#include "fl/defuzzifier/Tsukamoto.h"
 
 namespace fl {
 
-    WeightedSum::WeightedSum() : Defuzzifier() { }
+    WeightedSum::WeightedSum() : Defuzzifier() {
+    }
 
-    WeightedSum::~WeightedSum() { }
+    WeightedSum::~WeightedSum() {
+    }
 
     std::string WeightedSum::className() const {
         return "WeightedSum";
@@ -57,16 +60,17 @@ namespace fl {
             sum += thresholded->getThreshold() * thresholded->getTerm()->membership(0);
             so replacing 0 with threshold w will give the same for takagi-sugeno, 
             plus provide tsukamoto**/
-            
-            scalar z = thresholded->getTerm()->membership(thresholded->getThreshold());
-            
+
+            scalar z = Tsukamoto::tsukamoto(thresholded, 
+                    takagiSugeno->getMinimum(), takagiSugeno->getMaximum());
+
             sum += thresholded->getThreshold() * z;
         }
 
         return sum;
     }
-    
-    Defuzzifier* WeightedSum::constructor(){
+
+    Defuzzifier* WeightedSum::constructor() {
         return new WeightedSum;
     }
 

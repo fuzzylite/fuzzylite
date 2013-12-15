@@ -1,3 +1,17 @@
+/*   Copyright 2013 Juan Rada-Vilela
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 
 #include "fl/defuzzifier/Tsukamoto.h"
 
@@ -54,27 +68,30 @@ namespace fl {
 
         } else if ((zshape = dynamic_cast<const ZShape*> (monotonic))) {
             scalar difference = zshape->getEnd() - zshape->getStart();
-            scalar a = zshape->getStart() + std::sqrt(difference * difference * (w - 1) / -2.0);
-            scalar b = zshape->getEnd() + std::sqrt(difference * difference * w / 2.0);
+            scalar a = zshape->getStart() + std::sqrt(difference * difference * (w - 1.0) / -2.0);
+            scalar b = zshape->getEnd() + std::sqrt(w * difference * difference / 2.0);
             if (Op::isLE(std::fabs(w - monotonic->membership(a)),
                     std::fabs(w - monotonic->membership(b)))) {
                 z = a;
             } else {
                 z = b;
             }
-
-        } else {
-            //This will work as an Inverse Tsukamoto.
-            z = monotonic->membership(term->getThreshold());
         }
-
-        scalar fz = monotonic->membership(z);
-        if (not Op::isEq(w, fz, fuzzylite::macheps() * 1e-2)) {
-            FL_LOG("[tsukamoto error] expected w=f(z) in " << monotonic->className() <<
-                    " term <" << monotonic->getName() << ">, but "
-                    "w=" << term->getThreshold() << " "
-                    "f(z)=" << fz << " "
-                    "z=" << Op::str(z) << " (inaccurate computation of z)");
+        
+        if (not Op::isNan(z)) {
+            //Compare difference between estimated and true value
+            scalar fz = monotonic->membership(z);
+            if (not Op::isEq(w, fz, fuzzylite::macheps() * 1e-2)) {
+                FL_LOG("[tsukamoto warning] inaccurate computation of z because "
+                        "expected w=f(z) in " << monotonic->className() <<
+                        " term <" << monotonic->getName() << ">, but "
+                        "w=" << term->getThreshold() << " "
+                        "f(z)=" << fz << " and "
+                        "z=" << Op::str(z));
+            }
+        } else {
+//            else if it is not a Tsukamoto controller, then fallback to the inverse Tsukamoto
+            z = monotonic->membership(term->getThreshold());
         }
         return z;
     }
