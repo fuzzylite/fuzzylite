@@ -64,6 +64,9 @@ namespace fl {
             ui->btn_name->setEnabled(true);
             QObject::connect(ui->btn_name, SIGNAL(clicked()),
                     this, SLOT(onClickVariableName()));
+            ui->sld_x->setEnabled(variable->isEnabled());
+            ui->sbx_x->setEnabled(variable->isEnabled());
+            ui->led_x->setEnabled(variable->isEnabled());
             if (dynamic_cast<fl::OutputVariable*> (variable)) {
                 ui->sld_x->setEnabled(false);
                 ui->sbx_x->setVisible(false);

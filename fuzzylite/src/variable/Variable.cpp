@@ -32,13 +32,14 @@
 namespace fl {
 
     Variable::Variable(const std::string& name, scalar minimum, scalar maximum)
-    : _name(name), _minimum(minimum), _maximum(maximum) {
+    : _name(name), _minimum(minimum), _maximum(maximum), _enabled(true) {
     }
 
     Variable::Variable(const Variable& copy) {
         this->_name = copy._name;
         this->_minimum = copy._minimum;
         this->_maximum = copy._maximum;
+        this->_enabled = copy._enabled;
         for (int i = 0; i < copy.numberOfTerms(); ++i) {
             addTerm(copy.getTerm(i)->copy());
         }
@@ -81,6 +82,14 @@ namespace fl {
 
     scalar Variable::getMaximum() const {
         return this->_maximum;
+    }
+
+    void Variable::setEnabled(bool enabled) {
+        this->_enabled = enabled;
+    }
+
+    bool Variable::isEnabled() const {
+        return this->_enabled;
     }
 
     std::string Variable::fuzzify(scalar x) const {

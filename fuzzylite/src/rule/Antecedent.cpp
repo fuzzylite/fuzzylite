@@ -57,9 +57,12 @@ namespace fl {
 
     scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction,
             const Expression* node) const {
-        if (not node->isOperator) { //is Proposition
+        if (not node->isOperator) { //then it is a Proposition
             const Proposition* proposition =
                     dynamic_cast<const Proposition*> (node);
+            if (not proposition->variable->isEnabled()){
+                return 0.0;
+            }
             bool isAny = false;
             for (std::size_t i = 0; i < proposition->hedges.size(); ++i) {
                 isAny |= proposition->hedges.at(i)->name() == Any().name();

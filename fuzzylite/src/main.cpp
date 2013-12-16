@@ -60,6 +60,7 @@ void exportAllExamples(const std::string& from, const std::string& to) {
     examples.push_back("/mamdani/matlab/tipper1");
     examples.push_back("/mamdani/octave/investment_portfolio");
     examples.push_back("/mamdani/octave/mamdani_tip_calculator");
+    examples.push_back("/takagi-sugeno/References");
     examples.push_back("/takagi-sugeno/SimpleDimmer");
     examples.push_back("/takagi-sugeno/matlab/fpeaks");
     examples.push_back("/takagi-sugeno/matlab/invkine1");
@@ -79,6 +80,7 @@ void exportAllExamples(const std::string& from, const std::string& to) {
     examples.push_back("/takagi-sugeno/octave/heart_disease_risk");
     examples.push_back("/takagi-sugeno/octave/linear_tip_calculator");
     examples.push_back("/takagi-sugeno/octave/sugeno_tip_calculator");
+    examples.push_back("/tsukamoto");
 
     std::string sourceBase = "/home/jcrada/Development/fuzzylite/examples/" + from;
     std::string targetBase = "/home/jcrada/Development/fuzzylite/examples/" + to;

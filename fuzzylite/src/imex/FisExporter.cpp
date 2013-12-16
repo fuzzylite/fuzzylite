@@ -242,7 +242,7 @@ namespace fl {
         for (std::size_t ixVariable = 0; ixVariable < variables.size(); ++ixVariable) {
             Variable* variable = variables.at(ixVariable);
             int termIndexPlusOne = 0;
-            scalar plusHedge = 0;
+            int plusHedge = 0;
             scalar negated = 1;
             for (std::size_t ixProposition = 0; ixProposition < propositions.size(); ++ixProposition) {
                 Proposition* proposition = propositions.at(ixProposition);
@@ -267,15 +267,18 @@ namespace fl {
                     else if (hedge->name() == Somewhat().name()) plusHedge += 5;
                     else if (hedge->name() == Extremely().name()) plusHedge += 3;
                     else if (hedge->name() == Very().name()) plusHedge += 2;
-                    else plusHedge = fl::nan;
+                    else plusHedge = -1; //Unreconized hedge combination (e.g. Any)
                 }
 
                 break;
             }
             if (negated < 0) ss << "-";
             ss << termIndexPlusOne;
-            if (not fl::Op::isEq(plusHedge, 0.0))
+            if (fl::Op::isGE(plusHedge, 0.0)){
                 ss << "." << fl::Op::str(plusHedge, 0);
+            }else{
+                ss << ".?"; // Unreconized hedge combination
+            }
             ss << " ";
         }
         return ss.str();

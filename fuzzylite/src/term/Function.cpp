@@ -479,7 +479,7 @@ namespace fl {
         } else {
             result = value;
         }
-        FL_DBG(toPostfix() << " = " << result);
+//        FL_DBG(toPostfix() << " = " << result);
         return result;
     }
 

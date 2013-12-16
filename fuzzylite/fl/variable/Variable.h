@@ -42,6 +42,7 @@ namespace fl {
         std::string _name;
         std::vector<Term*> _terms;
         scalar _minimum, _maximum;
+        bool _enabled;
 
         struct SortByCoG {
             std::map<const Term*, scalar> centroids;
@@ -72,6 +73,9 @@ namespace fl {
 
         virtual void setMaximum(scalar maximum);
         virtual scalar getMaximum() const;
+        
+        virtual void setEnabled(bool enabled);
+        virtual bool isEnabled() const ;
 
         virtual std::string fuzzify(scalar x) const;
         virtual Term* highestMembership(scalar x, scalar* yhighest = NULL) const;

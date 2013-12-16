@@ -44,15 +44,13 @@ namespace fl {
 
         fcl << "VAR_INPUT\n";
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
-            fcl << "  " << engine->getInputVariable(i)->getName() << ": REAL;"
-                    << "\n";
+            fcl << "  " << engine->getInputVariable(i)->getName() << ": REAL;\n";
         }
         fcl << "END_VAR\n\n";
 
         fcl << "VAR_OUTPUT\n";
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-            fcl << "  " << engine->getOutputVariable(i)->getName() << ": REAL;"
-                    << "\n";
+            fcl << "  " << engine->getOutputVariable(i)->getName() << ": REAL;\n";
         }
         fcl << "END_VAR\n\n";
 
@@ -83,14 +81,11 @@ namespace fl {
                 fcl << "  " << "TERM " << term->getName() << " := " << toString(term)
                         << ";\n";
             }
-            fcl << "\n";
-
-            fcl << "  " << "METHOD : " << toString(outputVariable->getDefuzzifier()) << ";"
-                    << "\n";
-
+            if (outputVariable->getDefuzzifier()) {
+                fcl << "  " << "METHOD : " << toString(outputVariable->getDefuzzifier()) << ";\n";
+            }
             if (outputVariable->output()->getAccumulation())
-                fcl << "  " << "ACCU : " << toString(outputVariable->output()->getAccumulation())
-                << ";\n";
+                fcl << "  " << "ACCU : " << toString(outputVariable->output()->getAccumulation()) << ";\n";
 
             fcl << "  " << "DEFAULT := " << fl::Op::str(outputVariable->getDefaultValue());
             if (outputVariable->isLockingValidOutput()) {
@@ -125,8 +120,6 @@ namespace fl {
                 fcl << "  " << "OR : " << toString(ruleblock->getDisjunction()) << ";\n";
             if (ruleblock->getActivation())
                 fcl << "  " << "ACT : " << toString(ruleblock->getActivation()) << ";\n";
-
-            fcl << "\n";
 
             for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
                 fcl << "  " << "RULE " << (r + 1) << " : " <<

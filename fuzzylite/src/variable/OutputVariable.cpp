@@ -99,7 +99,7 @@ namespace fl {
 
     scalar OutputVariable::defuzzify() {
         scalar result = fl::nan;
-        bool isValid = not this->_output->isEmpty();
+        bool isValid = this->_enabled and not this->_output->isEmpty();
         if (isValid) {
             result = this->_defuzzifier->defuzzify(this->_output, _minimum, _maximum);
         } else {
@@ -123,7 +123,7 @@ namespace fl {
 
     scalar OutputVariable::defuzzifyNoLocks() const {
         scalar result = fl::nan;
-        bool isValid = not this->_output->isEmpty();
+        bool isValid = this->_enabled and not this->_output->isEmpty();
         if (isValid) {
             result = this->_defuzzifier->defuzzify(_output, _minimum, _maximum);
         } else {

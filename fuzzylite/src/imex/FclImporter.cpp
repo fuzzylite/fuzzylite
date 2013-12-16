@@ -58,13 +58,14 @@ namespace fl {
         try {
             while (std::getline(fclReader, line)) {
                 ++lineNumber;
-                std::size_t comment = line.find_first_of("//");
-                if (comment != std::string::npos){
-                    line = line.substr(0, comment);
+                std::vector<std::string> comments;
+                comments = Op::split(line, "//");
+                if ((int) comments.size() > 1) {
+                    line = comments.front();
                 }
-                comment = line.find_first_of("/*");
-                if (comment != std::string::npos){
-                    line = line.substr(0, comment);
+                comments = Op::split(line, "/*");
+                if ((int) comments.size() > 1) {
+                    line = comments.front();
                 }
                 line = Op::trim(line);
                 if (line.empty() or line.at(0) == '#')
@@ -263,7 +264,8 @@ namespace fl {
             } else if (firstToken == "DEFAULT") {
                 std::pair<scalar, bool> defaultAndLock = extractDefaultValue(line);
                 outputVariable->setDefaultValue(defaultAndLock.first);
-                outputVariable->setLockValidOutput(defaultAndLock.second);
+                outputVariable->setLockValidOutput(defaultAndLock.second or
+                        outputVariable->isLockingValidOutput());
             } else if (firstToken == "RANGE") {
                 std::pair<scalar, scalar> minmax = extractRange(line);
                 outputVariable->setMinimum(minmax.first);

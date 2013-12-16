@@ -59,6 +59,9 @@ namespace fl {
     void Consequent::modify(scalar strength, const TNorm* activation) {
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
             Proposition* proposition = _conclusions.at(i);
+            if (not proposition->variable->isEnabled()){
+                continue;
+            }
             scalar threshold = strength;
             for (std::size_t h = 0; h < proposition->hedges.size(); ++h) {
                 threshold = proposition->hedges.at(h)->hedge(threshold);

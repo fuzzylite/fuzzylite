@@ -50,17 +50,14 @@ namespace fl {
         std::vector<std::string> sections;
         while (std::getline(fisReader, line)) {
             ++lineNumber;
-            std::size_t comment = line.find_first_of("//");
-            if (comment != std::string::npos) {
-                line = line.substr(0, comment);
+            std::vector<std::string> comments;
+            comments = Op::split(line, "//");
+            if ((int) comments.size() > 1) {
+                line = comments.front();
             }
-            comment = line.find_first_of("/*");
-            if (comment != std::string::npos) {
-                line = line.substr(0, comment);
-            }
-            comment = line.find_first_of("#");
-            if (comment != std::string::npos) {
-                line = line.substr(0, comment);
+            comments = Op::split(line, "/*");
+            if ((int) comments.size() > 1) {
+                line = comments.front();
             }
             line = Op::trim(line);
             line = fl::Op::findReplace(line, "'", "");

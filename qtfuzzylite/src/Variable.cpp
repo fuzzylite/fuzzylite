@@ -75,6 +75,8 @@ namespace fl {
             setWindowTitle("Add variable");
 
             ui->gbx_output->setVisible(type == OUTPUT_VARIABLE);
+            
+            ui->cbx_enabled->setChecked(true);
 
             std::vector<std::string> accumulation = FactoryManager::instance()->snorm()->available();
             ui->cbx_accumulation->addItem("");
@@ -161,6 +163,7 @@ namespace fl {
 
             setWindowTitle("Edit variable");
             ui->led_name->setText(QString::fromStdString(inputVariable->getName()));
+            ui->cbx_enabled->setChecked(inputVariable->isEnabled());
             reloadModel();
         }
 
@@ -177,6 +180,7 @@ namespace fl {
 
             setWindowTitle("Edit variable");
             ui->led_name->setText(QString::fromStdString(outputVariable->getName()));
+            ui->cbx_enabled->setChecked(outputVariable->isEnabled());
 
             OutputVariable* editable = dynamic_cast<OutputVariable*> (this->variable);
             editable->setDefaultValue(outputVariable->getDefaultValue());
@@ -255,6 +259,7 @@ namespace fl {
             }
             variable->setName(fl::Op::format(ui->led_name->text().toStdString(),
                     fl::Op::isValidForName));
+            variable->setEnabled(ui->cbx_enabled->isChecked());
             QDialog::accept();
         }
 

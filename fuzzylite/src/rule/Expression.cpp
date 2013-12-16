@@ -34,12 +34,14 @@ namespace fl {
     }
 
     std::string Proposition::toString() const {
-        std::stringstream ss;
+        std::ostringstream ss;
         ss << variable->getName() << " " << Rule::FL_IS << " ";
         for (std::size_t i = 0; i < hedges.size(); ++i) {
             ss << hedges.at(i)->name() << " ";
         }
-        ss << term->getName();
+        if (term) { //term is NULL if hedge is any
+            ss << term->getName();
+        }
         return ss.str();
     }
 
