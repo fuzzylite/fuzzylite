@@ -60,74 +60,83 @@ namespace fl {
     }
 
     std::string JavaExporter::toString(const InputVariable* inputVariable, const Engine* engine) const {
-        int index = std::distance(engine->inputVariables().begin(),
-                std::find(engine->inputVariables().begin(),
-                engine->inputVariables().end(), inputVariable));
-        ++index;
         std::ostringstream ss;
-        ss << "InputVariable inputVariable" << index << " = new InputVariable();\n";
-        ss << "inputVariable" << index << ".setName(\"" << inputVariable->getName() << "\");\n";
-        ss << "inputVariable" << index << ".setRange("
+        std::string name = "inputVariable";
+        if (engine->numberOfInputVariables() > 1) {
+            int index = std::distance(engine->inputVariables().begin(),
+                    std::find(engine->inputVariables().begin(),
+                    engine->inputVariables().end(), inputVariable));
+            name += Op::str<int>(index + 1);
+        }
+        ss << "InputVariable " << name << " = new InputVariable();\n";
+        ss << name << ".setName(\"" << inputVariable->getName() << "\");\n";
+        ss << name << ".setRange("
                 << toString(inputVariable->getMinimum()) << ", "
                 << toString(inputVariable->getMaximum()) << ");\n";
 
         for (int i = 0; i < inputVariable->numberOfTerms(); ++i) {
-            ss << "inputVariable" << index << ".addTerm(" <<
+            ss << name << ".addTerm(" <<
                     toString(inputVariable->getTerm(i)) << ");\n";
         }
-        ss << "engine.addInputVariable(inputVariable" << index << ");\n";
+        ss << "engine.addInputVariable(" << name << ");\n";
         return ss.str();
     }
 
     std::string JavaExporter::toString(const OutputVariable* outputVariable, const Engine* engine) const {
-        int index = std::distance(engine->outputVariables().begin(),
-                std::find(engine->outputVariables().begin(),
-                engine->outputVariables().end(), outputVariable));
-        ++index;
         std::ostringstream ss;
-        ss << "OutputVariable outputVariable" << index << " = new OutputVariable();\n";
-        ss << "outputVariable" << index << ".setName(\"" << outputVariable->getName() << "\");\n";
-        ss << "outputVariable" << index << ".setRange("
+        std::string name = "outputVariable";
+        if (engine->numberOfOutputVariables() > 1) {
+            int index = std::distance(engine->outputVariables().begin(),
+                    std::find(engine->outputVariables().begin(),
+                    engine->outputVariables().end(), outputVariable));
+            name += Op::str<int>(index + 1);
+        }
+        ss << "OutputVariable " << name << " = new OutputVariable();\n";
+        ss << name << ".setName(\"" << outputVariable->getName() << "\");\n";
+        ss << name << ".setRange("
                 << toString(outputVariable->getMinimum()) << ", "
                 << toString(outputVariable->getMaximum()) << ");\n";
-        ss << "outputVariable" << index << ".setLockOutputRange(" <<
+        ss << name << ".setLockOutputRange(" <<
                 (outputVariable->isLockingOutputRange() ? "true" : "false") << ");\n";
-        ss << "outputVariable" << index << ".setLockValidOutput(" <<
+        ss << name << ".setLockValidOutput(" <<
                 (outputVariable->isLockingValidOutput() ? "true" : "false") << ");\n";
-        ss << "outputVariable" << index << ".setDefaultValue(" <<
+        ss << name << ".setDefaultValue(" <<
                 toString(outputVariable->getDefaultValue()) << ");\n";
-        ss << "outputVariable" << index << ".setDefuzzifier(" <<
+        ss << name << ".setDefuzzifier(" <<
                 toString(outputVariable->getDefuzzifier()) << ");\n";
-        ss << "outputVariable" << index << ".output().setAccumulation(" <<
+        ss << name << ".output().setAccumulation(" <<
                 toString(outputVariable->output()->getAccumulation()) << ");\n";
 
         for (int i = 0; i < outputVariable->numberOfTerms(); ++i) {
-            ss << "outputVariable" << index << ".addTerm(" <<
+            ss << name << ".addTerm(" <<
                     toString(outputVariable->getTerm(i)) << ");\n";
         }
-        ss << "engine.addOutputVariable(outputVariable" << index << ");\n";
+        ss << "engine.addOutputVariable(" << name << ");\n";
         return ss.str();
     }
 
     std::string JavaExporter::toString(const RuleBlock* ruleBlock, const Engine* engine) const {
-        int index = std::distance(engine->ruleBlocks().begin(),
-                std::find(engine->ruleBlocks().begin(),
-                engine->ruleBlocks().end(), ruleBlock));
-        ++index;
         std::ostringstream ss;
-        ss << "RuleBlock ruleBlock" << index << " = new RuleBlock();\n";
-        ss << "ruleBlock" << index << ".setName(\"" << ruleBlock->getName() << "\");\n";
-        ss << "ruleBlock" << index << ".setConjunction("
+        std::string name = "ruleBlock";
+        if (engine->numberOfRuleBlocks() > 1) {
+            int index = std::distance(engine->ruleBlocks().begin(),
+                    std::find(engine->ruleBlocks().begin(),
+                    engine->ruleBlocks().end(), ruleBlock));
+            name += Op::str<int>(index + 1);
+        }
+        ss << "RuleBlock " << name << " = new RuleBlock();\n";
+        ss << name << ".setName(\"" << ruleBlock->getName() << "\");\n";
+        ss << name << ".setConjunction("
                 << toString(ruleBlock->getConjunction()) << ");\n";
-        ss << "ruleBlock" << index << ".setDisjunction("
+        ss << name << ".setDisjunction("
                 << toString(ruleBlock->getDisjunction()) << ");\n";
-        ss << "ruleBlock" << index << ".setActivation("
+        ss << name << ".setActivation("
                 << toString(ruleBlock->getActivation()) << ");\n";
         for (int i = 0; i < ruleBlock->numberOfRules(); ++i) {
             Rule* rule = ruleBlock->getRule(i);
-            ss << "ruleBlock" << index << ".addRule(Rule.parse(\"" << rule->getText() << "\", engine));\n";
+            ss << name << ".addRule(Rule.parse(\"" << rule->getText() << "\", engine));\n";
         }
-        ss << "engine.addRuleBlock(ruleBlock" << index << ");\n";
+        ss << "engine.addRuleBlock(" << name << ");\n";
         return ss.str();
     }
 

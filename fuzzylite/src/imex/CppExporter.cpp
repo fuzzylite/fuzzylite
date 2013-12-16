@@ -24,11 +24,15 @@
 
 #include "fl/Headers.h"
 
+#include <algorithm>
+
 namespace fl {
 
-    CppExporter::CppExporter() { }
+    CppExporter::CppExporter() {
+    }
 
-    CppExporter::~CppExporter() { }
+    CppExporter::~CppExporter() {
+    }
 
     std::string CppExporter::name() const {
         return "CppExporter";
@@ -42,76 +46,107 @@ namespace fl {
         cpp << "\n";
 
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
-            InputVariable* input = engine->getInputVariable(i);
-            cpp << "fl::InputVariable* inputVariable" << (i + 1) << " = new fl::InputVariable;\n";
-            cpp << "inputVariable" << (i + 1) << "->setName(\"" << input->getName() << "\");\n";
-            cpp << "inputVariable" << (i + 1) << "->setRange(" <<
-                    fl::Op::str(input->getMinimum()) << ", " <<
-                    fl::Op::str(input->getMaximum()) << ");\n";
-            cpp << "\n";
-            for (int t = 0; t < input->numberOfTerms(); ++t) {
-                cpp << "inputVariable" << (i + 1) << "->addTerm(" <<
-                        toString(input->getTerm(t)) << ");\n";
-            }
-            cpp << "engine->addInputVariable(inputVariable" << (i + 1) << ");\n";
-            cpp << "\n";
+            cpp << toString(engine->getInputVariable(i), engine) << "\n";
         }
 
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-            OutputVariable* output = engine->getOutputVariable(i);
-            cpp << "fl::OutputVariable* outputVariable" << (i + 1) << " = new fl::OutputVariable;\n";
-            cpp << "outputVariable" << (i + 1) << "->setName(\"" << output->getName() << "\");\n";
-            cpp << "outputVariable" << (i + 1) << "->setRange(" <<
-                    fl::Op::str(output->getMinimum()) << ", " <<
-                    fl::Op::str(output->getMaximum()) << ");\n";
-            cpp << "outputVariable" << (i + 1) << "->setLockOutputRange(" <<
-                    (output->isLockingOutputRange() ? "true" : "false") << ");\n";
-
-            cpp << "outputVariable" << (i + 1) << "->setDefaultValue(";
-            scalar defaultValue = output->getDefaultValue();
-            if (fl::Op::isNan(defaultValue))
-                cpp << "fl::nan";
-            else if (fl::Op::isInf(defaultValue))
-                cpp << (defaultValue < 0 ? "-" : "") << "fl::inf";
-            else cpp << fl::Op::str(defaultValue);
-            cpp << ");\n";
-
-            cpp << "outputVariable" << (i + 1) << "->setLockValidOutput(" <<
-                    (output->isLockingValidOutput() ? "true" : "false") << ");\n";
-
-            cpp << "outputVariable" << (i + 1) << "->setDefuzzifier(" <<
-                    toString(output->getDefuzzifier()) << ");\n";
-            cpp << "outputVariable" << (i + 1) << "->output()->setAccumulation(" <<
-                    toString(output->output()->getAccumulation()) << ");\n";
-            cpp << "\n";
-            for (int t = 0; t < output->numberOfTerms(); ++t) {
-                cpp << "outputVariable" << (i + 1) << "->addTerm(" <<
-                        toString(output->getTerm(t)) << ");\n";
-            }
-            cpp << "engine->addOutputVariable(outputVariable" << (i + 1) << ");\n";
-            cpp << "\n";
+            cpp << toString(engine->getOutputVariable(i), engine) << "\n";
         }
 
         for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
-            RuleBlock* ruleblock = engine->getRuleBlock(i);
-            cpp << "fl::RuleBlock* ruleblock" << (i + 1) << " = new fl::RuleBlock;\n";
-            cpp << "ruleblock" << (i + 1) << "->setName(\"" << ruleblock->getName() << "\");\n";
-            cpp << "ruleblock" << (i + 1) << "->setConjunction(" <<
-                    toString(ruleblock->getConjunction()) << ");\n";
-            cpp << "ruleblock" << (i + 1) << "->setDisjunction("
-                    << toString(ruleblock->getDisjunction()) << ");\n";
-            cpp << "ruleblock" << (i + 1) << "->setActivation("
-                    << toString(ruleblock->getActivation()) << ");\n";
-            cpp << "\n";
-            for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
-                cpp << "ruleblock" << (i + 1) << "->addRule(fl::Rule::parse(\"" <<
-                        ruleblock->getRule(r)->getText() << "\", engine));\n";
-            }
-            cpp << "engine->addRuleBlock(ruleblock" << (i + 1) << ");\n";
+            cpp << toString(engine->getRuleBlock(i), engine) << "\n";
         }
-        cpp << "\n";
 
         return cpp.str();
+    }
+
+    std::string CppExporter::toString(const InputVariable* inputVariable, const Engine* engine) const {
+        std::ostringstream ss;
+        std::string name = "inputVariable";
+        if (engine->numberOfInputVariables() > 1) {
+            int index = std::distance(engine->inputVariables().begin(),
+                    std::find(engine->inputVariables().begin(),
+                    engine->inputVariables().end(), inputVariable));
+            name += Op::str<int>(index + 1);
+        }
+        ss << "fl::InputVariable* " << name << " = new fl::InputVariable;\n";
+        ss << name << "->setName(\"" << inputVariable->getName() << "\");\n";
+        ss << name << "->setRange(" <<
+                toString(inputVariable->getMinimum()) << ", " <<
+                toString(inputVariable->getMaximum()) << ");\n";
+        for (int t = 0; t < inputVariable->numberOfTerms(); ++t) {
+            ss << name << "->addTerm(" << toString(inputVariable->getTerm(t)) << ");\n";
+        }
+        ss << "engine->addInputVariable(" << name << ");\n";
+        return ss.str();
+    }
+
+    std::string CppExporter::toString(const OutputVariable* output, const Engine* engine) const {
+        std::ostringstream ss;
+        std::string name = "outputVariable";
+        if (engine->numberOfOutputVariables() > 1) {
+            int index = std::distance(engine->outputVariables().begin(),
+                    std::find(engine->outputVariables().begin(),
+                    engine->outputVariables().end(), output));
+            name += Op::str<int>(index + 1);
+        }
+        ss << "fl::OutputVariable* " << name << " = new fl::OutputVariable;\n";
+        ss << name << "->setName(\"" << output->getName() << "\");\n";
+        ss << name << "->setRange(" <<
+                toString(output->getMinimum()) << ", " <<
+                toString(output->getMaximum()) << ");\n";
+        ss << name << "->setLockOutputRange(" <<
+                (output->isLockingOutputRange() ? "true" : "false") << ");\n";
+
+        ss << name << "->setDefaultValue(" << toString(output->getDefaultValue()) << ");\n";
+
+        ss << name << "->setLockValidOutput(" <<
+                (output->isLockingValidOutput() ? "true" : "false") << ");\n";
+
+        ss << name << "->setDefuzzifier(" <<
+                toString(output->getDefuzzifier()) << ");\n";
+        ss << name << "->output()->setAccumulation(" <<
+                toString(output->output()->getAccumulation()) << ");\n";
+        for (int t = 0; t < output->numberOfTerms(); ++t) {
+            ss << name << "->addTerm(" << toString(output->getTerm(t)) << ");\n";
+        }
+        ss << "engine->addOutputVariable(" << name << ");\n";
+        return ss.str();
+    }
+
+    std::string CppExporter::toString(const RuleBlock* ruleBlock, const Engine* engine) const {
+        std::ostringstream ss;
+        std::string name = "ruleBlock";
+        if (engine->numberOfRuleBlocks() > 1) {
+            int index = std::distance(engine->ruleBlocks().begin(),
+                    std::find(engine->ruleBlocks().begin(),
+                    engine->ruleBlocks().end(), ruleBlock));
+            name += Op::str<int>(index + 1);
+        }
+        ss << "fl::RuleBlock* " << name << " = new fl::RuleBlock;\n";
+        ss << name << "->setName(\"" << ruleBlock->getName() << "\");\n";
+        ss << name << "->setConjunction(" <<
+                toString(ruleBlock->getConjunction()) << ");\n";
+        ss << name << "->setDisjunction("
+                << toString(ruleBlock->getDisjunction()) << ");\n";
+        ss << name << "->setActivation("
+                << toString(ruleBlock->getActivation()) << ");\n";
+        for (int r = 0; r < ruleBlock->numberOfRules(); ++r) {
+            ss << name << "->addRule(fl::Rule::parse(\"" <<
+                    ruleBlock->getRule(r)->getText() << "\", engine));\n";
+        }
+        ss << "engine->addRuleBlock(" << name << ");\n";
+        return ss.str();
+    }
+
+    std::string CppExporter::toString(scalar value) const {
+        std::ostringstream ss;
+        if (fl::Op::isNan(value))
+            ss << "fl::nan";
+        else if (fl::Op::isInf(value))
+            ss << (Op::isGE(value, 0.0) ? "" : "-") << "fl::inf";
+        else ss << fl::Op::str(value);
+        return ss.str();
     }
 
     std::string CppExporter::toString(const Term* term) const {
@@ -279,7 +314,7 @@ namespace fl {
                 or defuzzifier->className() == WeightedSum().className()) {
             return "new fl::" + defuzzifier->className() + "()";
         }
-        const IntegralDefuzzifier* integralDefuzzifier= 
+        const IntegralDefuzzifier* integralDefuzzifier =
                 dynamic_cast<const IntegralDefuzzifier*> (defuzzifier);
         return "new fl::" + integralDefuzzifier->className() + "("
                 + fl::Op::str(integralDefuzzifier->getResolution()) + ")";
