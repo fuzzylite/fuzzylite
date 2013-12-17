@@ -8,7 +8,7 @@ set(CMAKE_VERBOSE_MAKEFILE true)
 if(WIN32)
     message("Windows")
     add_definitions(-DFL_WINDOWS)
-	#set(CMAKE_CXX_FLAGS " /WX /W4 /EHsc")
+	set(CMAKE_CXX_FLAGS " /WX /EHsc")
 	#set(CMAKE_CXX_FLAGS " /EHsc")
 endif()
 
@@ -36,7 +36,7 @@ add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FI
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_DEBUG "Enable additional debugging information" OFF)
-option(FL_USE_QT4 "Utilize Qt4 instead of Qt5" OFF)
+option(FL_USE_QT4 "Utilize Qt4 instead of Qt5" ON)
 
 message("CMAKE_SOURCE_DIR=${CMAKE_SOURCE_DIR}")
 
