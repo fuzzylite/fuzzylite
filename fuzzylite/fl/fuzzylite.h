@@ -94,17 +94,15 @@ namespace fl {
 //#define atanh(x)
 //#define log1p
 
-//C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-//http://msdn.microsoft.com/en-us/library/sa28fef8%28v=vs.80%29.aspx
 //to ignore warnings dealing with exceptions in Windows:
-#pragma warning(disable:4290) 
+//http://msdn.microsoft.com/en-us/library/sa28fef8%28v=vs.80%29.aspx
+#pragma warning(disable:4290) //C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
 
-//Windows NMake complains I should have pointers in all headers instead of 
-//stack allocated objects. For example, std::string* instead of std::string.
-#pragma warning(disable:4251)
+#pragma warning(disable:4251) //Windows NMake complains I should have pointers in all headers instead of stack allocated objects. For example, std::string* instead of std::string.
 
-//Ignore conditional expression constant of FL_DBG and alike
-#pragma warning(disable:4127)
+#pragma warning(disable:4127) //Ignore conditional expression constant of FL_DBG and alike
+
+#pragma warning(disable:4706) //Ignore assignments within conditional expressions in Tsukamoto.
 #else 
 #endif
 

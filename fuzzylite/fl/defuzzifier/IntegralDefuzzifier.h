@@ -28,7 +28,7 @@
 namespace fl {
     //TODO: check  http://en.wikipedia.org/wiki/Adaptive_quadrature    
 
-    class IntegralDefuzzifier : public Defuzzifier {
+    class FL_EXPORT IntegralDefuzzifier : public Defuzzifier {
     protected:
         int _resolution;
     public:

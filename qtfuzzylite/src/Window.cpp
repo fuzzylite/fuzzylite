@@ -1682,8 +1682,9 @@ namespace fl {
             }
 
             DataExporter exporter(" ");
-            exporter.setResolution(std::max(1, -1 +(int) (std::pow(results,
-                    1.0 / Model::Default()->engine()->numberOfInputVariables()))));
+			int inputVariables = Model::Default()->engine()->numberOfInputVariables();
+			int resolution = fl::Op::max<int>(1, -1 + (int) std::pow(results,1.0 /  inputVariables));
+            exporter.setResolution(resolution);
             std::string data;
             try {
                 data = exporter.toString(Model::Default()->engine());
@@ -1759,8 +1760,8 @@ namespace fl {
             }
 
             DataExporter exporter(" ");
-            int resolution = std::max(1, -1 + (int) (std::pow(results,
-                    1.0 / Model::Default()->engine()->numberOfInputVariables())));
+            int inputVariables = Model::Default()->engine()->numberOfInputVariables();
+			int resolution = fl::Op::max<int>(1, -1 + (int) std::pow(results,1.0 /  inputVariables));
             try {
                 exporter.toWriter(Model::Default()->engine(), dataFile, " ", resolution);
             } catch (fl::Exception& ex) {
