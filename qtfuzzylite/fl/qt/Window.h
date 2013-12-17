@@ -107,14 +107,16 @@ namespace fl {
 
             void onMenuImport();
             void onMenuExport();
+            void onMenuImportFromFLL();
+            void onMenuExportToFLL();
             void onMenuImportFromFCL();
             void onMenuExportToFCL();
             void onMenuImportFromFIS();
             void onMenuExportToFIS();
             void onMenuExportToCpp();
             void onMenuExportToJava();
-            void onMenuExportToDataView();
-            void onMenuExportToDataFile();
+            void onMenuExportToDatasetView();
+            void onMenuExportToDatasetFile();
 
             void onMenuAskForHelp();
             void onMenuJoinTheCommunity();
@@ -176,7 +178,7 @@ namespace fl {
         public:
 
             bool eventFilter(QObject* object, QEvent* event) {
-				(void)object;
+                (void) object;
                 if (event->type() == QEvent::Wheel) {
                     event->accept();
                     return true;
@@ -196,7 +198,7 @@ namespace fl {
             }
 
             bool eventFilter(QObject* object, QEvent* event) {
-				(void)object;
+                (void) object;
                 if (event->type() == QEvent::ContextMenu) {
                     std::vector<fl::Variable*> selectedVariables;
                     Engine* engine = Model::Default()->engine();

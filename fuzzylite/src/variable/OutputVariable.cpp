@@ -24,6 +24,7 @@
 
 #include "fl/term/Accumulated.h"
 #include "fl/defuzzifier/Defuzzifier.h"
+#include "fl/imex/FllExporter.h"
 
 #include <sstream>
 
@@ -36,7 +37,8 @@ namespace fl {
     _defuzzifier(NULL), _defaultValue(fl::nan),
     _lastValidOutput(fl::nan),
     _lockOutputRange(false),
-    _lockValidOutput(false) { }
+    _lockValidOutput(false) {
+    }
 
     OutputVariable::~OutputVariable() {
         delete _output;
@@ -130,6 +132,10 @@ namespace fl {
             result = _defaultValue;
         }
         return result;
+    }
+
+    std::string OutputVariable::toString() const {
+        return FllExporter().toString(this);
     }
 
 }

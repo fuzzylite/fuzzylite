@@ -38,10 +38,10 @@ namespace fl {
         virtual ~Rectangle();
 
         virtual std::string className() const;
-        virtual Rectangle* copy() const;
-
+        virtual std::string parameters() const;
+        virtual void configure(const std::string& parameters);
+        
         virtual scalar membership(scalar x) const;
-        virtual std::string toString() const;
 
         virtual void setMinimum(scalar minimum);
         virtual scalar getMinimum() const;
@@ -49,8 +49,8 @@ namespace fl {
         virtual void setMaximum(scalar maximum);
         virtual scalar getMaximum() const;
 
-        virtual void configure(const std::vector<scalar>& parameters);
-        
+        virtual Rectangle* copy() const;
+
         static Term* constructor();
     };
 

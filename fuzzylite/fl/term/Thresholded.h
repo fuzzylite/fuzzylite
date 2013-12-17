@@ -41,7 +41,8 @@ namespace fl {
         virtual ~Thresholded();
 
         virtual std::string className() const;
-        virtual Thresholded* copy() const;
+        virtual std::string parameters() const;
+        virtual void configure(const std::string& parameters);
 
         virtual scalar membership(scalar x) const;
 
@@ -54,9 +55,7 @@ namespace fl {
         virtual void setActivation(const TNorm* activation);
         virtual const TNorm* getActivation() const;
 
-        virtual std::string toString() const;
-
-        virtual void configure(const std::vector<scalar>& parameters);
+        virtual Thresholded* copy() const;
     };
 
 }

@@ -117,7 +117,7 @@ namespace fl {
 
     bool Operation::increment(std::vector<int>& x, int position, std::vector<int>& min, std::vector<int>& max) {
         if (position < 0) return true;
-        
+
         bool overflow = false;
         if (x.at(position) < max.at(position)) {
             ++x.at(position);
@@ -130,6 +130,18 @@ namespace fl {
             }
         }
         return overflow;
+    }
+
+    std::string Operation::makeValidId(const std::string& name) {
+        //TODO: Make sure it builds a string!
+        std::ostringstream ss;
+        for (std::size_t i  = 0; i  < name.length() ;++i){
+            char c = name[i];
+            if (c == '_' or c == '.' or isalnum(c)){
+                ss << c;
+            }
+        }
+        return ss.str();
     }
 
     int Operation::isValidForName(int character) {
@@ -237,6 +249,15 @@ namespace fl {
             (void) ex;
             return false;
         }
+    }
+
+    std::string Operation::repeat(const std::string& x, int times, const std::string& sep) {
+        std::ostringstream ss;
+        for (int i = 0; i < times; ++i) {
+            ss << x;
+            if (not sep.empty() and i + 1 < times) ss << sep;
+        }
+        return ss.str();
     }
 
     template <typename T>

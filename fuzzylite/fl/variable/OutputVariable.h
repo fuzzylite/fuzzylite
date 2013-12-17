@@ -49,7 +49,7 @@ namespace fl {
 
         virtual void setMinimum(scalar minimum);
         virtual void setMaximum(scalar maximum);
-        
+
         virtual void setDefuzzifier(Defuzzifier* defuzzifier);
         virtual Defuzzifier* getDefuzzifier() const;
 
@@ -67,6 +67,8 @@ namespace fl {
 
         virtual scalar defuzzify();
         virtual scalar defuzzifyNoLocks() const;
+
+        virtual std::string toString() const;
 
     };
 

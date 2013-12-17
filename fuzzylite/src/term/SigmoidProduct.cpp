@@ -39,24 +39,29 @@ namespace fl {
         return "SigmoidProduct";
     }
 
-    SigmoidProduct* SigmoidProduct::copy() const {
-        return new SigmoidProduct(*this);
+    std::string SigmoidProduct::parameters() const {
+        return Op::join(4, " ", _left, _rising, _falling, _right);
+    }
+
+    void SigmoidProduct::configure(const std::string& parameters) {
+        std::vector<std::string> values = Op::split(parameters, " ");
+        std::size_t required = 4;
+        if (values.size() < required) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << required << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setLeft(Op::toScalar(values.at(0)));
+        setRising(Op::toScalar(values.at(1)));
+        setFalling(Op::toScalar(values.at(2)));
+        setRight(Op::toScalar(values.at(3)));
     }
 
     scalar SigmoidProduct::membership(scalar x) const {
         scalar a = 1.0 / (1 + std::exp(-_rising * (x - _left)));
         scalar b = 1.0 / (1 + std::exp(-_falling * (x - _right)));
         return a * b;
-    }
-
-    std::string SigmoidProduct::toString() const {
-        std::ostringstream ss;
-        ss << "SigmoidProduct ("
-                << fl::Op::str(_left) << ", "
-                << fl::Op::str(_rising) << ", "
-                << fl::Op::str(_falling) << ", "
-                << fl::Op::str(_right) << ")";
-        return ss.str();
     }
 
     void SigmoidProduct::setRising(scalar risingSlope) {
@@ -91,19 +96,10 @@ namespace fl {
         return this->_falling;
     }
 
-     void SigmoidProduct::configure(const std::vector<scalar>& parameters){
-         if (parameters.size() < 4){
-             std::ostringstream ex;
-             ex << "[configuration error] term <" << className() << ">"
-                     << " requires <" << 4 << "> parameters";
-             throw fl::Exception(ex.str(), FL_AT);
-         }
-         setLeft(parameters.at(0));
-         setRising(parameters.at(1));
-         setFalling(parameters.at(2));
-         setRight(parameters.at(3));
-     }
-     
+    SigmoidProduct* SigmoidProduct::copy() const {
+        return new SigmoidProduct(*this);
+    }
+
     Term* SigmoidProduct::constructor() {
         return new SigmoidProduct;
     }

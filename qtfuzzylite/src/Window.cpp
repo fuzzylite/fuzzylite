@@ -189,6 +189,7 @@ namespace fl {
             menuImport->setIcon(QIcon(":/import.png"));
             QObject::connect(ui->actionImport, SIGNAL(triggered()), this, SLOT(onMenuImport()));
 
+            menuImport->addAction("FuzzyLite Language (&FLL)", this, SLOT(onMenuImportFromFLL()));
             menuImport->addAction("Fuzzy Controller Language (FC&L)", this, SLOT(onMenuImportFromFCL()));
             menuImport->addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuImportFromFIS()));
 
@@ -198,14 +199,15 @@ namespace fl {
             menuExport->setIcon(QIcon(":/export.png"));
             QObject::connect(ui->actionExport, SIGNAL(triggered()), this, SLOT(onMenuExport()));
 
+            menuExport->addAction("FuzzyLite Language (&FLL)", this, SLOT(onMenuExportToFLL()));
+            menuExport->addAction("Fuzzy Controller Language (FC&L)", this, SLOT(onMenuExportToFCL()));
+            menuExport->addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuExportToFIS()));
+            menuExport->addSeparator();
             menuExport->addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
             menuExport->addAction("jfuzzylite (&Java)", this, SLOT(onMenuExportToJava()));
             menuExport->addSeparator();
-            menuExport->addAction("data (&view)", this, SLOT(onMenuExportToDataView()));
-            menuExport->addAction("data (&file)", this, SLOT(onMenuExportToDataFile()));
-            menuExport->addSeparator();
-            menuExport->addAction("Fuzzy Controller Language (FC&L)", this, SLOT(onMenuExportToFCL()));
-            menuExport->addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuExportToFIS()));
+            menuExport->addAction("dataset (&view)", this, SLOT(onMenuExportToDatasetView()));
+            menuExport->addAction("dataset (&file)", this, SLOT(onMenuExportToDatasetFile()));
             menuFile->addMenu(menuExport);
 
             menuFile->addSeparator();
@@ -1446,11 +1448,16 @@ namespace fl {
         void Window::onMenuImport() {
             if (ui->actionImport->isChecked()) {
                 QMenu menu(this);
+                menu.addAction("FuzzyLite Language (&FCL)", this, SLOT(onMenuImportFromFLL()));
                 menu.addAction("Fuzzy Control Language (FC&L)", this, SLOT(onMenuImportFromFCL()));
                 menu.addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuImportFromFIS()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionImport->setChecked(false);
             }
+        }
+
+        void Window::onMenuImportFromFLL() {
+
         }
 
         void Window::onMenuImportFromFCL() {
@@ -1525,17 +1532,48 @@ namespace fl {
         void Window::onMenuExport() {
             if (ui->actionExport->isChecked()) {
                 QMenu menu(this);
+                menu.addAction("FuzzyLite Language (&FLL)", this, SLOT(onMenuExportToFLL()));
+                menu.addAction("Fuzzy Control Language (FC&L)", this, SLOT(onMenuExportToFCL()));
+                menu.addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuExportToFIS()));
+                menu.addSeparator();
                 menu.addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
                 menu.addAction("jfuzzylite (&Java)", this, SLOT(onMenuExportToJava()));
                 menu.addSeparator();
-                menu.addAction("data (&view)", this, SLOT(onMenuExportToDataView()));
-                menu.addAction("data (&file)", this, SLOT(onMenuExportToDataFile()));
-                menu.addSeparator();
-                menu.addAction("Fuzzy Control Language (FC&L)", this, SLOT(onMenuExportToFCL()));
-                menu.addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuExportToFIS()));
+                menu.addAction("dataset (&view)", this, SLOT(onMenuExportToDatasetView()));
+                menu.addAction("dataset (&file)", this, SLOT(onMenuExportToDatasetFile()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionExport->setChecked(false);
             }
+        }
+
+        void Window::onMenuExportToFLL() {
+            FllExporter exporter;
+            std::string fllString;
+            try {
+                fllString = exporter.toString(Model::Default()->engine());
+            } catch (fl::Exception& ex) {
+                QMessageBox::critical(this, "Error exporting to FLL",
+                        toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
+                        QMessageBox::Ok);
+                return;
+            }
+
+            ImEx imex;
+            imex.setup();
+            imex.setWindowTitle("Export engine to");
+            imex.ui->lbl_format->setText("FuzzyLite Language (FLL):");
+            imex.ui->buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
+
+            QFont font = typeWriterFont();
+            font.setPointSize(font.pointSize() - 1);
+            imex.ui->pte_code->setFont(font);
+            imex.ui->pte_code->setReadOnly(true);
+            imex.ui->pte_code->document()->setPlainText(
+                    QString::fromStdString(fllString));
+            QTextCursor tc = imex.ui->pte_code->textCursor();
+            tc.movePosition(QTextCursor::Start);
+            imex.ui->pte_code->setTextCursor(tc);
+            imex.exec();
         }
 
         void Window::onMenuExportToFCL() {
@@ -1658,7 +1696,7 @@ namespace fl {
             imex.exec();
         }
 
-        void Window::onMenuExportToDataView() {
+        void Window::onMenuExportToDatasetView() {
             QSettings settings;
             int minResolution =
                     settings.value("view/minVariableResolution", 5).toInt();
@@ -1682,8 +1720,8 @@ namespace fl {
             }
 
             DataExporter exporter(" ");
-			int inputVariables = Model::Default()->engine()->numberOfInputVariables();
-			int resolution = fl::Op::max<int>(1, -1 + (int) std::pow(results,1.0 /  inputVariables));
+            int inputVariables = Model::Default()->engine()->numberOfInputVariables();
+            int resolution = fl::Op::max<int>(1, -1 + (int) std::pow(results, 1.0 / inputVariables));
             exporter.setResolution(resolution);
             std::string data;
             try {
@@ -1713,7 +1751,7 @@ namespace fl {
             imex.exec();
         }
 
-        void Window::onMenuExportToDataFile() {
+        void Window::onMenuExportToDatasetFile() {
             QSettings settings;
             QString recentLocation = settings.value("file/recentDataLocation", ".").toString();
             QStringList filters;
@@ -1761,7 +1799,7 @@ namespace fl {
 
             DataExporter exporter(" ");
             int inputVariables = Model::Default()->engine()->numberOfInputVariables();
-			int resolution = fl::Op::max<int>(1, -1 + (int) std::pow(results,1.0 /  inputVariables));
+            int resolution = fl::Op::max<int>(1, -1 + (int) std::pow(results, 1.0 / inputVariables));
             try {
                 exporter.toWriter(Model::Default()->engine(), dataFile, " ", resolution);
             } catch (fl::Exception& ex) {

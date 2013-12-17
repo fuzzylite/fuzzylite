@@ -35,8 +35,21 @@ namespace fl {
         return "SShape";
     }
 
-    SShape* SShape::copy() const {
-        return new SShape(*this);
+    std::string SShape::parameters() const {
+        return Op::join(2, " ", _start, _end);
+    }
+
+    void SShape::configure(const std::string& parameters) {
+        std::vector<std::string> values = Op::split(parameters, " ");
+        std::size_t required = 2;
+        if (values.size() < required) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << required << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setStart(Op::toScalar(values.at(0)));
+        setEnd(Op::toScalar(values.at(1)));
     }
 
     scalar SShape::membership(scalar x) const {
@@ -56,14 +69,6 @@ namespace fl {
         return 1.0;
     }
 
-    std::string SShape::toString() const {
-        std::ostringstream ss;
-        ss << className() << " ("
-                << fl::Op::str(_start) << ", "
-                << fl::Op::str(_end) << ")";
-        return ss.str();
-    }
-
     void SShape::setStart(scalar start) {
         this->_start = start;
     }
@@ -80,15 +85,8 @@ namespace fl {
         return this->_end;
     }
 
-    void SShape::configure(const std::vector<scalar>& parameters) {
-        if (parameters.size() < 2) {
-            std::ostringstream ex;
-            ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << 2 << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
-        }
-        setStart(parameters.at(0));
-        setEnd(parameters.at(1));
+    SShape* SShape::copy() const {
+        return new SShape(*this);
     }
 
     Term* SShape::constructor() {

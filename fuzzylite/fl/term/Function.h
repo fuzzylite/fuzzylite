@@ -68,7 +68,6 @@ namespace fl {
         };
 
         struct FL_EXPORT BuiltInFunction : public Element {
-
             BuiltInFunction(const std::string& name, Unary functionPointer, short associativity = -1);
             BuiltInFunction(const std::string& name, Binary functionPointer, short associativity = -1);
             std::string toString() const;
@@ -109,7 +108,7 @@ namespace fl {
 
     private:
         virtual void loadOperators();
-        
+
     protected:
         std::string _text;
         const Engine* _engine;
@@ -142,9 +141,8 @@ namespace fl {
         virtual scalar evaluate(const std::map<std::string, scalar>* variables) const;
 
         virtual std::string className() const;
-        virtual std::string toString() const;
-
-        virtual Function* copy() const;
+        virtual std::string parameters() const;
+        virtual void configure(const std::string& parameters);
 
         virtual void setText(const std::string& infix);
         virtual std::string getText() const;
@@ -156,7 +154,7 @@ namespace fl {
 
         virtual void load(const std::string& infix,
                 const Engine* engine = NULL) throw (fl::Exception);
-        
+
         virtual void loadBuiltInFunctions();
 
         virtual Node* parse(const std::string& infix) throw (fl::Exception);
@@ -169,8 +167,8 @@ namespace fl {
         virtual bool isBuiltInFunction(const std::string& token) const;
         virtual bool isOperator(const std::string& token) const;
 
-        virtual void configure(const std::vector<scalar>& parameters);
-        
+        virtual Function* copy() const;
+
         static Term* constructor();
 
         static void main();

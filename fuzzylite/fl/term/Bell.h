@@ -40,11 +40,10 @@ namespace fl {
         virtual ~Bell();
 
         virtual std::string className() const;
-        virtual Bell* copy() const;
-
+        virtual std::string parameters() const;
+        virtual void configure(const std::string& parameters);
+        
         virtual scalar membership(scalar x) const;
-
-        virtual std::string toString() const;
 
         virtual void setCenter(scalar center);
         virtual scalar getCenter() const;
@@ -55,9 +54,10 @@ namespace fl {
         virtual void setSlope(scalar slope);
         virtual scalar getSlope() const;
 
-        virtual void configure(const std::vector<scalar>& parameters);
+        virtual Bell* copy() const;
         
         static Term* constructor();
+        
     };
 
 }

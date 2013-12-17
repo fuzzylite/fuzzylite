@@ -38,8 +38,23 @@ namespace fl {
         return "Trapezoid";
     }
 
-    Trapezoid* Trapezoid::copy() const {
-        return new Trapezoid(*this);
+    std::string Trapezoid::parameters() const {
+        return Op::join(4, " ", _a, _b, _c, _d);
+    }
+
+    void Trapezoid::configure(const std::string& parameters) {
+        std::vector<std::string> values = Op::split(parameters, " ");
+        std::size_t required = 4;
+        if (values.size() < required) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << required << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setA(Op::toScalar(values.at(0)));
+        setB(Op::toScalar(values.at(1)));
+        setC(Op::toScalar(values.at(2)));
+        setD(Op::toScalar(values.at(3)));
     }
 
     scalar Trapezoid::membership(scalar x) const {
@@ -56,16 +71,6 @@ namespace fl {
         else if (Op::isLE(x, maximum))
             return (maximum - x) / (maximum - _c);
         return 0.0;
-    }
-
-    std::string Trapezoid::toString() const {
-        std::ostringstream ss;
-        ss << className() << " ("
-                << fl::Op::str(_a) << ", "
-                << fl::Op::str(_b) << ", "
-                << fl::Op::str(_c) << ", "
-                << fl::Op::str(_d) << ")";
-        return ss.str();
     }
 
     void Trapezoid::setA(scalar a) {
@@ -99,19 +104,10 @@ namespace fl {
     scalar Trapezoid::getD() const {
         return this->_d;
     }
-    
-     void Trapezoid::configure(const std::vector<scalar>& parameters){
-         if (parameters.size() < 4){
-             std::ostringstream ex;
-             ex << "[configuration error] term <" << className() << ">"
-                     << " requires <" << 4 << "> parameters";
-             throw fl::Exception(ex.str(), FL_AT);
-         }
-         setA(parameters.at(0));
-         setB(parameters.at(1));
-         setC(parameters.at(2));
-         setD(parameters.at(3));
-     }
+
+    Trapezoid* Trapezoid::copy() const {
+        return new Trapezoid(*this);
+    }
 
     Term* Trapezoid::constructor() {
         return new Trapezoid;

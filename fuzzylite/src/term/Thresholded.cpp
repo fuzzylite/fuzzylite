@@ -34,27 +34,28 @@ namespace fl {
         if (term) this->_name = term->getName();
     }
 
-    Thresholded::~Thresholded() { }
+    Thresholded::~Thresholded() {
+    }
 
     std::string Thresholded::className() const {
         return "Thresholded";
     }
 
-    Thresholded* Thresholded::copy() const {
-        return new Thresholded(*this);
+    std::string Thresholded::parameters() const {
+        FllExporter exporter;
+        std::ostringstream ss;
+        ss << Op::str(_threshold) << " " << exporter.toString(_activation) << " "
+                << exporter.toString(_term);
+        return ss.str();
+    }
+
+    void Thresholded::configure(const std::string& parameters) {
+        (void) parameters;
     }
 
     scalar Thresholded::membership(scalar x) const {
         if (fl::Op::isNan(x)) return fl::nan;
         return _activation->compute(this->_term->membership(x), _threshold);
-    }
-
-    std::string Thresholded::toString() const {
-        std::ostringstream ss;
-        ss << className() << " (" << _term->toString() << ") thresholded to " 
-                << fl::Op::str(_threshold)
-                << " using <" << _activation->className() << "> activation";
-        return ss.str();
     }
 
     void Thresholded::setTerm(const Term* term) {
@@ -80,9 +81,9 @@ namespace fl {
     const TNorm* Thresholded::getActivation() const {
         return this->_activation;
     }
-    
-     void Thresholded::configure(const std::vector<scalar>& parameters){
-         (void) parameters;
-     }
+
+    Thresholded* Thresholded::copy() const {
+        return new Thresholded(*this);
+    }
 
 }

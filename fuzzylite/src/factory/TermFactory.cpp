@@ -68,12 +68,4 @@ namespace fl {
     TermFactory::~TermFactory() {
     }
 
-    Term* TermFactory::createInstance(const std::string& className,
-            const std::vector<scalar>& params) const {
-        Term* result = Factory<Term*>::createInstance(className);
-        if (result) {
-            result->configure(params);
-        }
-        return result;
-    }
 }

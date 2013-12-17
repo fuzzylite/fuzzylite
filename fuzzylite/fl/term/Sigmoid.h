@@ -38,19 +38,18 @@ namespace fl {
         virtual ~Sigmoid();
 
         virtual std::string className() const;
-        virtual Sigmoid* copy() const;
-
+        virtual std::string parameters() const;
+        virtual void configure(const std::string& parameters);
+        
         virtual scalar membership(scalar x) const;
-
-        virtual std::string toString() const;
 
         virtual void setInflection(scalar inflection);
         virtual scalar getInflection() const;
 
         virtual void setSlope(scalar slope);
         virtual scalar getSlope() const;
-
-        virtual void configure(const std::vector<scalar>& parameters);
+        
+        virtual Sigmoid* copy() const;
         
         static Term* constructor();
     };

@@ -37,25 +37,24 @@ namespace fl {
                 const std::vector<InputVariable*>& inputVariables = std::vector<InputVariable*>());
         virtual ~Linear();
 
+        virtual std::string className() const;
+        virtual std::string parameters() const;
+        virtual void configure(const std::string& parameters);
+
         //Warning: this method is unsafe, make sure you use it correctly.
         template <typename T>
         static Linear* create(const std::string& name, const std::vector<InputVariable*>& inputVariables,
                 T firstCoefficient, ...);
 
+        virtual scalar membership(scalar x) const;
+
         virtual void set(const std::vector<scalar>& coefficients,
                 const std::vector<InputVariable*>& inputVariables) throw (fl::Exception);
         virtual void set(const std::vector<scalar>& coefficients,
                 const std::vector<const InputVariable*>& inputVariables) throw (fl::Exception);
-        
-        virtual scalar membership(scalar x) const;
-
-        virtual std::string className() const;
-        virtual std::string toString() const;
 
         virtual Linear* copy() const;
-        
-        virtual void configure(const std::vector<scalar>& parameters);
-        
+
         static Term* constructor();
     };
 

@@ -28,19 +28,25 @@ namespace fl {
         return "Constant";
     }
 
+    std::string Constant::parameters() const {
+        return Op::str(_value);
+    }
+
+    void Constant::configure(const std::string& parameters) {
+        std::vector<std::string> values = Op::split(parameters, " ");
+        std::size_t required = 1;
+        if (values.size() < required) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << required << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setValue(Op::toScalar(values.at(0)));
+    }
+
     scalar Constant::membership(scalar x) const {
         (void) x;
         return this->_value;
-    }
-
-    Constant* Constant::copy() const {
-        return new Constant(*this);
-    }
-
-    std::string Constant::toString() const {
-        std::ostringstream ss;
-        ss << className() << "(" << fl::Op::str(this->_value) << ")";
-        return ss.str();
     }
 
     void Constant::setValue(scalar value) {
@@ -51,14 +57,8 @@ namespace fl {
         return this->_value;
     }
 
-    void Constant::configure(const std::vector<scalar>& parameters) {
-        if (parameters.size() < 1) {
-            std::ostringstream ex;
-            ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << 1 << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
-        }
-        setValue(parameters.at(0));
+    Constant* Constant::copy() const {
+        return new Constant(*this);
     }
 
     Term* Constant::constructor() {

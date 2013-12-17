@@ -34,14 +34,29 @@ namespace fl {
         }
     }
 
-    Triangle::~Triangle() { }
+    Triangle::~Triangle() {
+    }
 
     std::string Triangle::className() const {
         return "Triangle";
     }
 
-    Triangle* Triangle::copy() const {
-        return new Triangle(*this);
+    std::string Triangle::parameters() const {
+        return Op::join(3, " ", _a, _b, _c);
+    }
+
+    void Triangle::configure(const std::string& parameters) {
+        std::vector<std::string> values = Op::split(parameters, " ");
+        std::size_t required = 3;
+        if (values.size() < required) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << required << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setA(Op::toScalar(values.at(0)));
+        setB(Op::toScalar(values.at(1)));
+        setC(Op::toScalar(values.at(2)));
     }
 
     scalar Triangle::membership(scalar x) const {
@@ -57,15 +72,6 @@ namespace fl {
             return (x - minimum) / (_b - minimum);
         else
             return (maximum - x) / (maximum - _b);
-    }
-
-    std::string Triangle::toString() const {
-        std::ostringstream ss;
-        ss << className() << " (" 
-                << fl::Op::str(_a) << ", " 
-                << fl::Op::str(_b) << ", "
-                << fl::Op::str(_c) << ")";
-        return ss.str();
     }
 
     void Triangle::setA(scalar a) {
@@ -91,21 +97,13 @@ namespace fl {
     scalar Triangle::getC() const {
         return this->_c;
     }
-    
-     void Triangle::configure(const std::vector<scalar>& parameters){
-         if (parameters.size() < 3){
-             std::ostringstream ex;
-             ex << "[configuration error] term <" << className() << ">"
-                     << " requires <" << 3 << "> parameters";
-             throw fl::Exception(ex.str(), FL_AT);
-         }
-         setA(parameters.at(0));
-         setB(parameters.at(1));
-         setC(parameters.at(2));
-     }
-     
-    Term* Triangle::constructor(){
-        return new Triangle; 
+
+    Triangle* Triangle::copy() const {
+        return new Triangle(*this);
+    }
+
+    Term* Triangle::constructor() {
+        return new Triangle;
     }
 
 }

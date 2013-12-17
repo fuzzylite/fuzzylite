@@ -431,37 +431,38 @@ namespace fl {
         if (state <= S_ASSIGN)
             throw fl::Exception("[syntax error] malformed term in line: " + line, FL_AT);
 
-        std::vector<scalar> values;
-        if (termClass != Function().className()) {
-            std::string parameter;
-            try {
-                for (std::size_t i = 0; i < parameters.size(); ++i) {
-                    parameter = parameters.at(i);
-                    values.push_back(fl::Op::toScalar(parameter));
-                }
-            } catch (...) {
-                std::ostringstream ex;
-                ex << "[syntax error] expected numeric value, but found <"
-                        << parameter << "> in line: " << line;
-                throw fl::Exception(ex.str(), FL_AT);
-            }
-        }
+        //        std::vector<scalar> values;
+        //        if (termClass != Function().className()) {
+        //            std::string parameter;
+        //            try {
+        //                for (std::size_t i = 0; i < parameters.size(); ++i) {
+        //                    parameter = parameters.at(i);
+        //                    values.push_back(fl::Op::toScalar(parameter));
+        //                }
+        //            } catch (...) {
+        //                std::ostringstream ex;
+        //                ex << "[syntax error] expected numeric value, but found <"
+        //                        << parameter << "> in line: " << line;
+        //                throw fl::Exception(ex.str(), FL_AT);
+        //            }
+        //        }
 
         try {
-            Term * result = FactoryManager::instance()->term()->createInstance(termClass, values);
+            Term * result = FactoryManager::instance()->term()->createInstance(termClass);
             result->setName(fl::Op::format(name, fl::Op::isValidForName));
+            result->configure(Op::join(parameters, " "));
 
-            if (termClass == Function().className() and not parameters.empty()) {
-                std::ostringstream ss;
-                for (std::size_t i = 0; i < parameters.size(); ++i) {
-                    ss << parameters.at(i);
-                }
-                std::string infix = ss.str();
-                if (infix.size() > 1 and infix.at(0) == '(' and infix.at(infix.size() - 1) == ')') {
-                    infix = infix.substr(1, infix.size() - 2);
-                }
-                dynamic_cast<Function*> (result)->setText(infix);
-            }
+            //            if (termClass == Function().className() and not parameters.empty()) {
+            //                std::ostringstream ss;
+            //                for (std::size_t i = 0; i < parameters.size(); ++i) {
+            //                    ss << parameters.at(i);
+            //                }
+            //                std::string infix = ss.str();
+            //                if (infix.size() > 1 and infix.at(0) == '(' and infix.at(infix.size() - 1) == ')') {
+            //                    infix = infix.substr(1, infix.size() - 2);
+            //                }
+            //                dynamic_cast<Function*> (result)->setText(infix);
+            //            }
 
             return result;
         } catch (fl::Exception& ex) {
@@ -479,6 +480,7 @@ namespace fl {
         } else if (term->className() == Function().className()) {
             Function* function = dynamic_cast<Function*> (term);
             function->setEngine(engine);
+            //builtin functions are loaded from TermFactory calling Function::create
             function->load();
         }
         return term;

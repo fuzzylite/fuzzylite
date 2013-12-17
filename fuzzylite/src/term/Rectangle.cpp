@@ -38,8 +38,21 @@ namespace fl {
         return "Rectangle";
     }
 
-    Rectangle* Rectangle::copy() const {
-        return new Rectangle(*this);
+    std::string Rectangle::parameters() const {
+        return Op::join(2, " ", _minimum, _maximum);
+    }
+
+    void Rectangle::configure(const std::string& parameters) {
+        std::vector<std::string> values = Op::split(parameters, " ");
+        std::size_t required = 2;
+        if (values.size() < required) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << required << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setMinimum(Op::toScalar(values.at(0)));
+        setMaximum(Op::toScalar(values.at(1)));
     }
 
     scalar Rectangle::membership(scalar x) const {
@@ -47,14 +60,6 @@ namespace fl {
         if (fl::Op::isLt(x, _minimum) or fl::Op::isGt(x, _maximum))
             return 0.0;
         return 1.0;
-    }
-
-    std::string Rectangle::toString() const {
-        std::ostringstream ss;
-        ss << className() << " ("
-                << fl::Op::str(_minimum) << ", "
-                << fl::Op::str(_maximum) << ")";
-        return ss.str();
     }
 
     void Rectangle::setMinimum(scalar minimum) {
@@ -73,15 +78,8 @@ namespace fl {
         return this->_maximum;
     }
 
-    void Rectangle::configure(const std::vector<scalar>& parameters) {
-        if (parameters.size() < 2) {
-            std::ostringstream ex;
-            ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << 2 << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
-        }
-        setMinimum(parameters.at(0));
-        setMaximum(parameters.at(1));
+    Rectangle* Rectangle::copy() const {
+        return new Rectangle(*this);
     }
 
     Term* Rectangle::constructor() {

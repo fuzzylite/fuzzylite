@@ -21,6 +21,7 @@
  */
 
 #include "fl/variable/InputVariable.h"
+#include "fl/imex/FllExporter.h"
 
 #include <sstream>
 
@@ -41,5 +42,8 @@ namespace fl {
         return this->_inputValue;
     }
 
+    std::string InputVariable::toString() const{
+        return FllExporter().toString(this);
+    }
 
 }

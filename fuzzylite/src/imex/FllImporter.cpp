@@ -14,31 +14,10 @@
  */
 
 /* 
- * File:   TermFactory.h
+ * File:   FllImporter.cpp
  * Author: jcrada
  *
- * Created on 8 January 2013, 11:18 PM
+ * Created on 18 December 2013, 11:42 AM
  */
 
-#ifndef FL_TERMFACTORY_H
-#define	FL_TERMFACTORY_H
-
-#include "fl/fuzzylite.h"
-
-#include "fl/factory/Factory.h"
-#include "fl/term/Term.h"
-
-#include <vector>
-#include <string>
-
-namespace fl {
-
-    class FL_EXPORT TermFactory : public Factory<Term*>{
-    public:
-        TermFactory();
-        virtual ~TermFactory();
-
-    };
-}
-#endif	/* FL_TERMFACTORY_H */
-
+#include "fl/imex/FllImporter.h"

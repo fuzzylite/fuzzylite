@@ -35,8 +35,21 @@ namespace fl {
         return "Ramp";
     }
 
-    Ramp* Ramp::copy() const {
-        return new Ramp(*this);
+    std::string Ramp::parameters() const {
+        return Op::join(2, " ", _start, _end);
+    }
+
+    void Ramp::configure(const std::string& parameters) {
+        std::vector<std::string> values = Op::split(parameters, " ");
+        std::size_t required = 2;
+        if (values.size() < required) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << required << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setStart(Op::toScalar(values.at(0)));
+        setEnd(Op::toScalar(values.at(1)));
     }
 
     scalar Ramp::membership(scalar x) const {
@@ -55,14 +68,6 @@ namespace fl {
         }
     }
 
-    std::string Ramp::toString() const {
-        std::ostringstream ss;
-        ss << className() << " ("
-                << fl::Op::str(_start) << ", "
-                << fl::Op::str(_end) << ")";
-        return ss.str();
-    }
-
     void Ramp::setStart(scalar start) {
         this->_start = start;
     }
@@ -79,15 +84,8 @@ namespace fl {
         return this->_end;
     }
 
-    void Ramp::configure(const std::vector<scalar>& parameters) {
-        if (parameters.size() < 2) {
-            std::ostringstream ex;
-            ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << 2 << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
-        }
-        setStart(parameters.at(0));
-        setEnd(parameters.at(1));
+    Ramp* Ramp::copy() const {
+        return new Ramp(*this);
     }
 
     Term* Ramp::constructor() {

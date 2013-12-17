@@ -56,6 +56,18 @@ namespace fl {
         }
     }
 
+    std::string Function::className() const {
+        return "Function";
+    }
+
+    std::string Function::parameters() const {
+        return _text;
+    }
+
+    void Function::configure(const std::string& parameters) {
+        this->_text = parameters;
+    }
+
     Function* Function::create(const std::string& name,
             const std::string& infix, const Engine* engine,
             bool requiresFunctions) throw (fl::Exception) {
@@ -98,27 +110,6 @@ namespace fl {
         return this->root->evaluate(&this->variables);
     }
 
-    std::string Function::className() const {
-        return "Function";
-    }
-
-    std::string Function::toString() const {
-        return "Function (" + _text + ")";
-    }
-
-    Function* Function::copy() const {
-        Function* result = new Function(this->_name);
-        if (not functions.empty()) {
-            result->loadBuiltInFunctions();
-        }
-        try {
-            result->load(this->_text, this->_engine);
-        } catch (fl::Exception& ex) {
-            FL_LOG("catched: " << ex.what());
-        }
-        return result;
-    }
-
     void Function::load() throw (fl::Exception) {
         load(this->_text, this->_engine);
     }
@@ -144,6 +135,23 @@ namespace fl {
 
     const Engine* Function::getEngine() const {
         return this->_engine;
+    }
+
+    Function* Function::copy() const {
+        Function* result = new Function(this->_name);
+        if (not functions.empty()) {
+            result->loadBuiltInFunctions();
+        }
+        try {
+            result->load(this->_text, this->_engine);
+        } catch (fl::Exception& ex) {
+            FL_LOG("[function warning] ignored exception: " << ex.what());
+        }
+        return result;
+    }
+
+    Term* Function::constructor() {
+        return fl::Function::create("", "");
     }
 
     /**
@@ -479,7 +487,7 @@ namespace fl {
         } else {
             result = value;
         }
-//        FL_DBG(toPostfix() << " = " << result);
+        //        FL_DBG(toPostfix() << " = " << result);
         return result;
     }
 
@@ -620,14 +628,6 @@ namespace fl {
                 infix + ">", FL_AT);
 
         return stack.top();
-    }
-
-    void Function::configure(const std::vector<scalar>& parameters) {
-        (void) parameters;
-    }
-
-    Term* Function::constructor() {
-        return fl::Function::create("", "");
     }
 
     void Function::main() {

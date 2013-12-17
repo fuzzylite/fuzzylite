@@ -39,10 +39,10 @@ namespace fl {
         virtual ~Trapezoid();
 
         virtual std::string className() const;
-        virtual Trapezoid* copy() const;
+        virtual std::string parameters() const;
+        virtual void configure(const std::string& parameters);
 
         virtual scalar membership(scalar x) const;
-        virtual std::string toString() const;
 
         virtual void setA(scalar a);
         virtual scalar getA() const;
@@ -56,7 +56,7 @@ namespace fl {
         virtual void setD(scalar d);
         virtual scalar getD() const;
 
-        virtual void configure(const std::vector<scalar>& parameters);
+        virtual Trapezoid* copy() const;
         
         static Term* constructor();
     };

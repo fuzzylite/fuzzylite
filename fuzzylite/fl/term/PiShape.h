@@ -44,10 +44,10 @@ namespace fl {
         virtual ~PiShape();
 
         virtual std::string className() const;
-        virtual PiShape* copy() const;
+        virtual std::string parameters() const;
+        virtual void configure(const std::string& parameters);
 
         virtual scalar membership(scalar x) const;
-        virtual std::string toString() const;
 
         virtual void setBottomLeft(scalar a);
         virtual scalar getBottomLeft() const;
@@ -61,8 +61,7 @@ namespace fl {
         virtual void setBottomRight(scalar c);
         virtual scalar getBottomRight() const;
 
-        virtual void configure(const std::vector<scalar>& parameters);
-        
+        virtual PiShape* copy() const;
         static Term* constructor();
     };
 }

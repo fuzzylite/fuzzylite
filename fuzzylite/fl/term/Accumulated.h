@@ -44,10 +44,13 @@ namespace fl {
         virtual ~Accumulated();
 
         virtual std::string className() const;
+        virtual std::string parameters() const;
+        virtual void configure(const std::string& parameters);
+        
         virtual Accumulated* copy() const;
 
         virtual scalar membership(scalar x) const;
-        virtual std::string toString() const;
+        
 
         virtual void setMinimum(scalar minimum);
         virtual scalar getMinimum() const;
@@ -68,9 +71,6 @@ namespace fl {
         virtual const std::vector<const Term*>& terms() const;
         virtual bool isEmpty() const;
         virtual void clear();
-
-        virtual void configure(const std::vector<scalar>& parameters);
-
     };
 
 }

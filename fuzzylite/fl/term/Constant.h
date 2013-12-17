@@ -35,19 +35,18 @@ namespace fl {
         Constant(const std::string& name = "", 
                 scalar value = fl::nan);
         virtual ~Constant();
-
-        virtual scalar membership(scalar x) const;
-
+        
         virtual std::string className() const;
-        virtual std::string toString() const;
-
-        virtual Constant* copy() const;
+        virtual std::string parameters() const;
+        virtual void configure(const std::string& parameters);
+        
+        virtual scalar membership(scalar x) const;
 
         virtual void setValue(scalar value);
         virtual scalar getValue() const;
         
-        virtual void configure(const std::vector<scalar>& parameters);
-
+        virtual Constant* copy() const;
+        
         static Term* constructor();
     };
 }

@@ -38,23 +38,28 @@ namespace fl {
         return "Bell";
     }
 
-    Bell* Bell::copy() const {
-        return new Bell(*this);
+    std::string Bell::parameters() const {
+        return Op::join(3, " ", _center, _width, _slope);
+    }
+
+    void Bell::configure(const std::string& parameters) {
+        std::vector<std::string> values = Op::split(parameters, " ");
+        std::size_t required = 3;
+        if (values.size() < required) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << required << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setCenter(Op::toScalar(values.at(0)));
+        setWidth(Op::toScalar(values.at(1)));
+        setSlope(Op::toScalar(values.at(2)));
     }
 
     scalar Bell::membership(scalar x) const {
         if (fl::Op::isNan(x)) return fl::nan;
         //from octave: gbellmf.m
         return 1.0 / (1.0 + std::pow(std::abs((x - _center) / _width), 2 * _slope));
-    }
-
-    std::string Bell::toString() const {
-        std::ostringstream ss;
-        ss << className() << " (" <<
-                fl::Op::str(_center) << ", " <<
-                fl::Op::str(_width) << ", " <<
-                fl::Op::str(_slope) << ")";
-        return ss.str();
     }
 
     void Bell::setWidth(scalar a) {
@@ -81,16 +86,8 @@ namespace fl {
         return this->_center;
     }
 
-    void Bell::configure(const std::vector<scalar>& parameters) {
-        if (parameters.size() < 3) {
-            std::ostringstream ex;
-            ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << 3 << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
-        }
-        setCenter(parameters.at(0));
-        setWidth(parameters.at(1));
-        setSlope(parameters.at(2));
+    Bell* Bell::copy() const {
+        return new Bell(*this);
     }
 
     Term* Bell::constructor() {

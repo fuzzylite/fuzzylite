@@ -26,6 +26,8 @@
 
 #include "fl/norm/Norm.h"
 
+#include "fl/imex/FllExporter.h"
+
 #include <algorithm>
 #include <sstream>
 
@@ -124,14 +126,7 @@ namespace fl {
     }
 
     std::string Variable::toString() const {
-        std::ostringstream ss;
-        ss << getName() << " [";
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            ss << _terms.at(i)->toString();
-            if (i < _terms.size() - 1) ss << ", ";
-        }
-        ss << "]";
-        return ss.str();
+        return FllExporter().toString(this);
     }
 
     /**

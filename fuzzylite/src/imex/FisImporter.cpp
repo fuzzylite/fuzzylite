@@ -417,7 +417,6 @@ namespace fl {
         } else if (term->className() == Function().className()) {
             Function* function = dynamic_cast<Function*> (term);
             function->setEngine(engine);
-            //function->loadBuiltInFunctions();
             //builtin functions are loaded from TermFactory calling Function::create
             function->load();
         }
@@ -485,15 +484,16 @@ namespace fl {
         else flClass = mClass;
 
         try {
-            Term* result = FactoryManager::instance()->term()->createInstance(flClass, sortedParams);
+            Term* result = FactoryManager::instance()->term()->createInstance(flClass);
             result->setName(fl::Op::format(name, fl::Op::isValidForName));
-            if (mClass == "function" and not params.empty()) {
-                std::ostringstream ss;
-                for (std::size_t i = 0; i < params.size(); ++i) {
-                    ss << params.at(i);
-                }
-                dynamic_cast<Function*> (result)->setText(ss.str());
-            }
+            result->configure(Op::join(sortedParams, " "));
+//            if (mClass == "function" and not params.empty()) {
+//                std::ostringstream ss;
+//                for (std::size_t i = 0; i < params.size(); ++i) {
+//                    ss << params.at(i);
+//                }
+//                dynamic_cast<Function*> (result)->setText(ss.str());
+//            }
             return result;
         } catch (fl::Exception& ex) {
             ex.append(FL_AT);

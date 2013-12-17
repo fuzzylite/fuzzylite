@@ -48,21 +48,19 @@ namespace fl {
 
         virtual ~Discrete();
 
+        virtual std::string className() const;
+        virtual std::string parameters() const;
+        virtual void configure(const std::string& parameters);
+
         //Warning: this method is unsafe. Make sure you use it correctly.
         template <typename T>
         static Discrete* create(const std::string& name, int argc,
                 T x1, T y1, ...) throw (fl::Exception);
 
-
-        virtual std::string className() const;
-        virtual Discrete* copy() const;
-
         virtual scalar membership(scalar x) const;
 
-        virtual std::string toString() const;
+        virtual Discrete* copy() const;
 
-        virtual void configure(const std::vector<scalar>& parameters);
-        
         static Term* constructor();
 
     };

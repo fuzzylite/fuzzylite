@@ -170,6 +170,8 @@ namespace fl {
         return defuzzifier->className();
     }
 
+    //TODO: Extend to each case as FllImporter will be used within all terms
+
     std::string FclExporter::toString(const Term* term) const {
         if (term->className() == Discrete().className()) {
             const Discrete* discrete = dynamic_cast<const Discrete*> (term);
@@ -187,7 +189,9 @@ namespace fl {
             return fl::Op::str(constant->getValue());
         }
 
-        return term->toString();
+        std::ostringstream ss;
+        ss << term->className() << " " << term->parameters();
+        return ss.str();
     }
 
 }

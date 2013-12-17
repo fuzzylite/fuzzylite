@@ -31,6 +31,23 @@ namespace fl {
     Linear::~Linear() {
     }
 
+    std::string Linear::className() const {
+        return "Linear";
+    }
+
+    std::string Linear::parameters() const {
+        return Op::join(this->coefficients, " ");
+    }
+
+    void Linear::configure(const std::string& parameters) {
+        std::vector<std::string> strValues = Op::split(parameters, " ");
+        std::vector<scalar> values;
+        for (std::size_t i = 0; i < strValues.size(); ++i) {
+            values.push_back(Op::toScalar(strValues.at(i)));
+        }
+        this->coefficients = values;
+    }
+
     template <typename T>
     Linear* Linear::create(const std::string& name,
             const std::vector<InputVariable*>& inputVariables,
@@ -55,14 +72,6 @@ namespace fl {
             const std::vector<InputVariable*>& inputVariables,
             int firstCoefficient, ...);
 
-    std::string Linear::className() const {
-        return "Linear";
-    }
-
-    Linear* Linear::copy() const {
-        return new Linear(*this);
-    }
-
     scalar Linear::membership(scalar x) const {
         (void) x;
         if (coefficients.size() != inputVariables.size() + 1) {
@@ -84,12 +93,6 @@ namespace fl {
         return result;
     }
 
-    std::string Linear::toString() const {
-        std::ostringstream ss;
-        ss << className() << " (" << Op::join(this->coefficients, ", ") << ")";
-        return ss.str();
-    }
-
     void Linear::set(const std::vector<scalar>& coefficients,
             const std::vector<InputVariable*>& inputVariables) throw (fl::Exception) {
         set(coefficients, std::vector<const InputVariable*>
@@ -109,12 +112,12 @@ namespace fl {
         this->coefficients = coefficients;
         this->inputVariables = inputVariables;
     }
-    
-     void Linear::configure(const std::vector<scalar>& parameters){
-         this->coefficients = parameters;
-     }
-    
-    Term* Linear::constructor(){
+
+    Linear* Linear::copy() const {
+        return new Linear(*this);
+    }
+
+    Term* Linear::constructor() {
         return new Linear;
     }
 }

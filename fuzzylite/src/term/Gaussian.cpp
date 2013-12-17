@@ -39,21 +39,26 @@ namespace fl {
         return "Gaussian";
     }
 
-    Gaussian* Gaussian::copy() const {
-        return new Gaussian(*this);
+    std::string Gaussian::parameters() const {
+        return Op::join(2, " ", _mean, _standardDeviation);
+    }
+
+    void Gaussian::configure(const std::string& parameters) {
+        std::vector<std::string> values = Op::split(parameters, " ");
+        std::size_t required = 2;
+        if (values.size() < required) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << required << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setMean(Op::toScalar(values.at(0)));
+        setStandardDeviation(Op::toScalar(values.at(1)));
     }
 
     scalar Gaussian::membership(scalar x) const {
         if (fl::Op::isNan(x)) return fl::nan;
         return std::exp((-(x - _mean) * (x - _mean)) / (2 * _standardDeviation * _standardDeviation));
-    }
-
-    std::string Gaussian::toString() const {
-        std::ostringstream ss;
-        ss << className()
-                << " (" <<fl::Op::str( _mean) << ", " 
-                << fl::Op::str(_standardDeviation) << ")";
-        return ss.str();
     }
 
     void Gaussian::setMean(scalar c) {
@@ -71,20 +76,13 @@ namespace fl {
     scalar Gaussian::getStandardDeviation() const {
         return this->_standardDeviation;
     }
-    
-     void Gaussian::configure(const std::vector<scalar>& parameters){
-         if (parameters.size() < 2){
-             std::ostringstream ex;
-             ex << "[configuration error] term <" << className() << ">"
-                     << " requires <" << 2 << "> parameters";
-             throw fl::Exception(ex.str(), FL_AT);
-         }
-         setMean(parameters.at(0));
-         setStandardDeviation(parameters.at(1));
-     }
-    
-    Term* Gaussian::constructor(){
-        return new Gaussian; 
+
+    Gaussian* Gaussian::copy() const {
+        return new Gaussian(*this);
+    }
+
+    Term* Gaussian::constructor() {
+        return new Gaussian;
     }
 
 }

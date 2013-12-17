@@ -41,6 +41,7 @@ namespace fl {
         const TNorm* _conjunction;
         const SNorm* _disjunction;
         const TNorm* _activation;
+        bool _enabled;
     public:
         RuleBlock(const std::string& name = "");
         virtual ~RuleBlock();
@@ -59,6 +60,9 @@ namespace fl {
         virtual void setActivation(const TNorm* activation);
         virtual const TNorm* getActivation() const;
 
+        virtual void setEnabled(bool enabled);
+        virtual bool isEnabled() const;
+
         virtual std::string toString() const;
 
         /**
@@ -69,12 +73,12 @@ namespace fl {
         virtual Rule* getRule(int index) const;
         virtual Rule* removeRule(int index);
         virtual int numberOfRules() const;
-        virtual bool isEmpty() const ;
+        virtual bool isEmpty() const;
         virtual const std::vector<Rule*>& rules() const;
 
 
 
     };
 
-} 
+}
 #endif /* RULEBLOCK_H */

@@ -25,7 +25,8 @@
 
 #include "fl/fuzzylite.h"
 
-#include "fl/norm/Norm.h"
+#include "fl/Operation.h"
+#include "fl/imex/FllExporter.h"
 
 #include <string>
 #include <limits>
@@ -41,34 +42,27 @@ namespace fl {
 
     public:
 
-        Term(const std::string& name = "")
-        : _name(name) { }
-
-        virtual ~Term() { }
+        Term(const std::string& name = "");
+        virtual ~Term();
 
         /**
-         * Sets the name of this term. It <b>must</b> contain only AlphaNumeric 
-         * characters
+         * Sets the name of this term. It <b>must</b> be a valid id (see Op::makeValidId)
          * @param name
          */
-        virtual void setName(const std::string& name) {
-            this->_name = name;
-        }
-
-        virtual std::string getName() const {
-            return this->_name;
-        }
+        virtual void setName(const std::string& name);
+        virtual std::string getName() const;
+        
+        virtual std::string toString() const;
+        
+        virtual std::string className() const = 0;
+        virtual std::string parameters() const = 0;
+        virtual void configure(const std::string& parameters) = 0;
 
         virtual scalar membership(scalar x) const = 0;
 
-        virtual std::string className() const = 0;
-        virtual std::string toString() const = 0;
-
         virtual Term* copy() const = 0;
-
-        virtual void configure(const std::vector<scalar>& parameters) = 0;
-
+        
     };
 
-} 
+}
 #endif /* FL_TERM_H */

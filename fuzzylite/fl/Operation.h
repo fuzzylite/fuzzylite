@@ -78,6 +78,8 @@ namespace fl {
         static bool increment(std::vector<int>& x, std::vector<int>& min, std::vector<int>& max);
         static bool increment(std::vector<int>& x, int position, std::vector<int>& min, std::vector<int>& max);
 
+        static std::string makeValidId(const std::string& name);
+        
         static int isValidForName(int character);
 
         static std::string findReplace(const std::string& str, const std::string& find,
@@ -95,6 +97,9 @@ namespace fl {
                 scalar alternative = fl::nan) throw (fl::Exception);
 
         static bool isNumeric(const std::string& x);
+
+        static std::string repeat(const std::string& x, int times,
+                const std::string& sep = "");
 
         template <typename T>
         static std::string str(T x, int decimals = fuzzylite::decimals());

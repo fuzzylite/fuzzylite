@@ -40,6 +40,21 @@ namespace fl {
         return "Accumulated";
     }
 
+    std::string Accumulated::parameters() const {
+        FllExporter exporter;
+        std::ostringstream ss;
+        ss << Op::str(_minimum) << " " << Op::str(_maximum) << " ";
+        ss << exporter.toString(_accumulation) << " ";
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
+            ss << exporter.toString(_terms.at(i)) << " ";
+        }
+        return ss.str();
+    }
+
+    void Accumulated::configure(const std::string& parameters) {
+        (void) parameters;
+    }
+
     Accumulated* Accumulated::copy() const {
         return new Accumulated(*this);
     }
@@ -51,21 +66,6 @@ namespace fl {
             mu = _accumulation->compute(mu, _terms.at(i)->membership(x));
         }
         return mu;
-    }
-
-    std::string Accumulated::toString() const {
-        std::ostringstream ss;
-        ss << className() << " (";
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            ss << _terms.at(i)->toString();
-            if (i < _terms.size() - 1)
-                ss << ", ";
-        }
-        ss << ") using ";
-        if (_accumulation)
-            ss << _accumulation->className();
-        else ss << "no accumulation operator";
-        return ss.str();
     }
 
     void Accumulated::setMinimum(scalar minimum) {
@@ -127,10 +127,6 @@ namespace fl {
 
     bool Accumulated::isEmpty() const {
         return _terms.size() == 0;
-    }
-
-    void Accumulated::configure(const std::vector<scalar>& parameters) {
-        (void) parameters;
     }
 
 }

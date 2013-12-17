@@ -40,16 +40,13 @@ namespace fl {
                 scalar rising = fl::nan,
                 scalar falling = fl::nan,
                 scalar right = fl::nan);
-
         virtual ~SigmoidProduct();
 
         virtual std::string className() const;
-        virtual SigmoidProduct* copy() const;
+        virtual std::string parameters() const;
+        virtual void configure(const std::string& parameters);
 
         virtual scalar membership(scalar x) const;
-
-        virtual std::string toString() const;
-
 
         virtual void setLeft(scalar leftInflection);
         virtual scalar getLeft() const;
@@ -63,8 +60,7 @@ namespace fl {
         virtual void setRight(scalar rightInflection);
         virtual scalar getRight() const;
 
-        virtual void configure(const std::vector<scalar>& parameters);
-        
+        virtual SigmoidProduct* copy() const;
         static Term* constructor();
     };
 }

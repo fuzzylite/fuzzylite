@@ -38,10 +38,10 @@ namespace fl {
         virtual ~Ramp();
 
         virtual std::string className() const;
-        virtual Ramp* copy() const;
+        virtual std::string parameters() const;
+        virtual void configure(const std::string& parameters);
 
         virtual scalar membership(scalar x) const;
-        virtual std::string toString() const;
 
         virtual void setStart(scalar start);
         virtual scalar getStart() const;
@@ -49,7 +49,7 @@ namespace fl {
         virtual void setEnd(scalar end);
         virtual scalar getEnd() const;
 
-        virtual void configure(const std::vector<scalar>& parameters);
+        virtual Ramp* copy() const;
         
         static Term* constructor();
     };

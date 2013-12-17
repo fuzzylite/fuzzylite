@@ -22,8 +22,6 @@
 
 #include "fl/defuzzifier/Bisector.h"
 
-
-
 #include "fl/term/Term.h"
 #include "fl/term/Accumulated.h"
 

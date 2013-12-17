@@ -40,11 +40,10 @@ namespace fl {
         virtual ~Triangle();
 
         virtual std::string className() const;
-        virtual Triangle* copy() const;
+        virtual std::string parameters() const;
+        virtual void configure(const std::string& parameters);
 
         virtual scalar membership(scalar x) const;
-
-        virtual std::string toString() const;
 
         virtual void setA(scalar a);
         virtual scalar getA() const;
@@ -55,8 +54,10 @@ namespace fl {
         virtual void setC(scalar c);
         virtual scalar getC() const;
 
+        virtual Triangle* copy() const;
+
         static Term* constructor();
-        virtual void configure(const std::vector<scalar>& parameters);
+
     };
 
 }

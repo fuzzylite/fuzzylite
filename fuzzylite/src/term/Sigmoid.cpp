@@ -38,21 +38,26 @@ namespace fl {
         return "Sigmoid";
     }
 
-    Sigmoid* Sigmoid::copy() const {
-        return new Sigmoid(*this);
+    std::string Sigmoid::parameters() const {
+        return Op::join(2, " ", _inflection, _slope);
+    }
+
+    void Sigmoid::configure(const std::string& parameters) {
+        std::vector<std::string> values = Op::split(parameters, " ");
+        std::size_t required = 2;
+        if (values.size() < required) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << required << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setInflection(Op::toScalar(values.at(0)));
+        setSlope(Op::toScalar(values.at(1)));
     }
 
     scalar Sigmoid::membership(scalar x) const {
         if (fl::Op::isNan(x)) return fl::nan;
         return 1.0 / (1.0 + std::exp(-_slope * (x - _inflection)));
-    }
-
-    std::string Sigmoid::toString() const {
-        std::ostringstream ss;
-        ss << className() << " ("
-                << fl::Op::str(_inflection) << ", "
-                << fl::Op::str(_slope) << ")";
-        return ss.str();
     }
 
     void Sigmoid::setSlope(scalar a) {
@@ -71,15 +76,8 @@ namespace fl {
         return this->_inflection;
     }
 
-    void Sigmoid::configure(const std::vector<scalar>& parameters) {
-        if (parameters.size() < 2) {
-            std::ostringstream ex;
-            ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << 2 << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
-        }
-        setInflection(parameters.at(0));
-        setSlope(parameters.at(1));
+    Sigmoid* Sigmoid::copy() const {
+        return new Sigmoid(*this);
     }
 
     Term* Sigmoid::constructor() {

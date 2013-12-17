@@ -37,8 +37,23 @@ namespace fl {
         return "GaussianProduct";
     }
 
-    GaussianProduct* GaussianProduct::copy() const {
-        return new GaussianProduct(*this);
+    std::string GaussianProduct::parameters() const {
+        return Op::join(4, " ", _meanA, _standardDeviationA, _meanB, _standardDeviationB);
+    }
+
+    void GaussianProduct::configure(const std::string& parameters) {
+        std::vector<std::string> values = Op::split(parameters, " ");
+        std::size_t required = 4;
+        if (values.size() < required) {
+            std::ostringstream ex;
+            ex << "[configuration error] term <" << className() << ">"
+                    << " requires <" << required << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setMeanA(Op::toScalar(values.at(0)));
+        setStandardDeviationA(Op::toScalar(values.at(1)));
+        setMeanB(Op::toScalar(values.at(2)));
+        setStandardDeviationB(Op::toScalar(values.at(3)));
     }
 
     scalar GaussianProduct::membership(scalar x) const {
@@ -50,16 +65,6 @@ namespace fl {
         scalar b = std::exp((-(x - _meanB) * (x - _meanB)) / (2 * _standardDeviationB * _standardDeviationB))
                 * xGEb + (1 - xGEb);
         return a * b;
-    }
-
-    std::string GaussianProduct::toString() const {
-        std::ostringstream ss;
-        ss << className() << " ("
-                << fl::Op::str(_meanA) << ", "
-                << fl::Op::str(_standardDeviationA) << ", "
-                << fl::Op::str(_meanB) << ", "
-                << fl::Op::str(_standardDeviationB) << ")";
-        return ss.str();
     }
 
     void GaussianProduct::setMeanA(scalar meanA) {
@@ -94,19 +99,10 @@ namespace fl {
         return this->_standardDeviationB;
     }
 
-     void GaussianProduct::configure(const std::vector<scalar>& parameters){
-         if (parameters.size() < 4){
-             std::ostringstream ex;
-             ex << "[configuration error] term <" << className() << ">"
-                     << " requires <" << 4 << "> parameters";
-             throw fl::Exception(ex.str(), FL_AT);
-         }
-         setMeanA(parameters.at(0));
-         setStandardDeviationA(parameters.at(1));
-         setMeanB(parameters.at(2));
-         setStandardDeviationB(parameters.at(3));
-     }
-    
+    GaussianProduct* GaussianProduct::copy() const {
+        return new GaussianProduct(*this);
+    }
+
     Term* GaussianProduct::constructor() {
         return new GaussianProduct;
     }

@@ -31,7 +31,7 @@ namespace fl {
     protected:
         scalar _inputValue;
     public:
-        InputVariable(const std::string& name = "", 
+        InputVariable(const std::string& name = "",
                 scalar minimum = -fl::inf,
                 scalar maximum = fl::inf);
         virtual ~InputVariable();
@@ -39,7 +39,8 @@ namespace fl {
         virtual void setInputValue(scalar inputValue);
         virtual scalar getInputValue() const;
 
+        virtual std::string toString() const;
     };
 
-} 
+}
 #endif /* FL_INPUTVARIABLE_H */

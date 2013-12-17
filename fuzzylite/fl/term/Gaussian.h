@@ -39,10 +39,10 @@ namespace fl {
         virtual ~Gaussian();
 
         virtual std::string className() const;
-        virtual Gaussian* copy() const;
-
+        virtual std::string parameters() const;
+        virtual void configure(const std::string& parameters);
+        
         virtual scalar membership(scalar x) const;
-        virtual std::string toString() const;
 
         virtual void setMean(scalar c);
         virtual scalar getMean() const;
@@ -50,8 +50,7 @@ namespace fl {
         virtual void setStandardDeviation(scalar sigma);
         virtual scalar getStandardDeviation() const;
         
-        virtual void configure(const std::vector<scalar>& parameters);
-
+        virtual Gaussian* copy() const;
         static Term* constructor();
     };
 

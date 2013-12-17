@@ -27,12 +27,15 @@
 #include "fl/norm/TNorm.h"
 #include "fl/norm/SNorm.h"
 
+#include "fl/imex/FllExporter.h"
+
 #include <sstream>
 
 namespace fl {
 
     RuleBlock::RuleBlock(const std::string& name)
-    : _name(name), _conjunction(NULL), _disjunction(NULL), _activation(NULL) { }
+    : _name(name), _conjunction(NULL), _disjunction(NULL), _activation(NULL), _enabled(true) {
+    }
 
     RuleBlock::~RuleBlock() {
         for (std::size_t i = 0; i < _rules.size(); ++i) {
@@ -87,14 +90,16 @@ namespace fl {
         return this->_activation;
     }
 
+    void RuleBlock::setEnabled(bool enabled) {
+        this->_enabled = enabled;
+    }
+
+    bool RuleBlock::isEnabled() const {
+        return this->_enabled;
+    }
+
     std::string RuleBlock::toString() const {
-        std::stringstream ss;
-        ss << "name='" << _name << "' "
-                << "conjunction='" << _conjunction->className() << "' "
-                << "disjunction='" << _disjunction->className() << "' "
-                << "activation='" << _activation->className() << "' "
-                ;
-        return ss.str();
+        return FllExporter().toString(this);
     }
 
     /**
@@ -121,8 +126,8 @@ namespace fl {
     int RuleBlock::numberOfRules() const {
         return this->_rules.size();
     }
-    
-    bool RuleBlock::isEmpty() const{
+
+    bool RuleBlock::isEmpty() const {
         return this->_rules.empty();
     }
 
