@@ -34,7 +34,7 @@ add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FI
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_DEBUG "Enable additional debugging information" OFF)
-option(FL_USE_QT4 "Utilize Qt4 instead of Qt5" OFF)
+option(FL_USE_QT4 "Utilize Qt4 instead of Qt5" ON)
 
 message("CMAKE_SOURCE_DIR=${CMAKE_SOURCE_DIR}")
 
