@@ -176,6 +176,7 @@ namespace fl {
         public:
 
             bool eventFilter(QObject* object, QEvent* event) {
+				(void)object;
                 if (event->type() == QEvent::Wheel) {
                     event->accept();
                     return true;
@@ -195,6 +196,7 @@ namespace fl {
             }
 
             bool eventFilter(QObject* object, QEvent* event) {
+				(void)object;
                 if (event->type() == QEvent::ContextMenu) {
                     std::vector<fl::Variable*> selectedVariables;
                     Engine* engine = Model::Default()->engine();

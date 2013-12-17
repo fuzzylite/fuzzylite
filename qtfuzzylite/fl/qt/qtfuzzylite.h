@@ -38,6 +38,13 @@
 #define FLQT_DATE "?"
 #endif
 
+//TODO: Find a way to use this around Qt headers.
+//#pragma warning( push )
+//#pragma warning ( disable : ALL_CODE_ANALYSIS_WARNINGS )
+//#include <third-party include files here>
+//#pragma warning( pop )
+
+
 namespace fl {
     namespace qt {
 
