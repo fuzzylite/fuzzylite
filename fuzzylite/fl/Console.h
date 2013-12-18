@@ -13,7 +13,7 @@
 
 namespace fl {
     class Engine;
-    
+
     class Console {
     public:
         static const std::string KW_INPUT_FILE;
@@ -25,17 +25,17 @@ namespace fl {
         static const std::string KW_DATA_RESOLUTION_TOTAL;
         static const std::string KW_DATA_SEPARATOR;
 
+        static Engine* mamdani();
+        static Engine* takagiSugeno();
+        
     protected:
         static std::map<std::string, std::string> parse(int argc, char** argv);
         static void process(const std::map<std::string, std::string>& options);
-        
+
         template <typename T>
         static void process(const std::string& input, T& writer,
                 const std::string& inputFormat, const std::string& outputFormat,
                 const std::map<std::string, std::string>& options);
-        
-        static Engine* mamdani();
-        static Engine* takagiSugeno();
 
     public:
         static std::string usage();

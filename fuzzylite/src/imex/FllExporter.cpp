@@ -122,6 +122,7 @@ namespace fl {
         std::ostringstream ss;
         ss << "Rule: ";
         if (rule) ss << rule->getText();
+        else ss << "none";
         return ss.str();
     }
 
@@ -131,15 +132,15 @@ namespace fl {
         if (term) {
             ss << term->getName() << " = " << term->className() << " "
                     << term->parameters();
+        } else {
+            ss << "none";
         }
         return ss.str();
     }
 
-    //Protected toStrings:
-
     std::string FllExporter::toString(const Norm* norm) const {
         if (norm) return norm->className();
-        return "";
+        return "none";
     }
 
     std::string FllExporter::toString(const Defuzzifier* defuzzifier) const {
@@ -151,6 +152,8 @@ namespace fl {
             if (integralDefuzzifier) {
                 ss << " " << integralDefuzzifier->getResolution();
             }
+        } else {
+            ss << "none";
         }
         return ss.str();
     }

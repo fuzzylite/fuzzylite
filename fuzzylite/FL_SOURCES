@@ -1,4 +1,5 @@
 src/fuzzylite.cpp
+src/Console.cpp
 src/defuzzifier/IntegralDefuzzifier.cpp
 src/defuzzifier/Bisector.cpp
 src/defuzzifier/Centroid.cpp

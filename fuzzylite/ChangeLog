@@ -39,5 +39,13 @@ Version 4.0
 * Added support to Fis/FclImporters to treat comments (%,#,//,/*) in fis and fcl files 
 * Created the Console application instead of previous demo
 * Added Variable::range() to return (maximum - minimum)
+* Removed Variable::isEmpty, use Variable::terms().empty()
+* Removed RuleBlock::isEmpty, use Variable::rules().empty()
+* Created method Op::makeValidId to ensure names are valid
+* Engine, Variable and Term::toString return FllExport::toString
+* Created Term::parameters to return list of parameter values as string separated by spaces
+* Created Term::configure to configure from Term::parameters
+* FclImEx import and export terms using Term::parameters
+* Created the FuzzyLite Language in FllImporter and FllExporter
 
 
