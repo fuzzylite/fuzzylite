@@ -142,17 +142,16 @@ namespace fl {
         }
 
         void Window::updateWindowTitle() {
-            QString title = "";
-            if (_currentFileModified) title += "*";
+            QString title = "qtfuzzylite - ";
             if (_currentFile.isEmpty()) title += "untitled";
             else title += QFileInfo(_currentFile).fileName();
-            title += " - qtfuzzylite";
+            if (_currentFileModified) title += "*";
+
             setWindowTitle(title);
 
             ui->actionReload->setEnabled(not _currentFile.isEmpty());
             ui->actionNew->setEnabled(not _currentFile.isEmpty() or _currentFileModified);
             ui->actionSave->setEnabled(_currentFileModified and not _currentFile.isEmpty());
-
         }
 
         void Window::setupMenuAndToolbar() {
@@ -1176,12 +1175,13 @@ namespace fl {
             QString recentLocation = settings.value("file/recentLocation", ".").toString();
             QString recentFilter = settings.value("file/recentFilter").toString();
             QStringList formats;
-            formats << "All files (*.*)"
-                    << "Supported formats (*.fcl *.fis)"
+            formats << "Supported formats (*.fll *.fcl *.fis)"
+                    << "FuzzyLite Language (*.fll)"
                     << "Fuzzy Logic Controller (*.fcl)"
-                    << "Fuzzy Inference System (*.fis)";
+                    << "Fuzzy Inference System (*.fis)"
+                    << "All files (*.*)";
             int recentFilterIndex = formats.indexOf(recentFilter);
-            if (recentFilterIndex < 0) recentFilterIndex = 1;
+            if (recentFilterIndex < 0) recentFilterIndex = 0;
             QString filter = formats.at(recentFilterIndex);
             QString filename = QFileDialog::getOpenFileName(this,
                     "Open Engine", recentLocation,
@@ -1216,17 +1216,19 @@ namespace fl {
             }
 
             enum Format {
-                FCL, FIS, UNSUPPORTED
+                FLL, FCL, FIS, UNSUPPORTED
             } format;
 
-            if (filename.endsWith(".fcl", Qt::CaseInsensitive)) format = FCL;
+            if (filename.endsWith(".fll", Qt::CaseInsensitive)) format = FLL;
+            else if (filename.endsWith(".fcl", Qt::CaseInsensitive)) format = FCL;
             else if (filename.endsWith(".fis", Qt::CaseInsensitive)) format = FIS;
             else {
                 QSettings settings;
                 QString recentFormat = settings.value("file/recentFormat").toString();
                 bool ok;
                 QStringList formats;
-                formats << "Fuzzy Controller Language (*.fcl)"
+                formats << "FuzzyLite Language (*.fll)"
+                        << "Fuzzy Controller Language (*.fcl)"
                         << "Fuzzy Inference System (*.fis)";
                 int recentFormatIndex = formats.indexOf(recentFormat);
                 if (recentFormatIndex < 0) recentFormatIndex = 0;
@@ -1235,9 +1237,12 @@ namespace fl {
                         formats, recentFormatIndex, false, &ok);
                 if (not ok) return;
                 settings.setValue("file/recentFormat", selectedFormat);
-                if (selectedFormat == formats.first()) {
+
+                if (selectedFormat == formats.at(0)) {
+                    format = FLL;
+                } else if (selectedFormat == formats.at(1)) {
                     format = FCL;
-                } else if (selectedFormat == formats.last()) {
+                } else if (selectedFormat == formats.at(2)) {
                     format = FIS;
                 } else {
                     format = UNSUPPORTED;
@@ -1247,7 +1252,8 @@ namespace fl {
             Engine* engine = NULL;
             Importer* importer = NULL;
             try {
-                if (format == FCL) importer = new FclImporter;
+                if (format == FLL) importer = new FllImporter;
+                else if (format == FCL) importer = new FclImporter;
                 else if (format == FIS) importer = new FisImporter;
                 else throw fl::Exception("[import error] Unsupported filetype for file: "
                         + filename.toStdString(), FL_AT);
@@ -1340,17 +1346,17 @@ namespace fl {
         }
 
         void Window::onMenuSaveAs() {
-            //TODO: Get rid of fcl and fis
             QSettings settings;
             QString recentLocation = settings.value("file/recentLocation", ".").toString();
             QString recentFilter = settings.value("file/recentFilter").toString();
             QStringList filters;
-            filters << "All files (*.*)"
-                    << "Supported files (*.fcl *.fis)"
+            filters << "Supported files (*.fll *.fcl *.fis)"
+                    << "FuzzyLite Language (*.fll)"
                     << "Fuzzy Logic Controller (*.fcl)"
-                    << "Fuzzy Inference System (*.fis)";
+                    << "Fuzzy Inference System (*.fis)"
+                    << "All files (*.*)";
             int recentFilterIndex = filters.indexOf(recentFilter);
-            if (recentFilterIndex < 0) recentFilterIndex = 1;
+            if (recentFilterIndex < 0) recentFilterIndex = 0;
             QString filter = filters.at(recentFilterIndex);
             QString filename = QFileDialog::getSaveFileName(this,
                     "Save engine as", recentLocation,
@@ -1365,17 +1371,19 @@ namespace fl {
         void Window::saveFile(QString filename) {
 
             enum Format {
-                FCL, FIS, UNSUPPORTED
+                FLL, FCL, FIS, UNSUPPORTED
             } format;
 
-            if (filename.endsWith(".fcl", Qt::CaseInsensitive)) format = FCL;
+            if (filename.endsWith(".fll", Qt::CaseInsensitive)) format = FLL;
+            else if (filename.endsWith(".fcl", Qt::CaseInsensitive)) format = FCL;
             else if (filename.endsWith(".fis", Qt::CaseInsensitive)) format = FIS;
             else {
                 QSettings settings;
                 QString recentFormat = settings.value("file/recentFormat").toString();
                 bool ok;
                 QStringList formats;
-                formats << "Fuzzy Controller Language (*.fcl)"
+                formats << "FuzzyLite Language (*.fll)"
+                        << "Fuzzy Controller Language (*.fcl)"
                         << "Fuzzy Inference System (*.fis)";
                 int recentFormatIndex = formats.indexOf(recentFormat);
                 if (recentFormatIndex < 0) recentFormatIndex = 0;
@@ -1384,10 +1392,13 @@ namespace fl {
                         formats, recentFormatIndex, false, &ok);
                 if (not ok) return;
                 settings.setValue("file/recentFormat", selectedFormat);
-                if (selectedFormat == formats.first()) {
+                if (selectedFormat == formats.at(0)) {
+                    format = FLL;
+                    filename += ".fll";
+                } else if (selectedFormat == formats.at(1)) {
                     format = FCL;
                     filename += ".fcl";
-                } else if (selectedFormat == formats.last()) {
+                } else if (selectedFormat == formats.at(2)) {
                     format = FIS;
                     filename += ".fis";
                 } else {
@@ -1398,7 +1409,8 @@ namespace fl {
             Engine* engine = Model::Default()->engine();
             Exporter* exporter = NULL;
             try {
-                if (format == FCL) exporter = new FclExporter;
+                if (format == FLL) exporter = new FllExporter;
+                else if (format == FCL) exporter = new FclExporter;
                 else if (format == FIS) exporter = new FisExporter;
                 else throw fl::Exception("[import error] Unsupported filetype for file: "
                         + filename.toStdString(), FL_AT);
@@ -1449,7 +1461,7 @@ namespace fl {
         void Window::onMenuImport() {
             if (ui->actionImport->isChecked()) {
                 QMenu menu(this);
-                menu.addAction("&FuzzyLite Language (FCL)", this, SLOT(onMenuImportFromFLL()));
+                menu.addAction("&FuzzyLite Language (FLL)", this, SLOT(onMenuImportFromFLL()));
                 menu.addAction("Fuzzy Control &Language (FCL)", this, SLOT(onMenuImportFromFCL()));
                 menu.addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuImportFromFIS()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
@@ -1458,7 +1470,38 @@ namespace fl {
         }
 
         void Window::onMenuImportFromFLL() {
+            ImEx imex;
+            imex.setup();
+            imex.setWindowTitle("Import Engine from...");
+            imex.ui->lbl_format->setText("FuzzyLite Language (FLL):");
+            QFont font = typeWriterFont();
+            font.setPointSize(font.pointSize() - 1);
+            imex.ui->pte_code->setFont(font);
 
+            if (imex.exec()) {
+                std::string fllString = imex.ui->pte_code->document()->toPlainText().toStdString();
+                Engine* engine = NULL;
+                FllImporter importer;
+                try {
+                    engine = importer.fromString(fllString);
+                    if (not confirmSaveChanges("importing from FLL")) {
+                        delete engine;
+                        return;
+                    }
+                    Model::Default()->change(engine);
+                    reloadModel();
+                    onClickParseAllRules();
+                    QString empty;
+                    setCurrentFile(true, &empty);
+                } catch (fl::Exception& ex) {
+                    if (engine) delete engine;
+                    QMessageBox::critical(this, "Error importing from FLL",
+                            toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
+                            QMessageBox::Ok);
+
+                    return;
+                }
+            }
         }
 
         void Window::onMenuImportFromFCL() {
