@@ -171,7 +171,7 @@ namespace fl {
                 ex << "[syntax error] expected property of type (key : value) in line: " << line;
                 throw fl::Exception(ex.str(), FL_AT);
             }
-            std::string name = fl::Op::format(token.at(0), fl::Op::isValidForName);
+            std::string name = fl::Op::makeValidId(token.at(0));
             if (tag == "VAR_INPUT")
                 engine->addInputVariable(new InputVariable(name));
             else if (tag == "VAR_OUTPUT")
@@ -192,7 +192,7 @@ namespace fl {
         std::string name;
         std::size_t index = line.find_first_of(' ');
         if (index != std::string::npos) {
-            name = fl::Op::format(line.substr(index + 1), fl::Op::isValidForName);
+            name = fl::Op::makeValidId(line.substr(index + 1));
         } else {
             std::ostringstream ex;
             ex << "[syntax error] expected name of input variable in line: " << line;
@@ -235,7 +235,7 @@ namespace fl {
         std::string name;
         std::size_t index = line.find_first_of(' ');
         if (index != std::string::npos) {
-            name = fl::Op::format(line.substr(index + 1), fl::Op::isValidForName);
+            name = fl::Op::makeValidId(line.substr(index + 1));
         } else {
             std::ostringstream ex;
             ex << "[syntax error] expected an output variable name in line: " << line;
@@ -431,39 +431,10 @@ namespace fl {
         if (state <= S_ASSIGN)
             throw fl::Exception("[syntax error] malformed term in line: " + line, FL_AT);
 
-        //        std::vector<scalar> values;
-        //        if (termClass != Function().className()) {
-        //            std::string parameter;
-        //            try {
-        //                for (std::size_t i = 0; i < parameters.size(); ++i) {
-        //                    parameter = parameters.at(i);
-        //                    values.push_back(fl::Op::toScalar(parameter));
-        //                }
-        //            } catch (...) {
-        //                std::ostringstream ex;
-        //                ex << "[syntax error] expected numeric value, but found <"
-        //                        << parameter << "> in line: " << line;
-        //                throw fl::Exception(ex.str(), FL_AT);
-        //            }
-        //        }
-
         try {
             Term * result = FactoryManager::instance()->term()->createInstance(termClass);
-            result->setName(fl::Op::format(name, fl::Op::isValidForName));
+            result->setName(fl::Op::makeValidId(name));
             result->configure(Op::join(parameters, " "));
-
-            //            if (termClass == Function().className() and not parameters.empty()) {
-            //                std::ostringstream ss;
-            //                for (std::size_t i = 0; i < parameters.size(); ++i) {
-            //                    ss << parameters.at(i);
-            //                }
-            //                std::string infix = ss.str();
-            //                if (infix.size() > 1 and infix.at(0) == '(' and infix.at(infix.size() - 1) == ')') {
-            //                    infix = infix.substr(1, infix.size() - 2);
-            //                }
-            //                dynamic_cast<Function*> (result)->setText(infix);
-            //            }
-
             return result;
         } catch (fl::Exception& ex) {
             ex.append(FL_AT);

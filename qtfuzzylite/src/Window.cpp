@@ -199,15 +199,15 @@ namespace fl {
             menuExport->setIcon(QIcon(":/export.png"));
             QObject::connect(ui->actionExport, SIGNAL(triggered()), this, SLOT(onMenuExport()));
 
-            menuExport->addAction("FuzzyLite Language (&FLL)", this, SLOT(onMenuExportToFLL()));
-            menuExport->addAction("Fuzzy Controller Language (FC&L)", this, SLOT(onMenuExportToFCL()));
-            menuExport->addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuExportToFIS()));
+            menuExport->addAction("&FuzzyLite Language (FLL)", this, SLOT(onMenuExportToFLL()));
+            menuExport->addAction("Fuzzy Controller &Language (FCL)", this, SLOT(onMenuExportToFCL()));
+            menuExport->addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuExportToFIS()));
             menuExport->addSeparator();
             menuExport->addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
             menuExport->addAction("jfuzzylite (&Java)", this, SLOT(onMenuExportToJava()));
             menuExport->addSeparator();
-            menuExport->addAction("dataset (&view)", this, SLOT(onMenuExportToDatasetView()));
-            menuExport->addAction("dataset (&file)", this, SLOT(onMenuExportToDatasetFile()));
+            menuExport->addAction("&Dataset (view)", this, SLOT(onMenuExportToDatasetView()));
+            menuExport->addAction("Dataset (fil&e)", this, SLOT(onMenuExportToDatasetFile()));
             menuFile->addMenu(menuExport);
 
             menuFile->addSeparator();
@@ -1340,6 +1340,7 @@ namespace fl {
         }
 
         void Window::onMenuSaveAs() {
+            //TODO: Get rid of fcl and fis
             QSettings settings;
             QString recentLocation = settings.value("file/recentLocation", ".").toString();
             QString recentFilter = settings.value("file/recentFilter").toString();
@@ -1448,9 +1449,9 @@ namespace fl {
         void Window::onMenuImport() {
             if (ui->actionImport->isChecked()) {
                 QMenu menu(this);
-                menu.addAction("FuzzyLite Language (&FCL)", this, SLOT(onMenuImportFromFLL()));
-                menu.addAction("Fuzzy Control Language (FC&L)", this, SLOT(onMenuImportFromFCL()));
-                menu.addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuImportFromFIS()));
+                menu.addAction("&FuzzyLite Language (FCL)", this, SLOT(onMenuImportFromFLL()));
+                menu.addAction("Fuzzy Control &Language (FCL)", this, SLOT(onMenuImportFromFCL()));
+                menu.addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuImportFromFIS()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionImport->setChecked(false);
             }
@@ -1532,15 +1533,15 @@ namespace fl {
         void Window::onMenuExport() {
             if (ui->actionExport->isChecked()) {
                 QMenu menu(this);
-                menu.addAction("FuzzyLite Language (&FLL)", this, SLOT(onMenuExportToFLL()));
-                menu.addAction("Fuzzy Control Language (FC&L)", this, SLOT(onMenuExportToFCL()));
-                menu.addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuExportToFIS()));
+                menu.addAction("&FuzzyLite Language (FLL)", this, SLOT(onMenuExportToFLL()));
+                menu.addAction("Fuzzy Control &Language (FCL)", this, SLOT(onMenuExportToFCL()));
+                menu.addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuExportToFIS()));
                 menu.addSeparator();
                 menu.addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
                 menu.addAction("jfuzzylite (&Java)", this, SLOT(onMenuExportToJava()));
                 menu.addSeparator();
-                menu.addAction("dataset (&view)", this, SLOT(onMenuExportToDatasetView()));
-                menu.addAction("dataset (&file)", this, SLOT(onMenuExportToDatasetFile()));
+                menu.addAction("&Dataset (view)", this, SLOT(onMenuExportToDatasetView()));
+                menu.addAction("Dataset (fil&e)", this, SLOT(onMenuExportToDatasetFile()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionExport->setChecked(false);
             }

@@ -257,8 +257,7 @@ namespace fl {
                 outputVariable->setDefuzzifier(defuzzifier);
 
             }
-            variable->setName(fl::Op::format(ui->led_name->text().toStdString(),
-                    fl::Op::isValidForName));
+            variable->setName(fl::Op::makeValidId(ui->led_name->text().toStdString()));
             variable->setEnabled(ui->cbx_enabled->isChecked());
             QDialog::accept();
         }

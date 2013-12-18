@@ -133,7 +133,6 @@ namespace fl {
     }
 
     std::string Operation::makeValidId(const std::string& name) {
-        //TODO: Make sure it builds a string!
         std::ostringstream ss;
         for (std::size_t i  = 0; i  < name.length() ;++i){
             char c = name[i];

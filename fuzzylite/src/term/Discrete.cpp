@@ -61,6 +61,7 @@ namespace fl {
     }
 
     void Discrete::configure(const std::string& parameters) {
+        if (parameters.empty()) return;
         std::vector<std::string> strValues = Op::split(parameters, " ");
         if ((int) strValues.size() % 2 != 0) {
             std::ostringstream ex;

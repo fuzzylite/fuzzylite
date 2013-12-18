@@ -33,14 +33,8 @@ namespace fl {
     }
 
     void Constant::configure(const std::string& parameters) {
+        if (parameters.empty()) return;
         std::vector<std::string> values = Op::split(parameters, " ");
-        std::size_t required = 1;
-        if (values.size() < required) {
-            std::ostringstream ex;
-            ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
-        }
         setValue(Op::toScalar(values.at(0)));
     }
 

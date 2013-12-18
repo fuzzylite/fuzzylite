@@ -151,7 +151,7 @@ namespace fl {
             std::string key = fl::Op::trim(keyValue.at(0));
             std::string value = fl::Op::trim(keyValue.at(1));
 
-            if (key == "Name") input->setName(fl::Op::format(value, fl::Op::isValidForName));
+            if (key == "Name") input->setName(fl::Op::makeValidId(value));
             else if (key == "Range") {
                 std::pair<scalar, scalar> minmax = extractRange(value);
                 input->setMinimum(minmax.first);
@@ -183,7 +183,7 @@ namespace fl {
             std::string key = fl::Op::trim(keyValue.at(0));
             std::string value = fl::Op::trim(keyValue.at(1));
 
-            if (key == "Name") output->setName(fl::Op::format(value, fl::Op::isValidForName));
+            if (key == "Name") output->setName(fl::Op::makeValidId(value));
             else if (key == "Range") {
                 std::pair<scalar, scalar> minmax = extractRange(value);
                 output->setMinimum(minmax.first);
@@ -485,15 +485,8 @@ namespace fl {
 
         try {
             Term* result = FactoryManager::instance()->term()->createInstance(flClass);
-            result->setName(fl::Op::format(name, fl::Op::isValidForName));
+            result->setName(fl::Op::makeValidId(name));
             result->configure(Op::join(sortedParams, " "));
-//            if (mClass == "function" and not params.empty()) {
-//                std::ostringstream ss;
-//                for (std::size_t i = 0; i < params.size(); ++i) {
-//                    ss << params.at(i);
-//                }
-//                dynamic_cast<Function*> (result)->setText(ss.str());
-//            }
             return result;
         } catch (fl::Exception& ex) {
             ex.append(FL_AT);

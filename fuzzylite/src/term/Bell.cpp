@@ -43,6 +43,7 @@ namespace fl {
     }
 
     void Bell::configure(const std::string& parameters) {
+        if (parameters.empty()) return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 3;
         if (values.size() < required) {

@@ -89,7 +89,7 @@ namespace fl {
                 QObject::connect(this, SIGNAL(valueChanged(double)),
                         this, SLOT(updateInput(double)));
                 ui->btn_name->setIcon(QIcon(":/input.png"));
-                if (_isTakagiSugeno or variable->isEmpty()) {
+                if (_isTakagiSugeno or variable->terms().empty()) {
                     minimizeViewer();
                 }
             }

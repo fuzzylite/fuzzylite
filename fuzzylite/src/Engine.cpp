@@ -36,8 +36,7 @@
 #include "fl/factory/TNormFactory.h"
 
 #include "fl/imex/CppExporter.h"
-#include "fl/imex/FclExporter.h"
-#include "fl/imex/FisExporter.h"
+#include "fl/imex/FllExporter.h"
 
 #include "fl/defuzzifier/WeightedAverage.h"
 #include "fl/defuzzifier/WeightedSum.h"
@@ -105,7 +104,7 @@ namespace fl {
             InputVariable* inputVariable = _inputVariables.at(i);
             if (not inputVariable) {
                 ss << "- Engine has a NULL input variable at index <" << i << ">\n";
-            } else if (inputVariable->isEmpty()) {
+            } else if (inputVariable->terms().empty()) {
                 //ignore because sometimes inputs can be empty: takagi-sugeno/matlab/slcpp1.fis
                 //                ss << "- Input variable <" << _inputVariables.at(i)->getName() << ">"
                 //                        << " has no terms\n";
@@ -120,7 +119,7 @@ namespace fl {
             if (not outputVariable) {
                 ss << "- Engine has a NULL output variable at index <" << i << ">\n";
             } else {
-                if (outputVariable->isEmpty()) {
+                if (outputVariable->terms().empty()) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no terms\n";
                 }
@@ -144,7 +143,7 @@ namespace fl {
             if (not ruleblock) {
                 ss << "- Engine has a NULL rule block at index <" << i << ">\n";
             } else {
-                if (ruleblock->isEmpty()) {
+                if (ruleblock->rules().empty()) {
                     ss << "- Rule block <" << ruleblock->getName() << "> has no rules\n";
                 }
                 int requiresConjunction = 0;
@@ -260,6 +259,10 @@ namespace fl {
     scalar Engine::getOutputValue(const std::string& name) {
         OutputVariable* outputVariable = getOutputVariable(name);
         return outputVariable->defuzzify();
+    }
+    
+    std::string Engine::toString() const{
+        return FllExporter().toString(this);
     }
 
     /**

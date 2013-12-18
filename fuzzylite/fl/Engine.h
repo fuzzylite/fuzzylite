@@ -62,7 +62,7 @@ namespace fl {
     public:
         Engine(const std::string& name = "");
         virtual ~Engine();
-        
+
         virtual void configure(const std::string& conjunctionT = "Minimum",
                 const std::string& disjunctionS = "Maximum",
                 const std::string& activationT = "Minimum",
@@ -82,6 +82,7 @@ namespace fl {
         virtual void setInputValue(const std::string& name, scalar value);
         virtual scalar getOutputValue(const std::string& name);
 
+        virtual std::string toString() const;
         /**
          * Operations for iterable datatype _inputVariables
          */
