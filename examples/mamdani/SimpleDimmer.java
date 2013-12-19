@@ -42,13 +42,12 @@ engine.addOutputVariable(outputVariable);
 RuleBlock ruleBlock = new RuleBlock();
 ruleBlock.setEnabled(true);
 ruleBlock.setName("");
-ruleBlock.setConjunction(new Minimum());
-ruleBlock.setDisjunction(new Maximum());
+ruleBlock.setConjunction(null);
+ruleBlock.setDisjunction(null);
 ruleBlock.setActivation(new Minimum());
 ruleBlock.addRule(Rule.parse("if Ambient is DARK then Power is HIGH", engine));
 ruleBlock.addRule(Rule.parse("if Ambient is MEDIUM then Power is MEDIUM", engine));
 ruleBlock.addRule(Rule.parse("if Ambient is BRIGHT then Power is LOW", engine));
 engine.addRuleBlock(ruleBlock);
-
 
 }

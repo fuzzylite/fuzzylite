@@ -198,13 +198,13 @@ int main(int argc, char** argv) {
 #endif
 
     try {
-        exportAllExamples("fis", "fll");
-        exportAllExamples("fis", "fcl");
-        exportAllExamples("fis", "fis");
-        exportAllExamples("fis", "cpp");
-        exportAllExamples("fis", "java");
-        exportAllExamples("fis", "fld");
-//        return Console::main(argc, argv);
+//        exportAllExamples("fis", "fll");
+//        exportAllExamples("fis", "fcl");
+//        exportAllExamples("fis", "fis");
+//        exportAllExamples("fis", "cpp");
+//        exportAllExamples("fis", "java");
+//        exportAllExamples("fis", "fld");
+        return Console::main(argc, argv);
     } catch (fl::Exception& e) {
         FL_LOG(e.what());
         FL_LOG(e.btCallStack());

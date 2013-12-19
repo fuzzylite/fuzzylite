@@ -938,7 +938,7 @@ namespace fl {
             if (goodRules > 0 and badRules == 0) {
                 ui->ptx_rules->appendHtml("<font color='gray'>"
                         "# Rules successfully processed at "
-                        + QDateTime::currentDateTime().toString("h:mm ap (dd/MM/yy)")
+                        + QDateTime::currentDateTime().toString("h:mm.ss ap (dd/MM/yy)")
                         + "</font>");
                 ui->ptx_rules->appendHtml("<font color='blue'>"
                         "# You may proceed to control the engine"
@@ -1046,8 +1046,13 @@ namespace fl {
             }
             onClickParseAllRules();
         }
-
+ 
         void Window::onTabChange(int index) {
+            if (index == 1){
+                ui->hly_rules_control->insertWidget(2, ui->qwd_cbx_norms);
+            }else if (index == 0){
+                ui->hly_rules_setup->insertWidget(2, ui->qwd_cbx_norms);
+            }
         }
 
         void Window::onClickInputOutputButton() {
