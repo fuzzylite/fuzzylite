@@ -28,7 +28,7 @@ namespace fl {
         options.push_back(std::pair<std::string, std::string>(KW_INPUT_FILE, "inputfile"));
         options.push_back(std::pair<std::string, std::string>(KW_INPUT_FORMAT, "fll,fis,fcl"));
         options.push_back(std::pair<std::string, std::string>(KW_OUTPUT_FILE, "outputfile"));
-        options.push_back(std::pair<std::string, std::string>(KW_OUTPUT_FORMAT, "fll,fis,fcl,cpp,java,dat"));
+        options.push_back(std::pair<std::string, std::string>(KW_OUTPUT_FORMAT, "fll,fis,fcl,cpp,java,fld"));
         options.push_back(std::pair<std::string, std::string>(KW_EXAMPLE, "(m)amdani,(t)akagi-sugeno"));
         options.push_back(std::pair<std::string, std::string>(KW_DATA_MAXIMUM, "maximum"));
         options.push_back(std::pair<std::string, std::string>(KW_DATA_SEPARATOR, "separator"));
@@ -75,7 +75,7 @@ namespace fl {
             valid[KW_INPUT_FILE] = "inputfile";
             valid[KW_INPUT_FORMAT] = "fll,fis,fcl";
             valid[KW_OUTPUT_FILE] = "outputfile";
-            valid[KW_OUTPUT_FORMAT] = "fll,fis,fcl,cpp,java,dat";
+            valid[KW_OUTPUT_FORMAT] = "fll,fis,fcl,cpp,java,fld";
             valid[KW_EXAMPLE] = "(m)amdani,(t)akagi-sugeno";
             valid[KW_DATA_MAXIMUM] = "maximum";
             valid[KW_DATA_SEPARATOR] = "separator";
@@ -213,7 +213,7 @@ namespace fl {
             exporter = new CppExporter;
         } else if ("java" == outputFormat) {
             exporter = new JavaExporter;
-        } else if ("dat" == outputFormat) {
+        } else if ("fld" == outputFormat) {
             std::string separator = " ";
             std::map<std::string, std::string>::const_iterator it;
             it = options.find(KW_DATA_SEPARATOR);

@@ -202,11 +202,11 @@ namespace fl {
             menuExport->addAction("Fuzzy Controller &Language (FCL)", this, SLOT(onMenuExportToFCL()));
             menuExport->addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuExportToFIS()));
             menuExport->addSeparator();
+            menuExport->addAction("FuzzyLite Dataset (FLD) vie&w", this, SLOT(onMenuExportToDatasetView()));
+            menuExport->addAction("FuzzyLite Dataset (FLD) fil&e", this, SLOT(onMenuExportToDatasetFile()));
+            menuExport->addSeparator();
             menuExport->addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
             menuExport->addAction("jfuzzylite (&Java)", this, SLOT(onMenuExportToJava()));
-            menuExport->addSeparator();
-            menuExport->addAction("&Dataset (view)", this, SLOT(onMenuExportToDatasetView()));
-            menuExport->addAction("Dataset (fil&e)", this, SLOT(onMenuExportToDatasetFile()));
             menuFile->addMenu(menuExport);
 
             menuFile->addSeparator();
@@ -1578,11 +1578,11 @@ namespace fl {
                 menu.addAction("Fuzzy Control &Language (FCL)", this, SLOT(onMenuExportToFCL()));
                 menu.addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuExportToFIS()));
                 menu.addSeparator();
+                menu.addAction("FuzzyLite Dataset (FLD) vie&w", this, SLOT(onMenuExportToDatasetView()));
+                menu.addAction("FuzzyLite Dataset (FLD) fil&e", this, SLOT(onMenuExportToDatasetFile()));
+                menu.addSeparator();
                 menu.addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
                 menu.addAction("jfuzzylite (&Java)", this, SLOT(onMenuExportToJava()));
-                menu.addSeparator();
-                menu.addAction("&Dataset (view)", this, SLOT(onMenuExportToDatasetView()));
-                menu.addAction("Dataset (fil&e)", this, SLOT(onMenuExportToDatasetFile()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionExport->setChecked(false);
             }
@@ -1753,7 +1753,7 @@ namespace fl {
                     1024, minResolution, maxResolution, 8, &ok);
 #else
             int results = QInputDialog::getInt(this,
-                    "Number of Results",
+                    "FuzzyLite Dataset (FLD)",
                     "Please, specify the maximum number of results you want to export:",
                     1024, minResolution, maxResolution, 8, &ok);
 #endif
@@ -1767,7 +1767,7 @@ namespace fl {
             try {
                 data = exporter.toString(Model::Default()->engine());
             } catch (fl::Exception& ex) {
-                QMessageBox::critical(this, "Error exporting dataset (view)",
+                QMessageBox::critical(this, "Error exporting to FLD (view)",
                         toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                         QMessageBox::Ok);
                 return;
@@ -1776,7 +1776,7 @@ namespace fl {
             ImEx imex;
             imex.setup();
             imex.setWindowTitle("Export engine to");
-            imex.ui->lbl_format->setText("Dataset (view):");
+            imex.ui->lbl_format->setText("FuzzyLite Dataset (FLD):");
             imex.ui->buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
 
             QFont font = typeWriterFont();
@@ -1796,7 +1796,7 @@ namespace fl {
             QString recentLocation = settings.value("file/recentDataLocation", ".").toString();
             QStringList filters;
             filters << "All files (*.*)"
-                    << "Data file (*.dat)";
+                    << "Data file (*.fld)";
 
             QString filter = filters.at(1);
             QString filename = QFileDialog::getSaveFileName(this,
@@ -1831,7 +1831,7 @@ namespace fl {
             if (not dataFile.is_open()) {
                 std::ostringstream ss;
                 ss << "The file <" << filename.toStdString() << "> could not be created";
-                QMessageBox::critical(this, "Error exporting dataset (file)",
+                QMessageBox::critical(this, "Error exporting to FLD (file)",
                         toHtmlEscaped(QString::fromStdString(ss.str())),
                         QMessageBox::Ok);
                 return;
@@ -1841,7 +1841,7 @@ namespace fl {
             try {
                 exporter.toWriter(Model::Default()->engine(), dataFile, " ", results);
             } catch (fl::Exception& ex) {
-                QMessageBox::critical(this, "Error exporting dataset (file)",
+                QMessageBox::critical(this, "Error exporting to FLD (file)",
                         toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                         QMessageBox::Ok);
                 return;
@@ -1850,7 +1850,7 @@ namespace fl {
             ImEx imex;
             imex.setup();
             imex.setWindowTitle("Export engine to");
-            imex.ui->lbl_format->setText("Dataset (file):");
+            imex.ui->lbl_format->setText("FuzzyLite Dataset (FLD):");
             imex.ui->buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
 
             QFont font = typeWriterFont();

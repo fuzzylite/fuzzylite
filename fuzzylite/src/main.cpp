@@ -98,7 +98,7 @@ void exportAllExamples(const std::string& from, const std::string& to) {
     else if (to == "fis") exporter = new FisExporter;
     else if (to == "cpp") exporter = new CppExporter;
     else if (to == "java") exporter = new JavaExporter;
-    else if (to == "dat") exporter = new DataExporter(" ", 1024);
+    else if (to == "fld") exporter = new DataExporter(" ", 1024);
     else throw fl::Exception("[examples error] unrecognized format <" + to + "> to export", FL_AT);
 
     std::vector<std::pair<Exporter*, Importer*> > tests;
@@ -203,10 +203,8 @@ int main(int argc, char** argv) {
         exportAllExamples("fis", "fis");
         exportAllExamples("fis", "cpp");
         exportAllExamples("fis", "java");
-        exportAllExamples("fis", "dat");
-        return 0;
-        //        return FllImporter::main();
-        //        return Console::main(argc, argv);
+        exportAllExamples("fis", "fld");
+//        return Console::main(argc, argv);
     } catch (fl::Exception& e) {
         FL_LOG(e.what());
         FL_LOG(e.btCallStack());

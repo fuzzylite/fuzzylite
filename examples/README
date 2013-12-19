@@ -5,6 +5,6 @@ have been retrieved from Octave and Matlab software and modified
 automatically by fuzzylite's import/export features for FIS files. 
 The original examples have been imported and exported using fuzzylite's 
 respective importers and exporters. The original examples were converted 
-to the following  formats: FuzzyLite Language (.fll), Fuzzy Controller 
-Language (.fcl), Fuzzy Inference System (.fis), fuzzylite C++ (.cpp), 
-jfuzzylite (.java), and dataset (.dat).
+to the following  formats: FuzzyLite Language (.fll), and FuzzyLite
+Dataset (.fld), Fuzzy Controller Language (.fcl), Fuzzy Inference 
+System (.fis), fuzzylite C++ (.cpp), jfuzzylite (.java).
