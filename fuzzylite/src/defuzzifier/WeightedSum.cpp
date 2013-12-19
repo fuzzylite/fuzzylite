@@ -18,6 +18,7 @@
 #include "fl/term/Accumulated.h"
 #include "fl/term/Thresholded.h"
 #include "fl/defuzzifier/Tsukamoto.h"
+#include "fl/norm/TNorm.h"
 
 namespace fl {
 
@@ -60,11 +61,11 @@ namespace fl {
             sum += thresholded->getThreshold() * thresholded->getTerm()->membership(0);
             so replacing 0 with threshold w will give the same for takagi-sugeno, 
             plus provide tsukamoto**/
-
-            scalar z = Tsukamoto::tsukamoto(thresholded, 
+            scalar w = thresholded->getThreshold();
+            scalar z = Tsukamoto::tsukamoto(thresholded,
                     takagiSugeno->getMinimum(), takagiSugeno->getMaximum());
 
-            sum += thresholded->getThreshold() * z;
+            sum += thresholded->getActivation()->compute(w, z);
         }
 
         return sum;
