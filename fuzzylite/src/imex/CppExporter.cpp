@@ -70,6 +70,7 @@ namespace fl {
             name += Op::str<int>(index + 1);
         }
         ss << "fl::InputVariable* " << name << " = new fl::InputVariable;\n";
+        ss << name << "->setEnabled(" << (inputVariable->isEnabled() ? "true" : "false") << ");\n";
         ss << name << "->setName(\"" << inputVariable->getName() << "\");\n";
         ss << name << "->setRange(" <<
                 toString(inputVariable->getMinimum()) << ", " <<
@@ -81,34 +82,35 @@ namespace fl {
         return ss.str();
     }
 
-    std::string CppExporter::toString(const OutputVariable* output, const Engine* engine) const {
+    std::string CppExporter::toString(const OutputVariable* outputVariable, const Engine* engine) const {
         std::ostringstream ss;
         std::string name = "outputVariable";
         if (engine->numberOfOutputVariables() > 1) {
             int index = std::distance(engine->outputVariables().begin(),
                     std::find(engine->outputVariables().begin(),
-                    engine->outputVariables().end(), output));
+                    engine->outputVariables().end(), outputVariable));
             name += Op::str<int>(index + 1);
         }
         ss << "fl::OutputVariable* " << name << " = new fl::OutputVariable;\n";
-        ss << name << "->setName(\"" << output->getName() << "\");\n";
+        ss << name << "->setEnabled(" << (outputVariable->isEnabled() ? "true" : "false") << ");\n";
+        ss << name << "->setName(\"" << outputVariable->getName() << "\");\n";
         ss << name << "->setRange(" <<
-                toString(output->getMinimum()) << ", " <<
-                toString(output->getMaximum()) << ");\n";
+                toString(outputVariable->getMinimum()) << ", " <<
+                toString(outputVariable->getMaximum()) << ");\n";
         ss << name << "->setLockOutputRange(" <<
-                (output->isLockingOutputRange() ? "true" : "false") << ");\n";
+                (outputVariable->isLockingOutputRange() ? "true" : "false") << ");\n";
 
-        ss << name << "->setDefaultValue(" << toString(output->getDefaultValue()) << ");\n";
+        ss << name << "->setDefaultValue(" << toString(outputVariable->getDefaultValue()) << ");\n";
 
         ss << name << "->setLockValidOutput(" <<
-                (output->isLockingValidOutput() ? "true" : "false") << ");\n";
+                (outputVariable->isLockingValidOutput() ? "true" : "false") << ");\n";
 
         ss << name << "->setDefuzzifier(" <<
-                toString(output->getDefuzzifier()) << ");\n";
+                toString(outputVariable->getDefuzzifier()) << ");\n";
         ss << name << "->output()->setAccumulation(" <<
-                toString(output->output()->getAccumulation()) << ");\n";
-        for (int t = 0; t < output->numberOfTerms(); ++t) {
-            ss << name << "->addTerm(" << toString(output->getTerm(t)) << ");\n";
+                toString(outputVariable->output()->getAccumulation()) << ");\n";
+        for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
+            ss << name << "->addTerm(" << toString(outputVariable->getTerm(t)) << ");\n";
         }
         ss << "engine->addOutputVariable(" << name << ");\n";
         return ss.str();
@@ -124,6 +126,7 @@ namespace fl {
             name += Op::str<int>(index + 1);
         }
         ss << "fl::RuleBlock* " << name << " = new fl::RuleBlock;\n";
+        ss << name << "->setEnabled(" << (ruleBlock->isEnabled() ? "true" : "false") << ");\n";
         ss << name << "->setName(\"" << ruleBlock->getName() << "\");\n";
         ss << name << "->setConjunction(" <<
                 toString(ruleBlock->getConjunction()) << ");\n";
@@ -312,7 +315,7 @@ namespace fl {
         if (not defuzzifier) return "NULL";
         if (defuzzifier->className() == WeightedAverage().className()
                 or defuzzifier->className() == WeightedSum().className()) {
-            return "new fl::" + defuzzifier->className() + "()";
+            return "new fl::" + defuzzifier->className();
         }
         const IntegralDefuzzifier* integralDefuzzifier =
                 dynamic_cast<const IntegralDefuzzifier*> (defuzzifier);

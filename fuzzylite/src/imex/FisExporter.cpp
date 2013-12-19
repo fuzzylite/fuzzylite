@@ -140,6 +140,7 @@ namespace fl {
         for (int ixVar = 0; ixVar < engine->numberOfInputVariables(); ++ixVar) {
             InputVariable* var = engine->getInputVariable(ixVar);
             fis << "[Input" << (ixVar + 1) << "]\n";
+            fis << "Enabled=" << var->isEnabled() << "\n";
             fis << "Name='" << var->getName() << "'\n";
             fis << "Range=[" << fl::Op::join(2, " ", var->getMinimum(), var->getMaximum()) << "]\n";
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
@@ -157,6 +158,7 @@ namespace fl {
         for (int ixVar = 0; ixVar < engine->numberOfOutputVariables(); ++ixVar) {
             OutputVariable* var = engine->getOutputVariable(ixVar);
             fis << "[Output" << (ixVar + 1) << "]\n";
+            fis << "Enabled=" << var->isEnabled() << "\n";
             fis << "Name='" << var->getName() << "'\n";
             fis << "Range=[" << fl::Op::join(2, " ", var->getMinimum(), var->getMaximum()) << "]\n";
             fis << "Default=" << fl::Op::str(var->getDefaultValue()) << "\n";
@@ -274,9 +276,9 @@ namespace fl {
             }
             if (negated < 0) ss << "-";
             ss << termIndexPlusOne;
-            if (fl::Op::isGE(plusHedge, 0.0)){
+            if (fl::Op::isGE(plusHedge, 0.0)) {
                 ss << "." << fl::Op::str(plusHedge, 0);
-            }else{
+            } else {
                 ss << ".?"; // Unreconized hedge combination
             }
             ss << " ";
@@ -396,7 +398,7 @@ namespace fl {
                     x->getMinimum(), x->getMaximum()) << "]";
             return ss.str();
         }
-        
+
         if (term->className() == SigmoidDifference().className()) {
             const SigmoidDifference* x = dynamic_cast<const SigmoidDifference*> (term);
             ss << "'dsigmf',[" << fl::Op::join(4, " ",
@@ -411,7 +413,7 @@ namespace fl {
                     x->getSlope(), x->getInflection()) << "]";
             return ss.str();
         }
-        
+
         if (term->className() == SigmoidProduct().className()) {
             const SigmoidProduct* x = dynamic_cast<const SigmoidProduct*> (term);
             ss << "'psigmf',[" << fl::Op::join(4, " ",

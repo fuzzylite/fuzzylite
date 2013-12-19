@@ -204,7 +204,7 @@ namespace fl {
 
 
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            _ruleblocks.at(i)->activate();
+            if (_ruleblocks.at(i)->isEnabled()) _ruleblocks.at(i)->activate();
         }
 
 

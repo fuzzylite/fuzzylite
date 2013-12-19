@@ -27,9 +27,9 @@ namespace fl {
     std::string Console::usage() {
         std::vector<std::pair<std::string, std::string> > options; //not a map to keep order;
         options.push_back(std::pair<std::string, std::string>(KW_INPUT_FILE, "inputfile"));
-        options.push_back(std::pair<std::string, std::string>(KW_INPUT_FORMAT, "fis,fcl"));
+        options.push_back(std::pair<std::string, std::string>(KW_INPUT_FORMAT, "fll,fis,fcl"));
         options.push_back(std::pair<std::string, std::string>(KW_OUTPUT_FILE, "outputfile"));
-        options.push_back(std::pair<std::string, std::string>(KW_OUTPUT_FORMAT, "fis,fcl,cpp,java,dat"));
+        options.push_back(std::pair<std::string, std::string>(KW_OUTPUT_FORMAT, "fll,fis,fcl,cpp,java,dat"));
         options.push_back(std::pair<std::string, std::string>(KW_EXAMPLE, "(m)amdani,(t)akagi-sugeno"));
         options.push_back(std::pair<std::string, std::string>(KW_DATA_RESOLUTION_VARIABLE, "resolution(variable)"));
         options.push_back(std::pair<std::string, std::string>(KW_DATA_RESOLUTION_TOTAL, "resolution(total)"));
@@ -75,9 +75,9 @@ namespace fl {
         } else {
             std::map<std::string, std::string> valid;
             valid[KW_INPUT_FILE] = "inputfile";
-            valid[KW_INPUT_FORMAT] = "fis,fcl";
+            valid[KW_INPUT_FORMAT] = "fll,fis,fcl";
             valid[KW_OUTPUT_FILE] = "outputfile";
-            valid[KW_OUTPUT_FORMAT] = "fis,fcl,cpp,java,dat";
+            valid[KW_OUTPUT_FORMAT] = "fll,fis,fcl,cpp,java,dat";
             valid[KW_EXAMPLE] = "(m)amdani,(t)akagi-sugeno";
             valid[KW_DATA_RESOLUTION_VARIABLE] = "resolution(variable)";
             valid[KW_DATA_RESOLUTION_TOTAL] = "resolution(total)";
@@ -113,8 +113,8 @@ namespace fl {
             } else {
                 throw fl::Exception("[option error] example <" + example + "> not available", FL_AT);
             }
-            inputFormat = "fcl";
-            textEngine << FclExporter().toString(engine);
+            inputFormat = "fll";
+            textEngine << FllExporter().toString(engine);
             delete engine;
 
         } else {
@@ -185,7 +185,9 @@ namespace fl {
             const std::string& inputFormat, const std::string& outputFormat,
             const std::map<std::string, std::string>& options) {
         Importer* importer;
-        if ("fcl" == inputFormat) {
+        if ("fll" == inputFormat) {
+            importer = new FllImporter;
+        } else if ("fcl" == inputFormat) {
             importer = new FclImporter;
         } else if ("fis" == inputFormat) {
             importer = new FisImporter;
@@ -204,7 +206,9 @@ namespace fl {
         }
 
         Exporter* exporter;
-        if ("fcl" == outputFormat) {
+        if ("fll" == outputFormat) {
+            exporter = new FllExporter;
+        } else if ("fcl" == outputFormat) {
             exporter = new FclExporter;
         } else if ("fis" == outputFormat) {
             exporter = new FisExporter;
@@ -343,7 +347,6 @@ namespace fl {
         block->addRule(fl::Rule::parse("if inputX is NEAR_8 then outputFx = f8", engine));
         block->addRule(fl::Rule::parse("if inputX is NEAR_9 then outputFx = f9", engine));
         block->addRule(fl::Rule::parse("if inputX is any then trueFx = fx and diffFx = diff", engine));
-        //        block->addRule(fl::Rule::parse("if diffPreviousFx is any then trueFx = fx and diffFx = diff", engine));
         engine->addRuleBlock(block);
 
         engine->configure("", "", "AlgebraicProduct", "", "WeightedAverage");

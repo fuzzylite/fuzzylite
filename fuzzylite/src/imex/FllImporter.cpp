@@ -67,9 +67,8 @@ namespace fl {
                 }
                 if (processPending) {
                     process(tag, block.str(), engine);
-                    //TODO: clear vs str("");?
-                    block.clear();
-                    block.str("");
+                    block.str(""); //clear buffer
+                    block.clear(); //clear error flags
                     processPending = false;
                     tag = key;
                 }
@@ -106,7 +105,7 @@ namespace fl {
             if ("InputVariable" == keyValue.first) {
                 inputVariable->setName(keyValue.second);
             } else if ("enabled" == keyValue.first) {
-                inputVariable->setEnabled("true" == keyValue.second);
+                inputVariable->setEnabled(parseBoolean(keyValue.second));
             } else if ("range" == keyValue.first) {
                 std::pair<scalar, scalar> range = parseRange(keyValue.second);
                 inputVariable->setRange(range.first, range.second);
@@ -129,16 +128,16 @@ namespace fl {
             if ("OutputVariable" == keyValue.first) {
                 outputVariable->setName(keyValue.second);
             } else if ("enabled" == keyValue.first) {
-                outputVariable->setEnabled("true" == keyValue.second);
+                outputVariable->setEnabled(parseBoolean(keyValue.second));
             } else if ("range" == keyValue.first) {
                 std::pair<scalar, scalar> range = parseRange(keyValue.second);
                 outputVariable->setRange(range.first, range.second);
             } else if ("default" == keyValue.first) {
                 outputVariable->setDefaultValue(Op::toScalar(keyValue.second));
             } else if ("lock-valid" == keyValue.first) {
-                outputVariable->setLockValidOutput("true" == keyValue.second);
+                outputVariable->setLockValidOutput(parseBoolean(keyValue.second));
             } else if ("lock-range" == keyValue.first) {
-                outputVariable->setLockOutputRange("true" == keyValue.second);
+                outputVariable->setLockOutputRange(parseBoolean(keyValue.second));
             } else if ("defuzzifier" == keyValue.first) {
                 outputVariable->setDefuzzifier(parseDefuzzifier(keyValue.second));
             } else if ("accumulation" == keyValue.first) {
@@ -162,7 +161,7 @@ namespace fl {
             if ("RuleBlock" == keyValue.first) {
                 ruleBlock->setName(keyValue.second);
             } else if ("enabled" == keyValue.first) {
-                ruleBlock->setEnabled("true" == keyValue.second);
+                ruleBlock->setEnabled(parseBoolean(keyValue.second));
             } else if ("conjunction" == keyValue.first) {
                 ruleBlock->setConjunction(parseTNorm(keyValue.second));
             } else if ("disjunction" == keyValue.first) {
@@ -185,16 +184,16 @@ namespace fl {
         while (tokenizer >> token) {
             tokens.push_back(token);
         }
-        //MEDIUM = Triangle 0.500 1.000 1.500
+        //MEDIUM Triangle 0.500 1.000 1.500
 
-        if (tokens.size() < 3) {
-            throw fl::Exception("[syntax error] expected a term in format <name = class parameters>, "
+        if (tokens.size() < 2) {
+            throw fl::Exception("[syntax error] expected a term in format <name class parameters>, "
                     "but found <" + text + ">", FL_AT);
         }
-        Term* term = FactoryManager::instance()->term()->createInstance(tokens.at(2));
+        Term* term = FactoryManager::instance()->term()->createInstance(tokens.at(1));
         term->setName(Op::makeValidId(tokens.at(0)));
         std::ostringstream parameters;
-        for (std::size_t i = 3; i < tokens.size(); ++i) {
+        for (std::size_t i = 2; i < tokens.size(); ++i) {
             parameters << tokens.at(i);
             if (i + 1 < tokens.size()) parameters << " ";
         }
@@ -242,6 +241,13 @@ namespace fl {
     std::pair<scalar, scalar> FllImporter::parseRange(const std::string& text) const {
         std::pair<std::string, std::string> range = parseKeyValue(text, ' ');
         return std::pair<scalar, scalar>(Op::toScalar(range.first), Op::toScalar(range.second));
+    }
+    
+    bool FllImporter::parseBoolean(const std::string& boolean) const{
+        if ("true" == boolean) return true;
+        if ("false" == boolean) return false;
+        throw fl::Exception("[syntax error] expected boolean <true|false>, "
+                "but found <" + boolean + ">", FL_AT);
     }
 
     std::pair<std::string, std::string> FllImporter::parseKeyValue(const std::string& text,

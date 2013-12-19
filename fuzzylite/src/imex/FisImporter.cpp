@@ -55,10 +55,6 @@ namespace fl {
             if ((int) comments.size() > 1) {
                 line = comments.front();
             }
-            comments = Op::split(line, "/*");
-            if ((int) comments.size() > 1) {
-                line = comments.front();
-            }
             line = Op::trim(line);
             line = fl::Op::findReplace(line, "'", "");
             if (line.empty() or line.at(0) == '%')
@@ -152,7 +148,9 @@ namespace fl {
             std::string value = fl::Op::trim(keyValue.at(1));
 
             if (key == "Name") input->setName(fl::Op::makeValidId(value));
-            else if (key == "Range") {
+            else if (key == "Enabled") {
+                input->setEnabled((int) fl::Op::toScalar(value) == 1);
+            } else if (key == "Range") {
                 std::pair<scalar, scalar> minmax = extractRange(value);
                 input->setMinimum(minmax.first);
                 input->setMaximum(minmax.second);
@@ -184,7 +182,9 @@ namespace fl {
             std::string value = fl::Op::trim(keyValue.at(1));
 
             if (key == "Name") output->setName(fl::Op::makeValidId(value));
-            else if (key == "Range") {
+            else if (key == "Enabled") {
+                output->setEnabled((int) fl::Op::toScalar(value) == 1);
+            } else if (key == "Range") {
                 std::pair<scalar, scalar> minmax = extractRange(value);
                 output->setMinimum(minmax.first);
                 output->setMaximum(minmax.second);
@@ -485,7 +485,7 @@ namespace fl {
 
         try {
             Term* result = FactoryManager::instance()->term()->createInstance(flClass);
-            result->setName(fl::Op::makeValidId(name));
+            result->setName(Op::makeValidId(name));
             result->configure(Op::join(sortedParams, " "));
             return result;
         } catch (fl::Exception& ex) {

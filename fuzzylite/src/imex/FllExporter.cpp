@@ -130,7 +130,7 @@ namespace fl {
         std::ostringstream ss;
         ss << "Term: ";
         if (term) {
-            ss << term->getName() << " = " << term->className() << " "
+            ss << term->getName() << " " << term->className() << " "
                     << term->parameters();
         } else {
             ss << "none";

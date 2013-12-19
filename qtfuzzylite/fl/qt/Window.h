@@ -103,7 +103,7 @@ namespace fl {
             void onMenuTerms();
             void onMenuSurface2D();
 
-            bool confirmSaveChanges(const QString& before);
+            bool confirmChanges(const QString& before);
 
             void onMenuImport();
             void onMenuExport();

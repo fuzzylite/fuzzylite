@@ -102,19 +102,19 @@ namespace fl {
             }
 
             engine->process();
-            
-            for (int i = 0 ; i  <engine->numberOfOutputVariables(); ++i){
+
+            for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
                 OutputVariable* outputVariable = engine->getOutputVariable(i);
                 values.push_back(Op::str(outputVariable->defuzzify()));
             }
-            
+
             writer << Op::join(values, separator) << "\n";
             writer.flush();
-            
+
             overflow = Op::increment(sampleValues, minSampleValues, maxSampleValues);
         }
     }
-    
+
     template FL_EXPORT void DataExporter::toWriter(Engine* engine, std::ofstream& writer,
             const std::string& separator, int resolution) const;
     template FL_EXPORT void DataExporter::toWriter(Engine* engine, std::ostringstream& writer,

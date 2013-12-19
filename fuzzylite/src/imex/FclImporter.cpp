@@ -63,10 +63,6 @@ namespace fl {
                 if ((int) comments.size() > 1) {
                     line = comments.front();
                 }
-                comments = Op::split(line, "/*");
-                if ((int) comments.size() > 1) {
-                    line = comments.front();
-                }
                 line = Op::trim(line);
                 if (line.empty() or line.at(0) == '#')
                     continue;
@@ -102,8 +98,8 @@ namespace fl {
                     }
                     currentTag = tagFinder->first;
                     closingTag = tagFinder->second;
-                    block.clear();
                     block.str("");
+                    block.clear();
                     block << line << "\n";
                     continue;
                 }
@@ -215,6 +211,8 @@ namespace fl {
                     std::pair<scalar, scalar> minmax = extractRange(line);
                     inputVariable->setMinimum(minmax.first);
                     inputVariable->setMaximum(minmax.second);
+                } else if (firstToken == "ENABLED") {
+                    inputVariable->setEnabled(extractEnabled(line));
                 } else if (firstToken == "TERM") {
                     inputVariable->addTerm(prepareTerm(extractTerm(line), engine));
                 } else throw fl::Exception("[syntax error] unexpected token "
@@ -274,6 +272,8 @@ namespace fl {
                 std::pair<bool, bool> output_range = extractLocksOutputRange(line);
                 outputVariable->setLockValidOutput(output_range.first);
                 outputVariable->setLockOutputRange(output_range.second);
+            } else if (firstToken == "ENABLED") {
+                outputVariable->setEnabled(extractEnabled(line));
             } else {
                 std::ostringstream ex;
                 ex << "[syntax error] unexpected token <" << firstToken <<
@@ -303,6 +303,8 @@ namespace fl {
                 ruleblock->setDisjunction(extractSNorm(line));
             } else if (firstToken == "ACT") {
                 ruleblock->setActivation(extractTNorm(line));
+            } else if (firstToken == "ENABLED") {
+                ruleblock->setEnabled(extractEnabled(line));
             } else if (firstToken == "RULE") {
                 std::size_t ruleStart = line.find_first_of(':');
                 if (ruleStart == std::string::npos) ruleStart = 4; // "RULE".size()
@@ -598,5 +600,19 @@ namespace fl {
         return std::pair<bool, bool>(output, range);
     }
 
+    bool FclImporter::extractEnabled(const std::string& line) const {
+        std::vector<std::string> token = Op::split(line, ":");
+        if (token.size() != 2) {
+            std::ostringstream ex;
+            ex << "[syntax error] expected property of type (key : value) in "
+                    << "line: " << line;
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+
+        std::string boolean = fl::Op::trim(fl::Op::findReplace(token.at(1), ";", ""));
+        if (boolean == "TRUE") return true;
+        if (boolean == "FALSE") return false;
+        throw fl::Exception("[syntax error] expected boolean <TRUE|FALSE>, but found <" + line + ">", FL_AT);
+    }
 
 }

@@ -28,10 +28,18 @@
 
 namespace fl {
 
-    FclExporter::FclExporter() {
+    FclExporter::FclExporter(const std::string& indent) : Exporter(), _indent(indent) {
     }
 
     FclExporter::~FclExporter() {
+    }
+
+    void FclExporter::setIndent(const std::string& indent) {
+        this->_indent = indent;
+    }
+
+    std::string FclExporter::getIndent() const {
+        return this->_indent;
     }
 
     std::string FclExporter::name() const {
@@ -44,26 +52,28 @@ namespace fl {
 
         fcl << "VAR_INPUT\n";
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
-            fcl << "  " << engine->getInputVariable(i)->getName() << ": REAL;\n";
+            fcl << _indent << engine->getInputVariable(i)->getName() << ": REAL;\n";
         }
         fcl << "END_VAR\n\n";
 
         fcl << "VAR_OUTPUT\n";
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-            fcl << "  " << engine->getOutputVariable(i)->getName() << ": REAL;\n";
+            fcl << _indent << engine->getOutputVariable(i)->getName() << ": REAL;\n";
         }
         fcl << "END_VAR\n\n";
 
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
             InputVariable* inputVariable = engine->getInputVariable(i);
             fcl << "FUZZIFY " << inputVariable->getName() << "\n";
-            fcl << "  " << "RANGE := (" << fl::Op::join(2, " .. ",
+            fcl << _indent << "ENABLED : " << 
+                    (inputVariable->isEnabled() ? "TRUE" : "FALSE") << ";\n";
+            fcl << _indent << "RANGE := (" << fl::Op::join(2, " .. ",
                     inputVariable->getMinimum(), inputVariable->getMaximum())
                     << ");\n";
 
             for (int t = 0; t < inputVariable->numberOfTerms(); ++t) {
                 Term* term = inputVariable->getTerm(t);
-                fcl << "  " << "TERM " << term->getName() << " := " << toString(term)
+                fcl << _indent << "TERM " << term->getName() << " := " << toString(term)
                         << ";\n";
             }
             fcl << "END_FUZZIFY\n\n";
@@ -72,29 +82,31 @@ namespace fl {
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
             fcl << "DEFUZZIFY " << outputVariable->getName() << "\n";
-            fcl << "  " << "RANGE := (" << fl::Op::join(2, " .. ",
+            fcl << _indent << "ENABLED : " << 
+                    (outputVariable->isEnabled() ? "TRUE" : "FALSE") << ";\n";
+            fcl << _indent << "RANGE := (" << fl::Op::join(2, " .. ",
                     outputVariable->getMinimum(), outputVariable->getMaximum())
                     << ");\n";
 
             for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
                 Term* term = outputVariable->getTerm(t);
-                fcl << "  " << "TERM " << term->getName() << " := " << toString(term)
+                fcl << _indent << "TERM " << term->getName() << " := " << toString(term)
                         << ";\n";
             }
             if (outputVariable->getDefuzzifier()) {
-                fcl << "  " << "METHOD : " << toString(outputVariable->getDefuzzifier()) << ";\n";
+                fcl << _indent << "METHOD : " << toString(outputVariable->getDefuzzifier()) << ";\n";
             }
             if (outputVariable->output()->getAccumulation())
-                fcl << "  " << "ACCU : " << toString(outputVariable->output()->getAccumulation()) << ";\n";
+                fcl << _indent << "ACCU : " << toString(outputVariable->output()->getAccumulation()) << ";\n";
 
-            fcl << "  " << "DEFAULT := " << fl::Op::str(outputVariable->getDefaultValue());
+            fcl << _indent << "DEFAULT := " << fl::Op::str(outputVariable->getDefaultValue());
             if (outputVariable->isLockingValidOutput()) {
                 fcl << " | NC";
             }
             fcl << ";\n";
 
             if (outputVariable->isLockingValidOutput() or outputVariable->isLockingOutputRange()) {
-                fcl << "  " << "LOCK : ";
+                fcl << _indent << "LOCK : ";
                 std::string lock;
                 if (outputVariable->isLockingValidOutput()) {
                     lock = "VALID";
@@ -113,16 +125,17 @@ namespace fl {
         for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
             RuleBlock* ruleblock = engine->getRuleBlock(i);
             fcl << "RULEBLOCK " << ruleblock->getName() << "\n";
-
+            fcl << _indent << "ENABLED : " << 
+                    (ruleblock->isEnabled() ? "TRUE" : "FALSE") << ";\n";
             if (ruleblock->getConjunction())
-                fcl << "  " << "AND : " << toString(ruleblock->getConjunction()) << ";\n";
+                fcl << _indent << "AND : " << toString(ruleblock->getConjunction()) << ";\n";
             if (ruleblock->getDisjunction())
-                fcl << "  " << "OR : " << toString(ruleblock->getDisjunction()) << ";\n";
+                fcl << _indent << "OR : " << toString(ruleblock->getDisjunction()) << ";\n";
             if (ruleblock->getActivation())
-                fcl << "  " << "ACT : " << toString(ruleblock->getActivation()) << ";\n";
+                fcl << _indent << "ACT : " << toString(ruleblock->getActivation()) << ";\n";
 
             for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
-                fcl << "  " << "RULE " << (r + 1) << " : " <<
+                fcl << _indent << "RULE " << (r + 1) << " : " <<
                         ruleblock->getRule(r)->getText() << "\n";
             }
             fcl << "END_RULEBLOCK\n";
@@ -169,8 +182,6 @@ namespace fl {
         if (defuzzifier->className() == WeightedSum().className()) return "COGSS";
         return defuzzifier->className();
     }
-
-    //TODO: Extend to each case as FllImporter will be used within all terms
 
     std::string FclExporter::toString(const Term* term) const {
         if (term->className() == Discrete().className()) {

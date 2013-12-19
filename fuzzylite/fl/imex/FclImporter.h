@@ -51,11 +51,12 @@ namespace fl {
 
         virtual Term* extractTerm(const std::string& line) const;
         virtual Term* prepareTerm(Term* term, const Engine* engine) const;
-        
+
         virtual Defuzzifier* extractDefuzzifier(const std::string& line) const;
         virtual std::pair<scalar, bool> extractDefaultValue(const std::string& line) const;
         virtual std::pair<scalar, scalar> extractRange(const std::string& line) const;
-        virtual std::pair<bool, bool> extractLocksOutputRange(const std::string& line) const ;
+        virtual std::pair<bool, bool> extractLocksOutputRange(const std::string& line) const;
+        virtual bool extractEnabled(const std::string& line) const;
 
     public:
         FclImporter();

@@ -69,6 +69,7 @@ namespace fl {
             name += Op::str<int>(index + 1);
         }
         ss << "InputVariable " << name << " = new InputVariable();\n";
+        ss << name << ".setEnabled(" << (inputVariable->isEnabled() ? "true" : "false") << ");\n";
         ss << name << ".setName(\"" << inputVariable->getName() << "\");\n";
         ss << name << ".setRange("
                 << toString(inputVariable->getMinimum()) << ", "
@@ -92,6 +93,7 @@ namespace fl {
             name += Op::str<int>(index + 1);
         }
         ss << "OutputVariable " << name << " = new OutputVariable();\n";
+        ss << name << ".setEnabled(" << (outputVariable->isEnabled() ? "true" : "false") << ");\n";
         ss << name << ".setName(\"" << outputVariable->getName() << "\");\n";
         ss << name << ".setRange("
                 << toString(outputVariable->getMinimum()) << ", "
@@ -125,6 +127,7 @@ namespace fl {
             name += Op::str<int>(index + 1);
         }
         ss << "RuleBlock " << name << " = new RuleBlock();\n";
+        ss << name << ".setEnabled(" << (ruleBlock->isEnabled() ? "true" : "false") << ");\n";
         ss << name << ".setName(\"" << ruleBlock->getName() << "\");\n";
         ss << name << ".setConjunction("
                 << toString(ruleBlock->getConjunction()) << ");\n";

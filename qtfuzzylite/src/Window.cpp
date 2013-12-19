@@ -1129,24 +1129,22 @@ namespace fl {
          * Toolbar events
          **/
 
-        bool Window::confirmSaveChanges(const QString& before) {
+        bool Window::confirmChanges(const QString& before) {
             if (not _currentFileModified) return true;
 
             QString currentFilename;
             if (_currentFile.isEmpty()) currentFilename = "untitled";
             else currentFilename = QFileInfo(_currentFile).fileName();
+
             QMessageBox::StandardButton clicked =
-                    QMessageBox::question(this, "Save engine",
-                    "Do you want to save the changes made to "
+                    QMessageBox::warning(this, before,
+                    "Any unsaved changes to "
                     "\"" + currentFilename + "\""
-                    " before " + before + "?",
-                    QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel,
+                    " will be lost.<br><br>"
+                    "Do you want to continue?",
+                    QMessageBox::Yes | QMessageBox::No,
                     QMessageBox::Yes);
-            if (clicked == QMessageBox::Yes) {
-                if (_currentFile.isEmpty()) onMenuSaveAs();
-                else saveFile(QFileInfo(_currentFile).absoluteFilePath());
-            }
-            return clicked != QMessageBox::Cancel;
+            return (clicked == QMessageBox::Yes);
         }
 
         void Window::onMenuNew() {
@@ -1484,7 +1482,7 @@ namespace fl {
                 FllImporter importer;
                 try {
                     engine = importer.fromString(fllString);
-                    if (not confirmSaveChanges("importing from FLL")) {
+                    if (not confirmChanges("Import from FLL")) {
                         delete engine;
                         return;
                     }
@@ -1519,7 +1517,7 @@ namespace fl {
                 FclImporter importer;
                 try {
                     engine = importer.fromString(fclString);
-                    if (not confirmSaveChanges("importing from FCL")) {
+                    if (not confirmChanges("Import from FCL")) {
                         delete engine;
                         return;
                     }
@@ -1554,7 +1552,7 @@ namespace fl {
                 FisImporter importer;
                 try {
                     engine = importer.fromString(fisString);
-                    if (not confirmSaveChanges("importing from FIS")) {
+                    if (not confirmChanges("Import from FIS")) {
                         delete engine;
                         return;
                     }
@@ -1771,7 +1769,7 @@ namespace fl {
             try {
                 data = exporter.toString(Model::Default()->engine());
             } catch (fl::Exception& ex) {
-                QMessageBox::critical(this, "Error exporting data (view)",
+                QMessageBox::critical(this, "Error exporting dataset (view)",
                         toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                         QMessageBox::Ok);
                 return;
@@ -1780,7 +1778,7 @@ namespace fl {
             ImEx imex;
             imex.setup();
             imex.setWindowTitle("Export engine to");
-            imex.ui->lbl_format->setText("data (view):");
+            imex.ui->lbl_format->setText("Dataset (view):");
             imex.ui->buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
 
             QFont font = typeWriterFont();
@@ -1835,7 +1833,7 @@ namespace fl {
             if (not dataFile.is_open()) {
                 std::ostringstream ss;
                 ss << "The file <" << filename.toStdString() << "> could not be created";
-                QMessageBox::critical(this, "Error exporting data (file)",
+                QMessageBox::critical(this, "Error exporting dataset (file)",
                         toHtmlEscaped(QString::fromStdString(ss.str())),
                         QMessageBox::Ok);
                 return;
@@ -1847,7 +1845,7 @@ namespace fl {
             try {
                 exporter.toWriter(Model::Default()->engine(), dataFile, " ", resolution);
             } catch (fl::Exception& ex) {
-                QMessageBox::critical(this, "Error exporting data (file)",
+                QMessageBox::critical(this, "Error exporting dataset (file)",
                         toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
                         QMessageBox::Ok);
                 return;
@@ -1856,7 +1854,7 @@ namespace fl {
             ImEx imex;
             imex.setup();
             imex.setWindowTitle("Export engine to");
-            imex.ui->lbl_format->setText("data (file):");
+            imex.ui->lbl_format->setText("Dataset (file):");
             imex.ui->buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
 
             QFont font = typeWriterFont();
