@@ -1,0 +1,53 @@
+Engine: Heart-Disease-Risk
+
+InputVariable: LDLLevel
+  enabled: true
+  range: 0.000 300.000
+  Term: Low Trapezoid -1.000 0.000 90.000 110.000
+  Term: LowBorderline Trapezoid 90.000 110.000 120.000 140.000
+  Term: Borderline Trapezoid 120.000 140.000 150.000 170.000
+  Term: HighBorderline Trapezoid 150.000 170.000 180.000 200.000
+  Term: High Trapezoid 180.000 200.000 300.000 301.000
+
+InputVariable: HDLLevel
+  enabled: true
+  range: 0.000 100.000
+  Term: LowHDL Trapezoid -1.000 0.000 35.000 45.000
+  Term: ModerateHDL Trapezoid 35.000 45.000 55.000 65.000
+  Term: HighHDL Trapezoid 55.000 65.000 100.000 101.000
+
+OutputVariable: HeartDiseaseRisk
+  enabled: true
+  range: 0.000 10.000
+  default: nan
+  lock-valid: false
+  lock-range: false
+  defuzzifier: WeightedAverage
+  accumulation: Maximum
+  Term: NoRisk Constant 0.000
+  Term: LowRisk Constant 2.500
+  Term: MediumRisk Constant 5.000
+  Term: HighRisk Constant 7.500
+  Term: ExtremeRisk Constant 10.000
+
+RuleBlock: 
+  enabled: true
+  conjunction: Minimum
+  disjunction: Maximum
+  activation: Minimum
+  Rule: if LDLLevel is Low and HDLLevel is LowHDL then HeartDiseaseRisk is MediumRisk
+  Rule: if LDLLevel is Low and HDLLevel is ModerateHDL then HeartDiseaseRisk is LowRisk
+  Rule: if LDLLevel is Low and HDLLevel is HighHDL then HeartDiseaseRisk is NoRisk
+  Rule: if LDLLevel is LowBorderline and HDLLevel is LowHDL then HeartDiseaseRisk is MediumRisk
+  Rule: if LDLLevel is LowBorderline and HDLLevel is ModerateHDL then HeartDiseaseRisk is LowRisk
+  Rule: if LDLLevel is LowBorderline and HDLLevel is HighHDL then HeartDiseaseRisk is LowRisk
+  Rule: if LDLLevel is Borderline and HDLLevel is LowHDL then HeartDiseaseRisk is HighRisk
+  Rule: if LDLLevel is Borderline and HDLLevel is ModerateHDL then HeartDiseaseRisk is MediumRisk
+  Rule: if LDLLevel is Borderline and HDLLevel is HighHDL then HeartDiseaseRisk is LowRisk
+  Rule: if LDLLevel is HighBorderline and HDLLevel is LowHDL then HeartDiseaseRisk is HighRisk
+  Rule: if LDLLevel is HighBorderline and HDLLevel is ModerateHDL then HeartDiseaseRisk is HighRisk
+  Rule: if LDLLevel is HighBorderline and HDLLevel is HighHDL then HeartDiseaseRisk is MediumRisk
+  Rule: if LDLLevel is High and HDLLevel is LowHDL then HeartDiseaseRisk is ExtremeRisk
+  Rule: if LDLLevel is High and HDLLevel is ModerateHDL then HeartDiseaseRisk is HighRisk
+  Rule: if LDLLevel is High and HDLLevel is HighHDL then HeartDiseaseRisk is MediumRisk
+

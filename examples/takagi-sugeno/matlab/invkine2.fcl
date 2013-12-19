@@ -1,0 +1,121 @@
+FUNCTION_BLOCK invkine2
+
+VAR_INPUT
+  input1: REAL;
+  input2: REAL;
+END_VAR
+
+VAR_OUTPUT
+  output: REAL;
+END_VAR
+
+FUZZIFY input1
+  ENABLED : TRUE;
+  RANGE := (-6.287 .. 17.000);
+  TERM in1mf1 := Bell -5.763 3.015 1.851;
+  TERM in1mf2 := Bell -1.624 3.130 2.111;
+  TERM in1mf3 := Bell 3.552 3.193 2.104;
+  TERM in1mf4 := Bell 8.273 2.907 1.985;
+  TERM in1mf5 := Bell 13.232 2.708 2.056;
+  TERM in1mf6 := Bell 17.783 1.635 1.897;
+END_FUZZIFY
+
+FUZZIFY input2
+  ENABLED : TRUE;
+  RANGE := (0.000 .. 16.972);
+  TERM in2mf1 := Bell 0.005 1.877 1.995;
+  TERM in2mf2 := Bell 3.312 2.017 1.829;
+  TERM in2mf3 := Bell 6.568 2.261 1.793;
+  TERM in2mf4 := Bell 10.111 2.741 1.978;
+  TERM in2mf5 := Bell 14.952 2.045 1.783;
+  TERM in2mf6 := Bell 17.910 0.824 1.734;
+END_FUZZIFY
+
+DEFUZZIFY output
+  ENABLED : TRUE;
+  RANGE := (0.000 .. 3.100);
+  TERM out1mf1 := Linear -0.048 1.456 2.222;
+  TERM out1mf2 := Linear -0.218 -0.305 2.042;
+  TERM out1mf3 := Linear 0.026 -0.141 3.067;
+  TERM out1mf4 := Linear 0.052 -0.150 3.419;
+  TERM out1mf5 := Linear 0.113 -0.189 4.339;
+  TERM out1mf6 := Linear 2.543 0.361 -2.738;
+  TERM out1mf7 := Linear 2.517 -6.809 23.353;
+  TERM out1mf8 := Linear -0.208 -0.394 4.472;
+  TERM out1mf9 := Linear -0.046 -0.300 4.452;
+  TERM out1mf10 := Linear -0.006 -0.217 4.195;
+  TERM out1mf11 := Linear 0.089 -0.254 4.992;
+  TERM out1mf12 := Linear -0.033 0.103 -2.012;
+  TERM out1mf13 := Linear 1.355 1.228 -5.678;
+  TERM out1mf14 := Linear -0.245 -0.124 3.753;
+  TERM out1mf15 := Linear -0.099 -0.111 3.304;
+  TERM out1mf16 := Linear -0.052 -0.163 3.560;
+  TERM out1mf17 := Linear 0.099 -0.260 4.662;
+  TERM out1mf18 := Linear 0.082 -1.849 31.104;
+  TERM out1mf19 := Linear 2.180 -2.963 -0.061;
+  TERM out1mf20 := Linear -0.982 0.510 5.657;
+  TERM out1mf21 := Linear -0.087 -0.179 3.744;
+  TERM out1mf22 := Linear -0.124 -0.161 4.094;
+  TERM out1mf23 := Linear 0.383 0.007 -1.559;
+  TERM out1mf24 := Linear -8.415 2.083 5.177;
+  TERM out1mf25 := Linear 1.721 -15.079 -0.687;
+  TERM out1mf26 := Linear -1.043 -0.786 20.510;
+  TERM out1mf27 := Linear -0.249 -0.396 6.995;
+  TERM out1mf28 := Linear -0.076 -0.245 4.416;
+  TERM out1mf29 := Linear 0.765 -1.488 17.384;
+  TERM out1mf30 := Linear -21.210 -43.022 -2.522;
+  TERM out1mf31 := Linear -0.661 3.523 6.215;
+  TERM out1mf32 := Linear -1.998 1.582 33.256;
+  TERM out1mf33 := Linear -2.068 5.673 6.520;
+  TERM out1mf34 := Linear -5.044 7.093 3.516;
+  TERM out1mf35 := Linear -46.049 -35.021 -2.926;
+  TERM out1mf36 := Linear -0.448 -0.770 -0.041;
+  METHOD : COGS;
+  ACCU : MAX;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+RULEBLOCK 
+  ENABLED : TRUE;
+  AND : PROD;
+  OR : MAX;
+  ACT : PROD;
+  RULE 1 : if input1 is in1mf1 and input2 is in2mf1 then output is out1mf1
+  RULE 2 : if input1 is in1mf1 and input2 is in2mf2 then output is out1mf2
+  RULE 3 : if input1 is in1mf1 and input2 is in2mf3 then output is out1mf3
+  RULE 4 : if input1 is in1mf1 and input2 is in2mf4 then output is out1mf4
+  RULE 5 : if input1 is in1mf1 and input2 is in2mf5 then output is out1mf5
+  RULE 6 : if input1 is in1mf1 and input2 is in2mf6 then output is out1mf6
+  RULE 7 : if input1 is in1mf2 and input2 is in2mf1 then output is out1mf7
+  RULE 8 : if input1 is in1mf2 and input2 is in2mf2 then output is out1mf8
+  RULE 9 : if input1 is in1mf2 and input2 is in2mf3 then output is out1mf9
+  RULE 10 : if input1 is in1mf2 and input2 is in2mf4 then output is out1mf10
+  RULE 11 : if input1 is in1mf2 and input2 is in2mf5 then output is out1mf11
+  RULE 12 : if input1 is in1mf2 and input2 is in2mf6 then output is out1mf12
+  RULE 13 : if input1 is in1mf3 and input2 is in2mf1 then output is out1mf13
+  RULE 14 : if input1 is in1mf3 and input2 is in2mf2 then output is out1mf14
+  RULE 15 : if input1 is in1mf3 and input2 is in2mf3 then output is out1mf15
+  RULE 16 : if input1 is in1mf3 and input2 is in2mf4 then output is out1mf16
+  RULE 17 : if input1 is in1mf3 and input2 is in2mf5 then output is out1mf17
+  RULE 18 : if input1 is in1mf3 and input2 is in2mf6 then output is out1mf18
+  RULE 19 : if input1 is in1mf4 and input2 is in2mf1 then output is out1mf19
+  RULE 20 : if input1 is in1mf4 and input2 is in2mf2 then output is out1mf20
+  RULE 21 : if input1 is in1mf4 and input2 is in2mf3 then output is out1mf21
+  RULE 22 : if input1 is in1mf4 and input2 is in2mf4 then output is out1mf22
+  RULE 23 : if input1 is in1mf4 and input2 is in2mf5 then output is out1mf23
+  RULE 24 : if input1 is in1mf4 and input2 is in2mf6 then output is out1mf24
+  RULE 25 : if input1 is in1mf5 and input2 is in2mf1 then output is out1mf25
+  RULE 26 : if input1 is in1mf5 and input2 is in2mf2 then output is out1mf26
+  RULE 27 : if input1 is in1mf5 and input2 is in2mf3 then output is out1mf27
+  RULE 28 : if input1 is in1mf5 and input2 is in2mf4 then output is out1mf28
+  RULE 29 : if input1 is in1mf5 and input2 is in2mf5 then output is out1mf29
+  RULE 30 : if input1 is in1mf5 and input2 is in2mf6 then output is out1mf30
+  RULE 31 : if input1 is in1mf6 and input2 is in2mf1 then output is out1mf31
+  RULE 32 : if input1 is in1mf6 and input2 is in2mf2 then output is out1mf32
+  RULE 33 : if input1 is in1mf6 and input2 is in2mf3 then output is out1mf33
+  RULE 34 : if input1 is in1mf6 and input2 is in2mf4 then output is out1mf34
+  RULE 35 : if input1 is in1mf6 and input2 is in2mf5 then output is out1mf35
+  RULE 36 : if input1 is in1mf6 and input2 is in2mf6 then output is out1mf36
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

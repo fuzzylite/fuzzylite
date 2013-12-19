@@ -1,20 +1,10 @@
-README:
+Disclaimer:
 
-
-Many of the examples contained in this folder were generated using fuzzylite's
-CppExporter, FisImporter/FisExporter, and FclImporter/FclExporter. However, 
-some of the original examples come from GNU Octave's fuzzy-logic-toolbox package
-and from Matlab's fuzzy logic toolbox. Specifically, the examples from such 
-third-parties are:
-
-GNU Octave: (original files)
-investment_portfolio.fis 
-mamdani_tip_calculator.fis
-
-Matlab: (original files)
-mam21.fis
-mam22.fis
-shower.fis
-tank.fis
-tipper.fis
-
+The examples contained within the subfolders by name octave and matlab 
+have been retrieved from Octave and Matlab software and modified 
+automatically by fuzzylite's import/export features for FIS files. 
+The original examples have been imported and exported using fuzzylite's 
+respective importers and exporters. The original examples were converted 
+to the following  formats: FuzzyLite Language (.fll), Fuzzy Controller 
+Language (.fcl), Fuzzy Inference System (.fis), fuzzylite C++ (.cpp), 
+jfuzzylite (.java), and dataset (.dat).

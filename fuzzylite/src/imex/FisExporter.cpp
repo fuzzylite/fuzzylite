@@ -228,7 +228,7 @@ namespace fl {
 
         fis << translate(propositions, inputVariables) << ", ";
         fis << translate(rule->getConsequent()->conclusions(), outputVariables);
-        fis << "(" << rule->getWeight() << ") : ";
+        fis << "(" << Op::str(rule->getWeight()) << ") : ";
         if (operators.size() == 0) fis << "1"; //does not matter
         else {
             if (operators.at(0)->name == Rule::FL_AND) fis << "1";
@@ -244,8 +244,8 @@ namespace fl {
         for (std::size_t ixVariable = 0; ixVariable < variables.size(); ++ixVariable) {
             Variable* variable = variables.at(ixVariable);
             int termIndexPlusOne = 0;
-            int plusHedge = 0;
-            scalar negated = 1;
+            scalar plusHedge = 0;
+            int negated = 1;
             for (std::size_t ixProposition = 0; ixProposition < propositions.size(); ++ixProposition) {
                 Proposition* proposition = propositions.at(ixProposition);
                 if (proposition->variable != variable) continue;
@@ -257,7 +257,6 @@ namespace fl {
                     }
                 }
 
-
                 std::vector<Hedge*> hedges = proposition->hedges;
                 if (hedges.size() > 0) {
                     FL_DBG("[exporter warning] only a few combinations of multiple "
@@ -266,20 +265,21 @@ namespace fl {
                 for (std::size_t ixHedge = 0; ixHedge < hedges.size(); ++ixHedge) {
                     Hedge* hedge = hedges.at(ixHedge);
                     if (hedge->name() == Not().name()) negated *= -1;
-                    else if (hedge->name() == Somewhat().name()) plusHedge += 5;
-                    else if (hedge->name() == Extremely().name()) plusHedge += 3;
-                    else if (hedge->name() == Very().name()) plusHedge += 2;
-                    else plusHedge = -1; //Unreconized hedge combination (e.g. Any)
+                    else if (hedge->name() == Extremely().name()) plusHedge += 0.3;
+                    else if (hedge->name() == Very().name()) plusHedge += 0.2;
+                    else if (hedge->name() == Somewhat().name()) plusHedge += 0.05;
+                    else if (hedge->name() == Seldom().name()) plusHedge += 0.01;
+                    else if (hedge->name() == Any().name()) plusHedge += 0.99;
+                    else plusHedge = fl::nan; //Unreconized hedge combination (e.g. Any)
                 }
 
                 break;
             }
             if (negated < 0) ss << "-";
-            ss << termIndexPlusOne;
-            if (fl::Op::isGE(plusHedge, 0.0)) {
-                ss << "." << fl::Op::str(plusHedge, 0);
+            if (not fl::Op::isNan(plusHedge)) {
+                ss << fl::Op::str(termIndexPlusOne + plusHedge);
             } else {
-                ss << ".?"; // Unreconized hedge combination
+                ss << termIndexPlusOne << ".?"; // Unreconized hedge combination
             }
             ss << " ";
         }

@@ -1,0 +1,61 @@
+FUNCTION_BLOCK anfis
+
+VAR_INPUT
+  in_n1: REAL;
+  in_n2: REAL;
+END_VAR
+
+VAR_OUTPUT
+  out1: REAL;
+END_VAR
+
+FUZZIFY in_n1
+  ENABLED : TRUE;
+  RANGE := (1.000 .. 31.000);
+  TERM in1mf1 := Bell 1.152 8.206 0.874;
+  TERM in1mf2 := Bell 15.882 7.078 0.444;
+  TERM in1mf3 := Bell 30.575 8.602 0.818;
+END_FUZZIFY
+
+FUZZIFY in_n2
+  ENABLED : TRUE;
+  RANGE := (1.000 .. 31.000);
+  TERM in2mf1 := Bell 1.426 8.602 0.818;
+  TERM in2mf2 := Bell 16.118 7.078 0.445;
+  TERM in2mf3 := Bell 30.847 8.206 0.875;
+END_FUZZIFY
+
+DEFUZZIFY out1
+  ENABLED : TRUE;
+  RANGE := (-0.334 .. 1.000);
+  TERM out1mf1 := Linear -0.035 0.002 -0.352;
+  TERM out1mf2 := Linear 0.044 0.079 -0.028;
+  TERM out1mf3 := Linear -0.024 0.024 -1.599;
+  TERM out1mf4 := Linear -0.067 0.384 0.007;
+  TERM out1mf5 := Linear 0.351 -0.351 -3.663;
+  TERM out1mf6 := Linear -0.079 -0.044 3.909;
+  TERM out1mf7 := Linear 0.012 -0.012 -0.600;
+  TERM out1mf8 := Linear -0.384 0.067 10.158;
+  TERM out1mf9 := Linear -0.002 0.035 -1.402;
+  METHOD : COGS;
+  ACCU : MAX;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+RULEBLOCK 
+  ENABLED : TRUE;
+  AND : PROD;
+  OR : MAX;
+  ACT : PROD;
+  RULE 1 : if in_n1 is in1mf1 and in_n2 is in2mf1 then out1 is out1mf1
+  RULE 2 : if in_n1 is in1mf1 and in_n2 is in2mf2 then out1 is out1mf2
+  RULE 3 : if in_n1 is in1mf1 and in_n2 is in2mf3 then out1 is out1mf3
+  RULE 4 : if in_n1 is in1mf2 and in_n2 is in2mf1 then out1 is out1mf4
+  RULE 5 : if in_n1 is in1mf2 and in_n2 is in2mf2 then out1 is out1mf5
+  RULE 6 : if in_n1 is in1mf2 and in_n2 is in2mf3 then out1 is out1mf6
+  RULE 7 : if in_n1 is in1mf3 and in_n2 is in2mf1 then out1 is out1mf7
+  RULE 8 : if in_n1 is in1mf3 and in_n2 is in2mf2 then out1 is out1mf8
+  RULE 9 : if in_n1 is in1mf3 and in_n2 is in2mf3 then out1 is out1mf9
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

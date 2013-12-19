@@ -1,0 +1,71 @@
+FUNCTION_BLOCK shower
+
+VAR_INPUT
+  temp: REAL;
+  flow: REAL;
+END_VAR
+
+VAR_OUTPUT
+  cold: REAL;
+  hot: REAL;
+END_VAR
+
+FUZZIFY temp
+  ENABLED : TRUE;
+  RANGE := (-20.000 .. 20.000);
+  TERM cold := Trapezoid -30.000 -30.000 -15.000 0.000;
+  TERM good := Triangle -10.000 0.000 10.000;
+  TERM hot := Trapezoid 0.000 15.000 30.000 30.000;
+END_FUZZIFY
+
+FUZZIFY flow
+  ENABLED : TRUE;
+  RANGE := (-1.000 .. 1.000);
+  TERM soft := Trapezoid -3.000 -3.000 -0.800 0.000;
+  TERM good := Triangle -0.400 0.000 0.400;
+  TERM hard := Trapezoid 0.000 0.800 3.000 3.000;
+END_FUZZIFY
+
+DEFUZZIFY cold
+  ENABLED : TRUE;
+  RANGE := (-1.000 .. 1.000);
+  TERM closeFast := Triangle -1.000 -0.600 -0.300;
+  TERM closeSlow := Triangle -0.600 -0.300 0.000;
+  TERM steady := Triangle -0.300 0.000 0.300;
+  TERM openSlow := Triangle 0.000 0.300 0.600;
+  TERM openFast := Triangle 0.300 0.600 1.000;
+  METHOD : COG;
+  ACCU : MAX;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+DEFUZZIFY hot
+  ENABLED : TRUE;
+  RANGE := (-1.000 .. 1.000);
+  TERM closeFast := Triangle -1.000 -0.600 -0.300;
+  TERM closeSlow := Triangle -0.600 -0.300 0.000;
+  TERM steady := Triangle -0.300 0.000 0.300;
+  TERM openSlow := Triangle 0.000 0.300 0.600;
+  TERM openFast := Triangle 0.300 0.600 1.000;
+  METHOD : COG;
+  ACCU : MAX;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+RULEBLOCK 
+  ENABLED : TRUE;
+  AND : MIN;
+  OR : MAX;
+  ACT : MIN;
+  RULE 1 : if temp is cold and flow is soft then cold is openSlow and hot is openFast
+  RULE 2 : if temp is cold and flow is good then cold is closeSlow and hot is openSlow
+  RULE 3 : if temp is cold and flow is hard then cold is closeFast and hot is closeSlow
+  RULE 4 : if temp is good and flow is soft then cold is openSlow and hot is openSlow
+  RULE 5 : if temp is good and flow is good then cold is steady and hot is steady
+  RULE 6 : if temp is good and flow is hard then cold is closeSlow and hot is closeSlow
+  RULE 7 : if temp is hot and flow is soft then cold is openFast and hot is openSlow
+  RULE 8 : if temp is hot and flow is good then cold is openSlow and hot is closeSlow
+  RULE 9 : if temp is hot and flow is hard then cold is closeSlow and hot is closeFast
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

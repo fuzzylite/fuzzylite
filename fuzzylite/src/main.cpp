@@ -60,7 +60,7 @@ void exportAllExamples(const std::string& from, const std::string& to) {
     examples.push_back("/mamdani/matlab/tipper1");
     examples.push_back("/mamdani/octave/investment_portfolio");
     examples.push_back("/mamdani/octave/mamdani_tip_calculator");
-    examples.push_back("/takagi-sugeno/References");
+    examples.push_back("/takagi-sugeno/approximation");
     examples.push_back("/takagi-sugeno/SimpleDimmer");
     examples.push_back("/takagi-sugeno/matlab/fpeaks");
     examples.push_back("/takagi-sugeno/matlab/invkine1");
@@ -80,24 +80,34 @@ void exportAllExamples(const std::string& from, const std::string& to) {
     examples.push_back("/takagi-sugeno/octave/heart_disease_risk");
     examples.push_back("/takagi-sugeno/octave/linear_tip_calculator");
     examples.push_back("/takagi-sugeno/octave/sugeno_tip_calculator");
-    examples.push_back("/tsukamoto");
+    examples.push_back("/tsukamoto/tsukamoto");
 
-    std::string sourceBase = "/home/jcrada/Development/fuzzylite/examples/" + from;
-    std::string targetBase = "/home/jcrada/Development/fuzzylite/examples/" + to;
+    std::string sourceBase = "/home/jcrada/Development/fl/fuzzylite/examples";
+    //    std::string targetBase = "/home/jcrada/Development/fuzzylite/examples/" + to;
+    std::string targetBase = "/tmp/fl/";
 
     Importer* importer;
-    if (from == "fis") importer = new FisImporter;
+    if (from == "fll") importer = new FllImporter;
+    else if (from == "fis") importer = new FisImporter;
     else if (from == "fcl") importer = new FclImporter;
     else throw fl::Exception("[examples error] unrecognized format <" + from + "> to import", FL_AT);
 
     Exporter* exporter;
-    if (to == "cpp") exporter = new CppExporter;
-    else if (to == "fis") exporter = new FisExporter;
+    if (to == "fll") exporter = new FllExporter;
     else if (to == "fcl") exporter = new FclExporter;
+    else if (to == "fis") exporter = new FisExporter;
+    else if (to == "cpp") exporter = new CppExporter;
+    else if (to == "java") exporter = new JavaExporter;
+    else if (to == "dat") exporter = new DataExporter(" ", 1024);
     else throw fl::Exception("[examples error] unrecognized format <" + to + "> to export", FL_AT);
 
+    std::vector<std::pair<Exporter*, Importer*> > tests;
+    tests.push_back(std::pair<Exporter*, Importer*>(new FllExporter, new FllImporter));
+    tests.push_back(std::pair<Exporter*, Importer*>(new FclExporter, new FclImporter));
+    tests.push_back(std::pair<Exporter*, Importer*>(new FisExporter, new FisImporter));
     std::ostringstream errors;
     for (std::size_t i = 0; i < examples.size(); ++i) {
+        FL_LOG("Processing " << (i + 1) << "/" << examples.size() << ": " << examples.at(i));
         try {
             std::ostringstream ss;
             std::string input = sourceBase + examples.at(i) + "." + from;
@@ -112,25 +122,16 @@ void exportAllExamples(const std::string& from, const std::string& to) {
             } else throw fl::Exception("[examples error] file not found: " + input, FL_AT);
 
             Engine* engine = importer->fromString(ss.str());
-            {//Test FCL
-                std::string fcl = FclExporter().toString(engine);
-                Engine* fclEngine = FclImporter().fromString(fcl);
-                std::string copy = FclExporter().toString(fclEngine);
-                delete fclEngine;
-                if (fcl != copy) {
-                    errors << "[fcl error] at " + examples.at(i) + "." + from + ":\n";
-                    errors << fcl << "\n\n" << copy << "\n";
-                }
-            }
 
-            {
-                //Test FIS
-                std::string fis = FisExporter().toString(engine);
-                Engine* fisEngine = FisImporter().fromString(fis);
-                std::string copy = FisExporter().toString(fisEngine);
-                delete fisEngine;
-                if (fis != copy) {
-                    errors << "[fis error] at " + examples.at(i) + "." + from;
+            for (std::size_t t = 0; t < tests.size(); ++t) {
+                std::string out = tests.at(t).first->toString(engine);
+                Engine* copy = tests.at(t).second->fromString(out);
+                std::string out_copy = tests.at(t).first->toString(copy);
+
+                if (out != out_copy) {
+                    errors << "[imex error] different results <"
+                            << importer->name() << "," << exporter->name() << "> "
+                            "at " + examples.at(t) + "." + from + ":\n";
                 }
             }
 
@@ -140,6 +141,22 @@ void exportAllExamples(const std::string& from, const std::string& to) {
                 if (to == "cpp") {
                     target << "#include <fl/Headers.h>\n\n";
                     target << "int main(int argc, char** argv){\n";
+                    target << exporter->toString(engine);
+                    target << "\n}\n";
+                } else if (to == "java") {
+                    target << "//package fl;\n\n";
+                    target << "import com.fuzzylite.*;\n"
+                            << "import com.fuzzylite.defuzzifier.*;\n"
+                            << "import com.fuzzylite.factory.*;\n"
+                            << "import com.fuzzylite.hedge.*;\n"
+                            << "import com.fuzzylite.imex.*;\n"
+                            << "import com.fuzzylite.norm.*;\n"
+                            << "import com.fuzzylite.norm.s.*;\n"
+                            << "import com.fuzzylite.norm.t.*;\n"
+                            << "import com.fuzzylite.rule.*;\n"
+                            << "import com.fuzzylite.term.*;\n"
+                            << "import com.fuzzylite.variable.*;\n\n";
+                    target << "public static void main(String[] args){\n";
                     target << exporter->toString(engine);
                     target << "\n}\n";
                 } else {
@@ -154,6 +171,10 @@ void exportAllExamples(const std::string& from, const std::string& to) {
     }
     delete importer;
     delete exporter;
+    for (std::size_t i = 0; i < tests.size(); ++i) {
+        delete tests.at(i).first;
+        delete tests.at(i).second;
+    }
     if (errors.str().empty()) {
         FL_LOG("No errors were found exporting files");
     } else {
@@ -177,10 +198,15 @@ int main(int argc, char** argv) {
 #endif
 
     try {
-        //        exportAllExamples("fis", "cpp");
-        //        return 0;
-//        return FllImporter::main();
-        return Console::main(argc, argv);
+        exportAllExamples("fis", "fll");
+        exportAllExamples("fis", "fcl");
+        exportAllExamples("fis", "fis");
+        exportAllExamples("fis", "cpp");
+        exportAllExamples("fis", "java");
+        exportAllExamples("fis", "dat");
+        return 0;
+        //        return FllImporter::main();
+        //        return Console::main(argc, argv);
     } catch (fl::Exception& e) {
         FL_LOG(e.what());
         FL_LOG(e.btCallStack());

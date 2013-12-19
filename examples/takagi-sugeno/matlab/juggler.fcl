@@ -1,0 +1,61 @@
+FUNCTION_BLOCK juggler
+
+VAR_INPUT
+  xHit: REAL;
+  projectAngle: REAL;
+END_VAR
+
+VAR_OUTPUT
+  theta: REAL;
+END_VAR
+
+FUZZIFY xHit
+  ENABLED : TRUE;
+  RANGE := (-4.000 .. 4.000);
+  TERM in1mf1 := Bell -4.000 2.000 4.000;
+  TERM in1mf2 := Bell 0.000 2.000 4.000;
+  TERM in1mf3 := Bell 4.000 2.000 4.000;
+END_FUZZIFY
+
+FUZZIFY projectAngle
+  ENABLED : TRUE;
+  RANGE := (0.000 .. 3.142);
+  TERM in2mf1 := Bell 0.000 0.785 4.000;
+  TERM in2mf2 := Bell 1.571 0.785 4.000;
+  TERM in2mf3 := Bell 3.142 0.785 4.000;
+END_FUZZIFY
+
+DEFUZZIFY theta
+  ENABLED : TRUE;
+  RANGE := (0.000 .. 0.000);
+  TERM out1mf := Linear -0.022 -0.500 0.315;
+  TERM out1mf := Linear -0.022 -0.500 0.315;
+  TERM out1mf := Linear -0.022 -0.500 0.315;
+  TERM out1mf := Linear 0.114 -0.500 0.785;
+  TERM out1mf := Linear 0.114 -0.500 0.785;
+  TERM out1mf := Linear 0.114 -0.500 0.785;
+  TERM out1mf := Linear -0.022 -0.500 1.256;
+  TERM out1mf := Linear -0.022 -0.500 1.256;
+  TERM out1mf := Linear -0.022 -0.500 1.256;
+  METHOD : COGS;
+  ACCU : MAX;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+RULEBLOCK 
+  ENABLED : TRUE;
+  AND : PROD;
+  OR : MAX;
+  ACT : PROD;
+  RULE 1 : if xHit is in1mf1 and projectAngle is in2mf1 then theta is out1mf
+  RULE 2 : if xHit is in1mf1 and projectAngle is in2mf2 then theta is out1mf
+  RULE 3 : if xHit is in1mf1 and projectAngle is in2mf3 then theta is out1mf
+  RULE 4 : if xHit is in1mf2 and projectAngle is in2mf1 then theta is out1mf
+  RULE 5 : if xHit is in1mf2 and projectAngle is in2mf2 then theta is out1mf
+  RULE 6 : if xHit is in1mf2 and projectAngle is in2mf3 then theta is out1mf
+  RULE 7 : if xHit is in1mf3 and projectAngle is in2mf1 then theta is out1mf
+  RULE 8 : if xHit is in1mf3 and projectAngle is in2mf2 then theta is out1mf
+  RULE 9 : if xHit is in1mf3 and projectAngle is in2mf3 then theta is out1mf
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

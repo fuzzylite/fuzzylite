@@ -27,13 +27,14 @@
 #include "fl/variable/InputVariable.h"
 #include "fl/variable/OutputVariable.h"
 
+#include <cmath>
 #include <fstream>
 #include <vector>
 
 namespace fl {
 
-    DataExporter::DataExporter(const std::string& separator, int resolution)
-    : _separator(separator), _resolution(resolution) {
+    DataExporter::DataExporter(const std::string& separator, int maximum)
+    : _separator(separator), _maximum(maximum) {
 
     }
 
@@ -52,24 +53,24 @@ namespace fl {
         return this->_separator;
     }
 
-    void DataExporter::setResolution(int resolution) {
-        this->_resolution = resolution;
+    void DataExporter::setMaximum(int maximum) {
+        this->_maximum = maximum;
     }
 
-    int DataExporter::getResolution() const {
-        return this->_resolution;
+    int DataExporter::getMaximum() const {
+        return this->_maximum;
     }
 
     std::string DataExporter::toString(const Engine* mutableEngine) const {
         Engine* engine = const_cast<Engine*> (mutableEngine);
         std::ostringstream result;
-        toWriter(engine, result, _separator, _resolution);
+        toWriter(engine, result, _separator, _maximum);
         return result.str();
     }
 
     template <typename T>
     void DataExporter::toWriter(Engine* engine, T& writer,
-            const std::string& separator, int resolution) const {
+            const std::string& separator, int maximum) const {
         std::vector<std::string> variables;
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
             variables.push_back(engine->getInputVariable(i)->getName());
@@ -79,11 +80,13 @@ namespace fl {
         }
         writer << Op::join(variables, separator) << "\n";
 
+        int resolution = (int) std::max(1.0, std::pow(
+                maximum, 1.0 / engine->numberOfInputVariables()));
         std::vector<int> sampleValues, minSampleValues, maxSampleValues;
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
             sampleValues.push_back(0);
             minSampleValues.push_back(0);
-            maxSampleValues.push_back(resolution);
+            maxSampleValues.push_back(resolution - 1); //increment goes one more
         }
 
         engine->restart();

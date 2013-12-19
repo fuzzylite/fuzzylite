@@ -1,0 +1,79 @@
+FUNCTION_BLOCK qtfuzzylite
+
+VAR_INPUT
+  AllInputTerms: REAL;
+END_VAR
+
+VAR_OUTPUT
+  AllOutputTerms: REAL;
+END_VAR
+
+FUZZIFY AllInputTerms
+  ENABLED : TRUE;
+  RANGE := (0.000 .. 6.500);
+  TERM A := Sigmoid 0.500 -20.000;
+  TERM B := ZShape 0.000 1.000;
+  TERM C := Ramp 1.000 0.000;
+  TERM D := Triangle 0.500 1.000 1.500;
+  TERM E := Trapezoid 1.000 1.250 1.750 2.000;
+  TERM F := Rectangle 1.750 2.250;
+  TERM G := (2.000, 0.000) (2.250, 1.000) (2.500, 0.500) (2.750, 1.000) (3.000, 0.000);
+  TERM H := Gaussian 3.000 0.200;
+  TERM I := GaussianProduct 3.500 0.100 3.300 0.300;
+  TERM J := Bell 4.000 0.250 3.000;
+  TERM K := PiShape 4.000 4.500 4.500 5.000;
+  TERM L := SigmoidDifference 4.750 10.000 30.000 5.250;
+  TERM M := SigmoidProduct 5.250 20.000 -10.000 5.750;
+  TERM N := Ramp 5.500 6.500;
+  TERM O := SShape 5.500 6.500;
+  TERM P := Sigmoid 6.000 20.000;
+END_FUZZIFY
+
+DEFUZZIFY AllOutputTerms
+  ENABLED : TRUE;
+  RANGE := (0.000 .. 6.500);
+  TERM A := Sigmoid 0.500 -20.000;
+  TERM B := ZShape 0.000 1.000;
+  TERM C := Ramp 1.000 0.000;
+  TERM D := Triangle 0.500 1.000 1.500;
+  TERM E := Trapezoid 1.000 1.250 1.750 2.000;
+  TERM F := Rectangle 1.750 2.250;
+  TERM G := (2.000, 0.000) (2.250, 1.000) (2.500, 0.500) (2.750, 1.000) (3.000, 0.000);
+  TERM H := Gaussian 3.000 0.200;
+  TERM I := GaussianProduct 3.500 0.100 3.300 0.300;
+  TERM J := Bell 4.000 0.250 3.000;
+  TERM K := PiShape 4.000 4.500 4.500 5.000;
+  TERM L := SigmoidDifference 4.750 10.000 30.000 5.250;
+  TERM M := SigmoidProduct 5.250 20.000 -10.000 5.750;
+  TERM N := Ramp 5.500 6.500;
+  TERM O := SShape 5.500 6.500;
+  TERM P := Sigmoid 6.000 20.000;
+  METHOD : COG;
+  ACCU : MAX;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+RULEBLOCK 
+  ENABLED : TRUE;
+  AND : MIN;
+  OR : MAX;
+  ACT : MIN;
+  RULE 1 : if AllInputTerms is A then AllOutputTerms is P
+  RULE 2 : if AllInputTerms is B then AllOutputTerms is O
+  RULE 3 : if AllInputTerms is C then AllOutputTerms is N
+  RULE 4 : if AllInputTerms is D then AllOutputTerms is M
+  RULE 5 : if AllInputTerms is E then AllOutputTerms is L
+  RULE 6 : if AllInputTerms is F then AllOutputTerms is K
+  RULE 7 : if AllInputTerms is G then AllOutputTerms is J
+  RULE 8 : if AllInputTerms is H then AllOutputTerms is I
+  RULE 9 : if AllInputTerms is I then AllOutputTerms is H
+  RULE 10 : if AllInputTerms is J then AllOutputTerms is G
+  RULE 11 : if AllInputTerms is K then AllOutputTerms is F
+  RULE 12 : if AllInputTerms is L then AllOutputTerms is E
+  RULE 13 : if AllInputTerms is M then AllOutputTerms is D
+  RULE 14 : if AllInputTerms is N then AllOutputTerms is C
+  RULE 15 : if AllInputTerms is O then AllOutputTerms is B
+  RULE 16 : if AllInputTerms is P then AllOutputTerms is A
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

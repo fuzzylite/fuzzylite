@@ -1,0 +1,69 @@
+Engine: qtfuzzylite
+
+InputVariable: AllInputTerms
+  enabled: true
+  range: 0.000 6.500
+  Term: A Sigmoid 0.500 -20.000
+  Term: B ZShape 0.000 1.000
+  Term: C Ramp 1.000 0.000
+  Term: D Triangle 0.500 1.000 1.500
+  Term: E Trapezoid 1.000 1.250 1.750 2.000
+  Term: F Rectangle 1.750 2.250
+  Term: G Discrete 2.000 0.000 2.250 1.000 2.500 0.500 2.750 1.000 3.000 0.000 
+  Term: H Gaussian 3.000 0.200
+  Term: I GaussianProduct 3.500 0.100 3.300 0.300
+  Term: J Bell 4.000 0.250 3.000
+  Term: K PiShape 4.000 4.500 4.500 5.000
+  Term: L SigmoidDifference 4.750 10.000 30.000 5.250
+  Term: M SigmoidProduct 5.250 20.000 -10.000 5.750
+  Term: N Ramp 5.500 6.500
+  Term: O SShape 5.500 6.500
+  Term: P Sigmoid 6.000 20.000
+
+OutputVariable: AllOutputTerms
+  enabled: true
+  range: 0.000 6.500
+  default: nan
+  lock-valid: false
+  lock-range: false
+  defuzzifier: Centroid 200
+  accumulation: Maximum
+  Term: A Sigmoid 0.500 -20.000
+  Term: B ZShape 0.000 1.000
+  Term: C Ramp 1.000 0.000
+  Term: D Triangle 0.500 1.000 1.500
+  Term: E Trapezoid 1.000 1.250 1.750 2.000
+  Term: F Rectangle 1.750 2.250
+  Term: G Discrete 2.000 0.000 2.250 1.000 2.500 0.500 2.750 1.000 3.000 0.000 
+  Term: H Gaussian 3.000 0.200
+  Term: I GaussianProduct 3.500 0.100 3.300 0.300
+  Term: J Bell 4.000 0.250 3.000
+  Term: K PiShape 4.000 4.500 4.500 5.000
+  Term: L SigmoidDifference 4.750 10.000 30.000 5.250
+  Term: M SigmoidProduct 5.250 20.000 -10.000 5.750
+  Term: N Ramp 5.500 6.500
+  Term: O SShape 5.500 6.500
+  Term: P Sigmoid 6.000 20.000
+
+RuleBlock: 
+  enabled: true
+  conjunction: Minimum
+  disjunction: Maximum
+  activation: Minimum
+  Rule: if AllInputTerms is A then AllOutputTerms is P
+  Rule: if AllInputTerms is B then AllOutputTerms is O
+  Rule: if AllInputTerms is C then AllOutputTerms is N
+  Rule: if AllInputTerms is D then AllOutputTerms is M
+  Rule: if AllInputTerms is E then AllOutputTerms is L
+  Rule: if AllInputTerms is F then AllOutputTerms is K
+  Rule: if AllInputTerms is G then AllOutputTerms is J
+  Rule: if AllInputTerms is H then AllOutputTerms is I
+  Rule: if AllInputTerms is I then AllOutputTerms is H
+  Rule: if AllInputTerms is J then AllOutputTerms is G
+  Rule: if AllInputTerms is K then AllOutputTerms is F
+  Rule: if AllInputTerms is L then AllOutputTerms is E
+  Rule: if AllInputTerms is M then AllOutputTerms is D
+  Rule: if AllInputTerms is N then AllOutputTerms is C
+  Rule: if AllInputTerms is O then AllOutputTerms is B
+  Rule: if AllInputTerms is P then AllOutputTerms is A
+

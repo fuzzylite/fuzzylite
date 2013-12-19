@@ -1,0 +1,53 @@
+FUNCTION_BLOCK tank
+
+VAR_INPUT
+  level: REAL;
+  rate: REAL;
+END_VAR
+
+VAR_OUTPUT
+  valve: REAL;
+END_VAR
+
+FUZZIFY level
+  ENABLED : TRUE;
+  RANGE := (-1.000 .. 1.000);
+  TERM high := Gaussian -1.000 0.300;
+  TERM okay := Gaussian 0.000 0.300;
+  TERM low := Gaussian 1.000 0.300;
+END_FUZZIFY
+
+FUZZIFY rate
+  ENABLED : TRUE;
+  RANGE := (-0.100 .. 0.100);
+  TERM negative := Gaussian -0.100 0.030;
+  TERM none := Gaussian 0.000 0.030;
+  TERM positive := Gaussian 0.100 0.030;
+END_FUZZIFY
+
+DEFUZZIFY valve
+  ENABLED : TRUE;
+  RANGE := (-1.000 .. 1.000);
+  TERM close_fast := Triangle -1.000 -0.900 -0.800;
+  TERM close_slow := Triangle -0.600 -0.500 -0.400;
+  TERM no_change := Triangle -0.100 0.000 0.100;
+  TERM open_slow := Triangle 0.200 0.300 0.400;
+  TERM open_fast := Triangle 0.800 0.900 1.000;
+  METHOD : COG;
+  ACCU : MAX;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+RULEBLOCK 
+  ENABLED : TRUE;
+  AND : PROD;
+  OR : ASUM;
+  ACT : PROD;
+  RULE 1 : if level is okay then valve is no_change
+  RULE 2 : if level is low then valve is open_fast
+  RULE 3 : if level is high then valve is close_fast
+  RULE 4 : if level is okay and rate is positive then valve is close_slow
+  RULE 5 : if level is okay and rate is negative then valve is open_slow
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

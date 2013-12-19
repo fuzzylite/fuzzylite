@@ -1,0 +1,49 @@
+FUNCTION_BLOCK anfis
+
+VAR_INPUT
+  in_n1: REAL;
+  in_n2: REAL;
+END_VAR
+
+VAR_OUTPUT
+  out1: REAL;
+END_VAR
+
+FUZZIFY in_n1
+  ENABLED : TRUE;
+  RANGE := (1.000 .. 31.000);
+  TERM in1mf1 := Bell 2.253 16.220 5.050;
+  TERM in1mf2 := Bell 31.260 15.021 1.843;
+END_FUZZIFY
+
+FUZZIFY in_n2
+  ENABLED : TRUE;
+  RANGE := (1.000 .. 31.000);
+  TERM in2mf1 := Bell 0.740 15.021 1.843;
+  TERM in2mf2 := Bell 29.747 16.220 5.050;
+END_FUZZIFY
+
+DEFUZZIFY out1
+  ENABLED : TRUE;
+  RANGE := (-0.334 .. 1.000);
+  TERM out1mf1 := Linear 0.026 0.071 -0.615;
+  TERM out1mf2 := Linear -0.036 0.036 -1.169;
+  TERM out1mf3 := Linear -0.094 0.094 2.231;
+  TERM out1mf4 := Linear -0.071 -0.026 2.479;
+  METHOD : COGS;
+  ACCU : MAX;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+RULEBLOCK 
+  ENABLED : TRUE;
+  AND : PROD;
+  OR : MAX;
+  ACT : PROD;
+  RULE 1 : if in_n1 is in1mf1 and in_n2 is in2mf1 then out1 is out1mf1
+  RULE 2 : if in_n1 is in1mf1 and in_n2 is in2mf2 then out1 is out1mf2
+  RULE 3 : if in_n1 is in1mf2 and in_n2 is in2mf1 then out1 is out1mf3
+  RULE 4 : if in_n1 is in1mf2 and in_n2 is in2mf2 then out1 is out1mf4
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

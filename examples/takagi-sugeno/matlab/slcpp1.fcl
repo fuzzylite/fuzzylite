@@ -1,0 +1,100 @@
+FUNCTION_BLOCK slcpp
+
+VAR_INPUT
+  in1: REAL;
+  in2: REAL;
+  in3: REAL;
+  in4: REAL;
+  in5: REAL;
+  in6: REAL;
+  pole_length: REAL;
+END_VAR
+
+VAR_OUTPUT
+  out: REAL;
+END_VAR
+
+FUZZIFY in1
+  ENABLED : TRUE;
+  RANGE := (-0.300 .. 0.300);
+END_FUZZIFY
+
+FUZZIFY in2
+  ENABLED : TRUE;
+  RANGE := (-1.000 .. 1.000);
+END_FUZZIFY
+
+FUZZIFY in3
+  ENABLED : TRUE;
+  RANGE := (-3.000 .. 3.000);
+END_FUZZIFY
+
+FUZZIFY in4
+  ENABLED : TRUE;
+  RANGE := (-3.000 .. 3.000);
+END_FUZZIFY
+
+FUZZIFY in5
+  ENABLED : TRUE;
+  RANGE := (-3.000 .. 3.000);
+END_FUZZIFY
+
+FUZZIFY in6
+  ENABLED : TRUE;
+  RANGE := (-3.000 .. 3.000);
+END_FUZZIFY
+
+FUZZIFY pole_length
+  ENABLED : TRUE;
+  RANGE := (0.500 .. 1.500);
+  TERM mf1 := ZShape 0.500 0.600;
+  TERM mf2 := PiShape 0.500 0.600 0.600 0.700;
+  TERM mf3 := PiShape 0.600 0.700 0.700 0.800;
+  TERM mf4 := PiShape 0.700 0.800 0.800 0.900;
+  TERM mf5 := PiShape 0.800 0.900 0.900 1.000;
+  TERM mf6 := PiShape 0.900 1.000 1.000 1.100;
+  TERM mf7 := PiShape 1.000 1.100 1.100 1.200;
+  TERM mf8 := PiShape 1.100 1.200 1.200 1.300;
+  TERM mf9 := PiShape 1.200 1.300 1.300 1.400;
+  TERM mf10 := PiShape 1.300 1.400 1.400 1.500;
+  TERM mf11 := SShape 1.400 1.500;
+END_FUZZIFY
+
+DEFUZZIFY out
+  ENABLED : TRUE;
+  RANGE := (-10.000 .. 10.000);
+  TERM outmf1 := Linear 168.400 31.000 -188.050 -49.250 -1.000 -2.700 0.000 0.000;
+  TERM outmf2 := Linear 233.950 47.190 -254.520 -66.580 -1.000 -2.740 0.000 0.000;
+  TERM outmf3 := Linear 342.940 74.730 -364.370 -95.230 -1.000 -2.780 0.000 0.000;
+  TERM outmf4 := Linear 560.710 130.670 -582.960 -152.240 -1.000 -2.810 0.000 0.000;
+  TERM outmf5 := Linear 1213.880 300.190 -1236.900 -322.800 -1.000 -2.840 0.000 0.000;
+  TERM outmf6 := Linear 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000;
+  TERM outmf7 := Linear -1399.120 -382.950 1374.630 358.340 -1.000 -2.900 0.000 0.000;
+  TERM outmf8 := Linear -746.070 -213.420 720.900 187.840 -1.000 -2.930 0.000 0.000;
+  TERM outmf9 := Linear -528.520 -157.460 502.680 130.920 -1.000 -2.960 0.000 0.000;
+  TERM outmf10 := Linear -419.870 -129.890 393.380 102.410 -1.000 -2.980 0.000 0.000;
+  TERM outmf11 := Linear -354.770 -113.680 327.650 85.270 -1.000 -3.010 0.000 0.000;
+  METHOD : COGS;
+  ACCU : MAX;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+RULEBLOCK 
+  ENABLED : TRUE;
+  AND : PROD;
+  OR : MAX;
+  ACT : PROD;
+  RULE 1 : if pole_length is mf1 then out is outmf1
+  RULE 2 : if pole_length is mf2 then out is outmf2
+  RULE 3 : if pole_length is mf3 then out is outmf3
+  RULE 4 : if pole_length is mf4 then out is outmf4
+  RULE 5 : if pole_length is mf5 then out is outmf5
+  RULE 6 : if pole_length is mf6 then out is outmf6
+  RULE 7 : if pole_length is mf7 then out is outmf7
+  RULE 8 : if pole_length is mf8 then out is outmf8
+  RULE 9 : if pole_length is mf9 then out is outmf9
+  RULE 10 : if pole_length is mf10 then out is outmf10
+  RULE 11 : if pole_length is mf11 then out is outmf11
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

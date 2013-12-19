@@ -436,7 +436,12 @@ namespace fl {
         try {
             Term * result = FactoryManager::instance()->term()->createInstance(termClass);
             result->setName(fl::Op::makeValidId(name));
-            result->configure(Op::join(parameters, " "));
+            if (dynamic_cast<Function*> (result)){
+                result->configure(Op::join(parameters, "")); //remove spaces for text of function
+            }else{
+                result->configure(Op::join(parameters, " "));
+            }
+            
             return result;
         } catch (fl::Exception& ex) {
             ex.append(FL_AT);

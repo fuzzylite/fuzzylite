@@ -1,0 +1,89 @@
+FUNCTION_BLOCK slbb
+
+VAR_INPUT
+  in1: REAL;
+  in2: REAL;
+  in3: REAL;
+  in4: REAL;
+END_VAR
+
+VAR_OUTPUT
+  out: REAL;
+END_VAR
+
+FUZZIFY in1
+  ENABLED : TRUE;
+  RANGE := (-1.500 .. 1.500);
+  TERM in1mf1 := Bell -1.500 1.500 2.000;
+  TERM in1mf2 := Bell 1.500 1.500 2.000;
+END_FUZZIFY
+
+FUZZIFY in2
+  ENABLED : TRUE;
+  RANGE := (-1.500 .. 1.500);
+  TERM in2mf1 := Bell -1.500 1.500 2.000;
+  TERM in2mf2 := Bell 1.500 1.500 2.000;
+END_FUZZIFY
+
+FUZZIFY in3
+  ENABLED : TRUE;
+  RANGE := (-0.200 .. 0.200);
+  TERM in3mf1 := Bell -0.200 0.200 2.000;
+  TERM in3mf2 := Bell 0.200 0.200 2.000;
+END_FUZZIFY
+
+FUZZIFY in4
+  ENABLED : TRUE;
+  RANGE := (-0.400 .. 0.400);
+  TERM in4mf1 := Bell -0.400 0.400 2.000;
+  TERM in4mf2 := Bell 0.400 0.400 2.000;
+END_FUZZIFY
+
+DEFUZZIFY out
+  ENABLED : TRUE;
+  RANGE := (-10.000 .. 10.000);
+  TERM outmf1 := Linear 1.015 2.234 -12.665 -4.046 0.026;
+  TERM outmf2 := Linear 1.161 1.969 -9.396 -6.165 0.474;
+  TERM outmf3 := Linear 1.506 2.234 -12.990 -1.865 1.426;
+  TERM outmf4 := Linear 0.734 1.969 -9.381 -4.688 -0.880;
+  TERM outmf5 := Linear 0.734 2.234 -12.853 -6.110 -1.034;
+  TERM outmf6 := Linear 1.413 1.969 -9.485 -6.592 1.159;
+  TERM outmf7 := Linear 1.225 2.234 -12.801 -3.929 0.366;
+  TERM outmf8 := Linear 0.985 1.969 -9.291 -5.115 -0.195;
+  TERM outmf9 := Linear 0.985 1.969 -9.292 -5.115 0.195;
+  TERM outmf10 := Linear 1.225 2.234 -12.802 -3.929 -0.366;
+  TERM outmf11 := Linear 1.413 1.969 -9.485 -6.592 -1.159;
+  TERM outmf12 := Linear 0.734 2.234 -12.853 -6.110 1.034;
+  TERM outmf13 := Linear 0.734 1.969 -9.381 -4.688 0.880;
+  TERM outmf14 := Linear 1.506 2.234 -12.990 -1.865 -1.426;
+  TERM outmf15 := Linear 1.161 1.969 -9.396 -6.165 -0.474;
+  TERM outmf16 := Linear 1.015 2.234 -12.665 -4.046 -0.026;
+  METHOD : COGS;
+  ACCU : MAX;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+RULEBLOCK 
+  ENABLED : TRUE;
+  AND : PROD;
+  OR : MAX;
+  ACT : PROD;
+  RULE 1 : if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf1 and in4 is in4mf1 then out is outmf1
+  RULE 2 : if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf1 and in4 is in4mf2 then out is outmf2
+  RULE 3 : if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf2 and in4 is in4mf1 then out is outmf3
+  RULE 4 : if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf2 and in4 is in4mf2 then out is outmf4
+  RULE 5 : if in1 is in1mf1 and in2 is in2mf2 and in3 is in3mf1 and in4 is in4mf1 then out is outmf5
+  RULE 6 : if in1 is in1mf1 and in2 is in2mf2 and in3 is in3mf1 and in4 is in4mf2 then out is outmf6
+  RULE 7 : if in1 is in1mf1 and in2 is in2mf2 and in3 is in3mf2 and in4 is in4mf1 then out is outmf7
+  RULE 8 : if in1 is in1mf1 and in2 is in2mf2 and in3 is in3mf2 and in4 is in4mf2 then out is outmf8
+  RULE 9 : if in1 is in1mf2 and in2 is in2mf1 and in3 is in3mf1 and in4 is in4mf1 then out is outmf9
+  RULE 10 : if in1 is in1mf2 and in2 is in2mf1 and in3 is in3mf1 and in4 is in4mf2 then out is outmf10
+  RULE 11 : if in1 is in1mf2 and in2 is in2mf1 and in3 is in3mf2 and in4 is in4mf1 then out is outmf11
+  RULE 12 : if in1 is in1mf2 and in2 is in2mf1 and in3 is in3mf2 and in4 is in4mf2 then out is outmf12
+  RULE 13 : if in1 is in1mf2 and in2 is in2mf2 and in3 is in3mf1 and in4 is in4mf1 then out is outmf13
+  RULE 14 : if in1 is in1mf2 and in2 is in2mf2 and in3 is in3mf1 and in4 is in4mf2 then out is outmf14
+  RULE 15 : if in1 is in1mf2 and in2 is in2mf2 and in3 is in3mf2 and in4 is in4mf1 then out is outmf15
+  RULE 16 : if in1 is in1mf2 and in2 is in2mf2 and in3 is in3mf2 and in4 is in4mf2 then out is outmf16
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

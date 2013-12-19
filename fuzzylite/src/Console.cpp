@@ -20,8 +20,7 @@ namespace fl {
     const std::string Console::KW_OUTPUT_FILE = "-o";
     const std::string Console::KW_OUTPUT_FORMAT = "-of";
     const std::string Console::KW_EXAMPLE = "-ex";
-    const std::string Console::KW_DATA_RESOLUTION_VARIABLE = "-rv";
-    const std::string Console::KW_DATA_RESOLUTION_TOTAL = "-rt";
+    const std::string Console::KW_DATA_MAXIMUM = "-max";
     const std::string Console::KW_DATA_SEPARATOR = "-sep";
 
     std::string Console::usage() {
@@ -31,8 +30,7 @@ namespace fl {
         options.push_back(std::pair<std::string, std::string>(KW_OUTPUT_FILE, "outputfile"));
         options.push_back(std::pair<std::string, std::string>(KW_OUTPUT_FORMAT, "fll,fis,fcl,cpp,java,dat"));
         options.push_back(std::pair<std::string, std::string>(KW_EXAMPLE, "(m)amdani,(t)akagi-sugeno"));
-        options.push_back(std::pair<std::string, std::string>(KW_DATA_RESOLUTION_VARIABLE, "resolution(variable)"));
-        options.push_back(std::pair<std::string, std::string>(KW_DATA_RESOLUTION_TOTAL, "resolution(total)"));
+        options.push_back(std::pair<std::string, std::string>(KW_DATA_MAXIMUM, "maximum"));
         options.push_back(std::pair<std::string, std::string>(KW_DATA_SEPARATOR, "separator"));
 
         std::ostringstream ss;
@@ -79,8 +77,7 @@ namespace fl {
             valid[KW_OUTPUT_FILE] = "outputfile";
             valid[KW_OUTPUT_FORMAT] = "fll,fis,fcl,cpp,java,dat";
             valid[KW_EXAMPLE] = "(m)amdani,(t)akagi-sugeno";
-            valid[KW_DATA_RESOLUTION_VARIABLE] = "resolution(variable)";
-            valid[KW_DATA_RESOLUTION_TOTAL] = "resolution(total)";
+            valid[KW_DATA_MAXIMUM] = "maximum";
             valid[KW_DATA_SEPARATOR] = "separator";
             for (std::map<std::string, std::string>::const_iterator it = options.begin();
                     it != options.end(); ++it) {
@@ -224,22 +221,13 @@ namespace fl {
                 separator = it->second;
             }
 
-            int resolution = 100;
-            it = options.find(KW_DATA_RESOLUTION_VARIABLE);
+            it = options.find(KW_DATA_MAXIMUM);
             if (it != options.end()) {
-                resolution = (int) Op::toScalar(it->second);
+                int resolution = (int) Op::toScalar(it->second);
+                exporter = new DataExporter(separator, resolution);
             } else {
-                it = options.find(KW_DATA_RESOLUTION_TOTAL);
-                if (it != options.end()) {
-                    // r = s^i
-                    // s = exp(log(r)/i) = r^(1/i)
-                    //TODO: do this in qtfuzzylite
-                    int total = (int) Op::toScalar(it->second);
-                    resolution = std::max(1, -1 + (int) (std::pow(
-                            total, 1.0 / engine->numberOfInputVariables())));
-                }
+                exporter = new DataExporter(separator);
             }
-            exporter = new DataExporter(separator, resolution);
         } else {
             throw fl::Exception("[export error] format <" + outputFormat + "> "
                     "not supported", FL_AT);

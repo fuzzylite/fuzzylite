@@ -1,0 +1,77 @@
+FUNCTION_BLOCK peaks
+
+VAR_INPUT
+  in1: REAL;
+  in2: REAL;
+END_VAR
+
+VAR_OUTPUT
+  out1: REAL;
+END_VAR
+
+FUZZIFY in1
+  ENABLED : TRUE;
+  RANGE := (-3.000 .. 3.000);
+  TERM in1mf1 := Bell -2.233 1.578 2.151;
+  TERM in1mf2 := Bell -0.394 0.753 1.838;
+  TERM in1mf3 := Bell 0.497 0.689 1.844;
+  TERM in1mf4 := Bell 2.270 1.528 2.156;
+END_FUZZIFY
+
+FUZZIFY in2
+  ENABLED : TRUE;
+  RANGE := (-3.000 .. 3.000);
+  TERM in1mf1 := Bell -2.686 1.267 2.044;
+  TERM in1mf2 := Bell -0.836 1.266 1.796;
+  TERM in1mf3 := Bell 0.859 1.314 1.937;
+  TERM in1mf4 := Bell 2.727 1.214 2.047;
+END_FUZZIFY
+
+DEFUZZIFY out1
+  ENABLED : TRUE;
+  RANGE := (-10.000 .. 10.000);
+  TERM out1mf1 := Linear 0.155 -2.228 -8.974;
+  TERM out1mf2 := Linear -0.312 -7.705 -9.055;
+  TERM out1mf3 := Linear -0.454 -4.437 6.930;
+  TERM out1mf4 := Linear 0.248 -1.122 5.081;
+  TERM out1mf5 := Linear -6.278 25.211 99.148;
+  TERM out1mf6 := Linear 5.531 105.916 157.283;
+  TERM out1mf7 := Linear 19.519 112.333 -127.796;
+  TERM out1mf8 := Linear -5.079 34.738 -143.414;
+  TERM out1mf9 := Linear -5.889 27.311 116.585;
+  TERM out1mf10 := Linear 21.517 97.266 93.802;
+  TERM out1mf11 := Linear 9.198 79.853 -118.482;
+  TERM out1mf12 := Linear -6.571 23.026 -87.747;
+  TERM out1mf13 := Linear 0.092 -1.126 -4.527;
+  TERM out1mf14 := Linear -0.304 -4.434 -6.561;
+  TERM out1mf15 := Linear -0.166 -6.284 7.307;
+  TERM out1mf16 := Linear 0.107 -2.028 8.159;
+  METHOD : COGS;
+  ACCU : MAX;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+RULEBLOCK 
+  ENABLED : TRUE;
+  AND : PROD;
+  OR : MAX;
+  ACT : PROD;
+  RULE 1 : if in1 is in1mf1 and in2 is in1mf1 then out1 is out1mf1
+  RULE 2 : if in1 is in1mf1 and in2 is in1mf2 then out1 is out1mf2
+  RULE 3 : if in1 is in1mf1 and in2 is in1mf3 then out1 is out1mf3
+  RULE 4 : if in1 is in1mf1 and in2 is in1mf4 then out1 is out1mf4
+  RULE 5 : if in1 is in1mf2 and in2 is in1mf1 then out1 is out1mf5
+  RULE 6 : if in1 is in1mf2 and in2 is in1mf2 then out1 is out1mf6
+  RULE 7 : if in1 is in1mf2 and in2 is in1mf3 then out1 is out1mf7
+  RULE 8 : if in1 is in1mf2 and in2 is in1mf4 then out1 is out1mf8
+  RULE 9 : if in1 is in1mf3 and in2 is in1mf1 then out1 is out1mf9
+  RULE 10 : if in1 is in1mf3 and in2 is in1mf2 then out1 is out1mf10
+  RULE 11 : if in1 is in1mf3 and in2 is in1mf3 then out1 is out1mf11
+  RULE 12 : if in1 is in1mf3 and in2 is in1mf4 then out1 is out1mf12
+  RULE 13 : if in1 is in1mf4 and in2 is in1mf1 then out1 is out1mf13
+  RULE 14 : if in1 is in1mf4 and in2 is in1mf2 then out1 is out1mf14
+  RULE 15 : if in1 is in1mf4 and in2 is in1mf3 then out1 is out1mf15
+  RULE 16 : if in1 is in1mf4 and in2 is in1mf4 then out1 is out1mf16
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

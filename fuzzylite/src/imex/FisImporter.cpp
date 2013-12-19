@@ -57,7 +57,7 @@ namespace fl {
             }
             line = Op::trim(line);
             line = fl::Op::findReplace(line, "'", "");
-            if (line.empty() or line.at(0) == '%')
+            if (line.empty() or line.at(0) == '%' or line.at(0) == '#')
                 continue;
 
             if ("[System]" == line.substr(0, std::string("[System]").size())
@@ -305,29 +305,30 @@ namespace fl {
     }
 
     std::string FisImporter::translateProposition(scalar code, Variable* variable) const {
-        //TODO: Change to jfuzzylite's method of int/fracParts
-        scalar intPartScalar;
-        scalar fracPart = std::abs(std::modf(code, &intPartScalar));
-        int intPart = (int) std::abs(intPartScalar) - 1;
-
-        if (intPart < 0 or intPart >= variable->numberOfTerms()) {
+        int intPart = (int) std::floor(std::fabs(code)) - 1;
+        scalar fracPart = std::fmod(std::fabs(code), 1.0);
+        if (intPart >= variable->numberOfTerms()) {
             std::ostringstream ex;
             ex << "[syntax error] the code <" << code << "> refers to a term "
                     "out of range from variable <" << variable->toString() << ">";
             throw fl::Exception(ex.str(), FL_AT);
         }
 
+        bool isAny = intPart < 0;
         std::ostringstream ss;
         if (code < 0) ss << Not().name() << " ";
-        if (fl::Op::isEq(fracPart, 0.05)) ss << Somewhat().name() << " ";
+        if (fl::Op::isEq(fracPart, 0.01)) ss << Seldom().name() << " ";
+        else if (fl::Op::isEq(fracPart, 0.05)) ss << Somewhat().name() << " ";
         else if (fl::Op::isEq(fracPart, 0.2)) ss << Very().name() << " ";
         else if (fl::Op::isEq(fracPart, 0.3)) ss << Extremely().name() << " ";
         else if (fl::Op::isEq(fracPart, 0.4)) ss << Very().name() << " " << Very().name() << " ";
+        else if (fl::Op::isEq(fracPart, 0.99)) ss << Any().name() << " ";
         else if (not fl::Op::isEq(fracPart, 0))
             throw fl::Exception("[syntax error] no hedge defined in FIS format for <"
                 + fl::Op::str(fracPart) + ">", FL_AT);
-
-        ss << variable->getTerm(intPart)->getName();
+        if (not isAny) {
+            ss << variable->getTerm(intPart)->getName();
+        }
         return ss.str();
     }
 
@@ -486,7 +487,11 @@ namespace fl {
         try {
             Term* result = FactoryManager::instance()->term()->createInstance(flClass);
             result->setName(Op::makeValidId(name));
-            result->configure(Op::join(sortedParams, " "));
+            if (dynamic_cast<Function*> (result)) {
+                result->configure(Op::join(params, ""));
+            } else {
+                result->configure(Op::join(sortedParams, " "));
+            }
             return result;
         } catch (fl::Exception& ex) {
             ex.append(FL_AT);

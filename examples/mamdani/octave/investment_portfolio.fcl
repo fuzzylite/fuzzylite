@@ -1,0 +1,48 @@
+FUNCTION_BLOCK Investment-Portfolio
+
+VAR_INPUT
+  Age: REAL;
+  RiskTolerance: REAL;
+END_VAR
+
+VAR_OUTPUT
+  PercentageInStocks: REAL;
+END_VAR
+
+FUZZIFY Age
+  ENABLED : TRUE;
+  RANGE := (20.000 .. 100.000);
+  TERM Young := ZShape 30.000 90.000;
+  TERM Old := SShape 30.000 90.000;
+END_FUZZIFY
+
+FUZZIFY RiskTolerance
+  ENABLED : TRUE;
+  RANGE := (0.000 .. 10.000);
+  TERM Low := ZShape 2.000 8.000;
+  TERM High := SShape 2.000 8.000;
+END_FUZZIFY
+
+DEFUZZIFY PercentageInStocks
+  ENABLED : TRUE;
+  RANGE := (0.000 .. 100.000);
+  TERM AboutFifteen := Gaussian 15.000 10.000;
+  TERM AboutFifty := Gaussian 50.000 10.000;
+  TERM AboutEightyFive := Gaussian 85.000 10.000;
+  METHOD : COG;
+  ACCU : ESUM;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+RULEBLOCK 
+  ENABLED : TRUE;
+  AND : EPROD;
+  OR : ESUM;
+  ACT : EPROD;
+  RULE 1 : if Age is Young or RiskTolerance is High then PercentageInStocks is AboutEightyFive
+  RULE 2 : if Age is Old or RiskTolerance is Low then PercentageInStocks is AboutFifteen
+  RULE 3 : if Age is not extremely Old and RiskTolerance is not extremely Low then PercentageInStocks is AboutFifty with 0.500
+  RULE 4 : if Age is not extremely Young and RiskTolerance is not extremely High then PercentageInStocks is AboutFifty with 0.500
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

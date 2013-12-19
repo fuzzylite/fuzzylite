@@ -81,8 +81,9 @@ namespace fl {
         if (not Op::isNan(z)) {
             //Compare difference between estimated and true value
             scalar fz = monotonic->membership(z);
-            if (not Op::isEq(w, fz, fuzzylite::macheps() * 1e-2)) {
-                FL_LOG("[tsukamoto warning] inaccurate computation of z because "
+            if (not Op::isEq(w, fz, 1e-2)) {
+                FL_DBG("[tsukamoto warning] difference <" << Op::str(std::abs(w-fz)) << "> "
+                        "might suggest an inaccurate computation of z because it is "
                         "expected w=f(z) in " << monotonic->className() <<
                         " term <" << monotonic->getName() << ">, but "
                         "w=" << term->getThreshold() << " "

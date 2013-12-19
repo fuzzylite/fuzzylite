@@ -1,0 +1,37 @@
+FUNCTION_BLOCK sugeno
+
+VAR_INPUT
+  input: REAL;
+END_VAR
+
+VAR_OUTPUT
+  output: REAL;
+END_VAR
+
+FUZZIFY input
+  ENABLED : TRUE;
+  RANGE := (-5.000 .. 5.000);
+  TERM low := Gaussian -5.000 4.000;
+  TERM high := Gaussian 5.000 4.000;
+END_FUZZIFY
+
+DEFUZZIFY output
+  ENABLED : TRUE;
+  RANGE := (0.000 .. 1.000);
+  TERM line1 := Linear -1.000 -1.000;
+  TERM line2 := Linear 1.000 -1.000;
+  METHOD : COGS;
+  ACCU : MAX;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+RULEBLOCK 
+  ENABLED : TRUE;
+  AND : PROD;
+  OR : ASUM;
+  ACT : MIN;
+  RULE 1 : if input is low then output is line1
+  RULE 2 : if input is high then output is line2
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

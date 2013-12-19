@@ -1,0 +1,50 @@
+[System]
+Name='sltbu'
+Type='sugeno'
+Version=4.0
+NumInputs=3
+NumOutputs=1
+NumRules=2
+AndMethod='prod'
+OrMethod='max'
+ImpMethod='prod'
+AggMethod='max'
+DefuzzMethod='wtaver'
+
+[Input1]
+Enabled=1
+Name='distance'
+Range=[0.000 25.000]
+NumMFs=2
+MF1='near':'zmf',[1.000 2.000]
+MF2='far':'smf',[1.000 2.000]
+
+[Input2]
+Enabled=1
+Name='control1'
+Range=[-0.785 0.785]
+NumMFs=0
+
+[Input3]
+Enabled=1
+Name='control2'
+Range=[-0.785 0.785]
+NumMFs=0
+
+
+[Output1]
+Enabled=1
+Name='control'
+Range=[-0.785 0.785]
+Default=nan
+LockValid=0
+LockRange=0
+NumMFs=2
+MF1='out1mf1':'linear',[0.000 0.000 1.000 0.000]
+MF2='out1mf2':'linear',[0.000 1.000 0.000 0.000]
+
+
+[Rules]
+1.000 0.000 0.000 , 1.000 (1.000) : 1
+2.000 0.000 0.000 , 2.000 (1.000) : 1
+

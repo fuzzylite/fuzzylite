@@ -1741,30 +1741,28 @@ namespace fl {
         void Window::onMenuExportToDatasetView() {
             QSettings settings;
             int minResolution =
-                    settings.value("view/minVariableResolution", 5).toInt();
+                    settings.value("view/minVariableResolution", 8).toInt();
             int maxResolution =
-                    settings.value("view/maxVariableResolution", 1000000000).toInt();
+                    settings.value("view/maxVariableResolution", 1024 * 1024 * 1024).toInt();
             bool ok;
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
             int results = QInputDialog::getInteger(this,
                     "Number of Results",
-                    "Please, specify the number of results you want to produce:",
-                    50, minResolution, maxResolution, 10, &ok);
+                    "Please, specify the maximum number of results you want to export:",
+                    1024, minResolution, maxResolution, 8, &ok);
 #else
             int results = QInputDialog::getInt(this,
                     "Number of Results",
-                    "Please, specify the number of results you want to produce:",
-                    50, minResolution, maxResolution, 10, &ok);
+                    "Please, specify the maximum number of results you want to export:",
+                    1024, minResolution, maxResolution, 8, &ok);
 #endif
             if (not ok) {
                 return;
             }
 
-            DataExporter exporter(" ");
-            int inputVariables = Model::Default()->engine()->numberOfInputVariables();
-            int resolution = fl::Op::max<int>(1, -1 + (int) std::pow(results, 1.0 / inputVariables));
-            exporter.setResolution(resolution);
+            DataExporter exporter;
+            exporter.setMaximum(results);
             std::string data;
             try {
                 data = exporter.toString(Model::Default()->engine());
@@ -1809,21 +1807,21 @@ namespace fl {
             settings.setValue("file/recentDataLocation", QFileInfo(filename).absoluteFilePath());
 
             int minResolution =
-                    settings.value("view/minVariableResolution", 5).toInt();
+                    settings.value("view/minVariableResolution", 8).toInt();
             int maxResolution =
-                    settings.value("view/maxVariableResolution", 1000000000).toInt();
+                    settings.value("view/maxVariableResolution", 1024 * 1024 * 1024).toInt();
             bool ok;
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
             int results = QInputDialog::getInteger(this,
                     "Number of Results",
-                    "Please, specify the number of results you want to produce:",
-                    50, minResolution, maxResolution, 10, &ok);
+                    "Please, specify the maximum number of results you want to export:",
+                    1024, minResolution, maxResolution, 8, &ok);
 #else
             int results = QInputDialog::getInt(this,
                     "Number of Results",
-                    "Please, specify the number of results you want to produce:",
-                    50, minResolution, maxResolution, 10, &ok);
+                    "Please, specify the maximum number of results you want to export:",
+                    1024, minResolution, maxResolution, 8, &ok);
 #endif
             if (not ok) {
                 return;
@@ -1839,11 +1837,9 @@ namespace fl {
                 return;
             }
 
-            DataExporter exporter(" ");
-            int inputVariables = Model::Default()->engine()->numberOfInputVariables();
-            int resolution = fl::Op::max<int>(1, -1 + (int) std::pow(results, 1.0 / inputVariables));
+            DataExporter exporter;
             try {
-                exporter.toWriter(Model::Default()->engine(), dataFile, " ", resolution);
+                exporter.toWriter(Model::Default()->engine(), dataFile, " ", results);
             } catch (fl::Exception& ex) {
                 QMessageBox::critical(this, "Error exporting dataset (file)",
                         toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),

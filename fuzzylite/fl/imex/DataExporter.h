@@ -32,10 +32,9 @@ namespace fl {
     class FL_EXPORT DataExporter : public Exporter {
     protected:
         std::string _separator;
-        int _resolution;
-
+        int _maximum;
     public:
-        DataExporter(const std::string& separator = " ", int resolution = 100);
+        DataExporter(const std::string& separator = " ", int maximum = 1024);
         virtual ~DataExporter();
 
         virtual std::string name() const;
@@ -43,8 +42,8 @@ namespace fl {
         virtual void setSeparator(const std::string& separator);
         virtual std::string getSeparator() const;
 
-        virtual void setResolution(int resolution);
-        virtual int getResolution() const;
+        virtual void setMaximum(int maximum);
+        virtual int getMaximum() const;
 
         //WARNING: The engine will be const_casted, restarted, processed!
         virtual std::string toString(const Engine* mutableEngine) const;

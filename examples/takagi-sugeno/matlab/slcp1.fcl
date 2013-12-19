@@ -1,0 +1,64 @@
+FUNCTION_BLOCK slcp1
+
+VAR_INPUT
+  in1: REAL;
+  in2: REAL;
+  in3: REAL;
+  in4: REAL;
+  in5: REAL;
+END_VAR
+
+VAR_OUTPUT
+  out: REAL;
+END_VAR
+
+FUZZIFY in1
+  ENABLED : TRUE;
+  RANGE := (-0.300 .. 0.300);
+END_FUZZIFY
+
+FUZZIFY in2
+  ENABLED : TRUE;
+  RANGE := (-1.000 .. 1.000);
+END_FUZZIFY
+
+FUZZIFY in3
+  ENABLED : TRUE;
+  RANGE := (-3.000 .. 3.000);
+END_FUZZIFY
+
+FUZZIFY in4
+  ENABLED : TRUE;
+  RANGE := (-3.000 .. 3.000);
+END_FUZZIFY
+
+FUZZIFY in5
+  ENABLED : TRUE;
+  RANGE := (0.500 .. 1.500);
+  TERM small := Gaussian 0.500 0.200;
+  TERM medium := Gaussian 1.000 0.200;
+  TERM large := Gaussian 1.500 0.200;
+END_FUZZIFY
+
+DEFUZZIFY out
+  ENABLED : TRUE;
+  RANGE := (-10.000 .. 10.000);
+  TERM outmf1 := Linear 32.166 5.835 3.162 3.757 0.000 0.000;
+  TERM outmf2 := Linear 39.012 9.947 3.162 4.269 0.000 0.000;
+  TERM outmf3 := Linear 45.009 13.985 3.162 4.666 0.000 0.000;
+  METHOD : COGS;
+  ACCU : MAX;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+RULEBLOCK 
+  ENABLED : TRUE;
+  AND : PROD;
+  OR : MAX;
+  ACT : PROD;
+  RULE 1 : if in5 is small then out is outmf1
+  RULE 2 : if in5 is medium then out is outmf2
+  RULE 3 : if in5 is large then out is outmf3
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

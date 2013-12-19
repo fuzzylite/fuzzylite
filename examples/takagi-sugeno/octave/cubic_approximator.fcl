@@ -1,0 +1,64 @@
+FUNCTION_BLOCK Cubic-Approximator
+
+VAR_INPUT
+  X: REAL;
+END_VAR
+
+VAR_OUTPUT
+  ApproxXCubed: REAL;
+END_VAR
+
+FUZZIFY X
+  ENABLED : TRUE;
+  RANGE := (-5.000 .. 5.000);
+  TERM AboutNegFive := Triangle -6.000 -5.000 -4.000;
+  TERM AboutNegFour := Triangle -5.000 -4.000 -3.000;
+  TERM AboutNegThree := Triangle -4.000 -3.000 -2.000;
+  TERM AboutNegTwo := Triangle -3.000 -2.000 -1.000;
+  TERM AboutNegOne := Triangle -2.000 -1.000 0.000;
+  TERM AboutZero := Triangle -1.000 0.000 1.000;
+  TERM AboutOne := Triangle 0.000 1.000 2.000;
+  TERM AboutTwo := Triangle 1.000 2.000 3.000;
+  TERM AboutThree := Triangle 2.000 3.000 4.000;
+  TERM AboutFour := Triangle 3.000 4.000 5.000;
+  TERM AboutFive := Triangle 4.000 5.000 6.000;
+END_FUZZIFY
+
+DEFUZZIFY ApproxXCubed
+  ENABLED : TRUE;
+  RANGE := (-5.000 .. 5.000);
+  TERM TangentatNegFive := Linear 75.000 250.000;
+  TERM TangentatNegFour := Linear 48.000 128.000;
+  TERM TangentatNegThree := Linear 27.000 54.000;
+  TERM TangentatNegTwo := Linear 12.000 16.000;
+  TERM TangentatNegOne := Linear 3.000 2.000;
+  TERM TangentatZero := Linear 0.000 0.000;
+  TERM TangentatOne := Linear 3.000 -2.000;
+  TERM TangentatTwo := Linear 12.000 -16.000;
+  TERM TangentatThree := Linear 27.000 -54.000;
+  TERM TangentatFour := Linear 48.000 -128.000;
+  TERM TangentatFive := Linear 75.000 -250.000;
+  METHOD : COGS;
+  ACCU : MAX;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+RULEBLOCK 
+  ENABLED : TRUE;
+  AND : MIN;
+  OR : MAX;
+  ACT : MIN;
+  RULE 1 : if X is AboutNegFive then ApproxXCubed is TangentatNegFive
+  RULE 2 : if X is AboutNegFour then ApproxXCubed is TangentatNegFour
+  RULE 3 : if X is AboutNegThree then ApproxXCubed is TangentatNegThree
+  RULE 4 : if X is AboutNegTwo then ApproxXCubed is TangentatNegTwo
+  RULE 5 : if X is AboutNegOne then ApproxXCubed is TangentatNegOne
+  RULE 6 : if X is AboutZero then ApproxXCubed is TangentatZero
+  RULE 7 : if X is AboutOne then ApproxXCubed is TangentatOne
+  RULE 8 : if X is AboutTwo then ApproxXCubed is TangentatTwo
+  RULE 9 : if X is AboutThree then ApproxXCubed is TangentatThree
+  RULE 10 : if X is AboutFour then ApproxXCubed is TangentatFour
+  RULE 11 : if X is AboutFive then ApproxXCubed is TangentatFive
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

@@ -1,0 +1,76 @@
+FUNCTION_BLOCK approximation of sin(x)/x
+
+VAR_INPUT
+  inputX: REAL;
+END_VAR
+
+VAR_OUTPUT
+  outputFx: REAL;
+  trueFx: REAL;
+  diffFx: REAL;
+END_VAR
+
+FUZZIFY inputX
+  ENABLED : TRUE;
+  RANGE := (0.000 .. 10.000);
+  TERM NEAR_1 := Triangle 0.000 1.000 2.000;
+  TERM NEAR_2 := Triangle 1.000 2.000 3.000;
+  TERM NEAR_3 := Triangle 2.000 3.000 4.000;
+  TERM NEAR_4 := Triangle 3.000 4.000 5.000;
+  TERM NEAR_5 := Triangle 4.000 5.000 6.000;
+  TERM NEAR_6 := Triangle 5.000 6.000 7.000;
+  TERM NEAR_7 := Triangle 6.000 7.000 8.000;
+  TERM NEAR_8 := Triangle 7.000 8.000 9.000;
+  TERM NEAR_9 := Triangle 8.000 9.000 10.000;
+END_FUZZIFY
+
+DEFUZZIFY outputFx
+  ENABLED : TRUE;
+  RANGE := (-1.000 .. 1.000);
+  TERM f1 := 0.840;
+  TERM f2 := 0.450;
+  TERM f3 := 0.040;
+  TERM f4 := -0.180;
+  TERM f5 := -0.190;
+  TERM f6 := -0.040;
+  TERM f7 := 0.090;
+  TERM f8 := 0.120;
+  TERM f9 := 0.040;
+  METHOD : COGS;
+  DEFAULT := nan | NC;
+  LOCK : VALID;
+END_DEFUZZIFY
+
+DEFUZZIFY trueFx
+  ENABLED : TRUE;
+  RANGE := (-1.000 .. 1.000);
+  TERM fx := Function sin(inputX)/inputX;
+  METHOD : COGS;
+  DEFAULT := nan | NC;
+  LOCK : VALID;
+END_DEFUZZIFY
+
+DEFUZZIFY diffFx
+  ENABLED : TRUE;
+  RANGE := (-1.000 .. 1.000);
+  TERM diff := Function fabs(outputFx-trueFx);
+  METHOD : COGS;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+RULEBLOCK 
+  ENABLED : TRUE;
+  ACT : PROD;
+  RULE 1 : if inputX is NEAR_1 then outputFx is f1
+  RULE 2 : if inputX is NEAR_2 then outputFx is f2
+  RULE 3 : if inputX is NEAR_3 then outputFx is f3
+  RULE 4 : if inputX is NEAR_4 then outputFx is f4
+  RULE 5 : if inputX is NEAR_5 then outputFx is f5
+  RULE 6 : if inputX is NEAR_6 then outputFx is f6
+  RULE 7 : if inputX is NEAR_7 then outputFx is f7
+  RULE 8 : if inputX is NEAR_8 then outputFx is f8
+  RULE 9 : if inputX is NEAR_9 then outputFx is f9
+  RULE 10 : if inputX is any  then trueFx is fx and diffFx is diff
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
