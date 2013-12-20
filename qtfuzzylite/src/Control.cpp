@@ -188,7 +188,7 @@ namespace fl {
         }
 
         void Control::onClickVariableName() {
-            //TODO: Add posibility to edit variable.
+            //TODO: Add option to edit variable.
             QMenu menu(this);
             if (not ui->wdg_canvas->isVisible()) {
                 menu.addAction("maximize", this, SLOT(onActionVariableName()));
