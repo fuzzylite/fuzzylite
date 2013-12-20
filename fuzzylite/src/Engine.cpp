@@ -262,7 +262,7 @@ namespace fl {
     }
     
     std::string Engine::toString() const{
-        return FllExporter().toString(this);
+        return FllExporter("", "; ").toString(this);
     }
 
     /**

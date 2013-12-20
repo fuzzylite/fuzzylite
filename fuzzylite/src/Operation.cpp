@@ -164,7 +164,7 @@ namespace fl {
     std::vector<std::string> Operation::split(const std::string& str,
             const std::string& delimiter, bool ignoreEmpty) {
         std::vector<std::string> result;
-        if (delimiter.empty()) {
+        if (str.empty() or delimiter.empty()) {
             result.push_back(str);
             return result;
         }

@@ -75,7 +75,7 @@ namespace fl {
             setWindowTitle("Add variable");
 
             ui->gbx_output->setVisible(type == OUTPUT_VARIABLE);
-            
+
             ui->cbx_enabled->setChecked(true);
 
             std::vector<std::string> accumulation = FactoryManager::instance()->snorm()->available();
@@ -248,9 +248,9 @@ namespace fl {
                 if (ui->cbx_defuzzifier->currentIndex() >= 0) {
                     defuzzifier = FactoryManager::instance()->defuzzifier()->createInstance(
                             ui->cbx_defuzzifier->currentText().toStdString());
-                    IntegralDefuzzifier* integralDefuzzifier = 
+                    IntegralDefuzzifier* integralDefuzzifier =
                             dynamic_cast<IntegralDefuzzifier*> (defuzzifier);
-                    if (integralDefuzzifier){
+                    if (integralDefuzzifier) {
                         integralDefuzzifier->setResolution(ui->sbx_accuracy->value());
                     }
                 }
@@ -308,8 +308,7 @@ namespace fl {
 
             for (int i = 0; i < ui->lvw_terms->count(); ++i) {
                 if (ui->lvw_terms->item(i)->isSelected()) {
-                    message << "- " << variable->getTerm(i)->getName() << ": "
-                            << variable->getTerm(i)->toString();
+                    message << "- " << variable->getTerm(i)->toString();
                     if (i + 1 < ui->lvw_terms->selectedItems().size()) message << "\n\n";
                 }
             }
@@ -335,8 +334,7 @@ namespace fl {
                 message << "Do you want to edit the following terms?\n\n";
                 for (int i = 0; i < ui->lvw_terms->count(); ++i) {
                     if (ui->lvw_terms->item(i)->isSelected()) {
-                        message << "- " << variable->getTerm(i)->getName() << ": "
-                                << variable->getTerm(i)->toString();
+                        message << "- " << variable->getTerm(i)->toString();
                         if (i + 1 < ui->lvw_terms->selectedItems().size()) message << "\n\n";
                     }
                 }

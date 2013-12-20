@@ -35,19 +35,22 @@ namespace fl {
     class Norm;
     class Defuzzifier;
     class Term;
-    
+
     class FL_EXPORT FllExporter : public Exporter {
     protected:
         std::string _indent;
-
+        std::string _separator;
     public:
-        FllExporter(const std::string& indent = "  ");
+        FllExporter(const std::string& indent = "  ", const std::string& separator = "\n");
         virtual ~FllExporter();
 
         virtual std::string name() const;
 
         virtual void setIndent(const std::string& indent);
         virtual std::string getIndent() const;
+
+        virtual void setSeparator(const std::string& separator);
+        virtual std::string getSeparator() const;
 
         virtual std::string toString(const Engine* engine) const;
 
@@ -56,7 +59,7 @@ namespace fl {
         virtual std::string toString(const OutputVariable* outputVariable) const;
         virtual std::string toString(const RuleBlock* ruleBlock) const;
         virtual std::string toString(const Rule* rule) const;
-        
+
         virtual std::string toString(const Norm* norm) const;
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
         virtual std::string toString(const Term* term) const;

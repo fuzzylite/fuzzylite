@@ -26,7 +26,6 @@
 #include "fl/fuzzylite.h"
 
 #include "fl/Operation.h"
-#include "fl/imex/FllExporter.h"
 
 #include <string>
 #include <limits>

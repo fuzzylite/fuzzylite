@@ -24,6 +24,8 @@
 
 #include "fl/norm/SNorm.h"
 
+#include "fl/imex/FllExporter.h"
+
 #include <sstream>
 
 namespace fl {

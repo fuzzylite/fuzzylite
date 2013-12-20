@@ -35,9 +35,14 @@ namespace fl {
     class Defuzzifier;
 
     class FL_EXPORT FllImporter : public Importer {
+    protected:
+        std::string _separator;
     public:
-        FllImporter();
+        FllImporter(const std::string& separator = "\n");
         virtual ~FllImporter();
+
+        virtual void setSeparator(const std::string& separator);
+        virtual std::string getSeparator() const;
 
         virtual std::string name() const;
         virtual Engine* fromString(const std::string& fll) const;

@@ -159,7 +159,7 @@ int main(int argc, char* argv[]) {
     signal(SIGPIPE, fl::signalHandler);
 #endif
     try {
-        //fl::fuzzylite::setDebug(true);
+//        fl::fuzzylite::setDebug(true);
         fl::fuzzylite::setDecimals(3);
         fl::fuzzylite::setLogging(true);
         fl::qt::Window::main(argc, argv);

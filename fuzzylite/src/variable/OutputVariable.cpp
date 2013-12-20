@@ -135,7 +135,7 @@ namespace fl {
     }
 
     std::string OutputVariable::toString() const {
-        return FllExporter().toString(this);
+        return FllExporter("", "; ").toString(this);
     }
 
 }

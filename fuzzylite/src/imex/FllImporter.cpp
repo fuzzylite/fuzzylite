@@ -24,9 +24,11 @@
 
 #include "fl/Headers.h"
 
+#include <queue>
+
 namespace fl {
 
-    FllImporter::FllImporter() {
+    FllImporter::FllImporter(const std::string& separator) : _separator(separator) {
     }
 
     FllImporter::~FllImporter() {
@@ -37,6 +39,14 @@ namespace fl {
         return "FllImporter";
     }
 
+    void FllImporter::setSeparator(const std::string& separator) {
+        this->_separator = separator;
+    }
+
+    std::string FllImporter::getSeparator() const {
+        return this->_separator;
+    }
+
     Engine* FllImporter::fromString(const std::string& fll) const {
         Engine* engine = new Engine;
 
@@ -45,16 +55,27 @@ namespace fl {
         bool processPending = false;
         std::istringstream fclReader(fll);
         std::string line;
+        std::queue<std::string> lineQueue;
         int lineNumber = 0;
         try {
-            while (std::getline(fclReader, line)) {
-                ++lineNumber;
+            while (not lineQueue.empty() or std::getline(fclReader, line)) {
+                if (not lineQueue.empty()){
+                    line = lineQueue.front();
+                    lineQueue.pop();
+                }else{
+                    std::vector<std::string> split = Op::split(line, _separator);
+                    line = split.front();
+                    for (std::size_t i = 1 ; i < split.size(); ++i){
+                        lineQueue.push(split.at(i));
+                    }
+                    ++lineNumber;
+                }
                 line = clean(line);
                 if (line.empty()) continue;
                 std::size_t colon = line.find_first_of(':');
                 if (colon == std::string::npos) {
-                    throw fl::Exception("[import error] expected a colon in line #" +
-                            Op::str(lineNumber) + ": " + line, FL_AT);
+                    throw fl::Exception("[import error] expected a colon in line <" +
+                            Op::str(lineNumber) + ">: " + line, FL_AT);
                 }
                 std::string key = Op::trim(line.substr(0, colon));
                 std::string value = Op::trim(line.substr(colon + 1));
@@ -242,8 +263,8 @@ namespace fl {
         std::pair<std::string, std::string> range = parseKeyValue(text, ' ');
         return std::pair<scalar, scalar>(Op::toScalar(range.first), Op::toScalar(range.second));
     }
-    
-    bool FllImporter::parseBoolean(const std::string& boolean) const{
+
+    bool FllImporter::parseBoolean(const std::string& boolean) const {
         if ("true" == boolean) return true;
         if ("false" == boolean) return false;
         throw fl::Exception("[syntax error] expected boolean <true|false>, "

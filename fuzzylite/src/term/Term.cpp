@@ -42,6 +42,6 @@ namespace fl {
     }
 
     std::string Term::toString() const {
-        return FllExporter().toString(this);
+        return FllExporter("", "; ").toString(this);
     }
 }

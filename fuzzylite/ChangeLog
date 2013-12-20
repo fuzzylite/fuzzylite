@@ -47,5 +47,8 @@ Version 4.0
 * Created Term::configure to configure from Term::parameters
 * FclImEx import and export terms using Term::parameters
 * Created the FuzzyLite Language in FllImporter and FllExporter
+* Added property Enable to Engine, Variable and RuleBlock
+* Extended FCL and FIS to consider Enabled properties
+* Changed Engine::defuzzify() to consider enabled variables
 
 

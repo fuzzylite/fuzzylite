@@ -126,7 +126,7 @@ namespace fl {
     }
 
     std::string Variable::toString() const {
-        return FllExporter().toString(this);
+        return FllExporter("", "; ").toString(this);
     }
 
     /**
