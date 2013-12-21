@@ -16,7 +16,7 @@
 
     Juan Rada-Vilela, 21 July 2013
     jcrada@fuzzylite.com
-**/
+ **/
 
 /* 
  * File:   Surface2D.cpp
@@ -50,10 +50,11 @@ namespace fl {
                     | Qt::WindowSystemMenuHint
                     | Qt::WindowCloseButtonHint
                     | Qt::WindowStaysOnTopHint
-                     | Qt::WindowMaximizeButtonHint);
+                    | Qt::WindowMaximizeButtonHint);
         }
 
-        Surface2D::~Surface2D() { }
+        Surface2D::~Surface2D() {
+        }
 
         void Surface2D::onEngineChanged() {
             close();
@@ -107,6 +108,7 @@ namespace fl {
                     this, SLOT(onClickGenerate()));
 
             Engine* engine = Model::Default()->engine();
+            engine->restart();
             QStringList inputs, outputs;
             for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
                 inputs << QString::fromStdString(engine->getInputVariable(i)->getName());
@@ -175,7 +177,6 @@ namespace fl {
             InputVariable* inputA = engine->getInputVariable(ui->cbx_inputA->currentIndex());
             InputVariable* inputB = engine->getInputVariable(ui->cbx_inputB->currentIndex());
             OutputVariable* output = engine->getOutputVariable(ui->cbx_output->currentIndex());
-            output->setLastValidOutput(output->getDefaultValue());
 
             minInputA = ui->sbx_min_inputA->value();
             maxInputA = ui->sbx_max_inputA->value();
@@ -220,8 +221,19 @@ namespace fl {
                     inputB->setInputValue(bValue);
 
                     engine->process();
-
-                    scalar oValue = output->defuzzify();
+                    
+                    scalar oValue = fl::nan;
+                    for (int o = 0 ; o < engine->numberOfOutputVariables(); ++o){
+                        OutputVariable* outputVariable = engine->getOutputVariable(o);
+                        if (outputVariable == output){
+                            oValue = output->defuzzify();
+                        }else{
+                            if (outputVariable->isEnabled()){
+                                outputVariable->defuzzify();
+                            }
+                        }
+                    }
+                    
                     _matrix.at(a).at(b) = tuple(aValue, bValue, oValue);
 
                     if (output->isLockingOutputRange()) {
