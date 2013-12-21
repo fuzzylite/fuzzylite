@@ -27,7 +27,16 @@
        </sizepolicy>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
@@ -45,7 +54,16 @@
           <enum>QFrame::Sunken</enum>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>6</number>
+          </property>
+          <property name="topMargin">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>6</number>
+          </property>
+          <property name="bottomMargin">
            <number>6</number>
           </property>
           <item>
@@ -86,6 +104,9 @@
               <property name="accelerated">
                <bool>true</bool>
               </property>
+              <property name="keyboardTracking">
+               <bool>false</bool>
+              </property>
               <property name="minimum">
                <double>-10000000.000000000000000</double>
               </property>
@@ -110,6 +131,9 @@
               </property>
               <property name="accelerated">
                <bool>true</bool>
+              </property>
+              <property name="keyboardTracking">
+               <bool>false</bool>
               </property>
               <property name="minimum">
                <double>-10000000.000000000000000</double>
@@ -139,6 +163,9 @@
               <property name="accelerated">
                <bool>true</bool>
               </property>
+              <property name="keyboardTracking">
+               <bool>false</bool>
+              </property>
               <property name="minimum">
                <double>-10000000.000000000000000</double>
               </property>
@@ -166,6 +193,9 @@
               </property>
               <property name="accelerated">
                <bool>true</bool>
+              </property>
+              <property name="keyboardTracking">
+               <bool>false</bool>
               </property>
               <property name="minimum">
                <double>-10000000.000000000000000</double>
@@ -260,7 +290,16 @@
           <enum>QFrame::Sunken</enum>
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>6</number>
+          </property>
+          <property name="topMargin">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>6</number>
+          </property>
+          <property name="bottomMargin">
            <number>6</number>
           </property>
           <item row="1" column="0">
@@ -310,6 +349,9 @@
             <property name="readOnly">
              <bool>true</bool>
             </property>
+            <property name="keyboardTracking">
+             <bool>false</bool>
+            </property>
            </widget>
           </item>
           <item row="1" column="2">
@@ -325,6 +367,9 @@
             </property>
             <property name="readOnly">
              <bool>true</bool>
+            </property>
+            <property name="keyboardTracking">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -387,7 +432,16 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>6</number>
+       </property>
+       <property name="topMargin">
+        <number>6</number>
+       </property>
+       <property name="rightMargin">
+        <number>6</number>
+       </property>
+       <property name="bottomMargin">
         <number>6</number>
        </property>
        <property name="spacing">
@@ -419,7 +473,16 @@
        <item row="0" column="1">
         <widget class="QFrame" name="frm_horizontal_axis">
          <layout class="QHBoxLayout" name="horizontalLayout_8">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <item>
@@ -467,7 +530,16 @@
        <item row="1" column="0">
         <widget class="QFrame" name="frm_vertical_axis">
          <layout class="QVBoxLayout" name="verticalLayout_3">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <item>
@@ -561,7 +633,16 @@
         <enum>QFrame::Sunken</enum>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <property name="margin">
+        <property name="leftMargin">
+         <number>6</number>
+        </property>
+        <property name="topMargin">
+         <number>6</number>
+        </property>
+        <property name="rightMargin">
+         <number>6</number>
+        </property>
+        <property name="bottomMargin">
          <number>6</number>
         </property>
         <item>

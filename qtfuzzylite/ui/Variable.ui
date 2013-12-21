@@ -91,6 +91,9 @@
          <property name="accelerated">
           <bool>true</bool>
          </property>
+         <property name="keyboardTracking">
+          <bool>false</bool>
+         </property>
          <property name="minimum">
           <double>-10000000.000000000000000</double>
          </property>
@@ -132,6 +135,9 @@
          </property>
          <property name="accelerated">
           <bool>true</bool>
+         </property>
+         <property name="keyboardTracking">
+          <bool>false</bool>
          </property>
          <property name="minimum">
           <double>-10000000.000000000000000</double>
@@ -503,6 +509,9 @@
           </property>
           <property name="accelerated">
            <bool>true</bool>
+          </property>
+          <property name="keyboardTracking">
+           <bool>false</bool>
           </property>
           <property name="minimum">
            <number>20</number>

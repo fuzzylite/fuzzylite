@@ -92,6 +92,9 @@
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
+         <property name="keyboardTracking">
+          <bool>false</bool>
+         </property>
          <property name="minimum">
           <double>-1000000.000000000000000</double>
          </property>

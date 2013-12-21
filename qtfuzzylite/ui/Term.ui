@@ -20,7 +20,16 @@
       <property name="sizeConstraint">
        <enum>QLayout::SetDefaultConstraint</enum>
       </property>
-      <property name="margin">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
        <number>0</number>
       </property>
       <item>
@@ -84,11 +93,14 @@
        <property name="focusPolicy">
         <enum>Qt::NoFocus</enum>
        </property>
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
        <property name="tabShape">
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>0</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideMiddle</enum>
@@ -99,6 +111,9 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="autoFillBackground">
+         <bool>true</bool>
         </property>
         <attribute name="title">
          <string>Basic</string>
@@ -115,6 +130,9 @@
            <property name="focusPolicy">
             <enum>Qt::NoFocus</enum>
            </property>
+           <property name="autoFillBackground">
+            <bool>true</bool>
+           </property>
            <property name="currentIndex">
             <number>0</number>
            </property>
@@ -123,8 +141,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>98</width>
-              <height>111</height>
+              <width>203</width>
+              <height>220</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -135,6 +153,9 @@
             </property>
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>true</bool>
             </property>
             <attribute name="label">
              <string>Triangle</string>
@@ -177,8 +198,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>98</width>
-              <height>144</height>
+              <width>203</width>
+              <height>220</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -189,6 +210,9 @@
             </property>
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>true</bool>
             </property>
             <attribute name="label">
              <string>Trapezoid</string>
@@ -241,8 +265,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>110</width>
-              <height>96</height>
+              <width>203</width>
+              <height>220</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -253,6 +277,9 @@
             </property>
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>true</bool>
             </property>
             <attribute name="label">
              <string>Rectangle</string>
@@ -285,8 +312,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>137</width>
-              <height>183</height>
+              <width>203</width>
+              <height>220</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -297,6 +324,9 @@
             </property>
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>true</bool>
             </property>
             <attribute name="label">
              <string>Discrete</string>
@@ -384,6 +414,9 @@ sure 'x' is followed by 'y'.</string>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
         <attribute name="title">
          <string>Extended</string>
         </attribute>
@@ -396,16 +429,19 @@ sure 'x' is followed by 'y'.</string>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="autoFillBackground">
+            <bool>true</bool>
+           </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>4</number>
            </property>
            <widget class="QWidget" name="page_6">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>117</width>
-              <height>78</height>
+              <width>203</width>
+              <height>158</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -413,6 +449,9 @@ sure 'x' is followed by 'y'.</string>
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="autoFillBackground">
+             <bool>true</bool>
             </property>
             <attribute name="label">
              <string>Gaussian</string>
@@ -445,9 +484,12 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>128</width>
-              <height>144</height>
+              <width>203</width>
+              <height>158</height>
              </rect>
+            </property>
+            <property name="autoFillBackground">
+             <bool>true</bool>
             </property>
             <attribute name="label">
              <string>Gaussian Product</string>
@@ -500,8 +542,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>124</width>
-              <height>111</height>
+              <width>203</width>
+              <height>158</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -509,6 +551,9 @@ sure 'x' is followed by 'y'.</string>
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="autoFillBackground">
+             <bool>true</bool>
             </property>
             <attribute name="label">
              <string>Bell</string>
@@ -551,8 +596,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>115</width>
-              <height>144</height>
+              <width>203</width>
+              <height>158</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -560,6 +605,9 @@ sure 'x' is followed by 'y'.</string>
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="autoFillBackground">
+             <bool>true</bool>
             </property>
             <attribute name="label">
              <string>Pi-Shape</string>
@@ -612,8 +660,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>121</width>
-              <height>144</height>
+              <width>203</width>
+              <height>158</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -621,6 +669,9 @@ sure 'x' is followed by 'y'.</string>
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="autoFillBackground">
+             <bool>true</bool>
             </property>
             <attribute name="label">
              <string>Sigmoid Difference</string>
@@ -673,8 +724,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>121</width>
-              <height>144</height>
+              <width>203</width>
+              <height>158</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -682,6 +733,9 @@ sure 'x' is followed by 'y'.</string>
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="autoFillBackground">
+             <bool>true</bool>
             </property>
             <attribute name="label">
              <string>Sigmoid Product</string>
@@ -740,6 +794,9 @@ sure 'x' is followed by 'y'.</string>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
         <attribute name="title">
          <string>Edges</string>
         </attribute>
@@ -752,16 +809,19 @@ sure 'x' is followed by 'y'.</string>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="autoFillBackground">
+            <bool>true</bool>
+           </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>3</number>
            </property>
            <widget class="QWidget" name="page_12">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>112</width>
-              <height>78</height>
+              <width>203</width>
+              <height>220</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -801,8 +861,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>117</width>
-              <height>78</height>
+              <width>203</width>
+              <height>220</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -854,8 +914,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>112</width>
-              <height>78</height>
+              <width>203</width>
+              <height>220</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -895,8 +955,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>112</width>
-              <height>78</height>
+              <width>203</width>
+              <height>220</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -936,12 +996,18 @@ sure 'x' is followed by 'y'.</string>
         </layout>
        </widget>
        <widget class="QWidget" name="tab_4">
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
         <attribute name="title">
          <string>f(x)</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_23">
          <item>
           <widget class="QToolBox" name="fxTermToolbox">
+           <property name="autoFillBackground">
+            <bool>true</bool>
+           </property>
            <property name="currentIndex">
             <number>2</number>
            </property>
@@ -950,8 +1016,8 @@ sure 'x' is followed by 'y'.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>152</width>
-              <height>45</height>
+              <width>203</width>
+              <height>251</height>
              </rect>
             </property>
             <attribute name="label">
@@ -989,7 +1055,7 @@ sure 'x' is followed by 'y'.</string>
               <x>0</x>
               <y>0</y>
               <width>203</width>
-              <height>246</height>
+              <height>251</height>
              </rect>
             </property>
             <attribute name="label">
@@ -1077,7 +1143,7 @@ sure 'x' is followed by 'y'.</string>
               <x>0</x>
               <y>0</y>
               <width>203</width>
-              <height>246</height>
+              <height>251</height>
              </rect>
             </property>
             <attribute name="label">

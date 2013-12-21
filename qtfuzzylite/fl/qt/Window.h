@@ -233,6 +233,7 @@ namespace fl {
                 return false;
             }
         };
+
     }
 }
 #endif /* FLQT_WINDOW_H_ */

@@ -35,6 +35,7 @@
 #include "fl/qt/qtfuzzylite.h"
 
 #include <QMessageBox>
+#include <QPushButton>
 #include <QScrollBar>
 #include <QSignalMapper>
 #include <QCoreApplication>
@@ -232,6 +233,7 @@ namespace fl {
                         (dummyVariable->getMaximum() - dummyVariable->getMinimum()) / 100));
                 _sbx.at(i)->setAlignment(Qt::AlignHCenter);
                 _sbx.at(i)->setAccelerated(true);
+                _sbx.at(i)->setKeyboardTracking(false);
                 _sbx.at(i)->setDecimals(fuzzylite::decimals());
             }
 
