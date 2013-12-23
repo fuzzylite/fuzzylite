@@ -188,7 +188,7 @@ namespace fl {
         std::stringstream ss;
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
             ss << _conclusions.at(i)->toString();
-            if (i < _conclusions.size() - 1)
+            if (i + 1 < _conclusions.size())
                 ss << " " << Rule::FL_AND << " ";
         }
         return ss.str();

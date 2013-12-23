@@ -65,7 +65,7 @@ namespace fl {
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
             InputVariable* inputVariable = engine->getInputVariable(i);
             fcl << "FUZZIFY " << inputVariable->getName() << "\n";
-            fcl << _indent << "ENABLED : " << 
+            fcl << _indent << "ENABLED : " <<
                     (inputVariable->isEnabled() ? "TRUE" : "FALSE") << ";\n";
             fcl << _indent << "RANGE := (" << fl::Op::join(2, " .. ",
                     inputVariable->getMinimum(), inputVariable->getMaximum())
@@ -82,7 +82,7 @@ namespace fl {
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
             fcl << "DEFUZZIFY " << outputVariable->getName() << "\n";
-            fcl << _indent << "ENABLED : " << 
+            fcl << _indent << "ENABLED : " <<
                     (outputVariable->isEnabled() ? "TRUE" : "FALSE") << ";\n";
             fcl << _indent << "RANGE := (" << fl::Op::join(2, " .. ",
                     outputVariable->getMinimum(), outputVariable->getMaximum())
@@ -125,7 +125,7 @@ namespace fl {
         for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
             RuleBlock* ruleblock = engine->getRuleBlock(i);
             fcl << "RULEBLOCK " << ruleblock->getName() << "\n";
-            fcl << _indent << "ENABLED : " << 
+            fcl << _indent << "ENABLED : " <<
                     (ruleblock->isEnabled() ? "TRUE" : "FALSE") << ";\n";
             if (ruleblock->getConjunction())
                 fcl << _indent << "AND : " << toString(ruleblock->getConjunction()) << ";\n";
@@ -184,13 +184,14 @@ namespace fl {
     }
 
     std::string FclExporter::toString(const Term* term) const {
+        if (not term) return "";
         if (term->className() == Discrete().className()) {
             const Discrete* discrete = dynamic_cast<const Discrete*> (term);
             std::ostringstream ss;
             for (std::size_t i = 0; i < discrete->x.size(); ++i) {
                 ss << "(" << fl::Op::str(discrete->x.at(i)) << ", "
                         << fl::Op::str(discrete->y.at(i)) << ")";
-                if (i < discrete->x.size() - 1) ss << " ";
+                if (i + 1 < discrete->x.size()) ss << " ";
             }
             return ss.str();
         }

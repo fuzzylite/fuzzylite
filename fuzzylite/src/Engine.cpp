@@ -186,6 +186,16 @@ namespace fl {
         return ss.str().empty();
     }
 
+    void Engine::restart() {
+        for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
+            _inputVariables[i]->setInputValue(fl::nan);
+        }
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            _outputVariables[i]->setLastValidOutput(fl::nan);
+            _outputVariables[i]->fuzzyOutput()->clear();
+        }
+    }
+
     void Engine::process() {
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             _outputVariables.at(i)->fuzzyOutput()->clear();
@@ -195,16 +205,23 @@ namespace fl {
         FL_DBG("===============");
         FL_DBG("CURRENT INPUTS:");
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
-            scalar inputValue = _inputVariables.at(i)->getInputValue();
+            InputVariable* inputVariable = _inputVariables.at(i);
+            scalar inputValue = inputVariable->getInputValue();
             (void) inputValue;
-            FL_DBG(_inputVariables.at(i)->getName() << ".input = " << Op::str(inputValue));
-            FL_DBG(_inputVariables.at(i)->getName() << ".fuzzy= " << _inputVariables.at(i)->fuzzify(inputValue));
+            if (inputVariable->isEnabled()) {
+                FL_DBG(inputVariable->getName() << ".input = " << Op::str(inputValue));
+                FL_DBG(inputVariable->getName() << ".fuzzy = " << inputVariable->fuzzify(inputValue));
+            } else {
+                FL_DBG(inputVariable->getName() << ".enabled = false");
+            }
         }
         FL_END_DEBUG_BLOCK
 
 
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            if (_ruleblocks.at(i)->isEnabled()) _ruleblocks.at(i)->activate();
+            if (_ruleblocks.at(i)->isEnabled()) {
+                _ruleblocks.at(i)->activate();
+            }
         }
 
 
@@ -212,35 +229,30 @@ namespace fl {
         FL_DBG("===============");
         FL_DBG("CURRENT OUTPUTS:");
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            FL_DBG(_outputVariables.at(i)->getName() << ".default= "
-                    << _outputVariables.at(i)->getDefaultValue());
+            OutputVariable* outputVariable = _outputVariables.at(i);
+            if (outputVariable->isEnabled()) {
+                FL_DBG(outputVariable->getName() << ".default = "
+                        << outputVariable->getDefaultValue());
 
-            FL_DBG(_outputVariables.at(i)->getName() << ".lockRange= "
-                    << _outputVariables.at(i)->isLockingOutputRange());
+                FL_DBG(outputVariable->getName() << ".lockRange = "
+                        << outputVariable->isLockingOutputRange());
 
-            FL_DBG(_outputVariables.at(i)->getName() << ".lockValid= "
-                    << _outputVariables.at(i)->isLockingValidOutput());
+                FL_DBG(outputVariable->getName() << ".lockValid = "
+                        << outputVariable->isLockingValidOutput());
 
-            //no locking is ever performed during this debugging block;
-            scalar output = _outputVariables.at(i)->defuzzifyNoLocks();
-            (void) output;
-            FL_DBG(_outputVariables.at(i)->getName() << ".output = " << output);
-            FL_DBG(_outputVariables.at(i)->getName() << ".fuzzy = " <<
-                    _outputVariables.at(i)->fuzzify(output));
-            FL_DBG(_outputVariables.at(i)->fuzzyOutput()->toString());
+                //no locking is ever performed during this debugging block;
+                scalar output = outputVariable->defuzzifyNoLocks();
+                (void) output;
+                FL_DBG(outputVariable->getName() << ".output = " << output);
+                FL_DBG(outputVariable->getName() << ".fuzzy = " <<
+                        outputVariable->fuzzify(output));
+                FL_DBG(outputVariable->fuzzyOutput()->toString());
+            } else {
+                FL_DBG(outputVariable->getName() << ".enabled = false");
+            }
         }
         FL_DBG("==============");
         FL_END_DEBUG_BLOCK
-    }
-
-    void Engine::restart() {
-        for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
-            _inputVariables[i]->setInputValue(fl::nan);
-        }
-        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            _outputVariables[i]->setLastValidOutput(fl::nan);
-            _outputVariables[i]->fuzzyOutput()->clear();
-        }
     }
 
     void Engine::setName(const std::string& name) {
@@ -260,9 +272,9 @@ namespace fl {
         OutputVariable* outputVariable = getOutputVariable(name);
         return outputVariable->defuzzify();
     }
-    
-    std::string Engine::toString() const{
-        return FllExporter("", "; ").toString(this);
+
+    std::string Engine::toString() const {
+        return FllExporter().toString(this);
     }
 
     /**

@@ -271,7 +271,7 @@ namespace fl {
             rule << fl::Rule::FL_IF << " ";
             for (std::size_t i = 0; i < antecedent.size(); ++i) {
                 rule << antecedent.at(i);
-                if (i < antecedent.size() - 1) {
+                if (i + 1 < antecedent.size()) {
                     rule << " ";
                     if (connector == "1") rule << fl::Rule::FL_AND << " ";
                     else if (connector == "2") rule << fl::Rule::FL_OR << " ";
@@ -283,7 +283,7 @@ namespace fl {
             rule << " " << fl::Rule::FL_THEN << " ";
             for (std::size_t i = 0; i < consequent.size(); ++i) {
                 rule << consequent.at(i);
-                if (i < consequent.size() - 1) {
+                if (i + 1< consequent.size()) {
                     rule << " " << fl::Rule::FL_AND << " ";
                 }
             }

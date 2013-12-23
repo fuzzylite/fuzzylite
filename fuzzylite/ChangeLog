@@ -23,7 +23,7 @@ Version 4.0
 * Renamed Op::str(vector/varargs) to Op::join(vector/varargs)
 * Refactored associtativity, unary and binary properties in Element within Function
 * Removed unnecessary Hedges creation upon importing engines, now is automatic via Factories
-* Added JavaExporter
+* Created the JavaExporter
 * Renamed methods within Fis/Fcl/CppExporter to toString(*);
 * Extracted TNorms and SNorms from TNorm.h/cpp and SNorm.h/cpp
 * Created proper Factories with registration of classes and constructors
@@ -53,4 +53,4 @@ Version 4.0
 * Changed Engine::defuzzify() to consider enabled variables
 * Changed Engine::process() to consider enabled rule blocks
 * Changed OutputVariable::output() to OutputVariable::fuzzyOutput() 
-
+* Renamed Rectangle::minimum/maximum to Rectangle::start/end

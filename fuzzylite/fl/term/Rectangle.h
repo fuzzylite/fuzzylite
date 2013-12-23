@@ -29,12 +29,12 @@ namespace fl {
 
     class FL_EXPORT Rectangle : public Term {
     protected:
-        scalar _minimum, _maximum;
+        scalar _start, _end;
 
     public:
         Rectangle(const std::string& name = "",
-                scalar minimum = -fl::inf,
-                scalar maximum = fl::inf);
+                scalar start = -fl::inf,
+                scalar end = fl::inf);
         virtual ~Rectangle();
 
         virtual std::string className() const;
@@ -43,11 +43,11 @@ namespace fl {
         
         virtual scalar membership(scalar x) const;
 
-        virtual void setMinimum(scalar minimum);
-        virtual scalar getMinimum() const;
+        virtual void setStart(scalar start);
+        virtual scalar getStart() const;
 
-        virtual void setMaximum(scalar maximum);
-        virtual scalar getMaximum() const;
+        virtual void setEnd(scalar end);
+        virtual scalar getEnd() const;
 
         virtual Rectangle* copy() const;
 

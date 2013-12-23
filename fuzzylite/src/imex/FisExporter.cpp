@@ -208,7 +208,7 @@ namespace fl {
         }
 
         bool equalOperators = true;
-        for (int i = 0; i < (int) operators.size() - 1; ++i) {
+        for (std::size_t i = 0; i + 1 < operators.size(); ++i) {
             if (operators.at(i)->name != operators.at(i + 1)->name) {
                 equalOperators = false;
                 break;
@@ -343,7 +343,7 @@ namespace fl {
             const Discrete* x = dynamic_cast<const Discrete*> (term);
             for (std::size_t i = 0; i < x->x.size(); ++i) {
                 ss << fl::Op::str(x->x.at(i)) << " " << fl::Op::str(x->y.at(i));
-                if (i < x->x.size() - 1) ss << " ";
+                if (i + 1 < x->x.size()) ss << " ";
             }
             ss << "]";
             return ss.str();
@@ -395,7 +395,7 @@ namespace fl {
         if (term->className() == Rectangle().className()) {
             const Rectangle* x = dynamic_cast<const Rectangle*> (term);
             ss << "'rectmf',[" << fl::Op::join(2, " ",
-                    x->getMinimum(), x->getMaximum()) << "]";
+                    x->getStart(), x->getEnd()) << "]";
             return ss.str();
         }
 

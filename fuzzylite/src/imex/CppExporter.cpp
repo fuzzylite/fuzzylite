@@ -154,146 +154,45 @@ namespace fl {
 
     std::string CppExporter::toString(const Term* term) const {
         if (not term) return "NULL";
-        std::ostringstream ss;
-        ss << "new fl::" << term->className() << "(\"" << term->getName() << "\", ";
-
-        if (term->className() == Bell().className()) {
-            const Bell* x = dynamic_cast<const Bell*> (term);
-            ss << fl::Op::join(3, ", ",
-                    x->getCenter(), x->getWidth(), x->getSlope()) << ")";
-            return ss.str();
-        }
-
-        if (term->className() == Constant().className()) {
-            const Constant* x = dynamic_cast<const Constant*> (term);
-            ss << fl::Op::str(x->getValue()) << ")";
-            return ss.str();
-        }
-
-        if (term->className() == Discrete().className()) {
-            const Discrete* x = dynamic_cast<const Discrete*> (term);
-            ss.str(std::string()); //clear stream
+        const Discrete* discrete = NULL;
+        if ((discrete = dynamic_cast<const Discrete*> (term))) {
+            std::ostringstream ss;
             ss << "fl::" << term->className() << "::create(\"" << term->getName() << "\", ";
-            ss << x->x.size() + x->y.size() << ", ";
-            for (std::size_t i = 0; i < x->x.size(); ++i) {
-                ss << fl::Op::str(x->x.at(i)) << "," << fl::Op::str(x->y.at(i));
-                if (i < x->x.size() - 1) ss << ", ";
+            ss << discrete->x.size() + discrete->y.size() << ", ";
+            for (std::size_t i = 0; i < discrete->x.size(); ++i) {
+                ss << fl::Op::str(discrete->x.at(i)) << ","
+                        << fl::Op::str(discrete->y.at(i));
+                if (i + 1 < discrete->x.size()) ss << ", ";
             }
             ss << ")";
             return ss.str();
         }
 
-        if (term->className() == Function().className()) {
-            const Function* x = dynamic_cast<const Function*> (term);
-            ss.str(std::string()); //clear stream
-            ss << "fl::" << x->className() << "::create(\"" << x->getName() << "\", "
-                    << "\"" << x->getText() << "\", engine)";
+        const Function* function = NULL;
+        if ((function = dynamic_cast<const Function*> (term))) {
+            std::ostringstream ss;
+            ss << "fl::" << term->className() << "::create(\"" << term->getName() << "\", "
+                    << "\"" << function->getText() << "\", engine)";
             return ss.str();
         }
 
-        if (term->className() == Gaussian().className()) {
-            const Gaussian* x = dynamic_cast<const Gaussian*> (term);
-            ss << fl::Op::join(2, ", ",
-                    x->getMean(), x->getStandardDeviation()) << ")";
-            return ss.str();
-        }
-
-        if (term->className() == GaussianProduct().className()) {
-            const GaussianProduct* x = dynamic_cast<const GaussianProduct*> (term);
-            ss << fl::Op::join(4, ", ",
-                    x->getMeanA(), x->getStandardDeviationA(),
-                    x->getMeanB(), x->getStandardDeviationB()) << ")";
-            return ss.str();
-        }
-
-        if (term->className() == Linear().className()) {
-            const Linear* x = dynamic_cast<const Linear*> (term);
-            ss.str(std::string()); //clear stream
-            ss << "fl::" << x->className() << "::create(\"" << x->getName() << "\", "
+        const Linear* linear = NULL;
+        if ((linear = dynamic_cast<const Linear*> (term))) {
+            std::ostringstream ss;
+            ss << "fl::" << term->className() << "::create(\"" << term->getName() << "\", "
                     << "engine->inputVariables(), ";
-            for (std::size_t i = 0; i < x->coefficients.size(); ++i) {
-                ss << fl::Op::str(x->coefficients.at(i));
-                if (i < x->coefficients.size() - 1) ss << ", ";
+            for (std::size_t i = 0; i < linear->coefficients.size(); ++i) {
+                ss << fl::Op::str(linear->coefficients.at(i));
+                if (i + 1 < linear->coefficients.size()) ss << ", ";
             }
             ss << ")";
             return ss.str();
         }
 
-        if (term->className() == PiShape().className()) {
-            const PiShape* x = dynamic_cast<const PiShape*> (term);
-            ss << fl::Op::join(4, ", ",
-                    x->getBottomLeft(), x->getTopLeft(),
-                    x->getTopRight(), x->getBottomRight()) << ")";
-            return ss.str();
-        }
-
-        if (term->className() == Ramp().className()) {
-            const Ramp* x = dynamic_cast<const Ramp*> (term);
-            ss << fl::Op::join(2, ", ",
-                    x->getStart(), x->getEnd()) << ")";
-            return ss.str();
-        }
-
-        if (term->className() == Rectangle().className()) {
-            const Rectangle* x = dynamic_cast<const Rectangle*> (term);
-            ss << fl::Op::join(2, ", ",
-                    x->getMinimum(), x->getMaximum()) << ")";
-            return ss.str();
-        }
-
-        if (term->className() == SShape().className()) {
-            const SShape* x = dynamic_cast<const SShape*> (term);
-            ss << fl::Op::join(2, ", ",
-                    x->getStart(), x->getEnd()) << ")";
-            return ss.str();
-        }
-
-        if (term->className() == Sigmoid().className()) {
-            const Sigmoid* x = dynamic_cast<const Sigmoid*> (term);
-            ss << fl::Op::join(2, ", ",
-                    x->getInflection(), x->getSlope()) << ")";
-            return ss.str();
-        }
-
-        if (term->className() == SigmoidDifference().className()) {
-            const SigmoidDifference* x = dynamic_cast<const SigmoidDifference*> (term);
-            ss << fl::Op::join(4, ", ",
-                    x->getLeft(), x->getRising(),
-                    x->getFalling(), x->getRight()) << ")";
-            return ss.str();
-        }
-
-        if (term->className() == SigmoidProduct().className()) {
-            const SigmoidProduct* x = dynamic_cast<const SigmoidProduct*> (term);
-            ss << fl::Op::join(4, ", ",
-                    x->getLeft(), x->getRising(),
-                    x->getFalling(), x->getRight()) << ")";
-            return ss.str();
-        }
-
-        if (term->className() == Trapezoid().className()) {
-            const Trapezoid* x = dynamic_cast<const Trapezoid*> (term);
-            ss << fl::Op::join(4, ", ",
-                    x->getA(), x->getB(), x->getC(), x->getD()) << ")";
-            return ss.str();
-        }
-
-        if (term->className() == Triangle().className()) {
-            const Triangle* x = dynamic_cast<const Triangle*> (term);
-            ss << fl::Op::join(3, ", ",
-                    x->getA(), x->getB(), x->getC()) << ")";
-            return ss.str();
-        }
-
-        if (term->className() == ZShape().className()) {
-            const ZShape* x = dynamic_cast<const ZShape*> (term);
-            ss << fl::Op::join(2, ", ",
-                    x->getStart(), x->getEnd()) << ")";
-            return ss.str();
-        }
-
-        ss << "[exporter error] term of class <" << term->className() << "> not supported";
-        throw fl::Exception(ss.str(), FL_AT);
+        std::ostringstream ss;
+        ss << "new fl::" << term->className() << "(\"" << term->getName() << "\", "
+                << Op::findReplace(term->parameters(), " ", ", ") << ")";
+        return ss.str();
     }
 
     std::string CppExporter::toString(const Hedge * hedge) const {

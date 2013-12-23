@@ -8,7 +8,7 @@ InputVariable: AllInputTerms
   Term: D Triangle 0.500 1.000 1.500
   Term: E Trapezoid 1.000 1.250 1.750 2.000
   Term: F Rectangle 1.750 2.250
-  Term: G Discrete 2.000 0.000 2.250 1.000 2.500 0.500 2.750 1.000 3.000 0.000 
+  Term: G Discrete 2.000 0.000 2.250 1.000 2.500 0.500 2.750 1.000 3.000 0.000
   Term: H Gaussian 3.000 0.200
   Term: I GaussianProduct 3.500 0.100 3.300 0.300
   Term: J Bell 4.000 0.250 3.000
@@ -32,7 +32,7 @@ OutputVariable: AllOutputTerms
   Term: D Triangle 0.500 1.000 1.500
   Term: E Trapezoid 1.000 1.250 1.750 2.000
   Term: F Rectangle 1.750 2.250
-  Term: G Discrete 2.000 0.000 2.250 1.000 2.500 0.500 2.750 1.000 3.000 0.000 
+  Term: G Discrete 2.000 0.000 2.250 1.000 2.500 0.500 2.750 1.000 3.000 0.000
   Term: H Gaussian 3.000 0.200
   Term: I GaussianProduct 3.500 0.100 3.300 0.300
   Term: J Bell 4.000 0.250 3.000

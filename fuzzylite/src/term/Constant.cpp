@@ -34,8 +34,7 @@ namespace fl {
 
     void Constant::configure(const std::string& parameters) {
         if (parameters.empty()) return;
-        std::vector<std::string> values = Op::split(parameters, " ");
-        setValue(Op::toScalar(values.at(0)));
+        setValue(Op::toScalar(parameters));
     }
 
     scalar Constant::membership(scalar x) const {

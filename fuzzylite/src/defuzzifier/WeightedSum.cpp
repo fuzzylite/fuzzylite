@@ -56,15 +56,10 @@ namespace fl {
                 throw fl::Exception(ss.str(), FL_AT);
             }
 
-            /**z is tsukamoto, and when it is takagi, it will not matter as it will be a function
-            previously, takagi-sugeno was:
-            sum += thresholded->getThreshold() * thresholded->getTerm()->membership(0);
-            so replacing 0 with threshold w will give the same for takagi-sugeno, 
-            plus provide tsukamoto**/
             scalar w = thresholded->getThreshold();
             scalar z = Tsukamoto::tsukamoto(thresholded,
                     takagiSugeno->getMinimum(), takagiSugeno->getMaximum());
-
+            //Traditionally, activation is the AlgebraicProduct
             sum += thresholded->getActivation()->compute(w, z);
         }
 

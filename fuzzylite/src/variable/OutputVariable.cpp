@@ -33,7 +33,7 @@ namespace fl {
     OutputVariable::OutputVariable(const std::string& name,
             scalar minimum, scalar maximum)
     : Variable(name, minimum, maximum),
-    _fuzzyOutput(new Accumulated("output", minimum, maximum)),
+    _fuzzyOutput(new Accumulated("fuzzyOutput", minimum, maximum)),
     _defuzzifier(NULL), _defaultValue(fl::nan),
     _lastValidOutput(fl::nan),
     _lockOutputRange(false),

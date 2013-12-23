@@ -497,8 +497,8 @@ namespace fl {
 
                 } else if (copy->className() == Rectangle().className()) {
                     Rectangle* term = dynamic_cast<Rectangle*> (copy);
-                    term->setMinimum(term->getMinimum() + separationDistance);
-                    term->setMaximum(term->getMaximum() + separationDistance);
+                    term->setStart(term->getStart() + separationDistance);
+                    term->setEnd(term->getEnd() + separationDistance);
 
                 } else if (copy->className() == Discrete().className()) {
                     Discrete* term = dynamic_cast<Discrete*> (copy);
@@ -667,8 +667,8 @@ namespace fl {
 
         void Term::onChangeSpinBoxRectangle(double) {
             Rectangle* term = dynamic_cast<Rectangle*> (selectedTerm());
-            term->setMinimum(ui->sbx_rectangle_min->value());
-            term->setMaximum(ui->sbx_rectangle_max->value());
+            term->setStart(ui->sbx_rectangle_min->value());
+            term->setEnd(ui->sbx_rectangle_max->value());
             redraw();
         }
 
@@ -982,7 +982,7 @@ namespace fl {
 
             } else if (x->className() == Rectangle().className()) {
                 const Rectangle* term = dynamic_cast<const Rectangle*> (x);
-                scalar params[] = {term->getMinimum(), term->getMaximum()};
+                scalar params[] = {term->getStart(), term->getEnd()};
                 ui->sbx_rectangle_min->setValue(params[0]);
                 ui->sbx_rectangle_max->setValue(params[1]);
                 ui->basicTermToolbox->setCurrentIndex(2);

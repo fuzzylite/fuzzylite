@@ -206,7 +206,7 @@ int main(int argc, char** argv) {
         exportAllExamples("fis", "java");
         exportAllExamples("fis", "fld");
         return 0;
-        //        return Console::main(argc, argv);
+        return Console::main(argc, argv);
     } catch (fl::Exception& e) {
         FL_LOG(e.what());
         FL_LOG(e.btCallStack());

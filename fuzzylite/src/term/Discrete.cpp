@@ -55,7 +55,8 @@ namespace fl {
     std::string Discrete::parameters() const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < x.size(); ++i) {
-            ss << fl::Op::str(x.at(i)) << " " << fl::Op::str(y.at(i)) << " ";
+            ss << fl::Op::str(x.at(i)) << " " << fl::Op::str(y.at(i));
+            if (i + 1 < x.size()) ss << " ";
         }
         return ss.str();
     }
@@ -71,16 +72,11 @@ namespace fl {
             throw fl::Exception(ex.str(), FL_AT);
         }
 
-        std::vector<scalar> values;
-        for (std::size_t i = 0; i < strValues.size(); ++i) {
-            values.push_back(Op::toScalar(strValues.at(i)));
-        }
-
         this->x.clear();
         this->y.clear();
-        for (int i = 0; i < (int) values.size() - 1; i += 2) {
-            this->x.push_back(values.at(i));
-            this->y.push_back(values.at(i + 1));
+        for (std::size_t i = 0; i + 1 < strValues.size(); i += 2) {
+            this->x.push_back(Op::toScalar(strValues.at(i)));
+            this->y.push_back(Op::toScalar(strValues.at(i + 1)));
         }
     }
 
