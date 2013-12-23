@@ -36,7 +36,12 @@ namespace fl {
     class Hedge;
 
     class FL_EXPORT CppExporter : public Exporter {
-    protected:
+    public:
+        CppExporter();
+        virtual ~CppExporter();
+        virtual std::string name() const;
+        virtual std::string toString(const Engine* engine) const;
+
         virtual std::string toString(const InputVariable* inputVariable, const Engine* engine) const;
         virtual std::string toString(const OutputVariable* outputVariable, const Engine* engine) const;
         virtual std::string toString(const RuleBlock* ruleBlock, const Engine* engine) const;
@@ -46,14 +51,6 @@ namespace fl {
         virtual std::string toString(const Term* term) const;
         virtual std::string toString(const Norm* op) const;
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
-
-    public:
-        CppExporter();
-        virtual ~CppExporter();
-        virtual std::string name() const;
-        virtual std::string toString(const Engine* engine) const;
-
-
 
     };
 }

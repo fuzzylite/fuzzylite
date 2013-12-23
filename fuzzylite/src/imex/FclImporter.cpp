@@ -422,6 +422,7 @@ namespace fl {
                 continue;
             }
             if (state == S_PARAMETERS) {
+                //TODO: Change className() to dynamic_cast<>
                 if (termClass != Function().className() and
                         (token == "(" or token == ")" or token == ",")) {
                     continue;
@@ -436,12 +437,12 @@ namespace fl {
         try {
             Term * result = FactoryManager::instance()->term()->createInstance(termClass);
             result->setName(fl::Op::makeValidId(name));
-            if (dynamic_cast<Function*> (result)){
+            if (dynamic_cast<Function*> (result)) {
                 result->configure(Op::join(parameters, "")); //remove spaces for text of function
-            }else{
+            } else {
                 result->configure(Op::join(parameters, " "));
             }
-            
+
             return result;
         } catch (fl::Exception& ex) {
             ex.append(FL_AT);
@@ -473,7 +474,7 @@ namespace fl {
             throw fl::Exception(ex.str(), FL_AT);
         }
 
-        std::string name = fl::Op::trim(fl::Op::findReplace(token.at(1), ";", ""));
+        std::string name = fl::Op::trim(token.at(1));
         std::string className = name;
         if (name == "COG") className = Centroid().className();
         if (name == "COA") className = Bisector().className();
@@ -507,8 +508,8 @@ namespace fl {
         std::string nc;
         if (values.size() == 2) nc = values.back();
 
-        defaultValue = fl::Op::trim(fl::Op::findReplace(defaultValue, ";", ""));
-        nc = fl::Op::trim(fl::Op::findReplace(nc, ";", ""));
+        defaultValue = fl::Op::trim(defaultValue);
+        nc = fl::Op::trim(nc);
 
         scalar value;
         try {
@@ -577,7 +578,7 @@ namespace fl {
                     "'key : value' in line: " + line, FL_AT);
         }
         bool output, range;
-        std::string value = fl::Op::findReplace(line.substr(index + 1), ";", "");
+        std::string value = line.substr(index + 1);
         std::vector<std::string> flags = fl::Op::split(value, "|");
         if (flags.size() == 1) {
             std::string flag = fl::Op::trim(flags.front());
@@ -606,15 +607,15 @@ namespace fl {
     }
 
     bool FclImporter::extractEnabled(const std::string& line) const {
-        std::vector<std::string> token = Op::split(line, ":");
-        if (token.size() != 2) {
+        std::vector<std::string> tokens = Op::split(line, ":");
+        if (tokens.size() != 2) {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key : value) in "
                     << "line: " << line;
             throw fl::Exception(ex.str(), FL_AT);
         }
 
-        std::string boolean = fl::Op::trim(fl::Op::findReplace(token.at(1), ";", ""));
+        std::string boolean = fl::Op::trim(tokens.at(1));
         if (boolean == "TRUE") return true;
         if (boolean == "FALSE") return false;
         throw fl::Exception("[syntax error] expected boolean <TRUE|FALSE>, but found <" + line + ">", FL_AT);

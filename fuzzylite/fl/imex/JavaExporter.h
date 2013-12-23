@@ -36,15 +36,6 @@ namespace fl {
     class Norm;
 
     class FL_EXPORT JavaExporter : public Exporter {
-    protected:
-        virtual std::string toString(const InputVariable* inputVariable, const Engine* engine) const;
-        virtual std::string toString(const OutputVariable* outputVariable, const Engine* engine) const;
-        virtual std::string toString(const RuleBlock* ruleBlock, const Engine* engine) const;
-        virtual std::string toString(const Term* term) const;
-        virtual std::string toString(const Defuzzifier* defuzzifier) const;
-        virtual std::string toString(const Norm* norm) const;
-        virtual std::string toString(scalar value) const;
-        
     public:
         JavaExporter();
         virtual ~JavaExporter();
@@ -52,7 +43,13 @@ namespace fl {
         virtual std::string name() const;
 
         virtual std::string toString(const Engine* engine) const;
-
+        virtual std::string toString(const InputVariable* inputVariable, const Engine* engine) const;
+        virtual std::string toString(const OutputVariable* outputVariable, const Engine* engine) const;
+        virtual std::string toString(const RuleBlock* ruleBlock, const Engine* engine) const;
+        virtual std::string toString(const Term* term) const;
+        virtual std::string toString(const Defuzzifier* defuzzifier) const;
+        virtual std::string toString(const Norm* norm) const;
+        virtual std::string toString(scalar value) const;
 
     };
 

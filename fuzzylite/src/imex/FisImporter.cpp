@@ -52,12 +52,16 @@ namespace fl {
             ++lineNumber;
             std::vector<std::string> comments;
             comments = Op::split(line, "//");
-            if ((int) comments.size() > 1) {
+            if (comments.size() > 1) {
+                line = comments.front();
+            }
+            comments = Op::split(line, "#");
+            if (comments.size() > 1) {
                 line = comments.front();
             }
             line = Op::trim(line);
             line = fl::Op::findReplace(line, "'", "");
-            if (line.empty() or line.at(0) == '%' or line.at(0) == '#')
+            if (line.empty() or line.at(0) == '%')
                 continue;
 
             if ("[System]" == line.substr(0, std::string("[System]").size())
@@ -149,7 +153,7 @@ namespace fl {
 
             if (key == "Name") input->setName(fl::Op::makeValidId(value));
             else if (key == "Enabled") {
-                input->setEnabled((int) fl::Op::toScalar(value) == 1);
+                input->setEnabled(Op::isEq(Op::toScalar(value), 1.0));
             } else if (key == "Range") {
                 std::pair<scalar, scalar> minmax = extractRange(value);
                 input->setMinimum(minmax.first);
@@ -183,7 +187,7 @@ namespace fl {
 
             if (key == "Name") output->setName(fl::Op::makeValidId(value));
             else if (key == "Enabled") {
-                output->setEnabled((int) fl::Op::toScalar(value) == 1);
+                output->setEnabled(Op::isEq(Op::toScalar(value), 1.0));
             } else if (key == "Range") {
                 std::pair<scalar, scalar> minmax = extractRange(value);
                 output->setMinimum(minmax.first);
@@ -283,7 +287,7 @@ namespace fl {
             rule << " " << fl::Rule::FL_THEN << " ";
             for (std::size_t i = 0; i < consequent.size(); ++i) {
                 rule << consequent.at(i);
-                if (i + 1< consequent.size()) {
+                if (i + 1 < consequent.size()) {
                     rule << " " << fl::Rule::FL_AND << " ";
                 }
             }

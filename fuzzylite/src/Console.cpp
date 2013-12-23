@@ -223,8 +223,8 @@ namespace fl {
 
             it = options.find(KW_DATA_MAXIMUM);
             if (it != options.end()) {
-                int resolution = (int) Op::toScalar(it->second);
-                exporter = new FldExporter(separator, resolution);
+                int maximum = (int) Op::toScalar(it->second);
+                exporter = new FldExporter(separator, maximum);
             } else {
                 exporter = new FldExporter(separator);
             }

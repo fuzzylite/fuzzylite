@@ -38,25 +38,27 @@ namespace fl {
 
     class FL_EXPORT FisExporter : public Exporter {
     protected:
-        std::string exportSystem(const Engine* engine) const;
-        std::string exportInputs(const Engine* engine) const;
-        std::string exportOutputs(const Engine* engine) const;
-        std::string exportRules(const Engine* engine) const;
-        std::string exportRule(const Rule* rule, const Engine* engine) const;
+        
         std::string translate(const std::vector<Proposition*>& propositions,
             const std::vector<Variable*> variables) const;
         
-        
-        std::string toString(const TNorm* tnorm) const;
-        std::string toString(const SNorm* snorm) const;
-        std::string toString(const Defuzzifier* defuzzifier) const;
-        std::string toString(const Term* term) const;
     public:
         FisExporter();
         virtual ~FisExporter();
 
         virtual std::string name() const;
         virtual std::string toString(const Engine* engine) const;
+        
+        std::string toString(const TNorm* tnorm) const;
+        std::string toString(const SNorm* snorm) const;
+        std::string toString(const Defuzzifier* defuzzifier) const;
+        std::string toString(const Term* term) const;
+        
+        std::string exportSystem(const Engine* engine) const;
+        std::string exportInputs(const Engine* engine) const;
+        std::string exportOutputs(const Engine* engine) const;
+        std::string exportRules(const Engine* engine) const;
+        std::string exportRule(const Rule* rule, const Engine* engine) const;
     };
 
 }

@@ -34,10 +34,6 @@ namespace fl {
     class FL_EXPORT FclExporter : public Exporter {
     protected:
         std::string _indent;
-        virtual std::string toString(const TNorm* tnorm) const;
-        virtual std::string toString(const SNorm* snorm) const;
-        virtual std::string toString(const Defuzzifier* defuzzifier) const;
-        virtual std::string toString(const Term* term) const;
 
     public:
         FclExporter(const std::string& indent = "  ");
@@ -48,6 +44,11 @@ namespace fl {
 
         virtual std::string name() const;
         virtual std::string toString(const Engine* engine) const;
+        
+        virtual std::string toString(const TNorm* tnorm) const;
+        virtual std::string toString(const SNorm* snorm) const;
+        virtual std::string toString(const Defuzzifier* defuzzifier) const;
+        virtual std::string toString(const Term* term) const;
     };
 
 }
