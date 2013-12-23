@@ -188,7 +188,7 @@ namespace fl {
             editable->setLockValidOutput(outputVariable->isLockingValidOutput());
             editable->setLockOutputRange(outputVariable->isLockingOutputRange());
 
-            editable->output()->setAccumulation(outputVariable->output()->getAccumulation());
+            editable->fuzzyOutput()->setAccumulation(outputVariable->fuzzyOutput()->getAccumulation());
             Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
             //            if (not defuzzifier) {
             //                defuzzifier = Factory::instance()->defuzzifier()->
@@ -243,7 +243,7 @@ namespace fl {
 
                 SNorm* accumulation = FactoryManager::instance()->snorm()->createInstance(
                         ui->cbx_accumulation->currentText().toStdString());
-                outputVariable->output()->setAccumulation(accumulation);
+                outputVariable->fuzzyOutput()->setAccumulation(accumulation);
                 Defuzzifier* defuzzifier = NULL;
                 if (ui->cbx_defuzzifier->currentIndex() >= 0) {
                     defuzzifier = FactoryManager::instance()->defuzzifier()->createInstance(
@@ -467,11 +467,11 @@ namespace fl {
                 ui->led_default->setText(QString::number(outputVariable->getDefaultValue()));
                 ui->chx_lock_range->setChecked(outputVariable->isLockingOutputRange());
                 ui->chx_lock_valid->setChecked(outputVariable->isLockingValidOutput());
-                if (outputVariable->output()->getAccumulation()) {
+                if (outputVariable->fuzzyOutput()->getAccumulation()) {
                     ui->cbx_accumulation->setCurrentIndex(
                             ui->cbx_accumulation->findText(
                             QString::fromStdString(
-                            outputVariable->output()->getAccumulation()->className())));
+                            outputVariable->fuzzyOutput()->getAccumulation()->className())));
                 } else {
                     ui->cbx_accumulation->setCurrentIndex(-1);
                 }

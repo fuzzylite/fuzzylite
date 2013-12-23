@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class linear_tip_calculator{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("Linear-Tip-Calculator");
@@ -59,4 +58,5 @@ ruleBlock.addRule(Rule.parse("if FoodQuality is Good and Service is Good then Ti
 engine.addRuleBlock(ruleBlock);
 
 
+}
 }

@@ -1,19 +1,16 @@
 Engine: juggler
-
 InputVariable: xHit
   enabled: true
   range: -4.000 4.000
   Term: in1mf1 Bell -4.000 2.000 4.000
   Term: in1mf2 Bell 0.000 2.000 4.000
   Term: in1mf3 Bell 4.000 2.000 4.000
-
 InputVariable: projectAngle
   enabled: true
   range: 0.000 3.142
   Term: in2mf1 Bell 0.000 0.785 4.000
   Term: in2mf2 Bell 1.571 0.785 4.000
   Term: in2mf3 Bell 3.142 0.785 4.000
-
 OutputVariable: theta
   enabled: true
   range: 0.000 0.000
@@ -31,7 +28,6 @@ OutputVariable: theta
   Term: out1mf Linear -0.022 -0.500 1.256
   Term: out1mf Linear -0.022 -0.500 1.256
   Term: out1mf Linear -0.022 -0.500 1.256
-
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct
@@ -46,4 +42,3 @@ RuleBlock:
   Rule: if xHit is in1mf3 and projectAngle is in2mf1 then theta is out1mf
   Rule: if xHit is in1mf3 and projectAngle is in2mf2 then theta is out1mf
   Rule: if xHit is in1mf3 and projectAngle is in2mf3 then theta is out1mf
-

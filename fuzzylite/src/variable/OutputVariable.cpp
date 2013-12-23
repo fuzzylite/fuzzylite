@@ -33,7 +33,7 @@ namespace fl {
     OutputVariable::OutputVariable(const std::string& name,
             scalar minimum, scalar maximum)
     : Variable(name, minimum, maximum),
-    _output(new Accumulated("output", minimum, maximum)),
+    _fuzzyOutput(new Accumulated("output", minimum, maximum)),
     _defuzzifier(NULL), _defaultValue(fl::nan),
     _lastValidOutput(fl::nan),
     _lockOutputRange(false),
@@ -41,21 +41,21 @@ namespace fl {
     }
 
     OutputVariable::~OutputVariable() {
-        delete _output;
+        delete _fuzzyOutput;
     }
 
-    Accumulated* OutputVariable::output() const {
-        return this->_output;
+    Accumulated* OutputVariable::fuzzyOutput() const {
+        return this->_fuzzyOutput;
     }
 
     void OutputVariable::setMinimum(scalar minimum) {
         Variable::setMinimum(minimum);
-        this->_output->setMinimum(minimum);
+        this->_fuzzyOutput->setMinimum(minimum);
     }
 
     void OutputVariable::setMaximum(scalar maximum) {
         Variable::setMaximum(maximum);
-        this->_output->setMaximum(maximum);
+        this->_fuzzyOutput->setMaximum(maximum);
     }
 
     void OutputVariable::setDefuzzifier(Defuzzifier* defuzzifier) {
@@ -101,9 +101,9 @@ namespace fl {
 
     scalar OutputVariable::defuzzify() {
         scalar result = fl::nan;
-        bool isValid = this->_enabled and not this->_output->isEmpty();
+        bool isValid = this->_enabled and not this->_fuzzyOutput->isEmpty();
         if (isValid) {
-            result = this->_defuzzifier->defuzzify(this->_output, _minimum, _maximum);
+            result = this->_defuzzifier->defuzzify(this->_fuzzyOutput, _minimum, _maximum);
         } else {
             //if a previous defuzzification was successfully performed and
             //and the output is supposed to not change when the output is empty
@@ -125,9 +125,9 @@ namespace fl {
 
     scalar OutputVariable::defuzzifyNoLocks() const {
         scalar result = fl::nan;
-        bool isValid = this->_enabled and not this->_output->isEmpty();
+        bool isValid = this->_enabled and not this->_fuzzyOutput->isEmpty();
         if (isValid) {
-            result = this->_defuzzifier->defuzzify(_output, _minimum, _maximum);
+            result = this->_defuzzifier->defuzzify(_fuzzyOutput, _minimum, _maximum);
         } else {
             result = _defaultValue;
         }

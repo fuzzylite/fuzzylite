@@ -114,13 +114,13 @@ namespace fl {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
             std::string defuzzClass = outputVariable->getDefuzzifier() ?
                     outputVariable->getDefuzzifier()->className() : "";
-            std::string accumClass = outputVariable->output()->getAccumulation() ?
-                    outputVariable->output()->getAccumulation()->className() : "";
+            std::string accumClass = outputVariable->fuzzyOutput()->getAccumulation() ?
+                    outputVariable->fuzzyOutput()->getAccumulation()->className() : "";
 
             if (not defuzzifier) defuzzifier = outputVariable->getDefuzzifier();
             else if (defuzzifier->className() != defuzzClass)
                 uniquenessError = "defuzzifier";
-            if (not accumulation) accumulation = outputVariable->output()->getAccumulation();
+            if (not accumulation) accumulation = outputVariable->fuzzyOutput()->getAccumulation();
             else if (accumulation->className() != accumClass)
                 uniquenessError = "accumulation S-Norm";
             if (not uniquenessError.empty()) break;

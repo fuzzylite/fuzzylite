@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class AllTerms{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("qtfuzzylite");
@@ -90,4 +89,5 @@ ruleBlock.addRule(Rule.parse("if AllInputTerms is P then AllOutputTerms is A", e
 engine.addRuleBlock(ruleBlock);
 
 
+}
 }

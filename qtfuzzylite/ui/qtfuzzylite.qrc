@@ -30,6 +30,7 @@
     <file alias="process.png">icons/system-run.png</file>
     <file alias="add.png">icons/list-add.png</file>
     <file alias="remove.png">icons/list-remove.png</file>
+    <file alias="options.png">icons/visualization.png</file>
     <file alias="edit.png">icons/gtk-edit.png</file>
     <file alias="donate.png">icons/donate.png</file>
     <file alias="qtfuzzylite.png">icons/qtfuzzylite.png</file>

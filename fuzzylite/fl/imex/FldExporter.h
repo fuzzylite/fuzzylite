@@ -14,14 +14,14 @@
  */
 
 /* 
- * File:   DataExporter.h
+ * File:   FldExporter.h
  * Author: jcrada
  *
  * Created on 30 November 2013, 9:52 AM
  */
 
-#ifndef FL_DATAEXPORTER_H
-#define	FL_DATAEXPORTER_H
+#ifndef FL_FLDEXPORTER_H
+#define	FL_FLDEXPORTER_H
 
 #include "fl/fuzzylite.h"
 #include "fl/imex/Exporter.h"
@@ -29,13 +29,13 @@
 namespace fl {
     class Engine;
 
-    class FL_EXPORT DataExporter : public Exporter {
+    class FL_EXPORT FldExporter : public Exporter {
     protected:
         std::string _separator;
         int _maximum;
     public:
-        DataExporter(const std::string& separator = " ", int maximum = 1024);
-        virtual ~DataExporter();
+        FldExporter(const std::string& separator = " ", int maximum = 1024);
+        virtual ~FldExporter();
 
         virtual std::string name() const;
 
@@ -56,5 +56,5 @@ namespace fl {
     };
 }
 
-#endif	/* FL_DATAEXPORTER_H */
+#endif	/* FL_FLDEXPORTER_H */
 

@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class slcpp1{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("slcpp");
@@ -111,4 +110,5 @@ ruleBlock.addRule(Rule.parse("if pole_length is mf11 then out is outmf11", engin
 engine.addRuleBlock(ruleBlock);
 
 
+}
 }

@@ -1,19 +1,16 @@
 Engine: anfis
-
 InputVariable: in_n1
   enabled: true
   range: 1.000 31.000
   Term: in1mf1 Bell 1.152 8.206 0.874
   Term: in1mf2 Bell 15.882 7.078 0.444
   Term: in1mf3 Bell 30.575 8.602 0.818
-
 InputVariable: in_n2
   enabled: true
   range: 1.000 31.000
   Term: in2mf1 Bell 1.426 8.602 0.818
   Term: in2mf2 Bell 16.118 7.078 0.445
   Term: in2mf3 Bell 30.847 8.206 0.875
-
 OutputVariable: out1
   enabled: true
   range: -0.334 1.000
@@ -31,7 +28,6 @@ OutputVariable: out1
   Term: out1mf7 Linear 0.012 -0.012 -0.600
   Term: out1mf8 Linear -0.384 0.067 10.158
   Term: out1mf9 Linear -0.002 0.035 -1.402
-
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct
@@ -46,4 +42,3 @@ RuleBlock:
   Rule: if in_n1 is in1mf3 and in_n2 is in2mf1 then out1 is out1mf7
   Rule: if in_n1 is in1mf3 and in_n2 is in2mf2 then out1 is out1mf8
   Rule: if in_n1 is in1mf3 and in_n2 is in2mf3 then out1 is out1mf9
-

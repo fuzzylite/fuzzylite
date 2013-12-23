@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class mam21{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("mam21");
@@ -60,4 +59,5 @@ ruleBlock.addRule(Rule.parse("if angle is big and velocity is big then force is 
 engine.addRuleBlock(ruleBlock);
 
 
+}
 }

@@ -1,5 +1,4 @@
 Engine: invkine2
-
 InputVariable: input1
   enabled: true
   range: -6.287 17.000
@@ -9,7 +8,6 @@ InputVariable: input1
   Term: in1mf4 Bell 8.273 2.907 1.985
   Term: in1mf5 Bell 13.232 2.708 2.056
   Term: in1mf6 Bell 17.783 1.635 1.897
-
 InputVariable: input2
   enabled: true
   range: 0.000 16.972
@@ -19,7 +17,6 @@ InputVariable: input2
   Term: in2mf4 Bell 10.111 2.741 1.978
   Term: in2mf5 Bell 14.952 2.045 1.783
   Term: in2mf6 Bell 17.910 0.824 1.734
-
 OutputVariable: output
   enabled: true
   range: 0.000 3.100
@@ -64,7 +61,6 @@ OutputVariable: output
   Term: out1mf34 Linear -5.044 7.093 3.516
   Term: out1mf35 Linear -46.049 -35.021 -2.926
   Term: out1mf36 Linear -0.448 -0.770 -0.041
-
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct
@@ -106,4 +102,3 @@ RuleBlock:
   Rule: if input1 is in1mf6 and input2 is in2mf4 then output is out1mf34
   Rule: if input1 is in1mf6 and input2 is in2mf5 then output is out1mf35
   Rule: if input1 is in1mf6 and input2 is in2mf6 then output is out1mf36
-

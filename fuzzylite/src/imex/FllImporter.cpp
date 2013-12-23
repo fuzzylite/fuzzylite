@@ -162,7 +162,7 @@ namespace fl {
             } else if ("defuzzifier" == keyValue.first) {
                 outputVariable->setDefuzzifier(parseDefuzzifier(keyValue.second));
             } else if ("accumulation" == keyValue.first) {
-                outputVariable->output()->setAccumulation(parseSNorm(keyValue.second));
+                outputVariable->fuzzyOutput()->setAccumulation(parseSNorm(keyValue.second));
             } else if ("Term" == keyValue.first) {
                 outputVariable->addTerm(parseTerm(keyValue.second, engine));
             } else {

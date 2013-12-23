@@ -30,6 +30,7 @@
 #include <QMessageBox>
 #include <QMenuBar>
 #include <QFileInfo>
+#include <QSettings>
 
 #include <fl/Headers.h>
 
@@ -159,8 +160,9 @@ int main(int argc, char* argv[]) {
     signal(SIGPIPE, fl::signalHandler);
 #endif
     try {
-//        fl::fuzzylite::setDebug(true);
-        fl::fuzzylite::setDecimals(3);
+        QSettings settings;
+        int decimals = settings.value("general/decimals", 3).toInt();
+        fl::fuzzylite::setDecimals(decimals);
         fl::fuzzylite::setLogging(true);
         fl::qt::Window::main(argc, argv);
         //int *x = (int*) - 1; // make a bad pointer

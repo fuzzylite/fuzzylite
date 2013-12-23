@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class approximation{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("approximation of sin(x)/x");
@@ -94,4 +93,5 @@ ruleBlock.addRule(Rule.parse("if inputX is any  then trueFx is fx and diffFx is 
 engine.addRuleBlock(ruleBlock);
 
 
+}
 }

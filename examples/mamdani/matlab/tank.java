@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class tank{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("tank");
@@ -64,4 +63,5 @@ ruleBlock.addRule(Rule.parse("if level is okay and rate is negative then valve i
 engine.addRuleBlock(ruleBlock);
 
 
+}
 }

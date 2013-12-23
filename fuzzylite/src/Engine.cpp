@@ -90,7 +90,7 @@ namespace fl {
                     integralDefuzzifier->setResolution(resolution);
                 }
             }
-            _outputVariables.at(i)->output()->setAccumulation(
+            _outputVariables.at(i)->fuzzyOutput()->setAccumulation(
                     snormFactory->createInstance(accumulationS));
         }
     }
@@ -128,7 +128,7 @@ namespace fl {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no defuzzifier\n";
                 } else if (dynamic_cast<IntegralDefuzzifier*> (defuzzifier)
-                        and not outputVariable->output()->getAccumulation()) {
+                        and not outputVariable->fuzzyOutput()->getAccumulation()) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no Accumulation\n";
                 }
@@ -188,7 +188,7 @@ namespace fl {
 
     void Engine::process() {
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            _outputVariables.at(i)->output()->clear();
+            _outputVariables.at(i)->fuzzyOutput()->clear();
         }
 
         FL_BEGIN_DEBUG_BLOCK;
@@ -227,7 +227,7 @@ namespace fl {
             FL_DBG(_outputVariables.at(i)->getName() << ".output = " << output);
             FL_DBG(_outputVariables.at(i)->getName() << ".fuzzy = " <<
                     _outputVariables.at(i)->fuzzify(output));
-            FL_DBG(_outputVariables.at(i)->output()->toString());
+            FL_DBG(_outputVariables.at(i)->fuzzyOutput()->toString());
         }
         FL_DBG("==============");
         FL_END_DEBUG_BLOCK
@@ -239,7 +239,7 @@ namespace fl {
         }
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             _outputVariables[i]->setLastValidOutput(fl::nan);
-            _outputVariables[i]->output()->clear();
+            _outputVariables[i]->fuzzyOutput()->clear();
         }
     }
 

@@ -38,4 +38,5 @@ ruleBlock->addRule(fl::Rule::parse("if Ambient is MEDIUM then Power is MEDIUM", 
 ruleBlock->addRule(fl::Rule::parse("if Ambient is BRIGHT then Power is LOW", engine));
 engine->addRuleBlock(ruleBlock);
 
+
 }

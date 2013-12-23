@@ -224,9 +224,9 @@ namespace fl {
             it = options.find(KW_DATA_MAXIMUM);
             if (it != options.end()) {
                 int resolution = (int) Op::toScalar(it->second);
-                exporter = new DataExporter(separator, resolution);
+                exporter = new FldExporter(separator, resolution);
             } else {
-                exporter = new DataExporter(separator);
+                exporter = new FldExporter(separator);
             }
         } else {
             throw fl::Exception("[export error] format <" + outputFormat + "> "

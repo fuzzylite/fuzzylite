@@ -72,7 +72,7 @@ void exportAllExamples(const std::string& from, const std::string& to) {
     examples.push_back("/takagi-sugeno/matlab/slcp");
     examples.push_back("/takagi-sugeno/matlab/slcp1");
     examples.push_back("/takagi-sugeno/matlab/slcpp1");
-    examples.push_back("/takagi-sugeno/matlab/sltbu-fl");
+    examples.push_back("/takagi-sugeno/matlab/sltbu_fl");
     examples.push_back("/takagi-sugeno/matlab/sugeno1");
     examples.push_back("/takagi-sugeno/matlab/tanksg");
     examples.push_back("/takagi-sugeno/matlab/tippersg");
@@ -94,11 +94,11 @@ void exportAllExamples(const std::string& from, const std::string& to) {
 
     Exporter* exporter;
     if (to == "fll") exporter = new FllExporter;
+    else if (to == "fld") exporter = new FldExporter(" ", 1024);
     else if (to == "fcl") exporter = new FclExporter;
     else if (to == "fis") exporter = new FisExporter;
     else if (to == "cpp") exporter = new CppExporter;
     else if (to == "java") exporter = new JavaExporter;
-    else if (to == "fld") exporter = new DataExporter(" ", 1024);
     else throw fl::Exception("[examples error] unrecognized format <" + to + "> to export", FL_AT);
 
     std::vector<std::pair<Exporter*, Importer*> > tests;
@@ -144,7 +144,7 @@ void exportAllExamples(const std::string& from, const std::string& to) {
                     target << exporter->toString(engine);
                     target << "\n}\n";
                 } else if (to == "java") {
-                    target << "//package fl;\n\n";
+                    std::string className = examples.at(i).substr(examples.at(i).find_last_of('/') + 1);
                     target << "import com.fuzzylite.*;\n"
                             << "import com.fuzzylite.defuzzifier.*;\n"
                             << "import com.fuzzylite.factory.*;\n"
@@ -156,9 +156,10 @@ void exportAllExamples(const std::string& from, const std::string& to) {
                             << "import com.fuzzylite.rule.*;\n"
                             << "import com.fuzzylite.term.*;\n"
                             << "import com.fuzzylite.variable.*;\n\n";
+                    target << "public class " << Op::makeValidId(className) << "{\n";
                     target << "public static void main(String[] args){\n";
                     target << exporter->toString(engine);
-                    target << "\n}\n";
+                    target << "\n}\n}\n";
                 } else {
                     target << exporter->toString(engine);
                 }
@@ -198,13 +199,14 @@ int main(int argc, char** argv) {
 #endif
 
     try {
-//        exportAllExamples("fis", "fll");
-//        exportAllExamples("fis", "fcl");
-//        exportAllExamples("fis", "fis");
-//        exportAllExamples("fis", "cpp");
-//        exportAllExamples("fis", "java");
-//        exportAllExamples("fis", "fld");
-        return Console::main(argc, argv);
+        exportAllExamples("fis", "fll");
+        exportAllExamples("fis", "fcl");
+        exportAllExamples("fis", "fis");
+        exportAllExamples("fis", "cpp");
+        exportAllExamples("fis", "java");
+        exportAllExamples("fis", "fld");
+        return 0;
+        //        return Console::main(argc, argv);
     } catch (fl::Exception& e) {
         FL_LOG(e.what());
         FL_LOG(e.btCallStack());

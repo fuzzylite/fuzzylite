@@ -33,7 +33,7 @@ namespace fl {
 
     class FL_EXPORT OutputVariable : public Variable {
     protected:
-        Accumulated* _output;
+        Accumulated* _fuzzyOutput;
         Defuzzifier* _defuzzifier;
         scalar _defaultValue;
         scalar _lastValidOutput;
@@ -45,7 +45,7 @@ namespace fl {
                 scalar minimum = -fl::inf, scalar maximum = fl::inf);
         virtual ~OutputVariable();
 
-        virtual Accumulated* output() const;
+        virtual Accumulated* fuzzyOutput() const;
 
         virtual void setMinimum(scalar minimum);
         virtual void setMaximum(scalar maximum);

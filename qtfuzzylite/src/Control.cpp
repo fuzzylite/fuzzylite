@@ -182,8 +182,8 @@ namespace fl {
             ui->lbl_fuzzy_out->setText("&#956;=" + fuzzify);
 
             refresh();
-            if (not outputVariable->output()->isEmpty())
-                draw(outputVariable->output());
+            if (not outputVariable->fuzzyOutput()->isEmpty())
+                draw(outputVariable->fuzzyOutput());
 
         }
 

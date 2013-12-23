@@ -70,7 +70,7 @@ namespace fl {
             term->setThreshold(threshold);
             term->setActivation(activation);
             OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (proposition->variable);
-            outputVariable->output()->addTerm(term);
+            outputVariable->fuzzyOutput()->addTerm(term);
             FL_DBG("Accumulating " << term->toString());
         }
     }

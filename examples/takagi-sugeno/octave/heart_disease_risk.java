@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class heart_disease_risk{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("Heart-Disease-Risk");
@@ -76,4 +75,5 @@ ruleBlock.addRule(Rule.parse("if LDLLevel is High and HDLLevel is HighHDL then H
 engine.addRuleBlock(ruleBlock);
 
 
+}
 }

@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class invkine1{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("invkine1");
@@ -160,4 +159,5 @@ ruleBlock.addRule(Rule.parse("if input1 is in1mf7 and input2 is in2mf7 then outp
 engine.addRuleBlock(ruleBlock);
 
 
+}
 }

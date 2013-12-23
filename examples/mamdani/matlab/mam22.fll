@@ -1,17 +1,14 @@
 Engine: mam21
-
 InputVariable: angle
   enabled: true
   range: -5.000 5.000
   Term: small Bell -5.000 5.000 8.000
   Term: big Bell 5.000 5.000 8.000
-
 InputVariable: velocity
   enabled: true
   range: -5.000 5.000
   Term: small Bell -5.000 5.000 2.000
   Term: big Bell 5.000 5.000 2.000
-
 OutputVariable: force
   enabled: true
   range: -5.000 5.000
@@ -24,7 +21,6 @@ OutputVariable: force
   Term: negSmall Bell -1.670 1.670 8.000
   Term: posSmall Bell 1.670 1.670 8.000
   Term: posBig Bell 5.000 1.670 8.000
-
 OutputVariable: force2
   enabled: true
   range: -5.000 5.000
@@ -37,7 +33,6 @@ OutputVariable: force2
   Term: negSmall2 Bell -1.000 1.670 8.000
   Term: posSmall2 Bell 1.000 1.670 8.000
   Term: posBig2 Bell 3.000 1.670 8.000
-
 RuleBlock: 
   enabled: true
   conjunction: Minimum
@@ -47,4 +42,3 @@ RuleBlock:
   Rule: if angle is small and velocity is big then force is negSmall and force2 is posSmall2
   Rule: if angle is big and velocity is small then force is posSmall and force2 is negSmall2
   Rule: if angle is big and velocity is big then force is posBig and force2 is negBig2
-

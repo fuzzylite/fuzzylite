@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class membrn1{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("anfis");
@@ -60,4 +59,5 @@ ruleBlock.addRule(Rule.parse("if in_n1 is in1mf2 and in_n2 is in2mf2 then out1 i
 engine.addRuleBlock(ruleBlock);
 
 
+}
 }

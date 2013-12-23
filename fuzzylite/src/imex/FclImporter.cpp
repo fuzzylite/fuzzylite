@@ -258,7 +258,7 @@ namespace fl {
             } else if (firstToken == "METHOD") {
                 outputVariable->setDefuzzifier(extractDefuzzifier(line));
             } else if (firstToken == "ACCU") {
-                outputVariable->output()->setAccumulation(extractSNorm(line));
+                outputVariable->fuzzyOutput()->setAccumulation(extractSNorm(line));
             } else if (firstToken == "DEFAULT") {
                 std::pair<scalar, bool> defaultAndLock = extractDefaultValue(line);
                 outputVariable->setDefaultValue(defaultAndLock.first);

@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class slcp{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("slcp");
@@ -100,4 +99,5 @@ ruleBlock.addRule(Rule.parse("if in1 is in1mf2 and in2 is in2mf2 and in3 is in3m
 engine.addRuleBlock(ruleBlock);
 
 
+}
 }

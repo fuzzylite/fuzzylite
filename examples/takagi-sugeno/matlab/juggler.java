@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class juggler{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("juggler");
@@ -72,4 +71,5 @@ ruleBlock.addRule(Rule.parse("if xHit is in1mf3 and projectAngle is in2mf3 then 
 engine.addRuleBlock(ruleBlock);
 
 
+}
 }

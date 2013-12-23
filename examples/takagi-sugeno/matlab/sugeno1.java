@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class sugeno1{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("sugeno");
@@ -48,4 +47,5 @@ ruleBlock.addRule(Rule.parse("if input is high then output is line2", engine));
 engine.addRuleBlock(ruleBlock);
 
 
+}
 }

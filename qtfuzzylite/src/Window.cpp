@@ -1766,7 +1766,7 @@ namespace fl {
                 return;
             }
 
-            DataExporter exporter;
+            FldExporter exporter;
             exporter.setMaximum(results);
             std::string data;
             try {
@@ -1842,7 +1842,7 @@ namespace fl {
                 return;
             }
 
-            DataExporter exporter;
+            FldExporter exporter;
             try {
                 exporter.toWriter(Model::Default()->engine(), dataFile, " ", results);
             } catch (fl::Exception& ex) {

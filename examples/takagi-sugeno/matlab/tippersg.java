@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class tippersg{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("sugeno tipper");
@@ -59,4 +58,5 @@ ruleBlock.addRule(Rule.parse("if service is good or food is delicious then tip i
 engine.addRuleBlock(ruleBlock);
 
 
+}
 }

@@ -20,7 +20,7 @@
  * Created on 30 November 2013, 9:54 AM
  */
 
-#include "fl/imex/DataExporter.h"
+#include "fl/imex/FldExporter.h"
 
 #include "fl/Engine.h"
 #include "fl/variable/Variable.h"
@@ -33,35 +33,35 @@
 
 namespace fl {
 
-    DataExporter::DataExporter(const std::string& separator, int maximum)
+    FldExporter::FldExporter(const std::string& separator, int maximum)
     : _separator(separator), _maximum(maximum) {
 
     }
 
-    DataExporter::~DataExporter() {
+    FldExporter::~FldExporter() {
     }
 
-    std::string DataExporter::name() const {
+    std::string FldExporter::name() const {
         return "DataExporter";
     }
 
-    void DataExporter::setSeparator(const std::string& separator) {
+    void FldExporter::setSeparator(const std::string& separator) {
         this->_separator = separator;
     }
 
-    std::string DataExporter::getSeparator() const {
+    std::string FldExporter::getSeparator() const {
         return this->_separator;
     }
 
-    void DataExporter::setMaximum(int maximum) {
+    void FldExporter::setMaximum(int maximum) {
         this->_maximum = maximum;
     }
 
-    int DataExporter::getMaximum() const {
+    int FldExporter::getMaximum() const {
         return this->_maximum;
     }
 
-    std::string DataExporter::toString(const Engine* mutableEngine) const {
+    std::string FldExporter::toString(const Engine* mutableEngine) const {
         Engine* engine = const_cast<Engine*> (mutableEngine);
         std::ostringstream result;
         toWriter(engine, result, _separator, _maximum);
@@ -69,7 +69,7 @@ namespace fl {
     }
 
     template <typename T>
-    void DataExporter::toWriter(Engine* engine, T& writer,
+    void FldExporter::toWriter(Engine* engine, T& writer,
             const std::string& separator, int maximum) const {
         std::vector<std::string> variables;
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
@@ -118,8 +118,8 @@ namespace fl {
         }
     }
 
-    template FL_EXPORT void DataExporter::toWriter(Engine* engine, std::ofstream& writer,
+    template FL_EXPORT void FldExporter::toWriter(Engine* engine, std::ofstream& writer,
             const std::string& separator, int resolution) const;
-    template FL_EXPORT void DataExporter::toWriter(Engine* engine, std::ostringstream& writer,
+    template FL_EXPORT void FldExporter::toWriter(Engine* engine, std::ostringstream& writer,
             const std::string& separator, int resolution) const;
 }

@@ -1,19 +1,16 @@
 Engine: tank
-
 InputVariable: level
   enabled: true
   range: -1.000 1.000
   Term: high Gaussian -1.000 0.300
   Term: okay Gaussian 0.000 0.300
   Term: low Gaussian 1.000 0.300
-
 InputVariable: rate
   enabled: true
   range: -0.100 0.100
   Term: negative Gaussian -0.100 0.030
   Term: none Gaussian 0.000 0.030
   Term: positive Gaussian 0.100 0.030
-
 OutputVariable: valve
   enabled: true
   range: -1.000 1.000
@@ -27,7 +24,6 @@ OutputVariable: valve
   Term: no_change Triangle -0.100 0.000 0.100
   Term: open_slow Triangle 0.200 0.300 0.400
   Term: open_fast Triangle 0.800 0.900 1.000
-
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct
@@ -38,4 +34,3 @@ RuleBlock:
   Rule: if level is high then valve is close_fast
   Rule: if level is okay and rate is positive then valve is close_slow
   Rule: if level is okay and rate is negative then valve is open_slow
-

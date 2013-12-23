@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class shower{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("shower");
@@ -84,4 +83,5 @@ ruleBlock.addRule(Rule.parse("if temp is hot and flow is hard then cold is close
 engine.addRuleBlock(ruleBlock);
 
 
+}
 }

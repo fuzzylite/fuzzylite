@@ -1,5 +1,4 @@
 Engine: qtfuzzylite
-
 InputVariable: AllInputTerms
   enabled: true
   range: 0.000 6.500
@@ -19,7 +18,6 @@ InputVariable: AllInputTerms
   Term: N Ramp 5.500 6.500
   Term: O SShape 5.500 6.500
   Term: P Sigmoid 6.000 20.000
-
 OutputVariable: AllOutputTerms
   enabled: true
   range: 0.000 6.500
@@ -44,7 +42,6 @@ OutputVariable: AllOutputTerms
   Term: N Ramp 5.500 6.500
   Term: O SShape 5.500 6.500
   Term: P Sigmoid 6.000 20.000
-
 RuleBlock: 
   enabled: true
   conjunction: Minimum
@@ -66,4 +63,3 @@ RuleBlock:
   Rule: if AllInputTerms is N then AllOutputTerms is C
   Rule: if AllInputTerms is O then AllOutputTerms is B
   Rule: if AllInputTerms is P then AllOutputTerms is A
-

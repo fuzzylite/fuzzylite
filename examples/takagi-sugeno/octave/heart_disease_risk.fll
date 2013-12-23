@@ -1,5 +1,4 @@
 Engine: Heart-Disease-Risk
-
 InputVariable: LDLLevel
   enabled: true
   range: 0.000 300.000
@@ -8,14 +7,12 @@ InputVariable: LDLLevel
   Term: Borderline Trapezoid 120.000 140.000 150.000 170.000
   Term: HighBorderline Trapezoid 150.000 170.000 180.000 200.000
   Term: High Trapezoid 180.000 200.000 300.000 301.000
-
 InputVariable: HDLLevel
   enabled: true
   range: 0.000 100.000
   Term: LowHDL Trapezoid -1.000 0.000 35.000 45.000
   Term: ModerateHDL Trapezoid 35.000 45.000 55.000 65.000
   Term: HighHDL Trapezoid 55.000 65.000 100.000 101.000
-
 OutputVariable: HeartDiseaseRisk
   enabled: true
   range: 0.000 10.000
@@ -29,7 +26,6 @@ OutputVariable: HeartDiseaseRisk
   Term: MediumRisk Constant 5.000
   Term: HighRisk Constant 7.500
   Term: ExtremeRisk Constant 10.000
-
 RuleBlock: 
   enabled: true
   conjunction: Minimum
@@ -50,4 +46,3 @@ RuleBlock:
   Rule: if LDLLevel is High and HDLLevel is LowHDL then HeartDiseaseRisk is ExtremeRisk
   Rule: if LDLLevel is High and HDLLevel is ModerateHDL then HeartDiseaseRisk is HighRisk
   Rule: if LDLLevel is High and HDLLevel is HighHDL then HeartDiseaseRisk is MediumRisk
-

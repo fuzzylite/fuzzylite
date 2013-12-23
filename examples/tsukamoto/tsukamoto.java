@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class tsukamoto{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("");
@@ -79,4 +78,5 @@ ruleBlock.addRule(Rule.parse("if X is large then A is a3 and B is b3 and C is c3
 engine.addRuleBlock(ruleBlock);
 
 
+}
 }

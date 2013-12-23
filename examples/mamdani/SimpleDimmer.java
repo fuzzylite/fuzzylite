@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class SimpleDimmer{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("simple-dimmer");
@@ -50,4 +49,6 @@ ruleBlock.addRule(Rule.parse("if Ambient is MEDIUM then Power is MEDIUM", engine
 ruleBlock.addRule(Rule.parse("if Ambient is BRIGHT then Power is LOW", engine));
 engine.addRuleBlock(ruleBlock);
 
+
+}
 }

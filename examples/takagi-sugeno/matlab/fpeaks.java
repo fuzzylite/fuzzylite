@@ -1,5 +1,3 @@
-//package fl;
-
 import com.fuzzylite.*;
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
@@ -12,6 +10,7 @@ import com.fuzzylite.rule.*;
 import com.fuzzylite.term.*;
 import com.fuzzylite.variable.*;
 
+public class fpeaks{
 public static void main(String[] args){
 Engine engine = new Engine();
 engine.setName("peaks");
@@ -88,4 +87,5 @@ ruleBlock.addRule(Rule.parse("if in1 is in1mf4 and in2 is in1mf4 then out1 is ou
 engine.addRuleBlock(ruleBlock);
 
 
+}
 }
