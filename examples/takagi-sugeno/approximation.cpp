@@ -27,7 +27,7 @@ outputVariable1->setLockOutputRange(false);
 outputVariable1->setDefaultValue(fl::nan);
 outputVariable1->setLockValidOutput(true);
 outputVariable1->setDefuzzifier(new fl::WeightedAverage);
-outputVariable1->output()->setAccumulation(NULL);
+outputVariable1->fuzzyOutput()->setAccumulation(NULL);
 outputVariable1->addTerm(new fl::Constant("f1", 0.840));
 outputVariable1->addTerm(new fl::Constant("f2", 0.450));
 outputVariable1->addTerm(new fl::Constant("f3", 0.040));
@@ -47,7 +47,7 @@ outputVariable2->setLockOutputRange(false);
 outputVariable2->setDefaultValue(fl::nan);
 outputVariable2->setLockValidOutput(true);
 outputVariable2->setDefuzzifier(new fl::WeightedAverage);
-outputVariable2->output()->setAccumulation(NULL);
+outputVariable2->fuzzyOutput()->setAccumulation(NULL);
 outputVariable2->addTerm(fl::Function::create("fx", "sin(inputX)/inputX", engine));
 engine->addOutputVariable(outputVariable2);
 
@@ -59,7 +59,7 @@ outputVariable3->setLockOutputRange(false);
 outputVariable3->setDefaultValue(fl::nan);
 outputVariable3->setLockValidOutput(false);
 outputVariable3->setDefuzzifier(new fl::WeightedAverage);
-outputVariable3->output()->setAccumulation(NULL);
+outputVariable3->fuzzyOutput()->setAccumulation(NULL);
 outputVariable3->addTerm(fl::Function::create("diff", "fabs(outputFx-trueFx)", engine));
 engine->addOutputVariable(outputVariable3);
 

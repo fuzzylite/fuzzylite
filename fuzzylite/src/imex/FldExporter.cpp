@@ -42,7 +42,7 @@ namespace fl {
     }
 
     std::string FldExporter::name() const {
-        return "DataExporter";
+        return "FldExporter";
     }
 
     void FldExporter::setSeparator(const std::string& separator) {

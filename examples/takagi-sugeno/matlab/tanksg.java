@@ -41,7 +41,7 @@ outputVariable.setLockOutputRange(false);
 outputVariable.setLockValidOutput(false);
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setDefuzzifier(new WeightedAverage());
-outputVariable.output().setAccumulation(new Maximum());
+outputVariable.fuzzyOutput().setAccumulation(new Maximum());
 outputVariable.addTerm(new Constant("close_fast", -0.900));
 outputVariable.addTerm(new Constant("close_slow", -0.500));
 outputVariable.addTerm(new Constant("no_change", 0.000));

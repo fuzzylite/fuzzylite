@@ -40,7 +40,7 @@ outputVariable.setLockOutputRange(false);
 outputVariable.setLockValidOutput(false);
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setDefuzzifier(new Centroid(200));
-outputVariable.output().setAccumulation(new Maximum());
+outputVariable.fuzzyOutput().setAccumulation(new Maximum());
 outputVariable.addTerm(new Triangle("cheap", 0.000, 5.000, 10.000));
 outputVariable.addTerm(new Triangle("average", 10.000, 15.000, 20.000));
 outputVariable.addTerm(new Triangle("generous", 20.000, 25.000, 30.000));

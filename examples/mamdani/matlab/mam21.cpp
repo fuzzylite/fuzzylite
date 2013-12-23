@@ -28,7 +28,7 @@ outputVariable->setLockOutputRange(false);
 outputVariable->setDefaultValue(fl::nan);
 outputVariable->setLockValidOutput(false);
 outputVariable->setDefuzzifier(new fl::Centroid(200));
-outputVariable->output()->setAccumulation(new fl::Maximum);
+outputVariable->fuzzyOutput()->setAccumulation(new fl::Maximum);
 outputVariable->addTerm(new fl::Bell("negBig", -5.000, 1.670, 8.000));
 outputVariable->addTerm(new fl::Bell("negSmall", -1.670, 1.670, 8.000));
 outputVariable->addTerm(new fl::Bell("posSmall", 1.670, 1.670, 8.000));

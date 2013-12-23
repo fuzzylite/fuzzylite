@@ -38,7 +38,7 @@ outputVariable1.setLockOutputRange(false);
 outputVariable1.setLockValidOutput(true);
 outputVariable1.setDefaultValue(Double.NaN);
 outputVariable1.setDefuzzifier(new WeightedAverage());
-outputVariable1.output().setAccumulation(null);
+outputVariable1.fuzzyOutput().setAccumulation(null);
 outputVariable1.addTerm(new Constant("f1", 0.840));
 outputVariable1.addTerm(new Constant("f2", 0.450));
 outputVariable1.addTerm(new Constant("f3", 0.040));
@@ -58,7 +58,7 @@ outputVariable2.setLockOutputRange(false);
 outputVariable2.setLockValidOutput(true);
 outputVariable2.setDefaultValue(Double.NaN);
 outputVariable2.setDefuzzifier(new WeightedAverage());
-outputVariable2.output().setAccumulation(null);
+outputVariable2.fuzzyOutput().setAccumulation(null);
 outputVariable2.addTerm(Function.create("fx", "sin(inputX)/inputX", engine, true));
 engine.addOutputVariable(outputVariable2);
 
@@ -70,7 +70,7 @@ outputVariable3.setLockOutputRange(false);
 outputVariable3.setLockValidOutput(false);
 outputVariable3.setDefaultValue(Double.NaN);
 outputVariable3.setDefuzzifier(new WeightedAverage());
-outputVariable3.output().setAccumulation(null);
+outputVariable3.fuzzyOutput().setAccumulation(null);
 outputVariable3.addTerm(Function.create("diff", "fabs(outputFx-trueFx)", engine, true));
 engine.addOutputVariable(outputVariable3);
 

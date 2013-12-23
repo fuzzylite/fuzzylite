@@ -39,7 +39,7 @@ outputVariable.setLockOutputRange(false);
 outputVariable.setLockValidOutput(false);
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setDefuzzifier(new Centroid(200));
-outputVariable.output().setAccumulation(new EinsteinSum());
+outputVariable.fuzzyOutput().setAccumulation(new EinsteinSum());
 outputVariable.addTerm(new Gaussian("AboutFifteen", 15.000, 10.000));
 outputVariable.addTerm(new Gaussian("AboutFifty", 50.000, 10.000));
 outputVariable.addTerm(new Gaussian("AboutEightyFive", 85.000, 10.000));

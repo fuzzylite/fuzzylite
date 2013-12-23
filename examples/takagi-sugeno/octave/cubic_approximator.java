@@ -40,7 +40,7 @@ outputVariable.setLockOutputRange(false);
 outputVariable.setLockValidOutput(false);
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setDefuzzifier(new WeightedAverage());
-outputVariable.output().setAccumulation(new Maximum());
+outputVariable.fuzzyOutput().setAccumulation(new Maximum());
 outputVariable.addTerm(Linear.create("TangentatNegFive", engine.getInputVariables(), 75.000, 250.000));
 outputVariable.addTerm(Linear.create("TangentatNegFour", engine.getInputVariables(), 48.000, 128.000));
 outputVariable.addTerm(Linear.create("TangentatNegThree", engine.getInputVariables(), 27.000, 54.000));

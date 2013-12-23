@@ -43,7 +43,7 @@ outputVariable.setLockOutputRange(false);
 outputVariable.setLockValidOutput(false);
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setDefuzzifier(new WeightedAverage());
-outputVariable.output().setAccumulation(new Maximum());
+outputVariable.fuzzyOutput().setAccumulation(new Maximum());
 outputVariable.addTerm(new Constant("NoRisk", 0.000));
 outputVariable.addTerm(new Constant("LowRisk", 2.500));
 outputVariable.addTerm(new Constant("MediumRisk", 5.000));

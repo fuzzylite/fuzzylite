@@ -40,7 +40,7 @@ outputVariable.setLockOutputRange(false);
 outputVariable.setLockValidOutput(false);
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setDefuzzifier(new WeightedAverage());
-outputVariable.output().setAccumulation(new Maximum());
+outputVariable.fuzzyOutput().setAccumulation(new Maximum());
 outputVariable.addTerm(Linear.create("cheap", engine.getInputVariables(), 0.000, 0.000, 5.000));
 outputVariable.addTerm(Linear.create("average", engine.getInputVariables(), 0.000, 0.000, 15.000));
 outputVariable.addTerm(Linear.create("generous", engine.getInputVariables(), 0.000, 0.000, 25.000));

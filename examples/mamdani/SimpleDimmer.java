@@ -32,7 +32,7 @@ outputVariable.setLockOutputRange(false);
 outputVariable.setLockValidOutput(false);
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setDefuzzifier(new Centroid(200));
-outputVariable.output().setAccumulation(new Maximum());
+outputVariable.fuzzyOutput().setAccumulation(new Maximum());
 outputVariable.addTerm(new Triangle("LOW", 0.000, 0.250, 0.500));
 outputVariable.addTerm(new Triangle("MEDIUM", 0.250, 0.500, 0.750));
 outputVariable.addTerm(new Triangle("HIGH", 0.500, 0.750, 1.000));

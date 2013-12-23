@@ -45,7 +45,7 @@ outputVariable.setLockOutputRange(false);
 outputVariable.setLockValidOutput(false);
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setDefuzzifier(new Centroid(200));
-outputVariable.output().setAccumulation(new Maximum());
+outputVariable.fuzzyOutput().setAccumulation(new Maximum());
 outputVariable.addTerm(new Sigmoid("A", 0.500, -20.000));
 outputVariable.addTerm(new ZShape("B", 0.000, 1.000));
 outputVariable.addTerm(new Ramp("C", 1.000, 0.000));

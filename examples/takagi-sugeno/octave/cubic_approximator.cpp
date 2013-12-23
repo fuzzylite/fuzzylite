@@ -29,7 +29,7 @@ outputVariable->setLockOutputRange(false);
 outputVariable->setDefaultValue(fl::nan);
 outputVariable->setLockValidOutput(false);
 outputVariable->setDefuzzifier(new fl::WeightedAverage);
-outputVariable->output()->setAccumulation(new fl::Maximum);
+outputVariable->fuzzyOutput()->setAccumulation(new fl::Maximum);
 outputVariable->addTerm(fl::Linear::create("TangentatNegFive", engine->inputVariables(), 75.000, 250.000));
 outputVariable->addTerm(fl::Linear::create("TangentatNegFour", engine->inputVariables(), 48.000, 128.000));
 outputVariable->addTerm(fl::Linear::create("TangentatNegThree", engine->inputVariables(), 27.000, 54.000));

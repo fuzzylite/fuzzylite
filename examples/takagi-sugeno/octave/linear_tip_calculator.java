@@ -39,7 +39,7 @@ outputVariable.setLockOutputRange(false);
 outputVariable.setLockValidOutput(false);
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setDefuzzifier(new WeightedAverage());
-outputVariable.output().setAccumulation(new Maximum());
+outputVariable.fuzzyOutput().setAccumulation(new Maximum());
 outputVariable.addTerm(Linear.create("TenPercent", engine.getInputVariables(), 0.000, 0.000, 10.000));
 outputVariable.addTerm(Linear.create("FifteenPercent", engine.getInputVariables(), 0.000, 0.000, 15.000));
 outputVariable.addTerm(Linear.create("TwentyPercent", engine.getInputVariables(), 0.000, 0.000, 20.000));

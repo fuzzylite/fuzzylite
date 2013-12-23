@@ -28,7 +28,7 @@ outputVariable->setLockOutputRange(false);
 outputVariable->setDefaultValue(fl::nan);
 outputVariable->setLockValidOutput(false);
 outputVariable->setDefuzzifier(new fl::Centroid(200));
-outputVariable->output()->setAccumulation(new fl::EinsteinSum);
+outputVariable->fuzzyOutput()->setAccumulation(new fl::EinsteinSum);
 outputVariable->addTerm(new fl::Gaussian("AboutFifteen", 15.000, 10.000));
 outputVariable->addTerm(new fl::Gaussian("AboutFifty", 50.000, 10.000));
 outputVariable->addTerm(new fl::Gaussian("AboutEightyFive", 85.000, 10.000));

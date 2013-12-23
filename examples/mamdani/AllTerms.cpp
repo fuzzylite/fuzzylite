@@ -34,7 +34,7 @@ outputVariable->setLockOutputRange(false);
 outputVariable->setDefaultValue(fl::nan);
 outputVariable->setLockValidOutput(false);
 outputVariable->setDefuzzifier(new fl::Centroid(200));
-outputVariable->output()->setAccumulation(new fl::Maximum);
+outputVariable->fuzzyOutput()->setAccumulation(new fl::Maximum);
 outputVariable->addTerm(new fl::Sigmoid("A", 0.500, -20.000));
 outputVariable->addTerm(new fl::ZShape("B", 0.000, 1.000));
 outputVariable->addTerm(new fl::Ramp("C", 1.000, 0.000));

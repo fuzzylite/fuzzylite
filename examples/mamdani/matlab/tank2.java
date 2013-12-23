@@ -40,7 +40,7 @@ outputVariable.setLockOutputRange(false);
 outputVariable.setLockValidOutput(false);
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setDefuzzifier(new Centroid(200));
-outputVariable.output().setAccumulation(new Maximum());
+outputVariable.fuzzyOutput().setAccumulation(new Maximum());
 outputVariable.addTerm(new Triangle("close_fast", -1.000, -0.900, -0.800));
 outputVariable.addTerm(new Triangle("close_slow", -0.600, -0.500, -0.400));
 outputVariable.addTerm(new Triangle("no_change", -0.100, 0.000, 0.100));

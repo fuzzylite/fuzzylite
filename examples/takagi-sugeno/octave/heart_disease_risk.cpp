@@ -32,7 +32,7 @@ outputVariable->setLockOutputRange(false);
 outputVariable->setDefaultValue(fl::nan);
 outputVariable->setLockValidOutput(false);
 outputVariable->setDefuzzifier(new fl::WeightedAverage);
-outputVariable->output()->setAccumulation(new fl::Maximum);
+outputVariable->fuzzyOutput()->setAccumulation(new fl::Maximum);
 outputVariable->addTerm(new fl::Constant("NoRisk", 0.000));
 outputVariable->addTerm(new fl::Constant("LowRisk", 2.500));
 outputVariable->addTerm(new fl::Constant("MediumRisk", 5.000));

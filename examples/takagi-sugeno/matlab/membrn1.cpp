@@ -28,7 +28,7 @@ outputVariable->setLockOutputRange(false);
 outputVariable->setDefaultValue(fl::nan);
 outputVariable->setLockValidOutput(false);
 outputVariable->setDefuzzifier(new fl::WeightedAverage);
-outputVariable->output()->setAccumulation(new fl::Maximum);
+outputVariable->fuzzyOutput()->setAccumulation(new fl::Maximum);
 outputVariable->addTerm(fl::Linear::create("out1mf1", engine->inputVariables(), 0.026, 0.071, -0.615));
 outputVariable->addTerm(fl::Linear::create("out1mf2", engine->inputVariables(), -0.036, 0.036, -1.169));
 outputVariable->addTerm(fl::Linear::create("out1mf3", engine->inputVariables(), -0.094, 0.094, 2.231));

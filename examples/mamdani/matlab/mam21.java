@@ -39,7 +39,7 @@ outputVariable.setLockOutputRange(false);
 outputVariable.setLockValidOutput(false);
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setDefuzzifier(new Centroid(200));
-outputVariable.output().setAccumulation(new Maximum());
+outputVariable.fuzzyOutput().setAccumulation(new Maximum());
 outputVariable.addTerm(new Bell("negBig", -5.000, 1.670, 8.000));
 outputVariable.addTerm(new Bell("negSmall", -1.670, 1.670, 8.000));
 outputVariable.addTerm(new Bell("posSmall", 1.670, 1.670, 8.000));

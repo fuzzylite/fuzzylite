@@ -29,7 +29,7 @@ outputVariable->setLockOutputRange(false);
 outputVariable->setDefaultValue(fl::nan);
 outputVariable->setLockValidOutput(false);
 outputVariable->setDefuzzifier(new fl::WeightedAverage);
-outputVariable->output()->setAccumulation(new fl::Maximum);
+outputVariable->fuzzyOutput()->setAccumulation(new fl::Maximum);
 outputVariable->addTerm(fl::Linear::create("cheap", engine->inputVariables(), 0.000, 0.000, 5.000));
 outputVariable->addTerm(fl::Linear::create("average", engine->inputVariables(), 0.000, 0.000, 15.000));
 outputVariable->addTerm(fl::Linear::create("generous", engine->inputVariables(), 0.000, 0.000, 25.000));

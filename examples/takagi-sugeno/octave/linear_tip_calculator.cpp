@@ -28,7 +28,7 @@ outputVariable->setLockOutputRange(false);
 outputVariable->setDefaultValue(fl::nan);
 outputVariable->setLockValidOutput(false);
 outputVariable->setDefuzzifier(new fl::WeightedAverage);
-outputVariable->output()->setAccumulation(new fl::Maximum);
+outputVariable->fuzzyOutput()->setAccumulation(new fl::Maximum);
 outputVariable->addTerm(fl::Linear::create("TenPercent", engine->inputVariables(), 0.000, 0.000, 10.000));
 outputVariable->addTerm(fl::Linear::create("FifteenPercent", engine->inputVariables(), 0.000, 0.000, 15.000));
 outputVariable->addTerm(fl::Linear::create("TwentyPercent", engine->inputVariables(), 0.000, 0.000, 20.000));

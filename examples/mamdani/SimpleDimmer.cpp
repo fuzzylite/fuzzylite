@@ -21,7 +21,7 @@ outputVariable->setLockOutputRange(false);
 outputVariable->setDefaultValue(fl::nan);
 outputVariable->setLockValidOutput(false);
 outputVariable->setDefuzzifier(new fl::Centroid(200));
-outputVariable->output()->setAccumulation(new fl::Maximum);
+outputVariable->fuzzyOutput()->setAccumulation(new fl::Maximum);
 outputVariable->addTerm(new fl::Triangle("LOW", 0.000, 0.250, 0.500));
 outputVariable->addTerm(new fl::Triangle("MEDIUM", 0.250, 0.500, 0.750));
 outputVariable->addTerm(new fl::Triangle("HIGH", 0.500, 0.750, 1.000));

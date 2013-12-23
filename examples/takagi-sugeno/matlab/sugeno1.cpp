@@ -20,7 +20,7 @@ outputVariable->setLockOutputRange(false);
 outputVariable->setDefaultValue(fl::nan);
 outputVariable->setLockValidOutput(false);
 outputVariable->setDefuzzifier(new fl::WeightedAverage);
-outputVariable->output()->setAccumulation(new fl::Maximum);
+outputVariable->fuzzyOutput()->setAccumulation(new fl::Maximum);
 outputVariable->addTerm(fl::Linear::create("line1", engine->inputVariables(), -1.000, -1.000));
 outputVariable->addTerm(fl::Linear::create("line2", engine->inputVariables(), 1.000, -1.000));
 engine->addOutputVariable(outputVariable);

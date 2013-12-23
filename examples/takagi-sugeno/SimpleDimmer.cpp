@@ -21,7 +21,7 @@ outputVariable->setLockOutputRange(false);
 outputVariable->setDefaultValue(fl::nan);
 outputVariable->setLockValidOutput(false);
 outputVariable->setDefuzzifier(new fl::WeightedAverage);
-outputVariable->output()->setAccumulation(NULL);
+outputVariable->fuzzyOutput()->setAccumulation(NULL);
 outputVariable->addTerm(new fl::Constant("LOW", 0.250));
 outputVariable->addTerm(new fl::Constant("MEDIUM", 0.500));
 outputVariable->addTerm(new fl::Constant("HIGH", 0.750));

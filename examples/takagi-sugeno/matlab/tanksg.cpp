@@ -30,7 +30,7 @@ outputVariable->setLockOutputRange(false);
 outputVariable->setDefaultValue(fl::nan);
 outputVariable->setLockValidOutput(false);
 outputVariable->setDefuzzifier(new fl::WeightedAverage);
-outputVariable->output()->setAccumulation(new fl::Maximum);
+outputVariable->fuzzyOutput()->setAccumulation(new fl::Maximum);
 outputVariable->addTerm(new fl::Constant("close_fast", -0.900));
 outputVariable->addTerm(new fl::Constant("close_slow", -0.500));
 outputVariable->addTerm(new fl::Constant("no_change", 0.000));

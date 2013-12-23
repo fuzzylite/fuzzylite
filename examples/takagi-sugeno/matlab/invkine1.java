@@ -49,7 +49,7 @@ outputVariable.setLockOutputRange(false);
 outputVariable.setLockValidOutput(false);
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setDefuzzifier(new WeightedAverage());
-outputVariable.output().setAccumulation(new Maximum());
+outputVariable.fuzzyOutput().setAccumulation(new Maximum());
 outputVariable.addTerm(Linear.create("out1mf1", engine.getInputVariables(), -0.912, 2.517, 0.061));
 outputVariable.addTerm(Linear.create("out1mf2", engine.getInputVariables(), -2.153, -2.204, -4.037));
 outputVariable.addTerm(Linear.create("out1mf3", engine.getInputVariables(), -0.107, -0.148, 1.920));

@@ -32,7 +32,7 @@ outputVariable.setLockOutputRange(false);
 outputVariable.setLockValidOutput(false);
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setDefuzzifier(new WeightedAverage());
-outputVariable.output().setAccumulation(null);
+outputVariable.fuzzyOutput().setAccumulation(null);
 outputVariable.addTerm(new Constant("LOW", 0.250));
 outputVariable.addTerm(new Constant("MEDIUM", 0.500));
 outputVariable.addTerm(new Constant("HIGH", 0.750));
