@@ -154,8 +154,9 @@ namespace fl {
 
     std::string CppExporter::toString(const Term* term) const {
         if (not term) return "NULL";
-        const Discrete* discrete = NULL;
-        if ((discrete = dynamic_cast<const Discrete*> (term))) {
+
+        if (term->className() == Discrete().className()) {
+            const Discrete* discrete = dynamic_cast<const Discrete*> (term);
             std::ostringstream ss;
             ss << "fl::" << term->className() << "::create(\"" << term->getName() << "\", ";
             ss << discrete->x.size() + discrete->y.size() << ", ";
@@ -168,16 +169,16 @@ namespace fl {
             return ss.str();
         }
 
-        const Function* function = NULL;
-        if ((function = dynamic_cast<const Function*> (term))) {
+        if (term->className() == Function().className()) {
+            const Function* function = dynamic_cast<const Function*> (term);
             std::ostringstream ss;
             ss << "fl::" << term->className() << "::create(\"" << term->getName() << "\", "
                     << "\"" << function->getText() << "\", engine)";
             return ss.str();
         }
 
-        const Linear* linear = NULL;
-        if ((linear = dynamic_cast<const Linear*> (term))) {
+        if (term->className() == Linear().className()) {
+            const Linear* linear = dynamic_cast<const Linear*> (term);
             std::ostringstream ss;
             ss << "fl::" << term->className() << "::create(\"" << term->getName() << "\", "
                     << "engine->inputVariables(), ";
@@ -212,14 +213,13 @@ namespace fl {
 
     std::string CppExporter::toString(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier) return "NULL";
-        if (defuzzifier->className() == WeightedAverage().className()
-                or defuzzifier->className() == WeightedSum().className()) {
-            return "new fl::" + defuzzifier->className();
-        }
         const IntegralDefuzzifier* integralDefuzzifier =
                 dynamic_cast<const IntegralDefuzzifier*> (defuzzifier);
-        return "new fl::" + integralDefuzzifier->className() + "("
-                + fl::Op::str(integralDefuzzifier->getResolution()) + ")";
+        if (integralDefuzzifier) {
+            return "new fl::" + integralDefuzzifier->className() + "("
+                    + fl::Op::str(integralDefuzzifier->getResolution()) + ")";
+        }
+        return "new fl::" + defuzzifier->className();
     }
 
 }

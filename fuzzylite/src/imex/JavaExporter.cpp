@@ -148,8 +148,8 @@ namespace fl {
             return "null";
         }
 
-        const Discrete* discrete = NULL;
-        if ((discrete = dynamic_cast<const Discrete*> (term))) {
+        if (term->className() == Discrete().className()) {
+            const Discrete* discrete = dynamic_cast<const Discrete*> (term);
             std::ostringstream ss;
             std::vector<scalar> xy;
             for (std::size_t i = 0; i < discrete->x.size(); ++i) {
@@ -161,16 +161,17 @@ namespace fl {
             return ss.str();
         }
 
-        const Function* function = NULL;
-        if ((function = dynamic_cast<const Function*> (term))) {
+
+        if (term->className() == Function().className()) {
+            const Function* function = dynamic_cast<const Function*> (term);
             std::ostringstream ss;
             ss << term->className() << ".create(\"" << term->getName() << "\", "
                     << "\"" << function->getText() << "\", engine, true)";
             return ss.str();
         }
 
-        const Linear* linear = NULL;
-        if ((linear = dynamic_cast<const Linear*> (term))) {
+        if (term->className() == Linear().className()) {
+            const Linear* linear = dynamic_cast<const Linear*> (term);
             std::ostringstream ss;
             ss << term->className() << ".create(\"" << term->getName() << "\", "
                     << "engine.getInputVariables(), "

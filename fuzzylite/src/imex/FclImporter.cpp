@@ -422,7 +422,6 @@ namespace fl {
                 continue;
             }
             if (state == S_PARAMETERS) {
-                //TODO: Change className() to dynamic_cast<>
                 if (termClass != Function().className() and
                         (token == "(" or token == ")" or token == ",")) {
                     continue;
@@ -451,13 +450,13 @@ namespace fl {
     }
 
     Term* FclImporter::prepareTerm(Term* term, const Engine* engine) const {
-        if (term->className() == Linear().className()) {
-            Linear* linear = dynamic_cast<Linear*> (term);
+        Linear* linear = NULL;
+        Function* function = NULL;
+        if ((linear = dynamic_cast<Linear*> (term))) {
             linear->inputVariables = std::vector<const InputVariable*>
                     (engine->inputVariables().begin(),
                     engine->inputVariables().end());
-        } else if (term->className() == Function().className()) {
-            Function* function = dynamic_cast<Function*> (term);
+        } else if ((function = dynamic_cast<Function*> (term))) {
             function->setEngine(engine);
             //builtin functions are loaded from TermFactory calling Function::create
             function->load();
