@@ -161,7 +161,7 @@ namespace fl {
             ss << "fl::" << term->className() << "::create(\"" << term->getName() << "\", ";
             ss << discrete->x.size() + discrete->y.size() << ", ";
             for (std::size_t i = 0; i < discrete->x.size(); ++i) {
-                ss << fl::Op::str(discrete->x.at(i)) << ","
+                ss << fl::Op::str(discrete->x.at(i)) << ", "
                         << fl::Op::str(discrete->y.at(i));
                 if (i + 1 < discrete->x.size()) ss << ", ";
             }
