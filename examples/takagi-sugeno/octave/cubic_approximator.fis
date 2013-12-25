@@ -1,7 +1,6 @@
 [System]
 Name='Cubic-Approximator'
 Type='sugeno'
-Version=4.0
 NumInputs=1
 NumOutputs=1
 NumRules=11
@@ -28,7 +27,6 @@ MF9='AboutThree':'trimf',[2.000 3.000 4.000]
 MF10='AboutFour':'trimf',[3.000 4.000 5.000]
 MF11='AboutFive':'trimf',[4.000 5.000 6.000]
 
-
 [Output1]
 Enabled=1
 Name='ApproxXCubed'
@@ -49,7 +47,6 @@ MF9='TangentatThree':'linear',[27.000 -54.000]
 MF10='TangentatFour':'linear',[48.000 -128.000]
 MF11='TangentatFive':'linear',[75.000 -250.000]
 
-
 [Rules]
 1.000 , 1.000 (1.000) : 1
 2.000 , 2.000 (1.000) : 1
@@ -62,4 +59,3 @@ MF11='TangentatFive':'linear',[75.000 -250.000]
 9.000 , 9.000 (1.000) : 1
 10.000 , 10.000 (1.000) : 1
 11.000 , 11.000 (1.000) : 1
-

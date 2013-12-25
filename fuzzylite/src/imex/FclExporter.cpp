@@ -142,7 +142,7 @@ namespace fl {
             fcl << "\n";
         }
 
-        fcl << "END_FUNCTION_BLOCK";
+        fcl << "END_FUNCTION_BLOCK\n";
         return fcl.str();
     }
 

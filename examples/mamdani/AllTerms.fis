@@ -1,7 +1,6 @@
 [System]
 Name='qtfuzzylite'
 Type='mamdani'
-Version=4.0
 NumInputs=1
 NumOutputs=1
 NumRules=16
@@ -33,7 +32,6 @@ MF14='N':'rampmf',[5.500 6.500]
 MF15='O':'smf',[5.500 6.500]
 MF16='P':'sigmf',[20.000 6.000]
 
-
 [Output1]
 Enabled=1
 Name='AllOutputTerms'
@@ -59,7 +57,6 @@ MF14='N':'rampmf',[5.500 6.500]
 MF15='O':'smf',[5.500 6.500]
 MF16='P':'sigmf',[20.000 6.000]
 
-
 [Rules]
 1.000 , 16.000 (1.000) : 1
 2.000 , 15.000 (1.000) : 1
@@ -77,4 +74,3 @@ MF16='P':'sigmf',[20.000 6.000]
 14.000 , 3.000 (1.000) : 1
 15.000 , 2.000 (1.000) : 1
 16.000 , 1.000 (1.000) : 1
-

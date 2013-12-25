@@ -1,7 +1,6 @@
 [System]
 Name='juggler'
 Type='sugeno'
-Version=4.0
 NumInputs=2
 NumOutputs=1
 NumRules=9
@@ -29,7 +28,6 @@ MF1='in2mf1':'gbellmf',[0.785 4.000 0.000]
 MF2='in2mf2':'gbellmf',[0.785 4.000 1.571]
 MF3='in2mf3':'gbellmf',[0.785 4.000 3.142]
 
-
 [Output1]
 Enabled=1
 Name='theta'
@@ -48,7 +46,6 @@ MF7='out1mf':'linear',[-0.022 -0.500 1.256]
 MF8='out1mf':'linear',[-0.022 -0.500 1.256]
 MF9='out1mf':'linear',[-0.022 -0.500 1.256]
 
-
 [Rules]
 1.000 1.000 , 1.000 (1.000) : 1
 1.000 2.000 , 1.000 (1.000) : 1
@@ -59,4 +56,3 @@ MF9='out1mf':'linear',[-0.022 -0.500 1.256]
 3.000 1.000 , 1.000 (1.000) : 1
 3.000 2.000 , 1.000 (1.000) : 1
 3.000 3.000 , 1.000 (1.000) : 1
-

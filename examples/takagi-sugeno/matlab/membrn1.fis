@@ -1,7 +1,6 @@
 [System]
 Name='anfis'
 Type='sugeno'
-Version=4.0
 NumInputs=2
 NumOutputs=1
 NumRules=4
@@ -27,7 +26,6 @@ NumMFs=2
 MF1='in2mf1':'gbellmf',[15.021 1.843 0.740]
 MF2='in2mf2':'gbellmf',[16.220 5.050 29.747]
 
-
 [Output1]
 Enabled=1
 Name='out1'
@@ -41,10 +39,8 @@ MF2='out1mf2':'linear',[-0.036 0.036 -1.169]
 MF3='out1mf3':'linear',[-0.094 0.094 2.231]
 MF4='out1mf4':'linear',[-0.071 -0.026 2.479]
 
-
 [Rules]
 1.000 1.000 , 1.000 (1.000) : 1
 1.000 2.000 , 2.000 (1.000) : 1
 2.000 1.000 , 3.000 (1.000) : 1
 2.000 2.000 , 4.000 (1.000) : 1
-

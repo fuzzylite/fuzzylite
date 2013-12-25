@@ -1,7 +1,6 @@
 [System]
 Name='Mamdani-Tip-Calculator'
 Type='mamdani'
-Version=4.0
 NumInputs=2
 NumOutputs=2
 NumRules=4
@@ -27,7 +26,6 @@ NumMFs=2
 MF1='Bad':'trapmf',[0.000 1.000 3.000 7.000]
 MF2='Good':'trapmf',[3.000 7.000 10.000 11.000]
 
-
 [Output1]
 Enabled=1
 Name='Tip'
@@ -52,10 +50,8 @@ MF1='PlusAboutTenPercent':'gaussmf',[0.020 1.100]
 MF2='PlusAboutFifteenPercent':'gaussmf',[0.020 1.150]
 MF3='PlusAboutTwentyPercent':'gaussmf',[0.020 1.200]
 
-
 [Rules]
 1.000 1.000 , 1.000 1.000 (1.000) : 1
 1.000 2.000 , 2.000 2.000 (1.000) : 1
 2.000 1.000 , 2.000 2.000 (1.000) : 1
 2.000 2.000 , 3.000 3.000 (1.000) : 1
-

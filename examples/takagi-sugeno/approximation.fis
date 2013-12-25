@@ -1,7 +1,6 @@
 [System]
 Name='approximation of sin(x)/x'
 Type='sugeno'
-Version=4.0
 NumInputs=1
 NumOutputs=3
 NumRules=10
@@ -25,7 +24,6 @@ MF6='NEAR_6':'trimf',[5.000 6.000 7.000]
 MF7='NEAR_7':'trimf',[6.000 7.000 8.000]
 MF8='NEAR_8':'trimf',[7.000 8.000 9.000]
 MF9='NEAR_9':'trimf',[8.000 9.000 10.000]
-
 
 [Output1]
 Enabled=1
@@ -65,7 +63,6 @@ LockRange=0
 NumMFs=1
 MF1='diff':'function',[fabs(outputFx-trueFx)]
 
-
 [Rules]
 1.000 , 1.000 0.000 0.000 (1.000) : 1
 2.000 , 2.000 0.000 0.000 (1.000) : 1
@@ -77,4 +74,3 @@ MF1='diff':'function',[fabs(outputFx-trueFx)]
 8.000 , 8.000 0.000 0.000 (1.000) : 1
 9.000 , 9.000 0.000 0.000 (1.000) : 1
 0.990 , 0.000 1.000 1.000 (1.000) : 1
-

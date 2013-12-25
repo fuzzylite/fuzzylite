@@ -1,7 +1,6 @@
 [System]
 Name='sltbu'
 Type='sugeno'
-Version=4.0
 NumInputs=3
 NumOutputs=1
 NumRules=2
@@ -31,7 +30,6 @@ Name='control2'
 Range=[-0.785 0.785]
 NumMFs=0
 
-
 [Output1]
 Enabled=1
 Name='control'
@@ -43,8 +41,6 @@ NumMFs=2
 MF1='out1mf1':'linear',[0.000 0.000 1.000 0.000]
 MF2='out1mf2':'linear',[0.000 1.000 0.000 0.000]
 
-
 [Rules]
 1.000 0.000 0.000 , 1.000 (1.000) : 1
 2.000 0.000 0.000 , 2.000 (1.000) : 1
-

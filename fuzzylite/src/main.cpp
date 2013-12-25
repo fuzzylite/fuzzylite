@@ -139,10 +139,10 @@ void exportAllExamples(const std::string& from, const std::string& to) {
             std::ofstream target(output.c_str());
             if (target.is_open()) {
                 if (to == "cpp") {
-                    target << "#include <fl/Headers.h>\n\n";
-                    target << "int main(int argc, char** argv){\n";
-                    target << exporter->toString(engine);
-                    target << "\n}\n";
+                    target << "#include <fl/Headers.h>\n\n"
+                            << "int main(int argc, char** argv){\n"
+                            << exporter->toString(engine)
+                            << "\n}\n";
                 } else if (to == "java") {
                     std::string className = examples.at(i).substr(examples.at(i).find_last_of('/') + 1);
                     target << "import com.fuzzylite.*;\n"
@@ -155,16 +155,16 @@ void exportAllExamples(const std::string& from, const std::string& to) {
                             << "import com.fuzzylite.norm.t.*;\n"
                             << "import com.fuzzylite.rule.*;\n"
                             << "import com.fuzzylite.term.*;\n"
-                            << "import com.fuzzylite.variable.*;\n\n";
-                    target << "public class " << Op::makeValidId(className) << "{\n";
-                    target << "public static void main(String[] args){\n";
-                    target << exporter->toString(engine);
-                    target << "\n}\n}\n";
+                            << "import com.fuzzylite.variable.*;\n\n"
+                            << "public class " << Op::makeValidId(className) << "{\n"
+                            << "public static void main(String[] args){\n"
+                            << exporter->toString(engine)
+                            << "\n}\n}\n";
                 } else {
                     target << exporter->toString(engine);
                 }
+                target.close();
             }
-            target.close();
             delete engine;
         } catch (fl::Exception& ex) {
             errors << "error at " << examples.at(i) << ":\n" << ex.what() << "\n";
@@ -179,7 +179,7 @@ void exportAllExamples(const std::string& from, const std::string& to) {
     if (errors.str().empty()) {
         FL_LOG("No errors were found exporting files");
     } else {
-        FL_LOG("The following errors occured while exporting files:" << errors.str());
+        FL_LOG("The following errors were encountered while exporting files:" << errors.str());
     }
 }
 

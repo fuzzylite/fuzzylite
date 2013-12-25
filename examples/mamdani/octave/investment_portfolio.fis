@@ -1,7 +1,6 @@
 [System]
 Name='Investment-Portfolio'
 Type='mamdani'
-Version=4.0
 NumInputs=2
 NumOutputs=1
 NumRules=4
@@ -27,7 +26,6 @@ NumMFs=2
 MF1='Low':'zmf',[2.000 8.000]
 MF2='High':'smf',[2.000 8.000]
 
-
 [Output1]
 Enabled=1
 Name='PercentageInStocks'
@@ -40,10 +38,8 @@ MF1='AboutFifteen':'gaussmf',[10.000 15.000]
 MF2='AboutFifty':'gaussmf',[10.000 50.000]
 MF3='AboutEightyFive':'gaussmf',[10.000 85.000]
 
-
 [Rules]
 1.000 2.000 , 3.000 (1.000) : 2
 2.000 1.000 , 1.000 (1.000) : 2
 -2.300 -1.300 , 2.000 (0.500) : 1
 -1.300 -2.300 , 2.000 (0.500) : 1
-

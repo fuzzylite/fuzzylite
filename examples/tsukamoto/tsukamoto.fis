@@ -1,7 +1,6 @@
 [System]
 Name=''
 Type='sugeno'
-Version=4.0
 NumInputs=1
 NumOutputs=3
 NumRules=3
@@ -19,7 +18,6 @@ NumMFs=3
 MF1='small':'gbellmf',[5.000 3.000 -10.000]
 MF2='medium':'gbellmf',[5.000 3.000 0.000]
 MF3='large':'gbellmf',[5.000 3.000 10.000]
-
 
 [Output1]
 Enabled=1
@@ -57,9 +55,7 @@ MF1='c1':'smf',[0.000 0.250]
 MF2='c2':'zmf',[0.300 0.600]
 MF3='c3':'smf',[0.700 1.000]
 
-
 [Rules]
 1.000 , 1.000 1.000 1.000 (1.000) : 1
 2.000 , 2.000 2.000 2.000 (1.000) : 1
 3.000 , 3.000 3.000 3.000 (1.000) : 1
-

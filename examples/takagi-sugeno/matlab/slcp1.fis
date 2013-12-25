@@ -1,7 +1,6 @@
 [System]
 Name='slcp1'
 Type='sugeno'
-Version=4.0
 NumInputs=5
 NumOutputs=1
 NumRules=3
@@ -44,7 +43,6 @@ MF1='small':'gaussmf',[0.200 0.500]
 MF2='medium':'gaussmf',[0.200 1.000]
 MF3='large':'gaussmf',[0.200 1.500]
 
-
 [Output1]
 Enabled=1
 Name='out'
@@ -57,9 +55,7 @@ MF1='outmf1':'linear',[32.166 5.835 3.162 3.757 0.000 0.000]
 MF2='outmf2':'linear',[39.012 9.947 3.162 4.269 0.000 0.000]
 MF3='outmf3':'linear',[45.009 13.985 3.162 4.666 0.000 0.000]
 
-
 [Rules]
 0.000 0.000 0.000 0.000 1.000 , 1.000 (1.000) : 1
 0.000 0.000 0.000 0.000 2.000 , 2.000 (1.000) : 1
 0.000 0.000 0.000 0.000 3.000 , 3.000 (1.000) : 1
-

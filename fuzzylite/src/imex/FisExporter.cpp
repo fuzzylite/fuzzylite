@@ -40,11 +40,11 @@ namespace fl {
         std::ostringstream fis;
         fis << exportSystem(engine) << "\n";
 
-        fis << exportInputs(engine) << "\n";
+        fis << exportInputs(engine);
 
-        fis << exportOutputs(engine) << "\n";
+        fis << exportOutputs(engine);
 
-        fis << exportRules(engine) << "\n";
+        fis << exportRules(engine);
 
         return fis.str();
     }
@@ -70,7 +70,7 @@ namespace fl {
         }
         fis << "Type='" << type << "'\n";
 
-        fis << "Version=" << FL_VERSION << "\n";
+        //        fis << "Version=" << FL_VERSION << "\n";
         fis << "NumInputs=" << engine->numberOfInputVariables() << "\n";
         fis << "NumOutputs=" << engine->numberOfOutputVariables() << "\n";
         if (engine->numberOfRuleBlocks() > 0)
@@ -258,7 +258,7 @@ namespace fl {
                 }
 
                 std::vector<Hedge*> hedges = proposition->hedges;
-                if (hedges.size() > 0) {
+                if (hedges.size() > 1) {
                     FL_DBG("[exporter warning] only a few combinations of multiple "
                             "hedges are supported in fis files");
                 }

@@ -59,13 +59,13 @@ namespace fl {
         int lineNumber = 0;
         try {
             while (not lineQueue.empty() or std::getline(fclReader, line)) {
-                if (not lineQueue.empty()){
+                if (not lineQueue.empty()) {
                     line = lineQueue.front();
                     lineQueue.pop();
-                }else{
+                } else {
                     std::vector<std::string> split = Op::split(line, _separator);
                     line = split.front();
-                    for (std::size_t i = 1 ; i < split.size(); ++i){
+                    for (std::size_t i = 1; i < split.size(); ++i) {
                         lineQueue.push(split.at(i));
                     }
                     ++lineNumber;
@@ -74,8 +74,8 @@ namespace fl {
                 if (line.empty()) continue;
                 std::size_t colon = line.find_first_of(':');
                 if (colon == std::string::npos) {
-                    throw fl::Exception("[import error] expected a colon in line <" +
-                            Op::str(lineNumber) + ">: " + line, FL_AT);
+                    throw fl::Exception("[import error] expected a colon at line " +
+                            Op::str(lineNumber) + ": " + line, FL_AT);
                 }
                 std::string key = Op::trim(line.substr(0, colon));
                 std::string value = Op::trim(line.substr(colon + 1));
@@ -83,7 +83,8 @@ namespace fl {
                     engine->setName(value);
                     continue;
                 } else {
-                    processPending = (key == "InputVariable" or key == "OutputVariable"
+                    processPending = (key == "InputVariable"
+                            or key == "OutputVariable"
                             or key == "RuleBlock");
                 }
                 if (processPending) {
@@ -199,12 +200,9 @@ namespace fl {
     }
 
     Term* FllImporter::parseTerm(const std::string& text, Engine* engine) const {
-        std::istringstream tokenizer(text);
-        std::string token;
-        std::vector<std::string> tokens;
-        while (tokenizer >> token) {
-            tokens.push_back(token);
-        }
+        if (text == "none") return NULL;
+        std::vector<std::string> tokens = Op::split(text, " ");
+
         //MEDIUM Triangle 0.500 1.000 1.500
 
         if (tokens.size() < 2) {
@@ -296,12 +294,11 @@ namespace fl {
         int sharp = start;
         while (sharp <= end) {
             if (line.at(sharp) == '#') {
-                end = sharp - 1; //prevent negative if sharp = 0
+                end = sharp - 1;
                 break;
             }
             ++sharp;
         }
-        //FL_LOG("s:" << start << " #:" << sharp << " e:" << end);
         while (end >= start and (line.at(end) == '#' or std::isspace(line.at(end)))) {
             --end;
         }
@@ -309,24 +306,5 @@ namespace fl {
         int length = end - start + 1;
         return line.substr(start, length);
     }
-
-    int FllImporter::main() {
-        FllImporter importer;
-        FllExporter exporter;
-        Engine* engine = Console::mamdani();
-        std::string fll = exporter.toString(engine);
-
-        Engine* back = importer.fromString(fll);
-        std::string fllback = exporter.toString(back);
-        FL_LOG(fll);
-        if (fll == fllback) {
-            FL_LOG("FLL SUCCESSFUL")
-        } else {
-            FL_LOG("FLL FAILED");
-        }
-
-        return 0;
-    }
-
 
 }

@@ -1,7 +1,6 @@
 [System]
 Name='Linear-Tip-Calculator'
 Type='sugeno'
-Version=4.0
 NumInputs=2
 NumOutputs=1
 NumRules=4
@@ -27,7 +26,6 @@ NumMFs=2
 MF1='Bad':'trapmf',[0.000 1.000 3.000 7.000]
 MF2='Good':'trapmf',[3.000 7.000 10.000 11.000]
 
-
 [Output1]
 Enabled=1
 Name='Tip'
@@ -40,10 +38,8 @@ MF1='TenPercent':'linear',[0.000 0.000 10.000]
 MF2='FifteenPercent':'linear',[0.000 0.000 15.000]
 MF3='TwentyPercent':'linear',[0.000 0.000 20.000]
 
-
 [Rules]
 1.000 1.000 , 1.000 (1.000) : 1
 1.000 2.000 , 2.000 (1.000) : 1
 2.000 1.000 , 2.000 (1.000) : 1
 2.000 2.000 , 3.000 (1.000) : 1
-

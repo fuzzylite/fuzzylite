@@ -127,23 +127,18 @@ namespace fl {
     }
 
     std::string FllExporter::toString(const Rule* rule) const {
-        std::ostringstream ss;
-        ss << "Rule: ";
-        if (rule) ss << rule->getText();
-        else ss << "none";
-        return ss.str();
+        if (rule) {
+            return "Rule: " + rule->getText();
+        }
+        return "Rule: none";
     }
 
     std::string FllExporter::toString(const Term* term) const {
-        std::ostringstream ss;
-        ss << "Term: ";
         if (term) {
-            ss << term->getName() << " " << term->className() << " "
-                    << term->parameters();
-        } else {
-            ss << "none";
+            return "Term: " + term->getName() + " " + term->className()
+                    + " " + term->parameters();
         }
-        return ss.str();
+        return "Term: none";
     }
 
     std::string FllExporter::toString(const Norm* norm) const {
@@ -152,18 +147,13 @@ namespace fl {
     }
 
     std::string FllExporter::toString(const Defuzzifier* defuzzifier) const {
-        std::ostringstream ss;
-        if (defuzzifier) {
-            ss << defuzzifier->className();
-            const IntegralDefuzzifier* integralDefuzzifier =
-                    dynamic_cast<const IntegralDefuzzifier*> (defuzzifier);
-            if (integralDefuzzifier) {
-                ss << " " << integralDefuzzifier->getResolution();
-            }
-        } else {
-            ss << "none";
+        if (not defuzzifier) return "none";
+        const IntegralDefuzzifier* integralDefuzzifier =
+                dynamic_cast<const IntegralDefuzzifier*> (defuzzifier);
+        if (integralDefuzzifier) {
+            return defuzzifier->className() + " " + Op::str<int>(integralDefuzzifier->getResolution());
         }
-        return ss.str();
+        return defuzzifier->className();
     }
 
 }

@@ -1,7 +1,6 @@
 [System]
 Name='Heart-Disease-Risk'
 Type='sugeno'
-Version=4.0
 NumInputs=2
 NumOutputs=1
 NumRules=15
@@ -31,7 +30,6 @@ MF1='LowHDL':'trapmf',[-1.000 0.000 35.000 45.000]
 MF2='ModerateHDL':'trapmf',[35.000 45.000 55.000 65.000]
 MF3='HighHDL':'trapmf',[55.000 65.000 100.000 101.000]
 
-
 [Output1]
 Enabled=1
 Name='HeartDiseaseRisk'
@@ -45,7 +43,6 @@ MF2='LowRisk':'constant',[2.500]
 MF3='MediumRisk':'constant',[5.000]
 MF4='HighRisk':'constant',[7.500]
 MF5='ExtremeRisk':'constant',[10.000]
-
 
 [Rules]
 1.000 1.000 , 3.000 (1.000) : 1
@@ -63,4 +60,3 @@ MF5='ExtremeRisk':'constant',[10.000]
 5.000 1.000 , 5.000 (1.000) : 1
 5.000 2.000 , 4.000 (1.000) : 1
 5.000 3.000 , 3.000 (1.000) : 1
-

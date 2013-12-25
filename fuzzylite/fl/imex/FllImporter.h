@@ -46,7 +46,6 @@ namespace fl {
 
         virtual std::string name() const;
         virtual Engine* fromString(const std::string& fll) const;
-        static int main();
 
     protected:
         virtual void process(const std::string& tag, const std::string& block, Engine* engine) const;
