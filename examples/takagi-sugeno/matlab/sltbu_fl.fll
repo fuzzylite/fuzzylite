@@ -1,25 +1,25 @@
 Engine: sltbu
 InputVariable: distance
   enabled: true
-  range: 0.00000000 25.00000000
-  Term: near ZShape 1.00000000 2.00000000
-  Term: far SShape 1.00000000 2.00000000
+  range: 0.000 25.000
+  Term: near ZShape 1.000 2.000
+  Term: far SShape 1.000 2.000
 InputVariable: control1
   enabled: true
-  range: -0.78500000 0.78500000
+  range: -0.785 0.785
 InputVariable: control2
   enabled: true
-  range: -0.78500000 0.78500000
+  range: -0.785 0.785
 OutputVariable: control
   enabled: true
-  range: -0.78500000 0.78500000
+  range: -0.785 0.785
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: WeightedAverage
   accumulation: Maximum
-  Term: out1mf1 Linear 0.00000000 0.00000000 1.00000000 0.00000000
-  Term: out1mf2 Linear 0.00000000 1.00000000 0.00000000 0.00000000
+  Term: out1mf1 Linear 0.000 0.000 1.000 0.000
+  Term: out1mf2 Linear 0.000 1.000 0.000 0.000
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct

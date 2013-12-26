@@ -1,36 +1,36 @@
 Engine: Mamdani-Tip-Calculator
 InputVariable: FoodQuality
   enabled: true
-  range: 1.00000000 10.00000000
-  Term: Bad Trapezoid 0.00000000 1.00000000 3.00000000 7.00000000
-  Term: Good Trapezoid 3.00000000 7.00000000 10.00000000 11.00000000
+  range: 1.000 10.000
+  Term: Bad Trapezoid 0.000 1.000 3.000 7.000
+  Term: Good Trapezoid 3.000 7.000 10.000 11.000
 InputVariable: Service
   enabled: true
-  range: 1.00000000 10.00000000
-  Term: Bad Trapezoid 0.00000000 1.00000000 3.00000000 7.00000000
-  Term: Good Trapezoid 3.00000000 7.00000000 10.00000000 11.00000000
+  range: 1.000 10.000
+  Term: Bad Trapezoid 0.000 1.000 3.000 7.000
+  Term: Good Trapezoid 3.000 7.000 10.000 11.000
 OutputVariable: Tip
   enabled: true
-  range: 0.00000000 30.00000000
+  range: 0.000 30.000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: Centroid 200
   accumulation: AlgebraicSum
-  Term: AboutTenPercent Gaussian 10.00000000 2.00000000
-  Term: AboutFifteenPercent Gaussian 15.00000000 2.00000000
-  Term: AboutTwentyPercent Gaussian 20.00000000 2.00000000
+  Term: AboutTenPercent Gaussian 10.000 2.000
+  Term: AboutFifteenPercent Gaussian 15.000 2.000
+  Term: AboutTwentyPercent Gaussian 20.000 2.000
 OutputVariable: CheckPlusTip
   enabled: true
-  range: 1.00000000 1.30000000
+  range: 1.000 1.300
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: Centroid 200
   accumulation: AlgebraicSum
-  Term: PlusAboutTenPercent Gaussian 1.10000000 0.02000000
-  Term: PlusAboutFifteenPercent Gaussian 1.15000000 0.02000000
-  Term: PlusAboutTwentyPercent Gaussian 1.20000000 0.02000000
+  Term: PlusAboutTenPercent Gaussian 1.100 0.020
+  Term: PlusAboutFifteenPercent Gaussian 1.150 0.020
+  Term: PlusAboutTwentyPercent Gaussian 1.200 0.020
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct

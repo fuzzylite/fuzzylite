@@ -1,26 +1,26 @@
 Engine: anfis
 InputVariable: in_n1
   enabled: true
-  range: 1.00000000 31.00000000
-  Term: in1mf1 Bell 2.25300000 16.22000000 5.05000000
-  Term: in1mf2 Bell 31.26000000 15.02100000 1.84300000
+  range: 1.000 31.000
+  Term: in1mf1 Bell 2.253 16.220 5.050
+  Term: in1mf2 Bell 31.260 15.021 1.843
 InputVariable: in_n2
   enabled: true
-  range: 1.00000000 31.00000000
-  Term: in2mf1 Bell 0.74000000 15.02100000 1.84300000
-  Term: in2mf2 Bell 29.74700000 16.22000000 5.05000000
+  range: 1.000 31.000
+  Term: in2mf1 Bell 0.740 15.021 1.843
+  Term: in2mf2 Bell 29.747 16.220 5.050
 OutputVariable: out1
   enabled: true
-  range: -0.33400000 1.00000000
+  range: -0.334 1.000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: WeightedAverage
   accumulation: Maximum
-  Term: out1mf1 Linear 0.02600000 0.07100000 -0.61500000
-  Term: out1mf2 Linear -0.03600000 0.03600000 -1.16900000
-  Term: out1mf3 Linear -0.09400000 0.09400000 2.23100000
-  Term: out1mf4 Linear -0.07100000 -0.02600000 2.47900000
+  Term: out1mf1 Linear 0.026 0.071 -0.615
+  Term: out1mf2 Linear -0.036 0.036 -1.169
+  Term: out1mf3 Linear -0.094 0.094 2.231
+  Term: out1mf4 Linear -0.071 -0.026 2.479
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct

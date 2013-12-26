@@ -80,13 +80,13 @@ namespace fl {
         }
         writer << Op::join(variables, separator) << "\n";
 
-        int resolution = (int) std::max(1.0, std::pow(
+        int resolution = -1 + (int) std::max(1.0, std::pow(
                 maximum, 1.0 / engine->numberOfInputVariables()));
         std::vector<int> sampleValues, minSampleValues, maxSampleValues;
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
             sampleValues.push_back(0);
             minSampleValues.push_back(0);
-            maxSampleValues.push_back(resolution - 1); //increment goes one more
+            maxSampleValues.push_back(resolution);
         }
 
         engine->restart();
@@ -97,7 +97,7 @@ namespace fl {
 
             for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
                 InputVariable* inputVariable = engine->getInputVariable(i);
-                scalar range = inputVariable->getMaximum() - inputVariable->getMinimum();
+                scalar range = inputVariable->range();
                 scalar inputValue = inputVariable->getMinimum()
                         + sampleValues.at(i) * range / resolution;
                 inputVariable->setInputValue(inputValue);

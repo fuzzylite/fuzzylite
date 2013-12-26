@@ -1,47 +1,47 @@
 Engine: qtfuzzylite
 InputVariable: AllInputTerms
   enabled: true
-  range: 0.00000000 6.50000000
-  Term: A Sigmoid 0.50000000 -20.00000000
-  Term: B ZShape 0.00000000 1.00000000
-  Term: C Ramp 1.00000000 0.00000000
-  Term: D Triangle 0.50000000 1.00000000 1.50000000
-  Term: E Trapezoid 1.00000000 1.25000000 1.75000000 2.00000000
-  Term: F Rectangle 1.75000000 2.25000000
-  Term: G Discrete 2.00000000 0.00000000 2.25000000 1.00000000 2.50000000 0.50000000 2.75000000 1.00000000 3.00000000 0.00000000
-  Term: H Gaussian 3.00000000 0.20000000
-  Term: I GaussianProduct 3.50000000 0.10000000 3.30000000 0.30000000
-  Term: J Bell 4.00000000 0.25000000 3.00000000
-  Term: K PiShape 4.00000000 4.50000000 4.50000000 5.00000000
-  Term: L SigmoidDifference 4.75000000 10.00000000 30.00000000 5.25000000
-  Term: M SigmoidProduct 5.25000000 20.00000000 -10.00000000 5.75000000
-  Term: N Ramp 5.50000000 6.50000000
-  Term: O SShape 5.50000000 6.50000000
-  Term: P Sigmoid 6.00000000 20.00000000
+  range: 0.000 6.500
+  Term: A Sigmoid 0.500 -20.000
+  Term: B ZShape 0.000 1.000
+  Term: C Ramp 1.000 0.000
+  Term: D Triangle 0.500 1.000 1.500
+  Term: E Trapezoid 1.000 1.250 1.750 2.000
+  Term: F Rectangle 1.750 2.250
+  Term: G Discrete 2.000 0.000 2.250 1.000 2.500 0.500 2.750 1.000 3.000 0.000
+  Term: H Gaussian 3.000 0.200
+  Term: I GaussianProduct 3.500 0.100 3.300 0.300
+  Term: J Bell 4.000 0.250 3.000
+  Term: K PiShape 4.000 4.500 4.500 5.000
+  Term: L SigmoidDifference 4.750 10.000 30.000 5.250
+  Term: M SigmoidProduct 5.250 20.000 -10.000 5.750
+  Term: N Ramp 5.500 6.500
+  Term: O SShape 5.500 6.500
+  Term: P Sigmoid 6.000 20.000
 OutputVariable: AllOutputTerms
   enabled: true
-  range: 0.00000000 6.50000000
+  range: 0.000 6.500
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: Centroid 200
   accumulation: Maximum
-  Term: A Sigmoid 0.50000000 -20.00000000
-  Term: B ZShape 0.00000000 1.00000000
-  Term: C Ramp 1.00000000 0.00000000
-  Term: D Triangle 0.50000000 1.00000000 1.50000000
-  Term: E Trapezoid 1.00000000 1.25000000 1.75000000 2.00000000
-  Term: F Rectangle 1.75000000 2.25000000
-  Term: G Discrete 2.00000000 0.00000000 2.25000000 1.00000000 2.50000000 0.50000000 2.75000000 1.00000000 3.00000000 0.00000000
-  Term: H Gaussian 3.00000000 0.20000000
-  Term: I GaussianProduct 3.50000000 0.10000000 3.30000000 0.30000000
-  Term: J Bell 4.00000000 0.25000000 3.00000000
-  Term: K PiShape 4.00000000 4.50000000 4.50000000 5.00000000
-  Term: L SigmoidDifference 4.75000000 10.00000000 30.00000000 5.25000000
-  Term: M SigmoidProduct 5.25000000 20.00000000 -10.00000000 5.75000000
-  Term: N Ramp 5.50000000 6.50000000
-  Term: O SShape 5.50000000 6.50000000
-  Term: P Sigmoid 6.00000000 20.00000000
+  Term: A Sigmoid 0.500 -20.000
+  Term: B ZShape 0.000 1.000
+  Term: C Ramp 1.000 0.000
+  Term: D Triangle 0.500 1.000 1.500
+  Term: E Trapezoid 1.000 1.250 1.750 2.000
+  Term: F Rectangle 1.750 2.250
+  Term: G Discrete 2.000 0.000 2.250 1.000 2.500 0.500 2.750 1.000 3.000 0.000
+  Term: H Gaussian 3.000 0.200
+  Term: I GaussianProduct 3.500 0.100 3.300 0.300
+  Term: J Bell 4.000 0.250 3.000
+  Term: K PiShape 4.000 4.500 4.500 5.000
+  Term: L SigmoidDifference 4.750 10.000 30.000 5.250
+  Term: M SigmoidProduct 5.250 20.000 -10.000 5.750
+  Term: N Ramp 5.500 6.500
+  Term: O SShape 5.500 6.500
+  Term: P Sigmoid 6.000 20.000
 RuleBlock: 
   enabled: true
   conjunction: Minimum

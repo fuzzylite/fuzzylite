@@ -1,19 +1,19 @@
 Engine: sugeno
 InputVariable: input
   enabled: true
-  range: -5.00000000 5.00000000
-  Term: low Gaussian -5.00000000 4.00000000
-  Term: high Gaussian 5.00000000 4.00000000
+  range: -5.000 5.000
+  Term: low Gaussian -5.000 4.000
+  Term: high Gaussian 5.000 4.000
 OutputVariable: output
   enabled: true
-  range: 0.00000000 1.00000000
+  range: 0.000 1.000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: WeightedAverage
   accumulation: Maximum
-  Term: line1 Linear -1.00000000 -1.00000000
-  Term: line2 Linear 1.00000000 -1.00000000
+  Term: line1 Linear -1.000 -1.000
+  Term: line2 Linear 1.000 -1.000
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct

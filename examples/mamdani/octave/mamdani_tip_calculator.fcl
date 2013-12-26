@@ -12,24 +12,24 @@ END_VAR
 
 FUZZIFY FoodQuality
   ENABLED : TRUE;
-  RANGE := (1.00000000 .. 10.00000000);
-  TERM Bad := Trapezoid 0.00000000 1.00000000 3.00000000 7.00000000;
-  TERM Good := Trapezoid 3.00000000 7.00000000 10.00000000 11.00000000;
+  RANGE := (1.000 .. 10.000);
+  TERM Bad := Trapezoid 0.000 1.000 3.000 7.000;
+  TERM Good := Trapezoid 3.000 7.000 10.000 11.000;
 END_FUZZIFY
 
 FUZZIFY Service
   ENABLED : TRUE;
-  RANGE := (1.00000000 .. 10.00000000);
-  TERM Bad := Trapezoid 0.00000000 1.00000000 3.00000000 7.00000000;
-  TERM Good := Trapezoid 3.00000000 7.00000000 10.00000000 11.00000000;
+  RANGE := (1.000 .. 10.000);
+  TERM Bad := Trapezoid 0.000 1.000 3.000 7.000;
+  TERM Good := Trapezoid 3.000 7.000 10.000 11.000;
 END_FUZZIFY
 
 DEFUZZIFY Tip
   ENABLED : TRUE;
-  RANGE := (0.00000000 .. 30.00000000);
-  TERM AboutTenPercent := Gaussian 10.00000000 2.00000000;
-  TERM AboutFifteenPercent := Gaussian 15.00000000 2.00000000;
-  TERM AboutTwentyPercent := Gaussian 20.00000000 2.00000000;
+  RANGE := (0.000 .. 30.000);
+  TERM AboutTenPercent := Gaussian 10.000 2.000;
+  TERM AboutFifteenPercent := Gaussian 15.000 2.000;
+  TERM AboutTwentyPercent := Gaussian 20.000 2.000;
   METHOD : COG;
   ACCU : ASUM;
   DEFAULT := nan;
@@ -37,10 +37,10 @@ END_DEFUZZIFY
 
 DEFUZZIFY CheckPlusTip
   ENABLED : TRUE;
-  RANGE := (1.00000000 .. 1.30000000);
-  TERM PlusAboutTenPercent := Gaussian 1.10000000 0.02000000;
-  TERM PlusAboutFifteenPercent := Gaussian 1.15000000 0.02000000;
-  TERM PlusAboutTwentyPercent := Gaussian 1.20000000 0.02000000;
+  RANGE := (1.000 .. 1.300);
+  TERM PlusAboutTenPercent := Gaussian 1.100 0.020;
+  TERM PlusAboutFifteenPercent := Gaussian 1.150 0.020;
+  TERM PlusAboutTwentyPercent := Gaussian 1.200 0.020;
   METHOD : COG;
   ACCU : ASUM;
   DEFAULT := nan;

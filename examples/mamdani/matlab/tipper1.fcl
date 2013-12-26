@@ -10,18 +10,18 @@ END_VAR
 
 FUZZIFY service
   ENABLED : TRUE;
-  RANGE := (0.00000000 .. 10.00000000);
-  TERM poor := Gaussian 0.00000000 1.50000000;
-  TERM good := Gaussian 5.00000000 1.50000000;
-  TERM excellent := Gaussian 10.00000000 1.50000000;
+  RANGE := (0.000 .. 10.000);
+  TERM poor := Gaussian 0.000 1.500;
+  TERM good := Gaussian 5.000 1.500;
+  TERM excellent := Gaussian 10.000 1.500;
 END_FUZZIFY
 
 DEFUZZIFY tip
   ENABLED : TRUE;
-  RANGE := (0.00000000 .. 30.00000000);
-  TERM cheap := Triangle 0.00000000 5.00000000 10.00000000;
-  TERM average := Triangle 10.00000000 15.00000000 20.00000000;
-  TERM generous := Triangle 20.00000000 25.00000000 30.00000000;
+  RANGE := (0.000 .. 30.000);
+  TERM cheap := Triangle 0.000 5.000 10.000;
+  TERM average := Triangle 10.000 15.000 20.000;
+  TERM generous := Triangle 20.000 25.000 30.000;
   METHOD : COG;
   ACCU : MAX;
   DEFAULT := nan;

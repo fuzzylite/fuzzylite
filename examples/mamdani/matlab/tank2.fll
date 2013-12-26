@@ -1,28 +1,28 @@
 Engine: tank
 InputVariable: level
   enabled: true
-  range: -1.00000000 1.00000000
-  Term: high Trapezoid -2.00000000 -1.00000000 -0.80000000 -0.00100000
-  Term: good Triangle -0.15000000 0.00000000 0.50000000
-  Term: low Trapezoid 0.00100000 0.80000000 1.00000000 1.50000000
+  range: -1.000 1.000
+  Term: high Trapezoid -2.000 -1.000 -0.800 -0.001
+  Term: good Triangle -0.150 0.000 0.500
+  Term: low Trapezoid 0.001 0.800 1.000 1.500
 InputVariable: change
   enabled: true
-  range: -0.10000000 0.10000000
-  Term: falling Trapezoid -0.14000000 -0.10000000 -0.06000000 0.00000000
-  Term: rising Trapezoid -0.00100000 0.06000000 0.10000000 0.14000000
+  range: -0.100 0.100
+  Term: falling Trapezoid -0.140 -0.100 -0.060 0.000
+  Term: rising Trapezoid -0.001 0.060 0.100 0.140
 OutputVariable: valve
   enabled: true
-  range: -1.00000000 1.00000000
+  range: -1.000 1.000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: Centroid 200
   accumulation: Maximum
-  Term: close_fast Triangle -1.00000000 -0.90000000 -0.80000000
-  Term: close_slow Triangle -0.60000000 -0.50000000 -0.40000000
-  Term: no_change Triangle -0.10000000 0.00000000 0.10000000
-  Term: open_slow Triangle 0.40000000 0.50000000 0.60000000
-  Term: open_fast Triangle 0.80000000 0.90000000 1.00000000
+  Term: close_fast Triangle -1.000 -0.900 -0.800
+  Term: close_slow Triangle -0.600 -0.500 -0.400
+  Term: no_change Triangle -0.100 0.000 0.100
+  Term: open_slow Triangle 0.400 0.500 0.600
+  Term: open_fast Triangle 0.800 0.900 1.000
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct

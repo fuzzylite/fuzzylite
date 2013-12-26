@@ -1,33 +1,33 @@
 Engine: anfis
 InputVariable: in_n1
   enabled: true
-  range: 1.00000000 31.00000000
-  Term: in1mf1 Bell 1.15200000 8.20600000 0.87400000
-  Term: in1mf2 Bell 15.88200000 7.07800000 0.44400000
-  Term: in1mf3 Bell 30.57500000 8.60200000 0.81800000
+  range: 1.000 31.000
+  Term: in1mf1 Bell 1.152 8.206 0.874
+  Term: in1mf2 Bell 15.882 7.078 0.444
+  Term: in1mf3 Bell 30.575 8.602 0.818
 InputVariable: in_n2
   enabled: true
-  range: 1.00000000 31.00000000
-  Term: in2mf1 Bell 1.42600000 8.60200000 0.81800000
-  Term: in2mf2 Bell 16.11800000 7.07800000 0.44500000
-  Term: in2mf3 Bell 30.84700000 8.20600000 0.87500000
+  range: 1.000 31.000
+  Term: in2mf1 Bell 1.426 8.602 0.818
+  Term: in2mf2 Bell 16.118 7.078 0.445
+  Term: in2mf3 Bell 30.847 8.206 0.875
 OutputVariable: out1
   enabled: true
-  range: -0.33400000 1.00000000
+  range: -0.334 1.000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: WeightedAverage
   accumulation: Maximum
-  Term: out1mf1 Linear -0.03500000 0.00200000 -0.35200000
-  Term: out1mf2 Linear 0.04400000 0.07900000 -0.02800000
-  Term: out1mf3 Linear -0.02400000 0.02400000 -1.59900000
-  Term: out1mf4 Linear -0.06700000 0.38400000 0.00700000
-  Term: out1mf5 Linear 0.35100000 -0.35100000 -3.66300000
-  Term: out1mf6 Linear -0.07900000 -0.04400000 3.90900000
-  Term: out1mf7 Linear 0.01200000 -0.01200000 -0.60000000
-  Term: out1mf8 Linear -0.38400000 0.06700000 10.15800000
-  Term: out1mf9 Linear -0.00200000 0.03500000 -1.40200000
+  Term: out1mf1 Linear -0.035 0.002 -0.352
+  Term: out1mf2 Linear 0.044 0.079 -0.028
+  Term: out1mf3 Linear -0.024 0.024 -1.599
+  Term: out1mf4 Linear -0.067 0.384 0.007
+  Term: out1mf5 Linear 0.351 -0.351 -3.663
+  Term: out1mf6 Linear -0.079 -0.044 3.909
+  Term: out1mf7 Linear 0.012 -0.012 -0.600
+  Term: out1mf8 Linear -0.384 0.067 10.158
+  Term: out1mf9 Linear -0.002 0.035 -1.402
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct

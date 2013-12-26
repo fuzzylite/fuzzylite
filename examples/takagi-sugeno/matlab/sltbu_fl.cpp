@@ -7,34 +7,34 @@ engine->setName("sltbu");
 fl::InputVariable* inputVariable1 = new fl::InputVariable;
 inputVariable1->setEnabled(true);
 inputVariable1->setName("distance");
-inputVariable1->setRange(0.00000000, 25.00000000);
-inputVariable1->addTerm(new fl::ZShape("near", 1.00000000, 2.00000000));
-inputVariable1->addTerm(new fl::SShape("far", 1.00000000, 2.00000000));
+inputVariable1->setRange(0.000, 25.000);
+inputVariable1->addTerm(new fl::ZShape("near", 1.000, 2.000));
+inputVariable1->addTerm(new fl::SShape("far", 1.000, 2.000));
 engine->addInputVariable(inputVariable1);
 
 fl::InputVariable* inputVariable2 = new fl::InputVariable;
 inputVariable2->setEnabled(true);
 inputVariable2->setName("control1");
-inputVariable2->setRange(-0.78500000, 0.78500000);
+inputVariable2->setRange(-0.785, 0.785);
 engine->addInputVariable(inputVariable2);
 
 fl::InputVariable* inputVariable3 = new fl::InputVariable;
 inputVariable3->setEnabled(true);
 inputVariable3->setName("control2");
-inputVariable3->setRange(-0.78500000, 0.78500000);
+inputVariable3->setRange(-0.785, 0.785);
 engine->addInputVariable(inputVariable3);
 
 fl::OutputVariable* outputVariable = new fl::OutputVariable;
 outputVariable->setEnabled(true);
 outputVariable->setName("control");
-outputVariable->setRange(-0.78500000, 0.78500000);
+outputVariable->setRange(-0.785, 0.785);
 outputVariable->setLockOutputRange(false);
 outputVariable->setDefaultValue(fl::nan);
 outputVariable->setLockValidOutput(false);
 outputVariable->setDefuzzifier(new fl::WeightedAverage);
 outputVariable->fuzzyOutput()->setAccumulation(new fl::Maximum);
-outputVariable->addTerm(fl::Linear::create("out1mf1", engine->inputVariables(), 0.00000000, 0.00000000, 1.00000000, 0.00000000));
-outputVariable->addTerm(fl::Linear::create("out1mf2", engine->inputVariables(), 0.00000000, 1.00000000, 0.00000000, 0.00000000));
+outputVariable->addTerm(fl::Linear::create("out1mf1", engine->inputVariables(), 0.000, 0.000, 1.000, 0.000));
+outputVariable->addTerm(fl::Linear::create("out1mf2", engine->inputVariables(), 0.000, 1.000, 0.000, 0.000));
 engine->addOutputVariable(outputVariable);
 
 fl::RuleBlock* ruleBlock = new fl::RuleBlock;
