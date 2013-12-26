@@ -63,7 +63,7 @@ namespace fl {
 
         if (Op::isLt(x, _a) or Op::isGt(x, _d))
             return 0.0;
-        else if (Op::isLE(x, _b))
+        else if (Op::isLt(x, _b))
             return Op::min(1.0, (x - _a) / (_b - _a));
         else if (Op::isLE(x, _c))
             return 1.0;
