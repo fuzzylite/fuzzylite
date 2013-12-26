@@ -346,23 +346,6 @@
            <enum>QAbstractItemView::SelectRows</enum>
           </property>
          </widget>
-         <widget class="QPlainTextEdit" name="ptx_terms">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="lineWrapMode">
-           <enum>QPlainTextEdit::NoWrap</enum>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-          <property name="plainText">
-           <string>No terms selected</string>
-          </property>
-         </widget>
         </widget>
        </item>
       </layout>

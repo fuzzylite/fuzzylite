@@ -205,17 +205,14 @@ namespace fl {
         }
 
         void Variable::showSelectedTerms() {
-            ui->ptx_terms->clear();
-            //            bool empty =true true;
+            //            ui->ptx_terms->clear();
             for (int i = 0; i < ui->lvw_terms->count(); ++i) {
                 if (ui->lvw_terms->item(i)->isSelected()) {
-                    //                    empty = false;
                     viewer->draw(variable->getTerm(i));
-                    ui->ptx_terms->appendPlainText(QString::fromStdString(
-                            variable->getTerm(i)->toString()));
+                    //                    ui->ptx_terms->appendPlainText(QString::fromStdString(
+                    //                            variable->getTerm(i)->toString()));
                 }
             }
-            //            if (empty) ui->ptx_terms->appendPlainText("No terms selected");
         }
 
         /**
@@ -459,7 +456,13 @@ namespace fl {
 
             ui->lvw_terms->clear();
             for (int i = 0; i < variable->numberOfTerms(); ++i) {
-                ui->lvw_terms->addItem(QString::fromStdString(variable->getTerm(i)->getName()));
+                fl::Term* term = variable->getTerm(i);
+                std::string text = term->getName() + " " + term->className()
+                        + " " + term->parameters();
+                QListWidgetItem* item = new QListWidgetItem;
+                item->setText(QString::fromStdString(text));
+                item->setToolTip(QString::fromStdString(text));
+                ui->lvw_terms->addItem(item);
             }
 
             OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (variable);
