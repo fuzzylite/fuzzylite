@@ -13,45 +13,45 @@ DefuzzMethod='centroid'
 [Input1]
 Enabled=1
 Name='FoodQuality'
-Range=[1.000 10.000]
+Range=[1.00000000 10.00000000]
 NumMFs=2
-MF1='Bad':'trapmf',[0.000 1.000 3.000 7.000]
-MF2='Good':'trapmf',[3.000 7.000 10.000 11.000]
+MF1='Bad':'trapmf',[0.00000000 1.00000000 3.00000000 7.00000000]
+MF2='Good':'trapmf',[3.00000000 7.00000000 10.00000000 11.00000000]
 
 [Input2]
 Enabled=1
 Name='Service'
-Range=[1.000 10.000]
+Range=[1.00000000 10.00000000]
 NumMFs=2
-MF1='Bad':'trapmf',[0.000 1.000 3.000 7.000]
-MF2='Good':'trapmf',[3.000 7.000 10.000 11.000]
+MF1='Bad':'trapmf',[0.00000000 1.00000000 3.00000000 7.00000000]
+MF2='Good':'trapmf',[3.00000000 7.00000000 10.00000000 11.00000000]
 
 [Output1]
 Enabled=1
 Name='Tip'
-Range=[0.000 30.000]
+Range=[0.00000000 30.00000000]
 Default=nan
 LockValid=0
 LockRange=0
 NumMFs=3
-MF1='AboutTenPercent':'gaussmf',[2.000 10.000]
-MF2='AboutFifteenPercent':'gaussmf',[2.000 15.000]
-MF3='AboutTwentyPercent':'gaussmf',[2.000 20.000]
+MF1='AboutTenPercent':'gaussmf',[2.00000000 10.00000000]
+MF2='AboutFifteenPercent':'gaussmf',[2.00000000 15.00000000]
+MF3='AboutTwentyPercent':'gaussmf',[2.00000000 20.00000000]
 
 [Output2]
 Enabled=1
 Name='CheckPlusTip'
-Range=[1.000 1.300]
+Range=[1.00000000 1.30000000]
 Default=nan
 LockValid=0
 LockRange=0
 NumMFs=3
-MF1='PlusAboutTenPercent':'gaussmf',[0.020 1.100]
-MF2='PlusAboutFifteenPercent':'gaussmf',[0.020 1.150]
-MF3='PlusAboutTwentyPercent':'gaussmf',[0.020 1.200]
+MF1='PlusAboutTenPercent':'gaussmf',[0.02000000 1.10000000]
+MF2='PlusAboutFifteenPercent':'gaussmf',[0.02000000 1.15000000]
+MF3='PlusAboutTwentyPercent':'gaussmf',[0.02000000 1.20000000]
 
 [Rules]
-1.000 1.000 , 1.000 1.000 (1.000) : 1
-1.000 2.000 , 2.000 2.000 (1.000) : 1
-2.000 1.000 , 2.000 2.000 (1.000) : 1
-2.000 2.000 , 3.000 3.000 (1.000) : 1
+1.00000000 1.00000000 , 1.00000000 1.00000000 (1.00000000) : 1
+1.00000000 2.00000000 , 2.00000000 2.00000000 (1.00000000) : 1
+2.00000000 1.00000000 , 2.00000000 2.00000000 (1.00000000) : 1
+2.00000000 2.00000000 , 3.00000000 3.00000000 (1.00000000) : 1

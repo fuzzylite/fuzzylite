@@ -1,21 +1,21 @@
 Engine: simple-dimmer
 InputVariable: Ambient
   enabled: true
-  range: 0.000 1.000
-  Term: DARK Triangle 0.000 0.250 0.500
-  Term: MEDIUM Triangle 0.250 0.500 0.750
-  Term: BRIGHT Triangle 0.500 0.750 1.000
+  range: 0.00000000 1.00000000
+  Term: DARK Triangle 0.00000000 0.25000000 0.50000000
+  Term: MEDIUM Triangle 0.25000000 0.50000000 0.75000000
+  Term: BRIGHT Triangle 0.50000000 0.75000000 1.00000000
 OutputVariable: Power
   enabled: true
-  range: 0.000 1.000
+  range: 0.00000000 1.00000000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: Centroid 200
   accumulation: Maximum
-  Term: LOW Triangle 0.000 0.250 0.500
-  Term: MEDIUM Triangle 0.250 0.500 0.750
-  Term: HIGH Triangle 0.500 0.750 1.000
+  Term: LOW Triangle 0.00000000 0.25000000 0.50000000
+  Term: MEDIUM Triangle 0.25000000 0.50000000 0.75000000
+  Term: HIGH Triangle 0.50000000 0.75000000 1.00000000
 RuleBlock: 
   enabled: true
   conjunction: none

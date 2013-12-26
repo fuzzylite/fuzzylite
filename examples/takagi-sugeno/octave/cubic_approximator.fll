@@ -1,37 +1,37 @@
 Engine: Cubic-Approximator
 InputVariable: X
   enabled: true
-  range: -5.000 5.000
-  Term: AboutNegFive Triangle -6.000 -5.000 -4.000
-  Term: AboutNegFour Triangle -5.000 -4.000 -3.000
-  Term: AboutNegThree Triangle -4.000 -3.000 -2.000
-  Term: AboutNegTwo Triangle -3.000 -2.000 -1.000
-  Term: AboutNegOne Triangle -2.000 -1.000 0.000
-  Term: AboutZero Triangle -1.000 0.000 1.000
-  Term: AboutOne Triangle 0.000 1.000 2.000
-  Term: AboutTwo Triangle 1.000 2.000 3.000
-  Term: AboutThree Triangle 2.000 3.000 4.000
-  Term: AboutFour Triangle 3.000 4.000 5.000
-  Term: AboutFive Triangle 4.000 5.000 6.000
+  range: -5.00000000 5.00000000
+  Term: AboutNegFive Triangle -6.00000000 -5.00000000 -4.00000000
+  Term: AboutNegFour Triangle -5.00000000 -4.00000000 -3.00000000
+  Term: AboutNegThree Triangle -4.00000000 -3.00000000 -2.00000000
+  Term: AboutNegTwo Triangle -3.00000000 -2.00000000 -1.00000000
+  Term: AboutNegOne Triangle -2.00000000 -1.00000000 0.00000000
+  Term: AboutZero Triangle -1.00000000 0.00000000 1.00000000
+  Term: AboutOne Triangle 0.00000000 1.00000000 2.00000000
+  Term: AboutTwo Triangle 1.00000000 2.00000000 3.00000000
+  Term: AboutThree Triangle 2.00000000 3.00000000 4.00000000
+  Term: AboutFour Triangle 3.00000000 4.00000000 5.00000000
+  Term: AboutFive Triangle 4.00000000 5.00000000 6.00000000
 OutputVariable: ApproxXCubed
   enabled: true
-  range: -5.000 5.000
+  range: -5.00000000 5.00000000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: WeightedAverage
   accumulation: Maximum
-  Term: TangentatNegFive Linear 75.000 250.000
-  Term: TangentatNegFour Linear 48.000 128.000
-  Term: TangentatNegThree Linear 27.000 54.000
-  Term: TangentatNegTwo Linear 12.000 16.000
-  Term: TangentatNegOne Linear 3.000 2.000
-  Term: TangentatZero Linear 0.000 0.000
-  Term: TangentatOne Linear 3.000 -2.000
-  Term: TangentatTwo Linear 12.000 -16.000
-  Term: TangentatThree Linear 27.000 -54.000
-  Term: TangentatFour Linear 48.000 -128.000
-  Term: TangentatFive Linear 75.000 -250.000
+  Term: TangentatNegFive Linear 75.00000000 250.00000000
+  Term: TangentatNegFour Linear 48.00000000 128.00000000
+  Term: TangentatNegThree Linear 27.00000000 54.00000000
+  Term: TangentatNegTwo Linear 12.00000000 16.00000000
+  Term: TangentatNegOne Linear 3.00000000 2.00000000
+  Term: TangentatZero Linear 0.00000000 0.00000000
+  Term: TangentatOne Linear 3.00000000 -2.00000000
+  Term: TangentatTwo Linear 12.00000000 -16.00000000
+  Term: TangentatThree Linear 27.00000000 -54.00000000
+  Term: TangentatFour Linear 48.00000000 -128.00000000
+  Term: TangentatFive Linear 75.00000000 -250.00000000
 RuleBlock: 
   enabled: true
   conjunction: Minimum

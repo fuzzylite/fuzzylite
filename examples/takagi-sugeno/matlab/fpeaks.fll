@@ -1,42 +1,42 @@
 Engine: peaks
 InputVariable: in1
   enabled: true
-  range: -3.000 3.000
-  Term: in1mf1 Bell -2.233 1.578 2.151
-  Term: in1mf2 Bell -0.394 0.753 1.838
-  Term: in1mf3 Bell 0.497 0.689 1.844
-  Term: in1mf4 Bell 2.270 1.528 2.156
+  range: -3.00000000 3.00000000
+  Term: in1mf1 Bell -2.23300000 1.57800000 2.15100000
+  Term: in1mf2 Bell -0.39400000 0.75300000 1.83800000
+  Term: in1mf3 Bell 0.49700000 0.68900000 1.84400000
+  Term: in1mf4 Bell 2.27000000 1.52800000 2.15600000
 InputVariable: in2
   enabled: true
-  range: -3.000 3.000
-  Term: in1mf1 Bell -2.686 1.267 2.044
-  Term: in1mf2 Bell -0.836 1.266 1.796
-  Term: in1mf3 Bell 0.859 1.314 1.937
-  Term: in1mf4 Bell 2.727 1.214 2.047
+  range: -3.00000000 3.00000000
+  Term: in1mf1 Bell -2.68600000 1.26700000 2.04400000
+  Term: in1mf2 Bell -0.83600000 1.26600000 1.79600000
+  Term: in1mf3 Bell 0.85900000 1.31400000 1.93700000
+  Term: in1mf4 Bell 2.72700000 1.21400000 2.04700000
 OutputVariable: out1
   enabled: true
-  range: -10.000 10.000
+  range: -10.00000000 10.00000000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: WeightedAverage
   accumulation: Maximum
-  Term: out1mf1 Linear 0.155 -2.228 -8.974
-  Term: out1mf2 Linear -0.312 -7.705 -9.055
-  Term: out1mf3 Linear -0.454 -4.437 6.930
-  Term: out1mf4 Linear 0.248 -1.122 5.081
-  Term: out1mf5 Linear -6.278 25.211 99.148
-  Term: out1mf6 Linear 5.531 105.916 157.283
-  Term: out1mf7 Linear 19.519 112.333 -127.796
-  Term: out1mf8 Linear -5.079 34.738 -143.414
-  Term: out1mf9 Linear -5.889 27.311 116.585
-  Term: out1mf10 Linear 21.517 97.266 93.802
-  Term: out1mf11 Linear 9.198 79.853 -118.482
-  Term: out1mf12 Linear -6.571 23.026 -87.747
-  Term: out1mf13 Linear 0.092 -1.126 -4.527
-  Term: out1mf14 Linear -0.304 -4.434 -6.561
-  Term: out1mf15 Linear -0.166 -6.284 7.307
-  Term: out1mf16 Linear 0.107 -2.028 8.159
+  Term: out1mf1 Linear 0.15500000 -2.22800000 -8.97400000
+  Term: out1mf2 Linear -0.31200000 -7.70500000 -9.05500000
+  Term: out1mf3 Linear -0.45400000 -4.43700000 6.93000000
+  Term: out1mf4 Linear 0.24800000 -1.12200000 5.08100000
+  Term: out1mf5 Linear -6.27800000 25.21100000 99.14800000
+  Term: out1mf6 Linear 5.53100000 105.91600000 157.28300000
+  Term: out1mf7 Linear 19.51900000 112.33300000 -127.79600000
+  Term: out1mf8 Linear -5.07900000 34.73800000 -143.41400000
+  Term: out1mf9 Linear -5.88900000 27.31100000 116.58500000
+  Term: out1mf10 Linear 21.51700000 97.26600000 93.80200000
+  Term: out1mf11 Linear 9.19800000 79.85300000 -118.48200000
+  Term: out1mf12 Linear -6.57100000 23.02600000 -87.74700000
+  Term: out1mf13 Linear 0.09200000 -1.12600000 -4.52700000
+  Term: out1mf14 Linear -0.30400000 -4.43400000 -6.56100000
+  Term: out1mf15 Linear -0.16600000 -6.28400000 7.30700000
+  Term: out1mf16 Linear 0.10700000 -2.02800000 8.15900000
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct

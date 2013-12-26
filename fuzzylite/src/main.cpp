@@ -199,7 +199,7 @@ int main(int argc, char** argv) {
 #endif
 
     try {
-        fuzzylite::setDecimals(3);
+        fuzzylite::setDecimals(8);
         exportAllExamples("fis", "fll");
         exportAllExamples("fis", "fcl");
         exportAllExamples("fis", "fis");

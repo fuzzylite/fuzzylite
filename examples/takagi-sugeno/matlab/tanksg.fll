@@ -1,29 +1,29 @@
 Engine: tanksg1
 InputVariable: level
   enabled: true
-  range: -1.000 1.000
-  Term: high Gaussian -1.000 0.300
-  Term: okay Gaussian 0.004 0.300
-  Term: low Gaussian 1.000 0.300
+  range: -1.00000000 1.00000000
+  Term: high Gaussian -1.00000000 0.30000000
+  Term: okay Gaussian 0.00400000 0.30000000
+  Term: low Gaussian 1.00000000 0.30000000
 InputVariable: rate
   enabled: true
-  range: -0.100 0.100
-  Term: negative Gaussian -0.100 0.030
-  Term: none Gaussian 0.000 0.030
-  Term: positive Gaussian 0.100 0.030
+  range: -0.10000000 0.10000000
+  Term: negative Gaussian -0.10000000 0.03000000
+  Term: none Gaussian 0.00000000 0.03000000
+  Term: positive Gaussian 0.10000000 0.03000000
 OutputVariable: valve
   enabled: true
-  range: -1.000 1.000
+  range: -1.00000000 1.00000000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: WeightedAverage
   accumulation: Maximum
-  Term: close_fast Constant -0.900
-  Term: close_slow Constant -0.500
-  Term: no_change Constant 0.000
-  Term: open_slow Constant 0.300
-  Term: open_fast Constant 0.900
+  Term: close_fast Constant -0.90000000
+  Term: close_slow Constant -0.50000000
+  Term: no_change Constant 0.00000000
+  Term: open_slow Constant 0.30000000
+  Term: open_fast Constant 0.90000000
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct

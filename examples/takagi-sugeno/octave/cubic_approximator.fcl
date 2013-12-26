@@ -10,34 +10,34 @@ END_VAR
 
 FUZZIFY X
   ENABLED : TRUE;
-  RANGE := (-5.000 .. 5.000);
-  TERM AboutNegFive := Triangle -6.000 -5.000 -4.000;
-  TERM AboutNegFour := Triangle -5.000 -4.000 -3.000;
-  TERM AboutNegThree := Triangle -4.000 -3.000 -2.000;
-  TERM AboutNegTwo := Triangle -3.000 -2.000 -1.000;
-  TERM AboutNegOne := Triangle -2.000 -1.000 0.000;
-  TERM AboutZero := Triangle -1.000 0.000 1.000;
-  TERM AboutOne := Triangle 0.000 1.000 2.000;
-  TERM AboutTwo := Triangle 1.000 2.000 3.000;
-  TERM AboutThree := Triangle 2.000 3.000 4.000;
-  TERM AboutFour := Triangle 3.000 4.000 5.000;
-  TERM AboutFive := Triangle 4.000 5.000 6.000;
+  RANGE := (-5.00000000 .. 5.00000000);
+  TERM AboutNegFive := Triangle -6.00000000 -5.00000000 -4.00000000;
+  TERM AboutNegFour := Triangle -5.00000000 -4.00000000 -3.00000000;
+  TERM AboutNegThree := Triangle -4.00000000 -3.00000000 -2.00000000;
+  TERM AboutNegTwo := Triangle -3.00000000 -2.00000000 -1.00000000;
+  TERM AboutNegOne := Triangle -2.00000000 -1.00000000 0.00000000;
+  TERM AboutZero := Triangle -1.00000000 0.00000000 1.00000000;
+  TERM AboutOne := Triangle 0.00000000 1.00000000 2.00000000;
+  TERM AboutTwo := Triangle 1.00000000 2.00000000 3.00000000;
+  TERM AboutThree := Triangle 2.00000000 3.00000000 4.00000000;
+  TERM AboutFour := Triangle 3.00000000 4.00000000 5.00000000;
+  TERM AboutFive := Triangle 4.00000000 5.00000000 6.00000000;
 END_FUZZIFY
 
 DEFUZZIFY ApproxXCubed
   ENABLED : TRUE;
-  RANGE := (-5.000 .. 5.000);
-  TERM TangentatNegFive := Linear 75.000 250.000;
-  TERM TangentatNegFour := Linear 48.000 128.000;
-  TERM TangentatNegThree := Linear 27.000 54.000;
-  TERM TangentatNegTwo := Linear 12.000 16.000;
-  TERM TangentatNegOne := Linear 3.000 2.000;
-  TERM TangentatZero := Linear 0.000 0.000;
-  TERM TangentatOne := Linear 3.000 -2.000;
-  TERM TangentatTwo := Linear 12.000 -16.000;
-  TERM TangentatThree := Linear 27.000 -54.000;
-  TERM TangentatFour := Linear 48.000 -128.000;
-  TERM TangentatFive := Linear 75.000 -250.000;
+  RANGE := (-5.00000000 .. 5.00000000);
+  TERM TangentatNegFive := Linear 75.00000000 250.00000000;
+  TERM TangentatNegFour := Linear 48.00000000 128.00000000;
+  TERM TangentatNegThree := Linear 27.00000000 54.00000000;
+  TERM TangentatNegTwo := Linear 12.00000000 16.00000000;
+  TERM TangentatNegOne := Linear 3.00000000 2.00000000;
+  TERM TangentatZero := Linear 0.00000000 0.00000000;
+  TERM TangentatOne := Linear 3.00000000 -2.00000000;
+  TERM TangentatTwo := Linear 12.00000000 -16.00000000;
+  TERM TangentatThree := Linear 27.00000000 -54.00000000;
+  TERM TangentatFour := Linear 48.00000000 -128.00000000;
+  TERM TangentatFive := Linear 75.00000000 -250.00000000;
   METHOD : COGS;
   ACCU : MAX;
   DEFAULT := nan;

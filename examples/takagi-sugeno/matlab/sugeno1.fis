@@ -13,22 +13,22 @@ DefuzzMethod='wtaver'
 [Input1]
 Enabled=1
 Name='input'
-Range=[-5.000 5.000]
+Range=[-5.00000000 5.00000000]
 NumMFs=2
-MF1='low':'gaussmf',[4.000 -5.000]
-MF2='high':'gaussmf',[4.000 5.000]
+MF1='low':'gaussmf',[4.00000000 -5.00000000]
+MF2='high':'gaussmf',[4.00000000 5.00000000]
 
 [Output1]
 Enabled=1
 Name='output'
-Range=[0.000 1.000]
+Range=[0.00000000 1.00000000]
 Default=nan
 LockValid=0
 LockRange=0
 NumMFs=2
-MF1='line1':'linear',[-1.000 -1.000]
-MF2='line2':'linear',[1.000 -1.000]
+MF1='line1':'linear',[-1.00000000 -1.00000000]
+MF2='line2':'linear',[1.00000000 -1.00000000]
 
 [Rules]
-1.000 , 1.000 (1.000) : 1
-2.000 , 2.000 (1.000) : 1
+1.00000000 , 1.00000000 (1.00000000) : 1
+2.00000000 , 2.00000000 (1.00000000) : 1

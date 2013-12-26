@@ -1,43 +1,43 @@
 Engine: 
 InputVariable: X
   enabled: true
-  range: -10.000 10.000
-  Term: small Bell -10.000 5.000 3.000
-  Term: medium Bell 0.000 5.000 3.000
-  Term: large Bell 10.000 5.000 3.000
+  range: -10.00000000 10.00000000
+  Term: small Bell -10.00000000 5.00000000 3.00000000
+  Term: medium Bell 0.00000000 5.00000000 3.00000000
+  Term: large Bell 10.00000000 5.00000000 3.00000000
 OutputVariable: A
   enabled: true
-  range: 0.000 1.000
+  range: 0.00000000 1.00000000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: WeightedAverage
   accumulation: none
-  Term: a1 Ramp 0.000 0.250
-  Term: a2 Ramp 0.600 0.400
-  Term: a3 Ramp 0.700 1.000
+  Term: a1 Ramp 0.00000000 0.25000000
+  Term: a2 Ramp 0.60000000 0.40000000
+  Term: a3 Ramp 0.70000000 1.00000000
 OutputVariable: B
   enabled: true
-  range: 0.000 1.000
+  range: 0.00000000 1.00000000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: WeightedAverage
   accumulation: none
-  Term: b1 Sigmoid 0.130 30.000
-  Term: b2 Sigmoid 0.500 -30.000
-  Term: b3 Sigmoid 0.830 30.000
+  Term: b1 Sigmoid 0.13000000 30.00000000
+  Term: b2 Sigmoid 0.50000000 -30.00000000
+  Term: b3 Sigmoid 0.83000000 30.00000000
 OutputVariable: C
   enabled: true
-  range: 0.000 1.000
+  range: 0.00000000 1.00000000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: WeightedAverage
   accumulation: none
-  Term: c1 SShape 0.000 0.250
-  Term: c2 ZShape 0.300 0.600
-  Term: c3 SShape 0.700 1.000
+  Term: c1 SShape 0.00000000 0.25000000
+  Term: c2 ZShape 0.30000000 0.60000000
+  Term: c3 SShape 0.70000000 1.00000000
 RuleBlock: 
   enabled: true
   conjunction: none

@@ -18,22 +18,22 @@ engine.setName("sugeno");
 InputVariable inputVariable = new InputVariable();
 inputVariable.setEnabled(true);
 inputVariable.setName("input");
-inputVariable.setRange(-5.000, 5.000);
-inputVariable.addTerm(new Gaussian("low", -5.000, 4.000));
-inputVariable.addTerm(new Gaussian("high", 5.000, 4.000));
+inputVariable.setRange(-5.00000000, 5.00000000);
+inputVariable.addTerm(new Gaussian("low", -5.00000000, 4.00000000));
+inputVariable.addTerm(new Gaussian("high", 5.00000000, 4.00000000));
 engine.addInputVariable(inputVariable);
 
 OutputVariable outputVariable = new OutputVariable();
 outputVariable.setEnabled(true);
 outputVariable.setName("output");
-outputVariable.setRange(0.000, 1.000);
+outputVariable.setRange(0.00000000, 1.00000000);
 outputVariable.setLockOutputRange(false);
 outputVariable.setLockValidOutput(false);
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setDefuzzifier(new WeightedAverage());
 outputVariable.fuzzyOutput().setAccumulation(new Maximum());
-outputVariable.addTerm(Linear.create("line1", engine.getInputVariables(), -1.000, -1.000));
-outputVariable.addTerm(Linear.create("line2", engine.getInputVariables(), 1.000, -1.000));
+outputVariable.addTerm(Linear.create("line1", engine.getInputVariables(), -1.00000000, -1.00000000));
+outputVariable.addTerm(Linear.create("line2", engine.getInputVariables(), 1.00000000, -1.00000000));
 engine.addOutputVariable(outputVariable);
 
 RuleBlock ruleBlock = new RuleBlock();

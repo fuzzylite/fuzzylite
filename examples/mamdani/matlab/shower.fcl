@@ -12,28 +12,28 @@ END_VAR
 
 FUZZIFY temp
   ENABLED : TRUE;
-  RANGE := (-20.000 .. 20.000);
-  TERM cold := Trapezoid -30.000 -30.000 -15.000 0.000;
-  TERM good := Triangle -10.000 0.000 10.000;
-  TERM hot := Trapezoid 0.000 15.000 30.000 30.000;
+  RANGE := (-20.00000000 .. 20.00000000);
+  TERM cold := Trapezoid -30.00000000 -30.00000000 -15.00000000 0.00000000;
+  TERM good := Triangle -10.00000000 0.00000000 10.00000000;
+  TERM hot := Trapezoid 0.00000000 15.00000000 30.00000000 30.00000000;
 END_FUZZIFY
 
 FUZZIFY flow
   ENABLED : TRUE;
-  RANGE := (-1.000 .. 1.000);
-  TERM soft := Trapezoid -3.000 -3.000 -0.800 0.000;
-  TERM good := Triangle -0.400 0.000 0.400;
-  TERM hard := Trapezoid 0.000 0.800 3.000 3.000;
+  RANGE := (-1.00000000 .. 1.00000000);
+  TERM soft := Trapezoid -3.00000000 -3.00000000 -0.80000000 0.00000000;
+  TERM good := Triangle -0.40000000 0.00000000 0.40000000;
+  TERM hard := Trapezoid 0.00000000 0.80000000 3.00000000 3.00000000;
 END_FUZZIFY
 
 DEFUZZIFY cold
   ENABLED : TRUE;
-  RANGE := (-1.000 .. 1.000);
-  TERM closeFast := Triangle -1.000 -0.600 -0.300;
-  TERM closeSlow := Triangle -0.600 -0.300 0.000;
-  TERM steady := Triangle -0.300 0.000 0.300;
-  TERM openSlow := Triangle 0.000 0.300 0.600;
-  TERM openFast := Triangle 0.300 0.600 1.000;
+  RANGE := (-1.00000000 .. 1.00000000);
+  TERM closeFast := Triangle -1.00000000 -0.60000000 -0.30000000;
+  TERM closeSlow := Triangle -0.60000000 -0.30000000 0.00000000;
+  TERM steady := Triangle -0.30000000 0.00000000 0.30000000;
+  TERM openSlow := Triangle 0.00000000 0.30000000 0.60000000;
+  TERM openFast := Triangle 0.30000000 0.60000000 1.00000000;
   METHOD : COG;
   ACCU : MAX;
   DEFAULT := nan;
@@ -41,12 +41,12 @@ END_DEFUZZIFY
 
 DEFUZZIFY hot
   ENABLED : TRUE;
-  RANGE := (-1.000 .. 1.000);
-  TERM closeFast := Triangle -1.000 -0.600 -0.300;
-  TERM closeSlow := Triangle -0.600 -0.300 0.000;
-  TERM steady := Triangle -0.300 0.000 0.300;
-  TERM openSlow := Triangle 0.000 0.300 0.600;
-  TERM openFast := Triangle 0.300 0.600 1.000;
+  RANGE := (-1.00000000 .. 1.00000000);
+  TERM closeFast := Triangle -1.00000000 -0.60000000 -0.30000000;
+  TERM closeSlow := Triangle -0.60000000 -0.30000000 0.00000000;
+  TERM steady := Triangle -0.30000000 0.00000000 0.30000000;
+  TERM openSlow := Triangle 0.00000000 0.30000000 0.60000000;
+  TERM openFast := Triangle 0.30000000 0.60000000 1.00000000;
   METHOD : COG;
   ACCU : MAX;
   DEFAULT := nan;

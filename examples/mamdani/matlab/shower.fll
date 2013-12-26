@@ -1,42 +1,42 @@
 Engine: shower
 InputVariable: temp
   enabled: true
-  range: -20.000 20.000
-  Term: cold Trapezoid -30.000 -30.000 -15.000 0.000
-  Term: good Triangle -10.000 0.000 10.000
-  Term: hot Trapezoid 0.000 15.000 30.000 30.000
+  range: -20.00000000 20.00000000
+  Term: cold Trapezoid -30.00000000 -30.00000000 -15.00000000 0.00000000
+  Term: good Triangle -10.00000000 0.00000000 10.00000000
+  Term: hot Trapezoid 0.00000000 15.00000000 30.00000000 30.00000000
 InputVariable: flow
   enabled: true
-  range: -1.000 1.000
-  Term: soft Trapezoid -3.000 -3.000 -0.800 0.000
-  Term: good Triangle -0.400 0.000 0.400
-  Term: hard Trapezoid 0.000 0.800 3.000 3.000
+  range: -1.00000000 1.00000000
+  Term: soft Trapezoid -3.00000000 -3.00000000 -0.80000000 0.00000000
+  Term: good Triangle -0.40000000 0.00000000 0.40000000
+  Term: hard Trapezoid 0.00000000 0.80000000 3.00000000 3.00000000
 OutputVariable: cold
   enabled: true
-  range: -1.000 1.000
+  range: -1.00000000 1.00000000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: Centroid 200
   accumulation: Maximum
-  Term: closeFast Triangle -1.000 -0.600 -0.300
-  Term: closeSlow Triangle -0.600 -0.300 0.000
-  Term: steady Triangle -0.300 0.000 0.300
-  Term: openSlow Triangle 0.000 0.300 0.600
-  Term: openFast Triangle 0.300 0.600 1.000
+  Term: closeFast Triangle -1.00000000 -0.60000000 -0.30000000
+  Term: closeSlow Triangle -0.60000000 -0.30000000 0.00000000
+  Term: steady Triangle -0.30000000 0.00000000 0.30000000
+  Term: openSlow Triangle 0.00000000 0.30000000 0.60000000
+  Term: openFast Triangle 0.30000000 0.60000000 1.00000000
 OutputVariable: hot
   enabled: true
-  range: -1.000 1.000
+  range: -1.00000000 1.00000000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: Centroid 200
   accumulation: Maximum
-  Term: closeFast Triangle -1.000 -0.600 -0.300
-  Term: closeSlow Triangle -0.600 -0.300 0.000
-  Term: steady Triangle -0.300 0.000 0.300
-  Term: openSlow Triangle 0.000 0.300 0.600
-  Term: openFast Triangle 0.300 0.600 1.000
+  Term: closeFast Triangle -1.00000000 -0.60000000 -0.30000000
+  Term: closeSlow Triangle -0.60000000 -0.30000000 0.00000000
+  Term: steady Triangle -0.30000000 0.00000000 0.30000000
+  Term: openSlow Triangle 0.00000000 0.30000000 0.60000000
+  Term: openFast Triangle 0.30000000 0.60000000 1.00000000
 RuleBlock: 
   enabled: true
   conjunction: Minimum

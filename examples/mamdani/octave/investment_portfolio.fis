@@ -13,33 +13,33 @@ DefuzzMethod='centroid'
 [Input1]
 Enabled=1
 Name='Age'
-Range=[20.000 100.000]
+Range=[20.00000000 100.00000000]
 NumMFs=2
-MF1='Young':'zmf',[30.000 90.000]
-MF2='Old':'smf',[30.000 90.000]
+MF1='Young':'zmf',[30.00000000 90.00000000]
+MF2='Old':'smf',[30.00000000 90.00000000]
 
 [Input2]
 Enabled=1
 Name='RiskTolerance'
-Range=[0.000 10.000]
+Range=[0.00000000 10.00000000]
 NumMFs=2
-MF1='Low':'zmf',[2.000 8.000]
-MF2='High':'smf',[2.000 8.000]
+MF1='Low':'zmf',[2.00000000 8.00000000]
+MF2='High':'smf',[2.00000000 8.00000000]
 
 [Output1]
 Enabled=1
 Name='PercentageInStocks'
-Range=[0.000 100.000]
+Range=[0.00000000 100.00000000]
 Default=nan
 LockValid=0
 LockRange=0
 NumMFs=3
-MF1='AboutFifteen':'gaussmf',[10.000 15.000]
-MF2='AboutFifty':'gaussmf',[10.000 50.000]
-MF3='AboutEightyFive':'gaussmf',[10.000 85.000]
+MF1='AboutFifteen':'gaussmf',[10.00000000 15.00000000]
+MF2='AboutFifty':'gaussmf',[10.00000000 50.00000000]
+MF3='AboutEightyFive':'gaussmf',[10.00000000 85.00000000]
 
 [Rules]
-1.000 2.000 , 3.000 (1.000) : 2
-2.000 1.000 , 1.000 (1.000) : 2
--2.300 -1.300 , 2.000 (0.500) : 1
--1.300 -2.300 , 2.000 (0.500) : 1
+1.00000000 2.00000000 , 3.00000000 (1.00000000) : 2
+2.00000000 1.00000000 , 1.00000000 (1.00000000) : 2
+-2.30000000 -1.30000000 , 2.00000000 (0.50000000) : 1
+-1.30000000 -2.30000000 , 2.00000000 (0.50000000) : 1

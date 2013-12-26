@@ -13,34 +13,34 @@ DefuzzMethod='wtaver'
 [Input1]
 Enabled=1
 Name='distance'
-Range=[0.000 25.000]
+Range=[0.00000000 25.00000000]
 NumMFs=2
-MF1='near':'zmf',[1.000 2.000]
-MF2='far':'smf',[1.000 2.000]
+MF1='near':'zmf',[1.00000000 2.00000000]
+MF2='far':'smf',[1.00000000 2.00000000]
 
 [Input2]
 Enabled=1
 Name='control1'
-Range=[-0.785 0.785]
+Range=[-0.78500000 0.78500000]
 NumMFs=0
 
 [Input3]
 Enabled=1
 Name='control2'
-Range=[-0.785 0.785]
+Range=[-0.78500000 0.78500000]
 NumMFs=0
 
 [Output1]
 Enabled=1
 Name='control'
-Range=[-0.785 0.785]
+Range=[-0.78500000 0.78500000]
 Default=nan
 LockValid=0
 LockRange=0
 NumMFs=2
-MF1='out1mf1':'linear',[0.000 0.000 1.000 0.000]
-MF2='out1mf2':'linear',[0.000 1.000 0.000 0.000]
+MF1='out1mf1':'linear',[0.00000000 0.00000000 1.00000000 0.00000000]
+MF2='out1mf2':'linear',[0.00000000 1.00000000 0.00000000 0.00000000]
 
 [Rules]
-1.000 0.000 0.000 , 1.000 (1.000) : 1
-2.000 0.000 0.000 , 2.000 (1.000) : 1
+1.00000000 0.00000000 0.00000000 , 1.00000000 (1.00000000) : 1
+2.00000000 0.00000000 0.00000000 , 2.00000000 (1.00000000) : 1

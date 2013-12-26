@@ -1,38 +1,38 @@
 Engine: mam21
 InputVariable: angle
   enabled: true
-  range: -5.000 5.000
-  Term: small Bell -5.000 5.000 8.000
-  Term: big Bell 5.000 5.000 8.000
+  range: -5.00000000 5.00000000
+  Term: small Bell -5.00000000 5.00000000 8.00000000
+  Term: big Bell 5.00000000 5.00000000 8.00000000
 InputVariable: velocity
   enabled: true
-  range: -5.000 5.000
-  Term: small Bell -5.000 5.000 2.000
-  Term: big Bell 5.000 5.000 2.000
+  range: -5.00000000 5.00000000
+  Term: small Bell -5.00000000 5.00000000 2.00000000
+  Term: big Bell 5.00000000 5.00000000 2.00000000
 OutputVariable: force
   enabled: true
-  range: -5.000 5.000
+  range: -5.00000000 5.00000000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: Centroid 200
   accumulation: Maximum
-  Term: negBig Bell -5.000 1.670 8.000
-  Term: negSmall Bell -1.670 1.670 8.000
-  Term: posSmall Bell 1.670 1.670 8.000
-  Term: posBig Bell 5.000 1.670 8.000
+  Term: negBig Bell -5.00000000 1.67000000 8.00000000
+  Term: negSmall Bell -1.67000000 1.67000000 8.00000000
+  Term: posSmall Bell 1.67000000 1.67000000 8.00000000
+  Term: posBig Bell 5.00000000 1.67000000 8.00000000
 OutputVariable: force2
   enabled: true
-  range: -5.000 5.000
+  range: -5.00000000 5.00000000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: Centroid 200
   accumulation: Maximum
-  Term: negBig2 Bell -3.000 1.670 8.000
-  Term: negSmall2 Bell -1.000 1.670 8.000
-  Term: posSmall2 Bell 1.000 1.670 8.000
-  Term: posBig2 Bell 3.000 1.670 8.000
+  Term: negBig2 Bell -3.00000000 1.67000000 8.00000000
+  Term: negSmall2 Bell -1.00000000 1.67000000 8.00000000
+  Term: posSmall2 Bell 1.00000000 1.67000000 8.00000000
+  Term: posBig2 Bell 3.00000000 1.67000000 8.00000000
 RuleBlock: 
   enabled: true
   conjunction: Minimum

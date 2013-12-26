@@ -1,47 +1,47 @@
 Engine: Sugeno-Tip-Calculator
 InputVariable: FoodQuality
   enabled: true
-  range: 1.000 10.000
-  Term: Bad Trapezoid 0.000 1.000 3.000 7.000
-  Term: Good Trapezoid 3.000 7.000 10.000 11.000
+  range: 1.00000000 10.00000000
+  Term: Bad Trapezoid 0.00000000 1.00000000 3.00000000 7.00000000
+  Term: Good Trapezoid 3.00000000 7.00000000 10.00000000 11.00000000
 InputVariable: Service
   enabled: true
-  range: 1.000 10.000
-  Term: Bad Trapezoid 0.000 1.000 3.000 7.000
-  Term: Good Trapezoid 3.000 7.000 10.000 11.000
+  range: 1.00000000 10.00000000
+  Term: Bad Trapezoid 0.00000000 1.00000000 3.00000000 7.00000000
+  Term: Good Trapezoid 3.00000000 7.00000000 10.00000000 11.00000000
 OutputVariable: CheapTip
   enabled: true
-  range: 5.000 25.000
+  range: 5.00000000 25.00000000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: WeightedAverage
   accumulation: AlgebraicSum
-  Term: Low Constant 10.000
-  Term: Medium Constant 15.000
-  Term: High Constant 20.000
+  Term: Low Constant 10.00000000
+  Term: Medium Constant 15.00000000
+  Term: High Constant 20.00000000
 OutputVariable: AverageTip
   enabled: true
-  range: 5.000 25.000
+  range: 5.00000000 25.00000000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: WeightedAverage
   accumulation: AlgebraicSum
-  Term: Low Constant 10.000
-  Term: Medium Constant 15.000
-  Term: High Constant 20.000
+  Term: Low Constant 10.00000000
+  Term: Medium Constant 15.00000000
+  Term: High Constant 20.00000000
 OutputVariable: GenerousTip
   enabled: true
-  range: 5.000 25.000
+  range: 5.00000000 25.00000000
   default: nan
   lock-valid: false
   lock-range: false
   defuzzifier: WeightedAverage
   accumulation: AlgebraicSum
-  Term: Low Constant 10.000
-  Term: Medium Constant 15.000
-  Term: High Constant 20.000
+  Term: Low Constant 10.00000000
+  Term: Medium Constant 15.00000000
+  Term: High Constant 20.00000000
 RuleBlock: 
   enabled: true
   conjunction: EinsteinProduct
