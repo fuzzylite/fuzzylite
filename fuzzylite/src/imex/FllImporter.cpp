@@ -24,7 +24,7 @@
 
 #include "fl/Headers.h"
 
-#include <queue>
+#include <queue> 
 
 namespace fl {
 
@@ -251,7 +251,7 @@ namespace fl {
             IntegralDefuzzifier* integralDefuzzifier =
                     dynamic_cast<IntegralDefuzzifier*> (defuzzifier);
             if (integralDefuzzifier) {
-                integralDefuzzifier->setResolution(Op::toScalar(parameters.at(1)));
+                integralDefuzzifier->setResolution((int)Op::toScalar(parameters.at(1)));
             }
         }
         return defuzzifier;
@@ -286,9 +286,9 @@ namespace fl {
 
     std::string FllImporter::clean(const std::string& line) const {
         if (line.empty()) return line;
-        if (line.size() == 1) return std::isspace(line.at(0)) ? "" : line;
+        if (line.size() == 1) return isspace(line.at(0)) ? "" : line;
         int start = 0, end = line.size() - 1;
-        while (start <= end and std::isspace(line.at(start))) {
+        while (start <= end and isspace(line.at(start))) {
             ++start;
         }
         int sharp = start;
@@ -299,7 +299,7 @@ namespace fl {
             }
             ++sharp;
         }
-        while (end >= start and (line.at(end) == '#' or std::isspace(line.at(end)))) {
+        while (end >= start and (line.at(end) == '#' or isspace(line.at(end)))) {
             --end;
         }
 
