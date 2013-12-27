@@ -199,15 +199,15 @@ int main(int argc, char** argv) {
 #endif
 
     try {
-        fuzzylite::setDecimals(3);
-        exportAllExamples("fis", "fll");
-        exportAllExamples("fis", "fcl");
-        exportAllExamples("fis", "fis");
-        exportAllExamples("fis", "cpp");
-        exportAllExamples("fis", "java");
-        fuzzylite::setDecimals(8);
-        exportAllExamples("fis", "fld");
-        return 0;
+//        fuzzylite::setDecimals(3);
+//        exportAllExamples("fis", "fll");
+//        exportAllExamples("fis", "fcl");
+//        exportAllExamples("fis", "fis");
+//        exportAllExamples("fis", "cpp");
+//        exportAllExamples("fis", "java");
+//        fuzzylite::setDecimals(8);
+//        exportAllExamples("fis", "fld");
+//        return 0;
         return Console::main(argc, argv);
     } catch (fl::Exception& e) {
         FL_LOG(e.what());
