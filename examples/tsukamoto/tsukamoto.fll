@@ -42,7 +42,7 @@ RuleBlock:
   enabled: true
   conjunction: none
   disjunction: none
-  activation: Minimum
+  activation: AlgebraicProduct
   Rule: if X is small then A is a1 and B is b1 and C is c1
   Rule: if X is medium then A is a2 and B is b2 and C is c2
   Rule: if X is large then A is a3 and B is b3 and C is c3

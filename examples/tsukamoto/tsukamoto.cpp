@@ -60,7 +60,7 @@ ruleBlock->setEnabled(true);
 ruleBlock->setName("");
 ruleBlock->setConjunction(NULL);
 ruleBlock->setDisjunction(NULL);
-ruleBlock->setActivation(new fl::Minimum);
+ruleBlock->setActivation(new fl::AlgebraicProduct);
 ruleBlock->addRule(fl::Rule::parse("if X is small then A is a1 and B is b1 and C is c1", engine));
 ruleBlock->addRule(fl::Rule::parse("if X is medium then A is a2 and B is b2 and C is c2", engine));
 ruleBlock->addRule(fl::Rule::parse("if X is large then A is a3 and B is b3 and C is c3", engine));
