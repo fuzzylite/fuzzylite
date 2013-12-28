@@ -2011,7 +2011,7 @@ namespace fl {
                         + updates.first));
             } else {
                 QMessageBox::information(this, "Software Update",
-                        QString::fromStdString("<tt>qtfuzzylite</tt> is up-to-date<br>"
+                        QString::fromStdString("<tt>qtfuzzylite</tt> is already up-to-date<br>"
                         + updates.first));
             }
             delete reply;
@@ -2031,7 +2031,7 @@ namespace fl {
                         QString::fromStdString("There are <b>new</b> versions available!<br>"
                         + updates.first));
             } else {
-                FL_LOG("[automatic updates] qtfuzzylite is up-to-date");
+                FL_DBG("[automatic updates] qtfuzzylite is already up-to-date");
             }
             delete reply;
         }
