@@ -51,7 +51,7 @@ namespace fl {
             QCoreApplication::setOrganizationDomain("fuzzylite.com");
             QCoreApplication::setApplicationName(
                     QString::fromStdString("qtfuzzylite-" +
-                    fl::qt::qtfuzzylite::shortVersion()));
+                    fl::qt::qtfuzzylite::version()));
 
             QApplication::setWindowIcon(QIcon(":/qtfuzzylite.png"));
         }

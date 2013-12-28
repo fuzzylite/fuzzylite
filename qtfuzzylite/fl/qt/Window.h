@@ -31,9 +31,12 @@
 #include <QMainWindow>
 #include <QAction>
 #include <QWidgetAction>
+#include <QtNetwork/QNetworkReply>
+
 #include "ui_Window.h"
 
 #include <fl/Headers.h>
+#include <utility>
 
 #include "fl/qt/Model.h"
 #include "fl/qt/Viewer.h"
@@ -121,16 +124,21 @@ namespace fl {
             void onMenuAskForHelp();
             void onMenuJoinTheCommunity();
             void onMenuFollowOnTwitter();
+            void onMenuCheckForUpdates();
 
             void onMenuQuit();
-
-
+            
+            void automaticUpdates();
+            void updatesReplyFinished(QNetworkReply* reply);
+            void automaticUpdatesReplyFinished(QNetworkReply* reply);
+            
 
             void closeEvent(QCloseEvent* e);
 
         protected:
             void setupMenuAndToolbar();
             void connect();
+            std::pair<std::string, bool> onReplyFinished(QNetworkReply* reply);
 
             QMenu* _recentFiles;
             QString _currentFile;

@@ -239,6 +239,9 @@ namespace fl {
             QObject::connect(ui->actionFollowOnTwitter, SIGNAL(triggered()), this, SLOT(onMenuFollowOnTwitter()));
 
             menuHelp->addSeparator();
+            menuHelp->addAction(ui->actionCheckForUpdates);
+            QObject::connect(ui->actionCheckForUpdates, SIGNAL(triggered()), this, SLOT(onMenuCheckForUpdates()));
+            menuHelp->addSeparator();
 
             menuHelp->addAction(ui->actionAbout);
             QObject::connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(onMenuAbout()));
@@ -1046,11 +1049,11 @@ namespace fl {
             }
             onClickParseAllRules();
         }
- 
+
         void Window::onTabChange(int index) {
-            if (index == 1){
+            if (index == 1) {
                 ui->hly_rules_control->insertWidget(2, ui->qwd_cbx_norms);
-            }else if (index == 0){
+            } else if (index == 0) {
                 ui->hly_rules_setup->insertWidget(2, ui->qwd_cbx_norms);
             }
         }
@@ -1922,6 +1925,117 @@ namespace fl {
             this->close();
         }
 
+        void Window::onMenuCheckForUpdates() {
+            QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+            QObject::connect(manager, SIGNAL(finished(QNetworkReply*)),
+                    this, SLOT(updatesReplyFinished(QNetworkReply*)));
+
+            manager->get(QNetworkRequest(QUrl("http://www.fuzzylite.com/version.php")));
+        }
+
+        void Window::automaticUpdates() {
+            QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+            QObject::connect(manager, SIGNAL(finished(QNetworkReply*)),
+                    this, SLOT(automaticUpdatesReplyFinished(QNetworkReply*)));
+
+            manager->get(QNetworkRequest(QUrl("http://www.fuzzylite.com/version.php")));
+        }
+
+        std::pair<std::string, bool> Window::onReplyFinished(QNetworkReply* reply) {
+            if (reply->error() != QNetworkReply::NoError) {
+                throw fl::Exception("[network error] failed checking for updates", FL_AT);
+            }
+            static const std::string JFUZZYLITE = "1.0";
+            bool updates = false;
+            std::string message = "<table width='100%'>"
+                    "<tr><th/><th>Current</th><th>Newest</th></tr>";
+            QByteArray bytes = reply->readAll();
+            QString fuzzyliteVersions(bytes);
+            QList<QString> versions = fuzzyliteVersions.split("\n");
+            for (int i = 0; i < versions.size(); ++i) {
+                std::vector<std::string> keyValue =
+                        fl::Op::split(versions.at(i).toStdString(), ":");
+                if (keyValue.size() != 2) {
+                    FL_LOG("[network error] expected <key:value>, but received <"
+                            << versions.at(i).toStdString() << ">");
+                    continue;
+                }
+                std::pair<std::string, std::string> currentNew;
+                message += "<tr>";
+                if ("fuzzylite" == keyValue.front()) {
+                    message += "<td>fuzzylite</td>";
+                    currentNew.first = fl::fuzzylite::version();
+                } else if ("qtfuzzylite" == keyValue.front()) {
+                    message += "<td>qtfuzzylite</td>";
+                    currentNew.first = fl::qt::qtfuzzylite::version();
+                } else if ("jfuzzylite" == keyValue.front()) {
+                    message += "<td>jfuzzylite</td>";
+                    currentNew.first = JFUZZYLITE;
+                } else {
+                    message += "<td>" + keyValue.front() + "</td>";
+                    currentNew.first = "";
+                }
+                currentNew.second = Op::trim(keyValue.back());
+
+                message += "<td align='center'>&nbsp;" + currentNew.first + "&nbsp;</td>";
+                if (currentNew.first == currentNew.second) {
+                    message += "<td align='center'>&nbsp;" + currentNew.second + "&nbsp;</td>";
+                } else {
+                    updates = true;
+                    message += "<td align='center'>&nbsp;<b>" + currentNew.second + "</b>&nbsp;</td>";
+                }
+                message += "</tr>";
+            }
+            message += "</table><hr>";
+            message += "Visit <a href='http://www.fuzzylite.com'>www.fuzzylite.com</a> for more information";
+
+            return std::pair < std::string, bool>(message, updates);
+        }
+
+        void Window::updatesReplyFinished(QNetworkReply* reply) {
+            std::pair < std::string, bool> updates;
+            try {
+                updates = onReplyFinished(reply);
+            } catch (std::exception& ex) {
+                QMessageBox::critical(this, "Software Update",
+                        "An error occurred while checking for software updates.<br><br>"
+                        "Please, try again later or visit "
+                        "<a href='http://www.fuzzylite.com'>www.fuzzylite.com</a> "
+                        "for more information");
+                delete reply;
+                return;
+            }
+            if (updates.second) {
+                QMessageBox::information(this, "Software Update",
+                        QString::fromStdString("There are <b>new</b> versions available!<br>"
+                        + updates.first));
+            } else {
+                QMessageBox::information(this, "Software Update",
+                        QString::fromStdString("<tt>qtfuzzylite</tt> is up-to-date<br>"
+                        + updates.first));
+            }
+            delete reply;
+        }
+
+        void Window::automaticUpdatesReplyFinished(QNetworkReply* reply) {
+            std::pair < std::string, bool> updates;
+            try {
+                updates = onReplyFinished(reply);
+            } catch (std::exception& ex) {
+                FL_LOG("[network error] failed checking for software updates");
+                delete reply;
+                return;
+            }
+            if (updates.second) {
+                QMessageBox::information(this, "Software Update",
+                        QString::fromStdString("There are <b>new</b> versions available!<br>"
+                        + updates.first));
+            } else {
+                FL_LOG("[automatic updates] qtfuzzylite is up-to-date");
+            }
+            delete reply;
+        }
+
         void Window::closeEvent(QCloseEvent * e) {
             int result = QMessageBox::question(this, "Quit",
                     "<qt>Do you want to quit <b>qtfuzzylite</b>?</qt>",
@@ -1990,7 +2104,11 @@ namespace fl {
             w->show();
             splash.finish(w);
             w->onMenuAbout();
-
+            QSettings settings;
+            bool checkForUpdates = settings.value("general/checkForUpdates", true).toBool();
+            if (checkForUpdates) {
+                w->automaticUpdates();
+            }
             //            w->showMinimized();
             //            splash.finish(w);
             //            w->onMenuAbout();

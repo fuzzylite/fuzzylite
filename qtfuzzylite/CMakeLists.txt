@@ -117,6 +117,7 @@ if(FL_USE_QT5)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Network REQUIRED)
 
 link_libraries( ${QT_LIBRARIES} )
 if(WIN32)
@@ -135,7 +136,7 @@ add_executable(qtfuzzylite
                 ${qtfl-headers} ${qtfl-uis})
 set_target_properties(qtfuzzylite PROPERTIES DEBUG_POSTFIX -dbg)
 
-qt5_use_modules(qtfuzzylite Widgets)
+qt5_use_modules(qtfuzzylite Widgets Network)
 target_link_libraries(qtfuzzylite ${fl-shared${FL_CONF}})
 
 else()

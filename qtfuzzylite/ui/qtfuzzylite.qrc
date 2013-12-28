@@ -1,5 +1,6 @@
 <RCC>
   <qresource>
+    <file alias="updates.png">icons/internet-radio-new.png</file>
     <file alias="swap.png">icons/mail-send-receive.png</file>
     <file alias="twitter.png">icons/twitter-bird-light-bgs.png</file>
     <file alias="surface2d-generate.png">icons/applications-graphics.png</file>

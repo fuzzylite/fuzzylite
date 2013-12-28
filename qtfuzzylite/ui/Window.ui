@@ -630,7 +630,7 @@
                         <x>0</x>
                         <y>0</y>
                         <width>262</width>
-                        <height>90</height>
+                        <height>87</height>
                        </rect>
                       </property>
                       <property name="sizePolicy">
@@ -768,7 +768,7 @@
                         <x>0</x>
                         <y>0</y>
                         <width>262</width>
-                        <height>90</height>
+                        <height>87</height>
                        </rect>
                       </property>
                       <property name="sizePolicy">
@@ -1336,6 +1336,18 @@
    </property>
    <property name="toolTip">
     <string>Follow @fuzzylite on Twitter</string>
+   </property>
+  </action>
+  <action name="actionCheckForUpdates">
+   <property name="icon">
+    <iconset resource="qtfuzzylite.qrc">
+     <normaloff>:/updates.png</normaloff>:/updates.png</iconset>
+   </property>
+   <property name="text">
+    <string>Check for &amp;updates</string>
+   </property>
+   <property name="toolTip">
+    <string>Check for updates</string>
    </property>
   </action>
  </widget>

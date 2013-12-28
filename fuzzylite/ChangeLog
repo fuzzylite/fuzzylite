@@ -54,3 +54,4 @@ Version 4.0
 * Changed Engine::process() to consider enabled rule blocks
 * Changed OutputVariable::output() to OutputVariable::fuzzyOutput() 
 * Renamed Rectangle::minimum/maximum to Rectangle::start/end
+* Renamed fuzzylite::shortVersion to fuzzylite::version

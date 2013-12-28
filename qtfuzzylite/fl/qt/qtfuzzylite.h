@@ -52,7 +52,7 @@ namespace fl {
         public:
             static std::string name();
             static std::string fullname();
-            static std::string shortVersion();
+            static std::string version();
             static std::string longVersion();
             static std::string author();
 

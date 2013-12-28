@@ -37,7 +37,7 @@ namespace fl {
         return name() + "-" + longVersion();
     }
 
-    std::string fuzzylite::shortVersion() {
+    std::string fuzzylite::version() {
         return FL_VERSION;
     }
 

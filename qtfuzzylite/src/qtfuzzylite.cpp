@@ -38,7 +38,7 @@ namespace fl {
             return name() + "-" + longVersion();
         }
 
-        std::string qtfuzzylite::shortVersion() {
+        std::string qtfuzzylite::version() {
             return FLQT_VERSION;
         }
 
