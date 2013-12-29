@@ -2005,7 +2005,6 @@ namespace fl {
                         "Please, try again later or visit "
                         "<a href='http://www.fuzzylite.com'>www.fuzzylite.com</a> "
                         "for more information");
-                delete reply;
                 return;
             }
             QString message = (updates.second ? "There are <b>new</b> versions available!"
@@ -2022,7 +2021,6 @@ namespace fl {
             } else if (result == QMessageBox::No) {
                 settings.setValue("checkForUpdates", false);
             }
-            delete reply;
         }
 
         void Window::automaticUpdatesReplyFinished(QNetworkReply* reply) {
@@ -2031,7 +2029,6 @@ namespace fl {
                 updates = onReplyFinished(reply);
             } catch (std::exception& ex) {
                 FL_LOG("[network error] failed checking for software updates");
-                delete reply;
                 return;
             }
             if (updates.second) {
@@ -2051,7 +2048,6 @@ namespace fl {
             } else {
                 FL_LOG("[automatic updates] qtfuzzylite is already up-to-date");
             }
-            delete reply;
         }
 
         void Window::closeEvent(QCloseEvent * e) {
@@ -2126,7 +2122,7 @@ namespace fl {
             bool checkForUpdates = settings.value("checkForUpdates", true).toBool();
             if (checkForUpdates) {
                 w->automaticUpdates();
-            }
+            } 
             //            w->showMinimized();
             //            splash.finish(w);
             //            w->onMenuAbout();

@@ -141,8 +141,7 @@ target_link_libraries(qtfuzzylite ${fl-shared${FL_CONF}})
 
 else()
 #Use Qt4
-find_package(Qt4 REQUIRED)
-
+find_package(Qt4 REQUIRED QtGui QtCore QtNetwork)
 add_definitions(${QT_DEFINITIONS})
 include(${QT_USE_FILE})
 
