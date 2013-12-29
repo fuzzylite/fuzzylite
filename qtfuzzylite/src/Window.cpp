@@ -25,6 +25,8 @@
  *      Author: jcrada
  */
 
+//TODO: Change most QSettings properties to [General]
+
 #include "fl/qt/Window.h"
 #include "fl/qt/About.h"
 #include "fl/qt/ImEx.h"
@@ -2005,14 +2007,19 @@ namespace fl {
                 delete reply;
                 return;
             }
-            if (updates.second) {
-                QMessageBox::information(this, "Software Update",
-                        QString::fromStdString("There are <b>new</b> versions available!<br>"
-                        + updates.first));
-            } else {
-                QMessageBox::information(this, "Software Update",
-                        QString::fromStdString("<tt>qtfuzzylite</tt> is already up-to-date<br>"
-                        + updates.first));
+            QString message = (updates.second ? "There are <b>new</b> versions available!"
+                    : "<tt>qtfuzzylite</tt> is already up-to-date");
+            message += QString::fromStdString(updates.first) + "<hr/>";
+            message += "Do you want to check for updates at startup?";
+            QMessageBox::StandardButton result = QMessageBox::question(this,
+                    "Software Update", message,
+                    QMessageBox::Yes | QMessageBox::Default | QMessageBox::Escape,
+                    QMessageBox::No);
+            QSettings settings;
+            if (result == QMessageBox::Yes) {
+                settings.setValue("checkForUpdates", true);
+            } else if (result == QMessageBox::No) {
+                settings.setValue("checkForUpdates", false);
             }
             delete reply;
         }
@@ -2027,11 +2034,21 @@ namespace fl {
                 return;
             }
             if (updates.second) {
-                QMessageBox::information(this, "Software Update",
-                        QString::fromStdString("There are <b>new</b> versions available!<br>"
-                        + updates.first));
+                QString message = "There are <b>new</b> versions available!";
+                message += QString::fromStdString(updates.first) + "<hr/>";
+                message += "Do you want to check for updates at startup?";
+                QMessageBox::StandardButton result = QMessageBox::question(this,
+                        "Software Update", message,
+                        QMessageBox::Yes | QMessageBox::Default | QMessageBox::Escape,
+                        QMessageBox::No);
+                QSettings settings;
+                if (result == QMessageBox::Yes) {
+                    settings.setValue("checkForUpdates", true);
+                } else if (result == QMessageBox::No) {
+                    settings.setValue("checkForUpdates", false);
+                }
             } else {
-                FL_DBG("[automatic updates] qtfuzzylite is already up-to-date");
+                FL_LOG("[automatic updates] qtfuzzylite is already up-to-date");
             }
             delete reply;
         }
@@ -2105,7 +2122,7 @@ namespace fl {
             splash.finish(w);
             w->onMenuAbout();
             QSettings settings;
-            bool checkForUpdates = settings.value("general/checkForUpdates", true).toBool();
+            bool checkForUpdates = settings.value("checkForUpdates", true).toBool();
             if (checkForUpdates) {
                 w->automaticUpdates();
             }
