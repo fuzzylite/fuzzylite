@@ -32,7 +32,7 @@
 #include <QAction>
 #include <QWidgetAction>
 #include <QtNetwork/QNetworkReply>
-
+#include <QSettings>
 #include "ui_Window.h"
 
 #include <fl/Headers.h>

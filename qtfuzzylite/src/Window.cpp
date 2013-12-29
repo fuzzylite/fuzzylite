@@ -26,6 +26,7 @@
  */
 
 //TODO: Change most QSettings properties to [General]
+//TODO: Update forums and links.
 
 #include "fl/qt/Window.h"
 #include "fl/qt/About.h"
