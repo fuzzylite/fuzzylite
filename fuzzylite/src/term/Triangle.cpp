@@ -65,7 +65,7 @@ namespace fl {
 
         scalar minimum = _a;
         scalar maximum = _c;
-        if (Op::isLt(x, minimum) or Op::isGt(x, maximum))
+        if (Op::isLE(x, minimum) or Op::isGE(x, maximum))
             return 0.0;
         else if (Op::isEq(x, _b))
             return 1.0;
