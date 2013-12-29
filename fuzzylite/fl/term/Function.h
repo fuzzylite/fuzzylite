@@ -110,7 +110,7 @@ namespace fl {
         virtual void loadOperators();
 
     protected:
-        std::string _text;
+        std::string _formula;
         const Engine* _engine;
 
         /**
@@ -128,11 +128,11 @@ namespace fl {
         std::map<std::string, Operator*> operators;
         std::map<std::string, BuiltInFunction*> functions;
         Function(const std::string& name = "",
-                const std::string& infix = "", const Engine* engine = NULL);
+                const std::string& formula = "", const Engine* engine = NULL);
         virtual ~Function();
 
         static Function* create(const std::string& name,
-                const std::string& infix,
+                const std::string& formula,
                 const Engine* engine = NULL,
                 bool requiresFunctions = true) throw (fl::Exception);
 
@@ -144,24 +144,24 @@ namespace fl {
         virtual std::string parameters() const;
         virtual void configure(const std::string& parameters);
 
-        virtual void setText(const std::string& infix);
-        virtual std::string getText() const;
+        virtual void setFormula(const std::string& formula);
+        virtual std::string getFormula() const;
 
         virtual void setEngine(const Engine* engine);
         virtual const Engine* getEngine() const;
 
         virtual void load() throw (fl::Exception);
 
-        virtual void load(const std::string& infix,
+        virtual void load(const std::string& formula,
                 const Engine* engine = NULL) throw (fl::Exception);
 
         virtual void loadBuiltInFunctions();
 
-        virtual Node* parse(const std::string& infix) throw (fl::Exception);
+        virtual Node* parse(const std::string& formula) throw (fl::Exception);
 
-        virtual std::string toPostfix(const std::string& infix) const throw (fl::Exception);
+        virtual std::string toPostfix(const std::string& formula) const throw (fl::Exception);
 
-        virtual std::string space(const std::string& infix) const;
+        virtual std::string space(const std::string& formula) const;
 
         virtual bool isOperand(const std::string& token) const;
         virtual bool isBuiltInFunction(const std::string& token) const;

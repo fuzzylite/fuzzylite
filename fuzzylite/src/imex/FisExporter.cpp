@@ -351,7 +351,7 @@ namespace fl {
 
         if (term->className() == Function().className()) {
             const Function* x = dynamic_cast<const Function*> (term);
-            ss << "'function',[" << x->getText() << "]";
+            ss << "'function',[" << x->getFormula() << "]";
             return ss.str();
         }
 

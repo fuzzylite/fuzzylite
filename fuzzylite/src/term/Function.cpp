@@ -39,8 +39,8 @@ namespace fl {
      * Function class.
      **********************************/
     Function::Function(const std::string& name,
-            const std::string& infix, const Engine* engine)
-    : Term(name), _text(infix), _engine(engine), root(NULL) {
+            const std::string& formula, const Engine* engine)
+    : Term(name), _formula(formula), _engine(engine), root(NULL) {
         loadOperators();
     }
 
@@ -61,11 +61,11 @@ namespace fl {
     }
 
     std::string Function::parameters() const {
-        return _text;
+        return _formula;
     }
 
     void Function::configure(const std::string& parameters) {
-        this->_text = parameters;
+        this->_formula = parameters;
     }
 
     Function* Function::create(const std::string& name,
@@ -111,22 +111,22 @@ namespace fl {
     }
 
     void Function::load() throw (fl::Exception) {
-        load(this->_text, this->_engine);
+        load(this->_formula, this->_engine);
     }
 
-    void Function::load(const std::string& infix,
+    void Function::load(const std::string& formula,
             const Engine* engine) throw (fl::Exception) {
-        this->root = parse(infix);
-        this->_text = infix;
+        this->root = parse(formula);
+        this->_formula = formula;
         this->_engine = engine;
     }
 
-    void Function::setText(const std::string& infix) {
-        this->_text = infix;
+    void Function::setFormula(const std::string& formula) {
+        this->_formula = formula;
     }
 
-    std::string Function::getText() const {
-        return this->_text;
+    std::string Function::getFormula() const {
+        return this->_formula;
     }
 
     void Function::setEngine(const Engine* engine) {
@@ -143,7 +143,7 @@ namespace fl {
             result->loadBuiltInFunctions();
         }
         try {
-            result->load(this->_text, this->_engine);
+            result->load(this->_formula, this->_engine);
         } catch (fl::Exception& ex) {
             FL_LOG("[function warning] ignored exception: " << ex.what());
         }
@@ -282,11 +282,7 @@ namespace fl {
         this->functions["fmod"] = new BuiltInFunction("fmod", &(std::fmod));
     }
 
-    /**
-     * Infix to Postfix
-     */
-
-    std::string Function::space(const std::string& infix) const {
+    std::string Function::space(const std::string& formula) const {
         std::vector<std::string> chars;
         chars.push_back("(");
         chars.push_back(")");
@@ -301,21 +297,20 @@ namespace fl {
             chars.push_back(itOp->first);
         }
 
-        std::string result = infix;
+        std::string result = formula;
         for (std::size_t i = 0; i < chars.size(); ++i) {
             result = fl::Op::findReplace(result, chars.at(i), " " + chars.at(i) + " ");
         }
         return result;
     }
 
-    std::string Function::toPostfix(const std::string& rawInfix) const throw (fl::Exception) {
-        std::string infix = space(rawInfix);
-        //        FL_DBG("infix=" << infix);
+    std::string Function::toPostfix(const std::string& formula) const throw (fl::Exception) {
+        std::string spacedFormula = space(formula);
 
         std::queue<std::string> queue;
         std::stack<std::string> stack;
 
-        std::stringstream tokenizer(infix);
+        std::stringstream tokenizer(spacedFormula);
         std::string token;
         while (tokenizer >> token) {
             if (isOperand(token)) {
@@ -331,7 +326,7 @@ namespace fl {
                 }
                 if (stack.empty() or stack.top() != "(") {
                     std::ostringstream ex;
-                    ex << "[parsing error] mismatching parentheses in: " << rawInfix;
+                    ex << "[parsing error] mismatching parentheses in: " << formula;
                     throw fl::Exception(ex.str(), FL_AT);
                 }
 
@@ -362,7 +357,7 @@ namespace fl {
                 }
                 if (stack.empty() or stack.top() != "(") {
                     std::ostringstream ex;
-                    ex << "[parsing error] mismatching parentheses in: " << rawInfix;
+                    ex << "[parsing error] mismatching parentheses in: " << formula;
                     throw fl::Exception(ex.str(), FL_AT);
                 }
                 stack.pop(); //get rid of "("
@@ -381,7 +376,7 @@ namespace fl {
         while (not stack.empty()) {
             if (stack.top() == "(" or stack.top() == ")") {
                 std::ostringstream ex;
-                ex << "[parsing error] mismatching parentheses in: " << rawInfix;
+                ex << "[parsing error] mismatching parentheses in: " << formula;
                 throw fl::Exception(ex.str(), FL_AT);
             }
             queue.push(stack.top());
@@ -560,9 +555,9 @@ namespace fl {
      * TODO: Maybe change it for http://en.wikipedia.org/wiki/Operator-precedence_parser
      ***************************************/
 
-    Function::Node* Function::parse(const std::string& infix) throw (fl::Exception) {
-        if (infix.empty()) return NULL;
-        std::string postfix = toPostfix(infix);
+    Function::Node* Function::parse(const std::string& formula) throw (fl::Exception) {
+        if (formula.empty()) return NULL;
+        std::string postfix = toPostfix(formula);
 
         std::stack<Node*> stack;
 
@@ -624,8 +619,8 @@ namespace fl {
         }
 
         if (stack.size() != 1)
-            throw fl::Exception("[function error] malformed function <" +
-                infix + ">", FL_AT);
+            throw fl::Exception("[function error] malformed formula <" +
+                formula + ">", FL_AT);
 
         return stack.top();
     }

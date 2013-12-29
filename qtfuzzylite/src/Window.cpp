@@ -518,7 +518,7 @@ namespace fl {
                     } else if (term->className() == Function().className()) {
                         Function* function = dynamic_cast<Function*> (term);
                         try {
-                            function->load(function->getText(), engine);
+                            function->load(function->getFormula(), engine);
                         } catch (fl::Exception& ex) {
                             updatedReferences += QString::fromStdString(
                                     "- " + variable->getName() + "::" +

@@ -166,7 +166,7 @@ namespace fl {
             const Function* function = dynamic_cast<const Function*> (term);
             std::ostringstream ss;
             ss << term->className() << ".create(\"" << term->getName() << "\", "
-                    << "\"" << function->getText() << "\", engine, true)";
+                    << "\"" << function->getFormula() << "\", engine, true)";
             return ss.str();
         }
 

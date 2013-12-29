@@ -570,7 +570,7 @@ namespace fl {
 
                 } else if (copy->className() == Function().className()) {
                     Function* term = dynamic_cast<Function*> (copy);
-                    std::string infix = term->space(term->getText());
+                    std::string infix = term->space(term->getFormula());
                     std::string replacement = " x ";
                     replacement += (separationDistance < 0 ? "- " : "+ ");
                     infix = fl::Op::findReplace(infix, " x ",
@@ -844,7 +844,7 @@ namespace fl {
         void Term::onClickFunctionProcess() {
             Function* term = dynamic_cast<Function*> (selectedTerm());
             std::string infix = ui->ptx_function->toPlainText().toStdString();
-            term->setText(infix);
+            term->setFormula(infix);
             try {
                 term->load();
                 term->membership(0);
@@ -1136,7 +1136,7 @@ namespace fl {
 
             } else if (x->className() == Function().className()) {
                 const Function* term = dynamic_cast<const Function*> (x);
-                ui->ptx_function->setPlainText(QString::fromStdString(term->getText()));
+                ui->ptx_function->setPlainText(QString::fromStdString(term->getFormula()));
                 QString postfix = "f(x)=";
                 if (term->root) {
                     try {

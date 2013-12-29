@@ -13,7 +13,7 @@ Version 4.0
 * Deleted MaximumDefuzzifier
 * Centroid, Bisector, and Largest/Smallest/Mean Defuzzifiers inherit from IntegralDefuzzifier
 * Changed names of arithmetic operations in fl::Operation
-* Renamed Function::get/set(Infix) to get/set(Text)
+* Renamed Function::get/set(Infix) to get/set(Formula)
 * Renamed InputVariable::get/set(Input) to get/set(InputValue)
 * Renamed Antecedent::firingStrength to activationDegree
 * Renamed Antecedent::toString/(Prefix,Infix,Postfix) to to/(Prefix,Infix,Postfix)
@@ -40,7 +40,7 @@ Version 4.0
 * Created the Console application instead of previous demo
 * Added Variable::range() to return (maximum - minimum)
 * Removed Variable::isEmpty, use Variable::terms().empty()
-* Removed RuleBlock::isEmpty, use Variable::rules().empty()
+* Removed RuleBlock::isEmpty, use RuleBlock::rules().empty()
 * Created method Op::makeValidId to ensure names are valid
 * Engine, Variable and Term::toString return FllExport::toString
 * Created Term::parameters to return list of parameter values as string separated by spaces
@@ -55,3 +55,4 @@ Version 4.0
 * Changed OutputVariable::output() to OutputVariable::fuzzyOutput() 
 * Renamed Rectangle::minimum/maximum to Rectangle::start/end
 * Renamed fuzzylite::shortVersion to fuzzylite::version
+* Improved accuracy of Triangle and Trapezoid
