@@ -127,18 +127,12 @@ namespace fl {
     }
 
     std::string FllExporter::toString(const Rule* rule) const {
-        if (rule) {
-            return "Rule: " + rule->getText();
-        }
-        return "Rule: none";
+        return "rule: " + rule->getText();
     }
 
     std::string FllExporter::toString(const Term* term) const {
-        if (term) {
-            return "Term: " + term->getName() + " " + term->className()
-                    + " " + term->parameters();
-        }
-        return "Term: none";
+        return "term: " + term->getName() + " " + term->className()
+                + " " + term->parameters();
     }
 
     std::string FllExporter::toString(const Norm* norm) const {

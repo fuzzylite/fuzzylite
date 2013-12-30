@@ -2,15 +2,15 @@ Engine: anfis
 InputVariable: in_n1
   enabled: true
   range: 1.000 31.000
-  Term: in1mf1 Bell 1.152 8.206 0.874
-  Term: in1mf2 Bell 15.882 7.078 0.444
-  Term: in1mf3 Bell 30.575 8.602 0.818
+  term: in1mf1 Bell 1.152 8.206 0.874
+  term: in1mf2 Bell 15.882 7.078 0.444
+  term: in1mf3 Bell 30.575 8.602 0.818
 InputVariable: in_n2
   enabled: true
   range: 1.000 31.000
-  Term: in2mf1 Bell 1.426 8.602 0.818
-  Term: in2mf2 Bell 16.118 7.078 0.445
-  Term: in2mf3 Bell 30.847 8.206 0.875
+  term: in2mf1 Bell 1.426 8.602 0.818
+  term: in2mf2 Bell 16.118 7.078 0.445
+  term: in2mf3 Bell 30.847 8.206 0.875
 OutputVariable: out1
   enabled: true
   range: -0.334 1.000
@@ -19,26 +19,26 @@ OutputVariable: out1
   lock-range: false
   defuzzifier: WeightedAverage
   accumulation: Maximum
-  Term: out1mf1 Linear -0.035 0.002 -0.352
-  Term: out1mf2 Linear 0.044 0.079 -0.028
-  Term: out1mf3 Linear -0.024 0.024 -1.599
-  Term: out1mf4 Linear -0.067 0.384 0.007
-  Term: out1mf5 Linear 0.351 -0.351 -3.663
-  Term: out1mf6 Linear -0.079 -0.044 3.909
-  Term: out1mf7 Linear 0.012 -0.012 -0.600
-  Term: out1mf8 Linear -0.384 0.067 10.158
-  Term: out1mf9 Linear -0.002 0.035 -1.402
+  term: out1mf1 Linear -0.035 0.002 -0.352
+  term: out1mf2 Linear 0.044 0.079 -0.028
+  term: out1mf3 Linear -0.024 0.024 -1.599
+  term: out1mf4 Linear -0.067 0.384 0.007
+  term: out1mf5 Linear 0.351 -0.351 -3.663
+  term: out1mf6 Linear -0.079 -0.044 3.909
+  term: out1mf7 Linear 0.012 -0.012 -0.600
+  term: out1mf8 Linear -0.384 0.067 10.158
+  term: out1mf9 Linear -0.002 0.035 -1.402
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct
   disjunction: Maximum
   activation: AlgebraicProduct
-  Rule: if in_n1 is in1mf1 and in_n2 is in2mf1 then out1 is out1mf1
-  Rule: if in_n1 is in1mf1 and in_n2 is in2mf2 then out1 is out1mf2
-  Rule: if in_n1 is in1mf1 and in_n2 is in2mf3 then out1 is out1mf3
-  Rule: if in_n1 is in1mf2 and in_n2 is in2mf1 then out1 is out1mf4
-  Rule: if in_n1 is in1mf2 and in_n2 is in2mf2 then out1 is out1mf5
-  Rule: if in_n1 is in1mf2 and in_n2 is in2mf3 then out1 is out1mf6
-  Rule: if in_n1 is in1mf3 and in_n2 is in2mf1 then out1 is out1mf7
-  Rule: if in_n1 is in1mf3 and in_n2 is in2mf2 then out1 is out1mf8
-  Rule: if in_n1 is in1mf3 and in_n2 is in2mf3 then out1 is out1mf9
+  rule: if in_n1 is in1mf1 and in_n2 is in2mf1 then out1 is out1mf1
+  rule: if in_n1 is in1mf1 and in_n2 is in2mf2 then out1 is out1mf2
+  rule: if in_n1 is in1mf1 and in_n2 is in2mf3 then out1 is out1mf3
+  rule: if in_n1 is in1mf2 and in_n2 is in2mf1 then out1 is out1mf4
+  rule: if in_n1 is in1mf2 and in_n2 is in2mf2 then out1 is out1mf5
+  rule: if in_n1 is in1mf2 and in_n2 is in2mf3 then out1 is out1mf6
+  rule: if in_n1 is in1mf3 and in_n2 is in2mf1 then out1 is out1mf7
+  rule: if in_n1 is in1mf3 and in_n2 is in2mf2 then out1 is out1mf8
+  rule: if in_n1 is in1mf3 and in_n2 is in2mf3 then out1 is out1mf9

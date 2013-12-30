@@ -2,15 +2,15 @@ Engine: shower
 InputVariable: temp
   enabled: true
   range: -20.000 20.000
-  Term: cold Trapezoid -30.000 -30.000 -15.000 0.000
-  Term: good Triangle -10.000 0.000 10.000
-  Term: hot Trapezoid 0.000 15.000 30.000 30.000
+  term: cold Trapezoid -30.000 -30.000 -15.000 0.000
+  term: good Triangle -10.000 0.000 10.000
+  term: hot Trapezoid 0.000 15.000 30.000 30.000
 InputVariable: flow
   enabled: true
   range: -1.000 1.000
-  Term: soft Trapezoid -3.000 -3.000 -0.800 0.000
-  Term: good Triangle -0.400 0.000 0.400
-  Term: hard Trapezoid 0.000 0.800 3.000 3.000
+  term: soft Trapezoid -3.000 -3.000 -0.800 0.000
+  term: good Triangle -0.400 0.000 0.400
+  term: hard Trapezoid 0.000 0.800 3.000 3.000
 OutputVariable: cold
   enabled: true
   range: -1.000 1.000
@@ -19,11 +19,11 @@ OutputVariable: cold
   lock-range: false
   defuzzifier: Centroid 200
   accumulation: Maximum
-  Term: closeFast Triangle -1.000 -0.600 -0.300
-  Term: closeSlow Triangle -0.600 -0.300 0.000
-  Term: steady Triangle -0.300 0.000 0.300
-  Term: openSlow Triangle 0.000 0.300 0.600
-  Term: openFast Triangle 0.300 0.600 1.000
+  term: closeFast Triangle -1.000 -0.600 -0.300
+  term: closeSlow Triangle -0.600 -0.300 0.000
+  term: steady Triangle -0.300 0.000 0.300
+  term: openSlow Triangle 0.000 0.300 0.600
+  term: openFast Triangle 0.300 0.600 1.000
 OutputVariable: hot
   enabled: true
   range: -1.000 1.000
@@ -32,22 +32,22 @@ OutputVariable: hot
   lock-range: false
   defuzzifier: Centroid 200
   accumulation: Maximum
-  Term: closeFast Triangle -1.000 -0.600 -0.300
-  Term: closeSlow Triangle -0.600 -0.300 0.000
-  Term: steady Triangle -0.300 0.000 0.300
-  Term: openSlow Triangle 0.000 0.300 0.600
-  Term: openFast Triangle 0.300 0.600 1.000
+  term: closeFast Triangle -1.000 -0.600 -0.300
+  term: closeSlow Triangle -0.600 -0.300 0.000
+  term: steady Triangle -0.300 0.000 0.300
+  term: openSlow Triangle 0.000 0.300 0.600
+  term: openFast Triangle 0.300 0.600 1.000
 RuleBlock: 
   enabled: true
   conjunction: Minimum
   disjunction: Maximum
   activation: Minimum
-  Rule: if temp is cold and flow is soft then cold is openSlow and hot is openFast
-  Rule: if temp is cold and flow is good then cold is closeSlow and hot is openSlow
-  Rule: if temp is cold and flow is hard then cold is closeFast and hot is closeSlow
-  Rule: if temp is good and flow is soft then cold is openSlow and hot is openSlow
-  Rule: if temp is good and flow is good then cold is steady and hot is steady
-  Rule: if temp is good and flow is hard then cold is closeSlow and hot is closeSlow
-  Rule: if temp is hot and flow is soft then cold is openFast and hot is openSlow
-  Rule: if temp is hot and flow is good then cold is openSlow and hot is closeSlow
-  Rule: if temp is hot and flow is hard then cold is closeSlow and hot is closeFast
+  rule: if temp is cold and flow is soft then cold is openSlow and hot is openFast
+  rule: if temp is cold and flow is good then cold is closeSlow and hot is openSlow
+  rule: if temp is cold and flow is hard then cold is closeFast and hot is closeSlow
+  rule: if temp is good and flow is soft then cold is openSlow and hot is openSlow
+  rule: if temp is good and flow is good then cold is steady and hot is steady
+  rule: if temp is good and flow is hard then cold is closeSlow and hot is closeSlow
+  rule: if temp is hot and flow is soft then cold is openFast and hot is openSlow
+  rule: if temp is hot and flow is good then cold is openSlow and hot is closeSlow
+  rule: if temp is hot and flow is hard then cold is closeSlow and hot is closeFast

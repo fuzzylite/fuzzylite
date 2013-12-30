@@ -2,9 +2,9 @@ Engine: simple-dimmer
 InputVariable: Ambient
   enabled: true
   range: 0.000 1.000
-  Term: DARK Triangle 0.000 0.250 0.500
-  Term: MEDIUM Triangle 0.250 0.500 0.750
-  Term: BRIGHT Triangle 0.500 0.750 1.000
+  term: DARK Triangle 0.000 0.250 0.500
+  term: MEDIUM Triangle 0.250 0.500 0.750
+  term: BRIGHT Triangle 0.500 0.750 1.000
 OutputVariable: Power
   enabled: true
   range: 0.000 1.000
@@ -13,14 +13,14 @@ OutputVariable: Power
   lock-range: false
   defuzzifier: Centroid 200
   accumulation: Maximum
-  Term: LOW Triangle 0.000 0.250 0.500
-  Term: MEDIUM Triangle 0.250 0.500 0.750
-  Term: HIGH Triangle 0.500 0.750 1.000
+  term: LOW Triangle 0.000 0.250 0.500
+  term: MEDIUM Triangle 0.250 0.500 0.750
+  term: HIGH Triangle 0.500 0.750 1.000
 RuleBlock: 
   enabled: true
   conjunction: none
   disjunction: none
   activation: Minimum
-  Rule: if Ambient is DARK then Power is HIGH
-  Rule: if Ambient is MEDIUM then Power is MEDIUM
-  Rule: if Ambient is BRIGHT then Power is LOW
+  rule: if Ambient is DARK then Power is HIGH
+  rule: if Ambient is MEDIUM then Power is MEDIUM
+  rule: if Ambient is BRIGHT then Power is LOW

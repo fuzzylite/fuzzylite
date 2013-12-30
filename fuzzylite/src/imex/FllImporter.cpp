@@ -131,7 +131,7 @@ namespace fl {
             } else if ("range" == keyValue.first) {
                 std::pair<scalar, scalar> range = parseRange(keyValue.second);
                 inputVariable->setRange(range.first, range.second);
-            } else if ("Term" == keyValue.first) {
+            } else if ("term" == keyValue.first) {
                 inputVariable->addTerm(parseTerm(keyValue.second, engine));
             } else {
                 throw fl::Exception("[import error] key <" + keyValue.first + "> not "
@@ -164,7 +164,7 @@ namespace fl {
                 outputVariable->setDefuzzifier(parseDefuzzifier(keyValue.second));
             } else if ("accumulation" == keyValue.first) {
                 outputVariable->fuzzyOutput()->setAccumulation(parseSNorm(keyValue.second));
-            } else if ("Term" == keyValue.first) {
+            } else if ("term" == keyValue.first) {
                 outputVariable->addTerm(parseTerm(keyValue.second, engine));
             } else {
                 throw fl::Exception("[import error] key <" + keyValue.first + "> not "
@@ -190,7 +190,7 @@ namespace fl {
                 ruleBlock->setDisjunction(parseSNorm(keyValue.second));
             } else if ("activation" == keyValue.first) {
                 ruleBlock->setActivation(parseTNorm(keyValue.second));
-            } else if ("Rule" == keyValue.first) {
+            } else if ("rule" == keyValue.first) {
                 ruleBlock->addRule(fl::Rule::parse(keyValue.second, engine));
             } else {
                 throw fl::Exception("[import error] key <" + keyValue.first + "> not "
@@ -200,7 +200,6 @@ namespace fl {
     }
 
     Term* FllImporter::parseTerm(const std::string& text, Engine* engine) const {
-        if (text == "none") return NULL;
         std::vector<std::string> tokens = Op::split(text, " ");
 
         //MEDIUM Triangle 0.500 1.000 1.500
