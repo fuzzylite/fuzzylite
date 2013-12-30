@@ -14,11 +14,11 @@ InputVariable: flow
 OutputVariable: cold
   enabled: true
   range: -1.000 1.000
+  accumulation: Maximum
+  defuzzifier: Centroid 200
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: Centroid 200
-  accumulation: Maximum
   term: closeFast Triangle -1.000 -0.600 -0.300
   term: closeSlow Triangle -0.600 -0.300 0.000
   term: steady Triangle -0.300 0.000 0.300
@@ -27,11 +27,11 @@ OutputVariable: cold
 OutputVariable: hot
   enabled: true
   range: -1.000 1.000
+  accumulation: Maximum
+  defuzzifier: Centroid 200
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: Centroid 200
-  accumulation: Maximum
   term: closeFast Triangle -1.000 -0.600 -0.300
   term: closeSlow Triangle -0.600 -0.300 0.000
   term: steady Triangle -0.300 0.000 0.300

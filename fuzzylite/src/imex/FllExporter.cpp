@@ -101,11 +101,11 @@ namespace fl {
         ss << tab << "enabled: " << (outputVariable->isEnabled() ? "true" : "false") << _separator;
         ss << tab << "range: " << Op::str(outputVariable->getMinimum())
                 << " " << Op::str(outputVariable->getMaximum()) << _separator;
+        ss << tab << "accumulation: " << toString(outputVariable->fuzzyOutput()->getAccumulation()) << _separator;
+        ss << tab << "defuzzifier: " << toString(outputVariable->getDefuzzifier()) << _separator;
         ss << tab << "default: " << Op::str(outputVariable->getDefaultValue()) << _separator;
         ss << tab << "lock-valid: " << (outputVariable->isLockingValidOutput() ? "true" : "false") << _separator;
         ss << tab << "lock-range: " << (outputVariable->isLockingOutputRange() ? "true" : "false") << _separator;
-        ss << tab << "defuzzifier: " << toString(outputVariable->getDefuzzifier()) << _separator;
-        ss << tab << "accumulation: " << toString(outputVariable->fuzzyOutput()->getAccumulation()) << _separator;
         for (int i = 0; i < outputVariable->numberOfTerms(); ++i) {
             ss << tab << toString(outputVariable->getTerm(i)) << _separator;
         }

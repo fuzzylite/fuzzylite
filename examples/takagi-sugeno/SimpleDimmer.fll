@@ -8,11 +8,11 @@ InputVariable: Ambient
 OutputVariable: Power
   enabled: true
   range: 0.000 1.000
+  accumulation: none
+  defuzzifier: WeightedAverage
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: WeightedAverage
-  accumulation: none
   term: LOW Constant 0.250
   term: MEDIUM Constant 0.500
   term: HIGH Constant 0.750

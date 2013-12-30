@@ -14,11 +14,11 @@ InputVariable: in_n2
 OutputVariable: out1
   enabled: true
   range: -0.334 1.000
+  accumulation: Maximum
+  defuzzifier: WeightedAverage
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: WeightedAverage
-  accumulation: Maximum
   term: out1mf1 Linear -0.035 0.002 -0.352
   term: out1mf2 Linear 0.044 0.079 -0.028
   term: out1mf3 Linear -0.024 0.024 -1.599

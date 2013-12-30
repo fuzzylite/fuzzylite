@@ -21,11 +21,11 @@ InputVariable: AllInputTerms
 OutputVariable: AllOutputTerms
   enabled: true
   range: 0.000 6.500
+  accumulation: Maximum
+  defuzzifier: Centroid 200
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: Centroid 200
-  accumulation: Maximum
   term: A Sigmoid 0.500 -20.000
   term: B ZShape 0.000 1.000
   term: C Ramp 1.000 0.000

@@ -8,33 +8,33 @@ InputVariable: X
 OutputVariable: A
   enabled: true
   range: 0.000 1.000
+  accumulation: none
+  defuzzifier: WeightedAverage
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: WeightedAverage
-  accumulation: none
   term: a1 Ramp 0.000 0.250
   term: a2 Ramp 0.600 0.400
   term: a3 Ramp 0.700 1.000
 OutputVariable: B
   enabled: true
   range: 0.000 1.000
+  accumulation: none
+  defuzzifier: WeightedAverage
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: WeightedAverage
-  accumulation: none
   term: b1 Sigmoid 0.130 30.000
   term: b2 Sigmoid 0.500 -30.000
   term: b3 Sigmoid 0.830 30.000
 OutputVariable: C
   enabled: true
   range: 0.000 1.000
+  accumulation: none
+  defuzzifier: WeightedAverage
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: WeightedAverage
-  accumulation: none
   term: c1 SShape 0.000 0.250
   term: c2 ZShape 0.300 0.600
   term: c3 SShape 0.700 1.000

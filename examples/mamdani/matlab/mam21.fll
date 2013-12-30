@@ -12,11 +12,11 @@ InputVariable: velocity
 OutputVariable: force
   enabled: true
   range: -5.000 5.000
+  accumulation: Maximum
+  defuzzifier: Centroid 200
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: Centroid 200
-  accumulation: Maximum
   term: negBig Bell -5.000 1.670 8.000
   term: negSmall Bell -1.670 1.670 8.000
   term: posSmall Bell 1.670 1.670 8.000

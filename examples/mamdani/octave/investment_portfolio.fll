@@ -12,11 +12,11 @@ InputVariable: RiskTolerance
 OutputVariable: PercentageInStocks
   enabled: true
   range: 0.000 100.000
+  accumulation: EinsteinSum
+  defuzzifier: Centroid 200
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: Centroid 200
-  accumulation: EinsteinSum
   term: AboutFifteen Gaussian 15.000 10.000
   term: AboutFifty Gaussian 50.000 10.000
   term: AboutEightyFive Gaussian 85.000 10.000

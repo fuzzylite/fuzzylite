@@ -7,11 +7,11 @@ InputVariable: input
 OutputVariable: output
   enabled: true
   range: 0.000 1.000
+  accumulation: Maximum
+  defuzzifier: WeightedAverage
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: WeightedAverage
-  accumulation: Maximum
   term: line1 Linear -1.000 -1.000
   term: line2 Linear 1.000 -1.000
 RuleBlock: 

@@ -8,11 +8,11 @@ InputVariable: Ambient
 OutputVariable: Power
   enabled: true
   range: 0.000 1.000
+  accumulation: Maximum
+  defuzzifier: Centroid 200
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: Centroid 200
-  accumulation: Maximum
   term: LOW Triangle 0.000 0.250 0.500
   term: MEDIUM Triangle 0.250 0.500 0.750
   term: HIGH Triangle 0.500 0.750 1.000

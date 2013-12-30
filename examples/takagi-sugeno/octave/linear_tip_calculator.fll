@@ -12,11 +12,11 @@ InputVariable: Service
 OutputVariable: Tip
   enabled: true
   range: 10.000 20.000
+  accumulation: Maximum
+  defuzzifier: WeightedAverage
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: WeightedAverage
-  accumulation: Maximum
   term: TenPercent Linear 0.000 0.000 10.000
   term: FifteenPercent Linear 0.000 0.000 15.000
   term: TwentyPercent Linear 0.000 0.000 20.000

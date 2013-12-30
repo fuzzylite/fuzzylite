@@ -34,11 +34,11 @@ InputVariable: pole_length
 OutputVariable: out
   enabled: true
   range: -10.000 10.000
+  accumulation: Maximum
+  defuzzifier: WeightedAverage
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: WeightedAverage
-  accumulation: Maximum
   term: outmf1 Linear 168.400 31.000 -188.050 -49.250 -1.000 -2.700 0.000 0.000
   term: outmf2 Linear 233.950 47.190 -254.520 -66.580 -1.000 -2.740 0.000 0.000
   term: outmf3 Linear 342.940 74.730 -364.370 -95.230 -1.000 -2.780 0.000 0.000

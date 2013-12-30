@@ -14,11 +14,11 @@ InputVariable: rate
 OutputVariable: valve
   enabled: true
   range: -1.000 1.000
+  accumulation: Maximum
+  defuzzifier: WeightedAverage
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: WeightedAverage
-  accumulation: Maximum
   term: close_fast Constant -0.900
   term: close_slow Constant -0.500
   term: no_change Constant 0.000

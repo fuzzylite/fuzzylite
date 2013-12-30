@@ -20,11 +20,11 @@ InputVariable: input2
 OutputVariable: output
   enabled: true
   range: 0.000 3.100
+  accumulation: Maximum
+  defuzzifier: WeightedAverage
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: WeightedAverage
-  accumulation: Maximum
   term: out1mf1 Linear -0.048 1.456 2.222
   term: out1mf2 Linear -0.218 -0.305 2.042
   term: out1mf3 Linear 0.026 -0.141 3.067

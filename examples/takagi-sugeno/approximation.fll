@@ -14,11 +14,11 @@ InputVariable: inputX
 OutputVariable: outputFx
   enabled: true
   range: -1.000 1.000
+  accumulation: none
+  defuzzifier: WeightedAverage
   default: nan
   lock-valid: true
   lock-range: false
-  defuzzifier: WeightedAverage
-  accumulation: none
   term: f1 Constant 0.840
   term: f2 Constant 0.450
   term: f3 Constant 0.040
@@ -31,20 +31,20 @@ OutputVariable: outputFx
 OutputVariable: trueFx
   enabled: true
   range: -1.000 1.000
+  accumulation: none
+  defuzzifier: WeightedAverage
   default: nan
   lock-valid: true
   lock-range: false
-  defuzzifier: WeightedAverage
-  accumulation: none
   term: fx Function sin(inputX)/inputX
 OutputVariable: diffFx
   enabled: true
   range: -1.000 1.000
+  accumulation: none
+  defuzzifier: WeightedAverage
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: WeightedAverage
-  accumulation: none
   term: diff Function fabs(outputFx-trueFx)
 RuleBlock: 
   enabled: true

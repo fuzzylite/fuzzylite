@@ -13,11 +13,11 @@ InputVariable: food
 OutputVariable: tip
   enabled: true
   range: -30.000 30.000
+  accumulation: Maximum
+  defuzzifier: WeightedAverage
   default: nan
   lock-valid: false
   lock-range: false
-  defuzzifier: WeightedAverage
-  accumulation: Maximum
   term: cheap Linear 0.000 0.000 5.000
   term: average Linear 0.000 0.000 15.000
   term: generous Linear 0.000 0.000 25.000
