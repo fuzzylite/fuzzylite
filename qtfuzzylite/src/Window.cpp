@@ -235,11 +235,11 @@ namespace fl {
             menuHelp->addAction(ui->actionAskForHelp);
             QObject::connect(ui->actionAskForHelp, SIGNAL(triggered()), this, SLOT(onMenuAskForHelp()));
 
-            menuHelp->addAction(ui->actionJoinTheCommunity);
-            QObject::connect(ui->actionJoinTheCommunity, SIGNAL(triggered()), this, SLOT(onMenuJoinTheCommunity()));
+//            menuHelp->addAction(ui->actionJoinTheCommunity);
+//            QObject::connect(ui->actionJoinTheCommunity, SIGNAL(triggered()), this, SLOT(onMenuJoinTheCommunity()));
 
-            menuHelp->addAction(ui->actionFollowOnTwitter);
-            QObject::connect(ui->actionFollowOnTwitter, SIGNAL(triggered()), this, SLOT(onMenuFollowOnTwitter()));
+//            menuHelp->addAction(ui->actionFollowOnTwitter);
+//            QObject::connect(ui->actionFollowOnTwitter, SIGNAL(triggered()), this, SLOT(onMenuFollowOnTwitter()));
 
             menuHelp->addSeparator();
             menuHelp->addAction(ui->actionCheckForUpdates);
@@ -1807,7 +1807,7 @@ namespace fl {
             QString recentLocation = settings.value("file/recentDataLocation", ".").toString();
             QStringList filters;
             filters << "All files (*.*)"
-                    << "Data file (*.fld)";
+                    << "FuzzyLite Dataset file (*.fld)";
 
             QString filter = filters.at(1);
             QString filename = QFileDialog::getSaveFileName(this,
@@ -1887,16 +1887,16 @@ namespace fl {
 
         void Window::onMenuAskForHelp() {
             QMessageBox::StandardButton result =
-                    QMessageBox::information(this, "Ask for help",
-                    "If you need help, please send an email to "
-                    "<a href='community@fuzzylite.com'>community@fuzzylite.com</a>.<br><br>"
-                    "The community will be more than happy to answer your questions as best and "
-                    "soon as possible.<br><br>"
-                    "Do you want to ask for help now?",
+                    QMessageBox::question(this, "Ask for help",
+                    "If you need help, please visit "
+                    "<a href='http://www.fuzzylite.com/forums'>www.fuzzylite.com/forums</a> "
+                    "and post your question in the forum. "
+                    "The community will be very happy to help you as "
+                    "soon and best as possible. <br/><br/>"
+                    "Do you want to visit the forums now?",
                     QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
             if (result == QMessageBox::Yes)
-                QDesktopServices::openUrl(QUrl("mailto:community@fuzzylite.com"
-                    "?subject=Help with <insert topic here>"));
+                QDesktopServices::openUrl(QUrl("http://www.fuzzylite.com/forums"));
         }
 
         void Window::onMenuJoinTheCommunity() {
@@ -2046,7 +2046,7 @@ namespace fl {
                     settings.setValue("checkForUpdates", false);
                 }
             } else {
-                FL_LOG("[automatic updates] qtfuzzylite is already up-to-date");
+                FL_DBG("[automatic updates] qtfuzzylite is already up-to-date");
             }
         }
 

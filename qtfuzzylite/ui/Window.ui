@@ -506,8 +506,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>588</width>
-         <height>408</height>
+         <width>216</width>
+         <height>262</height>
         </rect>
        </property>
        <attribute name="label">
@@ -629,8 +629,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>262</width>
-                        <height>87</height>
+                        <width>100</width>
+                        <height>30</height>
                        </rect>
                       </property>
                       <property name="sizePolicy">
@@ -767,8 +767,8 @@
                        <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>262</width>
-                        <height>87</height>
+                        <width>100</width>
+                        <height>30</height>
                        </rect>
                       </property>
                       <property name="sizePolicy">
@@ -1348,6 +1348,9 @@
    </property>
    <property name="toolTip">
     <string>Check for updates</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
    </property>
   </action>
  </widget>
