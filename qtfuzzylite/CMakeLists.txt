@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 2.8)
 
+#After building:
+# In Linux:
+# In Mac:
+# otool -L qtfuzzylite #gives the dependencies of qtfuzzylite
+# install_name_tool -change /Users/jcrada/Development/fl/fuzzylite/fuzzylite/bin/libfuzzylite.dylib @executable_path/../Frameworks/libfuzzylite.dylib qtfuzzylite.app/Contents/MacOS/qtfuzzylite
+
 project(qtfuzzylite CXX)
 
 set(CMAKE_VERBOSE_MAKEFILE true)

@@ -2,6 +2,13 @@ cmake_minimum_required(VERSION 2.8)
 
 #in windows, cmake . -G "NMake Makefiles"
 #in unix, cmake . -G "Unix Makefiles"
+
+#After building:
+# In Linux:
+# In Mac:
+# otool -L fuzzylite #gives the dependencies of fuzzylite
+# install_name_tool -change /Users/jcrada/Development/fuzzylite/bin/libfuzzylite.dylib @executable_path/libfuzzylite.dylib fuzzylite
+
 project(fuzzylite CXX)
 
 set(CMAKE_VERBOSE_MAKEFILE true)
