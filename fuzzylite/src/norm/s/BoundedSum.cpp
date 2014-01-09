@@ -29,7 +29,7 @@ namespace fl {
     }
 
     scalar BoundedSum::compute(scalar a, scalar b) const {
-        return Op::min(1.0, a + b);
+        return Op::min(scalar(1.0), a + b);
     }
 
     SNorm* BoundedSum::constructor() {

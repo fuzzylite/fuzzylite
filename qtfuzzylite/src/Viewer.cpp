@@ -18,7 +18,7 @@
     jcrada@fuzzylite.com
  **/
 
-/* 
+/*
  * File:   Viewer.cpp
  * Author: jcrada
  *
@@ -61,7 +61,7 @@ namespace fl {
         void Viewer::setup(const fl::Variable* model) {
             this->constVariable = model;
             ui->setupUi(this);
-            ui->sbx_x->setSingleStep(fl::Op::max(0.01,
+            ui->sbx_x->setSingleStep(fl::Op::max(scalar(0.01),
                     model->getMaximum() - model->getMinimum()) / 100);
             ui->sbx_x->setDecimals(fuzzylite::decimals());
 
@@ -81,7 +81,7 @@ namespace fl {
             ui->lbl_fuzzy_out->setVisible(false);
 
             QFont smallFont = ui->lbl_fuzzy->font();
-#ifdef Q_OS_WIN			
+#ifdef Q_OS_WIN
             smallFont.setPointSize(smallFont.pointSize() - 1);
 #else
             smallFont.setPointSize(smallFont.pointSize() - 2);

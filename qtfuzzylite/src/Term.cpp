@@ -76,7 +76,7 @@ namespace fl {
 
         void Term::onEngineChanged() {
             close();
-            //            
+            //
             //            fl::Term* current = selectedTerm();
             //            Linear* linear;
             //            for (std::size_t i = 0; i < _fxTerms.size(); ++i) {
@@ -229,7 +229,7 @@ namespace fl {
                 _sbx.at(i)->setMinimum(-10000000);
                 _sbx.at(i)->setMaximum(10000000);
                 _sbx.at(i)->setValue(0.0);
-                _sbx.at(i)->setSingleStep(fl::Op::max(0.01,
+                _sbx.at(i)->setSingleStep(fl::Op::max(scalar(0.01),
                         (dummyVariable->getMaximum() - dummyVariable->getMinimum()) / 100));
                 _sbx.at(i)->setAlignment(Qt::AlignHCenter);
                 _sbx.at(i)->setAccelerated(true);
@@ -463,7 +463,7 @@ namespace fl {
             window.setup(ui->led_name->text().toStdString());
             window.ui->sbx_separation->setMinimum(-10000000);
             window.ui->sbx_separation->setMaximum(10000000);
-            window.ui->sbx_separation->setSingleStep(fl::Op::max(0.01,
+            window.ui->sbx_separation->setSingleStep(fl::Op::max(scalar(0.01),
                     (dummyVariable->getMaximum() - dummyVariable->getMinimum()) / 100));
 
             if (not window.exec()) return;

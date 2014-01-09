@@ -40,18 +40,18 @@ namespace fl {
          ****************************/
 
     public:
-        typedef double(*Unary)(double);
-        typedef double(*Binary)(double, double);
+        typedef scalar(*Unary)(scalar);
+        typedef scalar(*Binary)(scalar, scalar);
 
         struct FL_EXPORT Element {
             std::string name;
             Unary unary;
             Binary binary;
-            short arity;
-            short associativity;
+            int arity;
+            int associativity;
             Element(const std::string& name);
-            Element(const std::string& name, Unary unary, short associativity = -1);
-            Element(const std::string& name, Binary binary, short associativity = -1);
+            Element(const std::string& name, Unary unary, int associativity = -1);
+            Element(const std::string& name, Binary binary, int associativity = -1);
             virtual ~Element();
 
             virtual std::string toString() const = 0;
@@ -59,17 +59,17 @@ namespace fl {
         };
 
         struct FL_EXPORT Operator : public Element {
-            short precedence;
+            int precedence;
 
-            Operator(const std::string& name, Unary unary, short precedence = 0, short associativity = -1);
-            Operator(const std::string& name, Binary unary, short precedence = 0, short associativity = -1);
+            Operator(const std::string& name, Unary unary, int precedence = 0, int associativity = -1);
+            Operator(const std::string& name, Binary unary, int precedence = 0, int associativity = -1);
 
             std::string toString() const;
         };
 
         struct FL_EXPORT BuiltInFunction : public Element {
-            BuiltInFunction(const std::string& name, Unary functionPointer, short associativity = -1);
-            BuiltInFunction(const std::string& name, Binary functionPointer, short associativity = -1);
+            BuiltInFunction(const std::string& name, Unary functionPointer, int associativity = -1);
+            BuiltInFunction(const std::string& name, Binary functionPointer, int associativity = -1);
             std::string toString() const;
         };
 

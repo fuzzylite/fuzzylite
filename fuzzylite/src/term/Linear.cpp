@@ -67,7 +67,7 @@ namespace fl {
 
     template FL_EXPORT Linear* Linear::create(const std::string& name,
             const std::vector<InputVariable*>& inputVariables,
-            scalar firstCoefficient, ...);
+            double firstCoefficient, ...);
 
     template FL_EXPORT Linear* Linear::create(const std::string& name,
             const std::vector<InputVariable*>& inputVariables,

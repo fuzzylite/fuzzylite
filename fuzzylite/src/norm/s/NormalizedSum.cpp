@@ -29,7 +29,7 @@ namespace fl {
     }
 
     scalar NormalizedSum::compute(scalar a, scalar b) const {
-        return a + b / Op::max(1.0, Op::max(a, b));
+        return a + b / Op::max(scalar(1.0), Op::max(a, b));
     }
 
     SNorm* NormalizedSum::constructor() {

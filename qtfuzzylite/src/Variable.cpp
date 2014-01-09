@@ -158,8 +158,8 @@ namespace fl {
                 this->variable->addTerm(inputVariable->getTerm(i)->copy());
             }
             scalar singleStep = (variable->getMaximum() - variable->getMinimum()) / 100;
-            ui->sbx_min->setSingleStep(std::max(0.01, singleStep));
-            ui->sbx_max->setSingleStep(std::max(0.01, singleStep));
+            ui->sbx_min->setSingleStep(std::max(scalar(0.01), singleStep));
+            ui->sbx_max->setSingleStep(std::max(scalar(0.01), singleStep));
 
             setWindowTitle("Edit variable");
             ui->led_name->setText(QString::fromStdString(inputVariable->getName()));
@@ -175,8 +175,8 @@ namespace fl {
             }
 
             scalar singleStep = (variable->getMaximum() - variable->getMinimum()) / 100;
-            ui->sbx_min->setSingleStep(std::max(0.01, singleStep));
-            ui->sbx_max->setSingleStep(std::max(0.01, singleStep));
+            ui->sbx_min->setSingleStep(std::max(scalar(0.01), singleStep));
+            ui->sbx_max->setSingleStep(std::max(scalar(0.01), singleStep));
 
             setWindowTitle("Edit variable");
             ui->led_name->setText(QString::fromStdString(outputVariable->getName()));

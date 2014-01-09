@@ -30,7 +30,7 @@ namespace fl {
     }
 
     scalar BoundedDifference::compute(scalar a, scalar b) const {
-        return Op::max(0.0, a + b - 1);
+        return Op::max(scalar(0.0), a + b - 1);
     }
 
     TNorm* BoundedDifference::constructor() {

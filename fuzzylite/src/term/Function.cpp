@@ -162,11 +162,11 @@ namespace fl {
     : name(name), unary(NULL), binary(NULL), arity(0), associativity(-1) {
     }
 
-    Function::Element::Element(const std::string& name, Unary unary, short associativity)
+    Function::Element::Element(const std::string& name, Unary unary, int associativity)
     : name(name), unary(unary), binary(NULL), arity(1), associativity(associativity) {
     }
 
-    Function::Element::Element(const std::string& name, Binary binary, short associativity)
+    Function::Element::Element(const std::string& name, Binary binary, int associativity)
     : name(name), unary(NULL), binary(binary), arity(2), associativity(associativity) {
     }
 
@@ -174,12 +174,12 @@ namespace fl {
     }
 
     Function::Operator::Operator(const std::string& name, Unary unary,
-            short precedence, short associativity)
+            int precedence, int associativity)
     : Element(name, unary, associativity), precedence(precedence) {
     }
 
     Function::Operator::Operator(const std::string& name, Binary binary,
-            short precedence, short associativity)
+            int precedence, int associativity)
     : Element(name, binary, associativity), precedence(precedence) {
     }
 
@@ -197,12 +197,12 @@ namespace fl {
     }
 
     Function::BuiltInFunction::BuiltInFunction(const std::string& name,
-            Unary unary, short associativity)
+            Unary unary, int associativity)
     : Element(name, unary, associativity) {
     }
 
     Function::BuiltInFunction::BuiltInFunction(const std::string& name,
-            Binary binary, short associativity)
+            Binary binary, int associativity)
     : Element(name, binary, associativity) {
     }
 
@@ -223,30 +223,30 @@ namespace fl {
      ***********************************/
 
     void Function::loadOperators() {
-        short p = 7;
+        int p = 7;
         // (!) Logical and (~) Bitwise NOT
         //        this->_unaryOperators["!"] = new Operator("!", std::logical_not<scalar>, p, 1);
         // ~ negates a number
-        this->operators["~"] = new Operator("~", fl::Op::negate, p, 1);
+        this->operators["~"] = new Operator("~", &(fl::Op::negate), p, 1);
         --p; //Power
-        this->operators["^"] = new Operator("^", std::pow, p, 1);
+        this->operators["^"] = new Operator("^", &(std::pow), p, 1);
         --p; //Multiplication, Division, and Modulo
-        this->operators["*"] = new Operator("*", fl::Op::multiply, p);
-        this->operators["/"] = new Operator("/", fl::Op::divide, p);
-        this->operators["%"] = new Operator("%", fl::Op::modulo, p);
+        this->operators["*"] = new Operator("*", &(fl::Op::multiply), p);
+        this->operators["/"] = new Operator("/", &(fl::Op::divide), p);
+        this->operators["%"] = new Operator("%", &(fl::Op::modulo), p);
         --p; //Addition, Subtraction
-        this->operators["+"] = new Operator("+", fl::Op::add, p);
-        this->operators["-"] = new Operator("-", fl::Op::subtract, p);
+        this->operators["+"] = new Operator("+", &(fl::Op::add), p);
+        this->operators["-"] = new Operator("-", &(fl::Op::subtract), p);
         //        --p; //Bitwise AND
         //        this->_binaryOperators["&"] = new Operator("&", std::bit_and, p);
         //        --p; //Bitwise OR
         //        this->_binaryOperators["|"] = new Operator("|", std::bit_or, p);
         --p; //Logical AND
         this->operators[fl::Rule::andKeyword()] =
-                new Operator(fl::Rule::andKeyword(), fl::Op::logicalAnd, p);
+                new Operator(fl::Rule::andKeyword(), &(fl::Op::logicalAnd), p);
         --p; //Logical OR
         this->operators[fl::Rule::orKeyword()] =
-                new Operator(fl::Rule::orKeyword(), fl::Op::logicalOr, p);
+                new Operator(fl::Rule::orKeyword(), &(fl::Op::logicalOr), p);
     }
 
     void Function::loadBuiltInFunctions() {
@@ -269,8 +269,8 @@ namespace fl {
         this->functions["tan"] = new BuiltInFunction("tan", &(std::tan));
         this->functions["tanh"] = new BuiltInFunction("tanh", &(std::tanh));
 
-#ifdef FL_UNIX
-        //not found in Windows
+#if defined(FL_UNIX) && !defined(FL_USE_FLOAT)
+        //found in Unix when using double precision. not found in Windows.
         this->functions["log1p"] = new BuiltInFunction("log1p", &(log1p));
         this->functions["acosh"] = new BuiltInFunction("acosh", &(acosh));
         this->functions["asinh"] = new BuiltInFunction("asinh", &(asinh));

@@ -64,7 +64,7 @@ namespace fl {
         if (Op::isLE(x, _a) or Op::isGE(x, _d))
             return 0.0;
         else if (Op::isLt(x, _b))
-            return Op::min(1.0, (x - _a) / (_b - _a));
+            return Op::min(scalar(1.0), (x - _a) / (_b - _a));
         else if (Op::isLE(x, _c))
             return 1.0;
         else if (Op::isLt(x, _d))

@@ -326,7 +326,21 @@ namespace fl {
     template FL_EXPORT std::string Operation::join(int items, const std::string& separator,
             int first, ...);
     template FL_EXPORT std::string Operation::join(int items, const std::string& separator,
-            scalar first, ...);
+            double first, ...);
+    template <> FL_EXPORT std::string Operation::join(int items, const std::string& separator,
+            float first, ...){
+        std::ostringstream ss;
+        ss << str(first);
+        if (items > 1) ss << separator;
+        va_list args;
+        va_start(args, first);
+        for (int i = 0; i < items - 1; ++i) {
+            ss << str(va_arg(args, double)); //automatic promotion
+            if (i + 1 < items - 1) ss << separator;
+        }
+        va_end(args);
+        return ss.str();
+    }
 
     template <> FL_EXPORT
     std::string Operation::join(int items, const std::string& separator, const char* first, ...) {
