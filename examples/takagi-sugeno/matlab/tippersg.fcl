@@ -39,7 +39,7 @@ RULEBLOCK
   ENABLED : TRUE;
   AND : MIN;
   OR : MAX;
-  ACT : MIN;
+  ACT : PROD;
   RULE 1 : if service is poor or food is rancid then tip is cheap
   RULE 2 : if service is average then tip is average
   RULE 3 : if service is good or food is delicious then tip is generous

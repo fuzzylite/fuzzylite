@@ -32,7 +32,7 @@ ruleBlock->setEnabled(true);
 ruleBlock->setName("");
 ruleBlock->setConjunction(new fl::Minimum);
 ruleBlock->setDisjunction(new fl::Maximum);
-ruleBlock->setActivation(new fl::Minimum);
+ruleBlock->setActivation(new fl::AlgebraicProduct);
 ruleBlock->addRule(fl::Rule::parse("if Ambient is DARK then Power is HIGH", engine));
 ruleBlock->addRule(fl::Rule::parse("if Ambient is MEDIUM then Power is MEDIUM", engine));
 ruleBlock->addRule(fl::Rule::parse("if Ambient is BRIGHT then Power is LOW", engine));

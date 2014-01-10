@@ -36,6 +36,8 @@ namespace fl {
         static void process(const std::string& input, T& writer,
                 const std::string& inputFormat, const std::string& outputFormat,
                 const std::map<std::string, std::string>& options);
+        
+        static void exportAllExamples(const std::string& from, const std::string& to);
 
     public:
         static std::string usage();

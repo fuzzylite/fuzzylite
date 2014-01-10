@@ -40,7 +40,7 @@ ruleBlock->setEnabled(true);
 ruleBlock->setName("");
 ruleBlock->setConjunction(new fl::Minimum);
 ruleBlock->setDisjunction(new fl::Maximum);
-ruleBlock->setActivation(new fl::Minimum);
+ruleBlock->setActivation(new fl::AlgebraicProduct);
 ruleBlock->addRule(fl::Rule::parse("if service is poor or food is rancid then tip is cheap", engine));
 ruleBlock->addRule(fl::Rule::parse("if service is average then tip is average", engine));
 ruleBlock->addRule(fl::Rule::parse("if service is good or food is delicious then tip is generous", engine));
