@@ -119,6 +119,9 @@
           </item>
           <item>
            <widget class="QLabel" name="lbl_type">
+            <property name="toolTip">
+             <string>Type of Engine</string>
+            </property>
             <property name="frameShape">
              <enum>QFrame::Box</enum>
             </property>

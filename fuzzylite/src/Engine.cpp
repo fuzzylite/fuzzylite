@@ -292,7 +292,7 @@ namespace fl {
             //Terms cannot be Constant or Linear
             for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
                 Term* term = outputVariable->getTerm(t);
-                mamdani &= not (dynamic_cast<Constant*> (term) or
+                mamdani &= term and not (dynamic_cast<Constant*> (term) or
                         dynamic_cast<Linear*> (term));
             }
             //Defuzzifier must be integral
@@ -326,9 +326,8 @@ namespace fl {
                         (dynamic_cast<Function*> (term));
             }
             //and the defuzzifier cannot be integral
-            IntegralDefuzzifier* defuzzifier = dynamic_cast<IntegralDefuzzifier*>
-                    (outputVariable->getDefuzzifier());
-            takagiSugeno &= not (defuzzifier);
+            Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
+            takagiSugeno &= defuzzifier and not ( dynamic_cast<IntegralDefuzzifier*> (defuzzifier));
         }
         if (takagiSugeno) return Engine::TAKAGI_SUGENO;
 
@@ -345,9 +344,8 @@ namespace fl {
                         (dynamic_cast<ZShape*> (term));
             }
             //and the defuzzifier cannot be integral
-            IntegralDefuzzifier* defuzzifier = dynamic_cast<IntegralDefuzzifier*>
-                    (outputVariable->getDefuzzifier());
-            tsukamoto &= not (defuzzifier);
+            Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
+            tsukamoto &= defuzzifier and not ( dynamic_cast<IntegralDefuzzifier*> (defuzzifier));
         }
         if (tsukamoto) return Engine::TSUKAMOTO;
 
@@ -358,13 +356,12 @@ namespace fl {
             //Terms cannot be Constant or Linear, like Mamdani
             for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
                 Term* term = outputVariable->getTerm(t);
-                inverseTsukamoto &= not (dynamic_cast<Constant*> (term) or
+                inverseTsukamoto &= term and not (dynamic_cast<Constant*> (term) or
                         dynamic_cast<Linear*> (term));
             }
             //Defuzzifier cannot be integral
-            IntegralDefuzzifier* defuzzifier = dynamic_cast<IntegralDefuzzifier*>
-                    (outputVariable->getDefuzzifier());
-            inverseTsukamoto &= not (defuzzifier);
+            Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
+            inverseTsukamoto &= defuzzifier and not ( dynamic_cast<IntegralDefuzzifier*> (defuzzifier));
         }
         if (inverseTsukamoto) return Engine::INVERSE_TSUKAMOTO;
 
