@@ -36,6 +36,7 @@ namespace fl {
     }
 
     Accumulated::~Accumulated() {
+        if (_accumulation) delete _accumulation;
     }
 
     std::string Accumulated::className() const {

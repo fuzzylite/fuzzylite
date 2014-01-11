@@ -42,6 +42,7 @@ namespace fl {
 
     OutputVariable::~OutputVariable() {
         delete _fuzzyOutput;
+        if (_defuzzifier) delete _defuzzifier;
     }
 
     Accumulated* OutputVariable::fuzzyOutput() const {
