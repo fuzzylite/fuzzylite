@@ -45,6 +45,11 @@
 #include "fl/term/Linear.h"
 #include "fl/term/Function.h"
 
+#include "fl/norm/t/AlgebraicProduct.h"
+#include "fl/term/Ramp.h"
+#include "fl/term/Sigmoid.h"
+#include "fl/term/SShape.h"
+#include "fl/term/ZShape.h"
 
 namespace fl {
 
@@ -275,6 +280,101 @@ namespace fl {
 
     std::string Engine::toString() const {
         return FllExporter().toString(this);
+    }
+
+    Engine::Type Engine::type() const {
+        if (_outputVariables.empty()) return Engine::NONE;
+
+        bool types[Engine::NONE]; //NONE is number of types
+
+        //Mamdani
+        types[Engine::MAMDANI] = true;
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            OutputVariable* outputVariable = _outputVariables.at(i);
+            //Terms cannot be Constant or Linear
+            for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
+                Term* term = outputVariable->getTerm(t);
+                types[Engine::MAMDANI] &= 
+                        not (dynamic_cast<Constant*> (term) or
+                        dynamic_cast<Linear*> (term));
+            }
+            //Defuzzifier must be integral
+            IntegralDefuzzifier* defuzzifier = dynamic_cast<IntegralDefuzzifier*>
+                    (outputVariable->getDefuzzifier());
+            types[Engine::MAMDANI] &= bool(defuzzifier);
+        }
+        //Larsen
+        types[Engine::LARSEN] = types[Engine::MAMDANI];
+        //Larsen is Mamdani with AlgebraicProduct as Activation
+        if (types[Engine::MAMDANI]) {
+            for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
+                RuleBlock* ruleBlock = _ruleblocks.at(i);
+                types[Engine::LARSEN] &= bool(dynamic_cast<const AlgebraicProduct*>
+                        (ruleBlock->getActivation()));
+            }
+        }
+        if (types[Engine::LARSEN]) return Engine::LARSEN;
+        if (types[Engine::MAMDANI]) return Engine::MAMDANI;
+        //Else, keep checking
+
+        //TakagiSugeno
+        types[Engine::TAKAGI_SUGENO] = true;
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            OutputVariable* outputVariable = _outputVariables.at(i);
+            //Takagi-Sugeno has only Constant, Linear or Function terms
+            for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
+                Term* term = outputVariable->getTerm(t);
+                types[Engine::TAKAGI_SUGENO] &=
+                        (dynamic_cast<Constant*> (term)) or
+                        (dynamic_cast<Linear*> (term)) or
+                        (dynamic_cast<Function*> (term));
+            }
+            //and the defuzzifier cannot be integral
+            IntegralDefuzzifier* defuzzifier = dynamic_cast<IntegralDefuzzifier*>
+                    (outputVariable->getDefuzzifier());
+            types[Engine::TAKAGI_SUGENO] &= not (defuzzifier);
+        }
+        if (types[Engine::TAKAGI_SUGENO]) return Engine::TAKAGI_SUGENO;
+
+        //Tsukamoto
+        types[Engine::TSUKAMOTO] = true;
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            OutputVariable* outputVariable = _outputVariables.at(i);
+            //Tsukamoto has only monotonic terms: Ramp, Sigmoid, SShape, or ZShape
+            for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
+                Term* term = outputVariable->getTerm(t);
+                types[Engine::TSUKAMOTO] &=
+                        (dynamic_cast<Ramp*> (term)) or
+                        (dynamic_cast<Sigmoid*> (term)) or
+                        (dynamic_cast<SShape*> (term)) or
+                        (dynamic_cast<ZShape*> (term));
+            }
+            //and the defuzzifier cannot be integral
+            IntegralDefuzzifier* defuzzifier = dynamic_cast<IntegralDefuzzifier*>
+                    (outputVariable->getDefuzzifier());
+            types[Engine::TSUKAMOTO] &= not (defuzzifier);
+        }
+        if (types[Engine::TSUKAMOTO]) return Engine::TSUKAMOTO;
+
+        //Inverse Tsukamoto
+        types[Engine::INVERSE_TSUKAMOTO] = true;
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            OutputVariable* outputVariable = _outputVariables.at(i);
+            //Terms cannot be Constant or Linear, like Mamdani
+            for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
+                Term* term = outputVariable->getTerm(t);
+                types[Engine::INVERSE_TSUKAMOTO] &= 
+                        not (dynamic_cast<Constant*> (term) or
+                        dynamic_cast<Linear*> (term));
+            }
+            //Defuzzifier cannot be integral
+            IntegralDefuzzifier* defuzzifier = dynamic_cast<IntegralDefuzzifier*>
+                    (outputVariable->getDefuzzifier());
+            types[Engine::INVERSE_TSUKAMOTO] &= not (defuzzifier);
+        }
+        if (types[Engine::INVERSE_TSUKAMOTO]) return Engine::INVERSE_TSUKAMOTO;
+
+        return Engine::UNKNOWN;
     }
 
     /**

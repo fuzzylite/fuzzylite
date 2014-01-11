@@ -134,7 +134,7 @@ namespace fl {
             ui->lvw_outputs->viewport()->installEventFilter(
                     new fl::qt::VariableContextMenu(ui->lvw_outputs, "output"));
 
-
+            ui->lbl_type->setVisible(false);
             connect();
         }
 
@@ -235,11 +235,11 @@ namespace fl {
             menuHelp->addAction(ui->actionAskForHelp);
             QObject::connect(ui->actionAskForHelp, SIGNAL(triggered()), this, SLOT(onMenuAskForHelp()));
 
-//            menuHelp->addAction(ui->actionJoinTheCommunity);
-//            QObject::connect(ui->actionJoinTheCommunity, SIGNAL(triggered()), this, SLOT(onMenuJoinTheCommunity()));
+            //            menuHelp->addAction(ui->actionJoinTheCommunity);
+            //            QObject::connect(ui->actionJoinTheCommunity, SIGNAL(triggered()), this, SLOT(onMenuJoinTheCommunity()));
 
-//            menuHelp->addAction(ui->actionFollowOnTwitter);
-//            QObject::connect(ui->actionFollowOnTwitter, SIGNAL(triggered()), this, SLOT(onMenuFollowOnTwitter()));
+            //            menuHelp->addAction(ui->actionFollowOnTwitter);
+            //            QObject::connect(ui->actionFollowOnTwitter, SIGNAL(triggered()), this, SLOT(onMenuFollowOnTwitter()));
 
             menuHelp->addSeparator();
             menuHelp->addAction(ui->actionCheckForUpdates);
@@ -325,7 +325,29 @@ namespace fl {
 
             updateWindowTitle();
 
-            ui->led_name->setText(QString::fromStdString(engine->getName()));
+            {
+                ui->led_name->setText(QString::fromStdString(engine->getName()));
+                Engine::Type type = engine->type();
+                ui->lbl_type->setVisible(type != Engine::NONE);
+                QString nameType;
+                switch (type) {
+                    case Engine::MAMDANI: nameType = "Mamdani";
+                        break;
+                    case Engine::LARSEN: nameType = "Larsen";
+                        break;
+                    case Engine::TAKAGI_SUGENO: nameType = "Takagi-Sugeno";
+                        break;
+                    case Engine::TSUKAMOTO: nameType = "Tsukamoto";
+                        break;
+                    case Engine::INVERSE_TSUKAMOTO: nameType = "Inverse Tsukamoto";
+                        break;
+                    case Engine::NONE: nameType = "None";
+                        break;
+                    case Engine::UNKNOWN:
+                    default: nameType = "Unknown";
+                }
+                ui->lbl_type->setText(" " + nameType + " ");
+            }
 
             QFont typeWriter = typeWriterFont();
             ui->ptx_rules->setFont(typeWriter);
@@ -2122,7 +2144,7 @@ namespace fl {
             bool checkForUpdates = settings.value("checkForUpdates", true).toBool();
             if (checkForUpdates) {
                 w->automaticUpdates();
-            } 
+            }
             //            w->showMinimized();
             //            splash.finish(w);
             //            w->onMenuAbout();
