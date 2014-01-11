@@ -57,20 +57,19 @@ namespace fl {
     }
 
     Engine::~Engine() {
-        for (int i = numberOfRuleBlocks() - 1; i >= 0; --i) {
-            delete removeRuleBlock(i);
+        for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
+            delete _ruleblocks.at(i);
+        }
+        for (std::size_t i = 0; i < _hedges.size(); ++i) {
+            delete _hedges.at(i);
         }
 
-        for (int i = numberOfHedges() - 1; i >= 0; --i) {
-            delete removeHedge(i);
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            delete _outputVariables.at(i);
         }
 
-        for (int i = numberOfOutputVariables() - 1; i >= 0; --i) {
-            delete removeOutputVariable(i);
-        }
-
-        for (int i = numberOfInputVariables() - 1; i >= 0; --i) {
-            delete removeInputVariable(i);
+        for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
+            delete _inputVariables.at(i);
         }
     }
 

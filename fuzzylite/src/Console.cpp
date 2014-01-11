@@ -241,6 +241,9 @@ namespace fl {
             delete exporter;
             throw ex;
         }
+        delete engine;
+        delete importer;
+        delete exporter;
     }
 
     template void Console::process(const std::string& input, std::ostringstream& writer,
@@ -428,6 +431,7 @@ namespace fl {
                                 << importer->name() << "," << exporter->name() << "> "
                                 "at " + examples.at(t) + "." + from + ":\n";
                     }
+                    delete copy;
                 }
 
                 std::string output = targetBase + examples.at(i) + "." + to;
@@ -485,7 +489,6 @@ namespace fl {
             std::cout << usage() << std::endl;
             return EXIT_SUCCESS;
         }
-        FL_LOG(argc);
         if (argc == 2 and "export-examples" == std::string(argv[1])) {
             fuzzylite::setDecimals(3);
             exportAllExamples("fis", "fll");
