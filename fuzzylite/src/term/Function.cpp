@@ -116,6 +116,10 @@ namespace fl {
 
     void Function::load(const std::string& formula,
             const Engine* engine) throw (fl::Exception) {
+        if (this->root) {
+            delete this->root;
+            this->root = NULL;
+        }
         this->root = parse(formula);
         this->_formula = formula;
         this->_engine = engine;
@@ -448,6 +452,11 @@ namespace fl {
 
     Function::Node::Node(scalar value)
     : foperator(NULL), function(NULL), variable(""), value(value), left(NULL), right(NULL) {
+    }
+    
+    Function::Node::~Node(){
+        if (left) delete left;
+        if (right) delete right;
     }
 
     scalar Function::Node::evaluate(const std::map<std::string, scalar>* variables) const {

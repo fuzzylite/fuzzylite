@@ -36,6 +36,7 @@ namespace fl {
     }
 
     Accumulated::~Accumulated() {
+        this->clear();
         if (_accumulation) delete _accumulation;
     }
 

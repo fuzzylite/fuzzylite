@@ -57,6 +57,7 @@ namespace fl {
     }
 
     Engine::~Engine() {
+        
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
             delete _ruleblocks.at(i);
         }
