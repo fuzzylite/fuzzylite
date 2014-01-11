@@ -34,7 +34,7 @@ namespace fl {
 
     class FL_EXPORT FactoryManager {
     protected:
-        static FactoryManager* _instance;
+        static FactoryManager _instance;
 
         TNormFactory* _tnorm;
         SNormFactory* _snorm;
@@ -42,7 +42,9 @@ namespace fl {
         TermFactory* _term;
         HedgeFactory* _hedge;
 
-        FactoryManager();
+        FactoryManager(TNormFactory* tnorm = NULL, SNormFactory* snorm = NULL,
+                DefuzzifierFactory* defuzzifier = NULL, TermFactory* term = NULL,
+                HedgeFactory* hedge = NULL);
         virtual ~FactoryManager();
 
     public:

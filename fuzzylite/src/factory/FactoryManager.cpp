@@ -29,22 +29,26 @@
 
 namespace fl {
 
-    FactoryManager* FactoryManager::_instance = NULL;
+    FactoryManager FactoryManager::_instance; 
 
     FactoryManager* FactoryManager::instance() {
-        if (not _instance) {
-            _instance = new FactoryManager;
-            _instance->setTnorm(new TNormFactory);
-            _instance->setSnorm(new SNormFactory);
-            _instance->setDefuzzifier(new DefuzzifierFactory);
-            _instance->setTerm(new TermFactory);
-            _instance->setHedge(new HedgeFactory);
+        static bool initialized = false;
+        if (not initialized) {
+            initialized = true;
+            _instance.setTnorm(new TNormFactory);
+            _instance.setSnorm(new SNormFactory);
+            _instance.setDefuzzifier(new DefuzzifierFactory);
+            _instance.setTerm(new TermFactory);
+            _instance.setHedge(new HedgeFactory);
         }
-        return _instance;
+        return &_instance;
     }
 
-    FactoryManager::FactoryManager() :
-    _tnorm(NULL), _snorm(NULL), _defuzzifier(NULL), _term(NULL), _hedge(NULL) { }
+    FactoryManager::FactoryManager(TNormFactory* tnorm, SNormFactory* snorm,
+            DefuzzifierFactory* defuzzifier, TermFactory* term,
+            HedgeFactory* hedge) :
+    _tnorm(tnorm), _snorm(snorm), _defuzzifier(defuzzifier), _term(term), _hedge(hedge) {
+    }
 
     FactoryManager::~FactoryManager() {
         if (_hedge) delete _hedge;

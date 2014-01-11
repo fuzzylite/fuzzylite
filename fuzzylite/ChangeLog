@@ -61,6 +61,8 @@ Master:
 * Modified Function::Unary and Binary to take scalar instead of double
 * Fixed building using -DFL_USE_FLOAT=ON
 * Added deductive type of Engine with Engine::type()
-* Fixed memory leaks at RuleBlock (conjunction, disjunction, activation)
-* Fixed memory leak at Accumulated (accumulation, thresholded terms)
-* Fixed memory leak at OutputVariable (defuzzifier)
+* Fixed minor memory leak at RuleBlock (conjunction, disjunction, activation)
+* Fixed minor memory leak at Accumulated (accumulation, thresholded terms)
+* Fixed minor memory leak at OutputVariable (defuzzifier)
+* Fixed minor memory leak at Function::Node
+* Fixed minor memory leak at FactoryManager
