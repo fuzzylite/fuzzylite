@@ -78,7 +78,7 @@ namespace fl {
             }
         }
         
-        if (not Op::isNan(z)) {
+        if (not Op::isNaN(z)) {
             //Compare difference between estimated and true value
             scalar fz = monotonic->membership(z);
             if (not Op::isEq(w, fz, 1e-2)) {

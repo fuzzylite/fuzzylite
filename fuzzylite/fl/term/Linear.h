@@ -42,6 +42,7 @@ namespace fl {
         virtual void configure(const std::string& parameters);
 
         //Warning: this method is unsafe, make sure you use it correctly.
+        //TODO: change method to:create(std::string, std::vector<InputVariable*>, numberOfCoefficients, firstCoeff.
         template <typename T>
         static Linear* create(const std::string& name, const std::vector<InputVariable*>& inputVariables,
                 T firstCoefficient, ...);

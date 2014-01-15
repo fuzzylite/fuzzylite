@@ -170,7 +170,7 @@ namespace fl {
             if (_outputView) {
                 _outputs.at(_outputIndex) = y;
                 _outputIndex = (_outputIndex + 1) % _outputs.size();
-                if (not (fl::Op::isNan(y) or fl::Op::isInf(y))) {
+                if (not (fl::Op::isNaN(y) or fl::Op::isInf(y))) {
                     if (y > _maxOutput) _maxOutput = y;
                     if (y < _minOutput) _minOutput = y;
                 }
@@ -381,7 +381,7 @@ namespace fl {
                 y1ui = fl::Op::scale(y1, min, max,
                         rect.bottom(), rect.top());
 
-                if (fl::Op::isNan(y0ui) or fl::Op::isInf(y0ui)) {
+                if (fl::Op::isNaN(y0ui) or fl::Op::isInf(y0ui)) {
                     path.moveTo(x1ui, y1ui);
                 } else {
                     path.moveTo(x0ui, y0ui);

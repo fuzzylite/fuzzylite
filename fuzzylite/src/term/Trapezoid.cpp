@@ -59,7 +59,7 @@ namespace fl {
     }
 
     scalar Trapezoid::membership(scalar x) const {
-        if (fl::Op::isNan(x)) return fl::nan;
+        if (fl::Op::isNaN(x)) return fl::nan;
 
         if (Op::isLE(x, _a) or Op::isGE(x, _d))
             return 0.0;

@@ -34,12 +34,12 @@ namespace fl {
     FactoryManager* FactoryManager::instance() {
         static bool initialized = false;
         if (not initialized) {
-            initialized = true;
             _instance.setTnorm(new TNormFactory);
             _instance.setSnorm(new SNormFactory);
             _instance.setDefuzzifier(new DefuzzifierFactory);
             _instance.setTerm(new TermFactory);
             _instance.setHedge(new HedgeFactory);
+            initialized = true;
         }
         return &_instance;
     }

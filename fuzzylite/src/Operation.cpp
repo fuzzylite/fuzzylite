@@ -25,8 +25,8 @@ namespace fl {
 
     template <typename T>
     T Operation::min(T a, T b) {
-        if (isNan(a)) return b;
-        if (isNan(b)) return a;
+        if (isNaN(a)) return b;
+        if (isNaN(b)) return a;
         return a < b ? a : b;
     }
     template FL_EXPORT scalar Operation::min(scalar a, scalar b);
@@ -34,8 +34,8 @@ namespace fl {
 
     template <typename T>
     T Operation::max(T a, T b) {
-        if (isNan(a)) return b;
-        if (isNan(b)) return a;
+        if (isNaN(a)) return b;
+        if (isNaN(b)) return a;
         return a > b ? a : b;
     }
     template FL_EXPORT scalar Operation::max(scalar a, scalar b);
@@ -49,11 +49,11 @@ namespace fl {
     template FL_EXPORT bool Operation::isInf(scalar x);
 
     template <typename T>
-    bool Operation::isNan(T x) {
+    bool Operation::isNaN(T x) {
         return not (x == x);
     }
-    template FL_EXPORT bool Operation::isNan(int x);
-    template FL_EXPORT bool Operation::isNan(scalar x);
+    template FL_EXPORT bool Operation::isNaN(int x);
+    template FL_EXPORT bool Operation::isNaN(scalar x);
 
     bool Operation::isLt(scalar a, scalar b, scalar macheps) {
         return not isEq(a, b, macheps) and a < b;
@@ -263,7 +263,7 @@ namespace fl {
     std::string Operation::str(T x, int decimals) {
         std::ostringstream ss;
         ss << std::setprecision(decimals) << std::fixed;
-        if (fl::Op::isNan(x)) {
+        if (fl::Op::isNaN(x)) {
             ss << "nan";
         } else if (fl::Op::isInf(x)) {
             if (fl::Op::isLt(x, 0.0)) ss << "-";

@@ -506,7 +506,7 @@ namespace fl {
 
     std::string Function::Node::toPrefix(const Node* node) const {
         if (not node) node = this;
-        if (not fl::Op::isNan(node->value)) { //is terminal
+        if (not fl::Op::isNaN(node->value)) { //is terminal
             return fl::Op::str(node->value);
         }
         if (not node->variable.empty()) {
@@ -524,7 +524,7 @@ namespace fl {
 
     std::string Function::Node::toInfix(const Node* node) const {
         if (not node) node = this;
-        if (not fl::Op::isNan(node->value)) { //is proposition
+        if (not fl::Op::isNaN(node->value)) { //is proposition
             return fl::Op::str(node->value);
         }
         if (not node->variable.empty()) {
@@ -542,7 +542,7 @@ namespace fl {
 
     std::string Function::Node::toPostfix(const Node* node) const {
         if (not node) node = this;
-        if (not fl::Op::isNan(node->value)) { //is proposition
+        if (not fl::Op::isNaN(node->value)) { //is proposition
             return fl::Op::str(node->value);
         }
         if (not node->variable.empty()) {

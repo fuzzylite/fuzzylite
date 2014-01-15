@@ -28,7 +28,7 @@ namespace fl {
 
     Triangle::Triangle(const std::string& name, scalar a, scalar b, scalar c)
     : Term(name), _a(a), _b(b), _c(c) {
-        if (fl::Op::isNan(c)) {
+        if (fl::Op::isNaN(c)) {
             this->_c = b;
             this->_b = (a + b) / 2.0;
         }
@@ -61,7 +61,7 @@ namespace fl {
     }
 
     scalar Triangle::membership(scalar x) const {
-        if (fl::Op::isNan(x)) return fl::nan;
+        if (fl::Op::isNaN(x)) return fl::nan;
 
         scalar minimum = _a;
         scalar maximum = _c;

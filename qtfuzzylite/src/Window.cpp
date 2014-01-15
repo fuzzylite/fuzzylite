@@ -639,7 +639,7 @@ namespace fl {
                 fl::Rule* rule = ruleblock->getRule(i);
                 scalar degree = rule->activationDegree(ruleblock->getConjunction(),
                         ruleblock->getDisjunction());
-                if (not fl::Op::isInf(degree) and not fl::Op::isNan(degree)) {
+                if (not fl::Op::isInf(degree) and not fl::Op::isNaN(degree)) {
                     QColor color = Window::mainWindow()->gradient(degree * 255,
                             from_color, to_color);
 

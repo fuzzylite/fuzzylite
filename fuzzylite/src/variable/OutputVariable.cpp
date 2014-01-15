@@ -108,7 +108,7 @@ namespace fl {
         } else {
             //if a previous defuzzification was successfully performed and
             //and the output is supposed to not change when the output is empty
-            if (_lockValidOutput and not Op::isNan(_lastValidOutput)) {
+            if (_lockValidOutput and not Op::isNaN(_lastValidOutput)) {
                 result = _lastValidOutput;
             } else {
                 result = _defaultValue;

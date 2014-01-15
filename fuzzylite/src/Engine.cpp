@@ -57,7 +57,7 @@ namespace fl {
     }
 
     Engine::~Engine() {
-        
+
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
             delete _ruleblocks.at(i);
         }
@@ -327,7 +327,7 @@ namespace fl {
             }
             //and the defuzzifier cannot be integral
             Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
-            takagiSugeno &= defuzzifier and not ( dynamic_cast<IntegralDefuzzifier*> (defuzzifier));
+            takagiSugeno &= defuzzifier and not (dynamic_cast<IntegralDefuzzifier*> (defuzzifier));
         }
         if (takagiSugeno) return Engine::TAKAGI_SUGENO;
 
@@ -345,7 +345,7 @@ namespace fl {
             }
             //and the defuzzifier cannot be integral
             Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
-            tsukamoto &= defuzzifier and not ( dynamic_cast<IntegralDefuzzifier*> (defuzzifier));
+            tsukamoto &= defuzzifier and not (dynamic_cast<IntegralDefuzzifier*> (defuzzifier));
         }
         if (tsukamoto) return Engine::TSUKAMOTO;
 
@@ -361,7 +361,7 @@ namespace fl {
             }
             //Defuzzifier cannot be integral
             Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
-            inverseTsukamoto &= defuzzifier and not ( dynamic_cast<IntegralDefuzzifier*> (defuzzifier));
+            inverseTsukamoto &= defuzzifier and not (dynamic_cast<IntegralDefuzzifier*> (defuzzifier));
         }
         if (inverseTsukamoto) return Engine::INVERSE_TSUKAMOTO;
 

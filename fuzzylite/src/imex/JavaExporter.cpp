@@ -207,7 +207,7 @@ namespace fl {
     }
 
     std::string JavaExporter::toString(scalar value) const {
-        if (Op::isNan(value)) {
+        if (Op::isNaN(value)) {
             return "Double.NaN";
         } else if (Op::isInf(value)) {
             return (value > 0

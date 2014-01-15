@@ -101,7 +101,7 @@ namespace fl {
             if (i == 0) {
                 ss << fl::Op::str(fx);
             } else {
-                if (fl::Op::isNan(fx) or fl::Op::isGE(fx, 0.0))
+                if (fl::Op::isNaN(fx) or fl::Op::isGE(fx, 0.0))
                     ss << " + " << fl::Op::str(fx);
                 else
                     ss << " - " << fl::Op::str(std::fabs(fx));

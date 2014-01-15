@@ -238,14 +238,14 @@ namespace fl {
 
                     if (output->isLockingOutputRange()) {
                         QColor pixel = invalidColor;
-                        if (not (fl::Op::isInf(oValue) or fl::Op::isNan(oValue))) {
+                        if (not (fl::Op::isInf(oValue) or fl::Op::isNaN(oValue))) {
                             int gradient = (int) fl::Op::scale(oValue,
                                     minOutput, maxOutput, 0, 255);
                             pixel = Window::mainWindow()->gradient(gradient, minColor, maxColor);
                         }
                         _surface.setPixel(a, b, pixel.rgb());
                     } else {
-                        if (not fl::Op::isNan(oValue)) {
+                        if (not fl::Op::isNaN(oValue)) {
                             if (oValue < minOutput) minOutput = oValue;
                             if (oValue > maxOutput) maxOutput = oValue;
                         }
@@ -258,7 +258,7 @@ namespace fl {
                     for (int y = 0; y < height; ++y) {
                         QColor pixel = invalidColor;
                         scalar output = _matrix.at(x).at(y).output;
-                        if (not (fl::Op::isInf(output) or fl::Op::isNan(output))) {
+                        if (not (fl::Op::isInf(output) or fl::Op::isNaN(output))) {
                             int gradient = (int) fl::Op::scale(output, minOutput, maxOutput, 0, 255);
                             pixel = Window::mainWindow()->gradient(gradient, minColor, maxColor);
                         }

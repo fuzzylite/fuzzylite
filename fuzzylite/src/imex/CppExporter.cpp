@@ -142,7 +142,7 @@ namespace fl {
 
     std::string CppExporter::toString(scalar value) const {
         std::ostringstream ss;
-        if (fl::Op::isNan(value))
+        if (fl::Op::isNaN(value))
             ss << "fl::nan";
         else if (fl::Op::isInf(value))
             ss << (Op::isGE(value, 0.0) ? "" : "-") << "fl::inf";

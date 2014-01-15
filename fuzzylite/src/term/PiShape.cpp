@@ -58,7 +58,7 @@ namespace fl {
     }
 
     scalar PiShape::membership(scalar x) const {
-        if (fl::Op::isNan(x)) return fl::nan;
+        if (fl::Op::isNaN(x)) return fl::nan;
         //from Octave smf.m
         scalar a_b_ave = (_bottomLeft + _topLeft) / 2.0;
         scalar b_minus_a = _topLeft - _bottomLeft;

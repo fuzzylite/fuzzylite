@@ -48,6 +48,7 @@ namespace fl {
         virtual ~FactoryManager();
 
     public:
+        //This method is thread-safe only after the first call.
         static FactoryManager* instance();
 
         virtual void setTnorm(TNormFactory* tnorm);

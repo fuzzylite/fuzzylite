@@ -57,7 +57,7 @@ namespace fl {
     }
 
     scalar Rectangle::membership(scalar x) const {
-        if (fl::Op::isNan(x)) return fl::nan;
+        if (fl::Op::isNaN(x)) return fl::nan;
         if (fl::Op::isLt(x, _start) or fl::Op::isGt(x, _end))
             return 0.0;
         return 1.0;

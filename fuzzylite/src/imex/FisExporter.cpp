@@ -276,7 +276,7 @@ namespace fl {
                 break;
             }
             if (negated < 0) ss << "-";
-            if (not fl::Op::isNan(plusHedge)) {
+            if (not fl::Op::isNaN(plusHedge)) {
                 ss << fl::Op::str(termIndexPlusOne + plusHedge);
             } else {
                 ss << termIndexPlusOne << ".?"; // Unreconized hedge combination

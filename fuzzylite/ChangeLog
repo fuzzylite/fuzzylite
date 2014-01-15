@@ -66,3 +66,4 @@ Master:
 * Fixed minor memory leak at OutputVariable (defuzzifier)
 * Fixed minor memory leak at Function::Node
 * Fixed minor memory leak at FactoryManager
+* Renamed Op::isNan to Op::isNaN

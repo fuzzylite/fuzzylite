@@ -110,7 +110,7 @@ namespace fl {
             int x1, int y1, ...) throw (fl::Exception);
 
     scalar Discrete::membership(scalar _x_) const {
-        if (fl::Op::isNan(_x_)) return fl::nan;
+        if (fl::Op::isNaN(_x_)) return fl::nan;
         if (x.empty() or y.empty()) return 0.0;
         if (x.size() != y.size()) {
             std::ostringstream ex;

@@ -45,7 +45,7 @@ namespace fl {
         static bool isInf(T x);
 
         template <typename T>
-        static bool isNan(T x);
+        static bool isNaN(T x);
 
         //Is less than
 
