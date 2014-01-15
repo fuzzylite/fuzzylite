@@ -63,9 +63,8 @@ int main(int argc, char** argv) {
 
     try {
         return Console::main(argc, argv);
-    } catch (fl::Exception& e) {
-        FL_LOG(e.what());
-        FL_LOG(e.btCallStack());
+    } catch (std::exception& e) {
+        fl::Exception::catchException(e);
         return EXIT_FAILURE;
     }
 }
