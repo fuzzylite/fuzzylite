@@ -134,16 +134,24 @@ namespace fl {
 
     void Exception::signalHandler(int signal) {
         std::ostringstream ex;
-        ex << "[caught signal " << signal << "] backtrace:\n";
-        ex << fl::Exception::btCallStack();
-        throw fl::Exception(ex.str(), FL_AT);
+        ex << "[unexpected signal " << signal << "]";
+        fl::Exception::catchException(fl::Exception(ex.str(), FL_AT));
+        exit(EXIT_FAILURE);
     }
 
     void Exception::terminate() {
-        std::string message = "[unexpected exception] backtrace:\n"
-                + fl::Exception::btCallStack(50);
-        FL_LOGP(message);
+        fl::Exception::catchException(fl::Exception("[unexpected exception]", FL_AT));
         exit(EXIT_FAILURE);
+    }
+    
+    void Exception::catchException(const std::exception& exception){
+        std::ostringstream ss;
+        ss << exception.what();
+        std::string backtrace = btCallStack();
+        if (not backtrace.empty()){
+            ss << "\n\nBACKTRACE:\n" << backtrace;
+        }
+        FL_LOG(ss.str());
     }
 
 }

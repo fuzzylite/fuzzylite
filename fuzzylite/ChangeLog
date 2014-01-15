@@ -66,3 +66,5 @@ Master:
 * Fixed minor memory leak at OutputVariable (defuzzifier)
 * Fixed minor memory leak at Function::Node
 * Fixed minor memory leak at FactoryManager
+* Improved handling of Exceptions
+* Fixed bug in qtfuzzylite introduced after deleting the instances causing the memory leaks.

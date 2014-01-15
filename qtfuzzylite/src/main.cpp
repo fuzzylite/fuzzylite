@@ -79,6 +79,10 @@ namespace fl {
                     "free open source fuzzy logic library!<br><br>"
                     "Many thanks in advance for your help!"
                     "</qt>";
+            std::string backtrace = fl::Exception::btCallStack();
+            if (not backtrace.empty()) {
+                error += QString::fromStdString("\n\nBACKTRACE:\n" + backtrace);
+            }
             QMessageBox x(NULL);
             x.setText(message);
             x.setWindowTitle("Internal Error");
@@ -110,19 +114,18 @@ namespace fl {
     static QtFuzzyLite* qtfuzzylite = NULL;
 
     void terminate() {
-        std::string message = "[unexpected exception] backtrace:\n"
-                + fl::Exception::btCallStack(50);
-        fl::Exception ex(message, FL_AT);
+        fl::Exception ex("[unexpected exception]", FL_AT);
         qtfuzzylite->catchException(ex);
+        delete qtfuzzylite;
         exit(EXIT_FAILURE);
     }
 
     void signalHandler(int signal) {
         std::ostringstream message;
-        message << "[caught signal " << signal << "] backtrace:\n"
-                << fl::Exception::btCallStack(50);
+        message << "[signal " << signal << "]";
         fl::Exception ex(message.str(), FL_AT);
         qtfuzzylite->catchException(ex);
+        delete qtfuzzylite;
         exit(EXIT_FAILURE);
     }
 }
