@@ -1,3 +1,6 @@
+Version 5.0
+* Renamed Op::isNan to Op::isNaN
+
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.
 * FuzzyAntecedent merged with Antecedent, and FuzzyAntecedent deleted
@@ -57,7 +60,7 @@ Version 4.0
 * Renamed fuzzylite::shortVersion to fuzzylite::version
 * Improved accuracy of Triangle and Trapezoid
 
-Master:
+Version 4.x
 * Modified Function::Unary and Binary to take scalar instead of double
 * Fixed building using -DFL_USE_FLOAT=ON
 * Added deductive type of Engine with Engine::type()
@@ -66,4 +69,3 @@ Master:
 * Fixed minor memory leak at OutputVariable (defuzzifier)
 * Fixed minor memory leak at Function::Node
 * Fixed minor memory leak at FactoryManager
-* Renamed Op::isNan to Op::isNaN
