@@ -11,7 +11,6 @@ AggMethod='max'
 DefuzzMethod='centroid'
 
 [Input1]
-Enabled=1
 Name='service'
 Range=[0.000 10.000]
 NumMFs=3
@@ -20,12 +19,8 @@ MF2='good':'gaussmf',[1.500 5.000]
 MF3='excellent':'gaussmf',[1.500 10.000]
 
 [Output1]
-Enabled=1
 Name='tip'
 Range=[0.000 30.000]
-Default=nan
-LockValid=0
-LockRange=0
 NumMFs=3
 MF1='cheap':'trimf',[0.000 5.000 10.000]
 MF2='average':'trimf',[10.000 15.000 20.000]

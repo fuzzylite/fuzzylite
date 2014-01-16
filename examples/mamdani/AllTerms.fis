@@ -11,7 +11,6 @@ AggMethod='max'
 DefuzzMethod='centroid'
 
 [Input1]
-Enabled=1
 Name='AllInputTerms'
 Range=[0.000 6.500]
 NumMFs=16
@@ -33,12 +32,8 @@ MF15='O':'smf',[5.500 6.500]
 MF16='P':'sigmf',[20.000 6.000]
 
 [Output1]
-Enabled=1
 Name='AllOutputTerms'
 Range=[0.000 6.500]
-Default=nan
-LockValid=0
-LockRange=0
 NumMFs=16
 MF1='A':'sigmf',[-20.000 0.500]
 MF2='B':'zmf',[0.000 1.000]

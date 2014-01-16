@@ -11,7 +11,6 @@ AggMethod='max'
 DefuzzMethod='wtaver'
 
 [Input1]
-Enabled=1
 Name='service'
 Range=[0.000 10.000]
 NumMFs=3
@@ -20,7 +19,6 @@ MF2='average':'gaussmf',[1.500 5.000]
 MF3='good':'gaussmf',[1.500 10.000]
 
 [Input2]
-Enabled=1
 Name='food'
 Range=[0.000 10.000]
 NumMFs=2
@@ -28,12 +26,8 @@ MF1='rancid':'trapmf',[-5.000 0.000 1.000 3.000]
 MF2='delicious':'trapmf',[7.000 9.000 10.000 15.000]
 
 [Output1]
-Enabled=1
 Name='tip'
 Range=[-30.000 30.000]
-Default=nan
-LockValid=0
-LockRange=0
 NumMFs=3
 MF1='cheap':'linear',[0.000 0.000 5.000]
 MF2='average':'linear',[0.000 0.000 15.000]

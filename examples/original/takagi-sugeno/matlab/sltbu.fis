@@ -1,0 +1,40 @@
+% $Revision: 1.1 $
+[System]
+Name = 'sltbu'
+Type = 'sugeno'
+NumInputs = 3
+NumOutputs = 1
+NumRules = 2
+AndMethod = 'prod'
+OrMethod = 'max'
+ImpMethod = 'prod'
+AggMethod = 'max'
+DefuzzMethod = 'wtaver'
+
+[Input1]
+Name = 'distance'
+Range = [0 25]
+NumMFs = 2
+MF1='near':'zmf',[1 2 0 0]
+MF2='far':'smf',[1 2 0 0]
+
+[Input2]
+Name = 'control1'
+Range = [-pi/4 pi/4]
+NumMFs = 0
+
+[Input3]
+Name = 'control2'
+Range = [-pi/4 pi/4]
+NumMFs = 0
+
+[Output1]
+Name = 'control'
+Range = [-pi/4 pi/4]
+NumMFs = 2
+MF1='out1mf1':'linear',[0 0 1 0]
+MF2='out1mf2':'linear',[0 1 0 0]
+
+[Rules]
+1 0 0, 1 (1) : 1 
+2 0 0, 2 (1) : 1 

@@ -10,7 +10,6 @@ VAR_OUTPUT
 END_VAR
 
 FUZZIFY input1
-  ENABLED : TRUE;
   RANGE := (-6.287 .. 17.000);
   TERM in1mf1 := Bell -6.122 2.259 1.761;
   TERM in1mf2 := Bell -2.181 2.095 2.232;
@@ -22,7 +21,6 @@ FUZZIFY input1
 END_FUZZIFY
 
 FUZZIFY input2
-  ENABLED : TRUE;
   RANGE := (0.000 .. 16.972);
   TERM in2mf1 := Bell 0.621 1.741 2.454;
   TERM in2mf2 := Bell 2.406 0.866 1.278;
@@ -34,7 +32,6 @@ FUZZIFY input2
 END_FUZZIFY
 
 DEFUZZIFY output
-  ENABLED : TRUE;
   RANGE := (0.000 .. 1.500);
   TERM out1mf1 := Linear -0.912 2.517 0.061;
   TERM out1mf2 := Linear -2.153 -2.204 -4.037;
@@ -91,7 +88,6 @@ DEFUZZIFY output
 END_DEFUZZIFY
 
 RULEBLOCK 
-  ENABLED : TRUE;
   AND : PROD;
   OR : MAX;
   ACT : PROD;

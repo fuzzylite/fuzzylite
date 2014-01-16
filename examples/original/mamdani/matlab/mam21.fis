@@ -1,0 +1,41 @@
+% $Revision: 1.1 $
+[System]
+Name = 'mam21'
+Type = 'mamdani'
+NumInputs = 2
+NumOutputs = 1
+NumRules = 4
+AndMethod = 'min'
+OrMethod = 'max'
+ImpMethod = 'min'
+AggMethod = 'max'
+DefuzzMethod = 'centroid'
+
+[Input1]
+Name = 'angle'
+Range = [-5 5]
+NumMFs = 2
+MF1='small':'gbellmf',[5 8 -5]
+MF2='big':'gbellmf',[5 8 5]
+
+[Input2]
+Name = 'velocity'
+Range = [-5 5]
+NumMFs = 2
+MF1='small':'gbellmf',[5 2 -5]
+MF2='big':'gbellmf',[5 2 5]
+
+[Output1]
+Name = 'force'
+Range = [-5 5]
+NumMFs = 4
+MF1='negBig':'gbellmf',[1.67 8 -5]
+MF2='negSmall':'gbellmf',[1.67 8 -1.67]
+MF3='posSmall':'gbellmf',[1.67 8 1.67]
+MF4='posBig':'gbellmf',[1.67 8 5]
+
+[Rules]
+1 1, 1 (1) : 1 
+1 2, 2 (1) : 1 
+2 1, 3 (1) : 1 
+2 2, 4 (1) : 1 

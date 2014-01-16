@@ -11,7 +11,6 @@ AggMethod='max'
 DefuzzMethod='centroid'
 
 [Input1]
-Enabled=1
 Name='angle'
 Range=[-5.000 5.000]
 NumMFs=2
@@ -19,7 +18,6 @@ MF1='small':'gbellmf',[5.000 8.000 -5.000]
 MF2='big':'gbellmf',[5.000 8.000 5.000]
 
 [Input2]
-Enabled=1
 Name='velocity'
 Range=[-5.000 5.000]
 NumMFs=2
@@ -27,12 +25,8 @@ MF1='small':'gbellmf',[5.000 2.000 -5.000]
 MF2='big':'gbellmf',[5.000 2.000 5.000]
 
 [Output1]
-Enabled=1
 Name='force'
 Range=[-5.000 5.000]
-Default=nan
-LockValid=0
-LockRange=0
 NumMFs=4
 MF1='negBig':'gbellmf',[1.670 8.000 -5.000]
 MF2='negSmall':'gbellmf',[1.670 8.000 -1.670]
@@ -40,12 +34,8 @@ MF3='posSmall':'gbellmf',[1.670 8.000 1.670]
 MF4='posBig':'gbellmf',[1.670 8.000 5.000]
 
 [Output2]
-Enabled=1
 Name='force2'
 Range=[-5.000 5.000]
-Default=nan
-LockValid=0
-LockRange=0
 NumMFs=4
 MF1='negBig2':'gbellmf',[1.670 8.000 -3.000]
 MF2='negSmall2':'gbellmf',[1.670 8.000 -1.000]

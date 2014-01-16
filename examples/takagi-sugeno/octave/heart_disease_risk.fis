@@ -6,12 +6,11 @@ NumOutputs=1
 NumRules=15
 AndMethod='min'
 OrMethod='max'
-ImpMethod='min'
+ImpMethod='prod'
 AggMethod='max'
 DefuzzMethod='wtaver'
 
 [Input1]
-Enabled=1
 Name='LDLLevel'
 Range=[0.000 300.000]
 NumMFs=5
@@ -22,7 +21,6 @@ MF4='HighBorderline':'trapmf',[150.000 170.000 180.000 200.000]
 MF5='High':'trapmf',[180.000 200.000 300.000 301.000]
 
 [Input2]
-Enabled=1
 Name='HDLLevel'
 Range=[0.000 100.000]
 NumMFs=3
@@ -31,12 +29,8 @@ MF2='ModerateHDL':'trapmf',[35.000 45.000 55.000 65.000]
 MF3='HighHDL':'trapmf',[55.000 65.000 100.000 101.000]
 
 [Output1]
-Enabled=1
 Name='HeartDiseaseRisk'
 Range=[0.000 10.000]
-Default=nan
-LockValid=0
-LockRange=0
 NumMFs=5
 MF1='NoRisk':'constant',[0.000]
 MF2='LowRisk':'constant',[2.500]

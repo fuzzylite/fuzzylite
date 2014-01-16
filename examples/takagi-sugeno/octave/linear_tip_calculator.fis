@@ -6,12 +6,11 @@ NumOutputs=1
 NumRules=4
 AndMethod='min'
 OrMethod='max'
-ImpMethod='min'
+ImpMethod='prod'
 AggMethod='max'
 DefuzzMethod='wtaver'
 
 [Input1]
-Enabled=1
 Name='FoodQuality'
 Range=[1.000 10.000]
 NumMFs=2
@@ -19,7 +18,6 @@ MF1='Bad':'trapmf',[0.000 1.000 3.000 7.000]
 MF2='Good':'trapmf',[3.000 7.000 10.000 11.000]
 
 [Input2]
-Enabled=1
 Name='Service'
 Range=[1.000 10.000]
 NumMFs=2
@@ -27,12 +25,8 @@ MF1='Bad':'trapmf',[0.000 1.000 3.000 7.000]
 MF2='Good':'trapmf',[3.000 7.000 10.000 11.000]
 
 [Output1]
-Enabled=1
 Name='Tip'
 Range=[10.000 20.000]
-Default=nan
-LockValid=0
-LockRange=0
 NumMFs=3
 MF1='TenPercent':'linear',[0.000 0.000 10.000]
 MF2='FifteenPercent':'linear',[0.000 0.000 15.000]

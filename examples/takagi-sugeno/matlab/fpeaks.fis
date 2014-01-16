@@ -11,7 +11,6 @@ AggMethod='max'
 DefuzzMethod='wtaver'
 
 [Input1]
-Enabled=1
 Name='in1'
 Range=[-3.000 3.000]
 NumMFs=4
@@ -21,7 +20,6 @@ MF3='in1mf3':'gbellmf',[0.689 1.844 0.497]
 MF4='in1mf4':'gbellmf',[1.528 2.156 2.270]
 
 [Input2]
-Enabled=1
 Name='in2'
 Range=[-3.000 3.000]
 NumMFs=4
@@ -31,12 +29,8 @@ MF3='in1mf3':'gbellmf',[1.314 1.937 0.859]
 MF4='in1mf4':'gbellmf',[1.214 2.047 2.727]
 
 [Output1]
-Enabled=1
 Name='out1'
 Range=[-10.000 10.000]
-Default=nan
-LockValid=0
-LockRange=0
 NumMFs=16
 MF1='out1mf1':'linear',[0.155 -2.228 -8.974]
 MF2='out1mf2':'linear',[-0.312 -7.705 -9.055]

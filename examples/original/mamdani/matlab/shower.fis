@@ -1,0 +1,59 @@
+% $Revision: 1.1 $
+[System]
+Name = 'shower'
+Type = 'mamdani'
+NumInputs = 2
+NumOutputs = 2
+NumRules = 9
+AndMethod = 'min'
+OrMethod = 'max'
+ImpMethod = 'min'
+AggMethod = 'max'
+DefuzzMethod = 'centroid'
+
+[Input1]
+Name = 'temp'
+Range = [-20 20]
+NumMFs = 3
+MF1='cold':'trapmf',[-30 -30 -15 0]
+MF2='good':'trimf',[-10 0 10 0]
+MF3='hot':'trapmf',[0 15 30 30]
+
+[Input2]
+Name = 'flow'
+Range = [-1 1]
+NumMFs = 3
+MF1='soft':'trapmf',[-3 -3 -0.8 0]
+MF2='good':'trimf',[-0.4 0 0.4 0]
+MF3='hard':'trapmf',[0 0.8 3 3]
+
+[Output1]
+Name = 'cold'
+Range = [-1 1]
+NumMFs = 5
+MF1='closeFast':'trimf',[-1 -0.6 -0.3 0]
+MF2='closeSlow':'trimf',[-0.6 -0.3 0 0]
+MF3='steady':'trimf',[-0.3 0 0.3 0]
+MF4='openSlow':'trimf',[0 0.3 0.6 0]
+MF5='openFast':'trimf',[0.3 0.6 1 0]
+
+[Output2]
+Name = 'hot'
+Range = [-1 1]
+NumMFs = 5
+MF1='closeFast':'trimf',[-1 -0.6 -0.3 0]
+MF2='closeSlow':'trimf',[-0.6 -0.3 0 0]
+MF3='steady':'trimf',[-0.3 0 0.3 0]
+MF4='openSlow':'trimf',[0 0.3 0.6 0]
+MF5='openFast':'trimf',[0.3 0.6 1 0]
+
+[Rules]
+1 1, 4 5 (1) : 1 
+1 2, 2 4 (1) : 1 
+1 3, 1 2 (1) : 1 
+2 1, 4 4 (1) : 1 
+2 2, 3 3 (1) : 1 
+2 3, 2 2 (1) : 1 
+3 1, 5 4 (1) : 1 
+3 2, 4 2 (1) : 1 
+3 3, 2 1 (1) : 1 

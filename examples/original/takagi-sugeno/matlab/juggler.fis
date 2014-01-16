@@ -1,0 +1,53 @@
+% $Revision: 1.2 $
+[System]
+Name = 'juggler'
+Type = 'sugeno'
+NumInputs = 2
+NumOutputs = 1
+NumRules = 9
+AndMethod = 'prod'
+OrMethod = 'max'
+ImpMethod = 'prod'
+AggMethod = 'max'
+DefuzzMethod = 'wtaver'
+
+[Input1]
+Name = 'xHit'
+Range = [-4 4]
+NumMFs = 3
+MF1='in1mf1':'gbellmf',[2 4 -4 0]
+MF2='in1mf2':'gbellmf',[2 4 0 0]
+MF3='in1mf3':'gbellmf',[2 4 4 0]
+
+[Input2]
+Name = 'projectAngle'
+Range = [0 3.1415926]
+NumMFs = 3
+MF1='in2mf1':'gbellmf',[0.785398 4 0 0]
+MF2='in2mf2':'gbellmf',[0.785398 4 1.570796 0]
+MF3='in2mf3':'gbellmf',[0.785398 4 3.141593 0]
+
+[Output1]
+Name = 'theta'
+Range = [0 0]
+NumMFs = 9
+MF1='out1mf':'linear',[-0.0218506303 -0.499999616 0.31463287]
+MF2='out1mf':'linear',[-0.0218506105 -0.4999997821 0.314632705]
+MF3='out1mf':'linear',[-0.0218506302 -0.4999993227 0.3146310443]
+MF4='out1mf':'linear',[0.1142648996 -0.4999997692 0.7853981301]
+MF5='out1mf':'linear',[0.1142648769 -0.4999998427 0.7853979399]
+MF6='out1mf':'linear',[0.1142648996 -0.4999994622 0.7853966551]
+MF7='out1mf':'linear',[-0.0218503389 -0.4999992057 1.2561621975]
+MF8='out1mf':'linear',[-0.0218504931 -0.499999409 1.2561620289]
+MF9='out1mf':'linear',[-0.0218503389 -0.4999979995 1.2561566982]
+
+[Rules]
+1 1, 1 (1) : 1 
+1 2, 2 (1) : 1 
+1 3, 3 (1) : 1 
+2 1, 4 (1) : 1 
+2 2, 5 (1) : 1 
+2 3, 6 (1) : 1 
+3 1, 7 (1) : 1 
+3 2, 8 (1) : 1 
+3 3, 9 (1) : 1 

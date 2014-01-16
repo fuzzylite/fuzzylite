@@ -1,0 +1,41 @@
+[System]
+Name='simple-dimmer'
+Type='sugeno'
+Version=4.0
+NumInputs=1
+NumOutputs=1
+NumRules=3
+AndMethod='min'
+OrMethod='max'
+ImpMethod='prod'
+AggMethod=''
+DefuzzMethod='wtaver'
+
+[Input1]
+Enabled=1
+Name='Ambient'
+Range=[0.000 1.000]
+NumMFs=3
+MF1='DARK':'trimf',[0.000 0.250 0.500]
+MF2='MEDIUM':'trimf',[0.250 0.500 0.750]
+MF3='BRIGHT':'trimf',[0.500 0.750 1.000]
+
+
+[Output1]
+Enabled=1
+Name='Power'
+Range=[0.000 1.000]
+Default=nan
+LockValid=0
+LockRange=0
+NumMFs=3
+MF1='LOW':'constant',[0.250]
+MF2='MEDIUM':'constant',[0.500]
+MF3='HIGH':'constant',[0.750]
+
+
+[Rules]
+1.000 , 3.000 (1) : 1
+2.000 , 2.000 (1) : 1
+3.000 , 1.000 (1) : 1
+
