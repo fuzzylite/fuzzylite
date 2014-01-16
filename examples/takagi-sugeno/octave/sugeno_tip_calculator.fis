@@ -11,7 +11,6 @@ AggMethod='sum'
 DefuzzMethod='wtaver'
 
 [Input1]
-Enabled=1
 Name='FoodQuality'
 Range=[1.000 10.000]
 NumMFs=2
@@ -19,7 +18,6 @@ MF1='Bad':'trapmf',[0.000 1.000 3.000 7.000]
 MF2='Good':'trapmf',[3.000 7.000 10.000 11.000]
 
 [Input2]
-Enabled=1
 Name='Service'
 Range=[1.000 10.000]
 NumMFs=2
@@ -27,36 +25,24 @@ MF1='Bad':'trapmf',[0.000 1.000 3.000 7.000]
 MF2='Good':'trapmf',[3.000 7.000 10.000 11.000]
 
 [Output1]
-Enabled=1
 Name='CheapTip'
 Range=[5.000 25.000]
-Default=nan
-LockValid=0
-LockRange=0
 NumMFs=3
 MF1='Low':'constant',[10.000]
 MF2='Medium':'constant',[15.000]
 MF3='High':'constant',[20.000]
 
 [Output2]
-Enabled=1
 Name='AverageTip'
 Range=[5.000 25.000]
-Default=nan
-LockValid=0
-LockRange=0
 NumMFs=3
 MF1='Low':'constant',[10.000]
 MF2='Medium':'constant',[15.000]
 MF3='High':'constant',[20.000]
 
 [Output3]
-Enabled=1
 Name='GenerousTip'
 Range=[5.000 25.000]
-Default=nan
-LockValid=0
-LockRange=0
 NumMFs=3
 MF1='Low':'constant',[10.000]
 MF2='Medium':'constant',[15.000]

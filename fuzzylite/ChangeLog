@@ -71,3 +71,5 @@ Version 4.1:
 * Modified FclExporter and FisExporter to provide backward compatibility with FCL and FIS formats
 * Updated the FIS and FCL examples for backward compatibility 
 * Included the original example files
+* Updated FLD examples produced from the engines of the original examples 
+* Fixed some original examples of takagi-sugeno to use AlgebraicProduct activation 

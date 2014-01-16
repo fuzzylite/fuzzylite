@@ -11,7 +11,6 @@ AggMethod=''
 DefuzzMethod='wtaver'
 
 [Input1]
-Enabled=1
 Name='inputX'
 Range=[0.000 10.000]
 NumMFs=9
@@ -26,12 +25,9 @@ MF8='NEAR_8':'trimf',[7.000 8.000 9.000]
 MF9='NEAR_9':'trimf',[8.000 9.000 10.000]
 
 [Output1]
-Enabled=1
 Name='outputFx'
 Range=[-1.000 1.000]
-Default=nan
 LockValid=1
-LockRange=0
 NumMFs=9
 MF1='f1':'constant',[0.840]
 MF2='f2':'constant',[0.450]
@@ -44,22 +40,15 @@ MF8='f8':'constant',[0.120]
 MF9='f9':'constant',[0.040]
 
 [Output2]
-Enabled=1
 Name='trueFx'
 Range=[-1.000 1.000]
-Default=nan
 LockValid=1
-LockRange=0
 NumMFs=1
 MF1='fx':'function',[sin(inputX)/inputX]
 
 [Output3]
-Enabled=1
 Name='diffFx'
 Range=[-1.000 1.000]
-Default=nan
-LockValid=0
-LockRange=0
 NumMFs=1
 MF1='diff':'function',[fabs(outputFx-trueFx)]
 

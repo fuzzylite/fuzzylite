@@ -1,0 +1,43 @@
+% $Revision: 1.1 $
+[System]
+Name='tank'
+Type='mamdani'
+NumInputs=2
+NumOutputs=1
+NumRules=4
+AndMethod='prod'
+OrMethod='probor'
+ImpMethod='prod'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='level'
+Range=[-1 1]
+NumMFs=3
+MF1='high':'trapmf',[-2 -1 -0.8 -0.001]
+MF2='good':'trimf',[-0.15 0 0.5]
+MF3='low':'trapmf',[0.001 0.8 1 1.5]
+
+[Input2]
+Name='change'
+Range=[-0.1 0.1]
+NumMFs=2
+MF1='falling':'trapmf',[-0.14 -0.1 -0.06 0]
+MF2='rising':'trapmf',[-0.001 0.06 0.1 0.14]
+
+[Output1]
+Name='valve'
+Range=[-1 1]
+NumMFs=5
+MF1='close_fast':'trimf',[-1 -0.9 -0.8]
+MF2='close_slow':'trimf',[-0.6 -0.5 -0.4]
+MF3='no_change':'trimf',[-0.1 0 0.1]
+MF4='open_slow':'trimf',[0.4 0.5 0.6]
+MF5='open_fast':'trimf',[0.8 0.9 1]
+
+[Rules]
+3 0, 5 (1) : 1 
+1 0, 1 (1) : 1 
+2 2, 2 (1) : 1 
+2 1, 4 (1) : 1 

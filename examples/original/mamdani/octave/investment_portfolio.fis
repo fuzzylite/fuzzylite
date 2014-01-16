@@ -1,0 +1,64 @@
+## Copyright (C) 2011-2012 L. Markowsky <lmarkov@users.sourceforge.net>
+##
+## This file is part of the fuzzy-logic-toolkit.
+##
+## The fuzzy-logic-toolkit is free software; you can redistribute it
+## and/or modify it under the terms of the GNU General Public License
+## as published by the Free Software Foundation; either version 3 of
+## the License, or (at your option) any later version.
+##
+## The fuzzy-logic-toolkit is distributed in the hope that it will be
+## useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+## of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with the fuzzy-logic-toolkit; see the file COPYING.  If not,
+## see <http://www.gnu.org/licenses/>.
+
+## Author:        L. Markowsky
+## Keywords:      fuzzy-logic-toolkit fis
+## Directory:     fuzzy-logic-toolkit/inst/
+## Filename:      investment_portfolio.fis
+## Last-Modified: 28 Aug 2012
+
+[System]
+Name='Investment-Portfolio'
+Type='mamdani'
+Version=2.0
+NumInputs=2
+NumOutputs=1
+NumRules=4
+AndMethod='einstein_product'
+OrMethod='einstein_sum'
+ImpMethod='einstein_product'
+AggMethod='einstein_sum'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='Age'
+Range=[20 100]
+NumMFs=2
+MF1='Young':'zmf',[30 90]
+MF2='Old':'smf',[30 90]
+
+[Input2]
+Name='Risk-Tolerance'
+Range=[0 10]
+NumMFs=2
+MF1='Low':'zmf',[2 8]
+MF2='High':'smf',[2 8]
+
+[Output1]
+Name='Percentage-In-Stocks'
+Range=[0 100]
+NumMFs=3
+MF1='About-Fifteen':'gaussmf',[10 15]
+MF2='About-Fifty':'gaussmf',[10 50]
+MF3='About-Eighty-Five':'gaussmf',[10 85]
+
+[Rules]
+1 2, 3 (1) : 2
+2 1, 1 (1) : 2
+-2.3 -1.3, 2 (0.5) : 1
+-1.3 -2.3, 2 (0.5) : 1

@@ -1,0 +1,33 @@
+% $Revision: 1.1 $
+[System]
+Name='tipper'
+Type='mamdani'
+NumInputs=1
+NumOutputs=1
+NumRules=3
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='service'
+Range=[0 10]
+NumMFs=3
+MF1='poor':'gaussmf',[1.5 0]
+MF2='good':'gaussmf',[1.5 5]
+MF3='excellent':'gaussmf',[1.5 10]
+
+[Output1]
+Name='tip'
+Range=[0 30]
+NumMFs=3
+MF1='cheap':'trimf',[0 5 10]
+MF2='average':'trimf',[10 15 20]
+MF3='generous':'trimf',[20 25 30]
+
+[Rules]
+1, 1 (1) : 1 
+2, 2 (1) : 1 
+3, 3 (1) : 1 

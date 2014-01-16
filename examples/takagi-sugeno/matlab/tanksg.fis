@@ -11,7 +11,6 @@ AggMethod='max'
 DefuzzMethod='wtaver'
 
 [Input1]
-Enabled=1
 Name='level'
 Range=[-1.000 1.000]
 NumMFs=3
@@ -20,7 +19,6 @@ MF2='okay':'gaussmf',[0.300 0.004]
 MF3='low':'gaussmf',[0.300 1.000]
 
 [Input2]
-Enabled=1
 Name='rate'
 Range=[-0.100 0.100]
 NumMFs=3
@@ -29,12 +27,8 @@ MF2='none':'gaussmf',[0.030 0.000]
 MF3='positive':'gaussmf',[0.030 0.100]
 
 [Output1]
-Enabled=1
 Name='valve'
 Range=[-1.000 1.000]
-Default=nan
-LockValid=0
-LockRange=0
 NumMFs=5
 MF1='close_fast':'constant',[-0.900]
 MF2='close_slow':'constant',[-0.500]

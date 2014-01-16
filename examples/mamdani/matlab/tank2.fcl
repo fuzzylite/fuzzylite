@@ -10,7 +10,6 @@ VAR_OUTPUT
 END_VAR
 
 FUZZIFY level
-  ENABLED : TRUE;
   RANGE := (-1.000 .. 1.000);
   TERM high := Trapezoid -2.000 -1.000 -0.800 -0.001;
   TERM good := Triangle -0.150 0.000 0.500;
@@ -18,14 +17,12 @@ FUZZIFY level
 END_FUZZIFY
 
 FUZZIFY change
-  ENABLED : TRUE;
   RANGE := (-0.100 .. 0.100);
   TERM falling := Trapezoid -0.140 -0.100 -0.060 0.000;
   TERM rising := Trapezoid -0.001 0.060 0.100 0.140;
 END_FUZZIFY
 
 DEFUZZIFY valve
-  ENABLED : TRUE;
   RANGE := (-1.000 .. 1.000);
   TERM close_fast := Triangle -1.000 -0.900 -0.800;
   TERM close_slow := Triangle -0.600 -0.500 -0.400;
@@ -38,7 +35,6 @@ DEFUZZIFY valve
 END_DEFUZZIFY
 
 RULEBLOCK 
-  ENABLED : TRUE;
   AND : PROD;
   OR : ASUM;
   ACT : PROD;

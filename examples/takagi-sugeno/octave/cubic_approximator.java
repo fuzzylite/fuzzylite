@@ -59,7 +59,7 @@ ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(new Minimum());
 ruleBlock.setDisjunction(new Maximum());
-ruleBlock.setActivation(new Minimum());
+ruleBlock.setActivation(new AlgebraicProduct());
 ruleBlock.addRule(Rule.parse("if X is AboutNegFive then ApproxXCubed is TangentatNegFive", engine));
 ruleBlock.addRule(Rule.parse("if X is AboutNegFour then ApproxXCubed is TangentatNegFour", engine));
 ruleBlock.addRule(Rule.parse("if X is AboutNegThree then ApproxXCubed is TangentatNegThree", engine));

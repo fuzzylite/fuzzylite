@@ -1,0 +1,80 @@
+[System]
+Name='approximation of sin(x)/x'
+Type='sugeno'
+Version=4.0
+NumInputs=1
+NumOutputs=3
+NumRules=10
+AndMethod=''
+OrMethod=''
+ImpMethod='prod'
+AggMethod=''
+DefuzzMethod='wtaver'
+
+[Input1]
+Enabled=1
+Name='inputX'
+Range=[0.000 10.000]
+NumMFs=9
+MF1='NEAR_1':'trimf',[0.000 1.000 2.000]
+MF2='NEAR_2':'trimf',[1.000 2.000 3.000]
+MF3='NEAR_3':'trimf',[2.000 3.000 4.000]
+MF4='NEAR_4':'trimf',[3.000 4.000 5.000]
+MF5='NEAR_5':'trimf',[4.000 5.000 6.000]
+MF6='NEAR_6':'trimf',[5.000 6.000 7.000]
+MF7='NEAR_7':'trimf',[6.000 7.000 8.000]
+MF8='NEAR_8':'trimf',[7.000 8.000 9.000]
+MF9='NEAR_9':'trimf',[8.000 9.000 10.000]
+
+
+[Output1]
+Enabled=1
+Name='outputFx'
+Range=[-1.000 1.000]
+Default=nan
+LockValid=1
+LockRange=0
+NumMFs=9
+MF1='f1':'constant',[0.840]
+MF2='f2':'constant',[0.450]
+MF3='f3':'constant',[0.040]
+MF4='f4':'constant',[-0.180]
+MF5='f5':'constant',[-0.190]
+MF6='f6':'constant',[-0.040]
+MF7='f7':'constant',[0.090]
+MF8='f8':'constant',[0.120]
+MF9='f9':'constant',[0.040]
+
+[Output2]
+Enabled=1
+Name='trueFx'
+Range=[-1.000 1.000]
+Default=nan
+LockValid=1
+LockRange=0
+NumMFs=1
+MF1='fx':'function',[sin ( inputX ) /inputX]
+
+[Output3]
+Enabled=1
+Name='diffFx'
+Range=[-1.000 1.000]
+Default=nan
+LockValid=0
+LockRange=0
+NumMFs=1
+MF1='diff':'function',[fabs ( outputFx-trueFx )]
+
+
+[Rules]
+1.000 , 1.000 0.000 0.000 (1.000) : 1
+2.000 , 2.000 0.000 0.000 (1.000) : 1
+3.000 , 3.000 0.000 0.000 (1.000) : 1
+4.000 , 4.000 0.000 0.000 (1.000) : 1
+5.000 , 5.000 0.000 0.000 (1.000) : 1
+6.000 , 6.000 0.000 0.000 (1.000) : 1
+7.000 , 7.000 0.000 0.000 (1.000) : 1
+8.000 , 8.000 0.000 0.000 (1.000) : 1
+9.000 , 9.000 0.000 0.000 (1.000) : 1
+0.990 , 0.000 1.000 1.000 (1.000) : 1
+

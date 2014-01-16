@@ -497,7 +497,7 @@ namespace fl {
             exportAllExamples("fis", "cpp");
             exportAllExamples("fis", "java");
             fuzzylite::setDecimals(8);
-//            exportAllExamples("fis", "fld");
+            exportAllExamples("fis", "fld");
             return 0;
         }
 

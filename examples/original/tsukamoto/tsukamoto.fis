@@ -1,0 +1,65 @@
+[System]
+Name=''
+Type='sugeno'
+Version=4.0
+NumInputs=1
+NumOutputs=3
+NumRules=3
+AndMethod=''
+OrMethod=''
+ImpMethod='prod'
+AggMethod=''
+DefuzzMethod='wtaver'
+
+[Input1]
+Enabled=1
+Name='X'
+Range=[-10.000 10.000]
+NumMFs=3
+MF1='small':'gbellmf',[5.000 3.000 -10.000]
+MF2='medium':'gbellmf',[5.000 3.000 0.000]
+MF3='large':'gbellmf',[5.000 3.000 10.000]
+
+
+[Output1]
+Enabled=1
+Name='A'
+Range=[0.000 1.000]
+Default=nan
+LockValid=0
+LockRange=0
+NumMFs=3
+MF1='a1':'rampmf',[0.000 0.250]
+MF2='a2':'rampmf',[0.600 0.400]
+MF3='a3':'rampmf',[0.700 1.000]
+
+[Output2]
+Enabled=1
+Name='B'
+Range=[0.000 1.000]
+Default=nan
+LockValid=0
+LockRange=0
+NumMFs=3
+MF1='b1':'sigmf',[30.000 0.130]
+MF2='b2':'sigmf',[-30.000 0.500]
+MF3='b3':'sigmf',[30.000 0.830]
+
+[Output3]
+Enabled=1
+Name='C'
+Range=[0.000 1.000]
+Default=nan
+LockValid=0
+LockRange=0
+NumMFs=3
+MF1='c1':'smf',[0.000 0.250]
+MF2='c2':'zmf',[0.300 0.600]
+MF3='c3':'smf',[0.700 1.000]
+
+
+[Rules]
+1.0 , 1.0 1.0 1.0 (1) : 1
+2.0 , 2.0 2.0 2.0 (1) : 1
+3.0 , 3.0 3.0 3.0 (1) : 1
+
