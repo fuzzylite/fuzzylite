@@ -14,8 +14,8 @@ set(CMAKE_VERBOSE_MAKEFILE true)
 if(WIN32)
     message("Windows")
     add_definitions(-DFL_WINDOWS)
-	set(CMAKE_CXX_FLAGS " /WX /EHsc")
-	#set(CMAKE_CXX_FLAGS " /EHsc")
+    set(CMAKE_CXX_FLAGS " /WX /EHsc")
+    #set(CMAKE_CXX_FLAGS " /EHsc")
 endif()
 
 if (UNIX)
@@ -29,10 +29,10 @@ if (APPLE)
 endif()
 
 
-set(FLQT_DATE "1401")
+set(FLQT_DATE "1402")
 add_definitions(-DFLQT_DATE="${FLQT_DATE}")
 
-set(FLQT_VERSION 4.0)
+set(FLQT_VERSION 4.1)
 add_definitions(-DFLQT_VERSION="${FLQT_VERSION}")
 
 set(FLQT_LONG_VERSION "${FLQT_VERSION}b${FLQT_DATE}")
@@ -50,12 +50,12 @@ message("CMAKE_SOURCE_DIR=${CMAKE_SOURCE_DIR}")
 if(FL_DEBUG)
    set(CMAKE_BUILD_TYPE Debug)
    set(FL_CONF -dbg)
-   find_library(fl-shared-dbg fuzzylite-dbg 
+   find_library(fl-shared-dbg fuzzylite-dbg
         HINTS "${CMAKE_SOURCE_DIR}/../fuzzylite/bin")
 else(FL_DEBUG)
    set(CMAKE_BUILD_TYPE Release)
    set(FL_CONF)
-   find_library(fl-shared NAMES fuzzylite 
+   find_library(fl-shared NAMES fuzzylite
         HINTS "${CMAKE_SOURCE_DIR}/../fuzzylite/bin")
 endif(FL_DEBUG)
 
@@ -105,7 +105,7 @@ set(qtfl-uis
     ui/Viewer.ui
     ui/Window.ui
     ui/Wizard.ui)
-   
+
 
 
 if(APPLE)
@@ -195,9 +195,9 @@ if(APPLE)
 endif(APPLE)
 
 if(WIN32)
-	message("copying ${CMAKE_SOURCE_DIR}/../fuzzylite/bin/fuzzylite${FL_CONF}.dll")
-	add_custom_command(TARGET qtfuzzylite POST_BUILD 
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different 
+    message("copying ${CMAKE_SOURCE_DIR}/../fuzzylite/bin/fuzzylite${FL_CONF}.dll")
+    add_custom_command(TARGET qtfuzzylite POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${CMAKE_SOURCE_DIR}/../fuzzylite/bin/fuzzylite${FL_CONF}.dll"
         ${CMAKE_SOURCE_DIR})                 # <--this is out-file path
 endif()

@@ -53,23 +53,21 @@ namespace fl {
         std::ostringstream fis;
         fis << "[System]\n";
         fis << "Name='" << engine->getName() << "'\n";
-        std::string type = "unknown";
-        if (engine->numberOfOutputVariables() > 0) {
-            int sugeno = 0, mamdani = 0;
-            for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-                Defuzzifier* defuzzifier = engine->getOutputVariable(i)->getDefuzzifier();
-                if (dynamic_cast<IntegralDefuzzifier*> (defuzzifier)) {
-                    ++mamdani;
-                } else {
-                    ++sugeno;
-                }
-            }
-            if (mamdani > 0 and sugeno == 0) type = "mamdani";
-            else if (mamdani == 0 and sugeno > 0) type = "sugeno";
-            else type = "unknown";
+        std::string type;
+        if (engine->type() == Engine::NONE) {
+            type = "none";
+        } else if (engine->type() == Engine::MAMDANI or engine->type() == Engine::LARSEN) {
+            type = "mamdani";
+        } else if (engine->type() == Engine::TAKAGI_SUGENO) {
+            type = "sugeno";
+        } else if (engine->type() == Engine::TSUKAMOTO) {
+            type = "tsukamoto";
+        } else if (engine->type() == Engine::INVERSE_TSUKAMOTO) {
+            type = "inverse tsukamoto";
+        } else {
+            type = "unknown";
         }
         fis << "Type='" << type << "'\n";
-
         //        fis << "Version=" << FL_VERSION << "\n";
         fis << "NumInputs=" << engine->numberOfInputVariables() << "\n";
         fis << "NumOutputs=" << engine->numberOfOutputVariables() << "\n";
@@ -140,7 +138,9 @@ namespace fl {
         for (int ixVar = 0; ixVar < engine->numberOfInputVariables(); ++ixVar) {
             InputVariable* var = engine->getInputVariable(ixVar);
             fis << "[Input" << (ixVar + 1) << "]\n";
-            fis << "Enabled=" << var->isEnabled() << "\n";
+            if (not var->isEnabled()) {
+                fis << "Enabled=" << var->isEnabled() << "\n";
+            }
             fis << "Name='" << var->getName() << "'\n";
             fis << "Range=[" << fl::Op::join(2, " ", var->getMinimum(), var->getMaximum()) << "]\n";
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
@@ -158,12 +158,20 @@ namespace fl {
         for (int ixVar = 0; ixVar < engine->numberOfOutputVariables(); ++ixVar) {
             OutputVariable* var = engine->getOutputVariable(ixVar);
             fis << "[Output" << (ixVar + 1) << "]\n";
-            fis << "Enabled=" << var->isEnabled() << "\n";
+            if (not var->isEnabled()) {
+                fis << "Enabled=" << var->isEnabled() << "\n";
+            }
             fis << "Name='" << var->getName() << "'\n";
             fis << "Range=[" << fl::Op::join(2, " ", var->getMinimum(), var->getMaximum()) << "]\n";
-            fis << "Default=" << fl::Op::str(var->getDefaultValue()) << "\n";
-            fis << "LockValid=" << var->isLockingValidOutput() << "\n";
-            fis << "LockRange=" << var->isLockingOutputRange() << "\n";
+            if (not fl::Op::isNan(var->getDefaultValue())) {
+                fis << "Default=" << fl::Op::str(var->getDefaultValue()) << "\n";
+            }
+            if (var->isLockingValidOutput()) {
+                fis << "LockValid=" << var->isLockingValidOutput() << "\n";
+            }
+            if (var->isLockingOutputRange()) {
+                fis << "LockRange=" << var->isLockingOutputRange() << "\n";
+            }
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
             for (int ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
                 fis << "MF" << (ixTerm + 1) << "='" << var->getTerm(ixTerm)->getName() << "':"

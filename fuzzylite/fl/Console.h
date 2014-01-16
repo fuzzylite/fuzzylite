@@ -18,6 +18,7 @@ namespace fl {
     public:
         static const std::string KW_INPUT_FILE;
         static const std::string KW_INPUT_FORMAT;
+        static const std::string KW_INPUT_DATA;
         static const std::string KW_OUTPUT_FILE;
         static const std::string KW_OUTPUT_FORMAT;
         static const std::string KW_EXAMPLE;

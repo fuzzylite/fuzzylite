@@ -325,29 +325,29 @@ namespace fl {
 
             updateWindowTitle();
 
-//            {
-//                ui->led_name->setText(QString::fromStdString(engine->getName()));
-//                Engine::Type type = engine->type();
-//                ui->lbl_type->setVisible(type != Engine::NONE);
-//                QString nameType;
-//                switch (type) {
-//                    case Engine::MAMDANI: nameType = "Mamdani";
-//                        break;
-//                    case Engine::LARSEN: nameType = "Larsen";
-//                        break;
-//                    case Engine::TAKAGI_SUGENO: nameType = "Takagi-Sugeno";
-//                        break;
-//                    case Engine::TSUKAMOTO: nameType = "Tsukamoto";
-//                        break;
-//                    case Engine::INVERSE_TSUKAMOTO: nameType = "Inverse Tsukamoto";
-//                        break;
-//                    case Engine::NONE: nameType = "None";
-//                        break;
-//                    case Engine::UNKNOWN:
-//                    default: nameType = "Unknown";
-//                }
-//                ui->lbl_type->setText(" " + nameType + " ");
-//            }
+            {
+                ui->led_name->setText(QString::fromStdString(engine->getName()));
+                Engine::Type type = engine->type();
+                ui->lbl_type->setVisible(type != Engine::NONE);
+                QString nameType;
+                switch (type) {
+                    case Engine::MAMDANI: nameType = "Mamdani";
+                        break;
+                    case Engine::LARSEN: nameType = "Larsen";
+                        break;
+                    case Engine::TAKAGI_SUGENO: nameType = "Takagi-Sugeno";
+                        break;
+                    case Engine::TSUKAMOTO: nameType = "Tsukamoto";
+                        break;
+                    case Engine::INVERSE_TSUKAMOTO: nameType = "Inverse Tsukamoto";
+                        break;
+                    case Engine::NONE: nameType = "None";
+                        break;
+                    case Engine::UNKNOWN:
+                    default: nameType = "Unknown";
+                }
+                ui->lbl_type->setText(" " + nameType + " ");
+            }
 
             QFont typeWriter = typeWriterFont();
             ui->ptx_rules->setFont(typeWriter);

@@ -60,12 +60,18 @@ namespace fl {
                 ++lineNumber;
                 std::vector<std::string> comments;
                 comments = Op::split(line, "//");
-                if ((int) comments.size() > 1) {
+                if (comments.size() > 1) {
+                    line = comments.front();
+                }
+                comments = Op::split(line, "#");
+                if (comments.size() > 1) {
                     line = comments.front();
                 }
                 line = Op::trim(line);
-                if (line.empty() or line.at(0) == '#')
+                if (line.empty() or line.at(0) == '%' or line.at(0) == '#'
+                        or (line.substr(0, 2) == "//")) {
                     continue;
+                }
                 line = fl::Op::findReplace(line, ";", "");
                 std::istringstream tokenizer(line);
                 std::string firstToken;

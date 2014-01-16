@@ -60,9 +60,12 @@ namespace fl {
                 line = comments.front();
             }
             line = Op::trim(line);
-            line = fl::Op::findReplace(line, "'", "");
-            if (line.empty() or line.at(0) == '%')
+            if (line.empty() or line.at(0) == '%' or line.at(0) == '#'
+                    or (line.substr(0, 2) == "//")) {
                 continue;
+            }
+
+            line = fl::Op::findReplace(line, "'", "");
 
             if ("[System]" == line.substr(0, std::string("[System]").size())
                     or "[Input" == line.substr(0, std::string("[Input").size())

@@ -65,8 +65,10 @@ namespace fl {
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
             InputVariable* inputVariable = engine->getInputVariable(i);
             fcl << "FUZZIFY " << inputVariable->getName() << "\n";
-            fcl << _indent << "ENABLED : " <<
-                    (inputVariable->isEnabled() ? "TRUE" : "FALSE") << ";\n";
+            if (not inputVariable->isEnabled()) {
+                fcl << _indent << "ENABLED : " <<
+                        (inputVariable->isEnabled() ? "TRUE" : "FALSE") << ";\n";
+            }
             fcl << _indent << "RANGE := (" << fl::Op::join(2, " .. ",
                     inputVariable->getMinimum(), inputVariable->getMaximum())
                     << ");\n";
@@ -82,8 +84,10 @@ namespace fl {
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
             fcl << "DEFUZZIFY " << outputVariable->getName() << "\n";
-            fcl << _indent << "ENABLED : " <<
-                    (outputVariable->isEnabled() ? "TRUE" : "FALSE") << ";\n";
+            if (not outputVariable->isEnabled()) {
+                fcl << _indent << "ENABLED : " <<
+                        (outputVariable->isEnabled() ? "TRUE" : "FALSE") << ";\n";
+            }
             fcl << _indent << "RANGE := (" << fl::Op::join(2, " .. ",
                     outputVariable->getMinimum(), outputVariable->getMaximum())
                     << ");\n";
@@ -105,17 +109,8 @@ namespace fl {
             }
             fcl << ";\n";
 
-            if (outputVariable->isLockingValidOutput() or outputVariable->isLockingOutputRange()) {
-                fcl << _indent << "LOCK : ";
-                std::string lock;
-                if (outputVariable->isLockingValidOutput()) {
-                    lock = "VALID";
-                }
-                if (outputVariable->isLockingOutputRange()) {
-                    if (not lock.empty()) lock += " | ";
-                    lock += "RANGE";
-                }
-                fcl << lock << ";\n";
+            if (outputVariable->isLockingOutputRange()) {
+                fcl << _indent << "LOCK : RANGE;\n";
             }
 
             fcl << "END_DEFUZZIFY\n";
@@ -125,8 +120,10 @@ namespace fl {
         for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
             RuleBlock* ruleblock = engine->getRuleBlock(i);
             fcl << "RULEBLOCK " << ruleblock->getName() << "\n";
-            fcl << _indent << "ENABLED : " <<
-                    (ruleblock->isEnabled() ? "TRUE" : "FALSE") << ";\n";
+            if (not ruleblock->isEnabled()) {
+                fcl << _indent << "ENABLED : " <<
+                        (ruleblock->isEnabled() ? "TRUE" : "FALSE") << ";\n";
+            }
             if (ruleblock->getConjunction())
                 fcl << _indent << "AND : " << toString(ruleblock->getConjunction()) << ";\n";
             if (ruleblock->getDisjunction())

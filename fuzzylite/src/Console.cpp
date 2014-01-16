@@ -17,6 +17,7 @@
 namespace fl {
     const std::string Console::KW_INPUT_FILE = "-i";
     const std::string Console::KW_INPUT_FORMAT = "-if";
+    const std::string Console::KW_INPUT_DATA = "-id";
     const std::string Console::KW_OUTPUT_FILE = "-o";
     const std::string Console::KW_OUTPUT_FORMAT = "-of";
     const std::string Console::KW_EXAMPLE = "-ex";
@@ -380,8 +381,7 @@ namespace fl {
         examples.push_back("/takagi-sugeno/octave/sugeno_tip_calculator");
         examples.push_back("/tsukamoto/tsukamoto");
 
-        std::string sourceBase = "/home/jcrada/Development/fl/fuzzylite/examples";
-        //    std::string targetBase = "/home/jcrada/Development/fuzzylite/examples/" + to;
+        std::string sourceBase = "/home/jcrada/Development/fl/fuzzylite/examples/original";
         std::string targetBase = "/tmp/fl/";
 
         Importer* importer;
@@ -497,7 +497,7 @@ namespace fl {
             exportAllExamples("fis", "cpp");
             exportAllExamples("fis", "java");
             fuzzylite::setDecimals(8);
-            exportAllExamples("fis", "fld");
+//            exportAllExamples("fis", "fld");
             return 0;
         }
 

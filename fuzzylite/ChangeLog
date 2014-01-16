@@ -57,7 +57,7 @@ Version 4.0
 * Renamed fuzzylite::shortVersion to fuzzylite::version
 * Improved accuracy of Triangle and Trapezoid
 
-Master:
+Version 4.1:
 * Modified Function::Unary and Binary to take scalar instead of double
 * Fixed building using -DFL_USE_FLOAT=ON
 * Added deductive type of Engine with Engine::type()
@@ -68,3 +68,6 @@ Master:
 * Fixed minor memory leak at FactoryManager
 * Improved handling of Exceptions
 * Fixed bug in qtfuzzylite introduced after deleting the instances causing the memory leaks.
+* Modified FclExporter and FisExporter to provide backward compatibility with FCL and FIS formats
+* Updated the FIS and FCL examples for backward compatibility 
+* Included the original example files
