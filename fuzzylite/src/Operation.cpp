@@ -134,9 +134,9 @@ namespace fl {
 
     std::string Operation::makeValidId(const std::string& name) {
         std::ostringstream ss;
-        for (std::size_t i  = 0; i  < name.length() ;++i){
+        for (std::size_t i = 0; i < name.length(); ++i) {
             char c = name[i];
-            if (c == '_' or c == '.' or isalnum(c)){
+            if (c == '_' or c == '.' or isalnum(c)) {
                 ss << c;
             }
         }
@@ -327,8 +327,9 @@ namespace fl {
             int first, ...);
     template FL_EXPORT std::string Operation::join(int items, const std::string& separator,
             double first, ...);
+
     template <> FL_EXPORT std::string Operation::join(int items, const std::string& separator,
-            float first, ...){
+            float first, ...) {
         std::ostringstream ss;
         ss << str(first);
         if (items > 1) ss << separator;

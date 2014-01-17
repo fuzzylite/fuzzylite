@@ -9,6 +9,7 @@
 
 #include "fl/Headers.h"
 
+#include <algorithm>
 #include <vector>
 #include <utility>
 #include <stdlib.h>
@@ -17,22 +18,29 @@
 namespace fl {
     const std::string Console::KW_INPUT_FILE = "-i";
     const std::string Console::KW_INPUT_FORMAT = "-if";
-    const std::string Console::KW_INPUT_DATA = "-id";
     const std::string Console::KW_OUTPUT_FILE = "-o";
     const std::string Console::KW_OUTPUT_FORMAT = "-of";
     const std::string Console::KW_EXAMPLE = "-ex";
+    const std::string Console::KW_DATA_INPUT = "-d";
     const std::string Console::KW_DATA_MAXIMUM = "-max";
-    const std::string Console::KW_DATA_SEPARATOR = "-sep";
+
+    struct Option {
+        std::string key, value, description;
+
+        Option(const std::string& key = "", const std::string& value = "", const std::string& description = "") :
+        key(key), value(value), description(description) {
+        }
+    };
 
     std::string Console::usage() {
-        std::vector<std::pair<std::string, std::string> > options; //not a map to keep order;
-        options.push_back(std::pair<std::string, std::string>(KW_INPUT_FILE, "inputfile"));
-        options.push_back(std::pair<std::string, std::string>(KW_INPUT_FORMAT, "fll,fis,fcl"));
-        options.push_back(std::pair<std::string, std::string>(KW_OUTPUT_FILE, "outputfile"));
-        options.push_back(std::pair<std::string, std::string>(KW_OUTPUT_FORMAT, "fll,fis,fcl,cpp,java,fld"));
-        options.push_back(std::pair<std::string, std::string>(KW_EXAMPLE, "(m)amdani,(t)akagi-sugeno"));
-        options.push_back(std::pair<std::string, std::string>(KW_DATA_MAXIMUM, "maximum"));
-        options.push_back(std::pair<std::string, std::string>(KW_DATA_SEPARATOR, "separator"));
+        std::vector<Option> options;
+        options.push_back(Option(KW_INPUT_FILE, "inputfile", "file to import your engine from"));
+        options.push_back(Option(KW_INPUT_FORMAT, "format", "format of the file to import (fll | fis | fcl)"));
+        options.push_back(Option(KW_OUTPUT_FILE, "outputfile", "file to export your engine to"));
+        options.push_back(Option(KW_OUTPUT_FORMAT, "format", "format of the file to export (fll | fld | cpp | java | fis | fcl)"));
+        options.push_back(Option(KW_EXAMPLE, "example", "if not inputfile, built-in example to use as engine: (m)amdani or (t)akagi-sugeno"));
+        options.push_back(Option(KW_DATA_INPUT, "datafile", "if exporting to fld, file of input values to evaluate your engine on"));
+        options.push_back(Option(KW_DATA_MAXIMUM, "number", "if exporting to fld without datafile, maximum number of results to export"));
 
         std::ostringstream ss;
         ss << "========================================\n";
@@ -43,12 +51,13 @@ namespace fl {
         ss << "usage: fuzzylite inputfile outputfile\n";
         ss << "   or: fuzzylite ";
         for (std::size_t i = 0; i < options.size(); ++i) {
-            ss << "[" << options.at(i).first << "] ";
+            ss << "[" << options.at(i).key << " " << options.at(i).value << "] ";
         }
         ss << "\n\n";
-        ss << "where: ";
+        ss << "where: \n";
         for (std::size_t i = 0; i < options.size(); ++i) {
-            ss << "[" << options.at(i).first << " " << options.at(i).second << "] \n       ";
+            ss << "" << options[i].key << " " << options[i].value << 
+                    " \t" << options.at(i).description << ".\n";
         }
         ss << "\n";
         ss << "Visit http://www.fuzzylite.com for more information.";
@@ -72,18 +81,19 @@ namespace fl {
                 options[KW_OUTPUT_FILE] = it->second;
             }
         } else {
-            std::map<std::string, std::string> valid;
-            valid[KW_INPUT_FILE] = "inputfile";
-            valid[KW_INPUT_FORMAT] = "fll,fis,fcl";
-            valid[KW_OUTPUT_FILE] = "outputfile";
-            valid[KW_OUTPUT_FORMAT] = "fll,fis,fcl,cpp,java,fld";
-            valid[KW_EXAMPLE] = "(m)amdani,(t)akagi-sugeno";
-            valid[KW_DATA_MAXIMUM] = "maximum";
-            valid[KW_DATA_SEPARATOR] = "separator";
+            std::vector<std::string> validOptions;
+            validOptions.push_back(KW_INPUT_FILE);
+            validOptions.push_back(KW_INPUT_FORMAT);
+            validOptions.push_back(KW_OUTPUT_FILE);
+            validOptions.push_back(KW_OUTPUT_FORMAT);
+            validOptions.push_back(KW_EXAMPLE);
+            validOptions.push_back(KW_DATA_INPUT);
+            validOptions.push_back(KW_DATA_MAXIMUM);
+
             for (std::map<std::string, std::string>::const_iterator it = options.begin();
                     it != options.end(); ++it) {
-                if (valid.find(it->first) == valid.end()) {
-                    throw fl::Exception("[option error] option <" + it->first + "> not supported", FL_AT);
+                if (std::find(validOptions.begin(), validOptions.end(), it->first) == validOptions.end()) {
+                    throw fl::Exception("[option error] option <" + it->first + "> not recognized", FL_AT);
                 }
             }
         }
@@ -126,8 +136,7 @@ namespace fl {
                 throw fl::Exception("[file error] file <" + inputFilename + "> could not be opened", FL_AT);
             }
             std::string line;
-            while (inputFile.good()) {
-                std::getline(inputFile, line);
+            while (std::getline(inputFile, line)) {
                 textEngine << line << std::endl;
             }
             inputFile.close();
@@ -182,69 +191,94 @@ namespace fl {
     void Console::process(const std::string& input, T& writer,
             const std::string& inputFormat, const std::string& outputFormat,
             const std::map<std::string, std::string>& options) {
-        Importer* importer;
-        if ("fll" == inputFormat) {
-            importer = new FllImporter;
-        } else if ("fcl" == inputFormat) {
-            importer = new FclImporter;
-        } else if ("fis" == inputFormat) {
-            importer = new FisImporter;
-        } else {
-            throw fl::Exception("[import error] format <" + inputFormat + "> "
-                    "not supported", FL_AT);
-        }
-
+        Importer* importer = NULL;
+        Exporter* exporter = NULL;
         Engine* engine = NULL;
+
         try {
-            engine = importer->fromString(input);
-        } catch (fl::Exception& ex) {
-            if (engine) delete engine;
-            delete importer;
-            throw ex;
-        }
-
-        Exporter* exporter;
-        if ("fll" == outputFormat) {
-            exporter = new FllExporter;
-        } else if ("fcl" == outputFormat) {
-            exporter = new FclExporter;
-        } else if ("fis" == outputFormat) {
-            exporter = new FisExporter;
-        } else if ("c++" == outputFormat or "cpp" == outputFormat) {
-            exporter = new CppExporter;
-        } else if ("java" == outputFormat) {
-            exporter = new JavaExporter;
-        } else if ("fld" == outputFormat) {
-            std::string separator = " ";
-            std::map<std::string, std::string>::const_iterator it;
-            it = options.find(KW_DATA_SEPARATOR);
-            if (it != options.end()) {
-                separator = it->second;
-            }
-
-            it = options.find(KW_DATA_MAXIMUM);
-            if (it != options.end()) {
-                int maximum = (int) Op::toScalar(it->second);
-                exporter = new FldExporter(separator, maximum);
+            if ("fll" == inputFormat) {
+                importer = new FllImporter;
+            } else if ("fcl" == inputFormat) {
+                importer = new FclImporter;
+            } else if ("fis" == inputFormat) {
+                importer = new FisImporter;
             } else {
-                exporter = new FldExporter(separator);
+                throw fl::Exception("[import error] format <" + inputFormat + "> "
+                        "not supported", FL_AT);
             }
-        } else {
-            throw fl::Exception("[export error] format <" + outputFormat + "> "
-                    "not supported", FL_AT);
-        }
 
-        try {
-            writer << exporter->toString(engine);
-        } catch (fl::Exception& ex) {
+            engine = importer->fromString(input);
+
+            if ("fld" == outputFormat) {
+                FldExporter fldExporter;
+                std::map<std::string, std::string>::const_iterator it;
+                if ((it = options.find(KW_DATA_INPUT)) != options.end()) {
+                    std::ifstream dataFile(it->second.c_str());
+                    if (not dataFile.is_open()) {
+                        throw fl::Exception("[export error] file <" + it->second + "> could not be opened", FL_AT);
+                    }
+                    std::string line;
+                    int lineNumber = 0;
+                    try {
+                        while (std::getline(dataFile, line)) {
+                            ++lineNumber;
+                            std::vector<scalar> inputValues;
+                            try {
+                                fldExporter.parse(line, inputValues);
+                            } catch (fl::Exception& ex) {
+                                ex.append(" at line <" + Op::str(lineNumber) + ">");
+                                throw ex;
+                            }
+                            if (inputValues.empty()) continue;
+                            if ((int) inputValues.size() != engine->numberOfInputVariables()) {
+                                std::ostringstream ex;
+                                ex << "[export error] engine has <" << engine->numberOfInputVariables() << "> "
+                                        "input variables, but input data provides <" << inputValues.size() << "> values "
+                                        "at line <" << lineNumber << ">";
+                                throw fl::Exception(ex.str(), FL_AT);
+                            }
+                            fldExporter.toWriter(engine, writer, "", inputValues);
+                            writer << "\n";
+                            writer.flush();
+                        }
+                    } catch (std::exception& ex) {
+                        dataFile.close();
+                        throw ex;
+                    }
+
+                } else if ((it = options.find(KW_DATA_MAXIMUM)) != options.end()) {
+                    int maximum = (int) fl::Op::toScalar(it->second);
+                    writer << fldExporter.toString(engine, maximum);
+
+                } else {
+                    writer << fldExporter.toString(engine);
+                }
+            } else {
+                if ("fll" == outputFormat) {
+                    exporter = new FllExporter;
+                } else if ("fcl" == outputFormat) {
+                    exporter = new FclExporter;
+                } else if ("fis" == outputFormat) {
+                    exporter = new FisExporter;
+                } else if ("cpp" == outputFormat) {
+                    exporter = new CppExporter;
+                } else if ("java" == outputFormat) {
+                    exporter = new JavaExporter;
+                } else {
+                    throw fl::Exception("[export error] format <" + outputFormat + "> "
+                            "not supported", FL_AT);
+                }
+                writer << exporter->toString(engine);
+            }
+        } catch (std::exception& ex) {
+            if (importer) delete importer;
+            if (exporter) delete exporter;
             if (engine) delete engine;
-            delete importer;
-            delete exporter;
             throw ex;
         }
-        delete engine;
-        delete importer;
-        delete exporter;
+        if (importer) delete importer;
+        if (exporter) delete exporter;
+        if (engine) delete engine;
     }
 
     template void Console::process(const std::string& input, std::ostringstream& writer,
@@ -392,7 +426,7 @@ namespace fl {
 
         Exporter* exporter;
         if (to == "fll") exporter = new FllExporter;
-        else if (to == "fld") exporter = new FldExporter(" ", 1024);
+        else if (to == "fld") exporter = new FldExporter(" ");
         else if (to == "fcl") exporter = new FclExporter;
         else if (to == "fis") exporter = new FisExporter;
         else if (to == "cpp") exporter = new CppExporter;

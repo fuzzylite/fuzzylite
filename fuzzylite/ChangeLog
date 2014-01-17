@@ -73,3 +73,4 @@ Version 4.1:
 * Included the original example files
 * Updated FLD examples produced from the engines of the original examples 
 * Fixed some original examples of takagi-sugeno to use AlgebraicProduct activation 
+* FldExporter no longer restarts the engine
