@@ -1,4 +1,4 @@
-inputX outputFx trueFx diffFx
+#@Engine: approximation of sin(x)/x; @InputVariable: inputX; @OutputVariable: outputFx; @OutputVariable: trueFx; @OutputVariable: diffFx;
 0.00000000 nan nan nan
 0.00977517 0.84000000 0.99998407 0.15998407
 0.01955034 0.84000000 0.99993630 0.15993630

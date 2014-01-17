@@ -1,4 +1,4 @@
-in1 in2 out1
+#@Engine: peaks; @InputVariable: in1; @InputVariable: in2; @OutputVariable: out1;
 -3.00000000 -3.00000000 -0.29205206
 -3.00000000 -2.80645161 -0.29247671
 -3.00000000 -2.61290323 -0.22842910

@@ -1,4 +1,4 @@
-temp flow cold hot
+#@Engine: shower; @InputVariable: temp; @InputVariable: flow; @OutputVariable: cold; @OutputVariable: hot;
 -20.00000000 -1.00000000 0.30000000 0.63333333
 -20.00000000 -0.93548387 0.30000000 0.63333333
 -20.00000000 -0.87096774 0.30000000 0.63333333

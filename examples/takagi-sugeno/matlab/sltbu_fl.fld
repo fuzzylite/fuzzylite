@@ -1,4 +1,4 @@
-distance control1 control2 control
+#@Engine: sltbu; @InputVariable: distance; @InputVariable: control1; @InputVariable: control2; @OutputVariable: control;
 0.00000000 -0.78539820 -0.78539820 -0.78539820
 0.00000000 -0.78539820 -0.61086527 -0.61086527
 0.00000000 -0.78539820 -0.43633233 -0.43633233

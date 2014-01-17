@@ -1,4 +1,4 @@
-input1 input2 output
+#@Engine: invkine2; @InputVariable: input1; @InputVariable: input2; @OutputVariable: output;
 -6.28657404 0.00000000 3.13267102
 -6.28657404 0.54748274 3.28983191
 -6.28657404 1.09496549 3.39522290

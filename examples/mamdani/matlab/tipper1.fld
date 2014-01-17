@@ -1,4 +1,4 @@
-service tip
+#@Engine: tipper; @InputVariable: service; @OutputVariable: tip;
 0.00000000 5.07571810
 0.00977517 5.07737166
 0.01955034 5.07905758

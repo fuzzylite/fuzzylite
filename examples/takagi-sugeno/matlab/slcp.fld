@@ -1,4 +1,4 @@
-in1 in2 in3 in4 out
+#@Engine: slcp; @InputVariable: in1; @InputVariable: in2; @InputVariable: in3; @InputVariable: in4; @OutputVariable: out;
 -0.30000000 -1.00000000 -3.00000000 -3.00000000 -44.38676131
 -0.30000000 -1.00000000 -3.00000000 -1.50000000 -37.94567401
 -0.30000000 -1.00000000 -3.00000000 0.00000000 -31.47772397
