@@ -100,9 +100,9 @@ namespace fl {
             engine->configure(tnorm(andMethod), snorm(orMethod),
                     tnorm(impMethod), snorm(aggMethod),
                     defuzzifier(defuzzMethod));
-        } catch (fl::Exception& ex) {
+        } catch (std::exception& ex) {
             delete engine;
-            throw ex;
+            throw;
         }
 
         return engine;
@@ -502,7 +502,7 @@ namespace fl {
             return result;
         } catch (fl::Exception& ex) {
             ex.append(FL_AT);
-            throw ex;
+            throw;
         }
     }
 

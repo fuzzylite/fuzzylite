@@ -53,6 +53,30 @@ namespace fl {
         return this->_separator;
     }
 
+    std::string FldExporter::header(const Engine* engine) const {
+        std::ostringstream result;
+        result << "@Engine: " << engine->getName() << ";" << _separator
+                << header(engine->inputVariables()) << _separator
+                << header(engine->outputVariables());
+        return result.str();
+    }
+
+    std::string FldExporter::header(const std::vector<InputVariable*>& inputVariables) const {
+        std::vector<std::string> result;
+        for (std::size_t i = 0; i < inputVariables.size(); ++i) {
+            result.push_back("@InputVariable: " + inputVariables.at(i)->getName() + ";");
+        }
+        return fl::Op::join(result, " ");
+    }
+
+    std::string FldExporter::header(const std::vector<OutputVariable*>& outputVariables) const {
+        std::vector<std::string> result;
+        for (std::size_t i = 0; i < outputVariables.size(); ++i) {
+            result.push_back("@OutputVariable: " + outputVariables.at(i)->getName() + ";");
+        }
+        return fl::Op::join(result, " ");
+    }
+
     std::string FldExporter::toString(const Engine* mutableEngine) const {
         return toString(mutableEngine, 1024);
     }
@@ -60,6 +84,7 @@ namespace fl {
     std::string FldExporter::toString(const Engine* mutableEngine, int maximumNumberOfResults) const {
         Engine* engine = const_cast<Engine*> (mutableEngine);
         std::ostringstream result;
+        result << "#" << header(engine) << "\n";
         toWriter(engine, result, _separator, maximumNumberOfResults);
         return result.str();
     }
@@ -67,15 +92,6 @@ namespace fl {
     template <typename T>
     void FldExporter::toWriter(Engine* engine, T& writer,
             const std::string& separator, int maximum) const {
-        std::vector<std::string> variables;
-        for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
-            variables.push_back(engine->getInputVariable(i)->getName());
-        }
-        for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-            variables.push_back(engine->getOutputVariable(i)->getName());
-        }
-        writer << Op::join(variables, separator) << "\n";
-
         int resolution = -1 + (int) std::max(1.0, std::pow(
                 maximum, 1.0 / engine->numberOfInputVariables()));
         std::vector<int> sampleValues, minSampleValues, maxSampleValues;
@@ -125,14 +141,7 @@ namespace fl {
         }
         Engine* engine = const_cast<Engine*> (mutableEngine);
         std::ostringstream writer;
-
-        for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-            writer << engine->getOutputVariable(i)->getName();
-            if (i + 1 < engine->numberOfOutputVariables()) {
-                writer << _separator;
-            }
-        }
-        writer << "\n";
+        writer << "#" << header(engine) << "\n";
 
         std::istringstream reader(inputData);
         std::string line;
@@ -169,14 +178,18 @@ namespace fl {
     void FldExporter::toWriter(Engine* engine, T& writer, const std::string& separator,
             const std::vector<scalar>& inputValues) const {
         for (std::size_t i = 0; i < inputValues.size(); ++i) {
-            engine->getInputVariable(i)->setInputValue(inputValues.at(i));
+            scalar inputValue = inputValues.at(i);
+            engine->getInputVariable(i)->setInputValue(inputValue);
+            if (i != 0) writer << separator;
+            writer << fl::Op::str(inputValue);
         }
         engine->process();
+
+        if (engine->numberOfOutputVariables() > 0) writer << separator;
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-            writer << fl::Op::str(engine->getOutputVariable(i)->defuzzify());
-            if (i + 1 < engine->numberOfOutputVariables()) {
-                writer << separator;
-            }
+            scalar outputValue = engine->getOutputVariable(i)->defuzzify();
+            if (i != 0) writer << separator;
+            writer << fl::Op::str(outputValue);
         }
     }
 

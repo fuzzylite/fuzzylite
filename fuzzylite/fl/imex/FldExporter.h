@@ -30,6 +30,8 @@
 
 namespace fl {
     class Engine;
+    class InputVariable;
+    class OutputVariable;
 
     class FL_EXPORT FldExporter : public Exporter {
     protected:
@@ -43,18 +45,30 @@ namespace fl {
         virtual void setSeparator(const std::string& separator);
         virtual std::string getSeparator() const;
 
+        virtual std::string header(const Engine* engine) const;
+        virtual std::string header(const std::vector<InputVariable*>& inputVariables) const;
+        virtual std::string header(const std::vector<OutputVariable*>& outputVariables) const;
+
+
         //WARNING: The engine will be const_casted in order to be processed!
         virtual std::string toString(const Engine* mutableEngine) const;
         virtual std::string toString(const Engine* mutableEngine, int maximumNumberOfResults) const;
         virtual std::string toString(const Engine* mutableEngine, const std::string& inputData) const;
 
-
+        //TODO: Change signature in 5.0 to: 
+        //        template<typename T>
+        //        void toWriter(Engine* engine, T& writer,
+        //                 int maximumNumberOfResults, const std::string& separator = " ") const;
         template<typename T>
         void toWriter(Engine* engine, T& writer,
                 const std::string& separator, int maximumNumberOfResults) const;
 
         virtual void parse(const std::string& x, std::vector<scalar>& inputValues) const;
-        
+
+        //TODO: Change signature in 5.0 to: 
+        //        template<typename T>
+        //        void toWriter(Engine* engine, T& writer, const std::vector<scalar>& inputValues,
+        //        const std::string& separator) const;
         template<typename T>
         void toWriter(Engine* engine, T& writer, const std::string& separator,
                 const std::vector<scalar>& inputValues) const;

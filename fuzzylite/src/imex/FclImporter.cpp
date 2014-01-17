@@ -138,9 +138,9 @@ namespace fl {
                 }
                 throw fl::Exception(ex.str(), FL_AT);
             }
-        } catch (fl::Exception& ex) {
+        } catch (std::exception& ex) {
             delete engine;
-            throw ex;
+            throw;
         }
         return engine;
     }
@@ -225,7 +225,7 @@ namespace fl {
                         "<" + firstToken + ">" + line, FL_AT);
             } catch (fl::Exception& ex) {
                 ex.append("At line: <" + line + ">");
-                throw ex;
+                throw;
             }
         }
 
@@ -348,7 +348,7 @@ namespace fl {
         } catch (fl::Exception& ex) {
             ex.append("[syntax error] T-Norm <" + name + "> not recognized in line:\n"
                     + line, FL_AT);
-            throw ex;
+            throw;
         }
     }
 
@@ -375,7 +375,7 @@ namespace fl {
         } catch (fl::Exception& ex) {
             ex.append("[syntax error] S-Norm <" + name + "> not recognized in line:\n"
                     + line, FL_AT);
-            throw ex;
+            throw;
         }
     }
 
@@ -451,7 +451,7 @@ namespace fl {
             return result;
         } catch (fl::Exception& ex) {
             ex.append(FL_AT);
-            throw ex;
+            throw;
         }
     }
 
@@ -494,7 +494,7 @@ namespace fl {
         } catch (fl::Exception& ex) {
             ex.append("[syntax error] defuzzifier <" + name +
                     "> not recognized in line:\n" + line, FL_AT);
-            throw ex;
+            throw;
         }
     }
 
@@ -567,11 +567,11 @@ namespace fl {
         try {
             minimum = Op::toScalar(token.at(index = 0));
             maximum = Op::toScalar(token.at(index = 1));
-        } catch (...) {
-            std::ostringstream ex;
-            ex << "[syntax error] expected numeric value, but found <" << token.at(index) << "> in "
+        } catch (std::exception& ex) {
+            std::ostringstream ss;
+            ss << "[syntax error] expected numeric value, but found <" << token.at(index) << "> in "
                     << "line: " << line;
-            throw fl::Exception(ex.str(), FL_AT);
+            throw fl::Exception(ss.str(), FL_AT);
         }
         return std::pair<scalar, scalar>(minimum, maximum);
     }

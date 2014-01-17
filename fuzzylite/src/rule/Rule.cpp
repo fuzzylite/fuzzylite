@@ -172,7 +172,7 @@ namespace fl {
                             ex << "[syntax error] expected a numeric value as the weight of the rule: "
                                     << rule;
                             e.append(ex.str(), FL_AT);
-                            throw e;
+                            throw;
                         }
                         break;
                     case S_END:
@@ -200,9 +200,9 @@ namespace fl {
 
             result->_consequent = new Consequent;
             result->_consequent->load(ossConsequent.str(), engine);
-        } catch (fl::Exception& ex) {
+        } catch (std::exception& ex) {
             delete result;
-            throw ex;
+            throw;
         }
         return result;
     }

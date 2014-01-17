@@ -42,16 +42,16 @@ namespace fl {
         virtual void setWhat(const std::string& what);
         virtual std::string getWhat() const;
         virtual const char* what() const throw ();
-        
+
         virtual void append(const std::string& whatElse);
         virtual void append(const std::string& file, int line, const std::string& function);
         virtual void append(const std::string& whatElse,
-            const std::string& file, int line, const std::string& function);
+                const std::string& file, int line, const std::string& function);
 
         static std::string btCallStack(const int maxCalls = 30);
         static void signalHandler(int signal);
         static void catchException(const std::exception& exception);
-        
+
         static void terminate();
     };
 

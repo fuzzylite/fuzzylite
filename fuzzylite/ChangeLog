@@ -74,3 +74,9 @@ Version 4.1:
 * Updated FLD examples produced from the engines of the original examples 
 * Fixed some original examples of takagi-sugeno to use AlgebraicProduct activation 
 * FldExporter no longer restarts the engine
+* Fixed rethrowing of exceptions to provide proper information about errors!
+* Catching std::exceptions where possible to avoid unexpected exceptions
+* FldExporter exports from a custom input dataset
+* Console includes option to read custom input dataset from file
+* Console provides more information about its usage
+

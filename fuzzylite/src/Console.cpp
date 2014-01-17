@@ -56,7 +56,7 @@ namespace fl {
         ss << "\n\n";
         ss << "where: \n";
         for (std::size_t i = 0; i < options.size(); ++i) {
-            ss << "" << options[i].key << " " << options[i].value << 
+            ss << "" << options[i].key << " " << options[i].value <<
                     " \t" << options.at(i).description << ".\n";
         }
         ss << "\n";
@@ -217,6 +217,7 @@ namespace fl {
                     if (not dataFile.is_open()) {
                         throw fl::Exception("[export error] file <" + it->second + "> could not be opened", FL_AT);
                     }
+                    writer << "#" << fldExporter.header(engine) << "\n";
                     std::string line;
                     int lineNumber = 0;
                     try {
@@ -227,7 +228,7 @@ namespace fl {
                                 fldExporter.parse(line, inputValues);
                             } catch (fl::Exception& ex) {
                                 ex.append(" at line <" + Op::str(lineNumber) + ">");
-                                throw ex;
+                                throw;
                             }
                             if (inputValues.empty()) continue;
                             if ((int) inputValues.size() != engine->numberOfInputVariables()) {
@@ -237,13 +238,13 @@ namespace fl {
                                         "at line <" << lineNumber << ">";
                                 throw fl::Exception(ex.str(), FL_AT);
                             }
-                            fldExporter.toWriter(engine, writer, "", inputValues);
+                            fldExporter.toWriter(engine, writer, fldExporter.getSeparator(), inputValues);
                             writer << "\n";
                             writer.flush();
                         }
                     } catch (std::exception& ex) {
                         dataFile.close();
-                        throw ex;
+                        throw;
                     }
 
                 } else if ((it = options.find(KW_DATA_MAXIMUM)) != options.end()) {
@@ -274,7 +275,7 @@ namespace fl {
             if (importer) delete importer;
             if (exporter) delete exporter;
             if (engine) delete engine;
-            throw ex;
+            throw;
         }
         if (importer) delete importer;
         if (exporter) delete exporter;
@@ -499,7 +500,7 @@ namespace fl {
                     target.close();
                 }
                 delete engine;
-            } catch (fl::Exception& ex) {
+            } catch (std::exception& ex) {
                 errors << "error at " << examples.at(i) << ":\n" << ex.what() << "\n";
             }
         }
@@ -538,8 +539,9 @@ namespace fl {
         try {
             std::map<std::string, std::string> options = parse(argc, argv);
             process(options);
-        } catch (fl::Exception& ex) {
-            std::cout << ex.getWhat() << std::endl;
+        } catch (std::exception& ex) {
+            std::cout << ex.what() << "\nBACKTRACE:\n" <<
+                    fl::Exception::btCallStack() << std::endl;
             return EXIT_FAILURE;
         }
         return EXIT_SUCCESS;

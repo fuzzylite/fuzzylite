@@ -63,14 +63,15 @@ namespace fl {
                     line = lineQueue.front();
                     lineQueue.pop();
                 } else {
+                    line = clean(line);
+                    if (line.empty()) continue;
                     std::vector<std::string> split = Op::split(line, _separator);
-                    line = split.front();
+                    line = clean(split.front());
                     for (std::size_t i = 1; i < split.size(); ++i) {
-                        lineQueue.push(split.at(i));
+                        lineQueue.push(clean(split.at(i)));
                     }
                     ++lineNumber;
                 }
-                line = clean(line);
                 if (line.empty()) continue;
                 std::size_t colon = line.find_first_of(':');
                 if (colon == std::string::npos) {
@@ -97,9 +98,9 @@ namespace fl {
                 block << key << ":" << value << "\n";
             }
             process(tag, block.str(), engine);
-        } catch (fl::Exception& ex) {
+        } catch (std::exception& ex) {
             delete engine;
-            throw ex;
+            throw;
         }
         return engine;
     }

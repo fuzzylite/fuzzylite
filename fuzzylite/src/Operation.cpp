@@ -244,7 +244,7 @@ namespace fl {
         try {
             fl::Op::toScalar(x);
             return true;
-        } catch (fl::Exception& ex) {
+        } catch (std::exception& ex) {
             (void) ex;
             return false;
         }
