@@ -54,8 +54,8 @@ namespace fl {
         std::ostringstream block;
         std::istringstream fclReader(fcl);
         std::string line;
-        int lineNumber = 0;
         try {
+            int lineNumber = 0;
             while (std::getline(fclReader, line)) {
                 ++lineNumber;
                 std::vector<std::string> comments;

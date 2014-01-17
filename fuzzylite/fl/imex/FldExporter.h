@@ -55,23 +55,15 @@ namespace fl {
         virtual std::string toString(const Engine* mutableEngine, int maximumNumberOfResults) const;
         virtual std::string toString(const Engine* mutableEngine, const std::string& inputData) const;
 
-        //TODO: Change signature in 5.0 to: 
-        //        template<typename T>
-        //        void toWriter(Engine* engine, T& writer,
-        //                 int maximumNumberOfResults, const std::string& separator = " ") const;
         template<typename T>
-        void toWriter(Engine* engine, T& writer,
-                const std::string& separator, int maximumNumberOfResults) const;
+        void toWriter(Engine* engine, T& writer, int maximumNumberOfResults,
+                const std::string& separator) const;
 
         virtual void parse(const std::string& x, std::vector<scalar>& inputValues) const;
 
-        //TODO: Change signature in 5.0 to: 
-        //        template<typename T>
-        //        void toWriter(Engine* engine, T& writer, const std::vector<scalar>& inputValues,
-        //        const std::string& separator) const;
         template<typename T>
-        void toWriter(Engine* engine, T& writer, const std::string& separator,
-                const std::vector<scalar>& inputValues) const;
+        void toWriter(Engine* engine, T& writer, const std::vector<scalar>& inputValues,
+                const std::string& separator) const;
 
 
     };

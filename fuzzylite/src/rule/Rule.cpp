@@ -138,11 +138,11 @@ namespace fl {
         std::string token;
         std::ostringstream ossAntecedent, ossConsequent;
 
-        enum FSM {
-            S_NONE, S_IF, S_THEN, S_WITH, S_END
-        };
-        FSM state = S_NONE;
         try {
+            enum FSM {
+                S_NONE, S_IF, S_THEN, S_WITH, S_END
+            };
+            FSM state = S_NONE;
             while (tokenizer >> token) {
 
                 switch (state) {

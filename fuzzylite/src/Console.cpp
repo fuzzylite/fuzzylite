@@ -53,10 +53,9 @@ namespace fl {
         for (std::size_t i = 0; i < options.size(); ++i) {
             ss << "[" << options.at(i).key << " " << options.at(i).value << "] ";
         }
-        ss << "\n\n";
-        ss << "where: \n";
+        ss << "\n\nwhere:\n";
         for (std::size_t i = 0; i < options.size(); ++i) {
-            ss << "" << options[i].key << " " << options[i].value <<
+            ss << options.at(i).key << " " << options.at(i).value <<
                     " \t" << options.at(i).description << ".\n";
         }
         ss << "\n";
@@ -218,14 +217,14 @@ namespace fl {
                         throw fl::Exception("[export error] file <" + it->second + "> could not be opened", FL_AT);
                     }
                     writer << "#" << fldExporter.header(engine) << "\n";
-                    std::string line;
-                    int lineNumber = 0;
                     try {
+                        std::string line;
+                        int lineNumber = 0;
                         while (std::getline(dataFile, line)) {
                             ++lineNumber;
                             std::vector<scalar> inputValues;
                             try {
-                                fldExporter.parse(line, inputValues);
+                                fldExporter.parse(Op::trim(line), inputValues);
                             } catch (fl::Exception& ex) {
                                 ex.append(" at line <" + Op::str(lineNumber) + ">");
                                 throw;
@@ -238,7 +237,7 @@ namespace fl {
                                         "at line <" << lineNumber << ">";
                                 throw fl::Exception(ex.str(), FL_AT);
                             }
-                            fldExporter.toWriter(engine, writer, fldExporter.getSeparator(), inputValues);
+                            fldExporter.toWriter(engine, writer, inputValues, fldExporter.getSeparator());
                             writer << "\n";
                             writer.flush();
                         }

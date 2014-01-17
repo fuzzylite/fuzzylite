@@ -13,7 +13,7 @@
  limitations under the License.
  */
 
-/* 
+/*
  * File:   FllImporter.cpp
  * Author: jcrada
  *
@@ -24,7 +24,7 @@
 
 #include "fl/Headers.h"
 
-#include <queue> 
+#include <queue>
 
 namespace fl {
 
@@ -52,12 +52,13 @@ namespace fl {
 
         std::string tag;
         std::ostringstream block;
-        bool processPending = false;
         std::istringstream fclReader(fll);
         std::string line;
         std::queue<std::string> lineQueue;
-        int lineNumber = 0;
+
         try {
+            bool processPending = false;
+            int lineNumber = 0;
             while (not lineQueue.empty() or std::getline(fclReader, line)) {
                 if (not lineQueue.empty()) {
                     line = lineQueue.front();
