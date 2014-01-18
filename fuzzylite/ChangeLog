@@ -83,4 +83,4 @@ Version 4.1:
 * Removed variable and methods for FldExporter::maximum
 * Accuracy improvements importing fis files with large number of decimals
 * Updated FLD examples to reflect accuracy
-* Changed peration for multiple hedges to operate from last to first
+* Changed operation for multiple hedges to operate from last to first

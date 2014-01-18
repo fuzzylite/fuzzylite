@@ -20,9 +20,10 @@ namespace fl {
     const std::string Console::KW_INPUT_FORMAT = "-if";
     const std::string Console::KW_OUTPUT_FILE = "-o";
     const std::string Console::KW_OUTPUT_FORMAT = "-of";
-    const std::string Console::KW_EXAMPLE = "-ex";
+    const std::string Console::KW_EXAMPLE = "-example";
     const std::string Console::KW_DATA_INPUT = "-d";
-    const std::string Console::KW_DATA_MAXIMUM = "-max";
+    const std::string Console::KW_DATA_MAXIMUM = "-maximum";
+    const std::string Console::KW_DECIMALS = "-decimals";
 
     struct Option {
         std::string key, value, description;
@@ -88,6 +89,7 @@ namespace fl {
             validOptions.push_back(KW_EXAMPLE);
             validOptions.push_back(KW_DATA_INPUT);
             validOptions.push_back(KW_DATA_MAXIMUM);
+            validOptions.push_back(KW_DECIMALS);
 
             for (std::map<std::string, std::string>::const_iterator it = options.begin();
                     it != options.end(); ++it) {
@@ -101,6 +103,11 @@ namespace fl {
 
     void Console::process(const std::map<std::string, std::string>& options) {
         std::map<std::string, std::string>::const_iterator it;
+        
+        it = options.find(KW_DECIMALS);
+        if (it != options.end()){
+            fl::fuzzylite::setDecimals((int)fl::Op::toScalar(it->second));
+        }
 
         std::string example;
         std::string inputFormat;

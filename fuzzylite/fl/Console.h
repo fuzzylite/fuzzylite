@@ -23,7 +23,7 @@ namespace fl {
         static const std::string KW_EXAMPLE;
         static const std::string KW_DATA_INPUT;
         static const std::string KW_DATA_MAXIMUM;
-        
+        static const std::string KW_DECIMALS;
 
         static Engine* mamdani();
         static Engine* takagiSugeno();

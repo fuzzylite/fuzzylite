@@ -119,22 +119,22 @@ namespace fl {
 
             for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
                 InputVariable* inputVariable = engine->getInputVariable(i);
-                if (not inputVariable->isEnabled()) continue;
+                if (inputVariable->isEnabled()) {
+                    scalar inputValue = inputVariable->getMinimum()
+                            + sampleValues.at(i) * inputVariable->range() / resolution;
+                    inputVariable->setInputValue(inputValue);
 
-                scalar inputValue = inputVariable->getMinimum()
-                        + sampleValues.at(i) * inputVariable->range() / resolution;
-                inputVariable->setInputValue(inputValue);
-
-                values.push_back(Op::str(inputValue));
+                    values.push_back(Op::str(inputValue));
+                }
             }
 
             engine->process();
 
             for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
                 OutputVariable* outputVariable = engine->getOutputVariable(i);
-                if (not outputVariable->isEnabled()) continue;
-
-                values.push_back(Op::str(outputVariable->defuzzify()));
+                if (outputVariable->isEnabled()) {
+                    values.push_back(Op::str(outputVariable->defuzzify()));
+                }
             }
 
             writer << Op::join(values, separator) << "\n";
@@ -193,11 +193,11 @@ namespace fl {
         std::vector<scalar> values;
         for (std::size_t i = 0; i < inputValues.size(); ++i) {
             InputVariable* inputVariable = engine->getInputVariable(i);
-            if (not inputVariable->isEnabled()) continue;
-
-            scalar inputValue = inputValues.at(i);
-            inputVariable->setInputValue(inputValue);
-            values.push_back(inputValue);
+            if (inputVariable->isEnabled()) {
+                scalar inputValue = inputValues.at(i);
+                inputVariable->setInputValue(inputValue);
+                values.push_back(inputValue);
+            }
         }
 
         engine->process();
@@ -205,9 +205,9 @@ namespace fl {
         if (engine->numberOfOutputVariables() > 0) writer << separator;
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
-            if (not outputVariable->isEnabled()) continue;
-
-            values.push_back(outputVariable->defuzzify());
+            if (outputVariable->isEnabled()) {
+                values.push_back(outputVariable->defuzzify());
+            }
         }
         writer << Op::join(values, separator);
     }
