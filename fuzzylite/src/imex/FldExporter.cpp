@@ -70,7 +70,10 @@ namespace fl {
     std::string FldExporter::header(const std::vector<InputVariable*>& inputVariables) const {
         std::vector<std::string> result;
         for (std::size_t i = 0; i < inputVariables.size(); ++i) {
-            result.push_back("@InputVariable: " + inputVariables.at(i)->getName() + ";");
+            InputVariable* inputVariable = inputVariables.at(i);
+            if (inputVariable->isEnabled()) {
+                result.push_back("@InputVariable: " + inputVariable->getName() + ";");
+            }
         }
         return fl::Op::join(result, _separator);
     }
@@ -78,7 +81,10 @@ namespace fl {
     std::string FldExporter::header(const std::vector<OutputVariable*>& outputVariables) const {
         std::vector<std::string> result;
         for (std::size_t i = 0; i < outputVariables.size(); ++i) {
-            result.push_back("@OutputVariable: " + outputVariables.at(i)->getName() + ";");
+            OutputVariable* outputVariable = outputVariables.at(i);
+            if (outputVariable->isEnabled()) {
+                result.push_back("@OutputVariable: " + outputVariable->getName() + ";");
+            }
         }
         return fl::Op::join(result, _separator);
     }
@@ -113,10 +119,12 @@ namespace fl {
 
             for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
                 InputVariable* inputVariable = engine->getInputVariable(i);
-                scalar range = inputVariable->range();
+                if (not inputVariable->isEnabled()) continue;
+
                 scalar inputValue = inputVariable->getMinimum()
-                        + sampleValues.at(i) * range / resolution;
+                        + sampleValues.at(i) * inputVariable->range() / resolution;
                 inputVariable->setInputValue(inputValue);
+
                 values.push_back(Op::str(inputValue));
             }
 
@@ -124,6 +132,8 @@ namespace fl {
 
             for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
                 OutputVariable* outputVariable = engine->getOutputVariable(i);
+                if (not outputVariable->isEnabled()) continue;
+
                 values.push_back(Op::str(outputVariable->defuzzify()));
             }
 
@@ -180,20 +190,26 @@ namespace fl {
     template <typename T>
     void FldExporter::toWriter(Engine* engine, T& writer, const std::vector<scalar>& inputValues,
             const std::string& separator) const {
+        std::vector<scalar> values;
         for (std::size_t i = 0; i < inputValues.size(); ++i) {
+            InputVariable* inputVariable = engine->getInputVariable(i);
+            if (not inputVariable->isEnabled()) continue;
+
             scalar inputValue = inputValues.at(i);
-            engine->getInputVariable(i)->setInputValue(inputValue);
-            if (i != 0) writer << separator;
-            writer << fl::Op::str(inputValue);
+            inputVariable->setInputValue(inputValue);
+            values.push_back(inputValue);
         }
+
         engine->process();
 
         if (engine->numberOfOutputVariables() > 0) writer << separator;
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-            scalar outputValue = engine->getOutputVariable(i)->defuzzify();
-            if (i != 0) writer << separator;
-            writer << fl::Op::str(outputValue);
+            OutputVariable* outputVariable = engine->getOutputVariable(i);
+            if (not outputVariable->isEnabled()) continue;
+
+            values.push_back(outputVariable->defuzzify());
         }
+        writer << Op::join(values, separator);
     }
 
     template FL_EXPORT void FldExporter::toWriter(Engine* engine, std::ostream& writer,

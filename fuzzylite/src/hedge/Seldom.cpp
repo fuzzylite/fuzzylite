@@ -33,8 +33,8 @@ namespace fl {
 
     scalar Seldom::hedge(scalar x) const {
         return Op::isLE(x, 0.5)
-                ? std::sqrt(x / 2)
-                : 1 - std::sqrt((1 - x) / 2);
+                ? std::sqrt(x / 2.0)
+                : 1.0 - std::sqrt((1.0 - x) / 2.0);
     }
     
     Hedge* Seldom::constructor(){
