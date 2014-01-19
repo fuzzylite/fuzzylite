@@ -35,8 +35,9 @@ namespace fl {
     protected:
         Accumulated* _fuzzyOutput;
         Defuzzifier* _defuzzifier;
+        scalar _outputValue;
+        scalar _lastValidOutputValue;
         scalar _defaultValue;
-        scalar _lastValidOutput;
         bool _lockOutputRange;
         bool _lockValidOutput;
 
@@ -53,11 +54,14 @@ namespace fl {
         virtual void setDefuzzifier(Defuzzifier* defuzzifier);
         virtual Defuzzifier* getDefuzzifier() const;
 
+        virtual void setOutputValue(scalar outputValue);
+        virtual scalar getOutputValue() const;
+
+        virtual void setLastValidOutputValue(scalar defuzzifiedValue);
+        virtual scalar getLastValidOutputValue() const;
+
         virtual void setDefaultValue(scalar defaultValue);
         virtual scalar getDefaultValue() const;
-
-        virtual void setLastValidOutput(scalar defuzzifiedValue);
-        virtual scalar getLastValidOutput() const;
 
         virtual void setLockOutputRange(bool lockOutputRange);
         virtual bool isLockingOutputRange() const;
@@ -65,8 +69,7 @@ namespace fl {
         virtual void setLockValidOutput(bool lockValidOutput);
         virtual bool isLockingValidOutput() const;
 
-        virtual scalar defuzzify();
-        virtual scalar defuzzifyNoLocks() const;
+        virtual void defuzzify();
 
         virtual std::string toString() const;
 

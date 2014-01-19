@@ -113,7 +113,7 @@ namespace fl {
 
     Term* Variable::highestMembership(scalar x, scalar* yhighest) const {
         Term* result = NULL;
-        scalar ymax = -fl::inf;
+        scalar ymax = 0.0;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             scalar y = _terms.at(i)->membership(x);
             if (fl::Op::isGt(y, ymax)) {

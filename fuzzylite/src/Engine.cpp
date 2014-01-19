@@ -193,11 +193,13 @@ namespace fl {
 
     void Engine::restart() {
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
-            _inputVariables[i]->setInputValue(fl::nan);
+            _inputVariables.at(i)->setInputValue(fl::nan);
         }
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            _outputVariables[i]->setLastValidOutput(fl::nan);
-            _outputVariables[i]->fuzzyOutput()->clear();
+            OutputVariable* outputVariable = _outputVariables.at(i);
+            outputVariable->fuzzyOutput()->clear();
+            outputVariable->setLastValidOutputValue(fl::nan);
+            outputVariable->setOutputValue(fl::nan);
         }
     }
 
@@ -224,8 +226,16 @@ namespace fl {
 
 
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            if (_ruleblocks.at(i)->isEnabled()) {
-                _ruleblocks.at(i)->activate();
+            RuleBlock* ruleBlock = _ruleblocks.at(i);
+            if (ruleBlock->isEnabled()) {
+                ruleBlock->activate();
+            }
+        }
+
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            OutputVariable* outputVariable = _outputVariables.at(i);
+            if (outputVariable->isEnabled()) {
+                outputVariable->defuzzify();
             }
         }
 
@@ -245,8 +255,7 @@ namespace fl {
                 FL_DBG(outputVariable->getName() << ".lockValid = "
                         << outputVariable->isLockingValidOutput());
 
-                //no locking is ever performed during this debugging block;
-                scalar output = outputVariable->defuzzifyNoLocks();
+                scalar output = outputVariable->getOutputValue();
                 (void) output;
                 FL_DBG(outputVariable->getName() << ".output = " << output);
                 FL_DBG(outputVariable->getName() << ".fuzzy = " <<
@@ -275,7 +284,7 @@ namespace fl {
 
     scalar Engine::getOutputValue(const std::string& name) {
         OutputVariable* outputVariable = getOutputVariable(name);
-        return outputVariable->defuzzify();
+        return outputVariable->getOutputValue();
     }
 
     std::string Engine::toString() const {

@@ -108,7 +108,7 @@ namespace fl {
 
             for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
                 OutputVariable* outputVariable = engine->getOutputVariable(i);
-                values.push_back(Op::str(outputVariable->defuzzify()));
+                values.push_back(Op::str(outputVariable->getOutputValue()));
             }
 
             writer << Op::join(values, separator) << "\n";

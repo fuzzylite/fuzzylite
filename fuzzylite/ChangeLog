@@ -1,5 +1,12 @@
 Version 5.0
 * Renamed Op::isNan to Op::isNaN
+* New OutputVariable::(get|set)OutputValue to store value from defuzzification
+* Changed OutputVariable::defuzzify to store its output value
+* Changed return type of scalar OutputVariable::defuzzify to void OutputVariable::defuzzify
+* Renamed OutputVariable::(get|set)LastValidOutput to OutputVariable::(get|set)LastValidOutputValue
+* Removed OutputVariable::defuzzifyNoLocks
+
+
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.

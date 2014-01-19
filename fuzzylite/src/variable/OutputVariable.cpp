@@ -33,11 +33,9 @@ namespace fl {
     OutputVariable::OutputVariable(const std::string& name,
             scalar minimum, scalar maximum)
     : Variable(name, minimum, maximum),
-    _fuzzyOutput(new Accumulated("fuzzyOutput", minimum, maximum)),
-    _defuzzifier(NULL), _defaultValue(fl::nan),
-    _lastValidOutput(fl::nan),
-    _lockOutputRange(false),
-    _lockValidOutput(false) {
+    _fuzzyOutput(new Accumulated("fuzzyOutput", minimum, maximum)), _defuzzifier(NULL),
+    _outputValue(fl::nan), _lastValidOutputValue(fl::nan), _defaultValue(fl::nan),
+    _lockOutputRange(false), _lockValidOutput(false) {
     }
 
     OutputVariable::~OutputVariable() {
@@ -68,20 +66,28 @@ namespace fl {
         return this->_defuzzifier;
     }
 
+    void OutputVariable::setOutputValue(scalar outputValue) {
+        this->_outputValue = outputValue;
+    }
+
+    scalar OutputVariable::getOutputValue() const {
+        return this->_outputValue;
+    }
+
+    void OutputVariable::setLastValidOutputValue(scalar defuzzifiedValue) {
+        this->_lastValidOutputValue = defuzzifiedValue;
+    }
+
+    scalar OutputVariable::getLastValidOutputValue() const {
+        return this->_lastValidOutputValue;
+    }
+
     void OutputVariable::setDefaultValue(scalar defaultValue) {
         this->_defaultValue = defaultValue;
     }
 
     scalar OutputVariable::getDefaultValue() const {
         return this->_defaultValue;
-    }
-
-    void OutputVariable::setLastValidOutput(scalar lastValidOutput) {
-        this->_lastValidOutput = lastValidOutput;
-    }
-
-    scalar OutputVariable::getLastValidOutput() const {
-        return this->_lastValidOutput;
     }
 
     void OutputVariable::setLockOutputRange(bool lock) {
@@ -100,7 +106,7 @@ namespace fl {
         return this->_lockValidOutput;
     }
 
-    scalar OutputVariable::defuzzify() {
+    void OutputVariable::defuzzify() {
         scalar result = fl::nan;
         bool isValid = this->_enabled and not this->_fuzzyOutput->isEmpty();
         if (isValid) {
@@ -108,8 +114,8 @@ namespace fl {
         } else {
             //if a previous defuzzification was successfully performed and
             //and the output is supposed to not change when the output is empty
-            if (_lockValidOutput and not Op::isNaN(_lastValidOutput)) {
-                result = _lastValidOutput;
+            if (_lockValidOutput and not Op::isNaN(_lastValidOutputValue)) {
+                result = _lastValidOutputValue;
             } else {
                 result = _defaultValue;
             }
@@ -120,19 +126,9 @@ namespace fl {
             if (Op::isGt(result, _maximum)) result = _maximum;
         }
 
-        if (_lockValidOutput and isValid) _lastValidOutput = result;
-        return result;
-    }
+        if (isValid) _lastValidOutputValue = result;
 
-    scalar OutputVariable::defuzzifyNoLocks() const {
-        scalar result = fl::nan;
-        bool isValid = this->_enabled and not this->_fuzzyOutput->isEmpty();
-        if (isValid) {
-            result = this->_defuzzifier->defuzzify(_fuzzyOutput, _minimum, _maximum);
-        } else {
-            result = _defaultValue;
-        }
-        return result;
+        _outputValue = result;
     }
 
     std::string OutputVariable::toString() const {

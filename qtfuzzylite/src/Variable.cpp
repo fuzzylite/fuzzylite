@@ -184,7 +184,7 @@ namespace fl {
 
             OutputVariable* editable = dynamic_cast<OutputVariable*> (this->variable);
             editable->setDefaultValue(outputVariable->getDefaultValue());
-            editable->setLastValidOutput(fl::nan);
+            editable->setLastValidOutputValue(fl::nan);
             editable->setLockValidOutput(outputVariable->isLockingValidOutput());
             editable->setLockOutputRange(outputVariable->isLockingOutputRange());
 
