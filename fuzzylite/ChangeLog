@@ -84,3 +84,4 @@ Version 4.1:
 * Accuracy improvements importing fis files with large number of decimals
 * Updated FLD examples to reflect accuracy
 * Changed operation for multiple hedges to operate from last to first
+* Fixed OutputVariable to store last valid output value regardless of locks

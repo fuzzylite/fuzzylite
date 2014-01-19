@@ -120,7 +120,7 @@ namespace fl {
             if (Op::isGt(result, _maximum)) result = _maximum;
         }
 
-        if (_lockValidOutput and isValid) _lastValidOutput = result;
+        if (isValid) _lastValidOutput = result;
         return result;
     }
 
