@@ -193,7 +193,7 @@ namespace fl {
 
             menuImport->addAction("FuzzyLite Language (&FLL)", this, SLOT(onMenuImportFromFLL()));
             menuImport->addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuImportFromFIS()));
-            menuImport->addAction("Fuzzy Controller Language (FC&L)", this, SLOT(onMenuImportFromFCL()));
+            menuImport->addAction("Fuzzy Control Language (FC&L)", this, SLOT(onMenuImportFromFCL()));
 
             menuFile->addMenu(menuImport);
 
@@ -209,7 +209,7 @@ namespace fl {
             menuExport->addAction("jfuzzylite (&Java)", this, SLOT(onMenuExportToJava()));
             menuExport->addSeparator();
             menuExport->addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuExportToFIS()));
-            menuExport->addAction("Fuzzy Controller &Language (FCL)", this, SLOT(onMenuExportToFCL()));
+            menuExport->addAction("Fuzzy Control &Language (FCL)", this, SLOT(onMenuExportToFCL()));
             
 
 
@@ -1263,7 +1263,7 @@ namespace fl {
                 QStringList formats;
                 formats << "FuzzyLite Language (*.fll)"
                         << "Fuzzy Inference System (*.fis)"
-                        << "Fuzzy Controller Language (*.fcl)";
+                        << "Fuzzy Control Language (*.fcl)";
                 int recentFormatIndex = formats.indexOf(recentFormat);
                 if (recentFormatIndex < 0) recentFormatIndex = 0;
                 QString selectedFormat = QInputDialog::getItem(this, "File format",
@@ -1418,7 +1418,7 @@ namespace fl {
                 QStringList formats;
                 formats << "FuzzyLite Language (*.fll)"
                         << "Fuzzy Inference System (*.fis)"
-                        << "Fuzzy Controller Language (*.fcl)";
+                        << "Fuzzy Control Language (*.fcl)";
                 int recentFormatIndex = formats.indexOf(recentFormat);
                 if (recentFormatIndex < 0) recentFormatIndex = 0;
                 QString selectedFormat = QInputDialog::getItem(this, "File format",
@@ -1542,7 +1542,7 @@ namespace fl {
             ImEx imex;
             imex.setup();
             imex.setWindowTitle("Import Engine from...");
-            imex.ui->lbl_format->setText("Fuzzy Controller Language (FCL):");
+            imex.ui->lbl_format->setText("Fuzzy Control Language (FCL):");
             QFont font = typeWriterFont();
             font.setPointSize(font.pointSize() - 1);
             imex.ui->pte_code->setFont(font);
@@ -1669,7 +1669,7 @@ namespace fl {
             ImEx imex;
             imex.setup();
             imex.setWindowTitle("Export engine to");
-            imex.ui->lbl_format->setText("Fuzzy Controller Language (FCL):");
+            imex.ui->lbl_format->setText("Fuzzy Control Language (FCL):");
             imex.ui->buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
 
             QFont font = typeWriterFont();
