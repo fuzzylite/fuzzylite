@@ -31,7 +31,7 @@
 namespace fl {
 
     Accumulated::Accumulated(const std::string& name, scalar minimum, scalar maximum,
-            const SNorm* accumulation)
+            SNorm* accumulation)
     : Term(name), _minimum(minimum), _maximum(maximum), _accumulation(accumulation) {
     }
 
@@ -47,8 +47,8 @@ namespace fl {
     std::string Accumulated::parameters() const {
         FllExporter exporter;
         std::ostringstream ss;
-        ss << Op::str(_minimum) << " " << Op::str(_maximum) << " ";
         ss << exporter.toString(_accumulation);
+        ss << Op::str(_minimum) << " " << Op::str(_maximum) << " ";
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             ss << " " << exporter.toString(_terms.at(i));
         }
@@ -72,6 +72,19 @@ namespace fl {
         return mu;
     }
 
+    std::string Accumulated::toString() const {
+        std::vector<std::string> accumulate;
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
+            accumulate.push_back(_terms.at(i)->toString());
+        }
+        FllExporter exporter;
+        std::ostringstream ss;
+        ss << _name << ": " << className() << " "
+                << exporter.toString(_accumulation) << "["
+                << fl::Op::join(accumulate, ",") << "]";
+        return ss.str();
+    }
+
     void Accumulated::setMinimum(scalar minimum) {
         this->_minimum = minimum;
     }
@@ -88,12 +101,12 @@ namespace fl {
         return this->_maximum;
     }
 
-    void Accumulated::setAccumulation(const SNorm* accumulation) {
+    void Accumulated::setAccumulation(SNorm* accumulation) {
         if (this->_accumulation) delete this->_accumulation;
         this->_accumulation = accumulation;
     }
 
-    const SNorm* Accumulated::getAccumulation() const {
+    SNorm* Accumulated::getAccumulation() const {
         return this->_accumulation;
     }
 

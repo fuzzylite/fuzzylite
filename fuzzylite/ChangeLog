@@ -5,6 +5,8 @@ Version 5.0
 * Changed return type of scalar OutputVariable::defuzzify to void OutputVariable::defuzzify
 * Renamed OutputVariable::(get|set)LastValidOutput to OutputVariable::(get|set)LastValidOutputValue
 * Removed OutputVariable::defuzzifyNoLocks
+* Removed const from Term* Accumulated::(get|set)Accumulation
+* Added InputVariable::fuzzyInputValue and OutputVariable::fuzzyOutputValue
 
 
 

@@ -71,6 +71,8 @@ namespace fl {
 
         virtual void defuzzify();
 
+        virtual std::string fuzzyOutputValue() const;
+
         virtual std::string toString() const;
 
     };

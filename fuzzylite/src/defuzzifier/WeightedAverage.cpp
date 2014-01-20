@@ -64,6 +64,7 @@ namespace fl {
             scalar z = Tsukamoto::tsukamoto(thresholded,
                     takagiSugeno->getMinimum(), takagiSugeno->getMaximum());
             //Traditionally, activation is the AlgebraicProduct
+            //TODO: Accumulate sum and weights with Accumulation operator
             sum += thresholded->getActivation()->compute(w, z);
             weights += w;
         }

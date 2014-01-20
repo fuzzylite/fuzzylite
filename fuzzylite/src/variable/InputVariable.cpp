@@ -41,6 +41,10 @@ namespace fl {
     scalar InputVariable::getInputValue() const {
         return this->_inputValue;
     }
+    
+    std::string InputVariable::fuzzyInputValue() const{
+        return fuzzify(_inputValue);
+    }
 
     std::string InputVariable::toString() const{
         return FllExporter("", "; ").toString(this);

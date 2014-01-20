@@ -28,10 +28,11 @@
 namespace fl {
     class TNorm;
 
+    //TODO: Rename to Activated
     class FL_EXPORT Thresholded : public Term {
     protected:
         const Term* _term;
-        scalar _threshold;
+        scalar _threshold; //TODO: rename to degree
         const TNorm* _activation;
 
     public:
@@ -45,10 +46,11 @@ namespace fl {
         virtual void configure(const std::string& parameters);
 
         virtual scalar membership(scalar x) const;
+        virtual std::string toString() const;
 
         virtual void setTerm(const Term* term);
         virtual const Term* getTerm() const;
-
+        
         virtual void setThreshold(scalar threshold);
         virtual scalar getThreshold() const;
 

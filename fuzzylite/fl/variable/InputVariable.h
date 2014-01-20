@@ -39,6 +39,8 @@ namespace fl {
         virtual void setInputValue(scalar inputValue);
         virtual scalar getInputValue() const;
 
+        virtual std::string fuzzyInputValue() const;
+
         virtual std::string toString() const;
     };
 

@@ -25,6 +25,8 @@
 #include "fl/term/Accumulated.h"
 #include "fl/defuzzifier/Defuzzifier.h"
 #include "fl/imex/FllExporter.h"
+#include "fl/term/Thresholded.h"
+#include "fl/norm/SNorm.h"
 
 #include <sstream>
 
@@ -129,6 +131,39 @@ namespace fl {
         if (isValid) _lastValidOutputValue = result;
 
         _outputValue = result;
+    }
+
+    std::string OutputVariable::fuzzyOutputValue() const {
+        std::ostringstream ss;
+        if (not fuzzyOutput()->getAccumulation()) {
+            for (std::size_t i = 0; i < _terms.size(); ++i) {
+                ss << fl::Op::str(fl::nan) << "/" << _terms.at(i)->getName();
+                if (i + 1 < _terms.size()) ss << " + ";
+            }
+            return ss.str();
+        }
+
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
+            scalar degree = 0.0;
+            for (std::size_t j = 0; j < fuzzyOutput()->terms().size(); ++j) {
+                const Thresholded* thresholded = dynamic_cast<const Thresholded*> (fuzzyOutput()->getTerm(j));
+                if (thresholded and thresholded->getTerm() == _terms.at(i)) {
+                    degree = fuzzyOutput()->getAccumulation()->compute(
+                            degree, thresholded->getThreshold());
+                }
+            }
+
+            if (i == 0) {
+                ss << fl::Op::str(degree);
+            } else {
+                if (fl::Op::isNaN(degree) or fl::Op::isGE(degree, 0.0))
+                    ss << " + " << fl::Op::str(degree);
+                else
+                    ss << " - " << fl::Op::str(std::fabs(degree));
+            }
+            ss << "/" << _terms.at(i)->getName();
+        }
+        return ss.str();
     }
 
     std::string OutputVariable::toString() const {

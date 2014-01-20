@@ -35,22 +35,24 @@ namespace fl {
     protected:
         std::vector<const Term*> _terms;
         scalar _minimum, _maximum;
-        const SNorm* _accumulation;
+        SNorm* _accumulation;
     public:
         Accumulated(const std::string& name = "",
                 scalar minimum = -fl::inf,
                 scalar maximum = fl::inf,
-                const SNorm* accumulation = NULL);
+                SNorm* accumulation = NULL);
         virtual ~Accumulated();
 
         virtual std::string className() const;
         virtual std::string parameters() const;
         virtual void configure(const std::string& parameters);
-        
+
         virtual Accumulated* copy() const;
 
         virtual scalar membership(scalar x) const;
-        
+
+        virtual std::string toString() const;
+
 
         virtual void setMinimum(scalar minimum);
         virtual scalar getMinimum() const;
@@ -58,8 +60,8 @@ namespace fl {
         virtual void setMaximum(scalar maximum);
         virtual scalar getMaximum() const;
 
-        virtual void setAccumulation(const SNorm* accumulation);
-        virtual const SNorm* getAccumulation() const;
+        virtual void setAccumulation(SNorm* accumulation);
+        virtual SNorm* getAccumulation() const;
 
         /**
          * Operations for std::vector _terms

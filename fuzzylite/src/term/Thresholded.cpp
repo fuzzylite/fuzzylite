@@ -59,6 +59,15 @@ namespace fl {
         return _activation->compute(this->_term->membership(x), _threshold);
     }
 
+    std::string Thresholded::toString() const {
+        FllExporter exporter;
+        std::ostringstream ss;
+        ss << exporter.toString(_activation) << "("
+                << Op::str(_threshold) << ","
+                << _term->getName() << ")";
+        return ss.str();
+    }
+
     void Thresholded::setTerm(const Term* term) {
         this->_term = term;
     }
