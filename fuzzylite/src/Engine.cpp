@@ -128,14 +128,13 @@ namespace fl {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no terms\n";
                 }
-                Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
-                if (not defuzzifier) {
-                    ss << "- Output variable <" << outputVariable->getName() << ">"
-                            << " has no defuzzifier\n";
-                } else if (dynamic_cast<IntegralDefuzzifier*> (defuzzifier)
-                        and not outputVariable->fuzzyOutput()->getAccumulation()) {
+                if (not outputVariable->fuzzyOutput()->getAccumulation()) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no Accumulation\n";
+                }
+                if (not outputVariable->getDefuzzifier()) {
+                    ss << "- Output variable <" << outputVariable->getName() << ">"
+                            << " has no Defuzzifier\n";
                 }
             }
         }
@@ -291,8 +290,11 @@ namespace fl {
         return FllExporter().toString(this);
     }
 
-    Engine::Type Engine::type() const {
-        if (_outputVariables.empty()) return Engine::NONE;
+    Engine::Type Engine::type(std::string* name) const {
+        if (_outputVariables.empty()) {
+            if (name) *name = "";
+            return Engine::NONE;
+        }
 
         //Mamdani
         bool mamdani = true;
@@ -319,8 +321,14 @@ namespace fl {
                         (ruleBlock->getActivation()));
             }
         }
-        if (larsen) return Engine::LARSEN;
-        if (mamdani) return Engine::MAMDANI;
+        if (larsen) {
+            if (name) *name = "Larsen";
+            return Engine::LARSEN;
+        }
+        if (mamdani) {
+            if (name) *name = "Mamdani";
+            return Engine::MAMDANI;
+        }
         //Else, keep checking
 
         //TakagiSugeno
@@ -338,7 +346,10 @@ namespace fl {
             Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
             takagiSugeno &= defuzzifier and not (dynamic_cast<IntegralDefuzzifier*> (defuzzifier));
         }
-        if (takagiSugeno) return Engine::TAKAGI_SUGENO;
+        if (takagiSugeno) {
+            if (name) *name = "Takagi-Sugeno";
+            return Engine::TAKAGI_SUGENO;
+        }
 
         //Tsukamoto
         bool tsukamoto = true;
@@ -356,7 +367,10 @@ namespace fl {
             Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
             tsukamoto &= defuzzifier and not (dynamic_cast<IntegralDefuzzifier*> (defuzzifier));
         }
-        if (tsukamoto) return Engine::TSUKAMOTO;
+        if (tsukamoto) {
+            if (name) *name = "Tsukamoto";
+            return Engine::TSUKAMOTO;
+        }
 
         //Inverse Tsukamoto
         bool inverseTsukamoto = true;
@@ -372,8 +386,11 @@ namespace fl {
             Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
             inverseTsukamoto &= defuzzifier and not (dynamic_cast<IntegralDefuzzifier*> (defuzzifier));
         }
-        if (inverseTsukamoto) return Engine::INVERSE_TSUKAMOTO;
-
+        if (inverseTsukamoto) {
+            if (name) *name = "Inverse Tsukamoto";
+            return Engine::INVERSE_TSUKAMOTO;
+        }
+        if (name) *name = "Unknown";
         return Engine::UNKNOWN;
     }
 

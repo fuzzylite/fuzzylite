@@ -35,7 +35,7 @@ namespace fl {
     OutputVariable::OutputVariable(const std::string& name,
             scalar minimum, scalar maximum)
     : Variable(name, minimum, maximum),
-    _fuzzyOutput(new Accumulated("fuzzyOutput", minimum, maximum)), _defuzzifier(NULL),
+    _fuzzyOutput(new Accumulated(name, minimum, maximum)), _defuzzifier(NULL),
     _outputValue(fl::nan), _lastValidOutputValue(fl::nan), _defaultValue(fl::nan),
     _lockOutputRange(false), _lockValidOutput(false) {
     }
@@ -43,6 +43,11 @@ namespace fl {
     OutputVariable::~OutputVariable() {
         delete _fuzzyOutput;
         if (_defuzzifier) delete _defuzzifier;
+    }
+
+    void OutputVariable::setName(const std::string& name) {
+        Variable::setName(name);
+        this->_fuzzyOutput->setName(name);
     }
 
     Accumulated* OutputVariable::fuzzyOutput() const {

@@ -87,7 +87,7 @@ namespace fl {
         enum Type {
             MAMDANI = 0, LARSEN, TAKAGI_SUGENO, TSUKAMOTO, INVERSE_TSUKAMOTO, UNKNOWN, NONE
         };
-        virtual Type type() const;
+        virtual Type type(std::string* name = NULL) const;
 
         /**
          * Operations for iterable datatype _inputVariables
