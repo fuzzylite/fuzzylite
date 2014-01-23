@@ -318,7 +318,7 @@ namespace fl {
         fl::OutputVariable* trueFx = new fl::OutputVariable("trueFx");
         trueFx->setRange(fl::nan, fl::nan);
         trueFx->setLockValidOutput(true); //To use its value with diffFx
-        trueFx->addTerm(fl::Function::create("fx", "sin(inputX)/inputX"));
+        trueFx->addTerm(fl::Function::create("fx", "sin(inputX)/inputX", engine));
         engine->addOutputVariable(trueFx);
 
         fl::OutputVariable* diffFx = new fl::OutputVariable("diffFx");

@@ -32,6 +32,7 @@ namespace fl {
         const ZShape* zshape = NULL;
         scalar w = term->getThreshold();
         scalar z = fl::nan; //result;
+        bool isTsukamoto = true;
         if ((ramp = dynamic_cast<const Ramp*> (monotonic))) {
             z = Op::scale(w, 0, 1, ramp->getStart(), ramp->getEnd());
 
@@ -76,13 +77,15 @@ namespace fl {
             } else {
                 z = b;
             }
+        } else {
+            isTsukamoto = false;
         }
-        
-        if (not Op::isNaN(z)) {
+
+        if (isTsukamoto) {
             //Compare difference between estimated and true value
             scalar fz = monotonic->membership(z);
             if (not Op::isEq(w, fz, 1e-2)) {
-                FL_DBG("[tsukamoto warning] difference <" << Op::str(std::abs(w-fz)) << "> "
+                FL_DBG("[tsukamoto warning] difference <" << Op::str(std::abs(w - fz)) << "> "
                         "might suggest an inaccurate computation of z because it is "
                         "expected w=f(z) in " << monotonic->className() <<
                         " term <" << monotonic->getName() << ">, but "
@@ -91,7 +94,7 @@ namespace fl {
                         "z=" << Op::str(z));
             }
         } else {
-//            else if it is not a Tsukamoto controller, then fallback to the inverse Tsukamoto
+            // else fallback to the regular Takagi-Sugeno or inverse Tsukamoto (according to term)
             z = monotonic->membership(term->getThreshold());
         }
         return z;

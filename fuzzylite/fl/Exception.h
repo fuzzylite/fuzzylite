@@ -49,10 +49,13 @@ namespace fl {
             const std::string& file, int line, const std::string& function);
 
         static std::string btCallStack(const int maxCalls = 30);
+        
         static void signalHandler(int signal);
+        static void convertToException(int signal);
+        static void terminate();
         static void catchException(const std::exception& exception);
         
-        static void terminate();
+        
     };
 
 }

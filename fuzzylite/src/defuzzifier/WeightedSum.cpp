@@ -18,6 +18,7 @@
 #include "fl/term/Accumulated.h"
 #include "fl/term/Thresholded.h"
 #include "fl/defuzzifier/Tsukamoto.h"
+#include "fl/norm/SNorm.h"
 #include "fl/norm/TNorm.h"
 
 namespace fl {
@@ -36,8 +37,8 @@ namespace fl {
             scalar minimum, scalar maximum) const {
         (void) minimum;
         (void) maximum;
-        const Accumulated* takagiSugeno = dynamic_cast<const Accumulated*> (term);
-        if (not takagiSugeno) {
+        const Accumulated* fuzzyOutput = dynamic_cast<const Accumulated*> (term);
+        if (not fuzzyOutput) {
             std::ostringstream ss;
             ss << "[defuzzification error]"
                     << "expected an Accumulated term instead of"
@@ -46,23 +47,22 @@ namespace fl {
         }
 
         scalar sum = 0.0;
-        for (int i = 0; i < takagiSugeno->numberOfTerms(); ++i) {
-            const Thresholded* thresholded = dynamic_cast<const Thresholded*> (takagiSugeno->getTerm(i));
+        for (int i = 0; i < fuzzyOutput->numberOfTerms(); ++i) {
+            const Thresholded* thresholded = dynamic_cast<const Thresholded*> (fuzzyOutput->getTerm(i));
             if (not thresholded) {
                 std::ostringstream ss;
                 ss << "[defuzzification error]"
                         << "expected a Thresholded term instead of"
-                        << "<" << takagiSugeno->getTerm(i)->toString() << ">";
+                        << "<" << fuzzyOutput->getTerm(i)->toString() << ">";
                 throw fl::Exception(ss.str(), FL_AT);
             }
 
             scalar w = thresholded->getThreshold();
             scalar z = Tsukamoto::tsukamoto(thresholded,
-                    takagiSugeno->getMinimum(), takagiSugeno->getMaximum());
-            //Traditionally, activation is the AlgebraicProduct
-            sum += thresholded->getActivation()->compute(w, z);
+                    fuzzyOutput->getMinimum(), fuzzyOutput->getMaximum());
+            sum = fuzzyOutput->getAccumulation()->compute(sum,
+                    thresholded->getActivation()->compute(w, z));
         }
-
         return sum;
     }
 

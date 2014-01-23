@@ -40,6 +40,9 @@ namespace fl {
     }
 
     scalar SmallestOfMaximum::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
+        if (fl::Op::isNaN(minimum + maximum) or fl::Op::isInf(minimum + maximum)) {
+            return fl::nan;
+        }
         if (maximum - minimum > _resolution) {
             FL_LOG("[accuracy warning] the resolution <" << _resolution << "> "
                     "is smaller than the range <" << minimum << ", " << maximum << ">. In order to "
@@ -59,8 +62,8 @@ namespace fl {
         }
         return xsmallest;
     }
-    
-    Defuzzifier* SmallestOfMaximum::constructor(){
+
+    Defuzzifier* SmallestOfMaximum::constructor() {
         return new SmallestOfMaximum;
     }
 }

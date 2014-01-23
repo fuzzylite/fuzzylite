@@ -38,7 +38,8 @@
 #endif
 
 #include <stdlib.h>
-
+#include <signal.h>
+#include <string.h>
 
 namespace fl {
 
@@ -139,16 +140,27 @@ namespace fl {
         exit(EXIT_FAILURE);
     }
 
+    void Exception::convertToException(int signal) {
+        std::ostringstream ex;
+        ex << "[signal " << signal << "] " << strsignal(signal);
+        //Unblock the signal
+        sigset_t empty;
+        sigemptyset(&empty);
+        sigaddset(&empty, signal);
+        sigprocmask(SIG_UNBLOCK, &empty, NULL);
+        throw fl::Exception(ex.str(), FL_AT);
+    }
+
     void Exception::terminate() {
         fl::Exception::catchException(fl::Exception("[unexpected exception]", FL_AT));
         exit(EXIT_FAILURE);
     }
-    
-    void Exception::catchException(const std::exception& exception){
+
+    void Exception::catchException(const std::exception& exception) {
         std::ostringstream ss;
         ss << exception.what();
         std::string backtrace = btCallStack();
-        if (not backtrace.empty()){
+        if (not backtrace.empty()) {
             ss << "\n\nBACKTRACE:\n" << backtrace;
         }
         FL_LOG(ss.str());
