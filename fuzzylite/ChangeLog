@@ -7,6 +7,13 @@ Version 5.0
 * Removed OutputVariable::defuzzifyNoLocks
 * Removed const from Term* Accumulated::(get|set)Accumulation
 * Added InputVariable::fuzzyInputValue and OutputVariable::fuzzyOutputValue
+* Removed defaults in Engine::configure
+* Added Engine::configure without conjuntion and disjuntion
+* Added parameter string to Engine::type
+* Changed Engine::isReady
+* Converted all signals to exceptions in Exception::convertToException
+* Correct handling of integral defuzzification with min|max=NaN|Inf
+* Enforced usage of Accumulation in Weighted(Average|Sum)
 
 
 

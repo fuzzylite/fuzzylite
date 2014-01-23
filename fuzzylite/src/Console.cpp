@@ -340,7 +340,7 @@ namespace fl {
         block->addRule(fl::Rule::parse("if inputX is any then trueFx = fx and diffFx = diff", engine));
         engine->addRuleBlock(block);
 
-        engine->configure("", "", "AlgebraicProduct", "", "WeightedAverage");
+        engine->configure("", "", "AlgebraicProduct", "AlgebraicSum", "WeightedAverage");
 
         return engine;
     }

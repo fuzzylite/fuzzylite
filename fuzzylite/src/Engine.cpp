@@ -74,6 +74,11 @@ namespace fl {
         }
     }
 
+    void Engine::configure(const std::string& activationT, const std::string& accumulationS,
+            const std::string& defuzzifier, int resolution) {
+        configure("", "", activationT, accumulationS, defuzzifier, resolution);
+    }
+
     void Engine::configure(const std::string& conjunctionT, const std::string& disjunctionS,
             const std::string& activationT, const std::string& accumulationS,
             const std::string& defuzzifier, int resolution) {

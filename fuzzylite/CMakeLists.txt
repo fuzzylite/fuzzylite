@@ -73,6 +73,7 @@ elseif(WIN32)
     set(FL_LIBS dbghelp)
 endif()
 
+set(CMAKE_SKIP_RPATH true)
 
 if(FL_USE_FLOAT)
     add_definitions(-DFL_USE_FLOAT)
@@ -111,17 +112,17 @@ target_link_libraries(fl-bin fl-shared ${FL_LIBS})
 
 
 install(TARGETS fl-bin fl-shared fl-static
-		RUNTIME DESTINATION bin
-		LIBRARY DESTINATION bin
-		ARCHIVE DESTINATION bin
-		)
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION bin
+        ARCHIVE DESTINATION bin
+        )
 
 install(DIRECTORY fl/ DESTINATION include/fl)
 
 #if(WIN32)
-#	set(fl-suffix)
-#	add_custom_command(TARGET fl-bin POST_BUILD 
-#		COMMAND ${CMAKE_COMMAND} -E copy_if_different 
+#   set(fl-suffix)
+#   add_custom_command(TARGET fl-bin POST_BUILD
+#       COMMAND ${CMAKE_COMMAND} -E copy_if_different
 #        "${CMAKE_SOURCE_DIR}/lib/fuzzylite${FL_CONF}.dll"
 #        ${CMAKE_SOURCE_DIR}/bin)                 # <--this is out-file path
 #endif()
