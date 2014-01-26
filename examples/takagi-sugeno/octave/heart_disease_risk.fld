@@ -1,4 +1,4 @@
-LDLLevel HDLLevel HeartDiseaseRisk
+#@Engine: Heart-Disease-Risk; @InputVariable: LDLLevel; @InputVariable: HDLLevel; @OutputVariable: HeartDiseaseRisk;
 0.00000000 0.00000000 5.00000000
 0.00000000 3.22580645 5.00000000
 0.00000000 6.45161290 5.00000000

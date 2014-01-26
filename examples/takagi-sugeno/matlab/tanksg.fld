@@ -1,4 +1,4 @@
-level rate valve
+#@Engine: tanksg1; @InputVariable: level; @InputVariable: rate; @OutputVariable: valve;
 -1.00000000 -0.10000000 -0.89231519
 -1.00000000 -0.09354839 -0.89241494
 -1.00000000 -0.08709677 -0.89270079
