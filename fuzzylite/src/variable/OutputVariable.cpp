@@ -25,7 +25,7 @@
 #include "fl/term/Accumulated.h"
 #include "fl/defuzzifier/Defuzzifier.h"
 #include "fl/imex/FllExporter.h"
-#include "fl/term/Thresholded.h"
+#include "fl/term/Activated.h"
 #include "fl/norm/SNorm.h"
 
 #include <sstream>
@@ -151,10 +151,10 @@ namespace fl {
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             scalar degree = 0.0;
             for (std::size_t j = 0; j < fuzzyOutput()->terms().size(); ++j) {
-                const Thresholded* thresholded = dynamic_cast<const Thresholded*> (fuzzyOutput()->getTerm(j));
-                if (thresholded and thresholded->getTerm() == _terms.at(i)) {
+                const Activated* activated = dynamic_cast<const Activated*> (fuzzyOutput()->getTerm(j));
+                if (activated and activated->getTerm() == _terms.at(i)) {
                     degree = fuzzyOutput()->getAccumulation()->compute(
-                            degree, thresholded->getThreshold());
+                            degree, activated->getDegree());
                 }
             }
 

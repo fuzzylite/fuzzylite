@@ -108,7 +108,7 @@
 #include "fl/term/SigmoidDifference.h"
 #include "fl/term/SigmoidProduct.h"
 #include "fl/term/Term.h"
-#include "fl/term/Thresholded.h"
+#include "fl/term/Activated.h"
 #include "fl/term/Trapezoid.h"
 #include "fl/term/Triangle.h"
 #include "fl/term/ZShape.h"

@@ -14,13 +14,13 @@
  */
 
 /*
- * Thresholded.cpp
+ * Activated.cpp
  *
- *  Created on: 30/11/2012
+ *  Created on: 27/01/2014
  *      Author: jcrada
  */
 
-#include "fl/term/Thresholded.h"
+#include "fl/term/Activated.h"
 
 #include "fl/norm/TNorm.h"
 
@@ -30,70 +30,70 @@
 
 namespace fl {
 
-    Thresholded::Thresholded(const Term* term, scalar threshold, const TNorm* activation)
-    : Term(""), _term(term), _threshold(threshold), _activation(activation) {
+    Activated::Activated(const Term* term, scalar degree, const TNorm* activation)
+    : Term(""), _term(term), _degree(degree), _activation(activation) {
         if (term) this->_name = term->getName();
     }
 
-    Thresholded::~Thresholded() {
+    Activated::~Activated() {
     }
 
-    std::string Thresholded::className() const {
-        return "Thresholded";
+    std::string Activated::className() const {
+        return "Activated";
     }
 
-    std::string Thresholded::parameters() const {
+    std::string Activated::parameters() const {
         FllExporter exporter;
         std::ostringstream ss;
-        ss << Op::str(_threshold) << " " << exporter.toString(_activation) << " "
+        ss << Op::str(_degree) << " " << exporter.toString(_activation) << " "
                 << exporter.toString(_term);
         return ss.str();
     }
 
-    void Thresholded::configure(const std::string& parameters) {
+    void Activated::configure(const std::string& parameters) {
         (void) parameters;
     }
 
-    scalar Thresholded::membership(scalar x) const {
+    scalar Activated::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
-        return _activation->compute(this->_term->membership(x), _threshold);
+        return _activation->compute(this->_term->membership(x), _degree);
     }
 
-    std::string Thresholded::toString() const {
+    std::string Activated::toString() const {
         FllExporter exporter;
         std::ostringstream ss;
         ss << exporter.toString(_activation) << "("
-                << Op::str(_threshold) << ","
+                << Op::str(_degree) << ","
                 << _term->getName() << ")";
         return ss.str();
     }
 
-    void Thresholded::setTerm(const Term* term) {
+    void Activated::setTerm(const Term* term) {
         this->_term = term;
     }
 
-    const Term* Thresholded::getTerm() const {
+    const Term* Activated::getTerm() const {
         return this->_term;
     }
 
-    void Thresholded::setThreshold(scalar threshold) {
-        this->_threshold = threshold;
+    void Activated::setDegree(scalar degree) {
+        this->_degree = degree;
     }
 
-    scalar Thresholded::getThreshold() const {
-        return this->_threshold;
+    scalar Activated::getDegree() const {
+        return this->_degree;
     }
 
-    void Thresholded::setActivation(const TNorm* activation) {
+    void Activated::setActivation(const TNorm* activation) {
         this->_activation = activation;
     }
 
-    const TNorm* Thresholded::getActivation() const {
+    const TNorm* Activated::getActivation() const {
         return this->_activation;
     }
 
-    Thresholded* Thresholded::copy() const {
-        return new Thresholded(*this);
+    Activated* Activated::copy() const {
+        return new Activated(*this);
     }
 
 }

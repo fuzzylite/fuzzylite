@@ -14,32 +14,31 @@
  */
 
 /*
- * Thresholded.h
+ * Activated.h
  *
- *  Created on: 30/11/2012
+ *  Created on: 27/01/2014
  *      Author: jcrada
  */
 
-#ifndef FL_THRESHOLDED_H
-#define FL_THRESHOLDED_H
+#ifndef FL_ACTIVATED_H
+#define FL_ACTIVATED_H
 
 #include "fl/term/Term.h"
 
 namespace fl {
     class TNorm;
 
-    //TODO: Rename to Activated
-    class FL_EXPORT Thresholded : public Term {
+    class FL_EXPORT Activated : public Term {
     protected:
         const Term* _term;
-        scalar _threshold; //TODO: rename to degree
+        scalar _degree; 
         const TNorm* _activation;
 
     public:
-        Thresholded(const Term* term = NULL, scalar threshold = 1.0,
+        Activated(const Term* term = NULL, scalar degree = 1.0,
                 const TNorm* activationOperator = NULL);
 
-        virtual ~Thresholded();
+        virtual ~Activated();
 
         virtual std::string className() const;
         virtual std::string parameters() const;
@@ -51,14 +50,14 @@ namespace fl {
         virtual void setTerm(const Term* term);
         virtual const Term* getTerm() const;
         
-        virtual void setThreshold(scalar threshold);
-        virtual scalar getThreshold() const;
+        virtual void setDegree(scalar degree);
+        virtual scalar getDegree() const;
 
         virtual void setActivation(const TNorm* activation);
         virtual const TNorm* getActivation() const;
 
-        virtual Thresholded* copy() const;
+        virtual Activated* copy() const;
     };
 
 }
-#endif /* FL_THRESHOLDED_H */
+#endif /* FL_ACTIVATED_H */

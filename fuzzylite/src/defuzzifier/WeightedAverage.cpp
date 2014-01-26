@@ -16,7 +16,7 @@
 #include "fl/defuzzifier/WeightedAverage.h"
 
 #include "fl/term/Accumulated.h"
-#include "fl/term/Thresholded.h"
+#include "fl/term/Activated.h"
 
 #include "fl/defuzzifier/Tsukamoto.h"
 #include "fl/norm/Norm.h"
@@ -52,22 +52,21 @@ namespace fl {
         scalar weights = 0.0;
         FL_DBG("Defuzzifying " << fuzzyOutput->numberOfTerms() << " output terms");
         for (int i = 0; i < fuzzyOutput->numberOfTerms(); ++i) {
-            const Thresholded* thresholded = dynamic_cast<const Thresholded*> (fuzzyOutput->getTerm(i));
-            if (not thresholded) {
+            const Activated* activated = dynamic_cast<const Activated*> (fuzzyOutput->getTerm(i));
+            if (not activated) {
                 std::ostringstream ss;
                 ss << "[defuzzification error]"
-                        << "expected a Thresholded term instead of"
+                        << "expected an Activated term instead of"
                         << "<" << fuzzyOutput->getTerm(i)->toString() << ">";
                 throw fl::Exception(ss.str(), FL_AT);
             }
 
-            scalar w = thresholded->getThreshold();
-            scalar z = Tsukamoto::tsukamoto(thresholded,
+            scalar w = activated->getDegree();
+            scalar z = Tsukamoto::tsukamoto(activated,
                     fuzzyOutput->getMinimum(), fuzzyOutput->getMaximum());
-            //Traditionally, activation is the AlgebraicProduct
-            //TODO: Accumulate sum and weights with Accumulation operator
+            //Traditionally, activation is the AlgebraicProduct and accumulation is AlgebraicSum
             sum = fuzzyOutput->getAccumulation()->compute(sum,
-                    thresholded->getActivation()->compute(w, z));
+                    activated->getActivation()->compute(w, z));
             weights = fuzzyOutput->getAccumulation()->compute(weights, w);
         }
 

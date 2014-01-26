@@ -26,7 +26,7 @@
 #include "fl/defuzzifier/Defuzzifier.h"
 
 namespace fl {
-    class Thresholded;
+    class Activated;
 
     class FL_EXPORT WeightedAverage : public Defuzzifier {
     public:

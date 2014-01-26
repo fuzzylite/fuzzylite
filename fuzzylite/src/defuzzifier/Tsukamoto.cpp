@@ -15,7 +15,7 @@
 
 #include "fl/defuzzifier/Tsukamoto.h"
 
-#include "fl/term/Thresholded.h"
+#include "fl/term/Activated.h"
 
 #include "fl/term/Ramp.h"
 #include "fl/term/Sigmoid.h"
@@ -24,13 +24,13 @@
 
 namespace fl {
 
-    scalar Tsukamoto::tsukamoto(const Thresholded* term, scalar minimum, scalar maximum) {
+    scalar Tsukamoto::tsukamoto(const Activated* term, scalar minimum, scalar maximum) {
         const Term* monotonic = term->getTerm();
         const Ramp* ramp = NULL;
         const Sigmoid* sigmoid = NULL;
         const SShape* sshape = NULL;
         const ZShape* zshape = NULL;
-        scalar w = term->getThreshold();
+        scalar w = term->getDegree();
         scalar z = fl::nan; //result;
         bool isTsukamoto = true;
         if ((ramp = dynamic_cast<const Ramp*> (monotonic))) {
@@ -89,13 +89,13 @@ namespace fl {
                         "might suggest an inaccurate computation of z because it is "
                         "expected w=f(z) in " << monotonic->className() <<
                         " term <" << monotonic->getName() << ">, but "
-                        "w=" << term->getThreshold() << " "
+                        "w=" << term->getDegree() << " "
                         "f(z)=" << fz << " and "
                         "z=" << Op::str(z));
             }
         } else {
             // else fallback to the regular Takagi-Sugeno or inverse Tsukamoto (according to term)
-            z = monotonic->membership(term->getThreshold());
+            z = monotonic->membership(term->getDegree());
         }
         return z;
     }

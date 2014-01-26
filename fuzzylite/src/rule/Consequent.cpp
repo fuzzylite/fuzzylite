@@ -33,7 +33,7 @@
 #include "fl/hedge/Hedge.h"
 #include "fl/norm/TNorm.h"
 
-#include "fl/term/Thresholded.h"
+#include "fl/term/Activated.h"
 #include "fl/term/Accumulated.h"
 
 #include "fl/factory/FactoryManager.h"
@@ -66,8 +66,8 @@ namespace fl {
                         activationDegree = (*rit)->hedge(activationDegree);
                     }
                 }
-                Thresholded* term = new Thresholded(_conclusions.at(i)->term);
-                term->setThreshold(activationDegree);
+                Activated* term = new Activated(_conclusions.at(i)->term);
+                term->setDegree(activationDegree);
                 term->setActivation(activation);
                 OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (proposition->variable);
                 outputVariable->fuzzyOutput()->addTerm(term);

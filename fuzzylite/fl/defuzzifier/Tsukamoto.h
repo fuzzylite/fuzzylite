@@ -25,11 +25,11 @@
 #include "fl/fuzzylite.h"
 
 namespace fl {
-    class Thresholded;
+    class Activated;
     
     class FL_EXPORT Tsukamoto {
     public:
-        static scalar tsukamoto(const Thresholded* term, scalar minimum, scalar maximum);
+        static scalar tsukamoto(const Activated* term, scalar minimum, scalar maximum);
     };
 
 }
