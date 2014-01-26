@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 2.8)
 # In Mac:
 # otool -L qtfuzzylite #gives the dependencies of qtfuzzylite
 # install_name_tool -change /Users/jcrada/Development/fl/fuzzylite/fuzzylite/bin/libfuzzylite.dylib @executable_path/../Frameworks/libfuzzylite.dylib qtfuzzylite.app/Contents/MacOS/qtfuzzylite
-
+# set(LIBRARY_OUTPUT_PATH bin) TODO: Could this fix linkage in mac?
 project(qtfuzzylite CXX)
 
 set(CMAKE_VERBOSE_MAKEFILE true)
@@ -29,10 +29,10 @@ if (APPLE)
 endif()
 
 
-set(FLQT_DATE "1401")
+set(FLQT_DATE "1402")
 add_definitions(-DFLQT_DATE="${FLQT_DATE}")
 
-set(FLQT_VERSION 4.0)
+set(FLQT_VERSION 4.1)
 add_definitions(-DFLQT_VERSION="${FLQT_VERSION}")
 
 set(FLQT_LONG_VERSION "${FLQT_VERSION}b${FLQT_DATE}")

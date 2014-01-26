@@ -112,12 +112,11 @@ namespace fl {
 
         int backtraceSize = CaptureStackBackTrace(0, bufferSize, buffer, NULL);
         SYMBOL_INFO* btSymbol = (SYMBOL_INFO *) calloc(sizeof ( SYMBOL_INFO) + 256 * sizeof ( char), 1);
-        btSymbol->MaxNameLen = 255;
-        btSymbol->SizeOfStruct = sizeof ( SYMBOL_INFO);
-
         if (not btSymbol) {
             btStream << "[backtrace error] no symbols could be retrieved";
         } else {
+            btSymbol->MaxNameLen = 255;
+            btSymbol->SizeOfStruct = sizeof ( SYMBOL_INFO);
             if (backtraceSize == 0) btStream << "[backtrace is empty]";
             for (int i = 0; i < backtraceSize; ++i) {
                 SymFromAddr(GetCurrentProcess(), (DWORD64) (buffer[ i ]), 0, btSymbol);

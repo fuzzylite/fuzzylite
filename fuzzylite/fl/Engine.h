@@ -90,7 +90,8 @@ namespace fl {
         virtual std::string toString() const;
 
         enum Type {
-            MAMDANI = 0, LARSEN, TAKAGI_SUGENO, TSUKAMOTO, INVERSE_TSUKAMOTO, UNKNOWN, NONE
+            NONE, MAMDANI, LARSEN, TAKAGI_SUGENO,
+            TSUKAMOTO, INVERSE_TSUKAMOTO, UNKNOWN
         };
         virtual Type type(std::string* name = NULL) const;
 

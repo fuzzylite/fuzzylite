@@ -22,7 +22,7 @@
 
 #include "fl/Headers.h"
 
-#include <typeinfo> 
+#include <typeinfo>
 #include <iomanip>
 #include <cstdlib>
 #include <signal.h>
@@ -63,8 +63,9 @@ int main(int argc, char** argv) {
 
     try {
         return Console::main(argc, argv);
-    } catch (std::exception& e) {
-        fl::Exception::catchException(e);
+    } catch (std::exception& ex) {
+        FL_LOG(ex.what());
+        FL_LOG("BACKTRACE:\n" << fl::Exception::btCallStack());
         return EXIT_FAILURE;
     }
 }

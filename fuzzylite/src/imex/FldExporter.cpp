@@ -33,8 +33,8 @@
 
 namespace fl {
 
-    FldExporter::FldExporter(const std::string& separator, int maximum)
-    : _separator(separator), _maximum(maximum) {
+    FldExporter::FldExporter(const std::string& separator)
+    : _separator(separator) {
 
     }
 
@@ -53,33 +53,57 @@ namespace fl {
         return this->_separator;
     }
 
-    void FldExporter::setMaximum(int maximum) {
-        this->_maximum = maximum;
+    std::string FldExporter::header(const Engine* engine) const {
+        std::string inputHeader = header(engine->inputVariables());
+        std::string outputHeader = header(engine->outputVariables());
+        std::ostringstream result;
+        result << "@Engine: " << engine->getName() << ";";
+        if (not inputHeader.empty()) {
+            result << _separator << inputHeader;
+        }
+        if (not outputHeader.empty()) {
+            result << _separator << outputHeader;
+        }
+        return result.str();
     }
 
-    int FldExporter::getMaximum() const {
-        return this->_maximum;
+    std::string FldExporter::header(const std::vector<InputVariable*>& inputVariables) const {
+        std::vector<std::string> result;
+        for (std::size_t i = 0; i < inputVariables.size(); ++i) {
+            InputVariable* inputVariable = inputVariables.at(i);
+            if (inputVariable->isEnabled()) {
+                result.push_back("@InputVariable: " + inputVariable->getName() + ";");
+            }
+        }
+        return fl::Op::join(result, _separator);
+    }
+
+    std::string FldExporter::header(const std::vector<OutputVariable*>& outputVariables) const {
+        std::vector<std::string> result;
+        for (std::size_t i = 0; i < outputVariables.size(); ++i) {
+            OutputVariable* outputVariable = outputVariables.at(i);
+            if (outputVariable->isEnabled()) {
+                result.push_back("@OutputVariable: " + outputVariable->getName() + ";");
+            }
+        }
+        return fl::Op::join(result, _separator);
     }
 
     std::string FldExporter::toString(const Engine* mutableEngine) const {
+        return toString(mutableEngine, 1024);
+    }
+
+    std::string FldExporter::toString(const Engine* mutableEngine, int maximumNumberOfResults) const {
         Engine* engine = const_cast<Engine*> (mutableEngine);
         std::ostringstream result;
-        toWriter(engine, result, _separator, _maximum);
+        result << "#" << header(engine) << "\n";
+        toWriter(engine, result, maximumNumberOfResults, _separator);
         return result.str();
     }
 
     template <typename T>
-    void FldExporter::toWriter(Engine* engine, T& writer,
-            const std::string& separator, int maximum) const {
-        std::vector<std::string> variables;
-        for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
-            variables.push_back(engine->getInputVariable(i)->getName());
-        }
-        for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-            variables.push_back(engine->getOutputVariable(i)->getName());
-        }
-        writer << Op::join(variables, separator) << "\n";
-
+    void FldExporter::toWriter(Engine* engine, T& writer, int maximum,
+            const std::string& separator) const {
         int resolution = -1 + (int) std::max(1.0, std::pow(
                 maximum, 1.0 / engine->numberOfInputVariables()));
         std::vector<int> sampleValues, minSampleValues, maxSampleValues;
@@ -97,18 +121,22 @@ namespace fl {
 
             for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
                 InputVariable* inputVariable = engine->getInputVariable(i);
-                scalar range = inputVariable->range();
-                scalar inputValue = inputVariable->getMinimum()
-                        + sampleValues.at(i) * range / resolution;
-                inputVariable->setInputValue(inputValue);
-                values.push_back(Op::str(inputValue));
+                if (inputVariable->isEnabled()) {
+                    scalar inputValue = inputVariable->getMinimum()
+                            + sampleValues.at(i) * inputVariable->range() / resolution;
+                    inputVariable->setInputValue(inputValue);
+
+                    values.push_back(Op::str(inputValue));
+                }
             }
 
             engine->process();
 
             for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
                 OutputVariable* outputVariable = engine->getOutputVariable(i);
-                values.push_back(Op::str(outputVariable->getOutputValue()));
+                if (outputVariable->isEnabled()) {
+                    values.push_back(Op::str(outputVariable->defuzzify()));
+                }
             }
 
             writer << Op::join(values, separator) << "\n";
@@ -118,8 +146,80 @@ namespace fl {
         }
     }
 
+    template FL_EXPORT void FldExporter::toWriter(Engine* engine, std::ostream& writer,
+            int maximumNumberOfResults, const std::string& separator) const;
     template FL_EXPORT void FldExporter::toWriter(Engine* engine, std::ofstream& writer,
-            const std::string& separator, int resolution) const;
+            int maximumNumberOfResults, const std::string& separator) const;
     template FL_EXPORT void FldExporter::toWriter(Engine* engine, std::ostringstream& writer,
-            const std::string& separator, int resolution) const;
+            int maximumNumberOfResults, const std::string& separator) const;
+
+    std::string FldExporter::toString(const Engine* mutableEngine, const std::string& inputData) const {
+        Engine* engine = const_cast<Engine*> (mutableEngine);
+        std::ostringstream writer;
+        writer << "#" << header(engine) << "\n";
+
+        std::istringstream reader(inputData);
+        std::string line;
+        int lineNumber = 0;
+        while (std::getline(reader, line)) {
+            ++lineNumber;
+            std::vector<scalar> inputValues;
+            parse(Op::trim(line), inputValues);
+            if (inputValues.empty()) continue;
+            if ((int) inputValues.size() != engine->numberOfInputVariables()) {
+                std::ostringstream ex;
+                ex << "[export error] engine has <" << engine->numberOfInputVariables() << "> "
+                        "input variables, but input data provides <" << inputValues.size() << "> values "
+                        "at line <" << lineNumber << ">";
+                throw fl::Exception(ex.str(), FL_AT);
+            }
+            toWriter(engine, writer, inputValues, _separator);
+            writer << "\n";
+            writer.flush();
+        }
+        return writer.str();
+    }
+
+    void FldExporter::parse(const std::string& x, std::vector<scalar>& inputValues) const {
+        if (x.empty() or x.at(0) == '#') return;
+        std::istringstream tokenizer(x);
+        std::string token;
+        while (tokenizer >> token) {
+            inputValues.push_back(fl::Op::toScalar(token));
+        }
+    }
+
+    template <typename T>
+    void FldExporter::toWriter(Engine* engine, T& writer, const std::vector<scalar>& inputValues,
+            const std::string& separator) const {
+        std::vector<scalar> values;
+        for (std::size_t i = 0; i < inputValues.size(); ++i) {
+            InputVariable* inputVariable = engine->getInputVariable(i);
+            if (inputVariable->isEnabled()) {
+                scalar inputValue = inputValues.at(i);
+                inputVariable->setInputValue(inputValue);
+                values.push_back(inputValue);
+            }
+        }
+
+        engine->process();
+
+        if (engine->numberOfOutputVariables() > 0) writer << separator;
+        for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+            OutputVariable* outputVariable = engine->getOutputVariable(i);
+            if (outputVariable->isEnabled()) {
+                values.push_back(outputVariable->defuzzify());
+            }
+        }
+        writer << Op::join(values, separator);
+    }
+
+    template FL_EXPORT void FldExporter::toWriter(Engine* engine, std::ostream& writer,
+            const std::vector<scalar>& inputValues, const std::string& separator) const;
+    template FL_EXPORT void FldExporter::toWriter(Engine* engine, std::ofstream& writer,
+            const std::vector<scalar>& inputValues, const std::string& separator) const;
+    template FL_EXPORT void FldExporter::toWriter(Engine* engine, std::ostringstream& writer,
+            const std::vector<scalar>& inputValues, const std::string& separator) const;
+
+
 }

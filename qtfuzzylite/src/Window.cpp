@@ -192,8 +192,8 @@ namespace fl {
             QObject::connect(ui->actionImport, SIGNAL(triggered()), this, SLOT(onMenuImport()));
 
             menuImport->addAction("FuzzyLite Language (&FLL)", this, SLOT(onMenuImportFromFLL()));
-            menuImport->addAction("Fuzzy Controller Language (FC&L)", this, SLOT(onMenuImportFromFCL()));
             menuImport->addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuImportFromFIS()));
+            menuImport->addAction("Fuzzy Controller Language (FC&L)", this, SLOT(onMenuImportFromFCL()));
 
             menuFile->addMenu(menuImport);
 
@@ -202,14 +202,17 @@ namespace fl {
             QObject::connect(ui->actionExport, SIGNAL(triggered()), this, SLOT(onMenuExport()));
 
             menuExport->addAction("&FuzzyLite Language (FLL)", this, SLOT(onMenuExportToFLL()));
-            menuExport->addAction("Fuzzy Controller &Language (FCL)", this, SLOT(onMenuExportToFCL()));
-            menuExport->addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuExportToFIS()));
-            menuExport->addSeparator();
-            menuExport->addAction("FuzzyLite Dataset (FLD) vie&w", this, SLOT(onMenuExportToDatasetView()));
-            menuExport->addAction("FuzzyLite Dataset (FLD) fil&e", this, SLOT(onMenuExportToDatasetFile()));
+            menuExport->addAction("FuzzyLite &Dataset (FLD) view", this, SLOT(onMenuExportToDatasetView()));
+            menuExport->addAction("FuzzyLite D&ataset (FLD) file", this, SLOT(onMenuExportToDatasetFile()));
             menuExport->addSeparator();
             menuExport->addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
             menuExport->addAction("jfuzzylite (&Java)", this, SLOT(onMenuExportToJava()));
+            menuExport->addSeparator();
+            menuExport->addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuExportToFIS()));
+            menuExport->addAction("Fuzzy Controller &Language (FCL)", this, SLOT(onMenuExportToFCL()));
+            
+
+
             menuFile->addMenu(menuExport);
 
             menuFile->addSeparator();
@@ -1206,10 +1209,10 @@ namespace fl {
             QString recentLocation = settings.value("file/recentLocation", ".").toString();
             QString recentFilter = settings.value("file/recentFilter").toString();
             QStringList formats;
-            formats << "Supported formats (*.fll *.fcl *.fis)"
-                    << "FuzzyLite Language (*.fll)"
-                    << "Fuzzy Logic Controller (*.fcl)"
+            formats << "FuzzyLite Language (*.fll)"
                     << "Fuzzy Inference System (*.fis)"
+                    << "Fuzzy Logic Controller (*.fcl)"
+                    << "Supported formats (*.fll *.fis *.fcl)"
                     << "All files (*.*)";
             int recentFilterIndex = formats.indexOf(recentFilter);
             if (recentFilterIndex < 0) recentFilterIndex = 0;
@@ -1259,8 +1262,8 @@ namespace fl {
                 bool ok;
                 QStringList formats;
                 formats << "FuzzyLite Language (*.fll)"
-                        << "Fuzzy Controller Language (*.fcl)"
-                        << "Fuzzy Inference System (*.fis)";
+                        << "Fuzzy Inference System (*.fis)"
+                        << "Fuzzy Controller Language (*.fcl)";
                 int recentFormatIndex = formats.indexOf(recentFormat);
                 if (recentFormatIndex < 0) recentFormatIndex = 0;
                 QString selectedFormat = QInputDialog::getItem(this, "File format",
@@ -1381,10 +1384,10 @@ namespace fl {
             QString recentLocation = settings.value("file/recentLocation", ".").toString();
             QString recentFilter = settings.value("file/recentFilter").toString();
             QStringList filters;
-            filters << "Supported files (*.fll *.fcl *.fis)"
-                    << "FuzzyLite Language (*.fll)"
-                    << "Fuzzy Logic Controller (*.fcl)"
+            filters << "FuzzyLite Language (*.fll)"
                     << "Fuzzy Inference System (*.fis)"
+                    << "Fuzzy Logic Controller (*.fcl)"
+                    << "Supported files (*.fll *.fis *.fcl)"
                     << "All files (*.*)";
             int recentFilterIndex = filters.indexOf(recentFilter);
             if (recentFilterIndex < 0) recentFilterIndex = 0;
@@ -1414,8 +1417,8 @@ namespace fl {
                 bool ok;
                 QStringList formats;
                 formats << "FuzzyLite Language (*.fll)"
-                        << "Fuzzy Controller Language (*.fcl)"
-                        << "Fuzzy Inference System (*.fis)";
+                        << "Fuzzy Inference System (*.fis)"
+                        << "Fuzzy Controller Language (*.fcl)";
                 int recentFormatIndex = formats.indexOf(recentFormat);
                 if (recentFormatIndex < 0) recentFormatIndex = 0;
                 QString selectedFormat = QInputDialog::getItem(this, "File format",
@@ -1493,8 +1496,8 @@ namespace fl {
             if (ui->actionImport->isChecked()) {
                 QMenu menu(this);
                 menu.addAction("&FuzzyLite Language (FLL)", this, SLOT(onMenuImportFromFLL()));
-                menu.addAction("Fuzzy Control &Language (FCL)", this, SLOT(onMenuImportFromFCL()));
                 menu.addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuImportFromFIS()));
+                menu.addAction("Fuzzy Control &Language (FCL)", this, SLOT(onMenuImportFromFCL()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionImport->setChecked(false);
             }
@@ -1608,14 +1611,14 @@ namespace fl {
             if (ui->actionExport->isChecked()) {
                 QMenu menu(this);
                 menu.addAction("&FuzzyLite Language (FLL)", this, SLOT(onMenuExportToFLL()));
-                menu.addAction("Fuzzy Control &Language (FCL)", this, SLOT(onMenuExportToFCL()));
-                menu.addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuExportToFIS()));
-                menu.addSeparator();
                 menu.addAction("FuzzyLite Dataset (FLD) vie&w", this, SLOT(onMenuExportToDatasetView()));
                 menu.addAction("FuzzyLite Dataset (FLD) fil&e", this, SLOT(onMenuExportToDatasetFile()));
                 menu.addSeparator();
                 menu.addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
                 menu.addAction("jfuzzylite (&Java)", this, SLOT(onMenuExportToJava()));
+                menu.addSeparator();
+                menu.addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuExportToFIS()));
+                menu.addAction("Fuzzy Control &Language (FCL)", this, SLOT(onMenuExportToFCL()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionExport->setChecked(false);
             }
@@ -1795,10 +1798,9 @@ namespace fl {
             }
 
             FldExporter exporter;
-            exporter.setMaximum(results);
             std::string data;
             try {
-                data = exporter.toString(Model::Default()->engine());
+                data = exporter.toString(Model::Default()->engine(), results);
             } catch (fl::Exception& ex) {
                 QMessageBox::critical(this, "Error exporting to FLD (view)",
                         toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
@@ -1872,7 +1874,7 @@ namespace fl {
 
             FldExporter exporter;
             try {
-                exporter.toWriter(Model::Default()->engine(), dataFile, " ", results);
+                exporter.toWriter(Model::Default()->engine(), dataFile, results, " ");
             } catch (fl::Exception& ex) {
                 QMessageBox::critical(this, "Error exporting to FLD (file)",
                         toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),

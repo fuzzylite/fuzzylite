@@ -54,18 +54,24 @@ namespace fl {
         std::ostringstream block;
         std::istringstream fclReader(fcl);
         std::string line;
-        int lineNumber = 0;
         try {
+            int lineNumber = 0;
             while (std::getline(fclReader, line)) {
                 ++lineNumber;
                 std::vector<std::string> comments;
                 comments = Op::split(line, "//");
-                if ((int) comments.size() > 1) {
+                if (comments.size() > 1) {
+                    line = comments.front();
+                }
+                comments = Op::split(line, "#");
+                if (comments.size() > 1) {
                     line = comments.front();
                 }
                 line = Op::trim(line);
-                if (line.empty() or line.at(0) == '#')
+                if (line.empty() or line.at(0) == '%' or line.at(0) == '#'
+                        or (line.substr(0, 2) == "//")) {
                     continue;
+                }
                 line = fl::Op::findReplace(line, ";", "");
                 std::istringstream tokenizer(line);
                 std::string firstToken;
@@ -132,9 +138,9 @@ namespace fl {
                 }
                 throw fl::Exception(ex.str(), FL_AT);
             }
-        } catch (fl::Exception& ex) {
+        } catch (std::exception& ex) {
             delete engine;
-            throw ex;
+            throw;
         }
         return engine;
     }
@@ -219,7 +225,7 @@ namespace fl {
                         "<" + firstToken + ">" + line, FL_AT);
             } catch (fl::Exception& ex) {
                 ex.append("At line: <" + line + ">");
-                throw ex;
+                throw;
             }
         }
 
@@ -342,7 +348,7 @@ namespace fl {
         } catch (fl::Exception& ex) {
             ex.append("[syntax error] T-Norm <" + name + "> not recognized in line:\n"
                     + line, FL_AT);
-            throw ex;
+            throw;
         }
     }
 
@@ -369,7 +375,7 @@ namespace fl {
         } catch (fl::Exception& ex) {
             ex.append("[syntax error] S-Norm <" + name + "> not recognized in line:\n"
                     + line, FL_AT);
-            throw ex;
+            throw;
         }
     }
 
@@ -445,7 +451,7 @@ namespace fl {
             return result;
         } catch (fl::Exception& ex) {
             ex.append(FL_AT);
-            throw ex;
+            throw;
         }
     }
 
@@ -488,7 +494,7 @@ namespace fl {
         } catch (fl::Exception& ex) {
             ex.append("[syntax error] defuzzifier <" + name +
                     "> not recognized in line:\n" + line, FL_AT);
-            throw ex;
+            throw;
         }
     }
 
@@ -561,11 +567,11 @@ namespace fl {
         try {
             minimum = Op::toScalar(token.at(index = 0));
             maximum = Op::toScalar(token.at(index = 1));
-        } catch (...) {
-            std::ostringstream ex;
-            ex << "[syntax error] expected numeric value, but found <" << token.at(index) << "> in "
+        } catch (std::exception& ex) {
+            std::ostringstream ss;
+            ss << "[syntax error] expected numeric value, but found <" << token.at(index) << "> in "
                     << "line: " << line;
-            throw fl::Exception(ex.str(), FL_AT);
+            throw fl::Exception(ss.str(), FL_AT);
         }
         return std::pair<scalar, scalar>(minimum, maximum);
     }

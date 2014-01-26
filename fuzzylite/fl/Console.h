@@ -21,9 +21,9 @@ namespace fl {
         static const std::string KW_OUTPUT_FILE;
         static const std::string KW_OUTPUT_FORMAT;
         static const std::string KW_EXAMPLE;
-        static const std::string KW_DATA_RESOLUTION_VARIABLE;
+        static const std::string KW_DATA_INPUT;
         static const std::string KW_DATA_MAXIMUM;
-        static const std::string KW_DATA_SEPARATOR;
+        static const std::string KW_DECIMALS;
 
         static Engine* mamdani();
         static Engine* takagiSugeno();

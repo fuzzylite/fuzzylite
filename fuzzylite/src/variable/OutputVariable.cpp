@@ -97,6 +97,14 @@ namespace fl {
         return this->_defaultValue;
     }
 
+    void OutputVariable::setLastValidOutput(scalar lastValidOutput) {
+        this->_lastValidOutput = lastValidOutput;
+    }
+
+    scalar OutputVariable::getLastValidOutput() const {
+        return this->_lastValidOutput;
+    }
+
     void OutputVariable::setLockOutputRange(bool lock) {
         this->_lockOutputRange = lock;
     }

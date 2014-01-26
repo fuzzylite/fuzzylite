@@ -159,6 +159,7 @@ namespace fl {
         FSM state = S_NONE;
         try {
             while (tokenizer >> token) {
+
                 switch (state) {
                     case S_NONE:
                         if (token == Rule::FL_IF) state = S_IF;

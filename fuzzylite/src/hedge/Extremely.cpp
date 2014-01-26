@@ -31,8 +31,8 @@ namespace fl {
 
     scalar Extremely::hedge(scalar x) const {
         return Op::isLE(x, 0.5)
-                ? 2 * x * x
-                : 1 - 2 * (1 - x) * (1 - x);
+                ? 2.0 * x * x
+                : 1.0 - 2.0 * (1.0 - x) * (1.0 - x);
     }
     
     Hedge* Extremely::constructor(){

@@ -89,3 +89,22 @@ Version 4.x
 * Fixed minor memory leak at OutputVariable (defuzzifier)
 * Fixed minor memory leak at Function::Node
 * Fixed minor memory leak at FactoryManager
+* Improved handling of Exceptions
+* Fixed bug in qtfuzzylite introduced after deleting the instances causing the memory leaks.
+* Modified FclExporter and FisExporter to provide backward compatibility with FCL and FIS formats
+* Updated the FIS and FCL examples for backward compatibility 
+* Included the original example files
+* Updated FLD examples produced from the engines of the original examples 
+* Fixed some original examples of takagi-sugeno to use AlgebraicProduct activation 
+* FldExporter no longer restarts the engine
+* Fixed rethrowing of exceptions to provide proper information about errors!
+* Catching std::exceptions where possible to avoid unexpected exceptions
+* FldExporter exports from a custom input dataset
+* Console includes option to read custom input dataset from file
+* Console provides more information about its usage
+* Changed the signature of methods FldExporter::toWriter
+* Removed variable and methods for FldExporter::maximum
+* Accuracy improvements importing fis files with large number of decimals
+* Updated FLD examples to reflect accuracy
+* Changed operation for multiple hedges to operate from last to first
+* Fixed OutputVariable to store last valid output value regardless of locks

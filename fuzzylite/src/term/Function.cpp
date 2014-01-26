@@ -77,9 +77,9 @@ namespace fl {
         }
         try {
             result->load(infix, engine);
-        } catch (fl::Exception& ex) {
+        } catch (std::exception& ex) {
             delete result;
-            throw ex;
+            throw;
         }
         return result;
     }
@@ -148,7 +148,7 @@ namespace fl {
         }
         try {
             result->load(this->_formula, this->_engine);
-        } catch (fl::Exception& ex) {
+        } catch (std::exception& ex) {
             FL_LOG("[function warning] ignored exception: " << ex.what());
         }
         return result;
@@ -619,7 +619,7 @@ namespace fl {
                 try {
                     scalar value = fl::Op::toScalar(token, false);
                     node = new Node(value);
-                } catch (fl::Exception& ex) {
+                } catch (std::exception& ex) {
                     (void) ex;
                     node = new Node(token);
                 }
@@ -662,16 +662,16 @@ namespace fl {
         FL_LOG(f.toPostfix(text));
         try {
             FL_LOG(f.parse(text)->evaluate());
-        } catch (fl::Exception& e) {
-            FL_LOG(e.getWhat());
+        } catch (std::exception& e) {
+            FL_LOG(e.what());
         }
         f.variables["pi"] = 3.14;
         text = "~5 *4/sin(~pi/2)";
         FL_LOG(f.toPostfix(text));
         try {
             FL_LOG(f.parse(text)->evaluate(&f.variables));
-        } catch (fl::Exception& e) {
-            FL_LOG(e.getWhat());
+        } catch (std::exception& e) {
+            FL_LOG(e.what());
         }
     }
 
