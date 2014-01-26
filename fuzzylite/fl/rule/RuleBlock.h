@@ -37,6 +37,7 @@ namespace fl {
     class FL_EXPORT RuleBlock {
     protected:
         std::vector<Rule*> _rules;
+//        std::vector<Hedge*> _hedges; TODO: Ad hedges here.
         std::string _name;
         const TNorm* _conjunction;
         const SNorm* _disjunction;
@@ -74,6 +75,7 @@ namespace fl {
         virtual Rule* removeRule(int index);
         virtual int numberOfRules() const;
         virtual const std::vector<Rule*>& rules() const;
+        virtual void setRules(const std::vector<Rule*>& rules);
 
 
 

@@ -29,6 +29,8 @@
 
 #include "fl/Exception.h"
 
+#include "fl/imex/FllExporter.h"
+
 #include <sstream>
 
 #include <vector>
@@ -76,13 +78,22 @@ namespace fl {
         return this->_consequent;
     }
 
-    scalar Rule::activationDegree(const TNorm* tnorm,
-            const SNorm* snorm) const {
-        return getAntecedent()->activationDegree(tnorm, snorm) * _weight;
+    bool Rule::isLoaded() const {
+        return this->_antecedent and this->_consequent;
+    }
+
+    scalar Rule::activationDegree(const TNorm* conjunction, const SNorm* disjunction) const {
+        if (not isLoaded()) {
+            throw fl::Exception("[rule error] the following rule is not loaded: " + _text, FL_AT);
+        }
+        return getAntecedent()->activationDegree(conjunction, disjunction) * _weight;
     }
 
     void Rule::activate(scalar strength, const TNorm* activation) const {
-        return getConsequent()->modify(strength, activation);
+        if (not isLoaded()) {
+            throw fl::Exception("[rule error] the following rule is not loaded: " + _text, FL_AT);
+        }
+        getConsequent()->modify(strength, activation);
     }
 
     void Rule::setText(const std::string& text) {
@@ -94,13 +105,7 @@ namespace fl {
     }
 
     std::string Rule::toString() const {
-        std::stringstream ss;
-        ss << FL_IF << " " << getAntecedent()->toString() << " "
-                << FL_THEN << " " << getConsequent()->toString();
-        if (not fl::Op::isEq(_weight, 1.0)) {
-            ss << " " << FL_WITH << " " << fl::Op::str(_weight);
-        }
-        return ss.str();
+        return FllExporter("", "; ").toString(this);
     }
 
     std::string Rule::ifKeyword() {
@@ -131,12 +136,22 @@ namespace fl {
         return fl::Rule::FL_WITH;
     }
 
-    Rule* Rule::parse(const std::string& rule, const Engine* engine) {
-        Rule* result = new Rule();
-        result->setText(rule);
+    void Rule::unload() {
+        if (isLoaded()) {
+            delete _antecedent;
+            delete _consequent;
+        }
+    }
+
+    void Rule::load(const Engine* engine) {
+        load(_text, engine);
+    }
+
+    void Rule::load(const std::string& rule, const Engine* engine) {
         std::istringstream tokenizer(rule);
         std::string token;
         std::ostringstream ossAntecedent, ossConsequent;
+        scalar weight = 1.0;
 
         enum FSM {
             S_NONE, S_IF, S_THEN, S_WITH, S_END
@@ -144,7 +159,6 @@ namespace fl {
         FSM state = S_NONE;
         try {
             while (tokenizer >> token) {
-
                 switch (state) {
                     case S_NONE:
                         if (token == Rule::FL_IF) state = S_IF;
@@ -165,7 +179,7 @@ namespace fl {
                         break;
                     case S_WITH:
                         try {
-                            result->setWeight(fl::Op::toScalar(token));
+                            weight = fl::Op::toScalar(token);
                             state = S_END;
                         } catch (fl::Exception& e) {
                             std::ostringstream ex;
@@ -195,15 +209,30 @@ namespace fl {
                 throw fl::Exception(ex.str(), FL_AT);
             }
 
-            result->_antecedent = new Antecedent;
-            result->_antecedent->load(ossAntecedent.str(), engine);
+            _antecedent = new Antecedent;
+            _antecedent->load(ossAntecedent.str(), engine);
 
-            result->_consequent = new Consequent;
-            result->_consequent->load(ossConsequent.str(), engine);
+            _consequent = new Consequent;
+            _consequent->load(ossConsequent.str(), engine);
+
+            _weight = weight;
+            _text = rule;
         } catch (fl::Exception& ex) {
-            delete result;
-            throw ex;
+            if (_antecedent) {
+                delete _antecedent;
+                _antecedent = NULL;
+            }
+            if (_consequent) {
+                delete _consequent;
+                _consequent = NULL;
+            }
+            throw;
         }
+    }
+
+    Rule* Rule::parse(const std::string& rule, const Engine* engine) {
+        Rule* result = new Rule();
+        result->load(rule, engine);
         return result;
     }
 

@@ -50,10 +50,15 @@ namespace fl {
         FL_DBG("===================");
         FL_DBG("ACTIVATING RULEBLOCK " << _name);
         for (std::size_t i = 0; i < _rules.size(); ++i) {
-            scalar activationDegree = _rules.at(i)->activationDegree(_conjunction, _disjunction);
-            FL_DBG(_rules.at(i)->toString() << " [activationDegree=" << activationDegree << "]");
-            if (Op::isGt(activationDegree, 0.0)) {
-                _rules.at(i)->activate(activationDegree, _activation);
+            Rule* rule = _rules.at(i);
+            if (rule->isLoaded()) {
+                scalar activationDegree = rule->activationDegree(_conjunction, _disjunction);
+                FL_DBG(rule->toString() << " [activationDegree=" << activationDegree << "]");
+                if (Op::isGt(activationDegree, 0.0)) {
+                    rule->activate(activationDegree, _activation);
+                }
+            } else {
+                FL_DBG("Rule not loaded: " << rule->toString());
             }
         }
     }
@@ -133,5 +138,10 @@ namespace fl {
     const std::vector<Rule*>& RuleBlock::rules() const {
         return this->_rules;
     }
+
+    void RuleBlock::setRules(const std::vector<Rule*>& rules) {
+        this->_rules = rules;
+    }
+
 
 }

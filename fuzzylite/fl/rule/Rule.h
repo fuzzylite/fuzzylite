@@ -41,10 +41,11 @@ namespace fl {
         Antecedent* _antecedent;
         Consequent* _consequent;
 
-        virtual void setText(const std::string& text);
     public:
         Rule();
         virtual ~Rule();
+
+        virtual bool isLoaded() const;
 
         virtual void setAntecedent(Antecedent* antecedent);
         virtual Antecedent* getAntecedent() const;
@@ -52,15 +53,21 @@ namespace fl {
         virtual void setConsequent(Consequent* consequent);
         virtual Consequent* getConsequent() const;
 
-        virtual scalar activationDegree(const TNorm* tnorm, const SNorm* snorm) const;
+        virtual scalar activationDegree(const TNorm* conjunction, const SNorm* disjunction) const;
         virtual void activate(scalar strength, const TNorm* activation) const;
 
         virtual void setWeight(scalar weight);
         virtual scalar getWeight() const;
 
+        virtual void setText(const std::string& text);
         virtual std::string getText() const;
 
         virtual std::string toString() const;
+
+        virtual void load(const Engine* engine);
+        virtual void load(const std::string& rule, const Engine* engine);
+        
+        virtual void unload();
 
         static Rule* parse(const std::string& rule, const Engine* engine);
 

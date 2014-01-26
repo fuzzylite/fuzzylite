@@ -456,6 +456,10 @@ namespace fl {
         return this->_inputVariables;
     }
 
+    void Engine::setInputVariables(const std::vector<InputVariable*>& inputVariables) {
+        this->_inputVariables = inputVariables;
+    }
+
     /**
      * Operations for iterable datatype _outputVariables
      */
@@ -513,6 +517,10 @@ namespace fl {
         return this->_outputVariables;
     }
 
+    void Engine::setOutputVariables(const std::vector<OutputVariable*>& outputVariables) {
+        this->_outputVariables = outputVariables;
+    }
+
     /**
      * Operations for iterable datatype _ruleblocks
      */
@@ -567,6 +575,10 @@ namespace fl {
 
     const std::vector<RuleBlock*>& Engine::ruleBlocks() const {
         return this->_ruleblocks;
+    }
+
+    void Engine::setRuleBlocks(const std::vector<RuleBlock*>& ruleBlocks) {
+        this->_ruleblocks = ruleBlocks;
     }
 
     /**

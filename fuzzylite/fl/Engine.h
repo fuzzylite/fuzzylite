@@ -106,6 +106,7 @@ namespace fl {
         virtual bool hasInputVariable(const std::string& name) const;
         virtual int numberOfInputVariables() const;
         virtual const std::vector<InputVariable*>& inputVariables() const;
+        virtual void setInputVariables(const std::vector<InputVariable*>& inputVariables);
 
         /**
          * Operations for iterable datatype _outputVariables
@@ -119,6 +120,7 @@ namespace fl {
         virtual OutputVariable* removeOutputVariable(const std::string& name);
         virtual int numberOfOutputVariables() const;
         virtual const std::vector<OutputVariable*>& outputVariables() const;
+        virtual void setOutputVariables(const std::vector<OutputVariable*>& outputVariables);
 
         /**
          * Operations for iterable datatype _ruleblocks
@@ -132,6 +134,7 @@ namespace fl {
         virtual RuleBlock* removeRuleBlock(const std::string& name);
         virtual int numberOfRuleBlocks() const;
         virtual const std::vector<RuleBlock*>& ruleBlocks() const;
+        virtual void setRuleBlocks(const std::vector<RuleBlock*>& ruleBlocks);
 
         /**
          * Operations for std::vector _hedges

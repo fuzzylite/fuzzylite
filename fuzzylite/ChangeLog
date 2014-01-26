@@ -14,8 +14,12 @@ Version 5.0
 * Converted all signals to exceptions in Exception::convertToException
 * Correct handling of integral defuzzification with min|max=NaN|Inf
 * Enforced usage of Accumulation in Weighted(Average|Sum)
-
-
+* Added method Rule::isLoaded to determine whether a rule is to be activated
+* Added method Rule::unload to allow its existence 
+* Added methods Engine::set((Input|Output)Variables), Engine::setRuleBlocks
+* Added method RuleBlock::setRules
+* Changed visibility of Rule::setText to public
+* Added method Rule::load(const Engine*)
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.
