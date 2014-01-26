@@ -163,7 +163,7 @@ namespace fl {
             }
             fis << "Name='" << var->getName() << "'\n";
             fis << "Range=[" << fl::Op::join(2, " ", var->getMinimum(), var->getMaximum()) << "]\n";
-            if (not fl::Op::isNan(var->getDefaultValue())) {
+            if (not fl::Op::isNaN(var->getDefaultValue())) {
                 fis << "Default=" << fl::Op::str(var->getDefaultValue()) << "\n";
             }
             if (var->isLockingValidOutput()) {

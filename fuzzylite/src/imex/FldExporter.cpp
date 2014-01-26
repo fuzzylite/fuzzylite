@@ -134,8 +134,9 @@ namespace fl {
 
             for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
                 OutputVariable* outputVariable = engine->getOutputVariable(i);
+                outputVariable->defuzzify();
                 if (outputVariable->isEnabled()) {
-                    values.push_back(Op::str(outputVariable->defuzzify()));
+                    values.push_back(Op::str(outputVariable->getOutputValue()));
                 }
             }
 
@@ -207,8 +208,9 @@ namespace fl {
         if (engine->numberOfOutputVariables() > 0) writer << separator;
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
+            outputVariable->defuzzify();
             if (outputVariable->isEnabled()) {
-                values.push_back(outputVariable->defuzzify());
+                values.push_back(outputVariable->getOutputValue());
             }
         }
         writer << Op::join(values, separator);
