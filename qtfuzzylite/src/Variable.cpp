@@ -188,16 +188,13 @@ namespace fl {
             editable->setLockValidOutput(outputVariable->isLockingValidOutput());
             editable->setLockOutputRange(outputVariable->isLockingOutputRange());
 
-            const SNorm* accumulation = outputVariable->fuzzyOutput()->getAccumulation();
-            if (accumulation) {
-                editable->fuzzyOutput()->setAccumulation(
-                        FactoryManager::instance()->snorm()->createInstance(accumulation->className()));
-            }
-            const Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
-            if (defuzzifier) {
-                editable->setDefuzzifier(
-                        FactoryManager::instance()->defuzzifier()->createInstance(defuzzifier->className()));
-            }
+            editable->fuzzyOutput()->setAccumulation(outputVariable->fuzzyOutput()->getAccumulation());
+            Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
+            //            if (not defuzzifier) {
+            //                defuzzifier = Factory::instance()->defuzzifier()->
+            //                        create(Centroid().className(), fl::fuzzylite::defaultDivisions());
+            //            }
+            editable->setDefuzzifier(defuzzifier);
 
             reloadModel();
         }

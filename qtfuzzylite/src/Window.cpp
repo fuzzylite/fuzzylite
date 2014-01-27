@@ -134,7 +134,7 @@ namespace fl {
             ui->lvw_outputs->viewport()->installEventFilter(
                     new fl::qt::VariableContextMenu(ui->lvw_outputs, "output"));
 
-            ui->lbl_type->setVisible(false);
+
             connect();
         }
 
@@ -328,29 +328,7 @@ namespace fl {
 
             updateWindowTitle();
 
-            {
-                ui->led_name->setText(QString::fromStdString(engine->getName()));
-                Engine::Type type = engine->type();
-                ui->lbl_type->setVisible(type != Engine::NONE);
-                QString nameType;
-                switch (type) {
-                    case Engine::MAMDANI: nameType = "Mamdani";
-                        break;
-                    case Engine::LARSEN: nameType = "Larsen";
-                        break;
-                    case Engine::TAKAGI_SUGENO: nameType = "Takagi-Sugeno";
-                        break;
-                    case Engine::TSUKAMOTO: nameType = "Tsukamoto";
-                        break;
-                    case Engine::INVERSE_TSUKAMOTO: nameType = "Inverse Tsukamoto";
-                        break;
-                    case Engine::NONE: nameType = "None";
-                        break;
-                    case Engine::UNKNOWN:
-                    default: nameType = "Unknown";
-                }
-                ui->lbl_type->setText(" " + nameType + " ");
-            }
+            ui->led_name->setText(QString::fromStdString(engine->getName()));
 
             QFont typeWriter = typeWriterFont();
             ui->ptx_rules->setFont(typeWriter);
@@ -1263,7 +1241,7 @@ namespace fl {
                 QStringList formats;
                 formats << "FuzzyLite Language (*.fll)"
                         << "Fuzzy Inference System (*.fis)"
-                        << "Fuzzy Control Language (*.fcl)";
+                        << "Fuzzy Controller Language (*.fcl)";
                 int recentFormatIndex = formats.indexOf(recentFormat);
                 if (recentFormatIndex < 0) recentFormatIndex = 0;
                 QString selectedFormat = QInputDialog::getItem(this, "File format",
@@ -1418,7 +1396,7 @@ namespace fl {
                 QStringList formats;
                 formats << "FuzzyLite Language (*.fll)"
                         << "Fuzzy Inference System (*.fis)"
-                        << "Fuzzy Control Language (*.fcl)";
+                        << "Fuzzy Controller Language (*.fcl)";
                 int recentFormatIndex = formats.indexOf(recentFormat);
                 if (recentFormatIndex < 0) recentFormatIndex = 0;
                 QString selectedFormat = QInputDialog::getItem(this, "File format",
@@ -1542,7 +1520,7 @@ namespace fl {
             ImEx imex;
             imex.setup();
             imex.setWindowTitle("Import Engine from...");
-            imex.ui->lbl_format->setText("Fuzzy Control Language (FCL):");
+            imex.ui->lbl_format->setText("Fuzzy Controller Language (FCL):");
             QFont font = typeWriterFont();
             font.setPointSize(font.pointSize() - 1);
             imex.ui->pte_code->setFont(font);
@@ -1669,7 +1647,7 @@ namespace fl {
             ImEx imex;
             imex.setup();
             imex.setWindowTitle("Export engine to");
-            imex.ui->lbl_format->setText("Fuzzy Control Language (FCL):");
+            imex.ui->lbl_format->setText("Fuzzy Controller Language (FCL):");
             imex.ui->buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
 
             QFont font = typeWriterFont();

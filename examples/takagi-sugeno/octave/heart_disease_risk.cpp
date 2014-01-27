@@ -45,7 +45,7 @@ ruleBlock->setEnabled(true);
 ruleBlock->setName("");
 ruleBlock->setConjunction(new fl::Minimum);
 ruleBlock->setDisjunction(new fl::Maximum);
-ruleBlock->setActivation(new fl::AlgebraicProduct);
+ruleBlock->setActivation(new fl::Minimum);
 ruleBlock->addRule(fl::Rule::parse("if LDLLevel is Low and HDLLevel is LowHDL then HeartDiseaseRisk is MediumRisk", engine));
 ruleBlock->addRule(fl::Rule::parse("if LDLLevel is Low and HDLLevel is ModerateHDL then HeartDiseaseRisk is LowRisk", engine));
 ruleBlock->addRule(fl::Rule::parse("if LDLLevel is Low and HDLLevel is HighHDL then HeartDiseaseRisk is NoRisk", engine));

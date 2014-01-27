@@ -18,6 +18,6 @@ RuleBlock:
   enabled: true
   conjunction: AlgebraicProduct
   disjunction: AlgebraicSum
-  activation: AlgebraicProduct
+  activation: Minimum
   rule: if input is low then output is line1
   rule: if input is high then output is line2

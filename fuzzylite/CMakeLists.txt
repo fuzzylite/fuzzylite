@@ -30,11 +30,11 @@ if (APPLE)
 endif()
 
 
-set(FL_VERSION 4.1)
+set(FL_VERSION 4.0)
 add_definitions(-DFL_VERSION="${FL_VERSION}")
 
-set(FL_DATE "1402")
-add_definitions(-DFL_DATE="1402")
+set(FL_DATE "1401")
+add_definitions(-DFL_DATE="1401")
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_DEBUG "Enable additional debugging information" OFF)
@@ -111,17 +111,17 @@ target_link_libraries(fl-bin fl-shared ${FL_LIBS})
 
 
 install(TARGETS fl-bin fl-shared fl-static
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION bin
-        ARCHIVE DESTINATION bin
-        )
+		RUNTIME DESTINATION bin
+		LIBRARY DESTINATION bin
+		ARCHIVE DESTINATION bin
+		)
 
 install(DIRECTORY fl/ DESTINATION include/fl)
 
 #if(WIN32)
-#   set(fl-suffix)
-#   add_custom_command(TARGET fl-bin POST_BUILD
-#       COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#	set(fl-suffix)
+#	add_custom_command(TARGET fl-bin POST_BUILD 
+#		COMMAND ${CMAKE_COMMAND} -E copy_if_different 
 #        "${CMAKE_SOURCE_DIR}/lib/fuzzylite${FL_CONF}.dll"
 #        ${CMAKE_SOURCE_DIR}/bin)                 # <--this is out-file path
 #endif()

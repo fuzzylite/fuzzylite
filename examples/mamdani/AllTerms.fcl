@@ -9,6 +9,7 @@ VAR_OUTPUT
 END_VAR
 
 FUZZIFY AllInputTerms
+  ENABLED : TRUE;
   RANGE := (0.000 .. 6.500);
   TERM A := Sigmoid 0.500 -20.000;
   TERM B := ZShape 0.000 1.000;
@@ -29,6 +30,7 @@ FUZZIFY AllInputTerms
 END_FUZZIFY
 
 DEFUZZIFY AllOutputTerms
+  ENABLED : TRUE;
   RANGE := (0.000 .. 6.500);
   TERM A := Sigmoid 0.500 -20.000;
   TERM B := ZShape 0.000 1.000;
@@ -52,6 +54,7 @@ DEFUZZIFY AllOutputTerms
 END_DEFUZZIFY
 
 RULEBLOCK 
+  ENABLED : TRUE;
   AND : MIN;
   OR : MAX;
   ACT : MIN;

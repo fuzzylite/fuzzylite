@@ -89,7 +89,6 @@ namespace fl {
             Node(BuiltInFunction* function, Node* left = NULL, Node* right = NULL);
             Node(const std::string& variable);
             Node(scalar value);
-            ~Node();
 
             scalar evaluate(const std::map<std::string, scalar>*
                     variables = NULL) const;

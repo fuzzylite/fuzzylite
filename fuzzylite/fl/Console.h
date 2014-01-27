@@ -21,9 +21,9 @@ namespace fl {
         static const std::string KW_OUTPUT_FILE;
         static const std::string KW_OUTPUT_FORMAT;
         static const std::string KW_EXAMPLE;
-        static const std::string KW_DATA_INPUT;
+        static const std::string KW_DATA_RESOLUTION_VARIABLE;
         static const std::string KW_DATA_MAXIMUM;
-        static const std::string KW_DECIMALS;
+        static const std::string KW_DATA_SEPARATOR;
 
         static Engine* mamdani();
         static Engine* takagiSugeno();
@@ -36,8 +36,6 @@ namespace fl {
         static void process(const std::string& input, T& writer,
                 const std::string& inputFormat, const std::string& outputFormat,
                 const std::map<std::string, std::string>& options);
-        
-        static void exportAllExamples(const std::string& from, const std::string& to);
 
     public:
         static std::string usage();

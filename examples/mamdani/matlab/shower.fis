@@ -11,6 +11,7 @@ AggMethod='max'
 DefuzzMethod='centroid'
 
 [Input1]
+Enabled=1
 Name='temp'
 Range=[-20.000 20.000]
 NumMFs=3
@@ -19,6 +20,7 @@ MF2='good':'trimf',[-10.000 0.000 10.000]
 MF3='hot':'trapmf',[0.000 15.000 30.000 30.000]
 
 [Input2]
+Enabled=1
 Name='flow'
 Range=[-1.000 1.000]
 NumMFs=3
@@ -27,8 +29,12 @@ MF2='good':'trimf',[-0.400 0.000 0.400]
 MF3='hard':'trapmf',[0.000 0.800 3.000 3.000]
 
 [Output1]
+Enabled=1
 Name='cold'
 Range=[-1.000 1.000]
+Default=nan
+LockValid=0
+LockRange=0
 NumMFs=5
 MF1='closeFast':'trimf',[-1.000 -0.600 -0.300]
 MF2='closeSlow':'trimf',[-0.600 -0.300 0.000]
@@ -37,8 +43,12 @@ MF4='openSlow':'trimf',[0.000 0.300 0.600]
 MF5='openFast':'trimf',[0.300 0.600 1.000]
 
 [Output2]
+Enabled=1
 Name='hot'
 Range=[-1.000 1.000]
+Default=nan
+LockValid=0
+LockRange=0
 NumMFs=5
 MF1='closeFast':'trimf',[-1.000 -0.600 -0.300]
 MF2='closeSlow':'trimf',[-0.600 -0.300 0.000]

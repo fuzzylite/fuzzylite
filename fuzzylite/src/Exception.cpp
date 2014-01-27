@@ -111,11 +111,12 @@ namespace fl {
 
         int backtraceSize = CaptureStackBackTrace(0, bufferSize, buffer, NULL);
         SYMBOL_INFO* btSymbol = (SYMBOL_INFO *) calloc(sizeof ( SYMBOL_INFO) + 256 * sizeof ( char), 1);
+        btSymbol->MaxNameLen = 255;
+        btSymbol->SizeOfStruct = sizeof ( SYMBOL_INFO);
+
         if (not btSymbol) {
             btStream << "[backtrace error] no symbols could be retrieved";
         } else {
-            btSymbol->MaxNameLen = 255;
-            btSymbol->SizeOfStruct = sizeof ( SYMBOL_INFO);
             if (backtraceSize == 0) btStream << "[backtrace is empty]";
             for (int i = 0; i < backtraceSize; ++i) {
                 SymFromAddr(GetCurrentProcess(), (DWORD64) (buffer[ i ]), 0, btSymbol);
@@ -133,24 +134,16 @@ namespace fl {
 
     void Exception::signalHandler(int signal) {
         std::ostringstream ex;
-        ex << "[unexpected signal " << signal << "]";
-        fl::Exception::catchException(fl::Exception(ex.str(), FL_AT));
-        exit(EXIT_FAILURE);
+        ex << "[caught signal " << signal << "] backtrace:\n";
+        ex << fl::Exception::btCallStack();
+        throw fl::Exception(ex.str(), FL_AT);
     }
 
     void Exception::terminate() {
-        fl::Exception::catchException(fl::Exception("[unexpected exception]", FL_AT));
+        std::string message = "[unexpected exception] backtrace:\n"
+                + fl::Exception::btCallStack(50);
+        FL_LOGP(message);
         exit(EXIT_FAILURE);
-    }
-    
-    void Exception::catchException(const std::exception& exception){
-        std::ostringstream ss;
-        ss << exception.what();
-        std::string backtrace = btCallStack();
-        if (not backtrace.empty()){
-            ss << "\n\nBACKTRACE:\n" << backtrace;
-        }
-        FL_LOG(ss.str());
     }
 
 }

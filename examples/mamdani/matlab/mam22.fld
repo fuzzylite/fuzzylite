@@ -1,4 +1,4 @@
-#@Engine: mam21; @InputVariable: angle; @InputVariable: velocity; @OutputVariable: force; @OutputVariable: force2;
+angle velocity force force2
 -5.00000000 -5.00000000 -3.84191038 2.88966395
 -5.00000000 -4.67741935 -3.80858088 2.87698401
 -5.00000000 -4.35483871 -3.77079801 2.86255773

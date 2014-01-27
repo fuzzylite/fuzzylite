@@ -41,9 +41,6 @@ namespace fl {
         for (std::size_t i = 0; i < _rules.size(); ++i) {
             delete _rules.at(i);
         }
-        if (_conjunction) delete _conjunction;
-        if (_disjunction) delete _disjunction;
-        if (_activation) delete _activation;
     }
 
     void RuleBlock::activate() {

@@ -45,8 +45,7 @@
 namespace fl {
 
     Antecedent::Antecedent()
-    : _root(NULL) {
-    }
+    : _root(NULL) { }
 
     Antecedent::~Antecedent() {
         if (_root) delete _root;
@@ -61,26 +60,18 @@ namespace fl {
         if (not node->isOperator) { //then it is a Proposition
             const Proposition* proposition =
                     dynamic_cast<const Proposition*> (node);
-            if (not proposition->variable->isEnabled()) {
+            if (not proposition->variable->isEnabled()){
                 return 0.0;
             }
-
-            if (not proposition->hedges.empty()) {
-                std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
-                if (dynamic_cast<Any*> (*rit)) {
-                    scalar result = (*rit)->hedge(fl::nan);
-                    while (++rit != proposition->hedges.rend()) {
-                        result = (*rit)->hedge(result);
-                    }
-                    return result;
-                }
+            bool isAny = false;
+            for (std::size_t i = 0; i < proposition->hedges.size(); ++i) {
+                isAny |= proposition->hedges.at(i)->name() == Any().name();
+                if (isAny) return 1.0;
             }
-
             InputVariable* inputVariable = dynamic_cast<InputVariable*> (proposition->variable);
             scalar result = proposition->term->membership(inputVariable->getInputValue());
-            for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
-                    rit != proposition->hedges.rend(); ++rit) {
-                result = (*rit)->hedge(result);
+            for (std::size_t i = 0; i < proposition->hedges.size(); ++i) {
+                result = proposition->hedges.at(i)->hedge(result);
             }
             return result;
         }
@@ -120,13 +111,13 @@ namespace fl {
          3) After a hedge comes a hedge or a term
          4) After a term comes a variable or an operator
          */
-
+        
         Function function;
-
+        
         std::string postfix = function.toPostfix(antecedent);
         std::stringstream tokenizer(postfix);
         std::string token;
-
+        
         enum FSM {
             S_VARIABLE = 1, S_IS = 2, S_HEDGE = 4, S_TERM = 8, S_AND_OR = 16
         };
@@ -154,19 +145,19 @@ namespace fl {
 
             if (state bitand S_HEDGE) {
                 Hedge* hedge = NULL;
-                if (engine->hasHedge(token)) {
+                if (engine->hasHedge(token)){
                     hedge = engine->getHedge(token);
-                } else {
+                }else{
                     std::vector<std::string> hedges = FactoryManager::instance()->hedge()->available();
-                    if (std::find(hedges.begin(), hedges.end(), token) != hedges.end()) {
+                    if (std::find(hedges.begin(), hedges.end(), token) != hedges.end()){
                         hedge = FactoryManager::instance()->hedge()->createInstance(token);
                         //TODO: find a better way, eventually.
-                        const_cast<Engine*> (engine)->addHedge(hedge);
+                        const_cast<Engine*>(engine)->addHedge(hedge);
                     }
                 }
                 if (hedge) {
                     proposition->hedges.push_back(hedge);
-                    if (dynamic_cast<Any*> (hedge)) {
+                    if (dynamic_cast<Any*>(hedge)) {
                         state = S_VARIABLE bitor S_AND_OR;
                     } else {
                         state = S_HEDGE bitor S_TERM;

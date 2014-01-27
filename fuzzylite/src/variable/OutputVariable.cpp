@@ -42,7 +42,6 @@ namespace fl {
 
     OutputVariable::~OutputVariable() {
         delete _fuzzyOutput;
-        if (_defuzzifier) delete _defuzzifier;
     }
 
     Accumulated* OutputVariable::fuzzyOutput() const {
@@ -120,7 +119,7 @@ namespace fl {
             if (Op::isGt(result, _maximum)) result = _maximum;
         }
 
-        if (isValid) _lastValidOutput = result;
+        if (_lockValidOutput and isValid) _lastValidOutput = result;
         return result;
     }
 

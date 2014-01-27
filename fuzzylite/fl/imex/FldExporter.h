@@ -26,18 +26,15 @@
 #include "fl/fuzzylite.h"
 #include "fl/imex/Exporter.h"
 
-#include <vector>
-
 namespace fl {
     class Engine;
-    class InputVariable;
-    class OutputVariable;
 
     class FL_EXPORT FldExporter : public Exporter {
     protected:
         std::string _separator;
+        int _maximum;
     public:
-        FldExporter(const std::string& separator = " ");
+        FldExporter(const std::string& separator = " ", int maximum = 1024);
         virtual ~FldExporter();
 
         virtual std::string name() const;
@@ -45,25 +42,15 @@ namespace fl {
         virtual void setSeparator(const std::string& separator);
         virtual std::string getSeparator() const;
 
-        virtual std::string header(const Engine* engine) const;
-        virtual std::string header(const std::vector<InputVariable*>& inputVariables) const;
-        virtual std::string header(const std::vector<OutputVariable*>& outputVariables) const;
+        virtual void setMaximum(int maximum);
+        virtual int getMaximum() const;
 
-
-        //WARNING: The engine will be const_casted in order to be processed!
+        //WARNING: The engine will be const_casted, restarted, processed!
         virtual std::string toString(const Engine* mutableEngine) const;
-        virtual std::string toString(const Engine* mutableEngine, int maximumNumberOfResults) const;
-        virtual std::string toString(const Engine* mutableEngine, const std::string& inputData) const;
 
         template<typename T>
-        void toWriter(Engine* engine, T& writer, int maximumNumberOfResults,
-                const std::string& separator) const;
-
-        virtual void parse(const std::string& x, std::vector<scalar>& inputValues) const;
-
-        template<typename T>
-        void toWriter(Engine* engine, T& writer, const std::vector<scalar>& inputValues,
-                const std::string& separator) const;
+        void toWriter(Engine* engine, T& writer,
+                const std::string& separator, int resolution) const;
 
 
     };

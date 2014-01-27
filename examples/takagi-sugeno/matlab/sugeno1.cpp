@@ -30,7 +30,7 @@ ruleBlock->setEnabled(true);
 ruleBlock->setName("");
 ruleBlock->setConjunction(new fl::AlgebraicProduct);
 ruleBlock->setDisjunction(new fl::AlgebraicSum);
-ruleBlock->setActivation(new fl::AlgebraicProduct);
+ruleBlock->setActivation(new fl::Minimum);
 ruleBlock->addRule(fl::Rule::parse("if input is low then output is line1", engine));
 ruleBlock->addRule(fl::Rule::parse("if input is high then output is line2", engine));
 engine->addRuleBlock(ruleBlock);

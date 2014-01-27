@@ -11,6 +11,7 @@ VAR_OUTPUT
 END_VAR
 
 FUZZIFY inputX
+  ENABLED : TRUE;
   RANGE := (0.000 .. 10.000);
   TERM NEAR_1 := Triangle 0.000 1.000 2.000;
   TERM NEAR_2 := Triangle 1.000 2.000 3.000;
@@ -24,6 +25,7 @@ FUZZIFY inputX
 END_FUZZIFY
 
 DEFUZZIFY outputFx
+  ENABLED : TRUE;
   RANGE := (-1.000 .. 1.000);
   TERM f1 := 0.840;
   TERM f2 := 0.450;
@@ -36,16 +38,20 @@ DEFUZZIFY outputFx
   TERM f9 := 0.040;
   METHOD : COGS;
   DEFAULT := nan | NC;
+  LOCK : VALID;
 END_DEFUZZIFY
 
 DEFUZZIFY trueFx
+  ENABLED : TRUE;
   RANGE := (-1.000 .. 1.000);
   TERM fx := Function sin(inputX)/inputX;
   METHOD : COGS;
   DEFAULT := nan | NC;
+  LOCK : VALID;
 END_DEFUZZIFY
 
 DEFUZZIFY diffFx
+  ENABLED : TRUE;
   RANGE := (-1.000 .. 1.000);
   TERM diff := Function fabs(outputFx-trueFx);
   METHOD : COGS;
@@ -53,6 +59,7 @@ DEFUZZIFY diffFx
 END_DEFUZZIFY
 
 RULEBLOCK 
+  ENABLED : TRUE;
   ACT : PROD;
   RULE 1 : if inputX is NEAR_1 then outputFx is f1
   RULE 2 : if inputX is NEAR_2 then outputFx is f2

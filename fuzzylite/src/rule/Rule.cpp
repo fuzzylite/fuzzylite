@@ -138,11 +138,11 @@ namespace fl {
         std::string token;
         std::ostringstream ossAntecedent, ossConsequent;
 
+        enum FSM {
+            S_NONE, S_IF, S_THEN, S_WITH, S_END
+        };
+        FSM state = S_NONE;
         try {
-            enum FSM {
-                S_NONE, S_IF, S_THEN, S_WITH, S_END
-            };
-            FSM state = S_NONE;
             while (tokenizer >> token) {
 
                 switch (state) {
@@ -172,7 +172,7 @@ namespace fl {
                             ex << "[syntax error] expected a numeric value as the weight of the rule: "
                                     << rule;
                             e.append(ex.str(), FL_AT);
-                            throw;
+                            throw e;
                         }
                         break;
                     case S_END:
@@ -200,9 +200,9 @@ namespace fl {
 
             result->_consequent = new Consequent;
             result->_consequent->load(ossConsequent.str(), engine);
-        } catch (std::exception& ex) {
+        } catch (fl::Exception& ex) {
             delete result;
-            throw;
+            throw ex;
         }
         return result;
     }

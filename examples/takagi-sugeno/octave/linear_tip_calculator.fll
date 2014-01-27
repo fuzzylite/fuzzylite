@@ -24,7 +24,7 @@ RuleBlock:
   enabled: true
   conjunction: Minimum
   disjunction: Maximum
-  activation: AlgebraicProduct
+  activation: Minimum
   rule: if FoodQuality is Bad and Service is Bad then Tip is TenPercent
   rule: if FoodQuality is Bad and Service is Good then Tip is FifteenPercent
   rule: if FoodQuality is Good and Service is Bad then Tip is FifteenPercent

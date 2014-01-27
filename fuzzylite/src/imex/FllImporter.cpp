@@ -13,7 +13,7 @@
  limitations under the License.
  */
 
-/*
+/* 
  * File:   FllImporter.cpp
  * Author: jcrada
  *
@@ -24,7 +24,7 @@
 
 #include "fl/Headers.h"
 
-#include <queue>
+#include <queue> 
 
 namespace fl {
 
@@ -52,27 +52,25 @@ namespace fl {
 
         std::string tag;
         std::ostringstream block;
+        bool processPending = false;
         std::istringstream fclReader(fll);
         std::string line;
         std::queue<std::string> lineQueue;
-
+        int lineNumber = 0;
         try {
-            bool processPending = false;
-            int lineNumber = 0;
             while (not lineQueue.empty() or std::getline(fclReader, line)) {
                 if (not lineQueue.empty()) {
                     line = lineQueue.front();
                     lineQueue.pop();
                 } else {
-                    line = clean(line);
-                    if (line.empty()) continue;
                     std::vector<std::string> split = Op::split(line, _separator);
-                    line = clean(split.front());
+                    line = split.front();
                     for (std::size_t i = 1; i < split.size(); ++i) {
-                        lineQueue.push(clean(split.at(i)));
+                        lineQueue.push(split.at(i));
                     }
                     ++lineNumber;
                 }
+                line = clean(line);
                 if (line.empty()) continue;
                 std::size_t colon = line.find_first_of(':');
                 if (colon == std::string::npos) {
@@ -99,9 +97,9 @@ namespace fl {
                 block << key << ":" << value << "\n";
             }
             process(tag, block.str(), engine);
-        } catch (std::exception& ex) {
+        } catch (fl::Exception& ex) {
             delete engine;
-            throw;
+            throw ex;
         }
         return engine;
     }

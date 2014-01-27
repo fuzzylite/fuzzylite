@@ -51,7 +51,7 @@ ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(new Minimum());
 ruleBlock.setDisjunction(new Maximum());
-ruleBlock.setActivation(new AlgebraicProduct());
+ruleBlock.setActivation(new Minimum());
 ruleBlock.addRule(Rule.parse("if service is poor or food is rancid then tip is cheap", engine));
 ruleBlock.addRule(Rule.parse("if service is average then tip is average", engine));
 ruleBlock.addRule(Rule.parse("if service is good or food is delicious then tip is generous", engine));
