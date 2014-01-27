@@ -22,6 +22,8 @@
 
 #include "fl/rule/Rule.h"
 
+#include "fl/hedge/Hedge.h"
+
 #include "fl/rule/Antecedent.h"
 #include "fl/rule/Consequent.h"
 
@@ -39,19 +41,27 @@ namespace fl {
 
     std::string Rule::FL_IF = "if";
     std::string Rule::FL_IS = "is";
-    std::string Rule::FL_EQUALS = "=";
     std::string Rule::FL_THEN = "then";
     std::string Rule::FL_AND = "and";
     std::string Rule::FL_OR = "or";
     std::string Rule::FL_WITH = "with";
 
     Rule::Rule()
-    : _weight(1.0), _antecedent(NULL), _consequent(NULL) {
+    : _text(""), _weight(1.0), _antecedent(new Antecedent), _consequent(new Consequent) {
     }
 
     Rule::~Rule() {
-        if (_consequent) delete _consequent;
-        if (_antecedent) delete _antecedent;
+        unload();
+        delete _antecedent;
+        delete _consequent;
+    }
+
+    void Rule::setText(const std::string& text) {
+        this->_text = text;
+    }
+
+    std::string Rule::getText() const {
+        return this->_text;
     }
 
     void Rule::setWeight(scalar weight) {
@@ -78,69 +88,91 @@ namespace fl {
         return this->_consequent;
     }
 
-    bool Rule::isLoaded() const {
-        return this->_antecedent and this->_consequent;
+    /**
+     * Operations for std::vector _hedges
+     */
+    void Rule::addHedge(Hedge* hedge) {
+        this->_hedges.push_back(hedge);
+    }
+
+    void Rule::insertHedge(Hedge* hedge, int index) {
+        this->_hedges.insert(this->_hedges.begin() + index, hedge);
+    }
+
+    Hedge* Rule::getHedge(int index) const {
+        return this->_hedges.at(index);
+    }
+
+    Hedge* Rule::getHedge(const std::string& name) const {
+        for (std::size_t i = 0; i < this->_hedges.size(); ++i) {
+            if (name == this->_hedges.at(i)->name())
+                return this->_hedges.at(i);
+        }
+        throw fl::Exception("[engine error] hedge <" + name + "> not found", FL_AT);
+    }
+
+    bool Rule::hasHedge(const std::string& name) const {
+        for (std::size_t i = 0; i < this->_hedges.size(); ++i) {
+            if (name == this->_hedges.at(i)->name())
+                return true;
+        }
+        return false;
+    }
+
+    Hedge* Rule::removeHedge(int index) {
+        Hedge* result = this->_hedges.at(index);
+        this->_hedges.erase(this->_hedges.begin() + index);
+        return result;
+    }
+
+    Hedge* Rule::removeHedge(const std::string& name) {
+        for (std::size_t i = 0; i < this->_hedges.size(); ++i) {
+            if (name == this->_hedges.at(i)->name()) {
+                Hedge* result = this->_hedges.at(i);
+                this->_hedges.erase(this->_hedges.begin() + i);
+                return result;
+            }
+        }
+        throw fl::Exception("[engine error] hedge <" + name + "> not found", FL_AT);
+    }
+
+    int Rule::numberOfHedges() const {
+        return this->_hedges.size();
+    }
+
+    const std::vector<Hedge*>& Rule::hedges() const {
+        return this->_hedges;
+    }
+
+    void Rule::setHedges(const std::vector<Hedge*>& hedges) {
+        this->_hedges = hedges;
     }
 
     scalar Rule::activationDegree(const TNorm* conjunction, const SNorm* disjunction) const {
         if (not isLoaded()) {
             throw fl::Exception("[rule error] the following rule is not loaded: " + _text, FL_AT);
         }
-        return getAntecedent()->activationDegree(conjunction, disjunction) * _weight;
+        return getAntecedent()->activationDegree(conjunction, disjunction);
     }
 
-    void Rule::activate(scalar strength, const TNorm* activation) const {
+    void Rule::activate(scalar degree, const TNorm* activation) const {
         if (not isLoaded()) {
             throw fl::Exception("[rule error] the following rule is not loaded: " + _text, FL_AT);
         }
-        getConsequent()->modify(strength, activation);
+        getConsequent()->modify(degree * _weight, activation);
     }
 
-    void Rule::setText(const std::string& text) {
-        this->_text = text;
-    }
-
-    std::string Rule::getText() const {
-        return this->_text;
-    }
-
-    std::string Rule::toString() const {
-        return FllExporter("", "; ").toString(this);
-    }
-
-    std::string Rule::ifKeyword() {
-        return fl::Rule::FL_IF;
-    }
-
-    std::string Rule::isKeyword() {
-        return fl::Rule::FL_IS;
-    }
-
-    std::string Rule::assignKeyword() {
-        return fl::Rule::FL_EQUALS;
-    }
-
-    std::string Rule::thenKeyword() {
-        return fl::Rule::FL_THEN;
-    }
-
-    std::string Rule::andKeyword() {
-        return fl::Rule::FL_AND;
-    }
-
-    std::string Rule::orKeyword() {
-        return fl::Rule::FL_OR;
-    }
-
-    std::string Rule::withKeyword() {
-        return fl::Rule::FL_WITH;
+    bool Rule::isLoaded() const {
+        return _antecedent->isLoaded() and _consequent->isLoaded();
     }
 
     void Rule::unload() {
-        if (isLoaded()) {
-            delete _antecedent;
-            delete _consequent;
+        _antecedent->unload();
+        _consequent->unload();
+        for (std::size_t i = 0; i < _hedges.size(); ++i) {
+            delete _hedges.at(i);
         }
+        _hedges.clear();
     }
 
     void Rule::load(const Engine* engine) {
@@ -148,6 +180,7 @@ namespace fl {
     }
 
     void Rule::load(const std::string& rule, const Engine* engine) {
+        this->_text = rule;
         std::istringstream tokenizer(rule);
         std::string token;
         std::ostringstream ossAntecedent, ossConsequent;
@@ -210,30 +243,52 @@ namespace fl {
                 throw fl::Exception(ex.str(), FL_AT);
             }
 
-            _antecedent = new Antecedent;
-            _antecedent->load(ossAntecedent.str(), engine);
-
-            _consequent = new Consequent;
-            _consequent->load(ossConsequent.str(), engine);
-
+            _antecedent->load(ossAntecedent.str(), this, engine);
+            _consequent->load(ossConsequent.str(), this, engine);
             _weight = weight;
-            _text = rule;
+            
         } catch (fl::Exception& ex) {
-            if (_antecedent) {
-                delete _antecedent;
-                _antecedent = NULL;
-            }
-            if (_consequent) {
-                delete _consequent;
-                _consequent = NULL;
-            }
+            unload();
             throw;
         }
     }
 
+    std::string Rule::toString() const {
+        return FllExporter("", "; ").toString(this);
+    }
+
+    std::string Rule::ifKeyword() {
+        return fl::Rule::FL_IF;
+    }
+
+    std::string Rule::isKeyword() {
+        return fl::Rule::FL_IS;
+    }
+
+    std::string Rule::thenKeyword() {
+        return fl::Rule::FL_THEN;
+    }
+
+    std::string Rule::andKeyword() {
+        return fl::Rule::FL_AND;
+    }
+
+    std::string Rule::orKeyword() {
+        return fl::Rule::FL_OR;
+    }
+
+    std::string Rule::withKeyword() {
+        return fl::Rule::FL_WITH;
+    }
+
     Rule* Rule::parse(const std::string& rule, const Engine* engine) {
-        Rule* result = new Rule();
-        result->load(rule, engine);
+        Rule* result = new Rule;
+        try {
+            result->load(rule, engine);
+        } catch (std::exception& ex) {
+            delete result;
+            throw;
+        }
         return result;
     }
 

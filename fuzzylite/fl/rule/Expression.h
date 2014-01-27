@@ -34,12 +34,11 @@ namespace fl {
     class Variable;
     class Hedge;
     class Term;
-    
+
     class FL_EXPORT Expression {
     public:
-        bool isOperator;
 
-        Expression(bool isOperator);
+        Expression();
         virtual ~Expression();
 
         virtual std::string toString() const = 0;
@@ -55,7 +54,6 @@ namespace fl {
 
         std::string toString() const;
     };
-
 
     class FL_EXPORT Operator : public Expression {
     public:

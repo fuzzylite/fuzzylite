@@ -45,27 +45,43 @@
 namespace fl {
 
     Antecedent::Antecedent()
-    : _root(NULL) {
+    : _text(""), _expression(NULL) {
     }
 
     Antecedent::~Antecedent() {
-        if (_root) delete _root;
+        unload();
     }
 
-    Expression* Antecedent::getRoot() const {
-        return this->_root;
+    void Antecedent::setText(const std::string& text) {
+        this->_text = text;
+    }
+
+    std::string Antecedent::getText() const {
+        return this->_text;
+    }
+
+    Expression* Antecedent::getExpression() const {
+        return this->_expression;
+    }
+
+    bool Antecedent::isLoaded() const {
+        return this->_expression;
     }
 
     scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction,
             const Expression* node) const {
-        if (not node->isOperator) { //then it is a Proposition
-            const Proposition* proposition =
-                    dynamic_cast<const Proposition*> (node);
+        if (not isLoaded()) {
+            throw fl::Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
+        }
+        const Proposition* proposition = dynamic_cast<const Proposition*> (node);
+        if (proposition) {
             if (not proposition->variable->isEnabled()) {
                 return 0.0;
             }
 
+
             if (not proposition->hedges.empty()) {
+                //if last hedge is "Any", apply hedges in reverse order and return degree
                 std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
                 if (dynamic_cast<Any*> (*rit)) {
                     scalar result = (*rit)->hedge(fl::nan);
@@ -87,7 +103,7 @@ namespace fl {
         //if node is an operatorsk
         const Operator* fuzzyOperator =
                 dynamic_cast<const Operator*> (node);
-        if (not fuzzyOperator->left or not fuzzyOperator->right) {
+        if (not (fuzzyOperator->left and fuzzyOperator->right)) {
             std::ostringstream ex;
             ex << "[syntax error] left and right operands must exist";
             throw fl::Exception(ex.str(), FL_AT);
@@ -108,10 +124,23 @@ namespace fl {
     }
 
     scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction) const {
-        return this->activationDegree(conjunction, disjunction, this->_root);
+        return this->activationDegree(conjunction, disjunction, this->_expression);
     }
 
-    void Antecedent::load(const std::string& antecedent, const Engine* engine) {
+    void Antecedent::unload() {
+        if (_expression) {
+            delete _expression;
+            _expression = NULL;
+        }
+    }
+
+    void Antecedent::load(fl::Rule* rule, const Engine* engine) {
+        load(_text, rule, engine);
+    }
+
+    void Antecedent::load(const std::string& antecedent, fl::Rule* rule, const Engine* engine) {
+        unload();
+        this->_text = antecedent;
         /*
          Builds an proposition tree from the antecedent of a fuzzy rule.
          The rules are:
@@ -133,153 +162,165 @@ namespace fl {
         int state = S_VARIABLE;
         std::stack<Expression*> expressionStack;
         Proposition* proposition = NULL;
-        while (tokenizer >> token) {
-            if (state bitand S_VARIABLE) {
-                if (engine->hasInputVariable(token)) {
-                    proposition = new Proposition;
-                    proposition->variable = engine->getInputVariable(token);
-                    expressionStack.push(proposition);
+        try {
+            while (tokenizer >> token) {
+                if (state bitand S_VARIABLE) {
+                    if (engine->hasInputVariable(token)) {
+                        proposition = new Proposition;
+                        proposition->variable = engine->getInputVariable(token);
+                        expressionStack.push(proposition);
 
-                    state = S_IS;
-                    continue;
-                }
-            }
-
-            if (state bitand S_IS) {
-                if (token == Rule::FL_IS) {
-                    state = S_HEDGE bitor S_TERM;
-                    continue;
-                }
-            }
-
-            if (state bitand S_HEDGE) {
-                Hedge* hedge = NULL;
-                if (engine->hasHedge(token)) {
-                    hedge = engine->getHedge(token);
-                } else {
-                    std::vector<std::string> hedges = FactoryManager::instance()->hedge()->available();
-                    if (std::find(hedges.begin(), hedges.end(), token) != hedges.end()) {
-                        hedge = FactoryManager::instance()->hedge()->createInstance(token);
-                        //TODO: find a better way, eventually.
-                        const_cast<Engine*> (engine)->addHedge(hedge);
+                        state = S_IS;
+                        continue;
                     }
                 }
-                if (hedge) {
-                    proposition->hedges.push_back(hedge);
-                    if (dynamic_cast<Any*> (hedge)) {
-                        state = S_VARIABLE bitor S_AND_OR;
-                    } else {
+
+                if (state bitand S_IS) {
+                    if (token == Rule::FL_IS) {
                         state = S_HEDGE bitor S_TERM;
+                        continue;
                     }
-                    continue;
                 }
-            }
 
-            if (state bitand S_TERM) {
-                if (proposition->variable->hasTerm(token)) {
-                    proposition->term =
-                            proposition->variable->getTerm(token);
-                    state = S_VARIABLE bitor S_AND_OR;
-                    continue;
-                }
-            }
-
-            if (state bitand S_AND_OR) {
-                if (token == Rule::FL_AND or token == Rule::FL_OR) {
-                    if (expressionStack.size() < 2) {
-                        std::ostringstream ex;
-                        ex << "[syntax error] logical operator <" << token << "> expects two operands,"
-                                << "but found " << expressionStack.size();
-                        throw fl::Exception(ex.str(), FL_AT);
+                if (state bitand S_HEDGE) {
+                    Hedge* hedge = NULL;
+                    if (rule->hasHedge(token)) {
+                        hedge = rule->getHedge(token);
+                    } else {
+                        std::vector<std::string> hedges = FactoryManager::instance()->hedge()->available();
+                        if (std::find(hedges.begin(), hedges.end(), token) != hedges.end()) {
+                            hedge = FactoryManager::instance()->hedge()->createInstance(token);
+                            rule->addHedge(hedge);
+                        }
                     }
-                    Operator* fuzzyOperator = new Operator;
-                    fuzzyOperator->name = token;
-                    fuzzyOperator->right = expressionStack.top();
-                    expressionStack.pop();
-                    fuzzyOperator->left = expressionStack.top();
-                    expressionStack.pop();
-                    expressionStack.push(fuzzyOperator);
-
-                    state = S_VARIABLE bitor S_AND_OR;
-                    continue;
+                    if (hedge) {
+                        proposition->hedges.push_back(hedge);
+                        if (dynamic_cast<Any*> (hedge)) {
+                            state = S_VARIABLE bitor S_AND_OR;
+                        } else {
+                            state = S_HEDGE bitor S_TERM;
+                        }
+                        continue;
+                    }
                 }
+
+                if (state bitand S_TERM) {
+                    if (proposition->variable->hasTerm(token)) {
+                        proposition->term = proposition->variable->getTerm(token);
+                        state = S_VARIABLE bitor S_AND_OR;
+                        continue;
+                    }
+                }
+
+                if (state bitand S_AND_OR) {
+                    if (token == Rule::FL_AND or token == Rule::FL_OR) {
+                        if (expressionStack.size() < 2) {
+                            std::ostringstream ex;
+                            ex << "[syntax error] logical operator <" << token << "> expects two operands,"
+                                    << "but found " << expressionStack.size();
+                            throw fl::Exception(ex.str(), FL_AT);
+                        }
+                        Operator* fuzzyOperator = new Operator;
+                        fuzzyOperator->name = token;
+                        fuzzyOperator->right = expressionStack.top();
+                        expressionStack.pop();
+                        fuzzyOperator->left = expressionStack.top();
+                        expressionStack.pop();
+                        expressionStack.push(fuzzyOperator);
+
+                        state = S_VARIABLE bitor S_AND_OR;
+                        continue;
+                    }
+                }
+
+                //If reached this point, there was an error
+                if ((state bitand S_VARIABLE) or (state bitand S_AND_OR)) {
+                    std::ostringstream ex;
+                    ex << "[syntax error] expected input variable or logical operator, but found <" << token << ">";
+                    throw fl::Exception(ex.str(), FL_AT);
+                }
+                if (state bitand S_IS) {
+                    std::ostringstream ex;
+                    ex << "[syntax error] expected keyword <" << Rule::FL_IS << ">, but found <" << token << ">";
+                    throw fl::Exception(ex.str(), FL_AT);
+                }
+                if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
+                    std::ostringstream ex;
+                    ex << "[syntax error] expected hedge or term, but found <" << token << ">";
+                    throw fl::Exception(ex.str(), FL_AT);
+                }
+                std::ostringstream ex;
+                ex << "[syntax error] unexpected token <" << token << ">";
+                throw fl::Exception(ex.str(), FL_AT);
             }
 
-            //If reached this point, there was an error
-            if ((state bitand S_VARIABLE) or (state bitand S_AND_OR)) {
+            if (expressionStack.size() != 1) {
                 std::ostringstream ex;
-                ex << "[syntax error] expected input variable or logical operator, but found <" << token << ">";
+                ex << "[syntax error] stack expected to contain the root, but contains "
+                        << expressionStack.size() << " nodes";
                 throw fl::Exception(ex.str(), FL_AT);
             }
-            if (state bitand S_IS) {
-                std::ostringstream ex;
-                ex << "[syntax error] expected keyword <" << Rule::FL_IS << ">, but found <" << token << ">";
-                throw fl::Exception(ex.str(), FL_AT);
+        } catch (std::exception& ex) {
+            for (std::size_t i = 0; i < expressionStack.size(); ++i) {;;
+                delete expressionStack.top();
+                expressionStack.pop();
             }
-            if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
-                std::ostringstream ex;
-                ex << "[syntax error] expected hedge or term, but found <" << token << ">";
-                throw fl::Exception(ex.str(), FL_AT);
-            }
-            std::ostringstream ex;
-            ex << "[syntax error] unexpected token <" << token << ">";
-            throw fl::Exception(ex.str(), FL_AT);
         }
-
-        if (expressionStack.size() != 1) {
-            std::ostringstream ex;
-            ex << "[syntax error] stack expected to contain the root, but contains "
-                    << expressionStack.size() << " nodes";
-            throw fl::Exception(ex.str(), FL_AT);
-        }
-        this->_root = expressionStack.top();
+        this->_expression = expressionStack.top();
     }
 
     std::string Antecedent::toString() const {
-        return this->toInfix(this->_root);
+        return toInfix(this->_expression);
     }
 
     std::string Antecedent::toPrefix(const Expression* node) const {
-        if (not node)
-            node = this->_root;
-        if (not node->isOperator) { //is proposition
+        if (not isLoaded()) {
+            throw fl::Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
+        }
+        if (not node) node = this->_expression;
+
+        if (dynamic_cast<const Proposition*> (node)) {
             return node->toString();
         }
         const Operator* fuzzyOperator =
                 dynamic_cast<const Operator*> (node);
         std::stringstream ss;
         ss << fuzzyOperator->toString() << " "
-                << this->toPrefix(fuzzyOperator->left) << " "
-                << this->toPrefix(fuzzyOperator->right) << " ";
+                << toPrefix(fuzzyOperator->left) << " "
+                << toPrefix(fuzzyOperator->right) << " ";
         return ss.str();
     }
 
     std::string Antecedent::toInfix(const Expression* node) const {
-        if (not node)
-            node = this->_root;
-        if (not node->isOperator) { //is proposition
+        if (not isLoaded()) {
+            throw fl::Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
+        }
+        if (not node) node = this->_expression;
+        if (dynamic_cast<const Proposition*> (node)) {
             return node->toString();
         }
         const Operator* fuzzyOperator =
                 dynamic_cast<const Operator*> (node);
         std::stringstream ss;
-        ss << this->toInfix(fuzzyOperator->left) << " "
+        ss << toInfix(fuzzyOperator->left) << " "
                 << fuzzyOperator->toString() << " "
-                << this->toInfix(fuzzyOperator->right) << " ";
+                << toInfix(fuzzyOperator->right) << " ";
         return ss.str();
     }
 
     std::string Antecedent::toPostfix(const Expression* node) const {
-        if (not node)
-            node = this->_root;
-        if (not node->isOperator) { //is proposition
+        if (not isLoaded()) {
+            throw fl::Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
+        }
+        if (not node) node = this->_expression;
+        if (dynamic_cast<const Proposition*> (node)) {
             return node->toString();
         }
         const Operator* fuzzyOperator =
                 dynamic_cast<const Operator*> (node);
         std::stringstream ss;
-        ss << this->toPostfix(fuzzyOperator->left) << " "
-                << this->toPostfix(fuzzyOperator->right) << " "
+        ss << toPostfix(fuzzyOperator->left) << " "
+                << toPostfix(fuzzyOperator->right) << " "
                 << fuzzyOperator->toString() << " ";
         return ss.str();
     }

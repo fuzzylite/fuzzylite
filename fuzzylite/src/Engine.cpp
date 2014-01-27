@@ -61,9 +61,6 @@ namespace fl {
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
             delete _ruleblocks.at(i);
         }
-        for (std::size_t i = 0; i < _hedges.size(); ++i) {
-            delete _hedges.at(i);
-        }
 
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             delete _outputVariables.at(i);
@@ -580,62 +577,5 @@ namespace fl {
     void Engine::setRuleBlocks(const std::vector<RuleBlock*>& ruleBlocks) {
         this->_ruleblocks = ruleBlocks;
     }
-
-    /**
-     * Operations for std::vector _hedges
-     */
-    void Engine::addHedge(Hedge* hedge) {
-        this->_hedges.push_back(hedge);
-    }
-
-    void Engine::insertHedge(Hedge* hedge, int index) {
-        this->_hedges.insert(this->_hedges.begin() + index, hedge);
-    }
-
-    Hedge* Engine::getHedge(int index) const {
-        return this->_hedges.at(index);
-    }
-
-    Hedge* Engine::getHedge(const std::string& name) const {
-        for (std::size_t i = 0; i < this->_hedges.size(); ++i) {
-            if (name == this->_hedges.at(i)->name())
-                return this->_hedges.at(i);
-        }
-        throw fl::Exception("[engine error] hedge <" + name + "> not found", FL_AT);
-    }
-
-    bool Engine::hasHedge(const std::string& name) const {
-        for (std::size_t i = 0; i < this->_hedges.size(); ++i) {
-            if (name == this->_hedges.at(i)->name())
-                return true;
-        }
-        return false;
-    }
-
-    Hedge* Engine::removeHedge(int index) {
-        Hedge* result = this->_hedges.at(index);
-        this->_hedges.erase(this->_hedges.begin() + index);
-        return result;
-    }
-
-    Hedge* Engine::removeHedge(const std::string& name) {
-        for (std::size_t i = 0; i < this->_hedges.size(); ++i) {
-            if (name == this->_hedges.at(i)->name()) {
-                Hedge* result = this->_hedges.at(i);
-                this->_hedges.erase(this->_hedges.begin() + i);
-                return result;
-            }
-        }
-        throw fl::Exception("[engine error] hedge <" + name + "> not found", FL_AT);
-    }
-
-    int Engine::numberOfHedges() const {
-        return this->_hedges.size();
-    }
-
-    const std::vector<Hedge*>& Engine::hedges() const {
-        return this->_hedges;
-    }
-
 
 }

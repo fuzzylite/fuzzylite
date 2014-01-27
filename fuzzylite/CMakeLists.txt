@@ -59,12 +59,16 @@ set(LIBRARY_OUTPUT_PATH bin)
 
 set(FL_LIBS)
 
+
 if(UNIX)
     set(CMAKE_CXX_FLAGS "-Werror -Wall -Wextra")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
+    #set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-rpath,bin/") #does apple recognise these?
+    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")  #does apple recognise these?
+
 if(NOT APPLE)
-    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined") #apple does not recognise these
+    
 endif()
 
 elseif(WIN32)
@@ -73,7 +77,6 @@ elseif(WIN32)
     set(FL_LIBS dbghelp)
 endif()
 
-set(CMAKE_SKIP_RPATH true)
 
 if(FL_USE_FLOAT)
     add_definitions(-DFL_USE_FLOAT)
@@ -84,6 +87,7 @@ if(NOT FL_BACKTRACE)
 endif()
 
 include_directories(.)
+link_directories(.)
 
 file(STRINGS FL_HEADERS fl-headers)
 file(STRINGS FL_SOURCES fl-sources)

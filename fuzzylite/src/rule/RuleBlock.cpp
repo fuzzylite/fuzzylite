@@ -111,7 +111,7 @@ namespace fl {
     }
 
     /**
-     * Operations for datatype _rules
+     * Operations for std::vector _rules
      */
     void RuleBlock::addRule(Rule* rule) {
         this->_rules.push_back(rule);
@@ -142,6 +142,7 @@ namespace fl {
     void RuleBlock::setRules(const std::vector<Rule*>& rules) {
         this->_rules = rules;
     }
+
 
 
 }

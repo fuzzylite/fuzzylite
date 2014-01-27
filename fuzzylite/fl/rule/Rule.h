@@ -26,26 +26,33 @@
 #include "fl/fuzzylite.h"
 
 #include <string>
+#include <vector>
 
 namespace fl {
     class Engine;
     class Antecedent;
     class Consequent;
+    class Hedge;
     class TNorm;
     class SNorm;
 
     class FL_EXPORT Rule {
     protected:
-        scalar _weight;
         std::string _text;
+        scalar _weight;
         Antecedent* _antecedent;
         Consequent* _consequent;
+        std::vector<Hedge*> _hedges;
 
     public:
         Rule();
         virtual ~Rule();
 
-        virtual bool isLoaded() const;
+        virtual void setText(const std::string& text);
+        virtual std::string getText() const;
+
+        virtual void setWeight(scalar weight);
+        virtual scalar getWeight() const;
 
         virtual void setAntecedent(Antecedent* antecedent);
         virtual Antecedent* getAntecedent() const;
@@ -53,27 +60,32 @@ namespace fl {
         virtual void setConsequent(Consequent* consequent);
         virtual Consequent* getConsequent() const;
 
+        virtual void addHedge(Hedge* hedge);
+        virtual void insertHedge(Hedge* hedge, int index);
+        virtual Hedge* getHedge(int index) const;
+        virtual Hedge* getHedge(const std::string& name) const;
+        virtual bool hasHedge(const std::string& name) const;
+        virtual Hedge* removeHedge(int index);
+        virtual Hedge* removeHedge(const std::string& name);
+        virtual int numberOfHedges() const;
+        virtual const std::vector<Hedge*>& hedges() const;
+        virtual void setHedges(const std::vector<Hedge*>& hedges);
+
+
         virtual scalar activationDegree(const TNorm* conjunction, const SNorm* disjunction) const;
-        virtual void activate(scalar strength, const TNorm* activation) const;
-
-        virtual void setWeight(scalar weight);
-        virtual scalar getWeight() const;
-
-        virtual void setText(const std::string& text);
-        virtual std::string getText() const;
+        virtual void activate(scalar degree, const TNorm* activation) const;
 
         virtual std::string toString() const;
 
+        virtual bool isLoaded() const;
+        virtual void unload();
         virtual void load(const Engine* engine);
         virtual void load(const std::string& rule, const Engine* engine);
-        
-        virtual void unload();
 
         static Rule* parse(const std::string& rule, const Engine* engine);
 
         static std::string FL_IF;
         static std::string FL_IS;
-        static std::string FL_EQUALS;
         static std::string FL_THEN;
         static std::string FL_AND;
         static std::string FL_OR;
@@ -81,7 +93,6 @@ namespace fl {
 
         static std::string ifKeyword();
         static std::string isKeyword();
-        static std::string assignKeyword();
         static std::string thenKeyword();
         static std::string andKeyword();
         static std::string orKeyword();

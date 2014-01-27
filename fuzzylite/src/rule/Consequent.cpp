@@ -47,36 +47,39 @@ namespace fl {
     }
 
     Consequent::~Consequent() {
-        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
-            delete _conclusions.at(i);
-        }
+        unload();
+    }
+
+    std::string Consequent::getText() const {
+        return this->_text;
+    }
+
+    void Consequent::setText(const std::string& text) {
+        this->_text = text;
     }
 
     std::vector<Proposition*> Consequent::conclusions() const {
         return this->_conclusions;
     }
 
-    void Consequent::modify(scalar activationDegree, const TNorm* activation) {
-        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
-            Proposition* proposition = _conclusions.at(i);
-            if (proposition->variable->isEnabled()) {
-                if (not proposition->hedges.empty()) {
-                    for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
-                            rit != proposition->hedges.rend(); ++rit) {
-                        activationDegree = (*rit)->hedge(activationDegree);
-                    }
-                }
-                Activated* term = new Activated(_conclusions.at(i)->term);
-                term->setDegree(activationDegree);
-                term->setActivation(activation);
-                OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (proposition->variable);
-                outputVariable->fuzzyOutput()->addTerm(term);
-                FL_DBG("Accumulating " << term->toString());
-            }
-        }
+    bool Consequent::isLoaded() {
+        return not _conclusions.empty();
     }
 
-    void Consequent::load(const std::string& consequent, const Engine* engine) {
+    void Consequent::unload() {
+        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
+            delete _conclusions.at(i);
+        }
+        _conclusions.clear();
+    }
+
+    void Consequent::load(Rule* rule, const Engine* engine) {
+        load(_text, rule, engine);
+    }
+
+    void Consequent::load(const std::string& consequent, Rule* rule, const Engine* engine) {
+        unload();
+        this->_text = consequent;
 
         /**
          Extracts the list of propositions from the consequent
@@ -94,94 +97,119 @@ namespace fl {
         };
         int state = S_VARIABLE;
 
-        _conclusions.clear();
-
         Proposition* proposition = NULL;
 
         std::stringstream tokenizer(consequent);
         std::string token;
-        while (tokenizer >> token) {
-            if (state bitand S_VARIABLE) {
-                if (engine->hasOutputVariable(token)) {
-                    proposition = new Proposition;
-                    proposition->variable = engine->getOutputVariable(token);
-                    _conclusions.push_back(proposition);
+        try {
+            while (tokenizer >> token) {
+                if (state bitand S_VARIABLE) {
+                    if (engine->hasOutputVariable(token)) {
+                        proposition = new Proposition;
+                        proposition->variable = engine->getOutputVariable(token);
+                        _conclusions.push_back(proposition);
 
-                    state = S_IS;
-                    continue;
-                }
-            }
-
-            if (state bitand S_IS) {
-                if (token == Rule::FL_IS or token == Rule::FL_EQUALS) {
-                    state = S_HEDGE | S_TERM;
-                    continue;
-                }
-            }
-
-            if (state bitand S_HEDGE) {
-                Hedge* hedge = NULL;
-                if (engine->hasHedge(token)) {
-                    hedge = engine->getHedge(token);
-                } else {
-                    std::vector<std::string> hedges = FactoryManager::instance()->hedge()->available();
-                    if (std::find(hedges.begin(), hedges.end(), token) != hedges.end()) {
-                        hedge = FactoryManager::instance()->hedge()->createInstance(token);
-                        //TODO: find a better way, eventually.
-                        const_cast<Engine*> (engine)->addHedge(hedge);
+                        state = S_IS;
+                        continue;
                     }
                 }
-                if (hedge) {
-                    proposition->hedges.push_back(hedge);
-                    state = S_HEDGE | S_TERM;
-                    continue;
+
+                if (state bitand S_IS) {
+                    if (token == Rule::FL_IS) {
+                        state = S_HEDGE | S_TERM;
+                        continue;
+                    }
                 }
-            }
 
-            if (state bitand S_TERM) {
-                if (proposition->variable->hasTerm(token)) {
-                    proposition->term = proposition->variable->getTerm(token);
-                    state = S_AND;
-                    continue;
+                if (state bitand S_HEDGE) {
+                    Hedge* hedge = NULL;
+                    if (rule->hasHedge(token)) {
+                        hedge = rule->getHedge(token);
+                    } else {
+                        std::vector<std::string> hedges = FactoryManager::instance()->hedge()->available();
+                        if (std::find(hedges.begin(), hedges.end(), token) != hedges.end()) {
+                            hedge = FactoryManager::instance()->hedge()->createInstance(token);
+                            rule->addHedge(hedge);
+                        }
+                    }
+                    if (hedge) {
+                        proposition->hedges.push_back(hedge);
+                        state = S_HEDGE | S_TERM;
+                        continue;
+                    }
                 }
-            }
 
-            if (state bitand S_AND) {
-                if (token == Rule::FL_AND) {
-                    state = S_VARIABLE;
-                    continue;
+                if (state bitand S_TERM) {
+                    if (proposition->variable->hasTerm(token)) {
+                        proposition->term = proposition->variable->getTerm(token);
+                        state = S_AND;
+                        continue;
+                    }
                 }
-            }
 
-            //if reached this point, there was an error:
-            if (state bitand S_VARIABLE) {
+                if (state bitand S_AND) {
+                    if (token == Rule::FL_AND) {
+                        state = S_VARIABLE;
+                        continue;
+                    }
+                }
+
+                //if reached this point, there was an error:
+                if (state bitand S_VARIABLE) {
+                    std::ostringstream ex;
+                    ex << "[syntax error] expected output variable, but found <" << token << ">";
+                    throw fl::Exception(ex.str(), FL_AT);
+                }
+                if (state bitand S_IS) {
+                    std::ostringstream ex;
+                    ex << "[syntax error] expected keyword <" << Rule::FL_IS << ">, "
+                            "but found <" << token << ">";
+                    throw fl::Exception(ex.str(), FL_AT);
+                }
+
+                if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
+                    std::ostringstream ex;
+                    ex << "[syntax error] expected hedge or term, but found <" << token << ">";
+                    throw fl::Exception(ex.str(), FL_AT);
+                }
+
+                if (state bitand S_AND) {
+                    std::ostringstream ex;
+                    ex << "[syntax error] expected operator <" << Rule::FL_AND << ">, "
+                            << "but found <" << token << ">";
+                    throw fl::Exception(ex.str(), FL_AT);
+                }
+
                 std::ostringstream ex;
-                ex << "[syntax error] expected output variable, but found <" << token << ">";
+                ex << "[syntax error] unexpected token <" << token << ">";
                 throw fl::Exception(ex.str(), FL_AT);
             }
-            if (state bitand S_IS) {
-                std::ostringstream ex;
-                ex << "[syntax error] expected keyword <" << Rule::FL_IS << "> or <"
-                        << Rule::FL_EQUALS << ">, but found <" << token << ">";
-                throw fl::Exception(ex.str(), FL_AT);
-            }
+        } catch (std::exception& ex) {
+            unload();
+            throw;
+        }
+    }
 
-            if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
-                std::ostringstream ex;
-                ex << "[syntax error] expected hedge or term, but found <" << token << ">";
-                throw fl::Exception(ex.str(), FL_AT);
+    void Consequent::modify(scalar activationDegree, const TNorm* activation) {
+        if (not isLoaded()) {
+            throw fl::Exception("[consequent error] consequent <" + _text + "> is not loaded", FL_AT);
+        }
+        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
+            Proposition* proposition = _conclusions.at(i);
+            if (proposition->variable->isEnabled()) {
+                if (not proposition->hedges.empty()) {
+                    for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
+                            rit != proposition->hedges.rend(); ++rit) {
+                        activationDegree = (*rit)->hedge(activationDegree);
+                    }
+                }
+                Activated* term = new Activated(_conclusions.at(i)->term);
+                term->setDegree(activationDegree);
+                term->setActivation(activation);
+                OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (proposition->variable);
+                outputVariable->fuzzyOutput()->addTerm(term);
+                FL_DBG("Accumulating " << term->toString());
             }
-
-            if (state bitand S_AND) {
-                std::ostringstream ex;
-                ex << "[syntax error] expected operator <" << Rule::FL_AND << ">, "
-                        << "but found <" << token << ">";
-                throw fl::Exception(ex.str(), FL_AT);
-            }
-
-            std::ostringstream ex;
-            ex << "[syntax error] unexpected token <" << token << ">";
-            throw fl::Exception(ex.str(), FL_AT);
         }
     }
 

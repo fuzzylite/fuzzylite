@@ -30,20 +30,28 @@
 
 namespace fl {
     class Engine;
+    class Rule;
     class Proposition;
     class TNorm;
 
     class FL_EXPORT Consequent {
     protected:
+        std::string _text;
         std::vector<Proposition*> _conclusions;
 
     public:
         Consequent();
         virtual ~Consequent();
 
+        virtual void setText(const std::string& text);
+        virtual std::string getText() const;
+
         virtual std::vector<Proposition*> conclusions() const;
 
-        virtual void load(const std::string& consequent, const Engine* engine);
+        virtual bool isLoaded();
+        virtual void unload();
+        virtual void load(Rule* rule, const Engine* engine);
+        virtual void load(const std::string& consequent, Rule* rule, const Engine* engine);
 
         virtual void modify(scalar activationDegree, const TNorm* activation);
 

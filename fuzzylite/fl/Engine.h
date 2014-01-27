@@ -56,8 +56,6 @@ namespace fl {
         std::vector<OutputVariable*> _outputVariables;
         /** The rule blocks registered in the engine*/
         std::vector<RuleBlock*> _ruleblocks;
-        /** The hedges registered in the engine to be used by fuzzy rules. @see fl::HedgeFactory*/
-        std::vector<Hedge*> _hedges;
 
     public:
         Engine(const std::string& name = "");
@@ -137,18 +135,6 @@ namespace fl {
         virtual const std::vector<RuleBlock*>& ruleBlocks() const;
         virtual void setRuleBlocks(const std::vector<RuleBlock*>& ruleBlocks);
 
-        /**
-         * Operations for std::vector _hedges
-         */
-        virtual void addHedge(Hedge* hedge);
-        virtual void insertHedge(Hedge* hedge, int index);
-        virtual Hedge* getHedge(int index) const;
-        virtual Hedge* getHedge(const std::string& name) const;
-        virtual bool hasHedge(const std::string& name) const;
-        virtual Hedge* removeHedge(int index);
-        virtual Hedge* removeHedge(const std::string& name);
-        virtual int numberOfHedges() const;
-        virtual const std::vector<Hedge*>& hedges() const;
 
     };
 

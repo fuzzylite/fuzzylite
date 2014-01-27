@@ -22,20 +22,24 @@
 
 namespace fl {
 
-    Expression::Expression(bool isOperator)
-    : isOperator(isOperator) {
+    Expression::Expression() {
     }
 
     Expression::~Expression() {
     }
 
     Proposition::Proposition()
-    : Expression(false), variable(NULL), term(NULL) {
+    : Expression(), variable(NULL), term(NULL) {
     }
 
     std::string Proposition::toString() const {
         std::ostringstream ss;
-        ss << variable->getName() << " " << Rule::FL_IS << " ";
+        if (variable) {
+            ss << variable->getName();
+        } else {
+            ss << "?";
+        }
+        ss << " " << Rule::FL_IS << " ";
         for (std::size_t i = 0; i < hedges.size(); ++i) {
             ss << hedges.at(i)->name() << " ";
         }
@@ -45,8 +49,7 @@ namespace fl {
         return ss.str();
     }
 
-    Operator::Operator()
-    : Expression(true), left(NULL), right(NULL) {
+    Operator::Operator() : Expression(), left(NULL), right(NULL) {
     }
 
     Operator::~Operator() {

@@ -49,6 +49,7 @@ Version 5.0
 * Added method Rule::load(const Engine*)
 * Renamed term Thresholded to Activated
 * Renamed Thresholded::(set|get)Threshold to Activated::(set|get)Degree
+* Removed variable Rule::FL_ASSIGNS and method Rule::assignsKeyword()
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.

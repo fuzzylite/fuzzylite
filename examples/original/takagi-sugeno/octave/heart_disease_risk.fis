@@ -35,7 +35,7 @@
   AndMethod = 'min'
   OrMethod = 'max'
   ImpMethod = 'prod'
-  AggMethod = 'max'
+  AggMethod = 'sum'
   DefuzzMethod = 'wtaver'
 
 [Input1]

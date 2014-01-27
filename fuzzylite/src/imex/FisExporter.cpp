@@ -201,12 +201,12 @@ namespace fl {
         std::vector<Operator*> operators;
 
         std::queue<Expression*> bfsQueue;
-        bfsQueue.push(rule->getAntecedent()->getRoot());
+        bfsQueue.push(rule->getAntecedent()->getExpression());
         while (not bfsQueue.empty()) {
             Expression* front = bfsQueue.front();
             bfsQueue.pop();
-            if (front->isOperator) {
-                Operator* op = dynamic_cast<Operator*> (front);
+            Operator* op = dynamic_cast<Operator*> (front);
+            if (op) {
                 bfsQueue.push(op->left);
                 bfsQueue.push(op->right);
                 operators.push_back(op);

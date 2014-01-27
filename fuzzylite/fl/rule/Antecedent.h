@@ -29,21 +29,30 @@
 
 namespace fl {
     class Engine;
+    class Rule;
     class TNorm;
     class SNorm;
     class Expression;
 
     class FL_EXPORT Antecedent {
     protected:
-        Expression* _root;
+        std::string _text;
+        Expression* _expression;
 
     public:
         Antecedent();
         virtual ~Antecedent();
 
-        virtual Expression* getRoot() const;
+        virtual void setText(const std::string& text);
+        virtual std::string getText() const;
 
-        virtual void load(const std::string& antecedent, const Engine* engine);
+        virtual Expression* getExpression() const;
+
+        virtual bool isLoaded() const;
+
+        virtual void unload();
+        virtual void load(Rule* rule, const Engine* engine);
+        virtual void load(const std::string& antecedent, Rule* rule, const Engine* engine);
 
         virtual scalar activationDegree(const TNorm* conjunction, const SNorm* disjunction,
                 const Expression* node) const;
