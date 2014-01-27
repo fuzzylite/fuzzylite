@@ -52,18 +52,20 @@ namespace fl {
 
         //WARNING: The engine will be const_casted in order to be processed!
         virtual std::string toString(const Engine* mutableEngine) const;
-        virtual std::string toString(const Engine* mutableEngine, int maximumNumberOfResults) const;
-        virtual std::string toString(const Engine* mutableEngine, const std::string& inputData) const;
+        virtual std::string toString(const Engine* mutableEngine, int maximumNumberOfResults,
+                bool includeHeaders = true, bool includeInputValues = true) const;
+        virtual std::string toString(const Engine* mutableEngine, const std::string& inputData,
+                bool includeHeaders = true, bool includeInputValues = true) const;
 
         template<typename T>
         void toWriter(Engine* engine, T& writer, int maximumNumberOfResults,
-                const std::string& separator) const;
+                const std::string& separator, bool includeInputValues = true) const;
 
         virtual void parse(const std::string& x, std::vector<scalar>& inputValues) const;
 
         template<typename T>
         void toWriter(Engine* engine, T& writer, const std::vector<scalar>& inputValues,
-                const std::string& separator) const;
+                const std::string& separator, bool includeInputValues = true) const;
 
 
     };

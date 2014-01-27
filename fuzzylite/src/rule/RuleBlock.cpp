@@ -63,6 +63,35 @@ namespace fl {
         }
     }
 
+    void RuleBlock::unloadRules() const {
+        for (std::size_t i = 0; i < _rules.size(); ++i) {
+            Rule* rule = _rules.at(i);
+            rule->unload();
+        }
+    }
+
+    void RuleBlock::loadRules(const Engine* engine) {
+        std::ostringstream exceptions;
+        bool throwException = false;
+        for (std::size_t i = 0; i < _rules.size(); ++i) {
+            Rule* rule = _rules.at(i);
+            if (rule->isLoaded()) {
+                rule->unload();
+            }
+            try {
+                rule->load(engine);
+            } catch (std::exception& ex) {
+                throwException = true;
+                exceptions << ex.what() << "\n";
+            }
+        }
+        if (throwException) {
+            fl::Exception exception("[ruleblock error] the following "
+                    "rules could not be loaded:\n" + exceptions.str(), FL_AT);
+            throw exception;
+        }
+    }
+
     void RuleBlock::setName(std::string name) {
         this->_name = name;
     }

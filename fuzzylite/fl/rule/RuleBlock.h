@@ -30,6 +30,7 @@
 
 namespace fl {
 
+    class Engine;
     class Rule;
     class TNorm;
     class SNorm;
@@ -63,6 +64,9 @@ namespace fl {
 
         virtual void setEnabled(bool enabled);
         virtual bool isEnabled() const;
+
+        virtual void unloadRules() const;
+        virtual void loadRules(const Engine* engine);
 
         virtual std::string toString() const;
 

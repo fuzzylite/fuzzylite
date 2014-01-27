@@ -21,28 +21,29 @@ namespace fl {
     const std::string Console::KW_OUTPUT_FILE = "-o";
     const std::string Console::KW_OUTPUT_FORMAT = "-of";
     const std::string Console::KW_EXAMPLE = "-example";
-    const std::string Console::KW_DATA_INPUT = "-d";
-    const std::string Console::KW_DATA_MAXIMUM = "-maximum";
     const std::string Console::KW_DECIMALS = "-decimals";
+    const std::string Console::KW_DATA_INPUT = "-d";
+    const std::string Console::KW_DATA_MAXIMUM = "-dmaximum";
+    const std::string Console::KW_DATA_SHOW_HEADERS = "-dheaders";
+    const std::string Console::KW_DATA_SHOW_INPUTS = "-dinputs";
 
-    struct Option {
-        std::string key, value, description;
-
-        Option(const std::string& key = "", const std::string& value = "", const std::string& description = "") :
-        key(key), value(value), description(description) {
-        }
-    };
-
-    std::string Console::usage() {
-        std::vector<Option> options;
+    std::vector<Console::Option> Console::availableOptions() {
+        std::vector<Console::Option> options;
         options.push_back(Option(KW_INPUT_FILE, "inputfile", "file to import your engine from"));
         options.push_back(Option(KW_INPUT_FORMAT, "format", "format of the file to import (fll | fis | fcl)"));
         options.push_back(Option(KW_OUTPUT_FILE, "outputfile", "file to export your engine to"));
         options.push_back(Option(KW_OUTPUT_FORMAT, "format", "format of the file to export (fll | fld | cpp | java | fis | fcl)"));
-        options.push_back(Option(KW_EXAMPLE, "example", "if not inputfile, built-in example to use as engine: (m)amdani or (t)akagi-sugeno"));
+        options.push_back(Option(KW_EXAMPLE, "letter", "if not inputfile, built-in example to use as engine: (m)amdani or (t)akagi-sugeno"));
+        options.push_back(Option(KW_DECIMALS, "number", "number of decimals to write floating-poing values"));
         options.push_back(Option(KW_DATA_INPUT, "datafile", "if exporting to fld, file of input values to evaluate your engine on"));
         options.push_back(Option(KW_DATA_MAXIMUM, "number", "if exporting to fld without datafile, maximum number of results to export"));
+        options.push_back(Option(KW_DATA_SHOW_HEADERS, "boolean", "if true and exporting to fld, include headers"));
+        options.push_back(Option(KW_DATA_SHOW_INPUTS, "boolean", "if true and exporting to fld, include input values"));
+        return options;
+    }
 
+    std::string Console::usage() {
+        std::vector<Console::Option> options = availableOptions();
         std::ostringstream ss;
         ss << "========================================\n";
         ss << "fuzzylite: a fuzzy logic control library\n";
@@ -56,9 +57,20 @@ namespace fl {
         }
         ss << "\n\nwhere:\n";
         for (std::size_t i = 0; i < options.size(); ++i) {
-            ss << options.at(i).key << " " << options.at(i).value <<
-                    " \t" << options.at(i).description << ".\n";
+            std::string spacedKey(12, ' ');
+            std::string key = options.at(i).key;
+            std::copy(key.begin(), key.end(), spacedKey.begin());
+
+            std::string spacedValue(13, ' ');
+            std::string value = options.at(i).value;
+            std::copy(value.begin(), value.end(), spacedValue.begin());
+
+            std::string description = options.at(i).description;
+
+            ss << spacedKey << spacedValue << description << "\n";
         }
+
+
         ss << "\n";
         ss << "Visit http://www.fuzzylite.com for more information.";
         return ss.str();
@@ -81,19 +93,19 @@ namespace fl {
                 options[KW_OUTPUT_FILE] = it->second;
             }
         } else {
-            std::vector<std::string> validOptions;
-            validOptions.push_back(KW_INPUT_FILE);
-            validOptions.push_back(KW_INPUT_FORMAT);
-            validOptions.push_back(KW_OUTPUT_FILE);
-            validOptions.push_back(KW_OUTPUT_FORMAT);
-            validOptions.push_back(KW_EXAMPLE);
-            validOptions.push_back(KW_DATA_INPUT);
-            validOptions.push_back(KW_DATA_MAXIMUM);
-            validOptions.push_back(KW_DECIMALS);
+            std::vector<Console::Option> validOptions = availableOptions();
 
             for (std::map<std::string, std::string>::const_iterator it = options.begin();
                     it != options.end(); ++it) {
-                if (std::find(validOptions.begin(), validOptions.end(), it->first) == validOptions.end()) {
+                bool isValid = false;
+                for (std::size_t i = 0; i < validOptions.size(); ++i) {
+                    std::string key = validOptions.at(i).key;
+                    if (key == it->first) {
+                        isValid = true;
+                        break;
+                    }
+                }
+                if (not isValid) {
                     throw fl::Exception("[option error] option <" + it->first + "> not recognized", FL_AT);
                 }
             }
@@ -103,10 +115,10 @@ namespace fl {
 
     void Console::process(const std::map<std::string, std::string>& options) {
         std::map<std::string, std::string>::const_iterator it;
-        
+
         it = options.find(KW_DECIMALS);
-        if (it != options.end()){
-            fl::fuzzylite::setDecimals((int)fl::Op::toScalar(it->second));
+        if (it != options.end()) {
+            fl::fuzzylite::setDecimals((int) fl::Op::toScalar(it->second));
         }
 
         std::string example;
@@ -216,14 +228,25 @@ namespace fl {
             engine = importer->fromString(input);
 
             if ("fld" == outputFormat) {
-                FldExporter fldExporter;
                 std::map<std::string, std::string>::const_iterator it;
+
+                FldExporter fldExporter;
+                bool showHeaders = true;
+                if ((it = options.find(KW_DATA_SHOW_HEADERS)) != options.end()) {
+                    showHeaders = ("true" == it->second);
+                }
+                bool showInputValues = true;
+                if ((it = options.find(KW_DATA_SHOW_INPUTS)) != options.end()) {
+                    showInputValues = ("true" == it->second);
+                }
                 if ((it = options.find(KW_DATA_INPUT)) != options.end()) {
                     std::ifstream dataFile(it->second.c_str());
                     if (not dataFile.is_open()) {
                         throw fl::Exception("[export error] file <" + it->second + "> could not be opened", FL_AT);
                     }
-                    writer << "#" << fldExporter.header(engine) << "\n";
+                    if (showHeaders) {
+                        writer << "#" << fldExporter.header(engine) << "\n";
+                    }
                     try {
                         std::string line;
                         int lineNumber = 0;
@@ -244,7 +267,7 @@ namespace fl {
                                         "at line <" << lineNumber << ">";
                                 throw fl::Exception(ex.str(), FL_AT);
                             }
-                            fldExporter.toWriter(engine, writer, inputValues, fldExporter.getSeparator());
+                            fldExporter.toWriter(engine, writer, inputValues, fldExporter.getSeparator(), showInputValues);
                             writer << "\n";
                             writer.flush();
                         }
@@ -253,12 +276,20 @@ namespace fl {
                         throw;
                     }
 
-                } else if ((it = options.find(KW_DATA_MAXIMUM)) != options.end()) {
-                    int maximum = (int) fl::Op::toScalar(it->second);
-                    writer << fldExporter.toString(engine, maximum);
-
                 } else {
-                    writer << fldExporter.toString(engine);
+                    int maximum = 1024;
+                    if ((it = options.find(KW_DATA_MAXIMUM)) != options.end()) {
+                        maximum = (int) fl::Op::toScalar(it->second);
+                    }
+                    if (showHeaders) {
+                        if (showInputValues) {
+                            writer << "#" << fldExporter.header(engine) << "\n";
+                        }else{
+                            writer << "#" << fldExporter.header(engine->outputVariables()) << "\n";
+                        }
+                        
+                    }
+                    fldExporter.toWriter(engine, writer, maximum, fldExporter.getSeparator(), showInputValues);
                 }
             } else {
                 if ("fll" == outputFormat) {
