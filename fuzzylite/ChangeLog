@@ -50,6 +50,12 @@ Version 5.0
 * Renamed term Thresholded to Activated
 * Renamed Thresholded::(set|get)Threshold to Activated::(set|get)Degree
 * Removed variable Rule::FL_ASSIGNS and method Rule::assignsKeyword()
+* Modified original takagi-sugeno examples to reflect proper activation and accumulation
+* Moved Engine::_hedges (and methods) to Rule::_hedges
+* Renamed Antecedent::(get|set)Root to Antecedent::(get|set)Expression
+* Added (Antecedent|Consequent)::(get|set)Text
+* Added (Antecedent|Consequent)::load|unload
+
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.

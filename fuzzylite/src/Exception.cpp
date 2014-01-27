@@ -140,15 +140,16 @@ namespace fl {
     }
 
     void Exception::convertToException(int signal) {
-        std::ostringstream ex;
-        ex << "[signal " << signal << "] " << strsignal(signal);
-        fl::Exception exception(ex.str(), FL_AT);
-        catchException(exception);
         //Unblock the signal
         sigset_t empty;
         sigemptyset(&empty);
         sigaddset(&empty, signal);
         sigprocmask(SIG_UNBLOCK, &empty, NULL);
+        
+        std::ostringstream ex;
+        ex << "[signal " << signal << "] " << strsignal(signal);
+        fl::Exception exception(ex.str(), FL_AT);
+        catchException(exception);
         throw exception;
     }
 
