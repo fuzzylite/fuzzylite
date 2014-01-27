@@ -410,7 +410,7 @@ namespace fl {
         block->addRule(fl::Rule::parse("if inputX is NEAR_7 then outputFx is f7", engine));
         block->addRule(fl::Rule::parse("if inputX is NEAR_8 then outputFx is f8", engine));
         block->addRule(fl::Rule::parse("if inputX is NEAR_9 then outputFx is f9", engine));
-        block->addRule(fl::Rule::parse("if inputX is any then trueFx = fx and diffFx = diff", engine));
+        block->addRule(fl::Rule::parse("if inputX is any then trueFx is fx and diffFx is diff", engine));
         engine->addRuleBlock(block);
 
         engine->configure("", "", "AlgebraicProduct", "AlgebraicSum", "WeightedAverage");

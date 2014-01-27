@@ -51,14 +51,14 @@ int main(int argc, char** argv) {
     (void) argv;
     std::set_terminate(fl::Exception::terminate);
     std::set_unexpected(fl::Exception::terminate);
-    signal(SIGSEGV, fl::Exception::signalHandler);
-    signal(SIGABRT, fl::Exception::signalHandler);
-    signal(SIGILL, fl::Exception::signalHandler);
-    signal(SIGSEGV, fl::Exception::signalHandler);
-    signal(SIGFPE, fl::Exception::signalHandler);
+    signal(SIGSEGV, fl::Exception::convertToException);
+    signal(SIGABRT, fl::Exception::convertToException);
+    signal(SIGILL, fl::Exception::convertToException);
+    signal(SIGSEGV, fl::Exception::convertToException);
+    signal(SIGFPE, fl::Exception::convertToException);
 #ifdef FL_UNIX
-    signal(SIGBUS, fl::Exception::signalHandler);
-    signal(SIGPIPE, fl::Exception::signalHandler);
+    signal(SIGBUS, fl::Exception::convertToException);
+    signal(SIGPIPE, fl::Exception::convertToException);
 #endif
 
     try {
