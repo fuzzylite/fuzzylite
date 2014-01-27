@@ -79,7 +79,7 @@ namespace fl {
         static bool increment(std::vector<int>& x, int position, std::vector<int>& min, std::vector<int>& max);
 
         static std::string makeValidId(const std::string& name);
-
+        
         static int isValidForName(int character);
 
         static std::string findReplace(const std::string& str, const std::string& find,
@@ -95,10 +95,9 @@ namespace fl {
 
         static scalar toScalar(const std::string& x, bool quiet = false,
                 scalar alternative = fl::nan) throw (fl::Exception);
-        
+
         static bool isNumeric(const std::string& x);
 
-        //TODO: delete this "useless" method in 5.0
         static std::string repeat(const std::string& x, int times,
                 const std::string& sep = "");
 

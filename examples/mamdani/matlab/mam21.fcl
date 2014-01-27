@@ -10,18 +10,21 @@ VAR_OUTPUT
 END_VAR
 
 FUZZIFY angle
+  ENABLED : TRUE;
   RANGE := (-5.000 .. 5.000);
   TERM small := Bell -5.000 5.000 8.000;
   TERM big := Bell 5.000 5.000 8.000;
 END_FUZZIFY
 
 FUZZIFY velocity
+  ENABLED : TRUE;
   RANGE := (-5.000 .. 5.000);
   TERM small := Bell -5.000 5.000 2.000;
   TERM big := Bell 5.000 5.000 2.000;
 END_FUZZIFY
 
 DEFUZZIFY force
+  ENABLED : TRUE;
   RANGE := (-5.000 .. 5.000);
   TERM negBig := Bell -5.000 1.670 8.000;
   TERM negSmall := Bell -1.670 1.670 8.000;
@@ -33,6 +36,7 @@ DEFUZZIFY force
 END_DEFUZZIFY
 
 RULEBLOCK 
+  ENABLED : TRUE;
   AND : MIN;
   OR : MAX;
   ACT : MIN;

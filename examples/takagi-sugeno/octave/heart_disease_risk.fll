@@ -30,7 +30,7 @@ RuleBlock:
   enabled: true
   conjunction: Minimum
   disjunction: Maximum
-  activation: AlgebraicProduct
+  activation: Minimum
   rule: if LDLLevel is Low and HDLLevel is LowHDL then HeartDiseaseRisk is MediumRisk
   rule: if LDLLevel is Low and HDLLevel is ModerateHDL then HeartDiseaseRisk is LowRisk
   rule: if LDLLevel is Low and HDLLevel is HighHDL then HeartDiseaseRisk is NoRisk

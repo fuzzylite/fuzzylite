@@ -12,18 +12,21 @@ VAR_OUTPUT
 END_VAR
 
 FUZZIFY FoodQuality
+  ENABLED : TRUE;
   RANGE := (1.000 .. 10.000);
   TERM Bad := Trapezoid 0.000 1.000 3.000 7.000;
   TERM Good := Trapezoid 3.000 7.000 10.000 11.000;
 END_FUZZIFY
 
 FUZZIFY Service
+  ENABLED : TRUE;
   RANGE := (1.000 .. 10.000);
   TERM Bad := Trapezoid 0.000 1.000 3.000 7.000;
   TERM Good := Trapezoid 3.000 7.000 10.000 11.000;
 END_FUZZIFY
 
 DEFUZZIFY CheapTip
+  ENABLED : TRUE;
   RANGE := (5.000 .. 25.000);
   TERM Low := 10.000;
   TERM Medium := 15.000;
@@ -34,6 +37,7 @@ DEFUZZIFY CheapTip
 END_DEFUZZIFY
 
 DEFUZZIFY AverageTip
+  ENABLED : TRUE;
   RANGE := (5.000 .. 25.000);
   TERM Low := 10.000;
   TERM Medium := 15.000;
@@ -44,6 +48,7 @@ DEFUZZIFY AverageTip
 END_DEFUZZIFY
 
 DEFUZZIFY GenerousTip
+  ENABLED : TRUE;
   RANGE := (5.000 .. 25.000);
   TERM Low := 10.000;
   TERM Medium := 15.000;
@@ -54,6 +59,7 @@ DEFUZZIFY GenerousTip
 END_DEFUZZIFY
 
 RULEBLOCK 
+  ENABLED : TRUE;
   AND : EPROD;
   OR : ESUM;
   ACT : PROD;

@@ -20,7 +20,7 @@ RuleBlock:
   enabled: true
   conjunction: Minimum
   disjunction: Maximum
-  activation: AlgebraicProduct
+  activation: Minimum
   rule: if Ambient is DARK then Power is HIGH
   rule: if Ambient is MEDIUM then Power is MEDIUM
   rule: if Ambient is BRIGHT then Power is LOW

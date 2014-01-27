@@ -134,7 +134,7 @@ namespace fl {
             ui->lvw_outputs->viewport()->installEventFilter(
                     new fl::qt::VariableContextMenu(ui->lvw_outputs, "output"));
 
-            ui->lbl_type->setVisible(false);
+
             connect();
         }
 
@@ -192,8 +192,8 @@ namespace fl {
             QObject::connect(ui->actionImport, SIGNAL(triggered()), this, SLOT(onMenuImport()));
 
             menuImport->addAction("FuzzyLite Language (&FLL)", this, SLOT(onMenuImportFromFLL()));
-            menuImport->addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuImportFromFIS()));
             menuImport->addAction("Fuzzy Controller Language (FC&L)", this, SLOT(onMenuImportFromFCL()));
+            menuImport->addAction("Fuzzy Inference System (FI&S)", this, SLOT(onMenuImportFromFIS()));
 
             menuFile->addMenu(menuImport);
 
@@ -202,17 +202,14 @@ namespace fl {
             QObject::connect(ui->actionExport, SIGNAL(triggered()), this, SLOT(onMenuExport()));
 
             menuExport->addAction("&FuzzyLite Language (FLL)", this, SLOT(onMenuExportToFLL()));
-            menuExport->addAction("FuzzyLite &Dataset (FLD) view", this, SLOT(onMenuExportToDatasetView()));
-            menuExport->addAction("FuzzyLite D&ataset (FLD) file", this, SLOT(onMenuExportToDatasetFile()));
+            menuExport->addAction("Fuzzy Controller &Language (FCL)", this, SLOT(onMenuExportToFCL()));
+            menuExport->addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuExportToFIS()));
+            menuExport->addSeparator();
+            menuExport->addAction("FuzzyLite Dataset (FLD) vie&w", this, SLOT(onMenuExportToDatasetView()));
+            menuExport->addAction("FuzzyLite Dataset (FLD) fil&e", this, SLOT(onMenuExportToDatasetFile()));
             menuExport->addSeparator();
             menuExport->addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
             menuExport->addAction("jfuzzylite (&Java)", this, SLOT(onMenuExportToJava()));
-            menuExport->addSeparator();
-            menuExport->addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuExportToFIS()));
-            menuExport->addAction("Fuzzy Controller &Language (FCL)", this, SLOT(onMenuExportToFCL()));
-            
-
-
             menuFile->addMenu(menuExport);
 
             menuFile->addSeparator();
@@ -238,11 +235,11 @@ namespace fl {
             menuHelp->addAction(ui->actionAskForHelp);
             QObject::connect(ui->actionAskForHelp, SIGNAL(triggered()), this, SLOT(onMenuAskForHelp()));
 
-            //            menuHelp->addAction(ui->actionJoinTheCommunity);
-            //            QObject::connect(ui->actionJoinTheCommunity, SIGNAL(triggered()), this, SLOT(onMenuJoinTheCommunity()));
+//            menuHelp->addAction(ui->actionJoinTheCommunity);
+//            QObject::connect(ui->actionJoinTheCommunity, SIGNAL(triggered()), this, SLOT(onMenuJoinTheCommunity()));
 
-            //            menuHelp->addAction(ui->actionFollowOnTwitter);
-            //            QObject::connect(ui->actionFollowOnTwitter, SIGNAL(triggered()), this, SLOT(onMenuFollowOnTwitter()));
+//            menuHelp->addAction(ui->actionFollowOnTwitter);
+//            QObject::connect(ui->actionFollowOnTwitter, SIGNAL(triggered()), this, SLOT(onMenuFollowOnTwitter()));
 
             menuHelp->addSeparator();
             menuHelp->addAction(ui->actionCheckForUpdates);
@@ -328,29 +325,7 @@ namespace fl {
 
             updateWindowTitle();
 
-            {
-                ui->led_name->setText(QString::fromStdString(engine->getName()));
-                Engine::Type type = engine->type();
-                ui->lbl_type->setVisible(type != Engine::NONE);
-                QString nameType;
-                switch (type) {
-                    case Engine::MAMDANI: nameType = "Mamdani";
-                        break;
-                    case Engine::LARSEN: nameType = "Larsen";
-                        break;
-                    case Engine::TAKAGI_SUGENO: nameType = "Takagi-Sugeno";
-                        break;
-                    case Engine::TSUKAMOTO: nameType = "Tsukamoto";
-                        break;
-                    case Engine::INVERSE_TSUKAMOTO: nameType = "Inverse Tsukamoto";
-                        break;
-                    case Engine::NONE: nameType = "None";
-                        break;
-                    case Engine::UNKNOWN:
-                    default: nameType = "Unknown";
-                }
-                ui->lbl_type->setText(" " + nameType + " ");
-            }
+            ui->led_name->setText(QString::fromStdString(engine->getName()));
 
             QFont typeWriter = typeWriterFont();
             ui->ptx_rules->setFont(typeWriter);
@@ -1209,10 +1184,10 @@ namespace fl {
             QString recentLocation = settings.value("file/recentLocation", ".").toString();
             QString recentFilter = settings.value("file/recentFilter").toString();
             QStringList formats;
-            formats << "FuzzyLite Language (*.fll)"
-                    << "Fuzzy Inference System (*.fis)"
+            formats << "Supported formats (*.fll *.fcl *.fis)"
+                    << "FuzzyLite Language (*.fll)"
                     << "Fuzzy Logic Controller (*.fcl)"
-                    << "Supported formats (*.fll *.fis *.fcl)"
+                    << "Fuzzy Inference System (*.fis)"
                     << "All files (*.*)";
             int recentFilterIndex = formats.indexOf(recentFilter);
             if (recentFilterIndex < 0) recentFilterIndex = 0;
@@ -1262,8 +1237,8 @@ namespace fl {
                 bool ok;
                 QStringList formats;
                 formats << "FuzzyLite Language (*.fll)"
-                        << "Fuzzy Inference System (*.fis)"
-                        << "Fuzzy Controller Language (*.fcl)";
+                        << "Fuzzy Controller Language (*.fcl)"
+                        << "Fuzzy Inference System (*.fis)";
                 int recentFormatIndex = formats.indexOf(recentFormat);
                 if (recentFormatIndex < 0) recentFormatIndex = 0;
                 QString selectedFormat = QInputDialog::getItem(this, "File format",
@@ -1384,10 +1359,10 @@ namespace fl {
             QString recentLocation = settings.value("file/recentLocation", ".").toString();
             QString recentFilter = settings.value("file/recentFilter").toString();
             QStringList filters;
-            filters << "FuzzyLite Language (*.fll)"
-                    << "Fuzzy Inference System (*.fis)"
+            filters << "Supported files (*.fll *.fcl *.fis)"
+                    << "FuzzyLite Language (*.fll)"
                     << "Fuzzy Logic Controller (*.fcl)"
-                    << "Supported files (*.fll *.fis *.fcl)"
+                    << "Fuzzy Inference System (*.fis)"
                     << "All files (*.*)";
             int recentFilterIndex = filters.indexOf(recentFilter);
             if (recentFilterIndex < 0) recentFilterIndex = 0;
@@ -1417,8 +1392,8 @@ namespace fl {
                 bool ok;
                 QStringList formats;
                 formats << "FuzzyLite Language (*.fll)"
-                        << "Fuzzy Inference System (*.fis)"
-                        << "Fuzzy Controller Language (*.fcl)";
+                        << "Fuzzy Controller Language (*.fcl)"
+                        << "Fuzzy Inference System (*.fis)";
                 int recentFormatIndex = formats.indexOf(recentFormat);
                 if (recentFormatIndex < 0) recentFormatIndex = 0;
                 QString selectedFormat = QInputDialog::getItem(this, "File format",
@@ -1496,8 +1471,8 @@ namespace fl {
             if (ui->actionImport->isChecked()) {
                 QMenu menu(this);
                 menu.addAction("&FuzzyLite Language (FLL)", this, SLOT(onMenuImportFromFLL()));
-                menu.addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuImportFromFIS()));
                 menu.addAction("Fuzzy Control &Language (FCL)", this, SLOT(onMenuImportFromFCL()));
+                menu.addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuImportFromFIS()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionImport->setChecked(false);
             }
@@ -1611,14 +1586,14 @@ namespace fl {
             if (ui->actionExport->isChecked()) {
                 QMenu menu(this);
                 menu.addAction("&FuzzyLite Language (FLL)", this, SLOT(onMenuExportToFLL()));
+                menu.addAction("Fuzzy Control &Language (FCL)", this, SLOT(onMenuExportToFCL()));
+                menu.addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuExportToFIS()));
+                menu.addSeparator();
                 menu.addAction("FuzzyLite Dataset (FLD) vie&w", this, SLOT(onMenuExportToDatasetView()));
                 menu.addAction("FuzzyLite Dataset (FLD) fil&e", this, SLOT(onMenuExportToDatasetFile()));
                 menu.addSeparator();
                 menu.addAction("fuzzylite (&C++)", this, SLOT(onMenuExportToCpp()));
                 menu.addAction("jfuzzylite (&Java)", this, SLOT(onMenuExportToJava()));
-                menu.addSeparator();
-                menu.addAction("Fuzzy Inference &System (FIS)", this, SLOT(onMenuExportToFIS()));
-                menu.addAction("Fuzzy Control &Language (FCL)", this, SLOT(onMenuExportToFCL()));
                 menu.exec(QCursor::pos() + QPoint(1, 0));
                 ui->actionExport->setChecked(false);
             }
@@ -1798,9 +1773,10 @@ namespace fl {
             }
 
             FldExporter exporter;
+            exporter.setMaximum(results);
             std::string data;
             try {
-                data = exporter.toString(Model::Default()->engine(), results);
+                data = exporter.toString(Model::Default()->engine());
             } catch (fl::Exception& ex) {
                 QMessageBox::critical(this, "Error exporting to FLD (view)",
                         toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
@@ -1874,7 +1850,7 @@ namespace fl {
 
             FldExporter exporter;
             try {
-                exporter.toWriter(Model::Default()->engine(), dataFile, results, " ");
+                exporter.toWriter(Model::Default()->engine(), dataFile, " ", results);
             } catch (fl::Exception& ex) {
                 QMessageBox::critical(this, "Error exporting to FLD (file)",
                         toHtmlEscaped(QString::fromStdString(ex.what())).replace("\n", "<br>"),
@@ -2146,7 +2122,7 @@ namespace fl {
             bool checkForUpdates = settings.value("checkForUpdates", true).toBool();
             if (checkForUpdates) {
                 w->automaticUpdates();
-            }
+            } 
             //            w->showMinimized();
             //            splash.finish(w);
             //            w->onMenuAbout();

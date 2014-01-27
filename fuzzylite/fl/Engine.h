@@ -83,13 +83,6 @@ namespace fl {
         virtual scalar getOutputValue(const std::string& name);
 
         virtual std::string toString() const;
-
-        enum Type {
-            NONE, MAMDANI, LARSEN, TAKAGI_SUGENO,
-            TSUKAMOTO, INVERSE_TSUKAMOTO, UNKNOWN
-        };
-        virtual Type type() const;
-
         /**
          * Operations for iterable datatype _inputVariables
          */

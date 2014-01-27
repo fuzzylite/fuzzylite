@@ -60,12 +60,9 @@ namespace fl {
                 line = comments.front();
             }
             line = Op::trim(line);
-            if (line.empty() or line.at(0) == '%' or line.at(0) == '#'
-                    or (line.substr(0, 2) == "//")) {
-                continue;
-            }
-
             line = fl::Op::findReplace(line, "'", "");
+            if (line.empty() or line.at(0) == '%')
+                continue;
 
             if ("[System]" == line.substr(0, std::string("[System]").size())
                     or "[Input" == line.substr(0, std::string("[Input").size())
@@ -100,9 +97,9 @@ namespace fl {
             engine->configure(tnorm(andMethod), snorm(orMethod),
                     tnorm(impMethod), snorm(aggMethod),
                     defuzzifier(defuzzMethod));
-        } catch (std::exception& ex) {
+        } catch (fl::Exception& ex) {
             delete engine;
-            throw;
+            throw ex;
         }
 
         return engine;
@@ -452,33 +449,38 @@ namespace fl {
         mapping["trimf"] = Triangle().className();
         mapping["zmf"] = ZShape().className();
 
-        std::vector<std::string> sortedParams = params;
+        std::vector<scalar> sortedParams;
+        if (mClass != "function") {
+            for (std::size_t i = 0; i < params.size(); ++i) {
+                sortedParams.push_back(fl::Op::toScalar(params.at(i)));
+            }
+        }
 
         if (mClass == "gbellmf" and params.size() >= 3) {
-            sortedParams.at(0) = params.at(2);
-            sortedParams.at(1) = params.at(0);
-            sortedParams.at(2) = params.at(1);
+            sortedParams.at(0) = fl::Op::toScalar(params.at(2));
+            sortedParams.at(1) = fl::Op::toScalar(params.at(0));
+            sortedParams.at(2) = fl::Op::toScalar(params.at(1));
         } else if (mClass == "gaussmf" and params.size() >= 2) {
-            sortedParams.at(0) = params.at(1);
-            sortedParams.at(1) = params.at(0);
+            sortedParams.at(0) = fl::Op::toScalar(params.at(1));
+            sortedParams.at(1) = fl::Op::toScalar(params.at(0));
         } else if (mClass == "gauss2mf" and params.size() >= 4) {
-            sortedParams.at(0) = params.at(1);
-            sortedParams.at(1) = params.at(0);
-            sortedParams.at(2) = params.at(3);
-            sortedParams.at(3) = params.at(2);
+            sortedParams.at(0) = fl::Op::toScalar(params.at(1));
+            sortedParams.at(1) = fl::Op::toScalar(params.at(0));
+            sortedParams.at(2) = fl::Op::toScalar(params.at(3));
+            sortedParams.at(3) = fl::Op::toScalar(params.at(2));
         } else if (mClass == "sigmf" and params.size() >= 2) {
-            sortedParams.at(0) = params.at(1);
-            sortedParams.at(1) = params.at(0);
+            sortedParams.at(0) = fl::Op::toScalar(params.at(1));
+            sortedParams.at(1) = fl::Op::toScalar(params.at(0));
         } else if (mClass == "dsigmf" and params.size() >= 4) {
-            sortedParams.at(0) = params.at(1);
-            sortedParams.at(1) = params.at(0);
-            sortedParams.at(2) = params.at(2);
-            sortedParams.at(3) = params.at(3);
+            sortedParams.at(0) = fl::Op::toScalar(params.at(1));
+            sortedParams.at(1) = fl::Op::toScalar(params.at(0));
+            sortedParams.at(2) = fl::Op::toScalar(params.at(2));
+            sortedParams.at(3) = fl::Op::toScalar(params.at(3));
         } else if (mClass == "psigmf" and params.size() >= 4) {
-            sortedParams.at(0) = params.at(1);
-            sortedParams.at(1) = params.at(0);
-            sortedParams.at(2) = params.at(2);
-            sortedParams.at(3) = params.at(3);
+            sortedParams.at(0) = fl::Op::toScalar(params.at(1));
+            sortedParams.at(1) = fl::Op::toScalar(params.at(0));
+            sortedParams.at(2) = fl::Op::toScalar(params.at(2));
+            sortedParams.at(3) = fl::Op::toScalar(params.at(3));
         }
 
         std::string flClass;
@@ -489,15 +491,15 @@ namespace fl {
         try {
             Term* result = FactoryManager::instance()->term()->createInstance(flClass);
             result->setName(Op::makeValidId(name));
-            std::string separator;
-            if (not dynamic_cast<Function*> (result)) {
-                separator = " ";
+            if (dynamic_cast<Function*> (result)) {
+                result->configure(Op::join(params, ""));
+            } else {
+                result->configure(Op::join(sortedParams, " "));
             }
-            result->configure(Op::join(sortedParams, separator));
             return result;
         } catch (fl::Exception& ex) {
             ex.append(FL_AT);
-            throw;
+            throw ex;
         }
     }
 

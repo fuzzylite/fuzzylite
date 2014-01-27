@@ -10,6 +10,7 @@ VAR_OUTPUT
 END_VAR
 
 FUZZIFY level
+  ENABLED : TRUE;
   RANGE := (-1.000 .. 1.000);
   TERM high := Gaussian -1.000 0.300;
   TERM okay := Gaussian 0.000 0.300;
@@ -17,6 +18,7 @@ FUZZIFY level
 END_FUZZIFY
 
 FUZZIFY rate
+  ENABLED : TRUE;
   RANGE := (-0.100 .. 0.100);
   TERM negative := Gaussian -0.100 0.030;
   TERM none := Gaussian 0.000 0.030;
@@ -24,6 +26,7 @@ FUZZIFY rate
 END_FUZZIFY
 
 DEFUZZIFY valve
+  ENABLED : TRUE;
   RANGE := (-1.000 .. 1.000);
   TERM close_fast := Triangle -1.000 -0.900 -0.800;
   TERM close_slow := Triangle -0.600 -0.500 -0.400;
@@ -36,6 +39,7 @@ DEFUZZIFY valve
 END_DEFUZZIFY
 
 RULEBLOCK 
+  ENABLED : TRUE;
   AND : PROD;
   OR : ASUM;
   ACT : PROD;

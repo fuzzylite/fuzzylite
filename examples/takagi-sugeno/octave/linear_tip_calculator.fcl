@@ -10,18 +10,21 @@ VAR_OUTPUT
 END_VAR
 
 FUZZIFY FoodQuality
+  ENABLED : TRUE;
   RANGE := (1.000 .. 10.000);
   TERM Bad := Trapezoid 0.000 1.000 3.000 7.000;
   TERM Good := Trapezoid 3.000 7.000 10.000 11.000;
 END_FUZZIFY
 
 FUZZIFY Service
+  ENABLED : TRUE;
   RANGE := (1.000 .. 10.000);
   TERM Bad := Trapezoid 0.000 1.000 3.000 7.000;
   TERM Good := Trapezoid 3.000 7.000 10.000 11.000;
 END_FUZZIFY
 
 DEFUZZIFY Tip
+  ENABLED : TRUE;
   RANGE := (10.000 .. 20.000);
   TERM TenPercent := Linear 0.000 0.000 10.000;
   TERM FifteenPercent := Linear 0.000 0.000 15.000;
@@ -32,9 +35,10 @@ DEFUZZIFY Tip
 END_DEFUZZIFY
 
 RULEBLOCK 
+  ENABLED : TRUE;
   AND : MIN;
   OR : MAX;
-  ACT : PROD;
+  ACT : MIN;
   RULE 1 : if FoodQuality is Bad and Service is Bad then Tip is TenPercent
   RULE 2 : if FoodQuality is Bad and Service is Good then Tip is FifteenPercent
   RULE 3 : if FoodQuality is Good and Service is Bad then Tip is FifteenPercent

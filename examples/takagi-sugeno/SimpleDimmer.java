@@ -43,7 +43,7 @@ ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(new Minimum());
 ruleBlock.setDisjunction(new Maximum());
-ruleBlock.setActivation(new AlgebraicProduct());
+ruleBlock.setActivation(new Minimum());
 ruleBlock.addRule(Rule.parse("if Ambient is DARK then Power is HIGH", engine));
 ruleBlock.addRule(Rule.parse("if Ambient is MEDIUM then Power is MEDIUM", engine));
 ruleBlock.addRule(Rule.parse("if Ambient is BRIGHT then Power is LOW", engine));

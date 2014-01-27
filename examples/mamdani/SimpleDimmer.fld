@@ -1,4 +1,4 @@
-#@Engine: simple-dimmer; @InputVariable: Ambient; @OutputVariable: Power;
+Ambient Power
 0.00000000 nan
 0.00097752 0.75000000
 0.00195503 0.75000000

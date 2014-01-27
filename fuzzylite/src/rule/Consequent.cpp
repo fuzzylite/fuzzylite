@@ -56,23 +56,22 @@ namespace fl {
         return this->_conclusions;
     }
 
-    void Consequent::modify(scalar activationDegree, const TNorm* activation) {
+    void Consequent::modify(scalar strength, const TNorm* activation) {
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
             Proposition* proposition = _conclusions.at(i);
-            if (proposition->variable->isEnabled()) {
-                if (not proposition->hedges.empty()) {
-                    for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
-                            rit != proposition->hedges.rend(); ++rit) {
-                        activationDegree = (*rit)->hedge(activationDegree);
-                    }
-                }
-                Thresholded* term = new Thresholded(_conclusions.at(i)->term);
-                term->setThreshold(activationDegree);
-                term->setActivation(activation);
-                OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (proposition->variable);
-                outputVariable->fuzzyOutput()->addTerm(term);
-                FL_DBG("Accumulating " << term->toString());
+            if (not proposition->variable->isEnabled()){
+                continue;
             }
+            scalar threshold = strength;
+            for (std::size_t h = 0; h < proposition->hedges.size(); ++h) {
+                threshold = proposition->hedges.at(h)->hedge(threshold);
+            }
+            Thresholded* term = new Thresholded(_conclusions.at(i)->term);
+            term->setThreshold(threshold);
+            term->setActivation(activation);
+            OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (proposition->variable);
+            outputVariable->fuzzyOutput()->addTerm(term);
+            FL_DBG("Accumulating " << term->toString());
         }
     }
 

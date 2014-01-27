@@ -77,9 +77,9 @@ namespace fl {
         }
         try {
             result->load(infix, engine);
-        } catch (std::exception& ex) {
+        } catch (fl::Exception& ex) {
             delete result;
-            throw;
+            throw ex;
         }
         return result;
     }
@@ -116,10 +116,6 @@ namespace fl {
 
     void Function::load(const std::string& formula,
             const Engine* engine) throw (fl::Exception) {
-        if (this->root) {
-            delete this->root;
-            this->root = NULL;
-        }
         this->root = parse(formula);
         this->_formula = formula;
         this->_engine = engine;
@@ -148,7 +144,7 @@ namespace fl {
         }
         try {
             result->load(this->_formula, this->_engine);
-        } catch (std::exception& ex) {
+        } catch (fl::Exception& ex) {
             FL_LOG("[function warning] ignored exception: " << ex.what());
         }
         return result;
@@ -453,11 +449,6 @@ namespace fl {
     Function::Node::Node(scalar value)
     : foperator(NULL), function(NULL), variable(""), value(value), left(NULL), right(NULL) {
     }
-    
-    Function::Node::~Node(){
-        if (left) delete left;
-        if (right) delete right;
-    }
 
     scalar Function::Node::evaluate(const std::map<std::string, scalar>* variables) const {
         scalar result = fl::nan;
@@ -619,7 +610,7 @@ namespace fl {
                 try {
                     scalar value = fl::Op::toScalar(token, false);
                     node = new Node(value);
-                } catch (std::exception& ex) {
+                } catch (fl::Exception& ex) {
                     (void) ex;
                     node = new Node(token);
                 }
@@ -662,16 +653,16 @@ namespace fl {
         FL_LOG(f.toPostfix(text));
         try {
             FL_LOG(f.parse(text)->evaluate());
-        } catch (std::exception& e) {
-            FL_LOG(e.what());
+        } catch (fl::Exception& e) {
+            FL_LOG(e.getWhat());
         }
         f.variables["pi"] = 3.14;
         text = "~5 *4/sin(~pi/2)";
         FL_LOG(f.toPostfix(text));
         try {
             FL_LOG(f.parse(text)->evaluate(&f.variables));
-        } catch (std::exception& e) {
-            FL_LOG(e.what());
+        } catch (fl::Exception& e) {
+            FL_LOG(e.getWhat());
         }
     }
 

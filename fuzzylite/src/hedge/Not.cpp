@@ -29,7 +29,7 @@ namespace fl {
     }
 
     scalar Not::hedge(scalar x) const {
-        return 1.0 - x;
+        return 1 - x;
     }
     
     Hedge* Not::constructor(){
