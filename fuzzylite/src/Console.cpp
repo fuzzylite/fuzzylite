@@ -284,10 +284,10 @@ namespace fl {
                     if (showHeaders) {
                         if (showInputValues) {
                             writer << "#" << fldExporter.header(engine) << "\n";
-                        }else{
+                        } else {
                             writer << "#" << fldExporter.header(engine->outputVariables()) << "\n";
                         }
-                        
+
                     }
                     fldExporter.toWriter(engine, writer, maximum, fldExporter.getSeparator(), showInputValues);
                 }
@@ -475,82 +475,74 @@ namespace fl {
         tests.push_back(std::pair<Exporter*, Importer*>(new FllExporter, new FllImporter));
         tests.push_back(std::pair<Exporter*, Importer*>(new FclExporter, new FclImporter));
         tests.push_back(std::pair<Exporter*, Importer*>(new FisExporter, new FisImporter));
-        std::ostringstream errors;
         for (std::size_t i = 0; i < examples.size(); ++i) {
             FL_LOG("Processing " << (i + 1) << "/" << examples.size() << ": " << examples.at(i));
-            try {
-                std::ostringstream ss;
-                std::string input = sourceBase + examples.at(i) + "." + from;
-                std::ifstream source(input.c_str());
-                if (source.is_open()) {
-                    std::string line;
-                    while (source.good()) {
-                        std::getline(source, line);
-                        ss << line << "\n";
-                    }
-                    source.close();
-                } else throw fl::Exception("[examples error] file not found: " + input, FL_AT);
-
-                Engine* engine = importer->fromString(ss.str());
-
-                for (std::size_t t = 0; t < tests.size(); ++t) {
-                    std::string out = tests.at(t).first->toString(engine);
-                    Engine* copy = tests.at(t).second->fromString(out);
-                    std::string out_copy = tests.at(t).first->toString(copy);
-
-                    if (out != out_copy) {
-                        errors << "[imex error] different results <"
-                                << importer->name() << "," << exporter->name() << "> "
-                                "at " + examples.at(t) + "." + from + ":\n";
-                    }
-                    delete copy;
+            std::ostringstream ss;
+            std::string input = sourceBase + examples.at(i) + "." + from;
+            std::ifstream source(input.c_str());
+            if (source.is_open()) {
+                std::string line;
+                while (source.good()) {
+                    std::getline(source, line);
+                    ss << line << "\n";
                 }
+                source.close();
+            } else throw fl::Exception("[examples error] file not found: " + input, FL_AT);
 
-                std::string output = targetBase + examples.at(i) + "." + to;
-                std::ofstream target(output.c_str());
-                if (target.is_open()) {
-                    if (to == "cpp") {
-                        target << "#include <fl/Headers.h>\n\n"
-                                << "int main(int argc, char** argv){\n"
-                                << exporter->toString(engine)
-                                << "\n}\n";
-                    } else if (to == "java") {
-                        std::string className = examples.at(i).substr(examples.at(i).find_last_of('/') + 1);
-                        target << "import com.fuzzylite.*;\n"
-                                << "import com.fuzzylite.defuzzifier.*;\n"
-                                << "import com.fuzzylite.factory.*;\n"
-                                << "import com.fuzzylite.hedge.*;\n"
-                                << "import com.fuzzylite.imex.*;\n"
-                                << "import com.fuzzylite.norm.*;\n"
-                                << "import com.fuzzylite.norm.s.*;\n"
-                                << "import com.fuzzylite.norm.t.*;\n"
-                                << "import com.fuzzylite.rule.*;\n"
-                                << "import com.fuzzylite.term.*;\n"
-                                << "import com.fuzzylite.variable.*;\n\n"
-                                << "public class " << Op::makeValidId(className) << "{\n"
-                                << "public static void main(String[] args){\n"
-                                << exporter->toString(engine)
-                                << "\n}\n}\n";
-                    } else {
-                        target << exporter->toString(engine);
-                    }
-                    target.close();
+            Engine* engine = importer->fromString(ss.str());
+
+            for (std::size_t t = 0; t < tests.size(); ++t) {
+                std::string out = tests.at(t).first->toString(engine);
+                Engine* copy = tests.at(t).second->fromString(out);
+                std::string out_copy = tests.at(t).first->toString(copy);
+
+                if (out != out_copy) {
+                    std::ostringstream ss;
+                    ss << "[imex error] different results <"
+                            << importer->name() << "," << exporter->name() << "> "
+                            "at " + examples.at(t) + "." + from + ":\n";
+                    throw fl::Exception(ss.str(), FL_AT);
                 }
-                delete engine;
-            } catch (std::exception& ex) {
-                errors << "error at " << examples.at(i) << ":\n" << ex.what() << "\n";
+                delete copy;
             }
+
+            std::string output = targetBase + examples.at(i) + "." + to;
+            std::ofstream target(output.c_str());
+            if (target.is_open()) {
+                if (to == "cpp") {
+                    target << "#include <fl/Headers.h>\n\n"
+                            << "int main(int argc, char** argv){\n"
+                            << exporter->toString(engine)
+                            << "\n}\n";
+                } else if (to == "java") {
+                    std::string className = examples.at(i).substr(examples.at(i).find_last_of('/') + 1);
+                    target << "import com.fuzzylite.*;\n"
+                            << "import com.fuzzylite.defuzzifier.*;\n"
+                            << "import com.fuzzylite.factory.*;\n"
+                            << "import com.fuzzylite.hedge.*;\n"
+                            << "import com.fuzzylite.imex.*;\n"
+                            << "import com.fuzzylite.norm.*;\n"
+                            << "import com.fuzzylite.norm.s.*;\n"
+                            << "import com.fuzzylite.norm.t.*;\n"
+                            << "import com.fuzzylite.rule.*;\n"
+                            << "import com.fuzzylite.term.*;\n"
+                            << "import com.fuzzylite.variable.*;\n\n"
+                            << "public class " << Op::makeValidId(className) << "{\n"
+                            << "public static void main(String[] args){\n"
+                            << exporter->toString(engine)
+                            << "\n}\n}\n";
+                } else {
+                    target << exporter->toString(engine);
+                }
+                target.close();
+            }
+            delete engine;
         }
         delete importer;
         delete exporter;
         for (std::size_t i = 0; i < tests.size(); ++i) {
             delete tests.at(i).first;
             delete tests.at(i).second;
-        }
-        if (errors.str().empty()) {
-            FL_LOG("No errors were found exporting files");
-        } else {
-            FL_LOG("The following errors were encountered while exporting files:" << errors.str());
         }
     }
 

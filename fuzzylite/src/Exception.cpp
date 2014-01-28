@@ -71,8 +71,8 @@ namespace fl {
 
     void Exception::append(const std::string& file, int line, const std::string& function) {
         std::ostringstream ss;
-        ss << "{" << file << "::" << function << "() [line:" << line << "]}";
-        _what += "\n" + ss.str();
+        ss << "{at " << file << "::" << function << "() [line:" << line << "]}\n";
+        _what += ss.str();
     }
 
     void Exception::append(const std::string& whatElse,
@@ -145,12 +145,11 @@ namespace fl {
         sigemptyset(&empty);
         sigaddset(&empty, signal);
         sigprocmask(SIG_UNBLOCK, &empty, NULL);
-        
+
         std::ostringstream ex;
-        ex << "[signal " << signal << "] " << strsignal(signal);
-        fl::Exception exception(ex.str(), FL_AT);
-        catchException(exception);
-        throw exception;
+        ex << "[signal " << signal << "] " << strsignal(signal) << "\n";
+        ex << "BACKTRACE:\n" << btCallStack();
+        throw fl::Exception(ex.str(), FL_AT);
     }
 
     void Exception::terminate() {

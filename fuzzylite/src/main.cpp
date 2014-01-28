@@ -60,12 +60,10 @@ int main(int argc, char** argv) {
     signal(SIGBUS, fl::Exception::convertToException);
     signal(SIGPIPE, fl::Exception::convertToException);
 #endif
-
     try {
         return Console::main(argc, argv);
     } catch (std::exception& ex) {
         FL_LOG(ex.what());
-        FL_LOG("BACKTRACE:\n" << fl::Exception::btCallStack());
         return EXIT_FAILURE;
     }
 }

@@ -8,7 +8,7 @@ NumRules=3
 AndMethod='min'
 OrMethod='max'
 ImpMethod='prod'
-AggMethod='sum'
+AggMethod=''
 DefuzzMethod='wtaver'
 
 [Input1]
