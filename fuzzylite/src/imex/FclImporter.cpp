@@ -342,6 +342,7 @@ namespace fl {
         else if (name == "DPROD") className = DrasticProduct().className();
         else if (name == "EPROD") className = EinsteinProduct().className();
         else if (name == "HPROD") className = HamacherProduct().className();
+        else if (name == "NMIN") className = NilpotentMinimum().className();
 
         try {
             return FactoryManager::instance()->tnorm()->createInstance(className);
@@ -369,6 +370,7 @@ namespace fl {
         else if (name == "DSUM") className = DrasticSum().className();
         else if (name == "ESUM") className = EinsteinSum().className();
         else if (name == "HSUM") className = HamacherSum().className();
+        else if (name == "NMAX") className = NilpotentMaximum().className();
 
         try {
             return FactoryManager::instance()->snorm()->createInstance(className);

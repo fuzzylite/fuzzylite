@@ -26,6 +26,8 @@
 #include "fl/fuzzylite.h"
 #include "fl/imex/Exporter.h"
 
+#include <vector>
+
 namespace fl {
     class Variable;
     class InputVariable;
@@ -54,9 +56,15 @@ namespace fl {
 
         virtual std::string toString(const Engine* engine) const;
 
+        virtual std::string toString(const std::vector<Variable*>& variables) const;
+        virtual std::string toString(const std::vector<InputVariable*>& inputVariables) const;
+        virtual std::string toString(const std::vector<OutputVariable*>& outputVariables) const;
+        virtual std::string toString(const std::vector<RuleBlock*>& ruleBlocks) const;
+
         virtual std::string toString(const Variable* variable) const;
         virtual std::string toString(const InputVariable* inputVariable) const;
         virtual std::string toString(const OutputVariable* outputVariable) const;
+
         virtual std::string toString(const RuleBlock* ruleBlock) const;
         virtual std::string toString(const Rule* rule) const;
 

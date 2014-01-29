@@ -28,6 +28,7 @@
 #include "fl/norm/s/EinsteinSum.h"
 #include "fl/norm/s/HamacherSum.h"
 #include "fl/norm/s/Maximum.h"
+#include "fl/norm/s/NilpotentMaximum.h"
 #include "fl/norm/s/NormalizedSum.h"
 
 namespace fl {
@@ -39,6 +40,7 @@ namespace fl {
         registerClass(EinsteinSum().className(), &(EinsteinSum::constructor));
         registerClass(HamacherSum().className(), &(HamacherSum::constructor));
         registerClass(Maximum().className(), &(Maximum::constructor));
+        registerClass(NilpotentMaximum().className(), &(NilpotentMaximum::constructor));
         registerClass(NormalizedSum().className(), &(NormalizedSum::constructor));
     }
 

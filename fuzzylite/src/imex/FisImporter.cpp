@@ -341,22 +341,24 @@ namespace fl {
 
     std::string FisImporter::tnorm(const std::string & name) const {
         if (name == "min") return Minimum().className();
-        else if (name == "prod") return AlgebraicProduct().className();
-        else if (name == "bounded_difference") return BoundedDifference().className();
-        else if (name == "drastic_product") return DrasticProduct().className();
-        else if (name == "einstein_product") return EinsteinProduct().className();
-        else if (name == "hamacher_product") return HamacherProduct().className();
+        if (name == "prod") return AlgebraicProduct().className();
+        if (name == "bounded_difference") return BoundedDifference().className();
+        if (name == "drastic_product") return DrasticProduct().className();
+        if (name == "einstein_product") return EinsteinProduct().className();
+        if (name == "hamacher_product") return HamacherProduct().className();
+        if (name == "nilpotent_minimum") return NilpotentMinimum().className();
         return name;
     }
 
     std::string FisImporter::snorm(const std::string & name) const {
         if (name == "max") return Maximum().className();
-        else if (name == "sum" or name == "probor") return AlgebraicSum().className();
-        else if (name == "bounded_sum") return BoundedSum().className();
-        else if (name == "normalized_sum") return NormalizedSum().className();
-        else if (name == "drastic_sum") return DrasticSum().className();
-        else if (name == "einstein_sum") return EinsteinSum().className();
-        else if (name == "hamacher_sum") return HamacherSum().className();
+        if (name == "sum" or name == "probor") return AlgebraicSum().className();
+        if (name == "bounded_sum") return BoundedSum().className();
+        if (name == "normalized_sum") return NormalizedSum().className();
+        if (name == "drastic_sum") return DrasticSum().className();
+        if (name == "einstein_sum") return EinsteinSum().className();
+        if (name == "hamacher_sum") return HamacherSum().className();
+        if (name == "nilpotent_maximum") return NilpotentMaximum().className();
         return name;
     }
 

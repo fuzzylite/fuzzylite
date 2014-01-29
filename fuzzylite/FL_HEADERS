@@ -46,6 +46,7 @@ fl/norm/s/DrasticSum.h
 fl/norm/s/EinsteinSum.h
 fl/norm/s/HamacherSum.h
 fl/norm/s/Maximum.h
+fl/norm/s/NilpotentMaximum.h
 fl/norm/s/NormalizedSum.h
 fl/norm/SNorm.h
 fl/norm/t/AlgebraicProduct.h
@@ -54,6 +55,7 @@ fl/norm/t/DrasticProduct.h
 fl/norm/t/EinsteinProduct.h
 fl/norm/t/HamacherProduct.h
 fl/norm/t/Minimum.h
+fl/norm/t/NilpotentMinimum.h
 fl/norm/TNorm.h
 fl/Operation.h
 fl/rule/Antecedent.h

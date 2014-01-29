@@ -54,76 +54,103 @@ namespace fl {
     }
 
     std::string FllExporter::toString(const Engine* engine) const {
-        std::ostringstream ss;
-        ss << "Engine: " << engine->getName() << _separator;
-        for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
-            ss << toString(engine->getInputVariable(i));
+        std::vector<std::string> result;
+        result.push_back("Engine: " + engine->getName());
+        result.push_back(toString(engine->inputVariables()));
+        result.push_back(toString(engine->outputVariables()));
+        result.push_back(toString(engine->ruleBlocks()));
+        return Op::join(result, _separator);
+    }
+
+    std::string FllExporter::toString(const std::vector<Variable*>& variables) const {
+        std::vector<std::string> result;
+        for (std::size_t i = 0; i < variables.size(); ++i) {
+            result.push_back(toString(variables.at(i)));
         }
-        for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-            ss << toString(engine->getOutputVariable(i));
+        return Op::join(result, _separator);
+    }
+
+    std::string FllExporter::toString(const std::vector<InputVariable*>& variables) const {
+        std::vector<std::string> result;
+        for (std::size_t i = 0; i < variables.size(); ++i) {
+            result.push_back(toString(variables.at(i)));
         }
-        for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
-            ss << toString(engine->getRuleBlock(i));
+        return Op::join(result, _separator);
+    }
+
+    std::string FllExporter::toString(const std::vector<OutputVariable*>& variables) const {
+        std::vector<std::string> result;
+        for (std::size_t i = 0; i < variables.size(); ++i) {
+            result.push_back(toString(variables.at(i)));
         }
-        return ss.str();
+        return Op::join(result, _separator);
+    }
+
+    std::string FllExporter::toString(const std::vector<RuleBlock*>& ruleBlocks) const {
+        std::vector<std::string> result;
+        for (std::size_t i = 0; i < ruleBlocks.size(); ++i) {
+            result.push_back(toString(ruleBlocks.at(i)));
+        }
+        return Op::join(result, _separator);
     }
 
     std::string FllExporter::toString(const Variable* variable) const {
-        std::ostringstream ss;
-        ss << "Variable: " << variable->getName() << _separator;
-        std::string tab = _indent;
-        ss << tab << "enabled: " << (variable->isEnabled() ? "true" : "false") << _separator;
-        ss << tab << "range: " << Op::str(variable->getMinimum())
-                << " " << Op::str(variable->getMaximum()) << _separator;
+        std::vector<std::string> result;
+        result.push_back("Variable: " + variable->getName());
+        result.push_back(_indent + "enabled: " + (variable->isEnabled() ? "true" : "false"));
+        result.push_back(_indent + "range: " + Op::join(2, " ",
+                variable->getMinimum(), variable->getMaximum()));
         for (int i = 0; i < variable->numberOfTerms(); ++i) {
-            ss << tab << toString(variable->getTerm(i)) << _separator;
+            result.push_back(_indent + toString(variable->getTerm(i)));
         }
-        return ss.str();
+        return Op::join(result, _separator);
     }
 
     std::string FllExporter::toString(const InputVariable* inputVariable) const {
-        std::ostringstream ss;
-        ss << "InputVariable: " << inputVariable->getName() << _separator;
-        std::string tab = _indent;
-        ss << tab << "enabled: " << (inputVariable->isEnabled() ? "true" : "false") << _separator;
-        ss << tab << "range: " << Op::str(inputVariable->getMinimum())
-                << " " << Op::str(inputVariable->getMaximum()) << _separator;
+        std::vector<std::string> result;
+        result.push_back("InputVariable: " + inputVariable->getName());
+        result.push_back(_indent + "enabled: " + (inputVariable->isEnabled() ? "true" : "false"));
+        result.push_back(_indent + "range: " + Op::join(2, " ",
+                inputVariable->getMinimum(), inputVariable->getMaximum()));
         for (int i = 0; i < inputVariable->numberOfTerms(); ++i) {
-            ss << tab << toString(inputVariable->getTerm(i)) << _separator;
+            result.push_back(_indent + toString(inputVariable->getTerm(i)));
         }
-        return ss.str();
+        return Op::join(result, _separator);
     }
 
     std::string FllExporter::toString(const OutputVariable* outputVariable) const {
-        std::ostringstream ss;
-        ss << "OutputVariable: " << outputVariable->getName() << _separator;
-        std::string tab = _indent;
-        ss << tab << "enabled: " << (outputVariable->isEnabled() ? "true" : "false") << _separator;
-        ss << tab << "range: " << Op::str(outputVariable->getMinimum())
-                << " " << Op::str(outputVariable->getMaximum()) << _separator;
-        ss << tab << "accumulation: " << toString(outputVariable->fuzzyOutput()->getAccumulation()) << _separator;
-        ss << tab << "defuzzifier: " << toString(outputVariable->getDefuzzifier()) << _separator;
-        ss << tab << "default: " << Op::str(outputVariable->getDefaultValue()) << _separator;
-        ss << tab << "lock-valid: " << (outputVariable->isLockingValidOutput() ? "true" : "false") << _separator;
-        ss << tab << "lock-range: " << (outputVariable->isLockingOutputRange() ? "true" : "false") << _separator;
+        std::vector<std::string> result;
+        result.push_back("OutputVariable: " + outputVariable->getName());
+        result.push_back(_indent + "enabled: " + (outputVariable->isEnabled() ? "true" : "false"));
+        result.push_back(_indent + "range: " + Op::join(2, " ",
+                outputVariable->getMinimum(), outputVariable->getMaximum()));
+        result.push_back(_indent + "accumulation: " +
+                toString(outputVariable->fuzzyOutput()->getAccumulation()));
+        result.push_back(_indent + "defuzzifier: " +
+                toString(outputVariable->getDefuzzifier()));
+        result.push_back(_indent + "default: " + Op::str(outputVariable->getDefaultValue()));
+        result.push_back(_indent + "lock-valid: " +
+                (outputVariable->isLockingValidOutput() ? "true" : "false"));
+        result.push_back(_indent + "lock-range: " +
+                (outputVariable->isLockingOutputRange() ? "true" : "false"));
         for (int i = 0; i < outputVariable->numberOfTerms(); ++i) {
-            ss << tab << toString(outputVariable->getTerm(i)) << _separator;
+            result.push_back(_indent + toString(outputVariable->getTerm(i)));
         }
-        return ss.str();
+        return Op::join(result, _separator);
     }
 
     std::string FllExporter::toString(const RuleBlock* ruleBlock) const {
-        std::ostringstream ss;
-        ss << "RuleBlock: " << ruleBlock->getName() << _separator;
-        std::string tab = _indent;
-        ss << tab << "enabled: " << (ruleBlock->isEnabled() ? "true" : "false") << _separator;
-        ss << tab << "conjunction: " << toString(ruleBlock->getConjunction()) << _separator;
-        ss << tab << "disjunction: " << toString(ruleBlock->getDisjunction()) << _separator;
-        ss << tab << "activation: " << toString(ruleBlock->getActivation()) << _separator;
+        std::vector<std::string> result;
+        result.push_back("RuleBlock: " + ruleBlock->getName());
+        result.push_back(_indent + "enabled: " +
+                (ruleBlock->isEnabled() ? "true" : "false"));
+        result.push_back(_indent + "conjunction: " + toString(ruleBlock->getConjunction()));
+        result.push_back(_indent + "disjunction: " + toString(ruleBlock->getDisjunction()));
+        result.push_back(_indent + "activation: " + toString(ruleBlock->getActivation()));
         for (int i = 0; i < ruleBlock->numberOfRules(); ++i) {
-            ss << tab << toString(ruleBlock->getRule(i)) << _separator;
+            result.push_back(_indent + toString(ruleBlock->getRule(i)));
         }
-        return ss.str();
+        return Op::join(result, _separator);
     }
 
     std::string FllExporter::toString(const Rule* rule) const {

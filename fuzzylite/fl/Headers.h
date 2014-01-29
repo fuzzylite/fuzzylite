@@ -76,6 +76,7 @@
 #include "fl/norm/s/EinsteinSum.h"
 #include "fl/norm/s/HamacherSum.h"
 #include "fl/norm/s/Maximum.h"
+#include "fl/norm/s/NilpotentMaximum.h"
 #include "fl/norm/s/NormalizedSum.h"
 
 #include "fl/norm/t/AlgebraicProduct.h"
@@ -84,6 +85,7 @@
 #include "fl/norm/t/EinsteinProduct.h"
 #include "fl/norm/t/HamacherProduct.h"
 #include "fl/norm/t/Minimum.h"
+#include "fl/norm/t/NilpotentMinimum.h"
 
 #include "fl/rule/Antecedent.h"
 #include "fl/rule/Consequent.h"

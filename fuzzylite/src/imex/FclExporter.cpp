@@ -152,6 +152,7 @@ namespace fl {
         if (name == DrasticProduct().className()) return "DPROD";
         if (name == EinsteinProduct().className()) return "EPROD";
         if (name == HamacherProduct().className()) return "HPROD";
+        if (name == NilpotentMinimum().className()) return "NMIN";
         return tnorm->className();
     }
 
@@ -165,6 +166,7 @@ namespace fl {
         if (name == DrasticSum().className()) return "DSUM";
         if (name == EinsteinSum().className()) return "ESUM";
         if (name == HamacherSum().className()) return "HSUM";
+        if (name == NilpotentMaximum().className()) return "NMAX";
         return snorm->className();
     }
 

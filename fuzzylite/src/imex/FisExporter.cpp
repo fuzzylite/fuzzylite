@@ -303,6 +303,7 @@ namespace fl {
         if (name == DrasticProduct().className()) return "drastic_product";
         if (name == EinsteinProduct().className()) return "einstein_product";
         if (name == HamacherProduct().className()) return "hamacher_product";
+        if (name == NilpotentMinimum().className()) return "nilpotent_minimum";
         return tnorm->className();
     }
 
@@ -316,6 +317,7 @@ namespace fl {
         if (name == DrasticSum().className()) return "drastic_sum";
         if (name == EinsteinSum().className()) return "einstein_sum";
         if (name == HamacherSum().className()) return "hamacher_sum";
+        if (name == NilpotentMaximum().className()) return "nilpotent_maximum";
         return snorm->className();
     }
 
