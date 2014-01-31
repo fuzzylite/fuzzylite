@@ -116,7 +116,7 @@ namespace fl {
     }
 
     bool Operation::increment(std::vector<int>& x, int position, std::vector<int>& min, std::vector<int>& max) {
-        if (position < 0) return true;
+        if (x.empty() or position < 0) return true;
 
         bool overflow = false;
         if (x.at(position) < max.at(position)) {
