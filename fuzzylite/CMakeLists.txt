@@ -87,6 +87,7 @@ if(NOT FL_BACKTRACE)
 endif()
 
 include_directories(.)
+cmake_policy(SET CMP0015 OLD)
 link_directories(.)
 
 file(STRINGS FL_HEADERS fl-headers)

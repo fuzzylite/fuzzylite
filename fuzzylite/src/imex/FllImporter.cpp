@@ -193,7 +193,14 @@ namespace fl {
             } else if ("activation" == keyValue.first) {
                 ruleBlock->setActivation(parseTNorm(keyValue.second));
             } else if ("rule" == keyValue.first) {
-                ruleBlock->addRule(fl::Rule::parse(keyValue.second, engine));
+                Rule* rule = new Rule;
+                rule->setText(keyValue.second);
+                try{
+                    rule->load(engine);
+                } catch (std::exception& ex) {
+                    FL_LOG(ex.what());
+                }
+                ruleBlock->addRule(rule);
             } else {
                 throw fl::Exception("[import error] key <" + keyValue.first + "> not "
                         "recognized in pair <" + keyValue.first + ":" + keyValue.second + ">", FL_AT);

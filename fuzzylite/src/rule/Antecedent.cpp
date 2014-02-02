@@ -101,8 +101,7 @@ namespace fl {
             return result;
         }
         //if node is an operatorsk
-        const Operator* fuzzyOperator =
-                dynamic_cast<const Operator*> (node);
+        const Operator* fuzzyOperator = dynamic_cast<const Operator*> (node);
         if (not (fuzzyOperator->left and fuzzyOperator->right)) {
             std::ostringstream ex;
             ex << "[syntax error] left and right operands must exist";
@@ -261,7 +260,7 @@ namespace fl {
                 throw fl::Exception(ex.str(), FL_AT);
             }
         } catch (std::exception& ex) {
-            for (std::size_t i = 0; i < expressionStack.size(); ++i) {;;
+            for (std::size_t i = 0; i < expressionStack.size(); ++i) {
                 delete expressionStack.top();
                 expressionStack.pop();
             }

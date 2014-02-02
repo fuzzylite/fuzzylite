@@ -45,7 +45,7 @@ namespace fl {
         std::vector<Hedge*> _hedges;
 
     public:
-        Rule();
+        Rule(const std::string& text = "", scalar weight = 1.0);
         virtual ~Rule();
 
         virtual void setText(const std::string& text);

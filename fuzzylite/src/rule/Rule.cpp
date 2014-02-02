@@ -46,8 +46,8 @@ namespace fl {
     std::string Rule::FL_OR = "or";
     std::string Rule::FL_WITH = "with";
 
-    Rule::Rule()
-    : _text(""), _weight(1.0), _antecedent(new Antecedent), _consequent(new Consequent) {
+    Rule::Rule(const std::string& text, scalar weight)
+    : _text(text), _weight(weight), _antecedent(new Antecedent), _consequent(new Consequent) {
     }
 
     Rule::~Rule() {
@@ -152,14 +152,14 @@ namespace fl {
         if (not isLoaded()) {
             throw fl::Exception("[rule error] the following rule is not loaded: " + _text, FL_AT);
         }
-        return getAntecedent()->activationDegree(conjunction, disjunction);
+        return _weight * getAntecedent()->activationDegree(conjunction, disjunction);
     }
 
     void Rule::activate(scalar degree, const TNorm* activation) const {
         if (not isLoaded()) {
             throw fl::Exception("[rule error] the following rule is not loaded: " + _text, FL_AT);
         }
-        getConsequent()->modify(degree * _weight, activation);
+        getConsequent()->modify(degree, activation);
     }
 
     bool Rule::isLoaded() const {
@@ -246,7 +246,7 @@ namespace fl {
             _antecedent->load(ossAntecedent.str(), this, engine);
             _consequent->load(ossConsequent.str(), this, engine);
             _weight = weight;
-            
+
         } catch (fl::Exception& ex) {
             unload();
             throw;
