@@ -140,6 +140,9 @@ namespace fl {
     void Antecedent::load(const std::string& antecedent, fl::Rule* rule, const Engine* engine) {
         unload();
         this->_text = antecedent;
+        if (fl::Op::trim(antecedent).empty()){
+            throw fl::Exception("[syntax error] antecedent is empty", FL_AT);
+        }
         /*
          Builds an proposition tree from the antecedent of a fuzzy rule.
          The rules are:
@@ -216,7 +219,7 @@ namespace fl {
                         if (expressionStack.size() < 2) {
                             std::ostringstream ex;
                             ex << "[syntax error] logical operator <" << token << "> expects two operands,"
-                                    << "but found " << expressionStack.size();
+                                    << "but found <" << expressionStack.size() << "> in antecedent";
                             throw fl::Exception(ex.str(), FL_AT);
                         }
                         Operator* fuzzyOperator = new Operator;
@@ -235,28 +238,48 @@ namespace fl {
                 //If reached this point, there was an error
                 if ((state bitand S_VARIABLE) or (state bitand S_AND_OR)) {
                     std::ostringstream ex;
-                    ex << "[syntax error] expected input variable or logical operator, but found <" << token << ">";
+                    ex << "[syntax error] antecedent expected input variable or logical operator, but found <" << token << ">";
                     throw fl::Exception(ex.str(), FL_AT);
                 }
                 if (state bitand S_IS) {
                     std::ostringstream ex;
-                    ex << "[syntax error] expected keyword <" << Rule::FL_IS << ">, but found <" << token << ">";
+                    ex << "[syntax error] antecedent expected keyword <" << Rule::FL_IS << ">, but found <" << token << ">";
                     throw fl::Exception(ex.str(), FL_AT);
                 }
                 if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
                     std::ostringstream ex;
-                    ex << "[syntax error] expected hedge or term, but found <" << token << ">";
+                    ex << "[syntax error] antecedent expected hedge or term, but found <" << token << ">";
                     throw fl::Exception(ex.str(), FL_AT);
                 }
                 std::ostringstream ex;
-                ex << "[syntax error] unexpected token <" << token << ">";
+                ex << "[syntax error] unexpected token <" << token << "> in antecedent";
                 throw fl::Exception(ex.str(), FL_AT);
             }
 
+            if (not ((state bitand S_VARIABLE) or (state bitand S_AND_OR))) { //only acceptable final state
+                if (state bitand S_IS) {
+                    std::ostringstream ex;
+                    ex << "[syntax error] antecedent expected keyword <" << Rule::FL_IS << "> after <" << token << ">";
+                    throw fl::Exception(ex.str(), FL_AT);
+                }
+                if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
+                    std::ostringstream ex;
+                    ex << "[syntax error] antecedent expected hedge or term after <" << token << ">";
+                    throw fl::Exception(ex.str(), FL_AT);
+                }
+            }
+
             if (expressionStack.size() != 1) {
+                std::vector<std::string> errors;
+                while (expressionStack.size() > 1) {
+                    Expression* expression = expressionStack.top();
+                    expressionStack.pop();
+                    errors.push_back(expression->toString());
+                    delete expression;
+                }
                 std::ostringstream ex;
-                ex << "[syntax error] stack expected to contain the root, but contains "
-                        << expressionStack.size() << " nodes";
+                ex << "[syntax error] unable to parse the following expressions in antecedent <"
+                        << Op::join(errors, " ") << ">";
                 throw fl::Exception(ex.str(), FL_AT);
             }
         } catch (std::exception& ex) {
@@ -264,6 +287,7 @@ namespace fl {
                 delete expressionStack.top();
                 expressionStack.pop();
             }
+            throw;
         }
         this->_expression = expressionStack.top();
     }

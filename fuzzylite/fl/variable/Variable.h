@@ -58,7 +58,6 @@ namespace fl {
         Variable(const std::string& name = "",
                 scalar minimum = -fl::inf,
                 scalar maximum = fl::inf);
-        Variable(const Variable& copy);
 
         virtual ~Variable();
 
@@ -73,9 +72,9 @@ namespace fl {
 
         virtual void setMaximum(scalar maximum);
         virtual scalar getMaximum() const;
-        
+
         virtual void setEnabled(bool enabled);
-        virtual bool isEnabled() const ;
+        virtual bool isEnabled() const;
 
         virtual std::string fuzzify(scalar x) const;
         virtual Term* highestMembership(scalar x, scalar* yhighest = NULL) const;
@@ -95,6 +94,8 @@ namespace fl {
         virtual int numberOfTerms() const;
         virtual const std::vector<Term*>& terms() const;
 
+    private:
+        FL_DISABLE_COPY(Variable)
     };
 
 }

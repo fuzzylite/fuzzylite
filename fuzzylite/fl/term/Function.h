@@ -174,6 +174,9 @@ namespace fl {
 
         static void main();
 
+    private:
+        FL_DISABLE_COPY(Function)
+
     };
 
 }

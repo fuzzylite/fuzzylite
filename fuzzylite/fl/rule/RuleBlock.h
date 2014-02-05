@@ -81,6 +81,8 @@ namespace fl {
         virtual const std::vector<Rule*>& rules() const;
         virtual void setRules(const std::vector<Rule*>& rules);
 
+    private:
+        FL_DISABLE_COPY(RuleBlock)
     };
 
 }

@@ -295,7 +295,7 @@ namespace fl {
     Engine::Type Engine::type(std::string* name) const {
         if (_outputVariables.empty()) {
             if (name) *name = "";
-            return Engine::NONE;
+            return Engine::None;
         }
 
         //Mamdani
@@ -325,11 +325,11 @@ namespace fl {
         }
         if (larsen) {
             if (name) *name = "Larsen";
-            return Engine::LARSEN;
+            return Engine::Larsen;
         }
         if (mamdani) {
             if (name) *name = "Mamdani";
-            return Engine::MAMDANI;
+            return Engine::Mamdani;
         }
         //Else, keep checking
 
@@ -350,7 +350,7 @@ namespace fl {
         }
         if (takagiSugeno) {
             if (name) *name = "Takagi-Sugeno";
-            return Engine::TAKAGI_SUGENO;
+            return Engine::TakagiSugeno;
         }
 
         //Tsukamoto
@@ -371,7 +371,7 @@ namespace fl {
         }
         if (tsukamoto) {
             if (name) *name = "Tsukamoto";
-            return Engine::TSUKAMOTO;
+            return Engine::Tsukamoto;
         }
 
         //Inverse Tsukamoto
@@ -390,10 +390,10 @@ namespace fl {
         }
         if (inverseTsukamoto) {
             if (name) *name = "Inverse Tsukamoto";
-            return Engine::INVERSE_TSUKAMOTO;
+            return Engine::InverseTsukamoto;
         }
         if (name) *name = "Unknown";
-        return Engine::UNKNOWN;
+        return Engine::Unknown;
     }
 
     /**

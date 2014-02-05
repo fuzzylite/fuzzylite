@@ -149,7 +149,6 @@ namespace fl {
         try {
             result->load(this->_formula, this->_engine);
         } catch (std::exception& ex) {
-            FL_LOG("[function warning] ignored exception: " << ex.what());
         }
         return result;
     }
@@ -453,8 +452,8 @@ namespace fl {
     Function::Node::Node(scalar value)
     : foperator(NULL), function(NULL), variable(""), value(value), left(NULL), right(NULL) {
     }
-    
-    Function::Node::~Node(){
+
+    Function::Node::~Node() {
         if (left) delete left;
         if (right) delete right;
     }

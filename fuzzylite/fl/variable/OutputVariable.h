@@ -47,7 +47,7 @@ namespace fl {
         virtual ~OutputVariable();
 
         virtual Accumulated* fuzzyOutput() const;
-        
+
         virtual void setName(const std::string& name);
 
         virtual void setMinimum(scalar minimum);
@@ -76,6 +76,9 @@ namespace fl {
         virtual std::string fuzzyOutputValue() const;
 
         virtual std::string toString() const;
+
+    private:
+        FL_DISABLE_COPY(OutputVariable)
 
     };
 

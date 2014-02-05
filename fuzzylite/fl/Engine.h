@@ -88,8 +88,8 @@ namespace fl {
         virtual std::string toString() const;
 
         enum Type {
-            NONE, MAMDANI, LARSEN, TAKAGI_SUGENO,
-            TSUKAMOTO, INVERSE_TSUKAMOTO, UNKNOWN
+            None, Mamdani, Larsen, TakagiSugeno,
+            Tsukamoto, InverseTsukamoto, Unknown
         };
         virtual Type type(std::string* name = NULL) const;
 
@@ -135,7 +135,8 @@ namespace fl {
         virtual const std::vector<RuleBlock*>& ruleBlocks() const;
         virtual void setRuleBlocks(const std::vector<RuleBlock*>& ruleBlocks);
 
-
+    private:
+        FL_DISABLE_COPY(Engine)
     };
 
 }

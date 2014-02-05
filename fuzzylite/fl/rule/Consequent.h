@@ -56,6 +56,9 @@ namespace fl {
         virtual void modify(scalar activationDegree, const TNorm* activation);
 
         virtual std::string toString() const;
+
+    private:
+        FL_DISABLE_COPY(Consequent)
     };
 
 }

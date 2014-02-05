@@ -331,22 +331,22 @@ namespace fl {
             {
                 ui->led_name->setText(QString::fromStdString(engine->getName()));
                 Engine::Type type = engine->type();
-                ui->lbl_type->setVisible(type != Engine::NONE);
+                ui->lbl_type->setVisible(type != Engine::None);
                 QString nameType;
                 switch (type) {
-                    case Engine::MAMDANI: nameType = "Mamdani";
+                    case Engine::Mamdani: nameType = "Mamdani";
                         break;
-                    case Engine::LARSEN: nameType = "Larsen";
+                    case Engine::Larsen: nameType = "Larsen";
                         break;
-                    case Engine::TAKAGI_SUGENO: nameType = "Takagi-Sugeno";
+                    case Engine::TakagiSugeno: nameType = "Takagi-Sugeno";
                         break;
-                    case Engine::TSUKAMOTO: nameType = "Tsukamoto";
+                    case Engine::Tsukamoto: nameType = "Tsukamoto";
                         break;
-                    case Engine::INVERSE_TSUKAMOTO: nameType = "Inverse Tsukamoto";
+                    case Engine::InverseTsukamoto: nameType = "Inverse Tsukamoto";
                         break;
-                    case Engine::NONE: nameType = "None";
+                    case Engine::None: nameType = "None";
                         break;
-                    case Engine::UNKNOWN:
+                    case Engine::Unknown:
                     default: nameType = "Unknown";
                 }
                 ui->lbl_type->setText(" " + nameType + " ");

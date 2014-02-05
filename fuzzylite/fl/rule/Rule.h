@@ -98,6 +98,8 @@ namespace fl {
         static std::string orKeyword();
         static std::string withKeyword();
 
+    private:
+        FL_DISABLE_COPY(Rule);
 
     };
 }

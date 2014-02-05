@@ -31,7 +31,7 @@ namespace fl {
     class FL_EXPORT Activated : public Term {
     protected:
         const Term* _term;
-        scalar _degree; 
+        scalar _degree;
         const TNorm* _activation;
 
     public:
@@ -49,7 +49,7 @@ namespace fl {
 
         virtual void setTerm(const Term* term);
         virtual const Term* getTerm() const;
-        
+
         virtual void setDegree(scalar degree);
         virtual scalar getDegree() const;
 

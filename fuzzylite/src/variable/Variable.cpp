@@ -37,16 +37,6 @@ namespace fl {
     : _name(name), _minimum(minimum), _maximum(maximum), _enabled(true) {
     }
 
-    Variable::Variable(const Variable& copy) {
-        this->_name = copy._name;
-        this->_minimum = copy._minimum;
-        this->_maximum = copy._maximum;
-        this->_enabled = copy._enabled;
-        for (int i = 0; i < copy.numberOfTerms(); ++i) {
-            addTerm(copy.getTerm(i)->copy());
-        }
-    }
-
     Variable::~Variable() {
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             delete _terms.at(i);

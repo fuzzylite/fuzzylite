@@ -49,7 +49,7 @@ namespace fl {
         virtual std::vector<std::string> available() const;
         virtual T createInstance(const std::string& key) const;
     };
-    
+
 }
 
 #endif	/* FL_FACTORY_H */

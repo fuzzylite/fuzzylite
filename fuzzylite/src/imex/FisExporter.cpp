@@ -54,15 +54,15 @@ namespace fl {
         fis << "[System]\n";
         fis << "Name='" << engine->getName() << "'\n";
         std::string type;
-        if (engine->type() == Engine::NONE) {
+        if (engine->type() == Engine::None) {
             type = "none";
-        } else if (engine->type() == Engine::MAMDANI or engine->type() == Engine::LARSEN) {
+        } else if (engine->type() == Engine::Mamdani or engine->type() == Engine::Larsen) {
             type = "mamdani";
-        } else if (engine->type() == Engine::TAKAGI_SUGENO) {
+        } else if (engine->type() == Engine::TakagiSugeno) {
             type = "sugeno";
-        } else if (engine->type() == Engine::TSUKAMOTO) {
+        } else if (engine->type() == Engine::Tsukamoto) {
             type = "tsukamoto";
-        } else if (engine->type() == Engine::INVERSE_TSUKAMOTO) {
+        } else if (engine->type() == Engine::InverseTsukamoto) {
             type = "inverse tsukamoto";
         } else {
             type = "unknown";

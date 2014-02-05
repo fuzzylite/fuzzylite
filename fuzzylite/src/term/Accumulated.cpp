@@ -22,11 +22,12 @@
 
 #include "fl/term/Accumulated.h"
 
-#include "fl/norm/SNorm.h"
-
-#include "fl/imex/FllExporter.h"
-
 #include <sstream>
+
+#include "fl/factory/FactoryManager.h"
+#include "fl/factory/SNormFactory.h"
+#include "fl/imex/FllExporter.h"
+#include "fl/norm/SNorm.h"
 
 namespace fl {
 
@@ -143,7 +144,7 @@ namespace fl {
     }
 
     bool Accumulated::isEmpty() const {
-        return _terms.size() == 0;
+        return _terms.empty();
     }
 
 }

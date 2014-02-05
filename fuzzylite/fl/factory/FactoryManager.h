@@ -66,6 +66,8 @@ namespace fl {
         virtual void setHedge(HedgeFactory* hedge);
         virtual HedgeFactory* hedge() const;
 
+    private:
+        FL_DISABLE_COPY(FactoryManager)
     };
 }
 #endif	/* FL_FACTORYMANAGER_H */

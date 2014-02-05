@@ -39,11 +39,17 @@ namespace fl {
         } else {
             ss << "?";
         }
-        ss << " " << Rule::FL_IS << " ";
-        for (std::size_t i = 0; i < hedges.size(); ++i) {
-            ss << hedges.at(i)->name() << " ";
+        if (not hedges.empty()) {
+            ss << " " << Rule::FL_IS << " ";
+            for (std::size_t i = 0; i < hedges.size(); ++i) {
+                ss << hedges.at(i)->name() << " ";
+            }
         }
+
         if (term) { //term is NULL if hedge is any
+            if (hedges.empty()) {
+                ss << " " << Rule::FL_IS << " ";
+            }
             ss << term->getName();
         }
         return ss.str();

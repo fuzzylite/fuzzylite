@@ -42,6 +42,9 @@ namespace fl {
         virtual std::string fuzzyInputValue() const;
 
         virtual std::string toString() const;
+
+    private:
+        FL_DISABLE_COPY(InputVariable)
     };
 
 }

@@ -40,6 +40,10 @@
 #define FL_BUILD_PATH ""
 #endif
 
+#define FL_DISABLE_COPY(Class) \
+    Class(const Class &);\
+    Class &operator=(const Class &);
+
 namespace fl {
 #ifdef FL_USE_FLOAT
     typedef float scalar;

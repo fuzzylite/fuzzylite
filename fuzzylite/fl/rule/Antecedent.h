@@ -64,6 +64,9 @@ namespace fl {
         virtual std::string toPrefix(const Expression* node = NULL) const;
         virtual std::string toInfix(const Expression* node = NULL) const;
         virtual std::string toPostfix(const Expression* node = NULL) const;
+
+    private:
+        FL_DISABLE_COPY(Antecedent)
     };
 
 }
