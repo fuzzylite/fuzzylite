@@ -31,20 +31,18 @@
 using namespace fl;
 
 /*
-void baz(){
-    int *x = (int*) - 1; // make a bad pointer
-    FL_LOG("%d\n" <<  *x); // causes segfault
+#ifdef FL_WINDOWS
+#include <windows.h>
+BOOL WINAPI flSignalHandler(DWORD dwCtrlType)
+{
+  FL_LOG("Signal: " << dwCtrlType);
+  if (CTRL_C_EVENT == dwCtrlType){
+  }
+  //return FALSE;
+  return TRUE;
 }
-
-void bar(){
-    baz();
-}
-
-void foo(){
-    bar();
-}
- */
-
+#endif
+*/
 
 int main(int argc, char** argv) {
     (void) argc;
@@ -60,11 +58,18 @@ int main(int argc, char** argv) {
     signal(SIGBUS, fl::Exception::convertToException);
     signal(SIGPIPE, fl::Exception::convertToException);
 #endif
+#ifdef FL_WINDOWS
+	//SetConsoleCtrlHandler(flSignalHandler, TRUE);
+#endif
     try {
+		raise(SIGSEGV);
         return Console::main(argc, argv);
     } catch (std::exception& ex) {
+		FL_LOG("Catching a signal?");
         FL_LOG(ex.what());
         return EXIT_FAILURE;
     }
 }
+
+
 

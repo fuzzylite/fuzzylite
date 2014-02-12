@@ -78,6 +78,7 @@ namespace fl {
         try {
             result->load(infix, engine);
         } catch (std::exception& ex) {
+			(void)ex;
             delete result;
             throw;
         }
@@ -149,6 +150,7 @@ namespace fl {
         try {
             result->load(this->_formula, this->_engine);
         } catch (std::exception& ex) {
+			(void)ex;
         }
         return result;
     }

@@ -210,6 +210,7 @@ namespace fl {
                 }
             }
         } catch (std::exception& ex) {
+			(void)ex;
             unload();
             throw;
         }

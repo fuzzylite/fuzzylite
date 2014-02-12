@@ -100,6 +100,7 @@ namespace fl {
             }
             process(tag, block.str(), engine);
         } catch (std::exception& ex) {
+			(void)ex;
             delete engine;
             throw;
         }

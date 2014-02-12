@@ -8,6 +8,8 @@
 #ifndef FL_CONSOLE_H
 #define	FL_CONSOLE_H
 
+#include "fl/fuzzylite.h"
+
 #include <string>
 #include <map>
 #include <vector>
@@ -15,7 +17,7 @@
 namespace fl {
     class Engine;
 
-    class Console {
+    class FL_EXPORT Console {
     public:
 
         struct Option {

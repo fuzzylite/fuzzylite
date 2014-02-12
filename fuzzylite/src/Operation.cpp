@@ -111,6 +111,10 @@ namespace fl {
         return -a;
     }
 
+	scalar Operation::round(scalar x){
+		return (x > 0.0) ? floor(x + 0.5) : ceil(x - 0.5);
+	}
+	
     bool Operation::increment(std::vector<int>& x, std::vector<int>& min, std::vector<int>& max) {
         return increment(x, (int) x.size() - 1, min, max);
     }

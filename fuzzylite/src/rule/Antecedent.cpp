@@ -65,7 +65,7 @@ namespace fl {
     }
 
     bool Antecedent::isLoaded() const {
-        return this->_expression;
+        return this->_expression != NULL;
     }
 
     scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction,
@@ -283,6 +283,7 @@ namespace fl {
                 throw fl::Exception(ex.str(), FL_AT);
             }
         } catch (std::exception& ex) {
+			(void)ex;
             for (std::size_t i = 0; i < expressionStack.size(); ++i) {
                 delete expressionStack.top();
                 expressionStack.pop();

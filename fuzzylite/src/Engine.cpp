@@ -311,7 +311,7 @@ namespace fl {
             //Defuzzifier must be integral
             IntegralDefuzzifier* defuzzifier = dynamic_cast<IntegralDefuzzifier*>
                     (outputVariable->getDefuzzifier());
-            mamdani &= bool(defuzzifier);
+            mamdani &= defuzzifier != NULL;
         }
         //Larsen
         bool larsen = mamdani;
@@ -319,8 +319,8 @@ namespace fl {
         if (mamdani) {
             for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
                 RuleBlock* ruleBlock = _ruleblocks.at(i);
-                larsen &= bool(dynamic_cast<const AlgebraicProduct*>
-                        (ruleBlock->getActivation()));
+                larsen &= dynamic_cast<const AlgebraicProduct*>
+                        (ruleBlock->getActivation()) != NULL;
             }
         }
         if (larsen) {

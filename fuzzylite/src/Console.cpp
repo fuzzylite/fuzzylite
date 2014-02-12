@@ -272,6 +272,7 @@ namespace fl {
                             writer.flush();
                         }
                     } catch (std::exception& ex) {
+						(void)ex;
                         dataFile.close();
                         throw;
                     }
@@ -309,6 +310,7 @@ namespace fl {
                 writer << exporter->toString(engine);
             }
         } catch (std::exception& ex) {
+			(void)ex;
             if (importer) delete importer;
             if (exporter) delete exporter;
             if (engine) delete engine;

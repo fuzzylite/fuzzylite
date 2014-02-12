@@ -248,6 +248,7 @@ namespace fl {
             _weight = weight;
 
         } catch (fl::Exception& ex) {
+			(void)ex;
             unload();
             throw;
         }
@@ -286,6 +287,7 @@ namespace fl {
         try {
             result->load(rule, engine);
         } catch (std::exception& ex) {
+			(void)ex;
             delete result;
             throw;
         }

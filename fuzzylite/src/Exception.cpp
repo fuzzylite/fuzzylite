@@ -134,20 +134,26 @@ namespace fl {
 
     void Exception::signalHandler(int signal) {
         std::ostringstream ex;
-        ex << "[unexpected signal " << signal << "] " << strsignal(signal);
+        ex << "[unexpected signal " << signal << "] ";
+		#ifndef FL_WINDOWS
+			ex << strsignal(signal);
+		#endif
         fl::Exception::catchException(fl::Exception(ex.str(), FL_AT));
         exit(EXIT_FAILURE);
     }
 
     void Exception::convertToException(int signal) {
+		std::string signalDescription;
+		#ifdef FL_UNIX
         //Unblock the signal
         sigset_t empty;
         sigemptyset(&empty);
         sigaddset(&empty, signal);
         sigprocmask(SIG_UNBLOCK, &empty, NULL);
-
+		signalDescription = strsignal(signal);
+		#endif
         std::ostringstream ex;
-        ex << "[signal " << signal << "] " << strsignal(signal) << "\n";
+        ex << "[signal " << signal << "] " << signalDescription << "\n";
         ex << "BACKTRACE:\n" << btCallStack();
         throw fl::Exception(ex.str(), FL_AT);
     }

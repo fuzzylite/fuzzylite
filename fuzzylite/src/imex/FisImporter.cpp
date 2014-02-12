@@ -101,6 +101,7 @@ namespace fl {
                     tnorm(impMethod), snorm(aggMethod),
                     defuzzifier(defuzzMethod));
         } catch (std::exception& ex) {
+			(void)ex;
             delete engine;
             throw;
         }
