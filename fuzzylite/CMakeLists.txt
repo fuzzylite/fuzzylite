@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8) 
 
 #in windows, cmake . -G "NMake Makefiles"
 #in unix, cmake . -G "Unix Makefiles"

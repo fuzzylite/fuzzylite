@@ -55,7 +55,8 @@ Version 5.0
 * Renamed Antecedent::(get|set)Root to Antecedent::(get|set)Expression
 * Added (Antecedent|Consequent)::(get|set)Text
 * Added (Antecedent|Consequent)::load|unload
-
+* Renamed typedef Factory::Creator to Factory::Constructor
+* Added class None for Defuzzifiers and (S|T)-Norms
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.

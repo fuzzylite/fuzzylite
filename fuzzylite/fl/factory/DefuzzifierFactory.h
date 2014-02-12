@@ -37,6 +37,8 @@ namespace fl {
     public:
         DefuzzifierFactory();
         virtual ~DefuzzifierFactory();
+        
+        virtual Defuzzifier* createInstance(const std::string& key) const;
 
     };
 }

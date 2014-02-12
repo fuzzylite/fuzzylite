@@ -205,12 +205,12 @@ namespace fl {
     }
 
     std::string CppExporter::toString(const Norm* op) const {
-        if (not op) return "NULL";
+        if (not op) return "new fl::None";
         return "new fl::" + op->className();
     }
 
     std::string CppExporter::toString(const Defuzzifier* defuzzifier) const {
-        if (not defuzzifier) return "NULL";
+        if (not defuzzifier) return "new fl::None";
         const IntegralDefuzzifier* integralDefuzzifier =
                 dynamic_cast<const IntegralDefuzzifier*> (defuzzifier);
         if (integralDefuzzifier) {

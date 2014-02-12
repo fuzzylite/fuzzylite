@@ -62,8 +62,8 @@ namespace fl {
 #define FL_AT FL__FILE__, __LINE__, __FUNCTION__
 
 
-#define FL_LOG(message) if (fl::fuzzylite::logging()){std::cout << FL_LOG_PREFIX << message << std::endl;}
-#define FL_LOGP(message) if (fl::fuzzylite::logging()){std::cout << message << std::endl;}
+#define FL_LOG(message) {if (fl::fuzzylite::logging()){std::cout << FL_LOG_PREFIX << message << std::endl;}}
+#define FL_LOGP(message) {if (fl::fuzzylite::logging()){std::cout << message << std::endl;}}
 
 #ifndef FL_DEBUG
 #define FL_DEBUG false

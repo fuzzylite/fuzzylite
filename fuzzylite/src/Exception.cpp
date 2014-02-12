@@ -25,8 +25,8 @@
 
 #ifdef FL_BACKTRACE_OFF
 //do nothing
-#else
-#ifdef FL_UNIX
+
+#elif defined FL_UNIX
 #include <execinfo.h>
 
 #elif defined FL_WINDOWS
@@ -35,7 +35,6 @@
 #include <dbghelp.h>
 #endif
 
-#endif
 
 #include <stdlib.h>
 #include <signal.h>
@@ -135,23 +134,23 @@ namespace fl {
     void Exception::signalHandler(int signal) {
         std::ostringstream ex;
         ex << "[unexpected signal " << signal << "] ";
-		#ifndef FL_WINDOWS
-			ex << strsignal(signal);
-		#endif
+#ifdef FL_UNIX
+        ex << strsignal(signal);
+#endif
         fl::Exception::catchException(fl::Exception(ex.str(), FL_AT));
         exit(EXIT_FAILURE);
     }
 
     void Exception::convertToException(int signal) {
-		std::string signalDescription;
-		#ifdef FL_UNIX
+        std::string signalDescription;
+#ifdef FL_UNIX
         //Unblock the signal
         sigset_t empty;
         sigemptyset(&empty);
         sigaddset(&empty, signal);
         sigprocmask(SIG_UNBLOCK, &empty, NULL);
-		signalDescription = strsignal(signal);
-		#endif
+        signalDescription = strsignal(signal);
+#endif
         std::ostringstream ex;
         ex << "[signal " << signal << "] " << signalDescription << "\n";
         ex << "BACKTRACE:\n" << btCallStack();

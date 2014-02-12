@@ -144,8 +144,9 @@ namespace fl {
     }
 
     std::string FclExporter::toString(const TNorm * tnorm) const {
-        if (not tnorm) return "";
+        if (not tnorm) return "NONE";
         std::string name = tnorm->className();
+        if (name == None().className()) return "NONE";
         if (name == Minimum().className()) return "MIN";
         if (name == AlgebraicProduct().className()) return "PROD";
         if (name == BoundedDifference().className()) return "BDIF";
@@ -157,8 +158,9 @@ namespace fl {
     }
 
     std::string FclExporter::toString(const SNorm * snorm) const {
-        if (not snorm) return "";
+        if (not snorm) return "NONE";
         std::string name = snorm->className();
+        if (name == None().className()) return "NONE";
         if (name == Maximum().className()) return "MAX";
         if (name == AlgebraicSum().className()) return "ASUM";
         if (name == NormalizedSum().className()) return "NSUM";
@@ -171,7 +173,8 @@ namespace fl {
     }
 
     std::string FclExporter::toString(const Defuzzifier* defuzzifier) const {
-        if (not defuzzifier) return "";
+        if (not defuzzifier) return "NONE";
+        if (defuzzifier->className() == None().className()) return "NONE";
         if (defuzzifier->className() == Centroid().className()) return "COG";
         if (defuzzifier->className() == Bisector().className()) return "COA";
         if (defuzzifier->className() == SmallestOfMaximum().className()) return "LM";

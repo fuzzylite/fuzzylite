@@ -57,6 +57,7 @@ fl/norm/t/HamacherProduct.h
 fl/norm/t/Minimum.h
 fl/norm/t/NilpotentMinimum.h
 fl/norm/TNorm.h
+fl/None.h
 fl/Operation.h
 fl/rule/Antecedent.h
 fl/rule/Consequent.h

@@ -43,13 +43,13 @@ namespace fl {
     }
 
     template <typename T>
-    void Factory<T>::registerClass(const std::string& key, Creator creator) {
+    void Factory<T>::registerClass(const std::string& key, Constructor creator) {
         this->map[key] = creator;
     }
 
     template <typename T>
     void Factory<T>::deregisterClass(const std::string& key) {
-        typename std::map<std::string, Creator>::iterator it = this->map.find(key);
+        typename std::map<std::string, Constructor>::iterator it = this->map.find(key);
         if (it != this->map.end()) {
             this->map.erase(it);
         }
@@ -57,14 +57,14 @@ namespace fl {
 
     template <typename T>
     bool Factory<T>::hasRegisteredClass(const std::string& key) const {
-        typename std::map<std::string, Creator>::const_iterator it = this->map.find(key);
+        typename std::map<std::string, Constructor>::const_iterator it = this->map.find(key);
         return (it != this->map.end());
     }
 
     template <typename T>
     std::vector<std::string> Factory<T>::available() const {
         std::vector<std::string> result;
-        typename std::map<std::string, Creator>::const_iterator it = this->map.begin();
+        typename std::map<std::string, Constructor>::const_iterator it = this->map.begin();
         while (it != this->map.end()) {
             result.push_back(it->first);
             ++it;
@@ -75,7 +75,7 @@ namespace fl {
     template <typename T>
     T Factory<T>::createInstance(const std::string& key) const {
         if (key.empty()) return NULL;
-        typename std::map<std::string, Creator>::const_iterator it = this->map.find(key);
+        typename std::map<std::string, Constructor>::const_iterator it = this->map.find(key);
         if (it != this->map.end()) {
             if (it->second) {
                 return it->second();

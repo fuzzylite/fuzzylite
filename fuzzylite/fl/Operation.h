@@ -39,6 +39,7 @@ namespace fl {
 
     class FL_EXPORT Operation {
     public:
+        
         template <typename T>
         static T min(T a, T b);
 
@@ -78,8 +79,8 @@ namespace fl {
         static scalar logicalAnd(scalar a, scalar b);
         static scalar logicalOr(scalar a, scalar b);
         static scalar negate(scalar a);
-		
-		static scalar round(scalar x);
+
+        static scalar round(scalar x);
 
         static bool increment(std::vector<int>& x, std::vector<int>& min, std::vector<int>& max);
         static bool increment(std::vector<int>& x, int position, std::vector<int>& min, std::vector<int>& max);
@@ -101,7 +102,7 @@ namespace fl {
 
         static scalar toScalar(const std::string& x, bool quiet = false,
                 scalar alternative = fl::nan) throw (fl::Exception);
-        
+
         static bool isNumeric(const std::string& x);
 
         //TODO: delete this "useless" method in 5.0

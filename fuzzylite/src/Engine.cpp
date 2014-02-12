@@ -130,11 +130,13 @@ namespace fl {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no terms\n";
                 }
-                if (not outputVariable->fuzzyOutput()->getAccumulation()) {
+                SNorm* accumulation = outputVariable->fuzzyOutput()->getAccumulation();
+                if (not accumulation or accumulation->isNone()) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no Accumulation\n";
                 }
-                if (not outputVariable->getDefuzzifier()) {
+                Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
+                if (not defuzzifier or defuzzifier->isNone()) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no Defuzzifier\n";
                 }
@@ -171,19 +173,20 @@ namespace fl {
                         }
                     }
                 }
-                if (requiresConjunction > 0 and not ruleblock->getConjunction()) {
+                const TNorm* conjunction = ruleblock->getConjunction();
+                if (requiresConjunction > 0 and (not conjunction or conjunction->isNone())) {
                     ss << "- Rule block <" << ruleblock->getName() << "> has no Conjunction\n";
                     ss << "- Rule block <" << ruleblock->getName() << "> has "
                             << requiresConjunction << " rules that require Conjunction\n";
                 }
-
-                if (requiresDisjunction > 0 and not ruleblock->getDisjunction()) {
+                const SNorm* disjunction = ruleblock->getDisjunction();
+                if (requiresDisjunction > 0 and (not disjunction or disjunction->isNone())) {
                     ss << "- Rule block <" << ruleblock->getName() << "> has no Disjunction\n";
                     ss << "- Rule block <" << ruleblock->getName() << "> has "
                             << requiresDisjunction << " rules that require Disjunction\n";
                 }
-
-                if (not ruleblock->getActivation()) {
+                const TNorm* activation = ruleblock->getActivation();
+                if (not activation or activation->isNone()) {
                     ss << "- Rule block <" << ruleblock->getName() << "> has no Activation\n";
                 }
             }

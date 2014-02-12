@@ -341,6 +341,7 @@ namespace fl {
     }
 
     std::string FisImporter::tnorm(const std::string & name) const {
+        if (name.empty()) return None().className();
         if (name == "min") return Minimum().className();
         if (name == "prod") return AlgebraicProduct().className();
         if (name == "bounded_difference") return BoundedDifference().className();
@@ -352,6 +353,7 @@ namespace fl {
     }
 
     std::string FisImporter::snorm(const std::string & name) const {
+        if (name.empty()) return None().className();
         if (name == "max") return Maximum().className();
         if (name == "sum" or name == "probor") return AlgebraicSum().className();
         if (name == "bounded_sum") return BoundedSum().className();
@@ -364,6 +366,7 @@ namespace fl {
     }
 
     std::string FisImporter::defuzzifier(const std::string & name) const {
+        if (name.empty()) return None().className();
         if (name == "centroid") return Centroid().className();
         if (name == "bisector") return Bisector().className();
         if (name == "lom") return LargestOfMaximum().className();
