@@ -62,7 +62,6 @@ int main(int argc, char** argv) {
 	//SetConsoleCtrlHandler(flSignalHandler, TRUE);
 #endif
     try {
-		raise(SIGSEGV);
         return Console::main(argc, argv);
     } catch (std::exception& ex) {
 		FL_LOG("Catching a signal?");

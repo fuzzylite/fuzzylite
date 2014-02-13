@@ -57,6 +57,7 @@ Version 5.0
 * Added (Antecedent|Consequent)::load|unload
 * Renamed typedef Factory::Creator to Factory::Constructor
 * Added class None for Defuzzifiers and (S|T)-Norms
+* Added an M-file to compare output values of fuzzylite engines with Matlab
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.
