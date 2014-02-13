@@ -65,7 +65,6 @@ namespace fl {
     }
 
     void OutputVariable::setDefuzzifier(Defuzzifier* defuzzifier) {
-        if (this->_defuzzifier) delete this->_defuzzifier;
         this->_defuzzifier = defuzzifier;
     }
 

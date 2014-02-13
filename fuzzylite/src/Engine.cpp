@@ -105,12 +105,12 @@ namespace fl {
     bool Engine::isReady(std::string* status) const {
         std::ostringstream ss;
         if (_inputVariables.empty()) {
-            ss << "- Engine has no input variables\n";
+            ss << "- Engine <" << _name << "> has no input variables\n";
         }
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
             InputVariable* inputVariable = _inputVariables.at(i);
             if (not inputVariable) {
-                ss << "- Engine has a NULL input variable at index <" << i << ">\n";
+                ss << "- Engine <" << _name << "> has a NULL input variable at index <" << i << ">\n";
             } else if (inputVariable->terms().empty()) {
                 //ignore because sometimes inputs can be empty: takagi-sugeno/matlab/slcpp1.fis
                 //                ss << "- Input variable <" << _inputVariables.at(i)->getName() << ">"
@@ -119,12 +119,12 @@ namespace fl {
         }
 
         if (_outputVariables.empty()) {
-            ss << "- Engine has no output variables\n";
+            ss << "- Engine <" << _name << "> has no output variables\n";
         }
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             OutputVariable* outputVariable = _outputVariables.at(i);
             if (not outputVariable) {
-                ss << "- Engine has a NULL output variable at index <" << i << ">\n";
+                ss << "- Engine <" << _name << "> has a NULL output variable at index <" << i << ">\n";
             } else {
                 if (outputVariable->terms().empty()) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
@@ -144,22 +144,22 @@ namespace fl {
         }
 
         if (_ruleblocks.empty()) {
-            ss << "- Engine has no rule blocks\n";
+            ss << "- Engine <" << _name << "> has no rule blocks\n";
         }
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
             RuleBlock* ruleblock = _ruleblocks.at(i);
             if (not ruleblock) {
-                ss << "- Engine has a NULL rule block at index <" << i << ">\n";
+                ss << "- Engine <" << _name << "> has a NULL rule block at index <" << i << ">\n";
             } else {
                 if (ruleblock->rules().empty()) {
-                    ss << "- Rule block <" << ruleblock->getName() << "> has no rules\n";
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no rules\n";
                 }
                 int requiresConjunction = 0;
                 int requiresDisjunction = 0;
                 for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
                     Rule* rule = ruleblock->getRule(r);
                     if (not rule) {
-                        ss << "- Rule block <" << ruleblock->getName()
+                        ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName()
                                 << "> has a NULL rule at index <" << r << ">\n";
                     } else {
                         std::size_t thenIndex = rule->getText().find(" " + Rule::thenKeyword() + " ");
@@ -175,19 +175,19 @@ namespace fl {
                 }
                 const TNorm* conjunction = ruleblock->getConjunction();
                 if (requiresConjunction > 0 and (not conjunction or conjunction->isNone())) {
-                    ss << "- Rule block <" << ruleblock->getName() << "> has no Conjunction\n";
-                    ss << "- Rule block <" << ruleblock->getName() << "> has "
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no Conjunction\n";
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has "
                             << requiresConjunction << " rules that require Conjunction\n";
                 }
                 const SNorm* disjunction = ruleblock->getDisjunction();
                 if (requiresDisjunction > 0 and (not disjunction or disjunction->isNone())) {
-                    ss << "- Rule block <" << ruleblock->getName() << "> has no Disjunction\n";
-                    ss << "- Rule block <" << ruleblock->getName() << "> has "
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no Disjunction\n";
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has "
                             << requiresDisjunction << " rules that require Disjunction\n";
                 }
                 const TNorm* activation = ruleblock->getActivation();
                 if (not activation or activation->isNone()) {
-                    ss << "- Rule block <" << ruleblock->getName() << "> has no Activation\n";
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no Activation\n";
                 }
             }
         }

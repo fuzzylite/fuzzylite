@@ -58,6 +58,9 @@ Version 5.0
 * Renamed typedef Factory::Creator to Factory::Constructor
 * Added class None for Defuzzifiers and (S|T)-Norms
 * Added an M-file to compare output values of fuzzylite engines with Matlab
+* Removed automatic delete of previous pointers on OutputVariable::setDefuzzifier, Accumulated::setAccumulation, RuleBlock::set(Conjunction|Disjunction|Activation)
+* Removed const from Norms in RuleBlock::(get|set)(Activation|Conjunction|Disjunction)
+
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.

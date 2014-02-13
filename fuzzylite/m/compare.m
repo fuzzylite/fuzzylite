@@ -26,6 +26,7 @@ function [engine] = compare(fisFile, fldFile, delimiter, hasMetadata)
     engine.flOutputValues = flMatrix(1:end, (length(engine.input) + 1):(length(engine.input) + length(engine.output)));
     engine.outputDiff=engine.outputValues-engine.flOutputValues;
     engine.mse=nansum(engine.outputDiff.^2)/size(engine.outputDiff,1);
+    %TODO: five number summary
 end
 
 
