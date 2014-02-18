@@ -242,17 +242,14 @@ namespace fl {
     }
 
     TNorm* FllImporter::parseTNorm(const std::string& name) const {
-        if (name.empty() or "none" == name) return NULL;
         return FactoryManager::instance()->tnorm()->createInstance(name);
     }
 
     SNorm* FllImporter::parseSNorm(const std::string& name) const {
-        if (name.empty() or "none" == name) return NULL;
         return FactoryManager::instance()->snorm()->createInstance(name);
     }
 
     Defuzzifier* FllImporter::parseDefuzzifier(const std::string& text) const {
-        if (text.empty() or "none" == text) return NULL;
         std::vector<std::string> parameters = Op::split(text, " ");
         std::string name = parameters.at(0);
         Defuzzifier* defuzzifier = FactoryManager::instance()->defuzzifier()->createInstance(name);

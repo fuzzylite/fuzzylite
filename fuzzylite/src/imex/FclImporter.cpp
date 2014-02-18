@@ -139,7 +139,7 @@ namespace fl {
                 throw fl::Exception(ex.str(), FL_AT);
             }
         } catch (std::exception& ex) {
-			(void)ex;
+            (void) ex;
             delete engine;
             throw;
         }
@@ -337,7 +337,8 @@ namespace fl {
         }
         std::string name = Op::trim(token.at(1));
         std::string className = name;
-        if (name == "MIN") className = Minimum().className();
+        if (name == "NONE") className = None().className();
+        else if (name == "MIN") className = Minimum().className();
         else if (name == "PROD") className = AlgebraicProduct().className();
         else if (name == "BDIF") className = BoundedDifference().className();
         else if (name == "DPROD") className = DrasticProduct().className();
@@ -364,7 +365,8 @@ namespace fl {
         }
         std::string name = Op::trim(token.at(1));
         std::string className = name;
-        if (name == "MAX") className = Maximum().className();
+        if (name == "NONE") className = None().className();
+        else if (name == "MAX") className = Maximum().className();
         else if (name == "ASUM") className = AlgebraicSum().className();
         else if (name == "BSUM") className = BoundedSum().className();
         else if (name == "NSUM") className = NormalizedSum().className();
@@ -484,13 +486,14 @@ namespace fl {
 
         std::string name = fl::Op::trim(token.at(1));
         std::string className = name;
-        if (name == "COG") className = Centroid().className();
-        if (name == "COA") className = Bisector().className();
-        if (name == "LM") className = SmallestOfMaximum().className();
-        if (name == "RM") className = LargestOfMaximum().className();
-        if (name == "MM") className = MeanOfMaximum().className();
-        if (name == "COGS") className = WeightedAverage().className();
-        if (name == "COGSS") className = WeightedSum().className();
+        if (name == "NONE") className = None().className();
+        else if (name == "COG") className = Centroid().className();
+        else if (name == "COA") className = Bisector().className();
+        else if (name == "LM") className = SmallestOfMaximum().className();
+        else if (name == "RM") className = LargestOfMaximum().className();
+        else if (name == "MM") className = MeanOfMaximum().className();
+        else if (name == "COGS") className = WeightedAverage().className();
+        else if (name == "COGSS") className = WeightedSum().className();
 
         try {
             return FactoryManager::instance()->defuzzifier()->createInstance(className);
@@ -571,7 +574,7 @@ namespace fl {
             minimum = Op::toScalar(token.at(index = 0));
             maximum = Op::toScalar(token.at(index = 1));
         } catch (std::exception& ex) {
-			(void)ex;
+            (void) ex;
             std::ostringstream ss;
             ss << "[syntax error] expected numeric value, but found <" << token.at(index) << "> in "
                     << "line: " << line;

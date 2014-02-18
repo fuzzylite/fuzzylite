@@ -55,6 +55,11 @@ Version 5.0
 * Renamed Antecedent::(get|set)Root to Antecedent::(get|set)Expression
 * Added (Antecedent|Consequent)::(get|set)Text
 * Added (Antecedent|Consequent)::load|unload
+* Renamed typedef Factory::Creator to Factory::Constructor
+* Added class None for Defuzzifiers and (S|T)-Norms
+* Added an M-file to compare output values of fuzzylite engines with Matlab
+* Removed automatic delete of previous pointers on OutputVariable::setDefuzzifier, Accumulated::setAccumulation, RuleBlock::set(Conjunction|Disjunction|Activation)
+* Removed const from Norms in RuleBlock::(get|set)(Activation|Conjunction|Disjunction)
 
 
 Version 4.0

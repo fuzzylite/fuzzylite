@@ -39,9 +39,9 @@ namespace fl {
     protected:
         std::vector<Rule*> _rules;
         std::string _name;
-        const TNorm* _conjunction;
-        const SNorm* _disjunction;
-        const TNorm* _activation;
+        TNorm* _conjunction;
+        SNorm* _disjunction;
+        TNorm* _activation;
         bool _enabled;
     public:
 
@@ -53,14 +53,14 @@ namespace fl {
         virtual void setName(std::string name);
         virtual std::string getName() const;
 
-        virtual void setConjunction(const TNorm* conjunction);
-        virtual const TNorm* getConjunction() const;
+        virtual void setConjunction(TNorm* conjunction);
+        virtual TNorm* getConjunction() const;
 
-        virtual void setDisjunction(const SNorm* disjunction);
-        virtual const SNorm* getDisjunction() const;
+        virtual void setDisjunction(SNorm* disjunction);
+        virtual SNorm* getDisjunction() const;
 
-        virtual void setActivation(const TNorm* activation);
-        virtual const TNorm* getActivation() const;
+        virtual void setActivation(TNorm* activation);
+        virtual TNorm* getActivation() const;
 
         virtual void setEnabled(bool enabled);
         virtual bool isEnabled() const;

@@ -22,6 +22,7 @@
 
 #include "fl/factory/SNormFactory.h"
 
+#include "fl/None.h"
 #include "fl/norm/s/AlgebraicSum.h"
 #include "fl/norm/s/BoundedSum.h"
 #include "fl/norm/s/DrasticSum.h"
@@ -34,6 +35,7 @@
 namespace fl {
 
     SNormFactory::SNormFactory() {
+        registerClass(None().className(), &(None::snormConstructor));
         registerClass(AlgebraicSum().className(), &(AlgebraicSum::constructor));
         registerClass(BoundedSum().className(), &(BoundedSum::constructor));
         registerClass(DrasticSum().className(), &(DrasticSum::constructor));
@@ -46,5 +48,11 @@ namespace fl {
 
     SNormFactory::~SNormFactory() {
     }
+
+    SNorm* SNormFactory::createInstance(const std::string& key) const {
+        if (key.empty()) return None::snormConstructor();
+        return Factory<SNorm*>::createInstance(key);
+    }
+
 
 }

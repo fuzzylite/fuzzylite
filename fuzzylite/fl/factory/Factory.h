@@ -34,16 +34,16 @@ namespace fl {
     template <typename T>
     class FL_EXPORT Factory {
     public:
-        typedef T(*Creator)();
+        typedef T(*Constructor)();
 
     protected:
-        std::map<std::string, Creator> map;
+        std::map<std::string, Constructor> map;
 
     public:
         Factory();
         virtual ~Factory();
 
-        virtual void registerClass(const std::string& key, Creator creator);
+        virtual void registerClass(const std::string& key, Constructor creator);
         virtual void deregisterClass(const std::string& key);
         virtual bool hasRegisteredClass(const std::string& key) const;
         virtual std::vector<std::string> available() const;

@@ -186,7 +186,7 @@ namespace fl {
 
     std::string JavaExporter::toString(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier) {
-            return "null";
+            return "new com.fuzzylite.defuzzifier.None()";
         }
         const IntegralDefuzzifier* integralDefuzzifier =
                 dynamic_cast<const IntegralDefuzzifier*> (defuzzifier);
@@ -199,9 +199,16 @@ namespace fl {
         return "new " + defuzzifier->className() + "()";
     }
 
-    std::string JavaExporter::toString(const Norm* norm) const {
+    std::string JavaExporter::toString(const TNorm* norm) const {
         if (not norm) {
-            return "null";
+            return "new com.fuzzylite.norm.t.None()";
+        }
+        return "new " + norm->className() + "()";
+    }
+
+    std::string JavaExporter::toString(const SNorm* norm) const {
+        if (not norm) {
+            return "new com.fuzzylite.norm.s.None()";
         }
         return "new " + norm->className() + "()";
     }

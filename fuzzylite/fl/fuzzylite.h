@@ -62,8 +62,8 @@ namespace fl {
 #define FL_AT FL__FILE__, __LINE__, __FUNCTION__
 
 
-#define FL_LOG(message) if (fl::fuzzylite::logging()){std::cout << FL_LOG_PREFIX << message << std::endl;}
-#define FL_LOGP(message) if (fl::fuzzylite::logging()){std::cout << message << std::endl;}
+#define FL_LOG(message) {if (fl::fuzzylite::logging()){std::cout << FL_LOG_PREFIX << message << std::endl;}}
+#define FL_LOGP(message) {if (fl::fuzzylite::logging()){std::cout << message << std::endl;}}
 
 #ifndef FL_DEBUG
 #define FL_DEBUG false
@@ -77,7 +77,7 @@ namespace fl {
                 << message << std::endl;\
         FL_END_DEBUG_BLOCK
 
-//class FL_EXPORT is require to build DLLs in Windows.
+//class FL_EXPORT is required to build DLLs in Windows.
 #ifdef FL_WINDOWS
 #define FL_EXPORT __declspec(dllexport)
 #else
@@ -145,6 +145,7 @@ namespace fl {
 
         static bool logging();
         static void setLogging(bool logging);
+        
     };
 }
 

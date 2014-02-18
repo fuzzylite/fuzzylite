@@ -103,7 +103,6 @@ namespace fl {
     }
 
     void Accumulated::setAccumulation(SNorm* accumulation) {
-        if (this->_accumulation) delete this->_accumulation;
         this->_accumulation = accumulation;
     }
 

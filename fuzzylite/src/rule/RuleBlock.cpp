@@ -100,30 +100,27 @@ namespace fl {
         return this->_name;
     }
 
-    void RuleBlock::setConjunction(const TNorm* tnorm) {
-        if (this->_conjunction) delete this->_conjunction;
+    void RuleBlock::setConjunction(TNorm* tnorm) {
         this->_conjunction = tnorm;
     }
 
-    const TNorm* RuleBlock::getConjunction() const {
+    TNorm* RuleBlock::getConjunction() const {
         return this->_conjunction;
     }
 
-    void RuleBlock::setDisjunction(const SNorm* snorm) {
-        if (this->_disjunction) delete this->_disjunction;
+    void RuleBlock::setDisjunction(SNorm* snorm) {
         this->_disjunction = snorm;
     }
 
-    const SNorm* RuleBlock::getDisjunction() const {
+    SNorm* RuleBlock::getDisjunction() const {
         return this->_disjunction;
     }
 
-    void RuleBlock::setActivation(const TNorm* activation) {
-        if (this->_activation) delete this->_activation;
+    void RuleBlock::setActivation(TNorm* activation) {
         this->_activation = activation;
     }
 
-    const TNorm* RuleBlock::getActivation() const {
+    TNorm* RuleBlock::getActivation() const {
         return this->_activation;
     }
 

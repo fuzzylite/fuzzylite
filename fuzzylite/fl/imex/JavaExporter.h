@@ -33,7 +33,8 @@ namespace fl {
     class RuleBlock;
     class Term;
     class Defuzzifier;
-    class Norm;
+    class SNorm;
+    class TNorm;
 
     class FL_EXPORT JavaExporter : public Exporter {
     public:
@@ -48,7 +49,8 @@ namespace fl {
         virtual std::string toString(const RuleBlock* ruleBlock, const Engine* engine) const;
         virtual std::string toString(const Term* term) const;
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
-        virtual std::string toString(const Norm* norm) const;
+        virtual std::string toString(const SNorm* norm) const;
+        virtual std::string toString(const TNorm* norm) const;
         virtual std::string toString(scalar value) const;
 
     };

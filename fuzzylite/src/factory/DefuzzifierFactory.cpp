@@ -22,6 +22,7 @@
 
 #include "fl/factory/DefuzzifierFactory.h"
 
+#include "fl/None.h"
 #include "fl/defuzzifier/Centroid.h"
 #include "fl/defuzzifier/Bisector.h"
 #include "fl/defuzzifier/SmallestOfMaximum.h"
@@ -29,11 +30,11 @@
 #include "fl/defuzzifier/MeanOfMaximum.h"
 #include "fl/defuzzifier/WeightedAverage.h"
 #include "fl/defuzzifier/WeightedSum.h"
-#include "fl/Exception.h"
 
 namespace fl {
 
     DefuzzifierFactory::DefuzzifierFactory() {
+        registerClass(None().className(), &(None::defuzzifierConstructor));
         registerClass(Bisector().className(), &(Bisector::constructor));
         registerClass(Centroid().className(), &(Centroid::constructor));
         registerClass(LargestOfMaximum().className(), &(LargestOfMaximum::constructor));
@@ -45,5 +46,11 @@ namespace fl {
 
     DefuzzifierFactory::~DefuzzifierFactory() {
     }
+
+    Defuzzifier* DefuzzifierFactory::createInstance(const std::string& key) const {
+        if (key.empty()) return None::defuzzifierConstructor();
+        return Factory<Defuzzifier*>::createInstance(key);
+    }
+
 
 }
