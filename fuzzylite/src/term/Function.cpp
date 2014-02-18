@@ -652,7 +652,7 @@ namespace fl {
         f.load(text);
         FL_LOG("Result: " << f.membership(1));
         //y x * sin 2 ^ x /
-        return;
+        
 
         text = "(Temperature is High and Oxigen is Low) or "
                 "(Temperature is Low and (Oxigen is Low or Oxigen is High))";

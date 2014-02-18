@@ -107,6 +107,8 @@ namespace fl {
 #pragma warning(disable:4127) //Ignore conditional expression constant of FL_DBG and alike
 
 #pragma warning(disable:4706) //Ignore assignments within conditional expressions in Tsukamoto.
+
+#pragma warning(disable:4702) //Ignore unreachable code e.g. code after return;
 #else 
 #endif
 
