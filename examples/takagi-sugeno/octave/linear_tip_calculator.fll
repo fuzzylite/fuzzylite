@@ -12,7 +12,7 @@ InputVariable: Service
 OutputVariable: Tip
   enabled: true
   range: 10.000 20.000
-  accumulation: Maximum
+  accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
   lock-valid: false

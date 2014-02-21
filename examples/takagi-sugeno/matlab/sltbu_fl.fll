@@ -13,7 +13,7 @@ InputVariable: control2
 OutputVariable: control
   enabled: true
   range: -0.785 0.785
-  accumulation: Maximum
+  accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
   lock-valid: false

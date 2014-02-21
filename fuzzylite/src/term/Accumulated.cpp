@@ -45,6 +45,15 @@ namespace fl {
         return "Accumulated";
     }
 
+    scalar Accumulated::membership(scalar x) const {
+        if (fl::Op::isNaN(x)) return fl::nan;
+        scalar mu = 0.0;
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
+            mu = _accumulation->compute(mu, _terms.at(i)->membership(x));
+        }
+        return mu;
+    }
+
     std::string Accumulated::parameters() const {
         FllExporter exporter;
         std::ostringstream ss;
@@ -62,15 +71,6 @@ namespace fl {
 
     Accumulated* Accumulated::copy() const {
         return new Accumulated(*this);
-    }
-
-    scalar Accumulated::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-        scalar mu = 0.0;
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            mu = _accumulation->compute(mu, _terms.at(i)->membership(x));
-        }
-        return mu;
     }
 
     std::string Accumulated::toString() const {

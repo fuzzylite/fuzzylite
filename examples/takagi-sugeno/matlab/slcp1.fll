@@ -20,7 +20,7 @@ InputVariable: in5
 OutputVariable: out
   enabled: true
   range: -10.000 10.000
-  accumulation: Maximum
+  accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
   lock-valid: false

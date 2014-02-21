@@ -201,16 +201,16 @@ namespace fl {
         if (hedge->name() == Seldom().name()) return "new fl::Seldom";
         if (hedge->name() == Somewhat().name()) return "new fl::Somewhat";
         if (hedge->name() == Very().name()) return "new fl::Very";
-        return hedge->name();
+        return "new " + hedge->name();
     }
 
     std::string CppExporter::toString(const Norm* op) const {
-        if (not op) return "new fl::None";
+        if (not op) return "NULL";
         return "new fl::" + op->className();
     }
 
     std::string CppExporter::toString(const Defuzzifier* defuzzifier) const {
-        if (not defuzzifier) return "new fl::None";
+        if (not defuzzifier) return "NULL";
         const IntegralDefuzzifier* integralDefuzzifier =
                 dynamic_cast<const IntegralDefuzzifier*> (defuzzifier);
         if (integralDefuzzifier) {

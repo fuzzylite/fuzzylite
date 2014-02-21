@@ -23,6 +23,7 @@ DEFUZZIFY A
   TERM a2 := Ramp 0.600 0.400;
   TERM a3 := Ramp 0.700 1.000;
   METHOD : COGS;
+  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
@@ -32,6 +33,7 @@ DEFUZZIFY B
   TERM b2 := Sigmoid 0.500 -30.000;
   TERM b3 := Sigmoid 0.830 30.000;
   METHOD : COGS;
+  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
@@ -41,10 +43,13 @@ DEFUZZIFY C
   TERM c2 := ZShape 0.300 0.600;
   TERM c3 := SShape 0.700 1.000;
   METHOD : COGS;
+  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
 RULEBLOCK 
+  AND : NONE;
+  OR : NONE;
   ACT : PROD;
   RULE 1 : if X is small then A is a1 and B is b1 and C is c1
   RULE 2 : if X is medium then A is a2 and B is b2 and C is c2

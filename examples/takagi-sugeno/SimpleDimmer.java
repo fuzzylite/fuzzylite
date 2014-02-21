@@ -28,7 +28,7 @@ OutputVariable outputVariable = new OutputVariable();
 outputVariable.setEnabled(true);
 outputVariable.setName("Power");
 outputVariable.setRange(0.000, 1.000);
-outputVariable.fuzzyOutput().setAccumulation(null);
+outputVariable.fuzzyOutput().setAccumulation(new AlgebraicSum());
 outputVariable.setDefuzzifier(new WeightedAverage());
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setLockValidOutput(false);

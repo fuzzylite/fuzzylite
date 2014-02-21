@@ -26,6 +26,8 @@ DEFUZZIFY Power
 END_DEFUZZIFY
 
 RULEBLOCK 
+  AND : NONE;
+  OR : NONE;
   ACT : MIN;
   RULE 1 : if Ambient is DARK then Power is HIGH
   RULE 2 : if Ambient is MEDIUM then Power is MEDIUM

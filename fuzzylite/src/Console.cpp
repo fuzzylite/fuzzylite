@@ -557,12 +557,19 @@ namespace fl {
         }
         if (argc == 2 and "export-examples" == std::string(argv[1])) {
             fuzzylite::setDecimals(3);
+            FL_LOG("Processing fis->fll");
             exportAllExamples("fis", "fll");
+            FL_LOG("Processing fis->fcl");
             exportAllExamples("fis", "fcl");
+            FL_LOG("Processing fis->fis");
             exportAllExamples("fis", "fis");
+            FL_LOG("Processing fis->cpp");
             exportAllExamples("fis", "cpp");
+            FL_LOG("Processing fis->java");
             exportAllExamples("fis", "java");
             fuzzylite::setDecimals(8);
+            fuzzylite::setMachEps(1e-6);
+            FL_LOG("Processing fis->fld");
             exportAllExamples("fis", "fld");
             return 0;
         }

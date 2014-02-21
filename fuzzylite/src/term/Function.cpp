@@ -60,31 +60,6 @@ namespace fl {
         return "Function";
     }
 
-    std::string Function::parameters() const {
-        return _formula;
-    }
-
-    void Function::configure(const std::string& parameters) {
-        this->_formula = parameters;
-    }
-
-    Function* Function::create(const std::string& name,
-            const std::string& infix, const Engine* engine,
-            bool requiresFunctions) throw (fl::Exception) {
-        Function* result = new Function(name);
-        if (requiresFunctions) {
-            result->loadBuiltInFunctions();
-        }
-        try {
-            result->load(infix, engine);
-        } catch (std::exception& ex) {
-			(void)ex;
-            delete result;
-            throw;
-        }
-        return result;
-    }
-
     scalar Function::membership(scalar x) const {
         if (not this->root) return fl::nan;
         if (this->_engine) {
@@ -109,6 +84,31 @@ namespace fl {
         if (localVariables)
             return this->root->evaluate(localVariables);
         return this->root->evaluate(&this->variables);
+    }
+
+    std::string Function::parameters() const {
+        return _formula;
+    }
+
+    void Function::configure(const std::string& parameters) {
+        this->_formula = parameters;
+    }
+
+    Function* Function::create(const std::string& name,
+            const std::string& infix, const Engine* engine,
+            bool requiresFunctions) throw (fl::Exception) {
+        Function* result = new Function(name);
+        if (requiresFunctions) {
+            result->loadBuiltInFunctions();
+        }
+        try {
+            result->load(infix, engine);
+        } catch (std::exception& ex) {
+            (void) ex;
+            delete result;
+            throw;
+        }
+        return result;
     }
 
     void Function::load() throw (fl::Exception) {
@@ -150,7 +150,7 @@ namespace fl {
         try {
             result->load(this->_formula, this->_engine);
         } catch (std::exception& ex) {
-			(void)ex;
+            (void) ex;
         }
         return result;
     }
@@ -652,7 +652,7 @@ namespace fl {
         f.load(text);
         FL_LOG("Result: " << f.membership(1));
         //y x * sin 2 ^ x /
-        
+
 
         text = "(Temperature is High and Oxigen is Low) or "
                 "(Temperature is Low and (Oxigen is Low or Oxigen is High))";

@@ -14,7 +14,7 @@ InputVariable: projectAngle
 OutputVariable: theta
   enabled: true
   range: 0.000 0.000
-  accumulation: Maximum
+  accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
   lock-valid: false

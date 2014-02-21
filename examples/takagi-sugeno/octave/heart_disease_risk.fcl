@@ -33,7 +33,7 @@ DEFUZZIFY HeartDiseaseRisk
   TERM HighRisk := 7.500;
   TERM ExtremeRisk := 10.000;
   METHOD : COGS;
-  ACCU : MAX;
+  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 

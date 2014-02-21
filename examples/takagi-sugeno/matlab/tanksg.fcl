@@ -31,7 +31,7 @@ DEFUZZIFY valve
   TERM open_slow := 0.300;
   TERM open_fast := 0.900;
   METHOD : COGS;
-  ACCU : MAX;
+  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 

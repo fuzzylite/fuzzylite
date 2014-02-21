@@ -35,6 +35,23 @@ namespace fl {
         return "SShape";
     }
 
+    scalar SShape::membership(scalar x) const {
+        if (fl::Op::isNaN(x)) return fl::nan;
+        //from Octave smf.m
+        scalar average = (_start + _end) / 2.0;
+        scalar difference = _end - _start;
+
+        if (Op::isLE(x, _start)) return 0.0;
+
+        if (Op::isLE(x, average))
+            return 2.0 * std::pow((x - _start) / difference, 2);
+
+        if (Op::isLt(x, _end))
+            return 1.0 - 2.0 * std::pow((x - _end) / difference, 2);
+
+        return 1.0;
+    }
+
     std::string SShape::parameters() const {
         return Op::join(2, " ", _start, _end);
     }
@@ -51,23 +68,6 @@ namespace fl {
         }
         setStart(Op::toScalar(values.at(0)));
         setEnd(Op::toScalar(values.at(1)));
-    }
-
-    scalar SShape::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-        //from Octave smf.m
-        scalar average = (_start + _end) / 2;
-        scalar difference = _end - _start;
-
-        if (Op::isLE(x, _start)) return 0.0;
-
-        else if (Op::isLE(x, average))
-            return 2 * std::pow((x - _start) / difference, 2);
-
-        else if (Op::isLt(x, _end))
-            return 1.0 - 2.0 * std::pow((x - _end) / difference, 2);
-
-        return 1.0;
     }
 
     void SShape::setStart(scalar start) {

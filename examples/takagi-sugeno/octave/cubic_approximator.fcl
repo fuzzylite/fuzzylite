@@ -37,7 +37,7 @@ DEFUZZIFY ApproxXCubed
   TERM TangentatFour := Linear 48.000 -128.000;
   TERM TangentatFive := Linear 75.000 -250.000;
   METHOD : COGS;
-  ACCU : MAX;
+  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 

@@ -12,7 +12,7 @@ InputVariable: in_n2
 OutputVariable: out1
   enabled: true
   range: -0.334 1.000
-  accumulation: Maximum
+  accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
   lock-valid: false

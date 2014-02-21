@@ -37,7 +37,7 @@ OutputVariable outputVariable = new OutputVariable();
 outputVariable.setEnabled(true);
 outputVariable.setName("theta");
 outputVariable.setRange(0.000, 0.000);
-outputVariable.fuzzyOutput().setAccumulation(new Maximum());
+outputVariable.fuzzyOutput().setAccumulation(new AlgebraicSum());
 outputVariable.setDefuzzifier(new WeightedAverage());
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setLockValidOutput(false);

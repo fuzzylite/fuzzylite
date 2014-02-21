@@ -36,7 +36,7 @@ OutputVariable outputVariable = new OutputVariable();
 outputVariable.setEnabled(true);
 outputVariable.setName("ApproxXCubed");
 outputVariable.setRange(-5.000, 5.000);
-outputVariable.fuzzyOutput().setAccumulation(new Maximum());
+outputVariable.fuzzyOutput().setAccumulation(new AlgebraicSum());
 outputVariable.setDefuzzifier(new WeightedAverage());
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setLockValidOutput(false);

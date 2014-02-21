@@ -26,7 +26,7 @@ fl::OutputVariable* outputVariable = new fl::OutputVariable;
 outputVariable->setEnabled(true);
 outputVariable->setName("valve");
 outputVariable->setRange(-1.000, 1.000);
-outputVariable->fuzzyOutput()->setAccumulation(new fl::Maximum);
+outputVariable->fuzzyOutput()->setAccumulation(new fl::AlgebraicSum);
 outputVariable->setDefuzzifier(new fl::WeightedAverage);
 outputVariable->setDefaultValue(fl::nan);
 outputVariable->setLockValidOutput(false);

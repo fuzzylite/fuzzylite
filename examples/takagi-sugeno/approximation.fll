@@ -14,7 +14,7 @@ InputVariable: inputX
 OutputVariable: outputFx
   enabled: true
   range: -1.000 1.000
-  accumulation: none
+  accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
   lock-valid: true
@@ -31,7 +31,7 @@ OutputVariable: outputFx
 OutputVariable: trueFx
   enabled: true
   range: -1.000 1.000
-  accumulation: none
+  accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
   lock-valid: true
@@ -40,7 +40,7 @@ OutputVariable: trueFx
 OutputVariable: diffFx
   enabled: true
   range: -1.000 1.000
-  accumulation: none
+  accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
   lock-valid: false
@@ -48,8 +48,8 @@ OutputVariable: diffFx
   term: diff Function fabs(outputFx-trueFx)
 RuleBlock: 
   enabled: true
-  conjunction: none
-  disjunction: none
+  conjunction: None
+  disjunction: None
   activation: AlgebraicProduct
   rule: if inputX is NEAR_1 then outputFx is f1
   rule: if inputX is NEAR_2 then outputFx is f2

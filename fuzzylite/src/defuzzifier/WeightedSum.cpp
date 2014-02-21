@@ -60,8 +60,7 @@ namespace fl {
             scalar w = activated->getDegree();
             scalar z = Tsukamoto::tsukamoto(activated,
                     fuzzyOutput->getMinimum(), fuzzyOutput->getMaximum());
-            sum = fuzzyOutput->getAccumulation()->compute(sum,
-                    activated->getActivation()->compute(w, z));
+            sum += activated->getActivation()->compute(w, z);
         }
         return sum;
     }

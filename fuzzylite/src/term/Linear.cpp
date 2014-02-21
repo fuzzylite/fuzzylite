@@ -35,6 +35,27 @@ namespace fl {
         return "Linear";
     }
 
+    scalar Linear::membership(scalar x) const {
+        (void) x;
+        if (coefficients.size() != inputVariables.size() + 1) {
+            std::ostringstream ss;
+            ss << "[linear error] the number of coefficients <" << coefficients.size() << "> "
+                    "need to be equal to the number of input variables "
+                    "<" << inputVariables.size() << "> plus a constant c "
+                    "(e.g. ax + by + c)";
+            throw fl::Exception(ss.str(), FL_AT);
+        }
+        scalar result = 0;
+        for (std::size_t i = 0; i < inputVariables.size(); ++i) {
+            result += coefficients.at(i) * inputVariables.at(i)->getInputValue();
+        }
+        if (coefficients.size() > inputVariables.size()) {
+            result += coefficients.back();
+        }
+
+        return result;
+    }
+
     std::string Linear::parameters() const {
         return Op::join(this->coefficients, " ");
     }
@@ -72,27 +93,6 @@ namespace fl {
     template FL_EXPORT Linear* Linear::create(const std::string& name,
             const std::vector<InputVariable*>& inputVariables,
             int firstCoefficient, ...);
-
-    scalar Linear::membership(scalar x) const {
-        (void) x;
-        if (coefficients.size() != inputVariables.size() + 1) {
-            std::ostringstream ss;
-            ss << "[linear error] the number of coefficients <" << coefficients.size() << "> "
-                    "need to be equal to the number of input variables "
-                    "<" << inputVariables.size() << "> plus a constant c "
-                    "(e.g. ax + by + c)";
-            throw fl::Exception(ss.str(), FL_AT);
-        }
-        scalar result = 0;
-        for (std::size_t i = 0; i < inputVariables.size(); ++i) {
-            result += coefficients.at(i) * inputVariables.at(i)->getInputValue();
-        }
-        if (coefficients.size() > inputVariables.size()) {
-            result += coefficients.back();
-        }
-
-        return result;
-    }
 
     void Linear::set(const std::vector<scalar>& coefficients,
             const std::vector<InputVariable*>& inputVariables) throw (fl::Exception) {

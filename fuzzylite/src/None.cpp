@@ -18,7 +18,7 @@ namespace fl {
     //Defuzzifier and Norms:
 
     std::string None::className() const {
-        return "none";
+        return "None";
     }
 
     bool None::isNone() const {
@@ -31,7 +31,7 @@ namespace fl {
         (void) term;
         (void) minimum;
         (void) maximum;
-        throw fl::Exception("[defuzzifier error] cannot use defuzzifier <none> for regular operation", FL_AT);
+        throw fl::Exception("[defuzzifier error] cannot use defuzzifier <" + className() + "> for regular operation", FL_AT);
     }
 
     //Norms:
@@ -39,7 +39,7 @@ namespace fl {
     scalar None::compute(scalar a, scalar b) const {
         (void) a;
         (void) b;
-        throw fl::Exception("[norm error] cannot use (S|T)-Norm <none> for regular operation", FL_AT);
+        throw fl::Exception("[norm error] cannot use (S|T)-Norm <" + className() + "> for regular operation", FL_AT);
     }
 
     Defuzzifier* None::defuzzifierConstructor() {

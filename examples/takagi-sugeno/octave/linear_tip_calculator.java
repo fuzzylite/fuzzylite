@@ -35,7 +35,7 @@ OutputVariable outputVariable = new OutputVariable();
 outputVariable.setEnabled(true);
 outputVariable.setName("Tip");
 outputVariable.setRange(10.000, 20.000);
-outputVariable.fuzzyOutput().setAccumulation(new Maximum());
+outputVariable.fuzzyOutput().setAccumulation(new AlgebraicSum());
 outputVariable.setDefuzzifier(new WeightedAverage());
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setLockValidOutput(false);

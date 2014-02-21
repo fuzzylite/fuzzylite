@@ -61,14 +61,18 @@ namespace fl {
     scalar Trapezoid::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
 
-        if (Op::isLE(x, _a) or Op::isGE(x, _d))
+        if (Op::isLt(x, _a) or Op::isGt(x, _d))
             return 0.0;
-        else if (Op::isLt(x, _b))
+        
+        if (Op::isLt(x, _b))
             return Op::min(scalar(1.0), (x - _a) / (_b - _a));
-        else if (Op::isLE(x, _c))
+        
+        if (Op::isLE(x, _c))
             return 1.0;
-        else if (Op::isLt(x, _d))
+        
+        if (Op::isLt(x, _d))
             return (_d - x) / (_d - _c);
+        
         return 0.0;
     }
 

@@ -37,6 +37,19 @@ namespace fl {
         return "GaussianProduct";
     }
 
+    scalar GaussianProduct::membership(scalar x) const {
+        if (fl::Op::isNaN(x)) return fl::nan;
+        bool xLEa = fl::Op::isLE(x, _meanA);
+        scalar a = (1 - xLEa) + xLEa * std::exp(
+                (-(x - _meanA) * (x - _meanA)) / (2 * _standardDeviationA * _standardDeviationA)
+                );
+        bool xGEb = fl::Op::isGE(x, _meanB);
+        scalar b = (1 - xGEb) + xGEb * std::exp(
+                (-(x - _meanB) * (x - _meanB)) / (2 * _standardDeviationB * _standardDeviationB)
+                );
+        return a * b;
+    }
+
     std::string GaussianProduct::parameters() const {
         return Op::join(4, " ", _meanA, _standardDeviationA, _meanB, _standardDeviationB);
     }
@@ -55,17 +68,6 @@ namespace fl {
         setStandardDeviationA(Op::toScalar(values.at(1)));
         setMeanB(Op::toScalar(values.at(2)));
         setStandardDeviationB(Op::toScalar(values.at(3)));
-    }
-
-    scalar GaussianProduct::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-        bool xLEa = fl::Op::isLE(x, _meanA);
-        scalar a = std::exp((-(x - _meanA) * (x - _meanA)) / (2 * _standardDeviationA * _standardDeviationA))
-                * xLEa + (1 - xLEa);
-        bool xGEb = fl::Op::isGE(x, _meanB);
-        scalar b = std::exp((-(x - _meanB) * (x - _meanB)) / (2 * _standardDeviationB * _standardDeviationB))
-                * xGEb + (1 - xGEb);
-        return a * b;
     }
 
     void GaussianProduct::setMeanA(scalar meanA) {

@@ -65,9 +65,8 @@ namespace fl {
             scalar z = Tsukamoto::tsukamoto(activated,
                     fuzzyOutput->getMinimum(), fuzzyOutput->getMaximum());
             //Traditionally, activation is the AlgebraicProduct and accumulation is AlgebraicSum
-            sum = fuzzyOutput->getAccumulation()->compute(sum,
-                    activated->getActivation()->compute(w, z));
-            weights = fuzzyOutput->getAccumulation()->compute(weights, w);
+            sum += activated->getActivation()->compute(w, z);
+            weights += w;
         }
 
         return sum / weights;

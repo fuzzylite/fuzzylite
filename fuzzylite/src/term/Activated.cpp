@@ -42,6 +42,11 @@ namespace fl {
         return "Activated";
     }
 
+    scalar Activated::membership(scalar x) const {
+        if (fl::Op::isNaN(x)) return fl::nan;
+        return _activation->compute(this->_term->membership(x), _degree);
+    }
+
     std::string Activated::parameters() const {
         FllExporter exporter;
         std::ostringstream ss;
@@ -52,11 +57,6 @@ namespace fl {
 
     void Activated::configure(const std::string& parameters) {
         (void) parameters;
-    }
-
-    scalar Activated::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-        return _activation->compute(this->_term->membership(x), _degree);
     }
 
     std::string Activated::toString() const {

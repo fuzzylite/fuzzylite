@@ -27,7 +27,7 @@ DEFUZZIFY Tip
   TERM FifteenPercent := Linear 0.000 0.000 15.000;
   TERM TwentyPercent := Linear 0.000 0.000 20.000;
   METHOD : COGS;
-  ACCU : MAX;
+  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 

@@ -7,7 +7,7 @@ NumRules=10
 AndMethod=''
 OrMethod=''
 ImpMethod='prod'
-AggMethod=''
+AggMethod='sum'
 DefuzzMethod='wtaver'
 
 [Input1]

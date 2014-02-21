@@ -19,7 +19,7 @@ DEFUZZIFY output
   TERM line1 := Linear -1.000 -1.000;
   TERM line2 := Linear 1.000 -1.000;
   METHOD : COGS;
-  ACCU : MAX;
+  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 

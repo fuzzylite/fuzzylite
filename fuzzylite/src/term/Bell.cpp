@@ -38,6 +38,12 @@ namespace fl {
         return "Bell";
     }
 
+    scalar Bell::membership(scalar x) const {
+        if (fl::Op::isNaN(x)) return fl::nan;
+        //from octave: gbellmf.m
+        return 1.0 / (1.0 + std::pow(std::abs((x - _center) / _width), 2 * _slope));
+    }
+
     std::string Bell::parameters() const {
         return Op::join(3, " ", _center, _width, _slope);
     }
@@ -55,12 +61,6 @@ namespace fl {
         setCenter(Op::toScalar(values.at(0)));
         setWidth(Op::toScalar(values.at(1)));
         setSlope(Op::toScalar(values.at(2)));
-    }
-
-    scalar Bell::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-        //from octave: gbellmf.m
-        return 1.0 / (1.0 + std::pow(std::abs((x - _center) / _width), 2 * _slope));
     }
 
     void Bell::setWidth(scalar a) {

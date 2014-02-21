@@ -22,7 +22,7 @@ InputVariable: input2
 OutputVariable: output
   enabled: true
   range: 0.000 1.500
-  accumulation: Maximum
+  accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
   lock-valid: false

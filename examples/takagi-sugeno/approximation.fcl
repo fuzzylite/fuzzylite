@@ -35,6 +35,7 @@ DEFUZZIFY outputFx
   TERM f8 := 0.120;
   TERM f9 := 0.040;
   METHOD : COGS;
+  ACCU : ASUM;
   DEFAULT := nan | NC;
 END_DEFUZZIFY
 
@@ -42,6 +43,7 @@ DEFUZZIFY trueFx
   RANGE := (-1.000 .. 1.000);
   TERM fx := Function sin(inputX)/inputX;
   METHOD : COGS;
+  ACCU : ASUM;
   DEFAULT := nan | NC;
 END_DEFUZZIFY
 
@@ -49,10 +51,13 @@ DEFUZZIFY diffFx
   RANGE := (-1.000 .. 1.000);
   TERM diff := Function fabs(outputFx-trueFx);
   METHOD : COGS;
+  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
 RULEBLOCK 
+  AND : NONE;
+  OR : NONE;
   ACT : PROD;
   RULE 1 : if inputX is NEAR_1 then outputFx is f1
   RULE 2 : if inputX is NEAR_2 then outputFx is f2

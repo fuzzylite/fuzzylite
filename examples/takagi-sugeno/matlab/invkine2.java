@@ -43,7 +43,7 @@ OutputVariable outputVariable = new OutputVariable();
 outputVariable.setEnabled(true);
 outputVariable.setName("output");
 outputVariable.setRange(0.000, 3.100);
-outputVariable.fuzzyOutput().setAccumulation(new Maximum());
+outputVariable.fuzzyOutput().setAccumulation(new AlgebraicSum());
 outputVariable.setDefuzzifier(new WeightedAverage());
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setLockValidOutput(false);

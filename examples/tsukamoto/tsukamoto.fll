@@ -8,7 +8,7 @@ InputVariable: X
 OutputVariable: A
   enabled: true
   range: 0.000 1.000
-  accumulation: none
+  accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
   lock-valid: false
@@ -19,7 +19,7 @@ OutputVariable: A
 OutputVariable: B
   enabled: true
   range: 0.000 1.000
-  accumulation: none
+  accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
   lock-valid: false
@@ -30,7 +30,7 @@ OutputVariable: B
 OutputVariable: C
   enabled: true
   range: 0.000 1.000
-  accumulation: none
+  accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
   lock-valid: false
@@ -40,8 +40,8 @@ OutputVariable: C
   term: c3 SShape 0.700 1.000
 RuleBlock: 
   enabled: true
-  conjunction: none
-  disjunction: none
+  conjunction: None
+  disjunction: None
   activation: AlgebraicProduct
   rule: if X is small then A is a1 and B is b1 and C is c1
   rule: if X is medium then A is a2 and B is b2 and C is c2

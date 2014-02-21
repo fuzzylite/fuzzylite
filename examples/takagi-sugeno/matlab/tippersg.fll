@@ -13,7 +13,7 @@ InputVariable: food
 OutputVariable: tip
   enabled: true
   range: -30.000 30.000
-  accumulation: Maximum
+  accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
   lock-valid: false

@@ -31,6 +31,22 @@ namespace fl {
     Ramp::~Ramp() {
     }
 
+    scalar Ramp::membership(scalar x) const {
+        if (fl::Op::isNaN(x)) return fl::nan;
+
+        if (Op::isEq(_start, _end)) return 0.0;
+
+        if (Op::isLt(_start, _end)) {
+            if (Op::isLE(x, _start)) return 0.0;
+            if (Op::isGE(x, _end)) return 1.0;
+            return (x - _start) / (_end - _start);
+        } else {
+            if (Op::isGE(x, _start)) return 0.0;
+            if (Op::isLE(x, _end)) return 1.0;
+            return (_start - x) / (_start - _end);
+        }
+    }
+
     std::string Ramp::className() const {
         return "Ramp";
     }
@@ -51,22 +67,6 @@ namespace fl {
         }
         setStart(Op::toScalar(values.at(0)));
         setEnd(Op::toScalar(values.at(1)));
-    }
-
-    scalar Ramp::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-
-        if (Op::isEq(_start, _end)) return 0.0;
-
-        if (Op::isLt(_start, _end)) {
-            if (Op::isLE(x, _start)) return 0.0;
-            if (Op::isGE(x, _end)) return 1.0;
-            return (x - _start) / (_end - _start);
-        } else {
-            if (Op::isGE(x, _start)) return 0.0;
-            if (Op::isLE(x, _end)) return 1.0;
-            return (_start - x) / (_start - _end);
-        }
     }
 
     void Ramp::setStart(scalar start) {

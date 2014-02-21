@@ -28,6 +28,11 @@ namespace fl {
         return "Constant";
     }
 
+    scalar Constant::membership(scalar x) const {
+        (void) x;
+        return this->_value;
+    }
+
     std::string Constant::parameters() const {
         return Op::str(_value);
     }
@@ -35,11 +40,6 @@ namespace fl {
     void Constant::configure(const std::string& parameters) {
         if (parameters.empty()) return;
         setValue(Op::toScalar(parameters));
-    }
-
-    scalar Constant::membership(scalar x) const {
-        (void) x;
-        return this->_value;
     }
 
     void Constant::setValue(scalar value) {

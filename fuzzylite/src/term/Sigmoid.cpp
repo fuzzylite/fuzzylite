@@ -38,6 +38,11 @@ namespace fl {
         return "Sigmoid";
     }
 
+    scalar Sigmoid::membership(scalar x) const {
+        if (fl::Op::isNaN(x)) return fl::nan;
+        return 1.0 / (1.0 + std::exp(-_slope * (x - _inflection)));
+    }
+
     std::string Sigmoid::parameters() const {
         return Op::join(2, " ", _inflection, _slope);
     }
@@ -54,11 +59,6 @@ namespace fl {
         }
         setInflection(Op::toScalar(values.at(0)));
         setSlope(Op::toScalar(values.at(1)));
-    }
-
-    scalar Sigmoid::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-        return 1.0 / (1.0 + std::exp(-_slope * (x - _inflection)));
     }
 
     void Sigmoid::setSlope(scalar a) {

@@ -63,16 +63,16 @@ namespace fl {
     scalar Triangle::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
 
-        scalar minimum = _a;
-        scalar maximum = _c;
-        if (Op::isLE(x, minimum) or Op::isGE(x, maximum))
+        if (Op::isLt(x, _a) or Op::isGt(x, _c))
             return 0.0;
-        else if (Op::isEq(x, _b))
+
+        if (Op::isEq(x, _b))
             return 1.0;
-        else if (Op::isLt(x, _b))
-            return (x - minimum) / (_b - minimum);
-        else
-            return (maximum - x) / (maximum - _b);
+
+        if (Op::isLt(x, _b))
+            return (x - _a) / (_b - _a);
+
+        return (_c - x) / (_c - _b);
     }
 
     void Triangle::setA(scalar a) {

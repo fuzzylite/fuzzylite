@@ -37,6 +37,35 @@ namespace fl {
         return "PiShape";
     }
 
+    scalar PiShape::membership(scalar x) const {
+        if (fl::Op::isNaN(x)) return fl::nan;
+        //from Octave smf.m
+        scalar a_b_ave = (_bottomLeft + _topLeft) / 2.0;
+        scalar b_minus_a = _topLeft - _bottomLeft;
+        scalar c_d_ave = (_topRight + _bottomRight) / 2.0;
+        scalar d_minus_c = _bottomRight - _topRight;
+
+        if (Op::isLE(x, _bottomLeft)) return 0.0;
+
+        if (Op::isLE(x, a_b_ave))
+            return 2.0 * std::pow((x - _bottomLeft) / b_minus_a, 2);
+
+        if (Op::isLt(x, _topLeft))
+            return 1.0 - 2.0 * std::pow((x - _topLeft) / b_minus_a, 2);
+
+        if (Op::isLE(x, _topRight))
+            return 1.0;
+
+        if (Op::isLE(x, c_d_ave))
+            return 1.0 - 2.0 * std::pow((x - _topRight) / d_minus_c, 2);
+
+        if (Op::isLt(x, _bottomRight))
+            return 2.0 * std::pow((x - _bottomRight) / d_minus_c, 2);
+
+        return 0.0;
+
+    }
+
     std::string PiShape::parameters() const {
         return Op::join(4, " ", _bottomLeft, _topLeft, _topRight, _bottomRight);
     }
@@ -55,35 +84,6 @@ namespace fl {
         setTopLeft(Op::toScalar(values.at(1)));
         setTopRight(Op::toScalar(values.at(2)));
         setBottomRight(Op::toScalar(values.at(3)));
-    }
-
-    scalar PiShape::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-        //from Octave smf.m
-        scalar a_b_ave = (_bottomLeft + _topLeft) / 2.0;
-        scalar b_minus_a = _topLeft - _bottomLeft;
-        scalar c_d_ave = (_topRight + _bottomRight) / 2.0;
-        scalar d_minus_c = _bottomRight - _topRight;
-
-        if (Op::isLE(x, _bottomLeft)) return 0.0;
-
-        else if (Op::isLE(x, a_b_ave))
-            return 2.0 * std::pow((x - _bottomLeft) / b_minus_a, 2);
-
-        else if (Op::isLt(x, _topLeft))
-            return 1.0 - 2.0 * std::pow((x - _topLeft) / b_minus_a, 2);
-
-        else if (Op::isLE(x, _topRight))
-            return 1;
-
-        else if (Op::isLE(x, c_d_ave))
-            return 1 - 2 * std::pow((x - _topRight) / d_minus_c, 2);
-
-        else if (Op::isLt(x, _bottomRight))
-            return 2 * std::pow((x - _bottomRight) / d_minus_c, 2);
-
-        return 0.0;
-
     }
 
     void PiShape::setBottomLeft(scalar a) {

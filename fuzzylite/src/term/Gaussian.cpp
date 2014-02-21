@@ -39,6 +39,11 @@ namespace fl {
         return "Gaussian";
     }
 
+    scalar Gaussian::membership(scalar x) const {
+        if (fl::Op::isNaN(x)) return fl::nan;
+        return std::exp((-(x - _mean) * (x - _mean)) / (2 * _standardDeviation * _standardDeviation));
+    }
+
     std::string Gaussian::parameters() const {
         return Op::join(2, " ", _mean, _standardDeviation);
     }
@@ -55,11 +60,6 @@ namespace fl {
         }
         setMean(Op::toScalar(values.at(0)));
         setStandardDeviation(Op::toScalar(values.at(1)));
-    }
-
-    scalar Gaussian::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-        return std::exp((-(x - _mean) * (x - _mean)) / (2 * _standardDeviation * _standardDeviation));
     }
 
     void Gaussian::setMean(scalar c) {

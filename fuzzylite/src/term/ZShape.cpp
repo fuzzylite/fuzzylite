@@ -62,10 +62,10 @@ namespace fl {
 
         if (Op::isLE(x, _start)) return 1.0;
 
-        else if (Op::isLE(x, average))
+        if (Op::isLE(x, average))
             return 1.0 - 2.0 * std::pow((x - _start) / difference, 2);
 
-        else if (Op::isLt(x, _end))
+        if (Op::isLt(x, _end))
             return 2.0 * std::pow((x - _end) / difference, 2);
 
         return 0.0;

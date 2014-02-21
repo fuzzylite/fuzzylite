@@ -28,7 +28,7 @@ DEFUZZIFY tip
   TERM average := Linear 0.000 0.000 15.000;
   TERM generous := Linear 0.000 0.000 25.000;
   METHOD : COGS;
-  ACCU : MAX;
+  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 

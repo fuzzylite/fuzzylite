@@ -39,6 +39,14 @@ namespace fl {
         return "SigmoidDifference";
     }
 
+    scalar SigmoidDifference::membership(scalar x) const {
+        if (fl::Op::isNaN(x)) return fl::nan;
+
+        scalar a = 1.0 / (1 + std::exp(-_rising * (x - _left)));
+        scalar b = 1.0 / (1 + std::exp(-_falling * (x - _right)));
+        return std::abs(a - b);
+    }
+
     std::string SigmoidDifference::parameters() const {
         return Op::join(4, " ", _left, _rising, _falling, _right);
     }
@@ -57,14 +65,6 @@ namespace fl {
         setRising(Op::toScalar(values.at(1)));
         setFalling(Op::toScalar(values.at(2)));
         setRight(Op::toScalar(values.at(3)));
-    }
-
-    scalar SigmoidDifference::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-
-        scalar a = 1.0 / (1 + std::exp(-_rising * (x - _left)));
-        scalar b = 1.0 / (1 + std::exp(-_falling * (x - _right)));
-        return std::abs(a - b);
     }
 
     void SigmoidDifference::setLeft(scalar leftInflection) {

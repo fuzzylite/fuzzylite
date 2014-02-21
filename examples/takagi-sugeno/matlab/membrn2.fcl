@@ -35,7 +35,7 @@ DEFUZZIFY out1
   TERM out1mf8 := Linear -0.384 0.067 10.158;
   TERM out1mf9 := Linear -0.002 0.035 -1.402;
   METHOD : COGS;
-  ACCU : MAX;
+  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 

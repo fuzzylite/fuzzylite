@@ -10,8 +10,8 @@ function [engine] = compare(fisFile, fldFile, delimiter, hasMetadata)
     engine = readfis(fisFile);
     flMatrix = dlmread(fldFile, delimiter, hasMetadata ~= 0, 0);
 
-    if (length(engine.input) + length(engine.output) ~= ndims(flMatrix))
-        error('fuzzylite.m', 'Number of inputs and outputs in engine differ from FLD matrix');
+    if (length(engine.input) + length(engine.output) ~= size(flMatrix, 2))
+        error('fuzzylite:compare.m', 'Number of inputs and outputs in engine differ from FLD matrix');
     end
 
     if (isempty(engine.andMethod))
@@ -25,8 +25,11 @@ function [engine] = compare(fisFile, fldFile, delimiter, hasMetadata)
     engine.outputValues = evalfis(engine.inputValues, engine);
     engine.flOutputValues = flMatrix(1:end, (length(engine.input) + 1):(length(engine.input) + length(engine.output)));
     engine.outputDiff=engine.outputValues-engine.flOutputValues;
+    engine.fld=[engine.inputValues engine.outputValues engine.flOutputValues  engine.outputDiff];
+    engine.nanfreeDiff=engine.outputDiff;
+    engine.nanfreeDiff(find(isnan(engine.nanfreeDiff))) = 0;
     engine.mse=nansum(engine.outputDiff.^2)/size(engine.outputDiff,1);
-    %TODO: five number summary
+    engine.quantiles = prctile(engine.nanfreeDiff, 0:25:100);
 end
 
 

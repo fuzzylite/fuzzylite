@@ -52,6 +52,47 @@ namespace fl {
         return "Discrete";
     }
 
+    scalar Discrete::membership(scalar _x_) const {
+        if (fl::Op::isNaN(_x_)) return fl::nan;
+        if (x.empty() or y.empty()) return 0.0;
+        if (x.size() != y.size()) {
+            std::ostringstream ex;
+            ex << "[discrete term] vectors x["
+                    << x.size() << "] and y[" << y.size() << "] have different sizes";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+
+        /*                ______________________
+         *               /                      \
+         *              /                        \
+         * ____________/                          \____________
+         *            x[0]                      x[n-1]
+         */
+
+
+        if (fl::Op::isLE(_x_, x.front())) return y.front();
+        if (fl::Op::isGE(_x_, x.back())) return y.back();
+
+        int lower = -1, upper = -1;
+
+        for (std::size_t i = 0; i < x.size(); ++i) {
+            if (Op::isEq(x.at(i), _x_)) return y.at(i);
+            //approximate on the left
+            if (Op::isLt(x.at(i), _x_)) {
+                lower = i;
+            }
+            //get the immediate next one on the right
+            if (Op::isGt(x.at(i), _x_)) {
+                upper = i;
+                break;
+            }
+        }
+        if (upper < 0) upper = x.size() - 1;
+        if (lower < 0) lower = 0;
+
+        return Op::scale(_x_, x.at(lower), x.at(upper), y.at(lower), y.at(upper));
+    }
+
     std::string Discrete::parameters() const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < x.size(); ++i) {
@@ -104,51 +145,10 @@ namespace fl {
     }
 
     template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc,
-            double x1, double y1, ...) throw (fl::Exception); 
+            double x1, double y1, ...) throw (fl::Exception);
     //double, not scalar because variadic promotes floats to double
     template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc,
             int x1, int y1, ...) throw (fl::Exception);
-
-    scalar Discrete::membership(scalar _x_) const {
-        if (fl::Op::isNaN(_x_)) return fl::nan;
-        if (x.empty() or y.empty()) return 0.0;
-        if (x.size() != y.size()) {
-            std::ostringstream ex;
-            ex << "[discrete term] vectors x["
-                    << x.size() << "] and y[" << y.size() << "] have different sizes";
-            throw fl::Exception(ex.str(), FL_AT);
-        }
-
-        /*                ______________________
-         *               /                      \
-         *              /                        \
-         * ____________/                          \____________
-         *            x[0]                      x[n-1]
-         */
-
-
-        if (fl::Op::isLE(_x_, x.front())) return y.front();
-        if (fl::Op::isGE(_x_, x.back())) return y.back();
-
-        int lower = -1, upper = -1;
-
-        for (std::size_t i = 0; i < x.size(); ++i) {
-            if (Op::isEq(x.at(i), _x_)) return y.at(i);
-            //approximate on the left
-            if (Op::isLt(x.at(i), _x_)) {
-                lower = i;
-            }
-            //get the immediate next one on the right
-            if (Op::isGt(x.at(i), _x_)) {
-                upper = i;
-                break;
-            }
-        }
-        if (upper < 0) upper = x.size() - 1;
-        if (lower < 0) lower = 0;
-
-        return Op::scale(_x_, x.at(lower), x.at(upper), y.at(lower), y.at(upper));
-    }
 
     Discrete* Discrete::copy() const {
         return new Discrete(*this);

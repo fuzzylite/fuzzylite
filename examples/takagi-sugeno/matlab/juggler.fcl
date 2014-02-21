@@ -35,7 +35,7 @@ DEFUZZIFY theta
   TERM out1mf := Linear -0.022 -0.500 1.256;
   TERM out1mf := Linear -0.022 -0.500 1.256;
   METHOD : COGS;
-  ACCU : MAX;
+  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 

@@ -38,6 +38,13 @@ namespace fl {
         return "Rectangle";
     }
 
+    scalar Rectangle::membership(scalar x) const {
+        if (fl::Op::isNaN(x)) return fl::nan;
+        if (fl::Op::isLt(x, _start) or fl::Op::isGt(x, _end))
+            return 0.0;
+        return 1.0;
+    }
+
     std::string Rectangle::parameters() const {
         return Op::join(2, " ", _start, _end);
     }
@@ -54,13 +61,6 @@ namespace fl {
         }
         setStart(Op::toScalar(values.at(0)));
         setEnd(Op::toScalar(values.at(1)));
-    }
-
-    scalar Rectangle::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-        if (fl::Op::isLt(x, _start) or fl::Op::isGt(x, _end))
-            return 0.0;
-        return 1.0;
     }
 
     void Rectangle::setStart(scalar minimum) {
