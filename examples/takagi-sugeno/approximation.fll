@@ -48,8 +48,8 @@ OutputVariable: diffFx
   term: diff Function fabs(outputFx-trueFx)
 RuleBlock: 
   enabled: true
-  conjunction: None
-  disjunction: None
+  conjunction: none
+  disjunction: none
   activation: AlgebraicProduct
   rule: if inputX is NEAR_1 then outputFx is f1
   rule: if inputX is NEAR_2 then outputFx is f2

@@ -35,7 +35,6 @@ namespace fl {
         TNormFactory();
         virtual ~TNormFactory();
         
-        virtual TNorm* createInstance(const std::string& key) const;
     };
 }
 #endif	/* FL_TNORMFACTORY_H */

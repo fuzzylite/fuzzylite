@@ -22,7 +22,6 @@
 
 #include "fl/factory/TNormFactory.h"
 
-#include "fl/None.h"
 #include "fl/norm/t/AlgebraicProduct.h"
 #include "fl/norm/t/BoundedDifference.h"
 #include "fl/norm/t/DrasticProduct.h"
@@ -34,7 +33,6 @@
 namespace fl {
 
     TNormFactory::TNormFactory() {
-        registerClass(None().className(), &(None::tnormConstructor));
         registerClass(AlgebraicProduct().className(), &(AlgebraicProduct::constructor));
         registerClass(BoundedDifference().className(), &(BoundedDifference::constructor));
         registerClass(DrasticProduct().className(), &(DrasticProduct::constructor));
@@ -46,11 +44,5 @@ namespace fl {
 
     TNormFactory::~TNormFactory() {
     }
-
-    TNorm* TNormFactory::createInstance(const std::string& key) const {
-        if (key.empty()) return None::tnormConstructor();
-        return Factory<TNorm*>::createInstance(key);
-    }
-
 
 }

@@ -119,9 +119,19 @@ namespace fl {
         return FllExporter("", "; ").toString(this);
     }
 
-    /**
+/**
      * Operations for datatype _terms
      */
+
+    struct SortByCoG {
+        std::map<const Term*, scalar> centroids;
+
+        bool operator() (const Term* a, const Term * b) {
+            return fl::Op::isLt(
+                    centroids.find(a)->second,
+                    centroids.find(b)->second);
+        }
+    };
 
     void Variable::sort() {
         std::map<const Term*, scalar> centroids;

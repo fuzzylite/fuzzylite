@@ -44,16 +44,6 @@ namespace fl {
         scalar _minimum, _maximum;
         bool _enabled;
 
-        struct SortByCoG {
-            std::map<const Term*, scalar> centroids;
-
-            bool operator() (const Term* a, const Term * b) {
-                return fl::Op::isLt(
-                        centroids.find(a)->second,
-                        centroids.find(b)->second);
-            }
-        };
-
     public:
         Variable(const std::string& name = "",
                 scalar minimum = -fl::inf,

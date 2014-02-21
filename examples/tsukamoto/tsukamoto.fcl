@@ -48,8 +48,6 @@ DEFUZZIFY C
 END_DEFUZZIFY
 
 RULEBLOCK 
-  AND : NONE;
-  OR : NONE;
   ACT : PROD;
   RULE 1 : if X is small then A is a1 and B is b1 and C is c1
   RULE 2 : if X is medium then A is a2 and B is b2 and C is c2

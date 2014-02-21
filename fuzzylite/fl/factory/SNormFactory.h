@@ -34,8 +34,6 @@ namespace fl {
     public:
         SNormFactory();
         virtual ~SNormFactory();
-        
-        virtual SNorm* createInstance(const std::string& key) const;
     };
 }
 #endif	/* FL_SNORMFACTORY_H */

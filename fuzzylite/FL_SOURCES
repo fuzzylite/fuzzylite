@@ -49,7 +49,6 @@ src/norm/t/EinsteinProduct.cpp
 src/norm/t/HamacherProduct.cpp
 src/norm/t/Minimum.cpp
 src/norm/t/NilpotentMinimum.cpp
-src/None.cpp
 src/Operation.cpp
 src/rule/Antecedent.cpp
 src/rule/Consequent.cpp

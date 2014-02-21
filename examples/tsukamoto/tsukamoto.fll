@@ -40,8 +40,8 @@ OutputVariable: C
   term: c3 SShape 0.700 1.000
 RuleBlock: 
   enabled: true
-  conjunction: None
-  disjunction: None
+  conjunction: none
+  disjunction: none
   activation: AlgebraicProduct
   rule: if X is small then A is a1 and B is b1 and C is c1
   rule: if X is medium then A is a2 and B is b2 and C is c2

@@ -337,7 +337,7 @@ namespace fl {
         }
         std::string name = Op::trim(token.at(1));
         std::string className = name;
-        if (name == "NONE") className = None().className();
+        if (name == "NONE") className = "";
         else if (name == "MIN") className = Minimum().className();
         else if (name == "PROD") className = AlgebraicProduct().className();
         else if (name == "BDIF") className = BoundedDifference().className();
@@ -365,7 +365,7 @@ namespace fl {
         }
         std::string name = Op::trim(token.at(1));
         std::string className = name;
-        if (name == "NONE") className = None().className();
+        if (name == "NONE") className = "";
         else if (name == "MAX") className = Maximum().className();
         else if (name == "ASUM") className = AlgebraicSum().className();
         else if (name == "BSUM") className = BoundedSum().className();
@@ -486,7 +486,7 @@ namespace fl {
 
         std::string name = fl::Op::trim(token.at(1));
         std::string className = name;
-        if (name == "NONE") className = None().className();
+        if (name == "NONE") className = "";
         else if (name == "COG") className = Centroid().className();
         else if (name == "COA") className = Bisector().className();
         else if (name == "LM") className = SmallestOfMaximum().className();

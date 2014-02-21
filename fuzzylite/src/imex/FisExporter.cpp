@@ -296,7 +296,6 @@ namespace fl {
 
     std::string FisExporter::toString(const TNorm * tnorm) const {
         if (not tnorm) return "";
-        if (tnorm->className() == None().className()) return "";
         if (tnorm->className() == Minimum().className()) return "min";
         if (tnorm->className() == AlgebraicProduct().className()) return "prod";
         if (tnorm->className() == BoundedDifference().className()) return "bounded_difference";
@@ -309,7 +308,6 @@ namespace fl {
 
     std::string FisExporter::toString(const SNorm * snorm) const {
         if (not snorm) return "";
-        if (snorm->className() == None().className()) return "";
         if (snorm->className() == Maximum().className()) return "max";
         if (snorm->className() == AlgebraicSum().className()) return "sum";
         if (snorm->className() == BoundedSum().className()) return "bounded_sum";
@@ -323,7 +321,6 @@ namespace fl {
 
     std::string FisExporter::toString(const Defuzzifier * defuzzifier) const {
         if (not defuzzifier) return "";
-        if (defuzzifier->className() == None().className()) return "";
         if (defuzzifier->className() == Centroid().className()) return "centroid";
         if (defuzzifier->className() == Bisector().className()) return "bisector";
         if (defuzzifier->className() == LargestOfMaximum().className()) return "lom";

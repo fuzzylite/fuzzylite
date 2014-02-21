@@ -131,12 +131,12 @@ namespace fl {
                             << " has no terms\n";
                 }
                 SNorm* accumulation = outputVariable->fuzzyOutput()->getAccumulation();
-                if (not accumulation or accumulation->isNone()) {
+                if (not accumulation) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no Accumulation\n";
                 }
                 Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
-                if (not defuzzifier or defuzzifier->isNone()) {
+                if (not defuzzifier) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no Defuzzifier\n";
                 }
@@ -174,19 +174,19 @@ namespace fl {
                     }
                 }
                 const TNorm* conjunction = ruleblock->getConjunction();
-                if (requiresConjunction > 0 and (not conjunction or conjunction->isNone())) {
+                if (requiresConjunction > 0 and not conjunction) {
                     ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no Conjunction\n";
                     ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has "
                             << requiresConjunction << " rules that require Conjunction\n";
                 }
                 const SNorm* disjunction = ruleblock->getDisjunction();
-                if (requiresDisjunction > 0 and (not disjunction or disjunction->isNone())) {
+                if (requiresDisjunction > 0 and not disjunction) {
                     ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no Disjunction\n";
                     ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has "
                             << requiresDisjunction << " rules that require Disjunction\n";
                 }
                 const TNorm* activation = ruleblock->getActivation();
-                if (not activation or activation->isNone()) {
+                if (not activation) {
                     ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no Activation\n";
                 }
             }

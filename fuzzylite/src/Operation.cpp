@@ -15,7 +15,6 @@
 
 #include "fl/Operation.h"
 
-#include "fl/None.h"
 #include "fl/norm/Norm.h"
 #include "fl/norm/SNorm.h"
 #include "fl/norm/TNorm.h"

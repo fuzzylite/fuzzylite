@@ -40,9 +40,6 @@ namespace fl {
         virtual ~Norm() {
         }
 
-        virtual bool isNone() const {
-            return false;
-        }
         virtual std::string className() const = 0;
         virtual scalar compute(scalar a, scalar b) const = 0;
 

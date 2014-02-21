@@ -56,8 +56,6 @@ DEFUZZIFY diffFx
 END_DEFUZZIFY
 
 RULEBLOCK 
-  AND : NONE;
-  OR : NONE;
   ACT : PROD;
   RULE 1 : if inputX is NEAR_1 then outputFx is f1
   RULE 2 : if inputX is NEAR_2 then outputFx is f2
