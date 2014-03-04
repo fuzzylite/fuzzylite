@@ -11,3 +11,5 @@ lib/
 gui~/
 nbproject/
 qtfuzzylite/ui/ui_*
+ui_*
+moc_*

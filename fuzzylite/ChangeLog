@@ -60,7 +60,8 @@ Version 5.0
 * Added an M-file to compare output values of fuzzylite engines with Matlab
 * Removed automatic delete of previous pointers on OutputVariable::setDefuzzifier, Accumulated::setAccumulation, RuleBlock::set(Conjunction|Disjunction|Activation)
 * Removed const from Norms in RuleBlock::(get|set)(Activation|Conjunction|Disjunction)
-
+* Deleted method Op::repeat
+* Added built-in functions gt,lt,ge,le,eq,not and operator ! (equivalent to not())
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.

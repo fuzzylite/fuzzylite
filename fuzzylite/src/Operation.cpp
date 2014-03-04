@@ -116,8 +116,32 @@ namespace fl {
         return -a;
     }
 
+    scalar Operation::logicalNot(scalar a) {
+        return isEq(a, 1.0) ? 0.0 : 1.0;
+    }
+
     scalar Operation::round(scalar x) {
         return (x > 0.0) ? floor(x + 0.5) : ceil(x - 0.5);
+    }
+
+    scalar Operation::gt(scalar a, scalar b) {
+        return not isEq(a, b, fl::fuzzylite::macheps()) and a > b;
+    }
+
+    scalar Operation::ge(scalar a, scalar b) {
+        return isEq(a, b, fl::fuzzylite::macheps()) or a > b;
+    }
+
+    scalar Operation::eq(scalar a, scalar b) {
+        return std::fabs(a - b) < fl::fuzzylite::macheps();
+    }
+
+    scalar Operation::le(scalar a, scalar b) {
+        return isEq(a, b, fl::fuzzylite::macheps()) or a < b;
+    }
+
+    scalar Operation::lt(scalar a, scalar b) {
+        return not isEq(a, b, fl::fuzzylite::macheps()) and a < b;
     }
 
     bool Operation::increment(std::vector<int>& x, std::vector<int>& min, std::vector<int>& max) {
@@ -257,15 +281,6 @@ namespace fl {
             (void) ex;
             return false;
         }
-    }
-
-    std::string Operation::repeat(const std::string& x, int times, const std::string& sep) {
-        std::ostringstream ss;
-        for (int i = 0; i < times; ++i) {
-            ss << x;
-            if (not sep.empty() and i + 1 < times) ss << sep;
-        }
-        return ss.str();
     }
 
     template <typename T>

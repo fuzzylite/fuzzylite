@@ -39,7 +39,7 @@ namespace fl {
 
     class FL_EXPORT Operation {
     public:
-        
+
         template <typename T>
         static T min(T a, T b);
 
@@ -54,19 +54,11 @@ namespace fl {
 
         //Is less than
 
-        static bool isLt(scalar a, scalar b, scalar macheps = fuzzylite::macheps());
-
-        static bool isLE(scalar a, scalar b, scalar macheps = fuzzylite::macheps());
-
-        //Is equal
-
-        static bool isEq(scalar a, scalar b, scalar macheps = fuzzylite::macheps());
-
-        //Is greater than
-
-        static bool isGt(scalar a, scalar b, scalar macheps = fuzzylite::macheps());
-
-        static bool isGE(scalar a, scalar b, scalar macheps = fuzzylite::macheps());
+        static bool isLt(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
+        static bool isLE(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
+        static bool isEq(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
+        static bool isGt(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
+        static bool isGE(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
 
         static scalar scale(scalar x, scalar fromMin, scalar fromMax,
                 scalar toMin, scalar toMax);
@@ -78,9 +70,20 @@ namespace fl {
         static scalar modulo(scalar a, scalar b);
         static scalar logicalAnd(scalar a, scalar b);
         static scalar logicalOr(scalar a, scalar b);
+        static scalar logicalNot(scalar a);
         static scalar negate(scalar a);
-
         static scalar round(scalar x);
+        
+        //greater than
+        static scalar gt(scalar a, scalar b);
+        //greater than or equal to
+        static scalar ge(scalar a, scalar b);
+        //equal to
+        static scalar eq(scalar a, scalar b);
+        //less than or equal to
+        static scalar le(scalar a, scalar b);
+        //less than
+        static scalar lt(scalar a, scalar b);
 
         static bool increment(std::vector<int>& x, std::vector<int>& min, std::vector<int>& max);
         static bool increment(std::vector<int>& x, int position, std::vector<int>& min, std::vector<int>& max);
@@ -104,10 +107,6 @@ namespace fl {
                 scalar alternative = fl::nan) throw (fl::Exception);
 
         static bool isNumeric(const std::string& x);
-
-        //TODO: delete this "useless" method in 5.0
-        static std::string repeat(const std::string& x, int times,
-                const std::string& sep = "");
 
         template <typename T>
         static std::string str(T x, int decimals = fuzzylite::decimals());

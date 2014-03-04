@@ -230,7 +230,7 @@ namespace fl {
     void Function::loadOperators() {
         int p = 7;
         // (!) Logical and (~) Bitwise NOT
-        //        this->_unaryOperators["!"] = new Operator("!", std::logical_not<scalar>, p, 1);
+        this->operators["!"] = new Operator("!", &(fl::Op::logicalNot), p, 1);
         // ~ negates a number
         this->operators["~"] = new Operator("~", &(fl::Op::negate), p, 1);
         --p; //Power
@@ -255,6 +255,15 @@ namespace fl {
     }
 
     void Function::loadBuiltInFunctions() {
+        this->functions["gt"] = new BuiltInFunction("gt", &(fl::Op::gt));
+        this->functions["ge"] = new BuiltInFunction("ge", &(fl::Op::ge));
+        this->functions["eq"] = new BuiltInFunction("eq", &(fl::Op::eq));
+        this->functions["le"] = new BuiltInFunction("le", &(fl::Op::le));
+        this->functions["lt"] = new BuiltInFunction("lt", &(fl::Op::lt));
+        
+        this->functions["not"] = new BuiltInFunction("not", &(fl::Op::logicalNot));
+        this->functions["round"] = new BuiltInFunction("lt", &(fl::Op::round));
+        
         this->functions["acos"] = new BuiltInFunction("acos", &(std::acos));
         this->functions["asin"] = new BuiltInFunction("asin", &(std::asin));
         this->functions["atan"] = new BuiltInFunction("atan", &(std::atan));
