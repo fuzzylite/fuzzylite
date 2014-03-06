@@ -1,3 +1,0 @@
-qtfuzzylite 4.0
-* Use by default Qt5.0, unless specified -DFL_USE_QT4=ON
-* Java exporter to jfuzzylite
