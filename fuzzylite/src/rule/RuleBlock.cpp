@@ -137,6 +137,28 @@ namespace fl {
         return this->_enabled;
     }
 
+    void RuleBlock::clear() {
+        setName("");
+        setEnabled(true);
+        for (std::size_t i = 0; i < _rules.size(); ++i) {
+            _rules.at(i)->unload();
+            delete _rules.at(i);
+        }
+        _rules.clear();
+        if (_activation) {
+            delete _activation;
+            setActivation(NULL);
+        }
+        if (_conjunction) {
+            delete _conjunction;
+            setConjunction(NULL);
+        }
+        if (_disjunction) {
+            delete _disjunction;
+            setDisjunction(NULL);
+        }
+    }
+
     std::string RuleBlock::toString() const {
         return FllExporter("", "; ").toString(this);
     }

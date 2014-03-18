@@ -55,4 +55,10 @@ namespace fl {
         return FllExporter("", "; ").toString(this);
     }
 
+    void InputVariable::clear() {
+        Variable::clear();
+        setInputValue(fl::nan);
+    }
+
+
 }

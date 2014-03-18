@@ -124,7 +124,18 @@ namespace fl {
         return FllExporter("", "; ").toString(this);
     }
 
-/**
+    void Variable::clear() {
+        setEnabled(true);
+        setMaximum(fl::inf);
+        setMinimum(-fl::inf);
+        setName("");
+        for (std::size_t i = 0 ; i < _terms.size(); ++i){
+            delete _terms.at(i);
+        }
+        _terms.clear();
+    }
+
+        /**
      * Operations for datatype _terms
      */
 

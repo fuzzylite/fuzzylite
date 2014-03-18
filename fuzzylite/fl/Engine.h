@@ -98,6 +98,8 @@ namespace fl {
         };
         virtual Type type(std::string* name = NULL) const;
 
+        virtual void clear();
+        
         /**
          * Operations for iterable datatype _inputVariables
          */

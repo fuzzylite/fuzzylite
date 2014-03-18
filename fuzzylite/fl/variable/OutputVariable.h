@@ -82,6 +82,9 @@ namespace fl {
 
         virtual std::string toString() const;
 
+        virtual void clear();
+
+
     private:
         FL_DISABLE_COPY(OutputVariable)
 

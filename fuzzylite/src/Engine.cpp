@@ -404,6 +404,24 @@ namespace fl {
         return Engine::Unknown;
     }
 
+    void Engine::clear() {
+        setName("");
+        for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
+            delete _ruleblocks.at(i);
+        }
+        _ruleblocks.clear();
+
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            delete _outputVariables.at(i);
+        }
+        _outputVariables.clear();
+
+        for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
+            delete _inputVariables.at(i);
+        }
+        _inputVariables.clear();
+    }
+
     /**
      * Operations for iterable datatype _inputVariables
      */

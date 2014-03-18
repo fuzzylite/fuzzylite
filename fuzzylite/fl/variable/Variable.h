@@ -75,6 +75,8 @@ namespace fl {
         virtual Term* highestMembership(scalar x, scalar* yhighest = NULL) const;
 
         virtual std::string toString() const;
+        
+        virtual void clear();
 
         /**
          * Operations for iterable datatype _terms

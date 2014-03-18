@@ -72,6 +72,8 @@ namespace fl {
 
         virtual void unloadRules() const;
         virtual void loadRules(const Engine* engine);
+        
+        virtual void clear();
 
         virtual std::string toString() const;
 

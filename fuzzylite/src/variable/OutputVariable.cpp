@@ -179,4 +179,23 @@ namespace fl {
         return FllExporter("", "; ").toString(this);
     }
 
+    void OutputVariable::clear() {
+        Variable::clear();
+        fuzzyOutput()->clear();
+        if (fuzzyOutput()->getAccumulation()){
+            delete fuzzyOutput()->getAccumulation();
+            fuzzyOutput()->setAccumulation(NULL);
+        }
+        setDefaultValue(fl::nan);
+        if (_defuzzifier){
+            delete _defuzzifier;
+            setDefuzzifier(NULL);
+        }
+        setLastValidOutputValue(fl::nan);
+        setLockOutputRange(false);
+        setLockValidOutput(false);
+        setOutputValue(fl::nan);
+    }
+
+
 }
