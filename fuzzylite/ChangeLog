@@ -62,7 +62,6 @@ Version 5.0
 * Removed const from Norms in RuleBlock::(get|set)(Activation|Conjunction|Disjunction)
 * Deleted method Op::repeat
 * Added built-in functions gt,lt,ge,le,eq,not and operator ! (equivalent to not())
-* Added class Copy to copy Engine, (Input|Output)Variable and RuleBlock
 * Added method RuleBlock::clear, (Input|Output)Variable::clear, and Engine::clear
 
 Version 4.0

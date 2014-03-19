@@ -47,7 +47,7 @@ namespace fl {
         virtual std::string fuzzyInputValue() const;
 
         virtual std::string toString() const;
-        
+
         virtual void clear();
 
     private:

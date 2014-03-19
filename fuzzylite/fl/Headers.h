@@ -99,7 +99,6 @@
 #include "fl/rule/RuleBlock.h"
 #include "fl/rule/Expression.h"
 
-
 #include "fl/term/Accumulated.h"
 #include "fl/term/Bell.h"
 #include "fl/term/Constant.h"
