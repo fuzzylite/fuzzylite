@@ -512,7 +512,7 @@ namespace fl {
             } else throw fl::Exception("[examples error] file not found: " + input, FL_AT);
 
             Engine* engine = importer->fromString(ss.str());
-
+            
             for (std::size_t t = 0; t < tests.size(); ++t) {
                 std::string out = tests.at(t).first->toString(engine);
                 Engine* copy = tests.at(t).second->fromString(out);
@@ -558,6 +558,10 @@ namespace fl {
                 }
                 target.close();
             }
+            Engine copyConstructor(*engine);
+            (void)copyConstructor;
+            Engine assignmentOperator = *engine;
+            (void)assignmentOperator;
             delete engine;
         }
         delete importer;

@@ -41,10 +41,6 @@ namespace fl {
 
     }
 
-    Proposition* Proposition::clone() const {
-        return new Proposition(*this);
-    }
-
     std::string Proposition::toString() const {
         std::ostringstream ss;
         if (variable) {
@@ -71,32 +67,9 @@ namespace fl {
     Operator::Operator() : Expression(), name(""), left(NULL), right(NULL) {
     }
 
-    Operator::Operator(const Operator& copy) : Expression(copy),
-    name(copy.name), left(NULL), right(NULL) {
-        if (copy.left) left = copy.left->clone();
-        if (copy.right) right = copy.right->clone();
-    }
-
-    Operator& Operator::operator =(const Operator& rhs) {
-        if (this == &rhs) return *this;
-        if (left) delete left;
-        if (right) delete right;
-        left = NULL;
-        right = NULL;
-        Expression::operator=(rhs);
-        name = rhs.name;
-        if (rhs.left) left = rhs.left->clone();
-        if (rhs.right) right = rhs.right->clone();
-        return *this;
-    }
-
     Operator::~Operator() {
         if (left) delete left;
         if (right) delete right;
-    }
-
-    Operator* Operator::clone() const {
-        return new Operator(*this);
     }
 
     std::string Operator::toString() const {

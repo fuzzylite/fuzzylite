@@ -52,25 +52,6 @@ namespace fl {
     Consequent::Consequent() {
     }
 
-    Consequent::Consequent(const Consequent& source) : _text(source._text) {
-        for (std::size_t i = 0; i < source._conclusions.size(); ++i) {
-            _conclusions.push_back(source._conclusions.at(i)->clone());
-        }
-    }
-
-    Consequent& Consequent::operator =(const Consequent& rhs) {
-        if (this == &rhs) return *this;
-        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
-            delete _conclusions.at(i);
-        }
-        _conclusions.clear();
-        _text = rhs._text;
-        for (std::size_t i = 0; i < rhs._conclusions.size(); ++i) {
-            _conclusions.push_back(rhs._conclusions.at(i)->clone());
-        }
-        return *this;
-    }
-
     Consequent::~Consequent() {
         unload();
     }

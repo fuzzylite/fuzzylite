@@ -52,6 +52,8 @@ namespace fl {
     class Defuzzifier;
 
     class FL_EXPORT Engine {
+    private:
+        void copyFrom(const Engine& source);
     protected:
         /** The name of the engine used for information only*/
         std::string _name;
@@ -64,6 +66,8 @@ namespace fl {
 
     public:
         Engine(const std::string& name = "");
+        Engine(const Engine& source);
+        Engine& operator=(const Engine& rhs);
         virtual ~Engine();
 
         virtual void configure(const std::string& activationT,
@@ -77,6 +81,13 @@ namespace fl {
                 const std::string& accumulationS,
                 const std::string& defuzzifier,
                 int resolution = IntegralDefuzzifier::defaultResolution());
+
+        virtual void configure(const TNorm* activation, const SNorm* accumulation,
+                const Defuzzifier* defuzzifier);
+
+        virtual void configure(const TNorm* conjunction, const SNorm* disjunction,
+                const TNorm* activation, const SNorm* accumulation,
+                const Defuzzifier* defuzzifier);
 
         virtual bool isReady(std::string* status = NULL) const;
 
@@ -140,8 +151,6 @@ namespace fl {
         virtual const std::vector<RuleBlock*>& ruleBlocks() const;
         virtual void setRuleBlocks(const std::vector<RuleBlock*>& ruleBlocks);
 
-    private:
-        FL_DISABLE_COPY(Engine)
     };
 
 }

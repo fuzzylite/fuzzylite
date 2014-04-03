@@ -113,7 +113,7 @@ add_executable(fl-bin fl/Console.h src/Console.cpp src/main.cpp)
 set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
 set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX _) #To prevent LNK1149 in Windows
 set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -dbg)
-target_link_libraries(fl-bin fl-shared ${FL_LIBS})
+target_link_libraries(fl-bin fl-static ${FL_LIBS})
 
 
 install(TARGETS fl-bin fl-shared fl-static

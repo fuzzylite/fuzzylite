@@ -42,7 +42,9 @@ namespace fl {
     : _name(name), _conjunction(NULL), _disjunction(NULL), _activation(NULL), _enabled(true) {
     }
 
-    RuleBlock::RuleBlock(const RuleBlock& source) {
+    RuleBlock::RuleBlock(const RuleBlock& source) : _name(source._name), 
+            _conjunction(NULL), _disjunction(NULL), _activation(NULL), 
+            _enabled(true) {
         copyFrom(source);
     }
 
@@ -58,7 +60,7 @@ namespace fl {
         _conjunction = NULL;
         _disjunction = NULL;
         _activation = NULL;
-        
+
         copyFrom(rhs);
         return *this;
     }

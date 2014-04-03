@@ -61,19 +61,44 @@ namespace fl {
     Engine::Engine(const std::string& name) : _name(name) {
     }
 
+    Engine::Engine(const Engine& source) : _name("") {
+        copyFrom(source);
+    }
+
+    Engine& Engine::operator =(const Engine& rhs) {
+        if (this == &rhs) return *this;
+        for (std::size_t i = 0; i < _ruleblocks.size(); ++i) delete _ruleblocks.at(i);
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) delete _outputVariables.at(i);
+        for (std::size_t i = 0; i < _inputVariables.size(); ++i) delete _inputVariables.at(i);
+        _ruleblocks.clear();
+        _outputVariables.clear();
+        _inputVariables.clear();
+
+        copyFrom(rhs);
+        return *this;
+    }
+
+    void Engine::copyFrom(const Engine& source) {
+        for (std::size_t i = 0; i < source._inputVariables.size(); ++i)
+            _inputVariables.push_back(new InputVariable(*source._inputVariables.at(i)));
+        for (std::size_t i = 0; i < source._outputVariables.size(); ++i)
+            _outputVariables.push_back(new OutputVariable(*source._outputVariables.at(i)));
+        for (std::size_t i = 0; i < source._ruleblocks.size(); ++i) {
+            RuleBlock* ruleBlock = new RuleBlock(*source._ruleblocks.at(i));
+            try {
+                ruleBlock->loadRules(this);
+            } catch (std::exception& ex) {
+                FL_LOG("[engine warning] engine copy could not load rule block <"
+                        << ruleBlock->toString() << ">");
+            }
+            _ruleblocks.push_back(ruleBlock);
+        }
+    }
+
     Engine::~Engine() {
-
-        for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            delete _ruleblocks.at(i);
-        }
-
-        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            delete _outputVariables.at(i);
-        }
-
-        for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
-            delete _inputVariables.at(i);
-        }
+        for (std::size_t i = 0; i < _ruleblocks.size(); ++i) delete _ruleblocks.at(i);
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) delete _outputVariables.at(i);
+        for (std::size_t i = 0; i < _inputVariables.size(); ++i) delete _inputVariables.at(i);
     }
 
     void Engine::configure(const std::string& activationT, const std::string& accumulationS,
@@ -83,27 +108,44 @@ namespace fl {
 
     void Engine::configure(const std::string& conjunctionT, const std::string& disjunctionS,
             const std::string& activationT, const std::string& accumulationS,
-            const std::string& defuzzifier, int resolution) {
+            const std::string& defuzzifierName, int resolution) {
         TNormFactory* tnormFactory = FactoryManager::instance()->tnorm();
         SNormFactory* snormFactory = FactoryManager::instance()->snorm();
         DefuzzifierFactory* defuzzFactory = FactoryManager::instance()->defuzzifier();
+        TNorm* conjunction = tnormFactory->constructObject(conjunctionT);
+        SNorm* disjunction = snormFactory->constructObject(disjunctionS);
+        TNorm* activation = tnormFactory->constructObject(activationT);
+        SNorm* accumulation = snormFactory->constructObject(accumulationS);
+        Defuzzifier* defuzzifier = defuzzFactory->constructObject(defuzzifierName);
+        IntegralDefuzzifier* integralDefuzzifier = dynamic_cast<IntegralDefuzzifier*> (defuzzifier);
+        if (integralDefuzzifier) integralDefuzzifier->setResolution(resolution);
+
+        configure(conjunction, disjunction, activation, accumulation, defuzzifier);
+
+        if (defuzzifier) delete defuzzifier;
+        if (accumulation) delete accumulation;
+        if (activation) delete activation;
+        if (disjunction) delete disjunction;
+        if (conjunction) delete conjunction;
+    }
+
+    void Engine::configure(const TNorm* activation, const SNorm* accumulation,
+            const Defuzzifier* defuzzifier) {
+        configure(NULL, NULL, activation, accumulation, defuzzifier);
+    }
+
+    void Engine::configure(const TNorm* conjunction, const SNorm* disjunction,
+            const TNorm* activation, const SNorm* accumulation, const Defuzzifier* defuzzifier) {
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            _ruleblocks.at(i)->setConjunction(tnormFactory->constructObject(conjunctionT));
-            _ruleblocks.at(i)->setDisjunction(snormFactory->constructObject(disjunctionS));
-            _ruleblocks.at(i)->setActivation(tnormFactory->constructObject(activationT));
+            _ruleblocks.at(i)->setConjunction(conjunction ? conjunction->clone() : NULL);
+            _ruleblocks.at(i)->setDisjunction(disjunction ? disjunction->clone() : NULL);
+            _ruleblocks.at(i)->setActivation(activation ? activation->clone() : NULL);
         }
 
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            _outputVariables.at(i)->setDefuzzifier(defuzzFactory->constructObject(defuzzifier));
-            if (_outputVariables.at(i)->getDefuzzifier()) {
-                IntegralDefuzzifier* integralDefuzzifier =
-                        dynamic_cast<IntegralDefuzzifier*> (_outputVariables.at(i)->getDefuzzifier());
-                if (integralDefuzzifier) {
-                    integralDefuzzifier->setResolution(resolution);
-                }
-            }
+            _outputVariables.at(i)->setDefuzzifier(defuzzifier ? defuzzifier->clone() : NULL);
             _outputVariables.at(i)->fuzzyOutput()->setAccumulation(
-                    snormFactory->constructObject(accumulationS));
+                    accumulation ? accumulation->clone() : NULL);
         }
     }
 

@@ -53,20 +53,6 @@ namespace fl {
     : _text(""), _expression(NULL) {
     }
 
-    Antecedent::Antecedent(const Antecedent& source) : _text(source._text), _expression(NULL) {
-        if (source._expression) _expression = source._expression->clone();
-    }
-
-    Antecedent& Antecedent::operator =(const Antecedent& rhs) {
-        if (this == &rhs) return *this;
-        if (_expression) delete _expression;
-        _expression = NULL;
-
-        _text = rhs._text;
-        if (rhs._expression) _expression = rhs._expression->clone();
-        return *this;
-    }
-
     Antecedent::~Antecedent() {
         unload();
     }

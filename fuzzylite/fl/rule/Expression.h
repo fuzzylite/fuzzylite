@@ -46,9 +46,10 @@ namespace fl {
         Expression();
         virtual ~Expression();
 
-        virtual Expression* clone() const = 0;
         virtual std::string toString() const = 0;
 
+    private:
+        FL_DISABLE_COPY(Expression);
     };
 
     class FL_EXPORT Proposition : public Expression {
@@ -59,11 +60,11 @@ namespace fl {
 
         Proposition();
         virtual ~Proposition();
-        
-        virtual Proposition* clone() const;
+
         virtual std::string toString() const;
 
-
+    private:
+        FL_DISABLE_COPY(Proposition);
     };
 
     class FL_EXPORT Operator : public Expression {
@@ -73,13 +74,12 @@ namespace fl {
         Expression* right;
 
         Operator();
-        Operator(const Operator& copy);
-        Operator& operator=(const Operator& rhs);
         virtual ~Operator();
 
-        virtual Operator* clone() const;
         virtual std::string toString() const;
 
+    private:
+        FL_DISABLE_COPY(Operator);
 
     };
 

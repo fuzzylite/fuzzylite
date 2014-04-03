@@ -49,29 +49,19 @@ namespace fl {
     }
 
     Rule::Rule(const Rule& source) : _text(source._text), _weight(source._weight),
-    _antecedent(new Antecedent(*source._antecedent)),
-    _consequent(new Consequent(*source._consequent)) {
-        for (std::size_t i = 0; i < source._hedges.size(); ++i) {
-            _hedges.push_back(source._hedges.at(i)->clone());
-        }
+    _antecedent(new Antecedent), _consequent(new Consequent) {
     }
 
     Rule& Rule::operator =(const Rule& rhs) {
         if (this == &rhs) return *this;
-        if (_antecedent) delete _antecedent;
+        unload();
         if (_consequent) delete _consequent;
-        for (std::size_t i = 0; i < _hedges.size(); ++i) {
-            delete _hedges.at(i);
-        }
-        _hedges.clear();
+        if (_antecedent) delete _antecedent;
 
         _text = rhs._text;
         _weight = rhs._weight;
-        _antecedent = new Antecedent(*rhs._antecedent);
-        _consequent = new Consequent(*rhs._consequent);
-        for (std::size_t i = 0; i < rhs._hedges.size(); ++i) {
-            _hedges.push_back(rhs._hedges.at(i)->clone());
-        }
+        _antecedent = new Antecedent;
+        _consequent = new Consequent;
         return *this;
     }
 

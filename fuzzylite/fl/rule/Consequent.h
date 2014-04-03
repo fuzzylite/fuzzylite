@@ -46,8 +46,6 @@ namespace fl {
 
     public:
         Consequent();
-        Consequent(const Consequent& source);
-        Consequent& operator=(const Consequent& rhs);
         virtual ~Consequent();
 
         virtual void setText(const std::string& text);
@@ -64,6 +62,8 @@ namespace fl {
 
         virtual std::string toString() const;
 
+    private:
+        FL_DISABLE_COPY(Consequent);
     };
 
 }

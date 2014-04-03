@@ -91,33 +91,38 @@ namespace fl {
 
         static Rule* parse(const std::string& rule, const Engine* engine);
 
-        static const std::string& ifKeyword(){
+        static const std::string& ifKeyword() {
             static std::string FL_IF = "if";
             return FL_IF;
         }
-        static const std::string& isKeyword(){
+
+        static const std::string& isKeyword() {
             static std::string FL_IS = "is";
             return FL_IS;
         }
-        static const std::string& thenKeyword(){
+
+        static const std::string& thenKeyword() {
             static std::string FL_THEN = "then";
             return FL_THEN;
         }
-        static const std::string& andKeyword(){
+
+        static const std::string& andKeyword() {
             static std::string FL_AND = "and";
             return FL_AND;
         }
-        static const std::string& orKeyword(){
+
+        static const std::string& orKeyword() {
             static std::string FL_OR = "or";
             return FL_OR;
         }
-        static const std::string& withKeyword(){
+
+        static const std::string& withKeyword() {
             static std::string FL_WITH = "with";
             return FL_WITH;
         }
 
     };
-    
+
 }
 
 
