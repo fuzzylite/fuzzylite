@@ -37,7 +37,12 @@ namespace fl {
         return (a + b) / (1.0 + a * b);
     }
 
+    EinsteinSum* EinsteinSum::clone() const {
+        return new EinsteinSum(*this);
+    }
+
     SNorm* EinsteinSum::constructor() {
         return new EinsteinSum;
     }
+
 }

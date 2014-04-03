@@ -30,15 +30,15 @@
 
 #include "fl/fuzzylite.h"
 
-#include "fl/factory/Factory.h"
+#include "fl/factory/ConstructionFactory.h"
 
 #include <string>
 #include <vector>
 
 namespace fl {
     class Defuzzifier;
-    
-    class FL_EXPORT DefuzzifierFactory : public Factory<Defuzzifier*>{
+
+    class FL_EXPORT DefuzzifierFactory : public ConstructionFactory<Defuzzifier*> {
     public:
         DefuzzifierFactory();
         virtual ~DefuzzifierFactory();

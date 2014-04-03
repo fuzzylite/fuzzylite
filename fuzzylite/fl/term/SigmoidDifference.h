@@ -65,8 +65,8 @@ namespace fl {
         virtual void setRight(scalar rightInflection);
         virtual scalar getRight() const;
 
-        virtual SigmoidDifference* copy() const;
-
+        virtual SigmoidDifference* clone() const;
+        
         static Term* constructor();
     };
 }

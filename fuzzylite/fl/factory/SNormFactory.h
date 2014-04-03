@@ -30,15 +30,16 @@
 
 #include "fl/fuzzylite.h"
 
-#include "fl/factory/Factory.h"
+#include "fl/factory/ConstructionFactory.h"
 #include "fl/norm/SNorm.h"
 
 namespace fl {
 
-    class FL_EXPORT SNormFactory : public Factory<SNorm*> {
+    class FL_EXPORT SNormFactory : public ConstructionFactory<SNorm*> {
     public:
         SNormFactory();
         virtual ~SNormFactory();
+
     };
 }
 #endif	/* FL_SNORMFACTORY_H */

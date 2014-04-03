@@ -37,6 +37,10 @@ namespace fl {
         return x * x;
     }
 
+    Very* Very::clone() const {
+        return new Very(*this);
+    }
+
     Hedge* Very::constructor() {
         return new Very;
     }

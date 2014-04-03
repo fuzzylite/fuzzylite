@@ -50,7 +50,7 @@ namespace fl {
         virtual void setValue(scalar value);
         virtual scalar getValue() const;
         
-        virtual Constant* copy() const;
+        virtual Constant* clone() const;
         
         static Term* constructor();
     };

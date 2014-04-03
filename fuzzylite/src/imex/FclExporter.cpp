@@ -210,4 +210,9 @@ namespace fl {
         return ss.str();
     }
 
+    FclExporter* FclExporter::clone() const {
+        return new FclExporter(*this);
+    }
+
+
 }

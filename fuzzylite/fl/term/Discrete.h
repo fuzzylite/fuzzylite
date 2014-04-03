@@ -64,8 +64,8 @@ namespace fl {
 
         virtual scalar membership(scalar x) const;
 
-        virtual Discrete* copy() const;
-
+        virtual Discrete* clone() const;
+        
         static Term* constructor();
 
     };

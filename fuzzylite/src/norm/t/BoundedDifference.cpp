@@ -38,7 +38,12 @@ namespace fl {
         return Op::max(scalar(0.0), a + b - 1);
     }
 
+    BoundedDifference* BoundedDifference::clone() const {
+        return new BoundedDifference(*this);
+    }
+
     TNorm* BoundedDifference::constructor() {
         return new BoundedDifference;
     }
+
 }

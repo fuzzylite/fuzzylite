@@ -19,37 +19,42 @@
 // #END_LICENSE
 
 /* 
- * File:   Exporter.h
+ * File:   CloningFactory.h
  * Author: jcrada
  *
- * Created on 25 December 2012, 11:40 PM
+ * Created on 1 April 2014, 4:16 PM
  */
 
-#ifndef FL_EXPORTER_H
-#define	FL_EXPORTER_H
+#ifndef FL_CLONINGFACTORY_H
+#define	FL_CLONINGFACTORY_H
 
 #include "fl/fuzzylite.h"
 
-#include <string>
+#include <map>
+#include <vector>
 
 namespace fl {
-    class Engine;
 
-    class FL_EXPORT Exporter {
+    template <typename T>
+    class FL_EXPORT CloningFactory {
+    protected:
+        std::map<std::string, T> _objects;
+
     public:
+        CloningFactory();
+        CloningFactory(const CloningFactory& source);
+        CloningFactory& operator=(const CloningFactory& rhs);
+        virtual ~CloningFactory();
 
-        Exporter() {
-        }
+        virtual void registerObject(const std::string& key, T object);
+        virtual void deregisterObject(const std::string& key);
+        virtual bool hasObject(const std::string& key) const;
+        virtual T getObject(const std::string& key) const;
+        virtual T cloneObject(const std::string& key) const;
+        virtual std::vector<std::string> available() const;
 
-        virtual ~Exporter() {
-        }
-
-        virtual std::string name() const = 0;
-        virtual std::string toString(const Engine* engine) const = 0;
-        virtual Exporter* clone() const = 0;
     };
-
 }
 
-#endif	/* FL_EXPORTER_H */
+#endif	/* FL_CLONINGFACTORY_H */
 

@@ -29,6 +29,12 @@
 
 namespace fl {
 
+    Any::Any() {
+    }
+
+    Any::~Any() {
+    }
+
     std::string Any::name() const {
         return "any";
     }
@@ -37,8 +43,12 @@ namespace fl {
         (void) x;
         return 1.0;
     }
-    
-    Hedge* Any::constructor(){
+
+    Any* Any::clone() const {
+        return new Any(*this);
+    }
+
+    Hedge* Any::constructor() {
         return new Any;
     }
 

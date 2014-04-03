@@ -77,8 +77,13 @@ namespace fl {
         return sum / weights;
     }
 
+    WeightedAverage* WeightedAverage::clone() const {
+        return new WeightedAverage(*this);
+    }
+
     Defuzzifier* WeightedAverage::constructor() {
         return new WeightedAverage;
     }
+
 
 }

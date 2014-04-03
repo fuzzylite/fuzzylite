@@ -43,9 +43,10 @@ namespace fl {
 
         virtual ~Importer() {
         }
-        
+
         virtual std::string name() const = 0;
         virtual Engine* fromString(const std::string& s) const = 0;
+        virtual Importer* clone() const = 0;
     };
 
 }

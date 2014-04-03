@@ -72,7 +72,7 @@ namespace fl {
         void toWriter(Engine* engine, T& writer, const std::vector<scalar>& inputValues,
                 const std::string& separator, bool includeInputValues = true) const;
 
-
+        virtual FldExporter* clone() const;
     };
 }
 

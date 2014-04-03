@@ -61,7 +61,7 @@ namespace fl {
         virtual void setD(scalar d);
         virtual scalar getD() const;
 
-        virtual Trapezoid* copy() const;
+        virtual Trapezoid* clone() const;
         
         static Term* constructor();
     };

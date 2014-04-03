@@ -37,6 +37,10 @@ namespace fl {
         return Op::min(a, b);
     }
 
+    Minimum* Minimum::clone() const {
+        return new Minimum(*this);
+    }
+
     TNorm* Minimum::constructor() {
         return new Minimum;
     }

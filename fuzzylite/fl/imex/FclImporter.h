@@ -70,6 +70,8 @@ namespace fl {
         virtual std::string name() const;
 
         virtual Engine* fromString(const std::string& fcl) const;
+        
+        virtual FclImporter* clone() const;
 
     };
 

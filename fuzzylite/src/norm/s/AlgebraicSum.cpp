@@ -37,7 +37,13 @@ namespace fl {
         return a + b - (a * b);
     }
 
+    AlgebraicSum* AlgebraicSum::clone() const {
+        return new AlgebraicSum(*this);
+    }
+
     SNorm* AlgebraicSum::constructor() {
         return new AlgebraicSum;
     }
+
+
 }

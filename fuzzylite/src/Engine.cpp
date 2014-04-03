@@ -88,13 +88,13 @@ namespace fl {
         SNormFactory* snormFactory = FactoryManager::instance()->snorm();
         DefuzzifierFactory* defuzzFactory = FactoryManager::instance()->defuzzifier();
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            _ruleblocks.at(i)->setConjunction(tnormFactory->createInstance(conjunctionT));
-            _ruleblocks.at(i)->setDisjunction(snormFactory->createInstance(disjunctionS));
-            _ruleblocks.at(i)->setActivation(tnormFactory->createInstance(activationT));
+            _ruleblocks.at(i)->setConjunction(tnormFactory->constructObject(conjunctionT));
+            _ruleblocks.at(i)->setDisjunction(snormFactory->constructObject(disjunctionS));
+            _ruleblocks.at(i)->setActivation(tnormFactory->constructObject(activationT));
         }
 
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            _outputVariables.at(i)->setDefuzzifier(defuzzFactory->createInstance(defuzzifier));
+            _outputVariables.at(i)->setDefuzzifier(defuzzFactory->constructObject(defuzzifier));
             if (_outputVariables.at(i)->getDefuzzifier()) {
                 IntegralDefuzzifier* integralDefuzzifier =
                         dynamic_cast<IntegralDefuzzifier*> (_outputVariables.at(i)->getDefuzzifier());
@@ -103,7 +103,7 @@ namespace fl {
                 }
             }
             _outputVariables.at(i)->fuzzyOutput()->setAccumulation(
-                    snormFactory->createInstance(accumulationS));
+                    snormFactory->constructObject(accumulationS));
         }
     }
 
@@ -402,24 +402,6 @@ namespace fl {
         }
         if (name) *name = "Unknown";
         return Engine::Unknown;
-    }
-
-    void Engine::clear() {
-        setName("");
-        for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            delete _ruleblocks.at(i);
-        }
-        _ruleblocks.clear();
-
-        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            delete _outputVariables.at(i);
-        }
-        _outputVariables.clear();
-
-        for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
-            delete _inputVariables.at(i);
-        }
-        _inputVariables.clear();
     }
 
     /**

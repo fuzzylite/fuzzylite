@@ -90,7 +90,7 @@ namespace fl {
         return this->_end;
     }
 
-    Ramp* Ramp::copy() const {
+    Ramp* Ramp::clone() const {
         return new Ramp(*this);
     }
 

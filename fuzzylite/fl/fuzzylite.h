@@ -56,8 +56,8 @@ namespace fl {
     typedef double scalar;
 #endif
 
-    static const scalar nan = std::numeric_limits<scalar>::quiet_NaN();
-    static const scalar inf = std::numeric_limits<scalar>::infinity();
+    const scalar nan = std::numeric_limits<scalar>::quiet_NaN();
+    const scalar inf = std::numeric_limits<scalar>::infinity();
 }
 
 #define FL__FILE__ std::string(__FILE__).substr(std::string(FL_BUILD_PATH).size())
@@ -150,7 +150,7 @@ namespace fl {
 
         static bool logging();
         static void setLogging(bool logging);
-        
+
     };
 }
 

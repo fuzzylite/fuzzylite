@@ -104,12 +104,13 @@ namespace fl {
         return this->_right;
     }
 
-    SigmoidDifference* SigmoidDifference::copy() const {
+    SigmoidDifference* SigmoidDifference::clone() const {
         return new SigmoidDifference(*this);
     }
 
     Term* SigmoidDifference::constructor() {
         return new SigmoidDifference;
     }
+
 
 }

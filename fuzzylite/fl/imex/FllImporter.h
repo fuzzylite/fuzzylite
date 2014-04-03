@@ -70,6 +70,9 @@ namespace fl {
         virtual std::pair<std::string, std::string> parseKeyValue(const std::string& text,
                 char separator = ':') const;
         virtual std::string clean(const std::string& line) const;
+        
+        virtual FllImporter* clone() const;
+
 
     };
 }

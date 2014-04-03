@@ -34,6 +34,16 @@ namespace fl {
 
     }
 
+    Term::Term(const Term& copy) : _name(copy._name) {
+
+    }
+
+    Term& Term::operator =(const Term& rhs) {
+        if (this == &rhs) return *this;
+        _name = rhs._name;
+        return *this;
+    }
+
     Term::~Term() {
 
     }

@@ -68,8 +68,13 @@ namespace fl {
         return xsmallest;
     }
 
+    SmallestOfMaximum* SmallestOfMaximum::clone() const {
+        return new SmallestOfMaximum(*this);
+    }
+
     Defuzzifier* SmallestOfMaximum::constructor() {
         return new SmallestOfMaximum;
     }
+
 }
 

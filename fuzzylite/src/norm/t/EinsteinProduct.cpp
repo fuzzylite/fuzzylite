@@ -37,6 +37,10 @@ namespace fl {
         return (a * b) / (2 - (a + b - a * b));
     }
 
+    EinsteinProduct* EinsteinProduct::clone() const {
+        return new EinsteinProduct(*this);
+    }
+
     TNorm* EinsteinProduct::constructor() {
         return new EinsteinProduct;
     }

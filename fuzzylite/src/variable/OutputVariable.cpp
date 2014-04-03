@@ -45,9 +45,37 @@ namespace fl {
     _lockOutputRange(false), _lockValidOutput(false) {
     }
 
+    OutputVariable::OutputVariable(const OutputVariable& copy) : Variable(copy),
+    _defuzzifier(NULL) {
+        copyFrom(copy);
+    }
+
+    OutputVariable& OutputVariable::operator =(const OutputVariable& rhs) {
+        if (this == &rhs) return *this;
+        delete _fuzzyOutput;
+        if (_defuzzifier) delete _defuzzifier;
+        _defuzzifier = NULL;
+        
+        Variable::operator =(rhs);
+        copyFrom(rhs);
+        return *this;
+    }
+
     OutputVariable::~OutputVariable() {
         delete _fuzzyOutput;
         if (_defuzzifier) delete _defuzzifier;
+    }
+
+    void OutputVariable::copyFrom(const OutputVariable& rhs) {
+        _fuzzyOutput = rhs._fuzzyOutput->clone();
+        if (rhs._defuzzifier) {
+            _defuzzifier = rhs._defuzzifier->clone();
+        }
+        _outputValue = rhs._outputValue;
+        _lastValidOutputValue = rhs._lastValidOutputValue;
+        _defaultValue = rhs._defaultValue;
+        _lockOutputRange = rhs._lockOutputRange;
+        _lockValidOutput = rhs._lockValidOutput;
     }
 
     void OutputVariable::setName(const std::string& name) {
@@ -178,24 +206,5 @@ namespace fl {
     std::string OutputVariable::toString() const {
         return FllExporter("", "; ").toString(this);
     }
-
-    void OutputVariable::clear() {
-        Variable::clear();
-        fuzzyOutput()->clear();
-        if (fuzzyOutput()->getAccumulation()){
-            delete fuzzyOutput()->getAccumulation();
-            fuzzyOutput()->setAccumulation(NULL);
-        }
-        setDefaultValue(fl::nan);
-        if (_defuzzifier){
-            delete _defuzzifier;
-            setDefuzzifier(NULL);
-        }
-        setLastValidOutputValue(fl::nan);
-        setLockOutputRange(false);
-        setLockValidOutput(false);
-        setOutputValue(fl::nan);
-    }
-
 
 }

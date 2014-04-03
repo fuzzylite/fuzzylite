@@ -40,6 +40,10 @@ namespace fl {
         return 1.0;
     }
 
+    DrasticSum* DrasticSum::clone() const {
+        return new DrasticSum(*this);
+    }
+
     SNorm* DrasticSum::constructor() {
         return new DrasticSum;
     }

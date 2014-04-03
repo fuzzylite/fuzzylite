@@ -61,8 +61,20 @@ Version 5.0
 * Removed automatic delete of previous pointers on OutputVariable::setDefuzzifier, Accumulated::setAccumulation, RuleBlock::set(Conjunction|Disjunction|Activation)
 * Removed const from Norms in RuleBlock::(get|set)(Activation|Conjunction|Disjunction)
 * Deleted method Op::repeat
-* Added built-in functions gt,lt,ge,le,eq,not and operator ! (equivalent to not())
-* Added method RuleBlock::clear, (Input|Output)Variable::clear, and Engine::clear
+* Added built-in functions gt,lt,ge,le,eq and operator !
+* Renamed Term::copy to Term::clone in every Term
+* Added copy constructors and assignment operators to (Input|Output)Variable
+* Added copy constructors and assignment operators to Accumulated
+* Merged Function::Operator and Function::BuiltInFunction into Function::Element
+* Created FunctionFactory for Function::Elements
+* IMPORTANT: Changed starting precedence of Function::Element::Operators to 10 (refer to FunctionFactory)
+* Setters of FactoryManager no longer delete previous factories
+* Renamed Factory<T>::(register|deregister)Class to Factory<T>::(register|deregister)Constructor
+* Renamed Factory<T> to ConstructionFactory<T>
+* Created CloningFactory<T>
+* Moved functions and operators of term Function to a FunctionFactory
+* Added clone methods to Defuzzifiers, Hedges, Norms, and Terms
+
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.

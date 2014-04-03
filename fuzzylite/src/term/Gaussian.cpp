@@ -83,12 +83,13 @@ namespace fl {
         return this->_standardDeviation;
     }
 
-    Gaussian* Gaussian::copy() const {
+    Gaussian* Gaussian::clone() const {
         return new Gaussian(*this);
     }
 
     Term* Gaussian::constructor() {
         return new Gaussian;
     }
+
 
 }

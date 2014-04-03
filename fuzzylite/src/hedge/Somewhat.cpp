@@ -38,9 +38,13 @@ namespace fl {
     scalar Somewhat::hedge(scalar x) const {
         return std::sqrt(x);
     }
-    
-    Hedge* Somewhat::constructor(){
+
+    Somewhat* Somewhat::clone() const {
+        return new Somewhat(*this);
+    }
+
+    Hedge* Somewhat::constructor() {
         return new Somewhat;
     }
 
-} 
+}

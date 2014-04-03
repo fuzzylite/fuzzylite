@@ -36,6 +36,8 @@ namespace fl {
     public:
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
+        NilpotentMinimum* clone() const;
+        
         static TNorm* constructor();
     };
 }

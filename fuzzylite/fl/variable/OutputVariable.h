@@ -37,6 +37,8 @@ namespace fl {
     class Defuzzifier;
 
     class FL_EXPORT OutputVariable : public Variable {
+    private:
+        void copyFrom(const OutputVariable& rhs);
     protected:
         Accumulated* _fuzzyOutput;
         Defuzzifier* _defuzzifier;
@@ -49,6 +51,8 @@ namespace fl {
     public:
         OutputVariable(const std::string& name = "",
                 scalar minimum = -fl::inf, scalar maximum = fl::inf);
+        OutputVariable(const OutputVariable& copy);
+        OutputVariable& operator=(const OutputVariable& rhs);
         virtual ~OutputVariable();
 
         virtual Accumulated* fuzzyOutput() const;
@@ -81,12 +85,6 @@ namespace fl {
         virtual std::string fuzzyOutputValue() const;
 
         virtual std::string toString() const;
-
-        virtual void clear();
-
-
-    private:
-        FL_DISABLE_COPY(OutputVariable)
 
     };
 

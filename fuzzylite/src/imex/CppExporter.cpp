@@ -225,4 +225,8 @@ namespace fl {
         return "new fl::" + defuzzifier->className();
     }
 
+    CppExporter* CppExporter::clone() const {
+        return new CppExporter(*this);
+    }
+
 }

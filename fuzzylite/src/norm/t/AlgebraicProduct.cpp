@@ -37,6 +37,10 @@ namespace fl {
         return a * b;
     }
 
+    AlgebraicProduct* AlgebraicProduct::clone() const {
+        return new AlgebraicProduct(*this);
+    }
+
     TNorm* AlgebraicProduct::constructor() {
         return new AlgebraicProduct;
     }

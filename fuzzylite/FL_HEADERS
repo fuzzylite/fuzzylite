@@ -12,9 +12,11 @@ fl/defuzzifier/WeightedAverage.h
 fl/defuzzifier/WeightedSum.h
 fl/Engine.h
 fl/Exception.h
+fl/factory/CloningFactory.h
+fl/factory/ConstructionFactory.h
 fl/factory/DefuzzifierFactory.h
-fl/factory/Factory.h
 fl/factory/FactoryManager.h
+fl/factory/FunctionFactory.h
 fl/factory/HedgeFactory.h
 fl/factory/SNormFactory.h
 fl/factory/TermFactory.h

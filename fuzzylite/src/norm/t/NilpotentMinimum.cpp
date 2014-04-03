@@ -34,6 +34,10 @@ namespace fl {
         return 0;
     }
 
+    NilpotentMinimum* NilpotentMinimum::clone() const {
+        return new NilpotentMinimum(*this);
+    }
+
     TNorm* NilpotentMinimum::constructor() {
         return new NilpotentMinimum;
     }

@@ -102,7 +102,7 @@ namespace fl {
         return this->_falling;
     }
 
-    SigmoidProduct* SigmoidProduct::copy() const {
+    SigmoidProduct* SigmoidProduct::clone() const {
         return new SigmoidProduct(*this);
     }
 

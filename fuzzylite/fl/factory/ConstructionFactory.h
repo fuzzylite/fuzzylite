@@ -37,22 +37,24 @@
 namespace fl {
 
     template <typename T>
-    class FL_EXPORT Factory {
+    class FL_EXPORT ConstructionFactory {
     public:
         typedef T(*Constructor)();
 
     protected:
-        std::map<std::string, Constructor> map;
+        std::map<std::string, Constructor> _constructors;
 
-    public:
-        Factory();
-        virtual ~Factory();
+    public: 
+        ConstructionFactory();
+        virtual ~ConstructionFactory();
 
-        virtual void registerClass(const std::string& key, Constructor creator);
-        virtual void deregisterClass(const std::string& key);
-        virtual bool hasRegisteredClass(const std::string& key) const;
+        virtual void registerConstructor(const std::string& key, Constructor constructor);
+        virtual void deregisterConstructor(const std::string& key);
+        virtual bool hasConstructor(const std::string& key) const;
+        virtual Constructor getConstructor(const std::string& key) const;
+        virtual T constructObject(const std::string& key) const;
         virtual std::vector<std::string> available() const;
-        virtual T createInstance(const std::string& key) const;
+
     };
 
 }

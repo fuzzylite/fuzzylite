@@ -43,6 +43,9 @@ namespace fl {
     class Term;
 
     class FL_EXPORT Variable {
+    private:
+        void copyFrom(const Variable& source);
+        
     protected:
         std::string _name;
         std::vector<Term*> _terms;
@@ -53,6 +56,8 @@ namespace fl {
         Variable(const std::string& name = "",
                 scalar minimum = -fl::inf,
                 scalar maximum = fl::inf);
+        Variable(const Variable& copy);
+        Variable& operator=(const Variable& rhs);
 
         virtual ~Variable();
 
@@ -76,8 +81,6 @@ namespace fl {
 
         virtual std::string toString() const;
 
-        virtual void clear();
-
         /**
          * Operations for iterable datatype _terms
          */
@@ -91,8 +94,6 @@ namespace fl {
         virtual int numberOfTerms() const;
         virtual const std::vector<Term*>& terms() const;
 
-    private:
-        FL_DISABLE_COPY(Variable)
     };
 
 }

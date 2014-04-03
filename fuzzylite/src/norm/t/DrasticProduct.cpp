@@ -40,8 +40,13 @@ namespace fl {
         return 0.0;
     }
 
+    DrasticProduct* DrasticProduct::clone() const {
+        return new DrasticProduct(*this);
+    }
+
     TNorm* DrasticProduct::constructor() {
         return new DrasticProduct;
     }
+
 
 }

@@ -31,11 +31,16 @@
 #include "fl/hedge/Hedge.h"
 
 namespace fl {
-
+    //Only this hedge has virtual methods due to its special case use.
     class FL_EXPORT Any : public Hedge {
     public:
-        std::string name() const;
-        scalar hedge(scalar x) const;
+        Any();
+        virtual ~Any();
+        
+        virtual std::string name() const;
+        virtual scalar hedge(scalar x) const;
+        virtual Any* clone() const;
+        
         static Hedge* constructor();
     };
 

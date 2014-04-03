@@ -292,7 +292,7 @@ namespace fl {
                             writer.flush();
                         }
                     } catch (std::exception& ex) {
-						(void)ex;
+                        (void) ex;
                         dataFile.close();
                         throw;
                     }
@@ -330,7 +330,7 @@ namespace fl {
                 writer << exporter->toString(engine);
             }
         } catch (std::exception& ex) {
-			(void)ex;
+            (void) ex;
             if (importer) delete importer;
             if (exporter) delete exporter;
             if (engine) delete engine;
@@ -576,22 +576,28 @@ namespace fl {
             return EXIT_SUCCESS;
         }
         if (argc == 2 and "export-examples" == std::string(argv[1])) {
-            fuzzylite::setDecimals(3);
-            FL_LOG("Processing fis->fll");
-            exportAllExamples("fis", "fll");
-            FL_LOG("Processing fis->fcl");
-            exportAllExamples("fis", "fcl");
-            FL_LOG("Processing fis->fis");
-            exportAllExamples("fis", "fis");
-            FL_LOG("Processing fis->cpp");
-            exportAllExamples("fis", "cpp");
-            FL_LOG("Processing fis->java");
-            exportAllExamples("fis", "java");
-            fuzzylite::setDecimals(8);
-            fuzzylite::setMachEps(1e-6);
-            FL_LOG("Processing fis->fld");
-            exportAllExamples("fis", "fld");
-            return 0;
+            try {
+                fuzzylite::setDecimals(3);
+                FL_LOG("Processing fis->fll");
+                exportAllExamples("fis", "fll");
+                FL_LOG("Processing fis->fcl");
+                exportAllExamples("fis", "fcl");
+                FL_LOG("Processing fis->fis");
+                exportAllExamples("fis", "fis");
+                FL_LOG("Processing fis->cpp");
+                exportAllExamples("fis", "cpp");
+                FL_LOG("Processing fis->java");
+                exportAllExamples("fis", "java");
+                fuzzylite::setDecimals(8);
+                fuzzylite::setMachEps(1e-6);
+                FL_LOG("Processing fis->fld");
+                exportAllExamples("fis", "fld");
+            } catch (std::exception& ex) {
+                std::cout << ex.what() << "\nBACKTRACE:\n" <<
+                        fl::Exception::btCallStack() << std::endl;
+                return EXIT_FAILURE;
+            }
+            return EXIT_SUCCESS;
         }
 
         try {

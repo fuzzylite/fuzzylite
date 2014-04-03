@@ -97,7 +97,7 @@ namespace fl {
         return this->_activation;
     }
 
-    Activated* Activated::copy() const {
+    Activated* Activated::clone() const {
         return new Activated(*this);
     }
 

@@ -41,6 +41,8 @@ namespace fl {
     class SNorm;
 
     class FL_EXPORT RuleBlock {
+    private:
+        void copyFrom(const RuleBlock& source);
     protected:
         std::vector<Rule*> _rules;
         std::string _name;
@@ -48,9 +50,11 @@ namespace fl {
         SNorm* _disjunction;
         TNorm* _activation;
         bool _enabled;
-    public:
 
+    public:
         RuleBlock(const std::string& name = "");
+        RuleBlock(const RuleBlock& source);
+        RuleBlock& operator=(const RuleBlock& rhs);
         virtual ~RuleBlock();
 
         virtual void activate();
@@ -72,8 +76,6 @@ namespace fl {
 
         virtual void unloadRules() const;
         virtual void loadRules(const Engine* engine);
-        
-        virtual void clear();
 
         virtual std::string toString() const;
 
@@ -88,8 +90,6 @@ namespace fl {
         virtual const std::vector<Rule*>& rules() const;
         virtual void setRules(const std::vector<Rule*>& rules);
 
-    private:
-        FL_DISABLE_COPY(RuleBlock)
     };
 
 }

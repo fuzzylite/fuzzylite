@@ -39,8 +39,14 @@ namespace fl {
                 ? 2.0 * x * x
                 : 1.0 - 2.0 * (1.0 - x) * (1.0 - x);
     }
-    
-    Hedge* Extremely::constructor(){
+
+    Extremely* Extremely::clone() const {
+        return new Extremely(*this);
+    }
+
+    Hedge* Extremely::constructor() {
         return new Extremely;
     }
-} 
+
+
+}

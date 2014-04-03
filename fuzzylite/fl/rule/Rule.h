@@ -51,6 +51,8 @@ namespace fl {
 
     public:
         Rule(const std::string& text = "", scalar weight = 1.0);
+        Rule(const Rule& source);
+        Rule& operator=(const Rule& rhs);
         virtual ~Rule();
 
         virtual void setText(const std::string& text);
@@ -89,24 +91,33 @@ namespace fl {
 
         static Rule* parse(const std::string& rule, const Engine* engine);
 
-        static std::string FL_IF;
-        static std::string FL_IS;
-        static std::string FL_THEN;
-        static std::string FL_AND;
-        static std::string FL_OR;
-        static std::string FL_WITH;
-
-        static std::string ifKeyword();
-        static std::string isKeyword();
-        static std::string thenKeyword();
-        static std::string andKeyword();
-        static std::string orKeyword();
-        static std::string withKeyword();
-
-    private:
-        FL_DISABLE_COPY(Rule);
+        static const std::string& ifKeyword(){
+            static std::string FL_IF = "if";
+            return FL_IF;
+        }
+        static const std::string& isKeyword(){
+            static std::string FL_IS = "is";
+            return FL_IS;
+        }
+        static const std::string& thenKeyword(){
+            static std::string FL_THEN = "then";
+            return FL_THEN;
+        }
+        static const std::string& andKeyword(){
+            static std::string FL_AND = "and";
+            return FL_AND;
+        }
+        static const std::string& orKeyword(){
+            static std::string FL_OR = "or";
+            return FL_OR;
+        }
+        static const std::string& withKeyword(){
+            static std::string FL_WITH = "with";
+            return FL_WITH;
+        }
 
     };
+    
 }
 
 

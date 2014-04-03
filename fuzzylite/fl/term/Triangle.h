@@ -59,8 +59,8 @@ namespace fl {
         virtual void setC(scalar c);
         virtual scalar getC() const;
 
-        virtual Triangle* copy() const;
-
+        virtual Triangle* clone() const;
+        
         static Term* constructor();
 
     };

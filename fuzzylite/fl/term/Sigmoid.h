@@ -54,7 +54,7 @@ namespace fl {
         virtual void setSlope(scalar slope);
         virtual scalar getSlope() const;
         
-        virtual Sigmoid* copy() const;
+        virtual Sigmoid* clone() const;
         
         static Term* constructor();
     };

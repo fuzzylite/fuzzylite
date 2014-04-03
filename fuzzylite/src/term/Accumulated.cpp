@@ -29,8 +29,6 @@
 
 #include <sstream>
 
-#include "fl/factory/FactoryManager.h"
-#include "fl/factory/SNormFactory.h"
 #include "fl/imex/FllExporter.h"
 #include "fl/norm/SNorm.h"
 
@@ -41,9 +39,35 @@ namespace fl {
     : Term(name), _minimum(minimum), _maximum(maximum), _accumulation(accumulation) {
     }
 
+    Accumulated::Accumulated(const Accumulated& source) : Term(source), _accumulation(NULL) {
+        copyFrom(source);
+    }
+
+    Accumulated& Accumulated::operator =(const Accumulated& rhs) {
+        if (this == &rhs) return *this;
+        clear();
+        if (_accumulation) delete _accumulation;
+        _accumulation = NULL;
+        Term::operator =(rhs);
+        copyFrom(rhs);
+        return *this;
+    }
+
     Accumulated::~Accumulated() {
         this->clear();
         if (_accumulation) delete _accumulation;
+    }
+
+    void Accumulated::copyFrom(const Accumulated& source) {
+        _minimum = source._minimum;
+        _maximum = source._maximum;
+
+        if (source._accumulation) {
+            _accumulation = source._accumulation->clone();
+        }
+        for (std::size_t i = 0; i < source._terms.size(); ++i) {
+            _terms.push_back(source._terms.at(i)->clone());
+        }
     }
 
     std::string Accumulated::className() const {
@@ -74,7 +98,7 @@ namespace fl {
         (void) parameters;
     }
 
-    Accumulated* Accumulated::copy() const {
+    Accumulated* Accumulated::clone() const {
         return new Accumulated(*this);
     }
 

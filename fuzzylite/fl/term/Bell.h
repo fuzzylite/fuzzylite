@@ -59,7 +59,7 @@ namespace fl {
         virtual void setSlope(scalar slope);
         virtual scalar getSlope() const;
 
-        virtual Bell* copy() const;
+        virtual Bell* clone() const;
         
         static Term* constructor();
         

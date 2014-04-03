@@ -107,12 +107,13 @@ namespace fl {
         return this->_standardDeviationB;
     }
 
-    GaussianProduct* GaussianProduct::copy() const {
+    GaussianProduct* GaussianProduct::clone() const {
         return new GaussianProduct(*this);
     }
 
     Term* GaussianProduct::constructor() {
         return new GaussianProduct;
     }
+
 
 }

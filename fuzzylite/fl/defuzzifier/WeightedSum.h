@@ -39,9 +39,10 @@ namespace fl {
         WeightedSum();
         virtual ~WeightedSum();
 
-        virtual std::string className() const ;
+        virtual std::string className() const;
         virtual scalar defuzzify(const Term* term,
                 scalar minimum, scalar maximum) const;
+        virtual WeightedSum* clone() const;
 
         static Defuzzifier* constructor();
     };

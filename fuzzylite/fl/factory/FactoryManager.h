@@ -36,6 +36,7 @@ namespace fl {
     class DefuzzifierFactory;
     class TermFactory;
     class HedgeFactory;
+    class FunctionFactory;
 
     class FL_EXPORT FactoryManager {
     protected:
@@ -46,14 +47,17 @@ namespace fl {
         DefuzzifierFactory* _defuzzifier;
         TermFactory* _term;
         HedgeFactory* _hedge;
+        FunctionFactory* _function;
 
-        FactoryManager(TNormFactory* tnorm = NULL, SNormFactory* snorm = NULL,
-                DefuzzifierFactory* defuzzifier = NULL, TermFactory* term = NULL,
-                HedgeFactory* hedge = NULL);
+        FactoryManager();
+        FactoryManager(TNormFactory* tnorm, SNormFactory* snorm,
+                DefuzzifierFactory* defuzzifier, TermFactory* term,
+                HedgeFactory* hedge, FunctionFactory* function);
+        FactoryManager(const FactoryManager& source);
+        FactoryManager& operator=(const FactoryManager& rhs);
         virtual ~FactoryManager();
 
     public:
-        //This method is thread-safe only after the first call.
         static FactoryManager* instance();
 
         virtual void setTnorm(TNormFactory* tnorm);
@@ -71,8 +75,8 @@ namespace fl {
         virtual void setHedge(HedgeFactory* hedge);
         virtual HedgeFactory* hedge() const;
 
-    private:
-        FL_DISABLE_COPY(FactoryManager)
+        virtual void setFunction(FunctionFactory* function);
+        virtual FunctionFactory* function() const;
     };
 }
 #endif	/* FL_FACTORYMANAGER_H */

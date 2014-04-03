@@ -59,8 +59,8 @@ namespace fl {
         virtual void set(const std::vector<scalar>& coefficients,
                 const std::vector<const InputVariable*>& inputVariables) throw (fl::Exception);
 
-        virtual Linear* copy() const;
-
+        virtual Linear* clone() const;
+        
         static Term* constructor();
     };
 

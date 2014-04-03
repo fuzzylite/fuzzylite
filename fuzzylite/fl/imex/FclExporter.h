@@ -54,6 +54,8 @@ namespace fl {
         virtual std::string toString(const SNorm* snorm) const;
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
         virtual std::string toString(const Term* term) const;
+        
+        virtual FclExporter* clone() const;
     };
 
 }

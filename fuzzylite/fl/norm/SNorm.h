@@ -34,8 +34,14 @@ namespace fl {
 
     class FL_EXPORT SNorm : public Norm {
     public:
-        SNorm(){}
-        virtual ~SNorm(){}
+
+        SNorm() {
+        }
+
+        virtual ~SNorm() {
+        }
+
+        virtual SNorm* clone() const = 0;
     };
 }
 #endif	/* FL_SNORM_H */

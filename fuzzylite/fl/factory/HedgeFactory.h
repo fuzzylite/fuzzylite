@@ -30,16 +30,15 @@
 
 #include "fl/fuzzylite.h"
 
-#include "fl/factory/Factory.h"
+#include "fl/factory/ConstructionFactory.h"
 #include "fl/hedge/Hedge.h"
 
 namespace fl {
-    
-    class FL_EXPORT HedgeFactory : public Factory<Hedge*>{
+
+    class FL_EXPORT HedgeFactory : public ConstructionFactory<Hedge*> {
     public:
         HedgeFactory();
         virtual ~HedgeFactory();
-        
     };
 }
 #endif	/* FL_HEDGEFACTORY_H */

@@ -244,8 +244,8 @@ namespace fl {
         fis << "(" << Op::str(rule->getWeight()) << ") : ";
         if (operators.size() == 0) fis << "1"; //does not matter
         else {
-            if (operators.at(0)->name == Rule::FL_AND) fis << "1";
-            else if (operators.at(0)->name == Rule::FL_OR) fis << "2";
+            if (operators.at(0)->name == Rule::andKeyword()) fis << "1";
+            else if (operators.at(0)->name == Rule::orKeyword()) fis << "2";
             else fis << operators.at(0)->name;
         }
         return fis.str();
@@ -466,4 +466,9 @@ namespace fl {
         ss << "[exporter error] term of class <" << term->className() << "> not supported";
         throw fl::Exception(ss.str(), FL_AT);
     }
+
+    FisExporter* FisExporter::clone() const {
+        return new FisExporter(*this);
+    }
+
 }

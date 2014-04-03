@@ -91,14 +91,12 @@ namespace fl {
         return this->_end;
     }
 
-    SShape* SShape::copy() const {
+    SShape* SShape::clone() const {
         return new SShape(*this);
     }
 
     Term* SShape::constructor() {
         return new SShape;
     }
-
-
 
 }

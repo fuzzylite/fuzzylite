@@ -37,6 +37,14 @@ namespace fl {
     : Expression(), variable(NULL), term(NULL) {
     }
 
+    Proposition::~Proposition() {
+
+    }
+
+    Proposition* Proposition::clone() const {
+        return new Proposition(*this);
+    }
+
     std::string Proposition::toString() const {
         std::ostringstream ss;
         if (variable) {
@@ -45,7 +53,7 @@ namespace fl {
             ss << "?";
         }
         if (not hedges.empty()) {
-            ss << " " << Rule::FL_IS << " ";
+            ss << " " << Rule::isKeyword() << " ";
             for (std::size_t i = 0; i < hedges.size(); ++i) {
                 ss << hedges.at(i)->name() << " ";
             }
@@ -53,21 +61,42 @@ namespace fl {
 
         if (term) { //term is NULL if hedge is any
             if (hedges.empty()) {
-                ss << " " << Rule::FL_IS << " ";
+                ss << " " << Rule::isKeyword() << " ";
             }
             ss << term->getName();
         }
         return ss.str();
     }
 
-    Operator::Operator() : Expression(), left(NULL), right(NULL) {
+    Operator::Operator() : Expression(), name(""), left(NULL), right(NULL) {
+    }
+
+    Operator::Operator(const Operator& copy) : Expression(copy),
+    name(copy.name), left(NULL), right(NULL) {
+        if (copy.left) left = copy.left->clone();
+        if (copy.right) right = copy.right->clone();
+    }
+
+    Operator& Operator::operator =(const Operator& rhs) {
+        if (this == &rhs) return *this;
+        if (left) delete left;
+        if (right) delete right;
+        left = NULL;
+        right = NULL;
+        Expression::operator=(rhs);
+        name = rhs.name;
+        if (rhs.left) left = rhs.left->clone();
+        if (rhs.right) right = rhs.right->clone();
+        return *this;
     }
 
     Operator::~Operator() {
-        if (left)
-            delete left;
-        if (right)
-            delete right;
+        if (left) delete left;
+        if (right) delete right;
+    }
+
+    Operator* Operator::clone() const {
+        return new Operator(*this);
     }
 
     std::string Operator::toString() const {

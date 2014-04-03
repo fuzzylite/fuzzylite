@@ -71,7 +71,12 @@ namespace fl {
         return xlargest;
     }
 
+    LargestOfMaximum* LargestOfMaximum::clone() const {
+        return new LargestOfMaximum(*this);
+    }
+
     Defuzzifier* LargestOfMaximum::constructor() {
         return new LargestOfMaximum;
     }
+
 }

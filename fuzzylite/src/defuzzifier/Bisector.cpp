@@ -37,6 +37,10 @@ namespace fl {
     : IntegralDefuzzifier(resolution) {
     }
 
+    Bisector::~Bisector() {
+
+    }
+
     std::string Bisector::className() const {
         return "Bisector";
     }
@@ -73,8 +77,13 @@ namespace fl {
         return bisector;
     }
 
+    Bisector* Bisector::clone() const {
+        return new Bisector(*this);
+    }
+
     Defuzzifier* Bisector::constructor() {
         return new Bisector;
     }
+
 
 }

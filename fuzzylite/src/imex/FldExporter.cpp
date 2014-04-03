@@ -244,5 +244,8 @@ namespace fl {
     template FL_EXPORT void FldExporter::toWriter(Engine* engine, std::ostringstream& writer,
             const std::vector<scalar>& inputValues, const std::string& separator, bool includeInputvalues) const;
 
+    FldExporter* FldExporter::clone() const {
+        return new FldExporter(*this);
+    }
 
 }

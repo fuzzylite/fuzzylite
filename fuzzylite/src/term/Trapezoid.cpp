@@ -68,16 +68,16 @@ namespace fl {
 
         if (Op::isLt(x, _a) or Op::isGt(x, _d))
             return 0.0;
-        
+
         if (Op::isLt(x, _b))
             return Op::min(scalar(1.0), (x - _a) / (_b - _a));
-        
+
         if (Op::isLE(x, _c))
             return 1.0;
-        
+
         if (Op::isLt(x, _d))
             return (_d - x) / (_d - _c);
-        
+
         return 0.0;
     }
 
@@ -113,12 +113,13 @@ namespace fl {
         return this->_d;
     }
 
-    Trapezoid* Trapezoid::copy() const {
+    Trapezoid* Trapezoid::clone() const {
         return new Trapezoid(*this);
     }
 
     Term* Trapezoid::constructor() {
         return new Trapezoid;
     }
+
 
 }

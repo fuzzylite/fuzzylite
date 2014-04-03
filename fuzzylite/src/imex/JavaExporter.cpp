@@ -224,5 +224,10 @@ namespace fl {
         return Op::str(value);
     }
 
+    JavaExporter* JavaExporter::clone() const {
+        return new JavaExporter(*this);
+    }
+
+
 }
 

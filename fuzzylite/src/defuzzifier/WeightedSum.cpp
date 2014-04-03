@@ -70,6 +70,10 @@ namespace fl {
         return sum;
     }
 
+    WeightedSum* WeightedSum::clone() const {
+        return new WeightedSum(*this);
+    }
+
     Defuzzifier* WeightedSum::constructor() {
         return new WeightedSum;
     }

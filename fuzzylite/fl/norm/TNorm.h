@@ -40,6 +40,8 @@ namespace fl {
 
         virtual ~TNorm() {
         }
+        
+        virtual TNorm* clone() const = 0;
     };
 }
 #endif	/* TNORM_H */

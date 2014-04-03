@@ -39,12 +39,15 @@ namespace fl {
     class FL_EXPORT Hedge {
     public:
 
-        Hedge() { }
+        Hedge() {
+        }
 
-        virtual ~Hedge() { }
+        virtual ~Hedge() {
+        }
 
         virtual std::string name() const = 0;
         virtual scalar hedge(scalar x) const = 0;
+        virtual Hedge* clone() const = 0;
 
     };
 }

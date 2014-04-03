@@ -57,6 +57,8 @@ namespace fl {
         virtual std::string toString(const Norm* op) const;
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
 
+        virtual CppExporter* clone() const;
+
     };
 }
 #endif	/* FL_CPPEXPORTER_H */

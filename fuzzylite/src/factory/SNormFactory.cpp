@@ -39,17 +39,20 @@
 namespace fl {
 
     SNormFactory::SNormFactory() {
-        registerClass(AlgebraicSum().className(), &(AlgebraicSum::constructor));
-        registerClass(BoundedSum().className(), &(BoundedSum::constructor));
-        registerClass(DrasticSum().className(), &(DrasticSum::constructor));
-        registerClass(EinsteinSum().className(), &(EinsteinSum::constructor));
-        registerClass(HamacherSum().className(), &(HamacherSum::constructor));
-        registerClass(Maximum().className(), &(Maximum::constructor));
-        registerClass(NilpotentMaximum().className(), &(NilpotentMaximum::constructor));
-        registerClass(NormalizedSum().className(), &(NormalizedSum::constructor));
+        registerConstructor("", NULL);
+        registerConstructor(AlgebraicSum().className(), &(AlgebraicSum::constructor));
+        registerConstructor(BoundedSum().className(), &(BoundedSum::constructor));
+        registerConstructor(DrasticSum().className(), &(DrasticSum::constructor));
+        registerConstructor(EinsteinSum().className(), &(EinsteinSum::constructor));
+        registerConstructor(HamacherSum().className(), &(HamacherSum::constructor));
+        registerConstructor(Maximum().className(), &(Maximum::constructor));
+        registerConstructor(NilpotentMaximum().className(), &(NilpotentMaximum::constructor));
+        registerConstructor(NormalizedSum().className(), &(NormalizedSum::constructor));
     }
 
     SNormFactory::~SNormFactory() {
+
     }
+
 
 }

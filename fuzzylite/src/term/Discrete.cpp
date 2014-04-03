@@ -155,12 +155,13 @@ namespace fl {
     template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc,
             int x1, int y1, ...) throw (fl::Exception);
 
-    Discrete* Discrete::copy() const {
+    Discrete* Discrete::clone() const {
         return new Discrete(*this);
     }
 
     Term* Discrete::constructor() {
         return new Discrete;
     }
+
 
 }

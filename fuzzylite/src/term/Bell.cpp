@@ -92,7 +92,7 @@ namespace fl {
         return this->_center;
     }
 
-    Bell* Bell::copy() const {
+    Bell* Bell::clone() const {
         return new Bell(*this);
     }
 

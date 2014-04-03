@@ -106,7 +106,7 @@ namespace fl {
                     tnorm(impMethod), snorm(aggMethod),
                     defuzzifier(defuzzMethod));
         } catch (std::exception& ex) {
-			(void)ex;
+            (void) ex;
             delete engine;
             throw;
         }
@@ -264,7 +264,7 @@ namespace fl {
                 if (fl::Op::isEq(inputCode, 0.0)) continue;
                 std::ostringstream ss;
                 ss << engine->getInputVariable(i)->getName() << " "
-                        << fl::Rule::FL_IS << " "
+                        << fl::Rule::isKeyword() << " "
                         << translateProposition(inputCode, engine->getInputVariable(i));
                 antecedent.push_back(ss.str());
             }
@@ -274,30 +274,30 @@ namespace fl {
                 if (fl::Op::isEq(outputCode, 0.0)) continue;
                 std::ostringstream ss;
                 ss << engine->getOutputVariable(i)->getName() << " "
-                        << fl::Rule::FL_IS << " "
+                        << fl::Rule::isKeyword() << " "
                         << translateProposition(outputCode, engine->getOutputVariable(i));
                 consequent.push_back(ss.str());
             }
 
             std::ostringstream rule;
 
-            rule << fl::Rule::FL_IF << " ";
+            rule << fl::Rule::ifKeyword() << " ";
             for (std::size_t i = 0; i < antecedent.size(); ++i) {
                 rule << antecedent.at(i);
                 if (i + 1 < antecedent.size()) {
                     rule << " ";
-                    if (connector == "1") rule << fl::Rule::FL_AND << " ";
-                    else if (connector == "2") rule << fl::Rule::FL_OR << " ";
+                    if (connector == "1") rule << fl::Rule::andKeyword() << " ";
+                    else if (connector == "2") rule << fl::Rule::orKeyword() << " ";
                     else throw fl::Exception("[syntax error] connector <"
                             + connector + "> not recognized", FL_AT);
                 }
             }
 
-            rule << " " << fl::Rule::FL_THEN << " ";
+            rule << " " << fl::Rule::thenKeyword() << " ";
             for (std::size_t i = 0; i < consequent.size(); ++i) {
                 rule << consequent.at(i);
                 if (i + 1 < consequent.size()) {
-                    rule << " " << fl::Rule::FL_AND << " ";
+                    rule << " " << fl::Rule::andKeyword() << " ";
                 }
             }
 
@@ -311,7 +311,7 @@ namespace fl {
 
             scalar weight = fl::Op::toScalar(ss.str());
             if (not fl::Op::isEq(weight, 1.0))
-                rule << " " << fl::Rule::FL_WITH << " " << Op::str(weight);
+                rule << " " << fl::Rule::withKeyword() << " " << Op::str(weight);
 
             ruleblock->addRule(fl::Rule::parse(rule.str(), engine));
         }
@@ -498,7 +498,7 @@ namespace fl {
         else flClass = mClass;
 
         try {
-            Term* result = FactoryManager::instance()->term()->createInstance(flClass);
+            Term* result = FactoryManager::instance()->term()->constructObject(flClass);
             result->setName(Op::makeValidId(name));
             std::string separator;
             if (not dynamic_cast<Function*> (result)) {
@@ -512,5 +512,8 @@ namespace fl {
         }
     }
 
+    FisImporter* FisImporter::clone() const {
+        return new FisImporter(*this);
+    }
 
 }

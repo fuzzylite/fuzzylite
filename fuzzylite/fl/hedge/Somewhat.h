@@ -36,6 +36,8 @@ namespace fl {
     public:
         std::string name() const;
         scalar hedge(scalar x) const;
+        Somewhat* clone() const;
+        
         static Hedge* constructor();
     };
 

@@ -37,6 +37,8 @@ namespace fl {
     class SNorm;
 
     class FL_EXPORT Accumulated : public Term {
+    private :
+        void copyFrom(const Accumulated& source);
     protected:
         std::vector<const Term*> _terms;
         scalar _minimum, _maximum;
@@ -46,13 +48,16 @@ namespace fl {
                 scalar minimum = -fl::inf,
                 scalar maximum = fl::inf,
                 SNorm* accumulation = NULL);
+        Accumulated(const Accumulated& source);
+        Accumulated& operator=(const Accumulated& rhs);
+        
         virtual ~Accumulated();
 
         virtual std::string className() const;
         virtual std::string parameters() const;
         virtual void configure(const std::string& parameters);
 
-        virtual Accumulated* copy() const;
+        virtual Accumulated* clone() const;
 
         virtual scalar membership(scalar x) const;
 

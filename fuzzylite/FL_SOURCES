@@ -10,9 +10,11 @@ src/defuzzifier/WeightedAverage.cpp
 src/defuzzifier/WeightedSum.cpp
 src/Engine.cpp
 src/Exception.cpp
+src/factory/CloningFactory.cpp
+src/factory/ConstructionFactory.cpp
 src/factory/DefuzzifierFactory.cpp
-src/factory/Factory.cpp
 src/factory/FactoryManager.cpp
+src/factory/FunctionFactory.cpp
 src/factory/HedgeFactory.cpp
 src/factory/SNormFactory.cpp
 src/factory/TermFactory.cpp

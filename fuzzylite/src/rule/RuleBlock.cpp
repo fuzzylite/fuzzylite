@@ -42,6 +42,38 @@ namespace fl {
     : _name(name), _conjunction(NULL), _disjunction(NULL), _activation(NULL), _enabled(true) {
     }
 
+    RuleBlock::RuleBlock(const RuleBlock& source) {
+        copyFrom(source);
+    }
+
+    RuleBlock& RuleBlock::operator =(const RuleBlock& rhs) {
+        if (this == &rhs) return *this;
+        for (std::size_t i = 0; i < _rules.size(); ++i) {
+            delete _rules.at(i);
+        }
+        _rules.clear();
+        if (_conjunction) delete _conjunction;
+        if (_disjunction) delete _disjunction;
+        if (_activation) delete _activation;
+        _conjunction = NULL;
+        _disjunction = NULL;
+        _activation = NULL;
+        
+        copyFrom(rhs);
+        return *this;
+    }
+
+    void RuleBlock::copyFrom(const RuleBlock& source) {
+        _name = source._name;
+        _enabled = source._enabled;
+        if (source._activation) _activation = source._activation->clone();
+        if (source._conjunction) _conjunction = source._conjunction->clone();
+        if (source._disjunction) _disjunction = source._disjunction->clone();
+        for (std::size_t i = 0; i < source._rules.size(); ++i) {
+            _rules.push_back(new Rule(*source._rules.at(i)));
+        }
+    }
+
     RuleBlock::~RuleBlock() {
         for (std::size_t i = 0; i < _rules.size(); ++i) {
             delete _rules.at(i);
@@ -135,28 +167,6 @@ namespace fl {
 
     bool RuleBlock::isEnabled() const {
         return this->_enabled;
-    }
-
-    void RuleBlock::clear() {
-        setName("");
-        setEnabled(true);
-        for (std::size_t i = 0; i < _rules.size(); ++i) {
-            _rules.at(i)->unload();
-            delete _rules.at(i);
-        }
-        _rules.clear();
-        if (_activation) {
-            delete _activation;
-            setActivation(NULL);
-        }
-        if (_conjunction) {
-            delete _conjunction;
-            setConjunction(NULL);
-        }
-        if (_disjunction) {
-            delete _disjunction;
-            setDisjunction(NULL);
-        }
     }
 
     std::string RuleBlock::toString() const {

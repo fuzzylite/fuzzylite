@@ -36,9 +36,14 @@ namespace fl {
         return 1.0;
     }
 
+    NilpotentMaximum* NilpotentMaximum::clone() const {
+        return new NilpotentMaximum(*this);
+    }
+
     SNorm* NilpotentMaximum::constructor() {
         return new NilpotentMaximum;
     }
+
 
 }
 

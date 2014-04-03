@@ -39,6 +39,10 @@ namespace fl {
     : IntegralDefuzzifier(divisions) {
     }
 
+    Centroid::~Centroid() {
+
+    }
+
     std::string Centroid::className() const {
         return "Centroid";
     }
@@ -69,8 +73,13 @@ namespace fl {
         return xcentroid;
     }
 
+    Centroid* Centroid::clone() const {
+        return new Centroid(*this);
+    }
+
     Defuzzifier* Centroid::constructor() {
         return new Centroid;
     }
+
 
 }

@@ -55,7 +55,7 @@ namespace fl {
         return this->_value;
     }
 
-    Constant* Constant::copy() const {
+    Constant* Constant::clone() const {
         return new Constant(*this);
     }
 

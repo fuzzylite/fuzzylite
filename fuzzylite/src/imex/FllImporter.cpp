@@ -105,7 +105,7 @@ namespace fl {
             }
             process(tag, block.str(), engine);
         } catch (std::exception& ex) {
-			(void)ex;
+            (void) ex;
             delete engine;
             throw;
         }
@@ -201,7 +201,7 @@ namespace fl {
             } else if ("rule" == keyValue.first) {
                 Rule* rule = new Rule;
                 rule->setText(keyValue.second);
-                try{
+                try {
                     rule->load(engine);
                 } catch (std::exception& ex) {
                     FL_LOG(ex.what());
@@ -223,7 +223,7 @@ namespace fl {
             throw fl::Exception("[syntax error] expected a term in format <name class parameters>, "
                     "but found <" + text + ">", FL_AT);
         }
-        Term* term = FactoryManager::instance()->term()->createInstance(tokens.at(1));
+        Term* term = FactoryManager::instance()->term()->constructObject(tokens.at(1));
         term->setName(Op::makeValidId(tokens.at(0)));
         std::ostringstream parameters;
         for (std::size_t i = 2; i < tokens.size(); ++i) {
@@ -247,25 +247,25 @@ namespace fl {
     }
 
     TNorm* FllImporter::parseTNorm(const std::string& name) const {
-        if (name == "none") return FactoryManager::instance()->tnorm()->createInstance("");
-        return FactoryManager::instance()->tnorm()->createInstance(name);
+        if (name == "none") return FactoryManager::instance()->tnorm()->constructObject("");
+        return FactoryManager::instance()->tnorm()->constructObject(name);
     }
 
     SNorm* FllImporter::parseSNorm(const std::string& name) const {
-        if (name == "none") return FactoryManager::instance()->snorm()->createInstance("");
-        return FactoryManager::instance()->snorm()->createInstance(name);
+        if (name == "none") return FactoryManager::instance()->snorm()->constructObject("");
+        return FactoryManager::instance()->snorm()->constructObject(name);
     }
 
     Defuzzifier* FllImporter::parseDefuzzifier(const std::string& text) const {
         std::vector<std::string> parameters = Op::split(text, " ");
         std::string name = parameters.at(0);
-        if (name == "none") return FactoryManager::instance()->defuzzifier()->createInstance("");
-        Defuzzifier* defuzzifier = FactoryManager::instance()->defuzzifier()->createInstance(name);
+        if (name == "none") return FactoryManager::instance()->defuzzifier()->constructObject("");
+        Defuzzifier* defuzzifier = FactoryManager::instance()->defuzzifier()->constructObject(name);
         if (parameters.size() > 1) {
             IntegralDefuzzifier* integralDefuzzifier =
                     dynamic_cast<IntegralDefuzzifier*> (defuzzifier);
             if (integralDefuzzifier) {
-                integralDefuzzifier->setResolution((int)Op::toScalar(parameters.at(1)));
+                integralDefuzzifier->setResolution((int) Op::toScalar(parameters.at(1)));
             }
         }
         return defuzzifier;
@@ -320,5 +320,10 @@ namespace fl {
         int length = end - start + 1;
         return line.substr(start, length);
     }
+
+    FllImporter* FllImporter::clone() const {
+        return new FllImporter(*this);
+    }
+
 
 }

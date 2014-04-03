@@ -46,6 +46,8 @@ namespace fl {
 
     public:
         Antecedent();
+        Antecedent(const Antecedent& source);
+        Antecedent& operator=(const Antecedent& rhs);
         virtual ~Antecedent();
 
         virtual void setText(const std::string& text);
@@ -70,8 +72,6 @@ namespace fl {
         virtual std::string toInfix(const Expression* node = NULL) const;
         virtual std::string toPostfix(const Expression* node = NULL) const;
 
-    private:
-        FL_DISABLE_COPY(Antecedent)
     };
 
 }

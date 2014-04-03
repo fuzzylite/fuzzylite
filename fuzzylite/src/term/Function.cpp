@@ -28,6 +28,7 @@
 #include "fl/term/Function.h"
 
 #include "fl/Engine.h"
+#include "fl/factory/FunctionFactory.h"
 #include "fl/variable/InputVariable.h"
 #include "fl/variable/OutputVariable.h"
 #include "fl/rule/Rule.h"
@@ -40,460 +41,133 @@
 
 namespace fl {
 
-    /**********************************
-     * Function class.
-     **********************************/
-    Function::Function(const std::string& name,
-            const std::string& formula, const Engine* engine)
-    : Term(name), _formula(formula), _engine(engine), root(NULL) {
-        loadOperators();
-    }
-
-    Function::~Function() {
-        if (this->root) delete this->root;
-        for (std::map<std::string, Operator*>::iterator it = this->operators.begin();
-                it != this->operators.end(); ++it) {
-            delete it->second;
-        }
-        for (std::map<std::string, BuiltInFunction*>::iterator it = this->functions.begin();
-                it != this->functions.end(); ++it) {
-            delete it->second;
-        }
-    }
-
-    std::string Function::className() const {
-        return "Function";
-    }
-
-    scalar Function::membership(scalar x) const {
-        if (not this->root) return fl::nan;
-        if (this->_engine) {
-            for (int i = 0; i < this->_engine->numberOfInputVariables(); ++i) {
-                InputVariable* input = this->_engine->getInputVariable(i);
-                const_cast<Function*> (this)->variables[input->getName()] =
-                        input->getInputValue();
-            }
-            for (int i = 0; i < this->_engine->numberOfOutputVariables(); ++i) {
-                OutputVariable* output = this->_engine->getOutputVariable(i);
-                const_cast<Function*> (this)->variables[output->getName()] =
-                        output->getLastValidOutputValue();
-            }
-        }
-        const_cast<Function*> (this)->variables["x"] = x;
-        return this->evaluate(&this->variables);
-    }
-
-    scalar Function::evaluate(const std::map<std::string, scalar>* localVariables) const {
-        if (not this->root)
-            throw fl::Exception("[function error] evaluation failed because function is not loaded", FL_AT);
-        if (localVariables)
-            return this->root->evaluate(localVariables);
-        return this->root->evaluate(&this->variables);
-    }
-
-    std::string Function::parameters() const {
-        return _formula;
-    }
-
-    void Function::configure(const std::string& parameters) {
-        this->_formula = parameters;
-    }
-
-    Function* Function::create(const std::string& name,
-            const std::string& infix, const Engine* engine,
-            bool requiresFunctions) throw (fl::Exception) {
-        Function* result = new Function(name);
-        if (requiresFunctions) {
-            result->loadBuiltInFunctions();
-        }
-        try {
-            result->load(infix, engine);
-        } catch (std::exception& ex) {
-            (void) ex;
-            delete result;
-            throw;
-        }
-        return result;
-    }
-
-    void Function::load() throw (fl::Exception) {
-        load(this->_formula, this->_engine);
-    }
-
-    void Function::load(const std::string& formula,
-            const Engine* engine) throw (fl::Exception) {
-        if (this->root) {
-            delete this->root;
-            this->root = NULL;
-        }
-        this->root = parse(formula);
-        this->_formula = formula;
-        this->_engine = engine;
-    }
-
-    void Function::setFormula(const std::string& formula) {
-        this->_formula = formula;
-    }
-
-    std::string Function::getFormula() const {
-        return this->_formula;
-    }
-
-    void Function::setEngine(const Engine* engine) {
-        this->_engine = engine;
-    }
-
-    const Engine* Function::getEngine() const {
-        return this->_engine;
-    }
-
-    Function* Function::copy() const {
-        Function* result = new Function(this->_name);
-        if (not functions.empty()) {
-            result->loadBuiltInFunctions();
-        }
-        try {
-            result->load(this->_formula, this->_engine);
-        } catch (std::exception& ex) {
-            (void) ex;
-        }
-        return result;
-    }
-
-    Term* Function::constructor() {
-        return fl::Function::create("", "");
-    }
-
     /**
      * Parsing elements
      */
 
-    Function::Element::Element(const std::string& name)
-    : name(name), unary(NULL), binary(NULL), arity(0), associativity(-1) {
+
+    Function::Element::Element(const std::string& name, Type type)
+    : name(name), type(type), unary(NULL), binary(NULL), arity(0),
+    precedence(0), associativity(-1) {
+
     }
 
-    Function::Element::Element(const std::string& name, Unary unary, int associativity)
-    : name(name), unary(unary), binary(NULL), arity(1), associativity(associativity) {
+    Function::Element::Element(const std::string& name, Type type, Unary unary,
+            int precedence, int associativity)
+    : name(name), type(type), unary(unary), binary(NULL), arity(1),
+    precedence(precedence), associativity(associativity) {
     }
 
-    Function::Element::Element(const std::string& name, Binary binary, int associativity)
-    : name(name), unary(NULL), binary(binary), arity(2), associativity(associativity) {
+    Function::Element::Element(const std::string& name, Type type, Binary binary,
+            int precedence, int associativity)
+    : name(name), type(type), unary(NULL), binary(binary), arity(2),
+    precedence(precedence), associativity(associativity) {
     }
 
     Function::Element::~Element() {
+
     }
 
-    Function::Operator::Operator(const std::string& name, Unary unary,
-            int precedence, int associativity)
-    : Element(name, unary, associativity), precedence(precedence) {
+    bool Function::Element::isOperator() const {
+        return type == OPERATOR;
     }
 
-    Function::Operator::Operator(const std::string& name, Binary binary,
-            int precedence, int associativity)
-    : Element(name, binary, associativity), precedence(precedence) {
+    bool Function::Element::isFunction() const {
+        return type == FUNCTION;
     }
 
-    std::string Function::Operator::toString() const {
+    Function::Element* Function::Element::clone() const {
+        return new Element(*this);
+    }
+
+    std::string Function::Element::toString() const {
         std::ostringstream ss;
-        ss << "Operator (name=" << name << ", "
-                << "precedence=" << precedence << ", "
-                << "arity=" << arity << ", "
-                << "associativity=" << associativity << ", ";
-        if (arity == 1) ss << "pointer=" << unary;
-        else if (arity == 2) ss << "pointer=" << binary;
-        else ss << "pointer=error";
-        ss << ")";
+
+        if (type == OPERATOR) {
+            ss << "Operator (name=" << name << ", "
+                    << "precedence=" << precedence << ", "
+                    << "arity=" << arity << ", "
+                    << "associativity=" << associativity << ", ";
+            if (arity == 1) ss << "pointer=" << unary;
+            else if (arity == 2) ss << "pointer=" << binary;
+            else ss << "pointer=error";
+            ss << ")";
+        } else if (type == FUNCTION) {
+            ss << "MathFunction (name=" << name << ", "
+                    << "arity=" << arity << ", "
+                    << "associativity=" << associativity << ", ";
+            if (arity == 1) ss << "pointer=" << unary;
+            else if (arity == 2) ss << "pointer=" << binary;
+            else ss << "pointer=error";
+            ss << ")";
+        }
         return ss.str();
-    }
-
-    Function::BuiltInFunction::BuiltInFunction(const std::string& name,
-            Unary unary, int associativity)
-    : Element(name, unary, associativity) {
-    }
-
-    Function::BuiltInFunction::BuiltInFunction(const std::string& name,
-            Binary binary, int associativity)
-    : Element(name, binary, associativity) {
-    }
-
-    std::string Function::BuiltInFunction::toString() const {
-        std::ostringstream ss;
-        ss << "BuiltInFunction (name=" << name << ", "
-                << "arity=" << arity << ", "
-                << "associativity=" << associativity << ", ";
-        if (arity == 1) ss << "pointer=" << unary;
-        else if (arity == 2) ss << "pointer=" << binary;
-        else ss << "pointer=error";
-        ss << ")";
-        return ss.str();
-    }
-
-    /***********************************
-     * Load Operators and Functions
-     ***********************************/
-
-    void Function::loadOperators() {
-        int p = 7;
-        // (!) Logical and (~) Bitwise NOT
-        this->operators["!"] = new Operator("!", &(fl::Op::logicalNot), p, 1);
-        // ~ negates a number
-        this->operators["~"] = new Operator("~", &(fl::Op::negate), p, 1);
-        --p; //Power
-        this->operators["^"] = new Operator("^", &(std::pow), p, 1);
-        --p; //Multiplication, Division, and Modulo
-        this->operators["*"] = new Operator("*", &(fl::Op::multiply), p);
-        this->operators["/"] = new Operator("/", &(fl::Op::divide), p);
-        this->operators["%"] = new Operator("%", &(fl::Op::modulo), p);
-        --p; //Addition, Subtraction
-        this->operators["+"] = new Operator("+", &(fl::Op::add), p);
-        this->operators["-"] = new Operator("-", &(fl::Op::subtract), p);
-        //        --p; //Bitwise AND
-        //        this->_binaryOperators["&"] = new Operator("&", std::bit_and, p);
-        //        --p; //Bitwise OR
-        //        this->_binaryOperators["|"] = new Operator("|", std::bit_or, p);
-        --p; //Logical AND
-        this->operators[fl::Rule::andKeyword()] =
-                new Operator(fl::Rule::andKeyword(), &(fl::Op::logicalAnd), p);
-        --p; //Logical OR
-        this->operators[fl::Rule::orKeyword()] =
-                new Operator(fl::Rule::orKeyword(), &(fl::Op::logicalOr), p);
-    }
-
-    void Function::loadBuiltInFunctions() {
-        this->functions["gt"] = new BuiltInFunction("gt", &(fl::Op::gt));
-        this->functions["ge"] = new BuiltInFunction("ge", &(fl::Op::ge));
-        this->functions["eq"] = new BuiltInFunction("eq", &(fl::Op::eq));
-        this->functions["le"] = new BuiltInFunction("le", &(fl::Op::le));
-        this->functions["lt"] = new BuiltInFunction("lt", &(fl::Op::lt));
-        
-        this->functions["not"] = new BuiltInFunction("not", &(fl::Op::logicalNot));
-        this->functions["round"] = new BuiltInFunction("lt", &(fl::Op::round));
-        
-        this->functions["acos"] = new BuiltInFunction("acos", &(std::acos));
-        this->functions["asin"] = new BuiltInFunction("asin", &(std::asin));
-        this->functions["atan"] = new BuiltInFunction("atan", &(std::atan));
-
-        this->functions["ceil"] = new BuiltInFunction("ceil", &(std::ceil));
-        this->functions["cos"] = new BuiltInFunction("cos", &(std::cos));
-        this->functions["cosh"] = new BuiltInFunction("cosh", &(std::cosh));
-        this->functions["exp"] = new BuiltInFunction("exp", &(std::exp));
-        this->functions["fabs"] = new BuiltInFunction("fabs", &(std::fabs));
-        this->functions["floor"] = new BuiltInFunction("floor", &(std::floor));
-        this->functions["log"] = new BuiltInFunction("log", &(std::log));
-        this->functions["log10"] = new BuiltInFunction("log10", &(std::log10));
-
-        this->functions["sin"] = new BuiltInFunction("sin", &(std::sin));
-        this->functions["sinh"] = new BuiltInFunction("sinh", &(std::sinh));
-        this->functions["sqrt"] = new BuiltInFunction("sqrt", &(std::sqrt));
-        this->functions["tan"] = new BuiltInFunction("tan", &(std::tan));
-        this->functions["tanh"] = new BuiltInFunction("tanh", &(std::tanh));
-
-#if defined(FL_UNIX) && !defined(FL_USE_FLOAT)
-        //found in Unix when using double precision. not found in Windows.
-        this->functions["log1p"] = new BuiltInFunction("log1p", &(log1p));
-        this->functions["acosh"] = new BuiltInFunction("acosh", &(acosh));
-        this->functions["asinh"] = new BuiltInFunction("asinh", &(asinh));
-        this->functions["atanh"] = new BuiltInFunction("atanh", &(atanh));
-#endif
-
-        this->functions["pow"] = new BuiltInFunction("pow", &(std::pow));
-        this->functions["atan2"] = new BuiltInFunction("atan2", &(std::atan2));
-        this->functions["fmod"] = new BuiltInFunction("fmod", &(std::fmod));
-    }
-
-    std::string Function::space(const std::string& formula) const {
-        std::vector<std::string> chars;
-        chars.push_back("(");
-        chars.push_back(")");
-        chars.push_back(",");
-
-        for (std::map<std::string, Operator*>::const_iterator itOp = this->operators.begin();
-                itOp != this->operators.end(); ++itOp) {
-            if (itOp->first == fl::Rule::andKeyword() or
-                    itOp->first == fl::Rule::orKeyword()) {
-                continue;
-            }
-            chars.push_back(itOp->first);
-        }
-
-        std::string result = formula;
-        for (std::size_t i = 0; i < chars.size(); ++i) {
-            result = fl::Op::findReplace(result, chars.at(i), " " + chars.at(i) + " ");
-        }
-        return result;
-    }
-
-    std::string Function::toPostfix(const std::string& formula) const throw (fl::Exception) {
-        std::string spacedFormula = space(formula);
-
-        std::queue<std::string> queue;
-        std::stack<std::string> stack;
-
-        std::stringstream tokenizer(spacedFormula);
-        std::string token;
-        while (tokenizer >> token) {
-            if (isOperand(token)) {
-                queue.push(token);
-
-            } else if (isBuiltInFunction(token)) {
-                stack.push(token);
-
-            } else if (token == ",") {
-                while (not stack.empty() and stack.top() != "(") {
-                    queue.push(stack.top());
-                    stack.pop();
-                }
-                if (stack.empty() or stack.top() != "(") {
-                    std::ostringstream ex;
-                    ex << "[parsing error] mismatching parentheses in: " << formula;
-                    throw fl::Exception(ex.str(), FL_AT);
-                }
-
-            } else if (isOperator(token)) {
-                Operator* op1 = getOperator(token);
-                while (true) {
-                    Operator* op2 = NULL;
-                    if (not stack.empty() and isOperator(stack.top())) {
-                        op2 = this->getOperator(stack.top());
-                    } else break;
-
-                    if ((op1->associativity < 0 and op1->precedence <= op2->precedence)
-                            or op1->precedence < op2->precedence) {
-                        queue.push(stack.top());
-                        stack.pop();
-                    } else
-                        break;
-                }
-                stack.push(token);
-
-            } else if (token == "(") {
-                stack.push(token);
-
-            } else if (token == ")") {
-                while (not stack.empty() and stack.top() != "(") {
-                    queue.push(stack.top());
-                    stack.pop();
-                }
-                if (stack.empty() or stack.top() != "(") {
-                    std::ostringstream ex;
-                    ex << "[parsing error] mismatching parentheses in: " << formula;
-                    throw fl::Exception(ex.str(), FL_AT);
-                }
-                stack.pop(); //get rid of "("
-
-                if (not stack.empty() and isBuiltInFunction(stack.top())) {
-                    queue.push(stack.top());
-                    stack.pop();
-                }
-            } else {
-                std::ostringstream ex;
-                ex << "[parsing error] unexpected error with token <" << token << ">";
-                throw fl::Exception(ex.str(), FL_AT);
-            }
-        }
-
-        while (not stack.empty()) {
-            if (stack.top() == "(" or stack.top() == ")") {
-                std::ostringstream ex;
-                ex << "[parsing error] mismatching parentheses in: " << formula;
-                throw fl::Exception(ex.str(), FL_AT);
-            }
-            queue.push(stack.top());
-            stack.pop();
-        }
-
-        std::stringstream ssPostfix;
-        while (not queue.empty()) {
-            ssPostfix << queue.front();
-            queue.pop();
-            if (not queue.empty()) ssPostfix << " ";
-        }
-        //        FL_DBG("postfix=" << ssPostfix.str());
-        return ssPostfix.str();
-    }
-
-    Function::Operator* Function::getOperator(const std::string& key) const {
-        std::map<std::string, Operator*>::const_iterator it =
-                this->operators.find(key);
-        if (it == this->operators.end()) return NULL;
-        return it->second;
-    }
-
-    Function::BuiltInFunction*
-    Function::getBuiltInFunction(const std::string& key) const {
-        std::map<std::string, BuiltInFunction*>::const_iterator it =
-                this->functions.find(key);
-        if (it == this->functions.end()) return NULL;
-        return it->second;
-    }
-
-    bool Function::isOperand(const std::string& name) const {
-        //An operand is not a parenthesis...
-        if (name == "(" or name == ")" or name == ",") return false;
-        //nor an operator...
-        if (isOperator(name)) return false;
-        //nor a function...
-        if (isBuiltInFunction(name)) return false;
-        //...it is everything else :)
-        return true;
-    }
-
-    bool Function::isOperator(const std::string& name) const {
-        return operators.find(name) != operators.end();
-    }
-
-    bool Function::isBuiltInFunction(const std::string& name) const {
-        return functions.find(name) != functions.end();
     }
 
     /******************************
      * Tree Node Elements
      ******************************/
 
-    Function::Node::Node(Operator* foperator, Node* left, Node* right)
-    : foperator(foperator), function(NULL), variable(""), value(fl::nan),
-    left(left), right(right) {
-    }
-
-    Function::Node::Node(BuiltInFunction* function, Node* left, Node* right)
-    : foperator(NULL), function(function), variable(""), value(fl::nan),
-    left(left), right(right) {
+    Function::Node::Node(Element* element, Node* left, Node* right)
+    : element(element), left(left), right(right), variable(""), value(fl::nan) {
     }
 
     Function::Node::Node(const std::string& variable)
-    : foperator(NULL), function(NULL), variable(variable), value(fl::nan),
-    left(NULL), right(NULL) {
+    : element(NULL), left(NULL), right(NULL), variable(variable), value(fl::nan) {
     }
 
     Function::Node::Node(scalar value)
-    : foperator(NULL), function(NULL), variable(""), value(value), left(NULL), right(NULL) {
+    : element(NULL), left(NULL), right(NULL), variable(""), value(value) {
+    }
+
+    Function::Node::Node(const Node& source)
+    : element(NULL), left(NULL), right(NULL), variable(""), value(fl::nan) {
+        copyFrom(source);
+    }
+
+    Function::Node& Function::Node::operator =(const Node& rhs) {
+        if (this == &rhs) return *this;
+
+        if (element) delete element;
+        if (left) delete left;
+        if (right) delete right;
+
+        element = NULL;
+        left = NULL;
+        right = NULL;
+
+        copyFrom(rhs);
+        return *this;
+    }
+
+    void Function::Node::copyFrom(const Node& source) {
+        if (source.element) element = source.element->clone();
+        if (source.left) left = source.left->clone();
+        if (source.right) right = source.right->clone();
+        variable = source.variable;
+        value = source.value;
     }
 
     Function::Node::~Node() {
+        if (element) delete element;
         if (left) delete left;
         if (right) delete right;
     }
 
     scalar Function::Node::evaluate(const std::map<std::string, scalar>* variables) const {
         scalar result = fl::nan;
-        if (foperator) {
-            if (foperator->arity == 1) {
-                result = foperator->unary(left->evaluate(variables));
-            } else if (foperator->arity == 2) {
-                result = foperator->binary(right->evaluate(variables), left->evaluate(variables));
+        if (element) {
+            if (element->unary) {
+                result = element->unary(left->evaluate(variables));
+            } else if (element->binary) {
+                result = element->binary(right->evaluate(variables), left->evaluate(variables));
             } else {
-                throw fl::Exception("[function error] <" + fl::Op::str(foperator->arity) + ">-ary"
-                        " operators are not supported, only unary or binary are", FL_AT);
+                std::ostringstream ex;
+                ex << "[function error] arity <" << element->arity << "> of element "
+                        "<" + element->name + "> is NULL";
+                throw fl::Exception(ex.str(), FL_AT);
             }
-        } else if (function) {
-            if (function->arity == 1) {
-                result = function->unary(left->evaluate(variables));
-            } else if (function->arity == 2) {
-                result = function->binary(right->evaluate(variables), left->evaluate(variables));
-            } else {
-                throw fl::Exception("[function error] <" + fl::Op::str(foperator->arity) + ">-ary"
-                        " functions are not supported, only unary or binary are", FL_AT);
-            }
+
         } else if (not variable.empty()) {
             if (not variables) {
                 throw fl::Exception("[function error] "
@@ -506,14 +180,16 @@ namespace fl {
         } else {
             result = value;
         }
-        //        FL_DBG(toPostfix() << " = " << result);
         return result;
+    }
+
+    Function::Node* Function::Node::clone() const {
+        return new Node(*this);
     }
 
     std::string Function::Node::toString() const {
         std::ostringstream ss;
-        if (foperator) ss << foperator->name;
-        else if (function) ss << function->name;
+        if (element) ss << element->name;
         else if (not variable.empty()) ss << variable;
         else ss << fl::Op::str(value);
         return ss.str();
@@ -573,6 +249,248 @@ namespace fl {
         return ss.str();
     }
 
+    /**********************************
+     * Function class.
+     **********************************/
+    Function::Function(const std::string& name,
+            const std::string& formula, const Engine* engine)
+    : Term(name), _formula(formula), _engine(engine), root(NULL) {
+    }
+
+    Function::Function(const Function& source) : Term(source),
+    _formula(source._formula), _engine(source._engine), root(NULL) {
+        if (source.root) root = source.root->clone();
+    }
+
+    Function& Function::operator =(const Function& rhs) {
+        if (this == &rhs) return *this;
+        if (root) delete root;
+        root = NULL;
+        
+        Term::operator =(rhs);
+        _formula = rhs._formula;
+        _engine = rhs._engine;
+        if (rhs.root) root = rhs.root->clone();
+        return *this;
+    }
+
+    Function::~Function() {
+        if (this->root) delete this->root;
+    }
+
+    std::string Function::className() const {
+        return "Function";
+    }
+
+    scalar Function::membership(scalar x) const {
+        if (not this->root) return fl::nan;
+        if (this->_engine) {
+            for (int i = 0; i < this->_engine->numberOfInputVariables(); ++i) {
+                InputVariable* input = this->_engine->getInputVariable(i);
+                this->variables[input->getName()] = input->getInputValue();
+            }
+            for (int i = 0; i < this->_engine->numberOfOutputVariables(); ++i) {
+                OutputVariable* output = this->_engine->getOutputVariable(i);
+                this->variables[output->getName()] = output->getLastValidOutputValue();
+            }
+        }
+        this->variables["x"] = x;
+        return this->evaluate(&this->variables);
+    }
+
+    scalar Function::evaluate(const std::map<std::string, scalar>* localVariables) const {
+        if (not this->root)
+            throw fl::Exception("[function error] evaluation failed because function is not loaded", FL_AT);
+        if (localVariables)
+            return this->root->evaluate(localVariables);
+        return this->root->evaluate(&this->variables);
+    }
+
+    std::string Function::parameters() const {
+        return _formula;
+    }
+
+    void Function::configure(const std::string& parameters) {
+        this->_formula = parameters;
+    }
+
+    Function* Function::create(const std::string& name,
+            const std::string& infix, const Engine* engine) throw (fl::Exception) {
+        Function* result = new Function(name);
+        try {
+            result->load(infix, engine);
+        } catch (...) {
+            delete result;
+            throw;
+        }
+        return result;
+    }
+
+    void Function::load() throw (fl::Exception) {
+        load(this->_formula, this->_engine);
+    }
+
+    void Function::load(const std::string& formula,
+            const Engine* engine) throw (fl::Exception) {
+        if (this->root) {
+            delete this->root;
+            this->root = NULL;
+        }
+        this->root = parse(formula);
+        this->_formula = formula;
+        this->_engine = engine;
+    }
+
+    void Function::setFormula(const std::string& formula) {
+        this->_formula = formula;
+    }
+
+    std::string Function::getFormula() const {
+        return this->_formula;
+    }
+
+    void Function::setEngine(const Engine* engine) {
+        this->_engine = engine;
+    }
+
+    const Engine* Function::getEngine() const {
+        return this->_engine;
+    }
+
+    Function* Function::clone() const {
+        return new Function(*this);
+    }
+
+    Term* Function::constructor() {
+        return new Function;
+    }
+
+    std::string Function::space(const std::string& formula) const {
+        std::vector<std::string> chars;
+        chars.push_back("(");
+        chars.push_back(")");
+        chars.push_back(",");
+
+        std::vector<std::string> operators = fl::FactoryManager::instance()->function()->availableOperators();
+        for (std::size_t i = 0; i < operators.size(); ++i) {
+            if (not (operators.at(i) == fl::Rule::andKeyword() or
+                    operators.at(i) == fl::Rule::orKeyword())) {
+                chars.push_back(operators.at(i));
+            }
+        }
+
+        std::string result = formula;
+        for (std::size_t i = 0; i < chars.size(); ++i) {
+            result = fl::Op::findReplace(result, chars.at(i), " " + chars.at(i) + " ");
+        }
+        return result;
+    }
+
+    std::string Function::toPostfix(const std::string& formula) const throw (fl::Exception) {
+        std::string spacedFormula = space(formula);
+
+        std::queue<std::string> queue;
+        std::stack<std::string> stack;
+
+        std::stringstream tokenizer(spacedFormula);
+        std::string token;
+        FunctionFactory* factory = fl::FactoryManager::instance()->function();
+        while (tokenizer >> token) {
+            Element* element = factory->getObject(token);
+            bool isOperand = not element and token != "(" and token != ")" and token != ",";
+
+            if (isOperand) {
+                queue.push(token);
+
+            } else if (element and element->isFunction()) {
+                stack.push(token);
+
+            } else if (token == ",") {
+                while (not stack.empty() and stack.top() != "(") {
+                    queue.push(stack.top());
+                    stack.pop();
+                }
+                if (stack.empty() or stack.top() != "(") {
+                    std::ostringstream ex;
+                    ex << "[parsing error] mismatching parentheses in: " << formula;
+                    throw fl::Exception(ex.str(), FL_AT);
+                }
+
+            } else if (element and element->isOperator()) {
+                Element* op1 = element;
+                while (true) {
+                    Element* op2 = NULL;
+                    if (not stack.empty()) op2 = factory->getObject(stack.top());
+                    if (not op2) break;
+
+                    if ((op1->associativity < 0 and op1->precedence <= op2->precedence)
+                            or op1->precedence < op2->precedence) {
+                        queue.push(stack.top());
+                        stack.pop();
+                    } else
+                        break;
+                }
+                stack.push(token);
+
+            } else if (token == "(") {
+                stack.push(token);
+
+            } else if (token == ")") {
+                while (not stack.empty() and stack.top() != "(") {
+                    queue.push(stack.top());
+                    stack.pop();
+                }
+                if (stack.empty() or stack.top() != "(") {
+                    std::ostringstream ex;
+                    ex << "[parsing error] mismatching parentheses in: " << formula;
+                    throw fl::Exception(ex.str(), FL_AT);
+                }
+                stack.pop(); //get rid of "("
+
+                Element* top = NULL;
+                if (not stack.empty()) top = factory->getObject(stack.top());
+                if (top and top->isFunction()) {
+                    queue.push(stack.top());
+                    stack.pop();
+                }
+            } else {
+                std::ostringstream ex;
+                ex << "[parsing error] unexpected error with token <" << token << ">";
+                throw fl::Exception(ex.str(), FL_AT);
+            }
+        }
+
+        while (not stack.empty()) {
+            if (stack.top() == "(" or stack.top() == ")") {
+                std::ostringstream ex;
+                ex << "[parsing error] mismatching parentheses in: " << formula;
+                throw fl::Exception(ex.str(), FL_AT);
+            }
+            queue.push(stack.top());
+            stack.pop();
+        }
+
+        std::stringstream ssPostfix;
+        while (not queue.empty()) {
+            ssPostfix << queue.front();
+            queue.pop();
+            if (not queue.empty()) ssPostfix << " ";
+        }
+        //        FL_DBG("postfix=" << ssPostfix.str());
+        return ssPostfix.str();
+    }
+
+    //    bool FunctionFactory::isOperand(const std::string& name) const {
+    //        //An operand is not a parenthesis...
+    //        if (name == "(" or name == ")" or name == ",") return false;
+    //        //nor an operator...
+    //        if (isOperator(name)) return false;
+    //        //nor a function...
+    //        if (isFunction(name)) return false;
+    //        //...it is everything else :)
+    //        return true;
+    //    }
+
     /****************************************
      * The Glorious Parser
      * Shunting-yard algorithm
@@ -587,49 +505,32 @@ namespace fl {
 
         std::istringstream tokenizer(postfix);
         std::string token;
+        FunctionFactory* factory = fl::FactoryManager::instance()->function();
         while (tokenizer >> token) {
-            if (isOperator(token)) {
-                Operator* op = getOperator(token);
-                if (op->arity > (int) stack.size()) {
+            Element* element = factory->getObject(token);
+            bool isOperand = not element and token != "(" and token != ")" and token != ",";
+
+            if (element) {
+                if (element->arity > (int) stack.size()) {
                     std::ostringstream ss;
                     ss << "[function error] "
-                            "operator <" << op->name << "> has arity <" << op->arity << ">, "
+                            "operator <" << element->name << "> has arity <" << element->arity << ">, "
                             "but <" << stack.size() << "> element" <<
                             (stack.size() == 1 ? " is " : "s are") <<
                             " available";
                     throw fl::Exception(ss.str(), FL_AT);
                 }
 
-                Node* node = new Node(op);
+                Node* node = new Node(element->clone());
                 node->left = stack.top();
                 stack.pop();
-                if (op->arity == 2) {
-                    node->right = stack.top();
-                    stack.pop();
-                }
-                stack.push(node);
-            } else if (isBuiltInFunction(token)) {
-                BuiltInFunction* function = getBuiltInFunction(token);
-                if (function->arity > (int) stack.size()) {
-                    std::ostringstream ss;
-                    ss << "[function error] "
-                            "function <" << function->name << "> has arity <" << function->arity << ">, "
-                            "but <" << stack.size() << "> element" <<
-                            (stack.size() == 1 ? " is " : "s are") <<
-                            " available";
-                    throw fl::Exception(ss.str(), FL_AT);
-                }
-
-                Node* node = new Node(function);
-                node->left = stack.top();
-                stack.pop();
-                if (function->arity == 2) {
+                if (element->arity == 2) {
                     node->right = stack.top();
                     stack.pop();
                 }
                 stack.push(node);
 
-            } else if (isOperand(token)) {
+            } else if (isOperand) {
                 Node* node;
                 try {
                     scalar value = fl::Op::toScalar(token, false);
@@ -651,7 +552,6 @@ namespace fl {
 
     void Function::main() {
         Function f;
-        f.loadBuiltInFunctions();
         std::string text = "3+4*2/(1-5)^2^3";
         FL_LOG(f.toPostfix(text));
         FL_LOG("P: " << f.parse(text)->toInfix());

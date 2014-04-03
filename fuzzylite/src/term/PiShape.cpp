@@ -123,11 +123,13 @@ namespace fl {
         return this->_bottomRight;
     }
 
-    PiShape* PiShape::copy() const {
+    PiShape* PiShape::clone() const {
         return new PiShape(*this);
     }
 
     Term* PiShape::constructor() {
         return new PiShape;
     }
+
+
 }

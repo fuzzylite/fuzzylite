@@ -37,7 +37,12 @@ namespace fl {
         return Op::max(a, b);
     }
 
+    Maximum* Maximum::clone() const {
+        return new Maximum(*this);
+    }
+
     SNorm* Maximum::constructor() {
         return new Maximum;
     }
+
 }

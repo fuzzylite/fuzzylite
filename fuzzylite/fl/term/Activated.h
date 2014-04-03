@@ -61,7 +61,7 @@ namespace fl {
         virtual void setActivation(const TNorm* activation);
         virtual const TNorm* getActivation() const;
 
-        virtual Activated* copy() const;
+        virtual Activated* clone() const;
     };
 
 }

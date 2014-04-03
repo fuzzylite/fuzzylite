@@ -104,12 +104,13 @@ namespace fl {
         return this->_c;
     }
 
-    Triangle* Triangle::copy() const {
+    Triangle* Triangle::clone() const {
         return new Triangle(*this);
     }
 
     Term* Triangle::constructor() {
         return new Triangle;
     }
+
 
 }

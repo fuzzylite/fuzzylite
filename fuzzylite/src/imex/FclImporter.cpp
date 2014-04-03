@@ -352,7 +352,7 @@ namespace fl {
         else if (name == "NMIN") className = NilpotentMinimum().className();
 
         try {
-            return FactoryManager::instance()->tnorm()->createInstance(className);
+            return FactoryManager::instance()->tnorm()->constructObject(className);
         } catch (fl::Exception& ex) {
             ex.append("[syntax error] T-Norm <" + name + "> not recognized in line:\n"
                     + line, FL_AT);
@@ -381,7 +381,7 @@ namespace fl {
         else if (name == "NMAX") className = NilpotentMaximum().className();
 
         try {
-            return FactoryManager::instance()->snorm()->createInstance(className);
+            return FactoryManager::instance()->snorm()->constructObject(className);
         } catch (fl::Exception& ex) {
             ex.append("[syntax error] S-Norm <" + name + "> not recognized in line:\n"
                     + line, FL_AT);
@@ -450,7 +450,7 @@ namespace fl {
             throw fl::Exception("[syntax error] malformed term in line: " + line, FL_AT);
 
         try {
-            Term * result = FactoryManager::instance()->term()->createInstance(termClass);
+            Term * result = FactoryManager::instance()->term()->constructObject(termClass);
             result->setName(fl::Op::makeValidId(name));
             if (dynamic_cast<Function*> (result)) {
                 result->configure(Op::join(parameters, "")); //remove spaces for text of function
@@ -501,7 +501,7 @@ namespace fl {
         else if (name == "COGSS") className = WeightedSum().className();
 
         try {
-            return FactoryManager::instance()->defuzzifier()->createInstance(className);
+            return FactoryManager::instance()->defuzzifier()->constructObject(className);
         } catch (fl::Exception& ex) {
             ex.append("[syntax error] defuzzifier <" + name +
                     "> not recognized in line:\n" + line, FL_AT);
@@ -637,5 +637,10 @@ namespace fl {
         if (boolean == "FALSE") return false;
         throw fl::Exception("[syntax error] expected boolean <TRUE|FALSE>, but found <" + line + ">", FL_AT);
     }
+
+    FclImporter* FclImporter::clone() const {
+        return new FclImporter(*this);
+    }
+
 
 }

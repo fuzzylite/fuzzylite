@@ -54,7 +54,7 @@ namespace fl {
         virtual void setEnd(scalar end);
         virtual scalar getEnd() const;
 
-        virtual Ramp* copy() const;
+        virtual Ramp* clone() const;
         
         static Term* constructor();
     };

@@ -37,8 +37,13 @@ namespace fl {
         return a + b / Op::max(scalar(1.0), Op::max(a, b));
     }
 
+    NormalizedSum* NormalizedSum::clone() const {
+        return new NormalizedSum(*this);
+    }
+
     SNorm* NormalizedSum::constructor() {
         return new NormalizedSum;
     }
+
 
 }

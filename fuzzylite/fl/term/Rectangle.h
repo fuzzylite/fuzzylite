@@ -54,8 +54,8 @@ namespace fl {
         virtual void setEnd(scalar end);
         virtual scalar getEnd() const;
 
-        virtual Rectangle* copy() const;
-
+        virtual Rectangle* clone() const;
+        
         static Term* constructor();
     };
 

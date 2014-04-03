@@ -41,9 +41,14 @@ namespace fl {
                 ? std::sqrt(x / 2.0)
                 : 1.0 - std::sqrt((1.0 - x) / 2.0);
     }
-    
-    Hedge* Seldom::constructor(){
+
+    Seldom* Seldom::clone() const {
+        return new Seldom(*this);
+    }
+
+    Hedge* Seldom::constructor() {
         return new Seldom;
     }
 
-} 
+
+}

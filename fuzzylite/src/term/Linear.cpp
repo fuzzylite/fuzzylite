@@ -119,11 +119,12 @@ namespace fl {
         this->inputVariables = inputVariables;
     }
 
-    Linear* Linear::copy() const {
+    Linear* Linear::clone() const {
         return new Linear(*this);
     }
 
     Term* Linear::constructor() {
         return new Linear;
     }
+
 }

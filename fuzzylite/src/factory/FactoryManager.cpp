@@ -31,31 +31,67 @@
 #include "fl/factory/TNormFactory.h"
 #include "fl/factory/TermFactory.h"
 #include "fl/factory/HedgeFactory.h"
+#include "fl/factory/FunctionFactory.h"
 
 namespace fl {
 
-    FactoryManager FactoryManager::_instance; 
+    FactoryManager FactoryManager::_instance;
 
     FactoryManager* FactoryManager::instance() {
-        static bool initialized = false;
-        if (not initialized) {
-            _instance.setTnorm(new TNormFactory);
-            _instance.setSnorm(new SNormFactory);
-            _instance.setDefuzzifier(new DefuzzifierFactory);
-            _instance.setTerm(new TermFactory);
-            _instance.setHedge(new HedgeFactory);
-            initialized = true;
-        }
         return &_instance;
+    }
+
+    FactoryManager::FactoryManager() :
+    _tnorm(new TNormFactory), _snorm(new SNormFactory), _defuzzifier(new DefuzzifierFactory),
+    _term(new TermFactory), _hedge(new HedgeFactory), _function(new FunctionFactory) {
     }
 
     FactoryManager::FactoryManager(TNormFactory* tnorm, SNormFactory* snorm,
             DefuzzifierFactory* defuzzifier, TermFactory* term,
-            HedgeFactory* hedge) :
-    _tnorm(tnorm), _snorm(snorm), _defuzzifier(defuzzifier), _term(term), _hedge(hedge) {
+            HedgeFactory* hedge, FunctionFactory* function) :
+    _tnorm(tnorm), _snorm(snorm), _defuzzifier(defuzzifier), _term(term), _hedge(hedge),
+    _function(function) {
+    }
+
+    FactoryManager::FactoryManager(const FactoryManager& source)
+    : _tnorm(NULL), _snorm(NULL), _defuzzifier(NULL), _term(NULL), _hedge(NULL), _function(NULL) {
+        if (source._tnorm) this->_tnorm = new TNormFactory(*source._tnorm);
+        if (source._snorm) this->_snorm = new SNormFactory(*source._snorm);
+        if (source._defuzzifier) this->_defuzzifier = new DefuzzifierFactory(*source._defuzzifier);
+        if (source._term) this->_term = new TermFactory(*source._term);
+        if (source._hedge) this->_hedge = new HedgeFactory(*source._hedge);
+        if (source._function) this->_function = new FunctionFactory(*source._function);
+    }
+
+    FactoryManager& FactoryManager::operator =(const FactoryManager& rhs) {
+        if (this == &rhs) return *this;
+
+        if (this->_tnorm) delete this->_tnorm;
+        if (this->_snorm) delete this->_snorm;
+        if (this->_defuzzifier) delete this->_defuzzifier;
+        if (this->_term) delete this->_term;
+        if (this->_hedge) delete this->_hedge;
+        if (this->_function) delete this->_function;
+
+        this->_tnorm = NULL;
+        this->_snorm = NULL;
+        this->_defuzzifier = NULL;
+        this->_term = NULL;
+        this->_hedge = NULL;
+        this->_function = NULL;
+
+        if (rhs._tnorm) this->_tnorm = new TNormFactory(*rhs._tnorm);
+        if (rhs._snorm) this->_snorm = new SNormFactory(*rhs._snorm);
+        if (rhs._defuzzifier) this->_defuzzifier = new DefuzzifierFactory(*rhs._defuzzifier);
+        if (rhs._term) this->_term = new TermFactory(*rhs._term);
+        if (rhs._hedge) this->_hedge = new HedgeFactory(*rhs._hedge);
+        if (rhs._function) this->_function = new FunctionFactory(*rhs._function);
+
+        return *this;
     }
 
     FactoryManager::~FactoryManager() {
+        if (_function) delete _function;
         if (_hedge) delete _hedge;
         if (_term) delete _term;
         if (_defuzzifier) delete _defuzzifier;
@@ -64,7 +100,6 @@ namespace fl {
     }
 
     void FactoryManager::setTnorm(TNormFactory* tnorm) {
-        if (this->_tnorm) delete this->_tnorm;
         this->_tnorm = tnorm;
     }
 
@@ -73,7 +108,6 @@ namespace fl {
     }
 
     void FactoryManager::setSnorm(SNormFactory* snorm) {
-        if (this->_snorm) delete this->_snorm;
         this->_snorm = snorm;
     }
 
@@ -82,7 +116,6 @@ namespace fl {
     }
 
     void FactoryManager::setDefuzzifier(DefuzzifierFactory* defuzzifier) {
-        if (this->_defuzzifier) delete this->_defuzzifier;
         this->_defuzzifier = defuzzifier;
     }
 
@@ -91,7 +124,6 @@ namespace fl {
     }
 
     void FactoryManager::setTerm(TermFactory* term) {
-        if (this->_term) delete this->_term;
         this->_term = term;
     }
 
@@ -100,12 +132,19 @@ namespace fl {
     }
 
     void FactoryManager::setHedge(HedgeFactory* hedge) {
-        if (this->_hedge) delete this->_hedge;
         this->_hedge = hedge;
     }
 
     HedgeFactory* FactoryManager::hedge() const {
         return this->_hedge;
+    }
+
+    void FactoryManager::setFunction(FunctionFactory* function) {
+        this->_function = function;
+    }
+
+    FunctionFactory* FactoryManager::function() const {
+        return this->_function;
     }
 
 }

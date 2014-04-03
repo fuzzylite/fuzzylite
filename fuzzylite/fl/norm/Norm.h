@@ -48,6 +48,8 @@ namespace fl {
         virtual std::string className() const = 0;
         virtual scalar compute(scalar a, scalar b) const = 0;
 
+        virtual Norm* clone() const = 0;
+
     };
 }
 #endif	/* FL_NORM_H */

@@ -55,8 +55,8 @@ namespace fl {
         virtual void setEnd(scalar end);
         virtual scalar getEnd() const;
 
-        virtual ZShape* copy() const;
-
+        virtual ZShape* clone() const;
+        
         static Term* constructor();
 
     };

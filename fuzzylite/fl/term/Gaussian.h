@@ -55,7 +55,8 @@ namespace fl {
         virtual void setStandardDeviation(scalar sigma);
         virtual scalar getStandardDeviation() const;
         
-        virtual Gaussian* copy() const;
+        virtual Gaussian* clone() const;
+        
         static Term* constructor();
     };
 

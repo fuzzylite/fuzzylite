@@ -66,7 +66,8 @@ namespace fl {
         virtual void setBottomRight(scalar c);
         virtual scalar getBottomRight() const;
 
-        virtual PiShape* copy() const;
+        virtual PiShape* clone() const;
+        
         static Term* constructor();
     };
 }

@@ -44,15 +44,35 @@
 
 namespace fl {
 
-    std::string Rule::FL_IF = "if";
-    std::string Rule::FL_IS = "is";
-    std::string Rule::FL_THEN = "then";
-    std::string Rule::FL_AND = "and";
-    std::string Rule::FL_OR = "or";
-    std::string Rule::FL_WITH = "with";
-
     Rule::Rule(const std::string& text, scalar weight)
     : _text(text), _weight(weight), _antecedent(new Antecedent), _consequent(new Consequent) {
+    }
+
+    Rule::Rule(const Rule& source) : _text(source._text), _weight(source._weight),
+    _antecedent(new Antecedent(*source._antecedent)),
+    _consequent(new Consequent(*source._consequent)) {
+        for (std::size_t i = 0; i < source._hedges.size(); ++i) {
+            _hedges.push_back(source._hedges.at(i)->clone());
+        }
+    }
+
+    Rule& Rule::operator =(const Rule& rhs) {
+        if (this == &rhs) return *this;
+        if (_antecedent) delete _antecedent;
+        if (_consequent) delete _consequent;
+        for (std::size_t i = 0; i < _hedges.size(); ++i) {
+            delete _hedges.at(i);
+        }
+        _hedges.clear();
+
+        _text = rhs._text;
+        _weight = rhs._weight;
+        _antecedent = new Antecedent(*rhs._antecedent);
+        _consequent = new Consequent(*rhs._consequent);
+        for (std::size_t i = 0; i < rhs._hedges.size(); ++i) {
+            _hedges.push_back(rhs._hedges.at(i)->clone());
+        }
+        return *this;
     }
 
     Rule::~Rule() {
@@ -200,20 +220,20 @@ namespace fl {
 
                 switch (state) {
                     case S_NONE:
-                        if (token == Rule::FL_IF) state = S_IF;
+                        if (token == Rule::ifKeyword()) state = S_IF;
                         else {
                             std::ostringstream ex;
-                            ex << "[syntax error] expected keyword <" << Rule::FL_IF <<
+                            ex << "[syntax error] expected keyword <" << Rule::ifKeyword() <<
                                     ">, but found <" << token << "> in rule: " << rule;
                             throw fl::Exception(ex.str(), FL_AT);
                         }
                         break;
                     case S_IF:
-                        if (token == Rule::FL_THEN) state = S_THEN;
+                        if (token == Rule::thenKeyword()) state = S_THEN;
                         else ossAntecedent << token << " ";
                         break;
                     case S_THEN:
-                        if (token == Rule::FL_WITH) state = S_WITH;
+                        if (token == Rule::withKeyword()) state = S_WITH;
                         else ossConsequent << token << " ";
                         break;
                     case S_WITH:
@@ -236,11 +256,11 @@ namespace fl {
             }
             if (state == S_NONE) {
                 std::ostringstream ex;
-                ex << "[syntax error] keyword <" << Rule::FL_IF << "> not found in rule: " << rule;
+                ex << "[syntax error] keyword <" << Rule::ifKeyword() << "> not found in rule: " << rule;
                 throw fl::Exception(ex.str(), FL_AT);
             } else if (state == S_IF) {
                 std::ostringstream ex;
-                ex << "[syntax error] keyword <" << Rule::FL_THEN << "> not found in rule: " << rule;
+                ex << "[syntax error] keyword <" << Rule::thenKeyword() << "> not found in rule: " << rule;
                 throw fl::Exception(ex.str(), FL_AT);
             } else if (state == S_WITH) {
                 std::ostringstream ex;
@@ -253,7 +273,7 @@ namespace fl {
             _weight = weight;
 
         } catch (fl::Exception& ex) {
-			(void)ex;
+            (void) ex;
             unload();
             throw;
         }
@@ -263,36 +283,12 @@ namespace fl {
         return FllExporter("", "; ").toString(this);
     }
 
-    std::string Rule::ifKeyword() {
-        return fl::Rule::FL_IF;
-    }
-
-    std::string Rule::isKeyword() {
-        return fl::Rule::FL_IS;
-    }
-
-    std::string Rule::thenKeyword() {
-        return fl::Rule::FL_THEN;
-    }
-
-    std::string Rule::andKeyword() {
-        return fl::Rule::FL_AND;
-    }
-
-    std::string Rule::orKeyword() {
-        return fl::Rule::FL_OR;
-    }
-
-    std::string Rule::withKeyword() {
-        return fl::Rule::FL_WITH;
-    }
-
     Rule* Rule::parse(const std::string& rule, const Engine* engine) {
         Rule* result = new Rule;
         try {
             result->load(rule, engine);
         } catch (std::exception& ex) {
-			(void)ex;
+            (void) ex;
             delete result;
             throw;
         }

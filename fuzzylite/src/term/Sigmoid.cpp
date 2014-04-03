@@ -82,11 +82,12 @@ namespace fl {
         return this->_inflection;
     }
 
-    Sigmoid* Sigmoid::copy() const {
+    Sigmoid* Sigmoid::clone() const {
         return new Sigmoid(*this);
     }
 
     Term* Sigmoid::constructor() {
         return new Sigmoid;
     }
+
 }

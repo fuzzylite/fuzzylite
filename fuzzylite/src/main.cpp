@@ -47,7 +47,7 @@ BOOL WINAPI flSignalHandler(DWORD dwCtrlType)
   return TRUE;
 }
 #endif
-*/
+ */
 
 int main(int argc, char** argv) {
     (void) argc;
@@ -64,12 +64,12 @@ int main(int argc, char** argv) {
     signal(SIGPIPE, fl::Exception::convertToException);
 #endif
 #ifdef FL_WINDOWS
-	//SetConsoleCtrlHandler(flSignalHandler, TRUE);
+    //SetConsoleCtrlHandler(flSignalHandler, TRUE);
 #endif
     try {
+        fuzzylite::setDebug(false);
         return Console::main(argc, argv);
     } catch (std::exception& ex) {
-		FL_LOG("Catching a signal?");
         FL_LOG(ex.what());
         return EXIT_FAILURE;
     }

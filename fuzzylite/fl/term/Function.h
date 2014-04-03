@@ -37,8 +37,6 @@ namespace fl {
     class Engine;
 
     class FL_EXPORT Function : public Term {
-    public:
-
         /****************************
          * Parsing Elements
          ****************************/
@@ -48,33 +46,29 @@ namespace fl {
         typedef scalar(*Binary)(scalar, scalar);
 
         struct FL_EXPORT Element {
+
+            enum Type {
+                OPERATOR, FUNCTION
+            };
             std::string name;
+            Type type;
             Unary unary;
             Binary binary;
             int arity;
+            int precedence; //Operator
             int associativity;
-            Element(const std::string& name);
-            Element(const std::string& name, Unary unary, int associativity = -1);
-            Element(const std::string& name, Binary binary, int associativity = -1);
+            Element(const std::string& name, Type type);
+            Element(const std::string& name, Type type, Unary unary, int precedence = 0, int associativity = -1);
+            Element(const std::string& name, Type type, Binary binary, int precedence = 0, int associativity = -1);
             virtual ~Element();
+            
+            virtual bool isOperator() const;
+            virtual bool isFunction() const;
 
-            virtual std::string toString() const = 0;
+            virtual Element* clone() const;
 
-        };
+            virtual std::string toString() const;
 
-        struct FL_EXPORT Operator : public Element {
-            int precedence;
-
-            Operator(const std::string& name, Unary unary, int precedence = 0, int associativity = -1);
-            Operator(const std::string& name, Binary unary, int precedence = 0, int associativity = -1);
-
-            std::string toString() const;
-        };
-
-        struct FL_EXPORT BuiltInFunction : public Element {
-            BuiltInFunction(const std::string& name, Unary functionPointer, int associativity = -1);
-            BuiltInFunction(const std::string& name, Binary functionPointer, int associativity = -1);
-            std::string toString() const;
         };
 
         /**************************
@@ -82,26 +76,30 @@ namespace fl {
          **************************/
 
         struct FL_EXPORT Node {
-            Operator* foperator;
-            BuiltInFunction* function;
-            std::string variable;
-            scalar value;
+            Element* element;
             Node* left;
             Node* right;
+            std::string variable;
+            scalar value;
 
-            Node(Operator* foperator, Node* left = NULL, Node* right = NULL);
-            Node(BuiltInFunction* function, Node* left = NULL, Node* right = NULL);
+            Node(Element* element, Node* left = NULL, Node* right = NULL);
             Node(const std::string& variable);
             Node(scalar value);
-            ~Node();
+            Node(const Node& source);
+            Node& operator=(const Node& rhs);
+            virtual ~Node();
 
-            scalar evaluate(const std::map<std::string, scalar>*
+            virtual scalar evaluate(const std::map<std::string, scalar>*
                     variables = NULL) const;
 
-            std::string toString() const;
-            std::string toPrefix(const Node* node = NULL) const;
-            std::string toInfix(const Node* node = NULL) const;
-            std::string toPostfix(const Node* node = NULL) const;
+            virtual Node* clone() const;
+
+            virtual std::string toString() const;
+            virtual std::string toPrefix(const Node* node = NULL) const;
+            virtual std::string toInfix(const Node* node = NULL) const;
+            virtual std::string toPostfix(const Node* node = NULL) const;
+        private:
+            void copyFrom(const Node& source);
         };
 
 
@@ -111,35 +109,22 @@ namespace fl {
          * Term
          ******************************/
 
-    private:
-        virtual void loadOperators();
-
     protected:
         std::string _formula;
         const Engine* _engine;
 
-        /**
-         * Parsing methods
-         */
-
-        Operator* getOperator(const std::string& key) const;
-
-        BuiltInFunction* getBuiltInFunction(const std::string& key) const;
-
-
     public:
         Node* root;
-        std::map<std::string, scalar> variables;
-        std::map<std::string, Operator*> operators;
-        std::map<std::string, BuiltInFunction*> functions;
+        mutable std::map<std::string, scalar> variables;
         Function(const std::string& name = "",
                 const std::string& formula = "", const Engine* engine = NULL);
+        Function(const Function& source);
+        Function& operator=(const Function& rhs);
         virtual ~Function();
 
         static Function* create(const std::string& name,
                 const std::string& formula,
-                const Engine* engine = NULL,
-                bool requiresFunctions = true) throw (fl::Exception);
+                const Engine* engine = NULL) throw (fl::Exception);
 
         virtual scalar membership(scalar x) const;
 
@@ -160,26 +145,17 @@ namespace fl {
         virtual void load(const std::string& formula,
                 const Engine* engine = NULL) throw (fl::Exception);
 
-        virtual void loadBuiltInFunctions();
-
         virtual Node* parse(const std::string& formula) throw (fl::Exception);
 
         virtual std::string toPostfix(const std::string& formula) const throw (fl::Exception);
 
         virtual std::string space(const std::string& formula) const;
 
-        virtual bool isOperand(const std::string& token) const;
-        virtual bool isBuiltInFunction(const std::string& token) const;
-        virtual bool isOperator(const std::string& token) const;
-
-        virtual Function* copy() const;
-
+        virtual Function* clone() const;
+        
         static Term* constructor();
 
         static void main();
-
-    private:
-        FL_DISABLE_COPY(Function)
 
     };
 

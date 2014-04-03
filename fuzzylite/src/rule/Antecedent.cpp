@@ -53,6 +53,20 @@ namespace fl {
     : _text(""), _expression(NULL) {
     }
 
+    Antecedent::Antecedent(const Antecedent& source) : _text(source._text), _expression(NULL) {
+        if (source._expression) _expression = source._expression->clone();
+    }
+
+    Antecedent& Antecedent::operator =(const Antecedent& rhs) {
+        if (this == &rhs) return *this;
+        if (_expression) delete _expression;
+        _expression = NULL;
+
+        _text = rhs._text;
+        if (rhs._expression) _expression = rhs._expression->clone();
+        return *this;
+    }
+
     Antecedent::~Antecedent() {
         unload();
     }
@@ -112,12 +126,12 @@ namespace fl {
             ex << "[syntax error] left and right operands must exist";
             throw fl::Exception(ex.str(), FL_AT);
         }
-        if (fuzzyOperator->name == Rule::FL_AND)
+        if (fuzzyOperator->name == Rule::andKeyword())
             return conjunction->compute(
                 this->activationDegree(conjunction, disjunction, fuzzyOperator->left),
                 this->activationDegree(conjunction, disjunction, fuzzyOperator->right));
 
-        if (fuzzyOperator->name == Rule::FL_OR)
+        if (fuzzyOperator->name == Rule::orKeyword())
             return disjunction->compute(
                 this->activationDegree(conjunction, disjunction, fuzzyOperator->left),
                 this->activationDegree(conjunction, disjunction, fuzzyOperator->right));
@@ -143,9 +157,10 @@ namespace fl {
     }
 
     void Antecedent::load(const std::string& antecedent, fl::Rule* rule, const Engine* engine) {
+        FL_DBG("Antecedent: " << antecedent);
         unload();
         this->_text = antecedent;
-        if (fl::Op::trim(antecedent).empty()){
+        if (fl::Op::trim(antecedent).empty()) {
             throw fl::Exception("[syntax error] antecedent is empty", FL_AT);
         }
         /*
@@ -160,6 +175,7 @@ namespace fl {
         Function function;
 
         std::string postfix = function.toPostfix(antecedent);
+        FL_DBG("Postfix: " << postfix);
         std::stringstream tokenizer(postfix);
         std::string token;
 
@@ -178,13 +194,15 @@ namespace fl {
                         expressionStack.push(proposition);
 
                         state = S_IS;
+                        FL_DBG("Token <" << token << "> is input variable");
                         continue;
                     }
                 }
 
                 if (state bitand S_IS) {
-                    if (token == Rule::FL_IS) {
+                    if (token == Rule::isKeyword()) {
                         state = S_HEDGE bitor S_TERM;
+                        FL_DBG("Token <" << token << "> is keyword");
                         continue;
                     }
                 }
@@ -196,7 +214,7 @@ namespace fl {
                     } else {
                         std::vector<std::string> hedges = FactoryManager::instance()->hedge()->available();
                         if (std::find(hedges.begin(), hedges.end(), token) != hedges.end()) {
-                            hedge = FactoryManager::instance()->hedge()->createInstance(token);
+                            hedge = FactoryManager::instance()->hedge()->constructObject(token);
                             rule->addHedge(hedge);
                         }
                     }
@@ -207,6 +225,7 @@ namespace fl {
                         } else {
                             state = S_HEDGE bitor S_TERM;
                         }
+                        FL_DBG("Token <" << token << "> is hedge");
                         continue;
                     }
                 }
@@ -215,12 +234,13 @@ namespace fl {
                     if (proposition->variable->hasTerm(token)) {
                         proposition->term = proposition->variable->getTerm(token);
                         state = S_VARIABLE bitor S_AND_OR;
+                        FL_DBG("Token <" << token << "> is term");
                         continue;
                     }
                 }
 
                 if (state bitand S_AND_OR) {
-                    if (token == Rule::FL_AND or token == Rule::FL_OR) {
+                    if (token == Rule::andKeyword() or token == Rule::orKeyword()) {
                         if (expressionStack.size() < 2) {
                             std::ostringstream ex;
                             ex << "[syntax error] logical operator <" << token << "> expects two operands,"
@@ -236,6 +256,9 @@ namespace fl {
                         expressionStack.push(fuzzyOperator);
 
                         state = S_VARIABLE bitor S_AND_OR;
+                        FL_DBG("Subtree: " << fuzzyOperator->toString() <<
+                                "(" << fuzzyOperator->left->toString() << ") " <<
+                                "(" << fuzzyOperator->right->toString() << ")");
                         continue;
                     }
                 }
@@ -248,7 +271,7 @@ namespace fl {
                 }
                 if (state bitand S_IS) {
                     std::ostringstream ex;
-                    ex << "[syntax error] antecedent expected keyword <" << Rule::FL_IS << ">, but found <" << token << ">";
+                    ex << "[syntax error] antecedent expected keyword <" << Rule::isKeyword() << ">, but found <" << token << ">";
                     throw fl::Exception(ex.str(), FL_AT);
                 }
                 if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
@@ -264,7 +287,7 @@ namespace fl {
             if (not ((state bitand S_VARIABLE) or (state bitand S_AND_OR))) { //only acceptable final state
                 if (state bitand S_IS) {
                     std::ostringstream ex;
-                    ex << "[syntax error] antecedent expected keyword <" << Rule::FL_IS << "> after <" << token << ">";
+                    ex << "[syntax error] antecedent expected keyword <" << Rule::isKeyword() << "> after <" << token << ">";
                     throw fl::Exception(ex.str(), FL_AT);
                 }
                 if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
@@ -288,7 +311,7 @@ namespace fl {
                 throw fl::Exception(ex.str(), FL_AT);
             }
         } catch (std::exception& ex) {
-			(void)ex;
+            (void) ex;
             for (std::size_t i = 0; i < expressionStack.size(); ++i) {
                 delete expressionStack.top();
                 expressionStack.pop();

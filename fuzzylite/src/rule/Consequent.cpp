@@ -52,6 +52,25 @@ namespace fl {
     Consequent::Consequent() {
     }
 
+    Consequent::Consequent(const Consequent& source) : _text(source._text) {
+        for (std::size_t i = 0; i < source._conclusions.size(); ++i) {
+            _conclusions.push_back(source._conclusions.at(i)->clone());
+        }
+    }
+
+    Consequent& Consequent::operator =(const Consequent& rhs) {
+        if (this == &rhs) return *this;
+        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
+            delete _conclusions.at(i);
+        }
+        _conclusions.clear();
+        _text = rhs._text;
+        for (std::size_t i = 0; i < rhs._conclusions.size(); ++i) {
+            _conclusions.push_back(rhs._conclusions.at(i)->clone());
+        }
+        return *this;
+    }
+
     Consequent::~Consequent() {
         unload();
     }
@@ -86,7 +105,7 @@ namespace fl {
     void Consequent::load(const std::string& consequent, Rule* rule, const Engine* engine) {
         unload();
         this->_text = consequent;
-        
+
         if (fl::Op::trim(consequent).empty()) {
             throw fl::Exception("[syntax error] consequent is empty", FL_AT);
         }
@@ -125,7 +144,7 @@ namespace fl {
                 }
 
                 if (state bitand S_IS) {
-                    if (token == Rule::FL_IS) {
+                    if (token == Rule::isKeyword()) {
                         state = S_HEDGE bitor S_TERM;
                         continue;
                     }
@@ -138,7 +157,7 @@ namespace fl {
                     } else {
                         std::vector<std::string> hedges = FactoryManager::instance()->hedge()->available();
                         if (std::find(hedges.begin(), hedges.end(), token) != hedges.end()) {
-                            hedge = FactoryManager::instance()->hedge()->createInstance(token);
+                            hedge = FactoryManager::instance()->hedge()->constructObject(token);
                             rule->addHedge(hedge);
                         }
                     }
@@ -158,7 +177,7 @@ namespace fl {
                 }
 
                 if (state bitand S_AND) {
-                    if (token == Rule::FL_AND) {
+                    if (token == Rule::andKeyword()) {
                         state = S_VARIABLE;
                         continue;
                     }
@@ -172,7 +191,7 @@ namespace fl {
                 }
                 if (state bitand S_IS) {
                     std::ostringstream ex;
-                    ex << "[syntax error] consequent expected keyword <" << Rule::FL_IS << ">, "
+                    ex << "[syntax error] consequent expected keyword <" << Rule::isKeyword() << ">, "
                             "but found <" << token << ">";
                     throw fl::Exception(ex.str(), FL_AT);
                 }
@@ -185,8 +204,8 @@ namespace fl {
 
                 if ((state bitand S_AND) or (state bitand S_WITH)) {
                     std::ostringstream ex;
-                    ex << "[syntax error] consequent expected operator <" << Rule::FL_AND << "> "
-                            << "or keyword <" << Rule::FL_WITH << ">, "
+                    ex << "[syntax error] consequent expected operator <" << Rule::andKeyword() << "> "
+                            << "or keyword <" << Rule::withKeyword() << ">, "
                             << "but found <" << token << ">";
                     throw fl::Exception(ex.str(), FL_AT);
                 }
@@ -204,7 +223,7 @@ namespace fl {
                 }
                 if (state bitand S_IS) {
                     std::ostringstream ex;
-                    ex << "[syntax error] consequent expected keyword <" << Rule::FL_IS << "> "
+                    ex << "[syntax error] consequent expected keyword <" << Rule::isKeyword() << "> "
                             "after <" << token << ">";
                     throw fl::Exception(ex.str(), FL_AT);
                 }
@@ -215,7 +234,7 @@ namespace fl {
                 }
             }
         } catch (std::exception& ex) {
-			(void)ex;
+            (void) ex;
             unload();
             throw;
         }
@@ -249,7 +268,7 @@ namespace fl {
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
             ss << _conclusions.at(i)->toString();
             if (i + 1 < _conclusions.size())
-                ss << " " << Rule::FL_AND << " ";
+                ss << " " << Rule::andKeyword() << " ";
         }
         return ss.str();
     }

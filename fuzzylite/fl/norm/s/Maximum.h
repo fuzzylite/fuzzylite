@@ -31,16 +31,17 @@
 #include "fl/norm/SNorm.h"
 
 namespace fl {
-    
+
     class FL_EXPORT Maximum : public SNorm {
     public:
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
+        Maximum* clone() const;
         
         static SNorm* constructor();
     };
 
-    
+
 }
 
 #endif	/* FL_MAXIMUM_H */

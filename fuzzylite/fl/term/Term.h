@@ -31,6 +31,7 @@
 #include "fl/fuzzylite.h"
 
 #include "fl/Operation.h"
+#include "fl/factory/FactoryManager.h"
 
 #include <string>
 #include <limits>
@@ -47,6 +48,8 @@ namespace fl {
     public:
 
         Term(const std::string& name = "");
+        Term(const Term& copy);
+        Term& operator=(const Term& rhs);
         virtual ~Term();
 
         /**
@@ -64,7 +67,7 @@ namespace fl {
 
         virtual scalar membership(scalar x) const = 0;
 
-        virtual Term* copy() const = 0;
+        virtual Term* clone() const = 0;
         
     };
 

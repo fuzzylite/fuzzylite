@@ -38,7 +38,12 @@ namespace fl {
         return (a * b) / (a + b - a * b);
     }
 
+    HamacherProduct* HamacherProduct::clone() const {
+        return new HamacherProduct(*this);
+    }
+
     TNorm* HamacherProduct::constructor() {
         return new HamacherProduct;
     }
+
 }

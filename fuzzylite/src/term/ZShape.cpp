@@ -92,7 +92,7 @@ namespace fl {
         return this->_end;
     }
 
-    ZShape* ZShape::copy() const {
+    ZShape* ZShape::clone() const {
         return new ZShape(*this);
     }
 

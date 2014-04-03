@@ -36,9 +36,14 @@ namespace fl {
     scalar Not::hedge(scalar x) const {
         return 1.0 - x;
     }
-    
-    Hedge* Not::constructor(){
+
+    Not* Not::clone() const {
+        return new Not(*this);
+    }
+
+    Hedge* Not::constructor() {
         return new Not;
     }
 
-} 
+
+}

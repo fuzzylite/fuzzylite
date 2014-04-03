@@ -35,6 +35,7 @@ namespace fl {
     public:
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
+        DrasticSum* clone() const;
         
         static SNorm* constructor();
     };

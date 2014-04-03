@@ -37,7 +37,12 @@ namespace fl {
         return (a + b - 2 * a * b) / (1 - a * b);
     }
 
+    HamacherSum* HamacherSum::clone() const {
+        return new HamacherSum(*this);
+    }
+
     SNorm* HamacherSum::constructor() {
         return new HamacherSum;
     }
+
 }

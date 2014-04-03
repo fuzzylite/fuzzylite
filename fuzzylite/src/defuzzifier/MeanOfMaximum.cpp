@@ -83,7 +83,12 @@ namespace fl {
         return (xlargest + xsmallest) / 2.0;
     }
 
+    MeanOfMaximum* MeanOfMaximum::clone() const {
+        return new MeanOfMaximum(*this);
+    }
+
     Defuzzifier* MeanOfMaximum::constructor() {
         return new MeanOfMaximum;
     }
+
 }

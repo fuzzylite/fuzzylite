@@ -37,7 +37,12 @@ namespace fl {
         return Op::min(scalar(1.0), a + b);
     }
 
+    BoundedSum* BoundedSum::clone() const {
+        return new BoundedSum(*this);
+    }
+
     SNorm* BoundedSum::constructor() {
         return new BoundedSum;
     }
+
 }

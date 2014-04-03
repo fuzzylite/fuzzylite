@@ -30,7 +30,7 @@
 
 #include "fl/fuzzylite.h"
 
-#include "fl/factory/Factory.h"
+#include "fl/factory/ConstructionFactory.h"
 #include "fl/term/Term.h"
 
 #include <vector>
@@ -38,11 +38,10 @@
 
 namespace fl {
 
-    class FL_EXPORT TermFactory : public Factory<Term*>{
+    class FL_EXPORT TermFactory : public ConstructionFactory<Term*> {
     public:
         TermFactory();
         virtual ~TermFactory();
-
     };
 }
 #endif	/* FL_TERMFACTORY_H */

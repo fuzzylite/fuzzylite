@@ -38,16 +38,19 @@
 namespace fl {
 
     TNormFactory::TNormFactory() {
-        registerClass(AlgebraicProduct().className(), &(AlgebraicProduct::constructor));
-        registerClass(BoundedDifference().className(), &(BoundedDifference::constructor));
-        registerClass(DrasticProduct().className(), &(DrasticProduct::constructor));
-        registerClass(EinsteinProduct().className(), &(EinsteinProduct::constructor));
-        registerClass(HamacherProduct().className(), &(HamacherProduct::constructor));
-        registerClass(Minimum().className(), &(Minimum::constructor));
-        registerClass(NilpotentMinimum().className(), &(NilpotentMinimum::constructor));
+        registerConstructor("", NULL);
+        registerConstructor(AlgebraicProduct().className(), &(AlgebraicProduct::constructor));
+        registerConstructor(BoundedDifference().className(), &(BoundedDifference::constructor));
+        registerConstructor(DrasticProduct().className(), &(DrasticProduct::constructor));
+        registerConstructor(EinsteinProduct().className(), &(EinsteinProduct::constructor));
+        registerConstructor(HamacherProduct().className(), &(HamacherProduct::constructor));
+        registerConstructor(Minimum().className(), &(Minimum::constructor));
+        registerConstructor(NilpotentMinimum().className(), &(NilpotentMinimum::constructor));
     }
 
     TNormFactory::~TNormFactory() {
+
     }
+
 
 }

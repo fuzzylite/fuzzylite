@@ -84,12 +84,13 @@ namespace fl {
         return this->_end;
     }
 
-    Rectangle* Rectangle::copy() const {
+    Rectangle* Rectangle::clone() const {
         return new Rectangle(*this);
     }
 
     Term* Rectangle::constructor() {
         return new Rectangle;
     }
+
 
 }
