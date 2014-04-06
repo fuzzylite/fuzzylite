@@ -88,6 +88,7 @@ namespace fl {
             try {
                 ruleBlock->loadRules(this);
             } catch (std::exception& ex) {
+                (void)ex;
                 FL_LOG("[engine warning] engine copy could not load rule block <"
                         << ruleBlock->toString() << ">");
             }

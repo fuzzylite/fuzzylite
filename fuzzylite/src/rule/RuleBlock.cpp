@@ -39,12 +39,11 @@
 namespace fl {
 
     RuleBlock::RuleBlock(const std::string& name)
-    : _name(name), _conjunction(NULL), _disjunction(NULL), _activation(NULL), _enabled(true) {
+    : _name(name), _enabled(true) {
     }
 
-    RuleBlock::RuleBlock(const RuleBlock& source) : _name(source._name), 
-            _conjunction(NULL), _disjunction(NULL), _activation(NULL), 
-            _enabled(true) {
+    RuleBlock::RuleBlock(const RuleBlock& source) : _name(source._name),
+    _enabled(true) {
         copyFrom(source);
     }
 
@@ -54,12 +53,9 @@ namespace fl {
             delete _rules.at(i);
         }
         _rules.clear();
-        if (_conjunction) delete _conjunction;
-        if (_disjunction) delete _disjunction;
-        if (_activation) delete _activation;
-        _conjunction = NULL;
-        _disjunction = NULL;
-        _activation = NULL;
+        _conjunction.reset(NULL);
+        _disjunction.reset(NULL);
+        _activation.reset(NULL);
 
         copyFrom(rhs);
         return *this;
@@ -68,9 +64,9 @@ namespace fl {
     void RuleBlock::copyFrom(const RuleBlock& source) {
         _name = source._name;
         _enabled = source._enabled;
-        if (source._activation) _activation = source._activation->clone();
-        if (source._conjunction) _conjunction = source._conjunction->clone();
-        if (source._disjunction) _disjunction = source._disjunction->clone();
+        if (source._activation.get()) _activation.reset(source._activation->clone());
+        if (source._conjunction.get()) _conjunction.reset(source._conjunction->clone());
+        if (source._disjunction.get()) _disjunction.reset(source._disjunction->clone());
         for (std::size_t i = 0; i < source._rules.size(); ++i) {
             _rules.push_back(new Rule(*source._rules.at(i)));
         }
@@ -80,9 +76,6 @@ namespace fl {
         for (std::size_t i = 0; i < _rules.size(); ++i) {
             delete _rules.at(i);
         }
-        if (_conjunction) delete _conjunction;
-        if (_disjunction) delete _disjunction;
-        if (_activation) delete _activation;
     }
 
     void RuleBlock::activate() {
@@ -91,10 +84,10 @@ namespace fl {
         for (std::size_t i = 0; i < _rules.size(); ++i) {
             Rule* rule = _rules.at(i);
             if (rule->isLoaded()) {
-                scalar activationDegree = rule->activationDegree(_conjunction, _disjunction);
+                scalar activationDegree = rule->activationDegree(_conjunction.get(), _disjunction.get());
                 FL_DBG(rule->toString() << " [activationDegree=" << activationDegree << "]");
                 if (Op::isGt(activationDegree, 0.0)) {
-                    rule->activate(activationDegree, _activation);
+                    rule->activate(activationDegree, _activation.get());
                 }
             } else {
                 FL_DBG("Rule not loaded: " << rule->toString());
@@ -140,27 +133,27 @@ namespace fl {
     }
 
     void RuleBlock::setConjunction(TNorm* tnorm) {
-        this->_conjunction = tnorm;
+        this->_conjunction.reset(tnorm);
     }
 
     TNorm* RuleBlock::getConjunction() const {
-        return this->_conjunction;
+        return this->_conjunction.get();
     }
 
     void RuleBlock::setDisjunction(SNorm* snorm) {
-        this->_disjunction = snorm;
+        this->_disjunction.reset(snorm);
     }
 
     SNorm* RuleBlock::getDisjunction() const {
-        return this->_disjunction;
+        return this->_disjunction.get();
     }
 
     void RuleBlock::setActivation(TNorm* activation) {
-        this->_activation = activation;
+        this->_activation.reset(activation);
     }
 
     TNorm* RuleBlock::getActivation() const {
-        return this->_activation;
+        return this->_activation.get();
     }
 
     void RuleBlock::setEnabled(bool enabled) {

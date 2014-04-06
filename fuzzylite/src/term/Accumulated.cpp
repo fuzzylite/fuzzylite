@@ -36,18 +36,19 @@ namespace fl {
 
     Accumulated::Accumulated(const std::string& name, scalar minimum, scalar maximum,
             SNorm* accumulation)
-    : Term(name), _minimum(minimum), _maximum(maximum), _accumulation(accumulation) {
+    : Term(name), _minimum(minimum), _maximum(maximum) {
+        _accumulation.reset(accumulation);
     }
 
-    Accumulated::Accumulated(const Accumulated& source) : Term(source), _accumulation(NULL) {
+    Accumulated::Accumulated(const Accumulated& source) : Term(source) {
         copyFrom(source);
     }
 
     Accumulated& Accumulated::operator =(const Accumulated& rhs) {
         if (this == &rhs) return *this;
         clear();
-        if (_accumulation) delete _accumulation;
-        _accumulation = NULL;
+        _accumulation.reset(NULL);
+
         Term::operator =(rhs);
         copyFrom(rhs);
         return *this;
@@ -55,16 +56,14 @@ namespace fl {
 
     Accumulated::~Accumulated() {
         this->clear();
-        if (_accumulation) delete _accumulation;
     }
 
     void Accumulated::copyFrom(const Accumulated& source) {
         _minimum = source._minimum;
         _maximum = source._maximum;
 
-        if (source._accumulation) {
-            _accumulation = source._accumulation->clone();
-        }
+        if (source._accumulation.get()) _accumulation.reset(source._accumulation->clone());
+        
         for (std::size_t i = 0; i < source._terms.size(); ++i) {
             _terms.push_back(source._terms.at(i)->clone());
         }
@@ -86,7 +85,7 @@ namespace fl {
     std::string Accumulated::parameters() const {
         FllExporter exporter;
         std::ostringstream ss;
-        ss << exporter.toString(_accumulation);
+        ss << exporter.toString(_accumulation.get());
         ss << Op::str(_minimum) << " " << Op::str(_maximum) << " ";
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             ss << " " << exporter.toString(_terms.at(i));
@@ -110,7 +109,7 @@ namespace fl {
         FllExporter exporter;
         std::ostringstream ss;
         ss << _name << ": " << className() << " "
-                << exporter.toString(_accumulation) << "["
+                << exporter.toString(_accumulation.get()) << "["
                 << fl::Op::join(accumulate, ",") << "]";
         return ss.str();
     }
@@ -132,11 +131,11 @@ namespace fl {
     }
 
     void Accumulated::setAccumulation(SNorm* accumulation) {
-        this->_accumulation = accumulation;
+        this->_accumulation.reset(accumulation);
     }
 
     SNorm* Accumulated::getAccumulation() const {
-        return this->_accumulation;
+        return this->_accumulation.get();
     }
 
     /**

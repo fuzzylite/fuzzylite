@@ -85,13 +85,12 @@ namespace fl {
         append(file, line, function);
     }
 
-    std::string Exception::btCallStack(const int maxCalls) {
+    std::string Exception::btCallStack() {
 #ifdef FL_BACKTRACE_OFF
-        (void) maxCalls;
         return "[backtrace missing] fuzzylite was built with option -DFL_BACKTRACE_OFF";
 #elif defined FL_UNIX
         std::ostringstream btStream;
-        int bufferSize = maxCalls;
+        const int bufferSize = 30;
         void* buffer[bufferSize];
         int backtraceSize = backtrace(buffer, bufferSize);
         char **btSymbols = backtrace_symbols(buffer, backtraceSize);

@@ -30,6 +30,7 @@
 
 #include "fl/term/Term.h"
 
+#include <memory>
 #include <vector>
 
 namespace fl {
@@ -42,7 +43,7 @@ namespace fl {
     protected:
         std::vector<const Term*> _terms;
         scalar _minimum, _maximum;
-        SNorm* _accumulation;
+        std::auto_ptr<SNorm> _accumulation;
     public:
         Accumulated(const std::string& name = "",
                 scalar minimum = -fl::inf,

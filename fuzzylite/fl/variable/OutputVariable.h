@@ -31,6 +31,7 @@
 #include "fl/variable/Variable.h"
 
 #include <limits>
+#include <memory>
 
 namespace fl {
     class Accumulated;
@@ -41,7 +42,7 @@ namespace fl {
         void copyFrom(const OutputVariable& rhs);
     protected:
         Accumulated* _fuzzyOutput;
-        Defuzzifier* _defuzzifier;
+        std::auto_ptr<Defuzzifier> _defuzzifier;
         scalar _outputValue;
         scalar _lastValidOutputValue;
         scalar _defaultValue;

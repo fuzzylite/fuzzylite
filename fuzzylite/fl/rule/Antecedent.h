@@ -71,7 +71,7 @@ namespace fl {
         virtual std::string toPostfix(const Expression* node = NULL) const;
 
     private:
-        FL_DISABLE_COPY(Antecedent);
+        FL_DISABLE_COPY(Antecedent)
     };
 
 }

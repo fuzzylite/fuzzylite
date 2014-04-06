@@ -40,21 +40,19 @@ namespace fl {
     OutputVariable::OutputVariable(const std::string& name,
             scalar minimum, scalar maximum)
     : Variable(name, minimum, maximum),
-    _fuzzyOutput(new Accumulated(name, minimum, maximum)), _defuzzifier(NULL),
-    _outputValue(fl::nan), _lastValidOutputValue(fl::nan), _defaultValue(fl::nan),
+    _fuzzyOutput(new Accumulated(name, minimum, maximum)), _outputValue(fl::nan),
+    _lastValidOutputValue(fl::nan), _defaultValue(fl::nan),
     _lockOutputRange(false), _lockValidOutput(false) {
     }
 
-    OutputVariable::OutputVariable(const OutputVariable& copy) : Variable(copy),
-    _defuzzifier(NULL) {
+    OutputVariable::OutputVariable(const OutputVariable& copy) : Variable(copy) {
         copyFrom(copy);
     }
 
     OutputVariable& OutputVariable::operator =(const OutputVariable& rhs) {
         if (this == &rhs) return *this;
         delete _fuzzyOutput;
-        if (_defuzzifier) delete _defuzzifier;
-        _defuzzifier = NULL;
+        _defuzzifier.reset(NULL);
         
         Variable::operator =(rhs);
         copyFrom(rhs);
@@ -63,14 +61,11 @@ namespace fl {
 
     OutputVariable::~OutputVariable() {
         delete _fuzzyOutput;
-        if (_defuzzifier) delete _defuzzifier;
     }
 
     void OutputVariable::copyFrom(const OutputVariable& rhs) {
         _fuzzyOutput = rhs._fuzzyOutput->clone();
-        if (rhs._defuzzifier) {
-            _defuzzifier = rhs._defuzzifier->clone();
-        }
+        if (rhs._defuzzifier.get()) _defuzzifier.reset(rhs._defuzzifier->clone());
         _outputValue = rhs._outputValue;
         _lastValidOutputValue = rhs._lastValidOutputValue;
         _defaultValue = rhs._defaultValue;
@@ -98,11 +93,11 @@ namespace fl {
     }
 
     void OutputVariable::setDefuzzifier(Defuzzifier* defuzzifier) {
-        this->_defuzzifier = defuzzifier;
+        this->_defuzzifier.reset(defuzzifier);
     }
 
     Defuzzifier* OutputVariable::getDefuzzifier() const {
-        return this->_defuzzifier;
+        return this->_defuzzifier.get();
     }
 
     void OutputVariable::setOutputValue(scalar outputValue) {

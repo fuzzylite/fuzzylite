@@ -49,7 +49,7 @@ namespace fl {
         virtual std::string toString() const = 0;
 
     private:
-        FL_DISABLE_COPY(Expression);
+        FL_DISABLE_COPY(Expression)
     };
 
     class FL_EXPORT Proposition : public Expression {
@@ -64,7 +64,7 @@ namespace fl {
         virtual std::string toString() const;
 
     private:
-        FL_DISABLE_COPY(Proposition);
+        FL_DISABLE_COPY(Proposition)
     };
 
     class FL_EXPORT Operator : public Expression {
@@ -79,7 +79,7 @@ namespace fl {
         virtual std::string toString() const;
 
     private:
-        FL_DISABLE_COPY(Operator);
+        FL_DISABLE_COPY(Operator)
 
     };
 

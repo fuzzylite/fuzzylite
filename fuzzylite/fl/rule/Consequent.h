@@ -63,7 +63,7 @@ namespace fl {
         virtual std::string toString() const;
 
     private:
-        FL_DISABLE_COPY(Consequent);
+        FL_DISABLE_COPY(Consequent)
     };
 
 }

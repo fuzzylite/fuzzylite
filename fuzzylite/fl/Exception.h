@@ -53,7 +53,7 @@ namespace fl {
         virtual void append(const std::string& whatElse,
             const std::string& file, int line, const std::string& function);
 
-        static std::string btCallStack(const int maxCalls = 30);
+        static std::string btCallStack();
         
         static void signalHandler(int signal);
         static void convertToException(int signal);

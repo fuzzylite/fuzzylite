@@ -74,6 +74,8 @@ Version 5.0
 * Created CloningFactory<T>
 * Moved functions and operators of term Function to a FunctionFactory
 * Added clone methods to Defuzzifiers, Hedges, Norms, and Terms
+* Changed Exception::btCallStack(const int) to Exception::btCallStack(void)
+* Using std::auto_ptr to (T|S)Norms in RuleBlock, SNorm in Accumulated, and Defuzzifier in OutputVariable
 
 
 Version 4.0
