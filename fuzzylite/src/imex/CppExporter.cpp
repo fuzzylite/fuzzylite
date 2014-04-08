@@ -184,12 +184,7 @@ namespace fl {
             const Linear* linear = dynamic_cast<const Linear*> (term);
             std::ostringstream ss;
             ss << "fl::" << term->className() << "::create(\"" << term->getName() << "\", "
-                    << "engine->inputVariables(), ";
-            for (std::size_t i = 0; i < linear->coefficients.size(); ++i) {
-                ss << fl::Op::str(linear->coefficients.at(i));
-                if (i + 1 < linear->coefficients.size()) ss << ", ";
-            }
-            ss << ")";
+                    << "engine, " << fl::Op::join(linear->coefficients, ", ") << ")";
             return ss.str();
         }
 

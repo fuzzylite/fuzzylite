@@ -113,6 +113,7 @@ namespace fl {
          * Operations for iterable datatype _inputVariables
          */
         virtual void addInputVariable(InputVariable* inputVariable);
+        virtual InputVariable* setInputVariable(InputVariable* inputVariable, int index);
         virtual void insertInputVariable(InputVariable* inputVariable, int index);
         virtual InputVariable* getInputVariable(int index) const;
         virtual InputVariable* getInputVariable(const std::string& name) const;
@@ -127,6 +128,7 @@ namespace fl {
          * Operations for iterable datatype _outputVariables
          */
         virtual void addOutputVariable(OutputVariable* outputVariable);
+        virtual OutputVariable* setOutputVariable(OutputVariable* outputVariable, int index);
         virtual void insertOutputVariable(OutputVariable* outputVariable, int index);
         virtual OutputVariable* getOutputVariable(int index) const;
         virtual OutputVariable* getOutputVariable(const std::string& name) const;
@@ -141,6 +143,7 @@ namespace fl {
          * Operations for iterable datatype _ruleblocks
          */
         virtual void addRuleBlock(RuleBlock* ruleblock);
+        virtual RuleBlock* setRuleBlock(RuleBlock* ruleBlock, int index);
         virtual void insertRuleBlock(RuleBlock* ruleblock, int index);
         virtual RuleBlock* getRuleBlock(int index) const;
         virtual RuleBlock* getRuleBlock(const std::string& name) const;

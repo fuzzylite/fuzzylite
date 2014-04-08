@@ -76,6 +76,11 @@ Version 5.0
 * Added clone methods to Defuzzifiers, Hedges, Norms, and Terms
 * Changed Exception::btCallStack(const int) to Exception::btCallStack(void)
 * Using std::auto_ptr to (T|S)Norms in RuleBlock, SNorm in Accumulated, and Defuzzifier in OutputVariable
+* Added methods Engine::set((Input|Output)Variable) and Engine::setRuleBlock()
+* Added method RuleBlock::reloadRules()
+* Changed Linear holding of input variables for a reference to Engine
+
+
 
 
 Version 4.0

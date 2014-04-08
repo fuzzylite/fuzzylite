@@ -88,7 +88,7 @@ namespace fl {
             try {
                 ruleBlock->loadRules(this);
             } catch (std::exception& ex) {
-                (void)ex;
+                (void) ex;
                 FL_LOG("[engine warning] engine copy could not load rule block <"
                         << ruleBlock->toString() << ">");
             }
@@ -454,6 +454,12 @@ namespace fl {
         this->_inputVariables.push_back(inputVariable);
     }
 
+    InputVariable* Engine::setInputVariable(InputVariable* inputVariable, int index) {
+        InputVariable* result = this->_inputVariables.at(index);
+        this->_inputVariables.at(index) = inputVariable;
+        return result;
+    }
+
     void Engine::insertInputVariable(InputVariable* inputVariable, int index) {
         this->_inputVariables.insert(this->_inputVariables.begin() + index,
                 inputVariable);
@@ -515,6 +521,12 @@ namespace fl {
         this->_outputVariables.push_back(outputVariable);
     }
 
+    OutputVariable* Engine::setOutputVariable(OutputVariable* outputVariable, int index) {
+        OutputVariable* result = this->_outputVariables.at(index);
+        this->_outputVariables.at(index) = outputVariable;
+        return result;
+    }
+
     void Engine::insertOutputVariable(OutputVariable* outputVariable, int index) {
         this->_outputVariables.insert(this->_outputVariables.begin() + index,
                 outputVariable);
@@ -574,6 +586,12 @@ namespace fl {
      */
     void Engine::addRuleBlock(RuleBlock* ruleblock) {
         this->_ruleblocks.push_back(ruleblock);
+    }
+
+    RuleBlock* Engine::setRuleBlock(RuleBlock* ruleBlock, int index) {
+        RuleBlock* result = this->_ruleblocks.at(index);
+        this->_ruleblocks.at(index) = ruleBlock;
+        return result;
     }
 
     void Engine::insertRuleBlock(RuleBlock* ruleblock, int index) {

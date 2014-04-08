@@ -54,8 +54,12 @@ endif(FL_DEBUG)
 
 add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
 
-set(EXECUTABLE_OUTPUT_PATH bin)
-set(LIBRARY_OUTPUT_PATH bin)
+#set(EXECUTABLE_OUTPUT_PATH bin)
+#set(LIBRARY_OUTPUT_PATH lib)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(FL_LIBS)
 
@@ -118,8 +122,8 @@ target_link_libraries(fl-bin fl-static ${FL_LIBS})
 
 install(TARGETS fl-bin fl-shared fl-static
         RUNTIME DESTINATION bin
-        LIBRARY DESTINATION bin
-        ARCHIVE DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
         )
 
 install(DIRECTORY fl/ DESTINATION include/fl)

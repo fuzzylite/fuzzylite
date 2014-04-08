@@ -21,16 +21,17 @@
 
 #include "fl/term/Linear.h"
 
+#include "fl/Engine.h"
+
 #include <cstdarg>
+#include <memory>
 
 namespace fl {
 
     Linear::Linear(const std::string& name,
             const std::vector<scalar>& coefficients,
-            const std::vector<InputVariable*>& inputVariables)
-    : Term(name), coefficients(coefficients) {
-        this->inputVariables = std::vector<const InputVariable*>
-                (inputVariables.begin(), inputVariables.end());
+            const Engine* engine)
+    : Term(name), _engine(engine), coefficients(coefficients) {
     }
 
     Linear::~Linear() {
@@ -42,23 +43,52 @@ namespace fl {
 
     scalar Linear::membership(scalar x) const {
         (void) x;
-        if (coefficients.size() != inputVariables.size() + 1) {
+        if (not _engine) {
+            throw fl::Exception("[linear error] term <" + getName() + "> "
+                    "requires a reference to the engine, but none was set", FL_AT);
+        }
+        if (coefficients.size() != _engine->inputVariables().size() + 1) {
             std::ostringstream ss;
             ss << "[linear error] the number of coefficients <" << coefficients.size() << "> "
-                    "need to be equal to the number of input variables "
-                    "<" << inputVariables.size() << "> plus a constant c "
+                    " in term <" << getName() << "> needs to be equal to the number of input variables "
+                    "<" << _engine->inputVariables().size() << "> plus a constant c "
                     "(e.g. ax + by + c)";
             throw fl::Exception(ss.str(), FL_AT);
         }
         scalar result = 0;
-        for (std::size_t i = 0; i < inputVariables.size(); ++i) {
-            result += coefficients.at(i) * inputVariables.at(i)->getInputValue();
+        for (std::size_t i = 0; i < _engine->inputVariables().size(); ++i) {
+            result += coefficients.at(i) * _engine->inputVariables().at(i)->getInputValue();
         }
-        if (coefficients.size() > inputVariables.size()) {
+        if (coefficients.size() > _engine->inputVariables().size()) {
             result += coefficients.back();
         }
 
         return result;
+    }
+
+    void Linear::set(const std::vector<scalar>& coeffs, const Engine* engine) throw (fl::Exception) {
+        if (not _engine) {
+            throw fl::Exception("[linear error] term <" + getName() + "> "
+                    "requires a reference to the engine, but none was set", FL_AT);
+        }
+        if (coeffs.size() != _engine->inputVariables().size() + 1) {
+            std::ostringstream ss;
+            ss << "[linear error] the number of coefficients <" << coeffs.size() << "> "
+                    " in term <" << getName() << "> needs to be equal to the number of input variables "
+                    "<" << _engine->inputVariables().size() << "> plus a constant c "
+                    "(e.g. ax + by + c)";
+            throw fl::Exception(ss.str(), FL_AT);
+        }
+        this->coefficients = coeffs;
+        this->_engine = engine;
+    }
+
+    void Linear::setEngine(const Engine* engine) {
+        this->_engine = engine;
+    }
+
+    const Engine* Linear::getEngine() const {
+        return this->_engine;
     }
 
     std::string Linear::parameters() const {
@@ -75,50 +105,6 @@ namespace fl {
         this->coefficients = values;
     }
 
-    template <typename T>
-    Linear* Linear::create(const std::string& name,
-            const std::vector<InputVariable*>& inputVariables,
-            T firstCoefficient, ...) {
-        std::vector<scalar> coefficients;
-        coefficients.push_back(firstCoefficient);
-
-        va_list args;
-        va_start(args, firstCoefficient);
-        for (std::size_t i = 0; i < inputVariables.size(); ++i) {
-            coefficients.push_back((scalar) va_arg(args, T));
-        }
-        va_end(args);
-        return new Linear(name, coefficients, inputVariables);
-    }
-
-    template FL_EXPORT Linear* Linear::create(const std::string& name,
-            const std::vector<InputVariable*>& inputVariables,
-            double firstCoefficient, ...);
-
-    template FL_EXPORT Linear* Linear::create(const std::string& name,
-            const std::vector<InputVariable*>& inputVariables,
-            int firstCoefficient, ...);
-
-    void Linear::set(const std::vector<scalar>& coefficients,
-            const std::vector<InputVariable*>& inputVariables) throw (fl::Exception) {
-        set(coefficients, std::vector<const InputVariable*>
-                (inputVariables.begin(), inputVariables.end()));
-    }
-
-    void Linear::set(const std::vector<scalar>& coefficients,
-            const std::vector<const InputVariable*>& inputVariables) throw (fl::Exception) {
-        if (coefficients.size() != inputVariables.size() + 1) {
-            std::ostringstream ss;
-            ss << "[linear term] the number of coefficients <" << coefficients.size() << "> "
-                    "need to be equal to the number of input variables "
-                    "<" << inputVariables.size() << "> plus a constant c "
-                    "(i.e. ax + by + c)";
-            throw fl::Exception(ss.str(), FL_AT);
-        }
-        this->coefficients = coefficients;
-        this->inputVariables = inputVariables;
-    }
-
     Linear* Linear::clone() const {
         return new Linear(*this);
     }
@@ -127,4 +113,33 @@ namespace fl {
         return new Linear;
     }
 
+    template <typename T>
+    Linear* Linear::create(const std::string& name,
+            const Engine* engine, T firstCoefficient, ...) throw (fl::Exception) {
+        if (not engine) {
+            throw fl::Exception("[linear error] cannot create term <" + name + "> "
+                    "without a reference to the engine", FL_AT);
+        }
+        std::vector<scalar> coefficients;
+        coefficients.push_back(firstCoefficient);
+
+        va_list args;
+        va_start(args, firstCoefficient);
+        for (std::size_t i = 0; i < engine->inputVariables().size(); ++i) {
+            coefficients.push_back((scalar) va_arg(args, T));
+        }
+        va_end(args);
+
+        std::auto_ptr<Linear> result(new Linear(name));
+        result->set(coefficients, engine);
+        return result.release();
+    }
+
+    template FL_EXPORT Linear* Linear::create(const std::string& name,
+            const Engine* engine,
+            double firstCoefficient, ...);
+
+    template FL_EXPORT Linear* Linear::create(const std::string& name,
+            const Engine* engine,
+            int firstCoefficient, ...);
 }

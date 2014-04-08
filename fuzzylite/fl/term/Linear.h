@@ -32,36 +32,37 @@
 #include "fl/variable/InputVariable.h"
 
 namespace fl {
+    class Engine;
 
     class FL_EXPORT Linear : public Term {
+    protected:
+        const Engine* _engine;
     public:
         std::vector<scalar> coefficients;
-        std::vector<const InputVariable*> inputVariables;
         Linear(const std::string& name = "",
                 const std::vector<scalar>& coefficients = std::vector<scalar>(),
-                const std::vector<InputVariable*>& inputVariables = std::vector<InputVariable*>());
+                const Engine* engine = NULL);
         virtual ~Linear();
 
         virtual std::string className() const;
         virtual std::string parameters() const;
         virtual void configure(const std::string& parameters);
 
-        //Warning: this method is unsafe, make sure you use it correctly.
-        //TODO: change method to:create(std::string, std::vector<InputVariable*>, numberOfCoefficients, firstCoeff.
-        template <typename T>
-        static Linear* create(const std::string& name, const std::vector<InputVariable*>& inputVariables,
-                T firstCoefficient, ...);
-
         virtual scalar membership(scalar x) const;
 
-        virtual void set(const std::vector<scalar>& coefficients,
-                const std::vector<InputVariable*>& inputVariables) throw (fl::Exception);
-        virtual void set(const std::vector<scalar>& coefficients,
-                const std::vector<const InputVariable*>& inputVariables) throw (fl::Exception);
+        virtual void set(const std::vector<scalar>& coeffs, const Engine* engine) throw (fl::Exception);
+
+        virtual void setEngine(const Engine* engine);
+        virtual const Engine* getEngine() const;
 
         virtual Linear* clone() const;
-        
+
         static Term* constructor();
+
+        //Warning: this method is unsafe, make sure you use it correctly.
+        template <typename T>
+        static Linear* create(const std::string& name, const Engine* engine,
+                T firstCoefficient, ...) throw (fl::Exception);
     };
 
 }

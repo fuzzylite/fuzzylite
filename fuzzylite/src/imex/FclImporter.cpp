@@ -469,9 +469,7 @@ namespace fl {
         Linear* linear = NULL;
         Function* function = NULL;
         if ((linear = dynamic_cast<Linear*> (term))) {
-            linear->inputVariables = std::vector<const InputVariable*>
-                    (engine->inputVariables().begin(),
-                    engine->inputVariables().end());
+            linear->setEngine(engine);
         } else if ((function = dynamic_cast<Function*> (term))) {
             function->setEngine(engine);
             //builtin functions are loaded from TermFactory calling Function::create
