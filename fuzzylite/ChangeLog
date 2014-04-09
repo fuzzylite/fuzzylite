@@ -79,6 +79,7 @@ Version 5.0
 * Added methods Engine::set((Input|Output)Variable) and Engine::setRuleBlock()
 * Added method RuleBlock::reloadRules()
 * Changed Linear holding of input variables for a reference to Engine
+* Added support to compare infinity values with fl::Op::isEq and therefore other comparison operators
 
 
 

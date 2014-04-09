@@ -50,6 +50,9 @@ namespace fl {
 
         template <typename T>
         static T max(T a, T b);
+        
+        template <typename T>
+        static T bound(T x, T min, T max);
 
         template <typename T>
         static bool isInf(T x);

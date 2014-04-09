@@ -52,6 +52,15 @@ namespace fl {
     template FL_EXPORT int Operation::max(int a, int b);
 
     template <typename T>
+    T Operation::bound(T x, T min, T max) {
+        if (isGt(x, max)) return max;
+        if (isLt(x, min)) return min;
+        return x;
+    }
+    template FL_EXPORT scalar Operation::bound(scalar x, scalar min, scalar max);
+    template FL_EXPORT int Operation::bound(int x, int min, int max);
+
+    template <typename T>
     bool Operation::isInf(T x) {
         return std::abs(x) == fl::inf;
     }
@@ -74,7 +83,7 @@ namespace fl {
     }
 
     bool Operation::isEq(scalar a, scalar b, scalar macheps) {
-        return std::fabs(a - b) < macheps;
+        return a == b or std::fabs(a - b) < macheps;
     }
 
     bool Operation::isGt(scalar a, scalar b, scalar macheps) {
@@ -138,7 +147,7 @@ namespace fl {
     }
 
     scalar Operation::eq(scalar a, scalar b) {
-        return std::fabs(a - b) < fl::fuzzylite::macheps();
+        return a == b or std::fabs(a - b) < fl::fuzzylite::macheps();
     }
 
     scalar Operation::le(scalar a, scalar b) {
