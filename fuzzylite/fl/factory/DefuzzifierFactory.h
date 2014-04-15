@@ -42,6 +42,8 @@ namespace fl {
     public:
         DefuzzifierFactory();
         virtual ~DefuzzifierFactory();
+        
+        virtual Defuzzifier* constructDefuzzifier(const std::string& key, int resolution) const;
     };
 }
 #endif	/* DEFUZZIFIERFACTORY_H */

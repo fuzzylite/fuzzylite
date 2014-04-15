@@ -52,4 +52,10 @@ namespace fl {
 
     }
 
+    Defuzzifier* DefuzzifierFactory::constructDefuzzifier(const std::string& key, int resolution) const {
+        Defuzzifier* result = constructObject(key);
+        IntegralDefuzzifier* integralDefuzzifier = dynamic_cast<IntegralDefuzzifier*> (result);
+        if (integralDefuzzifier) integralDefuzzifier->setResolution(resolution);
+        return result;
+    }
 }

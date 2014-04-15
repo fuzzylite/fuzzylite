@@ -86,7 +86,7 @@ namespace fl {
         FllExporter exporter;
         std::ostringstream ss;
         ss << exporter.toString(_accumulation.get());
-        ss << Op::str(_minimum) << " " << Op::str(_maximum) << " ";
+        ss << " " << Op::str(_minimum) << " " << Op::str(_maximum) << " ";
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             ss << " " << exporter.toString(_terms.at(i));
         }

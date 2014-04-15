@@ -88,6 +88,8 @@ namespace fl {
         static scalar ge(scalar a, scalar b);
         //equal to
         static scalar eq(scalar a, scalar b);
+        //not equal to
+        static scalar neq(scalar a, scalar b);
         //less than or equal to
         static scalar le(scalar a, scalar b);
         //less than

@@ -78,6 +78,8 @@ namespace fl {
                 &(fl::Op::ge)));
         registerObject("eq", new Function::Element("eq", Function::Element::FUNCTION,
                 &(fl::Op::eq)));
+        registerObject("neq", new Function::Element("neq", Function::Element::FUNCTION,
+                &(fl::Op::neq)));
         registerObject("le", new Function::Element("le", Function::Element::FUNCTION,
                 &(fl::Op::le)));
         registerObject("lt", new Function::Element("lt", Function::Element::FUNCTION,

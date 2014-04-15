@@ -135,7 +135,7 @@ namespace fl {
     }
 
     scalar Operation::round(scalar x) {
-        return (x > 0.0) ? floor(x + 0.5) : ceil(x - 0.5);
+        return (x > 0.0) ? std::floor(x + 0.5) : std::ceil(x - 0.5);
     }
 
     scalar Operation::gt(scalar a, scalar b) {
@@ -148,6 +148,10 @@ namespace fl {
 
     scalar Operation::eq(scalar a, scalar b) {
         return a == b or std::fabs(a - b) < fl::fuzzylite::macheps();
+    }
+
+    scalar Operation::neq(scalar a, scalar b) {
+        return a != b and not std::fabs(a - b) < fl::fuzzylite::macheps();
     }
 
     scalar Operation::le(scalar a, scalar b) {

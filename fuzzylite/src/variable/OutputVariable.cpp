@@ -167,21 +167,12 @@ namespace fl {
 
     std::string OutputVariable::fuzzyOutputValue() const {
         std::ostringstream ss;
-        if (not fuzzyOutput()->getAccumulation()) {
-            for (std::size_t i = 0; i < _terms.size(); ++i) {
-                ss << fl::Op::str(fl::nan) << "/" << _terms.at(i)->getName();
-                if (i + 1 < _terms.size()) ss << " + ";
-            }
-            return ss.str();
-        }
-
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             scalar degree = 0.0;
             for (std::size_t j = 0; j < fuzzyOutput()->terms().size(); ++j) {
                 const Activated* activated = dynamic_cast<const Activated*> (fuzzyOutput()->getTerm(j));
                 if (activated and activated->getTerm() == _terms.at(i)) {
-                    degree = fuzzyOutput()->getAccumulation()->compute(
-                            degree, activated->getDegree());
+                    degree += activated->getDegree();
                 }
             }
 
