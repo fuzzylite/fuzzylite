@@ -151,7 +151,7 @@ namespace fl {
     }
 
     scalar Operation::neq(scalar a, scalar b) {
-        return a != b and not std::fabs(a - b) < fl::fuzzylite::macheps();
+        return a != b and not (std::fabs(a - b) < fl::fuzzylite::macheps());
     }
 
     scalar Operation::le(scalar a, scalar b) {

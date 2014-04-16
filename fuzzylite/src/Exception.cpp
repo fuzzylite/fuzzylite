@@ -108,7 +108,6 @@ namespace fl {
 
 #elif defined FL_WINDOWS
         std::ostringstream btStream;
-        (void) maxCalls; //Can't allocate an with non-constant size in Windows
         const int bufferSize = 30;
         void* buffer[bufferSize];
         SymInitialize(GetCurrentProcess(), NULL, TRUE);

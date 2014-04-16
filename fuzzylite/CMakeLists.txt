@@ -69,15 +69,17 @@ if(UNIX)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
     #set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-rpath,bin/") #does apple recognise these?
-    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")  #does apple recognise these?
+    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
 
 if(NOT APPLE)
     
 endif()
 
 elseif(WIN32)
-    #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
     set(CMAKE_CXX_FLAGS " /WX /W4 /EHsc")
+	#Wx: Treat warnings as errors. W4: All warnings
+	#http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
+	#EHsc: to ignore C4530: C++ exception handler used, but unwind semantics are not enabled
     set(FL_LIBS dbghelp)
 endif()
 
