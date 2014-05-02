@@ -38,14 +38,14 @@ namespace fl {
 
     public:
         SShape(const std::string& name = "",
-                scalar _start = -fl::inf,
-                scalar _end = fl::inf);
+                scalar _start = fl::nan,
+                scalar _end = fl::nan);
         virtual ~SShape();
 
         virtual std::string className() const;
         virtual std::string parameters() const;
         virtual void configure(const std::string& parameters);
-        
+
         virtual scalar membership(scalar x) const;
 
         virtual void setStart(scalar start);
@@ -53,9 +53,9 @@ namespace fl {
 
         virtual void setEnd(scalar end);
         virtual scalar getEnd() const;
-        
+
         virtual SShape* clone() const;
-        
+
         static Term* constructor();
     };
 }

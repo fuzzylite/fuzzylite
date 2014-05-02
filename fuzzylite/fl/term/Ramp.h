@@ -37,9 +37,13 @@ namespace fl {
         scalar _start, _end;
 
     public:
+
+        enum Direction {
+            POSITIVE, ZERO, NEGATIVE
+        };
         Ramp(const std::string& name = "",
-                scalar start = -fl::inf,
-                scalar end = fl::inf);
+                scalar start = fl::nan,
+                scalar end = fl::nan);
         virtual ~Ramp();
 
         virtual std::string className() const;
@@ -54,8 +58,10 @@ namespace fl {
         virtual void setEnd(scalar end);
         virtual scalar getEnd() const;
 
+        virtual Direction direction() const;
+
         virtual Ramp* clone() const;
-        
+
         static Term* constructor();
     };
 }

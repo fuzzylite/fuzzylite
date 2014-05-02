@@ -306,7 +306,7 @@ namespace fl {
                         if (showInputValues) {
                             writer << "#" << fldExporter.header(engine) << "\n";
                         } else {
-                            writer << "#" << fldExporter.header(engine->outputVariables()) << "\n";
+                            writer << "#" << fldExporter.header(engine->constOutputVariables()) << "\n";
                         }
 
                     }
@@ -512,7 +512,7 @@ namespace fl {
             } else throw fl::Exception("[examples error] file not found: " + input, FL_AT);
 
             Engine* engine = importer->fromString(ss.str());
-            
+
             for (std::size_t t = 0; t < tests.size(); ++t) {
                 std::string out = tests.at(t).first->toString(engine);
                 Engine* copy = tests.at(t).second->fromString(out);
@@ -559,9 +559,9 @@ namespace fl {
                 target.close();
             }
             Engine copyConstructor(*engine);
-            (void)copyConstructor;
+            (void) copyConstructor;
             Engine assignmentOperator = *engine;
-            (void)assignmentOperator;
+            (void) assignmentOperator;
             delete engine;
         }
         delete importer;

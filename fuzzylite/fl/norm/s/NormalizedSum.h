@@ -37,7 +37,7 @@ namespace fl {
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
         NormalizedSum* clone() const;
-        
+
         static SNorm* constructor();
     };
 

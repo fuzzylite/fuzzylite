@@ -37,7 +37,7 @@ namespace fl {
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
         EinsteinSum* clone() const;
-        
+
         static SNorm* constructor();
     };
 

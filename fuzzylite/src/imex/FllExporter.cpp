@@ -61,9 +61,9 @@ namespace fl {
     std::string FllExporter::toString(const Engine* engine) const {
         std::vector<std::string> result;
         result.push_back("Engine: " + engine->getName());
-        result.push_back(toString(engine->inputVariables()));
-        result.push_back(toString(engine->outputVariables()));
-        result.push_back(toString(engine->ruleBlocks()));
+        result.push_back(toString(engine->constInputVariables()));
+        result.push_back(toString(engine->constOutputVariables()));
+        result.push_back(toString(engine->constRuleBlocks()));
         return Op::join(result, _separator);
     }
 

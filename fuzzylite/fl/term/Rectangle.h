@@ -38,14 +38,14 @@ namespace fl {
 
     public:
         Rectangle(const std::string& name = "",
-                scalar start = -fl::inf,
-                scalar end = fl::inf);
+                scalar start = fl::nan,
+                scalar end = fl::nan);
         virtual ~Rectangle();
 
         virtual std::string className() const;
         virtual std::string parameters() const;
         virtual void configure(const std::string& parameters);
-        
+
         virtual scalar membership(scalar x) const;
 
         virtual void setStart(scalar start);
@@ -55,7 +55,7 @@ namespace fl {
         virtual scalar getEnd() const;
 
         virtual Rectangle* clone() const;
-        
+
         static Term* constructor();
     };
 

@@ -36,7 +36,7 @@ namespace fl {
     public:
         Centroid(int resolution = defaultResolution());
         virtual ~Centroid();
-        
+
         virtual std::string className() const;
         virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;
         virtual Centroid* clone() const;
@@ -44,5 +44,5 @@ namespace fl {
         static Defuzzifier* constructor();
     };
 
-} 
+}
 #endif /* FL_CENTROID_H */

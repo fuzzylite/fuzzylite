@@ -51,7 +51,7 @@ namespace fl {
         virtual void setText(const std::string& text);
         virtual std::string getText() const;
 
-        virtual std::vector<Proposition*> conclusions() const;
+        virtual const std::vector<Proposition*>& conclusions() const;
 
         virtual bool isLoaded();
         virtual void unload();

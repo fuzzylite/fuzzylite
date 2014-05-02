@@ -64,7 +64,7 @@ namespace fl {
         this->_text = text;
     }
 
-    std::vector<Proposition*> Consequent::conclusions() const {
+    const std::vector<Proposition*>& Consequent::conclusions() const {
         return this->_conclusions;
     }
 

@@ -85,8 +85,8 @@ namespace fl {
         registerObject("lt", new Function::Element("lt", Function::Element::FUNCTION,
                 &(fl::Op::lt)));
 
-//        registerObject("not", new Function::Element("not", Function::Element::FUNCTION,
-//                &(fl::Op::logicalNot)));
+        //        registerObject("not", new Function::Element("not", Function::Element::FUNCTION,
+        //                &(fl::Op::logicalNot))); //Change name as conflicts when parsing Hedges 
         registerObject("round", new Function::Element("round", Function::Element::FUNCTION,
                 &(fl::Op::round)));
 

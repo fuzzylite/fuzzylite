@@ -67,7 +67,7 @@ namespace fl {
         virtual scalar getBottomRight() const;
 
         virtual PiShape* clone() const;
-        
+
         static Term* constructor();
     };
 }

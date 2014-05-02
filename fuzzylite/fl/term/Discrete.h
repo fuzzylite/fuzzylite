@@ -64,8 +64,11 @@ namespace fl {
 
         virtual scalar membership(scalar x) const;
 
+        virtual std::vector<scalar> xyValues() const;
+        virtual std::vector<std::pair<scalar, scalar> > xyPairs() const;
+
         virtual Discrete* clone() const;
-        
+
         static Term* constructor();
 
     };

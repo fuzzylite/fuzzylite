@@ -43,7 +43,7 @@ namespace fl {
         virtual scalar defuzzify(const Term* term,
                 scalar minimum, scalar maximum) const;
         virtual WeightedAverage* clone() const;
-        
+
         static Defuzzifier* constructor();
     };
 }

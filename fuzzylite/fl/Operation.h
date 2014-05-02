@@ -50,7 +50,7 @@ namespace fl {
 
         template <typename T>
         static T max(T a, T b);
-        
+
         template <typename T>
         static T bound(T x, T min, T max);
 
@@ -81,7 +81,7 @@ namespace fl {
         static scalar logicalNot(scalar a);
         static scalar negate(scalar a);
         static scalar round(scalar x);
-        
+
         //greater than
         static scalar gt(scalar a, scalar b);
         //greater than or equal to
@@ -122,8 +122,7 @@ namespace fl {
         static std::string str(T x, int decimals = fuzzylite::decimals());
 
         template <typename T>
-        static std::string join(const std::vector<T>& x,
-                const std::string& separator = ", ");
+        static std::string join(const std::vector<T>& x, const std::string& separator);
 
         template <typename T>
         static std::string join(int items, const std::string& separator, T first, ...);

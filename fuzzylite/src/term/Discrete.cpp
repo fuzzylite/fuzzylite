@@ -155,6 +155,25 @@ namespace fl {
     template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc,
             int x1, int y1, ...) throw (fl::Exception);
 
+    std::vector<scalar> Discrete::xyValues() const {
+        std::vector<scalar> xy(x.size() + y.size());
+        std::size_t index = 0;
+        for (std::size_t i = 0; i + 1 < xy.size(); i += 2) {
+            xy.at(i) = x.at(index);
+            xy.at(i + 1) = y.at(index);
+            ++index;
+        }
+        return xy;
+    }
+
+    std::vector<std::pair<scalar, scalar> > Discrete::xyPairs() const {
+        std::vector<std::pair<scalar, scalar> > result(x.size());
+        for (std::size_t i = 0; i < x.size(); ++i) {
+            result.at(i) = std::pair<scalar, scalar>(x.at(i), y.at(i));
+        }
+        return result;
+    }
+
     Discrete* Discrete::clone() const {
         return new Discrete(*this);
     }

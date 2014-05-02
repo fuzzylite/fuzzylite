@@ -37,6 +37,10 @@ namespace fl {
         scalar _inflection;
         scalar _slope;
     public:
+
+        enum Direction {
+            POSITIVE, ZERO, NEGATIVE
+        };
         Sigmoid(const std::string& name = "",
                 scalar inflection = fl::nan,
                 scalar slope = fl::nan);
@@ -45,7 +49,7 @@ namespace fl {
         virtual std::string className() const;
         virtual std::string parameters() const;
         virtual void configure(const std::string& parameters);
-        
+
         virtual scalar membership(scalar x) const;
 
         virtual void setInflection(scalar inflection);
@@ -53,9 +57,11 @@ namespace fl {
 
         virtual void setSlope(scalar slope);
         virtual scalar getSlope() const;
-        
+
+        virtual Direction direction() const;
+
         virtual Sigmoid* clone() const;
-        
+
         static Term* constructor();
     };
 

@@ -155,12 +155,16 @@ namespace fl {
         return this->_hedges.size();
     }
 
-    const std::vector<Hedge*>& Rule::hedges() const {
+    const std::vector<Hedge*>& Rule::constHedges() const {
         return this->_hedges;
     }
 
     void Rule::setHedges(const std::vector<Hedge*>& hedges) {
         this->_hedges = hedges;
+    }
+
+    std::vector<Hedge*>& Rule::hedges() {
+        return this->_hedges;
     }
 
     scalar Rule::activationDegree(const TNorm* conjunction, const SNorm* disjunction) const {

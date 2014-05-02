@@ -61,7 +61,7 @@ namespace fl {
             Element(const std::string& name, Type type, Unary unary, int precedence = 0, int associativity = -1);
             Element(const std::string& name, Type type, Binary binary, int precedence = 0, int associativity = -1);
             virtual ~Element();
-            
+
             virtual bool isOperator() const;
             virtual bool isFunction() const;
 
@@ -140,6 +140,7 @@ namespace fl {
         virtual void setEngine(const Engine* engine);
         virtual const Engine* getEngine() const;
 
+        virtual void unload();
         virtual void load() throw (fl::Exception);
 
         virtual void load(const std::string& formula,
@@ -152,7 +153,7 @@ namespace fl {
         virtual std::string space(const std::string& formula) const;
 
         virtual Function* clone() const;
-        
+
         static Term* constructor();
 
         static void main();

@@ -197,7 +197,7 @@ namespace fl {
         return this->_rules.size();
     }
 
-    const std::vector<Rule*>& RuleBlock::rules() const {
+    const std::vector<Rule*>& RuleBlock::constRules() const {
         return this->_rules;
     }
 
@@ -205,6 +205,9 @@ namespace fl {
         this->_rules = rules;
     }
 
+    std::vector<Rule*>& RuleBlock::rules() {
+        return this->_rules;
+    }
 
 
 }

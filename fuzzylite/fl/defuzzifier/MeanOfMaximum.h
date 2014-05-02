@@ -40,7 +40,7 @@ namespace fl {
         virtual std::string className() const;
         virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;
         virtual MeanOfMaximum* clone() const;
-        
+
         static Defuzzifier* constructor();
     };
 }

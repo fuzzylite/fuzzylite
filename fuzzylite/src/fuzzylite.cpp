@@ -38,7 +38,7 @@ namespace fl {
         return "fuzzylite";
     }
 
-    std::string fuzzylite::fullname(){
+    std::string fuzzylite::fullname() {
         return name() + "-" + longVersion();
     }
 

@@ -37,21 +37,21 @@ namespace fl {
         scalar _value;
 
     public:
-        Constant(const std::string& name = "", 
+        Constant(const std::string& name = "",
                 scalar value = fl::nan);
         virtual ~Constant();
-        
+
         virtual std::string className() const;
         virtual std::string parameters() const;
         virtual void configure(const std::string& parameters);
-        
+
         virtual scalar membership(scalar x) const;
 
         virtual void setValue(scalar value);
         virtual scalar getValue() const;
-        
+
         virtual Constant* clone() const;
-        
+
         static Term* constructor();
     };
 }

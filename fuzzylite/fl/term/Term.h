@@ -58,9 +58,9 @@ namespace fl {
          */
         virtual void setName(const std::string& name);
         virtual std::string getName() const;
-        
+
         virtual std::string toString() const;
-        
+
         virtual std::string className() const = 0;
         virtual std::string parameters() const = 0;
         virtual void configure(const std::string& parameters) = 0;
@@ -68,7 +68,7 @@ namespace fl {
         virtual scalar membership(scalar x) const = 0;
 
         virtual Term* clone() const = 0;
-        
+
     };
 
 }

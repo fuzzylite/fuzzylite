@@ -44,7 +44,7 @@ namespace fl {
     protected:
         std::map<std::string, Constructor> _constructors;
 
-    public: 
+    public:
         ConstructionFactory();
         virtual ~ConstructionFactory();
 

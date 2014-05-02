@@ -46,7 +46,7 @@ namespace fl {
         virtual std::string className() const;
         virtual std::string parameters() const;
         virtual void configure(const std::string& parameters);
-        
+
         virtual scalar membership(scalar x) const;
 
         virtual void setMean(scalar c);
@@ -54,9 +54,9 @@ namespace fl {
 
         virtual void setStandardDeviation(scalar sigma);
         virtual scalar getStandardDeviation() const;
-        
+
         virtual Gaussian* clone() const;
-        
+
         static Term* constructor();
     };
 

@@ -38,8 +38,8 @@ namespace fl {
 
     public:
         ZShape(const std::string& name = "",
-                scalar _start = -fl::inf,
-                scalar _end = fl::inf);
+                scalar _start = fl::nan,
+                scalar _end = fl::nan);
 
         virtual ~ZShape();
 
@@ -56,7 +56,7 @@ namespace fl {
         virtual scalar getEnd() const;
 
         virtual ZShape* clone() const;
-        
+
         static Term* constructor();
 
     };

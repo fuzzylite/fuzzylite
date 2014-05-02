@@ -53,7 +53,7 @@ namespace fl {
         if (this == &rhs) return *this;
         delete _fuzzyOutput;
         _defuzzifier.reset(NULL);
-        
+
         Variable::operator =(rhs);
         copyFrom(rhs);
         return *this;

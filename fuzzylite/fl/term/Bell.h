@@ -47,7 +47,7 @@ namespace fl {
         virtual std::string className() const;
         virtual std::string parameters() const;
         virtual void configure(const std::string& parameters);
-        
+
         virtual scalar membership(scalar x) const;
 
         virtual void setCenter(scalar center);
@@ -60,9 +60,9 @@ namespace fl {
         virtual scalar getSlope() const;
 
         virtual Bell* clone() const;
-        
+
         static Term* constructor();
-        
+
     };
 
 }

@@ -56,13 +56,13 @@ namespace fl {
         virtual std::string tnorm(const std::string& tnorm) const;
         virtual std::string snorm(const std::string& tnorm) const;
         virtual std::string defuzzifier(const std::string& tnorm) const;
-        
-        
+
+
         virtual Term* extractTerm(const std::string& line) const;
-        virtual Term* prepareTerm(Term* term, const Engine* engine) const ;
+        virtual Term* prepareTerm(Term* term, const Engine* engine) const;
         virtual Term* createInstance(const std::string& termClass, const std::string& name,
                 const std::vector<std::string>& params) const;
-        virtual std::pair<scalar,scalar> extractRange(const std::string& range) const;
+        virtual std::pair<scalar, scalar> extractRange(const std::string& range) const;
 
     public:
         FisImporter();
@@ -71,7 +71,7 @@ namespace fl {
         virtual std::string name() const;
 
         virtual Engine* fromString(const std::string& fcl) const;
-        
+
         virtual FisImporter* clone() const;
     };
 

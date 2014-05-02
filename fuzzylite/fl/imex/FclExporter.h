@@ -49,12 +49,12 @@ namespace fl {
 
         virtual std::string name() const;
         virtual std::string toString(const Engine* engine) const;
-        
+
         virtual std::string toString(const TNorm* tnorm) const;
         virtual std::string toString(const SNorm* snorm) const;
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
         virtual std::string toString(const Term* term) const;
-        
+
         virtual FclExporter* clone() const;
     };
 

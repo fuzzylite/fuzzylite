@@ -66,7 +66,7 @@ namespace fl {
         virtual scalar getRight() const;
 
         virtual SigmoidDifference* clone() const;
-        
+
         static Term* constructor();
     };
 }

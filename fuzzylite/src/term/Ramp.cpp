@@ -90,6 +90,16 @@ namespace fl {
         return this->_end;
     }
 
+    Ramp::Direction Ramp::direction() const {
+        scalar range = this->_end - this->_start;
+        if (fl::Op::isNaN(range) or fl::Op::isInf(range)
+                or fl::Op::isEq(range, 0.0)) return ZERO;
+
+        if (fl::Op::isGt(range, 0.0)) return POSITIVE;
+
+        return NEGATIVE;
+    }
+
     Ramp* Ramp::clone() const {
         return new Ramp(*this);
     }

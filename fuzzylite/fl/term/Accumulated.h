@@ -38,7 +38,7 @@ namespace fl {
     class SNorm;
 
     class FL_EXPORT Accumulated : public Term {
-    private :
+    private:
         void copyFrom(const Accumulated& source);
     protected:
         std::vector<const Term*> _terms;
@@ -51,7 +51,7 @@ namespace fl {
                 SNorm* accumulation = NULL);
         Accumulated(const Accumulated& source);
         Accumulated& operator=(const Accumulated& rhs);
-        
+
         virtual ~Accumulated();
 
         virtual std::string className() const;

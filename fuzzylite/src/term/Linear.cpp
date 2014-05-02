@@ -47,19 +47,19 @@ namespace fl {
             throw fl::Exception("[linear error] term <" + getName() + "> "
                     "requires a reference to the engine, but none was set", FL_AT);
         }
-        if (coefficients.size() != _engine->inputVariables().size() + 1) {
+        if (coefficients.size() != _engine->constInputVariables().size() + 1) {
             std::ostringstream ss;
             ss << "[linear error] the number of coefficients <" << coefficients.size() << "> "
                     " in term <" << getName() << "> needs to be equal to the number of input variables "
-                    "<" << _engine->inputVariables().size() << "> plus a constant c "
+                    "<" << _engine->constInputVariables().size() << "> plus a constant c "
                     "(e.g. ax + by + c)";
             throw fl::Exception(ss.str(), FL_AT);
         }
         scalar result = 0;
-        for (std::size_t i = 0; i < _engine->inputVariables().size(); ++i) {
-            result += coefficients.at(i) * _engine->inputVariables().at(i)->getInputValue();
+        for (std::size_t i = 0; i < _engine->constInputVariables().size(); ++i) {
+            result += coefficients.at(i) * _engine->constInputVariables().at(i)->getInputValue();
         }
-        if (coefficients.size() > _engine->inputVariables().size()) {
+        if (coefficients.size() > _engine->constInputVariables().size()) {
             result += coefficients.back();
         }
 
@@ -71,11 +71,11 @@ namespace fl {
             throw fl::Exception("[linear error] term <" + getName() + "> "
                     "requires a reference to the engine, but none was set", FL_AT);
         }
-        if (coeffs.size() != _engine->inputVariables().size() + 1) {
+        if (coeffs.size() != _engine->constInputVariables().size() + 1) {
             std::ostringstream ss;
             ss << "[linear error] the number of coefficients <" << coeffs.size() << "> "
                     " in term <" << getName() << "> needs to be equal to the number of input variables "
-                    "<" << _engine->inputVariables().size() << "> plus a constant c "
+                    "<" << _engine->constInputVariables().size() << "> plus a constant c "
                     "(e.g. ax + by + c)";
             throw fl::Exception(ss.str(), FL_AT);
         }
@@ -125,7 +125,7 @@ namespace fl {
 
         va_list args;
         va_start(args, firstCoefficient);
-        for (std::size_t i = 0; i < engine->inputVariables().size(); ++i) {
+        for (std::size_t i = 0; i < engine->constInputVariables().size(); ++i) {
             coefficients.push_back((scalar) va_arg(args, T));
         }
         va_end(args);

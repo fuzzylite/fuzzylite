@@ -45,7 +45,7 @@ namespace fl {
     class FL_EXPORT Variable {
     private:
         void copyFrom(const Variable& source);
-        
+
     protected:
         std::string _name;
         std::vector<Term*> _terms;
@@ -92,7 +92,9 @@ namespace fl {
         virtual bool hasTerm(const std::string& name) const;
         virtual Term* removeTerm(int index);
         virtual int numberOfTerms() const;
-        virtual const std::vector<Term*>& terms() const;
+        virtual void setTerms(const std::vector<Term*>& terms);
+        virtual const std::vector<Term*>& constTerms() const;
+        virtual std::vector<Term*>& terms();
 
     };
 

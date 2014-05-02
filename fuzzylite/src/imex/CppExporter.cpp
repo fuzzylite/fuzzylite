@@ -69,9 +69,9 @@ namespace fl {
         std::ostringstream ss;
         std::string name = "inputVariable";
         if (engine->numberOfInputVariables() > 1) {
-            int index = std::distance(engine->inputVariables().begin(),
-                    std::find(engine->inputVariables().begin(),
-                    engine->inputVariables().end(), inputVariable));
+            int index = std::distance(engine->constInputVariables().begin(),
+                    std::find(engine->constInputVariables().begin(),
+                    engine->constInputVariables().end(), inputVariable));
             name += Op::str<int>(index + 1);
         }
         ss << "fl::InputVariable* " << name << " = new fl::InputVariable;\n";
@@ -91,9 +91,9 @@ namespace fl {
         std::ostringstream ss;
         std::string name = "outputVariable";
         if (engine->numberOfOutputVariables() > 1) {
-            int index = std::distance(engine->outputVariables().begin(),
-                    std::find(engine->outputVariables().begin(),
-                    engine->outputVariables().end(), outputVariable));
+            int index = std::distance(engine->constOutputVariables().begin(),
+                    std::find(engine->constOutputVariables().begin(),
+                    engine->constOutputVariables().end(), outputVariable));
             name += Op::str<int>(index + 1);
         }
         ss << "fl::OutputVariable* " << name << " = new fl::OutputVariable;\n";
@@ -123,9 +123,9 @@ namespace fl {
         std::ostringstream ss;
         std::string name = "ruleBlock";
         if (engine->numberOfRuleBlocks() > 1) {
-            int index = std::distance(engine->ruleBlocks().begin(),
-                    std::find(engine->ruleBlocks().begin(),
-                    engine->ruleBlocks().end(), ruleBlock));
+            int index = std::distance(engine->constRuleBlocks().begin(),
+                    std::find(engine->constRuleBlocks().begin(),
+                    engine->constRuleBlocks().end(), ruleBlock));
             name += Op::str<int>(index + 1);
         }
         ss << "fl::RuleBlock* " << name << " = new fl::RuleBlock;\n";

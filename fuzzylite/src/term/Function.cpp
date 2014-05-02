@@ -38,6 +38,7 @@
 #include <stack>
 #include <signal.h>
 #include <cctype>
+#include <memory>
 
 namespace fl {
 
@@ -266,7 +267,7 @@ namespace fl {
         if (this == &rhs) return *this;
         if (root) delete root;
         root = NULL;
-        
+
         Term::operator =(rhs);
         _formula = rhs._formula;
         _engine = rhs._engine;
@@ -326,19 +327,24 @@ namespace fl {
         return result;
     }
 
+    void Function::unload() {
+        if (this->root) {
+            delete this->root;
+            this->root = NULL;
+        }
+    }
+
     void Function::load() throw (fl::Exception) {
         load(this->_formula, this->_engine);
     }
 
     void Function::load(const std::string& formula,
             const Engine* engine) throw (fl::Exception) {
-        if (this->root) {
-            delete this->root;
-            this->root = NULL;
-        }
-        this->root = parse(formula);
+        unload();
         this->_formula = formula;
         this->_engine = engine;
+        std::auto_ptr<Node> node(parse(formula));
+        this->root = node.release();
     }
 
     void Function::setFormula(const std::string& formula) {

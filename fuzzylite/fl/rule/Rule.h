@@ -75,8 +75,9 @@ namespace fl {
         virtual Hedge* removeHedge(int index);
         virtual Hedge* removeHedge(const std::string& name);
         virtual int numberOfHedges() const;
-        virtual const std::vector<Hedge*>& hedges() const;
+        virtual const std::vector<Hedge*>& constHedges() const;
         virtual void setHedges(const std::vector<Hedge*>& hedges);
+        virtual std::vector<Hedge*>& hedges();
 
 
         virtual scalar activationDegree(const TNorm* conjunction, const SNorm* disjunction) const;

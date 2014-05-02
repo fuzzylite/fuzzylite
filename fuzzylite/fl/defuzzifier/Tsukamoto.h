@@ -32,7 +32,7 @@
 
 namespace fl {
     class Activated;
-    
+
     class FL_EXPORT Tsukamoto {
     public:
         static scalar tsukamoto(const Activated* term, scalar minimum, scalar maximum);

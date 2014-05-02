@@ -37,10 +37,10 @@ namespace fl {
         scalar _a, _b, _c, _d;
     public:
         Trapezoid(const std::string& name = "",
-                scalar a = -fl::inf,
+                scalar a = fl::nan,
                 scalar b = fl::nan,
                 scalar c = fl::nan,
-                scalar d = fl::inf);
+                scalar d = fl::nan);
         virtual ~Trapezoid();
 
         virtual std::string className() const;
@@ -62,7 +62,7 @@ namespace fl {
         virtual scalar getD() const;
 
         virtual Trapezoid* clone() const;
-        
+
         static Term* constructor();
     };
 

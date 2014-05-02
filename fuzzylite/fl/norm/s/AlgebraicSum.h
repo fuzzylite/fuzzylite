@@ -32,13 +32,13 @@
 
 
 namespace fl {
-    
+
     class FL_EXPORT AlgebraicSum : public SNorm {
     public:
         std::string className() const;
         scalar compute(scalar a, scalar b) const;
         AlgebraicSum* clone() const;
-        
+
         static SNorm* constructor();
     };
 

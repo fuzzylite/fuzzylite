@@ -65,9 +65,9 @@ namespace fl {
 
         virtual void setStandardDeviationB(scalar sigmaB);
         virtual scalar getStandardDeviationB() const;
-        
+
         virtual GaussianProduct* clone() const;
-        
+
         static Term* constructor();
     };
 }

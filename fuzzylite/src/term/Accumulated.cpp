@@ -63,7 +63,7 @@ namespace fl {
         _maximum = source._maximum;
 
         if (source._accumulation.get()) _accumulation.reset(source._accumulation->clone());
-        
+
         for (std::size_t i = 0; i < source._terms.size(); ++i) {
             _terms.push_back(source._terms.at(i)->clone());
         }

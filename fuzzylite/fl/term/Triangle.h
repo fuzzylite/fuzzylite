@@ -60,7 +60,7 @@ namespace fl {
         virtual scalar getC() const;
 
         virtual Triangle* clone() const;
-        
+
         static Term* constructor();
 
     };
