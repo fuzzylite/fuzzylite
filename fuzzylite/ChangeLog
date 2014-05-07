@@ -89,7 +89,10 @@ Version 5.0
 * Added method RuleBlock::rules() to return mutable reference
 * Added methods Ramp::direction() and Sigmoid::direction() to represent direction of slope
 * Added methods Discrete::xyValues() and ::xyPairs()
-
+* Added method fl::Op::isFinite(x) to check x is not (nan or inf)
+* Changed fl::Op::isEq(a,b) to return true if a = b = NaN
+* Renamed method Accumulated::terms() to Variable::constTerms()
+* Added method Accumulated::terms() to return mutable reference
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.

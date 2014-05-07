@@ -74,6 +74,13 @@ namespace fl {
     template FL_EXPORT bool Operation::isNaN(int x);
     template FL_EXPORT bool Operation::isNaN(scalar x);
 
+    template<typename T>
+    bool Operation::isFinite(T x) {
+        return not (isNaN(x) or isInf(x));
+    }
+    template FL_EXPORT bool Operation::isFinite(int x);
+    template FL_EXPORT bool Operation::isFinite(scalar x);
+
     bool Operation::isLt(scalar a, scalar b, scalar macheps) {
         return not isEq(a, b, macheps) and a < b;
     }
@@ -83,7 +90,7 @@ namespace fl {
     }
 
     bool Operation::isEq(scalar a, scalar b, scalar macheps) {
-        return a == b or std::fabs(a - b) < macheps;
+        return a == b or std::fabs(a - b) < macheps or (isNaN(a) and isNaN(b));
     }
 
     bool Operation::isGt(scalar a, scalar b, scalar macheps) {
@@ -139,27 +146,27 @@ namespace fl {
     }
 
     scalar Operation::gt(scalar a, scalar b) {
-        return not isEq(a, b, fl::fuzzylite::macheps()) and a > b;
+        return isGt(a, b);
     }
 
     scalar Operation::ge(scalar a, scalar b) {
-        return isEq(a, b, fl::fuzzylite::macheps()) or a > b;
+        return isGE(a, b);
     }
 
     scalar Operation::eq(scalar a, scalar b) {
-        return a == b or std::fabs(a - b) < fl::fuzzylite::macheps();
+        return isEq(a, b);
     }
 
     scalar Operation::neq(scalar a, scalar b) {
-        return a != b and not (std::fabs(a - b) < fl::fuzzylite::macheps());
+        return not isEq(a, b);
     }
 
     scalar Operation::le(scalar a, scalar b) {
-        return isEq(a, b, fl::fuzzylite::macheps()) or a < b;
+        return isLE(a, b);
     }
 
     scalar Operation::lt(scalar a, scalar b) {
-        return not isEq(a, b, fl::fuzzylite::macheps()) and a < b;
+        return isLt(a, b);
     }
 
     bool Operation::increment(std::vector<int>& x, std::vector<int>& min, std::vector<int>& max) {

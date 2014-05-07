@@ -92,8 +92,7 @@ namespace fl {
 
     Ramp::Direction Ramp::direction() const {
         scalar range = this->_end - this->_start;
-        if (fl::Op::isNaN(range) or fl::Op::isInf(range)
-                or fl::Op::isEq(range, 0.0)) return ZERO;
+        if (not fl::Op::isFinite(range) or fl::Op::isEq(range, 0.0)) return ZERO;
 
         if (fl::Op::isGt(range, 0.0)) return POSITIVE;
 

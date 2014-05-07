@@ -169,7 +169,7 @@ namespace fl {
         std::ostringstream ss;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             scalar degree = 0.0;
-            for (std::size_t j = 0; j < fuzzyOutput()->terms().size(); ++j) {
+            for (std::size_t j = 0; j < fuzzyOutput()->constTerms().size(); ++j) {
                 const Activated* activated = dynamic_cast<const Activated*> (fuzzyOutput()->getTerm(j));
                 if (activated and activated->getTerm() == _terms.at(i)) {
                     degree += activated->getDegree();

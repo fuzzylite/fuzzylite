@@ -60,6 +60,9 @@ namespace fl {
         template <typename T>
         static bool isNaN(T x);
 
+        template <typename T>
+        static bool isFinite(T x);
+
         //Is less than
 
         static bool isLt(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());

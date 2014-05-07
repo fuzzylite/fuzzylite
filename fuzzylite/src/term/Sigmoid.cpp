@@ -83,8 +83,7 @@ namespace fl {
     }
 
     Sigmoid::Direction Sigmoid::direction() const {
-        if (fl::Op::isNaN(_slope) or fl::Op::isInf(_slope)
-                or fl::Op::isEq(_slope, 0.0)) return ZERO;
+        if (not fl::Op::isFinite(_slope) or fl::Op::isEq(_slope, 0.0)) return ZERO;
 
         if (fl::Op::isGt(_slope, 0.0)) return POSITIVE;
 

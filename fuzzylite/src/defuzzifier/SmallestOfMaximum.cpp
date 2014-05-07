@@ -45,7 +45,7 @@ namespace fl {
     }
 
     scalar SmallestOfMaximum::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
-        if (fl::Op::isNaN(minimum + maximum) or fl::Op::isInf(minimum + maximum)) {
+        if (not fl::Op::isFinite(minimum + maximum)) {
             return fl::nan;
         }
         if (maximum - minimum > _resolution) {
