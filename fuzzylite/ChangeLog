@@ -93,6 +93,9 @@ Version 5.0
 * Changed fl::Op::isEq(a,b) to return true if a = b = NaN
 * Renamed method Accumulated::terms() to Variable::constTerms()
 * Added method Accumulated::terms() to return mutable reference
+* Changed visibility of Linear::coefficients to protected
+* Added methods Linear::coefficients(), Linear::constCoefficients(), Linear::setCoefficients()
+
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.

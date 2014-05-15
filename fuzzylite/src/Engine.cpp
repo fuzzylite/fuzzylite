@@ -286,9 +286,7 @@ namespace fl {
 
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             OutputVariable* outputVariable = _outputVariables.at(i);
-            if (outputVariable->isEnabled()) {
-                outputVariable->defuzzify();
-            }
+            outputVariable->defuzzify();
         }
 
 

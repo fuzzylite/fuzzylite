@@ -47,7 +47,7 @@ namespace fl {
         scalar _weight;
         Antecedent* _antecedent;
         Consequent* _consequent;
-        std::vector<Hedge*> _hedges;
+        std::vector<Hedge*> _hedges; //TODO: Change to a set.
 
     public:
         Rule(const std::string& text = "", scalar weight = 1.0);

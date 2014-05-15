@@ -31,7 +31,7 @@ namespace fl {
     Linear::Linear(const std::string& name,
             const std::vector<scalar>& coefficients,
             const Engine* engine)
-    : Term(name), _engine(engine), coefficients(coefficients) {
+    : Term(name), _coefficients(coefficients), _engine(engine) {
     }
 
     Linear::~Linear() {
@@ -47,9 +47,9 @@ namespace fl {
             throw fl::Exception("[linear error] term <" + getName() + "> "
                     "requires a reference to the engine, but none was set", FL_AT);
         }
-        if (coefficients.size() != _engine->constInputVariables().size() + 1) {
+        if (_coefficients.size() != _engine->constInputVariables().size() + 1) {
             std::ostringstream ss;
-            ss << "[linear error] the number of coefficients <" << coefficients.size() << "> "
+            ss << "[linear error] the number of coefficients <" << _coefficients.size() << "> "
                     " in term <" << getName() << "> needs to be equal to the number of input variables "
                     "<" << _engine->constInputVariables().size() << "> plus a constant c "
                     "(e.g. ax + by + c)";
@@ -57,10 +57,10 @@ namespace fl {
         }
         scalar result = 0;
         for (std::size_t i = 0; i < _engine->constInputVariables().size(); ++i) {
-            result += coefficients.at(i) * _engine->constInputVariables().at(i)->getInputValue();
+            result += _coefficients.at(i) * _engine->constInputVariables().at(i)->getInputValue();
         }
-        if (coefficients.size() > _engine->constInputVariables().size()) {
-            result += coefficients.back();
+        if (_coefficients.size() > _engine->constInputVariables().size()) {
+            result += _coefficients.back();
         }
 
         return result;
@@ -79,8 +79,20 @@ namespace fl {
                     "(e.g. ax + by + c)";
             throw fl::Exception(ss.str(), FL_AT);
         }
-        this->coefficients = coeffs;
+        this->_coefficients = coeffs;
         this->_engine = engine;
+    }
+
+    void Linear::setCoefficients(const std::vector<scalar>& coeffs) {
+        this->_coefficients = coeffs;
+    }
+
+    const std::vector<scalar>& Linear::constCoefficients() const {
+        return this->_coefficients;
+    }
+
+    std::vector<scalar>& Linear::coefficients() {
+        return this->_coefficients;
     }
 
     void Linear::setEngine(const Engine* engine) {
@@ -92,7 +104,7 @@ namespace fl {
     }
 
     std::string Linear::parameters() const {
-        return Op::join(this->coefficients, " ");
+        return Op::join(this->_coefficients, " ");
     }
 
     void Linear::configure(const std::string& parameters) {
@@ -102,7 +114,7 @@ namespace fl {
         for (std::size_t i = 0; i < strValues.size(); ++i) {
             values.push_back(Op::toScalar(strValues.at(i)));
         }
-        this->coefficients = values;
+        this->_coefficients = values;
     }
 
     Linear* Linear::clone() const {

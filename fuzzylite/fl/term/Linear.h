@@ -36,9 +36,9 @@ namespace fl {
 
     class FL_EXPORT Linear : public Term {
     protected:
+        std::vector<scalar> _coefficients;
         const Engine* _engine;
     public:
-        std::vector<scalar> coefficients;
         Linear(const std::string& name = "",
                 const std::vector<scalar>& coefficients = std::vector<scalar>(),
                 const Engine* engine = NULL);
@@ -51,6 +51,10 @@ namespace fl {
         virtual scalar membership(scalar x) const;
 
         virtual void set(const std::vector<scalar>& coeffs, const Engine* engine) throw (fl::Exception);
+
+        virtual void setCoefficients(const std::vector<scalar>& coeffs);
+        virtual const std::vector<scalar>& constCoefficients() const;
+        virtual std::vector<scalar>& coefficients();
 
         virtual void setEngine(const Engine* engine);
         virtual const Engine* getEngine() const;
