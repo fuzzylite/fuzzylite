@@ -72,7 +72,7 @@ namespace fl {
         static bool isGE(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
 
         static scalar scale(scalar x, scalar fromMin, scalar fromMax,
-                scalar toMin, scalar toMax);
+                scalar toMin, scalar toMax, bool bounded = false);
 
         static scalar add(scalar a, scalar b);
         static scalar subtract(scalar a, scalar b);

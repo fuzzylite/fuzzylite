@@ -49,7 +49,7 @@ namespace fl {
 
     Exception::Exception(const std::string& what, const std::string& file, int line,
             const std::string& function)
-    : std::exception(), _what(what + "\n") {
+    : std::exception(), _what(what) {
         append(file, line, function);
         FL_DBG(this->what());
     }
@@ -75,7 +75,7 @@ namespace fl {
 
     void Exception::append(const std::string& file, int line, const std::string& function) {
         std::ostringstream ss;
-        ss << "{at " << file << "::" << function << "() [line:" << line << "]}\n";
+        ss << "\n{at " << file << "::" << function << "() [line:" << line << "]}";
         _what += ss.str();
     }
 

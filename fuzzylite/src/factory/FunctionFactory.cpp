@@ -36,113 +36,109 @@ namespace fl {
         //OPERATORS:
         int p = 10;
         //First order: not, negate: 
-        registerObject("!", new Function::Element("!", Function::Element::OPERATOR,
-                &(fl::Op::logicalNot), p, 1)); //logical not
-        registerObject("~", new Function::Element("~", Function::Element::OPERATOR,
-                &(fl::Op::negate), p, 1)); // ~ negates a number
+        registerObject("!", new Function::Element("!", "Logical NOT",
+                Function::Element::OPERATOR, &(fl::Op::logicalNot), p, 1)); //logical not
+        registerObject("~", new Function::Element("~", "Negation",
+                Function::Element::OPERATOR, &(fl::Op::negate), p, 1)); // ~ negates a number
 
         --p;
         //Second order: power
-        registerObject("^", new Function::Element("^", Function::Element::OPERATOR,
-                &(std::pow), p, 1));
+        registerObject("^", new Function::Element("^", "Power",
+                Function::Element::OPERATOR, &(std::pow), p, 1));
 
         --p;
         //Third order: multiplication, division, modulo
-        registerObject("*", new Function::Element("*", Function::Element::OPERATOR,
-                &(fl::Op::multiply), p));
-        registerObject("/", new Function::Element("/", Function::Element::OPERATOR,
-                &(fl::Op::divide), p));
-        registerObject("%", new Function::Element("%", Function::Element::OPERATOR,
-                &(fl::Op::modulo), p));
+        registerObject("*", new Function::Element("*", "Multiplication",
+                Function::Element::OPERATOR, &(fl::Op::multiply), p));
+        registerObject("/", new Function::Element("/", "Division",
+                Function::Element::OPERATOR, &(fl::Op::divide), p));
+        registerObject("%", new Function::Element("%", "Modulo",
+                Function::Element::OPERATOR, &(fl::Op::modulo), p));
 
         --p;
         //Fourth order: addition, subtraction
-        registerObject("+", new Function::Element("+", Function::Element::OPERATOR,
-                &(fl::Op::add), p));
-        registerObject("-", new Function::Element("-",
+        registerObject("+", new Function::Element("+", "Addition",
+                Function::Element::OPERATOR, &(fl::Op::add), p));
+        registerObject("-", new Function::Element("-", "Subtraction",
                 Function::Element::OPERATOR, &(fl::Op::subtract), p));
 
         //Fifth order: logical and, logical or
         --p; //Logical AND
-        registerObject(fl::Rule::andKeyword(), new Function::Element(fl::Rule::andKeyword(),
+        registerObject(fl::Rule::andKeyword(), new Function::Element(fl::Rule::andKeyword(), "Logical AND",
                 Function::Element::OPERATOR, &(fl::Op::logicalAnd), p));
         --p; //Logical OR
-        registerObject(fl::Rule::orKeyword(), new Function::Element(fl::Rule::orKeyword(),
+        registerObject(fl::Rule::orKeyword(), new Function::Element(fl::Rule::orKeyword(), "Logical OR",
                 Function::Element::OPERATOR, &(fl::Op::logicalOr), p));
 
         //FUNCTIONS
 
-        registerObject("gt", new Function::Element("gt", Function::Element::FUNCTION,
-                &(fl::Op::gt)));
-        registerObject("ge", new Function::Element("ge", Function::Element::FUNCTION,
-                &(fl::Op::ge)));
-        registerObject("eq", new Function::Element("eq", Function::Element::FUNCTION,
-                &(fl::Op::eq)));
-        registerObject("neq", new Function::Element("neq", Function::Element::FUNCTION,
-                &(fl::Op::neq)));
-        registerObject("le", new Function::Element("le", Function::Element::FUNCTION,
-                &(fl::Op::le)));
-        registerObject("lt", new Function::Element("lt", Function::Element::FUNCTION,
-                &(fl::Op::lt)));
+        registerObject("gt", new Function::Element("gt", "Greater than (>)",
+                Function::Element::FUNCTION, &(fl::Op::gt)));
+        registerObject("ge", new Function::Element("ge", "Greater than or equal to (>=)",
+                Function::Element::FUNCTION, &(fl::Op::ge)));
+        registerObject("eq", new Function::Element("eq", "Equal to (==)",
+                Function::Element::FUNCTION, &(fl::Op::eq)));
+        registerObject("neq", new Function::Element("neq", "Not equal to (!=)",
+                Function::Element::FUNCTION, &(fl::Op::neq)));
+        registerObject("le", new Function::Element("le", "Less than or equal to (<=)",
+                Function::Element::FUNCTION, &(fl::Op::le)));
+        registerObject("lt", new Function::Element("lt", "Less than (<)",
+                Function::Element::FUNCTION, &(fl::Op::lt)));
 
-        //        registerObject("not", new Function::Element("not", Function::Element::FUNCTION,
-        //                &(fl::Op::logicalNot))); //Change name as conflicts when parsing Hedges 
-        registerObject("round", new Function::Element("round", Function::Element::FUNCTION,
-                &(fl::Op::round)));
+        registerObject("acos", new Function::Element("acos", "Inverse cosine",
+                Function::Element::FUNCTION, &(std::acos)));
+        registerObject("asin", new Function::Element("asin", "Inverse sine",
+                Function::Element::FUNCTION, &(std::asin)));
+        registerObject("atan", new Function::Element("atan", "Inverse tangent",
+                Function::Element::FUNCTION, &(std::atan)));
 
-        registerObject("acos", new Function::Element("acos", Function::Element::FUNCTION,
-                &(std::acos)));
-        registerObject("asin", new Function::Element("asin", Function::Element::FUNCTION,
-                &(std::asin)));
-        registerObject("atan", new Function::Element("atan", Function::Element::FUNCTION,
-                &(std::atan)));
-
-        registerObject("ceil", new Function::Element("ceil", Function::Element::FUNCTION,
-                &(std::ceil)));
-        registerObject("cos", new Function::Element("cos", Function::Element::FUNCTION,
-                &(std::cos)));
-        registerObject("cosh", new Function::Element("cosh", Function::Element::FUNCTION,
-                &(std::cosh)));
-        registerObject("exp", new Function::Element("exp", Function::Element::FUNCTION,
-                &(std::exp)));
-        registerObject("fabs", new Function::Element("fabs", Function::Element::FUNCTION,
-                &(std::fabs)));
-        registerObject("floor", new Function::Element("floor", Function::Element::FUNCTION,
-                &(std::floor)));
-        registerObject("log", new Function::Element("log", Function::Element::FUNCTION,
-                &(std::log)));
-        registerObject("log10", new Function::Element("log10", Function::Element::FUNCTION,
-                &(std::log10)));
-
-        registerObject("sin", new Function::Element("sin", Function::Element::FUNCTION,
-                &(std::sin)));
-        registerObject("sinh", new Function::Element("sinh", Function::Element::FUNCTION,
-                &(std::sinh)));
-        registerObject("sqrt", new Function::Element("sqrt", Function::Element::FUNCTION,
-                &(std::sqrt)));
-        registerObject("tan", new Function::Element("tan", Function::Element::FUNCTION,
-                &(std::tan)));
-        registerObject("tanh", new Function::Element("tanh", Function::Element::FUNCTION,
-                &(std::tanh)));
+        registerObject("ceil", new Function::Element("ceil", "Ceiling",
+                Function::Element::FUNCTION, &(std::ceil)));
+        registerObject("cos", new Function::Element("cos", "Cosine",
+                Function::Element::FUNCTION, &(std::cos)));
+        registerObject("cosh", new Function::Element("cosh", "Hyperbolic cosine",
+                Function::Element::FUNCTION, &(std::cosh)));
+        registerObject("exp", new Function::Element("exp", "Exponential",
+                Function::Element::FUNCTION, &(std::exp)));
+        registerObject("fabs", new Function::Element("fabs", "Absolute",
+                Function::Element::FUNCTION, &(std::fabs)));
+        registerObject("floor", new Function::Element("floor", "Floor",
+                Function::Element::FUNCTION, &(std::floor)));
+        registerObject("log", new Function::Element("log", "Natural logarithm",
+                Function::Element::FUNCTION, &(std::log)));
+        registerObject("log10", new Function::Element("log10", "Common logarithm",
+                Function::Element::FUNCTION, &(std::log10)));
+        registerObject("round", new Function::Element("round", "Round",
+                Function::Element::FUNCTION, &(fl::Op::round)));
+        registerObject("sin", new Function::Element("sin", "Sine",
+                Function::Element::FUNCTION, &(std::sin)));
+        registerObject("sinh", new Function::Element("sinh", "Hyperbolic sine",
+                Function::Element::FUNCTION, &(std::sinh)));
+        registerObject("sqrt", new Function::Element("sqrt", "Square root",
+                Function::Element::FUNCTION, &(std::sqrt)));
+        registerObject("tan", new Function::Element("tan", "Tangent",
+                Function::Element::FUNCTION, &(std::tan)));
+        registerObject("tanh", new Function::Element("tanh", "Hyperbolic tangent",
+                Function::Element::FUNCTION, &(std::tanh)));
 
 #if defined(FL_UNIX) && !defined(FL_USE_FLOAT)
         //found in Unix when using double precision. not found in Windows.
-        registerObject("log1p", new Function::Element("log1p", Function::Element::FUNCTION,
-                &(log1p)));
-        registerObject("acosh", new Function::Element("acosh", Function::Element::FUNCTION,
-                &(acosh)));
-        registerObject("asinh", new Function::Element("asinh", Function::Element::FUNCTION,
-                &(asinh)));
-        registerObject("atanh", new Function::Element("atanh", Function::Element::FUNCTION,
-                &(atanh)));
+        registerObject("log1p", new Function::Element("log1p", "Natural logarithm plus one",
+                Function::Element::FUNCTION, &(log1p)));
+        registerObject("acosh", new Function::Element("acosh", "Inverse hyperbolic cosine",
+                Function::Element::FUNCTION, &(acosh)));
+        registerObject("asinh", new Function::Element("asinh", "Inverse hyperbolic sine",
+                Function::Element::FUNCTION, &(asinh)));
+        registerObject("atanh", new Function::Element("atanh", "Inverse hyperbolic tangent",
+                Function::Element::FUNCTION, &(atanh)));
 #endif
 
-        registerObject("pow", new Function::Element("pow", Function::Element::FUNCTION,
-                &(std::pow)));
-        registerObject("atan2", new Function::Element("atan2", Function::Element::FUNCTION,
-                &(std::atan2)));
-        registerObject("fmod", new Function::Element("fmod", Function::Element::FUNCTION,
-                &(std::fmod)));
+        registerObject("pow", new Function::Element("pow", "Power",
+                Function::Element::FUNCTION, &(std::pow)));
+        registerObject("atan2", new Function::Element("atan2", "Inverse tangent (y,x)",
+                Function::Element::FUNCTION, &(std::atan2)));
+        registerObject("fmod", new Function::Element("fmod", "Floating-point remainder",
+                Function::Element::FUNCTION, &(std::fmod)));
     }
 
     FunctionFactory::~FunctionFactory() {

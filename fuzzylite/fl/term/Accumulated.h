@@ -71,6 +71,9 @@ namespace fl {
         virtual void setMaximum(scalar maximum);
         virtual scalar getMaximum() const;
 
+        virtual void setRange(scalar minimum, scalar maximum);
+        virtual scalar range() const;
+
         virtual void setAccumulation(SNorm* accumulation);
         virtual SNorm* getAccumulation() const;
 

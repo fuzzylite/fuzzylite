@@ -51,15 +51,18 @@ namespace fl {
                 OPERATOR, FUNCTION
             };
             std::string name;
+            std::string description;
             Type type;
             Unary unary;
             Binary binary;
             int arity;
             int precedence; //Operator
             int associativity;
-            Element(const std::string& name, Type type);
-            Element(const std::string& name, Type type, Unary unary, int precedence = 0, int associativity = -1);
-            Element(const std::string& name, Type type, Binary binary, int precedence = 0, int associativity = -1);
+            Element(const std::string& name, const std::string& description, Type type);
+            Element(const std::string& name, const std::string& description,
+                    Type type, Unary unary, int precedence = 0, int associativity = -1);
+            Element(const std::string& name, const std::string& description,
+                    Type type, Binary binary, int precedence = 0, int associativity = -1);
             virtual ~Element();
 
             virtual bool isOperator() const;
@@ -142,9 +145,8 @@ namespace fl {
 
         virtual void unload();
         virtual void load() throw (fl::Exception);
-
-        virtual void load(const std::string& formula,
-                const Engine* engine = NULL) throw (fl::Exception);
+        virtual void load(const std::string& formula) throw (fl::Exception);
+        virtual void load(const std::string& formula, const Engine* engine) throw (fl::Exception);
 
         virtual Node* parse(const std::string& formula) throw (fl::Exception);
 

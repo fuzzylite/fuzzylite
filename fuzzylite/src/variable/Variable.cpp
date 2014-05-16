@@ -27,11 +27,11 @@
 
 #include "fl/variable/Variable.h"
 
-#include "fl/term/Term.h"
-
-#include "fl/norm/Norm.h"
-
+#include "fl/term/Constant.h"
 #include "fl/imex/FllExporter.h"
+#include "fl/term/Linear.h"
+#include "fl/norm/Norm.h"
+#include "fl/term/Term.h"
 
 #include <algorithm>
 #include <sstream>
@@ -116,7 +116,12 @@ namespace fl {
     std::string Variable::fuzzify(scalar x) const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
-            scalar fx = _terms.at(i)->membership(x);
+            scalar fx = fl::nan;
+            try {
+                fx = _terms.at(i)->membership(x);
+            } catch (...) {
+                //ignore
+            }
             if (i == 0) {
                 ss << fl::Op::str(fx);
             } else {
@@ -134,7 +139,12 @@ namespace fl {
         Term* result = NULL;
         scalar ymax = 0.0;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
-            scalar y = _terms.at(i)->membership(x);
+            scalar y = fl::nan;
+            try {
+                y = _terms.at(i)->membership(x);
+            } catch (...) {
+                //ignore
+            }
             if (fl::Op::isGt(y, ymax)) {
                 ymax = y;
                 result = _terms.at(i);
@@ -167,7 +177,15 @@ namespace fl {
         Centroid defuzzifier;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             Term* term = _terms.at(i);
-            centroids[term] = defuzzifier.defuzzify(term, _minimum, _maximum);
+            try {
+                if (dynamic_cast<const Constant*> (term) or dynamic_cast<const Linear*> (term)) {
+                    centroids[term] = term->membership(0);
+                } else {
+                    centroids[term] = defuzzifier.defuzzify(term, _minimum, _maximum);
+                }
+            } catch (...) { //ignore error possibly due to Function not loaded
+                centroids[term] = fl::inf;
+            }
         }
         SortByCoG criterion;
         criterion.centroids = centroids;

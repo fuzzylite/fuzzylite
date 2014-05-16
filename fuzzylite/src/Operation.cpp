@@ -101,8 +101,9 @@ namespace fl {
         return isEq(a, b, macheps) or a > b;
     }
 
-    scalar Operation::scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax) {
-        return (toMax - toMin) / (fromMax - fromMin) * (x - fromMin) + toMin;
+    scalar Operation::scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax, bool bounded) {
+        scalar result = (toMax - toMin) / (fromMax - fromMin) * (x - fromMin) + toMin;
+        return bounded ? fl::Op::bound(result, toMin, toMax) : result;
     }
 
     scalar Operation::add(scalar a, scalar b) {

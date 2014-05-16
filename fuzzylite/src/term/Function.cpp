@@ -47,21 +47,21 @@ namespace fl {
      */
 
 
-    Function::Element::Element(const std::string& name, Type type)
-    : name(name), type(type), unary(NULL), binary(NULL), arity(0),
+    Function::Element::Element(const std::string& name, const std::string& description, Type type)
+    : name(name), description(description), type(type), unary(NULL), binary(NULL), arity(0),
     precedence(0), associativity(-1) {
 
     }
 
-    Function::Element::Element(const std::string& name, Type type, Unary unary,
-            int precedence, int associativity)
-    : name(name), type(type), unary(unary), binary(NULL), arity(1),
+    Function::Element::Element(const std::string& name, const std::string& description,
+            Type type, Unary unary, int precedence, int associativity)
+    : name(name), description(description), type(type), unary(unary), binary(NULL), arity(1),
     precedence(precedence), associativity(associativity) {
     }
 
-    Function::Element::Element(const std::string& name, Type type, Binary binary,
-            int precedence, int associativity)
-    : name(name), type(type), unary(NULL), binary(binary), arity(2),
+    Function::Element::Element(const std::string& name, const std::string& description,
+            Type type, Binary binary, int precedence, int associativity)
+    : name(name), description(description), type(type), unary(NULL), binary(binary), arity(2),
     precedence(precedence), associativity(associativity) {
     }
 
@@ -86,6 +86,7 @@ namespace fl {
 
         if (type == OPERATOR) {
             ss << "Operator (name=" << name << ", "
+                    << "description=" << description << ", "
                     << "precedence=" << precedence << ", "
                     << "arity=" << arity << ", "
                     << "associativity=" << associativity << ", ";
@@ -95,6 +96,7 @@ namespace fl {
             ss << ")";
         } else if (type == FUNCTION) {
             ss << "MathFunction (name=" << name << ", "
+                    << "description=" << description << ", "
                     << "arity=" << arity << ", "
                     << "associativity=" << associativity << ", ";
             if (arity == 1) ss << "pointer=" << unary;
@@ -164,8 +166,9 @@ namespace fl {
                 result = element->binary(right->evaluate(variables), left->evaluate(variables));
             } else {
                 std::ostringstream ex;
-                ex << "[function error] arity <" << element->arity << "> of element "
-                        "<" + element->name + "> is NULL";
+                ex << "[function error] arity <" << element->arity << "> of "
+                        << (element->isOperator() ? "operator" : "function") <<
+                        " <" << element->name << "> is NULL";
                 throw fl::Exception(ex.str(), FL_AT);
             }
 
@@ -292,7 +295,7 @@ namespace fl {
             }
             for (int i = 0; i < this->_engine->numberOfOutputVariables(); ++i) {
                 OutputVariable* output = this->_engine->getOutputVariable(i);
-                this->variables[output->getName()] = output->getLastValidOutputValue();
+                this->variables[output->getName()] = output->getOutputValue();
             }
         }
         this->variables["x"] = x;
@@ -301,7 +304,7 @@ namespace fl {
 
     scalar Function::evaluate(const std::map<std::string, scalar>* localVariables) const {
         if (not this->root)
-            throw fl::Exception("[function error] evaluation failed because function is not loaded", FL_AT);
+            throw fl::Exception("[function error] evaluation failed because the function is not loaded", FL_AT);
         if (localVariables)
             return this->root->evaluate(localVariables);
         return this->root->evaluate(&this->variables);
@@ -312,19 +315,14 @@ namespace fl {
     }
 
     void Function::configure(const std::string& parameters) {
-        this->_formula = parameters;
+        load(parameters);
     }
 
     Function* Function::create(const std::string& name,
             const std::string& infix, const Engine* engine) throw (fl::Exception) {
-        Function* result = new Function(name);
-        try {
-            result->load(infix, engine);
-        } catch (...) {
-            delete result;
-            throw;
-        }
-        return result;
+        std::auto_ptr<Function> result(new Function(name));
+        result->load(infix, engine);
+        return result.release();
     }
 
     void Function::unload() {
@@ -335,7 +333,11 @@ namespace fl {
     }
 
     void Function::load() throw (fl::Exception) {
-        load(this->_formula, this->_engine);
+        load(this->_formula);
+    }
+
+    void Function::load(const std::string& formula) throw (fl::Exception) {
+        load(formula, this->_engine);
     }
 
     void Function::load(const std::string& formula,
@@ -345,6 +347,7 @@ namespace fl {
         this->_engine = engine;
         std::auto_ptr<Node> node(parse(formula));
         this->root = node.release();
+        membership(0.0); //make sure function evaluates without throwing exception.
     }
 
     void Function::setFormula(const std::string& formula) {
@@ -392,6 +395,12 @@ namespace fl {
         return result;
     }
 
+    /****************************************
+     * The Glorious Parser
+     * Shunting-yard algorithm
+     * TODO: Maybe change it for http://en.wikipedia.org/wiki/Operator-precedence_parser
+     ***************************************/
+
     std::string Function::toPostfix(const std::string& formula) const throw (fl::Exception) {
         std::string spacedFormula = space(formula);
 
@@ -429,7 +438,7 @@ namespace fl {
                     if (not stack.empty()) op2 = factory->getObject(stack.top());
                     if (not op2) break;
 
-                    if ((op1->associativity < 0 and op1->precedence <= op2->precedence)
+                    if ((op1->associativity < 0 and op1->precedence == op2->precedence)
                             or op1->precedence < op2->precedence) {
                         queue.push(stack.top());
                         stack.pop();
@@ -497,14 +506,9 @@ namespace fl {
     //        return true;
     //    }
 
-    /****************************************
-     * The Glorious Parser
-     * Shunting-yard algorithm
-     * TODO: Maybe change it for http://en.wikipedia.org/wiki/Operator-precedence_parser
-     ***************************************/
-
     Function::Node* Function::parse(const std::string& formula) throw (fl::Exception) {
-        if (formula.empty()) return NULL;
+        if (formula.empty())
+            throw fl::Exception("[function error] formula is empty", FL_AT);
         std::string postfix = toPostfix(formula);
 
         std::stack<Node*> stack;
@@ -519,11 +523,10 @@ namespace fl {
             if (element) {
                 if (element->arity > (int) stack.size()) {
                     std::ostringstream ss;
-                    ss << "[function error] "
-                            "operator <" << element->name << "> has arity <" << element->arity << ">, "
-                            "but <" << stack.size() << "> element" <<
-                            (stack.size() == 1 ? " is " : "s are") <<
-                            " available";
+                    ss << "[function error] " << (element->isOperator() ? "operator" : "function") <<
+                            " <" << element->name << "> has arity <" << element->arity << ">, "
+                            "but found <" << stack.size() << "> element" <<
+                            (stack.size() == 1 ? "" : "s");
                     throw fl::Exception(ss.str(), FL_AT);
                 }
 
@@ -550,8 +553,7 @@ namespace fl {
         }
 
         if (stack.size() != 1)
-            throw fl::Exception("[function error] malformed formula <" +
-                formula + ">", FL_AT);
+            throw fl::Exception("[function error] ill-formed formula <" + formula + ">", FL_AT);
 
         return stack.top();
     }

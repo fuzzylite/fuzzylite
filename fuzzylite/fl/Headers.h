@@ -44,8 +44,10 @@
 #include "fl/defuzzifier/WeightedAverage.h"
 #include "fl/defuzzifier/WeightedSum.h"
 
+#include "fl/factory/CloningFactory.h"
 #include "fl/factory/ConstructionFactory.h"
 #include "fl/factory/FactoryManager.h"
+#include "fl/factory/FunctionFactory.h"
 #include "fl/factory/DefuzzifierFactory.h"
 #include "fl/factory/HedgeFactory.h"
 #include "fl/factory/SNormFactory.h"

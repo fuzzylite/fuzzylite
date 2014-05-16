@@ -130,6 +130,15 @@ namespace fl {
         return this->_maximum;
     }
 
+    void Accumulated::setRange(scalar minimum, scalar maximum) {
+        setMinimum(minimum);
+        setMaximum(maximum);
+    }
+
+    scalar Accumulated::range() const {
+        return this->_maximum - this->_minimum;
+    }
+
     void Accumulated::setAccumulation(SNorm* accumulation) {
         this->_accumulation.reset(accumulation);
     }

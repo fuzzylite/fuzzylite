@@ -156,8 +156,7 @@ namespace fl {
         }
 
         if (_lockOutputRange) {
-            if (Op::isLt(result, _minimum)) result = _minimum;
-            if (Op::isGt(result, _maximum)) result = _maximum;
+            result = fl::Op::bound(result, _minimum, _maximum);
         }
 
         if (isValid) _lastValidOutputValue = result;
