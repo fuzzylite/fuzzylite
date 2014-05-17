@@ -59,8 +59,8 @@ namespace fl {
     }
 
     std::string FldExporter::header(const Engine* engine) const {
-        std::string inputHeader = header(engine->constInputVariables());
-        std::string outputHeader = header(engine->constOutputVariables());
+        std::string inputHeader = header(engine->inputVariables());
+        std::string outputHeader = header(engine->outputVariables());
         std::ostringstream result;
         result << "@Engine: " << engine->getName() << ";";
         if (not inputHeader.empty()) {
@@ -106,7 +106,7 @@ namespace fl {
             if (includeInputValues) {
                 result << "#" << header(engine) << "\n";
             } else {
-                result << "#" << header(engine->constOutputVariables()) << "\n";
+                result << "#" << header(engine->outputVariables()) << "\n";
             }
         }
         toWriter(engine, result, maximumNumberOfResults, _separator, includeInputValues);
@@ -175,7 +175,7 @@ namespace fl {
             if (includeInputValues) {
                 writer << "#" << header(engine) << "\n";
             } else {
-                writer << "#" << header(engine->constOutputVariables()) << "\n";
+                writer << "#" << header(engine->outputVariables()) << "\n";
             }
         }
         std::istringstream reader(inputData);

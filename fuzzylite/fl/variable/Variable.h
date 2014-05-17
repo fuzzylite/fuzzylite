@@ -93,7 +93,7 @@ namespace fl {
         virtual Term* removeTerm(int index);
         virtual int numberOfTerms() const;
         virtual void setTerms(const std::vector<Term*>& terms);
-        virtual const std::vector<Term*>& constTerms() const;
+        virtual const std::vector<Term*>& terms() const;
         virtual std::vector<Term*>& terms();
 
     };

@@ -171,7 +171,7 @@ namespace fl {
         return this->_terms.at(index);
     }
 
-    const std::vector<const Term*>& Accumulated::constTerms() const {
+    const std::vector<const Term*>& Accumulated::terms() const {
         return this->_terms;
     }
 

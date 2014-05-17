@@ -228,7 +228,7 @@ namespace fl {
         return this->_terms.size();
     }
 
-    const std::vector<Term*>& Variable::constTerms() const {
+    const std::vector<Term*>& Variable::terms() const {
         return this->_terms;
     }
 

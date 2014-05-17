@@ -28,26 +28,13 @@
 #include "fl/term/Discrete.h"
 
 #include <cstdarg>
+#include <memory>
 
 namespace fl {
 
-    Discrete::Discrete(const std::string& name)
-    : Term(name) {
-    }
-
-    Discrete::Discrete(const std::string& name,
-            const std::vector<scalar>& x,
-            const std::vector<scalar>& y)
-    : Term(name), x(x), y(y) {
-    }
-
     Discrete::Discrete(const std::string& name,
             const std::vector<std::pair<scalar, scalar> >& xy)
-    : Term(name) {
-        for (std::size_t i = 0; i < xy.size(); ++i) {
-            x.push_back(xy.at(i).first);
-            y.push_back(xy.at(i).second);
-        }
+    : Term(name), _xy(xy) {
     }
 
     Discrete::~Discrete() {
@@ -59,13 +46,8 @@ namespace fl {
 
     scalar Discrete::membership(scalar _x_) const {
         if (fl::Op::isNaN(_x_)) return fl::nan;
-        if (x.empty() or y.empty()) return 0.0;
-        if (x.size() != y.size()) {
-            std::ostringstream ex;
-            ex << "[discrete term] vectors x["
-                    << x.size() << "] and y[" << y.size() << "] have different sizes";
-            throw fl::Exception(ex.str(), FL_AT);
-        }
+        if (_xy.empty())
+            throw fl::Exception("[discrete error] term is empty", FL_AT);
 
         /*                ______________________
          *               /                      \
@@ -75,34 +57,35 @@ namespace fl {
          */
 
 
-        if (fl::Op::isLE(_x_, x.front())) return y.front();
-        if (fl::Op::isGE(_x_, x.back())) return y.back();
+        if (fl::Op::isLE(_x_, _xy.front().first)) return _xy.front().second;
+        if (fl::Op::isGE(_x_, _xy.back().first)) return _xy.back().second;
 
         int lower = -1, upper = -1;
 
-        for (std::size_t i = 0; i < x.size(); ++i) {
-            if (Op::isEq(x.at(i), _x_)) return y.at(i);
+        for (std::size_t i = 0; i < _xy.size(); ++i) {
+            if (Op::isEq(_xy.at(i).first, _x_)) return _xy.at(i).second;
             //approximate on the left
-            if (Op::isLt(x.at(i), _x_)) {
+            if (Op::isLt(_xy.at(i).first, _x_)) {
                 lower = i;
             }
             //get the immediate next one on the right
-            if (Op::isGt(x.at(i), _x_)) {
+            if (Op::isGt(_xy.at(i).first, _x_)) {
                 upper = i;
                 break;
             }
         }
-        if (upper < 0) upper = x.size() - 1;
+        if (upper < 0) upper = _xy.size() - 1;
         if (lower < 0) lower = 0;
 
-        return Op::scale(_x_, x.at(lower), x.at(upper), y.at(lower), y.at(upper));
+        return Op::scale(_x_, _xy.at(lower).first, _xy.at(upper).first,
+                _xy.at(lower).second, _xy.at(upper).second);
     }
 
     std::string Discrete::parameters() const {
         std::ostringstream ss;
-        for (std::size_t i = 0; i < x.size(); ++i) {
-            ss << fl::Op::str(x.at(i)) << " " << fl::Op::str(y.at(i));
-            if (i + 1 < x.size()) ss << " ";
+        for (std::size_t i = 0; i < _xy.size(); ++i) {
+            ss << fl::Op::str(_xy.at(i).first) << " " << fl::Op::str(_xy.at(i).second);
+            if (i + 1 < _xy.size()) ss << " ";
         }
         return ss.str();
     }
@@ -110,43 +93,29 @@ namespace fl {
     void Discrete::configure(const std::string& parameters) {
         if (parameters.empty()) return;
         std::vector<std::string> strValues = Op::split(parameters, " ");
-        if ((int) strValues.size() % 2 != 0) {
-            std::ostringstream ex;
-            ex << "[configuration error] term <" << className() << "> requires "
-                    "an even set of parameter values (x,y), "
-                    "but found <" << parameters.size() << "> values";
-            throw fl::Exception(ex.str(), FL_AT);
+        std::vector<scalar> values(strValues.size());
+        for (std::size_t i = 0; i < strValues.size(); ++i) {
+            values.at(i) = Op::toScalar(strValues.at(i));
         }
-
-        this->x.clear();
-        this->y.clear();
-        for (std::size_t i = 0; i + 1 < strValues.size(); i += 2) {
-            this->x.push_back(Op::toScalar(strValues.at(i)));
-            this->y.push_back(Op::toScalar(strValues.at(i + 1)));
-        }
+        this->_xy = toPairs(values, false);
     }
 
     template <typename T>
     Discrete* Discrete::create(const std::string& name, int argc,
             T x1, T y1, ...) throw (fl::Exception) {
-        if (argc % 2 != 0 or argc < 2) {
-            throw fl::Exception("[discrete term] expected an even number of "
-                    "parameters matching (x,y)+, but passed "
-                    "<" + fl::Op::str(argc) + "> parameters", FL_AT);
-        }
-        std::vector<scalar> x, y;
-        x.push_back(x1);
-        y.push_back(y1);
+        std::vector<scalar> xy(argc + 2);
+        xy.at(0) = x1;
+        xy.at(1) = y1;
         va_list args;
         va_start(args, y1);
-        bool xNext = true;
-        for (int i = 0; i < argc - 2; ++i) {
-            if (xNext) x.push_back((scalar) va_arg(args, T));
-            else y.push_back((scalar) va_arg(args, T));
-            xNext = not xNext;
+        for (int i = 2; i < argc; ++i) {
+            xy.at(i) = (scalar) va_arg(args, T);
         }
         va_end(args);
-        return new Discrete(name, x, y);
+
+        std::auto_ptr<Discrete> result(new Discrete(name));
+        result->setXY(toPairs(xy, false));
+        return result.release();
     }
 
     template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc,
@@ -155,23 +124,62 @@ namespace fl {
     template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc,
             int x1, int y1, ...) throw (fl::Exception);
 
-    std::vector<scalar> Discrete::xyValues() const {
-        std::vector<scalar> xy(x.size() + y.size());
-        std::size_t index = 0;
-        for (std::size_t i = 0; i + 1 < xy.size(); i += 2) {
-            xy.at(i) = x.at(index);
-            xy.at(i + 1) = y.at(index);
-            ++index;
-        }
-        return xy;
+    void Discrete::setXY(const std::vector<std::pair<scalar, scalar> >& pairs) {
+        this->_xy = pairs;
     }
 
-    std::vector<std::pair<scalar, scalar> > Discrete::xyPairs() const {
-        std::vector<std::pair<scalar, scalar> > result(x.size());
-        for (std::size_t i = 0; i < x.size(); ++i) {
-            result.at(i) = std::pair<scalar, scalar>(x.at(i), y.at(i));
+    const std::vector<std::pair<scalar, scalar> >& Discrete::xy() const {
+        return this->_xy;
+    }
+
+    std::vector<std::pair<scalar, scalar> >& Discrete::xy() {
+        return this->_xy;
+    }
+
+    const std::pair<scalar, scalar>& Discrete::xy(int index) const {
+        return this->_xy.at(index);
+    }
+
+    std::pair<scalar, scalar>& Discrete::xy(int index) {
+        return this->_xy.at(index);
+    }
+
+    std::vector<std::pair<scalar, scalar> > Discrete::toPairs(const std::vector<scalar>& xy, bool quiet, scalar missingValue) {
+        if (not quiet and xy.size() % 2 != 0) {
+            std::ostringstream os;
+            os << "[discrete error] missing value in set of pairs (|xy|=" << xy.size() << ")";
+            throw fl::Exception(os.str(), FL_AT);
+        }
+
+        std::vector<std::pair<scalar, scalar> > result((xy.size() + 1) / 2);
+        for (std::size_t i = 0; i + 1 < xy.size(); i += 2) {
+            result.at(i / 2).first = xy.at(i);
+            result.at(i / 2).second = xy.at(i + 1);
+        }
+        if (xy.size() % 2 != 0) {
+            result.back().first = xy.back();
+            result.back().second = missingValue;
         }
         return result;
+    }
+
+    std::vector<scalar> Discrete::toVector(const std::vector<std::pair<scalar, scalar> >& xy) {
+        std::vector<scalar> result(xy.size() * 2);
+        for (std::size_t i = 0; i < xy.size(); ++i) {
+            result.at(2 * i) = xy.at(i).first;
+            result.at(2 * i + 1) = xy.at(i).second;
+        }
+        return result;
+    }
+
+    std::string Discrete::formatXY(const std::vector<std::pair<scalar, scalar> >& xy, const std::string& prefix, const std::string& innerSeparator, const std::string& postfix, const std::string& outerSeparator) {
+        std::ostringstream os;
+        for (std::size_t i = 0; i < xy.size(); ++i) {
+            os << prefix << fl::Op::str(xy.at(i).first) << innerSeparator
+                    << fl::Op::str(xy.at(i).second) << postfix;
+            if (i + 1 < xy.size()) os << outerSeparator;
+        }
+        return os.str();
     }
 
     Discrete* Discrete::clone() const {

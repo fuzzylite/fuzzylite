@@ -306,7 +306,7 @@ namespace fl {
                         if (showInputValues) {
                             writer << "#" << fldExporter.header(engine) << "\n";
                         } else {
-                            writer << "#" << fldExporter.header(engine->constOutputVariables()) << "\n";
+                            writer << "#" << fldExporter.header(engine->outputVariables()) << "\n";
                         }
 
                     }

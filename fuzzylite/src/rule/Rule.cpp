@@ -155,7 +155,7 @@ namespace fl {
         return this->_hedges.size();
     }
 
-    const std::vector<Hedge*>& Rule::constHedges() const {
+    const std::vector<Hedge*>& Rule::hedges() const {
         return this->_hedges;
     }
 

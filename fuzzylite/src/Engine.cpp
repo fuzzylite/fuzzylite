@@ -159,7 +159,7 @@ namespace fl {
             InputVariable* inputVariable = _inputVariables.at(i);
             if (not inputVariable) {
                 ss << "- Engine <" << _name << "> has a NULL input variable at index <" << i << ">\n";
-            } else if (inputVariable->constTerms().empty()) {
+            } else if (inputVariable->terms().empty()) {
                 //ignore because sometimes inputs can be empty: takagi-sugeno/matlab/slcpp1.fis
                 //                ss << "- Input variable <" << _inputVariables.at(i)->getName() << ">"
                 //                        << " has no terms\n";
@@ -174,7 +174,7 @@ namespace fl {
             if (not outputVariable) {
                 ss << "- Engine <" << _name << "> has a NULL output variable at index <" << i << ">\n";
             } else {
-                if (outputVariable->constTerms().empty()) {
+                if (outputVariable->terms().empty()) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no terms\n";
                 }
@@ -199,7 +199,7 @@ namespace fl {
             if (not ruleblock) {
                 ss << "- Engine <" << _name << "> has a NULL rule block at index <" << i << ">\n";
             } else {
-                if (ruleblock->constRules().empty()) {
+                if (ruleblock->rules().empty()) {
                     ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no rules\n";
                 }
                 int requiresConjunction = 0;
@@ -504,7 +504,7 @@ namespace fl {
         return this->_inputVariables.size();
     }
 
-    const std::vector<InputVariable*>& Engine::constInputVariables() const {
+    const std::vector<InputVariable*>& Engine::inputVariables() const {
         return this->_inputVariables;
     }
 
@@ -575,7 +575,7 @@ namespace fl {
         return this->_outputVariables.size();
     }
 
-    const std::vector<OutputVariable*>& Engine::constOutputVariables() const {
+    const std::vector<OutputVariable*>& Engine::outputVariables() const {
         return this->_outputVariables;
     }
 
@@ -645,7 +645,7 @@ namespace fl {
         return this->_ruleblocks.size();
     }
 
-    const std::vector<RuleBlock*>& Engine::constRuleBlocks() const {
+    const std::vector<RuleBlock*>& Engine::ruleBlocks() const {
         return this->_ruleblocks;
     }
 

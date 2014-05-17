@@ -53,7 +53,7 @@ namespace fl {
         virtual void set(const std::vector<scalar>& coeffs, const Engine* engine) throw (fl::Exception);
 
         virtual void setCoefficients(const std::vector<scalar>& coeffs);
-        virtual const std::vector<scalar>& constCoefficients() const;
+        virtual const std::vector<scalar>& coefficients() const;
         virtual std::vector<scalar>& coefficients();
 
         virtual void setEngine(const Engine* engine);

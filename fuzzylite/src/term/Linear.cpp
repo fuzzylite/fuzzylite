@@ -43,26 +43,17 @@ namespace fl {
 
     scalar Linear::membership(scalar x) const {
         (void) x;
-        if (not _engine) {
-            throw fl::Exception("[linear error] term <" + getName() + "> "
-                    "requires a reference to the engine, but none was set", FL_AT);
+        if (not _engine) throw fl::Exception("[linear error] term <" + getName() + "> "
+                "is missing a reference to the engine", FL_AT);
+
+        scalar result = 0.0;
+        for (std::size_t i = 0; i < _engine->inputVariables().size(); ++i) {
+            if (i < _coefficients.size())
+                result += _coefficients.at(i) * _engine->inputVariables().at(i)->getInputValue();
         }
-        if (_coefficients.size() != _engine->constInputVariables().size() + 1) {
-            std::ostringstream ss;
-            ss << "[linear error] the number of coefficients <" << _coefficients.size() << "> "
-                    " in term <" << getName() << "> needs to be equal to the number of input variables "
-                    "<" << _engine->constInputVariables().size() << "> plus a constant c "
-                    "(e.g. ax + by + c)";
-            throw fl::Exception(ss.str(), FL_AT);
-        }
-        scalar result = 0;
-        for (std::size_t i = 0; i < _engine->constInputVariables().size(); ++i) {
-            result += _coefficients.at(i) * _engine->constInputVariables().at(i)->getInputValue();
-        }
-        if (_coefficients.size() > _engine->constInputVariables().size()) {
+        if (_coefficients.size() > _engine->inputVariables().size()) {
             result += _coefficients.back();
         }
-
         return result;
     }
 
@@ -70,14 +61,6 @@ namespace fl {
         if (not _engine) {
             throw fl::Exception("[linear error] term <" + getName() + "> "
                     "requires a reference to the engine, but none was set", FL_AT);
-        }
-        if (coeffs.size() != _engine->constInputVariables().size() + 1) {
-            std::ostringstream ss;
-            ss << "[linear error] the number of coefficients <" << coeffs.size() << "> "
-                    " in term <" << getName() << "> needs to be equal to the number of input variables "
-                    "<" << _engine->constInputVariables().size() << "> plus a constant c "
-                    "(e.g. ax + by + c)";
-            throw fl::Exception(ss.str(), FL_AT);
         }
         this->_coefficients = coeffs;
         this->_engine = engine;
@@ -87,7 +70,7 @@ namespace fl {
         this->_coefficients = coeffs;
     }
 
-    const std::vector<scalar>& Linear::constCoefficients() const {
+    const std::vector<scalar>& Linear::coefficients() const {
         return this->_coefficients;
     }
 
@@ -128,16 +111,14 @@ namespace fl {
     template <typename T>
     Linear* Linear::create(const std::string& name,
             const Engine* engine, T firstCoefficient, ...) throw (fl::Exception) {
-        if (not engine) {
-            throw fl::Exception("[linear error] cannot create term <" + name + "> "
-                    "without a reference to the engine", FL_AT);
-        }
+        if (not engine) throw fl::Exception("[linear error] cannot create term <" + name + "> "
+                "without a reference to the engine", FL_AT);
         std::vector<scalar> coefficients;
         coefficients.push_back(firstCoefficient);
 
         va_list args;
         va_start(args, firstCoefficient);
-        for (std::size_t i = 0; i < engine->constInputVariables().size(); ++i) {
+        for (std::size_t i = 0; i < engine->inputVariables().size(); ++i) {
             coefficients.push_back((scalar) va_arg(args, T));
         }
         va_end(args);

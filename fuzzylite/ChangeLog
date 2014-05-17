@@ -81,20 +81,24 @@ Version 5.0
 * Changed Linear holding of input variables for a reference to Engine
 * Added support to compare infinity values with fl::Op::isEq and therefore other comparison operators
 * Parameters of all terms are set to fl::nan by default
-* Renamed methods Engine::(input|output)Variables() and ::ruleBlocks() to Engine::const(Input|Output)Variables and ::constRuleBlocks()
 * Added methods Engine::(input|output)Variables() and ::ruleBlocks() to return mutable references
-* Renamed method Variable::terms() to Variable::constTerms()
 * Added method Variable::terms() to return mutable reference
-* Renamed method RuleBlock::rules() to ::constRules()
 * Added method RuleBlock::rules() to return mutable reference
 * Added methods Ramp::direction() and Sigmoid::direction() to represent direction of slope
-* Added methods Discrete::xyValues() and ::xyPairs()
 * Added method fl::Op::isFinite(x) to check x is not (nan or inf)
 * Changed fl::Op::isEq(a,b) to return true if a = b = NaN
-* Renamed method Accumulated::terms() to Variable::constTerms()
 * Added method Accumulated::terms() to return mutable reference
 * Changed visibility of Linear::coefficients to protected
-* Added methods Linear::coefficients(), Linear::constCoefficients(), Linear::setCoefficients()
+* Added methods Linear::coefficients(), Linear::setCoefficients()
+* Removed public variables Discrete::x,y
+* Changed representation of Discrete::(x,y) from std::vector<scalar> to std::vector<std::pair<scalar,scalar>>
+* Added methods Discrete::setXY(), Discrete::xy(), ::xy(int) to set and get new representation
+* Added methods Discrete::toPairs(std::vector<scalar>) and Discrete::toVector(std::vector<std::pair<scalar,scalar>>)
+* Added method Discrete::formatXY() to get pairs (x,y) nicely formatted
+* Linear term no longer throws exception when inputVariables != |coefficients|
+* Changed visibility of Function::root to protected and renamed it to Function::_root
+* Added method Function::root() to return pointer to Function::_root
+* Added option to prefix the namespace in CppExporter, by default it does not prefix
 
 
 Version 4.0

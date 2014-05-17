@@ -192,10 +192,10 @@ namespace fl {
         if (term->className() == Discrete().className()) {
             const Discrete* discrete = dynamic_cast<const Discrete*> (term);
             std::ostringstream ss;
-            for (std::size_t i = 0; i < discrete->x.size(); ++i) {
-                ss << "(" << fl::Op::str(discrete->x.at(i)) << ", "
-                        << fl::Op::str(discrete->y.at(i)) << ")";
-                if (i + 1 < discrete->x.size()) ss << " ";
+            for (std::size_t i = 0; i < discrete->xy().size(); ++i) {
+                ss << "(" << fl::Op::str(discrete->xy(i).first) << ", "
+                        << fl::Op::str(discrete->xy(i).second) << ")";
+                if (i + 1 < discrete->xy().size()) ss << " ";
             }
             return ss.str();
         }

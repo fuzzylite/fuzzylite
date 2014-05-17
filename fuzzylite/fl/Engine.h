@@ -121,7 +121,7 @@ namespace fl {
         virtual InputVariable* removeInputVariable(const std::string& name);
         virtual bool hasInputVariable(const std::string& name) const;
         virtual int numberOfInputVariables() const;
-        virtual const std::vector<InputVariable*>& constInputVariables() const;
+        virtual const std::vector<InputVariable*>& inputVariables() const;
         virtual void setInputVariables(const std::vector<InputVariable*>& inputVariables);
         virtual std::vector<InputVariable*>& inputVariables();
 
@@ -137,7 +137,7 @@ namespace fl {
         virtual OutputVariable* removeOutputVariable(int index);
         virtual OutputVariable* removeOutputVariable(const std::string& name);
         virtual int numberOfOutputVariables() const;
-        virtual const std::vector<OutputVariable*>& constOutputVariables() const;
+        virtual const std::vector<OutputVariable*>& outputVariables() const;
         virtual void setOutputVariables(const std::vector<OutputVariable*>& outputVariables);
         virtual std::vector<OutputVariable*>& outputVariables();
 
@@ -153,7 +153,7 @@ namespace fl {
         virtual RuleBlock* removeRuleBlock(int index);
         virtual RuleBlock* removeRuleBlock(const std::string& name);
         virtual int numberOfRuleBlocks() const;
-        virtual const std::vector<RuleBlock*>& constRuleBlocks() const;
+        virtual const std::vector<RuleBlock*>& ruleBlocks() const;
         virtual void setRuleBlocks(const std::vector<RuleBlock*>& ruleBlocks);
         virtual std::vector<RuleBlock*>& ruleBlocks();
 

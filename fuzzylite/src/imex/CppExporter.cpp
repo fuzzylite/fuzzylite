@@ -33,7 +33,7 @@
 
 namespace fl {
 
-    CppExporter::CppExporter() {
+    CppExporter::CppExporter(bool prefixNamespace) : _prefixNamespace(prefixNamespace) {
     }
 
     CppExporter::~CppExporter() {
@@ -43,9 +43,14 @@ namespace fl {
         return "CppExporter";
     }
 
+    std::string CppExporter::fl(const std::string& clazz) const {
+        return _prefixNamespace ? "fl::" + clazz : clazz;
+    }
+
     std::string CppExporter::toString(const Engine* engine) const {
         std::ostringstream cpp;
-        cpp << "fl::Engine* engine = new fl::Engine;\n";
+        if (not _prefixNamespace) cpp << "using namespace fl;\n\n";
+        cpp << fl("Engine* ") << "engine = new " << fl("Engine;\n");
         cpp << "engine->setName(\"" << engine->getName() << "\");\n";
 
         cpp << "\n";
@@ -69,12 +74,12 @@ namespace fl {
         std::ostringstream ss;
         std::string name = "inputVariable";
         if (engine->numberOfInputVariables() > 1) {
-            int index = std::distance(engine->constInputVariables().begin(),
-                    std::find(engine->constInputVariables().begin(),
-                    engine->constInputVariables().end(), inputVariable));
+            int index = std::distance(engine->inputVariables().begin(),
+                    std::find(engine->inputVariables().begin(),
+                    engine->inputVariables().end(), inputVariable));
             name += Op::str<int>(index + 1);
         }
-        ss << "fl::InputVariable* " << name << " = new fl::InputVariable;\n";
+        ss << fl("InputVariable* ") << name << " = new " << fl("InputVariable;\n");
         ss << name << "->setEnabled(" << (inputVariable->isEnabled() ? "true" : "false") << ");\n";
         ss << name << "->setName(\"" << inputVariable->getName() << "\");\n";
         ss << name << "->setRange(" <<
@@ -91,12 +96,12 @@ namespace fl {
         std::ostringstream ss;
         std::string name = "outputVariable";
         if (engine->numberOfOutputVariables() > 1) {
-            int index = std::distance(engine->constOutputVariables().begin(),
-                    std::find(engine->constOutputVariables().begin(),
-                    engine->constOutputVariables().end(), outputVariable));
+            int index = std::distance(engine->outputVariables().begin(),
+                    std::find(engine->outputVariables().begin(),
+                    engine->outputVariables().end(), outputVariable));
             name += Op::str<int>(index + 1);
         }
-        ss << "fl::OutputVariable* " << name << " = new fl::OutputVariable;\n";
+        ss << fl("OutputVariable* ") << name << " = new " << fl("OutputVariable;\n");
         ss << name << "->setEnabled(" << (outputVariable->isEnabled() ? "true" : "false") << ");\n";
         ss << name << "->setName(\"" << outputVariable->getName() << "\");\n";
         ss << name << "->setRange(" <<
@@ -123,12 +128,12 @@ namespace fl {
         std::ostringstream ss;
         std::string name = "ruleBlock";
         if (engine->numberOfRuleBlocks() > 1) {
-            int index = std::distance(engine->constRuleBlocks().begin(),
-                    std::find(engine->constRuleBlocks().begin(),
-                    engine->constRuleBlocks().end(), ruleBlock));
+            int index = std::distance(engine->ruleBlocks().begin(),
+                    std::find(engine->ruleBlocks().begin(),
+                    engine->ruleBlocks().end(), ruleBlock));
             name += Op::str<int>(index + 1);
         }
-        ss << "fl::RuleBlock* " << name << " = new fl::RuleBlock;\n";
+        ss << fl("RuleBlock* ") << name << " = new " << fl("RuleBlock;\n");
         ss << name << "->setEnabled(" << (ruleBlock->isEnabled() ? "true" : "false") << ");\n";
         ss << name << "->setName(\"" << ruleBlock->getName() << "\");\n";
         ss << name << "->setConjunction(" <<
@@ -161,21 +166,16 @@ namespace fl {
         if (term->className() == Discrete().className()) {
             const Discrete* discrete = dynamic_cast<const Discrete*> (term);
             std::ostringstream ss;
-            ss << "fl::" << term->className() << "::create(\"" << term->getName() << "\", ";
-            ss << discrete->x.size() + discrete->y.size() << ", ";
-            for (std::size_t i = 0; i < discrete->x.size(); ++i) {
-                ss << fl::Op::str(discrete->x.at(i)) << ", "
-                        << fl::Op::str(discrete->y.at(i));
-                if (i + 1 < discrete->x.size()) ss << ", ";
-            }
-            ss << ")";
+            ss << fl(term->className()) << "::create(\"" << term->getName() << "\", "
+                    << discrete->xy().size() * 2 << ", "
+                    << fl::Op::join(Discrete::toVector(discrete->xy()), ", ") << ")";
             return ss.str();
         }
 
         if (term->className() == Function().className()) {
             const Function* function = dynamic_cast<const Function*> (term);
             std::ostringstream ss;
-            ss << "fl::" << term->className() << "::create(\"" << term->getName() << "\", "
+            ss << fl(term->className()) << "::create(\"" << term->getName() << "\", "
                     << "\"" << function->getFormula() << "\", engine)";
             return ss.str();
         }
@@ -183,30 +183,30 @@ namespace fl {
         if (term->className() == Linear().className()) {
             const Linear* linear = dynamic_cast<const Linear*> (term);
             std::ostringstream ss;
-            ss << "fl::" << term->className() << "::create(\"" << term->getName() << "\", "
-                    << "engine, " << fl::Op::join(linear->constCoefficients(), ", ") << ")";
+            ss << fl(term->className()) << "::create(\"" << term->getName() << "\", "
+                    << "engine, " << fl::Op::join(linear->coefficients(), ", ") << ")";
             return ss.str();
         }
 
         std::ostringstream ss;
-        ss << "new fl::" << term->className() << "(\"" << term->getName() << "\", "
+        ss << "new " << fl(term->className()) << "(\"" << term->getName() << "\", "
                 << Op::findReplace(term->parameters(), " ", ", ") << ")";
         return ss.str();
     }
 
     std::string CppExporter::toString(const Hedge * hedge) const {
-        if (hedge->name() == Any().name()) return "new fl::Any";
-        if (hedge->name() == Extremely().name()) return "new fl::Extremely";
-        if (hedge->name() == Not().name()) return "new fl::Not";
-        if (hedge->name() == Seldom().name()) return "new fl::Seldom";
-        if (hedge->name() == Somewhat().name()) return "new fl::Somewhat";
-        if (hedge->name() == Very().name()) return "new fl::Very";
-        return "new " + hedge->name();
+        if (hedge->name() == Any().name()) return "new " + fl("Any");
+        if (hedge->name() == Extremely().name()) return "new " + fl("Extremely");
+        if (hedge->name() == Not().name()) return "new " + fl("Not");
+        if (hedge->name() == Seldom().name()) return "new " + fl("Seldom");
+        if (hedge->name() == Somewhat().name()) return "new " + fl("Somewhat");
+        if (hedge->name() == Very().name()) return "new " + fl("Very");
+        return "new " + fl(hedge->name());
     }
 
     std::string CppExporter::toString(const Norm* op) const {
         if (not op) return "NULL";
-        return "new fl::" + op->className();
+        return "new " + fl(op->className());
     }
 
     std::string CppExporter::toString(const Defuzzifier* defuzzifier) const {
@@ -214,10 +214,10 @@ namespace fl {
         const IntegralDefuzzifier* integralDefuzzifier =
                 dynamic_cast<const IntegralDefuzzifier*> (defuzzifier);
         if (integralDefuzzifier) {
-            return "new fl::" + integralDefuzzifier->className() + "("
+            return "new " + fl(integralDefuzzifier->className()) + "("
                     + fl::Op::str(integralDefuzzifier->getResolution()) + ")";
         }
-        return "new fl::" + defuzzifier->className();
+        return "new " + fl(defuzzifier->className());
     }
 
     CppExporter* CppExporter::clone() const {

@@ -84,7 +84,7 @@ namespace fl {
         virtual const Term* getTerm(int index) const;
         virtual const Term* removeTerm(int index);
         virtual int numberOfTerms() const;
-        virtual const std::vector<const Term*>& constTerms() const;
+        virtual const std::vector<const Term*>& terms() const;
         virtual std::vector<const Term*>& terms();
         virtual bool isEmpty() const;
         virtual void clear();

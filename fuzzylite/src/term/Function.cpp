@@ -258,28 +258,28 @@ namespace fl {
      **********************************/
     Function::Function(const std::string& name,
             const std::string& formula, const Engine* engine)
-    : Term(name), _formula(formula), _engine(engine), root(NULL) {
+    : Term(name), _root(NULL), _formula(formula), _engine(engine) {
     }
 
     Function::Function(const Function& source) : Term(source),
-    _formula(source._formula), _engine(source._engine), root(NULL) {
-        if (source.root) root = source.root->clone();
+    _root(NULL), _formula(source._formula), _engine(source._engine) {
+        if (source._root) _root = source._root->clone();
     }
 
     Function& Function::operator =(const Function& rhs) {
         if (this == &rhs) return *this;
-        if (root) delete root;
-        root = NULL;
+        if (_root) delete _root;
+        _root = NULL;
 
         Term::operator =(rhs);
         _formula = rhs._formula;
         _engine = rhs._engine;
-        if (rhs.root) root = rhs.root->clone();
+        if (rhs._root) _root = rhs._root->clone();
         return *this;
     }
 
     Function::~Function() {
-        if (this->root) delete this->root;
+        if (this->_root) delete this->_root;
     }
 
     std::string Function::className() const {
@@ -287,7 +287,7 @@ namespace fl {
     }
 
     scalar Function::membership(scalar x) const {
-        if (not this->root) return fl::nan;
+        if (not this->_root) return fl::nan;
         if (this->_engine) {
             for (int i = 0; i < this->_engine->numberOfInputVariables(); ++i) {
                 InputVariable* input = this->_engine->getInputVariable(i);
@@ -303,11 +303,11 @@ namespace fl {
     }
 
     scalar Function::evaluate(const std::map<std::string, scalar>* localVariables) const {
-        if (not this->root)
+        if (not this->_root)
             throw fl::Exception("[function error] evaluation failed because the function is not loaded", FL_AT);
         if (localVariables)
-            return this->root->evaluate(localVariables);
-        return this->root->evaluate(&this->variables);
+            return this->_root->evaluate(localVariables);
+        return this->_root->evaluate(&this->variables);
     }
 
     std::string Function::parameters() const {
@@ -326,9 +326,9 @@ namespace fl {
     }
 
     void Function::unload() {
-        if (this->root) {
-            delete this->root;
-            this->root = NULL;
+        if (this->_root) {
+            delete this->_root;
+            this->_root = NULL;
         }
     }
 
@@ -346,7 +346,7 @@ namespace fl {
         this->_formula = formula;
         this->_engine = engine;
         std::auto_ptr<Node> node(parse(formula));
-        this->root = node.release();
+        this->_root = node.release();
         membership(0.0); //make sure function evaluates without throwing exception.
     }
 
@@ -364,6 +364,10 @@ namespace fl {
 
     const Engine* Function::getEngine() const {
         return this->_engine;
+    }
+
+    Function::Node* Function::root() const {
+        return this->_root;
     }
 
     Function* Function::clone() const {

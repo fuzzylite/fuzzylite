@@ -68,9 +68,9 @@ namespace fl {
         std::ostringstream ss;
         std::string name = "inputVariable";
         if (engine->numberOfInputVariables() > 1) {
-            int index = std::distance(engine->constInputVariables().begin(),
-                    std::find(engine->constInputVariables().begin(),
-                    engine->constInputVariables().end(), inputVariable));
+            int index = std::distance(engine->inputVariables().begin(),
+                    std::find(engine->inputVariables().begin(),
+                    engine->inputVariables().end(), inputVariable));
             name += Op::str<int>(index + 1);
         }
         ss << "InputVariable " << name << " = new InputVariable();\n";
@@ -92,9 +92,9 @@ namespace fl {
         std::ostringstream ss;
         std::string name = "outputVariable";
         if (engine->numberOfOutputVariables() > 1) {
-            int index = std::distance(engine->constOutputVariables().begin(),
-                    std::find(engine->constOutputVariables().begin(),
-                    engine->constOutputVariables().end(), outputVariable));
+            int index = std::distance(engine->outputVariables().begin(),
+                    std::find(engine->outputVariables().begin(),
+                    engine->outputVariables().end(), outputVariable));
             name += Op::str<int>(index + 1);
         }
         ss << "OutputVariable " << name << " = new OutputVariable();\n";
@@ -125,9 +125,9 @@ namespace fl {
         std::ostringstream ss;
         std::string name = "ruleBlock";
         if (engine->numberOfRuleBlocks() > 1) {
-            int index = std::distance(engine->constRuleBlocks().begin(),
-                    std::find(engine->constRuleBlocks().begin(),
-                    engine->constRuleBlocks().end(), ruleBlock));
+            int index = std::distance(engine->ruleBlocks().begin(),
+                    std::find(engine->ruleBlocks().begin(),
+                    engine->ruleBlocks().end(), ruleBlock));
             name += Op::str<int>(index + 1);
         }
         ss << "RuleBlock " << name << " = new RuleBlock();\n";
@@ -156,12 +156,8 @@ namespace fl {
             const Discrete* discrete = dynamic_cast<const Discrete*> (term);
             std::ostringstream ss;
             std::vector<scalar> xy;
-            for (std::size_t i = 0; i < discrete->x.size(); ++i) {
-                xy.push_back(discrete->x.at(i));
-                xy.push_back(discrete->y.at(i));
-            }
             ss << term->className() << ".create(\"" << term->getName() << "\", "
-                    << Op::join(xy, ", ") << ")";
+                    << Op::join(Discrete::toVector(discrete->xy()), ", ") << ")";
             return ss.str();
         }
 
@@ -178,7 +174,7 @@ namespace fl {
             const Linear* linear = dynamic_cast<const Linear*> (term);
             std::ostringstream ss;
             ss << term->className() << ".create(\"" << term->getName() << "\", "
-                    << "engine, " << Op::join(linear->constCoefficients(), ", ") << ")";
+                    << "engine, " << Op::join(linear->coefficients(), ", ") << ")";
             return ss.str();
         }
 

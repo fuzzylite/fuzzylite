@@ -113,11 +113,10 @@ namespace fl {
          ******************************/
 
     protected:
+        Node* _root;
         std::string _formula;
         const Engine* _engine;
-
     public:
-        Node* root;
         mutable std::map<std::string, scalar> variables;
         Function(const std::string& name = "",
                 const std::string& formula = "", const Engine* engine = NULL);
@@ -142,6 +141,8 @@ namespace fl {
 
         virtual void setEngine(const Engine* engine);
         virtual const Engine* getEngine() const;
+
+        virtual Node* root() const;
 
         virtual void unload();
         virtual void load() throw (fl::Exception);

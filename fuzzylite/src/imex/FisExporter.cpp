@@ -352,13 +352,8 @@ namespace fl {
         }
 
         if (term->className() == Discrete().className()) {
-            ss << "'discretemf',[";
             const Discrete* x = dynamic_cast<const Discrete*> (term);
-            for (std::size_t i = 0; i < x->x.size(); ++i) {
-                ss << fl::Op::str(x->x.at(i)) << " " << fl::Op::str(x->y.at(i));
-                if (i + 1 < x->x.size()) ss << " ";
-            }
-            ss << "]";
+            ss << "'discretemf',[" << fl::Op::join(Discrete::toVector(x->xy()), " ") << "]";
             return ss.str();
         }
 
@@ -385,7 +380,7 @@ namespace fl {
 
         if (term->className() == Linear().className()) {
             const Linear* x = dynamic_cast<const Linear*> (term);
-            ss << "'linear',[" << fl::Op::join<scalar>(x->constCoefficients(), " ") << "]";
+            ss << "'linear',[" << fl::Op::join<scalar>(x->coefficients(), " ") << "]";
             return ss.str();
         }
 

@@ -41,8 +41,11 @@ namespace fl {
     class Hedge;
 
     class FL_EXPORT CppExporter : public Exporter {
+    protected:
+        bool _prefixNamespace;
+        virtual std::string fl(const std::string& clazz) const;
     public:
-        CppExporter();
+        CppExporter(bool prefixNamespace = false);
         virtual ~CppExporter();
         virtual std::string name() const;
         virtual std::string toString(const Engine* engine) const;

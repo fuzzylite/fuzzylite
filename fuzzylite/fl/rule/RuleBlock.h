@@ -89,8 +89,8 @@ namespace fl {
         virtual Rule* getRule(int index) const;
         virtual Rule* removeRule(int index);
         virtual int numberOfRules() const;
-        virtual const std::vector<Rule*>& constRules() const;
         virtual void setRules(const std::vector<Rule*>& rules);
+        virtual const std::vector<Rule*>& rules() const;
         virtual std::vector<Rule*>& rules();
 
     };
