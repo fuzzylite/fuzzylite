@@ -132,10 +132,8 @@ namespace fl {
                 }
 
                 if (state bitand S_HEDGE) {
-                    Hedge* hedge = NULL;
-                    if (rule->hasHedge(token)) {
-                        hedge = rule->getHedge(token);
-                    } else {
+                    Hedge* hedge = rule->getHedge(token);
+                    if (not hedge) {
                         std::vector<std::string> hedges = FactoryManager::instance()->hedge()->available();
                         if (std::find(hedges.begin(), hedges.end(), token) != hedges.end()) {
                             hedge = FactoryManager::instance()->hedge()->constructObject(token);
