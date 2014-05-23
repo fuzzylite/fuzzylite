@@ -141,6 +141,10 @@ namespace fl {
     }
 
     void OutputVariable::defuzzify() {
+        if (fl::Op::isFinite(this->_outputValue)) {
+            this->_previousOutputValue = this->_outputValue;
+        }
+
         scalar result = fl::nan;
         bool isValid = this->_enabled and not this->_fuzzyOutput->isEmpty();
         if (isValid) {
@@ -157,10 +161,6 @@ namespace fl {
 
         if (_lockOutputValueInRange) {
             result = fl::Op::bound(result, _minimum, _maximum);
-        }
-        
-        if (fl::Op::isFinite(this->_outputValue)){
-            this->_previousOutputValue = this->_outputValue;
         }
 
         this->_outputValue = result;
