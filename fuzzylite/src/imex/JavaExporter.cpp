@@ -110,9 +110,9 @@ namespace fl {
         ss << name << ".setDefaultValue(" <<
                 toString(outputVariable->getDefaultValue()) << ");\n";
         ss << name << ".setLockValidOutput(" <<
-                (outputVariable->isLockingValidOutput() ? "true" : "false") << ");\n";
+                (outputVariable->isLockedPreviousOutputValue() ? "true" : "false") << ");\n";
         ss << name << ".setLockOutputRange(" <<
-                (outputVariable->isLockingOutputRange() ? "true" : "false") << ");\n";
+                (outputVariable->isLockedOutputValueInRange() ? "true" : "false") << ");\n";
         for (int i = 0; i < outputVariable->numberOfTerms(); ++i) {
             ss << name << ".addTerm(" <<
                     toString(outputVariable->getTerm(i)) << ");\n";

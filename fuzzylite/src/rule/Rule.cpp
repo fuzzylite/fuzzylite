@@ -103,63 +103,45 @@ namespace fl {
      * Operations for std::vector _hedges
      */
     void Rule::addHedge(Hedge* hedge) {
-        this->_hedges.push_back(hedge);
-    }
-
-    void Rule::insertHedge(Hedge* hedge, int index) {
-        this->_hedges.insert(this->_hedges.begin() + index, hedge);
-    }
-
-    Hedge* Rule::getHedge(int index) const {
-        return this->_hedges.at(index);
+        this->_hedges[hedge->name()] = hedge;
     }
 
     Hedge* Rule::getHedge(const std::string& name) const {
-        for (std::size_t i = 0; i < this->_hedges.size(); ++i) {
-            if (name == this->_hedges.at(i)->name())
-                return this->_hedges.at(i);
+        std::map<std::string, Hedge*>::const_iterator it = this->_hedges.find(name);
+        if (it != this->_hedges.end()) {
+            if (it->second) return it->second;
         }
-        throw fl::Exception("[engine error] hedge <" + name + "> not found", FL_AT);
-    }
-
-    bool Rule::hasHedge(const std::string& name) const {
-        for (std::size_t i = 0; i < this->_hedges.size(); ++i) {
-            if (name == this->_hedges.at(i)->name())
-                return true;
-        }
-        return false;
-    }
-
-    Hedge* Rule::removeHedge(int index) {
-        Hedge* result = this->_hedges.at(index);
-        this->_hedges.erase(this->_hedges.begin() + index);
-        return result;
+        return NULL;
     }
 
     Hedge* Rule::removeHedge(const std::string& name) {
-        for (std::size_t i = 0; i < this->_hedges.size(); ++i) {
-            if (name == this->_hedges.at(i)->name()) {
-                Hedge* result = this->_hedges.at(i);
-                this->_hedges.erase(this->_hedges.begin() + i);
-                return result;
-            }
+        Hedge* result = NULL;
+        std::map<std::string, Hedge*>::iterator it = this->_hedges.find(name);
+        if (it != this->_hedges.end()) {
+            result = it->second;
+            this->_hedges.erase(it);
         }
-        throw fl::Exception("[engine error] hedge <" + name + "> not found", FL_AT);
+        return result;
+    }
+
+    bool Rule::hasHedge(const std::string& name) const {
+        std::map<std::string, Hedge*>::const_iterator it = this->_hedges.find(name);
+        return (it != this->_hedges.end());
     }
 
     int Rule::numberOfHedges() const {
         return this->_hedges.size();
     }
 
-    const std::vector<Hedge*>& Rule::hedges() const {
-        return this->_hedges;
-    }
-
-    void Rule::setHedges(const std::vector<Hedge*>& hedges) {
+    void Rule::setHedges(const std::map<std::string, Hedge*>& hedges) {
         this->_hedges = hedges;
     }
 
-    std::vector<Hedge*>& Rule::hedges() {
+    const std::map<std::string, Hedge*>& Rule::hedges() const {
+        return this->_hedges;
+    }
+
+    std::map<std::string, Hedge*>& Rule::hedges() {
         return this->_hedges;
     }
 
@@ -184,8 +166,10 @@ namespace fl {
     void Rule::unload() {
         _antecedent->unload();
         _consequent->unload();
-        for (std::size_t i = 0; i < _hedges.size(); ++i) {
-            delete _hedges.at(i);
+
+        for (std::map<std::string, Hedge*>::const_iterator it = _hedges.begin();
+                it != _hedges.end(); ++it) {
+            delete it->second;
         }
         _hedges.clear();
     }
@@ -196,7 +180,7 @@ namespace fl {
 
     void Rule::load(const std::string& rule, const Engine* engine) {
         this->_text = rule;
-        std::istringstream tokenizer(rule);
+        std::istringstream tokenizer(rule.substr(0, rule.find_first_of('#')));
         std::string token;
         std::ostringstream ossAntecedent, ossConsequent;
         scalar weight = 1.0;
@@ -246,7 +230,7 @@ namespace fl {
             }
             if (state == S_NONE) {
                 std::ostringstream ex;
-                ex << "[syntax error] keyword <" << Rule::ifKeyword() << "> not found in rule: " << rule;
+                ex << "[syntax error] " << (rule.empty() ? "empty rule" : "ignored rule: " + rule );
                 throw fl::Exception(ex.str(), FL_AT);
             } else if (state == S_IF) {
                 std::ostringstream ex;

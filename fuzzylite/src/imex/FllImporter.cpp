@@ -164,10 +164,10 @@ namespace fl {
                 outputVariable->setRange(range.first, range.second);
             } else if ("default" == keyValue.first) {
                 outputVariable->setDefaultValue(Op::toScalar(keyValue.second));
-            } else if ("lock-valid" == keyValue.first) {
-                outputVariable->setLockValidOutput(parseBoolean(keyValue.second));
+            } else if ("lock-previous" == keyValue.first) {
+                outputVariable->setLockPreviousOutputValue(parseBoolean(keyValue.second));
             } else if ("lock-range" == keyValue.first) {
-                outputVariable->setLockOutputRange(parseBoolean(keyValue.second));
+                outputVariable->setLockOutputValueInRange(parseBoolean(keyValue.second));
             } else if ("defuzzifier" == keyValue.first) {
                 outputVariable->setDefuzzifier(parseDefuzzifier(keyValue.second));
             } else if ("accumulation" == keyValue.first) {

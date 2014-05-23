@@ -248,10 +248,7 @@ namespace fl {
             _inputVariables.at(i)->setInputValue(fl::nan);
         }
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            OutputVariable* outputVariable = _outputVariables.at(i);
-            outputVariable->fuzzyOutput()->clear();
-            outputVariable->setLastValidOutputValue(fl::nan);
-            outputVariable->setOutputValue(fl::nan);
+            _outputVariables.at(i)->clear();
         }
     }
 
@@ -300,10 +297,10 @@ namespace fl {
                         << outputVariable->getDefaultValue());
 
                 FL_DBG(outputVariable->getName() << ".lockRange = "
-                        << outputVariable->isLockingOutputRange());
+                        << outputVariable->isLockedOutputValueInRange());
 
                 FL_DBG(outputVariable->getName() << ".lockValid = "
-                        << outputVariable->isLockingValidOutput());
+                        << outputVariable->isLockedPreviousOutputValue());
 
                 scalar output = outputVariable->getOutputValue();
                 (void) output;
@@ -343,8 +340,8 @@ namespace fl {
 
     Engine::Type Engine::type(std::string* name) const {
         if (_outputVariables.empty()) {
-            if (name) *name = "";
-            return Engine::None;
+            if (name) *name = "Unknown";
+            return Engine::Unknown;
         }
 
         //Mamdani

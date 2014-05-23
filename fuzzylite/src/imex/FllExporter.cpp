@@ -134,10 +134,10 @@ namespace fl {
         result.push_back(_indent + "defuzzifier: " +
                 toString(outputVariable->getDefuzzifier()));
         result.push_back(_indent + "default: " + Op::str(outputVariable->getDefaultValue()));
-        result.push_back(_indent + "lock-valid: " +
-                (outputVariable->isLockingValidOutput() ? "true" : "false"));
+        result.push_back(_indent + "lock-previous: " +
+                (outputVariable->isLockedPreviousOutputValue() ? "true" : "false"));
         result.push_back(_indent + "lock-range: " +
-                (outputVariable->isLockingOutputRange() ? "true" : "false"));
+                (outputVariable->isLockedOutputValueInRange() ? "true" : "false"));
         for (int i = 0; i < outputVariable->numberOfTerms(); ++i) {
             result.push_back(_indent + toString(outputVariable->getTerm(i)));
         }

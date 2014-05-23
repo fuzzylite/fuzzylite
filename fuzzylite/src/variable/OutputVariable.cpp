@@ -41,8 +41,8 @@ namespace fl {
             scalar minimum, scalar maximum)
     : Variable(name, minimum, maximum),
     _fuzzyOutput(new Accumulated(name, minimum, maximum)), _outputValue(fl::nan),
-    _lastValidOutputValue(fl::nan), _defaultValue(fl::nan),
-    _lockOutputRange(false), _lockValidOutput(false) {
+    _previousOutputValue(fl::nan), _defaultValue(fl::nan),
+    _lockOutputValueInRange(false), _lockPreviousOutputValue(false) {
     }
 
     OutputVariable::OutputVariable(const OutputVariable& copy) : Variable(copy) {
@@ -67,10 +67,10 @@ namespace fl {
         _fuzzyOutput = rhs._fuzzyOutput->clone();
         if (rhs._defuzzifier.get()) _defuzzifier.reset(rhs._defuzzifier->clone());
         _outputValue = rhs._outputValue;
-        _lastValidOutputValue = rhs._lastValidOutputValue;
+        _previousOutputValue = rhs._previousOutputValue;
         _defaultValue = rhs._defaultValue;
-        _lockOutputRange = rhs._lockOutputRange;
-        _lockValidOutput = rhs._lockValidOutput;
+        _lockOutputValueInRange = rhs._lockOutputValueInRange;
+        _lockPreviousOutputValue = rhs._lockPreviousOutputValue;
     }
 
     void OutputVariable::setName(const std::string& name) {
@@ -108,12 +108,12 @@ namespace fl {
         return this->_outputValue;
     }
 
-    void OutputVariable::setLastValidOutputValue(scalar defuzzifiedValue) {
-        this->_lastValidOutputValue = defuzzifiedValue;
+    void OutputVariable::setPreviousOutputValue(scalar previousOutputValue) {
+        this->_previousOutputValue = previousOutputValue;
     }
 
-    scalar OutputVariable::getLastValidOutputValue() const {
-        return this->_lastValidOutputValue;
+    scalar OutputVariable::getPreviousOutputValue() const {
+        return this->_previousOutputValue;
     }
 
     void OutputVariable::setDefaultValue(scalar defaultValue) {
@@ -124,44 +124,46 @@ namespace fl {
         return this->_defaultValue;
     }
 
-    void OutputVariable::setLockOutputRange(bool lock) {
-        this->_lockOutputRange = lock;
+    void OutputVariable::setLockOutputValueInRange(bool lockOutputValueInRange) {
+        this->_lockOutputValueInRange = lockOutputValueInRange;
     }
 
-    bool OutputVariable::isLockingOutputRange() const {
-        return this->_lockOutputRange;
+    bool OutputVariable::isLockedOutputValueInRange() const {
+        return this->_lockOutputValueInRange;
     }
 
-    void OutputVariable::setLockValidOutput(bool lock) {
-        this->_lockValidOutput = lock;
+    void OutputVariable::setLockPreviousOutputValue(bool lockPreviousOutputValue) {
+        this->_lockPreviousOutputValue = lockPreviousOutputValue;
     }
 
-    bool OutputVariable::isLockingValidOutput() const {
-        return this->_lockValidOutput;
+    bool OutputVariable::isLockedPreviousOutputValue() const {
+        return this->_lockPreviousOutputValue;
     }
 
     void OutputVariable::defuzzify() {
+        if (fl::Op::isFinite(this->_outputValue)) {
+            this->_previousOutputValue = this->_outputValue;
+        }
+
         scalar result = fl::nan;
         bool isValid = this->_enabled and not this->_fuzzyOutput->isEmpty();
         if (isValid) {
             result = this->_defuzzifier->defuzzify(this->_fuzzyOutput, _minimum, _maximum);
         } else {
             //if a previous defuzzification was successfully performed and
-            //and the output is supposed to not change when the output is empty
-            if (_lockValidOutput and not Op::isNaN(_lastValidOutputValue)) {
-                result = _lastValidOutputValue;
+            //and the output value is supposed not to change when the output is empty
+            if (_lockPreviousOutputValue and not Op::isNaN(_previousOutputValue)) {
+                result = _previousOutputValue;
             } else {
                 result = _defaultValue;
             }
         }
 
-        if (_lockOutputRange) {
+        if (_lockOutputValueInRange) {
             result = fl::Op::bound(result, _minimum, _maximum);
         }
 
-        if (isValid) _lastValidOutputValue = result;
-
-        _outputValue = result;
+        this->_outputValue = result;
     }
 
     std::string OutputVariable::fuzzyOutputValue() const {
@@ -186,6 +188,12 @@ namespace fl {
             ss << "/" << _terms.at(i)->getName();
         }
         return ss.str();
+    }
+
+    void OutputVariable::clear() {
+        fuzzyOutput()->clear();
+        setPreviousOutputValue(fl::nan);
+        setOutputValue(fl::nan);
     }
 
     std::string OutputVariable::toString() const {

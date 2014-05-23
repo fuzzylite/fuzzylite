@@ -109,12 +109,12 @@ namespace fl {
                 fcl << _indent << "ACCU : " << toString(outputVariable->fuzzyOutput()->getAccumulation()) << ";\n";
 
             fcl << _indent << "DEFAULT := " << fl::Op::str(outputVariable->getDefaultValue());
-            if (outputVariable->isLockingValidOutput()) {
+            if (outputVariable->isLockedPreviousOutputValue()) {
                 fcl << " | NC";
             }
             fcl << ";\n";
 
-            if (outputVariable->isLockingOutputRange()) {
+            if (outputVariable->isLockedOutputValueInRange()) {
                 fcl << _indent << "LOCK : RANGE;\n";
             }
 

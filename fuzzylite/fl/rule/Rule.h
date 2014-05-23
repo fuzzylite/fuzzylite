@@ -31,7 +31,7 @@
 #include "fl/fuzzylite.h"
 
 #include <string>
-#include <vector>
+#include <map>
 
 namespace fl {
     class Engine;
@@ -47,7 +47,7 @@ namespace fl {
         scalar _weight;
         Antecedent* _antecedent;
         Consequent* _consequent;
-        std::vector<Hedge*> _hedges; //TODO: Change to a set.
+        std::map<std::string, Hedge*> _hedges;
 
     public:
         Rule(const std::string& text = "", scalar weight = 1.0);
@@ -68,17 +68,13 @@ namespace fl {
         virtual Consequent* getConsequent() const;
 
         virtual void addHedge(Hedge* hedge);
-        virtual void insertHedge(Hedge* hedge, int index);
-        virtual Hedge* getHedge(int index) const;
         virtual Hedge* getHedge(const std::string& name) const;
+        virtual Hedge* removeHedge(const std::string& hedge);
         virtual bool hasHedge(const std::string& name) const;
-        virtual Hedge* removeHedge(int index);
-        virtual Hedge* removeHedge(const std::string& name);
         virtual int numberOfHedges() const;
-        virtual void setHedges(const std::vector<Hedge*>& hedges);
-        virtual const std::vector<Hedge*>& hedges() const;
-        virtual std::vector<Hedge*>& hedges();
-
+        virtual void setHedges(const std::map<std::string, Hedge*>& hedges);
+        virtual const std::map<std::string, Hedge*>& hedges() const;
+        virtual std::map<std::string, Hedge*>& hedges();
 
         virtual scalar activationDegree(const TNorm* conjunction, const SNorm* disjunction) const;
         virtual void activate(scalar degree, const TNorm* activation) const;
