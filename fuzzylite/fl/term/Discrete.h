@@ -39,11 +39,11 @@ namespace fl {
 
     class FL_EXPORT Discrete : public Term {
     protected:
-        std::vector<std::pair<scalar, scalar> > _xy;
+        typedef std::vector<std::pair<scalar, scalar> > Pairs;
+        Pairs _xy;
     public:
         Discrete(const std::string& name = "",
-                const std::vector<std::pair<scalar, scalar> >& xy =
-                std::vector<std::pair<scalar, scalar> >());
+                const Pairs& xy = Pairs());
 
         virtual ~Discrete();
 

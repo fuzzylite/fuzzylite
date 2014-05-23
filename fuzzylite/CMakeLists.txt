@@ -69,10 +69,9 @@ if(UNIX)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
     #set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-rpath,bin/") #does apple recognise these?
-    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
 
 if(NOT APPLE)
-    
+        set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
 endif()
 
 elseif(WIN32)
