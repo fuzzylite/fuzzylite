@@ -320,9 +320,15 @@ namespace fl {
             } else if (firstToken == "RULE") {
                 std::size_t ruleStart = line.find_first_of(':');
                 if (ruleStart == std::string::npos) ruleStart = 4; // "RULE".size()
-                std::string rule = line.substr(ruleStart + 1);
-                rule = fl::Op::trim(rule);
-                ruleblock->addRule(Rule::parse(rule, engine));
+                std::string ruleText = line.substr(ruleStart + 1);
+                ruleText = fl::Op::trim(ruleText);
+                Rule* rule = new Rule(ruleText);
+                try {
+                    rule->load(engine);
+                } catch (...) {
+                    //ignore
+                }
+                ruleblock->addRule(rule);
             } else {
                 std::ostringstream ex;
                 ex << "[syntax error] keyword <" << firstToken

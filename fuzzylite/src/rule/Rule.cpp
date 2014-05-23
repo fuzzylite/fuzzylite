@@ -27,20 +27,16 @@
 
 #include "fl/rule/Rule.h"
 
+#include "fl/Exception.h"
 #include "fl/hedge/Hedge.h"
-
+#include "fl/imex/FllExporter.h"
+#include "fl/norm/Norm.h"
 #include "fl/rule/Antecedent.h"
 #include "fl/rule/Consequent.h"
 
-#include "fl/norm/Norm.h"
-
-#include "fl/Exception.h"
-
-#include "fl/imex/FllExporter.h"
-
 #include <sstream>
-
 #include <vector>
+#include <memory>
 
 namespace fl {
 
@@ -278,15 +274,9 @@ namespace fl {
     }
 
     Rule* Rule::parse(const std::string& rule, const Engine* engine) {
-        Rule* result = new Rule;
-        try {
-            result->load(rule, engine);
-        } catch (std::exception& ex) {
-            (void) ex;
-            delete result;
-            throw;
-        }
-        return result;
+        std::auto_ptr<Rule> result(new Rule);
+        result->load(rule, engine);
+        return result.release();
     }
 
 }

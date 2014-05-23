@@ -279,25 +279,25 @@ namespace fl {
                 consequent.push_back(ss.str());
             }
 
-            std::ostringstream rule;
+            std::ostringstream ruleText;
 
-            rule << fl::Rule::ifKeyword() << " ";
+            ruleText << fl::Rule::ifKeyword() << " ";
             for (std::size_t i = 0; i < antecedent.size(); ++i) {
-                rule << antecedent.at(i);
+                ruleText << antecedent.at(i);
                 if (i + 1 < antecedent.size()) {
-                    rule << " ";
-                    if (connector == "1") rule << fl::Rule::andKeyword() << " ";
-                    else if (connector == "2") rule << fl::Rule::orKeyword() << " ";
+                    ruleText << " ";
+                    if (connector == "1") ruleText << fl::Rule::andKeyword() << " ";
+                    else if (connector == "2") ruleText << fl::Rule::orKeyword() << " ";
                     else throw fl::Exception("[syntax error] connector <"
                             + connector + "> not recognized", FL_AT);
                 }
             }
 
-            rule << " " << fl::Rule::thenKeyword() << " ";
+            ruleText << " " << fl::Rule::thenKeyword() << " ";
             for (std::size_t i = 0; i < consequent.size(); ++i) {
-                rule << consequent.at(i);
+                ruleText << consequent.at(i);
                 if (i + 1 < consequent.size()) {
-                    rule << " " << fl::Rule::andKeyword() << " ";
+                    ruleText << " " << fl::Rule::andKeyword() << " ";
                 }
             }
 
@@ -311,9 +311,14 @@ namespace fl {
 
             scalar weight = fl::Op::toScalar(ss.str());
             if (not fl::Op::isEq(weight, 1.0))
-                rule << " " << fl::Rule::withKeyword() << " " << Op::str(weight);
-
-            ruleblock->addRule(fl::Rule::parse(rule.str(), engine));
+                ruleText << " " << fl::Rule::withKeyword() << " " << Op::str(weight);
+            Rule* rule = new Rule(ruleText.str());
+            try {
+                rule->load(engine);
+            } catch (...) {
+                //ignore
+            }
+            ruleblock->addRule(rule);
         }
     }
 

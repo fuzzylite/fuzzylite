@@ -194,7 +194,10 @@ namespace fl {
             RuleBlock* rb = engine->getRuleBlock(ixRuleBlock);
             if (engine->numberOfRuleBlocks() > 1) fis << "# RuleBlock " << rb->getName() << "\n";
             for (int ixRule = 0; ixRule < rb->numberOfRules(); ++ixRule) {
-                fis << exportRule(rb->getRule(ixRule), engine) << "\n";
+                Rule* rule = rb->getRule(ixRule);
+                if (rule->isLoaded()) {
+                    fis << exportRule(rule, engine) << "\n";
+                }
             }
         }
         return fis.str();
