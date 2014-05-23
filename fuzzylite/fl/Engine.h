@@ -104,7 +104,7 @@ namespace fl {
         virtual std::string toString() const;
 
         enum Type {
-            None, Mamdani, Larsen, TakagiSugeno,
+            Mamdani, Larsen, TakagiSugeno,
             Tsukamoto, InverseTsukamoto, Unknown
         };
         virtual Type type(std::string* name = NULL) const;

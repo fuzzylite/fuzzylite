@@ -59,9 +59,7 @@ namespace fl {
         fis << "[System]\n";
         fis << "Name='" << engine->getName() << "'\n";
         std::string type;
-        if (engine->type() == Engine::None) {
-            type = "none";
-        } else if (engine->type() == Engine::Mamdani or engine->type() == Engine::Larsen) {
+        if (engine->type() == Engine::Mamdani or engine->type() == Engine::Larsen) {
             type = "mamdani";
         } else if (engine->type() == Engine::TakagiSugeno) {
             type = "sugeno";
@@ -171,11 +169,11 @@ namespace fl {
             if (not fl::Op::isNaN(var->getDefaultValue())) {
                 fis << "Default=" << fl::Op::str(var->getDefaultValue()) << "\n";
             }
-            if (var->isLockingValidOutput()) {
-                fis << "LockValid=" << var->isLockingValidOutput() << "\n";
+            if (var->isLockedPreviousOutputValue()) {
+                fis << "LockValid=" << var->isLockedPreviousOutputValue() << "\n";
             }
-            if (var->isLockingOutputRange()) {
-                fis << "LockRange=" << var->isLockingOutputRange() << "\n";
+            if (var->isLockedOutputValueInRange()) {
+                fis << "LockRange=" << var->isLockedOutputValueInRange() << "\n";
             }
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
             for (int ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {

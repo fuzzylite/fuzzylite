@@ -99,6 +99,16 @@ Version 5.0
 * Changed visibility of Function::root to protected and renamed it to Function::_root
 * Added method Function::root() to return pointer to Function::_root
 * Added option to prefix the namespace in CppExporter, by default it does not prefix
+* Added method OutputVariable::clear() to restart the output variable
+* Renamed variable OutputVariable::_lastValidOutputValue to ::_previousOutputValue
+* Renamed method OutputVariable::(get|set)LastValidOutputValue to ::(get|set)PreviousOutputValue
+* Renamed variable OutputVariable::_lockOutputRange to ::_lockOutputValueInRange
+* Renamed method OutputVariable::setLockOutputRange() to ::setLockOutputValueInRange
+* Renamed method OutputVariable::isLockingOutputRange() to ::isLockedOutputValueInRange
+* Renamed variable OutputVariable::_lockValidOutput to ::_lockPreviousOutputValue
+* Renamed method OutputVariable::setLockValidOutput() to ::setLockPreviousOutputValue
+* Renamed method OutputVariable::isLockingValidOutput() to ::isLockedPreviousOutputValue
+* Renamed FLL property 'lock-valid' to 'lock-previous'
 
 
 Version 4.0
