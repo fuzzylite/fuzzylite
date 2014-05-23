@@ -109,7 +109,8 @@ Version 5.0
 * Renamed method OutputVariable::setLockValidOutput() to ::setLockPreviousOutputValue
 * Renamed method OutputVariable::isLockingValidOutput() to ::isLockedPreviousOutputValue
 * Renamed FLL property 'lock-valid' to 'lock-previous'
-
+* Added method Engine::variables() to retrieve both Input and OutputVariables
+* Added method to ensure Linear and Function terms have correct reference when cloning an engine
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.

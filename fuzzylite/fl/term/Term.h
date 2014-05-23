@@ -40,7 +40,8 @@
 #include <vector>
 
 namespace fl {
-
+    class Engine;
+    
     class FL_EXPORT Term {
     protected:
         std::string _name;
@@ -68,6 +69,9 @@ namespace fl {
         virtual scalar membership(scalar x) const = 0;
 
         virtual Term* clone() const = 0;
+
+        //Important when cloning engines.
+        static void updateReferences(const fl::Engine* engine);
 
     };
 

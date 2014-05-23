@@ -27,6 +27,9 @@
 
 #include "fl/term/Term.h"
 #include "fl/imex/FllExporter.h"
+#include "fl/Engine.h"
+#include "fl/term/Linear.h"
+#include "fl/term/Function.h"
 
 namespace fl {
 
@@ -58,5 +61,25 @@ namespace fl {
 
     std::string Term::toString() const {
         return FllExporter("", "; ").toString(this);
+    }
+
+    void Term::updateReferences(const fl::Engine* engine) {
+        std::vector<Variable*> variables = engine->variables();
+        for (std::size_t i = 0; i < variables.size(); ++i) {
+            Variable* variable = variables.at(i);
+            for (int t = 0; t < variable->numberOfTerms(); ++t) {
+                Term* term = variable->getTerm(t);
+                if (Linear * linear = dynamic_cast<Linear*> (term)) {
+                    linear->setEngine(engine);
+                } else if (Function * function = dynamic_cast<Function*> (term)) {
+                    function->setEngine(engine);
+                    try {
+                        function->load();
+                    } catch (...) {
+                        //ignore
+                    }
+                }
+            }
+        }
     }
 }

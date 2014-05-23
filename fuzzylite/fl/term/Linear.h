@@ -60,7 +60,7 @@ namespace fl {
         virtual const Engine* getEngine() const;
 
         virtual Linear* clone() const;
-
+        
         static Term* constructor();
 
         //Warning: this method is unsafe, make sure you use it correctly.

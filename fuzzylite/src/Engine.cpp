@@ -79,18 +79,19 @@ namespace fl {
     }
 
     void Engine::copyFrom(const Engine& source) {
+        _name = source._name;
         for (std::size_t i = 0; i < source._inputVariables.size(); ++i)
             _inputVariables.push_back(new InputVariable(*source._inputVariables.at(i)));
         for (std::size_t i = 0; i < source._outputVariables.size(); ++i)
             _outputVariables.push_back(new OutputVariable(*source._outputVariables.at(i)));
+
+        Term::updateReferences(this);
+
         for (std::size_t i = 0; i < source._ruleblocks.size(); ++i) {
             RuleBlock* ruleBlock = new RuleBlock(*source._ruleblocks.at(i));
             try {
                 ruleBlock->loadRules(this);
-            } catch (std::exception& ex) {
-                (void) ex;
-                FL_LOG("[engine warning] engine copy could not load rule block <"
-                        << ruleBlock->toString() << ">");
+            } catch (...) {
             }
             _ruleblocks.push_back(ruleBlock);
         }
@@ -440,6 +441,14 @@ namespace fl {
         }
         if (name) *name = "Unknown";
         return Engine::Unknown;
+    }
+
+    std::vector<Variable*> Engine::variables() const {
+        std::vector<Variable*> result;
+        result.reserve(_inputVariables.size() + _outputVariables.size());
+        result.insert(result.end(), _inputVariables.begin(), _inputVariables.end());
+        result.insert(result.end(), _outputVariables.begin(), _outputVariables.end());
+        return result;
     }
 
     /**

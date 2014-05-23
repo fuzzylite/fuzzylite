@@ -42,9 +42,10 @@
  */
 
 namespace fl {
-
+    
     class InputVariable;
     class OutputVariable;
+    class Variable;
     class RuleBlock;
     class Hedge;
     class TNorm;
@@ -109,6 +110,8 @@ namespace fl {
         };
         virtual Type type(std::string* name = NULL) const;
 
+        virtual std::vector<Variable*> variables() const;
+        
         /**
          * Operations for iterable datatype _inputVariables
          */
