@@ -32,8 +32,7 @@
 
 namespace fl {
 
-    Discrete::Discrete(const std::string& name,
-            const std::vector<std::pair<scalar, scalar> >& xy)
+    Discrete::Discrete(const std::string& name, const std::vector<Pair>& xy)
     : Term(name), _xy(xy) {
     }
 
@@ -124,27 +123,27 @@ namespace fl {
     template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc,
             int x1, int y1, ...) throw (fl::Exception);
 
-    void Discrete::setXY(const std::vector<std::pair<scalar, scalar> >& pairs) {
+    void Discrete::setXY(const std::vector<Pair>& pairs) {
         this->_xy = pairs;
     }
 
-    const std::vector<std::pair<scalar, scalar> >& Discrete::xy() const {
+    const std::vector<Discrete::Pair>& Discrete::xy() const {
         return this->_xy;
     }
 
-    std::vector<std::pair<scalar, scalar> >& Discrete::xy() {
+    std::vector<Discrete::Pair>& Discrete::xy() {
         return this->_xy;
     }
 
-    const std::pair<scalar, scalar>& Discrete::xy(int index) const {
+    const Discrete::Pair& Discrete::xy(int index) const {
         return this->_xy.at(index);
     }
 
-    std::pair<scalar, scalar>& Discrete::xy(int index) {
+    Discrete::Pair& Discrete::xy(int index) {
         return this->_xy.at(index);
     }
 
-    std::vector<std::pair<scalar, scalar> > Discrete::toPairs(const std::vector<scalar>& xy, bool quiet, scalar missingValue) {
+    std::vector<Discrete::Pair> Discrete::toPairs(const std::vector<scalar>& xy, bool quiet, scalar missingValue) {
         if (not quiet and xy.size() % 2 != 0) {
             std::ostringstream os;
             os << "[discrete error] missing value in set of pairs (|xy|=" << xy.size() << ")";
@@ -163,7 +162,7 @@ namespace fl {
         return result;
     }
 
-    std::vector<scalar> Discrete::toVector(const std::vector<std::pair<scalar, scalar> >& xy) {
+    std::vector<scalar> Discrete::toVector(const std::vector<Pair>& xy) {
         std::vector<scalar> result(xy.size() * 2);
         for (std::size_t i = 0; i < xy.size(); ++i) {
             result.at(2 * i) = xy.at(i).first;
@@ -172,7 +171,7 @@ namespace fl {
         return result;
     }
 
-    std::string Discrete::formatXY(const std::vector<std::pair<scalar, scalar> >& xy, const std::string& prefix, const std::string& innerSeparator, const std::string& postfix, const std::string& outerSeparator) {
+    std::string Discrete::formatXY(const std::vector<Pair>& xy, const std::string& prefix, const std::string& innerSeparator, const std::string& postfix, const std::string& outerSeparator) {
         std::ostringstream os;
         for (std::size_t i = 0; i < xy.size(); ++i) {
             os << prefix << fl::Op::str(xy.at(i).first) << innerSeparator

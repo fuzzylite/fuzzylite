@@ -39,11 +39,11 @@ namespace fl {
 
     class FL_EXPORT Discrete : public Term {
     protected:
-        typedef std::vector<std::pair<scalar, scalar> > Pairs;
-        Pairs _xy;
+        typedef std::pair<scalar, scalar> Pair;
+        std::vector<Pair> _xy;
     public:
         Discrete(const std::string& name = "",
-                const Pairs& xy = Pairs());
+                const std::vector<Pair>& xy = std::vector<Pair>());
 
         virtual ~Discrete();
 
@@ -58,18 +58,18 @@ namespace fl {
 
         virtual scalar membership(scalar x) const;
 
-        virtual void setXY(const std::vector<std::pair<scalar, scalar> >& pairs);
-        virtual const std::vector<std::pair<scalar, scalar> >& xy() const;
-        virtual std::vector<std::pair<scalar, scalar> >& xy();
-        virtual const std::pair<scalar, scalar>& xy(int index) const;
-        virtual std::pair<scalar, scalar>& xy(int index);
+        virtual void setXY(const std::vector<Pair>& pairs);
+        virtual const std::vector<Pair>& xy() const;
+        virtual std::vector<Pair>& xy();
+        virtual const Pair& xy(int index) const;
+        virtual Pair& xy(int index);
 
 
-        static std::vector<scalar> toVector(const std::vector<std::pair<scalar, scalar> >& xy);
-        static std::vector<std::pair<scalar, scalar> > toPairs(const std::vector<scalar>& xy,
+        static std::vector<scalar> toVector(const std::vector<Pair>& xy);
+        static std::vector<Pair> toPairs(const std::vector<scalar>& xy,
                 bool quiet = true, scalar missingValue = fl::nan);
 
-        static std::string formatXY(const std::vector<std::pair<scalar, scalar> >& xy,
+        static std::string formatXY(const std::vector<Pair>& xy,
                 const std::string& prefix = "(", const std::string& innerSeparator = ",",
                 const std::string& postfix = ")", const std::string& outerSeparator = " ");
 

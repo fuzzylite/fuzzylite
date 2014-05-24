@@ -10,10 +10,10 @@ Version 5.0
 * Improved handling of Exceptions
 * Fixed bug in qtfuzzylite introduced after deleting the instances causing the memory leaks.
 * Modified FclExporter and FisExporter to provide backward compatibility with FCL and FIS formats
-* Updated the FIS and FCL examples for backward compatibility 
+* Updated the FIS and FCL examples for backward compatibility
 * Included the original example files
-* Updated FLD examples produced from the engines of the original examples 
-* Fixed some original examples of takagi-sugeno to use AlgebraicProduct activation 
+* Updated FLD examples produced from the engines of the original examples
+* Fixed some original examples of takagi-sugeno to use AlgebraicProduct activation
 * FldExporter no longer restarts the engine
 * Fixed rethrowing of exceptions to provide proper information about errors!
 * Catching std::exceptions where possible to avoid unexpected exceptions
@@ -42,7 +42,7 @@ Version 5.0
 * Correct handling of integral defuzzification with min|max=NaN|Inf
 * Enforced usage of Accumulation in Weighted(Average|Sum)
 * Added method Rule::isLoaded to determine whether a rule is to be activated
-* Added method Rule::unload to allow its existence 
+* Added method Rule::unload to allow its existence
 * Added methods Engine::set((Input|Output)Variables), Engine::setRuleBlocks
 * Added method RuleBlock::setRules
 * Changed visibility of Rule::setText to public
@@ -111,6 +111,7 @@ Version 5.0
 * Renamed FLL property 'lock-valid' to 'lock-previous'
 * Added method Engine::variables() to retrieve both Input and OutputVariables
 * Added method to ensure Linear and Function terms have correct reference when cloning an engine
+* Added in Discrete a typedef to std::pair<scalar, scalar> Pair, and changed signatures of methods and types of their parameters
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.
@@ -150,7 +151,7 @@ Version 4.0
 * Libraries and Console application are both built in folder bin/ (previously libraries were at lib/)
 * Removed Engine::toStringFis/Fcl/Cpp to encourage use of Fcl/Fis/CppExporters instead
 * Renamed Op::logical_and to Op::logicalAnd, Op::logical_or to Op::logicalOr
-* Added support to Fis/FclImporters to treat comments (%,#,//,/*) in fis and fcl files 
+* Added support to Fis/FclImporters to treat comments (%,#,//,/*) in fis and fcl files
 * Created the Console application instead of previous demo
 * Added Variable::range() to return (maximum - minimum)
 * Removed Variable::isEmpty, use Variable::terms().empty()
@@ -166,7 +167,7 @@ Version 4.0
 * Extended FCL and FIS to consider Enabled properties
 * Changed Engine::defuzzify() to consider enabled variables
 * Changed Engine::process() to consider enabled rule blocks
-* Changed OutputVariable::output() to OutputVariable::fuzzyOutput() 
+* Changed OutputVariable::output() to OutputVariable::fuzzyOutput()
 * Renamed Rectangle::minimum/maximum to Rectangle::start/end
 * Renamed fuzzylite::shortVersion to fuzzylite::version
 * Improved accuracy of Triangle and Trapezoid
