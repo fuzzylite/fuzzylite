@@ -44,8 +44,8 @@ namespace fl {
     const std::string Console::KW_DECIMALS = "-decimals";
     const std::string Console::KW_DATA_INPUT = "-d";
     const std::string Console::KW_DATA_MAXIMUM = "-dmaximum";
-    const std::string Console::KW_DATA_SHOW_HEADERS = "-dheaders";
-    const std::string Console::KW_DATA_SHOW_INPUTS = "-dinputs";
+    const std::string Console::KW_DATA_EXPORT_HEADER = "-dheader";
+    const std::string Console::KW_DATA_EXPORT_INPUTS = "-dinputs";
 
     std::vector<Console::Option> Console::availableOptions() {
         std::vector<Console::Option> options;
@@ -57,8 +57,8 @@ namespace fl {
         options.push_back(Option(KW_DECIMALS, "number", "number of decimals to write floating-poing values"));
         options.push_back(Option(KW_DATA_INPUT, "datafile", "if exporting to fld, file of input values to evaluate your engine on"));
         options.push_back(Option(KW_DATA_MAXIMUM, "number", "if exporting to fld without datafile, maximum number of results to export"));
-        options.push_back(Option(KW_DATA_SHOW_HEADERS, "boolean", "if true and exporting to fld, include headers"));
-        options.push_back(Option(KW_DATA_SHOW_INPUTS, "boolean", "if true and exporting to fld, include input values"));
+        options.push_back(Option(KW_DATA_EXPORT_HEADER, "boolean", "if true and exporting to fld, include headers"));
+        options.push_back(Option(KW_DATA_EXPORT_INPUTS, "boolean", "if true and exporting to fld, include input values"));
         return options;
     }
 
@@ -225,8 +225,7 @@ namespace fl {
         }
     }
 
-    template <typename T>
-    void Console::process(const std::string& input, T& writer,
+    void Console::process(const std::string& input, std::ostream& writer,
             const std::string& inputFormat, const std::string& outputFormat,
             const std::map<std::string, std::string>& options) {
         Importer* importer = NULL;
@@ -251,46 +250,23 @@ namespace fl {
                 std::map<std::string, std::string>::const_iterator it;
 
                 FldExporter fldExporter;
-                bool showHeaders = true;
-                if ((it = options.find(KW_DATA_SHOW_HEADERS)) != options.end()) {
-                    showHeaders = ("true" == it->second);
+                bool exportHeaders = true;
+                if ((it = options.find(KW_DATA_EXPORT_HEADER)) != options.end()) {
+                    exportHeaders = ("true" == it->second);
                 }
-                bool showInputValues = true;
-                if ((it = options.find(KW_DATA_SHOW_INPUTS)) != options.end()) {
-                    showInputValues = ("true" == it->second);
+                fldExporter.setExportHeader(exportHeaders);
+                bool exportInputValues = true;
+                if ((it = options.find(KW_DATA_EXPORT_INPUTS)) != options.end()) {
+                    exportInputValues = ("true" == it->second);
                 }
+                fldExporter.setExportInputValues(exportInputValues);
                 if ((it = options.find(KW_DATA_INPUT)) != options.end()) {
                     std::ifstream dataFile(it->second.c_str());
                     if (not dataFile.is_open()) {
                         throw fl::Exception("[export error] file <" + it->second + "> could not be opened", FL_AT);
                     }
-                    if (showHeaders) {
-                        writer << "#" << fldExporter.header(engine) << "\n";
-                    }
                     try {
-                        std::string line;
-                        int lineNumber = 0;
-                        while (std::getline(dataFile, line)) {
-                            ++lineNumber;
-                            std::vector<scalar> inputValues;
-                            try {
-                                fldExporter.parse(Op::trim(line), inputValues);
-                            } catch (fl::Exception& ex) {
-                                ex.append(" at line <" + Op::str(lineNumber) + ">");
-                                throw;
-                            }
-                            if (inputValues.empty()) continue;
-                            if ((int) inputValues.size() != engine->numberOfInputVariables()) {
-                                std::ostringstream ex;
-                                ex << "[export error] engine has <" << engine->numberOfInputVariables() << "> "
-                                        "input variables, but input data provides <" << inputValues.size() << "> values "
-                                        "at line <" << lineNumber << ">";
-                                throw fl::Exception(ex.str(), FL_AT);
-                            }
-                            fldExporter.toWriter(engine, writer, inputValues, fldExporter.getSeparator(), showInputValues);
-                            writer << "\n";
-                            writer.flush();
-                        }
+                        fldExporter.write(engine, writer, dataFile);
                     } catch (std::exception& ex) {
                         (void) ex;
                         dataFile.close();
@@ -302,15 +278,7 @@ namespace fl {
                     if ((it = options.find(KW_DATA_MAXIMUM)) != options.end()) {
                         maximum = (int) fl::Op::toScalar(it->second);
                     }
-                    if (showHeaders) {
-                        if (showInputValues) {
-                            writer << "#" << fldExporter.header(engine) << "\n";
-                        } else {
-                            writer << "#" << fldExporter.header(engine->outputVariables()) << "\n";
-                        }
-
-                    }
-                    fldExporter.toWriter(engine, writer, maximum, fldExporter.getSeparator(), showInputValues);
+                    fldExporter.write(engine, writer, maximum);
                 }
             } else {
                 if ("fll" == outputFormat) {
@@ -340,14 +308,6 @@ namespace fl {
         if (exporter) delete exporter;
         if (engine) delete engine;
     }
-
-    template void Console::process(const std::string& input, std::ostringstream& writer,
-            const std::string& inputFormat, const std::string& outputFormat,
-            const std::map<std::string, std::string>& options);
-
-    template void Console::process(const std::string& input, std::ofstream& writer,
-            const std::string& inputFormat, const std::string& outputFormat,
-            const std::map<std::string, std::string>& options);
 
     Engine* Console::mamdani() {
         Engine* engine = new Engine("simple-dimmer");

@@ -40,6 +40,7 @@ namespace fl {
     protected:
         std::string _what;
     public:
+        Exception(const std::string& what);
         Exception(const std::string& what, const std::string& file, int line,
                 const std::string& function);
         virtual ~Exception() throw ();

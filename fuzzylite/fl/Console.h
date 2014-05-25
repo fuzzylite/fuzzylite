@@ -56,8 +56,8 @@ namespace fl {
         static const std::string KW_DECIMALS;
         static const std::string KW_DATA_INPUT;
         static const std::string KW_DATA_MAXIMUM;
-        static const std::string KW_DATA_SHOW_HEADERS;
-        static const std::string KW_DATA_SHOW_INPUTS;
+        static const std::string KW_DATA_EXPORT_HEADER;
+        static const std::string KW_DATA_EXPORT_INPUTS;
 
         static Engine* mamdani();
         static Engine* takagiSugeno();
@@ -66,8 +66,7 @@ namespace fl {
         static std::map<std::string, std::string> parse(int argc, char** argv);
         static void process(const std::map<std::string, std::string>& options);
 
-        template <typename T>
-        static void process(const std::string& input, T& writer,
+        static void process(const std::string& input, std::ostream& writer,
                 const std::string& inputFormat, const std::string& outputFormat,
                 const std::map<std::string, std::string>& options);
 

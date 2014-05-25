@@ -47,6 +47,11 @@
 
 namespace fl {
 
+    Exception::Exception(const std::string& what)
+    : std::exception(), _what(what) {
+        FL_DBG(this->what());
+    }
+
     Exception::Exception(const std::string& what, const std::string& file, int line,
             const std::string& function)
     : std::exception(), _what(what) {
