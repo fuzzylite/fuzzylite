@@ -254,7 +254,7 @@ namespace fl {
     }
 
     std::string Rule::toString() const {
-        return FllExporter("", "; ").toString(this);
+        return FllExporter().toString(this);
     }
 
     Rule* Rule::parse(const std::string& rule, const Engine* engine) {

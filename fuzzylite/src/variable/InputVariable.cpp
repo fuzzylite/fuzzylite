@@ -63,7 +63,7 @@ namespace fl {
     }
 
     std::string InputVariable::toString() const {
-        return FllExporter("", "; ").toString(this);
+        return FllExporter().toString(this);
     }
 
 }

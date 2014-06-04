@@ -339,121 +339,122 @@ namespace fl {
 
     std::string FisExporter::toString(const Term * term) const {
         std::ostringstream ss;
-        if (term->className() == Bell().className()) {
-            const Bell* x = dynamic_cast<const Bell*> (term);
+        if (const Bell * x = dynamic_cast<const Bell*> (term)) {
             ss << "'gbellmf',[" << fl::Op::join(3, " ",
                     x->getWidth(), x->getSlope(), x->getCenter()) << "]";
             return ss.str();
         }
 
-        if (term->className() == Constant().className()) {
-            const Constant* x = dynamic_cast<const Constant*> (term);
+        if (const Concave * x = dynamic_cast<const Concave*> (term)) {
+            ss << "'concavemf',[" << fl::Op::join(2, " ",
+                    x->getInflection(), x->getEnd()) << "]";
+            return ss.str();
+        }
+
+        if (const Constant * x = dynamic_cast<const Constant*> (term)) {
             ss << "'constant',[" << fl::Op::str(x->getValue()) << "]";
             return ss.str();
         }
 
-        if (term->className() == Discrete().className()) {
-            const Discrete* x = dynamic_cast<const Discrete*> (term);
+        if (const Cosine * x = dynamic_cast<const Cosine*> (term)) {
+            ss << "'cosinemf',[" << fl::Op::join(2, " ",
+                    x->getCenter(), x->getWidth()) << "]";
+            return ss.str();
+        }
+
+        if (const Discrete * x = dynamic_cast<const Discrete*> (term)) {
             ss << "'discretemf',[" << fl::Op::join(Discrete::toVector(x->xy()), " ") << "]";
             return ss.str();
         }
 
-        if (term->className() == Function().className()) {
-            const Function* x = dynamic_cast<const Function*> (term);
+        if (const Function * x = dynamic_cast<const Function*> (term)) {
             ss << "'function',[" << x->getFormula() << "]";
             return ss.str();
         }
 
-        if (term->className() == Gaussian().className()) {
-            const Gaussian* x = dynamic_cast<const Gaussian*> (term);
+        if (const Gaussian * x = dynamic_cast<const Gaussian*> (term)) {
             ss << "'gaussmf',[" << fl::Op::join(2, " ",
                     x->getStandardDeviation(), x->getMean()) << "]";
             return ss.str();
         }
 
-        if (term->className() == GaussianProduct().className()) {
-            const GaussianProduct* x = dynamic_cast<const GaussianProduct*> (term);
+        if (const GaussianProduct * x = dynamic_cast<const GaussianProduct*> (term)) {
             ss << "'gauss2mf',[" << fl::Op::join(4, " ",
                     x->getStandardDeviationA(), x->getMeanA(),
                     x->getStandardDeviationB(), x->getMeanB()) << "]";
             return ss.str();
         }
 
-        if (term->className() == Linear().className()) {
-            const Linear* x = dynamic_cast<const Linear*> (term);
+        if (const Linear * x = dynamic_cast<const Linear*> (term)) {
             ss << "'linear',[" << fl::Op::join<scalar>(x->coefficients(), " ") << "]";
             return ss.str();
         }
 
 
-        if (term->className() == PiShape().className()) {
-            const PiShape* x = dynamic_cast<const PiShape*> (term);
+        if (const PiShape * x = dynamic_cast<const PiShape*> (term)) {
             ss << "'pimf',[" << fl::Op::join(4, " ",
                     x->getBottomLeft(), x->getTopLeft(),
                     x->getTopRight(), x->getBottomRight()) << "]";
             return ss.str();
         }
 
-        if (term->className() == Ramp().className()) {
-            const Ramp* x = dynamic_cast<const Ramp*> (term);
+        if (const Ramp * x = dynamic_cast<const Ramp*> (term)) {
             ss << "'rampmf',[" << fl::Op::join(2, " ",
                     x->getStart(), x->getEnd()) << "]";
             return ss.str();
         }
 
-        if (term->className() == Rectangle().className()) {
-            const Rectangle* x = dynamic_cast<const Rectangle*> (term);
+        if (const Rectangle * x = dynamic_cast<const Rectangle*> (term)) {
             ss << "'rectmf',[" << fl::Op::join(2, " ",
                     x->getStart(), x->getEnd()) << "]";
             return ss.str();
         }
 
-        if (term->className() == SigmoidDifference().className()) {
-            const SigmoidDifference* x = dynamic_cast<const SigmoidDifference*> (term);
+        if (const SigmoidDifference * x = dynamic_cast<const SigmoidDifference*> (term)) {
             ss << "'dsigmf',[" << fl::Op::join(4, " ",
                     x->getRising(), x->getLeft(),
                     x->getFalling(), x->getRight()) << "]";
             return ss.str();
         }
 
-        if (term->className() == Sigmoid().className()) {
-            const Sigmoid* x = dynamic_cast<const Sigmoid*> (term);
+        if (const Sigmoid * x = dynamic_cast<const Sigmoid*> (term)) {
             ss << "'sigmf',[" << fl::Op::join(2, " ",
                     x->getSlope(), x->getInflection()) << "]";
             return ss.str();
         }
 
-        if (term->className() == SigmoidProduct().className()) {
-            const SigmoidProduct* x = dynamic_cast<const SigmoidProduct*> (term);
+        if (const SigmoidProduct * x = dynamic_cast<const SigmoidProduct*> (term)) {
             ss << "'psigmf',[" << fl::Op::join(4, " ",
                     x->getRising(), x->getLeft(),
                     x->getFalling(), x->getRight()) << "]";
             return ss.str();
         }
 
-        if (term->className() == SShape().className()) {
-            const SShape* x = dynamic_cast<const SShape*> (term);
+        if (const SShape * x = dynamic_cast<const SShape*> (term)) {
             ss << "'smf',[" << fl::Op::join(2, " ",
                     x->getStart(), x->getEnd()) << "]";
             return ss.str();
         }
 
-        if (term->className() == Trapezoid().className()) {
-            const Trapezoid* x = dynamic_cast<const Trapezoid*> (term);
+        if (const Spike * x = dynamic_cast<const Spike*> (term)) {
+            ss << "'spikemf',[" << fl::Op::join(2, " ",
+                    x->getCenter(), x->getWidth()) << "]";
+            return ss.str();
+        }
+
+        if (const Trapezoid * x = dynamic_cast<const Trapezoid*> (term)) {
             ss << "'trapmf',[" << fl::Op::join(4, " ",
                     x->getA(), x->getB(), x->getC(), x->getD()) << "]";
             return ss.str();
         }
 
-        if (term->className() == Triangle().className()) {
-            const Triangle* x = dynamic_cast<const Triangle*> (term);
+        if (const Triangle * x = dynamic_cast<const Triangle*> (term)) {
             ss << "'trimf',[" << fl::Op::join(3, " ",
                     x->getA(), x->getB(), x->getC()) << "]";
             return ss.str();
         }
 
-        if (term->className() == ZShape().className()) {
-            const ZShape* x = dynamic_cast<const ZShape*> (term);
+        if (const ZShape * x = dynamic_cast<const ZShape*> (term)) {
             ss << "'zmf',[" << fl::Op::join(2, " ",
                     x->getStart(), x->getEnd()) << "]";
             return ss.str();

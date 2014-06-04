@@ -31,7 +31,9 @@
 #include "fl/Exception.h"
 
 #include "fl/term/Bell.h"
+#include "fl/term/Concave.h"
 #include "fl/term/Constant.h"
+#include "fl/term/Cosine.h"
 #include "fl/term/Discrete.h"
 #include "fl/term/Function.h"
 #include "fl/term/Gaussian.h"
@@ -44,6 +46,7 @@
 #include "fl/term/Sigmoid.h"
 #include "fl/term/SigmoidDifference.h"
 #include "fl/term/SigmoidProduct.h"
+#include "fl/term/Spike.h"
 #include "fl/term/Trapezoid.h"
 #include "fl/term/Triangle.h"
 #include "fl/term/ZShape.h"
@@ -53,7 +56,9 @@ namespace fl {
     TermFactory::TermFactory() {
         registerConstructor("", NULL);
         registerConstructor(Bell().className(), &(Bell::constructor));
+        registerConstructor(Concave().className(), &(Concave::constructor));
         registerConstructor(Constant().className(), &(Constant::constructor));
+        registerConstructor(Cosine().className(), &(Cosine::constructor));
         registerConstructor(Discrete().className(), &(Discrete::constructor));
         registerConstructor(Function().className(), &(Function::constructor));
         registerConstructor(Gaussian().className(), &(Gaussian::constructor));
@@ -66,6 +71,7 @@ namespace fl {
         registerConstructor(Sigmoid().className(), &(Sigmoid::constructor));
         registerConstructor(SigmoidDifference().className(), &(SigmoidDifference::constructor));
         registerConstructor(SigmoidProduct().className(), &(SigmoidProduct::constructor));
+        registerConstructor(Spike().className(), &(Spike::constructor));
         registerConstructor(Trapezoid().className(), &(Trapezoid::constructor));
         registerConstructor(Triangle().className(), &(Triangle::constructor));
         registerConstructor(ZShape().className(), &(ZShape::constructor));

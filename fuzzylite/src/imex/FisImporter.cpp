@@ -328,7 +328,7 @@ namespace fl {
         if (intPart >= variable->numberOfTerms()) {
             std::ostringstream ex;
             ex << "[syntax error] the code <" << code << "> refers to a term "
-                    "out of range from variable <" << variable->toString() << ">";
+                    "out of range from variable <" << variable->getName() << ">";
             throw fl::Exception(ex.str(), FL_AT);
         }
 
@@ -449,7 +449,9 @@ namespace fl {
             const std::string& name, const std::vector<std::string>& params) const {
         std::map<std::string, std::string> mapping;
         mapping["discretemf"] = Discrete().className();
+        mapping["concavemf"] = Concave().className();
         mapping["constant"] = Constant().className();
+        mapping["cosinemf"] = Cosine().className();
         mapping["function"] = Function().className();
         mapping["gbellmf"] = Bell().className();
         mapping["gaussmf"] = Gaussian().className();
@@ -462,6 +464,7 @@ namespace fl {
         mapping["sigmf"] = Sigmoid().className();
         mapping["dsigmf"] = SigmoidDifference().className();
         mapping["psigmf"] = SigmoidProduct().className();
+        mapping["spikemf"] = Spike().className();
         mapping["trapmf"] = Trapezoid().className();
         mapping["trimf"] = Triangle().className();
         mapping["zmf"] = ZShape().className();

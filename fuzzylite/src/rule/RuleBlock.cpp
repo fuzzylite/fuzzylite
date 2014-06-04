@@ -169,7 +169,7 @@ namespace fl {
     }
 
     std::string RuleBlock::toString() const {
-        return FllExporter("", "; ").toString(this);
+        return FllExporter().toString(this);
     }
 
     /**

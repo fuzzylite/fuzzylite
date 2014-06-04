@@ -103,7 +103,9 @@
 
 #include "fl/term/Accumulated.h"
 #include "fl/term/Bell.h"
+#include "fl/term/Concave.h"
 #include "fl/term/Constant.h"
+#include "fl/term/Cosine.h"
 #include "fl/term/Discrete.h"
 #include "fl/term/Function.h"
 #include "fl/term/Gaussian.h"
@@ -116,6 +118,7 @@
 #include "fl/term/Sigmoid.h"
 #include "fl/term/SigmoidDifference.h"
 #include "fl/term/SigmoidProduct.h"
+#include "fl/term/Spike.h"
 #include "fl/term/Term.h"
 #include "fl/term/Activated.h"
 #include "fl/term/Trapezoid.h"

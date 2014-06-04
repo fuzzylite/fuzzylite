@@ -163,8 +163,7 @@ namespace fl {
     std::string CppExporter::toString(const Term* term) const {
         if (not term) return "NULL";
 
-        if (term->className() == Discrete().className()) {
-            const Discrete* discrete = dynamic_cast<const Discrete*> (term);
+        if (const Discrete * discrete = dynamic_cast<const Discrete*> (term)) {
             std::ostringstream ss;
             ss << fl(term->className()) << "::create(\"" << term->getName() << "\", "
                     << discrete->xy().size() * 2 << ", "
@@ -172,16 +171,14 @@ namespace fl {
             return ss.str();
         }
 
-        if (term->className() == Function().className()) {
-            const Function* function = dynamic_cast<const Function*> (term);
+        if (const Function * function = dynamic_cast<const Function*> (term)) {
             std::ostringstream ss;
             ss << fl(term->className()) << "::create(\"" << term->getName() << "\", "
                     << "\"" << function->getFormula() << "\", engine)";
             return ss.str();
         }
 
-        if (term->className() == Linear().className()) {
-            const Linear* linear = dynamic_cast<const Linear*> (term);
+        if (const Linear * linear = dynamic_cast<const Linear*> (term)) {
             std::ostringstream ss;
             ss << fl(term->className()) << "::create(\"" << term->getName() << "\", "
                     << "engine, " << fl::Op::join(linear->coefficients(), ", ") << ")";

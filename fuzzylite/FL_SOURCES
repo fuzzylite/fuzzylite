@@ -60,7 +60,9 @@ src/rule/Rule.cpp
 src/term/Accumulated.cpp
 src/term/Activated.cpp
 src/term/Bell.cpp
+src/term/Concave.cpp
 src/term/Constant.cpp
+src/term/Cosine.cpp
 src/term/Discrete.cpp
 src/term/Function.cpp
 src/term/Gaussian.cpp
@@ -72,6 +74,7 @@ src/term/Rectangle.cpp
 src/term/Sigmoid.cpp
 src/term/SigmoidDifference.cpp
 src/term/SigmoidProduct.cpp
+src/term/Spike.cpp
 src/term/SShape.cpp
 src/term/Term.cpp
 src/term/Trapezoid.cpp

@@ -68,7 +68,9 @@ fl/rule/Rule.h
 fl/term/Accumulated.h
 fl/term/Activated.h
 fl/term/Bell.h
+fl/term/Concave.h
 fl/term/Constant.h
+fl/term/Cosine.h
 fl/term/Discrete.h
 fl/term/Function.h
 fl/term/Gaussian.h
@@ -80,6 +82,7 @@ fl/term/Rectangle.h
 fl/term/SigmoidDifference.h
 fl/term/Sigmoid.h
 fl/term/SigmoidProduct.h
+fl/term/Spike.h
 fl/term/SShape.h
 fl/term/Term.h
 fl/term/Trapezoid.h
