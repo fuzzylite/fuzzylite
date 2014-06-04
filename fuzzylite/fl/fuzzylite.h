@@ -1,7 +1,7 @@
 // #BEGIN_LICENSE
 // fuzzylite: a fuzzy logic control library in C++
 // Copyright (C) 2014  Juan Rada-Vilela
-// 
+//
 // This file is part of fuzzylite.
 //
 // fuzzylite is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 // along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
 // #END_LICENSE
 
-/* 
+/*
  * File:   fuzzylite.h
  * Author: jcrada
  *
@@ -26,9 +26,9 @@
  */
 
 #ifndef FL_FUZZYLITE_H
-#define	FL_FUZZYLITE_H
+#define FL_FUZZYLITE_H
 
-
+#include <cmath>
 #include <iostream>
 #include <sstream>
 #include <limits>
@@ -58,7 +58,7 @@ namespace fl {
 
     const scalar nan = std::numeric_limits<scalar>::quiet_NaN();
     const scalar inf = std::numeric_limits<scalar>::infinity();
-	const scalar pi = 4.0*atan(1.0);
+    const scalar pi = 4.0*std::atan(1.0);
 }
 
 #define FL__FILE__ std::string(__FILE__).substr(std::string(FL_BUILD_PATH).size())
@@ -87,7 +87,7 @@ namespace fl {
 #ifdef FL_WINDOWS
 #define FL_EXPORT __declspec(dllexport)
 #else
-#define FL_EXPORT 
+#define FL_EXPORT
 #endif
 
 #ifdef FL_WINDOWS
@@ -115,7 +115,7 @@ namespace fl {
 #pragma warning(disable:4706) //Ignore assignments within conditional expressions in Tsukamoto.
 
 #pragma warning(disable:4702) //Ignore unreachable code e.g. code after return;
-#else 
+#else
 #endif
 
 namespace fl {
@@ -156,5 +156,5 @@ namespace fl {
 }
 
 
-#endif	/* FL_FUZZYLITE_H */
+#endif  /* FL_FUZZYLITE_H */
 
