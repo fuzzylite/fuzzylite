@@ -38,8 +38,9 @@
 namespace fl {
 
     class FL_EXPORT Discrete : public Term {
-    protected:
+    public:
         typedef std::pair<scalar, scalar> Pair;
+    protected:
         std::vector<Pair> _xy;
     public:
         Discrete(const std::string& name = "",
