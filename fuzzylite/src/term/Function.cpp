@@ -347,8 +347,7 @@ namespace fl {
         unload();
         this->_formula = formula;
         this->_engine = engine;
-        std::auto_ptr<Node> node(parse(formula));
-        this->_root = node.release();
+        this->_root = parse(formula);
         membership(0.0); //make sure function evaluates without throwing exception.
     }
 
