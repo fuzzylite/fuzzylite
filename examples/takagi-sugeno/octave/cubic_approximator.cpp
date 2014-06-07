@@ -1,54 +1,56 @@
 #include <fl/Headers.h>
 
 int main(int argc, char** argv){
-fl::Engine* engine = new fl::Engine;
+using namespace fl;
+
+Engine* engine = new Engine;
 engine->setName("Cubic-Approximator");
 
-fl::InputVariable* inputVariable = new fl::InputVariable;
+InputVariable* inputVariable = new InputVariable;
 inputVariable->setEnabled(true);
 inputVariable->setName("X");
 inputVariable->setRange(-5.000, 5.000);
-inputVariable->addTerm(new fl::Triangle("AboutNegFive", -6.000, -5.000, -4.000));
-inputVariable->addTerm(new fl::Triangle("AboutNegFour", -5.000, -4.000, -3.000));
-inputVariable->addTerm(new fl::Triangle("AboutNegThree", -4.000, -3.000, -2.000));
-inputVariable->addTerm(new fl::Triangle("AboutNegTwo", -3.000, -2.000, -1.000));
-inputVariable->addTerm(new fl::Triangle("AboutNegOne", -2.000, -1.000, 0.000));
-inputVariable->addTerm(new fl::Triangle("AboutZero", -1.000, 0.000, 1.000));
-inputVariable->addTerm(new fl::Triangle("AboutOne", 0.000, 1.000, 2.000));
-inputVariable->addTerm(new fl::Triangle("AboutTwo", 1.000, 2.000, 3.000));
-inputVariable->addTerm(new fl::Triangle("AboutThree", 2.000, 3.000, 4.000));
-inputVariable->addTerm(new fl::Triangle("AboutFour", 3.000, 4.000, 5.000));
-inputVariable->addTerm(new fl::Triangle("AboutFive", 4.000, 5.000, 6.000));
+inputVariable->addTerm(new Triangle("AboutNegFive", -6.000, -5.000, -4.000));
+inputVariable->addTerm(new Triangle("AboutNegFour", -5.000, -4.000, -3.000));
+inputVariable->addTerm(new Triangle("AboutNegThree", -4.000, -3.000, -2.000));
+inputVariable->addTerm(new Triangle("AboutNegTwo", -3.000, -2.000, -1.000));
+inputVariable->addTerm(new Triangle("AboutNegOne", -2.000, -1.000, 0.000));
+inputVariable->addTerm(new Triangle("AboutZero", -1.000, 0.000, 1.000));
+inputVariable->addTerm(new Triangle("AboutOne", 0.000, 1.000, 2.000));
+inputVariable->addTerm(new Triangle("AboutTwo", 1.000, 2.000, 3.000));
+inputVariable->addTerm(new Triangle("AboutThree", 2.000, 3.000, 4.000));
+inputVariable->addTerm(new Triangle("AboutFour", 3.000, 4.000, 5.000));
+inputVariable->addTerm(new Triangle("AboutFive", 4.000, 5.000, 6.000));
 engine->addInputVariable(inputVariable);
 
-fl::OutputVariable* outputVariable = new fl::OutputVariable;
+OutputVariable* outputVariable = new OutputVariable;
 outputVariable->setEnabled(true);
 outputVariable->setName("ApproxXCubed");
 outputVariable->setRange(-5.000, 5.000);
-outputVariable->fuzzyOutput()->setAccumulation(new fl::AlgebraicSum);
-outputVariable->setDefuzzifier(new fl::WeightedAverage);
+outputVariable->fuzzyOutput()->setAccumulation(new AlgebraicSum);
+outputVariable->setDefuzzifier(new WeightedAverage);
 outputVariable->setDefaultValue(fl::nan);
 outputVariable->setLockValidOutput(false);
 outputVariable->setLockOutputRange(false);
-outputVariable->addTerm(fl::Linear::create("TangentatNegFive", engine->inputVariables(), 75.000, 250.000));
-outputVariable->addTerm(fl::Linear::create("TangentatNegFour", engine->inputVariables(), 48.000, 128.000));
-outputVariable->addTerm(fl::Linear::create("TangentatNegThree", engine->inputVariables(), 27.000, 54.000));
-outputVariable->addTerm(fl::Linear::create("TangentatNegTwo", engine->inputVariables(), 12.000, 16.000));
-outputVariable->addTerm(fl::Linear::create("TangentatNegOne", engine->inputVariables(), 3.000, 2.000));
-outputVariable->addTerm(fl::Linear::create("TangentatZero", engine->inputVariables(), 0.000, 0.000));
-outputVariable->addTerm(fl::Linear::create("TangentatOne", engine->inputVariables(), 3.000, -2.000));
-outputVariable->addTerm(fl::Linear::create("TangentatTwo", engine->inputVariables(), 12.000, -16.000));
-outputVariable->addTerm(fl::Linear::create("TangentatThree", engine->inputVariables(), 27.000, -54.000));
-outputVariable->addTerm(fl::Linear::create("TangentatFour", engine->inputVariables(), 48.000, -128.000));
-outputVariable->addTerm(fl::Linear::create("TangentatFive", engine->inputVariables(), 75.000, -250.000));
+outputVariable->addTerm(Linear::create("TangentatNegFive", engine, 75.000, 250.000));
+outputVariable->addTerm(Linear::create("TangentatNegFour", engine, 48.000, 128.000));
+outputVariable->addTerm(Linear::create("TangentatNegThree", engine, 27.000, 54.000));
+outputVariable->addTerm(Linear::create("TangentatNegTwo", engine, 12.000, 16.000));
+outputVariable->addTerm(Linear::create("TangentatNegOne", engine, 3.000, 2.000));
+outputVariable->addTerm(Linear::create("TangentatZero", engine, 0.000, 0.000));
+outputVariable->addTerm(Linear::create("TangentatOne", engine, 3.000, -2.000));
+outputVariable->addTerm(Linear::create("TangentatTwo", engine, 12.000, -16.000));
+outputVariable->addTerm(Linear::create("TangentatThree", engine, 27.000, -54.000));
+outputVariable->addTerm(Linear::create("TangentatFour", engine, 48.000, -128.000));
+outputVariable->addTerm(Linear::create("TangentatFive", engine, 75.000, -250.000));
 engine->addOutputVariable(outputVariable);
 
-fl::RuleBlock* ruleBlock = new fl::RuleBlock;
+RuleBlock* ruleBlock = new RuleBlock;
 ruleBlock->setEnabled(true);
 ruleBlock->setName("");
-ruleBlock->setConjunction(new fl::Minimum);
-ruleBlock->setDisjunction(new fl::Maximum);
-ruleBlock->setActivation(new fl::AlgebraicProduct);
+ruleBlock->setConjunction(new Minimum);
+ruleBlock->setDisjunction(new Maximum);
+ruleBlock->setActivation(new AlgebraicProduct);
 ruleBlock->addRule(fl::Rule::parse("if X is AboutNegFive then ApproxXCubed is TangentatNegFive", engine));
 ruleBlock->addRule(fl::Rule::parse("if X is AboutNegFour then ApproxXCubed is TangentatNegFour", engine));
 ruleBlock->addRule(fl::Rule::parse("if X is AboutNegThree then ApproxXCubed is TangentatNegThree", engine));

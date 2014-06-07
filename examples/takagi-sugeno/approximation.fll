@@ -17,7 +17,7 @@ OutputVariable: outputFx
   accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
-  lock-valid: true
+  lock-previous: true
   lock-range: false
   term: f1 Constant 0.840
   term: f2 Constant 0.450
@@ -34,7 +34,7 @@ OutputVariable: trueFx
   accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
-  lock-valid: true
+  lock-previous: true
   lock-range: false
   term: fx Function sin(inputX)/inputX
 OutputVariable: diffFx
@@ -43,7 +43,7 @@ OutputVariable: diffFx
   accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: diff Function fabs(outputFx-trueFx)
 RuleBlock: 

@@ -19,7 +19,7 @@ OutputVariable: HeartDiseaseRisk
   accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: NoRisk Constant 0.000
   term: LowRisk Constant 2.500

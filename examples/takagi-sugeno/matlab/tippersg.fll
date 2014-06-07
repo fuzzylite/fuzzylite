@@ -16,7 +16,7 @@ OutputVariable: tip
   accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: cheap Linear 0.000 0.000 5.000
   term: average Linear 0.000 0.000 15.000

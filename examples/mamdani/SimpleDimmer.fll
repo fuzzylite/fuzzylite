@@ -11,7 +11,7 @@ OutputVariable: Power
   accumulation: Maximum
   defuzzifier: Centroid 200
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: LOW Triangle 0.000 0.250 0.500
   term: MEDIUM Triangle 0.250 0.500 0.750

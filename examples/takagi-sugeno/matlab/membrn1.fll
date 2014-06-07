@@ -15,7 +15,7 @@ OutputVariable: out1
   accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: out1mf1 Linear 0.026 0.071 -0.615
   term: out1mf2 Linear -0.036 0.036 -1.169

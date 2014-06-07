@@ -16,7 +16,7 @@ OutputVariable: control
   accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: out1mf1 Linear 0.000 0.000 1.000 0.000
   term: out1mf2 Linear 0.000 1.000 0.000 0.000

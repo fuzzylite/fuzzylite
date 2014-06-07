@@ -17,7 +17,7 @@ OutputVariable: cold
   accumulation: Maximum
   defuzzifier: Centroid 200
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: closeFast Triangle -1.000 -0.600 -0.300
   term: closeSlow Triangle -0.600 -0.300 0.000
@@ -30,7 +30,7 @@ OutputVariable: hot
   accumulation: Maximum
   defuzzifier: Centroid 200
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: closeFast Triangle -1.000 -0.600 -0.300
   term: closeSlow Triangle -0.600 -0.300 0.000

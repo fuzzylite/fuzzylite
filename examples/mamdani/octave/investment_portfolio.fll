@@ -15,7 +15,7 @@ OutputVariable: PercentageInStocks
   accumulation: EinsteinSum
   defuzzifier: Centroid 200
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: AboutFifteen Gaussian 15.000 10.000
   term: AboutFifty Gaussian 50.000 10.000

@@ -1,36 +1,38 @@
 #include <fl/Headers.h>
 
 int main(int argc, char** argv){
-fl::Engine* engine = new fl::Engine;
+using namespace fl;
+
+Engine* engine = new Engine;
 engine->setName("sugeno");
 
-fl::InputVariable* inputVariable = new fl::InputVariable;
+InputVariable* inputVariable = new InputVariable;
 inputVariable->setEnabled(true);
 inputVariable->setName("input");
 inputVariable->setRange(-5.000, 5.000);
-inputVariable->addTerm(new fl::Gaussian("low", -5.000, 4.000));
-inputVariable->addTerm(new fl::Gaussian("high", 5.000, 4.000));
+inputVariable->addTerm(new Gaussian("low", -5.000, 4.000));
+inputVariable->addTerm(new Gaussian("high", 5.000, 4.000));
 engine->addInputVariable(inputVariable);
 
-fl::OutputVariable* outputVariable = new fl::OutputVariable;
+OutputVariable* outputVariable = new OutputVariable;
 outputVariable->setEnabled(true);
 outputVariable->setName("output");
 outputVariable->setRange(0.000, 1.000);
-outputVariable->fuzzyOutput()->setAccumulation(new fl::AlgebraicSum);
-outputVariable->setDefuzzifier(new fl::WeightedAverage);
+outputVariable->fuzzyOutput()->setAccumulation(new AlgebraicSum);
+outputVariable->setDefuzzifier(new WeightedAverage);
 outputVariable->setDefaultValue(fl::nan);
 outputVariable->setLockValidOutput(false);
 outputVariable->setLockOutputRange(false);
-outputVariable->addTerm(fl::Linear::create("line1", engine->inputVariables(), -1.000, -1.000));
-outputVariable->addTerm(fl::Linear::create("line2", engine->inputVariables(), 1.000, -1.000));
+outputVariable->addTerm(Linear::create("line1", engine, -1.000, -1.000));
+outputVariable->addTerm(Linear::create("line2", engine, 1.000, -1.000));
 engine->addOutputVariable(outputVariable);
 
-fl::RuleBlock* ruleBlock = new fl::RuleBlock;
+RuleBlock* ruleBlock = new RuleBlock;
 ruleBlock->setEnabled(true);
 ruleBlock->setName("");
-ruleBlock->setConjunction(new fl::AlgebraicProduct);
-ruleBlock->setDisjunction(new fl::AlgebraicSum);
-ruleBlock->setActivation(new fl::AlgebraicProduct);
+ruleBlock->setConjunction(new AlgebraicProduct);
+ruleBlock->setDisjunction(new AlgebraicSum);
+ruleBlock->setActivation(new AlgebraicProduct);
 ruleBlock->addRule(fl::Rule::parse("if input is low then output is line1", engine));
 ruleBlock->addRule(fl::Rule::parse("if input is high then output is line2", engine));
 engine->addRuleBlock(ruleBlock);

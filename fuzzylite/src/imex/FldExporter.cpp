@@ -98,7 +98,7 @@ namespace fl {
                 result.push_back("@OutputVariable: " + outputVariable->getName() + ";");
             }
         }
-        return "#" + Op::join(result, _separator);
+        return "#@Engine: " + engine->getName() + "\n#" + Op::join(result, _separator);
     }
 
     std::string FldExporter::toString(const Engine* engine) const {

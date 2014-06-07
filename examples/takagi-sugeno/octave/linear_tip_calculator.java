@@ -40,9 +40,9 @@ outputVariable.setDefuzzifier(new WeightedAverage());
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setLockValidOutput(false);
 outputVariable.setLockOutputRange(false);
-outputVariable.addTerm(Linear.create("TenPercent", engine.getInputVariables(), 0.000, 0.000, 10.000));
-outputVariable.addTerm(Linear.create("FifteenPercent", engine.getInputVariables(), 0.000, 0.000, 15.000));
-outputVariable.addTerm(Linear.create("TwentyPercent", engine.getInputVariables(), 0.000, 0.000, 20.000));
+outputVariable.addTerm(Linear.create("TenPercent", engine, 0.000, 0.000, 10.000));
+outputVariable.addTerm(Linear.create("FifteenPercent", engine, 0.000, 0.000, 15.000));
+outputVariable.addTerm(Linear.create("TwentyPercent", engine, 0.000, 0.000, 20.000));
 engine.addOutputVariable(outputVariable);
 
 RuleBlock ruleBlock = new RuleBlock();

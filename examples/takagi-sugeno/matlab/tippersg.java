@@ -41,9 +41,9 @@ outputVariable.setDefuzzifier(new WeightedAverage());
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setLockValidOutput(false);
 outputVariable.setLockOutputRange(false);
-outputVariable.addTerm(Linear.create("cheap", engine.getInputVariables(), 0.000, 0.000, 5.000));
-outputVariable.addTerm(Linear.create("average", engine.getInputVariables(), 0.000, 0.000, 15.000));
-outputVariable.addTerm(Linear.create("generous", engine.getInputVariables(), 0.000, 0.000, 25.000));
+outputVariable.addTerm(Linear.create("cheap", engine, 0.000, 0.000, 5.000));
+outputVariable.addTerm(Linear.create("average", engine, 0.000, 0.000, 15.000));
+outputVariable.addTerm(Linear.create("generous", engine, 0.000, 0.000, 25.000));
 engine.addOutputVariable(outputVariable);
 
 RuleBlock ruleBlock = new RuleBlock();

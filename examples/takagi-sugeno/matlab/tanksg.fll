@@ -17,7 +17,7 @@ OutputVariable: valve
   accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: close_fast Constant -0.900
   term: close_slow Constant -0.500

@@ -44,8 +44,8 @@ outputVariable.setDefuzzifier(new WeightedAverage());
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setLockValidOutput(false);
 outputVariable.setLockOutputRange(false);
-outputVariable.addTerm(Linear.create("out1mf1", engine.getInputVariables(), 0.000, 0.000, 1.000, 0.000));
-outputVariable.addTerm(Linear.create("out1mf2", engine.getInputVariables(), 0.000, 1.000, 0.000, 0.000));
+outputVariable.addTerm(Linear.create("out1mf1", engine, 0.000, 0.000, 1.000, 0.000));
+outputVariable.addTerm(Linear.create("out1mf2", engine, 0.000, 1.000, 0.000, 0.000));
 engine.addOutputVariable(outputVariable);
 
 RuleBlock ruleBlock = new RuleBlock();

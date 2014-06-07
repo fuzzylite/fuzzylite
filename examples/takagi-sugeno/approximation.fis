@@ -27,7 +27,7 @@ MF9='NEAR_9':'trimf',[8.000 9.000 10.000]
 [Output1]
 Name='outputFx'
 Range=[-1.000 1.000]
-LockValid=1
+LockPrevious=1
 NumMFs=9
 MF1='f1':'constant',[0.840]
 MF2='f2':'constant',[0.450]
@@ -42,7 +42,7 @@ MF9='f9':'constant',[0.040]
 [Output2]
 Name='trueFx'
 Range=[-1.000 1.000]
-LockValid=1
+LockPrevious=1
 NumMFs=1
 MF1='fx':'function',[sin(inputX)/inputX]
 

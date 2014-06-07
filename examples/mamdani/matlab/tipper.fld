@@ -1,4 +1,5 @@
-#@Engine: tipper; @InputVariable: service; @InputVariable: food; @OutputVariable: tip;
+#@Engine: tipper
+#@InputVariable: service; @InputVariable: food; @OutputVariable: tip;
 0.00000000 0.00000000 5.07571810
 0.00000000 0.32258065 5.07571810
 0.00000000 0.64516129 5.07571810

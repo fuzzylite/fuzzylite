@@ -32,8 +32,8 @@ outputVariable.setDefuzzifier(new WeightedAverage());
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setLockValidOutput(false);
 outputVariable.setLockOutputRange(false);
-outputVariable.addTerm(Linear.create("line1", engine.getInputVariables(), -1.000, -1.000));
-outputVariable.addTerm(Linear.create("line2", engine.getInputVariables(), 1.000, -1.000));
+outputVariable.addTerm(Linear.create("line1", engine, -1.000, -1.000));
+outputVariable.addTerm(Linear.create("line2", engine, 1.000, -1.000));
 engine.addOutputVariable(outputVariable);
 
 RuleBlock ruleBlock = new RuleBlock();

@@ -11,7 +11,7 @@ OutputVariable: Power
   accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: LOW Constant 0.250
   term: MEDIUM Constant 0.500

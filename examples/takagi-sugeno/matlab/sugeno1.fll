@@ -10,7 +10,7 @@ OutputVariable: output
   accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: line1 Linear -1.000 -1.000
   term: line2 Linear 1.000 -1.000

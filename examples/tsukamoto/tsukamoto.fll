@@ -11,7 +11,7 @@ OutputVariable: A
   accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: a1 Ramp 0.000 0.250
   term: a2 Ramp 0.600 0.400
@@ -22,7 +22,7 @@ OutputVariable: B
   accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: b1 Sigmoid 0.130 30.000
   term: b2 Sigmoid 0.500 -30.000
@@ -33,7 +33,7 @@ OutputVariable: C
   accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: c1 SShape 0.000 0.250
   term: c2 ZShape 0.300 0.600

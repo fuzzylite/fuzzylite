@@ -17,7 +17,7 @@ OutputVariable: theta
   accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: out1mf Linear -0.022 -0.500 0.315
   term: out1mf Linear -0.022 -0.500 0.315

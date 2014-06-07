@@ -19,7 +19,7 @@ OutputVariable: ApproxXCubed
   accumulation: AlgebraicSum
   defuzzifier: WeightedAverage
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: TangentatNegFive Linear 75.000 250.000
   term: TangentatNegFour Linear 48.000 128.000

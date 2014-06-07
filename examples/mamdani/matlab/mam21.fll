@@ -15,7 +15,7 @@ OutputVariable: force
   accumulation: Maximum
   defuzzifier: Centroid 200
   default: nan
-  lock-valid: false
+  lock-previous: false
   lock-range: false
   term: negBig Bell -5.000 1.670 8.000
   term: negSmall Bell -1.670 1.670 8.000
