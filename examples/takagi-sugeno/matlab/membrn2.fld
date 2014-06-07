@@ -1,4 +1,4 @@
-#@Engine: anfis
+#@Engine: anfis;
 #@InputVariable: in_n1; @InputVariable: in_n2; @OutputVariable: out1;
 1.00000000 1.00000000 -0.18643633
 1.00000000 1.96774194 -0.12979978

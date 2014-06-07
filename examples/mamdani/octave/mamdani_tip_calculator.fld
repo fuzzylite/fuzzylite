@@ -1,4 +1,4 @@
-#@Engine: Mamdani-Tip-Calculator
+#@Engine: Mamdani-Tip-Calculator;
 #@InputVariable: FoodQuality; @InputVariable: Service; @OutputVariable: Tip; @OutputVariable: CheckPlusTip;
 1.00000000 1.00000000 10.00000296 1.10000003
 1.00000000 1.29032258 10.00000296 1.10000003
