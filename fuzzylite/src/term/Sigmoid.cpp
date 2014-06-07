@@ -27,9 +27,6 @@
 
 #include "fl/term/Sigmoid.h"
 
-#include <cmath>
-#include <sstream>
-
 namespace fl {
 
     Sigmoid::Sigmoid(const std::string& name, scalar inflection, scalar slope)

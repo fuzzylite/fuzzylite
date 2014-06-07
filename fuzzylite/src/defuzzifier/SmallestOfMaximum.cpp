@@ -27,8 +27,8 @@
 
 #include "fl/defuzzifier/SmallestOfMaximum.h"
 
-#include "fl/term/Term.h"
 #include "fl/Exception.h"
+#include "fl/term/Term.h"
 
 
 namespace fl {

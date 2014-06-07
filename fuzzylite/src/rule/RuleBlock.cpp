@@ -27,12 +27,10 @@
 
 #include "fl/rule/RuleBlock.h"
 
-#include "fl/rule/Rule.h"
-
+#include "fl/imex/FllExporter.h"
 #include "fl/norm/TNorm.h"
 #include "fl/norm/SNorm.h"
-
-#include "fl/imex/FllExporter.h"
+#include "fl/rule/Rule.h"
 
 #include <sstream>
 

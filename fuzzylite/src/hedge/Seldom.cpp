@@ -26,9 +26,8 @@
  */
 
 #include "fl/hedge/Seldom.h"
-#include "fl/Operation.h"
 
-#include <cmath>
+#include "fl/Operation.h"
 
 namespace fl {
 

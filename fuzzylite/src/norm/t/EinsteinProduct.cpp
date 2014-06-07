@@ -34,7 +34,7 @@ namespace fl {
     }
 
     scalar EinsteinProduct::compute(scalar a, scalar b) const {
-        return (a * b) / (2 - (a + b - a * b));
+        return (a * b) / (2.0 - (a + b - a * b));
     }
 
     EinsteinProduct* EinsteinProduct::clone() const {

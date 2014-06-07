@@ -30,8 +30,8 @@
 
 #include "fl/fuzzylite.h"
 
-#include <string>
 #include <map>
+#include <string>
 #include <vector>
 
 namespace fl {

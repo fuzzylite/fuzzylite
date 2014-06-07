@@ -27,13 +27,11 @@
 
 #include "fl/term/Trapezoid.h"
 
-#include <sstream>
-
 namespace fl {
 
-    Trapezoid::Trapezoid(const std::string& name, scalar a, scalar b, scalar c,
-            scalar d)
-    : Term(name), _a(a), _b(b), _c(c), _d(d) {
+    Trapezoid::Trapezoid(const std::string& name,
+            scalar vertexA, scalar vertexB, scalar vertexC, scalar vertexD)
+    : Term(name), _vertexA(vertexA), _vertexB(vertexB), _vertexC(vertexC), _vertexD(vertexD) {
     }
 
     Trapezoid::~Trapezoid() {
@@ -44,7 +42,7 @@ namespace fl {
     }
 
     std::string Trapezoid::parameters() const {
-        return Op::join(4, " ", _a, _b, _c, _d);
+        return Op::join(4, " ", _vertexA, _vertexB, _vertexC, _vertexD);
     }
 
     void Trapezoid::configure(const std::string& parameters) {
@@ -57,60 +55,60 @@ namespace fl {
                     << " requires <" << required << "> parameters";
             throw fl::Exception(ex.str(), FL_AT);
         }
-        setA(Op::toScalar(values.at(0)));
-        setB(Op::toScalar(values.at(1)));
-        setC(Op::toScalar(values.at(2)));
-        setD(Op::toScalar(values.at(3)));
+        setVertexA(Op::toScalar(values.at(0)));
+        setVertexB(Op::toScalar(values.at(1)));
+        setVertexC(Op::toScalar(values.at(2)));
+        setVertexD(Op::toScalar(values.at(3)));
     }
 
     scalar Trapezoid::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
 
-        if (Op::isLt(x, _a) or Op::isGt(x, _d))
+        if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexD))
             return 0.0;
 
-        if (Op::isLt(x, _b))
-            return Op::min(scalar(1.0), (x - _a) / (_b - _a));
+        if (Op::isLt(x, _vertexB))
+            return Op::min(scalar(1.0), (x - _vertexA) / (_vertexB - _vertexA));
 
-        if (Op::isLE(x, _c))
+        if (Op::isLE(x, _vertexC))
             return 1.0;
 
-        if (Op::isLt(x, _d))
-            return (_d - x) / (_d - _c);
+        if (Op::isLt(x, _vertexD))
+            return (_vertexD - x) / (_vertexD - _vertexC);
 
         return 0.0;
     }
 
-    void Trapezoid::setA(scalar a) {
-        this->_a = a;
+    void Trapezoid::setVertexA(scalar a) {
+        this->_vertexA = a;
     }
 
-    scalar Trapezoid::getA() const {
-        return this->_a;
+    scalar Trapezoid::getVertexA() const {
+        return this->_vertexA;
     }
 
-    void Trapezoid::setB(scalar b) {
-        this->_b = b;
+    void Trapezoid::setVertexB(scalar b) {
+        this->_vertexB = b;
     }
 
-    scalar Trapezoid::getB() const {
-        return this->_b;
+    scalar Trapezoid::getVertexB() const {
+        return this->_vertexB;
     }
 
-    void Trapezoid::setC(scalar c) {
-        this->_c = c;
+    void Trapezoid::setVertexC(scalar c) {
+        this->_vertexC = c;
     }
 
-    scalar Trapezoid::getC() const {
-        return this->_c;
+    scalar Trapezoid::getVertexC() const {
+        return this->_vertexC;
     }
 
-    void Trapezoid::setD(scalar d) {
-        this->_d = d;
+    void Trapezoid::setVertexD(scalar d) {
+        this->_vertexD = d;
     }
 
-    scalar Trapezoid::getD() const {
-        return this->_d;
+    scalar Trapezoid::getVertexD() const {
+        return this->_vertexD;
     }
 
     Trapezoid* Trapezoid::clone() const {

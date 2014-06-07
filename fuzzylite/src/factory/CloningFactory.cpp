@@ -28,13 +28,12 @@
 #include "fl/factory/CloningFactory.h"
 
 #include "fl/Exception.h"
-
 #include "fl/term/Function.h"
 
 namespace fl {
 
     template<typename T>
-    CloningFactory<T>::CloningFactory() {
+    CloningFactory<T>::CloningFactory(const std::string& name) : _name(name) {
 
     }
 
@@ -75,6 +74,11 @@ namespace fl {
     }
 
     template<typename T>
+    std::string CloningFactory<T>::name() const {
+        return this->_name;
+    }
+
+    template<typename T>
     void CloningFactory<T>::registerObject(const std::string& key, T object) {
         this->_objects[key] = object;
     }
@@ -110,7 +114,7 @@ namespace fl {
             if (it->second) return it->second->clone();
             return NULL;
         }
-        throw fl::Exception("[cloning error] object by name <" + key + "> not registered", FL_AT);
+        throw fl::Exception("[cloning error] " + _name + " object by name <" + key + "> not registered", FL_AT);
     }
 
     template<typename T>

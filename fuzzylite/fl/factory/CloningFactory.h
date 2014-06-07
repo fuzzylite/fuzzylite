@@ -31,6 +31,7 @@
 #include "fl/fuzzylite.h"
 
 #include <map>
+#include <string>
 #include <vector>
 
 namespace fl {
@@ -38,13 +39,16 @@ namespace fl {
     template <typename T>
     class FL_EXPORT CloningFactory {
     protected:
+        std::string _name;
         std::map<std::string, T> _objects;
 
     public:
-        CloningFactory();
+        CloningFactory(const std::string& name = "");
         CloningFactory(const CloningFactory& source);
         CloningFactory& operator=(const CloningFactory& rhs);
         virtual ~CloningFactory();
+
+        virtual std::string name() const;
 
         virtual void registerObject(const std::string& key, T object);
         virtual void deregisterObject(const std::string& key);

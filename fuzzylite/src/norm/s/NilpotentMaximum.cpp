@@ -22,7 +22,6 @@
 #include "fl/norm/s/NilpotentMaximum.h"
 
 
-
 namespace fl {
 
     std::string NilpotentMaximum::className() const {

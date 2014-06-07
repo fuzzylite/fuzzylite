@@ -31,7 +31,7 @@
 
 namespace fl {
 
-    FunctionFactory::FunctionFactory() {
+    FunctionFactory::FunctionFactory() : CloningFactory<Function::Element*>("Function::Element") {
 
         //OPERATORS:
         int p = 10;

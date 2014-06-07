@@ -30,8 +30,6 @@
 
 #include "fl/term/Term.h"
 
-#include "fl/Exception.h"
-
 #include <vector>
 #include <utility>
 

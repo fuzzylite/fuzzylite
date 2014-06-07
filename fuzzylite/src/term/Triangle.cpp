@@ -27,15 +27,13 @@
 
 #include "fl/term/Triangle.h"
 
-#include <sstream>
-
 namespace fl {
 
-    Triangle::Triangle(const std::string& name, scalar a, scalar b, scalar c)
-    : Term(name), _a(a), _b(b), _c(c) {
-        if (fl::Op::isNaN(c)) {
-            this->_c = b;
-            this->_b = (a + b) / 2.0;
+    Triangle::Triangle(const std::string& name, scalar vertexA, scalar vertexB, scalar vertexC)
+    : Term(name), _vertexA(vertexA), _vertexB(vertexB), _vertexC(vertexC) {
+        if (fl::Op::isNaN(vertexC)) {
+            this->_vertexC = vertexB;
+            this->_vertexB = (vertexA + vertexB) / 2.0;
         }
     }
 
@@ -47,7 +45,7 @@ namespace fl {
     }
 
     std::string Triangle::parameters() const {
-        return Op::join(3, " ", _a, _b, _c);
+        return Op::join(3, " ", _vertexA, _vertexB, _vertexC);
     }
 
     void Triangle::configure(const std::string& parameters) {
@@ -60,48 +58,48 @@ namespace fl {
                     << " requires <" << required << "> parameters";
             throw fl::Exception(ex.str(), FL_AT);
         }
-        setA(Op::toScalar(values.at(0)));
-        setB(Op::toScalar(values.at(1)));
-        setC(Op::toScalar(values.at(2)));
+        setVertexA(Op::toScalar(values.at(0)));
+        setVertexB(Op::toScalar(values.at(1)));
+        setVertexC(Op::toScalar(values.at(2)));
     }
 
     scalar Triangle::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
 
-        if (Op::isLt(x, _a) or Op::isGt(x, _c))
+        if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexC))
             return 0.0;
 
-        if (Op::isEq(x, _b))
+        if (Op::isEq(x, _vertexB))
             return 1.0;
 
-        if (Op::isLt(x, _b))
-            return (x - _a) / (_b - _a);
+        if (Op::isLt(x, _vertexB))
+            return (x - _vertexA) / (_vertexB - _vertexA);
 
-        return (_c - x) / (_c - _b);
+        return (_vertexC - x) / (_vertexC - _vertexB);
     }
 
-    void Triangle::setA(scalar a) {
-        this->_a = a;
+    void Triangle::setVertexA(scalar a) {
+        this->_vertexA = a;
     }
 
-    scalar Triangle::getA() const {
-        return this->_a;
+    scalar Triangle::getVertexA() const {
+        return this->_vertexA;
     }
 
-    void Triangle::setB(scalar b) {
-        this->_b = b;
+    void Triangle::setVertexB(scalar b) {
+        this->_vertexB = b;
     }
 
-    scalar Triangle::getB() const {
-        return this->_b;
+    scalar Triangle::getVertexB() const {
+        return this->_vertexB;
     }
 
-    void Triangle::setC(scalar c) {
-        this->_c = c;
+    void Triangle::setVertexC(scalar c) {
+        this->_vertexC = c;
     }
 
-    scalar Triangle::getC() const {
-        return this->_c;
+    scalar Triangle::getVertexC() const {
+        return this->_vertexC;
     }
 
     Triangle* Triangle::clone() const {

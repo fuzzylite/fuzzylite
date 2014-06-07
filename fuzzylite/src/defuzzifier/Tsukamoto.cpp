@@ -21,7 +21,6 @@
 #include "fl/defuzzifier/Tsukamoto.h"
 
 #include "fl/term/Activated.h"
-
 #include "fl/term/Ramp.h"
 #include "fl/term/Sigmoid.h"
 #include "fl/term/SShape.h"

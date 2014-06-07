@@ -29,7 +29,6 @@
 #define	FL_LINEAR_H
 
 #include "fl/term/Term.h"
-#include "fl/variable/InputVariable.h"
 
 namespace fl {
     class Engine;
@@ -50,7 +49,7 @@ namespace fl {
 
         virtual scalar membership(scalar x) const;
 
-        virtual void set(const std::vector<scalar>& coeffs, const Engine* engine) throw (fl::Exception);
+        virtual void set(const std::vector<scalar>& coeffs, const Engine* engine);
 
         virtual void setCoefficients(const std::vector<scalar>& coeffs);
         virtual const std::vector<scalar>& coefficients() const;
@@ -60,7 +59,7 @@ namespace fl {
         virtual const Engine* getEngine() const;
 
         virtual Linear* clone() const;
-        
+
         static Term* constructor();
 
         //Warning: this method is unsafe, make sure you use it correctly.

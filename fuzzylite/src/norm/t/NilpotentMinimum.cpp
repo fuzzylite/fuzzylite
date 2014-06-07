@@ -31,7 +31,7 @@ namespace fl {
         if (Op::isGt(a + b, 1.0)) {
             return Op::min(a, b);
         }
-        return 0;
+        return 0.0;
     }
 
     NilpotentMinimum* NilpotentMinimum::clone() const {

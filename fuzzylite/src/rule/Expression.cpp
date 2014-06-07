@@ -20,10 +20,10 @@
 
 #include "fl/rule/Expression.h"
 
-#include "fl/variable/Variable.h"
 #include "fl/hedge/Hedge.h"
 #include "fl/term/Term.h"
 #include "fl/rule/Rule.h"
+#include "fl/variable/Variable.h"
 
 namespace fl {
 

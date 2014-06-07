@@ -109,9 +109,22 @@ Version 5.0
 * Renamed method OutputVariable::setLockValidOutput() to ::setLockPreviousOutputValue
 * Renamed method OutputVariable::isLockingValidOutput() to ::isLockedPreviousOutputValue
 * Renamed FLL property 'lock-valid' to 'lock-previous'
+* Renamed FIS property 'LockValid' to 'LockPrevious'
+* Renamed FCL property 'LOCK: VALID' to 'LOCK: PREVIOUS'
 * Added method Engine::variables() to retrieve both Input and OutputVariables
-* Added method to ensure Linear and Function terms have correct reference when cloning an engine
+* Added method Term::updateReference(Term*, Engine*) to ensure Linear and Function terms to update references of engines
+* Added method Engine::updateReferences() to update references to the engine in its terms.
 * Added in Discrete a typedef to std::pair<scalar, scalar> Pair, and changed signatures of methods and types of their parameters
+* Added terms: Concave, Cosine and Spike
+* Renamed methods Triangle::(set|get)(A|B|C) to (set|get)(Vertex(A|B|C))
+* Renamed methods Trapezoid::(set|get)(A|B|C|D) to (set|get)(Vertex(A|B|C|D))
+* Removed method fuzzylite::configuration()
+* Removed MACRO FL_DEBUG
+* Removed MACRO FL_BEGIN_DEBUG_BLOCK and FL_END_DEBUG_BLOCK
+* Created MACRO FL_DEBUG_BLOCK(block) to replace FL_BEGIN_DEBUG_BLOCK and FL_END_DEBUG_BLOCK
+* Renamed methods in (Fis|Fcl)Importers::extract? to ::parse?
+* Made defaultResolution a static property of IntegralDefuzzifiers
+
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.

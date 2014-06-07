@@ -31,7 +31,7 @@ namespace fl {
 
     int fuzzylite::_decimals = 3;
     scalar fuzzylite::_macheps = 1e-5;
-    bool fuzzylite::_debug = FL_DEBUG;
+    bool fuzzylite::_debug = false;
     bool fuzzylite::_logging = true;
 
     std::string fuzzylite::name() {
@@ -66,12 +66,6 @@ namespace fl {
 #else 
         return "?";
 #endif
-    }
-
-    std::string fuzzylite::configuration() {
-        if (FL_DEBUG)
-            return "Debug";
-        return "Release";
     }
 
     std::string fuzzylite::floatingPoint() {

@@ -31,12 +31,9 @@
 #include "fl/fuzzylite.h"
 
 #include "fl/Operation.h"
-#include "fl/factory/FactoryManager.h"
 
-#include <string>
-#include <limits>
-#include <iomanip>
 #include <cmath>
+#include <string>
 #include <vector>
 
 namespace fl {
@@ -69,10 +66,8 @@ namespace fl {
         virtual scalar membership(scalar x) const = 0;
 
         virtual Term* clone() const = 0;
-
-        //Important when cloning engines.
-        static void updateReferences(const fl::Engine* engine);
-
+        
+        static void updateReference(Term* term, const Engine* engine);
     };
 
 }

@@ -34,14 +34,14 @@ namespace fl {
 
     class FL_EXPORT Triangle : public Term {
     protected:
-        scalar _a;
-        scalar _b;
-        scalar _c;
+        scalar _vertexA;
+        scalar _vertexB;
+        scalar _vertexC;
     public:
         Triangle(const std::string& name = "",
-                scalar a = fl::nan,
-                scalar b = fl::nan,
-                scalar c = fl::nan);
+                scalar vertexA = fl::nan,
+                scalar vertexB = fl::nan,
+                scalar vertexC = fl::nan);
         virtual ~Triangle();
 
         virtual std::string className() const;
@@ -50,14 +50,14 @@ namespace fl {
 
         virtual scalar membership(scalar x) const;
 
-        virtual void setA(scalar a);
-        virtual scalar getA() const;
+        virtual void setVertexA(scalar a);
+        virtual scalar getVertexA() const;
 
-        virtual void setB(scalar b);
-        virtual scalar getB() const;
+        virtual void setVertexB(scalar b);
+        virtual scalar getVertexB() const;
 
-        virtual void setC(scalar c);
-        virtual scalar getC() const;
+        virtual void setVertexC(scalar c);
+        virtual scalar getVertexC() const;
 
         virtual Triangle* clone() const;
 

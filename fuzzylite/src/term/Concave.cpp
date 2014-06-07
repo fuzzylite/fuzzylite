@@ -18,7 +18,6 @@
 // along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
 // #END_LICENSE
 
-
 #include "fl/term/Concave.h"
 
 namespace fl {

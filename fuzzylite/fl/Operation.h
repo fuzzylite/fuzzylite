@@ -34,11 +34,6 @@
 
 #include <string>
 #include <vector>
-#include <limits>
-
-//#ifndef foreach
-//#define foreach(variable, container) for ()
-//#endif
 
 namespace fl {
 

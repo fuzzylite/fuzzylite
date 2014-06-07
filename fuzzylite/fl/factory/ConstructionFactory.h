@@ -42,11 +42,14 @@ namespace fl {
         typedef T(*Constructor)();
 
     protected:
+        std::string _name;
         std::map<std::string, Constructor> _constructors;
 
     public:
-        ConstructionFactory();
+        ConstructionFactory(const std::string& name);
         virtual ~ConstructionFactory();
+
+        virtual std::string name() const;
 
         virtual void registerConstructor(const std::string& key, Constructor constructor);
         virtual void deregisterConstructor(const std::string& key);

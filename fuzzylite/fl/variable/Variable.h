@@ -30,14 +30,9 @@
 
 #include "fl/fuzzylite.h"
 
-
-#include "fl/defuzzifier/Centroid.h"
-#include "fl/norm/Norm.h"
-
 #include <string>
 #include <vector>
-#include <limits>
-#include <map>
+
 namespace fl {
 
     class Term;

@@ -26,25 +26,31 @@
  */
 
 #include "fl/factory/ConstructionFactory.h"
-#include "fl/Exception.h"
 
+#include "fl/Exception.h"
 #include "fl/defuzzifier/Defuzzifier.h"
 #include "fl/hedge/Hedge.h"
 #include "fl/norm/SNorm.h"
 #include "fl/norm/TNorm.h"
-#include "fl/term/Term.h"
 #include "fl/term/Function.h"
+#include "fl/term/Term.h"
+
 
 
 namespace fl {
 
     template <typename T>
-    ConstructionFactory<T>::ConstructionFactory() {
+    ConstructionFactory<T>::ConstructionFactory(const std::string& name) : _name(name) {
 
     }
 
     template <typename T>
     ConstructionFactory<T>::~ConstructionFactory() {
+    }
+
+    template<typename T>
+    std::string ConstructionFactory<T>::name() const {
+        return this->_name;
     }
 
     template <typename T>
@@ -85,7 +91,7 @@ namespace fl {
             return NULL;
         }
         std::ostringstream ss;
-        ss << "[factory error] constructor <" << key << "> not registered";
+        ss << "[factory error] constructor of " + _name + " <" << key << "> not registered";
         throw fl::Exception(ss.str(), FL_AT);
     }
 

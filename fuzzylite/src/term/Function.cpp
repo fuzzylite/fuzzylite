@@ -28,17 +28,19 @@
 #include "fl/term/Function.h"
 
 #include "fl/Engine.h"
+#include "fl/factory/FactoryManager.h"
 #include "fl/factory/FunctionFactory.h"
+#include "fl/rule/Rule.h"
 #include "fl/variable/InputVariable.h"
 #include "fl/variable/OutputVariable.h"
-#include "fl/rule/Rule.h"
 
-#include <functional>
-#include <queue>
-#include <stack>
-#include <signal.h>
 #include <cctype>
+#include <functional>
 #include <memory>
+#include <queue>
+#include <signal.h>
+#include <stack>
+
 
 namespace fl {
 

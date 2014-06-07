@@ -30,8 +30,9 @@
 
 #include "fl/fuzzylite.h"
 
-#include <string>
 #include <map>
+#include <string>
+
 
 namespace fl {
     class Engine;

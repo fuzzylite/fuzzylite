@@ -27,8 +27,8 @@
 
 #include "fl/factory/DefuzzifierFactory.h"
 
-#include "fl/defuzzifier/Centroid.h"
 #include "fl/defuzzifier/Bisector.h"
+#include "fl/defuzzifier/Centroid.h"
 #include "fl/defuzzifier/SmallestOfMaximum.h"
 #include "fl/defuzzifier/LargestOfMaximum.h"
 #include "fl/defuzzifier/MeanOfMaximum.h"
@@ -37,7 +37,7 @@
 
 namespace fl {
 
-    DefuzzifierFactory::DefuzzifierFactory() {
+    DefuzzifierFactory::DefuzzifierFactory() : ConstructionFactory<Defuzzifier*>("Defuzzifier") {
         registerConstructor("", NULL);
         registerConstructor(Bisector().className(), &(Bisector::constructor));
         registerConstructor(Centroid().className(), &(Centroid::constructor));

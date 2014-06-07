@@ -28,15 +28,11 @@
 #ifndef FL_DEFUZZIFIERFACTORY_H
 #define	FL_DEFUZZIFIERFACTORY_H
 
-#include "fl/fuzzylite.h"
-
 #include "fl/factory/ConstructionFactory.h"
 
-#include <string>
-#include <vector>
+#include "fl/defuzzifier/Defuzzifier.h"
 
 namespace fl {
-    class Defuzzifier;
 
     class FL_EXPORT DefuzzifierFactory : public ConstructionFactory<Defuzzifier*> {
     public:

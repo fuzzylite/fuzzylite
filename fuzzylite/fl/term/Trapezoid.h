@@ -34,13 +34,13 @@ namespace fl {
 
     class FL_EXPORT Trapezoid : public Term {
     protected:
-        scalar _a, _b, _c, _d;
+        scalar _vertexA, _vertexB, _vertexC, _vertexD;
     public:
         Trapezoid(const std::string& name = "",
-                scalar a = fl::nan,
-                scalar b = fl::nan,
-                scalar c = fl::nan,
-                scalar d = fl::nan);
+                scalar vertexA = fl::nan,
+                scalar vertexB = fl::nan,
+                scalar vertexC = fl::nan,
+                scalar vertexD = fl::nan);
         virtual ~Trapezoid();
 
         virtual std::string className() const;
@@ -49,17 +49,17 @@ namespace fl {
 
         virtual scalar membership(scalar x) const;
 
-        virtual void setA(scalar a);
-        virtual scalar getA() const;
+        virtual void setVertexA(scalar a);
+        virtual scalar getVertexA() const;
 
-        virtual void setB(scalar b);
-        virtual scalar getB() const;
+        virtual void setVertexB(scalar b);
+        virtual scalar getVertexB() const;
 
-        virtual void setC(scalar c);
-        virtual scalar getC() const;
+        virtual void setVertexC(scalar c);
+        virtual scalar getVertexC() const;
 
-        virtual void setD(scalar d);
-        virtual scalar getD() const;
+        virtual void setVertexD(scalar d);
+        virtual scalar getVertexD() const;
 
         virtual Trapezoid* clone() const;
 

@@ -27,23 +27,17 @@
 
 #include "fl/rule/Consequent.h"
 
-#include "fl/rule/Expression.h"
-
-#include "fl/rule/Rule.h"
-
 #include "fl/Engine.h"
-#include "fl/variable/OutputVariable.h"
-
-
+#include "fl/factory/HedgeFactory.h"
+#include "fl/factory/FactoryManager.h"
 #include "fl/hedge/Hedge.h"
 #include "fl/hedge/Any.h"
 #include "fl/norm/TNorm.h"
-
-#include "fl/term/Activated.h"
+#include "fl/rule/Expression.h"
+#include "fl/rule/Rule.h"
 #include "fl/term/Accumulated.h"
-
-#include "fl/factory/FactoryManager.h"
-#include "fl/factory/HedgeFactory.h"
+#include "fl/term/Activated.h"
+#include "fl/variable/OutputVariable.h"
 
 #include <algorithm>
 

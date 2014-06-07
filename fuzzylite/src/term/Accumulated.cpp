@@ -27,8 +27,6 @@
 
 #include "fl/term/Accumulated.h"
 
-#include <sstream>
-
 #include "fl/imex/FllExporter.h"
 #include "fl/norm/SNorm.h"
 

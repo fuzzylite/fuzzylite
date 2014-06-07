@@ -35,7 +35,7 @@ namespace fl {
     }
 
     scalar BoundedDifference::compute(scalar a, scalar b) const {
-        return Op::max(scalar(0.0), a + b - 1);
+        return Op::max(scalar(0.0), a + b - 1.0);
     }
 
     BoundedDifference* BoundedDifference::clone() const {

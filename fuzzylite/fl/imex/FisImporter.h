@@ -30,8 +30,9 @@
 
 #include "fl/imex/Importer.h"
 
-#include <vector>
 #include <utility>
+#include <vector>
+
 
 namespace fl {
     class Norm;
@@ -53,16 +54,14 @@ namespace fl {
         virtual void importRules(const std::string& section, Engine* engine) const;
         virtual std::string translateProposition(scalar code, Variable* variable) const;
 
-        virtual std::string tnorm(const std::string& tnorm) const;
-        virtual std::string snorm(const std::string& tnorm) const;
-        virtual std::string defuzzifier(const std::string& tnorm) const;
-
-
-        virtual Term* extractTerm(const std::string& line) const;
-        virtual Term* prepareTerm(Term* term, const Engine* engine) const;
+        virtual std::string extractTNorm(const std::string& tnorm) const;
+        virtual std::string extractSNorm(const std::string& tnorm) const;
+        virtual std::string extractDefuzzifier(const std::string& defuzzifier) const;
+        
+        virtual Term* parseTerm(const std::string& line, const Engine* engine) const;
         virtual Term* createInstance(const std::string& termClass, const std::string& name,
-                const std::vector<std::string>& params) const;
-        virtual std::pair<scalar, scalar> extractRange(const std::string& range) const;
+                const std::vector<std::string>& params, const Engine* engine) const;
+        virtual std::pair<scalar, scalar> range(const std::string& range) const;
 
     public:
         FisImporter();

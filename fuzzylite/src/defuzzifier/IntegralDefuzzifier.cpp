@@ -29,6 +29,16 @@
 
 namespace fl {
 
+    int IntegralDefuzzifier::_defaultResolution = 200;
+
+    void IntegralDefuzzifier::setDefaultResolution(int defaultResolution) {
+        _defaultResolution = defaultResolution;
+    }
+
+    int IntegralDefuzzifier::defaultResolution() {
+        return _defaultResolution;
+    }
+
     IntegralDefuzzifier::IntegralDefuzzifier(int resolution)
     : Defuzzifier(), _resolution(resolution) {
     }

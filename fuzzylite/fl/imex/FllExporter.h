@@ -28,7 +28,6 @@
 #ifndef FL_FLLEXPORTER_H
 #define	FL_FLLEXPORTER_H
 
-#include "fl/fuzzylite.h"
 #include "fl/imex/Exporter.h"
 
 #include <vector>

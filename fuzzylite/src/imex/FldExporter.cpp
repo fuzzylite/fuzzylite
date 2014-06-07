@@ -28,6 +28,7 @@
 #include "fl/imex/FldExporter.h"
 
 #include "fl/Engine.h"
+#include "fl/Operation.h"
 #include "fl/variable/Variable.h"
 #include "fl/variable/InputVariable.h"
 #include "fl/variable/OutputVariable.h"

@@ -28,13 +28,10 @@
 #ifndef FL_TERMFACTORY_H
 #define	FL_TERMFACTORY_H
 
-#include "fl/fuzzylite.h"
 
 #include "fl/factory/ConstructionFactory.h"
-#include "fl/term/Term.h"
 
-#include <vector>
-#include <string>
+#include "fl/term/Term.h"
 
 namespace fl {
 

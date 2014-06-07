@@ -27,13 +27,15 @@
 
 #include "fl/variable/Variable.h"
 
-#include "fl/term/Constant.h"
+#include "fl/defuzzifier/Centroid.h"
 #include "fl/imex/FllExporter.h"
-#include "fl/term/Linear.h"
 #include "fl/norm/Norm.h"
+#include "fl/term/Constant.h"
+#include "fl/term/Linear.h"
 #include "fl/term/Term.h"
 
 #include <algorithm>
+#include <map>
 #include <sstream>
 
 namespace fl {

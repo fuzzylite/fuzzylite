@@ -34,7 +34,7 @@ namespace fl {
     }
 
     scalar HamacherSum::compute(scalar a, scalar b) const {
-        return (a + b - 2 * a * b) / (1 - a * b);
+        return (a + b - 2.0 * a * b) / (1.0 - a * b);
     }
 
     HamacherSum* HamacherSum::clone() const {

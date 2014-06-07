@@ -29,8 +29,8 @@
 
 #include "fl/Headers.h"
 
-#include <sstream>
 #include <iostream>
+#include <sstream>
 
 namespace fl {
 
@@ -45,7 +45,7 @@ namespace fl {
     }
 
     Engine* FclImporter::fromString(const std::string& fcl) const {
-        Engine* engine = new Engine;
+        std::auto_ptr<Engine> engine(new Engine);
 
         std::map<std::string, std::string> tags;
         tags["VAR_INPUT"] = "END_VAR";
@@ -59,96 +59,91 @@ namespace fl {
         std::ostringstream block;
         std::istringstream fclReader(fcl);
         std::string line;
-        try {
-            int lineNumber = 0;
-            while (std::getline(fclReader, line)) {
-                ++lineNumber;
-                std::vector<std::string> comments;
-                comments = Op::split(line, "//");
-                if (comments.size() > 1) {
-                    line = comments.front();
-                }
-                comments = Op::split(line, "#");
-                if (comments.size() > 1) {
-                    line = comments.front();
-                }
-                line = Op::trim(line);
-                if (line.empty() or line.at(0) == '%' or line.at(0) == '#'
-                        or (line.substr(0, 2) == "//")) {
-                    continue;
-                }
-                line = fl::Op::findReplace(line, ";", "");
-                std::istringstream tokenizer(line);
-                std::string firstToken;
-                tokenizer >> firstToken;
 
-                if (firstToken == "FUNCTION_BLOCK") {
-                    if (tokenizer.rdbuf()->in_avail() > 0) {
-                        std::ostringstream name;
-                        std::string token;
-                        tokenizer >> token;
-                        name << token;
-                        while (tokenizer >> token) {
-                            name << " " << token;
-                        }
-                        engine->setName(name.str());
-                    }
-                    continue;
-                }
-                if (firstToken == "END_FUNCTION_BLOCK") {
-                    break;
-                }
+        int lineNumber = 0;
+        while (std::getline(fclReader, line)) {
+            ++lineNumber;
+            std::vector<std::string> comments;
+            comments = Op::split(line, "//");
+            if (comments.size() > 1) {
+                line = comments.front();
+            }
+            comments = Op::split(line, "#");
+            if (comments.size() > 1) {
+                line = comments.front();
+            }
+            line = Op::trim(line);
+            if (line.empty() or line.at(0) == '%' or line.at(0) == '#'
+                    or (line.substr(0, 2) == "//")) {
+                continue;
+            }
+            line = fl::Op::findReplace(line, ";", "");
+            std::istringstream tokenizer(line);
+            std::string firstToken;
+            tokenizer >> firstToken;
 
-                if (currentTag.empty()) {
-                    tagFinder = tags.find(firstToken);
-                    if (tagFinder == tags.end()) {
-                        std::ostringstream ex;
-                        ex << "[syntax error] unknown block definition <" << firstToken
-                                << "> " << " in line " << lineNumber << ": " << line;
-                        throw fl::Exception(ex.str(), FL_AT);
+            if (firstToken == "FUNCTION_BLOCK") {
+                if (tokenizer.rdbuf()->in_avail() > 0) {
+                    std::ostringstream name;
+                    std::string token;
+                    tokenizer >> token;
+                    name << token;
+                    while (tokenizer >> token) {
+                        name << " " << token;
                     }
-                    currentTag = tagFinder->first;
-                    closingTag = tagFinder->second;
-                    block.str("");
-                    block.clear();
-                    block << line << "\n";
-                    continue;
+                    engine->setName(name.str());
                 }
+                continue;
+            }
+            if (firstToken == "END_FUNCTION_BLOCK") {
+                break;
+            }
 
-                if (not currentTag.empty()) {
-                    if (firstToken == closingTag) {
-                        processBlock(currentTag, block.str(), engine);
-                        currentTag = "";
-                        closingTag = "";
-                    } else if (tags.find(firstToken) != tags.end()) {
-                        //if opening new block without closing the previous one
-                        std::ostringstream ex;
-                        ex << "[syntax error] expected <" << closingTag << "> before <"
-                                << firstToken << "> in line: " << line;
-                        throw fl::Exception(ex.str(), FL_AT);
-                    } else {
-                        block << line << "\n";
-                    }
-                    continue;
+            if (currentTag.empty()) {
+                tagFinder = tags.find(firstToken);
+                if (tagFinder == tags.end()) {
+                    std::ostringstream ex;
+                    ex << "[syntax error] unknown block definition <" << firstToken
+                            << "> " << " in line " << lineNumber << ": " << line;
+                    throw fl::Exception(ex.str(), FL_AT);
                 }
+                currentTag = tagFinder->first;
+                closingTag = tagFinder->second;
+                block.str("");
+                block.clear();
+                block << line << "\n";
+                continue;
             }
 
             if (not currentTag.empty()) {
-                std::ostringstream ex;
-                ex << "[syntax error] ";
-                if (block.rdbuf()->in_avail() > 0) {
-                    ex << "expected <" << closingTag << "> for block:\n" << block.str();
+                if (firstToken == closingTag) {
+                    processBlock(currentTag, block.str(), engine.get());
+                    currentTag = "";
+                    closingTag = "";
+                } else if (tags.find(firstToken) != tags.end()) {
+                    //if opening new block without closing the previous one
+                    std::ostringstream ex;
+                    ex << "[syntax error] expected <" << closingTag << "> before <"
+                            << firstToken << "> in line: " << line;
+                    throw fl::Exception(ex.str(), FL_AT);
                 } else {
-                    ex << "expected <" << closingTag << ">, but not found";
+                    block << line << "\n";
                 }
-                throw fl::Exception(ex.str(), FL_AT);
+                continue;
             }
-        } catch (std::exception& ex) {
-            (void) ex;
-            delete engine;
-            throw;
         }
-        return engine;
+
+        if (not currentTag.empty()) {
+            std::ostringstream ex;
+            ex << "[syntax error] ";
+            if (block.rdbuf()->in_avail() > 0) {
+                ex << "expected <" << closingTag << "> for block:\n" << block.str();
+            } else {
+                ex << "expected <" << closingTag << ">, but not found";
+            }
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        return engine.release();
     }
 
     void FclImporter::processBlock(const std::string& tag, const std::string& block, Engine* engine) const {
@@ -220,13 +215,13 @@ namespace fl {
             ss >> firstToken;
             try {
                 if (firstToken == "RANGE") {
-                    std::pair<scalar, scalar> minmax = extractRange(line);
+                    std::pair<scalar, scalar> minmax = parseRange(line);
                     inputVariable->setMinimum(minmax.first);
                     inputVariable->setMaximum(minmax.second);
                 } else if (firstToken == "ENABLED") {
-                    inputVariable->setEnabled(extractEnabled(line));
+                    inputVariable->setEnabled(parseEnabled(line));
                 } else if (firstToken == "TERM") {
-                    inputVariable->addTerm(prepareTerm(extractTerm(line), engine));
+                    inputVariable->addTerm(parseTerm(line, engine));
                 } else throw fl::Exception("[syntax error] unexpected token "
                         "<" + firstToken + ">" + line, FL_AT);
             } catch (fl::Exception& ex) {
@@ -266,26 +261,26 @@ namespace fl {
             std::string firstToken;
             tokenizer >> firstToken;
             if (firstToken == "TERM") {
-                outputVariable->addTerm(prepareTerm(extractTerm(line), engine));
+                outputVariable->addTerm(parseTerm(line, engine));
             } else if (firstToken == "METHOD") {
-                outputVariable->setDefuzzifier(extractDefuzzifier(line));
+                outputVariable->setDefuzzifier(parseDefuzzifier(line));
             } else if (firstToken == "ACCU") {
-                outputVariable->fuzzyOutput()->setAccumulation(extractSNorm(line));
+                outputVariable->fuzzyOutput()->setAccumulation(parseSNorm(line));
             } else if (firstToken == "DEFAULT") {
-                std::pair<scalar, bool> defaultAndLock = extractDefaultValue(line);
+                std::pair<scalar, bool> defaultAndLock = parseDefaultValue(line);
                 outputVariable->setDefaultValue(defaultAndLock.first);
                 outputVariable->setLockPreviousOutputValue(defaultAndLock.second or
                         outputVariable->isLockedPreviousOutputValue());
             } else if (firstToken == "RANGE") {
-                std::pair<scalar, scalar> minmax = extractRange(line);
+                std::pair<scalar, scalar> minmax = parseRange(line);
                 outputVariable->setMinimum(minmax.first);
                 outputVariable->setMaximum(minmax.second);
             } else if (firstToken == "LOCK") {
-                std::pair<bool, bool> output_range = extractLocksOutputRange(line);
+                std::pair<bool, bool> output_range = parseLocks(line);
                 outputVariable->setLockPreviousOutputValue(output_range.first);
                 outputVariable->setLockOutputValueInRange(output_range.second);
             } else if (firstToken == "ENABLED") {
-                outputVariable->setEnabled(extractEnabled(line));
+                outputVariable->setEnabled(parseEnabled(line));
             } else {
                 std::ostringstream ex;
                 ex << "[syntax error] unexpected token <" << firstToken <<
@@ -310,13 +305,13 @@ namespace fl {
         while (std::getline(blockReader, line)) {
             std::string firstToken = line.substr(0, line.find_first_of(' '));
             if (firstToken == "AND") {
-                ruleblock->setConjunction(extractTNorm(line));
+                ruleblock->setConjunction(parseTNorm(line));
             } else if (firstToken == "OR") {
-                ruleblock->setDisjunction(extractSNorm(line));
+                ruleblock->setDisjunction(parseSNorm(line));
             } else if (firstToken == "ACT") {
-                ruleblock->setActivation(extractTNorm(line));
+                ruleblock->setActivation(parseTNorm(line));
             } else if (firstToken == "ENABLED") {
-                ruleblock->setEnabled(extractEnabled(line));
+                ruleblock->setEnabled(parseEnabled(line));
             } else if (firstToken == "RULE") {
                 std::size_t ruleStart = line.find_first_of(':');
                 if (ruleStart == std::string::npos) ruleStart = 4; // "RULE".size()
@@ -338,7 +333,7 @@ namespace fl {
         }
     }
 
-    TNorm* FclImporter::extractTNorm(const std::string& line) const {
+    TNorm* FclImporter::parseTNorm(const std::string& line) const {
         std::vector<std::string> token = Op::split(line, ":");
         if (token.size() != 2) {
             std::ostringstream ex;
@@ -357,16 +352,10 @@ namespace fl {
         else if (name == "HPROD") className = HamacherProduct().className();
         else if (name == "NMIN") className = NilpotentMinimum().className();
 
-        try {
-            return FactoryManager::instance()->tnorm()->constructObject(className);
-        } catch (fl::Exception& ex) {
-            ex.append("[syntax error] T-Norm <" + name + "> not recognized in line:\n"
-                    + line, FL_AT);
-            throw;
-        }
+        return FactoryManager::instance()->tnorm()->constructObject(className);
     }
 
-    SNorm* FclImporter::extractSNorm(const std::string& line) const {
+    SNorm* FclImporter::parseSNorm(const std::string& line) const {
         std::vector<std::string> token = Op::split(line, ":");
         if (token.size() != 2) {
             std::ostringstream ex;
@@ -386,16 +375,10 @@ namespace fl {
         else if (name == "HSUM") className = HamacherSum().className();
         else if (name == "NMAX") className = NilpotentMaximum().className();
 
-        try {
-            return FactoryManager::instance()->snorm()->constructObject(className);
-        } catch (fl::Exception& ex) {
-            ex.append("[syntax error] S-Norm <" + name + "> not recognized in line:\n"
-                    + line, FL_AT);
-            throw;
-        }
+        return FactoryManager::instance()->snorm()->constructObject(className);
     }
 
-    Term* FclImporter::extractTerm(const std::string& line) const {
+    Term* FclImporter::parseTerm(const std::string& line, const Engine* engine) const {
         std::ostringstream spacer;
         for (std::size_t i = 0; i < line.size(); ++i) {
             if (line.at(i) == '(' or line.at(i) == ')' or line.at(i) == ',') {
@@ -455,36 +438,19 @@ namespace fl {
         if (state <= S_ASSIGN)
             throw fl::Exception("[syntax error] malformed term in line: " + line, FL_AT);
 
-        try {
-            Term * result = FactoryManager::instance()->term()->constructObject(termClass);
-            result->setName(fl::Op::makeValidId(name));
-            if (dynamic_cast<Function*> (result)) {
-                result->configure(Op::join(parameters, "")); //remove spaces for text of function
-            } else {
-                result->configure(Op::join(parameters, " "));
-            }
-
-            return result;
-        } catch (fl::Exception& ex) {
-            ex.append(FL_AT);
-            throw;
+        std::auto_ptr<Term> term;
+        term.reset(FactoryManager::instance()->term()->constructObject(termClass));
+        Term::updateReference(term.get(), engine);
+        term->setName(fl::Op::makeValidId(name));
+        std::string separator;
+        if (not dynamic_cast<Function*> (term.get())) {
+            separator = " ";
         }
+        term->configure(Op::join(parameters, separator)); //remove spaces for text of function
+        return term.release();
     }
 
-    Term* FclImporter::prepareTerm(Term* term, const Engine* engine) const {
-        Linear* linear = NULL;
-        Function* function = NULL;
-        if ((linear = dynamic_cast<Linear*> (term))) {
-            linear->setEngine(engine);
-        } else if ((function = dynamic_cast<Function*> (term))) {
-            function->setEngine(engine);
-            //builtin functions are loaded from TermFactory calling Function::create
-            function->load();
-        }
-        return term;
-    }
-
-    Defuzzifier* FclImporter::extractDefuzzifier(const std::string& line) const {
+    Defuzzifier* FclImporter::parseDefuzzifier(const std::string& line) const {
         std::vector<std::string> token = Op::split(line, ":");
         if (token.size() != 2) {
             std::ostringstream ex;
@@ -504,16 +470,10 @@ namespace fl {
         else if (name == "COGS") className = WeightedAverage().className();
         else if (name == "COGSS") className = WeightedSum().className();
 
-        try {
-            return FactoryManager::instance()->defuzzifier()->constructObject(className);
-        } catch (fl::Exception& ex) {
-            ex.append("[syntax error] defuzzifier <" + name +
-                    "> not recognized in line:\n" + line, FL_AT);
-            throw;
-        }
+        return FactoryManager::instance()->defuzzifier()->constructObject(className);
     }
 
-    std::pair<scalar, bool> FclImporter::extractDefaultValue(const std::string& line) const {
+    std::pair<scalar, bool> FclImporter::parseDefaultValue(const std::string& line) const {
         std::vector<std::string> token = Op::split(line, ":=");
         if (token.size() != 2) {
             std::ostringstream ex;
@@ -542,17 +502,17 @@ namespace fl {
             throw fl::Exception(ex.str(), FL_AT);
         }
 
-        bool lockValidOutput = (nc == "NC");
+        bool lockPreviousOutput = (nc == "NC");
 
-        if (not (lockValidOutput or nc.empty())) {
+        if (not (lockPreviousOutput or nc.empty())) {
             throw fl::Exception("[syntax error] expected keyword <NC>, "
                     "but found <" + nc + "> in line: " + line, FL_AT);
         }
 
-        return std::pair<scalar, bool>(value, lockValidOutput);
+        return std::pair<scalar, bool>(value, lockPreviousOutput);
     }
 
-    std::pair<scalar, scalar> FclImporter::extractRange(const std::string& line) const {
+    std::pair<scalar, scalar> FclImporter::parseRange(const std::string& line) const {
         std::vector<std::string> token = Op::split(line, ":=");
         if (token.size() != 2) {
             std::ostringstream ex;
@@ -592,7 +552,7 @@ namespace fl {
         return std::pair<scalar, scalar>(minimum, maximum);
     }
 
-    std::pair<bool, bool> FclImporter::extractLocksOutputRange(const std::string& line) const {
+    std::pair<bool, bool> FclImporter::parseLocks(const std::string& line) const {
         std::size_t index = line.find_first_of(":");
         if (index == std::string::npos) {
             throw fl::Exception("[syntax error] expected property of type "
@@ -603,31 +563,31 @@ namespace fl {
         std::vector<std::string> flags = fl::Op::split(value, "|");
         if (flags.size() == 1) {
             std::string flag = fl::Op::trim(flags.front());
-            output = (flag == "VALID");
+            output = (flag == "PREVIOUS");
             range = (flag == "RANGE");
             if (not (output or range)) {
                 throw fl::Exception("[syntax error] expected locking flags "
-                        "<VALID|RANGE>, but found <" + flag + "> in line: " + line, FL_AT);
+                        "<PREVIOUS|RANGE>, but found <" + flag + "> in line: " + line, FL_AT);
             }
         } else if (flags.size() == 2) {
             std::string flagA = fl::Op::trim(flags.front());
             std::string flagB = fl::Op::trim(flags.back());
-            output = (flagA == "VALID" or flagB == "VALID");
+            output = (flagA == "PREVIOUS" or flagB == "PREVIOUS");
             range = (flagA == "RANGE" or flagB == "RANGE");
             if (not (output and range)) {
                 throw fl::Exception("[syntax error] expected locking flags "
-                        "<VALID|RANGE>, but found "
+                        "<PREVIOUS|RANGE>, but found "
                         "<" + flags.front() + "|" + flags.back() + "> in line: " + line, FL_AT);
             }
         } else {
             throw fl::Exception("[syntax error] expected locking flags "
-                    "<VALID|RANGE>, but found "
+                    "<PREVIOUS|RANGE>, but found "
                     "<" + value + "> in line: " + line, FL_AT);
         }
         return std::pair<bool, bool>(output, range);
     }
 
-    bool FclImporter::extractEnabled(const std::string& line) const {
+    bool FclImporter::parseEnabled(const std::string& line) const {
         std::vector<std::string> tokens = Op::split(line, ":");
         if (tokens.size() != 2) {
             std::ostringstream ex;

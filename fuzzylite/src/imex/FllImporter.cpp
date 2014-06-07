@@ -29,6 +29,7 @@
 
 #include "fl/Headers.h"
 
+#include <memory>
 #include <queue>
 
 namespace fl {
@@ -53,7 +54,7 @@ namespace fl {
     }
 
     Engine* FllImporter::fromString(const std::string& fll) const {
-        Engine* engine = new Engine;
+        std::auto_ptr<Engine> engine(new Engine);
 
         std::string tag;
         std::ostringstream block;
@@ -61,55 +62,49 @@ namespace fl {
         std::string line;
         std::queue<std::string> lineQueue;
 
-        try {
-            bool processPending = false;
-            int lineNumber = 0;
-            while (not lineQueue.empty() or std::getline(fclReader, line)) {
-                if (not lineQueue.empty()) {
-                    line = lineQueue.front();
-                    lineQueue.pop();
-                } else {
-                    line = clean(line);
-                    if (line.empty()) continue;
-                    std::vector<std::string> split = Op::split(line, _separator);
-                    line = clean(split.front());
-                    for (std::size_t i = 1; i < split.size(); ++i) {
-                        lineQueue.push(clean(split.at(i)));
-                    }
-                    ++lineNumber;
-                }
+        bool processPending = false;
+        int lineNumber = 0;
+        while (not lineQueue.empty() or std::getline(fclReader, line)) {
+            if (not lineQueue.empty()) {
+                line = lineQueue.front();
+                lineQueue.pop();
+            } else {
+                line = clean(line);
                 if (line.empty()) continue;
-                std::size_t colon = line.find_first_of(':');
-                if (colon == std::string::npos) {
-                    throw fl::Exception("[import error] expected a colon at line " +
-                            Op::str(lineNumber) + ": " + line, FL_AT);
+                std::vector<std::string> split = Op::split(line, _separator);
+                line = clean(split.front());
+                for (std::size_t i = 1; i < split.size(); ++i) {
+                    lineQueue.push(clean(split.at(i)));
                 }
-                std::string key = Op::trim(line.substr(0, colon));
-                std::string value = Op::trim(line.substr(colon + 1));
-                if ("Engine" == key) {
-                    engine->setName(value);
-                    continue;
-                } else {
-                    processPending = (key == "InputVariable"
-                            or key == "OutputVariable"
-                            or key == "RuleBlock");
-                }
-                if (processPending) {
-                    process(tag, block.str(), engine);
-                    block.str(""); //clear buffer
-                    block.clear(); //clear error flags
-                    processPending = false;
-                    tag = key;
-                }
-                block << key << ":" << value << "\n";
+                ++lineNumber;
             }
-            process(tag, block.str(), engine);
-        } catch (std::exception& ex) {
-            (void) ex;
-            delete engine;
-            throw;
+            if (line.empty()) continue;
+            std::size_t colon = line.find_first_of(':');
+            if (colon == std::string::npos) {
+                throw fl::Exception("[import error] expected a colon at line " +
+                        Op::str(lineNumber) + ": " + line, FL_AT);
+            }
+            std::string key = Op::trim(line.substr(0, colon));
+            std::string value = Op::trim(line.substr(colon + 1));
+            if ("Engine" == key) {
+                engine->setName(value);
+                continue;
+            } else {
+                processPending = (key == "InputVariable"
+                        or key == "OutputVariable"
+                        or key == "RuleBlock");
+            }
+            if (processPending) {
+                process(tag, block.str(), engine.get());
+                block.str(""); //clear buffer
+                block.clear(); //clear error flags
+                processPending = false;
+                tag = key;
+            }
+            block << key << ":" << value << "\n";
         }
-        return engine;
+        process(tag, block.str(), engine.get());
+        return engine.release();
     }
 
     void FllImporter::process(const std::string& tag, const std::string& block, Engine* engine) const {
@@ -223,7 +218,9 @@ namespace fl {
             throw fl::Exception("[syntax error] expected a term in format <name class parameters>, "
                     "but found <" + text + ">", FL_AT);
         }
-        Term* term = FactoryManager::instance()->term()->constructObject(tokens.at(1));
+        std::auto_ptr<Term> term;
+        term.reset(FactoryManager::instance()->term()->constructObject(tokens.at(1)));
+        Term::updateReference(term.get(), engine);
         term->setName(Op::makeValidId(tokens.at(0)));
         std::ostringstream parameters;
         for (std::size_t i = 2; i < tokens.size(); ++i) {
@@ -231,17 +228,7 @@ namespace fl {
             if (i + 1 < tokens.size()) parameters << " ";
         }
         term->configure(parameters.str());
-        //special cases:
-        Linear* linear = NULL;
-        Function* function = NULL;
-        if ((linear = dynamic_cast<Linear*> (term))) {
-            linear->setEngine(engine);
-        } else if ((function = dynamic_cast<Function*> (term))) {
-            function->setEngine(engine);
-            //builtin functions are loaded from TermFactory calling Function::create
-            function->load();
-        }
-        return term;
+        return term.release();
     }
 
     TNorm* FllImporter::parseTNorm(const std::string& name) const {

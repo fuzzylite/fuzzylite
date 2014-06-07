@@ -27,10 +27,8 @@
 
 #include "fl/defuzzifier/Centroid.h"
 
-
-
-#include "fl/term/Term.h"
 #include "fl/term/Accumulated.h"
+#include "fl/term/Term.h"
 
 
 namespace fl {

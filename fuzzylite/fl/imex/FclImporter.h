@@ -30,11 +30,10 @@
 
 #include "fl/imex/Importer.h"
 
-
-
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
+
 
 namespace fl {
     class Norm;
@@ -51,17 +50,15 @@ namespace fl {
         virtual void processDefuzzify(const std::string& block, Engine* engine)const;
         virtual void processRuleBlock(const std::string& block, Engine* engine)const;
 
-        virtual TNorm* extractTNorm(const std::string& line) const;
-        virtual SNorm* extractSNorm(const std::string& line) const;
+        virtual TNorm* parseTNorm(const std::string& line) const;
+        virtual SNorm* parseSNorm(const std::string& line) const;
+        virtual Term* parseTerm(const std::string& line, const Engine* engine) const;
 
-        virtual Term* extractTerm(const std::string& line) const;
-        virtual Term* prepareTerm(Term* term, const Engine* engine) const;
-
-        virtual Defuzzifier* extractDefuzzifier(const std::string& line) const;
-        virtual std::pair<scalar, bool> extractDefaultValue(const std::string& line) const;
-        virtual std::pair<scalar, scalar> extractRange(const std::string& line) const;
-        virtual std::pair<bool, bool> extractLocksOutputRange(const std::string& line) const;
-        virtual bool extractEnabled(const std::string& line) const;
+        virtual Defuzzifier* parseDefuzzifier(const std::string& line) const;
+        virtual std::pair<scalar, bool> parseDefaultValue(const std::string& line) const;
+        virtual std::pair<scalar, scalar> parseRange(const std::string& line) const;
+        virtual std::pair<bool, bool> parseLocks(const std::string& line) const;
+        virtual bool parseEnabled(const std::string& line) const;
 
     public:
         FclImporter();

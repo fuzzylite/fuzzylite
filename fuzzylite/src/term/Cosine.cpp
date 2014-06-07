@@ -20,8 +20,6 @@
 
 #include "fl/term/Cosine.h"
 
-#include <cmath>
-
 namespace fl {
 
     Cosine::Cosine(const std::string& name, scalar center, scalar width)
@@ -60,7 +58,8 @@ namespace fl {
         if (fl::Op::isLt(x, _center - _width / 2.0)
                 or fl::Op::isGt(x, _center + _width / 2.0))
             return 0.0;
-        return 0.5 * (1.0 + std::cos(2.0 / _width * fl::pi * (x - _center)));
+        const scalar pi = 4.0 * std::atan(1.0);
+        return 0.5 * (1.0 + std::cos(2.0 / _width * pi * (x - _center)));
     }
 
     void Cosine::setCenter(scalar center) {

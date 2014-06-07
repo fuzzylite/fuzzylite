@@ -29,20 +29,14 @@
 #define FL_ENGINE_H
 
 #include "fl/fuzzylite.h"
+
 #include "fl/defuzzifier/IntegralDefuzzifier.h"
 
-#include <vector>
 #include <string>
-
-/**
- * @class fl::Engine
- * @brief A fuzzy engine.
- * @file Engine.cpp
- * 
- */
+#include <vector>
 
 namespace fl {
-    
+
     class InputVariable;
     class OutputVariable;
     class Variable;
@@ -56,14 +50,12 @@ namespace fl {
     private:
         void copyFrom(const Engine& source);
     protected:
-        /** The name of the engine used for information only*/
         std::string _name;
-        /** The input variables registered in the engine*/
         std::vector<InputVariable*> _inputVariables;
-        /** The output variables registered in the engine*/
         std::vector<OutputVariable*> _outputVariables;
-        /** The rule blocks registered in the engine*/
         std::vector<RuleBlock*> _ruleblocks;
+
+        void updateReferences() const;
 
     public:
         Engine(const std::string& name = "");
@@ -102,6 +94,7 @@ namespace fl {
         virtual void setInputValue(const std::string& name, scalar value);
         virtual scalar getOutputValue(const std::string& name);
 
+
         virtual std::string toString() const;
 
         enum Type {
@@ -111,7 +104,7 @@ namespace fl {
         virtual Type type(std::string* name = NULL) const;
 
         virtual std::vector<Variable*> variables() const;
-        
+
         /**
          * Operations for iterable datatype _inputVariables
          */

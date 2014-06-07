@@ -20,13 +20,12 @@
 
 #include "fl/Operation.h"
 
+#include "fl/defuzzifier/Defuzzifier.h"
 #include "fl/norm/Norm.h"
 #include "fl/norm/SNorm.h"
 #include "fl/norm/TNorm.h"
-#include "fl/defuzzifier/Defuzzifier.h"
 
 #include <algorithm>
-#include <cmath>
 #include <iomanip>
 #include <cstdarg>
 #include <cctype>

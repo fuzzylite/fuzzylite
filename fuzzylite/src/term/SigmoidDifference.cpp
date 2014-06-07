@@ -27,8 +27,6 @@
 
 #include "fl/term/SigmoidDifference.h"
 
-#include <cmath>
-#include <sstream>
 namespace fl {
 
     SigmoidDifference::SigmoidDifference(const std::string& name,

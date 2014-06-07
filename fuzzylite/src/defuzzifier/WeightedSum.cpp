@@ -20,9 +20,9 @@
 
 #include "fl/defuzzifier/WeightedSum.h"
 
+#include "fl/defuzzifier/Tsukamoto.h"
 #include "fl/term/Accumulated.h"
 #include "fl/term/Activated.h"
-#include "fl/defuzzifier/Tsukamoto.h"
 #include "fl/norm/SNorm.h"
 #include "fl/norm/TNorm.h"
 

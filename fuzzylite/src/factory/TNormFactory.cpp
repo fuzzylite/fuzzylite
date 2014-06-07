@@ -37,7 +37,7 @@
 
 namespace fl {
 
-    TNormFactory::TNormFactory() {
+    TNormFactory::TNormFactory() : ConstructionFactory<TNorm*>("TNorm") {
         registerConstructor("", NULL);
         registerConstructor(AlgebraicProduct().className(), &(AlgebraicProduct::constructor));
         registerConstructor(BoundedDifference().className(), &(BoundedDifference::constructor));

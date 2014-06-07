@@ -28,9 +28,8 @@
 #ifndef FL_HEDGEFACTORY_H
 #define	FL_HEDGEFACTORY_H
 
-#include "fl/fuzzylite.h"
-
 #include "fl/factory/ConstructionFactory.h"
+
 #include "fl/hedge/Hedge.h"
 
 namespace fl {

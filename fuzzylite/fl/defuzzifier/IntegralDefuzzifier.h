@@ -35,22 +35,21 @@ namespace fl {
 
     class FL_EXPORT IntegralDefuzzifier : public Defuzzifier {
     protected:
+        static int _defaultResolution;
+        
         int _resolution;
     public:
 
-        static int defaultResolution() {
-            return 200;
-        }
+        static void setDefaultResolution(int defaultResolution);
+
+        static int defaultResolution();
 
         IntegralDefuzzifier(int resolution = defaultResolution());
         virtual ~IntegralDefuzzifier();
 
         virtual void setResolution(int resolution);
         virtual int getResolution() const;
-
-
     };
-
 }
 
 #endif	/* INTEGRALDEFUZZIFIER_H */

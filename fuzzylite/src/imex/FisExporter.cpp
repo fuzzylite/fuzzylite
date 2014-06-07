@@ -28,7 +28,9 @@
 #include "fl/imex/FisExporter.h"
 
 #include "fl/Headers.h"
+
 #include <queue>
+
 namespace fl {
 
     FisExporter::FisExporter() {
@@ -170,7 +172,7 @@ namespace fl {
                 fis << "Default=" << fl::Op::str(var->getDefaultValue()) << "\n";
             }
             if (var->isLockedPreviousOutputValue()) {
-                fis << "LockValid=" << var->isLockedPreviousOutputValue() << "\n";
+                fis << "LockPrevious=" << var->isLockedPreviousOutputValue() << "\n";
             }
             if (var->isLockedOutputValueInRange()) {
                 fis << "LockRange=" << var->isLockedOutputValueInRange() << "\n";
@@ -444,13 +446,13 @@ namespace fl {
 
         if (const Trapezoid * x = dynamic_cast<const Trapezoid*> (term)) {
             ss << "'trapmf',[" << fl::Op::join(4, " ",
-                    x->getA(), x->getB(), x->getC(), x->getD()) << "]";
+                    x->getVertexA(), x->getVertexB(), x->getVertexC(), x->getVertexD()) << "]";
             return ss.str();
         }
 
         if (const Triangle * x = dynamic_cast<const Triangle*> (term)) {
             ss << "'trimf',[" << fl::Op::join(3, " ",
-                    x->getA(), x->getB(), x->getC()) << "]";
+                    x->getVertexA(), x->getVertexB(), x->getVertexC()) << "]";
             return ss.str();
         }
 

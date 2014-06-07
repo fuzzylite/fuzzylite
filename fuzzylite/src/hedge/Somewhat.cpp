@@ -27,8 +27,6 @@
 
 #include "fl/hedge/Somewhat.h"
 
-#include <cmath>
-
 namespace fl {
 
     std::string Somewhat::name() const {

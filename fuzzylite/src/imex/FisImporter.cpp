@@ -32,6 +32,7 @@
 #include <sstream>
 #include <iostream>
 #include <cctype>
+#include <memory>
 
 namespace fl {
 
@@ -46,7 +47,7 @@ namespace fl {
     }
 
     Engine* FisImporter::fromString(const std::string& fis) const {
-        Engine* engine = new Engine;
+        std::auto_ptr<Engine> engine(new Engine);
 
         std::istringstream fisReader(fis);
         std::string line;
@@ -87,31 +88,23 @@ namespace fl {
             }
         }
         std::string andMethod, orMethod, impMethod, aggMethod, defuzzMethod;
-        try {
-            for (std::size_t i = 0; i < sections.size(); ++i) {
-                if ("[System]" == sections.at(i).substr(0, std::string("[System]").size()))
-                    importSystem(sections.at(i), engine,
-                        andMethod, orMethod, impMethod, aggMethod, defuzzMethod);
-                else if ("[Input" == sections.at(i).substr(0, std::string("[Input").size()))
-                    importInput(sections.at(i), engine);
-                else if ("[Output" == sections.at(i).substr(0, std::string("[Output").size()))
-                    importOutput(sections.at(i), engine);
-                else if ("[Rules]" == sections.at(i).substr(0, std::string("[Rules]").size()))
-                    importRules(sections.at(i), engine);
-                else
-                    throw fl::Exception("[import error] section <"
-                        + sections.at(i) + "> not recognized", FL_AT);
-            }
-            engine->configure(tnorm(andMethod), snorm(orMethod),
-                    tnorm(impMethod), snorm(aggMethod),
-                    defuzzifier(defuzzMethod));
-        } catch (std::exception& ex) {
-            (void) ex;
-            delete engine;
-            throw;
+        for (std::size_t i = 0; i < sections.size(); ++i) {
+            if ("[System]" == sections.at(i).substr(0, std::string("[System]").size()))
+                importSystem(sections.at(i), engine.get(),
+                    andMethod, orMethod, impMethod, aggMethod, defuzzMethod);
+            else if ("[Input" == sections.at(i).substr(0, std::string("[Input").size()))
+                importInput(sections.at(i), engine.get());
+            else if ("[Output" == sections.at(i).substr(0, std::string("[Output").size()))
+                importOutput(sections.at(i), engine.get());
+            else if ("[Rules]" == sections.at(i).substr(0, std::string("[Rules]").size()))
+                importRules(sections.at(i), engine.get());
+            else throw fl::Exception("[import error] section <"
+                    + sections.at(i) + "> not recognized", FL_AT);
         }
-
-        return engine;
+        engine->configure(extractTNorm(andMethod), extractSNorm(orMethod),
+                extractTNorm(impMethod), extractSNorm(aggMethod),
+                extractDefuzzifier(defuzzMethod));
+        return engine.release();
     }
 
     void FisImporter::importSystem(const std::string& section, Engine * engine,
@@ -164,11 +157,11 @@ namespace fl {
             else if (key == "Enabled") {
                 input->setEnabled(Op::isEq(Op::toScalar(value), 1.0));
             } else if (key == "Range") {
-                std::pair<scalar, scalar> minmax = extractRange(value);
+                std::pair<scalar, scalar> minmax = range(value);
                 input->setMinimum(minmax.first);
                 input->setMaximum(minmax.second);
             } else if (key.substr(0, 2) == "MF") {
-                input->addTerm(prepareTerm(extractTerm(value), engine));
+                input->addTerm(parseTerm(value, engine));
             } else if (key == "NumMFs") {
                 //ignore
             } else {
@@ -198,14 +191,14 @@ namespace fl {
             else if (key == "Enabled") {
                 output->setEnabled(Op::isEq(Op::toScalar(value), 1.0));
             } else if (key == "Range") {
-                std::pair<scalar, scalar> minmax = extractRange(value);
+                std::pair<scalar, scalar> minmax = range(value);
                 output->setMinimum(minmax.first);
                 output->setMaximum(minmax.second);
             } else if (key.substr(0, 2) == "MF") {
-                output->addTerm(prepareTerm(extractTerm(value), engine));
+                output->addTerm(parseTerm(value, engine));
             } else if (key == "Default") {
                 output->setDefaultValue(fl::Op::toScalar(value));
-            } else if (key == "LockValid") {
+            } else if (key == "LockPrevious") {
                 output->setLockPreviousOutputValue(fl::Op::isEq(fl::Op::toScalar(value), 1.0));
             } else if (key == "LockRange") {
                 output->setLockOutputValueInRange(fl::Op::isEq(fl::Op::toScalar(value), 1.0));
@@ -350,7 +343,7 @@ namespace fl {
         return ss.str();
     }
 
-    std::string FisImporter::tnorm(const std::string & name) const {
+    std::string FisImporter::extractTNorm(const std::string & name) const {
         if (name.empty()) return "";
         if (name == "min") return Minimum().className();
         if (name == "prod") return AlgebraicProduct().className();
@@ -362,7 +355,7 @@ namespace fl {
         return name;
     }
 
-    std::string FisImporter::snorm(const std::string & name) const {
+    std::string FisImporter::extractSNorm(const std::string & name) const {
         if (name.empty()) return "";
         if (name == "max") return Maximum().className();
         if (name == "sum" or name == "probor") return AlgebraicSum().className();
@@ -375,7 +368,7 @@ namespace fl {
         return name;
     }
 
-    std::string FisImporter::defuzzifier(const std::string & name) const {
+    std::string FisImporter::extractDefuzzifier(const std::string & name) const {
         if (name.empty()) return "";
         if (name == "centroid") return Centroid().className();
         if (name == "bisector") return Bisector().className();
@@ -387,7 +380,7 @@ namespace fl {
         return name;
     }
 
-    std::pair<scalar, scalar> FisImporter::extractRange(const std::string& range) const {
+    std::pair<scalar, scalar> FisImporter::range(const std::string& range) const {
         std::vector<std::string> parts = fl::Op::split(range, " ");
         if (parts.size() != 2)
             throw fl::Exception("[syntax error] expected range in format '[begin end]',"
@@ -402,7 +395,7 @@ namespace fl {
         return result;
     }
 
-    Term * FisImporter::extractTerm(const std::string & fis) const {
+    Term * FisImporter::parseTerm(const std::string & fis, const Engine* engine) const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < fis.size(); ++i) {
             if (not (fis.at(i) == '[' or fis.at(i) == ']')) {
@@ -429,24 +422,12 @@ namespace fl {
         return createInstance(
                 fl::Op::trim(termParams.at(0)),
                 fl::Op::trim(nameTerm.at(0)),
-                parameters);
-    }
-
-    Term* FisImporter::prepareTerm(Term* term, const Engine* engine) const {
-        Linear* linear = NULL;
-        Function* function = NULL;
-        if ((linear = dynamic_cast<Linear*> (term))) {
-            linear->setEngine(engine);
-        } else if ((function = dynamic_cast<Function*> (term))) {
-            function->setEngine(engine);
-            //builtin functions are loaded from TermFactory calling Function::create
-            function->load();
-        }
-        return term;
+                parameters, engine);
     }
 
     Term * FisImporter::createInstance(const std::string& mClass,
-            const std::string& name, const std::vector<std::string>& params) const {
+            const std::string& name, const std::vector<std::string>& params,
+            const Engine* engine) const {
         std::map<std::string, std::string> mapping;
         mapping["discretemf"] = Discrete().className();
         mapping["concavemf"] = Concave().className();
@@ -503,19 +484,16 @@ namespace fl {
         if (it != mapping.end()) flClass = it->second;
         else flClass = mClass;
 
-        try {
-            Term* result = FactoryManager::instance()->term()->constructObject(flClass);
-            result->setName(Op::makeValidId(name));
-            std::string separator;
-            if (not dynamic_cast<Function*> (result)) {
-                separator = " ";
-            }
-            result->configure(Op::join(sortedParams, separator));
-            return result;
-        } catch (fl::Exception& ex) {
-            ex.append(FL_AT);
-            throw;
+        std::auto_ptr<Term> term;
+        term.reset(FactoryManager::instance()->term()->constructObject(flClass));
+        Term::updateReference(term.get(), engine);
+        term->setName(Op::makeValidId(name));
+        std::string separator;
+        if (not dynamic_cast<Function*> (term.get())) {
+            separator = " ";
         }
+        term->configure(Op::join(sortedParams, separator));
+        return term.release();
     }
 
     FisImporter* FisImporter::clone() const {

@@ -27,9 +27,8 @@
 
 #include "fl/factory/TermFactory.h"
 
-#include "fl/term/Term.h"
 #include "fl/Exception.h"
-
+#include "fl/term/Term.h"
 #include "fl/term/Bell.h"
 #include "fl/term/Concave.h"
 #include "fl/term/Constant.h"
@@ -53,7 +52,7 @@
 
 namespace fl {
 
-    TermFactory::TermFactory() {
+    TermFactory::TermFactory() : ConstructionFactory<Term*>("Term") {
         registerConstructor("", NULL);
         registerConstructor(Bell().className(), &(Bell::constructor));
         registerConstructor(Concave().className(), &(Concave::constructor));

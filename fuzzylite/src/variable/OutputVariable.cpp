@@ -27,13 +27,11 @@
 
 #include "fl/variable/OutputVariable.h"
 
-#include "fl/term/Accumulated.h"
 #include "fl/defuzzifier/Defuzzifier.h"
 #include "fl/imex/FllExporter.h"
-#include "fl/term/Activated.h"
 #include "fl/norm/SNorm.h"
-
-#include <sstream>
+#include "fl/term/Accumulated.h"
+#include "fl/term/Activated.h"
 
 namespace fl {
 

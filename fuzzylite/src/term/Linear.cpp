@@ -22,6 +22,7 @@
 #include "fl/term/Linear.h"
 
 #include "fl/Engine.h"
+#include "fl/variable/InputVariable.h"
 
 #include <cstdarg>
 #include <memory>
@@ -57,13 +58,9 @@ namespace fl {
         return result;
     }
 
-    void Linear::set(const std::vector<scalar>& coeffs, const Engine* engine) throw (fl::Exception) {
-        if (not _engine) {
-            throw fl::Exception("[linear error] term <" + getName() + "> "
-                    "requires a reference to the engine, but none was set", FL_AT);
-        }
-        this->_coefficients = coeffs;
-        this->_engine = engine;
+    void Linear::set(const std::vector<scalar>& coeffs, const Engine* engine) {
+        setCoefficients(coeffs);
+        setEngine(engine);
     }
 
     void Linear::setCoefficients(const std::vector<scalar>& coeffs) {

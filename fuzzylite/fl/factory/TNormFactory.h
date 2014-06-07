@@ -28,13 +28,12 @@
 #ifndef FL_TNORMFACTORY_H
 #define	FL_TNORMFACTORY_H
 
-#include "fl/fuzzylite.h"
-
 #include "fl/factory/ConstructionFactory.h"
+
 #include "fl/norm/TNorm.h"
 
 namespace fl {
-
+    
     class FL_EXPORT TNormFactory : public ConstructionFactory<TNorm*> {
     public:
         TNormFactory();

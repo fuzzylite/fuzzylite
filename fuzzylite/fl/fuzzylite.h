@@ -58,7 +58,6 @@ namespace fl {
 
     const scalar nan = std::numeric_limits<scalar>::quiet_NaN();
     const scalar inf = std::numeric_limits<scalar>::infinity();
-    const scalar pi = 4.0 * std::atan(1.0);
 }
 
 #define FL__FILE__ std::string(__FILE__).substr(std::string(FL_BUILD_PATH).size())
@@ -71,17 +70,12 @@ namespace fl {
 #define FL_LOG(message) {if (fl::fuzzylite::logging()){std::cout << FL_LOG_PREFIX << message << std::endl;}}
 #define FL_LOGP(message) {if (fl::fuzzylite::logging()){std::cout << message << std::endl;}}
 
-#ifndef FL_DEBUG
-#define FL_DEBUG false
-#endif
+#define FL_DEBUG_BLOCK(block) {if (fl::fuzzylite::debug()) {block}}
 
-#define FL_BEGIN_DEBUG_BLOCK if (fl::fuzzylite::debug()){
-#define FL_END_DEBUG_BLOCK }
-
-#define FL_DBG(message) FL_BEGIN_DEBUG_BLOCK \
+#define FL_DBG(message) FL_DEBUG_BLOCK(\
         std::cout << FL__FILE__ << "::" << __FUNCTION__ << "[" << __LINE__ << "]:" \
                 << message << std::endl;\
-        FL_END_DEBUG_BLOCK
+        )
 
 //class FL_EXPORT is required to build DLLs in Windows.
 #ifdef FL_WINDOWS
@@ -136,7 +130,6 @@ namespace fl {
 
         static std::string date();
         static std::string platform();
-        static std::string configuration();
 
         static std::string floatingPoint();
 

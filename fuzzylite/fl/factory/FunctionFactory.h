@@ -9,6 +9,7 @@
 #define	FL_FUNCTIONFACTORY_H
 
 #include "fl/factory/CloningFactory.h"
+
 #include "fl/term/Function.h"
 
 namespace fl {

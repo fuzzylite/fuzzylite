@@ -27,12 +27,8 @@
 
 #include "fl/defuzzifier/LargestOfMaximum.h"
 
-#include "fl/term/Term.h"
-
 #include "fl/Exception.h"
-
-
-
+#include "fl/term/Term.h"
 
 namespace fl {
 
