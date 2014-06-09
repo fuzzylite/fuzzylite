@@ -35,6 +35,20 @@ namespace fl {
         return "Concave";
     }
 
+    scalar Concave::membership(scalar x) const {
+        if (fl::Op::isNaN(x)) return fl::nan;
+        if (fl::Op::isLE(_inflection, _end)) { //Concave increasing
+            if (fl::Op::isLt(x, _end)) {
+                return (_end - _inflection) / (2 * _end - _inflection - x);
+            }
+        } else { //Concave decreasing
+            if (fl::Op::isGt(x, _end)) {
+                return (_inflection - _end) / (_inflection - 2 * _end + x);
+            }
+        }
+        return 1.0;
+    }
+
     std::string Concave::parameters() const {
         return Op::join(2, " ", _inflection, _end);
     }
@@ -51,20 +65,6 @@ namespace fl {
         }
         setInflection(Op::toScalar(values.at(0)));
         setEnd(Op::toScalar(values.at(1)));
-    }
-
-    scalar Concave::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-        if (fl::Op::isLE(_inflection, _end)) { //Concave increasing
-            if (fl::Op::isLt(x, _end)) {
-                return (_end - _inflection) / (2 * _end - _inflection - x);
-            }
-        } else { //Concave decreasing
-            if (fl::Op::isGt(x, _end)) {
-                return (_inflection - _end) / (_inflection - 2 * _end + x);
-            }
-        }
-        return 1.0;
     }
 
     void Concave::setInflection(scalar start) {

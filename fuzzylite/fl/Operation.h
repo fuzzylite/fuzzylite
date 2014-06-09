@@ -50,6 +50,9 @@ namespace fl {
         static T bound(T x, T min, T max);
 
         template <typename T>
+        static bool in(T x, T min, T max, bool geq = true, bool leq = true);
+
+        template <typename T>
         static bool isInf(T x);
 
         template <typename T>

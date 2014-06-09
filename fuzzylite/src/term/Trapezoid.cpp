@@ -41,6 +41,24 @@ namespace fl {
         return "Trapezoid";
     }
 
+    scalar Trapezoid::membership(scalar x) const {
+        if (fl::Op::isNaN(x)) return fl::nan;
+
+        if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexD))
+            return 0.0;
+
+        if (Op::isLt(x, _vertexB))
+            return Op::min(scalar(1.0), (x - _vertexA) / (_vertexB - _vertexA));
+
+        if (Op::isLE(x, _vertexC))
+            return 1.0;
+
+        if (Op::isLt(x, _vertexD))
+            return (_vertexD - x) / (_vertexD - _vertexC);
+
+        return 0.0;
+    }
+
     std::string Trapezoid::parameters() const {
         return Op::join(4, " ", _vertexA, _vertexB, _vertexC, _vertexD);
     }
@@ -59,24 +77,6 @@ namespace fl {
         setVertexB(Op::toScalar(values.at(1)));
         setVertexC(Op::toScalar(values.at(2)));
         setVertexD(Op::toScalar(values.at(3)));
-    }
-
-    scalar Trapezoid::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-
-        if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexD))
-            return 0.0;
-
-        if (Op::isLt(x, _vertexB))
-            return Op::min(scalar(1.0), (x - _vertexA) / (_vertexB - _vertexA));
-
-        if (Op::isLE(x, _vertexC))
-            return 1.0;
-
-        if (Op::isLt(x, _vertexD))
-            return (_vertexD - x) / (_vertexD - _vertexC);
-
-        return 0.0;
     }
 
     void Trapezoid::setVertexA(scalar a) {

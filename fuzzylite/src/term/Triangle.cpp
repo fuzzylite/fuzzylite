@@ -44,6 +44,21 @@ namespace fl {
         return "Triangle";
     }
 
+    scalar Triangle::membership(scalar x) const {
+        if (fl::Op::isNaN(x)) return fl::nan;
+
+        if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexC))
+            return 0.0;
+
+        if (Op::isEq(x, _vertexB))
+            return 1.0;
+
+        if (Op::isLt(x, _vertexB))
+            return (x - _vertexA) / (_vertexB - _vertexA);
+
+        return (_vertexC - x) / (_vertexC - _vertexB);
+    }
+
     std::string Triangle::parameters() const {
         return Op::join(3, " ", _vertexA, _vertexB, _vertexC);
     }
@@ -61,21 +76,6 @@ namespace fl {
         setVertexA(Op::toScalar(values.at(0)));
         setVertexB(Op::toScalar(values.at(1)));
         setVertexC(Op::toScalar(values.at(2)));
-    }
-
-    scalar Triangle::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-
-        if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexC))
-            return 0.0;
-
-        if (Op::isEq(x, _vertexB))
-            return 1.0;
-
-        if (Op::isLt(x, _vertexB))
-            return (x - _vertexA) / (_vertexB - _vertexA);
-
-        return (_vertexC - x) / (_vertexC - _vertexB);
     }
 
     void Triangle::setVertexA(scalar a) {

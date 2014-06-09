@@ -36,6 +36,10 @@ namespace fl {
     Ramp::~Ramp() {
     }
 
+    std::string Ramp::className() const {
+        return "Ramp";
+    }
+
     scalar Ramp::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
 
@@ -50,10 +54,6 @@ namespace fl {
             if (Op::isLE(x, _end)) return 1.0;
             return (_start - x) / (_start - _end);
         }
-    }
-
-    std::string Ramp::className() const {
-        return "Ramp";
     }
 
     std::string Ramp::parameters() const {

@@ -34,6 +34,11 @@ namespace fl {
         return "Spike";
     }
 
+    scalar Spike::membership(scalar x) const {
+        if (fl::Op::isNaN(x)) return fl::nan;
+        return std::exp(-std::fabs(10.0 / _width * (x - _center)));
+    }
+
     std::string Spike::parameters() const {
         return Op::join(2, " ", _center, _width);
     }
@@ -50,11 +55,6 @@ namespace fl {
         }
         setCenter(Op::toScalar(values.at(0)));
         setWidth(Op::toScalar(values.at(1)));
-    }
-
-    scalar Spike::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-        return std::exp(-std::fabs(10.0 / _width * (x - _center)));
     }
 
     void Spike::setCenter(scalar center) {

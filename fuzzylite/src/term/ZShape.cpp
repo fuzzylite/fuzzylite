@@ -41,6 +41,23 @@ namespace fl {
         return "ZShape";
     }
 
+    scalar ZShape::membership(scalar x) const {
+        if (fl::Op::isNaN(x)) return fl::nan;
+        //from Octave zmf.m
+        scalar average = (_start + _end) / 2;
+        scalar difference = _end - _start;
+
+        if (Op::isLE(x, _start)) return 1.0;
+
+        if (Op::isLE(x, average))
+            return 1.0 - 2.0 * std::pow((x - _start) / difference, 2);
+
+        if (Op::isLt(x, _end))
+            return 2.0 * std::pow((x - _end) / difference, 2);
+
+        return 0.0;
+    }
+
     std::string ZShape::parameters() const {
         return Op::join(2, " ", _start, _end);
     }
@@ -57,23 +74,6 @@ namespace fl {
         }
         setStart(Op::toScalar(values.at(0)));
         setEnd(Op::toScalar(values.at(1)));
-    }
-
-    scalar ZShape::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-        //from Octave zmf.m
-        scalar average = (_start + _end) / 2;
-        scalar difference = _end - _start;
-
-        if (Op::isLE(x, _start)) return 1.0;
-
-        if (Op::isLE(x, average))
-            return 1.0 - 2.0 * std::pow((x - _start) / difference, 2);
-
-        if (Op::isLt(x, _end))
-            return 2.0 * std::pow((x - _end) / difference, 2);
-
-        return 0.0;
     }
 
     void ZShape::setStart(scalar start) {

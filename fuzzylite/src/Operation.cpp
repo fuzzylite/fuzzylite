@@ -60,6 +60,15 @@ namespace fl {
     template FL_EXPORT int Operation::bound(int x, int min, int max);
 
     template <typename T>
+    bool Operation::in(T x, T min, T max, bool geq, bool leq) {
+        bool left = geq ? isGE(x, min) : isGt(x, min);
+        bool right = leq ? isLE(x, max) : isLt(x, max);
+        return (left and right);
+    }
+    template FL_EXPORT bool Operation::in(scalar x, scalar min, scalar max, bool geq, bool leq);
+    template FL_EXPORT bool Operation::in(int x, int min, int max, bool geq, bool leq);
+
+    template <typename T>
     bool Operation::isInf(T x) {
         return std::abs(x) == fl::inf;
     }
