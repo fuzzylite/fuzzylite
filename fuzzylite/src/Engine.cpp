@@ -343,9 +343,10 @@ namespace fl {
         return FllExporter().toString(this);
     }
 
-    Engine::Type Engine::type(std::string* name) const {
+    Engine::Type Engine::type(std::string* name, std::string* reason) const {
         if (_outputVariables.empty()) {
             if (name) *name = "Unknown";
+            if (reason) *reason = "There are no output variables";
             return Engine::Unknown;
         }
 
@@ -353,19 +354,11 @@ namespace fl {
         bool mamdani = true;
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             OutputVariable* outputVariable = _outputVariables.at(i);
-            //Terms cannot be Constant or Linear
-            for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
-                Term* term = outputVariable->getTerm(t);
-                mamdani &= term and not (dynamic_cast<Constant*> (term) or
-                        dynamic_cast<Linear*> (term));
-            }
             //Defuzzifier must be integral
-            IntegralDefuzzifier* defuzzifier = dynamic_cast<IntegralDefuzzifier*>
-                    (outputVariable->getDefuzzifier());
-            mamdani &= defuzzifier != NULL;
+            mamdani &= NULL != dynamic_cast<IntegralDefuzzifier*> (outputVariable->getDefuzzifier());
         }
         //Larsen
-        bool larsen = mamdani;
+        bool larsen = mamdani and not _ruleblocks.empty();
         //Larsen is Mamdani with AlgebraicProduct as Activation
         if (mamdani) {
             for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
@@ -376,10 +369,13 @@ namespace fl {
         }
         if (larsen) {
             if (name) *name = "Larsen";
+            if (reason) *reason = "-Output variables have integral defuzzifiers\n"
+                    "-Rule blocks activate using the algebraic product t-norm";
             return Engine::Larsen;
         }
         if (mamdani) {
             if (name) *name = "Mamdani";
+            if (reason) *reason = "-Output variables have integral defuzzifiers";
             return Engine::Mamdani;
         }
         //Else, keep checking
@@ -401,6 +397,8 @@ namespace fl {
         }
         if (takagiSugeno) {
             if (name) *name = "Takagi-Sugeno";
+            if (reason) *reason = "-Output variables do not have integral defuzzifiers\n"
+                    "-Output variables have constant, linear or function terms";
             return Engine::TakagiSugeno;
         }
 
@@ -422,6 +420,8 @@ namespace fl {
         }
         if (tsukamoto) {
             if (name) *name = "Tsukamoto";
+            if (reason) *reason = "-Output variables only have monotonic terms\n"
+                    "Output variables do not have integral defuzzifiers";
             return Engine::Tsukamoto;
         }
 
@@ -429,21 +429,34 @@ namespace fl {
         bool inverseTsukamoto = true;
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             OutputVariable* outputVariable = _outputVariables.at(i);
-            //Terms cannot be Constant or Linear, like Mamdani
-            for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
-                Term* term = outputVariable->getTerm(t);
-                inverseTsukamoto &= term and not (dynamic_cast<Constant*> (term) or
-                        dynamic_cast<Linear*> (term));
-            }
             //Defuzzifier cannot be integral
             Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
             inverseTsukamoto &= defuzzifier and not (dynamic_cast<IntegralDefuzzifier*> (defuzzifier));
         }
         if (inverseTsukamoto) {
             if (name) *name = "Inverse Tsukamoto";
+            if (reason) *reason = "-Type is not Takagi-Sugeno or Tsukamoto\n"
+                    "-Output variables do not have integral defuzzifiers\n"
+                    "-Output variables do not only have constant, linear or Function terms\n"
+                    "-Output variables do not only have monotonic terms\n";
             return Engine::InverseTsukamoto;
         }
+
+        bool hybrid = true;
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            OutputVariable* outputVariable = _outputVariables.at(i);
+            //Defuzzifier cannot be integral
+            Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
+            hybrid &= defuzzifier != NULL;
+        }
+        if (hybrid) {
+            if (name) *name = "Hybrid";
+            if (reason) *reason = "-Output variables have different defuzzifiers";
+            return Engine::Hybrid;
+        }
+
         if (name) *name = "Unknown";
+        if (reason) *reason = "-There are output variables without a defuzzifier";
         return Engine::Unknown;
     }
 

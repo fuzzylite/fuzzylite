@@ -99,9 +99,9 @@ namespace fl {
 
         enum Type {
             Mamdani, Larsen, TakagiSugeno,
-            Tsukamoto, InverseTsukamoto, Unknown
+            Tsukamoto, InverseTsukamoto, Hybrid, Unknown
         };
-        virtual Type type(std::string* name = NULL) const;
+        virtual Type type(std::string* name = NULL, std::string* reason = NULL) const;
 
         virtual std::vector<Variable*> variables() const;
 
