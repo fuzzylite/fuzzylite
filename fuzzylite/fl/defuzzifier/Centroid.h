@@ -39,7 +39,6 @@ namespace fl {
 
         virtual std::string className() const;
         virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;
-        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum, scalar& yCentroid) const;
         virtual Centroid* clone() const;
 
         static Defuzzifier* constructor();

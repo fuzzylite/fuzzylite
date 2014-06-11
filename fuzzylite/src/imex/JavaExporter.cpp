@@ -109,9 +109,9 @@ namespace fl {
                 toString(outputVariable->getDefuzzifier()) << ");\n";
         ss << name << ".setDefaultValue(" <<
                 toString(outputVariable->getDefaultValue()) << ");\n";
-        ss << name << ".setLockValidOutput(" <<
+        ss << name << ".setLockPreviousOutputValue(" <<
                 (outputVariable->isLockedPreviousOutputValue() ? "true" : "false") << ");\n";
-        ss << name << ".setLockOutputRange(" <<
+        ss << name << ".setLockOutputValueInRange(" <<
                 (outputVariable->isLockedOutputValueInRange() ? "true" : "false") << ");\n";
         for (int i = 0; i < outputVariable->numberOfTerms(); ++i) {
             ss << name << ".addTerm(" <<
