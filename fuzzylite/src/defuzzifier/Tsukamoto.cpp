@@ -28,19 +28,20 @@
 
 namespace fl {
 
+    /**
+     * Instead of computing y=f(x), the goal of Tsukamoto is to find x=f(w), 
+     * where f is monotonic.
+     */
+
     scalar Tsukamoto::tsukamoto(const Activated* term, scalar minimum, scalar maximum) {
         const Term* monotonic = term->getTerm();
-        const Ramp* ramp = NULL;
-        const Sigmoid* sigmoid = NULL;
-        const SShape* sshape = NULL;
-        const ZShape* zshape = NULL;
         scalar w = term->getDegree();
         scalar z = fl::nan; //result;
         bool isTsukamoto = true;
-        if ((ramp = dynamic_cast<const Ramp*> (monotonic))) {
+        if (const Ramp * ramp = dynamic_cast<const Ramp*> (monotonic)) {
             z = Op::scale(w, 0, 1, ramp->getStart(), ramp->getEnd());
 
-        } else if ((sigmoid = dynamic_cast<const Sigmoid*> (monotonic))) {
+        } else if (const Sigmoid * sigmoid = dynamic_cast<const Sigmoid*> (monotonic)) {
             if (Op::isEq(w, 1.0)) {
                 if (Op::isGE(sigmoid->getSlope(), 0.0)) {
                     z = maximum;
@@ -60,7 +61,7 @@ namespace fl {
                 z = b + (std::log(1.0 / w - 1.0) / -a);
             }
 
-        } else if ((sshape = dynamic_cast<const SShape*> (monotonic))) {
+        } else if (const SShape * sshape = dynamic_cast<const SShape*> (monotonic)) {
             scalar difference = sshape->getEnd() - sshape->getStart();
             scalar a = sshape->getStart() + std::sqrt(w * difference * difference / 2.0);
             scalar b = sshape->getEnd() + std::sqrt(difference * difference * (w - 1.0) / -2.0);
@@ -71,7 +72,7 @@ namespace fl {
                 z = b;
             }
 
-        } else if ((zshape = dynamic_cast<const ZShape*> (monotonic))) {
+        } else if (const ZShape * zshape = dynamic_cast<const ZShape*> (monotonic)) {
             scalar difference = zshape->getEnd() - zshape->getStart();
             scalar a = zshape->getStart() + std::sqrt(difference * difference * (w - 1.0) / -2.0);
             scalar b = zshape->getEnd() + std::sqrt(w * difference * difference / 2.0);
@@ -81,6 +82,11 @@ namespace fl {
             } else {
                 z = b;
             }
+
+        } else if (const Concave * concave = dynamic_cast<const Concave*> (monotonic)) {
+            scalar i = concave->getInflection();
+            scalar e = concave->getEnd();
+            z = (i - e) / concave->membership(w) + 2 * e - i;
         } else {
             isTsukamoto = false;
         }
