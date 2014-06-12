@@ -103,6 +103,8 @@ namespace fl {
         };
         virtual Type type(std::string* name = NULL, std::string* reason = NULL) const;
 
+        virtual Engine* clone() const;
+
         virtual std::vector<Variable*> variables() const;
 
         /**

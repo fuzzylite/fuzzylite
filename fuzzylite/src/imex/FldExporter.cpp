@@ -168,6 +168,9 @@ namespace fl {
 
     void FldExporter::write(Engine* engine, std::ostream& writer, std::istream& reader) const {
         if (_exportHeaders) writer << header(engine) << "\n";
+        
+        engine->restart();
+        
         std::string line;
         int lineNumber = 0;
         while (std::getline(reader, line)) {

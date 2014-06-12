@@ -460,6 +460,10 @@ namespace fl {
         return Engine::Unknown;
     }
 
+    Engine* Engine::clone() const {
+        return new Engine(*this);
+    }
+
     std::vector<Variable*> Engine::variables() const {
         std::vector<Variable*> result;
         result.reserve(_inputVariables.size() + _outputVariables.size());
