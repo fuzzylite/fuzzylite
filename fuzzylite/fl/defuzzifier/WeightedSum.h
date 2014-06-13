@@ -29,14 +29,14 @@
 #define	FL_WEIGHTEDSUM_H
 
 
-#include "fl/defuzzifier/Defuzzifier.h"
+#include "fl/defuzzifier/WeightedDefuzzifier.h"
 
 namespace fl {
 
-    class FL_EXPORT WeightedSum : public Defuzzifier {
+    class FL_EXPORT WeightedSum : public WeightedDefuzzifier {
     public:
 
-        WeightedSum();
+        WeightedSum(Type type = Automatic);
         virtual ~WeightedSum();
 
         virtual std::string className() const;

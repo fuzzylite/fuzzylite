@@ -42,6 +42,7 @@
 #include "fl/defuzzifier/LargestOfMaximum.h"
 #include "fl/defuzzifier/MeanOfMaximum.h"
 #include "fl/defuzzifier/WeightedAverage.h"
+#include "fl/defuzzifier/WeightedDefuzzifier.h"
 #include "fl/defuzzifier/WeightedSum.h"
 
 #include "fl/factory/CloningFactory.h"

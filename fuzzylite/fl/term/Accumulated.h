@@ -35,13 +35,15 @@
 
 namespace fl {
 
+    class Activated;
     class SNorm;
-
+    class TNorm;
+    
     class FL_EXPORT Accumulated : public Term {
     private:
         void copyFrom(const Accumulated& source);
     protected:
-        std::vector<const Term*> _terms;
+        std::vector<Activated*> _terms;
         scalar _minimum, _maximum;
         std::auto_ptr<SNorm> _accumulation;
     public:
@@ -80,12 +82,13 @@ namespace fl {
         /**
          * Operations for std::vector _terms
          */
-        virtual void addTerm(const Term* term);
-        virtual const Term* getTerm(int index) const;
-        virtual const Term* removeTerm(int index);
+        virtual void addTerm(const Term* term, scalar degree, const TNorm* activation);
+        virtual void addTerm(Activated* term);
+        virtual Activated* getTerm(int index) const;
+        virtual Activated* removeTerm(int index);
         virtual int numberOfTerms() const;
-        virtual const std::vector<const Term*>& terms() const;
-        virtual std::vector<const Term*>& terms();
+        virtual const std::vector<Activated*>& terms() const;
+        virtual std::vector<Activated*>& terms();
         virtual bool isEmpty() const;
         virtual void clear();
     };

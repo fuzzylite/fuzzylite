@@ -1,26 +1,10 @@
-// #BEGIN_LICENSE
-// fuzzylite: a fuzzy logic control library in C++
-// Copyright (C) 2014  Juan Rada-Vilela
-// 
-// This file is part of fuzzylite.
-//
-// fuzzylite is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// fuzzylite is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
-// #END_LICENSE
-
-#include "fl/defuzzifier/Tsukamoto.h"
+#include "fl/defuzzifier/WeightedDefuzzifier.h"
 
 #include "fl/term/Activated.h"
+#include "fl/term/Concave.h"
+#include "fl/term/Constant.h"
+#include "fl/term/Function.h"
+#include "fl/term/Linear.h"
 #include "fl/term/Ramp.h"
 #include "fl/term/Sigmoid.h"
 #include "fl/term/SShape.h"
@@ -28,12 +12,34 @@
 
 namespace fl {
 
+    WeightedDefuzzifier::WeightedDefuzzifier(Type type) : _type(type) {
+
+    }
+
+    WeightedDefuzzifier::~WeightedDefuzzifier() {
+
+    }
+
+    void WeightedDefuzzifier::setType(Type type) {
+        this->_type = type;
+    }
+
+    WeightedDefuzzifier::Type WeightedDefuzzifier::getType() const {
+        return this->_type;
+    }
+
+    WeightedDefuzzifier::Type WeightedDefuzzifier::inferType(const Term* term) const {
+        return (dynamic_cast<const Constant*> (term)
+                or dynamic_cast<const Linear*> (term)
+                or dynamic_cast<const Function*> (term))
+                ? TakagiSugeno : Tsukamoto;
+    }
+
     /**
      * Instead of computing y=f(x), the goal of Tsukamoto is to find x=f(w), 
      * where f is monotonic.
      */
-
-    scalar Tsukamoto::tsukamoto(const Activated* term, scalar minimum, scalar maximum) {
+    scalar WeightedDefuzzifier::tsukamoto(const Activated* term, scalar minimum, scalar maximum) const {
         const Term* monotonic = term->getTerm();
         scalar w = term->getDegree();
         scalar z = fl::nan; //result;
@@ -105,9 +111,10 @@ namespace fl {
             }
         } else {
             // else fallback to the regular Takagi-Sugeno or inverse Tsukamoto (according to term)
-            z = monotonic->membership(term->getDegree());
+            z = monotonic->membership(w);
         }
         return z;
     }
+
 
 }

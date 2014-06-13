@@ -35,6 +35,10 @@
 #include <stdlib.h>
 #include <fstream>
 
+#ifdef FL_UNIX
+#include <time.h> //only for benchmarks
+#endif
+
 namespace fl {
     const std::string Console::KW_INPUT_FILE = "-i";
     const std::string Console::KW_INPUT_FORMAT = "-if";
@@ -532,6 +536,95 @@ namespace fl {
         }
     }
 
+#ifdef FL_UNIX
+
+    void Console::benchmarkExamples(int runs) {
+        std::string sourceBase = "/home/jcrada/Development/fl/fuzzylite/examples/original";
+        typedef std::pair<std::string, int > Example;
+        std::vector<Example> examples;
+        examples.push_back(Example("/mamdani/AllTerms", 1e4));
+        examples.push_back(Example("/mamdani/SimpleDimmer", 1e5));
+        examples.push_back(Example("/mamdani/matlab/mam21", 128));
+        examples.push_back(Example("/mamdani/matlab/mam22", 128));
+        examples.push_back(Example("/mamdani/matlab/shower", 256));
+        examples.push_back(Example("/mamdani/matlab/tank", 256));
+        examples.push_back(Example("/mamdani/matlab/tank2", 512));
+        examples.push_back(Example("/mamdani/matlab/tipper", 256));
+        examples.push_back(Example("/mamdani/matlab/tipper1", 1e5));
+        examples.push_back(Example("/mamdani/octave/investment_portfolio", 256));
+        examples.push_back(Example("/mamdani/octave/mamdani_tip_calculator", 256));
+        examples.push_back(Example("/takagi-sugeno/approximation", 1e6));
+        examples.push_back(Example("/takagi-sugeno/SimpleDimmer", 2e6));
+        examples.push_back(Example("/takagi-sugeno/matlab/fpeaks", 512));
+        examples.push_back(Example("/takagi-sugeno/matlab/invkine1", 256));
+        examples.push_back(Example("/takagi-sugeno/matlab/invkine2", 256));
+        examples.push_back(Example("/takagi-sugeno/matlab/juggler", 512));
+        examples.push_back(Example("/takagi-sugeno/matlab/membrn1", 1024));
+        examples.push_back(Example("/takagi-sugeno/matlab/membrn2", 512));
+        examples.push_back(Example("/takagi-sugeno/matlab/slbb", 20));
+        examples.push_back(Example("/takagi-sugeno/matlab/slcp", 20));
+        examples.push_back(Example("/takagi-sugeno/matlab/slcp1", 15));
+        examples.push_back(Example("/takagi-sugeno/matlab/slcpp1", 9));
+        examples.push_back(Example("/takagi-sugeno/matlab/sltbu_fl", 128));
+        examples.push_back(Example("/takagi-sugeno/matlab/sugeno1", 2e6));
+        examples.push_back(Example("/takagi-sugeno/matlab/tanksg", 1024));
+        examples.push_back(Example("/takagi-sugeno/matlab/tippersg", 1024));
+        examples.push_back(Example("/takagi-sugeno/octave/cubic_approximator", 2e6));
+        examples.push_back(Example("/takagi-sugeno/octave/heart_disease_risk", 1024));
+        examples.push_back(Example("/takagi-sugeno/octave/linear_tip_calculator", 1024));
+        examples.push_back(Example("/takagi-sugeno/octave/sugeno_tip_calculator", 512));
+        examples.push_back(Example("/tsukamoto/tsukamoto", 1e6));
+
+        for (std::size_t i = 0; i < examples.size(); ++i) {
+            FL_LOG(examples.at(i).first << "\t" << examples.at(i).second);
+        }
+
+        FisImporter importer;
+        FldExporter exporter;
+        exporter.setExportHeader(false);
+        exporter.setExportInputValues(false);
+        exporter.setExportOutputValues(false);
+        std::ostream dummy(0);
+
+        for (std::size_t e = 0; e < examples.size(); ++e) {
+            std::string filename(sourceBase + examples.at(e).first + ".fis");
+            std::ifstream file(filename.c_str());
+            std::ostringstream fll;
+            if (file.is_open()) {
+                std::string line;
+                while (file.good()) {
+                    std::getline(file, line);
+                    fll << line << "\n";
+                }
+                file.close();
+            } else throw fl::Exception("[examples error] file not found: " + filename, FL_AT);
+
+            std::auto_ptr<Engine> engine(importer.fromString(fll.str()));
+
+            std::vector<scalar> seconds;
+            timespec start, now;
+            int results = std::pow(examples.at(e).second, engine->numberOfInputVariables());
+
+            for (int r = 0; r < runs; ++r) {
+                clock_gettime(CLOCK_REALTIME, &start);
+                exporter.write(engine.get(), dummy, results);
+                clock_gettime(CLOCK_REALTIME, &now);
+
+                time_t elapsed = now.tv_sec - start.tv_sec;
+                scalar a = elapsed + start.tv_nsec / 1e9f;
+                scalar b = elapsed + now.tv_nsec / 1e9f;
+
+                seconds.push_back((b - a) + elapsed);
+            }
+            scalar mean = Op::mean(seconds);
+            scalar stdev = Op::standardDeviation(seconds, mean);
+            FL_LOG(examples.at(e).first << ":\t" <<
+                    fl::Op::str(mean) << "\t" << fl::Op::str(stdev) << "\t" <<
+                    Op::join(seconds, "\t"));
+        }
+    }
+#endif
+
     int Console::main(int argc, char** argv) {
         (void) argc;
         (void) argv;
@@ -539,29 +632,35 @@ namespace fl {
             std::cout << usage() << std::endl;
             return EXIT_SUCCESS;
         }
-        if (argc == 2 and "export-examples" == std::string(argv[1])) {
-            try {
+        if (argc == 2) {
+            if ("export-examples" == std::string(argv[1])) {
+                try {
+                    fuzzylite::setDecimals(3);
+                    FL_LOG("Processing fis->fll");
+                    exportAllExamples("fis", "fll");
+                    FL_LOG("Processing fis->fcl");
+                    exportAllExamples("fis", "fcl");
+                    FL_LOG("Processing fis->fis");
+                    exportAllExamples("fis", "fis");
+                    FL_LOG("Processing fis->cpp");
+                    exportAllExamples("fis", "cpp");
+                    FL_LOG("Processing fis->java");
+                    exportAllExamples("fis", "java");
+                    fuzzylite::setDecimals(8);
+                    fuzzylite::setMachEps(1e-6);
+                    FL_LOG("Processing fis->fld");
+                    exportAllExamples("fis", "fld");
+                } catch (std::exception& ex) {
+                    std::cout << ex.what() << "\nBACKTRACE:\n" <<
+                            fl::Exception::btCallStack() << std::endl;
+                    return EXIT_FAILURE;
+                }
+                return EXIT_SUCCESS;
+            } else if ("benchmarks" == std::string(argv[1])) {
                 fuzzylite::setDecimals(3);
-                FL_LOG("Processing fis->fll");
-                exportAllExamples("fis", "fll");
-                FL_LOG("Processing fis->fcl");
-                exportAllExamples("fis", "fcl");
-                FL_LOG("Processing fis->fis");
-                exportAllExamples("fis", "fis");
-                FL_LOG("Processing fis->cpp");
-                exportAllExamples("fis", "cpp");
-                FL_LOG("Processing fis->java");
-                exportAllExamples("fis", "java");
-                fuzzylite::setDecimals(8);
-                fuzzylite::setMachEps(1e-6);
-                FL_LOG("Processing fis->fld");
-                exportAllExamples("fis", "fld");
-            } catch (std::exception& ex) {
-                std::cout << ex.what() << "\nBACKTRACE:\n" <<
-                        fl::Exception::btCallStack() << std::endl;
-                return EXIT_FAILURE;
+                Console::benchmarkExamples(10);
+                return EXIT_SUCCESS;
             }
-            return EXIT_SUCCESS;
         }
 
         try {

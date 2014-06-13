@@ -29,6 +29,7 @@
 
 #include "fl/imex/FllExporter.h"
 #include "fl/norm/SNorm.h"
+#include "fl/term/Activated.h"
 
 namespace fl {
 
@@ -53,14 +54,15 @@ namespace fl {
     }
 
     Accumulated::~Accumulated() {
-        this->clear();
+        clear();
     }
 
     void Accumulated::copyFrom(const Accumulated& source) {
         _minimum = source._minimum;
         _maximum = source._maximum;
 
-        if (source._accumulation.get()) _accumulation.reset(source._accumulation->clone());
+        if (source._accumulation.get())
+            _accumulation.reset(source._accumulation->clone());
 
         for (std::size_t i = 0; i < source._terms.size(); ++i) {
             _terms.push_back(source._terms.at(i)->clone());
@@ -148,32 +150,38 @@ namespace fl {
     /**
      * Operations for std::vector _terms
      */
-    void Accumulated::addTerm(const Term* term) {
+
+
+    void Accumulated::addTerm(const Term* term, scalar degree, const TNorm* activation) {
+        this->_terms.push_back(new Activated(term, degree, activation));
+    }
+
+    void Accumulated::addTerm(Activated* term) {
         this->_terms.push_back(term);
     }
 
-    const Term* Accumulated::removeTerm(int index) {
-        const Term* result = this->_terms.at(index);
+    Activated* Accumulated::removeTerm(int index) {
+        Activated* term = this->_terms.at(index);
         this->_terms.erase(this->_terms.begin() + index);
-        return result;
+        return term;
     }
 
     void Accumulated::clear() {
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
+        for (std::size_t i = 0 ; i < _terms.size(); ++i){
             delete _terms.at(i);
         }
         _terms.clear();
     }
 
-    const Term* Accumulated::getTerm(int index) const {
+    Activated* Accumulated::getTerm(int index) const {
         return this->_terms.at(index);
     }
 
-    const std::vector<const Term*>& Accumulated::terms() const {
+    const std::vector<Activated*>& Accumulated::terms() const {
         return this->_terms;
     }
 
-    std::vector<const Term*>& Accumulated::terms() {
+    std::vector<Activated*>& Accumulated::terms() {
         return this->_terms;
     }
 

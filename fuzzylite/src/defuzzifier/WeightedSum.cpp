@@ -20,7 +20,6 @@
 
 #include "fl/defuzzifier/WeightedSum.h"
 
-#include "fl/defuzzifier/Tsukamoto.h"
 #include "fl/term/Accumulated.h"
 #include "fl/term/Activated.h"
 #include "fl/norm/SNorm.h"
@@ -28,7 +27,7 @@
 
 namespace fl {
 
-    WeightedSum::WeightedSum() : Defuzzifier() {
+    WeightedSum::WeightedSum(Type type) : WeightedDefuzzifier(type) {
     }
 
     WeightedSum::~WeightedSum() {
@@ -40,8 +39,6 @@ namespace fl {
 
     scalar WeightedSum::defuzzify(const Term* term,
             scalar minimum, scalar maximum) const {
-        (void) minimum;
-        (void) maximum;
         const Accumulated* fuzzyOutput = dynamic_cast<const Accumulated*> (term);
         if (not fuzzyOutput) {
             std::ostringstream ss;
@@ -51,20 +48,23 @@ namespace fl {
             throw fl::Exception(ss.str(), FL_AT);
         }
 
+        minimum = fuzzyOutput->getMinimum();
+        maximum = fuzzyOutput->getMaximum();
+
         scalar sum = 0.0;
         for (int i = 0; i < fuzzyOutput->numberOfTerms(); ++i) {
-            const Activated* activated = dynamic_cast<const Activated*> (fuzzyOutput->getTerm(i));
-            if (not activated) {
-                std::ostringstream ss;
-                ss << "[defuzzification error]"
-                        << "expected an Activated term instead of"
-                        << "<" << fuzzyOutput->getTerm(i)->toString() << ">";
-                throw fl::Exception(ss.str(), FL_AT);
-            }
-            //Traditionally, activation is the AlgebraicProduct and accumulation is AlgebraicSum
+            Activated* activated = fuzzyOutput->getTerm(i);
+            const Term* term = activated->getTerm();
             scalar w = activated->getDegree();
-            scalar z = Tsukamoto::tsukamoto(activated,
-                    fuzzyOutput->getMinimum(), fuzzyOutput->getMaximum());
+
+            Type type = _type;
+            if (type == Automatic) type = inferType(term);
+
+            scalar z = (type == TakagiSugeno)
+                    //? activated.getTerm()->membership(fl::nan) Would ensure no Tsukamoto applies, but Inverse Tsukamoto with Functions would not work.
+                    ? term->membership(w) //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
+                    : tsukamoto(activated, minimum, maximum);
+
             sum += activated->getActivation()->compute(w, z);
         }
         return sum;

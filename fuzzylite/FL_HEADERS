@@ -7,8 +7,8 @@ fl/defuzzifier/IntegralDefuzzifier.h
 fl/defuzzifier/LargestOfMaximum.h
 fl/defuzzifier/MeanOfMaximum.h
 fl/defuzzifier/SmallestOfMaximum.h
-fl/defuzzifier/Tsukamoto.h
 fl/defuzzifier/WeightedAverage.h
+fl/defuzzifier/WeightedDefuzzifier.h
 fl/defuzzifier/WeightedSum.h
 fl/Engine.h
 fl/Exception.h

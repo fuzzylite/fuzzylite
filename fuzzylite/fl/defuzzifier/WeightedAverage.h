@@ -28,15 +28,15 @@
 #ifndef FL_WEIGHTEDAVERAGE_H
 #define	FL_WEIGHTEDAVERAGE_H
 
-#include "fl/defuzzifier/Defuzzifier.h"
+#include "fl/defuzzifier/WeightedDefuzzifier.h"
 
 namespace fl {
     class Activated;
 
-    class FL_EXPORT WeightedAverage : public Defuzzifier {
+    class FL_EXPORT WeightedAverage : public WeightedDefuzzifier {
     public:
 
-        WeightedAverage();
+        WeightedAverage(Type type = Automatic);
         virtual ~WeightedAverage();
 
         virtual std::string className() const;

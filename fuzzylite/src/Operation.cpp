@@ -199,6 +199,42 @@ namespace fl {
         return overflow;
     }
 
+    double Operation::mean(const std::vector<scalar>& x) {
+        if (x.size() == 0) return fl::nan;
+        scalar sum = 0.0;
+        for (std::size_t i = 0; i < x.size(); ++i) sum += x.at(i);
+        return sum / x.size();
+    }
+
+    double Operation::standardDeviation(const std::vector<scalar>& x) {
+        if (x.size() <= 1) return 0.0;
+        return standardDeviation(x, mean(x));
+    }
+
+    double Operation::standardDeviation(const std::vector<scalar>& x, scalar mean) {
+        if (x.size() <= 1) return 0.0;
+        return std::sqrt(variance(x, mean));
+    }
+
+    double Operation::variance(const std::vector<scalar>& x) {
+        if (x.size() <= 1) return 0.0;
+        return variance(x, mean(x));
+    }
+
+    double Operation::variance(const std::vector<scalar>& x, scalar mean) {
+        if (x.size() <= 1) return 0.0;
+        scalar result = 0;
+        for (std::size_t i = 0; i < x.size(); ++i) {
+            result += (x.at(i) - mean) * (x.at(i) - mean);
+        }
+        result /= -1 + x.size();
+        return result;
+    }
+
+
+
+    //Text Operations:
+
     std::string Operation::makeValidId(const std::string& name) {
         std::ostringstream ss;
         for (std::size_t i = 0; i < name.length(); ++i) {

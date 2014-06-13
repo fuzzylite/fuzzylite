@@ -99,6 +99,12 @@ namespace fl {
         static bool increment(std::vector<int>& x, std::vector<int>& min, std::vector<int>& max);
         static bool increment(std::vector<int>& x, int position, std::vector<int>& min, std::vector<int>& max);
 
+        static double mean(const std::vector<scalar>& x);
+        static double variance(const std::vector<scalar>& x);
+        static double variance(const std::vector<scalar>& x, scalar mean);
+        static double standardDeviation(const std::vector<scalar>& x);
+        static double standardDeviation(const std::vector<scalar>& x, scalar mean);
+
         static std::string makeValidId(const std::string& name);
 
         static int isValidForName(int character);

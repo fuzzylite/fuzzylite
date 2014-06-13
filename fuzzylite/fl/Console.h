@@ -71,6 +71,9 @@ namespace fl {
                 const std::map<std::string, std::string>& options);
 
         static void exportAllExamples(const std::string& from, const std::string& to);
+#ifdef FL_UNIX
+        static void benchmarkExamples(int runs);
+#endif
 
     public:
         static std::string usage();

@@ -62,6 +62,27 @@ namespace fl {
         return this->_conclusions;
     }
 
+    void Consequent::modify(scalar activationDegree, const TNorm* activation) {
+        if (not isLoaded()) {
+            throw fl::Exception("[consequent error] consequent <" + _text + "> is not loaded", FL_AT);
+        }
+        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
+            Proposition* proposition = _conclusions.at(i);
+            if (proposition->variable->isEnabled()) {
+                if (not proposition->hedges.empty()) {
+                    for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
+                            rit != proposition->hedges.rend(); ++rit) {
+                        activationDegree = (*rit)->hedge(activationDegree);
+                    }
+                }
+                Activated* term = new Activated(_conclusions.at(i)->term, activationDegree, activation);
+                OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (proposition->variable);
+                outputVariable->fuzzyOutput()->addTerm(term);
+                FL_DBG("Accumulating " << term->toString());
+            }
+        }
+    }
+
     bool Consequent::isLoaded() {
         return not _conclusions.empty();
     }
@@ -210,29 +231,6 @@ namespace fl {
             (void) ex;
             unload();
             throw;
-        }
-    }
-
-    void Consequent::modify(scalar activationDegree, const TNorm* activation) {
-        if (not isLoaded()) {
-            throw fl::Exception("[consequent error] consequent <" + _text + "> is not loaded", FL_AT);
-        }
-        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
-            Proposition* proposition = _conclusions.at(i);
-            if (proposition->variable->isEnabled()) {
-                if (not proposition->hedges.empty()) {
-                    for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
-                            rit != proposition->hedges.rend(); ++rit) {
-                        activationDegree = (*rit)->hedge(activationDegree);
-                    }
-                }
-                Activated* term = new Activated(_conclusions.at(i)->term);
-                term->setDegree(activationDegree);
-                term->setActivation(activation);
-                OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (proposition->variable);
-                outputVariable->fuzzyOutput()->addTerm(term);
-                FL_DBG("Accumulating " << term->toString());
-            }
         }
     }
 

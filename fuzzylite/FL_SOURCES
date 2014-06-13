@@ -5,8 +5,8 @@ src/defuzzifier/IntegralDefuzzifier.cpp
 src/defuzzifier/LargestOfMaximum.cpp
 src/defuzzifier/MeanOfMaximum.cpp
 src/defuzzifier/SmallestOfMaximum.cpp
-src/defuzzifier/Tsukamoto.cpp
 src/defuzzifier/WeightedAverage.cpp
+src/defuzzifier/WeightedDefuzzifier.cpp
 src/defuzzifier/WeightedSum.cpp
 src/Engine.cpp
 src/Exception.cpp

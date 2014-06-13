@@ -124,6 +124,14 @@ Version 5.0
 * Created MACRO FL_DEBUG_BLOCK(block) to replace FL_BEGIN_DEBUG_BLOCK and FL_END_DEBUG_BLOCK
 * Renamed methods in (Fis|Fcl)Importers::extract? to ::parse?
 * Made defaultResolution a static property of IntegralDefuzzifiers
+* Added method Engine::type(name, reason) to show type and reason why type
+* Added method Engine::clone()
+* Added support for Tsukamoto with Concave terms
+* Changed Accumulated to take Activated* terms instead of const Terms*
+* Deleted class Tsukamoto
+* Created class WeightedDefuzzifier from which Weighted(Average|Sum) derive with options: Automatic|TakagiSugeno|Tsukamoto
+* Added methods WeightedDefuzzifier::tsukamoto() and ::inferType()
+* Added benchmarks for fuzzylite in Linux
 
 
 Version 4.0
