@@ -69,6 +69,10 @@ namespace fl {
         static void process(const std::string& input, std::ostream& writer,
                 const std::string& inputFormat, const std::string& outputFormat,
                 const std::map<std::string, std::string>& options);
+        
+        static int readCharacter();
+        static void interactive(std::ostream& writer, Engine* engine);
+        static std::string interactiveHelp();
 
         static void exportAllExamples(const std::string& from, const std::string& to);
 #ifdef FL_UNIX
@@ -78,6 +82,7 @@ namespace fl {
     public:
         static std::string usage();
         static std::vector<Option> availableOptions();
+        
         static int main(int argc, char** argv);
     };
 
