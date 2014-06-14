@@ -159,7 +159,7 @@ namespace fl {
             for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
                 InputVariable* inputVariable = engine->getInputVariable(i);
                 inputValues.at(i) = inputVariable->getMinimum()
-                        + sampleValues.at(i) * inputVariable->range() / resolution;
+                        + sampleValues.at(i) * inputVariable->range() / std::max(1, resolution);
             }
             write(engine, writer, inputValues);
             overflow = Op::increment(sampleValues, minSampleValues, maxSampleValues);

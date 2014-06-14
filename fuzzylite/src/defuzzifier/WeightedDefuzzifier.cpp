@@ -35,6 +35,14 @@ namespace fl {
                 ? TakagiSugeno : Tsukamoto;
     }
 
+    bool WeightedDefuzzifier::isMonotonic(const Term* term) const {
+        return (dynamic_cast<const Concave*> (term)) or
+                (dynamic_cast<const Ramp*> (term)) or
+                (dynamic_cast<const Sigmoid*> (term)) or
+                (dynamic_cast<const SShape*> (term)) or
+                (dynamic_cast<const ZShape*> (term));
+    }
+
     /**
      * Instead of computing y=f(x), the goal of Tsukamoto is to find x=f(w), 
      * where f is monotonic.

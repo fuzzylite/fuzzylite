@@ -352,25 +352,24 @@ namespace fl {
 
         //Mamdani
         bool mamdani = true;
-        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+        for (std::size_t i = 0; mamdani and i < _outputVariables.size(); ++i) {
             OutputVariable* outputVariable = _outputVariables.at(i);
             //Defuzzifier must be integral
-            mamdani &= NULL != dynamic_cast<IntegralDefuzzifier*> (outputVariable->getDefuzzifier());
+            mamdani = mamdani and dynamic_cast<IntegralDefuzzifier*> (outputVariable->getDefuzzifier());
         }
         //Larsen
         bool larsen = mamdani and not _ruleblocks.empty();
         //Larsen is Mamdani with AlgebraicProduct as Activation
         if (mamdani) {
-            for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
+            for (std::size_t i = 0; larsen and i < _ruleblocks.size(); ++i) {
                 RuleBlock* ruleBlock = _ruleblocks.at(i);
-                larsen &= dynamic_cast<const AlgebraicProduct*>
-                        (ruleBlock->getActivation()) != NULL;
+                larsen = larsen and dynamic_cast<const AlgebraicProduct*> (ruleBlock->getActivation());
             }
         }
         if (larsen) {
             if (name) *name = "Larsen";
             if (reason) *reason = "-Output variables have integral defuzzifiers\n"
-                    "-Rule blocks activate using the algebraic product t-norm";
+                    "-Rule blocks activate using the algebraic product T-Norm";
             return Engine::Larsen;
         }
         if (mamdani) {
@@ -382,61 +381,70 @@ namespace fl {
 
         //TakagiSugeno
         bool takagiSugeno = true;
-        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+        for (std::size_t i = 0; takagiSugeno and i < _outputVariables.size(); ++i) {
             OutputVariable* outputVariable = _outputVariables.at(i);
-            //Takagi-Sugeno has only Constant, Linear or Function terms
-            for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
-                Term* term = outputVariable->getTerm(t);
-                takagiSugeno &= (dynamic_cast<Constant*> (term)) or
-                        (dynamic_cast<Linear*> (term)) or
-                        (dynamic_cast<Function*> (term));
+            //Defuzzifier is Weighted
+            WeightedDefuzzifier* weightedDefuzzifier =
+                    dynamic_cast<WeightedDefuzzifier*> (outputVariable->getDefuzzifier());
+
+            takagiSugeno = takagiSugeno and weightedDefuzzifier and
+                    (weightedDefuzzifier->getType() == WeightedDefuzzifier::Automatic or
+                    weightedDefuzzifier->getType() == WeightedDefuzzifier::TakagiSugeno);
+
+            if (takagiSugeno) {
+                //Takagi-Sugeno has only Constant, Linear or Function terms
+                for (int t = 0; takagiSugeno and t < outputVariable->numberOfTerms(); ++t) {
+                    Term* term = outputVariable->getTerm(t);
+                    takagiSugeno = takagiSugeno and
+                            weightedDefuzzifier->inferType(term) == WeightedDefuzzifier::TakagiSugeno;
+                }
             }
-            //and the defuzzifier cannot be integral
-            Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
-            takagiSugeno &= defuzzifier and not (dynamic_cast<IntegralDefuzzifier*> (defuzzifier));
         }
         if (takagiSugeno) {
             if (name) *name = "Takagi-Sugeno";
-            if (reason) *reason = "-Output variables do not have integral defuzzifiers\n"
+            if (reason) *reason = "-Output variables have weighted defuzzifiers\n"
                     "-Output variables have constant, linear or function terms";
             return Engine::TakagiSugeno;
         }
 
         //Tsukamoto
         bool tsukamoto = true;
-        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+        for (std::size_t i = 0; tsukamoto and i < _outputVariables.size(); ++i) {
             OutputVariable* outputVariable = _outputVariables.at(i);
-            //Tsukamoto has only monotonic terms: Ramp, Sigmoid, SShape, or ZShape
-            for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
-                Term* term = outputVariable->getTerm(t);
-                tsukamoto &= (dynamic_cast<Ramp*> (term)) or
-                        (dynamic_cast<Sigmoid*> (term)) or
-                        (dynamic_cast<SShape*> (term)) or
-                        (dynamic_cast<ZShape*> (term));
+            //Defuzzifier is Weighted
+            WeightedDefuzzifier* weightedDefuzzifier =
+                    dynamic_cast<WeightedDefuzzifier*> (outputVariable->getDefuzzifier());
+
+            tsukamoto = tsukamoto and weightedDefuzzifier and
+                    (weightedDefuzzifier->getType() == WeightedDefuzzifier::Automatic or
+                    weightedDefuzzifier->getType() == WeightedDefuzzifier::Tsukamoto);
+            if (tsukamoto) {
+                //Tsukamoto has only monotonic terms: Concave, Ramp, Sigmoid, SShape, or ZShape
+                for (int t = 0; tsukamoto and t < outputVariable->numberOfTerms(); ++t) {
+                    Term* term = outputVariable->getTerm(t);
+                    tsukamoto = tsukamoto and weightedDefuzzifier->isMonotonic(term);
+                }
             }
-            //and the defuzzifier cannot be integral
-            Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
-            tsukamoto &= defuzzifier and not (dynamic_cast<IntegralDefuzzifier*> (defuzzifier));
         }
         if (tsukamoto) {
             if (name) *name = "Tsukamoto";
-            if (reason) *reason = "-Output variables only have monotonic terms\n"
-                    "Output variables do not have integral defuzzifiers";
+            if (reason) *reason = "Output variables have weighted defuzzifiers\n"
+                    "-Output variables only have monotonic terms";
             return Engine::Tsukamoto;
         }
 
         //Inverse Tsukamoto
         bool inverseTsukamoto = true;
-        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+        for (std::size_t i = 0; inverseTsukamoto and i < _outputVariables.size(); ++i) {
             OutputVariable* outputVariable = _outputVariables.at(i);
             //Defuzzifier cannot be integral
-            Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
-            inverseTsukamoto &= defuzzifier and not (dynamic_cast<IntegralDefuzzifier*> (defuzzifier));
+            WeightedDefuzzifier* weightedDefuzzifier =
+                    dynamic_cast<WeightedDefuzzifier*> (outputVariable->getDefuzzifier());
+            inverseTsukamoto = inverseTsukamoto and weightedDefuzzifier;
         }
         if (inverseTsukamoto) {
             if (name) *name = "Inverse Tsukamoto";
-            if (reason) *reason = "-Type is not Takagi-Sugeno or Tsukamoto\n"
-                    "-Output variables do not have integral defuzzifiers\n"
+            if (reason) *reason = "-Output variables have weighted defuzzifiers\n"
                     "-Output variables do not only have constant, linear or Function terms\n"
                     "-Output variables do not only have monotonic terms\n";
             return Engine::InverseTsukamoto;
@@ -445,9 +453,8 @@ namespace fl {
         bool hybrid = true;
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             OutputVariable* outputVariable = _outputVariables.at(i);
-            //Defuzzifier cannot be integral
-            Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
-            hybrid &= defuzzifier != NULL;
+            //Output variables have non-NULL defuzzifiers
+            hybrid  = hybrid and outputVariable->getDefuzzifier();
         }
         if (hybrid) {
             if (name) *name = "Hybrid";

@@ -50,6 +50,7 @@ namespace fl {
         virtual void setType(Type type);
         virtual Type getType() const;
         virtual Type inferType(const Term* term) const;
+        virtual bool isMonotonic(const Term* term) const;
 
         virtual scalar tsukamoto(const Activated* term, scalar minimum, scalar maximum) const;
 

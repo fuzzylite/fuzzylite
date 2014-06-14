@@ -250,10 +250,16 @@ namespace fl {
         if (name == "none") return FactoryManager::instance()->defuzzifier()->constructObject("");
         Defuzzifier* defuzzifier = FactoryManager::instance()->defuzzifier()->constructObject(name);
         if (parameters.size() > 1) {
-            IntegralDefuzzifier* integralDefuzzifier =
-                    dynamic_cast<IntegralDefuzzifier*> (defuzzifier);
-            if (integralDefuzzifier) {
-                integralDefuzzifier->setResolution((int) Op::toScalar(parameters.at(1)));
+            std::string parameter(parameters.at(1));
+            if (IntegralDefuzzifier * integralDefuzzifier = dynamic_cast<IntegralDefuzzifier*> (defuzzifier)) {
+                integralDefuzzifier->setResolution((int) Op::toScalar(parameter));
+            } else if (WeightedDefuzzifier * weightedDefuzzifier = dynamic_cast<WeightedDefuzzifier*> (defuzzifier)) {
+                WeightedDefuzzifier::Type type = WeightedDefuzzifier::Automatic;
+                if (parameter == "Automatic") type = WeightedDefuzzifier::Automatic;
+                else if (parameter == "TakagiSugeno") type = WeightedDefuzzifier::TakagiSugeno;
+                else if (parameter == "Tsukamoto") type = WeightedDefuzzifier::Tsukamoto;
+                else throw fl::Exception("[syntax error] unknown parameter of WeightedDefuzzifier <" + parameter + ">", FL_AT);
+                weightedDefuzzifier->setType(type);
             }
         }
         return defuzzifier;

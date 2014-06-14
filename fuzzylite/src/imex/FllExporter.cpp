@@ -174,10 +174,15 @@ namespace fl {
 
     std::string FllExporter::toString(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier) return "none";
-        const IntegralDefuzzifier* integralDefuzzifier =
-                dynamic_cast<const IntegralDefuzzifier*> (defuzzifier);
-        if (integralDefuzzifier) {
+        if (const IntegralDefuzzifier * integralDefuzzifier = dynamic_cast<const IntegralDefuzzifier*> (defuzzifier)) {
             return defuzzifier->className() + " " + Op::str<int>(integralDefuzzifier->getResolution());
+        } else if (const WeightedDefuzzifier * weightedDefuzzifier = dynamic_cast<const WeightedDefuzzifier*> (defuzzifier)) {
+            if (weightedDefuzzifier->getType() == WeightedDefuzzifier::Automatic)
+                return defuzzifier->className(); //absence of parameter indicates Automatic
+            else if (weightedDefuzzifier->getType() == WeightedDefuzzifier::TakagiSugeno)
+                return defuzzifier->className() + " TakagiSugeno";
+            else if (weightedDefuzzifier->getType() == WeightedDefuzzifier::Tsukamoto)
+                return defuzzifier->className() + " Tsukamoto";
         }
         return defuzzifier->className();
     }
