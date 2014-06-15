@@ -98,8 +98,7 @@ namespace fl {
             if (InputVariable * inputVariable = dynamic_cast<InputVariable*> (proposition->variable)) {
                 result = proposition->term->membership(inputVariable->getInputValue());
             } else if (OutputVariable * outputVariable = dynamic_cast<OutputVariable*> (proposition->variable)) {
-                outputVariable->defuzzify();
-                result = outputVariable->fuzzyOutput()->membership(outputVariable->getOutputValue());
+                result = outputVariable->fuzzyOutput()->activationDegree(proposition->term);
             }
             for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
                     rit != proposition->hedges.rend(); ++rit) {
@@ -107,7 +106,7 @@ namespace fl {
             }
             return result;
         }
-        //if node is an operatorsk
+        //if node is an operator
         const Operator* fuzzyOperator = dynamic_cast<const Operator*> (node);
         if (not (fuzzyOperator->left and fuzzyOperator->right)) {
             std::ostringstream ex;

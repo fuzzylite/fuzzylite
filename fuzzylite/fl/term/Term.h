@@ -38,7 +38,7 @@
 
 namespace fl {
     class Engine;
-    
+
     class FL_EXPORT Term {
     protected:
         std::string _name;
@@ -50,10 +50,6 @@ namespace fl {
         Term& operator=(const Term& rhs);
         virtual ~Term();
 
-        /**
-         * Sets the name of this term. It <b>must</b> be a valid id (see Op::makeValidId)
-         * @param name
-         */
         virtual void setName(const std::string& name);
         virtual std::string getName() const;
 
@@ -66,7 +62,7 @@ namespace fl {
         virtual scalar membership(scalar x) const = 0;
 
         virtual Term* clone() const = 0;
-        
+
         static void updateReference(Term* term, const Engine* engine);
     };
 

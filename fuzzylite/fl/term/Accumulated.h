@@ -38,7 +38,7 @@ namespace fl {
     class Activated;
     class SNorm;
     class TNorm;
-    
+
     class FL_EXPORT Accumulated : public Term {
     private:
         void copyFrom(const Accumulated& source);
@@ -63,6 +63,7 @@ namespace fl {
         virtual Accumulated* clone() const;
 
         virtual scalar membership(scalar x) const;
+        virtual scalar activationDegree(const Term* forTerm) const;
 
         virtual std::string toString() const;
 

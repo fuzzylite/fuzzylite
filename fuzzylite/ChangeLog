@@ -132,7 +132,9 @@ Version 5.0
 * Created class WeightedDefuzzifier from which Weighted(Average|Sum) derive with options: Automatic|TakagiSugeno|Tsukamoto
 * Added methods WeightedDefuzzifier::tsukamoto() and ::inferType()
 * Added benchmarks for fuzzylite in Linux
-
+* Created the FuzzyLite Interactive Console
+* Added basic rule chaining such that Output Variables can be utilized as antecedents
+* Added two examples for rule chaining
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.

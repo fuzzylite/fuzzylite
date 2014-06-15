@@ -82,6 +82,17 @@ namespace fl {
         return mu;
     }
 
+    scalar Accumulated::activationDegree(const Term* forTerm) const {
+        scalar result = 0.0;
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
+            Activated* activatedTerm = _terms.at(i);
+            if (activatedTerm->getTerm() == forTerm) {
+                result = _accumulation->compute(result, activatedTerm->getDegree());
+            }
+        }
+        return result;
+    }
+
     std::string Accumulated::parameters() const {
         FllExporter exporter;
         std::ostringstream ss;
@@ -167,7 +178,7 @@ namespace fl {
     }
 
     void Accumulated::clear() {
-        for (std::size_t i = 0 ; i < _terms.size(); ++i){
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
             delete _terms.at(i);
         }
         _terms.clear();
