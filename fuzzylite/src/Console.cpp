@@ -258,6 +258,7 @@ namespace fl {
             std::map<std::string, std::string>::const_iterator it;
 
             FldExporter fldExporter;
+            fldExporter.setSeparator("\t");
             bool exportHeaders = true;
             if ((it = options.find(KW_DATA_EXPORT_HEADER)) != options.end()) {
                 exportHeaders = ("true" == it->second);
@@ -285,8 +286,13 @@ namespace fl {
                 if ((it = options.find(KW_DATA_MAXIMUM)) != options.end()) {
                     fldExporter.write(engine.get(), writer, (int) fl::Op::toScalar(it->second));
                 } else {
-                    writer << "#FuzzyLite Interactive Console (press h for help)\n";
-                    writer << fldExporter.header(engine.get()) << "\n";
+                    std::ostringstream buffer;
+                    buffer << "#FuzzyLite Interactive Console (press H for help)\n";
+                    buffer << fldExporter.header(engine.get()) << "\n";
+                    bool showCout = &writer != &std::cout;
+                    writer << buffer.str();
+                    if (showCout) std::cout << buffer.str();
+                    else writer.flush();
                     interactive(writer, engine.get());
                 }
             }
@@ -327,20 +333,107 @@ namespace fl {
     }
 
     void Console::interactive(std::ostream& writer, Engine* engine) {
-        (void) writer;
-        (void) engine;
+        std::ostringstream buffer;
+        buffer << ">";
+        bool showCout = &writer != &std::cout;
+        const std::string space("\t");
+        std::vector<scalar> inputValues;
+        std::ostringstream inputValue;
+        int ch = 0;
+        do {
+            writer << buffer.str();
+            if (showCout) std::cout << buffer.str();
+            else writer.flush();
+            buffer.str("");
+
+            ch = readCharacter();
+
+            if (std::isspace(ch)) {
+                scalar value = engine->getInputVariable(inputValues.size())->getInputValue();
+                try {
+                    value = fl::Op::toScalar(inputValue.str());
+                } catch (std::exception& ex) {
+                    buffer << "[" << fl::Op::str(value) << "]";
+                }
+                buffer << space;
+                inputValue.str("");
+                inputValues.push_back(value);
+                if (inputValues.size() == engine->inputVariables().size()) {
+                    ch = 'P'; //fall through to process;
+                } else continue;
+            }
+
+            if (not std::isgraph(ch)) continue;
+
+            switch (ch) {
+                default:
+                    inputValue << char(ch);
+                    buffer << char(ch);
+                    break;
+                case 'r':
+                case 'R': engine->restart();
+                    buffer << "#[Restart]";
+                    //fall through
+                case 'd':
+                case 'D': inputValues.clear();
+                    buffer << "#[Discard]\n>";
+                    inputValue.str("");
+                    break;
+                case 'p':
+                case 'P': //Process
+                {
+                    inputValue.str("");
+
+                    for (std::size_t i = 0; i < inputValues.size(); ++i) {
+                        InputVariable* inputVariable = engine->inputVariables().at(i);
+                        inputVariable->setInputValue(inputValues.at(i));
+                    }
+                    std::vector<scalar> missingInputs;
+                    for (std::size_t i = inputValues.size(); i < engine->inputVariables().size(); ++i) {
+                        InputVariable* inputVariable = engine->inputVariables().at(i);
+                        missingInputs.push_back(inputVariable->getInputValue());
+                    }
+                    inputValues.clear();
+                    buffer << fl::Op::join(missingInputs, space);
+                    if (not missingInputs.empty()) buffer << space;
+                    buffer << "=" << space;
+                    try {
+                        engine->process();
+                        std::vector<scalar> outputValues;
+                        for (std::size_t i = 0; i < engine->outputVariables().size(); ++i) {
+                            OutputVariable* outputVariable = engine->outputVariables().at(i);
+                            outputVariable->defuzzify();
+                            outputValues.push_back(outputVariable->getOutputValue());
+                        }
+                        buffer << fl::Op::join(outputValues, space) << "\n>";
+
+                    } catch (std::exception& ex) {
+                        buffer << "#[Error: " << ex.what() << "]";
+                    }
+                    break;
+                }
+                case 'q':
+                case 'Q': buffer << "#[Quit]\n";
+                    break;
+                case 'h':
+                case 'H': buffer << "\n>" << interactiveHelp() << "\n>";
+                    inputValue.str("");
+                    break;
+            }
+        } while (not (ch == 'Q' or ch == 'q'));
+        writer << std::endl;
     }
 
     std::string Console::interactiveHelp() {
         return
         "#Special Keys\n"
-        "#============\n"
-        "#R\tRestarts engine and discards current inputs\n"
-        "#D\tDiscards current inputs\n"
-        "#P\tProcess the engine\n"
-        "#Enter\tProcess the engine (like P)\n"
-        "#Q Quits interactive console\n"
-        "#H\tShows this help\n";
+        "#=============\n"
+        "#\tR\tRestart engine and discard current inputs\n"
+        "#\tD\tDiscard current inputs\n"
+        "#\tP\tProcess engine\n"
+        "#\tQ\tQuit interactive console\n"
+        "#\tH\tShow this help\n"
+        "#=============\n";
     }
 
     Engine* Console::mamdani() {

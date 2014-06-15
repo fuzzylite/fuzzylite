@@ -163,7 +163,9 @@ namespace fl {
     }
 
     std::string FllExporter::toString(const Term* term) const {
-        return "term: " + term->getName() + " " + term->className()
+        std::string name(term->getName());
+        if (fl::Op::trim(name).empty()) name = "unnamed";
+        return "term: " + name + " " + term->className()
                 + " " + term->parameters();
     }
 

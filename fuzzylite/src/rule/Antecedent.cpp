@@ -36,9 +36,11 @@
 #include "fl/norm/TNorm.h"
 #include "fl/rule/Expression.h"
 #include "fl/rule/Rule.h"
+#include "fl/term/Accumulated.h"
 #include "fl/term/Function.h"
 #include "fl/term/Term.h"
 #include "fl/variable/InputVariable.h"
+#include "fl/variable/OutputVariable.h"
 
 #include <algorithm>
 #include <stack>
@@ -81,7 +83,6 @@ namespace fl {
                 return 0.0;
             }
 
-
             if (not proposition->hedges.empty()) {
                 //if last hedge is "Any", apply hedges in reverse order and return degree
                 std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
@@ -93,9 +94,13 @@ namespace fl {
                     return result;
                 }
             }
-
-            InputVariable* inputVariable = dynamic_cast<InputVariable*> (proposition->variable);
-            scalar result = proposition->term->membership(inputVariable->getInputValue());
+            scalar result = fl::nan;
+            if (InputVariable * inputVariable = dynamic_cast<InputVariable*> (proposition->variable)) {
+                result = proposition->term->membership(inputVariable->getInputValue());
+            } else if (OutputVariable * outputVariable = dynamic_cast<OutputVariable*> (proposition->variable)) {
+                outputVariable->defuzzify();
+                result = outputVariable->fuzzyOutput()->membership(outputVariable->getOutputValue());
+            }
             for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
                     rit != proposition->hedges.rend(); ++rit) {
                 result = (*rit)->hedge(result);
@@ -171,13 +176,16 @@ namespace fl {
         try {
             while (tokenizer >> token) {
                 if (state bitand S_VARIABLE) {
-                    if (engine->hasInputVariable(token)) {
+                    Variable* variable = NULL;
+                    if (engine->hasInputVariable(token)) variable = engine->getInputVariable(token);
+                    else if (engine->hasOutputVariable(token)) variable = engine->getOutputVariable(token);
+                    if (variable) {
                         proposition = new Proposition;
-                        proposition->variable = engine->getInputVariable(token);
+                        proposition->variable = variable;
                         expressionStack.push(proposition);
 
                         state = S_IS;
-                        FL_DBG("Token <" << token << "> is input variable");
+                        FL_DBG("Token <" << token << "> is variable");
                         continue;
                     }
                 }
@@ -247,7 +255,7 @@ namespace fl {
                 //If reached this point, there was an error
                 if ((state bitand S_VARIABLE) or (state bitand S_AND_OR)) {
                     std::ostringstream ex;
-                    ex << "[syntax error] antecedent expected input variable or logical operator, but found <" << token << ">";
+                    ex << "[syntax error] antecedent expected variable or logical operator, but found <" << token << ">";
                     throw fl::Exception(ex.str(), FL_AT);
                 }
                 if (state bitand S_IS) {
