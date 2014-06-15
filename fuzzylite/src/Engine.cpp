@@ -445,7 +445,7 @@ namespace fl {
         if (inverseTsukamoto) {
             if (name) *name = "Inverse Tsukamoto";
             if (reason) *reason = "-Output variables have weighted defuzzifiers\n"
-                    "-Output variables do not only have constant, linear or Function terms\n"
+                    "-Output variables do not only have constant, linear or function terms\n"
                     "-Output variables do not only have monotonic terms\n";
             return Engine::InverseTsukamoto;
         }

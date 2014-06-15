@@ -30,6 +30,7 @@
 #include "fl/Headers.h"
 
 #include <algorithm>
+#include <cctype>
 #include <fstream>
 #include <memory>
 #include <stdlib.h>
@@ -353,6 +354,7 @@ namespace fl {
                 try {
                     value = fl::Op::toScalar(inputValue.str());
                 } catch (std::exception& ex) {
+					(void)ex;
                     buffer << "[" << fl::Op::str(value) << "]";
                 }
                 buffer << space;
@@ -780,9 +782,13 @@ namespace fl {
                 }
                 return EXIT_SUCCESS;
             } else if ("benchmarks" == std::string(argv[1])) {
+				#ifdef FL_UNIX
                 fuzzylite::setDecimals(3);
                 Console::benchmarkExamples(10);
                 return EXIT_SUCCESS;
+				#else
+					throw fl::Exception("[benchmarks error] implementation available only for Unix-based OS", FL_AT);
+				#endif
             }
         }
 
