@@ -661,7 +661,7 @@ namespace fl {
         }
     }
 
-#ifdef FL_UNIX
+#if defined(FL_UNIX) && ! defined(FL_APPLE)
 
     void Console::benchmarkExamples(int runs) {
         std::string sourceBase = "/home/jcrada/Development/fl/fuzzylite/examples/original";
@@ -728,7 +728,7 @@ namespace fl {
 
             std::vector<scalar> seconds;
             timespec start, now;
-            int results = std::pow(examples.at(e).second, engine->numberOfInputVariables());
+            int results = std::pow(1.0 * examples.at(e).second, engine->numberOfInputVariables());
 
             for (int r = 0; r < runs; ++r) {
                 clock_gettime(CLOCK_REALTIME, &start);
@@ -782,7 +782,7 @@ namespace fl {
                 }
                 return EXIT_SUCCESS;
             } else if ("benchmarks" == std::string(argv[1])) {
-				#ifdef FL_UNIX
+                #if defined(FL_UNIX) && ! defined(FL_APPLE)
                 fuzzylite::setDecimals(3);
                 Console::benchmarkExamples(10);
                 return EXIT_SUCCESS;
