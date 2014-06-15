@@ -42,16 +42,19 @@ namespace fl {
     class FL_EXPORT Term {
     protected:
         std::string _name;
-
+        scalar _height;
     public:
 
-        Term(const std::string& name = "");
+        Term(const std::string& name = "", scalar height = 1.0);
         Term(const Term& copy);
         Term& operator=(const Term& rhs);
         virtual ~Term();
 
         virtual void setName(const std::string& name);
         virtual std::string getName() const;
+
+        virtual void setHeight(scalar height);
+        virtual scalar getHeight() const;
 
         virtual std::string toString() const;
 

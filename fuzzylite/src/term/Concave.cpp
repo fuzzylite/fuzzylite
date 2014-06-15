@@ -22,8 +22,8 @@
 
 namespace fl {
 
-    Concave::Concave(const std::string& name, scalar inflection, scalar end)
-    : Term(name), _inflection(inflection), _end(end) {
+    Concave::Concave(const std::string& name, scalar inflection, scalar end, scalar height)
+    : Term(name, height), _inflection(inflection), _end(end) {
 
     }
 
@@ -39,18 +39,20 @@ namespace fl {
         if (fl::Op::isNaN(x)) return fl::nan;
         if (fl::Op::isLE(_inflection, _end)) { //Concave increasing
             if (fl::Op::isLt(x, _end)) {
-                return (_end - _inflection) / (2 * _end - _inflection - x);
+                return _height * (_end - _inflection) / (2 * _end - _inflection - x);
             }
         } else { //Concave decreasing
             if (fl::Op::isGt(x, _end)) {
-                return (_inflection - _end) / (_inflection - 2 * _end + x);
+                return _height * (_inflection - _end) / (_inflection - 2 * _end + x);
             }
         }
-        return 1.0;
+        return _height * 1.0;
     }
 
     std::string Concave::parameters() const {
-        return Op::join(2, " ", _inflection, _end);
+        return Op::join(2, " ", _inflection, _end) +
+                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
+
     }
 
     void Concave::configure(const std::string& parameters) {
@@ -65,6 +67,9 @@ namespace fl {
         }
         setInflection(Op::toScalar(values.at(0)));
         setEnd(Op::toScalar(values.at(1)));
+        if (values.size() > required)
+            setHeight(Op::toScalar(values.at(required)));
+
     }
 
     void Concave::setInflection(scalar start) {

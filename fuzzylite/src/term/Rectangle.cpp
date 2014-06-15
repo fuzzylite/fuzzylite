@@ -29,9 +29,8 @@
 
 namespace fl {
 
-    Rectangle::Rectangle(const std::string& name, scalar start,
-            scalar end)
-    : Term(name), _start(start), _end(end) {
+    Rectangle::Rectangle(const std::string& name, scalar start, scalar end, scalar height)
+    : Term(name, height), _start(start), _end(end) {
     }
 
     Rectangle::~Rectangle() {
@@ -44,12 +43,13 @@ namespace fl {
     scalar Rectangle::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
         if (fl::Op::isLt(x, _start) or fl::Op::isGt(x, _end))
-            return 0.0;
-        return 1.0;
+            return _height * 0.0;
+        return _height * 1.0;
     }
 
     std::string Rectangle::parameters() const {
-        return Op::join(2, " ", _start, _end);
+        return Op::join(2, " ", _start, _end) +
+                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
     }
 
     void Rectangle::configure(const std::string& parameters) {
@@ -64,6 +64,8 @@ namespace fl {
         }
         setStart(Op::toScalar(values.at(0)));
         setEnd(Op::toScalar(values.at(1)));
+        if (values.size() > required)
+            setHeight(Op::toScalar(values.at(required)));
     }
 
     void Rectangle::setStart(scalar minimum) {

@@ -29,8 +29,8 @@
 
 namespace fl {
 
-    Sigmoid::Sigmoid(const std::string& name, scalar inflection, scalar slope)
-    : Term(name), _inflection(inflection), _slope(slope) {
+    Sigmoid::Sigmoid(const std::string& name, scalar inflection, scalar slope, scalar height)
+    : Term(name, height), _inflection(inflection), _slope(slope) {
     }
 
     Sigmoid::~Sigmoid() {
@@ -42,11 +42,12 @@ namespace fl {
 
     scalar Sigmoid::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
-        return 1.0 / (1.0 + std::exp(-_slope * (x - _inflection)));
+        return _height * 1.0 / (1.0 + std::exp(-_slope * (x - _inflection)));
     }
 
     std::string Sigmoid::parameters() const {
-        return Op::join(2, " ", _inflection, _slope);
+        return Op::join(2, " ", _inflection, _slope) +
+                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
     }
 
     void Sigmoid::configure(const std::string& parameters) {
@@ -61,6 +62,8 @@ namespace fl {
         }
         setInflection(Op::toScalar(values.at(0)));
         setSlope(Op::toScalar(values.at(1)));
+        if (values.size() > required)
+            setHeight(Op::toScalar(values.at(required)));
     }
 
     void Sigmoid::setSlope(scalar a) {

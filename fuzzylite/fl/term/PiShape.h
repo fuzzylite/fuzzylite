@@ -44,7 +44,8 @@ namespace fl {
                 scalar bottomLeft = fl::nan,
                 scalar topLeft = fl::nan,
                 scalar topRight = fl::nan,
-                scalar bottomRight = fl::nan);
+                scalar bottomRight = fl::nan, 
+                scalar height = 1.0);
 
         virtual ~PiShape();
 

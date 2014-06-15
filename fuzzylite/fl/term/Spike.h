@@ -38,7 +38,8 @@ namespace fl {
     public:
         Spike(const std::string& name = "",
                 scalar center = fl::nan,
-                scalar width = fl::nan);
+                scalar width = fl::nan,
+                scalar height = 1.0);
         virtual ~Spike();
 
         virtual std::string className() const;

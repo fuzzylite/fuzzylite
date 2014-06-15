@@ -33,17 +33,18 @@
 
 namespace fl {
 
-    Term::Term(const std::string& name) : _name(name) {
+    Term::Term(const std::string& name, scalar height) : _name(name), _height(height) {
 
     }
 
-    Term::Term(const Term& copy) : _name(copy._name) {
+    Term::Term(const Term& copy) : _name(copy._name), _height(copy._height) {
 
     }
 
     Term& Term::operator =(const Term& rhs) {
         if (this == &rhs) return *this;
         _name = rhs._name;
+        _height = rhs._height;
         return *this;
     }
 
@@ -57,6 +58,14 @@ namespace fl {
 
     std::string Term::getName() const {
         return this->_name;
+    }
+
+    void Term::setHeight(scalar height) {
+        this->_height = height;
+    }
+
+    scalar Term::getHeight() const {
+        return this->_height;
     }
 
     std::string Term::toString() const {

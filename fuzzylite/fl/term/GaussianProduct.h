@@ -44,7 +44,8 @@ namespace fl {
                 scalar meanA = fl::nan,
                 scalar standardDeviationA = fl::nan,
                 scalar meanB = fl::nan,
-                scalar standardDeviationB = fl::nan);
+                scalar standardDeviationB = fl::nan,
+                scalar height = 1.0);
 
         virtual ~GaussianProduct();
 

@@ -22,8 +22,8 @@
 
 namespace fl {
 
-    Cosine::Cosine(const std::string& name, scalar center, scalar width)
-    : Term(name), _center(center), _width(width) {
+    Cosine::Cosine(const std::string& name, scalar center, scalar width, scalar height)
+    : Term(name, height), _center(center), _width(width) {
 
     }
 
@@ -36,7 +36,8 @@ namespace fl {
     }
 
     std::string Cosine::parameters() const {
-        return Op::join(2, " ", _center, _width);
+        return Op::join(2, " ", _center, _width) +
+                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
     }
 
     void Cosine::configure(const std::string& parameters) {
@@ -51,15 +52,18 @@ namespace fl {
         }
         setCenter(Op::toScalar(values.at(0)));
         setWidth(Op::toScalar(values.at(1)));
+        if (values.size() > required)
+            setHeight(Op::toScalar(values.at(required)));
+
     }
 
     scalar Cosine::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
         if (fl::Op::isLt(x, _center - _width / 2.0)
                 or fl::Op::isGt(x, _center + _width / 2.0))
-            return 0.0;
+            return _height * 0.0;
         const scalar pi = 4.0 * std::atan(1.0);
-        return 0.5 * (1.0 + std::cos(2.0 / _width * pi * (x - _center)));
+        return _height * (0.5 * (1.0 + std::cos(2.0 / _width * pi * (x - _center))));
     }
 
     void Cosine::setCenter(scalar center) {

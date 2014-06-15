@@ -41,7 +41,8 @@ namespace fl {
         Triangle(const std::string& name = "",
                 scalar vertexA = fl::nan,
                 scalar vertexB = fl::nan,
-                scalar vertexC = fl::nan);
+                scalar vertexC = fl::nan, 
+                scalar height = 1.0);
         virtual ~Triangle();
 
         virtual std::string className() const;

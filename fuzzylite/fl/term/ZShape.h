@@ -39,7 +39,8 @@ namespace fl {
     public:
         ZShape(const std::string& name = "",
                 scalar _start = fl::nan,
-                scalar _end = fl::nan);
+                scalar _end = fl::nan,
+                scalar _height = 1.0);
 
         virtual ~ZShape();
 

@@ -43,7 +43,8 @@ namespace fl {
         };
         Sigmoid(const std::string& name = "",
                 scalar inflection = fl::nan,
-                scalar slope = fl::nan);
+                scalar slope = fl::nan, 
+                scalar height = 1.0);
         virtual ~Sigmoid();
 
         virtual std::string className() const;

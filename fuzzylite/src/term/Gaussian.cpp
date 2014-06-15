@@ -30,8 +30,8 @@
 namespace fl {
 
     Gaussian::Gaussian(const std::string& name,
-            scalar mean, scalar standardDeviation)
-    : Term(name), _mean(mean), _standardDeviation(standardDeviation) {
+            scalar mean, scalar standardDeviation, scalar height)
+    : Term(name, height), _mean(mean), _standardDeviation(standardDeviation) {
     }
 
     Gaussian::~Gaussian() {
@@ -43,11 +43,12 @@ namespace fl {
 
     scalar Gaussian::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
-        return std::exp((-(x - _mean) * (x - _mean)) / (2 * _standardDeviation * _standardDeviation));
+        return _height * std::exp((-(x - _mean) * (x - _mean)) / (2 * _standardDeviation * _standardDeviation));
     }
 
     std::string Gaussian::parameters() const {
-        return Op::join(2, " ", _mean, _standardDeviation);
+        return Op::join(2, " ", _mean, _standardDeviation) +
+                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
     }
 
     void Gaussian::configure(const std::string& parameters) {
@@ -62,6 +63,8 @@ namespace fl {
         }
         setMean(Op::toScalar(values.at(0)));
         setStandardDeviation(Op::toScalar(values.at(1)));
+        if (values.size() > required)
+            setHeight(Op::toScalar(values.at(required)));
     }
 
     void Gaussian::setMean(scalar c) {

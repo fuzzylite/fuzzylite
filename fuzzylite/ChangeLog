@@ -135,6 +135,7 @@ Version 5.0
 * Created the FuzzyLite Interactive Console
 * Added basic rule chaining such that Output Variables can be utilized as antecedents
 * Added two examples for rule chaining
+* Added Term::(get|set)Height and changed all terms accordingly
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.

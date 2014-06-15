@@ -29,8 +29,8 @@
 
 namespace fl {
 
-    Ramp::Ramp(const std::string& name, scalar start, scalar end)
-    : Term(name), _start(start), _end(end) {
+    Ramp::Ramp(const std::string& name, scalar start, scalar end, scalar height)
+    : Term(name, height), _start(start), _end(end) {
     }
 
     Ramp::~Ramp() {
@@ -43,21 +43,22 @@ namespace fl {
     scalar Ramp::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
 
-        if (Op::isEq(_start, _end)) return 0.0;
+        if (Op::isEq(_start, _end)) return _height * 0.0;
 
         if (Op::isLt(_start, _end)) {
-            if (Op::isLE(x, _start)) return 0.0;
-            if (Op::isGE(x, _end)) return 1.0;
-            return (x - _start) / (_end - _start);
+            if (Op::isLE(x, _start)) return _height * 0.0;
+            if (Op::isGE(x, _end)) return _height * 1.0;
+            return _height * (x - _start) / (_end - _start);
         } else {
-            if (Op::isGE(x, _start)) return 0.0;
-            if (Op::isLE(x, _end)) return 1.0;
-            return (_start - x) / (_start - _end);
+            if (Op::isGE(x, _start)) return _height * 0.0;
+            if (Op::isLE(x, _end)) return _height * 1.0;
+            return _height * (_start - x) / (_start - _end);
         }
     }
 
     std::string Ramp::parameters() const {
-        return Op::join(2, " ", _start, _end);
+        return Op::join(2, " ", _start, _end) +
+                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
     }
 
     void Ramp::configure(const std::string& parameters) {
@@ -72,6 +73,8 @@ namespace fl {
         }
         setStart(Op::toScalar(values.at(0)));
         setEnd(Op::toScalar(values.at(1)));
+        if (values.size() > required)
+            setHeight(Op::toScalar(values.at(required)));
     }
 
     void Ramp::setStart(scalar start) {

@@ -30,8 +30,9 @@
 namespace fl {
 
     GaussianProduct::GaussianProduct(const std::string& name,
-            scalar meanA, scalar standardDeviationA, scalar meanB, scalar standardDeviationB)
-    : Term(name), _meanA(meanA), _standardDeviationA(standardDeviationA),
+            scalar meanA, scalar standardDeviationA, scalar meanB, scalar standardDeviationB,
+            scalar height)
+    : Term(name, height), _meanA(meanA), _standardDeviationA(standardDeviationA),
     _meanB(meanB), _standardDeviationB(standardDeviationB) {
     }
 
@@ -52,11 +53,12 @@ namespace fl {
         scalar b = (1 - xGEb) + xGEb * std::exp(
                 (-(x - _meanB) * (x - _meanB)) / (2 * _standardDeviationB * _standardDeviationB)
                 );
-        return a * b;
+        return _height * a * b;
     }
 
     std::string GaussianProduct::parameters() const {
-        return Op::join(4, " ", _meanA, _standardDeviationA, _meanB, _standardDeviationB);
+        return Op::join(4, " ", _meanA, _standardDeviationA, _meanB, _standardDeviationB) +
+                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
     }
 
     void GaussianProduct::configure(const std::string& parameters) {
@@ -73,6 +75,8 @@ namespace fl {
         setStandardDeviationA(Op::toScalar(values.at(1)));
         setMeanB(Op::toScalar(values.at(2)));
         setStandardDeviationB(Op::toScalar(values.at(3)));
+        if (values.size() > required)
+            setHeight(Op::toScalar(values.at(required)));
     }
 
     void GaussianProduct::setMeanA(scalar meanA) {

@@ -38,8 +38,9 @@ namespace fl {
 
     public:
         SShape(const std::string& name = "",
-                scalar _start = fl::nan,
-                scalar _end = fl::nan);
+                scalar start = fl::nan,
+                scalar end = fl::nan,
+                scalar height = 1.0);
         virtual ~SShape();
 
         virtual std::string className() const;

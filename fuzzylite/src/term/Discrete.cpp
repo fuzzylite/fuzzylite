@@ -32,8 +32,8 @@
 
 namespace fl {
 
-    Discrete::Discrete(const std::string& name, const std::vector<Pair>& xy)
-    : Term(name), _xy(xy) {
+    Discrete::Discrete(const std::string& name, const std::vector<Pair>& xy, scalar height)
+    : Term(name, height), _xy(xy) {
     }
 
     Discrete::~Discrete() {
@@ -56,13 +56,13 @@ namespace fl {
          */
 
 
-        if (fl::Op::isLE(_x_, _xy.front().first)) return _xy.front().second;
-        if (fl::Op::isGE(_x_, _xy.back().first)) return _xy.back().second;
+        if (fl::Op::isLE(_x_, _xy.front().first)) return _height * _xy.front().second;
+        if (fl::Op::isGE(_x_, _xy.back().first)) return _height * _xy.back().second;
 
         int lower = -1, upper = -1;
 
         for (std::size_t i = 0; i < _xy.size(); ++i) {
-            if (Op::isEq(_xy.at(i).first, _x_)) return _xy.at(i).second;
+            if (Op::isEq(_xy.at(i).first, _x_)) return _height * _xy.at(i).second;
             //approximate on the left
             if (Op::isLt(_xy.at(i).first, _x_)) {
                 lower = i;
@@ -76,7 +76,7 @@ namespace fl {
         if (upper < 0) upper = _xy.size() - 1;
         if (lower < 0) lower = 0;
 
-        return Op::scale(_x_, _xy.at(lower).first, _xy.at(upper).first,
+        return _height * Op::scale(_x_, _xy.at(lower).first, _xy.at(upper).first,
                 _xy.at(lower).second, _xy.at(upper).second);
     }
 
@@ -86,6 +86,7 @@ namespace fl {
             ss << fl::Op::str(_xy.at(i).first) << " " << fl::Op::str(_xy.at(i).second);
             if (i + 1 < _xy.size()) ss << " ";
         }
+        if (not Op::isEq(_height, 1.0)) ss << " " << Op::str(_height);
         return ss.str();
     }
 
@@ -96,13 +97,19 @@ namespace fl {
         for (std::size_t i = 0; i < strValues.size(); ++i) {
             values.at(i) = Op::toScalar(strValues.at(i));
         }
+        if (values.size() % 2 == 0) {
+            setHeight(1.0);
+        } else {
+            setHeight(values.back());
+            values.pop_back();
+        }
         this->_xy = toPairs(values, false);
     }
 
     template <typename T>
     Discrete* Discrete::create(const std::string& name, int argc,
             T x1, T y1, ...) throw (fl::Exception) {
-        std::vector<scalar> xy(argc + 2);
+        std::vector<scalar> xy(argc);
         xy.at(0) = x1;
         xy.at(1) = y1;
         va_list args;
@@ -113,6 +120,10 @@ namespace fl {
         va_end(args);
 
         std::auto_ptr<Discrete> result(new Discrete(name));
+        if (xy.size() % 2 != 0) {
+            result->setHeight(xy.back());
+            xy.pop_back();
+        }
         result->setXY(toPairs(xy, false));
         return result.release();
     }

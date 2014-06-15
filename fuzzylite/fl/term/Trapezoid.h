@@ -40,7 +40,8 @@ namespace fl {
                 scalar vertexA = fl::nan,
                 scalar vertexB = fl::nan,
                 scalar vertexC = fl::nan,
-                scalar vertexD = fl::nan);
+                scalar vertexD = fl::nan,
+                scalar height = 1.0);
         virtual ~Trapezoid();
 
         virtual std::string className() const;

@@ -30,8 +30,8 @@
 namespace fl {
 
     Trapezoid::Trapezoid(const std::string& name,
-            scalar vertexA, scalar vertexB, scalar vertexC, scalar vertexD)
-    : Term(name), _vertexA(vertexA), _vertexB(vertexB), _vertexC(vertexC), _vertexD(vertexD) {
+            scalar vertexA, scalar vertexB, scalar vertexC, scalar vertexD, scalar height)
+    : Term(name, height), _vertexA(vertexA), _vertexB(vertexB), _vertexC(vertexC), _vertexD(vertexD) {
     }
 
     Trapezoid::~Trapezoid() {
@@ -45,22 +45,23 @@ namespace fl {
         if (fl::Op::isNaN(x)) return fl::nan;
 
         if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexD))
-            return 0.0;
+            return _height * 0.0;
 
         if (Op::isLt(x, _vertexB))
-            return Op::min(scalar(1.0), (x - _vertexA) / (_vertexB - _vertexA));
+            return _height * Op::min(scalar(1.0), (x - _vertexA) / (_vertexB - _vertexA));
 
         if (Op::isLE(x, _vertexC))
-            return 1.0;
+            return _height * 1.0;
 
         if (Op::isLt(x, _vertexD))
-            return (_vertexD - x) / (_vertexD - _vertexC);
+            return _height * (_vertexD - x) / (_vertexD - _vertexC);
 
-        return 0.0;
+        return _height * 0.0;
     }
 
     std::string Trapezoid::parameters() const {
-        return Op::join(4, " ", _vertexA, _vertexB, _vertexC, _vertexD);
+        return Op::join(4, " ", _vertexA, _vertexB, _vertexC, _vertexD)+
+                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
     }
 
     void Trapezoid::configure(const std::string& parameters) {
@@ -77,6 +78,8 @@ namespace fl {
         setVertexB(Op::toScalar(values.at(1)));
         setVertexC(Op::toScalar(values.at(2)));
         setVertexD(Op::toScalar(values.at(3)));
+        if (values.size() > required)
+            setHeight(Op::toScalar(values.at(required)));
     }
 
     void Trapezoid::setVertexA(scalar a) {

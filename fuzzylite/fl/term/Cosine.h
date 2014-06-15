@@ -38,7 +38,8 @@ namespace fl {
     public:
         Cosine(const std::string& name = "",
                 scalar center = fl::nan,
-                scalar width = fl::nan);
+                scalar width = fl::nan,
+                scalar height = 1.0);
         virtual ~Cosine();
 
         virtual std::string className() const;

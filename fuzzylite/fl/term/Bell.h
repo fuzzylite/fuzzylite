@@ -41,7 +41,8 @@ namespace fl {
         Bell(const std::string& name = "",
                 scalar center = fl::nan,
                 scalar width = fl::nan,
-                scalar slope = fl::nan);
+                scalar slope = fl::nan,
+                scalar height = 1.0);
         virtual ~Bell();
 
         virtual std::string className() const;

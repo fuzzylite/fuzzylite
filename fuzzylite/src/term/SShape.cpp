@@ -29,8 +29,8 @@
 
 namespace fl {
 
-    SShape::SShape(const std::string& name, scalar start, scalar end)
-    : Term(name), _start(start), _end(end) {
+    SShape::SShape(const std::string& name, scalar start, scalar end, scalar height)
+    : Term(name, height), _start(start), _end(end) {
     }
 
     SShape::~SShape() {
@@ -46,19 +46,20 @@ namespace fl {
         scalar average = (_start + _end) / 2.0;
         scalar difference = _end - _start;
 
-        if (Op::isLE(x, _start)) return 0.0;
+        if (Op::isLE(x, _start)) return _height * 0.0;
 
         if (Op::isLE(x, average))
-            return 2.0 * std::pow((x - _start) / difference, 2);
+            return _height * (2.0 * std::pow((x - _start) / difference, 2));
 
         if (Op::isLt(x, _end))
-            return 1.0 - 2.0 * std::pow((x - _end) / difference, 2);
+            return _height * (1.0 - 2.0 * std::pow((x - _end) / difference, 2));
 
-        return 1.0;
+        return _height * 1.0;
     }
 
     std::string SShape::parameters() const {
-        return Op::join(2, " ", _start, _end);
+        return Op::join(2, " ", _start, _end) +
+                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
     }
 
     void SShape::configure(const std::string& parameters) {
@@ -73,6 +74,8 @@ namespace fl {
         }
         setStart(Op::toScalar(values.at(0)));
         setEnd(Op::toScalar(values.at(1)));
+        if (values.size() > required)
+            setHeight(Op::toScalar(values.at(required)));
     }
 
     void SShape::setStart(scalar start) {

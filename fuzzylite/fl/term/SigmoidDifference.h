@@ -44,7 +44,8 @@ namespace fl {
                 scalar left = fl::nan,
                 scalar rising = fl::nan,
                 scalar falling = fl::nan,
-                scalar right = fl::nan);
+                scalar right = fl::nan,
+                scalar height = 1.0);
         virtual ~SigmoidDifference();
 
         virtual std::string className() const;

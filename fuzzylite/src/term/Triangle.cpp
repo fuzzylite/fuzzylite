@@ -29,8 +29,8 @@
 
 namespace fl {
 
-    Triangle::Triangle(const std::string& name, scalar vertexA, scalar vertexB, scalar vertexC)
-    : Term(name), _vertexA(vertexA), _vertexB(vertexB), _vertexC(vertexC) {
+    Triangle::Triangle(const std::string& name, scalar vertexA, scalar vertexB, scalar vertexC, scalar height)
+    : Term(name, height), _vertexA(vertexA), _vertexB(vertexB), _vertexC(vertexC) {
         if (fl::Op::isNaN(vertexC)) {
             this->_vertexC = vertexB;
             this->_vertexB = (vertexA + vertexB) / 2.0;
@@ -48,19 +48,20 @@ namespace fl {
         if (fl::Op::isNaN(x)) return fl::nan;
 
         if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexC))
-            return 0.0;
+            return _height * 0.0;
 
         if (Op::isEq(x, _vertexB))
-            return 1.0;
+            return _height * 1.0;
 
         if (Op::isLt(x, _vertexB))
-            return (x - _vertexA) / (_vertexB - _vertexA);
+            return _height * (x - _vertexA) / (_vertexB - _vertexA);
 
-        return (_vertexC - x) / (_vertexC - _vertexB);
+        return _height * (_vertexC - x) / (_vertexC - _vertexB);
     }
 
     std::string Triangle::parameters() const {
-        return Op::join(3, " ", _vertexA, _vertexB, _vertexC);
+        return Op::join(3, " ", _vertexA, _vertexB, _vertexC) +
+                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
     }
 
     void Triangle::configure(const std::string& parameters) {
@@ -76,6 +77,8 @@ namespace fl {
         setVertexA(Op::toScalar(values.at(0)));
         setVertexB(Op::toScalar(values.at(1)));
         setVertexC(Op::toScalar(values.at(2)));
+        if (values.size() > required)
+            setHeight(Op::toScalar(values.at(required)));
     }
 
     void Triangle::setVertexA(scalar a) {

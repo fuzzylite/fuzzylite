@@ -29,8 +29,8 @@
 
 namespace fl {
 
-    Bell::Bell(const std::string& name, scalar center, scalar width, scalar slope)
-    : Term(name), _center(center), _width(width), _slope(slope) {
+    Bell::Bell(const std::string& name, scalar center, scalar width, scalar slope, scalar height)
+    : Term(name, height), _center(center), _width(width), _slope(slope) {
     }
 
     Bell::~Bell() {
@@ -42,11 +42,12 @@ namespace fl {
 
     scalar Bell::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
-        return 1.0 / (1.0 + std::pow(std::abs((x - _center) / _width), 2 * _slope));
+        return _height * (1.0 / (1.0 + std::pow(std::abs((x - _center) / _width), 2 * _slope)));
     }
 
     std::string Bell::parameters() const {
-        return Op::join(3, " ", _center, _width, _slope);
+        return Op::join(3, " ", _center, _width, _slope) +
+                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
     }
 
     void Bell::configure(const std::string& parameters) {
@@ -62,6 +63,8 @@ namespace fl {
         setCenter(Op::toScalar(values.at(0)));
         setWidth(Op::toScalar(values.at(1)));
         setSlope(Op::toScalar(values.at(2)));
+        if (values.size() > required)
+            setHeight(Op::toScalar(values.at(required)));
     }
 
     void Bell::setWidth(scalar a) {

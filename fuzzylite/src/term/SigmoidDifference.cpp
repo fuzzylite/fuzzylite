@@ -31,8 +31,8 @@ namespace fl {
 
     SigmoidDifference::SigmoidDifference(const std::string& name,
             scalar left, scalar rising,
-            scalar falling, scalar right)
-    : Term(name), _left(left), _rising(rising), _falling(falling), _right(right) {
+            scalar falling, scalar right, scalar height)
+    : Term(name, height), _left(left), _rising(rising), _falling(falling), _right(right) {
     }
 
     SigmoidDifference::~SigmoidDifference() {
@@ -47,11 +47,12 @@ namespace fl {
 
         scalar a = 1.0 / (1 + std::exp(-_rising * (x - _left)));
         scalar b = 1.0 / (1 + std::exp(-_falling * (x - _right)));
-        return std::abs(a - b);
+        return _height * std::abs(a - b);
     }
 
     std::string SigmoidDifference::parameters() const {
-        return Op::join(4, " ", _left, _rising, _falling, _right);
+        return Op::join(4, " ", _left, _rising, _falling, _right) +
+                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
     }
 
     void SigmoidDifference::configure(const std::string& parameters) {
@@ -68,6 +69,8 @@ namespace fl {
         setRising(Op::toScalar(values.at(1)));
         setFalling(Op::toScalar(values.at(2)));
         setRight(Op::toScalar(values.at(3)));
+        if (values.size() > required)
+            setHeight(Op::toScalar(values.at(required)));
     }
 
     void SigmoidDifference::setLeft(scalar leftInflection) {

@@ -43,7 +43,8 @@ namespace fl {
         };
         Ramp(const std::string& name = "",
                 scalar start = fl::nan,
-                scalar end = fl::nan);
+                scalar end = fl::nan,
+                scalar height = 1.0);
         virtual ~Ramp();
 
         virtual std::string className() const;

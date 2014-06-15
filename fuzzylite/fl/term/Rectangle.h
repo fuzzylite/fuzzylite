@@ -39,7 +39,8 @@ namespace fl {
     public:
         Rectangle(const std::string& name = "",
                 scalar start = fl::nan,
-                scalar end = fl::nan);
+                scalar end = fl::nan,
+                scalar height = 1.0);
         virtual ~Rectangle();
 
         virtual std::string className() const;

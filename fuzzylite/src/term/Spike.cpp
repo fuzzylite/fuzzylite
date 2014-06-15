@@ -22,8 +22,8 @@
 
 namespace fl {
 
-    Spike::Spike(const std::string& name, scalar center, scalar width)
-    : Term(name), _center(center), _width(width) {
+    Spike::Spike(const std::string& name, scalar center, scalar width, scalar height)
+    : Term(name, height), _center(center), _width(width) {
     }
 
     Spike::~Spike() {
@@ -36,11 +36,13 @@ namespace fl {
 
     scalar Spike::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
-        return std::exp(-std::fabs(10.0 / _width * (x - _center)));
+        return _height * std::exp(-std::fabs(10.0 / _width * (x - _center)));
     }
 
     std::string Spike::parameters() const {
-        return Op::join(2, " ", _center, _width);
+        return Op::join(2, " ", _center, _width) +
+                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
+        ;
     }
 
     void Spike::configure(const std::string& parameters) {
@@ -55,6 +57,8 @@ namespace fl {
         }
         setCenter(Op::toScalar(values.at(0)));
         setWidth(Op::toScalar(values.at(1)));
+        if (values.size() > required) 
+            setHeight(Op::toScalar(values.at(required)));
     }
 
     void Spike::setCenter(scalar center) {
