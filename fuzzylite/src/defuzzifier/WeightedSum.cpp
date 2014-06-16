@@ -64,7 +64,7 @@ namespace fl {
                     //? activated.getTerm()->membership(fl::nan) Would ensure no Tsukamoto applies, but Inverse Tsukamoto with Functions would not work.
                     ? term->membership(w) //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
                     : tsukamoto(activated, minimum, maximum);
-
+            //Traditionally, activation is the AlgebraicProduct sum{w_i*z_i}
             sum += activated->getActivation()->compute(w, z);
         }
         return sum;

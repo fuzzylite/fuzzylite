@@ -159,7 +159,7 @@ namespace fl {
                 outputVariable->setRange(range.first, range.second);
             } else if ("default" == keyValue.first) {
                 outputVariable->setDefaultValue(Op::toScalar(keyValue.second));
-            } else if ("lock-previous" == keyValue.first) {
+            } else if ("lock-previous" == keyValue.first or "lock-valid" == keyValue.first) {
                 outputVariable->setLockPreviousOutputValue(parseBoolean(keyValue.second));
             } else if ("lock-range" == keyValue.first) {
                 outputVariable->setLockOutputValueInRange(parseBoolean(keyValue.second));
@@ -170,9 +170,6 @@ namespace fl {
             } else if ("term" == keyValue.first) {
                 outputVariable->addTerm(parseTerm(keyValue.second, engine));
             } else {
-                if ("lock-valid" == keyValue.first)
-                    throw fl::Exception("[import error] key <lock-valid> is deprecated, "
-                        "please use <lock-previous> instead", FL_AT);
                 throw fl::Exception("[import error] key <" + keyValue.first + "> not "
                         "recognized in pair <" + keyValue.first + ":" + keyValue.second + ">", FL_AT);
             }
