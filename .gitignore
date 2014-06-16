@@ -1,15 +1,21 @@
-1.x/
+# Compiled Object files
+*.slo
+*.lo
 *.o
-*.os
-/fuzzylite/dist/
-/fuzzylite/build/
-/qtfuzzylite/build/
-/qtfuzzylite/dist/
-bin/
-lib/
-\.*
-gui~/
-nbproject/
-qtfuzzylite/ui/ui_*
-ui_*
-moc_*
+*.obj
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
