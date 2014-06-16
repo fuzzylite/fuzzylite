@@ -1,0 +1,44 @@
+Engine: mam21
+InputVariable: angle
+  enabled: true
+  range: -5.000 5.000
+  term: small Bell -5.000 5.000 8.000
+  term: big Bell 5.000 5.000 8.000
+InputVariable: velocity
+  enabled: true
+  range: -5.000 5.000
+  term: small Bell -5.000 5.000 2.000
+  term: big Bell 5.000 5.000 2.000
+OutputVariable: force
+  enabled: true
+  range: -5.000 5.000
+  accumulation: Maximum
+  defuzzifier: Centroid 200
+  default: nan
+  lock-previous: false
+  lock-range: false
+  term: negBig Bell -5.000 1.670 8.000
+  term: negSmall Bell -1.670 1.670 8.000
+  term: posSmall Bell 1.670 1.670 8.000
+  term: posBig Bell 5.000 1.670 8.000
+OutputVariable: force2
+  enabled: true
+  range: -5.000 5.000
+  accumulation: Maximum
+  defuzzifier: Centroid 200
+  default: nan
+  lock-previous: false
+  lock-range: false
+  term: negBig2 Bell -3.000 1.670 8.000
+  term: negSmall2 Bell -1.000 1.670 8.000
+  term: posSmall2 Bell 1.000 1.670 8.000
+  term: posBig2 Bell 3.000 1.670 8.000
+RuleBlock: 
+  enabled: true
+  conjunction: Minimum
+  disjunction: Maximum
+  activation: Minimum
+  rule: if angle is small and velocity is small then force is negBig and force2 is posBig2
+  rule: if angle is small and velocity is big then force is negSmall and force2 is posSmall2
+  rule: if angle is big and velocity is small then force is posSmall and force2 is negSmall2
+  rule: if angle is big and velocity is big then force is posBig and force2 is negBig2

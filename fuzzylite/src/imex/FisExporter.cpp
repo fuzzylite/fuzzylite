@@ -146,11 +146,11 @@ namespace fl {
             if (not var->isEnabled()) {
                 fis << "Enabled=" << var->isEnabled() << "\n";
             }
-            fis << "Name='" << var->getName() << "'\n";
+            fis << "Name='" << Op::validName(var->getName()) << "'\n";
             fis << "Range=[" << fl::Op::join(2, " ", var->getMinimum(), var->getMaximum()) << "]\n";
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
             for (int ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
-                fis << "MF" << (ixTerm + 1) << "='" << var->getTerm(ixTerm)->getName() << "':"
+                fis << "MF" << (ixTerm + 1) << "='" << Op::validName(var->getTerm(ixTerm)->getName()) << "':"
                         << toString(var->getTerm(ixTerm)) << "\n";
             }
             fis << "\n";
@@ -166,7 +166,7 @@ namespace fl {
             if (not var->isEnabled()) {
                 fis << "Enabled=" << var->isEnabled() << "\n";
             }
-            fis << "Name='" << var->getName() << "'\n";
+            fis << "Name='" << Op::validName(var->getName()) << "'\n";
             fis << "Range=[" << fl::Op::join(2, " ", var->getMinimum(), var->getMaximum()) << "]\n";
             if (not fl::Op::isNaN(var->getDefaultValue())) {
                 fis << "Default=" << fl::Op::str(var->getDefaultValue()) << "\n";
@@ -179,7 +179,7 @@ namespace fl {
             }
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
             for (int ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
-                fis << "MF" << (ixTerm + 1) << "='" << var->getTerm(ixTerm)->getName() << "':"
+                fis << "MF" << (ixTerm + 1) << "='" << Op::validName(var->getTerm(ixTerm)->getName()) << "':"
                         << toString(var->getTerm(ixTerm)) << "\n";
             }
             fis << "\n";

@@ -128,7 +128,7 @@ namespace fl {
         while (std::getline(reader, line)) {
             std::pair<std::string, std::string> keyValue = parseKeyValue(line, ':');
             if ("InputVariable" == keyValue.first) {
-                inputVariable->setName(keyValue.second);
+                inputVariable->setName(Op::validName(keyValue.second));
             } else if ("enabled" == keyValue.first) {
                 inputVariable->setEnabled(parseBoolean(keyValue.second));
             } else if ("range" == keyValue.first) {
@@ -151,7 +151,7 @@ namespace fl {
         while (std::getline(reader, line)) {
             std::pair<std::string, std::string> keyValue = parseKeyValue(line, ':');
             if ("OutputVariable" == keyValue.first) {
-                outputVariable->setName(keyValue.second);
+                outputVariable->setName(Op::validName(keyValue.second));
             } else if ("enabled" == keyValue.first) {
                 outputVariable->setEnabled(parseBoolean(keyValue.second));
             } else if ("range" == keyValue.first) {
@@ -224,7 +224,7 @@ namespace fl {
         std::auto_ptr<Term> term;
         term.reset(FactoryManager::instance()->term()->constructObject(tokens.at(1)));
         Term::updateReference(term.get(), engine);
-        term->setName(Op::makeValidId(tokens.at(0)));
+        term->setName(Op::validName(tokens.at(0)));
         std::ostringstream parameters;
         for (std::size_t i = 2; i < tokens.size(); ++i) {
             parameters << tokens.at(i);

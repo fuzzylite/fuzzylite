@@ -1,0 +1,23 @@
+Engine: sugeno
+InputVariable: input
+  enabled: true
+  range: -5.000 5.000
+  term: low Gaussian -5.000 4.000
+  term: high Gaussian 5.000 4.000
+OutputVariable: output
+  enabled: true
+  range: 0.000 1.000
+  accumulation: AlgebraicSum
+  defuzzifier: WeightedAverage
+  default: nan
+  lock-previous: false
+  lock-range: false
+  term: line1 Linear -1.000 -1.000
+  term: line2 Linear 1.000 -1.000
+RuleBlock: 
+  enabled: true
+  conjunction: AlgebraicProduct
+  disjunction: AlgebraicSum
+  activation: AlgebraicProduct
+  rule: if input is low then output is line1
+  rule: if input is high then output is line2

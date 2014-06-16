@@ -57,19 +57,19 @@ namespace fl {
 
         fcl << "VAR_INPUT\n";
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
-            fcl << _indent << engine->getInputVariable(i)->getName() << ": REAL;\n";
+            fcl << _indent << Op::validName(engine->getInputVariable(i)->getName()) << ": REAL;\n";
         }
         fcl << "END_VAR\n\n";
 
         fcl << "VAR_OUTPUT\n";
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
-            fcl << _indent << engine->getOutputVariable(i)->getName() << ": REAL;\n";
+            fcl << _indent << Op::validName(engine->getOutputVariable(i)->getName()) << ": REAL;\n";
         }
         fcl << "END_VAR\n\n";
 
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
             InputVariable* inputVariable = engine->getInputVariable(i);
-            fcl << "FUZZIFY " << inputVariable->getName() << "\n";
+            fcl << "FUZZIFY " << Op::validName(inputVariable->getName()) << "\n";
             if (not inputVariable->isEnabled()) {
                 fcl << _indent << "ENABLED : " <<
                         (inputVariable->isEnabled() ? "TRUE" : "FALSE") << ";\n";
@@ -80,7 +80,7 @@ namespace fl {
 
             for (int t = 0; t < inputVariable->numberOfTerms(); ++t) {
                 Term* term = inputVariable->getTerm(t);
-                fcl << _indent << "TERM " << term->getName() << " := " << toString(term)
+                fcl << _indent << "TERM " << Op::validName(term->getName()) << " := " << toString(term)
                         << ";\n";
             }
             fcl << "END_FUZZIFY\n\n";
@@ -88,7 +88,7 @@ namespace fl {
 
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
-            fcl << "DEFUZZIFY " << outputVariable->getName() << "\n";
+            fcl << "DEFUZZIFY " << Op::validName(outputVariable->getName()) << "\n";
             if (not outputVariable->isEnabled()) {
                 fcl << _indent << "ENABLED : " <<
                         (outputVariable->isEnabled() ? "TRUE" : "FALSE") << ";\n";
@@ -99,7 +99,7 @@ namespace fl {
 
             for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
                 Term* term = outputVariable->getTerm(t);
-                fcl << _indent << "TERM " << term->getName() << " := " << toString(term)
+                fcl << _indent << "TERM " << Op::validName(term->getName()) << " := " << toString(term)
                         << ";\n";
             }
             if (outputVariable->getDefuzzifier()) {

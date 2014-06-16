@@ -1,0 +1,44 @@
+Engine: juggler
+InputVariable: xHit
+  enabled: true
+  range: -4.0000000000 4.0000000000
+  term: in1mf1 Bell -4.0000000000 2.0000000000 4.0000000000 
+  term: in1mf2 Bell 0.0000000000 2.0000000000 4.0000000000 
+  term: in1mf3 Bell 4.0000000000 2.0000000000 4.0000000000 
+InputVariable: projectAngle
+  enabled: true
+  range: 0.0000000000 3.1415926000
+  term: in2mf1 Bell 0.0000000000 0.7853980000 4.0000000000 
+  term: in2mf2 Bell 1.5707960000 0.7853980000 4.0000000000 
+  term: in2mf3 Bell 3.1415930000 0.7853980000 4.0000000000 
+OutputVariable: theta
+  enabled: true
+  range: 0.0000000000 0.0000000000
+  accumulation: AlgebraicSum
+  defuzzifier: WeightedAverage
+  default: nan
+  lock-previous: false
+  lock-range: false
+  term: out1mf Linear -0.0218506303 -0.4999996160 0.3146328700
+  term: out1mf Linear -0.0218506105 -0.4999997821 0.3146327050
+  term: out1mf Linear -0.0218506302 -0.4999993227 0.3146310443
+  term: out1mf Linear 0.1142648996 -0.4999997692 0.7853981301
+  term: out1mf Linear 0.1142648769 -0.4999998427 0.7853979399
+  term: out1mf Linear 0.1142648996 -0.4999994622 0.7853966551
+  term: out1mf Linear -0.0218503389 -0.4999992057 1.2561621975
+  term: out1mf Linear -0.0218504931 -0.4999994090 1.2561620289
+  term: out1mf Linear -0.0218503389 -0.4999979995 1.2561566982
+RuleBlock: 
+  enabled: true
+  conjunction: AlgebraicProduct
+  disjunction: Maximum
+  activation: AlgebraicProduct
+  rule: if xHit is in1mf1 and projectAngle is in2mf1 then theta is out1mf
+  rule: if xHit is in1mf1 and projectAngle is in2mf2 then theta is out1mf
+  rule: if xHit is in1mf1 and projectAngle is in2mf3 then theta is out1mf
+  rule: if xHit is in1mf2 and projectAngle is in2mf1 then theta is out1mf
+  rule: if xHit is in1mf2 and projectAngle is in2mf2 then theta is out1mf
+  rule: if xHit is in1mf2 and projectAngle is in2mf3 then theta is out1mf
+  rule: if xHit is in1mf3 and projectAngle is in2mf1 then theta is out1mf
+  rule: if xHit is in1mf3 and projectAngle is in2mf2 then theta is out1mf
+  rule: if xHit is in1mf3 and projectAngle is in2mf3 then theta is out1mf

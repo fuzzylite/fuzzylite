@@ -1,0 +1,36 @@
+Engine: tank
+InputVariable: level
+  enabled: true
+  range: -1.000 1.000
+  term: high Gaussian -1.000 0.300
+  term: okay Gaussian 0.000 0.300
+  term: low Gaussian 1.000 0.300
+InputVariable: rate
+  enabled: true
+  range: -0.100 0.100
+  term: negative Gaussian -0.100 0.030
+  term: none Gaussian 0.000 0.030
+  term: positive Gaussian 0.100 0.030
+OutputVariable: valve
+  enabled: true
+  range: -1.000 1.000
+  accumulation: Maximum
+  defuzzifier: Centroid 200
+  default: nan
+  lock-previous: false
+  lock-range: false
+  term: close_fast Triangle -1.000 -0.900 -0.800
+  term: close_slow Triangle -0.600 -0.500 -0.400
+  term: no_change Triangle -0.100 0.000 0.100
+  term: open_slow Triangle 0.200 0.300 0.400
+  term: open_fast Triangle 0.800 0.900 1.000
+RuleBlock: 
+  enabled: true
+  conjunction: AlgebraicProduct
+  disjunction: AlgebraicSum
+  activation: AlgebraicProduct
+  rule: if level is okay then valve is no_change
+  rule: if level is low then valve is open_fast
+  rule: if level is high then valve is close_fast
+  rule: if level is okay and rate is positive then valve is close_slow
+  rule: if level is okay and rate is negative then valve is open_slow

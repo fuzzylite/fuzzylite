@@ -149,11 +149,11 @@ namespace fl {
             std::vector<std::string> keyValue = fl::Op::split(line, "=");
             if (keyValue.size() != 2)
                 throw fl::Exception("[syntax error] expected a property of type "
-                    "'key=value', but found < " + line + ">", FL_AT);
+                    "'key=value', but found <" + line + ">", FL_AT);
             std::string key = fl::Op::trim(keyValue.at(0));
             std::string value = fl::Op::trim(keyValue.at(1));
 
-            if (key == "Name") input->setName(fl::Op::makeValidId(value));
+            if (key == "Name") input->setName(fl::Op::validName(value));
             else if (key == "Enabled") {
                 input->setEnabled(Op::isEq(Op::toScalar(value), 1.0));
             } else if (key == "Range") {
@@ -187,7 +187,7 @@ namespace fl {
             std::string key = fl::Op::trim(keyValue.at(0));
             std::string value = fl::Op::trim(keyValue.at(1));
 
-            if (key == "Name") output->setName(fl::Op::makeValidId(value));
+            if (key == "Name") output->setName(fl::Op::validName(value));
             else if (key == "Enabled") {
                 output->setEnabled(Op::isEq(Op::toScalar(value), 1.0));
             } else if (key == "Range") {
@@ -487,7 +487,7 @@ namespace fl {
         std::auto_ptr<Term> term;
         term.reset(FactoryManager::instance()->term()->constructObject(flClass));
         Term::updateReference(term.get(), engine);
-        term->setName(Op::makeValidId(name));
+        term->setName(Op::validName(name));
         std::string separator;
         if (not dynamic_cast<Function*> (term.get())) {
             separator = " ";

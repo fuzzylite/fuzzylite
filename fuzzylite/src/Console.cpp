@@ -354,7 +354,7 @@ namespace fl {
                 try {
                     value = fl::Op::toScalar(inputValue.str());
                 } catch (std::exception& ex) {
-					(void)ex;
+                    (void) ex;
                     buffer << "[" << fl::Op::str(value) << "]";
                 }
                 buffer << space;
@@ -532,7 +532,9 @@ namespace fl {
     void Console::exportAllExamples(const std::string& from, const std::string& to) {
         std::vector<std::string> examples;
         examples.push_back("/mamdani/AllTerms");
+//        examples.push_back("/mamdani/Laundry");
         examples.push_back("/mamdani/SimpleDimmer");
+//        examples.push_back("/mamdani/SimpleDimmerInverse");
         examples.push_back("/mamdani/matlab/mam21");
         examples.push_back("/mamdani/matlab/mam22");
         examples.push_back("/mamdani/matlab/shower");
@@ -567,25 +569,25 @@ namespace fl {
         std::string sourceBase = "/home/jcrada/Development/fl/fuzzylite/examples/original";
         std::string targetBase = "/tmp/fl/";
 
-        Importer* importer;
-        if (from == "fll") importer = new FllImporter;
-        else if (from == "fis") importer = new FisImporter;
-        else if (from == "fcl") importer = new FclImporter;
+        std::auto_ptr<Importer> importer;
+        if (from == "fll") importer.reset(new FllImporter);
+        else if (from == "fis") importer.reset(new FisImporter);
+        else if (from == "fcl") importer.reset(new FclImporter);
         else throw fl::Exception("[examples error] unrecognized format <" + from + "> to import", FL_AT);
 
-        Exporter* exporter;
-        if (to == "fll") exporter = new FllExporter;
-        else if (to == "fld") exporter = new FldExporter(" ");
-        else if (to == "fcl") exporter = new FclExporter;
-        else if (to == "fis") exporter = new FisExporter;
-        else if (to == "cpp") exporter = new CppExporter;
-        else if (to == "java") exporter = new JavaExporter;
+        std::auto_ptr<Exporter> exporter;
+        if (to == "fll") exporter.reset(new FllExporter);
+        else if (to == "fld") exporter.reset(new FldExporter(" "));
+        else if (to == "fcl") exporter.reset(new FclExporter);
+        else if (to == "fis") exporter.reset(new FisExporter);
+        else if (to == "cpp") exporter.reset(new CppExporter);
+        else if (to == "java") exporter.reset(new JavaExporter);
         else throw fl::Exception("[examples error] unrecognized format <" + to + "> to export", FL_AT);
 
         std::vector<std::pair<Exporter*, Importer*> > tests;
         tests.push_back(std::pair<Exporter*, Importer*>(new FllExporter, new FllImporter));
-        tests.push_back(std::pair<Exporter*, Importer*>(new FclExporter, new FclImporter));
         tests.push_back(std::pair<Exporter*, Importer*>(new FisExporter, new FisImporter));
+        tests.push_back(std::pair<Exporter*, Importer*>(new FclExporter, new FclImporter));
         for (std::size_t i = 0; i < examples.size(); ++i) {
             FL_LOG("Processing " << (i + 1) << "/" << examples.size() << ": " << examples.at(i));
             std::ostringstream ss;
@@ -600,21 +602,23 @@ namespace fl {
                 source.close();
             } else throw fl::Exception("[examples error] file not found: " + input, FL_AT);
 
-            Engine* engine = importer->fromString(ss.str());
+            std::auto_ptr<Engine> engine(importer->fromString(ss.str()));
 
             for (std::size_t t = 0; t < tests.size(); ++t) {
-                std::string out = tests.at(t).first->toString(engine);
-                Engine* copy = tests.at(t).second->fromString(out);
-                std::string out_copy = tests.at(t).first->toString(copy);
+                std::string out = tests.at(t).first->toString(engine.get());
+                std::auto_ptr<Engine> copy(tests.at(t).second->fromString(out));
+                std::string out_copy = tests.at(t).first->toString(copy.get());
 
                 if (out != out_copy) {
                     std::ostringstream ss;
                     ss << "[imex error] different results <"
                             << importer->name() << "," << exporter->name() << "> "
                             "at " + examples.at(t) + "." + from + ":\n";
+                    ss << "<Engine A>\n" << out <<  "\n\n" << 
+                            "================================\n\n" <<
+                            "<Engine B>\n" << out_copy;
                     throw fl::Exception(ss.str(), FL_AT);
                 }
-                delete copy;
             }
 
             std::string output = targetBase + examples.at(i) + "." + to;
@@ -623,7 +627,7 @@ namespace fl {
                 if (to == "cpp") {
                     target << "#include <fl/Headers.h>\n\n"
                             << "int main(int argc, char** argv){\n"
-                            << exporter->toString(engine)
+                            << exporter->toString(engine.get())
                             << "\n}\n";
                 } else if (to == "java") {
                     std::string className = examples.at(i).substr(examples.at(i).find_last_of('/') + 1);
@@ -638,23 +642,20 @@ namespace fl {
                             << "import com.fuzzylite.rule.*;\n"
                             << "import com.fuzzylite.term.*;\n"
                             << "import com.fuzzylite.variable.*;\n\n"
-                            << "public class " << Op::makeValidId(className) << "{\n"
+                            << "public class " << Op::validName(className) << "{\n"
                             << "public static void main(String[] args){\n"
-                            << exporter->toString(engine)
+                            << exporter->toString(engine.get())
                             << "\n}\n}\n";
                 } else {
-                    target << exporter->toString(engine);
+                    target << exporter->toString(engine.get());
                 }
                 target.close();
             }
-            Engine copyConstructor(*engine);
+            Engine copyConstructor(*engine.get());
             (void) copyConstructor;
-            Engine assignmentOperator = *engine;
+            Engine assignmentOperator = *engine.get();
             (void) assignmentOperator;
-            delete engine;
         }
-        delete importer;
-        delete exporter;
         for (std::size_t i = 0; i < tests.size(); ++i) {
             delete tests.at(i).first;
             delete tests.at(i).second;
@@ -704,7 +705,7 @@ namespace fl {
             FL_LOG(examples.at(i).first << "\t" << examples.at(i).second);
         }
 
-        FisImporter importer;
+        FllImporter importer;
         FldExporter exporter;
         exporter.setExportHeader(false);
         exporter.setExportInputValues(false);
@@ -712,7 +713,7 @@ namespace fl {
         std::ostream dummy(0);
 
         for (std::size_t e = 0; e < examples.size(); ++e) {
-            std::string filename(sourceBase + examples.at(e).first + ".fis");
+            std::string filename(sourceBase + examples.at(e).first + ".fll");
             std::ifstream file(filename.c_str());
             std::ostringstream fll;
             if (file.is_open()) {
@@ -761,20 +762,20 @@ namespace fl {
             if ("export-examples" == std::string(argv[1])) {
                 try {
                     fuzzylite::setDecimals(3);
-                    FL_LOG("Processing fis->fll");
-                    exportAllExamples("fis", "fll");
-                    FL_LOG("Processing fis->fcl");
-                    exportAllExamples("fis", "fcl");
-                    FL_LOG("Processing fis->fis");
-                    exportAllExamples("fis", "fis");
-                    FL_LOG("Processing fis->cpp");
-                    exportAllExamples("fis", "cpp");
-                    FL_LOG("Processing fis->java");
-                    exportAllExamples("fis", "java");
+                    FL_LOG("Processing fll->fll");
+                    exportAllExamples("fll", "fll");
+                    FL_LOG("Processing fll->fcl");
+                    exportAllExamples("fll", "fcl");
+                    FL_LOG("Processing fll->fis");
+                    exportAllExamples("fll", "fis");
+                    FL_LOG("Processing fll->cpp");
+                    exportAllExamples("fll", "cpp");
+                    FL_LOG("Processing fll->java");
+                    exportAllExamples("fll", "java");
                     fuzzylite::setDecimals(8);
                     fuzzylite::setMachEps(1e-6);
-                    FL_LOG("Processing fis->fld");
-                    exportAllExamples("fis", "fld");
+                    FL_LOG("Processing fll->fld");
+                    exportAllExamples("fll", "fld");
                 } catch (std::exception& ex) {
                     std::cout << ex.what() << "\nBACKTRACE:\n" <<
                             fl::Exception::btCallStack() << std::endl;
@@ -782,13 +783,13 @@ namespace fl {
                 }
                 return EXIT_SUCCESS;
             } else if ("benchmarks" == std::string(argv[1])) {
-                #if defined(FL_UNIX) && ! defined(FL_APPLE)
+#if defined(FL_UNIX) && ! defined(FL_APPLE)
                 fuzzylite::setDecimals(3);
                 Console::benchmarkExamples(10);
                 return EXIT_SUCCESS;
-				#else
-					throw fl::Exception("[benchmarks error] implementation available only for Unix-based OS", FL_AT);
-				#endif
+#else
+                throw fl::Exception("[benchmarks error] implementation available only for Unix-based OS", FL_AT);
+#endif
             }
         }
 
@@ -796,8 +797,7 @@ namespace fl {
             std::map<std::string, std::string> options = parse(argc, argv);
             process(options);
         } catch (std::exception& ex) {
-            std::cout << ex.what() << "\nBACKTRACE:\n" <<
-                    fl::Exception::btCallStack() << std::endl;
+            std::cout << ex.what() << "\n"<< std::endl;
             return EXIT_FAILURE;
         }
         return EXIT_SUCCESS;

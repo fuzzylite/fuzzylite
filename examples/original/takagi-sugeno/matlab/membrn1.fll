@@ -1,0 +1,32 @@
+Engine: anfis
+InputVariable: in_n1
+  enabled: true
+  range: 1.0000000000000 31.0000000000000
+  term: in1mf1 Bell 2.2525464093489 16.2199055462293 5.0502033828673
+  term: in1mf2 Bell 31.2599083258480 15.0210593527954 1.8426194361439
+InputVariable: in_n2
+  enabled: true
+  range: 1.0000000000000 31.0000000000000
+  term: in2mf1 Bell 0.7401497470234 15.0211175980181 1.8426172690992
+  term: in2mf2 Bell 29.7474555568100 16.2199082216667 5.0501853373763
+OutputVariable: out1
+  enabled: true
+  range: -0.3338470515991 1.0000000000000
+  accumulation: AlgebraicSum
+  defuzzifier: WeightedAverage
+  default: nan
+  lock-previous: false
+  lock-range: false
+  term: out1mf1 Linear 0.0260009146421 0.0706901268840 -0.6154449224417
+  term: out1mf2 Linear -0.0357887304010 0.0357890670362 -1.1690342796450
+  term: out1mf3 Linear -0.0940312692422 0.0940315480738 2.2307600406990
+  term: out1mf4 Linear -0.0706897401818 -0.0260006482595 2.4786442000217
+RuleBlock: 
+  enabled: true
+  conjunction: AlgebraicProduct
+  disjunction: Maximum
+  activation: AlgebraicProduct
+  rule: if in_n1 is in1mf1 and in_n2 is in2mf1 then out1 is out1mf1
+  rule: if in_n1 is in1mf1 and in_n2 is in2mf2 then out1 is out1mf2
+  rule: if in_n1 is in1mf2 and in_n2 is in2mf1 then out1 is out1mf3
+  rule: if in_n1 is in1mf2 and in_n2 is in2mf2 then out1 is out1mf4

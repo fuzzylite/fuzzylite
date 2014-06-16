@@ -1,0 +1,48 @@
+Engine: 
+InputVariable: X
+  enabled: true
+  range: -10.000 10.000
+  term: small Bell -10.000 5.000 3.000
+  term: medium Bell 0.000 5.000 3.000
+  term: large Bell 10.000 5.000 3.000
+OutputVariable: A
+  enabled: true
+  range: 0.000 1.000
+  accumulation: AlgebraicSum
+  defuzzifier: WeightedAverage
+  default: nan
+  lock-previous: false
+  lock-range: false
+  term: a1 Ramp 0.000 0.250
+  term: a2 Ramp 0.600 0.400
+  term: a3 Ramp 0.700 1.000
+OutputVariable: B
+  enabled: true
+  range: 0.000 1.000
+  accumulation: AlgebraicSum
+  defuzzifier: WeightedAverage
+  default: nan
+  lock-previous: false
+  lock-range: false
+  term: b1 Sigmoid 0.130 30.000
+  term: b2 Sigmoid 0.500 -30.000
+  term: b3 Sigmoid 0.830 30.000
+OutputVariable: C
+  enabled: true
+  range: 0.000 1.000
+  accumulation: AlgebraicSum
+  defuzzifier: WeightedAverage
+  default: nan
+  lock-previous: false
+  lock-range: false
+  term: c1 SShape 0.000 0.250
+  term: c2 ZShape 0.300 0.600
+  term: c3 SShape 0.700 1.000
+RuleBlock: 
+  enabled: true
+  conjunction: none
+  disjunction: none
+  activation: AlgebraicProduct
+  rule: if X is small then A is a1 and B is b1 and C is c1
+  rule: if X is medium then A is a2 and B is b2 and C is c2
+  rule: if X is large then A is a3 and B is b3 and C is c3

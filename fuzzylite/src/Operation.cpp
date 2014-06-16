@@ -235,7 +235,8 @@ namespace fl {
 
     //Text Operations:
 
-    std::string Operation::makeValidId(const std::string& name) {
+    std::string Operation::validName(const std::string& name) {
+        if (trim(name).empty()) return "unnamed";
         std::ostringstream ss;
         for (std::size_t i = 0; i < name.length(); ++i) {
             char c = name[i];

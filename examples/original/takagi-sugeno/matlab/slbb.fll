@@ -1,0 +1,66 @@
+Engine: slbb
+InputVariable: in1
+  enabled: true
+  range: -1.5000000000 1.5000000000
+  term: in1mf1 Bell -1.5000000000 1.5000000000 2.0000000000 
+  term: in1mf2 Bell 1.5000000000 1.5000000000 2.0000000000 
+InputVariable: in2
+  enabled: true
+  range: -1.5000000000 1.5000000000
+  term: in2mf1 Bell -1.5000000000 1.5000000000 2.0000000000 
+  term: in2mf2 Bell 1.5000000000 1.5000000000 2.0000000000 
+InputVariable: in3
+  enabled: true
+  range: -0.2000000000 0.2000000000
+  term: in3mf1 Bell -0.2000000000 0.2000000000 2.0000000000 
+  term: in3mf2 Bell 0.2000000000 0.2000000000 2.0000000000 
+InputVariable: in4
+  enabled: true
+  range: -0.4000000000 0.4000000000
+  term: in4mf1 Bell -0.4000000000 0.4000000000 2.0000000000 
+  term: in4mf2 Bell 0.4000000000 0.4000000000 2.0000000000 
+OutputVariable: out
+  enabled: true
+  range: -10.0000000000 10.0000000000
+  accumulation: AlgebraicSum
+  defuzzifier: WeightedAverage
+  default: nan
+  lock-previous: false
+  lock-range: false
+  term: outmf1 Linear 1.0154698122 2.2343243066 -12.6651323201 -4.0459631132 0.0262393110
+  term: outmf2 Linear 1.1612621905 1.9688966643 -9.3957627105 -6.1654143441 0.4740288109
+  term: outmf3 Linear 1.5064603398 2.2343245825 -12.9897717059 -1.8645113574 1.4260916050
+  term: outmf4 Linear 0.7338778764 1.9688979603 -9.3811713689 -4.6877012236 -0.8803768043
+  term: outmf5 Linear 0.7343016944 2.2343236238 -12.8534417645 -6.1104795516 -1.0336676216
+  term: outmf6 Linear 1.4126987677 1.9688974440 -9.4854546820 -6.5922569780 1.1594068411
+  term: outmf7 Linear 1.2252916880 2.2343253619 -12.8014448965 -3.9290320738 0.3661793174
+  term: outmf8 Linear 0.9853149874 1.9688972644 -9.2914725038 -5.1145454653 -0.1949985481
+  term: outmf9 Linear 0.9853165524 1.9688996870 -9.2915344472 -5.1145447166 0.1949952966
+  term: outmf10 Linear 1.2252957972 2.2343278906 -12.8015097188 -3.9290313816 -0.3661862541
+  term: outmf11 Linear 1.4126921492 1.9689009507 -9.4854870042 -6.5922564846 -1.1593951579
+  term: outmf12 Linear 0.7342906234 2.2343282359 -12.8534807451 -6.1104845467 1.0336856102
+  term: outmf13 Linear 0.7338851604 1.9689003684 -9.3812271257 -4.6877035339 0.8803652160
+  term: outmf14 Linear 1.5064718371 2.2343271181 -12.9898208681 -1.8645062790 -1.4261061817
+  term: outmf15 Linear 1.1612603033 1.9689001908 -9.3957865938 -6.1654143951 -0.4740255851
+  term: outmf16 Linear 1.0154673811 2.2343289043 -12.6651529488 -4.0459556489 -0.0262397104
+RuleBlock: 
+  enabled: true
+  conjunction: AlgebraicProduct
+  disjunction: Maximum
+  activation: AlgebraicProduct
+  rule: if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf1 and in4 is in4mf1 then out is outmf1
+  rule: if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf1 and in4 is in4mf2 then out is outmf2
+  rule: if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf2 and in4 is in4mf1 then out is outmf3
+  rule: if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf2 and in4 is in4mf2 then out is outmf4
+  rule: if in1 is in1mf1 and in2 is in2mf2 and in3 is in3mf1 and in4 is in4mf1 then out is outmf5
+  rule: if in1 is in1mf1 and in2 is in2mf2 and in3 is in3mf1 and in4 is in4mf2 then out is outmf6
+  rule: if in1 is in1mf1 and in2 is in2mf2 and in3 is in3mf2 and in4 is in4mf1 then out is outmf7
+  rule: if in1 is in1mf1 and in2 is in2mf2 and in3 is in3mf2 and in4 is in4mf2 then out is outmf8
+  rule: if in1 is in1mf2 and in2 is in2mf1 and in3 is in3mf1 and in4 is in4mf1 then out is outmf9
+  rule: if in1 is in1mf2 and in2 is in2mf1 and in3 is in3mf1 and in4 is in4mf2 then out is outmf10
+  rule: if in1 is in1mf2 and in2 is in2mf1 and in3 is in3mf2 and in4 is in4mf1 then out is outmf11
+  rule: if in1 is in1mf2 and in2 is in2mf1 and in3 is in3mf2 and in4 is in4mf2 then out is outmf12
+  rule: if in1 is in1mf2 and in2 is in2mf2 and in3 is in3mf1 and in4 is in4mf1 then out is outmf13
+  rule: if in1 is in1mf2 and in2 is in2mf2 and in3 is in3mf1 and in4 is in4mf2 then out is outmf14
+  rule: if in1 is in1mf2 and in2 is in2mf2 and in3 is in3mf2 and in4 is in4mf1 then out is outmf15
+  rule: if in1 is in1mf2 and in2 is in2mf2 and in3 is in3mf2 and in4 is in4mf2 then out is outmf16

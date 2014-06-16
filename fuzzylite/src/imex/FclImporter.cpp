@@ -174,7 +174,7 @@ namespace fl {
                 ex << "[syntax error] expected property of type (key : value) in line: " << line;
                 throw fl::Exception(ex.str(), FL_AT);
             }
-            std::string name = fl::Op::makeValidId(token.at(0));
+            std::string name = fl::Op::validName(token.at(0));
             if (tag == "VAR_INPUT")
                 engine->addInputVariable(new InputVariable(name));
             else if (tag == "VAR_OUTPUT")
@@ -195,7 +195,7 @@ namespace fl {
         std::string name;
         std::size_t index = line.find_first_of(' ');
         if (index != std::string::npos) {
-            name = fl::Op::makeValidId(line.substr(index + 1));
+            name = fl::Op::validName(line.substr(index + 1));
         } else {
             std::ostringstream ex;
             ex << "[syntax error] expected name of input variable in line: " << line;
@@ -240,7 +240,7 @@ namespace fl {
         std::string name;
         std::size_t index = line.find_first_of(' ');
         if (index != std::string::npos) {
-            name = fl::Op::makeValidId(line.substr(index + 1));
+            name = fl::Op::validName(line.substr(index + 1));
         } else {
             std::ostringstream ex;
             ex << "[syntax error] expected an output variable name in line: " << line;
@@ -441,7 +441,7 @@ namespace fl {
         std::auto_ptr<Term> term;
         term.reset(FactoryManager::instance()->term()->constructObject(termClass));
         Term::updateReference(term.get(), engine);
-        term->setName(fl::Op::makeValidId(name));
+        term->setName(fl::Op::validName(name));
         std::string separator;
         if (not dynamic_cast<Function*> (term.get())) {
             separator = " ";

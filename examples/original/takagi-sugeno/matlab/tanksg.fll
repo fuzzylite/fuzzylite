@@ -1,0 +1,36 @@
+Engine: tanksg1
+InputVariable: level
+  enabled: true
+  range: -1.0000000000 1.0000000000
+  term: high Gaussian -1.0000000000 0.3000000000
+  term: okay Gaussian 0.0042700000 0.3000000000
+  term: low Gaussian 1.0000000000 0.3000000000
+InputVariable: rate
+  enabled: true
+  range: -0.1000000000 0.1000000000
+  term: negative Gaussian -0.1000000000 0.0300000000
+  term: none Gaussian 0.0000000000 0.0300000000
+  term: positive Gaussian 0.1000000000 0.0300000000
+OutputVariable: valve
+  enabled: true
+  range: -1.0000000000 1.0000000000
+  accumulation: AlgebraicSum
+  defuzzifier: WeightedAverage
+  default: nan
+  lock-previous: false
+  lock-range: false
+  term: close_fast Constant -0.9000000000
+  term: close_slow Constant -0.5000000000
+  term: no_change Constant 0.0000000000
+  term: open_slow Constant 0.3000000000
+  term: open_fast Constant 0.9000000000
+RuleBlock: 
+  enabled: true
+  conjunction: AlgebraicProduct
+  disjunction: AlgebraicSum
+  activation: AlgebraicProduct
+  rule: if level is okay then valve is no_change
+  rule: if level is low then valve is open_fast
+  rule: if level is high then valve is close_fast
+  rule: if level is okay and rate is positive then valve is close_slow
+  rule: if level is okay and rate is negative then valve is open_slow

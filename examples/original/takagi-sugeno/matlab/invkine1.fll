@@ -1,0 +1,132 @@
+Engine: invkine1
+InputVariable: input1
+  enabled: true
+  range: -6.28657403523593 17.00000000000000
+  term: in1mf1 Bell -6.12172486573110 2.25928562081685 1.76141351483158
+  term: in1mf2 Bell -2.18112629373460 2.09470989848843 2.23210909757239
+  term: in1mf3 Bell 2.08028215514608 2.15701612724914 1.31395149055438
+  term: in1mf4 Bell 4.96152609098832 2.78996925453751 2.50756150353527
+  term: in1mf5 Bell 9.33775138578043 2.50614912464216 1.81221624104528
+  term: in1mf6 Bell 13.14998640102530 2.36331368363258 2.26744358558265
+  term: in1mf7 Bell 17.78946525329800 1.31020801482986 1.75561609752372
+InputVariable: input2
+  enabled: true
+  range: 0.00000000000000 16.97196508733110
+  term: in2mf1 Bell 0.62124653234202 1.74136891507146 2.45360249744021
+  term: in2mf2 Bell 2.40599975155228 0.86587376473184 1.27808245517287
+  term: in2mf3 Bell 4.88274180644515 1.81377597540366 2.40226594545508
+  term: in2mf4 Bell 8.08724884692891 1.94068126584756 1.92945207667694
+  term: in2mf5 Bell 11.42781062403920 2.33301318083436 2.02237380175600
+  term: in2mf6 Bell 14.57941961409100 2.22052841658281 1.85811683247124
+  term: in2mf7 Bell 17.81270943670890 0.82028717004286 1.57744013195954
+OutputVariable: output
+  enabled: true
+  range: 0.00000000000000 1.50000000000000
+  accumulation: AlgebraicSum
+  defuzzifier: WeightedAverage
+  default: nan
+  lock-previous: false
+  lock-range: false
+  term: out1mf1 Linear -0.91181604702836 2.51681869317128 0.06143411619516
+  term: out1mf2 Linear -2.15317603740978 -2.20378589224822 -4.03693016739654
+  term: out1mf3 Linear -0.10704835483936 -0.14828793327844 1.91994894228988
+  term: out1mf4 Linear -0.08828384961090 -0.07147959600089 1.59267017553544
+  term: out1mf5 Linear -0.09764025641917 -0.04005148449915 1.36082209412128
+  term: out1mf6 Linear -0.06776854753231 -0.02703273274822 1.61659568332442
+  term: out1mf7 Linear -1.90093699474500 -0.08130778764076 0.18458616919852
+  term: out1mf8 Linear 16.65107399779260 11.71339511626550 6.80277498622929
+  term: out1mf9 Linear -4.15174027395786 -1.03334445313203 -4.75527575881461
+  term: out1mf10 Linear -0.12331219829991 0.00434661747818 0.86125579143152
+  term: out1mf11 Linear -0.10237613168904 0.00569663216496 0.81565024582485
+  term: out1mf12 Linear -0.08941249344295 0.03833164552955 0.51547094870864
+  term: out1mf13 Linear -0.07387668109231 0.08206422125839 -0.06082215564495
+  term: out1mf14 Linear -0.00850280050066 -0.17252799374016 4.84108094859271
+  term: out1mf15 Linear -7.99509428397722 -2.81800170933492 17.91030439254160
+  term: out1mf16 Linear 0.67444267364889 0.74466397451956 -2.16730218445671
+  term: out1mf17 Linear -0.13042366923601 -0.00361659079401 0.86943318824598
+  term: out1mf18 Linear -0.09440309562429 0.06096098282854 0.36596040067066
+  term: out1mf19 Linear -0.08735783769822 0.12103691068189 -0.39454424918316
+  term: out1mf20 Linear -0.06059587206881 0.16200783860724 -1.31234240195696
+  term: out1mf21 Linear -0.16283864049924 0.91959213360327 -13.25267596647820
+  term: out1mf22 Linear 1.41725889678387 3.07249043643366 1.88145332474732
+  term: out1mf23 Linear -0.95030873236922 -0.73245748148781 3.12760443900940
+  term: out1mf24 Linear -0.05805641360514 0.16181574165844 -0.52978797662691
+  term: out1mf25 Linear -0.04408167090889 0.07685277488612 -0.12097841368160
+  term: out1mf26 Linear -0.06052064343389 0.05384773199915 0.27253588734476
+  term: out1mf27 Linear -0.06845687628021 0.09941166005702 -0.24983756131615
+  term: out1mf28 Linear 0.42850777808037 0.60999368075578 -9.11809046692779
+  term: out1mf29 Linear -6.66091804280502 -3.69672580221170 0.01467005128877
+  term: out1mf30 Linear -3.54442988306147 8.99478207090592 0.39599121252841
+  term: out1mf31 Linear 0.21033623285316 -0.13685450817327 -1.01009185132529
+  term: out1mf32 Linear -0.00313331986685 0.13668354395978 -1.20975210225421
+  term: out1mf33 Linear -0.02951296675958 0.01843006819288 0.10723009755359
+  term: out1mf34 Linear -0.22695390291045 -0.30615866437605 6.55025434100969
+  term: out1mf35 Linear 11.00487860020550 -3.37475677783810 -1.13466149631207
+  term: out1mf36 Linear 0.57799689159905 0.03327515356443 -0.10374714345476
+  term: out1mf37 Linear 0.89491972510840 -3.26783725389024 -0.99228873077901
+  term: out1mf38 Linear 0.12469276359895 0.00606926350300 -1.73264918846655
+  term: out1mf39 Linear 0.04375829479273 0.00306811052707 -0.30296992034370
+  term: out1mf40 Linear -0.17867196417324 -0.09345180559314 3.45801382544907
+  term: out1mf41 Linear 0.22196665228598 0.59679688593987 -10.10152655902710
+  term: out1mf42 Linear 9.31989416477929 13.69164732866990 0.85769582008445
+  term: out1mf43 Linear 0.16128252644263 -0.11697237122767 -1.38174573714659
+  term: out1mf44 Linear 0.49540539226588 -0.83256295882928 -6.56403684761779
+  term: out1mf45 Linear 0.46472594757480 -0.78661824034370 -5.60990236088006
+  term: out1mf46 Linear 1.33404205817859 -3.01652043419824 -2.87129047704050
+  term: out1mf47 Linear 2.56143820330517 -0.86394858067165 -0.55737655208847
+  term: out1mf48 Linear 17.12326874592580 11.15011190921450 1.00622359220343
+  term: out1mf49 Linear 0.21970271935231 0.15398662100422 0.00995628555554
+RuleBlock: 
+  enabled: true
+  conjunction: AlgebraicProduct
+  disjunction: Maximum
+  activation: AlgebraicProduct
+  rule: if input1 is in1mf1 and input2 is in2mf1 then output is out1mf1
+  rule: if input1 is in1mf1 and input2 is in2mf2 then output is out1mf2
+  rule: if input1 is in1mf1 and input2 is in2mf3 then output is out1mf3
+  rule: if input1 is in1mf1 and input2 is in2mf4 then output is out1mf4
+  rule: if input1 is in1mf1 and input2 is in2mf5 then output is out1mf5
+  rule: if input1 is in1mf1 and input2 is in2mf6 then output is out1mf6
+  rule: if input1 is in1mf1 and input2 is in2mf7 then output is out1mf7
+  rule: if input1 is in1mf2 and input2 is in2mf1 then output is out1mf8
+  rule: if input1 is in1mf2 and input2 is in2mf2 then output is out1mf9
+  rule: if input1 is in1mf2 and input2 is in2mf3 then output is out1mf10
+  rule: if input1 is in1mf2 and input2 is in2mf4 then output is out1mf11
+  rule: if input1 is in1mf2 and input2 is in2mf5 then output is out1mf12
+  rule: if input1 is in1mf2 and input2 is in2mf6 then output is out1mf13
+  rule: if input1 is in1mf2 and input2 is in2mf7 then output is out1mf14
+  rule: if input1 is in1mf3 and input2 is in2mf1 then output is out1mf15
+  rule: if input1 is in1mf3 and input2 is in2mf2 then output is out1mf16
+  rule: if input1 is in1mf3 and input2 is in2mf3 then output is out1mf17
+  rule: if input1 is in1mf3 and input2 is in2mf4 then output is out1mf18
+  rule: if input1 is in1mf3 and input2 is in2mf5 then output is out1mf19
+  rule: if input1 is in1mf3 and input2 is in2mf6 then output is out1mf20
+  rule: if input1 is in1mf3 and input2 is in2mf7 then output is out1mf21
+  rule: if input1 is in1mf4 and input2 is in2mf1 then output is out1mf22
+  rule: if input1 is in1mf4 and input2 is in2mf2 then output is out1mf23
+  rule: if input1 is in1mf4 and input2 is in2mf3 then output is out1mf24
+  rule: if input1 is in1mf4 and input2 is in2mf4 then output is out1mf25
+  rule: if input1 is in1mf4 and input2 is in2mf5 then output is out1mf26
+  rule: if input1 is in1mf4 and input2 is in2mf6 then output is out1mf27
+  rule: if input1 is in1mf4 and input2 is in2mf7 then output is out1mf28
+  rule: if input1 is in1mf5 and input2 is in2mf1 then output is out1mf29
+  rule: if input1 is in1mf5 and input2 is in2mf2 then output is out1mf30
+  rule: if input1 is in1mf5 and input2 is in2mf3 then output is out1mf31
+  rule: if input1 is in1mf5 and input2 is in2mf4 then output is out1mf32
+  rule: if input1 is in1mf5 and input2 is in2mf5 then output is out1mf33
+  rule: if input1 is in1mf5 and input2 is in2mf6 then output is out1mf34
+  rule: if input1 is in1mf5 and input2 is in2mf7 then output is out1mf35
+  rule: if input1 is in1mf6 and input2 is in2mf1 then output is out1mf36
+  rule: if input1 is in1mf6 and input2 is in2mf2 then output is out1mf37
+  rule: if input1 is in1mf6 and input2 is in2mf3 then output is out1mf38
+  rule: if input1 is in1mf6 and input2 is in2mf4 then output is out1mf39
+  rule: if input1 is in1mf6 and input2 is in2mf5 then output is out1mf40
+  rule: if input1 is in1mf6 and input2 is in2mf6 then output is out1mf41
+  rule: if input1 is in1mf6 and input2 is in2mf7 then output is out1mf42
+  rule: if input1 is in1mf7 and input2 is in2mf1 then output is out1mf43
+  rule: if input1 is in1mf7 and input2 is in2mf2 then output is out1mf44
+  rule: if input1 is in1mf7 and input2 is in2mf3 then output is out1mf45
+  rule: if input1 is in1mf7 and input2 is in2mf4 then output is out1mf46
+  rule: if input1 is in1mf7 and input2 is in2mf5 then output is out1mf47
+  rule: if input1 is in1mf7 and input2 is in2mf6 then output is out1mf48
+  rule: if input1 is in1mf7 and input2 is in2mf7 then output is out1mf49

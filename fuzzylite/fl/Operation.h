@@ -105,7 +105,7 @@ namespace fl {
         static double standardDeviation(const std::vector<scalar>& x);
         static double standardDeviation(const std::vector<scalar>& x, scalar mean);
 
-        static std::string makeValidId(const std::string& name);
+        static std::string validName(const std::string& name);
 
         static int isValidForName(int character);
 

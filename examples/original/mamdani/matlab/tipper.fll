@@ -1,0 +1,31 @@
+Engine: tipper
+InputVariable: service
+  enabled: true
+  range: 0.000 10.000
+  term: poor Gaussian 0.000 1.500
+  term: good Gaussian 5.000 1.500
+  term: excellent Gaussian 10.000 1.500
+InputVariable: food
+  enabled: true
+  range: 0.000 10.000
+  term: rancid Trapezoid 0.000 0.000 1.000 3.000
+  term: delicious Trapezoid 7.000 9.000 10.000 10.000
+OutputVariable: tip
+  enabled: true
+  range: 0.000 30.000
+  accumulation: Maximum
+  defuzzifier: Centroid 200
+  default: nan
+  lock-previous: false
+  lock-range: false
+  term: cheap Triangle 0.000 5.000 10.000
+  term: average Triangle 10.000 15.000 20.000
+  term: generous Triangle 20.000 25.000 30.000
+RuleBlock: 
+  enabled: true
+  conjunction: Minimum
+  disjunction: Maximum
+  activation: Minimum
+  rule: if service is poor or food is rancid then tip is cheap
+  rule: if service is good then tip is average
+  rule: if service is excellent or food is delicious then tip is generous

@@ -1,0 +1,31 @@
+Engine: Investment-Portfolio
+InputVariable: Age
+  enabled: true
+  range: 20.000 100.000
+  term: Young ZShape 30.000 90.000
+  term: Old SShape 30.000 90.000
+InputVariable: RiskTolerance
+  enabled: true
+  range: 0.000 10.000
+  term: Low ZShape 2.000 8.000
+  term: High SShape 2.000 8.000
+OutputVariable: PercentageInStocks
+  enabled: true
+  range: 0.000 100.000
+  accumulation: EinsteinSum
+  defuzzifier: Centroid 200
+  default: nan
+  lock-previous: false
+  lock-range: false
+  term: AboutFifteen Gaussian 15.000 10.000
+  term: AboutFifty Gaussian 50.000 10.000
+  term: AboutEightyFive Gaussian 85.000 10.000
+RuleBlock: 
+  enabled: true
+  conjunction: EinsteinProduct
+  disjunction: EinsteinSum
+  activation: EinsteinProduct
+  rule: if Age is Young or RiskTolerance is High then PercentageInStocks is AboutEightyFive
+  rule: if Age is Old or RiskTolerance is Low then PercentageInStocks is AboutFifteen
+  rule: if Age is not extremely Old and RiskTolerance is not extremely Low then PercentageInStocks is AboutFifty with 0.500
+  rule: if Age is not extremely Young and RiskTolerance is not extremely High then PercentageInStocks is AboutFifty with 0.500

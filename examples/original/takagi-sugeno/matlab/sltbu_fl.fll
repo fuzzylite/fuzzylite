@@ -1,0 +1,29 @@
+Engine: sltbu
+InputVariable: distance
+  enabled: true
+  range: 0.0000000000 25.0000000000
+  term: near ZShape 1.0000000000 2.0000000000 
+  term: far SShape 1.0000000000 2.0000000000 
+InputVariable: control1
+  enabled: true
+  range: -0.7853982000 0.7853982000
+InputVariable: control2
+  enabled: true
+  range: -0.7853982000 0.7853982000
+OutputVariable: control
+  enabled: true
+  range: -0.7853982000 0.7853982000
+  accumulation: AlgebraicSum
+  defuzzifier: WeightedAverage
+  default: nan
+  lock-previous: false
+  lock-range: false
+  term: out1mf1 Linear 0.0000000000 0.0000000000 1.0000000000 0.0000000000
+  term: out1mf2 Linear 0.0000000000 1.0000000000 0.0000000000 0.0000000000
+RuleBlock: 
+  enabled: true
+  conjunction: AlgebraicProduct
+  disjunction: Maximum
+  activation: AlgebraicProduct
+  rule: if distance is near then control is out1mf1
+  rule: if distance is far then control is out1mf2

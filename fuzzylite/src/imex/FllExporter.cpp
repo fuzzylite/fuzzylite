@@ -101,7 +101,7 @@ namespace fl {
 
     std::string FllExporter::toString(const Variable* variable) const {
         std::vector<std::string> result;
-        result.push_back("Variable: " + variable->getName());
+        result.push_back("Variable: " + Op::validName(variable->getName()));
         result.push_back(_indent + "enabled: " + (variable->isEnabled() ? "true" : "false"));
         result.push_back(_indent + "range: " + Op::join(2, " ",
                 variable->getMinimum(), variable->getMaximum()));
@@ -113,7 +113,7 @@ namespace fl {
 
     std::string FllExporter::toString(const InputVariable* inputVariable) const {
         std::vector<std::string> result;
-        result.push_back("InputVariable: " + inputVariable->getName());
+        result.push_back("InputVariable: " + Op::validName(inputVariable->getName()));
         result.push_back(_indent + "enabled: " + (inputVariable->isEnabled() ? "true" : "false"));
         result.push_back(_indent + "range: " + Op::join(2, " ",
                 inputVariable->getMinimum(), inputVariable->getMaximum()));
@@ -125,7 +125,7 @@ namespace fl {
 
     std::string FllExporter::toString(const OutputVariable* outputVariable) const {
         std::vector<std::string> result;
-        result.push_back("OutputVariable: " + outputVariable->getName());
+        result.push_back("OutputVariable: " + Op::validName(outputVariable->getName()));
         result.push_back(_indent + "enabled: " + (outputVariable->isEnabled() ? "true" : "false"));
         result.push_back(_indent + "range: " + Op::join(2, " ",
                 outputVariable->getMinimum(), outputVariable->getMaximum()));
@@ -163,9 +163,7 @@ namespace fl {
     }
 
     std::string FllExporter::toString(const Term* term) const {
-        std::string name(term->getName());
-        if (fl::Op::trim(name).empty()) name = "unnamed";
-        return "term: " + name + " " + term->className()
+        return "term: " + Op::validName(term->getName()) + " " + term->className()
                 + " " + term->parameters();
     }
 

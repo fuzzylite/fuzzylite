@@ -1,0 +1,26 @@
+Engine: simple-dimmer
+InputVariable: Ambient
+  enabled: true
+  range: 0.000 1.000
+  term: DARK Triangle 0.000 0.250 0.500
+  term: MEDIUM Triangle 0.250 0.500 0.750
+  term: BRIGHT Triangle 0.500 0.750 1.000
+OutputVariable: Power
+  enabled: true
+  range: 0.000 1.000
+  accumulation: Maximum
+  defuzzifier: Centroid 200
+  default: nan
+  lock-previous: false
+  lock-range: false
+  term: LOW Triangle 0.000 0.250 0.500
+  term: MEDIUM Triangle 0.250 0.500 0.750
+  term: HIGH Triangle 0.500 0.750 1.000
+RuleBlock: 
+  enabled: true
+  conjunction: none
+  disjunction: none
+  activation: Minimum
+  rule: if Ambient is DARK then Power is HIGH
+  rule: if Ambient is MEDIUM then Power is MEDIUM
+  rule: if Ambient is BRIGHT then Power is LOW
