@@ -33,7 +33,7 @@ endif()
 set(FL_VERSION 5.0)
 add_definitions(-DFL_VERSION="${FL_VERSION}")
 
-set(FL_DATE "1403")
+set(FL_DATE "1407")
 add_definitions(-DFL_DATE="${FL_DATE}")
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)

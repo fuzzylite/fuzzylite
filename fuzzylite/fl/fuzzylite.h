@@ -127,6 +127,7 @@ namespace fl {
         static std::string version();
         static std::string longVersion();
         static std::string author();
+        static std::string website();
 
         static std::string date();
         static std::string platform();

@@ -51,7 +51,11 @@ namespace fl {
     }
 
     std::string fuzzylite::author() {
-        return "Juan Rada-Vilela";
+        return "Juan Rada-Vilela, Ph.D.";
+    }
+
+    std::string fuzzylite::website() {
+        return "http://www.fuzzylite.com/";
     }
 
     std::string fuzzylite::date() {
