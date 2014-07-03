@@ -317,7 +317,7 @@ namespace fl {
         return ss.str();
     }
 
-    scalar Operation::toScalar(const std::string& x, bool quiet, scalar alternative) {
+    scalar Operation::toScalar(const std::string& x) {
         std::istringstream iss(x);
         scalar result;
         iss >> result;
@@ -335,11 +335,31 @@ namespace fl {
             return fl::inf;
         if (x == nInf.str() or x == "-inf")
             return -fl::inf;
-        if (!quiet) {
-            std::ostringstream ex;
-            ex << "[conversion error] from <" << x << "> to scalar";
-            throw fl::Exception(ex.str(), FL_AT);
-        }
+
+        std::ostringstream ex;
+        ex << "[conversion error] from <" << x << "> to scalar";
+        throw fl::Exception(ex.str(), FL_AT);
+    }
+    
+    scalar Operation::toScalar(const std::string& x, scalar alternative) throw(){
+        std::istringstream iss(x);
+        scalar result;
+        iss >> result;
+        char strict;
+        if (not (iss.fail() or iss.get(strict))) return result;
+
+        std::ostringstream nan, pInf, nInf;
+        nan << fl::nan;
+        pInf << fl::inf;
+        nInf << (-fl::inf);
+
+        if (x == nan.str() or x == "nan")
+            return fl::nan;
+        if (x == pInf.str() or x == "inf")
+            return fl::inf;
+        if (x == nInf.str() or x == "-inf")
+            return -fl::inf;
+        
         return alternative;
     }
 

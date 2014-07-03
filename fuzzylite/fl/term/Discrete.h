@@ -54,7 +54,7 @@ namespace fl {
         //Warning: this method is unsafe. Make sure you use it correctly.
         template <typename T>
         static Discrete* create(const std::string& name, int argc,
-                T x1, T y1, ...);// throw (fl::Exception);
+                T x1, T y1, ...); // throw (fl::Exception);
 
         virtual scalar membership(scalar x) const;
 
@@ -66,8 +66,9 @@ namespace fl {
 
 
         static std::vector<scalar> toVector(const std::vector<Pair>& xy);
+        static std::vector<Pair> toPairs(const std::vector<scalar>& xy);
         static std::vector<Pair> toPairs(const std::vector<scalar>& xy,
-                bool quiet = true, scalar missingValue = fl::nan);
+                scalar missingValue) throw ();
 
         static std::string formatXY(const std::vector<Pair>& xy,
                 const std::string& prefix = "(", const std::string& innerSeparator = ",",

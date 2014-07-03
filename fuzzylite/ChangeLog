@@ -138,6 +138,10 @@ Version 5.0
 * Added Term::(get|set)Height and changed all terms accordingly
 * Renamed method Op::makeValidId to Op::validName, which now returns "unnamed" for empty strings.
 * Converted examples/original/*.fis to examples/original/*.fll
+* Removed Exception Specification from methods in Discrete, Linear and Function terms
+* Changed name of debug libraries to fuzzylited.dll and fuzzylite-staticd.lib
+* Removed method Operation::toScalar(std::string, bool, scalar)
+* Added method Operation::toScalar(std::string) [throws Exception], and ::toScalar(std::string, scalar alternative) throw()
 
 
 Version 4.0

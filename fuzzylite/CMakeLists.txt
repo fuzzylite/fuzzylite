@@ -11,7 +11,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(fuzzylite CXX)
 
-set(CMAKE_VERBOSE_MAKEFILE true)
+set(CMAKE_VERBOSE_MAKEFILE false)
 
 
 if(WIN32)
@@ -44,7 +44,7 @@ option(FL_BACKTRACE "Provide backtrace information in case of errors" ON)
 if(FL_DEBUG)
     add_definitions(-DFL_DEBUG=true)
     set(CMAKE_BUILD_TYPE Debug)
-    set(FL_CONF -dbg)
+    set(FL_CONF d)
 else()
     set(CMAKE_BUILD_TYPE Release)
     set(FL_CONF)
@@ -104,7 +104,7 @@ string(REGEX REPLACE "\n" " " ${fl-sources} ${fl-sources})
 message("${exepath}")
 
 
-set(CMAKE_DEBUG_POSTFIX -dbg)
+set(CMAKE_DEBUG_POSTFIX d)
 
 add_library(fl-shared SHARED ${fl-headers} ${fl-sources})
 set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
@@ -117,7 +117,7 @@ target_link_libraries(fl-static ${FL_LIBS})
 add_executable(fl-bin fl/Console.h src/Console.cpp src/main.cpp)
 set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
 set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX _) #To prevent LNK1149 in Windows
-set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -dbg)
+#set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -dbg)
 target_link_libraries(fl-bin fl-static ${FL_LIBS})
 
 

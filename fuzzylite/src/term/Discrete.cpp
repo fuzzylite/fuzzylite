@@ -154,13 +154,23 @@ namespace fl {
         return this->_xy.at(index);
     }
 
-    std::vector<Discrete::Pair> Discrete::toPairs(const std::vector<scalar>& xy, bool quiet, scalar missingValue) {
-        if (not quiet and xy.size() % 2 != 0) {
+    std::vector<Discrete::Pair> Discrete::toPairs(const std::vector<scalar>& xy) {
+        if ( xy.size() % 2 != 0) {
             std::ostringstream os;
             os << "[discrete error] missing value in set of pairs (|xy|=" << xy.size() << ")";
             throw fl::Exception(os.str(), FL_AT);
         }
 
+        std::vector<std::pair<scalar, scalar> > result((xy.size() + 1) / 2);
+        for (std::size_t i = 0; i + 1 < xy.size(); i += 2) {
+            result.at(i / 2).first = xy.at(i);
+            result.at(i / 2).second = xy.at(i + 1);
+        }
+        return result;
+    }
+
+    std::vector<Discrete::Pair> Discrete::toPairs(const std::vector<scalar>& xy, 
+            scalar missingValue) throw() {
         std::vector<std::pair<scalar, scalar> > result((xy.size() + 1) / 2);
         for (std::size_t i = 0; i + 1 < xy.size(); i += 2) {
             result.at(i / 2).first = xy.at(i);

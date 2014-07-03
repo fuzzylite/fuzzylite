@@ -120,8 +120,9 @@ namespace fl {
         static std::string format(const std::string& text, int matchesChar(int),
                 const std::string& replacement = "");
 
-        static scalar toScalar(const std::string& x, bool quiet = false,
-                scalar alternative = fl::nan);
+        static scalar toScalar(const std::string& x); //throws fl::Exception
+
+        static scalar toScalar(const std::string& x, scalar alternative) throw();
 
         static bool isNumeric(const std::string& x);
 

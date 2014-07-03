@@ -346,7 +346,7 @@ namespace fl {
     Engine::Type Engine::type(std::string* name, std::string* reason) const {
         if (_outputVariables.empty()) {
             if (name) *name = "Unknown";
-            if (reason) *reason = "There are no output variables";
+            if (reason) *reason = "- There are no output variables";
             return Engine::Unknown;
         }
 
@@ -368,8 +368,8 @@ namespace fl {
         }
         if (larsen) {
             if (name) *name = "Larsen";
-            if (reason) *reason = "-Output variables have integral defuzzifiers\n"
-                    "-Rule blocks activate using the algebraic product T-Norm";
+            if (reason) *reason = "- Output variables have integral defuzzifiers\n"
+                    "- Rule blocks activate using the algebraic product T-Norm";
             return Engine::Larsen;
         }
         if (mamdani) {
@@ -402,8 +402,8 @@ namespace fl {
         }
         if (takagiSugeno) {
             if (name) *name = "Takagi-Sugeno";
-            if (reason) *reason = "-Output variables have weighted defuzzifiers\n"
-                    "-Output variables have constant, linear or function terms";
+            if (reason) *reason = "- Output variables have weighted defuzzifiers\n"
+                    "- Output variables have constant, linear or function terms";
             return Engine::TakagiSugeno;
         }
 
@@ -428,8 +428,8 @@ namespace fl {
         }
         if (tsukamoto) {
             if (name) *name = "Tsukamoto";
-            if (reason) *reason = "Output variables have weighted defuzzifiers\n"
-                    "-Output variables only have monotonic terms";
+            if (reason) *reason = "- Output variables have weighted defuzzifiers\n"
+                    "- Output variables only have monotonic terms";
             return Engine::Tsukamoto;
         }
 
@@ -444,9 +444,9 @@ namespace fl {
         }
         if (inverseTsukamoto) {
             if (name) *name = "Inverse Tsukamoto";
-            if (reason) *reason = "-Output variables have weighted defuzzifiers\n"
-                    "-Output variables do not only have constant, linear or function terms\n"
-                    "-Output variables do not only have monotonic terms\n";
+            if (reason) *reason = "- Output variables have weighted defuzzifiers\n"
+                    "- Output variables do not only have constant, linear or function terms\n"
+                    "- Output variables do not only have monotonic terms\n";
             return Engine::InverseTsukamoto;
         }
 
@@ -458,12 +458,12 @@ namespace fl {
         }
         if (hybrid) {
             if (name) *name = "Hybrid";
-            if (reason) *reason = "-Output variables have different defuzzifiers";
+            if (reason) *reason = "- Output variables have different defuzzifiers";
             return Engine::Hybrid;
         }
 
         if (name) *name = "Unknown";
-        if (reason) *reason = "-There are output variables without a defuzzifier";
+        if (reason) *reason = "- There are output variables without a defuzzifier";
         return Engine::Unknown;
     }
 
