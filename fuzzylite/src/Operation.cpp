@@ -317,8 +317,7 @@ namespace fl {
         return ss.str();
     }
 
-    scalar Operation::toScalar(const std::string& x, bool quiet, scalar alternative)
-    throw (fl::Exception) {
+    scalar Operation::toScalar(const std::string& x, bool quiet, scalar alternative) {
         std::istringstream iss(x);
         scalar result;
         iss >> result;

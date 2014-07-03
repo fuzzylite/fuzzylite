@@ -126,7 +126,7 @@ namespace fl {
 
         static Function* create(const std::string& name,
                 const std::string& formula,
-                const Engine* engine = NULL) throw (fl::Exception);
+                const Engine* engine = NULL); // throw (fl::Exception);
 
         virtual scalar membership(scalar x) const;
 
@@ -145,13 +145,13 @@ namespace fl {
         virtual Node* root() const;
 
         virtual void unload();
-        virtual void load() throw (fl::Exception);
-        virtual void load(const std::string& formula) throw (fl::Exception);
-        virtual void load(const std::string& formula, const Engine* engine) throw (fl::Exception);
+        virtual void load();// throw (fl::Exception);
+        virtual void load(const std::string& formula); // throw (fl::Exception);
+        virtual void load(const std::string& formula, const Engine* engine); // throw (fl::Exception);
 
-        virtual Node* parse(const std::string& formula) throw (fl::Exception);
+        virtual Node* parse(const std::string& formula); // throw (fl::Exception);
 
-        virtual std::string toPostfix(const std::string& formula) const throw (fl::Exception);
+        virtual std::string toPostfix(const std::string& formula) const; //throw (fl::Exception);
 
         virtual std::string space(const std::string& formula) const;
 

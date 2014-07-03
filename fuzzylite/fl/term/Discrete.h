@@ -54,7 +54,7 @@ namespace fl {
         //Warning: this method is unsafe. Make sure you use it correctly.
         template <typename T>
         static Discrete* create(const std::string& name, int argc,
-                T x1, T y1, ...) throw (fl::Exception);
+                T x1, T y1, ...);// throw (fl::Exception);
 
         virtual scalar membership(scalar x) const;
 

@@ -107,7 +107,7 @@ namespace fl {
 
     template <typename T>
     Linear* Linear::create(const std::string& name,
-            const Engine* engine, T firstCoefficient, ...) throw (fl::Exception) {
+            const Engine* engine, T firstCoefficient, ...){// throw (fl::Exception) {
         if (not engine) throw fl::Exception("[linear error] cannot create term <" + name + "> "
                 "without a reference to the engine", FL_AT);
         std::vector<scalar> coefficients;

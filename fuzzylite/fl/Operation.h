@@ -121,7 +121,7 @@ namespace fl {
                 const std::string& replacement = "");
 
         static scalar toScalar(const std::string& x, bool quiet = false,
-                scalar alternative = fl::nan) throw (fl::Exception);
+                scalar alternative = fl::nan);
 
         static bool isNumeric(const std::string& x);
 

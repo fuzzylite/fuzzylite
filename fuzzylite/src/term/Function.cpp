@@ -321,7 +321,7 @@ namespace fl {
     }
 
     Function* Function::create(const std::string& name,
-            const std::string& infix, const Engine* engine) throw (fl::Exception) {
+            const std::string& infix, const Engine* engine){
         std::auto_ptr<Function> result(new Function(name));
         result->load(infix, engine);
         return result.release();
@@ -334,16 +334,16 @@ namespace fl {
         }
     }
 
-    void Function::load() throw (fl::Exception) {
+    void Function::load() {
         load(this->_formula);
     }
 
-    void Function::load(const std::string& formula) throw (fl::Exception) {
+    void Function::load(const std::string& formula) {
         load(formula, this->_engine);
     }
 
     void Function::load(const std::string& formula,
-            const Engine* engine) throw (fl::Exception) {
+            const Engine* engine) {
         unload();
         this->_formula = formula;
         this->_engine = engine;
@@ -406,7 +406,7 @@ namespace fl {
      * TODO: Maybe change it for http://en.wikipedia.org/wiki/Operator-precedence_parser
      ***************************************/
 
-    std::string Function::toPostfix(const std::string& formula) const throw (fl::Exception) {
+    std::string Function::toPostfix(const std::string& formula) const {
         std::string spacedFormula = space(formula);
 
         std::queue<std::string> queue;
@@ -511,7 +511,7 @@ namespace fl {
     //        return true;
     //    }
 
-    Function::Node* Function::parse(const std::string& formula) throw (fl::Exception) {
+    Function::Node* Function::parse(const std::string& formula)  {
         if (formula.empty())
             throw fl::Exception("[function error] formula is empty", FL_AT);
         std::string postfix = toPostfix(formula);

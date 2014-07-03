@@ -100,7 +100,9 @@ namespace fl {
 
 //to ignore warnings dealing with exceptions in Windows:
 //http://msdn.microsoft.com/en-us/library/sa28fef8%28v=vs.80%29.aspx
-#pragma warning(disable:4290) //C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+
+//no longer needed
+//#pragma warning(disable:4290) //C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
 
 #pragma warning(disable:4251) //Windows NMake complains I should have pointers in all headers instead of stack allocated objects. For example, std::string* instead of std::string.
 

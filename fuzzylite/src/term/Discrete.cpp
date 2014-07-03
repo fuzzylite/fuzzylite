@@ -108,7 +108,7 @@ namespace fl {
 
     template <typename T>
     Discrete* Discrete::create(const std::string& name, int argc,
-            T x1, T y1, ...) throw (fl::Exception) {
+            T x1, T y1, ...){ // throw (fl::Exception) {
         std::vector<scalar> xy(argc);
         xy.at(0) = x1;
         xy.at(1) = y1;
@@ -129,10 +129,10 @@ namespace fl {
     }
 
     template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc,
-            double x1, double y1, ...) throw (fl::Exception);
+            double x1, double y1, ...);// throw (fl::Exception);
     //double, not scalar because variadic promotes floats to double
     template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc,
-            int x1, int y1, ...) throw (fl::Exception);
+            int x1, int y1, ...);// throw (fl::Exception);
 
     void Discrete::setXY(const std::vector<Pair>& pairs) {
         this->_xy = pairs;
