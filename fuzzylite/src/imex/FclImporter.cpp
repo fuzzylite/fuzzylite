@@ -34,7 +34,7 @@
 
 namespace fl {
 
-    FclImporter::FclImporter() {
+    FclImporter::FclImporter() : Importer(){
     }
 
     FclImporter::~FclImporter() {

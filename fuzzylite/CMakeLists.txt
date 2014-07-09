@@ -75,7 +75,7 @@ if(NOT APPLE)
 endif()
 
 elseif(WIN32)
-    set(CMAKE_CXX_FLAGS " /WX /W4 /EHsc")
+    set(CMAKE_CXX_FLAGS "/WX /W4 /EHsc")
 	#Wx: Treat warnings as errors. W4: All warnings
 	#http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
 	#EHsc: to ignore C4530: C++ exception handler used, but unwind semantics are not enabled

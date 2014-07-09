@@ -38,14 +38,13 @@ namespace fl {
     class FL_EXPORT Importer {
     public:
 
-        Importer() {
-        }
+        Importer();
+        virtual ~Importer();
 
-        virtual ~Importer() {
-        }
-
-        virtual std::string name() const = 0;
         virtual Engine* fromString(const std::string& s) const = 0;
+        virtual Engine* fromFile(const std::string& path) const;
+        
+        virtual std::string name() const = 0;
         virtual Importer* clone() const = 0;
     };
 

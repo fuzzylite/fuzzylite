@@ -19,36 +19,41 @@
 // #END_LICENSE
 
 /* 
- * File:   Exporter.h
+ * File:   Importer.cpp
  * Author: jcrada
  *
- * Created on 25 December 2012, 11:40 PM
+ * Created on 7 July 2014, 7:12 PM
  */
 
-#ifndef FL_EXPORTER_H
-#define	FL_EXPORTER_H
+#include "fl/imex/Importer.h"
+#include "fl/Exception.h"
 
-#include "fl/fuzzylite.h"
-
-#include <string>
+#include <fstream>
+#include <ostream>
 
 namespace fl {
-    class Engine;
 
-    class FL_EXPORT Exporter {
-    public:
+    Importer::Importer() {
+    }
 
-        Exporter();
-        virtual ~Exporter();
+    Importer::~Importer() {
 
-        virtual std::string toString(const Engine* engine) const = 0;
-        virtual void toFile(const std::string& path, const Engine* engine) const;
+    }
 
-        virtual std::string name() const = 0;
-        virtual Exporter* clone() const = 0;
-    };
+    Engine* Importer::fromFile(const std::string& path) const {
+        std::ifstream reader(path.c_str());
+        if (not reader.is_open()) {
+            throw fl::Exception("[file error] file <" + path + "> could not be opened", FL_AT);
+        }
+        std::ostringstream textEngine;
+        std::string line;
+        while (std::getline(reader, line)) {
+            textEngine << line << std::endl;
+        }
+        reader.close();
+        return fromString(textEngine.str());
+    }
+
+
 
 }
-
-#endif	/* FL_EXPORTER_H */
-

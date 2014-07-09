@@ -33,7 +33,7 @@
 
 namespace fl {
 
-    FisExporter::FisExporter() {
+    FisExporter::FisExporter() : Exporter(){
     }
 
     FisExporter::~FisExporter() {

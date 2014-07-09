@@ -27,6 +27,7 @@ src/hedge/Seldom.cpp
 src/hedge/Somewhat.cpp
 src/hedge/Very.cpp
 src/imex/CppExporter.cpp
+src/imex/Exporter.cpp
 src/imex/FclExporter.cpp
 src/imex/FclImporter.cpp
 src/imex/FisExporter.cpp
@@ -34,6 +35,7 @@ src/imex/FisImporter.cpp
 src/imex/FldExporter.cpp
 src/imex/FllExporter.cpp
 src/imex/FllImporter.cpp
+src/imex/Importer.cpp
 src/imex/JavaExporter.cpp
 src/main.cpp
 src/norm/s/AlgebraicSum.cpp

@@ -142,7 +142,7 @@ Version 5.0
 * Changed name of debug libraries to fuzzylited.dll and fuzzylite-staticd.lib
 * Removed method Operation::toScalar(std::string, bool, scalar)
 * Added method Operation::toScalar(std::string) [throws Exception], and ::toScalar(std::string, scalar alternative) throw()
-
+* Added method ImEx::(from|to)File to import and export engines using files
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.

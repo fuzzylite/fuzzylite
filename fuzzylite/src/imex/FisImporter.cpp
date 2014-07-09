@@ -36,7 +36,7 @@
 
 namespace fl {
 
-    FisImporter::FisImporter() {
+    FisImporter::FisImporter() : Importer() {
     }
 
     FisImporter::~FisImporter() {

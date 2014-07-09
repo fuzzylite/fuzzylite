@@ -19,36 +19,34 @@
 // #END_LICENSE
 
 /* 
- * File:   Exporter.h
+ * File:   Exporter.cpp
  * Author: jcrada
  *
- * Created on 25 December 2012, 11:40 PM
+ * Created on 7 July 2014, 7:12 PM
  */
 
-#ifndef FL_EXPORTER_H
-#define	FL_EXPORTER_H
+#include "fl/imex/Exporter.h"
+#include "fl/Exception.h"
 
-#include "fl/fuzzylite.h"
-
-#include <string>
+#include <fstream>
 
 namespace fl {
-    class Engine;
 
-    class FL_EXPORT Exporter {
-    public:
+    Exporter::Exporter() {
 
-        Exporter();
-        virtual ~Exporter();
+    }
 
-        virtual std::string toString(const Engine* engine) const = 0;
-        virtual void toFile(const std::string& path, const Engine* engine) const;
+    Exporter::~Exporter() {
 
-        virtual std::string name() const = 0;
-        virtual Exporter* clone() const = 0;
-    };
+    }
+
+    void Exporter::toFile(const std::string& path, const Engine* engine) const {
+        std::ofstream writer(path.c_str());
+        if (not writer.is_open()) {
+            throw fl::Exception("[file error] file <" + path + "> could not be created", FL_AT);
+        }
+        writer << toString(engine) << std::endl;
+        writer.close();
+    }
 
 }
-
-#endif	/* FL_EXPORTER_H */
-

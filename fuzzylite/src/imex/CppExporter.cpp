@@ -33,7 +33,8 @@
 
 namespace fl {
 
-    CppExporter::CppExporter(bool prefixNamespace) : _prefixNamespace(prefixNamespace) {
+    CppExporter::CppExporter(bool prefixNamespace) : Exporter(),
+    _prefixNamespace(prefixNamespace) {
     }
 
     CppExporter::~CppExporter() {

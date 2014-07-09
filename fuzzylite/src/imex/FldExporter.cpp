@@ -39,8 +39,8 @@
 
 namespace fl {
 
-    FldExporter::FldExporter(const std::string& separator)
-    : _separator(separator), _exportHeaders(true),
+    FldExporter::FldExporter(const std::string& separator) : Exporter(),
+    _separator(separator), _exportHeaders(true),
     _exportInputValues(true), _exportOutputValues(true) {
 
     }
@@ -111,6 +111,15 @@ namespace fl {
         return result.str();
     }
 
+    void FldExporter::toFile(const std::string& path, Engine* engine, int maximumNumberOfResults) const {
+        std::ofstream writer(path.c_str());
+        if (not writer.is_open()) {
+            throw fl::Exception("[file error] file <" + path + "> could not be created", FL_AT);
+        }
+        write(engine, writer, maximumNumberOfResults);
+        writer.close();
+    }
+
     std::string FldExporter::toString(Engine* engine, const std::string& inputData) const {
         std::ostringstream writer;
         if (_exportHeaders) writer << header(engine) << "\n";
@@ -126,6 +135,26 @@ namespace fl {
             writer.flush();
         }
         return writer.str();
+    }
+
+    void FldExporter::toFile(const std::string& path, Engine* engine, const std::string& inputData) const {
+        std::ofstream writer(path.c_str());
+        if (not writer.is_open()) {
+            throw fl::Exception("[file error] file <" + path + "> could not be created", FL_AT);
+        }
+        if (_exportHeaders) writer << header(engine) << "\n";
+        std::istringstream reader(inputData);
+        std::string line;
+        int lineNumber = 0;
+        while (std::getline(reader, line)) {
+            ++lineNumber;
+            line = Op::trim(line);
+            if (not line.empty() and line.at(0) == '#') continue; //comments are ignored, blank lines are retained
+            std::vector<scalar> inputValues = parse(line);
+            write(engine, writer, inputValues);
+            writer.flush();
+        }
+        writer.close();
     }
 
     std::vector<scalar> FldExporter::parse(const std::string& x) const {
@@ -168,9 +197,9 @@ namespace fl {
 
     void FldExporter::write(Engine* engine, std::ostream& writer, std::istream& reader) const {
         if (_exportHeaders) writer << header(engine) << "\n";
-        
+
         engine->restart();
-        
+
         std::string line;
         int lineNumber = 0;
         while (std::getline(reader, line)) {
