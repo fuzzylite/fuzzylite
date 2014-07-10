@@ -41,7 +41,9 @@ namespace fl {
     CloningFactory<T>::CloningFactory(const CloningFactory& source) {
         typename std::map<std::string, T>::const_iterator it = source._objects.begin();
         while (it != source._objects.end()) {
-            this->_objects[it->first] = it->second->clone();
+            T clone = NULL;
+            if (it->second) clone = it->second->clone();
+            this->_objects[it->first] = clone;
             ++it;
         }
     }
@@ -58,7 +60,9 @@ namespace fl {
 
         it = rhs._objects.begin();
         while (it != rhs._objects.end()) {
-            this->_objects[it->first] = it->second->clone();
+            T clone = NULL;
+            if (it->second) clone = it->second->clone();
+            this->_objects[it->first] = clone;
             ++it;
         }
         return *this;

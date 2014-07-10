@@ -146,6 +146,8 @@ namespace fl {
         scalar result = fl::nan;
         bool isValid = this->_enabled and not this->_fuzzyOutput->isEmpty();
         if (isValid) {
+            if (not _defuzzifier.get()) throw fl::Exception("[defuzzifier error] "
+                    "defuzzifier needed to defuzzify output variable <" + _name + ">", FL_AT);
             result = this->_defuzzifier->defuzzify(this->_fuzzyOutput, _minimum, _maximum);
         } else {
             //if a previous defuzzification was successfully performed and
@@ -167,12 +169,7 @@ namespace fl {
     std::string OutputVariable::fuzzyOutputValue() const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
-            scalar degree = fl::nan;
-            try {
-                degree = fuzzyOutput()->activationDegree(_terms.at(i));
-            } catch (...) {
-                //ignore
-            }
+            scalar degree = fuzzyOutput()->activationDegree(_terms.at(i));
             if (i == 0) {
                 ss << fl::Op::str(degree);
             } else {

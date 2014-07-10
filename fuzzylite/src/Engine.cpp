@@ -27,31 +27,30 @@
 
 #include "fl/Engine.h"
 
+#include "fl/defuzzifier/WeightedAverage.h"
+#include "fl/defuzzifier/WeightedSum.h"
 #include "fl/factory/DefuzzifierFactory.h"
 #include "fl/factory/FactoryManager.h"
 #include "fl/factory/SNormFactory.h"
 #include "fl/factory/TNormFactory.h"
 #include "fl/hedge/Hedge.h"
-#include "fl/variable/InputVariable.h"
-#include "fl/variable/OutputVariable.h"
-#include "fl/rule/RuleBlock.h"
-#include "fl/rule/Rule.h"
-#include "fl/term/Accumulated.h"
-
 #include "fl/imex/FllExporter.h"
-
-#include "fl/defuzzifier/WeightedAverage.h"
-#include "fl/defuzzifier/WeightedSum.h"
-
+#include "fl/norm/t/AlgebraicProduct.h"
+#include "fl/rule/Consequent.h"
+#include "fl/rule/Expression.h"
+#include "fl/rule/Rule.h"
+#include "fl/rule/RuleBlock.h"
+#include "fl/term/Accumulated.h"
 #include "fl/term/Constant.h"
 #include "fl/term/Linear.h"
 #include "fl/term/Function.h"
-
-#include "fl/norm/t/AlgebraicProduct.h"
 #include "fl/term/Ramp.h"
 #include "fl/term/Sigmoid.h"
 #include "fl/term/SShape.h"
 #include "fl/term/ZShape.h"
+#include "fl/variable/InputVariable.h"
+#include "fl/variable/OutputVariable.h"
+
 
 namespace fl {
 
@@ -110,11 +109,6 @@ namespace fl {
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) delete _inputVariables.at(i);
     }
 
-    void Engine::configure(const std::string& activationT, const std::string& accumulationS,
-            const std::string& defuzzifier, int resolution) {
-        configure("", "", activationT, accumulationS, defuzzifier, resolution);
-    }
-
     void Engine::configure(const std::string& conjunctionT, const std::string& disjunctionS,
             const std::string& activationT, const std::string& accumulationS,
             const std::string& defuzzifierName, int resolution) {
@@ -130,21 +124,10 @@ namespace fl {
         if (integralDefuzzifier) integralDefuzzifier->setResolution(resolution);
 
         configure(conjunction, disjunction, activation, accumulation, defuzzifier);
-
-        if (defuzzifier) delete defuzzifier;
-        if (accumulation) delete accumulation;
-        if (activation) delete activation;
-        if (disjunction) delete disjunction;
-        if (conjunction) delete conjunction;
     }
 
-    void Engine::configure(const TNorm* activation, const SNorm* accumulation,
-            const Defuzzifier* defuzzifier) {
-        configure(NULL, NULL, activation, accumulation, defuzzifier);
-    }
-
-    void Engine::configure(const TNorm* conjunction, const SNorm* disjunction,
-            const TNorm* activation, const SNorm* accumulation, const Defuzzifier* defuzzifier) {
+    void Engine::configure(TNorm* conjunction, SNorm* disjunction,
+            TNorm* activation, SNorm* accumulation, Defuzzifier* defuzzifier) {
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
             _ruleblocks.at(i)->setConjunction(conjunction ? conjunction->clone() : NULL);
             _ruleblocks.at(i)->setDisjunction(disjunction ? disjunction->clone() : NULL);
@@ -156,6 +139,11 @@ namespace fl {
             _outputVariables.at(i)->fuzzyOutput()->setAccumulation(
                     accumulation ? accumulation->clone() : NULL);
         }
+        if (defuzzifier) delete defuzzifier;
+        if (accumulation) delete accumulation;
+        if (activation) delete activation;
+        if (disjunction) delete disjunction;
+        if (conjunction) delete conjunction;
     }
 
     bool Engine::isReady(std::string* status) const {
@@ -212,6 +200,7 @@ namespace fl {
                 }
                 int requiresConjunction = 0;
                 int requiresDisjunction = 0;
+                int requiresActivation = 0;
                 for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
                     Rule* rule = ruleblock->getRule(r);
                     if (not rule) {
@@ -226,6 +215,18 @@ namespace fl {
                         }
                         if (orIndex != std::string::npos and orIndex < thenIndex) {
                             ++requiresDisjunction;
+                        }
+                        if (rule->isLoaded()) {
+                            Consequent* consequent = rule->getConsequent();
+                            for (std::size_t c = 0; c < consequent->conclusions().size(); ++c) {
+                                Proposition* proposition = consequent->conclusions().at(c);
+                                const OutputVariable* outputVariable =
+                                        dynamic_cast<const OutputVariable*> (proposition->variable);
+                                if (outputVariable and dynamic_cast<IntegralDefuzzifier*> (outputVariable->getDefuzzifier())) {
+                                    ++requiresActivation;
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
@@ -242,8 +243,10 @@ namespace fl {
                             << requiresDisjunction << " rules that require Disjunction\n";
                 }
                 const TNorm* activation = ruleblock->getActivation();
-                if (not activation) {
+                if (requiresActivation > 0 and not activation) {
                     ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no Activation\n";
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has "
+                            << requiresActivation << " rules that require Activation\n";
                 }
             }
         }
@@ -454,7 +457,7 @@ namespace fl {
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             OutputVariable* outputVariable = _outputVariables.at(i);
             //Output variables have non-NULL defuzzifiers
-            hybrid  = hybrid and outputVariable->getDefuzzifier();
+            hybrid = hybrid and outputVariable->getDefuzzifier();
         }
         if (hybrid) {
             if (name) *name = "Hybrid";

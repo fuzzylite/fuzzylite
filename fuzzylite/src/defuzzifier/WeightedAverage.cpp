@@ -48,7 +48,7 @@ namespace fl {
                     << "<" << term->toString() << ">";
             throw fl::Exception(ss.str(), FL_AT);
         }
-        
+
         minimum = fuzzyOutput->getMinimum();
         maximum = fuzzyOutput->getMaximum();
 
@@ -68,7 +68,8 @@ namespace fl {
                     : tsukamoto(activated, minimum, maximum);
 
             //Traditionally, activation is the AlgebraicProduct sum{w_i*z_i}/sum{w_i}
-            sum += activated->getActivation()->compute(w, z);
+            if (activated->getActivation()) sum += activated->getActivation()->compute(w, z);
+            else sum += w * z;
             weights += w;
         }
 

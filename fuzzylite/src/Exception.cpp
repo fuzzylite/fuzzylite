@@ -145,6 +145,7 @@ namespace fl {
 #ifdef FL_UNIX
         ex << strsignal(signal);
 #endif
+        ex << "\nBACKTRACE:\n" << btCallStack();
         fl::Exception::catchException(fl::Exception(ex.str(), FL_AT));
         exit(EXIT_FAILURE);
     }
@@ -166,7 +167,7 @@ namespace fl {
     }
 
     void Exception::terminate() {
-        fl::Exception::catchException(fl::Exception("[unexpected exception]", FL_AT));
+        fl::Exception::catchException(fl::Exception("[unexpected exception] BACKTRACE:\n" + btCallStack(), FL_AT));
         exit(EXIT_FAILURE);
     }
 

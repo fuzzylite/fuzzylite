@@ -51,20 +51,16 @@ namespace fl {
     Rule& Rule::operator =(const Rule& rhs) {
         if (this == &rhs) return *this;
         unload();
-        if (_consequent) delete _consequent;
-        if (_antecedent) delete _antecedent;
 
         _text = rhs._text;
         _weight = rhs._weight;
-        _antecedent = new Antecedent;
-        _consequent = new Consequent;
+        _antecedent.reset(new Antecedent);
+        _consequent.reset(new Consequent);
         return *this;
     }
 
     Rule::~Rule() {
         unload();
-        delete _antecedent;
-        delete _consequent;
     }
 
     void Rule::setText(const std::string& text) {
@@ -84,19 +80,19 @@ namespace fl {
     }
 
     void Rule::setAntecedent(Antecedent* antecedent) {
-        this->_antecedent = antecedent;
+        this->_antecedent.reset(antecedent);
     }
 
     Antecedent* Rule::getAntecedent() const {
-        return this->_antecedent;
+        return this->_antecedent.get();
     }
 
     void Rule::setConsequent(Consequent* consequent) {
-        this->_consequent = consequent;
+        this->_consequent.reset(consequent);
     }
 
     Consequent* Rule::getConsequent() const {
-        return this->_consequent;
+        return this->_consequent.get();
     }
 
     /**
@@ -230,7 +226,7 @@ namespace fl {
             }
             if (state == S_NONE) {
                 std::ostringstream ex;
-                ex << "[syntax error] " << (rule.empty() ? "empty rule" : "ignored rule: " + rule );
+                ex << "[syntax error] " << (rule.empty() ? "empty rule" : "ignored rule: " + rule);
                 throw fl::Exception(ex.str(), FL_AT);
             } else if (state == S_IF) {
                 std::ostringstream ex;
@@ -246,8 +242,7 @@ namespace fl {
             _consequent->load(ossConsequent.str(), this, engine);
             _weight = weight;
 
-        } catch (fl::Exception& ex) {
-            (void) ex;
+        } catch (...) {
             unload();
             throw;
         }

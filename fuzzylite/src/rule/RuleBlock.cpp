@@ -74,6 +74,7 @@ namespace fl {
         for (std::size_t i = 0; i < _rules.size(); ++i) {
             delete _rules.at(i);
         }
+        _rules.clear();
     }
 
     void RuleBlock::activate() {

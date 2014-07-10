@@ -29,14 +29,15 @@
 
 #include "fl/imex/FllExporter.h"
 #include "fl/norm/SNorm.h"
+#include "fl/norm/s/Maximum.h"
 #include "fl/term/Activated.h"
+
 
 namespace fl {
 
     Accumulated::Accumulated(const std::string& name, scalar minimum, scalar maximum,
             SNorm* accumulation)
-    : Term(name), _minimum(minimum), _maximum(maximum) {
-        _accumulation.reset(accumulation);
+    : Term(name), _minimum(minimum), _maximum(maximum), _accumulation(accumulation) {
     }
 
     Accumulated::Accumulated(const Accumulated& source) : Term(source) {
@@ -77,6 +78,9 @@ namespace fl {
         if (fl::Op::isNaN(x)) return fl::nan;
         scalar mu = 0.0;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
+            if (not _accumulation.get()) //For IntegralDefuzzifier
+                throw fl::Exception("[accumulation error] "
+                    "accumulation operator needed to accumulate " + toString(), FL_AT);
             mu = _accumulation->compute(mu, _terms.at(i)->membership(x));
         }
         return mu;
@@ -87,7 +91,8 @@ namespace fl {
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             Activated* activatedTerm = _terms.at(i);
             if (activatedTerm->getTerm() == forTerm) {
-                result = _accumulation->compute(result, activatedTerm->getDegree());
+                if (not _accumulation.get()) result += activatedTerm->getDegree(); //Default for WeightDefuzzifier
+                else result = _accumulation->compute(result, activatedTerm->getDegree());
             }
         }
         return result;

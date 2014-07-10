@@ -46,6 +46,8 @@ namespace fl {
 
     scalar Activated::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
+        if (not _activation) throw fl::Exception("[activation error] "
+                "activation operator needed to activate " + _term->toString(), FL_AT);
         return _activation->compute(this->_term->membership(x), _degree);
     }
 

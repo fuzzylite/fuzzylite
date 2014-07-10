@@ -63,11 +63,6 @@ namespace fl {
         Engine& operator=(const Engine& rhs);
         virtual ~Engine();
 
-        virtual void configure(const std::string& activationT,
-                const std::string& accumulationS,
-                const std::string& defuzzifier,
-                int resolution = IntegralDefuzzifier::defaultResolution());
-
         virtual void configure(const std::string& conjunctionT,
                 const std::string& disjunctionS,
                 const std::string& activationT,
@@ -75,12 +70,9 @@ namespace fl {
                 const std::string& defuzzifier,
                 int resolution = IntegralDefuzzifier::defaultResolution());
 
-        virtual void configure(const TNorm* activation, const SNorm* accumulation,
-                const Defuzzifier* defuzzifier);
-
-        virtual void configure(const TNorm* conjunction, const SNorm* disjunction,
-                const TNorm* activation, const SNorm* accumulation,
-                const Defuzzifier* defuzzifier);
+        virtual void configure(TNorm* conjunction, SNorm* disjunction,
+                TNorm* activation, SNorm* accumulation,
+                Defuzzifier* defuzzifier);
 
         virtual bool isReady(std::string* status = NULL) const;
 

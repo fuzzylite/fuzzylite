@@ -56,96 +56,76 @@ namespace fl {
 
     FactoryManager::FactoryManager(const FactoryManager& source)
     : _tnorm(NULL), _snorm(NULL), _defuzzifier(NULL), _term(NULL), _hedge(NULL), _function(NULL) {
-        if (source._tnorm) this->_tnorm = new TNormFactory(*source._tnorm);
-        if (source._snorm) this->_snorm = new SNormFactory(*source._snorm);
-        if (source._defuzzifier) this->_defuzzifier = new DefuzzifierFactory(*source._defuzzifier);
-        if (source._term) this->_term = new TermFactory(*source._term);
-        if (source._hedge) this->_hedge = new HedgeFactory(*source._hedge);
-        if (source._function) this->_function = new FunctionFactory(*source._function);
+        this->_tnorm.reset(new TNormFactory(*source._tnorm.get()));
+        this->_snorm.reset(new SNormFactory(*source._snorm.get()));
+        this->_defuzzifier.reset(new DefuzzifierFactory(*source._defuzzifier.get()));
+        this->_term.reset(new TermFactory(*source._term.get()));
+        this->_hedge.reset(new HedgeFactory(*source._hedge.get()));
+        this->_function.reset(new FunctionFactory(*source._function.get()));
     }
 
     FactoryManager& FactoryManager::operator =(const FactoryManager& rhs) {
         if (this == &rhs) return *this;
 
-        if (this->_tnorm) delete this->_tnorm;
-        if (this->_snorm) delete this->_snorm;
-        if (this->_defuzzifier) delete this->_defuzzifier;
-        if (this->_term) delete this->_term;
-        if (this->_hedge) delete this->_hedge;
-        if (this->_function) delete this->_function;
-
-        this->_tnorm = NULL;
-        this->_snorm = NULL;
-        this->_defuzzifier = NULL;
-        this->_term = NULL;
-        this->_hedge = NULL;
-        this->_function = NULL;
-
-        if (rhs._tnorm) this->_tnorm = new TNormFactory(*rhs._tnorm);
-        if (rhs._snorm) this->_snorm = new SNormFactory(*rhs._snorm);
-        if (rhs._defuzzifier) this->_defuzzifier = new DefuzzifierFactory(*rhs._defuzzifier);
-        if (rhs._term) this->_term = new TermFactory(*rhs._term);
-        if (rhs._hedge) this->_hedge = new HedgeFactory(*rhs._hedge);
-        if (rhs._function) this->_function = new FunctionFactory(*rhs._function);
+        this->_tnorm.reset(new TNormFactory(*rhs._tnorm.get()));
+        this->_snorm.reset(new SNormFactory(*rhs._snorm.get()));
+        this->_defuzzifier.reset(new DefuzzifierFactory(*rhs._defuzzifier.get()));
+        this->_term.reset(new TermFactory(*rhs._term.get()));
+        this->_hedge.reset(new HedgeFactory(*rhs._hedge.get()));
+        this->_function.reset(new FunctionFactory(*rhs._function.get()));
 
         return *this;
     }
 
     FactoryManager::~FactoryManager() {
-        if (_function) delete _function;
-        if (_hedge) delete _hedge;
-        if (_term) delete _term;
-        if (_defuzzifier) delete _defuzzifier;
-        if (_snorm) delete _snorm;
-        if (_tnorm) delete _tnorm;
     }
 
     void FactoryManager::setTnorm(TNormFactory* tnorm) {
-        this->_tnorm = tnorm;
+        this->_tnorm.reset(tnorm);
     }
 
     TNormFactory* FactoryManager::tnorm() const {
-        return this->_tnorm;
+        return this->_tnorm.get();
     }
 
     void FactoryManager::setSnorm(SNormFactory* snorm) {
-        this->_snorm = snorm;
+        this->_snorm.reset(snorm);
     }
 
     SNormFactory* FactoryManager::snorm() const {
-        return this->_snorm;
+        return this->_snorm.get();
     }
 
     void FactoryManager::setDefuzzifier(DefuzzifierFactory* defuzzifier) {
-        this->_defuzzifier = defuzzifier;
+        this->_defuzzifier.reset(defuzzifier);
     }
 
     DefuzzifierFactory* FactoryManager::defuzzifier() const {
-        return this->_defuzzifier;
+        return this->_defuzzifier.get();
     }
 
     void FactoryManager::setTerm(TermFactory* term) {
-        this->_term = term;
+        this->_term.reset(term);
     }
 
     TermFactory* FactoryManager::term() const {
-        return this->_term;
+        return this->_term.get();
     }
 
     void FactoryManager::setHedge(HedgeFactory* hedge) {
-        this->_hedge = hedge;
+        this->_hedge.reset( hedge);
     }
 
     HedgeFactory* FactoryManager::hedge() const {
-        return this->_hedge;
+        return this->_hedge.get();
     }
 
     void FactoryManager::setFunction(FunctionFactory* function) {
-        this->_function = function;
+        this->_function.reset(function);
     }
 
     FunctionFactory* FactoryManager::function() const {
-        return this->_function;
+        return this->_function.get();
     }
 
 }

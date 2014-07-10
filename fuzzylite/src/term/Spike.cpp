@@ -42,7 +42,6 @@ namespace fl {
     std::string Spike::parameters() const {
         return Op::join(2, " ", _center, _width) +
                 (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
-        ;
     }
 
     void Spike::configure(const std::string& parameters) {
@@ -57,7 +56,7 @@ namespace fl {
         }
         setCenter(Op::toScalar(values.at(0)));
         setWidth(Op::toScalar(values.at(1)));
-        if (values.size() > required) 
+        if (values.size() > required)
             setHeight(Op::toScalar(values.at(required)));
     }
 

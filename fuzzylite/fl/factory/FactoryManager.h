@@ -29,6 +29,7 @@
 #define	FL_FACTORYMANAGER_H
 
 #include "fl/fuzzylite.h"
+#include <memory>
 
 namespace fl {
     class TNormFactory;
@@ -42,12 +43,12 @@ namespace fl {
     protected:
         static FactoryManager _instance;
 
-        TNormFactory* _tnorm;
-        SNormFactory* _snorm;
-        DefuzzifierFactory* _defuzzifier;
-        TermFactory* _term;
-        HedgeFactory* _hedge;
-        FunctionFactory* _function;
+        std::auto_ptr<TNormFactory> _tnorm;
+        std::auto_ptr<SNormFactory> _snorm;
+        std::auto_ptr<DefuzzifierFactory> _defuzzifier;
+        std::auto_ptr<TermFactory> _term;
+        std::auto_ptr<HedgeFactory> _hedge;
+        std::auto_ptr<FunctionFactory> _function;
 
         FactoryManager();
         FactoryManager(TNormFactory* tnorm, SNormFactory* snorm,

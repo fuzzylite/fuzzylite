@@ -143,6 +143,13 @@ Version 5.0
 * Removed method Operation::toScalar(std::string, bool, scalar)
 * Added method Operation::toScalar(std::string) [throws Exception], and ::toScalar(std::string, scalar alternative) throw()
 * Added method ImEx::(from|to)File to import and export engines using files
+* WeightedAverage and WeightedSum without Activation operators have default behaviour, i.e., AlgebraicProduct
+* FactoryManager utilizes smart pointers.
+* Rule utilizes smart pointers for Antecedent and Consequent
+* Exceptions are thrown when Conjunction, Disjunction, Activation and Accumulation operators are NULL when they are required
+* Exception is thrown when Defuzzifier is required and not set.
+
+
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.

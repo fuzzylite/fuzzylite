@@ -31,6 +31,7 @@
 #include "fl/factory/ConstructionFactory.h"
 
 #include "fl/defuzzifier/Defuzzifier.h"
+#include "fl/defuzzifier/IntegralDefuzzifier.h"
 
 namespace fl {
 
@@ -39,7 +40,8 @@ namespace fl {
         DefuzzifierFactory();
         virtual ~DefuzzifierFactory();
 
-        virtual Defuzzifier* constructDefuzzifier(const std::string& key, int resolution) const;
+        virtual Defuzzifier* constructDefuzzifier(const std::string& key,
+                int resolution = IntegralDefuzzifier::defaultResolution()) const;
     };
 }
 #endif	/* DEFUZZIFIERFACTORY_H */

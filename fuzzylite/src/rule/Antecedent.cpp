@@ -113,15 +113,21 @@ namespace fl {
             ex << "[syntax error] left and right operands must exist";
             throw fl::Exception(ex.str(), FL_AT);
         }
-        if (fuzzyOperator->name == Rule::andKeyword())
+        if (fuzzyOperator->name == Rule::andKeyword()) {
+            if (not conjunction) throw fl::Exception("[conjunction error] "
+                    "the following rule requires a conjunction operator:\n" + _text, FL_AT);
             return conjunction->compute(
-                this->activationDegree(conjunction, disjunction, fuzzyOperator->left),
-                this->activationDegree(conjunction, disjunction, fuzzyOperator->right));
+                    this->activationDegree(conjunction, disjunction, fuzzyOperator->left),
+                    this->activationDegree(conjunction, disjunction, fuzzyOperator->right));
+        }
 
-        if (fuzzyOperator->name == Rule::orKeyword())
+        if (fuzzyOperator->name == Rule::orKeyword()) {
+            if (not disjunction) throw fl::Exception("[disjunction error] "
+                    "the following rule requires a disjunction operator:\n" + _text, FL_AT);
             return disjunction->compute(
-                this->activationDegree(conjunction, disjunction, fuzzyOperator->left),
-                this->activationDegree(conjunction, disjunction, fuzzyOperator->right));
+                    this->activationDegree(conjunction, disjunction, fuzzyOperator->left),
+                    this->activationDegree(conjunction, disjunction, fuzzyOperator->right));
+        }
         std::ostringstream ex;
         ex << "[syntax error] operator <" << fuzzyOperator->name << "> not recognized";
         throw fl::Exception(ex.str(), FL_AT);
@@ -298,8 +304,7 @@ namespace fl {
                         << Op::join(errors, " ") << ">";
                 throw fl::Exception(ex.str(), FL_AT);
             }
-        } catch (std::exception& ex) {
-            (void) ex;
+        } catch (...) {
             for (std::size_t i = 0; i < expressionStack.size(); ++i) {
                 delete expressionStack.top();
                 expressionStack.pop();
@@ -322,8 +327,7 @@ namespace fl {
         if (dynamic_cast<const Proposition*> (node)) {
             return node->toString();
         }
-        const Operator* fuzzyOperator =
-                dynamic_cast<const Operator*> (node);
+        const Operator* fuzzyOperator = dynamic_cast<const Operator*> (node);
         std::stringstream ss;
         ss << fuzzyOperator->toString() << " "
                 << toPrefix(fuzzyOperator->left) << " "
@@ -339,8 +343,7 @@ namespace fl {
         if (dynamic_cast<const Proposition*> (node)) {
             return node->toString();
         }
-        const Operator* fuzzyOperator =
-                dynamic_cast<const Operator*> (node);
+        const Operator* fuzzyOperator = dynamic_cast<const Operator*> (node);
         std::stringstream ss;
         ss << toInfix(fuzzyOperator->left) << " "
                 << fuzzyOperator->toString() << " "
@@ -356,8 +359,7 @@ namespace fl {
         if (dynamic_cast<const Proposition*> (node)) {
             return node->toString();
         }
-        const Operator* fuzzyOperator =
-                dynamic_cast<const Operator*> (node);
+        const Operator* fuzzyOperator = dynamic_cast<const Operator*> (node);
         std::stringstream ss;
         ss << toPostfix(fuzzyOperator->left) << " "
                 << toPostfix(fuzzyOperator->right) << " "

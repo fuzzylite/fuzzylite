@@ -227,8 +227,7 @@ namespace fl {
                     throw fl::Exception(ex.str(), FL_AT);
                 }
             }
-        } catch (std::exception& ex) {
-            (void) ex;
+        } catch (...) {
             unload();
             throw;
         }
