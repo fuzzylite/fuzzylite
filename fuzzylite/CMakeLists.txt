@@ -71,7 +71,7 @@ if(UNIX)
     #set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-rpath,bin/") #does apple recognise these?
 
 if(NOT APPLE)
-        set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
+        set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined") #To avoid undefined methods in library
 endif()
 
 elseif(WIN32)

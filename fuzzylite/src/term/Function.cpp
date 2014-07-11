@@ -321,10 +321,14 @@ namespace fl {
     }
 
     Function* Function::create(const std::string& name,
-            const std::string& infix, const Engine* engine){
+            const std::string& infix, const Engine* engine) {
         std::auto_ptr<Function> result(new Function(name));
         result->load(infix, engine);
         return result.release();
+    }
+
+    bool Function::isLoaded() const {
+        return this->_root;
     }
 
     void Function::unload() {
@@ -332,6 +336,7 @@ namespace fl {
             delete this->_root;
             this->_root = NULL;
         }
+        this->variables.clear();
     }
 
     void Function::load() {
@@ -511,7 +516,7 @@ namespace fl {
     //        return true;
     //    }
 
-    Function::Node* Function::parse(const std::string& formula)  {
+    Function::Node* Function::parse(const std::string& formula) {
         if (formula.empty())
             throw fl::Exception("[function error] formula is empty", FL_AT);
         std::string postfix = toPostfix(formula);
@@ -547,7 +552,7 @@ namespace fl {
             } else if (isOperand) {
                 Node* node;
                 try {
-                    scalar value = fl::Op::toScalar(token, false);
+                    scalar value = fl::Op::toScalar(token);
                     node = new Node(value);
                 } catch (std::exception& ex) {
                     (void) ex;

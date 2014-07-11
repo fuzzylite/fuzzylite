@@ -798,10 +798,11 @@ namespace fl {
             process(options);
         } catch (std::exception& ex) {
             std::cout << ex.what() << "\n"<< std::endl;
+//            std::cout << fl::Exception::btCallStack() << std::endl;
             return EXIT_FAILURE;
         }
         return EXIT_SUCCESS;
-    }
+    } 
 
 
 }

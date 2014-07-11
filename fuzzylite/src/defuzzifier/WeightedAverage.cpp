@@ -26,6 +26,11 @@
 #include "fl/norm/SNorm.h"
 #include "fl/norm/TNorm.h"
 
+#include <map>
+
+//tmp
+#include "fl/term/Function.h"
+
 namespace fl {
 
     WeightedAverage::WeightedAverage(Type type) : WeightedDefuzzifier(type) {
@@ -54,25 +59,53 @@ namespace fl {
 
         scalar sum = 0.0;
         scalar weights = 0.0;
-        for (int i = 0; i < fuzzyOutput->numberOfTerms(); ++i) {
-            Activated* activated = fuzzyOutput->getTerm(i);
-            const Term* term = activated->getTerm();
-            scalar w = activated->getDegree();
 
+        if (not fuzzyOutput->getAccumulation()) {
             Type type = _type;
-            if (type == Automatic) type = inferType(term);
+            for (int i = 0; i < fuzzyOutput->numberOfTerms(); ++i) {
+                Activated* activated = fuzzyOutput->getTerm(i);
+                scalar w = activated->getDegree();
 
-            scalar z = (type == TakagiSugeno)
-                    //? activated.getTerm()->membership(fl::nan) Would ensure no Tsukamoto applies, but Inverse Tsukamoto with Functions would not work.
-                    ? term->membership(w) //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
-                    : tsukamoto(activated, minimum, maximum);
+                if (type == Automatic) type = inferType(activated->getTerm());
 
-            //Traditionally, activation is the AlgebraicProduct sum{w_i*z_i}/sum{w_i}
-            if (activated->getActivation()) sum += activated->getActivation()->compute(w, z);
-            else sum += w * z;
-            weights += w;
+                scalar z = (type == TakagiSugeno)
+                        //? activated.getTerm()->membership(fl::nan) Would ensure no Tsukamoto applies, but Inverse Tsukamoto with Functions would not work.
+                        ? activated->getTerm()->membership(w) //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
+                        : tsukamoto(activated->getTerm(), w, minimum, maximum);
+
+                sum += w * z;
+                weights += w;
+            }
+        } else {
+            typedef std::map<const Term*, std::vector<Activated*> > TermGroup;
+            TermGroup groups;
+            for (int i = 0; i < fuzzyOutput->numberOfTerms(); ++i) {
+                Activated* value = fuzzyOutput->getTerm(i);
+                const Term* key = value->getTerm();
+                groups[key].push_back(value);
+            }
+            TermGroup::const_iterator it = groups.begin();
+            Type type = _type;
+            while (it != groups.end()) {
+                const Term* activatedTerm = it->first;
+                scalar accumulatedDegree = 0.0;
+                for (std::size_t i = 0; i < it->second.size(); ++i)
+                    accumulatedDegree = fuzzyOutput->getAccumulation()->compute(
+                        accumulatedDegree, it->second.at(i)->getDegree());
+
+                if (type == Automatic) type = inferType(activatedTerm);
+
+                scalar z = (type == TakagiSugeno)
+                        //? activated.getTerm()->membership(fl::nan) Would ensure no Tsukamoto applies, but Inverse Tsukamoto with Functions would not work.
+                        ? activatedTerm->membership(accumulatedDegree) //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
+                        : tsukamoto(activatedTerm, accumulatedDegree, minimum, maximum);
+
+                sum += accumulatedDegree * z;
+                weights += accumulatedDegree;
+
+                ++it;
+            }
         }
-
         return sum / weights;
     }
 

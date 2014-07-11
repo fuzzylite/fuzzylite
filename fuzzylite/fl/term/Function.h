@@ -144,8 +144,9 @@ namespace fl {
 
         virtual Node* root() const;
 
+        virtual bool isLoaded() const;
         virtual void unload();
-        virtual void load();// throw (fl::Exception);
+        virtual void load(); // throw (fl::Exception);
         virtual void load(const std::string& formula); // throw (fl::Exception);
         virtual void load(const std::string& formula, const Engine* engine); // throw (fl::Exception);
 

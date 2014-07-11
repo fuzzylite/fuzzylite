@@ -76,11 +76,10 @@ namespace fl {
 
     scalar Accumulated::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
+        if (not (_terms.empty() or _accumulation.get())) throw fl::Exception("[accumulation error] "
+                "accumulation operator needed to accumulate " + toString(), FL_AT);
         scalar mu = 0.0;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
-            if (not _accumulation.get()) //For IntegralDefuzzifier
-                throw fl::Exception("[accumulation error] "
-                    "accumulation operator needed to accumulate " + toString(), FL_AT);
             mu = _accumulation->compute(mu, _terms.at(i)->membership(x));
         }
         return mu;
@@ -91,8 +90,8 @@ namespace fl {
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             Activated* activatedTerm = _terms.at(i);
             if (activatedTerm->getTerm() == forTerm) {
-                if (not _accumulation.get()) result += activatedTerm->getDegree(); //Default for WeightDefuzzifier
-                else result = _accumulation->compute(result, activatedTerm->getDegree());
+                if (_accumulation.get()) result = _accumulation->compute(result, activatedTerm->getDegree());
+                else result += activatedTerm->getDegree(); //Default for WeightDefuzzifier
             }
         }
         return result;

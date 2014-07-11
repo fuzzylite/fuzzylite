@@ -119,9 +119,8 @@ Version 5.0
 * Renamed methods Triangle::(set|get)(A|B|C) to (set|get)(Vertex(A|B|C))
 * Renamed methods Trapezoid::(set|get)(A|B|C|D) to (set|get)(Vertex(A|B|C|D))
 * Removed method fuzzylite::configuration()
-* Removed MACRO FL_DEBUG
-* Removed MACRO FL_BEGIN_DEBUG_BLOCK and FL_END_DEBUG_BLOCK
-* Created MACRO FL_DEBUG_BLOCK(block) to replace FL_BEGIN_DEBUG_BLOCK and FL_END_DEBUG_BLOCK
+* Renamed MACRO FL_DEBUG to FL_DBG
+* Renamed MACRO (FL_BEGIN_DEBUG_BLOCK and FL_END_DEBUG_BLOCK) to (FL_DEBUG_BEGIN and FL_DEBUG_END)
 * Renamed methods in (Fis|Fcl)Importers::extract? to ::parse?
 * Made defaultResolution a static property of IntegralDefuzzifiers
 * Added method Engine::type(name, reason) to show type and reason why type

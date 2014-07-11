@@ -47,9 +47,9 @@ namespace fl {
      * Instead of computing y=f(x), the goal of Tsukamoto is to find x=f(w), 
      * where f is monotonic.
      */
-    scalar WeightedDefuzzifier::tsukamoto(const Activated* term, scalar minimum, scalar maximum) const {
-        const Term* monotonic = term->getTerm();
-        scalar w = term->getDegree();
+    scalar WeightedDefuzzifier::tsukamoto(const Term* monotonic, scalar activationDegree,
+            scalar minimum, scalar maximum) const {
+        scalar w = activationDegree;
         scalar z = fl::nan; //result;
         bool isTsukamoto = true;
         if (const Ramp * ramp = dynamic_cast<const Ramp*> (monotonic)) {
@@ -113,7 +113,7 @@ namespace fl {
                         "might suggest an inaccurate computation of z because it is "
                         "expected w=f(z) in " << monotonic->className() <<
                         " term <" << monotonic->getName() << ">, but "
-                        "w=" << term->getDegree() << " "
+                        "w=" << w << " "
                         "f(z)=" << fz << " and "
                         "z=" << Op::str(z));
             }

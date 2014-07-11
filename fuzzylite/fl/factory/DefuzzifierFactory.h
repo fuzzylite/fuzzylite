@@ -32,6 +32,7 @@
 
 #include "fl/defuzzifier/Defuzzifier.h"
 #include "fl/defuzzifier/IntegralDefuzzifier.h"
+#include "fl/defuzzifier/WeightedDefuzzifier.h"
 
 namespace fl {
 
@@ -41,7 +42,11 @@ namespace fl {
         virtual ~DefuzzifierFactory();
 
         virtual Defuzzifier* constructDefuzzifier(const std::string& key,
-                int resolution = IntegralDefuzzifier::defaultResolution()) const;
+                int resolution, WeightedDefuzzifier::Type) const;
+
+        virtual Defuzzifier* constructDefuzzifier(const std::string& key, int resolution) const;
+
+        virtual Defuzzifier* constructDefuzzifier(const std::string& key, WeightedDefuzzifier::Type type);
     };
 }
 #endif	/* DEFUZZIFIERFACTORY_H */

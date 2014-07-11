@@ -70,12 +70,13 @@ namespace fl {
 #define FL_LOG(message) {if (fl::fuzzylite::logging()){std::cout << FL_LOG_PREFIX << message << std::endl;}}
 #define FL_LOGP(message) {if (fl::fuzzylite::logging()){std::cout << message << std::endl;}}
 
-#define FL_DEBUG_BLOCK(block) {if (fl::fuzzylite::debug()) {block}}
+#define FL_DEBUG_BEGIN if (fl::fuzzylite::debug()){
+#define FL_DEBUG_END }
 
-#define FL_DBG(message) FL_DEBUG_BLOCK(\
+#define FL_DBG(message) FL_DEBUG_BEGIN\
         std::cout << FL__FILE__ << "::" << __FUNCTION__ << "[" << __LINE__ << "]:" \
                 << message << std::endl;\
-        )
+        FL_DEBUG_END
 
 //class FL_EXPORT is required to build DLLs in Windows.
 #ifdef FL_WINDOWS

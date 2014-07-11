@@ -52,10 +52,30 @@ namespace fl {
 
     }
 
+    Defuzzifier* DefuzzifierFactory::constructDefuzzifier(const std::string& key,
+            int resolution, WeightedDefuzzifier::Type type) const {
+        Defuzzifier* result = constructObject(key);
+        if (IntegralDefuzzifier * integralDefuzzifier = dynamic_cast<IntegralDefuzzifier*> (result)) {
+            integralDefuzzifier->setResolution(resolution);
+        } else if (WeightedDefuzzifier * weightedDefuzzifier = dynamic_cast<WeightedDefuzzifier*> (result)) {
+            weightedDefuzzifier->setType(type);
+        }
+        return result;
+    }
+
     Defuzzifier* DefuzzifierFactory::constructDefuzzifier(const std::string& key, int resolution) const {
         Defuzzifier* result = constructObject(key);
-        IntegralDefuzzifier* integralDefuzzifier = dynamic_cast<IntegralDefuzzifier*> (result);
-        if (integralDefuzzifier) integralDefuzzifier->setResolution(resolution);
+        if (IntegralDefuzzifier * integralDefuzzifier = dynamic_cast<IntegralDefuzzifier*> (result)) {
+            integralDefuzzifier->setResolution(resolution);
+        }
+        return result;
+    }
+
+    Defuzzifier* DefuzzifierFactory::constructDefuzzifier(const std::string& key, WeightedDefuzzifier::Type type) {
+        Defuzzifier* result = constructObject(key);
+        if (WeightedDefuzzifier * weightedDefuzzifier = dynamic_cast<WeightedDefuzzifier*> (result)) {
+            weightedDefuzzifier->setType(type);
+        }
         return result;
     }
 }

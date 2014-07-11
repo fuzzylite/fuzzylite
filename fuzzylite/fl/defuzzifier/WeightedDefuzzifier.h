@@ -52,7 +52,8 @@ namespace fl {
         virtual Type inferType(const Term* term) const;
         virtual bool isMonotonic(const Term* term) const;
 
-        virtual scalar tsukamoto(const Activated* term, scalar minimum, scalar maximum) const;
+        virtual scalar tsukamoto(const Term* monotonic, scalar activationDegree,
+                scalar minimum, scalar maximum) const;
 
     protected:
         Type _type;
