@@ -50,8 +50,16 @@ namespace fl {
         return FL_VERSION "b" FL_DATE;
     }
 
+    std::string fuzzylite::license() {
+        return "GNU General Public License v3.0";
+    }
+
     std::string fuzzylite::author() {
         return "Juan Rada-Vilela, Ph.D.";
+    }
+
+    std::string fuzzylite::company() {
+        return "FuzzyLite Limited";
     }
 
     std::string fuzzylite::website() {

@@ -75,10 +75,13 @@ namespace fl {
     std::string Console::usage() {
         std::vector<Console::Option> options = availableOptions();
         std::ostringstream ss;
+        ss << "Copyright (c) 2010-2014 FuzzyLite Limited\n";
+        ss << "All rights reserved\n";
         ss << "========================================\n";
         ss << "fuzzylite: a fuzzy logic control library\n";
         ss << "version: " << fuzzylite::longVersion() << "\n";
         ss << "author: " << fuzzylite::author() << "\n";
+        ss << "license: " << fuzzylite::license() << "\n";
         ss << "========================================\n";
         ss << "usage: fuzzylite inputfile outputfile\n";
         ss << "   or: fuzzylite ";
@@ -532,9 +535,9 @@ namespace fl {
     void Console::exportAllExamples(const std::string& from, const std::string& to) {
         std::vector<std::string> examples;
         examples.push_back("/mamdani/AllTerms");
-//        examples.push_back("/mamdani/Laundry");
+        //        examples.push_back("/mamdani/Laundry");
         examples.push_back("/mamdani/SimpleDimmer");
-//        examples.push_back("/mamdani/SimpleDimmerInverse");
+        //        examples.push_back("/mamdani/SimpleDimmerInverse");
         examples.push_back("/mamdani/matlab/mam21");
         examples.push_back("/mamdani/matlab/mam22");
         examples.push_back("/mamdani/matlab/shower");
@@ -614,7 +617,7 @@ namespace fl {
                     ss << "[imex error] different results <"
                             << importer->name() << "," << exporter->name() << "> "
                             "at " + examples.at(t) + "." + from + ":\n";
-                    ss << "<Engine A>\n" << out <<  "\n\n" << 
+                    ss << "<Engine A>\n" << out << "\n\n" <<
                             "================================\n\n" <<
                             "<Engine B>\n" << out_copy;
                     throw fl::Exception(ss.str(), FL_AT);
@@ -797,12 +800,12 @@ namespace fl {
             std::map<std::string, std::string> options = parse(argc, argv);
             process(options);
         } catch (std::exception& ex) {
-            std::cout << ex.what() << "\n"<< std::endl;
-//            std::cout << fl::Exception::btCallStack() << std::endl;
+            std::cout << ex.what() << "\n" << std::endl;
+            //            std::cout << fl::Exception::btCallStack() << std::endl;
             return EXIT_FAILURE;
         }
         return EXIT_SUCCESS;
-    } 
+    }
 
 
 }
