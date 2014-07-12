@@ -33,36 +33,30 @@ endif()
 set(FL_VERSION 5.0)
 add_definitions(-DFL_VERSION="${FL_VERSION}")
 
-set(FL_DATE "1407")
+set(FL_DATE "1408")
 add_definitions(-DFL_DATE="${FL_DATE}")
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_DEBUG "Enable additional debugging information" OFF)
-option(FL_BACKTRACE "Provide backtrace information in case of errors" ON)
+option(FL_BACKTRACE "Provide backtrace information in case of errors" OFF)
 
 
 if(FL_DEBUG)
     add_definitions(-DFL_DEBUG=true)
     set(CMAKE_BUILD_TYPE Debug)
-    set(FL_CONF d)
 else()
     set(CMAKE_BUILD_TYPE Release)
-    set(FL_CONF)
 endif(FL_DEBUG)
 
 
 
 add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
 
-#set(EXECUTABLE_OUTPUT_PATH bin)
-#set(LIBRARY_OUTPUT_PATH lib)
-
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 set(FL_LIBS)
-
 
 if(UNIX)
     set(CMAKE_CXX_FLAGS "-pedantic -Werror -Wall -Wextra")
@@ -79,7 +73,9 @@ elseif(WIN32)
 	#Wx: Treat warnings as errors. W4: All warnings
 	#http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
 	#EHsc: call destructors on __try __catch, and to ignore C4530: C++ exception handler used. Note, unwind semantics are not enabled
-    set(FL_LIBS dbghelp)
+	if (FL_BACKTRACE)
+		set(FL_LIBS dbghelp)
+	endif()
 endif()
 
 
@@ -108,16 +104,18 @@ set(CMAKE_DEBUG_POSTFIX d)
 
 add_library(fl-shared SHARED ${fl-headers} ${fl-sources})
 set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
+set_target_properties(fl-shared PROPERTIES DEBUG_POSTFIX d)
 target_link_libraries(fl-shared ${FL_LIBS})
 
 add_library(fl-static STATIC ${fl-headers} ${fl-sources})
 set_target_properties(fl-static PROPERTIES OUTPUT_NAME fuzzylite-static)
+set_target_properties(fl-static PROPERTIES DEBUG_POSTFIX d)
 target_link_libraries(fl-static ${FL_LIBS})
 
 add_executable(fl-bin fl/Console.h src/Console.cpp src/main.cpp)
 set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
-set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX _) #To prevent LNK1149 in Windows
-#set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -dbg)
+set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
+set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX d)
 target_link_libraries(fl-bin fl-static ${FL_LIBS})
 
 
@@ -133,7 +131,7 @@ install(DIRECTORY fl/ DESTINATION include/fl)
 #   set(fl-suffix)
 #   add_custom_command(TARGET fl-bin POST_BUILD
 #       COMMAND ${CMAKE_COMMAND} -E copy_if_different
-#        "${CMAKE_SOURCE_DIR}/lib/fuzzylite${FL_CONF}.dll"
+#        "${CMAKE_SOURCE_DIR}/lib/fuzzylite${FL_SUFFIX}.dll"
 #        ${CMAKE_SOURCE_DIR}/bin)                 # <--this is out-file path
 #endif()
 

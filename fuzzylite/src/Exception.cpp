@@ -86,7 +86,7 @@ namespace fl {
 
     std::string Exception::btCallStack() {
 #ifdef FL_BACKTRACE_OFF
-        return "[backtrace missing] fuzzylite was built with option -DFL_BACKTRACE_OFF";
+        return "[backtrace disabled] fuzzylite was built with option -DFL_BACKTRACE_OFF";
 #elif defined FL_UNIX
         std::ostringstream btStream;
         const int bufferSize = 30;
