@@ -1,5 +1,4 @@
 fl/Console.h
-fl/defuzzifier
 fl/defuzzifier/Bisector.h
 fl/defuzzifier/Centroid.h
 fl/defuzzifier/Defuzzifier.h

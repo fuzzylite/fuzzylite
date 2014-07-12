@@ -1,24 +1,25 @@
-// #BEGIN_LICENSE
-// fuzzylite: a fuzzy logic control library in C++
-// Copyright (C) 2014  Juan Rada-Vilela
-// 
-// This file is part of fuzzylite.
-//
-// fuzzylite is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// fuzzylite is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
-// #END_LICENSE
+/*
+ Author: Juan Rada-Vilela, Ph.D.
+ Copyright (C) 2010-2014 FuzzyLite Limited
+ All rights reserved
 
-/* 
+ This file is part of fuzzylite.
+
+ fuzzylite is free software: you can redistribute it and/or modify it under
+ the terms of the GNU Lesser General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option)
+ any later version.
+
+ fuzzylite is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
+ for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
  * File:   PiShape.h
  * Author: jcrada
  *
@@ -26,7 +27,7 @@
  */
 
 #ifndef FL_PISHAPE_H
-#define	FL_PISHAPE_H
+#define FL_PISHAPE_H
 
 #include "fl/term/Term.h"
 
@@ -44,7 +45,7 @@ namespace fl {
                 scalar bottomLeft = fl::nan,
                 scalar topLeft = fl::nan,
                 scalar topRight = fl::nan,
-                scalar bottomRight = fl::nan, 
+                scalar bottomRight = fl::nan,
                 scalar height = 1.0);
 
         virtual ~PiShape();
@@ -73,5 +74,5 @@ namespace fl {
     };
 }
 
-#endif	/* FL_PISHAPE_H */
+#endif  /* FL_PISHAPE_H */
 
