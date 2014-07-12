@@ -342,7 +342,7 @@ namespace fl {
         throw fl::Exception(ex.str(), FL_AT);
     }
 
-    scalar Operation::toScalar(const std::string& x, scalar alternative) throw(){
+    scalar Operation::toScalar(const std::string& x, scalar alternative) throw () {
         std::istringstream iss(x);
         scalar result;
         iss >> result;

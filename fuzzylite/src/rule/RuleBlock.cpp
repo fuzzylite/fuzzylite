@@ -39,7 +39,7 @@ namespace fl {
         copyFrom(source);
     }
 
-    RuleBlock& RuleBlock::operator =(const RuleBlock& rhs) {
+    RuleBlock& RuleBlock::operator=(const RuleBlock& rhs) {
         if (this == &rhs) return *this;
         for (std::size_t i = 0; i < _rules.size(); ++i) {
             delete _rules.at(i);

@@ -41,12 +41,12 @@ namespace fl {
         copyFrom(copy);
     }
 
-    OutputVariable& OutputVariable::operator =(const OutputVariable& rhs) {
+    OutputVariable& OutputVariable::operator=(const OutputVariable& rhs) {
         if (this == &rhs) return *this;
         delete _fuzzyOutput;
         _defuzzifier.reset(NULL);
 
-        Variable::operator =(rhs);
+        Variable::operator=(rhs);
         copyFrom(rhs);
         return *this;
     }

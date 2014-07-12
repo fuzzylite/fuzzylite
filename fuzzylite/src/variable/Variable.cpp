@@ -42,7 +42,7 @@ namespace fl {
         copyFrom(copy);
     }
 
-    Variable& Variable::operator =(const Variable& rhs) {
+    Variable& Variable::operator=(const Variable& rhs) {
         if (this == &rhs) return *this;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             delete _terms.at(i);
@@ -161,7 +161,7 @@ namespace fl {
     struct SortByCoG {
         std::map<const Term*, scalar> centroids;
 
-        bool operator() (const Term* a, const Term * b) {
+        bool operator()(const Term* a, const Term * b) {
             return fl::Op::isLt(
                     centroids.find(a)->second,
                     centroids.find(b)->second);

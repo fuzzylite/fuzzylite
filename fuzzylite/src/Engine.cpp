@@ -55,7 +55,7 @@ namespace fl {
         copyFrom(source);
     }
 
-    Engine& Engine::operator =(const Engine& rhs) {
+    Engine& Engine::operator=(const Engine& rhs) {
         if (this == &rhs) return *this;
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) delete _ruleblocks.at(i);
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) delete _outputVariables.at(i);

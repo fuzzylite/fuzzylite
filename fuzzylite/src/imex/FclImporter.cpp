@@ -28,7 +28,7 @@
 
 namespace fl {
 
-    FclImporter::FclImporter() : Importer(){
+    FclImporter::FclImporter() : Importer() {
     }
 
     FclImporter::~FclImporter() {

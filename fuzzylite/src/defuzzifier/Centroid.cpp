@@ -40,7 +40,7 @@ namespace fl {
     }
 
     scalar Centroid::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
-         if (not fl::Op::isFinite(minimum + maximum)) {
+        if (not fl::Op::isFinite(minimum + maximum)) {
             return fl::nan;
         }
         if (maximum - minimum > _resolution) {

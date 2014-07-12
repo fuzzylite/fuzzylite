@@ -33,9 +33,9 @@ namespace fl {
     _inputValue(copy._inputValue) {
     }
 
-    InputVariable& InputVariable::operator =(const InputVariable& rhs) {
+    InputVariable& InputVariable::operator=(const InputVariable& rhs) {
         if (this == &rhs) return *this;
-        Variable::operator =(rhs);
+        Variable::operator=(rhs);
         _inputValue = rhs._inputValue;
         return *this;
     }

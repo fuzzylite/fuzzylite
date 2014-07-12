@@ -102,7 +102,7 @@ namespace fl {
 
     template <typename T>
     Discrete* Discrete::create(const std::string& name, int argc,
-            T x1, T y1, ...){ // throw (fl::Exception) {
+            T x1, T y1, ...) { // throw (fl::Exception) {
         std::vector<scalar> xy(argc);
         xy.at(0) = x1;
         xy.at(1) = y1;
@@ -123,10 +123,10 @@ namespace fl {
     }
 
     template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc,
-            double x1, double y1, ...);// throw (fl::Exception);
+            double x1, double y1, ...); // throw (fl::Exception);
     //double, not scalar because variadic promotes floats to double
     template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc,
-            int x1, int y1, ...);// throw (fl::Exception);
+            int x1, int y1, ...); // throw (fl::Exception);
 
     void Discrete::setXY(const std::vector<Pair>& pairs) {
         this->_xy = pairs;
@@ -149,7 +149,7 @@ namespace fl {
     }
 
     std::vector<Discrete::Pair> Discrete::toPairs(const std::vector<scalar>& xy) {
-        if ( xy.size() % 2 != 0) {
+        if (xy.size() % 2 != 0) {
             std::ostringstream os;
             os << "[discrete error] missing value in set of pairs (|xy|=" << xy.size() << ")";
             throw fl::Exception(os.str(), FL_AT);
@@ -164,7 +164,7 @@ namespace fl {
     }
 
     std::vector<Discrete::Pair> Discrete::toPairs(const std::vector<scalar>& xy,
-            scalar missingValue) throw() {
+            scalar missingValue) throw () {
         std::vector<std::pair<scalar, scalar> > result((xy.size() + 1) / 2);
         for (std::size_t i = 0; i + 1 < xy.size(); i += 2) {
             result.at(i / 2).first = xy.at(i);

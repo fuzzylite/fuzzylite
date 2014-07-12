@@ -27,7 +27,7 @@
 
 namespace fl {
 
-    FisExporter::FisExporter() : Exporter(){
+    FisExporter::FisExporter() : Exporter() {
     }
 
     FisExporter::~FisExporter() {

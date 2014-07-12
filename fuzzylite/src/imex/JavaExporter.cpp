@@ -146,7 +146,7 @@ namespace fl {
             return "null";
         }
 
-        if (const Discrete* discrete = dynamic_cast<const Discrete*> (term)) {
+        if (const Discrete * discrete = dynamic_cast<const Discrete*> (term)) {
             std::ostringstream ss;
             std::vector<scalar> xy;
             ss << term->className() << ".create(\"" << term->getName() << "\", "
@@ -154,15 +154,14 @@ namespace fl {
             return ss.str();
         }
 
-
-        if (const Function* function = dynamic_cast<const Function*> (term)) {
+        if (const Function * function = dynamic_cast<const Function*> (term)) {
             std::ostringstream ss;
             ss << term->className() << ".create(\"" << term->getName() << "\", "
                     << "\"" << function->getFormula() << "\", engine, true)";
             return ss.str();
         }
 
-        if (const Linear* linear = dynamic_cast<const Linear*> (term)) {
+        if (const Linear * linear = dynamic_cast<const Linear*> (term)) {
             std::ostringstream ss;
             ss << term->className() << ".create(\"" << term->getName() << "\", "
                     << "engine, " << Op::join(linear->coefficients(), ", ") << ")";

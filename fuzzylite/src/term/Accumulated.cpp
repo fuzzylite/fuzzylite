@@ -38,12 +38,12 @@ namespace fl {
         copyFrom(source);
     }
 
-    Accumulated& Accumulated::operator =(const Accumulated& rhs) {
+    Accumulated& Accumulated::operator=(const Accumulated& rhs) {
         if (this == &rhs) return *this;
         clear();
         _accumulation.reset(NULL);
 
-        Term::operator =(rhs);
+        Term::operator=(rhs);
         copyFrom(rhs);
         return *this;
     }

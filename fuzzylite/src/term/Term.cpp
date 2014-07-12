@@ -35,7 +35,7 @@ namespace fl {
 
     }
 
-    Term& Term::operator =(const Term& rhs) {
+    Term& Term::operator=(const Term& rhs) {
         if (this == &rhs) return *this;
         _name = rhs._name;
         _height = rhs._height;

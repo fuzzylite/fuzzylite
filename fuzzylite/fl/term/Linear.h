@@ -59,7 +59,7 @@ namespace fl {
         //Warning: this method is unsafe, make sure you use it correctly.
         template <typename T>
         static Linear* create(const std::string& name, const Engine* engine,
-                T firstCoefficient, ...);// throw (fl::Exception);
+                T firstCoefficient, ...); // throw (fl::Exception);
     };
 
 }

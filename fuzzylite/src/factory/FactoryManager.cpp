@@ -58,7 +58,7 @@ namespace fl {
         this->_function.reset(new FunctionFactory(*source._function.get()));
     }
 
-    FactoryManager& FactoryManager::operator =(const FactoryManager& rhs) {
+    FactoryManager& FactoryManager::operator=(const FactoryManager& rhs) {
         if (this == &rhs) return *this;
 
         this->_tnorm.reset(new TNormFactory(*rhs._tnorm.get()));
@@ -107,7 +107,7 @@ namespace fl {
     }
 
     void FactoryManager::setHedge(HedgeFactory* hedge) {
-        this->_hedge.reset( hedge);
+        this->_hedge.reset(hedge);
     }
 
     HedgeFactory* FactoryManager::hedge() const {

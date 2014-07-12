@@ -182,7 +182,7 @@ namespace fl {
 
     std::string FclExporter::toString(const Term* term) const {
         if (not term) return "";
-        if (const Discrete* discrete = dynamic_cast<const Discrete*> (term)) {
+        if (const Discrete * discrete = dynamic_cast<const Discrete*> (term)) {
             std::ostringstream ss;
             for (std::size_t i = 0; i < discrete->xy().size(); ++i) {
                 ss << "(" << fl::Op::str(discrete->xy(i).first) << ", "
@@ -192,7 +192,7 @@ namespace fl {
             return ss.str();
         }
 
-        if (const Constant* constant = dynamic_cast<const Constant*> (term)) {
+        if (const Constant * constant = dynamic_cast<const Constant*> (term)) {
             return fl::Op::str(constant->getValue());
         }
 

@@ -124,7 +124,7 @@ namespace fl {
         copyFrom(source);
     }
 
-    Function::Node& Function::Node::operator =(const Node& rhs) {
+    Function::Node& Function::Node::operator=(const Node& rhs) {
         if (this == &rhs) return *this;
 
         if (element) delete element;
@@ -260,17 +260,19 @@ namespace fl {
     Function::Function(const Function& source) : Term(source),
     _root(NULL), _formula(source._formula), _engine(source._engine) {
         if (source._root) _root = source._root->clone();
+        variables =  source.variables;
     }
 
-    Function& Function::operator =(const Function& rhs) {
+    Function& Function::operator=(const Function& rhs) {
         if (this == &rhs) return *this;
         if (_root) delete _root;
         _root = NULL;
 
-        Term::operator =(rhs);
+        Term::operator=(rhs);
         _formula = rhs._formula;
         _engine = rhs._engine;
         if (rhs._root) _root = rhs._root->clone();
+        variables =  rhs.variables;
         return *this;
     }
 

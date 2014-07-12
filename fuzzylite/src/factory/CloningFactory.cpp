@@ -43,7 +43,7 @@ namespace fl {
     }
 
     template<typename T>
-    CloningFactory<T>& CloningFactory<T>::operator =(const CloningFactory& rhs) {
+    CloningFactory<T>& CloningFactory<T>::operator=(const CloningFactory& rhs) {
         if (this == &rhs) return *this;
         typename std::map<std::string, T>::const_iterator it = this->_objects.begin();
         while (it != this->_objects.end()) {

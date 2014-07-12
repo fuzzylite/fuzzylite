@@ -42,7 +42,7 @@ namespace fl {
     _antecedent(new Antecedent), _consequent(new Consequent) {
     }
 
-    Rule& Rule::operator =(const Rule& rhs) {
+    Rule& Rule::operator=(const Rule& rhs) {
         if (this == &rhs) return *this;
         unload();
 
