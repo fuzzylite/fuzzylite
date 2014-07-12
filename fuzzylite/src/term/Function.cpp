@@ -324,7 +324,7 @@ namespace fl {
     }
 
     bool Function::isLoaded() const {
-        return this->_root;
+        return this->_root != NULL;
     }
 
     void Function::unload() {
