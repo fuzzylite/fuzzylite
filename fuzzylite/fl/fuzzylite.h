@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   fuzzylite.h
- * Author: jcrada
- *
- * Created on 1 February 2013, 10:47 AM
- */
-
 #ifndef FL_FUZZYLITE_H
 #define FL_FUZZYLITE_H
 

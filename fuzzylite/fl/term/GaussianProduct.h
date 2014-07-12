@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   GaussianProduct.h
- * Author: jcrada
- *
- * Created on 30 December 2012, 6:05 PM
- */
-
 #ifndef FL_GAUSSIANPRODUCT_H
 #define FL_GAUSSIANPRODUCT_H
 

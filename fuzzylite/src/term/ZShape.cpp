@@ -19,14 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   ZShape.cpp
- * Author: jcrada
- *
- * Created on 22 December 2012, 5:07 PM
- */
-
-
 #include "fl/term/ZShape.h"
 
 namespace fl {

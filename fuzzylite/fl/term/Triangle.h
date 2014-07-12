@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Triangle.h
- *
- *  Created on: 29/11/2012
- *      Author: jcrada
- */
-
 #ifndef FL_TRIANGLE_H
 #define FL_TRIANGLE_H
 

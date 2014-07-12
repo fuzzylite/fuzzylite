@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Importer.h
- * Author: jcrada
- *
- * Created on 25 December 2012, 11:43 PM
- */
-
 #ifndef FL_IMPORTER_H
 #define FL_IMPORTER_H
 

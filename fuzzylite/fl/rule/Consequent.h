@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Consequent.h
- *
- *  Created on: 2/12/2012
- *      Author: jcrada
- */
-
 #ifndef FL_CONSEQUENT_H
 #define FL_CONSEQUENT_H
 

@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   EinsteinProduct.h
- * Author: jcrada
- *
- * Created on 30 November 2013, 1:48 AM
- */
-
 #ifndef FL_EINSTEINPRODUCT_H
 #define FL_EINSTEINPRODUCT_H
 

@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Sigmoid.h
- *
- *  Created on: 30/11/2012
- *      Author: jcrada
- */
-
 #ifndef FL_SIGMOID_H
 #define FL_SIGMOID_H
 

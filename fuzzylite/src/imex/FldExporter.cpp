@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   DataExporter.cpp
- * Author: jcrada
- *
- * Created on 30 November 2013, 9:54 AM
- */
-
 #include "fl/imex/FldExporter.h"
 
 #include "fl/Engine.h"

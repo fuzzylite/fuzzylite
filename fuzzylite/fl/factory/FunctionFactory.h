@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   FunctionFactory.h
- * Author: jcrada
- *
- * Created on 26 March 2014, 10:08 PM
- */
-
 #ifndef FL_FUNCTIONFACTORY_H
 #define FL_FUNCTIONFACTORY_H
 

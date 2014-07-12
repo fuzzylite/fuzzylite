@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Ramp.h
- * Author: jcrada
- *
- * Created on 22 December 2012, 4:27 PM
- */
-
 #ifndef FL_RAMP_H
 #define FL_RAMP_H
 

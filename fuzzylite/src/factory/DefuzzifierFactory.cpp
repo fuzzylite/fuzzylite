@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   DefuzzifierFactory.cpp
- * Author: jcrada
- *
- * Created on 8 January 2013, 11:17 PM
- */
-
 #include "fl/factory/DefuzzifierFactory.h"
 
 #include "fl/defuzzifier/Bisector.h"

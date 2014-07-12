@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Discrete.cpp
- *
- *  Created on: 5/12/2012
- *      Author: jcrada
- */
-
 #include "fl/term/Discrete.h"
 
 #include <cstdarg>

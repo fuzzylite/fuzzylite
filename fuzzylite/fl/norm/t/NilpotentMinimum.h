@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   NilpotentMinimum.h
- * Author: jcrada
- *
- * Created on 29 January 2014, 1:42 PM
- */
-
 #ifndef FL_NILPOTENTMINIMUM_H
 #define FL_NILPOTENTMINIMUM_H
 

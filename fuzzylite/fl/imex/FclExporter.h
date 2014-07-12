@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * FclExporter.h
- *
- *  Created on: 8/12/2012
- *      Author: jcrada
- */
-
 #ifndef FL_FCLEXPORTER_H
 #define FL_FCLEXPORTER_H
 

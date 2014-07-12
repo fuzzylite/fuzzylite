@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   TNorm.h
- * Author: jcrada
- *
- * Created on 21 December 2012, 9:33 AM
- */
-
 #ifndef FL_TNORM_H
 #define FL_TNORM_H
 

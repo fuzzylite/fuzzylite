@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Accumulated.cpp
- *
- *  Created on: 30/11/2012
- *      Author: jcrada
- */
-
 #include "fl/term/Accumulated.h"
 
 #include "fl/imex/FllExporter.h"

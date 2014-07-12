@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   SigmoidDifference.h
- * Author: jcrada
- *
- * Created on 30 December 2012, 5:58 PM
- */
-
 #ifndef FL_SIGMOIDDIFFERENCE_H
 #define FL_SIGMOIDDIFFERENCE_H
 

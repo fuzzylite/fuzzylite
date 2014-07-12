@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   WeightedDefuzzifier.h
- * Author: jcrada
- *
- * Created on 13 June 2014, 6:22 PM
- */
-
 #ifndef FL_WEIGHTEDDEFUZZIFIER_H
 #define FL_WEIGHTEDDEFUZZIFIER_H
 

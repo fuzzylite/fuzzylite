@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Centroid.cpp
- *
- *  Created on: 2/12/2012
- *      Author: jcrada
- */
-
 #include "fl/defuzzifier/Centroid.h"
 
 #include "fl/term/Accumulated.h"

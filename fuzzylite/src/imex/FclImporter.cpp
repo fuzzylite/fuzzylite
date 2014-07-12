@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * FclImporter.cpp
- *
- *  Created on: 8/12/2012
- *      Author: jcrada
- */
-
 #include "fl/imex/FclImporter.h"
 
 #include "fl/Headers.h"

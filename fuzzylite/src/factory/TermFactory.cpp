@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   TermFactory.cpp
- * Author: jcrada
- *
- * Created on 8 January 2013, 11:18 PM
- */
-
 #include "fl/factory/TermFactory.h"
 
 #include "fl/Exception.h"

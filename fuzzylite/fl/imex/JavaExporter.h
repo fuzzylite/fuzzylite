@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   JavaExporter.h
- * Author: jcrada
- *
- * Created on 28 November 2013, 10:20 PM
- */
-
 #ifndef FL_JAVAEXPORTER_H
 #define FL_JAVAEXPORTER_H
 

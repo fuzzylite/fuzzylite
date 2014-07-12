@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Minimum.h
- * Author: jcrada
- *
- * Created on 30 November 2013, 1:46 AM
- */
-
 #ifndef FL_MINIMUM_H
 #define FL_MINIMUM_H
 

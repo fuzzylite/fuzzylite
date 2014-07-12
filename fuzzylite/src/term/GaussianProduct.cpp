@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   GaussianProduct.cpp
- * Author: jcrada
- *
- * Created on 30 December 2012, 6:05 PM
- */
-
 #include "fl/term/GaussianProduct.h"
 
 namespace fl {

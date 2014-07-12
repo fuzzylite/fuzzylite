@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Variable.cpp
- *
- *  Created on: 2/12/2012
- *      Author: jcrada
- */
-
 #include "fl/variable/Variable.h"
 
 #include "fl/defuzzifier/Centroid.h"

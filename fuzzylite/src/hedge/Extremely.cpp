@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Extremely.cpp
- *
- *  Created on: 4/12/2012
- *      Author: jcrada
- */
-
 #include "fl/hedge/Extremely.h"
 
 #include "fl/Operation.h"

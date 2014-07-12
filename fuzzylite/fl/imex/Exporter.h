@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Exporter.h
- * Author: jcrada
- *
- * Created on 25 December 2012, 11:40 PM
- */
-
 #ifndef FL_EXPORTER_H
 #define FL_EXPORTER_H
 

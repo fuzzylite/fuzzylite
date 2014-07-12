@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * OutputVariable.h
- *
- *  Created on: 2/12/2012
- *      Author: jcrada
- */
-
 #ifndef FL_OUTPUTVARIABLE_H
 #define FL_OUTPUTVARIABLE_H
 

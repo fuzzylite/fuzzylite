@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * OutputVariable.cpp
- *
- *  Created on: 2/12/2012
- *      Author: jcrada
- */
-
 #include "fl/variable/OutputVariable.h"
 
 #include "fl/defuzzifier/Defuzzifier.h"

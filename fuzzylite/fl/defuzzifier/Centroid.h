@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Centroid.h
- *
- *  Created on: 2/12/2012
- *      Author: jcrada
- */
-
 #ifndef FL_CENTROID_H
 #define FL_CENTROID_H
 

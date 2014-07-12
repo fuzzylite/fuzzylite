@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Activated.cpp
- *
- *  Created on: 27/01/2014
- *      Author: jcrada
- */
-
 #include "fl/term/Activated.h"
 
 #include "fl/imex/FllExporter.h"

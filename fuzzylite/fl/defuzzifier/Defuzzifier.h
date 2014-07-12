@@ -19,14 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Defuzzifier.h
- *
- *  Created on: 2/12/2012
- *      Author: jcrada
- */
-
-
 //TODO Check http://en.wikipedia.org/wiki/Defuzzification for other defuzzifiers.
 
 #ifndef FL_DEFUZZIFIER_H

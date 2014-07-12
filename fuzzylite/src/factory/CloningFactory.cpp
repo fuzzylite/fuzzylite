@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   CloningFactory.cpp
- * Author: jcrada
- *
- * Created on 1 April 2014, 4:24 PM
- */
-
 #include "fl/factory/CloningFactory.h"
 
 #include "fl/Exception.h"

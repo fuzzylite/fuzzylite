@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Operation.h
- * Author: jcrada
- *
- * Created on 1 February 2013, 6:10 PM
- */
-
 #ifndef FL_OPERATION_H
 #define FL_OPERATION_H
 

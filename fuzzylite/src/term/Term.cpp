@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Term.cpp
- * Author: jcrada
- *
- * Created on 18 December 2013, 9:55 AM
- */
-
 #include "fl/term/Term.h"
 
 #include "fl/imex/FllExporter.h"

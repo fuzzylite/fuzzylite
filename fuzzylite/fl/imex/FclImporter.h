@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * FclImporter.h
- *
- *  Created on: 8/12/2012
- *      Author: jcrada
- */
-
 #ifndef FL_FCLIMPORTER_H
 #define FL_FCLIMPORTER_H
 

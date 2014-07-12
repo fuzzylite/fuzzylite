@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   FisExporter.h
- * Author: jcrada
- *
- * Created on 22 December 2012, 5:52 PM
- */
-
 #ifndef FL_FISEXPORTER_H
 #define FL_FISEXPORTER_H
 

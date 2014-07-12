@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Constant.h
- * Author: jcrada
- *
- * Created on 8 May 2013, 8:21 PM
- */
-
 #ifndef FL_CONSTANT_H
 #define FL_CONSTANT_H
 

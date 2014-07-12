@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Trapezoid.cpp
- *
- *  Created on: 29/11/2012
- *      Author: jcrada
- */
-
 #include "fl/term/Trapezoid.h"
 
 namespace fl {

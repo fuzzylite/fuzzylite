@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Ramp.cpp
- * Author: jcrada
- *
- * Created on 22 December 2012, 4:27 PM
- */
-
 #include "fl/term/Ramp.h"
 
 namespace fl {

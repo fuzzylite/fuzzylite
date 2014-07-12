@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   TermFactory.h
- * Author: jcrada
- *
- * Created on 8 January 2013, 11:18 PM
- */
-
 #ifndef FL_TERMFACTORY_H
 #define FL_TERMFACTORY_H
 

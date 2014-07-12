@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   CppExporter.cpp
- * Author: jcrada
- *
- * Created on 1 January 2013, 2:41 PM
- */
-
 #include "fl/imex/CppExporter.h"
 
 #include "fl/Headers.h"

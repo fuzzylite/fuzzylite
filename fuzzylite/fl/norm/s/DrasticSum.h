@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   DrasticSum.h
- * Author: jcrada
- *
- * Created on 30 November 2013, 1:10 AM
- */
-
 #ifndef FL_DRASTICSUM_H
 #define FL_DRASTICSUM_H
 

@@ -19,7 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "fl/norm/t/NilpotentMinimum.h"
 
 namespace fl {

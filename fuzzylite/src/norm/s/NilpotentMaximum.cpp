@@ -19,9 +19,7 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "fl/norm/s/NilpotentMaximum.h"
-
 
 namespace fl {
 

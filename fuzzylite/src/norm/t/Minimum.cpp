@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Minimum.cpp
- * Author: jcrada
- *
- * Created on 30 November 2013, 1:52 AM
- */
-
 #include "fl/norm/t/Minimum.h"
 
 namespace fl {

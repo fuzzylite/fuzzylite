@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Gaussian.cpp
- *
- *  Created on: 29/11/2012
- *      Author: jcrada
- */
-
 #include "fl/term/Gaussian.h"
 
 namespace fl {

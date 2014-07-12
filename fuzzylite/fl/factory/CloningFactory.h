@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   CloningFactory.h
- * Author: jcrada
- *
- * Created on 1 April 2014, 4:16 PM
- */
-
 #ifndef FL_CLONINGFACTORY_H
 #define FL_CLONINGFACTORY_H
 

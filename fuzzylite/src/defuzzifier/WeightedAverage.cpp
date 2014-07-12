@@ -29,9 +29,6 @@
 
 #include <map>
 
-//tmp
-#include "fl/term/Function.h"
-
 namespace fl {
 
     WeightedAverage::WeightedAverage(Type type) : WeightedDefuzzifier(type) {

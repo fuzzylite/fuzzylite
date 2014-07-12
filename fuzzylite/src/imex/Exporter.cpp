@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Exporter.cpp
- * Author: jcrada
- *
- * Created on 7 July 2014, 7:12 PM
- */
-
 #include "fl/imex/Exporter.h"
 #include "fl/Exception.h"
 

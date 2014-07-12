@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Bisector.cpp
- * Author: jcrada
- *
- * Created on 25 April 2013, 3:56 PM
- */
-
 #include "fl/defuzzifier/Bisector.h"
 
 #include "fl/term/Accumulated.h"

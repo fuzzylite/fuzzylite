@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   SmallestOfMaximum.h
- * Author: jcrada
- *
- * Created on 8 May 2013, 6:38 PM
- */
-
 #ifndef FL_SMALLESTOFMAXIMUM_H
 #define FL_SMALLESTOFMAXIMUM_H
 

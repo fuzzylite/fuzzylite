@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Cosine.h
- * Author: jcrada
- *
- * Created on 4 June 2014, 1:08 PM
- */
-
 #ifndef FL_COSINE_H
 #define FL_COSINE_H
 

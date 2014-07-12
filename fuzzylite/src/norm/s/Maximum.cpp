@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Maximum.cpp
- * Author: jcrada
- *
- * Created on 30 November 2013, 1:14 AM
- */
-
 #include "fl/norm/s/Maximum.h"
 
 namespace fl {

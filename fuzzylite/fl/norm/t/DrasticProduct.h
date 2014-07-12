@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   DrasticProduct.h
- * Author: jcrada
- *
- * Created on 30 November 2013, 1:47 AM
- */
-
 #ifndef FL_DRASTICPRODUCT_H
 #define FL_DRASTICPRODUCT_H
 

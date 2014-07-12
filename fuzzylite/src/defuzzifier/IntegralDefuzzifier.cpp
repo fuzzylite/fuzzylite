@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   IntegralDefuzzifier.cpp
- * Author: jcrada
- *
- * Created on 2 November 2013, 9:24 AM
- */
-
 #include "fl/defuzzifier/IntegralDefuzzifier.h"
 
 namespace fl {

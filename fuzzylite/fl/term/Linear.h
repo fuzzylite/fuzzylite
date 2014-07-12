@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Linear.h
- * Author: jcrada
- *
- * Created on 8 May 2013, 3:42 PM
- */
-
 #ifndef FL_LINEAR_H
 #define FL_LINEAR_H
 

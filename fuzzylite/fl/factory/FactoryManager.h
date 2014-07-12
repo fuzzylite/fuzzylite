@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Factory.h
- * Author: jcrada
- *
- * Created on 8 January 2013, 11:10 PM
- */
-
 #ifndef FL_FACTORYMANAGER_H
 #define FL_FACTORYMANAGER_H
 

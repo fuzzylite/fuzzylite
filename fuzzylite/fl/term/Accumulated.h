@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Accumulated.h
- *
- *  Created on: 30/11/2012
- *      Author: jcrada
- */
-
 #ifndef FL_ACCUMULATED_H
 #define FL_ACCUMULATED_H
 

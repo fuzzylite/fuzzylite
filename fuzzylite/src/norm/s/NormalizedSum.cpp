@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   NormalizedSum.cpp
- * Author: jcrada
- *
- * Created on 30 November 2013, 1:16 AM
- */
-
 #include "fl/norm/s/NormalizedSum.h"
 
 namespace fl {

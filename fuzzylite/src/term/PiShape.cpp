@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   PiShape.cpp
- * Author: jcrada
- *
- * Created on 22 December 2012, 5:15 PM
- */
-
 #include "fl/term/PiShape.h"
 
 namespace fl {

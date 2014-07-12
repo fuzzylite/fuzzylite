@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   TNormFactory.h
- * Author: jcrada
- *
- * Created on 8 January 2013, 11:20 PM
- */
-
 #ifndef FL_TNORMFACTORY_H
 #define FL_TNORMFACTORY_H
 

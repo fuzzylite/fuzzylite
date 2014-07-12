@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   TNormFactory.cpp
- * Author: jcrada
- *
- * Created on 8 January 2013) return  11:20 PM
- */
-
 #include "fl/factory/TNormFactory.h"
 
 #include "fl/norm/t/AlgebraicProduct.h"

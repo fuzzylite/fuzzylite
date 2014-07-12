@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   SigmoidDifference.cpp
- * Author: jcrada
- *
- * Created on 30 December 2012, 5:58 PM
- */
-
 #include "fl/term/SigmoidDifference.h"
 
 namespace fl {

@@ -19,12 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Term.h
- *
- *  Created on: 29/11/2012
- *      Author: jcrada
- */
 
 #ifndef FL_TERM_H
 #define FL_TERM_H

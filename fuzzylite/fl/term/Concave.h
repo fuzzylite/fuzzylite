@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Concave.h
- * Author: jcrada
- *
- * Created on 4 June 2014, 12:12 PM
- */
-
 #ifndef FL_CONCAVE_H
 #define FL_CONCAVE_H
 

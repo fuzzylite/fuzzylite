@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Exception.cpp
- *
- *  Created on: 14/12/2012
- *      Author: jcrada
- */
-
 #include "fl/Exception.h"
 
 

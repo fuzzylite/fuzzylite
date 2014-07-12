@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   ConstructorFactory.cpp
- * Author: jcrada
- *
- * Created on 29 November 2013, 11:48 PM
- */
-
 #include "fl/factory/ConstructionFactory.h"
 
 #include "fl/Exception.h"

@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   FunctionFactory.cpp
- * Author: jcrada
- *
- * Created on 26 March 2014, 10:12 PM
- */
-
 #include "fl/factory/FunctionFactory.h"
 
 #include "fl/rule/Rule.h"

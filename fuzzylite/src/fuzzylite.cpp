@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * fuzzylite.cpp
- *
- *  Created on 1 February 2013, 10:47 AM
- *      Author: jcrada
- */
-
 #include "fl/fuzzylite.h"
 
 namespace fl {
@@ -52,7 +45,7 @@ namespace fl {
     }
 
     std::string fuzzylite::license() {
-        return "GNU General Public License v3.0";
+        return "GNU Lesser General Public License v3.0";
     }
 
     std::string fuzzylite::author() {

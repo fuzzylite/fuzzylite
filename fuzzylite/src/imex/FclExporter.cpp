@@ -18,14 +18,6 @@
  You should have received a copy of the GNU Lesser General Public License
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-/*
- * FclExporter.cpp
- *
- *  Created on: 8/12/2012
- *      Author: jcrada
- */
-
 #include "fl/imex/FclExporter.h"
 
 #include "fl/Headers.h"

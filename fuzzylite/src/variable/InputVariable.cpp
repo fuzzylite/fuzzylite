@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * InputVariable.cpp
- *
- *  Created on: 2/12/2012
- *      Author: jcrada
- */
-
 #include "fl/variable/InputVariable.h"
 
 #include "fl/imex/FllExporter.h"

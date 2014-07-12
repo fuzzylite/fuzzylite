@@ -18,12 +18,6 @@
  You should have received a copy of the GNU Lesser General Public License
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
- * File:   Function.h
- * Author: jcrada
- *
- * Created on 30 March 2013, 1:13 PM
- */
 
 #ifndef FL_FUNCTION_H
 #define FL_FUNCTION_H

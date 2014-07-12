@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Exception.h
- *
- *  Created on: 14/12/2012
- *      Author: jcrada
- */
-
 #ifndef FL_EXCEPTION_H
 #define FL_EXCEPTION_H
 

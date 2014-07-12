@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   SigmoidProduct.h
- * Author: jcrada
- *
- * Created on 30 December 2012, 5:41 PM
- */
-
 #ifndef FL_SIGMOIDPRODUCT_H
 #define FL_SIGMOIDPRODUCT_H
 

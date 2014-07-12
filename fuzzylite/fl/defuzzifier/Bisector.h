@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Bisector.h
- * Author: jcrada
- *
- * Created on 25 April 2013, 3:55 PM
- */
-
 #ifndef FL_BISECTOR_H
 #define FL_BISECTOR_H
 

@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   FisExporter.cpp
- * Author: jcrada
- *
- * Created on 22 December 2012, 5:53 PM
- */
-
 #include "fl/imex/FisExporter.h"
 
 #include "fl/Headers.h"

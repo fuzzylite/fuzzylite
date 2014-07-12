@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   FllExporter.cpp
- * Author: jcrada
- *
- * Created on 18 December 2013, 8:58 AM
- */
-
 #include "fl/imex/FllExporter.h"
 
 #include "fl/Headers.h"

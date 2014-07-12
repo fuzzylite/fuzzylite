@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   HedgeFactory.cpp
- * Author: jcrada
- *
- * Created on 11 January 2013, 8:51 PM
- */
-
 #include "fl/factory/HedgeFactory.h"
 
 #include "fl/hedge/Any.h"

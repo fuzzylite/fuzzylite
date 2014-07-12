@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Consequent.cpp
- *
- *  Created on: 3/12/2012
- *      Author: jcrada
- */
-
 #include "fl/rule/Consequent.h"
 
 #include "fl/Engine.h"

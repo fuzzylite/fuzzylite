@@ -19,12 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   SShape.h
- * Author: jcrada
- *
- * Created on 22 December 2012, 4:43 PM
- */
 
 #ifndef FL_SSHAPE_H
 #define FL_SSHAPE_H

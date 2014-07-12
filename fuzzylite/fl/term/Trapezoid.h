@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Trapezoid.h
- *
- *  Created on: 29/11/2012
- *      Author: jcrada
- */
-
 #ifndef FL_TRAPEZOID_H
 #define FL_TRAPEZOID_H
 

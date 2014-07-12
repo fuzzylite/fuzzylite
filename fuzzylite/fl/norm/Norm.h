@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Norm.h
- * Author: jcrada
- *
- * Created on 7 April 2013, 10:06 PM
- */
-
 #ifndef FL_NORM_H
 #define FL_NORM_H
 

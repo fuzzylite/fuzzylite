@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   SigmoidProduct.cpp
- * Author: jcrada
- *
- * Created on 30 December 2012, 5:41 PM
- */
-
 #include "fl/term/SigmoidProduct.h"
 
 namespace fl {

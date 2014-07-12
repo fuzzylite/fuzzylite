@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Factory.cpp
- * Author: jcrada
- *
- * Created on 8 January 2013, 11:10 PM
- */
-
 #include "fl/factory/FactoryManager.h"
 
 #include "fl/factory/DefuzzifierFactory.h"

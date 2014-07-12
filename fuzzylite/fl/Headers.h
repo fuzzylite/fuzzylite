@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Headers.h
- *
- *  Created on: 30/11/2012
- *      Author: jcrada
- */
-
 #ifndef FL_HEADERS_H
 #define FL_HEADERS_H
 

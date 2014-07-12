@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Any.h
- *
- *  Created on: 4/12/2012
- *      Author: jcrada
- */
-
 #ifndef FL_ANY_H
 #define FL_ANY_H
 

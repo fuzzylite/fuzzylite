@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   Console.cpp
- * Author: jcrada
- *
- * Created on 30 November 2013, 10:55 AM
- */
-
 #include "fl/Console.h"
 
 #include "fl/Headers.h"
@@ -76,12 +69,12 @@ namespace fl {
     std::string Console::usage() {
         std::vector<Console::Option> options = availableOptions();
         std::ostringstream ss;
-        ss << "Copyright (c) 2010-2014 FuzzyLite Limited\n";
+        ss << "Author: " << fuzzylite::author() << "\n";
+        ss << "Copyright (C) 2010-2014 FuzzyLite Limited\n";
         ss << "All rights reserved\n";
         ss << "========================================\n";
         ss << "fuzzylite: a fuzzy logic control library\n";
         ss << "version: " << fuzzylite::longVersion() << "\n";
-        ss << "author: " << fuzzylite::author() << "\n";
         ss << "license: " << fuzzylite::license() << "\n";
         ss << "========================================\n";
         ss << "usage: fuzzylite inputfile outputfile\n";

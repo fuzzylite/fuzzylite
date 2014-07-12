@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   NilpotentMaximum.h
- * Author: jcrada
- *
- * Created on 29 January 2014, 1:49 PM
- */
-
 #ifndef FL_NILPOTENTMAXIMUM_H
 #define FL_NILPOTENTMAXIMUM_H
 

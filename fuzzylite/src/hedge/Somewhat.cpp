@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Somewhat.cpp
- *
- *  Created on: 4/12/2012
- *      Author: jcrada
- */
-
 #include "fl/hedge/Somewhat.h"
 
 namespace fl {

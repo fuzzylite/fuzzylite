@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   IntegralDefuzzifier.h
- * Author: jcrada
- *
- * Created on 2 November 2013, 9:18 AM
- */
-
 #ifndef FL_INTEGRALDEFUZZIFIER_H
 #define FL_INTEGRALDEFUZZIFIER_H
 

@@ -19,13 +19,6 @@
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * File:   SNormFactory.cpp
- * Author: jcrada
- *
- * Created on 8 January 2013, 11:20 PM
- */
-
 #include "fl/factory/SNormFactory.h"
 
 #include "fl/norm/s/AlgebraicSum.h"
