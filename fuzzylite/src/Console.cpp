@@ -103,7 +103,6 @@ namespace fl {
             ss << spacedKey << spacedValue << description << "\n";
         }
 
-
         ss << "\n";
         ss << "Visit http://www.fuzzylite.com for more information.";
         return ss.str();

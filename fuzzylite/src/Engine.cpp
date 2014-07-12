@@ -177,12 +177,12 @@ namespace fl {
                 SNorm* accumulation = outputVariable->fuzzyOutput()->getAccumulation();
                 if (not accumulation and dynamic_cast<IntegralDefuzzifier*> (outputVariable->getDefuzzifier())) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
-                            << " has no Accumulation\n";
+                            << " has no accumulation operator\n";
                 }
                 Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
                 if (not defuzzifier) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
-                            << " has no Defuzzifier\n";
+                            << " has no defuzzifier\n";
                 }
             }
         }
@@ -232,21 +232,21 @@ namespace fl {
                 }
                 const TNorm* conjunction = ruleblock->getConjunction();
                 if (requiresConjunction > 0 and not conjunction) {
-                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no Conjunction\n";
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no conjunction operator\n";
                     ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has "
-                            << requiresConjunction << " rules that require Conjunction\n";
+                            << requiresConjunction << " rules that require conjunction operator\n";
                 }
                 const SNorm* disjunction = ruleblock->getDisjunction();
                 if (requiresDisjunction > 0 and not disjunction) {
-                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no Disjunction\n";
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no disjunction operator\n";
                     ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has "
-                            << requiresDisjunction << " rules that require Disjunction\n";
+                            << requiresDisjunction << " rules that require disjunction operator\n";
                 }
                 const TNorm* activation = ruleblock->getActivation();
                 if (requiresActivation > 0 and not activation) {
-                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no Activation\n";
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no activation operator\n";
                     ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has "
-                            << requiresActivation << " rules that require Activation\n";
+                            << requiresActivation << " rules that require activation operator\n";
                 }
             }
         }
@@ -349,7 +349,7 @@ namespace fl {
     Engine::Type Engine::type(std::string* name, std::string* reason) const {
         if (_outputVariables.empty()) {
             if (name) *name = "Unknown";
-            if (reason) *reason = "- There are no output variables";
+            if (reason) *reason = "- Engine has no output variables";
             return Engine::Unknown;
         }
 
