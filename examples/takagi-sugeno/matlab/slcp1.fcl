@@ -41,14 +41,12 @@ DEFUZZIFY out
   TERM outmf2 := Linear 39.012 9.947 3.162 4.269 0.000 0.000;
   TERM outmf3 := Linear 45.009 13.985 3.162 4.666 0.000 0.000;
   METHOD : COGS;
-  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
 RULEBLOCK 
   AND : PROD;
   OR : MAX;
-  ACT : PROD;
   RULE 1 : if in5 is small then out is outmf1
   RULE 2 : if in5 is medium then out is outmf2
   RULE 3 : if in5 is large then out is outmf3

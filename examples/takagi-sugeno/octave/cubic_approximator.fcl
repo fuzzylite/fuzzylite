@@ -37,14 +37,12 @@ DEFUZZIFY ApproxXCubed
   TERM TangentatFour := Linear 48.000 -128.000;
   TERM TangentatFive := Linear 75.000 -250.000;
   METHOD : COGS;
-  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
 RULEBLOCK 
   AND : MIN;
   OR : MAX;
-  ACT : PROD;
   RULE 1 : if X is AboutNegFive then ApproxXCubed is TangentatNegFive
   RULE 2 : if X is AboutNegFour then ApproxXCubed is TangentatNegFour
   RULE 3 : if X is AboutNegThree then ApproxXCubed is TangentatNegThree

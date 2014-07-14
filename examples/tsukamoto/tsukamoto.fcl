@@ -5,9 +5,10 @@ VAR_INPUT
 END_VAR
 
 VAR_OUTPUT
-  A: REAL;
-  B: REAL;
-  C: REAL;
+  Ramps: REAL;
+  Sigmoids: REAL;
+  ZSShapes: REAL;
+  Concaves: REAL;
 END_VAR
 
 FUZZIFY X
@@ -17,41 +18,46 @@ FUZZIFY X
   TERM large := Bell 10.000 5.000 3.000;
 END_FUZZIFY
 
-DEFUZZIFY A
+DEFUZZIFY Ramps
   RANGE := (0.000 .. 1.000);
-  TERM a1 := Ramp 0.000 0.250;
-  TERM a2 := Ramp 0.600 0.400;
-  TERM a3 := Ramp 0.700 1.000;
+  TERM b := Ramp 0.600 0.400;
+  TERM a := Ramp 0.000 0.250;
+  TERM c := Ramp 0.700 1.000;
   METHOD : COGS;
-  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
-DEFUZZIFY B
-  RANGE := (0.000 .. 1.000);
-  TERM b1 := Sigmoid 0.130 30.000;
-  TERM b2 := Sigmoid 0.500 -30.000;
-  TERM b3 := Sigmoid 0.830 30.000;
+DEFUZZIFY Sigmoids
+  RANGE := (0.020 .. 1.000);
+  TERM b := Sigmoid 0.500 -30.000;
+  TERM a := Sigmoid 0.130 30.000;
+  TERM c := Sigmoid 0.830 30.000;
   METHOD : COGS;
-  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
-DEFUZZIFY C
+DEFUZZIFY ZSShapes
   RANGE := (0.000 .. 1.000);
-  TERM c1 := SShape 0.000 0.250;
-  TERM c2 := ZShape 0.300 0.600;
-  TERM c3 := SShape 0.700 1.000;
+  TERM b := ZShape 0.300 0.600;
+  TERM a := SShape 0.000 0.250;
+  TERM c := SShape 0.700 1.000;
   METHOD : COGS;
-  ACCU : ASUM;
+  DEFAULT := nan;
+END_DEFUZZIFY
+
+DEFUZZIFY Concaves
+  RANGE := (0.000 .. 1.000);
+  TERM b := Concave 0.500 0.400;
+  TERM a := Concave 0.240 0.250;
+  TERM c := Concave 0.900 1.000;
+  METHOD : COGS;
   DEFAULT := nan;
 END_DEFUZZIFY
 
 RULEBLOCK 
-  ACT : PROD;
-  RULE 1 : if X is small then A is a1 and B is b1 and C is c1
-  RULE 2 : if X is medium then A is a2 and B is b2 and C is c2
-  RULE 3 : if X is large then A is a3 and B is b3 and C is c3
+  RULE 1 : if X is small then Ramps is a and Sigmoids is a and ZSShapes is a and Concaves is a
+  RULE 2 : if X is medium then Ramps is b and Sigmoids is b and ZSShapes is b and Concaves is b
+  RULE 3 : if X is large then Ramps is c and Sigmoids is c and ZSShapes is c and Concaves is c
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK

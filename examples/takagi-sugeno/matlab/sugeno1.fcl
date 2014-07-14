@@ -19,14 +19,11 @@ DEFUZZIFY output
   TERM line1 := Linear -1.000 -1.000;
   TERM line2 := Linear 1.000 -1.000;
   METHOD : COGS;
-  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
 RULEBLOCK 
   AND : PROD;
-  OR : ASUM;
-  ACT : PROD;
   RULE 1 : if input is low then output is line1
   RULE 2 : if input is high then output is line2
 END_RULEBLOCK

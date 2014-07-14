@@ -16,8 +16,8 @@ InputVariable: X
 OutputVariable: ApproxXCubed
   enabled: true
   range: -5.000 5.000
-  accumulation: AlgebraicSum
-  defuzzifier: WeightedAverage
+  accumulation: none
+  defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
   lock-range: false
@@ -36,7 +36,7 @@ RuleBlock:
   enabled: true
   conjunction: Minimum
   disjunction: Maximum
-  activation: AlgebraicProduct
+  activation: none
   rule: if X is AboutNegFive then ApproxXCubed is TangentatNegFive
   rule: if X is AboutNegFour then ApproxXCubed is TangentatNegFour
   rule: if X is AboutNegThree then ApproxXCubed is TangentatNegThree

@@ -7,8 +7,8 @@ InputVariable: input
 OutputVariable: output
   enabled: true
   range: 0.000 1.000
-  accumulation: AlgebraicSum
-  defuzzifier: WeightedAverage
+  accumulation: none
+  defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
   lock-range: false
@@ -17,7 +17,7 @@ OutputVariable: output
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct
-  disjunction: AlgebraicSum
-  activation: AlgebraicProduct
+  disjunction: none
+  activation: none
   rule: if input is low then output is line1
   rule: if input is high then output is line2

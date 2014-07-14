@@ -6,8 +6,8 @@ NumOutputs=3
 NumRules=10
 AndMethod='einstein_product'
 OrMethod='einstein_sum'
-ImpMethod='prod'
-AggMethod='sum'
+ImpMethod=''
+AggMethod=''
 DefuzzMethod='wtaver'
 
 [Input1]

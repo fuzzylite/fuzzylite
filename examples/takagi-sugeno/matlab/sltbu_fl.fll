@@ -13,8 +13,8 @@ InputVariable: control2
 OutputVariable: control
   enabled: true
   range: -0.785 0.785
-  accumulation: AlgebraicSum
-  defuzzifier: WeightedAverage
+  accumulation: none
+  defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
   lock-range: false
@@ -24,6 +24,6 @@ RuleBlock:
   enabled: true
   conjunction: AlgebraicProduct
   disjunction: Maximum
-  activation: AlgebraicProduct
+  activation: none
   rule: if distance is near then control is out1mf1
   rule: if distance is far then control is out1mf2

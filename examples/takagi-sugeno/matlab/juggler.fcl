@@ -35,14 +35,12 @@ DEFUZZIFY theta
   TERM out1mf := Linear -0.022 -0.500 1.256;
   TERM out1mf := Linear -0.022 -0.500 1.256;
   METHOD : COGS;
-  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
 RULEBLOCK 
   AND : PROD;
   OR : MAX;
-  ACT : PROD;
   RULE 1 : if xHit is in1mf1 and projectAngle is in2mf1 then theta is out1mf
   RULE 2 : if xHit is in1mf1 and projectAngle is in2mf2 then theta is out1mf
   RULE 3 : if xHit is in1mf1 and projectAngle is in2mf3 then theta is out1mf

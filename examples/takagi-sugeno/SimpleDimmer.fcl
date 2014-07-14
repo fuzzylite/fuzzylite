@@ -21,14 +21,12 @@ DEFUZZIFY Power
   TERM MEDIUM := 0.500;
   TERM HIGH := 0.750;
   METHOD : COGS;
-  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
 RULEBLOCK 
   AND : MIN;
   OR : MAX;
-  ACT : PROD;
   RULE 1 : if Ambient is DARK then Power is HIGH
   RULE 2 : if Ambient is MEDIUM then Power is MEDIUM
   RULE 3 : if Ambient is BRIGHT then Power is LOW

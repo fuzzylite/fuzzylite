@@ -29,7 +29,6 @@ DEFUZZIFY CheapTip
   TERM Medium := 15.000;
   TERM High := 20.000;
   METHOD : COGS;
-  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
@@ -39,7 +38,6 @@ DEFUZZIFY AverageTip
   TERM Medium := 15.000;
   TERM High := 20.000;
   METHOD : COGS;
-  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
@@ -49,14 +47,12 @@ DEFUZZIFY GenerousTip
   TERM Medium := 15.000;
   TERM High := 20.000;
   METHOD : COGS;
-  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
 RULEBLOCK 
   AND : EPROD;
   OR : ESUM;
-  ACT : PROD;
   RULE 1 : if FoodQuality is extremely Bad and Service is extremely Bad then CheapTip is extremely Low and AverageTip is very Low and GenerousTip is Low
   RULE 2 : if FoodQuality is Good and Service is extremely Bad then CheapTip is Low and AverageTip is Low and GenerousTip is Medium
   RULE 3 : if FoodQuality is very Good and Service is very Bad then CheapTip is Low and AverageTip is Medium and GenerousTip is High

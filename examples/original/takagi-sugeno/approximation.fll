@@ -14,8 +14,8 @@ InputVariable: inputX
 OutputVariable: outputFx
   enabled: true
   range: -1.000 1.000
-  accumulation: AlgebraicSum
-  defuzzifier: WeightedAverage
+  accumulation: none
+  defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: true
   lock-range: false
@@ -31,7 +31,7 @@ OutputVariable: outputFx
 OutputVariable: trueFx
   enabled: true
   range: -1.000 1.000
-  accumulation: AlgebraicSum
+  accumulation: none
   defuzzifier: WeightedAverage
   default: nan
   lock-previous: true
@@ -40,7 +40,7 @@ OutputVariable: trueFx
 OutputVariable: diffFx
   enabled: true
   range: -1.000 1.000
-  accumulation: AlgebraicSum
+  accumulation: none
   defuzzifier: WeightedAverage
   default: nan
   lock-previous: false
@@ -50,7 +50,7 @@ RuleBlock:
   enabled: true
   conjunction: none
   disjunction: none
-  activation: AlgebraicProduct
+  activation: none
   rule: if inputX is NEAR_1 then outputFx is f1
   rule: if inputX is NEAR_2 then outputFx is f2
   rule: if inputX is NEAR_3 then outputFx is f3

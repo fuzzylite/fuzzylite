@@ -13,8 +13,8 @@ InputVariable: food
 OutputVariable: tip
   enabled: true
   range: -30.000 30.000
-  accumulation: AlgebraicSum
-  defuzzifier: WeightedAverage
+  accumulation: none
+  defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
   lock-range: false
@@ -25,7 +25,7 @@ RuleBlock:
   enabled: true
   conjunction: Minimum
   disjunction: Maximum
-  activation: AlgebraicProduct
+  activation: none
   rule: if service is poor or food is rancid then tip is cheap
   rule: if service is average then tip is average
   rule: if service is good or food is delicious then tip is generous

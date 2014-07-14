@@ -27,14 +27,12 @@ DEFUZZIFY Tip
   TERM FifteenPercent := Linear 0.000 0.000 15.000;
   TERM TwentyPercent := Linear 0.000 0.000 20.000;
   METHOD : COGS;
-  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
 RULEBLOCK 
   AND : MIN;
   OR : MAX;
-  ACT : PROD;
   RULE 1 : if FoodQuality is Bad and Service is Bad then Tip is TenPercent
   RULE 2 : if FoodQuality is Bad and Service is Good then Tip is FifteenPercent
   RULE 3 : if FoodQuality is Good and Service is Bad then Tip is FifteenPercent

@@ -6,8 +6,8 @@ NumOutputs=1
 NumRules=2
 AndMethod='prod'
 OrMethod='max'
-ImpMethod='prod'
-AggMethod='sum'
+ImpMethod=''
+AggMethod=''
 DefuzzMethod='wtaver'
 
 [Input1]

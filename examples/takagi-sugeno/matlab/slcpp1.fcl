@@ -67,14 +67,12 @@ DEFUZZIFY out
   TERM outmf10 := Linear -419.870 -129.890 393.380 102.410 -1.000 -2.980 0.000 0.000;
   TERM outmf11 := Linear -354.770 -113.680 327.650 85.270 -1.000 -3.010 0.000 0.000;
   METHOD : COGS;
-  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
 RULEBLOCK 
   AND : PROD;
   OR : MAX;
-  ACT : PROD;
   RULE 1 : if pole_length is mf1 then out is outmf1
   RULE 2 : if pole_length is mf2 then out is outmf2
   RULE 3 : if pole_length is mf3 then out is outmf3

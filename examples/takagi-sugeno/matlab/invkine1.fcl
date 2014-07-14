@@ -83,14 +83,12 @@ DEFUZZIFY output
   TERM out1mf48 := Linear 17.123 11.150 1.006;
   TERM out1mf49 := Linear 0.220 0.154 0.010;
   METHOD : COGS;
-  ACCU : ASUM;
   DEFAULT := nan;
 END_DEFUZZIFY
 
 RULEBLOCK 
   AND : PROD;
   OR : MAX;
-  ACT : PROD;
   RULE 1 : if input1 is in1mf1 and input2 is in2mf1 then output is out1mf1
   RULE 2 : if input1 is in1mf1 and input2 is in2mf2 then output is out1mf2
   RULE 3 : if input1 is in1mf1 and input2 is in2mf3 then output is out1mf3

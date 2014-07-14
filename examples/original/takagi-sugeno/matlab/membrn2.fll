@@ -14,8 +14,8 @@ InputVariable: in_n2
 OutputVariable: out1
   enabled: true
   range: -0.3338470515991 1.0000000000000
-  accumulation: AlgebraicSum
-  defuzzifier: WeightedAverage
+  accumulation: none
+  defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
   lock-range: false
@@ -32,7 +32,7 @@ RuleBlock:
   enabled: true
   conjunction: AlgebraicProduct
   disjunction: Maximum
-  activation: AlgebraicProduct
+  activation: none
   rule: if in_n1 is in1mf1 and in_n2 is in2mf1 then out1 is out1mf1
   rule: if in_n1 is in1mf1 and in_n2 is in2mf2 then out1 is out1mf2
   rule: if in_n1 is in1mf1 and in_n2 is in2mf3 then out1 is out1mf3

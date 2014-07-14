@@ -14,8 +14,8 @@ InputVariable: rate
 OutputVariable: valve
   enabled: true
   range: -1.000 1.000
-  accumulation: AlgebraicSum
-  defuzzifier: WeightedAverage
+  accumulation: none
+  defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
   lock-range: false
@@ -28,7 +28,7 @@ RuleBlock:
   enabled: true
   conjunction: AlgebraicProduct
   disjunction: AlgebraicSum
-  activation: AlgebraicProduct
+  activation: none
   rule: if level is okay then valve is no_change
   rule: if level is low then valve is open_fast
   rule: if level is high then valve is close_fast

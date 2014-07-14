@@ -20,8 +20,8 @@ InputVariable: in5
 OutputVariable: out
   enabled: true
   range: -10.000 10.000
-  accumulation: AlgebraicSum
-  defuzzifier: WeightedAverage
+  accumulation: none
+  defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
   lock-range: false
@@ -32,7 +32,7 @@ RuleBlock:
   enabled: true
   conjunction: AlgebraicProduct
   disjunction: Maximum
-  activation: AlgebraicProduct
+  activation: none
   rule: if in5 is small then out is outmf1
   rule: if in5 is medium then out is outmf2
   rule: if in5 is large then out is outmf3

@@ -12,8 +12,8 @@ InputVariable: Service
 OutputVariable: CheapTip
   enabled: true
   range: 5.000 25.000
-  accumulation: AlgebraicSum
-  defuzzifier: WeightedAverage
+  accumulation: none
+  defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
   lock-range: false
@@ -23,8 +23,8 @@ OutputVariable: CheapTip
 OutputVariable: AverageTip
   enabled: true
   range: 5.000 25.000
-  accumulation: AlgebraicSum
-  defuzzifier: WeightedAverage
+  accumulation: none
+  defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
   lock-range: false
@@ -34,8 +34,8 @@ OutputVariable: AverageTip
 OutputVariable: GenerousTip
   enabled: true
   range: 5.000 25.000
-  accumulation: AlgebraicSum
-  defuzzifier: WeightedAverage
+  accumulation: none
+  defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
   lock-range: false
@@ -46,7 +46,7 @@ RuleBlock:
   enabled: true
   conjunction: EinsteinProduct
   disjunction: EinsteinSum
-  activation: AlgebraicProduct
+  activation: none
   rule: if FoodQuality is extremely Bad and Service is extremely Bad then CheapTip is extremely Low and AverageTip is very Low and GenerousTip is Low
   rule: if FoodQuality is Good and Service is extremely Bad then CheapTip is Low and AverageTip is Low and GenerousTip is Medium
   rule: if FoodQuality is very Good and Service is very Bad then CheapTip is Low and AverageTip is Medium and GenerousTip is High
