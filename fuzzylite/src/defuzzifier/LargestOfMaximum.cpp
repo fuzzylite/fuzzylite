@@ -42,7 +42,7 @@ namespace fl {
             return fl::nan;
         }
         if (maximum - minimum > _resolution) {
-            FL_LOG("[accuracy warning] the resolution <" << _resolution << "> "
+            FL_DBG("[accuracy warning] the resolution <" << _resolution << "> "
                     "is smaller than the range <" << minimum << ", " << maximum << ">. In order to "
                     "improve the accuracy, the resolution should be at least equal to the range.");
         }

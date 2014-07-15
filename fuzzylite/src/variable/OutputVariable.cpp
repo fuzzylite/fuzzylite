@@ -140,8 +140,10 @@ namespace fl {
         scalar result = fl::nan;
         bool isValid = this->_enabled and not this->_fuzzyOutput->isEmpty();
         if (isValid) {
-            if (not _defuzzifier.get()) throw fl::Exception("[defuzzifier error] "
-                    "defuzzifier needed to defuzzify output variable <" + _name + ">", FL_AT);
+            if (not _defuzzifier.get()) {
+                throw fl::Exception("[defuzzifier error] "
+                        "defuzzifier needed to defuzzify output variable <" + _name + ">", FL_AT);
+            }
             result = this->_defuzzifier->defuzzify(this->_fuzzyOutput, _minimum, _maximum);
         } else {
             //if a previous defuzzification was successfully performed and
