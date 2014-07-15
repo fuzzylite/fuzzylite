@@ -31,12 +31,12 @@ namespace fl {
     public:
 
         WeightedSum(Type type = Automatic);
-        virtual ~WeightedSum();
+        virtual ~WeightedSum() FL_OVERRIDE;
 
-        virtual std::string className() const;
+        virtual std::string className() const FL_OVERRIDE;
         virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const;
-        virtual WeightedSum* clone() const;
+                scalar minimum, scalar maximum) const FL_OVERRIDE;
+        virtual WeightedSum* clone() const FL_OVERRIDE;
 
         static Defuzzifier* constructor();
     };

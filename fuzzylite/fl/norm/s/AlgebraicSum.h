@@ -29,9 +29,9 @@ namespace fl {
 
     class FL_EXPORT AlgebraicSum : public SNorm {
     public:
-        std::string className() const;
-        scalar compute(scalar a, scalar b) const;
-        AlgebraicSum* clone() const;
+        std::string className() const FL_OVERRIDE;
+        scalar compute(scalar a, scalar b) const FL_OVERRIDE;
+        AlgebraicSum* clone() const FL_OVERRIDE;
 
         static SNorm* constructor();
     };

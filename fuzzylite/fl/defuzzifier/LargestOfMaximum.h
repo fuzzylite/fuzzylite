@@ -29,11 +29,12 @@ namespace fl {
     class FL_EXPORT LargestOfMaximum : public IntegralDefuzzifier {
     public:
         LargestOfMaximum(int resolution = defaultResolution());
-        virtual ~LargestOfMaximum();
+        virtual ~LargestOfMaximum() FL_OVERRIDE;
 
-        virtual std::string className() const;
-        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;
-        virtual LargestOfMaximum* clone() const;
+        virtual std::string className() const FL_OVERRIDE;
+        virtual scalar defuzzify(const Term* term,
+                scalar minimum, scalar maximum) const FL_OVERRIDE;
+        virtual LargestOfMaximum* clone() const FL_OVERRIDE;
 
         static Defuzzifier* constructor();
     };

@@ -24,7 +24,6 @@
 
 #include "fl/fuzzylite.h"
 
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -42,9 +41,9 @@ namespace fl {
     protected:
         std::vector<Rule*> _rules;
         std::string _name;
-        std::auto_ptr<TNorm> _conjunction;
-        std::auto_ptr<SNorm> _disjunction;
-        std::auto_ptr<TNorm> _activation;
+        FL_unique_ptr<TNorm> _conjunction;
+        FL_unique_ptr<SNorm> _disjunction;
+        FL_unique_ptr<TNorm> _activation;
         bool _enabled;
 
     public:

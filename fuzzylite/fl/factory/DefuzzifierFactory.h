@@ -33,7 +33,7 @@ namespace fl {
     class FL_EXPORT DefuzzifierFactory : public ConstructionFactory<Defuzzifier*> {
     public:
         DefuzzifierFactory();
-        virtual ~DefuzzifierFactory();
+        virtual ~DefuzzifierFactory() FL_OVERRIDE;
 
         virtual Defuzzifier* constructDefuzzifier(const std::string& key,
                 int resolution, WeightedDefuzzifier::Type) const;

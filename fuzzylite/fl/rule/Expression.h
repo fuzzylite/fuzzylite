@@ -53,9 +53,9 @@ namespace fl {
         Term* term;
 
         Proposition();
-        virtual ~Proposition();
+        virtual ~Proposition() FL_OVERRIDE;
 
-        virtual std::string toString() const;
+        virtual std::string toString() const FL_OVERRIDE;
 
     private:
         FL_DISABLE_COPY(Proposition)
@@ -68,9 +68,9 @@ namespace fl {
         Expression* right;
 
         Operator();
-        virtual ~Operator();
+        virtual ~Operator() FL_OVERRIDE;
 
-        virtual std::string toString() const;
+        virtual std::string toString() const FL_OVERRIDE;
 
     private:
         FL_DISABLE_COPY(Operator)

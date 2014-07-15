@@ -29,11 +29,12 @@ namespace fl {
     class FL_EXPORT Bisector : public IntegralDefuzzifier {
     public:
         Bisector(int resolution = defaultResolution());
-        virtual ~Bisector();
+        virtual ~Bisector() FL_OVERRIDE;
 
-        virtual std::string className() const;
-        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;
-        virtual Bisector* clone() const;
+        virtual std::string className() const FL_OVERRIDE;
+        virtual scalar defuzzify(const Term* term,
+                scalar minimum, scalar maximum) const FL_OVERRIDE;
+        virtual Bisector* clone() const FL_OVERRIDE;
 
         static Defuzzifier* constructor();
     };

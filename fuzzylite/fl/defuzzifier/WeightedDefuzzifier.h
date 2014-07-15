@@ -30,16 +30,12 @@ namespace fl {
     class FL_EXPORT WeightedDefuzzifier : public Defuzzifier {
     public:
 
-        //The type is solely for the sake of performance. If the type is known
-        //in advance to be Takagi-Sugeno or Tsukamoto, the defuzzification will
-        //be slightly faster than using Automatic.
-
         enum Type {
             Automatic, TakagiSugeno, Tsukamoto
         };
 
         WeightedDefuzzifier(Type type = Automatic);
-        virtual ~WeightedDefuzzifier();
+        virtual ~WeightedDefuzzifier() FL_OVERRIDE;
 
         virtual void setType(Type type);
         virtual Type getType() const;

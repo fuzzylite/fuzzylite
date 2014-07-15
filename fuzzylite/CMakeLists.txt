@@ -39,6 +39,7 @@ add_definitions(-DFL_DATE="${FL_DATE}")
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_DEBUG "Enable additional debugging information" OFF)
 option(FL_BACKTRACE "Provide backtrace information in case of errors" OFF)
+option(FL_CPP11 "Builds utilizing C++11, i.e., passing -std=c++11" OFF)
 
 
 if(FL_DEBUG)
@@ -57,6 +58,10 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 set(FL_LIBS)
+
+if(FL_CPP11)
+    add_definitions(-std=c++11) 
+endif(FL_CPP11)
 
 if(UNIX)
     set(CMAKE_CXX_FLAGS "-pedantic -Werror -Wall -Wextra")
@@ -140,6 +145,7 @@ message("fuzzylite v.${FL_VERSION}b${FL_DATE}\n")
 message("FL_DEBUG=${FL_DEBUG}")
 message("FL_USE_FLOAT=${FL_USE_FLOAT}")
 message("FL_BACKTRACE=${FL_BACKTRACE}")
+message("FL_CPP11=${FL_CPP11}")
 message("=====================================\n")
 
 # uninstall target

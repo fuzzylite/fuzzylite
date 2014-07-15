@@ -40,9 +40,10 @@ namespace fl {
         virtual std::string fl(const std::string& clazz) const;
     public:
         CppExporter(bool prefixNamespace = false);
-        virtual ~CppExporter();
-        virtual std::string name() const;
-        virtual std::string toString(const Engine* engine) const;
+        virtual ~CppExporter() FL_OVERRIDE;
+
+        virtual std::string name() const FL_OVERRIDE;
+        virtual std::string toString(const Engine* engine) const FL_OVERRIDE;
 
         virtual std::string toString(const InputVariable* inputVariable, const Engine* engine) const;
         virtual std::string toString(const OutputVariable* outputVariable, const Engine* engine) const;
@@ -54,7 +55,7 @@ namespace fl {
         virtual std::string toString(const Norm* op) const;
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
 
-        virtual CppExporter* clone() const;
+        virtual CppExporter* clone() const FL_OVERRIDE;
 
     };
 }

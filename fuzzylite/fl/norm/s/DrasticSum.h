@@ -27,9 +27,9 @@ namespace fl {
 
     class FL_EXPORT DrasticSum : public SNorm {
     public:
-        std::string className() const;
-        scalar compute(scalar a, scalar b) const;
-        DrasticSum* clone() const;
+        std::string className() const FL_OVERRIDE;
+        scalar compute(scalar a, scalar b) const FL_OVERRIDE;
+        DrasticSum* clone() const FL_OVERRIDE;
 
         static SNorm* constructor();
     };

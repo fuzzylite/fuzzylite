@@ -37,6 +37,16 @@ namespace fl {
     class Defuzzifier;
 
     class FL_EXPORT FclImporter : public Importer {
+    public:
+        FclImporter();
+        virtual ~FclImporter() FL_OVERRIDE;
+
+        virtual std::string name() const FL_OVERRIDE;
+
+        virtual Engine* fromString(const std::string& fcl) const FL_OVERRIDE;
+
+        virtual FclImporter* clone() const FL_OVERRIDE;
+
     protected:
         virtual void processBlock(const std::string& tag, const std::string& block, Engine* engine) const;
         virtual void processVar(const std::string& var, const std::string& block, Engine* engine)const;
@@ -53,16 +63,6 @@ namespace fl {
         virtual std::pair<scalar, scalar> parseRange(const std::string& line) const;
         virtual std::pair<bool, bool> parseLocks(const std::string& line) const;
         virtual bool parseEnabled(const std::string& line) const;
-
-    public:
-        FclImporter();
-        virtual ~FclImporter();
-
-        virtual std::string name() const;
-
-        virtual Engine* fromString(const std::string& fcl) const;
-
-        virtual FclImporter* clone() const;
 
     };
 

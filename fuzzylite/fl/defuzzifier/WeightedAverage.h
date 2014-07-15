@@ -31,12 +31,12 @@ namespace fl {
     public:
 
         WeightedAverage(Type type = Automatic);
-        virtual ~WeightedAverage();
+        virtual ~WeightedAverage() FL_OVERRIDE;
 
-        virtual std::string className() const;
+        virtual std::string className() const FL_OVERRIDE;
         virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const;
-        virtual WeightedAverage* clone() const;
+                scalar minimum, scalar maximum) const FL_OVERRIDE;
+        virtual WeightedAverage* clone() const FL_OVERRIDE;
 
         static Defuzzifier* constructor();
     };

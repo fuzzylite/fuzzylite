@@ -26,7 +26,6 @@
 #include <sstream>
 #include <iostream>
 #include <cctype>
-#include <memory>
 
 namespace fl {
 
@@ -41,7 +40,7 @@ namespace fl {
     }
 
     Engine* FisImporter::fromString(const std::string& fis) const {
-        std::auto_ptr<Engine> engine(new Engine);
+        FL_unique_ptr<Engine> engine(new Engine);
 
         std::istringstream fisReader(fis);
         std::string line;
@@ -478,7 +477,7 @@ namespace fl {
         if (it != mapping.end()) flClass = it->second;
         else flClass = mClass;
 
-        std::auto_ptr<Term> term;
+        FL_unique_ptr<Term> term;
         term.reset(FactoryManager::instance()->term()->constructObject(flClass));
         Term::updateReference(term.get(), engine);
         term->setName(Op::validName(name));

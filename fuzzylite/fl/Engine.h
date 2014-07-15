@@ -68,7 +68,7 @@ namespace fl {
                 TNorm* activation, SNorm* accumulation,
                 Defuzzifier* defuzzifier);
 
-        virtual bool isReady(std::string* status = NULL) const;
+        virtual bool isReady(std::string* status = fl::null) const;
 
         virtual void process();
 
@@ -87,7 +87,7 @@ namespace fl {
             Mamdani, Larsen, TakagiSugeno,
             Tsukamoto, InverseTsukamoto, Hybrid, Unknown
         };
-        virtual Type type(std::string* name = NULL, std::string* reason = NULL) const;
+        virtual Type type(std::string* name = fl::null, std::string* reason = fl::null) const;
 
         virtual Engine* clone() const;
 

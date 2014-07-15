@@ -28,9 +28,9 @@ namespace fl {
 
     class FL_EXPORT Not : public Hedge {
     public:
-        std::string name() const;
-        scalar hedge(scalar x) const;
-        Not* clone() const;
+        std::string name() const FL_OVERRIDE;
+        scalar hedge(scalar x) const FL_OVERRIDE;
+        Not* clone() const FL_OVERRIDE;
 
         static Hedge* constructor();
     };

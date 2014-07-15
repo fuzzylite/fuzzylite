@@ -29,11 +29,12 @@ namespace fl {
     class FL_EXPORT MeanOfMaximum : public IntegralDefuzzifier {
     public:
         MeanOfMaximum(int resolution = defaultResolution());
-        virtual ~MeanOfMaximum();
+        virtual ~MeanOfMaximum() FL_OVERRIDE;
 
-        virtual std::string className() const;
-        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;
-        virtual MeanOfMaximum* clone() const;
+        virtual std::string className() const FL_OVERRIDE;
+        virtual scalar defuzzify(const Term* term,
+                scalar minimum, scalar maximum) const FL_OVERRIDE;
+        virtual MeanOfMaximum* clone() const FL_OVERRIDE;
 
         static Defuzzifier* constructor();
     };

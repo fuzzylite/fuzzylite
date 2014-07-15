@@ -34,17 +34,16 @@ namespace fl {
         const TNorm* _activation;
 
     public:
-        Activated(const Term* term = NULL, scalar degree = 1.0,
-                const TNorm* activationOperator = NULL);
+        Activated(const Term* term = fl::null, scalar degree = 1.0,
+                const TNorm* activationOperator = fl::null);
+        virtual ~Activated() FL_OVERRIDE;
 
-        virtual ~Activated();
+        virtual std::string className() const FL_OVERRIDE;
+        virtual std::string parameters() const FL_OVERRIDE;
+        virtual void configure(const std::string& parameters) FL_OVERRIDE;
 
-        virtual std::string className() const;
-        virtual std::string parameters() const;
-        virtual void configure(const std::string& parameters);
-
-        virtual scalar membership(scalar x) const;
-        virtual std::string toString() const;
+        virtual scalar membership(scalar x) const FL_OVERRIDE;
+        virtual std::string toString() const FL_OVERRIDE;
 
         virtual void setTerm(const Term* term);
         virtual const Term* getTerm() const;
@@ -55,7 +54,7 @@ namespace fl {
         virtual void setActivation(const TNorm* activation);
         virtual const TNorm* getActivation() const;
 
-        virtual Activated* clone() const;
+        virtual Activated* clone() const FL_OVERRIDE;
     };
 
 }

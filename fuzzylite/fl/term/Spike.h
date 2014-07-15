@@ -34,13 +34,13 @@ namespace fl {
                 scalar center = fl::nan,
                 scalar width = fl::nan,
                 scalar height = 1.0);
-        virtual ~Spike();
+        virtual ~Spike() FL_OVERRIDE;
 
-        virtual std::string className() const;
-        virtual std::string parameters() const;
-        virtual void configure(const std::string& parameters);
+        virtual std::string className() const FL_OVERRIDE;
+        virtual std::string parameters() const FL_OVERRIDE;
+        virtual void configure(const std::string& parameters) FL_OVERRIDE;
 
-        virtual scalar membership(scalar x) const;
+        virtual scalar membership(scalar x) const FL_OVERRIDE;
 
         virtual void setCenter(scalar center);
         virtual scalar getCenter() const;
@@ -48,7 +48,7 @@ namespace fl {
         virtual void setWidth(scalar width);
         virtual scalar getWidth() const;
 
-        virtual Spike* clone() const;
+        virtual Spike* clone() const FL_OVERRIDE;
 
         static Term* constructor();
     };

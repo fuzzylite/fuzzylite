@@ -36,13 +36,13 @@ namespace fl {
                 scalar vertexC = fl::nan,
                 scalar vertexD = fl::nan,
                 scalar height = 1.0);
-        virtual ~Trapezoid();
+        virtual ~Trapezoid() FL_OVERRIDE;
 
-        virtual std::string className() const;
-        virtual std::string parameters() const;
-        virtual void configure(const std::string& parameters);
+        virtual std::string className() const FL_OVERRIDE;
+        virtual std::string parameters() const FL_OVERRIDE;
+        virtual void configure(const std::string& parameters) FL_OVERRIDE;
 
-        virtual scalar membership(scalar x) const;
+        virtual scalar membership(scalar x) const FL_OVERRIDE;
 
         virtual void setVertexA(scalar a);
         virtual scalar getVertexA() const;
@@ -56,7 +56,7 @@ namespace fl {
         virtual void setVertexD(scalar d);
         virtual scalar getVertexD() const;
 
-        virtual Trapezoid* clone() const;
+        virtual Trapezoid* clone() const FL_OVERRIDE;
 
         static Term* constructor();
     };

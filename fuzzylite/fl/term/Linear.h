@@ -34,14 +34,14 @@ namespace fl {
     public:
         Linear(const std::string& name = "",
                 const std::vector<scalar>& coefficients = std::vector<scalar>(),
-                const Engine* engine = NULL);
-        virtual ~Linear();
+                const Engine* engine = fl::null);
+        virtual ~Linear() FL_OVERRIDE;
 
-        virtual std::string className() const;
-        virtual std::string parameters() const;
-        virtual void configure(const std::string& parameters);
+        virtual std::string className() const FL_OVERRIDE;
+        virtual std::string parameters() const FL_OVERRIDE;
+        virtual void configure(const std::string& parameters) FL_OVERRIDE;
 
-        virtual scalar membership(scalar x) const;
+        virtual scalar membership(scalar x) const FL_OVERRIDE;
 
         virtual void set(const std::vector<scalar>& coeffs, const Engine* engine);
 
@@ -52,7 +52,7 @@ namespace fl {
         virtual void setEngine(const Engine* engine);
         virtual const Engine* getEngine() const;
 
-        virtual Linear* clone() const;
+        virtual Linear* clone() const FL_OVERRIDE;
 
         static Term* constructor();
 

@@ -35,7 +35,7 @@ namespace fl {
     CloningFactory<T>::CloningFactory(const CloningFactory& source) {
         typename std::map<std::string, T>::const_iterator it = source._objects.begin();
         while (it != source._objects.end()) {
-            T clone = NULL;
+            T clone = fl::null;
             if (it->second) clone = it->second->clone();
             this->_objects[it->first] = clone;
             ++it;
@@ -54,7 +54,7 @@ namespace fl {
 
         it = rhs._objects.begin();
         while (it != rhs._objects.end()) {
-            T clone = NULL;
+            T clone = fl::null;
             if (it->second) clone = it->second->clone();
             this->_objects[it->first] = clone;
             ++it;
@@ -102,7 +102,7 @@ namespace fl {
         if (it != this->_objects.end()) {
             if (it->second) return it->second;
         }
-        return NULL;
+        return fl::null;
     }
 
     template<typename T>
@@ -110,7 +110,7 @@ namespace fl {
         typename std::map<std::string, T>::const_iterator it = this->_objects.find(key);
         if (it != this->_objects.end()) {
             if (it->second) return it->second->clone();
-            return NULL;
+            return fl::null;
         }
         throw fl::Exception("[cloning error] " + _name + " object by name <" + key + "> not registered", FL_AT);
     }

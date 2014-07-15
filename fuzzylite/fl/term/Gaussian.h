@@ -36,13 +36,13 @@ namespace fl {
                 scalar mean = fl::nan,
                 scalar standardDeviation = fl::nan,
                 scalar height = 1.0);
-        virtual ~Gaussian();
+        virtual ~Gaussian() FL_OVERRIDE;
 
-        virtual std::string className() const;
-        virtual std::string parameters() const;
-        virtual void configure(const std::string& parameters);
+        virtual std::string className() const FL_OVERRIDE;
+        virtual std::string parameters() const FL_OVERRIDE;
+        virtual void configure(const std::string& parameters) FL_OVERRIDE;
 
-        virtual scalar membership(scalar x) const;
+        virtual scalar membership(scalar x) const FL_OVERRIDE;
 
         virtual void setMean(scalar c);
         virtual scalar getMean() const;
@@ -50,7 +50,7 @@ namespace fl {
         virtual void setStandardDeviation(scalar sigma);
         virtual scalar getStandardDeviation() const;
 
-        virtual Gaussian* clone() const;
+        virtual Gaussian* clone() const FL_OVERRIDE;
 
         static Term* constructor();
     };

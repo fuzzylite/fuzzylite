@@ -33,7 +33,7 @@
 namespace fl {
 
     SNormFactory::SNormFactory() : ConstructionFactory<SNorm*>("SNorm") {
-        registerConstructor("", NULL);
+        registerConstructor("", fl::null);
         registerConstructor(AlgebraicSum().className(), &(AlgebraicSum::constructor));
         registerConstructor(BoundedSum().className(), &(BoundedSum::constructor));
         registerConstructor(DrasticSum().className(), &(DrasticSum::constructor));

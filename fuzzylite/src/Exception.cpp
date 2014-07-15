@@ -53,7 +53,7 @@ namespace fl {
         FL_DBG(this->what());
     }
 
-    Exception::~Exception() throw () {
+    Exception::~Exception() FL_NOEXCEPT {
     }
 
     void Exception::setWhat(const std::string& what) {
@@ -64,7 +64,7 @@ namespace fl {
         return this->_what;
     }
 
-    const char* Exception::what() const throw () {
+    const char* Exception::what() const FL_NOEXCEPT {
         return this->_what.c_str();
     }
 
@@ -93,7 +93,7 @@ namespace fl {
         void* buffer[bufferSize];
         int backtraceSize = backtrace(buffer, bufferSize);
         char **btSymbols = backtrace_symbols(buffer, backtraceSize);
-        if (btSymbols == NULL) {
+        if (btSymbols == fl::null) {
             btStream << "[backtrace error] no symbols could be retrieved";
         } else {
             if (backtraceSize == 0) btStream << "[backtrace is empty]";
@@ -109,9 +109,9 @@ namespace fl {
         std::ostringstream btStream;
         const int bufferSize = 30;
         void* buffer[bufferSize];
-        SymInitialize(GetCurrentProcess(), NULL, TRUE);
+        SymInitialize(GetCurrentProcess(), fl::null, TRUE);
 
-        int backtraceSize = CaptureStackBackTrace(0, bufferSize, buffer, NULL);
+        int backtraceSize = CaptureStackBackTrace(0, bufferSize, buffer, fl::null);
         SYMBOL_INFO* btSymbol = (SYMBOL_INFO *) calloc(sizeof ( SYMBOL_INFO) + 256 * sizeof ( char), 1);
         if (not btSymbol) {
             btStream << "[backtrace error] no symbols could be retrieved";
@@ -151,7 +151,7 @@ namespace fl {
         sigset_t empty;
         sigemptyset(&empty);
         sigaddset(&empty, signal);
-        sigprocmask(SIG_UNBLOCK, &empty, NULL);
+        sigprocmask(SIG_UNBLOCK, &empty, fl::null);
         signalDescription = strsignal(signal);
 #endif
         std::ostringstream ex;

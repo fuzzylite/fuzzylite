@@ -35,15 +35,14 @@ namespace fl {
                 scalar maximum = fl::inf);
         InputVariable(const InputVariable& copy);
         InputVariable& operator=(const InputVariable& rhs);
-
-        virtual ~InputVariable();
+        virtual ~InputVariable() FL_OVERRIDE;
 
         virtual void setInputValue(scalar inputValue);
         virtual scalar getInputValue() const;
 
         virtual std::string fuzzyInputValue() const;
 
-        virtual std::string toString() const;
+        virtual std::string toString() const FL_OVERRIDE;
 
     };
 

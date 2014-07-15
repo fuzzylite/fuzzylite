@@ -32,7 +32,7 @@ namespace fl {
         SNorm() {
         }
 
-        virtual ~SNorm() {
+        virtual ~SNorm() FL_OVERRIDE {
         }
 
         virtual SNorm* clone() const = 0;

@@ -47,7 +47,7 @@
 namespace fl {
 
     TermFactory::TermFactory() : ConstructionFactory<Term*>("Term") {
-        registerConstructor("", NULL);
+        registerConstructor("", fl::null);
         registerConstructor(Bell().className(), &(Bell::constructor));
         registerConstructor(Concave().className(), &(Concave::constructor));
         registerConstructor(Constant().className(), &(Constant::constructor));

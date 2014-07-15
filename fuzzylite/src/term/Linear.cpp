@@ -25,7 +25,6 @@
 #include "fl/variable/InputVariable.h"
 
 #include <cstdarg>
-#include <memory>
 
 namespace fl {
 
@@ -120,7 +119,7 @@ namespace fl {
         }
         va_end(args);
 
-        std::auto_ptr<Linear> result(new Linear(name));
+        FL_unique_ptr<Linear> result(new Linear(name));
         result->set(coefficients, engine);
         return result.release();
     }

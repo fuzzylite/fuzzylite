@@ -31,7 +31,7 @@ namespace fl {
     class FunctionFactory : public CloningFactory<Function::Element*> {
     public:
         FunctionFactory();
-        virtual ~FunctionFactory();
+        virtual ~FunctionFactory() FL_OVERRIDE;
 
         virtual std::vector<std::string> availableOperators() const;
         virtual std::vector<std::string> availableFunctions() const;

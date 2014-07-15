@@ -132,7 +132,7 @@ namespace fl {
     }
 
     Term* Variable::highestMembership(scalar x, scalar* yhighest) const {
-        Term* result = NULL;
+        Term* result = fl::null;
         scalar ymax = 0.0;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             scalar y = fl::nan;
@@ -211,7 +211,7 @@ namespace fl {
     }
 
     bool Variable::hasTerm(const std::string& name) const {
-        return getTerm(name) != NULL;
+        return getTerm(name) != fl::null;
     }
 
     Term* Variable::removeTerm(int index) {

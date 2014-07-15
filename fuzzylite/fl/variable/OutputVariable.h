@@ -24,8 +24,6 @@
 
 #include "fl/variable/Variable.h"
 
-#include <memory>
-
 namespace fl {
     class Accumulated;
     class Defuzzifier;
@@ -35,7 +33,7 @@ namespace fl {
         void copyFrom(const OutputVariable& rhs);
     protected:
         Accumulated* _fuzzyOutput;
-        std::auto_ptr<Defuzzifier> _defuzzifier;
+        FL_unique_ptr<Defuzzifier> _defuzzifier;
         scalar _outputValue;
         scalar _previousOutputValue;
         scalar _defaultValue;
@@ -47,14 +45,14 @@ namespace fl {
                 scalar minimum = -fl::inf, scalar maximum = fl::inf);
         OutputVariable(const OutputVariable& copy);
         OutputVariable& operator=(const OutputVariable& rhs);
-        virtual ~OutputVariable();
+        virtual ~OutputVariable() FL_OVERRIDE;
 
         virtual Accumulated* fuzzyOutput() const;
 
-        virtual void setName(const std::string& name);
+        virtual void setName(const std::string& name) FL_OVERRIDE;
 
-        virtual void setMinimum(scalar minimum);
-        virtual void setMaximum(scalar maximum);
+        virtual void setMinimum(scalar minimum) FL_OVERRIDE;
+        virtual void setMaximum(scalar maximum) FL_OVERRIDE;
 
         virtual void setDefuzzifier(Defuzzifier* defuzzifier);
         virtual Defuzzifier* getDefuzzifier() const;
@@ -80,7 +78,7 @@ namespace fl {
 
         virtual void clear();
 
-        virtual std::string toString() const;
+        virtual std::string toString() const FL_OVERRIDE;
 
     };
 

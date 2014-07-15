@@ -26,7 +26,6 @@
 #include <algorithm>
 #include <cctype>
 #include <fstream>
-#include <memory>
 #include <stdlib.h>
 #include <utility>
 #include <vector>
@@ -234,9 +233,9 @@ namespace fl {
     void Console::process(const std::string& input, std::ostream& writer,
             const std::string& inputFormat, const std::string& outputFormat,
             const std::map<std::string, std::string>& options) {
-        std::auto_ptr<Importer> importer;
-        std::auto_ptr<Exporter> exporter;
-        std::auto_ptr<Engine> engine;
+        FL_unique_ptr<Importer> importer;
+        FL_unique_ptr<Exporter> exporter;
+        FL_unique_ptr<Engine> engine;
 
         if ("fll" == inputFormat) {
             importer.reset(new FllImporter);
@@ -565,13 +564,13 @@ namespace fl {
         std::string sourceBase = "/home/jcrada/Development/fl/fuzzylite/examples/original";
         std::string targetBase = "/tmp/fl/";
 
-        std::auto_ptr<Importer> importer;
+        FL_unique_ptr<Importer> importer;
         if (from == "fll") importer.reset(new FllImporter);
         else if (from == "fis") importer.reset(new FisImporter);
         else if (from == "fcl") importer.reset(new FclImporter);
         else throw fl::Exception("[examples error] unrecognized format <" + from + "> to import", FL_AT);
 
-        std::auto_ptr<Exporter> exporter;
+        FL_unique_ptr<Exporter> exporter;
         if (to == "fll") exporter.reset(new FllExporter);
         else if (to == "fld") exporter.reset(new FldExporter(" "));
         else if (to == "fcl") exporter.reset(new FclExporter);
@@ -598,11 +597,11 @@ namespace fl {
                 source.close();
             } else throw fl::Exception("[examples error] file not found: " + input, FL_AT);
 
-            std::auto_ptr<Engine> engine(importer->fromString(ss.str()));
+            FL_unique_ptr<Engine> engine(importer->fromString(ss.str()));
 
             for (std::size_t t = 0; t < tests.size(); ++t) {
                 std::string out = tests.at(t).first->toString(engine.get());
-                std::auto_ptr<Engine> copy(tests.at(t).second->fromString(out));
+                FL_unique_ptr<Engine> copy(tests.at(t).second->fromString(out));
                 std::string out_copy = tests.at(t).first->toString(copy.get());
 
                 if (out != out_copy) {
@@ -721,7 +720,7 @@ namespace fl {
                 file.close();
             } else throw fl::Exception("[examples error] file not found: " + filename, FL_AT);
 
-            std::auto_ptr<Engine> engine(importer.fromString(fll.str()));
+            FL_unique_ptr<Engine> engine(importer.fromString(fll.str()));
 
             std::vector<scalar> seconds;
             timespec start, now;

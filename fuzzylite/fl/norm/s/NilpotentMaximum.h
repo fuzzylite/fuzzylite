@@ -28,9 +28,9 @@ namespace fl {
 
     class FL_EXPORT NilpotentMaximum : public SNorm {
     public:
-        std::string className() const;
-        scalar compute(scalar a, scalar b) const;
-        NilpotentMaximum* clone() const;
+        std::string className() const FL_OVERRIDE;
+        scalar compute(scalar a, scalar b) const FL_OVERRIDE;
+        NilpotentMaximum* clone() const FL_OVERRIDE;
 
         static SNorm* constructor();
     };

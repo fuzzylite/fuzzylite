@@ -123,15 +123,15 @@ namespace fl {
     void Engine::configure(TNorm* conjunction, SNorm* disjunction,
             TNorm* activation, SNorm* accumulation, Defuzzifier* defuzzifier) {
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
-            _ruleblocks.at(i)->setConjunction(conjunction ? conjunction->clone() : NULL);
-            _ruleblocks.at(i)->setDisjunction(disjunction ? disjunction->clone() : NULL);
-            _ruleblocks.at(i)->setActivation(activation ? activation->clone() : NULL);
+            _ruleblocks.at(i)->setConjunction(conjunction ? conjunction->clone() : fl::null);
+            _ruleblocks.at(i)->setDisjunction(disjunction ? disjunction->clone() : fl::null);
+            _ruleblocks.at(i)->setActivation(activation ? activation->clone() : fl::null);
         }
 
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            _outputVariables.at(i)->setDefuzzifier(defuzzifier ? defuzzifier->clone() : NULL);
+            _outputVariables.at(i)->setDefuzzifier(defuzzifier ? defuzzifier->clone() : fl::null);
             _outputVariables.at(i)->fuzzyOutput()->setAccumulation(
-                    accumulation ? accumulation->clone() : NULL);
+                    accumulation ? accumulation->clone() : fl::null);
         }
         if (defuzzifier) delete defuzzifier;
         if (accumulation) delete accumulation;
@@ -148,7 +148,7 @@ namespace fl {
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
             InputVariable* inputVariable = _inputVariables.at(i);
             if (not inputVariable) {
-                ss << "- Engine <" << _name << "> has a NULL input variable at index <" << i << ">\n";
+                ss << "- Engine <" << _name << "> has a fl::null input variable at index <" << i << ">\n";
             } else if (inputVariable->terms().empty()) {
                 //ignore because sometimes inputs can be empty: takagi-sugeno/matlab/slcpp1.fis
                 //                ss << "- Input variable <" << _inputVariables.at(i)->getName() << ">"
@@ -162,7 +162,7 @@ namespace fl {
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             OutputVariable* outputVariable = _outputVariables.at(i);
             if (not outputVariable) {
-                ss << "- Engine <" << _name << "> has a NULL output variable at index <" << i << ">\n";
+                ss << "- Engine <" << _name << "> has a fl::null output variable at index <" << i << ">\n";
             } else {
                 if (outputVariable->terms().empty()) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
@@ -187,7 +187,7 @@ namespace fl {
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
             RuleBlock* ruleblock = _ruleblocks.at(i);
             if (not ruleblock) {
-                ss << "- Engine <" << _name << "> has a NULL rule block at index <" << i << ">\n";
+                ss << "- Engine <" << _name << "> has a fl::null rule block at index <" << i << ">\n";
             } else {
                 if (ruleblock->rules().empty()) {
                     ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no rules\n";
@@ -199,7 +199,7 @@ namespace fl {
                     Rule* rule = ruleblock->getRule(r);
                     if (not rule) {
                         ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName()
-                                << "> has a NULL rule at index <" << r << ">\n";
+                                << "> has a fl::null rule at index <" << r << ">\n";
                     } else {
                         std::size_t thenIndex = rule->getText().find(" " + Rule::thenKeyword() + " ");
                         std::size_t andIndex = rule->getText().find(" " + Rule::andKeyword() + " ");
@@ -450,7 +450,7 @@ namespace fl {
         bool hybrid = true;
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             OutputVariable* outputVariable = _outputVariables.at(i);
-            //Output variables have non-NULL defuzzifiers
+            //Output variables have non-fl::null defuzzifiers
             hybrid = hybrid and outputVariable->getDefuzzifier();
         }
         if (hybrid) {

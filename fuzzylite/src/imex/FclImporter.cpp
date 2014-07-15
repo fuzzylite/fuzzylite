@@ -39,7 +39,7 @@ namespace fl {
     }
 
     Engine* FclImporter::fromString(const std::string& fcl) const {
-        std::auto_ptr<Engine> engine(new Engine);
+        FL_unique_ptr<Engine> engine(new Engine);
 
         std::map<std::string, std::string> tags;
         tags["VAR_INPUT"] = "END_VAR";
@@ -432,7 +432,7 @@ namespace fl {
         if (state <= S_ASSIGN)
             throw fl::Exception("[syntax error] malformed term in line: " + line, FL_AT);
 
-        std::auto_ptr<Term> term;
+        FL_unique_ptr<Term> term;
         term.reset(FactoryManager::instance()->term()->constructObject(termClass));
         Term::updateReference(term.get(), engine);
         term->setName(fl::Op::validName(name));

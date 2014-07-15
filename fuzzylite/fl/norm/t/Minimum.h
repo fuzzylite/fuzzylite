@@ -28,9 +28,9 @@ namespace fl {
 
     class FL_EXPORT Minimum : public TNorm {
     public:
-        std::string className() const;
-        scalar compute(scalar a, scalar b) const;
-        Minimum* clone() const;
+        std::string className() const FL_OVERRIDE;
+        scalar compute(scalar a, scalar b) const FL_OVERRIDE;
+        Minimum* clone() const FL_OVERRIDE;
 
         static TNorm* constructor();
     };

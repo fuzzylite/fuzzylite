@@ -28,9 +28,9 @@ namespace fl {
 
     class FL_EXPORT NilpotentMinimum : public TNorm {
     public:
-        std::string className() const;
-        scalar compute(scalar a, scalar b) const;
-        NilpotentMinimum* clone() const;
+        std::string className() const FL_OVERRIDE;
+        scalar compute(scalar a, scalar b) const FL_OVERRIDE;
+        NilpotentMinimum* clone() const FL_OVERRIDE;
 
         static TNorm* constructor();
     };

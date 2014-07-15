@@ -49,7 +49,7 @@ namespace fl {
     }
 
     FactoryManager::FactoryManager(const FactoryManager& source)
-    : _tnorm(NULL), _snorm(NULL), _defuzzifier(NULL), _term(NULL), _hedge(NULL), _function(NULL) {
+    : _tnorm(fl::null), _snorm(fl::null), _defuzzifier(fl::null), _term(fl::null), _hedge(fl::null), _function(fl::null) {
         this->_tnorm.reset(new TNormFactory(*source._tnorm.get()));
         this->_snorm.reset(new SNormFactory(*source._snorm.get()));
         this->_defuzzifier.reset(new DefuzzifierFactory(*source._defuzzifier.get()));

@@ -26,6 +26,7 @@
 #include <iostream>
 #include <sstream>
 #include <limits>
+#include <memory>
 
 #ifndef FL_VERSION
 #define FL_VERSION "?"
@@ -39,15 +40,39 @@
 #define FL_BUILD_PATH ""
 #endif
 
-#define FL_DISABLE_COPY(Class) \
-    Class(const Class &);\
-    Class &operator=(const Class &);
 
 namespace fl {
 #ifdef FL_USE_FLOAT
     typedef float scalar;
 #else
     typedef double scalar;
+#endif
+
+    //C++98 defines
+#if __cplusplus < 201100L
+    const long null = 0L;
+#define FL_unique_ptr std::auto_ptr 
+#define FL_MOVE(x) x
+#define FL_OVERRIDE 
+#define FL_FINAL
+#define FL_DEFAULT
+#define FL_NOEXCEPT throw()
+#define FL_DISABLE_COPY(Class) \
+    Class(const Class &);\
+    Class &operator=(const Class &);
+
+#else //C++11 defines
+    const std::nullptr_t null = nullptr;
+#define FL_unique_ptr std::unique_ptr
+#define FL_MOVE(x) std::move(x)
+#define FL_OVERRIDE override
+#define FL_FINAL final
+#define FL_DEFAULT default
+#define FL_NOEXCEPT noexcept
+#define FL_DISABLE_COPY(Class) \
+    Class(const Class &) = delete;\
+    Class &operator=(const Class &) = delete;
+
 #endif
 
     const scalar nan = std::numeric_limits<scalar>::quiet_NaN();
@@ -72,7 +97,7 @@ namespace fl {
                 << message << std::endl;\
         FL_DEBUG_END
 
-//class FL_EXPORT is required to build DLLs in Windows.
+//"class FL_EXPORT Name" is required to build DLLs in Windows.
 #ifdef FL_WINDOWS
 #define FL_EXPORT __declspec(dllexport)
 #else

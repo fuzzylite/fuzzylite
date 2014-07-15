@@ -22,7 +22,6 @@
 #include "fl/term/Discrete.h"
 
 #include <cstdarg>
-#include <memory>
 
 namespace fl {
 
@@ -113,7 +112,7 @@ namespace fl {
         }
         va_end(args);
 
-        std::auto_ptr<Discrete> result(new Discrete(name));
+        FL_unique_ptr<Discrete> result(new Discrete(name));
         if (xy.size() % 2 != 0) {
             result->setHeight(xy.back());
             xy.pop_back();
@@ -164,7 +163,7 @@ namespace fl {
     }
 
     std::vector<Discrete::Pair> Discrete::toPairs(const std::vector<scalar>& xy,
-            scalar missingValue) throw () {
+            scalar missingValue) FL_NOEXCEPT{
         std::vector<std::pair<scalar, scalar> > result((xy.size() + 1) / 2);
         for (std::size_t i = 0; i + 1 < xy.size(); i += 2) {
             result.at(i / 2).first = xy.at(i);

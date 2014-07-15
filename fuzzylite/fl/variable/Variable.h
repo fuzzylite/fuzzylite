@@ -66,7 +66,7 @@ namespace fl {
         virtual bool isEnabled() const;
 
         virtual std::string fuzzify(scalar x) const;
-        virtual Term* highestMembership(scalar x, scalar* yhighest = NULL) const;
+        virtual Term* highestMembership(scalar x, scalar* yhighest = fl::null) const;
 
         virtual std::string toString() const;
 

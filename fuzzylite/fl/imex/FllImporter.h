@@ -37,13 +37,15 @@ namespace fl {
         std::string _separator;
     public:
         FllImporter(const std::string& separator = "\n");
-        virtual ~FllImporter();
+        virtual ~FllImporter() FL_OVERRIDE;
 
         virtual void setSeparator(const std::string& separator);
         virtual std::string getSeparator() const;
 
-        virtual std::string name() const;
-        virtual Engine* fromString(const std::string& fll) const;
+        virtual std::string name() const FL_OVERRIDE;
+        virtual Engine* fromString(const std::string& fll) const FL_OVERRIDE;
+
+        virtual FllImporter* clone() const FL_OVERRIDE;
 
     protected:
         virtual void process(const std::string& tag, const std::string& block, Engine* engine) const;
@@ -63,9 +65,6 @@ namespace fl {
         virtual std::pair<std::string, std::string> parseKeyValue(const std::string& text,
                 char separator = ':') const;
         virtual std::string clean(const std::string& line) const;
-
-        virtual FllImporter* clone() const;
-
 
     };
 }

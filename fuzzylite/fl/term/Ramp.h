@@ -39,13 +39,13 @@ namespace fl {
                 scalar start = fl::nan,
                 scalar end = fl::nan,
                 scalar height = 1.0);
-        virtual ~Ramp();
+        virtual ~Ramp() FL_OVERRIDE;
 
-        virtual std::string className() const;
-        virtual std::string parameters() const;
-        virtual void configure(const std::string& parameters);
+        virtual std::string className() const FL_OVERRIDE;
+        virtual std::string parameters() const FL_OVERRIDE;
+        virtual void configure(const std::string& parameters) FL_OVERRIDE;
 
-        virtual scalar membership(scalar x) const;
+        virtual scalar membership(scalar x) const FL_OVERRIDE;
 
         virtual void setStart(scalar start);
         virtual scalar getStart() const;
@@ -55,7 +55,7 @@ namespace fl {
 
         virtual Direction direction() const;
 
-        virtual Ramp* clone() const;
+        virtual Ramp* clone() const FL_OVERRIDE;
 
         static Term* constructor();
     };

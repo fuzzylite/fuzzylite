@@ -31,7 +31,7 @@ namespace fl {
     class FL_EXPORT HedgeFactory : public ConstructionFactory<Hedge*> {
     public:
         HedgeFactory();
-        virtual ~HedgeFactory();
+        virtual ~HedgeFactory() FL_OVERRIDE;
     };
 }
 #endif  /* FL_HEDGEFACTORY_H */

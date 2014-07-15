@@ -36,20 +36,20 @@ namespace fl {
 
     public:
         FclExporter(const std::string& indent = "  ");
-        virtual ~FclExporter();
+        virtual ~FclExporter() FL_OVERRIDE;
 
         virtual void setIndent(const std::string& indent);
         virtual std::string getIndent() const;
 
-        virtual std::string name() const;
-        virtual std::string toString(const Engine* engine) const;
+        virtual std::string name() const FL_OVERRIDE;
+        virtual std::string toString(const Engine* engine) const FL_OVERRIDE;
 
         virtual std::string toString(const TNorm* tnorm) const;
         virtual std::string toString(const SNorm* snorm) const;
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
         virtual std::string toString(const Term* term) const;
 
-        virtual FclExporter* clone() const;
+        virtual FclExporter* clone() const FL_OVERRIDE;
     };
 
 }

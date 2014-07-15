@@ -37,13 +37,13 @@ namespace fl {
                 scalar width = fl::nan,
                 scalar slope = fl::nan,
                 scalar height = 1.0);
-        virtual ~Bell();
+        virtual ~Bell() FL_OVERRIDE;
 
-        virtual std::string className() const;
-        virtual std::string parameters() const;
-        virtual void configure(const std::string& parameters);
+        virtual std::string className() const FL_OVERRIDE;
+        virtual std::string parameters() const FL_OVERRIDE;
+        virtual void configure(const std::string& parameters) FL_OVERRIDE;
 
-        virtual scalar membership(scalar x) const;
+        virtual scalar membership(scalar x) const FL_OVERRIDE;
 
         virtual void setCenter(scalar center);
         virtual scalar getCenter() const;
@@ -54,7 +54,7 @@ namespace fl {
         virtual void setSlope(scalar slope);
         virtual scalar getSlope() const;
 
-        virtual Bell* clone() const;
+        virtual Bell* clone() const FL_OVERRIDE;
 
         static Term* constructor();
 

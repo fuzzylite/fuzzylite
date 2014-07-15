@@ -23,7 +23,6 @@
 
 #include "fl/Headers.h"
 
-#include <memory>
 #include <queue>
 
 namespace fl {
@@ -49,7 +48,7 @@ namespace fl {
     }
 
     Engine* FllImporter::fromString(const std::string& fll) const {
-        std::auto_ptr<Engine> engine(new Engine);
+        FL_unique_ptr<Engine> engine(new Engine);
 
         std::string tag;
         std::ostringstream block;
@@ -213,7 +212,7 @@ namespace fl {
             throw fl::Exception("[syntax error] expected a term in format <name class parameters>, "
                     "but found <" + text + ">", FL_AT);
         }
-        std::auto_ptr<Term> term;
+        FL_unique_ptr<Term> term;
         term.reset(FactoryManager::instance()->term()->constructObject(tokens.at(1)));
         Term::updateReference(term.get(), engine);
         term->setName(Op::validName(tokens.at(0)));

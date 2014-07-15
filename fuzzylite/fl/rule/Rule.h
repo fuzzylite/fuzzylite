@@ -25,7 +25,6 @@
 #include "fl/fuzzylite.h"
 
 #include <map>
-#include <memory>
 #include <string>
 
 
@@ -41,8 +40,8 @@ namespace fl {
     protected:
         std::string _text;
         scalar _weight;
-        std::auto_ptr<Antecedent> _antecedent;
-        std::auto_ptr<Consequent> _consequent;
+        FL_unique_ptr<Antecedent> _antecedent;
+        FL_unique_ptr<Consequent> _consequent;
         std::map<std::string, Hedge*> _hedges;
 
     public:

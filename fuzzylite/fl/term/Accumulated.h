@@ -24,7 +24,6 @@
 
 #include "fl/term/Term.h"
 
-#include <memory>
 #include <vector>
 
 namespace fl {
@@ -39,27 +38,26 @@ namespace fl {
     protected:
         std::vector<Activated*> _terms;
         scalar _minimum, _maximum;
-        std::auto_ptr<SNorm> _accumulation;
+        FL_unique_ptr<SNorm> _accumulation;
     public:
         Accumulated(const std::string& name = "",
                 scalar minimum = -fl::inf,
                 scalar maximum = fl::inf,
-                SNorm* accumulation = NULL);
+                SNorm* accumulation = fl::null);
         Accumulated(const Accumulated& source);
         Accumulated& operator=(const Accumulated& rhs);
+        virtual ~Accumulated() FL_OVERRIDE;
 
-        virtual ~Accumulated();
+        virtual std::string className() const FL_OVERRIDE;
+        virtual std::string parameters() const FL_OVERRIDE;
+        virtual void configure(const std::string& parameters) FL_OVERRIDE;
 
-        virtual std::string className() const;
-        virtual std::string parameters() const;
-        virtual void configure(const std::string& parameters);
+        virtual Accumulated* clone() const FL_OVERRIDE;
 
-        virtual Accumulated* clone() const;
-
-        virtual scalar membership(scalar x) const;
+        virtual scalar membership(scalar x) const FL_OVERRIDE;
         virtual scalar activationDegree(const Term* forTerm) const;
 
-        virtual std::string toString() const;
+        virtual std::string toString() const FL_OVERRIDE;
 
 
         virtual void setMinimum(scalar minimum);

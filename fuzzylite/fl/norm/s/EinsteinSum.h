@@ -28,9 +28,9 @@ namespace fl {
 
     class FL_EXPORT EinsteinSum : public SNorm {
     public:
-        std::string className() const;
-        scalar compute(scalar a, scalar b) const;
-        EinsteinSum* clone() const;
+        std::string className() const FL_OVERRIDE;
+        scalar compute(scalar a, scalar b) const FL_OVERRIDE;
+        EinsteinSum* clone() const FL_OVERRIDE;
 
         static SNorm* constructor();
     };

@@ -80,7 +80,7 @@ namespace fl {
             std::string variable;
             scalar value;
 
-            Node(Element* element, Node* left = NULL, Node* right = NULL);
+            Node(Element* element, Node* left = fl::null, Node* right = fl::null);
             Node(const std::string& variable);
             Node(scalar value);
             Node(const Node& source);
@@ -88,14 +88,14 @@ namespace fl {
             virtual ~Node();
 
             virtual scalar evaluate(const std::map<std::string, scalar>*
-                    variables = NULL) const;
+                    variables = fl::null) const;
 
             virtual Node* clone() const;
 
             virtual std::string toString() const;
-            virtual std::string toPrefix(const Node* node = NULL) const;
-            virtual std::string toInfix(const Node* node = NULL) const;
-            virtual std::string toPostfix(const Node* node = NULL) const;
+            virtual std::string toPrefix(const Node* node = fl::null) const;
+            virtual std::string toInfix(const Node* node = fl::null) const;
+            virtual std::string toPostfix(const Node* node = fl::null) const;
         private:
             void copyFrom(const Node& source);
         };
@@ -114,22 +114,22 @@ namespace fl {
     public:
         mutable std::map<std::string, scalar> variables;
         Function(const std::string& name = "",
-                const std::string& formula = "", const Engine* engine = NULL);
+                const std::string& formula = "", const Engine* engine = fl::null);
         Function(const Function& source);
         Function& operator=(const Function& rhs);
-        virtual ~Function();
+        virtual ~Function() FL_OVERRIDE;
 
         static Function* create(const std::string& name,
                 const std::string& formula,
-                const Engine* engine = NULL); // throw (fl::Exception);
+                const Engine* engine = fl::null); // throw (fl::Exception);
 
-        virtual scalar membership(scalar x) const;
+        virtual scalar membership(scalar x) const FL_OVERRIDE;
 
         virtual scalar evaluate(const std::map<std::string, scalar>* variables) const;
 
-        virtual std::string className() const;
-        virtual std::string parameters() const;
-        virtual void configure(const std::string& parameters);
+        virtual std::string className() const FL_OVERRIDE;
+        virtual std::string parameters() const FL_OVERRIDE;
+        virtual void configure(const std::string& parameters) FL_OVERRIDE;
 
         virtual void setFormula(const std::string& formula);
         virtual std::string getFormula() const;
@@ -151,7 +151,7 @@ namespace fl {
 
         virtual std::string space(const std::string& formula) const;
 
-        virtual Function* clone() const;
+        virtual Function* clone() const FL_OVERRIDE;
 
         static Term* constructor();
 

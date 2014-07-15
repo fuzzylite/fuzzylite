@@ -30,7 +30,6 @@
 
 #include <cctype>
 #include <functional>
-#include <memory>
 #include <queue>
 #include <signal.h>
 #include <stack>
@@ -44,20 +43,20 @@ namespace fl {
 
 
     Function::Element::Element(const std::string& name, const std::string& description, Type type)
-    : name(name), description(description), type(type), unary(NULL), binary(NULL), arity(0),
+    : name(name), description(description), type(type), unary(fl::null), binary(fl::null), arity(0),
     precedence(0), associativity(-1) {
 
     }
 
     Function::Element::Element(const std::string& name, const std::string& description,
             Type type, Unary unary, int precedence, int associativity)
-    : name(name), description(description), type(type), unary(unary), binary(NULL), arity(1),
+    : name(name), description(description), type(type), unary(unary), binary(fl::null), arity(1),
     precedence(precedence), associativity(associativity) {
     }
 
     Function::Element::Element(const std::string& name, const std::string& description,
             Type type, Binary binary, int precedence, int associativity)
-    : name(name), description(description), type(type), unary(NULL), binary(binary), arity(2),
+    : name(name), description(description), type(type), unary(fl::null), binary(binary), arity(2),
     precedence(precedence), associativity(associativity) {
     }
 
@@ -112,15 +111,15 @@ namespace fl {
     }
 
     Function::Node::Node(const std::string& variable)
-    : element(NULL), left(NULL), right(NULL), variable(variable), value(fl::nan) {
+    : element(fl::null), left(fl::null), right(fl::null), variable(variable), value(fl::nan) {
     }
 
     Function::Node::Node(scalar value)
-    : element(NULL), left(NULL), right(NULL), variable(""), value(value) {
+    : element(fl::null), left(fl::null), right(fl::null), variable(""), value(value) {
     }
 
     Function::Node::Node(const Node& source)
-    : element(NULL), left(NULL), right(NULL), variable(""), value(fl::nan) {
+    : element(fl::null), left(fl::null), right(fl::null), variable(""), value(fl::nan) {
         copyFrom(source);
     }
 
@@ -131,9 +130,9 @@ namespace fl {
         if (left) delete left;
         if (right) delete right;
 
-        element = NULL;
-        left = NULL;
-        right = NULL;
+        element = fl::null;
+        left = fl::null;
+        right = fl::null;
 
         copyFrom(rhs);
         return *this;
@@ -164,7 +163,7 @@ namespace fl {
                 std::ostringstream ex;
                 ex << "[function error] arity <" << element->arity << "> of "
                         << (element->isOperator() ? "operator" : "function") <<
-                        " <" << element->name << "> is NULL";
+                        " <" << element->name << "> is fl::null";
                 throw fl::Exception(ex.str(), FL_AT);
             }
 
@@ -254,11 +253,11 @@ namespace fl {
      **********************************/
     Function::Function(const std::string& name,
             const std::string& formula, const Engine* engine)
-    : Term(name), _root(NULL), _formula(formula), _engine(engine) {
+    : Term(name), _root(fl::null), _formula(formula), _engine(engine) {
     }
 
     Function::Function(const Function& source) : Term(source),
-    _root(NULL), _formula(source._formula), _engine(source._engine) {
+    _root(fl::null), _formula(source._formula), _engine(source._engine) {
         if (source._root) _root = source._root->clone();
         variables =  source.variables;
     }
@@ -266,7 +265,7 @@ namespace fl {
     Function& Function::operator=(const Function& rhs) {
         if (this == &rhs) return *this;
         if (_root) delete _root;
-        _root = NULL;
+        _root = fl::null;
 
         Term::operator=(rhs);
         _formula = rhs._formula;
@@ -318,19 +317,19 @@ namespace fl {
 
     Function* Function::create(const std::string& name,
             const std::string& infix, const Engine* engine) {
-        std::auto_ptr<Function> result(new Function(name));
+        FL_unique_ptr<Function> result(new Function(name));
         result->load(infix, engine);
         return result.release();
     }
 
     bool Function::isLoaded() const {
-        return this->_root != NULL;
+        return this->_root != fl::null;
     }
 
     void Function::unload() {
         if (this->_root) {
             delete this->_root;
-            this->_root = NULL;
+            this->_root = fl::null;
         }
         this->variables.clear();
     }
@@ -440,7 +439,7 @@ namespace fl {
             } else if (element and element->isOperator()) {
                 Element* op1 = element;
                 while (true) {
-                    Element* op2 = NULL;
+                    Element* op2 = fl::null;
                     if (not stack.empty()) op2 = factory->getObject(stack.top());
                     if (not op2) break;
 
@@ -468,7 +467,7 @@ namespace fl {
                 }
                 stack.pop(); //get rid of "("
 
-                Element* top = NULL;
+                Element* top = fl::null;
                 if (not stack.empty()) top = factory->getObject(stack.top());
                 if (top and top->isFunction()) {
                     queue.push(stack.top());

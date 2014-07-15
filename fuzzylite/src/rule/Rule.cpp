@@ -30,7 +30,6 @@
 
 #include <sstream>
 #include <vector>
-#include <memory>
 
 namespace fl {
 
@@ -101,11 +100,11 @@ namespace fl {
         if (it != this->_hedges.end()) {
             if (it->second) return it->second;
         }
-        return NULL;
+        return fl::null;
     }
 
     Hedge* Rule::removeHedge(const std::string& name) {
-        Hedge* result = NULL;
+        Hedge* result = fl::null;
         std::map<std::string, Hedge*>::iterator it = this->_hedges.find(name);
         if (it != this->_hedges.end()) {
             result = it->second;
@@ -247,7 +246,7 @@ namespace fl {
     }
 
     Rule* Rule::parse(const std::string& rule, const Engine* engine) {
-        std::auto_ptr<Rule> result(new Rule);
+        FL_unique_ptr<Rule> result(new Rule);
         result->load(rule, engine);
         return result.release();
     }

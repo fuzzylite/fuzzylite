@@ -37,8 +37,17 @@ namespace fl {
     class Variable;
 
     class FL_EXPORT FisImporter : public Importer {
-    protected:
+    public:
+        FisImporter();
+        virtual ~FisImporter() FL_OVERRIDE;
 
+        virtual std::string name() const FL_OVERRIDE;
+
+        virtual Engine* fromString(const std::string& fcl) const FL_OVERRIDE;
+
+        virtual FisImporter* clone() const FL_OVERRIDE;
+
+    protected:
         virtual void importSystem(const std::string& section, Engine* engine,
                 std::string& andMethod, std::string& orMethod,
                 std::string& impMethod, std::string& aggMethod,
@@ -57,15 +66,6 @@ namespace fl {
                 const std::vector<std::string>& params, const Engine* engine) const;
         virtual std::pair<scalar, scalar> range(const std::string& range) const;
 
-    public:
-        FisImporter();
-        virtual ~FisImporter();
-
-        virtual std::string name() const;
-
-        virtual Engine* fromString(const std::string& fcl) const;
-
-        virtual FisImporter* clone() const;
     };
 
 }

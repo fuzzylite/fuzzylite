@@ -39,9 +39,9 @@ namespace fl {
         bool _exportOutputValues;
     public:
         FldExporter(const std::string& separator = " ");
-        virtual ~FldExporter();
+        virtual ~FldExporter() FL_OVERRIDE;
 
-        virtual std::string name() const;
+        virtual std::string name() const FL_OVERRIDE;
 
         virtual void setSeparator(const std::string& separator);
         virtual std::string getSeparator() const;
@@ -58,7 +58,7 @@ namespace fl {
         virtual std::string header(const Engine* engine) const;
 
         //WARNING: The engine will be const_casted in order to be processed!
-        virtual std::string toString(const Engine* engine) const;
+        virtual std::string toString(const Engine* engine) const FL_OVERRIDE;
         virtual std::string toString(Engine* engine, int maximumNumberOfResults) const;
         virtual std::string toString(Engine* engine, const std::string& inputData) const;
 
@@ -71,7 +71,7 @@ namespace fl {
         void write(Engine* engine, std::ostream& writer, std::istream& reader) const;
         void write(Engine* engine, std::ostream& writer, const std::vector<scalar>& inputValues) const;
 
-        virtual FldExporter* clone() const;
+        virtual FldExporter* clone() const FL_OVERRIDE;
     };
 }
 

@@ -30,11 +30,11 @@ namespace fl {
     class FL_EXPORT Any : public Hedge {
     public:
         Any();
-        virtual ~Any();
+        virtual ~Any() FL_OVERRIDE;
 
-        virtual std::string name() const;
-        virtual scalar hedge(scalar x) const;
-        virtual Any* clone() const;
+        virtual std::string name() const FL_OVERRIDE;
+        virtual scalar hedge(scalar x) const FL_OVERRIDE;
+        virtual Any* clone() const FL_OVERRIDE;
 
         static Hedge* constructor();
     };

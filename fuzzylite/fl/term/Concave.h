@@ -35,13 +35,13 @@ namespace fl {
                 scalar inflection = fl::nan,
                 scalar end = fl::nan,
                 scalar height = 1.0);
-        virtual ~Concave();
+        virtual ~Concave() FL_OVERRIDE;
 
-        virtual std::string className() const;
-        virtual std::string parameters() const;
-        virtual void configure(const std::string& parameters);
+        virtual std::string className() const FL_OVERRIDE;
+        virtual std::string parameters() const FL_OVERRIDE;
+        virtual void configure(const std::string& parameters) FL_OVERRIDE;
 
-        virtual scalar membership(scalar x) const;
+        virtual scalar membership(scalar x) const FL_OVERRIDE;
 
         virtual void setInflection(scalar inflection);
         virtual scalar getInflection() const;
@@ -49,7 +49,7 @@ namespace fl {
         virtual void setEnd(scalar end);
         virtual scalar getEnd() const;
 
-        virtual Concave* clone() const;
+        virtual Concave* clone() const FL_OVERRIDE;
 
         static Term* constructor();
     };
