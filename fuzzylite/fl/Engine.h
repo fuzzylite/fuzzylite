@@ -53,9 +53,10 @@ namespace fl {
 
     public:
         Engine(const std::string& name = "");
-        Engine(const Engine& source);
-        Engine& operator=(const Engine& rhs);
+        Engine(const Engine& other);
+        Engine& operator=(const Engine& other);
         virtual ~Engine();
+        FL_DEFAULT_MOVE(Engine)
 
         virtual void configure(const std::string& conjunctionT,
                 const std::string& disjunctionS,

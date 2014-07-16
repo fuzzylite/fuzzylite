@@ -32,6 +32,7 @@ namespace fl {
     public:
         FunctionFactory();
         virtual ~FunctionFactory() FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(FunctionFactory)
 
         virtual std::vector<std::string> availableOperators() const;
         virtual std::vector<std::string> availableFunctions() const;

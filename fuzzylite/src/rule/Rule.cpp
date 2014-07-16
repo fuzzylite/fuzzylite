@@ -37,18 +37,19 @@ namespace fl {
     : _text(text), _weight(weight), _antecedent(new Antecedent), _consequent(new Consequent) {
     }
 
-    Rule::Rule(const Rule& source) : _text(source._text), _weight(source._weight),
+    Rule::Rule(const Rule& other) : _text(other._text), _weight(other._weight),
     _antecedent(new Antecedent), _consequent(new Consequent) {
     }
 
-    Rule& Rule::operator=(const Rule& rhs) {
-        if (this == &rhs) return *this;
-        unload();
+    Rule& Rule::operator=(const Rule& other) {
+        if (this != &other) {
+            unload();
 
-        _text = rhs._text;
-        _weight = rhs._weight;
-        _antecedent.reset(new Antecedent);
-        _consequent.reset(new Consequent);
+            _text = other._text;
+            _weight = other._weight;
+            _antecedent.reset(new Antecedent);
+            _consequent.reset(new Consequent);
+        }
         return *this;
     }
 

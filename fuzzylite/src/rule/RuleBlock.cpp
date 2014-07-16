@@ -34,22 +34,23 @@ namespace fl {
     : _name(name), _enabled(true) {
     }
 
-    RuleBlock::RuleBlock(const RuleBlock& source) : _name(source._name),
+    RuleBlock::RuleBlock(const RuleBlock& other) : _name(other._name),
     _enabled(true) {
-        copyFrom(source);
+        copyFrom(other);
     }
 
-    RuleBlock& RuleBlock::operator=(const RuleBlock& rhs) {
-        if (this == &rhs) return *this;
-        for (std::size_t i = 0; i < _rules.size(); ++i) {
-            delete _rules.at(i);
-        }
-        _rules.clear();
-        _conjunction.reset(fl::null);
-        _disjunction.reset(fl::null);
-        _activation.reset(fl::null);
+    RuleBlock& RuleBlock::operator=(const RuleBlock& other) {
+        if (this != &other) {
+            for (std::size_t i = 0; i < _rules.size(); ++i) {
+                delete _rules.at(i);
+            }
+            _rules.clear();
+            _conjunction.reset(fl::null);
+            _disjunction.reset(fl::null);
+            _activation.reset(fl::null);
 
-        copyFrom(rhs);
+            copyFrom(other);
+        }
         return *this;
     }
 

@@ -41,6 +41,7 @@ namespace fl {
                 scalar standardDeviationB = fl::nan,
                 scalar height = 1.0);
         virtual ~GaussianProduct() FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(GaussianProduct)
 
         virtual std::string className() const FL_OVERRIDE;
         virtual std::string parameters() const FL_OVERRIDE;

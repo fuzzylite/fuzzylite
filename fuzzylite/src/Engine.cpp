@@ -51,34 +51,38 @@ namespace fl {
     Engine::Engine(const std::string& name) : _name(name) {
     }
 
-    Engine::Engine(const Engine& source) : _name("") {
-        copyFrom(source);
+    Engine::Engine(const Engine& other) : _name("") {
+        copyFrom(other);
     }
 
-    Engine& Engine::operator=(const Engine& rhs) {
-        if (this == &rhs) return *this;
-        for (std::size_t i = 0; i < _ruleblocks.size(); ++i) delete _ruleblocks.at(i);
-        for (std::size_t i = 0; i < _outputVariables.size(); ++i) delete _outputVariables.at(i);
-        for (std::size_t i = 0; i < _inputVariables.size(); ++i) delete _inputVariables.at(i);
-        _ruleblocks.clear();
-        _outputVariables.clear();
-        _inputVariables.clear();
+    Engine& Engine::operator=(const Engine& other) {
+        if (this != &other) {
+            for (std::size_t i = 0; i < _ruleblocks.size(); ++i)
+                delete _ruleblocks.at(i);
+            _ruleblocks.clear();
+            for (std::size_t i = 0; i < _outputVariables.size(); ++i)
+                delete _outputVariables.at(i);
+            _outputVariables.clear();
+            for (std::size_t i = 0; i < _inputVariables.size(); ++i)
+                delete _inputVariables.at(i);
+            _inputVariables.clear();
 
-        copyFrom(rhs);
+            copyFrom(other);
+        }
         return *this;
     }
 
-    void Engine::copyFrom(const Engine& source) {
-        _name = source._name;
-        for (std::size_t i = 0; i < source._inputVariables.size(); ++i)
-            _inputVariables.push_back(new InputVariable(*source._inputVariables.at(i)));
-        for (std::size_t i = 0; i < source._outputVariables.size(); ++i)
-            _outputVariables.push_back(new OutputVariable(*source._outputVariables.at(i)));
+    void Engine::copyFrom(const Engine& other) {
+        _name = other._name;
+        for (std::size_t i = 0; i < other._inputVariables.size(); ++i)
+            _inputVariables.push_back(new InputVariable(*other._inputVariables.at(i)));
+        for (std::size_t i = 0; i < other._outputVariables.size(); ++i)
+            _outputVariables.push_back(new OutputVariable(*other._outputVariables.at(i)));
 
         updateReferences();
 
-        for (std::size_t i = 0; i < source._ruleblocks.size(); ++i) {
-            RuleBlock* ruleBlock = new RuleBlock(*source._ruleblocks.at(i));
+        for (std::size_t i = 0; i < other._ruleblocks.size(); ++i) {
+            RuleBlock* ruleBlock = new RuleBlock(*other._ruleblocks.at(i));
             try {
                 ruleBlock->loadRules(this);
             } catch (...) {

@@ -33,6 +33,7 @@ namespace fl {
     public:
         TermFactory();
         virtual ~TermFactory() FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(TermFactory)
     };
 }
 #endif  /* FL_TERMFACTORY_H */

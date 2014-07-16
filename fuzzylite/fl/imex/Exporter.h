@@ -34,6 +34,7 @@ namespace fl {
 
         Exporter();
         virtual ~Exporter();
+        FL_DEFAULT_COPY_AND_MOVE(Exporter)
 
         virtual std::string toString(const Engine* engine) const = 0;
         virtual void toFile(const std::string& path, const Engine* engine) const;

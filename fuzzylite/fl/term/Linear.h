@@ -36,6 +36,7 @@ namespace fl {
                 const std::vector<scalar>& coefficients = std::vector<scalar>(),
                 const Engine* engine = fl::null);
         virtual ~Linear() FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(Linear)
 
         virtual std::string className() const FL_OVERRIDE;
         virtual std::string parameters() const FL_OVERRIDE;

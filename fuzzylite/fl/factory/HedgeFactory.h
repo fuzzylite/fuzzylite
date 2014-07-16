@@ -32,6 +32,7 @@ namespace fl {
     public:
         HedgeFactory();
         virtual ~HedgeFactory() FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(HedgeFactory)
     };
 }
 #endif  /* FL_HEDGEFACTORY_H */

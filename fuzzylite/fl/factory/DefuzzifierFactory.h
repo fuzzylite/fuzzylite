@@ -34,6 +34,7 @@ namespace fl {
     public:
         DefuzzifierFactory();
         virtual ~DefuzzifierFactory() FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(DefuzzifierFactory)
 
         virtual Defuzzifier* constructDefuzzifier(const std::string& key,
                 int resolution, WeightedDefuzzifier::Type) const;

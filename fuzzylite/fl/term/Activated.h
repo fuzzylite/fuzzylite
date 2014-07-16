@@ -37,6 +37,7 @@ namespace fl {
         Activated(const Term* term = fl::null, scalar degree = 1.0,
                 const TNorm* activationOperator = fl::null);
         virtual ~Activated() FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(Activated)
 
         virtual std::string className() const FL_OVERRIDE;
         virtual std::string parameters() const FL_OVERRIDE;

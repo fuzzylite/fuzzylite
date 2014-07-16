@@ -38,6 +38,8 @@ namespace fl {
 
         virtual ~Norm() {
         }
+        
+        FL_DEFAULT_COPY_AND_MOVE(Norm)
 
         virtual std::string className() const = 0;
         virtual scalar compute(scalar a, scalar b) const = 0;

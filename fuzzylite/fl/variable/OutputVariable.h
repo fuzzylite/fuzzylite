@@ -30,9 +30,9 @@ namespace fl {
 
     class FL_EXPORT OutputVariable : public Variable {
     private:
-        void copyFrom(const OutputVariable& rhs);
+        void copyFrom(const OutputVariable& other);
     protected:
-        Accumulated* _fuzzyOutput;
+        FL_unique_ptr<Accumulated> _fuzzyOutput;
         FL_unique_ptr<Defuzzifier> _defuzzifier;
         scalar _outputValue;
         scalar _previousOutputValue;
@@ -43,9 +43,10 @@ namespace fl {
     public:
         OutputVariable(const std::string& name = "",
                 scalar minimum = -fl::inf, scalar maximum = fl::inf);
-        OutputVariable(const OutputVariable& copy);
-        OutputVariable& operator=(const OutputVariable& rhs);
+        OutputVariable(const OutputVariable& other);
+        OutputVariable& operator=(const OutputVariable& other);
         virtual ~OutputVariable() FL_OVERRIDE;
+        FL_DEFAULT_MOVE(OutputVariable)
 
         virtual Accumulated* fuzzyOutput() const;
 

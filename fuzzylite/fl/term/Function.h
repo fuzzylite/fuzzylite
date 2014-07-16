@@ -59,6 +59,7 @@ namespace fl {
             Element(const std::string& name, const std::string& description,
                     Type type, Binary binary, int precedence = 0, int associativity = -1);
             virtual ~Element();
+            FL_DEFAULT_COPY_AND_MOVE(Element)
 
             virtual bool isOperator() const;
             virtual bool isFunction() const;
@@ -74,9 +75,9 @@ namespace fl {
          **************************/
 
         struct FL_EXPORT Node {
-            Element* element;
-            Node* left;
-            Node* right;
+            FL_unique_ptr<Element> element;
+            FL_unique_ptr<Node> left;
+            FL_unique_ptr<Node> right;
             std::string variable;
             scalar value;
 
@@ -86,6 +87,7 @@ namespace fl {
             Node(const Node& source);
             Node& operator=(const Node& rhs);
             virtual ~Node();
+            FL_DEFAULT_MOVE(Node)
 
             virtual scalar evaluate(const std::map<std::string, scalar>*
                     variables = fl::null) const;
@@ -108,16 +110,17 @@ namespace fl {
          ******************************/
 
     protected:
-        Node* _root;
+        FL_unique_ptr<Node> _root;
         std::string _formula;
         const Engine* _engine;
     public:
         mutable std::map<std::string, scalar> variables;
         Function(const std::string& name = "",
                 const std::string& formula = "", const Engine* engine = fl::null);
-        Function(const Function& source);
-        Function& operator=(const Function& rhs);
+        Function(const Function& other);
+        Function& operator=(const Function& other);
         virtual ~Function() FL_OVERRIDE;
+        FL_DEFAULT_MOVE(Function)
 
         static Function* create(const std::string& name,
                 const std::string& formula,

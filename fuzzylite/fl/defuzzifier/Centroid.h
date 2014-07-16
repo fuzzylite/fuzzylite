@@ -30,6 +30,7 @@ namespace fl {
     public:
         Centroid(int resolution = defaultResolution());
         virtual ~Centroid() FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(Centroid)
 
         virtual std::string className() const FL_OVERRIDE;
         virtual scalar defuzzify(const Term* term,

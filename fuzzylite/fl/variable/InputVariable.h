@@ -33,9 +33,8 @@ namespace fl {
         InputVariable(const std::string& name = "",
                 scalar minimum = -fl::inf,
                 scalar maximum = fl::inf);
-        InputVariable(const InputVariable& copy);
-        InputVariable& operator=(const InputVariable& rhs);
         virtual ~InputVariable() FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(InputVariable)
 
         virtual void setInputValue(scalar inputValue);
         virtual scalar getInputValue() const;

@@ -38,7 +38,8 @@ namespace fl {
 
         virtual ~Defuzzifier() {
         }
-
+        FL_DEFAULT_COPY_AND_MOVE(Defuzzifier)
+        
         virtual std::string className() const = 0;
         virtual Defuzzifier* clone() const = 0;
         virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const = 0;

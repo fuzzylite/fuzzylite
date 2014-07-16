@@ -29,17 +29,7 @@ namespace fl {
     : Variable(name, minimum, maximum), _inputValue(fl::nan) {
     }
 
-    InputVariable::InputVariable(const InputVariable& copy) : Variable(copy),
-    _inputValue(copy._inputValue) {
-    }
-
-    InputVariable& InputVariable::operator=(const InputVariable& rhs) {
-        if (this == &rhs) return *this;
-        Variable::operator=(rhs);
-        _inputValue = rhs._inputValue;
-        return *this;
-    }
-
+    
     InputVariable::~InputVariable() {
     }
 

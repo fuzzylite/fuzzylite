@@ -47,8 +47,9 @@ namespace fl {
         FactoryManager(TNormFactory* tnorm, SNormFactory* snorm,
                 DefuzzifierFactory* defuzzifier, TermFactory* term,
                 HedgeFactory* hedge, FunctionFactory* function);
-        FactoryManager(const FactoryManager& source);
-        FactoryManager& operator=(const FactoryManager& rhs);
+        FactoryManager(const FactoryManager& other);
+        FactoryManager& operator=(const FactoryManager& other);
+        FL_DEFAULT_MOVE(FactoryManager)
         virtual ~FactoryManager();
 
     public:

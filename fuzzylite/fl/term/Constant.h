@@ -34,6 +34,7 @@ namespace fl {
         Constant(const std::string& name = "",
                 scalar value = fl::nan);
         virtual ~Constant() FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(Constant)
 
         virtual std::string className() const FL_OVERRIDE;
         virtual std::string parameters() const FL_OVERRIDE;

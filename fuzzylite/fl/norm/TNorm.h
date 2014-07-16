@@ -34,6 +34,8 @@ namespace fl {
 
         virtual ~TNorm() FL_OVERRIDE {
         }
+        
+        FL_DEFAULT_COPY_AND_MOVE(TNorm)
 
         virtual TNorm* clone() const = 0;
     };

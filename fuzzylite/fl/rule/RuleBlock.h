@@ -48,9 +48,10 @@ namespace fl {
 
     public:
         RuleBlock(const std::string& name = "");
-        RuleBlock(const RuleBlock& source);
-        RuleBlock& operator=(const RuleBlock& rhs);
+        RuleBlock(const RuleBlock& other);
+        RuleBlock& operator=(const RuleBlock& other);
         virtual ~RuleBlock();
+        FL_DEFAULT_MOVE(RuleBlock)
 
         virtual void activate();
 

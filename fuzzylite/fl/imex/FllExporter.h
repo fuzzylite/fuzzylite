@@ -43,6 +43,7 @@ namespace fl {
     public:
         FllExporter(const std::string& indent = "  ", const std::string& separator = "\n");
         virtual ~FllExporter() FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(FllExporter)
 
         virtual std::string name() const FL_OVERRIDE;
 

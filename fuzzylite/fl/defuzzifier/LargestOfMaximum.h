@@ -30,7 +30,8 @@ namespace fl {
     public:
         LargestOfMaximum(int resolution = defaultResolution());
         virtual ~LargestOfMaximum() FL_OVERRIDE;
-
+        FL_DEFAULT_COPY_AND_MOVE(LargestOfMaximum)
+        
         virtual std::string className() const FL_OVERRIDE;
         virtual scalar defuzzify(const Term* term,
                 scalar minimum, scalar maximum) const FL_OVERRIDE;

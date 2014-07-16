@@ -32,9 +32,9 @@ namespace fl {
     }
 
     template<typename T>
-    CloningFactory<T>::CloningFactory(const CloningFactory& source) {
-        typename std::map<std::string, T>::const_iterator it = source._objects.begin();
-        while (it != source._objects.end()) {
+    CloningFactory<T>::CloningFactory(const CloningFactory& other) {
+        typename std::map<std::string, T>::const_iterator it = other._objects.begin();
+        while (it != other._objects.end()) {
             T clone = fl::null;
             if (it->second) clone = it->second->clone();
             this->_objects[it->first] = clone;
@@ -43,21 +43,22 @@ namespace fl {
     }
 
     template<typename T>
-    CloningFactory<T>& CloningFactory<T>::operator=(const CloningFactory& rhs) {
-        if (this == &rhs) return *this;
-        typename std::map<std::string, T>::const_iterator it = this->_objects.begin();
-        while (it != this->_objects.end()) {
-            if (it->second) delete it->second;
-            ++it;
-        }
-        this->_objects.clear();
+    CloningFactory<T>& CloningFactory<T>::operator=(const CloningFactory& other) {
+        if (this != &other) {
+            typename std::map<std::string, T>::const_iterator it = this->_objects.begin();
+            while (it != this->_objects.end()) {
+                if (it->second) delete it->second;
+                ++it;
+            }
+            this->_objects.clear();
 
-        it = rhs._objects.begin();
-        while (it != rhs._objects.end()) {
-            T clone = fl::null;
-            if (it->second) clone = it->second->clone();
-            this->_objects[it->first] = clone;
-            ++it;
+            it = other._objects.begin();
+            while (it != other._objects.end()) {
+                T clone = fl::null;
+                if (it->second) clone = it->second->clone();
+                this->_objects[it->first] = clone;
+                ++it;
+            }
         }
         return *this;
     }

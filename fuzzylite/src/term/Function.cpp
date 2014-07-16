@@ -118,43 +118,36 @@ namespace fl {
     : element(fl::null), left(fl::null), right(fl::null), variable(""), value(value) {
     }
 
-    Function::Node::Node(const Node& source)
+    Function::Node::Node(const Node& other)
     : element(fl::null), left(fl::null), right(fl::null), variable(""), value(fl::nan) {
-        copyFrom(source);
+        copyFrom(other);
     }
 
-    Function::Node& Function::Node::operator=(const Node& rhs) {
-        if (this == &rhs) return *this;
+    Function::Node& Function::Node::operator=(const Node& other) {
+        if (this != &other) {
+            element.reset(fl::null);
+            left.reset(fl::null);
+            right.reset(fl::null);
 
-        if (element) delete element;
-        if (left) delete left;
-        if (right) delete right;
-
-        element = fl::null;
-        left = fl::null;
-        right = fl::null;
-
-        copyFrom(rhs);
+            copyFrom(other);
+        }
         return *this;
     }
 
-    void Function::Node::copyFrom(const Node& source) {
-        if (source.element) element = source.element->clone();
-        if (source.left) left = source.left->clone();
-        if (source.right) right = source.right->clone();
-        variable = source.variable;
-        value = source.value;
+    void Function::Node::copyFrom(const Node& other) {
+        if (other.element.get()) element.reset(other.element->clone());
+        if (other.left.get()) left.reset(other.left->clone());
+        if (other.right.get()) right.reset(other.right->clone());
+        variable = other.variable;
+        value = other.value;
     }
 
     Function::Node::~Node() {
-        if (element) delete element;
-        if (left) delete left;
-        if (right) delete right;
     }
 
     scalar Function::Node::evaluate(const std::map<std::string, scalar>* variables) const {
         scalar result = fl::nan;
-        if (element) {
+        if (element.get()) {
             if (element->unary) {
                 result = element->unary(left->evaluate(variables));
             } else if (element->binary) {
@@ -188,7 +181,7 @@ namespace fl {
 
     std::string Function::Node::toString() const {
         std::ostringstream ss;
-        if (element) ss << element->name;
+        if (element.get()) ss << element->name;
         else if (not variable.empty()) ss << variable;
         else ss << fl::Op::str(value);
         return ss.str();
@@ -205,10 +198,10 @@ namespace fl {
 
         std::ostringstream ss;
         ss << node->toString();
-        if (node->left)
-            ss << " " << this->toPrefix(node->left);
-        if (node->right)
-            ss << " " << this->toPrefix(node->right);
+        if (node->left.get())
+            ss << " " << this->toPrefix(node->left.get());
+        if (node->right.get())
+            ss << " " << this->toPrefix(node->right.get());
         return ss.str();
     }
 
@@ -222,11 +215,11 @@ namespace fl {
         }
 
         std::ostringstream ss;
-        if (node->left)
-            ss << this->toInfix(node->left) << " ";
+        if (node->left.get())
+            ss << this->toInfix(node->left.get()) << " ";
         ss << node->toString();
-        if (node->right)
-            ss << " " << this->toInfix(node->right);
+        if (node->right.get())
+            ss << " " << this->toInfix(node->right.get());
         return ss.str();
     }
 
@@ -240,10 +233,10 @@ namespace fl {
         }
 
         std::ostringstream ss;
-        if (node->left)
-            ss << this->toPostfix(node->left) << " ";
-        if (node->right)
-            ss << this->toPostfix(node->right) << " ";
+        if (node->left.get())
+            ss << this->toPostfix(node->left.get()) << " ";
+        if (node->right.get())
+            ss << this->toPostfix(node->right.get()) << " ";
         ss << node->toString();
         return ss.str();
     }
@@ -256,27 +249,26 @@ namespace fl {
     : Term(name), _root(fl::null), _formula(formula), _engine(engine) {
     }
 
-    Function::Function(const Function& source) : Term(source),
-    _root(fl::null), _formula(source._formula), _engine(source._engine) {
-        if (source._root) _root = source._root->clone();
-        variables =  source.variables;
+    Function::Function(const Function& other) : Term(other),
+    _root(fl::null), _formula(other._formula), _engine(other._engine) {
+        if (other._root.get()) _root.reset(other._root->clone());
+        variables = other.variables;
     }
 
-    Function& Function::operator=(const Function& rhs) {
-        if (this == &rhs) return *this;
-        if (_root) delete _root;
-        _root = fl::null;
+    Function& Function::operator=(const Function& other) {
+        if (this != &other) {
+            _root.reset(fl::null);
 
-        Term::operator=(rhs);
-        _formula = rhs._formula;
-        _engine = rhs._engine;
-        if (rhs._root) _root = rhs._root->clone();
-        variables =  rhs.variables;
+            Term::operator=(other);
+            _formula = other._formula;
+            _engine = other._engine;
+            if (other._root.get()) _root.reset(other._root->clone());
+            variables = other.variables;
+        }
         return *this;
     }
 
     Function::~Function() {
-        if (this->_root) delete this->_root;
     }
 
     std::string Function::className() const {
@@ -284,7 +276,7 @@ namespace fl {
     }
 
     scalar Function::membership(scalar x) const {
-        if (not this->_root) return fl::nan;
+        if (not this->_root.get()) return fl::nan;
         if (this->_engine) {
             for (int i = 0; i < this->_engine->numberOfInputVariables(); ++i) {
                 InputVariable* input = this->_engine->getInputVariable(i);
@@ -300,7 +292,7 @@ namespace fl {
     }
 
     scalar Function::evaluate(const std::map<std::string, scalar>* localVariables) const {
-        if (not this->_root)
+        if (not this->_root.get())
             throw fl::Exception("[function error] evaluation failed because the function is not loaded", FL_AT);
         if (localVariables)
             return this->_root->evaluate(localVariables);
@@ -323,14 +315,11 @@ namespace fl {
     }
 
     bool Function::isLoaded() const {
-        return this->_root != fl::null;
+        return this->_root.get() != fl::null;
     }
 
     void Function::unload() {
-        if (this->_root) {
-            delete this->_root;
-            this->_root = fl::null;
-        }
+        this->_root.reset(fl::null);
         this->variables.clear();
     }
 
@@ -347,7 +336,7 @@ namespace fl {
         unload();
         this->_formula = formula;
         this->_engine = engine;
-        this->_root = parse(formula);
+        this->_root.reset(parse(formula));
         membership(0.0); //make sure function evaluates without throwing exception.
     }
 
@@ -368,7 +357,7 @@ namespace fl {
     }
 
     Function::Node* Function::root() const {
-        return this->_root;
+        return this->_root.get();
     }
 
     Function* Function::clone() const {
@@ -536,10 +525,10 @@ namespace fl {
                 }
 
                 Node* node = new Node(element->clone());
-                node->left = stack.top();
+                node->left.reset(stack.top());
                 stack.pop();
                 if (element->arity == 2) {
-                    node->right = stack.top();
+                    node->right.reset(stack.top());
                     stack.pop();
                 }
                 stack.push(node);

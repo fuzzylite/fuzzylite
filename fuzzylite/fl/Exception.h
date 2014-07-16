@@ -38,6 +38,7 @@ namespace fl {
         Exception(const std::string& what, const std::string& file, int line,
                 const std::string& function);
         virtual ~Exception() FL_NOEXCEPT FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(Exception)
 
         virtual void setWhat(const std::string& what);
         virtual std::string getWhat() const;

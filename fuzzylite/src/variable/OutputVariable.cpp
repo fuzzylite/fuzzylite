@@ -37,32 +37,32 @@ namespace fl {
     _lockOutputValueInRange(false), _lockPreviousOutputValue(false) {
     }
 
-    OutputVariable::OutputVariable(const OutputVariable& copy) : Variable(copy) {
-        copyFrom(copy);
+    OutputVariable::OutputVariable(const OutputVariable& other) : Variable(other) {
+        copyFrom(other);
     }
 
-    OutputVariable& OutputVariable::operator=(const OutputVariable& rhs) {
-        if (this == &rhs) return *this;
-        delete _fuzzyOutput;
-        _defuzzifier.reset(fl::null);
+    OutputVariable& OutputVariable::operator=(const OutputVariable& other) {
+        if (this != &other) {
+            _fuzzyOutput.reset(fl::null);
+            _defuzzifier.reset(fl::null);
 
-        Variable::operator=(rhs);
-        copyFrom(rhs);
+            Variable::operator=(other);
+            copyFrom(other);
+        }
         return *this;
     }
 
     OutputVariable::~OutputVariable() {
-        delete _fuzzyOutput;
     }
 
-    void OutputVariable::copyFrom(const OutputVariable& rhs) {
-        _fuzzyOutput = rhs._fuzzyOutput->clone();
-        if (rhs._defuzzifier.get()) _defuzzifier.reset(rhs._defuzzifier->clone());
-        _outputValue = rhs._outputValue;
-        _previousOutputValue = rhs._previousOutputValue;
-        _defaultValue = rhs._defaultValue;
-        _lockOutputValueInRange = rhs._lockOutputValueInRange;
-        _lockPreviousOutputValue = rhs._lockPreviousOutputValue;
+    void OutputVariable::copyFrom(const OutputVariable& other) {
+        _fuzzyOutput.reset(other._fuzzyOutput->clone());
+        if (other._defuzzifier.get()) _defuzzifier.reset(other._defuzzifier->clone());
+        _outputValue = other._outputValue;
+        _previousOutputValue = other._previousOutputValue;
+        _defaultValue = other._defaultValue;
+        _lockOutputValueInRange = other._lockOutputValueInRange;
+        _lockPreviousOutputValue = other._lockPreviousOutputValue;
     }
 
     void OutputVariable::setName(const std::string& name) {
@@ -71,7 +71,7 @@ namespace fl {
     }
 
     Accumulated* OutputVariable::fuzzyOutput() const {
-        return this->_fuzzyOutput;
+        return this->_fuzzyOutput.get();
     }
 
     void OutputVariable::setMinimum(scalar minimum) {
@@ -144,7 +144,7 @@ namespace fl {
                 throw fl::Exception("[defuzzifier error] "
                         "defuzzifier needed to defuzzify output variable <" + _name + ">", FL_AT);
             }
-            result = this->_defuzzifier->defuzzify(this->_fuzzyOutput, _minimum, _maximum);
+            result = this->_defuzzifier->defuzzify(this->_fuzzyOutput.get(), _minimum, _maximum);
         } else {
             //if a previous defuzzification was successfully performed and
             //and the output value is supposed not to change when the output is empty
@@ -165,7 +165,7 @@ namespace fl {
     std::string OutputVariable::fuzzyOutputValue() const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
-            scalar degree = fuzzyOutput()->activationDegree(_terms.at(i));
+            scalar degree = _fuzzyOutput->activationDegree(_terms.at(i));
             if (i == 0) {
                 ss << fl::Op::str(degree);
             } else {
@@ -180,7 +180,7 @@ namespace fl {
     }
 
     void OutputVariable::clear() {
-        fuzzyOutput()->clear();
+        _fuzzyOutput->clear();
         setPreviousOutputValue(fl::nan);
         setOutputValue(fl::nan);
     }

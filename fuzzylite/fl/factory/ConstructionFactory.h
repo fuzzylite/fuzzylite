@@ -42,6 +42,7 @@ namespace fl {
     public:
         ConstructionFactory(const std::string& name);
         virtual ~ConstructionFactory();
+        FL_DEFAULT_COPY_AND_MOVE(ConstructionFactory)
 
         virtual std::string name() const;
 

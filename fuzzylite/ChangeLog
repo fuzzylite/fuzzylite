@@ -147,10 +147,10 @@ Version 5.0
 * Rule utilizes smart pointers for Antecedent and Consequent
 * Exceptions are thrown when Conjunction, Disjunction, Activation and Accumulation operators are NULL when they are required
 * Exception is thrown when Defuzzifier is required and not set.
-* Added support for C++11 utilizing smart pointers, identifiers (override, noexcept), and delete identifiers to DISALLOW_COPY(Class)
-* Macro FL_unique_ptr to refer to std::auto_ptr (C++98) or std::unique_ptr (C++11)
+* Added support for C++11 utilizing smart pointers, identifiers (override, noexcept), and delete identifiers to DISABLE_COPY(Class)
+* Added macro FL_unique_ptr to refer to std::auto_ptr (C++98) or std::unique_ptr (C++11)
 * Added constant fl::null to refer to 0L (C++98) or nullptr (C++11)
-
+* Added macros FL_DEFAULT_COPY(Class), FL_DEFAULT_MOVE(Class),and FL_DEFAULT_COPY_AND_MOVE(Class) for default copy and move constructors and operators
 
 
 Version 4.0

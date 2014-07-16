@@ -46,9 +46,10 @@ namespace fl {
 
     public:
         Rule(const std::string& text = "", scalar weight = 1.0);
-        Rule(const Rule& source);
-        Rule& operator=(const Rule& rhs);
+        Rule(const Rule& other);
+        Rule& operator=(const Rule& other);
         virtual ~Rule();
+        FL_DEFAULT_MOVE(Rule)
 
         virtual void setText(const std::string& text);
         virtual std::string getText() const;

@@ -41,9 +41,8 @@ namespace fl {
     public:
 
         Term(const std::string& name = "", scalar height = 1.0);
-        Term(const Term& copy);
-        Term& operator=(const Term& rhs);
         virtual ~Term();
+        FL_DEFAULT_COPY_AND_MOVE(Term)
 
         virtual void setName(const std::string& name);
         virtual std::string getName() const;

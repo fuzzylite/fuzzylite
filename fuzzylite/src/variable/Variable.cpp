@@ -38,27 +38,28 @@ namespace fl {
     : _name(name), _minimum(minimum), _maximum(maximum), _enabled(true) {
     }
 
-    Variable::Variable(const Variable& copy) {
-        copyFrom(copy);
+    Variable::Variable(const Variable& other) {
+        copyFrom(other);
     }
 
-    Variable& Variable::operator=(const Variable& rhs) {
-        if (this == &rhs) return *this;
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            delete _terms.at(i);
+    Variable& Variable::operator=(const Variable& other) {
+        if (this != &other) {
+            for (std::size_t i = 0; i < _terms.size(); ++i) {
+                delete _terms.at(i);
+            }
+            _terms.clear();
+            copyFrom(other);
         }
-        _terms.clear();
-        copyFrom(rhs);
         return *this;
     }
 
-    void Variable::copyFrom(const Variable& source) {
-        _name = source._name;
-        _enabled = source._enabled;
-        _minimum = source._minimum;
-        _maximum = source._maximum;
-        for (std::size_t i = 0; i < source._terms.size(); ++i) {
-            _terms.push_back(source._terms.at(i)->clone());
+    void Variable::copyFrom(const Variable& other) {
+        _name = other._name;
+        _enabled = other._enabled;
+        _minimum = other._minimum;
+        _maximum = other._maximum;
+        for (std::size_t i = 0; i < other._terms.size(); ++i) {
+            _terms.push_back(other._terms.at(i)->clone());
         }
     }
 

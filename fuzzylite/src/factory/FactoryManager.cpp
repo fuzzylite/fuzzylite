@@ -48,26 +48,25 @@ namespace fl {
     _function(function) {
     }
 
-    FactoryManager::FactoryManager(const FactoryManager& source)
+    FactoryManager::FactoryManager(const FactoryManager& other)
     : _tnorm(fl::null), _snorm(fl::null), _defuzzifier(fl::null), _term(fl::null), _hedge(fl::null), _function(fl::null) {
-        this->_tnorm.reset(new TNormFactory(*source._tnorm.get()));
-        this->_snorm.reset(new SNormFactory(*source._snorm.get()));
-        this->_defuzzifier.reset(new DefuzzifierFactory(*source._defuzzifier.get()));
-        this->_term.reset(new TermFactory(*source._term.get()));
-        this->_hedge.reset(new HedgeFactory(*source._hedge.get()));
-        this->_function.reset(new FunctionFactory(*source._function.get()));
+        if (other._tnorm.get()) this->_tnorm.reset(new TNormFactory(*other._tnorm.get()));
+        if (other._snorm.get()) this->_snorm.reset(new SNormFactory(*other._snorm.get()));
+        if (other._defuzzifier.get()) this->_defuzzifier.reset(new DefuzzifierFactory(*other._defuzzifier.get()));
+        if (other._term.get()) this->_term.reset(new TermFactory(*other._term.get()));
+        if (other._hedge.get()) this->_hedge.reset(new HedgeFactory(*other._hedge.get()));
+        if (other._function.get()) this->_function.reset(new FunctionFactory(*other._function.get()));
     }
 
-    FactoryManager& FactoryManager::operator=(const FactoryManager& rhs) {
-        if (this == &rhs) return *this;
-
-        this->_tnorm.reset(new TNormFactory(*rhs._tnorm.get()));
-        this->_snorm.reset(new SNormFactory(*rhs._snorm.get()));
-        this->_defuzzifier.reset(new DefuzzifierFactory(*rhs._defuzzifier.get()));
-        this->_term.reset(new TermFactory(*rhs._term.get()));
-        this->_hedge.reset(new HedgeFactory(*rhs._hedge.get()));
-        this->_function.reset(new FunctionFactory(*rhs._function.get()));
-
+    FactoryManager& FactoryManager::operator=(const FactoryManager& other) {
+        if (this != &other) {
+            if (other._tnorm.get()) this->_tnorm.reset(new TNormFactory(*other._tnorm.get()));
+            if (other._snorm.get()) this->_snorm.reset(new SNormFactory(*other._snorm.get()));
+            if (other._defuzzifier.get()) this->_defuzzifier.reset(new DefuzzifierFactory(*other._defuzzifier.get()));
+            if (other._term.get()) this->_term.reset(new TermFactory(*other._term.get()));
+            if (other._hedge.get()) this->_hedge.reset(new HedgeFactory(*other._hedge.get()));
+            if (other._function.get()) this->_function.reset(new FunctionFactory(*other._function.get()));
+        }
         return *this;
     }
 

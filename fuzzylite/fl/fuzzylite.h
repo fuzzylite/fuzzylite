@@ -62,6 +62,7 @@ namespace fl {
     Class &operator=(const Class &);
 
 #else //C++11 defines
+#define FL_CPP11
     const std::nullptr_t null = nullptr;
 #define FL_unique_ptr std::unique_ptr
 #define FL_MOVE(x) std::move(x)
@@ -73,6 +74,24 @@ namespace fl {
     Class(const Class &) = delete;\
     Class &operator=(const Class &) = delete;
 
+#endif
+
+#ifdef FL_CPP11
+#define FL_DEFAULT_COPY(Class) \
+    Class(const Class&) = default; \
+    Class& operator=(const Class&) = default;
+#define FL_DEFAULT_MOVE(Class) \
+    Class(Class&&) = default; \
+    Class& operator=(Class&&) = default;
+#define FL_DEFAULT_COPY_AND_MOVE(Class) \
+    Class(const Class&) = default; \
+    Class& operator=(const Class&) = default;\
+    Class(Class&&) = default; \
+    Class& operator=(Class&&) = default;
+#else
+#define FL_DEFAULT_COPY(Class)
+#define FL_DEFAULT_MOVE(Class) 
+#define FL_DEFAULT_COPY_AND_MOVE(Class)
 #endif
 
     const scalar nan = std::numeric_limits<scalar>::quiet_NaN();

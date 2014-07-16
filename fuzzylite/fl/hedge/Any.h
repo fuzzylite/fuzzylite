@@ -31,6 +31,7 @@ namespace fl {
     public:
         Any();
         virtual ~Any() FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(Any)
 
         virtual std::string name() const FL_OVERRIDE;
         virtual scalar hedge(scalar x) const FL_OVERRIDE;

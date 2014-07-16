@@ -31,17 +31,6 @@ namespace fl {
 
     }
 
-    Term::Term(const Term& copy) : _name(copy._name), _height(copy._height) {
-
-    }
-
-    Term& Term::operator=(const Term& rhs) {
-        if (this == &rhs) return *this;
-        _name = rhs._name;
-        _height = rhs._height;
-        return *this;
-    }
-
     Term::~Term() {
 
     }

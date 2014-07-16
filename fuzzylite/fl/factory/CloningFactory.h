@@ -38,10 +38,11 @@ namespace fl {
 
     public:
         CloningFactory(const std::string& name = "");
-        CloningFactory(const CloningFactory& source);
-        CloningFactory& operator=(const CloningFactory& rhs);
+        CloningFactory(const CloningFactory& other);
+        CloningFactory& operator=(const CloningFactory& other);
         virtual ~CloningFactory();
-
+        FL_DEFAULT_MOVE(CloningFactory)
+        
         virtual std::string name() const;
 
         virtual void registerObject(const std::string& key, T object);

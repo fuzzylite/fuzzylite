@@ -44,9 +44,10 @@ namespace fl {
                 scalar minimum = -fl::inf,
                 scalar maximum = fl::inf,
                 SNorm* accumulation = fl::null);
-        Accumulated(const Accumulated& source);
-        Accumulated& operator=(const Accumulated& rhs);
+        Accumulated(const Accumulated& other);
+        Accumulated& operator=(const Accumulated& other);
         virtual ~Accumulated() FL_OVERRIDE;
+        FL_DEFAULT_MOVE(Accumulated)
 
         virtual std::string className() const FL_OVERRIDE;
         virtual std::string parameters() const FL_OVERRIDE;

@@ -36,6 +36,7 @@ namespace fl {
 
         virtual ~Hedge() {
         }
+        FL_DEFAULT_COPY_AND_MOVE(Hedge)
 
         virtual std::string name() const = 0;
         virtual scalar hedge(scalar x) const = 0;

@@ -38,6 +38,7 @@ namespace fl {
     public:
         FllImporter(const std::string& separator = "\n");
         virtual ~FllImporter() FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(FllImporter)
 
         virtual void setSeparator(const std::string& separator);
         virtual std::string getSeparator() const;

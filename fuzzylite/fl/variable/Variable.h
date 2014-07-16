@@ -45,10 +45,10 @@ namespace fl {
         Variable(const std::string& name = "",
                 scalar minimum = -fl::inf,
                 scalar maximum = fl::inf);
-        Variable(const Variable& copy);
-        Variable& operator=(const Variable& rhs);
-
+        Variable(const Variable& other);
+        Variable& operator=(const Variable& other);
         virtual ~Variable();
+        FL_DEFAULT_MOVE(Variable)
 
         virtual void setName(const std::string& name);
         virtual std::string getName() const;

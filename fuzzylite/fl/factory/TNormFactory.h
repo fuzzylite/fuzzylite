@@ -32,6 +32,7 @@ namespace fl {
     public:
         TNormFactory();
         virtual ~TNormFactory() FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(TNormFactory)
     };
 }
 #endif  /* FL_TNORMFACTORY_H */

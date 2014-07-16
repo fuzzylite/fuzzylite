@@ -36,6 +36,7 @@ namespace fl {
 
         WeightedDefuzzifier(Type type = Automatic);
         virtual ~WeightedDefuzzifier() FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(WeightedDefuzzifier)
 
         virtual void setType(Type type);
         virtual Type getType() const;

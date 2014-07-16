@@ -35,6 +35,7 @@ namespace fl {
                 scalar width = fl::nan,
                 scalar height = 1.0);
         virtual ~Cosine() FL_OVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(Cosine)
 
         virtual std::string className() const FL_OVERRIDE;
         virtual std::string parameters() const FL_OVERRIDE;

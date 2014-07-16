@@ -34,6 +34,7 @@ namespace fl {
 
         Importer();
         virtual ~Importer();
+        FL_DEFAULT_COPY_AND_MOVE(Importer)
 
         virtual Engine* fromString(const std::string& s) const = 0;
         virtual Engine* fromFile(const std::string& path) const;

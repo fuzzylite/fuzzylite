@@ -34,17 +34,18 @@ namespace fl {
     : Term(name), _minimum(minimum), _maximum(maximum), _accumulation(accumulation) {
     }
 
-    Accumulated::Accumulated(const Accumulated& source) : Term(source) {
-        copyFrom(source);
+    Accumulated::Accumulated(const Accumulated& other) : Term(other) {
+        copyFrom(other);
     }
 
-    Accumulated& Accumulated::operator=(const Accumulated& rhs) {
-        if (this == &rhs) return *this;
-        clear();
-        _accumulation.reset(fl::null);
+    Accumulated& Accumulated::operator=(const Accumulated& other) {
+        if (this != &other) {
+            clear();
+            _accumulation.reset(fl::null);
 
-        Term::operator=(rhs);
-        copyFrom(rhs);
+            Term::operator=(other);
+            copyFrom(other);
+        }
         return *this;
     }
 
