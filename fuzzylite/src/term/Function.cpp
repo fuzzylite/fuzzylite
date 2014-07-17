@@ -276,7 +276,9 @@ namespace fl {
     }
 
     scalar Function::membership(scalar x) const {
-        if (not this->_root.get()) return fl::nan;
+        if (not this->_root.get()) {
+            throw fl::Exception("[function error] function <" + _formula + "> not loaded.", FL_AT);
+        }
         if (this->_engine) {
             for (int i = 0; i < this->_engine->numberOfInputVariables(); ++i) {
                 InputVariable* input = this->_engine->getInputVariable(i);
