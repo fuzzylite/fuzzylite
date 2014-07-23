@@ -27,7 +27,7 @@ OutputVariable: valve
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct
-  disjunction: AlgebraicSum
+  disjunction: none
   activation: none
   rule: if level is okay then valve is no_change
   rule: if level is low then valve is open_fast

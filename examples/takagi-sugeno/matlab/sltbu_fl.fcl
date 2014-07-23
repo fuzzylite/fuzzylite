@@ -33,8 +33,6 @@ DEFUZZIFY control
 END_DEFUZZIFY
 
 RULEBLOCK 
-  AND : PROD;
-  OR : MAX;
   RULE 1 : if distance is near then control is out1mf1
   RULE 2 : if distance is far then control is out1mf2
 END_RULEBLOCK

@@ -18,8 +18,8 @@ OutputVariable: Power
   term: HIGH Constant 0.750
 RuleBlock: 
   enabled: true
-  conjunction: Minimum
-  disjunction: Maximum
+  conjunction: none
+  disjunction: none
   activation: none
   rule: if Ambient is DARK then Power is HIGH
   rule: if Ambient is MEDIUM then Power is MEDIUM

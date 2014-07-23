@@ -49,7 +49,7 @@ RuleBlock ruleBlock = new RuleBlock();
 ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(new Minimum());
-ruleBlock.setDisjunction(new Maximum());
+ruleBlock.setDisjunction(null);
 ruleBlock.setActivation(null);
 ruleBlock.addRule(Rule.parse("if FoodQuality is Bad and Service is Bad then Tip is TenPercent", engine));
 ruleBlock.addRule(Rule.parse("if FoodQuality is Bad and Service is Good then Tip is FifteenPercent", engine));

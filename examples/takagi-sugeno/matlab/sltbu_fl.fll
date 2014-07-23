@@ -22,8 +22,8 @@ OutputVariable: control
   term: out1mf2 Linear 0.000 1.000 0.000 0.000
 RuleBlock: 
   enabled: true
-  conjunction: AlgebraicProduct
-  disjunction: Maximum
+  conjunction: none
+  disjunction: none
   activation: none
   rule: if distance is near then control is out1mf1
   rule: if distance is far then control is out1mf2

@@ -78,7 +78,7 @@ RuleBlock ruleBlock = new RuleBlock();
 ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(new AlgebraicProduct());
-ruleBlock.setDisjunction(new Maximum());
+ruleBlock.setDisjunction(null);
 ruleBlock.setActivation(null);
 ruleBlock.addRule(Rule.parse("if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf1 and in4 is in4mf1 then out is outmf1", engine));
 ruleBlock.addRule(Rule.parse("if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf1 and in4 is in4mf2 then out is outmf2", engine));

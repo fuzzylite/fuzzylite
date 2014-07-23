@@ -41,8 +41,6 @@ DEFUZZIFY ApproxXCubed
 END_DEFUZZIFY
 
 RULEBLOCK 
-  AND : MIN;
-  OR : MAX;
   RULE 1 : if X is AboutNegFive then ApproxXCubed is TangentatNegFive
   RULE 2 : if X is AboutNegFour then ApproxXCubed is TangentatNegFour
   RULE 3 : if X is AboutNegThree then ApproxXCubed is TangentatNegThree

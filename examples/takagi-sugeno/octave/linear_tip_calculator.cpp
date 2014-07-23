@@ -40,7 +40,7 @@ RuleBlock* ruleBlock = new RuleBlock;
 ruleBlock->setEnabled(true);
 ruleBlock->setName("");
 ruleBlock->setConjunction(new Minimum);
-ruleBlock->setDisjunction(new Maximum);
+ruleBlock->setDisjunction(fl::null);
 ruleBlock->setActivation(fl::null);
 ruleBlock->addRule(fl::Rule::parse("if FoodQuality is Bad and Service is Bad then Tip is TenPercent", engine));
 ruleBlock->addRule(fl::Rule::parse("if FoodQuality is Bad and Service is Good then Tip is FifteenPercent", engine));

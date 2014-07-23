@@ -32,7 +32,6 @@ DEFUZZIFY tip
 END_DEFUZZIFY
 
 RULEBLOCK 
-  AND : MIN;
   OR : MAX;
   RULE 1 : if service is poor or food is rancid then tip is cheap
   RULE 2 : if service is average then tip is average

@@ -23,7 +23,7 @@ OutputVariable: Tip
 RuleBlock: 
   enabled: true
   conjunction: Minimum
-  disjunction: Maximum
+  disjunction: none
   activation: none
   rule: if FoodQuality is Bad and Service is Bad then Tip is TenPercent
   rule: if FoodQuality is Bad and Service is Good then Tip is FifteenPercent

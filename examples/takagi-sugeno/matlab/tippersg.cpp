@@ -40,7 +40,7 @@ engine->addOutputVariable(outputVariable);
 RuleBlock* ruleBlock = new RuleBlock;
 ruleBlock->setEnabled(true);
 ruleBlock->setName("");
-ruleBlock->setConjunction(new Minimum);
+ruleBlock->setConjunction(fl::null);
 ruleBlock->setDisjunction(new Maximum);
 ruleBlock->setActivation(fl::null);
 ruleBlock->addRule(fl::Rule::parse("if service is poor or food is rancid then tip is cheap", engine));

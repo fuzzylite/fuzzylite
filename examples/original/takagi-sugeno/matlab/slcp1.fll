@@ -30,8 +30,8 @@ OutputVariable: out
   term: outmf3 Linear 45.0094000000 13.9847000000 3.1623000000 4.6663000000 0.0000000000 0.0000000000
 RuleBlock: 
   enabled: true
-  conjunction: AlgebraicProduct
-  disjunction: Maximum
+  conjunction: none
+  disjunction: none
   activation: none
   rule: if in5 is small then out is outmf1
   rule: if in5 is medium then out is outmf2

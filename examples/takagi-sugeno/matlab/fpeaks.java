@@ -66,7 +66,7 @@ RuleBlock ruleBlock = new RuleBlock();
 ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(new AlgebraicProduct());
-ruleBlock.setDisjunction(new Maximum());
+ruleBlock.setDisjunction(null);
 ruleBlock.setActivation(null);
 ruleBlock.addRule(Rule.parse("if in1 is in1mf1 and in2 is in1mf1 then out1 is out1mf1", engine));
 ruleBlock.addRule(Rule.parse("if in1 is in1mf1 and in2 is in1mf2 then out1 is out1mf2", engine));

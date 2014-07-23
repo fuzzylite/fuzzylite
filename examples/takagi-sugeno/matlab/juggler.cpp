@@ -48,7 +48,7 @@ RuleBlock* ruleBlock = new RuleBlock;
 ruleBlock->setEnabled(true);
 ruleBlock->setName("");
 ruleBlock->setConjunction(new AlgebraicProduct);
-ruleBlock->setDisjunction(new Maximum);
+ruleBlock->setDisjunction(fl::null);
 ruleBlock->setActivation(fl::null);
 ruleBlock->addRule(fl::Rule::parse("if xHit is in1mf1 and projectAngle is in2mf1 then theta is out1mf", engine));
 ruleBlock->addRule(fl::Rule::parse("if xHit is in1mf1 and projectAngle is in2mf2 then theta is out1mf", engine));

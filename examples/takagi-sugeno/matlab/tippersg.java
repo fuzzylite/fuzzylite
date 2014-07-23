@@ -49,7 +49,7 @@ engine.addOutputVariable(outputVariable);
 RuleBlock ruleBlock = new RuleBlock();
 ruleBlock.setEnabled(true);
 ruleBlock.setName("");
-ruleBlock.setConjunction(new Minimum());
+ruleBlock.setConjunction(null);
 ruleBlock.setDisjunction(new Maximum());
 ruleBlock.setActivation(null);
 ruleBlock.addRule(Rule.parse("if service is poor or food is rancid then tip is cheap", engine));

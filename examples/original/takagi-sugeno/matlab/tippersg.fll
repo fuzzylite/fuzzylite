@@ -23,7 +23,7 @@ OutputVariable: tip
   term: generous Linear 0.000 0.000 25.000
 RuleBlock: 
   enabled: true
-  conjunction: Minimum
+  conjunction: none
   disjunction: Maximum
   activation: none
   rule: if service is poor or food is rancid then tip is cheap

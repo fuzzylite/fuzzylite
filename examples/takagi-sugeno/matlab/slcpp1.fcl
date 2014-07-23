@@ -71,8 +71,6 @@ DEFUZZIFY out
 END_DEFUZZIFY
 
 RULEBLOCK 
-  AND : PROD;
-  OR : MAX;
   RULE 1 : if pole_length is mf1 then out is outmf1
   RULE 2 : if pole_length is mf2 then out is outmf2
   RULE 3 : if pole_length is mf3 then out is outmf3

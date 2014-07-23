@@ -81,7 +81,7 @@ RuleBlock* ruleBlock = new RuleBlock;
 ruleBlock->setEnabled(true);
 ruleBlock->setName("");
 ruleBlock->setConjunction(new AlgebraicProduct);
-ruleBlock->setDisjunction(new Maximum);
+ruleBlock->setDisjunction(fl::null);
 ruleBlock->setActivation(fl::null);
 ruleBlock->addRule(fl::Rule::parse("if input1 is in1mf1 and input2 is in2mf1 then output is out1mf1", engine));
 ruleBlock->addRule(fl::Rule::parse("if input1 is in1mf1 and input2 is in2mf2 then output is out1mf2", engine));

@@ -34,8 +34,8 @@ OutputVariable: ApproxXCubed
   term: TangentatFive Linear 75.000 -250.000
 RuleBlock: 
   enabled: true
-  conjunction: Minimum
-  disjunction: Maximum
+  conjunction: none
+  disjunction: none
   activation: none
   rule: if X is AboutNegFive then ApproxXCubed is TangentatNegFive
   rule: if X is AboutNegFour then ApproxXCubed is TangentatNegFour

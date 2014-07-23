@@ -45,7 +45,7 @@ OutputVariable: GenerousTip
 RuleBlock: 
   enabled: true
   conjunction: EinsteinProduct
-  disjunction: EinsteinSum
+  disjunction: none
   activation: none
   rule: if FoodQuality is extremely Bad and Service is extremely Bad then CheapTip is extremely Low and AverageTip is very Low and GenerousTip is Low
   rule: if FoodQuality is Good and Service is extremely Bad then CheapTip is Low and AverageTip is Low and GenerousTip is Medium

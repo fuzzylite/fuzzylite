@@ -59,7 +59,6 @@ END_DEFUZZIFY
 
 RULEBLOCK 
   AND : PROD;
-  OR : MAX;
   RULE 1 : if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf1 and in4 is in4mf1 then out is outmf1
   RULE 2 : if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf1 and in4 is in4mf2 then out is outmf2
   RULE 3 : if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf2 and in4 is in4mf1 then out is outmf3

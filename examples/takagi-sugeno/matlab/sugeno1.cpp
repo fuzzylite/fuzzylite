@@ -30,7 +30,7 @@ engine->addOutputVariable(outputVariable);
 RuleBlock* ruleBlock = new RuleBlock;
 ruleBlock->setEnabled(true);
 ruleBlock->setName("");
-ruleBlock->setConjunction(new AlgebraicProduct);
+ruleBlock->setConjunction(fl::null);
 ruleBlock->setDisjunction(fl::null);
 ruleBlock->setActivation(fl::null);
 ruleBlock->addRule(fl::Rule::parse("if input is low then output is line1", engine));

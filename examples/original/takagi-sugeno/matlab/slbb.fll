@@ -46,7 +46,7 @@ OutputVariable: out
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct
-  disjunction: Maximum
+  disjunction: none
   activation: none
   rule: if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf1 and in4 is in4mf1 then out is outmf1
   rule: if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf1 and in4 is in4mf2 then out is outmf2

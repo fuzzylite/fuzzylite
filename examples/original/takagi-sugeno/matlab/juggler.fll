@@ -31,7 +31,7 @@ OutputVariable: theta
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct
-  disjunction: Maximum
+  disjunction: none
   activation: none
   rule: if xHit is in1mf1 and projectAngle is in2mf1 then theta is out1mf
   rule: if xHit is in1mf1 and projectAngle is in2mf2 then theta is out1mf

@@ -77,7 +77,7 @@ RuleBlock ruleBlock = new RuleBlock();
 ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(new EinsteinProduct());
-ruleBlock.setDisjunction(new EinsteinSum());
+ruleBlock.setDisjunction(null);
 ruleBlock.setActivation(null);
 ruleBlock.addRule(Rule.parse("if FoodQuality is extremely Bad and Service is extremely Bad then CheapTip is extremely Low and AverageTip is very Low and GenerousTip is Low", engine));
 ruleBlock.addRule(Rule.parse("if FoodQuality is Good and Service is extremely Bad then CheapTip is Low and AverageTip is Low and GenerousTip is Medium", engine));

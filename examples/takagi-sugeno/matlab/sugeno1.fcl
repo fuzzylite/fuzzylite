@@ -23,7 +23,6 @@ DEFUZZIFY output
 END_DEFUZZIFY
 
 RULEBLOCK 
-  AND : PROD;
   RULE 1 : if input is low then output is line1
   RULE 2 : if input is high then output is line2
 END_RULEBLOCK

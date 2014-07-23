@@ -38,7 +38,6 @@ END_DEFUZZIFY
 
 RULEBLOCK 
   AND : MIN;
-  OR : MAX;
   RULE 1 : if LDLLevel is Low and HDLLevel is LowHDL then HeartDiseaseRisk is MediumRisk
   RULE 2 : if LDLLevel is Low and HDLLevel is ModerateHDL then HeartDiseaseRisk is LowRisk
   RULE 3 : if LDLLevel is Low and HDLLevel is HighHDL then HeartDiseaseRisk is NoRisk

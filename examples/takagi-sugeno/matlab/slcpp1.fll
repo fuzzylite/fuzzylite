@@ -52,8 +52,8 @@ OutputVariable: out
   term: outmf11 Linear -354.770 -113.680 327.650 85.270 -1.000 -3.010 0.000 0.000
 RuleBlock: 
   enabled: true
-  conjunction: AlgebraicProduct
-  disjunction: Maximum
+  conjunction: none
+  disjunction: none
   activation: none
   rule: if pole_length is mf1 then out is outmf1
   rule: if pole_length is mf2 then out is outmf2

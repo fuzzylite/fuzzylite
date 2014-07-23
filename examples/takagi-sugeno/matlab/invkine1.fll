@@ -79,7 +79,7 @@ OutputVariable: output
 RuleBlock: 
   enabled: true
   conjunction: AlgebraicProduct
-  disjunction: Maximum
+  disjunction: none
   activation: none
   rule: if input1 is in1mf1 and input2 is in2mf1 then output is out1mf1
   rule: if input1 is in1mf1 and input2 is in2mf2 then output is out1mf2

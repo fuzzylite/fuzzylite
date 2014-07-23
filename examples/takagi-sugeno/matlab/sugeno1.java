@@ -39,7 +39,7 @@ engine.addOutputVariable(outputVariable);
 RuleBlock ruleBlock = new RuleBlock();
 ruleBlock.setEnabled(true);
 ruleBlock.setName("");
-ruleBlock.setConjunction(new AlgebraicProduct());
+ruleBlock.setConjunction(null);
 ruleBlock.setDisjunction(null);
 ruleBlock.setActivation(null);
 ruleBlock.addRule(Rule.parse("if input is low then output is line1", engine));

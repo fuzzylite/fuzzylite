@@ -16,7 +16,7 @@ OutputVariable: output
   term: line2 Linear 1.000 -1.000
 RuleBlock: 
   enabled: true
-  conjunction: AlgebraicProduct
+  conjunction: none
   disjunction: none
   activation: none
   rule: if input is low then output is line1
