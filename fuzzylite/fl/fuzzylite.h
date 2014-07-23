@@ -118,12 +118,6 @@ namespace fl {
 
 //"class FL_EXPORT Name" is required to build DLLs in Windows.
 #ifdef FL_WINDOWS
-#define FL_EXPORT __declspec(dllexport)
-#else
-#define FL_EXPORT
-#endif
-
-#ifdef FL_WINDOWS
 #include <ciso646> //alternative operator spellings:
 //#define and &&
 //#define or ||
@@ -131,26 +125,12 @@ namespace fl {
 //#define bitand &
 //#define bitor |
 
-//TODO: add these functions in Windows
-//#define acosh(x)
-//#define asinh(x)
-//#define atanh(x)
-//#define log1p
+//TODO: Address warning 4251 by exporting members 
+//http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 
-//to ignore warnings dealing with exceptions in Windows:
-//http://msdn.microsoft.com/en-us/library/sa28fef8%28v=vs.80%29.aspx
-
-//no longer needed
-//#pragma warning(disable:4290) //C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-
-#pragma warning(disable:4251) //Windows NMake complains I should have pointers in all headers instead of stack allocated objects. For example, std::string* instead of std::string.
-
-#pragma warning(disable:4127) //Ignore conditional expression constant of FL_DBG and alike
-
-#pragma warning(disable:4706) //Ignore assignments within conditional expressions in Tsukamoto.
-
-#pragma warning(disable:4702) //Ignore unreachable code e.g. code after return;
+#define FL_EXPORT __declspec(dllexport)
 #else
+#define FL_EXPORT
 #endif
 
 namespace fl {

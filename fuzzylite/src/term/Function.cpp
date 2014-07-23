@@ -429,7 +429,7 @@ namespace fl {
 
             } else if (element and element->isOperator()) {
                 Element* op1 = element;
-                while (true) {
+                for ( ; ; ) {
                     Element* op2 = fl::null;
                     if (not stack.empty()) op2 = factory->getObject(stack.top());
                     if (not op2) break;

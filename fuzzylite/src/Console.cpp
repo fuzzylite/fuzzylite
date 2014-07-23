@@ -310,22 +310,19 @@ namespace fl {
     }
 
     int Console::readCharacter() {
+		int ch = 0;
 #ifdef FL_UNIX
         struct termios oldt, newt;
-        int ch;
-
         tcgetattr(STDIN_FILENO, &oldt);
         newt = oldt;
         newt.c_lflag &= ~(ICANON | ECHO);
         tcsetattr(STDIN_FILENO, TCSANOW, &newt);
         ch = getchar();
         tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-
-        return ch;
 #elif defined(FL_WINDOWS)
-        return _getch();
+        ch = _getch();
 #endif
-        return 0;
+        return ch;
     }
 
     void Console::interactive(std::ostream& writer, Engine* engine) {

@@ -37,19 +37,8 @@ set(FL_DATE "1408")
 add_definitions(-DFL_DATE="${FL_DATE}")
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
-option(FL_DEBUG "Enable additional debugging information" OFF)
 option(FL_BACKTRACE "Provide backtrace information in case of errors" OFF)
 option(FL_CPP11 "Builds utilizing C++11, i.e., passing -std=c++11" OFF)
-
-
-if(FL_DEBUG)
-    add_definitions(-DFL_DEBUG=true)
-    set(CMAKE_BUILD_TYPE Debug)
-else()
-    set(CMAKE_BUILD_TYPE Release)
-endif(FL_DEBUG)
-
-
 
 add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
 
@@ -60,24 +49,31 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 set(FL_LIBS)
 
 if(FL_CPP11)
+if(UNIX)
     add_definitions(-std=c++11) 
+endif(UNIX)
 endif(FL_CPP11)
 
 if(UNIX)
     set(CMAKE_CXX_FLAGS "-pedantic -Werror -Wall -Wextra")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
-    #set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-rpath,bin/") #does apple recognise these?
 
 if(NOT APPLE)
         set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined") #To avoid undefined methods in library
 endif()
 
 elseif(WIN32)
-    set(CMAKE_CXX_FLAGS "/WX /W4 /EHsc")
+    set(CMAKE_CXX_FLAGS "/WX /W4 /wd4251 /EHsc")
     #Wx: Treat warnings as errors. W4: All warnings
     #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
     #EHsc: call destructors on __try __catch, and to ignore C4530: C++ exception handler used. Note, unwind semantics are not enabled
+	#/wd4251 disable warning 4251 #http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
+	#To avoid issues from disabling warning 4251, MSVCRT.lib is statically linked to resolve external references
+	#http://msdn.microsoft.com/en-us/library/2kzt1wy3.aspx
+	#By default, MD is selected.
+	#set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
+	#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd")
     if (FL_BACKTRACE)
         set(FL_LIBS dbghelp)
     endif()
@@ -142,10 +138,10 @@ install(DIRECTORY fl/ DESTINATION include/fl)
 
 message("=====================================")
 message("fuzzylite v.${FL_VERSION}b${FL_DATE}\n")
-message("FL_DEBUG=${FL_DEBUG}")
 message("FL_USE_FLOAT=${FL_USE_FLOAT}")
 message("FL_BACKTRACE=${FL_BACKTRACE}")
 message("FL_CPP11=${FL_CPP11}")
+message("Build=${CMAKE_BUILD_TYPE}")
 message("=====================================\n")
 
 # uninstall target
