@@ -127,7 +127,7 @@ namespace fl {
 
 //TODO: Address warning 4251 by exporting members 
 //http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
-
+#pragma warning (disable:4251)
 #define FL_EXPORT __declspec(dllexport)
 #else
 #define FL_EXPORT
