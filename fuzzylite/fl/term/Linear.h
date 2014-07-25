@@ -35,14 +35,14 @@ namespace fl {
         Linear(const std::string& name = "",
                 const std::vector<scalar>& coefficients = std::vector<scalar>(),
                 const Engine* engine = fl::null);
-        virtual ~Linear() FL_OVERRIDE;
+        virtual ~Linear() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Linear)
 
-        virtual std::string className() const FL_OVERRIDE;
-        virtual std::string parameters() const FL_OVERRIDE;
-        virtual void configure(const std::string& parameters) FL_OVERRIDE;
+        virtual std::string className() const FL_IOVERRIDE;
+        virtual std::string parameters() const FL_IOVERRIDE;
+        virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        virtual scalar membership(scalar x) const FL_OVERRIDE;
+        virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
         virtual void set(const std::vector<scalar>& coeffs, const Engine* engine);
 
@@ -53,7 +53,7 @@ namespace fl {
         virtual void setEngine(const Engine* engine);
         virtual const Engine* getEngine() const;
 
-        virtual Linear* clone() const FL_OVERRIDE;
+        virtual Linear* clone() const FL_IOVERRIDE;
 
         static Term* constructor();
 

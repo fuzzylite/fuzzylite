@@ -30,13 +30,13 @@ namespace fl {
     class FL_EXPORT WeightedSum : public WeightedDefuzzifier {
     public:
         WeightedSum(Type type = Automatic);
-        virtual ~WeightedSum() FL_OVERRIDE;
+        virtual ~WeightedSum() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(WeightedSum)
 
-        virtual std::string className() const FL_OVERRIDE;
+        virtual std::string className() const FL_IOVERRIDE;
         virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_OVERRIDE;
-        virtual WeightedSum* clone() const FL_OVERRIDE;
+                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        virtual WeightedSum* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };

@@ -29,13 +29,13 @@ namespace fl {
     class FL_EXPORT Centroid : public IntegralDefuzzifier {
     public:
         Centroid(int resolution = defaultResolution());
-        virtual ~Centroid() FL_OVERRIDE;
+        virtual ~Centroid() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Centroid)
 
-        virtual std::string className() const FL_OVERRIDE;
+        virtual std::string className() const FL_IOVERRIDE;
         virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_OVERRIDE;
-        virtual Centroid* clone() const FL_OVERRIDE;
+                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        virtual Centroid* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };

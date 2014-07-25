@@ -28,9 +28,9 @@ namespace fl {
 
     class FL_EXPORT AlgebraicProduct : public TNorm {
     public:
-        std::string className() const FL_OVERRIDE;
-        scalar compute(scalar a, scalar b) const FL_OVERRIDE;
-        AlgebraicProduct* clone() const FL_OVERRIDE;
+        std::string className() const FL_IOVERRIDE;
+        scalar compute(scalar a, scalar b) const FL_IOVERRIDE;
+        AlgebraicProduct* clone() const FL_IOVERRIDE;
 
         static TNorm* constructor();
     };

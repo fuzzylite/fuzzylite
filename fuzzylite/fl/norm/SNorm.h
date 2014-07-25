@@ -32,7 +32,7 @@ namespace fl {
         SNorm() {
         }
 
-        virtual ~SNorm() FL_OVERRIDE {
+        virtual ~SNorm() FL_IOVERRIDE {
         }
         
         FL_DEFAULT_COPY_AND_MOVE(SNorm)

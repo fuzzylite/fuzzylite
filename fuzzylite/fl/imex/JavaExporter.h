@@ -38,12 +38,12 @@ namespace fl {
     class FL_EXPORT JavaExporter : public Exporter {
     public:
         JavaExporter();
-        virtual ~JavaExporter() FL_OVERRIDE;
+        virtual ~JavaExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(JavaExporter)
 
-        virtual std::string name() const FL_OVERRIDE;
+        virtual std::string name() const FL_IOVERRIDE;
 
-        virtual std::string toString(const Engine* engine) const FL_OVERRIDE;
+        virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
         virtual std::string toString(const InputVariable* inputVariable, const Engine* engine) const;
         virtual std::string toString(const OutputVariable* outputVariable, const Engine* engine) const;
         virtual std::string toString(const RuleBlock* ruleBlock, const Engine* engine) const;
@@ -53,7 +53,7 @@ namespace fl {
         virtual std::string toString(const TNorm* norm) const;
         virtual std::string toString(scalar value) const;
 
-        virtual JavaExporter* clone() const FL_OVERRIDE;
+        virtual JavaExporter* clone() const FL_IOVERRIDE;
 
     };
 

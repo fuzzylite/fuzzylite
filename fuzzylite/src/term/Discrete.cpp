@@ -163,7 +163,7 @@ namespace fl {
     }
 
     std::vector<Discrete::Pair> Discrete::toPairs(const std::vector<scalar>& xy,
-            scalar missingValue) FL_NOEXCEPT{
+            scalar missingValue) FL_INOEXCEPT{
         std::vector<std::pair<scalar, scalar> > result((xy.size() + 1) / 2);
         for (std::size_t i = 0; i + 1 < xy.size(); i += 2) {
             result.at(i / 2).first = xy.at(i);

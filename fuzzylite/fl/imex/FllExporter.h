@@ -42,10 +42,10 @@ namespace fl {
         std::string _separator;
     public:
         FllExporter(const std::string& indent = "  ", const std::string& separator = "\n");
-        virtual ~FllExporter() FL_OVERRIDE;
+        virtual ~FllExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FllExporter)
 
-        virtual std::string name() const FL_OVERRIDE;
+        virtual std::string name() const FL_IOVERRIDE;
 
         virtual void setIndent(const std::string& indent);
         virtual std::string getIndent() const;
@@ -53,7 +53,7 @@ namespace fl {
         virtual void setSeparator(const std::string& separator);
         virtual std::string getSeparator() const;
 
-        virtual std::string toString(const Engine* engine) const FL_OVERRIDE;
+        virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
 
         virtual std::string toString(const std::vector<Variable*>& variables) const;
         virtual std::string toString(const std::vector<InputVariable*>& inputVariables) const;
@@ -71,7 +71,7 @@ namespace fl {
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
         virtual std::string toString(const Term* term) const;
 
-        virtual FllExporter* clone() const FL_OVERRIDE;
+        virtual FllExporter* clone() const FL_IOVERRIDE;
     };
 
 }

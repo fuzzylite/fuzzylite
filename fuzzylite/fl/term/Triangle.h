@@ -37,14 +37,14 @@ namespace fl {
                 scalar vertexB = fl::nan,
                 scalar vertexC = fl::nan,
                 scalar height = 1.0);
-        virtual ~Triangle() FL_OVERRIDE;
+        virtual ~Triangle() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Triangle)
 
-        virtual std::string className() const FL_OVERRIDE;
-        virtual std::string parameters() const FL_OVERRIDE;
-        virtual void configure(const std::string& parameters) FL_OVERRIDE;
+        virtual std::string className() const FL_IOVERRIDE;
+        virtual std::string parameters() const FL_IOVERRIDE;
+        virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        virtual scalar membership(scalar x) const FL_OVERRIDE;
+        virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
         virtual void setVertexA(scalar a);
         virtual scalar getVertexA() const;
@@ -55,7 +55,7 @@ namespace fl {
         virtual void setVertexC(scalar c);
         virtual scalar getVertexC() const;
 
-        virtual Triangle* clone() const FL_OVERRIDE;
+        virtual Triangle* clone() const FL_IOVERRIDE;
 
         static Term* constructor();
 

@@ -46,19 +46,19 @@ namespace fl {
                 SNorm* accumulation = fl::null);
         Accumulated(const Accumulated& other);
         Accumulated& operator=(const Accumulated& other);
-        virtual ~Accumulated() FL_OVERRIDE;
+        virtual ~Accumulated() FL_IOVERRIDE;
         FL_DEFAULT_MOVE(Accumulated)
 
-        virtual std::string className() const FL_OVERRIDE;
-        virtual std::string parameters() const FL_OVERRIDE;
-        virtual void configure(const std::string& parameters) FL_OVERRIDE;
+        virtual std::string className() const FL_IOVERRIDE;
+        virtual std::string parameters() const FL_IOVERRIDE;
+        virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        virtual Accumulated* clone() const FL_OVERRIDE;
+        virtual Accumulated* clone() const FL_IOVERRIDE;
 
-        virtual scalar membership(scalar x) const FL_OVERRIDE;
+        virtual scalar membership(scalar x) const FL_IOVERRIDE;
         virtual scalar activationDegree(const Term* forTerm) const;
 
-        virtual std::string toString() const FL_OVERRIDE;
+        virtual std::string toString() const FL_IOVERRIDE;
 
 
         virtual void setMinimum(scalar minimum);

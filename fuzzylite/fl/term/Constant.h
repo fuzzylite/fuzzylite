@@ -33,19 +33,19 @@ namespace fl {
     public:
         Constant(const std::string& name = "",
                 scalar value = fl::nan);
-        virtual ~Constant() FL_OVERRIDE;
+        virtual ~Constant() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Constant)
 
-        virtual std::string className() const FL_OVERRIDE;
-        virtual std::string parameters() const FL_OVERRIDE;
-        virtual void configure(const std::string& parameters) FL_OVERRIDE;
+        virtual std::string className() const FL_IOVERRIDE;
+        virtual std::string parameters() const FL_IOVERRIDE;
+        virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        virtual scalar membership(scalar x) const FL_OVERRIDE;
+        virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
         virtual void setValue(scalar value);
         virtual scalar getValue() const;
 
-        virtual Constant* clone() const FL_OVERRIDE;
+        virtual Constant* clone() const FL_IOVERRIDE;
 
         static Term* constructor();
     };

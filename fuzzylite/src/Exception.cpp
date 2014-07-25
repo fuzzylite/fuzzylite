@@ -53,7 +53,7 @@ namespace fl {
         FL_DBG(this->what());
     }
 
-    Exception::~Exception() FL_NOEXCEPT {
+    Exception::~Exception() FL_INOEXCEPT {
     }
 
     void Exception::setWhat(const std::string& what) {
@@ -64,7 +64,7 @@ namespace fl {
         return this->_what;
     }
 
-    const char* Exception::what() const FL_NOEXCEPT {
+    const char* Exception::what() const FL_INOEXCEPT {
         return this->_what.c_str();
     }
 

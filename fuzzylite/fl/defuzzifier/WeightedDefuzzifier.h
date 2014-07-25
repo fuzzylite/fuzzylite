@@ -16,7 +16,7 @@
  for more details.
 
  You should have received a copy of the GNU Lesser General Public License
- along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
+ along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>. 
  */
 
 #ifndef FL_WEIGHTEDDEFUZZIFIER_H
@@ -35,7 +35,7 @@ namespace fl {
         };
 
         WeightedDefuzzifier(Type type = Automatic);
-        virtual ~WeightedDefuzzifier() FL_OVERRIDE;
+        virtual ~WeightedDefuzzifier() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(WeightedDefuzzifier)
 
         virtual void setType(Type type);

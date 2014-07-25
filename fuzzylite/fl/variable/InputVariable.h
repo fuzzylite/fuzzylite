@@ -33,7 +33,7 @@ namespace fl {
         InputVariable(const std::string& name = "",
                 scalar minimum = -fl::inf,
                 scalar maximum = fl::inf);
-        virtual ~InputVariable() FL_OVERRIDE;
+        virtual ~InputVariable() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(InputVariable)
 
         virtual void setInputValue(scalar inputValue);
@@ -41,7 +41,7 @@ namespace fl {
 
         virtual std::string fuzzyInputValue() const;
 
-        virtual std::string toString() const FL_OVERRIDE;
+        virtual std::string toString() const FL_IOVERRIDE;
 
     };
 

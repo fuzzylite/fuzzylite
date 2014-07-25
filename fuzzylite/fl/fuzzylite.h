@@ -48,35 +48,51 @@ namespace fl {
     typedef double scalar;
 #endif
 
+    const scalar nan = std::numeric_limits<scalar>::quiet_NaN();
+    const scalar inf = std::numeric_limits<scalar>::infinity();
+
     //C++98 defines
 #if __cplusplus < 201100L
+
+    //Pointers
     const long null = 0L;
 #define FL_unique_ptr std::auto_ptr 
-#define FL_MOVE(x) x
-#define FL_OVERRIDE 
-#define FL_FINAL
-#define FL_DEFAULT
-#define FL_NOEXCEPT throw()
+#define FL_move_ptr(x) x
+
+    //Identifiers
+#define FL_IOVERRIDE 
+#define FL_IFINAL
+#define FL_IDEFAULT
+#define FL_IDELETE
+#define FL_INOEXCEPT throw()
+
+    //Constructors
+#define FL_DEFAULT_COPY(Class)
+#define FL_DEFAULT_MOVE(Class) 
+#define FL_DEFAULT_COPY_AND_MOVE(Class)
+
 #define FL_DISABLE_COPY(Class) \
     Class(const Class &);\
     Class &operator=(const Class &);
 
+
+
 #else //C++11 defines
 #define FL_CPP11
+
+    //Pointers
     const std::nullptr_t null = nullptr;
 #define FL_unique_ptr std::unique_ptr
-#define FL_MOVE(x) std::move(x)
-#define FL_OVERRIDE override
-#define FL_FINAL final
-#define FL_DEFAULT default
-#define FL_NOEXCEPT noexcept
-#define FL_DISABLE_COPY(Class) \
-    Class(const Class &) = delete;\
-    Class &operator=(const Class &) = delete;
+#define FL_move_ptr(x) std::move(x)
 
-#endif
+    //Identifiers
+#define FL_IOVERRIDE override
+#define FL_IFINAL final
+#define FL_IDEFAULT = default
+#define FL_IDELETE = delete
+#define FL_INOEXCEPT noexcept
 
-#ifdef FL_CPP11
+    //Constructors
 #define FL_DEFAULT_COPY(Class) \
     Class(const Class&) = default; \
     Class& operator=(const Class&) = default;
@@ -88,14 +104,11 @@ namespace fl {
     Class& operator=(const Class&) = default;\
     Class(Class&&) = default; \
     Class& operator=(Class&&) = default;
-#else
-#define FL_DEFAULT_COPY(Class)
-#define FL_DEFAULT_MOVE(Class) 
-#define FL_DEFAULT_COPY_AND_MOVE(Class)
-#endif
 
-    const scalar nan = std::numeric_limits<scalar>::quiet_NaN();
-    const scalar inf = std::numeric_limits<scalar>::infinity();
+#define FL_DISABLE_COPY(Class) \
+    Class(const Class &) = delete;\
+    Class &operator=(const Class &) = delete;
+#endif
 }
 
 #define FL__FILE__ std::string(__FILE__).substr(std::string(FL_BUILD_PATH).size())
@@ -117,6 +130,7 @@ namespace fl {
         FL_DEBUG_END
 
 //"class FL_EXPORT Name" is required to build DLLs in Windows.
+
 #ifdef FL_WINDOWS
 #include <ciso646> //alternative operator spellings:
 //#define and &&
@@ -125,7 +139,7 @@ namespace fl {
 //#define bitand &
 //#define bitor |
 
-//TODO: Address warning 4251 by exporting members 
+//TODO: Address warning 4251 by exporting members?
 //http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #pragma warning (disable:4251)
 #define FL_EXPORT __declspec(dllexport)

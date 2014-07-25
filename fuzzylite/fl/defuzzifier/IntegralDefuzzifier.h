@@ -38,7 +38,7 @@ namespace fl {
         static int defaultResolution();
 
         IntegralDefuzzifier(int resolution = defaultResolution());
-        virtual ~IntegralDefuzzifier() FL_OVERRIDE;
+        virtual ~IntegralDefuzzifier() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(IntegralDefuzzifier)
 
         virtual void setResolution(int resolution);

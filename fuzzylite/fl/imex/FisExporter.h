@@ -43,11 +43,11 @@ namespace fl {
 
     public:
         FisExporter();
-        virtual ~FisExporter() FL_OVERRIDE;
+        virtual ~FisExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FisExporter)
 
-        virtual std::string name() const FL_OVERRIDE;
-        virtual std::string toString(const Engine* engine) const FL_OVERRIDE;
+        virtual std::string name() const FL_IOVERRIDE;
+        virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
 
         virtual std::string toString(const TNorm* tnorm) const;
         virtual std::string toString(const SNorm* snorm) const;
@@ -60,7 +60,7 @@ namespace fl {
         virtual std::string exportRules(const Engine* engine) const;
         virtual std::string exportRule(const Rule* rule, const Engine* engine) const;
 
-        virtual FisExporter* clone() const FL_OVERRIDE;
+        virtual FisExporter* clone() const FL_IOVERRIDE;
     };
 
 }

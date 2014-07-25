@@ -28,9 +28,9 @@ namespace fl {
 
     class FL_EXPORT BoundedSum : public SNorm {
     public:
-        std::string className() const FL_OVERRIDE;
-        scalar compute(scalar a, scalar b) const FL_OVERRIDE;
-        BoundedSum* clone() const FL_OVERRIDE;
+        std::string className() const FL_IOVERRIDE;
+        scalar compute(scalar a, scalar b) const FL_IOVERRIDE;
+        BoundedSum* clone() const FL_IOVERRIDE;
 
         static SNorm* constructor();
     };

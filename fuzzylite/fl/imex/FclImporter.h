@@ -39,14 +39,14 @@ namespace fl {
     class FL_EXPORT FclImporter : public Importer {
     public:
         FclImporter();
-        virtual ~FclImporter() FL_OVERRIDE;
+        virtual ~FclImporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FclImporter)
 
-        virtual std::string name() const FL_OVERRIDE;
+        virtual std::string name() const FL_IOVERRIDE;
 
-        virtual Engine* fromString(const std::string& fcl) const FL_OVERRIDE;
+        virtual Engine* fromString(const std::string& fcl) const FL_IOVERRIDE;
 
-        virtual FclImporter* clone() const FL_OVERRIDE;
+        virtual FclImporter* clone() const FL_IOVERRIDE;
 
     protected:
         virtual void processBlock(const std::string& tag, const std::string& block, Engine* engine) const;

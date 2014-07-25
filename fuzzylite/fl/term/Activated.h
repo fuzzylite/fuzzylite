@@ -36,15 +36,15 @@ namespace fl {
     public:
         Activated(const Term* term = fl::null, scalar degree = 1.0,
                 const TNorm* activationOperator = fl::null);
-        virtual ~Activated() FL_OVERRIDE;
+        virtual ~Activated() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Activated)
 
-        virtual std::string className() const FL_OVERRIDE;
-        virtual std::string parameters() const FL_OVERRIDE;
-        virtual void configure(const std::string& parameters) FL_OVERRIDE;
+        virtual std::string className() const FL_IOVERRIDE;
+        virtual std::string parameters() const FL_IOVERRIDE;
+        virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        virtual scalar membership(scalar x) const FL_OVERRIDE;
-        virtual std::string toString() const FL_OVERRIDE;
+        virtual scalar membership(scalar x) const FL_IOVERRIDE;
+        virtual std::string toString() const FL_IOVERRIDE;
 
         virtual void setTerm(const Term* term);
         virtual const Term* getTerm() const;
@@ -55,7 +55,7 @@ namespace fl {
         virtual void setActivation(const TNorm* activation);
         virtual const TNorm* getActivation() const;
 
-        virtual Activated* clone() const FL_OVERRIDE;
+        virtual Activated* clone() const FL_IOVERRIDE;
     };
 
 }

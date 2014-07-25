@@ -30,12 +30,12 @@ namespace fl {
     class FL_EXPORT Any : public Hedge {
     public:
         Any();
-        virtual ~Any() FL_OVERRIDE;
+        virtual ~Any() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Any)
 
-        virtual std::string name() const FL_OVERRIDE;
-        virtual scalar hedge(scalar x) const FL_OVERRIDE;
-        virtual Any* clone() const FL_OVERRIDE;
+        virtual std::string name() const FL_IOVERRIDE;
+        virtual scalar hedge(scalar x) const FL_IOVERRIDE;
+        virtual Any* clone() const FL_IOVERRIDE;
 
         static Hedge* constructor();
     };

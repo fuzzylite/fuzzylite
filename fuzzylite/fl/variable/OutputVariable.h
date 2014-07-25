@@ -45,15 +45,15 @@ namespace fl {
                 scalar minimum = -fl::inf, scalar maximum = fl::inf);
         OutputVariable(const OutputVariable& other);
         OutputVariable& operator=(const OutputVariable& other);
-        virtual ~OutputVariable() FL_OVERRIDE;
+        virtual ~OutputVariable() FL_IOVERRIDE;
         FL_DEFAULT_MOVE(OutputVariable)
 
         virtual Accumulated* fuzzyOutput() const;
 
-        virtual void setName(const std::string& name) FL_OVERRIDE;
+        virtual void setName(const std::string& name) FL_IOVERRIDE;
 
-        virtual void setMinimum(scalar minimum) FL_OVERRIDE;
-        virtual void setMaximum(scalar maximum) FL_OVERRIDE;
+        virtual void setMinimum(scalar minimum) FL_IOVERRIDE;
+        virtual void setMaximum(scalar maximum) FL_IOVERRIDE;
 
         virtual void setDefuzzifier(Defuzzifier* defuzzifier);
         virtual Defuzzifier* getDefuzzifier() const;
@@ -79,7 +79,7 @@ namespace fl {
 
         virtual void clear();
 
-        virtual std::string toString() const FL_OVERRIDE;
+        virtual std::string toString() const FL_IOVERRIDE;
 
     };
 

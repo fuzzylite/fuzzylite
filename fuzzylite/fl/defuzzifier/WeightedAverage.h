@@ -30,13 +30,13 @@ namespace fl {
     class FL_EXPORT WeightedAverage : public WeightedDefuzzifier {
     public:
         WeightedAverage(Type type = Automatic);
-        virtual ~WeightedAverage() FL_OVERRIDE;
+        virtual ~WeightedAverage() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(WeightedAverage)
 
-        virtual std::string className() const FL_OVERRIDE;
+        virtual std::string className() const FL_IOVERRIDE;
         virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_OVERRIDE;
-        virtual WeightedAverage* clone() const FL_OVERRIDE;
+                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        virtual WeightedAverage* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };

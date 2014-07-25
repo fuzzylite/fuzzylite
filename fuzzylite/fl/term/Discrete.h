@@ -38,19 +38,19 @@ namespace fl {
         Discrete(const std::string& name = "",
                 const std::vector<Pair>& xy = std::vector<Pair>(),
                 scalar height = 1.0);
-        virtual ~Discrete() FL_OVERRIDE;
+        virtual ~Discrete() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Discrete)
 
-        virtual std::string className() const FL_OVERRIDE;
-        virtual std::string parameters() const FL_OVERRIDE;
-        virtual void configure(const std::string& parameters) FL_OVERRIDE;
+        virtual std::string className() const FL_IOVERRIDE;
+        virtual std::string parameters() const FL_IOVERRIDE;
+        virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
         //Warning: this method is unsafe. Make sure you use it correctly.
         template <typename T>
         static Discrete* create(const std::string& name, int argc,
                 T x1, T y1, ...); // throw (fl::Exception);
 
-        virtual scalar membership(scalar x) const FL_OVERRIDE;
+        virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
         virtual void setXY(const std::vector<Pair>& pairs);
         virtual const std::vector<Pair>& xy() const;
@@ -62,13 +62,13 @@ namespace fl {
         static std::vector<scalar> toVector(const std::vector<Pair>& xy);
         static std::vector<Pair> toPairs(const std::vector<scalar>& xy);
         static std::vector<Pair> toPairs(const std::vector<scalar>& xy,
-                scalar missingValue) FL_NOEXCEPT;
+                scalar missingValue) FL_INOEXCEPT;
 
         static std::string formatXY(const std::vector<Pair>& xy,
                 const std::string& prefix = "(", const std::string& innerSeparator = ",",
                 const std::string& postfix = ")", const std::string& outerSeparator = " ");
 
-        virtual Discrete* clone() const FL_OVERRIDE;
+        virtual Discrete* clone() const FL_IOVERRIDE;
 
         static Term* constructor();
 

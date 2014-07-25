@@ -35,14 +35,14 @@ namespace fl {
                 scalar _start = fl::nan,
                 scalar _end = fl::nan,
                 scalar _height = 1.0);
-        virtual ~ZShape() FL_OVERRIDE;
+        virtual ~ZShape() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(ZShape)
 
-        virtual std::string className() const FL_OVERRIDE;
-        virtual std::string parameters() const FL_OVERRIDE;
-        virtual void configure(const std::string& parameters) FL_OVERRIDE;
+        virtual std::string className() const FL_IOVERRIDE;
+        virtual std::string parameters() const FL_IOVERRIDE;
+        virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        virtual scalar membership(scalar x) const FL_OVERRIDE;
+        virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
         virtual void setStart(scalar start);
         virtual scalar getStart() const;
@@ -50,7 +50,7 @@ namespace fl {
         virtual void setEnd(scalar end);
         virtual scalar getEnd() const;
 
-        virtual ZShape* clone() const FL_OVERRIDE;
+        virtual ZShape* clone() const FL_IOVERRIDE;
 
         static Term* constructor();
 

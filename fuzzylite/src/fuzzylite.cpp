@@ -24,7 +24,7 @@
 namespace fl {
 
     int fuzzylite::_decimals = 3;
-    scalar fuzzylite::_macheps = 1e-5;
+    scalar fuzzylite::_macheps = 1e-6;
     bool fuzzylite::_debug = false;
     bool fuzzylite::_logging = true;
 

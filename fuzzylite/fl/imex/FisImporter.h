@@ -39,14 +39,14 @@ namespace fl {
     class FL_EXPORT FisImporter : public Importer {
     public:
         FisImporter();
-        virtual ~FisImporter() FL_OVERRIDE;
+        virtual ~FisImporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FisImporter)
 
-        virtual std::string name() const FL_OVERRIDE;
+        virtual std::string name() const FL_IOVERRIDE;
 
-        virtual Engine* fromString(const std::string& fcl) const FL_OVERRIDE;
+        virtual Engine* fromString(const std::string& fcl) const FL_IOVERRIDE;
 
-        virtual FisImporter* clone() const FL_OVERRIDE;
+        virtual FisImporter* clone() const FL_IOVERRIDE;
 
     protected:
         virtual void importSystem(const std::string& section, Engine* engine,

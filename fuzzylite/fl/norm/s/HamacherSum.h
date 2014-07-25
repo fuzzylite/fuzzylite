@@ -28,9 +28,9 @@ namespace fl {
 
     class FL_EXPORT HamacherSum : public SNorm {
     public:
-        std::string className() const FL_OVERRIDE;
-        scalar compute(scalar a, scalar b) const FL_OVERRIDE;
-        HamacherSum* clone() const FL_OVERRIDE;
+        std::string className() const FL_IOVERRIDE;
+        scalar compute(scalar a, scalar b) const FL_IOVERRIDE;
+        HamacherSum* clone() const FL_IOVERRIDE;
 
         static SNorm* constructor();
     };

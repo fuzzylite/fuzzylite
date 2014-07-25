@@ -37,16 +37,16 @@ namespace fl {
         std::string _separator;
     public:
         FllImporter(const std::string& separator = "\n");
-        virtual ~FllImporter() FL_OVERRIDE;
+        virtual ~FllImporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FllImporter)
 
         virtual void setSeparator(const std::string& separator);
         virtual std::string getSeparator() const;
 
-        virtual std::string name() const FL_OVERRIDE;
-        virtual Engine* fromString(const std::string& fll) const FL_OVERRIDE;
+        virtual std::string name() const FL_IOVERRIDE;
+        virtual Engine* fromString(const std::string& fll) const FL_IOVERRIDE;
 
-        virtual FllImporter* clone() const FL_OVERRIDE;
+        virtual FllImporter* clone() const FL_IOVERRIDE;
 
     protected:
         virtual void process(const std::string& tag, const std::string& block, Engine* engine) const;

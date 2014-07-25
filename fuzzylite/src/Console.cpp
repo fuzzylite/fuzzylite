@@ -310,7 +310,7 @@ namespace fl {
     }
 
     int Console::readCharacter() {
-		int ch = 0;
+        int ch = 0;
 #ifdef FL_UNIX
         struct termios oldt, newt;
         tcgetattr(STDIN_FILENO, &oldt);

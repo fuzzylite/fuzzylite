@@ -119,20 +119,20 @@ namespace fl {
                 const std::string& formula = "", const Engine* engine = fl::null);
         Function(const Function& other);
         Function& operator=(const Function& other);
-        virtual ~Function() FL_OVERRIDE;
+        virtual ~Function() FL_IOVERRIDE;
         FL_DEFAULT_MOVE(Function)
 
         static Function* create(const std::string& name,
                 const std::string& formula,
                 const Engine* engine = fl::null); // throw (fl::Exception);
 
-        virtual scalar membership(scalar x) const FL_OVERRIDE;
+        virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
         virtual scalar evaluate(const std::map<std::string, scalar>* variables) const;
 
-        virtual std::string className() const FL_OVERRIDE;
-        virtual std::string parameters() const FL_OVERRIDE;
-        virtual void configure(const std::string& parameters) FL_OVERRIDE;
+        virtual std::string className() const FL_IOVERRIDE;
+        virtual std::string parameters() const FL_IOVERRIDE;
+        virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
         virtual void setFormula(const std::string& formula);
         virtual std::string getFormula() const;
@@ -154,7 +154,7 @@ namespace fl {
 
         virtual std::string space(const std::string& formula) const;
 
-        virtual Function* clone() const FL_OVERRIDE;
+        virtual Function* clone() const FL_IOVERRIDE;
 
         static Term* constructor();
 

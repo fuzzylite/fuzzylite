@@ -32,7 +32,7 @@ namespace fl {
     class FL_EXPORT TermFactory : public ConstructionFactory<Term*> {
     public:
         TermFactory();
-        virtual ~TermFactory() FL_OVERRIDE;
+        virtual ~TermFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(TermFactory)
     };
 }

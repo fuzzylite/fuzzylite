@@ -37,12 +37,12 @@ namespace fl {
         Exception(const std::string& what);
         Exception(const std::string& what, const std::string& file, int line,
                 const std::string& function);
-        virtual ~Exception() FL_NOEXCEPT FL_OVERRIDE;
+        virtual ~Exception() FL_INOEXCEPT FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Exception)
 
         virtual void setWhat(const std::string& what);
         virtual std::string getWhat() const;
-        virtual const char* what() const FL_NOEXCEPT FL_OVERRIDE;
+        virtual const char* what() const FL_INOEXCEPT FL_IOVERRIDE;
 
         virtual void append(const std::string& whatElse);
         virtual void append(const std::string& file, int line, const std::string& function);

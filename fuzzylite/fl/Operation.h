@@ -116,7 +116,7 @@ namespace fl {
 
         static scalar toScalar(const std::string& x); //throws fl::Exception
 
-        static scalar toScalar(const std::string& x, scalar alternative) FL_NOEXCEPT;
+        static scalar toScalar(const std::string& x, scalar alternative) FL_INOEXCEPT;
 
         static bool isNumeric(const std::string& x);
 
