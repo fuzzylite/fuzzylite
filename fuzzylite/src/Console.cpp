@@ -17,6 +17,9 @@
 
  You should have received a copy of the GNU Lesser General Public License
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ fuzzylite (R) is a registered trademark of FuzzyLite Limited.
+ 
  */
 
 #include "fl/Console.h"
@@ -310,7 +313,7 @@ namespace fl {
     }
 
     int Console::readCharacter() {
-		int ch = 0;
+        int ch = 0;
 #ifdef FL_UNIX
         struct termios oldt, newt;
         tcgetattr(STDIN_FILENO, &oldt);
