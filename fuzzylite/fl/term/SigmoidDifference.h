@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT SigmoidDifference : public Term {
+    class FL_API SigmoidDifference : public Term {
     protected:
         scalar _left;
         scalar _rising;

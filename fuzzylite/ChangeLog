@@ -154,6 +154,9 @@ Version 5.0
 * Added macros FL_DEFAULT_COPY(Class), FL_DEFAULT_MOVE(Class), and FL_DEFAULT_COPY_AND_MOVE(Class) for default copy and move constructors and operators
 * Added build.sh to build fuzzylite
 * Changed default to fuzzylite::_macheps = 1e-6;
+* Renamed macro FL_EXPORTS to FL_API
+* Added macro FL_SHARED_LIBRARY and FL_STATIC_LIBRARY to be defined when building shared and static libraries
+
 
 Version 4.0
 * FuzzyRule merged with Rule, and FuzzyRule deleted.

@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT NilpotentMaximum : public SNorm {
+    class FL_API NilpotentMaximum : public SNorm {
     public:
         std::string className() const FL_IOVERRIDE;
         scalar compute(scalar a, scalar b) const FL_IOVERRIDE;

@@ -31,7 +31,7 @@ namespace fl {
     class Accumulated;
     class Defuzzifier;
 
-    class FL_EXPORT OutputVariable : public Variable {
+    class FL_API OutputVariable : public Variable {
     private:
         void copyFrom(const OutputVariable& other);
     protected:

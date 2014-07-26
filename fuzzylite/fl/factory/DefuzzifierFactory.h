@@ -33,7 +33,7 @@
 
 namespace fl {
 
-    class FL_EXPORT DefuzzifierFactory : public ConstructionFactory<Defuzzifier*> {
+    class FL_API DefuzzifierFactory : public ConstructionFactory<Defuzzifier*> {
     public:
         DefuzzifierFactory();
         virtual ~DefuzzifierFactory() FL_IOVERRIDE;

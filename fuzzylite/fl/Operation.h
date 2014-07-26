@@ -34,7 +34,7 @@
 
 namespace fl {
 
-    class FL_EXPORT Operation {
+    class FL_API Operation {
     public:
 
         template <typename T>

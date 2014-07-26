@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT Trapezoid : public Term {
+    class FL_API Trapezoid : public Term {
     protected:
         scalar _vertexA, _vertexB, _vertexC, _vertexD;
     public:

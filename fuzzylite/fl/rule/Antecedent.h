@@ -36,7 +36,7 @@ namespace fl {
     class SNorm;
     class Expression;
 
-    class FL_EXPORT Antecedent {
+    class FL_API Antecedent {
     protected:
         std::string _text;
         Expression* _expression;

@@ -127,11 +127,11 @@ namespace fl {
         return result.release();
     }
 
-    template FL_EXPORT Linear* Linear::create(const std::string& name,
+    template FL_API Linear* Linear::create(const std::string& name,
             const Engine* engine,
             double firstCoefficient, ...);
 
-    template FL_EXPORT Linear* Linear::create(const std::string& name,
+    template FL_API Linear* Linear::create(const std::string& name,
             const Engine* engine,
             int firstCoefficient, ...);
 }

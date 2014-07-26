@@ -32,7 +32,7 @@
 namespace fl {
     class Engine;
 
-    class FL_EXPORT Exporter {
+    class FL_API Exporter {
     public:
 
         Exporter();

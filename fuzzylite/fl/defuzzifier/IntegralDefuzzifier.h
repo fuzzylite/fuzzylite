@@ -30,7 +30,7 @@
 namespace fl {
     //TODO: check  http://en.wikipedia.org/wiki/Adaptive_quadrature
 
-    class FL_EXPORT IntegralDefuzzifier : public Defuzzifier {
+    class FL_API IntegralDefuzzifier : public Defuzzifier {
     protected:
         static int _defaultResolution;
 

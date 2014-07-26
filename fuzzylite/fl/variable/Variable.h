@@ -34,7 +34,7 @@ namespace fl {
 
     class Term;
 
-    class FL_EXPORT Variable {
+    class FL_API Variable {
     private:
         void copyFrom(const Variable& source);
 

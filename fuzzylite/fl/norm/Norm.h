@@ -33,7 +33,7 @@
 
 namespace fl {
 
-    class FL_EXPORT Norm {
+    class FL_API Norm {
     public:
 
         Norm() {
@@ -41,7 +41,7 @@ namespace fl {
 
         virtual ~Norm() {
         }
-        
+
         FL_DEFAULT_COPY_AND_MOVE(Norm)
 
         virtual std::string className() const = 0;

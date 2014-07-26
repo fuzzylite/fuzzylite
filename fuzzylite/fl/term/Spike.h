@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT Spike : public Term {
+    class FL_API Spike : public Term {
     protected:
         scalar _center, _width;
     public:

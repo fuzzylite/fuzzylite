@@ -36,7 +36,7 @@ namespace fl {
     class Proposition;
     class TNorm;
 
-    class FL_EXPORT Consequent {
+    class FL_API Consequent {
     protected:
         std::string _text;
         std::vector<Proposition*> _conclusions;

@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT Seldom : public Hedge {
+    class FL_API Seldom : public Hedge {
     public:
         std::string name() const FL_IOVERRIDE;
         scalar hedge(scalar x) const FL_IOVERRIDE;

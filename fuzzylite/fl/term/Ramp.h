@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT Ramp : public Term {
+    class FL_API Ramp : public Term {
     protected:
         scalar _start, _end;
 

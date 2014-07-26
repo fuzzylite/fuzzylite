@@ -31,7 +31,7 @@
 
 namespace fl {
 
-    class FL_EXPORT Hedge {
+    class FL_API Hedge {
     public:
 
         Hedge() {

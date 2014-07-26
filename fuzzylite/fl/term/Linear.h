@@ -30,7 +30,7 @@
 namespace fl {
     class Engine;
 
-    class FL_EXPORT Linear : public Term {
+    class FL_API Linear : public Term {
     protected:
         std::vector<scalar> _coefficients;
         const Engine* _engine;

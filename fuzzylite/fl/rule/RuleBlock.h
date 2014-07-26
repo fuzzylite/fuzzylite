@@ -38,7 +38,7 @@ namespace fl {
     class TNorm;
     class SNorm;
 
-    class FL_EXPORT RuleBlock {
+    class FL_API RuleBlock {
     private:
         void copyFrom(const RuleBlock& source);
     protected:

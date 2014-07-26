@@ -34,7 +34,7 @@ namespace fl {
 
     class Engine;
 
-    class FL_EXPORT Function : public Term {
+    class FL_API Function : public Term {
         /****************************
          * Parsing Elements
          ****************************/
@@ -43,7 +43,7 @@ namespace fl {
         typedef scalar(*Unary)(scalar);
         typedef scalar(*Binary)(scalar, scalar);
 
-        struct FL_EXPORT Element {
+        struct FL_API Element {
 
             enum Type {
                 OPERATOR, FUNCTION
@@ -77,7 +77,7 @@ namespace fl {
          * Tree elements, wrap Elements into Nodes.
          **************************/
 
-        struct FL_EXPORT Node {
+        struct FL_API Node {
             FL_unique_ptr<Element> element;
             FL_unique_ptr<Node> left;
             FL_unique_ptr<Node> right;

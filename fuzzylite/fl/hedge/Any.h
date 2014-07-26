@@ -30,7 +30,7 @@
 namespace fl {
     //Only this hedge has virtual methods due to its special case use.
 
-    class FL_EXPORT Any : public Hedge {
+    class FL_API Any : public Hedge {
     public:
         Any();
         virtual ~Any() FL_IOVERRIDE;

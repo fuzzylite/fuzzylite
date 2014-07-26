@@ -30,7 +30,7 @@
 
 namespace fl {
 
-    class FL_EXPORT SShape : public Term {
+    class FL_API SShape : public Term {
     protected:
         scalar _start, _end;
 

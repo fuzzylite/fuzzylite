@@ -33,7 +33,7 @@ namespace fl {
     class Defuzzifier;
     class Term;
 
-    class FL_EXPORT FclExporter : public Exporter {
+    class FL_API FclExporter : public Exporter {
     protected:
         std::string _indent;
 

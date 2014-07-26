@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT Sigmoid : public Term {
+    class FL_API Sigmoid : public Term {
     protected:
         scalar _inflection;
         scalar _slope;

@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT GaussianProduct : public Term {
+    class FL_API GaussianProduct : public Term {
     protected:
         scalar _meanA;
         scalar _standardDeviationA;

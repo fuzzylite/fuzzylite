@@ -34,7 +34,7 @@
 namespace fl {
     class Engine;
 
-    class FL_EXPORT Console {
+    class FL_API Console {
     public:
 
         struct Option {

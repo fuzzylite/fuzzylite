@@ -30,7 +30,7 @@
 namespace fl {
     class Activated;
 
-    class FL_EXPORT WeightedAverage : public WeightedDefuzzifier {
+    class FL_API WeightedAverage : public WeightedDefuzzifier {
     public:
         WeightedAverage(Type type = Automatic);
         virtual ~WeightedAverage() FL_IOVERRIDE;

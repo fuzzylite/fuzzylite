@@ -37,7 +37,7 @@ namespace fl {
     class Defuzzifier;
     class Hedge;
 
-    class FL_EXPORT CppExporter : public Exporter {
+    class FL_API CppExporter : public Exporter {
     protected:
         bool _prefixNamespace;
         virtual std::string fl(const std::string& clazz) const;

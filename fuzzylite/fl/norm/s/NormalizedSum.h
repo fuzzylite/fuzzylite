@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT NormalizedSum : public SNorm {
+    class FL_API NormalizedSum : public SNorm {
     public:
         std::string className() const FL_IOVERRIDE;
         scalar compute(scalar a, scalar b) const FL_IOVERRIDE;

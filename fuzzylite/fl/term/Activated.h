@@ -30,7 +30,7 @@
 namespace fl {
     class TNorm;
 
-    class FL_EXPORT Activated : public Term {
+    class FL_API Activated : public Term {
     protected:
         const Term* _term;
         scalar _degree;

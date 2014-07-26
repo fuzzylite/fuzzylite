@@ -39,7 +39,7 @@ namespace fl {
     class TNorm;
     class SNorm;
 
-    class FL_EXPORT Rule {
+    class FL_API Rule {
     protected:
         std::string _text;
         scalar _weight;

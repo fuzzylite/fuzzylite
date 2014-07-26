@@ -1,17 +1,35 @@
-cmake_minimum_required(VERSION 2.8) 
-
-#in windows, cmake . -G "NMake Makefiles"
-#in unix, cmake . -G "Unix Makefiles"
-
-#After building:
-# In Linux:
-# In Mac:
-# otool -L fuzzylite #gives the dependencies of fuzzylite
-# install_name_tool -change /Users/jcrada/Development/fuzzylite/bin/libfuzzylite.dylib @executable_path/libfuzzylite.dylib fuzzylite
+cmake_minimum_required(VERSION 2.8)
 
 project(fuzzylite CXX)
 
 set(CMAKE_VERBOSE_MAKEFILE false)
+
+set(FL_VERSION 5.0)
+add_definitions(-DFL_VERSION="${FL_VERSION}")
+
+set(FL_DATE "1408")
+add_definitions(-DFL_DATE="${FL_DATE}")
+
+add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
+
+option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
+option(FL_BACKTRACE "Provide backtrace information in case of errors" OFF)
+option(FL_CPP11 "Builds utilizing C++11, i.e., passing -std=c++11" OFF)
+
+if(FL_USE_FLOAT)
+    add_definitions(-DFL_USE_FLOAT)
+endif(FL_USE_FLOAT)
+
+if(NOT FL_BACKTRACE)
+    add_definitions(-DFL_BACKTRACE_OFF)
+endif()
+
+if(FL_CPP11)
+    add_definitions(-DFL_CPP11)
+    if(UNIX)
+        add_definitions(-std=c++11)
+    endif(UNIX)
+endif(FL_CPP11)
 
 
 if(WIN32)
@@ -30,62 +48,37 @@ if (APPLE)
 endif()
 
 
-set(FL_VERSION 5.0)
-add_definitions(-DFL_VERSION="${FL_VERSION}")
-
-set(FL_DATE "1408")
-add_definitions(-DFL_DATE="${FL_DATE}")
-
-option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
-option(FL_BACKTRACE "Provide backtrace information in case of errors" OFF)
-option(FL_CPP11 "Builds utilizing C++11, i.e., passing -std=c++11" OFF)
-
-add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
-
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
-
-set(FL_LIBS)
-
-if(FL_CPP11)
-if(UNIX)
-    add_definitions(-std=c++11) 
-endif(UNIX)
-endif(FL_CPP11)
 
 if(UNIX)
     set(CMAKE_CXX_FLAGS "-pedantic -Werror -Wall -Wextra")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 
-if(NOT APPLE)
+    if(NOT APPLE)
         set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined") #To avoid undefined methods in library
+    endif()
 endif()
 
-elseif(WIN32)
+set(FL_LIBS)
+
+if(WIN32)
     set(CMAKE_CXX_FLAGS "/WX /W4 /EHsc")
     #Wx: Treat warnings as errors. W4: All warnings
     #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
     #EHsc: call destructors on __try __catch, and to ignore C4530: C++ exception handler used. Note, unwind semantics are not enabled
-	#/wd4251 disable warning 4251 #http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
-	#To avoid issues from disabling warning 4251, MSVCRT.lib is statically linked to resolve external references
-	#http://msdn.microsoft.com/en-us/library/2kzt1wy3.aspx
-	#By default, MD is selected.
-	#set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
-	#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd")
+    #/wd4251 disable warning 4251 #http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
+    #To avoid issues from disabling warning 4251, MSVCRT.lib is statically linked to resolve external references
+    #http://msdn.microsoft.com/en-us/library/2kzt1wy3.aspx
+    #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
+    #set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd")
+    #By default, MD is selected.
+
     if (FL_BACKTRACE)
         set(FL_LIBS dbghelp)
     endif()
-endif()
-
-
-if(FL_USE_FLOAT)
-    add_definitions(-DFL_USE_FLOAT)
-endif(FL_USE_FLOAT)
-
-if(NOT FL_BACKTRACE)
-    add_definitions(-DFL_BACKTRACE_OFF)
 endif()
 
 include_directories(.)
@@ -106,11 +99,13 @@ set(CMAKE_DEBUG_POSTFIX d)
 add_library(fl-shared SHARED ${fl-headers} ${fl-sources})
 set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
 set_target_properties(fl-shared PROPERTIES DEBUG_POSTFIX d)
+set_target_properties(fl-shared PROPERTIES CMAKE_CXX_FLAGS -DFL_SHARED_LIBRARY)
 target_link_libraries(fl-shared ${FL_LIBS})
 
 add_library(fl-static STATIC ${fl-headers} ${fl-sources})
 set_target_properties(fl-static PROPERTIES OUTPUT_NAME fuzzylite-static)
 set_target_properties(fl-static PROPERTIES DEBUG_POSTFIX d)
+set_target_properties(fl-static PROPERTIES CMAKE_CXX_FLAGS -DFL_STATIC_LIBRARY)
 target_link_libraries(fl-static ${FL_LIBS})
 
 add_executable(fl-bin fl/Console.h src/Console.cpp src/main.cpp)
@@ -127,14 +122,6 @@ install(TARGETS fl-bin fl-shared fl-static
         )
 
 install(DIRECTORY fl/ DESTINATION include/fl)
-
-#if(WIN32)
-#   set(fl-suffix)
-#   add_custom_command(TARGET fl-bin POST_BUILD
-#       COMMAND ${CMAKE_COMMAND} -E copy_if_different
-#        "${CMAKE_SOURCE_DIR}/lib/fuzzylite${FL_SUFFIX}.dll"
-#        ${CMAKE_SOURCE_DIR}/bin)                 # <--this is out-file path
-#endif()
 
 message("=====================================")
 message("fuzzylite v.${FL_VERSION}b${FL_DATE}\n")

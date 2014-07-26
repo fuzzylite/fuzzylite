@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT Cosine : public Term {
+    class FL_API Cosine : public Term {
     protected:
         scalar _center, _width;
     public:
