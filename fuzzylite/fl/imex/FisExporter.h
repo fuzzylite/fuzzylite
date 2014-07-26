@@ -38,7 +38,7 @@ namespace fl {
     class Proposition;
     class Variable;
 
-    class FL_EXPORT FisExporter : public Exporter {
+    class FL_API FisExporter : public Exporter {
     protected:
 
         virtual std::string translate(const std::vector<Proposition*>& propositions,

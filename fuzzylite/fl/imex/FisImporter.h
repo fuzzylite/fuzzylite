@@ -39,7 +39,7 @@ namespace fl {
     class Defuzzifier;
     class Variable;
 
-    class FL_EXPORT FisImporter : public Importer {
+    class FL_API FisImporter : public Importer {
     public:
         FisImporter();
         virtual ~FisImporter() FL_IOVERRIDE;

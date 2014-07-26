@@ -30,7 +30,7 @@
 
 namespace fl {
 
-    class FL_EXPORT Concave : public Term {
+    class FL_API Concave : public Term {
     protected:
         scalar _inflection, _end;
     public:

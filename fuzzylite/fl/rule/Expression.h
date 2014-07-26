@@ -37,7 +37,7 @@ namespace fl {
     class Hedge;
     class Term;
 
-    class FL_EXPORT Expression {
+    class FL_API Expression {
     public:
 
         Expression();
@@ -49,7 +49,7 @@ namespace fl {
         FL_DISABLE_COPY(Expression)
     };
 
-    class FL_EXPORT Proposition : public Expression {
+    class FL_API Proposition : public Expression {
     public:
         Variable* variable;
         std::vector<Hedge*> hedges;
@@ -64,7 +64,7 @@ namespace fl {
         FL_DISABLE_COPY(Proposition)
     };
 
-    class FL_EXPORT Operator : public Expression {
+    class FL_API Operator : public Expression {
     public:
         std::string name;
         Expression* left;

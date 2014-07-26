@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT DrasticProduct : public TNorm {
+    class FL_API DrasticProduct : public TNorm {
     public:
         std::string className() const FL_IOVERRIDE;
         scalar compute(scalar a, scalar b) const FL_IOVERRIDE;

@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT Constant : public Term {
+    class FL_API Constant : public Term {
     protected:
         scalar _value;
 

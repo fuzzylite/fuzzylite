@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT InputVariable : public Variable {
+    class FL_API InputVariable : public Variable {
     protected:
         scalar _inputValue;
     public:

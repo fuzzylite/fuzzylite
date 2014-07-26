@@ -34,7 +34,7 @@
 namespace fl {
 
     template <typename T>
-    class FL_EXPORT ConstructionFactory {
+    class FL_API ConstructionFactory {
     public:
         typedef T(*Constructor)();
 

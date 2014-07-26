@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT SmallestOfMaximum : public IntegralDefuzzifier {
+    class FL_API SmallestOfMaximum : public IntegralDefuzzifier {
     public:
         SmallestOfMaximum(int resolution = defaultResolution());
         virtual ~SmallestOfMaximum() FL_IOVERRIDE;

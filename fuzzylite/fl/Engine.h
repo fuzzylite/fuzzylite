@@ -43,7 +43,7 @@ namespace fl {
     class SNorm;
     class Defuzzifier;
 
-    class FL_EXPORT Engine {
+    class FL_API Engine {
     private:
         void copyFrom(const Engine& source);
     protected:

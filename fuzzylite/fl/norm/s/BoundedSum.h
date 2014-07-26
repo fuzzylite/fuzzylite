@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT BoundedSum : public SNorm {
+    class FL_API BoundedSum : public SNorm {
     public:
         std::string className() const FL_IOVERRIDE;
         scalar compute(scalar a, scalar b) const FL_IOVERRIDE;

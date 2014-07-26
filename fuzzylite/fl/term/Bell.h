@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT Bell : public Term {
+    class FL_API Bell : public Term {
     protected:
         scalar _center;
         scalar _width;

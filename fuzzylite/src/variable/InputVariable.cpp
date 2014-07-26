@@ -32,7 +32,6 @@ namespace fl {
     : Variable(name, minimum, maximum), _inputValue(fl::nan) {
     }
 
-    
     InputVariable::~InputVariable() {
     }
 

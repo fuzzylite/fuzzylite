@@ -31,7 +31,7 @@
 
 namespace fl {
 
-    class FL_EXPORT TNormFactory : public ConstructionFactory<TNorm*> {
+    class FL_API TNormFactory : public ConstructionFactory<TNorm*> {
     public:
         TNormFactory();
         virtual ~TNormFactory() FL_IOVERRIDE;

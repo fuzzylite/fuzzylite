@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT Bisector : public IntegralDefuzzifier {
+    class FL_API Bisector : public IntegralDefuzzifier {
     public:
         Bisector(int resolution = defaultResolution());
         virtual ~Bisector() FL_IOVERRIDE;

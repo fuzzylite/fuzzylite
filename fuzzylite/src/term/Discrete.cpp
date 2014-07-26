@@ -124,10 +124,10 @@ namespace fl {
         return result.release();
     }
 
-    template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc,
+    template FL_API Discrete* Discrete::create(const std::string& name, int argc,
             double x1, double y1, ...); // throw (fl::Exception);
     //double, not scalar because variadic promotes floats to double
-    template FL_EXPORT Discrete* Discrete::create(const std::string& name, int argc,
+    template FL_API Discrete* Discrete::create(const std::string& name, int argc,
             int x1, int y1, ...); // throw (fl::Exception);
 
     void Discrete::setXY(const std::vector<Pair>& pairs) {
@@ -166,7 +166,7 @@ namespace fl {
     }
 
     std::vector<Discrete::Pair> Discrete::toPairs(const std::vector<scalar>& xy,
-            scalar missingValue) FL_INOEXCEPT{
+            scalar missingValue) FL_INOEXCEPT {
         std::vector<std::pair<scalar, scalar> > result((xy.size() + 1) / 2);
         for (std::size_t i = 0; i + 1 < xy.size(); i += 2) {
             result.at(i / 2).first = xy.at(i);

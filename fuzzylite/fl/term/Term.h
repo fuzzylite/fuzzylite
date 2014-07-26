@@ -37,7 +37,7 @@
 namespace fl {
     class Engine;
 
-    class FL_EXPORT Term {
+    class FL_API Term {
     protected:
         std::string _name;
         scalar _height;

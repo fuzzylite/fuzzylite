@@ -30,7 +30,7 @@
 
 namespace fl {
 
-    class FL_EXPORT WeightedSum : public WeightedDefuzzifier {
+    class FL_API WeightedSum : public WeightedDefuzzifier {
     public:
         WeightedSum(Type type = Automatic);
         virtual ~WeightedSum() FL_IOVERRIDE;

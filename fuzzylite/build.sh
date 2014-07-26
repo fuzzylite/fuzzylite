@@ -38,15 +38,15 @@ usage(){
 
 #############################
 
-OPTIONS=( "all" "debug" "release" "clean" "help" "usage")
+OPTIONS=( "all" "debug" "release" "clean" "help")
 BUILD=( )
 
 for arg in "$@"
 do
-    if [[ "$arg" == "help" || "$arg" == "usage" ]]; then usage && exit 0; fi
-    
-    if [[ "$arg" == "all" || "$arg" == "debug" || "$arg" == "release" || "$arg" == "clean" ]]; 
-    then BUILD+=( $arg ); else echo "Invalid option: $arg" && usage && exit 2; 
+    if [[ "$arg" == "help" ]]; then usage && exit 0; fi
+
+    if [[ "$arg" == "all" || "$arg" == "debug" || "$arg" == "release" || "$arg" == "clean" ]];
+    then BUILD+=( $arg ); else echo "Invalid option: $arg" && usage && exit 2;
     fi
 done
 

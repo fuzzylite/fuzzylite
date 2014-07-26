@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT Rectangle : public Term {
+    class FL_API Rectangle : public Term {
     protected:
         scalar _start, _end;
 

@@ -42,8 +42,8 @@ namespace fl {
         if (isNaN(b)) return a;
         return a < b ? a : b;
     }
-    template FL_EXPORT scalar Operation::min(scalar a, scalar b);
-    template FL_EXPORT int Operation::min(int a, int b);
+    template FL_API scalar Operation::min(scalar a, scalar b);
+    template FL_API int Operation::min(int a, int b);
 
     template <typename T>
     T Operation::max(T a, T b) {
@@ -51,8 +51,8 @@ namespace fl {
         if (isNaN(b)) return a;
         return a > b ? a : b;
     }
-    template FL_EXPORT scalar Operation::max(scalar a, scalar b);
-    template FL_EXPORT int Operation::max(int a, int b);
+    template FL_API scalar Operation::max(scalar a, scalar b);
+    template FL_API int Operation::max(int a, int b);
 
     template <typename T>
     T Operation::bound(T x, T min, T max) {
@@ -60,8 +60,8 @@ namespace fl {
         if (isLt(x, min)) return min;
         return x;
     }
-    template FL_EXPORT scalar Operation::bound(scalar x, scalar min, scalar max);
-    template FL_EXPORT int Operation::bound(int x, int min, int max);
+    template FL_API scalar Operation::bound(scalar x, scalar min, scalar max);
+    template FL_API int Operation::bound(int x, int min, int max);
 
     template <typename T>
     bool Operation::in(T x, T min, T max, bool geq, bool leq) {
@@ -69,29 +69,29 @@ namespace fl {
         bool right = leq ? isLE(x, max) : isLt(x, max);
         return (left and right);
     }
-    template FL_EXPORT bool Operation::in(scalar x, scalar min, scalar max, bool geq, bool leq);
-    template FL_EXPORT bool Operation::in(int x, int min, int max, bool geq, bool leq);
+    template FL_API bool Operation::in(scalar x, scalar min, scalar max, bool geq, bool leq);
+    template FL_API bool Operation::in(int x, int min, int max, bool geq, bool leq);
 
     template <typename T>
     bool Operation::isInf(T x) {
         return std::abs(x) == fl::inf;
     }
-    template FL_EXPORT bool Operation::isInf(int x);
-    template FL_EXPORT bool Operation::isInf(scalar x);
+    template FL_API bool Operation::isInf(int x);
+    template FL_API bool Operation::isInf(scalar x);
 
     template <typename T>
     bool Operation::isNaN(T x) {
         return not (x == x);
     }
-    template FL_EXPORT bool Operation::isNaN(int x);
-    template FL_EXPORT bool Operation::isNaN(scalar x);
+    template FL_API bool Operation::isNaN(int x);
+    template FL_API bool Operation::isNaN(scalar x);
 
     template<typename T>
     bool Operation::isFinite(T x) {
         return not (isNaN(x) or isInf(x));
     }
-    template FL_EXPORT bool Operation::isFinite(int x);
-    template FL_EXPORT bool Operation::isFinite(scalar x);
+    template FL_API bool Operation::isFinite(int x);
+    template FL_API bool Operation::isFinite(scalar x);
 
     bool Operation::isLt(scalar a, scalar b, scalar macheps) {
         return not isEq(a, b, macheps) and a < b;
@@ -345,7 +345,7 @@ namespace fl {
         throw fl::Exception(ex.str(), FL_AT);
     }
 
-    scalar Operation::toScalar(const std::string& x, scalar alternative) FL_INOEXCEPT{
+    scalar Operation::toScalar(const std::string& x, scalar alternative) FL_INOEXCEPT {
         std::istringstream iss(x);
         scalar result;
         iss >> result;
@@ -391,11 +391,11 @@ namespace fl {
         } else ss << x;
         return ss.str();
     }
-    template FL_EXPORT std::string Operation::str(short x, int precision);
-    template FL_EXPORT std::string Operation::str(int x, int precision);
-    template FL_EXPORT std::string Operation::str(scalar x, int precision);
+    template FL_API std::string Operation::str(short x, int precision);
+    template FL_API std::string Operation::str(int x, int precision);
+    template FL_API std::string Operation::str(scalar x, int precision);
 
-    template <> FL_EXPORT std::string Operation::str(const std::string& x, int precision) {
+    template <> FL_API std::string Operation::str(const std::string& x, int precision) {
         (void) precision;
         return x;
     }
@@ -410,12 +410,12 @@ namespace fl {
         }
         return ss.str();
     }
-    template FL_EXPORT std::string Operation::join(const std::vector<int>& x,
+    template FL_API std::string Operation::join(const std::vector<int>& x,
             const std::string& separator);
-    template FL_EXPORT std::string Operation::join(const std::vector<scalar>& x,
+    template FL_API std::string Operation::join(const std::vector<scalar>& x,
             const std::string& separator);
 
-    template <> FL_EXPORT
+    template <> FL_API
     std::string Operation::join(const std::vector<std::string>& x,
             const std::string& separator) {
         std::ostringstream ss;
@@ -441,12 +441,12 @@ namespace fl {
         return ss.str();
     }
 
-    template FL_EXPORT std::string Operation::join(int items, const std::string& separator,
+    template FL_API std::string Operation::join(int items, const std::string& separator,
             int first, ...);
-    template FL_EXPORT std::string Operation::join(int items, const std::string& separator,
+    template FL_API std::string Operation::join(int items, const std::string& separator,
             double first, ...);
 
-    template <> FL_EXPORT std::string Operation::join(int items, const std::string& separator,
+    template <> FL_API std::string Operation::join(int items, const std::string& separator,
             float first, ...) {
         std::ostringstream ss;
         ss << str(first);
@@ -461,7 +461,7 @@ namespace fl {
         return ss.str();
     }
 
-    template <> FL_EXPORT
+    template <> FL_API
     std::string Operation::join(int items, const std::string& separator, const char* first, ...) {
         std::ostringstream ss;
         ss << first;

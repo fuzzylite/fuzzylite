@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT PiShape : public Term {
+    class FL_API PiShape : public Term {
     protected:
         scalar _bottomLeft;
         scalar _topLeft;

@@ -32,7 +32,7 @@
 namespace fl {
     class Engine;
 
-    class FL_EXPORT Importer {
+    class FL_API Importer {
     public:
 
         Importer();

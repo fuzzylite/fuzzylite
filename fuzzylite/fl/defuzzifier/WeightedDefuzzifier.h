@@ -30,7 +30,7 @@
 namespace fl {
     class Activated;
 
-    class FL_EXPORT WeightedDefuzzifier : public Defuzzifier {
+    class FL_API WeightedDefuzzifier : public Defuzzifier {
     public:
 
         enum Type {

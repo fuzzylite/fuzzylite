@@ -35,7 +35,7 @@ namespace fl {
     class Term;
     class Defuzzifier;
 
-    class FL_EXPORT FllImporter : public Importer {
+    class FL_API FllImporter : public Importer {
     protected:
         std::string _separator;
     public:

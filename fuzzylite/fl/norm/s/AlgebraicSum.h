@@ -30,7 +30,7 @@
 
 namespace fl {
 
-    class FL_EXPORT AlgebraicSum : public SNorm {
+    class FL_API AlgebraicSum : public SNorm {
     public:
         std::string className() const FL_IOVERRIDE;
         scalar compute(scalar a, scalar b) const FL_IOVERRIDE;

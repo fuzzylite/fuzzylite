@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT Triangle : public Term {
+    class FL_API Triangle : public Term {
     protected:
         scalar _vertexA;
         scalar _vertexB;

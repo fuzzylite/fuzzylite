@@ -35,7 +35,7 @@ namespace fl {
     class HedgeFactory;
     class FunctionFactory;
 
-    class FL_EXPORT FactoryManager {
+    class FL_API FactoryManager {
     protected:
         static FactoryManager _instance;
 

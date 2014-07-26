@@ -31,7 +31,7 @@
 
 namespace fl {
 
-    class FL_EXPORT HedgeFactory : public ConstructionFactory<Hedge*> {
+    class FL_API HedgeFactory : public ConstructionFactory<Hedge*> {
     public:
         HedgeFactory();
         virtual ~HedgeFactory() FL_IOVERRIDE;

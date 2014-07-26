@@ -38,7 +38,7 @@ namespace fl {
     class SNorm;
     class TNorm;
 
-    class FL_EXPORT JavaExporter : public Exporter {
+    class FL_API JavaExporter : public Exporter {
     public:
         JavaExporter();
         virtual ~JavaExporter() FL_IOVERRIDE;

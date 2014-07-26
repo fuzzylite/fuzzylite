@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT Centroid : public IntegralDefuzzifier {
+    class FL_API Centroid : public IntegralDefuzzifier {
     public:
         Centroid(int resolution = defaultResolution());
         virtual ~Centroid() FL_IOVERRIDE;

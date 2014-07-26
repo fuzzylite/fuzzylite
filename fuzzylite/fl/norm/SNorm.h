@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT SNorm : public Norm {
+    class FL_API SNorm : public Norm {
     public:
 
         SNorm() {
@@ -37,7 +37,7 @@ namespace fl {
 
         virtual ~SNorm() FL_IOVERRIDE {
         }
-        
+
         FL_DEFAULT_COPY_AND_MOVE(SNorm)
 
         virtual SNorm* clone() const = 0;

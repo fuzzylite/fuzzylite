@@ -34,7 +34,7 @@
 namespace fl {
 
     template <typename T>
-    class FL_EXPORT CloningFactory {
+    class FL_API CloningFactory {
     protected:
         std::string _name;
         std::map<std::string, T> _objects;
@@ -45,7 +45,7 @@ namespace fl {
         CloningFactory& operator=(const CloningFactory& other);
         virtual ~CloningFactory();
         FL_DEFAULT_MOVE(CloningFactory)
-        
+
         virtual std::string name() const;
 
         virtual void registerObject(const std::string& key, T object);

@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_EXPORT BoundedDifference : public TNorm {
+    class FL_API BoundedDifference : public TNorm {
     public:
         std::string className() const FL_IOVERRIDE;
         scalar compute(scalar a, scalar b) const FL_IOVERRIDE;

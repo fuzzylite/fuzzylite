@@ -28,7 +28,7 @@
 #include "fl/norm/SNorm.h"
 namespace fl {
 
-    class FL_EXPORT DrasticSum : public SNorm {
+    class FL_API DrasticSum : public SNorm {
     public:
         std::string className() const FL_IOVERRIDE;
         scalar compute(scalar a, scalar b) const FL_IOVERRIDE;

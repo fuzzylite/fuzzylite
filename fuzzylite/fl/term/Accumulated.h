@@ -35,7 +35,7 @@ namespace fl {
     class SNorm;
     class TNorm;
 
-    class FL_EXPORT Accumulated : public Term {
+    class FL_API Accumulated : public Term {
     private:
         void copyFrom(const Accumulated& source);
     protected:
