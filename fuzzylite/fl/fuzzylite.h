@@ -74,16 +74,18 @@
 //http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #pragma warning (disable:4251)
 
-//Shared libraries export 
-//Static libraries do not export nor import
-//Applications import
+//fuzzylite as a shared library is exported
+//Applications linking with fuzzylite as a shared library need to import
 
-#if defined(FL_SHARED_LIBRARY)
+//fuzzylite as a static library does not export or import
+//Applications linking with fuzzylite as a static library do not import
+
+#if defined(FL_EXPORT_LIBRARY)
 #define FL_API __declspec(dllexport)
-#elif defined(FL_STATIC_LIBRARY)
-#define FL_API 
-#else
+#elif defined(FL_IMPORT_LIBRARY)
 #define FL_API __declspec(dllimport)
+#else
+#define FL_API 
 #endif
 
 #else

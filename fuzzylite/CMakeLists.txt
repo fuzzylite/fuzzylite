@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(fuzzylite CXX)
 
-set(CMAKE_VERBOSE_MAKEFILE false)
+set(CMAKE_VERBOSE_MAKEFILE true)
 
 set(FL_VERSION 5.0)
 add_definitions(-DFL_VERSION="${FL_VERSION}")
@@ -99,19 +99,20 @@ set(CMAKE_DEBUG_POSTFIX d)
 add_library(fl-shared SHARED ${fl-headers} ${fl-sources})
 set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
 set_target_properties(fl-shared PROPERTIES DEBUG_POSTFIX d)
-set_target_properties(fl-shared PROPERTIES CMAKE_CXX_FLAGS -DFL_SHARED_LIBRARY)
+set_target_properties(fl-shared PROPERTIES COMPILE_DEFINITIONS "FL_EXPORT_LIBRARY")
 target_link_libraries(fl-shared ${FL_LIBS})
 
 add_library(fl-static STATIC ${fl-headers} ${fl-sources})
 set_target_properties(fl-static PROPERTIES OUTPUT_NAME fuzzylite-static)
 set_target_properties(fl-static PROPERTIES DEBUG_POSTFIX d)
-set_target_properties(fl-static PROPERTIES CMAKE_CXX_FLAGS -DFL_STATIC_LIBRARY)
 target_link_libraries(fl-static ${FL_LIBS})
 
-add_executable(fl-bin fl/Console.h src/Console.cpp src/main.cpp)
+add_executable(fl-bin src/main.cpp)
 set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
 set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
 set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX d)
+#set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
+#target_link_libraries(fl-bin fl-shared ${FL_LIBS})
 target_link_libraries(fl-bin fl-static ${FL_LIBS})
 
 
