@@ -42,5 +42,4 @@ namespace fl {
         return new AlgebraicSum;
     }
 
-
 }
