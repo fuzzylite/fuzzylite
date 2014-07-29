@@ -19,8 +19,8 @@ Version 5.0
 * FldExporter exports from a custom input dataset
 * Console includes option to read custom input dataset from file
 * Console provides more information about its usage
-* Changed the signature of methods FldExporter::toWriter
-* Removed variable and methods for FldExporter::maximum
+* Renamed methods FldExporter::toWriter() to FldExporter::write()
+* Removed variable and methods for property FldExporter::maximum
 * Accuracy improvements importing fis files with large number of decimals
 * Updated FLD examples to reflect accuracy
 * Changed operation for multiple hedges to operate from last to first
@@ -34,6 +34,7 @@ Version 5.0
 * Removed const from Term* Accumulated::(get|set)Accumulation
 * Added InputVariable::fuzzyInputValue and OutputVariable::fuzzyOutputValue
 * Removed defaults in Engine::configure
+* Added Engine::configure without conjuntion and disjuntion
 * Added parameter string to Engine::type
 * Changed Engine::isReady
 * Correct handling of integral defuzzification with min|max=NaN|Inf
@@ -109,6 +110,7 @@ Version 5.0
 * Added method Engine::variables() to retrieve both Input and OutputVariables
 * Added method Term::updateReference(Term*, Engine*) to ensure Linear and Function terms to update references of engines
 * Added method Engine::updateReferences() to update references to the engine in its terms.
+* Added in Discrete a typedef to std::pair<scalar, scalar> Pair, and changed signatures of methods and types of their parameters
 * Added terms: Concave, Cosine and Spike
 * Renamed methods Triangle::(set|get)(A|B|C) to (set|get)(Vertex(A|B|C))
 * Renamed methods Trapezoid::(set|get)(A|B|C|D) to (set|get)(Vertex(A|B|C|D))

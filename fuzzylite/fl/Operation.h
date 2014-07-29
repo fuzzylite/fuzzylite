@@ -117,6 +117,11 @@ namespace fl {
         static std::string format(const std::string& text, int matchesChar(int),
                 const std::string& replacement = "");
 
+        //Intentionally results in a compiler error in C++11, or linker error in C++98
+        //in order to avoid the deprecated usage of this method from version 4.0
+        static scalar toScalar(const std::string& x, bool quiet,
+                scalar alternative = fl::nan) FL_IDELETE;
+
         static scalar toScalar(const std::string& x); //throws fl::Exception
 
         static scalar toScalar(const std::string& x, scalar alternative) FL_INOEXCEPT;
