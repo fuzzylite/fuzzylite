@@ -31,19 +31,19 @@ namespace fl {
     FunctionFactory::FunctionFactory() : CloningFactory<Function::Element*>("Function::Element") {
 
         //OPERATORS:
-        int p = 10;
+        int p = 100;
         //First order: not, negate:
         registerObject("!", new Function::Element("!", "Logical NOT",
                 Function::Element::OPERATOR, &(fl::Op::logicalNot), p, 1)); //logical not
         registerObject("~", new Function::Element("~", "Negation",
                 Function::Element::OPERATOR, &(fl::Op::negate), p, 1)); // ~ negates a number
 
-        --p;
+        p -= 10;
         //Second order: power
         registerObject("^", new Function::Element("^", "Power",
                 Function::Element::OPERATOR, &(std::pow), p, 1));
 
-        --p;
+        p -= 10;
         //Third order: multiplication, division, modulo
         registerObject("*", new Function::Element("*", "Multiplication",
                 Function::Element::OPERATOR, &(fl::Op::multiply), p));
@@ -52,7 +52,7 @@ namespace fl {
         registerObject("%", new Function::Element("%", "Modulo",
                 Function::Element::OPERATOR, &(fl::Op::modulo), p));
 
-        --p;
+        p -= 10;
         //Fourth order: addition, subtraction
         registerObject("+", new Function::Element("+", "Addition",
                 Function::Element::OPERATOR, &(fl::Op::add), p));
@@ -60,10 +60,10 @@ namespace fl {
                 Function::Element::OPERATOR, &(fl::Op::subtract), p));
 
         //Fifth order: logical and, logical or
-        --p; //Logical AND
+        p -= 10; //Logical AND
         registerObject(fl::Rule::andKeyword(), new Function::Element(fl::Rule::andKeyword(), "Logical AND",
                 Function::Element::OPERATOR, &(fl::Op::logicalAnd), p));
-        --p; //Logical OR
+        p -= 10; //Logical OR
         registerObject(fl::Rule::orKeyword(), new Function::Element(fl::Rule::orKeyword(), "Logical OR",
                 Function::Element::OPERATOR, &(fl::Op::logicalOr), p));
 

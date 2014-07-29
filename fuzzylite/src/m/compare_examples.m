@@ -1,26 +1,31 @@
-% Author : Juan Rada - Vilela, Ph.D.
-% Copyright(C) 2010 - 2014 FuzzyLite Limited
-% All rights reserved
-%
-% This file is part of fuzzylite.
-%
-% fuzzylite is free software : you can redistribute it and / or modify it under
-% the terms of the GNU Lesser General Public License as published by the Free
-% Software Foundation, either version 3 of the License, or(at your option)
-% any later version.
-%
-% fuzzylite is distributed in the hope that it will be useful, but WITHOUT
-% ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or
-        % FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
-        % for more details.
-        %
-        % You should have received a copy of the GNU Lesser General Public License
-        % along with fuzzylite. If not, see < http : //www.gnu.org/licenses/>.
+%{/*
+ Author: Juan Rada-Vilela, Ph.D.
+ Copyright (C) 2010-2014 FuzzyLite Limited
+ All rights reserved
 
-        function [ engines ] = compare_examples(path, delimiter, hasMetadata)
-    if (nargin < 2)
-        delimiter = ' ';
+ This file is part of fuzzylite.
+
+ fuzzylite is free software: you can redistribute it and/or modify it under
+ the terms of the GNU Lesser General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option)
+ any later version.
+
+ fuzzylite is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
+ for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ fuzzylite (R) is a registered trademark of FuzzyLite Limited.
+ */
+}%
+
+
+function [ engines ] = compare_examples(path, delimiter, hasMetadata)
+if (nargin < 2)
+    delimiter = ' ';
 end
 if (nargin < 3)
     hasMetadata = true;
@@ -31,10 +36,10 @@ pending = {'\mamdani\octave\investment_portfolio', '\takagi-sugeno\approximation
 engines = [];
 for i = 1 : length(examples)
     fisFile = strcat(path, examples{i}, '.fis')
-fldFile = strcat(path, examples{i}, '.fld');
-engines = [engines compare(fisFile, fldFile, delimiter, hasMetadata)];
-disp(strcat('Five number summary (', num2str(i), '): ', fisFile));
-engines(i).quantiles
+    fldFile = strcat(path, examples{i}, '.fld');
+    engines = [engines compare(fisFile, fldFile, delimiter, hasMetadata)];
+    disp(strcat('Five number summary (', num2str(i), '): ', fisFile));
+    engines(i).quantiles
 end
 end
 

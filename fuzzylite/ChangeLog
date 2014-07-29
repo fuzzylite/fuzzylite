@@ -8,7 +8,6 @@ Version 5.0
 * Fixed minor memory leak at Function::Node
 * Fixed minor memory leak at FactoryManager
 * Improved handling of Exceptions
-* Fixed bug in qtfuzzylite introduced after deleting the instances causing the memory leaks.
 * Modified FclExporter and FisExporter to provide backward compatibility with FCL and FIS formats
 * Updated the FIS and FCL examples for backward compatibility
 * Included the original example files
@@ -20,8 +19,8 @@ Version 5.0
 * FldExporter exports from a custom input dataset
 * Console includes option to read custom input dataset from file
 * Console provides more information about its usage
-* Changed the signature of methods FldExporter::toWriter
-* Removed variable and methods for FldExporter::maximum
+* Renamed methods FldExporter::toWriter() to FldExporter::write()
+* Removed variable and methods for property FldExporter::maximum
 * Accuracy improvements importing fis files with large number of decimals
 * Updated FLD examples to reflect accuracy
 * Changed operation for multiple hedges to operate from last to first
