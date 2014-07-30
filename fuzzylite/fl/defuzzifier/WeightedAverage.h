@@ -33,6 +33,7 @@ namespace fl {
     class FL_API WeightedAverage : public WeightedDefuzzifier {
     public:
         WeightedAverage(Type type = Automatic);
+        WeightedAverage(const std::string& type);
         virtual ~WeightedAverage() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(WeightedAverage)
 

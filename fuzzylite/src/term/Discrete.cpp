@@ -99,7 +99,7 @@ namespace fl {
             setHeight(values.back());
             values.pop_back();
         }
-        this->_xy = toPairs(values, false);
+        this->_xy = toPairs(values);
     }
 
     template <typename T>
@@ -120,7 +120,7 @@ namespace fl {
             result->setHeight(xy.back());
             xy.pop_back();
         }
-        result->setXY(toPairs(xy, false));
+        result->setXY(toPairs(xy));
         return result.release();
     }
 

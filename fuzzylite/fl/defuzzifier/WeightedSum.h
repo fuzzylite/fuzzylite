@@ -33,6 +33,7 @@ namespace fl {
     class FL_API WeightedSum : public WeightedDefuzzifier {
     public:
         WeightedSum(Type type = Automatic);
+        WeightedSum(const std::string& type);
         virtual ~WeightedSum() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(WeightedSum)
 

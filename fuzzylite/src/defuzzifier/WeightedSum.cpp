@@ -35,6 +35,10 @@ namespace fl {
     WeightedSum::WeightedSum(Type type) : WeightedDefuzzifier(type) {
     }
 
+    WeightedSum::WeightedSum(const std::string& type) : WeightedDefuzzifier(type) {
+
+    }
+
     WeightedSum::~WeightedSum() {
     }
 

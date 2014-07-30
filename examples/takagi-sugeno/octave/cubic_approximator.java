@@ -37,7 +37,7 @@ outputVariable.setEnabled(true);
 outputVariable.setName("ApproxXCubed");
 outputVariable.setRange(-5.000, 5.000);
 outputVariable.fuzzyOutput().setAccumulation(null);
-outputVariable.setDefuzzifier(new WeightedAverage());
+outputVariable.setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setLockPreviousOutputValue(false);
 outputVariable.setLockOutputValueInRange(false);

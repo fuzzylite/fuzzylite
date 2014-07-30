@@ -37,6 +37,9 @@ namespace fl {
     WeightedAverage::WeightedAverage(Type type) : WeightedDefuzzifier(type) {
     }
 
+    WeightedAverage::WeightedAverage(const std::string& type) : WeightedDefuzzifier(type) {
+    }
+
     WeightedAverage::~WeightedAverage() {
     }
 

@@ -36,13 +36,16 @@ namespace fl {
         enum Type {
             Automatic, TakagiSugeno, Tsukamoto
         };
+        static std::string typeName(Type);
 
         WeightedDefuzzifier(Type type = Automatic);
+        WeightedDefuzzifier(const std::string& type);
         virtual ~WeightedDefuzzifier() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(WeightedDefuzzifier)
 
         virtual void setType(Type type);
         virtual Type getType() const;
+        virtual std::string getTypeName() const;
         virtual Type inferType(const Term* term) const;
         virtual bool isMonotonic(const Term* term) const;
 

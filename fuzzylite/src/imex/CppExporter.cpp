@@ -206,11 +206,15 @@ namespace fl {
 
     std::string CppExporter::toString(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier) return "fl::null";
-        const IntegralDefuzzifier* integralDefuzzifier =
-                dynamic_cast<const IntegralDefuzzifier*> (defuzzifier);
-        if (integralDefuzzifier) {
+        if (const IntegralDefuzzifier * integralDefuzzifier =
+                dynamic_cast<const IntegralDefuzzifier*> (defuzzifier)) {
             return "new " + fl(integralDefuzzifier->className()) + "("
                     + fl::Op::str(integralDefuzzifier->getResolution()) + ")";
+        }
+        if (const WeightedDefuzzifier * weightedDefuzzifier =
+                dynamic_cast<const WeightedDefuzzifier*> (defuzzifier)) {
+            return "new " + weightedDefuzzifier->className() +
+                    "(\"" + weightedDefuzzifier->getTypeName() + "\")";
         }
         return "new " + fl(defuzzifier->className());
     }

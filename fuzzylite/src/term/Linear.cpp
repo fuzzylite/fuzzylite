@@ -122,9 +122,7 @@ namespace fl {
         }
         va_end(args);
 
-        FL_unique_ptr<Linear> result(new Linear(name));
-        result->set(coefficients, engine);
-        return result.release();
+        return new Linear(name, coefficients, engine);
     }
 
     template FL_API Linear* Linear::create(const std::string& name,

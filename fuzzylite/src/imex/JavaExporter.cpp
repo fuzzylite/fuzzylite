@@ -180,13 +180,15 @@ namespace fl {
     std::string JavaExporter::toString(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier) return "null";
 
-        const IntegralDefuzzifier* integralDefuzzifier =
-                dynamic_cast<const IntegralDefuzzifier*> (defuzzifier);
-        if (integralDefuzzifier) {
-            std::ostringstream ss;
-            ss << "new " << defuzzifier->className() << "(" <<
-                    integralDefuzzifier->getResolution() << ")";
-            return ss.str();
+        if (const IntegralDefuzzifier * integralDefuzzifier =
+                dynamic_cast<const IntegralDefuzzifier*> (defuzzifier)) {
+            return "new " + integralDefuzzifier->className() + "("
+                    + fl::Op::str(integralDefuzzifier->getResolution()) + ")";
+        }
+        if (const WeightedDefuzzifier * weightedDefuzzifier =
+                dynamic_cast<const WeightedDefuzzifier*> (defuzzifier)) {
+            return "new " + weightedDefuzzifier->className() +
+                    "(\"" + weightedDefuzzifier->getTypeName() + "\")";
         }
         return "new " + defuzzifier->className() + "()";
     }

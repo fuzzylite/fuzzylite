@@ -40,7 +40,7 @@ outputVariable.setEnabled(true);
 outputVariable.setName("control");
 outputVariable.setRange(-0.785, 0.785);
 outputVariable.fuzzyOutput().setAccumulation(null);
-outputVariable.setDefuzzifier(new WeightedAverage());
+outputVariable.setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setLockPreviousOutputValue(false);
 outputVariable.setLockOutputValueInRange(false);

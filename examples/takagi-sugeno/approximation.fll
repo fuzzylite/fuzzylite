@@ -32,7 +32,7 @@ OutputVariable: trueFx
   enabled: true
   range: -1.000 1.000
   accumulation: none
-  defuzzifier: WeightedAverage
+  defuzzifier: WeightedAverage Automatic
   default: nan
   lock-previous: true
   lock-range: false
@@ -41,7 +41,7 @@ OutputVariable: diffFx
   enabled: true
   range: -1.000 1.000
   accumulation: none
-  defuzzifier: WeightedAverage
+  defuzzifier: WeightedAverage Automatic
   default: nan
   lock-previous: false
   lock-range: false

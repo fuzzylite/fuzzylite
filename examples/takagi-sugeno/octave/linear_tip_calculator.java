@@ -36,7 +36,7 @@ outputVariable.setEnabled(true);
 outputVariable.setName("Tip");
 outputVariable.setRange(10.000, 20.000);
 outputVariable.fuzzyOutput().setAccumulation(null);
-outputVariable.setDefuzzifier(new WeightedAverage());
+outputVariable.setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 outputVariable.setDefaultValue(Double.NaN);
 outputVariable.setLockPreviousOutputValue(false);
 outputVariable.setLockOutputValueInRange(false);
