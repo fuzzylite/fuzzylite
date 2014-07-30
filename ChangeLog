@@ -37,27 +37,23 @@ Version 5.0
 * Added Engine::configure without conjuntion and disjuntion
 * Added parameter string to Engine::type
 * Changed Engine::isReady
-* Converted all signals to exceptions in Exception::convertToException
 * Correct handling of integral defuzzification with min|max=NaN|Inf
-* Enforced usage of Accumulation in Weighted(Average|Sum)
 * Added method Rule::isLoaded to determine whether a rule is to be activated
-* Added method Rule::unload to allow its existence
+* Added method Rule::unload to allow existence of invalid rules
 * Added methods Engine::set((Input|Output)Variables), Engine::setRuleBlocks
 * Added method RuleBlock::setRules
 * Changed visibility of Rule::setText to public
 * Added method Rule::load(const Engine*)
 * Renamed term Thresholded to Activated
 * Renamed Thresholded::(set|get)Threshold to Activated::(set|get)Degree
-* Removed variable Rule::FL_ASSIGNS and method Rule::assignsKeyword()
+* Removed variable Rule::FL_ASSIGNS="=" and method Rule::assignsKeyword()
 * Modified original takagi-sugeno examples to reflect proper activation and accumulation
 * Moved Engine::_hedges (and methods) to Rule::_hedges
 * Renamed Antecedent::(get|set)Root to Antecedent::(get|set)Expression
 * Added (Antecedent|Consequent)::(get|set)Text
 * Added (Antecedent|Consequent)::load|unload
 * Renamed typedef Factory::Creator to Factory::Constructor
-* Added class None for Defuzzifiers and (S|T)-Norms
 * Added an M-file to compare output values of fuzzylite engines with Matlab
-* Removed automatic delete of previous pointers on OutputVariable::setDefuzzifier, Accumulated::setAccumulation, RuleBlock::set(Conjunction|Disjunction|Activation)
 * Removed const from Norms in RuleBlock::(get|set)(Activation|Conjunction|Disjunction)
 * Deleted method Op::repeat
 * Added built-in functions gt,lt,ge,le,eq and operator !
@@ -77,7 +73,7 @@ Version 5.0
 * Using std::auto_ptr to (T|S)Norms in RuleBlock, SNorm in Accumulated, and Defuzzifier in OutputVariable
 * Added methods Engine::set((Input|Output)Variable) and Engine::setRuleBlock()
 * Added method RuleBlock::reloadRules()
-* Changed Linear holding of input variables for a reference to Engine
+* Changed Linear pointers to input variables for a pointer to Engine
 * Added support to compare infinity values with fl::Op::isEq and therefore other comparison operators
 * Parameters of all terms are set to fl::nan by default
 * Added methods Engine::(input|output)Variables() and ::ruleBlocks() to return mutable references
@@ -90,9 +86,10 @@ Version 5.0
 * Changed visibility of Linear::coefficients to protected
 * Added methods Linear::coefficients(), Linear::setCoefficients()
 * Removed public variables Discrete::x,y
-* Changed representation of Discrete::(x,y) from std::vector<scalar> to std::vector<std::pair<scalar,scalar>>
+* Added in Discrete a typedef to std::pair<scalar, scalar> Pair, and changed signatures of methods and types of their parameters
+* Changed representation of Discrete::(x,y) from std::vector<scalar> to std::vector<Pair>
 * Added methods Discrete::setXY(), Discrete::xy(), ::xy(int) to set and get new representation
-* Added methods Discrete::toPairs(std::vector<scalar>) and Discrete::toVector(std::vector<std::pair<scalar,scalar>>)
+* Added methods Discrete::toPairs(std::vector<scalar>) and Discrete::toVector(std::vector<Pair>)
 * Added method Discrete::formatXY() to get pairs (x,y) nicely formatted
 * Linear term no longer throws exception when inputVariables != |coefficients|
 * Changed visibility of Function::root to protected and renamed it to Function::_root

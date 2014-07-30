@@ -66,6 +66,7 @@ namespace fl {
         virtual std::string toString(Engine* engine, int maximumNumberOfResults) const;
         virtual std::string toString(Engine* engine, const std::string& inputData) const;
 
+        using Exporter::toFile;
         virtual void toFile(const std::string& path, Engine* engine, int maximumNumberOfResults) const;
         virtual void toFile(const std::string& path, Engine* engine, const std::string& inputData) const;
 

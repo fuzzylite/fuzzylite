@@ -120,6 +120,4 @@ namespace fl {
     Defuzzifier* WeightedAverage::constructor() {
         return new WeightedAverage;
     }
-
-
 }

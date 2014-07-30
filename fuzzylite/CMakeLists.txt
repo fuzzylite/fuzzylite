@@ -54,6 +54,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 if(UNIX)
     set(CMAKE_CXX_FLAGS "-pedantic -Werror -Wall -Wextra")
+    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-non-literal-null-conversion")
+    endif()
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 

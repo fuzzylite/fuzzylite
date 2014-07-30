@@ -51,6 +51,4 @@ namespace fl {
         return fromString(textEngine.str());
     }
 
-
-
 }
