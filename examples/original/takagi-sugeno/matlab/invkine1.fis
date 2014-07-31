@@ -8,7 +8,7 @@ NumRules=49
 AndMethod='prod'
 OrMethod='max'
 ImpMethod='prod'
-AggMethod='sum'
+AggMethod='max'
 DefuzzMethod='wtaver'
 
 [Input1]
