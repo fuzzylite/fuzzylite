@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(fuzzylite CXX)
 
-set(CMAKE_VERBOSE_MAKEFILE true)
+set(CMAKE_VERBOSE_MAKEFILE false)
 
 set(FL_VERSION 5.0)
 add_definitions(-DFL_VERSION="${FL_VERSION}")
@@ -54,15 +54,16 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 if(UNIX)
     set(CMAKE_CXX_FLAGS "-pedantic -Werror -Wall -Wextra")
-    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-non-literal-null-conversion")
-    endif()
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 
     if(NOT APPLE)
         set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined") #To avoid undefined methods in library
     endif()
+endif()
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-non-literal-null-conversion")
 endif()
 
 set(FL_LIBS)
