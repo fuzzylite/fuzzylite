@@ -17,9 +17,9 @@
 
  You should have received a copy of the GNU Lesser General Public License
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
- 
- fuzzylite (R) is a registered trademark of FuzzyLite Limited.
- 
+
+ fuzzylite™ is a trademark of FuzzyLite Limited.
+
  */
 
 #ifndef FL_SIGMOIDPRODUCT_H

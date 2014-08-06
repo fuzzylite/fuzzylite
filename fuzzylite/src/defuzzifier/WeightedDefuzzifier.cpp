@@ -17,9 +17,9 @@
 
  You should have received a copy of the GNU Lesser General Public License
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
- 
- fuzzylite (R) is a registered trademark of FuzzyLite Limited.
- 
+
+ fuzzylite™ is a trademark of FuzzyLite Limited.
+
  */
 
 #include "fl/defuzzifier/WeightedDefuzzifier.h"
@@ -92,7 +92,7 @@ namespace fl {
     }
 
     /**
-     * Instead of computing y=f(x), the goal of Tsukamoto is to find x=f(w), 
+     * Instead of computing y=f(x), the goal of Tsukamoto is to find x=f(w),
      * where f is monotonic.
      */
     scalar WeightedDefuzzifier::tsukamoto(const Term* monotonic, scalar activationDegree,

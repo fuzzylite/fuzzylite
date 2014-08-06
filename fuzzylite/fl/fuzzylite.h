@@ -17,9 +17,9 @@
 
  You should have received a copy of the GNU Lesser General Public License
  along with fuzzylite.  If not, see <http://www.gnu.org/licenses/>.
- 
- fuzzylite (R) is a registered trademark of FuzzyLite Limited.
- 
+
+ fuzzylite™ is a trademark of FuzzyLite Limited.
+
  */
 
 #ifndef FL_FUZZYLITE_H
@@ -85,7 +85,7 @@
 #elif defined(FL_IMPORT_LIBRARY)
 #define FL_API __declspec(dllimport)
 #else
-#define FL_API 
+#define FL_API
 #endif
 
 #else
@@ -103,7 +103,7 @@ namespace fl {
     const scalar nan = std::numeric_limits<scalar>::quiet_NaN();
     const scalar inf = std::numeric_limits<scalar>::infinity();
 
-#ifdef FL_CPP11 
+#ifdef FL_CPP11
     //C++11 defines
 
     //Pointers
@@ -135,16 +135,16 @@ namespace fl {
     Class(const Class &) = delete;\
     Class &operator=(const Class &) = delete;
 
-#else 
+#else
     //C++98 defines
 
     //Pointers
     const long null = 0L;
-#define FL_unique_ptr std::auto_ptr 
+#define FL_unique_ptr std::auto_ptr
 #define FL_move_ptr(x) x
 
     //Identifiers
-#define FL_IOVERRIDE 
+#define FL_IOVERRIDE
 #define FL_IFINAL
 #define FL_IDEFAULT
 #define FL_IDELETE
@@ -152,7 +152,7 @@ namespace fl {
 
     //Constructors
 #define FL_DEFAULT_COPY(Class)
-#define FL_DEFAULT_MOVE(Class) 
+#define FL_DEFAULT_MOVE(Class)
 #define FL_DEFAULT_COPY_AND_MOVE(Class)
 
 #define FL_DISABLE_COPY(Class) \
