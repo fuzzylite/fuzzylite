@@ -144,20 +144,20 @@ The entire `fuzzylite` library has been thoroughly revised, refactored, validate
 * **(important)** Exceptions are thrown when any of the following `RuleBlock::[conjunction|disjunction|activation]`, `Accumulated::accumulation`, and `OutputVariable::defuzzifier` are required but set to `fl::null`, thereby replacing the operations that would lead to `[signal 11] Segmentation fault` to operations that throw a `fl::Exception` instead.
 + Automatic build script to build `fuzzylite` in `debug` and `release` mode.
 + Binaries of debug libraries are renamed to append the letter `d`  (e.g.,`fuzzylited.dll`,  `libfuzzylited.so`).
-+ **(important)** New file [`fuzzylite/src/m/compare.m`](/blob/v5.x/fuzzylite/src/m/compare.m) <!---check link--> to compare the output values of your `fuzzylite` engines with the evaluation of the same engine in Octave/Matlab.
-+ **(important)** There is practically no difference between the output values obtained with `fuzzylite` and those obtained with Octave/Matlab. Based on the examples, the average mean square error (MSE)  between the output values is less than `7.3e-12` (or `0.0000000000073`) due to negligible differences in floating-point arithmetic. The results and comparison can be found in [`examples/examples.mat`](/blob/v5.x/examples/examples.mat) <!---check link-->.
++ **(important)** New file [`fuzzylite/src/m/compare.m`](/fuzzylite/src/m/compare.m) <!---check link--> to compare the output values of your `fuzzylite` engines with the evaluation of the same engine in Octave/Matlab.
++ **(important)** There is practically no difference between the output values obtained with `fuzzylite` and those obtained with Octave/Matlab. Based on the examples, the average mean square error (MSE)  between the output values is less than `7.3e-12` (or `0.0000000000073`) due to negligible differences in floating-point arithmetic. The results and comparison can be found in [`examples/examples.mat`](/examples/examples.mat) <!---check link-->.
 + **(important)** Source code of applications based on version 4.0 will most likely not compile with version 5.0.
 + Minor bugs and memory leaks fixed.
 
 ####<a name="new-macros">Macros</a>
-* **(important)** Added support for `C++11` with smart pointers, method identifiers, move constructors and move operators as follows. For precise information, refer to file [`fuzzylite/fl/fuzzylite.h`](/blob/v5.x/fuzzylite/fl/fuzzylite.h). <!---check link-->
+* **(important)** Added support for `C++11` with smart pointers, method identifiers, move constructors and move operators as follows. For precise information, refer to file [`fuzzylite/fl/fuzzylite.h`](/fuzzylite/fl/fuzzylite.h). <!---check link-->
 * **(important)** Macros for identifiers are defined as `FL_IOVERRIDE override`, `FL_IFINAL final`, `FL_IDEFAULT = default`, `FL_IDELETE = delete`, `FL_INOEXCEPT noexcept`, `FL_DEFAULT_COPY(Class)`, `FL_DEFAULT_MOVE(Class)`, and `FL_DEFAULT_COPY_AND_MOVE(Class)`.
 * **(important)** Added macro `FL_unique_ptr` to refer to `std::auto_ptr` (`C++98`) or `std::unique_ptr` (`C++11`), and its respective `FL_move_ptr(x)` to move a smart pointer, albeit `FL_move_ptr(x)` is not used within the library as it is not needed.
 * **(important)** Added global variables `const long fl::null = 0L` to refer to the null pointer in `C++98` and `const std::nullptr_t null = nullptr` to refer to the null pointer in `C++11`.
 * **(important)** Renamed macro `FL_DEBUG` to `FL_DBG`.
 * **(important)**  Renamed macros `FL_BEGIN_DEBUG_BLOCK` and `FL_END_DEBUG_BLOCK` to `FL_DEBUG_BEGIN` and `FL_DEBUG_END`, respectively.
 * **(important)** Renamed macro `FL_EXPORT` to `FL_API`
-* **(EXTREMELY important)** Added macro definitions `FL_EXPORT_LIBRARY` and `FL_IMPORT_LIBRARY`. If you are building `fuzzylite` as a **shared library**, you need to define `FL_EXPORT_LIBRARY`. If you are building `fuzzylite` **executable** *and* it utilizes the `fuzzylite` **shared library**, you need to define `FL_IMPORT_LIBRARY`. If you are building `fuzzylite` as a **static library** and/or building `fuzzylite` **executable** using the `fuzzylite` **static library**, then you do not need to define either `FL_[IMPORT|EXPORT]_LIBRARY`. Note that the same conditions apply for your application. This is particularly important in Windows platforms, as  `FL_IMPORT_LIBRARY` and `FL_EXPORT_LIBRARY` define `FL_API` to `__declspec(dllimport)` and `__declspec(dllexport)`, respectively. If in doubt, please check [`fuzzylite/CMakeLists.txt`](/blob/v5.x/fuzzylite/CMakeLists.txt)<!---check link-->
+* **(EXTREMELY important)** Added macro definitions `FL_EXPORT_LIBRARY` and `FL_IMPORT_LIBRARY`. If you are building `fuzzylite` as a **shared library**, you need to define `FL_EXPORT_LIBRARY`. If you are building `fuzzylite` **executable** *and* it utilizes the `fuzzylite` **shared library**, you need to define `FL_IMPORT_LIBRARY`. If you are building `fuzzylite` as a **static library** and/or building `fuzzylite` **executable** using the `fuzzylite` **static library**, then you do not need to define either `FL_[IMPORT|EXPORT]_LIBRARY`. Note that the same conditions apply for your application. This is particularly important in Windows platforms, as  `FL_IMPORT_LIBRARY` and `FL_EXPORT_LIBRARY` define `FL_API` to `__declspec(dllimport)` and `__declspec(dllexport)`, respectively. If in doubt, please check [`fuzzylite/CMakeLists.txt`](/fuzzylite/CMakeLists.txt)<!---check link-->
 
 #### <a name="new-operation">Operation</a>
 * **(important)** Added method  `Operation::toScalar(std::string x, scalar alternative) FL_INOEXCEPT` which returns `alternative` if `x` is not a valid `scalar`, and never throws an exception.
@@ -340,8 +340,8 @@ The entire `fuzzylite` library has been thoroughly revised, refactored, validate
 * Added conversion of `examples/original/*.fis` to `examples/original/*.fll`.
 * Modified `original/takagi-sugeno` examples to reflect  `activation: none; accumulation: none;`.
 * Updated FLD examples produced from the `original` examples.
-+ **(important)** Added file [`fuzzylite/src/m/compare.m`](/blob/v5.x/fuzzylite/src/m/compare.m) <!---check link--> to compare the output values of your `fuzzylite` engines with the evaluation of the same engine in Octave/Matlab.
-+ **(important)** Added file [`examples/examples.mat`](/blob/v5.x/examples/examples.mat) <!---check link--> containing the comparison of the output values between `fuzzylite` and Matlab's Fuzzy Logic Toolbox.
++ **(important)** Added file [`fuzzylite/src/m/compare.m`](/fuzzylite/src/m/compare.m) <!---check link--> to compare the output values of your `fuzzylite` engines with the evaluation of the same engine in Octave/Matlab.
++ **(important)** Added file [`examples/examples.mat`](/examples/examples.mat) <!---check link--> containing the comparison of the output values between `fuzzylite` and Matlab's Fuzzy Logic Toolbox.
 * Added code to perform benchmarks in Linux.
 
 
@@ -377,7 +377,7 @@ The entire `fuzzylite` library has been thoroughly revised, refactored, validate
 ### <a name="building">Building from Source</a>
 Building from source requires you to have CMake installed.
 
-The files [`fuzzylite/build.bat`](/blob/v5.x/fuzzylite/build.bat) and [`fuzzylite/build.sh`](/blob/v5.x/fuzzylite/build.sh) are automatic build scripts for Windows and Unix platforms, respectively. The usage of these scripts is presented as follows.
+The files [`fuzzylite/build.bat`](/fuzzylite/build.bat) and [`fuzzylite/build.sh`](/fuzzylite/build.sh) are automatic build scripts for Windows and Unix platforms, respectively. The usage of these scripts is presented as follows.
 
 #### Windows
 ```bash
@@ -406,7 +406,7 @@ where   [options] can be any of the following:
 **(important)** After executing the building script, the binaries will be built and stored in the sub-folders `release/bin` and `debug/bin`.
 
 #### Advanced Building Options
-For more advanced building options, please check the contents of [`fuzzylite/build.bat`](/blob/v5.x/fuzzylite/build.bat) or [`fuzzylite/build.sh`](/blob/v5.x/fuzzylite/build.sh), and the contents of [`fuzzylite/CMakeLists.txt`](/blob/v5.x/fuzzylite/CMakeLists.txt).
+For more advanced building options, please check the contents of [`fuzzylite/build.bat`](/fuzzylite/build.bat) or [`fuzzylite/build.sh`](/fuzzylite/build.sh), and the contents of [`fuzzylite/CMakeLists.txt`](/fuzzylite/CMakeLists.txt).
 
 The following building options are available:
 
