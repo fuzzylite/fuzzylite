@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 2.8)
 
 project(fuzzylite CXX)
 
-set(CMAKE_VERBOSE_MAKEFILE false)
 
 set(FL_VERSION 5.0)
 add_definitions(-DFL_VERSION="${FL_VERSION}")
@@ -53,12 +52,12 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 if(UNIX)
-    set(CMAKE_CXX_FLAGS "-pedantic -Werror -Wall -Wextra")
+    set(CMAKE_CXX_FLAGS "-pedantic -Werror -Wall -Wextra ${CMAKE_CXX_FLAGS}")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 
     if(NOT APPLE)
-        set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined") #To avoid undefined methods in library
+        set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined ${CMAKE_SHARED_LINKER_FLAGS}") #To avoid undefined methods in library
     endif()
 endif()
 
@@ -115,15 +114,23 @@ add_executable(fl-bin src/main.cpp)
 set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
 set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
 set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX d)
-#set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
-#target_link_libraries(fl-bin fl-shared ${FL_LIBS})
-target_link_libraries(fl-bin fl-static ${FL_LIBS})
+
+if (WIN32)
+    target_link_libraries(fl-bin fl-static ${FL_LIBS})
+else()
+    set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
+    target_link_libraries(fl-bin fl-shared ${FL_LIBS})
+endif()
+
+if(NOT CMAKE_INSTALL_LIBDIR)
+    set(CMAKE_INSTALL_LIBDIR lib)
+endif()
 
 
 install(TARGETS fl-bin fl-shared fl-static
         RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION  ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION  ${CMAKE_INSTALL_LIBDIR}
         )
 
 install(DIRECTORY fl/ DESTINATION include/fl)
