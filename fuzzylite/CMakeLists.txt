@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 2.8)
 
 project(fuzzylite CXX)
 
+if(NOT CMAKE_VERBOSE_MAKEFILE)
+    set(CMAKE_VERBOSE_MAKEFILE false)
+endif()
 
 set(FL_VERSION 5.0)
 add_definitions(-DFL_VERSION="${FL_VERSION}")
@@ -99,6 +102,7 @@ message("${exepath}")
 
 set(CMAKE_DEBUG_POSTFIX d)
 
+if (WIN32)
 add_library(fl-shared SHARED ${fl-headers} ${fl-sources})
 set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
 set_target_properties(fl-shared PROPERTIES DEBUG_POSTFIX d)
@@ -109,6 +113,27 @@ add_library(fl-static STATIC ${fl-headers} ${fl-sources})
 set_target_properties(fl-static PROPERTIES OUTPUT_NAME fuzzylite-static)
 set_target_properties(fl-static PROPERTIES DEBUG_POSTFIX d)
 target_link_libraries(fl-static ${FL_LIBS})
+
+else()
+
+add_library(fl-obj OBJECT ${fl-headers} ${fl-sources})
+set_target_properties(fl-obj PROPERTIES COMPILE_FLAGS "-fPIC")
+
+add_library(fl-shared SHARED $<TARGET_OBJECTS:fl-obj>)
+set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
+set_target_properties(fl-shared PROPERTIES DEBUG_POSTFIX d)
+set_target_properties(fl-shared PROPERTIES COMPILE_DEFINITIONS "FL_EXPORT_LIBRARY")
+set_target_properties(fl-shared PROPERTIES SOVERSION 5.0)
+target_link_libraries(fl-shared ${FL_LIBS})
+
+
+add_library(fl-static STATIC $<TARGET_OBJECTS:fl-obj>)
+set_target_properties(fl-static PROPERTIES OUTPUT_NAME fuzzylite-static)
+set_target_properties(fl-static PROPERTIES DEBUG_POSTFIX d)
+set_target_properties(fl-static PROPERTIES SOVERSION 5.0)
+target_link_libraries(fl-static ${FL_LIBS})
+
+endif()
 
 add_executable(fl-bin src/main.cpp)
 set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
