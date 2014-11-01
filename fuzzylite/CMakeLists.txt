@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8.8)
 
 project(fuzzylite CXX)
 
+###DEFINES SECTION
 if(NOT CMAKE_VERBOSE_MAKEFILE)
     set(CMAKE_VERBOSE_MAKEFILE false)
 endif()
@@ -11,13 +12,12 @@ add_definitions(-DFL_VERSION="${FL_VERSION}")
 
 set(FL_DATE "1408")
 add_definitions(-DFL_DATE="${FL_DATE}")
-
 add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
 
-option(BUILD_SHARED ON)
-option(BUILD_STATIC ON)
+option(BUILD_SHARED "Build shared library" ON)
+option(BUILD_STATIC "Build static library" ON)
 if(BUILD_SHARED)
-    option(BUILD_BINARY ON)
+    option(BUILD_BINARY "Build fuzzylite binary" ON)
 endif()
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
@@ -44,17 +44,14 @@ if(WIN32)
     message("Windows")
     add_definitions(-DFL_WINDOWS)
 endif()
-
 if (UNIX)
     message("Unix")
     add_definitions(-DFL_UNIX)
 endif()
-
 if (APPLE)
     message("Apple")
     add_definitions(-DFL_APPLE)
 endif()
-
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
@@ -93,12 +90,13 @@ if(MSVC)
     endif()
 endif()
 
+###BUILD SECTION
 include_directories(.)
+link_directories(.)
 cmake_policy(SET CMP0015 OLD)
 if (APPLE)
-cmake_policy(SET CMP0042 NEW)
+    cmake_policy(SET CMP0042 NEW)
 endif()
-link_directories(.)
 
 file(STRINGS FL_HEADERS fl-headers)
 file(STRINGS FL_SOURCES fl-sources)
@@ -107,8 +105,6 @@ string(REGEX REPLACE "\n" " " ${fl-headers} ${fl-headers})
 string(REGEX REPLACE "\n" " " ${fl-sources} ${fl-sources})
 
 message("${exepath}")
-
-
 set(CMAKE_DEBUG_POSTFIX d)
 
 if (MSVC OR CMAKE_GENERATOR STREQUAL Xcode)
@@ -150,17 +146,17 @@ if(BUILD_STATIC)
 endif()
 
 if(BUILD_BINARY)
-add_executable(fl-bin src/main.cpp)
-set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
-set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
-set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX d)
+    add_executable(fl-bin src/main.cpp)
+    set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
+    set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
+    set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX d)
 
-#if (WIN32) #TODO:Check executable in Windows with dynamic library
-#    target_link_libraries(fl-bin fl-static ${FL_LIBS})
-#else()
+    #if (WIN32) #TODO:Check executable in Windows with dynamic library
+    #    target_link_libraries(fl-bin fl-static ${FL_LIBS})
+    #else()
     set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
     target_link_libraries(fl-bin fl-shared ${FL_LIBS})
-#endif()
+    #endif()
 endif(BUILD_BINARY)
 
 ###INSTALL SECTION
@@ -169,27 +165,27 @@ if(NOT CMAKE_INSTALL_LIBDIR)
 endif()
 
 if(BUILD_BINARY)
-	install(TARGETS fl-bin 
-			RUNTIME DESTINATION bin
-			LIBRARY DESTINATION  ${CMAKE_INSTALL_LIBDIR}
-			ARCHIVE DESTINATION  ${CMAKE_INSTALL_LIBDIR}
-	)
+    install(TARGETS fl-bin 
+            RUNTIME DESTINATION bin
+            LIBRARY DESTINATION  ${CMAKE_INSTALL_LIBDIR}
+            ARCHIVE DESTINATION  ${CMAKE_INSTALL_LIBDIR}
+    )
 endif()
 
 if(BUILD_SHARED)
-	install(TARGETS fl-shared 
-			RUNTIME DESTINATION bin
-			LIBRARY DESTINATION  ${CMAKE_INSTALL_LIBDIR}
-			ARCHIVE DESTINATION  ${CMAKE_INSTALL_LIBDIR}
-	)
+    install(TARGETS fl-shared 
+            RUNTIME DESTINATION bin
+            LIBRARY DESTINATION  ${CMAKE_INSTALL_LIBDIR}
+            ARCHIVE DESTINATION  ${CMAKE_INSTALL_LIBDIR}
+    )
 endif()
 
 if(BUILD_STATIC)
-	install(TARGETS fl-static
-			RUNTIME DESTINATION bin
-			LIBRARY DESTINATION  ${CMAKE_INSTALL_LIBDIR}
-			ARCHIVE DESTINATION  ${CMAKE_INSTALL_LIBDIR}
-	)
+    install(TARGETS fl-static
+            RUNTIME DESTINATION bin
+            LIBRARY DESTINATION  ${CMAKE_INSTALL_LIBDIR}
+            ARCHIVE DESTINATION  ${CMAKE_INSTALL_LIBDIR}
+    )
 endif()
 
 install(DIRECTORY fl/ DESTINATION include/fl)
@@ -202,7 +198,7 @@ message("FL_CPP11=${FL_CPP11}")
 message("Build=${CMAKE_BUILD_TYPE}")
 message("=====================================\n")
 
-# uninstall target
+###UNINSTALL SECTION
 #configure_file(
     #"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
     #"${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
