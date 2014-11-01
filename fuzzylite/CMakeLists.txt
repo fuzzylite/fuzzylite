@@ -73,6 +73,15 @@ endif()
 
 set(FL_LIBS)
 
+#link with rt lib on Linux. Fixes problem with clock_gettime()
+include(CheckLibraryExists)
+if(UNIX)
+    CHECK_LIBRARY_EXISTS(rt shm_open "" HAVE_RT_LIB)
+    if(HAVE_RT_LIB)
+        set(FL_LIBS ${FL_LIBS} rt)
+    endif()
+endif()
+
 if(MSVC)
     set(CMAKE_CXX_FLAGS "/WX /W4 /EHsc")
     #Wx: Treat warnings as errors. W4: All warnings
