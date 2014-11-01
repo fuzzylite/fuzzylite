@@ -25,6 +25,7 @@
 #ifndef FL_FUZZYLITE_H
 #define FL_FUZZYLITE_H
 
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <sstream>
