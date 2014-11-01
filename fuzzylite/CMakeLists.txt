@@ -153,12 +153,8 @@ if(BUILD_BINARY)
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX d)
 
-    #if (WIN32) #TODO:Check executable in Windows with dynamic library
-    #    target_link_libraries(fl-bin fl-static ${FL_LIBS})
-    #else()
     set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
     target_link_libraries(fl-bin fl-shared ${FL_LIBS})
-    #endif()
 endif(BUILD_BINARY)
 
 ###INSTALL SECTION
