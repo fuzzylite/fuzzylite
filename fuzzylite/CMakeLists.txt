@@ -28,9 +28,9 @@ endif()
 
 if(FL_CPP11)
     add_definitions(-DFL_CPP11)
-    if(UNIX)
+    if(NOT MSVC)
         add_definitions(-std=c++11)
-    endif(UNIX)
+    endif(NOT MSVC)
 endif(FL_CPP11)
 
 
@@ -54,7 +54,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
-if(UNIX)
+if(NOT MSVC)
     set(CMAKE_CXX_FLAGS "-pedantic -Werror -Wall -Wextra ${CMAKE_CXX_FLAGS}")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
