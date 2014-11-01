@@ -70,7 +70,7 @@ endif()
 
 set(FL_LIBS)
 
-if(WIN32)
+if(MSVC)
     set(CMAKE_CXX_FLAGS "/WX /W4 /EHsc")
     #Wx: Treat warnings as errors. W4: All warnings
     #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
