@@ -24,6 +24,10 @@ option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_BACKTRACE "Provide backtrace information in case of errors" OFF)
 option(FL_CPP11 "Builds utilizing C++11, i.e., passing -std=c++11" OFF)
 
+if(FL_CPP11 AND MSVC)
+    message("Warning: MSVC not compatible with FL_CPP11 flag")
+endif()
+
 if(FL_USE_FLOAT)
     add_definitions(-DFL_USE_FLOAT)
 endif(FL_USE_FLOAT)
