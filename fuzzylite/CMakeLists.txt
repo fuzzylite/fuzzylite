@@ -79,7 +79,7 @@ set(FL_LIBS)
 
 #link with rt lib on Linux. Fixes problem with clock_gettime()
 include(CheckLibraryExists)
-if(UNIX)
+if(UNIX AND NOT APPLE)
     CHECK_LIBRARY_EXISTS(rt shm_open "" HAVE_RT_LIB)
     if(HAVE_RT_LIB)
         set(FL_LIBS ${FL_LIBS} rt)
