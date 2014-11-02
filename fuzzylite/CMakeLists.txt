@@ -14,10 +14,10 @@ set(FL_DATE "1408")
 add_definitions(-DFL_DATE="${FL_DATE}")
 add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
 
-option(BUILD_SHARED "Build shared library" ON)
-option(BUILD_STATIC "Build static library" ON)
-if(BUILD_SHARED)
-    option(BUILD_BINARY "Build fuzzylite binary" ON)
+option(FL_BUILD_SHARED "Build shared library" ON)
+option(FL_BUILD_STATIC "Build static library" ON)
+if(FL_BUILD_SHARED)
+    option(FL_BUILD_BINARY "Build fuzzylite binary" ON)
 endif()
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
@@ -117,31 +117,31 @@ message("${exepath}")
 set(CMAKE_DEBUG_POSTFIX d)
 
 if (MSVC OR CMAKE_GENERATOR STREQUAL Xcode)
-    if(BUILD_SHARED)
+    if(FL_BUILD_SHARED)
         add_library(fl-shared SHARED ${fl-headers} ${fl-sources})
     endif()
 
-    if(BUILD_SHARED)
+    if(FL_BUILD_SHARED)
         add_library(fl-static STATIC ${fl-headers} ${fl-sources})
-    endif(BUILD_SHARED)
+    endif(FL_BUILD_SHARED)
 else()
-    if(BUILD_SHARED OR BUILD_STATIC)
+    if(FL_BUILD_SHARED OR FL_BUILD_STATIC)
         add_library(fl-obj OBJECT ${fl-headers} ${fl-sources})
         if(NOT MINGW)
             set_target_properties(fl-obj PROPERTIES COMPILE_FLAGS "-fPIC")
         endif()
     endif()
 
-    if(BUILD_SHARED)
+    if(FL_BUILD_SHARED)
         add_library(fl-shared SHARED $<TARGET_OBJECTS:fl-obj>)
-    endif(BUILD_SHARED)
+    endif(FL_BUILD_SHARED)
 
-    if(BUILD_STATIC)
+    if(FL_BUILD_STATIC)
         add_library(fl-static STATIC $<TARGET_OBJECTS:fl-obj>)
-    endif(BUILD_STATIC)
+    endif(FL_BUILD_STATIC)
 endif()
 
-if(BUILD_SHARED)
+if(FL_BUILD_SHARED)
     set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
     set_target_properties(fl-shared PROPERTIES DEBUG_POSTFIX d)
     set_target_properties(fl-shared PROPERTIES COMPILE_DEFINITIONS "FL_EXPORT_LIBRARY")
@@ -149,14 +149,14 @@ if(BUILD_SHARED)
     target_link_libraries(fl-shared ${FL_LIBS})
 endif()
 
-if(BUILD_STATIC)
+if(FL_BUILD_STATIC)
     set_target_properties(fl-static PROPERTIES OUTPUT_NAME fuzzylite-static)
     set_target_properties(fl-static PROPERTIES DEBUG_POSTFIX d)
     set_target_properties(fl-static PROPERTIES VERSION 5.0)
     target_link_libraries(fl-static ${FL_LIBS})
 endif()
 
-if(BUILD_BINARY)
+if(FL_BUILD_BINARY)
     add_executable(fl-bin src/main.cpp)
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
@@ -164,14 +164,14 @@ if(BUILD_BINARY)
 
     set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
     target_link_libraries(fl-bin fl-shared ${FL_LIBS})
-endif(BUILD_BINARY)
+endif(FL_BUILD_BINARY)
 
 ###INSTALL SECTION
 if(NOT CMAKE_INSTALL_LIBDIR)
     set(CMAKE_INSTALL_LIBDIR lib)
 endif()
 
-if(BUILD_BINARY)
+if(FL_BUILD_BINARY)
     install(TARGETS fl-bin 
             RUNTIME DESTINATION bin
             LIBRARY DESTINATION  ${CMAKE_INSTALL_LIBDIR}
@@ -179,7 +179,7 @@ if(BUILD_BINARY)
     )
 endif()
 
-if(BUILD_SHARED)
+if(FL_BUILD_SHARED)
     install(TARGETS fl-shared 
             RUNTIME DESTINATION bin
             LIBRARY DESTINATION  ${CMAKE_INSTALL_LIBDIR}
@@ -187,7 +187,7 @@ if(BUILD_SHARED)
     )
 endif()
 
-if(BUILD_STATIC)
+if(FL_BUILD_STATIC)
     install(TARGETS fl-static
             RUNTIME DESTINATION bin
             LIBRARY DESTINATION  ${CMAKE_INSTALL_LIBDIR}
