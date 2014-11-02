@@ -25,6 +25,7 @@
 #ifndef FL_FUZZYLITE_H
 #define FL_FUZZYLITE_H
 
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <sstream>
@@ -72,7 +73,9 @@
 
 //TODO: Address warning 4251 by exporting members?
 //http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
+#ifdef _MSC_VER
 #pragma warning (disable:4251)
+#endif
 
 //fuzzylite as a shared library is exported
 //Applications linking with fuzzylite as a shared library need to import
