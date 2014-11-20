@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8)
 
 project(fuzzylite CXX)
 
@@ -12,6 +12,7 @@ add_definitions(-DFL_VERSION="${FL_VERSION}")
 
 set(FL_DATE "1408")
 add_definitions(-DFL_DATE="${FL_DATE}")
+
 add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
 
 option(FL_BUILD_SHARED "Build shared library" ON)
@@ -48,14 +49,17 @@ if(WIN32)
     message("Windows")
     add_definitions(-DFL_WINDOWS)
 endif()
+
 if (UNIX)
     message("Unix")
     add_definitions(-DFL_UNIX)
 endif()
+
 if (APPLE)
     message("Apple")
     add_definitions(-DFL_APPLE)
 endif()
+
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
@@ -111,6 +115,7 @@ cmake_policy(SET CMP0015 OLD)
 if (APPLE)
     cmake_policy(SET CMP0042 NEW)
 endif()
+link_directories(.)
 
 file(STRINGS FL_HEADERS fl-headers)
 file(STRINGS FL_SOURCES fl-sources)
@@ -119,6 +124,8 @@ string(REGEX REPLACE "\n" " " ${fl-headers} ${fl-headers})
 string(REGEX REPLACE "\n" " " ${fl-sources} ${fl-sources})
 
 message("${exepath}")
+
+
 set(CMAKE_DEBUG_POSTFIX d)
 
 if (MSVC OR CMAKE_GENERATOR STREQUAL Xcode)
