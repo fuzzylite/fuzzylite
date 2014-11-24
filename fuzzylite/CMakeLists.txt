@@ -44,23 +44,6 @@ if(FL_CPP11)
     endif(NOT MSVC)
 endif(FL_CPP11)
 
-
-if(WIN32)
-    message("Windows")
-    add_definitions(-DFL_WINDOWS)
-endif()
-
-if (UNIX)
-    message("Unix")
-    add_definitions(-DFL_UNIX)
-endif()
-
-if (APPLE)
-    message("Apple")
-    add_definitions(-DFL_APPLE)
-endif()
-
-
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
