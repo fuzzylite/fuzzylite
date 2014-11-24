@@ -210,6 +210,10 @@ endif()
 
 install(DIRECTORY fl/ DESTINATION include/fl)
 
+#pkg-config
+configure_file(${CMAKE_SOURCE_DIR}/fuzzylite.pc.in ${CMAKE_BINARY_DIR}/fuzzylite.pc @ONLY)
+install(FILES ${CMAKE_BINARY_DIR}/fuzzylite.pc DESTINATION lib/pkgconfig)
+
 message("=====================================")
 message("fuzzylite v.${FL_VERSION}b${FL_DATE}\n")
 message("FL_USE_FLOAT=${FL_USE_FLOAT}")
