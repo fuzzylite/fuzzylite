@@ -44,6 +44,18 @@
 #define FL_BUILD_PATH ""
 #endif
 
+#if defined(_WIN32) || defined(WIN32)
+#define FL_WINDOWS
+#endif
+
+#if defined(unix) || defined(__unix__) || defined(__unix)
+#define FL_UNIX
+#endif
+
+#ifdef __APPLE__
+#define FL_APPLE
+#endif
+
 #define FL__FILE__ std::string(__FILE__).substr(std::string(FL_BUILD_PATH).size())
 
 #define FL_LOG_PREFIX FL__FILE__ << " [" << __LINE__ << "]:"
