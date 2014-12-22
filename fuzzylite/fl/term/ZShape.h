@@ -34,7 +34,7 @@ namespace fl {
         scalar _start, _end;
 
     public:
-        ZShape(const std::string& name = "",
+        explicit ZShape(const std::string& name = "",
                 scalar _start = fl::nan,
                 scalar _end = fl::nan,
                 scalar _height = 1.0);

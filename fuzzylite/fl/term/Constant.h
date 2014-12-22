@@ -34,7 +34,7 @@ namespace fl {
         scalar _value;
 
     public:
-        Constant(const std::string& name = "",
+        explicit Constant(const std::string& name = "",
                 scalar value = fl::nan);
         virtual ~Constant() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Constant)

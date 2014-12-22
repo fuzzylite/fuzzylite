@@ -38,7 +38,7 @@ namespace fl {
         enum Direction {
             POSITIVE, ZERO, NEGATIVE
         };
-        Sigmoid(const std::string& name = "",
+        explicit Sigmoid(const std::string& name = "",
                 scalar inflection = fl::nan,
                 scalar slope = fl::nan,
                 scalar height = 1.0);

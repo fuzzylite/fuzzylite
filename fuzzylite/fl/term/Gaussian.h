@@ -35,7 +35,7 @@ namespace fl {
         scalar _standardDeviation;
 
     public:
-        Gaussian(const std::string& name = "",
+        explicit Gaussian(const std::string& name = "",
                 scalar mean = fl::nan,
                 scalar standardDeviation = fl::nan,
                 scalar height = 1.0);

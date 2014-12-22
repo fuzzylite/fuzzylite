@@ -35,7 +35,7 @@ namespace fl {
         scalar _start, _end;
 
     public:
-        SShape(const std::string& name = "",
+        explicit SShape(const std::string& name = "",
                 scalar start = fl::nan,
                 scalar end = fl::nan,
                 scalar height = 1.0);

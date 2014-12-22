@@ -55,7 +55,7 @@ namespace fl {
         void updateReferences() const;
 
     public:
-        Engine(const std::string& name = "");
+        explicit Engine(const std::string& name = "");
         Engine(const Engine& other);
         Engine& operator=(const Engine& other);
         virtual ~Engine();

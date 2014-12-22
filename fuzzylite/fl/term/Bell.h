@@ -35,7 +35,7 @@ namespace fl {
         scalar _width;
         scalar _slope;
     public:
-        Bell(const std::string& name = "",
+        explicit Bell(const std::string& name = "",
                 scalar center = fl::nan,
                 scalar width = fl::nan,
                 scalar slope = fl::nan,

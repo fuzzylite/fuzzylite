@@ -43,7 +43,7 @@ namespace fl {
         scalar _minimum, _maximum;
         FL_unique_ptr<SNorm> _accumulation;
     public:
-        Accumulated(const std::string& name = "",
+        explicit Accumulated(const std::string& name = "",
                 scalar minimum = fl::nan,
                 scalar maximum = fl::nan,
                 SNorm* accumulation = fl::null);

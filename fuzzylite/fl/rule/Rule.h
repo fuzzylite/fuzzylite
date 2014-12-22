@@ -48,7 +48,7 @@ namespace fl {
         std::map<std::string, Hedge*> _hedges;
 
     public:
-        Rule(const std::string& text = "", scalar weight = 1.0);
+        explicit Rule(const std::string& text = "", scalar weight = 1.0);
         Rule(const Rule& other);
         Rule& operator=(const Rule& other);
         virtual ~Rule();

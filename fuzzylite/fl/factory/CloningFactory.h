@@ -40,7 +40,7 @@ namespace fl {
         std::map<std::string, T> _objects;
 
     public:
-        CloningFactory(const std::string& name = "");
+        explicit CloningFactory(const std::string& name = "");
         CloningFactory(const CloningFactory& other);
         CloningFactory& operator=(const CloningFactory& other);
         virtual ~CloningFactory();

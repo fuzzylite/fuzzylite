@@ -50,7 +50,7 @@ namespace fl {
         bool _enabled;
 
     public:
-        RuleBlock(const std::string& name = "");
+        explicit RuleBlock(const std::string& name = "");
         RuleBlock(const RuleBlock& other);
         RuleBlock& operator=(const RuleBlock& other);
         virtual ~RuleBlock();

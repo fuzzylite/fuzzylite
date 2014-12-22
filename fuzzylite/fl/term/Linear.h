@@ -35,7 +35,7 @@ namespace fl {
         std::vector<scalar> _coefficients;
         const Engine* _engine;
     public:
-        Linear(const std::string& name = "",
+        explicit Linear(const std::string& name = "",
                 const std::vector<scalar>& coefficients = std::vector<scalar>(),
                 const Engine* engine = fl::null);
         virtual ~Linear() FL_IOVERRIDE;

@@ -43,7 +43,7 @@ namespace fl {
         scalar _height;
     public:
 
-        Term(const std::string& name = "", scalar height = 1.0);
+        explicit Term(const std::string& name = "", scalar height = 1.0);
         virtual ~Term();
         FL_DEFAULT_COPY_AND_MOVE(Term)
 

@@ -33,7 +33,7 @@ namespace fl {
     protected:
         scalar _vertexA, _vertexB, _vertexC, _vertexD;
     public:
-        Trapezoid(const std::string& name = "",
+        explicit Trapezoid(const std::string& name = "",
                 scalar vertexA = fl::nan,
                 scalar vertexB = fl::nan,
                 scalar vertexC = fl::nan,

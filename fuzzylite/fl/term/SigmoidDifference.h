@@ -37,7 +37,7 @@ namespace fl {
         scalar _right;
 
     public:
-        SigmoidDifference(const std::string& name = "",
+        explicit SigmoidDifference(const std::string& name = "",
                 scalar left = fl::nan,
                 scalar rising = fl::nan,
                 scalar falling = fl::nan,
