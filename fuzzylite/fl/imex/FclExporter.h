@@ -38,7 +38,7 @@ namespace fl {
         std::string _indent;
 
     public:
-        FclExporter(const std::string& indent = "  ");
+        explicit FclExporter(const std::string& indent = "  ");
         virtual ~FclExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FclExporter)
 

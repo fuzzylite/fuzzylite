@@ -38,7 +38,7 @@ namespace fl {
     protected:
         std::vector<Pair> _xy;
     public:
-        Discrete(const std::string& name = "",
+        explicit Discrete(const std::string& name = "",
                 const std::vector<Pair>& xy = std::vector<Pair>(),
                 scalar height = 1.0);
         virtual ~Discrete() FL_IOVERRIDE;

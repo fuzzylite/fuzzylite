@@ -31,7 +31,7 @@ namespace fl {
 
     class FL_API Centroid : public IntegralDefuzzifier {
     public:
-        Centroid(int resolution = defaultResolution());
+        explicit Centroid(int resolution = defaultResolution());
         virtual ~Centroid() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Centroid)
 

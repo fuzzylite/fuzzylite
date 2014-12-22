@@ -31,7 +31,7 @@ namespace fl {
 
     class FL_API SmallestOfMaximum : public IntegralDefuzzifier {
     public:
-        SmallestOfMaximum(int resolution = defaultResolution());
+        explicit SmallestOfMaximum(int resolution = defaultResolution());
         virtual ~SmallestOfMaximum() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(SmallestOfMaximum)
 

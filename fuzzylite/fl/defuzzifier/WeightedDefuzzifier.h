@@ -38,8 +38,8 @@ namespace fl {
         };
         static std::string typeName(Type);
 
-        WeightedDefuzzifier(Type type = Automatic);
-        WeightedDefuzzifier(const std::string& type);
+        explicit WeightedDefuzzifier(Type type = Automatic);
+        explicit WeightedDefuzzifier(const std::string& type);
         virtual ~WeightedDefuzzifier() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(WeightedDefuzzifier)
 

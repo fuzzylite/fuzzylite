@@ -84,9 +84,9 @@ namespace fl {
             std::string variable;
             scalar value;
 
-            Node(Element* element, Node* left = fl::null, Node* right = fl::null);
-            Node(const std::string& variable);
-            Node(scalar value);
+            explicit Node(Element* element, Node* left = fl::null, Node* right = fl::null);
+            explicit Node(const std::string& variable);
+            explicit Node(scalar value);
             Node(const Node& source);
             Node& operator=(const Node& rhs);
             virtual ~Node();
@@ -118,7 +118,7 @@ namespace fl {
         const Engine* _engine;
     public:
         mutable std::map<std::string, scalar> variables;
-        Function(const std::string& name = "",
+        explicit Function(const std::string& name = "",
                 const std::string& formula = "", const Engine* engine = fl::null);
         Function(const Function& other);
         Function& operator=(const Function& other);

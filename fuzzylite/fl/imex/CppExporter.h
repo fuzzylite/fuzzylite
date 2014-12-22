@@ -42,7 +42,7 @@ namespace fl {
         bool _prefixNamespace;
         virtual std::string fl(const std::string& clazz) const;
     public:
-        CppExporter(bool prefixNamespace = false);
+        explicit CppExporter(bool prefixNamespace = false);
         virtual ~CppExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(CppExporter)
 

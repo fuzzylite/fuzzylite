@@ -40,7 +40,7 @@ namespace fl {
         struct Option {
             std::string key, value, description;
 
-            Option(const std::string& key = "", const std::string& value = "", const std::string& description = "") :
+            explicit Option(const std::string& key = "", const std::string& value = "", const std::string& description = "") :
             key(key), value(value), description(description) {
             }
         };

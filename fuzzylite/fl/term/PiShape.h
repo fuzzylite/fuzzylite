@@ -37,7 +37,7 @@ namespace fl {
         scalar _bottomRight;
 
     public:
-        PiShape(const std::string& name = "",
+        explicit PiShape(const std::string& name = "",
                 scalar bottomLeft = fl::nan,
                 scalar topLeft = fl::nan,
                 scalar topRight = fl::nan,

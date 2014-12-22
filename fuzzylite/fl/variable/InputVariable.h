@@ -33,7 +33,7 @@ namespace fl {
     protected:
         scalar _inputValue;
     public:
-        InputVariable(const std::string& name = "",
+        explicit InputVariable(const std::string& name = "",
                 scalar minimum = -fl::inf,
                 scalar maximum = fl::inf);
         virtual ~InputVariable() FL_IOVERRIDE;

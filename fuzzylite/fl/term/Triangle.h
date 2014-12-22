@@ -35,7 +35,7 @@ namespace fl {
         scalar _vertexB;
         scalar _vertexC;
     public:
-        Triangle(const std::string& name = "",
+        explicit Triangle(const std::string& name = "",
                 scalar vertexA = fl::nan,
                 scalar vertexB = fl::nan,
                 scalar vertexC = fl::nan,

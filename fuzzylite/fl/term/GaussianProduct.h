@@ -37,7 +37,7 @@ namespace fl {
         scalar _standardDeviationB;
 
     public:
-        GaussianProduct(const std::string& name = "",
+        explicit GaussianProduct(const std::string& name = "",
                 scalar meanA = fl::nan,
                 scalar standardDeviationA = fl::nan,
                 scalar meanB = fl::nan,

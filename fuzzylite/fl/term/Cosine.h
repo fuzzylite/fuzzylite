@@ -33,7 +33,7 @@ namespace fl {
     protected:
         scalar _center, _width;
     public:
-        Cosine(const std::string& name = "",
+        explicit Cosine(const std::string& name = "",
                 scalar center = fl::nan,
                 scalar width = fl::nan,
                 scalar height = 1.0);

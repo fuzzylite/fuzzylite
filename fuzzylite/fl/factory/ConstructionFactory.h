@@ -43,7 +43,7 @@ namespace fl {
         std::map<std::string, Constructor> _constructors;
 
     public:
-        ConstructionFactory(const std::string& name);
+        explicit ConstructionFactory(const std::string& name);
         virtual ~ConstructionFactory();
         FL_DEFAULT_COPY_AND_MOVE(ConstructionFactory)
 

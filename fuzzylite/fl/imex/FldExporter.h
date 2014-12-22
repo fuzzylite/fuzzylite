@@ -41,7 +41,7 @@ namespace fl {
         bool _exportInputValues;
         bool _exportOutputValues;
     public:
-        FldExporter(const std::string& separator = " ");
+        explicit FldExporter(const std::string& separator = " ");
         virtual ~FldExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FldExporter)
 
