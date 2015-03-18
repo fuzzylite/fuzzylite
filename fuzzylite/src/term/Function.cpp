@@ -93,7 +93,7 @@ namespace fl {
             else ss << "pointer=error";
             ss << ")";
         } else if (type == FUNCTION) {
-            ss << "MathFunction (name=" << name << ", "
+            ss << "Function (name=" << name << ", "
                     << "description=" << description << ", "
                     << "arity=" << arity << ", "
                     << "associativity=" << associativity << ", ";
