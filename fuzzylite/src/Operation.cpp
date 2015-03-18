@@ -146,12 +146,12 @@ namespace fl {
         return (isEq(a, 1.0) or isEq(b, 1.0)) ? 1.0 : 0.0;
     }
 
-    scalar Operation::negate(scalar a) {
-        return -a;
-    }
-
     scalar Operation::logicalNot(scalar a) {
         return isEq(a, 1.0) ? 0.0 : 1.0;
+    }
+
+    scalar Operation::negate(scalar a) {
+        return -a;
     }
 
     scalar Operation::round(scalar x) {

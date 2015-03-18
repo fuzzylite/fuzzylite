@@ -29,7 +29,15 @@
 namespace fl {
 
     FunctionFactory::FunctionFactory() : CloningFactory<Function::Element*>("Function::Element") {
+        registerOperators();
+        registerFunctions();
+    }
 
+    FunctionFactory::~FunctionFactory() {
+
+    }
+
+    void FunctionFactory::registerOperators() {
         //OPERATORS:
         int p = 100;
         //First order: not, negate:
@@ -66,9 +74,10 @@ namespace fl {
         p -= 10; //Logical OR
         registerObject(fl::Rule::orKeyword(), new Function::Element(fl::Rule::orKeyword(), "Logical OR",
                 Function::Element::OPERATOR, &(fl::Op::logicalOr), p));
+    }
 
+    void FunctionFactory::registerFunctions() {
         //FUNCTIONS
-
         registerObject("gt", new Function::Element("gt", "Greater than (>)",
                 Function::Element::FUNCTION, &(fl::Op::gt)));
         registerObject("ge", new Function::Element("ge", "Greater than or equal to (>=)",
@@ -136,10 +145,6 @@ namespace fl {
                 Function::Element::FUNCTION, &(std::atan2)));
         registerObject("fmod", new Function::Element("fmod", "Floating-point remainder",
                 Function::Element::FUNCTION, &(std::fmod)));
-    }
-
-    FunctionFactory::~FunctionFactory() {
-
     }
 
     std::vector<std::string> FunctionFactory::availableOperators() const {

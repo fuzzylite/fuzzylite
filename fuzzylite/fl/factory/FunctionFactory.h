@@ -32,6 +32,9 @@
 namespace fl {
 
     class FunctionFactory : public CloningFactory<Function::Element*> {
+    private:
+        void registerOperators();
+        void registerFunctions();
     public:
         FunctionFactory();
         virtual ~FunctionFactory() FL_IOVERRIDE;
