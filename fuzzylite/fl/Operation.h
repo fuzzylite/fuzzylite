@@ -29,8 +29,15 @@
 
 #include "fl/Exception.h"
 
+#include <algorithm>
+#include <cmath>
+#include <cstdarg>
+#include <cstddef>
+#include <iomanip>
+#include <sstream>
 #include <string>
 #include <vector>
+
 
 namespace fl {
 
@@ -38,25 +45,47 @@ namespace fl {
     public:
 
         template <typename T>
-        static T min(T a, T b);
+        static T min(T a, T b) {
+            if (isNaN(a)) return b;
+            if (isNaN(b)) return a;
+            return a < b ? a : b;
+        }
 
         template <typename T>
-        static T max(T a, T b);
+        static T max(T a, T b) {
+            if (isNaN(a)) return b;
+            if (isNaN(b)) return a;
+            return a > b ? a : b;
+        }
 
         template <typename T>
-        static T bound(T x, T min, T max);
+        static T bound(T x, T min, T max) {
+            if (isGt(x, max)) return max;
+            if (isLt(x, min)) return min;
+            return x;
+        }
 
         template <typename T>
-        static bool in(T x, T min, T max, bool geq = true, bool leq = true);
+        static bool in(T x, T min, T max, bool geq = true, bool leq = true) {
+            bool left = geq ? isGE(x, min) : isGt(x, min);
+            bool right = leq ? isLE(x, max) : isLt(x, max);
+            return (left and right);
+        }
 
         template <typename T>
-        static bool isInf(T x);
+        static bool isInf(T x) {
+            return std::abs(x) == fl::inf;
+        }
 
         template <typename T>
-        static bool isNaN(T x);
+        static bool isNaN(T x) {
+            return not (x == x);
+        }
 
         template <typename T>
-        static bool isFinite(T x);
+        static bool isFinite(T x) {
+            return not (isNaN(x) or isInf(x));
+        }
 
         //Is less than
 
@@ -129,13 +158,53 @@ namespace fl {
         static bool isNumeric(const std::string& x);
 
         template <typename T>
-        static std::string str(T x, int decimals = fuzzylite::decimals());
+        static std::string str(T x, int decimals = fuzzylite::decimals()) {
+            std::ostringstream ss;
+            ss << std::setprecision(decimals) << std::fixed;
+            if (isNaN(x)) {
+                ss << "nan";
+            } else if (isInf(x)) {
+                if (isLt(x, 0.0)) ss << "-";
+                ss << "inf";
+            } else if (isEq(x, 0.0)) {
+                ss << std::fabs((x * 0.0)); //believe it or not, -1.33227e-15 * 0.0 = -0.0
+            } else ss << x;
+            return ss.str();
+        }
+
+        static std::string str(const std::string& x, int precision);
 
         template <typename T>
-        static std::string join(const std::vector<T>& x, const std::string& separator);
+        static std::string join(const std::vector<T>& x, const std::string& separator) {
+            std::ostringstream ss;
+            for (std::size_t i = 0; i < x.size(); ++i) {
+                ss << str(x.at(i));
+                if (i + 1 < x.size()) ss << separator;
+            }
+            return ss.str();
+        }
+
+        static std::string join(const std::vector<std::string>& x, const std::string& separator);
+
 
         template <typename T>
-        static std::string join(int items, const std::string& separator, T first, ...);
+        static std::string join(int items, const std::string& separator, T first, ...) {
+            std::ostringstream ss;
+            ss << str(first);
+            if (items > 1) ss << separator;
+            std::va_list args;
+            va_start(args, first);
+            for (int i = 0; i < items - 1; ++i) {
+                ss << str(va_arg(args, T));
+                if (i + 1 < items - 1) ss << separator;
+            }
+            va_end(args);
+            return ss.str();
+        }
+
+        static std::string join(int items, const std::string& separator, float first, ...);
+
+        static std::string join(int items, const std::string& separator, const char* first, ...);
     };
 
     typedef Operation Op;

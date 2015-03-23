@@ -22,6 +22,9 @@
 
  */
 
+
+/*FIXME: THIS FILE COULD BE REMOVED
+
 #include "fl/factory/ConstructionFactory.h"
 
 #include "fl/Exception.h"
@@ -109,6 +112,6 @@ namespace fl {
     template class ConstructionFactory<TNorm*>;
     template class ConstructionFactory<Term*>;
 }
-
+*/
 
 
