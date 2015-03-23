@@ -22,6 +22,8 @@
 
  */
 
+/*FIXME: THIS FILE COULD BE REMOVED
+
 #include "fl/factory/CloningFactory.h"
 
 #include "fl/Exception.h"
@@ -131,5 +133,6 @@ namespace fl {
 
     template class fl::CloningFactory<fl::Function::Element*>;
 }
+*/
 
 
