@@ -44,69 +44,29 @@ namespace fl {
         std::map<std::string, Constructor> _constructors;
 
     public:
-        explicit ConstructionFactory(const std::string& name)
-        : _name(name)
-        {
-        }
+        explicit ConstructionFactory(const std::string& name);
 
-        virtual ~ConstructionFactory() {
-        }
+        virtual ~ConstructionFactory();
 
         FL_DEFAULT_COPY_AND_MOVE(ConstructionFactory)
 
-        virtual std::string name() const {
-            return _name;
-        }
+        virtual std::string name() const;
 
-        virtual void registerConstructor(const std::string& key, Constructor constructor) {
-            _constructors[key] = constructor;
-        }
+        virtual void registerConstructor(const std::string& key, Constructor constructor);
 
-        virtual void deregisterConstructor(const std::string& key) {
-            typename std::map<std::string, Constructor>::iterator it = this->_constructors.find(key);
-            if (it != this->_constructors.end()) {
-                this->_constructors.erase(it);
-            }
-        }
+        virtual void deregisterConstructor(const std::string& key);
 
-        virtual bool hasConstructor(const std::string& key) const {
-            typename std::map<std::string, Constructor>::const_iterator it = this->_constructors.find(key);
-            return (it != this->_constructors.end());
-        }
+        virtual bool hasConstructor(const std::string& key) const;
 
-        virtual Constructor getConstructor(const std::string& key) const {
-            typename std::map<std::string, Constructor>::const_iterator it = this->_constructors.find(key);
-            if (it != this->_constructors.end()) {
-                return it->second;
-            }
-            return fl::null;
-        }
+        virtual Constructor getConstructor(const std::string& key) const;
 
-        virtual T constructObject(const std::string& key) const {
-            typename std::map<std::string, Constructor>::const_iterator it = this->_constructors.find(key);
-            if (it != this->_constructors.end()) {
-                if (it->second) {
-                    return it->second();
-                }
-                return fl::null;
-            }
-            std::ostringstream ss;
-            ss << "[factory error] constructor of " + _name + " <" << key << "> not registered";
-            throw fl::Exception(ss.str(), FL_AT);
-        }
+        virtual T constructObject(const std::string& key) const;
 
-        virtual std::vector<std::string> available() const {
-            std::vector<std::string> result;
-            typename std::map<std::string, Constructor>::const_iterator it = this->_constructors.begin();
-            while (it != this->_constructors.end()) {
-                result.push_back(it->first);
-                ++it;
-            }
-            return result;
-        }
+        virtual std::vector<std::string> available() const;
     };
-
 }
+
+#include "fl/factory/ConstructionFactory.tpp"
 
 #endif  /* FL_FACTORY_H */
 

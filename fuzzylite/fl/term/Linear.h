@@ -70,7 +70,7 @@ namespace fl {
         //Warning: this method is unsafe, make sure you use it correctly.
         template <typename T>
         static Linear* create(const std::string& name, const Engine* engine,
-                T firstCoefficient, ...) { // throw (fl::Exception);
+                T firstCoefficient, ...); /* { // throw (fl::Exception);
             if (not engine) throw fl::Exception("[linear error] cannot create term <" + name + "> "
                     "without a reference to the engine", FL_AT);
             std::vector<scalar> coefficients;
@@ -84,10 +84,12 @@ namespace fl {
             va_end(args);
 
             return new Linear(name, coefficients, engine);
-        }
+        }*/
     };
 
 }
+
+#include "fl/term/Linear.tpp"
 
 #endif  /* FL_LINEAR_H */
 

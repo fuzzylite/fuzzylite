@@ -42,103 +42,33 @@ namespace fl {
         std::map<std::string, T> _objects;
 
     public:
-        explicit CloningFactory(const std::string& name = "")
-        : _name(name)
-        {
-        }
+        explicit CloningFactory(const std::string& name = "");
 
-        CloningFactory(const CloningFactory& other)
-        : _name(other._name)
-        {
-            typename std::map<std::string, T>::const_iterator it = other._objects.begin();
-            while (it != other._objects.end()) {
-                T clone = fl::null;
-                if (it->second) clone = it->second->clone();
-                this->_objects[it->first] = clone;
-                ++it;
-            }
-        }
+        CloningFactory(const CloningFactory& other);
 
-        CloningFactory& operator=(const CloningFactory& other) {
-            if (this != &other) {
-                _name = other._name;
+        CloningFactory& operator=(const CloningFactory& other);
 
-                typename std::map<std::string, T>::const_iterator it = this->_objects.begin();
-                while (it != this->_objects.end()) {
-                    if (it->second) delete it->second;
-                    ++it;
-                }
-                this->_objects.clear();
-
-                it = other._objects.begin();
-                while (it != other._objects.end()) {
-                    T clone = fl::null;
-                    if (it->second) clone = it->second->clone();
-                    this->_objects[it->first] = clone;
-                    ++it;
-                }
-            }
-            return *this;
-        }
-
-        virtual ~CloningFactory() {
-            typename std::map<std::string, T>::const_iterator it = this->_objects.begin();
-            while (it != this->_objects.end()) {
-                if (it->second) delete it->second;
-                ++it;
-            }
-        }
+        virtual ~CloningFactory();
 
         FL_DEFAULT_MOVE(CloningFactory)
 
-        virtual std::string name() const {
-            return _name;
-        }
+        virtual std::string name() const;
 
-        virtual void registerObject(const std::string& key, T object) {
-            _objects[key] = object;
-        }
+        virtual void registerObject(const std::string& key, T object);
 
-        virtual void deregisterObject(const std::string& key) {
-            typename std::map<std::string, T>::iterator it = this->_objects.find(key);
-            if (it != this->_objects.end()) {
-                this->_objects.erase(it);
-                delete it->second;
-            }
-        }
+        virtual void deregisterObject(const std::string& key);
 
-        virtual bool hasObject(const std::string& key) const {
-            typename std::map<std::string, T>::const_iterator it = this->_objects.find(key);
-            return (it != this->_objects.end());
-        }
+        virtual bool hasObject(const std::string& key) const;
 
-        virtual T getObject(const std::string& key) const {
-            typename std::map<std::string, T>::const_iterator it = this->_objects.find(key);
-            if (it != this->_objects.end()) {
-                if (it->second) return it->second;
-            }
-            return fl::null;
-        }
+        virtual T getObject(const std::string& key) const;
 
-        virtual T cloneObject(const std::string& key) const {
-            typename std::map<std::string, T>::const_iterator it = this->_objects.find(key);
-            if (it != this->_objects.end()) {
-                if (it->second) return it->second->clone();
-                return fl::null;
-            }
-            throw fl::Exception("[cloning error] " + _name + " object by name <" + key + "> not registered", FL_AT);
-        }
+        virtual T cloneObject(const std::string& key) const;
 
-        virtual std::vector<std::string> available() const {
-            std::vector<std::string> result;
-            typename std::map<std::string, T>::const_iterator it = this->_objects.begin();
-            while (it != this->_objects.end()) {
-                result.push_back(it->first);
-            }
-            return result;
-        }
+        virtual std::vector<std::string> available() const;
     };
 }
+
+#include "fl/factory/CloningFactory.tpp"
 
 #endif  /* FL_CLONINGFACTORY_H */
 
