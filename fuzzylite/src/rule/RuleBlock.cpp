@@ -64,7 +64,7 @@ namespace fl {
         if (source._conjunction.get()) _conjunction.reset(source._conjunction->clone());
         if (source._disjunction.get()) _disjunction.reset(source._disjunction->clone());
         for (std::size_t i = 0; i < source._rules.size(); ++i) {
-            _rules.push_back(new Rule(*source._rules.at(i)));
+            _rules.push_back(source._rules.at(i)->clone());
         }
     }
 
@@ -82,7 +82,7 @@ namespace fl {
             Rule* rule = _rules.at(i);
             if (rule->isLoaded()) {
                 scalar activationDegree = rule->activationDegree(_conjunction.get(), _disjunction.get());
-                FL_DBG(rule->toString() << " [activationDegree=" << activationDegree << "]");
+                FL_DBG("[degree=" << Op::str(activationDegree) << "] " << rule->toString());
                 if (Op::isGt(activationDegree, 0.0)) {
                     rule->activate(activationDegree, _activation.get());
                 }

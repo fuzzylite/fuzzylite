@@ -525,6 +525,10 @@ namespace fl {
     }
 
     void Console::exportAllExamples(const std::string& from, const std::string& to) {
+        Console::exportAllExamples(from, to, ".");
+    }
+
+    void Console::exportAllExamples(const std::string& from, const std::string& to, const std::string& path) {
         std::vector<std::string> examples;
         examples.push_back("/mamdani/AllTerms");
         //        examples.push_back("/mamdani/Laundry");
@@ -561,8 +565,8 @@ namespace fl {
         examples.push_back("/takagi-sugeno/octave/sugeno_tip_calculator");
         examples.push_back("/tsukamoto/tsukamoto");
 
-        std::string sourceBase = "/home/jcrada/Development/fl/fuzzylite/examples/original";
-        std::string targetBase = "/tmp/fl/";
+        std::string sourceBase = path + "/original";
+        std::string targetBase = path + "/tmp/";
 
         FL_unique_ptr<Importer> importer;
         if (from == "fll") importer.reset(new FllImporter);
@@ -753,24 +757,26 @@ namespace fl {
             std::cout << usage() << std::endl;
             return EXIT_SUCCESS;
         }
-        if (argc == 2) {
+        if (argc == 3) {
             if ("export-examples" == std::string(argv[1])) {
+                std::string path = std::string(argv[2]);
+                FL_LOG("Path=" << path);
                 try {
                     fuzzylite::setDecimals(3);
                     FL_LOG("Processing fll->fll");
-                    exportAllExamples("fll", "fll");
+                    exportAllExamples("fll", "fll", path);
                     FL_LOG("Processing fll->fcl");
-                    exportAllExamples("fll", "fcl");
+                    exportAllExamples("fll", "fcl", path);
                     FL_LOG("Processing fll->fis");
-                    exportAllExamples("fll", "fis");
+                    exportAllExamples("fll", "fis", path);
                     FL_LOG("Processing fll->cpp");
-                    exportAllExamples("fll", "cpp");
+                    exportAllExamples("fll", "cpp", path);
                     FL_LOG("Processing fll->java");
-                    exportAllExamples("fll", "java");
+                    exportAllExamples("fll", "java", path);
                     fuzzylite::setDecimals(8);
                     fuzzylite::setMachEps(1e-6);
                     FL_LOG("Processing fll->fld");
-                    exportAllExamples("fll", "fld");
+                    exportAllExamples("fll", "fld", path);
                 } catch (std::exception& ex) {
                     std::cout << ex.what() << "\nBACKTRACE:\n" <<
                             fl::Exception::btCallStack() << std::endl;

@@ -122,9 +122,7 @@ namespace fl {
         if (_exportHeaders) writer << header(engine) << "\n";
         std::istringstream reader(inputData);
         std::string line;
-        int lineNumber = 0;
         while (std::getline(reader, line)) {
-            ++lineNumber;
             line = Op::trim(line);
             if (not line.empty() and line.at(0) == '#') continue; //comments are ignored, blank lines are retained
             std::vector<scalar> inputValues = parse(line);
@@ -142,9 +140,7 @@ namespace fl {
         if (_exportHeaders) writer << header(engine) << "\n";
         std::istringstream reader(inputData);
         std::string line;
-        int lineNumber = 0;
         while (std::getline(reader, line)) {
-            ++lineNumber;
             line = Op::trim(line);
             if (not line.empty() and line.at(0) == '#') continue; //comments are ignored, blank lines are retained
             std::vector<scalar> inputValues = parse(line);
@@ -201,11 +197,11 @@ namespace fl {
         int lineNumber = 0;
         while (std::getline(reader, line)) {
             ++lineNumber;
+            std::vector<scalar> inputValues = parse(Op::trim(line));
             try {
-                std::vector<scalar> inputValues = parse(Op::trim(line));
                 write(engine, writer, inputValues);
             } catch (fl::Exception& ex) {
-                ex.append(" at line <" + Op::str(lineNumber) + ">");
+                ex.append(" writing line <" + Op::str(lineNumber) + ">");
                 throw;
             }
         }

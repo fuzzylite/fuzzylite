@@ -84,6 +84,8 @@ namespace fl {
         virtual void unload();
         virtual void load(const Engine* engine);
         virtual void load(const std::string& rule, const Engine* engine);
+        
+        virtual Rule* clone() const;
 
         static Rule* parse(const std::string& rule, const Engine* engine);
 

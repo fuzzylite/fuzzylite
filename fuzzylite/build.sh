@@ -22,7 +22,8 @@ all(){
 }
 
 clean(){
-    rm -rf release debug
+    make clean
+    rm -rf release debug CMakeFiles
 }
 
 usage(){
