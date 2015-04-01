@@ -61,6 +61,7 @@ namespace fl {
         virtual ~Engine();
         FL_DEFAULT_MOVE(Engine)
 
+        //TODO: remove int resolution in v6.0
         virtual void configure(const std::string& conjunctionT,
                 const std::string& disjunctionS,
                 const std::string& activationT,
