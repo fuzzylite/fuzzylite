@@ -25,6 +25,7 @@
 #ifndef FL_FACTORY_H
 #define FL_FACTORY_H
 
+#include "fl/Exception.h"
 #include "fl/fuzzylite.h"
 
 #include <map>
@@ -44,21 +45,28 @@ namespace fl {
 
     public:
         explicit ConstructionFactory(const std::string& name);
+
         virtual ~ConstructionFactory();
+
         FL_DEFAULT_COPY_AND_MOVE(ConstructionFactory)
 
         virtual std::string name() const;
 
         virtual void registerConstructor(const std::string& key, Constructor constructor);
+
         virtual void deregisterConstructor(const std::string& key);
+
         virtual bool hasConstructor(const std::string& key) const;
+
         virtual Constructor getConstructor(const std::string& key) const;
+
         virtual T constructObject(const std::string& key) const;
+
         virtual std::vector<std::string> available() const;
-
     };
-
 }
+
+#include "fl/factory/ConstructionFactory.tpp"
 
 #endif  /* FL_FACTORY_H */
 

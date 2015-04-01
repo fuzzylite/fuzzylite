@@ -78,4 +78,7 @@ namespace fl {
     };
 
 }
+
+#include "fl/term/Discrete.tpp"
+
 #endif /* FL_DISCRETE_H */

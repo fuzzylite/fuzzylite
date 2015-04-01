@@ -29,8 +29,15 @@
 
 #include "fl/Exception.h"
 
+#include <algorithm>
+#include <cmath>
+#include <cstdarg>
+#include <cstddef>
+#include <iomanip>
+#include <sstream>
 #include <string>
 #include <vector>
+
 
 namespace fl {
 
@@ -131,14 +138,26 @@ namespace fl {
         template <typename T>
         static std::string str(T x, int decimals = fuzzylite::decimals());
 
+        static std::string str(const std::string& x, int precision);
+
         template <typename T>
         static std::string join(const std::vector<T>& x, const std::string& separator);
 
+        static std::string join(const std::vector<std::string>& x, const std::string& separator);
+
+
         template <typename T>
         static std::string join(int items, const std::string& separator, T first, ...);
+
+        static std::string join(int items, const std::string& separator, float first, ...);
+
+        static std::string join(int items, const std::string& separator, const char* first, ...);
     };
 
     typedef Operation Op;
 }
+
+#include "fl/Operation.tpp"
+
 #endif  /* FL_OPERATION_H */
 

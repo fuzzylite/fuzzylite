@@ -25,7 +25,9 @@
 #ifndef FL_CLONINGFACTORY_H
 #define FL_CLONINGFACTORY_H
 
+#include "fl/Exception.h"
 #include "fl/fuzzylite.h"
+#include "fl/term/Function.h"
 
 #include <map>
 #include <string>
@@ -41,22 +43,32 @@ namespace fl {
 
     public:
         explicit CloningFactory(const std::string& name = "");
+
         CloningFactory(const CloningFactory& other);
+
         CloningFactory& operator=(const CloningFactory& other);
+
         virtual ~CloningFactory();
+
         FL_DEFAULT_MOVE(CloningFactory)
 
         virtual std::string name() const;
 
         virtual void registerObject(const std::string& key, T object);
-        virtual void deregisterObject(const std::string& key);
-        virtual bool hasObject(const std::string& key) const;
-        virtual T getObject(const std::string& key) const;
-        virtual T cloneObject(const std::string& key) const;
-        virtual std::vector<std::string> available() const;
 
+        virtual void deregisterObject(const std::string& key);
+
+        virtual bool hasObject(const std::string& key) const;
+
+        virtual T getObject(const std::string& key) const;
+
+        virtual T cloneObject(const std::string& key) const;
+
+        virtual std::vector<std::string> available() const;
     };
 }
+
+#include "fl/factory/CloningFactory.tpp"
 
 #endif  /* FL_CLONINGFACTORY_H */
 
