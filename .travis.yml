@@ -1,28 +1,24 @@
 language: cpp
 
+os:
+  - linux
+  - osx
+
 before_install:
   #new GCC
-  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-  #new Clang
-  - sudo add-apt-repository --yes ppa:h-rayflood/llvm
-  #new CMake
-  - sudo add-apt-repository --yes ppa:andykimpe/cmake
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test; fi
+    #new Clang
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository --yes ppa:h-rayflood/llvm; fi
+    #new CMake
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository --yes ppa:andykimpe/cmake; fi
 
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq cmake
-  - sudo apt-get install -qq $SUPPORT
-  - sudo apt-get install -qq $PACKAGE
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get update -qq; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -qq cmake; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -qq $SUPPORT; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -qq $PACKAGE; fi
 
   #setup compiler
   - export CC=${REAL_CC} CXX=${REAL_CXX}
-
-#before_script:
-  #- mkdir build
-  #- cd build
-  #- cmake ../fuzzylite
-
-#script:
-  #- make
 
 script:
   - cd fuzzylite
