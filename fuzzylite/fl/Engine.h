@@ -52,7 +52,7 @@ namespace fl {
         std::vector<OutputVariable*> _outputVariables;
         std::vector<RuleBlock*> _ruleblocks;
 
-        void updateReferences() const;
+        virtual void updateReferences();
 
     public:
         explicit Engine(const std::string& name = "");
