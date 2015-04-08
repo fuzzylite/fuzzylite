@@ -92,8 +92,8 @@ if(MSVC)
 endif()
 
 ###BUILD SECTION
+cmake_policy(SET CMP0015 OLD)
 include_directories(.)
-cmake_policy(SET CMP0015 NEW)
 link_directories(.)
 if (APPLE)
     cmake_policy(SET CMP0042 NEW)
