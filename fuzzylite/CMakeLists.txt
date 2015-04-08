@@ -94,12 +94,12 @@ endif()
 ###BUILD SECTION
 
 include_directories(.)
-cmake_policy(SET CMP0015 OLD)
 link_directories(.)
-
+cmake_policy(SET CMP0015 OLD)
 if (APPLE)
     cmake_policy(SET CMP0042 NEW)
 endif()
+link_directories(.)
 
 file(STRINGS FL_HEADERS fl-headers)
 file(STRINGS FL_SOURCES fl-sources)
