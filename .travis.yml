@@ -92,8 +92,8 @@ matrix:
       env: REAL_CC=clang-3.4 REAL_CXX=clang++-3.4 PACKAGE=clang-3.4 SUPPORT=g++-4.8 FL_CONF=Release FL_USE_FLOAT=OFF FL_CPP11=ON
     - compiler: clang
       env: REAL_CC=clang-3.4 REAL_CXX=clang++-3.4 PACKAGE=clang-3.4 SUPPORT=g++-4.8 FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=ON
-	  
-	  
+
+
 #gcc-4.7
 ##Debug
     - compiler: clang
