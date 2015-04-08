@@ -5,17 +5,16 @@ os:
   - osx
 
 before_install:
-  #new GCC
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test; fi
-    #new Clang
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository --yes ppa:h-rayflood/llvm; fi
-    #new CMake
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository --yes ppa:andykimpe/cmake; fi
 
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get update -qq; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -qq cmake; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -qq $SUPPORT; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -qq $PACKAGE; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; 
+    then
+        sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test;
+        sudo add-apt-repository --yes ppa:h-rayflood/llvm;
+        sudo add-apt-repository --yes ppa:andykimpe/cmake;
+        sudo apt-get update -qq; fi;
+        sudo apt-get install -qq $SUPPORT; fi
+        sudo apt-get install -qq $PACKAGE; fi
+    fi
 
   #setup compiler
   - export CC=${REAL_CC} CXX=${REAL_CXX}
@@ -135,8 +134,6 @@ matrix:
     - compiler: clang
       env: REAL_CC=gcc-4.8   REAL_CXX=g++-4.8     PACKAGE=g++-4.8   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=ON
 
-    # - compiler: apple-gcc42
-    #   env: REAL_CC=gcc-4.8   REAL_CXX=g++-4.8     PACKAGE=g++-4.8   SUPPORT=
 
 notifications:
   email:
