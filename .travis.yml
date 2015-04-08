@@ -21,9 +21,7 @@ before_install:
 
 script:
   - cd fuzzylite
-  - mkdir -p $FL_CONF
-  - cd $FL_CONF
-  - cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$FL_CONF -DFL_BACKTRACE=ON -DFL_USE_FLOAT=$FL_USE_FLOAT -DFL_CPP11=$FL_CPP11
+  - cmake . -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$FL_CONF -DFL_BACKTRACE=ON -DFL_USE_FLOAT=$FL_USE_FLOAT -DFL_CPP11=$FL_CPP11
   - make
 
 env:
