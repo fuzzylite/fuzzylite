@@ -49,7 +49,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 if(NOT MSVC)
-    set(CMAKE_CXX_FLAGS "-pedantic -Werror -Wall -Wextra ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra ${CMAKE_CXX_FLAGS}")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 
@@ -75,7 +75,7 @@ if(UNIX AND NOT APPLE)
 endif()
 
 if(MSVC)
-    set(CMAKE_CXX_FLAGS "/WX /W4 /EHsc")
+    set(CMAKE_CXX_FLAGS "/W4 /EHsc")
     #Wx: Treat warnings as errors. W4: All warnings
     #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
     #EHsc: call destructors on __try __catch, and to ignore C4530: C++ exception handler used. Note, unwind semantics are not enabled
@@ -94,8 +94,9 @@ endif()
 ###BUILD SECTION
 
 include_directories(.)
-link_directories(.)
 cmake_policy(SET CMP0015 OLD)
+link_directories(.)
+
 if (APPLE)
     cmake_policy(SET CMP0042 NEW)
 endif()
