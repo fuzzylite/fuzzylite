@@ -93,7 +93,7 @@ endif()
 
 ###BUILD SECTION
 include_directories(.)
-link_directories(.)
+#link_directories(.)
 cmake_policy(SET CMP0015 OLD)
 if (APPLE)
     cmake_policy(SET CMP0042 NEW)
