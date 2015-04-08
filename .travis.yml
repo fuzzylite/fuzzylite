@@ -5,8 +5,17 @@ os:
   - osx
 
 before_install:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test && sudo add-apt-repository --yes ppa:h-rayflood/llvm && sudo add-apt-repository --yes ppa:andykimpe/cmake; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get update -qq && sudo apt-get install -qq cmake && sudo apt-get install -qq $SUPPORT && sudo apt-get install -qq $PACKAGE; fi
+  #new GCC
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test; fi
+    #new Clang
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository --yes ppa:h-rayflood/llvm; fi
+    #new CMake
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository --yes ppa:andykimpe/cmake; fi
+
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get update -qq; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -qq cmake; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -qq $SUPPORT; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -qq $PACKAGE; fi
 
   #setup compiler
   - export CC=${REAL_CC} CXX=${REAL_CXX}
