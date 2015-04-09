@@ -1,4 +1,4 @@
-fuzzylite &trade; [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=v5.x)](https://travis-ci.org/fuzzylite/fuzzylite) <img src="https://github.com/fuzzylite/fuzzylite/raw/master/fuzzylite.png" align="right" alt="fuzzylite">
+fuzzylite &reg; [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=v5.x)](https://travis-ci.org/fuzzylite/fuzzylite) <img src="https://github.com/fuzzylite/fuzzylite/raw/v5.x/fuzzylite.png" align="right" alt="fuzzylite">
 ===========
 
 A Fuzzy Logic Control Library in C++
@@ -16,12 +16,10 @@ By: [Juan Rada-Vilela](http://www.fuzzylite.com/jcrada), Ph.D.
 [Introduction](#introduction) &nbsp;
 [Features](#features) &nbsp;
 [Example](#example) &nbsp;
-[What's new](#whatsnew) : [General](#new-general), [Macros](#new-macros), [Operation](#new-operation), [Engine](#new-engine), [Input Variables and Output Variables](#new-inoutvars), [Linguistic Terms](#new-terms), [Linear and Discrete Terms](#new-linear-discrete), [Function Term](#new-function), [[T|S]Norms and Hedges](#new-norms-hedges), [Rules](#new-rules), [Rule Blocks](#new-ruleblocks), [Weighted Defuzzifiers](#new-weighted), [Integral Defuzzifiers](#new-integral), [Importers and Exporters](#new-imex), [Examples](#new-examples),  [Console](#new-console), [Fixed Bugs and Leaks](#new-fixes)
-[What's next](#whatsnext) &nbsp;
-[Migrating to v5.0](#migrating) &nbsp;
 [Bulding from source](#building) &nbsp;
-[Binaries](#binaries)
-
+[Binaries](#binaries) &nbsp;
+[What's next](#whatsnext) &nbsp;
+[What's new](#whatsnew) : [General](#new-general), [Macros](#new-macros), [Operation](#new-operation), [Engine](#new-engine), [Input Variables and Output Variables](#new-inoutvars), [Linguistic Terms](#new-terms), [Linear and Discrete Terms](#new-linear-discrete), [Function Term](#new-function), [[T|S]Norms and Hedges](#new-norms-hedges), [Rules](#new-rules), [Rule Blocks](#new-ruleblocks), [Weighted Defuzzifiers](#new-weighted), [Integral Defuzzifiers](#new-integral), [Importers and Exporters](#new-imex), [Examples](#new-examples),  [Console](#new-console), [Fixed Bugs and Leaks](#new-fixes)
 
 
 ### <a name="license">License</a>
@@ -130,6 +128,89 @@ int main(int argc, char* argv[]){
     }
 }
 ```
+
+***
+
+### <a name="whatsnext">What's Next?</a>
+
++ Source code documentation
++ Type-2 Fuzzy Logic Controllers
++ Adaptive Neuro-Fuzzy Inference System (ANFIS)
++ Fuzzy C-means data clustering
+
+***
+
+### <a name="building">Building from Source</a>
+Building from source requires you to have CMake installed.
+
+The files [`fuzzylite/build.bat`](/fuzzylite/build.bat) and [`fuzzylite/build.sh`](/fuzzylite/build.sh) are automatic build scripts for Windows and Unix platforms, respectively. The usage of these scripts is presented as follows.
+
+#### Windows
+```bash
+> build.bat help
+Usage:  build.bat [options]
+where   [options] can be any of the following:
+    all          builds fuzzylite in debug and release mode (default)
+    debug        builds fuzzylite in debug mode
+    release      builds fuzzylite in release mode
+    clean        erases previous builds
+    help         shows this information
+```
+
+#### Unix
+```bash
+$ ./build.sh help
+Usage:  [bash] ./build.sh [options]
+where   [options] can be any of the following:
+    all          builds fuzzylite in debug and release mode (default)
+    debug        builds fuzzylite in debug mode
+    release      builds fuzzylite in release mode
+    clean        erases previous builds
+    help         shows this information
+```
+
+**(important)** After executing the building script, the binaries will be built and stored in the sub-folders `release/bin` and `debug/bin`.
+
+#### Advanced Building Options
+For more advanced building options, please check the contents of [`fuzzylite/build.bat`](/fuzzylite/build.bat) or [`fuzzylite/build.sh`](/fuzzylite/build.sh), and the contents of [`fuzzylite/CMakeLists.txt`](/fuzzylite/CMakeLists.txt).
+
+The following building options are available:
+
+`-DFL_USE_FLOAT=ON` builds the binaries using `typedef float fl::scalar` instead of `typedef double fl::scalar` (default is OFF, i.e., double is used)
+
+`-DFL_BACKTRACE=OFF` disables the backtrace information in case of errors (default in Unix platforms is ON, and in Windows platforms is OFF). In Windows, the backtrace information requires the library `dbghelp`, which should be available in your system.
+
+`-DFL_CPP11=ON` builds `fuzzylite` utilizing `C++11` features (default is OFF, i.e., `C++98`)
+
+`-DCMAKE_BUILD_TYPE=[Debug|Release]` sets the mode of your build. You can only build one mode at a time with a single CMake script.
+
+***
+
+### <a name="binaries">Binaries</a>
+
+After building from source, the following are the relevant binaries that will be created in `release` mode. In `debug` mode, binaries will append a `d` at the end of the name (e.g., `fuzzylited.dll`).
+
+#### Windows
+
+- console application: `fuzzylite.exe`
+- shared library: `fuzzylite.dll`, `fuzzylite.lib`
+- static library: `fuzzylite-static.lib`
+
+#### Linux
+
+- console application: `fuzzylite`
+- shared library: `libfuzzylite.so`
+- static library: `libfuzzylite.a`
+
+#### Mac
+
+- console application: `fuzzylite`
+- shared library: `libfuzzylite.dylib`
+- static library: `libfuzzylite.a`
+
+
+The console application of `fuzzylite` allows you to import and export your controllers. Its usage can be obtained executing the console binary. In addition, the FuzzyLite Interactive Console is activated  when exporting to `fld` without providing an output file. The interactive console allows you to evaluate any controller by manually providing the input the values.
+
 
 ***
 
@@ -367,90 +448,8 @@ The entire `fuzzylite` library has been thoroughly revised, refactored, validate
 
 ***
 
-### <a name="whatsnext">What's Next?</a>
-
-+ Source code documentation
-+ Type-2 Fuzzy Logic Controllers
-+ Adaptive Neuro-Fuzzy Inference System (ANFIS)
-+ Fuzzy C-means data clustering
-
-***
-
-### <a name="building">Building from Source</a>
-Building from source requires you to have CMake installed.
-
-The files [`fuzzylite/build.bat`](/fuzzylite/build.bat) and [`fuzzylite/build.sh`](/fuzzylite/build.sh) are automatic build scripts for Windows and Unix platforms, respectively. The usage of these scripts is presented as follows.
-
-#### Windows
-```bash
-> build.bat help
-Usage:  build.bat [options]
-where   [options] can be any of the following:
-    all          builds fuzzylite in debug and release mode (default)
-    debug        builds fuzzylite in debug mode
-    release      builds fuzzylite in release mode
-    clean        erases previous builds
-    help         shows this information
-```
-
-#### Unix
-```bash
-$ ./build.sh help
-Usage:  [bash] ./build.sh [options]
-where   [options] can be any of the following:
-    all          builds fuzzylite in debug and release mode (default)
-    debug        builds fuzzylite in debug mode
-    release      builds fuzzylite in release mode
-    clean        erases previous builds
-    help         shows this information
-```
-
-**(important)** After executing the building script, the binaries will be built and stored in the sub-folders `release/bin` and `debug/bin`.
-
-#### Advanced Building Options
-For more advanced building options, please check the contents of [`fuzzylite/build.bat`](/fuzzylite/build.bat) or [`fuzzylite/build.sh`](/fuzzylite/build.sh), and the contents of [`fuzzylite/CMakeLists.txt`](/fuzzylite/CMakeLists.txt).
-
-The following building options are available:
-
-`-DFL_USE_FLOAT=ON` builds the binaries using `typedef float fl::scalar` instead of `typedef double fl::scalar` (default is OFF, i.e., double is used)
-
-`-DFL_BACKTRACE=OFF` disables the backtrace information in case of errors (default in Unix platforms is ON, and in Windows platforms is OFF). In Windows, the backtrace information requires the library `dbghelp`, which should be available in your system.
-
-`-DFL_CPP11=ON` builds `fuzzylite` utilizing `C++11` features (default is OFF, i.e., `C++98`)
-
-`-DCMAKE_BUILD_TYPE=[Debug|Release]` sets the mode of your build. You can only build one mode at a time with a single CMake script.
-
-***
-
-### <a name="binaries">Binaries</a>
-
-After building from source, the following are the relevant binaries that will be created in `release` mode. In `debug` mode, binaries will append a `d` at the end of the name (e.g., `fuzzylited.dll`).
-
-#### Windows
-
-- console application: `fuzzylite.exe`
-- shared library: `fuzzylite.dll`, `fuzzylite.lib`
-- static library: `fuzzylite-static.lib`
-
-#### Linux
-
-- console application: `fuzzylite`
-- shared library: `libfuzzylite.so`
-- static library: `libfuzzylite.a`
-
-#### Mac
-
-- console application: `fuzzylite`
-- shared library: `libfuzzylite.dylib`
-- static library: `libfuzzylite.a`
-
-
-The console application of `fuzzylite` allows you to import and export your controllers. Its usage can be obtained executing the console binary. In addition, the FuzzyLite Interactive Console is activated  when exporting to `fld` without providing an output file. The interactive console allows you to evaluate any controller by manually providing the input the values.
-
-***
-
 For more information, visit [www.fuzzylite.com](http://www.fuzzylite.com).
 
-fuzzylite&trade; is a trademark of FuzzyLite Limited.
+fuzzylite&reg; is a registered trademark of FuzzyLite Limited.
 
-Copyright &#xa9; 2010-2014 FuzzyLite Limited. All rights reserved.
+Copyright &#xa9; 2010-2015 FuzzyLite Limited. All rights reserved.

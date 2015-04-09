@@ -22,7 +22,6 @@ all(){
 }
 
 clean(){
-    make clean
     rm -rf release debug CMakeFiles
 }
 
