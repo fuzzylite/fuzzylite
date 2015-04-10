@@ -26,6 +26,7 @@
 #define FL_VARIABLE_H
 
 #include "fl/fuzzylite.h"
+#include "fl/defuzzifier/Centroid.h"
 
 #include <string>
 #include <vector>
@@ -45,7 +46,7 @@ namespace fl {
         bool _enabled;
 
     public:
-        Variable(const std::string& name = "",
+        explicit Variable(const std::string& name = "",
                 scalar minimum = -fl::inf,
                 scalar maximum = fl::inf);
         Variable(const Variable& other);

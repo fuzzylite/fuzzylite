@@ -29,6 +29,13 @@ namespace fl {
     Trapezoid::Trapezoid(const std::string& name,
             scalar vertexA, scalar vertexB, scalar vertexC, scalar vertexD, scalar height)
     : Term(name, height), _vertexA(vertexA), _vertexB(vertexB), _vertexC(vertexC), _vertexD(vertexD) {
+        if (Op::isNaN(vertexC) and Op::isNaN(vertexD)) {
+            //TODO: Modify FLL to allow passing two parameters only.
+            this->_vertexD = _vertexB;
+            scalar range = _vertexD - _vertexA;
+            this->_vertexB = _vertexA + range * 1.0 / 5.0;
+            this->_vertexC = _vertexA + range * 4.0 / 5.0;
+        }
     }
 
     Trapezoid::~Trapezoid() {

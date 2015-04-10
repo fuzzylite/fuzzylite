@@ -30,8 +30,8 @@
 
 namespace fl {
 
-    Centroid::Centroid(int divisions)
-    : IntegralDefuzzifier(divisions) {
+    Centroid::Centroid(int resolution)
+    : IntegralDefuzzifier(resolution) {
     }
 
     Centroid::~Centroid() {

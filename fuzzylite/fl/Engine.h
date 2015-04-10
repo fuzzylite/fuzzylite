@@ -55,12 +55,13 @@ namespace fl {
         void updateReferences() const;
 
     public:
-        Engine(const std::string& name = "");
+        explicit Engine(const std::string& name = "");
         Engine(const Engine& other);
         Engine& operator=(const Engine& other);
         virtual ~Engine();
         FL_DEFAULT_MOVE(Engine)
 
+        //TODO: remove int resolution in v6.0
         virtual void configure(const std::string& conjunctionT,
                 const std::string& disjunctionS,
                 const std::string& activationT,

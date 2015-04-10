@@ -31,7 +31,7 @@ namespace fl {
 
     class FL_API MeanOfMaximum : public IntegralDefuzzifier {
     public:
-        MeanOfMaximum(int resolution = defaultResolution());
+        explicit MeanOfMaximum(int resolution = defaultResolution());
         virtual ~MeanOfMaximum() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(MeanOfMaximum)
 

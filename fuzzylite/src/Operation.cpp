@@ -146,12 +146,12 @@ namespace fl {
         return (isEq(a, 1.0) or isEq(b, 1.0)) ? 1.0 : 0.0;
     }
 
-    scalar Operation::negate(scalar a) {
-        return -a;
-    }
-
     scalar Operation::logicalNot(scalar a) {
         return isEq(a, 1.0) ? 0.0 : 1.0;
+    }
+
+    scalar Operation::negate(scalar a) {
+        return -a;
     }
 
     scalar Operation::round(scalar x) {
@@ -384,10 +384,9 @@ namespace fl {
         if (fl::Op::isNaN(x)) {
             ss << "nan";
         } else if (fl::Op::isInf(x)) {
-            if (fl::Op::isLt(x, 0.0)) ss << "-";
-            ss << "inf";
+            ss << (fl::Op::isLt(x, 0.0) ? "-inf" : "inf");
         } else if (fl::Op::isEq(x, 0.0)) {
-            ss << std::fabs((x * 0.0)); //believe it or not, -1.33227e-15 * 0.0 = -0.0
+            ss << 0.0;
         } else ss << x;
         return ss.str();
     }

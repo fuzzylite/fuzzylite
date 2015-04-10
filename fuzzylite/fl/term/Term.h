@@ -43,7 +43,7 @@ namespace fl {
         scalar _height;
     public:
 
-        Term(const std::string& name = "", scalar height = 1.0);
+        explicit Term(const std::string& name = "", scalar height = 1.0);
         virtual ~Term();
         FL_DEFAULT_COPY_AND_MOVE(Term)
 
@@ -62,7 +62,8 @@ namespace fl {
         virtual scalar membership(scalar x) const = 0;
 
         virtual Term* clone() const = 0;
-
+        
+        //FIXME: This should not be static, and may not be here either.
         static void updateReference(Term* term, const Engine* engine);
     };
 

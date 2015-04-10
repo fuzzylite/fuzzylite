@@ -39,7 +39,7 @@ namespace fl {
     protected:
         std::string _separator;
     public:
-        FllImporter(const std::string& separator = "\n");
+        explicit FllImporter(const std::string& separator = "\n");
         virtual ~FllImporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FllImporter)
 

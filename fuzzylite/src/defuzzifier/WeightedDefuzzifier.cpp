@@ -77,10 +77,12 @@ namespace fl {
     }
 
     WeightedDefuzzifier::Type WeightedDefuzzifier::inferType(const Term* term) const {
-        return (dynamic_cast<const Constant*> (term)
+        if (dynamic_cast<const Constant*> (term)
                 or dynamic_cast<const Linear*> (term)
-                or dynamic_cast<const Function*> (term))
-                ? TakagiSugeno : Tsukamoto;
+                or dynamic_cast<const Function*> (term)) {
+            return TakagiSugeno;
+        }
+        return Tsukamoto;
     }
 
     bool WeightedDefuzzifier::isMonotonic(const Term* term) const {
@@ -100,10 +102,10 @@ namespace fl {
         scalar w = activationDegree;
         scalar z = fl::nan; //result;
         bool isTsukamoto = true;
-        if (const Ramp * ramp = dynamic_cast<const Ramp*> (monotonic)) {
+        if (const Ramp* ramp = dynamic_cast<const Ramp*> (monotonic)) {
             z = Op::scale(w, 0, 1, ramp->getStart(), ramp->getEnd());
 
-        } else if (const Sigmoid * sigmoid = dynamic_cast<const Sigmoid*> (monotonic)) {
+        } else if (const Sigmoid* sigmoid = dynamic_cast<const Sigmoid*> (monotonic)) {
             if (Op::isEq(w, 1.0)) {
                 if (Op::isGE(sigmoid->getSlope(), 0.0)) {
                     z = maximum;
@@ -123,7 +125,7 @@ namespace fl {
                 z = b + (std::log(1.0 / w - 1.0) / -a);
             }
 
-        } else if (const SShape * sshape = dynamic_cast<const SShape*> (monotonic)) {
+        } else if (const SShape* sshape = dynamic_cast<const SShape*> (monotonic)) {
             scalar difference = sshape->getEnd() - sshape->getStart();
             scalar a = sshape->getStart() + std::sqrt(w * difference * difference / 2.0);
             scalar b = sshape->getEnd() + std::sqrt(difference * difference * (w - 1.0) / -2.0);
@@ -134,7 +136,7 @@ namespace fl {
                 z = b;
             }
 
-        } else if (const ZShape * zshape = dynamic_cast<const ZShape*> (monotonic)) {
+        } else if (const ZShape* zshape = dynamic_cast<const ZShape*> (monotonic)) {
             scalar difference = zshape->getEnd() - zshape->getStart();
             scalar a = zshape->getStart() + std::sqrt(difference * difference * (w - 1.0) / -2.0);
             scalar b = zshape->getEnd() + std::sqrt(w * difference * difference / 2.0);
@@ -145,7 +147,7 @@ namespace fl {
                 z = b;
             }
 
-        } else if (const Concave * concave = dynamic_cast<const Concave*> (monotonic)) {
+        } else if (const Concave* concave = dynamic_cast<const Concave*> (monotonic)) {
             scalar i = concave->getInflection();
             scalar e = concave->getEnd();
             z = (i - e) / concave->membership(w) + 2 * e - i;

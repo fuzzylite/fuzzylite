@@ -38,7 +38,7 @@ namespace fl {
         enum Direction {
             POSITIVE, ZERO, NEGATIVE
         };
-        Ramp(const std::string& name = "",
+        explicit Ramp(const std::string& name = "",
                 scalar start = fl::nan,
                 scalar end = fl::nan,
                 scalar height = 1.0);

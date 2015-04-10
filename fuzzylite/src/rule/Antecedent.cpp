@@ -69,6 +69,10 @@ namespace fl {
         return this->_expression != fl::null;
     }
 
+    scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction) const {
+        return this->activationDegree(conjunction, disjunction, this->_expression);
+    }
+
     scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction,
             const Expression* node) const {
         if (not isLoaded()) {
@@ -129,10 +133,6 @@ namespace fl {
         ex << "[syntax error] operator <" << fuzzyOperator->name << "> not recognized";
         throw fl::Exception(ex.str(), FL_AT);
 
-    }
-
-    scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction) const {
-        return this->activationDegree(conjunction, disjunction, this->_expression);
     }
 
     void Antecedent::unload() {
@@ -203,9 +203,9 @@ namespace fl {
                 if (state bitand S_HEDGE) {
                     Hedge* hedge = rule->getHedge(token);
                     if (not hedge) {
-                        std::vector<std::string> hedges = FactoryManager::instance()->hedge()->available();
-                        if (std::find(hedges.begin(), hedges.end(), token) != hedges.end()) {
-                            hedge = FactoryManager::instance()->hedge()->constructObject(token);
+                        HedgeFactory* factory = FactoryManager::instance()->hedge();
+                        if (factory->hasConstructor(token)) {
+                            hedge = factory->constructObject(token);
                             rule->addHedge(hedge);
                         }
                     }

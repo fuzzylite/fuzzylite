@@ -31,7 +31,7 @@ namespace fl {
 
     class FL_API Bisector : public IntegralDefuzzifier {
     public:
-        Bisector(int resolution = defaultResolution());
+        explicit Bisector(int resolution = defaultResolution());
         virtual ~Bisector() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Bisector)
 

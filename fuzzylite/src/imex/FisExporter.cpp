@@ -52,7 +52,7 @@ namespace fl {
 
         return fis.str();
     }
-
+    //TODO: deal with multiple ruleblocks, merge them into one.
     std::string FisExporter::exportSystem(const Engine* engine) const {
         std::ostringstream fis;
         fis << "[System]\n";
@@ -66,6 +66,8 @@ namespace fl {
             type = "tsukamoto";
         } else if (engine->type() == Engine::InverseTsukamoto) {
             type = "inverse tsukamoto";
+        }else if (engine->type() == Engine::Hybrid){
+            type = "hybrid";
         } else {
             type = "unknown";
         }
@@ -73,62 +75,30 @@ namespace fl {
         //        fis << "Version=" << FL_VERSION << "\n";
         fis << "NumInputs=" << engine->numberOfInputVariables() << "\n";
         fis << "NumOutputs=" << engine->numberOfOutputVariables() << "\n";
-        if (engine->numberOfRuleBlocks() > 0)
-            fis << "NumRules=" << engine->getRuleBlock(0)->numberOfRules() << "\n";
-
-        const TNorm* tnorm = fl::null;
-        const SNorm* snorm = fl::null;
+        
+        int numberOfRules = 0;
+        const TNorm* conjunction = fl::null;
+        const SNorm* disjunction = fl::null;
         const TNorm* activation = fl::null;
-        std::string uniquenessError;
         for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
             RuleBlock* rb = engine->getRuleBlock(i);
-            std::string tnormClass = (rb->getConjunction() ? rb->getConjunction()->className() : "");
-            std::string snormClass = (rb->getDisjunction() ? rb->getDisjunction()->className() : "");
-            std::string activationClass = (rb->getActivation() ? rb->getActivation()->className() : "");
-
-            if (not tnorm) tnorm = rb->getConjunction();
-            else if (tnorm->className() != tnormClass)
-                uniquenessError = "T-Norm";
-
-            if (not snorm) snorm = rb->getDisjunction();
-            else if (snorm->className() != snormClass)
-                uniquenessError = "S-Norm";
-
+            numberOfRules += rb->numberOfRules();
+            if (not conjunction) conjunction = rb->getConjunction();
+            if (not disjunction) disjunction = rb->getDisjunction();
             if (not activation) activation = rb->getActivation();
-            else if (activation->className() != activationClass)
-                uniquenessError = "activation T-Norm";
-            if (not uniquenessError.empty()) break;
         }
-
-        if (not uniquenessError.empty())
-            throw fl::Exception("[exporter error] fis files require all ruleblocks "
-                "to have the same " + uniquenessError, FL_AT);
-
-        fis << "AndMethod='" << toString(tnorm) << "'\n";
-        fis << "OrMethod='" << toString(snorm) << "'\n";
+        fis << "NumRules=" << numberOfRules << "\n";
+        fis << "AndMethod='" << toString(conjunction) << "'\n";
+        fis << "OrMethod='" << toString(disjunction) << "'\n";
         fis << "ImpMethod='" << toString(activation) << "'\n";
 
         const SNorm* accumulation = fl::null;
         Defuzzifier* defuzzifier = fl::null;
         for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
-            std::string defuzzClass = outputVariable->getDefuzzifier() ?
-                    outputVariable->getDefuzzifier()->className() : "";
-            std::string accumClass = outputVariable->fuzzyOutput()->getAccumulation() ?
-                    outputVariable->fuzzyOutput()->getAccumulation()->className() : "";
-
-            if (not defuzzifier) defuzzifier = outputVariable->getDefuzzifier();
-            else if (defuzzifier->className() != defuzzClass)
-                uniquenessError = "defuzzifier";
             if (not accumulation) accumulation = outputVariable->fuzzyOutput()->getAccumulation();
-            else if (accumulation->className() != accumClass)
-                uniquenessError = "accumulation S-Norm";
-            if (not uniquenessError.empty()) break;
+            if (not defuzzifier) defuzzifier = outputVariable->getDefuzzifier();
         }
-
-        if (not uniquenessError.empty())
-            throw fl::Exception("[exporter error] fis files require all output variables "
-                "to have the same " + uniquenessError, FL_AT);
 
         fis << "AggMethod='" << toString(accumulation) << "'\n";
         fis << "DefuzzMethod='" << toString(defuzzifier) << "'\n";
@@ -297,6 +267,29 @@ namespace fl {
             ss << " ";
         }
         return ss.str();
+    }
+    
+    std::string FisExporter::toString(const Norm * norm) const {
+        if (not norm) return "";
+        //TNorm
+        if (norm->className() == Minimum().className()) return "min";
+        if (norm->className() == AlgebraicProduct().className()) return "prod";
+        if (norm->className() == BoundedDifference().className()) return "bounded_difference";
+        if (norm->className() == DrasticProduct().className()) return "drastic_product";
+        if (norm->className() == EinsteinProduct().className()) return "einstein_product";
+        if (norm->className() == HamacherProduct().className()) return "hamacher_product";
+        if (norm->className() == NilpotentMinimum().className()) return "nilpotent_minimum";
+        //SNorm
+        if (norm->className() == Maximum().className()) return "max";
+        if (norm->className() == AlgebraicSum().className()) return "sum";
+        if (norm->className() == BoundedSum().className()) return "bounded_sum";
+        if (norm->className() == NormalizedSum().className()) return "normalized_sum";
+        if (norm->className() == DrasticSum().className()) return "drastic_sum";
+        if (norm->className() == EinsteinSum().className()) return "einstein_sum";
+        if (norm->className() == HamacherSum().className()) return "hamacher_sum";
+        if (norm->className() == NilpotentMaximum().className()) return "nilpotent_maximum";
+        
+        return norm->className();
     }
 
     std::string FisExporter::toString(const TNorm * tnorm) const {

@@ -28,6 +28,10 @@
 #include "fl/imex/Exporter.h"
 
 namespace fl {
+    class InputVariable;
+    class OutputVariable;
+    class RuleBlock;
+    class Norm;
     class TNorm;
     class SNorm;
     class Defuzzifier;
@@ -38,7 +42,7 @@ namespace fl {
         std::string _indent;
 
     public:
-        FclExporter(const std::string& indent = "  ");
+        explicit FclExporter(const std::string& indent = "  ");
         virtual ~FclExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FclExporter)
 
@@ -47,9 +51,15 @@ namespace fl {
 
         virtual std::string name() const FL_IOVERRIDE;
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
-
-        virtual std::string toString(const TNorm* tnorm) const;
-        virtual std::string toString(const SNorm* snorm) const;
+        
+        virtual std::string toString(const InputVariable* variable) const;
+        virtual std::string toString(const OutputVariable* variable) const;
+        virtual std::string toString(const RuleBlock* ruleBlock) const;
+        
+        virtual std::string toString(const Norm* norm) const;
+        
+        virtual std::string toString(const TNorm* tnorm) const; //TODO: Delete in v6.0
+        virtual std::string toString(const SNorm* snorm) const; //TODO: Delete in v6.0
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
         virtual std::string toString(const Term* term) const;
 

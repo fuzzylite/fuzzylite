@@ -160,7 +160,7 @@ namespace fl {
         if (const Function * function = dynamic_cast<const Function*> (term)) {
             std::ostringstream ss;
             ss << term->className() << ".create(\"" << term->getName() << "\", "
-                    << "\"" << function->getFormula() << "\", engine, true)";
+                    << "\"" << function->getFormula() << "\", engine)";
             return ss.str();
         }
 
@@ -193,6 +193,11 @@ namespace fl {
         return "new " + defuzzifier->className() + "()";
     }
 
+    std::string JavaExporter::toString(const Norm* norm) const{
+        if (not norm) return "null";
+        return "new " + norm->className() + "()";
+    }
+    
     std::string JavaExporter::toString(const TNorm* norm) const {
         if (not norm) return "null";
         return "new " + norm->className() + "()";

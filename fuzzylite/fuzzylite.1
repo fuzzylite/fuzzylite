@@ -1,0 +1,39 @@
+.TH fuzzylite 1  "October 26, 2014" "version 5.0" "USER COMMANDS"
+.SH NAME
+fuzzylite \- a fuzzy logic control library
+.SH SYNOPSIS
+.B fuzzylite
+[\-i inputfile] [\-if format] [\-o outputfile] [\-of format] [\-example letter] [\-decimals number] [\-d datafile] [\-dmaximum number] [\-dheader boolean] [\-dinputs boolean]
+.SH OPTIONS
+.TP
+\-i inputfile
+file to import your engine from
+.TP
+\-if format
+format of the file to import (fll | fis | fcl)
+.TP
+\-o outputfile
+file to export your engine to
+.TP
+\-of format
+format of the file to export (fll | fld | cpp | java | fis | fcl)
+.TP
+\-example letter
+if not inputfile, built\-in example to use as engine: (m)amdani or (t)akagi\-sugeno
+.TP
+\-decimals number
+number of decimals to write floating\-poing values
+.TP
+\-d datafile
+if exporting to fld, file of input values to evaluate your engine on
+.TP
+\-dmaximum number
+if exporting to fld without datafile, maximum number of results to export
+.TP
+\-dheader boolean
+if true and exporting to fld, include headers
+.TP
+\-dinputs boolean
+if true and exporting to fld, include input values
+.SH AUTHOR
+Juan Rada\-Vilela

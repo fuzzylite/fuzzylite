@@ -42,15 +42,15 @@ namespace fl {
     private:
         void copyFrom(const RuleBlock& source);
     protected:
-        std::vector<Rule*> _rules;
         std::string _name;
+        std::vector<Rule*> _rules;
         FL_unique_ptr<TNorm> _conjunction;
         FL_unique_ptr<SNorm> _disjunction;
         FL_unique_ptr<TNorm> _activation;
         bool _enabled;
 
     public:
-        RuleBlock(const std::string& name = "");
+        explicit RuleBlock(const std::string& name = "");
         RuleBlock(const RuleBlock& other);
         RuleBlock& operator=(const RuleBlock& other);
         virtual ~RuleBlock();

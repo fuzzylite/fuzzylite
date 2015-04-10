@@ -44,7 +44,7 @@ namespace fl {
         bool _lockPreviousOutputValue;
 
     public:
-        OutputVariable(const std::string& name = "",
+        explicit OutputVariable(const std::string& name = "",
                 scalar minimum = -fl::inf, scalar maximum = fl::inf);
         OutputVariable(const OutputVariable& other);
         OutputVariable& operator=(const OutputVariable& other);

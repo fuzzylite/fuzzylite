@@ -42,12 +42,15 @@ namespace fl {
         bool _prefixNamespace;
         virtual std::string fl(const std::string& clazz) const;
     public:
-        CppExporter(bool prefixNamespace = false);
+        explicit CppExporter(bool prefixNamespace = false);
         virtual ~CppExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(CppExporter)
 
         virtual std::string name() const FL_IOVERRIDE;
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
+
+        virtual void setPrefixNamespace(bool prefixNamespace);
+        virtual bool isPrefixNamespace() const;
 
         virtual std::string toString(const InputVariable* inputVariable, const Engine* engine) const;
         virtual std::string toString(const OutputVariable* outputVariable, const Engine* engine) const;

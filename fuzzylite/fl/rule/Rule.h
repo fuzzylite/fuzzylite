@@ -48,7 +48,7 @@ namespace fl {
         std::map<std::string, Hedge*> _hedges;
 
     public:
-        Rule(const std::string& text = "", scalar weight = 1.0);
+        explicit Rule(const std::string& text = "", scalar weight = 1.0);
         Rule(const Rule& other);
         Rule& operator=(const Rule& other);
         virtual ~Rule();
@@ -84,6 +84,8 @@ namespace fl {
         virtual void unload();
         virtual void load(const Engine* engine);
         virtual void load(const std::string& rule, const Engine* engine);
+        
+        virtual Rule* clone() const;
 
         static Rule* parse(const std::string& rule, const Engine* engine);
 

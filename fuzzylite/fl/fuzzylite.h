@@ -25,6 +25,7 @@
 #ifndef FL_FUZZYLITE_H
 #define FL_FUZZYLITE_H
 
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <sstream>
@@ -41,6 +42,18 @@
 
 #ifndef FL_BUILD_PATH
 #define FL_BUILD_PATH ""
+#endif
+
+#if defined(_WIN32) || defined(WIN32)
+#define FL_WINDOWS
+#endif
+
+#if defined(unix) || defined(__unix__) || defined(__unix)
+#define FL_UNIX
+#endif
+
+#ifdef __APPLE__
+#define FL_APPLE
 #endif
 
 #define FL__FILE__ std::string(__FILE__).substr(std::string(FL_BUILD_PATH).size())
@@ -72,7 +85,9 @@
 
 //TODO: Address warning 4251 by exporting members?
 //http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
+#ifdef _MSC_VER
 #pragma warning (disable:4251)
+#endif
 
 //fuzzylite as a shared library is exported
 //Applications linking with fuzzylite as a shared library need to import

@@ -34,7 +34,7 @@ namespace fl {
     protected:
         scalar _inflection, _end;
     public:
-        Concave(const std::string& name = "",
+        explicit Concave(const std::string& name = "",
                 scalar inflection = fl::nan,
                 scalar end = fl::nan,
                 scalar height = 1.0);

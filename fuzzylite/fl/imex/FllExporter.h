@@ -44,7 +44,7 @@ namespace fl {
         std::string _indent;
         std::string _separator;
     public:
-        FllExporter(const std::string& indent = "  ", const std::string& separator = "\n");
+        explicit FllExporter(const std::string& indent = "  ", const std::string& separator = "\n");
         virtual ~FllExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FllExporter)
 

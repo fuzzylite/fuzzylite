@@ -34,7 +34,7 @@ namespace fl {
         scalar _start, _end;
 
     public:
-        Rectangle(const std::string& name = "",
+        explicit Rectangle(const std::string& name = "",
                 scalar start = fl::nan,
                 scalar end = fl::nan,
                 scalar height = 1.0);

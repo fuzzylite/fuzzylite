@@ -78,8 +78,10 @@ namespace fl {
                 if (not sections.empty()) {
                     sections.at(sections.size() - 1) += "\n" + line;
                 } else {
-                    throw fl::Exception("[import error] line  <" + line + "> "
-                            "does not belong to any section", FL_AT);
+                    std::ostringstream ss;
+                    ss << "[import error] line " << lineNumber << " <" << line + "> "
+                            "does not belong to any section";
+                    throw fl::Exception(ss.str(), FL_AT);
                 }
             }
         }
