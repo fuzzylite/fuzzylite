@@ -149,7 +149,7 @@ namespace fl {
         if (not isLoaded()) {
             throw fl::Exception("[rule error] the following rule is not loaded: " + _text, FL_AT);
         }
-        getConsequent()->modify(degree, activation);
+        _consequent->modify(degree, activation);
     }
 
     bool Rule::isLoaded() const {
@@ -247,6 +247,10 @@ namespace fl {
 
     std::string Rule::toString() const {
         return FllExporter().toString(this);
+    }
+
+    Rule* Rule::clone() const {
+        return new Rule(*this);
     }
 
     Rule* Rule::parse(const std::string& rule, const Engine* engine) {

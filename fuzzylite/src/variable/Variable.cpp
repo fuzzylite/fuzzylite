@@ -173,8 +173,8 @@ namespace fl {
     };
 
     void Variable::sort() {
-        std::map<const Term*, scalar> centroids;
         Centroid defuzzifier;
+        std::map<const Term*, scalar> centroids;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             Term* term = _terms.at(i);
             try {

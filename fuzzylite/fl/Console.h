@@ -72,6 +72,7 @@ namespace fl {
         static std::string interactiveHelp();
 
         static void exportAllExamples(const std::string& from, const std::string& to);
+        static void exportAllExamples(const std::string& from, const std::string& to, const std::string& path);
 #if defined(FL_UNIX) && ! defined(FL_APPLE)
         static void benchmarkExamples(int runs);
 #endif

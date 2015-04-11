@@ -62,7 +62,8 @@ namespace fl {
         virtual scalar membership(scalar x) const = 0;
 
         virtual Term* clone() const = 0;
-
+        
+        //FIXME: This should not be static, and may not be here either.
         static void updateReference(Term* term, const Engine* engine);
     };
 

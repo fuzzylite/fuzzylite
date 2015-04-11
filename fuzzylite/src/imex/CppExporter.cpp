@@ -45,6 +45,14 @@ namespace fl {
         return _prefixNamespace ? "fl::" + clazz : clazz;
     }
 
+    void CppExporter::setPrefixNamespace(bool prefixNamespace){
+        this->_prefixNamespace = prefixNamespace;
+    }
+
+    bool CppExporter::isPrefixNamespace() const{
+        return this->_prefixNamespace;
+    }
+
     std::string CppExporter::toString(const Engine* engine) const {
         std::ostringstream cpp;
         if (not _prefixNamespace) cpp << "using namespace fl;\n\n";
@@ -122,6 +130,7 @@ namespace fl {
         return ss.str();
     }
 
+    //TODO: addRules using `new Rule` instead of `Rule::parse` in version 6.0
     std::string CppExporter::toString(const RuleBlock* ruleBlock, const Engine* engine) const {
         std::ostringstream ss;
         std::string name = "ruleBlock";
@@ -141,7 +150,7 @@ namespace fl {
         ss << name << "->setActivation("
                 << toString(ruleBlock->getActivation()) << ");\n";
         for (int r = 0; r < ruleBlock->numberOfRules(); ++r) {
-            ss << name << "->addRule(fl::Rule::parse(\"" <<
+            ss << name << "->addRule(" << "fl::Rule::parse(\"" <<
                     ruleBlock->getRule(r)->getText() << "\", engine));\n";
         }
         ss << "engine->addRuleBlock(" << name << ");\n";
@@ -149,13 +158,12 @@ namespace fl {
     }
 
     std::string CppExporter::toString(scalar value) const {
-        std::ostringstream ss;
         if (fl::Op::isNaN(value))
-            ss << "fl::nan";
-        else if (fl::Op::isInf(value))
-            ss << (Op::isGE(value, 0.0) ? "" : "-") << "fl::inf";
-        else ss << fl::Op::str(value);
-        return ss.str();
+            return "fl::nan";
+        if (fl::Op::isInf(value)){
+           return (value > 0 ? "fl::inf" : "-fl::inf");
+        }
+        return fl::Op::str(value);
     }
 
     std::string CppExporter::toString(const Term* term) const {

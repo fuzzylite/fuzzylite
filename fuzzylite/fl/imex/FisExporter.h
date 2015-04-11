@@ -30,6 +30,7 @@
 #include <vector>
 
 namespace fl {
+    class Norm;
     class TNorm;
     class SNorm;
     class Defuzzifier;
@@ -51,9 +52,10 @@ namespace fl {
 
         virtual std::string name() const FL_IOVERRIDE;
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
-
-        virtual std::string toString(const TNorm* tnorm) const;
-        virtual std::string toString(const SNorm* snorm) const;
+        
+        virtual std::string toString(const Norm* norm) const;
+        virtual std::string toString(const TNorm* tnorm) const; //TODO: delete in v6.0
+        virtual std::string toString(const SNorm* snorm) const; //TODO: delete in v6.0
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
         virtual std::string toString(const Term* term) const;
 

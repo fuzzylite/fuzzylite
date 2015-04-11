@@ -42,8 +42,8 @@ namespace fl {
     private:
         void copyFrom(const RuleBlock& source);
     protected:
-        std::vector<Rule*> _rules;
         std::string _name;
+        std::vector<Rule*> _rules;
         FL_unique_ptr<TNorm> _conjunction;
         FL_unique_ptr<SNorm> _disjunction;
         FL_unique_ptr<TNorm> _activation;

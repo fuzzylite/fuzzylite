@@ -64,8 +64,6 @@ int main(int argc, char** argv) {
     //SetConsoleCtrlHandler(flSignalHandler, TRUE);
 #endif
     fuzzylite::setDebug(false);
-    Function::main();
-    return 0;
     return Console::main(argc, argv);
 }
 

@@ -49,6 +49,9 @@ namespace fl {
         virtual std::string name() const FL_IOVERRIDE;
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
 
+        virtual void setPrefixNamespace(bool prefixNamespace);
+        virtual bool isPrefixNamespace() const;
+
         virtual std::string toString(const InputVariable* inputVariable, const Engine* engine) const;
         virtual std::string toString(const OutputVariable* outputVariable, const Engine* engine) const;
         virtual std::string toString(const RuleBlock* ruleBlock, const Engine* engine) const;

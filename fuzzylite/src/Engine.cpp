@@ -175,15 +175,15 @@ namespace fl {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no terms\n";
                 }
-                SNorm* accumulation = outputVariable->fuzzyOutput()->getAccumulation();
-                if (not accumulation and dynamic_cast<IntegralDefuzzifier*> (outputVariable->getDefuzzifier())) {
-                    ss << "- Output variable <" << outputVariable->getName() << ">"
-                            << " has no accumulation operator\n";
-                }
                 Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
                 if (not defuzzifier) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no defuzzifier\n";
+                }
+                SNorm* accumulation = outputVariable->fuzzyOutput()->getAccumulation();
+                if (not accumulation and dynamic_cast<IntegralDefuzzifier*> (defuzzifier)) {
+                    ss << "- Output variable <" << outputVariable->getName() << ">"
+                            << " has no accumulation operator\n";
                 }
             }
         }
@@ -293,8 +293,7 @@ namespace fl {
         }
 
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
-            OutputVariable* outputVariable = _outputVariables.at(i);
-            outputVariable->defuzzify();
+            _outputVariables.at(i)->defuzzify();
         }
 
         FL_DEBUG_BEGIN;
@@ -331,16 +330,6 @@ namespace fl {
 
     std::string Engine::getName() const {
         return this->_name;
-    }
-
-    void Engine::setInputValue(const std::string& name, scalar value) {
-        InputVariable* inputVariable = getInputVariable(name);
-        inputVariable->setInputValue(value);
-    }
-
-    scalar Engine::getOutputValue(const std::string& name) {
-        OutputVariable* outputVariable = getOutputVariable(name);
-        return outputVariable->getOutputValue();
     }
 
     std::string Engine::toString() const {
@@ -450,7 +439,7 @@ namespace fl {
             if (name) *name = "Inverse Tsukamoto";
             if (reason) *reason = "- Output variables have weighted defuzzifiers\n"
                     "- Output variables do not only have constant, linear or function terms\n"
-                    "- Output variables do not only have monotonic terms\n";
+                    "- Output variables do not only have monotonic terms";
             return Engine::InverseTsukamoto;
         }
 
@@ -484,8 +473,13 @@ namespace fl {
     }
 
     /**
-     * Operations for iterable datatype _inputVariables
+     * Operations for InputVariables
      */
+    void Engine::setInputValue(const std::string& name, scalar value) {
+        InputVariable* inputVariable = getInputVariable(name);
+        inputVariable->setInputValue(value);
+    }
+
     void Engine::addInputVariable(InputVariable* inputVariable) {
         this->_inputVariables.push_back(inputVariable);
     }
@@ -555,8 +549,13 @@ namespace fl {
     }
 
     /**
-     * Operations for iterable datatype _outputVariables
+     * Operations for OutputVariables
      */
+    scalar Engine::getOutputValue(const std::string& name) {
+        OutputVariable* outputVariable = getOutputVariable(name);
+        return outputVariable->getOutputValue();
+    }
+
     void Engine::addOutputVariable(OutputVariable* outputVariable) {
         this->_outputVariables.push_back(outputVariable);
     }

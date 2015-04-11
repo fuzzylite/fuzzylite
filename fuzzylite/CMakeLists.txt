@@ -49,7 +49,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 if(NOT MSVC)
-    set(CMAKE_CXX_FLAGS "-pedantic -Werror -Wall -Wextra ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra ${CMAKE_CXX_FLAGS}")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 
@@ -75,7 +75,7 @@ if(UNIX AND NOT APPLE)
 endif()
 
 if(MSVC)
-    set(CMAKE_CXX_FLAGS "/WX /W4 /EHsc")
+    set(CMAKE_CXX_FLAGS "/W4 /EHsc")
     #Wx: Treat warnings as errors. W4: All warnings
     #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
     #EHsc: call destructors on __try __catch, and to ignore C4530: C++ exception handler used. Note, unwind semantics are not enabled
@@ -92,13 +92,11 @@ if(MSVC)
 endif()
 
 ###BUILD SECTION
+
 include_directories(.)
-link_directories(.)
-cmake_policy(SET CMP0015 OLD)
 if (APPLE)
     cmake_policy(SET CMP0042 NEW)
 endif()
-link_directories(.)
 
 file(STRINGS FL_HEADERS fl-headers)
 file(STRINGS FL_SOURCES fl-sources)
@@ -207,8 +205,8 @@ install(FILES ${CMAKE_BINARY_DIR}/fuzzylite.pc DESTINATION lib/pkgconfig)
 message("=====================================")
 message("fuzzylite v.${FL_VERSION}b${FL_DATE}\n")
 message("FL_USE_FLOAT=${FL_USE_FLOAT}")
-message("FL_BACKTRACE=${FL_BACKTRACE}")
 message("FL_CPP11=${FL_CPP11}")
+message("FL_BACKTRACE=${FL_BACKTRACE}")
 message("FL_INSTALL_BINDIR=${FL_INSTALL_BINDIR}")
 message("FL_INSTALL_LIBDIR=${FL_INSTALL_LIBDIR}")
 message("Build=${CMAKE_BUILD_TYPE}")
