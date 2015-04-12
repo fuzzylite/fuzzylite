@@ -338,7 +338,7 @@ namespace fl {
             ch = readCharacter();
 
             if (std::isspace(ch)) {
-                scalar value = engine->getInputVariable(inputValues.size())->getInputValue();
+                scalar value = engine->getInputVariable(inputValues.size())->getValue();
                 try {
                     value = fl::Op::toScalar(inputValue.str());
                 } catch (std::exception& ex) {
@@ -376,12 +376,12 @@ namespace fl {
 
                     for (std::size_t i = 0; i < inputValues.size(); ++i) {
                         InputVariable* inputVariable = engine->inputVariables().at(i);
-                        inputVariable->setInputValue(inputValues.at(i));
+                        inputVariable->setValue(inputValues.at(i));
                     }
                     std::vector<scalar> missingInputs;
                     for (std::size_t i = inputValues.size(); i < engine->inputVariables().size(); ++i) {
                         InputVariable* inputVariable = engine->inputVariables().at(i);
-                        missingInputs.push_back(inputVariable->getInputValue());
+                        missingInputs.push_back(inputVariable->getValue());
                     }
                     inputValues.clear();
                     buffer << fl::Op::join(missingInputs, space);
@@ -393,7 +393,7 @@ namespace fl {
                         for (std::size_t i = 0; i < engine->outputVariables().size(); ++i) {
                             OutputVariable* outputVariable = engine->outputVariables().at(i);
                             outputVariable->defuzzify();
-                            outputValues.push_back(outputVariable->getOutputValue());
+                            outputValues.push_back(outputVariable->getValue());
                         }
                         buffer << fl::Op::join(outputValues, space) << "\n>";
 
@@ -475,7 +475,7 @@ namespace fl {
         fl::OutputVariable* outputFx = new fl::OutputVariable("outputFx");
         outputFx->setRange(-1, 1);
         outputFx->setDefaultValue(fl::nan);
-        outputFx->setLockPreviousOutputValue(true); //To use its value with diffFx
+        outputFx->setLockedPreviousValue(true); //To use its value with diffFx
         outputFx->addTerm(new Constant("f1", 0.84));
         outputFx->addTerm(new Constant("f2", 0.45));
         outputFx->addTerm(new Constant("f3", 0.04));
@@ -489,7 +489,7 @@ namespace fl {
 
         fl::OutputVariable* trueFx = new fl::OutputVariable("trueFx");
         trueFx->setRange(fl::nan, fl::nan);
-        trueFx->setLockPreviousOutputValue(true); //To use its value with diffFx
+        trueFx->setLockedPreviousValue(true); //To use its value with diffFx
         trueFx->addTerm(fl::Function::create("fx", "sin(inputX)/inputX", engine));
         engine->addOutputVariable(trueFx);
 

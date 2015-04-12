@@ -22,22 +22,14 @@
 namespace fl {
 
     InputVariable::InputVariable(const std::string& name, scalar minimum, scalar maximum)
-    : Variable(name, minimum, maximum), _inputValue(fl::nan) {
+    : Variable(name, minimum, maximum) {
     }
 
     InputVariable::~InputVariable() {
     }
 
-    void InputVariable::setInputValue(scalar inputValue) {
-        this->_inputValue = inputValue;
-    }
-
-    scalar InputVariable::getInputValue() const {
-        return this->_inputValue;
-    }
-
     std::string InputVariable::fuzzyInputValue() const {
-        return fuzzify(_inputValue);
+        return fuzzify(_value);
     }
 
     std::string InputVariable::toString() const {

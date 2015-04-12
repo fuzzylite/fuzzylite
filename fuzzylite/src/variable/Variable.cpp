@@ -31,7 +31,7 @@
 namespace fl {
 
     Variable::Variable(const std::string& name, scalar minimum, scalar maximum)
-    : _name(name), _minimum(minimum), _maximum(maximum), _enabled(true) {
+    : _name(name), _value(fl::nan), _minimum(minimum), _maximum(maximum), _enabled(true) {
     }
 
     Variable::Variable(const Variable& other) {
@@ -51,6 +51,7 @@ namespace fl {
 
     void Variable::copyFrom(const Variable& other) {
         _name = other._name;
+        _value = other._value;
         _enabled = other._enabled;
         _minimum = other._minimum;
         _maximum = other._maximum;
@@ -71,6 +72,14 @@ namespace fl {
 
     std::string Variable::getName() const {
         return this->_name;
+    }
+
+    void Variable::setValue(scalar value) {
+        this->_value = value;
+    }
+
+    scalar Variable::getValue() const {
+        return this->_value;
     }
 
     void Variable::setRange(scalar minimum, scalar maximum) {

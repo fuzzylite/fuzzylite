@@ -259,16 +259,16 @@ namespace fl {
             } else if (firstToken == "DEFAULT") {
                 std::pair<scalar, bool> defaultAndLock = parseDefaultValue(line);
                 outputVariable->setDefaultValue(defaultAndLock.first);
-                outputVariable->setLockPreviousOutputValue(defaultAndLock.second or
-                        outputVariable->isLockedPreviousOutputValue());
+                outputVariable->setLockedPreviousValue(defaultAndLock.second or
+                        outputVariable->isLockedPreviousValue());
             } else if (firstToken == "RANGE") {
                 std::pair<scalar, scalar> minmax = parseRange(line);
                 outputVariable->setMinimum(minmax.first);
                 outputVariable->setMaximum(minmax.second);
             } else if (firstToken == "LOCK") {
                 std::pair<bool, bool> output_range = parseLocks(line);
-                outputVariable->setLockPreviousOutputValue(output_range.first);
-                outputVariable->setLockOutputValueInRange(output_range.second);
+                outputVariable->setLockedPreviousValue(output_range.first);
+                outputVariable->setLockedValueInRange(output_range.second);
             } else if (firstToken == "ENABLED") {
                 outputVariable->setEnabled(parseEnabled(line));
             } else {

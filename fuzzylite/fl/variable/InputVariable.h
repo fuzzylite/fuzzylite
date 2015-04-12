@@ -23,17 +23,12 @@
 namespace fl {
 
     class FL_API InputVariable : public Variable {
-    protected:
-        scalar _inputValue;
     public:
         explicit InputVariable(const std::string& name = "",
                 scalar minimum = -fl::inf,
                 scalar maximum = fl::inf);
         virtual ~InputVariable() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(InputVariable)
-
-        virtual void setInputValue(scalar inputValue);
-        virtual scalar getInputValue() const;
 
         virtual std::string fuzzyInputValue() const;
 

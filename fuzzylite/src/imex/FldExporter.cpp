@@ -216,7 +216,7 @@ namespace fl {
         for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
             InputVariable* inputVariable = engine->getInputVariable(i);
             scalar inputValue = inputVariable->isEnabled() ? inputValues.at(i) : fl::nan;
-            inputVariable->setInputValue(inputValue);
+            inputVariable->setValue(inputValue);
             if (_exportInputValues) values.push_back(Op::str(inputValue));
         }
 
@@ -226,7 +226,7 @@ namespace fl {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
             outputVariable->defuzzify();
             if (_exportOutputValues)
-                values.push_back(Op::str(outputVariable->getOutputValue()));
+                values.push_back(Op::str(outputVariable->getValue()));
         }
 
         writer << Op::join(values, _separator) << "\n";

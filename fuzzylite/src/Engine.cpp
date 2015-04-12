@@ -250,7 +250,7 @@ namespace fl {
 
     void Engine::restart() {
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
-            _inputVariables.at(i)->setInputValue(fl::nan);
+            _inputVariables.at(i)->setValue(fl::nan);
         }
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             _outputVariables.at(i)->clear();
@@ -267,7 +267,7 @@ namespace fl {
         FL_DBG("CURRENT INPUTS:");
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
             InputVariable* inputVariable = _inputVariables.at(i);
-            scalar inputValue = inputVariable->getInputValue();
+            scalar inputValue = inputVariable->getValue();
             if (inputVariable->isEnabled()) {
                 FL_DBG(inputVariable->getName() << ".input = " << Op::str(inputValue));
                 FL_DBG(inputVariable->getName() << ".fuzzy = " << inputVariable->fuzzify(inputValue));
@@ -299,12 +299,12 @@ namespace fl {
                         << outputVariable->getDefaultValue());
 
                 FL_DBG(outputVariable->getName() << ".lockValueInRange = "
-                        << outputVariable->isLockedOutputValueInRange());
+                        << outputVariable->isLockedValueInRange());
 
                 FL_DBG(outputVariable->getName() << ".lockPreviousValue= "
-                        << outputVariable->isLockedPreviousOutputValue());
+                        << outputVariable->isLockedPreviousValue());
 
-                scalar output = outputVariable->getOutputValue();
+                scalar output = outputVariable->getValue();
                 FL_DBG(outputVariable->getName() << ".output = " << output);
                 FL_DBG(outputVariable->getName() << ".fuzzy = " <<
                         outputVariable->fuzzify(output));
@@ -470,7 +470,7 @@ namespace fl {
      */
     void Engine::setInputValue(const std::string& name, scalar value) {
         InputVariable* inputVariable = getInputVariable(name);
-        inputVariable->setInputValue(value);
+        inputVariable->setValue(value);
     }
 
     void Engine::addInputVariable(InputVariable* inputVariable) {
@@ -546,7 +546,7 @@ namespace fl {
      */
     scalar Engine::getOutputValue(const std::string& name) {
         OutputVariable* outputVariable = getOutputVariable(name);
-        return outputVariable->getOutputValue();
+        return outputVariable->getValue();
     }
 
     void Engine::addOutputVariable(OutputVariable* outputVariable) {

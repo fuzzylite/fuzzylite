@@ -90,7 +90,7 @@ namespace fl {
             }
             scalar result = fl::nan;
             if (InputVariable * inputVariable = dynamic_cast<InputVariable*> (proposition->variable)) {
-                result = proposition->term->membership(inputVariable->getInputValue());
+                result = proposition->term->membership(inputVariable->getValue());
             } else if (OutputVariable * outputVariable = dynamic_cast<OutputVariable*> (proposition->variable)) {
                 result = outputVariable->fuzzyOutput()->activationDegree(proposition->term);
             }

@@ -1,3 +1,13 @@
+Version 6.0
+(10/04/2015)
+* Added scalar Variable::value, with setter and getter
+* Removed InputVariable::inputValue and OutputVariable::outputValue
+* Renamed OutputVariable::previousOutputValue to OutputVariable::previousValue, including getters and setters
+* Renamed OutputVariable::lockOutputValueInRange to OutputVariable::lockValueInRange, including getters and setters
+* Renamed OutputVariable::lockOutputValue to OutputVariable::lockValue, including getters and setters
+
+
+
 Version 5.0
 * Modified Function::Unary and Binary to take scalar instead of double
 * Fixed building using -DFL_USE_FLOAT=ON

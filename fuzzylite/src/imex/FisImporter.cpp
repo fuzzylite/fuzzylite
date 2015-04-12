@@ -190,9 +190,9 @@ namespace fl {
             } else if (key == "Default") {
                 output->setDefaultValue(fl::Op::toScalar(value));
             } else if (key == "LockPrevious") {
-                output->setLockPreviousOutputValue(fl::Op::isEq(fl::Op::toScalar(value), 1.0));
+                output->setLockedPreviousValue(fl::Op::isEq(fl::Op::toScalar(value), 1.0));
             } else if (key == "LockRange") {
-                output->setLockOutputValueInRange(fl::Op::isEq(fl::Op::toScalar(value), 1.0));
+                output->setLockedValueInRange(fl::Op::isEq(fl::Op::toScalar(value), 1.0));
             } else if (key == "NumMFs") {
                 //ignore
             } else {

@@ -278,11 +278,11 @@ namespace fl {
         if (this->_engine) {
             for (int i = 0; i < this->_engine->numberOfInputVariables(); ++i) {
                 InputVariable* input = this->_engine->getInputVariable(i);
-                this->variables[input->getName()] = input->getInputValue();
+                this->variables[input->getName()] = input->getValue();
             }
             for (int i = 0; i < this->_engine->numberOfOutputVariables(); ++i) {
                 OutputVariable* output = this->_engine->getOutputVariable(i);
-                this->variables[output->getName()] = output->getOutputValue();
+                this->variables[output->getName()] = output->getValue();
             }
         }
         this->variables["x"] = x;

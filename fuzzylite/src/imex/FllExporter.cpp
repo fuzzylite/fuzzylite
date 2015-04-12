@@ -125,9 +125,9 @@ namespace fl {
                 toString(outputVariable->getDefuzzifier()));
         result.push_back(_indent + "default: " + Op::str(outputVariable->getDefaultValue()));
         result.push_back(_indent + "lock-previous: " +
-                (outputVariable->isLockedPreviousOutputValue() ? "true" : "false"));
+                (outputVariable->isLockedPreviousValue() ? "true" : "false"));
         result.push_back(_indent + "lock-range: " +
-                (outputVariable->isLockedOutputValueInRange() ? "true" : "false"));
+                (outputVariable->isLockedValueInRange() ? "true" : "false"));
         for (int i = 0; i < outputVariable->numberOfTerms(); ++i) {
             result.push_back(_indent + toString(outputVariable->getTerm(i)));
         }
