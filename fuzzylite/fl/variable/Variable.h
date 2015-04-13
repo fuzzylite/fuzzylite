@@ -35,6 +35,7 @@ namespace fl {
     protected:
         std::string _name;
         std::vector<Term*> _terms;
+        scalar _value;
         scalar _minimum, _maximum;
         bool _enabled;
 
@@ -50,6 +51,9 @@ namespace fl {
         virtual void setName(const std::string& name);
         virtual std::string getName() const;
 
+        virtual void setValue(scalar value);
+        virtual scalar getValue() const;
+        
         virtual void setRange(scalar minimum, scalar maximum);
         virtual scalar range() const;
 

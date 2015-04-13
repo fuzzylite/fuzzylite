@@ -112,10 +112,10 @@ namespace fl {
                 toString(outputVariable->getDefuzzifier()) << ");\n";
         ss << name << "->setDefaultValue(" <<
                 toString(outputVariable->getDefaultValue()) << ");\n";
-        ss << name << "->setLockPreviousOutputValue(" <<
-                (outputVariable->isLockedPreviousOutputValue() ? "true" : "false") << ");\n";
-        ss << name << "->setLockOutputValueInRange(" <<
-                (outputVariable->isLockedOutputValueInRange() ? "true" : "false") << ");\n";
+        ss << name << "->setLockedPreviousValue(" <<
+                (outputVariable->isLockedPreviousValue() ? "true" : "false") << ");\n";
+        ss << name << "->setLockedValueInRange(" <<
+                (outputVariable->isLockedValueInRange() ? "true" : "false") << ");\n";
         for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
             ss << name << "->addTerm(" << toString(outputVariable->getTerm(t)) << ");\n";
         }

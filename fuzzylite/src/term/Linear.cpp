@@ -45,7 +45,7 @@ namespace fl {
         scalar result = 0.0;
         for (std::size_t i = 0; i < _engine->inputVariables().size(); ++i) {
             if (i < _coefficients.size())
-                result += _coefficients.at(i) * _engine->inputVariables().at(i)->getInputValue();
+                result += _coefficients.at(i) * _engine->inputVariables().at(i)->getValue();
         }
         if (_coefficients.size() > _engine->inputVariables().size()) {
             result += _coefficients.back();

@@ -150,9 +150,9 @@ namespace fl {
             } else if ("default" == keyValue.first) {
                 outputVariable->setDefaultValue(Op::toScalar(keyValue.second));
             } else if ("lock-previous" == keyValue.first or "lock-valid" == keyValue.first) {
-                outputVariable->setLockPreviousOutputValue(parseBoolean(keyValue.second));
+                outputVariable->setLockedPreviousValue(parseBoolean(keyValue.second));
             } else if ("lock-range" == keyValue.first) {
-                outputVariable->setLockOutputValueInRange(parseBoolean(keyValue.second));
+                outputVariable->setLockedValueInRange(parseBoolean(keyValue.second));
             } else if ("defuzzifier" == keyValue.first) {
                 outputVariable->setDefuzzifier(parseDefuzzifier(keyValue.second));
             } else if ("accumulation" == keyValue.first) {
