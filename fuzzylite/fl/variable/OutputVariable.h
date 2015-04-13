@@ -59,11 +59,11 @@ namespace fl {
         virtual void setDefaultValue(scalar defaultValue);
         virtual scalar getDefaultValue() const;
 
-        virtual void setLockedValueInRange(bool lockValueInRange);
-        virtual bool isLockedValueInRange() const;
+        virtual void setLockValueInRange(bool lockValueInRange);
+        virtual bool isLockValueInRange() const;
 
-        virtual void setLockedPreviousValue(bool lockPreviousOutputValue);
-        virtual bool isLockedPreviousValue() const;
+        virtual void setLockPreviousValue(bool lockPreviousOutputValue);
+        virtual bool isLockPreviousValue() const;
 
         virtual void defuzzify();
 

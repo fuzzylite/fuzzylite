@@ -299,10 +299,10 @@ namespace fl {
                         << outputVariable->getDefaultValue());
 
                 FL_DBG(outputVariable->getName() << ".lockValueInRange = "
-                        << outputVariable->isLockedValueInRange());
+                        << outputVariable->isLockValueInRange());
 
                 FL_DBG(outputVariable->getName() << ".lockPreviousValue= "
-                        << outputVariable->isLockedPreviousValue());
+                        << outputVariable->isLockPreviousValue());
 
                 scalar output = outputVariable->getValue();
                 FL_DBG(outputVariable->getName() << ".output = " << output);

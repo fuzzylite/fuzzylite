@@ -475,7 +475,7 @@ namespace fl {
         fl::OutputVariable* outputFx = new fl::OutputVariable("outputFx");
         outputFx->setRange(-1, 1);
         outputFx->setDefaultValue(fl::nan);
-        outputFx->setLockedPreviousValue(true); //To use its value with diffFx
+        outputFx->setLockPreviousValue(true); //To use its value with diffFx
         outputFx->addTerm(new Constant("f1", 0.84));
         outputFx->addTerm(new Constant("f2", 0.45));
         outputFx->addTerm(new Constant("f3", 0.04));
@@ -489,7 +489,7 @@ namespace fl {
 
         fl::OutputVariable* trueFx = new fl::OutputVariable("trueFx");
         trueFx->setRange(fl::nan, fl::nan);
-        trueFx->setLockedPreviousValue(true); //To use its value with diffFx
+        trueFx->setLockPreviousValue(true); //To use its value with diffFx
         trueFx->addTerm(fl::Function::create("fx", "sin(inputX)/inputX", engine));
         engine->addOutputVariable(trueFx);
 

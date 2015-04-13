@@ -103,19 +103,19 @@ namespace fl {
         return this->_defaultValue;
     }
 
-    void OutputVariable::setLockedValueInRange(bool lockOutputValueInRange) {
-        this->_lockValueInRange = lockOutputValueInRange;
+    void OutputVariable::setLockValueInRange(bool lockValueInRange) {
+        this->_lockValueInRange = lockValueInRange;
     }
 
-    bool OutputVariable::isLockedValueInRange() const {
+    bool OutputVariable::isLockValueInRange() const {
         return this->_lockValueInRange;
     }
 
-    void OutputVariable::setLockedPreviousValue(bool lockPreviousOutputValue) {
-        this->_lockPreviousValue = lockPreviousOutputValue;
+    void OutputVariable::setLockPreviousValue(bool lockPreviousValue) {
+        this->_lockPreviousValue = lockPreviousValue;
     }
 
-    bool OutputVariable::isLockedPreviousValue() const {
+    bool OutputVariable::isLockPreviousValue() const {
         return this->_lockPreviousValue;
     }
 

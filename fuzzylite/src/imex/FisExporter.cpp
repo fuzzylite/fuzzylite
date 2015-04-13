@@ -131,11 +131,11 @@ namespace fl {
             if (not fl::Op::isNaN(var->getDefaultValue())) {
                 fis << "Default=" << fl::Op::str(var->getDefaultValue()) << "\n";
             }
-            if (var->isLockedPreviousValue()) {
-                fis << "LockPrevious=" << var->isLockedPreviousValue() << "\n";
+            if (var->isLockPreviousValue()) {
+                fis << "LockPrevious=" << var->isLockPreviousValue() << "\n";
             }
-            if (var->isLockedValueInRange()) {
-                fis << "LockRange=" << var->isLockedValueInRange() << "\n";
+            if (var->isLockValueInRange()) {
+                fis << "LockRange=" << var->isLockValueInRange() << "\n";
             }
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
             for (int ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {

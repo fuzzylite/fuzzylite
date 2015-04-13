@@ -113,9 +113,9 @@ namespace fl {
         ss << name << "->setDefaultValue(" <<
                 toString(outputVariable->getDefaultValue()) << ");\n";
         ss << name << "->setLockedPreviousValue(" <<
-                (outputVariable->isLockedPreviousValue() ? "true" : "false") << ");\n";
+                (outputVariable->isLockPreviousValue() ? "true" : "false") << ");\n";
         ss << name << "->setLockedValueInRange(" <<
-                (outputVariable->isLockedValueInRange() ? "true" : "false") << ");\n";
+                (outputVariable->isLockValueInRange() ? "true" : "false") << ");\n";
         for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
             ss << name << "->addTerm(" << toString(outputVariable->getTerm(t)) << ");\n";
         }
