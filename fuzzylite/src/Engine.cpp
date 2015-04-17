@@ -94,7 +94,7 @@ namespace fl {
         }
     }
 
-    void Engine::updateReferences() const {
+    void Engine::updateReferences() {
         std::vector<Variable*> myVariables = variables();
         for (std::size_t i = 0; i < myVariables.size(); ++i) {
             Variable* variable = myVariables.at(i);
