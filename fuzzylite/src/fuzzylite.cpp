@@ -41,7 +41,7 @@ namespace fl {
     }
 
     std::string fuzzylite::license() {
-        return "GNU Lesser General Public License v3.0";
+        return "FuzzyLite License";
     }
 
     std::string fuzzylite::author() {
