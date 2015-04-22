@@ -100,30 +100,4 @@ namespace fl {
     Term* Linear::constructor() {
         return new Linear;
     }
-
-    template <typename T>
-    Linear* Linear::create(const std::string& name,
-            const Engine* engine, T firstCoefficient, ...) {// throw (fl::Exception) {
-        if (not engine) throw fl::Exception("[linear error] cannot create term <" + name + "> "
-                "without a reference to the engine", FL_AT);
-        std::vector<scalar> coefficients;
-        coefficients.push_back(firstCoefficient);
-
-        va_list args;
-        va_start(args, firstCoefficient);
-        for (std::size_t i = 0; i < engine->inputVariables().size(); ++i) {
-            coefficients.push_back((scalar) va_arg(args, T));
-        }
-        va_end(args);
-
-        return new Linear(name, coefficients, engine);
-    }
-
-    template FL_API Linear* Linear::create(const std::string& name,
-            const Engine* engine,
-            double firstCoefficient, ...);
-
-    template FL_API Linear* Linear::create(const std::string& name,
-            const Engine* engine,
-            int firstCoefficient, ...);
 }
