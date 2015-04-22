@@ -17,6 +17,8 @@
 
 #include "fl/norm/s/DrasticSum.h"
 
+#include "fl/Operation.h"
+
 namespace fl {
 
     std::string DrasticSum::className() const {

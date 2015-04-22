@@ -17,6 +17,8 @@
 
 #include "fl/norm/s/NilpotentMaximum.h"
 
+#include "fl/Operation.h"
+
 namespace fl {
 
     std::string NilpotentMaximum::className() const {

@@ -17,6 +17,8 @@
 
 #include "fl/norm/s/NormalizedSum.h"
 
+#include "fl/Operation.h"
+
 namespace fl {
 
     std::string NormalizedSum::className() const {

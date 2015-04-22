@@ -105,17 +105,16 @@ namespace fl {
 
     void Engine::configure(const std::string& conjunctionT, const std::string& disjunctionS,
             const std::string& activationT, const std::string& accumulationS,
-            const std::string& defuzzifierName, int resolution) {
+            const std::string& defuzzifierName) {
         TNormFactory* tnormFactory = FactoryManager::instance()->tnorm();
         SNormFactory* snormFactory = FactoryManager::instance()->snorm();
         DefuzzifierFactory* defuzzFactory = FactoryManager::instance()->defuzzifier();
+        
         TNorm* conjunction = tnormFactory->constructObject(conjunctionT);
         SNorm* disjunction = snormFactory->constructObject(disjunctionS);
         TNorm* activation = tnormFactory->constructObject(activationT);
         SNorm* accumulation = snormFactory->constructObject(accumulationS);
         Defuzzifier* defuzzifier = defuzzFactory->constructObject(defuzzifierName);
-        IntegralDefuzzifier* integralDefuzzifier = dynamic_cast<IntegralDefuzzifier*> (defuzzifier);
-        if (integralDefuzzifier) integralDefuzzifier->setResolution(resolution);
 
         configure(conjunction, disjunction, activation, accumulation, defuzzifier);
     }

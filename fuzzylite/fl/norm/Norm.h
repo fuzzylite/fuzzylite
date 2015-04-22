@@ -20,8 +20,6 @@
 
 #include "fl/fuzzylite.h"
 
-#include "fl/Operation.h"
-
 #include <string>
 
 namespace fl {

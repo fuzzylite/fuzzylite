@@ -17,6 +17,8 @@
 
 #include "fl/norm/t/Minimum.h"
 
+#include "fl/Operation.h"
+
 namespace fl {
 
     std::string Minimum::className() const {

@@ -17,6 +17,7 @@
 
 #include "fl/norm/t/BoundedDifference.h"
 
+#include "fl/Operation.h"
 
 namespace fl {
 

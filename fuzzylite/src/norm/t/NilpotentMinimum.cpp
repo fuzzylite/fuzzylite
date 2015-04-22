@@ -17,6 +17,8 @@
 
 #include "fl/norm/t/NilpotentMinimum.h"
 
+#include "fl/Operation.h"
+
 namespace fl {
 
     std::string NilpotentMinimum::className() const {

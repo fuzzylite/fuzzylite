@@ -17,6 +17,8 @@
 
 #include "fl/norm/s/Maximum.h"
 
+#include "fl/Operation.h"
+
 namespace fl {
 
     std::string Maximum::className() const {

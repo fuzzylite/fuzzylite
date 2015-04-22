@@ -17,6 +17,8 @@
 
 #include "fl/norm/t/DrasticProduct.h"
 
+#include "fl/Operation.h"
+
 namespace fl {
 
     std::string DrasticProduct::className() const {

@@ -23,6 +23,7 @@
 #include "fl/norm/Norm.h"
 #include "fl/rule/Antecedent.h"
 #include "fl/rule/Consequent.h"
+#include "fl/Operation.h"
 
 #include <sstream>
 #include <vector>

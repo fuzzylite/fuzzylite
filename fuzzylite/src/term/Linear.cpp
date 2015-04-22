@@ -83,6 +83,7 @@ namespace fl {
     }
 
     void Linear::configure(const std::string& parameters) {
+        this->_coefficients.clear();
         if (parameters.empty()) return;
         std::vector<std::string> strValues = Op::split(parameters, " ");
         std::vector<scalar> values;

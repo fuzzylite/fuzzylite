@@ -4,8 +4,9 @@ fuzzylite &reg; [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?b
 A Fuzzy Logic Control Library in C++
 ------------------------------------
 
-By: [Juan Rada-Vilela](http://www.fuzzylite.com/jcrada), Ph.D.
+Current version: 6.0 (in progress)
 
+By: [Juan Rada-Vilela](http://www.fuzzylite.com/jcrada), Ph.D.
 
 
 ***
@@ -32,7 +33,7 @@ The change of license is an attempt to raise funds in order to be able to work  
 
 **There are still many things to do!**
 
-Besides [donations](http://www.fuzzylite.com/donations/), you can significantly contribute by **purchasing a license** of the entirely new [`QtFuzzyLite`](http://www.fuzzylite.com/QtFuzzyLite/) commercial application. In addition, if you require (paid) private support, please contact [jcrada@fuzzylite.com](mailto:jcrada@fuzzylite.com).
+Besides [donations](http://www.fuzzylite.com/donations/), you can significantly contribute by **purchasing a license** of the entirely new [`QtFuzzyLite`](http://www.fuzzylite.com/qt/) commercial application. In addition, if you require (paid) private support, please contact [jcrada@fuzzylite.com](mailto:jcrada@fuzzylite.com).
 
 
 ***
@@ -209,7 +210,7 @@ After building from source, the following are the relevant binaries that will be
 - static library: `libfuzzylite.a`
 
 
-The console application of `fuzzylite` allows you to import and export your controllers. Its usage can be obtained executing the console binary. In addition, the FuzzyLite Interactive Console is activated  when exporting to `fld` without providing an output file. The interactive console allows you to evaluate any controller by manually providing the input the values.
+The console application of `fuzzylite` allows you to import and export your controllers. Its usage can be obtained executing the console binary. In addition, the FuzzyLite Interactive Console is activated  when exporting to `fld` without providing an output file. The interactive console allows you to evaluate any controller by manually providing the input values.
 
 
 ***
@@ -227,8 +228,8 @@ The entire `fuzzylite` library has been thoroughly revised, refactored, validate
 * **(important)** Exceptions are thrown when any of the following `RuleBlock::[conjunction|disjunction|activation]`, `Accumulated::accumulation`, and `OutputVariable::defuzzifier` are required but set to `fl::null`, thereby replacing the operations that would lead to `[signal 11] Segmentation fault` to operations that throw a `fl::Exception` instead.
 + Automatic build script to build `fuzzylite` in `debug` and `release` mode.
 + Binaries of debug libraries are renamed to append the letter `d`  (e.g.,`fuzzylited.dll`,  `libfuzzylited.so`).
-+ **(important)** New file [`fuzzylite/src/m/compare.m`](/fuzzylite/src/m/compare.m) <!---check link--> to compare the output values of your `fuzzylite` engines with the evaluation of the same engine in Octave/Matlab.
-+ **(important)** There is practically no difference between the output values obtained with `fuzzylite` and those obtained with Octave/Matlab. Based on the examples, the average mean square error (MSE)  between the output values is less than `7.3e-12` (or `0.0000000000073`) due to negligible differences in floating-point arithmetic. The results and comparison can be found in [`examples/examples.mat`](/examples/examples.mat) <!---check link-->.
++ **(important)** New file [`fuzzylite/src/m/compare.m`](/fuzzylite/src/m/compare.m) to compare the output values of your `fuzzylite` engines with the evaluation of the same engine in Octave/Matlab.
++ **(important)** There is practically no difference between the output values obtained with `fuzzylite` and those obtained with Octave/Matlab. Based on the examples, the average mean square error (MSE)  between the output values is less than `7.3e-12` (or `0.0000000000073`) due to negligible differences in floating-point arithmetic. The results and comparison can be found in [`examples/examples.mat`](/examples/examples.mat).
 + **(important)** Source code of applications based on version 4.0 will most likely not compile with version 5.0.
 + Minor bugs and memory leaks fixed.
 
@@ -240,7 +241,7 @@ The entire `fuzzylite` library has been thoroughly revised, refactored, validate
 * **(important)** Renamed macro `FL_DEBUG` to `FL_DBG`.
 * **(important)**  Renamed macros `FL_BEGIN_DEBUG_BLOCK` and `FL_END_DEBUG_BLOCK` to `FL_DEBUG_BEGIN` and `FL_DEBUG_END`, respectively.
 * **(important)** Renamed macro `FL_EXPORT` to `FL_API`
-* **(EXTREMELY important)** Added macro definitions `FL_EXPORT_LIBRARY` and `FL_IMPORT_LIBRARY`. If you are building `fuzzylite` as a **shared library**, you need to define `FL_EXPORT_LIBRARY`. If you are building `fuzzylite` **executable** *and* it utilizes the `fuzzylite` **shared library**, you need to define `FL_IMPORT_LIBRARY`. If you are building `fuzzylite` as a **static library** and/or building `fuzzylite` **executable** using the `fuzzylite` **static library**, then you do not need to define either `FL_[IMPORT|EXPORT]_LIBRARY`. Note that the same conditions apply for your application. This is particularly important in Windows platforms, as  `FL_IMPORT_LIBRARY` and `FL_EXPORT_LIBRARY` define `FL_API` to `__declspec(dllimport)` and `__declspec(dllexport)`, respectively. If in doubt, please check [`fuzzylite/CMakeLists.txt`](/fuzzylite/CMakeLists.txt)<!---check link-->
+* **(EXTREMELY important)** Added macro definitions `FL_EXPORT_LIBRARY` and `FL_IMPORT_LIBRARY`. If you are building `fuzzylite` as a **shared library**, you need to define `FL_EXPORT_LIBRARY`. If you are building `fuzzylite` **executable** *and* it utilizes the `fuzzylite` **shared library**, you need to define `FL_IMPORT_LIBRARY`. If you are building `fuzzylite` as a **static library** and/or building `fuzzylite` **executable** using the `fuzzylite` **static library**, then you do not need to define either `FL_[IMPORT|EXPORT]_LIBRARY`. Note that the same conditions apply for your application. This is particularly important in Windows platforms, as  `FL_IMPORT_LIBRARY` and `FL_EXPORT_LIBRARY` define `FL_API` to `__declspec(dllimport)` and `__declspec(dllexport)`, respectively. If in doubt, please check [`fuzzylite/CMakeLists.txt`](/fuzzylite/CMakeLists.txt)
 
 #### <a name="new-operation">Operation</a>
 * **(important)** Added method  `Operation::toScalar(std::string x, scalar alternative) FL_INOEXCEPT` which returns `alternative` if `x` is not a valid `scalar`, and never throws an exception.
@@ -423,13 +424,13 @@ The entire `fuzzylite` library has been thoroughly revised, refactored, validate
 * Added conversion of `examples/original/*.fis` to `examples/original/*.fll`.
 * Modified `original/takagi-sugeno` examples to reflect  `activation: none; accumulation: none;`.
 * Updated FLD examples produced from the `original` examples.
-+ **(important)** Added file [`fuzzylite/src/m/compare.m`](/fuzzylite/src/m/compare.m) <!---check link--> to compare the output values of your `fuzzylite` engines with the evaluation of the same engine in Octave/Matlab.
-+ **(important)** Added file [`examples/examples.mat`](/examples/examples.mat) <!---check link--> containing the comparison of the output values between `fuzzylite` and Matlab's Fuzzy Logic Toolbox.
++ **(important)** Added file [`fuzzylite/src/m/compare.m`](/fuzzylite/src/m/compare.m) to compare the output values of your `fuzzylite` engines with the evaluation of the same engine in Octave/Matlab.
++ **(important)** Added file [`examples/examples.mat`](/examples/examples.mat) containing the comparison of the output values between `fuzzylite` and Matlab's Fuzzy Logic Toolbox.
 * Added code to perform benchmarks in Linux.
 
 
 #### <a name="new-console">Console</a>
-* **(important)** Console includes option to import custom input dataset from file an export its respective output values.
+* **(important)** Console includes option to import custom input dataset from file and export its respective output values.
 * **(important)** Created the FuzzyLite Interactive Console, which can be started by specifying an input file and the output format, e.g., `fuzzylite -i SimpleDimmer.fll -of fld`.
 * Console provides more information about its usage.
 

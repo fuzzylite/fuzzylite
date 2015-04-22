@@ -21,6 +21,7 @@
 #include "fl/norm/TNorm.h"
 #include "fl/norm/SNorm.h"
 #include "fl/rule/Rule.h"
+#include "fl/Operation.h"
 
 #include <sstream>
 
