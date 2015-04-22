@@ -10,7 +10,6 @@ src/defuzzifier/WeightedDefuzzifier.cpp
 src/defuzzifier/WeightedSum.cpp
 src/Engine.cpp
 src/Exception.cpp
-src/factory/CloningFactory.cpp
 src/factory/ConstructionFactory.cpp
 src/factory/DefuzzifierFactory.cpp
 src/factory/FactoryManager.cpp
