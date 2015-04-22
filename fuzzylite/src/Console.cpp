@@ -34,11 +34,14 @@
 #include <vector>
 
 #ifdef FL_UNIX
-#include <time.h> //only for benchmarks
 #include <termios.h>
 #include <unistd.h>
 #elif defined(FL_WINDOWS)
 #include <conio.h>
+#endif
+
+#ifdef FL_CPP11
+#include <chrono>
 #endif
 
 namespace fl {
@@ -71,14 +74,13 @@ namespace fl {
     std::string Console::usage() {
         std::vector<Console::Option> options = availableOptions();
         std::ostringstream ss;
-        ss << "Copyright (C) 2010-2014 FuzzyLite Limited\n";
-        ss << "All rights reserved\n";
-        ss << "==================================================\n";
+                                                       
+        ss << "========================================\n";
         ss << "fuzzylite: a fuzzy logic control library\n";
         ss << "version: " << fuzzylite::longVersion() << "\n";
         ss << "author: " << fuzzylite::author() << "\n";
         ss << "license: " << fuzzylite::license() << "\n";
-        ss << "==================================================\n";
+        ss << "========================================\n\n";
         ss << "usage: fuzzylite inputfile outputfile\n";
         ss << "   or: fuzzylite ";
         for (std::size_t i = 0; i < options.size(); ++i) {
@@ -100,7 +102,10 @@ namespace fl {
         }
 
         ss << "\n";
-        ss << "Visit http://www.fuzzylite.com for more information.";
+        ss << "Visit " << fuzzylite::website() << " for more information.\n\n";
+        ss << "Copyright (C) 2010-2015 FuzzyLite Limited.\n";
+        ss << "All rights reserved.";
+        
         return ss.str();
     }
 
@@ -661,10 +666,10 @@ namespace fl {
         }
     }
 
-#if defined(FL_UNIX) && ! defined(FL_APPLE)
+#ifdef FL_CPP11
 
-    void Console::benchmarkExamples(int runs) {
-        std::string sourceBase = "/home/jcrada/Development/fl/fuzzylite/examples/original";
+    void Console::benchmarkExamples(const std::string& path, int runs) {
+        std::string sourceBase = path + "/original";
         typedef std::pair<std::string, int > Example;
         std::vector<Example> examples;
         examples.push_back(Example("/mamdani/AllTerms", 1e4));
@@ -704,6 +709,14 @@ namespace fl {
             FL_LOG(examples.at(i).first << "\t" << examples.at(i).second);
         }
 
+        std::vector<std::string> runNumbers(runs);
+        for (int i = 0; i < runs; ++i) {
+            runNumbers.at(i) = std::to_string(i + 1);
+        }
+        std::string spacedPath(40, ' ');
+        std::copy(path.begin(), path.end(), spacedPath.begin());
+        FL_LOG(spacedPath << "\t" << "mean\tstdev\n" << Op::join(runNumbers, "\t"));
+
         FllImporter importer;
         FldExporter exporter;
         exporter.setExportHeader(false);
@@ -712,39 +725,27 @@ namespace fl {
         std::ostream dummy(0);
 
         for (std::size_t e = 0; e < examples.size(); ++e) {
-            std::string filename(sourceBase + examples.at(e).first + ".fll");
-            std::ifstream file(filename.c_str());
-            std::ostringstream fll;
-            if (file.is_open()) {
-                std::string line;
-                while (file.good()) {
-                    std::getline(file, line);
-                    fll << line << "\n";
-                }
-                file.close();
-            } else throw fl::Exception("[examples error] file not found: " + filename, FL_AT);
-
-            FL_unique_ptr<Engine> engine(importer.fromString(fll.str()));
+            FL_unique_ptr<Engine> engine(importer.fromFile(sourceBase + examples.at(e).first + ".fll"));
 
             std::vector<scalar> seconds;
-            timespec start, now;
             int results = std::pow(1.0 * examples.at(e).second, engine->numberOfInputVariables());
 
             for (int r = 0; r < runs; ++r) {
-                clock_gettime(CLOCK_REALTIME, &start);
+                auto start = std::chrono::system_clock::now();
                 exporter.write(engine.get(), dummy, results);
-                clock_gettime(CLOCK_REALTIME, &now);
+                auto end = std::chrono::system_clock::now();
 
-                time_t elapsed = now.tv_sec - start.tv_sec;
-                scalar a = elapsed + start.tv_nsec / 1e9f;
-                scalar b = elapsed + now.tv_nsec / 1e9f;
+                auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds> (end - start);
 
-                seconds.push_back((b - a) + elapsed);
+                seconds.push_back(elapsed.count() / 1e3);
             }
             scalar mean = Op::mean(seconds);
             scalar stdev = Op::standardDeviation(seconds, mean);
-            FL_LOG(examples.at(e).first << ":\t" <<
-                    fl::Op::str(mean) << "\t" << fl::Op::str(stdev) << "\t" <<
+
+            std::string spacedExample(40, ' ');
+            std::string exampleName = examples.at(e).first;
+            std::copy(exampleName.begin(), exampleName.end(), spacedExample.begin());
+            FL_LOG(spacedExample << "\t" << fl::Op::str(mean) << "\t" << fl::Op::str(stdev) << "\n" <<
                     Op::join(seconds, "\t"));
         }
     }
@@ -753,45 +754,57 @@ namespace fl {
     int Console::main(int argc, char** argv) {
         (void) argc;
         (void) argv;
-        if (argc <= 1) {
+        if (argc <= 2) {
             std::cout << usage() << std::endl;
             return EXIT_SUCCESS;
         }
-        if (argc == 3) {
-            if ("export-examples" == std::string(argv[1])) {
-                std::string path = std::string(argv[2]);
-                FL_LOG("Path=" << path);
-                try {
-                    fuzzylite::setDecimals(3);
-                    FL_LOG("Processing fll->fll");
-                    exportAllExamples("fll", "fll", path);
-                    FL_LOG("Processing fll->fcl");
-                    exportAllExamples("fll", "fcl", path);
-                    FL_LOG("Processing fll->fis");
-                    exportAllExamples("fll", "fis", path);
-                    FL_LOG("Processing fll->cpp");
-                    exportAllExamples("fll", "cpp", path);
-                    FL_LOG("Processing fll->java");
-                    exportAllExamples("fll", "java", path);
-                    fuzzylite::setDecimals(8);
-                    fuzzylite::setMachEps(1e-6);
-                    FL_LOG("Processing fll->fld");
-                    exportAllExamples("fll", "fld", path);
-                } catch (std::exception& ex) {
-                    std::cout << ex.what() << "\nBACKTRACE:\n" <<
-                            fl::Exception::btCallStack() << std::endl;
-                    return EXIT_FAILURE;
-                }
-                return EXIT_SUCCESS;
-            } else if ("benchmarks" == std::string(argv[1])) {
-#if defined(FL_UNIX) && ! defined(FL_APPLE)
-                fuzzylite::setDecimals(3);
-                Console::benchmarkExamples(10);
-                return EXIT_SUCCESS;
-#else
-                throw fl::Exception("[benchmarks error] implementation available only for Unix-based OS", FL_AT);
-#endif
+
+        const std::string firstArgument = std::string(argv[1]);
+
+        if (firstArgument == "export-examples") {
+            std::string path = ".";
+            if (argc > 2) {
+                path = std::string(argv[2]);
             }
+            FL_LOG("Path=" << path);
+            try {
+                fuzzylite::setDecimals(3);
+                FL_LOG("Processing fll->fll");
+                exportAllExamples("fll", "fll", path);
+                FL_LOG("Processing fll->fcl");
+                exportAllExamples("fll", "fcl", path);
+                FL_LOG("Processing fll->fis");
+                exportAllExamples("fll", "fis", path);
+                FL_LOG("Processing fll->cpp");
+                exportAllExamples("fll", "cpp", path);
+                FL_LOG("Processing fll->java");
+                exportAllExamples("fll", "java", path);
+                fuzzylite::setDecimals(8);
+                fuzzylite::setMachEps(1e-6);
+                FL_LOG("Processing fll->fld");
+                exportAllExamples("fll", "fld", path);
+            } catch (std::exception& ex) {
+                std::cout << ex.what() << "\nBACKTRACE:\n" <<
+                        fl::Exception::btCallStack() << std::endl;
+                return EXIT_FAILURE;
+            }
+            return EXIT_SUCCESS;
+        } else if (firstArgument == "benchmarks") {
+#ifdef FL_CPP11
+            std::string path = ".";
+            if (argc > 2) {
+                path = std::string(argv[2]);
+            }
+            int runs = 10;
+            if (argc > 3) {
+                runs = (int) Op::toScalar(argv[3]);
+            }
+            fuzzylite::setDecimals(3);
+            Console::benchmarkExamples(path, runs);
+            return EXIT_SUCCESS;
+#else
+            throw fl::Exception("[benchmarks error] implementation available only when built with C++11 (-DFL_CPP11)", FL_AT);
+#endif
         }
 
         try {
