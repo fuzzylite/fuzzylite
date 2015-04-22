@@ -41,11 +41,6 @@ namespace fl {
         virtual std::string parameters() const FL_IOVERRIDE;
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        //Warning: this method is unsafe. Make sure you use it correctly.
-        template <typename T>
-        static Discrete* create(const std::string& name, int argc,
-                T x1, T y1, ...); // throw (fl::Exception);
-
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
         virtual void setXY(const std::vector<Pair>& pairs);
@@ -68,7 +63,40 @@ namespace fl {
 
         static Term* constructor();
 
+        //Warning: this method is unsafe. Make sure you use it correctly.
+        template <typename T>
+        static Discrete* create(const std::string& name, int argc,
+                T x1, T y1, ...);
     };
-
 }
+
+/**
+ * Template implementation
+ */
+
+namespace fl {
+
+    template <typename T>
+    inline Discrete* Discrete::create(const std::string& name, int argc,
+            T x1, T y1, ...) {
+        std::vector<scalar> xy(argc);
+        xy.at(0) = x1;
+        xy.at(1) = y1;
+        va_list args;
+        va_start(args, y1);
+        for (int i = 2; i < argc; ++i) {
+            xy.at(i) = (scalar) va_arg(args, T);
+        }
+        va_end(args);
+
+        FL_unique_ptr<Discrete> result(new Discrete(name));
+        if (xy.size() % 2 != 0) {
+            result->setHeight(xy.back());
+            xy.pop_back();
+        }
+        result->setXY(toPairs(xy));
+        return result.release();
+    }
+}
+
 #endif /* FL_DISCRETE_H */

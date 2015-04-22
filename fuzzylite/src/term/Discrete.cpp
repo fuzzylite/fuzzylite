@@ -95,34 +95,6 @@ namespace fl {
         this->_xy = toPairs(values);
     }
 
-    template <typename T>
-    Discrete* Discrete::create(const std::string& name, int argc,
-            T x1, T y1, ...) { // throw (fl::Exception) {
-        std::vector<scalar> xy(argc);
-        xy.at(0) = x1;
-        xy.at(1) = y1;
-        va_list args;
-        va_start(args, y1);
-        for (int i = 2; i < argc; ++i) {
-            xy.at(i) = (scalar) va_arg(args, T);
-        }
-        va_end(args);
-
-        FL_unique_ptr<Discrete> result(new Discrete(name));
-        if (xy.size() % 2 != 0) {
-            result->setHeight(xy.back());
-            xy.pop_back();
-        }
-        result->setXY(toPairs(xy));
-        return result.release();
-    }
-
-    template FL_API Discrete* Discrete::create(const std::string& name, int argc,
-            double x1, double y1, ...); // throw (fl::Exception);
-    //double, not scalar because variadic promotes floats to double
-    template FL_API Discrete* Discrete::create(const std::string& name, int argc,
-            int x1, int y1, ...); // throw (fl::Exception);
-
     void Discrete::setXY(const std::vector<Pair>& pairs) {
         this->_xy = pairs;
     }
