@@ -92,9 +92,9 @@ namespace fl {
             else throw fl::Exception("[import error] section <"
                     + sections.at(i) + "> not recognized", FL_AT);
         }
-        engine->configure(extractTNorm(andMethod), extractSNorm(orMethod),
-                extractTNorm(impMethod), extractSNorm(aggMethod),
-                extractDefuzzifier(defuzzMethod));
+        engine->configure(translateTNorm(andMethod), translateSNorm(orMethod),
+                translateTNorm(impMethod), translateSNorm(aggMethod),
+                translateDefuzzifier(defuzzMethod));
         return engine.release();
     }
 
@@ -148,7 +148,7 @@ namespace fl {
             else if (key == "Enabled") {
                 input->setEnabled(Op::isEq(Op::toScalar(value), 1.0));
             } else if (key == "Range") {
-                std::pair<scalar, scalar> minmax = range(value);
+                std::pair<scalar, scalar> minmax = parseRange(value);
                 input->setMinimum(minmax.first);
                 input->setMaximum(minmax.second);
             } else if (key.substr(0, 2) == "MF") {
@@ -182,7 +182,7 @@ namespace fl {
             else if (key == "Enabled") {
                 output->setEnabled(Op::isEq(Op::toScalar(value), 1.0));
             } else if (key == "Range") {
-                std::pair<scalar, scalar> minmax = range(value);
+                std::pair<scalar, scalar> minmax = parseRange(value);
                 output->setMinimum(minmax.first);
                 output->setMaximum(minmax.second);
             } else if (key.substr(0, 2) == "MF") {
@@ -334,7 +334,7 @@ namespace fl {
         return ss.str();
     }
 
-    std::string FisImporter::extractTNorm(const std::string & name) const {
+    std::string FisImporter::translateTNorm(const std::string & name) const {
         if (name.empty()) return "";
         if (name == "min") return Minimum().className();
         if (name == "prod") return AlgebraicProduct().className();
@@ -346,7 +346,7 @@ namespace fl {
         return name;
     }
 
-    std::string FisImporter::extractSNorm(const std::string & name) const {
+    std::string FisImporter::translateSNorm(const std::string & name) const {
         if (name.empty()) return "";
         if (name == "max") return Maximum().className();
         if (name == "sum" or name == "probor") return AlgebraicSum().className();
@@ -359,7 +359,7 @@ namespace fl {
         return name;
     }
 
-    std::string FisImporter::extractDefuzzifier(const std::string & name) const {
+    std::string FisImporter::translateDefuzzifier(const std::string & name) const {
         if (name.empty()) return "";
         if (name == "centroid") return Centroid().className();
         if (name == "bisector") return Bisector().className();
@@ -371,7 +371,7 @@ namespace fl {
         return name;
     }
 
-    std::pair<scalar, scalar> FisImporter::range(const std::string& range) const {
+    std::pair<scalar, scalar> FisImporter::parseRange(const std::string& range) const {
         std::vector<std::string> parts = fl::Op::split(range, " ");
         if (parts.size() != 2)
             throw fl::Exception("[syntax error] expected range in format '[begin end]',"

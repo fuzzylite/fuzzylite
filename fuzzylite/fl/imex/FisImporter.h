@@ -54,16 +54,15 @@ namespace fl {
         virtual void importRules(const std::string& section, Engine* engine) const;
         virtual std::string translateProposition(scalar code, Variable* variable) const;
         
-        //TODO: rename extract to translate in v6.0
-        virtual std::string extractTNorm(const std::string& tnorm) const;
-        virtual std::string extractSNorm(const std::string& tnorm) const;
-        virtual std::string extractDefuzzifier(const std::string& defuzzifier) const;
+        virtual std::string translateTNorm(const std::string& tnorm) const;
+        virtual std::string translateSNorm(const std::string& tnorm) const;
+        virtual std::string translateDefuzzifier(const std::string& defuzzifier) const;
 
         virtual Term* parseTerm(const std::string& line, const Engine* engine) const;
         virtual Term* createInstance(const std::string& termClass, const std::string& name,
                 const std::vector<std::string>& params, const Engine* engine) const;
-        //TODO: rename to parseRange in v6.0
-        virtual std::pair<scalar, scalar> range(const std::string& range) const;
+        
+        virtual std::pair<scalar, scalar> parseRange(const std::string& range) const;
 
     };
 

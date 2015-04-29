@@ -186,17 +186,7 @@ namespace fl {
         return "new " + defuzzifier->className() + "()";
     }
 
-    std::string JavaExporter::toString(const Norm* norm) const{
-        if (not norm) return "null";
-        return "new " + norm->className() + "()";
-    }
-    
-    std::string JavaExporter::toString(const TNorm* norm) const {
-        if (not norm) return "null";
-        return "new " + norm->className() + "()";
-    }
-
-    std::string JavaExporter::toString(const SNorm* norm) const {
+    std::string JavaExporter::toString(const Norm* norm) const {
         if (not norm) return "null";
         return "new " + norm->className() + "()";
     }

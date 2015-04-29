@@ -45,7 +45,7 @@ namespace fl {
 
         return fis.str();
     }
-    //TODO: deal with multiple ruleblocks, merge them into one.
+    
     std::string FisExporter::exportSystem(const Engine* engine) const {
         std::ostringstream fis;
         fis << "[System]\n";
@@ -283,31 +283,6 @@ namespace fl {
         if (norm->className() == NilpotentMaximum().className()) return "nilpotent_maximum";
         
         return norm->className();
-    }
-
-    std::string FisExporter::toString(const TNorm * tnorm) const {
-        if (not tnorm) return "";
-        if (tnorm->className() == Minimum().className()) return "min";
-        if (tnorm->className() == AlgebraicProduct().className()) return "prod";
-        if (tnorm->className() == BoundedDifference().className()) return "bounded_difference";
-        if (tnorm->className() == DrasticProduct().className()) return "drastic_product";
-        if (tnorm->className() == EinsteinProduct().className()) return "einstein_product";
-        if (tnorm->className() == HamacherProduct().className()) return "hamacher_product";
-        if (tnorm->className() == NilpotentMinimum().className()) return "nilpotent_minimum";
-        return tnorm->className();
-    }
-
-    std::string FisExporter::toString(const SNorm * snorm) const {
-        if (not snorm) return "";
-        if (snorm->className() == Maximum().className()) return "max";
-        if (snorm->className() == AlgebraicSum().className()) return "sum";
-        if (snorm->className() == BoundedSum().className()) return "bounded_sum";
-        if (snorm->className() == NormalizedSum().className()) return "normalized_sum";
-        if (snorm->className() == DrasticSum().className()) return "drastic_sum";
-        if (snorm->className() == EinsteinSum().className()) return "einstein_sum";
-        if (snorm->className() == HamacherSum().className()) return "hamacher_sum";
-        if (snorm->className() == NilpotentMaximum().className()) return "nilpotent_maximum";
-        return snorm->className();
     }
 
     std::string FisExporter::toString(const Defuzzifier * defuzzifier) const {

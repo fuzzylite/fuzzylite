@@ -179,35 +179,6 @@ namespace fl {
         return norm->className();
     }
     
-    //TODO: Delete in v6.0
-    std::string FclExporter::toString(const TNorm* tnorm) const {
-        if (not tnorm) return "NONE";
-        std::string name = tnorm->className();
-        if (name == Minimum().className()) return "MIN";
-        if (name == AlgebraicProduct().className()) return "PROD";
-        if (name == BoundedDifference().className()) return "BDIF";
-        if (name == DrasticProduct().className()) return "DPROD";
-        if (name == EinsteinProduct().className()) return "EPROD";
-        if (name == HamacherProduct().className()) return "HPROD";
-        if (name == NilpotentMinimum().className()) return "NMIN";
-        return tnorm->className();
-    }
-
-    //TODO: Delete in v6.0
-    std::string FclExporter::toString(const SNorm* snorm) const {
-        if (not snorm) return "NONE";
-        std::string name = snorm->className();
-        if (name == Maximum().className()) return "MAX";
-        if (name == AlgebraicSum().className()) return "ASUM";
-        if (name == NormalizedSum().className()) return "NSUM";
-        if (name == BoundedSum().className()) return "BSUM";
-        if (name == DrasticSum().className()) return "DSUM";
-        if (name == EinsteinSum().className()) return "ESUM";
-        if (name == HamacherSum().className()) return "HSUM";
-        if (name == NilpotentMaximum().className()) return "NMAX";
-        return snorm->className();
-    }
-
     std::string FclExporter::toString(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier) return "NONE";
         if (defuzzifier->className() == Centroid().className()) return "COG";
