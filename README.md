@@ -121,10 +121,10 @@ int main(int argc, char* argv[]){
 
     for (int i = 0; i < 50; ++i){
         scalar light = ambient->getMinimum() + i * (ambient->range() / 50);
-        ambient->setInputValue(light);
+        ambient->setValue(light);
         engine->process();
         FL_LOG("Ambient.input = " << Op::str(light) << " -> " <<
-            "Power.output = " << Op::str(power->getOutputValue()));
+            "Power.output = " << Op::str(power->getValue()));
     }
 }
 ```
