@@ -420,10 +420,11 @@ namespace fl {
             const std::string& name, const std::vector<std::string>& params,
             const Engine* engine) const {
         std::map<std::string, std::string> mapping;
-        mapping["discretemf"] = Discrete().className();
+        mapping["binarymf"] = Binary().className();
         mapping["concavemf"] = Concave().className();
         mapping["constant"] = Constant().className();
         mapping["cosinemf"] = Cosine().className();
+        mapping["discretemf"] = Discrete().className();
         mapping["function"] = Function().className();
         mapping["gbellmf"] = Bell().className();
         mapping["gaussmf"] = Gaussian().className();

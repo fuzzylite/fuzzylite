@@ -20,6 +20,7 @@
 #include "fl/Exception.h"
 #include "fl/term/Term.h"
 #include "fl/term/Bell.h"
+#include "fl/term/Binary.h"
 #include "fl/term/Concave.h"
 #include "fl/term/Constant.h"
 #include "fl/term/Cosine.h"
@@ -45,6 +46,7 @@ namespace fl {
     TermFactory::TermFactory() : ConstructionFactory<Term*>("Term") {
         registerConstructor("", fl::null);
         registerConstructor(Bell().className(), &(Bell::constructor));
+        registerConstructor(Binary().className(), &(Binary::constructor));
         registerConstructor(Concave().className(), &(Concave::constructor));
         registerConstructor(Constant().className(), &(Constant::constructor));
         registerConstructor(Cosine().className(), &(Cosine::constructor));

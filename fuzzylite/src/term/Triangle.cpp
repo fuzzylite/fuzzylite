@@ -22,7 +22,6 @@ namespace fl {
     Triangle::Triangle(const std::string& name, scalar vertexA, scalar vertexB, scalar vertexC, scalar height)
     : Term(name, height), _vertexA(vertexA), _vertexB(vertexB), _vertexC(vertexC) {
         if (fl::Op::isNaN(vertexC)) {
-            //TODO: Modify FLL to allow passing two parameters only.
             this->_vertexC = vertexB;
             this->_vertexB = (vertexA + vertexB) / 2.0;
         }

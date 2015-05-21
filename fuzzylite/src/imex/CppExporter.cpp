@@ -123,7 +123,6 @@ namespace fl {
         return ss.str();
     }
 
-    //TODO: addRules using `new Rule` instead of `Rule::parse` in version 6.0
     std::string CppExporter::toString(const RuleBlock* ruleBlock, const Engine* engine) const {
         std::ostringstream ss;
         std::string name = "ruleBlock";

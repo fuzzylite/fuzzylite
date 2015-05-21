@@ -304,6 +304,11 @@ namespace fl {
                     x->getWidth(), x->getSlope(), x->getCenter()) << "]";
             return ss.str();
         }
+        
+        if (const Binary * x = dynamic_cast<const Binary*>(term)){
+            ss << "'binarymf,[" << fl::Op::str(x->getThreshold()) << "]";
+            return ss.str();
+        }
 
         if (const Concave * x = dynamic_cast<const Concave*> (term)) {
             ss << "'concavemf',[" << fl::Op::join(2, " ",

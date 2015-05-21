@@ -94,6 +94,7 @@
 
 #include "fl/term/Accumulated.h"
 #include "fl/term/Bell.h"
+#include "fl/term/Binary.h"
 #include "fl/term/Concave.h"
 #include "fl/term/Constant.h"
 #include "fl/term/Cosine.h"

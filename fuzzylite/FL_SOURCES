@@ -59,6 +59,7 @@ src/rule/Rule.cpp
 src/term/Accumulated.cpp
 src/term/Activated.cpp
 src/term/Bell.cpp
+src/term/Binary.cpp
 src/term/Concave.cpp
 src/term/Constant.cpp
 src/term/Cosine.cpp

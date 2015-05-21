@@ -53,7 +53,7 @@ namespace fl {
 
         virtual void setValue(scalar value);
         virtual scalar getValue() const;
-        
+
         virtual void setRange(scalar minimum, scalar maximum);
         virtual scalar range() const;
 

@@ -67,6 +67,7 @@ fl/rule/Rule.h
 fl/term/Accumulated.h
 fl/term/Activated.h
 fl/term/Bell.h
+fl/term/Binary.h
 fl/term/Concave.h
 fl/term/Constant.h
 fl/term/Cosine.h
