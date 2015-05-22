@@ -56,7 +56,6 @@ namespace fl {
  */
 
 #include "fl/Exception.h"
-#include "fl/term/Function.h"
 
 namespace fl {
 

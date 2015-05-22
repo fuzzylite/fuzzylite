@@ -63,7 +63,6 @@ namespace fl {
 #include "fl/hedge/Hedge.h"
 #include "fl/norm/SNorm.h"
 #include "fl/norm/TNorm.h"
-#include "fl/term/Function.h"
 #include "fl/term/Term.h"
 
 
