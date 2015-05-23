@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 
 project(fuzzylite CXX)
+cmake_policy(SET CMP0042 NEW)
+cmake_policy(SET CMP0054 NEW)
+
 
 ###DEFINES SECTION
 if(NOT CMAKE_VERBOSE_MAKEFILE)
@@ -94,9 +97,6 @@ endif()
 ###BUILD SECTION
 
 include_directories(.)
-if (APPLE)
-    cmake_policy(SET CMP0042 NEW)
-endif()
 
 file(STRINGS FL_HEADERS fl-headers)
 file(STRINGS FL_SOURCES fl-sources)

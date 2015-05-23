@@ -84,9 +84,12 @@ goto:eof
 	echo.
 	echo ****************************************
 	echo STARTING: clean
+	@echo on
 	if exist debug rmdir /S /Q debug
 	if exist release rmdir /S /Q release
 	if exist CMakeFiles rmdir /S /Q CMakeFiles
+	if exist CMakeCache.txt del CMakeCache.txt
+	@echo off
 	echo.
 	echo FINISHED: clean
 	echo ****************************************

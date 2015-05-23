@@ -27,7 +27,7 @@
 
 namespace fl {
 
-    class FL_API Operation {
+    class Operation {
     public:
 
         template <typename T>

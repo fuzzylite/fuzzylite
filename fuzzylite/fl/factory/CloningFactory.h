@@ -27,7 +27,7 @@
 namespace fl {
 
     template <typename T>
-    class FL_API CloningFactory {
+    class CloningFactory {
     protected:
         std::string _name;
         std::map<std::string, T> _objects;

@@ -27,7 +27,7 @@
 namespace fl {
 
     template <typename T>
-    class FL_API ConstructionFactory {
+    class ConstructionFactory {
     public:
         typedef T(*Constructor)();
 
