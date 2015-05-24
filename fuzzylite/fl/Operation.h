@@ -240,15 +240,15 @@ namespace fl {
     }
 
     inline scalar Operation::logicalAnd(scalar a, scalar b) {
-        return (isEq(a, scalar(1)) and isEq(b, scalar(1))) ? 1.0 : 0.0;
+        return (isEq(a, 1.0) and isEq(b, 1.0)) ? 1.0 : 0.0;
     }
 
     inline scalar Operation::logicalOr(scalar a, scalar b) {
-        return (isEq(a, scalar(1)) or isEq(b, scalar(1))) ? 1.0 : 0.0;
+        return (isEq(a, 1.0) or isEq(b, 1.0)) ? 1.0 : 0.0;
     }
 
     inline scalar Operation::logicalNot(scalar a) {
-        return isEq(a, scalar(1)) ? 0.0 : 1.0;
+        return isEq(a, 1.0) ? 0.0 : 1.0;
     }
 
     inline scalar Operation::negate(scalar a) {
