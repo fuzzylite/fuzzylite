@@ -54,15 +54,15 @@ namespace fl {
 
         cpp << "\n";
 
-        for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
+        for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i) {
             cpp << toString(engine->getInputVariable(i), engine) << "\n";
         }
 
-        for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+        for (std::size_t i = 0; i < engine->numberOfOutputVariables(); ++i) {
             cpp << toString(engine->getOutputVariable(i), engine) << "\n";
         }
 
-        for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
+        for (std::size_t i = 0; i < engine->numberOfRuleBlocks(); ++i) {
             cpp << toString(engine->getRuleBlock(i), engine) << "\n";
         }
 
@@ -70,21 +70,21 @@ namespace fl {
     }
 
     std::string CppExporter::toString(const InputVariable* inputVariable, const Engine* engine) const {
-        std::ostringstream ss;
-        std::string name = "inputVariable";
+		std::string name = "inputVariable";
         if (engine->numberOfInputVariables() > 1) {
-            int index = std::distance(engine->inputVariables().begin(),
+            std::size_t index = std::distance(engine->inputVariables().begin(),
                     std::find(engine->inputVariables().begin(),
                     engine->inputVariables().end(), inputVariable));
-            name += Op::str<int>(index + 1);
+			name += Op::str(index + 1);
         }
+		std::ostringstream ss;
         ss << fl("InputVariable* ") << name << " = new " << fl("InputVariable;\n");
         ss << name << "->setEnabled(" << (inputVariable->isEnabled() ? "true" : "false") << ");\n";
         ss << name << "->setName(\"" << inputVariable->getName() << "\");\n";
         ss << name << "->setRange(" <<
                 toString(inputVariable->getMinimum()) << ", " <<
                 toString(inputVariable->getMaximum()) << ");\n";
-        for (int t = 0; t < inputVariable->numberOfTerms(); ++t) {
+        for (std::size_t t = 0; t < inputVariable->numberOfTerms(); ++t) {
             ss << name << "->addTerm(" << toString(inputVariable->getTerm(t)) << ");\n";
         }
         ss << "engine->addInputVariable(" << name << ");\n";
@@ -92,14 +92,14 @@ namespace fl {
     }
 
     std::string CppExporter::toString(const OutputVariable* outputVariable, const Engine* engine) const {
-        std::ostringstream ss;
         std::string name = "outputVariable";
         if (engine->numberOfOutputVariables() > 1) {
-            int index = std::distance(engine->outputVariables().begin(),
+            std::size_t index = std::distance(engine->outputVariables().begin(),
                     std::find(engine->outputVariables().begin(),
                     engine->outputVariables().end(), outputVariable));
-            name += Op::str<int>(index + 1);
+            name += Op::str(index + 1);
         }
+		std::ostringstream ss;
         ss << fl("OutputVariable* ") << name << " = new " << fl("OutputVariable;\n");
         ss << name << "->setEnabled(" << (outputVariable->isEnabled() ? "true" : "false") << ");\n";
         ss << name << "->setName(\"" << outputVariable->getName() << "\");\n";
@@ -116,7 +116,7 @@ namespace fl {
                 (outputVariable->isLockPreviousValue() ? "true" : "false") << ");\n";
         ss << name << "->setLockValueInRange(" <<
                 (outputVariable->isLockValueInRange() ? "true" : "false") << ");\n";
-        for (int t = 0; t < outputVariable->numberOfTerms(); ++t) {
+        for (std::size_t t = 0; t < outputVariable->numberOfTerms(); ++t) {
             ss << name << "->addTerm(" << toString(outputVariable->getTerm(t)) << ");\n";
         }
         ss << "engine->addOutputVariable(" << name << ");\n";
@@ -124,14 +124,14 @@ namespace fl {
     }
 
     std::string CppExporter::toString(const RuleBlock* ruleBlock, const Engine* engine) const {
-        std::ostringstream ss;
         std::string name = "ruleBlock";
         if (engine->numberOfRuleBlocks() > 1) {
-            int index = std::distance(engine->ruleBlocks().begin(),
+            std::size_t index = std::distance(engine->ruleBlocks().begin(),
                     std::find(engine->ruleBlocks().begin(),
                     engine->ruleBlocks().end(), ruleBlock));
-            name += Op::str<int>(index + 1);
+            name += Op::str(index + 1);
         }
+		std::ostringstream ss;
         ss << fl("RuleBlock* ") << name << " = new " << fl("RuleBlock;\n");
         ss << name << "->setEnabled(" << (ruleBlock->isEnabled() ? "true" : "false") << ");\n";
         ss << name << "->setName(\"" << ruleBlock->getName() << "\");\n";
@@ -141,7 +141,7 @@ namespace fl {
                 << toString(ruleBlock->getDisjunction()) << ");\n";
         ss << name << "->setActivation("
                 << toString(ruleBlock->getActivation()) << ");\n";
-        for (int r = 0; r < ruleBlock->numberOfRules(); ++r) {
+        for (std::size_t r = 0; r < ruleBlock->numberOfRules(); ++r) {
             ss << name << "->addRule(" << "fl::Rule::parse(\"" <<
                     ruleBlock->getRule(r)->getText() << "\", engine));\n";
         }
@@ -209,7 +209,7 @@ namespace fl {
         if (const IntegralDefuzzifier * integralDefuzzifier =
                 dynamic_cast<const IntegralDefuzzifier*> (defuzzifier)) {
             return "new " + fl(integralDefuzzifier->className()) + "("
-                    + fl::Op::str(integralDefuzzifier->getResolution()) + ")";
+                    + Op::str(integralDefuzzifier->getResolution()) + ")";
         }
         if (const WeightedDefuzzifier * weightedDefuzzifier =
                 dynamic_cast<const WeightedDefuzzifier*> (defuzzifier)) {

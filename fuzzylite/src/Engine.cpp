@@ -91,7 +91,7 @@ namespace fl {
         std::vector<Variable*> myVariables = variables();
         for (std::size_t i = 0; i < myVariables.size(); ++i) {
             Variable* variable = myVariables.at(i);
-            for (int t = 0; t < variable->numberOfTerms(); ++t) {
+            for (std::size_t t = 0; t < variable->numberOfTerms(); ++t) {
                 Term::updateReference(variable->getTerm(t), this);
             }
         }
@@ -194,7 +194,7 @@ namespace fl {
                 int requiresConjunction = 0;
                 int requiresDisjunction = 0;
                 int requiresActivation = 0;
-                for (int r = 0; r < ruleblock->numberOfRules(); ++r) {
+                for (std::size_t r = 0; r < ruleblock->numberOfRules(); ++r) {
                     Rule* rule = ruleblock->getRule(r);
                     if (not rule) {
                         ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName()
@@ -378,7 +378,7 @@ namespace fl {
 
             if (takagiSugeno) {
                 //Takagi-Sugeno has only Constant, Linear or Function terms
-                for (int t = 0; takagiSugeno and t < outputVariable->numberOfTerms(); ++t) {
+                for (std::size_t t = 0; takagiSugeno and t < outputVariable->numberOfTerms(); ++t) {
                     Term* term = outputVariable->getTerm(t);
                     takagiSugeno = takagiSugeno and
                             weightedDefuzzifier->inferType(term) == WeightedDefuzzifier::TakagiSugeno;
@@ -405,7 +405,7 @@ namespace fl {
                     weightedDefuzzifier->getType() == WeightedDefuzzifier::Tsukamoto);
             if (tsukamoto) {
                 //Tsukamoto has only monotonic terms: Concave, Ramp, Sigmoid, SShape, or ZShape
-                for (int t = 0; tsukamoto and t < outputVariable->numberOfTerms(); ++t) {
+                for (std::size_t t = 0; tsukamoto and t < outputVariable->numberOfTerms(); ++t) {
                     Term* term = outputVariable->getTerm(t);
                     tsukamoto = tsukamoto and weightedDefuzzifier->isMonotonic(term);
                 }
@@ -476,18 +476,18 @@ namespace fl {
         this->_inputVariables.push_back(inputVariable);
     }
 
-    InputVariable* Engine::setInputVariable(InputVariable* inputVariable, int index) {
+	InputVariable* Engine::setInputVariable(InputVariable* inputVariable, std::size_t index) {
         InputVariable* result = this->_inputVariables.at(index);
         this->_inputVariables.at(index) = inputVariable;
         return result;
     }
 
-    void Engine::insertInputVariable(InputVariable* inputVariable, int index) {
+	void Engine::insertInputVariable(InputVariable* inputVariable, std::size_t index) {
         this->_inputVariables.insert(this->_inputVariables.begin() + index,
                 inputVariable);
     }
 
-    InputVariable* Engine::getInputVariable(int index) const {
+	InputVariable* Engine::getInputVariable(std::size_t index) const {
         return this->_inputVariables.at(index);
     }
 
@@ -507,7 +507,7 @@ namespace fl {
         return false;
     }
 
-    InputVariable* Engine::removeInputVariable(int index) {
+	InputVariable* Engine::removeInputVariable(std::size_t index) {
         InputVariable* result = this->_inputVariables.at(index);
         this->_inputVariables.erase(this->_inputVariables.begin() + index);
         return result;
@@ -524,7 +524,7 @@ namespace fl {
         throw fl::Exception("[engine error] input variable <" + name + "> not found", FL_AT);
     }
 
-    int Engine::numberOfInputVariables() const {
+    std::size_t Engine::numberOfInputVariables() const {
         return this->_inputVariables.size();
     }
 
@@ -552,18 +552,18 @@ namespace fl {
         this->_outputVariables.push_back(outputVariable);
     }
 
-    OutputVariable* Engine::setOutputVariable(OutputVariable* outputVariable, int index) {
+	OutputVariable* Engine::setOutputVariable(OutputVariable* outputVariable, std::size_t index) {
         OutputVariable* result = this->_outputVariables.at(index);
         this->_outputVariables.at(index) = outputVariable;
         return result;
     }
 
-    void Engine::insertOutputVariable(OutputVariable* outputVariable, int index) {
+	void Engine::insertOutputVariable(OutputVariable* outputVariable, std::size_t index) {
         this->_outputVariables.insert(this->_outputVariables.begin() + index,
                 outputVariable);
     }
 
-    OutputVariable* Engine::getOutputVariable(int index) const {
+	OutputVariable* Engine::getOutputVariable(std::size_t index) const {
         return this->_outputVariables.at(index);
     }
 
@@ -583,7 +583,7 @@ namespace fl {
         return false;
     }
 
-    OutputVariable* Engine::removeOutputVariable(int index) {
+	OutputVariable* Engine::removeOutputVariable(std::size_t index) {
         OutputVariable* result = this->_outputVariables.at(index);
         this->_outputVariables.erase(this->_outputVariables.begin() + index);
         return result;
@@ -600,7 +600,7 @@ namespace fl {
         throw fl::Exception("[engine error] output variable <" + name + "> not found", FL_AT);
     }
 
-    int Engine::numberOfOutputVariables() const {
+    std::size_t Engine::numberOfOutputVariables() const {
         return this->_outputVariables.size();
     }
 
@@ -623,17 +623,17 @@ namespace fl {
         this->_ruleblocks.push_back(ruleblock);
     }
 
-    RuleBlock* Engine::setRuleBlock(RuleBlock* ruleBlock, int index) {
+	RuleBlock* Engine::setRuleBlock(RuleBlock* ruleBlock, std::size_t index) {
         RuleBlock* result = this->_ruleblocks.at(index);
         this->_ruleblocks.at(index) = ruleBlock;
         return result;
     }
 
-    void Engine::insertRuleBlock(RuleBlock* ruleblock, int index) {
+	void Engine::insertRuleBlock(RuleBlock* ruleblock, std::size_t index) {
         this->_ruleblocks.insert(this->_ruleblocks.begin() + index, ruleblock);
     }
 
-    RuleBlock* Engine::getRuleBlock(int index) const {
+	RuleBlock* Engine::getRuleBlock(std::size_t index) const {
         return this->_ruleblocks.at(index);
     }
 
@@ -653,7 +653,7 @@ namespace fl {
         return false;
     }
 
-    RuleBlock* Engine::removeRuleBlock(int index) {
+	RuleBlock* Engine::removeRuleBlock(std::size_t index) {
         RuleBlock* result = this->_ruleblocks.at(index);
         this->_ruleblocks.erase(this->_ruleblocks.begin() + index);
         return result;
@@ -670,7 +670,7 @@ namespace fl {
         throw fl::Exception("[engine error] rule block <" + name + "> not found", FL_AT);
     }
 
-    int Engine::numberOfRuleBlocks() const {
+    std::size_t Engine::numberOfRuleBlocks() const {
         return this->_ruleblocks.size();
     }
 

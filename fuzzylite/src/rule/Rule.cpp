@@ -116,7 +116,7 @@ namespace fl {
         return (it != this->_hedges.end());
     }
 
-    int Rule::numberOfHedges() const {
+    std::size_t Rule::numberOfHedges() const {
         return this->_hedges.size();
     }
 

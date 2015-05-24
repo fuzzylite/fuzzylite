@@ -48,7 +48,7 @@ namespace fl {
         if (fl::Op::isLE(_x_, _xy.front().first)) return _height * _xy.front().second;
         if (fl::Op::isGE(_x_, _xy.back().first)) return _height * _xy.back().second;
 
-        int lower = -1, upper = -1;
+        std::ptrdiff_t lower = -1, upper = -1;
 
         for (std::size_t i = 0; i < _xy.size(); ++i) {
             if (Op::isEq(_xy.at(i).first, _x_)) return _height * _xy.at(i).second;
@@ -107,11 +107,11 @@ namespace fl {
         return this->_xy;
     }
 
-    const Discrete::Pair& Discrete::xy(int index) const {
+	const Discrete::Pair& Discrete::xy(std::size_t index) const {
         return this->_xy.at(index);
     }
 
-    Discrete::Pair& Discrete::xy(int index) {
+	Discrete::Pair& Discrete::xy(std::size_t index) {
         return this->_xy.at(index);
     }
 

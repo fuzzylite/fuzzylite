@@ -50,7 +50,7 @@ namespace fl {
         std::istringstream fclReader(fcl);
         std::string line;
 
-        int lineNumber = 0;
+        std::size_t lineNumber = 0;
         while (std::getline(fclReader, line)) {
             ++lineNumber;
             std::vector<std::string> comments;

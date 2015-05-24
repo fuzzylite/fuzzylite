@@ -77,13 +77,13 @@ namespace fl {
     std::string FldExporter::header(const Engine* engine) const {
         std::vector<std::string> result;
         if (_exportInputValues) {
-            for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
+            for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i) {
                 InputVariable* inputVariable = engine->getInputVariable(i);
                 result.push_back("@InputVariable: " + inputVariable->getName() + ";");
             }
         }
         if (_exportOutputValues) {
-            for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+            for (std::size_t i = 0; i < engine->numberOfOutputVariables(); ++i) {
                 OutputVariable* outputVariable = engine->getOutputVariable(i);
                 result.push_back("@OutputVariable: " + outputVariable->getName() + ";");
             }
@@ -160,7 +160,7 @@ namespace fl {
         int resolution = -1 + (int) std::max(1.0, std::pow(
                 maximum, 1.0 / engine->numberOfInputVariables()));
         std::vector<int> sampleValues, minSampleValues, maxSampleValues;
-        for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
+        for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i) {
             sampleValues.push_back(0);
             minSampleValues.push_back(0);
             maxSampleValues.push_back(resolution);
@@ -171,7 +171,7 @@ namespace fl {
         bool overflow = false;
         std::vector<scalar> inputValues(engine->numberOfInputVariables());
         while (not overflow) {
-            for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
+            for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i) {
                 InputVariable* inputVariable = engine->getInputVariable(i);
                 inputValues.at(i) = inputVariable->getMinimum()
                         + sampleValues.at(i) * inputVariable->range() / std::max(1, resolution);
@@ -187,7 +187,7 @@ namespace fl {
         engine->restart();
 
         std::string line;
-        int lineNumber = 0;
+        std::size_t lineNumber = 0;
         while (std::getline(reader, line)) {
             ++lineNumber;
             std::vector<scalar> inputValues = parse(Op::trim(line));
@@ -205,7 +205,7 @@ namespace fl {
             writer << "\n";
             return;
         }
-        if (int(inputValues.size()) < engine->numberOfInputVariables()) {
+        if (inputValues.size() < engine->numberOfInputVariables()) {
             std::ostringstream ex;
             ex << "[export error] engine has <" << engine->numberOfInputVariables() << "> "
                     "input variables, but input data provides <" << inputValues.size() << "> values";
@@ -213,7 +213,7 @@ namespace fl {
         }
 
         std::vector<std::string> values;
-        for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
+        for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i) {
             InputVariable* inputVariable = engine->getInputVariable(i);
             scalar inputValue = inputVariable->isEnabled() ? inputValues.at(i) : fl::nan;
             inputVariable->setValue(inputValue);
@@ -222,7 +222,7 @@ namespace fl {
 
         engine->process();
 
-        for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+        for (std::size_t i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
             outputVariable->defuzzify();
             if (_exportOutputValues)

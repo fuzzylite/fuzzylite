@@ -26,7 +26,7 @@
 #include <vector>
 
 namespace fl {
-
+	//FL_API removed because methods are inline.
     class Operation {
     public:
 
@@ -52,12 +52,16 @@ namespace fl {
         static bool isFinite(T x);
 
         //Is less than
-
-        static bool isLt(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
-        static bool isLE(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
-        static bool isEq(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
-        static bool isGt(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
-        static bool isGE(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
+		template <typename T>
+		static bool isLt(T a, T b, scalar macheps = fl::fuzzylite::macheps());
+		template <typename T>
+		static bool isLE(T a, T b, scalar macheps = fl::fuzzylite::macheps());
+		template <typename T>
+		static bool isEq(T a, T b, scalar macheps = fl::fuzzylite::macheps());
+		template <typename T>
+		static bool isGt(T a, T b, scalar macheps = fl::fuzzylite::macheps());
+		template <typename T>
+		static bool isGE(T a, T b, scalar macheps = fl::fuzzylite::macheps());
 
         static scalar scale(scalar x, scalar fromMin, scalar fromMax,
                 scalar toMin, scalar toMax, bool bounded = false);
@@ -158,8 +162,6 @@ namespace fl {
         if (isNaN(b)) return a;
         return a < b ? a : b;
     }
-    template FL_API scalar Operation::min(scalar a, scalar b);
-    template FL_API int Operation::min(int a, int b);
 
     template <typename T>
     inline T Operation::max(T a, T b) {
@@ -167,17 +169,13 @@ namespace fl {
         if (isNaN(b)) return a;
         return a > b ? a : b;
     }
-    template FL_API scalar Operation::max(scalar a, scalar b);
-    template FL_API int Operation::max(int a, int b);
-
+    
     template <typename T>
     inline T Operation::bound(T x, T min, T max) {
         if (isGt(x, max)) return max;
         if (isLt(x, min)) return min;
         return x;
     }
-    template FL_API scalar Operation::bound(scalar x, scalar min, scalar max);
-    template FL_API int Operation::bound(int x, int min, int max);
 
     template <typename T>
     inline bool Operation::in(T x, T min, T max, bool geq, bool leq) {
@@ -185,47 +183,40 @@ namespace fl {
         bool right = leq ? isLE(x, max) : isLt(x, max);
         return (left and right);
     }
-    template FL_API bool Operation::in(scalar x, scalar min, scalar max, bool geq, bool leq);
-    template FL_API bool Operation::in(int x, int min, int max, bool geq, bool leq);
-
+    
     template <typename T>
     inline bool Operation::isInf(T x) {
         return std::abs(x) == fl::inf;
     }
-    template FL_API bool Operation::isInf(int x);
-    template FL_API bool Operation::isInf(scalar x);
 
     template <typename T>
     inline bool Operation::isNaN(T x) {
         return not (x == x);
     }
-    template FL_API bool Operation::isNaN(int x);
-    template FL_API bool Operation::isNaN(scalar x);
 
     template<typename T>
     inline bool Operation::isFinite(T x) {
         return not (isNaN(x) or isInf(x));
     }
-    template FL_API bool Operation::isFinite(int x);
-    template FL_API bool Operation::isFinite(scalar x);
-
-    inline bool Operation::isLt(scalar a, scalar b, scalar macheps) {
+	
+	template<typename T>
+	inline bool Operation::isLt(T a, T b, scalar macheps) {
         return not isEq(a, b, macheps) and a < b;
     }
-
-    inline bool Operation::isLE(scalar a, scalar b, scalar macheps) {
+	template<typename T>
+	inline bool Operation::isLE(T a, T b, scalar macheps) {
         return isEq(a, b, macheps) or a < b;
     }
-
-    inline bool Operation::isEq(scalar a, scalar b, scalar macheps) {
+	template<typename T>
+	inline bool Operation::isEq(T a, T b, scalar macheps) {
         return a == b or std::fabs(a - b) < macheps or (isNaN(a) and isNaN(b));
     }
-
-    inline bool Operation::isGt(scalar a, scalar b, scalar macheps) {
+	template<typename T>
+	inline bool Operation::isGt(T a, T b, scalar macheps) {
         return not isEq(a, b, macheps) and a > b;
     }
-
-    inline bool Operation::isGE(scalar a, scalar b, scalar macheps) {
+	template<typename T>
+	inline bool Operation::isGE(T a, T b, scalar macheps) {
         return isEq(a, b, macheps) or a > b;
     }
 
@@ -410,14 +401,14 @@ namespace fl {
         if (text.empty()) return text;
         if (not (std::isspace(text.at(0)) or std::isspace(text.at(text.size() - 1))))
             return text;
-        int start = 0, end = text.size() - 1;
+        std::size_t start = 0, end = text.size() - 1;
         while (start <= end and std::isspace(text.at(start))) {
             ++start;
         }
         while (end >= start and std::isspace(text.at(end))) {
             --end;
         }
-        int length = end - start + 1;
+        std::size_t length = end - start + 1;
         if (length <= 0) return "";
         return text.substr(start, length);
     }
@@ -500,14 +491,28 @@ namespace fl {
         if (fl::Op::isNaN(x)) {
             ss << "nan";
         } else if (fl::Op::isInf(x)) {
-            ss << (fl::Op::isLt(x, 0.0) ? "-inf" : "inf");
-        } else if (fl::Op::isEq(x, 0.0)) {
+            ss << (x < T(0) ? "-inf" : "inf");
+        } else if (fl::Op::isEq(x, T(0))) {
             ss << 0.0;
         } else ss << x;
         return ss.str();
     }
-    template FL_API std::string Operation::str(int x, int precision);
-    template FL_API std::string Operation::str(scalar x, int precision);
+
+	template <> FL_API
+	inline std::string Operation::str(int x, int precision){
+		(void)precision;
+		std::ostringstream ss;
+		ss << x;
+		return ss.str();
+	}
+    
+    template <> FL_API
+        inline std::string Operation::str(std::size_t x, int precision){
+        (void)precision;
+        std::ostringstream ss;
+        ss << x;
+        return ss.str();
+    }
 
     template <> FL_API
     inline std::string Operation::str(const std::string& x, int precision) {
@@ -525,10 +530,6 @@ namespace fl {
         }
         return ss.str();
     }
-    template FL_API std::string Operation::join(const std::vector<int>& x,
-            const std::string& separator);
-    template FL_API std::string Operation::join(const std::vector<scalar>& x,
-            const std::string& separator);
 
     template <> FL_API
     inline std::string Operation::join(const std::vector<std::string>& x,
@@ -555,11 +556,6 @@ namespace fl {
         va_end(args);
         return ss.str();
     }
-
-    template FL_API std::string Operation::join(int items, const std::string& separator,
-            int first, ...);
-    template FL_API std::string Operation::join(int items, const std::string& separator,
-            double first, ...);
 
     template <> FL_API
     inline std::string Operation::join(int items, const std::string& separator,

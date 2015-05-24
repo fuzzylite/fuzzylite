@@ -53,7 +53,7 @@ namespace fl {
         std::queue<std::string> lineQueue;
 
         bool processPending = false;
-        int lineNumber = 0;
+        std::size_t lineNumber = 0;
         while (not lineQueue.empty() or std::getline(fclReader, line)) {
             if (not lineQueue.empty()) {
                 line = lineQueue.front();
@@ -282,11 +282,11 @@ namespace fl {
     std::string FllImporter::clean(const std::string& line) const {
         if (line.empty()) return line;
         if (line.size() == 1) return isspace(line.at(0)) ? "" : line;
-        int start = 0, end = line.size() - 1;
+		std::size_t start = 0, end = line.size() - 1;
         while (start <= end and isspace(line.at(start))) {
             ++start;
         }
-        int sharp = start;
+		std::size_t sharp = start;
         while (sharp <= end) {
             if (line.at(sharp) == '#') {
                 end = sharp - 1;
@@ -298,7 +298,7 @@ namespace fl {
             --end;
         }
 
-        int length = end - start + 1;
+		std::size_t length = end - start + 1;
         return line.substr(start, length);
     }
 

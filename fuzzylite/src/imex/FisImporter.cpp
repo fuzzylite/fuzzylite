@@ -40,7 +40,7 @@ namespace fl {
 
         std::istringstream fisReader(fis);
         std::string line;
-        int lineNumber = 0;
+        std::size_t lineNumber = 0;
 
         std::vector<std::string> sections;
         while (std::getline(fisReader, line)) {
@@ -226,14 +226,14 @@ namespace fl {
             outputs.erase(outputs.begin() + outputs.size() - 1);
             std::string connector = fl::Op::trim(outputsAndRest.at(1));
 
-            if ((int) inputs.size() != engine->numberOfInputVariables()) {
+            if (inputs.size() != engine->numberOfInputVariables()) {
                 std::ostringstream ss;
                 ss << "[syntax error] expected <" << engine->numberOfInputVariables() << ">"
                         " input variables, but found <" << inputs.size() << ">"
                         " input variables in rule <" << line << ">";
                 throw fl::Exception(ss.str(), FL_AT);
             }
-            if ((int) outputs.size() != engine->numberOfOutputVariables()) {
+            if (outputs.size() != engine->numberOfOutputVariables()) {
                 std::ostringstream ss;
                 ss << "[syntax error] expected <" << engine->numberOfOutputVariables() << ">"
                         " output variables, but found <" << outputs.size() << ">"
@@ -325,7 +325,7 @@ namespace fl {
         else if (fl::Op::isEq(fracPart, 0.3)) ss << Extremely().name() << " ";
         else if (fl::Op::isEq(fracPart, 0.4)) ss << Very().name() << " " << Very().name() << " ";
         else if (fl::Op::isEq(fracPart, 0.99)) ss << Any().name() << " ";
-        else if (not fl::Op::isEq(fracPart, 0))
+        else if (not fl::Op::isEq(fracPart, 0.0))
             throw fl::Exception("[syntax error] no hedge defined in FIS format for <"
                 + fl::Op::str(fracPart) + ">", FL_AT);
         if (not isAny) {

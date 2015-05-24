@@ -25,7 +25,7 @@
 #include <vector>
 
 namespace fl {
-
+	//FL_API removed because methods are inline.
     template <typename T>
     class ConstructionFactory {
     public:
@@ -48,7 +48,9 @@ namespace fl {
         virtual Constructor getConstructor(const std::string& key) const;
         virtual T constructObject(const std::string& key) const;
         virtual std::vector<std::string> available() const;
-
+        //virtual std::map<std::string, T(*)()>& constructors();
+        virtual std::map<std::string, Constructor>& constructors();
+        virtual const std::map<std::string, Constructor>& constructors() const;
     };
 
 }
@@ -134,6 +136,16 @@ namespace fl {
             ++it;
         }
         return result;
+    }
+
+    template<typename T>
+    inline std::map<std::string, typename ConstructionFactory<T>::Constructor>& ConstructionFactory<T>::constructors(){
+      return this->_constructors;
+    }
+
+    template<typename T>
+    inline const std::map<std::string, typename ConstructionFactory<T>::Constructor>& ConstructionFactory<T>::constructors() const{
+        return this->_constructors;
     }
 }
 

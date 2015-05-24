@@ -39,15 +39,15 @@ namespace fl {
         ss << "engine.setName(\"" << engine->getName() << "\");\n";
         ss << "\n";
 
-        for (int i = 0; i < engine->numberOfInputVariables(); ++i) {
+        for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i) {
             ss << toString(engine->getInputVariable(i), engine) << "\n";
         }
 
-        for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+        for (std::size_t i = 0; i < engine->numberOfOutputVariables(); ++i) {
             ss << toString(engine->getOutputVariable(i), engine) << "\n";
         }
 
-        for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
+        for (std::size_t i = 0; i < engine->numberOfRuleBlocks(); ++i) {
             ss << toString(engine->getRuleBlock(i), engine) << "\n";
         }
 
@@ -58,10 +58,10 @@ namespace fl {
         std::ostringstream ss;
         std::string name = "inputVariable";
         if (engine->numberOfInputVariables() > 1) {
-            int index = std::distance(engine->inputVariables().begin(),
+            std::size_t index = std::distance(engine->inputVariables().begin(),
                     std::find(engine->inputVariables().begin(),
                     engine->inputVariables().end(), inputVariable));
-            name += Op::str<int>(index + 1);
+            name += Op::str(index + 1);
         }
         ss << "InputVariable " << name << " = new InputVariable();\n";
         ss << name << ".setEnabled(" << (inputVariable->isEnabled() ? "true" : "false") << ");\n";
@@ -70,7 +70,7 @@ namespace fl {
                 << toString(inputVariable->getMinimum()) << ", "
                 << toString(inputVariable->getMaximum()) << ");\n";
 
-        for (int i = 0; i < inputVariable->numberOfTerms(); ++i) {
+        for (std::size_t i = 0; i < inputVariable->numberOfTerms(); ++i) {
             ss << name << ".addTerm(" <<
                     toString(inputVariable->getTerm(i)) << ");\n";
         }
@@ -82,10 +82,10 @@ namespace fl {
         std::ostringstream ss;
         std::string name = "outputVariable";
         if (engine->numberOfOutputVariables() > 1) {
-            int index = std::distance(engine->outputVariables().begin(),
+			std::size_t index = std::distance(engine->outputVariables().begin(),
                     std::find(engine->outputVariables().begin(),
                     engine->outputVariables().end(), outputVariable));
-            name += Op::str<int>(index + 1);
+            name += Op::str(index + 1);
         }
         ss << "OutputVariable " << name << " = new OutputVariable();\n";
         ss << name << ".setEnabled(" << (outputVariable->isEnabled() ? "true" : "false") << ");\n";
@@ -103,7 +103,7 @@ namespace fl {
                 (outputVariable->isLockPreviousValue() ? "true" : "false") << ");\n";
         ss << name << ".setLockValueInRange(" <<
                 (outputVariable->isLockValueInRange() ? "true" : "false") << ");\n";
-        for (int i = 0; i < outputVariable->numberOfTerms(); ++i) {
+        for (std::size_t i = 0; i < outputVariable->numberOfTerms(); ++i) {
             ss << name << ".addTerm(" <<
                     toString(outputVariable->getTerm(i)) << ");\n";
         }
@@ -115,10 +115,10 @@ namespace fl {
         std::ostringstream ss;
         std::string name = "ruleBlock";
         if (engine->numberOfRuleBlocks() > 1) {
-            int index = std::distance(engine->ruleBlocks().begin(),
+			std::size_t index = std::distance(engine->ruleBlocks().begin(),
                     std::find(engine->ruleBlocks().begin(),
                     engine->ruleBlocks().end(), ruleBlock));
-            name += Op::str<int>(index + 1);
+            name += Op::str(index + 1);
         }
         ss << "RuleBlock " << name << " = new RuleBlock();\n";
         ss << name << ".setEnabled(" << (ruleBlock->isEnabled() ? "true" : "false") << ");\n";
@@ -129,7 +129,7 @@ namespace fl {
                 << toString(ruleBlock->getDisjunction()) << ");\n";
         ss << name << ".setActivation("
                 << toString(ruleBlock->getActivation()) << ");\n";
-        for (int i = 0; i < ruleBlock->numberOfRules(); ++i) {
+        for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             Rule* rule = ruleBlock->getRule(i);
             ss << name << ".addRule(Rule.parse(\"" << rule->getText() << "\", engine));\n";
         }

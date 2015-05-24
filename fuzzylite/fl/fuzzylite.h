@@ -24,6 +24,7 @@
 #include <sstream>
 #include <limits>
 #include <memory>
+#include <cstddef>
 
 #ifndef FL_VERSION
 #define FL_VERSION "?"

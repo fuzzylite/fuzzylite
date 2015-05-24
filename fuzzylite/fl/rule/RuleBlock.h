@@ -76,10 +76,10 @@ namespace fl {
          * Operations for iterable datatype _rules
          */
         virtual void addRule(Rule* rule);
-        virtual void insertRule(Rule* rule, int index);
-        virtual Rule* getRule(int index) const;
-        virtual Rule* removeRule(int index);
-        virtual int numberOfRules() const;
+		virtual void insertRule(Rule* rule, std::size_t index);
+		virtual Rule* getRule(std::size_t index) const;
+		virtual Rule* removeRule(std::size_t index);
+        virtual std::size_t numberOfRules() const;
         virtual void setRules(const std::vector<Rule*>& rules);
         virtual const std::vector<Rule*>& rules() const;
         virtual std::vector<Rule*>& rules();

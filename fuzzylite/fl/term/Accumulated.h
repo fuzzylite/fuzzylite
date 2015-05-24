@@ -74,9 +74,9 @@ namespace fl {
          */
         virtual void addTerm(const Term* term, scalar degree, const TNorm* activation);
         virtual void addTerm(Activated* term);
-        virtual Activated* getTerm(int index) const;
-        virtual Activated* removeTerm(int index);
-        virtual int numberOfTerms() const;
+        virtual Activated* getTerm(std::size_t index) const;
+        virtual Activated* removeTerm(std::size_t index);
+        virtual std::size_t numberOfTerms() const;
         virtual const std::vector<Activated*>& terms() const;
         virtual std::vector<Activated*>& terms();
         virtual bool isEmpty() const;

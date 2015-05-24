@@ -69,11 +69,11 @@ namespace fl {
         fis << "NumInputs=" << engine->numberOfInputVariables() << "\n";
         fis << "NumOutputs=" << engine->numberOfOutputVariables() << "\n";
         
-        int numberOfRules = 0;
+        std::size_t numberOfRules = 0;
         const TNorm* conjunction = fl::null;
         const SNorm* disjunction = fl::null;
         const TNorm* activation = fl::null;
-        for (int i = 0; i < engine->numberOfRuleBlocks(); ++i) {
+        for (std::size_t i = 0; i < engine->numberOfRuleBlocks(); ++i) {
             RuleBlock* rb = engine->getRuleBlock(i);
             numberOfRules += rb->numberOfRules();
             if (not conjunction) conjunction = rb->getConjunction();
@@ -87,7 +87,7 @@ namespace fl {
 
         const SNorm* accumulation = fl::null;
         Defuzzifier* defuzzifier = fl::null;
-        for (int i = 0; i < engine->numberOfOutputVariables(); ++i) {
+        for (std::size_t i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
             if (not accumulation) accumulation = outputVariable->fuzzyOutput()->getAccumulation();
             if (not defuzzifier) defuzzifier = outputVariable->getDefuzzifier();
@@ -100,7 +100,7 @@ namespace fl {
 
     std::string FisExporter::exportInputs(const Engine* engine) const {
         std::ostringstream fis;
-        for (int ixVar = 0; ixVar < engine->numberOfInputVariables(); ++ixVar) {
+        for (std::size_t ixVar = 0; ixVar < engine->numberOfInputVariables(); ++ixVar) {
             InputVariable* var = engine->getInputVariable(ixVar);
             fis << "[Input" << (ixVar + 1) << "]\n";
             if (not var->isEnabled()) {
@@ -109,7 +109,7 @@ namespace fl {
             fis << "Name='" << Op::validName(var->getName()) << "'\n";
             fis << "Range=[" << fl::Op::join(2, " ", var->getMinimum(), var->getMaximum()) << "]\n";
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
-            for (int ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
+            for (std::size_t ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
                 fis << "MF" << (ixTerm + 1) << "='" << Op::validName(var->getTerm(ixTerm)->getName()) << "':"
                         << toString(var->getTerm(ixTerm)) << "\n";
             }
@@ -120,7 +120,7 @@ namespace fl {
 
     std::string FisExporter::exportOutputs(const Engine* engine) const {
         std::ostringstream fis;
-        for (int ixVar = 0; ixVar < engine->numberOfOutputVariables(); ++ixVar) {
+		for (std::size_t ixVar = 0; ixVar < engine->numberOfOutputVariables(); ++ixVar) {
             OutputVariable* var = engine->getOutputVariable(ixVar);
             fis << "[Output" << (ixVar + 1) << "]\n";
             if (not var->isEnabled()) {
@@ -138,7 +138,7 @@ namespace fl {
                 fis << "LockRange=" << var->isLockValueInRange() << "\n";
             }
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
-            for (int ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
+			for (std::size_t ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
                 fis << "MF" << (ixTerm + 1) << "='" << Op::validName(var->getTerm(ixTerm)->getName()) << "':"
                         << toString(var->getTerm(ixTerm)) << "\n";
             }
@@ -150,10 +150,10 @@ namespace fl {
     std::string FisExporter::exportRules(const Engine* engine) const {
         std::ostringstream fis;
         fis << "[Rules]\n";
-        for (int ixRuleBlock = 0; ixRuleBlock < engine->numberOfRuleBlocks(); ++ixRuleBlock) {
+		for (std::size_t ixRuleBlock = 0; ixRuleBlock < engine->numberOfRuleBlocks(); ++ixRuleBlock) {
             RuleBlock* rb = engine->getRuleBlock(ixRuleBlock);
             if (engine->numberOfRuleBlocks() > 1) fis << "# RuleBlock " << rb->getName() << "\n";
-            for (int ixRule = 0; ixRule < rb->numberOfRules(); ++ixRule) {
+			for (std::size_t ixRule = 0; ixRule < rb->numberOfRules(); ++ixRule) {
                 Rule* rule = rb->getRule(ixRule);
                 if (rule->isLoaded()) {
                     fis << exportRule(rule, engine) << "\n";
@@ -197,9 +197,9 @@ namespace fl {
         }
         std::ostringstream fis;
         std::vector<Variable*> inputVariables, outputVariables;
-        for (int i = 0; i < engine->numberOfInputVariables(); ++i)
+		for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i)
             inputVariables.push_back(engine->getInputVariable(i));
-        for (int i = 0; i < engine->numberOfOutputVariables(); ++i)
+		for (std::size_t i = 0; i < engine->numberOfOutputVariables(); ++i)
             outputVariables.push_back(engine->getOutputVariable(i));
 
         fis << translate(propositions, inputVariables) << ", ";
@@ -219,14 +219,14 @@ namespace fl {
         std::ostringstream ss;
         for (std::size_t ixVariable = 0; ixVariable < variables.size(); ++ixVariable) {
             Variable* variable = variables.at(ixVariable);
-            int termIndexPlusOne = 0;
+            std::size_t termIndexPlusOne = 0;
             scalar plusHedge = 0;
             int negated = 1;
             for (std::size_t ixProposition = 0; ixProposition < propositions.size(); ++ixProposition) {
                 Proposition* proposition = propositions.at(ixProposition);
                 if (proposition->variable != variable) continue;
 
-                for (int termIndex = 0; termIndex < variable->numberOfTerms(); ++termIndex) {
+				for (std::size_t termIndex = 0; termIndex < variable->numberOfTerms(); ++termIndex) {
                     if (variable->getTerm(termIndex) == proposition->term) {
                         termIndexPlusOne = termIndex + 1;
                         break;

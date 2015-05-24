@@ -22,7 +22,7 @@
 #include <algorithm>
 #include <cctype>
 #include <fstream>
-#include <stdlib.h>
+#include <cstdlib>
 #include <utility>
 #include <vector>
 
@@ -704,7 +704,7 @@ namespace fl {
 
         std::vector<std::string> runNumbers(runs);
         for (int i = 0; i < runs; ++i) {
-            runNumbers.at(i) = std::to_string(i + 1);
+            runNumbers.at(i) = Op::str(i + 1);
         }
         std::string spacedPath(40, ' ');
         std::copy(path.begin(), path.end(), spacedPath.begin());

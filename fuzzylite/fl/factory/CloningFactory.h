@@ -25,7 +25,7 @@
 #include <vector>
 
 namespace fl {
-
+	//FL_API removed because methods are inline.
     template <typename T>
     class CloningFactory {
     protected:
@@ -47,6 +47,8 @@ namespace fl {
         virtual T getObject(const std::string& key) const;
         virtual T cloneObject(const std::string& key) const;
         virtual std::vector<std::string> available() const;
+        virtual std::map<std::string, T>& objects();
+        virtual const std::map<std::string, T>& objects() const;
 
     };
 }
@@ -157,6 +159,16 @@ namespace fl {
             result.push_back(it->first);
         }
         return result;
+    }
+
+    template<typename T>
+    inline std::map<std::string, T>& CloningFactory<T>::objects() {
+        return this->_objects;
+    }
+   
+    template<typename T>
+    inline const std::map<std::string, T>& CloningFactory<T>::objects() const{
+        return this->_objects;
     }
 }
 

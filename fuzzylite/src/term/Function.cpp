@@ -276,11 +276,11 @@ namespace fl {
             throw fl::Exception("[function error] function <" + _formula + "> not loaded.", FL_AT);
         }
         if (this->_engine) {
-            for (int i = 0; i < this->_engine->numberOfInputVariables(); ++i) {
+            for (std::size_t i = 0; i < this->_engine->numberOfInputVariables(); ++i) {
                 InputVariable* input = this->_engine->getInputVariable(i);
                 this->variables[input->getName()] = input->getValue();
             }
-            for (int i = 0; i < this->_engine->numberOfOutputVariables(); ++i) {
+            for (std::size_t i = 0; i < this->_engine->numberOfOutputVariables(); ++i) {
                 OutputVariable* output = this->_engine->getOutputVariable(i);
                 this->variables[output->getName()] = output->getValue();
             }
@@ -513,7 +513,7 @@ namespace fl {
             bool isOperand = not element and token != "(" and token != ")" and token != ",";
 
             if (element) {
-                if (element->arity > (int) stack.size()) {
+                if (element->arity > stack.size()) {
                     std::ostringstream ss;
                     ss << "[function error] " << (element->isOperator() ? "operator" : "function") <<
                             " <" << element->name << "> has arity <" << element->arity << ">, "

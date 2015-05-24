@@ -63,7 +63,7 @@ namespace fl {
         virtual Hedge* getHedge(const std::string& name) const;
         virtual Hedge* removeHedge(const std::string& hedge);
         virtual bool hasHedge(const std::string& name) const;
-        virtual int numberOfHedges() const;
+        virtual std::size_t numberOfHedges() const;
         virtual void setHedges(const std::map<std::string, Hedge*>& hedges);
         virtual const std::map<std::string, Hedge*>& hedges() const;
         virtual std::map<std::string, Hedge*>& hedges();

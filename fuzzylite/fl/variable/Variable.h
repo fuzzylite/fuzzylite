@@ -76,12 +76,12 @@ namespace fl {
          */
         virtual void sort();
         virtual void addTerm(Term* term);
-        virtual void insertTerm(Term* term, int index);
-        virtual Term* getTerm(int index) const;
+		virtual void insertTerm(Term* term, std::size_t  index);
+		virtual Term* getTerm(std::size_t  index) const;
         virtual Term* getTerm(const std::string& name) const;
         virtual bool hasTerm(const std::string& name) const;
-        virtual Term* removeTerm(int index);
-        virtual int numberOfTerms() const;
+		virtual Term* removeTerm(std::size_t  index);
+		virtual std::size_t  numberOfTerms() const;
         virtual void setTerms(const std::vector<Term*>& terms);
         virtual const std::vector<Term*>& terms() const;
         virtual std::vector<Term*>& terms();

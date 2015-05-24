@@ -170,21 +170,21 @@ namespace fl {
         this->_rules.push_back(rule);
     }
 
-    void RuleBlock::insertRule(Rule* rule, int index) {
+	void RuleBlock::insertRule(Rule* rule, std::size_t index) {
         this->_rules.insert(this->_rules.begin() + index, rule);
     }
 
-    Rule* RuleBlock::getRule(int index) const {
+	Rule* RuleBlock::getRule(std::size_t index) const {
         return this->_rules.at(index);
     }
 
-    Rule* RuleBlock::removeRule(int index) {
+	Rule* RuleBlock::removeRule(std::size_t index) {
         Rule* result = this->_rules.at(index);
         this->_rules.erase(this->_rules.begin() + index);
         return result;
     }
 
-    int RuleBlock::numberOfRules() const {
+    std::size_t RuleBlock::numberOfRules() const {
         return this->_rules.size();
     }
 
