@@ -26,7 +26,8 @@
 #include <vector>
 
 namespace fl {
-	//FL_API removed because methods are inline.
+    //FL_API removed because methods are inline.
+
     class Operation {
     public:
 
@@ -51,17 +52,11 @@ namespace fl {
         template <typename T>
         static bool isFinite(T x);
 
-        //Is less than
-		template <typename T>
-		static bool isLt(T a, T b, scalar macheps = fl::fuzzylite::macheps());
-		template <typename T>
-		static bool isLE(T a, T b, scalar macheps = fl::fuzzylite::macheps());
-		template <typename T>
-		static bool isEq(T a, T b, scalar macheps = fl::fuzzylite::macheps());
-		template <typename T>
-		static bool isGt(T a, T b, scalar macheps = fl::fuzzylite::macheps());
-		template <typename T>
-		static bool isGE(T a, T b, scalar macheps = fl::fuzzylite::macheps());
+        static bool isLt(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
+        static bool isLE(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
+        static bool isEq(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
+        static bool isGt(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
+        static bool isGE(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
 
         static scalar scale(scalar x, scalar fromMin, scalar fromMax,
                 scalar toMin, scalar toMax, bool bounded = false);
@@ -169,7 +164,7 @@ namespace fl {
         if (isNaN(b)) return a;
         return a > b ? a : b;
     }
-    
+
     template <typename T>
     inline T Operation::bound(T x, T min, T max) {
         if (isGt(x, max)) return max;
@@ -183,7 +178,7 @@ namespace fl {
         bool right = leq ? isLE(x, max) : isLt(x, max);
         return (left and right);
     }
-    
+
     template <typename T>
     inline bool Operation::isInf(T x) {
         return std::abs(x) == fl::inf;
@@ -198,25 +193,24 @@ namespace fl {
     inline bool Operation::isFinite(T x) {
         return not (isNaN(x) or isInf(x));
     }
-	
-	template<typename T>
-	inline bool Operation::isLt(T a, T b, scalar macheps) {
+
+    inline bool Operation::isLt(scalar a, scalar b, scalar macheps) {
         return not isEq(a, b, macheps) and a < b;
     }
-	template<typename T>
-	inline bool Operation::isLE(T a, T b, scalar macheps) {
+
+    inline bool Operation::isLE(scalar a, scalar b, scalar macheps) {
         return isEq(a, b, macheps) or a < b;
     }
-	template<typename T>
-	inline bool Operation::isEq(T a, T b, scalar macheps) {
+
+    inline bool Operation::isEq(scalar a, scalar b, scalar macheps) {
         return a == b or std::fabs(a - b) < macheps or (isNaN(a) and isNaN(b));
     }
-	template<typename T>
-	inline bool Operation::isGt(T a, T b, scalar macheps) {
+
+    inline bool Operation::isGt(scalar a, scalar b, scalar macheps) {
         return not isEq(a, b, macheps) and a > b;
     }
-	template<typename T>
-	inline bool Operation::isGE(T a, T b, scalar macheps) {
+
+    inline bool Operation::isGE(scalar a, scalar b, scalar macheps) {
         return isEq(a, b, macheps) or a > b;
     }
 
@@ -498,17 +492,17 @@ namespace fl {
         return ss.str();
     }
 
-	template <> FL_API
-	inline std::string Operation::str(int x, int precision){
-		(void)precision;
-		std::ostringstream ss;
-		ss << x;
-		return ss.str();
-	}
-    
     template <> FL_API
-        inline std::string Operation::str(std::size_t x, int precision){
-        (void)precision;
+    inline std::string Operation::str(int x, int precision) {
+        (void) precision;
+        std::ostringstream ss;
+        ss << x;
+        return ss.str();
+    }
+
+    template <> FL_API
+    inline std::string Operation::str(std::size_t x, int precision) {
+        (void) precision;
         std::ostringstream ss;
         ss << x;
         return ss.str();
