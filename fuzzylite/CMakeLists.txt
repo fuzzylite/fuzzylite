@@ -1,8 +1,13 @@
 cmake_minimum_required(VERSION 2.8)
 
 project(fuzzylite CXX)
-cmake_policy(SET CMP0042 NEW)
-cmake_policy(SET CMP0054 NEW)
+
+if (APPLE)
+	cmake_policy(SET CMP0042 NEW)
+endif()
+if (MSVC)
+	cmake_policy(SET CMP0054 NEW)
+endif()
 
 
 ###DEFINES SECTION
