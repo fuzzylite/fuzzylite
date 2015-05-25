@@ -27,11 +27,11 @@ namespace fl {
     protected:
         const Term* _term;
         scalar _degree;
-        const TNorm* _activation;
+        const TNorm* _implication;
 
     public:
         explicit Activated(const Term* term = fl::null, scalar degree = 1.0,
-                const TNorm* activationOperator = fl::null);
+                const TNorm* implication = fl::null);
         virtual ~Activated() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Activated)
 
@@ -48,8 +48,8 @@ namespace fl {
         virtual void setDegree(scalar degree);
         virtual scalar getDegree() const;
 
-        virtual void setActivation(const TNorm* activation);
-        virtual const TNorm* getActivation() const;
+        virtual void setImplication(const TNorm* implication);
+        virtual const TNorm* getImplication() const;
 
         virtual Activated* clone() const FL_IOVERRIDE;
     };

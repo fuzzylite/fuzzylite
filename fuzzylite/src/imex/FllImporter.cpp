@@ -184,8 +184,8 @@ namespace fl {
                 ruleBlock->setConjunction(parseTNorm(keyValue.second));
             } else if ("disjunction" == keyValue.first) {
                 ruleBlock->setDisjunction(parseSNorm(keyValue.second));
-            } else if ("activation" == keyValue.first) {
-                ruleBlock->setActivation(parseTNorm(keyValue.second));
+            } else if ("implication" == keyValue.first) {
+                ruleBlock->setImplication(parseTNorm(keyValue.second));
             } else if ("rule" == keyValue.first) {
                 Rule* rule = new Rule;
                 rule->setText(keyValue.second);

@@ -140,8 +140,8 @@ namespace fl {
                 toString(ruleBlock->getConjunction()) << ");\n";
         ss << name << "->setDisjunction("
                 << toString(ruleBlock->getDisjunction()) << ");\n";
-        ss << name << "->setActivation("
-                << toString(ruleBlock->getActivation()) << ");\n";
+        ss << name << "->setImplication("
+                << toString(ruleBlock->getImplication()) << ");\n";
         for (std::size_t r = 0; r < ruleBlock->numberOfRules(); ++r) {
             ss << name << "->addRule(" << "fl::Rule::parse(\"" <<
                     ruleBlock->getRule(r)->getText() << "\", engine));\n";

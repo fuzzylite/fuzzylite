@@ -299,7 +299,7 @@ namespace fl {
             } else if (firstToken == "OR") {
                 ruleblock->setDisjunction(parseSNorm(line));
             } else if (firstToken == "ACT") {
-                ruleblock->setActivation(parseTNorm(line));
+                ruleblock->setImplication(parseTNorm(line));
             } else if (firstToken == "ENABLED") {
                 ruleblock->setEnabled(parseEnabled(line));
             } else if (firstToken == "RULE") {

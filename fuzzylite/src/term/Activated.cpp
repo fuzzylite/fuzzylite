@@ -22,8 +22,8 @@
 
 namespace fl {
 
-    Activated::Activated(const Term* term, scalar degree, const TNorm* activation)
-    : Term(""), _term(term), _degree(degree), _activation(activation) {
+    Activated::Activated(const Term* term, scalar degree, const TNorm* implication)
+    : Term(""), _term(term), _degree(degree), _implication(implication) {
         if (term) this->_name = term->getName();
     }
 
@@ -36,15 +36,15 @@ namespace fl {
 
     scalar Activated::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
-        if (not _activation) throw fl::Exception("[activation error] "
-                "activation operator needed to activate " + _term->toString(), FL_AT);
-        return _activation->compute(this->_term->membership(x), _degree);
+        if (not _implication) throw fl::Exception("[implication error] "
+                "implication operator needed to activate " + _term->toString(), FL_AT);
+        return _implication->compute(this->_term->membership(x), _degree);
     }
 
     std::string Activated::parameters() const {
         FllExporter exporter;
         std::ostringstream ss;
-        ss << Op::str(_degree) << " " << exporter.toString(_activation) << " "
+        ss << Op::str(_degree) << " " << exporter.toString(_implication) << " "
                 << exporter.toString(_term);
         return ss.str();
     }
@@ -56,7 +56,7 @@ namespace fl {
     std::string Activated::toString() const {
         FllExporter exporter;
         std::ostringstream ss;
-        ss << exporter.toString(_activation) << "("
+        ss << exporter.toString(_implication) << "("
                 << Op::str(_degree) << ","
                 << _term->getName() << ")";
         return ss.str();
@@ -78,12 +78,12 @@ namespace fl {
         return this->_degree;
     }
 
-    void Activated::setActivation(const TNorm* activation) {
-        this->_activation = activation;
+    void Activated::setImplication(const TNorm* implication) {
+        this->_implication = implication;
     }
 
-    const TNorm* Activated::getActivation() const {
-        return this->_activation;
+    const TNorm* Activated::getImplication() const {
+        return this->_implication;
     }
 
     Activated* Activated::clone() const {

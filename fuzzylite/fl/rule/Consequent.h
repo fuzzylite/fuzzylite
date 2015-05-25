@@ -48,7 +48,7 @@ namespace fl {
         virtual void load(Rule* rule, const Engine* engine);
         virtual void load(const std::string& consequent, Rule* rule, const Engine* engine);
 
-        virtual void modify(scalar activationDegree, const TNorm* activation);
+        virtual void modify(scalar activationDegree, const TNorm* implication);
 
         virtual std::string toString() const;
 

@@ -160,8 +160,8 @@ namespace fl {
      */
 
 
-    void Accumulated::addTerm(const Term* term, scalar degree, const TNorm* activation) {
-        this->_terms.push_back(new Activated(term, degree, activation));
+    void Accumulated::addTerm(const Term* term, scalar degree, const TNorm* implication) {
+        this->_terms.push_back(new Activated(term, degree, implication));
     }
 
     void Accumulated::addTerm(Activated* term) {

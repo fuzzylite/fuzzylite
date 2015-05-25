@@ -142,8 +142,8 @@ namespace fl {
             fcl << _indent << "AND : " << toString(ruleBlock->getConjunction()) << ";\n";
         if (ruleBlock->getDisjunction())
             fcl << _indent << "OR : " << toString(ruleBlock->getDisjunction()) << ";\n";
-        if (ruleBlock->getActivation())
-            fcl << _indent << "ACT : " << toString(ruleBlock->getActivation()) << ";\n";
+        if (ruleBlock->getImplication())
+            fcl << _indent << "ACT : " << toString(ruleBlock->getImplication()) << ";\n";
 
         for (std::size_t r = 0; r < ruleBlock->numberOfRules(); ++r) {
             fcl << _indent << "RULE " << (r + 1) << " : " <<

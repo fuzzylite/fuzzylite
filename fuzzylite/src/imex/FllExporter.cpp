@@ -145,7 +145,7 @@ namespace fl {
                 (ruleBlock->isEnabled() ? "true" : "false"));
         result.push_back(_indent + "conjunction: " + toString(ruleBlock->getConjunction()));
         result.push_back(_indent + "disjunction: " + toString(ruleBlock->getDisjunction()));
-        result.push_back(_indent + "activation: " + toString(ruleBlock->getActivation()));
+        result.push_back(_indent + "implication: " + toString(ruleBlock->getImplication()));
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             result.push_back(_indent + toString(ruleBlock->getRule(i)));
         }

@@ -72,7 +72,7 @@ namespace fl {
         /**
          * Operations for std::vector _terms
          */
-        virtual void addTerm(const Term* term, scalar degree, const TNorm* activation);
+        virtual void addTerm(const Term* term, scalar degree, const TNorm* implication);
         virtual void addTerm(Activated* term);
         virtual Activated* getTerm(std::size_t index) const;
         virtual Activated* removeTerm(std::size_t index);

@@ -72,18 +72,18 @@ namespace fl {
         std::size_t numberOfRules = 0;
         const TNorm* conjunction = fl::null;
         const SNorm* disjunction = fl::null;
-        const TNorm* activation = fl::null;
+        const TNorm* implication = fl::null;
         for (std::size_t i = 0; i < engine->numberOfRuleBlocks(); ++i) {
             RuleBlock* rb = engine->getRuleBlock(i);
             numberOfRules += rb->numberOfRules();
             if (not conjunction) conjunction = rb->getConjunction();
             if (not disjunction) disjunction = rb->getDisjunction();
-            if (not activation) activation = rb->getActivation();
+            if (not implication) implication = rb->getImplication();
         }
         fis << "NumRules=" << numberOfRules << "\n";
         fis << "AndMethod='" << toString(conjunction) << "'\n";
         fis << "OrMethod='" << toString(disjunction) << "'\n";
-        fis << "ImpMethod='" << toString(activation) << "'\n";
+        fis << "ImpMethod='" << toString(implication) << "'\n";
 
         const SNorm* accumulation = fl::null;
         Defuzzifier* defuzzifier = fl::null;

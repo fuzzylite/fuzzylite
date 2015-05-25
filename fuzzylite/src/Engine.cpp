@@ -104,7 +104,7 @@ namespace fl {
     }
 
     void Engine::configure(const std::string& conjunctionT, const std::string& disjunctionS,
-            const std::string& activationT, const std::string& accumulationS,
+            const std::string& implicationT, const std::string& accumulationS,
             const std::string& defuzzifierName) {
         TNormFactory* tnormFactory = FactoryManager::instance()->tnorm();
         SNormFactory* snormFactory = FactoryManager::instance()->snorm();
@@ -112,19 +112,19 @@ namespace fl {
         
         TNorm* conjunction = tnormFactory->constructObject(conjunctionT);
         SNorm* disjunction = snormFactory->constructObject(disjunctionS);
-        TNorm* activation = tnormFactory->constructObject(activationT);
+        TNorm* implication = tnormFactory->constructObject(implicationT);
         SNorm* accumulation = snormFactory->constructObject(accumulationS);
         Defuzzifier* defuzzifier = defuzzFactory->constructObject(defuzzifierName);
 
-        configure(conjunction, disjunction, activation, accumulation, defuzzifier);
+        configure(conjunction, disjunction, implication, accumulation, defuzzifier);
     }
 
     void Engine::configure(TNorm* conjunction, SNorm* disjunction,
-            TNorm* activation, SNorm* accumulation, Defuzzifier* defuzzifier) {
+            TNorm* implication, SNorm* accumulation, Defuzzifier* defuzzifier) {
         for (std::size_t i = 0; i < _ruleblocks.size(); ++i) {
             _ruleblocks.at(i)->setConjunction(conjunction ? conjunction->clone() : fl::null);
             _ruleblocks.at(i)->setDisjunction(disjunction ? disjunction->clone() : fl::null);
-            _ruleblocks.at(i)->setActivation(activation ? activation->clone() : fl::null);
+            _ruleblocks.at(i)->setImplication(implication ? implication->clone() : fl::null);
         }
 
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
@@ -134,7 +134,7 @@ namespace fl {
         }
         if (defuzzifier) delete defuzzifier;
         if (accumulation) delete accumulation;
-        if (activation) delete activation;
+        if (implication) delete implication;
         if (disjunction) delete disjunction;
         if (conjunction) delete conjunction;
     }
@@ -193,7 +193,7 @@ namespace fl {
                 }
                 int requiresConjunction = 0;
                 int requiresDisjunction = 0;
-                int requiresActivation = 0;
+                int requiresImplication = 0;
                 for (std::size_t r = 0; r < ruleblock->numberOfRules(); ++r) {
                     Rule* rule = ruleblock->getRule(r);
                     if (not rule) {
@@ -216,7 +216,7 @@ namespace fl {
                                 const OutputVariable* outputVariable =
                                         dynamic_cast<const OutputVariable*> (proposition->variable);
                                 if (outputVariable and dynamic_cast<IntegralDefuzzifier*> (outputVariable->getDefuzzifier())) {
-                                    ++requiresActivation;
+                                    ++requiresImplication;
                                     break;
                                 }
                             }
@@ -235,11 +235,11 @@ namespace fl {
                     ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has "
                             << requiresDisjunction << " rules that require disjunction operator\n";
                 }
-                const TNorm* activation = ruleblock->getActivation();
-                if (requiresActivation > 0 and not activation) {
-                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no activation operator\n";
+                const TNorm* implication = ruleblock->getImplication();
+                if (requiresImplication > 0 and not implication) {
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no implication operator\n";
                     ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has "
-                            << requiresActivation << " rules that require activation operator\n";
+                            << requiresImplication << " rules that require implication operator\n";
                 }
             }
         }
@@ -344,17 +344,17 @@ namespace fl {
         }
         //Larsen
         bool larsen = mamdani and not _ruleblocks.empty();
-        //Larsen is Mamdani with AlgebraicProduct as Activation
+        //Larsen is Mamdani with AlgebraicProduct as Implication
         if (mamdani) {
             for (std::size_t i = 0; larsen and i < _ruleblocks.size(); ++i) {
                 RuleBlock* ruleBlock = _ruleblocks.at(i);
-                larsen = larsen and dynamic_cast<const AlgebraicProduct*> (ruleBlock->getActivation());
+                larsen = larsen and dynamic_cast<const AlgebraicProduct*> (ruleBlock->getImplication());
             }
         }
         if (larsen) {
             if (name) *name = "Larsen";
             if (reason) *reason = "- Output variables have integral defuzzifiers\n"
-                    "- Rule blocks activate using the algebraic product T-Norm";
+                    "- Implication in rule blocks is the algebraic product T-Norm";
             return Engine::Larsen;
         }
         if (mamdani) {

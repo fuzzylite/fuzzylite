@@ -69,7 +69,7 @@ namespace fl {
         virtual std::map<std::string, Hedge*>& hedges();
 
         virtual scalar activationDegree(const TNorm* conjunction, const SNorm* disjunction) const;
-        virtual void activate(scalar degree, const TNorm* activation) const;
+        virtual void activate(scalar degree, const TNorm* implication) const;
 
         virtual std::string toString() const;
 

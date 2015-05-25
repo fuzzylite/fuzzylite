@@ -56,12 +56,12 @@ namespace fl {
 
         virtual void configure(const std::string& conjunctionT,
                 const std::string& disjunctionS,
-                const std::string& activationT,
+                const std::string& implicationT,
                 const std::string& accumulationS,
                 const std::string& defuzzifier);
 
         virtual void configure(TNorm* conjunction, SNorm* disjunction,
-                TNorm* activation, SNorm* accumulation,
+                TNorm* implication, SNorm* accumulation,
                 Defuzzifier* defuzzifier);
 
         virtual bool isReady(std::string* status = fl::null) const;

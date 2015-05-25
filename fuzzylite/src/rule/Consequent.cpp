@@ -52,7 +52,7 @@ namespace fl {
         return this->_conclusions;
     }
 
-    void Consequent::modify(scalar activationDegree, const TNorm* activation) {
+    void Consequent::modify(scalar activationDegree, const TNorm* implication) {
         if (not isLoaded()) {
             throw fl::Exception("[consequent error] consequent <" + _text + "> is not loaded", FL_AT);
         }
@@ -65,7 +65,7 @@ namespace fl {
                         activationDegree = (*rit)->hedge(activationDegree);
                     }
                 }
-                Activated* term = new Activated(_conclusions.at(i)->term, activationDegree, activation);
+                Activated* term = new Activated(_conclusions.at(i)->term, activationDegree, implication);
                 OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (proposition->variable);
                 outputVariable->fuzzyOutput()->addTerm(term);
                 FL_DBG("Accumulating " << term->toString());

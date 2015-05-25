@@ -39,7 +39,7 @@ namespace fl {
         std::vector<Rule*> _rules;
         FL_unique_ptr<TNorm> _conjunction;
         FL_unique_ptr<SNorm> _disjunction;
-        FL_unique_ptr<TNorm> _activation;
+        FL_unique_ptr<TNorm> _implication;
         bool _enabled;
 
     public:
@@ -60,8 +60,8 @@ namespace fl {
         virtual void setDisjunction(SNorm* disjunction);
         virtual SNorm* getDisjunction() const;
 
-        virtual void setActivation(TNorm* activation);
-        virtual TNorm* getActivation() const;
+        virtual void setImplication(TNorm* implication);
+        virtual TNorm* getImplication() const;
 
         virtual void setEnabled(bool enabled);
         virtual bool isEnabled() const;

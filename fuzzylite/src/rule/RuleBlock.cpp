@@ -44,7 +44,7 @@ namespace fl {
             _rules.clear();
             _conjunction.reset(fl::null);
             _disjunction.reset(fl::null);
-            _activation.reset(fl::null);
+            _implication.reset(fl::null);
 
             copyFrom(other);
         }
@@ -54,9 +54,9 @@ namespace fl {
     void RuleBlock::copyFrom(const RuleBlock& source) {
         _name = source._name;
         _enabled = source._enabled;
-        if (source._activation.get()) _activation.reset(source._activation->clone());
         if (source._conjunction.get()) _conjunction.reset(source._conjunction->clone());
         if (source._disjunction.get()) _disjunction.reset(source._disjunction->clone());
+        if (source._implication.get()) _implication.reset(source._implication->clone());
         for (std::size_t i = 0; i < source._rules.size(); ++i) {
             _rules.push_back(source._rules.at(i)->clone());
         }
@@ -78,7 +78,7 @@ namespace fl {
                 scalar activationDegree = rule->activationDegree(_conjunction.get(), _disjunction.get());
                 FL_DBG("[degree=" << Op::str(activationDegree) << "] " << rule->toString());
                 if (Op::isGt(activationDegree, 0.0)) {
-                    rule->activate(activationDegree, _activation.get());
+                    rule->activate(activationDegree, _implication.get());
                 }
             } else {
                 FL_DBG("Rule not loaded: " << rule->toString());
@@ -143,12 +143,12 @@ namespace fl {
         return this->_disjunction.get();
     }
 
-    void RuleBlock::setActivation(TNorm* activation) {
-        this->_activation.reset(activation);
+    void RuleBlock::setImplication(TNorm* implication) {
+        this->_implication.reset(implication);
     }
 
-    TNorm* RuleBlock::getActivation() const {
-        return this->_activation.get();
+    TNorm* RuleBlock::getImplication() const {
+        return this->_implication.get();
     }
 
     void RuleBlock::setEnabled(bool enabled) {
@@ -170,15 +170,15 @@ namespace fl {
         this->_rules.push_back(rule);
     }
 
-	void RuleBlock::insertRule(Rule* rule, std::size_t index) {
+    void RuleBlock::insertRule(Rule* rule, std::size_t index) {
         this->_rules.insert(this->_rules.begin() + index, rule);
     }
 
-	Rule* RuleBlock::getRule(std::size_t index) const {
+    Rule* RuleBlock::getRule(std::size_t index) const {
         return this->_rules.at(index);
     }
 
-	Rule* RuleBlock::removeRule(std::size_t index) {
+    Rule* RuleBlock::removeRule(std::size_t index) {
         Rule* result = this->_rules.at(index);
         this->_rules.erase(this->_rules.begin() + index);
         return result;
