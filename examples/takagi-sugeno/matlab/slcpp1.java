@@ -19,42 +19,49 @@ InputVariable inputVariable1 = new InputVariable();
 inputVariable1.setEnabled(true);
 inputVariable1.setName("in1");
 inputVariable1.setRange(-0.300, 0.300);
+inputVariable1.setLockValueInRange(false);
 engine.addInputVariable(inputVariable1);
 
 InputVariable inputVariable2 = new InputVariable();
 inputVariable2.setEnabled(true);
 inputVariable2.setName("in2");
 inputVariable2.setRange(-1.000, 1.000);
+inputVariable2.setLockValueInRange(false);
 engine.addInputVariable(inputVariable2);
 
 InputVariable inputVariable3 = new InputVariable();
 inputVariable3.setEnabled(true);
 inputVariable3.setName("in3");
 inputVariable3.setRange(-3.000, 3.000);
+inputVariable3.setLockValueInRange(false);
 engine.addInputVariable(inputVariable3);
 
 InputVariable inputVariable4 = new InputVariable();
 inputVariable4.setEnabled(true);
 inputVariable4.setName("in4");
 inputVariable4.setRange(-3.000, 3.000);
+inputVariable4.setLockValueInRange(false);
 engine.addInputVariable(inputVariable4);
 
 InputVariable inputVariable5 = new InputVariable();
 inputVariable5.setEnabled(true);
 inputVariable5.setName("in5");
 inputVariable5.setRange(-3.000, 3.000);
+inputVariable5.setLockValueInRange(false);
 engine.addInputVariable(inputVariable5);
 
 InputVariable inputVariable6 = new InputVariable();
 inputVariable6.setEnabled(true);
 inputVariable6.setName("in6");
 inputVariable6.setRange(-3.000, 3.000);
+inputVariable6.setLockValueInRange(false);
 engine.addInputVariable(inputVariable6);
 
 InputVariable inputVariable7 = new InputVariable();
 inputVariable7.setEnabled(true);
 inputVariable7.setName("pole_length");
 inputVariable7.setRange(0.500, 1.500);
+inputVariable7.setLockValueInRange(false);
 inputVariable7.addTerm(new ZShape("mf1", 0.500, 0.600));
 inputVariable7.addTerm(new PiShape("mf2", 0.500, 0.600, 0.600, 0.700));
 inputVariable7.addTerm(new PiShape("mf3", 0.600, 0.700, 0.700, 0.800));
@@ -72,11 +79,11 @@ OutputVariable outputVariable = new OutputVariable();
 outputVariable.setEnabled(true);
 outputVariable.setName("out");
 outputVariable.setRange(-10.000, 10.000);
+outputVariable.setLockValueInRange(false);
 outputVariable.fuzzyOutput().setAccumulation(null);
 outputVariable.setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 outputVariable.setDefaultValue(Double.NaN);
-outputVariable.setLockPreviousOutputValue(false);
-outputVariable.setLockOutputValueInRange(false);
+outputVariable.setLockPreviousValue(false);
 outputVariable.addTerm(Linear.create("outmf1", engine, 168.400, 31.000, -188.050, -49.250, -1.000, -2.700, 0.000, 0.000));
 outputVariable.addTerm(Linear.create("outmf2", engine, 233.950, 47.190, -254.520, -66.580, -1.000, -2.740, 0.000, 0.000));
 outputVariable.addTerm(Linear.create("outmf3", engine, 342.940, 74.730, -364.370, -95.230, -1.000, -2.780, 0.000, 0.000));

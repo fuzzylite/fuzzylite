@@ -2,6 +2,7 @@ Engine: qtfuzzylite
 InputVariable: AllInputTerms
   enabled: true
   range: 0.000 6.500
+  lock-range: false
   term: A Sigmoid 0.500 -20.000
   term: B ZShape 0.000 1.000
   term: C Ramp 1.000 0.000
@@ -25,11 +26,11 @@ InputVariable: AllInputTerms
 OutputVariable: AllOutputTerms
   enabled: true
   range: 0.000 6.500
+  lock-range: false
   accumulation: Maximum
   defuzzifier: Centroid 200
   default: nan
   lock-previous: false
-  lock-range: false
   term: A Sigmoid 0.500 -20.000
   term: B ZShape 0.000 1.000
   term: C Ramp 1.000 0.000

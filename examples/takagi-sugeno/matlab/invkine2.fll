@@ -2,6 +2,7 @@ Engine: invkine2
 InputVariable: input1
   enabled: true
   range: -6.287 17.000
+  lock-range: false
   term: in1mf1 Bell -5.763 3.015 1.851
   term: in1mf2 Bell -1.624 3.130 2.111
   term: in1mf3 Bell 3.552 3.193 2.104
@@ -11,6 +12,7 @@ InputVariable: input1
 InputVariable: input2
   enabled: true
   range: 0.000 16.972
+  lock-range: false
   term: in2mf1 Bell 0.005 1.877 1.995
   term: in2mf2 Bell 3.312 2.017 1.829
   term: in2mf3 Bell 6.568 2.261 1.793
@@ -20,11 +22,11 @@ InputVariable: input2
 OutputVariable: output
   enabled: true
   range: 0.000 3.100
+  lock-range: false
   accumulation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
-  lock-range: false
   term: out1mf1 Linear -0.048 1.456 2.222
   term: out1mf2 Linear -0.218 -0.305 2.042
   term: out1mf3 Linear 0.026 -0.141 3.067

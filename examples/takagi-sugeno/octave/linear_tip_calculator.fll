@@ -2,21 +2,23 @@ Engine: Linear-Tip-Calculator
 InputVariable: FoodQuality
   enabled: true
   range: 1.000 10.000
+  lock-range: false
   term: Bad Trapezoid 0.000 1.000 3.000 7.000
   term: Good Trapezoid 3.000 7.000 10.000 11.000
 InputVariable: Service
   enabled: true
   range: 1.000 10.000
+  lock-range: false
   term: Bad Trapezoid 0.000 1.000 3.000 7.000
   term: Good Trapezoid 3.000 7.000 10.000 11.000
 OutputVariable: Tip
   enabled: true
   range: 10.000 20.000
+  lock-range: false
   accumulation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
-  lock-range: false
   term: TenPercent Linear 0.000 0.000 10.000
   term: FifteenPercent Linear 0.000 0.000 15.000
   term: TwentyPercent Linear 0.000 0.000 20.000

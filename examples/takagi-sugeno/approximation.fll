@@ -2,6 +2,7 @@ Engine: approximation of sin(x)/x
 InputVariable: inputX
   enabled: true
   range: 0.000 10.000
+  lock-range: false
   term: NEAR_1 Triangle 0.000 1.000 2.000
   term: NEAR_2 Triangle 1.000 2.000 3.000
   term: NEAR_3 Triangle 2.000 3.000 4.000
@@ -14,11 +15,11 @@ InputVariable: inputX
 OutputVariable: outputFx
   enabled: true
   range: -1.000 1.000
+  lock-range: false
   accumulation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: true
-  lock-range: false
   term: f1 Constant 0.840
   term: f2 Constant 0.450
   term: f3 Constant 0.040
@@ -31,20 +32,20 @@ OutputVariable: outputFx
 OutputVariable: trueFx
   enabled: true
   range: -1.000 1.000
+  lock-range: false
   accumulation: none
   defuzzifier: WeightedAverage Automatic
   default: nan
   lock-previous: true
-  lock-range: false
   term: fx Function sin(inputX)/inputX
 OutputVariable: diffFx
   enabled: true
   range: -1.000 1.000
+  lock-range: false
   accumulation: none
   defuzzifier: WeightedAverage Automatic
   default: nan
   lock-previous: false
-  lock-range: false
   term: diff Function fabs(outputFx-trueFx)
 RuleBlock: 
   enabled: true

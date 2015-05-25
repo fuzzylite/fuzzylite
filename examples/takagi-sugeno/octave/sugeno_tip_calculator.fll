@@ -2,43 +2,45 @@ Engine: Sugeno-Tip-Calculator
 InputVariable: FoodQuality
   enabled: true
   range: 1.000 10.000
+  lock-range: false
   term: Bad Trapezoid 0.000 1.000 3.000 7.000
   term: Good Trapezoid 3.000 7.000 10.000 11.000
 InputVariable: Service
   enabled: true
   range: 1.000 10.000
+  lock-range: false
   term: Bad Trapezoid 0.000 1.000 3.000 7.000
   term: Good Trapezoid 3.000 7.000 10.000 11.000
 OutputVariable: CheapTip
   enabled: true
   range: 5.000 25.000
+  lock-range: false
   accumulation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
-  lock-range: false
   term: Low Constant 10.000
   term: Medium Constant 15.000
   term: High Constant 20.000
 OutputVariable: AverageTip
   enabled: true
   range: 5.000 25.000
+  lock-range: false
   accumulation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
-  lock-range: false
   term: Low Constant 10.000
   term: Medium Constant 15.000
   term: High Constant 20.000
 OutputVariable: GenerousTip
   enabled: true
   range: 5.000 25.000
+  lock-range: false
   accumulation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
-  lock-range: false
   term: Low Constant 10.000
   term: Medium Constant 15.000
   term: High Constant 20.000

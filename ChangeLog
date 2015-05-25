@@ -13,6 +13,7 @@ Version 6.0
 * Improved portability by replacing `int` for `std::size_t` where necessary, thereby additionally removing warnings in Windows 64bit
 * Added option to lock value in range to InputVariables by refactoring OutputVariable::lockValueInRange to Variable::lockValueInRange
 * Updated the FuzzyLite Language to account for InputVariable::lock-range 
+* Updated examples to account for InputVariable::lock-range
 
 
 

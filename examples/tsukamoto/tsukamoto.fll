@@ -2,50 +2,51 @@ Engine:
 InputVariable: X
   enabled: true
   range: -10.000 10.000
+  lock-range: false
   term: small Bell -10.000 5.000 3.000
   term: medium Bell 0.000 5.000 3.000
   term: large Bell 10.000 5.000 3.000
 OutputVariable: Ramps
   enabled: true
   range: 0.000 1.000
+  lock-range: false
   accumulation: none
   defuzzifier: WeightedAverage Automatic
   default: nan
   lock-previous: false
-  lock-range: false
   term: b Ramp 0.600 0.400
   term: a Ramp 0.000 0.250
   term: c Ramp 0.700 1.000
 OutputVariable: Sigmoids
   enabled: true
   range: 0.020 1.000
+  lock-range: false
   accumulation: none
   defuzzifier: WeightedAverage Automatic
   default: nan
   lock-previous: false
-  lock-range: false
   term: b Sigmoid 0.500 -30.000
   term: a Sigmoid 0.130 30.000
   term: c Sigmoid 0.830 30.000
 OutputVariable: ZSShapes
   enabled: true
   range: 0.000 1.000
+  lock-range: false
   accumulation: none
   defuzzifier: WeightedAverage Automatic
   default: nan
   lock-previous: false
-  lock-range: false
   term: b ZShape 0.300 0.600
   term: a SShape 0.000 0.250
   term: c SShape 0.700 1.000
 OutputVariable: Concaves
   enabled: true
   range: 0.000 1.000
+  lock-range: false
   accumulation: none
   defuzzifier: WeightedAverage Automatic
   default: nan
   lock-previous: false
-  lock-range: false
   term: b Concave 0.500 0.400
   term: a Concave 0.240 0.250
   term: c Concave 0.900 1.000

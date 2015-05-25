@@ -2,16 +2,17 @@ Engine: sugeno
 InputVariable: input
   enabled: true
   range: -5.000 5.000
+  lock-range: false
   term: low Gaussian -5.000 4.000
   term: high Gaussian 5.000 4.000
 OutputVariable: output
   enabled: true
   range: 0.000 1.000
+  lock-range: false
   accumulation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
-  lock-range: false
   term: line1 Linear -1.000 -1.000
   term: line2 Linear 1.000 -1.000
 RuleBlock: 

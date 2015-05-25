@@ -2,21 +2,23 @@ Engine: anfis
 InputVariable: in_n1
   enabled: true
   range: 1.000 31.000
+  lock-range: false
   term: in1mf1 Bell 2.253 16.220 5.050
   term: in1mf2 Bell 31.260 15.021 1.843
 InputVariable: in_n2
   enabled: true
   range: 1.000 31.000
+  lock-range: false
   term: in2mf1 Bell 0.740 15.021 1.843
   term: in2mf2 Bell 29.747 16.220 5.050
 OutputVariable: out1
   enabled: true
   range: -0.334 1.000
+  lock-range: false
   accumulation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
-  lock-range: false
   term: out1mf1 Linear 0.026 0.071 -0.615
   term: out1mf2 Linear -0.036 0.036 -1.169
   term: out1mf3 Linear -0.094 0.094 2.231
