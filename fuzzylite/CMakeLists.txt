@@ -15,7 +15,7 @@ if(NOT CMAKE_VERBOSE_MAKEFILE)
     set(CMAKE_VERBOSE_MAKEFILE false)
 endif()
 
-set(FL_VERSION 5.0)
+set(FL_VERSION 6.0)
 add_definitions(-DFL_VERSION="${FL_VERSION}")
 
 set(FL_DATE "2015")
@@ -208,7 +208,7 @@ configure_file(${CMAKE_SOURCE_DIR}/fuzzylite.pc.in ${CMAKE_BINARY_DIR}/fuzzylite
 install(FILES ${CMAKE_BINARY_DIR}/fuzzylite.pc DESTINATION lib/pkgconfig)
 
 message("=====================================")
-message("fuzzylite v.${FL_VERSION}b${FL_DATE}\n")
+message("fuzzylite v${FL_VERSION}b${FL_DATE}\n")
 message("FL_USE_FLOAT=${FL_USE_FLOAT}")
 message("FL_CPP11=${FL_CPP11}")
 message("FL_BACKTRACE=${FL_BACKTRACE}")
