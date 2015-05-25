@@ -54,7 +54,7 @@ RuleBlock:
   enabled: true
   conjunction: none
   disjunction: none
-  activation: none
+  implication: none
   rule: if pole_length is mf1 then out is outmf1
   rule: if pole_length is mf2 then out is outmf2
   rule: if pole_length is mf3 then out is outmf3

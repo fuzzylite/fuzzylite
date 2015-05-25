@@ -86,7 +86,7 @@ ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(null);
 ruleBlock.setDisjunction(null);
-ruleBlock.setActivation(null);
+ruleBlock.setImplication(null);
 ruleBlock.addRule(Rule.parse("if X is small then Ramps is a and Sigmoids is a and ZSShapes is a and Concaves is a", engine));
 ruleBlock.addRule(Rule.parse("if X is medium then Ramps is b and Sigmoids is b and ZSShapes is b and Concaves is b", engine));
 ruleBlock.addRule(Rule.parse("if X is large then Ramps is c and Sigmoids is c and ZSShapes is c and Concaves is c", engine));

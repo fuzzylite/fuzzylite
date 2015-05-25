@@ -60,7 +60,7 @@ ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(new AlgebraicProduct());
 ruleBlock.setDisjunction(null);
-ruleBlock.setActivation(null);
+ruleBlock.setImplication(null);
 ruleBlock.addRule(Rule.parse("if in_n1 is in1mf1 and in_n2 is in2mf1 then out1 is out1mf1", engine));
 ruleBlock.addRule(Rule.parse("if in_n1 is in1mf1 and in_n2 is in2mf2 then out1 is out1mf2", engine));
 ruleBlock.addRule(Rule.parse("if in_n1 is in1mf1 and in_n2 is in2mf3 then out1 is out1mf3", engine));

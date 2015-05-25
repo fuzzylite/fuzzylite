@@ -52,7 +52,7 @@ ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(new EinsteinProduct());
 ruleBlock.setDisjunction(new EinsteinSum());
-ruleBlock.setActivation(new EinsteinProduct());
+ruleBlock.setImplication(new EinsteinProduct());
 ruleBlock.addRule(Rule.parse("if Age is Young or RiskTolerance is High then PercentageInStocks is AboutEightyFive", engine));
 ruleBlock.addRule(Rule.parse("if Age is Old or RiskTolerance is Low then PercentageInStocks is AboutFifteen", engine));
 ruleBlock.addRule(Rule.parse("if Age is not extremely Old and RiskTolerance is not extremely Low then PercentageInStocks is AboutFifty with 0.500", engine));

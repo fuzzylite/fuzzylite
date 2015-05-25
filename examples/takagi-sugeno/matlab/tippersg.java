@@ -53,7 +53,7 @@ ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(null);
 ruleBlock.setDisjunction(new Maximum());
-ruleBlock.setActivation(null);
+ruleBlock.setImplication(null);
 ruleBlock.addRule(Rule.parse("if service is poor or food is rancid then tip is cheap", engine));
 ruleBlock.addRule(Rule.parse("if service is average then tip is average", engine));
 ruleBlock.addRule(Rule.parse("if service is good or food is delicious then tip is generous", engine));

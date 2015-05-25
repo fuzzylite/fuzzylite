@@ -55,7 +55,7 @@ RuleBlock:
   enabled: true
   conjunction: Minimum
   disjunction: Maximum
-  activation: Minimum
+  implication: Minimum
   rule: if AllInputTerms is A then AllOutputTerms is T
   rule: if AllInputTerms is B then AllOutputTerms is S
   rule: if AllInputTerms is C then AllOutputTerms is R

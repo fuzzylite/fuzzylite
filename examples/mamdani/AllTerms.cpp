@@ -69,7 +69,7 @@ ruleBlock->setEnabled(true);
 ruleBlock->setName("");
 ruleBlock->setConjunction(new Minimum);
 ruleBlock->setDisjunction(new Maximum);
-ruleBlock->setActivation(new Minimum);
+ruleBlock->setImplication(new Minimum);
 ruleBlock->addRule(fl::Rule::parse("if AllInputTerms is A then AllOutputTerms is T", engine));
 ruleBlock->addRule(fl::Rule::parse("if AllInputTerms is B then AllOutputTerms is S", engine));
 ruleBlock->addRule(fl::Rule::parse("if AllInputTerms is C then AllOutputTerms is R", engine));

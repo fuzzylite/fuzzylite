@@ -16,7 +16,7 @@ Version 6.0
 * Updated examples to account for InputVariable::lock-range
 * Renamed RuleBlock::activation operator to RuleBlock::implication
 * Renamed Activated::activation operator to Activated::implication
-* Updated FllImport and FllExport to refer to implication instead of activation
+* Updated [Fll|Cpp|Java][Import|Export] to refer to implication instead of activation
 
 
 

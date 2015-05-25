@@ -32,7 +32,7 @@ RuleBlock:
   enabled: true
   conjunction: none
   disjunction: none
-  activation: none
+  implication: none
   rule: if in5 is small then out is outmf1
   rule: if in5 is medium then out is outmf2
   rule: if in5 is large then out is outmf3

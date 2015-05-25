@@ -72,7 +72,7 @@ ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(new Minimum());
 ruleBlock.setDisjunction(new Maximum());
-ruleBlock.setActivation(new Minimum());
+ruleBlock.setImplication(new Minimum());
 ruleBlock.addRule(Rule.parse("if temp is cold and flow is soft then cold is openSlow and hot is openFast", engine));
 ruleBlock.addRule(Rule.parse("if temp is cold and flow is good then cold is closeSlow and hot is openSlow", engine));
 ruleBlock.addRule(Rule.parse("if temp is cold and flow is hard then cold is closeFast and hot is closeSlow", engine));

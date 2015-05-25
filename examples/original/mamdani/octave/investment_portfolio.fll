@@ -24,7 +24,7 @@ RuleBlock:
   enabled: true
   conjunction: EinsteinProduct
   disjunction: EinsteinSum
-  activation: EinsteinProduct
+  implication: EinsteinProduct
   rule: if Age is Young or RiskTolerance is High then PercentageInStocks is AboutEightyFive
   rule: if Age is Old or RiskTolerance is Low then PercentageInStocks is AboutFifteen
   rule: if Age is not extremely Old and RiskTolerance is not extremely Low then PercentageInStocks is AboutFifty with 0.500

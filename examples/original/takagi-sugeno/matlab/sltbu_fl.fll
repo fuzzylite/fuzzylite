@@ -24,6 +24,6 @@ RuleBlock:
   enabled: true
   conjunction: none
   disjunction: none
-  activation: none
+  implication: none
   rule: if distance is near then control is out1mf1
   rule: if distance is far then control is out1mf2

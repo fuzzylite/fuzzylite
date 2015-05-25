@@ -63,7 +63,7 @@ ruleBlock->setEnabled(true);
 ruleBlock->setName("");
 ruleBlock->setConjunction(fl::null);
 ruleBlock->setDisjunction(fl::null);
-ruleBlock->setActivation(fl::null);
+ruleBlock->setImplication(fl::null);
 ruleBlock->addRule(fl::Rule::parse("if in5 is small then out is outmf1", engine));
 ruleBlock->addRule(fl::Rule::parse("if in5 is medium then out is outmf2", engine));
 ruleBlock->addRule(fl::Rule::parse("if in5 is large then out is outmf3", engine));

@@ -60,7 +60,7 @@ ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(null);
 ruleBlock.setDisjunction(null);
-ruleBlock.setActivation(null);
+ruleBlock.setImplication(null);
 ruleBlock.addRule(Rule.parse("if X is AboutNegFive then ApproxXCubed is TangentatNegFive", engine));
 ruleBlock.addRule(Rule.parse("if X is AboutNegFour then ApproxXCubed is TangentatNegFour", engine));
 ruleBlock.addRule(Rule.parse("if X is AboutNegThree then ApproxXCubed is TangentatNegThree", engine));

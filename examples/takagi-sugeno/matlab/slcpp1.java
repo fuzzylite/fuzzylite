@@ -102,7 +102,7 @@ ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(null);
 ruleBlock.setDisjunction(null);
-ruleBlock.setActivation(null);
+ruleBlock.setImplication(null);
 ruleBlock.addRule(Rule.parse("if pole_length is mf1 then out is outmf1", engine));
 ruleBlock.addRule(Rule.parse("if pole_length is mf2 then out is outmf2", engine));
 ruleBlock.addRule(Rule.parse("if pole_length is mf3 then out is outmf3", engine));

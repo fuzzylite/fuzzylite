@@ -44,7 +44,7 @@ ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(new Minimum());
 ruleBlock.setDisjunction(new Maximum());
-ruleBlock.setActivation(new Minimum());
+ruleBlock.setImplication(new Minimum());
 ruleBlock.addRule(Rule.parse("if service is poor then tip is cheap", engine));
 ruleBlock.addRule(Rule.parse("if service is good then tip is average", engine));
 ruleBlock.addRule(Rule.parse("if service is excellent then tip is generous", engine));

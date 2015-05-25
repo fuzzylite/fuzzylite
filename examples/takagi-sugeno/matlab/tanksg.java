@@ -56,7 +56,7 @@ ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(new AlgebraicProduct());
 ruleBlock.setDisjunction(null);
-ruleBlock.setActivation(null);
+ruleBlock.setImplication(null);
 ruleBlock.addRule(Rule.parse("if level is okay then valve is no_change", engine));
 ruleBlock.addRule(Rule.parse("if level is low then valve is open_fast", engine));
 ruleBlock.addRule(Rule.parse("if level is high then valve is close_fast", engine));

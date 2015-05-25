@@ -53,7 +53,7 @@ RuleBlock:
   enabled: true
   conjunction: none
   disjunction: none
-  activation: none
+  implication: none
   rule: if X is small then Ramps is a and Sigmoids is a and ZSShapes is a and Concaves is a
   rule: if X is medium then Ramps is b and Sigmoids is b and ZSShapes is b and Concaves is b
   rule: if X is large then Ramps is c and Sigmoids is c and ZSShapes is c and Concaves is c

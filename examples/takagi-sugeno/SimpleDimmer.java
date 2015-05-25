@@ -44,7 +44,7 @@ ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(null);
 ruleBlock.setDisjunction(null);
-ruleBlock.setActivation(null);
+ruleBlock.setImplication(null);
 ruleBlock.addRule(Rule.parse("if Ambient is DARK then Power is HIGH", engine));
 ruleBlock.addRule(Rule.parse("if Ambient is MEDIUM then Power is MEDIUM", engine));
 ruleBlock.addRule(Rule.parse("if Ambient is BRIGHT then Power is LOW", engine));

@@ -42,7 +42,7 @@ ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(null);
 ruleBlock.setDisjunction(null);
-ruleBlock.setActivation(null);
+ruleBlock.setImplication(null);
 ruleBlock.addRule(Rule.parse("if input is low then output is line1", engine));
 ruleBlock.addRule(Rule.parse("if input is high then output is line2", engine));
 engine.addRuleBlock(ruleBlock);

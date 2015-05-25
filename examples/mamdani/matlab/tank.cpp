@@ -47,7 +47,7 @@ ruleBlock->setEnabled(true);
 ruleBlock->setName("");
 ruleBlock->setConjunction(new AlgebraicProduct);
 ruleBlock->setDisjunction(new AlgebraicSum);
-ruleBlock->setActivation(new AlgebraicProduct);
+ruleBlock->setImplication(new AlgebraicProduct);
 ruleBlock->addRule(fl::Rule::parse("if level is okay then valve is no_change", engine));
 ruleBlock->addRule(fl::Rule::parse("if level is low then valve is open_fast", engine));
 ruleBlock->addRule(fl::Rule::parse("if level is high then valve is close_fast", engine));

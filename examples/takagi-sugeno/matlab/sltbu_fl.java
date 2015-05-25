@@ -56,7 +56,7 @@ ruleBlock.setEnabled(true);
 ruleBlock.setName("");
 ruleBlock.setConjunction(null);
 ruleBlock.setDisjunction(null);
-ruleBlock.setActivation(null);
+ruleBlock.setImplication(null);
 ruleBlock.addRule(Rule.parse("if distance is near then control is out1mf1", engine));
 ruleBlock.addRule(Rule.parse("if distance is far then control is out1mf2", engine));
 engine.addRuleBlock(ruleBlock);

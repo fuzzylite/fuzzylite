@@ -59,7 +59,7 @@ ruleBlock->setEnabled(true);
 ruleBlock->setName("");
 ruleBlock->setConjunction(new Minimum);
 ruleBlock->setDisjunction(new Maximum);
-ruleBlock->setActivation(new Minimum);
+ruleBlock->setImplication(new Minimum);
 ruleBlock->addRule(fl::Rule::parse("if angle is small and velocity is small then force is negBig and force2 is posBig2", engine));
 ruleBlock->addRule(fl::Rule::parse("if angle is small and velocity is big then force is negSmall and force2 is posSmall2", engine));
 ruleBlock->addRule(fl::Rule::parse("if angle is big and velocity is small then force is posSmall and force2 is negSmall2", engine));

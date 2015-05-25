@@ -74,7 +74,7 @@ ruleBlock->setEnabled(true);
 ruleBlock->setName("");
 ruleBlock->setConjunction(new AlgebraicProduct);
 ruleBlock->setDisjunction(fl::null);
-ruleBlock->setActivation(fl::null);
+ruleBlock->setImplication(fl::null);
 ruleBlock->addRule(fl::Rule::parse("if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf1 and in4 is in4mf1 then out is outmf1", engine));
 ruleBlock->addRule(fl::Rule::parse("if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf1 and in4 is in4mf2 then out is outmf2", engine));
 ruleBlock->addRule(fl::Rule::parse("if in1 is in1mf1 and in2 is in2mf1 and in3 is in3mf2 and in4 is in4mf1 then out is outmf3", engine));

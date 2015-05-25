@@ -51,7 +51,7 @@ RuleBlock:
   enabled: true
   conjunction: none
   disjunction: none
-  activation: none
+  implication: none
   rule: if inputX is NEAR_1 then outputFx is f1
   rule: if inputX is NEAR_2 then outputFx is f2
   rule: if inputX is NEAR_3 then outputFx is f3

@@ -46,7 +46,7 @@ RuleBlock:
   enabled: true
   conjunction: EinsteinProduct
   disjunction: none
-  activation: none
+  implication: none
   rule: if FoodQuality is extremely Bad and Service is extremely Bad then CheapTip is extremely Low and AverageTip is very Low and GenerousTip is Low
   rule: if FoodQuality is Good and Service is extremely Bad then CheapTip is Low and AverageTip is Low and GenerousTip is Medium
   rule: if FoodQuality is very Good and Service is very Bad then CheapTip is Low and AverageTip is Medium and GenerousTip is High

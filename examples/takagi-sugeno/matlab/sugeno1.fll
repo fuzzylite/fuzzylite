@@ -19,6 +19,6 @@ RuleBlock:
   enabled: true
   conjunction: none
   disjunction: none
-  activation: none
+  implication: none
   rule: if input is low then output is line1
   rule: if input is high then output is line2
