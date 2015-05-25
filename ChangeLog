@@ -1,3 +1,22 @@
+Version 6.0
+* FuzzyLite license will refer to the LGPL and (potentially) the Apache 2 upon finishing version 6.0
+* Refactored [Input|Output]Variable::[get|set][Input|Output]Value() to Variable::[get|set]Value()
+* Renamed OutputVariable::[is|set]LockedPreviousValue() to OutputVariable::[is|set]LockPreviousValue()
+* Refactored OutputVariable::[is|set]LockedOutputValueInRange() to Variable::[is|set]LockValueInRange()
+* Inlined methods in [Operation|CloningFactory|ConstructionFactory|Linear|Discrete].h
+* Removed #ifdef (FL_UNIX AND NOT MAC) Console::benchmarks to #ifdef (FL_CPP11)
+* Removed methods [Fis|Fcl|Java]Exporter::toString([S|T]Norm*) to utilise only ::toString(Norm*)
+* Renamed methods FisImporter::extract[SNorm|TNorm|Defuzzifier]() to FisImporter::translate[SNorm|TNorm|Defuzzifier]()
+* Renamed methods FisImporter::range() to FisImporter::parseRange()
+* Added new Binary Term
+* Fixed segmentation fault when malformed term in FuzzyLite Language
+* Improved portability by replacing `int` for `std::size_t` where necessary, thereby additionally removing warnings in Windows 64bit
+* Added option to lock value in range to InputVariables by refactoring OutputVariable::lockValueInRange to Variable::lockValueInRange
+* Updated the FuzzyLite Language to account for InputVariable::lock-range 
+
+
+
+
 Version 5.0
 * Modified Function::Unary and Binary to take scalar instead of double
 * Fixed building using -DFL_USE_FLOAT=ON

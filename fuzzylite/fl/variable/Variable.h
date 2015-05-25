@@ -38,6 +38,7 @@ namespace fl {
         scalar _value;
         scalar _minimum, _maximum;
         bool _enabled;
+        bool _lockValueInRange;
 
     public:
         explicit Variable(const std::string& name = "",
@@ -66,6 +67,9 @@ namespace fl {
         virtual void setEnabled(bool enabled);
         virtual bool isEnabled() const;
 
+        virtual void setLockValueInRange(bool lockValueInRange);
+        virtual bool isLockValueInRange() const;
+
         virtual std::string fuzzify(scalar x) const;
         virtual Term* highestMembership(scalar x, scalar* yhighest = fl::null) const;
 
@@ -76,12 +80,12 @@ namespace fl {
          */
         virtual void sort();
         virtual void addTerm(Term* term);
-		virtual void insertTerm(Term* term, std::size_t  index);
-		virtual Term* getTerm(std::size_t  index) const;
+        virtual void insertTerm(Term* term, std::size_t index);
+        virtual Term* getTerm(std::size_t index) const;
         virtual Term* getTerm(const std::string& name) const;
         virtual bool hasTerm(const std::string& name) const;
-		virtual Term* removeTerm(std::size_t  index);
-		virtual std::size_t  numberOfTerms() const;
+        virtual Term* removeTerm(std::size_t index);
+        virtual std::size_t numberOfTerms() const;
         virtual void setTerms(const std::vector<Term*>& terms);
         virtual const std::vector<Term*>& terms() const;
         virtual std::vector<Term*>& terms();

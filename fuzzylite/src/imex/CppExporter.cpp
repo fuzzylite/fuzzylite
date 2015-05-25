@@ -84,6 +84,7 @@ namespace fl {
         ss << name << "->setRange(" <<
                 toString(inputVariable->getMinimum()) << ", " <<
                 toString(inputVariable->getMaximum()) << ");\n";
+        ss << name << "->setLockValueInRange(" << (inputVariable->isLockValueInRange() ? "true" : "false") <<");\n";
         for (std::size_t t = 0; t < inputVariable->numberOfTerms(); ++t) {
             ss << name << "->addTerm(" << toString(inputVariable->getTerm(t)) << ");\n";
         }
@@ -106,6 +107,8 @@ namespace fl {
         ss << name << "->setRange(" <<
                 toString(outputVariable->getMinimum()) << ", " <<
                 toString(outputVariable->getMaximum()) << ");\n";
+        ss << name << "->setLockValueInRange(" <<
+                (outputVariable->isLockValueInRange() ? "true" : "false") << ");\n";
         ss << name << "->fuzzyOutput()->setAccumulation(" <<
                 toString(outputVariable->fuzzyOutput()->getAccumulation()) << ");\n";
         ss << name << "->setDefuzzifier(" <<
@@ -114,8 +117,6 @@ namespace fl {
                 toString(outputVariable->getDefaultValue()) << ");\n";
         ss << name << "->setLockPreviousValue(" <<
                 (outputVariable->isLockPreviousValue() ? "true" : "false") << ");\n";
-        ss << name << "->setLockValueInRange(" <<
-                (outputVariable->isLockValueInRange() ? "true" : "false") << ");\n";
         for (std::size_t t = 0; t < outputVariable->numberOfTerms(); ++t) {
             ss << name << "->addTerm(" << toString(outputVariable->getTerm(t)) << ");\n";
         }

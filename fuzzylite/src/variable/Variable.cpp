@@ -31,7 +31,8 @@
 namespace fl {
 
     Variable::Variable(const std::string& name, scalar minimum, scalar maximum)
-    : _name(name), _value(fl::nan), _minimum(minimum), _maximum(maximum), _enabled(true) {
+    : _name(name), _value(fl::nan), _minimum(minimum), _maximum(maximum),
+    _enabled(true), _lockValueInRange(false) {
     }
 
     Variable::Variable(const Variable& other) {
@@ -55,6 +56,7 @@ namespace fl {
         _enabled = other._enabled;
         _minimum = other._minimum;
         _maximum = other._maximum;
+        _lockValueInRange = other._lockValueInRange;
         for (std::size_t i = 0; i < other._terms.size(); ++i) {
             _terms.push_back(other._terms.at(i)->clone());
         }
@@ -115,12 +117,20 @@ namespace fl {
         return this->_enabled;
     }
 
+    void Variable::setLockValueInRange(bool lockValueInRange) {
+        this->_lockValueInRange = lockValueInRange;
+    }
+
+    bool Variable::isLockValueInRange() const {
+        return this->_lockValueInRange;
+    }
+
     std::string Variable::fuzzify(scalar x) const {
         std::ostringstream ss;
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
+        for (std::size_t i = 0; i < terms().size(); ++i) {
             scalar fx = fl::nan;
             try {
-                fx = _terms.at(i)->membership(x);
+                fx = terms().at(i)->membership(x);
             } catch (...) {
                 //ignore
             }
@@ -132,7 +142,7 @@ namespace fl {
                 else
                     ss << " - " << fl::Op::str(std::fabs(fx));
             }
-            ss << "/" << _terms.at(i)->getName();
+            ss << "/" << terms().at(i)->getName();
         }
         return ss.str();
     }
@@ -140,16 +150,16 @@ namespace fl {
     Term* Variable::highestMembership(scalar x, scalar* yhighest) const {
         Term* result = fl::null;
         scalar ymax = 0.0;
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
+        for (std::size_t i = 0; i < terms().size(); ++i) {
             scalar y = fl::nan;
             try {
-                y = _terms.at(i)->membership(x);
+                y = terms().at(i)->membership(x);
             } catch (...) {
                 //ignore
             }
             if (fl::Op::isGt(y, ymax)) {
                 ymax = y;
-                result = _terms.at(i);
+                result = terms().at(i);
             }
         }
         if (yhighest) *yhighest = ymax;
@@ -177,13 +187,13 @@ namespace fl {
     void Variable::sort() {
         Centroid defuzzifier;
         std::map<const Term*, scalar> centroids;
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            Term* term = _terms.at(i);
+        for (std::size_t i = 0; i < terms().size(); ++i) {
+            Term* term = terms().at(i);
             try {
                 if (dynamic_cast<const Constant*> (term) or dynamic_cast<const Linear*> (term)) {
                     centroids[term] = term->membership(0);
                 } else {
-                    centroids[term] = defuzzifier.defuzzify(term, _minimum, _maximum);
+                    centroids[term] = defuzzifier.defuzzify(term, getMinimum(), getMaximum());
                 }
             } catch (...) { //ignore error possibly due to Function not loaded
                 centroids[term] = fl::inf;
@@ -191,18 +201,18 @@ namespace fl {
         }
         SortByCoG criterion;
         criterion.centroids = centroids;
-        std::sort(_terms.begin(), _terms.end(), criterion);
+        std::sort(terms().begin(), terms().end(), criterion);
     }
 
     void Variable::addTerm(Term* term) {
         this->_terms.push_back(term);
     }
 
-	void Variable::insertTerm(Term* term, std::size_t  index) {
+    void Variable::insertTerm(Term* term, std::size_t index) {
         this->_terms.insert(this->_terms.begin() + index, term);
     }
 
-	Term* Variable::getTerm(std::size_t  index) const {
+    Term* Variable::getTerm(std::size_t index) const {
         return this->_terms.at(index);
     }
 
@@ -220,13 +230,13 @@ namespace fl {
         return getTerm(name) != fl::null;
     }
 
-	Term* Variable::removeTerm(std::size_t  index) {
+    Term* Variable::removeTerm(std::size_t index) {
         Term* result = this->_terms.at(index);
         this->_terms.erase(this->_terms.begin() + index);
         return result;
     }
 
-	std::size_t Variable::numberOfTerms() const {
+    std::size_t Variable::numberOfTerms() const {
         return this->_terms.size();
     }
 

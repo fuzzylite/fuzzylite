@@ -29,7 +29,7 @@ namespace fl {
     }
 
     std::string InputVariable::fuzzyInputValue() const {
-        return fuzzify(_value);
+        return fuzzify(getValue());
     }
 
     std::string InputVariable::toString() const {

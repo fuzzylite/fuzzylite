@@ -89,11 +89,17 @@ namespace fl {
                 }
             }
             scalar result = fl::nan;
-            if (InputVariable * inputVariable = dynamic_cast<InputVariable*> (proposition->variable)) {
-                result = proposition->term->membership(inputVariable->getValue());
-            } else if (OutputVariable * outputVariable = dynamic_cast<OutputVariable*> (proposition->variable)) {
+            if (OutputVariable * outputVariable = dynamic_cast<OutputVariable*> (proposition->variable)) {
                 result = outputVariable->fuzzyOutput()->activationDegree(proposition->term);
+            }else{
+                Variable* variable = proposition->variable;
+                scalar value = variable->getValue();
+                if (variable->isLockValueInRange()){
+                    value = fl::Op::bound(value, variable->getMinimum(), variable->getMaximum());
+                }
+                result = proposition->term->membership(value);
             }
+            
             for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
                     rit != proposition->hedges.rend(); ++rit) {
                 result = (*rit)->hedge(result);

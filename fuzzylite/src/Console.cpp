@@ -67,7 +67,7 @@ namespace fl {
     std::string Console::usage() {
         std::vector<Console::Option> options = availableOptions();
         std::ostringstream ss;
-                                                       
+
         ss << "========================================\n";
         ss << "fuzzylite: a fuzzy logic control library\n";
         ss << "version: " << fuzzylite::longVersion() << "\n";
@@ -98,7 +98,7 @@ namespace fl {
         ss << "Visit " << fuzzylite::website() << " for more information.\n\n";
         ss << "Copyright (C) 2010-2015 FuzzyLite Limited.\n";
         ss << "All rights reserved.";
-        
+
         return ss.str();
     }
 

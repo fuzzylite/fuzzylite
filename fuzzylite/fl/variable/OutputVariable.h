@@ -32,7 +32,6 @@ namespace fl {
         FL_unique_ptr<Defuzzifier> _defuzzifier;
         scalar _previousValue;
         scalar _defaultValue;
-        bool _lockValueInRange;
         bool _lockPreviousValue;
 
     public:
@@ -58,9 +57,6 @@ namespace fl {
 
         virtual void setDefaultValue(scalar defaultValue);
         virtual scalar getDefaultValue() const;
-
-        virtual void setLockValueInRange(bool lockValueInRange);
-        virtual bool isLockValueInRange() const;
 
         virtual void setLockPreviousValue(bool lockPreviousOutputValue);
         virtual bool isLockPreviousValue() const;

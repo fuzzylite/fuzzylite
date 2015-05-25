@@ -95,6 +95,8 @@ namespace fl {
         result.push_back(_indent + "enabled: " + (variable->isEnabled() ? "true" : "false"));
         result.push_back(_indent + "range: " + Op::join(2, " ",
                 variable->getMinimum(), variable->getMaximum()));
+        result.push_back(_indent + "lock-range: " + 
+                (variable->isLockValueInRange() ? "true" : "false"));
         for (std::size_t i = 0; i < variable->numberOfTerms(); ++i) {
             result.push_back(_indent + toString(variable->getTerm(i)));
         }
@@ -107,6 +109,8 @@ namespace fl {
         result.push_back(_indent + "enabled: " + (inputVariable->isEnabled() ? "true" : "false"));
         result.push_back(_indent + "range: " + Op::join(2, " ",
                 inputVariable->getMinimum(), inputVariable->getMaximum()));
+        result.push_back(_indent + "lock-range: " + 
+                (inputVariable->isLockValueInRange() ? "true" : "false"));
         for (std::size_t i = 0; i < inputVariable->numberOfTerms(); ++i) {
             result.push_back(_indent + toString(inputVariable->getTerm(i)));
         }
@@ -119,6 +123,8 @@ namespace fl {
         result.push_back(_indent + "enabled: " + (outputVariable->isEnabled() ? "true" : "false"));
         result.push_back(_indent + "range: " + Op::join(2, " ",
                 outputVariable->getMinimum(), outputVariable->getMaximum()));
+        result.push_back(_indent + "lock-range: " +
+                (outputVariable->isLockValueInRange() ? "true" : "false"));
         result.push_back(_indent + "accumulation: " +
                 toString(outputVariable->fuzzyOutput()->getAccumulation()));
         result.push_back(_indent + "defuzzifier: " +
@@ -126,8 +132,6 @@ namespace fl {
         result.push_back(_indent + "default: " + Op::str(outputVariable->getDefaultValue()));
         result.push_back(_indent + "lock-previous: " +
                 (outputVariable->isLockPreviousValue() ? "true" : "false"));
-        result.push_back(_indent + "lock-range: " +
-                (outputVariable->isLockValueInRange() ? "true" : "false"));
         for (std::size_t i = 0; i < outputVariable->numberOfTerms(); ++i) {
             result.push_back(_indent + toString(outputVariable->getTerm(i)));
         }

@@ -124,7 +124,10 @@ namespace fl {
             } else if ("range" == keyValue.first) {
                 std::pair<scalar, scalar> range = parseRange(keyValue.second);
                 inputVariable->setRange(range.first, range.second);
-            } else if ("term" == keyValue.first) {
+            } else if ("lock-range" == keyValue.first) {
+                inputVariable->setLockValueInRange(parseBoolean(keyValue.second));
+            }
+            else if ("term" == keyValue.first) {
                 inputVariable->addTerm(parseTerm(keyValue.second, engine));
             } else {
                 throw fl::Exception("[import error] key <" + keyValue.first + "> not "
