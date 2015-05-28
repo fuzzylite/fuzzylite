@@ -49,7 +49,7 @@ namespace fl {
     public:
         Threshold(Comparison comparison = GreaterThan, scalar threshold = 0.0);
         virtual ~Threshold();
-        FL_DEFAULT_COPY_AND_MOVE(AfterThreshold)
+        FL_DEFAULT_COPY_AND_MOVE(Threshold)
 
         virtual std::string className() const FL_IOVERRIDE;
 
