@@ -126,8 +126,7 @@ namespace fl {
                 inputVariable->setRange(range.first, range.second);
             } else if ("lock-range" == keyValue.first) {
                 inputVariable->setLockValueInRange(parseBoolean(keyValue.second));
-            }
-            else if ("term" == keyValue.first) {
+            } else if ("term" == keyValue.first) {
                 inputVariable->addTerm(parseTerm(keyValue.second, engine));
             } else {
                 throw fl::Exception("[import error] key <" + keyValue.first + "> not "
@@ -186,6 +185,8 @@ namespace fl {
                 ruleBlock->setDisjunction(parseSNorm(keyValue.second));
             } else if ("implication" == keyValue.first) {
                 ruleBlock->setImplication(parseTNorm(keyValue.second));
+            } else if ("activation" == keyValue.first) {
+                ruleBlock->setActivation(parseActivation(keyValue.second));
             } else if ("rule" == keyValue.first) {
                 Rule* rule = new Rule;
                 rule->setText(keyValue.second);
@@ -232,6 +233,11 @@ namespace fl {
     SNorm* FllImporter::parseSNorm(const std::string& name) const {
         if (name == "none") return FactoryManager::instance()->snorm()->constructObject("");
         return FactoryManager::instance()->snorm()->constructObject(name);
+    }
+
+    Activation* FllImporter::parseActivation(const std::string& name) const {
+        if (name == "none") return FactoryManager::instance()->activation()->constructObject("");
+        return FactoryManager::instance()->activation()->constructObject(name);
     }
 
     Defuzzifier* FllImporter::parseDefuzzifier(const std::string& text) const {
@@ -285,11 +291,11 @@ namespace fl {
     std::string FllImporter::clean(const std::string& line) const {
         if (line.empty()) return line;
         if (line.size() == 1) return isspace(line.at(0)) ? "" : line;
-		std::size_t start = 0, end = line.size() - 1;
+        std::size_t start = 0, end = line.size() - 1;
         while (start <= end and isspace(line.at(start))) {
             ++start;
         }
-		std::size_t sharp = start;
+        std::size_t sharp = start;
         while (sharp <= end) {
             if (line.at(sharp) == '#') {
                 end = sharp - 1;
@@ -301,7 +307,7 @@ namespace fl {
             --end;
         }
 
-		std::size_t length = end - start + 1;
+        std::size_t length = end - start + 1;
         return line.substr(start, length);
     }
 

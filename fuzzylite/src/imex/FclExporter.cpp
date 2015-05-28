@@ -152,10 +152,10 @@ namespace fl {
         fcl << "END_RULEBLOCK\n";
         return fcl.str();
     }
-    
-    std::string FclExporter::toString(const Norm* norm) const{
+
+    std::string FclExporter::toString(const Norm* norm) const {
         if (not norm) return "NONE";
-        
+
         std::string name = norm->className();
         //TNorms
         if (name == Minimum().className()) return "MIN";
@@ -165,7 +165,7 @@ namespace fl {
         if (name == EinsteinProduct().className()) return "EPROD";
         if (name == HamacherProduct().className()) return "HPROD";
         if (name == NilpotentMinimum().className()) return "NMIN";
-        
+
         //SNorms
         if (name == Maximum().className()) return "MAX";
         if (name == AlgebraicSum().className()) return "ASUM";
@@ -175,10 +175,10 @@ namespace fl {
         if (name == EinsteinSum().className()) return "ESUM";
         if (name == HamacherSum().className()) return "HSUM";
         if (name == NilpotentMaximum().className()) return "NMAX";
-        
+
         return norm->className();
     }
-    
+
     std::string FclExporter::toString(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier) return "NONE";
         if (defuzzifier->className() == Centroid().className()) return "COG";

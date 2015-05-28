@@ -23,6 +23,7 @@
 namespace fl {
     class TNormFactory;
     class SNormFactory;
+    class ActivationFactory;
     class DefuzzifierFactory;
     class TermFactory;
     class HedgeFactory;
@@ -34,6 +35,7 @@ namespace fl {
 
         FL_unique_ptr<TNormFactory> _tnorm;
         FL_unique_ptr<SNormFactory> _snorm;
+        FL_unique_ptr<ActivationFactory> _activation;
         FL_unique_ptr<DefuzzifierFactory> _defuzzifier;
         FL_unique_ptr<TermFactory> _term;
         FL_unique_ptr<HedgeFactory> _hedge;
@@ -41,8 +43,8 @@ namespace fl {
 
         FactoryManager();
         FactoryManager(TNormFactory* tnorm, SNormFactory* snorm,
-                DefuzzifierFactory* defuzzifier, TermFactory* term,
-                HedgeFactory* hedge, FunctionFactory* function);
+                ActivationFactory* activation, DefuzzifierFactory* defuzzifier,
+                TermFactory* term, HedgeFactory* hedge, FunctionFactory* function);
         FactoryManager(const FactoryManager& other);
         FactoryManager& operator=(const FactoryManager& other);
         FL_DEFAULT_MOVE(FactoryManager)
@@ -56,6 +58,9 @@ namespace fl {
 
         virtual void setSnorm(SNormFactory* snorm);
         virtual SNormFactory* snorm() const;
+
+        virtual void setActivation(ActivationFactory* activation);
+        virtual ActivationFactory* activation() const;
 
         virtual void setDefuzzifier(DefuzzifierFactory* defuzzifier);
         virtual DefuzzifierFactory* defuzzifier() const;

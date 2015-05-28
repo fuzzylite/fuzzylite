@@ -1,4 +1,12 @@
 src/Console.cpp
+src/activation/General.cpp
+src/activation/First.cpp
+src/activation/General.cpp
+src/activation/Highest.cpp
+src/activation/Last.cpp
+src/activation/Lowest.cpp
+src/activation/Proportional.cpp
+src/activation/Threshold.cpp
 src/defuzzifier/Bisector.cpp
 src/defuzzifier/Centroid.cpp
 src/defuzzifier/IntegralDefuzzifier.cpp
@@ -10,6 +18,7 @@ src/defuzzifier/WeightedDefuzzifier.cpp
 src/defuzzifier/WeightedSum.cpp
 src/Engine.cpp
 src/Exception.cpp
+src/factory/ActivationFactory.cpp
 src/factory/DefuzzifierFactory.cpp
 src/factory/FactoryManager.cpp
 src/factory/FunctionFactory.cpp

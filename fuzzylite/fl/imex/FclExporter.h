@@ -44,13 +44,13 @@ namespace fl {
 
         virtual std::string name() const FL_IOVERRIDE;
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
-        
+
         virtual std::string toString(const InputVariable* variable) const;
         virtual std::string toString(const OutputVariable* variable) const;
         virtual std::string toString(const RuleBlock* ruleBlock) const;
-        
+
         virtual std::string toString(const Norm* norm) const;
-        
+
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
         virtual std::string toString(const Term* term) const;
 

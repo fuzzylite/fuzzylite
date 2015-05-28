@@ -39,6 +39,7 @@ namespace fl {
         FL_unique_ptr<Antecedent> _antecedent;
         FL_unique_ptr<Consequent> _consequent;
         std::map<std::string, Hedge*> _hedges;
+        scalar _activationDegree;
 
     public:
         explicit Rule(const std::string& text = "", scalar weight = 1.0);
@@ -68,8 +69,12 @@ namespace fl {
         virtual const std::map<std::string, Hedge*>& hedges() const;
         virtual std::map<std::string, Hedge*>& hedges();
 
-        virtual scalar activationDegree(const TNorm* conjunction, const SNorm* disjunction) const;
-        virtual void activate(scalar degree, const TNorm* implication) const;
+        virtual void setActivationDegree(scalar activationDegree);
+        virtual scalar getActivationDegree() const;
+
+        virtual void activate(scalar activationDegree, const TNorm* implication);
+        virtual void deactivate();
+        virtual bool isActivated() const;
 
         virtual std::string toString() const;
 
@@ -77,7 +82,7 @@ namespace fl {
         virtual void unload();
         virtual void load(const Engine* engine);
         virtual void load(const std::string& rule, const Engine* engine);
-        
+
         virtual Rule* clone() const;
 
         static Rule* parse(const std::string& rule, const Engine* engine);

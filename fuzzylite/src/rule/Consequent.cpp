@@ -140,7 +140,7 @@ namespace fl {
                     Hedge* hedge = rule->getHedge(token);
                     if (not hedge) {
                         HedgeFactory* factory = FactoryManager::instance()->hedge();
-                        if (factory->hasConstructor(token)){
+                        if (factory->hasConstructor(token)) {
                             hedge = factory->constructObject(token);
                             rule->addHedge(hedge);
                         }

@@ -70,7 +70,7 @@ namespace fl {
                 << toString(inputVariable->getMinimum()) << ", "
                 << toString(inputVariable->getMaximum()) << ");\n";
         ss << name << ".setLockValueInRange("
-                << (inputVariable->isLockValueInRange() ? "true" : "false") <<");\n";
+                << (inputVariable->isLockValueInRange() ? "true" : "false") << ");\n";
         for (std::size_t i = 0; i < inputVariable->numberOfTerms(); ++i) {
             ss << name << ".addTerm(" <<
                     toString(inputVariable->getTerm(i)) << ");\n";
@@ -83,7 +83,7 @@ namespace fl {
         std::ostringstream ss;
         std::string name = "outputVariable";
         if (engine->numberOfOutputVariables() > 1) {
-			std::size_t index = std::distance(engine->outputVariables().begin(),
+            std::size_t index = std::distance(engine->outputVariables().begin(),
                     std::find(engine->outputVariables().begin(),
                     engine->outputVariables().end(), outputVariable));
             name += Op::str(index + 1);
@@ -116,7 +116,7 @@ namespace fl {
         std::ostringstream ss;
         std::string name = "ruleBlock";
         if (engine->numberOfRuleBlocks() > 1) {
-			std::size_t index = std::distance(engine->ruleBlocks().begin(),
+            std::size_t index = std::distance(engine->ruleBlocks().begin(),
                     std::find(engine->ruleBlocks().begin(),
                     engine->ruleBlocks().end(), ruleBlock));
             name += Op::str(index + 1);

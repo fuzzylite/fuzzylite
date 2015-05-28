@@ -38,11 +38,11 @@ namespace fl {
         return _prefixNamespace ? "fl::" + clazz : clazz;
     }
 
-    void CppExporter::setPrefixNamespace(bool prefixNamespace){
+    void CppExporter::setPrefixNamespace(bool prefixNamespace) {
         this->_prefixNamespace = prefixNamespace;
     }
 
-    bool CppExporter::isPrefixNamespace() const{
+    bool CppExporter::isPrefixNamespace() const {
         return this->_prefixNamespace;
     }
 
@@ -70,21 +70,21 @@ namespace fl {
     }
 
     std::string CppExporter::toString(const InputVariable* inputVariable, const Engine* engine) const {
-		std::string name = "inputVariable";
+        std::string name = "inputVariable";
         if (engine->numberOfInputVariables() > 1) {
             std::size_t index = std::distance(engine->inputVariables().begin(),
                     std::find(engine->inputVariables().begin(),
                     engine->inputVariables().end(), inputVariable));
-			name += Op::str(index + 1);
+            name += Op::str(index + 1);
         }
-		std::ostringstream ss;
+        std::ostringstream ss;
         ss << fl("InputVariable* ") << name << " = new " << fl("InputVariable;\n");
         ss << name << "->setEnabled(" << (inputVariable->isEnabled() ? "true" : "false") << ");\n";
         ss << name << "->setName(\"" << inputVariable->getName() << "\");\n";
         ss << name << "->setRange(" <<
                 toString(inputVariable->getMinimum()) << ", " <<
                 toString(inputVariable->getMaximum()) << ");\n";
-        ss << name << "->setLockValueInRange(" << (inputVariable->isLockValueInRange() ? "true" : "false") <<");\n";
+        ss << name << "->setLockValueInRange(" << (inputVariable->isLockValueInRange() ? "true" : "false") << ");\n";
         for (std::size_t t = 0; t < inputVariable->numberOfTerms(); ++t) {
             ss << name << "->addTerm(" << toString(inputVariable->getTerm(t)) << ");\n";
         }
@@ -100,7 +100,7 @@ namespace fl {
                     engine->outputVariables().end(), outputVariable));
             name += Op::str(index + 1);
         }
-		std::ostringstream ss;
+        std::ostringstream ss;
         ss << fl("OutputVariable* ") << name << " = new " << fl("OutputVariable;\n");
         ss << name << "->setEnabled(" << (outputVariable->isEnabled() ? "true" : "false") << ");\n";
         ss << name << "->setName(\"" << outputVariable->getName() << "\");\n";
@@ -132,7 +132,7 @@ namespace fl {
                     engine->ruleBlocks().end(), ruleBlock));
             name += Op::str(index + 1);
         }
-		std::ostringstream ss;
+        std::ostringstream ss;
         ss << fl("RuleBlock* ") << name << " = new " << fl("RuleBlock;\n");
         ss << name << "->setEnabled(" << (ruleBlock->isEnabled() ? "true" : "false") << ");\n";
         ss << name << "->setName(\"" << ruleBlock->getName() << "\");\n";
@@ -153,8 +153,8 @@ namespace fl {
     std::string CppExporter::toString(scalar value) const {
         if (fl::Op::isNaN(value))
             return "fl::nan";
-        if (fl::Op::isInf(value)){
-           return (value > 0 ? "fl::inf" : "-fl::inf");
+        if (fl::Op::isInf(value)) {
+            return (value > 0 ? "fl::inf" : "-fl::inf");
         }
         return fl::Op::str(value);
     }

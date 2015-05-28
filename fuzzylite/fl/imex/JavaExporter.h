@@ -47,7 +47,7 @@ namespace fl {
         virtual std::string toString(const Term* term) const;
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
         virtual std::string toString(const Norm* norm) const;
-        
+
         virtual std::string toString(scalar value) const;
 
         virtual JavaExporter* clone() const FL_IOVERRIDE;

@@ -29,6 +29,7 @@ namespace fl {
     class RuleBlock;
     class Rule;
     class Norm;
+    class Activation;
     class Defuzzifier;
     class Term;
 
@@ -64,6 +65,7 @@ namespace fl {
         virtual std::string toString(const Rule* rule) const;
 
         virtual std::string toString(const Norm* norm) const;
+        virtual std::string toString(const Activation* activation) const;
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
         virtual std::string toString(const Term* term) const;
 

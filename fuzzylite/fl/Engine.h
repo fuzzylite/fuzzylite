@@ -74,7 +74,7 @@ namespace fl {
         virtual std::string getName() const;
 
         virtual void setInputValue(const std::string& name, scalar value);
-		virtual scalar getOutputValue(const std::string& name);
+        virtual scalar getOutputValue(const std::string& name);
 
         virtual std::string toString() const;
 
@@ -92,11 +92,11 @@ namespace fl {
          * Operations for iterable datatype _inputVariables
          */
         virtual void addInputVariable(InputVariable* inputVariable);
-		virtual InputVariable* setInputVariable(InputVariable* inputVariable, std::size_t index);
-		virtual void insertInputVariable(InputVariable* inputVariable, std::size_t index);
-		virtual InputVariable* getInputVariable(std::size_t index) const;
+        virtual InputVariable* setInputVariable(InputVariable* inputVariable, std::size_t index);
+        virtual void insertInputVariable(InputVariable* inputVariable, std::size_t index);
+        virtual InputVariable* getInputVariable(std::size_t index) const;
         virtual InputVariable* getInputVariable(const std::string& name) const;
-		virtual InputVariable* removeInputVariable(std::size_t index);
+        virtual InputVariable* removeInputVariable(std::size_t index);
         virtual InputVariable* removeInputVariable(const std::string& name);
         virtual bool hasInputVariable(const std::string& name) const;
         virtual std::size_t numberOfInputVariables() const;
@@ -108,14 +108,14 @@ namespace fl {
          * Operations for iterable datatype _outputVariables
          */
         virtual void addOutputVariable(OutputVariable* outputVariable);
-		virtual OutputVariable* setOutputVariable(OutputVariable* outputVariable, std::size_t index);
-		virtual void insertOutputVariable(OutputVariable* outputVariable, std::size_t index);
-		virtual OutputVariable* getOutputVariable(std::size_t index) const;
+        virtual OutputVariable* setOutputVariable(OutputVariable* outputVariable, std::size_t index);
+        virtual void insertOutputVariable(OutputVariable* outputVariable, std::size_t index);
+        virtual OutputVariable* getOutputVariable(std::size_t index) const;
         virtual OutputVariable* getOutputVariable(const std::string& name) const;
         virtual bool hasOutputVariable(const std::string& name) const;
-		virtual OutputVariable* removeOutputVariable(std::size_t index);
+        virtual OutputVariable* removeOutputVariable(std::size_t index);
         virtual OutputVariable* removeOutputVariable(const std::string& name);
-		virtual std::size_t numberOfOutputVariables() const;
+        virtual std::size_t numberOfOutputVariables() const;
         virtual const std::vector<OutputVariable*>& outputVariables() const;
         virtual void setOutputVariables(const std::vector<OutputVariable*>& outputVariables);
         virtual std::vector<OutputVariable*>& outputVariables();
@@ -124,14 +124,14 @@ namespace fl {
          * Operations for iterable datatype _ruleblocks
          */
         virtual void addRuleBlock(RuleBlock* ruleblock);
-		virtual RuleBlock* setRuleBlock(RuleBlock* ruleBlock, std::size_t index);
-		virtual void insertRuleBlock(RuleBlock* ruleblock, std::size_t index);
-		virtual RuleBlock* getRuleBlock(std::size_t index) const;
+        virtual RuleBlock* setRuleBlock(RuleBlock* ruleBlock, std::size_t index);
+        virtual void insertRuleBlock(RuleBlock* ruleblock, std::size_t index);
+        virtual RuleBlock* getRuleBlock(std::size_t index) const;
         virtual RuleBlock* getRuleBlock(const std::string& name) const;
         virtual bool hasRuleBlock(const std::string& name) const;
-		virtual RuleBlock* removeRuleBlock(std::size_t index);
+        virtual RuleBlock* removeRuleBlock(std::size_t index);
         virtual RuleBlock* removeRuleBlock(const std::string& name);
-		virtual std::size_t numberOfRuleBlocks() const;
+        virtual std::size_t numberOfRuleBlocks() const;
         virtual const std::vector<RuleBlock*>& ruleBlocks() const;
         virtual void setRuleBlocks(const std::vector<RuleBlock*>& ruleBlocks);
         virtual std::vector<RuleBlock*>& ruleBlocks();

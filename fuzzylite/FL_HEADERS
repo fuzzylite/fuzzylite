@@ -1,4 +1,12 @@
 fl/Console.h
+fl/activation/Activation.h
+fl/activation/First.h
+fl/activation/General.h
+fl/activation/Highest.h
+fl/activation/Last.h
+fl/activation/Lowest.h
+fl/activation/Proportional.h
+fl/activation/Threshold.h
 fl/defuzzifier/Bisector.h
 fl/defuzzifier/Centroid.h
 fl/defuzzifier/Defuzzifier.h
@@ -11,6 +19,7 @@ fl/defuzzifier/WeightedDefuzzifier.h
 fl/defuzzifier/WeightedSum.h
 fl/Engine.h
 fl/Exception.h
+fl/factory/ActivationFactory.h
 fl/factory/CloningFactory.h
 fl/factory/ConstructionFactory.h
 fl/factory/DefuzzifierFactory.h

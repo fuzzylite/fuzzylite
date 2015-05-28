@@ -45,7 +45,7 @@ namespace fl {
 
         return fis.str();
     }
-    
+
     std::string FisExporter::exportSystem(const Engine* engine) const {
         std::ostringstream fis;
         fis << "[System]\n";
@@ -59,7 +59,7 @@ namespace fl {
             type = "tsukamoto";
         } else if (engine->type() == Engine::InverseTsukamoto) {
             type = "inverse tsukamoto";
-        }else if (engine->type() == Engine::Hybrid){
+        } else if (engine->type() == Engine::Hybrid) {
             type = "hybrid";
         } else {
             type = "unknown";
@@ -68,7 +68,7 @@ namespace fl {
         //        fis << "Version=" << FL_VERSION << "\n";
         fis << "NumInputs=" << engine->numberOfInputVariables() << "\n";
         fis << "NumOutputs=" << engine->numberOfOutputVariables() << "\n";
-        
+
         std::size_t numberOfRules = 0;
         const TNorm* conjunction = fl::null;
         const SNorm* disjunction = fl::null;
@@ -120,7 +120,7 @@ namespace fl {
 
     std::string FisExporter::exportOutputs(const Engine* engine) const {
         std::ostringstream fis;
-		for (std::size_t ixVar = 0; ixVar < engine->numberOfOutputVariables(); ++ixVar) {
+        for (std::size_t ixVar = 0; ixVar < engine->numberOfOutputVariables(); ++ixVar) {
             OutputVariable* var = engine->getOutputVariable(ixVar);
             fis << "[Output" << (ixVar + 1) << "]\n";
             if (not var->isEnabled()) {
@@ -138,7 +138,7 @@ namespace fl {
                 fis << "LockRange=" << var->isLockValueInRange() << "\n";
             }
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
-			for (std::size_t ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
+            for (std::size_t ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
                 fis << "MF" << (ixTerm + 1) << "='" << Op::validName(var->getTerm(ixTerm)->getName()) << "':"
                         << toString(var->getTerm(ixTerm)) << "\n";
             }
@@ -150,10 +150,10 @@ namespace fl {
     std::string FisExporter::exportRules(const Engine* engine) const {
         std::ostringstream fis;
         fis << "[Rules]\n";
-		for (std::size_t ixRuleBlock = 0; ixRuleBlock < engine->numberOfRuleBlocks(); ++ixRuleBlock) {
+        for (std::size_t ixRuleBlock = 0; ixRuleBlock < engine->numberOfRuleBlocks(); ++ixRuleBlock) {
             RuleBlock* rb = engine->getRuleBlock(ixRuleBlock);
             if (engine->numberOfRuleBlocks() > 1) fis << "# RuleBlock " << rb->getName() << "\n";
-			for (std::size_t ixRule = 0; ixRule < rb->numberOfRules(); ++ixRule) {
+            for (std::size_t ixRule = 0; ixRule < rb->numberOfRules(); ++ixRule) {
                 Rule* rule = rb->getRule(ixRule);
                 if (rule->isLoaded()) {
                     fis << exportRule(rule, engine) << "\n";
@@ -197,9 +197,9 @@ namespace fl {
         }
         std::ostringstream fis;
         std::vector<Variable*> inputVariables, outputVariables;
-		for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i)
+        for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i)
             inputVariables.push_back(engine->getInputVariable(i));
-		for (std::size_t i = 0; i < engine->numberOfOutputVariables(); ++i)
+        for (std::size_t i = 0; i < engine->numberOfOutputVariables(); ++i)
             outputVariables.push_back(engine->getOutputVariable(i));
 
         fis << translate(propositions, inputVariables) << ", ";
@@ -226,7 +226,7 @@ namespace fl {
                 Proposition* proposition = propositions.at(ixProposition);
                 if (proposition->variable != variable) continue;
 
-				for (std::size_t termIndex = 0; termIndex < variable->numberOfTerms(); ++termIndex) {
+                for (std::size_t termIndex = 0; termIndex < variable->numberOfTerms(); ++termIndex) {
                     if (variable->getTerm(termIndex) == proposition->term) {
                         termIndexPlusOne = termIndex + 1;
                         break;
@@ -261,7 +261,7 @@ namespace fl {
         }
         return ss.str();
     }
-    
+
     std::string FisExporter::toString(const Norm * norm) const {
         if (not norm) return "";
         //TNorm
@@ -281,7 +281,7 @@ namespace fl {
         if (norm->className() == EinsteinSum().className()) return "einstein_sum";
         if (norm->className() == HamacherSum().className()) return "hamacher_sum";
         if (norm->className() == NilpotentMaximum().className()) return "nilpotent_maximum";
-        
+
         return norm->className();
     }
 
@@ -304,8 +304,8 @@ namespace fl {
                     x->getWidth(), x->getSlope(), x->getCenter()) << "]";
             return ss.str();
         }
-        
-        if (const Binary * x = dynamic_cast<const Binary*>(term)){
+
+        if (const Binary * x = dynamic_cast<const Binary*> (term)) {
             ss << "'binarymf,[" << fl::Op::str(x->getThreshold()) << "]";
             return ss.str();
         }

@@ -24,6 +24,15 @@
 #include "fl/Engine.h"
 #include "fl/Exception.h"
 
+#include "fl/activation/Activation.h"
+#include "fl/activation/First.h"
+#include "fl/activation/General.h"
+#include "fl/activation/Highest.h"
+#include "fl/activation/Last.h"
+#include "fl/activation/Lowest.h"
+#include "fl/activation/Proportional.h"
+#include "fl/activation/Threshold.h"
+
 #include "fl/defuzzifier/Bisector.h"
 #include "fl/defuzzifier/Centroid.h"
 #include "fl/defuzzifier/Defuzzifier.h"
@@ -35,6 +44,7 @@
 #include "fl/defuzzifier/WeightedDefuzzifier.h"
 #include "fl/defuzzifier/WeightedSum.h"
 
+#include "fl/factory/ActivationFactory.h"
 #include "fl/factory/CloningFactory.h"
 #include "fl/factory/ConstructionFactory.h"
 #include "fl/factory/FactoryManager.h"

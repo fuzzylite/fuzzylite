@@ -25,6 +25,7 @@
 namespace fl {
     class TNorm;
     class SNorm;
+    class Activation;
     class Term;
     class Defuzzifier;
 
@@ -52,6 +53,7 @@ namespace fl {
 
         virtual TNorm* parseTNorm(const std::string& name) const;
         virtual SNorm* parseSNorm(const std::string& name) const;
+        virtual Activation* parseActivation(const std::string& name) const;
 
         virtual Term* parseTerm(const std::string& text, Engine* engine) const;
 

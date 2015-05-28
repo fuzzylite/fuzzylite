@@ -186,6 +186,7 @@ namespace fl {
 
     void Variable::sort() {
         Centroid defuzzifier;
+        //TODO: Change data structure for a std::priority_queue;
         std::map<const Term*, scalar> centroids;
         for (std::size_t i = 0; i < terms().size(); ++i) {
             Term* term = terms().at(i);

@@ -62,11 +62,10 @@ namespace fl {
     void Binary::setThreshold(scalar threshold) {
         this->_threshold = threshold;
     }
-    
+
     scalar Binary::getThreshold() const {
         return this->_threshold;
     }
-
 
     Binary* Binary::clone() const {
         return new Binary(*this);

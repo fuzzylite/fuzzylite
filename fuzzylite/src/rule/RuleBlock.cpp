@@ -17,13 +17,13 @@
 
 #include "fl/rule/RuleBlock.h"
 
+#include "fl/activation/General.h"
 #include "fl/imex/FllExporter.h"
 #include "fl/norm/TNorm.h"
 #include "fl/norm/SNorm.h"
 #include "fl/rule/Rule.h"
 #include "fl/Operation.h"
 
-#include <sstream>
 
 namespace fl {
 
@@ -72,18 +72,11 @@ namespace fl {
     void RuleBlock::activate() {
         FL_DBG("===================");
         FL_DBG("ACTIVATING RULEBLOCK " << _name);
-        for (std::size_t i = 0; i < _rules.size(); ++i) {
-            Rule* rule = _rules.at(i);
-            if (rule->isLoaded()) {
-                scalar activationDegree = rule->activationDegree(_conjunction.get(), _disjunction.get());
-                FL_DBG("[degree=" << Op::str(activationDegree) << "] " << rule->toString());
-                if (Op::isGt(activationDegree, 0.0)) {
-                    rule->activate(activationDegree, _implication.get());
-                }
-            } else {
-                FL_DBG("Rule not loaded: " << rule->toString());
-            }
+        if (not _activation.get()) {
+            _activation.reset(new General);
         }
+        FL_DBG("Activation: " << _activation->className() << " " << _activation->parameters());
+        _activation->activate(this);
     }
 
     void RuleBlock::unloadRules() const {
@@ -149,6 +142,14 @@ namespace fl {
 
     TNorm* RuleBlock::getImplication() const {
         return this->_implication.get();
+    }
+
+    void RuleBlock::setActivation(Activation* activation) {
+        this->_activation.reset(activation);
+    }
+
+    Activation* RuleBlock::getActivation() const {
+        return this->_activation.get();
     }
 
     void RuleBlock::setEnabled(bool enabled) {

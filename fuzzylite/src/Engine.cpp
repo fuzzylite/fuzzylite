@@ -109,7 +109,7 @@ namespace fl {
         TNormFactory* tnormFactory = FactoryManager::instance()->tnorm();
         SNormFactory* snormFactory = FactoryManager::instance()->snorm();
         DefuzzifierFactory* defuzzFactory = FactoryManager::instance()->defuzzifier();
-        
+
         TNorm* conjunction = tnormFactory->constructObject(conjunctionT);
         SNorm* disjunction = snormFactory->constructObject(disjunctionS);
         TNorm* implication = tnormFactory->constructObject(implicationT);
@@ -476,18 +476,18 @@ namespace fl {
         this->_inputVariables.push_back(inputVariable);
     }
 
-	InputVariable* Engine::setInputVariable(InputVariable* inputVariable, std::size_t index) {
+    InputVariable* Engine::setInputVariable(InputVariable* inputVariable, std::size_t index) {
         InputVariable* result = this->_inputVariables.at(index);
         this->_inputVariables.at(index) = inputVariable;
         return result;
     }
 
-	void Engine::insertInputVariable(InputVariable* inputVariable, std::size_t index) {
+    void Engine::insertInputVariable(InputVariable* inputVariable, std::size_t index) {
         this->_inputVariables.insert(this->_inputVariables.begin() + index,
                 inputVariable);
     }
 
-	InputVariable* Engine::getInputVariable(std::size_t index) const {
+    InputVariable* Engine::getInputVariable(std::size_t index) const {
         return this->_inputVariables.at(index);
     }
 
@@ -507,7 +507,7 @@ namespace fl {
         return false;
     }
 
-	InputVariable* Engine::removeInputVariable(std::size_t index) {
+    InputVariable* Engine::removeInputVariable(std::size_t index) {
         InputVariable* result = this->_inputVariables.at(index);
         this->_inputVariables.erase(this->_inputVariables.begin() + index);
         return result;
@@ -552,18 +552,18 @@ namespace fl {
         this->_outputVariables.push_back(outputVariable);
     }
 
-	OutputVariable* Engine::setOutputVariable(OutputVariable* outputVariable, std::size_t index) {
+    OutputVariable* Engine::setOutputVariable(OutputVariable* outputVariable, std::size_t index) {
         OutputVariable* result = this->_outputVariables.at(index);
         this->_outputVariables.at(index) = outputVariable;
         return result;
     }
 
-	void Engine::insertOutputVariable(OutputVariable* outputVariable, std::size_t index) {
+    void Engine::insertOutputVariable(OutputVariable* outputVariable, std::size_t index) {
         this->_outputVariables.insert(this->_outputVariables.begin() + index,
                 outputVariable);
     }
 
-	OutputVariable* Engine::getOutputVariable(std::size_t index) const {
+    OutputVariable* Engine::getOutputVariable(std::size_t index) const {
         return this->_outputVariables.at(index);
     }
 
@@ -583,7 +583,7 @@ namespace fl {
         return false;
     }
 
-	OutputVariable* Engine::removeOutputVariable(std::size_t index) {
+    OutputVariable* Engine::removeOutputVariable(std::size_t index) {
         OutputVariable* result = this->_outputVariables.at(index);
         this->_outputVariables.erase(this->_outputVariables.begin() + index);
         return result;
@@ -623,17 +623,17 @@ namespace fl {
         this->_ruleblocks.push_back(ruleblock);
     }
 
-	RuleBlock* Engine::setRuleBlock(RuleBlock* ruleBlock, std::size_t index) {
+    RuleBlock* Engine::setRuleBlock(RuleBlock* ruleBlock, std::size_t index) {
         RuleBlock* result = this->_ruleblocks.at(index);
         this->_ruleblocks.at(index) = ruleBlock;
         return result;
     }
 
-	void Engine::insertRuleBlock(RuleBlock* ruleblock, std::size_t index) {
+    void Engine::insertRuleBlock(RuleBlock* ruleblock, std::size_t index) {
         this->_ruleblocks.insert(this->_ruleblocks.begin() + index, ruleblock);
     }
 
-	RuleBlock* Engine::getRuleBlock(std::size_t index) const {
+    RuleBlock* Engine::getRuleBlock(std::size_t index) const {
         return this->_ruleblocks.at(index);
     }
 
@@ -653,7 +653,7 @@ namespace fl {
         return false;
     }
 
-	RuleBlock* Engine::removeRuleBlock(std::size_t index) {
+    RuleBlock* Engine::removeRuleBlock(std::size_t index) {
         RuleBlock* result = this->_ruleblocks.at(index);
         this->_ruleblocks.erase(this->_ruleblocks.begin() + index);
         return result;

@@ -30,6 +30,7 @@ namespace fl {
     class Rule;
     class TNorm;
     class SNorm;
+    class Activation;
 
     class FL_API RuleBlock {
     private:
@@ -40,6 +41,7 @@ namespace fl {
         FL_unique_ptr<TNorm> _conjunction;
         FL_unique_ptr<SNorm> _disjunction;
         FL_unique_ptr<TNorm> _implication;
+        FL_unique_ptr<Activation> _activation;
         bool _enabled;
 
     public:
@@ -63,6 +65,9 @@ namespace fl {
         virtual void setImplication(TNorm* implication);
         virtual TNorm* getImplication() const;
 
+        virtual void setActivation(Activation* activation);
+        virtual Activation* getActivation() const;
+
         virtual void setEnabled(bool enabled);
         virtual bool isEnabled() const;
 
@@ -76,9 +81,9 @@ namespace fl {
          * Operations for iterable datatype _rules
          */
         virtual void addRule(Rule* rule);
-		virtual void insertRule(Rule* rule, std::size_t index);
-		virtual Rule* getRule(std::size_t index) const;
-		virtual Rule* removeRule(std::size_t index);
+        virtual void insertRule(Rule* rule, std::size_t index);
+        virtual Rule* getRule(std::size_t index) const;
+        virtual Rule* removeRule(std::size_t index);
         virtual std::size_t numberOfRules() const;
         virtual void setRules(const std::vector<Rule*>& rules);
         virtual const std::vector<Rule*>& rules() const;

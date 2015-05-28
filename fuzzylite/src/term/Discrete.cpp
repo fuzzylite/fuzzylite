@@ -107,11 +107,11 @@ namespace fl {
         return this->_xy;
     }
 
-	const Discrete::Pair& Discrete::xy(std::size_t index) const {
+    const Discrete::Pair& Discrete::xy(std::size_t index) const {
         return this->_xy.at(index);
     }
 
-	Discrete::Pair& Discrete::xy(std::size_t index) {
+    Discrete::Pair& Discrete::xy(std::size_t index) {
         return this->_xy.at(index);
     }
 

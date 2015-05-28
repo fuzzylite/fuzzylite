@@ -91,15 +91,15 @@ namespace fl {
             scalar result = fl::nan;
             if (OutputVariable * outputVariable = dynamic_cast<OutputVariable*> (proposition->variable)) {
                 result = outputVariable->fuzzyOutput()->activationDegree(proposition->term);
-            }else{
+            } else {
                 Variable* variable = proposition->variable;
                 scalar value = variable->getValue();
-                if (variable->isLockValueInRange()){
+                if (variable->isLockValueInRange()) {
                     value = fl::Op::bound(value, variable->getMinimum(), variable->getMaximum());
                 }
                 result = proposition->term->membership(value);
             }
-            
+
             for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
                     rit != proposition->hedges.rend(); ++rit) {
                 result = (*rit)->hedge(result);

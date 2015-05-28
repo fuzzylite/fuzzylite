@@ -15,37 +15,45 @@
 
  */
 
-#ifndef FL_BINARY_H
-#define	FL_BINARY_H
+#ifndef FL_GENERAL_H
+#define	FL_GENERAL_H
 
-#include "fl/term/Term.h"
+#include "fl/fuzzylite.h"
+
+#include "fl/activation/Activation.h"
 
 namespace fl {
 
-    class FL_API Binary : public Term {
-    protected:
-        scalar _threshold;
+    /**
+     * This class activates each loaded rule in any given {@link RuleBlock}.
+     * 
+     * @author Juan Rada-Vilela
+     * @see Rule
+     * @see RuleBlock
+     * @see ActivationFactory
+     * @since 6.0
+     */
 
+    class FL_API General : public Activation {
     public:
-        explicit Binary(const std::string& name = "", scalar threshold = fl::nan, scalar height = 1.0);
-        virtual ~Binary() FL_IOVERRIDE;
-        FL_DEFAULT_COPY_AND_MOVE(Binary)
+
+        General();
+        virtual ~General();
+        FL_DEFAULT_COPY_AND_MOVE(General)
 
         virtual std::string className() const FL_IOVERRIDE;
+
         virtual std::string parameters() const FL_IOVERRIDE;
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        virtual scalar membership(scalar x) const FL_IOVERRIDE;
+        virtual void activate(RuleBlock* ruleBlock) const FL_IOVERRIDE;
 
-        virtual void setThreshold(scalar threshold);
-        virtual scalar getThreshold() const;
+        virtual General* clone() const FL_IOVERRIDE;
 
-        virtual Binary* clone() const FL_IOVERRIDE;
-
-        static Term* constructor();
+        static Activation* constructor();
     };
 
 }
 
-#endif	/* FL_BINARY_H */
+#endif	/* FL_GENERAL_H */
 

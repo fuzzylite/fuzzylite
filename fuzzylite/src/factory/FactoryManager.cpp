@@ -17,6 +17,7 @@
 
 #include "fl/factory/FactoryManager.h"
 
+#include "fl/factory/ActivationFactory.h"
 #include "fl/factory/DefuzzifierFactory.h"
 #include "fl/factory/FunctionFactory.h"
 #include "fl/factory/HedgeFactory.h"
@@ -33,21 +34,25 @@ namespace fl {
     }
 
     FactoryManager::FactoryManager() :
-    _tnorm(new TNormFactory), _snorm(new SNormFactory), _defuzzifier(new DefuzzifierFactory),
-    _term(new TermFactory), _hedge(new HedgeFactory), _function(new FunctionFactory) {
+    _tnorm(new TNormFactory), _snorm(new SNormFactory), _activation(new ActivationFactory),
+    _defuzzifier(new DefuzzifierFactory), _term(new TermFactory),
+    _hedge(new HedgeFactory), _function(new FunctionFactory) {
     }
 
     FactoryManager::FactoryManager(TNormFactory* tnorm, SNormFactory* snorm,
-            DefuzzifierFactory* defuzzifier, TermFactory* term,
-            HedgeFactory* hedge, FunctionFactory* function) :
-    _tnorm(tnorm), _snorm(snorm), _defuzzifier(defuzzifier), _term(term), _hedge(hedge),
-    _function(function) {
+            ActivationFactory* activation, DefuzzifierFactory* defuzzifier,
+            TermFactory* term, HedgeFactory* hedge, FunctionFactory* function) :
+    _tnorm(tnorm), _snorm(snorm), _activation(activation),
+    _defuzzifier(defuzzifier), _term(term), _hedge(hedge), _function(function) {
     }
 
     FactoryManager::FactoryManager(const FactoryManager& other)
-    : _tnorm(fl::null), _snorm(fl::null), _defuzzifier(fl::null), _term(fl::null), _hedge(fl::null), _function(fl::null) {
+    : _tnorm(fl::null), _snorm(fl::null), _activation(fl::null),
+    _defuzzifier(fl::null), _term(fl::null), _hedge(fl::null),
+    _function(fl::null) {
         if (other._tnorm.get()) this->_tnorm.reset(new TNormFactory(*other._tnorm.get()));
         if (other._snorm.get()) this->_snorm.reset(new SNormFactory(*other._snorm.get()));
+        if (other._activation.get()) this->_activation.reset(new ActivationFactory(*other._activation.get()));
         if (other._defuzzifier.get()) this->_defuzzifier.reset(new DefuzzifierFactory(*other._defuzzifier.get()));
         if (other._term.get()) this->_term.reset(new TermFactory(*other._term.get()));
         if (other._hedge.get()) this->_hedge.reset(new HedgeFactory(*other._hedge.get()));
@@ -55,9 +60,17 @@ namespace fl {
     }
 
     FactoryManager& FactoryManager::operator=(const FactoryManager& other) {
+        _tnorm.reset(fl::null);
+        _snorm.reset(fl::null);
+        _activation.reset(fl::null);
+        _defuzzifier.reset(fl::null);
+        _term.reset(fl::null);
+        _hedge.reset(fl::null);
+        _function.reset(fl::null);
         if (this != &other) {
             if (other._tnorm.get()) this->_tnorm.reset(new TNormFactory(*other._tnorm.get()));
             if (other._snorm.get()) this->_snorm.reset(new SNormFactory(*other._snorm.get()));
+            if (other._activation.get()) this->_activation.reset(new ActivationFactory(*other._activation.get()));
             if (other._defuzzifier.get()) this->_defuzzifier.reset(new DefuzzifierFactory(*other._defuzzifier.get()));
             if (other._term.get()) this->_term.reset(new TermFactory(*other._term.get()));
             if (other._hedge.get()) this->_hedge.reset(new HedgeFactory(*other._hedge.get()));
@@ -83,6 +96,14 @@ namespace fl {
 
     SNormFactory* FactoryManager::snorm() const {
         return this->_snorm.get();
+    }
+
+    void FactoryManager::setActivation(ActivationFactory* activation) {
+        this->_activation.reset(activation);
+    }
+
+    ActivationFactory* FactoryManager::activation() const {
+        return this->_activation.get();
     }
 
     void FactoryManager::setDefuzzifier(DefuzzifierFactory* defuzzifier) {

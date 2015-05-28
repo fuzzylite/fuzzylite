@@ -513,7 +513,7 @@ namespace fl {
             bool isOperand = not element and token != "(" and token != ")" and token != ",";
 
             if (element) {
-                if (element->arity > static_cast<int>(stack.size())) {
+                if (element->arity > static_cast<int> (stack.size())) {
                     std::ostringstream ss;
                     ss << "[function error] " << (element->isOperator() ? "operator" : "function") <<
                             " <" << element->name << "> has arity <" << element->arity << ">, "

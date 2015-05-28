@@ -95,7 +95,7 @@ namespace fl {
         result.push_back(_indent + "enabled: " + (variable->isEnabled() ? "true" : "false"));
         result.push_back(_indent + "range: " + Op::join(2, " ",
                 variable->getMinimum(), variable->getMaximum()));
-        result.push_back(_indent + "lock-range: " + 
+        result.push_back(_indent + "lock-range: " +
                 (variable->isLockValueInRange() ? "true" : "false"));
         for (std::size_t i = 0; i < variable->numberOfTerms(); ++i) {
             result.push_back(_indent + toString(variable->getTerm(i)));
@@ -109,7 +109,7 @@ namespace fl {
         result.push_back(_indent + "enabled: " + (inputVariable->isEnabled() ? "true" : "false"));
         result.push_back(_indent + "range: " + Op::join(2, " ",
                 inputVariable->getMinimum(), inputVariable->getMaximum()));
-        result.push_back(_indent + "lock-range: " + 
+        result.push_back(_indent + "lock-range: " +
                 (inputVariable->isLockValueInRange() ? "true" : "false"));
         for (std::size_t i = 0; i < inputVariable->numberOfTerms(); ++i) {
             result.push_back(_indent + toString(inputVariable->getTerm(i)));
@@ -146,6 +146,7 @@ namespace fl {
         result.push_back(_indent + "conjunction: " + toString(ruleBlock->getConjunction()));
         result.push_back(_indent + "disjunction: " + toString(ruleBlock->getDisjunction()));
         result.push_back(_indent + "implication: " + toString(ruleBlock->getImplication()));
+        result.push_back(_indent + "activation: " + toString(ruleBlock->getActivation()));
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             result.push_back(_indent + toString(ruleBlock->getRule(i)));
         }
@@ -163,6 +164,11 @@ namespace fl {
 
     std::string FllExporter::toString(const Norm* norm) const {
         if (norm) return norm->className();
+        return "none";
+    }
+
+    std::string FllExporter::toString(const Activation* activation) const {
+        if (activation) return activation->className();
         return "none";
     }
 
