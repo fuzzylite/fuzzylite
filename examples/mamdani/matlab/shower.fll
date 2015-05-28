@@ -44,6 +44,7 @@ RuleBlock:
   conjunction: Minimum
   disjunction: Maximum
   implication: Minimum
+  activation: General
   rule: if temp is cold and flow is soft then cold is openSlow and hot is openFast
   rule: if temp is cold and flow is good then cold is closeSlow and hot is openSlow
   rule: if temp is cold and flow is hard then cold is closeFast and hot is closeSlow

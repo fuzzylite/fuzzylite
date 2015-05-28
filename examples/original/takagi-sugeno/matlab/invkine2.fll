@@ -66,6 +66,7 @@ RuleBlock:
   conjunction: AlgebraicProduct
   disjunction: none
   implication: none
+  activation: General
   rule: if input1 is in1mf1 and input2 is in2mf1 then output is out1mf1
   rule: if input1 is in1mf1 and input2 is in2mf2 then output is out1mf2
   rule: if input1 is in1mf1 and input2 is in2mf3 then output is out1mf3

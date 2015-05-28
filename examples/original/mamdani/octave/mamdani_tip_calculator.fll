@@ -36,6 +36,7 @@ RuleBlock:
   conjunction: AlgebraicProduct
   disjunction: Maximum
   implication: Minimum
+  activation: General
   rule: if FoodQuality is Bad and Service is Bad then Tip is AboutTenPercent and CheckPlusTip is PlusAboutTenPercent
   rule: if FoodQuality is Bad and Service is Good then Tip is AboutFifteenPercent and CheckPlusTip is PlusAboutFifteenPercent
   rule: if FoodQuality is Good and Service is Bad then Tip is AboutFifteenPercent and CheckPlusTip is PlusAboutFifteenPercent

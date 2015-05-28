@@ -32,6 +32,7 @@ RuleBlock:
   conjunction: none
   disjunction: none
   implication: Minimum
+  activation: General
   rule: if Ambient is DARK then Power is HIGH
   rule: if Ambient is MEDIUM then Power is MEDIUM
   rule: if Ambient is BRIGHT then Power is LOW

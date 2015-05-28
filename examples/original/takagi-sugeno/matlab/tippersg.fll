@@ -26,6 +26,7 @@ RuleBlock:
   conjunction: none
   disjunction: Maximum
   implication: none
+  activation: General
   rule: if service is poor or food is rancid then tip is cheap
   rule: if service is average then tip is average
   rule: if service is good or food is delicious then tip is generous

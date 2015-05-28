@@ -38,6 +38,7 @@ RuleBlock:
   conjunction: none
   disjunction: none
   implication: none
+  activation: General
   rule: if in5 is small then out is outmf1
   rule: if in5 is medium then out is outmf2
   rule: if in5 is large then out is outmf3

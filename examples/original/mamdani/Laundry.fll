@@ -35,6 +35,7 @@ RuleBlock:
   conjunction: Minimum
   disjunction: Maximum
   implication: Minimum
+  activation: General
   rule: if Load is small and Dirt is not high then Detergent is less_than_usual
   rule: if Load is small and Dirt is high then  Detergent is usual
   rule: if Load is normal and Dirt is low then Detergent is less_than_usual

@@ -35,6 +35,7 @@ RuleBlock:
   conjunction: AlgebraicProduct
   disjunction: none
   implication: none
+  activation: General
   rule: if in_n1 is in1mf1 and in_n2 is in2mf1 then out1 is out1mf1
   rule: if in_n1 is in1mf1 and in_n2 is in2mf2 then out1 is out1mf2
   rule: if in_n1 is in1mf1 and in_n2 is in2mf3 then out1 is out1mf3
