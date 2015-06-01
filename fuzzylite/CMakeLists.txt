@@ -72,28 +72,11 @@ endif()
 
 set(FL_LIBS)
 
-#link with rt lib on Linux. Fixes problem with clock_gettime()
-include(CheckLibraryExists)
-if(UNIX AND NOT APPLE)
-    ENABLE_LANGUAGE(C)
-    CHECK_LIBRARY_EXISTS(rt shm_open "" HAVE_RT_LIB)
-    if(HAVE_RT_LIB)
-        set(FL_LIBS ${FL_LIBS} rt)
-    endif()
-endif()
-
 if(MSVC)
     set(CMAKE_CXX_FLAGS "/W4 /EHsc")
     #Wx: Treat warnings as errors. W4: All warnings
     #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
     #EHsc: call destructors on __try __catch, and to ignore C4530: C++ exception handler used. Note, unwind semantics are not enabled
-    #/wd4251 disable warning 4251 #http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
-    #To avoid issues from disabling warning 4251, MSVCRT.lib is statically linked to resolve external references
-    #http://msdn.microsoft.com/en-us/library/2kzt1wy3.aspx
-    #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
-    #set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd")
-    #By default, MD is selected.
-
     if (FL_BACKTRACE)
         set(FL_LIBS dbghelp)
     endif()
