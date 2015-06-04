@@ -140,5 +140,5 @@ notifications:
   email:
     recipients:
       - jcrada@fuzzylite.com
-    on_success: change
+    on_success: always
     on_failure: always
