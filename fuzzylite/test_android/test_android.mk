@@ -8,7 +8,7 @@ include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := testfuzzylite
-LOCAL_SRC_FILES := test_ndk.cpp
+LOCAL_SRC_FILES := test_android.cpp
 LOCAL_SHARED_LIBRARIES := fuzzylite
 LOCAL_CPP_FEATURES := rtti exceptions
 
