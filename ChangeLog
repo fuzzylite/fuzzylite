@@ -1,3 +1,20 @@
+Version 5.1
+* Updated `JavaExporter` to remove boolean from exported `Function.create(String name, String formula, Engine engine, boolean)`
+* Improved CMakeLists to remove errors from warnings, and exclude library rt for benchmarks
+* Moved benchmarks in `Console.cpp` to FL_CPP11 in order to get rid of rt library
+* Made most constructors `explicit`
+* FL_WINDOWS, FL_APPLE and FL_UNIX are automatically defined in `fuzzylite.h`
+* Option to prefix namespace `fl::` in class `CppExporter`
+* New methods `FclExporter::toString([[Input|Output]Variable]|RuleBlock|Norm])`
+* New methods `FclExporter::toString(Norm)`
+* Identifier FL_IOVERRIDE in SNorm and TNorm
+* New private methods `CloningFactory::register[Operators|Functions]`
+* `FisExporter` merges all ruleblocks into one
+* New `Rule::clone()` method
+* Fixed `FclImporter` exception on malformed Term
+* Made sure this version builds successfully with g++5.1
+
+ 
 Version 5.0
 * Modified Function::Unary and Binary to take scalar instead of double
 * Fixed building using -DFL_USE_FLOAT=ON

@@ -7,10 +7,10 @@ if(NOT CMAKE_VERBOSE_MAKEFILE)
     set(CMAKE_VERBOSE_MAKEFILE false)
 endif()
 
-set(FL_VERSION 5.0)
+set(FL_VERSION 5.1)
 add_definitions(-DFL_VERSION="${FL_VERSION}")
 
-set(FL_DATE "1408")
+set(FL_DATE "1507")
 add_definitions(-DFL_DATE="${FL_DATE}")
 
 add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
@@ -121,14 +121,14 @@ if(FL_BUILD_SHARED)
     set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
     set_target_properties(fl-shared PROPERTIES DEBUG_POSTFIX d)
     set_target_properties(fl-shared PROPERTIES COMPILE_DEFINITIONS "FL_EXPORT_LIBRARY")
-    set_target_properties(fl-shared PROPERTIES VERSION 5.0)
+    set_target_properties(fl-shared PROPERTIES VERSION 5.1)
     target_link_libraries(fl-shared ${FL_LIBS})
 endif()
 
 if(FL_BUILD_STATIC)
     set_target_properties(fl-static PROPERTIES OUTPUT_NAME fuzzylite-static)
     set_target_properties(fl-static PROPERTIES DEBUG_POSTFIX d)
-    set_target_properties(fl-static PROPERTIES VERSION 5.0)
+    set_target_properties(fl-static PROPERTIES VERSION 5.1)
     target_link_libraries(fl-static ${FL_LIBS})
 endif()
 
