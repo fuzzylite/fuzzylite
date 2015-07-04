@@ -19,7 +19,7 @@ addons:
 
 before_install:
   #setup compiler
-  - export CC=${REAL_CC} CXX=${REAL_CXX}
+  - export CC=${REAL_CC} CXX=${REAL_CXX} CMAKE_CXX_COMPILER=${REAL_CXX}
 
 script:
   - cd fuzzylite
