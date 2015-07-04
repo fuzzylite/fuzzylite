@@ -1,6 +1,7 @@
 src/Console.cpp
 src/activation/General.cpp
 src/activation/First.cpp
+src/activation/General.cpp
 src/activation/Highest.cpp
 src/activation/Last.cpp
 src/activation/Lowest.cpp
