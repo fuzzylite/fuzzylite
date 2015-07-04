@@ -1,25 +1,24 @@
-sudo: false
 language: cpp
+
 os: linux
+
 compiler:
   - gcc
   - clang
-cache:
-  - apt
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - g++-4.6
-    - g++-4.8
-    - g++-5.1
-    - clang
-    - cmake
 
 before_install:
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; 
+    then
+        sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test;
+        sudo add-apt-repository --yes ppa:h-rayflood/llvm;
+        sudo add-apt-repository --yes ppa:andykimpe/cmake;
+        sudo apt-get update -qq;
+        sudo apt-get install -qq cmake;
+        sudo apt-get install -qq $SUPPORT;
+        sudo apt-get install -qq $PACKAGE;
+    fi
   #setup compiler
-  - export CC=${REAL_CC} CXX=${REAL_CXX} CMAKE_CXX_COMPILER=${REAL_CXX}
+  - export CC=${REAL_CC} CXX=${REAL_CXX}
 
 script:
   - cd fuzzylite
@@ -136,25 +135,25 @@ matrix:
     - compiler: gcc
       env: REAL_CC=gcc-4.8   REAL_CXX=g++-4.8     PACKAGE=g++-4.8   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=ON
       
-#gcc-5.1
+#gcc-5
 ##Debug
     - compiler: gcc
-      env: REAL_CC=gcc-5.1   REAL_CXX=g++-5.1     PACKAGE=g++-5.1   SUPPORT=    FL_CONF=Debug FL_USE_FLOAT=OFF FL_CPP11=OFF
+      env: REAL_CC=gcc-5   REAL_CXX=g++-5     PACKAGE=g++-5   SUPPORT=    FL_CONF=Debug FL_USE_FLOAT=OFF FL_CPP11=OFF
     - compiler: gcc
-      env: REAL_CC=gcc-5.1   REAL_CXX=g++-5.1     PACKAGE=g++-5.1   SUPPORT=    FL_CONF=Debug FL_USE_FLOAT=ON FL_CPP11=OFF
+      env: REAL_CC=gcc-5   REAL_CXX=g++-5     PACKAGE=g++-5   SUPPORT=    FL_CONF=Debug FL_USE_FLOAT=ON FL_CPP11=OFF
     - compiler: gcc
-      env: REAL_CC=gcc-5.1   REAL_CXX=g++-5.1     PACKAGE=g++-5.1   SUPPORT=    FL_CONF=Debug FL_USE_FLOAT=OFF FL_CPP11=ON
+      env: REAL_CC=gcc-5   REAL_CXX=g++-5     PACKAGE=g++-5   SUPPORT=    FL_CONF=Debug FL_USE_FLOAT=OFF FL_CPP11=ON
     - compiler: gcc
-      env: REAL_CC=gcc-5.1   REAL_CXX=g++-5.1     PACKAGE=g++-5.1   SUPPORT=    FL_CONF=Debug FL_USE_FLOAT=ON FL_CPP11=ON
+      env: REAL_CC=gcc-5   REAL_CXX=g++-5     PACKAGE=g++-5   SUPPORT=    FL_CONF=Debug FL_USE_FLOAT=ON FL_CPP11=ON
 ##Release
     - compiler: gcc
-      env: REAL_CC=gcc-5.1   REAL_CXX=g++-5.1     PACKAGE=g++-5.1   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=OFF FL_CPP11=OFF
+      env: REAL_CC=gcc-5   REAL_CXX=g++-5     PACKAGE=g++-5   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=OFF FL_CPP11=OFF
     - compiler: gcc
-      env: REAL_CC=gcc-5.1   REAL_CXX=g++-5.1     PACKAGE=g++-5.1   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=OFF
+      env: REAL_CC=gcc-5   REAL_CXX=g++-5     PACKAGE=g++-5   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=OFF
     - compiler: gcc
-      env: REAL_CC=gcc-5.1   REAL_CXX=g++-5.1     PACKAGE=g++-5.1   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=OFF FL_CPP11=ON
+      env: REAL_CC=gcc-5   REAL_CXX=g++-5     PACKAGE=g++-5   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=OFF FL_CPP11=ON
     - compiler: gcc
-      env: REAL_CC=gcc-5.1   REAL_CXX=g++-5.1     PACKAGE=g++-5.1   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=ON
+      env: REAL_CC=gcc-5   REAL_CXX=g++-5     PACKAGE=g++-5   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=ON
 
 
 notifications:
