@@ -115,8 +115,13 @@ namespace fl {
     typedef double scalar;
 #endif
 
+#ifdef __GNUC__
+    const scalar nan  __attribute__ ((unused)) = std::numeric_limits<scalar>::quiet_NaN();
+    const scalar inf __attribute__ ((unused)) = std::numeric_limits<scalar>::infinity();
+#else
     const scalar nan = std::numeric_limits<scalar>::quiet_NaN();
     const scalar inf = std::numeric_limits<scalar>::infinity();
+#endif
 
 #ifdef FL_CPP11
     //C++11 defines
