@@ -26,7 +26,7 @@ namespace fl {
     }
 
     scalar NormalizedSum::compute(scalar a, scalar b) const {
-        return (a + b) / Op::max(scalar(1.0), Op::max(a, b));
+        return (a + b) / Op::max(scalar(1.0), a + b);
     }
 
     NormalizedSum* NormalizedSum::clone() const {
