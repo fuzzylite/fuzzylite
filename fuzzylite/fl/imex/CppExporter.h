@@ -31,7 +31,7 @@ namespace fl {
     class Hedge;
 
     class FL_API CppExporter : public Exporter {
-    protected:
+    private:
         bool _prefixNamespace;
         virtual std::string fl(const std::string& clazz) const;
     public:

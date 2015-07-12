@@ -30,7 +30,7 @@ namespace fl {
     class Defuzzifier;
 
     class FL_API FllImporter : public Importer {
-    protected:
+    private:
         std::string _separator;
     public:
         explicit FllImporter(const std::string& separator = "\n");

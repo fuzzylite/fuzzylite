@@ -34,7 +34,7 @@ namespace fl {
     class Term;
 
     class FL_API FllExporter : public Exporter {
-    protected:
+    private:
         std::string _indent;
         std::string _separator;
     public:

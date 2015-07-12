@@ -28,7 +28,7 @@ namespace fl {
     class OutputVariable;
 
     class FL_API FldExporter : public Exporter {
-    protected:
+    private:
         std::string _separator;
         bool _exportHeaders;
         bool _exportInputValues;
