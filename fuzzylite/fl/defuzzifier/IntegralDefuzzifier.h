@@ -24,7 +24,7 @@ namespace fl {
     //TODO: check  http://en.wikipedia.org/wiki/Adaptive_quadrature
 
     class FL_API IntegralDefuzzifier : public Defuzzifier {
-    protected:
+    private:
         static int _defaultResolution;
 
         int _resolution;

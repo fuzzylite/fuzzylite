@@ -29,8 +29,10 @@ namespace fl {
         enum Type {
             Automatic, TakagiSugeno, Tsukamoto
         };
-        static std::string typeName(Type);
+    private:
+        Type _type;
 
+    public:
         explicit WeightedDefuzzifier(Type type = Automatic);
         explicit WeightedDefuzzifier(const std::string& type);
         virtual ~WeightedDefuzzifier() FL_IOVERRIDE;
@@ -39,14 +41,13 @@ namespace fl {
         virtual void setType(Type type);
         virtual Type getType() const;
         virtual std::string getTypeName() const;
+        static std::string typeName(Type);
+
         virtual Type inferType(const Term* term) const;
         virtual bool isMonotonic(const Term* term) const;
 
         virtual scalar tsukamoto(const Term* monotonic, scalar activationDegree,
                 scalar minimum, scalar maximum) const;
-
-    protected:
-        Type _type;
 
     };
 

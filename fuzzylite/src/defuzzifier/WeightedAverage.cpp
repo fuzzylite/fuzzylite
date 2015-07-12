@@ -58,7 +58,7 @@ namespace fl {
         scalar weights = 0.0;
 
         if (not fuzzyOutput->getAccumulation()) {
-            Type type = _type;
+            Type type = getType();
             for (std::size_t i = 0; i < fuzzyOutput->numberOfTerms(); ++i) {
                 Activated* activated = fuzzyOutput->getTerm(i);
                 scalar w = activated->getDegree();
@@ -82,7 +82,7 @@ namespace fl {
                 groups[key].push_back(value);
             }
             TermGroup::const_iterator it = groups.begin();
-            Type type = _type;
+            Type type = getType();
             while (it != groups.end()) {
                 const Term* activatedTerm = it->first;
                 scalar accumulatedDegree = 0.0;

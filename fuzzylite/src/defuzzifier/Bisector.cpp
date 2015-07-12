@@ -38,14 +38,14 @@ namespace fl {
         if (not fl::Op::isFinite(minimum + maximum)) {
             return fl::nan;
         }
-        if (maximum - minimum > _resolution) {
-            FL_DBG("[accuracy warning] the resolution <" << _resolution << "> "
+        if (maximum - minimum > getResolution()) {
+            FL_DBG("[accuracy warning] the resolution <" << getResolution() << "> "
                     "is smaller than the range <" << minimum << ", " << maximum << ">. In order to "
                     "improve the accuracy, the resolution should be at least equal to the range.");
         }
-        scalar dx = (maximum - minimum) / _resolution;
+        scalar dx = (maximum - minimum) / getResolution();
 
-        int counter = _resolution;
+        int counter = getResolution();
         int left = 0, right = 0;
         scalar leftArea = 0, rightArea = 0;
         scalar xLeft = minimum, xRight = maximum;
