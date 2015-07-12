@@ -34,8 +34,6 @@ namespace fl {
 
     class FL_API RuleBlock {
     private:
-        void copyFrom(const RuleBlock& source);
-    protected:
         std::string _name;
         std::vector<Rule*> _rules;
         FL_unique_ptr<TNorm> _conjunction;
@@ -43,6 +41,8 @@ namespace fl {
         FL_unique_ptr<TNorm> _implication;
         FL_unique_ptr<Activation> _activation;
         bool _enabled;
+
+        void copyFrom(const RuleBlock& source);
 
     public:
         explicit RuleBlock(const std::string& name = "");

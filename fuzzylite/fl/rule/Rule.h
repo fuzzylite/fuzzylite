@@ -33,7 +33,7 @@ namespace fl {
     class SNorm;
 
     class FL_API Rule {
-    protected:
+    private:
         std::string _text;
         scalar _weight;
         FL_unique_ptr<Antecedent> _antecedent;

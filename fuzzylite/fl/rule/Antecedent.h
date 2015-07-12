@@ -30,7 +30,7 @@ namespace fl {
     class Expression;
 
     class FL_API Antecedent {
-    protected:
+    private:
         std::string _text;
         Expression* _expression;
 

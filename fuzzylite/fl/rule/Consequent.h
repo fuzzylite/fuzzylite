@@ -30,7 +30,7 @@ namespace fl {
     class TNorm;
 
     class FL_API Consequent {
-    protected:
+    private:
         std::string _text;
         std::vector<Proposition*> _conclusions;
 
