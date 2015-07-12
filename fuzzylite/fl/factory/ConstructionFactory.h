@@ -32,7 +32,7 @@ namespace fl {
     public:
         typedef T(*Constructor)();
 
-    protected:
+    private:
         std::string _name;
         std::map<std::string, Constructor> _constructors;
 

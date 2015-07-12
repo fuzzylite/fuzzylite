@@ -23,20 +23,6 @@
 namespace fl {
     class RuleBlock;
 
-    /**
-     * Implementations of this class activate any given {@link RuleBlock}.
-     *
-     * For each rule in a rule block, the implementations need to either 
-     * activate or deactivate each {@link Rule}. This is particularly important 
-     * in order to have each rule reflect its activation degree accordingly.
-     * 
-     * @author Juan Rada-Vilela
-     * @see Rule
-     * @see RuleBlock
-     * @see ActivationFactory
-     * @since 6.0
-     */
-
     class FL_API Activation {
     public:
 

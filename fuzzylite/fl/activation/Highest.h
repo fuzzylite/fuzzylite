@@ -24,23 +24,8 @@
 
 namespace fl {
 
-    /**
-     * This class activates the $n$ loaded rules with the highest activation 
-     * degrees in any given {@link RuleBlock}.  If the number of rules to
-     * activate is negative, then this class activates the $n$ loaded rules with
-     * the lowest activation degrees, which is equivalent to the {@link Lowest}
-     * activation.
-     * 
-     * @author Juan Rada-Vilela
-     * @see Lowest
-     * @see Rule
-     * @see RuleBlock
-     * @see ActivationFactory
-     * @since 6.0
-     */
     class FL_API Highest : public Activation {
-    protected:
-        //The number of rules to activate. 
+    private:
         int _activatedRules;
     public:
         Highest(int numberOfRules = 1);
@@ -55,16 +40,6 @@ namespace fl {
         virtual void setActivatedRules(int activatedRules);
         virtual int getActivatedRules() const;
 
-        /**
-         * Activates the loaded rules with the highest activation 
-         * degrees in any given {@link ruleBlock}.
-         * 
-         * If the number of rules to activate is negative, then this class 
-         * activates the $n$ loaded rules with the lowest activation degrees, 
-         * which is equivalent to the {@link Lowest} activation.
-         * 
-         * @param ruleBlock is the rule block to activate.
-         */
         virtual void activate(RuleBlock* ruleBlock) const FL_IOVERRIDE;
 
         virtual Highest* clone() const FL_IOVERRIDE;

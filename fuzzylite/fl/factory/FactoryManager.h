@@ -30,7 +30,7 @@ namespace fl {
     class FunctionFactory;
 
     class FL_API FactoryManager {
-    protected:
+    private:
         static FactoryManager _instance;
 
         FL_unique_ptr<TNormFactory> _tnorm;

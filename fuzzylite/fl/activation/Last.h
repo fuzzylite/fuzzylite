@@ -23,17 +23,6 @@
 
 namespace fl {
 
-    /**
-     * This class activates the first rule with activation degree greater than 
-     * zero in any given {@link RuleBlock}.
-     * 
-     * @author Juan Rada-Vilela
-     * @see Rule
-     * @see RuleBlock
-     * @see ActivationFactory
-     * @since 6.0
-     */
-
     class FL_API Last : public Activation {
     public:
 

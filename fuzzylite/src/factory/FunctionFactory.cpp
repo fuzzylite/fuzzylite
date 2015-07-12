@@ -142,8 +142,8 @@ namespace fl {
 
     std::vector<std::string> FunctionFactory::availableOperators() const {
         std::vector<std::string> result;
-        std::map<std::string, Function::Element*>::const_iterator it = this->_objects.begin();
-        while (it != this->_objects.end()) {
+        std::map<std::string, Function::Element*>::const_iterator it = this->objects().begin();
+        while (it != this->objects().end()) {
             if (it->second and it->second->type == Function::Element::OPERATOR)
                 result.push_back(it->first);
             ++it;
@@ -153,8 +153,8 @@ namespace fl {
 
     std::vector<std::string> FunctionFactory::availableFunctions() const {
         std::vector<std::string> result;
-        std::map<std::string, Function::Element*>::const_iterator it = this->_objects.begin();
-        while (it != this->_objects.end()) {
+        std::map<std::string, Function::Element*>::const_iterator it = this->objects().begin();
+        while (it != this->objects().end()) {
             if (it->second and it->second->type == Function::Element::FUNCTION)
                 result.push_back(it->first);
             ++it;

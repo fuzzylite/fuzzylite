@@ -24,16 +24,6 @@
 
 namespace fl {
 
-    /**
-     * This class activates each loaded rule in any given {@link RuleBlock}.
-     * 
-     * @author Juan Rada-Vilela
-     * @see Rule
-     * @see RuleBlock
-     * @see ActivationFactory
-     * @since 6.0
-     */
-
     class FL_API General : public Activation {
     public:
 

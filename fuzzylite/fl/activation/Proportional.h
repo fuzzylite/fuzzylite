@@ -22,18 +22,6 @@
 
 namespace fl {
 
-    /**
-     * This class activates each rule proportional to the activation of the 
-     * other rules in any given {@link RuleBlock}. The sum of the 
-     * the activation degrees of all rules is equal to one.
-     * 
-     * @author Juan Rada-Vilela
-     * @see Lowest
-     * @see Rule
-     * @see RuleBlock
-     * @see ActivationFactory
-     * @since 6.0
-     */
     class FL_API Proportional : public Activation {
     public:
         Proportional();
@@ -45,12 +33,6 @@ namespace fl {
         virtual std::string parameters() const FL_IOVERRIDE;
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        /**
-         * Activates the loaded rules with activation degrees proportional to 
-         * the other rules degrees in any given {@link ruleBlock}.
-         * 
-         * @param ruleBlock is the rule block to activate.
-         */
         virtual void activate(RuleBlock* ruleBlock) const FL_IOVERRIDE;
 
         virtual Proportional* clone() const FL_IOVERRIDE;

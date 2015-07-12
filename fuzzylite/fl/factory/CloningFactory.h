@@ -29,7 +29,7 @@ namespace fl {
 
     template <typename T>
     class CloningFactory {
-    protected:
+    private:
         std::string _name;
         std::map<std::string, T> _objects;
 

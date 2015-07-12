@@ -24,17 +24,6 @@
 
 namespace fl {
 
-    /**
-     * This class activates the rules of any given {@link RuleBlock} iff their 
-     * activation degrees satisfy the comparison for the given threshold.
-     * 
-     * @author Juan Rada-Vilela
-     * @see Lowest
-     * @see Rule
-     * @see RuleBlock
-     * @see ActivationFactory
-     * @since 6.0
-     */
     class FL_API Threshold : public Activation {
     public:
 
@@ -43,7 +32,7 @@ namespace fl {
             LessThan, LessThanOrEqualTo,
             GreaterThan, GreaterThanOrEqualTo
         };
-    protected:
+    private:
         Comparison _comparison;
         scalar _threshold;
     public:
