@@ -26,13 +26,13 @@ namespace fl {
 
     class FL_API OutputVariable : public Variable {
     private:
-        void copyFrom(const OutputVariable& other);
-    protected:
         FL_unique_ptr<Accumulated> _fuzzyOutput;
         FL_unique_ptr<Defuzzifier> _defuzzifier;
         scalar _previousValue;
         scalar _defaultValue;
         bool _lockPreviousValue;
+
+        void copyFrom(const OutputVariable& other);
 
     public:
         explicit OutputVariable(const std::string& name = "",

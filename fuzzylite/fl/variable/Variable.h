@@ -30,15 +30,14 @@ namespace fl {
 
     class FL_API Variable {
     private:
-        void copyFrom(const Variable& source);
-
-    protected:
         std::string _name;
         std::vector<Term*> _terms;
         scalar _value;
         scalar _minimum, _maximum;
         bool _enabled;
         bool _lockValueInRange;
+
+        void copyFrom(const Variable& source);
 
     public:
         explicit Variable(const std::string& name = "",
