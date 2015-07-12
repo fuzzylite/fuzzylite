@@ -105,7 +105,7 @@ namespace fl {
          * Term
          ******************************/
 
-    protected:
+    private:
         FL_unique_ptr<Node> _root;
         std::string _formula;
         const Engine* _engine;

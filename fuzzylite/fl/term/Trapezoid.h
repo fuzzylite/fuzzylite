@@ -23,7 +23,7 @@
 namespace fl {
 
     class FL_API Trapezoid : public Term {
-    protected:
+    private:
         scalar _vertexA, _vertexB, _vertexC, _vertexD;
     public:
         explicit Trapezoid(const std::string& name = "",

@@ -33,12 +33,12 @@ namespace fl {
 
     scalar Spike::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
-        return _height * std::exp(-std::fabs(10.0 / _width * (x - _center)));
+        return getHeight() * std::exp(-std::fabs(10.0 / _width * (x - _center)));
     }
 
     std::string Spike::parameters() const {
         return Op::join(2, " ", _center, _width) +
-                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
+                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Spike::configure(const std::string& parameters) {

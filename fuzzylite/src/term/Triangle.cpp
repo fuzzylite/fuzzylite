@@ -38,20 +38,20 @@ namespace fl {
         if (fl::Op::isNaN(x)) return fl::nan;
 
         if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexC))
-            return _height * 0.0;
+            return getHeight() * 0.0;
 
         if (Op::isEq(x, _vertexB))
-            return _height * 1.0;
+            return getHeight() * 1.0;
 
         if (Op::isLt(x, _vertexB))
-            return _height * (x - _vertexA) / (_vertexB - _vertexA);
+            return getHeight() * (x - _vertexA) / (_vertexB - _vertexA);
 
-        return _height * (_vertexC - x) / (_vertexC - _vertexB);
+        return getHeight() * (_vertexC - x) / (_vertexC - _vertexB);
     }
 
     std::string Triangle::parameters() const {
         return Op::join(3, " ", _vertexA, _vertexB, _vertexC) +
-                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
+                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Triangle::configure(const std::string& parameters) {

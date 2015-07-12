@@ -33,22 +33,22 @@ namespace fl {
     scalar Ramp::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
 
-        if (Op::isEq(_start, _end)) return _height * 0.0;
+        if (Op::isEq(_start, _end)) return getHeight() * 0.0;
 
         if (Op::isLt(_start, _end)) {
-            if (Op::isLE(x, _start)) return _height * 0.0;
-            if (Op::isGE(x, _end)) return _height * 1.0;
-            return _height * (x - _start) / (_end - _start);
+            if (Op::isLE(x, _start)) return getHeight() * 0.0;
+            if (Op::isGE(x, _end)) return getHeight() * 1.0;
+            return getHeight() * (x - _start) / (_end - _start);
         } else {
-            if (Op::isGE(x, _start)) return _height * 0.0;
-            if (Op::isLE(x, _end)) return _height * 1.0;
-            return _height * (_start - x) / (_start - _end);
+            if (Op::isGE(x, _start)) return getHeight() * 0.0;
+            if (Op::isLE(x, _end)) return getHeight() * 1.0;
+            return getHeight() * (_start - x) / (_start - _end);
         }
     }
 
     std::string Ramp::parameters() const {
         return Op::join(2, " ", _start, _end) +
-                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
+                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Ramp::configure(const std::string& parameters) {

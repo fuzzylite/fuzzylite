@@ -23,7 +23,7 @@
 namespace fl {
 
     class FL_API GaussianProduct : public Term {
-    protected:
+    private:
         scalar _meanA;
         scalar _standardDeviationA;
         scalar _meanB;

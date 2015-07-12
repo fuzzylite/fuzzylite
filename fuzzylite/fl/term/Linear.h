@@ -24,7 +24,7 @@ namespace fl {
     class Engine;
 
     class FL_API Linear : public Term {
-    protected:
+    private:
         std::vector<scalar> _coefficients;
         const Engine* _engine;
     public:

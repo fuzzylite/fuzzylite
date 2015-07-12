@@ -23,7 +23,7 @@
 namespace fl {
 
     class FL_API Sigmoid : public Term {
-    protected:
+    private:
         scalar _inflection;
         scalar _slope;
     public:

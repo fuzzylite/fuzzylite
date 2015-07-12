@@ -23,7 +23,7 @@
 namespace fl {
 
     class FL_API Rectangle : public Term {
-    protected:
+    private:
         scalar _start, _end;
 
     public:

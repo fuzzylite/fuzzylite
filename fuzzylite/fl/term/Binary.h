@@ -23,7 +23,7 @@
 namespace fl {
 
     class FL_API Binary : public Term {
-    protected:
+    private:
         scalar _threshold;
 
     public:

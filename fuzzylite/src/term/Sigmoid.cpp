@@ -32,12 +32,12 @@ namespace fl {
 
     scalar Sigmoid::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
-        return _height * 1.0 / (1.0 + std::exp(-_slope * (x - _inflection)));
+        return getHeight() * 1.0 / (1.0 + std::exp(-_slope * (x - _inflection)));
     }
 
     std::string Sigmoid::parameters() const {
         return Op::join(2, " ", _inflection, _slope) +
-                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
+                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Sigmoid::configure(const std::string& parameters) {

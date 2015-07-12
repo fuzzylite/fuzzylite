@@ -36,20 +36,20 @@ namespace fl {
         scalar average = (_start + _end) / 2.0;
         scalar difference = _end - _start;
 
-        if (Op::isLE(x, _start)) return _height * 0.0;
+        if (Op::isLE(x, _start)) return getHeight() * 0.0;
 
         if (Op::isLE(x, average))
-            return _height * (2.0 * std::pow((x - _start) / difference, 2));
+            return getHeight() * (2.0 * std::pow((x - _start) / difference, 2));
 
         if (Op::isLt(x, _end))
-            return _height * (1.0 - 2.0 * std::pow((x - _end) / difference, 2));
+            return getHeight() * (1.0 - 2.0 * std::pow((x - _end) / difference, 2));
 
-        return _height * 1.0;
+        return getHeight() * 1.0;
     }
 
     std::string SShape::parameters() const {
         return Op::join(2, " ", _start, _end) +
-                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
+                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void SShape::configure(const std::string& parameters) {

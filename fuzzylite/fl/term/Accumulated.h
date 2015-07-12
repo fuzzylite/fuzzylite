@@ -30,11 +30,11 @@ namespace fl {
 
     class FL_API Accumulated : public Term {
     private:
-        void copyFrom(const Accumulated& source);
-    protected:
         std::vector<Activated*> _terms;
         scalar _minimum, _maximum;
         FL_unique_ptr<SNorm> _accumulation;
+        
+        void copyFrom(const Accumulated& source);
     public:
         explicit Accumulated(const std::string& name = "",
                 scalar minimum = fl::nan,

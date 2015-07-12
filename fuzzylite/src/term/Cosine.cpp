@@ -34,7 +34,7 @@ namespace fl {
 
     std::string Cosine::parameters() const {
         return Op::join(2, " ", _center, _width) +
-                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
+                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Cosine::configure(const std::string& parameters) {
@@ -58,9 +58,9 @@ namespace fl {
         if (fl::Op::isNaN(x)) return fl::nan;
         if (fl::Op::isLt(x, _center - _width / 2.0)
                 or fl::Op::isGt(x, _center + _width / 2.0))
-            return _height * 0.0;
+            return getHeight() * 0.0;
         const scalar pi = 4.0 * std::atan(1.0);
-        return _height * (0.5 * (1.0 + std::cos(2.0 / _width * pi * (x - _center))));
+        return getHeight() * (0.5 * (1.0 + std::cos(2.0 / _width * pi * (x - _center))));
     }
 
     void Cosine::setCenter(scalar center) {

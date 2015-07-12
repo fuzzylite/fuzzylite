@@ -24,7 +24,7 @@ namespace fl {
 
     Activated::Activated(const Term* term, scalar degree, const TNorm* implication)
     : Term(""), _term(term), _degree(degree), _implication(implication) {
-        if (term) this->_name = term->getName();
+        if (term) this->getName() = term->getName();
     }
 
     Activated::~Activated() {

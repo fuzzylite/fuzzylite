@@ -24,7 +24,7 @@ namespace fl {
     class TNorm;
 
     class FL_API Activated : public Term {
-    protected:
+    private:
         const Term* _term;
         scalar _degree;
         const TNorm* _implication;

@@ -23,7 +23,7 @@
 namespace fl {
 
     class FL_API SigmoidProduct : public Term {
-    protected:
+    private:
         scalar _left;
         scalar _rising;
         scalar _falling;

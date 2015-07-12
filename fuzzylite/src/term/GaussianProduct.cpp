@@ -43,12 +43,12 @@ namespace fl {
         scalar b = (1 - xGEb) + xGEb * std::exp(
                 (-(x - _meanB) * (x - _meanB)) / (2 * _standardDeviationB * _standardDeviationB)
                 );
-        return _height * a * b;
+        return getHeight() * a * b;
     }
 
     std::string GaussianProduct::parameters() const {
         return Op::join(4, " ", _meanA, _standardDeviationA, _meanB, _standardDeviationB) +
-                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
+                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void GaussianProduct::configure(const std::string& parameters) {

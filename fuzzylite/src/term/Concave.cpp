@@ -36,19 +36,19 @@ namespace fl {
         if (fl::Op::isNaN(x)) return fl::nan;
         if (fl::Op::isLE(_inflection, _end)) { //Concave increasing
             if (fl::Op::isLt(x, _end)) {
-                return _height * (_end - _inflection) / (2 * _end - _inflection - x);
+                return getHeight() * (_end - _inflection) / (2 * _end - _inflection - x);
             }
         } else { //Concave decreasing
             if (fl::Op::isGt(x, _end)) {
-                return _height * (_inflection - _end) / (_inflection - 2 * _end + x);
+                return getHeight() * (_inflection - _end) / (_inflection - 2 * _end + x);
             }
         }
-        return _height * 1.0;
+        return getHeight() * 1.0;
     }
 
     std::string Concave::parameters() const {
         return Op::join(2, " ", _inflection, _end) +
-                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
+                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
 
     }
 

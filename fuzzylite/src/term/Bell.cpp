@@ -32,12 +32,12 @@ namespace fl {
 
     scalar Bell::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
-        return _height * (1.0 / (1.0 + std::pow(std::abs((x - _center) / _width), 2 * _slope)));
+        return getHeight() * (1.0 / (1.0 + std::pow(std::abs((x - _center) / _width), 2 * _slope)));
     }
 
     std::string Bell::parameters() const {
         return Op::join(3, " ", _center, _width, _slope) +
-                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
+                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Bell::configure(const std::string& parameters) {

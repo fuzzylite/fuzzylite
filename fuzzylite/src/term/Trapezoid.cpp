@@ -41,23 +41,23 @@ namespace fl {
         if (fl::Op::isNaN(x)) return fl::nan;
 
         if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexD))
-            return _height * 0.0;
+            return getHeight() * 0.0;
 
         if (Op::isLt(x, _vertexB))
-            return _height * Op::min(scalar(1.0), (x - _vertexA) / (_vertexB - _vertexA));
+            return getHeight() * Op::min(scalar(1.0), (x - _vertexA) / (_vertexB - _vertexA));
 
         if (Op::isLE(x, _vertexC))
-            return _height * 1.0;
+            return getHeight() * 1.0;
 
         if (Op::isLt(x, _vertexD))
-            return _height * (_vertexD - x) / (_vertexD - _vertexC);
+            return getHeight() * (_vertexD - x) / (_vertexD - _vertexC);
 
-        return _height * 0.0;
+        return getHeight() * 0.0;
     }
 
     std::string Trapezoid::parameters() const {
         return Op::join(4, " ", _vertexA, _vertexB, _vertexC, _vertexD)+
-                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
+                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Trapezoid::configure(const std::string& parameters) {

@@ -37,12 +37,12 @@ namespace fl {
 
         scalar a = 1.0 / (1 + std::exp(-_rising * (x - _left)));
         scalar b = 1.0 / (1 + std::exp(-_falling * (x - _right)));
-        return _height * std::abs(a - b);
+        return getHeight() * std::abs(a - b);
     }
 
     std::string SigmoidDifference::parameters() const {
         return Op::join(4, " ", _left, _rising, _falling, _right) +
-                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
+                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void SigmoidDifference::configure(const std::string& parameters) {

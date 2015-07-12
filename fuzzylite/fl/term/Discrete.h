@@ -28,7 +28,7 @@ namespace fl {
     class FL_API Discrete : public Term {
     public:
         typedef std::pair<scalar, scalar> Pair;
-    protected:
+    private:
         std::vector<Pair> _xy;
     public:
         explicit Discrete(const std::string& name = "",

@@ -40,29 +40,29 @@ namespace fl {
         scalar c_d_ave = (_topRight + _bottomRight) / 2.0;
         scalar d_minus_c = _bottomRight - _topRight;
 
-        if (Op::isLE(x, _bottomLeft)) return _height * 0.0;
+        if (Op::isLE(x, _bottomLeft)) return getHeight() * 0.0;
 
         if (Op::isLE(x, a_b_ave))
-            return _height * (2.0 * std::pow((x - _bottomLeft) / b_minus_a, 2));
+            return getHeight() * (2.0 * std::pow((x - _bottomLeft) / b_minus_a, 2));
 
         if (Op::isLt(x, _topLeft))
-            return _height * (1.0 - 2.0 * std::pow((x - _topLeft) / b_minus_a, 2));
+            return getHeight() * (1.0 - 2.0 * std::pow((x - _topLeft) / b_minus_a, 2));
 
         if (Op::isLE(x, _topRight))
-            return _height * 1.0;
+            return getHeight() * 1.0;
 
         if (Op::isLE(x, c_d_ave))
-            return _height * (1.0 - 2.0 * std::pow((x - _topRight) / d_minus_c, 2));
+            return getHeight() * (1.0 - 2.0 * std::pow((x - _topRight) / d_minus_c, 2));
 
         if (Op::isLt(x, _bottomRight))
-            return _height * (2.0 * std::pow((x - _bottomRight) / d_minus_c, 2));
+            return getHeight() * (2.0 * std::pow((x - _bottomRight) / d_minus_c, 2));
 
-        return _height * 0.0;
+        return getHeight() * 0.0;
     }
 
     std::string PiShape::parameters() const {
         return Op::join(4, " ", _bottomLeft, _topLeft, _topRight, _bottomRight) +
-                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
+                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void PiShape::configure(const std::string& parameters) {

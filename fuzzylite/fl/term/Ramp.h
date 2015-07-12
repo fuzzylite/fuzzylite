@@ -23,7 +23,7 @@
 namespace fl {
 
     class FL_API Ramp : public Term {
-    protected:
+    private:
         scalar _start, _end;
 
     public:

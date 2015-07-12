@@ -23,7 +23,7 @@
 namespace fl {
 
     class FL_API Constant : public Term {
-    protected:
+    private:
         scalar _value;
 
     public:

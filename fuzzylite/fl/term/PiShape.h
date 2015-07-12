@@ -23,7 +23,7 @@
 namespace fl {
 
     class FL_API PiShape : public Term {
-    protected:
+    private:
         scalar _bottomLeft;
         scalar _topLeft;
         scalar _topRight;

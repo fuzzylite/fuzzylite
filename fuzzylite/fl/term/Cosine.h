@@ -23,7 +23,7 @@
 namespace fl {
 
     class FL_API Cosine : public Term {
-    protected:
+    private:
         scalar _center, _width;
     public:
         explicit Cosine(const std::string& name = "",

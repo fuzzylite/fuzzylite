@@ -31,7 +31,7 @@ namespace fl {
     class Engine;
 
     class FL_API Term {
-    protected:
+    private:
         std::string _name;
         scalar _height;
     public:

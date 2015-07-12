@@ -34,14 +34,14 @@ namespace fl {
     scalar Binary::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
         if (fl::Op::isLt(x, _threshold)) {
-            return _height * 0.0;
+            return getHeight() * 0.0;
         }
-        return _height * 1.0;
+        return getHeight() * 1.0;
     }
 
     std::string Binary::parameters() const {
         return Op::join(1, " ", _threshold) +
-                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
+                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Binary::configure(const std::string& parameters) {

@@ -24,7 +24,7 @@
 namespace fl {
 
     class FL_API SShape : public Term {
-    protected:
+    private:
         scalar _start, _end;
 
     public:

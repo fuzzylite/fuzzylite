@@ -33,12 +33,12 @@ namespace fl {
 
     scalar Gaussian::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
-        return _height * std::exp((-(x - _mean) * (x - _mean)) / (2 * _standardDeviation * _standardDeviation));
+        return getHeight() * std::exp((-(x - _mean) * (x - _mean)) / (2 * _standardDeviation * _standardDeviation));
     }
 
     std::string Gaussian::parameters() const {
         return Op::join(2, " ", _mean, _standardDeviation) +
-                (not Op::isEq(_height, 1.0) ? " " + Op::str(_height) : "");
+                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Gaussian::configure(const std::string& parameters) {

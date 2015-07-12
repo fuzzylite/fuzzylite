@@ -23,7 +23,7 @@
 namespace fl {
 
     class FL_API Spike : public Term {
-    protected:
+    private:
         scalar _center, _width;
     public:
         explicit Spike(const std::string& name = "",

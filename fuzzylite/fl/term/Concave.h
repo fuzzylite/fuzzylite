@@ -24,7 +24,7 @@
 namespace fl {
 
     class FL_API Concave : public Term {
-    protected:
+    private:
         scalar _inflection, _end;
     public:
         explicit Concave(const std::string& name = "",

@@ -23,7 +23,7 @@
 namespace fl {
 
     class FL_API Triangle : public Term {
-    protected:
+    private:
         scalar _vertexA;
         scalar _vertexB;
         scalar _vertexC;

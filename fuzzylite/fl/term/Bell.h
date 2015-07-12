@@ -23,7 +23,7 @@
 namespace fl {
 
     class FL_API Bell : public Term {
-    protected:
+    private:
         scalar _center;
         scalar _width;
         scalar _slope;

@@ -45,13 +45,13 @@ namespace fl {
          */
 
 
-        if (fl::Op::isLE(_x_, _xy.front().first)) return _height * _xy.front().second;
-        if (fl::Op::isGE(_x_, _xy.back().first)) return _height * _xy.back().second;
+        if (fl::Op::isLE(_x_, _xy.front().first)) return getHeight() * _xy.front().second;
+        if (fl::Op::isGE(_x_, _xy.back().first)) return getHeight() * _xy.back().second;
 
         std::ptrdiff_t lower = -1, upper = -1;
 
         for (std::size_t i = 0; i < _xy.size(); ++i) {
-            if (Op::isEq(_xy.at(i).first, _x_)) return _height * _xy.at(i).second;
+            if (Op::isEq(_xy.at(i).first, _x_)) return getHeight() * _xy.at(i).second;
             //approximate on the left
             if (Op::isLt(_xy.at(i).first, _x_)) {
                 lower = i;
@@ -65,7 +65,7 @@ namespace fl {
         if (upper < 0) upper = _xy.size() - 1;
         if (lower < 0) lower = 0;
 
-        return _height * Op::scale(_x_, _xy.at(lower).first, _xy.at(upper).first,
+        return getHeight() * Op::scale(_x_, _xy.at(lower).first, _xy.at(upper).first,
                 _xy.at(lower).second, _xy.at(upper).second);
     }
 
@@ -75,7 +75,7 @@ namespace fl {
             ss << fl::Op::str(_xy.at(i).first) << " " << fl::Op::str(_xy.at(i).second);
             if (i + 1 < _xy.size()) ss << " ";
         }
-        if (not Op::isEq(_height, 1.0)) ss << " " << Op::str(_height);
+        if (not Op::isEq(getHeight(), 1.0)) ss << " " << Op::str(getHeight());
         return ss.str();
     }
 

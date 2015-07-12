@@ -116,7 +116,7 @@ namespace fl {
         }
         FllExporter exporter;
         std::ostringstream ss;
-        ss << _name << ": " << className() << " "
+        ss << getName() << ": " << className() << " "
                 << exporter.toString(_accumulation.get()) << "["
                 << fl::Op::join(accumulate, ",") << "]";
         return ss.str();
