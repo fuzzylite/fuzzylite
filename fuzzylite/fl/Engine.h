@@ -38,13 +38,14 @@ namespace fl {
 
     class FL_API Engine {
     private:
-        void copyFrom(const Engine& source);
-    protected:
         std::string _name;
         std::vector<InputVariable*> _inputVariables;
         std::vector<OutputVariable*> _outputVariables;
         std::vector<RuleBlock*> _ruleblocks;
 
+        void copyFrom(const Engine& source);
+
+    protected:
         void updateReferences() const;
 
     public:

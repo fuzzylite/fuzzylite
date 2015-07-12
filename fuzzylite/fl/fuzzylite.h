@@ -110,8 +110,8 @@ namespace fl {
 #endif
 
 #ifdef __GNUC__
-    const scalar nan  __attribute__ ((unused)) = std::numeric_limits<scalar>::quiet_NaN();
-    const scalar inf __attribute__ ((unused)) = std::numeric_limits<scalar>::infinity();
+    const scalar nan __attribute__((unused)) = std::numeric_limits<scalar>::quiet_NaN();
+    const scalar inf __attribute__((unused)) = std::numeric_limits<scalar>::infinity();
 #else
     const scalar nan = std::numeric_limits<scalar>::quiet_NaN();
     const scalar inf = std::numeric_limits<scalar>::infinity();
@@ -180,7 +180,7 @@ namespace fl {
 namespace fl {
 
     class FL_API fuzzylite {
-    protected:
+    private:
         static int _decimals;
         static scalar _macheps;
         static bool _debug;

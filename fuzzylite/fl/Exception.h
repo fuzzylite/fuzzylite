@@ -27,7 +27,7 @@
 namespace fl {
 
     class FL_API Exception : public std::exception {
-    protected:
+    private:
         std::string _what;
     public:
         explicit Exception(const std::string& what);
