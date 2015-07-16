@@ -66,9 +66,16 @@ namespace fl {
                     }
                 }
                 Activated* term = new Activated(_conclusions.at(i)->term, activationDegree, implication);
-                OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (proposition->variable);
-                outputVariable->fuzzyOutput()->addTerm(term);
-                FL_DBG("Accumulating " << term->toString());
+
+                if (OutputVariable * outputVariable = dynamic_cast<OutputVariable*> (proposition->variable)) {
+                    outputVariable->fuzzyOutput()->addTerm(term);
+                    FL_DBG("Accumulating " << term->toString());
+                } else {
+                    std::ostringstream ss;
+                    ss << "[consequent error] expected an OutputVariable, but found <"
+                            << (proposition->variable ? proposition->variable->toString() : "null") << ">";
+                    throw fl::Exception(ss.str(), FL_AT);
+                }
             }
         }
     }

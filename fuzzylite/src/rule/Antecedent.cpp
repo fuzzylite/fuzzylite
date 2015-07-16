@@ -108,29 +108,37 @@ namespace fl {
         }
         //if node is an operator
         const Operator* fuzzyOperator = dynamic_cast<const Operator*> (node);
-        if (not (fuzzyOperator->left and fuzzyOperator->right)) {
-            std::ostringstream ex;
-            ex << "[syntax error] left and right operands must exist";
-            throw fl::Exception(ex.str(), FL_AT);
-        }
-        if (fuzzyOperator->name == Rule::andKeyword()) {
-            if (not conjunction) throw fl::Exception("[conjunction error] "
-                    "the following rule requires a conjunction operator:\n" + _text, FL_AT);
-            return conjunction->compute(
-                    this->activationDegree(conjunction, disjunction, fuzzyOperator->left),
-                    this->activationDegree(conjunction, disjunction, fuzzyOperator->right));
-        }
+        if (fuzzyOperator) {
+            if (not (fuzzyOperator->left and fuzzyOperator->right)) {
+                std::ostringstream ex;
+                ex << "[syntax error] left and right operands must exist";
+                throw fl::Exception(ex.str(), FL_AT);
+            }
+            if (fuzzyOperator->name == Rule::andKeyword()) {
+                if (not conjunction) throw fl::Exception("[conjunction error] "
+                        "the following rule requires a conjunction operator:\n" + _text, FL_AT);
+                return conjunction->compute(
+                        this->activationDegree(conjunction, disjunction, fuzzyOperator->left),
+                        this->activationDegree(conjunction, disjunction, fuzzyOperator->right));
+            }
 
-        if (fuzzyOperator->name == Rule::orKeyword()) {
-            if (not disjunction) throw fl::Exception("[disjunction error] "
-                    "the following rule requires a disjunction operator:\n" + _text, FL_AT);
-            return disjunction->compute(
-                    this->activationDegree(conjunction, disjunction, fuzzyOperator->left),
-                    this->activationDegree(conjunction, disjunction, fuzzyOperator->right));
+            if (fuzzyOperator->name == Rule::orKeyword()) {
+                if (not disjunction) throw fl::Exception("[disjunction error] "
+                        "the following rule requires a disjunction operator:\n" + _text, FL_AT);
+                return disjunction->compute(
+                        this->activationDegree(conjunction, disjunction, fuzzyOperator->left),
+                        this->activationDegree(conjunction, disjunction, fuzzyOperator->right));
+            }
+            std::ostringstream ex;
+            ex << "[syntax error] operator <" << fuzzyOperator->name << "> not recognized";
+            throw fl::Exception(ex.str(), FL_AT);
+
+        } else {
+            std::ostringstream ss;
+            ss << "[antecedent error] expected a Proposition or Operator, but found <"
+                    << (node ? node->toString() : "null") << ">";
+            throw fl::Exception(ss.str(), FL_AT);
         }
-        std::ostringstream ex;
-        ex << "[syntax error] operator <" << fuzzyOperator->name << "> not recognized";
-        throw fl::Exception(ex.str(), FL_AT);
 
     }
 
@@ -323,11 +331,14 @@ namespace fl {
         if (dynamic_cast<const Proposition*> (node)) {
             return node->toString();
         }
-        const Operator* fuzzyOperator = dynamic_cast<const Operator*> (node);
         std::stringstream ss;
-        ss << fuzzyOperator->toString() << " "
-                << toPrefix(fuzzyOperator->left) << " "
-                << toPrefix(fuzzyOperator->right) << " ";
+        if (const Operator * fuzzyOperator = dynamic_cast<const Operator*> (node)) {
+            ss << fuzzyOperator->toString() << " "
+                    << toPrefix(fuzzyOperator->left) << " "
+                    << toPrefix(fuzzyOperator->right) << " ";
+        } else {
+            ss << "[antecedent error] unknown class of Expression <" << node->toString() << ">";
+        }
         return ss.str();
     }
 
@@ -339,11 +350,14 @@ namespace fl {
         if (dynamic_cast<const Proposition*> (node)) {
             return node->toString();
         }
-        const Operator* fuzzyOperator = dynamic_cast<const Operator*> (node);
         std::stringstream ss;
-        ss << toInfix(fuzzyOperator->left) << " "
-                << fuzzyOperator->toString() << " "
-                << toInfix(fuzzyOperator->right) << " ";
+        if (const Operator * fuzzyOperator = dynamic_cast<const Operator*> (node)) {
+            ss << toInfix(fuzzyOperator->left) << " "
+                    << fuzzyOperator->toString() << " "
+                    << toInfix(fuzzyOperator->right) << " ";
+        } else {
+            ss << "[antecedent error] unknown class of Expression <" << node->toString() << ">";
+        }
         return ss.str();
     }
 
@@ -355,11 +369,14 @@ namespace fl {
         if (dynamic_cast<const Proposition*> (node)) {
             return node->toString();
         }
-        const Operator* fuzzyOperator = dynamic_cast<const Operator*> (node);
         std::stringstream ss;
-        ss << toPostfix(fuzzyOperator->left) << " "
-                << toPostfix(fuzzyOperator->right) << " "
-                << fuzzyOperator->toString() << " ";
+        if (const Operator * fuzzyOperator = dynamic_cast<const Operator*> (node)) {
+            ss << toPostfix(fuzzyOperator->left) << " "
+                    << toPostfix(fuzzyOperator->right) << " "
+                    << fuzzyOperator->toString() << " ";
+        } else {
+            ss << "[antecedent error] unknown class of Expression <" << node->toString() << ">";
+        }
         return ss.str();
     }
 

@@ -57,7 +57,14 @@ int main(int argc, char** argv) {
     //SetConsoleCtrlHandler(flSignalHandler, TRUE);
 #endif
     fuzzylite::setDebug(false);
-    return Console::main(argc, argv);
+    try {
+        Console::main(argc, argv);
+    } catch (std::exception& ex) {
+        std::cout << ex.what() << "\nBACKTRACE:\n" <<
+                fl::Exception::btCallStack() << std::endl;
+        return EXIT_FAILURE;
+    }
+    return EXIT_SUCCESS;
 }
 
 

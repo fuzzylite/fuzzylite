@@ -760,27 +760,21 @@ namespace fl {
                 path = std::string(argv[2]);
             }
             FL_LOG("Path=" << path);
-            try {
-                fuzzylite::setDecimals(3);
-                FL_LOG("Processing fll->fll");
-                exportAllExamples("fll", "fll", path);
-                FL_LOG("Processing fll->fcl");
-                exportAllExamples("fll", "fcl", path);
-                FL_LOG("Processing fll->fis");
-                exportAllExamples("fll", "fis", path);
-                FL_LOG("Processing fll->cpp");
-                exportAllExamples("fll", "cpp", path);
-                FL_LOG("Processing fll->java");
-                exportAllExamples("fll", "java", path);
-                fuzzylite::setDecimals(8);
-                fuzzylite::setMachEps(1e-6);
-                FL_LOG("Processing fll->fld");
-                exportAllExamples("fll", "fld", path);
-            } catch (std::exception& ex) {
-                std::cout << ex.what() << "\nBACKTRACE:\n" <<
-                        fl::Exception::btCallStack() << std::endl;
-                return EXIT_FAILURE;
-            }
+            fuzzylite::setDecimals(3);
+            FL_LOG("Processing fll->fll");
+            exportAllExamples("fll", "fll", path);
+            FL_LOG("Processing fll->fcl");
+            exportAllExamples("fll", "fcl", path);
+            FL_LOG("Processing fll->fis");
+            exportAllExamples("fll", "fis", path);
+            FL_LOG("Processing fll->cpp");
+            exportAllExamples("fll", "cpp", path);
+            FL_LOG("Processing fll->java");
+            exportAllExamples("fll", "java", path);
+            fuzzylite::setDecimals(8);
+            fuzzylite::setMachEps(1e-6);
+            FL_LOG("Processing fll->fld");
+            exportAllExamples("fll", "fld", path);
             return EXIT_SUCCESS;
         } else if (firstArgument == "benchmarks") {
 #ifdef FL_CPP11
@@ -805,7 +799,6 @@ namespace fl {
             process(options);
         } catch (std::exception& ex) {
             std::cout << ex.what() << "\n" << std::endl;
-            //            std::cout << fl::Exception::btCallStack() << std::endl;
             return EXIT_FAILURE;
         }
         return EXIT_SUCCESS;

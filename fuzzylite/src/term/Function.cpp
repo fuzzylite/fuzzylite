@@ -549,45 +549,4 @@ namespace fl {
 
         return stack.top();
     }
-
-    void Function::main() {
-        Function f;
-        std::string text = "3+4*2/(1-5)^2^3";
-        FL_LOG(f.toPostfix(text));
-        FL_LOG("P: " << f.parse(text)->toInfix());
-        FL_LOG(">" << f.parse(text)->evaluate());
-        //3 4 2 * 1 5 - 2 3 ^ ^ / +
-
-        f.variables["y"] = 1.0;
-        text = "sin(y*x)^2/x";
-        FL_LOG("pre: " << f.parse(text)->toPrefix());
-        FL_LOG("in: " << f.parse(text)->toInfix());
-        FL_LOG("pos: " << f.parse(text)->toPostfix());
-        f.load(text);
-        FL_LOG("Result: " << f.membership(1));
-        //y x * sin 2 ^ x /
-
-
-        text = "(Temperature is High and Oxygen is Low) or "
-                "(Temperature is Low and (Oxygen is Low or Oxygen is High))";
-        FL_LOG(f.toPostfix(text));
-
-        f.variables["pi"] = 3.14;
-        text = "-5 *4/sin(-pi/2)";
-        FL_LOG(f.toPostfix(text));
-        try {
-            FL_LOG(f.parse(text)->evaluate());
-        } catch (std::exception& e) {
-            FL_LOG(e.what());
-        }
-        f.variables["pi"] = 3.14;
-        text = "~5 *4/sin(~pi/2)";
-        FL_LOG(f.toPostfix(text));
-        try {
-            FL_LOG(f.parse(text)->evaluate(&f.variables));
-        } catch (std::exception& e) {
-            FL_LOG(e.what());
-        }
-    }
-
 }

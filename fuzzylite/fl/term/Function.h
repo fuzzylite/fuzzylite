@@ -154,8 +154,6 @@ namespace fl {
 
         static Term* constructor();
 
-        static void main();
-
     };
 
 }
