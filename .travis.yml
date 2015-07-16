@@ -13,10 +13,10 @@ addons:
   apt:
     sources: 
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.7
+      - llvm-toolchain-precise-3.6
     packages: 
       - ['g++-5', 'g++-4.9', 'g++-4.8']
-      - ['clang-3.7']
+      - ['clang-3.6']
       #cannot install more than one clang.
 before_install:
   - export CC=$EXPORT_CC CXX=$EXPORT_CXX
@@ -46,33 +46,34 @@ matrix:
     - env: ignore=this
 
   include:
-#clang-3.7
-    - os: linux
-      compiler: clang
-      env: EXPORT_CC=clang-3.7 EXPORT_CXX=clang++-3.7 PACKAGE=clang-3.7 FL_USE_FLOAT=OFF FL_CPP11=OFF
-    - os: linux
-      compiler: clang
-      env: EXPORT_CC=clang-3.7 EXPORT_CXX=clang++-3.7 PACKAGE=clang-3.7  FL_USE_FLOAT=ON FL_CPP11=OFF
-    - os: linux
-      compiler: clang
-      env: EXPORT_CC=clang-3.7 EXPORT_CXX=clang++-3.7 PACKAGE=clang-3.7  FL_USE_FLOAT=OFF FL_CPP11=ON
-    - os: linux
-      compiler: clang
-      env: EXPORT_CC=clang-3.7 EXPORT_CXX=clang++-3.7 PACKAGE=clang-3.7  FL_USE_FLOAT=ON FL_CPP11=ON
 
-##clang-3.6
+##clang-3.7
     #- os: linux
       #compiler: clang
-      #env: EXPORT_CXX=clang++-3.6 FL_CPP11=OFF FL_USE_FLOAT=OFF
+      #env: EXPORT_CXX=clang++-3.7 FL_CPP11=OFF FL_USE_FLOAT=OFF
     #- os: linux
       #compiler: clang
-      #env: EXPORT_CXX=clang++-3.6 FL_CPP11=OFF FL_USE_FLOAT=ON
+      #env: EXPORT_CXX=clang++-3.7 FL_CPP11=OFF FL_USE_FLOAT=ON
     #- os: linux
       #compiler: clang
-      #env: EXPORT_CXX=clang++-3.6 FL_CPP11=ON FL_USE_FLOAT=OFF
+      #env: EXPORT_CXX=clang++-3.7 FL_CPP11=ON FL_USE_FLOAT=OFF
     #- os: linux
       #compiler: clang
-      #env: EXPORT_CXX=clang++-3.6 FL_CPP11=ON FL_USE_FLOAT=ON
+      #env: EXPORT_CXX=clang++-3.7 FL_CPP11=ON FL_USE_FLOAT=ON
+
+#clang-3.6
+    - os: linux
+      compiler: clang
+      env: EXPORT_CXX=clang++-3.6 FL_CPP11=OFF FL_USE_FLOAT=OFF
+    - os: linux
+      compiler: clang
+      env: EXPORT_CXX=clang++-3.6 FL_CPP11=OFF FL_USE_FLOAT=ON
+    - os: linux
+      compiler: clang
+      env: EXPORT_CXX=clang++-3.6 FL_CPP11=ON FL_USE_FLOAT=OFF
+    - os: linux
+      compiler: clang
+      env: EXPORT_CXX=clang++-3.6 FL_CPP11=ON FL_USE_FLOAT=ON
 
 ##clang-3.5
     #- os: linux
