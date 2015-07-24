@@ -45,6 +45,7 @@ namespace fl {
             _conjunction.reset(fl::null);
             _disjunction.reset(fl::null);
             _implication.reset(fl::null);
+            _activation.reset(fl::null);
 
             copyFrom(other);
         }
@@ -57,6 +58,7 @@ namespace fl {
         if (source._conjunction.get()) _conjunction.reset(source._conjunction->clone());
         if (source._disjunction.get()) _disjunction.reset(source._disjunction->clone());
         if (source._implication.get()) _implication.reset(source._implication->clone());
+        if (source._activation.get()) _activation.reset(source._activation->clone());
         for (std::size_t i = 0; i < source._rules.size(); ++i) {
             _rules.push_back(source._rules.at(i)->clone());
         }
