@@ -274,7 +274,7 @@ namespace fl {
         if (norm->className() == NilpotentMinimum().className()) return "nilpotent_minimum";
         //SNorm
         if (norm->className() == Maximum().className()) return "max";
-        if (norm->className() == AlgebraicSum().className()) return "sum";
+        if (norm->className() == AlgebraicSum().className()) return "probor";
         if (norm->className() == BoundedSum().className()) return "bounded_sum";
         if (norm->className() == NormalizedSum().className()) return "normalized_sum";
         if (norm->className() == DrasticSum().className()) return "drastic_sum";
