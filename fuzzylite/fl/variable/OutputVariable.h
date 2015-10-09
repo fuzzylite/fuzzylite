@@ -79,6 +79,8 @@ namespace fl {
         virtual void defuzzify();
 
         virtual std::string fuzzyOutputValue() const;
+		
+		virtual std::string maximumOutputTerm() const;
 
         virtual void clear();
 
