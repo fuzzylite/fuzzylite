@@ -130,13 +130,13 @@ namespace fl {
 #if defined(FL_UNIX) && !defined(FL_USE_FLOAT)
         //found in Unix when using double precision. not found in Windows.
         registerObject("log1p", new Function::Element("log1p", "Natural logarithm plus one",
-                Function::Element::FUNCTION, &(log1p)));
+                Function::Element::FUNCTION, &(std::log1p))); 	//CHANGE FOR QNX6.5.0
         registerObject("acosh", new Function::Element("acosh", "Inverse hyperbolic cosine",
-                Function::Element::FUNCTION, &(acosh)));
+                Function::Element::FUNCTION, &(std::acosh)));	//CHANGE FOR QNX6.5.0
         registerObject("asinh", new Function::Element("asinh", "Inverse hyperbolic sine",
-                Function::Element::FUNCTION, &(asinh)));
+                Function::Element::FUNCTION, &(std::asinh)));	//CHANGE FOR QNX6.5.0
         registerObject("atanh", new Function::Element("atanh", "Inverse hyperbolic tangent",
-                Function::Element::FUNCTION, &(atanh)));
+                Function::Element::FUNCTION, &(std::atanh)));	//CHANGE FOR QNX6.5.0
 #endif
 
         registerObject("pow", new Function::Element("pow", "Power",

@@ -108,7 +108,7 @@ namespace fl {
         std::vector<scalar> xy(argc);
         xy.at(0) = x1;
         xy.at(1) = y1;
-        va_list args;
+        std::va_list args;  	//CHANGE FOR QNX6.5.0
         va_start(args, y1);
         for (int i = 2; i < argc; ++i) {
             xy.at(i) = (scalar) va_arg(args, T);

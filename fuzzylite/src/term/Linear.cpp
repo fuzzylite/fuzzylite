@@ -115,7 +115,7 @@ namespace fl {
         std::vector<scalar> coefficients;
         coefficients.push_back(firstCoefficient);
 
-        va_list args;
+        std::va_list args; 				//CHANGE FOR QNX6.5.0
         va_start(args, firstCoefficient);
         for (std::size_t i = 0; i < engine->inputVariables().size(); ++i) {
             coefficients.push_back((scalar) va_arg(args, T));

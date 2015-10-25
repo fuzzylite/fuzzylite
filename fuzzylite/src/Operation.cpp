@@ -34,6 +34,11 @@
 #include <cstdarg>
 #include <cctype>
 
+// ADD FOR QNX6.5.0
+#include <math.h>
+#include <ctype.h>
+#include <stdarg.h>
+
 namespace fl {
 
     template <typename T>
@@ -429,7 +434,7 @@ namespace fl {
         std::ostringstream ss;
         ss << str(first);
         if (items > 1) ss << separator;
-        va_list args;
+        std::va_list args; 					//CHANGE FOR QNX6.5.0
         va_start(args, first);
         for (int i = 0; i < items - 1; ++i) {
             ss << str(va_arg(args, T));
@@ -449,7 +454,7 @@ namespace fl {
         std::ostringstream ss;
         ss << str(first);
         if (items > 1) ss << separator;
-        va_list args;
+        std::va_list args;					//CHANGE FOR QNX6.5.0
         va_start(args, first);
         for (int i = 0; i < items - 1; ++i) {
             ss << str(va_arg(args, double)); //automatic promotion
@@ -464,7 +469,7 @@ namespace fl {
         std::ostringstream ss;
         ss << first;
         if (items > 1) ss << separator;
-        va_list args;
+        std::va_list args;					//CHANGE FOR QNX6.5.0
         va_start(args, first);
         for (int i = 0; i < items - 1; ++i) {
             ss << va_arg(args, const char*);
