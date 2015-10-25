@@ -67,10 +67,14 @@ namespace fl {
             Proposition* proposition = _conclusions.at(i);
             if (proposition->variable->isEnabled()) {
                 if (not proposition->hedges.empty()) {
-                    for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
-                            rit != proposition->hedges.rend(); ++rit) {
+// CHANGE FOR QNX6.5.0 ------------------------------------------------
+                   std::vector<Hedge*>::const_reverse_iterator tempRit = proposition->hedges.rend();
+                   for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
+                    		                    		rit != tempRit; ++rit)
+// CHANGE FOR QNX6.5.0 -------------------------------------------------
+                   {
                         activationDegree = (*rit)->hedge(activationDegree);
-                    }
+                   }
                 }
                 Activated* term = new Activated(_conclusions.at(i)->term, activationDegree, activation);
                 OutputVariable* outputVariable = dynamic_cast<OutputVariable*> (proposition->variable);

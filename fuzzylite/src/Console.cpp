@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #include <utility>
 #include <vector>
+#include <cstdio> // add for QNX6.5.0
 
 #ifdef FL_UNIX
 #include <termios.h>
@@ -325,7 +326,7 @@ namespace fl {
         newt = oldt;
         newt.c_lflag &= ~(ICANON | ECHO);
         tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-        ch = getchar();
+        ch = std::getchar(); 						// CHANGE FOR QNX6.5.0
         tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 #elif defined(FL_WINDOWS)
         ch = _getch();
