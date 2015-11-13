@@ -33,9 +33,10 @@ namespace fl {
     class FL_API CppExporter : public Exporter {
     private:
         bool _prefixNamespace;
+        bool _exportVariableName;
         virtual std::string fl(const std::string& clazz) const;
     public:
-        explicit CppExporter(bool prefixNamespace = false);
+        explicit CppExporter(bool prefixNamespace = false, bool exportVariableName = true);
         virtual ~CppExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(CppExporter)
 
@@ -44,6 +45,9 @@ namespace fl {
 
         virtual void setPrefixNamespace(bool prefixNamespace);
         virtual bool isPrefixNamespace() const;
+        
+        virtual void setExportVariableName(bool exportVariableName);
+        virtual bool exportVariableName() const ;
 
         virtual std::string toString(const InputVariable* inputVariable, const Engine* engine) const;
         virtual std::string toString(const OutputVariable* outputVariable, const Engine* engine) const;

@@ -33,12 +33,17 @@ namespace fl {
     class TNorm;
 
     class FL_API JavaExporter : public Exporter {
+    private:
+        bool _exportVariableName;
     public:
-        JavaExporter();
+        explicit JavaExporter(bool exportVariableName = true);
         virtual ~JavaExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(JavaExporter)
 
         virtual std::string name() const FL_IOVERRIDE;
+
+        virtual void setExportVariableName(bool exportVariableName);
+        virtual bool exportVariableName() const;
 
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
         virtual std::string toString(const InputVariable* inputVariable, const Engine* engine) const;

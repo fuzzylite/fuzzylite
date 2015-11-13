@@ -22,7 +22,8 @@
 #include <algorithm>
 namespace fl {
 
-    JavaExporter::JavaExporter() : Exporter() {
+    JavaExporter::JavaExporter(bool exportVariableName) : Exporter(),
+    _exportVariableName(exportVariableName) {
     }
 
     JavaExporter::~JavaExporter() {
@@ -31,6 +32,14 @@ namespace fl {
 
     std::string JavaExporter::name() const {
         return "JavaExporter";
+    }
+
+    void JavaExporter::setExportVariableName(bool exportVariableName) {
+        this->_exportVariableName = exportVariableName;
+    }
+
+    bool JavaExporter::exportVariableName() const {
+        return this->_exportVariableName;
     }
 
     std::string JavaExporter::toString(const Engine* engine) const {
@@ -56,12 +65,17 @@ namespace fl {
 
     std::string JavaExporter::toString(const InputVariable* inputVariable, const Engine* engine) const {
         std::ostringstream ss;
-        std::string name = "inputVariable";
-        if (engine->numberOfInputVariables() > 1) {
-            std::size_t index = std::distance(engine->inputVariables().begin(),
-                    std::find(engine->inputVariables().begin(),
-                    engine->inputVariables().end(), inputVariable));
-            name += Op::str(index + 1);
+        std::string name;
+        if (exportVariableName()) {
+            name = fl::Op::validName(inputVariable->getName());
+        } else {
+            name = "inputVariable";
+            if (engine->numberOfInputVariables() > 1) {
+                std::size_t index = std::distance(engine->inputVariables().begin(),
+                        std::find(engine->inputVariables().begin(),
+                        engine->inputVariables().end(), inputVariable));
+                name += Op::str(index + 1);
+            }
         }
         ss << "InputVariable " << name << " = new InputVariable();\n";
         ss << name << ".setEnabled(" << (inputVariable->isEnabled() ? "true" : "false") << ");\n";
@@ -81,12 +95,17 @@ namespace fl {
 
     std::string JavaExporter::toString(const OutputVariable* outputVariable, const Engine* engine) const {
         std::ostringstream ss;
-        std::string name = "outputVariable";
-        if (engine->numberOfOutputVariables() > 1) {
-            std::size_t index = std::distance(engine->outputVariables().begin(),
-                    std::find(engine->outputVariables().begin(),
-                    engine->outputVariables().end(), outputVariable));
-            name += Op::str(index + 1);
+        std::string name;
+        if (exportVariableName()) {
+            name = fl::Op::validName(outputVariable->getName());
+        } else {
+            name = "outputVariable";
+            if (engine->numberOfOutputVariables() > 1) {
+                std::size_t index = std::distance(engine->outputVariables().begin(),
+                        std::find(engine->outputVariables().begin(),
+                        engine->outputVariables().end(), outputVariable));
+                name += Op::str(index + 1);
+            }
         }
         ss << "OutputVariable " << name << " = new OutputVariable();\n";
         ss << name << ".setEnabled(" << (outputVariable->isEnabled() ? "true" : "false") << ");\n";
