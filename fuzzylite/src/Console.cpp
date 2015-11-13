@@ -523,48 +523,48 @@ namespace fl {
     }
 
     void Console::exportAllExamples(const std::string& from, const std::string& to) {
-        Console::exportAllExamples(from, to, ".");
+        Console::exportAllExamples(from, to, ".", "/tmp/");
     }
 
-    void Console::exportAllExamples(const std::string& from, const std::string& to, const std::string& path) {
+    void Console::exportAllExamples(const std::string& from, const std::string& to,
+            const std::string& examplesPath, const std::string& outputPath) {
         std::vector<std::string> examples;
-        examples.push_back("/mamdani/AllTerms");
-        //        examples.push_back("/mamdani/Laundry");
-        examples.push_back("/mamdani/SimpleDimmer");
-        //        examples.push_back("/mamdani/SimpleDimmerInverse");
-        examples.push_back("/mamdani/matlab/mam21");
-        examples.push_back("/mamdani/matlab/mam22");
-        examples.push_back("/mamdani/matlab/shower");
-        examples.push_back("/mamdani/matlab/tank");
-        examples.push_back("/mamdani/matlab/tank2");
-        examples.push_back("/mamdani/matlab/tipper");
-        examples.push_back("/mamdani/matlab/tipper1");
-        examples.push_back("/mamdani/octave/investment_portfolio");
-        examples.push_back("/mamdani/octave/mamdani_tip_calculator");
-        examples.push_back("/takagi-sugeno/approximation");
-        examples.push_back("/takagi-sugeno/SimpleDimmer");
-        examples.push_back("/takagi-sugeno/matlab/fpeaks");
-        examples.push_back("/takagi-sugeno/matlab/invkine1");
-        examples.push_back("/takagi-sugeno/matlab/invkine2");
-        examples.push_back("/takagi-sugeno/matlab/juggler");
-        examples.push_back("/takagi-sugeno/matlab/membrn1");
-        examples.push_back("/takagi-sugeno/matlab/membrn2");
-        examples.push_back("/takagi-sugeno/matlab/slbb");
-        examples.push_back("/takagi-sugeno/matlab/slcp");
-        examples.push_back("/takagi-sugeno/matlab/slcp1");
-        examples.push_back("/takagi-sugeno/matlab/slcpp1");
-        examples.push_back("/takagi-sugeno/matlab/sltbu_fl");
-        examples.push_back("/takagi-sugeno/matlab/sugeno1");
-        examples.push_back("/takagi-sugeno/matlab/tanksg");
-        examples.push_back("/takagi-sugeno/matlab/tippersg");
-        examples.push_back("/takagi-sugeno/octave/cubic_approximator");
-        examples.push_back("/takagi-sugeno/octave/heart_disease_risk");
-        examples.push_back("/takagi-sugeno/octave/linear_tip_calculator");
-        examples.push_back("/takagi-sugeno/octave/sugeno_tip_calculator");
-        examples.push_back("/tsukamoto/tsukamoto");
+        examples.push_back("mamdani/AllTerms");
+        //examples.push_back("mamdani/Laundry");
+        examples.push_back("mamdani/SimpleDimmer");
+        //examples.push_back("mamdani/SimpleDimmerInverse");
+        examples.push_back("mamdani/matlab/mam21");
+        examples.push_back("mamdani/matlab/mam22");
+        examples.push_back("mamdani/matlab/shower");
+        examples.push_back("mamdani/matlab/tank");
+        examples.push_back("mamdani/matlab/tank2");
+        examples.push_back("mamdani/matlab/tipper");
+        examples.push_back("mamdani/matlab/tipper1");
+        examples.push_back("mamdani/octave/investment_portfolio");
+        examples.push_back("mamdani/octave/mamdani_tip_calculator");
+        examples.push_back("takagi-sugeno/approximation");
+        examples.push_back("takagi-sugeno/SimpleDimmer");
+        examples.push_back("takagi-sugeno/matlab/fpeaks");
+        examples.push_back("takagi-sugeno/matlab/invkine1");
+        examples.push_back("takagi-sugeno/matlab/invkine2");
+        examples.push_back("takagi-sugeno/matlab/juggler");
+        examples.push_back("takagi-sugeno/matlab/membrn1");
+        examples.push_back("takagi-sugeno/matlab/membrn2");
+        examples.push_back("takagi-sugeno/matlab/slbb");
+        examples.push_back("takagi-sugeno/matlab/slcp");
+        examples.push_back("takagi-sugeno/matlab/slcp1");
+        examples.push_back("takagi-sugeno/matlab/slcpp1");
+        examples.push_back("takagi-sugeno/matlab/sltbu_fl");
+        examples.push_back("takagi-sugeno/matlab/sugeno1");
+        examples.push_back("takagi-sugeno/matlab/tanksg");
+        examples.push_back("takagi-sugeno/matlab/tippersg");
+        examples.push_back("takagi-sugeno/octave/cubic_approximator");
+        examples.push_back("takagi-sugeno/octave/heart_disease_risk");
+        examples.push_back("takagi-sugeno/octave/linear_tip_calculator");
+        examples.push_back("takagi-sugeno/octave/sugeno_tip_calculator");
+        examples.push_back("tsukamoto/tsukamoto");
 
-        std::string sourceBase = path + "/original";
-        std::string targetBase = path + "/tmp/";
+        std::string sourceBase = examplesPath + "/";
 
         FL_unique_ptr<Importer> importer;
         if (from == "fll") importer.reset(new FllImporter);
@@ -618,7 +618,8 @@ namespace fl {
                 }
             }
 
-            std::string output = targetBase + examples.at(i) + "." + to;
+            std::string output = outputPath + "/" + fl::Op::findReplace(examples.at(i), "/", "-") + "." + to;
+            FL_LOG("Exporting to: " << output);
             std::ofstream target(output.c_str());
             if (target.is_open()) {
                 if (to == "cpp") {
@@ -662,7 +663,7 @@ namespace fl {
 #ifdef FL_CPP11
 
     void Console::benchmarkExamples(const std::string& path, int runs) {
-        std::string sourceBase = path + "/original";
+        std::string sourceBase = path + "/";
         typedef std::pair<std::string, int > Example;
         std::vector<Example> examples;
         examples.push_back(Example("/mamdani/AllTerms", 1e4));
@@ -759,22 +760,29 @@ namespace fl {
             if (argc > 2) {
                 path = std::string(argv[2]);
             }
+            std::string outputPath = "/tmp/";
+            if (argc > 3) {
+                outputPath = std::string(argv[3]);
+            }
             FL_LOG("Path=" << path);
+            FL_LOG("OutputPath=" << outputPath);
             fuzzylite::setDecimals(3);
             FL_LOG("Processing fll->fll");
-            exportAllExamples("fll", "fll", path);
+            exportAllExamples("fll", "fll", path, outputPath);
             FL_LOG("Processing fll->fcl");
-            exportAllExamples("fll", "fcl", path);
+            exportAllExamples("fll", "fcl", path, outputPath);
             FL_LOG("Processing fll->fis");
-            exportAllExamples("fll", "fis", path);
+            exportAllExamples("fll", "fis", path, outputPath);
             FL_LOG("Processing fll->cpp");
-            exportAllExamples("fll", "cpp", path);
+            exportAllExamples("fll", "cpp", path, outputPath);
             FL_LOG("Processing fll->java");
-            exportAllExamples("fll", "java", path);
+            exportAllExamples("fll", "java", path, outputPath);
             fuzzylite::setDecimals(8);
             fuzzylite::setMachEps(1e-6);
             FL_LOG("Processing fll->fld");
-            exportAllExamples("fll", "fld", path);
+            exportAllExamples("fll", "fld", path, outputPath);
+            FL_LOG("Path=" << path);
+            FL_LOG("OutputPath=" << outputPath);
             return EXIT_SUCCESS;
         } else if (firstArgument == "benchmarks") {
 #ifdef FL_CPP11

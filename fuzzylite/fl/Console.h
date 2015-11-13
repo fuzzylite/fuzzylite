@@ -65,7 +65,8 @@ namespace fl {
         static std::string interactiveHelp();
 
         static void exportAllExamples(const std::string& from, const std::string& to);
-        static void exportAllExamples(const std::string& from, const std::string& to, const std::string& path);
+        static void exportAllExamples(const std::string& from, const std::string& to,
+                const std::string& examplesPath, const std::string& outputPath);
 #ifdef FL_CPP11
         static void benchmarkExamples(const std::string& path, int runs);
 #endif
