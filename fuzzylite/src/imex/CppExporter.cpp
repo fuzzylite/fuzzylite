@@ -23,8 +23,8 @@
 
 namespace fl {
 
-    CppExporter::CppExporter(bool prefixNamespace) : Exporter(),
-    _prefixNamespace(prefixNamespace) {
+    CppExporter::CppExporter(bool prefixNamespace, bool exportVariableName) : Exporter(),
+    _prefixNamespace(prefixNamespace), _exportVariableName(exportVariableName) {
     }
 
     CppExporter::~CppExporter() {
@@ -44,6 +44,14 @@ namespace fl {
 
     bool CppExporter::isPrefixNamespace() const {
         return this->_prefixNamespace;
+    }
+
+    void CppExporter::setExportVariableName(bool exportVariableName) {
+        this->_exportVariableName = exportVariableName;
+    }
+
+    bool CppExporter::exportVariableName() const {
+        return this->_exportVariableName;
     }
 
     std::string CppExporter::toString(const Engine* engine) const {
@@ -70,12 +78,17 @@ namespace fl {
     }
 
     std::string CppExporter::toString(const InputVariable* inputVariable, const Engine* engine) const {
-        std::string name = "inputVariable";
-        if (engine->numberOfInputVariables() > 1) {
-            std::size_t index = std::distance(engine->inputVariables().begin(),
-                    std::find(engine->inputVariables().begin(),
-                    engine->inputVariables().end(), inputVariable));
-            name += Op::str(index + 1);
+        std::string name;
+        if (exportVariableName()) {
+            name = fl::Op::validName(inputVariable->getName());
+        } else {
+            name = "inputVariable";
+            if (engine->numberOfInputVariables() > 1) {
+                std::size_t index = std::distance(engine->inputVariables().begin(),
+                        std::find(engine->inputVariables().begin(),
+                        engine->inputVariables().end(), inputVariable));
+                name += Op::str(index + 1);
+            }
         }
         std::ostringstream ss;
         ss << fl("InputVariable* ") << name << " = new " << fl("InputVariable;\n");
@@ -93,12 +106,17 @@ namespace fl {
     }
 
     std::string CppExporter::toString(const OutputVariable* outputVariable, const Engine* engine) const {
-        std::string name = "outputVariable";
-        if (engine->numberOfOutputVariables() > 1) {
-            std::size_t index = std::distance(engine->outputVariables().begin(),
-                    std::find(engine->outputVariables().begin(),
-                    engine->outputVariables().end(), outputVariable));
-            name += Op::str(index + 1);
+        std::string name;
+        if (exportVariableName()) {
+            name = fl::Op::validName(outputVariable->getName());
+        } else {
+            name = "outputVariable";
+            if (engine->numberOfOutputVariables() > 1) {
+                std::size_t index = std::distance(engine->outputVariables().begin(),
+                        std::find(engine->outputVariables().begin(),
+                        engine->outputVariables().end(), outputVariable));
+                name += Op::str(index + 1);
+            }
         }
         std::ostringstream ss;
         ss << fl("OutputVariable* ") << name << " = new " << fl("OutputVariable;\n");
