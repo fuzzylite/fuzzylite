@@ -24,7 +24,7 @@ before_install:
 script:
   #cmake 
   - mkdir -p $HOME/cmake
-  - wget http://www.cmake.org/files/v3.1/cmake-3.1.3-Linux-x86_64.tar.gz
+  - wget http://www.cmake.org/files/v3.1/cmake-3.1.3-Linux-x86_64.tar.gz --no-check-certificate
   - tar -xzf cmake-3.1.3-Linux-x86_64.tar.gz
   - export CMAKE_CMD=`pwd`/cmake-3.1.3-Linux-x86_64/bin/cmake
   #fuzzylite
