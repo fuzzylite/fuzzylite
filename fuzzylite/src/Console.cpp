@@ -342,6 +342,10 @@ namespace fl {
 
             ch = readCharacter();
 
+            if (ch == EOF) {
+                break;
+            }
+
             if (std::isspace(ch)) {
                 scalar value = engine->getInputVariable(inputValues.size())->getValue();
                 try {
@@ -415,7 +419,7 @@ namespace fl {
                     inputValue.str("");
                     break;
             }
-        } while (not (ch == 'Q' or ch == 'q'));
+        } while (not (ch == 'Q' or ch == 'q' or ch == 4));
         writer << std::endl;
     }
 
