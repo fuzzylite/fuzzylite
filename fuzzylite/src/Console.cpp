@@ -527,11 +527,11 @@ namespace fl {
     }
 
     void Console::exportAllExamples(const std::string& from, const std::string& to) {
-        Console::exportAllExamples(from, to, ".", "/tmp/");
+        Console::exportAllExamples(from, to, "./", "/tmp/");
     }
 
     void Console::exportAllExamples(const std::string& from, const std::string& to,
-            const std::string& examplesPath, const std::string& outputPath) {
+            const std::string& sourcePath, const std::string& targetPath) {
         std::vector<std::string> examples;
         examples.push_back("mamdani/AllTerms");
         //examples.push_back("mamdani/Laundry");
@@ -568,8 +568,6 @@ namespace fl {
         examples.push_back("takagi-sugeno/octave/sugeno_tip_calculator");
         examples.push_back("tsukamoto/tsukamoto");
 
-        std::string sourceBase = examplesPath + "/";
-
         FL_unique_ptr<Importer> importer;
         if (from == "fll") importer.reset(new FllImporter);
         else if (from == "fis") importer.reset(new FisImporter);
@@ -590,9 +588,10 @@ namespace fl {
         tests.push_back(std::pair<Exporter*, Importer*>(new FisExporter, new FisImporter));
         tests.push_back(std::pair<Exporter*, Importer*>(new FclExporter, new FclImporter));
         for (std::size_t i = 0; i < examples.size(); ++i) {
-            FL_LOG("Processing " << (i + 1) << "/" << examples.size() << ": " << examples.at(i));
+            FL_LOG((i + 1) << "/" << examples.size());
+            FL_LOG("Importing from: " << sourcePath << "/" << examples.at(i) << "." << from);
             std::ostringstream ss;
-            std::string input = sourceBase + examples.at(i) + "." + from;
+            std::string input = sourcePath + "/" + examples.at(i) + "." + from;
             std::ifstream source(input.c_str());
             if (source.is_open()) {
                 std::string line;
@@ -622,9 +621,9 @@ namespace fl {
                 }
             }
 
-            std::string output = outputPath + "/" + fl::Op::findReplace(examples.at(i), "/", "-") + "." + to;
-            FL_LOG("Exporting to: " << output);
+            std::string output = targetPath + "/" + examples.at(i) + "." + to;
             std::ofstream target(output.c_str());
+            FL_LOG("Exporting to: " << output << "\n");
             if (target.is_open()) {
                 if (to == "cpp") {
                     target << "#include <fl/Headers.h>\n\n"
@@ -658,6 +657,10 @@ namespace fl {
             Engine assignmentOperator = *engine.get();
             (void) assignmentOperator;
         }
+        FL_LOG("Please, make sure the output contains the following structure:\n"
+                "mkdir -p mamdani/matlab; mkdir -p mamdani/octave; "
+                "mkdir -p takagi-sugeno/matlab; mkdir -p takagi-sugeno/octave; "
+                "mkdir -p tsukamoto/");
         for (std::size_t i = 0; i < tests.size(); ++i) {
             delete tests.at(i).first;
             delete tests.at(i).second;
@@ -768,8 +771,8 @@ namespace fl {
             if (argc > 3) {
                 outputPath = std::string(argv[3]);
             }
-            FL_LOG("Path=" << path);
-            FL_LOG("OutputPath=" << outputPath);
+            FL_LOG("Origin=" << path);
+            FL_LOG("Target=" << outputPath);
             fuzzylite::setDecimals(3);
             FL_LOG("Processing fll->fll");
             exportAllExamples("fll", "fll", path, outputPath);
@@ -785,8 +788,8 @@ namespace fl {
             fuzzylite::setMachEps(1e-6);
             FL_LOG("Processing fll->fld");
             exportAllExamples("fll", "fld", path, outputPath);
-            FL_LOG("Path=" << path);
-            FL_LOG("OutputPath=" << outputPath);
+            FL_LOG("Origin=" << path);
+            FL_LOG("Target=" << outputPath);
             return EXIT_SUCCESS;
         } else if (firstArgument == "benchmarks") {
 #ifdef FL_CPP11
