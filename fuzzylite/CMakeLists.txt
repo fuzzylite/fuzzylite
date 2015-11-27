@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(fuzzylite CXX)
 
+
 if (APPLE)
 	cmake_policy(SET CMP0042 NEW)
 endif()
@@ -152,6 +153,9 @@ if(FL_BUILD_BINARY)
 endif(FL_BUILD_BINARY)
 
 if(FL_BUILD_TESTS)
+    if (NOT FL_CPP11)
+        add_definitions(-DCATCH_CONFIG_NO_CPP11)
+    endif()
     add_executable(fl-test ${fl-tests})
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
@@ -159,9 +163,10 @@ if(FL_BUILD_TESTS)
 
     set_target_properties(fl-test PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
     target_link_libraries(fl-test fl-shared ${FL_LIBS})
-
+    
     enable_testing()
     add_test(NAME RunTests COMMAND fl-test)
+#    add_test(NAME ListTests COMMAND fl-test --list-tests) 
 #    add_test(NAME ListTests COMMAND fl-test --list-tests)
 #    set_tests_properties(ListTests PROPERTIES PASS_REGULAR_EXPRESSION "[0-9]+ test case")
 
