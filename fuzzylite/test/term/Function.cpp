@@ -30,18 +30,22 @@ namespace fl {
         Function f;
         std::string text = "3+4*2/(1-5)^2^3";
         CHECK(f.toPostfix(text) == "3 4 2 * 1 5 - 2 3 ^ ^ / +");
-        CHECK(f.parseInfix(text)->toInfix() == "3.000 ^ 2.000 ^ 5.000 - 1.000 / 2.000 * 4.000 + 3.000");
-        CHECK(f.parseInfix(text)->toPrefix() == "+ / ^ ^ 3.000 2.000 - 5.000 1.000 * 2.000 4.000 3.000");
+        CHECK(f.parse(text)->toInfix() == "3.000 ^ 2.000 ^ 5.000 - 1.000 / 2.000 * 4.000 + 3.000");
+        CHECK(f.parse(text)->toPrefix() == "+ / ^ ^ 3.000 2.000 - 5.000 1.000 * 2.000 4.000 3.000");
     }
 
     TEST_CASE("function parses basic trigonometry", "[term][function]") {
         Function f;
         std::string text = "sin(y*x)^2/x";
+
+        CHECK_THROWS(f.load(text));
+        
         f.variables["y"] = 1.0;
         f.load(text);
+        
         CHECK(f.toPostfix(text) == "y x * sin 2 ^ x /");
-        CHECK(f.parseInfix(text)->toInfix() == "x / 2.000 ^ x * y sin");
-        CHECK(f.parseInfix(text)->toPrefix() == "/ x ^ 2.000 sin * x y");
+        CHECK(f.parse(text)->toInfix() == "x / 2.000 ^ x * y sin");
+        CHECK(f.parse(text)->toPrefix() == "/ x ^ 2.000 sin * x y");
     }
 
     TEST_CASE("function parses propositions", "[term][function]") {
@@ -57,22 +61,24 @@ namespace fl {
     TEST_CASE("function cannot deal with negative numbers", "[term][function]") {
         Function f;
         std::string text = "-5 *4/sin(-pi/2)";
-
+        
         SECTION("function throws exception") {
-            CHECK_THROWS(f.parseInfix(text)->evaluate());
+            CHECK_THROWS(f.parse(text)->evaluate());
         }
-
+        
         f.variables["pi"] = 3.14;
-
-        CHECK_THROWS(f.parseInfix(text)->evaluate(&f.variables));
+        CHECK_THROWS(f.parse(text)->evaluate(&f.variables));
 
         text = "~5 *4/sin(~pi/2)";
-        CHECK(f.parseInfix(text)->evaluate(&f.variables) == Approx(20));
-
+        CHECK(f.parse(text)->evaluate(&f.variables) == Approx(20));
+        
         f.load(text);
+        
+        f.variables["pi"] = 3.14;
+        
         CHECK(f.toPostfix(text) == "5 ~ 4 * pi ~ 2 / sin /");
-        CHECK(f.parseInfix(text)->toInfix() == "2.000 / pi ~ sin / 4.000 * 5.000 ~");
-        CHECK(f.parseInfix(text)->toPrefix() == "/ sin / 2.000 ~ pi * 4.000 ~ 5.000");
+        CHECK(f.parse(text)->toInfix() == "2.000 / pi ~ sin / 4.000 * 5.000 ~");
+        CHECK(f.parse(text)->toPrefix() == "/ sin / 2.000 ~ pi * 4.000 ~ 5.000");
     }
 
 }

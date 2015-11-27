@@ -41,7 +41,7 @@ goto:eof
 	
 	if not exist debug mkdir debug
 	cd debug
-	cmake .. -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON -DFL_USE_FLOAT=OFF -DFL_CPP11=OFF
+	cmake .. -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON -DFL_USE_FLOAT=OFF -DFL_CPP11=OFF -DFL_BUILD_TESTS=ON
 	nmake
 	cd ..
 	
@@ -58,7 +58,7 @@ goto:eof
 	
 	if not exist release mkdir release
 	cd release
-	cmake .. -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DFL_BACKTRACE=OFF -DFL_USE_FLOAT=OFF -DFL_CPP11=OFF
+	cmake .. -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DFL_BACKTRACE=OFF -DFL_USE_FLOAT=OFF -DFL_CPP11=OFF -DFL_BUILD_TESTS=ON
 	nmake
 	cd ..
 	

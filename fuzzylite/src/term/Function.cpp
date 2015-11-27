@@ -331,7 +331,6 @@ namespace fl {
 
     void Function::load(const std::string& formula,
             const Engine* engine) {
-        unload();
         this->_formula = formula;
         this->_engine = engine;
         this->_root.reset(parse(formula));
@@ -483,20 +482,8 @@ namespace fl {
             queue.pop();
             if (not queue.empty()) ssPostfix << " ";
         }
-        //        FL_DBG("postfix=" << ssPostfix.str());
         return ssPostfix.str();
     }
-
-    //    bool FunctionFactory::isOperand(const std::string& name) const {
-    //        //An operand is not a parenthesis...
-    //        if (name == "(" or name == ")" or name == ",") return false;
-    //        //nor an operator...
-    //        if (isOperator(name)) return false;
-    //        //nor a function...
-    //        if (isFunction(name)) return false;
-    //        //...it is everything else :)
-    //        return true;
-    //    }
 
     Function::Node* Function::parse(const std::string& formula) {
         if (formula.empty())
