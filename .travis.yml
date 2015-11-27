@@ -33,15 +33,13 @@ script:
   - mkdir -p release
   - cd release
   - $CMAKE_CMD .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DFL_BACKTRACE=ON -DFL_USE_FLOAT=$FL_USE_FLOAT -DFL_CPP11=$FL_CPP11 -DFL_BUILD_TESTS=ON
-  - make
-  - ./bin/fuzzylite-tests
+  - make all test
   - cd ..
   #debug
   - mkdir -p debug
   - cd debug
   - $CMAKE_CMD .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON -DFL_USE_FLOAT=$FL_USE_FLOAT -DFL_CPP11=$FL_CPP11 -DFL_BUILD_TESTS=ON
-  - make
-  - ./bin/fuzzylite-tests-debug
+  - make all test
 
 matrix:
   exclude:
