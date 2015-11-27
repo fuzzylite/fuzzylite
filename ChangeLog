@@ -17,6 +17,18 @@ Version 6.0
 * Renamed RuleBlock::activation operator to RuleBlock::implication
 * Renamed Activated::activation operator to Activated::implication
 * Updated [Fll|Cpp|Java][Import|Export] to refer to implication instead of activation
+* Privatized members of Terms, Variables, Rules, Defuzzifiers, Factories, ImEx, and others
+* Updated .travis.yaml to use the new Linux configuration
+* Fixed bug in CloningFactory on deregisterObject. Bug: Object deleted before removing from map. Solution: Remove from map before deletion.
+* Fixed bug in RuleBlock in copyFrom affecting copy constructors. Bug: Missing reset and clone for Activation method.
+* Added override identifiers to hedge Extremely
+* Added source and target folder to console method to export examples
+* Added option in [Java|Cpp]Exporter to export variable names instead of generic names
+* Updated examples to reflect variable names instead of generic names
+* Added option on FuzzyLite Interactive Console to exit with ^D
+* IMPORTANT: Fixed bug in Function term. Problem: given formula = "tan(y)" and map["y"] = 1.0 and Function::load(formula), then the map of variables is reset, causing non-registered variable `y`. Solution: Removed method `unload()` from `load()`, thereby causing future `load()` not to reset variables
+* Added a few unit tests and support for future unit tests to be built with fuzzylite regularly and be successfully run on Travis
+
 
 Version 5.1
 * Updated `JavaExporter` to remove boolean from exported `Function.create(String name, String formula, Engine engine, boolean)`
