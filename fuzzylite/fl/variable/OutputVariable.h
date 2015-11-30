@@ -37,7 +37,7 @@ namespace fl {
     public:
         explicit OutputVariable(const std::string& name = "",
                 scalar minimum = -fl::inf, scalar maximum = fl::inf);
-        OutputVariable(const OutputVariable& other);
+        explicit OutputVariable(const OutputVariable& other);
         OutputVariable& operator=(const OutputVariable& other);
         virtual ~OutputVariable() FL_IOVERRIDE;
         FL_DEFAULT_MOVE(OutputVariable)

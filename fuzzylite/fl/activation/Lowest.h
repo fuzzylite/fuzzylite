@@ -27,7 +27,7 @@ namespace fl {
     private:
         int _activatedRules;
     public:
-        Lowest(int numberOfRules = 1);
+        explicit Lowest(int numberOfRules = 1);
         virtual ~Lowest();
         FL_DEFAULT_COPY_AND_MOVE(Lowest)
 

@@ -43,7 +43,7 @@ namespace fl {
         explicit Variable(const std::string& name = "",
                 scalar minimum = -fl::inf,
                 scalar maximum = fl::inf);
-        Variable(const Variable& other);
+        explicit Variable(const Variable& other);
         Variable& operator=(const Variable& other);
         virtual ~Variable();
         FL_DEFAULT_MOVE(Variable)

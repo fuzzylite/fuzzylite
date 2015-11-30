@@ -28,7 +28,7 @@ namespace fl {
     private:
         int _activatedRules;
     public:
-        Highest(int numberOfRules = 1);
+        explicit Highest(int numberOfRules = 1);
         virtual ~Highest();
         FL_DEFAULT_COPY_AND_MOVE(Highest)
 
