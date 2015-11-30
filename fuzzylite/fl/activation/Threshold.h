@@ -36,7 +36,7 @@ namespace fl {
         Comparison _comparison;
         scalar _threshold;
     public:
-        Threshold(Comparison comparison = GreaterThan, scalar threshold = 0.0);
+        explicit Threshold(Comparison comparison = GreaterThan, scalar threshold = 0.0);
         virtual ~Threshold();
         FL_DEFAULT_COPY_AND_MOVE(Threshold)
 
