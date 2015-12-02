@@ -1,144 +1,140 @@
 language: cpp
 
-os:
-  - linux
-  - osx
+sudo: false
 
+git:
+  depth: 1
+
+cache:
+  - apt
+  - directories:
+      - $HOME/cmake
+addons:
+  apt:
+    sources: 
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise-3.6
+    packages: 
+      - ['g++-5', 'g++-4.9', 'g++-4.8']
+      - ['clang-3.6']
+      #cannot install more than one clang.
 before_install:
-
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; 
-    then
-        sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test;
-        sudo add-apt-repository --yes ppa:h-rayflood/llvm;
-        sudo add-apt-repository --yes ppa:andykimpe/cmake;
-        sudo apt-get update -qq;
-        sudo apt-get install -qq cmake;
-        sudo apt-get install -qq $SUPPORT;
-        sudo apt-get install -qq $PACKAGE;
-    fi
-
-  #setup compiler
-  - export CC=${REAL_CC} CXX=${REAL_CXX}
+  - export CC=$EXPORT_CC CXX=$EXPORT_CXX
 
 script:
+  #cmake 
+  - mkdir -p $HOME/cmake
+  - wget http://www.cmake.org/files/v3.1/cmake-3.1.3-Linux-x86_64.tar.gz --no-check-certificate
+  - tar -xzf cmake-3.1.3-Linux-x86_64.tar.gz
+  - export CMAKE_CMD=`pwd`/cmake-3.1.3-Linux-x86_64/bin/cmake
+  #fuzzylite
+  #release
   - cd fuzzylite
-  - mkdir -p $FL_CONF
-  - cd $FL_CONF
-  - cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$FL_CONF -DFL_BACKTRACE=ON -DFL_USE_FLOAT=$FL_USE_FLOAT -DFL_CPP11=$FL_CPP11
-  - make
-
-env:
-  - ignore=this
+  - mkdir -p release
+  - cd release
+  - $CMAKE_CMD .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DFL_BACKTRACE=ON -DFL_USE_FLOAT=$FL_USE_FLOAT -DFL_CPP11=$FL_CPP11
+  - make all
+  - cd ..
+  #debug
+  - mkdir -p debug
+  - cd debug
+  - $CMAKE_CMD .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON -DFL_USE_FLOAT=$FL_USE_FLOAT -DFL_CPP11=$FL_CPP11
+  - make all
 
 matrix:
   exclude:
     - env: ignore=this
+
   include:
-#clang-3.2
-##Debug
-    - compiler: clang
-      env: REAL_CC=clang-3.2 REAL_CXX=clang++-3.2 PACKAGE=clang-3.2 SUPPORT=g++-4.8 FL_CONF=Debug FL_USE_FLOAT=OFF FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=clang-3.2 REAL_CXX=clang++-3.2 PACKAGE=clang-3.2 SUPPORT=g++-4.8 FL_CONF=Debug FL_USE_FLOAT=ON FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=clang-3.2 REAL_CXX=clang++-3.2 PACKAGE=clang-3.2 SUPPORT=g++-4.8 FL_CONF=Debug FL_USE_FLOAT=OFF FL_CPP11=ON
-    - compiler: clang
-      env: REAL_CC=clang-3.2 REAL_CXX=clang++-3.2 PACKAGE=clang-3.2 SUPPORT=g++-4.8 FL_CONF=Debug FL_USE_FLOAT=ON FL_CPP11=ON
-##Release
-    - compiler: clang
-      env: REAL_CC=clang-3.2 REAL_CXX=clang++-3.2 PACKAGE=clang-3.2 SUPPORT=g++-4.8 FL_CONF=Release FL_USE_FLOAT=OFF FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=clang-3.2 REAL_CXX=clang++-3.2 PACKAGE=clang-3.2 SUPPORT=g++-4.8 FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=clang-3.2 REAL_CXX=clang++-3.2 PACKAGE=clang-3.2 SUPPORT=g++-4.8 FL_CONF=Release FL_USE_FLOAT=OFF FL_CPP11=ON
-    - compiler: clang
-      env: REAL_CC=clang-3.2 REAL_CXX=clang++-3.2 PACKAGE=clang-3.2 SUPPORT=g++-4.8 FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=ON
 
-#clang-3.3
-##Debug
-    - compiler: clang
-      env: REAL_CC=clang-3.3 REAL_CXX=clang++-3.3 PACKAGE=clang-3.3 SUPPORT=g++-4.8 FL_CONF=Debug FL_USE_FLOAT=OFF FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=clang-3.3 REAL_CXX=clang++-3.3 PACKAGE=clang-3.3 SUPPORT=g++-4.8 FL_CONF=Debug FL_USE_FLOAT=ON FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=clang-3.3 REAL_CXX=clang++-3.3 PACKAGE=clang-3.3 SUPPORT=g++-4.8 FL_CONF=Debug FL_USE_FLOAT=OFF FL_CPP11=ON
-    - compiler: clang
-      env: REAL_CC=clang-3.3 REAL_CXX=clang++-3.3 PACKAGE=clang-3.3 SUPPORT=g++-4.8 FL_CONF=Debug FL_USE_FLOAT=ON FL_CPP11=ON
-##Release
-    - compiler: clang
-      env: REAL_CC=clang-3.3 REAL_CXX=clang++-3.3 PACKAGE=clang-3.3 SUPPORT=g++-4.8 FL_CONF=Release FL_USE_FLOAT=OFF FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=clang-3.3 REAL_CXX=clang++-3.3 PACKAGE=clang-3.3 SUPPORT=g++-4.8 FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=clang-3.3 REAL_CXX=clang++-3.3 PACKAGE=clang-3.3 SUPPORT=g++-4.8 FL_CONF=Release FL_USE_FLOAT=OFF FL_CPP11=ON
-    - compiler: clang
-      env: REAL_CC=clang-3.3 REAL_CXX=clang++-3.3 PACKAGE=clang-3.3 SUPPORT=g++-4.8 FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=ON
+##clang-3.7
+    #- os: linux
+      #compiler: clang
+      #env: EXPORT_CXX=clang++-3.7 FL_CPP11=OFF FL_USE_FLOAT=OFF
+    #- os: linux
+      #compiler: clang
+      #env: EXPORT_CXX=clang++-3.7 FL_CPP11=OFF FL_USE_FLOAT=ON
+    #- os: linux
+      #compiler: clang
+      #env: EXPORT_CXX=clang++-3.7 FL_CPP11=ON FL_USE_FLOAT=OFF
+    #- os: linux
+      #compiler: clang
+      #env: EXPORT_CXX=clang++-3.7 FL_CPP11=ON FL_USE_FLOAT=ON
 
-#clang-3.4
-##Debug
-    - compiler: clang
-      env: REAL_CC=clang-3.4 REAL_CXX=clang++-3.4 PACKAGE=clang-3.4 SUPPORT=g++-4.8 FL_CONF=Debug FL_USE_FLOAT=OFF FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=clang-3.4 REAL_CXX=clang++-3.4 PACKAGE=clang-3.4 SUPPORT=g++-4.8 FL_CONF=Debug FL_USE_FLOAT=ON FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=clang-3.4 REAL_CXX=clang++-3.4 PACKAGE=clang-3.4 SUPPORT=g++-4.8 FL_CONF=Debug FL_USE_FLOAT=OFF FL_CPP11=ON
-    - compiler: clang
-      env: REAL_CC=clang-3.4 REAL_CXX=clang++-3.4 PACKAGE=clang-3.4 SUPPORT=g++-4.8 FL_CONF=Debug FL_USE_FLOAT=ON FL_CPP11=ON
-##Release
-    - compiler: clang
-      env: REAL_CC=clang-3.4 REAL_CXX=clang++-3.4 PACKAGE=clang-3.4 SUPPORT=g++-4.8 FL_CONF=Release FL_USE_FLOAT=OFF FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=clang-3.4 REAL_CXX=clang++-3.4 PACKAGE=clang-3.4 SUPPORT=g++-4.8 FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=clang-3.4 REAL_CXX=clang++-3.4 PACKAGE=clang-3.4 SUPPORT=g++-4.8 FL_CONF=Release FL_USE_FLOAT=OFF FL_CPP11=ON
-    - compiler: clang
-      env: REAL_CC=clang-3.4 REAL_CXX=clang++-3.4 PACKAGE=clang-3.4 SUPPORT=g++-4.8 FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=ON
+#clang-3.6
+    - os: linux
+      compiler: clang
+      env: EXPORT_CXX=clang++-3.6 FL_CPP11=OFF FL_USE_FLOAT=OFF
+    - os: linux
+      compiler: clang
+      env: EXPORT_CXX=clang++-3.6 FL_CPP11=OFF FL_USE_FLOAT=ON
+    - os: linux
+      compiler: clang
+      env: EXPORT_CXX=clang++-3.6 FL_CPP11=ON FL_USE_FLOAT=OFF
+    - os: linux
+      compiler: clang
+      env: EXPORT_CXX=clang++-3.6 FL_CPP11=ON FL_USE_FLOAT=ON
+
+##clang-3.5
+    #- os: linux
+      #compiler: clang
+      #env: EXPORT_CXX=clang++-3.5 FL_CPP11=OFF FL_USE_FLOAT=OFF
+    #- os: linux
+      #compiler: clang
+      #env: EXPORT_CXX=clang++-3.5 FL_CPP11=OFF FL_USE_FLOAT=ON
+    #- os: linux
+      #compiler: clang
+      #env: EXPORT_CXX=clang++-3.5 FL_CPP11=ON FL_USE_FLOAT=OFF
+    #- os: linux
+      #compiler: clang
+      #env: EXPORT_CXX=clang++-3.5 FL_CPP11=ON FL_USE_FLOAT=ON
 
 
-#gcc-4.7
-##Debug
-    - compiler: clang
-      env: REAL_CC=gcc-4.7   REAL_CXX=g++-4.7     PACKAGE=g++-4.7   SUPPORT=    FL_CONF=Debug FL_USE_FLOAT=OFF FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=gcc-4.7   REAL_CXX=g++-4.7     PACKAGE=g++-4.7   SUPPORT=    FL_CONF=Debug FL_USE_FLOAT=ON FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=gcc-4.7   REAL_CXX=g++-4.7     PACKAGE=g++-4.7   SUPPORT=    FL_CONF=Debug FL_USE_FLOAT=OFF FL_CPP11=ON
-    - compiler: clang
-      env: REAL_CC=gcc-4.7   REAL_CXX=g++-4.7     PACKAGE=g++-4.7   SUPPORT=    FL_CONF=Debug FL_USE_FLOAT=ON FL_CPP11=ON
-##Release
-    - compiler: clang
-      env: REAL_CC=gcc-4.7   REAL_CXX=g++-4.7     PACKAGE=g++-4.7   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=OFF FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=gcc-4.7   REAL_CXX=g++-4.7     PACKAGE=g++-4.7   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=gcc-4.7   REAL_CXX=g++-4.7     PACKAGE=g++-4.7   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=OFF FL_CPP11=ON
-    - compiler: clang
-      env: REAL_CC=gcc-4.7   REAL_CXX=g++-4.7     PACKAGE=g++-4.7   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=ON
+#g++-5
+    - os: linux
+      compiler: g++
+      env: EXPORT_CXX=g++-5 FL_CPP11=OFF FL_USE_FLOAT=OFF
+    - os: linux
+      compiler: g++
+      env: EXPORT_CXX=g++-5 FL_CPP11=OFF FL_USE_FLOAT=ON 
+    - os: linux
+      compiler: g++
+      env: EXPORT_CXX=g++-5 FL_CPP11=ON FL_USE_FLOAT=OFF
+    - os: linux
+      compiler: g++
+      env: EXPORT_CXX=g++-5 FL_CPP11=ON FL_USE_FLOAT=ON 
 
-#gcc-4.8
-##Debug
-    - compiler: clang
-      env: REAL_CC=gcc-4.8   REAL_CXX=g++-4.8     PACKAGE=g++-4.8   SUPPORT=    FL_CONF=Debug FL_USE_FLOAT=OFF FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=gcc-4.8   REAL_CXX=g++-4.8     PACKAGE=g++-4.8   SUPPORT=    FL_CONF=Debug FL_USE_FLOAT=ON FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=gcc-4.8   REAL_CXX=g++-4.8     PACKAGE=g++-4.8   SUPPORT=    FL_CONF=Debug FL_USE_FLOAT=OFF FL_CPP11=ON
-    - compiler: clang
-      env: REAL_CC=gcc-4.8   REAL_CXX=g++-4.8     PACKAGE=g++-4.8   SUPPORT=    FL_CONF=Debug FL_USE_FLOAT=ON FL_CPP11=ON
-##Release
-    - compiler: clang
-      env: REAL_CC=gcc-4.8   REAL_CXX=g++-4.8     PACKAGE=g++-4.8   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=OFF FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=gcc-4.8   REAL_CXX=g++-4.8     PACKAGE=g++-4.8   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=OFF
-    - compiler: clang
-      env: REAL_CC=gcc-4.8   REAL_CXX=g++-4.8     PACKAGE=g++-4.8   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=OFF FL_CPP11=ON
-    - compiler: clang
-      env: REAL_CC=gcc-4.8   REAL_CXX=g++-4.8     PACKAGE=g++-4.8   SUPPORT=    FL_CONF=Release FL_USE_FLOAT=ON FL_CPP11=ON
+#g++-4.9
+    - os: linux
+      compiler: g++
+      env: EXPORT_CXX=g++-4.9 FL_CPP11=OFF FL_USE_FLOAT=OFF
+    - os: linux
+      compiler: g++
+      env: EXPORT_CXX=g++-4.9 FL_CPP11=OFF FL_USE_FLOAT=ON
+    - os: linux
+      compiler: g++
+      env: EXPORT_CXX=g++-4.9 FL_CPP11=ON FL_USE_FLOAT=OFF
+    - os: linux
+      compiler: g++
+      env: EXPORT_CXX=g++-4.9 FL_CPP11=ON FL_USE_FLOAT=ON
 
+#g++-4.8
+    - os: linux
+      compiler: g++
+      env: EXPORT_CXX=g++-4.8 FL_CPP11=OFF FL_USE_FLOAT=OFF 
+    - os: linux
+      compiler: g++
+      env: EXPORT_CXX=g++-4.8 FL_CPP11=OFF FL_USE_FLOAT=ON 
+    - os: linux
+      compiler: g++
+      env: EXPORT_CXX=g++-4.8 FL_CPP11=ON FL_USE_FLOAT=OFF 
+    - os: linux
+      compiler: g++
+      env: EXPORT_CXX=g++-4.8 FL_CPP11=ON FL_USE_FLOAT=ON
 
 notifications:
   email:
     recipients:
       - jcrada@fuzzylite.com
-    on_success: change
+    on_success: always
     on_failure: always

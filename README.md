@@ -6,7 +6,24 @@ A Fuzzy Logic Control Library in C++
 
 By: [Juan Rada-Vilela](http://www.fuzzylite.com/jcrada), Ph.D.
 
+Current version: 5.1
 
+Next version: 6.0 (in progress)
+
+*IMPORTANT (01/Dec/2015):*
+
+The branches in the repository have changed:
+
+- the new `release` branch is the default branch and points to version 5.1
+- the `develop` branch was merged into `master`
+- the `master` branch contains work in progress
+- the `develop` branch will be scheduled for deletion
+
+The reason behind the new structure is due to some unexpected merges from `develop` into `master`, dating a few months ago. 
+
+Please, excuse me for any inconveniences the new structure may cause.
+
+Cheers, Juan.
 
 ***
 
