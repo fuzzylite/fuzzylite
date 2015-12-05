@@ -27,8 +27,8 @@ namespace fl {
 
     scalar Seldom::hedge(scalar x) const {
         return Op::isLE(x, 0.5)
-                ? std::sqrt(x / 2.0)
-                : 1.0 - std::sqrt((1.0 - x) / 2.0);
+                ? std::sqrt(0.5 * x)
+                : 1.0 - std::sqrt(0.5 * (1.0 - x));
     }
 
     Seldom* Seldom::clone() const {

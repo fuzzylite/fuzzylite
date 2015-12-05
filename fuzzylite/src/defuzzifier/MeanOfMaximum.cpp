@@ -67,7 +67,7 @@ namespace fl {
             }
         }
 
-        return (xlargest + xsmallest) / 2.0;
+        return 0.5 * (xlargest + xsmallest);
     }
 
     MeanOfMaximum* MeanOfMaximum::clone() const {

@@ -35,9 +35,9 @@ namespace fl {
     scalar PiShape::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
         //from Octave smf.m
-        scalar a_b_ave = (_bottomLeft + _topLeft) / 2.0;
+        scalar a_b_ave = 0.5 * (_bottomLeft + _topLeft);
         scalar b_minus_a = _topLeft - _bottomLeft;
-        scalar c_d_ave = (_topRight + _bottomRight) / 2.0;
+        scalar c_d_ave = 0.5 * (_topRight + _bottomRight);
         scalar d_minus_c = _bottomRight - _topRight;
 
         if (Op::isLE(x, _bottomLeft)) return getHeight() * 0.0;

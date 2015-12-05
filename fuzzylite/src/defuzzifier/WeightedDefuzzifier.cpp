@@ -120,8 +120,8 @@ namespace fl {
 
         } else if (const SShape * sshape = dynamic_cast<const SShape*> (monotonic)) {
             scalar difference = sshape->getEnd() - sshape->getStart();
-            scalar a = sshape->getStart() + std::sqrt(w * difference * difference / 2.0);
-            scalar b = sshape->getEnd() + std::sqrt(difference * difference * (w - 1.0) / -2.0);
+            scalar a = sshape->getStart() + std::sqrt(0.5 * w * difference * difference);
+            scalar b = sshape->getEnd() + std::sqrt(-0.5 * (w - 1.0) * difference * difference);
             if (std::fabs(w - monotonic->membership(a)) <
                     std::fabs(w - monotonic->membership(b))) {
                 z = a;
@@ -131,8 +131,8 @@ namespace fl {
 
         } else if (const ZShape * zshape = dynamic_cast<const ZShape*> (monotonic)) {
             scalar difference = zshape->getEnd() - zshape->getStart();
-            scalar a = zshape->getStart() + std::sqrt(difference * difference * (w - 1.0) / -2.0);
-            scalar b = zshape->getEnd() + std::sqrt(w * difference * difference / 2.0);
+            scalar a = zshape->getStart() + std::sqrt(-0.5 * (w - 1.0) * difference * difference);
+            scalar b = zshape->getEnd() + std::sqrt(0.5 * w * difference * difference);
             if (std::fabs(w - monotonic->membership(a)) <
                     std::fabs(w - monotonic->membership(b))) {
                 z = a;

@@ -33,7 +33,7 @@ namespace fl {
     scalar ZShape::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
         //from Octave zmf.m
-        scalar average = (_start + _end) / 2;
+        scalar average = 0.5 * (_start + _end);
         scalar difference = _end - _start;
 
         if (Op::isLE(x, _start)) return getHeight() * 1.0;

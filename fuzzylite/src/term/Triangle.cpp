@@ -23,7 +23,7 @@ namespace fl {
     : Term(name, height), _vertexA(vertexA), _vertexB(vertexB), _vertexC(vertexC) {
         if (fl::Op::isNaN(vertexC)) {
             this->_vertexC = vertexB;
-            this->_vertexB = (vertexA + vertexB) / 2.0;
+            this->_vertexB = 0.5 * (vertexA + vertexB);
         }
     }
 
