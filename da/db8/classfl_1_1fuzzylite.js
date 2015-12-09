@@ -1,0 +1,26 @@
+var classfl_1_1fuzzylite =
+[
+    [ "author", "da/db8/classfl_1_1fuzzylite.html#ae8f6e0aed951cc6ef4c68552c5d06d01", null ],
+    [ "company", "da/db8/classfl_1_1fuzzylite.html#a7d945cc1e9191a1145851533d70d6751", null ],
+    [ "date", "da/db8/classfl_1_1fuzzylite.html#afa0ba27b381711eeacddca57528a8f2a", null ],
+    [ "debug", "da/db8/classfl_1_1fuzzylite.html#acc11720d9083d39764f702e1440c86bc", null ],
+    [ "decimals", "da/db8/classfl_1_1fuzzylite.html#a413462db8353bcfc225c81e3d58d80d2", null ],
+    [ "floatingPoint", "da/db8/classfl_1_1fuzzylite.html#a4a7dc56aa800d8f9a6dc6f90ae12b2fd", null ],
+    [ "fullname", "da/db8/classfl_1_1fuzzylite.html#ae55c358bbfedfa300f5c53d792d6e3c5", null ],
+    [ "license", "da/db8/classfl_1_1fuzzylite.html#a43754e0fab391983a28ec0544f89243b", null ],
+    [ "logging", "da/db8/classfl_1_1fuzzylite.html#a6ce4e62afae7cad92414676ff02d7f73", null ],
+    [ "longVersion", "da/db8/classfl_1_1fuzzylite.html#ae9da391776150e3184b328ef7766dafe", null ],
+    [ "macheps", "da/db8/classfl_1_1fuzzylite.html#af47c2c2c6e39399576891bd9ab96e1c0", null ],
+    [ "name", "da/db8/classfl_1_1fuzzylite.html#a12d9aa0f15be6a35812b3f25603859de", null ],
+    [ "platform", "da/db8/classfl_1_1fuzzylite.html#affef0d2ce2fedb6599053aa3219b442a", null ],
+    [ "setDebug", "da/db8/classfl_1_1fuzzylite.html#aa4e513f3f4abfb70a29dca558d57a70d", null ],
+    [ "setDecimals", "da/db8/classfl_1_1fuzzylite.html#a85ebdfcf9089e2686f05079fc45bba24", null ],
+    [ "setLogging", "da/db8/classfl_1_1fuzzylite.html#a4ef5f0fd26d6899a0f616a4ab20ca7a2", null ],
+    [ "setMachEps", "da/db8/classfl_1_1fuzzylite.html#a4500fef599bcafad8da98aa81a155970", null ],
+    [ "version", "da/db8/classfl_1_1fuzzylite.html#a58ee4a629a7b154bca990f16630cc3e5", null ],
+    [ "website", "da/db8/classfl_1_1fuzzylite.html#a5c3a5d1d3c975123fab5d5f63a227c50", null ],
+    [ "_debug", "da/db8/classfl_1_1fuzzylite.html#a4aaad0b03eebd83ccfb01a3ffb307d51", null ],
+    [ "_decimals", "da/db8/classfl_1_1fuzzylite.html#a1fe97fa6ede2cb612d3d75408cc77913", null ],
+    [ "_logging", "da/db8/classfl_1_1fuzzylite.html#ac45078e9cf4b2bd72550e39172bc6b4d", null ],
+    [ "_macheps", "da/db8/classfl_1_1fuzzylite.html#af7ac9d34e39f267de40ae3be3aae787c", null ]
+];

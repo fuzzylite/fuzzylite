@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>fuzzylite: fuzzylite&reg;</title>
+<title>fuzzylite: fuzzylite&reg; v6.0</title>
 <link rel="apple-touch-icon" sizes="57x57" href="apple-touch-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="apple-touch-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72x72.png">
@@ -47,9 +47,9 @@
     extensions: ["tex2jax.js", "TeX/AMSmath.js", "TeX/AMSsymbols.js"],
     jax: ["input/TeX","output/HTML-CSS"],
 });
-</script><script type="text/javascript" src="../MathJax/MathJax.js"></script>
+</script><script type="text/javascript" src="MathJax/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
-<link href="__stylesheet.css" rel="stylesheet" type="text/css"/>
+<link href="stylesheet.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -129,14 +129,22 @@ $(document).ready(function(){initNavTree('index.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">fuzzylite&reg; </div>  </div>
+<div class="title">fuzzylite&reg; v6.0 </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h2>A Fuzzy Logic Control Library in C++ </h2>
 <p>By <a href="http://www.fuzzylite.com/jcrada">Juan Rada-Vilela</a>, Ph.D.</p>
 <hr/>
 <h3>Table of Contents</h3>
-<p><a href="#license">License</a> &#160; <a href="#introduction">Introduction</a> &#160; <a href="#features">Features</a> &#160; <a href="#example">Example</a> &#160; <a href="#building">Bulding from source</a> &#160; <a href="#binaries">Binaries</a> &#160; <a href="#whatsnext">What's next</a> &#160; <a href="#whatsnew">What's new</a> : <a href="#new-general">General</a>, <a href="#new-macros">Macros</a>, <a href="#new-operation">Operation</a>, <a href="#new-engine">Engine</a>, <a href="#new-inoutvars">Input Variables and Output Variables</a>, <a href="#new-terms">Linguistic Terms</a>, <a href="#new-linear-discrete">Linear and Discrete Terms</a>, <a href="#new-function">Function Term</a>, <a href="#new-norms-hedges">[T|S]Norms and Hedges</a>, <a href="#new-rules">Rules</a>, <a href="#new-ruleblocks">Rule Blocks</a>, <a href="#new-weighted">Weighted Defuzzifiers</a>, <a href="#new-integral">Integral Defuzzifiers</a>, <a href="#new-imex">Importers and Exporters</a>, <a href="#new-examples">Examples</a>, <a href="#new-console">Console</a>, <a href="#new-fixes">Fixed Bugs and Leaks</a></p>
+<p><a href="#license">License</a><br />
+<a href="#introduction">Introduction</a><br />
+<a href="#features">Features</a><br />
+<a href="#example">Example</a><br />
+<a href="#building">Bulding from source</a><br />
+<a href="#binaries">Binaries</a><br />
+<a href="#whatsnew">What's new</a><br />
+<a href="#whatsnext">What's next</a><br />
+</p>
 <hr/>
 <h3><a class="anchor" id="license"></a>License</h3>
 <p><code>fuzzylite</code> will <b>always</b> be free and open source. However, <code>fuzzylite</code> is <b>no</b> longer released under the Apache License. Since version 5.0, <code>fuzzylite</code> is <b>dual-licensed</b> under the <a href="https://www.gnu.org/licenses/lgpl.html">**GNU Lesser General Public License (LGPL) v3.0**</a> and a <b>paid commercial license</b>.</p>
@@ -153,7 +161,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;@misc{fl::fuzzylite,</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;author={Juan Rada-Vilela},</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;title={fuzzylite: a fuzzy logic control library},</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;url={http://www.fuzzylite.com},</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;year={2014}}</div></div><!-- fragment --><hr/>
 <h3><a class="anchor" id="features"></a>Features</h3>
 <p><b>Controllers</b> <em>Types</em> (5) Mamdani, Takagi-Sugeno, Larsen, Tsukamoto, Inverse Tsukamoto</p>
-<p><b>Linguistic terms</b> <em>Basic</em> (4) triangle, trapezoid, rectangle, discrete. <em>Extended</em> (9) bell, cosine, gaussian, gaussian product, pi-shape, sigmoid difference, sigmoid product, spike. <em>Edges</em> (4) concave, ramp, sigmoid, s-shape, z-shape. <em>Functions</em> (3) constant, linear, function.</p>
+<p><b>Linguistic terms</b> <em>Basic</em> (4) Triangle, Trapezoid, Rectangle, Discrete. <em>Extended</em> (9) Bell, Cosine, Gaussian, Gaussian Product, Pi-shape, Sigmoid Difference, Sigmoid Product, Spike. <em>Edges</em> (4) Concave, Ramp, Sigmoid, S-shape, Z-shape. <em>Functions</em> (3) Constant, Linear, Function</p>
 <p><b>Conjunction and Activation</b> <em>T-Norm</em> (7) minimum, algebraic product, bounded difference, drastic product, einstein product, hamacher product, nilpotent minimum.</p>
 <p><b>Disjunction and Accumulation</b> <em>S-Norm</em> (8) maximum, algebraic sum, bounded sum, normalized sum, drastic sum, einstein sum, hamacher sum, nilpotent maximum.</p>
 <p><b>Defuzzifiers</b> <em>Integral</em> (5) centroid, bisector, smallest of maximum, largest of maximum, mean of maximum, <em>Weighted</em> (2) weighted average, weighted sum.</p>
@@ -164,17 +172,11 @@ $(document).ready(function(){initNavTree('index.html','');});
 <hr/>
 <h3><a class="anchor" id="example"></a>Example</h3>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="db/d5f/_headers_8h.html">fl/Headers.h</a>&quot;</span></div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* argv[]){</div><div class="line">    <span class="keyword">using namespace </span><a class="code" href="d4/d36/namespacefl.html">fl</a>;</div><div class="line">    <a class="code" href="d8/d6f/classfl_1_1_engine.html">Engine</a>* engine = <span class="keyword">new</span> <a class="code" href="d8/d6f/classfl_1_1_engine.html">Engine</a>(<span class="stringliteral">&quot;simple-dimmer&quot;</span>);</div><div class="line"></div><div class="line">    <a class="code" href="db/d6c/classfl_1_1_input_variable.html">InputVariable</a>* ambient = <span class="keyword">new</span> <a class="code" href="db/d6c/classfl_1_1_input_variable.html">InputVariable</a>;</div><div class="line">    ambient-&gt;<a class="code" href="d0/d27/classfl_1_1_variable.html#a4882b423862bb19cfc18f0d4a7f25dea">setName</a>(<span class="stringliteral">&quot;Ambient&quot;</span>);</div><div class="line">    ambient-&gt;<a class="code" href="d0/d27/classfl_1_1_variable.html#a69cb937d9149a50227a30ec1ec374eda">setRange</a>(0.000, 1.000);</div><div class="line">    ambient-&gt;<a class="code" href="d0/d27/classfl_1_1_variable.html#a3eb6520e28749c6c2830b0e6a4673293">addTerm</a>(<span class="keyword">new</span> <a class="code" href="d8/dc9/classfl_1_1_triangle.html">Triangle</a>(<span class="stringliteral">&quot;DARK&quot;</span>, 0.000, 0.500));</div><div class="line">    ambient-&gt;<a class="code" href="d0/d27/classfl_1_1_variable.html#a3eb6520e28749c6c2830b0e6a4673293">addTerm</a>(<span class="keyword">new</span> <a class="code" href="d8/dc9/classfl_1_1_triangle.html">Triangle</a>(<span class="stringliteral">&quot;MEDIUM&quot;</span>, 0.250, 0.750));</div><div class="line">    ambient-&gt;<a class="code" href="d0/d27/classfl_1_1_variable.html#a3eb6520e28749c6c2830b0e6a4673293">addTerm</a>(<span class="keyword">new</span> <a class="code" href="d8/dc9/classfl_1_1_triangle.html">Triangle</a>(<span class="stringliteral">&quot;BRIGHT&quot;</span>, 0.500, 1.000));</div><div class="line">    engine-&gt;<a class="code" href="d8/d6f/classfl_1_1_engine.html#abc5b76331c52448a714265471d76f0c0">addInputVariable</a>(ambient);</div><div class="line"></div><div class="line">    <a class="code" href="d1/db0/classfl_1_1_output_variable.html">OutputVariable</a>* power = <span class="keyword">new</span> <a class="code" href="d1/db0/classfl_1_1_output_variable.html">OutputVariable</a>;</div><div class="line">    power-&gt;<a class="code" href="d1/db0/classfl_1_1_output_variable.html#a361532bdb2a4393dee38719a2f142798">setName</a>(<span class="stringliteral">&quot;Power&quot;</span>);</div><div class="line">    power-&gt;<a class="code" href="d0/d27/classfl_1_1_variable.html#a69cb937d9149a50227a30ec1ec374eda">setRange</a>(0.000, 2.000);</div><div class="line">    power-&gt;<a class="code" href="d1/db0/classfl_1_1_output_variable.html#a933aafdeaf908ff7db98dae1898a2b81">setDefaultValue</a>(<a class="code" href="d4/d36/namespacefl.html#ac0141619ed9a08fb175cc92f134720e3">fl::nan</a>);</div><div class="line">    power-&gt;<a class="code" href="d0/d27/classfl_1_1_variable.html#a3eb6520e28749c6c2830b0e6a4673293">addTerm</a>(<span class="keyword">new</span> <a class="code" href="d8/dc9/classfl_1_1_triangle.html">Triangle</a>(<span class="stringliteral">&quot;LOW&quot;</span>, 0.000, 1.000));</div><div class="line">    power-&gt;<a class="code" href="d0/d27/classfl_1_1_variable.html#a3eb6520e28749c6c2830b0e6a4673293">addTerm</a>(<span class="keyword">new</span> <a class="code" href="d8/dc9/classfl_1_1_triangle.html">Triangle</a>(<span class="stringliteral">&quot;MEDIUM&quot;</span>, 0.500, 1.500));</div><div class="line">    power-&gt;<a class="code" href="d0/d27/classfl_1_1_variable.html#a3eb6520e28749c6c2830b0e6a4673293">addTerm</a>(<span class="keyword">new</span> <a class="code" href="d8/dc9/classfl_1_1_triangle.html">Triangle</a>(<span class="stringliteral">&quot;HIGH&quot;</span>, 1.000, 2.000));</div><div class="line">    engine-&gt;<a class="code" href="d8/d6f/classfl_1_1_engine.html#acdb82927c559b1171fd87eddb8dc7a8d">addOutputVariable</a>(power);</div><div class="line"></div><div class="line">    <a class="code" href="de/d32/classfl_1_1_rule_block.html">RuleBlock</a>* ruleblock = <span class="keyword">new</span> <a class="code" href="de/d32/classfl_1_1_rule_block.html">RuleBlock</a>;</div><div class="line">    ruleblock-&gt;<a class="code" href="de/d32/classfl_1_1_rule_block.html#a542203fc9a4468e4ab41c0e7e174e242">addRule</a>(<a class="code" href="d6/d93/classfl_1_1_rule.html#ad66af5f6b2c2b649e55b85011cf3145e">Rule::parse</a>(<span class="stringliteral">&quot;if Ambient is DARK then Power is HIGH&quot;</span>, engine));</div><div class="line">    ruleblock-&gt;<a class="code" href="de/d32/classfl_1_1_rule_block.html#a542203fc9a4468e4ab41c0e7e174e242">addRule</a>(<a class="code" href="d6/d93/classfl_1_1_rule.html#ad66af5f6b2c2b649e55b85011cf3145e">Rule::parse</a>(<span class="stringliteral">&quot;if Ambient is MEDIUM then Power is MEDIUM&quot;</span>, engine));</div><div class="line">    ruleblock-&gt;<a class="code" href="de/d32/classfl_1_1_rule_block.html#a542203fc9a4468e4ab41c0e7e174e242">addRule</a>(<a class="code" href="d6/d93/classfl_1_1_rule.html#ad66af5f6b2c2b649e55b85011cf3145e">Rule::parse</a>(<span class="stringliteral">&quot;if Ambient is BRIGHT then Power is LOW&quot;</span>, engine));</div><div class="line">    engine-&gt;<a class="code" href="d8/d6f/classfl_1_1_engine.html#a46609e8b2c74afa0f06a56f1cfaf6a5e">addRuleBlock</a>(ruleblock);</div><div class="line"></div><div class="line">    engine-&gt;<a class="code" href="d8/d6f/classfl_1_1_engine.html#a9d28df7601882f3205e7750d03ce9106">configure</a>(<span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;Minimum&quot;</span>, <span class="stringliteral">&quot;Maximum&quot;</span>, <span class="stringliteral">&quot;Centroid&quot;</span>);</div><div class="line"></div><div class="line">    std::string status;</div><div class="line">    <span class="keywordflow">if</span> (not engine-&gt;<a class="code" href="d8/d6f/classfl_1_1_engine.html#a94f83654f6ead61a5acefa80d7d3e42f">isReady</a>(&amp;status))</div><div class="line">        <span class="keywordflow">throw</span> <a class="code" href="de/d54/classfl_1_1_exception.html">Exception</a>(<span class="stringliteral">&quot;Engine not ready. &quot;</span></div><div class="line">            <span class="stringliteral">&quot;The following errors were encountered:\n&quot;</span> + status, <a class="code" href="de/d53/fuzzylite_8h.html#a79d6c0af9f3f337643496f2f81f5ba1d">FL_AT</a>);</div><div class="line"></div><div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 50; ++i){</div><div class="line">        <a class="code" href="d4/d36/namespacefl.html#a7c31a28fa2ed8960a0eb0a779744b689">scalar</a> light = ambient-&gt;<a class="code" href="d0/d27/classfl_1_1_variable.html#a3106da4d3732de97167ef0d6cd23cdb6">getMinimum</a>() + i * (ambient-&gt;<a class="code" href="d0/d27/classfl_1_1_variable.html#aaa4c472e3100678d599bcf344452a90a">range</a>() / 50);</div><div class="line">        ambient-&gt;setInputValue(light);</div><div class="line">        engine-&gt;<a class="code" href="d8/d6f/classfl_1_1_engine.html#ad7992ae1716608b69f9b70e3a77cc78c">process</a>();</div><div class="line">        <a class="code" href="de/d53/fuzzylite_8h.html#ac1b133a2f567fc5de2a07db84638138d">FL_LOG</a>(<span class="stringliteral">&quot;Ambient.input = &quot;</span> &lt;&lt; <a class="code" href="d3/da9/classfl_1_1_operation.html#a09b73495e05e845caace785f7ee2edd1">Op::str</a>(light) &lt;&lt; <span class="stringliteral">&quot; -&gt; &quot;</span> &lt;&lt;</div><div class="line">            <span class="stringliteral">&quot;Power.output = &quot;</span> &lt;&lt; <a class="code" href="d3/da9/classfl_1_1_operation.html#a09b73495e05e845caace785f7ee2edd1">Op::str</a>(power-&gt;getOutputValue()));</div><div class="line">    }</div><div class="line">}</div></div><!-- fragment --><hr/>
-<h3><a class="anchor" id="whatsnext"></a>What's Next?</h3>
-<ul>
-<li>Type-2 Fuzzy Logic Controllers</li>
-<li>Adaptive Neuro-Fuzzy Inference System (ANFIS)</li>
-<li>Fuzzy C-means data clustering</li>
-</ul>
-<hr/>
 <h3><a class="anchor" id="building"></a>Building from Source</h3>
 <p>Building from source requires you to have CMake installed.</p>
 <p>The files <a href="/fuzzylite/build.bat">`fuzzylite/build.bat`</a> and <a href="/fuzzylite/build.sh">`fuzzylite/build.sh`</a> are automatic build scripts for Windows and Unix platforms, respectively. The usage of these scripts is presented as follows.</p>
-<p>#### Windows </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;&gt; build.bat help</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;Usage:  build.bat [options]</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;where   [options] can be any of the following:</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    all          builds fuzzylite in debug and release mode (default)</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    debug        builds fuzzylite in debug mode</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    release      builds fuzzylite in release mode</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    clean        erases previous builds</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    help         shows this information</div></div><!-- fragment --><p>#### Unix </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;$ ./build.sh help</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;Usage:  [bash] ./build.sh [options]</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;where   [options] can be any of the following:</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    all          builds fuzzylite in debug and release mode (default)</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    debug        builds fuzzylite in debug mode</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    release      builds fuzzylite in release mode</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    clean        erases previous builds</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    help         shows this information</div></div><!-- fragment --><p>**(important)** After executing the building script, the binaries will be built and stored in the sub-folders <code>release/bin</code> and <code>debug/bin</code>.</p>
+<p><b>Windows</b></p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;&gt; build.bat help</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;Usage:  build.bat [options]</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;where   [options] can be any of the following:</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    all          builds fuzzylite in debug and release mode (default)</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    debug        builds fuzzylite in debug mode</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    release      builds fuzzylite in release mode</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    clean        erases previous builds</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    help         shows this information</div></div><!-- fragment --><p><b>Unix</b> </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;$ ./build.sh help</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;Usage:  [bash] ./build.sh [options]</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;where   [options] can be any of the following:</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    all          builds fuzzylite in debug and release mode (default)</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    debug        builds fuzzylite in debug mode</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    release      builds fuzzylite in release mode</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    clean        erases previous builds</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    help         shows this information</div></div><!-- fragment --><p>**(important)** After executing the building script, the binaries will be built and stored in the sub-folders <code>release/bin</code> and <code>debug/bin</code>.</p>
 <h4>Advanced Building Options</h4>
 <p>For more advanced building options, please check the contents of <a href="/fuzzylite/build.bat">`fuzzylite/build.bat`</a> or <a href="/fuzzylite/build.sh">`fuzzylite/build.sh`</a>, and the contents of <a href="/fuzzylite/CMakeLists.txt">`fuzzylite/CMakeLists.txt`</a>.</p>
 <p>The following building options are available:</p>
@@ -207,235 +209,12 @@ $(document).ready(function(){initNavTree('index.html','');});
 <hr/>
 <h3><a class="anchor" id="whatsnew"></a>What's New?</h3>
 <p>The entire <code>fuzzylite</code> library has been thoroughly revised, refactored, validated, and significantly improved. The following sections detail the changes and enhancements of version 5.0. Users of previous versions are <b>strongly</b> encouraged to carefully read the list before migrating to version 5.0. Important changes and enhancements are marked as **(important)**, **(VERY important)** and **(EXTREMELY important)**.</p>
-<h4><a class="anchor" id="new-general"></a>General</h4>
+<hr/>
+<h3><a class="anchor" id="whatsnext"></a>What's Next?</h3>
 <ul>
-<li>**(important)** <code>fuzzylite v5.0</code> is dual-licensed under the <a href="https://www.gnu.org/licenses/lgpl.html">GNU LGPL v3.0</a> and a paid commercial license.</li>
-<li>Support for both <code>C++98</code> and <code>C++11</code> using the latest features.</li>
-<li>Support for multiple compilers <code>g++</code>, <code>Clang</code>, <code>MSVC</code>.</li>
-<li>Refactoring of many classes to improve design and performance.</li>
-<li>**(important)** Performance improvements of Takagi-Sugeno controllers by over 55% with respect to v4.0 (estimate based on the average performance on the examples included).</li>
-<li>Smart pointers in many classes take care of automatically deleting objects when setting new pointers (<code>Accumulated</code>, <code>FactoryManager</code>, <code>Function</code>, <code>OutputVariable</code>, <code>Rule</code>, and <code>RuleBlock</code>).</li>
-<li>**(important)** Exceptions are thrown when any of the following <code>RuleBlock::[conjunction|disjunction|activation]</code>, <code>Accumulated::accumulation</code>, and <code>OutputVariable::defuzzifier</code> are required but set to <code><a class="el" href="d4/d36/namespacefl.html#a67dfd5c85516b1153017f7f8aac38a52" title="Represents the C++11 or C++98 null pointer depending on whether the compilation flag -DFL_CPP11 is se...">fl::null</a></code>, thereby replacing the operations that would lead to <code>[signal 11] Segmentation fault</code> to operations that throw a <code><a class="el" href="de/d54/classfl_1_1_exception.html" title="The Exception class is the only type of exception that is utilized throughout the library...">fl::Exception</a></code> instead.</li>
-<li>Automatic build script to build <code>fuzzylite</code> in <code>debug</code> and <code>release</code> mode.</li>
-<li>Binaries of debug libraries are renamed to append the letter <code>d</code> (e.g.,<code>fuzzylited.dll</code>, <code>libfuzzylited.so</code>).</li>
-<li>**(important)** New file <a href="/fuzzylite/src/m/compare.m">`fuzzylite/src/m/compare.m`</a> to compare the output values of your <code>fuzzylite</code> engines with the evaluation of the same engine in Octave/Matlab.</li>
-<li>**(important)** There is practically no difference between the output values obtained with <code>fuzzylite</code> and those obtained with Octave/Matlab. Based on the examples, the average mean square error (MSE) between the output values is less than <code>7.3e-12</code> (or <code>0.0000000000073</code>) due to negligible differences in floating-point arithmetic. The results and comparison can be found in <a href="/examples/examples.mat">`examples/examples.mat`</a>.</li>
-<li>**(important)** Source code of applications based on version 4.0 will most likely not compile with version 5.0.</li>
-<li>Minor bugs and memory leaks fixed.</li>
-</ul>
-<h4><a class="anchor" id="new-macros"></a>Macros</h4>
-<ul>
-<li>**(important)** Added support for <code>C++11</code> with smart pointers, method identifiers, move constructors and move operators as follows. For precise information, refer to file <a href="/fuzzylite/fl/fuzzylite.h">`fuzzylite/fl/fuzzylite.h`</a>.</li>
-<li>**(important)** Macros for identifiers are defined as <code>FL_IOVERRIDE override</code>, <code>FL_IFINAL final</code>, <code>FL_IDEFAULT = default</code>, <code>FL_IDELETE = delete</code>, <code>FL_INOEXCEPT noexcept</code>, <code><a class="el" href="de/d53/fuzzylite_8h.html#a1dc85e03f2fa5f824611769cacd27dea">FL_DEFAULT_COPY(Class)</a></code>, <code><a class="el" href="de/d53/fuzzylite_8h.html#a333ff6a240ce77039bf11d50ce35c848">FL_DEFAULT_MOVE(Class)</a></code>, and <code><a class="el" href="de/d53/fuzzylite_8h.html#aee9e625525845cf44a7e21daf41044d5">FL_DEFAULT_COPY_AND_MOVE(Class)</a></code>.</li>
-<li>**(important)** Added macro <code>FL_unique_ptr</code> to refer to <code>std::auto_ptr</code> (<code>C++98</code>) or <code>std::unique_ptr</code> (<code>C++11</code>), and its respective <code><a class="el" href="de/d53/fuzzylite_8h.html#a67d7980e0e7357db4bce8945464c24a4">FL_move_ptr(x)</a></code> to move a smart pointer, albeit <code><a class="el" href="de/d53/fuzzylite_8h.html#a67d7980e0e7357db4bce8945464c24a4">FL_move_ptr(x)</a></code> is not used within the library as it is not needed.</li>
-<li>**(important)** Added global variables <code>const long <a class="el" href="d4/d36/namespacefl.html#a67dfd5c85516b1153017f7f8aac38a52" title="Represents the C++11 or C++98 null pointer depending on whether the compilation flag -DFL_CPP11 is se...">fl::null</a> = 0L</code> to refer to the null pointer in <code>C++98</code> and <code>const std::nullptr_t null = nullptr</code> to refer to the null pointer in <code>C++11</code>.</li>
-<li>**(important)** Renamed macro <code>FL_DEBUG</code> to <code>FL_DBG</code>.</li>
-<li>**(important)** Renamed macros <code>FL_BEGIN_DEBUG_BLOCK</code> and <code>FL_END_DEBUG_BLOCK</code> to <code>FL_DEBUG_BEGIN</code> and <code>FL_DEBUG_END</code>, respectively.</li>
-<li>**(important)** Renamed macro <code>FL_EXPORT</code> to <code>FL_API</code></li>
-<li>**(EXTREMELY important)** Added macro definitions <code>FL_EXPORT_LIBRARY</code> and <code>FL_IMPORT_LIBRARY</code>. If you are building <code>fuzzylite</code> as a <b>shared library</b>, you need to define <code>FL_EXPORT_LIBRARY</code>. If you are building <code>fuzzylite</code> <b>executable</b> <em>and</em> it utilizes the <code>fuzzylite</code> <b>shared library</b>, you need to define <code>FL_IMPORT_LIBRARY</code>. If you are building <code>fuzzylite</code> as a <b>static library</b> and/or building <code>fuzzylite</code> <b>executable</b> using the <code>fuzzylite</code> <b>static library</b>, then you do not need to define either <code>FL_[IMPORT|EXPORT]_LIBRARY</code>. Note that the same conditions apply for your application. This is particularly important in Windows platforms, as <code>FL_IMPORT_LIBRARY</code> and <code>FL_EXPORT_LIBRARY</code> define <code>FL_API</code> to <code>__declspec(dllimport)</code> and <code>__declspec(dllexport)</code>, respectively. If in doubt, please check <a href="/fuzzylite/CMakeLists.txt">`fuzzylite/CMakeLists.txt`</a></li>
-</ul>
-<h4><a class="anchor" id="new-operation"></a>Operation</h4>
-<ul>
-<li>**(important)** Added method <code>Operation::toScalar(std::string x, scalar alternative) FL_INOEXCEPT</code> which returns <code>alternative</code> if <code>x</code> is not a valid <code>scalar</code>, and never throws an exception.</li>
-<li>**(important)** Added method <code>Operation::toScalar(std::string x)</code> that returns the scalar value of <code>x</code> or throws a <code><a class="el" href="de/d54/classfl_1_1_exception.html" title="The Exception class is the only type of exception that is utilized throughout the library...">fl::Exception</a></code> if <code>x</code> is not a valid <code>scalar</code>.</li>
-<li>**(VERY important)** Marked method (from v4.0) <code>Operation::toScalar(std::string, bool, scalar) FL_IDELETE;</code> and removed its implementation such that its usage is prevented at compile time in <code>C++11</code> and at linker time in <code>C++98</code>. Please, use the appropriate <code>Op::toScalar</code> methods mentioned above.</li>
-<li>Renamed method <code>Op::isNan</code> to <code>Op::isNaN</code>.</li>
-<li>Added method <code>fl::Op::isFinite(x)</code> which returns <code>not (isNaN(x) or isInf(x))</code>.</li>
-<li>Changed <code>fl::Op::isEq(a,b)</code> to return <code>true</code> if <code>a == b == NaN</code>.</li>
-<li>Changed <code>fl::Op::isEq(a,b)</code> to return <code>true</code> if <code>a == b == Inf</code>.</li>
-<li>Changes to <code><a class="el" href="d3/da9/classfl_1_1_operation.html#a4e5b51cc68d898bcc6d36fa0b12e6461" title="Returns whether  is equal to  at the given macheps ">fl::Op::isEq</a></code> affect other comparison methods <code>fl::Op::is[Lt|LEq|GEq|Gt]</code>.</li>
-<li>Added shortcuts of comparisons <code><a class="el" href="d4/d36/namespacefl.html#a204e02abcb4377f336a7b2af450992ac" title="A shortened type to refer to Operation. ">fl::Op</a>::[gt,lt,ge,le,eq,neq](scalar a, scalar b)</code>, mostly to provide binary versions (without <code>macheps</code>) for term <code>Function</code>.</li>
-<li>Deleted method <code>Op::repeat</code>.</li>
-<li>Removed method <code>fuzzylite::configuration()</code>.</li>
-<li>Changed default <code>fuzzylite::_macheps = 1e-6;</code>.</li>
-<li>Renamed method <code>Op::makeValidId</code> to <code>Op::validName</code>, which now returns <code>"unnamed"</code> for empty strings.</li>
-</ul>
-<h4><a class="anchor" id="new-engine"></a>Engine</h4>
-<ul>
-<li>**(VERY important)** Moved <code>Engine::hedges</code> (and relevant methods) to <code>Rule::hedges</code>.</li>
-<li>Added enumeration for the type of engine: <code>enum Engine::Type{Mamdani, Larsen, TakagiSugeno, Tsukamoto, InverseTsukamoto, Hybrid, Unknown}</code>.</li>
-<li>Added method <code>Type Engine::type(std::string* name, std::string* reason)</code> to infer the type of the engine based on its configuration, additionally provides the name of the type and the inference reasons for its type.</li>
-<li>**(important)** Changed method <code>Engine::isReady(std::string)</code> to satisfy the default operation of controllers. The method <code>Engine::isReady(std::string)</code> was initially conceived to provide information before a potential <code>[signal 11] Segmentation fault</code> happened due to improper configuration. However, given the improved handling of signals and exceptions mentioned in Section <a href="#new-general">General</a>, using method <code>Engine::isReady(std::string)</code> is not necessary except for providing suggestions of what could potentially cause an error.</li>
-<li>Added methods <code>Engine::set[Input|Output]Variables(std::vector)</code> and <code>Engine::setRuleBlocks(std::vector)</code>.</li>
-<li>Added methods <code>Engine::[input|output]Variables()</code> and <code>Engine::ruleBlocks()</code> to return mutable references.</li>
-<li>Added method <code>Engine::variables()</code> to retrieve a vector (copy) containing the <code>InputVariables</code> followed by the <code>OutputVariables</code>.</li>
-<li>Added method <code>Engine::updateReferences()</code> to update the references to the engine in all the necessary linguistic terms (i.e., <code>Linear</code> and <code>Function</code>).</li>
-<li>Added method <code>Engine::clone()</code>.</li>
-<li>Added copy constructors, assignment operators, and default move constructor to <code>Engine</code>.</li>
-</ul>
-<h4><a class="anchor" id="new-inoutvars"></a>Input Variables and Output Variables</h4>
-<ul>
-<li>**(important)** Added methods <code>OutputVariable::[get|set]OutputValue()</code> to [retrieve|store] value from defuzzification</li>
-<li>**(important)** Changed return type of <code>scalar OutputVariable::defuzzify()</code> to <code>void OutputVariable::defuzzify()</code> because now it automatically stores the defuzzified output value, and also stores the previous <em>valid</em> output value regardless of locks. Like in version 4.0, if <code>OutputVariable::lockPreviousOutputValue=true</code>, and the defuzzified output value is not valid (i.e., <code>[NaN|Inf]</code>) or no rules were activated, then the defuzzified output value is replaced for the previous valid output value.</li>
-<li>Removed method <code>OutputVariable::defuzzifyNoLocks()</code>.</li>
-<li>Renamed variable <code>OutputVariable::lastValidOutputValue</code> to <code>OutputVariable::previousOutputValue</code>.</li>
-<li>**(important)** Renamed method <code>OutputVariable::[get|set]LastValidOutput()</code> to <code>OutputVariable::[get|set]PreviousOutputValue()</code>.</li>
-<li>Renamed variable <code>OutputVariable::lockValidOutput</code> to <code>OutputVariable::lockPreviousOutputValue</code>.</li>
-<li>**(important)** Renamed method <code>OutputVariable::setLockValidOutput()</code> to <code>OutputVariable::setLockPreviousOutputValue()</code>.</li>
-<li>**(important)** Renamed method <code>OutputVariable::isLockingValidOutput()</code> to <code>OutputVariable::isLockedPreviousOutputValue()</code>.</li>
-<li>Renamed variable <code>OutputVariable::lockOutputRange</code> to <code>OutputVariable::lockOutputValueInRange</code>.</li>
-<li>**(important)** Renamed method <code>OutputVariable::setLockOutputRange()</code> to <code>OutputVariable::setLockOutputValueInRange()</code>.</li>
-<li>**(important)** Renamed method <code>OutputVariable::isLockingOutputRange()</code> to <code>OutputVariable::isLockedOutputValueInRange()</code>.</li>
-<li>Added methods <code>std::string InputVariable::fuzzyInputValue()</code> and <code>std::string OutputVariable::fuzzyOutputValue()</code>.</li>
-<li>Added method <code>OutputVariable::clear()</code> to clear the fuzzy output, and set <code>OutputVariable::previousOutputValue = <a class="el" href="d4/d36/namespacefl.html#ac0141619ed9a08fb175cc92f134720e3" title="Represents the Not-A-Number scalar value. ">fl::nan</a></code> and set <code>OutputVariable::outputValue = <a class="el" href="d4/d36/namespacefl.html#ac0141619ed9a08fb175cc92f134720e3" title="Represents the Not-A-Number scalar value. ">fl::nan</a></code>.</li>
-<li>Added copy constructors, assignment operators, move constructors and move operators to [Input|Output]Variable.</li>
-<li>Added method <code>Variable::terms()</code> to return mutable reference.</li>
-<li>**(important)** Changed <code>OutputVariable::[defuzzifier|fuzzyOutput]</code> to smart pointers (<code>FL_unique_ptr</code>).</li>
-</ul>
-<h4><a class="anchor" id="new-terms"></a>Linguistic Terms</h4>
-<ul>
-<li>**(VERY important)** Added Term::[get|set]Height to define the height of <em>integral</em> terms, and multiply their respective membership functions accordingly.</li>
-<li>Added copy constructors, assignment operators, move constructors and move operators to every <code>Term</code>.</li>
-<li>**(VERY important)** Parameters of all terms are set by default to <code><a class="el" href="d4/d36/namespacefl.html#ac0141619ed9a08fb175cc92f134720e3" title="Represents the Not-A-Number scalar value. ">fl::nan</a></code>.</li>
-<li>**(important)** Renamed method <code>Term::copy()</code> to <code>Term::clone()</code> in every <code>Term</code>.</li>
-<li>Added method <code>Term::updateReference(Term*, Engine*)</code> to ensure <code>Linear</code> and <code>Function</code> terms have updated pointers to the <code>Engine</code> (useful when cloning and copy-constructing).</li>
-<li>**(important)** Added linguistic terms <code>Concave</code>, <code>Cosine</code> and <code>Spike</code>.</li>
-<li>**(important)** Changed <code>Accumulated</code> to take <code>Activated*</code> terms instead of <code>const Terms*</code>.</li>
-<li>Removed <code>const</code> from return type of method <code>SNorm* Accumulated::[get|set]Accumulation()</code>.</li>
-<li>Changed <code>Accumulated::accumulation</code> to a smart pointer (<code>FL_unique_ptr</code>).</li>
-<li>Added method <code>Accumulated::terms()</code> to return mutable reference.</li>
-<li>**(important)** Renamed methods <code>Triangle::[set|get][A|B|C]</code> to <code>::[set|get]Vertex[A|B|C]</code>.</li>
-<li>**(important)** Renamed methods <code>Trapezoid::[set|get][A|B|C|D]</code> to <code>::[set|get]Vertex[A|B|C|D]</code>.</li>
-<li>**(important)** Renamed term <code>Thresholded</code> to <code>Activated</code>.</li>
-<li>**(important)** Renamed methods <code>Thresholded::[set|get]Threshold()</code> to <code>Activated::[set|get]Degree()</code>.</li>
-<li>Added enumeration <code>[Ramp|Sigmoid]::Direction{ NEGATIVE, ZERO, POSITIVE }</code> to refer to the slope.</li>
-<li>Added methods <code>Ramp::direction()</code> and <code>Sigmoid::direction()</code> to retrieve direction of slope.</li>
-<li>Removed Exception Specification from methods in <code>Discrete</code>, <code>Linear</code> and <code>Function</code> terms.</li>
-</ul>
-<h4><a class="anchor" id="new-linear-discrete"></a>Linear and Discrete Terms</h4>
-<ul>
-<li>**(important)** Changed <code>Linear</code> from having pointers to the input variables to having a pointer to the <code>Engine</code>.</li>
-<li>Changed visibility of <code>Linear::coefficients</code> to <code>protected</code>.</li>
-<li>**(important)** Added methods <code>Linear::coefficients()</code>, <code>Linear::setCoefficients()</code>.</li>
-<li><code>Linear</code> term no longer throws exception when <code>inputVariables != |coefficients|</code>.</li>
-<li>**(important)** Removed public vector of variables <code>Discrete::[x|y]</code>.</li>
-<li>**(important)** Added a <code>typedef std::pair&lt;scalar, scalar&gt; Discrete::Pair</code>.</li>
-<li>**(important)** Changed representation of <code>Discrete::[x|y]</code> from <code>std::vector&lt;scalar&gt;</code> to <code>std::vector&lt;Discrete::Pair&gt;</code>.</li>
-<li>Added methods <code>Discrete::setXY()</code> and <code>Discrete::xy()</code> to set and get the new representation of pairs.</li>
-<li>Added methods <code>Discrete::xy(int index)</code> to retrieve <code>Discrete::Pair</code> at <code>index</code>.</li>
-<li>**(important)** Added methods <code>Discrete::toPairs(std::vector&lt;scalar&gt;)</code> which throws an exception if the vector is missing a value (i.e., <code>std::vector&lt;scalar&gt;.size() % 2 != 0</code>), and <code>Discrete::toPairs(std::vector&lt;scalar&gt;, scalar missingValue)</code> which adds <code>missingValue</code> in case <code>std::vector&lt;scalar&gt;.size() %2 == 1</code>, hence never throwing an exception.</li>
-<li>Added method <code>Discrete::toVector(std::vector&lt;Discrete::Pair&gt;)</code> to convert <code>std::vector&lt;Discrete::Pair&gt;</code> to a <code>std::vector&lt;scalar&gt;</code>.</li>
-<li>Added method <code>Discrete::formatXY()</code> to get pairs <code>(x,y)</code> nicely formatted.</li>
-</ul>
-<h4><a class="anchor" id="new-function"></a>Function Term</h4>
-<ul>
-<li>**(important)** Merged structs <code>Function::Operator</code> and <code>Function::BuiltInFunction</code> into a single <code>struct Function::Element</code>.</li>
-<li>**(EXTREMELY important)** Changed the precedence of all built-in instances of <code>Function::Element</code> of type <code>Operator</code> starting from <code>100</code> and decreasing by <code>10</code>. The precedence of built-in operators is the following: <code>(100)</code> Logical not <code>[!]</code> and Negation <code>[~]</code>; <code>(90)</code> Power <code>[^]</code>; <code>(80)</code> Multiplication <code>[*]</code>, Division <code>[/]</code> and Modulo <code>[%]</code>; <code>(70)</code> Addition <code>[+]</code> and Subtraction <code>[-]</code>; <code>(60)</code> Logical AND <code>[and]</code> and Logical OR <code>[or]</code>. If you have registered your own operators, please adjust their precedence as required.</li>
-<li>Added to <code>Function</code> built-in comparison functions <code>gt,lt,ge,le,eq</code> and operator logical not <code>!</code>.</li>
-<li>Modified typedefs <code>Function::Unary</code> and <code>Function::Binary</code> to take <code>scalar</code> instead of <code>double</code>.</li>
-<li>Changed <code>public Function::root</code> to <code>protected Function::_root</code> and it is now a smart pointer (<code>FL_unique_ptr</code>).</li>
-<li>Added method <code>Function::root()</code> to return pointer to <code>Function::root</code>.</li>
-<li>**(EXTREMELY important)** Moved built-in functions and operators from <code>Function</code> to a <code>FunctionFactory</code>.</li>
-</ul>
-<h4><a class="anchor" id="new-norms-hedges"></a>[T|S]Norms and Hedges</h4>
-<ul>
-<li>**(important)** Fixed operation when using multiple hedges to operate from right-most to left-most, e.g. <code>if Ambient is not very extremely bright</code>, now evaluates as follows <code>not(very(extremely(bright)))</code>.</li>
-<li>Added <code>TNorm</code> nilpotent minimum and <code>SNorm</code> nilpotent maximum.</li>
-<li>Added clone methods to every <code>Norm</code>.</li>
-<li>Added clone methods to every <code>Hedge</code>.</li>
-<li>**(VERY important)** Moved <code>Engine::hedges</code> to <code>Rule::hedges</code>.</li>
-</ul>
-<h4><a class="anchor" id="new-rules"></a>Rules</h4>
-<ul>
-<li>**(VERY important)** Moved <code>Engine::hedges</code> (and methods) to <code>Rule::hedges</code>.</li>
-<li>Added method <code>Rule::isLoaded()</code> to determine whether a rule was properly parsed and thus can be activated.</li>
-<li>Added method <code>Rule::unload()</code> to allow the existence of a rule in an inactive state (useful for invalid rules).</li>
-<li>**(important)** Removed variable <code>Rule::FL_ASSIGNS</code> and method <code>Rule::assignsKeyword()</code>, for which the symbol <code>=</code> in rules is no longer valid.</li>
-<li>Changed visibility of method <code>Rule::setText()</code> to <code>public</code>.</li>
-<li>Added method <code>Rule::load(const Engine*)</code>.</li>
-<li>Changed <code>Rule::[antecedent|consequent]</code> to smart pointers (<code>FL_unique_ptr</code>).</li>
-<li>**(important)** Renamed method <code>Antecedent::[get|set]Root()</code> to <code>Antecedent::[get|set]Expression()</code>.</li>
-<li>Added methods <code>[Antecedent|Consequent]::[get|set]Text()</code>.</li>
-<li>**(important)** Added methods <code>[Antecedent|Consequent]::[load|unload]()</code>, with the same objective as <code>Rule::[load|unload]()</code>.</li>
-</ul>
-<h4><a class="anchor" id="new-ruleblocks"></a>Rule Blocks</h4>
-<ul>
-<li>Added method <code>RuleBlock::reloadRules()</code>.</li>
-<li>Added method <code>RuleBlock::setRules(std::vector)</code>.</li>
-<li>Added method <code>RuleBlock::rules()</code> to return mutable reference.</li>
-<li>Removed <code>const</code> from <code>TNorm</code> and <code>SNorm</code> in <code>RuleBlock::[get|set][Conjunction|Disjunction|Activation]()</code>, respectively.</li>
-<li>Changed <code>RuleBlock::[conjunction|disjunction|activation]</code> to smart pointers (<code>FL_unique_ptr</code>).</li>
-<li>**(VERY important)** Added basic rule chaining such that an <code>OutputVariable</code> can be utilized in the <code>Antecedent</code> of a <code>Rule</code>. For example, considering the rule <code>if Power is high then InversePower is low</code>, where <code>Power</code> and <code>InversePower</code> are both output variables, the activation degree of the <code>Antecedent</code> will correspond to the accumulated activation degree of the term <code>high</code> in the fuzzy output of <code>Power</code>. If <code>Power::accumulation = none</code>, the accumulated activation degree of the term <code>high</code> will be computed as the regular sum of the activation degrees of term <code>high</code> in the fuzzy output of <code>Power</code>. Otherwise, the accumulated activation degree is computed utilizing the <code>Power::accumulation</code> operator.</li>
-</ul>
-<h4><a class="anchor" id="new-weighted"></a>Weighted Defuzzifiers</h4>
-<ul>
-<li>**(VERY important)** Performance improvements of Takagi-Sugeno controllers by over 55% (with respect to v4.0) based on the average performance on the examples included.</li>
-<li>**(important)** Created class <code>WeightedDefuzzifier</code> from which classes <code>Weighted[Average|Sum]</code> are derived.</li>
-<li>**(important)** Added enumeration <code>WeightedDefuzzifier::Type{Automatic, TakagiSugeno, Tsukamoto}</code> and respective methods <code>WeightedDefuzzifier::[get|set]Type()</code> and <code>WeightedDefuzzifer::getTypeName()</code>.</li>
-<li>Added method <code>WeightedDefuzzifier::inferType(Term*)</code> to automatically determine the <code>WeightedDefuzzifier::Type</code> based on the class of <code>Term</code>.</li>
-<li>**(important)** By default, <code>WeightedDefuzzifier::type = Automatic</code>, which automatically infers the type based on the <code>WeightedDefuzzifier::inferType()</code>.</li>
-<li>**(important)** There is a small performance penalty when using <code>WeightedDefuzzifier::type = Automatic</code> because <code>WeightedDefuzzifier::inferType()</code> performs three <code>dynamic_cast&lt;&gt;</code>.</li>
-<li>**(important)** Deleted class <code>Tsukamoto</code>. Its method <code>static tsukamoto()</code> was moved to <code>virtual WeightedDefuzzifier::tsukamoto()</code>, which allows overriding it</li>
-<li>Added support for <code>Tsukamoto</code> with <code>Concave</code> terms.</li>
-<li>**(EXTREMELY important)** In version 5.0, the traditional operation of Takagi-Sugeno and Tsukamoto controllers is achieved by setting <code>OutputVariable::accumulation = none</code>. Unlike version 4.0, the <code>RuleBlock::activation</code> will not have any effect on Takagi-Sugeno nor Tsukamoto controllers, for which <code>RuleBlock::activation</code> should also be set to <code>none</code>. More information about the roles of the <code>OutputVariable::accumulation</code> and <code>RuleBlock::activation</code> operators are detailed as follows. Refer to <a href="http://www.sciweavers.org/free-online-latex-equation-editor">sciweavers</a> to convert LaTeX equations.</li>
-<li>**(VERY important)** In version 5.0, the role of the <code>RuleBlock::activation</code> <code>TNorm</code> on the <code>Weighted[Average|Sum]</code> always performs a regular multiplication of the weights and the values (i.e., $w_i  z_j$) regardless of the <code>TNorm</code> chosen. In other words, selecting any <code>RuleBlock::activation</code> for <code>Weighted[Average|Sum]</code> is irrelevant, and should be set to <code>none</code> as every <code>TNorm</code> will have the same multiplication effect. This operation is different from <code>fuzzylite</code> version 4.0, where the <code>RuleBlock::activation</code> operator was utilized to multiply the weights and values (i.e. $w_i  z_j$), and therefore the traditional operation of the <code>Weighted[Average|Sum]</code> was achieved when <code>RuleBlock::activation = AlgebraicProduct;</code>.</li>
-<li>**(VERY important)** In version 5.0, the role of the <code>OutputVariable::accumulation = none</code> on the <code>Weighted[Average|Sum]</code> results in a regular sum of the multiplied weights and values, i.e., ${^n w_i  z_j}{^n w_i}$. However, if the <code>OutputVariable::accumulation != none</code>, the role of the <code>SNorm</code> will be to accumulate the activation degrees of the <em>repeated</em> terms in the fuzzy output of the variable. For example, considering the rules <code>if Ambient is dark then Power is high</code> and <code>if Ambient is medium then Power is high</code>, for any input value of <code>Ambient</code> that activates both rules, the fuzzy output of <code>Power</code> will have the term <code>high</code> activated with the degree from <code>Rule 1</code>, and the term <code>high</code> activated with the degree from <code>Rule 2</code>. Since the term <code>high</code> appears twice in the fuzzy output, the role of the accumulation operator will be to accumulate the activation degree of <code>high</code> resulting in ${(w_1  w_2)  z_{high}}{(w_1  w_2)}$. If another term were activated, the result would be ${(w_1  w_2)  z_{high} + w_i  z_j}{(w_1  w_2) + w_i}$. In version 4.0, the accumulation operator had no effect on the <code>Weighted[Average|Sum]</code>.</li>
-</ul>
-<h4><a class="anchor" id="new-integral"></a>Integral Defuzzifiers</h4>
-<ul>
-<li>**(important)** Proper handling of indefinite integral defuzzification, that is, returning <code><a class="el" href="d4/d36/namespacefl.html#ac0141619ed9a08fb175cc92f134720e3" title="Represents the Not-A-Number scalar value. ">fl::nan</a></code> when <code>[minimum|maximum]=[NaN|Inf]</code>.</li>
-<li>Default resolution of integration is defined as <code>static int IntegralDefuzzifier::defaultResolution=200</code>, and can be changed via <code>static IntegralDefuzzifier::setDefaultResolution()</code>.</li>
-<li>**(important)** In <code>fuzzylite</code>, the accumulation operator has been for several versions associated with the output variables and <b>not</b> with the rule blocks, despite that the FCL format and other fuzzy logic control libraries associate the accumulation operator with the rule blocks. The argument for such a decision is that <code>fuzzylite</code> provides <b>coherent</b> support for multiple rule blocks operating on the same engine and on the same output variables. For example, if multiple rule blocks operate on the same output variables, it only makes sense to have a single accumulation operator associated with each output variable such that the defuzzifier can naturally operate over the accumulated fuzzy output. Differently, if the accumulation operator were associated with the rule block, the possibility of having different accumulation operators in different rule blocks questions (1) <b>the possibility of having multiple rule blocks operating over the same output variables</b>; and (2) <b>the usage of different accumulation operators over the accumulation and defuzzification processes</b>. Certainly, if (1) is not possible, i.e, different rule blocks only operate on different output variables, then (2) is not a problem because the accumulation process and defuzzification of each variable will only have a single accumulation operator. It is therefore that the association of the accumulation operator with the output variable in <code>fuzzylite</code> provides a <b>better design</b> and an additional feature that allows having multiple rule blocks operating over the same output variables.</li>
-<li>Added copy constructors, assignment operators, move constructors and move operators.</li>
-<li>Added method <code>Defuzzifier::clone()</code>.</li>
-</ul>
-<h4><a class="anchor" id="new-imex"></a>Importers and Exporters</h4>
-<ul>
-<li>**(EXTREMELY important)** Since terms have a new <code>height</code> property, <code>[Fll|Fis|Fcl]Exporter</code> exports terms with an additional <code>scalar</code> at the end, which indicates the <code>height</code> of the term. However, if <code>height=1.0</code>, the additional scalar is not exported.</li>
-<li>**(EXTREMELY important)** In <code>[Fll|Fis|Fcl]Importer</code>, when importing terms, if there is an additional <code>scalar</code> it will be assumed as the <code>height</code> of the term. For example, <code>term: high Gaussian 1.0 0.5 0.75</code> will create a <code>Gaussian</code> term with mean <code>1.0</code>, standard deviation <code>0.5</code> and height <code>0.75</code>. This is <b>extremely important</b> because there are some examples from Matlab in <code>fis</code> format that append a useless <code>0.0</code> to some terms.</li>
-<li>**(EXTREMELY important)** In <code>FisExporter</code>, if the Takagi-Sugeno controller has no <code>activation</code> or <code>accumulation</code> operators (as it should generally be the case), Octave and Matlab will not be able to import the <code>fis</code> file. To overcome this issue, you will have to set <code>ImpMethod="min"</code> and <code>AggMethod="max"</code>, where <code>ImpMethod</code> and <code>AggMethod</code> are just dummy operators that can be set to any <code>TNorm</code> and <code>SNorm</code>, respectively.</li>
-<li>**(important)** Improved compatibility of the exported code obtained with <code>[Fis|Fcl]Exporter</code> by exporting the additional features of <code>fuzzylite</code> only when these are different from the default operation. For example, the following features will not be exported given their values: <code>[Input|Output]Variable::enabled = true;</code>, <code>OutputVariable::lock-previous = false;</code>, <code>OutputVariable::lock-range = false;</code>, amongst others.</li>
-<li>**(important)** Renamed FLL property <code>'lock-valid'</code> to <code>'lock-previous'</code>.</li>
-<li>**(important)** Renamed FIS property <code>'LockValid'</code> to <code>'LockPrevious'</code>.</li>
-<li>**(important)** Renamed FCL property <code>'LOCK: VALID'</code> to <code>'LOCK: PREVIOUS'</code>.</li>
-<li>**(important)** Export your controllers to files using <code>[Fll|Fld|Fis|Fcl]Exporter::toFile()</code>.</li>
-<li>**(important)** Import your controllers from files using <code>[Fll|Fis|Fcl]Importer::fromFile()</code>.</li>
-<li>**(important)** <code>FldExporter</code> exports the FuzzyLite Dataset of an engine utilizing the input values of another FuzzyLite Dataset.</li>
-<li><code>FldExporter</code> no longer restarts the engine when exporting.</li>
-<li>**(important)** Renamed method <code>FldExporter::toWriter()</code> to <code>FldExporter::write()</code>.</li>
-<li>Removed variable and methods for property <code>int FldExporter::_maximum</code>.</li>
-<li>Added option in <code>CppExporter</code> to prepend the namespace prefix <code>fl::</code> to the classes, and by default it does not prepend prefix.</li>
-<li>Improvement accuracy of <code>FisImporter</code> when importing <code>fis</code> files whose scalar values have more than three decimal numbers.</li>
-<li>Renamed methods in <code>[Fis|Fcl]Importer::extract*</code> to <code>[Fis|Fcl]Importer::parse*</code>.</li>
-</ul>
-<h4><a class="anchor" id="new-factories"></a>Factories</h4>
-<ul>
-<li>Created a generic <code>CloningFactory&lt;T&gt;</code> to create clones of objects.</li>
-<li>**(important)** Created <code>FunctionFactory</code> based on <code>CloningFactory&lt;Function::Element&gt;</code> where function operators and methods are stored to be cloned as necessary by <code>Function</code>. Additional functions and operators can be easily registered.</li>
-<li>**(VERY important)** Moved built-in functions and operators from <code>Function</code> to <code>FunctionFactory</code>.</li>
-<li>Renamed methods <code>Factory&lt;T&gt;::[register|deregister]Class()</code> to <code>Factory&lt;T&gt;::[register|deregister]Constructor()</code>.</li>
-<li>**(important)** Renamed <code>Factory&lt;T&gt;</code> to <code>ConstructionFactory&lt;T&gt;</code>.</li>
-<li>Renamed <code>typedef Factory::Creator</code> to <code>typedef Factory::Constructor</code>.</li>
-<li>Changed pointers of <code>FactoryManager</code> to smart pointers (<code>FL_unique_ptr</code>).</li>
-</ul>
-<h4><a class="anchor" id="new-examples"></a>Examples</h4>
-<ul>
-<li>**(important)** Added two examples for basic rule chaining: <code>mamdani/SimpleDimmerInverse.fll</code> and <code>mamdani/Laundry.fll</code>.</li>
-<li>Included the <code>original</code> example files in <code>fis</code> format.</li>
-<li>Added conversion of <code>examples/original/*.fis</code> to <code>examples/original/*.fll</code>.</li>
-<li>Modified <code>original/takagi-sugeno</code> examples to reflect <code>activation: none; accumulation: none;</code>.</li>
-<li>Updated FLD examples produced from the <code>original</code> examples.</li>
-<li>**(important)** Added file <a href="/fuzzylite/src/m/compare.m">`fuzzylite/src/m/compare.m`</a> to compare the output values of your <code>fuzzylite</code> engines with the evaluation of the same engine in Octave/Matlab.</li>
-<li>**(important)** Added file <a href="/examples/examples.mat">`examples/examples.mat`</a> containing the comparison of the output values between <code>fuzzylite</code> and Matlab's Fuzzy Logic Toolbox.</li>
-<li>Added code to perform benchmarks in Linux.</li>
-</ul>
-<h4><a class="anchor" id="new-console"></a>Console</h4>
-<ul>
-<li>**(important)** Console includes option to import custom input dataset from file and export its respective output values.</li>
-<li>**(important)** Created the FuzzyLite Interactive Console, which can be started by specifying an input file and the output format, e.g., <code>fuzzylite -i SimpleDimmer.fll -of fld</code>.</li>
-<li>Console provides more information about its usage.</li>
-</ul>
-<h4><a class="anchor" id="new-fixes"></a> Fixes Bugs and Leaks</h4>
-<ul>
-<li>**(important)** Fixed operation when using multiple hedges to operate from right-most to left-most, e.g. <code>if Ambient is not very extremely bright</code> evaluates as follows <code>not(very(extremely(bright)))</code>.</li>
-<li>**(important)** Fixed membership functions of specific cases of <code>Triangle</code> when <code>a=b</code> or <code>b=c</code>, and <code>Trapezoid</code> when <code>a=b</code> or <code>c=d</code>.</li>
-<li>Fixed minor memory leak at <code>~RuleBlock::[conjunction|disjunction|activation]</code>.</li>
-<li>Fixed minor memory leak at <code>~Accumulated::accumulation</code>.</li>
-<li>Fixed minor memory leak at <code>~OutputVariable::defuzzifier</code>.</li>
-<li>Fixed minor memory leak at <code>~Function::Node</code>.</li>
-<li>Fixed minor memory leak at <code>~FactoryManager::[factories]</code>.</li>
-<li>Fixed some rethrowing of exceptions to provide proper information about errors. Specifically, changed some rethrown exceptions from <code>throw ex;</code> to just <code>throw;</code></li>
-<li>Fixed building using <code>-DFL_USE_FLOAT=ON</code></li>
+<li>Type-2 Fuzzy Logic Controllers</li>
+<li>Adaptive Neuro-Fuzzy Inference System (ANFIS)</li>
+<li>Fuzzy C-means data clustering</li>
 </ul>
 <hr/>
 <p>For more information, visit <a href="http://www.fuzzylite.com">www.fuzzylite.com</a>.</p>
@@ -448,7 +227,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li>Copyright © 2010-2015 FuzzyLite Limited. All rights reserved.</li>
-    <li class="footer">Generated on Wed Dec 9 2015 05:58:44 for fuzzylite by
+    <li class="footer">Generated on Wed Dec 9 2015 07:34:32 for fuzzylite by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

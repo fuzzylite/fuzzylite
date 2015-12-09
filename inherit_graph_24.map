@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$df/d9d/classfl_1_1_importer.html" title="The Importer class is the abstract class for importers to configure an Engine and its components from..." alt="" coords="5,55,90,80"/>
+<area shape="rect" id="node2" href="$df/d9b/classfl_1_1_fcl_importer.html" title="The FclImporter class is an Importer that configures an Engine and its components utilizing the Fuzzy..." alt="" coords="138,5,241,31"/>
+<area shape="rect" id="node3" href="$d4/d1b/classfl_1_1_fis_importer.html" title="The FisImporter class is an Importer that configures an Engine and its components from utilizing the ..." alt="" coords="138,55,241,80"/>
+<area shape="rect" id="node4" href="$d8/d7d/classfl_1_1_fll_importer.html" title="The FllImporter class is an Importer that configures an Engine and its components utilizing the Fuzzy..." alt="" coords="140,104,239,129"/>
+</map>

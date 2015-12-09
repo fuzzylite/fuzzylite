@@ -1,0 +1,26 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$d4/de6/classfl_1_1_term.html" title="The Term class is the abstract class for linguistic terms. " alt="" coords="5,548,70,573"/>
+<area shape="rect" id="node2" href="$d1/db2/classfl_1_1_accumulated.html" title="The Accumulated class is a special Term that stores a fuzzy set with the Activated terms from the Ant..." alt="" coords="134,5,247,31"/>
+<area shape="rect" id="node3" href="$d8/d40/classfl_1_1_activated.html" title="The Activated class is a special Term that contains pointers to the necessary information of a term t..." alt="" coords="145,55,236,80"/>
+<area shape="rect" id="node4" href="$dd/d58/classfl_1_1_bell.html" title="The Bell class is an extended Term that represents the generalized bell curve membership function..." alt="" coords="162,104,219,129"/>
+<area shape="rect" id="node5" href="$d8/d74/classfl_1_1_binary.html" title="The Binary class is an edge Term that represents the binary membership function. " alt="" coords="154,153,227,179"/>
+<area shape="rect" id="node6" href="$d2/d2e/classfl_1_1_concave.html" title="The Concave class is an edge Term that represents the concave membership function. " alt="" coords="146,203,234,228"/>
+<area shape="rect" id="node7" href="$d7/d80/classfl_1_1_constant.html" title="The Constant class is a (zero) polynomial Term that represents a constant value . ..." alt="" coords="146,252,235,277"/>
+<area shape="rect" id="node8" href="$da/d28/classfl_1_1_cosine.html" title="The Cosine class is an extended Term that represents the cosine membership function. " alt="" coords="152,301,229,327"/>
+<area shape="rect" id="node9" href="$db/dca/classfl_1_1_discrete.html" title="The Discrete class is a basic Term that represents a discrete membership function. " alt="" coords="148,351,233,376"/>
+<area shape="rect" id="node10" href="$dd/d81/classfl_1_1_function.html" title="The Function class is a polynomial Term that represents a generic function . " alt="" coords="147,400,234,425"/>
+<area shape="rect" id="node11" href="$d6/df6/classfl_1_1_gaussian.html" title="The Gaussian class is an extended Term that represents the Gaussian curve membership function..." alt="" coords="145,449,236,475"/>
+<area shape="rect" id="node12" href="$d6/d61/classfl_1_1_gaussian_product.html" title="The GaussianProduct class is an extended Term that represents the two&#45;sided Gaussian membership funct..." alt="" coords="122,499,259,524"/>
+<area shape="rect" id="node13" href="$d6/d98/classfl_1_1_linear.html" title="The Linear class is a linear polynomial Term expressed as , where variable &#160;is not utilized..." alt="" coords="154,548,227,573"/>
+<area shape="rect" id="node14" href="$d5/d44/classfl_1_1_pi_shape.html" title="The PiShape class is an extended Term that represents the Pi&#45;shaped curve membership function..." alt="" coords="148,597,233,623"/>
+<area shape="rect" id="node15" href="$d4/dc7/classfl_1_1_ramp.html" title="The Ramp class is an edge Term that represents the ramp membership function. " alt="" coords="155,647,226,672"/>
+<area shape="rect" id="node16" href="$d6/d0e/classfl_1_1_rectangle.html" title="The Rectangle class is a basic Term that represents the rectangle membership function. " alt="" coords="143,696,238,721"/>
+<area shape="rect" id="node17" href="$d0/dd1/classfl_1_1_sigmoid.html" title="The Sigmoid class is an edge Term that represents the sigmoid membership function. " alt="" coords="149,745,232,771"/>
+<area shape="rect" id="node18" href="$d1/df5/classfl_1_1_sigmoid_difference.html" title="The SigmoidDifference class is an extended Term that represents the difference between two sigmoidal ..." alt="" coords="118,795,262,820"/>
+<area shape="rect" id="node19" href="$d3/d5f/classfl_1_1_sigmoid_product.html" title="The SigmoidProduct class is an extended Term that represents the product of two sigmoidal membership ..." alt="" coords="126,844,255,869"/>
+<area shape="rect" id="node20" href="$de/dba/classfl_1_1_spike.html" title="The Spike class is an extended Term that represents the spike membership function. " alt="" coords="156,893,225,919"/>
+<area shape="rect" id="node21" href="$d6/dc4/classfl_1_1_s_shape.html" title="The SShape class is an edge Term that represents the S&#45;shaped membership function. " alt="" coords="149,943,232,968"/>
+<area shape="rect" id="node22" href="$d0/d26/classfl_1_1_trapezoid.html" title="The Trapezoid class is a basic Term that represents the trapezoidal membership function. " alt="" coords="143,992,238,1017"/>
+<area shape="rect" id="node23" href="$d8/dc9/classfl_1_1_triangle.html" title="The Triangle class is a basic Term that represents the triangular membership function. " alt="" coords="149,1041,232,1067"/>
+<area shape="rect" id="node24" href="$d5/d67/classfl_1_1_z_shape.html" title="The ZShape class is an edge Term that represents the Z&#45;shaped membership function. " alt="" coords="149,1091,231,1116"/>
+</map>

@@ -1,0 +1,20 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$d5/d22/classfl_1_1_norm.html" title="The Norm class is the abstract class for norms. " alt="" coords="5,352,73,377"/>
+<area shape="rect" id="node2" href="$d4/df8/classfl_1_1_s_norm.html" title="The SNorm class is the base class for all S&#45;Norms, and it is utilized as the disjunction fuzzy logic ..." alt="" coords="121,203,198,228"/>
+<area shape="rect" id="node11" href="$d6/d29/classfl_1_1_t_norm.html" title="The TNorm class is the base class for T&#45;Norms, and it is utilized as the conjunction fuzzy logic oper..." alt="" coords="122,524,198,549"/>
+<area shape="rect" id="node3" href="$d9/d37/classfl_1_1_algebraic_sum.html" title="The AlgebraicSum class is an SNorm that computes the algebraic sum of values any two values..." alt="" coords="262,5,380,31"/>
+<area shape="rect" id="node4" href="$d0/d06/classfl_1_1_bounded_sum.html" title="The BoundedSum class is an SNorm that computes the bounded sum of any two values. ..." alt="" coords="263,55,379,80"/>
+<area shape="rect" id="node5" href="$df/d91/classfl_1_1_drastic_sum.html" title="The DrasticSum class is an SNorm that computes the drastic sum of any two values. ..." alt="" coords="269,104,373,129"/>
+<area shape="rect" id="node6" href="$d6/d71/classfl_1_1_einstein_sum.html" title="The EinsteinSum class is an SNorm that computes the einstein sum of any two values. " alt="" coords="266,153,376,179"/>
+<area shape="rect" id="node7" href="$d1/db2/classfl_1_1_hamacher_sum.html" title="The HamacherSum class is an SNorm that computes the hamacher sum of any two values. " alt="" coords="259,203,383,228"/>
+<area shape="rect" id="node8" href="$d8/dc0/classfl_1_1_maximum.html" title="The Maximum class is an SNorm that computes the maximum of any two values. " alt="" coords="274,252,367,277"/>
+<area shape="rect" id="node9" href="$d0/d72/classfl_1_1_nilpotent_maximum.html" title="The NilpotentMaximum class is an SNorm that computes the nilpotent maximum of any two values..." alt="" coords="248,301,394,327"/>
+<area shape="rect" id="node10" href="$d1/d5c/classfl_1_1_normalized_sum.html" title="The NormalizedSum class is an SNorm that computes the normalized sum of any two values. " alt="" coords="256,351,386,376"/>
+<area shape="rect" id="node12" href="$dd/d8a/classfl_1_1_algebraic_product.html" title="The AlgebraicProduct class is a TNorm that computes the algebraic product of any two values..." alt="" coords="252,400,389,425"/>
+<area shape="rect" id="node13" href="$dc/d0b/classfl_1_1_bounded_difference.html" title="The BoundedDifference class is a TNorm that computes the bounded difference between any two values..." alt="" coords="246,449,396,475"/>
+<area shape="rect" id="node14" href="$db/d0f/classfl_1_1_drastic_product.html" title="The DrasticProduct class is a TNorm that computes the drastic product of any two values. " alt="" coords="259,499,382,524"/>
+<area shape="rect" id="node15" href="$d9/d5a/classfl_1_1_einstein_product.html" title="The EinsteinProduct class is a TNorm that computes the einstein product of any two values..." alt="" coords="256,548,385,573"/>
+<area shape="rect" id="node16" href="$da/d4b/classfl_1_1_hamacher_product.html" title="The HamacherProduct class is a TNorm that computes the hamacher product of any two values..." alt="" coords="249,597,392,623"/>
+<area shape="rect" id="node17" href="$d2/de2/classfl_1_1_minimum.html" title="The Minimum class is a TNorm that computes the minimum of any two values. " alt="" coords="276,647,366,672"/>
+<area shape="rect" id="node18" href="$d3/dfe/classfl_1_1_nilpotent_minimum.html" title="The NilpotentMinimum class is a TNorm that computes the nilpotent minimum of any two values..." alt="" coords="250,696,392,721"/>
+</map>

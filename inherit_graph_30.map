@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$d0/d27/classfl_1_1_variable.html" title="The Variable class is an abstract class for linguistic variables. " alt="" coords="5,31,89,56"/>
+<area shape="rect" id="node2" href="$db/d6c/classfl_1_1_input_variable.html" title="The InputVariable class is a Variable that represents an input of the fuzzy logic controller..." alt="" coords="142,5,255,31"/>
+<area shape="rect" id="node3" href="$d1/db0/classfl_1_1_output_variable.html" title="The OutputVariable class is a Variable that represents an output of the fuzzy logic controller..." alt="" coords="137,55,260,80"/>
+</map>

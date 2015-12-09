@@ -1,0 +1,10 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$df/d4b/classfl_1_1_activation.html" title="The Activation class is the abstract class for RuleBlock activation methods. " alt="" coords="5,153,99,179"/>
+<area shape="rect" id="node2" href="$d6/d0b/classfl_1_1_first.html" title="The First class is a RuleBlock Activation method that activates the first rule whose activation degre..." alt="" coords="170,5,231,31"/>
+<area shape="rect" id="node3" href="$d8/de2/classfl_1_1_general.html" title="The General class is a RuleBlock Activation method that activates every rule following the order in w..." alt="" coords="159,55,242,80"/>
+<area shape="rect" id="node4" href="$d0/d5f/classfl_1_1_highest.html" title="The Highest class is a RuleBlock Activation method that activates a given number of rules with highes..." alt="" coords="160,104,241,129"/>
+<area shape="rect" id="node5" href="$d6/d19/classfl_1_1_last.html" title="The Last class is a RuleBlock Activation method that activates the last rule whose activation degree ..." alt="" coords="170,153,231,179"/>
+<area shape="rect" id="node6" href="$d2/db4/classfl_1_1_lowest.html" title="The Lowest class is a RuleBlock Activation method that activates a given number of rules with lowest ..." alt="" coords="161,203,239,228"/>
+<area shape="rect" id="node7" href="$df/d40/classfl_1_1_proportional.html" title="The Proportional class is a RuleBlock Activation method that activates the rules utilizing activation..." alt="" coords="147,252,254,277"/>
+<area shape="rect" id="node8" href="$df/d4e/classfl_1_1_threshold.html" title="The Threshold class is a RuleBlock Activation method that activates the rules whose activation degree..." alt="" coords="153,301,248,327"/>
+</map>
