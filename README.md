@@ -10,8 +10,12 @@ Current version: 5.1
 
 Next version: 6.0 (in progress)
 
-*IMPORTANT (01/Dec/2015):*
+**NEWS**
 
+**(9/Dec/2015)** Check out the source code **documentation** for version 6.0 at  
+[http://fuzzylite.github.io/fuzzylite/index.html](http://fuzzylite.github.io/fuzzylite/index.html)
+
+**(01/Dec/2015)**
 The branches in the repository have changed:
 
 - the new `release` branch is the default branch and points to version 5.1
