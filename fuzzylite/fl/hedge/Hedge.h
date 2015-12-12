@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,7 +11,6 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_HEDGE_H
@@ -24,6 +22,20 @@
 
 namespace fl {
 
+    /**
+      
+      The Hedge class is the abstract class for hedges. Hedges are utilized
+      within the Antecedent and Consequent of a Rule in order to modify the
+      membership function of a linguistic Term. 
+    
+      @author Juan Rada-Vilela, Ph.D.
+      @see Antecedent
+      @see Consequent
+      @see Rule
+      @see HedgeFactory
+      @since 4.0
+     
+     */
     class FL_API Hedge {
     public:
 
@@ -34,8 +46,21 @@ namespace fl {
         }
         FL_DEFAULT_COPY_AND_MOVE(Hedge)
 
+        /**
+          Returns the name of the hedge
+          @return the name of the hedge
+         */
         virtual std::string name() const = 0;
+        /**
+          Computes the hedge for the membership function value @f$x@f$
+          @param x is a membership function value
+          @return the hedge of @f$x@f$
+         */
         virtual scalar hedge(scalar x) const = 0;
+
+        /**
+          @return a clone of the hedge.
+         */
         virtual Hedge* clone() const = 0;
 
     };

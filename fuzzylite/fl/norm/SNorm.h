@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,7 +11,6 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_SNORM_H
@@ -22,6 +20,21 @@
 
 namespace fl {
 
+    /**
+    
+      The SNorm class is the base class for all S-Norms, and it is utilized as
+      the disjunction fuzzy logic operator and as the aggregation (or
+      `accumulation` in versions 5.0 and earlier) fuzzy logic operator.
+        
+      @author Juan Rada-Vilela, Ph.D.
+      @see RuleBlock::getDisjunction()
+      @see OutputVariable::fuzzyOutput()
+      @see Accumulated::getAccumulation() 
+      @see SNormFactory
+      @see Norm
+      @since 4.0
+    
+     */
     class FL_API SNorm : public Norm {
     public:
 
@@ -37,4 +50,3 @@ namespace fl {
     };
 }
 #endif  /* FL_SNORM_H */
-

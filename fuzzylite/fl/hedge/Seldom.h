@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,7 +11,6 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_SELDOM_H
@@ -22,9 +20,31 @@
 
 namespace fl {
 
+    /**
+      
+      The Seldom class is a Hedge located second in the ordered set 
+      (Not, Seldom, Somewhat, Very, Extremely, Any).
+      
+      @author Juan Rada-Vilela, Ph.D.
+      @see Hedge
+      @see HedgeFactory
+      @since 4.0
+     
+     */
     class FL_API Seldom : public Hedge {
     public:
         std::string name() const FL_IOVERRIDE;
+        /**
+          Computes the hedge for the membership function value @f$x@f$
+          @param x is a membership function value
+          @return @f$
+          \begin{cases}
+          \sqrt{0.5x} & \mbox{if $x \le 0.5$} \cr
+          1-\sqrt{0.5(1-x)} & \mbox{otherwise}\cr
+          \end{cases}
+          @f$
+         */
+
         scalar hedge(scalar x) const FL_IOVERRIDE;
         Seldom* clone() const FL_IOVERRIDE;
 

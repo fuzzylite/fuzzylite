@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,7 +11,6 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_SIGMOIDPRODUCT_H
@@ -22,6 +20,19 @@
 
 namespace fl {
 
+    /**
+      
+      The SigmoidProduct class is an extended Term that represents the product
+      of two sigmoidal membership functions.
+
+      @image html sigmoidProduct.svg
+
+      @author Juan Rada-Vilela, Ph.D.
+      @see Term
+      @see Variable
+      @since 4.0
+    
+     */
     class FL_API SigmoidProduct : public Term {
     private:
         scalar _left;
@@ -40,22 +51,76 @@ namespace fl {
         FL_DEFAULT_COPY_AND_MOVE(SigmoidProduct)
 
         virtual std::string className() const FL_IOVERRIDE;
+        /**
+          Returns the parameters of the term
+          @return `"left rising falling right [height]"`
+         */
         virtual std::string parameters() const FL_IOVERRIDE;
+        /**
+          Configures the term with the parameters
+          @param parameters as `"left rising falling right [height]"`
+         */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
+        /**
+          Computes the membership function evaluated at @f$x@f$
+          @param x
+          @return @f$ h (a \times b)@f$
+          
+          where @f$h@f$ is the height,
+                @f$a= 1 / (1 + \exp(-s_l *\times (x - i_l))) @f$,
+                @f$b = 1 / (1 + \exp(-s_r \times (x - i_r)))@f$,
+                @f$i_l@f$ is the left inflection of the SigmoidProduct,
+                @f$s_l@f$ is the left slope of the SigmoidProduct,
+                @f$i_r@f$ is the right inflection of the SigmoidProduct,
+                @f$s_r@f$ is the right slope of the SigmoidProduct
+         */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
+        /**
+          Sets the inflection of the left sigmoidal curve
+          @param leftInflection is the inflection of the left sigmoidal curve
+         */
         virtual void setLeft(scalar leftInflection);
+        /**
+          Gets the inflection of the left sigmoidal curve
+          @return the inflection of the left sigmoidal curve
+         */
         virtual scalar getLeft() const;
 
+        /**
+          Sets the slope of the left sigmoidal curve
+          @param risingSlope is the slope of the left sigmoidal curve
+         */
         virtual void setRising(scalar risingSlope);
+        /**
+          Gets the slope of the left sigmoidal curve
+          @return the slope of the left sigmoidal curve
+         */
         virtual scalar getRising() const;
 
+        /**
+          Sets the slope of the right sigmoidal curve
+          @param fallingSlope is the slope of the right sigmoidal curve
+         */
         virtual void setFalling(scalar fallingSlope);
+        /**
+          Gets the slope of the right sigmoidal curve
+          @return the slope of the right sigmoidal curve
+         */
         virtual scalar getFalling() const;
 
+        /**
+          Sets the inflection of the right sigmoidal curve
+          @param rightInflection is the inflection of the right sigmoidal curve
+         */
         virtual void setRight(scalar rightInflection);
+        /**
+          Gets the inflection of the right sigmoidal curve
+          @return the inflection of the right sigmoidal curve
+         */
         virtual scalar getRight() const;
+
 
         virtual SigmoidProduct* clone() const FL_IOVERRIDE;
 

@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -57,16 +56,16 @@ namespace fl {
             setHeight(Op::toScalar(values.at(required)));
     }
 
-    void Gaussian::setMean(scalar c) {
-        this->_mean = c;
+    void Gaussian::setMean(scalar mean) {
+        this->_mean = mean;
     }
 
     scalar Gaussian::getMean() const {
         return this->_mean;
     }
 
-    void Gaussian::setStandardDeviation(scalar sigma) {
-        this->_standardDeviation = sigma;
+    void Gaussian::setStandardDeviation(scalar standardDeviation) {
+        this->_standardDeviation = standardDeviation;
     }
 
     scalar Gaussian::getStandardDeviation() const {

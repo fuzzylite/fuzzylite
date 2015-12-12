@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,7 +11,6 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_SIGMOID_H
@@ -22,14 +20,33 @@
 
 namespace fl {
 
+    /**
+
+      The Sigmoid class is an edge Term that represents the sigmoid membership
+      function.
+
+      @image html sigmoid.svg
+
+      @author Juan Rada-Vilela, Ph.D.
+      @see Term
+      @see Variable
+      @since 4.0
+    
+     */
     class FL_API Sigmoid : public Term {
     private:
         scalar _inflection;
         scalar _slope;
     public:
 
+        /**
+          Direction is an enumerator that determines the direction of the
+          sigmoid.
+         */
         enum Direction {
-            POSITIVE, ZERO, NEGATIVE
+            /** `(_/)` increases to the right **/ Positive,
+            /** `(--)` slope is zero **/ Zero,
+            /** `(\_)` increases to the left **/ Negative
         };
         explicit Sigmoid(const std::string& name = "",
                 scalar inflection = fl::nan,
@@ -39,17 +56,53 @@ namespace fl {
         FL_DEFAULT_COPY_AND_MOVE(Sigmoid)
 
         virtual std::string className() const FL_IOVERRIDE;
+        /**
+          Returns the parameters of the term
+          @return `"inflection slope [height]"`
+         */
         virtual std::string parameters() const FL_IOVERRIDE;
+        /**
+          Configures the term with the parameters
+          @param parameters as `"inflection slope [height]"`
+         */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
-
+        /**
+          Computes the membership function evaluated at @f$x@f$
+          @param x
+          @return @f$ h / (1 + \exp(-s(x-i)))@f$
+          
+          where @f$h@f$ is the height of the Term,
+                @f$s@f$ is the slope of the Sigmoid,
+                @f$i@f$ is the inflection of the Sigmoid
+         */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
+        /**
+          Sets the inflection of the sigmoid
+          @param inflection is the inflection of the sigmoid
+         */
         virtual void setInflection(scalar inflection);
+        /**
+          Gets the inflection of the sigmoid
+          @return the inflection of the sigmoid
+         */
         virtual scalar getInflection() const;
 
+        /**
+          Sets the slope of the sigmoid
+          @param slope is the slope of the sigmoid
+         */
         virtual void setSlope(scalar slope);
+        /**
+          Gets the slope of the sigmoid
+          @return the slope of the sigmoid
+         */
         virtual scalar getSlope() const;
 
+        /**
+          Returns the direction of the sigmoid
+          @return the direction of the sigmoid
+         */
         virtual Direction direction() const;
 
         virtual Sigmoid* clone() const FL_IOVERRIDE;

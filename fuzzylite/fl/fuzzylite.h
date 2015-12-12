@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,7 +11,6 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_FUZZYLITE_H
@@ -101,26 +99,51 @@
 #define FL_API
 #endif
 
+/**
+  The fl namespace is the namespace where all the classes of the `fuzzylite`
+  library are contained in. @todo utilize FL_BEGIN_NAMESPACE and FL_END_NAMESPACE
 
+  @author Juan Rada-Vilela, Ph.D.
+  @since 4.0
+ */
 namespace fl {
+    /**
+      Represents floating-point values (typedef to float or double).
+     */
 #ifdef FL_USE_FLOAT
     typedef float scalar;
 #else
+    /**
+      Represents floating-point values as doubles.
+     */
     typedef double scalar;
 #endif
 
+#define FL_IUNUSED(x) (void) (x)
+
 #ifdef __GNUC__
-    const scalar nan __attribute__((unused)) = std::numeric_limits<scalar>::quiet_NaN();
-    const scalar inf __attribute__((unused)) = std::numeric_limits<scalar>::infinity();
+#define FL_IUNUSED_DECL __attribute__((unused)) 
 #else
-    const scalar nan = std::numeric_limits<scalar>::quiet_NaN();
-    const scalar inf = std::numeric_limits<scalar>::infinity();
+#define FL_IUNUSED_DECL
 #endif
+    
+    /**
+      Represents the Not-A-Number scalar value
+     */
+    const scalar nan FL_IUNUSED_DECL = std::numeric_limits<scalar>::quiet_NaN();
+    /**
+      Represents the infinity scalar value
+     */
+    const scalar inf FL_IUNUSED_DECL = std::numeric_limits<scalar>::infinity();
 
 #ifdef FL_CPP11
     //C++11 defines
 
     //Pointers
+    /**
+      Represents the `C++11` or `C++98` null pointer depending on whether the
+      compilation flag `-DFL_CPP11` is set
+     */
     const std::nullptr_t null = nullptr;
 #define FL_unique_ptr std::unique_ptr
 #define FL_move_ptr(x) std::move(x)
@@ -153,6 +176,10 @@ namespace fl {
     //C++98 defines
 
     //Pointers
+    /**
+      Represents the `C++11` or `C++98` null pointer depending on whether the
+      compilation flag `-DFL_CPP11` is set
+     */
     const long null = 0L;
 #define FL_unique_ptr std::auto_ptr
 #define FL_move_ptr(x) x
@@ -179,6 +206,15 @@ namespace fl {
 
 namespace fl {
 
+    /**
+
+      The fuzzylite class contains global settings and information about the
+      library.
+
+      @author Juan Rada-Vilela, Ph.D.
+      @since 4.0
+    
+     */
     class FL_API fuzzylite {
     private:
         static int _decimals;
@@ -187,30 +223,119 @@ namespace fl {
         static bool _logging;
 
     public:
+        /**
+          Returns the name of the `fuzzylite` library
+          @return the name of the `fuzzylite` library
+         */
         static std::string name();
+        /**
+          Returns the name of the `fuzzylite` library including the long version
+          @return the name of the `fuzzylite` library including the long version
+         */
         static std::string fullname();
+        /**
+          Returns the version of the `fuzzylite` library
+          @return the version of the `fuzzylite` library
+         */
         static std::string version();
+        /**
+          Returns the version of the `fuzzylite` library including the release
+          date
+          @return the version of the `fuzzylite` library including the release
+          date
+         */
         static std::string longVersion();
+        /**
+          Returns the license under which the `fuzzylite` library is released
+          @return the license under which the `fuzzylite` library is released
+         */
         static std::string license();
+        /**
+          Returns the name of the author of the `fuzzylite` library
+          @return "Juan Rada-Vilela, Ph.D."
+         */
         static std::string author();
+        /**
+          Returns the name of the company that owns the `fuzzylite` library
+          @return "FuzzyLite Limited"
+         */
         static std::string company();
+        /**
+          Returns the website of the `fuzzylite` library
+          @return "http://www.fuzzylite.com/"
+         */
         static std::string website();
 
+        /**
+          Returns the release date of the `fuzzylite` library
+          @return the release date of the `fuzzylite` library
+         */
         static std::string date();
+        /**
+          Returns the platform under which the `fuzzylite` library was built
+          @return `Unix` or `Windows`
+         */
         static std::string platform();
 
+        /**
+          Returns the name of the type of the floating-point variables
+          @return `double` or `float`
+         */
         static std::string floatingPoint();
 
+        /**
+          Indicates whether the library is running in debug mode
+          @return `true` if the library is running in debug mode, and `false`
+          if it is running in release mode
+         */
         static bool debug();
+        /**
+          Sets whether the library is set to run in debug mode
+          @param debug indicates whether the library is set to run in debug mode
+         */
         static void setDebug(bool debug);
 
+        /**
+          Returns the number of decimals utilized when formatting scalar values
+          @return the number of decimals utilized when formatting scalar values
+          (default is 3)
+         */
         static int decimals();
+        /**
+          Sets the number of decimals utilized when formatting scalar values
+          @param decimals is the number of decimals utilized when formatting
+          scalar values
+         */
         static void setDecimals(int decimals);
 
+        /**
+          Returns the minimum difference at which two floating-point values
+          are considered equivalent
+          @return the minimum difference at which two floating-point values
+          are considered equivalent (default is 1e-6)
+         */
         static scalar macheps();
+        /**
+          Sets the minimum difference at which two floating-point values are
+          considered equivalent
+          @param macheps is the minimum difference at which two floating-point
+          values are considered equivalent (default is 1e-6)
+         */
         static void setMachEps(scalar macheps);
 
+        /**
+          Returns whether the library is logging information via the `FL_LOG`
+          macro
+          @return whether the library is logging information via the `FL_LOG`
+          macro
+         */
         static bool logging();
+        /**
+          Sets whether the library is set to log information using the macro
+          `FL_LOG` 
+          @param logging indicates whether the library is set to log
+          information via the `FL_LOG` macro
+         */
         static void setLogging(bool logging);
 
     };

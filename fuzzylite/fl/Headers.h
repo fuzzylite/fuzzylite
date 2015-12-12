@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,7 +11,12 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
+ */
 
+/**
+    The Headers.h file contains the headers of all the classes in the
+    `fuzzylite` library, thereby encouraging the use of the directive `#include
+    "fl/Headers.h"` in projects using the library.
  */
 
 #ifndef FL_HEADERS_H

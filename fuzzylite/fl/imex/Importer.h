@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,7 +11,6 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_IMPORTER_H
@@ -25,6 +23,18 @@
 namespace fl {
     class Engine;
 
+    /**
+    
+      The Importer class is the abstract class for importers to configure an
+      Engine and its components from different text formats.
+
+      @todo declare methods to import specific components
+    
+      @author Juan Rada-Vilela, Ph.D.
+      @see Exporter
+      @since 4.0
+    
+     */
     class FL_API Importer {
     public:
 
@@ -32,10 +42,28 @@ namespace fl {
         virtual ~Importer();
         FL_DEFAULT_COPY_AND_MOVE(Importer)
 
-        virtual Engine* fromString(const std::string& s) const = 0;
+        /**
+          Imports the engine from the given text
+          @param text is the string representation of the engine to import from
+          @return the engine represented by the text
+         */
+        virtual Engine* fromString(const std::string& text) const = 0;
+        /**
+          Imports the engine from the given file
+          @param path is the full path of the file containing the engine to import from
+          @return the engine represented by the file
+         */
         virtual Engine* fromFile(const std::string& path) const;
 
+        /**
+          Returns the name of the importer
+          @return the name of the importer
+         */
         virtual std::string name() const = 0;
+        /**
+          Creates a clone of the importer
+          @return a clone of the importer
+         */
         virtual Importer* clone() const = 0;
     };
 

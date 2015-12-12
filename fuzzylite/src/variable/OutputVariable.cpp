@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -111,6 +110,7 @@ namespace fl {
     }
 
     void OutputVariable::defuzzify() {
+        //@todo: check first if not isEnabled then return.
         if (fl::Op::isFinite(getValue())) {
             setPreviousValue(getValue());
         }
@@ -144,7 +144,7 @@ namespace fl {
         std::ostringstream ss;
         for (std::size_t i = 0; i < terms().size(); ++i) {
             scalar degree = fuzzyOutput()->activationDegree(terms().at(i));
-            if (i == 0) {
+            if (i == 0) { //@todo: extract from for-loop
                 ss << fl::Op::str(degree);
             } else {
                 if (fl::Op::isNaN(degree) or fl::Op::isGE(degree, 0.0))

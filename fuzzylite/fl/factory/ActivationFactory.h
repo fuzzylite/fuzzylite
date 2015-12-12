@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,11 +11,10 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_ACTIVATIONFACTORY_H
-#define	FL_ACTIVATIONFACTORY_H
+#define FL_ACTIVATIONFACTORY_H
 
 #include "fl/fuzzylite.h"
 
@@ -25,6 +23,19 @@
 
 namespace fl {
 
+    /**
+
+      The ActivationFactory class is a ConstructionFactory of Activation
+      methods for RuleBlock%s.
+      
+      @author Juan Rada-Vilela, Ph.D.
+      @see Activation
+      @see RuleBlock
+      @see ConstructionFactory
+      @see FactoryManager
+      @since 6.0
+    
+     */
     class FL_API ActivationFactory : public ConstructionFactory<Activation*> {
     public:
         ActivationFactory();
@@ -33,5 +44,4 @@ namespace fl {
     };
 }
 
-#endif	/* FL_ACTIVATIONFACTORY_H */
-
+#endif /* FL_ACTIVATIONFACTORY_H */

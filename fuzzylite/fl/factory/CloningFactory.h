@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,7 +11,6 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_CLONINGFACTORY_H
@@ -25,7 +23,17 @@
 #include <vector>
 
 namespace fl {
-    //FL_API removed because methods are inline.
+
+    /**
+    
+      The CloningFactory< T > class is the base class for a factory whose objects
+      are created from a registered object by calling the `clone()` method.
+      
+      @author Juan Rada-Vilela, Ph.D.
+      @see FactoryManager
+      @since 5.0
+    
+     */
 
     template <typename T>
     class CloningFactory {
@@ -40,22 +48,63 @@ namespace fl {
         virtual ~CloningFactory();
         FL_DEFAULT_MOVE(CloningFactory)
 
+        /**
+          Returns the name of the factory
+          @return the name of the factory
+         */
         virtual std::string name() const;
 
+        /**
+          Registers the object in the factory
+          @param key is the unique name by which objects are registered
+          @param object is the object to be cloned via a `clone` method 
+         */
         virtual void registerObject(const std::string& key, T object);
+        /**
+          Deregisters the given object from the factory
+          @param key is the unique name by which objects are registered
+          @todo should it not return the deregistered object?
+         */
         virtual void deregisterObject(const std::string& key);
+        /**
+          Checks whether the factory has the given object registered
+          @param key is the unique name by which objects are registered
+          @return whether the factory has the given object registered
+         */
         virtual bool hasObject(const std::string& key) const;
+        /**
+          Gets the object registered by the given key, not a clone of the object
+          @param key is the unique name by which objects are registered
+          @return the object registered by the given key
+         */
         virtual T getObject(const std::string& key) const;
+        /**
+          Creates a cloned object by executing the clone method on the registered object
+          @param key is the unique name by which objects are registered
+          @return a cloned object by executing the clone method on the registered object
+         */
         virtual T cloneObject(const std::string& key) const;
+        /**
+          Returns a vector of the available objects 
+          @return a vector of the available objects 
+         */
         virtual std::vector<std::string> available() const;
+        /**
+          Gets the map of registered keys and objects
+          @return the map of registered keys and objects
+         */
         virtual std::map<std::string, T>& objects();
+        /**
+          Gets an immutable map of registered keys and objects
+          @return an immutable map of registered keys and objects
+         */
         virtual const std::map<std::string, T>& objects() const;
 
     };
 }
 
 /**
- * Template implementation
+  Template implementation
  */
 
 #include "fl/Exception.h"
@@ -122,8 +171,8 @@ namespace fl {
     inline void CloningFactory<T>::deregisterObject(const std::string& key) {
         typename std::map<std::string, T>::iterator it = this->_objects.find(key);
         if (it != this->_objects.end()) {
-            delete it->second;
             this->_objects.erase(it);
+            delete it->second;
         }
     }
 

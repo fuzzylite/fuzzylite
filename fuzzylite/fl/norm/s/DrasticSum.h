@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,7 +11,6 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_DRASTICSUM_H
@@ -21,9 +19,31 @@
 #include "fl/norm/SNorm.h"
 namespace fl {
 
+    /**
+
+      The DrasticSum class is an SNorm that computes the drastic sum of any two
+      values.
+
+      @author Juan Rada-Vilela, Ph.D.
+      @see DrasticProduct
+      @see SNorm
+      @see SNormFactory
+      @see Norm
+      @since 4.0
+    
+     */
     class FL_API DrasticSum : public SNorm {
     public:
         std::string className() const FL_IOVERRIDE;
+        /**
+          Computes the drastic sum of two membership function values
+          @param a is a membership function value
+          @param b is a membership function value
+          @return @f$\begin{cases}
+          \max(a,b) & \mbox{if $\min(a,b)=0$} \cr
+          1 & \mbox{otherwise}
+          \end{cases}@f$
+         */
         scalar compute(scalar a, scalar b) const FL_IOVERRIDE;
         DrasticSum* clone() const FL_IOVERRIDE;
 
@@ -33,4 +53,3 @@ namespace fl {
 }
 
 #endif  /* FL_DRASTICSUM_H */
-

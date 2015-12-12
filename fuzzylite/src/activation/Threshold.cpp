@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -93,6 +92,16 @@ namespace fl {
 
     scalar Threshold::getThreshold() const {
         return this->_threshold;
+    }
+
+    void Threshold::setComparisonThreshold(Comparison comparison, scalar threshold) {
+        setComparison(comparison);
+        setThreshold(threshold);
+    }
+
+    void Threshold::setComparisonThreshold(const std::string& comparison, scalar threshold) {
+        setComparison(parseComparisonOperator(comparison));
+        setThreshold(threshold);
     }
 
     bool Threshold::activates(scalar activationDegree) const {

@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,17 +11,29 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_GENERAL_H
-#define	FL_GENERAL_H
+#define FL_GENERAL_H
 
 #include "fl/fuzzylite.h"
 
 #include "fl/activation/Activation.h"
 
 namespace fl {
+
+    /** 
+    
+      The General class is a RuleBlock Activation method that activates every
+      rule following the order in which the rules were added to the rule block.
+        
+      @author Juan Rada-Vilela, Ph.D.
+      @see Rule
+      @see RuleBlock
+      @see ActivationFactory
+      @since 6.0
+    
+     */
 
     class FL_API General : public Activation {
     public:
@@ -33,9 +44,26 @@ namespace fl {
 
         virtual std::string className() const FL_IOVERRIDE;
 
+        /**
+          No parameters are required to configure the activation method.
+          
+          @return an empty string
+         */
         virtual std::string parameters() const FL_IOVERRIDE;
+
+        /**
+          No parameters are required to configure the activation method.
+          
+          @param parameters is an empty string
+         */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
+        /**
+          Activates every rule in the given rule block following the order in
+          which the rules were added.
+          
+          @param ruleBlock is the rule block to activate
+         */
         virtual void activate(RuleBlock* ruleBlock) const FL_IOVERRIDE;
 
         virtual General* clone() const FL_IOVERRIDE;
@@ -45,5 +73,4 @@ namespace fl {
 
 }
 
-#endif	/* FL_GENERAL_H */
-
+#endif /* FL_GENERAL_H */

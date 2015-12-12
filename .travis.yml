@@ -17,11 +17,14 @@ addons:
     packages: 
       - ['g++-5', 'g++-4.9', 'g++-4.8']
       - ['clang-3.6']
+      - ['doxygen', 'graphviz', 'texlive-binaries']
       #cannot install more than one clang.
 before_install:
   - export CC=$EXPORT_CC CXX=$EXPORT_CXX
 
 script:
+  #docs
+  #- doxygen
   #cmake 
   - mkdir -p $HOME/cmake
   - wget http://www.cmake.org/files/v3.1/cmake-3.1.3-Linux-x86_64.tar.gz --no-check-certificate

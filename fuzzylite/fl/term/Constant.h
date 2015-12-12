@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,7 +11,6 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_CONSTANT_H
@@ -22,6 +20,17 @@
 
 namespace fl {
 
+    /**
+    
+      The Constant class is a (zero) polynomial Term that represents a constant
+      value @f$ f(x) = k @f$
+    
+      @author Juan Rada-Vilela, Ph.D.
+      @see Term
+      @see Variable
+      @since 4.0
+    
+     */
     class FL_API Constant : public Term {
     private:
         scalar _value;
@@ -33,12 +42,32 @@ namespace fl {
         FL_DEFAULT_COPY_AND_MOVE(Constant)
 
         virtual std::string className() const FL_IOVERRIDE;
+        /**
+          Returns the parameters of the term
+          @return `"value"`
+         */
         virtual std::string parameters() const FL_IOVERRIDE;
+        /**
+          Configures the term with the parameters
+          @param parameters as `"value"`
+         */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
-
+        /**
+          Computes the membership function evaluated at @f$x@f$
+          @param x is irrelevant
+          @return @f$c@f$, where @f$c@f$ is the constant value
+         */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
+        /**
+          Sets the constant value
+          @param value is the constant value
+         */
         virtual void setValue(scalar value);
+        /**
+          Gets the constant value
+          @return the constant value
+         */
         virtual scalar getValue() const;
 
         virtual Constant* clone() const FL_IOVERRIDE;

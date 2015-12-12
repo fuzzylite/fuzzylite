@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,7 +11,6 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_NOT_H
@@ -22,9 +20,25 @@
 
 namespace fl {
 
+    /**
+      
+      The Not class is a Hedge located first in the ordered set 
+      (Not, Seldom, Somewhat, Very, Extremely, Any).
+      
+      @author Juan Rada-Vilela, Ph.D.
+      @see Hedge
+      @see HedgeFactory
+      @since 4.0
+     
+     */
     class FL_API Not : public Hedge {
     public:
         std::string name() const FL_IOVERRIDE;
+        /**
+          Computes the hedge for the membership function value @f$x@f$
+          @param x is a membership function value
+          @return @f$1-x@f$
+         */
         scalar hedge(scalar x) const FL_IOVERRIDE;
         Not* clone() const FL_IOVERRIDE;
 

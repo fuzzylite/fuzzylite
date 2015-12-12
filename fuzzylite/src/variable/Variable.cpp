@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -228,7 +227,7 @@ namespace fl {
     }
 
     bool Variable::hasTerm(const std::string& name) const {
-        return getTerm(name) != fl::null;
+        return getTerm(name) != fl::null; //@todo: Avoid exception when not found
     }
 
     Term* Variable::removeTerm(std::size_t index) {

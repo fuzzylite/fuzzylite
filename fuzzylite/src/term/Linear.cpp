@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -53,13 +52,13 @@ namespace fl {
         return result;
     }
 
-    void Linear::set(const std::vector<scalar>& coeffs, const Engine* engine) {
-        setCoefficients(coeffs);
+    void Linear::set(const std::vector<scalar>& coefficients, const Engine* engine) {
+        setCoefficients(coefficients);
         setEngine(engine);
     }
 
-    void Linear::setCoefficients(const std::vector<scalar>& coeffs) {
-        this->_coefficients = coeffs;
+    void Linear::setCoefficients(const std::vector<scalar>& coefficients) {
+        this->_coefficients = coefficients;
     }
 
     const std::vector<scalar>& Linear::coefficients() const {

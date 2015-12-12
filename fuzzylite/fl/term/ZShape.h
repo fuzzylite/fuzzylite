@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,7 +11,6 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_ZSHAPE_H
@@ -21,6 +19,20 @@
 #include "fl/term/Term.h"
 
 namespace fl {
+
+    /**
+
+      The ZShape class is an edge Term that represents the Z-shaped membership
+      function.
+
+      @image html zShape.svg
+
+      @author Juan Rada-Vilela, Ph.D.
+      @see Term
+      @see Variable
+      @since 4.0
+    
+     */
 
     class FL_API ZShape : public Term {
     private:
@@ -35,15 +47,53 @@ namespace fl {
         FL_DEFAULT_COPY_AND_MOVE(ZShape)
 
         virtual std::string className() const FL_IOVERRIDE;
+        /**
+          Returns the parameters of the term
+          @return `"start end [height]"`
+         */
         virtual std::string parameters() const FL_IOVERRIDE;
+        /**
+          Configures the term with the parameters
+          @param parameters as `"start end [height]"`
+         */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
+        /**
+          Computes the membership function evaluated at @f$x@f$
+          @param x
+          @return @f$  \begin{cases}
+          1h & \mbox{if $x \leq s$} \cr
+          h(1 - 2\left((x - s) / (e-s)\right)^2) & \mbox{if $x \leq 0.5(s+e)$}\cr
+          h(2 \left((x - e) / (e-s)\right)^2) & \mbox{if $x < e$}\cr
+          0h & \mbox{otherwise}
+          \end{cases}@f$
+          
+          where @f$h@f$ is the height of the Term,
+                @f$s@f$ is the start of the ZShape,
+                @f$e@f$ is the end of the ZShape.
+         */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
+        /**
+          Sets the start of the edge
+          @param start is the start of the edge
+         */
         virtual void setStart(scalar start);
+        /**
+          Gets the start of the edge
+          @return the start of the edge
+         */
         virtual scalar getStart() const;
 
+        /**
+          Sets the end of the edge
+          @param end is the end of the edge
+         */
         virtual void setEnd(scalar end);
+        /**
+          Gets the end of the edge
+          @return the end of the edge
+         */
         virtual scalar getEnd() const;
 
         virtual ZShape* clone() const FL_IOVERRIDE;

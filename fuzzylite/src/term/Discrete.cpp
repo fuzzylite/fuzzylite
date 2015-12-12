@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -31,6 +30,7 @@ namespace fl {
     std::string Discrete::className() const {
         return "Discrete";
     }
+    //@todo: use binary search
 
     scalar Discrete::membership(scalar _x_) const {
         if (fl::Op::isNaN(_x_)) return fl::nan;

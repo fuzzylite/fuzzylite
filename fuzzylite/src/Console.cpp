@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -96,7 +95,7 @@ namespace fl {
 
         ss << "\n";
         ss << "Visit " << fuzzylite::website() << " for more information.\n\n";
-        ss << "Copyright (C) 2010-2015 FuzzyLite Limited.\n";
+        ss << "Copyright (C) 2010-2015 by FuzzyLite Limited.\n";
         ss << "All rights reserved.";
 
         return ss.str();

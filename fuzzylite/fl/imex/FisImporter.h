@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,7 +11,6 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_FISIMPORTER_H
@@ -32,6 +30,18 @@ namespace fl {
     class Defuzzifier;
     class Variable;
 
+    /**
+      
+      The FisImporter class is an Importer that configures an Engine and its
+      components from utilizing the Fuzzy Inference System format for Matlab or
+      Octave.
+
+      @author Juan Rada-Vilela, Ph.D.
+      @see FisExporter
+      @see Importer
+      @since 4.0
+    
+     */
     class FL_API FisImporter : public Importer {
     public:
         FisImporter();

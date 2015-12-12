@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,7 +11,6 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_SNORMFACTORY_H
@@ -24,6 +22,17 @@
 
 namespace fl {
 
+    /**
+      
+      The SNormFactory class is a ConstructionFactory of SNorm%s.
+      
+      @author Juan Rada-Vilela, Ph.D.
+      @see SNorm
+      @see ConstructionFactory
+      @see FactoryManager
+      @since 4.0
+    
+     */
     class FL_API SNormFactory : public ConstructionFactory<SNorm*> {
     public:
         SNormFactory();

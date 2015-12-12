@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -24,7 +23,7 @@ namespace fl {
 
     Activated::Activated(const Term* term, scalar degree, const TNorm* implication)
     : Term(""), _term(term), _degree(degree), _implication(implication) {
-        if (term) this->getName() = term->getName();
+        if (term) setName(term->getName());
     }
 
     Activated::~Activated() {

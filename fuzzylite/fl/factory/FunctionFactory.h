@@ -1,6 +1,5 @@
 /*
- Author: Juan Rada-Vilela, Ph.D.
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2015 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -12,7 +11,6 @@
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
-
  */
 
 #ifndef FL_FUNCTIONFACTORY_H
@@ -24,6 +22,19 @@
 
 namespace fl {
 
+    /**
+    
+      The FunctionFactory class is a CloningFactory of operators and functions
+      utilized by the Function term.
+      
+      @author Juan Rada-Vilela, Ph.D.
+      @see Function
+      @see Element
+      @see CloningFactory
+      @see FactoryManager
+      @since 5.0
+    
+     */
     class FunctionFactory : public CloningFactory<Function::Element*> {
     private:
         void registerOperators();
@@ -33,7 +44,15 @@ namespace fl {
         virtual ~FunctionFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FunctionFactory)
 
+        /**
+          Returns a vector of the operators available
+          @return a vector of the operators available
+         */
         virtual std::vector<std::string> availableOperators() const;
+        /**
+          Returns a vector of the functions available
+          @return a vector of the functions available
+         */
         virtual std::vector<std::string> availableFunctions() const;
 
     };
