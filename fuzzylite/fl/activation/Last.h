@@ -24,13 +24,10 @@ namespace fl {
     /**
     
      The Last class is a RuleBlock Activation method that activates the last
-     rule whose activation degree is greater than the given threshold, and
-     deactivates the remaining rules. The rules are iterated in the reverse
-     order in which they were added to the rule block.
-    
-     @todo Revise if natural order is a better option.
-     @todo add threshold value
-      
+     rule whose activation degree is greater than or equal to the given
+     threshold, and deactivates the remaining rules. The rules are iterated in
+     the reverse order in which they were added to the rule block.
+
      @author Juan Rada-Vilela, Ph.D.
      @see First
      @see Rule
@@ -41,9 +38,11 @@ namespace fl {
      */
 
     class FL_API Last : public Activation {
+    private:
+        scalar _threshold;
     public:
 
-        Last();
+        explicit Last(scalar threshold = 0.0);
         virtual ~Last();
         FL_DEFAULT_COPY_AND_MOVE(Last)
 
@@ -62,6 +61,18 @@ namespace fl {
           @param parameters is an empty string
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
+
+        /**
+          Sets the threshold for the activation degree
+          @param threshold is the threshold for the activation degree
+         */
+        virtual void setThreshold(scalar threshold);
+
+        /**
+          Gets the threshold for the activation degree
+          @return the threshold for the activation degree
+         */
+        virtual scalar getThreshold() const;
 
         /**
           Activates the last rule whose activation degree is greater than the

@@ -152,13 +152,12 @@ namespace fl {
         /**
           Returns whether the activation method will activate a rule with
           the given activation degree
-          @todo rename to  `activatesWith`
           
           @param activationDegree an activation degree
           @return whether the comparison equation is satisfied with the  
           activation degree and the threshold
          */
-        virtual bool activates(scalar activationDegree) const;
+        virtual bool activatesWith(scalar activationDegree) const;
 
         /**
           Activates the rules whose activation degrees satisfy the comparison

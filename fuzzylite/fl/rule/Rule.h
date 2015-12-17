@@ -147,6 +147,14 @@ namespace fl {
         virtual scalar getActivationDegree() const;
 
         /**
+          Computes the activation degree for this rule
+          @param conjunction is the conjunction operator
+          @param disjunction is the disjunction operator
+          @return the activation degree of this rule multiplied by its weight
+         */
+        virtual scalar computeActivationDegree(const TNorm* conjunction, const SNorm* disjunction) const;
+        
+        /**
           Activates the rule with the given activation degree and implication
           operator
           @param activationDegree is the activation degree of the rule

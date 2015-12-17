@@ -38,7 +38,7 @@ namespace fl {
 
     std::string Threshold::parameters() const {
         std::ostringstream ss;
-        ss << getComparisonOperator() << " " << Op::str(_threshold);
+        ss << getComparisonOperator() << " " << Op::str(getThreshold());
         return ss.str();
     }
 
@@ -65,7 +65,7 @@ namespace fl {
     }
 
     std::string Threshold::getComparisonOperator() const {
-        switch (_comparison) {
+        switch (getComparison()) {
             case EqualTo: return "==";
             case NotEqualTo: return "!=";
             case LessThan: return "<";
@@ -104,14 +104,14 @@ namespace fl {
         setThreshold(threshold);
     }
 
-    bool Threshold::activates(scalar activationDegree) const {
-        switch (_comparison) {
-            case EqualTo: return Op::isEq(activationDegree, _threshold);
-            case NotEqualTo: return not Op::isEq(activationDegree, _threshold);
-            case LessThan: return Op::isLt(activationDegree, _threshold);
-            case LessThanOrEqualTo: return Op::isLE(activationDegree, _threshold);
-            case GreaterThan: return Op::isGt(activationDegree, _threshold);
-            case GreaterThanOrEqualTo: return Op::isGE(activationDegree, _threshold);
+    bool Threshold::activatesWith(scalar activationDegree) const {
+        switch (getComparison()) {
+            case EqualTo: return Op::isEq(activationDegree, getThreshold());
+            case NotEqualTo: return not Op::isEq(activationDegree, getThreshold());
+            case LessThan: return Op::isLt(activationDegree, getThreshold());
+            case LessThanOrEqualTo: return Op::isLE(activationDegree, getThreshold());
+            case GreaterThan: return Op::isGt(activationDegree, getThreshold());
+            case GreaterThanOrEqualTo: return Op::isGE(activationDegree, getThreshold());
             default: return false;
         }
     }
@@ -125,9 +125,8 @@ namespace fl {
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             Rule* rule = ruleBlock->getRule(i);
             if (rule->isLoaded()) {
-                scalar activationDegree = rule->getWeight()
-                        * rule->getAntecedent()->activationDegree(conjunction, disjunction);
-                if (activates(activationDegree)) {
+                scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
+                if (activatesWith(activationDegree)) {
                     rule->activate(activationDegree, implication);
                 } else {
                     rule->deactivate();

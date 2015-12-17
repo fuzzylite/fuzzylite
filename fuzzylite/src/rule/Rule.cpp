@@ -141,6 +141,13 @@ namespace fl {
         return this->_activationDegree;
     }
 
+    scalar Rule::computeActivationDegree(const TNorm* conjunction, const SNorm* disjunction) const {
+        if (not isLoaded()) {
+            throw fl::Exception("[rule error] the following rule is not loaded: " + _text, FL_AT);
+        }
+        return getWeight() * getAntecedent()->activationDegree(conjunction, disjunction);
+    }
+
     void Rule::activate(scalar activationDegree, const TNorm* implication) {
         if (not isLoaded()) {
             throw fl::Exception("[rule error] the following rule is not loaded: " + _text, FL_AT);

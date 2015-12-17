@@ -25,7 +25,7 @@
 
 namespace fl {
 
-    Last::Last() : Activation() {
+    Last::Last(scalar threshold) : Activation(), _threshold(threshold) {
 
     }
 
@@ -38,11 +38,19 @@ namespace fl {
     }
 
     std::string Last::parameters() const {
-        return "";
+        return Op::str(getThreshold());
     }
 
     void Last::configure(const std::string& parameters) {
-        (void) parameters;
+        setThreshold(Op::toScalar(parameters));
+    }
+
+    void Last::setThreshold(scalar threshold) {
+        this->_threshold = threshold;
+    }
+
+    scalar Last::getThreshold() const {
+        return this->_threshold;
     }
 
     void Last::activate(RuleBlock* ruleBlock) const {
@@ -51,15 +59,17 @@ namespace fl {
         const SNorm* disjunction = ruleBlock->getDisjunction();
         const TNorm* implication = ruleBlock->getImplication();
 
-        bool activated = false;
+        Rule* last = fl::null;
         for (std::vector<Rule*>::const_reverse_iterator it = ruleBlock->rules().rbegin();
                 it != ruleBlock->rules().rend(); ++it) {
             Rule* rule = (*it);
-            if (rule->isLoaded() and not activated) {
-                scalar activationDegree = rule->getWeight()
-                        * rule->getAntecedent()->activationDegree(conjunction, disjunction);
-                rule->activate(activationDegree, implication);
-                activated = Op::isGt(activationDegree, 0.0);
+            scalar activationDegree = 0.0;
+            if (not last and rule->isLoaded()) {
+                activationDegree = rule->computeActivationDegree(conjunction, disjunction);
+            }
+            if (Op::isGt(activationDegree, 0.0) and Op::isGE(activationDegree, getThreshold())) {
+                last = rule;
+                last->activate(activationDegree, implication);
             } else {
                 rule->deactivate();
             }

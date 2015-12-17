@@ -57,8 +57,7 @@ namespace fl {
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             Rule* rule = ruleBlock->getRule(i);
             if (rule->isLoaded()) {
-                scalar activationDegree = rule->getWeight()
-                        * rule->getAntecedent()->activationDegree(conjunction, disjunction);
+                scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
                 rulesToActivate.push_back(RuleDegree(rule, activationDegree));
                 sumActivationDegrees += activationDegree;
             } else {

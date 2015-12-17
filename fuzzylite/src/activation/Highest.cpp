@@ -37,11 +37,10 @@ namespace fl {
     }
 
     std::string Highest::parameters() const {
-        return Op::str(_activatedRules);
+        return Op::str(getActivatedRules());
     }
 
     void Highest::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
         setActivatedRules((int) Op::toScalar(parameters));
     }
 
@@ -73,9 +72,8 @@ namespace fl {
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             Rule* rule = ruleBlock->getRule(i);
             if (rule->isLoaded()) {
-                scalar activationDegree = rule->getWeight()
-                        * rule->getAntecedent()->activationDegree(conjunction, disjunction);
-                if (_activatedRules < 0) {
+                scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
+                if (getActivatedRules() < 0) {
                     //sort ascending to activate the lowest n rules
                     activationDegree = -activationDegree;
                 }
@@ -86,7 +84,7 @@ namespace fl {
         }
 
         int activated = 0;
-        while (rulesToActivate.size() > 0 and activated++ < _activatedRules) {
+        while (rulesToActivate.size() > 0 and activated++ < getActivatedRules()) {
             Rule* rule = rulesToActivate.top().first;
             scalar activationDegree = std::fabs(rulesToActivate.top().second);
             rule->activate(activationDegree, implication);

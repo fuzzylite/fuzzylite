@@ -25,7 +25,7 @@
 
 namespace fl {
 
-    First::First() : Activation() {
+    First::First(scalar threshold) : Activation(), _threshold(threshold) {
 
     }
 
@@ -38,11 +38,11 @@ namespace fl {
     }
 
     std::string First::parameters() const {
-        return "";
+        return Op::str(getThreshold());
     }
 
     void First::configure(const std::string& parameters) {
-        (void) parameters;
+        setThreshold(Op::toScalar(parameters));
     }
 
     void First::activate(RuleBlock* ruleBlock) const {
@@ -51,19 +51,30 @@ namespace fl {
         const SNorm* disjunction = ruleBlock->getDisjunction();
         const TNorm* implication = ruleBlock->getImplication();
 
-        bool activated = false;
+        Rule* first = fl::null;
         for (std::vector<Rule*>::const_iterator it = ruleBlock->rules().begin();
                 it != ruleBlock->rules().end(); ++it) {
             Rule* rule = (*it);
-            if (rule->isLoaded() and not activated) {
-                scalar activationDegree = rule->getWeight()
-                        * rule->getAntecedent()->activationDegree(conjunction, disjunction);
-                rule->activate(activationDegree, implication);
-                activated = Op::isGt(activationDegree, 0.0);
-            } else {
+
+            scalar activationDegree = 0.0;
+            if (not first and rule->isLoaded()) {
+                activationDegree = rule->computeActivationDegree(conjunction, disjunction);
+            }
+            if (Op::isGt(activationDegree, 0.0) and Op::isGE(activationDegree, getThreshold())) {
+                first = rule;
+                first->activate(activationDegree, implication);
+            }else{
                 rule->deactivate();
             }
         }
+    }
+
+    void First::setThreshold(scalar threshold) {
+        this->_threshold = threshold;
+    }
+
+    scalar First::getThreshold() const {
+        return this->_threshold;
     }
 
     First* First::clone() const {
