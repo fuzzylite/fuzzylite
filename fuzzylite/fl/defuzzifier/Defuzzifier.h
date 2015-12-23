@@ -60,7 +60,6 @@ namespace fl {
           @param minimum is the minimum value of the range 
           @param maximum is the maximum value of the range 
           @return the defuzzified value of the given fuzzy term
-          @todo consider changing the type of `Term* term` to `Accumulated* term`
          */
         virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const = 0;
 

@@ -142,16 +142,17 @@ namespace fl {
 
     std::string OutputVariable::fuzzyOutputValue() const {
         std::ostringstream ss;
-        for (std::size_t i = 0; i < terms().size(); ++i) {
+        if (not terms().empty()) {
+            Term* first = terms().front();
+            ss << fl::Op::str(fuzzyOutput()->activationDegree(first)) 
+                    << "/" << first->getName();
+        }
+        for (std::size_t i = 1; i < terms().size(); ++i) {
             scalar degree = fuzzyOutput()->activationDegree(terms().at(i));
-            if (i == 0) { //@todo: extract from for-loop
-                ss << fl::Op::str(degree);
-            } else {
-                if (fl::Op::isNaN(degree) or fl::Op::isGE(degree, 0.0))
-                    ss << " + " << fl::Op::str(degree);
-                else
-                    ss << " - " << fl::Op::str(std::fabs(degree));
-            }
+            if (fl::Op::isNaN(degree) or fl::Op::isGE(degree, 0.0))
+                ss << " + " << fl::Op::str(degree);
+            else
+                ss << " - " << fl::Op::str(std::fabs(degree));
             ss << "/" << terms().at(i)->getName();
         }
         return ss.str();

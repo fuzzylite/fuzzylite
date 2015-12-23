@@ -55,15 +55,14 @@ namespace fl {
         virtual std::string name() const;
 
         /**
-          Registers the object in the factory
+          Registers the object in the factory and assumes its ownership
           @param key is the unique name by which objects are registered
           @param object is the object to be cloned via a `clone` method 
          */
         virtual void registerObject(const std::string& key, T object);
         /**
-          Deregisters the given object from the factory
+          Deregisters the given object from the factory and deletes it
           @param key is the unique name by which objects are registered
-          @todo should it not return the deregistered object?
          */
         virtual void deregisterObject(const std::string& key);
         /**

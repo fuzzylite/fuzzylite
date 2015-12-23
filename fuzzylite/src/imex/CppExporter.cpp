@@ -159,6 +159,8 @@ namespace fl {
                 << toString(ruleBlock->getDisjunction()) << ");\n";
         ss << name << "->setImplication("
                 << toString(ruleBlock->getImplication()) << ");\n";
+        ss << name << "->setActivation("
+                << toString(ruleBlock->getActivation()) << ");\n";
         for (std::size_t r = 0; r < ruleBlock->numberOfRules(); ++r) {
             ss << name << "->addRule(" << "fl::Rule::parse(\"" <<
                     ruleBlock->getRule(r)->getText() << "\", engine));\n";
@@ -235,6 +237,11 @@ namespace fl {
                     "(\"" + weightedDefuzzifier->getTypeName() + "\")";
         }
         return "new " + fl(defuzzifier->className());
+    }
+
+    std::string CppExporter::toString(const Activation* activation) const {
+        if (not activation) return "fl::null";
+        return "new " + fl(activation->className());
     }
 
     CppExporter* CppExporter::clone() const {

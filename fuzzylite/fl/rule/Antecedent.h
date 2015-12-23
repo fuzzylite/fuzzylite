@@ -47,7 +47,7 @@ namespace fl {
     class FL_API Antecedent {
     private:
         std::string _text;
-        FL_unique_ptr<Expression> _expression; //@todo make smart pointer
+        FL_unique_ptr<Expression> _expression;
 
     public:
         Antecedent();

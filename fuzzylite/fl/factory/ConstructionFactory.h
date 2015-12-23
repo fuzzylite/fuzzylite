@@ -70,7 +70,6 @@ namespace fl {
         /**
           Deregisters the given constructor from the factory
           @param key is the unique name by which constructors are registered
-          @todo should it not return the deregistered object?
          */
         virtual void deregisterConstructor(const std::string& key);
         /**

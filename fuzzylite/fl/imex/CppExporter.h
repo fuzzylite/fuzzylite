@@ -112,8 +112,8 @@ namespace fl {
           Returns a string representation of the Activation method in the `C++` programming language
           @param activation is the activation method 
           @return a string representation of the activation method in the `C++` programming language
-          @todo virtual std::string toString(const Activation* activation) const;
          */
+        virtual std::string toString(const Activation* activation) const;
 
         /**
           Returns a string representation of the scalar value in the `C++` programming language

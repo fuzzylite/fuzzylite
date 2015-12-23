@@ -28,7 +28,6 @@ namespace fl {
       considers Any to be a syntactically special hedge because it is not
       followed by a Term (e.g., `if Variable is any then...`). Amongst hedges,
       only Any has virtual methods to be overriden due to its particular case.
-      @todo check other special cases of Any.
 
       @author Juan Rada-Vilela, Ph.D.
       @see Hedge

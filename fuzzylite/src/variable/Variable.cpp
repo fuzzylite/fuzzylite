@@ -227,7 +227,12 @@ namespace fl {
     }
 
     bool Variable::hasTerm(const std::string& name) const {
-        return getTerm(name) != fl::null; //@todo: Avoid exception when not found
+        for (std::size_t i = 0; i < terms().size(); ++i) {
+            if (terms().at(i)->getName() == name) {
+                return true;
+            }
+        }
+        return false;
     }
 
     Term* Variable::removeTerm(std::size_t index) {

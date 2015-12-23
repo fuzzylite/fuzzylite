@@ -54,8 +54,6 @@ namespace fl {
       where elements in brackets are optional, elements in parentheses are
       compulsory, `*`-marked elements may appear zero or more times, and
      `?`-marked elements may appear once or not at all.
-     
-      @todo add `computeActivationDegree` and replace in Activation methods
       
       @author Juan Rada-Vilela, Ph.D.
       @see Antecedent

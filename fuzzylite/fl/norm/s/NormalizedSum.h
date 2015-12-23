@@ -39,7 +39,7 @@ namespace fl {
           Computes the normalized sum of two membership function values
           @param a is a membership function value
           @param b is a membership function value
-          @return @f$(a+b)/\max(1, \max(a, b))@f$ @todo revise this function.
+          @return @f$(a+b)/\max(1, a + b)@f$
          */
         scalar compute(scalar a, scalar b) const FL_IOVERRIDE;
         NormalizedSum* clone() const FL_IOVERRIDE;
