@@ -1,3 +1,4 @@
 test/catch.hpp
 test/test.cpp
 test/term/Function.cpp
+test/variable/Variable.cpp

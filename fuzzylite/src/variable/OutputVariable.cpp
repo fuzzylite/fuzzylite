@@ -110,7 +110,8 @@ namespace fl {
     }
 
     void OutputVariable::defuzzify() {
-        //@todo: check first if not isEnabled then return.
+        if (not isEnabled()) return;
+        
         if (fl::Op::isFinite(getValue())) {
             setPreviousValue(getValue());
         }
@@ -144,7 +145,7 @@ namespace fl {
         std::ostringstream ss;
         if (not terms().empty()) {
             Term* first = terms().front();
-            ss << fl::Op::str(fuzzyOutput()->activationDegree(first)) 
+            ss << fl::Op::str(fuzzyOutput()->activationDegree(first))
                     << "/" << first->getName();
         }
         for (std::size_t i = 1; i < terms().size(); ++i) {

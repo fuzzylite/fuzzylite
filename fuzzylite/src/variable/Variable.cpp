@@ -23,8 +23,7 @@
 #include "fl/term/Linear.h"
 #include "fl/term/Term.h"
 
-#include <algorithm>
-#include <map>
+#include <queue>
 #include <sstream>
 
 namespace fl {
@@ -173,35 +172,43 @@ namespace fl {
      * Operations for datatype _terms
      */
 
-    struct SortByCoG {
-        std::map<const Term*, scalar> centroids;
+    typedef std::pair<Term*, scalar> TermCentroid;
 
-        bool operator()(const Term* a, const Term * b) {
-            return fl::Op::isLt(
-                    centroids.find(a)->second,
-                    centroids.find(b)->second);
+    struct TermCentroidComparatorAscending {
+
+        bool operator()(const TermCentroid& a, const TermCentroid& b) const {
+            return a.second > b.second;
         }
     };
 
     void Variable::sort() {
+        std::priority_queue <TermCentroid, std::vector<TermCentroid>,
+                TermCentroidComparatorAscending> termCentroids;
         Centroid defuzzifier;
-        //TODO: Change data structure for a std::priority_queue;
-        std::map<const Term*, scalar> centroids;
+        FL_DBG("Sorting...");
         for (std::size_t i = 0; i < terms().size(); ++i) {
             Term* term = terms().at(i);
+            scalar centroid = fl::inf;
             try {
                 if (dynamic_cast<const Constant*> (term) or dynamic_cast<const Linear*> (term)) {
-                    centroids[term] = term->membership(0);
+                    centroid = term->membership(0);
                 } else {
-                    centroids[term] = defuzzifier.defuzzify(term, getMinimum(), getMaximum());
+                    centroid = defuzzifier.defuzzify(term, getMinimum(), getMaximum());
                 }
             } catch (...) { //ignore error possibly due to Function not loaded
-                centroids[term] = fl::inf;
+                centroid = fl::inf;
             }
+            termCentroids.push(TermCentroid(term, centroid));
+            FL_DBG(term->toString() << " -> " << centroid)
         }
-        SortByCoG criterion;
-        criterion.centroids = centroids;
-        std::sort(terms().begin(), terms().end(), criterion);
+
+        std::vector<Term*> sortedTerms;
+        while (termCentroids.size() > 0) {
+            sortedTerms.push_back(termCentroids.top().first);
+            FL_DBG(termCentroids.top().first->toString() << " -> " << termCentroids.top().second);
+            termCentroids.pop();
+        }
+        setTerms(sortedTerms);
     }
 
     void Variable::addTerm(Term* term) {
