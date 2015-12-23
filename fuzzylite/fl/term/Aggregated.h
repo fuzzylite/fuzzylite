@@ -13,8 +13,8 @@
  fuzzylite® is a registered trademark of FuzzyLite Limited.
  */
 
-#ifndef FL_ACCUMULATED_H
-#define FL_ACCUMULATED_H
+#ifndef FL_AGGREGATED_H
+#define FL_AGGREGATED_H
 
 #include "fl/term/Term.h"
 
@@ -28,12 +28,12 @@ namespace fl {
 
     /**
       
-      The Accumulated class is a special Term that stores a fuzzy set with the
+      The Aggregated class is a special Term that stores a fuzzy set with the
       Activated terms from the Antecedent%s of a Rule, thereby serving mainly
       as the fuzzy output value of the OutputVariable%s. The ownership of the
       activated terms will be transfered to objects of this class, and
       therefore their destructors will be called upon destruction of this term
-      (or calling Accumulated::clear()).
+      (or calling Aggregated::clear()).
       @todo rename this class to Aggregated and its related methods
       
       @author Juan Rada-Vilela, Ph.D.
@@ -42,30 +42,30 @@ namespace fl {
       @see OutputVariable
       @see Activated
       @see Term
-      @since 4.0
+      @since 6.0
     
      */
-    class FL_API Accumulated : public Term {
+    class FL_API Aggregated : public Term {
     private:
         std::vector<Activated*> _terms;
         scalar _minimum, _maximum;
-        FL_unique_ptr<SNorm> _accumulation;
+        FL_unique_ptr<SNorm> _aggregation;
 
-        void copyFrom(const Accumulated& source);
+        void copyFrom(const Aggregated& source);
     public:
-        explicit Accumulated(const std::string& name = "",
+        explicit Aggregated(const std::string& name = "",
                 scalar minimum = fl::nan,
                 scalar maximum = fl::nan,
-                SNorm* accumulation = fl::null);
-        Accumulated(const Accumulated& other);
-        Accumulated& operator=(const Accumulated& other);
-        virtual ~Accumulated() FL_IOVERRIDE;
-        FL_DEFAULT_MOVE(Accumulated)
+                SNorm* aggregation = fl::null);
+        Aggregated(const Aggregated& other);
+        Aggregated& operator=(const Aggregated& other);
+        virtual ~Aggregated() FL_IOVERRIDE;
+        FL_DEFAULT_MOVE(Aggregated)
 
         virtual std::string className() const FL_IOVERRIDE;
         /**
           Returns the parameters of the term
-          @return `"accumulation minimum maximum terms"`
+          @return `"aggregation minimum maximum terms"`
          */
         virtual std::string parameters() const FL_IOVERRIDE;
         /**
@@ -74,22 +74,22 @@ namespace fl {
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        virtual Accumulated* clone() const FL_IOVERRIDE;
+        virtual Aggregated* clone() const FL_IOVERRIDE;
         /**
-          Accumulates the membership function values of @f$x@f$ utilizing the
-          accumulation operator
+          Aggregates the membership function values of @f$x@f$ utilizing the
+          aggregation operator
           @param x is a value
           @return @f$\sum_i{\mu_i(x)}, i \in \mbox{terms}@f$
          */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
         /**
-          Computes the accumulated activation degree for the given term. 
-          If the same term is present multiple times, the accumulation operator 
+          Computes the aggregated activation degree for the given term. 
+          If the same term is present multiple times, the aggregation operator 
           is utilized to sum the activation degrees of the term. If the 
-          accumulation operator is fl::null, a regular sum is performed.
-          @param forTerm is the term for which to compute the accumulated 
+          aggregation operator is fl::null, a regular sum is performed.
+          @param forTerm is the term for which to compute the aggregated 
           activation degree
-          @return the accumulated activation degree for the given term
+          @return the aggregated activation degree for the given term
          */
         virtual scalar activationDegree(const Term* forTerm) const;
 
@@ -131,15 +131,15 @@ namespace fl {
         virtual scalar range() const;
 
         /**
-          Sets the accumulation operator
-          @param accumulation is the accumulation operator
+          Sets the aggregation operator
+          @param aggregation is the aggregation operator
          */
-        virtual void setAccumulation(SNorm* accumulation);
+        virtual void setAggregation(SNorm* aggregation);
         /**
-          Gets the accumulation operator
-          @return the accumulation operator
+          Gets the aggregation operator
+          @return the aggregation operator
          */
-        virtual SNorm* getAccumulation() const;
+        virtual SNorm* getAggregation() const;
 
         /**
           Adds a new Activated term (from the parameters) to the fuzzy set
@@ -150,7 +150,7 @@ namespace fl {
         virtual void addTerm(const Term* term, scalar degree, const TNorm* implication);
         /**
           Adds the activated term to the fuzzy set. The activated term 
-          will be deleted when Accumulated::clear()
+          will be deleted when Aggregated::clear()
           @param term is the activated term
          */
         virtual void addTerm(Activated* term);
@@ -193,4 +193,4 @@ namespace fl {
     };
 
 }
-#endif /* FL_ACCUMULATED_H */
+#endif /* FL_AGGREGATED_H */

@@ -24,7 +24,7 @@ namespace fl {
     /**
     
       The WeightedSum class is a WeightedDefuzzifier that computes the
-      weighted sum of a fuzzy set represented in an Accumulated Term.
+      weighted sum of a fuzzy set represented in an Aggregated Term.
 
       @author Juan Rada-Vilela, Ph.D.
       @see WeightedAverage
@@ -43,18 +43,18 @@ namespace fl {
         virtual std::string className() const FL_IOVERRIDE;
         /**
           Computes the weighted sum of a fuzzy set represented in an
-          AccumulatedTerm as @f$y = \sum_i{w_iz_i} @f$,
+          Aggregated Term as @f$y = \sum_i{w_iz_i} @f$,
           where @f$w_i@f$ is the activation degree of term @f$i@f$, and @f$z_i
           = \mu_i(w_i) @f$.
 
-          If the accumulation operator in the given AccumulatedTerm is
+          If the aggregation operator in the given AggregatedTerm is
           fl::null, then the WeightedDefuzzifier yields the typical operation
-          defined by the given equation. Otherwise, the accumulation operator
+          defined by the given equation. Otherwise, the aggregation operator
           is utilized to compute a single weight from the weights of the
           repeated terms in the fuzzy set, and then proceed with the given
           equation.
           
-          @param term is the fuzzy set represented as an AccumulatedTerm
+          @param term is the fuzzy set represented as an AggregatedTerm
           @param minimum is the minimum value of the range (only used for Tsukamoto)
           @param maximum is the maximum value of the range (only used for Tsukamoto)
           @return 

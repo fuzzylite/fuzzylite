@@ -16,7 +16,7 @@
 
 #include "fl/defuzzifier/Centroid.h"
 
-#include "fl/term/Accumulated.h"
+#include "fl/term/Aggregated.h"
 #include "fl/term/Term.h"
 
 

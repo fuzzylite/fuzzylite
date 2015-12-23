@@ -29,7 +29,7 @@
 #include "fl/rule/Expression.h"
 #include "fl/rule/Rule.h"
 #include "fl/rule/RuleBlock.h"
-#include "fl/term/Accumulated.h"
+#include "fl/term/Aggregated.h"
 #include "fl/term/Constant.h"
 #include "fl/term/Linear.h"
 #include "fl/term/Function.h"
@@ -103,7 +103,7 @@ namespace fl {
     }
 
     void Engine::configure(const std::string& conjunctionT, const std::string& disjunctionS,
-            const std::string& implicationT, const std::string& accumulationS,
+            const std::string& implicationT, const std::string& aggregationS,
             const std::string& defuzzifierName) {
         TNormFactory* tnormFactory = FactoryManager::instance()->tnorm();
         SNormFactory* snormFactory = FactoryManager::instance()->snorm();
@@ -112,14 +112,14 @@ namespace fl {
         TNorm* conjunction = tnormFactory->constructObject(conjunctionT);
         SNorm* disjunction = snormFactory->constructObject(disjunctionS);
         TNorm* implication = tnormFactory->constructObject(implicationT);
-        SNorm* accumulation = snormFactory->constructObject(accumulationS);
+        SNorm* aggregation = snormFactory->constructObject(aggregationS);
         Defuzzifier* defuzzifier = defuzzFactory->constructObject(defuzzifierName);
 
-        configure(conjunction, disjunction, implication, accumulation, defuzzifier);
+        configure(conjunction, disjunction, implication, aggregation, defuzzifier);
     }
 
     void Engine::configure(TNorm* conjunction, SNorm* disjunction,
-            TNorm* implication, SNorm* accumulation, Defuzzifier* defuzzifier) {
+            TNorm* implication, SNorm* aggregation, Defuzzifier* defuzzifier) {
         for (std::size_t i = 0; i < ruleBlocks().size(); ++i) {
             ruleBlocks().at(i)->setConjunction(conjunction ? conjunction->clone() : fl::null);
             ruleBlocks().at(i)->setDisjunction(disjunction ? disjunction->clone() : fl::null);
@@ -128,11 +128,11 @@ namespace fl {
 
         for (std::size_t i = 0; i < outputVariables().size(); ++i) {
             outputVariables().at(i)->setDefuzzifier(defuzzifier ? defuzzifier->clone() : fl::null);
-            outputVariables().at(i)->fuzzyOutput()->setAccumulation(
-                    accumulation ? accumulation->clone() : fl::null);
+            outputVariables().at(i)->fuzzyOutput()->setAggregation(
+                    aggregation ? aggregation->clone() : fl::null);
         }
         if (defuzzifier) delete defuzzifier;
-        if (accumulation) delete accumulation;
+        if (aggregation) delete aggregation;
         if (implication) delete implication;
         if (disjunction) delete disjunction;
         if (conjunction) delete conjunction;
@@ -171,10 +171,10 @@ namespace fl {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
                             << " has no defuzzifier\n";
                 }
-                SNorm* accumulation = outputVariable->fuzzyOutput()->getAccumulation();
-                if (not accumulation and dynamic_cast<IntegralDefuzzifier*> (defuzzifier)) {
+                SNorm* aggregation = outputVariable->fuzzyOutput()->getAggregation();
+                if (not aggregation and dynamic_cast<IntegralDefuzzifier*> (defuzzifier)) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
-                            << " has no accumulation operator\n";
+                            << " has no aggregation operator\n";
                 }
             }
         }

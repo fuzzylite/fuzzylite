@@ -29,7 +29,7 @@ namespace fl {
       @author Juan Rada-Vilela, Ph.D.
       @see RuleBlock::getDisjunction()
       @see OutputVariable::fuzzyOutput()
-      @see Accumulated::getAccumulation() 
+      @see Aggregated::getAggregation() 
       @see SNormFactory
       @see Norm
       @since 4.0

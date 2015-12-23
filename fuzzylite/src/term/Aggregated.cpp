@@ -14,7 +14,7 @@
 
  */
 
-#include "fl/term/Accumulated.h"
+#include "fl/term/Aggregated.h"
 
 #include "fl/imex/FllExporter.h"
 #include "fl/norm/SNorm.h"
@@ -24,19 +24,19 @@
 
 namespace fl {
 
-    Accumulated::Accumulated(const std::string& name, scalar minimum, scalar maximum,
-            SNorm* accumulation)
-    : Term(name), _minimum(minimum), _maximum(maximum), _accumulation(accumulation) {
+    Aggregated::Aggregated(const std::string& name, scalar minimum, scalar maximum,
+            SNorm* aggregation)
+    : Term(name), _minimum(minimum), _maximum(maximum), _aggregation(aggregation) {
     }
 
-    Accumulated::Accumulated(const Accumulated& other) : Term(other) {
+    Aggregated::Aggregated(const Aggregated& other) : Term(other) {
         copyFrom(other);
     }
 
-    Accumulated& Accumulated::operator=(const Accumulated& other) {
+    Aggregated& Aggregated::operator=(const Aggregated& other) {
         if (this != &other) {
             clear();
-            _accumulation.reset(fl::null);
+            _aggregation.reset(fl::null);
 
             Term::operator=(other);
             copyFrom(other);
@@ -44,46 +44,46 @@ namespace fl {
         return *this;
     }
 
-    Accumulated::~Accumulated() {
+    Aggregated::~Aggregated() {
         clear();
     }
 
-    void Accumulated::copyFrom(const Accumulated& source) {
+    void Aggregated::copyFrom(const Aggregated& source) {
         _minimum = source._minimum;
         _maximum = source._maximum;
 
-        if (source._accumulation.get())
-            _accumulation.reset(source._accumulation->clone());
+        if (source._aggregation.get())
+            _aggregation.reset(source._aggregation->clone());
 
         for (std::size_t i = 0; i < source._terms.size(); ++i) {
             _terms.push_back(source._terms.at(i)->clone());
         }
     }
 
-    std::string Accumulated::className() const {
-        return "Accumulated";
+    std::string Aggregated::className() const {
+        return "Aggregated";
     }
 
-    scalar Accumulated::membership(scalar x) const {
+    scalar Aggregated::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
-        if (not (terms().empty() or getAccumulation())) { //Exception for IntegralDefuzzifiers
-            throw fl::Exception("[accumulation error] "
-                    "accumulation operator needed to accumulate " + toString(), FL_AT);
+        if (not (terms().empty() or getAggregation())) { //Exception for IntegralDefuzzifiers
+            throw fl::Exception("[aggregation error] "
+                    "aggregation operator needed to aggregate " + toString(), FL_AT);
         }
         scalar mu = 0.0;
         for (std::size_t i = 0; i < terms().size(); ++i) {
-            mu = getAccumulation()->compute(mu, terms().at(i)->membership(x));
+            mu = getAggregation()->compute(mu, terms().at(i)->membership(x));
         }
         return mu;
     }
 
-    scalar Accumulated::activationDegree(const Term* forTerm) const {
+    scalar Aggregated::activationDegree(const Term* forTerm) const {
         scalar result = 0.0;
         for (std::size_t i = 0; i < terms().size(); ++i) {
             Activated* activatedTerm = terms().at(i);
             if (activatedTerm->getTerm() == forTerm) {
-                if (getAccumulation())
-                    result = getAccumulation()->compute(result, activatedTerm->getDegree());
+                if (getAggregation())
+                    result = getAggregation()->compute(result, activatedTerm->getDegree());
                 else
                     result += activatedTerm->getDegree(); //Default for WeightDefuzzifier
             }
@@ -91,10 +91,10 @@ namespace fl {
         return result;
     }
 
-    std::string Accumulated::parameters() const {
+    std::string Aggregated::parameters() const {
         FllExporter exporter;
         std::ostringstream ss;
-        ss << exporter.toString(getAccumulation());
+        ss << exporter.toString(getAggregation());
         ss << " " << Op::str(getMinimum()) << " " << Op::str(getMaximum()) << " ";
         for (std::size_t i = 0; i < terms().size(); ++i) {
             ss << " " << exporter.toString(terms().at(i));
@@ -102,58 +102,58 @@ namespace fl {
         return ss.str();
     }
 
-    void Accumulated::configure(const std::string& parameters) {
+    void Aggregated::configure(const std::string& parameters) {
         FL_IUNUSED(parameters);
     }
 
-    Accumulated* Accumulated::clone() const {
-        return new Accumulated(*this);
+    Aggregated* Aggregated::clone() const {
+        return new Aggregated(*this);
     }
 
-    std::string Accumulated::toString() const {
-        std::vector<std::string> accumulate;
+    std::string Aggregated::toString() const {
+        std::vector<std::string> aggregate;
         for (std::size_t i = 0; i < terms().size(); ++i) {
-            accumulate.push_back(terms().at(i)->toString());
+            aggregate.push_back(terms().at(i)->toString());
         }
         FllExporter exporter;
         std::ostringstream ss;
         ss << getName() << ": " << className() << " "
-                << exporter.toString(getAccumulation()) << "["
-                << fl::Op::join(accumulate, ",") << "]";
+                << exporter.toString(getAggregation()) << "["
+                << fl::Op::join(aggregate, ",") << "]";
         return ss.str();
     }
 
-    void Accumulated::setMinimum(scalar minimum) {
+    void Aggregated::setMinimum(scalar minimum) {
         this->_minimum = minimum;
     }
 
-    scalar Accumulated::getMinimum() const {
+    scalar Aggregated::getMinimum() const {
         return this->_minimum;
     }
 
-    void Accumulated::setMaximum(scalar maximum) {
+    void Aggregated::setMaximum(scalar maximum) {
         this->_maximum = maximum;
     }
 
-    scalar Accumulated::getMaximum() const {
+    scalar Aggregated::getMaximum() const {
         return this->_maximum;
     }
 
-    void Accumulated::setRange(scalar minimum, scalar maximum) {
+    void Aggregated::setRange(scalar minimum, scalar maximum) {
         setMinimum(minimum);
         setMaximum(maximum);
     }
 
-    scalar Accumulated::range() const {
+    scalar Aggregated::range() const {
         return getMaximum() - getMinimum();
     }
 
-    void Accumulated::setAccumulation(SNorm* accumulation) {
-        this->_accumulation.reset(accumulation);
+    void Aggregated::setAggregation(SNorm* aggregation) {
+        this->_aggregation.reset(aggregation);
     }
 
-    SNorm* Accumulated::getAccumulation() const {
-        return this->_accumulation.get();
+    SNorm* Aggregated::getAggregation() const {
+        return this->_aggregation.get();
     }
 
     /**
@@ -161,44 +161,44 @@ namespace fl {
      */
 
 
-    void Accumulated::addTerm(const Term* term, scalar degree, const TNorm* implication) {
+    void Aggregated::addTerm(const Term* term, scalar degree, const TNorm* implication) {
         terms().push_back(new Activated(term, degree, implication));
     }
 
-    void Accumulated::addTerm(Activated* term) {
+    void Aggregated::addTerm(Activated* term) {
         terms().push_back(term);
     }
 
-    Activated* Accumulated::removeTerm(std::size_t index) {
+    Activated* Aggregated::removeTerm(std::size_t index) {
         Activated* term = terms().at(index);
         terms().erase(terms().begin() + index);
         return term;
     }
 
-    void Accumulated::clear() {
+    void Aggregated::clear() {
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             delete _terms.at(i);
         }
         _terms.clear();
     }
 
-    Activated* Accumulated::getTerm(std::size_t index) const {
+    Activated* Aggregated::getTerm(std::size_t index) const {
         return terms().at(index);
     }
 
-    const std::vector<Activated*>& Accumulated::terms() const {
+    const std::vector<Activated*>& Aggregated::terms() const {
         return this->_terms;
     }
 
-    std::vector<Activated*>& Accumulated::terms() {
+    std::vector<Activated*>& Aggregated::terms() {
         return this->_terms;
     }
 
-    std::size_t Accumulated::numberOfTerms() const {
+    std::size_t Aggregated::numberOfTerms() const {
         return terms().size();
     }
 
-    bool Accumulated::isEmpty() const {
+    bool Aggregated::isEmpty() const {
         return terms().empty();
     }
 

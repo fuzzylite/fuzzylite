@@ -65,8 +65,8 @@ src/rule/Consequent.cpp
 src/rule/Expression.cpp
 src/rule/RuleBlock.cpp
 src/rule/Rule.cpp
-src/term/Accumulated.cpp
 src/term/Activated.cpp
+src/term/Aggregated.cpp
 src/term/Bell.cpp
 src/term/Binary.cpp
 src/term/Concave.cpp

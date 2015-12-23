@@ -70,13 +70,13 @@ namespace fl {
           @param conjunctionT is a TNorm registered in the TNormFactory
           @param disjunctionS is an SNorm registered in the SNormFactory
           @param implicationT is an TNorm registered in the TNormFactory
-          @param accumulationS is an SNorm registered in the SNormFactory
+          @param aggregationS is an SNorm registered in the SNormFactory
           @param defuzzifier is a defuzzifier registered in the DefuzzifierFactory
          */
         virtual void configure(const std::string& conjunctionT,
                 const std::string& disjunctionS,
                 const std::string& implicationT,
-                const std::string& accumulationS,
+                const std::string& aggregationS,
                 const std::string& defuzzifier);
 
         /**
@@ -89,13 +89,13 @@ namespace fl {
           joined by `or` in the antecedent of the rules
           @param implication is the operator to modify the consequents of the
           rules based on the activation degree of the antecedents of the rules
-          @param accumulation is the operator to accumulate the resulting
+          @param aggregation is the operator to aggregate the resulting
           implications of the rules
-          @param defuzzifier is the operator to transform the accumulated
+          @param defuzzifier is the operator to transform the aggregated
           implications into a single scalar value
          */
         virtual void configure(TNorm* conjunction, SNorm* disjunction,
-                TNorm* implication, SNorm* accumulation,
+                TNorm* implication, SNorm* aggregation,
                 Defuzzifier* defuzzifier);
 
         /**
@@ -113,7 +113,7 @@ namespace fl {
           Processes the engine in its current state as follows: (a) Clears the 
           aggregated fuzzy output variables, (b) Activates the rule blocks, and
           (c) Defuzzifies the output variables
-          @see Accumulated::clear()
+          @see Aggregated::clear()
           @see RuleBlock::activate()
           @see OutputVariable::defuzzify()
          */

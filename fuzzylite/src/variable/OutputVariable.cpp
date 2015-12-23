@@ -19,7 +19,7 @@
 #include "fl/defuzzifier/Defuzzifier.h"
 #include "fl/imex/FllExporter.h"
 #include "fl/norm/SNorm.h"
-#include "fl/term/Accumulated.h"
+#include "fl/term/Aggregated.h"
 #include "fl/term/Activated.h"
 
 namespace fl {
@@ -27,7 +27,7 @@ namespace fl {
     OutputVariable::OutputVariable(const std::string& name,
             scalar minimum, scalar maximum)
     : Variable(name, minimum, maximum),
-    _fuzzyOutput(new Accumulated(name, minimum, maximum)),
+    _fuzzyOutput(new Aggregated(name, minimum, maximum)),
     _previousValue(fl::nan), _defaultValue(fl::nan),
     _lockPreviousValue(false) {
     }
@@ -63,7 +63,7 @@ namespace fl {
         fuzzyOutput()->setName(name);
     }
 
-    Accumulated* OutputVariable::fuzzyOutput() const {
+    Aggregated* OutputVariable::fuzzyOutput() const {
         return this->_fuzzyOutput.get();
     }
 

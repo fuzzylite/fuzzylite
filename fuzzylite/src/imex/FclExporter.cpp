@@ -113,8 +113,8 @@ namespace fl {
         if (outputVariable->getDefuzzifier()) {
             fcl << _indent << "METHOD : " << toString(outputVariable->getDefuzzifier()) << ";\n";
         }
-        if (outputVariable->fuzzyOutput()->getAccumulation())
-            fcl << _indent << "ACCU : " << toString(outputVariable->fuzzyOutput()->getAccumulation()) << ";\n";
+        if (outputVariable->fuzzyOutput()->getAggregation())
+            fcl << _indent << "ACCU : " << toString(outputVariable->fuzzyOutput()->getAggregation()) << ";\n";
 
         fcl << _indent << "DEFAULT := " << fl::Op::str(outputVariable->getDefaultValue());
         if (outputVariable->isLockPreviousValue()) {

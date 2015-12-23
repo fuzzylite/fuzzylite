@@ -73,8 +73,8 @@ fl/rule/Consequent.h
 fl/rule/Expression.h
 fl/rule/RuleBlock.h
 fl/rule/Rule.h
-fl/term/Accumulated.h
 fl/term/Activated.h
+fl/term/Aggregated.h
 fl/term/Bell.h
 fl/term/Binary.h
 fl/term/Concave.h

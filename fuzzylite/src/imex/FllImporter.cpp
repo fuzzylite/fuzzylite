@@ -156,8 +156,8 @@ namespace fl {
                 outputVariable->setLockValueInRange(parseBoolean(keyValue.second));
             } else if ("defuzzifier" == keyValue.first) {
                 outputVariable->setDefuzzifier(parseDefuzzifier(keyValue.second));
-            } else if ("accumulation" == keyValue.first) {
-                outputVariable->fuzzyOutput()->setAccumulation(parseSNorm(keyValue.second));
+            } else if ("aggregation" == keyValue.first) {
+                outputVariable->fuzzyOutput()->setAggregation(parseSNorm(keyValue.second));
             } else if ("term" == keyValue.first) {
                 outputVariable->addTerm(parseTerm(keyValue.second, engine));
             } else {

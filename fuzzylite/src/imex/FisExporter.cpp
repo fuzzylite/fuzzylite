@@ -84,15 +84,15 @@ namespace fl {
         fis << "OrMethod='" << toString(disjunction) << "'\n";
         fis << "ImpMethod='" << toString(implication) << "'\n";
 
-        const SNorm* accumulation = fl::null;
+        const SNorm* aggregation = fl::null;
         Defuzzifier* defuzzifier = fl::null;
         for (std::size_t i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
-            if (not accumulation) accumulation = outputVariable->fuzzyOutput()->getAccumulation();
+            if (not aggregation) aggregation = outputVariable->fuzzyOutput()->getAggregation();
             if (not defuzzifier) defuzzifier = outputVariable->getDefuzzifier();
         }
 
-        fis << "AggMethod='" << toString(accumulation) << "'\n";
+        fis << "AggMethod='" << toString(aggregation) << "'\n";
         fis << "DefuzzMethod='" << toString(defuzzifier) << "'\n";
         return fis.str();
     }

@@ -124,8 +124,8 @@ namespace fl {
                 outputVariable->getMinimum(), outputVariable->getMaximum()));
         result.push_back(_indent + "lock-range: " +
                 (outputVariable->isLockValueInRange() ? "true" : "false"));
-        result.push_back(_indent + "accumulation: " +
-                toString(outputVariable->fuzzyOutput()->getAccumulation()));
+        result.push_back(_indent + "aggregation: " +
+                toString(outputVariable->fuzzyOutput()->getAggregation()));
         result.push_back(_indent + "defuzzifier: " +
                 toString(outputVariable->getDefuzzifier()));
         result.push_back(_indent + "default: " + Op::str(outputVariable->getDefaultValue()));

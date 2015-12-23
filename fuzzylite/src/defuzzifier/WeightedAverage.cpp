@@ -16,7 +16,7 @@
 
 #include "fl/defuzzifier/WeightedAverage.h"
 
-#include "fl/term/Accumulated.h"
+#include "fl/term/Aggregated.h"
 #include "fl/term/Activated.h"
 #include "fl/norm/Norm.h"
 #include "fl/norm/SNorm.h"
@@ -41,11 +41,11 @@ namespace fl {
 
     scalar WeightedAverage::defuzzify(const Term* term,
             scalar minimum, scalar maximum) const {
-        const Accumulated* fuzzyOutput = dynamic_cast<const Accumulated*> (term);
+        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*> (term);
         if (not fuzzyOutput) {
             std::ostringstream ss;
             ss << "[defuzzification error]"
-                    << "expected an Accumulated term instead of"
+                    << "expected an Aggregated term instead of"
                     << "<" << term->toString() << ">";
             throw fl::Exception(ss.str(), FL_AT);
         }
@@ -56,7 +56,7 @@ namespace fl {
         scalar sum = 0.0;
         scalar weights = 0.0;
 
-        if (not fuzzyOutput->getAccumulation()) {
+        if (not fuzzyOutput->getAggregation()) {
             Type type = getType();
             for (std::size_t i = 0; i < fuzzyOutput->numberOfTerms(); ++i) {
                 Activated* activated = fuzzyOutput->getTerm(i);
@@ -84,20 +84,20 @@ namespace fl {
             Type type = getType();
             while (it != groups.end()) {
                 const Term* activatedTerm = it->first;
-                scalar accumulatedDegree = 0.0;
+                scalar aggregatedDegree = 0.0;
                 for (std::size_t i = 0; i < it->second.size(); ++i)
-                    accumulatedDegree = fuzzyOutput->getAccumulation()->compute(
-                        accumulatedDegree, it->second.at(i)->getDegree());
+                    aggregatedDegree = fuzzyOutput->getAggregation()->compute(
+                        aggregatedDegree, it->second.at(i)->getDegree());
 
                 if (type == Automatic) type = inferType(activatedTerm);
 
                 scalar z = (type == TakagiSugeno)
                         //? activated.getTerm()->membership(fl::nan) Would ensure no Tsukamoto applies, but Inverse Tsukamoto with Functions would not work.
-                        ? activatedTerm->membership(accumulatedDegree) //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
-                        : tsukamoto(activatedTerm, accumulatedDegree, minimum, maximum);
+                        ? activatedTerm->membership(aggregatedDegree) //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
+                        : tsukamoto(activatedTerm, aggregatedDegree, minimum, maximum);
 
-                sum += accumulatedDegree * z;
-                weights += accumulatedDegree;
+                sum += aggregatedDegree * z;
+                weights += aggregatedDegree;
 
                 ++it;
             }

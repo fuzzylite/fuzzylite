@@ -19,14 +19,14 @@
 #include "fl/variable/Variable.h"
 
 namespace fl {
-    class Accumulated;
+    class Aggregated;
     class Defuzzifier;
 
     /**
       
       The OutputVariable class is a Variable that represents an output of the
       fuzzy logic controller. During the activation of a RuleBlock, the
-      Activated terms of each Rule will be Accumulated in the
+      Activated terms of each Rule will be Aggregated in the
       OutputVariable::fuzzyOutput(), which represents a fuzzy set hereinafter
       referred to as @f$\tilde{y}@f$. The defuzzification of @f$\tilde{y}@f$
       translates the fuzzy output value @f$\tilde{y}@f$ into a crisp output
@@ -82,7 +82,7 @@ namespace fl {
      */
     class FL_API OutputVariable : public Variable {
     private:
-        FL_unique_ptr<Accumulated> _fuzzyOutput;
+        FL_unique_ptr<Aggregated> _fuzzyOutput;
         FL_unique_ptr<Defuzzifier> _defuzzifier;
         scalar _previousValue;
         scalar _defaultValue;
@@ -103,7 +103,7 @@ namespace fl {
           @return the fuzzy output value @f$\tilde{y}@f$
           @todo rename to fuzzyValue
          */
-        virtual Accumulated* fuzzyOutput() const;
+        virtual Aggregated* fuzzyOutput() const;
 
         virtual void setName(const std::string& name) FL_IOVERRIDE;
 

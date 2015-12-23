@@ -56,7 +56,7 @@ namespace fl {
         virtual Defuzzifier* clone() const = 0;
         /**
           Defuzzifies the given fuzzy term utilizing the range `[minimum,maximum]`
-          @param term is the term to defuzzify, typically an Accumulated term
+          @param term is the term to defuzzify, typically an Aggregated term
           @param minimum is the minimum value of the range 
           @param maximum is the maximum value of the range 
           @return the defuzzified value of the given fuzzy term

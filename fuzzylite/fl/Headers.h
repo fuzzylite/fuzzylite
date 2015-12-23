@@ -106,7 +106,7 @@
 #include "fl/rule/RuleBlock.h"
 #include "fl/rule/Expression.h"
 
-#include "fl/term/Accumulated.h"
+#include "fl/term/Aggregated.h"
 #include "fl/term/Bell.h"
 #include "fl/term/Binary.h"
 #include "fl/term/Concave.h"

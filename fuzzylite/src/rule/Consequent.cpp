@@ -24,7 +24,7 @@
 #include "fl/norm/TNorm.h"
 #include "fl/rule/Expression.h"
 #include "fl/rule/Rule.h"
-#include "fl/term/Accumulated.h"
+#include "fl/term/Aggregated.h"
 #include "fl/term/Activated.h"
 #include "fl/variable/OutputVariable.h"
 
@@ -72,7 +72,7 @@ namespace fl {
 
                 if (OutputVariable * outputVariable = dynamic_cast<OutputVariable*> (proposition->variable)) {
                     outputVariable->fuzzyOutput()->addTerm(term);
-                    FL_DBG("Accumulating " << term->toString());
+                    FL_DBG("Aggregating " << term->toString());
                 } else {
                     std::ostringstream ss;
                     ss << "[consequent error] expected an OutputVariable, but found <"
