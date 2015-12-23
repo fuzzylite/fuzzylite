@@ -532,7 +532,7 @@ namespace fl {
                     scalar value = fl::Op::toScalar(token);
                     node = new Node(value);
                 } catch (std::exception& ex) {
-                    (void) ex;
+                    FL_IUNUSED(ex);
                     node = new Node(token);
                 }
                 stack.push(node);

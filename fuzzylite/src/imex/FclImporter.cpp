@@ -532,7 +532,7 @@ namespace fl {
             minimum = Op::toScalar(token.at(index = 0));
             maximum = Op::toScalar(token.at(index = 1));
         } catch (std::exception& ex) {
-            (void) ex;
+            FL_IUNUSED(ex);
             std::ostringstream ss;
             ss << "[syntax error] expected numeric value, but found <" << token.at(index) << "> in "
                     << "line: " << line;

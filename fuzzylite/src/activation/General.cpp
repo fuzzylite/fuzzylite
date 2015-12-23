@@ -40,7 +40,7 @@ namespace fl {
     }
 
     void General::configure(const std::string& parameters) {
-        (void) parameters;
+        FL_IUNUSED(parameters);
     }
 
     void General::activate(RuleBlock* ruleBlock) const {

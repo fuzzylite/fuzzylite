@@ -52,7 +52,7 @@ namespace fl {
     }
 
     void Activated::configure(const std::string& parameters) {
-        (void) parameters;
+        FL_IUNUSED(parameters);
     }
 
     std::string Activated::toString() const {

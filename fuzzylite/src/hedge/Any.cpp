@@ -29,7 +29,7 @@ namespace fl {
     }
 
     scalar Any::hedge(scalar x) const {
-        (void) x;
+        FL_IUNUSED(x);
         return 1.0;
     }
 

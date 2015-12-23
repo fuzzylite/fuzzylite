@@ -30,7 +30,7 @@ namespace fl {
     }
 
     scalar Constant::membership(scalar x) const {
-        (void) x;
+        FL_IUNUSED(x);
         return this->_value;
     }
 

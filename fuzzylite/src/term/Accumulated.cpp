@@ -103,7 +103,7 @@ namespace fl {
     }
 
     void Accumulated::configure(const std::string& parameters) {
-        (void) parameters;
+        FL_IUNUSED(parameters);
     }
 
     Accumulated* Accumulated::clone() const {

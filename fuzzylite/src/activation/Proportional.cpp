@@ -41,7 +41,7 @@ namespace fl {
     }
 
     void Proportional::configure(const std::string& parameters) {
-        (void) parameters;
+        FL_IUNUSED(parameters);
     }
 
     void Proportional::activate(RuleBlock* ruleBlock) const {

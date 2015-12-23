@@ -273,7 +273,7 @@ namespace fl {
                 try {
                     fldExporter.write(engine.get(), writer, dataFile);
                 } catch (std::exception& ex) {
-                    (void) ex;
+                    FL_IUNUSED(ex);
                     dataFile.close();
                     throw;
                 }
@@ -350,7 +350,7 @@ namespace fl {
                 try {
                     value = fl::Op::toScalar(inputValue.str());
                 } catch (std::exception& ex) {
-                    (void) ex;
+                    FL_IUNUSED(ex);
                     buffer << "[" << fl::Op::str(value) << "]";
                 }
                 buffer << space;
@@ -652,9 +652,9 @@ namespace fl {
                 target.close();
             }
             Engine copyConstructor(*engine.get());
-            (void) copyConstructor;
+            FL_IUNUSED(copyConstructor);
             Engine assignmentOperator = *engine.get();
-            (void) assignmentOperator;
+            FL_IUNUSED(assignmentOperator);
         }
         FL_LOG("Please, make sure the output contains the following structure:\n"
                 "mkdir -p mamdani/matlab; mkdir -p mamdani/octave; "
@@ -752,8 +752,8 @@ namespace fl {
 #endif
 
     int Console::main(int argc, char** argv) {
-        (void) argc;
-        (void) argv;
+//        FL_IUNUSED(argc);
+//        FL_IUNUSED(argv);
         if (argc <= 2) {
             std::cout << usage() << std::endl;
             return EXIT_SUCCESS;
