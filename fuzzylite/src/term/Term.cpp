@@ -50,17 +50,9 @@ namespace fl {
         return FllExporter().toString(this);
     }
 
-    void Term::updateReference(Term* term, const Engine* engine) {
-        if (Linear * linear = dynamic_cast<Linear*> (term)) {
-            linear->setEngine(engine);
-        } else if (Function * function = dynamic_cast<Function*> (term)) {
-            function->setEngine(engine);
-            try {
-                function->load();
-            } catch (...) {
-                //ignore
-            }
-        }
+    void Term::updateReference(const Engine* engine) {
+        FL_IUNUSED(engine);
+        //do nothing
     }
 
 }

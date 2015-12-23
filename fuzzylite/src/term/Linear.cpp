@@ -96,6 +96,10 @@ namespace fl {
         return new Linear(*this);
     }
 
+    void Linear::updateReference(const Engine* engine) {
+        setEngine(engine);
+    }
+
     Term* Linear::constructor() {
         return new Linear;
     }

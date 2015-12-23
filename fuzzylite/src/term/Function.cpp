@@ -364,6 +364,15 @@ namespace fl {
         return new Function;
     }
 
+    void Function::updateReference(const Engine* engine) {
+        setEngine(engine);
+        try {
+            load();
+        } catch (...) {
+            //ignore
+        }
+    }
+
     std::string Function::space(const std::string& formula) const {
         std::vector<std::string> chars;
         chars.push_back("(");

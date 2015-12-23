@@ -129,8 +129,7 @@ namespace fl {
          */
         virtual Term* clone() const = 0;
 
-        //@todo This should not be static, and may not be here either.
-        static void updateReference(Term* term, const Engine* engine);
+        virtual void updateReference(const Engine* engine);
     };
 
 }

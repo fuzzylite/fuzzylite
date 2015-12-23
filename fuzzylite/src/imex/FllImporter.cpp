@@ -213,7 +213,7 @@ namespace fl {
         }
         FL_unique_ptr<Term> term;
         term.reset(FactoryManager::instance()->term()->constructObject(tokens.at(1)));
-        Term::updateReference(term.get(), engine);
+        term->updateReference(engine);
         term->setName(Op::validName(tokens.at(0)));
         std::ostringstream parameters;
         for (std::size_t i = 2; i < tokens.size(); ++i) {

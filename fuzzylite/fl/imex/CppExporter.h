@@ -27,6 +27,7 @@ namespace fl {
     class Norm;
     class Defuzzifier;
     class Hedge;
+    class Activation;
 
     /**
     

@@ -429,7 +429,7 @@ namespace fl {
 
         FL_unique_ptr<Term> term;
         term.reset(FactoryManager::instance()->term()->constructObject(termClass));
-        Term::updateReference(term.get(), engine);
+        term->updateReference(engine);
         term->setName(fl::Op::validName(name));
         std::string separator;
         if (not dynamic_cast<Function*> (term.get())) {

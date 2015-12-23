@@ -91,7 +91,7 @@ namespace fl {
         for (std::size_t i = 0; i < myVariables.size(); ++i) {
             Variable* variable = myVariables.at(i);
             for (std::size_t t = 0; t < variable->numberOfTerms(); ++t) {
-                Term::updateReference(variable->getTerm(t), this);
+                variable->getTerm(t)->updateReference(this);
             }
         }
     }

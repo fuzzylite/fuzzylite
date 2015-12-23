@@ -371,6 +371,8 @@ namespace fl {
          */
         virtual std::string space(const std::string& formula) const;
 
+        virtual void updateReference(const Engine* engine);
+
         virtual Function* clone() const FL_IOVERRIDE;
 
         static Term* constructor();
