@@ -158,6 +158,13 @@ namespace fl {
                 outputVariable->setDefuzzifier(parseDefuzzifier(keyValue.second));
             } else if ("aggregation" == keyValue.first) {
                 outputVariable->fuzzyOutput()->setAggregation(parseSNorm(keyValue.second));
+            } else if ("accumulation" == keyValue.first) {
+                outputVariable->fuzzyOutput()->setAggregation(parseSNorm(keyValue.second));
+                FL_LOG("[warning] obsolete usage of identifier <accumulation: SNorm> in OutputVariable");
+                FL_LOG("[information] from version 6.0, the identifier <aggregation: SNorm> should be used");
+                FL_LOG("[backward compatibility] assumed "
+                        "<aggregation: " << keyValue.second << "> "
+                        "instead of <accumulation: " << keyValue.second << ">");
             } else if ("term" == keyValue.first) {
                 outputVariable->addTerm(parseTerm(keyValue.second, engine));
             } else {
@@ -185,7 +192,21 @@ namespace fl {
             } else if ("implication" == keyValue.first) {
                 ruleBlock->setImplication(parseTNorm(keyValue.second));
             } else if ("activation" == keyValue.first) {
-                ruleBlock->setActivation(parseActivation(keyValue.second));
+                TNormFactory* tnorm = FactoryManager::instance()->tnorm();
+                //@todo remove backwards compatibility in version 7.0
+                if (tnorm->hasConstructor(keyValue.second)) {
+                    ruleBlock->setImplication(parseTNorm(keyValue.second));
+                    FL_LOG("[warning] obsolete usage of identifier <activation: TNorm> "
+                            "in RuleBlock");
+                    FL_LOG("[information] from version 6.0, the identifiers are "
+                            "<activation: Activation> for Activation methods " 
+                            "and <implication: TNorm> for T-Norms");
+                    FL_LOG("[backward compatibility] assumed "
+                            "<implication: " << keyValue.second << "> "
+                            "instead of <activation: " << keyValue.second << ">");
+                } else {
+                    ruleBlock->setActivation(parseActivation(keyValue.second));
+                }
             } else if ("rule" == keyValue.first) {
                 Rule* rule = new Rule;
                 rule->setText(keyValue.second);

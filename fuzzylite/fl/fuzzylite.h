@@ -50,7 +50,7 @@
 
 #define FL__FILE__ std::string(__FILE__).substr(std::string(FL_BUILD_PATH).size())
 
-#define FL_LOG_PREFIX FL__FILE__ << " [" << __LINE__ << "]:"
+#define FL_LOG_PREFIX FL__FILE__ << " (" << __LINE__ << "):"
 
 #define FL_AT FL__FILE__, __LINE__, __FUNCTION__
 
