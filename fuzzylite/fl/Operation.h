@@ -397,11 +397,30 @@ namespace fl {
           @param replace is the string to replace the findings
           @param replaceAll whether all the substrings are to be replaced or
           just the first string
-          @return `str` with the replacements made
-          @todo rename method to create replaceFirst and replaceAll
+          @return the original string with replacements 
          */
         static std::string findReplace(const std::string& str, const std::string& find,
                 const std::string& replace, bool replaceAll = true);
+
+        /**
+          Replaces the first substring that is equal to the given expression
+          @param str is the target string 
+          @param find is the string to find
+          @param replace is the string to replace
+          @return the original string with the replacement
+         */
+        static std::string replaceFirst(const std::string& str, const std::string& find,
+                const std::string& replace);
+
+        /**
+          Replaces the every substring that is equal to the given expression
+          @param str is the target string 
+          @param find is the string to find
+          @param replace is the string to replace
+          @return the original string with all of the replacements
+         */
+        static std::string replaceAll(const std::string& str, const std::string& find,
+                const std::string& replace);
 
         /**
           Splits the string around the given delimiter
@@ -742,6 +761,16 @@ namespace fl {
             fromIndex = nextIndex + find.size();
         } while (replaceAll and nextIndex != std::string::npos);
         return result.str();
+    }
+
+    inline std::string Operation::replaceFirst(const std::string& str,
+            const std::string& find, const std::string& replace) {
+        return findReplace(str, find, replace, false);
+    }
+
+    inline std::string Operation::replaceAll(const std::string& str,
+            const std::string& find, const std::string& replace) {
+        return findReplace(str, find, replace, true);
     }
 
     inline std::vector<std::string> Operation::split(const std::string& str,
