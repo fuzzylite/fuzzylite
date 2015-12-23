@@ -46,6 +46,9 @@
 
 #ifdef __APPLE__
 #define FL_APPLE
+#ifndef FL_UNIX
+#define FL_UNIX
+#endif
 #endif
 
 #define FL__FILE__ std::string(__FILE__).substr(std::string(FL_BUILD_PATH).size())
@@ -126,7 +129,7 @@ namespace fl {
 #else
 #define FL_IUNUSED_DECL
 #endif
-    
+
     /**
       Represents the Not-A-Number scalar value
      */
