@@ -12,7 +12,7 @@ InputVariable: Service
 OutputVariable: Tip
   enabled: true
   range: 0.000 30.000
-  accumulation: AlgebraicSum
+   aggregation: AlgebraicSum
   defuzzifier: Centroid 200
   default: nan
   lock-previous: false
@@ -23,7 +23,7 @@ OutputVariable: Tip
 OutputVariable: CheckPlusTip
   enabled: true
   range: 1.000 1.300
-  accumulation: AlgebraicSum
+   aggregation: AlgebraicSum
   defuzzifier: Centroid 200
   default: nan
   lock-previous: false

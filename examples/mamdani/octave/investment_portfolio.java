@@ -38,7 +38,7 @@ PercentageInStocks.setEnabled(true);
 PercentageInStocks.setName("PercentageInStocks");
 PercentageInStocks.setRange(0.000, 100.000);
 PercentageInStocks.setLockValueInRange(false);
-PercentageInStocks.fuzzyOutput().setAccumulation(new EinsteinSum());
+PercentageInStocks.fuzzyOutput().setAggregation(new EinsteinSum());
 PercentageInStocks.setDefuzzifier(new Centroid(200));
 PercentageInStocks.setDefaultValue(Double.NaN);
 PercentageInStocks.setLockPreviousValue(false);

@@ -42,7 +42,7 @@ HeartDiseaseRisk.setEnabled(true);
 HeartDiseaseRisk.setName("HeartDiseaseRisk");
 HeartDiseaseRisk.setRange(0.000, 10.000);
 HeartDiseaseRisk.setLockValueInRange(false);
-HeartDiseaseRisk.fuzzyOutput().setAccumulation(null);
+HeartDiseaseRisk.fuzzyOutput().setAggregation(null);
 HeartDiseaseRisk.setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 HeartDiseaseRisk.setDefaultValue(Double.NaN);
 HeartDiseaseRisk.setLockPreviousValue(false);

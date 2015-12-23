@@ -40,7 +40,7 @@ theta.setEnabled(true);
 theta.setName("theta");
 theta.setRange(0.000, 0.000);
 theta.setLockValueInRange(false);
-theta.fuzzyOutput().setAccumulation(null);
+theta.fuzzyOutput().setAggregation(null);
 theta.setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 theta.setDefaultValue(Double.NaN);
 theta.setLockPreviousValue(false);

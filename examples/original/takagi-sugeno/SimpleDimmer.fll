@@ -8,7 +8,7 @@ InputVariable: Ambient
 OutputVariable: Power
   enabled: true
   range: 0.000 1.000
-  accumulation: none
+   aggregation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false

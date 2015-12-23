@@ -15,7 +15,7 @@ OutputVariable: PercentageInStocks
   enabled: true
   range: 0.000 100.000
   lock-range: false
-  accumulation: EinsteinSum
+  aggregation: EinsteinSum
   defuzzifier: Centroid 200
   default: nan
   lock-previous: false

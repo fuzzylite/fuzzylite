@@ -13,7 +13,7 @@ InputVariable: control2
 OutputVariable: control
   enabled: true
   range: -0.7853982000 0.7853982000
-  accumulation: none
+   aggregation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false

@@ -16,7 +16,7 @@ InputVariable: in2
 OutputVariable: out1
   enabled: true
   range: -10.0000000000 10.0000000000
-  accumulation: none
+   aggregation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false

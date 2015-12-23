@@ -17,7 +17,7 @@ OutputVariable: control
   enabled: true
   range: -0.785 0.785
   lock-range: false
-  accumulation: none
+  aggregation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false

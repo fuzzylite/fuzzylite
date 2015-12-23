@@ -12,7 +12,7 @@ InputVariable: Service
 OutputVariable: CheapTip
   enabled: true
   range: 5.000 25.000
-  accumulation: none
+   aggregation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
@@ -23,7 +23,7 @@ OutputVariable: CheapTip
 OutputVariable: AverageTip
   enabled: true
   range: 5.000 25.000
-  accumulation: none
+   aggregation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
@@ -34,7 +34,7 @@ OutputVariable: AverageTip
 OutputVariable: GenerousTip
   enabled: true
   range: 5.000 25.000
-  accumulation: none
+   aggregation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false

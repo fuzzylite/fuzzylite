@@ -10,7 +10,7 @@ OutputVariable: tip
   enabled: true
   range: 0.000 30.000
   lock-range: false
-  accumulation: Maximum
+  aggregation: Maximum
   defuzzifier: Centroid 200
   default: nan
   lock-previous: false

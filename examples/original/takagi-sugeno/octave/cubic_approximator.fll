@@ -16,7 +16,7 @@ InputVariable: X
 OutputVariable: ApproxXCubed
   enabled: true
   range: -5.000 5.000
-  accumulation: none
+   aggregation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false

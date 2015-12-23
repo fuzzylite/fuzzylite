@@ -12,7 +12,7 @@ InputVariable: RiskTolerance
 OutputVariable: PercentageInStocks
   enabled: true
   range: 0.000 100.000
-  accumulation: EinsteinSum
+   aggregation: EinsteinSum
   defuzzifier: Centroid 200
   default: nan
   lock-previous: false

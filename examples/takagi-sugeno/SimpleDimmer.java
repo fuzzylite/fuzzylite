@@ -30,7 +30,7 @@ Power.setEnabled(true);
 Power.setName("Power");
 Power.setRange(0.000, 1.000);
 Power.setLockValueInRange(false);
-Power.fuzzyOutput().setAccumulation(null);
+Power.fuzzyOutput().setAggregation(null);
 Power.setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 Power.setDefaultValue(Double.NaN);
 Power.setLockPreviousValue(false);

@@ -42,7 +42,7 @@ OutputVariable: out
   enabled: true
   range: -10.000 10.000
   lock-range: false
-  accumulation: none
+  aggregation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
