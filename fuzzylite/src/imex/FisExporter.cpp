@@ -305,7 +305,8 @@ namespace fl {
         }
 
         if (const Binary * x = dynamic_cast<const Binary*> (term)) {
-            ss << "'binarymf,[" << fl::Op::str(x->getThreshold()) << "]";
+            ss << "'binarymf,[" << fl::Op::join(2, " ", 
+                    x->getStart(), x->getDirection()) << "]";
             return ss.str();
         }
 
