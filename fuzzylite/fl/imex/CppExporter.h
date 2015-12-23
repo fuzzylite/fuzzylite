@@ -57,35 +57,30 @@ namespace fl {
         /**
           Sets whether the fl namespace of the library is prefixed to types
           (e.g., `fl::Engine`) 
-          @todo rename to setNamespacePrefixed()
           
           @param prefixNamespace indicates whether the `fl` namespace of the
           library is prefixed to types (e.g., `fl::Engine`)
          */
-        virtual void setPrefixNamespace(bool prefixNamespace);
+        virtual void setNamespacePrefixed(bool prefixNamespace);
         /**
           Gets whether the fl namespace of the library is prefixed to types
           (e.g., `fl::Engine`)
-          @todo rename to isNamespacePrefixed()
-
           @return whether the `fl` namespace is prefixed to types
          */
-        virtual bool isPrefixNamespace() const;
+        virtual bool isNamespacePrefixed() const;
         
         /**
          Sets whether to export variable names 
          (e.g., `power->setValue(fl::nan)`) instead of numbered variables
          (e.g., `inputVariable1->setValue(fl::nan)`)
-         @todo rename to setVariableNameExported()
          */
-        virtual void setExportVariableName(bool exportVariableName);
+        virtual void setVariableNameExported(bool exportVariableName);
         /**
          Sets whether to export variable names 
          (e.g., `power->setValue(fl::nan)`) instead of numbered variables
          (e.g., `inputVariable1->setValue(fl::nan)`)
-         @todo rename to isVariableNameExported()
          */
-        virtual bool exportVariableName() const;
+        virtual bool isVariableNameExported() const;
 
         /**
           Returns a string representation of InputVariable in the `C++` programming language

@@ -37,19 +37,19 @@ namespace fl {
         return _prefixNamespace ? "fl::" + clazz : clazz;
     }
 
-    void CppExporter::setPrefixNamespace(bool prefixNamespace) {
+    void CppExporter::setNamespacePrefixed(bool prefixNamespace) {
         this->_prefixNamespace = prefixNamespace;
     }
 
-    bool CppExporter::isPrefixNamespace() const {
+    bool CppExporter::isNamespacePrefixed() const {
         return this->_prefixNamespace;
     }
 
-    void CppExporter::setExportVariableName(bool exportVariableName) {
+    void CppExporter::setVariableNameExported(bool exportVariableName) {
         this->_exportVariableName = exportVariableName;
     }
 
-    bool CppExporter::exportVariableName() const {
+    bool CppExporter::isVariableNameExported() const {
         return this->_exportVariableName;
     }
 
@@ -78,7 +78,7 @@ namespace fl {
 
     std::string CppExporter::toString(const InputVariable* inputVariable, const Engine* engine) const {
         std::string name;
-        if (exportVariableName()) {
+        if (isVariableNameExported()) {
             name = fl::Op::validName(inputVariable->getName());
         } else {
             name = "inputVariable";
@@ -106,7 +106,7 @@ namespace fl {
 
     std::string CppExporter::toString(const OutputVariable* outputVariable, const Engine* engine) const {
         std::string name;
-        if (exportVariableName()) {
+        if (isVariableNameExported()) {
             name = fl::Op::validName(outputVariable->getName());
         } else {
             name = "outputVariable";

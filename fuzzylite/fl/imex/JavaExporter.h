@@ -54,17 +54,15 @@ namespace fl {
          Sets whether to export variable names 
          (e.g., `power.setValue(Double.NaN)`) instead of numbered variables
          (e.g., `inputVariable1.setValue(Double.NaN)`)
-         @todo rename to setVariableNameExported()
          */
-        virtual void setExportVariableName(bool exportVariableName);
+        virtual void setVariableNameExported(bool exportVariableName);
         
         /**
          Gets whether to export variable names 
          (e.g., `power.setValue(Double.NaN)`) instead of numbered variables
          (e.g., `inputVariable1.setValue(Double.NaN)`)
-         @todo rename to isVariableNameExported()
          */
-        virtual bool exportVariableName() const;
+        virtual bool isVariableNameExported() const;
 
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
         /**

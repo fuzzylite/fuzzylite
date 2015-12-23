@@ -33,11 +33,11 @@ namespace fl {
         return "JavaExporter";
     }
 
-    void JavaExporter::setExportVariableName(bool exportVariableName) {
+    void JavaExporter::setVariableNameExported(bool exportVariableName) {
         this->_exportVariableName = exportVariableName;
     }
 
-    bool JavaExporter::exportVariableName() const {
+    bool JavaExporter::isVariableNameExported() const {
         return this->_exportVariableName;
     }
 
@@ -65,7 +65,7 @@ namespace fl {
     std::string JavaExporter::toString(const InputVariable* inputVariable, const Engine* engine) const {
         std::ostringstream ss;
         std::string name;
-        if (exportVariableName()) {
+        if (isVariableNameExported()) {
             name = fl::Op::validName(inputVariable->getName());
         } else {
             name = "inputVariable";
@@ -95,7 +95,7 @@ namespace fl {
     std::string JavaExporter::toString(const OutputVariable* outputVariable, const Engine* engine) const {
         std::ostringstream ss;
         std::string name;
-        if (exportVariableName()) {
+        if (isVariableNameExported()) {
             name = fl::Op::validName(outputVariable->getName());
         } else {
             name = "outputVariable";
