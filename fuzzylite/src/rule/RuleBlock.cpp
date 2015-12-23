@@ -108,11 +108,11 @@ namespace fl {
         }
     }
 
-    void RuleBlock::loadRules(const std::string& textRules, const Engine* engine, bool append) {
-        if (not append) unloadRules();x
-        std::vector<std::string> rules = fl::Op::split(textRules, "\n");
-        for (std::size_t i = 0; i < rules.size(); ++i){
-            Rule* rule = new Rule(rules.at(i));
+    void RuleBlock::loadRules(const std::string& text, const Engine* engine, bool append) {
+        if (not append) unloadRules();
+        std::vector<std::string> textRules = fl::Op::split(text, "\n");
+        for (std::size_t i = 0; i < textRules.size(); ++i){
+            Rule* rule = new Rule(textRules.at(i));
             try{
                 rule->load(engine);
             }catch(...){
