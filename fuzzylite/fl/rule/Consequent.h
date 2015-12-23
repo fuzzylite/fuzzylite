@@ -93,27 +93,22 @@ namespace fl {
          */
         virtual void unload();
         /**
-          Loads the consequent with text given from Consequent::getText(), uses
-          the given rule (from which the consequent is part of) to register and
-          retrieve the necessary hedges, and uses the engine to identify and
-          retrieve references to the input variables and output variables as
-          required
+          Loads the consequent with text given from Consequent::getText() and 
+          uses the engine to identify and retrieve references to the input 
+          variables and output variables as required
           
-          @param rule is the rule from which the consequent is part of
           @param engine is the engine from which the rules are part of
          */
-        virtual void load(Rule* rule, const Engine* engine);
+        virtual void load(const Engine* engine);
         /**
-          Loads the consequent with the given text, uses the given rule (from
-          which the consequent is part of) to register and retrieve the
-          necessary hedges, and uses the engine to identify and retrieve
-          references to the input variables and output variables as required
+          Loads the consequent with the given text and uses the engine to 
+          identify and retrieve references to the input variables and output 
+          variables as required
           
           @param consequent is the consequent of the rule in text
-          @param rule is the rule from which the consequent is part of
           @param engine is the engine from which the rules are part of
          */
-        virtual void load(const std::string& consequent, Rule* rule, const Engine* engine);
+        virtual void load(const std::string& consequent, const Engine* engine);
 
         /**
           Modifies the proposition set according to the activation degree

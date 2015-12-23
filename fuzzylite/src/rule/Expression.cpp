@@ -34,7 +34,10 @@ namespace fl {
     }
 
     Proposition::~Proposition() {
-
+        for (std::size_t i = 0; i < hedges.size(); ++i) {
+            delete hedges.at(i);
+        }
+        hedges.clear();
     }
 
     std::string Proposition::toString() const {

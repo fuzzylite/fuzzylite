@@ -149,11 +149,11 @@ namespace fl {
         setExpression(fl::null);
     }
 
-    void Antecedent::load(fl::Rule* rule, const Engine* engine) {
-        load(getText(), rule, engine);
+    void Antecedent::load(const Engine* engine) {
+        load(getText(), engine);
     }
 
-    void Antecedent::load(const std::string& antecedent, fl::Rule* rule, const Engine* engine) {
+    void Antecedent::load(const std::string& antecedent, const Engine* engine) {
         FL_DBG("Antecedent: " << antecedent);
         unload();
         setText(antecedent);
@@ -208,15 +208,9 @@ namespace fl {
                 }
 
                 if (state bitand S_HEDGE) {
-                    Hedge* hedge = rule->getHedge(token);
-                    if (not hedge) {
-                        HedgeFactory* factory = FactoryManager::instance()->hedge();
-                        if (factory->hasConstructor(token)) {
-                            hedge = factory->constructObject(token);
-                            rule->addHedge(hedge);
-                        }
-                    }
-                    if (hedge) {
+                    HedgeFactory* factory = FactoryManager::instance()->hedge();
+                    if (factory->hasConstructor(token)) {
+                        Hedge* hedge = factory->constructObject(token);
                         proposition->hedges.push_back(hedge);
                         if (dynamic_cast<Any*> (hedge)) {
                             state = S_VARIABLE bitor S_AND_OR;

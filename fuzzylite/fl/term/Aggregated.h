@@ -34,7 +34,6 @@ namespace fl {
       activated terms will be transfered to objects of this class, and
       therefore their destructors will be called upon destruction of this term
       (or calling Aggregated::clear()).
-      @todo rename this class to Aggregated and its related methods
       
       @author Juan Rada-Vilela, Ph.D.
       @see Antecedent

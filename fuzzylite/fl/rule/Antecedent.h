@@ -89,26 +89,21 @@ namespace fl {
 
         /**
           Loads the antecedent with the text obtained from
-          Antecedent::getText(), uses the given rule (from which the antecedent
-          is part of) to register and retrieve the necessary hedges, and uses
-          the engine to identify and retrieve references to the input variables
-          and output variables as required
-          
-          @param rule is the rule from which the antecedent is part of
-          @param engine is the engine from which the rules are part of
-         */
-        virtual void load(Rule* rule, const Engine* engine);
-        /**
-          Loads the antecedent with the given text, uses the given rule (from
-          which the antecedent is part of) to register and retrieve the
-          necessary hedges, and uses the engine to identify and retrieve
+          Antecedent::getText() and uses the engine to identify and retrieve 
           references to the input variables and output variables as required
           
-          @param antecedent is the antecedent of the rule in text
-          @param rule is the rule from which the antecedent is part of
           @param engine is the engine from which the rules are part of
          */
-        virtual void load(const std::string& antecedent, Rule* rule, const Engine* engine);
+        virtual void load(const Engine* engine);
+        /**
+          Loads the antecedent with the given text and uses the engine to 
+          identify and retrieve references to the input variables and output 
+          variables as required
+          
+          @param antecedent is the antecedent of the rule in text
+          @param engine is the engine from which the rules are part of
+         */
+        virtual void load(const std::string& antecedent, const Engine* engine);
 
         /**
           Computes the activation degree of the antecedent on the expression

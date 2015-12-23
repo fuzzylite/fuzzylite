@@ -67,7 +67,8 @@ namespace fl {
     public:
         /**Variable in `variable is [hedge]* term`*/
         Variable* variable;
-        /**Hedge%s in `variable is [hedge]* term`*/
+        /**Hedge%s in `variable is [hedge]* term`, owned by the object, 
+         destroyed on destructor*/
         std::vector<Hedge*> hedges;
         /**Term in `variable is [hedge]* term`*/
         Term* term;

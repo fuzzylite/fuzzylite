@@ -40,8 +40,6 @@ namespace fl {
 
     Rule& Rule::operator=(const Rule& other) {
         if (this != &other) {
-            unload();
-
             _text = other._text;
             _weight = other._weight;
             _antecedent.reset(new Antecedent);
@@ -85,52 +83,6 @@ namespace fl {
 
     Consequent* Rule::getConsequent() const {
         return this->_consequent.get();
-    }
-
-    /**
-     * Operations for std::vector _hedges
-     */
-    void Rule::addHedge(Hedge* hedge) {
-        this->_hedges[hedge->name()] = hedge;
-    }
-
-    Hedge* Rule::getHedge(const std::string& name) const {
-        std::map<std::string, Hedge*>::const_iterator it = this->_hedges.find(name);
-        if (it != this->_hedges.end()) {
-            if (it->second) return it->second;
-        }
-        return fl::null;
-    }
-
-    Hedge* Rule::removeHedge(const std::string& name) {
-        Hedge* result = fl::null;
-        std::map<std::string, Hedge*>::iterator it = this->_hedges.find(name);
-        if (it != this->_hedges.end()) {
-            result = it->second;
-            this->_hedges.erase(it);
-        }
-        return result;
-    }
-
-    bool Rule::hasHedge(const std::string& name) const {
-        std::map<std::string, Hedge*>::const_iterator it = this->_hedges.find(name);
-        return (it != this->_hedges.end());
-    }
-
-    std::size_t Rule::numberOfHedges() const {
-        return this->_hedges.size();
-    }
-
-    void Rule::setHedges(const std::map<std::string, Hedge*>& hedges) {
-        this->_hedges = hedges;
-    }
-
-    const std::map<std::string, Hedge*>& Rule::hedges() const {
-        return this->_hedges;
-    }
-
-    std::map<std::string, Hedge*>& Rule::hedges() {
-        return this->_hedges;
     }
 
     void Rule::setActivationDegree(scalar activationDegree) {
@@ -182,12 +134,6 @@ namespace fl {
         setActivationDegree(0.0);
         if (getAntecedent()) getAntecedent()->unload();
         if (getConsequent()) getConsequent()->unload();
-
-        for (std::map<std::string, Hedge*>::const_iterator it = _hedges.begin();
-                it != _hedges.end(); ++it) {
-            delete it->second;
-        }
-        _hedges.clear();
     }
 
     void Rule::load(const Engine* engine) {
@@ -259,8 +205,8 @@ namespace fl {
                 throw fl::Exception(ex.str(), FL_AT);
             }
 
-            getAntecedent()->load(ossAntecedent.str(), this, engine);
-            getConsequent()->load(ossConsequent.str(), this, engine);
+            getAntecedent()->load(ossAntecedent.str(), engine);
+            getConsequent()->load(ossConsequent.str(), engine);
             setWeight(weight);
 
         } catch (...) {

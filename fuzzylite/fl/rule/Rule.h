@@ -69,7 +69,6 @@ namespace fl {
         scalar _weight;
         FL_unique_ptr<Antecedent> _antecedent;
         FL_unique_ptr<Consequent> _consequent;
-        std::map<std::string, Hedge*> _hedges;
         scalar _activationDegree;
 
     public:
@@ -123,16 +122,6 @@ namespace fl {
          */
         virtual Consequent* getConsequent() const;
 
-        //@todo remove hedges from here.
-        virtual void addHedge(Hedge* hedge);
-        virtual Hedge* getHedge(const std::string& name) const;
-        virtual Hedge* removeHedge(const std::string& hedge);
-        virtual bool hasHedge(const std::string& name) const;
-        virtual std::size_t numberOfHedges() const;
-        virtual void setHedges(const std::map<std::string, Hedge*>& hedges);
-        virtual const std::map<std::string, Hedge*>& hedges() const;
-        virtual std::map<std::string, Hedge*>& hedges();
-
         /**
           Sets the activation degree of the rule
           @param activationDegree is the activation degree of the rule
@@ -151,7 +140,7 @@ namespace fl {
           @return the activation degree of this rule multiplied by its weight
          */
         virtual scalar computeActivationDegree(const TNorm* conjunction, const SNorm* disjunction) const;
-        
+
         /**
           Activates the rule with the given activation degree and implication
           operator

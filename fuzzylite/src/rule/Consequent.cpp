@@ -94,11 +94,11 @@ namespace fl {
         conclusions().clear();
     }
 
-    void Consequent::load(Rule* rule, const Engine* engine) {
-        load(getText(), rule, engine);
+    void Consequent::load(const Engine* engine) {
+        load(getText(), engine);
     }
 
-    void Consequent::load(const std::string& consequent, Rule* rule, const Engine* engine) {
+    void Consequent::load(const std::string& consequent, const Engine* engine) {
         unload();
         setText(consequent);
 
@@ -147,15 +147,9 @@ namespace fl {
                 }
 
                 if (state bitand S_HEDGE) {
-                    Hedge* hedge = rule->getHedge(token);
-                    if (not hedge) {
-                        HedgeFactory* factory = FactoryManager::instance()->hedge();
-                        if (factory->hasConstructor(token)) {
-                            hedge = factory->constructObject(token);
-                            rule->addHedge(hedge);
-                        }
-                    }
-                    if (hedge) {
+                    HedgeFactory* factory = FactoryManager::instance()->hedge();
+                    if (factory->hasConstructor(token)) {
+                        Hedge* hedge = factory->constructObject(token);
                         proposition->hedges.push_back(hedge);
                         state = S_HEDGE bitor S_TERM;
                         continue;
