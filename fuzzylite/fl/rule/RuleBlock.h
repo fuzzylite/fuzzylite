@@ -138,11 +138,18 @@ namespace fl {
          */
         virtual void unloadRules() const;
         /**
-          Loads all the rules in the rule block
+          Loads all the rules into the rule block
           @param engine is the engine where this rule block is registered
-          @todo add method to load multiple rules from text 
          */
         virtual void loadRules(const Engine* engine);
+
+        /**
+          Loads the given rules into the rule block
+          @param rules is a set of rules separated by the end of line (`\n`)
+          @param engine is the engine where this rule block is registered
+          @param append indicates whether the given rules will be appended
+         */
+        virtual void loadRules(const std::string& rules, const Engine* engine, bool append = false);
         /**
           Unloads all the rules in the rule block and then loads each rule again
           @param engine is the engine where this rule block is registered
