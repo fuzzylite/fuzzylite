@@ -73,6 +73,7 @@ ruleBlock.setName("");
 ruleBlock.setConjunction(null);
 ruleBlock.setDisjunction(null);
 ruleBlock.setImplication(null);
+ruleBlock.setActivation(new General());
 ruleBlock.addRule(Rule.parse("if in5 is small then out is outmf1", engine));
 ruleBlock.addRule(Rule.parse("if in5 is medium then out is outmf2", engine));
 ruleBlock.addRule(Rule.parse("if in5 is large then out is outmf3", engine));

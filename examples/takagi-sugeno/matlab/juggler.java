@@ -61,6 +61,7 @@ ruleBlock.setName("");
 ruleBlock.setConjunction(new AlgebraicProduct());
 ruleBlock.setDisjunction(null);
 ruleBlock.setImplication(null);
+ruleBlock.setActivation(new General());
 ruleBlock.addRule(Rule.parse("if xHit is in1mf1 and projectAngle is in2mf1 then theta is out1mf", engine));
 ruleBlock.addRule(Rule.parse("if xHit is in1mf1 and projectAngle is in2mf2 then theta is out1mf", engine));
 ruleBlock.addRule(Rule.parse("if xHit is in1mf1 and projectAngle is in2mf3 then theta is out1mf", engine));

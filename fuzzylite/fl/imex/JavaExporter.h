@@ -29,6 +29,7 @@ namespace fl {
     class Norm;
     class SNorm;
     class TNorm;
+    class Activation;
 
     /**
       The JavaExporter class is an Exporter that translates an Engine and its
@@ -49,14 +50,14 @@ namespace fl {
         FL_DEFAULT_COPY_AND_MOVE(JavaExporter)
 
         virtual std::string name() const FL_IOVERRIDE;
-        
+
         /**
          Sets whether to export variable names 
          (e.g., `power.setValue(Double.NaN)`) instead of numbered variables
          (e.g., `inputVariable1.setValue(Double.NaN)`)
          */
         virtual void setVariableNameExported(bool exportVariableName);
-        
+
         /**
          Gets whether to export variable names 
          (e.g., `power.setValue(Double.NaN)`) instead of numbered variables
@@ -101,14 +102,6 @@ namespace fl {
           language
          */
         virtual std::string toString(const Term* term) const;
-        /*
-          Returns a string representation of the Hedge in the Java programming
-          language
-          @param hedge is the hedge
-          @return a string representation of the hedge in the Java programming
-          language
-          @todo virtual std::string toString(const Hedge* hedge) const;
-         */
 
         /*
           Returns a string representation of the Activation method in the Java
@@ -116,8 +109,8 @@ namespace fl {
           @param activation is the activation method 
           @return a string representation of the activation method in the Java
           programming language
-          @todo virtual std::string toString(const Activation* activation) const;
          */
+        virtual std::string toString(const Activation* activation) const;
 
         /**
           Returns a string representation of the Defuzzifier in the Java

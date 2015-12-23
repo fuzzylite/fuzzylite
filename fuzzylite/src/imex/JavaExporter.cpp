@@ -148,6 +148,8 @@ namespace fl {
                 << toString(ruleBlock->getDisjunction()) << ");\n";
         ss << name << ".setImplication("
                 << toString(ruleBlock->getImplication()) << ");\n";
+        ss << name << ".setActivation("
+                << toString(ruleBlock->getActivation()) << ");\n";
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             Rule* rule = ruleBlock->getRule(i);
             ss << name << ".addRule(Rule.parse(\"" << rule->getText() << "\", engine));\n";
@@ -208,6 +210,11 @@ namespace fl {
     std::string JavaExporter::toString(const Norm* norm) const {
         if (not norm) return "null";
         return "new " + norm->className() + "()";
+    }
+
+    std::string JavaExporter::toString(const Activation* activation) const {
+        if (not activation) return "null";
+        return "new " + activation->className() + "()";
     }
 
     std::string JavaExporter::toString(scalar value) const {

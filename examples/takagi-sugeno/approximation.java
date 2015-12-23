@@ -81,6 +81,7 @@ ruleBlock.setName("");
 ruleBlock.setConjunction(null);
 ruleBlock.setDisjunction(null);
 ruleBlock.setImplication(null);
+ruleBlock.setActivation(new General());
 ruleBlock.addRule(Rule.parse("if inputX is NEAR_1 then outputFx is f1", engine));
 ruleBlock.addRule(Rule.parse("if inputX is NEAR_2 then outputFx is f2", engine));
 ruleBlock.addRule(Rule.parse("if inputX is NEAR_3 then outputFx is f3", engine));

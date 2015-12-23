@@ -69,6 +69,7 @@ ruleBlock.setName("");
 ruleBlock.setConjunction(new Minimum());
 ruleBlock.setDisjunction(new Maximum());
 ruleBlock.setImplication(new Minimum());
+ruleBlock.setActivation(new General());
 ruleBlock.addRule(Rule.parse("if angle is small and velocity is small then force is negBig and force2 is posBig2", engine));
 ruleBlock.addRule(Rule.parse("if angle is small and velocity is big then force is negSmall and force2 is posSmall2", engine));
 ruleBlock.addRule(Rule.parse("if angle is big and velocity is small then force is posSmall and force2 is negSmall2", engine));
