@@ -129,6 +129,10 @@ namespace fl {
          */
         virtual Term* clone() const = 0;
 
+        /**
+          Updates the references (if any) to point to the current engine (useful
+          when cloning engines or creating terms within Importer objects
+         */
         virtual void updateReference(const Engine* engine);
     };
 
