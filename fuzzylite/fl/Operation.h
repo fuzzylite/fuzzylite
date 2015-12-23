@@ -832,21 +832,22 @@ namespace fl {
         char strict;
         if (not (iss.fail() or iss.get(strict))) return result;
 
-        std::ostringstream nan, pInf, nInf;
+        std::ostringstream nan;
         nan << fl::nan;
-        pInf << fl::inf;
-        nInf << (-fl::inf);
-
         if (x == nan.str() or x == "nan")
             return fl::nan;
+
+        std::ostringstream pInf;
+        pInf << fl::inf;
         if (x == pInf.str() or x == "inf")
             return fl::inf;
+
+        std::ostringstream nInf;
+        nInf << (-fl::inf);
         if (x == nInf.str() or x == "-inf")
             return -fl::inf;
 
-        std::ostringstream ex;
-        ex << "[conversion error] from <" << x << "> to scalar";
-        throw fl::Exception(ex.str(), FL_AT);
+        throw fl::Exception("[conversion error] from <" + x + "> to scalar", FL_AT);
     }
 
     inline scalar Operation::toScalar(const std::string& x, scalar alternative) FL_INOEXCEPT {
@@ -856,15 +857,18 @@ namespace fl {
         char strict;
         if (not (iss.fail() or iss.get(strict))) return result;
 
-        std::ostringstream nan, pInf, nInf;
+        std::ostringstream nan;
         nan << fl::nan;
-        pInf << fl::inf;
-        nInf << (-fl::inf);
-
         if (x == nan.str() or x == "nan")
             return fl::nan;
+
+        std::ostringstream pInf;
+        pInf << fl::inf;
         if (x == pInf.str() or x == "inf")
             return fl::inf;
+
+        std::ostringstream nInf;
+        nInf << (-fl::inf);
         if (x == nInf.str() or x == "-inf")
             return -fl::inf;
 
@@ -875,8 +879,7 @@ namespace fl {
         try {
             fl::Op::toScalar(x);
             return true;
-        } catch (std::exception& ex) {
-            (void) ex;
+        } catch (...) {
             return false;
         }
     }
