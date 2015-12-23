@@ -271,16 +271,16 @@ namespace fl {
     }
 
     scalar Function::membership(scalar x) const {
-        if (not this->_root.get()) {
+        if (not root()) {
             throw fl::Exception("[function error] function <" + _formula + "> not loaded.", FL_AT);
         }
-        if (this->_engine) {
-            for (std::size_t i = 0; i < this->_engine->numberOfInputVariables(); ++i) {
-                InputVariable* input = this->_engine->getInputVariable(i);
+        if (getEngine()) {
+            for (std::size_t i = 0; i < getEngine()->numberOfInputVariables(); ++i) {
+                InputVariable* input = getEngine()->getInputVariable(i);
                 this->variables[input->getName()] = input->getValue();
             }
-            for (std::size_t i = 0; i < this->_engine->numberOfOutputVariables(); ++i) {
-                OutputVariable* output = this->_engine->getOutputVariable(i);
+            for (std::size_t i = 0; i < getEngine()->numberOfOutputVariables(); ++i) {
+                OutputVariable* output = getEngine()->getOutputVariable(i);
                 this->variables[output->getName()] = output->getValue();
             }
         }
@@ -289,15 +289,15 @@ namespace fl {
     }
 
     scalar Function::evaluate(const std::map<std::string, scalar>* localVariables) const {
-        if (not this->_root.get())
+        if (not root())
             throw fl::Exception("[function error] evaluation failed because the function is not loaded", FL_AT);
         if (localVariables)
-            return this->_root->evaluate(localVariables);
-        return this->_root->evaluate(&this->variables);
+            return root()->evaluate(localVariables);
+        return root()->evaluate(&this->variables);
     }
 
     std::string Function::parameters() const {
-        return _formula;
+        return getFormula();
     }
 
     void Function::configure(const std::string& parameters) {
@@ -321,17 +321,17 @@ namespace fl {
     }
 
     void Function::load() {
-        load(this->_formula);
+        load(getFormula());
     }
 
     void Function::load(const std::string& formula) {
-        load(formula, this->_engine);
+        load(formula, getEngine());
     }
 
     void Function::load(const std::string& formula,
             const Engine* engine) {
-        this->_formula = formula;
-        this->_engine = engine;
+        setFormula(formula);
+        setEngine(engine);
         this->_root.reset(parse(formula));
         membership(0.0); //make sure function evaluates without throwing exception.
     }

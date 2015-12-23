@@ -54,21 +54,25 @@ namespace fl {
     }
 
     Expression* Antecedent::getExpression() const {
-        return this->_expression;
+        return this->_expression.get();
+    }
+
+    void Antecedent::setExpression(Expression* expression) {
+        this->_expression.reset(expression);
     }
 
     bool Antecedent::isLoaded() const {
-        return this->_expression != fl::null;
+        return getExpression();
     }
 
     scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction) const {
-        return this->activationDegree(conjunction, disjunction, this->_expression);
+        return this->activationDegree(conjunction, disjunction, getExpression());
     }
 
     scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction,
             const Expression* node) const {
         if (not isLoaded()) {
-            throw fl::Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
+            throw fl::Exception("[antecedent error] antecedent <" + getText() + "> is not loaded", FL_AT);
         }
         const Proposition* proposition = dynamic_cast<const Proposition*> (node);
         if (proposition) {
@@ -142,20 +146,17 @@ namespace fl {
     }
 
     void Antecedent::unload() {
-        if (_expression) {
-            delete _expression;
-            _expression = fl::null;
-        }
+        setExpression(fl::null);
     }
 
     void Antecedent::load(fl::Rule* rule, const Engine* engine) {
-        load(_text, rule, engine);
+        load(getText(), rule, engine);
     }
 
     void Antecedent::load(const std::string& antecedent, fl::Rule* rule, const Engine* engine) {
         FL_DBG("Antecedent: " << antecedent);
         unload();
-        this->_text = antecedent;
+        setText(antecedent);
         if (fl::Op::trim(antecedent).empty()) {
             throw fl::Exception("[syntax error] antecedent is empty", FL_AT);
         }
@@ -314,18 +315,18 @@ namespace fl {
             }
             throw;
         }
-        this->_expression = expressionStack.top();
+        setExpression(expressionStack.top());
     }
 
     std::string Antecedent::toString() const {
-        return toInfix(this->_expression);
+        return toInfix(getExpression());
     }
 
     std::string Antecedent::toPrefix(const Expression* node) const {
         if (not isLoaded()) {
             throw fl::Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
         }
-        if (not node) node = this->_expression;
+        if (not node) node = getExpression();
 
         if (dynamic_cast<const Proposition*> (node)) {
             return node->toString();
@@ -345,7 +346,7 @@ namespace fl {
         if (not isLoaded()) {
             throw fl::Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
         }
-        if (not node) node = this->_expression;
+        if (not node) node = getExpression();
         if (dynamic_cast<const Proposition*> (node)) {
             return node->toString();
         }
@@ -364,7 +365,7 @@ namespace fl {
         if (not isLoaded()) {
             throw fl::Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
         }
-        if (not node) node = this->_expression;
+        if (not node) node = getExpression();
         if (dynamic_cast<const Proposition*> (node)) {
             return node->toString();
         }

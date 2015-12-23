@@ -72,25 +72,25 @@ namespace fl {
 
     void RuleBlock::activate() {
         FL_DBG("===================");
-        FL_DBG("ACTIVATING RULEBLOCK " << _name);
-        if (not _activation.get()) {
-            _activation.reset(new General);
+        FL_DBG("ACTIVATING RULEBLOCK " << getName());
+        if (not getActivation()) {
+            setActivation(new General);
         }
-        FL_DBG("Activation: " << _activation->className() << " " << _activation->parameters());
-        _activation->activate(this);
+        FL_DBG("Activation: " << getActivation()->className() << " " << getActivation()->parameters());
+        getActivation()->activate(this);
     }
 
     void RuleBlock::unloadRules() const {
-        for (std::size_t i = 0; i < _rules.size(); ++i) {
-            _rules.at(i)->unload();
+        for (std::size_t i = 0; i < rules().size(); ++i) {
+            rules().at(i)->unload();
         }
     }
 
     void RuleBlock::loadRules(const Engine* engine) {
         std::ostringstream exceptions;
         bool throwException = false;
-        for (std::size_t i = 0; i < _rules.size(); ++i) {
-            Rule* rule = _rules.at(i);
+        for (std::size_t i = 0; i < rules().size(); ++i) {
+            Rule* rule = rules().at(i);
             if (rule->isLoaded()) {
                 rule->unload();
             }
@@ -169,25 +169,25 @@ namespace fl {
      * Operations for std::vector _rules
      */
     void RuleBlock::addRule(Rule* rule) {
-        this->_rules.push_back(rule);
+        rules().push_back(rule);
     }
 
     void RuleBlock::insertRule(Rule* rule, std::size_t index) {
-        this->_rules.insert(this->_rules.begin() + index, rule);
+        rules().insert(rules().begin() + index, rule);
     }
 
     Rule* RuleBlock::getRule(std::size_t index) const {
-        return this->_rules.at(index);
+        return rules().at(index);
     }
 
     Rule* RuleBlock::removeRule(std::size_t index) {
-        Rule* result = this->_rules.at(index);
-        this->_rules.erase(this->_rules.begin() + index);
+        Rule* result = rules().at(index);
+        rules().erase(rules().begin() + index);
         return result;
     }
 
     std::size_t RuleBlock::numberOfRules() const {
-        return this->_rules.size();
+        return rules().size();
     }
 
     const std::vector<Rule*>& RuleBlock::rules() const {

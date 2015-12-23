@@ -47,7 +47,7 @@ namespace fl {
     class FL_API Antecedent {
     private:
         std::string _text;
-        Expression* _expression;
+        FL_unique_ptr<Expression> _expression; //@todo make smart pointer
 
     public:
         Antecedent();
@@ -69,6 +69,12 @@ namespace fl {
           @return the expression tree of the antecedent 
          */
         virtual Expression* getExpression() const;
+        
+        /**
+          Sets the expression tree of the antecedent 
+          @param is the expression tree of the antecedent 
+         */
+        virtual void setExpression(Expression* expression);
 
         /**
           Indicates whether the antecedent is loaded

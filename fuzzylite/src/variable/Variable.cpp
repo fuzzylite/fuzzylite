@@ -89,7 +89,7 @@ namespace fl {
     }
 
     scalar Variable::range() const {
-        return this->_maximum - this->_minimum;
+        return getMaximum() - getMinimum();
     }
 
     void Variable::setMinimum(scalar minimum) {
@@ -205,25 +205,25 @@ namespace fl {
     }
 
     void Variable::addTerm(Term* term) {
-        this->_terms.push_back(term);
+        terms().push_back(term);
     }
 
     void Variable::insertTerm(Term* term, std::size_t index) {
-        this->_terms.insert(this->_terms.begin() + index, term);
+        terms().insert(terms().begin() + index, term);
     }
 
     Term* Variable::getTerm(std::size_t index) const {
-        return this->_terms.at(index);
+        return terms().at(index);
     }
 
     Term* Variable::getTerm(const std::string& name) const {
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            if (_terms.at(i)->getName() == name) {
-                return _terms.at(i);
+        for (std::size_t i = 0; i < terms().size(); ++i) {
+            if (terms().at(i)->getName() == name) {
+                return terms().at(i);
             }
         }
         throw fl::Exception("[variable error] term <" + name + "> "
-                "not found in variable <" + this->_name + ">", FL_AT);
+                "not found in variable <" + getName() + ">", FL_AT);
     }
 
     bool Variable::hasTerm(const std::string& name) const {
@@ -231,13 +231,13 @@ namespace fl {
     }
 
     Term* Variable::removeTerm(std::size_t index) {
-        Term* result = this->_terms.at(index);
-        this->_terms.erase(this->_terms.begin() + index);
+        Term* result = terms().at(index);
+        terms().erase(terms().begin() + index);
         return result;
     }
 
     std::size_t Variable::numberOfTerms() const {
-        return this->_terms.size();
+        return terms().size();
     }
 
     const std::vector<Term*>& Variable::terms() const {

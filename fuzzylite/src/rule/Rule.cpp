@@ -143,42 +143,45 @@ namespace fl {
 
     scalar Rule::computeActivationDegree(const TNorm* conjunction, const SNorm* disjunction) const {
         if (not isLoaded()) {
-            throw fl::Exception("[rule error] the following rule is not loaded: " + _text, FL_AT);
+            throw fl::Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
         }
         return getWeight() * getAntecedent()->activationDegree(conjunction, disjunction);
     }
 
     void Rule::activate(scalar activationDegree, const TNorm* implication) {
         if (not isLoaded()) {
-            throw fl::Exception("[rule error] the following rule is not loaded: " + _text, FL_AT);
+            throw fl::Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
         }
 
         if (Op::isGt(activationDegree, 0.0)) {
             FL_DBG("[degree=" << Op::str(activationDegree) << "] " << toString());
-            _activationDegree = activationDegree;
-            _consequent->modify(_activationDegree, implication);
+            setActivationDegree(activationDegree);
+            getConsequent()->modify(activationDegree, implication);
         } else {
             deactivate();
         }
     }
 
     void Rule::deactivate() {
-        _activationDegree = 0.0;
+        setActivationDegree(0.0);
         FL_DBG("[deactivated] " << toString());
     }
 
     bool Rule::isActivated() const {
-        return Op::isGt(_activationDegree, 0.0);
+        return Op::isGt(getActivationDegree(), 0.0);
     }
 
     bool Rule::isLoaded() const {
-        return _antecedent->isLoaded() and _consequent->isLoaded();
+        if (getAntecedent() and getConsequent()) {
+            return getAntecedent()->isLoaded() and getConsequent()->isLoaded();
+        }
+        return false;
     }
 
     void Rule::unload() {
-        _activationDegree = 0.0;
-        _antecedent->unload();
-        _consequent->unload();
+        setActivationDegree(0.0);
+        if (getAntecedent()) getAntecedent()->unload();
+        if (getConsequent()) getConsequent()->unload();
 
         for (std::map<std::string, Hedge*>::const_iterator it = _hedges.begin();
                 it != _hedges.end(); ++it) {
@@ -188,12 +191,12 @@ namespace fl {
     }
 
     void Rule::load(const Engine* engine) {
-        load(_text, engine);
+        load(getText(), engine);
     }
 
     void Rule::load(const std::string& rule, const Engine* engine) {
-        this->_text = rule;
-        this->_activationDegree = 0.0;
+        setText(rule);
+        setActivationDegree(0.0);
         std::istringstream tokenizer(rule.substr(0, rule.find_first_of('#')));
         std::string token;
         std::ostringstream ossAntecedent, ossConsequent;
@@ -256,9 +259,9 @@ namespace fl {
                 throw fl::Exception(ex.str(), FL_AT);
             }
 
-            _antecedent->load(ossAntecedent.str(), this, engine);
-            _consequent->load(ossConsequent.str(), this, engine);
-            _weight = weight;
+            getAntecedent()->load(ossAntecedent.str(), this, engine);
+            getConsequent()->load(ossConsequent.str(), this, engine);
+            setWeight(weight);
 
         } catch (...) {
             unload();

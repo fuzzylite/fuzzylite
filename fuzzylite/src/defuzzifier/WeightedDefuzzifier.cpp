@@ -33,11 +33,11 @@ namespace fl {
     }
 
     WeightedDefuzzifier::WeightedDefuzzifier(const std::string& type) {
-        if (type == "Automatic") _type = Automatic;
-        else if (type == "TakagiSugeno") _type = TakagiSugeno;
-        else if (type == "Tsukamoto") _type = Tsukamoto;
+        if (type == "Automatic") setType(Automatic);
+        else if (type == "TakagiSugeno") setType(TakagiSugeno);
+        else if (type == "Tsukamoto") setType(Tsukamoto);
         else {
-            _type = Automatic;
+            setType(Automatic);
             FL_LOG("[warning] incorrect type <" + type + "> of WeightedDefuzzifier"
                     + " has been defaulted to <Automatic>");
         }
@@ -65,7 +65,7 @@ namespace fl {
     }
 
     std::string WeightedDefuzzifier::getTypeName() const {
-        return typeName(this->_type);
+        return typeName(getType());
     }
 
     WeightedDefuzzifier::Type WeightedDefuzzifier::inferType(const Term* term) const {

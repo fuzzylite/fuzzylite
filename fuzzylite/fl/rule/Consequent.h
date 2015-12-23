@@ -75,6 +75,15 @@ namespace fl {
         virtual const std::vector<Proposition*>& conclusions() const;
 
         /**
+          Provides a mutable vector of the set of propositions that
+          represent the Consequent of a Rule
+
+          @return a mutable vector of the set of propositions that represent
+          the Consequent of a Rule
+         */
+        virtual std::vector<Proposition*>& conclusions();
+        
+        /**
           Indicates if the consequent is loaded
           @return whether the consequent is loaded
          */

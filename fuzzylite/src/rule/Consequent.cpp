@@ -51,12 +51,16 @@ namespace fl {
         return this->_conclusions;
     }
 
+    std::vector<Proposition*>& Consequent::conclusions() {
+        return this->_conclusions;
+    }
+
     void Consequent::modify(scalar activationDegree, const TNorm* implication) {
         if (not isLoaded()) {
-            throw fl::Exception("[consequent error] consequent <" + _text + "> is not loaded", FL_AT);
+            throw fl::Exception("[consequent error] consequent <" + getText() + "> is not loaded", FL_AT);
         }
-        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
-            Proposition* proposition = _conclusions.at(i);
+        for (std::size_t i = 0; i < conclusions().size(); ++i) {
+            Proposition* proposition = conclusions().at(i);
             if (proposition->variable->isEnabled()) {
                 if (not proposition->hedges.empty()) {
                     for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
@@ -64,7 +68,7 @@ namespace fl {
                         activationDegree = (*rit)->hedge(activationDegree);
                     }
                 }
-                Activated* term = new Activated(_conclusions.at(i)->term, activationDegree, implication);
+                Activated* term = new Activated(conclusions().at(i)->term, activationDegree, implication);
 
                 if (OutputVariable * outputVariable = dynamic_cast<OutputVariable*> (proposition->variable)) {
                     outputVariable->fuzzyOutput()->addTerm(term);
@@ -80,23 +84,23 @@ namespace fl {
     }
 
     bool Consequent::isLoaded() {
-        return not _conclusions.empty();
+        return not conclusions().empty();
     }
 
     void Consequent::unload() {
-        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
-            delete _conclusions.at(i);
+        for (std::size_t i = 0; i < conclusions().size(); ++i) {
+            delete conclusions().at(i);
         }
-        _conclusions.clear();
+        conclusions().clear();
     }
 
     void Consequent::load(Rule* rule, const Engine* engine) {
-        load(_text, rule, engine);
+        load(getText(), rule, engine);
     }
 
     void Consequent::load(const std::string& consequent, Rule* rule, const Engine* engine) {
         unload();
-        this->_text = consequent;
+        setText(consequent);
 
         if (fl::Op::trim(consequent).empty()) {
             throw fl::Exception("[syntax error] consequent is empty", FL_AT);
@@ -128,7 +132,7 @@ namespace fl {
                     if (engine->hasOutputVariable(token)) {
                         proposition = new Proposition;
                         proposition->variable = engine->getOutputVariable(token);
-                        _conclusions.push_back(proposition);
+                        conclusions().push_back(proposition);
 
                         state = S_IS;
                         continue;
@@ -231,9 +235,9 @@ namespace fl {
 
     std::string Consequent::toString() const {
         std::stringstream ss;
-        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
-            ss << _conclusions.at(i)->toString();
-            if (i + 1 < _conclusions.size())
+        for (std::size_t i = 0; i < conclusions().size(); ++i) {
+            ss << conclusions().at(i)->toString();
+            if (i + 1 < conclusions().size())
                 ss << " " << Rule::andKeyword() << " ";
         }
         return ss.str();

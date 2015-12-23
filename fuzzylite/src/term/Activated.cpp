@@ -35,16 +35,19 @@ namespace fl {
 
     scalar Activated::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
-        if (not _implication) throw fl::Exception("[implication error] "
-                "implication operator needed to activate " + _term->toString(), FL_AT);
-        return _implication->compute(this->_term->membership(x), _degree);
+        if (not getTerm()) 
+            throw fl::Exception("[activation error] no term available to activate", FL_AT);
+        if (not getImplication()) 
+            throw fl::Exception("[implication error] implication operator needed "
+                    "to activate " + getTerm()->toString(), FL_AT);
+        return getImplication()->compute(getTerm()->membership(x), getDegree());
     }
 
     std::string Activated::parameters() const {
         FllExporter exporter;
         std::ostringstream ss;
-        ss << Op::str(_degree) << " " << exporter.toString(_implication) << " "
-                << exporter.toString(_term);
+        ss << Op::str(getDegree()) << " " << exporter.toString(getImplication()) << " "
+                << exporter.toString(getTerm());
         return ss.str();
     }
 
@@ -55,9 +58,9 @@ namespace fl {
     std::string Activated::toString() const {
         FllExporter exporter;
         std::ostringstream ss;
-        ss << exporter.toString(_implication) << "("
-                << Op::str(_degree) << ","
-                << _term->getName() << ")";
+        ss << exporter.toString(getImplication()) << "("
+                << Op::str(getDegree()) << ","
+                << getTerm()->getName() << ")";
         return ss.str();
     }
 

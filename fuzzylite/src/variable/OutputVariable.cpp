@@ -60,7 +60,7 @@ namespace fl {
 
     void OutputVariable::setName(const std::string& name) {
         Variable::setName(name);
-        this->_fuzzyOutput->setName(name);
+        fuzzyOutput()->setName(name);
     }
 
     Accumulated* OutputVariable::fuzzyOutput() const {
@@ -69,12 +69,12 @@ namespace fl {
 
     void OutputVariable::setMinimum(scalar minimum) {
         Variable::setMinimum(minimum);
-        this->_fuzzyOutput->setMinimum(minimum);
+        fuzzyOutput()->setMinimum(minimum);
     }
 
     void OutputVariable::setMaximum(scalar maximum) {
         Variable::setMaximum(maximum);
-        this->_fuzzyOutput->setMaximum(maximum);
+        fuzzyOutput()->setMaximum(maximum);
     }
 
     void OutputVariable::setDefuzzifier(Defuzzifier* defuzzifier) {

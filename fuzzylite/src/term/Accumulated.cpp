@@ -66,24 +66,26 @@ namespace fl {
 
     scalar Accumulated::membership(scalar x) const {
         if (fl::Op::isNaN(x)) return fl::nan;
-        if (not (_terms.empty() or _accumulation.get())) { //Exception for IntegralDefuzzifiers
+        if (not (terms().empty() or getAccumulation())) { //Exception for IntegralDefuzzifiers
             throw fl::Exception("[accumulation error] "
                     "accumulation operator needed to accumulate " + toString(), FL_AT);
         }
         scalar mu = 0.0;
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            mu = _accumulation->compute(mu, _terms.at(i)->membership(x));
+        for (std::size_t i = 0; i < terms().size(); ++i) {
+            mu = getAccumulation()->compute(mu, terms().at(i)->membership(x));
         }
         return mu;
     }
 
     scalar Accumulated::activationDegree(const Term* forTerm) const {
         scalar result = 0.0;
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            Activated* activatedTerm = _terms.at(i);
+        for (std::size_t i = 0; i < terms().size(); ++i) {
+            Activated* activatedTerm = terms().at(i);
             if (activatedTerm->getTerm() == forTerm) {
-                if (_accumulation.get()) result = _accumulation->compute(result, activatedTerm->getDegree());
-                else result += activatedTerm->getDegree(); //Default for WeightDefuzzifier
+                if (getAccumulation())
+                    result = getAccumulation()->compute(result, activatedTerm->getDegree());
+                else
+                    result += activatedTerm->getDegree(); //Default for WeightDefuzzifier
             }
         }
         return result;
@@ -92,10 +94,10 @@ namespace fl {
     std::string Accumulated::parameters() const {
         FllExporter exporter;
         std::ostringstream ss;
-        ss << exporter.toString(_accumulation.get());
-        ss << " " << Op::str(_minimum) << " " << Op::str(_maximum) << " ";
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            ss << " " << exporter.toString(_terms.at(i));
+        ss << exporter.toString(getAccumulation());
+        ss << " " << Op::str(getMinimum()) << " " << Op::str(getMaximum()) << " ";
+        for (std::size_t i = 0; i < terms().size(); ++i) {
+            ss << " " << exporter.toString(terms().at(i));
         }
         return ss.str();
     }
@@ -110,13 +112,13 @@ namespace fl {
 
     std::string Accumulated::toString() const {
         std::vector<std::string> accumulate;
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            accumulate.push_back(_terms.at(i)->toString());
+        for (std::size_t i = 0; i < terms().size(); ++i) {
+            accumulate.push_back(terms().at(i)->toString());
         }
         FllExporter exporter;
         std::ostringstream ss;
         ss << getName() << ": " << className() << " "
-                << exporter.toString(_accumulation.get()) << "["
+                << exporter.toString(getAccumulation()) << "["
                 << fl::Op::join(accumulate, ",") << "]";
         return ss.str();
     }
@@ -143,7 +145,7 @@ namespace fl {
     }
 
     scalar Accumulated::range() const {
-        return this->_maximum - this->_minimum;
+        return getMaximum() - getMinimum();
     }
 
     void Accumulated::setAccumulation(SNorm* accumulation) {
@@ -160,16 +162,16 @@ namespace fl {
 
 
     void Accumulated::addTerm(const Term* term, scalar degree, const TNorm* implication) {
-        this->_terms.push_back(new Activated(term, degree, implication));
+        terms().push_back(new Activated(term, degree, implication));
     }
 
     void Accumulated::addTerm(Activated* term) {
-        this->_terms.push_back(term);
+        terms().push_back(term);
     }
 
     Activated* Accumulated::removeTerm(std::size_t index) {
-        Activated* term = this->_terms.at(index);
-        this->_terms.erase(this->_terms.begin() + index);
+        Activated* term = terms().at(index);
+        terms().erase(terms().begin() + index);
         return term;
     }
 
@@ -181,7 +183,7 @@ namespace fl {
     }
 
     Activated* Accumulated::getTerm(std::size_t index) const {
-        return this->_terms.at(index);
+        return terms().at(index);
     }
 
     const std::vector<Activated*>& Accumulated::terms() const {
@@ -193,11 +195,11 @@ namespace fl {
     }
 
     std::size_t Accumulated::numberOfTerms() const {
-        return _terms.size();
+        return terms().size();
     }
 
     bool Accumulated::isEmpty() const {
-        return _terms.empty();
+        return terms().empty();
     }
 
 }
