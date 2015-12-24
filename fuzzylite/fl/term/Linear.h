@@ -113,7 +113,7 @@ namespace fl {
 
         virtual Linear* clone() const FL_IOVERRIDE;
 
-        virtual void updateReference(const Engine* engine);
+        virtual void updateReference(const Engine* engine) FL_IOVERRIDE;
 
         static Term* constructor();
 

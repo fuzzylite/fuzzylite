@@ -35,7 +35,7 @@ namespace fl {
       @since 5.0
     
      */
-    class FunctionFactory : public CloningFactory<Function::Element*> {
+    class FL_API FunctionFactory : public CloningFactory<Function::Element*> {
     private:
         void registerOperators();
         void registerFunctions();
