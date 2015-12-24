@@ -42,15 +42,19 @@ namespace fl {
         if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexD))
             return getHeight() * 0.0;
 
-        if (Op::isLt(x, _vertexB))
+        if (Op::isLt(x, _vertexB)) {
+            if (_vertexA == -fl::inf) return getHeight() * 1.0;
             return getHeight() * Op::min(scalar(1.0), (x - _vertexA) / (_vertexB - _vertexA));
-
+        }
         if (Op::isLE(x, _vertexC))
             return getHeight() * 1.0;
 
-        if (Op::isLt(x, _vertexD))
+        if (Op::isLt(x, _vertexD)) {
+            if (_vertexD == fl::inf) return getHeight() * 1.0;
             return getHeight() * (_vertexD - x) / (_vertexD - _vertexC);
-
+        }
+        
+        if (_vertexD == fl::inf) return getHeight() * 1.0;
         return getHeight() * 0.0;
     }
 

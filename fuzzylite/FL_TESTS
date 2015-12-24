@@ -1,4 +1,6 @@
 test/catch.hpp
 test/test.cpp
 test/term/Function.cpp
+test/term/Trapezoid.cpp
+test/term/Triangle.cpp
 test/variable/Variable.cpp

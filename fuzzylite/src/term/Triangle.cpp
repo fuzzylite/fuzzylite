@@ -42,9 +42,12 @@ namespace fl {
         if (Op::isEq(x, _vertexB))
             return getHeight() * 1.0;
 
-        if (Op::isLt(x, _vertexB))
+        if (Op::isLt(x, _vertexB)) {
+            if (_vertexA == -fl::inf) return getHeight() * 1.0;
             return getHeight() * (x - _vertexA) / (_vertexB - _vertexA);
-
+        }
+        //if (Op::isGt(x, _vertexB))
+        if (_vertexC == fl::inf) return getHeight() * 1.0;
         return getHeight() * (_vertexC - x) / (_vertexC - _vertexB);
     }
 
