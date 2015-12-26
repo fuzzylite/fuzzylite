@@ -31,11 +31,12 @@ namespace fl {
 
     Rule::Rule(const std::string& text, scalar weight)
     : _text(text), _weight(weight), _antecedent(new Antecedent), _consequent(new Consequent),
-    _activationDegree(0.0) {
+    _activationDegree(0.0), _active(false) {
     }
 
     Rule::Rule(const Rule& other) : _text(other._text), _weight(other._weight),
-    _antecedent(new Antecedent), _consequent(new Consequent), _activationDegree(other._activationDegree) {
+    _antecedent(new Antecedent), _consequent(new Consequent),
+    _activationDegree(other._activationDegree), _active(other._active) {
     }
 
     Rule& Rule::operator=(const Rule& other) {
@@ -45,6 +46,7 @@ namespace fl {
             _antecedent.reset(new Antecedent);
             _consequent.reset(new Consequent);
             _activationDegree = other._activationDegree;
+            _active = other._active;
         }
         return *this;
     }
@@ -85,6 +87,14 @@ namespace fl {
         return this->_consequent.get();
     }
 
+    void Rule::setActive(bool active) {
+        this->_active = active;
+    }
+
+    bool Rule::isActive() const {
+        return this->_active;
+    }
+
     void Rule::setActivationDegree(scalar activationDegree) {
         this->_activationDegree = activationDegree;
     }
@@ -101,26 +111,22 @@ namespace fl {
     }
 
     void Rule::activate(scalar activationDegree, const TNorm* implication) {
+        FL_DBG("[activating] " << toString());
         if (not isLoaded()) {
             throw fl::Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
         }
-
         if (Op::isGt(activationDegree, 0.0)) {
             FL_DBG("[degree=" << Op::str(activationDegree) << "] " << toString());
             setActivationDegree(activationDegree);
             getConsequent()->modify(activationDegree, implication);
-        } else {
-            deactivate();
         }
+        setActive(true);
     }
 
     void Rule::deactivate() {
+        setActive(false);
         setActivationDegree(0.0);
         FL_DBG("[deactivated] " << toString());
-    }
-
-    bool Rule::isActivated() const {
-        return Op::isGt(getActivationDegree(), 0.0);
     }
 
     bool Rule::isLoaded() const {
@@ -131,7 +137,7 @@ namespace fl {
     }
 
     void Rule::unload() {
-        setActivationDegree(0.0);
+        deactivate();
         if (getAntecedent()) getAntecedent()->unload();
         if (getConsequent()) getConsequent()->unload();
     }
@@ -142,6 +148,7 @@ namespace fl {
 
     void Rule::load(const std::string& rule, const Engine* engine) {
         setText(rule);
+        setActive(false);
         setActivationDegree(0.0);
         std::istringstream tokenizer(rule.substr(0, rule.find_first_of('#')));
         std::string token;

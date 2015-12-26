@@ -55,16 +55,16 @@ namespace fl {
         for (std::vector<Rule*>::const_iterator it = ruleBlock->rules().begin();
                 it != ruleBlock->rules().end(); ++it) {
             Rule* rule = (*it);
+            rule->deactivate();
 
-            scalar activationDegree = 0.0;
-            if (not first and rule->isLoaded()) {
-                activationDegree = rule->computeActivationDegree(conjunction, disjunction);
-            }
-            if (Op::isGt(activationDegree, 0.0) and Op::isGE(activationDegree, getThreshold())) {
-                first = rule;
-                first->activate(activationDegree, implication);
-            }else{
-                rule->deactivate();
+            if (rule->isLoaded()) {
+                scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
+                rule->setActivationDegree(activationDegree);
+                if (not first and Op::isGt(activationDegree, 0.0)
+                        and Op::isGE(activationDegree, getThreshold())) {
+                    first = rule;
+                    first->activate(activationDegree, implication);
+                }
             }
         }
     }

@@ -63,15 +63,16 @@ namespace fl {
         for (std::vector<Rule*>::const_reverse_iterator it = ruleBlock->rules().rbegin();
                 it != ruleBlock->rules().rend(); ++it) {
             Rule* rule = (*it);
-            scalar activationDegree = 0.0;
-            if (not last and rule->isLoaded()) {
-                activationDegree = rule->computeActivationDegree(conjunction, disjunction);
-            }
-            if (Op::isGt(activationDegree, 0.0) and Op::isGE(activationDegree, getThreshold())) {
-                last = rule;
-                last->activate(activationDegree, implication);
-            } else {
-                rule->deactivate();
+            rule->deactivate();
+
+            if (rule->isLoaded()) {
+                scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
+                rule->setActivationDegree(activationDegree);
+                if (not last and Op::isGt(activationDegree, 0.0)
+                        and Op::isGE(activationDegree, getThreshold())) {
+                    last = rule;
+                    last->activate(activationDegree, implication);
+                }
             }
         }
     }

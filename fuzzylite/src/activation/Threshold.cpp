@@ -124,15 +124,13 @@ namespace fl {
 
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             Rule* rule = ruleBlock->getRule(i);
+            rule->deactivate();
             if (rule->isLoaded()) {
                 scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
+                rule->setActivationDegree(activationDegree);
                 if (activatesWith(activationDegree)) {
                     rule->activate(activationDegree, implication);
-                } else {
-                    rule->deactivate();
                 }
-            } else {
-                rule->deactivate();
             }
         }
     }

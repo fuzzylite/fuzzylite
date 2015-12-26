@@ -52,12 +52,10 @@ namespace fl {
         this->_activatedRules = activatedRules;
     }
 
-    typedef std::pair<Rule*, scalar> RuleDegree;
-
     struct RuleDegreeComparatorAscending {
 
-        bool operator()(const RuleDegree& a, const RuleDegree& b) {
-            return a.second > b.second;
+        bool operator()(const Rule* a, const Rule* b) {
+            return a->getActivationDegree() > b->getActivationDegree();
         }
     };
 
@@ -67,28 +65,23 @@ namespace fl {
         const SNorm* disjunction = ruleBlock->getDisjunction();
         const TNorm* implication = ruleBlock->getImplication();
 
-        std::priority_queue<RuleDegree, std::vector<RuleDegree>,
+        std::priority_queue<Rule*, std::vector<Rule*>,
                 RuleDegreeComparatorAscending> rulesToActivate;
 
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             Rule* rule = ruleBlock->getRule(i);
+            rule->deactivate();
             if (rule->isLoaded()) {
                 scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
-                if (getActivatedRules() < 0) {
-                    //sort ascending to activate the highest n rules
-                    activationDegree = -activationDegree;
-                }
-                rulesToActivate.push(RuleDegree(rule, activationDegree));
-            } else {
-                rule->deactivate();
+                rule->setActivationDegree(activationDegree);
+                rulesToActivate.push(rule);
             }
         }
 
         int activated = 0;
         while (rulesToActivate.size() > 0 and activated++ < getActivatedRules()) {
-            Rule* rule = rulesToActivate.top().first;
-            scalar activationDegree = std::fabs(rulesToActivate.top().second);
-            rule->activate(activationDegree, implication);
+            Rule* rule = rulesToActivate.top();
+            rule->activate(rule->getActivationDegree(), implication);
             rulesToActivate.pop();
         }
     }

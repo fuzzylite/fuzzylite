@@ -70,6 +70,7 @@ namespace fl {
         FL_unique_ptr<Antecedent> _antecedent;
         FL_unique_ptr<Consequent> _consequent;
         scalar _activationDegree;
+        bool _active;
 
     public:
         explicit Rule(const std::string& text = "", scalar weight = 1.0);
@@ -122,11 +123,27 @@ namespace fl {
          */
         virtual Consequent* getConsequent() const;
 
+
+        /**
+          Sets whether the rule is active. The activation of a rule is 
+          automatically managed within Rule::activate().
+          @param active indicates whether the rule is active
+         */
+        virtual void setActive(bool active);
+
+        /**
+          Indicates whether the rule is active. The activation of a rule is 
+          automatically managed within Rule::activate().
+          @return whether the rule is active
+         */
+        virtual bool isActive() const;
+
         /**
           Sets the activation degree of the rule
           @param activationDegree is the activation degree of the rule
          */
         virtual void setActivationDegree(scalar activationDegree);
+
         /**
           Gets the activation degree of the rule
           @return the activation degree of the rule
@@ -152,11 +169,7 @@ namespace fl {
           Deactivates the rule setting the activation degree to 0.0
          */
         virtual void deactivate();
-        /**
-          Indicates whether the rule has been activated, i.e., `activationDegree > 0.0`
-          @return whether the rule has been activated
-         */
-        virtual bool isActivated() const;
+
 
         /**
           Returns a string representation of the rule in the FuzzyLite Language 

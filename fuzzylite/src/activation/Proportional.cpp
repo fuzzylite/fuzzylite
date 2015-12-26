@@ -50,24 +50,22 @@ namespace fl {
         const SNorm* disjunction = ruleBlock->getDisjunction();
         const TNorm* implication = ruleBlock->getImplication();
 
-        typedef std::pair<Rule*, scalar> RuleDegree;
-
         scalar sumActivationDegrees = 0.0;
-        std::vector<RuleDegree> rulesToActivate(ruleBlock->numberOfRules());
+        std::vector<Rule*> rulesToActivate;
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             Rule* rule = ruleBlock->getRule(i);
+            rule->deactivate();
             if (rule->isLoaded()) {
                 scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
-                rulesToActivate.push_back(RuleDegree(rule, activationDegree));
+                rule->setActivationDegree(activationDegree);
+                rulesToActivate.push_back(rule);
                 sumActivationDegrees += activationDegree;
-            } else {
-                rule->deactivate();
             }
         }
 
         for (std::size_t i = 0; i < rulesToActivate.size(); ++i) {
-            Rule* rule = rulesToActivate.at(i).first;
-            scalar activationDegree = rulesToActivate.at(i).second / sumActivationDegrees;
+            Rule* rule = rulesToActivate.at(i);
+            scalar activationDegree = rule->getActivationDegree() / sumActivationDegrees;
             rule->activate(activationDegree, implication);
         }
     }

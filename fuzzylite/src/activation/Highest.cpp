@@ -52,12 +52,10 @@ namespace fl {
         this->_activatedRules = numberOfRules;
     }
 
-    typedef std::pair<Rule*, scalar> RuleDegree;
-
     struct RuleDegreeComparatorDescending {
 
-        bool operator()(const RuleDegree& a, const RuleDegree& b) const {
-            return a.second < b.second;
+        bool operator()(const Rule* a, const Rule* b) const {
+            return a->getActivationDegree() < b->getActivationDegree();
         }
     };
 
@@ -66,28 +64,23 @@ namespace fl {
         const SNorm* disjunction = ruleBlock->getDisjunction();
         const TNorm* implication = ruleBlock->getImplication();
 
-        std::priority_queue<RuleDegree, std::vector<RuleDegree>,
+        std::priority_queue<Rule*, std::vector<Rule*>,
                 RuleDegreeComparatorDescending> rulesToActivate;
 
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             Rule* rule = ruleBlock->getRule(i);
+            rule->deactivate();
             if (rule->isLoaded()) {
                 scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
-                if (getActivatedRules() < 0) {
-                    //sort ascending to activate the lowest n rules
-                    activationDegree = -activationDegree;
-                }
-                rulesToActivate.push(RuleDegree(rule, activationDegree));
-            } else {
-                rule->deactivate();
+                rule->setActivationDegree(activationDegree);
+                rulesToActivate.push(rule);
             }
         }
 
         int activated = 0;
         while (rulesToActivate.size() > 0 and activated++ < getActivatedRules()) {
-            Rule* rule = rulesToActivate.top().first;
-            scalar activationDegree = std::fabs(rulesToActivate.top().second);
-            rule->activate(activationDegree, implication);
+            Rule* rule = rulesToActivate.top();
+            rule->activate(rule->getActivationDegree(), implication);
             rulesToActivate.pop();
         }
     }
