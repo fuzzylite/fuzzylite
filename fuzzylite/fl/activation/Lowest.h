@@ -37,7 +37,7 @@ namespace fl {
      */
     class FL_API Lowest : public Activation {
     private:
-        int _activatedRules;
+        int _numberOfRules;
     public:
         /**
           A constructor with the number of rules to activate.
@@ -65,13 +65,13 @@ namespace fl {
           Sets the number of rules to activate
           @param activatedRules is the number of rules to activate
          */
-        virtual void setActivatedRules(int activatedRules);
+        virtual void setNumberOfRules(int numberOfRules);
 
         /**
           Returns the number of rules to activate
           @return the number of rules to activate
          */
-        virtual int getActivatedRules() const;
+        virtual int getNumberOfRules() const;
 
         /**
           Activates the rules with the lowest activation degrees in the given

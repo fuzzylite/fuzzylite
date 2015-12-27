@@ -20,6 +20,8 @@
 
 #include "fl/activation/Activation.h"
 
+#include <vector>
+
 namespace fl {
 
     /**
@@ -45,18 +47,18 @@ namespace fl {
           between the activation degree @f$a@f$ and the threshold @f$\theta@f$. 
          */
         enum Comparison {
-            /**@f$a = \theta@f$*/
-            EqualTo,
-            /**@f$a \neq \theta@f$*/
-            NotEqualTo,
             /**\f$a < \theta@f$*/
             LessThan,
             /**@f$a \leq \theta@f$*/
             LessThanOrEqualTo,
-            /**@f$a > \theta@f$*/
-            GreaterThan,
+            /**@f$a = \theta@f$*/
+            EqualTo,
+            /**@f$a \neq \theta@f$*/
+            NotEqualTo,
             /**@f$a \geq \theta@f$*/
-            GreaterThanOrEqualTo
+            GreaterThanOrEqualTo,
+            /**@f$a > \theta@f$*/
+            GreaterThan
         };
     private:
         Comparison _comparison;
@@ -68,7 +70,7 @@ namespace fl {
           @param comparison is the comparison operator
           @param threshold is the threshold
          */
-        explicit Threshold(Comparison comparison = GreaterThan, scalar threshold = 0.0);
+        explicit Threshold(Comparison comparison = GreaterThanOrEqualTo, scalar threshold = 0.0);
         virtual ~Threshold();
         FL_DEFAULT_COPY_AND_MOVE(Threshold)
 
@@ -105,20 +107,35 @@ namespace fl {
         virtual Comparison getComparison() const;
 
         /**
-          Gets the short form of the comparison operator of the activation
+          Returns the short form of the comparison operator of the activation
           method
           @return the short form of an operator in (`==`, `!=`, `<`, `>`, `<=`,
           `>=`)
          */
-        virtual std::string getComparisonOperator() const;
+        virtual std::string comparisonShortForm() const;
+        
+        /**
+          Returns the short form of the given comparison operator of the activation
+          method
+          @return the short form of the given operator
+         */
+        virtual std::string comparisonShortForm(Comparison comparison) const;
 
+        /**
+          Returns the list of available comparisons of the activation method in
+          short form
+          @return (`==`, `!=`, `<`, `>`, `<=`, `>=`)
+         */
+        virtual std::vector<std::string> availableComparisons() const;
+
+        
         /**
           Parses the comparison operator, or throws an
           exception if the parameter does not correspond to a valid operator
           @param comparisonOperator is an operator in (`==`, `!=`, `<`, `>`,
           `<=`, `>=`)
          */
-        virtual Comparison parseComparisonOperator(const std::string& comparisonOperator) const;
+        virtual Comparison parseComparison(const std::string& comparisonOperator) const;
 
         /**
           Sets the threshold of the activation method

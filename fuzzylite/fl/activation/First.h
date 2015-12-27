@@ -23,11 +23,9 @@ namespace fl {
     /**
      
       The First class is a RuleBlock Activation method that activates the first
-      rule whose activation degree is greater than or equal to the given
-      threshold, and deactivates the remaining rules. The rules are iterated in
-      the order they were added to the rule block.
+      @f$n@f$ rules whose activation degrees are greater than or equal to the given
+      threshold. The rules are iterated in the order they were added to the rule block.
 
-   
       @author Juan Rada-Vilela, Ph.D.
       @see Last
       @see Rule
@@ -39,45 +37,57 @@ namespace fl {
 
     class FL_API First : public Activation {
     private:
+        int _numberOfRules;
         scalar _threshold;
     public:
 
-        explicit First(scalar threshold = 0.0);
+        explicit First(int numberOfRules = 1, scalar threshold = 0.0);
         virtual ~First();
         FL_DEFAULT_COPY_AND_MOVE(First)
 
         virtual std::string className() const FL_IOVERRIDE;
 
         /**
-          Returns the threshold of the activation method.
-          
-          @return the threshold of the activation method
+          Returns the number of rules and the threshold of the activation method
+          @return "numberOfRules threshold"
          */
         virtual std::string parameters() const FL_IOVERRIDE;
 
         /**
-          Configures the activation method with the given threshold.
+          Configures the activation method with the given number of rules and 
+          threshold
           
-          @param parameters contains the threshold of the activation method
+          @param parameters as "numberOfRules threshold"
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
+
+        /**
+          Sets the number of rules for the activation degree
+          @param numberOfRules is the number of rules for the activation degree
+         */
+        virtual void setNumberOfRules(int numberOfRules);
+        
+        /**
+          Gets the number of rules for the activation degree
+          @return the number of rules for the activation degree
+         */
+        virtual int getNumberOfRules() const;
 
         /**
           Sets the threshold for the activation degree
           @param threshold is the threshold for the activation degree
          */
         virtual void setThreshold(scalar threshold);
-        
+
         /**
           Gets the threshold for the activation degree
           @return the threshold for the activation degree
          */
         virtual scalar getThreshold() const;
         /**
-          Activates the first rule whose activation degree is greater than or
-          equal to the given threshold, and deactivates the remaining rules.
-          The rules are iterated in the order the rules were added to the rule
-          block.
+          Activates the first @f$n@f$ rules whose activation degrees are greater than or
+          equal to the given threshold. The rules are iterated in the order the 
+          rules were added to the rule block.
           
           @param ruleBlock is the rule block to activate
          */

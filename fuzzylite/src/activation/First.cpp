@@ -25,7 +25,8 @@
 
 namespace fl {
 
-    First::First(scalar threshold) : Activation(), _threshold(threshold) {
+    First::First(int numberOfRules, scalar threshold) : Activation(),
+    _numberOfRules(numberOfRules), _threshold(threshold) {
 
     }
 
@@ -38,11 +39,21 @@ namespace fl {
     }
 
     std::string First::parameters() const {
-        return Op::str(getThreshold());
+        return Op::join(2, " ", getNumberOfRules(), getThreshold());
     }
 
     void First::configure(const std::string& parameters) {
-        setThreshold(Op::toScalar(parameters));
+        if (parameters.empty()) return;
+        std::vector<std::string> values = Op::split(parameters, " ");
+        std::size_t required = 2;
+        if (values.size() < required) {
+            std::ostringstream ex;
+            ex << "[configuration error] activation <" << className() << ">"
+                    << " requires <" << required << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setNumberOfRules((int) Op::toScalar(values.at(0)));
+        setThreshold(Op::toScalar(values.at(1)));
     }
 
     void First::activate(RuleBlock* ruleBlock) const {
@@ -51,7 +62,7 @@ namespace fl {
         const SNorm* disjunction = ruleBlock->getDisjunction();
         const TNorm* implication = ruleBlock->getImplication();
 
-        Rule* first = fl::null;
+        int activated = 0;
         for (std::vector<Rule*>::const_iterator it = ruleBlock->rules().begin();
                 it != ruleBlock->rules().end(); ++it) {
             Rule* rule = (*it);
@@ -60,13 +71,21 @@ namespace fl {
             if (rule->isLoaded()) {
                 scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
                 rule->setActivationDegree(activationDegree);
-                if (not first and Op::isGt(activationDegree, 0.0)
+                if (activated < getNumberOfRules() 
                         and Op::isGE(activationDegree, getThreshold())) {
-                    first = rule;
-                    first->activate(activationDegree, implication);
+                    rule->activate(activationDegree, implication);
+                    ++activated;
                 }
             }
         }
+    }
+
+    void First::setNumberOfRules(int numberOfRules) {
+        this->_numberOfRules = numberOfRules;
+    }
+
+    int First::getNumberOfRules() const {
+        return this->_numberOfRules;
     }
 
     void First::setThreshold(scalar threshold) {

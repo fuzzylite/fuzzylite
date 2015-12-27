@@ -38,7 +38,7 @@ namespace fl {
 
     std::string Threshold::parameters() const {
         std::ostringstream ss;
-        ss << getComparisonOperator() << " " << Op::str(getThreshold());
+        ss << comparisonShortForm() << " " << Op::str(getThreshold());
         return ss.str();
     }
 
@@ -52,7 +52,7 @@ namespace fl {
                     << " requires <" << required << "> parameters";
             throw fl::Exception(ex.str(), FL_AT);
         }
-        setComparison(parseComparisonOperator(values.at(0)));
+        setComparison(parseComparison(values.at(0)));
         setThreshold(Op::toScalar(values.at(1)));
     }
 
@@ -64,25 +64,40 @@ namespace fl {
         return this->_comparison;
     }
 
-    std::string Threshold::getComparisonOperator() const {
-        switch (getComparison()) {
-            case EqualTo: return "==";
-            case NotEqualTo: return "!=";
+    std::string Threshold::comparisonShortForm() const {
+        return comparisonShortForm(getComparison());
+    }
+
+    std::string Threshold::comparisonShortForm(Comparison comparison) const {
+        switch (comparison) {
             case LessThan: return "<";
             case LessThanOrEqualTo: return "<=";
-            case GreaterThan: return ">";
+            case EqualTo: return "==";
+            case NotEqualTo: return "!=";
             case GreaterThanOrEqualTo: return ">=";
-            default: return "[invalid threshold type]";
+            case GreaterThan: return ">";
+            default: return "?";
         }
     }
 
-    Threshold::Comparison Threshold::parseComparisonOperator(const std::string& name) const {
-        if (name == "==") return EqualTo;
-        if (name == "!=") return NotEqualTo;
+    std::vector<std::string> Threshold::availableComparisons() const {
+        std::vector<std::string> result;
+        result.push_back("<");
+        result.push_back("<=");
+        result.push_back("==");
+        result.push_back("!=");
+        result.push_back(">=");
+        result.push_back(">");
+        return result;
+    }
+
+    Threshold::Comparison Threshold::parseComparison(const std::string& name) const {
         if (name == "<") return LessThan;
         if (name == "<=") return LessThanOrEqualTo;
-        if (name == ">") return GreaterThan;
+        if (name == "==") return EqualTo;
+        if (name == "!=") return NotEqualTo;
         if (name == ">=") return GreaterThanOrEqualTo;
+        if (name == ">") return GreaterThan;
         throw fl::Exception("[syntax error] invalid threshold type by name <" + name + ">", FL_AT);
     }
 
@@ -100,18 +115,18 @@ namespace fl {
     }
 
     void Threshold::setComparisonThreshold(const std::string& comparison, scalar threshold) {
-        setComparison(parseComparisonOperator(comparison));
+        setComparison(parseComparison(comparison));
         setThreshold(threshold);
     }
 
     bool Threshold::activatesWith(scalar activationDegree) const {
         switch (getComparison()) {
-            case EqualTo: return Op::isEq(activationDegree, getThreshold());
-            case NotEqualTo: return not Op::isEq(activationDegree, getThreshold());
             case LessThan: return Op::isLt(activationDegree, getThreshold());
             case LessThanOrEqualTo: return Op::isLE(activationDegree, getThreshold());
-            case GreaterThan: return Op::isGt(activationDegree, getThreshold());
+            case EqualTo: return Op::isEq(activationDegree, getThreshold());
+            case NotEqualTo: return not Op::isEq(activationDegree, getThreshold());
             case GreaterThanOrEqualTo: return Op::isGE(activationDegree, getThreshold());
+            case GreaterThan: return Op::isGt(activationDegree, getThreshold());
             default: return false;
         }
     }

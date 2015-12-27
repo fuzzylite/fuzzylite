@@ -25,7 +25,7 @@
 
 namespace fl {
 
-    Lowest::Lowest(int numberOfRules) : Activation(), _activatedRules(numberOfRules) {
+    Lowest::Lowest(int numberOfRules) : Activation(), _numberOfRules(numberOfRules) {
     }
 
     Lowest::~Lowest() {
@@ -37,19 +37,19 @@ namespace fl {
     }
 
     std::string Lowest::parameters() const {
-        return Op::str(getActivatedRules());
+        return Op::str(getNumberOfRules());
     }
 
     void Lowest::configure(const std::string& parameters) {
-        setActivatedRules((int) Op::toScalar(parameters));
+        setNumberOfRules((int) Op::toScalar(parameters));
     }
 
-    int Lowest::getActivatedRules() const {
-        return this->_activatedRules;
+    int Lowest::getNumberOfRules() const {
+        return this->_numberOfRules;
     }
 
-    void Lowest::setActivatedRules(int activatedRules) {
-        this->_activatedRules = activatedRules;
+    void Lowest::setNumberOfRules(int activatedRules) {
+        this->_numberOfRules = activatedRules;
     }
 
     struct RuleDegreeComparatorAscending {
@@ -79,7 +79,7 @@ namespace fl {
         }
 
         int activated = 0;
-        while (rulesToActivate.size() > 0 and activated++ < getActivatedRules()) {
+        while (rulesToActivate.size() > 0 and activated++ < getNumberOfRules()) {
             Rule* rule = rulesToActivate.top();
             rule->activate(rule->getActivationDegree(), implication);
             rulesToActivate.pop();

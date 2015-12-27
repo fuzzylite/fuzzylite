@@ -25,7 +25,8 @@
 
 namespace fl {
 
-    Last::Last(scalar threshold) : Activation(), _threshold(threshold) {
+    Last::Last(int numberOfRules, scalar threshold) : Activation(), 
+            _numberOfRules(numberOfRules), _threshold(threshold) {
 
     }
 
@@ -38,11 +39,29 @@ namespace fl {
     }
 
     std::string Last::parameters() const {
-        return Op::str(getThreshold());
+        return Op::join(2, " ", getNumberOfRules(), getThreshold());
     }
 
     void Last::configure(const std::string& parameters) {
-        setThreshold(Op::toScalar(parameters));
+        if (parameters.empty()) return;
+        std::vector<std::string> values = Op::split(parameters, " ");
+        std::size_t required = 2;
+        if (values.size() < required) {
+            std::ostringstream ex;
+            ex << "[configuration error] activation <" << className() << ">"
+                    << " requires <" << required << "> parameters";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
+        setNumberOfRules((int) Op::toScalar(values.at(0)));
+        setThreshold(Op::toScalar(values.at(1)));
+    }
+
+    void Last::setNumberOfRules(int numberOfRules) {
+        this->_numberOfRules = numberOfRules;
+    }
+
+    int Last::getNumberOfRules() const {
+        return this->_numberOfRules;
     }
 
     void Last::setThreshold(scalar threshold) {
@@ -59,7 +78,7 @@ namespace fl {
         const SNorm* disjunction = ruleBlock->getDisjunction();
         const TNorm* implication = ruleBlock->getImplication();
 
-        Rule* last = fl::null;
+        int activated = 0;
         for (std::vector<Rule*>::const_reverse_iterator it = ruleBlock->rules().rbegin();
                 it != ruleBlock->rules().rend(); ++it) {
             Rule* rule = (*it);
@@ -68,10 +87,10 @@ namespace fl {
             if (rule->isLoaded()) {
                 scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
                 rule->setActivationDegree(activationDegree);
-                if (not last and Op::isGt(activationDegree, 0.0)
+                if (activated < getNumberOfRules()
                         and Op::isGE(activationDegree, getThreshold())) {
-                    last = rule;
-                    last->activate(activationDegree, implication);
+                    rule->activate(activationDegree, implication);
+                    ++activated;
                 }
             }
         }
