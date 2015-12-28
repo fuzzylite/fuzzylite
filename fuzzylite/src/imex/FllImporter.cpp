@@ -255,9 +255,17 @@ namespace fl {
         return FactoryManager::instance()->snorm()->constructObject(name);
     }
 
-    Activation* FllImporter::parseActivation(const std::string& name) const {
-        if (name == "none") return FactoryManager::instance()->activation()->constructObject("");
-        return FactoryManager::instance()->activation()->constructObject(name);
+    Activation* FllImporter::parseActivation(const std::string& text) const {
+        if (text == "none") return FactoryManager::instance()->activation()->constructObject("");
+        std::vector<std::string> tokens = Op::split(text, " ");
+        fl::Activation* result = FactoryManager::instance()->activation()->constructObject(tokens.front());
+        std::ostringstream parameters;
+        for (std::size_t i = 1; i < tokens.size(); ++i) {
+            parameters << tokens.at(i);
+            if (i + 1 < tokens.size()) parameters << " ";
+        }
+        result->configure(parameters.str());
+        return result;
     }
 
     Defuzzifier* FllImporter::parseDefuzzifier(const std::string& text) const {
