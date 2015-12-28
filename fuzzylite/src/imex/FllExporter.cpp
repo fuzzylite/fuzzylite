@@ -167,8 +167,8 @@ namespace fl {
     }
 
     std::string FllExporter::toString(const Activation* activation) const {
-        if (activation) return activation->className();
-        return "none";
+        if (not activation) return "none";
+        return activation->className() + " " + activation->parameters();
     }
 
     std::string FllExporter::toString(const Defuzzifier* defuzzifier) const {
