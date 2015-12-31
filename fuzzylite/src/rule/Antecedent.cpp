@@ -38,7 +38,7 @@
 namespace fl {
 
     Antecedent::Antecedent()
-    : _text(""), _expression(fl::null) {
+    : _text(""), _expression(fl::null){
     }
 
     Antecedent::~Antecedent() {
@@ -74,8 +74,8 @@ namespace fl {
         if (not isLoaded()) {
             throw fl::Exception("[antecedent error] antecedent <" + getText() + "> is not loaded", FL_AT);
         }
-        const Proposition* proposition = dynamic_cast<const Proposition*> (node);
-        if (proposition) {
+        if (node->type() == Expression::Proposition) {
+            const Proposition* proposition = static_cast<const Proposition*> (node);
             if (not proposition->variable->isEnabled()) {
                 return 0.0;
             }
@@ -110,8 +110,8 @@ namespace fl {
             return result;
         }
         //if node is an operator
-        const Operator* fuzzyOperator = dynamic_cast<const Operator*> (node);
-        if (fuzzyOperator) {
+        if (node->type() == Expression::Operator) {
+            const Operator* fuzzyOperator = static_cast<const Operator*> (node);
             if (not (fuzzyOperator->left and fuzzyOperator->right)) {
                 std::ostringstream ex;
                 ex << "[syntax error] left and right operands must exist";

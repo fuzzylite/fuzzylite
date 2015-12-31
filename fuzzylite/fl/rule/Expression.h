@@ -42,9 +42,17 @@ namespace fl {
     class FL_API Expression {
     public:
 
+        enum Type {
+            Proposition, Operator
+        };
         Expression();
         virtual ~Expression();
 
+        /**
+          Returns the type of the expression
+          @return the type of the expression
+         */
+        virtual Type type() const = 0;
         virtual std::string toString() const = 0;
 
     private:
@@ -76,11 +84,14 @@ namespace fl {
         Proposition();
         virtual ~Proposition() FL_IOVERRIDE;
 
+        virtual Expression::Type type() const FL_IOVERRIDE;
+
         /**
           Returns a string representation of the proposition
           @return a string representation of the proposition
          */
         virtual std::string toString() const FL_IOVERRIDE;
+
 
     private:
         FL_DISABLE_COPY(Proposition)
@@ -110,6 +121,8 @@ namespace fl {
 
         Operator();
         virtual ~Operator() FL_IOVERRIDE;
+
+        virtual Expression::Type type() const FL_IOVERRIDE;
 
         /**
           Returns the name of the operator

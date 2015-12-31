@@ -40,6 +40,10 @@ namespace fl {
         hedges.clear();
     }
 
+    Expression::Type Proposition::type() const {
+        return Expression::Proposition;
+    }
+
     std::string Proposition::toString() const {
         std::ostringstream ss;
         if (variable) {
@@ -69,6 +73,10 @@ namespace fl {
     Operator::~Operator() {
         if (left) delete left;
         if (right) delete right;
+    }
+
+    Expression::Type Operator::type() const {
+        return Expression::Operator;
     }
 
     std::string Operator::toString() const {

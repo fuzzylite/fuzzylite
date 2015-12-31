@@ -48,7 +48,7 @@ namespace fl {
     private:
         std::string _text;
         FL_unique_ptr<Expression> _expression;
-
+        
     public:
         Antecedent();
         virtual ~Antecedent();

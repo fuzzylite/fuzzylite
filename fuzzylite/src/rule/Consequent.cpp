@@ -68,17 +68,11 @@ namespace fl {
                         activationDegree = (*rit)->hedge(activationDegree);
                     }
                 }
-                Activated* term = new Activated(conclusions().at(i)->term, activationDegree, implication);
+                Activated term(conclusions().at(i)->term, activationDegree, implication);
 
-                if (OutputVariable * outputVariable = dynamic_cast<OutputVariable*> (proposition->variable)) {
-                    outputVariable->fuzzyOutput()->addTerm(term);
-                    FL_DBG("Aggregating " << term->toString());
-                } else {
-                    std::ostringstream ss;
-                    ss << "[consequent error] expected an OutputVariable, but found <"
-                            << (proposition->variable ? proposition->variable->toString() : "null") << ">";
-                    throw fl::Exception(ss.str(), FL_AT);
-                }
+                OutputVariable * outputVariable = static_cast<OutputVariable*> (proposition->variable);
+                outputVariable->fuzzyOutput()->addTerm(term);
+                FL_DBG("Aggregating " << term.toString());
             }
         }
     }

@@ -56,7 +56,7 @@ namespace fl {
             _aggregation.reset(source._aggregation->clone());
 
         for (std::size_t i = 0; i < source._terms.size(); ++i) {
-            _terms.push_back(source._terms.at(i)->clone());
+            _terms.push_back(source._terms.at(i));
         }
     }
 
@@ -72,7 +72,7 @@ namespace fl {
         }
         scalar mu = 0.0;
         for (std::size_t i = 0; i < terms().size(); ++i) {
-            mu = getAggregation()->compute(mu, terms().at(i)->membership(x));
+            mu = getAggregation()->compute(mu, terms().at(i).membership(x));
         }
         return mu;
     }
@@ -80,12 +80,12 @@ namespace fl {
     scalar Aggregated::activationDegree(const Term* forTerm) const {
         scalar result = 0.0;
         for (std::size_t i = 0; i < terms().size(); ++i) {
-            Activated* activatedTerm = terms().at(i);
-            if (activatedTerm->getTerm() == forTerm) {
+            const Activated& activatedTerm = terms().at(i);
+            if (activatedTerm.getTerm() == forTerm) {
                 if (getAggregation())
-                    result = getAggregation()->compute(result, activatedTerm->getDegree());
+                    result = getAggregation()->compute(result, activatedTerm.getDegree());
                 else
-                    result += activatedTerm->getDegree(); //Default for WeightDefuzzifier
+                    result += activatedTerm.getDegree(); //Default for WeightDefuzzifier
             }
         }
         return result;
@@ -97,7 +97,7 @@ namespace fl {
         ss << exporter.toString(getAggregation());
         ss << " " << Op::str(getMinimum()) << " " << Op::str(getMaximum()) << " ";
         for (std::size_t i = 0; i < terms().size(); ++i) {
-            ss << " " << exporter.toString(terms().at(i));
+            ss << " " << exporter.toString(&terms().at(i));
         }
         return ss.str();
     }
@@ -113,7 +113,7 @@ namespace fl {
     std::string Aggregated::toString() const {
         std::vector<std::string> aggregate;
         for (std::size_t i = 0; i < terms().size(); ++i) {
-            aggregate.push_back(terms().at(i)->toString());
+            aggregate.push_back(terms().at(i).toString());
         }
         FllExporter exporter;
         std::ostringstream ss;
@@ -162,35 +162,32 @@ namespace fl {
 
 
     void Aggregated::addTerm(const Term* term, scalar degree, const TNorm* implication) {
-        terms().push_back(new Activated(term, degree, implication));
+        terms().push_back(Activated(term, degree, implication));
     }
 
-    void Aggregated::addTerm(Activated* term) {
+    void Aggregated::addTerm(const Activated& term) {
         terms().push_back(term);
     }
 
-    Activated* Aggregated::removeTerm(std::size_t index) {
-        Activated* term = terms().at(index);
+    const Activated& Aggregated::removeTerm(std::size_t index) {
+        const Activated& term = terms().at(index);
         terms().erase(terms().begin() + index);
         return term;
     }
 
     void Aggregated::clear() {
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            delete _terms.at(i);
-        }
         _terms.clear();
     }
 
-    Activated* Aggregated::getTerm(std::size_t index) const {
+    const Activated& Aggregated::getTerm(std::size_t index) const {
         return terms().at(index);
     }
 
-    const std::vector<Activated*>& Aggregated::terms() const {
+    const std::vector<Activated>& Aggregated::terms() const {
         return this->_terms;
     }
 
-    std::vector<Activated*>& Aggregated::terms() {
+    std::vector<Activated>& Aggregated::terms() {
         return this->_terms;
     }
 

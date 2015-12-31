@@ -46,7 +46,7 @@ namespace fl {
      */
     class FL_API Aggregated : public Term {
     private:
-        std::vector<Activated*> _terms;
+        std::vector<Activated> _terms;
         scalar _minimum, _maximum;
         FL_unique_ptr<SNorm> _aggregation;
 
@@ -152,19 +152,19 @@ namespace fl {
           will be deleted when Aggregated::clear()
           @param term is the activated term
          */
-        virtual void addTerm(Activated* term);
+        virtual void addTerm(const Activated& term);
         /**
           Gets the term at the given index
           @param index is the index of the term
           @return the activated term at the given index
          */
-        virtual Activated* getTerm(std::size_t index) const;
+        virtual const Activated& getTerm(std::size_t index) const;
         /**
           Removes the term at the given index without deleting the term 
           @param index is the index of the term
           @return the removed term
          */
-        virtual Activated* removeTerm(std::size_t index);
+        virtual const Activated& removeTerm(std::size_t index);
         /**
           Returns the number of activated terms 
           @return the number of activated terms
@@ -174,12 +174,12 @@ namespace fl {
           Returns an immutable vector of activated terms
           @return an immutable vector of activated terms
          */
-        virtual const std::vector<Activated*>& terms() const;
+        virtual const std::vector<Activated>& terms() const;
         /**
           Returns a mutable vector of activated terms
           @return a mutable vector of activated terms
          */
-        virtual std::vector<Activated*>& terms();
+        virtual std::vector<Activated>& terms();
         /**
           Indicates whether the vector of activated terms is empty
           @return whether the vector of activated terms is empty

@@ -52,30 +52,29 @@ namespace fl {
         minimum = fuzzyOutput->getMinimum();
         maximum = fuzzyOutput->getMaximum();
 
-
         scalar sum = 0.0;
 
         if (not fuzzyOutput->getAggregation()) {
             Type type = getType();
             for (std::size_t i = 0; i < fuzzyOutput->numberOfTerms(); ++i) {
-                Activated* activated = fuzzyOutput->getTerm(i);
-                scalar w = activated->getDegree();
+                const Activated& activated = fuzzyOutput->getTerm(i);
+                scalar w = activated.getDegree();
 
-                if (type == Automatic) type = inferType(activated->getTerm());
+                if (type == Automatic) type = inferType(activated.getTerm());
 
                 scalar z = (type == TakagiSugeno)
                         //? activated.getTerm()->membership(fl::nan) Would ensure no Tsukamoto applies, but Inverse Tsukamoto with Functions would not work.
-                        ? activated->getTerm()->membership(w) //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
-                        : tsukamoto(activated->getTerm(), w, minimum, maximum);
+                        ? activated.getTerm()->membership(w) //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
+                        : tsukamoto(activated.getTerm(), w, minimum, maximum);
 
                 sum += w * z;
             }
         } else {
-            typedef std::map<const Term*, std::vector<Activated*> > TermGroup;
+            typedef std::map<const Term*, std::vector<Activated> > TermGroup;
             TermGroup groups;
             for (std::size_t i = 0; i < fuzzyOutput->numberOfTerms(); ++i) {
-                Activated* value = fuzzyOutput->getTerm(i);
-                const Term* key = value->getTerm();
+                const Activated& value = fuzzyOutput->getTerm(i);
+                const Term* key = value.getTerm();
                 groups[key].push_back(value);
             }
             TermGroup::const_iterator it = groups.begin();
@@ -85,7 +84,7 @@ namespace fl {
                 scalar aggregatedDegree = 0.0;
                 for (std::size_t i = 0; i < it->second.size(); ++i)
                     aggregatedDegree = fuzzyOutput->getAggregation()->compute(
-                        aggregatedDegree, it->second.at(i)->getDegree());
+                        aggregatedDegree, it->second.at(i).getDegree());
 
                 if (type == Automatic) type = inferType(activatedTerm);
 
