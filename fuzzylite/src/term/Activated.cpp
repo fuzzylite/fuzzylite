@@ -34,13 +34,13 @@ namespace fl {
     }
 
     scalar Activated::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-        if (not getTerm()) 
+        if (FL_IS_NAN(x)) return fl::nan;
+        if (not _term) 
             throw fl::Exception("[activation error] no term available to activate", FL_AT);
-        if (not getImplication()) 
+        if (not _implication) 
             throw fl::Exception("[implication error] implication operator needed "
                     "to activate " + getTerm()->toString(), FL_AT);
-        return getImplication()->compute(getTerm()->membership(x), getDegree());
+        return _implication->compute(_term->membership(x), _degree);
     }
 
     std::string Activated::parameters() const {

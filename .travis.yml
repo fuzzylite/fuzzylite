@@ -43,6 +43,9 @@ script:
   - cd debug
   - $CMAKE_CMD .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON -DFL_USE_FLOAT=$FL_USE_FLOAT -DFL_CPP11=$FL_CPP11 -DFL_BUILD_TESTS=ON
   - make all test
+  - cd ..
+  #run benchmarks
+  
 
 matrix:
   exclude:

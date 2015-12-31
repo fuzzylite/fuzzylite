@@ -271,16 +271,16 @@ namespace fl {
     }
 
     scalar Function::membership(scalar x) const {
-        if (not root()) {
+        if (not _root.get()) {
             throw fl::Exception("[function error] function <" + _formula + "> not loaded.", FL_AT);
         }
-        if (getEngine()) {
-            for (std::size_t i = 0; i < getEngine()->numberOfInputVariables(); ++i) {
-                InputVariable* input = getEngine()->getInputVariable(i);
+        if (_engine) {
+            for (std::size_t i = 0; i < _engine->numberOfInputVariables(); ++i) {
+                InputVariable* input = _engine->getInputVariable(i);
                 this->variables[input->getName()] = input->getValue();
             }
-            for (std::size_t i = 0; i < getEngine()->numberOfOutputVariables(); ++i) {
-                OutputVariable* output = getEngine()->getOutputVariable(i);
+            for (std::size_t i = 0; i < _engine->numberOfOutputVariables(); ++i) {
+                OutputVariable* output = _engine->getOutputVariable(i);
                 this->variables[output->getName()] = output->getValue();
             }
         }
@@ -289,11 +289,11 @@ namespace fl {
     }
 
     scalar Function::evaluate(const std::map<std::string, scalar>* localVariables) const {
-        if (not root())
+        if (not _root.get())
             throw fl::Exception("[function error] evaluation failed because the function is not loaded", FL_AT);
         if (localVariables)
-            return root()->evaluate(localVariables);
-        return root()->evaluate(&this->variables);
+            return _root->evaluate(localVariables);
+        return _root->evaluate(&this->variables);
     }
 
     std::string Function::parameters() const {

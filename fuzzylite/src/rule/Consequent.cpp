@@ -59,8 +59,8 @@ namespace fl {
         if (not isLoaded()) {
             throw fl::Exception("[consequent error] consequent <" + getText() + "> is not loaded", FL_AT);
         }
-        for (std::size_t i = 0; i < conclusions().size(); ++i) {
-            Proposition* proposition = conclusions().at(i);
+        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
+            Proposition* proposition = _conclusions.at(i);
             if (proposition->variable->isEnabled()) {
                 if (not proposition->hedges.empty()) {
                     for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
@@ -68,9 +68,9 @@ namespace fl {
                         activationDegree = (*rit)->hedge(activationDegree);
                     }
                 }
-                Activated term(conclusions().at(i)->term, activationDegree, implication);
 
                 OutputVariable * outputVariable = static_cast<OutputVariable*> (proposition->variable);
+                Activated term(proposition->term, activationDegree, implication);
                 outputVariable->fuzzyOutput()->addTerm(term);
                 FL_DBG("Aggregating " << term.toString());
             }

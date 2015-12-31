@@ -52,9 +52,9 @@ namespace fl {
 
     Engine& Engine::operator=(const Engine& other) {
         if (this != &other) {
-            for (std::size_t i = 0; i < _ruleblocks.size(); ++i)
-                delete _ruleblocks.at(i);
-            _ruleblocks.clear();
+            for (std::size_t i = 0; i < _ruleBlocks.size(); ++i)
+                delete _ruleBlocks.at(i);
+            _ruleBlocks.clear();
             for (std::size_t i = 0; i < _outputVariables.size(); ++i)
                 delete _outputVariables.at(i);
             _outputVariables.clear();
@@ -76,13 +76,13 @@ namespace fl {
 
         updateReferences();
 
-        for (std::size_t i = 0; i < other._ruleblocks.size(); ++i) {
-            RuleBlock* ruleBlock = new RuleBlock(*other._ruleblocks.at(i));
+        for (std::size_t i = 0; i < other._ruleBlocks.size(); ++i) {
+            RuleBlock* ruleBlock = new RuleBlock(*other._ruleBlocks.at(i));
             try {
                 ruleBlock->loadRules(this);
             } catch (...) {
             }
-            _ruleblocks.push_back(ruleBlock);
+            _ruleBlocks.push_back(ruleBlock);
         }
     }
 
@@ -97,7 +97,7 @@ namespace fl {
     }
 
     Engine::~Engine() {
-        for (std::size_t i = 0; i < _ruleblocks.size(); ++i) delete _ruleblocks.at(i);
+        for (std::size_t i = 0; i < _ruleBlocks.size(); ++i) delete _ruleBlocks.at(i);
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) delete _outputVariables.at(i);
         for (std::size_t i = 0; i < _inputVariables.size(); ++i) delete _inputVariables.at(i);
     }
@@ -256,15 +256,15 @@ namespace fl {
     }
 
     void Engine::process() {
-        for (std::size_t i = 0; i < outputVariables().size(); ++i) {
-            outputVariables().at(i)->fuzzyOutput()->clear();
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            _outputVariables.at(i)->fuzzyOutput()->clear();
         }
 
         FL_DEBUG_BEGIN;
         FL_DBG("===============");
         FL_DBG("CURRENT INPUTS:");
-        for (std::size_t i = 0; i < inputVariables().size(); ++i) {
-            InputVariable* inputVariable = inputVariables().at(i);
+        for (std::size_t i = 0; i < _inputVariables.size(); ++i) {
+            InputVariable* inputVariable = _inputVariables.at(i);
             scalar inputValue = inputVariable->getValue();
             if (inputVariable->isEnabled()) {
                 FL_DBG(inputVariable->getName() << ".input = " << Op::str(inputValue));
@@ -276,22 +276,22 @@ namespace fl {
         FL_DEBUG_END;
 
 
-        for (std::size_t i = 0; i < ruleBlocks().size(); ++i) {
-            RuleBlock* ruleBlock = ruleBlocks().at(i);
+        for (std::size_t i = 0; i < _ruleBlocks.size(); ++i) {
+            RuleBlock* ruleBlock = _ruleBlocks.at(i);
             if (ruleBlock->isEnabled()) {
                 ruleBlock->activate();
             }
         }
 
-        for (std::size_t i = 0; i < outputVariables().size(); ++i) {
-            outputVariables().at(i)->defuzzify();
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            _outputVariables.at(i)->defuzzify();
         }
 
         FL_DEBUG_BEGIN;
         FL_DBG("===============");
         FL_DBG("CURRENT OUTPUTS:");
-        for (std::size_t i = 0; i < outputVariables().size(); ++i) {
-            OutputVariable* outputVariable = outputVariables().at(i);
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+            OutputVariable* outputVariable = _outputVariables.at(i);
             if (outputVariable->isEnabled()) {
                 FL_DBG(outputVariable->getName() << ".default = "
                         << outputVariable->getDefaultValue());
@@ -672,15 +672,15 @@ namespace fl {
     }
 
     const std::vector<RuleBlock*>& Engine::ruleBlocks() const {
-        return this->_ruleblocks;
+        return this->_ruleBlocks;
     }
 
     void Engine::setRuleBlocks(const std::vector<RuleBlock*>& ruleBlocks) {
-        this->_ruleblocks = ruleBlocks;
+        this->_ruleBlocks = ruleBlocks;
     }
 
     std::vector<RuleBlock*>& Engine::ruleBlocks() {
-        return this->_ruleblocks;
+        return this->_ruleBlocks;
     }
 
 

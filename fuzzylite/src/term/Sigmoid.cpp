@@ -30,8 +30,8 @@ namespace fl {
     }
 
     scalar Sigmoid::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-        return getHeight() * 1.0 / (1.0 + std::exp(-_slope * (x - _inflection)));
+        if (FL_IS_NAN(x)) return fl::nan;
+        return Term::_height * 1.0 / (1.0 + std::exp(-_slope * (x - _inflection)));
     }
 
     std::string Sigmoid::parameters() const {

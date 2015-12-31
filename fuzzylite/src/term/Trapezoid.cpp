@@ -37,25 +37,25 @@ namespace fl {
     }
 
     scalar Trapezoid::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
+        if (FL_IS_NAN(x)) return fl::nan;
 
         if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexD))
-            return getHeight() * 0.0;
+            return Term::_height * 0.0;
 
         if (Op::isLt(x, _vertexB)) {
-            if (_vertexA == -fl::inf) return getHeight() * 1.0;
-            return getHeight() * Op::min(scalar(1.0), (x - _vertexA) / (_vertexB - _vertexA));
+            if (_vertexA == -fl::inf) return Term::_height * 1.0;
+            return Term::_height * Op::min(scalar(1.0), (x - _vertexA) / (_vertexB - _vertexA));
         }
         if (Op::isLE(x, _vertexC))
-            return getHeight() * 1.0;
+            return Term::_height * 1.0;
 
         if (Op::isLt(x, _vertexD)) {
-            if (_vertexD == fl::inf) return getHeight() * 1.0;
-            return getHeight() * (_vertexD - x) / (_vertexD - _vertexC);
+            if (_vertexD == fl::inf) return Term::_height * 1.0;
+            return Term::_height * (_vertexD - x) / (_vertexD - _vertexC);
         }
         
-        if (_vertexD == fl::inf) return getHeight() * 1.0;
-        return getHeight() * 0.0;
+        if (_vertexD == fl::inf) return Term::_height * 1.0;
+        return Term::_height * 0.0;
     }
 
     std::string Trapezoid::parameters() const {

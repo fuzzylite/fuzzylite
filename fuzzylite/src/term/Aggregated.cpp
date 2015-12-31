@@ -65,14 +65,14 @@ namespace fl {
     }
 
     scalar Aggregated::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-        if (not (terms().empty() or getAggregation())) { //Exception for IntegralDefuzzifiers
+        if (FL_IS_NAN(x)) return fl::nan;
+        if (not (_terms.empty() or _aggregation.get())) { //Exception for IntegralDefuzzifiers
             throw fl::Exception("[aggregation error] "
                     "aggregation operator needed to aggregate " + toString(), FL_AT);
         }
         scalar mu = 0.0;
-        for (std::size_t i = 0; i < terms().size(); ++i) {
-            mu = getAggregation()->compute(mu, terms().at(i).membership(x));
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
+            mu = _aggregation->compute(mu, _terms.at(i).membership(x));
         }
         return mu;
     }
@@ -162,16 +162,16 @@ namespace fl {
 
 
     void Aggregated::addTerm(const Term* term, scalar degree, const TNorm* implication) {
-        terms().push_back(Activated(term, degree, implication));
+        _terms.push_back(Activated(term, degree, implication));
     }
 
     void Aggregated::addTerm(const Activated& term) {
-        terms().push_back(term);
+        _terms.push_back(term);
     }
 
     const Activated& Aggregated::removeTerm(std::size_t index) {
-        const Activated& term = terms().at(index);
-        terms().erase(terms().begin() + index);
+        const Activated& term = _terms.at(index);
+        _terms.erase(_terms.begin() + index);
         return term;
     }
 
@@ -180,7 +180,7 @@ namespace fl {
     }
 
     const Activated& Aggregated::getTerm(std::size_t index) const {
-        return terms().at(index);
+        return _terms.at(index);
     }
 
     const std::vector<Activated>& Aggregated::terms() const {
@@ -192,11 +192,11 @@ namespace fl {
     }
 
     std::size_t Aggregated::numberOfTerms() const {
-        return terms().size();
+        return _terms.size();
     }
 
     bool Aggregated::isEmpty() const {
-        return terms().empty();
+        return _terms.empty();
     }
 
 }

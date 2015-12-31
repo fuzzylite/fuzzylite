@@ -30,20 +30,20 @@ namespace fl {
     }
 
     scalar ZShape::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
+        if (FL_IS_NAN(x)) return fl::nan;
         //from Octave zmf.m
         scalar average = 0.5 * (_start + _end);
         scalar difference = _end - _start;
 
-        if (Op::isLE(x, _start)) return getHeight() * 1.0;
+        if (Op::isLE(x, _start)) return Term::_height * 1.0;
 
         if (Op::isLE(x, average))
-            return getHeight() * (1.0 - 2.0 * std::pow((x - _start) / difference, 2));
+            return Term::_height * (1.0 - 2.0 * std::pow((x - _start) / difference, 2));
 
         if (Op::isLt(x, _end))
-            return getHeight() * (2.0 * std::pow((x - _end) / difference, 2));
+            return Term::_height * (2.0 * std::pow((x - _end) / difference, 2));
 
-        return getHeight() * 0.0;
+        return Term::_height * 0.0;
     }
 
     std::string ZShape::parameters() const {

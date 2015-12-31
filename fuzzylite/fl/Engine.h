@@ -51,7 +51,7 @@ namespace fl {
         std::string _name;
         std::vector<InputVariable*> _inputVariables;
         std::vector<OutputVariable*> _outputVariables;
-        std::vector<RuleBlock*> _ruleblocks;
+        std::vector<RuleBlock*> _ruleBlocks;
 
         void copyFrom(const Engine& source);
 

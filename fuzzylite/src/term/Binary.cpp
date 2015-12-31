@@ -31,14 +31,14 @@ namespace fl {
     }
 
     scalar Binary::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
+        if (FL_IS_NAN(x)) return fl::nan;
         if (_direction == fl::inf and fl::Op::isGE(x, _start)) {
-            return getHeight() * 1.0;
+            return Term::_height * 1.0;
         }
         if (_direction == -fl::inf and fl::Op::isLE(x, _start)) {
-            return getHeight() * 1.0;
+            return Term::_height * 1.0;
         }
-        return getHeight() * 0.0;
+        return Term::_height * 0.0;
     }
 
     std::string Binary::parameters() const {

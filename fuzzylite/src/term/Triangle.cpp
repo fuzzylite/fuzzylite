@@ -34,21 +34,21 @@ namespace fl {
     }
 
     scalar Triangle::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
+        if (FL_IS_NAN(x)) return fl::nan;
 
         if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexC))
-            return getHeight() * 0.0;
+            return Term::_height * 0.0;
 
         if (Op::isEq(x, _vertexB))
-            return getHeight() * 1.0;
+            return Term::_height * 1.0;
 
         if (Op::isLt(x, _vertexB)) {
-            if (_vertexA == -fl::inf) return getHeight() * 1.0;
-            return getHeight() * (x - _vertexA) / (_vertexB - _vertexA);
+            if (_vertexA == -fl::inf) return Term::_height * 1.0;
+            return Term::_height * (x - _vertexA) / (_vertexB - _vertexA);
         }
         //if (Op::isGt(x, _vertexB))
-        if (_vertexC == fl::inf) return getHeight() * 1.0;
-        return getHeight() * (_vertexC - x) / (_vertexC - _vertexB);
+        if (_vertexC == fl::inf) return Term::_height * 1.0;
+        return Term::_height * (_vertexC - x) / (_vertexC - _vertexB);
     }
 
     std::string Triangle::parameters() const {

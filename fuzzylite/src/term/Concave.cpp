@@ -32,17 +32,17 @@ namespace fl {
     }
 
     scalar Concave::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
+        if (FL_IS_NAN(x)) return fl::nan;
         if (fl::Op::isLE(_inflection, _end)) { //Concave increasing
             if (fl::Op::isLt(x, _end)) {
-                return getHeight() * (_end - _inflection) / (2 * _end - _inflection - x);
+                return Term::_height * (_end - _inflection) / (2 * _end - _inflection - x);
             }
         } else { //Concave decreasing
             if (fl::Op::isGt(x, _end)) {
-                return getHeight() * (_inflection - _end) / (_inflection - 2 * _end + x);
+                return Term::_height * (_inflection - _end) / (_inflection - 2 * _end + x);
             }
         }
-        return getHeight() * 1.0;
+        return Term::_height * 1.0;
     }
 
     std::string Concave::parameters() const {

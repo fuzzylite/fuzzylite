@@ -34,7 +34,7 @@ namespace fl {
     scalar SigmoidProduct::membership(scalar x) const {
         scalar a = 1.0 / (1 + std::exp(-_rising * (x - _left)));
         scalar b = 1.0 / (1 + std::exp(-_falling * (x - _right)));
-        return getHeight() * a * b;
+        return Term::_height * a * b;
     }
 
     std::string SigmoidProduct::parameters() const {

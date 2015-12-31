@@ -71,6 +71,7 @@ namespace fl {
           @param threshold is the threshold
          */
         explicit Threshold(Comparison comparison = GreaterThanOrEqualTo, scalar threshold = 0.0);
+        explicit Threshold(const std::string& comparison, scalar threshold = 0.0);
         virtual ~Threshold();
         FL_DEFAULT_COPY_AND_MOVE(Threshold)
 

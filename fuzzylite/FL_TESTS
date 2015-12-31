@@ -1,5 +1,6 @@
 test/catch.hpp
 test/test.cpp
+test/activation/Threshold.cpp
 test/term/Function.cpp
 test/term/Trapezoid.cpp
 test/term/Triangle.cpp

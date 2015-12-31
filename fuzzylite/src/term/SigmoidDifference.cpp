@@ -32,11 +32,11 @@ namespace fl {
     }
 
     scalar SigmoidDifference::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
+        if (FL_IS_NAN(x)) return fl::nan;
 
         scalar a = 1.0 / (1 + std::exp(-_rising * (x - _left)));
         scalar b = 1.0 / (1 + std::exp(-_falling * (x - _right)));
-        return getHeight() * std::abs(a - b);
+        return Term::_height * std::abs(a - b);
     }
 
     std::string SigmoidDifference::parameters() const {

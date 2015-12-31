@@ -30,10 +30,10 @@ namespace fl {
     }
 
     scalar Rectangle::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
+        if (FL_IS_NAN(x)) return fl::nan;
         if (fl::Op::isLt(x, _start) or fl::Op::isGt(x, _end))
-            return getHeight() * 0.0;
-        return getHeight() * 1.0;
+            return Term::_height * 0.0;
+        return Term::_height * 1.0;
     }
 
     std::string Rectangle::parameters() const {

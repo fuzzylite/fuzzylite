@@ -33,7 +33,7 @@ namespace fl {
     }
 
     scalar GaussianProduct::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
+        if (FL_IS_NAN(x)) return fl::nan;
         bool xLEa = fl::Op::isLE(x, _meanA);
         scalar a = (1 - xLEa) + xLEa * std::exp(
                 (-(x - _meanA) * (x - _meanA)) / (2 * _standardDeviationA * _standardDeviationA)
@@ -42,7 +42,7 @@ namespace fl {
         scalar b = (1 - xGEb) + xGEb * std::exp(
                 (-(x - _meanB) * (x - _meanB)) / (2 * _standardDeviationB * _standardDeviationB)
                 );
-        return getHeight() * a * b;
+        return Term::_height * a * b;
     }
 
     std::string GaussianProduct::parameters() const {

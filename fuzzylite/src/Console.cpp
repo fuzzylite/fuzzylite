@@ -752,8 +752,6 @@ namespace fl {
 #endif
 
     int Console::main(int argc, char** argv) {
-//        FL_IUNUSED(argc);
-//        FL_IUNUSED(argv);
         if (argc <= 2) {
             std::cout << usage() << std::endl;
             return EXIT_SUCCESS;

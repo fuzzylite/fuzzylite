@@ -32,31 +32,31 @@ namespace fl {
     }
 
     scalar PiShape::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
+        if (FL_IS_NAN(x)) return fl::nan;
         //from Octave smf.m
         scalar a_b_ave = 0.5 * (_bottomLeft + _topLeft);
         scalar b_minus_a = _topLeft - _bottomLeft;
         scalar c_d_ave = 0.5 * (_topRight + _bottomRight);
         scalar d_minus_c = _bottomRight - _topRight;
 
-        if (Op::isLE(x, _bottomLeft)) return getHeight() * 0.0;
+        if (Op::isLE(x, _bottomLeft)) return Term::_height * 0.0;
 
         if (Op::isLE(x, a_b_ave))
-            return getHeight() * (2.0 * std::pow((x - _bottomLeft) / b_minus_a, 2));
+            return Term::_height * (2.0 * std::pow((x - _bottomLeft) / b_minus_a, 2));
 
         if (Op::isLt(x, _topLeft))
-            return getHeight() * (1.0 - 2.0 * std::pow((x - _topLeft) / b_minus_a, 2));
+            return Term::_height * (1.0 - 2.0 * std::pow((x - _topLeft) / b_minus_a, 2));
 
         if (Op::isLE(x, _topRight))
-            return getHeight() * 1.0;
+            return Term::_height * 1.0;
 
         if (Op::isLE(x, c_d_ave))
-            return getHeight() * (1.0 - 2.0 * std::pow((x - _topRight) / d_minus_c, 2));
+            return Term::_height * (1.0 - 2.0 * std::pow((x - _topRight) / d_minus_c, 2));
 
         if (Op::isLt(x, _bottomRight))
-            return getHeight() * (2.0 * std::pow((x - _bottomRight) / d_minus_c, 2));
+            return Term::_height * (2.0 * std::pow((x - _bottomRight) / d_minus_c, 2));
 
-        return getHeight() * 0.0;
+        return Term::_height * 0.0;
     }
 
     std::string PiShape::parameters() const {

@@ -56,6 +56,7 @@ namespace fl {
     class FL_API Term {
     private:
         std::string _name;
+    protected:
         scalar _height;
     public:
 

@@ -23,6 +23,13 @@
 #include <string>
 #include <vector>
 
+#ifndef FL_IS_NAN
+/**
+ For better performance, computes whether x is NaN. @see fl::Op::isNaN()
+ */
+#define FL_IS_NAN(x) not (x == x)
+#endif
+
 namespace fl {
 
     /**

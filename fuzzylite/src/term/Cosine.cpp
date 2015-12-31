@@ -54,12 +54,12 @@ namespace fl {
     }
 
     scalar Cosine::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
+        if (FL_IS_NAN(x)) return fl::nan;
         if (fl::Op::isLt(x, _center - 0.5 * _width)
                 or fl::Op::isGt(x, _center + 0.5 * _width))
-            return getHeight() * 0.0;
+            return Term::_height * 0.0;
         const scalar pi = 4.0 * std::atan(1.0);
-        return getHeight() * (0.5 * (1.0 + std::cos(2.0 / _width * pi * (x - _center))));
+        return Term::_height * (0.5 * (1.0 + std::cos(2.0 / _width * pi * (x - _center))));
     }
 
     void Cosine::setCenter(scalar center) {

@@ -30,8 +30,8 @@ namespace fl {
     }
 
     scalar Bell::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
-        return getHeight() * (1.0 / (1.0 + std::pow(std::abs((x - _center) / _width), 2 * _slope)));
+        if (FL_IS_NAN(x)) return fl::nan;
+        return Term::_height * (1.0 / (1.0 + std::pow(std::abs((x - _center) / _width), 2 * _slope)));
     }
 
     std::string Bell::parameters() const {

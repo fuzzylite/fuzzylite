@@ -28,6 +28,11 @@ namespace fl {
 
     }
 
+    Threshold::Threshold(const std::string& comparison, scalar threshold) : Activation(),
+    _comparison(parseComparison(comparison)), _threshold(threshold) {
+
+    }
+
     Threshold::~Threshold() {
 
     }

@@ -30,18 +30,18 @@ namespace fl {
     }
 
     scalar Ramp::membership(scalar x) const {
-        if (fl::Op::isNaN(x)) return fl::nan;
+        if (FL_IS_NAN(x)) return fl::nan;
 
-        if (Op::isEq(_start, _end)) return getHeight() * 0.0;
+        if (Op::isEq(_start, _end)) return Term::_height * 0.0;
 
         if (Op::isLt(_start, _end)) {
-            if (Op::isLE(x, _start)) return getHeight() * 0.0;
-            if (Op::isGE(x, _end)) return getHeight() * 1.0;
-            return getHeight() * (x - _start) / (_end - _start);
+            if (Op::isLE(x, _start)) return Term::_height * 0.0;
+            if (Op::isGE(x, _end)) return Term::_height * 1.0;
+            return Term::_height * (x - _start) / (_end - _start);
         } else {
-            if (Op::isGE(x, _start)) return getHeight() * 0.0;
-            if (Op::isLE(x, _end)) return getHeight() * 1.0;
-            return getHeight() * (_start - x) / (_start - _end);
+            if (Op::isGE(x, _start)) return Term::_height * 0.0;
+            if (Op::isLE(x, _end)) return Term::_height * 1.0;
+            return Term::_height * (_start - x) / (_start - _end);
         }
     }
 
