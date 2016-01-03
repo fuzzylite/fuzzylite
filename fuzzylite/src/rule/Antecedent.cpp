@@ -38,7 +38,7 @@
 namespace fl {
 
     Antecedent::Antecedent()
-    : _text(""), _expression(fl::null){
+    : _text(""), _expression(fl::null) {
     }
 
     Antecedent::~Antecedent() {
@@ -102,10 +102,12 @@ namespace fl {
                 }
                 result = proposition->term->membership(value);
             }
-
-            for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
-                    rit != proposition->hedges.rend(); ++rit) {
-                result = (*rit)->hedge(result);
+            
+            if (not proposition->hedges.empty()) {
+                for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
+                        rit != proposition->hedges.rend(); ++rit) {
+                    result = (*rit)->hedge(result);
+                }
             }
             return result;
         }
