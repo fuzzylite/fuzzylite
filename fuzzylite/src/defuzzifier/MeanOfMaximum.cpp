@@ -34,14 +34,8 @@ namespace fl {
     }
 
     scalar MeanOfMaximum::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
-        if (not fl::Op::isFinite(minimum + maximum)) {
-            return fl::nan;
-        }
-        if (maximum - minimum > getResolution()) {
-            FL_DBG("[accuracy warning] the resolution <" << getResolution() << "> "
-                    "is smaller than the range <" << minimum << ", " << maximum << ">. In order to "
-                    "improve the accuracy, the resolution should be at least equal to the range.");
-        }
+        if (not fl::Op::isFinite(minimum + maximum)) return fl::nan;
+        
         scalar dx = (maximum - minimum) / getResolution();
         scalar x, y;
         scalar ymax = -1.0;
