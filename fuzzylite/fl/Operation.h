@@ -484,10 +484,12 @@ namespace fl {
           @param x is the string to parse
           @param alternative is the value to return if the string does not
           contain a scalar value
+          @param ok contains whether the operation was successful (optional)
           @return the given string into a scalar value or the alternative value
           if the string does not contain a scalar value
          */
-        static scalar toScalar(const std::string& x, scalar alternative) FL_INOEXCEPT;
+        static scalar toScalar(const std::string& x, scalar alternative,
+                bool* ok = fl::null) FL_INOEXCEPT;
 
         /**
           Indicates whether the string can be converted to a numeric value. 
@@ -857,7 +859,8 @@ namespace fl {
         throw fl::Exception("[conversion error] from <" + x + "> to scalar", FL_AT);
     }
 
-    inline scalar Operation::toScalar(const std::string& x, scalar alternative) FL_INOEXCEPT {
+    inline scalar Operation::toScalar(const std::string& x, scalar alternative, bool* ok) FL_INOEXCEPT {
+        if (ok) *ok = true;
         std::istringstream iss(x);
         scalar result;
         iss >> result;
@@ -879,6 +882,7 @@ namespace fl {
         if (x == nInf.str() or x == "-inf")
             return -fl::inf;
 
+        if (ok) *ok = false;
         return alternative;
     }
 
