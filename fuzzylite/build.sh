@@ -4,7 +4,7 @@ debug(){
     set -e
     mkdir -p debug
     cd debug
-    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON -DFL_USE_FLOAT=OFF -DFL_CPP11=OFF -DFL_BUILD_TESTS=ON
+    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON -DFL_USE_FLOAT=OFF -DFL_CPP11=ON -DFL_BUILD_TESTS=ON
     make
     cd ..
 }
@@ -13,7 +13,7 @@ release(){
     set -e
     mkdir -p release
     cd release
-    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DFL_BACKTRACE=ON -DFL_USE_FLOAT=OFF -DFL_CPP11=OFF -DFL_BUILD_TESTS=ON
+    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DFL_BACKTRACE=ON -DFL_USE_FLOAT=OFF -DFL_CPP11=ON -DFL_BUILD_TESTS=ON
     make
     cd ..
 }
