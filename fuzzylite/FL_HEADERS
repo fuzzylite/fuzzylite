@@ -5,6 +5,7 @@ fl/activation/General.h
 fl/activation/Highest.h
 fl/activation/Last.h
 fl/activation/Lowest.h
+fl/activation/Probabilistic.h
 fl/activation/Proportional.h
 fl/activation/Threshold.h
 fl/defuzzifier/Bisector.h

@@ -328,6 +328,11 @@ namespace fl {
           @return whether @f$a@f$ is less than @f$b@f$ at the default `macheps`
          */
         static scalar lt(scalar a, scalar b);
+        
+        /**
+          Returns a random number 
+         */
+        static int random();
 
         /**
           Increments @f$x@f$ by the unit, treating the entire vector as a
@@ -687,6 +692,10 @@ namespace fl {
 
     inline scalar Operation::lt(scalar a, scalar b) {
         return isLt(a, b);
+    }
+    
+    inline int Operation::random(){
+        return std::rand();
     }
 
     inline bool Operation::increment(std::vector<int>& x, std::vector<int>& min, std::vector<int>& max) {
