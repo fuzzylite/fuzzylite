@@ -16,6 +16,11 @@ if(NOT CMAKE_VERBOSE_MAKEFILE)
     set(CMAKE_VERBOSE_MAKEFILE false)
 endif()
 
+if( NOT CMAKE_BUILD_TYPE )
+    set( CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo
+MinSizeRel." FORCE )
+endif()
+
 set(FL_VERSION 6.0)
 add_definitions(-DFL_VERSION="${FL_VERSION}")
 
@@ -32,7 +37,7 @@ endif()
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_BACKTRACE "Provide backtrace information in case of errors" OFF)
-option(FL_CPP11 "Builds utilizing C++11, i.e., passing -std=c++11" OFF)
+option(FL_CPP11 "Builds utilizing C++11, i.e., passing -std=c++11" ON)
 
 option(FL_BUILD_TESTS "Builds the unit tests" OFF)
 
@@ -61,6 +66,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 if(NOT MSVC)
     set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra -Werror ${CMAKE_CXX_FLAGS}")
+    if (NOT FL_CPP11)
+        #Disable deprecation errors for std::auto_ptr
+        set(CMAKE_CXX_FLAGS "-Werror=deprecated-declarations ${CMAKE_CXX_FLAGS}")
+    endif()
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 
@@ -219,8 +228,8 @@ install(FILES ${CMAKE_BINARY_DIR}/fuzzylite.pc DESTINATION ${FL_INSTALL_LIBDIR}/
 
 message("=====================================")
 message("fuzzylite v${FL_VERSION}b${FL_DATE}\n")
-message("FL_USE_FLOAT=${FL_USE_FLOAT}")
 message("FL_CPP11=${FL_CPP11}")
+message("FL_USE_FLOAT=${FL_USE_FLOAT}")
 message("FL_BACKTRACE=${FL_BACKTRACE}")
 message("FL_INSTALL_BINDIR=${FL_INSTALL_BINDIR}")
 message("FL_INSTALL_LIBDIR=${FL_INSTALL_LIBDIR}")
