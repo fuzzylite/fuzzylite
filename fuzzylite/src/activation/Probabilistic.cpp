@@ -55,7 +55,7 @@ namespace fl {
             rule->deactivate();
             scalar probability = (Op::random() % 100) / 100.0;
             if (rule->isLoaded() and Op::isLE(probability, rule->getWeight())) {
-                scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
+                scalar activationDegree = rule->getAntecedent()->activationDegree(conjunction, disjunction);
                 rule->activate(activationDegree, implication);
             }
         }
