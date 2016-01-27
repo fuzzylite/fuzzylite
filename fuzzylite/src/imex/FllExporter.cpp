@@ -168,6 +168,7 @@ namespace fl {
 
     std::string FllExporter::toString(const Activation* activation) const {
         if (not activation) return "none";
+        if (activation.parameters().empty()) return activation->className();
         return activation->className() + " " + activation->parameters();
     }
 
