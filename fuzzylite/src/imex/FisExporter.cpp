@@ -273,13 +273,14 @@ namespace fl {
         if (norm->className() == NilpotentMinimum().className()) return "nilpotent_minimum";
         //SNorm
         if (norm->className() == Maximum().className()) return "max";
-        if (norm->className() == AlgebraicSum().className()) return "sum";
+        if (norm->className() == AlgebraicSum().className()) return "probor";
         if (norm->className() == BoundedSum().className()) return "bounded_sum";
         if (norm->className() == NormalizedSum().className()) return "normalized_sum";
         if (norm->className() == DrasticSum().className()) return "drastic_sum";
         if (norm->className() == EinsteinSum().className()) return "einstein_sum";
         if (norm->className() == HamacherSum().className()) return "hamacher_sum";
         if (norm->className() == NilpotentMaximum().className()) return "nilpotent_maximum";
+        if (norm->className() == UnboundedSum().className()) return "sum";
 
         return norm->className();
     }

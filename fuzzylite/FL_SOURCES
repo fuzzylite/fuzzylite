@@ -54,6 +54,7 @@ src/norm/s/HamacherSum.cpp
 src/norm/s/Maximum.cpp
 src/norm/s/NilpotentMaximum.cpp
 src/norm/s/NormalizedSum.cpp
+src/norm/s/UnboundedSum.cpp
 src/norm/t/AlgebraicProduct.cpp
 src/norm/t/BoundedDifference.cpp
 src/norm/t/DrasticProduct.cpp

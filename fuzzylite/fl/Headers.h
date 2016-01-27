@@ -91,6 +91,7 @@
 #include "fl/norm/s/Maximum.h"
 #include "fl/norm/s/NilpotentMaximum.h"
 #include "fl/norm/s/NormalizedSum.h"
+#include "fl/norm/s/UnboundedSum.h"
 
 #include "fl/norm/t/AlgebraicProduct.h"
 #include "fl/norm/t/BoundedDifference.h"

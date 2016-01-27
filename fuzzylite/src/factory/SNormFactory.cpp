@@ -24,6 +24,7 @@
 #include "fl/norm/s/Maximum.h"
 #include "fl/norm/s/NilpotentMaximum.h"
 #include "fl/norm/s/NormalizedSum.h"
+#include "fl/norm/s/UnboundedSum.h"
 
 namespace fl {
 
@@ -37,6 +38,7 @@ namespace fl {
         registerConstructor(Maximum().className(), &(Maximum::constructor));
         registerConstructor(NilpotentMaximum().className(), &(NilpotentMaximum::constructor));
         registerConstructor(NormalizedSum().className(), &(NormalizedSum::constructor));
+        registerConstructor(UnboundedSum().className(), &(UnboundedSum::constructor));
     }
 
     SNormFactory::~SNormFactory() {

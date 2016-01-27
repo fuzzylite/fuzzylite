@@ -348,13 +348,14 @@ namespace fl {
     std::string FisImporter::translateSNorm(const std::string & name) const {
         if (name.empty()) return "";
         if (name == "max") return Maximum().className();
-        if (name == "sum" or name == "probor") return AlgebraicSum().className();
+        if (name == "probor") return AlgebraicSum().className();
         if (name == "bounded_sum") return BoundedSum().className();
         if (name == "normalized_sum") return NormalizedSum().className();
         if (name == "drastic_sum") return DrasticSum().className();
         if (name == "einstein_sum") return EinsteinSum().className();
         if (name == "hamacher_sum") return HamacherSum().className();
         if (name == "nilpotent_maximum") return NilpotentMaximum().className();
+        if (name == "sum") return UnboundedSum().className();
         return name;
     }
 

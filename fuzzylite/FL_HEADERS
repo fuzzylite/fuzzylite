@@ -59,6 +59,7 @@ fl/norm/s/HamacherSum.h
 fl/norm/s/Maximum.h
 fl/norm/s/NilpotentMaximum.h
 fl/norm/s/NormalizedSum.h
+fl/norm/s/UnboundedSum.h
 fl/norm/SNorm.h
 fl/norm/t/AlgebraicProduct.h
 fl/norm/t/BoundedDifference.h
