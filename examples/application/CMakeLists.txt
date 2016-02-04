@@ -20,8 +20,21 @@ MinSizeRel." FORCE )
 endif()
 
 
-#after having `make install` on the fuzzylite library, 
-find_library (FuzzyLiteLibrary fuzzylite) # we use the shared library
+
+set(FL_SYSTEM_LIBRARY FALSE) #Finds the library installed in the system
+set(FL_LIBRARY_DIR)
+
+if (NOT FL_SYSTEM_LIBRARY)
+    #it is possible to find the FuzzyLiteLibrary locally as follows,
+    #assuming the submodule of fuzzylite is added to the ${PROJECT_SOURCE_DIR}:
+    set(FL_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/fuzzylite/fuzzylite)
+    set(FL_LIBRARY_DIR ${PROJECT_SOURCE_DIR}/fuzzylite/fuzzylite/release/bin)
+    message("Finding FuzzyLiteLibrary locally at ${FL_LIBRARY_DIR}")
+
+    include_directories(${FL_INCLUDE_DIR})
+endif()
+
+find_library (FuzzyLiteLibrary fuzzylite HINTS ${FL_LIBRARY_DIR}) # we use the shared library or
 #find_library (FuzzyLiteLibrary fuzzylite-static) # we use the static library
 
 #we add the definitions for C++11 on this application, 
