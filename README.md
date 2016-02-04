@@ -1,6 +1,6 @@
 fuzzylite &reg; [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=documentation)](https://travis-ci.org/fuzzylite/fuzzylite) 
 [![Coverity Status](https://scan.coverity.com/projects/5759/badge.svg)](https://scan.coverity.com/projects/5759) 
-<img src="https://raw.githubusercontent.com/fuzzylite/fuzzylite/documentation/fuzzylite.svg" align="right" alt="fuzzylite">
+<img src="https://raw.githubusercontent.com/fuzzylite/fuzzylite/documentation/fuzzylite.png" align="right" alt="fuzzylite">
 
 ===========
 
