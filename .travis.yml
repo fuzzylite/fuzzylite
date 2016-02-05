@@ -30,7 +30,7 @@ script:
   # - wget http://www.cmake.org/files/v3.1/cmake-3.1.3-Linux-x86_64.tar.gz --no-check-certificate
   # - tar -xzf cmake-3.1.3-Linux-x86_64.tar.gz
   # - export CMAKE_CMD=`pwd`/cmake-3.1.3-Linux-x86_64/bin/cmake
-
+  - cmake --version
   #fuzzylite
   #release
   - cd fuzzylite
@@ -50,6 +50,7 @@ script:
   #run benchmarks
   #documentation
   - cd ..
+  - doxygen --version
   - doxygen
 
 matrix:
