@@ -54,5 +54,4 @@ namespace fl {
         return new HedgeFunction;
     }
 
-
 }
