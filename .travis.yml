@@ -14,22 +14,24 @@ addons:
     sources: 
       - ubuntu-toolchain-r-test
       - llvm-toolchain-precise-3.6
+      - kalakris-cmake
     packages: 
       - ['g++-5', 'g++-4.9', 'g++-4.8']
       - ['clang-3.6']
       - ['doxygen', 'graphviz', 'texlive-binaries']
+      - cmake
+
       #cannot install more than one clang.
 before_install:
   - export CC=$EXPORT_CC CXX=$EXPORT_CXX
 
 script:
-  #docs
-  #- doxygen
   #cmake 
-  - mkdir -p $HOME/cmake
-  - wget http://www.cmake.org/files/v3.1/cmake-3.1.3-Linux-x86_64.tar.gz --no-check-certificate
-  - tar -xzf cmake-3.1.3-Linux-x86_64.tar.gz
-  - export CMAKE_CMD=`pwd`/cmake-3.1.3-Linux-x86_64/bin/cmake
+  # - mkdir -p $HOME/cmake
+  # - wget http://www.cmake.org/files/v3.1/cmake-3.1.3-Linux-x86_64.tar.gz --no-check-certificate
+  # - tar -xzf cmake-3.1.3-Linux-x86_64.tar.gz
+  # - export CMAKE_CMD=`pwd`/cmake-3.1.3-Linux-x86_64/bin/cmake
+
   #fuzzylite
   #release
   - cd fuzzylite
@@ -37,15 +39,18 @@ script:
   - cd release
   - $CMAKE_CMD .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DFL_BACKTRACE=ON -DFL_USE_FLOAT=$FL_USE_FLOAT -DFL_CPP11=$FL_CPP11 -DFL_BUILD_TESTS=ON
   - make all test
+  - ./bin/fuzzylite-tests
   - cd ..
   #debug
   - mkdir -p debug
   - cd debug
   - $CMAKE_CMD .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON -DFL_USE_FLOAT=$FL_USE_FLOAT -DFL_CPP11=$FL_CPP11 -DFL_BUILD_TESTS=ON
   - make all test
+  - ./bin/fuzzylite-tests-debug
   - cd ..
   #run benchmarks
-  
+  #documentation
+  - doxygen
 
 matrix:
   exclude:
