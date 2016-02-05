@@ -82,6 +82,11 @@ namespace fl {
                 Function::Element::Function, &(fl::Op::le)));
         registerObject("lt", new Function::Element("lt", "Less than (<)",
                 Function::Element::Function, &(fl::Op::lt)));
+        
+        registerObject("min", new Function::Element("min", "Minimum",
+                Function::Element::Function, &(fl::Op::min)));
+        registerObject("max", new Function::Element("max", "Maximum",
+                Function::Element::Function, &(fl::Op::max)));
 
         registerObject("acos", new Function::Element("acos", "Inverse cosine",
                 Function::Element::Function, &(std::acos)));
