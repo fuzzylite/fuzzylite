@@ -30,7 +30,6 @@ namespace fl {
      */
 
     TEST_CASE("variable of Constant terms is sorted", "[variable][variable]") {
-        fl::fuzzylite::setDebug(false);
         Variable variable("Variable", -10, 10);
         for (int i = 0; i <= 20; ++i) {
             variable.addTerm(new Constant(fl::Op::str(i), i - 10));
@@ -51,7 +50,6 @@ namespace fl {
     }
 
     TEST_CASE("variable of Triangle terms is sorted", "[variable][variable]") {
-        fl::fuzzylite::setDebug(false);
         Variable variable("Variable", -30, 30);
         for (int i = 0; i <= 20; ++i) {
             variable.addTerm(new Triangle(fl::Op::str(i), i - 1, i, i + 1));

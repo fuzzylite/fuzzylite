@@ -39,10 +39,10 @@ namespace fl {
         std::string text = "sin(y*x)^2/x";
 
         CHECK_THROWS(f.load(text));
-        
+
         f.variables["y"] = 1.0;
         f.load(text);
-        
+
         CHECK(f.toPostfix(text) == "y x * sin 2 ^ x /");
         CHECK(f.parse(text)->toInfix() == "x / 2.000 ^ x * y sin");
         CHECK(f.parse(text)->toPrefix() == "/ x ^ 2.000 sin * x y");
@@ -61,24 +61,46 @@ namespace fl {
     TEST_CASE("function cannot deal with negative numbers", "[term][function]") {
         Function f;
         std::string text = "-5 *4/sin(-pi/2)";
-        
+
         SECTION("function throws exception") {
             CHECK_THROWS(f.parse(text)->evaluate());
         }
-        
+
         f.variables["pi"] = 3.14;
         CHECK_THROWS(f.parse(text)->evaluate(&f.variables));
 
         text = "~5 *4/sin(~pi/2)";
         CHECK(f.parse(text)->evaluate(&f.variables) == Approx(20));
-        
+
         f.load(text);
-        
+
         f.variables["pi"] = 3.14;
-        
+
         CHECK(f.toPostfix(text) == "5 ~ 4 * pi ~ 2 / sin /");
         CHECK(f.parse(text)->toInfix() == "2.000 / pi ~ sin / 4.000 * 5.000 ~");
         CHECK(f.parse(text)->toPrefix() == "/ sin / 2.000 ~ pi * 4.000 ~ 5.000");
+    }
+
+    TEST_CASE("Function is clonable", "[term][function]") {
+        Function* f = new Function;
+        std::string text = "2+2";
+        f->load(text);
+        CHECK(fl::Op::isEq(f->membership(fl::nan), 4));
+        Function* clone = f->clone();
+        delete f;
+        CHECK(fl::Op::isEq(clone->membership(fl::nan), 4));
+        delete clone;
+    }
+
+    TEST_CASE("Function is constructor copyable", "[term][function]") {
+        Function* f = new Function;
+        std::string text = "2+2";
+        f->load(text);
+        CHECK(fl::Op::isEq(f->membership(fl::nan), 4));
+        Function* clone = new Function(*f);
+        delete f;
+        CHECK(fl::Op::isEq(clone->membership(fl::nan), 4));
+        delete clone;
     }
 
 }

@@ -27,7 +27,6 @@ namespace fl {
      */
 
     TEST_CASE("triangle can be open ended with -infinity", "[term][triangle]") {
-        fl::fuzzylite::setDebug(false);
         Triangle triangle("A", -fl::inf, 0, 1);
         Ramp ramp("a", 1, 0);
         for (int i = -10; i < 2; ++i) {
@@ -40,7 +39,6 @@ namespace fl {
     }
     
     TEST_CASE("triangle can be open ended with +infinity", "[term][triangle]") {
-        fl::fuzzylite::setDebug(false);
         Triangle triangle("A", 0, 1, fl::inf);
         Ramp ramp("a", 0, 1);
         for (int i = 10; i >= -2; --i) {

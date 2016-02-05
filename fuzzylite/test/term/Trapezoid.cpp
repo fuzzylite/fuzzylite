@@ -27,7 +27,6 @@ namespace fl {
      */
 
     TEST_CASE("trapezoid can be open ended with -infinity", "[term][trapezoid]") {
-        fl::fuzzylite::setDebug(false);
         Trapezoid trapezoid("A", -fl::inf, 0, 1, 2);
         Ramp ramp("a", 2, 1);
         //(-inf, inf)
@@ -41,7 +40,6 @@ namespace fl {
     }
 
     TEST_CASE("trapezoid can be open ended with +infinity", "[term][trapezoid]") {
-        fl::fuzzylite::setDebug(false);
         Trapezoid trapezoid("A", 0, 1, 2, fl::inf);
         Ramp ramp("a", 0, 1);
         //(-inf, inf)

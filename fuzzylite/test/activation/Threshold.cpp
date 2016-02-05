@@ -27,7 +27,6 @@ namespace fl {
      */
 
     TEST_CASE("Treshold can be clone ", "[activation][threshold]") {
-        fl::fuzzylite::setDebug(true);
         Threshold* t = new Threshold("<", 1.0);
         REQUIRE(t->getComparison() == Threshold::LessThan);
         REQUIRE(fl::Op::isEq(t->getThreshold(), 1.0));
@@ -40,7 +39,6 @@ namespace fl {
     }
 
     TEST_CASE("Treshold can be copy-constructed", "[activation][threshold]") {
-        fl::fuzzylite::setDebug(true);
         Threshold* t = new Threshold(">=", 1.0);
         REQUIRE(t->getComparison() == Threshold::GreaterThanOrEqualTo);
         REQUIRE(fl::Op::isEq(t->getThreshold(), 1.0));
@@ -53,7 +51,6 @@ namespace fl {
     }
 
     TEST_CASE("Treshold can be assigned", "[activation][threshold]") {
-        fl::fuzzylite::setDebug(true);
         Threshold* t = new Threshold(">=", 1.0);
         REQUIRE(t->getComparison() == Threshold::GreaterThanOrEqualTo);
         REQUIRE(fl::Op::isEq(t->getThreshold(), 1.0));
