@@ -66,10 +66,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 if(NOT MSVC)
     set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra -Werror ${CMAKE_CXX_FLAGS}")
-    if (NOT FL_CPP11)
-        #Disable deprecation errors for std::auto_ptr
-        set(CMAKE_CXX_FLAGS "-Werror=deprecated-declarations ${CMAKE_CXX_FLAGS}")
-    endif()
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 
@@ -82,6 +78,21 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-non-literal-null-conversion")
 endif()
 
+if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU")
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 6)
+        if (NOT FL_CPP11)
+            #set the default to C++98
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++98")
+            #Fix error: 'template<class> class std::auto_ptr' is deprecated with gcc-6
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated")
+            #@todo This needs to be addressed when bug 69683 is fixed in gcc-6 (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=69683)
+            #Warnings occur due to bug in test files
+            string(REPLACE "-Werror" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}") 
+        endif()
+    endif()
+endif()
+
+
 set(FL_LIBS)
 
 if(MSVC)
@@ -93,6 +104,12 @@ if(MSVC)
         set(FL_LIBS dbghelp)
     endif()
 endif()
+
+if(APPLE)
+    #Fix ld: symbol(s) not found for architecture x86_64 on mac
+    set(FL_LIBS stdc++)
+endif()
+
 
 ###BUILD SECTION
 
@@ -138,7 +155,7 @@ endif()
 
 if(FL_BUILD_SHARED)
     set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
-    set_target_properties(fl-shared PROPERTIES DEBUG_POSTFIX d)
+    set_target_properties(fl-shared PROPERTIES DEBUG_POSTFIX -debug)
     set_target_properties(fl-shared PROPERTIES COMPILE_DEFINITIONS "FL_EXPORT_LIBRARY")
     set_target_properties(fl-shared PROPERTIES VERSION 6.0)
     target_link_libraries(fl-shared ${FL_LIBS})
@@ -146,7 +163,7 @@ endif()
 
 if(FL_BUILD_STATIC)
     set_target_properties(fl-static PROPERTIES OUTPUT_NAME fuzzylite-static)
-    set_target_properties(fl-static PROPERTIES DEBUG_POSTFIX d)
+    set_target_properties(fl-static PROPERTIES DEBUG_POSTFIX -debug)
     set_target_properties(fl-static PROPERTIES VERSION 6.0)
     target_link_libraries(fl-static ${FL_LIBS})
 endif()
@@ -155,7 +172,7 @@ if(FL_BUILD_BINARY)
     add_executable(fl-bin src/main.cpp)
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
-    set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX d)
+    set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -debug)
 
     set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
     target_link_libraries(fl-bin fl-shared ${FL_LIBS})
@@ -165,7 +182,7 @@ if(FL_BUILD_TESTS)
     if (NOT FL_CPP11)
         add_definitions(-DCATCH_CONFIG_NO_CPP11)
     endif()
-    add_executable(fl-test ${fl-tests})
+    add_executable(fl-test ${fl-headers} ${fl-tests})
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
@@ -231,10 +248,21 @@ message("fuzzylite v${FL_VERSION}b${FL_DATE}\n")
 message("FL_CPP11=${FL_CPP11}")
 message("FL_USE_FLOAT=${FL_USE_FLOAT}")
 message("FL_BACKTRACE=${FL_BACKTRACE}")
+message("FL_LIBS=${FL_LIBS}")
 message("FL_INSTALL_BINDIR=${FL_INSTALL_BINDIR}")
 message("FL_INSTALL_LIBDIR=${FL_INSTALL_LIBDIR}")
 message("FL_BUILD_TESTS=${FL_BUILD_TESTS}")
-message("Build=${CMAKE_BUILD_TYPE}")
+message("")
+message("CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
+message("CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}")
+message("CMAKE_CXX_COMPILER_VERSION=${CMAKE_CXX_COMPILER_VERSION}")
+message("CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
+message("COMPILE_DEFINITIONS:")
+get_directory_property(fl-definitions DIRECTORY ${CMAKE_SOURCE_DIR} COMPILE_DEFINITIONS )
+foreach(d ${fl-definitions})
+    message( STATUS "Defined: " ${d} )
+endforeach()
+
 message("=====================================\n")
 
 ###UNINSTALL SECTION
