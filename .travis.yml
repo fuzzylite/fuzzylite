@@ -49,6 +49,7 @@ script:
   - cd ..
   #run benchmarks
   #documentation
+  - cd ..
   - doxygen
 
 matrix:
