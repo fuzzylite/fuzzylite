@@ -29,7 +29,7 @@ namespace fl {
 
     static std::string hedgeEngine(){
 #ifdef FL_CPP11
-        return R"(
+        return R""(
 Engine: Sugeno-Tip-Calculator
 InputVariable: FoodQuality
   enabled: true
@@ -92,7 +92,7 @@ RuleBlock:
   rule: if FoodQuality is Good and Service is Good then CheapTip is Medium and AverageTip is Medium and GenerousTip is very High
   rule: if FoodQuality is very Bad and Service is very Good then CheapTip is Low and AverageTip is Medium and GenerousTip is High
   rule: if FoodQuality is very very Good and Service is very very Good then CheapTip is High and AverageTip is very High and GenerousTip is extremely High
-)";
+)"";
 #else 
         return "";
 #endif

@@ -28,7 +28,7 @@ namespace fl {
 
     static std::string snormEngine() {
 #ifdef FL_CPP11
-        return R"(
+        return R""(
 Engine: tipper
 InputVariable: service
   enabled: true
@@ -63,7 +63,7 @@ RuleBlock:
   rule: if service is poor or food is rancid then tip is cheap
   rule: if service is good then tip is average
   rule: if service is excellent or food is delicious then tip is generous
-)";
+)"";
 #else 
         return "";
 #endif
@@ -110,7 +110,7 @@ RuleBlock:
 
     static std::string tnormEngine() {
 #ifdef FL_CPP11
-        return R"(
+        return R""(
 Engine: mam21
 InputVariable: angle
   enabled: true
@@ -146,7 +146,7 @@ RuleBlock:
   rule: if angle is small and velocity is big then force is negSmall
   rule: if angle is big and velocity is small then force is posSmall
   rule: if angle is big and velocity is big then force is posBig
-)";
+)"";
 #else
         return "";
 #endif
