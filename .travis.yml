@@ -7,8 +7,7 @@ git:
 
 cache:
   - apt
-  - directories:
-      - $HOME/cmake
+
 addons:
   apt:
     sources: 
@@ -37,14 +36,14 @@ script:
   - cd fuzzylite
   - mkdir -p release
   - cd release
-  - $CMAKE_CMD .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DFL_BACKTRACE=ON -DFL_USE_FLOAT=$FL_USE_FLOAT -DFL_CPP11=$FL_CPP11 -DFL_BUILD_TESTS=ON
+  - cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DFL_BACKTRACE=ON -DFL_USE_FLOAT=$FL_USE_FLOAT -DFL_CPP11=$FL_CPP11 -DFL_BUILD_TESTS=ON
   - make all test
   - ./bin/fuzzylite-tests
   - cd ..
   #debug
   - mkdir -p debug
   - cd debug
-  - $CMAKE_CMD .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON -DFL_USE_FLOAT=$FL_USE_FLOAT -DFL_CPP11=$FL_CPP11 -DFL_BUILD_TESTS=ON
+  - cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON -DFL_USE_FLOAT=$FL_USE_FLOAT -DFL_CPP11=$FL_CPP11 -DFL_BUILD_TESTS=ON
   - make all test
   - ./bin/fuzzylite-tests-debug
   - cd ..
