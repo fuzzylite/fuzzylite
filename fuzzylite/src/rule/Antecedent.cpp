@@ -102,7 +102,7 @@ namespace fl {
                 }
                 result = proposition->term->membership(value);
             }
-            
+
             if (not proposition->hedges.empty()) {
                 for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
                         rit != proposition->hedges.rend(); ++rit) {
@@ -140,8 +140,9 @@ namespace fl {
 
         } else {
             std::ostringstream ss;
-            ss << "[antecedent error] expected a Proposition or Operator, but found <"
-                    << (node ? node->toString() : "null") << ">";
+            ss << "[antecedent error] expected a Proposition or Operator, but found <";
+            if (node) ss << node->toString();
+            ss << ">";
             throw fl::Exception(ss.str(), FL_AT);
         }
 
