@@ -63,7 +63,7 @@ namespace fl {
 
         /**
           Sets the number of rules to activate
-          @param activatedRules is the number of rules to activate
+          @param numberOfRules is the number of rules to activate
          */
         virtual void setNumberOfRules(int numberOfRules);
 

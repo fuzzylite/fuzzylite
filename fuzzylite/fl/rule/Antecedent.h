@@ -72,7 +72,7 @@ namespace fl {
         
         /**
           Sets the expression tree of the antecedent 
-          @param is the expression tree of the antecedent 
+          @param expression is the expression tree of the antecedent 
          */
         virtual void setExpression(Expression* expression);
 

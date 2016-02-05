@@ -109,7 +109,7 @@ namespace fl {
           where @f$d@f$ is the given direction, and
                 @f$s@f$ is the start of the Binary edge
           
-          @param end is the direction of the binary edge
+          @param direction is the direction of the binary edge
          */
         virtual void setDirection(scalar direction);
         /**
