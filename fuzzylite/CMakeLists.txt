@@ -79,15 +79,18 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 endif()
 
 if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU")
+    if (FL_BUILD_TESTS AND NOT FL_CPP11)
+        #@todo This needs to be addressed when bug 69683 is fixed in gcc (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=69683)
+        #Warnings occur in test files due to GNU gcc bug
+        string(REPLACE "-Werror" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}") 
+    endif()
+
     if (CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 6)
         if (NOT FL_CPP11)
             #set the default to C++98
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++98")
             #Fix error: 'template<class> class std::auto_ptr' is deprecated with gcc-6
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated")
-            #@todo This needs to be addressed when bug 69683 is fixed in gcc-6 (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=69683)
-            #Warnings occur due to bug in test files
-            string(REPLACE "-Werror" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}") 
         endif()
     endif()
 endif()
