@@ -90,7 +90,7 @@ if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU")
             #set the default to C++98
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++98")
             #Fix error: 'template<class> class std::auto_ptr' is deprecated with gcc-6
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated")
+            # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated") #no longer needed with -std=gnu++98
         endif()
     endif()
 endif()
