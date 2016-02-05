@@ -72,6 +72,7 @@
 #include "fl/hedge/Any.h"
 #include "fl/hedge/Extremely.h"
 #include "fl/hedge/Hedge.h"
+#include "fl/hedge/HedgeFunction.h"
 #include "fl/hedge/Not.h"
 #include "fl/hedge/Seldom.h"
 #include "fl/hedge/Somewhat.h"
@@ -91,6 +92,7 @@
 #include "fl/norm/s/Maximum.h"
 #include "fl/norm/s/NilpotentMaximum.h"
 #include "fl/norm/s/NormalizedSum.h"
+#include "fl/norm/s/SNormFunction.h"
 #include "fl/norm/s/UnboundedSum.h"
 
 #include "fl/norm/t/AlgebraicProduct.h"
@@ -100,6 +102,7 @@
 #include "fl/norm/t/HamacherProduct.h"
 #include "fl/norm/t/Minimum.h"
 #include "fl/norm/t/NilpotentMinimum.h"
+#include "fl/norm/t/TNormFunction.h"
 
 #include "fl/rule/Antecedent.h"
 #include "fl/rule/Consequent.h"

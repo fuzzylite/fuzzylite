@@ -30,6 +30,7 @@ src/factory/TNormFactory.cpp
 src/fuzzylite.cpp
 src/hedge/Any.cpp
 src/hedge/Extremely.cpp
+src/hedge/HedgeFunction.cpp
 src/hedge/Not.cpp
 src/hedge/Seldom.cpp
 src/hedge/Somewhat.cpp
@@ -54,6 +55,7 @@ src/norm/s/HamacherSum.cpp
 src/norm/s/Maximum.cpp
 src/norm/s/NilpotentMaximum.cpp
 src/norm/s/NormalizedSum.cpp
+src/norm/s/SNormFunction.cpp
 src/norm/s/UnboundedSum.cpp
 src/norm/t/AlgebraicProduct.cpp
 src/norm/t/BoundedDifference.cpp
@@ -62,6 +64,7 @@ src/norm/t/EinsteinProduct.cpp
 src/norm/t/HamacherProduct.cpp
 src/norm/t/Minimum.cpp
 src/norm/t/NilpotentMinimum.cpp
+src/norm/t/TNormFunction.cpp
 src/rule/Antecedent.cpp
 src/rule/Consequent.cpp
 src/rule/Expression.cpp
