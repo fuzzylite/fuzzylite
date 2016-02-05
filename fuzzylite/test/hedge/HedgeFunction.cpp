@@ -27,17 +27,9 @@ namespace fl {
      * 
      */
 
-
-    static Hedge* myVeryConstructor() {
-        return new HedgeFunction("x*x");
-    }
-
-    static Hedge* myExtraVeryConstructor() {
-        return new HedgeFunction("x*x*x");
-    }
-
-    TEST_CASE("HedgeFunction x*x is equivalent to hedge Very", "[hedge][function]") {
-        std::string fllEngine = R"(
+    static std::string hedgeEngine(){
+#ifdef FL_CPP11
+        return R"(
 Engine: Sugeno-Tip-Calculator
 InputVariable: FoodQuality
   enabled: true
@@ -101,6 +93,25 @@ RuleBlock:
   rule: if FoodQuality is very Bad and Service is very Good then CheapTip is Low and AverageTip is Medium and GenerousTip is High
   rule: if FoodQuality is very very Good and Service is very very Good then CheapTip is High and AverageTip is very High and GenerousTip is extremely High
 )";
+#else 
+        return "";
+#endif
+    }
+
+    static Hedge* myVeryConstructor() {
+        return new HedgeFunction("x*x");
+    }
+
+    static Hedge* myExtraVeryConstructor() {
+        return new HedgeFunction("x*x*x");
+    }
+
+    TEST_CASE("HedgeFunction x*x is equivalent to hedge Very", "[hedge][function]") {
+#ifndef FL_CPP11
+        WARN("Test only runs with -DFL_CPP11=ON");
+        return;
+#endif
+        std::string fllEngine = hedgeEngine();
         //Import using regular hedge very
         FL_unique_ptr<Engine> engine(FllImporter().fromString(fllEngine));
         std::string fldVery = FldExporter().toString(engine.get(), 1024);
