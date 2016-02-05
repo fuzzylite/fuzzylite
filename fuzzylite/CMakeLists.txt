@@ -2,9 +2,23 @@ cmake_minimum_required(VERSION 2.8)
 
 project(fuzzylite CXX)
 
+
+if (APPLE)
+	cmake_policy(SET CMP0042 NEW)
+endif()
+if (MSVC)
+	cmake_policy(SET CMP0054 NEW)
+endif()
+
+
 ###DEFINES SECTION
 if(NOT CMAKE_VERBOSE_MAKEFILE)
     set(CMAKE_VERBOSE_MAKEFILE false)
+endif()
+
+if( NOT CMAKE_BUILD_TYPE )
+    set( CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo
+MinSizeRel." FORCE )
 endif()
 
 set(FL_VERSION 5.1)
@@ -62,6 +76,16 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-non-literal-null-conversion")
 endif()
 
+if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU")
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 6)
+        if (NOT FL_CPP11)
+            #set the default to C++98
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++98")
+        endif()
+    endif()
+endif()
+
+
 set(FL_LIBS)
 
 if(MSVC)
@@ -74,12 +98,15 @@ if(MSVC)
     endif()
 endif()
 
+if(APPLE)
+    #Fix ld: symbol(s) not found for architecture x86_64 on mac
+    set(FL_LIBS stdc++)
+endif()
+
+
 ###BUILD SECTION
 
 include_directories(.)
-if (APPLE)
-    cmake_policy(SET CMP0042 NEW)
-endif()
 
 file(STRINGS FL_HEADERS fl-headers)
 file(STRINGS FL_SOURCES fl-sources)
@@ -183,16 +210,28 @@ install(DIRECTORY fl/ DESTINATION include/fl)
 
 #pkg-config
 configure_file(${CMAKE_SOURCE_DIR}/fuzzylite.pc.in ${CMAKE_BINARY_DIR}/fuzzylite.pc @ONLY)
-install(FILES ${CMAKE_BINARY_DIR}/fuzzylite.pc DESTINATION lib/pkgconfig)
+install(FILES ${CMAKE_BINARY_DIR}/fuzzylite.pc DESTINATION ${FL_INSTALL_LIBDIR}/pkgconfig)
 
 message("=====================================")
-message("fuzzylite v.${FL_VERSION}b${FL_DATE}\n")
-message("FL_USE_FLOAT=${FL_USE_FLOAT}")
+message("fuzzylite v${FL_VERSION}b${FL_DATE}\n")
 message("FL_CPP11=${FL_CPP11}")
+message("FL_USE_FLOAT=${FL_USE_FLOAT}")
 message("FL_BACKTRACE=${FL_BACKTRACE}")
+message("FL_LIBS=${FL_LIBS}")
 message("FL_INSTALL_BINDIR=${FL_INSTALL_BINDIR}")
 message("FL_INSTALL_LIBDIR=${FL_INSTALL_LIBDIR}")
-message("Build=${CMAKE_BUILD_TYPE}")
+message("FL_BUILD_TESTS=${FL_BUILD_TESTS}")
+message("")
+message("CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
+message("CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}")
+message("CMAKE_CXX_COMPILER_VERSION=${CMAKE_CXX_COMPILER_VERSION}")
+message("CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
+message("COMPILE_DEFINITIONS:")
+get_directory_property(fl-definitions DIRECTORY ${CMAKE_SOURCE_DIR} COMPILE_DEFINITIONS )
+foreach(d ${fl-definitions})
+    message( STATUS "Defined: " ${d} )
+endforeach()
+
 message("=====================================\n")
 
 ###UNINSTALL SECTION
