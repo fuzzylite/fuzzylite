@@ -39,7 +39,7 @@ namespace fl {
     }
 
     Function& SNormFunction::function() {
-        return this->function();
+        return this->_function;
     }
 
     void SNormFunction::setFormula(const std::string& formula) {
