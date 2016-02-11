@@ -1,6 +1,5 @@
-fuzzylite &reg; [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=documentation)](https://travis-ci.org/fuzzylite/fuzzylite) 
-[![Coverity Status](https://scan.coverity.com/projects/5759/badge.svg)](https://scan.coverity.com/projects/5759) 
-<img src="https://raw.githubusercontent.com/fuzzylite/fuzzylite/documentation/fuzzylite.png" align="right" alt="fuzzylite">
+fuzzylite &reg;
+<img src="https://raw.githubusercontent.com/fuzzylite/fuzzylite/master/fuzzylite.png" align="right" alt="fuzzylite">
 
 ===========
 
@@ -11,6 +10,9 @@ Current version: 6.0 (in progress)
 
 By: [Juan Rada-Vilela](http://www.fuzzylite.com/jcrada), Ph.D.
 
+[![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=master)](https://travis-ci.org/fuzzylite/fuzzylite) 
+[![Build status](https://ci.appveyor.com/api/projects/status/065g596yxdhkt2se/branch/master)](https://ci.appveyor.com/project/jcrada/fuzzylite/branch/master)
+[![Coverity Status](https://scan.coverity.com/projects/5759/badge.svg)](https://scan.coverity.com/projects/5759) 
 
 ***
 
