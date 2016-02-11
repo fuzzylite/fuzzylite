@@ -36,14 +36,10 @@ if(FL_BUILD_SHARED)
 endif()
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
-option(FL_BACKTRACE "Provide backtrace information in case of errors" OFF)
+option(FL_BACKTRACE "Provide backtrace information in case of errors" ON)
 option(FL_CPP11 "Builds utilizing C++11, i.e., passing -std=c++11" ON)
 
-option(FL_BUILD_TESTS "Builds the unit tests" OFF)
-
-if(FL_CPP11 AND MSVC)
-    message("Warning: MSVC not compatible with FL_CPP11 flag")
-endif()
+option(FL_BUILD_TESTS "Builds the unit tests" ON)
 
 if(FL_USE_FLOAT)
     add_definitions(-DFL_USE_FLOAT)
@@ -53,18 +49,28 @@ if(NOT FL_BACKTRACE)
     add_definitions(-DFL_BACKTRACE_OFF)
 endif()
 
+if (MSVC AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19)
+#Address C++11 not available before Visual Studio 2015
+    if (FL_CPP11)
+        set(FL_CPP11 OFF)
+    endif()
+endif()
+
 if(FL_CPP11)
-    add_definitions(-DFL_CPP11)
+	add_definitions(-DFL_CPP11)
     if(NOT MSVC)
+		#Set C++11 by default in Clang and others
         add_definitions(-std=c++11)
     endif(NOT MSVC)
 endif(FL_CPP11)
 
+#Put all binaries in same location
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 if(NOT MSVC)
+#Add Unix compilation flags
     set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra -Werror ${CMAKE_CXX_FLAGS}")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
@@ -75,11 +81,14 @@ if(NOT MSVC)
 endif()
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+#Address fl::null errors of literal null conversion
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-non-literal-null-conversion")
 endif()
 
+
 if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU")
     if (CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 6)
+	#In GNU gcc v6, the default is C++11
         if (NOT FL_CPP11)
             #set the default to C++98
             #Fix error: 'template<class> class std::auto_ptr' is deprecated with gcc-6
@@ -92,17 +101,20 @@ endif()
 set(FL_LIBS)
 
 if(MSVC)
+#Set compilation flags in Windows
     set(CMAKE_CXX_FLAGS "/W4 /EHsc")
     #Wx: Treat warnings as errors. W4: All warnings
     #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
     #EHsc: call destructors on __try __catch, and to ignore C4530: C++ exception handler used. Note, unwind semantics are not enabled
+	#Add Backtrace library
     if (FL_BACKTRACE)
         set(FL_LIBS dbghelp)
     endif()
 endif()
 
+
 if(APPLE)
-    #Fix ld: symbol(s) not found for architecture x86_64 on mac
+#Fix ld: symbol(s) not found for architecture x86_64 on mac
     set(FL_LIBS stdc++)
 endif()
 
@@ -122,7 +134,7 @@ string(REGEX REPLACE "\n" " " ${fl-tests} ${fl-tests})
 message("${exepath}")
 
 
-set(CMAKE_DEBUG_POSTFIX d)
+set(CMAKE_DEBUG_POSTFIX debug)
 
 if (MSVC OR CMAKE_GENERATOR STREQUAL Xcode)
     if(FL_BUILD_SHARED)
@@ -189,9 +201,7 @@ if(FL_BUILD_TESTS)
     enable_testing()
     add_test(NAME RunTests COMMAND fl-test)
 #    add_test(NAME ListTests COMMAND fl-test --list-tests) 
-#    add_test(NAME ListTests COMMAND fl-test --list-tests)
 #    set_tests_properties(ListTests PROPERTIES PASS_REGULAR_EXPRESSION "[0-9]+ test case")
-
 #    add_test(NAME ListTags COMMAND fl-test --list-tags)
 #    set_tests_properties(ListTags PROPERTIES PASS_REGULAR_EXPRESSION "[0-9]+ tag")
 endif()  

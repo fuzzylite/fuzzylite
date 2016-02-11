@@ -26,9 +26,15 @@
 #elif defined FL_WINDOWS
 #include <windows.h>
 #include <winbase.h>
+
 #ifndef __MINGW32__
+//Disable warning 8.1\Include\um\dbghelp.h(1544): warning C4091: 'typedef ': ignored on left of '' when no variable is declared 
+#pragma warning (push)
+#pragma warning (disable:4091)
 #include <dbghelp.h>
+#pragma warning (pop)
 #endif
+
 #endif
 
 

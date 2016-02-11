@@ -1,0 +1,40 @@
+version: '{branch}.{build}'
+branches:
+  only:
+  - master
+  - release
+os:
+- Visual Studio 2015
+- Visual Studio 2013
+configuration:
+- Release
+- Debug
+platform:
+- x64
+- x86
+clone_depth: 1
+clone_folder: C:\projects\fuzzylite
+before_build:
+- cmd: >-
+    cd c:\projects\fuzzylite\fuzzylite
+
+    mkdir build
+
+    cd build
+
+    cmake ..
+
+    echo %cd%
+
+    dir
+build:
+  project: c:\projects\fuzzylite\fuzzylite\build\INSTALL.vcxproj
+  parallel: true
+  verbosity: normal
+notifications:
+- provider: Email
+  to:
+  - jcrada@fuzzylite.com
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true
