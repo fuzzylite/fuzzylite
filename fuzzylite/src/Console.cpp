@@ -609,14 +609,14 @@ namespace fl {
                 std::string out_copy = tests.at(t).first->toString(copy.get());
 
                 if (out != out_copy) {
-                    std::ostringstream ss;
-                    ss << "[imex error] different results <"
+                    std::ostringstream msg;
+                    msg << "[imex error] different results <"
                             << importer->name() << "," << exporter->name() << "> "
                             "at " + examples.at(t) + "." + from + ":\n";
-                    ss << "<Engine A>\n" << out << "\n\n" <<
+                    msg << "<Engine A>\n" << out << "\n\n" <<
                             "================================\n\n" <<
                             "<Engine B>\n" << out_copy;
-                    throw fl::Exception(ss.str(), FL_AT);
+                    throw fl::Exception(msg.str(), FL_AT);
                 }
             }
 
@@ -672,19 +672,19 @@ namespace fl {
         std::string sourceBase = path + "/";
         typedef std::pair<std::string, int > Example;
         std::vector<Example> examples;
-        examples.push_back(Example("/mamdani/AllTerms", 1e4));
-        examples.push_back(Example("/mamdani/SimpleDimmer", 1e5));
+        examples.push_back(Example("/mamdani/AllTerms", int(1e4)));
+        examples.push_back(Example("/mamdani/SimpleDimmer", int(1e5)));
         examples.push_back(Example("/mamdani/matlab/mam21", 128));
         examples.push_back(Example("/mamdani/matlab/mam22", 128));
         examples.push_back(Example("/mamdani/matlab/shower", 256));
         examples.push_back(Example("/mamdani/matlab/tank", 256));
         examples.push_back(Example("/mamdani/matlab/tank2", 512));
         examples.push_back(Example("/mamdani/matlab/tipper", 256));
-        examples.push_back(Example("/mamdani/matlab/tipper1", 1e5));
+        examples.push_back(Example("/mamdani/matlab/tipper1", int(1e5)));
         examples.push_back(Example("/mamdani/octave/investment_portfolio", 256));
         examples.push_back(Example("/mamdani/octave/mamdani_tip_calculator", 256));
-        examples.push_back(Example("/takagi-sugeno/approximation", 1e6));
-        examples.push_back(Example("/takagi-sugeno/SimpleDimmer", 2e6));
+        examples.push_back(Example("/takagi-sugeno/approximation", int(1e6)));
+        examples.push_back(Example("/takagi-sugeno/SimpleDimmer", int(2e6)));
         examples.push_back(Example("/takagi-sugeno/matlab/fpeaks", 512));
         examples.push_back(Example("/takagi-sugeno/matlab/invkine1", 256));
         examples.push_back(Example("/takagi-sugeno/matlab/invkine2", 256));
@@ -696,14 +696,14 @@ namespace fl {
         examples.push_back(Example("/takagi-sugeno/matlab/slcp1", 15));
         examples.push_back(Example("/takagi-sugeno/matlab/slcpp1", 9));
         examples.push_back(Example("/takagi-sugeno/matlab/sltbu_fl", 128));
-        examples.push_back(Example("/takagi-sugeno/matlab/sugeno1", 2e6));
+        examples.push_back(Example("/takagi-sugeno/matlab/sugeno1", int(2e6)));
         examples.push_back(Example("/takagi-sugeno/matlab/tanksg", 1024));
         examples.push_back(Example("/takagi-sugeno/matlab/tippersg", 1024));
-        examples.push_back(Example("/takagi-sugeno/octave/cubic_approximator", 2e6));
+        examples.push_back(Example("/takagi-sugeno/octave/cubic_approximator", int(2e6)));
         examples.push_back(Example("/takagi-sugeno/octave/heart_disease_risk", 1024));
         examples.push_back(Example("/takagi-sugeno/octave/linear_tip_calculator", 1024));
         examples.push_back(Example("/takagi-sugeno/octave/sugeno_tip_calculator", 512));
-        examples.push_back(Example("/tsukamoto/tsukamoto", 1e6));
+        examples.push_back(Example("/tsukamoto/tsukamoto", int(1e6)));
 
         for (std::size_t i = 0; i < examples.size(); ++i) {
             FL_LOG(examples.at(i).first << "\t" << examples.at(i).second);
@@ -728,7 +728,7 @@ namespace fl {
             FL_unique_ptr<Engine> engine(importer.fromFile(sourceBase + examples.at(e).first + ".fll"));
 
             std::vector<scalar> seconds;
-            int results = std::pow(1.0 * examples.at(e).second, engine->numberOfInputVariables());
+            int results = (examples.at(e).second)^ engine->numberOfInputVariables();
 
             for (int r = 0; r < runs; ++r) {
                 auto start = std::chrono::system_clock::now();

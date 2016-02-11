@@ -18,14 +18,15 @@
 
 #include "fl/fuzzylite.h"
 
+#include "fl/rule/Consequent.h"
+#include "fl/rule/Antecedent.h"
+
 #include <map>
 #include <string>
 
 
 namespace fl {
     class Engine;
-    class Antecedent;
-    class Consequent;
     class Hedge;
     class TNorm;
     class SNorm;

@@ -18,9 +18,10 @@
 
 #include "fl/variable/Variable.h"
 
+#include "fl/term/Aggregated.h"
+#include "fl/defuzzifier/Defuzzifier.h"
+
 namespace fl {
-    class Aggregated;
-    class Defuzzifier;
 
     /**
       

@@ -18,14 +18,15 @@
 
 #include "fl/fuzzylite.h"
 
+#include "fl/factory/TNormFactory.h"
+#include "fl/factory/SNormFactory.h"
+#include "fl/factory/ActivationFactory.h"
+#include "fl/factory/DefuzzifierFactory.h"
+#include "fl/factory/TermFactory.h"
+#include "fl/factory/HedgeFactory.h"
+#include "fl/factory/FunctionFactory.h"
+
 namespace fl {
-    class TNormFactory;
-    class SNormFactory;
-    class ActivationFactory;
-    class DefuzzifierFactory;
-    class TermFactory;
-    class HedgeFactory;
-    class FunctionFactory;
 
     /**
     

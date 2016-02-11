@@ -850,9 +850,9 @@ namespace fl {
         char strict;
         if (not (iss.fail() or iss.get(strict))) return result;
 
-        std::ostringstream nan;
-        nan << fl::nan;
-        if (x == nan.str() or x == "nan")
+        std::ostringstream _nan;
+        _nan << fl::nan;
+        if (x == _nan.str() or x == "nan")
             return fl::nan;
 
         std::ostringstream pInf;
@@ -876,9 +876,9 @@ namespace fl {
         char strict;
         if (not (iss.fail() or iss.get(strict))) return result;
 
-        std::ostringstream nan;
-        nan << fl::nan;
-        if (x == nan.str() or x == "nan")
+        std::ostringstream _nan;
+        _nan << fl::nan;
+        if (x == _nan.str() or x == "nan")
             return fl::nan;
 
         std::ostringstream pInf;

@@ -18,11 +18,12 @@
 
 #include "fl/term/Term.h"
 
+#include "fl/term/Activated.h"
+
 #include <vector>
 
 namespace fl {
 
-    class Activated;
     class SNorm;
     class TNorm;
 

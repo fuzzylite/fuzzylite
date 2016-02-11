@@ -62,7 +62,7 @@ namespace fl {
     }
 
     bool Antecedent::isLoaded() const {
-        return getExpression();
+        return getExpression() != fl::null;
     }
 
     scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction) const {

@@ -38,7 +38,16 @@ namespace fl {
       @since 4.0
     
      */
+
+#ifdef FL_WINDOWS
+//Disable warning for dllexport of std::exception in Windows
+#pragma warning (push)
+#pragma warning (disable:4275)
+#endif
     class FL_API Exception : public std::exception {
+#ifdef FL_WINDOWS
+#pragma warning (pop)
+#endif
     private:
         std::string _what;
     public:
@@ -127,4 +136,6 @@ namespace fl {
     };
 
 }
+
+
 #endif /* FL_EXCEPTION_H */
