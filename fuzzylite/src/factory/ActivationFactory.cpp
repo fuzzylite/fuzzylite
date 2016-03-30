@@ -34,7 +34,6 @@ namespace fl {
         registerConstructor(Highest().className(), &(Highest::constructor));
         registerConstructor(Last().className(), &(Last::constructor));
         registerConstructor(Lowest().className(), &(Lowest::constructor));
-        registerConstructor(Probabilistic().className(), &(Probabilistic::constructor));
         registerConstructor(Proportional().className(), &(Proportional::constructor));
         registerConstructor(Threshold().className(), &(Threshold::constructor));
     }
