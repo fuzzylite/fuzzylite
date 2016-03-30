@@ -69,7 +69,7 @@ namespace fl {
 
         ss << "========================================\n";
         ss << "fuzzylite: a fuzzy logic control library\n";
-        ss << "version: " << fuzzylite::longVersion() << "\n";
+        ss << "version: " << fuzzylite::version() << "\n";
         ss << "author: " << fuzzylite::author() << "\n";
         ss << "license: " << fuzzylite::license() << "\n";
         ss << "========================================\n\n";

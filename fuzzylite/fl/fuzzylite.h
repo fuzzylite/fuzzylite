@@ -28,10 +28,6 @@
 #define FL_VERSION "?"
 #endif
 
-#ifndef FL_DATE
-#define FL_DATE "?"
-#endif
-
 #ifndef FL_BUILD_PATH
 #define FL_BUILD_PATH ""
 #endif
@@ -242,13 +238,6 @@ namespace fl {
          */
         static std::string version();
         /**
-          Returns the version of the `fuzzylite` library including the release
-          date
-          @return the version of the `fuzzylite` library including the release
-          date
-         */
-        static std::string longVersion();
-        /**
           Returns the license under which the `fuzzylite` library is released
           @return the license under which the `fuzzylite` library is released
          */
@@ -269,11 +258,6 @@ namespace fl {
          */
         static std::string website();
 
-        /**
-          Returns the release date of the `fuzzylite` library
-          @return the release date of the `fuzzylite` library
-         */
-        static std::string date();
         /**
           Returns the platform under which the `fuzzylite` library was built
           @return `Unix` or `Windows`

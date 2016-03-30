@@ -28,15 +28,11 @@ namespace fl {
     }
 
     std::string fuzzylite::fullname() {
-        return name() + "-" + longVersion();
+        return name() + "-" + version();
     }
 
     std::string fuzzylite::version() {
         return FL_VERSION;
-    }
-
-    std::string fuzzylite::longVersion() {
-        return FL_VERSION "b" FL_DATE;
     }
 
     std::string fuzzylite::license() {
@@ -53,10 +49,6 @@ namespace fl {
 
     std::string fuzzylite::website() {
         return "http://www.fuzzylite.com/";
-    }
-
-    std::string fuzzylite::date() {
-        return FL_DATE;
     }
 
     std::string fuzzylite::platform() {
