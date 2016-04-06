@@ -117,9 +117,14 @@ namespace fl {
         }
         FllExporter exporter;
         std::ostringstream ss;
-        ss << getName() << ": " << className() << " "
-                << exporter.toString(getAggregation()) << "["
-                << fl::Op::join(aggregate, ",") << "]";
+        if (getAggregation()) {
+            ss << getName() << ": " << className() << " "
+                    << exporter.toString(getAggregation()) << "["
+                    << fl::Op::join(aggregate, ",") << "]";
+        } else {
+            ss << getName() << ": " << className() << " " << "["
+                    << fl::Op::join(aggregate, "+") << "]"; //\u2295: (+)
+        }
         return ss.str();
     }
 
