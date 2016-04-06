@@ -35,4 +35,7 @@ namespace fl {
         return FllExporter().toString(this);
     }
 
+    InputVariable* InputVariable::clone() const {
+        return new InputVariable(*this);
+    }
 }

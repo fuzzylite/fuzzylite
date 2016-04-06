@@ -51,6 +51,8 @@ namespace fl {
         virtual std::string fuzzyInputValue() const;
 
         virtual std::string toString() const FL_IOVERRIDE;
+        
+        virtual InputVariable* clone() const FL_IOVERRIDE;
 
     };
 

@@ -111,7 +111,7 @@ namespace fl {
 
     void OutputVariable::defuzzify() {
         if (not isEnabled()) return;
-        
+
         if (fl::Op::isFinite(getValue())) {
             setPreviousValue(getValue());
         }
@@ -167,6 +167,10 @@ namespace fl {
 
     std::string OutputVariable::toString() const {
         return FllExporter().toString(this);
+    }
+
+    OutputVariable* OutputVariable::clone() const {
+        return new OutputVariable(*this);
     }
 
 }

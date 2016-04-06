@@ -125,7 +125,7 @@ namespace fl {
         virtual scalar membership(scalar x) const = 0;
 
         /**
-          Creates a clones of the term
+          Creates a clone of the term
           @return a clone of the term
          */
         virtual Term* clone() const = 0;

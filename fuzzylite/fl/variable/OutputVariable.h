@@ -178,6 +178,8 @@ namespace fl {
         virtual void clear();
 
         virtual std::string toString() const FL_IOVERRIDE;
+        
+        virtual OutputVariable* clone() const FL_IOVERRIDE;
 
     };
 

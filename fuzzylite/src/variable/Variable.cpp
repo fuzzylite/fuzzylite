@@ -264,5 +264,8 @@ namespace fl {
         return this->_terms;
     }
 
+    Variable* Variable::clone() const {
+        return new Variable(*this);
+    }
 }
 

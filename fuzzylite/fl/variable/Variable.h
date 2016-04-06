@@ -28,7 +28,7 @@ namespace fl {
 
     /**
       
-      The Variable class is an abstract class for linguistic variables. 
+      The Variable class is the base class for linguistic variables. 
 
       @author Juan Rada-Vilela, Ph.D.
       @see InputVariable
@@ -252,7 +252,10 @@ namespace fl {
           @return a mutable vector of terms
          */
         virtual std::vector<Term*>& terms();
-
+        /**
+          Creates a clone of the variable
+         */
+        virtual Variable* clone() const;
     };
 
 }
