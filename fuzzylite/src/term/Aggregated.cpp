@@ -68,7 +68,8 @@ namespace fl {
         if (FL_IS_NAN(x)) return fl::nan;
         if (not (_terms.empty() or _aggregation.get())) { //Exception for IntegralDefuzzifiers
             throw fl::Exception("[aggregation error] "
-                    "aggregation operator needed to aggregate " + toString(), FL_AT);
+                    "aggregation operator needed to aggregate variable "
+                    "<" + getName() + ">", FL_AT);
         }
         scalar mu = 0.0;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
