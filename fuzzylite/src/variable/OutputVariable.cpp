@@ -116,15 +116,30 @@ namespace fl {
             setPreviousValue(getValue());
         }
 
+        std::string exception;
         scalar result = fl::nan;
         bool isValid = isEnabled() and not fuzzyOutput()->isEmpty();
         if (isValid) {
-            if (not getDefuzzifier()) {
-                throw fl::Exception("[defuzzifier error] "
-                        "defuzzifier needed to defuzzify output variable <" + getName() + ">", FL_AT);
+            /* Checks whether the variable can be defuzzified without exceptions.
+             * If it cannot be defuzzified, be that due to a missing defuzzifier  
+             * or aggregation operator, the expected behaviour is to leave the 
+             * variable in a state that reflects an invalid defuzzification, 
+             * that is, apply logic of default values and previous values.*/
+            if (getDefuzzifier()) {
+                try{
+                    result = getDefuzzifier()->defuzzify(fuzzyOutput(), getMinimum(), getMaximum());
+                }catch(std::exception& ex){
+                    exception = ex.what();
+                    isValid = false;
+                }
+            }else{
+                exception = "[defuzzifier error] "
+                        "defuzzifier needed to defuzzify output variable <" + getName() + ">";
+                isValid = false;
             }
-            result = getDefuzzifier()->defuzzify(fuzzyOutput(), getMinimum(), getMaximum());
-        } else {
+        }
+        
+        if (not isValid){
             //if a previous defuzzification was successfully performed and
             //and the output value is supposed not to change when the output is empty
             if (isLockPreviousValue() and not Op::isNaN(getPreviousValue())) {
@@ -139,6 +154,10 @@ namespace fl {
         }
 
         setValue(result);
+        
+        if (not exception.empty()){
+            throw fl::Exception(exception, FL_AT);
+        }
     }
 
     std::string OutputVariable::fuzzyOutputValue() const {
