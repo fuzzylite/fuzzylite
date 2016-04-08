@@ -5,7 +5,6 @@ src/activation/General.cpp
 src/activation/Highest.cpp
 src/activation/Last.cpp
 src/activation/Lowest.cpp
-src/activation/Probabilistic.cpp
 src/activation/Proportional.cpp
 src/activation/Threshold.cpp
 src/defuzzifier/Bisector.cpp
