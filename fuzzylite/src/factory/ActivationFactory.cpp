@@ -21,7 +21,6 @@
 #include "fl/activation/Highest.h"
 #include "fl/activation/Last.h"
 #include "fl/activation/Lowest.h"
-#include "fl/activation/Probabilistic.h"
 #include "fl/activation/Proportional.h"
 #include "fl/activation/Threshold.h"
 
