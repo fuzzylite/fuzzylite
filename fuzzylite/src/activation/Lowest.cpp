@@ -74,7 +74,8 @@ namespace fl {
             if (rule->isLoaded()) {
                 scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
                 rule->setActivationDegree(activationDegree);
-                rulesToActivate.push(rule);
+                if (fl::Op::isGt(activationDegree, 0.0))
+                    rulesToActivate.push(rule);
             }
         }
 

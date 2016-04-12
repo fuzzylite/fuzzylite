@@ -62,7 +62,7 @@ namespace fl {
         };
     private:
         Comparison _comparison;
-        scalar _threshold;
+        scalar _value;
     public:
         /**
           A constructor with the comparison operator and threshold.
@@ -139,16 +139,16 @@ namespace fl {
         virtual Comparison parseComparison(const std::string& comparisonOperator) const;
 
         /**
-          Sets the threshold of the activation method
-          @param threshold is the threshold for activation degrees
+          Sets the threshold value of the activation method
+          @param value is the threshold value for activation degrees
          */
-        virtual void setThreshold(scalar threshold);
+        virtual void setValue(scalar value);
 
         /**
-          Gets the threshold of the activation method
-          @return the threshold of the activation method
+          Gets the threshold value of the activation method
+          @return the threshold value of the activation method
          */
-        virtual scalar getThreshold() const;
+        virtual scalar getValue() const;
 
         /**
           Sets the comparison operator and the threshold for the activation

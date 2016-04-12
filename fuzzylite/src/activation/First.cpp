@@ -72,6 +72,7 @@ namespace fl {
                 scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
                 rule->setActivationDegree(activationDegree);
                 if (activated < getNumberOfRules() 
+                        and Op::isGt(activationDegree, 0.0)
                         and Op::isGE(activationDegree, getThreshold())) {
                     rule->activate(activationDegree, implication);
                     ++activated;

@@ -29,36 +29,36 @@ namespace fl {
     TEST_CASE("Treshold can be clone ", "[activation][threshold]") {
         Threshold* t = new Threshold("<", 1.0);
         REQUIRE(t->getComparison() == Threshold::LessThan);
-        REQUIRE(fl::Op::isEq(t->getThreshold(), 1.0));
+        REQUIRE(fl::Op::isEq(t->getValue(), 1.0));
         FL_DBG(FllExporter().toString(t));
 
         Threshold* clone = t->clone();
         REQUIRE(clone->getComparison() == Threshold::LessThan);
-        REQUIRE(fl::Op::isEq(clone->getThreshold(), 1.0));
+        REQUIRE(fl::Op::isEq(clone->getValue(), 1.0));
         FL_DBG(FllExporter().toString(clone));
     }
 
     TEST_CASE("Treshold can be copy-constructed", "[activation][threshold]") {
         Threshold* t = new Threshold(">=", 1.0);
         REQUIRE(t->getComparison() == Threshold::GreaterThanOrEqualTo);
-        REQUIRE(fl::Op::isEq(t->getThreshold(), 1.0));
+        REQUIRE(fl::Op::isEq(t->getValue(), 1.0));
         FL_DBG(FllExporter().toString(t));
 
         Threshold clone(*t);
         REQUIRE(clone.getComparison() == Threshold::GreaterThanOrEqualTo);
-        REQUIRE(fl::Op::isEq(clone.getThreshold(), 1.0));
+        REQUIRE(fl::Op::isEq(clone.getValue(), 1.0));
         FL_DBG(FllExporter().toString(&clone));
     }
 
     TEST_CASE("Treshold can be assigned", "[activation][threshold]") {
         Threshold* t = new Threshold(">=", 1.0);
         REQUIRE(t->getComparison() == Threshold::GreaterThanOrEqualTo);
-        REQUIRE(fl::Op::isEq(t->getThreshold(), 1.0));
+        REQUIRE(fl::Op::isEq(t->getValue(), 1.0));
         FL_DBG(FllExporter().toString(t));
 
         Threshold clone = *t;
         REQUIRE(clone.getComparison() == Threshold::GreaterThanOrEqualTo);
-        REQUIRE(fl::Op::isEq(clone.getThreshold(), 1.0));
+        REQUIRE(fl::Op::isEq(clone.getValue(), 1.0));
         FL_DBG(FllExporter().toString(&clone));
     }
 

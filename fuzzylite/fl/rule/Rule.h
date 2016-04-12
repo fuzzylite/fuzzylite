@@ -71,7 +71,7 @@ namespace fl {
         FL_unique_ptr<Antecedent> _antecedent;
         FL_unique_ptr<Consequent> _consequent;
         scalar _activationDegree;
-        bool _active;
+        bool _activated;
 
     public:
         explicit Rule(const std::string& text = "", scalar weight = 1.0);
@@ -126,18 +126,24 @@ namespace fl {
 
 
         /**
-          Sets whether the rule is active. The activation of a rule is 
-          automatically managed within Rule::activate().
-          @param active indicates whether the rule is active
+          Sets whether the rule has been activated. The activation of a rule is 
+          automatically managed within Rule::activate(). The utility of this 
+          property can be found in the case of activation methods like First or 
+          Last, which compute the activation degree of the rules without 
+          necessarily activating the rules.
+          @param active indicates whether the rule has been activated
          */
-        virtual void setActive(bool active);
+        virtual void setActivated(bool activated);
 
         /**
-          Indicates whether the rule is active. The activation of a rule is 
-          automatically managed within Rule::activate().
-          @return whether the rule is active
+          Indicates whether the rule has been activated. The activation of a 
+          rule is automatically managed within Rule::activate(). The utility of this 
+          property can be found in the case of activation methods like First or 
+          Last, which compute the activation degree of the rules without 
+          necessarily activating the rules.
+          @return whether the rule has been activated
          */
-        virtual bool isActive() const;
+        virtual bool isActivated() const;
 
         /**
           Sets the activation degree of the rule

@@ -31,12 +31,12 @@ namespace fl {
 
     Rule::Rule(const std::string& text, scalar weight)
     : _text(text), _weight(weight), _antecedent(new Antecedent), _consequent(new Consequent),
-    _activationDegree(0.0), _active(false) {
+    _activationDegree(0.0), _activated(false) {
     }
 
     Rule::Rule(const Rule& other) : _text(other._text), _weight(other._weight),
     _antecedent(new Antecedent), _consequent(new Consequent),
-    _activationDegree(other._activationDegree), _active(other._active) {
+    _activationDegree(other._activationDegree), _activated(other._activated) {
     }
 
     Rule& Rule::operator=(const Rule& other) {
@@ -46,7 +46,7 @@ namespace fl {
             _antecedent.reset(new Antecedent);
             _consequent.reset(new Consequent);
             _activationDegree = other._activationDegree;
-            _active = other._active;
+            _activated = other._activated;
         }
         return *this;
     }
@@ -87,12 +87,12 @@ namespace fl {
         return this->_consequent.get();
     }
 
-    void Rule::setActive(bool active) {
-        this->_active = active;
+    void Rule::setActivated(bool activated) {
+        this->_activated = activated;
     }
 
-    bool Rule::isActive() const {
-        return this->_active;
+    bool Rule::isActivated() const {
+        return this->_activated;
     }
 
     void Rule::setActivationDegree(scalar activationDegree) {
@@ -120,11 +120,11 @@ namespace fl {
             setActivationDegree(activationDegree);
             getConsequent()->modify(activationDegree, implication);
         }
-        setActive(true);
+        setActivated(true);
     }
 
     void Rule::deactivate() {
-        setActive(false);
+        setActivated(false);
         setActivationDegree(0.0);
         FL_DBG("[deactivated] " << toString());
     }
@@ -148,7 +148,7 @@ namespace fl {
 
     void Rule::load(const std::string& rule, const Engine* engine) {
         setText(rule);
-        setActive(false);
+        setActivated(false);
         setActivationDegree(0.0);
         std::istringstream tokenizer(rule.substr(0, rule.find_first_of('#')));
         std::string token;

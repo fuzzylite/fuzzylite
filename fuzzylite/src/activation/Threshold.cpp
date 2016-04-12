@@ -24,12 +24,12 @@
 namespace fl {
 
     Threshold::Threshold(Comparison comparison, scalar threshold) : Activation(),
-    _comparison(comparison), _threshold(threshold) {
+    _comparison(comparison), _value(threshold) {
 
     }
 
     Threshold::Threshold(const std::string& comparison, scalar threshold) : Activation(),
-    _comparison(parseComparison(comparison)), _threshold(threshold) {
+    _comparison(parseComparison(comparison)), _value(threshold) {
 
     }
 
@@ -43,7 +43,7 @@ namespace fl {
 
     std::string Threshold::parameters() const {
         std::ostringstream ss;
-        ss << comparisonShortForm() << " " << Op::str(getThreshold());
+        ss << comparisonShortForm() << " " << Op::str(getValue());
         return ss.str();
     }
 
@@ -58,7 +58,7 @@ namespace fl {
             throw fl::Exception(ex.str(), FL_AT);
         }
         setComparison(parseComparison(values.at(0)));
-        setThreshold(Op::toScalar(values.at(1)));
+        setValue(Op::toScalar(values.at(1)));
     }
 
     void Threshold::setComparison(Comparison comparison) {
@@ -106,32 +106,32 @@ namespace fl {
         throw fl::Exception("[syntax error] invalid threshold type by name <" + name + ">", FL_AT);
     }
 
-    void Threshold::setThreshold(scalar threshold) {
-        this->_threshold = threshold;
+    void Threshold::setValue(scalar value) {
+        this->_value = value;
     }
 
-    scalar Threshold::getThreshold() const {
-        return this->_threshold;
+    scalar Threshold::getValue() const {
+        return this->_value;
     }
 
     void Threshold::setComparisonThreshold(Comparison comparison, scalar threshold) {
         setComparison(comparison);
-        setThreshold(threshold);
+        setValue(threshold);
     }
 
     void Threshold::setComparisonThreshold(const std::string& comparison, scalar threshold) {
         setComparison(parseComparison(comparison));
-        setThreshold(threshold);
+        setValue(threshold);
     }
 
     bool Threshold::activatesWith(scalar activationDegree) const {
         switch (getComparison()) {
-            case LessThan: return Op::isLt(activationDegree, getThreshold());
-            case LessThanOrEqualTo: return Op::isLE(activationDegree, getThreshold());
-            case EqualTo: return Op::isEq(activationDegree, getThreshold());
-            case NotEqualTo: return not Op::isEq(activationDegree, getThreshold());
-            case GreaterThanOrEqualTo: return Op::isGE(activationDegree, getThreshold());
-            case GreaterThan: return Op::isGt(activationDegree, getThreshold());
+            case LessThan: return Op::isLt(activationDegree, getValue());
+            case LessThanOrEqualTo: return Op::isLE(activationDegree, getValue());
+            case EqualTo: return Op::isEq(activationDegree, getValue());
+            case NotEqualTo: return not Op::isEq(activationDegree, getValue());
+            case GreaterThanOrEqualTo: return Op::isGE(activationDegree, getValue());
+            case GreaterThan: return Op::isGt(activationDegree, getValue());
             default: return false;
         }
     }
