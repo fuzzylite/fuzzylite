@@ -39,7 +39,7 @@ namespace fl {
     }
 
     std::string First::parameters() const {
-        return Op::join(2, " ", getNumberOfRules(), getThreshold());
+        return Op::str(getNumberOfRules()) + " " + Op::str(getThreshold());
     }
 
     void First::configure(const std::string& parameters) {

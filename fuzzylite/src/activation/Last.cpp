@@ -39,7 +39,7 @@ namespace fl {
     }
 
     std::string Last::parameters() const {
-        return Op::join(2, " ", getNumberOfRules(), getThreshold());
+        return Op::str(getNumberOfRules()) + " " + Op::str(getThreshold());
     }
 
     void Last::configure(const std::string& parameters) {
