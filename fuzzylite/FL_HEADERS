@@ -15,8 +15,10 @@ fl/defuzzifier/LargestOfMaximum.h
 fl/defuzzifier/MeanOfMaximum.h
 fl/defuzzifier/SmallestOfMaximum.h
 fl/defuzzifier/WeightedAverage.h
+fl/defuzzifier/WeightedAverageCustom.h
 fl/defuzzifier/WeightedDefuzzifier.h
 fl/defuzzifier/WeightedSum.h
+fl/defuzzifier/WeightedSumCustom.h
 fl/Engine.h
 fl/Exception.h
 fl/factory/ActivationFactory.h

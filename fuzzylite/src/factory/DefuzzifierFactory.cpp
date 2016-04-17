@@ -22,7 +22,9 @@
 #include "fl/defuzzifier/LargestOfMaximum.h"
 #include "fl/defuzzifier/MeanOfMaximum.h"
 #include "fl/defuzzifier/WeightedAverage.h"
+#include "fl/defuzzifier/WeightedAverageCustom.h"
 #include "fl/defuzzifier/WeightedSum.h"
+#include "fl/defuzzifier/WeightedSumCustom.h"
 
 namespace fl {
 
@@ -34,7 +36,9 @@ namespace fl {
         registerConstructor(MeanOfMaximum().className(), &(MeanOfMaximum::constructor));
         registerConstructor(SmallestOfMaximum().className(), &(SmallestOfMaximum::constructor));
         registerConstructor(WeightedAverage().className(), &(WeightedAverage::constructor));
+        registerConstructor(WeightedAverageCustom().className(), &(WeightedAverageCustom::constructor));
         registerConstructor(WeightedSum().className(), &(WeightedSum::constructor));
+        registerConstructor(WeightedSumCustom().className(), &(WeightedSumCustom::constructor));
     }
 
     DefuzzifierFactory::~DefuzzifierFactory() {

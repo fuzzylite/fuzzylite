@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -14,7 +14,7 @@
 
  */
 
-#include "fl/defuzzifier/WeightedSum.h"
+#include "fl/defuzzifier/WeightedSumCustom.h"
 
 #include "fl/term/Aggregated.h"
 #include "fl/term/Activated.h"
@@ -24,23 +24,23 @@
 #include <map>
 namespace fl {
 
-    WeightedSum::WeightedSum(Type type) : WeightedDefuzzifier(type) {
+    WeightedSumCustom::WeightedSumCustom(Type type) : WeightedDefuzzifier(type) {
     }
 
-    WeightedSum::WeightedSum(const std::string& type) : WeightedDefuzzifier(type) {
+    WeightedSumCustom::WeightedSumCustom(const std::string& type) : WeightedDefuzzifier(type) {
 
     }
 
-    WeightedSum::~WeightedSum() {
+    WeightedSumCustom::~WeightedSumCustom() {
     }
 
-    std::string WeightedSum::className() const {
-        return "WeightedSum";
+    std::string WeightedSumCustom::className() const {
+        return "WeightedSumCustom";
     }
 
-    scalar WeightedSum::defuzzify(const Term* term,
+    scalar WeightedSumCustom::defuzzify(const Term* term,
             scalar minimum, scalar maximum) const {
-        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*> (term);
+          const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*> (term);
         if (not fuzzyOutput) {
             std::ostringstream ss;
             ss << "[defuzzification error]"
@@ -53,10 +53,13 @@ namespace fl {
         maximum = fuzzyOutput->getMaximum();
 
         scalar sum = 0.0;
+
+        SNorm* aggregation = fuzzyOutput->getAggregation();
         Type type = getType();
-        for (std::size_t i = 0; i < fuzzyOutput->numberOfTerms(); ++i) {
+        for (std::size_t i = 0; i < fuzzyOutput->terms().size(); ++i) {
             const Activated& activated = fuzzyOutput->getTerm(i);
             scalar w = activated.getDegree();
+            const TNorm* implication = activated.getImplication();
 
             if (type == Automatic) type = inferType(activated.getTerm());
 
@@ -65,18 +68,18 @@ namespace fl {
                     ? activated.getTerm()->membership(w) //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
                     : tsukamoto(activated.getTerm(), w, minimum, maximum);
 
-            sum += w * z;
+            scalar wz = implication ? implication->compute(w, z) : w * z;
+            sum = aggregation ? aggregation->compute(sum, wz) : sum + wz;
         }
-        
         return sum;
     }
 
-    WeightedSum* WeightedSum::clone() const {
-        return new WeightedSum(*this);
+    WeightedSumCustom* WeightedSumCustom::clone() const {
+        return new WeightedSumCustom(*this);
     }
 
-    Defuzzifier* WeightedSum::constructor() {
-        return new WeightedSum;
+    Defuzzifier* WeightedSumCustom::constructor() {
+        return new WeightedSumCustom;
     }
 
 }

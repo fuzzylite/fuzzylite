@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -13,8 +13,8 @@
  fuzzylite® is a registered trademark of FuzzyLite Limited.
  */
 
-#ifndef FL_WEIGHTEDSUM_H
-#define FL_WEIGHTEDSUM_H
+#ifndef FL_WEIGHTEDSUMCUSTOM_H
+#define FL_WEIGHTEDSUMCUSTOM_H
 
 
 #include "fl/defuzzifier/WeightedDefuzzifier.h"
@@ -23,11 +23,13 @@ namespace fl {
 
     /**
     
-      The WeightedSum class is a WeightedDefuzzifier that computes the
-      weighted sum of a fuzzy set represented in an Aggregated Term.
+      The WeightedSumCustom class is a WeightedDefuzzifier that computes the
+      weighted sum of a fuzzy set represented in an Aggregated Term utilizing
+      the fuzzy operators for implication and aggregation to perform the weighted
+      sum. 
 
       @author Juan Rada-Vilela, Ph.D.
-      @see WeightedSumCustom
+      @see WeightedSum
       @see WeightedAverage
       @see WeightedAverageCustom
       @see WeightedDefuzzifier
@@ -35,12 +37,12 @@ namespace fl {
       @since 4.0
     
      */
-    class FL_API WeightedSum : public WeightedDefuzzifier {
+    class FL_API WeightedSumCustom : public WeightedDefuzzifier {
     public:
-        explicit WeightedSum(Type type = Automatic);
-        explicit WeightedSum(const std::string& type);
-        virtual ~WeightedSum() FL_IOVERRIDE;
-        FL_DEFAULT_COPY_AND_MOVE(WeightedSum)
+        explicit WeightedSumCustom(Type type = Automatic);
+        explicit WeightedSumCustom(const std::string& type);
+        virtual ~WeightedSumCustom() FL_IOVERRIDE;
+        FL_DEFAULT_COPY_AND_MOVE(WeightedSumCustom)
 
         virtual std::string className() const FL_IOVERRIDE;
         /**
@@ -48,9 +50,12 @@ namespace fl {
           Aggregated Term as @f$y = \sum_i{w_iz_i} @f$,
           where @f$w_i@f$ is the activation degree of term @f$i@f$, and @f$z_i
           = \mu_i(w_i) @f$.
-         
-          From version 6.0, the implication and aggregation operators are not 
-          utilized for defuzzification. 
+
+          If the implication and aggregation operators are set to fl::null (or 
+          set to AlgebraicProduct and UnboundedSum, respectively), then the 
+          operation of WeightedAverageCustom is the same as the WeightedAverage.
+          Otherwise, the implication and aggregation operators are utilized to 
+          compute the multiplications and sums in @f$y$f, respectively.
          
           @param term is the fuzzy set represented as an AggregatedTerm
           @param minimum is the minimum value of the range (only used for Tsukamoto)
@@ -59,11 +64,11 @@ namespace fl {
          */
         virtual scalar defuzzify(const Term* term,
                 scalar minimum, scalar maximum) const FL_IOVERRIDE;
-        virtual WeightedSum* clone() const FL_IOVERRIDE;
+        virtual WeightedSumCustom* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };
 }
 
-#endif  /* FL_WEIGHTEDSUM_H */
+#endif  /* FL_WEIGHTEDSUMCUSTOM_H */
 
