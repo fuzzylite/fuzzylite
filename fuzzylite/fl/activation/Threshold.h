@@ -78,16 +78,15 @@ namespace fl {
         virtual std::string className() const FL_IOVERRIDE;
 
         /**
-          Returns the comparison operator (in short form) followed by the 
-          threshold.
+          Returns the comparison operator followed by the threshold.
           
           @return comparison operator and threshold
          */
         virtual std::string parameters() const FL_IOVERRIDE;
 
         /**
-          Configures the activation method with the comparison operator (in 
-          short form) and the threshold
+          Configures the activation method with the comparison operator and the 
+          threshold.
           
           @param parameters is the comparison operator and threshold
          */
@@ -108,26 +107,24 @@ namespace fl {
         virtual Comparison getComparison() const;
 
         /**
-          Returns the short form of the comparison operator of the activation
-          method
-          @return the short form of an operator in (`==`, `!=`, `<`, `>`, `<=`,
-          `>=`)
+          Returns the comparison operator of the activation method
+          @return the comparison operator in (`==`, `!=`, `<`, `>`, `<=`, `>=`)
          */
-        virtual std::string comparisonShortForm() const;
+        virtual std::string comparisonOperator() const;
         
         /**
-          Returns the short form of the given comparison operator of the activation
-          method
-          @return the short form of the given operator
+          Returns the given comparison operator of the activation method
+          @parameter comparison is a valid enum value
+          @return the comparison operator for the given enum value
          */
-        virtual std::string comparisonShortForm(Comparison comparison) const;
+        virtual std::string comparisonOperator(Comparison comparison) const;
 
         /**
-          Returns the list of available comparisons of the activation method in
-          short form
+          Returns the list of available comparison operators of the activation 
+          method
           @return (`==`, `!=`, `<`, `>`, `<=`, `>=`)
          */
-        virtual std::vector<std::string> availableComparisons() const;
+        virtual std::vector<std::string> availableComparisonOperators() const;
 
         
         /**
@@ -159,10 +156,10 @@ namespace fl {
         virtual void setComparisonThreshold(Comparison comparison, scalar threshold);
 
         /**
-          Sets the comparison operator (in short form) and the threshold for
-          the activation method.
+          Sets the comparison operator and the threshold for the activation method, 
+          and throws and fl::Exception if the comparison operator is not valid
           
-          @param comparison is an enum option
+          @param comparison is a valid comparison operator
           @param threshold is the threshold for activation degrees
          */
         virtual void setComparisonThreshold(const std::string& comparison, scalar threshold);

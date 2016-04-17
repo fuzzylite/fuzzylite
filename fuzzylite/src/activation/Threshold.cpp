@@ -43,7 +43,7 @@ namespace fl {
 
     std::string Threshold::parameters() const {
         std::ostringstream ss;
-        ss << comparisonShortForm() << " " << Op::str(getValue());
+        ss << comparisonOperator() << " " << Op::str(getValue());
         return ss.str();
     }
 
@@ -69,11 +69,11 @@ namespace fl {
         return this->_comparison;
     }
 
-    std::string Threshold::comparisonShortForm() const {
-        return comparisonShortForm(getComparison());
+    std::string Threshold::comparisonOperator() const {
+        return comparisonOperator(getComparison());
     }
 
-    std::string Threshold::comparisonShortForm(Comparison comparison) const {
+    std::string Threshold::comparisonOperator(Comparison comparison) const {
         switch (comparison) {
             case LessThan: return "<";
             case LessThanOrEqualTo: return "<=";
@@ -85,7 +85,7 @@ namespace fl {
         }
     }
 
-    std::vector<std::string> Threshold::availableComparisons() const {
+    std::vector<std::string> Threshold::availableComparisonOperators() const {
         std::vector<std::string> result;
         result.push_back("<");
         result.push_back("<=");
