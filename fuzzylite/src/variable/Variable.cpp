@@ -75,7 +75,11 @@ namespace fl {
     }
 
     void Variable::setValue(scalar value) {
-        this->_value = value;
+        if (_lockValueInRange) {
+            this->_value = fl::Op::bound(value, _minimum, _maximum);
+        } else {
+            this->_value = value;
+        }
     }
 
     scalar Variable::getValue() const {

@@ -149,10 +149,6 @@ namespace fl {
             }
         }
 
-        if (isLockValueInRange()) {
-            result = fl::Op::bound(result, getMinimum(), getMaximum());
-        }
-
         setValue(result);
         
         if (not exception.empty()){

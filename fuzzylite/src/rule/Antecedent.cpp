@@ -95,12 +95,7 @@ namespace fl {
             if (OutputVariable * outputVariable = dynamic_cast<OutputVariable*> (proposition->variable)) {
                 result = outputVariable->fuzzyOutput()->activationDegree(proposition->term);
             } else {
-                Variable* variable = proposition->variable;
-                scalar value = variable->getValue();
-                if (variable->isLockValueInRange()) {
-                    value = fl::Op::bound(value, variable->getMinimum(), variable->getMaximum());
-                }
-                result = proposition->term->membership(value);
+                result = proposition->term->membership(proposition->variable->getValue());
             }
 
             if (not proposition->hedges.empty()) {
