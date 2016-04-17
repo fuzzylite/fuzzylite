@@ -181,13 +181,28 @@ namespace fl {
           @param fromMax is the maximum value of the source range
           @param toMin is the minimum value of the target range
           @param toMax is the maximum value of the target range
+          @return the source value linearly interpolated to the target range:
+          @f$ y = y_a + (y_b - y_a) \dfrac{x-x_a}{x_b-x_a} @f$
+         */
+        static scalar scale(scalar x, scalar fromMin, scalar fromMax,
+                scalar toMin, scalar toMax);
+        
+        /**
+          Linearly interpolates the parameter @f$x@f$ in range
+          `[fromMin,fromMax]` to a new value in the range `[toMin,toMax]`, 
+          truncated to the range `[toMin,toMax]` if bounded is `true`.
+          @param x is the source value to interpolate
+          @param fromMin is the minimum value of the source range 
+          @param fromMax is the maximum value of the source range
+          @param toMin is the minimum value of the target range
+          @param toMax is the maximum value of the target range
           @param bounded determines whether the resulting value is bounded to
           the range
           @return the source value linearly interpolated to the target range:
           @f$ y = y_a + (y_b - y_a) \dfrac{x-x_a}{x_b-x_a} @f$
          */
         static scalar scale(scalar x, scalar fromMin, scalar fromMax,
-                scalar toMin, scalar toMax, bool bounded = false);
+                scalar toMin, scalar toMax, bool bounded);
 
         /**
           Adds two values
@@ -625,6 +640,10 @@ namespace fl {
         return isEq(a, b, macheps) or a > b;
     }
 
+    inline scalar Operation::scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax) {
+        return (toMax - toMin) / (fromMax - fromMin) * (x - fromMin) + toMin;
+    }
+    
     inline scalar Operation::scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax, bool bounded) {
         scalar result = (toMax - toMin) / (fromMax - fromMin) * (x - fromMin) + toMin;
         return bounded ? fl::Op::bound(result, toMin, toMax) : result;
