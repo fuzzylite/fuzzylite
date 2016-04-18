@@ -1291,7 +1291,7 @@ GENERATE_QHP           = NO
 # the HTML output folder.
 # This tag requires that the tag GENERATE_QHP is set to YES.
 
-QCH_FILE               =
+QCH_FILE               = fuzzylite.qch
 
 # The QHP_NAMESPACE tag specifies the namespace to use when generating Qt Help
 # Project output. For more information please see Qt Help Project / Namespace
@@ -1299,7 +1299,7 @@ QCH_FILE               =
 # The default value is: org.doxygen.Project.
 # This tag requires that the tag GENERATE_QHP is set to YES.
 
-QHP_NAMESPACE          = org.doxygen.Project
+QHP_NAMESPACE          = com.fuzzylite
 
 # The QHP_VIRTUAL_FOLDER tag specifies the namespace to use when generating Qt
 # Help Project output. For more information please see Qt Help Project / Virtual
@@ -2084,7 +2084,7 @@ PERL_PATH              = /usr/bin/perl
 # powerful graphs.
 # The default value is: YES.
 
-CLASS_DIAGRAMS         = NO 
+CLASS_DIAGRAMS         = YES 
 #@TODO: YES
 
 # You can define message sequence charts within doxygen comments using the \msc
@@ -2158,7 +2158,7 @@ DOT_FONTPATH           =
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-CLASS_GRAPH            = NO
+CLASS_GRAPH            = YES
 #@TODO: YES
 
 # If the COLLABORATION_GRAPH tag is set to YES then doxygen will generate a
@@ -2168,7 +2168,7 @@ CLASS_GRAPH            = NO
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-COLLABORATION_GRAPH    = NO
+COLLABORATION_GRAPH    = YES
 #@TODO: YES
 
 # If the GROUP_GRAPHS tag is set to YES then doxygen will generate a graph for
@@ -2176,7 +2176,7 @@ COLLABORATION_GRAPH    = NO
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-GROUP_GRAPHS           = NO
+GROUP_GRAPHS           = YES
 #@TODO: YES
 
 # If the UML_LOOK tag is set to YES, doxygen will generate inheritance and
@@ -2185,7 +2185,7 @@ GROUP_GRAPHS           = NO
 # The default value is: NO.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-UML_LOOK               = NO
+UML_LOOK               = YES
 #@TODO: YES
 
 # If the UML_LOOK tag is enabled, the fields and methods are shown inside the
@@ -2216,7 +2216,7 @@ TEMPLATE_RELATIONS     = NO
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-INCLUDE_GRAPH          = NO
+INCLUDE_GRAPH          = YES
 #@TODO: YES
 
 # If the INCLUDED_BY_GRAPH, ENABLE_PREPROCESSING and SEARCH_INCLUDES tags are
@@ -2226,7 +2226,7 @@ INCLUDE_GRAPH          = NO
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-INCLUDED_BY_GRAPH      = NO
+INCLUDED_BY_GRAPH      = YES
 #@TODO: YES
 
 # If the CALL_GRAPH tag is set to YES then doxygen will generate a call
@@ -2239,7 +2239,7 @@ INCLUDED_BY_GRAPH      = NO
 # The default value is: NO.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-CALL_GRAPH             = NO
+CALL_GRAPH             = YES
 #@TODO: YES
 
 # If the CALLER_GRAPH tag is set to YES then doxygen will generate a caller
@@ -2252,7 +2252,7 @@ CALL_GRAPH             = NO
 # The default value is: NO.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-CALLER_GRAPH           = NO
+CALLER_GRAPH           = YES
 #@TODO: YES
 
 # If the GRAPHICAL_HIERARCHY tag is set to YES then doxygen will graphical

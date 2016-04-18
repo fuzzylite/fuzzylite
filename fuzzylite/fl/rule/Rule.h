@@ -131,7 +131,8 @@ namespace fl {
           property can be found in the case of activation methods like First or 
           Last, which compute the activation degree of the rules without 
           necessarily activating the rules.
-          @param active indicates whether the rule has been activated
+          
+          @param activated determines whether the rule has been activated
          */
         virtual void setActivated(bool activated);
 

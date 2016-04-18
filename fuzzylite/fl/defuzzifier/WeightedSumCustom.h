@@ -55,7 +55,7 @@ namespace fl {
           set to AlgebraicProduct and UnboundedSum, respectively), then the 
           operation of WeightedAverageCustom is the same as the WeightedAverage.
           Otherwise, the implication and aggregation operators are utilized to 
-          compute the multiplications and sums in @f$y$f, respectively.
+          compute the multiplications and sums in @f$y@f$, respectively.
          
           @param term is the fuzzy set represented as an AggregatedTerm
           @param minimum is the minimum value of the range (only used for Tsukamoto)

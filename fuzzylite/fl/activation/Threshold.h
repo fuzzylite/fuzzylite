@@ -114,7 +114,7 @@ namespace fl {
         
         /**
           Returns the given comparison operator of the activation method
-          @parameter comparison is a valid enum value
+          @param comparison is a valid enum value
           @return the comparison operator for the given enum value
          */
         virtual std::string comparisonOperator(Comparison comparison) const;
