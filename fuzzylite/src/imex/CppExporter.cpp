@@ -241,7 +241,10 @@ namespace fl {
 
     std::string CppExporter::toString(const Activation* activation) const {
         if (not activation) return "fl::null";
-        return "new " + fl(activation->className());
+        std::string parameters = Op::trim(activation->parameters());
+        if (parameters.empty())
+            return "new " + fl(activation->className());
+        return "new " + fl(activation->className()) + "(\"" + parameters + "\")";
     }
 
     CppExporter* CppExporter::clone() const {

@@ -44,18 +44,11 @@ namespace fl {
         std::vector<std::string> sections;
         while (std::getline(fisReader, line)) {
             ++lineNumber;
-            std::vector<std::string> comments;
-            comments = Op::split(line, "//");
-            if (comments.size() > 1) {
-                line = comments.front();
-            }
-            comments = Op::split(line, "#");
-            if (comments.size() > 1) {
-                line = comments.front();
-            }
+            //remove comments
+            line = Op::split(line, "//", false).front();
+            line = Op::split(line, "#", false).front();
             line = Op::trim(line);
-            if (line.empty() or line.at(0) == '%' or line.at(0) == '#'
-                    or (line.substr(0, 2) == "//")) {
+            if (line.empty() or line.at(0) == '%') {
                 continue;
             }
 
@@ -143,8 +136,9 @@ namespace fl {
             std::string key = fl::Op::trim(keyValue.at(0));
             std::string value = fl::Op::trim(keyValue.at(1));
 
-            if (key == "Name") input->setName(fl::Op::validName(value));
-            else if (key == "Enabled") {
+            if (key == "Name") {
+                input->setName(fl::Op::validName(value));
+            } else if (key == "Enabled") {
                 input->setEnabled(Op::isEq(Op::toScalar(value), 1.0));
             } else if (key == "Range") {
                 std::pair<scalar, scalar> minmax = parseRange(value);
@@ -177,8 +171,9 @@ namespace fl {
             std::string key = fl::Op::trim(keyValue.at(0));
             std::string value = fl::Op::trim(keyValue.at(1));
 
-            if (key == "Name") output->setName(fl::Op::validName(value));
-            else if (key == "Enabled") {
+            if (key == "Name") {
+                output->setName(fl::Op::validName(value));
+            } else if (key == "Enabled") {
                 output->setEnabled(Op::isEq(Op::toScalar(value), 1.0));
             } else if (key == "Range") {
                 std::pair<scalar, scalar> minmax = parseRange(value);

@@ -52,18 +52,10 @@ namespace fl {
         std::size_t lineNumber = 0;
         while (std::getline(fclReader, line)) {
             ++lineNumber;
-            std::vector<std::string> comments;
-            comments = Op::split(line, "//");
-            if (comments.size() > 1) {
-                line = comments.front();
-            }
-            comments = Op::split(line, "#");
-            if (comments.size() > 1) {
-                line = comments.front();
-            }
+            line = Op::split(line, "//", false).front();
+            line = Op::split(line, "#", false).front();
             line = Op::trim(line);
-            if (line.empty() or line.at(0) == '%' or line.at(0) == '#'
-                    or (line.substr(0, 2) == "//")) {
+            if (line.empty() or line.at(0) == '%') {
                 continue;
             }
             line = fl::Op::findReplace(line, ";", "");

@@ -77,10 +77,6 @@ namespace fl {
     std::string FclExporter::toString(const InputVariable* inputVariable) const {
         std::ostringstream fcl;
         fcl << "FUZZIFY " << Op::validName(inputVariable->getName()) << "\n";
-        if (not inputVariable->isEnabled()) {
-            fcl << _indent << "ENABLED : " <<
-                    (inputVariable->isEnabled() ? "TRUE" : "FALSE") << ";\n";
-        }
         fcl << _indent << "RANGE := (" << fl::Op::join(2, " .. ",
                 inputVariable->getMinimum(), inputVariable->getMaximum())
                 << ");\n";
@@ -97,10 +93,6 @@ namespace fl {
     std::string FclExporter::toString(const OutputVariable* outputVariable) const {
         std::ostringstream fcl;
         fcl << "DEFUZZIFY " << Op::validName(outputVariable->getName()) << "\n";
-        if (not outputVariable->isEnabled()) {
-            fcl << _indent << "ENABLED : " <<
-                    (outputVariable->isEnabled() ? "TRUE" : "FALSE") << ";\n";
-        }
         fcl << _indent << "RANGE := (" << fl::Op::join(2, " .. ",
                 outputVariable->getMinimum(), outputVariable->getMaximum())
                 << ");\n";
@@ -122,10 +114,6 @@ namespace fl {
         }
         fcl << ";\n";
 
-        if (outputVariable->isLockValueInRange()) {
-            fcl << _indent << "LOCK : RANGE;\n";
-        }
-
         fcl << "END_DEFUZZIFY\n";
         return fcl.str();
     }
@@ -133,10 +121,6 @@ namespace fl {
     std::string FclExporter::toString(const RuleBlock* ruleBlock) const {
         std::ostringstream fcl;
         fcl << "RULEBLOCK " << ruleBlock->getName() << "\n";
-        if (not ruleBlock->isEnabled()) {
-            fcl << _indent << "ENABLED : " <<
-                    (ruleBlock->isEnabled() ? "TRUE" : "FALSE") << ";\n";
-        }
         if (ruleBlock->getConjunction())
             fcl << _indent << "AND : " << toString(ruleBlock->getConjunction()) << ";\n";
         if (ruleBlock->getDisjunction())

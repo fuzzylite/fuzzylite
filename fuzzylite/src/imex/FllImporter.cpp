@@ -42,53 +42,36 @@ namespace fl {
         return this->_separator;
     }
 
-    Engine* FllImporter::fromString(const std::string& fll) const {
+    Engine* FllImporter::fromString(const std::string& code) const {
         FL_unique_ptr<Engine> engine(new Engine);
 
+        const std::string fll = Op::join(Op::split(code, _separator), "\n");
         std::string tag;
         std::ostringstream block;
-        std::istringstream fclReader(fll);
+        std::istringstream fllReader(fll);
         std::string line;
-        std::queue<std::string> lineQueue;
 
-        bool processPending = false;
-        std::size_t lineNumber = 0;
-        while (not lineQueue.empty() or std::getline(fclReader, line)) {
-            if (not lineQueue.empty()) {
-                line = lineQueue.front();
-                lineQueue.pop();
-            } else {
-                line = clean(line);
-                if (line.empty()) continue;
-                std::vector<std::string> split = Op::split(line, _separator);
-                line = clean(split.front());
-                for (std::size_t i = 1; i < split.size(); ++i) {
-                    lineQueue.push(clean(split.at(i)));
-                }
-                ++lineNumber;
-            }
+        while (std::getline(fllReader, line)) {
+            line = Op::trim(Op::split(line, "#", false).front()); //remove comments
             if (line.empty()) continue;
             std::size_t colon = line.find_first_of(':');
             if (colon == std::string::npos) {
-                throw fl::Exception("[import error] expected a colon at line " +
-                        Op::str(lineNumber) + ": " + line, FL_AT);
+                throw fl::Exception("[import error] expected a colon here: " + line, FL_AT);
             }
             std::string key = Op::trim(line.substr(0, colon));
             std::string value = Op::trim(line.substr(colon + 1));
             if ("Engine" == key) {
                 engine->setName(value);
                 continue;
-            } else {
-                processPending = (key == "InputVariable"
-                        or key == "OutputVariable"
-                        or key == "RuleBlock");
-            }
-            if (processPending) {
+            } else if (key == "InputVariable"
+                    or key == "OutputVariable"
+                    or key == "RuleBlock") {
                 process(tag, block.str(), engine.get());
                 block.str(""); //clear buffer
                 block.clear(); //clear error flags
-                processPending = false;
                 tag = key;
+            } else if (tag.empty()) {
+                throw fl::Exception("[import error] unexpected block: " + line, FL_AT);
             }
             block << key << ":" << value << "\n";
         }
@@ -98,6 +81,7 @@ namespace fl {
 
     void FllImporter::process(const std::string& tag, const std::string& block, Engine* engine) const {
         if (tag.empty()) return;
+        //        FL_LOG("Processing " << tag << "\n" << block);
         if ("InputVariable" == tag) {
             processInputVariable(block, engine);
         } else if ("OutputVariable" == tag) {
@@ -199,7 +183,7 @@ namespace fl {
                     FL_LOG("[warning] obsolete usage of identifier <activation: TNorm> "
                             "in RuleBlock");
                     FL_LOG("[information] from version 6.0, the identifiers are "
-                            "<activation: Activation> for Activation methods " 
+                            "<activation: Activation> for Activation methods "
                             "and <implication: TNorm> for T-Norms");
                     FL_LOG("[backward compatibility] assumed "
                             "<implication: " << keyValue.second << "> "
@@ -259,6 +243,7 @@ namespace fl {
         if (text == "none") return FactoryManager::instance()->activation()->constructObject("");
         std::vector<std::string> tokens = Op::split(text, " ");
         fl::Activation* result = FactoryManager::instance()->activation()->constructObject(tokens.front());
+
         std::ostringstream parameters;
         for (std::size_t i = 1; i < tokens.size(); ++i) {
             parameters << tokens.at(i);
@@ -314,29 +299,6 @@ namespace fl {
         result.first = text.substr(0, half);
         result.second = text.substr(half + 1);
         return result;
-    }
-
-    std::string FllImporter::clean(const std::string& line) const {
-        if (line.empty()) return line;
-        if (line.size() == 1) return isspace(line.at(0)) ? "" : line;
-        std::size_t start = 0, end = line.size() - 1;
-        while (start <= end and isspace(line.at(start))) {
-            ++start;
-        }
-        std::size_t sharp = start;
-        while (sharp <= end) {
-            if (line.at(sharp) == '#') {
-                end = sharp - 1;
-                break;
-            }
-            ++sharp;
-        }
-        while (end >= start and (line.at(end) == '#' or isspace(line.at(end)))) {
-            --end;
-        }
-
-        std::size_t length = end - start + 1;
-        return line.substr(start, length);
     }
 
     FllImporter* FllImporter::clone() const {

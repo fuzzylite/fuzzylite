@@ -102,9 +102,6 @@ namespace fl {
         for (std::size_t ixVar = 0; ixVar < engine->numberOfInputVariables(); ++ixVar) {
             InputVariable* var = engine->getInputVariable(ixVar);
             fis << "[Input" << (ixVar + 1) << "]\n";
-            if (not var->isEnabled()) {
-                fis << "Enabled=" << var->isEnabled() << "\n";
-            }
             fis << "Name='" << Op::validName(var->getName()) << "'\n";
             fis << "Range=[" << fl::Op::join(2, " ", var->getMinimum(), var->getMaximum()) << "]\n";
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
@@ -122,20 +119,8 @@ namespace fl {
         for (std::size_t ixVar = 0; ixVar < engine->numberOfOutputVariables(); ++ixVar) {
             OutputVariable* var = engine->getOutputVariable(ixVar);
             fis << "[Output" << (ixVar + 1) << "]\n";
-            if (not var->isEnabled()) {
-                fis << "Enabled=" << var->isEnabled() << "\n";
-            }
             fis << "Name='" << Op::validName(var->getName()) << "'\n";
             fis << "Range=[" << fl::Op::join(2, " ", var->getMinimum(), var->getMaximum()) << "]\n";
-            if (not fl::Op::isNaN(var->getDefaultValue())) {
-                fis << "Default=" << fl::Op::str(var->getDefaultValue()) << "\n";
-            }
-            if (var->isLockPreviousValue()) {
-                fis << "LockPrevious=" << var->isLockPreviousValue() << "\n";
-            }
-            if (var->isLockValueInRange()) {
-                fis << "LockRange=" << var->isLockValueInRange() << "\n";
-            }
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
             for (std::size_t ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
                 fis << "MF" << (ixTerm + 1) << "='" << Op::validName(var->getTerm(ixTerm)->getName()) << "':"

@@ -2,6 +2,7 @@ test/catch.hpp
 test/test.cpp
 test/activation/Threshold.cpp
 test/hedge/HedgeFunction.cpp
+test/imex/FllImporter.cpp
 test/norm/NormFunction.cpp
 test/term/Function.cpp
 test/term/Trapezoid.cpp

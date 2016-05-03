@@ -214,7 +214,10 @@ namespace fl {
 
     std::string JavaExporter::toString(const Activation* activation) const {
         if (not activation) return "null";
-        return "new " + activation->className() + "()";
+        std::string parameters = Op::trim(activation->parameters());
+        if (parameters.empty())
+            return "new " + activation->className() + "()";
+        return "new " + activation->className() + "(\"" + parameters + "\")";
     }
 
     std::string JavaExporter::toString(scalar value) const {
