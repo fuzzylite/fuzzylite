@@ -44,14 +44,12 @@ namespace fl {
 
         /**
           No parameters are required to configure the activation method
-          
           @return an empty string
          */
         virtual std::string parameters() const FL_IOVERRIDE;
 
         /**
           No parameters are required to configure the activation method
-          
           @param parameters is an empty string
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
@@ -59,7 +57,6 @@ namespace fl {
         /**
           Activates the rules utilizing activation degrees proportional to 
           the activation degrees of the other rules in the rule block.
-          
           @param ruleBlock is the rule block to activate.
          */
         virtual void activate(RuleBlock* ruleBlock) const FL_IOVERRIDE;

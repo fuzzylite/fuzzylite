@@ -28,6 +28,10 @@ namespace fl {
     Lowest::Lowest(int numberOfRules) : Activation(), _numberOfRules(numberOfRules) {
     }
 
+    Lowest::Lowest(const std::string& parameters) : Activation(), _numberOfRules(1) {
+        configure(parameters);
+    }
+
     Lowest::~Lowest() {
 
     }

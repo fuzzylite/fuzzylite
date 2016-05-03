@@ -39,11 +39,8 @@ namespace fl {
     private:
         int _numberOfRules;
     public:
-        /**
-          A constructor with the number of rules to activate.
-          @param numberOfRules number of rules to activate
-         */
         explicit Highest(int numberOfRules = 1);
+        explicit Highest(const std::string& parameters);
         virtual ~Highest();
         FL_DEFAULT_COPY_AND_MOVE(Highest)
 

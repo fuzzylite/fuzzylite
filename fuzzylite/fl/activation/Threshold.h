@@ -64,14 +64,9 @@ namespace fl {
         Comparison _comparison;
         scalar _value;
     public:
-        /**
-          A constructor with the comparison operator and threshold.
-          
-          @param comparison is the comparison operator
-          @param threshold is the threshold
-         */
         explicit Threshold(Comparison comparison = GreaterThanOrEqualTo, scalar threshold = 0.0);
-        explicit Threshold(const std::string& comparison, scalar threshold = 0.0);
+        explicit Threshold(const std::string& comparison, scalar threshold);
+        explicit Threshold(const std::string& parameters);
         virtual ~Threshold();
         FL_DEFAULT_COPY_AND_MOVE(Threshold)
 
@@ -79,7 +74,6 @@ namespace fl {
 
         /**
           Returns the comparison operator followed by the threshold.
-          
           @return comparison operator and threshold
          */
         virtual std::string parameters() const FL_IOVERRIDE;
@@ -87,21 +81,18 @@ namespace fl {
         /**
           Configures the activation method with the comparison operator and the 
           threshold.
-          
           @param parameters is the comparison operator and threshold
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
         /**
           Sets the comparison operator for the activation method
-          
           @param comparison is the operator for the activation method
          */
         virtual void setComparison(Comparison comparison);
 
         /**
           Gets the comparison operator for the activation method
-          
           @return comparison operator for the activation method
          */
         virtual Comparison getComparison() const;
@@ -158,7 +149,6 @@ namespace fl {
         /**
           Sets the comparison operator and the threshold for the activation method, 
           and throws and fl::Exception if the comparison operator is not valid
-          
           @param comparison is a valid comparison operator
           @param threshold is the threshold for activation degrees
          */
@@ -167,7 +157,6 @@ namespace fl {
         /**
           Returns whether the activation method will activate a rule with
           the given activation degree
-          
           @param activationDegree an activation degree
           @return whether the comparison equation is satisfied with the  
           activation degree and the threshold
@@ -178,7 +167,6 @@ namespace fl {
           Activates the rules whose activation degrees satisfy the comparison
           equation with the given threshold, and deactivate the rules which do
           not.
-        
           @param ruleBlock is the rule block to activate
          */
         virtual void activate(RuleBlock* ruleBlock) const FL_IOVERRIDE;

@@ -42,6 +42,7 @@ namespace fl {
     public:
 
         explicit First(int numberOfRules = 1, scalar threshold = 0.0);
+        explicit First(const std::string& parameters);
         virtual ~First();
         FL_DEFAULT_COPY_AND_MOVE(First)
 

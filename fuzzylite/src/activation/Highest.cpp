@@ -28,6 +28,10 @@ namespace fl {
     Highest::Highest(int numberOfRules) : Activation(), _numberOfRules(numberOfRules) {
     }
 
+    Highest::Highest(const std::string& parameters) : Activation(), _numberOfRules(1) {
+        configure(parameters);
+    }
+
     Highest::~Highest() {
 
     }

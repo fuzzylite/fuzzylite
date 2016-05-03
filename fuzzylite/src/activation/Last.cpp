@@ -25,9 +25,14 @@
 
 namespace fl {
 
-    Last::Last(int numberOfRules, scalar threshold) : Activation(), 
-            _numberOfRules(numberOfRules), _threshold(threshold) {
+    Last::Last(int numberOfRules, scalar threshold) : Activation(),
+    _numberOfRules(numberOfRules), _threshold(threshold) {
 
+    }
+
+    Last::Last(const std::string& parameters) : Activation(),
+    _numberOfRules(1), _threshold(0.0) {
+        configure(parameters);
     }
 
     Last::~Last() {

@@ -29,6 +29,11 @@ namespace fl {
     _numberOfRules(numberOfRules), _threshold(threshold) {
 
     }
+    
+    First::First(const std::string& parameters) : Activation(),
+    _numberOfRules(1), _threshold(0.0){
+        configure(parameters);
+    }
 
     First::~First() {
 

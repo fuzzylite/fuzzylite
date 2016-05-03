@@ -39,11 +39,8 @@ namespace fl {
     private:
         int _numberOfRules;
     public:
-        /**
-          A constructor with the number of rules to activate.
-          @param numberOfRules number of rules to activate
-         */
         explicit Lowest(int numberOfRules = 1);
+        explicit Lowest(const std::string& parameters);
         virtual ~Lowest();
         FL_DEFAULT_COPY_AND_MOVE(Lowest)
 
