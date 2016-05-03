@@ -51,6 +51,4 @@ namespace fl {
         Engine empty;
         CHECK(FllExporter().toString(engine.get()) == FllExporter().toString(&empty));
     }
-
-
 }
