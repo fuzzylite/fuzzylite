@@ -4,6 +4,7 @@ test/activation/Threshold.cpp
 test/hedge/HedgeFunction.cpp
 test/imex/FllImporter.cpp
 test/norm/NormFunction.cpp
+test/term/Aggregated.cpp
 test/term/Function.cpp
 test/term/Trapezoid.cpp
 test/term/Triangle.cpp

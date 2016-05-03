@@ -92,7 +92,14 @@ namespace fl {
           @return the aggregated activation degree for the given term
          */
         virtual scalar activationDegree(const Term* forTerm) const;
-
+        
+        /**
+          Iterates over the Activated terms to find the term with the maximum
+          activation degree
+          @return the term with the maximum activation degree
+         */
+        virtual const Activated* highestActivatedTerm() const;
+        
         virtual std::string toString() const FL_IOVERRIDE;
 
         /**

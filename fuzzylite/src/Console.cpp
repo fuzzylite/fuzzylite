@@ -715,7 +715,7 @@ namespace fl {
         }
         std::string spacedPath(40, ' ');
         std::copy(path.begin(), path.end(), spacedPath.begin());
-        FL_LOG(spacedPath << "\t" << "mean\tstdev\n" << Op::join(runNumbers, "\t"));
+        FL_LOG(spacedPath << "\t" << "mean\tstdev\tevals\n" << Op::join(runNumbers, "\t"));
 
         FllImporter importer;
         FldExporter exporter;
@@ -728,7 +728,7 @@ namespace fl {
             FL_unique_ptr<Engine> engine(importer.fromFile(sourceBase + examples.at(e).first + ".fll"));
 
             std::vector<scalar> seconds;
-            int results = (examples.at(e).second)^ engine->numberOfInputVariables();
+            int results = int(std::pow(float(examples.at(e).second), engine->numberOfInputVariables()));
 
             for (int r = 0; r < runs; ++r) {
                 auto start = std::chrono::system_clock::now();
@@ -745,7 +745,7 @@ namespace fl {
             std::string spacedExample(40, ' ');
             std::string exampleName = examples.at(e).first;
             std::copy(exampleName.begin(), exampleName.end(), spacedExample.begin());
-            FL_LOG(spacedExample << "\t" << fl::Op::str(mean) << "\t" << fl::Op::str(stdev) << "\n" <<
+            FL_LOG(spacedExample << "\t" << fl::Op::str(mean) << "\t" << fl::Op::str(stdev) << "\t" << results << "\n" <<
                     Op::join(seconds, "\t"));
         }
     }

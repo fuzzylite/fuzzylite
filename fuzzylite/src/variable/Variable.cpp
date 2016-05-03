@@ -130,9 +130,10 @@ namespace fl {
     std::string Variable::fuzzify(scalar x) const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < terms().size(); ++i) {
+            Term* term = terms().at(i);
             scalar fx = fl::nan;
             try {
-                fx = terms().at(i)->membership(x);
+                fx = term->membership(x);
             } catch (...) {
                 //ignore
             }
@@ -144,7 +145,7 @@ namespace fl {
                 else
                     ss << " - " << fl::Op::str(std::fabs(fx));
             }
-            ss << "/" << terms().at(i)->getName();
+            ss << "/" << term->getName();
         }
         return ss.str();
     }
@@ -154,14 +155,15 @@ namespace fl {
         scalar ymax = 0.0;
         for (std::size_t i = 0; i < terms().size(); ++i) {
             scalar y = fl::nan;
+            Term* term = terms().at(i);
             try {
-                y = terms().at(i)->membership(x);
+                y = term->membership(x);
             } catch (...) {
                 //ignore
             }
             if (fl::Op::isGt(y, ymax)) {
                 ymax = y;
-                result = terms().at(i);
+                result = term;
             }
         }
         if (yhighest) *yhighest = ymax;

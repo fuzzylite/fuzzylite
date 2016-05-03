@@ -223,6 +223,7 @@ namespace fl {
 
         for (std::size_t i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
+            //@todo: delete defuzzify
             outputVariable->defuzzify();
             if (_exportOutputValues)
                 values.push_back(Op::str(outputVariable->getValue()));

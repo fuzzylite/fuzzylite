@@ -92,6 +92,19 @@ namespace fl {
         return result;
     }
 
+    const Activated* Aggregated::highestActivatedTerm() const {
+        const Activated* maximumTerm = fl::null;
+        fl::scalar maximumActivation = -fl::inf;
+        for (std::size_t i = 0  ; i < _terms.size(); ++i){
+            const Activated& activated = _terms.at(i);
+            if (fl::Op::isGt(activated.getDegree(), maximumActivation)){
+                maximumActivation = activated.getDegree();
+                maximumTerm = &activated;
+            }
+        }
+        return maximumTerm;
+    }
+
     std::string Aggregated::parameters() const {
         FllExporter exporter;
         std::ostringstream ss;

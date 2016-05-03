@@ -186,7 +186,7 @@ namespace fl {
          */
         static scalar scale(scalar x, scalar fromMin, scalar fromMax,
                 scalar toMin, scalar toMax);
-        
+
         /**
           Linearly interpolates the parameter @f$x@f$ in range
           `[fromMin,fromMax]` to a new value in the range `[toMin,toMax]`, 
@@ -343,7 +343,7 @@ namespace fl {
           @return whether @f$a@f$ is less than @f$b@f$ at the default `macheps`
          */
         static scalar lt(scalar a, scalar b);
-        
+
         /**
           Returns a random number 
          */
@@ -643,7 +643,7 @@ namespace fl {
     inline scalar Operation::scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax) {
         return (toMax - toMin) / (fromMax - fromMin) * (x - fromMin) + toMin;
     }
-    
+
     inline scalar Operation::scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax, bool bounded) {
         scalar result = (toMax - toMin) / (fromMax - fromMin) * (x - fromMin) + toMin;
         return bounded ? fl::Op::bound(result, toMin, toMax) : result;
@@ -712,8 +712,8 @@ namespace fl {
     inline scalar Operation::lt(scalar a, scalar b) {
         return isLt(a, b);
     }
-    
-    inline int Operation::random(){
+
+    inline int Operation::random() {
         return std::rand();
     }
 
