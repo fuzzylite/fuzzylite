@@ -23,7 +23,7 @@ namespace fl {
         FL_LOG("Working..");
         std::string fllTemplate;
 #ifdef FL_CPP11
-        fllTemplate = R"(
+        fllTemplate = R""(
 #Template: FuzzyLite Language (FLL)
 #Engine: string
 #InputVariable: identifier
@@ -45,7 +45,7 @@ namespace fl {
 #  disjunction: SNorm|none
 #  implication: TNorm|none
 #  rule: if antecedent then consequent with weight
-)";
+)"";
 #endif
         FL_unique_ptr<Engine> engine(FllImporter().fromString(fllTemplate));
         Engine empty;
