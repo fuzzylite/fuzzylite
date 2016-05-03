@@ -7,7 +7,7 @@ NumRules=4
 AndMethod='prod'
 OrMethod='max'
 ImpMethod='min'
-AggMethod='sum'
+AggMethod='probor'
 DefuzzMethod='centroid'
 
 [Input1]
