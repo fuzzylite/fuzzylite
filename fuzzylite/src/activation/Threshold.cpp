@@ -33,11 +33,6 @@ namespace fl {
 
     }
 
-    Threshold::Threshold(const std::string& parameters) : Activation(),
-    _comparison(GreaterThanOrEqualTo), _value(0.0) {
-        configure(parameters);
-    }
-
     Threshold::~Threshold() {
 
     }

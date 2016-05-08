@@ -30,11 +30,6 @@ namespace fl {
 
     }
 
-    Last::Last(const std::string& parameters) : Activation(),
-    _numberOfRules(1), _threshold(0.0) {
-        configure(parameters);
-    }
-
     Last::~Last() {
 
     }

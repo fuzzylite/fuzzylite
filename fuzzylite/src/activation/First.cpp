@@ -29,11 +29,6 @@ namespace fl {
     _numberOfRules(numberOfRules), _threshold(threshold) {
 
     }
-    
-    First::First(const std::string& parameters) : Activation(),
-    _numberOfRules(1), _threshold(0.0){
-        configure(parameters);
-    }
 
     First::~First() {
 
@@ -76,7 +71,7 @@ namespace fl {
             if (rule->isLoaded()) {
                 scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
                 rule->setActivationDegree(activationDegree);
-                if (activated < getNumberOfRules() 
+                if (activated < getNumberOfRules()
                         and Op::isGt(activationDegree, 0.0)
                         and Op::isGE(activationDegree, getThreshold())) {
                     rule->activate(activationDegree, implication);

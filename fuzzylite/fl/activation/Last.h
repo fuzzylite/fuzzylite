@@ -43,7 +43,6 @@ namespace fl {
         scalar _threshold;
     public:
         explicit Last(int numberOfRules = 1, scalar threshold = 0.0);
-        explicit Last(const std::string& parameters);
         virtual ~Last();
         FL_DEFAULT_COPY_AND_MOVE(Last)
 

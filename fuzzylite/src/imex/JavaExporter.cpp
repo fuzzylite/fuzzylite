@@ -215,9 +215,14 @@ namespace fl {
     std::string JavaExporter::toString(const Activation* activation) const {
         if (not activation) return "null";
         std::string parameters = Op::trim(activation->parameters());
-        if (parameters.empty())
-            return "new " + activation->className() + "()";
-        return "new " + activation->className() + "(\"" + parameters + "\")";
+        if (parameters.empty()) return "new " + activation->className() + "()";
+
+        std::vector<std::string> values = Op::split(parameters, " ");
+        for (std::size_t i = 0; i < values.size(); ++i) {
+            std::string parameter = values.at(i);
+            values.at(i) = (Op::isNumeric(parameter) ? parameter : "\"" + parameter + "\"");
+        }
+        return "new " + activation->className() + "(" + Op::join(values, ", ") + ")";
     }
 
     std::string JavaExporter::toString(scalar value) const {

@@ -40,7 +40,6 @@ namespace fl {
         int _numberOfRules;
     public:
         explicit Highest(int numberOfRules = 1);
-        explicit Highest(const std::string& parameters);
         virtual ~Highest();
         FL_DEFAULT_COPY_AND_MOVE(Highest)
 

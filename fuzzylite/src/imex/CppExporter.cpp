@@ -242,10 +242,14 @@ namespace fl {
     std::string CppExporter::toString(const Activation* activation) const {
         if (not activation) return "fl::null";
         std::string parameters = Op::trim(activation->parameters());
-        if (parameters.empty())
-            return "new " + fl(activation->className());
-        //@todo: Fix Activation(configure(std::string))
-        return "new " + fl(activation->className()) + "(\"" + parameters + "\")";
+        if (parameters.empty()) return "new " + fl(activation->className());
+
+        std::vector<std::string> values = Op::split(parameters, " ");
+        for (std::size_t i = 0; i < values.size(); ++i) {
+            std::string parameter = values.at(i);
+            values.at(i) = (Op::isNumeric(parameter) ? parameter : "\"" + parameter + "\"");
+        }
+        return "new " + fl(activation->className()) + "(" + Op::join(values, ", ") + ")";
     }
 
     CppExporter* CppExporter::clone() const {

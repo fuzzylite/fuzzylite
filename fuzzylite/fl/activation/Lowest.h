@@ -40,7 +40,6 @@ namespace fl {
         int _numberOfRules;
     public:
         explicit Lowest(int numberOfRules = 1);
-        explicit Lowest(const std::string& parameters);
         virtual ~Lowest();
         FL_DEFAULT_COPY_AND_MOVE(Lowest)
 
