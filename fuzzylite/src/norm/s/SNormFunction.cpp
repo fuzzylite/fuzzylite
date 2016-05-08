@@ -35,7 +35,7 @@ namespace fl {
     scalar SNormFunction::compute(scalar a, scalar b) const {
         _function.variables["a"] = a;
         _function.variables["b"] = b;
-        return _function.evaluate(&_function.variables);
+        return _function.evaluate();
     }
 
     Function& SNormFunction::function() {

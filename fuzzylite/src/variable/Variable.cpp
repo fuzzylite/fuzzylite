@@ -51,9 +51,9 @@ namespace fl {
     void Variable::copyFrom(const Variable& other) {
         _name = other._name;
         _value = other._value;
-        _enabled = other._enabled;
         _minimum = other._minimum;
         _maximum = other._maximum;
+        _enabled = other._enabled;
         _lockValueInRange = other._lockValueInRange;
         for (std::size_t i = 0; i < other._terms.size(); ++i) {
             _terms.push_back(other._terms.at(i)->clone());
@@ -75,11 +75,9 @@ namespace fl {
     }
 
     void Variable::setValue(scalar value) {
-        if (_lockValueInRange) {
-            this->_value = fl::Op::bound(value, _minimum, _maximum);
-        } else {
-            this->_value = value;
-        }
+        this->_value = _lockValueInRange
+                ? fl::Op::bound(value, _minimum, _maximum)
+                : value;
     }
 
     scalar Variable::getValue() const {

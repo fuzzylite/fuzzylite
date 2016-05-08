@@ -270,7 +270,7 @@ namespace fl {
           @return the function value of this term using the given map of 
           variable substitutions.
          */
-        virtual scalar evaluate(const std::map<std::string, scalar>* variables) const;
+        virtual scalar evaluate(const std::map<std::string, scalar>* variables = fl::null) const;
 
         virtual std::string className() const FL_IOVERRIDE;
         /**

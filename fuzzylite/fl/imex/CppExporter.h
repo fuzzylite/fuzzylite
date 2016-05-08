@@ -43,11 +43,11 @@ namespace fl {
      */
     class FL_API CppExporter : public Exporter {
     private:
-        bool _prefixNamespace;
-        bool _exportVariableName;
+        bool _usingNamespace;
+        bool _usingVariableNames;
         virtual std::string fl(const std::string& clazz) const;
     public:
-        explicit CppExporter(bool prefixNamespace = false, bool exportVariableName = true);
+        explicit CppExporter(bool usingNamespace = false, bool usingVariableNames = true);
         virtual ~CppExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(CppExporter)
 
@@ -55,32 +55,35 @@ namespace fl {
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
 
         /**
-          Sets whether the fl namespace of the library is prefixed to types
+          Sets whether the fl namespace of the library is prepended to types
           (e.g., `fl::Engine`) 
           
-          @param prefixNamespace indicates whether the `fl` namespace of the
-          library is prefixed to types (e.g., `fl::Engine`)
+          @param usingNamespace whether the fl namespace of the library is 
+          prepended to types (e.g., `fl::Engine`)
          */
-        virtual void setNamespacePrefixed(bool prefixNamespace);
+        virtual void setUsingNamespace(bool usingNamespace);
         /**
-          Gets whether the fl namespace of the library is prefixed to types
+          Gets whether the fl namespace of the library is prepended to types
           (e.g., `fl::Engine`)
-          @return whether the `fl` namespace is prefixed to types
+          @return whether the fl namespace of the library is prepended to types
          */
-        virtual bool isNamespacePrefixed() const;
+        virtual bool isUsingNamespace() const;
         
         /**
-         Sets whether to export variable names 
-         (e.g., `power->setValue(fl::nan)`) instead of numbered variables
+         Sets whether variables are exported using their names
+         (e.g., `power->setValue(fl::nan)`) instead of numbered identifiers
          (e.g., `inputVariable1->setValue(fl::nan)`)
+         @param usingVariableNames indicates whether variables are exported using 
+         their names
          */
-        virtual void setVariableNameExported(bool exportVariableName);
+        virtual void setUsingVariableNames(bool usingVariableNames);
         /**
-         Sets whether to export variable names 
-         (e.g., `power->setValue(fl::nan)`) instead of numbered variables
+         Gets whether variables are exported using their names
+         (e.g., `power->setValue(fl::nan)`) instead of numbered identifiers
          (e.g., `inputVariable1->setValue(fl::nan)`)
+         @return whether variables are exported using their names
          */
-        virtual bool isVariableNameExported() const;
+        virtual bool isUsingVariableNames() const;
 
         /**
           Returns a string representation of InputVariable in the `C++` programming language

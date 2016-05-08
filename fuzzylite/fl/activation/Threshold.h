@@ -47,7 +47,7 @@ namespace fl {
           between the activation degree @f$a@f$ and the threshold @f$\theta@f$. 
          */
         enum Comparison {
-            /**\f$a < \theta@f$*/
+            /**@f$a < \theta@f$*/
             LessThan,
             /**@f$a \leq \theta@f$*/
             LessThanOrEqualTo,
@@ -142,9 +142,9 @@ namespace fl {
           Sets the comparison operator and the threshold for the activation
           method
           @param comparison is an enum option
-          @param threshold is the threshold of the activation method
+          @param value is the threshold of the activation method
          */
-        virtual void setComparisonThreshold(Comparison comparison, scalar threshold);
+        virtual void setThreshold(Comparison comparison, scalar value);
 
         /**
           Sets the comparison operator and the threshold for the activation method, 
@@ -152,7 +152,7 @@ namespace fl {
           @param comparison is a valid comparison operator
           @param threshold is the threshold for activation degrees
          */
-        virtual void setComparisonThreshold(const std::string& comparison, scalar threshold);
+        virtual void setThreshold(const std::string& comparison, scalar value);
 
         /**
           Returns whether the activation method will activate a rule with

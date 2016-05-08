@@ -47,7 +47,7 @@ namespace fl {
 
         const std::string fll = Op::join(Op::split(code, _separator), "\n");
         std::string tag;
-        std::ostringstream block;
+        std::vector<std::string> block;
         std::istringstream fllReader(fll);
         std::string line;
 
@@ -66,16 +66,15 @@ namespace fl {
             } else if (key == "InputVariable"
                     or key == "OutputVariable"
                     or key == "RuleBlock") {
-                process(tag, block.str(), engine.get());
-                block.str(""); //clear buffer
+                process(tag, Op::join(block, "\n"), engine.get());
                 block.clear(); //clear error flags
                 tag = key;
             } else if (tag.empty()) {
                 throw fl::Exception("[import error] unexpected block: " + line, FL_AT);
             }
-            block << key << ":" << value << "\n";
+            block.push_back(key + ":" + value);
         }
-        process(tag, block.str(), engine.get());
+        process(tag, Op::join(block, "\n"), engine.get());
         return engine.release();
     }
 
@@ -239,9 +238,9 @@ namespace fl {
         return FactoryManager::instance()->snorm()->constructObject(name);
     }
 
-    Activation* FllImporter::parseActivation(const std::string& text) const {
-        if (text == "none") return FactoryManager::instance()->activation()->constructObject("");
-        std::vector<std::string> tokens = Op::split(text, " ");
+    Activation* FllImporter::parseActivation(const std::string& name) const {
+        if (name == "none") return FactoryManager::instance()->activation()->constructObject("");
+        std::vector<std::string> tokens = Op::split(name, " ");
         fl::Activation* result = FactoryManager::instance()->activation()->constructObject(tokens.front());
 
         std::ostringstream parameters;

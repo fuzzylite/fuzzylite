@@ -66,7 +66,7 @@ namespace fl {
     }
 
     scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction) const {
-        return this->activationDegree(conjunction, disjunction, _expression.get());
+        return this->activationDegree(conjunction, disjunction, getExpression());
     }
 
     scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction,

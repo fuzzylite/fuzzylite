@@ -127,7 +127,6 @@ namespace fl {
                         proposition = new Proposition;
                         proposition->variable = engine->getOutputVariable(token);
                         conclusions().push_back(proposition);
-
                         state = S_IS;
                         continue;
                     }

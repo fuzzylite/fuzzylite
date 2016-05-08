@@ -22,8 +22,8 @@
 
 namespace fl {
 
-    CppExporter::CppExporter(bool prefixNamespace, bool exportVariableName) : Exporter(),
-    _prefixNamespace(prefixNamespace), _exportVariableName(exportVariableName) {
+    CppExporter::CppExporter(bool prefixNamespace, bool usingVariableNames) : Exporter(),
+    _usingNamespace(prefixNamespace), _usingVariableNames(usingVariableNames) {
     }
 
     CppExporter::~CppExporter() {
@@ -34,28 +34,28 @@ namespace fl {
     }
 
     std::string CppExporter::fl(const std::string& clazz) const {
-        return _prefixNamespace ? "fl::" + clazz : clazz;
+        return _usingNamespace ? "fl::" + clazz : clazz;
     }
 
-    void CppExporter::setNamespacePrefixed(bool prefixNamespace) {
-        this->_prefixNamespace = prefixNamespace;
+    void CppExporter::setUsingNamespace(bool usingNamespace) {
+        this->_usingNamespace = usingNamespace;
     }
 
-    bool CppExporter::isNamespacePrefixed() const {
-        return this->_prefixNamespace;
+    bool CppExporter::isUsingNamespace() const {
+        return this->_usingNamespace;
     }
 
-    void CppExporter::setVariableNameExported(bool exportVariableName) {
-        this->_exportVariableName = exportVariableName;
+    void CppExporter::setUsingVariableNames(bool usingVariableNames) {
+        this->_usingVariableNames = usingVariableNames;
     }
 
-    bool CppExporter::isVariableNameExported() const {
-        return this->_exportVariableName;
+    bool CppExporter::isUsingVariableNames() const {
+        return this->_usingVariableNames;
     }
 
     std::string CppExporter::toString(const Engine* engine) const {
         std::ostringstream cpp;
-        if (not _prefixNamespace) cpp << "using namespace fl;\n\n";
+        if (not isUsingNamespace()) cpp << "using namespace fl;\n\n";
         cpp << fl("Engine* ") << "engine = new " << fl("Engine;\n");
         cpp << "engine->setName(\"" << engine->getName() << "\");\n";
 
@@ -78,7 +78,7 @@ namespace fl {
 
     std::string CppExporter::toString(const InputVariable* inputVariable, const Engine* engine) const {
         std::string name;
-        if (isVariableNameExported()) {
+        if (isUsingVariableNames()) {
             name = fl::Op::validName(inputVariable->getName());
         } else {
             name = "inputVariable";
@@ -106,7 +106,7 @@ namespace fl {
 
     std::string CppExporter::toString(const OutputVariable* outputVariable, const Engine* engine) const {
         std::string name;
-        if (isVariableNameExported()) {
+        if (isUsingVariableNames()) {
             name = fl::Op::validName(outputVariable->getName());
         } else {
             name = "outputVariable";
@@ -244,6 +244,7 @@ namespace fl {
         std::string parameters = Op::trim(activation->parameters());
         if (parameters.empty())
             return "new " + fl(activation->className());
+        //@todo: Fix Activation(configure(std::string))
         return "new " + fl(activation->className()) + "(\"" + parameters + "\")";
     }
 

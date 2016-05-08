@@ -73,6 +73,7 @@ namespace fl {
     void RuleBlock::activate() {
         FL_DBG("===================");
         FL_DBG("ACTIVATING RULEBLOCK " << getName());
+        //@todo: remove check in version 7.0
         if (not getActivation()) {
             setActivation(new General);
         }
@@ -105,20 +106,6 @@ namespace fl {
             fl::Exception exception("[ruleblock error] the following "
                     "rules could not be loaded:\n" + exceptions.str(), FL_AT);
             throw exception;
-        }
-    }
-
-    void RuleBlock::loadRules(const std::string& text, const Engine* engine, bool append) {
-        if (not append) unloadRules();
-        std::vector<std::string> textRules = fl::Op::split(text, "\n");
-        for (std::size_t i = 0; i < textRules.size(); ++i){
-            Rule* rule = new Rule(textRules.at(i));
-            try{
-                rule->load(engine);
-            }catch(...){
-                //ignore
-            }
-            addRule(rule);
         }
     }
 

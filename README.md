@@ -6,7 +6,10 @@ fuzzylite &reg;
 A Fuzzy Logic Control Library in C++
 ------------------------------------
 
-Current version: 6.0 (in progress)
+
+[![Latest release][img-release]][latest-release]
+[![Build status (MASTER)][img-master]][travis-url-master]
+[![Build status (DEV)][img-dev]][travis-url-dev]
 
 By: [Juan Rada-Vilela](http://www.fuzzylite.com/jcrada), Ph.D.
 

@@ -95,7 +95,7 @@ namespace fl {
 
         ss << "\n";
         ss << "Visit " << fuzzylite::website() << " for more information.\n\n";
-        ss << "Copyright (C) 2010-2015 by FuzzyLite Limited.\n";
+        ss << "Copyright (C) 2010-2016 by FuzzyLite Limited.\n";
         ss << "All rights reserved.";
 
         return ss.str();

@@ -119,14 +119,14 @@ namespace fl {
         return this->_value;
     }
 
-    void Threshold::setComparisonThreshold(Comparison comparison, scalar threshold) {
+    void Threshold::setThreshold(Comparison comparison, scalar threshold) {
         setComparison(comparison);
         setValue(threshold);
     }
 
-    void Threshold::setComparisonThreshold(const std::string& comparison, scalar threshold) {
+    void Threshold::setThreshold(const std::string& comparison, scalar value) {
         setComparison(parseComparison(comparison));
-        setValue(threshold);
+        setValue(value);
     }
 
     bool Threshold::activatesWith(scalar activationDegree) const {

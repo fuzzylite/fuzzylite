@@ -21,8 +21,8 @@
 #include <algorithm>
 namespace fl {
 
-    JavaExporter::JavaExporter(bool exportVariableName) : Exporter(),
-    _exportVariableName(exportVariableName) {
+    JavaExporter::JavaExporter(bool usingVariableNames) : Exporter(),
+    _usingVariableNames(usingVariableNames) {
     }
 
     JavaExporter::~JavaExporter() {
@@ -33,12 +33,12 @@ namespace fl {
         return "JavaExporter";
     }
 
-    void JavaExporter::setVariableNameExported(bool exportVariableName) {
-        this->_exportVariableName = exportVariableName;
+    void JavaExporter::setUsingVariableNames(bool usingVariableNames) {
+        this->_usingVariableNames = usingVariableNames;
     }
 
-    bool JavaExporter::isVariableNameExported() const {
-        return this->_exportVariableName;
+    bool JavaExporter::isUsingVariableNames() const {
+        return this->_usingVariableNames;
     }
 
     std::string JavaExporter::toString(const Engine* engine) const {
@@ -65,7 +65,7 @@ namespace fl {
     std::string JavaExporter::toString(const InputVariable* inputVariable, const Engine* engine) const {
         std::ostringstream ss;
         std::string name;
-        if (isVariableNameExported()) {
+        if (isUsingVariableNames()) {
             name = fl::Op::validName(inputVariable->getName());
         } else {
             name = "inputVariable";
@@ -95,7 +95,7 @@ namespace fl {
     std::string JavaExporter::toString(const OutputVariable* outputVariable, const Engine* engine) const {
         std::ostringstream ss;
         std::string name;
-        if (isVariableNameExported()) {
+        if (isUsingVariableNames()) {
             name = fl::Op::validName(outputVariable->getName());
         } else {
             name = "outputVariable";

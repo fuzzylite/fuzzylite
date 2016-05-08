@@ -54,11 +54,11 @@ namespace fl {
             ++lineNumber;
             line = Op::split(line, "//", false).front();
             line = Op::split(line, "#", false).front();
-            line = Op::trim(line);
+            line = Op::trim(Op::findReplace(line, ";", ""));
             if (line.empty() or line.at(0) == '%') {
                 continue;
             }
-            line = fl::Op::findReplace(line, ";", "");
+            
             std::istringstream tokenizer(line);
             std::string firstToken;
             tokenizer >> firstToken;

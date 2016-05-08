@@ -125,17 +125,17 @@ namespace fl {
              * or aggregation operator, the expected behaviour is to leave the 
              * variable in a state that reflects an invalid defuzzification, 
              * that is, apply logic of default values and previous values.*/
+            isValid = false;
             if (getDefuzzifier()) {
                 try{
                     result = getDefuzzifier()->defuzzify(fuzzyOutput(), getMinimum(), getMaximum());
+                    isValid = true;
                 }catch(std::exception& ex){
                     exception = ex.what();
-                    isValid = false;
                 }
             }else{
                 exception = "[defuzzifier error] "
                         "defuzzifier needed to defuzzify output variable <" + getName() + ">";
-                isValid = false;
             }
         }
         

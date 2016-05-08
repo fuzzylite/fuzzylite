@@ -43,27 +43,30 @@ namespace fl {
      */
     class FL_API JavaExporter : public Exporter {
     private:
-        bool _exportVariableName;
+        bool _usingVariableNames;
     public:
-        explicit JavaExporter(bool exportVariableName = true);
+        explicit JavaExporter(bool usingVariableNames = true);
         virtual ~JavaExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(JavaExporter)
 
         virtual std::string name() const FL_IOVERRIDE;
 
         /**
-         Sets whether to export variable names 
-         (e.g., `power.setValue(Double.NaN)`) instead of numbered variables
+         Sets whether variables are exported using their names
+         (e.g., `power.setValue(Double.NaN)`) instead of numbered identifiers
          (e.g., `inputVariable1.setValue(Double.NaN)`)
+         @param usingVariableNames indicates whether variables are exported using 
+         their names
          */
-        virtual void setVariableNameExported(bool exportVariableName);
+        virtual void setUsingVariableNames(bool usingVariableNames);
 
         /**
-         Gets whether to export variable names 
-         (e.g., `power.setValue(Double.NaN)`) instead of numbered variables
+         Gets whether variables are exported using their names
+         (e.g., `power.setValue(Double.NaN)`) instead of numbered identifiers
          (e.g., `inputVariable1.setValue(Double.NaN)`)
+         @return whether variables are exported using their names
          */
-        virtual bool isVariableNameExported() const;
+        virtual bool isUsingVariableNames() const;
 
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
         /**
