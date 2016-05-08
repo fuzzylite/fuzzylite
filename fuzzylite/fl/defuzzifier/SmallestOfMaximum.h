@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -21,18 +21,18 @@
 namespace fl {
 
     /**
-    
+
       The SmallestOfMaximum class is an IntegralDefuzzifier that computes the
       smallest value of the maximum membership function of a fuzzy set
       represented in a Term.
-    
+
       @author Juan Rada-Vilela, Ph.D.
       @see LargestOfMaximum
       @see MeanOfMaximum
       @see IntegralDefuzzifier
       @see Defuzzifier
       @since 4.0
-    
+
      */
     class FL_API SmallestOfMaximum : public IntegralDefuzzifier {
     public:
@@ -51,7 +51,7 @@ namespace fl {
           @param term is the fuzzy set
           @param minimum is the minimum value of the fuzzy set
           @param maximum is the maximum value of the fuzzy set
-          @return the smallest @f$x@f$-coordinate of the maximum membership 
+          @return the smallest @f$x@f$-coordinate of the maximum membership
           function value in the fuzzy set
          */
         virtual scalar defuzzify(const Term* term,

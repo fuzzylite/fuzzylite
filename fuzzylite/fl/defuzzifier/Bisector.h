@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -21,16 +21,16 @@
 namespace fl {
 
     /**
-    
+
       The Bisector class is an IntegralDefuzzifier that computes the bisector
       of a fuzzy set represented in a Term.
-     
+
       @author Juan Rada-Vilela, Ph.D.
       @see Centroid
       @see IntegralDefuzzifier
       @see Defuzzifier
       @since 4.0
-    
+
      */
     class FL_API Bisector : public IntegralDefuzzifier {
     public:
@@ -45,7 +45,7 @@ namespace fl {
           integrates over the fuzzy set utilizing the boundaries given as
           parameters. The integration algorithm is the midpoint rectangle
           method (https://en.wikipedia.org/wiki/Rectangle_method).
-        
+
           @param term is the fuzzy set
           @param minimum is the minimum value of the fuzzy set
           @param maximum is the maximum value of the fuzzy set
@@ -57,7 +57,6 @@ namespace fl {
 
         static Defuzzifier* constructor();
     };
-
 }
 
 #endif  /* FL_BISECTOR_H */

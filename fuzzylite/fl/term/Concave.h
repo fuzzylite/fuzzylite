@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -18,21 +18,20 @@
 
 #include "fl/term/Term.h"
 
-
 namespace fl {
 
     /**
 
       The Concave class is an edge Term that represents the concave membership
       function.
-    
+
       @image html concave.svg
-    
+
       @author Juan Rada-Vilela, Ph.D.
       @see Term
       @see Variable
       @since 5.0
-    
+
      */
     class FL_API Concave : public Term {
     private:
@@ -67,7 +66,7 @@ namespace fl {
           (decreasing concave)} \cr
           h & \mbox{otherwise} \cr
           \end{cases}@f$
-          
+
           where @f$h@f$ is the height of the Term,
                 @f$i@f$ is the inflection of the Concave,
                 @f$e@f$ is the end of the Concave
@@ -100,7 +99,5 @@ namespace fl {
         static Term* constructor();
     };
 }
-
-
 #endif  /* FL_CONCAVE_H */
 

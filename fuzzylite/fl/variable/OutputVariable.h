@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -24,7 +24,7 @@
 namespace fl {
 
     /**
-      
+
       The OutputVariable class is a Variable that represents an output of the
       fuzzy logic controller. During the activation of a RuleBlock, the
       Activated terms of each Rule will be Aggregated in the
@@ -35,7 +35,7 @@ namespace fl {
       value of the OutputVariable is computed and automatically stored when
       calling OutputVariable::defuzzify(), but the value depends on the
       following properties (expressed in the FuzzyLite Language):
-    
+
         - Property `default: scalar` overrides the output value @f$y@f$ with
           the given fl::scalar whenever the defuzzification process results in
           a non-finite value (i.e., fl::nan and fl::inf). For example,
@@ -45,7 +45,7 @@ namespace fl {
           operate, and hence @f$y=0.0@f$. By default, `default: NaN`. Relevant
           methods are OutputVariable::getDefaultValue() and
           OutputVariable::setDefaultValue().
-    
+
         - Property `lock-previous: boolean`, if enabled, overrides the output
           value @f$y^t@f$ at time @f$t@f$ with the previously defuzzified valid
           output value @f$y^{t-1}@f$ if defuzzification process results in a
@@ -58,7 +58,7 @@ namespace fl {
           OutputVariable::isLockPreviousValue,
           OutputVariable::getPreviousValue(), and
           OutputVariable::setPreviousValue().
-    
+
         - Property `lock-range: boolean` overrides the output value @f$y@f$ to
           enforce it lies within the range of the variable determined by
           Variable::getMinimum() and Variable::getMaximum(). When enabled, this
@@ -72,14 +72,14 @@ namespace fl {
           Variable::lockValueInRange(), Variable::isLockValueInRange(),
           Variable::getMinimum(), and Variable::getMaximum()
 
-      
+
       @author Juan Rada-Vilela, Ph.D.
       @see Variable
       @see InputVariable
       @see RuleBlock::activate()
       @see Term
       @since 4.0
-    
+
      */
     class FL_API OutputVariable : public Variable {
     private:
@@ -178,10 +178,9 @@ namespace fl {
         virtual void clear();
 
         virtual std::string toString() const FL_IOVERRIDE;
-        
+
         virtual OutputVariable* clone() const FL_IOVERRIDE;
 
     };
-
 }
 #endif /* FL_OUTPUTVARIABLE_H */

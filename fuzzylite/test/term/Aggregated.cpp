@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -21,9 +21,9 @@ namespace fl {
 
     /**
      * Tests: term/Aggregated
-     * 
+     *
      * @author Juan Rada-Vilela, Ph.D.
-     * 
+     *
      */
 
     TEST_CASE("highest term in aggregated", "[term][aggregated]") {
@@ -38,13 +38,13 @@ namespace fl {
         aggregated.addTerm(bright.get(), 0.6, fl::null);
 
         REQUIRE(aggregated.highestActivatedTerm()->getTerm() == bright.get());
-        
+
         aggregated.terms().at(1).setDegree(0.7);
         REQUIRE(aggregated.highestActivatedTerm()->getTerm() == medium.get());
-        
+
         aggregated.terms().front().setDegree(0.9);
         REQUIRE(aggregated.highestActivatedTerm()->getTerm() == dark.get());
-        
+
         aggregated.clear();
         REQUIRE(aggregated.highestActivatedTerm() == fl::null);
     }

@@ -6,8 +6,8 @@
 #include "fl/Headers.h"
 
 int main(int argc, char** argv) {
-    // global setup...
 
+    // global setup...
     fl::fuzzylite::setDebug(false);
     fl::fuzzylite::setLogging(false);
 

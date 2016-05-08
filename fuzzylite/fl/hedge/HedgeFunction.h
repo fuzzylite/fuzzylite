@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -23,20 +23,20 @@
 namespace fl {
 
     /**
-      
+
      The HedgeFunction class is a customizable Hedge via Function, which
-     computes any function based on the @f$x@f$ value. This hedge is not 
-     registered with the HedgeFactory due to issues configuring the formula 
-     within. To register the hedge, a static method with the 
+     computes any function based on the @f$x@f$ value. This hedge is not
+     registered with the HedgeFactory due to issues configuring the formula
+     within. To register the hedge, a static method with the
      constructor needs to be manually created and registered. Please, check the
      file `test/hedge/HedgeFunction.cpp` for further details.
-      
+
      @author Juan Rada-Vilela, Ph.D.
      @see Function
      @see Hedge
      @see HedgeFactory
      @since 6.0
-     
+
      */
 
     class FL_API HedgeFunction : public Hedge {
@@ -44,15 +44,15 @@ namespace fl {
         Function _function;
     public:
         explicit HedgeFunction(const std::string& formula = "");
-        
+
         std::string name() const FL_IOVERRIDE;
-        
+
         /*
           Returns the reference to the Function
           @return the reference to the Function
          */
         Function& function();
-        
+
         /*
           Loads the function with the given formula
           @param formula is a valid formula in infix notation
@@ -75,7 +75,6 @@ namespace fl {
 
         static Hedge* constructor();
     };
-
 }
 
 #endif /* FL_HEDGEFUNCTION_H */

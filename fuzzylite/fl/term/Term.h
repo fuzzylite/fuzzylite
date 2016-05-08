@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -29,7 +29,7 @@ namespace fl {
     class Engine;
 
     /**
-      
+
       The Term class is the abstract class for linguistic terms. The linguistic
       terms in this library can be divided in four groups as: `basic`,
       `extended`, `edge`, and `function`. The `basic` terms are Triangle,
@@ -51,7 +51,7 @@ namespace fl {
       @see InputVariable
       @see OutputVariable
       @since 4.0
-    
+
      */
     class FL_API Term {
     private:
@@ -119,7 +119,7 @@ namespace fl {
 
         /**
           Computes the membership function value at @f$x@f$
-          @param x 
+          @param x
           @return the membership function value @f$\mu(x)@f$
          */
         virtual scalar membership(scalar x) const = 0;
@@ -136,6 +136,5 @@ namespace fl {
          */
         virtual void updateReference(const Engine* engine);
     };
-
 }
 #endif /* FL_TERM_H */

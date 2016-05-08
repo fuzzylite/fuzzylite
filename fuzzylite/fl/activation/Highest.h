@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -22,18 +22,18 @@
 
 namespace fl {
 
-    /** 
-    
+    /**
+
       The Highest class is a RuleBlock Activation method that activates a given
       number of rules with highest activation degrees in descending order.
-      
+
       @author Juan Rada-Vilela, Ph.D.
       @see Lowest
       @see Rule
       @see RuleBlock
       @see ActivationFactory
       @since 6.0
-    
+
      */
     class FL_API Highest : public Activation {
     private:
@@ -64,7 +64,7 @@ namespace fl {
         virtual void setNumberOfRules(int activatedRules);
 
         /**
-          Returns the number of rules to activate          
+          Returns the number of rules to activate
           @return the number of rules to activate
          */
         virtual int getNumberOfRules() const;

@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -21,17 +21,17 @@
 namespace fl {
 
     /**
-      
+
       The Ramp class is an edge Term that represents the ramp membership
       function.
-    
+
       @image html ramp.svg
-    
+
       @author Juan Rada-Vilela, Ph.D.
       @see Term
       @see Variable
       @since 4.0
-    
+
      */
     class FL_API Ramp : public Term {
     private:
@@ -68,24 +68,24 @@ namespace fl {
         /**
           Computes the membership function evaluated at @f$x@f$
           @param x
-          @return 
+          @return
           @f$\begin{cases}
-         
+
           0h & \mbox{if $x = e$}\cr
-          
+
           \begin{cases}
           0h & \mbox{if $x \leq s$}\cr
           1h & \mbox{if $x \geq e$}\cr
           h (x - s) / (e - s) & \mbox{otherwise}\cr
           \end{cases} & \mbox{if $s < e$}\cr
-         
+
           \begin{cases}
           0h & \mbox{if $x \geq s$}\cr
           1h & \mbox{if $x \leq e$}\cr
           h (s - x) / (s - e) & \mbox{otherwise}
           \end{cases} & \mbox{if $s > e$}\cr
           \end{cases}@f$
-          
+
           where @f$h@f$ is the height of the Term,
                 @f$s@f$ is the start of the Ramp,
                 @f$e@f$ is the end of the Ramp

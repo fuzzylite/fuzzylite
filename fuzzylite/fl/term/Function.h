@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -47,7 +47,7 @@ namespace fl {
 
       Besides the use of Function as a linguistic Term, it is also utilized to
       convert the text of the Antecedent of a Rule, expressed in infix
-      notation, into postfix notation. 
+      notation, into postfix notation.
 
 
       @author Juan Rada-Vilela, Ph.D.
@@ -56,7 +56,7 @@ namespace fl {
       @see FunctionFactory
       @see Antecedent::load()
       @since 4.0
-    
+
      */
     class FL_API Function : public Term {
     public:
@@ -71,7 +71,7 @@ namespace fl {
           take one or two parameters (respectively). Else, if the Element
           represents an operator, the parameters to be defined are its `arity`,
           its `precedence`, and its `associativity`.
-        
+
          */
         struct FL_API Element {
 
@@ -93,11 +93,11 @@ namespace fl {
             Binary binary;
             /**Number of operands required**/
             int arity;
-            /**Precedence of the element: clarifies which procedures should be 
+            /**Precedence of the element: clarifies which procedures should be
               performed first in a given mathematical expression
               (https://en.wikipedia.org/wiki/Order_of_operations)**/
             int precedence;
-            /**Associativity of the element: determines how operators of the 
+            /**Associativity of the element: determines how operators of the
               same precedence are grouped in the absence of parentheses
               (https://en.wikipedia.org/wiki/Operator_associativity)**/
             int associativity;
@@ -183,16 +183,16 @@ namespace fl {
             virtual Node* clone() const;
 
             /**
-              Returns a string with the name of the element, the name of the 
+              Returns a string with the name of the element, the name of the
               variable, or the constant value, accordingly.
-              @return a string with the name of the element, the name of the 
+              @return a string with the name of the element, the name of the
               variable, or the constant value, accordingly.
              */
             virtual std::string toString() const;
             /**
               Returns a prefix representation of the expression tree under the
               given node
-              @param node is the node to start the prefix representation from. 
+              @param node is the node to start the prefix representation from.
               If the node is `fl::null`, then the starting point is `this` node
               @return a prefix representation of the expression tree under the
               given node
@@ -201,7 +201,7 @@ namespace fl {
             /**
               Returns an infix representation of the expression tree under the
               given node
-              @param node is the node to start the infix representation from. 
+              @param node is the node to start the infix representation from.
               If the node is `fl::null`, then the starting point is `this` node
               @return an infix representation of the expression tree under the
               given node
@@ -210,7 +210,7 @@ namespace fl {
             /**
               Returns a postfix representation of the expression tree under the
               given node
-              @param node is the node to start the postfix representation from. 
+              @param node is the node to start the postfix representation from.
               If the node is `fl::null`, then the starting point is `this` node
               @return a postfix representation of the expression tree under the
               given node
@@ -264,10 +264,10 @@ namespace fl {
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
         /**
-          Computes the function value of this term using the given map of 
+          Computes the function value of this term using the given map of
           variable substitutions.
           @param variables is a map of substitution variables
-          @return the function value of this term using the given map of 
+          @return the function value of this term using the given map of
           variable substitutions.
          */
         virtual scalar evaluate(const std::map<std::string, scalar>* variables = fl::null) const;
@@ -307,9 +307,9 @@ namespace fl {
         virtual const Engine* getEngine() const;
 
         /**
-          Gets the root node of the expression tree defining the Function. The 
+          Gets the root node of the expression tree defining the Function. The
           root is `fl::null` if the formula has not been loaded.
-          @return the root node of the expression tree defining the Function, 
+          @return the root node of the expression tree defining the Function,
           or `fl::null` if the formula has not been loaded
          */
         virtual Node* root() const;
@@ -334,9 +334,9 @@ namespace fl {
          */
         virtual void load(const std::string& formula);
         /**
-          Loads the given formula expressed in infix notation, and sets the 
+          Loads the given formula expressed in infix notation, and sets the
           engine holding the variables to which the formula refers.
-          @param formula is the right-hand side of a mathematical equation 
+          @param formula is the right-hand side of a mathematical equation
           expressed in infix notation
           @param engine is the engine to which the formula can refer
           @throws fl::Exception if the formula has syntax errors
@@ -366,7 +366,7 @@ namespace fl {
           the function.
           @param formula is the right-hand side of a mathematical equation
           expressed in infix notation
-          @return the formula with spaces before and after parentheses, commas 
+          @return the formula with spaces before and after parentheses, commas
           and function operators
          */
         virtual std::string space(const std::string& formula) const;
@@ -378,8 +378,6 @@ namespace fl {
         static Term* constructor();
 
     };
-
 }
-
 #endif  /* FL_FUNCTION_H */
 

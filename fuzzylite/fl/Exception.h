@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -36,14 +36,15 @@ namespace fl {
 
       @author Juan Rada-Vilela, Ph.D.
       @since 4.0
-    
+
      */
 
 #ifdef FL_WINDOWS
-//Disable warning for dllexport of std::exception in Windows
+    //Disable warning for dllexport of std::exception in Windows
 #pragma warning (push)
 #pragma warning (disable:4275)
 #endif
+
     class FL_API Exception : public std::exception {
 #ifdef FL_WINDOWS
 #pragma warning (pop)
@@ -86,7 +87,7 @@ namespace fl {
          */
         virtual void append(const std::string& whatElse);
         /**
-          Appends an error trace to the exception. The method can be called 
+          Appends an error trace to the exception. The method can be called
           utilizing the macro `FL_AT`
           @param file is the name of the file where the exception occurred
           @param line is the line number in the file where the exception occurred
@@ -94,7 +95,7 @@ namespace fl {
          */
         virtual void append(const std::string& file, int line, const std::string& function);
         /**
-          Appends an error trace with a message to the exception. The method can be called 
+          Appends an error trace with a message to the exception. The method can be called
           utilizing the macro `FL_AT`
           @param whatElse is further information about the exception
           @param file is the name of the file where the exception occurred
@@ -118,7 +119,7 @@ namespace fl {
 
         /**
           Converts a given signal into an Exception (does not work very well on Windows)
-          @param signal is the code of the signal 
+          @param signal is the code of the signal
          */
         static void convertToException(int signal);
 
@@ -134,8 +135,5 @@ namespace fl {
 
 
     };
-
 }
-
-
 #endif /* FL_EXCEPTION_H */

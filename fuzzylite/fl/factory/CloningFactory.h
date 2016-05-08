@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -25,14 +25,14 @@
 namespace fl {
 
     /**
-    
+
       The CloningFactory< T > class is the base class for a factory whose objects
       are created from a registered object by calling the `clone()` method.
-      
+
       @author Juan Rada-Vilela, Ph.D.
       @see FactoryManager
       @since 5.0
-    
+
      */
 
     template <typename T>
@@ -57,7 +57,7 @@ namespace fl {
         /**
           Registers the object in the factory and assumes its ownership
           @param key is the unique name by which objects are registered
-          @param object is the object to be cloned via a `clone` method 
+          @param object is the object to be cloned via a `clone` method
          */
         virtual void registerObject(const std::string& key, T object);
         /**
@@ -84,8 +84,8 @@ namespace fl {
          */
         virtual T cloneObject(const std::string& key) const;
         /**
-          Returns a vector of the available objects 
-          @return a vector of the available objects 
+          Returns a vector of the available objects
+          @return a vector of the available objects
          */
         virtual std::vector<std::string> available() const;
         /**

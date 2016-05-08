@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -21,17 +21,17 @@
 namespace fl {
 
     /**
-      
+
       The GaussianProduct class is an extended Term that represents the
       two-sided %Gaussian membership function.
-    
+
       @image html gaussianProduct.svg
-    
+
       @author Juan Rada-Vilela, Ph.D.
       @see Term
       @see Variable
       @since 4.0
-    
+
      */
     class FL_API GaussianProduct : public Term {
     private:
@@ -69,7 +69,7 @@ namespace fl {
           (2\sigma_a^2))\right)
           \left((1 - j) + j \times \exp(-(x - \mu_b)^2 / (2 \sigma_b)^2)\right)
           @f$
-          
+
           where @f$h@f$ is the height of the Term,
                 @f$\mu_a@f$ is the mean of the first GaussianProduct,
                 @f$\sigma_a@f$ is the standard deviation of the first

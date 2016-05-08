@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -20,7 +20,6 @@
 #include "fl/norm/SNorm.h"
 #include "fl/norm/s/Maximum.h"
 #include "fl/term/Activated.h"
-
 
 namespace fl {
 
@@ -95,9 +94,9 @@ namespace fl {
     const Activated* Aggregated::highestActivatedTerm() const {
         const Activated* maximumTerm = fl::null;
         fl::scalar maximumActivation = -fl::inf;
-        for (std::size_t i = 0  ; i < _terms.size(); ++i){
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
             const Activated& activated = _terms.at(i);
-            if (fl::Op::isGt(activated.getDegree(), maximumActivation)){
+            if (fl::Op::isGt(activated.getDegree(), maximumActivation)) {
                 maximumActivation = activated.getDegree();
                 maximumTerm = &activated;
             }

@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -22,9 +22,9 @@ namespace fl {
 
     /**
 
-      The Binary class is an edge Term that represents the binary membership 
+      The Binary class is an edge Term that represents the binary membership
       function.
-    
+
       @image html binary.svg
 
       @author Juan Rada-Vilela, Ph.D.
@@ -73,11 +73,11 @@ namespace fl {
           Computes the membership function evaluated at @f$x@f$
           @param x
           @return @f$\begin{cases}
-          1h & \mbox{if $ \left(s < d \vedge x \in [s, d)\right) \wedge 
+          1h & \mbox{if $ \left(s < d \vedge x \in [s, d)\right) \wedge
           \left( s > d \vedge x \in (d, s] \right) $} \cr
           0h & \mbox{otherwise}
           \end{cases}@f$
-          
+
           where @f$h@f$ is the height of the Term,
                 @f$s@f$ is the start of the Binary edge,
                 @f$d@f$ is the direction of the Binary edge.
@@ -98,17 +98,17 @@ namespace fl {
         /**
           Sets the direction of the binary edge. The direction is automatically
           converted to:
-          
+
           @f$\begin{cases}
           \infty & \mbox{if $ d > s $}\cr
           -\infty & \mbox{if $ d < s $}\cr
           \mbox{\tt NaN} & \mbox{otherwise}
           \end{cases}
           @f$
-          
+
           where @f$d@f$ is the given direction, and
                 @f$s@f$ is the start of the Binary edge
-          
+
           @param direction is the direction of the binary edge
          */
         virtual void setDirection(scalar direction);
@@ -128,7 +128,5 @@ namespace fl {
 
         static Term* constructor();
     };
-
 }
-
 #endif /* FL_BINARY_H */

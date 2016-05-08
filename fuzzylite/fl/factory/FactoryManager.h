@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -29,12 +29,12 @@
 namespace fl {
 
     /**
-    
+
       The FactoryManager class is a central class grouping different factories
       of objects, together with a singleton instance to access each of the
       factories throughout the library.
 
-      
+
       @author Juan Rada-Vilela, Ph.D.
       @see TermFactory
       @see TNormFactory
@@ -44,7 +44,7 @@ namespace fl {
       @see DefuzzifierFactory
       @see FunctionFactory
       @since 4.0
-    
+
      */
     class FL_API FactoryManager {
     private:
@@ -152,5 +152,6 @@ namespace fl {
         virtual FunctionFactory* function() const;
     };
 }
+
 #endif  /* FL_FACTORYMANAGER_H */
 

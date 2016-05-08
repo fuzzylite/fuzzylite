@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -31,7 +31,7 @@ namespace fl {
     class Variable;
 
     /**
-      
+
       The FisImporter class is an Importer that configures an Engine and its
       components from utilizing the Fuzzy Inference System format for Matlab or
       Octave.
@@ -40,7 +40,7 @@ namespace fl {
       @see FisExporter
       @see Importer
       @since 4.0
-    
+
      */
     class FL_API FisImporter : public Importer {
     public:
@@ -75,7 +75,7 @@ namespace fl {
         virtual std::pair<scalar, scalar> parseRange(const std::string& range) const;
 
     };
-
 }
+
 #endif  /* FL_FISIMPORTER_H */
 

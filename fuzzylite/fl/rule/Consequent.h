@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -35,11 +35,11 @@ namespace fl {
 
       `then variable is [hedge]* term [and variable is [hedge]* term]* [with
       w]?`
-      
+
       where `*`-marked elements may appear zero or more times, elements in
       brackets are optional, elements in parentheses are compulsory, and
       `?`-marked elements may appear once or not at all.
-      
+
       @author Juan Rada-Vilela, Ph.D.
       @see Antecedent
       @see Rule
@@ -56,11 +56,11 @@ namespace fl {
 
         /**
           Sets the text of the consequent
-          @param text is the text of the consequent 
+          @param text is the text of the consequent
          */
         virtual void setText(const std::string& text);
         /**
-          Gets the text of the consequent 
+          Gets the text of the consequent
           @return the text of the consequent
          */
         virtual std::string getText() const;
@@ -82,7 +82,7 @@ namespace fl {
           the Consequent of a Rule
          */
         virtual std::vector<Proposition*>& conclusions();
-        
+
         /**
           Indicates if the consequent is loaded
           @return whether the consequent is loaded
@@ -93,18 +93,18 @@ namespace fl {
          */
         virtual void unload();
         /**
-          Loads the consequent with text given from Consequent::getText() and 
-          uses the engine to identify and retrieve references to the input 
+          Loads the consequent with text given from Consequent::getText() and
+          uses the engine to identify and retrieve references to the input
           variables and output variables as required
-          
+
           @param engine is the engine from which the rules are part of
          */
         virtual void load(const Engine* engine);
         /**
-          Loads the consequent with the given text and uses the engine to 
-          identify and retrieve references to the input variables and output 
+          Loads the consequent with the given text and uses the engine to
+          identify and retrieve references to the input variables and output
           variables as required
-          
+
           @param consequent is the consequent of the rule in text
           @param engine is the engine from which the rules are part of
          */
@@ -115,7 +115,7 @@ namespace fl {
           (computed in the Antecedent of the Rule) and the implication operator
           (given in the RuleBlock)
 
-          @param activationDegree is the activation degree computed in the 
+          @param activationDegree is the activation degree computed in the
           Antecedent of the Rule
           @param implication is the implication operator configured in the
           RuleBlock
@@ -131,7 +131,5 @@ namespace fl {
     private:
         FL_DISABLE_COPY(Consequent)
     };
-
 }
-
 #endif /* FL_CONSEQUENT_H */

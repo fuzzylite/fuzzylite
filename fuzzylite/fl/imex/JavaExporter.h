@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -35,7 +35,7 @@ namespace fl {
       The JavaExporter class is an Exporter that translates an Engine and its
       components to the `Java` programming language using the `jfuzzylite`
       library.
-    
+
       @author Juan Rada-Vilela, Ph.D.
       @see CppExporter
       @see Exporter
@@ -55,7 +55,7 @@ namespace fl {
          Sets whether variables are exported using their names
          (e.g., `power.setValue(Double.NaN)`) instead of numbered identifiers
          (e.g., `inputVariable1.setValue(Double.NaN)`)
-         @param usingVariableNames indicates whether variables are exported using 
+         @param usingVariableNames indicates whether variables are exported using
          their names
          */
         virtual void setUsingVariableNames(bool usingVariableNames);
@@ -109,7 +109,7 @@ namespace fl {
         /*
           Returns a string representation of the Activation method in the Java
           programming language
-          @param activation is the activation method 
+          @param activation is the activation method
           @return a string representation of the activation method in the Java
           programming language
          */
@@ -145,7 +145,6 @@ namespace fl {
         virtual JavaExporter* clone() const FL_IOVERRIDE;
 
     };
-
 }
 
 #endif  /* FL_JAVAEXPORTER_H */

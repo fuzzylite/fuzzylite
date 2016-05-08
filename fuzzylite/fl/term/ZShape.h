@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -31,7 +31,7 @@ namespace fl {
       @see Term
       @see Variable
       @since 4.0
-    
+
      */
 
     class FL_API ZShape : public Term {
@@ -67,7 +67,7 @@ namespace fl {
           h(2 \left((x - e) / (e-s)\right)^2) & \mbox{if $x < e$}\cr
           0h & \mbox{otherwise}
           \end{cases}@f$
-          
+
           where @f$h@f$ is the height of the Term,
                 @f$s@f$ is the start of the ZShape,
                 @f$e@f$ is the end of the ZShape.

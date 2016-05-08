@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -100,7 +100,7 @@
 
 /**
   The fl namespace is the namespace where all the classes of the `fuzzylite`
-  library are contained in. @todo utilize FL_BEGIN_NAMESPACE and FL_END_NAMESPACE
+  library are contained in.
 
   @author Juan Rada-Vilela, Ph.D.
   @since 4.0
@@ -121,7 +121,7 @@ namespace fl {
 #define FL_IUNUSED(x) (void) (x)
 
 #ifdef __GNUC__
-#define FL_IUNUSED_DECL __attribute__((unused)) 
+#define FL_IUNUSED_DECL __attribute__((unused))
 #else
 #define FL_IUNUSED_DECL
 #endif
@@ -200,6 +200,7 @@ namespace fl {
     Class &operator=(const Class &);
 
 #endif
+
 }
 
 
@@ -212,7 +213,7 @@ namespace fl {
 
       @author Juan Rada-Vilela, Ph.D.
       @since 4.0
-    
+
      */
     class FL_API fuzzylite {
     private:
@@ -319,7 +320,7 @@ namespace fl {
         static bool logging();
         /**
           Sets whether the library is set to log information using the macro
-          `FL_LOG` 
+          `FL_LOG`
           @param logging indicates whether the library is set to log
           information via the `FL_LOG` macro
          */

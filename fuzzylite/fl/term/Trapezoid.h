@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -24,14 +24,14 @@ namespace fl {
 
       The Trapezoid class is a basic Term that represents the trapezoidal
       membership function.
-    
+
       @image html trapezoid.svg
-    
+
       @author Juan Rada-Vilela, Ph.D.
       @see Term
       @see Variable
       @since 4.0
-    
+
      */
     class FL_API Trapezoid : public Term {
     private:
@@ -68,7 +68,7 @@ namespace fl {
           h (d - x) / (d - c) & \mbox{if $x < d$}\cr
           0h & \mbox{otherwise}
           \end{cases}@f$
-          
+
           where @f$h@f$ is the height of the Term,
                 @f$a@f$ is the first vertex of the Trapezoid,
                 @f$b@f$ is the second vertex of the Trapezoid,
@@ -125,6 +125,5 @@ namespace fl {
 
         static Term* constructor();
     };
-
 }
 #endif /* FL_TRAPEZOID_H */

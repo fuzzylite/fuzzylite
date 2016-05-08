@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -25,25 +25,25 @@
 namespace fl {
 
     /**
-    
+
       The ConstructionFactory< T > class is the base class for a factory whose
       objects are created from a registered ConstructionFactory::Constructor.
-      
+
       @author Juan Rada-Vilela, Ph.D.
       @see FactoryManager
       @since 5.0
-    
+
      */
 
     template <typename T>
     class ConstructionFactory {
     public:
         /**
-        
+
           The Constructor type definition refers to a zero-parameter method
           which returns an instance of T
-        
-        */
+
+         */
         typedef T(*Constructor)();
 
     private:
@@ -120,8 +120,6 @@ namespace fl {
 #include "fl/norm/SNorm.h"
 #include "fl/norm/TNorm.h"
 #include "fl/term/Term.h"
-
-
 
 namespace fl {
 

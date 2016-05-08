@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -25,26 +25,26 @@
 namespace fl {
 
     /**
-    
+
       The Threshold class is a RuleBlock Activation method that activates the
       rules whose activation degrees satisfy the equation given by the
       comparison operator and the threshold, and deactivates the rules which do
       not satisfy the equation.
-      
+
       @author Juan Rada-Vilela, Ph.D.
       @see Rule
       @see RuleBlock
       @see ActivationFactory
       @since 6.0
-    
+
      */
 
     class FL_API Threshold : public Activation {
     public:
 
         /**
-          Comparison is an enumerator that provides six comparison operators 
-          between the activation degree @f$a@f$ and the threshold @f$\theta@f$. 
+          Comparison is an enumerator that provides six comparison operators
+          between the activation degree @f$a@f$ and the threshold @f$\theta@f$.
          */
         enum Comparison {
             /**@f$a < \theta@f$*/
@@ -78,7 +78,7 @@ namespace fl {
         virtual std::string parameters() const FL_IOVERRIDE;
 
         /**
-          Configures the activation method with the comparison operator and the 
+          Configures the activation method with the comparison operator and the
           threshold.
           @param parameters is the comparison operator and threshold
          */
@@ -101,7 +101,7 @@ namespace fl {
           @return the comparison operator in (`==`, `!=`, `<`, `>`, `<=`, `>=`)
          */
         virtual std::string comparisonOperator() const;
-        
+
         /**
           Returns the given comparison operator of the activation method
           @param comparison is a valid enum value
@@ -110,13 +110,13 @@ namespace fl {
         virtual std::string comparisonOperator(Comparison comparison) const;
 
         /**
-          Returns the list of available comparison operators of the activation 
+          Returns the list of available comparison operators of the activation
           method
           @return (`==`, `!=`, `<`, `>`, `<=`, `>=`)
          */
         virtual std::vector<std::string> availableComparisonOperators() const;
 
-        
+
         /**
           Parses the comparison operator, or throws an
           exception if the parameter does not correspond to a valid operator
@@ -146,7 +146,7 @@ namespace fl {
         virtual void setThreshold(Comparison comparison, scalar value);
 
         /**
-          Sets the comparison operator and the threshold for the activation method, 
+          Sets the comparison operator and the threshold for the activation method,
           and throws and fl::Exception if the comparison operator is not valid
           @param comparison is a valid comparison operator
           @param threshold is the threshold for activation degrees
@@ -157,7 +157,7 @@ namespace fl {
           Returns whether the activation method will activate a rule with
           the given activation degree
           @param activationDegree an activation degree
-          @return whether the comparison equation is satisfied with the  
+          @return whether the comparison equation is satisfied with the
           activation degree and the threshold
          */
         virtual bool activatesWith(scalar activationDegree) const;

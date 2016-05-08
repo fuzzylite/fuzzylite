@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -30,16 +30,16 @@ namespace fl {
     class Activation;
 
     /**
-    
+
       The CppExporter class is an Exporter that translates an Engine and its
       components to the `C++` programming language using the `fuzzylite`
       library.
-    
+
       @author Juan Rada-Vilela, Ph.D.
       @see JavaExporter
       @see Exporter
       @since 4.0
-    
+
      */
     class FL_API CppExporter : public Exporter {
     private:
@@ -56,9 +56,9 @@ namespace fl {
 
         /**
           Sets whether the fl namespace of the library is prepended to types
-          (e.g., `fl::Engine`) 
-          
-          @param usingNamespace whether the fl namespace of the library is 
+          (e.g., `fl::Engine`)
+
+          @param usingNamespace whether the fl namespace of the library is
           prepended to types (e.g., `fl::Engine`)
          */
         virtual void setUsingNamespace(bool usingNamespace);
@@ -68,12 +68,12 @@ namespace fl {
           @return whether the fl namespace of the library is prepended to types
          */
         virtual bool isUsingNamespace() const;
-        
+
         /**
          Sets whether variables are exported using their names
          (e.g., `power->setValue(fl::nan)`) instead of numbered identifiers
          (e.g., `inputVariable1->setValue(fl::nan)`)
-         @param usingVariableNames indicates whether variables are exported using 
+         @param usingVariableNames indicates whether variables are exported using
          their names
          */
         virtual void setUsingVariableNames(bool usingVariableNames);
@@ -109,7 +109,7 @@ namespace fl {
 
         /*
           Returns a string representation of the Activation method in the `C++` programming language
-          @param activation is the activation method 
+          @param activation is the activation method
           @return a string representation of the activation method in the `C++` programming language
          */
         virtual std::string toString(const Activation* activation) const;

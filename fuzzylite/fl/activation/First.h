@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -21,7 +21,7 @@
 namespace fl {
 
     /**
-     
+
       The First class is a RuleBlock Activation method that activates the first
       @f$n@f$ rules whose activation degrees are greater than or equal to the given
       threshold. The rules are iterated in the order they were added to the rule block.
@@ -54,9 +54,9 @@ namespace fl {
         virtual std::string parameters() const FL_IOVERRIDE;
 
         /**
-          Configures the activation method with the given number of rules and 
+          Configures the activation method with the given number of rules and
           threshold
-          
+
           @param parameters as "numberOfRules threshold"
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
@@ -66,7 +66,7 @@ namespace fl {
           @param numberOfRules is the number of rules for the activation degree
          */
         virtual void setNumberOfRules(int numberOfRules);
-        
+
         /**
           Gets the number of rules for the activation degree
           @return the number of rules for the activation degree
@@ -86,9 +86,9 @@ namespace fl {
         virtual scalar getThreshold() const;
         /**
           Activates the first @f$n@f$ rules whose activation degrees are greater than or
-          equal to the given threshold. The rules are iterated in the order the 
+          equal to the given threshold. The rules are iterated in the order the
           rules were added to the rule block.
-          
+
           @param ruleBlock is the rule block to activate
          */
         virtual void activate(RuleBlock* ruleBlock) const FL_IOVERRIDE;

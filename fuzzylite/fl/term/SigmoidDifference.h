@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -21,7 +21,7 @@
 namespace fl {
 
     /**
-      
+
       The SigmoidDifference class is an extended Term that represents the
       difference between two sigmoidal membership functions.
 
@@ -31,7 +31,7 @@ namespace fl {
       @see Term
       @see Variable
       @since 4.0
-    
+
      */
     class FL_API SigmoidDifference : public Term {
     private:
@@ -57,7 +57,7 @@ namespace fl {
          */
         virtual std::string parameters() const FL_IOVERRIDE;
         /**
-          Configures the term with the parameters 
+          Configures the term with the parameters
           @param parameters as `"left rising falling right [height]"`
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
@@ -65,7 +65,7 @@ namespace fl {
           Computes the membership function evaluated at @f$x@f$
           @param x
           @return @f$ h (a-b)@f$
-          
+
           where @f$h@f$ is the height of the Term,
                 @f$a= 1 / (1 + \exp(-s_l \times (x - i_l))) @f$,
                 @f$b = 1 / (1 + \exp(-s_r \times (x - i_r)))@f$,

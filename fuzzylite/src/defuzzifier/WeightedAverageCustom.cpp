@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -74,7 +74,7 @@ namespace fl {
             if (aggregation) {
                 sum = aggregation->compute(sum, wz);
                 weights = aggregation->compute(weights, w);
-            }else{
+            } else {
                 sum += wz;
                 weights += w;
             }
@@ -89,4 +89,5 @@ namespace fl {
     Defuzzifier* WeightedAverageCustom::constructor() {
         return new WeightedAverageCustom;
     }
+
 }

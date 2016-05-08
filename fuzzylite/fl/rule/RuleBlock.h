@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -31,7 +31,7 @@ namespace fl {
     class Activation;
 
     /**
-    
+
       The RuleBlock class contains a set of Rule%s and fuzzy logic
       operators required to control an Engine.
 
@@ -41,7 +41,7 @@ namespace fl {
       @see Antecedent
       @see Consequent
       @since 4.0
-    
+
      */
     class FL_API RuleBlock {
     private:
@@ -163,7 +163,7 @@ namespace fl {
          */
         virtual void addRule(Rule* rule);
         /**
-          Inserts the rule at the specified index, shifting other rules to 
+          Inserts the rule at the specified index, shifting other rules to
           the right
           @param rule is the rule to insert
           @param index is the index at which to insert the rule
@@ -177,9 +177,9 @@ namespace fl {
         virtual Rule* getRule(std::size_t index) const;
         /**
           Removes the rule at the specified index
-          @param index is the index at which the rule will be removed, 
+          @param index is the index at which the rule will be removed,
           shifting other rules to the left
-          @return 
+          @return
          */
         virtual Rule* removeRule(std::size_t index);
         /**
@@ -204,6 +204,5 @@ namespace fl {
         virtual std::vector<Rule*>& rules();
 
     };
-
 }
 #endif /* RULEBLOCK_H */

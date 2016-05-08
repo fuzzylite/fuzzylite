@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2016 FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -17,17 +17,16 @@
 #include "test/catch.hpp"
 #include "fl/Headers.h"
 
-
 namespace fl {
 
     /**
      * Tests: hedge/HedgeFunction
-     * 
+     *
      * @author Juan Rada-Vilela, Ph.D.
-     * 
+     *
      */
 
-    static std::string hedgeEngine(){
+    static std::string hedgeEngine() {
 #ifdef FL_CPP11
         return R""(
 Engine: Sugeno-Tip-Calculator
@@ -76,7 +75,7 @@ OutputVariable: GenerousTip
   term: Low Constant 10.000
   term: Medium Constant 15.000
   term: High Constant 20.000
-RuleBlock: 
+RuleBlock:
   enabled: true
   conjunction: EinsteinProduct
   disjunction: none
@@ -93,7 +92,7 @@ RuleBlock:
   rule: if FoodQuality is very Bad and Service is very Good then CheapTip is Low and AverageTip is Medium and GenerousTip is High
   rule: if FoodQuality is very very Good and Service is very very Good then CheapTip is High and AverageTip is very High and GenerousTip is extremely High
 )"";
-#else 
+#else
         return "";
 #endif
     }
@@ -134,4 +133,5 @@ RuleBlock:
         //Must be different
         CHECK(fldVery != anotherFld);
     }
+
 }

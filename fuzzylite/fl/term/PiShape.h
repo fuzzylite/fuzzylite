@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -24,14 +24,14 @@ namespace fl {
 
       The PiShape class is an extended Term that represents the Pi-shaped curve
       membership function.
-    
+
       @image html piShape.svg
 
       @author Juan Rada-Vilela, Ph.D.
       @see Term
       @see Variable
       @since 4.0
-    
+
      */
     class FL_API PiShape : public Term {
     private:
@@ -76,7 +76,7 @@ namespace fl {
           2h \left((x - b_r) / (b_r-t_r)\right)^2 & \mbox{if $x < b_r$} \cr
           0h & \mbox{otherwise}
           \end{cases}@f$
-          
+
           where @f$h@f$ is the height of the Term,
                 @f$b_l@f$ is the bottom left of the PiShape,
                 @f$t_l@f$ is the top left of the PiShape,
@@ -134,6 +134,5 @@ namespace fl {
         static Term* constructor();
     };
 }
-
 #endif  /* FL_PISHAPE_H */
 

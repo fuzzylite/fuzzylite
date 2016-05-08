@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -24,14 +24,14 @@ namespace fl {
 
       The Gaussian class is an extended Term that represents the %Gaussian
       curve membership function.
-    
+
       @image html gaussian.svg
-    
+
       @author Juan Rada-Vilela, Ph.D.
       @see Term
       @see Variable
       @since 4.0
-    
+
      */
     class FL_API Gaussian : public Term {
     private:
@@ -62,7 +62,7 @@ namespace fl {
           Computes the membership function evaluated at @f$x@f$
           @param x
           @return @f$ h \times \exp(-(x-\mu)^2/(2\sigma^2))@f$
-          
+
           where @f$h@f$ is the height of the Term,
                 @f$\mu@f$ is the mean of the Gaussian,
                 @f$\sigma@f$ is the standard deviation of the Gaussian
@@ -95,6 +95,5 @@ namespace fl {
 
         static Term* constructor();
     };
-
 }
 #endif /* FL_GAUSSIAN_H */

@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -37,12 +37,12 @@ namespace fl {
       components to the FuzzyLite Language (FLL), see
       [http://www.fuzzylite.com/fll-fld](http://www.fuzzylite.com/fll-fld) for
       more information.
-    
+
       @author Juan Rada-Vilela, Ph.D.
       @see FllImporter
       @see Exporter
       @since 4.0
-    
+
      */
     class FL_API FllExporter : public Exporter {
     private:
@@ -87,13 +87,13 @@ namespace fl {
         virtual std::string toString(const std::vector<Variable*>& variables) const;
         /**
           Returns a string representation of the vector of input variables in the FuzzyLite Language
-          @param inputVariables is the vector of input variables 
+          @param inputVariables is the vector of input variables
           @return a string representation of the vector of input variables in the FuzzyLite Language
          */
         virtual std::string toString(const std::vector<InputVariable*>& inputVariables) const;
         /**
           Returns a string representation of the vector of output variables in the FuzzyLite Language
-          @param outputVariables is a vector of output variables 
+          @param outputVariables is a vector of output variables
           @return a string representation of the vector of output variables in the FuzzyLite Language
          */
         virtual std::string toString(const std::vector<OutputVariable*>& outputVariables) const;
@@ -106,7 +106,7 @@ namespace fl {
 
         /**
           Returns a string representation of the Variable in the FuzzyLite Language
-          @param variable is the variable 
+          @param variable is the variable
           @return a string representation of the variable in the FuzzyLite Language
          */
         virtual std::string toString(const Variable* variable) const;
@@ -125,7 +125,7 @@ namespace fl {
 
         /**
           Returns a string representation of the RuleBlock in the FuzzyLite Language
-          @param ruleBlock is the rule block 
+          @param ruleBlock is the rule block
           @return a string representation of the rule block in the FuzzyLite Language
          */
         virtual std::string toString(const RuleBlock* ruleBlock) const;
@@ -138,13 +138,13 @@ namespace fl {
 
         /**
           Returns a string representation of the Norm in the FuzzyLite Language
-          @param norm is the norm 
+          @param norm is the norm
           @return a string representation of the norm in the FuzzyLite Language
          */
         virtual std::string toString(const Norm* norm) const;
         /**
           Returns a string representation of the Activation method in the FuzzyLite Language
-          @param activation is the activation method 
+          @param activation is the activation method
           @return a string representation of the activation method in the FuzzyLite Language
          */
         virtual std::string toString(const Activation* activation) const;
@@ -163,7 +163,6 @@ namespace fl {
 
         virtual FllExporter* clone() const FL_IOVERRIDE;
     };
-
 }
 
 #endif  /* FL_FLLEXPORTER_H */

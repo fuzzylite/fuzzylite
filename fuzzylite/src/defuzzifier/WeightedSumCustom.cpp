@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -22,6 +22,7 @@
 #include "fl/norm/TNorm.h"
 
 #include <map>
+
 namespace fl {
 
     WeightedSumCustom::WeightedSumCustom(Type type) : WeightedDefuzzifier(type) {
@@ -40,7 +41,7 @@ namespace fl {
 
     scalar WeightedSumCustom::defuzzify(const Term* term,
             scalar minimum, scalar maximum) const {
-          const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*> (term);
+        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*> (term);
         if (not fuzzyOutput) {
             std::ostringstream ss;
             ss << "[defuzzification error]"

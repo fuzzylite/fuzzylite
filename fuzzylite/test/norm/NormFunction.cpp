@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 FuzzyLite Limited.
+ Copyright © 2010-2016 FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -21,9 +21,9 @@ namespace fl {
 
     /**
      * Tests: norm/NormFunctions
-     * 
+     *
      * @author Juan Rada-Vilela, Ph.D.
-     * 
+     *
      */
 
     static std::string snormEngine() {
@@ -54,7 +54,7 @@ OutputVariable: tip
   term: cheap Triangle 0.000 5.000 10.000
   term: average Triangle 10.000 15.000 20.000
   term: generous Triangle 20.000 25.000 30.000
-RuleBlock: 
+RuleBlock:
   enabled: true
   conjunction: Minimum
   disjunction: Maximum
@@ -64,7 +64,7 @@ RuleBlock:
   rule: if service is good then tip is average
   rule: if service is excellent or food is delicious then tip is generous
 )"";
-#else 
+#else
         return "";
 #endif
     }
@@ -136,7 +136,7 @@ OutputVariable: force
   term: negSmall Bell -1.670 1.670 8.000
   term: posSmall Bell 1.670 1.670 8.000
   term: posBig Bell 5.000 1.670 8.000
-RuleBlock: 
+RuleBlock:
   enabled: true
   conjunction: Minimum
   disjunction: Maximum

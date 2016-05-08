@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -42,13 +42,13 @@ namespace fl {
       @see Consequent
       @see Rule
       @since 4.0
-    
+
      */
     class FL_API Antecedent {
     private:
         std::string _text;
         FL_unique_ptr<Expression> _expression;
-        
+
     public:
         Antecedent();
         virtual ~Antecedent();
@@ -65,14 +65,14 @@ namespace fl {
         virtual std::string getText() const;
 
         /**
-          Gets the expression tree of the antecedent 
-          @return the expression tree of the antecedent 
+          Gets the expression tree of the antecedent
+          @return the expression tree of the antecedent
          */
         virtual Expression* getExpression() const;
-        
+
         /**
-          Sets the expression tree of the antecedent 
-          @param expression is the expression tree of the antecedent 
+          Sets the expression tree of the antecedent
+          @param expression is the expression tree of the antecedent
          */
         virtual void setExpression(Expression* expression);
 
@@ -89,17 +89,17 @@ namespace fl {
 
         /**
           Loads the antecedent with the text obtained from
-          Antecedent::getText() and uses the engine to identify and retrieve 
+          Antecedent::getText() and uses the engine to identify and retrieve
           references to the input variables and output variables as required
-          
+
           @param engine is the engine from which the rules are part of
          */
         virtual void load(const Engine* engine);
         /**
-          Loads the antecedent with the given text and uses the engine to 
-          identify and retrieve references to the input variables and output 
+          Loads the antecedent with the given text and uses the engine to
+          identify and retrieve references to the input variables and output
           variables as required
-          
+
           @param antecedent is the antecedent of the rule in text
           @param engine is the engine from which the rules are part of
          */
@@ -165,7 +165,5 @@ namespace fl {
     private:
         FL_DISABLE_COPY(Antecedent)
     };
-
 }
-
 #endif /* FL_ANTECEDENT_H */

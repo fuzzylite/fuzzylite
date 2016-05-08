@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -35,16 +35,16 @@ namespace fl {
     class Defuzzifier;
 
     /**
-      
-      The Engine class is the core class of the library as it groups the 
+
+      The Engine class is the core class of the library as it groups the
       necessary components of a fuzzy logic controller.
-    
+
       @author Juan Rada-Vilela, Ph.D.
       @see InputVariable
       @see OutputVariable
       @see RuleBlock
       @since 4.0
-    
+
      */
     class FL_API Engine {
     private:
@@ -102,15 +102,15 @@ namespace fl {
           Indicates whether the engine has been configured correctly and is
           ready for operation. In more advanced engines, the result of this
           method should be taken as a suggestion and not as a prerrequisite to
-          operate the engine. 
-          
+          operate the engine.
+
           @param status contains the configuration errors of this engine
           @return whether the engine is ready to operate
          */
         virtual bool isReady(std::string* status = fl::null) const;
 
         /**
-          Processes the engine in its current state as follows: (a) Clears the 
+          Processes the engine in its current state as follows: (a) Clears the
           aggregated fuzzy output variables, (b) Activates the rule blocks, and
           (c) Defuzzifies the output variables
           @see Aggregated::clear()
@@ -120,7 +120,7 @@ namespace fl {
         virtual void process();
 
         /**
-          Restarts the engine by setting the values of the input variables to 
+          Restarts the engine by setting the values of the input variables to
           fl::nan and clearing the outvariables
           @see Variable::setValue()
           @see OutputVariable::clear()
@@ -139,7 +139,7 @@ namespace fl {
         virtual std::string getName() const;
 
         /**
-          Sets the value of the given input variable. 
+          Sets the value of the given input variable.
           @param name is the name of the input variable
           @param value is the value for the input variable
          */
@@ -151,9 +151,9 @@ namespace fl {
          */
         virtual scalar getOutputValue(const std::string& name);
 
-        /** 
+        /**
         Returns a string representation of the engine in the FuzzyLite
-        Language 
+        Language
         @return a string representation of the engine in the FuzzyLite
         Language
          */
@@ -184,9 +184,9 @@ namespace fl {
         };
         /**
           Infers the type of the engine based on its current configuration
-          
+
           @param name stores a string representation of the engine type (if the
-          pointer passed is not `fl::null`) 
+          pointer passed is not `fl::null`)
           @param reason stores a string representation explaining the reasons
           for the inferred type (if the pointer passed is not `fl::null`)
           @return the inferred type of the engine based on its current
@@ -196,7 +196,7 @@ namespace fl {
 
         /**
           Creates a clone of the engine
-          @return a clone of the engine 
+          @return a clone of the engine
          */
         virtual Engine* clone() const;
 
@@ -215,7 +215,7 @@ namespace fl {
          */
         virtual void addInputVariable(InputVariable* inputVariable);
         /**
-          Sets the input variable at the given index 
+          Sets the input variable at the given index
           @param inputVariable is the input variable to set
           @param index is the index at which the input variable is to be stored
           @return the input variable previously stored at the given index
@@ -239,7 +239,7 @@ namespace fl {
           Gets the input variable of the given name after iterating the input
           variables
           @param name is the name of the input variable
-          @return input variable of the given name 
+          @return input variable of the given name
           @throws fl::Exception if there is no variable with the given name
          */
         virtual InputVariable* getInputVariable(const std::string& name) const;
@@ -292,7 +292,7 @@ namespace fl {
          */
         virtual void addOutputVariable(OutputVariable* outputVariable);
         /**
-          Sets the output variable at the given index 
+          Sets the output variable at the given index
           @param outputVariable is the output variable to set
           @param index is the index at which the output variable is to be stored
           @return the output variable previously stored at the given index
@@ -315,7 +315,7 @@ namespace fl {
           Gets the output variable of the given name after iterating the output
           variables
           @param name is the name of the output variable
-          @return output variable of the given name 
+          @return output variable of the given name
           @throws fl::Exception if there is no variable with the given name
          */
         virtual OutputVariable* getOutputVariable(const std::string& name) const;
@@ -369,7 +369,7 @@ namespace fl {
          */
         virtual void addRuleBlock(RuleBlock* ruleBlock);
         /**
-          Sets the rule block at the given index 
+          Sets the rule block at the given index
           @param ruleBlock is the rule block to set
           @param index is the index at which the rule block is to be stored
           @return the rule block previously stored at the given index
@@ -391,7 +391,7 @@ namespace fl {
         /**
           Gets the rule block of the given name after iterating the rule blocks
           @param name is the name of the rule block
-          @return rule block of the given name 
+          @return rule block of the given name
           @throws fl::Exception if there is no block with the given name
          */
         virtual RuleBlock* getRuleBlock(const std::string& name) const;
@@ -440,6 +440,5 @@ namespace fl {
         virtual std::vector<RuleBlock*>& ruleBlocks();
 
     };
-
 }
 #endif /* FL_ENGINE_H */

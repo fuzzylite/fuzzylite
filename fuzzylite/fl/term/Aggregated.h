@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -28,14 +28,14 @@ namespace fl {
     class TNorm;
 
     /**
-      
+
       The Aggregated class is a special Term that stores a fuzzy set with the
       Activated terms from the Antecedent%s of a Rule, thereby serving mainly
       as the fuzzy output value of the OutputVariable%s. The ownership of the
       activated terms will be transfered to objects of this class, and
       therefore their destructors will be called upon destruction of this term
       (or calling Aggregated::clear()).
-      
+
       @author Juan Rada-Vilela, Ph.D.
       @see Antecedent
       @see Rule
@@ -43,7 +43,7 @@ namespace fl {
       @see Activated
       @see Term
       @since 6.0
-    
+
      */
     class FL_API Aggregated : public Term {
     private:
@@ -70,7 +70,7 @@ namespace fl {
         virtual std::string parameters() const FL_IOVERRIDE;
         /**
           Does nothing
-          @param parameters are irrelevant 
+          @param parameters are irrelevant
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
@@ -83,23 +83,23 @@ namespace fl {
          */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
         /**
-          Computes the aggregated activation degree for the given term. 
-          If the same term is present multiple times, the aggregation operator 
-          is utilized to sum the activation degrees of the term. If the 
+          Computes the aggregated activation degree for the given term.
+          If the same term is present multiple times, the aggregation operator
+          is utilized to sum the activation degrees of the term. If the
           aggregation operator is fl::null, a regular sum is performed.
-          @param forTerm is the term for which to compute the aggregated 
+          @param forTerm is the term for which to compute the aggregated
           activation degree
           @return the aggregated activation degree for the given term
          */
         virtual scalar activationDegree(const Term* forTerm) const;
-        
+
         /**
           Iterates over the Activated terms to find the term with the maximum
           activation degree
           @return the term with the maximum activation degree
          */
         virtual const Activated* highestActivatedTerm() const;
-        
+
         virtual std::string toString() const FL_IOVERRIDE;
 
         /**
@@ -131,8 +131,8 @@ namespace fl {
          */
         virtual void setRange(scalar minimum, scalar maximum);
         /**
-          Provides the magnitude of the range of the fuzzy set, 
-          @return the magnitude of the range of the fuzzy set, 
+          Provides the magnitude of the range of the fuzzy set,
+          @return the magnitude of the range of the fuzzy set,
           i.e., `maximum - minimum`
          */
         virtual scalar range() const;
@@ -156,7 +156,7 @@ namespace fl {
          */
         virtual void addTerm(const Term* term, scalar degree, const TNorm* implication);
         /**
-          Adds the activated term to the fuzzy set. The activated term 
+          Adds the activated term to the fuzzy set. The activated term
           will be deleted when Aggregated::clear()
           @param term is the activated term
          */
@@ -168,13 +168,13 @@ namespace fl {
          */
         virtual const Activated& getTerm(std::size_t index) const;
         /**
-          Removes the term at the given index without deleting the term 
+          Removes the term at the given index without deleting the term
           @param index is the index of the term
           @return the removed term
          */
         virtual const Activated& removeTerm(std::size_t index);
         /**
-          Returns the number of activated terms 
+          Returns the number of activated terms
           @return the number of activated terms
          */
         virtual std::size_t numberOfTerms() const;
@@ -198,6 +198,5 @@ namespace fl {
          */
         virtual void clear();
     };
-
 }
 #endif /* FL_AGGREGATED_H */

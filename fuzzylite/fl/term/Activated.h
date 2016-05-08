@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -22,18 +22,18 @@ namespace fl {
     class TNorm;
 
     /**
-    
+
       The Activated class is a special Term that contains pointers to the
       necessary information of a term that has been activated as part of the
       Antecedent of a Rule. The ownership of the pointers is not transferred to
       objects of this class. The Activated class was named
       `Thresholded` in versions 4.0 and earlier.
-      
+
       @author Juan Rada-Vilela, Ph.D.
       @see OutputVariable
       @see Term
       @since 5.0
-    
+
      */
     class FL_API Activated : public Term {
     private:
@@ -60,7 +60,7 @@ namespace fl {
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
         /**
-          Computes the implication of the activation degree and the membership 
+          Computes the implication of the activation degree and the membership
           function value of @f$x@f$
           @param x is a value
           @return @f$d \otimes \mu(x)@f$, where @f$d@f$ is the activation degree
@@ -70,12 +70,12 @@ namespace fl {
 
         /**
           Sets the activated term
-          @param term is the activated term 
+          @param term is the activated term
          */
         virtual void setTerm(const Term* term);
         /**
-          Gets the activated term 
-          @return the activated term 
+          Gets the activated term
+          @return the activated term
          */
         virtual const Term* getTerm() const;
 
@@ -103,6 +103,5 @@ namespace fl {
 
         virtual Activated* clone() const FL_IOVERRIDE;
     };
-
 }
 #endif /* FL_ACTIVATED_H */

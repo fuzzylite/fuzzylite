@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -24,17 +24,17 @@
 namespace fl {
 
     /**
-      
+
       The Discrete class is a basic Term that represents a discrete membership
       function.
-    
+
       @image html discrete.svg
-    
+
       @author Juan Rada-Vilela, Ph.D.
       @see Term
       @see Variable
       @since 4.0
-    
+
      */
     class FL_API Discrete : public Term {
     public:
@@ -63,11 +63,11 @@ namespace fl {
           Computes the membership function evaluated at @f$x@f$
           @param x
           @return @f$ \dfrac{h (y_{\max} - y_{\min})}{(x_{\max}- x_{\min})}  (x - x_{\min}) + y_{\min}@f$
-          
+
           where @f$h@f$ is the height of the Term,
-                @f$x_{\min}@f$ and @f$x_{\max}@f$is are the lower and upper limits 
+                @f$x_{\min}@f$ and @f$x_{\max}@f$is are the lower and upper limits
                      of @f$x@f$ in `xy` (respectively),
-                @f$y_{\min}@f$ and @f$y_{\max}@f$is are the membership functions 
+                @f$y_{\min}@f$ and @f$y_{\max}@f$is are the membership functions
                      of @f$\mu(x_{\min})@f$ and @f$\mu(x_{\max})@f$ (respectively)
          */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
@@ -132,16 +132,16 @@ namespace fl {
                 scalar missingValue) FL_INOEXCEPT;
 
         /**
-          Formats a vector of Pair into a std::string in the form 
+          Formats a vector of Pair into a std::string in the form
           @f$(x_1,y_1) ... (x_n,y_n)@f$
           @param xy is the vector of Pair
           @param prefix indicates the prefix of a Pair, e.g., `(` results in
           @f$(x_i@f$
-          @param innerSeparator indicates the separator between 
+          @param innerSeparator indicates the separator between
           @f$x@f$ and @f$y@f$, e.g., `,` results in @f$x_i,y_i@f$
           @param postfix indicates the postfix of a Pair, e.g., `]` results in
           @f$y_i]@f$
-          @param outerSeparator indicates the separator between Pair, e.g., 
+          @param outerSeparator indicates the separator between Pair, e.g.,
           `;` results in @f$(x_i,y_i);(x_j,y_j)@f$
           @return a formatted string containing the pairs of @f$(x,y)@f$ values
          */
@@ -157,12 +157,12 @@ namespace fl {
           Creates a Discrete term from a variadic set of values.
           Beware: this method is unsafe and must be used with care by
           ensuring:
-          - the value `argc` correctly and exactly determines the number of 
+          - the value `argc` correctly and exactly determines the number of
           values passed,
-          - the data type of each variadic arguments is the same, e.g., 
+          - the data type of each variadic arguments is the same, e.g.,
           @f$(1.0, 2.0, 3.0)@f$ are all fl::scalar, whereas in
           @f$(1.0, 2, 3.0)@f$ the second term is an integer, which will cause
-          memory access issues due to the difference in size between 
+          memory access issues due to the difference in size between
           `int` and `fl::scalar`.
           @param name is the name of the resulting term
           @param argc is the number of values passed
@@ -205,5 +205,4 @@ namespace fl {
         return result.release();
     }
 }
-
 #endif /* FL_DISCRETE_H */

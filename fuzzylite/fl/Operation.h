@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -33,14 +33,14 @@
 namespace fl {
 
     /**
-    
+
       The Operation class contains methods for numeric operations, string
       manipulation, and other functions, all of which are also accessible via
       fl::Op.
-    
+
       @author Juan Rada-Vilela, Ph.D.
       @since 4.0
-    
+
      */
     class Operation {
     public:
@@ -177,7 +177,7 @@ namespace fl {
           Linearly interpolates the parameter @f$x@f$ in range
           `[fromMin,fromMax]` to a new value in the range `[toMin,toMax]`
           @param x is the source value to interpolate
-          @param fromMin is the minimum value of the source range 
+          @param fromMin is the minimum value of the source range
           @param fromMax is the maximum value of the source range
           @param toMin is the minimum value of the target range
           @param toMax is the maximum value of the target range
@@ -189,10 +189,10 @@ namespace fl {
 
         /**
           Linearly interpolates the parameter @f$x@f$ in range
-          `[fromMin,fromMax]` to a new value in the range `[toMin,toMax]`, 
+          `[fromMin,fromMax]` to a new value in the range `[toMin,toMax]`,
           truncated to the range `[toMin,toMax]` if bounded is `true`.
           @param x is the source value to interpolate
-          @param fromMin is the minimum value of the source range 
+          @param fromMin is the minimum value of the source range
           @param fromMax is the maximum value of the source range
           @param toMin is the minimum value of the target range
           @param toMax is the maximum value of the target range
@@ -241,7 +241,7 @@ namespace fl {
         static scalar modulo(scalar a, scalar b);
 
         /**
-          Computes the logical AND 
+          Computes the logical AND
           @param a
           @param b
           @return @f$
@@ -253,7 +253,7 @@ namespace fl {
          */
         static scalar logicalAnd(scalar a, scalar b);
         /**
-          Computes the logical OR 
+          Computes the logical OR
           @param a
           @param b
           @return @f$
@@ -345,7 +345,7 @@ namespace fl {
         static scalar lt(scalar a, scalar b);
 
         /**
-          Returns a random number 
+          Returns a random number
          */
         static int random();
 
@@ -355,8 +355,8 @@ namespace fl {
           within boundaries @f$[0,1]@f$ results in: @f$x_1=\{0,1\}@f$,
           @f$x_2=\{1,0\}@f$, @f$x_3=\{1,1\}@f$, @f$x_4=\{0,0\}@f$.
           @param x is the vector to increment
-          @param min is the minimum value of the dimension 
-          @param max is the maximum value of the dimension 
+          @param min is the minimum value of the dimension
+          @param max is the maximum value of the dimension
           @return whether the increment of @f$x@f$ leads to overflow (e.g.,
           @f$x_4@f$ returns `true`)
          */
@@ -370,8 +370,8 @@ namespace fl {
           @param x is the vector to increment
           @param position is the position of the vector to increment, where
           smaller values lead to higher significance digits
-          @param min is the minimum value of the dimension 
-          @param max is the maximum value of the dimension 
+          @param min is the minimum value of the dimension
+          @param max is the maximum value of the dimension
           @return whether the increment of @f$x@f$ leads to overflow (e.g.,
           @f$x_4@f$ returns `true`)
          */
@@ -419,19 +419,19 @@ namespace fl {
 
         /**
           Replaces the substrings that are equal to the given expression
-          @param str is the target string 
+          @param str is the target string
           @param find is the string to find
           @param replace is the string to replace the findings
           @param replaceAll whether all the substrings are to be replaced or
           just the first string
-          @return the original string with replacements 
+          @return the original string with replacements
          */
         static std::string findReplace(const std::string& str, const std::string& find,
                 const std::string& replace, bool replaceAll = true);
 
         /**
           Replaces the first substring that is equal to the given expression
-          @param str is the target string 
+          @param str is the target string
           @param find is the string to find
           @param replace is the string to replace
           @return the original string with the replacement
@@ -441,7 +441,7 @@ namespace fl {
 
         /**
           Replaces the every substring that is equal to the given expression
-          @param str is the target string 
+          @param str is the target string
           @param find is the string to find
           @param replace is the string to replace
           @return the original string with all of the replacements
@@ -461,7 +461,7 @@ namespace fl {
 
         /**
           Removes whitespace at the beginning and end of the text
-          @param text 
+          @param text
           @return a space-trimmed string
          */
         static std::string trim(const std::string& text);
@@ -512,7 +512,7 @@ namespace fl {
                 bool* ok = fl::null) FL_INOEXCEPT;
 
         /**
-          Indicates whether the string can be converted to a numeric value. 
+          Indicates whether the string can be converted to a numeric value.
           @param x
           @return whether the string can be converted to a numeric value
          */
@@ -520,9 +520,9 @@ namespace fl {
 
         /**
           Returns a string representation of the given value
-          @param x is the value 
+          @param x is the value
           @param decimals is the number of decimals utilised
-          @return a string representation of the given value 
+          @return a string representation of the given value
          */
         template <typename T>
         static std::string str(T x, int decimals = fuzzylite::decimals());
@@ -573,7 +573,6 @@ namespace fl {
 #include <iomanip>
 #include <cstdarg>
 #include <cctype>
-
 
 namespace fl {
 
@@ -1027,7 +1026,5 @@ namespace fl {
         return ss.str();
     }
 }
-
-
 #endif  /* FL_OPERATION_H */
 

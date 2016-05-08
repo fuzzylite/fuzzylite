@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -22,10 +22,10 @@
 namespace fl {
 
     /**
-    
+
      The Last class is a RuleBlock Activation method that activates the last
      @f$n@f$ rules whose activation degrees are greater than or equal to the given
-     threshold. The rules are iterated in the reverse order in which they were 
+     threshold. The rules are iterated in the reverse order in which they were
      added to the rule block.
 
      @author Juan Rada-Vilela, Ph.D.
@@ -34,7 +34,7 @@ namespace fl {
      @see RuleBlock
      @see ActivationFactory
      @since 6.0
-     
+
      */
 
     class FL_API Last : public Activation {
@@ -48,14 +48,14 @@ namespace fl {
 
         virtual std::string className() const FL_IOVERRIDE;
 
-         /**
-          Returns the number of rules and the threshold of the activation method
-          @return "numberOfRules threshold"
+        /**
+         Returns the number of rules and the threshold of the activation method
+         @return "numberOfRules threshold"
          */
         virtual std::string parameters() const FL_IOVERRIDE;
 
         /**
-          Configures the activation method with the given number of rules and 
+          Configures the activation method with the given number of rules and
           threshold
           @param parameters as "numberOfRules threshold"
          */
@@ -85,8 +85,8 @@ namespace fl {
         virtual scalar getThreshold() const;
 
         /**
-          Activates the last @f$n@f$ rules whose activation degrees are greater 
-          than the given threshold. The rules are iterated in the reverse order 
+          Activates the last @f$n@f$ rules whose activation degrees are greater
+          than the given threshold. The rules are iterated in the reverse order
           that the rules were added to the rule block.
           @param ruleBlock is the rule block to activate
          */
@@ -96,8 +96,6 @@ namespace fl {
 
         static Activation* constructor();
     };
-
 }
-
 
 #endif /* FL_LAST_H */

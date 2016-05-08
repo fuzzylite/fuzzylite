@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -31,8 +31,8 @@ namespace fl {
     class TNorm;
     class SNorm;
 
-    /** 
-     
+    /**
+
       The Rule class is a conditional statement that contributes to the control
       of an Engine. Each rule consists of an Antecedent and a Consequent, each
       of which comprises propositions in the form `variable is term`. The
@@ -45,9 +45,9 @@ namespace fl {
       Not. Additionally, the contribution of a rule to the control of the
       engine can be determined by its weight @f$w \in [0.0, 1.0]@f$, which is
       equal to 1.0 if omitted. The structure of a rule is the following: `if
-      (antecedent) then (consequent) [with weight]`. The structures of 
+      (antecedent) then (consequent) [with weight]`. The structures of
       the antecedent and the consequent are:
-    
+
      `if variable is [hedge]* term [(and|or) variable is [hedge]* term]*`
 
      `then variable is [hedge]* term [and variable is [hedge]* term]* [with w]?`
@@ -55,14 +55,14 @@ namespace fl {
       where elements in brackets are optional, elements in parentheses are
       compulsory, `*`-marked elements may appear zero or more times, and
      `?`-marked elements may appear once or not at all.
-      
+
       @author Juan Rada-Vilela, Ph.D.
       @see Antecedent
       @see Consequent
       @see Hedge
       @see RuleBlock
       @since 4.0
-    
+
      */
     class FL_API Rule {
     private:
@@ -126,21 +126,21 @@ namespace fl {
 
 
         /**
-          Sets whether the rule has been activated. The activation of a rule is 
-          automatically managed within Rule::activate(). The utility of this 
-          property can be found in the case of activation methods like First or 
-          Last, which compute the activation degree of the rules without 
+          Sets whether the rule has been activated. The activation of a rule is
+          automatically managed within Rule::activate(). The utility of this
+          property can be found in the case of activation methods like First or
+          Last, which compute the activation degree of the rules without
           necessarily activating the rules.
-          
+
           @param activated determines whether the rule has been activated
          */
         virtual void setActivated(bool activated);
 
         /**
-          Indicates whether the rule has been activated. The activation of a 
-          rule is automatically managed within Rule::activate(). The utility of this 
-          property can be found in the case of activation methods like First or 
-          Last, which compute the activation degree of the rules without 
+          Indicates whether the rule has been activated. The activation of a
+          rule is automatically managed within Rule::activate(). The utility of this
+          property can be found in the case of activation methods like First or
+          Last, which compute the activation degree of the rules without
           necessarily activating the rules.
           @return whether the rule has been activated
          */
@@ -180,8 +180,8 @@ namespace fl {
 
 
         /**
-          Returns a string representation of the rule in the FuzzyLite Language 
-          @return a string representation of the rule in the FuzzyLite Language 
+          Returns a string representation of the rule in the FuzzyLite Language
+          @return a string representation of the rule in the FuzzyLite Language
          */
         virtual std::string toString() const;
 
@@ -274,8 +274,6 @@ namespace fl {
         }
 
     };
-
 }
-
 
 #endif /* FL_RULE_H */

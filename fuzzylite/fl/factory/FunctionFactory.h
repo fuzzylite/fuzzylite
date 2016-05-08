@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -23,17 +23,17 @@
 namespace fl {
 
     /**
-    
+
       The FunctionFactory class is a CloningFactory of operators and functions
       utilized by the Function term.
-      
+
       @author Juan Rada-Vilela, Ph.D.
       @see Function
       @see Element
       @see CloningFactory
       @see FactoryManager
       @since 5.0
-    
+
      */
     class FL_API FunctionFactory : public CloningFactory<Function::Element*> {
     private:
@@ -56,7 +56,6 @@ namespace fl {
         virtual std::vector<std::string> availableFunctions() const;
 
     };
-
 }
 
 #endif  /* FL_FUNCTIONFACTORY_H */

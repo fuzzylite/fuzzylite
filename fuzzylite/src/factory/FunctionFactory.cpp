@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -82,7 +82,7 @@ namespace fl {
                 Function::Element::Function, &(fl::Op::le)));
         registerObject("lt", new Function::Element("lt", "Less than (<)",
                 Function::Element::Function, &(fl::Op::lt)));
-        
+
         registerObject("min", new Function::Element("min", "Minimum",
                 Function::Element::Function, &(fl::Op::min)));
         registerObject("max", new Function::Element("max", "Maximum",

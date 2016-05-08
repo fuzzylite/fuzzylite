@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -121,25 +121,25 @@ namespace fl {
         bool isValid = isEnabled() and not fuzzyOutput()->isEmpty();
         if (isValid) {
             /* Checks whether the variable can be defuzzified without exceptions.
-             * If it cannot be defuzzified, be that due to a missing defuzzifier  
-             * or aggregation operator, the expected behaviour is to leave the 
-             * variable in a state that reflects an invalid defuzzification, 
+             * If it cannot be defuzzified, be that due to a missing defuzzifier
+             * or aggregation operator, the expected behaviour is to leave the
+             * variable in a state that reflects an invalid defuzzification,
              * that is, apply logic of default values and previous values.*/
             isValid = false;
             if (getDefuzzifier()) {
-                try{
+                try {
                     result = getDefuzzifier()->defuzzify(fuzzyOutput(), getMinimum(), getMaximum());
                     isValid = true;
-                }catch(std::exception& ex){
+                } catch (std::exception& ex) {
                     exception = ex.what();
                 }
-            }else{
+            } else {
                 exception = "[defuzzifier error] "
                         "defuzzifier needed to defuzzify output variable <" + getName() + ">";
             }
         }
-        
-        if (not isValid){
+
+        if (not isValid) {
             //if a previous defuzzification was successfully performed and
             //and the output value is supposed not to change when the output is empty
             if (isLockPreviousValue() and not Op::isNaN(getPreviousValue())) {
@@ -150,8 +150,8 @@ namespace fl {
         }
 
         setValue(result);
-        
-        if (not exception.empty()){
+
+        if (not exception.empty()) {
             throw fl::Exception(exception, FL_AT);
         }
     }

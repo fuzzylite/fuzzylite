@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -22,8 +22,6 @@
 #include <signal.h>
 #include <typeinfo>
 
-using namespace fl;
-
 /*
 #ifdef FL_WINDOWS
 #include <windows.h>
@@ -32,15 +30,12 @@ BOOL WINAPI flSignalHandler(DWORD dwCtrlType)
   FL_LOG("Signal: " << dwCtrlType);
   if (CTRL_C_EVENT == dwCtrlType){
   }
-  //return FALSE;
   return TRUE;
 }
 #endif
  */
 
 int main(int argc, char** argv) {
-//    FL_IUNUSED(argc);
-//    FL_IUNUSED(argv);
     std::set_terminate(fl::Exception::terminate);
     std::set_unexpected(fl::Exception::terminate);
     signal(SIGSEGV, fl::Exception::signalHandler);
@@ -55,9 +50,9 @@ int main(int argc, char** argv) {
 #ifdef FL_WINDOWS
     //SetConsoleCtrlHandler(flSignalHandler, TRUE);
 #endif
-    fuzzylite::setDebug(false);
+    fl::fuzzylite::setDebug(false);
     try {
-        Console::main(argc, argv);
+        fl::Console::main(argc, argv);
     } catch (std::exception& ex) {
         std::cout << ex.what() << "\nBACKTRACE:\n" <<
                 fl::Exception::btCallStack() << std::endl;

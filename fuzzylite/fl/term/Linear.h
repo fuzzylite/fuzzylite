@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -22,7 +22,7 @@ namespace fl {
     class Engine;
 
     /**
-      
+
       The Linear class is a linear polynomial Term expressed as @f$f(x)=
       \mathbf{c}\mathbf{v}+k = \sum_i c_iv_i + k@f$, where variable @f$x@f$ is
       not utilized, @f$\mathbf{v}@f$ is a vector of values from the input
@@ -30,12 +30,12 @@ namespace fl {
       constant. Hereinafter, the vector @f$\mathbf{c}^\star=\{c_1, \ldots, c_i,
       \ldots, c_n, k\}@f$ refers to a vector containing the coefficients of
       @f$\mathbf{c}@f$ and the constant @f$k@f$.
-     
+
       @author Juan Rada-Vilela, Ph.D.
       @see Term
       @see Variable
       @since 4.0
-    
+
      */
     class FL_API Linear : public Term {
     private:
@@ -118,16 +118,16 @@ namespace fl {
         static Term* constructor();
 
         /**
-          Creates a Linear term from a variadic set of coefficients. 
-          Beware: this method is unsafe and must be used with care by 
+          Creates a Linear term from a variadic set of coefficients.
+          Beware: this method is unsafe and must be used with care by
           ensuring:
-        
+
           - the data type of each variadic arguments is the same, e.g.,
             @f$(1.0, 2.0, 3.0)@f$ are all fl::scalar%s. You *need* to avoid the
             case of @f$(1.0, 2, 3.0)@f$, where the second term will be
             considered as an `int` (different from the others) and cause memory
             issues due to the difference in size between an `int` and
-            `fl::scalar`; and 
+            `fl::scalar`; and
 
           - the number of variadic arguments is exactly the same as the number
             of input variables in the engine plus one in order to match the
@@ -138,7 +138,7 @@ namespace fl {
           will be obtained
           @param firstCoefficient is the coefficient for the first input
           variable, namely @f$c_1@f$
-          @param ... is a variadic number of coefficients whose type need to be 
+          @param ... is a variadic number of coefficients whose type need to be
           the same as the first coefficient
           @return a new Linear term with the given parameters
          */

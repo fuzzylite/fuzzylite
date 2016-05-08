@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -24,20 +24,20 @@
 namespace fl {
 
     /*
-     
+
      The SNormFunction class is a customizable SNorm via Function, which
-     computes any function based on the @f$a@f$ and @f$b@f$ values. 
-     This SNorm is not registered with the SNormFactory due to issues configuring 
-     the formula within. To register the SNorm, a static method with the 
+     computes any function based on the @f$a@f$ and @f$b@f$ values.
+     This SNorm is not registered with the SNormFactory due to issues configuring
+     the formula within. To register the SNorm, a static method with the
      constructor needs to be manually created and registered.
-      
+
      @author Juan Rada-Vilela, Ph.D.
      @see Function
      @see SNorm
      @see Norm
      @see SNormFactory
      @since 6.0
-     
+
      */
 
     class FL_API SNormFunction : public SNorm {
@@ -65,10 +65,10 @@ namespace fl {
 
         std::string className() const FL_IOVERRIDE;
         /**
-          Computes the S-Norm utilizing the given function via 
+          Computes the S-Norm utilizing the given function via
           SNormFunction::setFormula(), which automatically assigns the values
           of @f$a@f$ and @f$b@f$.
-          
+
           @param a is a membership function value
           @param b is a membership function value
           @return the evaluation of the function
@@ -78,7 +78,6 @@ namespace fl {
 
         static SNorm* constructor();
     };
-
 }
 #endif /* FL_SNORMFUNCTION_H */
 

@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -22,11 +22,11 @@
 namespace fl {
 
     /**
-    
+
       The WeightedSumCustom class is a WeightedDefuzzifier that computes the
       weighted sum of a fuzzy set represented in an Aggregated Term utilizing
       the fuzzy operators for implication and aggregation to compute the weighted
-      sum. 
+      sum.
 
       @author Juan Rada-Vilela, Ph.D.
       @see WeightedSum
@@ -35,7 +35,7 @@ namespace fl {
       @see WeightedDefuzzifier
       @see Defuzzifier
       @since 4.0
-    
+
      */
     class FL_API WeightedSumCustom : public WeightedDefuzzifier {
     public:
@@ -51,16 +51,16 @@ namespace fl {
           where @f$w_i@f$ is the activation degree of term @f$i@f$, and @f$z_i
           = \mu_i(w_i) @f$.
 
-          If the implication and aggregation operators are set to fl::null (or 
-          set to AlgebraicProduct and UnboundedSum, respectively), then the 
+          If the implication and aggregation operators are set to fl::null (or
+          set to AlgebraicProduct and UnboundedSum, respectively), then the
           operation of WeightedAverageCustom is the same as the WeightedAverage.
-          Otherwise, the implication and aggregation operators are utilized to 
+          Otherwise, the implication and aggregation operators are utilized to
           compute the multiplications and sums in @f$y@f$, respectively.
-         
+
           @param term is the fuzzy set represented as an AggregatedTerm
           @param minimum is the minimum value of the range (only used for Tsukamoto)
           @param maximum is the maximum value of the range (only used for Tsukamoto)
-          @return 
+          @return
          */
         virtual scalar defuzzify(const Term* term,
                 scalar minimum, scalar maximum) const FL_IOVERRIDE;

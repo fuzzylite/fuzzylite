@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -22,14 +22,14 @@ namespace fl {
     class Activated;
 
     /**
-    
+
       The WeightedDefuzzifier class is the base class for defuzzifiers which
       compute a weighted function on the fuzzy set without requiring to
       integrate over the fuzzy set.
 
       @author Juan Rada-Vilela, Ph.D.
       @since 5.0
-    
+
      */
     class FL_API WeightedDefuzzifier : public Defuzzifier {
     public:
@@ -79,7 +79,7 @@ namespace fl {
           given term is Constant, Linear or Function, then the type is
           TakagiSugeno; otherwise, the type is Tsukamoto
 
-          @param term is the given term 
+          @param term is the given term
           @return the inferred type of the defuzzifier based on the given term
          */
         virtual Type inferType(const Term* term) const;
@@ -94,20 +94,19 @@ namespace fl {
           Computes the Tsukamoto @f$z@f$-value for the given monotonic term. If
           the term is not monotonic, then the TakagiSugeno (or InverseTsukamoto)
           @f$z@f$-value is computed.
-        
+
           @param monotonic is the monotonic term
           @param activationDegree is the activation degree for the term
           @param minimum is the minimum value of the range of the term
           @param maximum is the maximum value of the range of the term
           @return the Tsukamoto @f$z@f$-value for the given monotonic term, or
-          the TakagiSugeno (or InverseTsukamoto) @f$z@f$-value if the term 
+          the TakagiSugeno (or InverseTsukamoto) @f$z@f$-value if the term
           is not monotonic.
          */
         virtual scalar tsukamoto(const Term* monotonic, scalar activationDegree,
                 scalar minimum, scalar maximum) const;
 
     };
-
 }
 
 #endif  /* FL_WEIGHTEDDEFUZZIFIER_H */

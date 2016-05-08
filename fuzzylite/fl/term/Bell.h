@@ -1,5 +1,5 @@
 /*
- Copyright © 2010-2015 by FuzzyLite Limited.
+ Copyright © 2010-2016 by FuzzyLite Limited.
  All rights reserved.
 
  This file is part of fuzzylite®.
@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -21,17 +21,17 @@
 namespace fl {
 
     /**
-    
+
       The Bell class is an extended Term that represents the generalized bell
       curve membership function.
-    
+
       @image html bell.svg
-    
+
       @author Juan Rada-Vilela, Ph.D.
       @see Term
       @see Variable
       @since 4.0
-    
+
      */
     class FL_API Bell : public Term {
     private:
@@ -61,11 +61,11 @@ namespace fl {
 
         /**
           Computes the membership function evaluated at @f$x@f$
-          @param x 
+          @param x
           @return @f$h / (1 + \left(|x-c|/w\right)^{2s}@f$
-         
+
           where @f$h@f$ is the height of the Term,
-                @f$c@f$ is the center of the Bell, 
+                @f$c@f$ is the center of the Bell,
                 @f$w@f$ is the width of the Bell,
                 @f$s@f$ is the slope of the Bell
          */
@@ -109,6 +109,5 @@ namespace fl {
         static Term* constructor();
 
     };
-
 }
 #endif /* FL_BELL_H */

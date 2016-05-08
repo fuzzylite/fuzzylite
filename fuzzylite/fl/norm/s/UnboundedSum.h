@@ -7,7 +7,7 @@
  fuzzylite® is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
 
- You should have received a copy of the FuzzyLite License along with 
+ You should have received a copy of the FuzzyLite License along with
  fuzzylite®. If not, see <http://www.fuzzylite.com/license/>.
 
  fuzzylite® is a registered trademark of FuzzyLite Limited.
@@ -30,7 +30,7 @@ namespace fl {
       @see SNormFactory
       @see Norm
       @since 4.0
-    
+
      */
     class FL_API UnboundedSum : public SNorm {
     public:
