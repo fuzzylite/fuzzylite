@@ -13,7 +13,7 @@ InputVariable: food
 OutputVariable: tip
   enabled: true
   range: -30.000 30.000
-   aggregation: none
+  aggregation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false

@@ -14,7 +14,7 @@ InputVariable: flow
 OutputVariable: cold
   enabled: true
   range: -1.000 1.000
-   aggregation: Maximum
+  aggregation: Maximum
   defuzzifier: Centroid 200
   default: nan
   lock-previous: false
@@ -27,7 +27,7 @@ OutputVariable: cold
 OutputVariable: hot
   enabled: true
   range: -1.000 1.000
-   aggregation: Maximum
+  aggregation: Maximum
   defuzzifier: Centroid 200
   default: nan
   lock-previous: false

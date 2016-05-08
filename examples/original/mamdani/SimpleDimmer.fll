@@ -8,7 +8,7 @@ InputVariable: Ambient
 OutputVariable: Power
   enabled: true
   range: 0.000 1.000
-   aggregation: Maximum
+  aggregation: Maximum
   defuzzifier: Centroid 200
   default: nan
   lock-previous: false

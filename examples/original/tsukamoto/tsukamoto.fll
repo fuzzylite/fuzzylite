@@ -8,7 +8,7 @@ InputVariable: X
 OutputVariable: Ramps
   enabled: true
   range: 0.000 1.000
-   aggregation: none
+  aggregation: none
   defuzzifier: WeightedAverage
   default: nan
   lock-previous: false
@@ -19,7 +19,7 @@ OutputVariable: Ramps
 OutputVariable: Sigmoids
   enabled: true
   range: 0.020 1.000
-   aggregation: none
+  aggregation: none
   defuzzifier: WeightedAverage
   default: nan
   lock-previous: false
@@ -30,7 +30,7 @@ OutputVariable: Sigmoids
 OutputVariable: ZSShapes
   enabled: true
   range: 0.000 1.000
-   aggregation: none
+  aggregation: none
   defuzzifier: WeightedAverage
   default: nan
   lock-previous: false
@@ -41,7 +41,7 @@ OutputVariable: ZSShapes
 OutputVariable: Concaves
   enabled: true
   range: 0.000 1.000
-   aggregation: none
+  aggregation: none
   defuzzifier: WeightedAverage
   default: nan
   lock-previous: false

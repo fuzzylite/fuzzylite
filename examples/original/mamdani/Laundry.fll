@@ -12,7 +12,7 @@ InputVariable: Dirt
 OutputVariable: Detergent
   enabled: true
   range: 0.000 80.000
-   aggregation: Maximum
+  aggregation: Maximum
   defuzzifier: MeanOfMaximum 500
   default: nan
   lock-previous: false
@@ -23,7 +23,7 @@ OutputVariable: Detergent
 OutputVariable: Cycle
   enabled: true
   range: 0.000 20.000
-   aggregation: Maximum
+  aggregation: Maximum
   defuzzifier: MeanOfMaximum 500
   default: nan
   lock-previous: false

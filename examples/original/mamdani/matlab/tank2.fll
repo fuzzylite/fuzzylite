@@ -13,7 +13,7 @@ InputVariable: change
 OutputVariable: valve
   enabled: true
   range: -1.000 1.000
-   aggregation: Maximum
+  aggregation: Maximum
   defuzzifier: Centroid 200
   default: nan
   lock-previous: false

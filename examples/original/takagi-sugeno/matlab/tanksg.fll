@@ -14,7 +14,7 @@ InputVariable: rate
 OutputVariable: valve
   enabled: true
   range: -1.0000000000 1.0000000000
-   aggregation: none
+  aggregation: none
   defuzzifier: WeightedAverage TakagiSugeno
   default: nan
   lock-previous: false
