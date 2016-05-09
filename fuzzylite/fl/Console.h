@@ -81,19 +81,19 @@ namespace fl {
         static Engine* takagiSugeno();
 
     protected:
-        static std::map<std::string, std::string> parse(int argc, char** argv);
-        static void process(const std::map<std::string, std::string>& options);
+        virtual std::map<std::string, std::string> parse(int argc, char** argv);
+        virtual void process(const std::map<std::string, std::string>& options);
 
-        static void process(const std::string& input, std::ostream& writer,
+        virtual void process(const std::string& input, std::ostream& writer,
                 const std::string& inputFormat, const std::string& outputFormat,
                 const std::map<std::string, std::string>& options);
 
-        static int readCharacter();
-        static void interactive(std::ostream& writer, Engine* engine);
-        static std::string interactiveHelp();
+        virtual int readCharacter();
+        virtual void interactive(std::ostream& writer, Engine* engine);
+        virtual std::string interactiveHelp();
 
-        static void exportAllExamples(const std::string& from, const std::string& to);
-        static void exportAllExamples(const std::string& from, const std::string& to,
+        virtual void exportAllExamples(const std::string& from, const std::string& to);
+        virtual void exportAllExamples(const std::string& from, const std::string& to,
                 const std::string& examplesPath, const std::string& outputPath);
 #ifdef FL_CPP11
         static void benchmarkExamples(const std::string& path, int runs);
@@ -104,12 +104,12 @@ namespace fl {
           Returns a string representation of the usage of the command-line tool
           @return a string representation of the usage of the command-line tool
          */
-        static std::string usage();
+        virtual std::string usage();
         /**
           Returns a vector of the options available from the command line
           @return a vector of the options available from the command line
          */
-        static std::vector<Option> availableOptions();
+        virtual std::vector<Option> availableOptions();
 
         static int main(int argc, char** argv);
     };

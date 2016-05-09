@@ -752,8 +752,9 @@ namespace fl {
 #endif
 
     int Console::main(int argc, char** argv) {
+        Console console;
         if (argc <= 2) {
-            std::cout << usage() << std::endl;
+            std::cout << console.usage() << std::endl;
             return EXIT_SUCCESS;
         }
 
@@ -772,19 +773,19 @@ namespace fl {
             FL_LOG("Target=" << outputPath);
             fuzzylite::setDecimals(3);
             FL_LOG("Processing fll->fll");
-            exportAllExamples("fll", "fll", path, outputPath);
+            console.exportAllExamples("fll", "fll", path, outputPath);
             FL_LOG("Processing fll->fcl");
-            exportAllExamples("fll", "fcl", path, outputPath);
+            console.exportAllExamples("fll", "fcl", path, outputPath);
             FL_LOG("Processing fll->fis");
-            exportAllExamples("fll", "fis", path, outputPath);
+            console.exportAllExamples("fll", "fis", path, outputPath);
             FL_LOG("Processing fll->cpp");
-            exportAllExamples("fll", "cpp", path, outputPath);
+            console.exportAllExamples("fll", "cpp", path, outputPath);
             FL_LOG("Processing fll->java");
-            exportAllExamples("fll", "java", path, outputPath);
+            console.exportAllExamples("fll", "java", path, outputPath);
             fuzzylite::setDecimals(8);
             fuzzylite::setMachEps(1e-6);
             FL_LOG("Processing fll->fld");
-            exportAllExamples("fll", "fld", path, outputPath);
+            console.exportAllExamples("fll", "fld", path, outputPath);
             FL_LOG("Origin=" << path);
             FL_LOG("Target=" << outputPath);
             return EXIT_SUCCESS;
@@ -799,7 +800,7 @@ namespace fl {
                 runs = (int) Op::toScalar(argv[3]);
             }
             fuzzylite::setDecimals(3);
-            Console::benchmarkExamples(path, runs);
+            console.benchmarkExamples(path, runs);
             return EXIT_SUCCESS;
 #else
             throw fl::Exception("[benchmarks error] implementation available only when built with C++11 (-DFL_CPP11)", FL_AT);
@@ -807,8 +808,8 @@ namespace fl {
         }
 
         try {
-            std::map<std::string, std::string> options = parse(argc, argv);
-            process(options);
+            std::map<std::string, std::string> options = console.parse(argc, argv);
+            console.process(options);
         } catch (std::exception& ex) {
             std::cout << ex.what() << "\n" << std::endl;
             return EXIT_FAILURE;
