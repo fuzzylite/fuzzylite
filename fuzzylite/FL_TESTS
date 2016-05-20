@@ -1,7 +1,9 @@
 test/catch.hpp
 test/test.cpp
+test/QuickTests.cpp
 test/activation/Threshold.cpp
 test/hedge/HedgeFunction.cpp
+test/imex/FldExporter.cpp
 test/imex/FllImporter.cpp
 test/norm/NormFunction.cpp
 test/term/Aggregated.cpp

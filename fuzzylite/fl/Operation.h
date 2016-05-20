@@ -357,8 +357,10 @@ namespace fl {
           @param x is the vector to increment
           @param min is the minimum value of the dimension
           @param max is the maximum value of the dimension
-          @return whether the increment of @f$x@f$ leads to overflow (e.g.,
-          @f$x_4@f$ returns `true`)
+          @return `true` if @f$x@f$ was incremented, `false` otherwise (e.g.,
+          incrementing @f$x_3@f$ returns `false`). In earlier versions to 6.0, the 
+          result was the inverse and indicated whether the counter had overflown 
+          (most sincere apologies for this change).
          */
         static bool increment(std::vector<int>& x, std::vector<int>& min, std::vector<int>& max);
         /**
@@ -372,8 +374,10 @@ namespace fl {
           smaller values lead to higher significance digits
           @param min is the minimum value of the dimension
           @param max is the maximum value of the dimension
-          @return whether the increment of @f$x@f$ leads to overflow (e.g.,
-          @f$x_4@f$ returns `true`)
+          @return `true` if @f$x@f$ was incremented, `false` otherwise (e.g.,
+          incrementing @f$x_3@f$ returns `false`). In earlier versions to 6.0, the 
+          result was the inverse and indicated whether the counter had overflown 
+          (most sincere apologies for this change).
          */
         static bool increment(std::vector<int>& x, int position, std::vector<int>& min, std::vector<int>& max);
 
@@ -721,20 +725,20 @@ namespace fl {
     }
 
     inline bool Operation::increment(std::vector<int>& x, int position, std::vector<int>& min, std::vector<int>& max) {
-        if (x.empty() or position < 0) return true;
+        if (x.empty() or position < 0) return false;
 
-        bool overflow = false;
+        bool incremented = true;
         if (x.at(position) < max.at(position)) {
             ++x.at(position);
         } else {
-            overflow = (position == 0);
+            incremented = !(position == 0);
             x.at(position) = min.at(position);
             --position;
             if (position >= 0) {
-                overflow = increment(x, position, min, max);
+                incremented = increment(x, position, min, max);
             }
         }
-        return overflow;
+        return incremented;
     }
 
     inline double Operation::mean(const std::vector<scalar>& x) {

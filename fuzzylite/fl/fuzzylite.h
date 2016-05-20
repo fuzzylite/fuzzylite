@@ -229,8 +229,8 @@ namespace fl {
          */
         static std::string name();
         /**
-          Returns the name of the `fuzzylite` library including the long version
-          @return the name of the `fuzzylite` library including the long version
+          Returns the name of the `fuzzylite` library including the version
+          @return the name of the `fuzzylite` library including the version
          */
         static std::string fullname();
         /**

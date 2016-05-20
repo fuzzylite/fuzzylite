@@ -78,34 +78,44 @@ namespace fl {
         if (_exportInputValues) {
             for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i) {
                 InputVariable* inputVariable = engine->getInputVariable(i);
-                result.push_back("@InputVariable: " + inputVariable->getName() + ";");
+                result.push_back(inputVariable->getName());
             }
         }
         if (_exportOutputValues) {
             for (std::size_t i = 0; i < engine->numberOfOutputVariables(); ++i) {
                 OutputVariable* outputVariable = engine->getOutputVariable(i);
-                result.push_back("@OutputVariable: " + outputVariable->getName() + ";");
+                result.push_back(outputVariable->getName());
             }
         }
-        return "#@Engine: " + engine->getName() + ";\n#" + Op::join(result, _separator);
+        return Op::join(result, _separator);
     }
 
     std::string FldExporter::toString(const Engine* engine) const {
-        return toString(const_cast<Engine*> (engine), 1024);
+        return toString(const_cast<Engine*> (engine), 1024, AllVariables);
     }
 
-    std::string FldExporter::toString(Engine* engine, int maximumNumberOfResults) const {
+    std::string FldExporter::toString(Engine* engine, int values, ScopeOfValues scope) const {
+        return toString(engine, values, scope, engine->inputVariables());
+    }
+
+    std::string FldExporter::toString(Engine* engine, int values, ScopeOfValues scope,
+            const std::vector<InputVariable*>& activeVariables) const {
         std::ostringstream result;
-        write(engine, result, maximumNumberOfResults);
+        write(engine, result, values, scope, activeVariables);
         return result.str();
     }
 
-    void FldExporter::toFile(const std::string& path, Engine* engine, int maximumNumberOfResults) const {
+    void FldExporter::toFile(const std::string& path, Engine* engine, int values, ScopeOfValues scope) const {
+        toFile(path, engine, values, scope, engine->inputVariables());
+    }
+
+    void FldExporter::toFile(const std::string& path, Engine* engine, int values, ScopeOfValues scope,
+            const std::vector<InputVariable*>& activeVariables) const {
         std::ofstream writer(path.c_str());
         if (not writer.is_open()) {
             throw fl::Exception("[file error] file <" + path + "> could not be created", FL_AT);
         }
-        write(engine, writer, maximumNumberOfResults);
+        write(engine, writer, values, scope, activeVariables);
         writer.close();
     }
 
@@ -118,8 +128,10 @@ namespace fl {
             line = Op::trim(line);
             if (not line.empty() and line.at(0) == '#') continue; //comments are ignored, blank lines are retained
             std::vector<scalar> inputValues = parse(line);
-            write(engine, writer, inputValues);
-            writer.flush();
+            if (not inputValues.empty()) {
+                write(engine, writer, inputValues, engine->inputVariables());
+                writer.flush();
+            }
         }
         return writer.str();
     }
@@ -136,8 +148,10 @@ namespace fl {
             line = Op::trim(line);
             if (not line.empty() and line.at(0) == '#') continue; //comments are ignored, blank lines are retained
             std::vector<scalar> inputValues = parse(line);
-            write(engine, writer, inputValues);
-            writer.flush();
+            if (not inputValues.empty()) {
+                write(engine, writer, inputValues, engine->inputVariables());
+                writer.flush();
+            }
         }
         writer.close();
     }
@@ -153,37 +167,57 @@ namespace fl {
         return inputValues;
     }
 
-    void FldExporter::write(Engine* engine, std::ostream& writer, int maximum) const {
+    void FldExporter::write(Engine* engine, std::ostream& writer, int values, ScopeOfValues scope) const {
+        write(engine, writer, values, scope, engine->inputVariables());
+    }
+
+    void FldExporter::write(Engine* engine, std::ostream& writer,
+            int values, ScopeOfValues scope,
+            const std::vector<InputVariable*>& activeVariables) const {
         if (_exportHeaders) writer << header(engine) << "\n";
 
-        int resolution = -1 + (int) std::max(1.0, std::pow(
-                maximum, 1.0 / engine->numberOfInputVariables()));
+        if (activeVariables.size() != engine->inputVariables().size()) {
+            std::ostringstream ex;
+            ex << "[exporter error] number of active variables "
+                    "<" << activeVariables.size() << ">"
+                    << "must match the number of input variables in the engine "
+                    "<" << engine->inputVariables().size() << ">";
+            throw Exception(ex.str(), FL_AT);
+        }
+
+        int resolution;
+        if (scope == AllVariables)
+            resolution = -1 + (int) std::max(1.0, std::pow(
+                values, 1.0 / engine->numberOfInputVariables()));
+        else //if (type == ByVariable) 
+            resolution = values - 1;
+
         std::vector<int> sampleValues, minSampleValues, maxSampleValues;
         for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i) {
             sampleValues.push_back(0);
             minSampleValues.push_back(0);
-            maxSampleValues.push_back(resolution);
+            if (engine->inputVariables().at(i) == activeVariables.at(i))
+                maxSampleValues.push_back(resolution);
+            else maxSampleValues.push_back(0);
         }
 
-        engine->restart();
-
-        bool overflow = false;
         std::vector<scalar> inputValues(engine->numberOfInputVariables());
-        while (not overflow) {
+        do {
             for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i) {
                 InputVariable* inputVariable = engine->getInputVariable(i);
-                inputValues.at(i) = inputVariable->getMinimum()
-                        + sampleValues.at(i) * inputVariable->range() / std::max(1, resolution);
+                if (inputVariable == activeVariables.at(i)) {
+                    inputValues.at(i) = inputVariable->getMinimum()
+                            + sampleValues.at(i) * inputVariable->range() / std::max(1, resolution);
+                } else {
+                    inputValues.at(i) = inputVariable->getValue();
+                }
             }
             write(engine, writer, inputValues);
-            overflow = Op::increment(sampleValues, minSampleValues, maxSampleValues);
-        }
+        } while (Op::increment(sampleValues, minSampleValues, maxSampleValues));
     }
 
     void FldExporter::write(Engine* engine, std::ostream& writer, std::istream& reader) const {
         if (_exportHeaders) writer << header(engine) << "\n";
-
-        engine->restart();
 
         std::string line;
         std::size_t lineNumber = 0;
@@ -191,7 +225,7 @@ namespace fl {
             ++lineNumber;
             std::vector<scalar> inputValues = parse(Op::trim(line));
             try {
-                write(engine, writer, inputValues);
+                write(engine, writer, inputValues, engine->inputVariables());
             } catch (fl::Exception& ex) {
                 ex.append(" writing line <" + Op::str(lineNumber) + ">");
                 throw;
@@ -199,7 +233,14 @@ namespace fl {
         }
     }
 
-    void FldExporter::write(Engine* engine, std::ostream& writer, const std::vector<scalar>& inputValues) const {
+    void FldExporter::write(Engine* engine, std::ostream& writer,
+            const std::vector<scalar>& inputValues) const {
+        write(engine, writer, inputValues, engine->inputVariables());
+    }
+
+    void FldExporter::write(Engine* engine, std::ostream& writer,
+            const std::vector<scalar>& inputValues,
+            const std::vector<InputVariable*>& activeVariables) const {
         if (inputValues.empty()) {
             writer << "\n";
             return;
@@ -210,11 +251,22 @@ namespace fl {
                     "input variables, but input data provides <" << inputValues.size() << "> values";
             throw fl::Exception(ex.str(), FL_AT);
         }
+        if (activeVariables.size() != engine->inputVariables().size()) {
+            std::ostringstream ex;
+            ex << "[exporter error] number of active variables <" << activeVariables.size() << "> "
+                    "must match the number of input variables in the engine <" << engine->inputVariables().size() << ">";
+            throw fl::Exception(ex.str(), FL_AT);
+        }
 
         std::vector<std::string> values;
         for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i) {
             InputVariable* inputVariable = engine->getInputVariable(i);
-            scalar inputValue = inputVariable->isEnabled() ? inputValues.at(i) : fl::nan;
+            scalar inputValue;
+            if (inputVariable == activeVariables.at(i)) {
+                inputValue = inputValues.at(i);
+            } else {
+                inputValue = inputVariable->getValue();
+            }
             inputVariable->setValue(inputValue);
             if (_exportInputValues) values.push_back(Op::str(inputValue));
         }
