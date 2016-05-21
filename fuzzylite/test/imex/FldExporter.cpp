@@ -29,7 +29,7 @@ namespace fl {
         exporter.setExportHeader(false);
 
         int valuesEachVariable = 3;
-        uint expectedValues = (uint) std::pow(valuesEachVariable, engine->numberOfInputVariables());
+        int expectedValues = (int) std::pow(valuesEachVariable, engine->numberOfInputVariables());
 
         std::string eachVariable = exporter.toString(engine.get(), valuesEachVariable, FldExporter::EachVariable);
         //        FL_LOG("eachVariable:\n" << eachVariable);
