@@ -61,9 +61,11 @@ namespace fl {
         /**Keyword for number of decimals*/
         static const std::string KW_DECIMALS;
         /**Keyword for file containing input data*/
-        static const std::string KW_DATA_INPUT;
-        /**Keyword for maximum number of results to evaluate the engine*/
-        static const std::string KW_DATA_MAXIMUM;
+        static const std::string KW_DATA_INPUT_FILE;
+        /**Keyword for number of values to generate*/
+        static const std::string KW_DATA_VALUES;
+        /**Keyword for the scope of the number of values to generate*/
+        static const std::string KW_DATA_VALUES_SCOPE;
         /**Keyword for exporting headers in FLD*/
         static const std::string KW_DATA_EXPORT_HEADER;
         /**Keyword for exporting input values in FLD*/

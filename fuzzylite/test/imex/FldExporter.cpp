@@ -24,21 +24,21 @@ namespace fl {
         engine->addInputVariable(new InputVariable("Dummy2", 0, 1));
         engine->addInputVariable(new InputVariable("Dummy3", 0, 1));
         engine->addInputVariable(new InputVariable("Dummy4", 0, 1));
-        
+
         FldExporter exporter("\t");
         exporter.setExportHeader(false);
-        
+
         int valuesEachVariable = 3;
         uint expectedValues = (uint) std::pow(valuesEachVariable, engine->numberOfInputVariables());
-        
-        std::string eachVariable = exporter.toString(engine.get(),valuesEachVariable, FldExporter::EachVariable);
-//        FL_LOG("eachVariable:\n" << eachVariable);
+
+        std::string eachVariable = exporter.toString(engine.get(), valuesEachVariable, FldExporter::EachVariable);
+        //        FL_LOG("eachVariable:\n" << eachVariable);
         std::vector<std::string> linesByVariable = Op::split(eachVariable, "\n");
         CHECK(linesByVariable.size() == expectedValues);
-        
+
         std::string allVariables = exporter.toString(engine.get(), expectedValues, FldExporter::AllVariables);
         std::vector<std::string> linesAllVariables = Op::split(allVariables, "\n");
-//        FL_LOG("allVariables:\n" << allVariables);
+        //        FL_LOG("allVariables:\n" << allVariables);
         CHECK(linesAllVariables.size() == expectedValues);
     }
 

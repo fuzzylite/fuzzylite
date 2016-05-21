@@ -43,8 +43,10 @@ namespace fl {
     const std::string Console::KW_OUTPUT_FORMAT = "-of";
     const std::string Console::KW_EXAMPLE = "-example";
     const std::string Console::KW_DECIMALS = "-decimals";
-    const std::string Console::KW_DATA_INPUT = "-d";
-    const std::string Console::KW_DATA_MAXIMUM = "-dmaximum";
+    const std::string Console::KW_DATA_INPUT_FILE = "-d";
+    const std::string Console::KW_DATA_VALUES = "-values";
+    const std::string Console::KW_DATA_VALUES_SCOPE = "-scope";
+
     const std::string Console::KW_DATA_EXPORT_HEADER = "-dheader";
     const std::string Console::KW_DATA_EXPORT_INPUTS = "-dinputs";
 
@@ -56,8 +58,9 @@ namespace fl {
         options.push_back(Option(KW_OUTPUT_FORMAT, "format", "format of the file to export (fll | fld | cpp | java | fis | fcl)"));
         options.push_back(Option(KW_EXAMPLE, "letter", "if not inputfile, built-in example to use as engine: (m)amdani or (t)akagi-sugeno"));
         options.push_back(Option(KW_DECIMALS, "number", "number of decimals to write floating-poing values"));
-        options.push_back(Option(KW_DATA_INPUT, "datafile", "if exporting to fld, file of input values to evaluate your engine on"));
-        options.push_back(Option(KW_DATA_MAXIMUM, "number", "if exporting to fld without datafile, maximum number of results to export"));
+        options.push_back(Option(KW_DATA_INPUT_FILE, "datafile", "if exporting to fld, file of input values to evaluate your engine on"));
+        options.push_back(Option(KW_DATA_VALUES, "number", "if exporting to fld without datafile, number of results to export within scope (default: EachVariable)"));
+        options.push_back(Option(KW_DATA_VALUES_SCOPE, "scope", "if exporting to fld without datafile, scope of " + KW_DATA_VALUES + ": [EachVariable|AllVariables]"));
         options.push_back(Option(KW_DATA_EXPORT_HEADER, "boolean", "if true and exporting to fld, include headers"));
         options.push_back(Option(KW_DATA_EXPORT_INPUTS, "boolean", "if true and exporting to fld, include input values"));
         return options;
@@ -254,7 +257,7 @@ namespace fl {
             std::map<std::string, std::string>::const_iterator it;
 
             FldExporter fldExporter;
-            fldExporter.setSeparator("\t");
+            fldExporter.setSeparator(" ");
             bool exportHeaders = true;
             if ((it = options.find(KW_DATA_EXPORT_HEADER)) != options.end()) {
                 exportHeaders = ("true" == it->second);
@@ -265,7 +268,7 @@ namespace fl {
                 exportInputValues = ("true" == it->second);
             }
             fldExporter.setExportInputValues(exportInputValues);
-            if ((it = options.find(KW_DATA_INPUT)) != options.end()) {
+            if ((it = options.find(KW_DATA_INPUT_FILE)) != options.end()) {
                 std::ifstream dataFile(it->second.c_str());
                 if (not dataFile.is_open()) {
                     throw fl::Exception("[export error] file <" + it->second + "> could not be opened", FL_AT);
@@ -279,8 +282,18 @@ namespace fl {
                 }
 
             } else {
-                if ((it = options.find(KW_DATA_MAXIMUM)) != options.end()) {
-                    fldExporter.write(engine.get(), writer, (int) fl::Op::toScalar(it->second));
+                if ((it = options.find(KW_DATA_VALUES)) != options.end()) {
+                    int values = (int) fl::Op::toScalar(it->second);
+                    FldExporter::ScopeOfValues scope = FldExporter::EachVariable;
+                    if ((it = options.find(KW_DATA_VALUES_SCOPE)) != options.end()) {
+                        if ("AllVariables" == it->second)
+                            scope = FldExporter::AllVariables;
+                        else if ("EachVariable" == it->second)
+                            scope = FldExporter::EachVariable;
+                        else throw Exception("[export error] unknown scope of values <"
+                                + it->second + ">", FL_AT);
+                    }
+                    fldExporter.write(engine.get(), writer, values, scope);
                 } else {
                     std::ostringstream buffer;
                     buffer << "#FuzzyLite Interactive Console (press H for help)\n";

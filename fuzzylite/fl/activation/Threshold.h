@@ -149,7 +149,7 @@ namespace fl {
           Sets the comparison operator and the threshold for the activation method,
           and throws and fl::Exception if the comparison operator is not valid
           @param comparison is a valid comparison operator
-          @param threshold is the threshold for activation degrees
+          @param value is the threshold for activation degrees
          */
         virtual void setThreshold(const std::string& comparison, scalar value);
 

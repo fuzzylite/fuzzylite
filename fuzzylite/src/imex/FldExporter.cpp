@@ -189,7 +189,7 @@ namespace fl {
         if (scope == AllVariables)
             resolution = -1 + (int) std::max(1.0, std::pow(
                 values, 1.0 / engine->numberOfInputVariables()));
-        else //if (type == ByVariable) 
+        else //if (scope == EachVariable) 
             resolution = values - 1;
 
         std::vector<int> sampleValues, minSampleValues, maxSampleValues;
