@@ -1,4 +1,4 @@
-FUNCTION_BLOCK Heart-Disease-Risk
+FUNCTION_BLOCK heart_disease_risk
 
 VAR_INPUT
   LDLLevel: REAL;

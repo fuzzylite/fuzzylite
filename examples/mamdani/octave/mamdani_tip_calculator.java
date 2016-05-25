@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class mamdani_tip_calculator{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("Mamdani-Tip-Calculator");
+engine.setName("mamdani_tip_calculator");
 
 InputVariable FoodQuality = new InputVariable();
 FoodQuality.setEnabled(true);

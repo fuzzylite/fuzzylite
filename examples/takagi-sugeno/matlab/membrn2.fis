@@ -1,5 +1,5 @@
 [System]
-Name='anfis'
+Name='membrn2'
 Type='sugeno'
 NumInputs=2
 NumOutputs=1

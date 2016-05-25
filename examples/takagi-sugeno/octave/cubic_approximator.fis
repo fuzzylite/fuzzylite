@@ -1,5 +1,5 @@
 [System]
-Name='Cubic-Approximator'
+Name='cubic_approximator'
 Type='sugeno'
 NumInputs=1
 NumOutputs=1

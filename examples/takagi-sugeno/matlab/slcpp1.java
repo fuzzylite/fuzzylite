@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class slcpp1{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("slcpp");
+engine.setName("slcpp1");
 
 InputVariable in1 = new InputVariable();
 in1.setEnabled(true);

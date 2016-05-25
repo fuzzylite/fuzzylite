@@ -4,7 +4,7 @@ int main(int argc, char** argv){
 using namespace fl;
 
 Engine* engine = new Engine;
-engine->setName("Cubic-Approximator");
+engine->setName("cubic_approximator");
 
 InputVariable* X = new InputVariable;
 X->setEnabled(true);

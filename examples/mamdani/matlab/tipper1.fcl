@@ -1,4 +1,4 @@
-FUNCTION_BLOCK tipper
+FUNCTION_BLOCK tipper1
 
 VAR_INPUT
   service: REAL;

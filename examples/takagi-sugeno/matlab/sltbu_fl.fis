@@ -1,5 +1,5 @@
 [System]
-Name='sltbu'
+Name='sltbu_fl'
 Type='sugeno'
 NumInputs=3
 NumOutputs=1

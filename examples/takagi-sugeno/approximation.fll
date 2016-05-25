@@ -1,4 +1,4 @@
-Engine: approximation of sin(x)/x
+Engine: approximation
 InputVariable: inputX
   enabled: true
   range: 0.000 10.000

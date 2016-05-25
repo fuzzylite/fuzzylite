@@ -1,5 +1,5 @@
 [System]
-Name='Mamdani-Tip-Calculator'
+Name='mamdani_tip_calculator'
 Type='mamdani'
 NumInputs=2
 NumOutputs=2

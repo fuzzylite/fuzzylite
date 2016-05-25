@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class SimpleDimmer{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("simple-dimmer");
+engine.setName("SimpleDimmer");
 
 InputVariable Ambient = new InputVariable();
 Ambient.setEnabled(true);

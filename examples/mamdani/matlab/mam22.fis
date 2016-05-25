@@ -1,5 +1,5 @@
 [System]
-Name='mam21'
+Name='mam22'
 Type='mamdani'
 NumInputs=2
 NumOutputs=2

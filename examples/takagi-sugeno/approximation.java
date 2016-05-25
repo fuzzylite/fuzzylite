@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class approximation{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("approximation of sin(x)/x");
+engine.setName("approximation");
 
 InputVariable inputX = new InputVariable();
 inputX.setEnabled(true);

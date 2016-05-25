@@ -1,5 +1,5 @@
 [System]
-Name='Sugeno-Tip-Calculator'
+Name='sugeno_tip_calculator'
 Type='sugeno'
 NumInputs=2
 NumOutputs=3

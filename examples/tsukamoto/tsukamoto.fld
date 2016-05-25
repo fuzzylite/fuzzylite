@@ -1,5 +1,4 @@
-#@Engine: ;
-#@InputVariable: X; @OutputVariable: Ramps; @OutputVariable: Sigmoids; @OutputVariable: ZSShapes; @OutputVariable: Concaves;
+X Ramps Sigmoids ZSShapes Concaves
 -10.00000000 0.25536331 0.99441852 0.25580927 0.25221216
 -9.98044966 0.25542354 0.99434929 0.25587749 0.25223783
 -9.96089932 0.25548454 0.99427909 0.25594671 0.25226383

@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class cubic_approximator{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("Cubic-Approximator");
+engine.setName("cubic_approximator");
 
 InputVariable X = new InputVariable();
 X.setEnabled(true);

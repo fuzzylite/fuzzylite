@@ -4,7 +4,7 @@ int main(int argc, char** argv){
 using namespace fl;
 
 Engine* engine = new Engine;
-engine->setName("qtfuzzylite");
+engine->setName("AllTerms");
 
 InputVariable* AllInputTerms = new InputVariable;
 AllInputTerms->setEnabled(true);

@@ -1,5 +1,5 @@
 [System]
-Name='slcpp'
+Name='slcpp1'
 Type='sugeno'
 NumInputs=7
 NumOutputs=1

@@ -4,7 +4,7 @@ int main(int argc, char** argv){
 using namespace fl;
 
 Engine* engine = new Engine;
-engine->setName("Heart-Disease-Risk");
+engine->setName("heart_disease_risk");
 
 InputVariable* LDLLevel = new InputVariable;
 LDLLevel->setEnabled(true);

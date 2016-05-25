@@ -1,5 +1,4 @@
-#@Engine: Linear-Tip-Calculator;
-#@InputVariable: FoodQuality; @InputVariable: Service; @OutputVariable: Tip;
+FoodQuality Service Tip
 1.00000000 1.00000000 10.00000000
 1.00000000 1.29032258 10.00000000
 1.00000000 1.58064516 10.00000000

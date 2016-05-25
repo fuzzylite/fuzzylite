@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class heart_disease_risk{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("Heart-Disease-Risk");
+engine.setName("heart_disease_risk");
 
 InputVariable LDLLevel = new InputVariable();
 LDLLevel.setEnabled(true);

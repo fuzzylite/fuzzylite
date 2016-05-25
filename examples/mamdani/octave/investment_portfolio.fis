@@ -1,5 +1,5 @@
 [System]
-Name='Investment-Portfolio'
+Name='investment_portfolio'
 Type='mamdani'
 NumInputs=2
 NumOutputs=1

@@ -1,4 +1,4 @@
-FUNCTION_BLOCK sugeno
+FUNCTION_BLOCK sugeno1
 
 VAR_INPUT
   input: REAL;

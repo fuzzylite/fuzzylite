@@ -1,5 +1,4 @@
-#@Engine: Sugeno-Tip-Calculator;
-#@InputVariable: FoodQuality; @InputVariable: Service; @OutputVariable: CheapTip; @OutputVariable: AverageTip; @OutputVariable: GenerousTip;
+FoodQuality Service CheapTip AverageTip GenerousTip
 1.00000000 1.00000000 10.00000000 10.00000000 12.50000000
 1.00000000 1.29032258 10.00000000 10.00000000 12.50000000
 1.00000000 1.58064516 10.00000000 10.00000000 12.50000000

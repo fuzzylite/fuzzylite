@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class sugeno1{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("sugeno");
+engine.setName("sugeno1");
 
 InputVariable input = new InputVariable();
 input.setEnabled(true);

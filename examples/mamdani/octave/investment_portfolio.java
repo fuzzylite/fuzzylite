@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class investment_portfolio{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("Investment-Portfolio");
+engine.setName("investment_portfolio");
 
 InputVariable Age = new InputVariable();
 Age.setEnabled(true);

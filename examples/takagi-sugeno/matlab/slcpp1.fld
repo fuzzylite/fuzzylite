@@ -1,5 +1,4 @@
-#@Engine: slcpp;
-#@InputVariable: in1; @InputVariable: in2; @InputVariable: in3; @InputVariable: in4; @InputVariable: in5; @InputVariable: in6; @InputVariable: pole_length; @OutputVariable: out;
+in1 in2 in3 in4 in5 in6 pole_length out
 -0.30000000 -1.00000000 -3.00000000 -3.00000000 -3.00000000 -3.00000000 0.50000000 641.48000000
 -0.30000000 -1.00000000 -3.00000000 -3.00000000 -3.00000000 -3.00000000 1.50000000 -1006.61900000
 -0.30000000 -1.00000000 -3.00000000 -3.00000000 -3.00000000 3.00000000 0.50000000 625.28000000

@@ -1,4 +1,4 @@
-FUNCTION_BLOCK qtfuzzylite
+FUNCTION_BLOCK AllTerms
 
 VAR_INPUT
   AllInputTerms: REAL;

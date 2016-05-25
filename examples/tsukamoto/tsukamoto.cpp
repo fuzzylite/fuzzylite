@@ -4,7 +4,7 @@ int main(int argc, char** argv){
 using namespace fl;
 
 Engine* engine = new Engine;
-engine->setName("");
+engine->setName("tsukamoto");
 
 InputVariable* X = new InputVariable;
 X->setEnabled(true);

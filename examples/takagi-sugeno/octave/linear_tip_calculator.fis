@@ -1,5 +1,5 @@
 [System]
-Name='Linear-Tip-Calculator'
+Name='linear_tip_calculator'
 Type='sugeno'
 NumInputs=2
 NumOutputs=1

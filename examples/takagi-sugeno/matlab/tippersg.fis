@@ -1,5 +1,5 @@
 [System]
-Name='sugeno tipper'
+Name='tippersg'
 Type='sugeno'
 NumInputs=2
 NumOutputs=1

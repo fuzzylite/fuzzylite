@@ -1,4 +1,4 @@
-FUNCTION_BLOCK slcpp
+FUNCTION_BLOCK slcpp1
 
 VAR_INPUT
   in1: REAL;

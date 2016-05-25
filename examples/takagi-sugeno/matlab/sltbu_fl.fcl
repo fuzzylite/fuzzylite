@@ -1,4 +1,4 @@
-FUNCTION_BLOCK sltbu
+FUNCTION_BLOCK sltbu_fl
 
 VAR_INPUT
   distance: REAL;

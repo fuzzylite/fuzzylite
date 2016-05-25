@@ -1,4 +1,4 @@
-FUNCTION_BLOCK sugeno tipper
+FUNCTION_BLOCK tippersg
 
 VAR_INPUT
   service: REAL;

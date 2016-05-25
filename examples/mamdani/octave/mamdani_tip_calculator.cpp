@@ -4,7 +4,7 @@ int main(int argc, char** argv){
 using namespace fl;
 
 Engine* engine = new Engine;
-engine->setName("Mamdani-Tip-Calculator");
+engine->setName("mamdani_tip_calculator");
 
 InputVariable* FoodQuality = new InputVariable;
 FoodQuality->setEnabled(true);

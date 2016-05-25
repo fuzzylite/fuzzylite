@@ -1,4 +1,4 @@
-FUNCTION_BLOCK Investment-Portfolio
+FUNCTION_BLOCK investment_portfolio
 
 VAR_INPUT
   Age: REAL;

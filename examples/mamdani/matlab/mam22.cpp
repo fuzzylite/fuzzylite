@@ -4,7 +4,7 @@ int main(int argc, char** argv){
 using namespace fl;
 
 Engine* engine = new Engine;
-engine->setName("mam21");
+engine->setName("mam22");
 
 InputVariable* angle = new InputVariable;
 angle->setEnabled(true);

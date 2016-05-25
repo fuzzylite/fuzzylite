@@ -1,5 +1,4 @@
-#@Engine: Cubic-Approximator;
-#@InputVariable: X; @OutputVariable: ApproxXCubed;
+X ApproxXCubed
 -5.00000000 -125.00000000
 -4.99022483 -124.14236490
 -4.98044966 -123.28988972

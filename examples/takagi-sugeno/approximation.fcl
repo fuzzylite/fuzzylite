@@ -1,4 +1,4 @@
-FUNCTION_BLOCK approximation of sin(x)/x
+FUNCTION_BLOCK approximation
 
 VAR_INPUT
   inputX: REAL;

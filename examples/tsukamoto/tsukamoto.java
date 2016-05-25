@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class tsukamoto{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("");
+engine.setName("tsukamoto");
 
 InputVariable X = new InputVariable();
 X.setEnabled(true);

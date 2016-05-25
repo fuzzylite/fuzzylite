@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class tank2{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("tank");
+engine.setName("tank2");
 
 InputVariable level = new InputVariable();
 level.setEnabled(true);

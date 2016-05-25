@@ -1,4 +1,4 @@
-FUNCTION_BLOCK Linear-Tip-Calculator
+FUNCTION_BLOCK linear_tip_calculator
 
 VAR_INPUT
   FoodQuality: REAL;

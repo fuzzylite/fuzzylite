@@ -4,7 +4,7 @@ int main(int argc, char** argv){
 using namespace fl;
 
 Engine* engine = new Engine;
-engine->setName("Investment-Portfolio");
+engine->setName("investment_portfolio");
 
 InputVariable* Age = new InputVariable;
 Age->setEnabled(true);

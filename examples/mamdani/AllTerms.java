@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class AllTerms{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("qtfuzzylite");
+engine.setName("AllTerms");
 
 InputVariable AllInputTerms = new InputVariable();
 AllInputTerms.setEnabled(true);

@@ -1,4 +1,4 @@
-Engine: Cubic-Approximator
+Engine: cubic_approximator
 InputVariable: X
   enabled: true
   range: -5.000 5.000

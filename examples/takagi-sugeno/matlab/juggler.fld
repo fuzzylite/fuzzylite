@@ -1,5 +1,4 @@
-#@Engine: juggler;
-#@InputVariable: xHit; @InputVariable: projectAngle; @OutputVariable: theta;
+xHit projectAngle theta
 -4.00000000 0.00000000 0.40203539
 -4.00000000 0.10134170 0.35136458
 -4.00000000 0.20268339 0.30069377

@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class fpeaks{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("peaks");
+engine.setName("fpeaks");
 
 InputVariable in1 = new InputVariable();
 in1.setEnabled(true);

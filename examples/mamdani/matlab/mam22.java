@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class mam22{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("mam21");
+engine.setName("mam22");
 
 InputVariable angle = new InputVariable();
 angle.setEnabled(true);

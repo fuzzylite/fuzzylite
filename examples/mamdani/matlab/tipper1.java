@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class tipper1{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("tipper");
+engine.setName("tipper1");
 
 InputVariable service = new InputVariable();
 service.setEnabled(true);

@@ -1,5 +1,5 @@
 [System]
-Name='approximation of sin(x)/x'
+Name='approximation'
 Type='sugeno'
 NumInputs=1
 NumOutputs=3

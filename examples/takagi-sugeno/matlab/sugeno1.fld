@@ -1,5 +1,4 @@
-#@Engine: sugeno;
-#@InputVariable: input; @OutputVariable: output;
+input output
 -5.00000000 3.57912272
 -4.99022483 3.56770519
 -4.98044966 3.55628351

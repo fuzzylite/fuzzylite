@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class sltbu_fl{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("sltbu");
+engine.setName("sltbu_fl");
 
 InputVariable distance = new InputVariable();
 distance.setEnabled(true);

@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class sugeno_tip_calculator{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("Sugeno-Tip-Calculator");
+engine.setName("sugeno_tip_calculator");
 
 InputVariable FoodQuality = new InputVariable();
 FoodQuality.setEnabled(true);

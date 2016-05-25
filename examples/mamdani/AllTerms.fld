@@ -1,5 +1,4 @@
-#@Engine: qtfuzzylite;
-#@InputVariable: AllInputTerms; @OutputVariable: AllOutputTerms;
+AllInputTerms AllOutputTerms
 0.00000000 4.59989528
 0.00635386 4.59989528
 0.01270772 4.59989528

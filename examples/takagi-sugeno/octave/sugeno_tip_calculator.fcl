@@ -1,4 +1,4 @@
-FUNCTION_BLOCK Sugeno-Tip-Calculator
+FUNCTION_BLOCK sugeno_tip_calculator
 
 VAR_INPUT
   FoodQuality: REAL;

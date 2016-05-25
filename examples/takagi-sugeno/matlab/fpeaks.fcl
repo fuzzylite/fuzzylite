@@ -1,4 +1,4 @@
-FUNCTION_BLOCK peaks
+FUNCTION_BLOCK fpeaks
 
 VAR_INPUT
   in1: REAL;

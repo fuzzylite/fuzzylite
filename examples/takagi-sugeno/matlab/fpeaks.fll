@@ -1,4 +1,4 @@
-Engine: peaks
+Engine: fpeaks
 InputVariable: in1
   enabled: true
   range: -3.000 3.000

@@ -1,4 +1,4 @@
-FUNCTION_BLOCK anfis
+FUNCTION_BLOCK membrn2
 
 VAR_INPUT
   in_n1: REAL;

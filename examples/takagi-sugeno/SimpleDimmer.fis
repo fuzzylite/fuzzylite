@@ -1,5 +1,5 @@
 [System]
-Name='simple-dimmer'
+Name='SimpleDimmer'
 Type='sugeno'
 NumInputs=1
 NumOutputs=1

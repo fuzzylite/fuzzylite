@@ -1,4 +1,4 @@
-FUNCTION_BLOCK tank
+FUNCTION_BLOCK tank2
 
 VAR_INPUT
   level: REAL;

@@ -1,4 +1,4 @@
-FUNCTION_BLOCK simple-dimmer
+FUNCTION_BLOCK SimpleDimmer
 
 VAR_INPUT
   Ambient: REAL;

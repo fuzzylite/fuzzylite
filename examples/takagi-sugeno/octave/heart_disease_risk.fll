@@ -1,4 +1,4 @@
-Engine: Heart-Disease-Risk
+Engine: heart_disease_risk
 InputVariable: LDLLevel
   enabled: true
   range: 0.000 300.000

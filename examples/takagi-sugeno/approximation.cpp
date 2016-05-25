@@ -4,7 +4,7 @@ int main(int argc, char** argv){
 using namespace fl;
 
 Engine* engine = new Engine;
-engine->setName("approximation of sin(x)/x");
+engine->setName("approximation");
 
 InputVariable* inputX = new InputVariable;
 inputX->setEnabled(true);

@@ -1,5 +1,4 @@
-#@Engine: sugeno tipper;
-#@InputVariable: service; @InputVariable: food; @OutputVariable: tip;
+service food tip
 0.00000000 0.00000000 5.03851032
 0.00000000 0.32258065 5.03851032
 0.00000000 0.64516129 5.03851032

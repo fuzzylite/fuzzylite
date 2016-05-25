@@ -4,7 +4,7 @@ int main(int argc, char** argv){
 using namespace fl;
 
 Engine* engine = new Engine;
-engine->setName("sltbu");
+engine->setName("sltbu_fl");
 
 InputVariable* distance = new InputVariable;
 distance->setEnabled(true);

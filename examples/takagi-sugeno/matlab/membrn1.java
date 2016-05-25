@@ -13,7 +13,7 @@ import com.fuzzylite.variable.*;
 public class membrn1{
 public static void main(String[] args){
 Engine engine = new Engine();
-engine.setName("anfis");
+engine.setName("membrn1");
 
 InputVariable in_n1 = new InputVariable();
 in_n1.setEnabled(true);

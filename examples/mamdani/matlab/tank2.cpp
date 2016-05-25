@@ -4,7 +4,7 @@ int main(int argc, char** argv){
 using namespace fl;
 
 Engine* engine = new Engine;
-engine->setName("tank");
+engine->setName("tank2");
 
 InputVariable* level = new InputVariable;
 level->setEnabled(true);
