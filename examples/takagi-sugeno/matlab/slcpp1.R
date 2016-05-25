@@ -1,0 +1,109 @@
+#R script generated with fuzzylite-6.0.
+
+library(ggplot2);
+
+engine.name = "slcpp1"
+engine.fll = "Engine: slcpp1
+InputVariable: in1
+  enabled: true
+  range: -0.300 0.300
+  lock-range: false
+InputVariable: in2
+  enabled: true
+  range: -1.000 1.000
+  lock-range: false
+InputVariable: in3
+  enabled: true
+  range: -3.000 3.000
+  lock-range: false
+InputVariable: in4
+  enabled: true
+  range: -3.000 3.000
+  lock-range: false
+InputVariable: in5
+  enabled: true
+  range: -3.000 3.000
+  lock-range: false
+InputVariable: in6
+  enabled: true
+  range: -3.000 3.000
+  lock-range: false
+InputVariable: pole_length
+  enabled: true
+  range: 0.500 1.500
+  lock-range: false
+  term: mf1 ZShape 0.500 0.600
+  term: mf2 PiShape 0.500 0.600 0.600 0.700
+  term: mf3 PiShape 0.600 0.700 0.700 0.800
+  term: mf4 PiShape 0.700 0.800 0.800 0.900
+  term: mf5 PiShape 0.800 0.900 0.900 1.000
+  term: mf6 PiShape 0.900 1.000 1.000 1.100
+  term: mf7 PiShape 1.000 1.100 1.100 1.200
+  term: mf8 PiShape 1.100 1.200 1.200 1.300
+  term: mf9 PiShape 1.200 1.300 1.300 1.400
+  term: mf10 PiShape 1.300 1.400 1.400 1.500
+  term: mf11 SShape 1.400 1.500
+OutputVariable: out
+  enabled: true
+  range: -10.000 10.000
+  lock-range: false
+  aggregation: none
+  defuzzifier: WeightedAverage TakagiSugeno
+  default: nan
+  lock-previous: false
+  term: outmf1 Linear 168.400 31.000 -188.050 -49.250 -1.000 -2.700 0.000 0.000
+  term: outmf2 Linear 233.950 47.190 -254.520 -66.580 -1.000 -2.740 0.000 0.000
+  term: outmf3 Linear 342.940 74.730 -364.370 -95.230 -1.000 -2.780 0.000 0.000
+  term: outmf4 Linear 560.710 130.670 -582.960 -152.240 -1.000 -2.810 0.000 0.000
+  term: outmf5 Linear 1213.880 300.190 -1236.900 -322.800 -1.000 -2.840 0.000 0.000
+  term: outmf6 Linear 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+  term: outmf7 Linear -1399.120 -382.950 1374.630 358.340 -1.000 -2.900 0.000 0.000
+  term: outmf8 Linear -746.070 -213.420 720.900 187.840 -1.000 -2.930 0.000 0.000
+  term: outmf9 Linear -528.520 -157.460 502.680 130.920 -1.000 -2.960 0.000 0.000
+  term: outmf10 Linear -419.870 -129.890 393.380 102.410 -1.000 -2.980 0.000 0.000
+  term: outmf11 Linear -354.770 -113.680 327.650 85.270 -1.000 -3.010 0.000 0.000
+RuleBlock: 
+  enabled: true
+  conjunction: none
+  disjunction: none
+  implication: none
+  activation: General
+  rule: if pole_length is mf1 then out is outmf1
+  rule: if pole_length is mf2 then out is outmf2
+  rule: if pole_length is mf3 then out is outmf3
+  rule: if pole_length is mf4 then out is outmf4
+  rule: if pole_length is mf5 then out is outmf5
+  rule: if pole_length is mf6 then out is outmf6
+  rule: if pole_length is mf7 then out is outmf7
+  rule: if pole_length is mf8 then out is outmf8
+  rule: if pole_length is mf9 then out is outmf9
+  rule: if pole_length is mf10 then out is outmf10
+  rule: if pole_length is mf11 then out is outmf11"
+
+engine.fldFile = "slcpp1.fld"
+if (require(data.table)) {
+    engine.df = data.table::fread(engine.fldFile, sep="auto", header="auto")
+} else {
+    engine.df = read.table(engine.fldFile, header=TRUE)
+}
+
+engine.plot.i1i2_o1 = ggplot(engine.df, aes(in1, pole_length)) + 
+    geom_tile(aes(fill=out)) + 
+    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    stat_contour(aes(x=in1, y=pole_length, z=out), color="black") + 
+    ggtitle("(in1, pole_length) = out")
+
+engine.plot.i2i1_o1 = ggplot(engine.df, aes(pole_length, in1)) + 
+    geom_tile(aes(fill=out)) + 
+    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    stat_contour(aes(x=pole_length, y=in1, z=out), color="black") + 
+    ggtitle("(pole_length, in1) = out")
+
+if (require(gridExtra)) {
+    engine.plots = arrangeGrob(engine.plot.i1i2_o1, engine.plot.i2i1_o1, ncol=2, top=engine.name)
+    ggsave(paste0(engine.name, ".pdf"), engine.plots)
+    if (require(grid)) {
+        grid.newpage()
+        grid.draw(engine.plots)
+    }
+}

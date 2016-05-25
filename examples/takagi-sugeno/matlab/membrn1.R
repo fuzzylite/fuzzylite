@@ -1,0 +1,68 @@
+#R script generated with fuzzylite-6.0.
+
+library(ggplot2);
+
+engine.name = "membrn1"
+engine.fll = "Engine: membrn1
+InputVariable: in_n1
+  enabled: true
+  range: 1.000 31.000
+  lock-range: false
+  term: in1mf1 Bell 2.253 16.220 5.050
+  term: in1mf2 Bell 31.260 15.021 1.843
+InputVariable: in_n2
+  enabled: true
+  range: 1.000 31.000
+  lock-range: false
+  term: in2mf1 Bell 0.740 15.021 1.843
+  term: in2mf2 Bell 29.747 16.220 5.050
+OutputVariable: out1
+  enabled: true
+  range: -0.334 1.000
+  lock-range: false
+  aggregation: none
+  defuzzifier: WeightedAverage TakagiSugeno
+  default: nan
+  lock-previous: false
+  term: out1mf1 Linear 0.026 0.071 -0.615
+  term: out1mf2 Linear -0.036 0.036 -1.169
+  term: out1mf3 Linear -0.094 0.094 2.231
+  term: out1mf4 Linear -0.071 -0.026 2.479
+RuleBlock: 
+  enabled: true
+  conjunction: AlgebraicProduct
+  disjunction: none
+  implication: none
+  activation: General
+  rule: if in_n1 is in1mf1 and in_n2 is in2mf1 then out1 is out1mf1
+  rule: if in_n1 is in1mf1 and in_n2 is in2mf2 then out1 is out1mf2
+  rule: if in_n1 is in1mf2 and in_n2 is in2mf1 then out1 is out1mf3
+  rule: if in_n1 is in1mf2 and in_n2 is in2mf2 then out1 is out1mf4"
+
+engine.fldFile = "membrn1.fld"
+if (require(data.table)) {
+    engine.df = data.table::fread(engine.fldFile, sep="auto", header="auto")
+} else {
+    engine.df = read.table(engine.fldFile, header=TRUE)
+}
+
+engine.plot.i1i2_o1 = ggplot(engine.df, aes(in_n1, in_n2)) + 
+    geom_tile(aes(fill=out1)) + 
+    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    stat_contour(aes(x=in_n1, y=in_n2, z=out1), color="black") + 
+    ggtitle("(in_n1, in_n2) = out1")
+
+engine.plot.i2i1_o1 = ggplot(engine.df, aes(in_n2, in_n1)) + 
+    geom_tile(aes(fill=out1)) + 
+    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    stat_contour(aes(x=in_n2, y=in_n1, z=out1), color="black") + 
+    ggtitle("(in_n2, in_n1) = out1")
+
+if (require(gridExtra)) {
+    engine.plots = arrangeGrob(engine.plot.i1i2_o1, engine.plot.i2i1_o1, ncol=2, top=engine.name)
+    ggsave(paste0(engine.name, ".pdf"), engine.plots)
+    if (require(grid)) {
+        grid.newpage()
+        grid.draw(engine.plots)
+    }
+}

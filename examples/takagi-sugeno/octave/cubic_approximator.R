@@ -1,0 +1,84 @@
+#R script generated with fuzzylite-6.0.
+
+library(ggplot2);
+
+engine.name = "cubic_approximator"
+engine.fll = "Engine: cubic_approximator
+InputVariable: X
+  enabled: true
+  range: -5.000 5.000
+  lock-range: false
+  term: AboutNegFive Triangle -6.000 -5.000 -4.000
+  term: AboutNegFour Triangle -5.000 -4.000 -3.000
+  term: AboutNegThree Triangle -4.000 -3.000 -2.000
+  term: AboutNegTwo Triangle -3.000 -2.000 -1.000
+  term: AboutNegOne Triangle -2.000 -1.000 0.000
+  term: AboutZero Triangle -1.000 0.000 1.000
+  term: AboutOne Triangle 0.000 1.000 2.000
+  term: AboutTwo Triangle 1.000 2.000 3.000
+  term: AboutThree Triangle 2.000 3.000 4.000
+  term: AboutFour Triangle 3.000 4.000 5.000
+  term: AboutFive Triangle 4.000 5.000 6.000
+OutputVariable: ApproxXCubed
+  enabled: true
+  range: -5.000 5.000
+  lock-range: false
+  aggregation: none
+  defuzzifier: WeightedAverage TakagiSugeno
+  default: nan
+  lock-previous: false
+  term: TangentatNegFive Linear 75.000 250.000
+  term: TangentatNegFour Linear 48.000 128.000
+  term: TangentatNegThree Linear 27.000 54.000
+  term: TangentatNegTwo Linear 12.000 16.000
+  term: TangentatNegOne Linear 3.000 2.000
+  term: TangentatZero Linear 0.000 0.000
+  term: TangentatOne Linear 3.000 -2.000
+  term: TangentatTwo Linear 12.000 -16.000
+  term: TangentatThree Linear 27.000 -54.000
+  term: TangentatFour Linear 48.000 -128.000
+  term: TangentatFive Linear 75.000 -250.000
+RuleBlock: 
+  enabled: true
+  conjunction: none
+  disjunction: none
+  implication: none
+  activation: General
+  rule: if X is AboutNegFive then ApproxXCubed is TangentatNegFive
+  rule: if X is AboutNegFour then ApproxXCubed is TangentatNegFour
+  rule: if X is AboutNegThree then ApproxXCubed is TangentatNegThree
+  rule: if X is AboutNegTwo then ApproxXCubed is TangentatNegTwo
+  rule: if X is AboutNegOne then ApproxXCubed is TangentatNegOne
+  rule: if X is AboutZero then ApproxXCubed is TangentatZero
+  rule: if X is AboutOne then ApproxXCubed is TangentatOne
+  rule: if X is AboutTwo then ApproxXCubed is TangentatTwo
+  rule: if X is AboutThree then ApproxXCubed is TangentatThree
+  rule: if X is AboutFour then ApproxXCubed is TangentatFour
+  rule: if X is AboutFive then ApproxXCubed is TangentatFive"
+
+engine.fldFile = "cubic_approximator.fld"
+if (require(data.table)) {
+    engine.df = data.table::fread(engine.fldFile, sep="auto", header="auto")
+} else {
+    engine.df = read.table(engine.fldFile, header=TRUE)
+}
+
+engine.plot.i1_o1 = ggplot(engine.df, aes(X, ApproxXCubed)) + 
+    geom_line(aes(color=ApproxXCubed), size=3, lineend="round", linejoin="mitre") + 
+    scale_color_gradient(low="#ffff00", high="#ff0000") + 
+    ggtitle("X vs ApproxXCubed")
+
+engine.plot.o1_i1 = ggplot(engine.df, aes(X, ApproxXCubed)) + 
+    geom_line(aes(color=ApproxXCubed), size=3, lineend="round", linejoin="mitre") + 
+    scale_color_gradient(low="#ffff00", high="#ff0000") + 
+    coord_flip() + 
+    ggtitle("X vs ApproxXCubed")
+
+if (require(gridExtra)) {
+    engine.plots = arrangeGrob(engine.plot.i1_o1, engine.plot.o1_i1, ncol=2, top=engine.name)
+    ggsave(paste0(engine.name, ".pdf"), engine.plots)
+    if (require(grid)) {
+        grid.newpage()
+        grid.draw(engine.plots)
+    }
+}

@@ -1,0 +1,111 @@
+#R script generated with fuzzylite-6.0.
+
+library(ggplot2);
+
+engine.name = "AllTerms"
+engine.fll = "Engine: AllTerms
+InputVariable: AllInputTerms
+  enabled: true
+  range: 0.000 6.500
+  lock-range: false
+  term: A Sigmoid 0.500 -20.000
+  term: B ZShape 0.000 1.000
+  term: C Ramp 1.000 0.000
+  term: D Triangle 0.500 1.000 1.500
+  term: E Trapezoid 1.000 1.250 1.750 2.000
+  term: F Concave 0.850 0.250
+  term: G Rectangle 1.750 2.250
+  term: H Discrete 2.000 0.000 2.250 1.000 2.500 0.500 2.750 1.000 3.000 0.000
+  term: I Gaussian 3.000 0.200
+  term: J Cosine 3.250 0.650
+  term: K GaussianProduct 3.500 0.100 3.300 0.300
+  term: L Spike 3.640 1.040
+  term: M Bell 4.000 0.250 3.000
+  term: N PiShape 4.000 4.500 4.500 5.000
+  term: O Concave 5.650 6.250
+  term: P SigmoidDifference 4.750 10.000 30.000 5.250
+  term: Q SigmoidProduct 5.250 20.000 -10.000 5.750
+  term: R Ramp 5.500 6.500
+  term: S SShape 5.500 6.500
+  term: T Sigmoid 6.000 20.000
+OutputVariable: AllOutputTerms
+  enabled: true
+  range: 0.000 6.500
+  lock-range: false
+  aggregation: Maximum
+  defuzzifier: Centroid 200
+  default: nan
+  lock-previous: false
+  term: A Sigmoid 0.500 -20.000
+  term: B ZShape 0.000 1.000
+  term: C Ramp 1.000 0.000
+  term: D Triangle 0.500 1.000 1.500
+  term: E Trapezoid 1.000 1.250 1.750 2.000
+  term: F Concave 0.850 0.250
+  term: G Rectangle 1.750 2.250
+  term: H Discrete 2.000 0.000 2.250 1.000 2.500 0.500 2.750 1.000 3.000 0.000
+  term: I Gaussian 3.000 0.200
+  term: J Cosine 3.250 0.650
+  term: K GaussianProduct 3.500 0.100 3.300 0.300
+  term: L Spike 3.640 1.040
+  term: M Bell 4.000 0.250 3.000
+  term: N PiShape 4.000 4.500 4.500 5.000
+  term: O Concave 5.650 6.250
+  term: P SigmoidDifference 4.750 10.000 30.000 5.250
+  term: Q SigmoidProduct 5.250 20.000 -10.000 5.750
+  term: R Ramp 5.500 6.500
+  term: S SShape 5.500 6.500
+  term: T Sigmoid 6.000 20.000
+RuleBlock: 
+  enabled: true
+  conjunction: Minimum
+  disjunction: Maximum
+  implication: Minimum
+  activation: General
+  rule: if AllInputTerms is A then AllOutputTerms is T
+  rule: if AllInputTerms is B then AllOutputTerms is S
+  rule: if AllInputTerms is C then AllOutputTerms is R
+  rule: if AllInputTerms is D then AllOutputTerms is Q
+  rule: if AllInputTerms is E then AllOutputTerms is P
+  rule: if AllInputTerms is F then AllOutputTerms is O
+  rule: if AllInputTerms is G then AllOutputTerms is N
+  rule: if AllInputTerms is H then AllOutputTerms is M
+  rule: if AllInputTerms is I then AllOutputTerms is L
+  rule: if AllInputTerms is J then AllOutputTerms is K
+  rule: if AllInputTerms is K then AllOutputTerms is J
+  rule: if AllInputTerms is L then AllOutputTerms is I
+  rule: if AllInputTerms is M then AllOutputTerms is H
+  rule: if AllInputTerms is N then AllOutputTerms is G
+  rule: if AllInputTerms is O then AllOutputTerms is F
+  rule: if AllInputTerms is P then AllOutputTerms is E
+  rule: if AllInputTerms is Q then AllOutputTerms is D
+  rule: if AllInputTerms is R then AllOutputTerms is C
+  rule: if AllInputTerms is S then AllOutputTerms is B
+  rule: if AllInputTerms is T then AllOutputTerms is A"
+
+engine.fldFile = "AllTerms.fld"
+if (require(data.table)) {
+    engine.df = data.table::fread(engine.fldFile, sep="auto", header="auto")
+} else {
+    engine.df = read.table(engine.fldFile, header=TRUE)
+}
+
+engine.plot.i1_o1 = ggplot(engine.df, aes(AllInputTerms, AllOutputTerms)) + 
+    geom_line(aes(color=AllOutputTerms), size=3, lineend="round", linejoin="mitre") + 
+    scale_color_gradient(low="#ffff00", high="#ff0000") + 
+    ggtitle("AllInputTerms vs AllOutputTerms")
+
+engine.plot.o1_i1 = ggplot(engine.df, aes(AllInputTerms, AllOutputTerms)) + 
+    geom_line(aes(color=AllOutputTerms), size=3, lineend="round", linejoin="mitre") + 
+    scale_color_gradient(low="#ffff00", high="#ff0000") + 
+    coord_flip() + 
+    ggtitle("AllInputTerms vs AllOutputTerms")
+
+if (require(gridExtra)) {
+    engine.plots = arrangeGrob(engine.plot.i1_o1, engine.plot.o1_i1, ncol=2, top=engine.name)
+    ggsave(paste0(engine.name, ".pdf"), engine.plots)
+    if (require(grid)) {
+        grid.newpage()
+        grid.draw(engine.plots)
+    }
+}

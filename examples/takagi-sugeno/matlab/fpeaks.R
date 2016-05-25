@@ -1,0 +1,96 @@
+#R script generated with fuzzylite-6.0.
+
+library(ggplot2);
+
+engine.name = "fpeaks"
+engine.fll = "Engine: fpeaks
+InputVariable: in1
+  enabled: true
+  range: -3.000 3.000
+  lock-range: false
+  term: in1mf1 Bell -2.233 1.578 2.151
+  term: in1mf2 Bell -0.394 0.753 1.838
+  term: in1mf3 Bell 0.497 0.689 1.844
+  term: in1mf4 Bell 2.270 1.528 2.156
+InputVariable: in2
+  enabled: true
+  range: -3.000 3.000
+  lock-range: false
+  term: in1mf1 Bell -2.686 1.267 2.044
+  term: in1mf2 Bell -0.836 1.266 1.796
+  term: in1mf3 Bell 0.859 1.314 1.937
+  term: in1mf4 Bell 2.727 1.214 2.047
+OutputVariable: out1
+  enabled: true
+  range: -10.000 10.000
+  lock-range: false
+  aggregation: none
+  defuzzifier: WeightedAverage TakagiSugeno
+  default: nan
+  lock-previous: false
+  term: out1mf1 Linear 0.155 -2.228 -8.974
+  term: out1mf2 Linear -0.312 -7.705 -9.055
+  term: out1mf3 Linear -0.454 -4.437 6.930
+  term: out1mf4 Linear 0.248 -1.122 5.081
+  term: out1mf5 Linear -6.278 25.211 99.148
+  term: out1mf6 Linear 5.531 105.916 157.283
+  term: out1mf7 Linear 19.519 112.333 -127.796
+  term: out1mf8 Linear -5.079 34.738 -143.414
+  term: out1mf9 Linear -5.889 27.311 116.585
+  term: out1mf10 Linear 21.517 97.266 93.802
+  term: out1mf11 Linear 9.198 79.853 -118.482
+  term: out1mf12 Linear -6.571 23.026 -87.747
+  term: out1mf13 Linear 0.092 -1.126 -4.527
+  term: out1mf14 Linear -0.304 -4.434 -6.561
+  term: out1mf15 Linear -0.166 -6.284 7.307
+  term: out1mf16 Linear 0.107 -2.028 8.159
+RuleBlock: 
+  enabled: true
+  conjunction: AlgebraicProduct
+  disjunction: none
+  implication: none
+  activation: General
+  rule: if in1 is in1mf1 and in2 is in1mf1 then out1 is out1mf1
+  rule: if in1 is in1mf1 and in2 is in1mf2 then out1 is out1mf2
+  rule: if in1 is in1mf1 and in2 is in1mf3 then out1 is out1mf3
+  rule: if in1 is in1mf1 and in2 is in1mf4 then out1 is out1mf4
+  rule: if in1 is in1mf2 and in2 is in1mf1 then out1 is out1mf5
+  rule: if in1 is in1mf2 and in2 is in1mf2 then out1 is out1mf6
+  rule: if in1 is in1mf2 and in2 is in1mf3 then out1 is out1mf7
+  rule: if in1 is in1mf2 and in2 is in1mf4 then out1 is out1mf8
+  rule: if in1 is in1mf3 and in2 is in1mf1 then out1 is out1mf9
+  rule: if in1 is in1mf3 and in2 is in1mf2 then out1 is out1mf10
+  rule: if in1 is in1mf3 and in2 is in1mf3 then out1 is out1mf11
+  rule: if in1 is in1mf3 and in2 is in1mf4 then out1 is out1mf12
+  rule: if in1 is in1mf4 and in2 is in1mf1 then out1 is out1mf13
+  rule: if in1 is in1mf4 and in2 is in1mf2 then out1 is out1mf14
+  rule: if in1 is in1mf4 and in2 is in1mf3 then out1 is out1mf15
+  rule: if in1 is in1mf4 and in2 is in1mf4 then out1 is out1mf16"
+
+engine.fldFile = "fpeaks.fld"
+if (require(data.table)) {
+    engine.df = data.table::fread(engine.fldFile, sep="auto", header="auto")
+} else {
+    engine.df = read.table(engine.fldFile, header=TRUE)
+}
+
+engine.plot.i1i2_o1 = ggplot(engine.df, aes(in1, in2)) + 
+    geom_tile(aes(fill=out1)) + 
+    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    stat_contour(aes(x=in1, y=in2, z=out1), color="black") + 
+    ggtitle("(in1, in2) = out1")
+
+engine.plot.i2i1_o1 = ggplot(engine.df, aes(in2, in1)) + 
+    geom_tile(aes(fill=out1)) + 
+    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    stat_contour(aes(x=in2, y=in1, z=out1), color="black") + 
+    ggtitle("(in2, in1) = out1")
+
+if (require(gridExtra)) {
+    engine.plots = arrangeGrob(engine.plot.i1i2_o1, engine.plot.i2i1_o1, ncol=2, top=engine.name)
+    ggsave(paste0(engine.name, ".pdf"), engine.plots)
+    if (require(grid)) {
+        grid.newpage()
+        grid.draw(engine.plots)
+    }
+}
