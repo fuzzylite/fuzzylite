@@ -1,4 +1,4 @@
-Engine: tanksg1
+Engine: tanksg
 InputVariable: level
   enabled: true
   range: -1.0000000000 1.0000000000

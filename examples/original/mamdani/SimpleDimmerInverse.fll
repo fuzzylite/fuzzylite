@@ -1,4 +1,4 @@
-Engine: simple-dimmer
+Engine: SimpleDimmerInverse
 InputVariable: Ambient
   enabled: true
   range: 0.000 1.000

@@ -1,4 +1,4 @@
-Engine: Investment-Portfolio
+Engine: investment_portfolio
 InputVariable: Age
   enabled: true
   range: 20.000 100.000

@@ -1,4 +1,4 @@
-Engine: sugeno tipper
+Engine: tippersg
 InputVariable: service
   enabled: true
   range: 0.000 10.000
