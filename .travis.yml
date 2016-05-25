@@ -3,7 +3,7 @@ language: cpp
 sudo: false
 
 git:
-  depth: 1
+  depth: 5
 
 cache:
   - apt

@@ -56,10 +56,10 @@ namespace fl {
 
         /**
           Sets whether the fl namespace of the library is prepended to types
-          (e.g., `fl::Engine`)
+          (e.g., fl::Engine)
 
           @param usingNamespace whether the fl namespace of the library is
-          prepended to types (e.g., `fl::Engine`)
+          prepended to types (e.g., fl::Engine)
          */
         virtual void setUsingNamespace(bool usingNamespace);
         /**

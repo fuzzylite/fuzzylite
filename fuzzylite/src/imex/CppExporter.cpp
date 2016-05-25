@@ -55,6 +55,7 @@ namespace fl {
 
     std::string CppExporter::toString(const Engine* engine) const {
         std::ostringstream cpp;
+        cpp << "//C++ code generated with " << fuzzylite::library() << ".\n\n";
         if (not isUsingNamespace()) cpp << "using namespace fl;\n\n";
         cpp << fl("Engine* ") << "engine = new " << fl("Engine;\n");
         cpp << "engine->setName(\"" << engine->getName() << "\");\n";

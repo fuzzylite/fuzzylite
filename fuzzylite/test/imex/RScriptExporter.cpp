@@ -21,18 +21,17 @@
 namespace fl {
 
     TEST_CASE("RExporter creates plots with a single variable", "[imex]") {
-        fuzzylite::setLogging(true);
         FL_unique_ptr<Engine> engine(Console::mamdani());
         engine->addInputVariable(new InputVariable("Dummy", 0, 1));
 
         std::string filename("/tmp/simple-dimmer.fld");
         {
-            std::ofstream os(filename);
+            std::ofstream os(filename.c_str());
             FldExporter().write(engine.get(), os, 1024);
             os.close();
         }
 
-        std::ifstream is(filename);
+        std::ifstream is(filename.c_str());
         std::string dummy;
         std::getline(is, dummy); //remove header
 

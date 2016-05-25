@@ -45,7 +45,7 @@ namespace fl {
         enum Direction {
             /** `(_/)` increases to the right **/ Positive,
             /** `(--)` slope is zero **/ Zero,
-            /** `(\_)` increases to the left **/ Negative
+            /** `(\\_)` increases to the left **/ Negative
         };
         explicit Ramp(const std::string& name = "",
                 scalar start = fl::nan,

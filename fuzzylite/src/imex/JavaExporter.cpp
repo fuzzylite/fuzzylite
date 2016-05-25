@@ -44,6 +44,7 @@ namespace fl {
 
     std::string JavaExporter::toString(const Engine* engine) const {
         std::ostringstream ss;
+        ss << "//Java code generated with " << fuzzylite::library() << ".\n\n";
         ss << "Engine engine = new Engine();\n";
         ss << "engine.setName(\"" << engine->getName() << "\");\n";
         ss << "\n";

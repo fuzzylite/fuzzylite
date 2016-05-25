@@ -28,7 +28,7 @@ namespace fl {
     }
 
     std::string fuzzylite::library() {
-        return name() + "-" + version();
+        return name() + " " + version();
     }
 
     std::string fuzzylite::version() {
