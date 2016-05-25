@@ -593,6 +593,7 @@ namespace fl {
         else if (to == "fis") exporter.reset(new FisExporter);
         else if (to == "cpp") exporter.reset(new CppExporter);
         else if (to == "java") exporter.reset(new JavaExporter);
+        else if (to == "R") exporter.reset(new RScriptExporter());
         else throw fl::Exception("[examples error] unrecognized format <" + to + "> to export", FL_AT);
 
         std::vector<std::pair<Exporter*, Importer*> > tests;
@@ -659,6 +660,13 @@ namespace fl {
                             << "public static void main(String[] args){\n"
                             << exporter->toString(engine.get())
                             << "\n}\n}\n";
+                } else if (to == "R") {
+                    RScriptExporter* rScript = dynamic_cast<RScriptExporter*> (exporter.get());
+                    InputVariable* a = engine->getInputVariable(0);
+                    InputVariable* b = engine->getInputVariable(-1 + engine->numberOfInputVariables());
+                    std::string pathToDF = examples.at(i).substr(examples.at(i).find_last_of('/') + 1) + ".fld";
+                    rScript->writeScriptImportingDataFrame(engine.get(), target,
+                            a, b, pathToDF, engine->outputVariables());
                 } else {
                     target << exporter->toString(engine.get());
                 }
@@ -795,6 +803,8 @@ namespace fl {
             console.exportAllExamples("fll", "cpp", path, outputPath);
             FL_LOG("Processing fll->java");
             console.exportAllExamples("fll", "java", path, outputPath);
+            FL_LOG("Processing fll->R");
+            console.exportAllExamples("fll", "R", path, outputPath);
             fuzzylite::setDecimals(8);
             fuzzylite::setMachEps(1e-6);
             FL_LOG("Processing fll->fld");

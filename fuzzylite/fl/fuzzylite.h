@@ -24,10 +24,6 @@
 #include <memory>
 #include <cstddef>
 
-#ifndef FL_VERSION
-#define FL_VERSION "?"
-#endif
-
 #ifndef FL_BUILD_PATH
 #define FL_BUILD_PATH ""
 #endif
@@ -198,7 +194,6 @@ namespace fl {
 #define FL_DISABLE_COPY(Class) \
     Class(const Class &);\
     Class &operator=(const Class &);
-
 #endif
 
 }
@@ -232,7 +227,7 @@ namespace fl {
           Returns the name of the `fuzzylite` library including the version
           @return the name of the `fuzzylite` library including the version
          */
-        static std::string fullname();
+        static std::string library();
         /**
           Returns the version of the `fuzzylite` library
           @return the version of the `fuzzylite` library

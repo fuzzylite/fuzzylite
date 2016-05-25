@@ -18,8 +18,6 @@
 
 #include "fl/fuzzylite.h"
 
-#include "fl/defuzzifier/IntegralDefuzzifier.h"
-
 #include <string>
 #include <vector>
 

@@ -68,6 +68,7 @@
 #include "fl/imex/FllImporter.h"
 #include "fl/imex/FllExporter.h"
 #include "fl/imex/JavaExporter.h"
+#include "fl/imex/RScriptExporter.h"
 
 #include "fl/hedge/Any.h"
 #include "fl/hedge/Extremely.h"

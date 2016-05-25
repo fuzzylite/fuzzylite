@@ -47,6 +47,7 @@ src/imex/FllExporter.cpp
 src/imex/FllImporter.cpp
 src/imex/Importer.cpp
 src/imex/JavaExporter.cpp
+src/imex/RScriptExporter.cpp
 src/main.cpp
 src/norm/s/AlgebraicSum.cpp
 src/norm/s/BoundedSum.cpp

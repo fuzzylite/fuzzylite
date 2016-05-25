@@ -21,9 +21,6 @@ if( NOT CMAKE_BUILD_TYPE )
 MinSizeRel." FORCE )
 endif()
 
-set(FL_VERSION 6.0)
-add_definitions(-DFL_VERSION="${FL_VERSION}")
-
 add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
 
 option(FL_BUILD_SHARED "Build shared library" ON)
@@ -247,7 +244,7 @@ configure_file(${CMAKE_SOURCE_DIR}/fuzzylite.pc.in ${CMAKE_BINARY_DIR}/fuzzylite
 install(FILES ${CMAKE_BINARY_DIR}/fuzzylite.pc DESTINATION ${FL_INSTALL_LIBDIR}/pkgconfig)
 
 message("=====================================")
-message("fuzzylite v${FL_VERSION}\n")
+message("fuzzylite v${6.0}\n")
 message("FL_CPP11=${FL_CPP11}")
 message("FL_USE_FLOAT=${FL_USE_FLOAT}")
 message("FL_BACKTRACE=${FL_BACKTRACE}")

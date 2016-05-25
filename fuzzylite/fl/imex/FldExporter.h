@@ -153,11 +153,11 @@ namespace fl {
           Returns a FuzzyLite Dataset from the engine.
 
           @param engine is the engine to export
-          @param inputData is a set of lines containing space-separated input values
-          upon which the engine will be evaluated
+          @param reader is the reader of a set of lines containing space-separated 
+          input values
           @return a FuzzyLite Dataset from the engine
          */
-        virtual std::string toString(Engine* engine, const std::string& inputData) const;
+        virtual std::string toString(Engine* engine, std::istream& reader) const;
 
 
         using Exporter::toFile;
@@ -187,10 +187,9 @@ namespace fl {
           Saves the engine as a FuzzyLite Dataset into the specified file
           @param path is the full path of the file
           @param engine is the engine to export
-          @param inputData is a set of lines containing space-separated input values
-          upon which the engine will be evaluated
+          @param reader is the reader of a set of lines containing space-separated input values
          */
-        virtual void toFile(const std::string& path, Engine* engine, const std::string& inputData) const;
+        virtual void toFile(const std::string& path, Engine* engine, std::istream& reader) const;
 
         /**
           Parses the string into a vector of values unless the string starts with `#`

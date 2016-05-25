@@ -27,12 +27,12 @@ namespace fl {
         return "fuzzylite";
     }
 
-    std::string fuzzylite::fullname() {
+    std::string fuzzylite::library() {
         return name() + "-" + version();
     }
 
     std::string fuzzylite::version() {
-        return FL_VERSION;
+        return "6.0";
     }
 
     std::string fuzzylite::license() {

@@ -52,6 +52,7 @@ fl/imex/FllExporter.h
 fl/imex/FllImporter.h
 fl/imex/Importer.h
 fl/imex/JavaExporter.h
+fl/imex/RScriptExporter.h
 fl/norm/Norm.h
 fl/norm/s/AlgebraicSum.h
 fl/norm/s/BoundedSum.h
