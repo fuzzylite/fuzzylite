@@ -64,7 +64,7 @@ namespace fl {
         virtual void setUsingNamespace(bool usingNamespace);
         /**
           Gets whether the fl namespace of the library is prepended to types
-          (e.g., `fl::Engine`)
+          (e.g., fl::Engine)
           @return whether the fl namespace of the library is prepended to types
          */
         virtual bool isUsingNamespace() const;

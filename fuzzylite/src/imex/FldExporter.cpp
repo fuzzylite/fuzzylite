@@ -131,7 +131,8 @@ namespace fl {
         while (std::getline(reader, line)) {
             ++lineNumber;
             line = Op::trim(line);
-
+            if (not line.empty() and line.at(0) == '#')
+                continue; //comments are ignored, blank lines are retained
             std::vector<scalar> inputValues;
             if (lineNumber == 1) { //automatic detection of header.
                 try {
@@ -143,9 +144,7 @@ namespace fl {
                 inputValues = parse(line);
             }
 
-            if (not inputValues.empty()) {
-                write(engine, writer, inputValues, engine->inputVariables());
-            }
+            write(engine, writer, inputValues, engine->inputVariables());
         }
         writer.close();
     }
@@ -158,6 +157,8 @@ namespace fl {
         while (std::getline(reader, line)) {
             ++lineNumber;
             line = Op::trim(line);
+            if (not line.empty() and line.at(0) == '#')
+                continue; //comments are ignored, blank lines are retained
             std::vector<scalar> inputValues;
             if (lineNumber == 1) { //automatic detection of header.
                 try {
@@ -169,9 +170,7 @@ namespace fl {
                 inputValues = parse(line);
             }
 
-            if (not inputValues.empty()) {
-                write(engine, writer, inputValues, engine->inputVariables());
-            }
+            write(engine, writer, inputValues, engine->inputVariables());
         }
         return writer.str();
     }
@@ -244,6 +243,8 @@ namespace fl {
         while (std::getline(reader, line)) {
             ++lineNumber;
             line = Op::trim(line);
+            if (not line.empty() and line.at(0) == '#')
+                continue; //comments are ignored, blank lines are retained
             std::vector<scalar> inputValues;
             if (lineNumber == 1) { //automatic detection of header.
                 try {
