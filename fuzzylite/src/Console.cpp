@@ -663,7 +663,7 @@ namespace fl {
                 } else if (to == "R") {
                     RScriptExporter* rScript = dynamic_cast<RScriptExporter*> (exporter.get());
                     InputVariable* a = engine->getInputVariable(0);
-                    InputVariable* b = engine->getInputVariable(-1 + engine->numberOfInputVariables());
+                    InputVariable* b = engine->getInputVariable(1 % engine->numberOfInputVariables());
                     std::string pathToDF = examples.at(i).substr(examples.at(i).find_last_of('/') + 1) + ".fld";
                     rScript->writeScriptImportingDataFrame(engine.get(), target,
                             a, b, pathToDF, engine->outputVariables());

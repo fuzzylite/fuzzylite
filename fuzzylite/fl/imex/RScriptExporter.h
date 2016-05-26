@@ -94,17 +94,6 @@ namespace fl {
          */
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
 
-
-        /**
-         Creates an R script file plotting multiple surfaces based on a data frame 
-         generated with 1024 values in the scope of FldExporter::AllVariables
-         for the two input variables
-         @param filePath is the full path of the R script file
-         @param engine is the engine to export
-         */
-        virtual void toFile(const std::string& filePath, const Engine* engine) const FL_IOVERRIDE;
-
-
         /**
          Returns an R script plotting multiple surfaces based on a data frame 
          generated with the given number of values and scope for the two input 
@@ -139,6 +128,15 @@ namespace fl {
 
         /**
          Creates an R script file plotting multiple surfaces based on a data frame 
+         generated with 1024 values in the scope of FldExporter::AllVariables
+         for the two input variables
+         @param filePath is the full path of the R script file
+         @param engine is the engine to export
+         */
+        virtual void toFile(const std::string& filePath, const Engine* engine) const FL_IOVERRIDE;
+
+        /**
+         Creates an R script file plotting multiple surfaces based on a data frame 
          generated with the given number of values and scope for the two input 
          variables
          @param filePath is the full path of the R script file
@@ -168,8 +166,7 @@ namespace fl {
          variables on the output variables
          */
         virtual void toFile(const std::string& filePath, Engine* engine,
-                InputVariable* a, InputVariable* b,
-                std::istream& reader,
+                InputVariable* a, InputVariable* b, std::istream& reader,
                 const std::vector<OutputVariable*>& outputVariables) const;
 
 
@@ -181,12 +178,12 @@ namespace fl {
          @param writer is the output where the engine will be written to
          @param a is the first input variable
          @param b is the second input variable
-         @param dfPath is the path where the data frame should be located 
+         @param dataFramePath is the path where the data frame should be located 
          (the path will not be accessed, it will only be written to script)
          @param outputVariables are the output variables to create the surface for
          */
         virtual void writeScriptImportingDataFrame(const Engine* engine, std::ostream& writer,
-                InputVariable* a, InputVariable* b, const std::string& dfPath,
+                InputVariable* a, InputVariable* b, const std::string& dataFramePath,
                 const std::vector<OutputVariable*>& outputVariables) const;
 
         /**

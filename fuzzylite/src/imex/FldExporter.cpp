@@ -105,6 +105,32 @@ namespace fl {
         return result.str();
     }
 
+    std::string FldExporter::toString(Engine* engine, std::istream& reader) const {
+        std::ostringstream writer;
+        if (_exportHeaders) writer << header(engine) << "\n";
+        std::string line;
+        int lineNumber = 0;
+        while (std::getline(reader, line)) {
+            ++lineNumber;
+            line = Op::trim(line);
+            if (not line.empty() and line.at(0) == '#')
+                continue; //comments are ignored, blank lines are retained
+            std::vector<scalar> inputValues;
+            if (lineNumber == 1) { //automatic detection of header.
+                try {
+                    inputValues = parse(line);
+                } catch (std::exception&) {
+                    continue;
+                }
+            } else {
+                inputValues = parse(line);
+            }
+
+            write(engine, writer, inputValues, engine->inputVariables());
+        }
+        return writer.str();
+    }
+
     void FldExporter::toFile(const std::string& path, Engine* engine, int values, ScopeOfValues scope) const {
         toFile(path, engine, values, scope, engine->inputVariables());
     }
@@ -147,32 +173,6 @@ namespace fl {
             write(engine, writer, inputValues, engine->inputVariables());
         }
         writer.close();
-    }
-
-    std::string FldExporter::toString(Engine* engine, std::istream& reader) const {
-        std::ostringstream writer;
-        if (_exportHeaders) writer << header(engine) << "\n";
-        std::string line;
-        int lineNumber = 0;
-        while (std::getline(reader, line)) {
-            ++lineNumber;
-            line = Op::trim(line);
-            if (not line.empty() and line.at(0) == '#')
-                continue; //comments are ignored, blank lines are retained
-            std::vector<scalar> inputValues;
-            if (lineNumber == 1) { //automatic detection of header.
-                try {
-                    inputValues = parse(line);
-                } catch (std::exception&) {
-                    continue;
-                }
-            } else {
-                inputValues = parse(line);
-            }
-
-            write(engine, writer, inputValues, engine->inputVariables());
-        }
-        return writer.str();
     }
 
     std::vector<scalar> FldExporter::parse(const std::string& x) const {
@@ -231,7 +231,7 @@ namespace fl {
                     inputValues.at(i) = inputVariable->getValue();
                 }
             }
-            write(engine, writer, inputValues);
+            write(engine, writer, inputValues, activeVariables);
         } while (Op::increment(sampleValues, minSampleValues, maxSampleValues));
     }
 
@@ -289,7 +289,7 @@ namespace fl {
             throw fl::Exception(ex.str(), FL_AT);
         }
 
-        std::vector<std::string> values;
+        std::vector<scalar> values;
         for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i) {
             InputVariable* inputVariable = engine->getInputVariable(i);
             scalar inputValue;
@@ -299,7 +299,7 @@ namespace fl {
                 inputValue = inputVariable->getValue();
             }
             inputVariable->setValue(inputValue);
-            if (_exportInputValues) values.push_back(Op::str(inputValue));
+            if (_exportInputValues) values.push_back(inputValue);
         }
 
         engine->process();
@@ -307,7 +307,7 @@ namespace fl {
         for (std::size_t i = 0; i < engine->numberOfOutputVariables(); ++i) {
             OutputVariable* outputVariable = engine->getOutputVariable(i);
             if (_exportOutputValues)
-                values.push_back(Op::str(outputVariable->getValue()));
+                values.push_back(outputVariable->getValue());
         }
 
         writer << Op::join(values, _separator) << "\n";

@@ -26,7 +26,7 @@
 namespace fl {
 
     RScriptExporter::RScriptExporter() : Exporter(),
-    _minimumColor("#ffff00"), _maximumColor("#ff0000"), _contourColor("black") {
+    _minimumColor("yellow"), _maximumColor("red"), _contourColor("black") {
 
     }
 
@@ -35,7 +35,7 @@ namespace fl {
     }
 
     std::string RScriptExporter::name() const {
-        return "RExporter";
+        return "RScriptExporter";
     }
 
     void RScriptExporter::setMinimumColor(const std::string& minimumColor) {
@@ -75,11 +75,8 @@ namespace fl {
         }
         InputVariable* a = engine->inputVariables().at(0);
         InputVariable* b = engine->inputVariables().at(1 % engine->numberOfInputVariables());
-        std::ostringstream writer;
-        writeScriptExportingDataFrame(const_cast<Engine*> (engine),
-                writer, a, b, 1024, FldExporter::AllVariables,
-                engine->outputVariables());
-        return writer.str();
+        return toString(const_cast<Engine*> (engine), a, b,
+                1024, FldExporter::AllVariables, engine->outputVariables());
     }
 
     std::string RScriptExporter::toString(Engine* engine, InputVariable* a, InputVariable* b,
@@ -152,24 +149,6 @@ namespace fl {
     }
 
     void RScriptExporter::writeScriptExportingDataFrame(Engine* engine, std::ostream& writer,
-            InputVariable* a, InputVariable* b, std::istream& reader,
-            const std::vector<OutputVariable*>& outputVariables) const {
-        writeScriptHeader(writer);
-
-        writer << "engine.name = \"" << engine->getName() << "\"\n";
-        writer << "engine.fll = \"" << FllExporter().toString(engine) << "\"\n\n";
-
-        FldExporter fldExporter;
-        writer << "engine.fld = \"";
-        fldExporter.write(engine, writer, reader);
-        writer << "\"\n\n";
-        writer << "engine.df = read.delim(textConnection(engine.fld), header=TRUE, "
-                "sep=\" \", strip.white=TRUE)\n\n";
-
-        writeScriptPlots(writer, a, b, outputVariables);
-    }
-
-    void RScriptExporter::writeScriptExportingDataFrame(Engine* engine, std::ostream& writer,
             InputVariable* a, InputVariable* b, int values, FldExporter::ScopeOfValues scope,
             const std::vector<OutputVariable*>& outputVariables) const {
         writeScriptHeader(writer);
@@ -179,14 +158,31 @@ namespace fl {
 
         std::vector<InputVariable*> activeVariables = engine->inputVariables();
         for (std::size_t i = 0; i < activeVariables.size(); ++i) {
-            if (activeVariables.at(i) != a && activeVariables.at(i) != b) {
+            if (activeVariables.at(i) != a and activeVariables.at(i) != b) {
                 activeVariables.at(i) = fl::null;
             }
         }
-        FldExporter fldExporter;
         writer << "engine.fld = \"";
-        fldExporter.write(engine, writer, values, scope, activeVariables);
+        FldExporter().write(engine, writer, values, scope, activeVariables);
         writer << "\"\n\n";
+        writer << "engine.df = read.delim(textConnection(engine.fld), header=TRUE, "
+                "sep=\" \", strip.white=TRUE)\n\n";
+
+        writeScriptPlots(writer, a, b, outputVariables);
+    }
+
+    void RScriptExporter::writeScriptExportingDataFrame(Engine* engine, std::ostream& writer,
+            InputVariable* a, InputVariable* b, std::istream& reader,
+            const std::vector<OutputVariable*>& outputVariables) const {
+        writeScriptHeader(writer);
+
+        writer << "engine.name = \"" << engine->getName() << "\"\n";
+        writer << "engine.fll = \"" << FllExporter().toString(engine) << "\"\n\n";
+
+        writer << "engine.fld = \"";
+        FldExporter().write(engine, writer, reader);
+        writer << "\"\n\n";
+
         writer << "engine.df = read.delim(textConnection(engine.fld), header=TRUE, "
                 "sep=\" \", strip.white=TRUE)\n\n";
 
