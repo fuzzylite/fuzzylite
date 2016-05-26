@@ -1,4 +1,4 @@
-#R script generated with fuzzylite-6.0.
+#R script generated with fuzzylite 6.0.
 
 library(ggplot2);
 
@@ -69,25 +69,25 @@ if (require(data.table)) {
 
 engine.plot.i1i2_o1 = ggplot(engine.df, aes(temp, flow)) + 
     geom_tile(aes(fill=cold)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=temp, y=flow, z=cold), color="black") + 
     ggtitle("(temp, flow) = cold")
 
 engine.plot.i2i1_o1 = ggplot(engine.df, aes(flow, temp)) + 
     geom_tile(aes(fill=cold)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=flow, y=temp, z=cold), color="black") + 
     ggtitle("(flow, temp) = cold")
 
 engine.plot.i1i2_o2 = ggplot(engine.df, aes(temp, flow)) + 
     geom_tile(aes(fill=hot)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=temp, y=flow, z=hot), color="black") + 
     ggtitle("(temp, flow) = hot")
 
 engine.plot.i2i1_o2 = ggplot(engine.df, aes(flow, temp)) + 
     geom_tile(aes(fill=hot)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=flow, y=temp, z=hot), color="black") + 
     ggtitle("(flow, temp) = hot")
 

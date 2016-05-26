@@ -1,6 +1,8 @@
 #include <fl/Headers.h>
 
 int main(int argc, char** argv){
+//C++ code generated with fuzzylite 6.0.
+
 using namespace fl;
 
 Engine* engine = new Engine;

@@ -1,4 +1,4 @@
-#R script generated with fuzzylite-6.0.
+#R script generated with fuzzylite 6.0.
 
 library(ggplot2);
 
@@ -78,34 +78,34 @@ if (require(data.table)) {
 
 engine.plot.i1_o1 = ggplot(engine.df, aes(inputX, outputFx)) + 
     geom_line(aes(color=outputFx), size=3, lineend="round", linejoin="mitre") + 
-    scale_color_gradient(low="#ffff00", high="#ff0000") + 
+    scale_color_gradient(low="yellow", high="red") + 
     ggtitle("inputX vs outputFx")
 
 engine.plot.o1_i1 = ggplot(engine.df, aes(inputX, outputFx)) + 
     geom_line(aes(color=outputFx), size=3, lineend="round", linejoin="mitre") + 
-    scale_color_gradient(low="#ffff00", high="#ff0000") + 
+    scale_color_gradient(low="yellow", high="red") + 
     coord_flip() + 
     ggtitle("inputX vs outputFx")
 
 engine.plot.i1_o2 = ggplot(engine.df, aes(inputX, trueFx)) + 
     geom_line(aes(color=trueFx), size=3, lineend="round", linejoin="mitre") + 
-    scale_color_gradient(low="#ffff00", high="#ff0000") + 
+    scale_color_gradient(low="yellow", high="red") + 
     ggtitle("inputX vs trueFx")
 
 engine.plot.o2_i1 = ggplot(engine.df, aes(inputX, trueFx)) + 
     geom_line(aes(color=trueFx), size=3, lineend="round", linejoin="mitre") + 
-    scale_color_gradient(low="#ffff00", high="#ff0000") + 
+    scale_color_gradient(low="yellow", high="red") + 
     coord_flip() + 
     ggtitle("inputX vs trueFx")
 
 engine.plot.i1_o3 = ggplot(engine.df, aes(inputX, diffFx)) + 
     geom_line(aes(color=diffFx), size=3, lineend="round", linejoin="mitre") + 
-    scale_color_gradient(low="#ffff00", high="#ff0000") + 
+    scale_color_gradient(low="yellow", high="red") + 
     ggtitle("inputX vs diffFx")
 
 engine.plot.o3_i1 = ggplot(engine.df, aes(inputX, diffFx)) + 
     geom_line(aes(color=diffFx), size=3, lineend="round", linejoin="mitre") + 
-    scale_color_gradient(low="#ffff00", high="#ff0000") + 
+    scale_color_gradient(low="yellow", high="red") + 
     coord_flip() + 
     ggtitle("inputX vs diffFx")
 

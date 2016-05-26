@@ -12,6 +12,8 @@ import com.fuzzylite.variable.*;
 
 public class membrn1{
 public static void main(String[] args){
+//Java code generated with fuzzylite 6.0.
+
 Engine engine = new Engine();
 engine.setName("membrn1");
 

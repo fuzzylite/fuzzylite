@@ -1,4 +1,4 @@
-#R script generated with fuzzylite-6.0.
+#R script generated with fuzzylite 6.0.
 
 library(ggplot2);
 
@@ -75,37 +75,37 @@ if (require(data.table)) {
 
 engine.plot.i1i2_o1 = ggplot(engine.df, aes(FoodQuality, Service)) + 
     geom_tile(aes(fill=CheapTip)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=FoodQuality, y=Service, z=CheapTip), color="black") + 
     ggtitle("(FoodQuality, Service) = CheapTip")
 
 engine.plot.i2i1_o1 = ggplot(engine.df, aes(Service, FoodQuality)) + 
     geom_tile(aes(fill=CheapTip)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=Service, y=FoodQuality, z=CheapTip), color="black") + 
     ggtitle("(Service, FoodQuality) = CheapTip")
 
 engine.plot.i1i2_o2 = ggplot(engine.df, aes(FoodQuality, Service)) + 
     geom_tile(aes(fill=AverageTip)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=FoodQuality, y=Service, z=AverageTip), color="black") + 
     ggtitle("(FoodQuality, Service) = AverageTip")
 
 engine.plot.i2i1_o2 = ggplot(engine.df, aes(Service, FoodQuality)) + 
     geom_tile(aes(fill=AverageTip)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=Service, y=FoodQuality, z=AverageTip), color="black") + 
     ggtitle("(Service, FoodQuality) = AverageTip")
 
 engine.plot.i1i2_o3 = ggplot(engine.df, aes(FoodQuality, Service)) + 
     geom_tile(aes(fill=GenerousTip)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=FoodQuality, y=Service, z=GenerousTip), color="black") + 
     ggtitle("(FoodQuality, Service) = GenerousTip")
 
 engine.plot.i2i1_o3 = ggplot(engine.df, aes(Service, FoodQuality)) + 
     geom_tile(aes(fill=GenerousTip)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=Service, y=FoodQuality, z=GenerousTip), color="black") + 
     ggtitle("(Service, FoodQuality) = GenerousTip")
 

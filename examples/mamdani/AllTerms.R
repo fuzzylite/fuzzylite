@@ -1,4 +1,4 @@
-#R script generated with fuzzylite-6.0.
+#R script generated with fuzzylite 6.0.
 
 library(ggplot2);
 
@@ -92,12 +92,12 @@ if (require(data.table)) {
 
 engine.plot.i1_o1 = ggplot(engine.df, aes(AllInputTerms, AllOutputTerms)) + 
     geom_line(aes(color=AllOutputTerms), size=3, lineend="round", linejoin="mitre") + 
-    scale_color_gradient(low="#ffff00", high="#ff0000") + 
+    scale_color_gradient(low="yellow", high="red") + 
     ggtitle("AllInputTerms vs AllOutputTerms")
 
 engine.plot.o1_i1 = ggplot(engine.df, aes(AllInputTerms, AllOutputTerms)) + 
     geom_line(aes(color=AllOutputTerms), size=3, lineend="round", linejoin="mitre") + 
-    scale_color_gradient(low="#ffff00", high="#ff0000") + 
+    scale_color_gradient(low="yellow", high="red") + 
     coord_flip() + 
     ggtitle("AllInputTerms vs AllOutputTerms")
 

@@ -1,4 +1,4 @@
-#R script generated with fuzzylite-6.0.
+#R script generated with fuzzylite 6.0.
 
 library(ggplot2);
 
@@ -55,17 +55,17 @@ if (require(data.table)) {
     engine.df = read.table(engine.fldFile, header=TRUE)
 }
 
-engine.plot.i1i2_o1 = ggplot(engine.df, aes(in1, in5)) + 
+engine.plot.i1i2_o1 = ggplot(engine.df, aes(in1, in2)) + 
     geom_tile(aes(fill=out)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
-    stat_contour(aes(x=in1, y=in5, z=out), color="black") + 
-    ggtitle("(in1, in5) = out")
+    scale_fill_gradient(low="yellow", high="red") + 
+    stat_contour(aes(x=in1, y=in2, z=out), color="black") + 
+    ggtitle("(in1, in2) = out")
 
-engine.plot.i2i1_o1 = ggplot(engine.df, aes(in5, in1)) + 
+engine.plot.i2i1_o1 = ggplot(engine.df, aes(in2, in1)) + 
     geom_tile(aes(fill=out)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
-    stat_contour(aes(x=in5, y=in1, z=out), color="black") + 
-    ggtitle("(in5, in1) = out")
+    scale_fill_gradient(low="yellow", high="red") + 
+    stat_contour(aes(x=in2, y=in1, z=out), color="black") + 
+    ggtitle("(in2, in1) = out")
 
 if (require(gridExtra)) {
     engine.plots = arrangeGrob(engine.plot.i1i2_o1, engine.plot.i2i1_o1, ncol=2, top=engine.name)

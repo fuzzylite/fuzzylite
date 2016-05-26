@@ -1,4 +1,4 @@
-#R script generated with fuzzylite-6.0.
+#R script generated with fuzzylite 6.0.
 
 library(ggplot2);
 
@@ -64,13 +64,13 @@ if (require(data.table)) {
 
 engine.plot.i1i2_o1 = ggplot(engine.df, aes(LDLLevel, HDLLevel)) + 
     geom_tile(aes(fill=HeartDiseaseRisk)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=LDLLevel, y=HDLLevel, z=HeartDiseaseRisk), color="black") + 
     ggtitle("(LDLLevel, HDLLevel) = HeartDiseaseRisk")
 
 engine.plot.i2i1_o1 = ggplot(engine.df, aes(HDLLevel, LDLLevel)) + 
     geom_tile(aes(fill=HeartDiseaseRisk)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=HDLLevel, y=LDLLevel, z=HeartDiseaseRisk), color="black") + 
     ggtitle("(HDLLevel, LDLLevel) = HeartDiseaseRisk")
 

@@ -1,4 +1,4 @@
-#R script generated with fuzzylite-6.0.
+#R script generated with fuzzylite 6.0.
 
 library(ggplot2);
 
@@ -47,13 +47,13 @@ if (require(data.table)) {
 
 engine.plot.i1i2_o1 = ggplot(engine.df, aes(service, food)) + 
     geom_tile(aes(fill=tip)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=service, y=food, z=tip), color="black") + 
     ggtitle("(service, food) = tip")
 
 engine.plot.i2i1_o1 = ggplot(engine.df, aes(food, service)) + 
     geom_tile(aes(fill=tip)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=food, y=service, z=tip), color="black") + 
     ggtitle("(food, service) = tip")
 

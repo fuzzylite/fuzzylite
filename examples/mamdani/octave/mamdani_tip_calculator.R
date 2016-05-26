@@ -1,4 +1,4 @@
-#R script generated with fuzzylite-6.0.
+#R script generated with fuzzylite 6.0.
 
 library(ggplot2);
 
@@ -58,25 +58,25 @@ if (require(data.table)) {
 
 engine.plot.i1i2_o1 = ggplot(engine.df, aes(FoodQuality, Service)) + 
     geom_tile(aes(fill=Tip)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=FoodQuality, y=Service, z=Tip), color="black") + 
     ggtitle("(FoodQuality, Service) = Tip")
 
 engine.plot.i2i1_o1 = ggplot(engine.df, aes(Service, FoodQuality)) + 
     geom_tile(aes(fill=Tip)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=Service, y=FoodQuality, z=Tip), color="black") + 
     ggtitle("(Service, FoodQuality) = Tip")
 
 engine.plot.i1i2_o2 = ggplot(engine.df, aes(FoodQuality, Service)) + 
     geom_tile(aes(fill=CheckPlusTip)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=FoodQuality, y=Service, z=CheckPlusTip), color="black") + 
     ggtitle("(FoodQuality, Service) = CheckPlusTip")
 
 engine.plot.i2i1_o2 = ggplot(engine.df, aes(Service, FoodQuality)) + 
     geom_tile(aes(fill=CheckPlusTip)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=Service, y=FoodQuality, z=CheckPlusTip), color="black") + 
     ggtitle("(Service, FoodQuality) = CheckPlusTip")
 

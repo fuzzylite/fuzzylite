@@ -1,4 +1,4 @@
-#R script generated with fuzzylite-6.0.
+#R script generated with fuzzylite 6.0.
 
 library(ggplot2);
 
@@ -47,13 +47,13 @@ if (require(data.table)) {
 
 engine.plot.i1i2_o1 = ggplot(engine.df, aes(Age, RiskTolerance)) + 
     geom_tile(aes(fill=PercentageInStocks)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=Age, y=RiskTolerance, z=PercentageInStocks), color="black") + 
     ggtitle("(Age, RiskTolerance) = PercentageInStocks")
 
 engine.plot.i2i1_o1 = ggplot(engine.df, aes(RiskTolerance, Age)) + 
     geom_tile(aes(fill=PercentageInStocks)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=RiskTolerance, y=Age, z=PercentageInStocks), color="black") + 
     ggtitle("(RiskTolerance, Age) = PercentageInStocks")
 

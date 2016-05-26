@@ -1,4 +1,4 @@
-#R script generated with fuzzylite-6.0.
+#R script generated with fuzzylite 6.0.
 
 library(ggplot2);
 
@@ -60,25 +60,25 @@ if (require(data.table)) {
 
 engine.plot.i1i2_o1 = ggplot(engine.df, aes(angle, velocity)) + 
     geom_tile(aes(fill=force)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=angle, y=velocity, z=force), color="black") + 
     ggtitle("(angle, velocity) = force")
 
 engine.plot.i2i1_o1 = ggplot(engine.df, aes(velocity, angle)) + 
     geom_tile(aes(fill=force)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=velocity, y=angle, z=force), color="black") + 
     ggtitle("(velocity, angle) = force")
 
 engine.plot.i1i2_o2 = ggplot(engine.df, aes(angle, velocity)) + 
     geom_tile(aes(fill=force2)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=angle, y=velocity, z=force2), color="black") + 
     ggtitle("(angle, velocity) = force2")
 
 engine.plot.i2i1_o2 = ggplot(engine.df, aes(velocity, angle)) + 
     geom_tile(aes(fill=force2)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=velocity, y=angle, z=force2), color="black") + 
     ggtitle("(velocity, angle) = force2")
 

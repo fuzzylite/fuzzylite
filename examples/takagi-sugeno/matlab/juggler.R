@@ -1,4 +1,4 @@
-#R script generated with fuzzylite-6.0.
+#R script generated with fuzzylite 6.0.
 
 library(ggplot2);
 
@@ -60,13 +60,13 @@ if (require(data.table)) {
 
 engine.plot.i1i2_o1 = ggplot(engine.df, aes(xHit, projectAngle)) + 
     geom_tile(aes(fill=theta)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=xHit, y=projectAngle, z=theta), color="black") + 
     ggtitle("(xHit, projectAngle) = theta")
 
 engine.plot.i2i1_o1 = ggplot(engine.df, aes(projectAngle, xHit)) + 
     geom_tile(aes(fill=theta)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=projectAngle, y=xHit, z=theta), color="black") + 
     ggtitle("(projectAngle, xHit) = theta")
 

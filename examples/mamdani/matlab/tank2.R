@@ -1,4 +1,4 @@
-#R script generated with fuzzylite-6.0.
+#R script generated with fuzzylite 6.0.
 
 library(ggplot2);
 
@@ -50,13 +50,13 @@ if (require(data.table)) {
 
 engine.plot.i1i2_o1 = ggplot(engine.df, aes(level, change)) + 
     geom_tile(aes(fill=valve)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=level, y=change, z=valve), color="black") + 
     ggtitle("(level, change) = valve")
 
 engine.plot.i2i1_o1 = ggplot(engine.df, aes(change, level)) + 
     geom_tile(aes(fill=valve)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
+    scale_fill_gradient(low="yellow", high="red") + 
     stat_contour(aes(x=change, y=level, z=valve), color="black") + 
     ggtitle("(change, level) = valve")
 

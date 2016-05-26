@@ -1,4 +1,4 @@
-#R script generated with fuzzylite-6.0.
+#R script generated with fuzzylite 6.0.
 
 library(ggplot2);
 
@@ -44,17 +44,17 @@ if (require(data.table)) {
     engine.df = read.table(engine.fldFile, header=TRUE)
 }
 
-engine.plot.i1i2_o1 = ggplot(engine.df, aes(distance, control2)) + 
+engine.plot.i1i2_o1 = ggplot(engine.df, aes(distance, control1)) + 
     geom_tile(aes(fill=control)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
-    stat_contour(aes(x=distance, y=control2, z=control), color="black") + 
-    ggtitle("(distance, control2) = control")
+    scale_fill_gradient(low="yellow", high="red") + 
+    stat_contour(aes(x=distance, y=control1, z=control), color="black") + 
+    ggtitle("(distance, control1) = control")
 
-engine.plot.i2i1_o1 = ggplot(engine.df, aes(control2, distance)) + 
+engine.plot.i2i1_o1 = ggplot(engine.df, aes(control1, distance)) + 
     geom_tile(aes(fill=control)) + 
-    scale_fill_gradient(low="#ffff00", high="#ff0000") + 
-    stat_contour(aes(x=control2, y=distance, z=control), color="black") + 
-    ggtitle("(control2, distance) = control")
+    scale_fill_gradient(low="yellow", high="red") + 
+    stat_contour(aes(x=control1, y=distance, z=control), color="black") + 
+    ggtitle("(control1, distance) = control")
 
 if (require(gridExtra)) {
     engine.plots = arrangeGrob(engine.plot.i1i2_o1, engine.plot.i2i1_o1, ncol=2, top=engine.name)
