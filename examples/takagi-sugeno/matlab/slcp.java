@@ -1,4 +1,5 @@
 import com.fuzzylite.*;
+import com.fuzzylite.activation.*
 import com.fuzzylite.defuzzifier.*;
 import com.fuzzylite.factory.*;
 import com.fuzzylite.hedge.*;

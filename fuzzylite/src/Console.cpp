@@ -646,6 +646,7 @@ namespace fl {
                 } else if (to == "java") {
                     std::string className = examples.at(i).substr(examples.at(i).find_last_of('/') + 1);
                     target << "import com.fuzzylite.*;\n"
+                            << "import com.fuzzylite.activation.*\n"
                             << "import com.fuzzylite.defuzzifier.*;\n"
                             << "import com.fuzzylite.factory.*;\n"
                             << "import com.fuzzylite.hedge.*;\n"

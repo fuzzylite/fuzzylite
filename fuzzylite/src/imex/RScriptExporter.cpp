@@ -190,8 +190,7 @@ namespace fl {
     }
 
     void RScriptExporter::writeScriptHeader(std::ostream& writer) const {
-        writer << "#R script generated with " << fuzzylite::library() << "."
-                << "\n\n"
+        writer << "#R script generated with " << fuzzylite::library() << ".\n\n"
                 << "library(ggplot2);\n"
                 << "\n";
     }
