@@ -95,8 +95,7 @@ namespace fl {
     void FllImporter::processInputVariable(const std::string& block, Engine* engine) const {
         std::istringstream reader(block);
         std::string line;
-        InputVariable* inputVariable = new InputVariable;
-        engine->addInputVariable(inputVariable);
+        FL_unique_ptr<InputVariable> inputVariable(new InputVariable);
         while (std::getline(reader, line)) {
             std::pair<std::string, std::string> keyValue = parseKeyValue(line, ':');
             if ("InputVariable" == keyValue.first) {
@@ -115,13 +114,13 @@ namespace fl {
                         "recognized in pair <" + keyValue.first + ":" + keyValue.second + ">", FL_AT);
             }
         }
+        engine->addInputVariable(inputVariable.release());
     }
 
     void FllImporter::processOutputVariable(const std::string& block, Engine* engine) const {
         std::istringstream reader(block);
         std::string line;
-        OutputVariable* outputVariable = new OutputVariable;
-        engine->addOutputVariable(outputVariable);
+        FL_unique_ptr<OutputVariable> outputVariable(new OutputVariable);
         while (std::getline(reader, line)) {
             std::pair<std::string, std::string> keyValue = parseKeyValue(line, ':');
             if ("OutputVariable" == keyValue.first) {
@@ -155,13 +154,13 @@ namespace fl {
                         "recognized in pair <" + keyValue.first + ":" + keyValue.second + ">", FL_AT);
             }
         }
+        engine->addOutputVariable(outputVariable.release());
     }
 
     void FllImporter::processRuleBlock(const std::string& block, Engine* engine) const {
         std::istringstream reader(block);
         std::string line;
-        RuleBlock* ruleBlock = new RuleBlock;
-        engine->addRuleBlock(ruleBlock);
+        FL_unique_ptr<RuleBlock> ruleBlock(new RuleBlock);
         while (std::getline(reader, line)) {
             std::pair<std::string, std::string> keyValue = parseKeyValue(line, ':');
             if ("RuleBlock" == keyValue.first) {
@@ -204,6 +203,7 @@ namespace fl {
                         "recognized in pair <" + keyValue.first + ":" + keyValue.second + ">", FL_AT);
             }
         }
+        engine->addRuleBlock(ruleBlock.release());
     }
 
     Term* FllImporter::parseTerm(const std::string& text, Engine* engine) const {
