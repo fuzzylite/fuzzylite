@@ -79,9 +79,12 @@ RuleBlock:
 
     TEST_CASE("SNormFunction (max(a,b)) is equivalent to Maximum", "[snorm][maximum]") {
 #ifndef FL_CPP11
+		(void*)myMaximumNorm;
+		(void*)myNotSoMaximumNorm;
+		(void*)snormEngine;
         WARN("Test only runs with -DFL_CPP11=ON");
         return;
-#endif
+#else
         std::string fllEngine = snormEngine();
         FL_unique_ptr<Engine> engine(FllImporter().fromString(fllEngine));
         std::string fld = FldExporter().toString(engine.get(), 1024);
@@ -106,6 +109,7 @@ RuleBlock:
         anotherFld = FldExporter().toString(engine.get(), 1024);
 
         CHECK(fld != anotherFld);
+#endif
     }
 
     static std::string tnormEngine() {
@@ -162,9 +166,12 @@ RuleBlock:
 
     TEST_CASE("TNormFunction (min(a,b)) is equivalent to Minimum", "[tnorm][minimum]") {
 #ifndef FL_CPP11
+        (void*)myMinimumNorm;
+		(void*)myNotSoMinimumNorm;
+		(void*)tnormEngine;
         WARN("Test only runs with -DFL_CPP11=ON");
         return;
-#endif
+#else
         std::string fllEngine = tnormEngine();
         FL_unique_ptr<Engine> engine(FllImporter().fromString(fllEngine));
         std::string fld = FldExporter().toString(engine.get(), 1024);
@@ -189,6 +196,7 @@ RuleBlock:
         anotherFld = FldExporter().toString(engine.get(), 1024);
 
         CHECK(fld != anotherFld);
+#endif
     }
 
 }
