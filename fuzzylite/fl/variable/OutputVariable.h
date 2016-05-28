@@ -153,7 +153,7 @@ namespace fl {
         virtual void setLockPreviousValue(bool lockPreviousValue);
         /**
           Gets whether to lock the previous value of the output variable
-          @returns whether the previous output value of the output variable is
+          @return whether the previous output value of the output variable is
           locked
          */
         virtual bool isLockPreviousValue() const;

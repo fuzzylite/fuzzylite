@@ -58,7 +58,7 @@ namespace fl {
         void setMinimumColor(const std::string& minimumColor);
         /**
           Gets the color to represent the minimum values.
-          @returns the color to represent the minimum values
+          @return the color to represent the minimum values
          */
         std::string getMinimumColor() const;
 
@@ -69,7 +69,7 @@ namespace fl {
         void setMaximumColor(const std::string& maximumColor);
         /**
          Gets the color to represent the maximum values.
-         @returns maximumColor is the color to represent the maximum values
+         @return maximumColor is the color to represent the maximum values
          */
         std::string getMaximumColor() const;
 
@@ -80,7 +80,7 @@ namespace fl {
         void setContourColor(const std::string& contourColor);
         /**
          Gets the color to draw the contour lines
-         @returns the color to draw the contour lines
+         @return the color to draw the contour lines
          */
         std::string getContourColor() const;
 
