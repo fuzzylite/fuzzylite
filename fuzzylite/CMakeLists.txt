@@ -244,7 +244,7 @@ configure_file(${CMAKE_SOURCE_DIR}/fuzzylite.pc.in ${CMAKE_BINARY_DIR}/fuzzylite
 install(FILES ${CMAKE_BINARY_DIR}/fuzzylite.pc DESTINATION ${FL_INSTALL_LIBDIR}/pkgconfig)
 
 message("=====================================")
-message("fuzzylite v${6.0}\n")
+message("fuzzylite v6.0\n")
 message("FL_CPP11=${FL_CPP11}")
 message("FL_USE_FLOAT=${FL_USE_FLOAT}")
 message("FL_BACKTRACE=${FL_BACKTRACE}")

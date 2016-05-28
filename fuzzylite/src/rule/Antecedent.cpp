@@ -93,7 +93,7 @@ namespace fl {
             scalar result = fl::nan;
             if (OutputVariable * outputVariable = dynamic_cast<OutputVariable*> (proposition->variable)) {
                 result = outputVariable->fuzzyOutput()->activationDegree(proposition->term);
-            } else {
+            } else if (proposition->variable) {
                 result = proposition->term->membership(proposition->variable->getValue());
             }
 
@@ -328,7 +328,7 @@ namespace fl {
                     << toPrefix(fuzzyOperator->left) << " "
                     << toPrefix(fuzzyOperator->right) << " ";
         } else {
-            ss << "[antecedent error] unknown class of Expression <" << node->toString() << ">";
+            ss << "[antecedent error] unknown class of Expression <" << (node ? node->toString() : "null") << ">";
         }
         return ss.str();
     }
@@ -347,7 +347,7 @@ namespace fl {
                     << fuzzyOperator->toString() << " "
                     << toInfix(fuzzyOperator->right) << " ";
         } else {
-            ss << "[antecedent error] unknown class of Expression <" << node->toString() << ">";
+            ss << "[antecedent error] unknown class of Expression <" << (node ? node->toString() : "null") << ">";
         }
         return ss.str();
     }
@@ -366,7 +366,7 @@ namespace fl {
                     << toPostfix(fuzzyOperator->right) << " "
                     << fuzzyOperator->toString() << " ";
         } else {
-            ss << "[antecedent error] unknown class of Expression <" << node->toString() << ">";
+            ss << "[antecedent error] unknown class of Expression <" << (node ? node->toString() : "null") << ">";
         }
         return ss.str();
     }

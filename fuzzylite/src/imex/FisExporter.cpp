@@ -411,7 +411,7 @@ namespace fl {
             return ss.str();
         }
 
-        ss << "[exporter error] term of class <" << term->className() << "> not supported";
+        ss << "[exporter error] term of class <" << (term ? term->className() : "null") << "> not supported";
         throw fl::Exception(ss.str(), FL_AT);
     }
 

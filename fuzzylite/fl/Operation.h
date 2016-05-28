@@ -721,7 +721,7 @@ namespace fl {
     }
 
     inline bool Operation::increment(std::vector<int>& x, std::vector<int>& min, std::vector<int>& max) {
-        return increment(x, -1 + x.size(), min, max);
+        return increment(x, -1 + int(x.size()), min, max);
     }
 
     inline bool Operation::increment(std::vector<int>& x, int position, std::vector<int>& min, std::vector<int>& max) {

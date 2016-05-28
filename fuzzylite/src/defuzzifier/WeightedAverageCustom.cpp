@@ -46,7 +46,7 @@ namespace fl {
             std::ostringstream ss;
             ss << "[defuzzification error]"
                     << "expected an Aggregated term instead of"
-                    << "<" << term->toString() << ">";
+                    << "<" << (term ? term->toString() : "null") << ">";
             throw fl::Exception(ss.str(), FL_AT);
         }
 
