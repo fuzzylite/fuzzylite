@@ -500,7 +500,7 @@ namespace fl {
           @return the given string into a scalar value
           @throws fl::Exception if the string does not contain a scalar value
          */
-        static scalar toScalar(const std::string& x); //throws fl::Exception
+        static scalar toScalar(const std::string& x); //throws (fl::Exception)
 
         /**
           Parses the given string into a scalar value without throwing an

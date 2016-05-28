@@ -827,7 +827,8 @@ namespace fl {
             console.benchmarkExamples(path, runs);
             return EXIT_SUCCESS;
 #else
-            throw fl::Exception("[benchmarks error] implementation available only when built with C++11 (-DFL_CPP11)", FL_AT);
+            FL_LOG("[benchmarks error] implementation available only when built with C++11 (-DFL_CPP11)");
+            return EXIT_FAILURE;
 #endif
         }
 
