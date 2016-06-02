@@ -1,6 +1,7 @@
 [System]
 Name='AllTerms'
 Type='mamdani'
+Version=6.0
 NumInputs=1
 NumOutputs=1
 NumRules=20

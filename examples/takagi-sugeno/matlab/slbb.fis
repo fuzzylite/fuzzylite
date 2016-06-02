@@ -1,13 +1,14 @@
 [System]
 Name='slbb'
 Type='sugeno'
+Version=6.0
 NumInputs=4
 NumOutputs=1
 NumRules=16
 AndMethod='prod'
-OrMethod=''
-ImpMethod=''
-AggMethod=''
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
 DefuzzMethod='wtaver'
 
 [Input1]

@@ -1,6 +1,7 @@
 [System]
 Name='investment_portfolio'
 Type='mamdani'
+Version=6.0
 NumInputs=2
 NumOutputs=1
 NumRules=4

@@ -1,13 +1,14 @@
 [System]
 Name='linear_tip_calculator'
 Type='sugeno'
+Version=6.0
 NumInputs=2
 NumOutputs=1
 NumRules=4
 AndMethod='min'
-OrMethod=''
-ImpMethod=''
-AggMethod=''
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
 DefuzzMethod='wtaver'
 
 [Input1]

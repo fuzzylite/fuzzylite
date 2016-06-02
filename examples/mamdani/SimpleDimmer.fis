@@ -1,11 +1,12 @@
 [System]
 Name='SimpleDimmer'
 Type='mamdani'
+Version=6.0
 NumInputs=1
 NumOutputs=1
 NumRules=3
-AndMethod=''
-OrMethod=''
+AndMethod='min'
+OrMethod='max'
 ImpMethod='min'
 AggMethod='max'
 DefuzzMethod='centroid'

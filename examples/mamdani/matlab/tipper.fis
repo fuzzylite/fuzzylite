@@ -1,6 +1,7 @@
 [System]
 Name='tipper'
 Type='mamdani'
+Version=6.0
 NumInputs=2
 NumOutputs=1
 NumRules=3

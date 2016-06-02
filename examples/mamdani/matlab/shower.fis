@@ -1,6 +1,7 @@
 [System]
 Name='shower'
 Type='mamdani'
+Version=6.0
 NumInputs=2
 NumOutputs=2
 NumRules=9

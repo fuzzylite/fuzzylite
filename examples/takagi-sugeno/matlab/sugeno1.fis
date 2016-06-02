@@ -1,13 +1,14 @@
 [System]
 Name='sugeno1'
 Type='sugeno'
+Version=6.0
 NumInputs=1
 NumOutputs=1
 NumRules=2
-AndMethod=''
-OrMethod=''
-ImpMethod=''
-AggMethod=''
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
 DefuzzMethod='wtaver'
 
 [Input1]

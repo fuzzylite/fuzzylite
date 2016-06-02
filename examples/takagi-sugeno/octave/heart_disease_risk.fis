@@ -1,13 +1,14 @@
 [System]
 Name='heart_disease_risk'
 Type='sugeno'
+Version=6.0
 NumInputs=2
 NumOutputs=1
 NumRules=15
 AndMethod='min'
-OrMethod=''
-ImpMethod=''
-AggMethod=''
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
 DefuzzMethod='wtaver'
 
 [Input1]

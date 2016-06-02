@@ -1,6 +1,7 @@
 [System]
 Name='mam22'
 Type='mamdani'
+Version=6.0
 NumInputs=2
 NumOutputs=2
 NumRules=4

@@ -1,13 +1,14 @@
 [System]
 Name='sugeno_tip_calculator'
 Type='sugeno'
+Version=6.0
 NumInputs=2
 NumOutputs=3
 NumRules=10
 AndMethod='einstein_product'
-OrMethod=''
-ImpMethod=''
-AggMethod=''
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
 DefuzzMethod='wtaver'
 
 [Input1]

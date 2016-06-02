@@ -1,13 +1,14 @@
 [System]
 Name='slcp1'
 Type='sugeno'
+Version=6.0
 NumInputs=5
 NumOutputs=1
 NumRules=3
-AndMethod=''
-OrMethod=''
-ImpMethod=''
-AggMethod=''
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
 DefuzzMethod='wtaver'
 
 [Input1]
