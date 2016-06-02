@@ -149,6 +149,17 @@ namespace fl {
                 const std::string& prefix = "(", const std::string& innerSeparator = ",",
                 const std::string& postfix = ")", const std::string& outerSeparator = " ");
 
+        /**
+          Discretizes the given term
+          @param term is the term to discretize
+          @param start is the value from which discretization starts
+          @param end is the value at which discretization ends
+          @param resolution is the number of equally-distributed samples to
+          perform between start and end
+          @return a Discrete term that approximates the given term
+         */
+        static Discrete* discretize(const Term* term, scalar start, scalar end, int resolution);
+
         virtual Discrete* clone() const FL_IOVERRIDE;
 
         static Term* constructor();

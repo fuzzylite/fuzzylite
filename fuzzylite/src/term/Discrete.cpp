@@ -163,6 +163,18 @@ namespace fl {
         return os.str();
     }
 
+    Discrete* Discrete::discretize(const Term* term, scalar start, scalar end, int resolution) {
+        FL_unique_ptr<Discrete> result(new Discrete(term->getName()));
+        scalar dx = (end - start) / resolution;
+        scalar x, y;
+        for (int i = 0; i < resolution; ++i) {
+            x = start + (i + 0.5) * dx;
+            y = term->membership(x);
+            result->xy().push_back(Discrete::Pair(x, y));
+        }
+        return result.release();
+    }
+
     Discrete* Discrete::clone() const {
         return new Discrete(*this);
     }
