@@ -36,7 +36,8 @@ namespace fl {
         scalar _errorThreshold;
 
     public:
-        explicit Benchmark(const std::string& name = "", Engine* engine = fl::null);
+        explicit Benchmark(const std::string& name = "", Engine* engine = fl::null,
+                scalar errorThreshold = 10 * fuzzylite::macheps());
         virtual ~Benchmark();
 
         /**

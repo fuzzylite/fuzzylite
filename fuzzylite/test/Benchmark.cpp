@@ -30,7 +30,8 @@ namespace fl {
     }
 
     TEST_CASE("Benchmarks from FLD files", "[benchmark][fld]") {
-        std::string path = "../examples/";
+        fuzzylite::setLogging(true);
+        std::string path = "../examples/original/";
         typedef std::pair<std::string, int > Example;
         std::vector<Example> examples;
         examples.push_back(Example("mamdani/AllTerms", int(1e4)));
@@ -77,10 +78,10 @@ namespace fl {
 
             Benchmark benchmark(example.first, engine.get());
             //            benchmark.prepare(example.second, FldExporter::AllVariables);
-            std::ifstream reader(path + example.first + ".fld");
+            std::ifstream reader(std::string(path +  "../" + example.first + ".fld").c_str());
             benchmark.prepare(reader);
             benchmark.run(1);
-            
+
             CHECK(benchmark.numberOfErrors() == 0);
 
             writer << benchmark.results() << "\n";

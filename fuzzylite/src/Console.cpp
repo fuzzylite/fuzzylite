@@ -32,9 +32,6 @@
 #include <conio.h>
 #endif
 
-#ifdef FL_CPP11
-#include <chrono>
-#endif
 
 namespace fl {
     const std::string Console::KW_INPUT_FILE = "-i";
@@ -694,8 +691,6 @@ namespace fl {
         }
     }
 
-#ifdef FL_CPP11
-
     void Console::benchmarkExamples(const std::string& path, int runs) {
         std::string sourceBase = path + "/";
         typedef std::pair<std::string, int > Example;
@@ -750,7 +745,6 @@ namespace fl {
         }
         FL_LOG(writer.str());
     }
-#endif
 
     int Console::main(int argc, const char* argv[]) {
         Console console;
@@ -793,7 +787,6 @@ namespace fl {
             FL_LOG("Target=" << outputPath);
             return EXIT_SUCCESS;
         } else if (firstArgument == "benchmarks") {
-#ifdef FL_CPP11
             std::string path = ".";
             if (argc > 2) {
                 path = std::string(argv[2]);
@@ -805,10 +798,6 @@ namespace fl {
             fuzzylite::setDecimals(3);
             console.benchmarkExamples(path, runs);
             return EXIT_SUCCESS;
-#else
-            FL_LOG("[benchmarks error] implementation available only when library is built with C++11 (-DFL_CPP11)");
-            return EXIT_FAILURE;
-#endif
         }
 
         try {

@@ -28,8 +28,8 @@
 
 namespace fl {
 
-    Benchmark::Benchmark(const std::string& name, Engine* engine)
-    : _name(name), _engine(engine) {
+    Benchmark::Benchmark(const std::string& name, Engine* engine, scalar errorThreshold)
+    : _name(name), _engine(engine), _errorThreshold(errorThreshold) {
 
     }
 
@@ -140,7 +140,7 @@ namespace fl {
 
         const std::size_t offset(_engine->inputVariables().size());
         for (int t = 0; t < times; ++t) {
-            _obtained = std::vector<std::vector<scalar> >();
+            _obtained = std::vector<std::vector<scalar> >(_expected.size());
             _engine->restart();
 
 #ifdef FL_CPP11
@@ -171,7 +171,7 @@ namespace fl {
                     obtainedValues.at(i + offset) = _engine->outputVariables().at(i)->getValue();
                 }
 
-                _obtained.push_back(obtainedValues);
+                _obtained.at(evaluation) = obtainedValues;
             }
 
 #ifdef FL_CPP11
