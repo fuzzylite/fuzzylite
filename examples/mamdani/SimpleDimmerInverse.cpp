@@ -1,54 +1,58 @@
 #include <fl/Headers.h>
 
 int main(int argc, char** argv){
+//C++ code generated with fuzzylite 6.0.
+
 using namespace fl;
 
 Engine* engine = new Engine;
-engine->setName("simple-dimmer");
+engine->setName("SimpleDimmerInverse");
 
-InputVariable* inputVariable = new InputVariable;
-inputVariable->setEnabled(true);
-inputVariable->setName("Ambient");
-inputVariable->setRange(0.000, 1.000);
-inputVariable->addTerm(new Triangle("DARK", 0.000, 0.250, 0.500));
-inputVariable->addTerm(new Triangle("MEDIUM", 0.250, 0.500, 0.750));
-inputVariable->addTerm(new Triangle("BRIGHT", 0.500, 0.750, 1.000));
-engine->addInputVariable(inputVariable);
+InputVariable* Ambient = new InputVariable;
+Ambient->setEnabled(true);
+Ambient->setName("Ambient");
+Ambient->setRange(0.000, 1.000);
+Ambient->setLockValueInRange(false);
+Ambient->addTerm(new Triangle("DARK", 0.000, 0.250, 0.500));
+Ambient->addTerm(new Triangle("MEDIUM", 0.250, 0.500, 0.750));
+Ambient->addTerm(new Triangle("BRIGHT", 0.500, 0.750, 1.000));
+engine->addInputVariable(Ambient);
 
-OutputVariable* outputVariable1 = new OutputVariable;
-outputVariable1->setEnabled(true);
-outputVariable1->setName("Power");
-outputVariable1->setRange(0.000, 1.000);
-outputVariable1->fuzzyOutput()->setAccumulation(new Maximum);
-outputVariable1->setDefuzzifier(new Centroid(200));
-outputVariable1->setDefaultValue(fl::nan);
-outputVariable1->setLockPreviousOutputValue(false);
-outputVariable1->setLockOutputValueInRange(false);
-outputVariable1->addTerm(new Triangle("LOW", 0.000, 0.250, 0.500));
-outputVariable1->addTerm(new Triangle("MEDIUM", 0.250, 0.500, 0.750));
-outputVariable1->addTerm(new Triangle("HIGH", 0.500, 0.750, 1.000));
-engine->addOutputVariable(outputVariable1);
+OutputVariable* Power = new OutputVariable;
+Power->setEnabled(true);
+Power->setName("Power");
+Power->setRange(0.000, 1.000);
+Power->setLockValueInRange(false);
+Power->fuzzyOutput()->setAggregation(new Maximum);
+Power->setDefuzzifier(new Centroid(200));
+Power->setDefaultValue(fl::nan);
+Power->setLockPreviousValue(false);
+Power->addTerm(new Triangle("LOW", 0.000, 0.250, 0.500));
+Power->addTerm(new Triangle("MEDIUM", 0.250, 0.500, 0.750));
+Power->addTerm(new Triangle("HIGH", 0.500, 0.750, 1.000));
+engine->addOutputVariable(Power);
 
-OutputVariable* outputVariable2 = new OutputVariable;
-outputVariable2->setEnabled(true);
-outputVariable2->setName("InversePower");
-outputVariable2->setRange(0.000, 1.000);
-outputVariable2->fuzzyOutput()->setAccumulation(new Maximum);
-outputVariable2->setDefuzzifier(new Centroid(500));
-outputVariable2->setDefaultValue(fl::nan);
-outputVariable2->setLockPreviousOutputValue(false);
-outputVariable2->setLockOutputValueInRange(false);
-outputVariable2->addTerm(new Cosine("LOW", 0.200, 0.500));
-outputVariable2->addTerm(new Cosine("MEDIUM", 0.500, 0.500));
-outputVariable2->addTerm(new Cosine("HIGH", 0.800, 0.500));
-engine->addOutputVariable(outputVariable2);
+OutputVariable* InversePower = new OutputVariable;
+InversePower->setEnabled(true);
+InversePower->setName("InversePower");
+InversePower->setRange(0.000, 1.000);
+InversePower->setLockValueInRange(false);
+InversePower->fuzzyOutput()->setAggregation(new Maximum);
+InversePower->setDefuzzifier(new Centroid(500));
+InversePower->setDefaultValue(fl::nan);
+InversePower->setLockPreviousValue(false);
+InversePower->addTerm(new Cosine("LOW", 0.200, 0.500));
+InversePower->addTerm(new Cosine("MEDIUM", 0.500, 0.500));
+InversePower->addTerm(new Cosine("HIGH", 0.800, 0.500));
+engine->addOutputVariable(InversePower);
 
 RuleBlock* ruleBlock = new RuleBlock;
 ruleBlock->setEnabled(true);
 ruleBlock->setName("");
-ruleBlock->setConjunction(NULL);
-ruleBlock->setDisjunction(NULL);
-ruleBlock->setActivation(new Minimum);
+ruleBlock->setConjunction(fl::null);
+ruleBlock->setDisjunction(fl::null);
+ruleBlock->setImplication(new Minimum);
+ruleBlock->setActivation(new General);
 ruleBlock->addRule(fl::Rule::parse("if Ambient is DARK then Power is HIGH", engine));
 ruleBlock->addRule(fl::Rule::parse("if Ambient is MEDIUM then Power is MEDIUM", engine));
 ruleBlock->addRule(fl::Rule::parse("if Ambient is BRIGHT then Power is LOW", engine));

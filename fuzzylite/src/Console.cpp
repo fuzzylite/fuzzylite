@@ -546,9 +546,9 @@ namespace fl {
             const std::string& sourcePath, const std::string& targetPath) {
         std::vector<std::string> examples;
         examples.push_back("mamdani/AllTerms");
-        //examples.push_back("mamdani/Laundry");
+        examples.push_back("mamdani/Laundry");
         examples.push_back("mamdani/SimpleDimmer");
-        //examples.push_back("mamdani/SimpleDimmerInverse");
+        examples.push_back("mamdani/SimpleDimmerInverse");
         examples.push_back("mamdani/matlab/mam21");
         examples.push_back("mamdani/matlab/mam22");
         examples.push_back("mamdani/matlab/shower");
@@ -618,6 +618,12 @@ namespace fl {
             FL_unique_ptr<Engine> engine(importer->fromString(ss.str()));
 
             for (std::size_t t = 0; t < tests.size(); ++t) {
+                if ("mamdani/Laundry" == examples.at(i) or "mamdani/SimpleDimmerInverse" == examples.at(i)) {
+                    if (tests.at(t).second->name() != FllImporter().name()) {
+                        continue;
+                    }
+                }
+
                 std::string out = tests.at(t).first->toString(engine.get());
                 FL_unique_ptr<Engine> copy(tests.at(t).second->fromString(out));
                 std::string out_copy = tests.at(t).first->toString(copy.get());
@@ -728,18 +734,18 @@ namespace fl {
         examples.push_back(Example("tsukamoto/tsukamoto", int(1e6)));
 
         std::ostringstream writer;
-        writer  << "\n" << Benchmark().header(runs, "\t") << "\n";
+        writer << "\n" << Benchmark().header(runs, "\t") << "\n";
         for (std::size_t i = 0; i < examples.size(); ++i) {
             Example example = examples.at(i);
-            FL_LOG("Benchmark " << (i+1) << "/" << examples.size() << ": " 
+            FL_LOG("Benchmark " << (i + 1) << "/" << examples.size() << ": "
                     << example.first << ".fll (" << example.second << " values)");
-            
+
             FL_unique_ptr<Engine> engine(FllImporter().fromFile(path + example.first + ".fll"));
-            
+
             Benchmark benchmark(example.first, engine.get());
             benchmark.prepare(example.second, FldExporter::AllVariables);
             benchmark.run(runs);
-            
+
             writer << benchmark.results() << "\n";
         }
         FL_LOG(writer.str());

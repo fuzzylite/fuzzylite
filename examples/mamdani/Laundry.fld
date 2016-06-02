@@ -1,5 +1,4 @@
-#@Engine: Laundry;
-#@InputVariable: Load; @InputVariable: Dirt; @OutputVariable: Detergent; @OutputVariable: Cycle;
+Load Dirt Detergent Cycle
 0.00000000 0.00000000 39.92000000 5.00000000
 0.00000000 0.19354839 39.92000000 5.00000000
 0.00000000 0.38709677 39.92000000 5.00000000

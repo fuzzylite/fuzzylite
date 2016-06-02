@@ -1,0 +1,49 @@
+[System]
+Name='Laundry'
+Type='mamdani'
+Version=6.0
+NumInputs=2
+NumOutputs=2
+NumRules=6
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='mom'
+
+[Input1]
+Name='Load'
+Range=[0.000 6.000]
+NumMFs=2
+MF1='small':'discretemf',[0.000 1.000 1.000 1.000 2.000 0.800 5.000 0.000]
+MF2='normal':'discretemf',[3.000 0.000 4.000 1.000 6.000 0.000]
+
+[Input2]
+Name='Dirt'
+Range=[0.000 6.000]
+NumMFs=2
+MF1='low':'discretemf',[0.000 1.000 2.000 0.800 5.000 0.000]
+MF2='high':'discretemf',[1.000 0.000 2.000 0.200 4.000 0.800 6.000 1.000]
+
+[Output1]
+Name='Detergent'
+Range=[0.000 80.000]
+NumMFs=3
+MF1='less_than_usual':'discretemf',[10.000 0.000 40.000 1.000 50.000 0.000]
+MF2='usual':'discretemf',[40.000 0.000 50.000 1.000 60.000 1.000 80.000 0.000]
+MF3='more_than_usual':'discretemf',[50.000 0.000 80.000 1.000]
+
+[Output2]
+Name='Cycle'
+Range=[0.000 20.000]
+NumMFs=2
+MF1='short':'discretemf',[0.000 1.000 10.000 1.000 20.000 0.000]
+MF2='long':'discretemf',[10.000 0.000 20.000 1.000]
+
+[Rules]
+1.000 -2.000 , 1.000 0.000 (1.000) : 1
+1.000 2.000 , 2.000 0.000 (1.000) : 1
+2.000 1.000 , 1.000 0.000 (1.000) : 1
+2.000 2.000 , 3.000 0.000 (1.000) : 1
+0.000 0.000 , 0.000 1.000 (1.000) : 2
+0.000 0.000 , 0.000 2.000 (1.000) : 1
