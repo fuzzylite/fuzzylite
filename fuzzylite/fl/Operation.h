@@ -516,6 +516,24 @@ namespace fl {
                 bool* ok = fl::null) FL_INOEXCEPT;
 
         /**
+          Parses the given string into a vector of scalar values
+          @param x is the string containing space-separated values to parse
+          @return the vector of scalar values
+          @throws fl::Exception if the string contains an invalid scalar value
+         */
+        static std::vector<scalar> toScalars(const std::string& x); //throws (fl::Exception)
+
+        /**
+          Parses the given string into a vector of scalar values
+          @param x is the string containing space-separated values to parse
+          @param alternative is the value to use if an invalid value is found
+          @param ok contains whether the operation was successful (optional)
+          @return the vector of scalar values
+         */
+        static std::vector<scalar> toScalars(const std::string& x, scalar alternative,
+                bool* ok = fl::null) FL_INOEXCEPT;
+
+        /**
           Indicates whether the string can be converted to a numeric value.
           @param x
           @return whether the string can be converted to a numeric value
@@ -915,6 +933,31 @@ namespace fl {
 
         if (ok) *ok = false;
         return alternative;
+    }
+    
+    inline std::vector<scalar> Operation::toScalars(const std::string& x) {
+        std::vector<scalar> result;
+        std::istringstream tokenizer(x);
+        std::string token;
+        while(tokenizer >> token){
+            result.push_back(Op::toScalar(token));
+        }
+        return result;
+    }
+    
+    inline std::vector<scalar> Operation::toScalars(const std::string& x, 
+            scalar alternative, bool* ok) FL_INOEXCEPT{
+        std::vector<scalar> result;
+        std::istringstream tokenizer(x);
+        std::string token;
+        bool allOK = true;
+        while(tokenizer >> token){
+            bool good;
+            result.push_back(Op::toScalar(token, alternative, &good));
+            allOK &= good;
+        }
+        if (ok) *ok = allOK;
+        return result;
     }
 
     inline bool Operation::isNumeric(const std::string& x) {

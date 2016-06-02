@@ -64,7 +64,7 @@ namespace fl {
             type = "unknown";
         }
         fis << "Type='" << type << "'\n";
-        //        fis << "Version=" << FL_VERSION << "\n";
+        fis << "Version=" << fuzzylite::version() << "\n";
         fis << "NumInputs=" << engine->numberOfInputVariables() << "\n";
         fis << "NumOutputs=" << engine->numberOfOutputVariables() << "\n";
 
@@ -80,9 +80,9 @@ namespace fl {
             if (not implication) implication = rb->getImplication();
         }
         fis << "NumRules=" << numberOfRules << "\n";
-        fis << "AndMethod='" << toString(conjunction) << "'\n";
-        fis << "OrMethod='" << toString(disjunction) << "'\n";
-        fis << "ImpMethod='" << toString(implication) << "'\n";
+        fis << "AndMethod='" << (conjunction ? toString(conjunction) : "min") << "'\n";
+        fis << "OrMethod='" << (disjunction ? toString(disjunction) : "max") << "'\n";
+        fis << "ImpMethod='" << (implication ? toString(implication) : "min") << "'\n";
 
         const SNorm* aggregation = fl::null;
         Defuzzifier* defuzzifier = fl::null;
@@ -92,7 +92,7 @@ namespace fl {
             if (not defuzzifier) defuzzifier = outputVariable->getDefuzzifier();
         }
 
-        fis << "AggMethod='" << toString(aggregation) << "'\n";
+        fis << "AggMethod='" << (aggregation ? toString(aggregation) : "max") << "'\n";
         fis << "DefuzzMethod='" << toString(defuzzifier) << "'\n";
         return fis.str();
     }
@@ -246,28 +246,30 @@ namespace fl {
         return ss.str();
     }
 
-    std::string FisExporter::toString(const Norm * norm) const {
-        if (not norm) return "";
-        //TNorm
-        if (norm->className() == Minimum().className()) return "min";
-        if (norm->className() == AlgebraicProduct().className()) return "prod";
-        if (norm->className() == BoundedDifference().className()) return "bounded_difference";
-        if (norm->className() == DrasticProduct().className()) return "drastic_product";
-        if (norm->className() == EinsteinProduct().className()) return "einstein_product";
-        if (norm->className() == HamacherProduct().className()) return "hamacher_product";
-        if (norm->className() == NilpotentMinimum().className()) return "nilpotent_minimum";
-        //SNorm
-        if (norm->className() == Maximum().className()) return "max";
-        if (norm->className() == AlgebraicSum().className()) return "probor";
-        if (norm->className() == BoundedSum().className()) return "bounded_sum";
-        if (norm->className() == NormalizedSum().className()) return "normalized_sum";
-        if (norm->className() == DrasticSum().className()) return "drastic_sum";
-        if (norm->className() == EinsteinSum().className()) return "einstein_sum";
-        if (norm->className() == HamacherSum().className()) return "hamacher_sum";
-        if (norm->className() == NilpotentMaximum().className()) return "nilpotent_maximum";
-        if (norm->className() == UnboundedSum().className()) return "sum";
+    std::string FisExporter::toString(const TNorm * tnorm) const {
+        if (not tnorm) return "";
+        if (tnorm->className() == Minimum().className()) return "min";
+        if (tnorm->className() == AlgebraicProduct().className()) return "prod";
+        if (tnorm->className() == BoundedDifference().className()) return "bounded_difference";
+        if (tnorm->className() == DrasticProduct().className()) return "drastic_product";
+        if (tnorm->className() == EinsteinProduct().className()) return "einstein_product";
+        if (tnorm->className() == HamacherProduct().className()) return "hamacher_product";
+        if (tnorm->className() == NilpotentMinimum().className()) return "nilpotent_minimum";
+        return tnorm->className();
+    }
 
-        return norm->className();
+    std::string FisExporter::toString(const SNorm* snorm) const {
+        if (not snorm) return "";
+        if (snorm->className() == Maximum().className()) return "max";
+        if (snorm->className() == AlgebraicSum().className()) return "probor";
+        if (snorm->className() == BoundedSum().className()) return "bounded_sum";
+        if (snorm->className() == NormalizedSum().className()) return "normalized_sum";
+        if (snorm->className() == DrasticSum().className()) return "drastic_sum";
+        if (snorm->className() == EinsteinSum().className()) return "einstein_sum";
+        if (snorm->className() == HamacherSum().className()) return "hamacher_sum";
+        if (snorm->className() == NilpotentMaximum().className()) return "nilpotent_maximum";
+        if (snorm->className() == UnboundedSum().className()) return "sum";
+        return snorm->className();
     }
 
     std::string FisExporter::toString(const Defuzzifier * defuzzifier) const {

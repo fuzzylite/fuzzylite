@@ -178,10 +178,7 @@ namespace fl {
     std::vector<scalar> FldExporter::parse(const std::string& x) const {
         std::vector<scalar> inputValues;
         if (not (x.empty() or x.at(0) == '#')) {
-            std::istringstream tokenizer(x);
-            std::string token;
-            while (tokenizer >> token)
-                inputValues.push_back(fl::Op::toScalar(token));
+            inputValues = Op::toScalars(x);
         }
         return inputValues;
     }
