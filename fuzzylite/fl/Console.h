@@ -83,7 +83,7 @@ namespace fl {
         static Engine* takagiSugeno();
 
     protected:
-        virtual std::map<std::string, std::string> parse(int argc, char** argv);
+        virtual std::map<std::string, std::string> parse(int argc, const char* argv[]);
         virtual void process(const std::map<std::string, std::string>& options);
 
         virtual void process(const std::string& input, std::ostream& writer,
@@ -113,7 +113,7 @@ namespace fl {
          */
         virtual std::vector<Option> availableOptions();
 
-        static int main(int argc, char** argv);
+        static int main(int argc, const char* argv[]);
     };
 }
 #endif  /* FL_CONSOLE_H */

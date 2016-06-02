@@ -35,7 +35,7 @@ BOOL WINAPI flSignalHandler(DWORD dwCtrlType)
 #endif
  */
 
-int main(int argc, char** argv) {
+int main(int argc, const char* argv[]) {
     std::set_terminate(fl::Exception::terminate);
     std::set_unexpected(fl::Exception::terminate);
     signal(SIGSEGV, fl::Exception::signalHandler);

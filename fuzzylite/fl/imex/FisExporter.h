@@ -56,16 +56,19 @@ namespace fl {
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
 
         /**
-         Returns a string representation of the Norm in the Fuzzy Inference System format
-         @param norm is the norm
-         @return a string representation of the norm in the Fuzzy Inference System format
+         Returns a string representation of the TNorm in the Fuzzy Inference System format
+         @param tnorm is the TNorm
+         @return a string representation of the TNorm in the Fuzzy Inference System format
          */
-        virtual std::string toString(const Norm* norm) const;
+        virtual std::string toString(const TNorm* tnorm) const;
+        
         /**
-        Returns a string representation of the Defuzzifier in the Fuzzy Inference System format
-        @param defuzzifier is the defuzzifier
-        @return a string representation of the defuzzifier in the Fuzzy Inference System format
+         Returns a string representation of the SNorm in the Fuzzy Inference System format
+         @param snorm is the SNorm
+         @return a string representation of the SNorm in the Fuzzy Inference System format
          */
+        virtual std::string toString(const SNorm* snorm) const;
+        
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
         /**
          Returns a string representation of the Term in the Fuzzy Inference System format

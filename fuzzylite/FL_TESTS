@@ -1,5 +1,6 @@
 test/catch.hpp
 test/test.cpp
+test/Benchmark.cpp
 test/QuickTests.cpp
 test/activation/Threshold.cpp
 test/hedge/HedgeFunction.cpp

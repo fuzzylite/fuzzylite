@@ -24,6 +24,7 @@
 
 #include "fl/fuzzylite.h"
 
+#include "fl/Benchmark.h"
 #include "fl/Console.h"
 #include "fl/Engine.h"
 #include "fl/Exception.h"

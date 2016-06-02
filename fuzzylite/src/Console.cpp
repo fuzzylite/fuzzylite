@@ -104,7 +104,7 @@ namespace fl {
         return ss.str();
     }
 
-    std::map<std::string, std::string> Console::parse(int argc, char** argv) {
+    std::map<std::string, std::string> Console::parse(int argc, const char* argv[]) {
         if ((argc - 1) % 2 != 0) {
             throw fl::Exception("[option error] incomplete number of parameters [key value]", FL_AT);
         }
@@ -694,86 +694,59 @@ namespace fl {
         std::string sourceBase = path + "/";
         typedef std::pair<std::string, int > Example;
         std::vector<Example> examples;
-        examples.push_back(Example("/mamdani/AllTerms", int(1e4)));
-        examples.push_back(Example("/mamdani/SimpleDimmer", int(1e5)));
-        examples.push_back(Example("/mamdani/matlab/mam21", 128));
-        examples.push_back(Example("/mamdani/matlab/mam22", 128));
-        examples.push_back(Example("/mamdani/matlab/shower", 256));
-        examples.push_back(Example("/mamdani/matlab/tank", 256));
-        examples.push_back(Example("/mamdani/matlab/tank2", 512));
-        examples.push_back(Example("/mamdani/matlab/tipper", 256));
-        examples.push_back(Example("/mamdani/matlab/tipper1", int(1e5)));
-        examples.push_back(Example("/mamdani/octave/investment_portfolio", 256));
-        examples.push_back(Example("/mamdani/octave/mamdani_tip_calculator", 256));
-        examples.push_back(Example("/takagi-sugeno/approximation", int(1e6)));
-        examples.push_back(Example("/takagi-sugeno/SimpleDimmer", int(2e6)));
-        examples.push_back(Example("/takagi-sugeno/matlab/fpeaks", 512));
-        examples.push_back(Example("/takagi-sugeno/matlab/invkine1", 256));
-        examples.push_back(Example("/takagi-sugeno/matlab/invkine2", 256));
-        examples.push_back(Example("/takagi-sugeno/matlab/juggler", 512));
-        examples.push_back(Example("/takagi-sugeno/matlab/membrn1", 1024));
-        examples.push_back(Example("/takagi-sugeno/matlab/membrn2", 512));
-        examples.push_back(Example("/takagi-sugeno/matlab/slbb", 20));
-        examples.push_back(Example("/takagi-sugeno/matlab/slcp", 20));
-        examples.push_back(Example("/takagi-sugeno/matlab/slcp1", 15));
-        examples.push_back(Example("/takagi-sugeno/matlab/slcpp1", 9));
-        examples.push_back(Example("/takagi-sugeno/matlab/sltbu_fl", 128));
-        examples.push_back(Example("/takagi-sugeno/matlab/sugeno1", int(2e6)));
-        examples.push_back(Example("/takagi-sugeno/matlab/tanksg", 1024));
-        examples.push_back(Example("/takagi-sugeno/matlab/tippersg", 1024));
-        examples.push_back(Example("/takagi-sugeno/octave/cubic_approximator", int(2e6)));
-        examples.push_back(Example("/takagi-sugeno/octave/heart_disease_risk", 1024));
-        examples.push_back(Example("/takagi-sugeno/octave/linear_tip_calculator", 1024));
-        examples.push_back(Example("/takagi-sugeno/octave/sugeno_tip_calculator", 512));
-        examples.push_back(Example("/tsukamoto/tsukamoto", int(1e6)));
+        examples.push_back(Example("mamdani/AllTerms", int(1e4)));
+        examples.push_back(Example("mamdani/SimpleDimmer", int(1e5)));
+        examples.push_back(Example("mamdani/matlab/mam21", 128));
+        examples.push_back(Example("mamdani/matlab/mam22", 128));
+        examples.push_back(Example("mamdani/matlab/shower", 256));
+        examples.push_back(Example("mamdani/matlab/tank", 256));
+        examples.push_back(Example("mamdani/matlab/tank2", 512));
+        examples.push_back(Example("mamdani/matlab/tipper", 256));
+        examples.push_back(Example("mamdani/matlab/tipper1", int(1e5)));
+        examples.push_back(Example("mamdani/octave/investment_portfolio", 256));
+        examples.push_back(Example("mamdani/octave/mamdani_tip_calculator", 256));
+        examples.push_back(Example("takagi-sugeno/approximation", int(1e6)));
+        examples.push_back(Example("takagi-sugeno/SimpleDimmer", int(2e6)));
+        examples.push_back(Example("takagi-sugeno/matlab/fpeaks", 512));
+        examples.push_back(Example("takagi-sugeno/matlab/invkine1", 256));
+        examples.push_back(Example("takagi-sugeno/matlab/invkine2", 256));
+        examples.push_back(Example("takagi-sugeno/matlab/juggler", 512));
+        examples.push_back(Example("takagi-sugeno/matlab/membrn1", 1024));
+        examples.push_back(Example("takagi-sugeno/matlab/membrn2", 512));
+        examples.push_back(Example("takagi-sugeno/matlab/slbb", 20));
+        examples.push_back(Example("takagi-sugeno/matlab/slcp", 20));
+        examples.push_back(Example("takagi-sugeno/matlab/slcp1", 15));
+        examples.push_back(Example("takagi-sugeno/matlab/slcpp1", 9));
+        examples.push_back(Example("takagi-sugeno/matlab/sltbu_fl", 128));
+        examples.push_back(Example("takagi-sugeno/matlab/sugeno1", int(2e6)));
+        examples.push_back(Example("takagi-sugeno/matlab/tanksg", 1024));
+        examples.push_back(Example("takagi-sugeno/matlab/tippersg", 1024));
+        examples.push_back(Example("takagi-sugeno/octave/cubic_approximator", int(2e6)));
+        examples.push_back(Example("takagi-sugeno/octave/heart_disease_risk", 1024));
+        examples.push_back(Example("takagi-sugeno/octave/linear_tip_calculator", 1024));
+        examples.push_back(Example("takagi-sugeno/octave/sugeno_tip_calculator", 512));
+        examples.push_back(Example("tsukamoto/tsukamoto", int(1e6)));
 
+        std::ostringstream writer;
+        writer  << "\n" << Benchmark().header(runs, "\t") << "\n";
         for (std::size_t i = 0; i < examples.size(); ++i) {
-            FL_LOG(examples.at(i).first << "\t" << examples.at(i).second);
+            Example example = examples.at(i);
+            FL_LOG("Benchmark " << (i+1) << "/" << examples.size() << ": " 
+                    << example.first << ".fll (" << example.second << " values)");
+            
+            FL_unique_ptr<Engine> engine(FllImporter().fromFile(path + example.first + ".fll"));
+            
+            Benchmark benchmark(example.first, engine.get());
+            benchmark.prepare(example.second, FldExporter::AllVariables);
+            benchmark.run(runs);
+            
+            writer << benchmark.results() << "\n";
         }
-
-        std::vector<std::string> runNumbers(runs);
-        for (int i = 0; i < runs; ++i) {
-            runNumbers.at(i) = Op::str(i + 1);
-        }
-        std::string spacedPath(40, ' ');
-        std::copy(path.begin(), path.end(), spacedPath.begin());
-        FL_LOG(spacedPath << "\t" << "mean\tstdev\tevals\n" << Op::join(runNumbers, "\t"));
-
-        FllImporter importer;
-        FldExporter exporter;
-        exporter.setExportHeader(false);
-        exporter.setExportInputValues(false);
-        exporter.setExportOutputValues(false);
-        std::ostream dummy(0);
-
-        for (std::size_t e = 0; e < examples.size(); ++e) {
-            FL_unique_ptr<Engine> engine(importer.fromFile(sourceBase + examples.at(e).first + ".fll"));
-
-            std::vector<scalar> seconds;
-            int results = int(std::pow(float(examples.at(e).second), engine->numberOfInputVariables()));
-
-            for (int r = 0; r < runs; ++r) {
-                auto start = std::chrono::system_clock::now();
-                exporter.write(engine.get(), dummy, results);
-                auto end = std::chrono::system_clock::now();
-
-                auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds> (end - start);
-
-                seconds.push_back(elapsed.count() / 1e3);
-            }
-            scalar mean = Op::mean(seconds);
-            scalar stdev = Op::standardDeviation(seconds, mean);
-
-            std::string spacedExample(40, ' ');
-            std::string exampleName = examples.at(e).first;
-            std::copy(exampleName.begin(), exampleName.end(), spacedExample.begin());
-            FL_LOG(spacedExample << "\t" << fl::Op::str(mean) << "\t" << fl::Op::str(stdev) << "\t" << results << "\n" <<
-                    Op::join(seconds, "\t"));
-        }
+        FL_LOG(writer.str());
     }
 #endif
 
-    int Console::main(int argc, char** argv) {
+    int Console::main(int argc, const char* argv[]) {
         Console console;
         if (argc <= 2) {
             std::cout << console.usage() << std::endl;
@@ -827,7 +800,7 @@ namespace fl {
             console.benchmarkExamples(path, runs);
             return EXIT_SUCCESS;
 #else
-            FL_LOG("[benchmarks error] implementation available only when built with C++11 (-DFL_CPP11)");
+            FL_LOG("[benchmarks error] implementation available only when library is built with C++11 (-DFL_CPP11)");
             return EXIT_FAILURE;
 #endif
         }
