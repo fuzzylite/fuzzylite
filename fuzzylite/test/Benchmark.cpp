@@ -68,7 +68,6 @@ namespace fl {
         examples.push_back(Example("tsukamoto/tsukamoto", int(1e6)));
 
         std::ostringstream writer;
-        writer << "\n" << Benchmark().header(1, "\t") << "\n";
         for (std::size_t i = 0; i < examples.size(); ++i) {
             Example example = examples.at(i);
             FL_LOG("Benchmark " << (i + 1) << "/" << examples.size() << ": "
@@ -78,15 +77,36 @@ namespace fl {
 
             Benchmark benchmark(example.first, engine.get());
             //            benchmark.prepare(example.second, FldExporter::AllVariables);
-            std::ifstream reader(std::string(path +  "../" + example.first + ".fld").c_str());
+            std::ifstream reader(std::string(path + "../" + example.first + ".fld").c_str());
             benchmark.prepare(reader);
             benchmark.run(1);
 
             CHECK(benchmark.numberOfErrors() == 0);
 
-            writer << benchmark.results() << "\n";
+            if (i == 0) {
+                writer << "\n" << benchmark.format(benchmark.results(),
+                        Benchmark::Horizontal, Benchmark::HeaderAndBody) << "\n";
+            } else {
+                writer << benchmark.format(benchmark.results(),
+                        Benchmark::Horizontal, Benchmark::Body) << "\n";
+            }
         }
         FL_LOG(writer.str());
     }
 
+    TEST_CASE("Time conversions", "[benchmark][time]") {
+        fuzzylite::setLogging(true);
+        CHECK(Op::isEq(1.0, Benchmark::convert(3600, Benchmark::Seconds, Benchmark::Hours)));
+        FL_LOG(Benchmark::convert(3600, Benchmark::Seconds, Benchmark::Hours));
+        CHECK(Op::isEq(3600, Benchmark::convert(1, Benchmark::Hours, Benchmark::Seconds)));
+        FL_LOG(Benchmark::convert(1, Benchmark::Hours, Benchmark::Seconds));
+        
+        CHECK(Op::isEq(1000.0, Benchmark::convert(1.0, Benchmark::Seconds, Benchmark::MilliSeconds)));
+        FL_LOG(Benchmark::convert(1.0, Benchmark::Seconds, Benchmark::MilliSeconds));
+        CHECK(Op::isEq(1.0, Benchmark::convert(1000.0, Benchmark::MilliSeconds, Benchmark::Seconds)));
+        FL_LOG(Benchmark::convert(1000.0, Benchmark::MilliSeconds, Benchmark::Seconds));
+        
+        CHECK(Op::isEq(35e9, Benchmark::convert(35, Benchmark::Seconds, Benchmark::NanoSeconds)));
+        CHECK(Op::isEq(35, Benchmark::convert(35e9, Benchmark::NanoSeconds, Benchmark::Seconds)));
+    }
 }

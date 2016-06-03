@@ -32,13 +32,26 @@ namespace fl {
         Engine* _engine;
         std::vector<std::vector<scalar> > _expected;
         std::vector<std::vector<scalar> > _obtained;
-        std::vector<scalar> _nanoSeconds;
+        std::vector<scalar> _times;
         scalar _errorThreshold;
 
     public:
+
+        enum TimeUnit {
+            NanoSeconds, MicroSeconds, MilliSeconds, Seconds, Minutes, Hours
+        };
+
+        enum TableShape {
+            Horizontal, Vertical
+        };
+
+        enum TableContents {
+            Header = 1, Body = 2, HeaderAndBody = (Header | Body)
+        };
         explicit Benchmark(const std::string& name = "", Engine* engine = fl::null,
                 scalar errorThreshold = 10 * fuzzylite::macheps());
         virtual ~Benchmark();
+        FL_DEFAULT_COPY_AND_MOVE(Benchmark);
 
         /**
          Sets the name of the benchmark
@@ -89,19 +102,19 @@ namespace fl {
         const std::vector<std::vector<scalar> >& getObtained() const;
 
         /**
-         Sets the number of nanoseconds taken to produce the set obtained values
+         Sets the vector of nanoseconds taken to produce the set of obtained values
          from the set of expected input values
-         @param nanoSeconds is the number of nanoseconds taken to produce the set obtained values
+         @param times is the vector of nanoseconds taken to produce the set of obtained values
          from the set of expected input values
          */
-        void setNanoSeconds(const std::vector<scalar> nanoSeconds);
+        void setTimes(const std::vector<scalar> times);
         /**
-         Gets the number of nanoseconds taken to produce the set obtained values
+         Gets the vector of nanoseconds taken to produce the set of obtained values
          from the set of expected input values
-         @return the number of nanoseconds taken to produce the set obtained values
+         @return the vector of nanoseconds taken to produce the set of obtained values
          from the set of expected input values
          */
-        const std::vector<scalar>& getNanoSeconds() const;
+        const std::vector<scalar>& getTimes() const;
 
         /**
          Sets the threshold above which the difference between an expected and 
@@ -132,12 +145,14 @@ namespace fl {
          space-separated  values
          */
         virtual void prepare(std::istream& reader);
-        
+
         /**
          Runs the benchmark on the engine
-         @param times is the number of times the benchmark is run
+         @param times is the number of times to run the benchmark on the engine
+         @return vector of the time in nanoseconds required by each run, which is 
+         also appended to the times stored in Benchmark::getTimes()
          */
-        virtual void run(int times = 1);
+        virtual std::vector<scalar> run(int times = 1);
 
         /**
          Resets the benchmark to be ready to run again
@@ -177,18 +192,41 @@ namespace fl {
         virtual int numberOfErrors() const;
 
         /**
-         Returns the header for the resulting dataset
-         @param runs is the number of runs the benchmark is run
-         @param delimiter is the delimiter of the dataset
-         @return the header for the resulting dataset
+         Returns the name of the time unit
+         @return the name of the time unit
          */
-        virtual std::string header(int runs, const std::string& delimiter = "\t") const;
+        static std::string stringOf(TimeUnit unit);
+
+        /**
+         Returns the factor of the given unit from NanoSeconds
+         @param unit is the unit of time
+         @return the factor of the given unit from NanoSeconds
+         */
+        static scalar factorOf(TimeUnit unit);
+        /**
+         Converts the time to different scales
+         @param time is the time to convert
+         @param from is the units of the time to convert from
+         @param to is the units of the time to convert to
+         @return the time in the units specified
+         */
+        static scalar convert(scalar time, TimeUnit from, TimeUnit to);
+
+        typedef std::pair<std::string, std::string> Result;
         /**
          Computes and returns the results from the benchmark
-         @param delimiter is the delimiter of the dataset
+         @param timeUnit is the unit of time of the results
          @return the results from the benchmark
          */
-        virtual std::string results(const std::string& delimiter = "\t");
+        virtual std::vector<Result> results(TimeUnit timeUnit = NanoSeconds, bool includeTimes = true) const;
+
+        /**
+         @param shape is the shape of the results
+         @param nsTimeFactor is the unit factor to multiply the time in nanoseconds
+         @param delimiter is the delimiter of the dataset
+         */
+        virtual std::string format(std::vector<Result> results, TableShape shape,
+                TableContents contents, const std::string& delimiter = "\t") const;
     };
 
 }

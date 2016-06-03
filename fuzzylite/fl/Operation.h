@@ -382,37 +382,47 @@ namespace fl {
         static bool increment(std::vector<int>& x, int position, std::vector<int>& min, std::vector<int>& max);
 
         /**
+         Computes the sum of the vector
+         */
+        template <typename T>
+        static T sum(const std::vector<T>& x);
+        /**
           Computes the mean of the sample
           @param x is the sample
           @return @f$\dfrac{\sum_i{x_i}}{|x|}@f$
          */
-        static double mean(const std::vector<scalar>& x);
+        template <typename T>
+        static scalar mean(const std::vector<T>& x);
         /**
           Computes the variance of the sample
           @param x is the sample
           @return  @f$ \sum_i{ (x_i - \bar{x})^2 } / (|x| - 1) @f$
          */
-        static double variance(const std::vector<scalar>& x);
+        template <typename T>
+        static scalar variance(const std::vector<T>& x);
         /**
           Computes the variance of the sample using the given mean
           @param x is the sample
           @param mean is the mean value of the sample
           @return  @f$ \sum_i{ (x_i - \bar{x})^2 } / (|x| - 1) @f$
          */
-        static double variance(const std::vector<scalar>& x, scalar mean);
+        template <typename T>
+        static scalar variance(const std::vector<T>& x, scalar mean);
         /**
           Computes the standard deviation of the sample
           @param x
           @return @f$ \sqrt{\mbox{variance}(x, \bar{x})} @f$
          */
-        static double standardDeviation(const std::vector<scalar>& x);
+        template <typename T>
+        static scalar standardDeviation(const std::vector<T>& x);
         /**
           Computes the standard deviation of the sample using the given mean
           @param x
           @param mean is the mean value of x
           @return @f$ \sqrt{\mbox{variance}(x, \bar{x})} @f$
          */
-        static double standardDeviation(const std::vector<scalar>& x, scalar mean);
+        template <typename T>
+        static scalar standardDeviation(const std::vector<T>& x, scalar mean);
 
         /**
           Returns a valid name for variables
@@ -759,30 +769,42 @@ namespace fl {
         return incremented;
     }
 
-    inline double Operation::mean(const std::vector<scalar>& x) {
-        if (x.size() == 0) return fl::nan;
-        scalar sum = 0.0;
-        for (std::size_t i = 0; i < x.size(); ++i) sum += x.at(i);
-        return sum / x.size();
+    template<typename T>
+    inline T Operation::sum(const std::vector<T>& x){
+        T result = T(0);
+        for (std::size_t i = 0 ; i < x.size(); ++i){
+            result += x.at(i);
+        }
+        return result;
+    }
+    
+    template<typename T>
+    inline scalar Operation::mean(const std::vector<T>& x) {
+        if (x.empty()) return fl::nan;
+        return scalar(sum(x) / x.size());
     }
 
-    inline double Operation::standardDeviation(const std::vector<scalar>& x) {
-        if (x.size() <= 1) return 0.0;
+    template<typename T>
+    inline scalar Operation::standardDeviation(const std::vector<T>& x) {
+        if (x.size() <= 1) return scalar(0.0);
         return standardDeviation(x, mean(x));
     }
 
-    inline double Operation::standardDeviation(const std::vector<scalar>& x, scalar mean) {
-        if (x.size() <= 1) return 0.0;
+    template<typename T>
+    inline scalar Operation::standardDeviation(const std::vector<T>& x, scalar mean) {
+        if (x.size() <= 1) return scalar(0.0);
         return std::sqrt(variance(x, mean));
     }
 
-    inline double Operation::variance(const std::vector<scalar>& x) {
-        if (x.size() <= 1) return 0.0;
+    template<typename T>
+    inline scalar Operation::variance(const std::vector<T>& x) {
+        if (x.size() <= 1) return scalar(0.0);
         return variance(x, mean(x));
     }
 
-    inline double Operation::variance(const std::vector<scalar>& x, scalar mean) {
-        if (x.size() <= 1) return 0.0;
+    template<typename T>
+    inline scalar Operation::variance(const std::vector<T>& x, scalar mean) {
+        if (x.size() <= 1) return scalar(0.0);
         scalar result = 0;
         for (std::size_t i = 0; i < x.size(); ++i) {
             result += (x.at(i) - mean) * (x.at(i) - mean);

@@ -692,7 +692,6 @@ namespace fl {
     }
 
     void Console::benchmarkExamples(const std::string& path, int runs) {
-        std::string sourceBase = path + "/";
         typedef std::pair<std::string, int > Example;
         std::vector<Example> examples;
         examples.push_back(Example("mamdani/AllTerms", int(1e4)));
@@ -729,7 +728,6 @@ namespace fl {
         examples.push_back(Example("tsukamoto/tsukamoto", int(1e6)));
 
         std::ostringstream writer;
-        writer << "\n" << Benchmark().header(runs, "\t") << "\n";
         for (std::size_t i = 0; i < examples.size(); ++i) {
             Example example = examples.at(i);
             FL_LOG("Benchmark " << (i + 1) << "/" << examples.size() << ": "
@@ -740,8 +738,13 @@ namespace fl {
             Benchmark benchmark(example.first, engine.get());
             benchmark.prepare(example.second, FldExporter::AllVariables);
             benchmark.run(runs);
-
-            writer << benchmark.results() << "\n";
+            if (i == 0) {
+                writer << "\n" << benchmark.format(benchmark.results(),
+                        Benchmark::Horizontal, Benchmark::HeaderAndBody) << "\n";
+            } else {
+                writer << benchmark.format(benchmark.results(),
+                        Benchmark::Horizontal, Benchmark::Body) << "\n";
+            }
         }
         FL_LOG(writer.str());
     }

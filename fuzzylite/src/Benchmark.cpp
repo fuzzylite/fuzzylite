@@ -69,12 +69,12 @@ namespace fl {
         return this->_obtained;
     }
 
-    void Benchmark::setNanoSeconds(const std::vector<scalar> nanoSeconds) {
-        this->_nanoSeconds = nanoSeconds;
+    void Benchmark::setTimes(const std::vector<scalar> nanoSeconds) {
+        this->_times = nanoSeconds;
     }
 
-    const std::vector<scalar>& Benchmark::getNanoSeconds() const {
-        return this->_nanoSeconds;
+    const std::vector<scalar>& Benchmark::getTimes() const {
+        return this->_times;
     }
 
     void Benchmark::setErrorThreshold(scalar errorThreshold) {
@@ -135,9 +135,8 @@ namespace fl {
         }
     }
 
-    void Benchmark::run(int times) {
-        _nanoSeconds = std::vector<scalar>(times, fl::nan);
-
+    std::vector<scalar> Benchmark::run(int times) {
+        std::vector<scalar> runTimes(times, fl::nan);
         const std::size_t offset(_engine->inputVariables().size());
         for (int t = 0; t < times; ++t) {
             _obtained = std::vector<std::vector<scalar> >(_expected.size());
@@ -176,14 +175,16 @@ namespace fl {
 
 #ifdef FL_CPP11
             auto end = std::chrono::high_resolution_clock::now();
-            _nanoSeconds.at(t) = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+            runTimes.at(t) = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
 #endif
         }
+        _times.insert(_times.end(), runTimes.begin(), runTimes.end());
+        return runTimes;
     }
 
     void Benchmark::reset() {
         this->_obtained.clear();
-        this->_nanoSeconds.clear();
+        this->_times.clear();
     }
 
     double Benchmark::meanSquareError() const {
@@ -239,39 +240,101 @@ namespace fl {
         return result;
     }
 
-    std::string Benchmark::header(int runs, const std::string& delimiter) const {
-        std::vector<std::string> result;
-        result.push_back("library");
-        result.push_back("name");
-        result.push_back("inputs");
-        result.push_back("outputs");
-        result.push_back("evaluations");
-        result.push_back("errors");
-        result.push_back("mse");
-        result.push_back("mean_ns");
-        result.push_back("sd_ns");
-        for (int i = 0; i < runs; ++i) {
-            result.push_back("t" + Op::str(i + 1));
-        }
-        return Op::join(result, delimiter);
+    std::string Benchmark::stringOf(TimeUnit unit) {
+        if (unit == NanoSeconds) return "nanoseconds";
+        if (unit == MicroSeconds) return "microseconds";
+        if (unit == MilliSeconds) return "milliseconds";
+        if (unit == Seconds) return "seconds";
+        if (unit == Minutes) return "minutes";
+        if (unit == Hours) return "hours";
+        return "undefined";
     }
 
-    std::string Benchmark::results(const std::string& delimiter) {
-        std::vector<std::string> result;
-        result.push_back(fuzzylite::library());
-        result.push_back(_name);
-        result.push_back(Op::str(_engine->numberOfInputVariables()));
-        result.push_back(Op::str(_engine->numberOfOutputVariables()));
-        result.push_back(Op::str(_expected.size()));
+    scalar Benchmark::factorOf(TimeUnit unit) {
+        if (unit == NanoSeconds) return 1.0;
+        else if (unit == MicroSeconds) return 1.0e-3;
+        else if (unit == MilliSeconds) return 1.0e-6;
+        else if (unit == Seconds) return 1.0e-9;
+        else if (unit == Minutes) return 1.0e-9 / 60;
+        else if (unit == Hours) return 1.0e-9 / 3600;
+        return fl::nan;
+    }
 
-        result.push_back(Op::str(meanSquareError()));
+    scalar Benchmark::convert(scalar x, TimeUnit from, TimeUnit to) {
+        return x * factorOf(to) / factorOf(from);
+    }
 
-        result.push_back(Op::str(Op::mean(_nanoSeconds)));
-        result.push_back(Op::str(Op::standardDeviation(_nanoSeconds)));
+    std::vector<Benchmark::Result> Benchmark::results(TimeUnit unit, bool includeTimes) const {
+        std::vector<scalar> time = _times;
 
-        for (std::size_t i = 0; i < _nanoSeconds.size(); ++i) {
-            result.push_back(Op::str(_nanoSeconds.at(i)));
+        std::vector<Result> result;
+        result.push_back(Result("library", fuzzylite::library()));
+        result.push_back(Result("name", _name));
+        result.push_back(Result("inputs", Op::str(_engine->numberOfInputVariables())));
+        result.push_back(Result("outputs", Op::str(_engine->numberOfOutputVariables())));
+        result.push_back(Result("runs", Op::str(_times.size())));
+        result.push_back(Result("evaluations", Op::str(_expected.size())));
+        result.push_back(Result("errors", Op::str(numberOfErrors())));
+        result.push_back(Result("mse", Op::str(meanSquareError())));
+        result.push_back(Result("units", stringOf(unit)));
+        if (unit == NanoSeconds) {
+            result.push_back(Result("sum(t)", Op::str((long)convert(Op::sum(time), NanoSeconds, unit))));
+        }else{
+            result.push_back(Result("sum(t)", Op::str(convert(Op::sum(time), NanoSeconds, unit))));
         }
-        return Op::join(result, delimiter);
+        result.push_back(Result("mean(t)", Op::str(convert(Op::mean(time), NanoSeconds, unit))));
+        result.push_back(Result("sd(t)", Op::str(convert(Op::standardDeviation(time), NanoSeconds, unit))));
+
+        if (includeTimes) {
+            for (std::size_t i = 0; i < time.size(); ++i) {
+                if (unit == NanoSeconds) {
+                    result.push_back(Result("t" + Op::str(i + 1), Op::str((long) time.at(i))));
+                } else {
+                    result.push_back(Result("t" + Op::str(i + 1),
+                            Op::str(convert(time.at(i), NanoSeconds, unit))));
+                }
+            }
+        }
+        return result;
+    }
+
+    std::string Benchmark::format(std::vector<Result> results, TableShape shape,
+            TableContents contents, const std::string& delimiter) const {
+        std::ostringstream os;
+
+        if (shape == Vertical) {
+            for (std::size_t i = 0; i < results.size(); ++i) {
+                Result pair = results.at(i);
+                if (contents bitand Header) {
+                    os << pair.first;
+                }
+                if (contents == HeaderAndBody) {
+                    os << delimiter;
+                }
+                if (contents bitand Body) {
+                    os << pair.second;
+                }
+                if (i + 1 < results.size()) os << "\n";
+            }
+
+        } else if (shape == Horizontal) {
+            std::ostringstream header;
+            std::ostringstream body;
+            for (std::size_t i = 0; i < results.size(); ++i) {
+                Result pair = results.at(i);
+                if (contents bitand Header) {
+                    header << pair.first;
+                    if (i + 1 < results.size()) header << delimiter;
+                }
+                if (contents bitand Body) {
+                    body << pair.second;
+                    if (i + 1 < results.size()) body << delimiter;
+                }
+            }
+            if (contents bitand Header) os << header.str();
+            if (contents == HeaderAndBody) os << "\n";
+            if (contents bitand Body) os << body.str();
+        }
+        return os.str();
     }
 }
