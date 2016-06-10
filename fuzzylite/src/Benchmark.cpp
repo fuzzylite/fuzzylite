@@ -28,8 +28,8 @@
 
 namespace fl {
 
-    Benchmark::Benchmark(const std::string& name, Engine* engine, scalar errorThreshold)
-    : _name(name), _engine(engine), _errorThreshold(errorThreshold) {
+    Benchmark::Benchmark(const std::string& name, Engine* engine, scalar tolerance)
+    : _name(name), _engine(engine), _tolerance(tolerance) {
 
     }
 
@@ -77,12 +77,12 @@ namespace fl {
         return this->_times;
     }
 
-    void Benchmark::setErrorThreshold(scalar errorThreshold) {
-        this->_errorThreshold = errorThreshold;
+    void Benchmark::setTolerance(scalar tolerance) {
+        this->_tolerance = tolerance;
     }
 
-    scalar Benchmark::getErrorThreshold() const {
-        return this->_errorThreshold;
+    scalar Benchmark::getTolerance() const {
+        return this->_tolerance;
     }
 
     void Benchmark::prepare(int values, FldExporter::ScopeOfValues scope) {
@@ -187,57 +187,79 @@ namespace fl {
         this->_times.clear();
     }
 
-    double Benchmark::meanSquareError() const {
-        if (_expected.empty() or _expected.front().size() != _engine->variables().size()) {
+    bool Benchmark::canComputeErrors() const {
+        return not (_expected.empty() or _obtained.empty()
+                or _expected.size() != _obtained.size()
+                or _expected.front().size() != _obtained.front().size()
+                or _expected.front().size() != _engine->variables().size());
+    }
+
+    double Benchmark::meanSquaredError() const {
+        if (not canComputeErrors()) {
             return fl::nan;
-        }
-        std::vector<scalar> sumOfSquares(_engine->numberOfOutputVariables(), 0);
-
-        const int offset = _engine->numberOfInputVariables();
-        for (std::size_t i = 0; i < _expected.size(); ++i) {
-            const std::vector<scalar>& e = _expected.at(i);
-            const std::vector<scalar>& o = _obtained.at(i);
-
-            for (std::size_t y = 0; y < _engine->numberOfOutputVariables(); ++y) {
-                scalar squareDifference = (e.at(offset + y) - o.at(offset + y))
-                        * (e.at(offset + y) - o.at(offset + y));
-                if (Op::isFinite(squareDifference)) {
-                    sumOfSquares.at(y) += squareDifference;
-                }
-            }
         }
 
         scalar mse = 0.0;
-        for (std::size_t i = 0; i < sumOfSquares.size(); ++i) {
-            mse += sumOfSquares.at(i);
-        }
-        mse /= (_engine->numberOfOutputVariables() * _expected.size());
-        return mse;
-    }
-
-    int Benchmark::numberOfErrors() const {
-        if (_expected.empty() or _expected.front().size() != _engine->variables().size()) {
-            return -1;
-        }
-        std::vector<int> errors(_engine->numberOfOutputVariables(), 0);
-
+        int errors = 0;
         const int offset = _engine->numberOfInputVariables();
         for (std::size_t i = 0; i < _expected.size(); ++i) {
             const std::vector<scalar>& e = _expected.at(i);
             const std::vector<scalar>& o = _obtained.at(i);
 
             for (std::size_t y = 0; y < _engine->numberOfOutputVariables(); ++y) {
-                if (not Op::isEq(e.at(y + offset), o.at(y + offset), _errorThreshold)) {
-                    errors.at(y)++;
+                scalar difference = e.at(offset + y) - o.at(offset + y);
+                if (Op::isFinite(difference)
+                        and not Op::isEq(difference, 0.0, _tolerance)) {
+                    mse += difference * difference;
+                    ++errors;
                 }
             }
         }
 
-        int result = 0;
-        for (std::size_t i = 0; i < errors.size(); ++i) {
-            result += errors.at(i);
+        if (errors > 0) {
+            mse /= errors;
         }
-        return result;
+        return mse;
+    }
+
+    int Benchmark::allErrors() const {
+        return numberOfErrors(ErrorType::All);
+    }
+
+    int Benchmark::nonFiniteErrors() const {
+        return numberOfErrors(ErrorType::NonFinite);
+    }
+
+    int Benchmark::accuracyErrors() const {
+        return numberOfErrors(ErrorType::Accuracy);
+    }
+
+    int Benchmark::numberOfErrors(ErrorType errorType) const {
+        if (not canComputeErrors()) {
+            return -1;
+        }
+
+        int errors = 0;
+        const int offset = _engine->numberOfInputVariables();
+        for (std::size_t i = 0; i < _expected.size(); ++i) {
+            const std::vector<scalar>& e = _expected.at(i);
+            const std::vector<scalar>& o = _obtained.at(i);
+
+            for (std::size_t y = 0; y < _engine->numberOfOutputVariables(); ++y) {
+                scalar difference = e.at(y + offset) - o.at(y + offset);
+                if (not Op::isEq(difference, 0.0, _tolerance)) {
+                    if (errorType == ErrorType::Accuracy and Op::isFinite(difference)) {
+                        ++errors;
+                    } else if (errorType == ErrorType::NonFinite and not Op::isFinite(difference)) {
+                        ++errors;
+                    } else if (errorType == ErrorType::All) {
+                        ++errors;
+                    }
+                }
+            }
+        }
+
+        return errors;
     }
 
     std::string Benchmark::stringOf(TimeUnit unit) {
@@ -274,12 +296,20 @@ namespace fl {
         result.push_back(Result("outputs", Op::str(_engine->numberOfOutputVariables())));
         result.push_back(Result("runs", Op::str(_times.size())));
         result.push_back(Result("evaluations", Op::str(_expected.size())));
-        result.push_back(Result("errors", Op::str(numberOfErrors())));
-        result.push_back(Result("mse", Op::str(meanSquareError())));
+        if (canComputeErrors()) {
+            result.push_back(Result("errors", Op::str(allErrors())));
+            result.push_back(Result("nfErrors", Op::str(nonFiniteErrors())));
+            result.push_back(Result("accErrors", Op::str(accuracyErrors())));
+            std::ostringstream os;
+            os << std::setprecision(fuzzylite::decimals()) << std::fixed <<
+                    std::scientific << getTolerance();
+            result.push_back(Result("tolerance", os.str()));
+            result.push_back(Result("rmse", Op::str(std::sqrt(meanSquaredError()))));
+        }
         result.push_back(Result("units", stringOf(unit)));
         if (unit == NanoSeconds) {
-            result.push_back(Result("sum(t)", Op::str((long)convert(Op::sum(time), NanoSeconds, unit))));
-        }else{
+            result.push_back(Result("sum(t)", Op::str((long) convert(Op::sum(time), NanoSeconds, unit))));
+        } else {
             result.push_back(Result("sum(t)", Op::str(convert(Op::sum(time), NanoSeconds, unit))));
         }
         result.push_back(Result("mean(t)", Op::str(convert(Op::mean(time), NanoSeconds, unit))));

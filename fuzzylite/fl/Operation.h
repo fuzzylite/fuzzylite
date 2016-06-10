@@ -770,14 +770,14 @@ namespace fl {
     }
 
     template<typename T>
-    inline T Operation::sum(const std::vector<T>& x){
+    inline T Operation::sum(const std::vector<T>& x) {
         T result = T(0);
-        for (std::size_t i = 0 ; i < x.size(); ++i){
+        for (std::size_t i = 0; i < x.size(); ++i) {
             result += x.at(i);
         }
         return result;
     }
-    
+
     template<typename T>
     inline scalar Operation::mean(const std::vector<T>& x) {
         if (x.empty()) return fl::nan;
@@ -956,24 +956,24 @@ namespace fl {
         if (ok) *ok = false;
         return alternative;
     }
-    
+
     inline std::vector<scalar> Operation::toScalars(const std::string& x) {
         std::vector<scalar> result;
         std::istringstream tokenizer(x);
         std::string token;
-        while(tokenizer >> token){
+        while (tokenizer >> token) {
             result.push_back(Op::toScalar(token));
         }
         return result;
     }
-    
-    inline std::vector<scalar> Operation::toScalars(const std::string& x, 
-            scalar alternative, bool* ok) FL_INOEXCEPT{
+
+    inline std::vector<scalar> Operation::toScalars(const std::string& x,
+            scalar alternative, bool* ok) FL_INOEXCEPT {
         std::vector<scalar> result;
         std::istringstream tokenizer(x);
         std::string token;
         bool allOK = true;
-        while(tokenizer >> token){
+        while (tokenizer >> token) {
             bool good;
             result.push_back(Op::toScalar(token, alternative, &good));
             allOK &= good;
@@ -1007,6 +1007,14 @@ namespace fl {
 
     template <> FL_API
     inline std::string Operation::str(int x, int precision) {
+        (void) precision;
+        std::ostringstream ss;
+        ss << x;
+        return ss.str();
+    }
+
+    template <> FL_API
+    inline std::string Operation::str(long x, int precision) {
         (void) precision;
         std::ostringstream ss;
         ss << x;

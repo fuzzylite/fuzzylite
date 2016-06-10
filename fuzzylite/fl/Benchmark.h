@@ -33,7 +33,7 @@ namespace fl {
         std::vector<std::vector<scalar> > _expected;
         std::vector<std::vector<scalar> > _obtained;
         std::vector<scalar> _times;
-        scalar _errorThreshold;
+        scalar _tolerance;
 
     public:
 
@@ -48,10 +48,15 @@ namespace fl {
         enum TableContents {
             Header = 1, Body = 2, HeaderAndBody = (Header | Body)
         };
+
+        enum ErrorType {
+            NonFinite, Accuracy, All
+        };
+
         explicit Benchmark(const std::string& name = "", Engine* engine = fl::null,
                 scalar errorThreshold = 10 * fuzzylite::macheps());
         virtual ~Benchmark();
-        FL_DEFAULT_COPY_AND_MOVE(Benchmark);
+        FL_DEFAULT_COPY_AND_MOVE(Benchmark)
 
         /**
          Sets the name of the benchmark
@@ -117,19 +122,19 @@ namespace fl {
         const std::vector<scalar>& getTimes() const;
 
         /**
-         Sets the threshold above which the difference between an expected and 
+         Sets the tolerance above which the difference between an expected and 
          obtained value from the engine is considered an error
-         @param errorThreshold is the threshold above which the difference between 
+         @param tolerance is the tolerance above which the difference between 
          an expected and obtained value from the engine is considered an error
          */
-        void setErrorThreshold(scalar errorThreshold);
+        void setTolerance(scalar tolerance);
         /**
-         Gets the threshold above which the difference between an expected and 
+         Gets the tolerance above which the difference between an expected and 
          obtained value from the engine is considered an error
-         @return the threshold above which the difference between an expected 
+         @return the tolerance above which the difference between an expected 
          and obtained value from the engine is considered an error
          */
-        scalar getErrorThreshold() const;
+        scalar getTolerance() const;
 
         /**
          Produces and loads into memory the set of expected values from the 
@@ -160,36 +165,69 @@ namespace fl {
         virtual void reset();
 
         /**
-         Computes the mean square error based on the expected and obtained values
-         over all the output variables as
-         
-         @f$\text{MSE} = \frac{1}{|y|\times|e|} \sum_y \sum_i (e_i^y - o^y_i)^2@f$,
-         where @f$y@f$ is the set of output variables, @f$e@f$ is the set of 
-         expected output values, @f$o@f$ is the set of obtained output values
-
-         @return  the mean square error based on the expected and obtained values
-         over all the output variables.
+         Indicates whether errors can be computed based on the expected and 
+         obtained values from the benchmark. If the benchmark was prepared from
+         a file reader and the file included columns of expected output values
+         and the benchmark has been run at least once, then the benchmark can 
+         automatically compute the errors and will automatically include them in 
+         the results.
+         @return whether errors can be computed based on the expected and 
+         obtained values from the benchmark
          */
-        virtual double meanSquareError() const;
+        virtual bool canComputeErrors() const;
+        
+        /**
+         Computes the mean squared error over all output variables considering 
+         only those cases where there is an accuracy error as defined in 
+         Benchmark::accuracyErrors().
+         @return  the mean squared error over all the output variables.
+         */
+        virtual double meanSquaredError() const;
 
         /**
-         Computes the number of errors over all the output variables based on 
-         whether the absolute difference between an expected and obtained value 
-         is greater than the error threshold 
+         Computes the number of errors over all the output variables caused by 
+         non-finite differences or accuracy differences. An error is counted when 
+         the difference between the expected and obtained values is not finite, 
+         or the absolute difference between the expected and obtained values 
+         is not smaller than the tolerance.
+         @return the number of errors over all the output variables caused by 
+         non-finite differences or accuracy differences
+         */
+        virtual int allErrors() const;
+
+        /**
+         Computes the number of errors over all the output variables caused by 
+         non-finite differences (ie, infinity and NaN). An error is counted when 
+         the difference between the expected and obtained values is not finite.
+         @return the number of errors over all the output variables caused by 
+         non-finite differences 
+         */
+        virtual int nonFiniteErrors() const;
+        /**
+         Computes the number of errors over all the output variables caused by 
+         a significant difference in accuracy. An error is counted when the 
+         absolute difference between the expected and  obtained values 
+         is not smaller than the tolerance.
          
-         @f$\text{E} = \sum_y \sum_i 
+         @f$\text{E} = \sum_y \sum_i \epsilon_i^y, \text{where } \epsilon_i^y = 
          \begin{cases}
          0 & \text{if} |e_i^y - o^y_i| < \theta\\
          1 & \text{otherwise}
          \end{cases}
          @f$,
-         where @f$y@f$ is the set of output variables, @f$e@f$ is the set of 
+         @f$y@f$ is the set of output variables, @f$e@f$ is the set of 
          expected output values, @f$o@f$ is the set of obtained output values
-
-         @return the number of errors over all the output variables based on the 
-         difference between the expected and obtained values
+         
+         @return the number of errors over all the output variables caused by 
+         a significant difference in accuracy
          */
-        virtual int numberOfErrors() const;
+        virtual int accuracyErrors() const;
+
+        /**
+         Computes the number of errors of the given type.
+         @return the number of errors over all the output variables
+         */
+        virtual int numberOfErrors(ErrorType errorType) const;
 
         /**
          Returns the name of the time unit

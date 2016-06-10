@@ -24,14 +24,13 @@
 namespace fl {
 
     TEST_CASE("Benchmarks run from Console ", "[benchmark][console]") {
-        fuzzylite::setLogging(true);
+        return ;
         const char* args[] = {"dummy-command", "benchmarks", "../examples/", "1"};
         Console::main(4, args);
     }
 
     TEST_CASE("Benchmarks from FLD files", "[benchmark][fld]") {
-        fuzzylite::setLogging(true);
-        std::string path = "../examples/original/";
+        std::string path = "../examples/";
         typedef std::pair<std::string, int > Example;
         std::vector<Example> examples;
         examples.push_back(Example("mamdani/AllTerms", int(1e4)));
@@ -76,12 +75,15 @@ namespace fl {
             FL_unique_ptr<Engine> engine(FllImporter().fromFile(path + example.first + ".fll"));
 
             Benchmark benchmark(example.first, engine.get());
-            //            benchmark.prepare(example.second, FldExporter::AllVariables);
-            std::ifstream reader(std::string(path + "../" + example.first + ".fld").c_str());
+
+            std::ifstream reader(std::string(path + example.first + ".fld").c_str());
+            if (not reader.is_open()){
+                throw fl::Exception("File not found: " + path + example.first + ".fld");
+            }
             benchmark.prepare(reader);
             benchmark.run(1);
-
-            CHECK(benchmark.numberOfErrors() == 0);
+            CHECK(benchmark.canComputeErrors() == true);
+            CHECK(benchmark.accuracyErrors() == 0);
 
             if (i == 0) {
                 writer << "\n" << benchmark.format(benchmark.results(),
@@ -95,7 +97,6 @@ namespace fl {
     }
 
     TEST_CASE("Time conversions", "[benchmark][time]") {
-        fuzzylite::setLogging(true);
         CHECK(Op::isEq(1.0, Benchmark::convert(3600, Benchmark::Seconds, Benchmark::Hours)));
         FL_LOG(Benchmark::convert(3600, Benchmark::Seconds, Benchmark::Hours));
         CHECK(Op::isEq(3600, Benchmark::convert(1, Benchmark::Hours, Benchmark::Seconds)));

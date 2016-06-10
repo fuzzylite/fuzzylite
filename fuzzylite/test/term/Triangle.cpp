@@ -50,5 +50,17 @@ namespace fl {
         REQUIRE(fl::Op::isEq(triangle.membership(-fl::inf), 0.0));
     }
 
-}
+    TEST_CASE("triangle defuzzification is correct", "[term][triangle]") {
+        Triangle a("A", 0, 1, 2);
+        Triangle b("B", 1, 2, 3);
+        AlgebraicProduct times;
+        Aggregated x("X", 0, 3, new AlgebraicSum);
+        x.addTerm(&a, 1, &times);
+        x.addTerm(&b, 1, &times);
+        Centroid c(101);
+        FL_LOG(c.defuzzify(&x, 0, 3));
 
+        Triangle t("T", 0, 0, 1);
+        FL_LOG(c.defuzzify(&t, 0, 1));
+    }
+}

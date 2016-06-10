@@ -1,15 +1,9 @@
-fuzzylite &reg;
+#fuzzylite &reg;
 <img src="https://raw.githubusercontent.com/fuzzylite/fuzzylite/master/fuzzylite.png" align="right" alt="fuzzylite">
 
-===========
 
 A Fuzzy Logic Control Library in C++
 ------------------------------------
-
-
-[![Latest release][img-release]][latest-release]
-[![Build status (MASTER)][img-master]][travis-url-master]
-[![Build status (DEV)][img-dev]][travis-url-dev]
 
 By: [Juan Rada-Vilela](http://www.fuzzylite.com/jcrada), Ph.D.
 
@@ -461,4 +455,4 @@ For more information, visit [www.fuzzylite.com](http://www.fuzzylite.com).
 
 fuzzylite&reg; is a registered trademark of FuzzyLite Limited.
 
-Copyright &#xa9; 2010-2015 FuzzyLite Limited. All rights reserved.
+Copyright &#xa9; 2010-2016 FuzzyLite Limited. All rights reserved.
