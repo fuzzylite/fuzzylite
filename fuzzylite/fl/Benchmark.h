@@ -32,23 +32,35 @@ namespace fl {
         Engine* _engine;
         std::vector<std::vector<scalar> > _expected;
         std::vector<std::vector<scalar> > _obtained;
-        std::vector<scalar> _times;
+        std::vector<long> _times;
         scalar _tolerance;
 
     public:
 
+        /**
+         Unit of time to utilize in the results
+         */
         enum TimeUnit {
             NanoSeconds, MicroSeconds, MilliSeconds, Seconds, Minutes, Hours
         };
 
+        /**
+         Shape of the table of results
+         */
         enum TableShape {
             Horizontal, Vertical
         };
 
+        /**
+         Contents of the table of results
+         */
         enum TableContents {
             Header = 1, Body = 2, HeaderAndBody = (Header | Body)
         };
 
+        /**
+         Type of error between expected and obtained values
+         */
         enum ErrorType {
             NonFinite, Accuracy, All
         };
@@ -112,14 +124,14 @@ namespace fl {
          @param times is the vector of nanoseconds taken to produce the set of obtained values
          from the set of expected input values
          */
-        void setTimes(const std::vector<scalar> times);
+        void setTimes(const std::vector<long> times);
         /**
          Gets the vector of nanoseconds taken to produce the set of obtained values
          from the set of expected input values
          @return the vector of nanoseconds taken to produce the set of obtained values
          from the set of expected input values
          */
-        const std::vector<scalar>& getTimes() const;
+        const std::vector<long>& getTimes() const;
 
         /**
          Sets the tolerance above which the difference between an expected and 
@@ -152,12 +164,18 @@ namespace fl {
         virtual void prepare(std::istream& reader);
 
         /**
-         Runs the benchmark on the engine
+         Runs the benchmark on the engine only once
+         @return the time in nanoseconds required by the run, which is 
+         also appended to the times stored in Benchmark::getTimes()
+         */
+        virtual long runOnce();
+        /**
+         Runs the benchmark on the engine multiple times
          @param times is the number of times to run the benchmark on the engine
          @return vector of the time in nanoseconds required by each run, which is 
          also appended to the times stored in Benchmark::getTimes()
          */
-        virtual std::vector<scalar> run(int times = 1);
+        virtual std::vector<long> run(int times);
 
         /**
          Resets the benchmark to be ready to run again
@@ -175,7 +193,7 @@ namespace fl {
          obtained values from the benchmark
          */
         virtual bool canComputeErrors() const;
-        
+
         /**
          Computes the mean squared error over all output variables considering 
          only those cases where there is an accuracy error as defined in 
@@ -254,14 +272,17 @@ namespace fl {
         /**
          Computes and returns the results from the benchmark
          @param timeUnit is the unit of time of the results
+         @param includeTimes indicates whether to include the times of each run
          @return the results from the benchmark
          */
         virtual std::vector<Result> results(TimeUnit timeUnit = NanoSeconds, bool includeTimes = true) const;
 
         /**
-         @param shape is the shape of the results
-         @param nsTimeFactor is the unit factor to multiply the time in nanoseconds
-         @param delimiter is the delimiter of the dataset
+         Formats the results
+         @param results is the vector of results
+         @param shape is the shape to present the table of results
+         @param contents indicates the information to include in the table of results
+         @param delimiter is the delimiter of the table of results
          */
         virtual std::string format(std::vector<Result> results, TableShape shape,
                 TableContents contents, const std::string& delimiter = "\t") const;

@@ -69,11 +69,11 @@ namespace fl {
         return this->_obtained;
     }
 
-    void Benchmark::setTimes(const std::vector<scalar> nanoSeconds) {
+    void Benchmark::setTimes(const std::vector<long> nanoSeconds) {
         this->_times = nanoSeconds;
     }
 
-    const std::vector<scalar>& Benchmark::getTimes() const {
+    const std::vector<long>& Benchmark::getTimes() const {
         return this->_times;
     }
 
@@ -135,8 +135,12 @@ namespace fl {
         }
     }
 
-    std::vector<scalar> Benchmark::run(int times) {
-        std::vector<scalar> runTimes(times, fl::nan);
+    long Benchmark::runOnce() {
+        return run(1).front();
+    }
+
+    std::vector<long> Benchmark::run(int times) {
+        std::vector<long> runTimes(times, 0);
         const std::size_t offset(_engine->inputVariables().size());
         for (int t = 0; t < times; ++t) {
             _obtained = std::vector<std::vector<scalar> >(_expected.size());
@@ -223,15 +227,15 @@ namespace fl {
     }
 
     int Benchmark::allErrors() const {
-        return numberOfErrors(ErrorType::All);
+        return numberOfErrors(All);
     }
 
     int Benchmark::nonFiniteErrors() const {
-        return numberOfErrors(ErrorType::NonFinite);
+        return numberOfErrors(NonFinite);
     }
 
     int Benchmark::accuracyErrors() const {
-        return numberOfErrors(ErrorType::Accuracy);
+        return numberOfErrors(Accuracy);
     }
 
     int Benchmark::numberOfErrors(ErrorType errorType) const {
@@ -248,11 +252,11 @@ namespace fl {
             for (std::size_t y = 0; y < _engine->numberOfOutputVariables(); ++y) {
                 scalar difference = e.at(y + offset) - o.at(y + offset);
                 if (not Op::isEq(difference, 0.0, _tolerance)) {
-                    if (errorType == ErrorType::Accuracy and Op::isFinite(difference)) {
+                    if (errorType == Accuracy and Op::isFinite(difference)) {
                         ++errors;
-                    } else if (errorType == ErrorType::NonFinite and not Op::isFinite(difference)) {
+                    } else if (errorType == NonFinite and not Op::isFinite(difference)) {
                         ++errors;
-                    } else if (errorType == ErrorType::All) {
+                    } else if (errorType == All) {
                         ++errors;
                     }
                 }
@@ -287,7 +291,7 @@ namespace fl {
     }
 
     std::vector<Benchmark::Result> Benchmark::results(TimeUnit unit, bool includeTimes) const {
-        std::vector<scalar> time = _times;
+        std::vector<long> time = _times;
 
         std::vector<Result> result;
         result.push_back(Result("library", fuzzylite::library()));
