@@ -47,7 +47,6 @@ namespace fl {
         fuzzylite::setDecimals(3);
         CHECK(Op::str(1.0) == "1.000");
         CHECK(Op::str((long) 5000) == "5000");
-        CHECK(Op::str((long long) 5000) == "5000");
         CHECK(Op::str((int) 6000) == "6000");
         CHECK(Op::str(std::size_t(6000)) == "6000");
         CHECK(Op::str(scalar(0.333333)) == "0.333");
