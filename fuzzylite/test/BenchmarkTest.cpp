@@ -25,12 +25,12 @@ namespace fl {
 
     TEST_CASE("Benchmarks run from Console ", "[benchmark][console]") {
         return ;
-        const char* args[] = {"dummy-command", "benchmarks", "../examples/", "1"};
+        const char* args[] = {"dummy-command", "benchmarks", "../../examples/", "1"};
         Console::main(4, args);
     }
 
     TEST_CASE("Benchmarks from FLD files", "[benchmark][fld]") {
-        std::string path = "../examples/";
+        std::string path = "../../examples/";
         typedef std::pair<std::string, int > Example;
         std::vector<Example> examples;
         examples.push_back(Example("mamdani/AllTerms", int(1e4)));
