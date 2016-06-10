@@ -12,11 +12,11 @@ addons:
   apt:
     sources: 
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.6
+#      - llvm-toolchain-precise-3.6
       - kalakris-cmake
     packages: 
       - ['g++-5', 'g++-4.9', 'g++-4.8']
-      - ['clang-3.6']
+#      - ['clang-3.6']
       - ['doxygen', 'graphviz', 'texlive-binaries']
       - cmake
 
@@ -74,18 +74,18 @@ matrix:
       #env: EXPORT_CXX=clang++-3.7 FL_CPP11=ON FL_USE_FLOAT=ON
 
 #clang-3.6
-    - os: linux
-      compiler: clang
-      env: EXPORT_CXX=clang++-3.6 FL_CPP11=OFF FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: EXPORT_CXX=clang++-3.6 FL_CPP11=OFF FL_USE_FLOAT=ON
-    - os: linux
-      compiler: clang
-      env: EXPORT_CXX=clang++-3.6 FL_CPP11=ON FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: EXPORT_CXX=clang++-3.6 FL_CPP11=ON FL_USE_FLOAT=ON
+    # - os: linux
+    #   compiler: clang
+    #   env: EXPORT_CXX=clang++-3.6 FL_CPP11=OFF FL_USE_FLOAT=OFF
+    # - os: linux
+    #   compiler: clang
+    #   env: EXPORT_CXX=clang++-3.6 FL_CPP11=OFF FL_USE_FLOAT=ON
+    # - os: linux
+    #   compiler: clang
+    #   env: EXPORT_CXX=clang++-3.6 FL_CPP11=ON FL_USE_FLOAT=OFF
+    # - os: linux
+    #   compiler: clang
+    #   env: EXPORT_CXX=clang++-3.6 FL_CPP11=ON FL_USE_FLOAT=ON
 
 ##clang-3.5
     #- os: linux
@@ -100,6 +100,20 @@ matrix:
     #- os: linux
       #compiler: clang
       #env: EXPORT_CXX=clang++-3.5 FL_CPP11=ON FL_USE_FLOAT=ON
+
+#clang
+    - os: linux
+      compiler: clang
+      env: EXPORT_CXX=clang++ FL_CPP11=OFF FL_USE_FLOAT=OFF
+    - os: linux
+      compiler: clang
+      env: EXPORT_CXX=clang++ FL_CPP11=OFF FL_USE_FLOAT=ON
+    - os: linux
+      compiler: clang
+      env: EXPORT_CXX=clang++ FL_CPP11=ON FL_USE_FLOAT=OFF
+    - os: linux
+      compiler: clang
+      env: EXPORT_CXX=clang++ FL_CPP11=ON FL_USE_FLOAT=ON
 
 
 #g++-5
