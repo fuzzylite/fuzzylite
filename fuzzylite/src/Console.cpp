@@ -782,8 +782,7 @@ namespace fl {
             console.exportAllExamples("fll", "java", path, outputPath);
             FL_LOG("Processing fll->R");
             console.exportAllExamples("fll", "R", path, outputPath);
-            fuzzylite::setDecimals(8);
-            fuzzylite::setMachEps(1e-6);
+            fuzzylite::setDecimals(9);
             FL_LOG("Processing fll->fld");
             console.exportAllExamples("fll", "fld", path, outputPath);
             FL_LOG("Origin=" << path);
