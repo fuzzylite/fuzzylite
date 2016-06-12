@@ -134,76 +134,62 @@ matrix:
       compiler: g++
       env: CXX_COMPILER=g++-4.7 FL_CPP11=ON FL_USE_FLOAT=ON
 
-#clang-3.4
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.4 FL_CPP11=OFF FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.4 FL_CPP11=OFF FL_USE_FLOAT=ON
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.4 FL_CPP11=ON FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.4 FL_CPP11=ON FL_USE_FLOAT=ON
+# #clang-3.4 does not install properly in ubuntu (clang++-3.4 command not found)
+#     - os: linux
+#       compiler: clang
+#       env: CXX_COMPILER=clang++-3.4 FL_CPP11=OFF FL_USE_FLOAT=OFF
+#     - os: linux
+#       compiler: clang
+#       env: CXX_COMPILER=clang++-3.4 FL_CPP11=OFF FL_USE_FLOAT=ON
+#     - os: linux
+#       compiler: clang
+#       env: CXX_COMPILER=clang++-3.4 FL_CPP11=ON FL_USE_FLOAT=OFF
+#     - os: linux
+#       compiler: clang
+#       env: CXX_COMPILER=clang++-3.4 FL_CPP11=ON FL_USE_FLOAT=ON
 
-#g++-4.6
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.6 FL_CPP11=OFF FL_USE_FLOAT=OFF 
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.6 FL_CPP11=OFF FL_USE_FLOAT=ON 
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.6 FL_CPP11=ON FL_USE_FLOAT=OFF 
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.6 FL_CPP11=ON FL_USE_FLOAT=ON
+# #g++-4.6 does not have an installation candidate in ubuntu
+#     - os: linux
+#       compiler: g++
+#       env: CXX_COMPILER=g++-4.6 FL_CPP11=OFF FL_USE_FLOAT=OFF
+#     - os: linux
+#       compiler: g++
+#       env: CXX_COMPILER=g++-4.6 FL_CPP11=OFF FL_USE_FLOAT=ON
+#     - os: linux
+#       compiler: g++
+#       env: CXX_COMPILER=g++-4.6 FL_CPP11=ON FL_USE_FLOAT=OFF
+#     - os: linux
+#       compiler: g++
+#       env: CXX_COMPILER=g++-4.6 FL_CPP11=ON FL_USE_FLOAT=ON
 
 
-#clang-3.3
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.3 FL_CPP11=OFF FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.3 FL_CPP11=OFF FL_USE_FLOAT=ON
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.3 FL_CPP11=ON FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.3 FL_CPP11=ON FL_USE_FLOAT=ON
+# #clang-3.3 does not install properly in ubuntu (clang++-3.4 command not found)
+#     - os: linux
+#       compiler: clang
+#       env: CXX_COMPILER=clang++-3.3 FL_CPP11=OFF FL_USE_FLOAT=OFF
+#     - os: linux
+#       compiler: clang
+#       env: CXX_COMPILER=clang++-3.3 FL_CPP11=OFF FL_USE_FLOAT=ON
+#     - os: linux
+#       compiler: clang
+#       env: CXX_COMPILER=clang++-3.3 FL_CPP11=ON FL_USE_FLOAT=OFF
+#     - os: linux
+#       compiler: clang
+#       env: CXX_COMPILER=clang++-3.3 FL_CPP11=ON FL_USE_FLOAT=ON
 
-#g++-4.5
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.5 FL_CPP11=OFF FL_USE_FLOAT=OFF 
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.5 FL_CPP11=OFF FL_USE_FLOAT=ON 
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.5 FL_CPP11=ON FL_USE_FLOAT=OFF 
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.5 FL_CPP11=ON FL_USE_FLOAT=ON
-      
-#g++-4.4
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.4 FL_CPP11=OFF FL_USE_FLOAT=OFF 
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.4 FL_CPP11=OFF FL_USE_FLOAT=ON 
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.4 FL_CPP11=ON FL_USE_FLOAT=OFF 
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.4 FL_CPP11=ON FL_USE_FLOAT=ON
+# #g++-4.5 does not have an installation candidate in ubuntu
+#     - os: linux
+#       compiler: g++
+#       env: CXX_COMPILER=g++-4.5 FL_CPP11=OFF FL_USE_FLOAT=OFF
+#     - os: linux
+#       compiler: g++
+#       env: CXX_COMPILER=g++-4.5 FL_CPP11=OFF FL_USE_FLOAT=ON
+#     - os: linux
+#       compiler: g++
+#       env: CXX_COMPILER=g++-4.5 FL_CPP11=ON FL_USE_FLOAT=OFF
+#     - os: linux
+#       compiler: g++
+#       env: CXX_COMPILER=g++-4.5 FL_CPP11=ON FL_USE_FLOAT=ON
 
 notifications:
   email:

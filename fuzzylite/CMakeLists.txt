@@ -64,8 +64,17 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 if(NOT MSVC)
+#TODO: Remove -Werror before release.
 #Add Unix compilation flags
+if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU") 
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
+    #If g++-4.7 or less remove -Werror to allow compilation of Catch tests
+    set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra ${CMAKE_CXX_FLAGS}")
+    endif()
+else()
     set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra -Werror ${CMAKE_CXX_FLAGS}")
+endif()
+    
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 
