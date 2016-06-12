@@ -13,7 +13,7 @@ debug(){
     mkdir -p debug
     cd debug
     cmake .. -G"Unix Makefiles" -DFL_USE_FLOAT=${FL_USE_FLOAT} -DFL_CPP11=${FL_CPP11} -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON  -DFL_BUILD_TESTS=ON
-    make
+    make all test
     cd ..
 }
 
@@ -22,7 +22,7 @@ release(){
     mkdir -p release
     cd release
     cmake .. -G"Unix Makefiles" -DFL_USE_FLOAT=${FL_USE_FLOAT} -DFL_CPP11=${FL_CPP11} -DCMAKE_BUILD_TYPE=Release -DFL_BACKTRACE=ON -DFL_BUILD_TESTS=ON
-    make
+    make all test
     cd ..
 }
 
