@@ -13,6 +13,7 @@ for %%a in (%*) do (
 	if /I "%%a"=="release" set valid="yes"
 	if /I "%%a"=="debug" set valid="yes"
 	if /I "%%a"=="clean" set valid="yes"
+	if /I "%%a"=="documentation" set valid="yes"
 	
 	if !valid!=="no" (
 		echo Invalid option: %%a
@@ -79,6 +80,19 @@ goto:eof
 	echo ****************************************
 	goto:eof
 
+:documentation
+	echo.
+	echo.
+	echo ****************************************
+	echo STARTING: documentation
+	
+	cd ..
+	doxygen
+	rem TODO: cd back to previous directory. Maybe use: cd /D %~dp0
+	echo.
+	echo FINISHED: documentation
+	echo ****************************************
+	goto:eof
 :clean
 	echo.
 	echo.

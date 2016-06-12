@@ -1,10 +1,18 @@
 #!/bin/bash
 
+if [ -z "$FL_USE_FLOAT" ]; then
+    FL_USE_FLOAT="OFF"
+fi
+
+if [ -z "$FL_CPP11" ]; then
+    FL_CPP11="ON"
+fi
+
 debug(){
     set -e
     mkdir -p debug
     cd debug
-    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON -DFL_USE_FLOAT=OFF -DFL_CPP11=ON -DFL_BUILD_TESTS=ON
+    cmake .. -G"Unix Makefiles" -DFL_USE_FLOAT=${FL_USE_FLOAT} -DFL_CPP11=${FL_CPP11} -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON  -DFL_BUILD_TESTS=ON
     make
     cd ..
 }
@@ -13,9 +21,16 @@ release(){
     set -e
     mkdir -p release
     cd release
-    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DFL_BACKTRACE=ON -DFL_USE_FLOAT=OFF -DFL_CPP11=ON -DFL_BUILD_TESTS=ON
+    cmake .. -G"Unix Makefiles" -DFL_USE_FLOAT=${FL_USE_FLOAT} -DFL_CPP11=${FL_CPP11} -DCMAKE_BUILD_TYPE=Release -DFL_BACKTRACE=ON -DFL_BUILD_TESTS=ON
     make
     cd ..
+}
+
+documentation(){
+    set -e
+    cd ..
+    doxygen Doxyfile
+    cd -
 }
 
 all(){
@@ -39,20 +54,21 @@ usage(){
 }
 
 #############################
+echo "Parameters: $@"
 
-OPTIONS=( "all" "debug" "release" "clean" "help")
+OPTIONS=( "all" "debug" "release" "clean" "documentation" "help")
 BUILD=( )
 
 for arg in "$@"
 do
     if [[ "$arg" == "help" ]]; then usage && exit 0; fi
 
-    if [[ "$arg" == "all" || "$arg" == "debug" || "$arg" == "release" || "$arg" == "clean" ]];
+    if [[ "$arg" == "all" || "$arg" == "debug" || "$arg" == "release" || "$arg" == "clean" || "$arg" == "documentation" ]];
     then BUILD+=( $arg ); else echo "Invalid option: $arg" && usage && exit 2;
     fi
 done
 
-if [ ${#BUILD[@]} -eq 0 ]; then BUILD+=( "all" ); fi
+if [ ${#BUILD[@]} -eq 0 ]; then BUILD+=( "release" "debug" ); fi
 
 echo "Building schedule: ${BUILD[@]}"
 echo "Starting in 3 seconds..."

@@ -8,8 +8,11 @@ RUN apt-get update && apt-get -y install \
     ${CXX_COMPILER} \
     make \
     cmake \
-    doxygen
+    doxygen \
+    graphviz
 
+#Create and copy Docker's context into /build
 RUN mkdir /build
-WORKDIR /build
-ENTRYPOINT [ "/build/build.sh" ]
+ADD . /build
+WORKDIR /build/fuzzylite
+ENTRYPOINT [ "/build/fuzzylite/build.sh" ]
