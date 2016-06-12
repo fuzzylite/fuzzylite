@@ -66,7 +66,7 @@ namespace fl {
         };
 
         explicit Benchmark(const std::string& name = "", Engine* engine = fl::null,
-                scalar errorThreshold = 10 * fuzzylite::macheps());
+                scalar tolerance = fuzzylite::macheps());
         virtual ~Benchmark();
         FL_DEFAULT_COPY_AND_MOVE(Benchmark)
 
