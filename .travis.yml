@@ -1,8 +1,12 @@
 language: generic
-sudo: false
+sudo: required
+
 services:
   - docker
 
+git:
+  depth: 1
+  
 before_script:
   - docker build -t fuzzylite -f Dockerfile --build-arg CXX_COMPILER=${CXX_COMPILER} .
 
