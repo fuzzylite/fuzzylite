@@ -74,7 +74,12 @@ namespace fl {
 
             FL_unique_ptr<Engine> engine(FllImporter().fromFile(path + example.first + ".fll"));
 
-            Benchmark benchmark(example.first, engine.get());
+#ifdef FL_USE_FLOAT
+            scalar tolerance = 1e-4;
+#else
+            scalar tolerance = fuzzylite::macheps();
+#endif
+            Benchmark benchmark(example.first, engine.get(), tolerance);
 
             std::ifstream reader(std::string(path + example.first + ".fld").c_str());
             if (not reader.is_open()){
