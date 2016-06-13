@@ -75,7 +75,7 @@ namespace fl {
             FL_unique_ptr<Engine> engine(FllImporter().fromFile(path + example.first + ".fll"));
 
 #ifdef FL_USE_FLOAT
-            scalar tolerance = 1e-4;
+            scalar tolerance = 1e-3;
 #else
             scalar tolerance = fuzzylite::macheps();
 #endif
