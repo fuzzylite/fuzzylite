@@ -66,14 +66,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 if(NOT MSVC)
 #TODO: Remove -Werror before release.
 #Add Unix compilation flags
-if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU") 
-    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
-    #If g++-4.7 or less remove -Werror to allow compilation of Catch tests
-    set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra ${CMAKE_CXX_FLAGS}")
-    endif()
-else()
     set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra -Werror ${CMAKE_CXX_FLAGS}")
-endif()
     
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
@@ -185,20 +178,30 @@ if(FL_BUILD_BINARY)
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -debug)
 
-    set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
+#    set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
+    target_compile_definitions(fl-bin PUBLIC FL_IMPORT_LIBRARY)
     target_link_libraries(fl-bin fl-shared ${FL_LIBS})
 endif(FL_BUILD_BINARY)
 
 if(FL_BUILD_TESTS)
-    if (NOT FL_CPP11)
-        add_definitions(-DCATCH_CONFIG_NO_CPP11)
-    endif()
     add_executable(fl-test ${fl-headers} ${fl-tests})
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
 
-    set_target_properties(fl-test PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
+    set(fl-test-definitions "FL_IMPORT_LIBRARY")
+    if (NOT FL_CPP11)
+        set(fl-test-definitions "${fl-test-definitions} CATCH_CONFIG_NO_CPP11")
+    endif()
+    target_compile_definitions(fl-test PUBLIC ${fl-test-definitions})
+
+    #Ignore warnings of parentheses in CHECK(a == b) for Catch under g++-4.7
+    if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU") 
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
+        set_target_properties(fl-test PROPERTIES COMPILE_FLAGS "-Wno-parentheses")
+    endif()
+    endif()
+
     target_link_libraries(fl-test fl-shared ${FL_LIBS})
     
     enable_testing()
