@@ -188,11 +188,10 @@ if(FL_BUILD_TESTS)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
 
-    set(fl-test-definitions "FL_IMPORT_LIBRARY")
+    set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
     if (NOT FL_CPP11)
-        set(fl-test-definitions "${fl-test-definitions} CATCH_CONFIG_NO_CPP11")
+        set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "CATCH_CONFIG_NO_CPP11")
     endif()
-    set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "${fl-test-definitions}")
 
     #Ignore warnings of parentheses in CHECK(a == b) for Catch under g++-4.7
     if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU") 
