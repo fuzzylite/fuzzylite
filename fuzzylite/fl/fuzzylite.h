@@ -213,6 +213,7 @@ namespace fl {
     class FL_API fuzzylite {
     private:
         static int _decimals;
+        static std::ios_base::fmtflags _formattingOptions;
         static scalar _macheps;
         static bool _debug;
         static bool _logging;
@@ -291,6 +292,15 @@ namespace fl {
          */
         static void setDecimals(int decimals);
 
+        /**
+          Sets the default formatting options to be utilized in Op::str()
+         */
+        static void setFormattingOptions(std::ios_base::fmtflags options);
+        /**
+          Gets the default formatting options to be utilized in Op::str()
+         */
+        static std::ios_base::fmtflags formattingOptions();
+        
         /**
           Returns the minimum difference at which two floating-point values
           are considered equivalent

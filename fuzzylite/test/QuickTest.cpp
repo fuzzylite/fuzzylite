@@ -44,7 +44,18 @@ namespace fl {
     }
 
     TEST_CASE("Op::str produces correct numbers", "[op][str]") {
+        fuzzylite::setLogging(true);
         fuzzylite::setDecimals(3);
+
+        FL_LOG(Op::str(1.0));
+        FL_LOG(Op::str((long) 5000));
+        FL_LOG(Op::str((int) 6000));
+        FL_LOG(Op::str(std::size_t(6000)));
+        FL_LOG(Op::str(scalar(0.333333)));
+        FL_LOG(Op::str(float(0.333333)));
+        FL_LOG(Op::str(double(0.333333)));
+        FL_LOG(Op::str(double(0.333333), 9));
+
         CHECK(Op::str(1.0) == "1.000");
         CHECK(Op::str((long) 5000) == "5000");
         CHECK(Op::str((int) 6000) == "6000");
@@ -52,6 +63,36 @@ namespace fl {
         CHECK(Op::str(scalar(0.333333)) == "0.333");
         CHECK(Op::str(float(0.333333)) == "0.333");
         CHECK(Op::str(double(0.333333)) == "0.333");
+
+        CHECK(Op::str(fuzzylite::macheps()) == "0.000");
+        CHECK(Op::str(fuzzylite::macheps(),6) == "0.000001");
+        CHECK(Op::str(1e-7) == "0.000");
+        
+        FL_LOG("scientific");
+        fuzzylite::setFormattingOptions(std::ios_base::scientific);
+        FL_LOG(Op::str(1.0));
+        FL_LOG(Op::str((long) 5000));
+        FL_LOG(Op::str((int) 6000));
+        FL_LOG(Op::str(std::size_t(6000)));
+        FL_LOG(Op::str(scalar(0.333333)));
+        FL_LOG(Op::str(float(0.333333)));
+        FL_LOG(Op::str(double(0.333333)));
+        FL_LOG(Op::str(double(0.0000333), 9));
+
+        CHECK(Op::str(1.0) == "1.000e+00");
+        CHECK(Op::str((long) 5000) == "5000");
+        CHECK(Op::str((int) 6000) == "6000");
+        CHECK(Op::str(std::size_t(6000)) == "6000");
+        CHECK(Op::str(scalar(0.333333)) == "3.333e-01");
+        CHECK(Op::str(float(0.333333)) == "3.333e-01");
+        CHECK(Op::str(double(0.333333)) == "3.333e-01");
+        CHECK(Op::str(double(0.0000333), 9) == "3.330000000e-05");
+        
+        CHECK(Op::str(fuzzylite::macheps()) == "1.000e-06");
+//        CHECK(Op::str(1e-7) == "0.000e+00");
+
+        fuzzylite::setFormattingOptions(std::ios_base::fixed);
+
     }
 
 

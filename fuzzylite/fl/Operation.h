@@ -553,11 +553,13 @@ namespace fl {
         /**
           Returns a string representation of the given value
           @param x is the value
-          @param decimals is the number of decimals utilised
+          @param decimals is the number of decimals to display
+          @param strFormat are the flags for the underlying std::ostringstream
           @return a string representation of the given value
          */
         template <typename T>
-        static std::string str(T x, int decimals = fuzzylite::decimals());
+        static std::string str(T x, int decimals = fuzzylite::decimals(),
+                std::ios_base::fmtflags strFormat = fuzzylite::formattingOptions());
 
         /**
           Joins a vector of elements by the given separator into a single
@@ -638,7 +640,7 @@ namespace fl {
 
     template <typename T>
     inline bool Operation::isInf(T x) {
-        return std::abs(x) == fl::inf;
+        return x == fl::inf or x == -fl::inf;
     }
 
     template <typename T>
@@ -992,46 +994,24 @@ namespace fl {
     }
 
     template <typename T>
-    inline std::string Operation::str(T x, int decimals) {
+    inline std::string Operation::str(T x, int decimals,
+            std::ios_base::fmtflags strFormat) {
         std::ostringstream ss;
-        ss << std::setprecision(decimals) << std::fixed;
+        if (strFormat != 0) ss.flags(strFormat);
+        if (decimals >= 0) ss.precision(decimals);
         if (fl::Op::isNaN(x)) {
             ss << "nan";
         } else if (fl::Op::isInf(x)) {
             ss << (x < T(0) ? "-inf" : "inf");
-        } else if (fl::Op::isEq(x, T(0))) {
-            ss << 0.0;
         } else ss << x;
         return ss.str();
     }
 
     template <> FL_API
-    inline std::string Operation::str(int x, int precision) {
-        (void) precision;
-        std::ostringstream ss;
-        ss << x;
-        return ss.str();
-    }
-
-    template <> FL_API
-    inline std::string Operation::str(long x, int precision) {
-        (void) precision;
-        std::ostringstream ss;
-        ss << x;
-        return ss.str();
-    }
-
-    template <> FL_API
-    inline std::string Operation::str(std::size_t x, int precision) {
-        (void) precision;
-        std::ostringstream ss;
-        ss << x;
-        return ss.str();
-    }
-
-    template <> FL_API
-    inline std::string Operation::str(const std::string& x, int precision) {
-        (void) precision;
+    inline std::string Operation::str(const std::string& x, int decimals,
+            std::ios_base::fmtflags strFormat) {
+        (void) decimals;
+        (void) strFormat;
         return x;
     }
 
