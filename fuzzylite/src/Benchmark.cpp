@@ -358,14 +358,14 @@ namespace fl {
             result.push_back(Result("outputVariable", variableNames.str()));
             result.push_back(Result("range", Op::str(meanRange)));
 
-            result.push_back(Result("tolerance", Op::str(getTolerance(), 3, 0x0)));
+            result.push_back(Result("tolerance", Op::str(getTolerance(), 3, std::ios_base::fmtflags(0x0))));
             result.push_back(Result("errors", Op::str(allErrors(outputVariable))));
 
             result.push_back(Result("nfErrors", Op::str(nonFiniteErrors(outputVariable))));
             result.push_back(Result("accErrors", Op::str(accuracyErrors(outputVariable))));
 
-            result.push_back(Result("rmse", Op::str(rmse, 3, 0x0)));
-            result.push_back(Result("nrmse", Op::str(nrmse, 3, 0x0)));
+            result.push_back(Result("rmse", Op::str(rmse, 3, std::ios_base::fmtflags(0x0))));
+            result.push_back(Result("nrmse", Op::str(nrmse, 3, std::ios_base::fmtflags(0x0))));
         }
         result.push_back(Result("units", stringOf(unit)));
         if (unit == NanoSeconds) {

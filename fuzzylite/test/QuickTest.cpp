@@ -94,11 +94,11 @@ namespace fl {
 
         fuzzylite::setFormattingOptions(std::ios_base::fixed);
 
-        CHECK(Op::str(0.000001, 6, 0x0) == "1e-06");
-        CHECK(Op::str(1e-6, 3, 0x0) == "1e-06");
-        CHECK(Op::str(1e6, 3, 0x0) == "1e+06");
-        CHECK(Op::str(1000000, 3, 0x0) == "1000000");
-        CHECK(Op::str(1000000.0, 3, 0x0) == "1e+06");
+        CHECK(Op::str(0.000001, 6, std::ios_base::fmtflags(0x0)) == "1e-06");
+        CHECK(Op::str(1e-6, 3, std::ios_base::fmtflags(0x0)) == "1e-06");
+        CHECK(Op::str(1e6, 3, std::ios_base::fmtflags(0x0)) == "1e+06");
+        CHECK(Op::str(1000000, 3, std::ios_base::fmtflags(0x0)) == "1000000");
+        CHECK(Op::str(1000000.0, 3, std::ios_base::fmtflags(0x0)) == "1e+06");
     }
 
 
