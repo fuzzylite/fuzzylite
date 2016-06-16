@@ -19,7 +19,7 @@
 namespace fl {
 
     int fuzzylite::_decimals = 3;
-    std::ios_base::fmtflags fuzzylite::_formattingOptions = std::ios_base::fixed;
+    std::ios_base::fmtflags fuzzylite::_scalarFormat = std::ios_base::fixed;
     scalar fuzzylite::_macheps = 1e-6;
     bool fuzzylite::_debug = false;
     bool fuzzylite::_logging = true;
@@ -94,12 +94,12 @@ namespace fl {
         return _decimals;
     }
 
-    void fuzzylite::setFormattingOptions(std::ios_base::fmtflags options) {
-        _formattingOptions = options;
+    void fuzzylite::setScalarFormat(std::ios_base::fmtflags scalarFormat) {
+        _scalarFormat = scalarFormat;
     }
 
-    std::ios_base::fmtflags fuzzylite::formattingOptions() {
-        return _formattingOptions;
+    std::ios_base::fmtflags fuzzylite::scalarFormat() {
+        return _scalarFormat;
     }
 
     void fuzzylite::setMachEps(scalar macheps) {

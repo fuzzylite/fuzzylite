@@ -559,7 +559,7 @@ namespace fl {
          */
         template <typename T>
         static std::string str(T x, int decimals = fuzzylite::decimals(),
-                std::ios_base::fmtflags strFormat = fuzzylite::formattingOptions());
+                std::ios_base::fmtflags scalarFormat = fuzzylite::scalarFormat());
 
         /**
           Joins a vector of elements by the given separator into a single
@@ -995,14 +995,17 @@ namespace fl {
 
     template <typename T>
     inline std::string Operation::str(T x, int decimals,
-            std::ios_base::fmtflags strFormat) {
+            std::ios_base::fmtflags scalarFormat) {
         std::ostringstream ss;
-        if (strFormat != 0) ss.flags(strFormat);
+        if (scalarFormat != std::ios_base::fmtflags(0x0)) ss.flags(scalarFormat);
         if (decimals >= 0) ss.precision(decimals);
         if (fl::Op::isNaN(x)) {
             ss << "nan";
         } else if (fl::Op::isInf(x)) {
             ss << (x < T(0) ? "-inf" : "inf");
+        } else if (decimals >= 0 //print x considering the given decimals regardless of macheps
+                and fl::Op::isEq(x, 0.0, std::pow(10, -decimals))) {
+            ss << 0.0;
         } else ss << x;
         return ss.str();
     }

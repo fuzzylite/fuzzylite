@@ -68,9 +68,11 @@ namespace fl {
         CHECK(Op::str(fuzzylite::macheps()) == "0.000");
         CHECK(Op::str(fuzzylite::macheps(),6) == "0.000001");
         CHECK(Op::str(1e-7) == "0.000");
+        CHECK(Op::str(1e-7, 6) == "0.000000");
+        CHECK(Op::str(1e-7, 7) == "0.0000001");
         
         FL_LOG("scientific");
-        fuzzylite::setFormattingOptions(std::ios_base::scientific);
+        fuzzylite::setScalarFormat(std::ios_base::scientific);
         FL_LOG(Op::str(1.0));
         FL_LOG(Op::str((long) 5000));
         FL_LOG(Op::str((int) 6000));
@@ -89,13 +91,20 @@ namespace fl {
         CHECK(Op::str(double(0.333333)) == "3.333e-01");
         CHECK(Op::str(double(0.0000333), 9) == "3.330000000e-05");
         
-        CHECK(Op::str(fuzzylite::macheps()) == "1.000e-06");
-        CHECK(Op::str(1e-7) == "1.000e-07");
+        CHECK(fl::Op::isEq(fuzzylite::macheps(), 0.0) == false);
+        CHECK(fl::Op::isEq(fuzzylite::macheps(), 0.0, std::pow(10, -6)) == false);
+        CHECK(Op::str(fuzzylite::macheps()) == "0.000e+00");
+        CHECK(Op::str(fuzzylite::macheps(),-1) == "1.000000e-06");
+        CHECK(Op::str(fuzzylite::macheps(),-1, std::ios_base::fmtflags(0x0)) == "1e-06");
+        CHECK(Op::str(1e-7, 6) == "0.000000e+00");
+        CHECK(Op::str(1e-7, 7) == "1.0000000e-07");
+        CHECK(Op::str(1e-7, 7, std::ios_base::fmtflags(0x0)) == "1e-07");
+        
 
-        fuzzylite::setFormattingOptions(std::ios_base::fixed);
+        fuzzylite::setScalarFormat(std::ios_base::fixed);
 
         CHECK(Op::str(0.000001, 6, std::ios_base::fmtflags(0x0)) == "1e-06");
-        CHECK(Op::str(1e-6, 3, std::ios_base::fmtflags(0x0)) == "1e-06");
+        CHECK(Op::str(1e-6, 6, std::ios_base::fmtflags(0x0)) == "1e-06");
         CHECK(Op::str(1e6, 3, std::ios_base::fmtflags(0x0)) == "1e+06");
         CHECK(Op::str(1000000, 3, std::ios_base::fmtflags(0x0)) == "1000000");
         CHECK(Op::str(1000000.0, 3, std::ios_base::fmtflags(0x0)) == "1e+06");

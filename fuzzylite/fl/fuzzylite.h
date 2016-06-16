@@ -213,7 +213,7 @@ namespace fl {
     class FL_API fuzzylite {
     private:
         static int _decimals;
-        static std::ios_base::fmtflags _formattingOptions;
+        static std::ios_base::fmtflags _scalarFormat;
         static scalar _macheps;
         static bool _debug;
         static bool _logging;
@@ -293,13 +293,18 @@ namespace fl {
         static void setDecimals(int decimals);
 
         /**
-          Sets the default formatting options to be utilized in Op::str()
+          Sets the default format to be utilized for every fl::scalar passed to 
+          Op::str()
+          @param scalarFormat is the format to be utilized for every fl::scalar 
+          passed to Op::str()
          */
-        static void setFormattingOptions(std::ios_base::fmtflags options);
+        static void setScalarFormat(std::ios_base::fmtflags format);
         /**
-          Gets the default formatting options to be utilized in Op::str()
+          Gets the default format to be utilized for every fl::scalar passed to 
+          Op::str()
+          @return the format to be utilized for every fl::scalar passed to Op::str()
          */
-        static std::ios_base::fmtflags formattingOptions();
+        static std::ios_base::fmtflags scalarFormat();
         
         /**
           Returns the minimum difference at which two floating-point values

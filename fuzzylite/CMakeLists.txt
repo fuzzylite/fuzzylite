@@ -91,6 +91,10 @@ if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++98")
         endif()
     endif()
+    #In GNU gcc v6, Op::str(T, std::size_t(0)) raises a warning of type-limits
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-type-limits")
+    endif()
 endif()
 
 
