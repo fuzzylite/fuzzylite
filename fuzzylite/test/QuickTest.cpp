@@ -63,6 +63,7 @@ namespace fl {
         CHECK(Op::str(scalar(0.333333)) == "0.333");
         CHECK(Op::str(float(0.333333)) == "0.333");
         CHECK(Op::str(double(0.333333)) == "0.333");
+        CHECK(Op::str(double(0.0000333), 9) == "0.000033300");
 
         CHECK(Op::str(fuzzylite::macheps()) == "0.000");
         CHECK(Op::str(fuzzylite::macheps(),6) == "0.000001");
@@ -89,10 +90,15 @@ namespace fl {
         CHECK(Op::str(double(0.0000333), 9) == "3.330000000e-05");
         
         CHECK(Op::str(fuzzylite::macheps()) == "1.000e-06");
-//        CHECK(Op::str(1e-7) == "0.000e+00");
+        CHECK(Op::str(1e-7) == "1.000e-07");
 
         fuzzylite::setFormattingOptions(std::ios_base::fixed);
 
+        CHECK(Op::str(0.000001, 6, 0x0) == "1e-06");
+        CHECK(Op::str(1e-6, 3, 0x0) == "1e-06");
+        CHECK(Op::str(1e6, 3, 0x0) == "1e+06");
+        CHECK(Op::str(1000000, 3, 0x0) == "1000000");
+        CHECK(Op::str(1000000.0, 3, 0x0) == "1e+06");
     }
 
 

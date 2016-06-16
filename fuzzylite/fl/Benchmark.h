@@ -200,7 +200,15 @@ namespace fl {
          Benchmark::accuracyErrors().
          @return  the mean squared error over all the output variables.
          */
-        virtual double meanSquaredError() const;
+        virtual scalar meanSquaredError() const;
+
+        /**
+         Computes the mean squared error of the given output variable 
+         considering only those cases where there is an accuracy error 
+         as defined in Benchmark::accuracyErrors().
+         @return the mean squared error over the given output variable.
+         */
+        virtual scalar meanSquaredError(const OutputVariable* outputVariable) const;
 
         /**
          Computes the number of errors over all the output variables caused by 
@@ -214,6 +222,17 @@ namespace fl {
         virtual int allErrors() const;
 
         /**
+         Computes the number of errors of the given output variable caused by 
+         non-finite differences or accuracy differences. An error is counted when 
+         the difference between the expected and obtained values is not finite, 
+         or the absolute difference between the expected and obtained values 
+         is not smaller than the tolerance.
+         @return the number of errors of the given output variable caused by 
+         non-finite differences or accuracy differences
+         */
+        virtual int allErrors(const OutputVariable* outputVariable) const;
+
+        /**
          Computes the number of errors over all the output variables caused by 
          non-finite differences (ie, infinity and NaN). An error is counted when 
          the difference between the expected and obtained values is not finite.
@@ -221,6 +240,16 @@ namespace fl {
          non-finite differences 
          */
         virtual int nonFiniteErrors() const;
+
+        /**
+         Computes the number of errors of the given output variable caused by 
+         non-finite differences (ie, infinity and NaN). An error is counted when 
+         the difference between the expected and obtained values is not finite.
+         @return the number of errors of the given output variable caused by 
+         non-finite differences 
+         */
+        virtual int nonFiniteErrors(const OutputVariable* outputVariable) const;
+
         /**
          Computes the number of errors over all the output variables caused by 
          a significant difference in accuracy. An error is counted when the 
@@ -234,18 +263,50 @@ namespace fl {
          \end{cases}
          @f$,
          @f$y@f$ is the set of output variables, @f$e@f$ is the set of 
-         expected output values, @f$o@f$ is the set of obtained output values
+         expected output values, @f$o@f$ is the set of obtained output values,
+         and @f$\theta@f$ is the tolerance
          
          @return the number of errors over all the output variables caused by 
          a significant difference in accuracy
          */
         virtual int accuracyErrors() const;
 
+
         /**
-         Computes the number of errors of the given type.
+         Computes the number of errors over the given output variable caused by 
+         a significant difference in accuracy. An error is counted when the 
+         absolute difference between the expected and  obtained values 
+         is not smaller than the tolerance.
+         
+         @f$\text{E} = \sum_i \epsilon_i, \text{where } \epsilon_i = 
+         \begin{cases}
+         0 & \text{if} |e_i - o_i| < \theta\\
+         1 & \text{otherwise}
+         \end{cases}
+         @f$,
+         @f$e@f$ is the set of expected output values, 
+         @f$o@f$ is the set of obtained output values,
+         and @f$\theta@f$ is the tolerance
+         
+         @return the number of errors of the given output variable caused by 
+         a significant difference in accuracy
+         */
+        virtual int accuracyErrors(const OutputVariable* outputVariable) const;
+
+        /**
+         Computes the number of errors of the given type over all the output 
+         variables.
          @return the number of errors over all the output variables
          */
         virtual int numberOfErrors(ErrorType errorType) const;
+
+        /**
+         Computes the number of errors of the given type over the given output 
+         variable.
+         @return the number of errors over the given output variable
+         */
+        virtual int numberOfErrors(ErrorType errorType,
+                const OutputVariable* outputVariable) const;
 
         /**
          Returns the name of the time unit
@@ -270,12 +331,24 @@ namespace fl {
 
         typedef std::pair<std::string, std::string> Result;
         /**
-         Computes and returns the results from the benchmark
+         Computes and returns the results from the benchmark aggregating the 
+         statistics of all the output variables
          @param timeUnit is the unit of time of the results
          @param includeTimes indicates whether to include the times of each run
          @return the results from the benchmark
          */
         virtual std::vector<Result> results(TimeUnit timeUnit = NanoSeconds, bool includeTimes = true) const;
+
+        /**
+         Computes and returns the results from the benchmark for the given output 
+         variable
+         @param outputVariable is the output variable to compute the statistics for
+         @param timeUnit is the unit of time of the results
+         @param includeTimes indicates whether to include the times of each run
+         @return the results from the benchmark
+         */
+        virtual std::vector<Result> results(const OutputVariable* outputVariable,
+                TimeUnit timeUnit = NanoSeconds, bool includeTimes = true) const;
 
         /**
          Formats the results

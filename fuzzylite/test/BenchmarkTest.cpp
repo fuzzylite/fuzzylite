@@ -67,6 +67,7 @@ namespace fl {
         examples.push_back(Example("tsukamoto/tsukamoto", int(1e6)));
 
         std::ostringstream writer;
+        std::vector<int> errors = std::vector<int>(examples.size(), 0);
         for (std::size_t i = 0; i < examples.size(); ++i) {
             Example example = examples.at(i);
             FL_LOG("Benchmark " << (i + 1) << "/" << examples.size() << ": "
@@ -88,7 +89,7 @@ namespace fl {
             benchmark.prepare(reader);
             benchmark.run(1);
             CHECK(benchmark.canComputeErrors() == true);
-            CHECK(benchmark.accuracyErrors() == 0);
+            errors.at(i) = benchmark.accuracyErrors();
 
             if (i == 0) {
                 writer << "\n" << benchmark.format(benchmark.results(),
@@ -99,6 +100,10 @@ namespace fl {
             }
         }
         FL_LOG(writer.str());
+        for (std::size_t i = 0 ; i < errors.size(); ++i){
+            FL_LOG("Checking for errors in: " << examples.at(i).first);
+            CHECK(errors.at(i) == 0);
+        }
     }
 
     TEST_CASE("Time conversions", "[benchmark][time]") {
