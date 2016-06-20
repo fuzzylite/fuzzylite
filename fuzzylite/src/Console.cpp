@@ -745,7 +745,7 @@ namespace fl {
                 FL_LOG("\tEvaluating on " << example.second << " generated values over all variables...");
             } else {
                 std::string fldFile = pathToFld + example.first + ".fld";
-                std::ifstream is(fldFile);
+                std::ifstream is(fldFile.c_str());
                 if (not is.is_open()) {
                     throw Exception("The file <" + fldFile + "> could not be opened");
                 }
@@ -764,7 +764,7 @@ namespace fl {
         }
         if (not outputFile.empty()) {
             std::ofstream of;
-            of.open(outputFile);
+            of.open(outputFile.c_str());
             if (not of.is_open()) {
                 throw Exception("File <" + outputFile + "> could not be opened");
             }
