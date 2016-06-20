@@ -225,7 +225,7 @@ namespace fl {
                         << "    geom_line(aes(color=" << z->getName() << "), size=3, lineend=\"round\", linejoin=\"mitre\") + \n"
                         << "    scale_color_gradient(low=\"" << _minimumColor << "\", high=\"" << _maximumColor << "\") + \n"
                         << "    coord_flip() + \n"
-                        << "    ggtitle(\"" << a->getName() << " vs " << z->getName() << "\")\n\n";
+                        << "    ggtitle(\"" << z->getName() << " vs " << a->getName() << "\")\n\n";
                 arrangeGrob << "engine.plot.i1_o" << (i + 1) << ", " << "engine.plot.o" << (i + 1) << "_i1, ";
             }
 

@@ -45,7 +45,7 @@ engine.plot.o1_i1 = ggplot(engine.df, aes(input, output)) +
     geom_line(aes(color=output), size=3, lineend="round", linejoin="mitre") + 
     scale_color_gradient(low="yellow", high="red") + 
     coord_flip() + 
-    ggtitle("input vs output")
+    ggtitle("output vs input")
 
 if (require(gridExtra)) {
     engine.plots = arrangeGrob(engine.plot.i1_o1, engine.plot.o1_i1, ncol=2, top=engine.name)

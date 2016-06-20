@@ -81,7 +81,7 @@ engine.plot.o1_i1 = ggplot(engine.df, aes(X, Ramps)) +
     geom_line(aes(color=Ramps), size=3, lineend="round", linejoin="mitre") + 
     scale_color_gradient(low="yellow", high="red") + 
     coord_flip() + 
-    ggtitle("X vs Ramps")
+    ggtitle("Ramps vs X")
 
 engine.plot.i1_o2 = ggplot(engine.df, aes(X, Sigmoids)) + 
     geom_line(aes(color=Sigmoids), size=3, lineend="round", linejoin="mitre") + 
@@ -92,7 +92,7 @@ engine.plot.o2_i1 = ggplot(engine.df, aes(X, Sigmoids)) +
     geom_line(aes(color=Sigmoids), size=3, lineend="round", linejoin="mitre") + 
     scale_color_gradient(low="yellow", high="red") + 
     coord_flip() + 
-    ggtitle("X vs Sigmoids")
+    ggtitle("Sigmoids vs X")
 
 engine.plot.i1_o3 = ggplot(engine.df, aes(X, ZSShapes)) + 
     geom_line(aes(color=ZSShapes), size=3, lineend="round", linejoin="mitre") + 
@@ -103,7 +103,7 @@ engine.plot.o3_i1 = ggplot(engine.df, aes(X, ZSShapes)) +
     geom_line(aes(color=ZSShapes), size=3, lineend="round", linejoin="mitre") + 
     scale_color_gradient(low="yellow", high="red") + 
     coord_flip() + 
-    ggtitle("X vs ZSShapes")
+    ggtitle("ZSShapes vs X")
 
 engine.plot.i1_o4 = ggplot(engine.df, aes(X, Concaves)) + 
     geom_line(aes(color=Concaves), size=3, lineend="round", linejoin="mitre") + 
@@ -114,7 +114,7 @@ engine.plot.o4_i1 = ggplot(engine.df, aes(X, Concaves)) +
     geom_line(aes(color=Concaves), size=3, lineend="round", linejoin="mitre") + 
     scale_color_gradient(low="yellow", high="red") + 
     coord_flip() + 
-    ggtitle("X vs Concaves")
+    ggtitle("Concaves vs X")
 
 if (require(gridExtra)) {
     engine.plots = arrangeGrob(engine.plot.i1_o1, engine.plot.o1_i1, engine.plot.i1_o2, engine.plot.o2_i1, engine.plot.i1_o3, engine.plot.o3_i1, engine.plot.i1_o4, engine.plot.o4_i1, ncol=2, top=engine.name)

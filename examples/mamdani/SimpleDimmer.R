@@ -48,7 +48,7 @@ engine.plot.o1_i1 = ggplot(engine.df, aes(Ambient, Power)) +
     geom_line(aes(color=Power), size=3, lineend="round", linejoin="mitre") + 
     scale_color_gradient(low="yellow", high="red") + 
     coord_flip() + 
-    ggtitle("Ambient vs Power")
+    ggtitle("Power vs Ambient")
 
 if (require(gridExtra)) {
     engine.plots = arrangeGrob(engine.plot.i1_o1, engine.plot.o1_i1, ncol=2, top=engine.name)

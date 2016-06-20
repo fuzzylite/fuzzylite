@@ -48,7 +48,7 @@ engine.plot.o1_i1 = ggplot(engine.df, aes(service, tip)) +
     geom_line(aes(color=tip), size=3, lineend="round", linejoin="mitre") + 
     scale_color_gradient(low="yellow", high="red") + 
     coord_flip() + 
-    ggtitle("service vs tip")
+    ggtitle("tip vs service")
 
 if (require(gridExtra)) {
     engine.plots = arrangeGrob(engine.plot.i1_o1, engine.plot.o1_i1, ncol=2, top=engine.name)

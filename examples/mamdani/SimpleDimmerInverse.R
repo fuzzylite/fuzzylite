@@ -62,7 +62,7 @@ engine.plot.o1_i1 = ggplot(engine.df, aes(Ambient, Power)) +
     geom_line(aes(color=Power), size=3, lineend="round", linejoin="mitre") + 
     scale_color_gradient(low="yellow", high="red") + 
     coord_flip() + 
-    ggtitle("Ambient vs Power")
+    ggtitle("Power vs Ambient")
 
 engine.plot.i1_o2 = ggplot(engine.df, aes(Ambient, InversePower)) + 
     geom_line(aes(color=InversePower), size=3, lineend="round", linejoin="mitre") + 
@@ -73,7 +73,7 @@ engine.plot.o2_i1 = ggplot(engine.df, aes(Ambient, InversePower)) +
     geom_line(aes(color=InversePower), size=3, lineend="round", linejoin="mitre") + 
     scale_color_gradient(low="yellow", high="red") + 
     coord_flip() + 
-    ggtitle("Ambient vs InversePower")
+    ggtitle("InversePower vs Ambient")
 
 if (require(gridExtra)) {
     engine.plots = arrangeGrob(engine.plot.i1_o1, engine.plot.o1_i1, engine.plot.i1_o2, engine.plot.o2_i1, ncol=2, top=engine.name)

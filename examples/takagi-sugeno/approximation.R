@@ -85,7 +85,7 @@ engine.plot.o1_i1 = ggplot(engine.df, aes(inputX, outputFx)) +
     geom_line(aes(color=outputFx), size=3, lineend="round", linejoin="mitre") + 
     scale_color_gradient(low="yellow", high="red") + 
     coord_flip() + 
-    ggtitle("inputX vs outputFx")
+    ggtitle("outputFx vs inputX")
 
 engine.plot.i1_o2 = ggplot(engine.df, aes(inputX, trueFx)) + 
     geom_line(aes(color=trueFx), size=3, lineend="round", linejoin="mitre") + 
@@ -96,7 +96,7 @@ engine.plot.o2_i1 = ggplot(engine.df, aes(inputX, trueFx)) +
     geom_line(aes(color=trueFx), size=3, lineend="round", linejoin="mitre") + 
     scale_color_gradient(low="yellow", high="red") + 
     coord_flip() + 
-    ggtitle("inputX vs trueFx")
+    ggtitle("trueFx vs inputX")
 
 engine.plot.i1_o3 = ggplot(engine.df, aes(inputX, diffFx)) + 
     geom_line(aes(color=diffFx), size=3, lineend="round", linejoin="mitre") + 
@@ -107,7 +107,7 @@ engine.plot.o3_i1 = ggplot(engine.df, aes(inputX, diffFx)) +
     geom_line(aes(color=diffFx), size=3, lineend="round", linejoin="mitre") + 
     scale_color_gradient(low="yellow", high="red") + 
     coord_flip() + 
-    ggtitle("inputX vs diffFx")
+    ggtitle("diffFx vs inputX")
 
 if (require(gridExtra)) {
     engine.plots = arrangeGrob(engine.plot.i1_o1, engine.plot.o1_i1, engine.plot.i1_o2, engine.plot.o2_i1, engine.plot.i1_o3, engine.plot.o3_i1, ncol=2, top=engine.name)
