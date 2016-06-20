@@ -69,11 +69,11 @@ namespace fl {
         return this->_obtained;
     }
 
-    void Benchmark::setTimes(const std::vector<long> nanoSeconds) {
+    void Benchmark::setTimes(const std::vector<scalar> nanoSeconds) {
         this->_times = nanoSeconds;
     }
 
-    const std::vector<long>& Benchmark::getTimes() const {
+    const std::vector<scalar>& Benchmark::getTimes() const {
         return this->_times;
     }
 
@@ -135,12 +135,12 @@ namespace fl {
         }
     }
 
-    long Benchmark::runOnce() {
+    scalar Benchmark::runOnce() {
         return run(1).front();
     }
 
-    std::vector<long> Benchmark::run(int times) {
-        std::vector<long> runTimes(times, 0);
+    std::vector<scalar> Benchmark::run(int times) {
+        std::vector<scalar> runTimes(times, 0.0);
         const std::size_t offset(_engine->inputVariables().size());
         for (int t = 0; t < times; ++t) {
             _obtained = std::vector<std::vector<scalar> >(_expected.size());
@@ -294,12 +294,12 @@ namespace fl {
     }
 
     std::string Benchmark::stringOf(TimeUnit unit) {
-        if (unit == NanoSeconds) return "NanoSeconds";
-        if (unit == MicroSeconds) return "MicroSeconds";
-        if (unit == MilliSeconds) return "MilliSeconds";
-        if (unit == Seconds) return "Seconds";
-        if (unit == Minutes) return "Minutes";
-        if (unit == Hours) return "Hours";
+        if (unit == NanoSeconds) return "nanoseconds";
+        if (unit == MicroSeconds) return "microseconds";
+        if (unit == MilliSeconds) return "milliseconds";
+        if (unit == Seconds) return "seconds";
+        if (unit == Minutes) return "minutes";
+        if (unit == Hours) return "hours";
         return "undefined";
     }
 
@@ -323,7 +323,7 @@ namespace fl {
 
     std::vector<Benchmark::Result> Benchmark::results(
             const OutputVariable* outputVariable, TimeUnit unit, bool includeTimes) const {
-        std::vector<long> time = _times;
+        std::vector<scalar> time = _times;
 
         std::vector<Result> result;
         result.push_back(Result("library", fuzzylite::library()));
@@ -333,29 +333,24 @@ namespace fl {
         result.push_back(Result("runs", Op::str(_times.size())));
         result.push_back(Result("evaluations", Op::str(_expected.size())));
         if (canComputeErrors()) {
-            std::ostringstream variableNames;
+            std::vector<std::string> names;
             scalar meanRange = 0.0;
             scalar rmse = std::sqrt(meanSquaredError(outputVariable));
             scalar nrmse = 0.0;
             scalar weights = 0.0;
-            if (outputVariable) {
-                variableNames << outputVariable->getName();
-                meanRange = outputVariable->range();
-                nrmse = rmse;
-            } else {
-                std::vector<std::string> names(_engine->outputVariables().size());
-                for (std::size_t i = 0; i < _engine->outputVariables().size(); ++i) {
-                    const OutputVariable* y = _engine->outputVariables().at(i);
-                    names.at(i) = y->getName();
+            for (std::size_t i = 0; i < _engine->outputVariables().size(); ++i) {
+                const OutputVariable* y = _engine->outputVariables().at(i);
+                if (outputVariable == fl::null or outputVariable == y) {
+                    names.push_back(y->getName());
                     meanRange += y->range();
                     nrmse += std::sqrt(meanSquaredError(y)) * 1.0 / y->range();
                     weights += 1.0 / y->range();
                 }
-                variableNames << Op::join(names, ",");
-                meanRange /= _engine->numberOfOutputVariables();
-                nrmse /= weights;
             }
-            result.push_back(Result("outputVariable", variableNames.str()));
+            meanRange /= names.size();
+            nrmse /= weights;
+
+            result.push_back(Result("outputVariable", Op::join(names, ",")));
             result.push_back(Result("range", Op::str(meanRange)));
 
             result.push_back(Result("tolerance", Op::str(getTolerance(), 3, std::ios_base::fmtflags(0x0))));
@@ -368,22 +363,15 @@ namespace fl {
             result.push_back(Result("nrmse", Op::str(nrmse, 3, std::ios_base::fmtflags(0x0))));
         }
         result.push_back(Result("units", stringOf(unit)));
-        if (unit == NanoSeconds) {
-            result.push_back(Result("sum(t)", Op::str((long) convert(Op::sum(time), NanoSeconds, unit))));
-        } else {
-            result.push_back(Result("sum(t)", Op::str(convert(Op::sum(time), NanoSeconds, unit))));
-        }
+        result.push_back(Result("sum(t)", Op::str(convert(Op::sum(time), NanoSeconds, unit),
+                unit == NanoSeconds ? 0 : fuzzylite::decimals())));
         result.push_back(Result("mean(t)", Op::str(convert(Op::mean(time), NanoSeconds, unit))));
         result.push_back(Result("sd(t)", Op::str(convert(Op::standardDeviation(time), NanoSeconds, unit))));
 
         if (includeTimes) {
             for (std::size_t i = 0; i < time.size(); ++i) {
-                if (unit == NanoSeconds) {
-                    result.push_back(Result("t" + Op::str(i + 1), Op::str((long) time.at(i))));
-                } else {
-                    result.push_back(Result("t" + Op::str(i + 1),
-                            Op::str(convert(time.at(i), NanoSeconds, unit))));
-                }
+                result.push_back(Result("t" + Op::str(i + 1),
+                        Op::str(time.at(i), unit == NanoSeconds ? 0 : fuzzylite::decimals())));
             }
         }
         return result;

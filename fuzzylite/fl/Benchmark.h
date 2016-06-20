@@ -32,7 +32,7 @@ namespace fl {
         Engine* _engine;
         std::vector<std::vector<scalar> > _expected;
         std::vector<std::vector<scalar> > _obtained;
-        std::vector<long> _times;
+        std::vector<scalar> _times;
         scalar _tolerance;
 
     public:
@@ -124,14 +124,14 @@ namespace fl {
          @param times is the vector of nanoseconds taken to produce the set of obtained values
          from the set of expected input values
          */
-        void setTimes(const std::vector<long> times);
+        void setTimes(const std::vector<scalar> times);
         /**
          Gets the vector of nanoseconds taken to produce the set of obtained values
          from the set of expected input values
          @return the vector of nanoseconds taken to produce the set of obtained values
          from the set of expected input values
          */
-        const std::vector<long>& getTimes() const;
+        const std::vector<scalar>& getTimes() const;
 
         /**
          Sets the tolerance above which the difference between an expected and 
@@ -168,14 +168,14 @@ namespace fl {
          @return the time in nanoseconds required by the run, which is 
          also appended to the times stored in Benchmark::getTimes()
          */
-        virtual long runOnce();
+        virtual scalar runOnce();
         /**
          Runs the benchmark on the engine multiple times
          @param times is the number of times to run the benchmark on the engine
          @return vector of the time in nanoseconds required by each run, which is 
          also appended to the times stored in Benchmark::getTimes()
          */
-        virtual std::vector<long> run(int times);
+        virtual std::vector<scalar> run(int times);
 
         /**
          Resets the benchmark to be ready to run again

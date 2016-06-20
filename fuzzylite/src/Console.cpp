@@ -543,8 +543,8 @@ namespace fl {
             const std::string& sourcePath, const std::string& targetPath) {
         std::vector<std::string> examples;
         examples.push_back("mamdani/AllTerms");
-        examples.push_back("mamdani/Laundry");
         examples.push_back("mamdani/SimpleDimmer");
+        examples.push_back("mamdani/Laundry");
         examples.push_back("mamdani/SimpleDimmerInverse");
         examples.push_back("mamdani/matlab/mam21");
         examples.push_back("mamdani/matlab/mam22");
@@ -598,10 +598,11 @@ namespace fl {
         tests.push_back(std::pair<Exporter*, Importer*>(new FisExporter, new FisImporter));
         tests.push_back(std::pair<Exporter*, Importer*>(new FclExporter, new FclImporter));
         for (std::size_t i = 0; i < examples.size(); ++i) {
+            std::string example = examples.at(i);
             FL_LOG((i + 1) << "/" << examples.size());
-            FL_LOG("Importing from: " << sourcePath << "/" << examples.at(i) << "." << from);
+            FL_LOG("Importing from: " << sourcePath << "/" << example << "." << from);
             std::ostringstream ss;
-            std::string input = sourcePath + "/" + examples.at(i) + "." + from;
+            std::string input = sourcePath + "/" + example + "." + from;
             std::ifstream source(input.c_str());
             if (source.is_open()) {
                 std::string line;
@@ -615,7 +616,8 @@ namespace fl {
             FL_unique_ptr<Engine> engine(importer->fromString(ss.str()));
 
             for (std::size_t t = 0; t < tests.size(); ++t) {
-                if ("mamdani/Laundry" == examples.at(i) or "mamdani/SimpleDimmerInverse" == examples.at(i)) {
+                if ("mamdani/Laundry" == example
+                        or "mamdani/SimpleDimmerInverse" == example) {
                     if (tests.at(t).second->name() != FllImporter().name()) {
                         continue;
                     }
@@ -629,7 +631,7 @@ namespace fl {
                     std::ostringstream msg;
                     msg << "[imex error] different results <"
                             << importer->name() << "," << exporter->name() << "> "
-                            "at " + examples.at(t) + "." + from + ":\n";
+                            "at " + example + "." + from + ":\n";
                     msg << "<Engine A>\n" << out << "\n\n" <<
                             "================================\n\n" <<
                             "<Engine B>\n" << out_copy;
@@ -637,7 +639,7 @@ namespace fl {
                 }
             }
 
-            std::string output = targetPath + "/" + examples.at(i) + "." + to;
+            std::string output = targetPath + "/" + example + "." + to;
             std::ofstream target(output.c_str());
             FL_LOG("Exporting to: " << output << "\n");
             if (target.is_open()) {
@@ -647,7 +649,7 @@ namespace fl {
                             << exporter->toString(engine.get())
                             << "\n}\n";
                 } else if (to == "java") {
-                    std::string className = examples.at(i).substr(examples.at(i).find_last_of('/') + 1);
+                    std::string className = example.substr(example.find_last_of('/') + 1);
                     target << "import com.fuzzylite.*;\n"
                             << "import com.fuzzylite.activation.*\n"
                             << "import com.fuzzylite.defuzzifier.*;\n"
@@ -668,7 +670,7 @@ namespace fl {
                     RScriptExporter* rScript = dynamic_cast<RScriptExporter*> (exporter.get());
                     InputVariable* a = engine->getInputVariable(0);
                     InputVariable* b = engine->getInputVariable(1 % engine->numberOfInputVariables());
-                    std::string pathToDF = examples.at(i).substr(examples.at(i).find_last_of('/') + 1) + ".fld";
+                    std::string pathToDF = example.substr(example.find_last_of('/') + 1) + ".fld";
                     rScript->writeScriptImportingDataFrame(engine.get(), target,
                             a, b, pathToDF, engine->outputVariables());
                 } else {
@@ -691,11 +693,14 @@ namespace fl {
         }
     }
 
-    void Console::benchmarkExamples(const std::string& path, int runs) {
+    void Console::benchmarkExamples(const std::string& path, int runs,
+            const std::string& pathToFld, const std::string& outputFile) {
         typedef std::pair<std::string, int > Example;
         std::vector<Example> examples;
         examples.push_back(Example("mamdani/AllTerms", int(1e4)));
         examples.push_back(Example("mamdani/SimpleDimmer", int(1e5)));
+        examples.push_back(Example("mamdani/Laundry", int(1e5)));
+        examples.push_back(Example("mamdani/SimpleDimmerInverse", int(1e5)));
         examples.push_back(Example("mamdani/matlab/mam21", 128));
         examples.push_back(Example("mamdani/matlab/mam22", 128));
         examples.push_back(Example("mamdani/matlab/shower", 256));
@@ -731,13 +736,24 @@ namespace fl {
         for (std::size_t i = 0; i < examples.size(); ++i) {
             Example example = examples.at(i);
             FL_LOG("Benchmark " << (i + 1) << "/" << examples.size() << ": "
-                    << example.first << ".fll (" << example.second << " values)");
-
+                    << example.first << ".fll");
             FL_unique_ptr<Engine> engine(FllImporter().fromFile(path + example.first + ".fll"));
 
             Benchmark benchmark(example.first, engine.get());
-            benchmark.prepare(example.second, FldExporter::AllVariables);
-            benchmark.run(runs);
+            if (pathToFld.empty()) {
+                benchmark.prepare(example.second, FldExporter::AllVariables);
+                FL_LOG("\tEvaluating on " << example.second << " generated values over all variables...");
+            } else {
+                std::string fldFile = pathToFld + example.first + ".fld";
+                std::ifstream is(fldFile);
+                if (not is.is_open()) {
+                    throw Exception("The file <" + fldFile + "> could not be opened");
+                }
+                benchmark.prepare(is);
+                FL_LOG("\tEvaluating on " << benchmark.getExpected().size() << " read values from "
+                        << fldFile << " ...");
+            }
+            FL_LOG("\tMean(t)=" << Op::mean(benchmark.run(runs)) << " nanoseconds");
             if (i == 0) {
                 writer << "\n" << benchmark.format(benchmark.results(),
                         Benchmark::Horizontal, Benchmark::HeaderAndBody) << "\n";
@@ -746,7 +762,17 @@ namespace fl {
                         Benchmark::Horizontal, Benchmark::Body) << "\n";
             }
         }
-        FL_LOG(writer.str());
+        if (not outputFile.empty()) {
+            std::ofstream of;
+            of.open(outputFile);
+            if (not of.is_open()) {
+                throw Exception("File <" + outputFile + "> could not be opened");
+            }
+            of << writer.str();
+            of.close();
+        } else {
+            FL_LOG(writer.str());
+        }
     }
 
     int Console::main(int argc, const char* argv[]) {
@@ -793,12 +819,21 @@ namespace fl {
             if (argc > 2) {
                 path = std::string(argv[2]);
             }
-            int runs = 10;
+
+            std::string pathToFld = "";
             if (argc > 3) {
-                runs = (int) Op::toScalar(argv[3]);
+                pathToFld = argv[3];
             }
-            fuzzylite::setDecimals(3);
-            console.benchmarkExamples(path, runs);
+
+            int runs = 10;
+            if (argc > 4) {
+                runs = (int) Op::toScalar(argv[4]);
+            }
+            std::string outputFile;
+            if (argc > 5) {
+                outputFile = argv[5];
+            }
+            console.benchmarkExamples(path, runs, pathToFld, outputFile);
             return EXIT_SUCCESS;
         }
 

@@ -98,7 +98,8 @@ namespace fl {
         virtual void exportAllExamples(const std::string& from, const std::string& to,
                 const std::string& examplesPath, const std::string& outputPath);
 
-        static void benchmarkExamples(const std::string& path, int runs);
+        static void benchmarkExamples(const std::string& path, int runs,
+                const std::string& pathToFld, const std::string& outputFile);
 
     public:
         /**

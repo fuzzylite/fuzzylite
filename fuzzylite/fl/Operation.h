@@ -782,32 +782,31 @@ namespace fl {
 
     template<typename T>
     inline scalar Operation::mean(const std::vector<T>& x) {
-        if (x.empty()) return fl::nan;
-        return scalar(sum(x) / x.size());
+        return scalar(sum(x)) / x.size();
     }
 
     template<typename T>
     inline scalar Operation::standardDeviation(const std::vector<T>& x) {
-        if (x.size() <= 1) return scalar(0.0);
         return standardDeviation(x, mean(x));
     }
 
     template<typename T>
     inline scalar Operation::standardDeviation(const std::vector<T>& x, scalar mean) {
-        if (x.size() <= 1) return scalar(0.0);
+        if (x.empty()) return fl::nan;
+        if (x.size() == 1) return scalar(0.0);
         return std::sqrt(variance(x, mean));
     }
 
     template<typename T>
     inline scalar Operation::variance(const std::vector<T>& x) {
-        if (x.size() <= 1) return scalar(0.0);
         return variance(x, mean(x));
     }
 
     template<typename T>
     inline scalar Operation::variance(const std::vector<T>& x, scalar mean) {
-        if (x.size() <= 1) return scalar(0.0);
-        scalar result = 0;
+        if (x.empty()) return fl::nan;
+        if (x.size() == 1) return scalar(0.0);
+        scalar result = 0.0;
         for (std::size_t i = 0; i < x.size(); ++i) {
             result += (x.at(i) - mean) * (x.at(i) - mean);
         }
