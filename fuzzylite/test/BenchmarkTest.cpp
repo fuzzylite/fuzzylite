@@ -86,7 +86,7 @@ namespace fl {
             if (not reader.is_open()){
                 throw fl::Exception("File not found: " + path + example.first + ".fld");
             }
-            benchmark.prepare(reader);
+            benchmark.prepare(reader, 1024);
             benchmark.run(1);
             CHECK(benchmark.canComputeErrors() == true);
             errors.at(i) = benchmark.accuracyErrors();

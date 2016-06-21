@@ -112,11 +112,11 @@ namespace fl {
         } while (Op::increment(sampleValues, minSampleValues, maxSampleValues));
     }
 
-    void Benchmark::prepare(std::istream& reader) {
+    void Benchmark::prepare(std::istream& reader, long numberOfLines) {
         _expected = std::vector<std::vector<scalar> >();
         std::string line;
         int lineNumber = 0;
-        while (std::getline(reader, line)) {
+        while (lineNumber != numberOfLines and std::getline(reader, line)) {
             ++lineNumber;
             line = Op::trim(line);
             if (line.empty() or line.at(0) == '#')
