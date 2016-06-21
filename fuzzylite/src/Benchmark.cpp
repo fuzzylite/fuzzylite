@@ -90,7 +90,7 @@ namespace fl {
         if (scope == FldExporter::AllVariables)
             resolution = -1 + (int) std::max(1.0, std::pow(
                 values, 1.0 / _engine->numberOfInputVariables()));
-        else //if (scope == EachVariable) 
+        else //if (scope == EachVariable)
             resolution = values - 1;
 
         std::vector<int> sampleValues, minSampleValues, maxSampleValues;
@@ -353,14 +353,14 @@ namespace fl {
             result.push_back(Result("outputVariable", Op::join(names, ",")));
             result.push_back(Result("range", Op::str(meanRange)));
 
-            result.push_back(Result("tolerance", Op::str(getTolerance(), 3, std::ios_base::fmtflags(0x0))));
+            result.push_back(Result("tolerance", Op::str(getTolerance(), -1, std::ios_base::fmtflags(0x0))));
             result.push_back(Result("errors", Op::str(allErrors(outputVariable))));
 
             result.push_back(Result("nfErrors", Op::str(nonFiniteErrors(outputVariable))));
             result.push_back(Result("accErrors", Op::str(accuracyErrors(outputVariable))));
 
-            result.push_back(Result("rmse", Op::str(rmse, 3, std::ios_base::fmtflags(0x0))));
-            result.push_back(Result("nrmse", Op::str(nrmse, 3, std::ios_base::fmtflags(0x0))));
+            result.push_back(Result("rmse", Op::str(rmse, -1, std::ios_base::fmtflags(0x0))));
+            result.push_back(Result("nrmse", Op::str(nrmse, -1, std::ios_base::fmtflags(0x0))));
         }
         result.push_back(Result("units", stringOf(unit)));
         result.push_back(Result("sum(t)", Op::str(convert(Op::sum(time), NanoSeconds, unit),

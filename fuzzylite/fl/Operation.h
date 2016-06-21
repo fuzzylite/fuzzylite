@@ -358,8 +358,8 @@ namespace fl {
           @param min is the minimum value of the dimension
           @param max is the maximum value of the dimension
           @return `true` if @f$x@f$ was incremented, `false` otherwise (e.g.,
-          incrementing @f$x_3@f$ returns `false`). In earlier versions to 6.0, the 
-          result was the inverse and indicated whether the counter had overflown 
+          incrementing @f$x_3@f$ returns `false`). In earlier versions to 6.0, the
+          result was the inverse and indicated whether the counter had overflown
           (most sincere apologies for this change).
          */
         static bool increment(std::vector<int>& x, std::vector<int>& min, std::vector<int>& max);
@@ -375,8 +375,8 @@ namespace fl {
           @param min is the minimum value of the dimension
           @param max is the maximum value of the dimension
           @return `true` if @f$x@f$ was incremented, `false` otherwise (e.g.,
-          incrementing @f$x_3@f$ returns `false`). In earlier versions to 6.0, the 
-          result was the inverse and indicated whether the counter had overflown 
+          incrementing @f$x_3@f$ returns `false`). In earlier versions to 6.0, the
+          result was the inverse and indicated whether the counter had overflown
           (most sincere apologies for this change).
          */
         static bool increment(std::vector<int>& x, int position, std::vector<int>& min, std::vector<int>& max);
@@ -1004,7 +1004,7 @@ namespace fl {
             ss << (x < T(0) ? "-inf" : "inf");
         } else if (decimals >= 0 //print x considering the given decimals regardless of macheps
                 and fl::Op::isEq(x, 0.0, std::pow(10, -decimals))) {
-            ss << 0.0;
+            ss << T(0);
         } else ss << x;
         return ss.str();
     }
