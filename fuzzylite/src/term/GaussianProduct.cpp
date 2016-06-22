@@ -34,11 +34,11 @@ namespace fl {
 
     scalar GaussianProduct::membership(scalar x) const {
         if (FL_IS_NAN(x)) return fl::nan;
-        bool xLEa = fl::Op::isLE(x, _meanA);
+        bool xLEa = Op::isLE(x, _meanA);
         scalar a = (1 - xLEa) + xLEa * std::exp(
                 (-(x - _meanA) * (x - _meanA)) / (2 * _standardDeviationA * _standardDeviationA)
                 );
-        bool xGEb = fl::Op::isGE(x, _meanB);
+        bool xGEb = Op::isGE(x, _meanB);
         scalar b = (1 - xGEb) + xGEb * std::exp(
                 (-(x - _meanB) * (x - _meanB)) / (2 * _standardDeviationB * _standardDeviationB)
                 );
@@ -58,7 +58,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
                     << " requires <" << required << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         setMeanA(Op::toScalar(values.at(0)));
         setStandardDeviationA(Op::toScalar(values.at(1)));

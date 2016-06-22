@@ -47,7 +47,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
                     << " requires <" << required << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         setInflection(Op::toScalar(values.at(0)));
         setSlope(Op::toScalar(values.at(1)));
@@ -72,9 +72,9 @@ namespace fl {
     }
 
     Sigmoid::Direction Sigmoid::direction() const {
-        if (not fl::Op::isFinite(_slope) or fl::Op::isEq(_slope, 0.0)) return Zero;
+        if (not Op::isFinite(_slope) or Op::isEq(_slope, 0.0)) return Zero;
 
-        if (fl::Op::isGt(_slope, 0.0)) return Positive;
+        if (Op::isGt(_slope, 0.0)) return Positive;
 
         return Negative;
     }

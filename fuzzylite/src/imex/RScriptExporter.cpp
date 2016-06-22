@@ -113,7 +113,7 @@ namespace fl {
             const std::vector<OutputVariable*>& outputVariables) const {
         std::ofstream writer(filePath.c_str());
         if (not writer.is_open()) {
-            throw fl::Exception("[file error] file <" + filePath + "> could not be created", FL_AT);
+            throw Exception("[file error] file <" + filePath + "> could not be created", FL_AT);
         }
         writeScriptExportingDataFrame(engine, writer, a, b, values, scope, outputVariables);
         writer.close();
@@ -124,7 +124,7 @@ namespace fl {
             const std::vector<OutputVariable*>& outputVariables) const {
         std::ofstream writer(filePath.c_str());
         if (not writer.is_open()) {
-            throw fl::Exception("[file error] file <" + filePath + "> could not be created", FL_AT);
+            throw Exception("[file error] file <" + filePath + "> could not be created", FL_AT);
         }
         writeScriptExportingDataFrame(engine, writer, a, b, reader, outputVariables);
         writer.close();

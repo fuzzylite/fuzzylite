@@ -151,17 +151,17 @@ namespace fl {
                 ex << "[function error] arity <" << element->arity << "> of "
                         << (element->isOperator() ? "operator" : "function") <<
                         " <" << element->name << "> is fl::null";
-                throw fl::Exception(ex.str(), FL_AT);
+                throw Exception(ex.str(), FL_AT);
             }
 
         } else if (not variable.empty()) {
             if (not variables) {
-                throw fl::Exception("[function error] "
+                throw Exception("[function error] "
                         "expected a map of variables, but none was provided", FL_AT);
             }
             std::map<std::string, scalar>::const_iterator it = variables->find(variable);
             if (it != variables->end()) result = it->second;
-            else throw fl::Exception("[function error] "
+            else throw Exception("[function error] "
                     "unknown variable <" + variable + ">", FL_AT);
         } else {
             result = value;
@@ -177,14 +177,14 @@ namespace fl {
         std::ostringstream ss;
         if (element.get()) ss << element->name;
         else if (not variable.empty()) ss << variable;
-        else ss << fl::Op::str(value);
+        else ss << Op::str(value);
         return ss.str();
     }
 
     std::string Function::Node::toPrefix(const Node* node) const {
         if (not node) node = this;
-        if (not fl::Op::isNaN(node->value)) { //is terminal
-            return fl::Op::str(node->value);
+        if (not Op::isNaN(node->value)) { //is terminal
+            return Op::str(node->value);
         }
         if (not node->variable.empty()) {
             return node->variable;
@@ -201,8 +201,8 @@ namespace fl {
 
     std::string Function::Node::toInfix(const Node* node) const {
         if (not node) node = this;
-        if (not fl::Op::isNaN(node->value)) { //is proposition
-            return fl::Op::str(node->value);
+        if (not Op::isNaN(node->value)) { //is proposition
+            return Op::str(node->value);
         }
         if (not node->variable.empty()) {
             return node->variable;
@@ -219,8 +219,8 @@ namespace fl {
 
     std::string Function::Node::toPostfix(const Node* node) const {
         if (not node) node = this;
-        if (not fl::Op::isNaN(node->value)) { //is proposition
-            return fl::Op::str(node->value);
+        if (not Op::isNaN(node->value)) { //is proposition
+            return Op::str(node->value);
         }
         if (not node->variable.empty()) {
             return node->variable;
@@ -271,7 +271,7 @@ namespace fl {
 
     scalar Function::membership(scalar x) const {
         if (not _root.get()) {
-            throw fl::Exception("[function error] function <" + _formula + "> not loaded.", FL_AT);
+            throw Exception("[function error] function <" + _formula + "> not loaded.", FL_AT);
         }
         if (_engine) {
             for (std::size_t i = 0; i < _engine->numberOfInputVariables(); ++i) {
@@ -289,7 +289,7 @@ namespace fl {
 
     scalar Function::evaluate(const std::map<std::string, scalar>* localVariables) const {
         if (not _root.get())
-            throw fl::Exception("[function error] evaluation failed because the function is not loaded", FL_AT);
+            throw Exception("[function error] evaluation failed because the function is not loaded", FL_AT);
         if (localVariables)
             return _root->evaluate(localVariables);
         return _root->evaluate(&this->variables);
@@ -378,17 +378,17 @@ namespace fl {
         chars.push_back(")");
         chars.push_back(",");
 
-        std::vector<std::string> operators = fl::FactoryManager::instance()->function()->availableOperators();
+        std::vector<std::string> operators = FactoryManager::instance()->function()->availableOperators();
         for (std::size_t i = 0; i < operators.size(); ++i) {
-            if (not (operators.at(i) == fl::Rule::andKeyword() or
-                    operators.at(i) == fl::Rule::orKeyword())) {
+            if (not (operators.at(i) == Rule::andKeyword() or
+                    operators.at(i) == Rule::orKeyword())) {
                 chars.push_back(operators.at(i));
             }
         }
 
         std::string result = formula;
         for (std::size_t i = 0; i < chars.size(); ++i) {
-            result = fl::Op::findReplace(result, chars.at(i), " " + chars.at(i) + " ");
+            result = Op::findReplace(result, chars.at(i), " " + chars.at(i) + " ");
         }
         return result;
     }
@@ -407,7 +407,7 @@ namespace fl {
 
         std::stringstream tokenizer(spacedFormula);
         std::string token;
-        FunctionFactory* factory = fl::FactoryManager::instance()->function();
+        FunctionFactory* factory = FactoryManager::instance()->function();
         while (tokenizer >> token) {
             Element* element = factory->getObject(token);
             bool isOperand = not element and token != "(" and token != ")" and token != ",";
@@ -426,7 +426,7 @@ namespace fl {
                 if (stack.empty() or stack.top() != "(") {
                     std::ostringstream ex;
                     ex << "[parsing error] mismatching parentheses in: " << formula;
-                    throw fl::Exception(ex.str(), FL_AT);
+                    throw Exception(ex.str(), FL_AT);
                 }
 
             } else if (element and element->isOperator()) {
@@ -456,7 +456,7 @@ namespace fl {
                 if (stack.empty() or stack.top() != "(") {
                     std::ostringstream ex;
                     ex << "[parsing error] mismatching parentheses in: " << formula;
-                    throw fl::Exception(ex.str(), FL_AT);
+                    throw Exception(ex.str(), FL_AT);
                 }
                 stack.pop(); //get rid of "("
 
@@ -469,7 +469,7 @@ namespace fl {
             } else {
                 std::ostringstream ex;
                 ex << "[parsing error] unexpected error with token <" << token << ">";
-                throw fl::Exception(ex.str(), FL_AT);
+                throw Exception(ex.str(), FL_AT);
             }
         }
 
@@ -477,7 +477,7 @@ namespace fl {
             if (stack.top() == "(" or stack.top() == ")") {
                 std::ostringstream ex;
                 ex << "[parsing error] mismatching parentheses in: " << formula;
-                throw fl::Exception(ex.str(), FL_AT);
+                throw Exception(ex.str(), FL_AT);
             }
             queue.push(stack.top());
             stack.pop();
@@ -494,14 +494,14 @@ namespace fl {
 
     Function::Node* Function::parse(const std::string& formula) {
         if (formula.empty())
-            throw fl::Exception("[function error] formula is empty", FL_AT);
+            throw Exception("[function error] formula is empty", FL_AT);
         std::string postfix = toPostfix(formula);
 
         std::stack<Node*> stack;
 
         std::istringstream tokenizer(postfix);
         std::string token;
-        FunctionFactory* factory = fl::FactoryManager::instance()->function();
+        FunctionFactory* factory = FactoryManager::instance()->function();
         while (tokenizer >> token) {
             Element* element = factory->getObject(token);
             bool isOperand = not element and token != "(" and token != ")" and token != ",";
@@ -513,7 +513,7 @@ namespace fl {
                             " <" << element->name << "> has arity <" << element->arity << ">, "
                             "but found <" << stack.size() << "> element" <<
                             (stack.size() == 1 ? "" : "s");
-                    throw fl::Exception(ss.str(), FL_AT);
+                    throw Exception(ss.str(), FL_AT);
                 }
 
                 Node* node = new Node(element->clone());
@@ -528,7 +528,7 @@ namespace fl {
             } else if (isOperand) {
                 Node* node;
                 try {
-                    scalar value = fl::Op::toScalar(token);
+                    scalar value = Op::toScalar(token);
                     node = new Node(value);
                 } catch (std::exception& ex) {
                     FL_IUNUSED(ex);
@@ -539,7 +539,7 @@ namespace fl {
         }
 
         if (stack.size() != 1)
-            throw fl::Exception("[function error] ill-formed formula <" + formula + ">", FL_AT);
+            throw Exception("[function error] ill-formed formula <" + formula + ">", FL_AT);
 
         return stack.top();
     }

@@ -52,7 +52,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
                     << " requires <" << required << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         setLeft(Op::toScalar(values.at(0)));
         setRising(Op::toScalar(values.at(1)));

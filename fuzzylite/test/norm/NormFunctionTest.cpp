@@ -94,7 +94,7 @@ RuleBlock:
 
         //Check our custom SNorm is registered
         FL_unique_ptr<SNorm> x(factory->constructObject("Maximum"));
-        CHECK(fl::Op::isEq(x->compute(0, 0.5), 0.5));
+        CHECK(Op::isEq(x->compute(0, 0.5), 0.5));
 
         //Test creating an engine with the new SNorm
         engine.reset(FllImporter().fromString(fllEngine));
@@ -181,7 +181,7 @@ RuleBlock:
 
         //Check our custom SNorm is registered
         FL_unique_ptr<TNorm> x(factory->constructObject("Minimum"));
-        CHECK(fl::Op::isEq(x->compute(0.5, 1), 0.5));
+        CHECK(Op::isEq(x->compute(0.5, 1), 0.5));
 
         //Test creating an engine with the new SNorm
         engine.reset(FllImporter().fromString(fllEngine));

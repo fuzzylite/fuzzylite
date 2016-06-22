@@ -143,7 +143,7 @@ namespace fl {
         ex << strsignal(signal);
 #endif
         ex << "\nBACKTRACE:\n" << btCallStack();
-        fl::Exception::catchException(fl::Exception(ex.str(), FL_AT));
+        Exception::catchException(Exception(ex.str(), FL_AT));
         exit(EXIT_FAILURE);
     }
 
@@ -160,11 +160,11 @@ namespace fl {
         std::ostringstream ex;
         ex << "[signal " << signal << "] " << signalDescription << "\n";
         ex << "BACKTRACE:\n" << btCallStack();
-        throw fl::Exception(ex.str(), FL_AT);
+        throw Exception(ex.str(), FL_AT);
     }
 
     void Exception::terminate() {
-        fl::Exception::catchException(fl::Exception("[unexpected exception] BACKTRACE:\n" + btCallStack(), FL_AT));
+        Exception::catchException(Exception("[unexpected exception] BACKTRACE:\n" + btCallStack(), FL_AT));
         exit(EXIT_FAILURE);
     }
 

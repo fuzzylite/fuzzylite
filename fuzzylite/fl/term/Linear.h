@@ -159,7 +159,7 @@ namespace fl {
     template <typename T>
     inline Linear* Linear::create(const std::string& name,
             const Engine* engine, T firstCoefficient, ...) {
-        if (not engine) throw fl::Exception("[linear error] cannot create term <" + name + "> "
+        if (not engine) throw Exception("[linear error] cannot create term <" + name + "> "
                 "without a reference to the engine", FL_AT);
         std::vector<scalar> coefficients;
         coefficients.push_back((scalar) firstCoefficient);

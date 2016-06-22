@@ -105,7 +105,7 @@ namespace fl {
 
     scalar Rule::computeActivationDegree(const TNorm* conjunction, const SNorm* disjunction) const {
         if (not isLoaded()) {
-            throw fl::Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
+            throw Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
         }
         return _weight * _antecedent->activationDegree(conjunction, disjunction);
     }
@@ -113,7 +113,7 @@ namespace fl {
     void Rule::activate(scalar activationDegree, const TNorm* implication) {
         FL_DBG("[activating] " << toString());
         if (not isLoaded()) {
-            throw fl::Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
+            throw Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
         }
         if (Op::isGt(activationDegree, 0.0)) {
             FL_DBG("[degree=" << Op::str(activationDegree) << "] " << toString());
@@ -166,7 +166,7 @@ namespace fl {
                             std::ostringstream ex;
                             ex << "[syntax error] expected keyword <" << Rule::ifKeyword() <<
                                     ">, but found <" << token << "> in rule: " << rule;
-                            throw fl::Exception(ex.str(), FL_AT);
+                            throw Exception(ex.str(), FL_AT);
                         }
                         break;
                     case S_IF:
@@ -179,9 +179,9 @@ namespace fl {
                         break;
                     case S_WITH:
                         try {
-                            weight = fl::Op::toScalar(token);
+                            weight = Op::toScalar(token);
                             state = S_END;
-                        } catch (fl::Exception& e) {
+                        } catch (Exception& e) {
                             std::ostringstream ex;
                             ex << "[syntax error] expected a numeric value as the weight of the rule: "
                                     << rule;
@@ -192,21 +192,21 @@ namespace fl {
                     case S_END:
                         std::ostringstream ex;
                         ex << "[syntax error] unexpected token <" << token << "> at the end of rule";
-                        throw fl::Exception(ex.str(), FL_AT);
+                        throw Exception(ex.str(), FL_AT);
                 }
             }
             if (state == S_NONE) {
                 std::ostringstream ex;
                 ex << "[syntax error] " << (rule.empty() ? "empty rule" : "ignored rule: " + rule);
-                throw fl::Exception(ex.str(), FL_AT);
+                throw Exception(ex.str(), FL_AT);
             } else if (state == S_IF) {
                 std::ostringstream ex;
                 ex << "[syntax error] keyword <" << Rule::thenKeyword() << "> not found in rule: " << rule;
-                throw fl::Exception(ex.str(), FL_AT);
+                throw Exception(ex.str(), FL_AT);
             } else if (state == S_WITH) {
                 std::ostringstream ex;
                 ex << "[syntax error] expected a numeric value as the weight of the rule: " << rule;
-                throw fl::Exception(ex.str(), FL_AT);
+                throw Exception(ex.str(), FL_AT);
             }
 
             getAntecedent()->load(ossAntecedent.str(), engine);

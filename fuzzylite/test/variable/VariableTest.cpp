@@ -31,7 +31,7 @@ namespace fl {
     TEST_CASE("variable of Constant terms is sorted", "[variable][variable]") {
         Variable variable("Variable", -10, 10);
         for (int i = 0; i <= 20; ++i) {
-            variable.addTerm(new Constant(fl::Op::str(i), i - 10));
+            variable.addTerm(new Constant(Op::str(i), i - 10));
         }
         std::random_shuffle(variable.terms().begin(), variable.terms().end());
         FL_DBG(variable.toString());
@@ -51,7 +51,7 @@ namespace fl {
     TEST_CASE("variable of Triangle terms is sorted", "[variable][variable]") {
         Variable variable("Variable", -30, 30);
         for (int i = 0; i <= 20; ++i) {
-            variable.addTerm(new Triangle(fl::Op::str(i), i - 1, i, i + 1));
+            variable.addTerm(new Triangle(Op::str(i), i - 1, i, i + 1));
         }
         std::random_shuffle(variable.terms().begin(), variable.terms().end());
         FL_DBG(variable.toString());
@@ -64,7 +64,7 @@ namespace fl {
         for (std::size_t i = 0; i < variable.terms().size(); ++i) {
             Triangle* term = dynamic_cast<Triangle*> (variable.terms().at(i));
             REQUIRE(term);
-            REQUIRE(term->getName() == fl::Op::str(value < 0 ? -1 * value : value));
+            REQUIRE(term->getName() == Op::str(value < 0 ? -1 * value : value));
             ++value;
         }
         FL_DBG(variable.toString());

@@ -494,7 +494,7 @@ namespace fl {
             if (inputVariables().at(i)->getName() == name)
                 return inputVariables().at(i);
         }
-        throw fl::Exception("[engine error] input variable <" + name + "> not found", FL_AT);
+        throw Exception("[engine error] input variable <" + name + "> not found", FL_AT);
     }
 
     bool Engine::hasInputVariable(const std::string& name) const {
@@ -519,7 +519,7 @@ namespace fl {
                 return result;
             }
         }
-        throw fl::Exception("[engine error] input variable <" + name + "> not found", FL_AT);
+        throw Exception("[engine error] input variable <" + name + "> not found", FL_AT);
     }
 
     std::size_t Engine::numberOfInputVariables() const {
@@ -569,7 +569,7 @@ namespace fl {
             if (outputVariables().at(i)->getName() == name)
                 return outputVariables().at(i);
         }
-        throw fl::Exception("[engine error] output variable <" + name + "> not found", FL_AT);
+        throw Exception("[engine error] output variable <" + name + "> not found", FL_AT);
     }
 
     bool Engine::hasOutputVariable(const std::string& name) const {
@@ -594,7 +594,7 @@ namespace fl {
                 return result;
             }
         }
-        throw fl::Exception("[engine error] output variable <" + name + "> not found", FL_AT);
+        throw Exception("[engine error] output variable <" + name + "> not found", FL_AT);
     }
 
     std::size_t Engine::numberOfOutputVariables() const {
@@ -639,7 +639,7 @@ namespace fl {
             if (ruleBlocks().at(i)->getName() == name)
                 return ruleBlocks().at(i);
         }
-        throw fl::Exception("[engine error] rule block <" + name + "> not found", FL_AT);
+        throw Exception("[engine error] rule block <" + name + "> not found", FL_AT);
     }
 
     bool Engine::hasRuleBlock(const std::string& name) const {
@@ -664,7 +664,7 @@ namespace fl {
                 return result;
             }
         }
-        throw fl::Exception("[engine error] rule block <" + name + "> not found", FL_AT);
+        throw Exception("[engine error] rule block <" + name + "> not found", FL_AT);
     }
 
     std::size_t Engine::numberOfRuleBlocks() const {

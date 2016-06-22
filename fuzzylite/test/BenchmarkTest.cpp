@@ -83,7 +83,7 @@ namespace fl {
 
             std::ifstream reader(std::string(path + example.first + ".fld").c_str());
             if (not reader.is_open()){
-                throw fl::Exception("File not found: " + path + example.first + ".fld");
+                throw Exception("File not found: " + path + example.first + ".fld");
             }
             benchmark.prepare(reader, 1024);
             benchmark.run(1);

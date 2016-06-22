@@ -77,7 +77,7 @@ namespace fl {
     std::string FclExporter::toString(const InputVariable* inputVariable) const {
         std::ostringstream fcl;
         fcl << "FUZZIFY " << Op::validName(inputVariable->getName()) << "\n";
-        fcl << _indent << "RANGE := (" << fl::Op::join(2, " .. ",
+        fcl << _indent << "RANGE := (" << Op::join(2, " .. ",
                 inputVariable->getMinimum(), inputVariable->getMaximum())
                 << ");\n";
 
@@ -93,7 +93,7 @@ namespace fl {
     std::string FclExporter::toString(const OutputVariable* outputVariable) const {
         std::ostringstream fcl;
         fcl << "DEFUZZIFY " << Op::validName(outputVariable->getName()) << "\n";
-        fcl << _indent << "RANGE := (" << fl::Op::join(2, " .. ",
+        fcl << _indent << "RANGE := (" << Op::join(2, " .. ",
                 outputVariable->getMinimum(), outputVariable->getMaximum())
                 << ");\n";
 
@@ -108,7 +108,7 @@ namespace fl {
         if (outputVariable->fuzzyOutput()->getAggregation())
             fcl << _indent << "ACCU : " << toString(outputVariable->fuzzyOutput()->getAggregation()) << ";\n";
 
-        fcl << _indent << "DEFAULT := " << fl::Op::str(outputVariable->getDefaultValue());
+        fcl << _indent << "DEFAULT := " << Op::str(outputVariable->getDefaultValue());
         if (outputVariable->isLockPreviousValue()) {
             fcl << " | NC";
         }
@@ -179,15 +179,15 @@ namespace fl {
         if (const Discrete * discrete = dynamic_cast<const Discrete*> (term)) {
             std::ostringstream ss;
             for (std::size_t i = 0; i < discrete->xy().size(); ++i) {
-                ss << "(" << fl::Op::str(discrete->xy(i).first) << ", "
-                        << fl::Op::str(discrete->xy(i).second) << ")";
+                ss << "(" << Op::str(discrete->xy(i).first) << ", "
+                        << Op::str(discrete->xy(i).second) << ")";
                 if (i + 1 < discrete->xy().size()) ss << " ";
             }
             return ss.str();
         }
 
         if (const Constant * constant = dynamic_cast<const Constant*> (term)) {
-            return fl::Op::str(constant->getValue());
+            return Op::str(constant->getValue());
         }
 
         std::ostringstream ss;

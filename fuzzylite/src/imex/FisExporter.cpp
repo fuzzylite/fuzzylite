@@ -103,7 +103,7 @@ namespace fl {
             InputVariable* var = engine->getInputVariable(ixVar);
             fis << "[Input" << (ixVar + 1) << "]\n";
             fis << "Name='" << Op::validName(var->getName()) << "'\n";
-            fis << "Range=[" << fl::Op::join(2, " ", var->getMinimum(), var->getMaximum()) << "]\n";
+            fis << "Range=[" << Op::join(2, " ", var->getMinimum(), var->getMaximum()) << "]\n";
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
             for (std::size_t ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
                 fis << "MF" << (ixTerm + 1) << "='" << Op::validName(var->getTerm(ixTerm)->getName()) << "':"
@@ -120,7 +120,7 @@ namespace fl {
             OutputVariable* var = engine->getOutputVariable(ixVar);
             fis << "[Output" << (ixVar + 1) << "]\n";
             fis << "Name='" << Op::validName(var->getName()) << "'\n";
-            fis << "Range=[" << fl::Op::join(2, " ", var->getMinimum(), var->getMaximum()) << "]\n";
+            fis << "Range=[" << Op::join(2, " ", var->getMinimum(), var->getMaximum()) << "]\n";
             fis << "NumMFs=" << var->numberOfTerms() << "\n";
             for (std::size_t ixTerm = 0; ixTerm < var->numberOfTerms(); ++ixTerm) {
                 fis << "MF" << (ixTerm + 1) << "='" << Op::validName(var->getTerm(ixTerm)->getName()) << "':"
@@ -175,7 +175,7 @@ namespace fl {
             }
         }
         if (not equalOperators) {
-            throw fl::Exception("[exporter error] "
+            throw Exception("[exporter error] "
                     "fis files do not support rules with different connectors "
                     "(i.e. ['and', 'or']). All connectors within a rule must be the same", FL_AT);
         }
@@ -236,8 +236,8 @@ namespace fl {
                 break;
             }
             if (negated < 0) ss << "-";
-            if (not fl::Op::isNaN(plusHedge)) {
-                ss << fl::Op::str(termIndexPlusOne + plusHedge);
+            if (not Op::isNaN(plusHedge)) {
+                ss << Op::str(termIndexPlusOne + plusHedge);
             } else {
                 ss << termIndexPlusOne << ".?"; // Unreconized hedge combination
             }
@@ -287,36 +287,36 @@ namespace fl {
     std::string FisExporter::toString(const Term * term) const {
         std::ostringstream ss;
         if (const Bell * x = dynamic_cast<const Bell*> (term)) {
-            ss << "'gbellmf',[" << fl::Op::join(3, " ",
+            ss << "'gbellmf',[" << Op::join(3, " ",
                     x->getWidth(), x->getSlope(), x->getCenter()) << "]";
             return ss.str();
         }
 
         if (const Binary * x = dynamic_cast<const Binary*> (term)) {
-            ss << "'binarymf,[" << fl::Op::join(2, " ",
+            ss << "'binarymf,[" << Op::join(2, " ",
                     x->getStart(), x->getDirection()) << "]";
             return ss.str();
         }
 
         if (const Concave * x = dynamic_cast<const Concave*> (term)) {
-            ss << "'concavemf',[" << fl::Op::join(2, " ",
+            ss << "'concavemf',[" << Op::join(2, " ",
                     x->getInflection(), x->getEnd()) << "]";
             return ss.str();
         }
 
         if (const Constant * x = dynamic_cast<const Constant*> (term)) {
-            ss << "'constant',[" << fl::Op::str(x->getValue()) << "]";
+            ss << "'constant',[" << Op::str(x->getValue()) << "]";
             return ss.str();
         }
 
         if (const Cosine * x = dynamic_cast<const Cosine*> (term)) {
-            ss << "'cosinemf',[" << fl::Op::join(2, " ",
+            ss << "'cosinemf',[" << Op::join(2, " ",
                     x->getCenter(), x->getWidth()) << "]";
             return ss.str();
         }
 
         if (const Discrete * x = dynamic_cast<const Discrete*> (term)) {
-            ss << "'discretemf',[" << fl::Op::join(Discrete::toVector(x->xy()), " ") << "]";
+            ss << "'discretemf',[" << Op::join(Discrete::toVector(x->xy()), " ") << "]";
             return ss.str();
         }
 
@@ -326,95 +326,95 @@ namespace fl {
         }
 
         if (const Gaussian * x = dynamic_cast<const Gaussian*> (term)) {
-            ss << "'gaussmf',[" << fl::Op::join(2, " ",
+            ss << "'gaussmf',[" << Op::join(2, " ",
                     x->getStandardDeviation(), x->getMean()) << "]";
             return ss.str();
         }
 
         if (const GaussianProduct * x = dynamic_cast<const GaussianProduct*> (term)) {
-            ss << "'gauss2mf',[" << fl::Op::join(4, " ",
+            ss << "'gauss2mf',[" << Op::join(4, " ",
                     x->getStandardDeviationA(), x->getMeanA(),
                     x->getStandardDeviationB(), x->getMeanB()) << "]";
             return ss.str();
         }
 
         if (const Linear * x = dynamic_cast<const Linear*> (term)) {
-            ss << "'linear',[" << fl::Op::join<scalar>(x->coefficients(), " ") << "]";
+            ss << "'linear',[" << Op::join<scalar>(x->coefficients(), " ") << "]";
             return ss.str();
         }
 
 
         if (const PiShape * x = dynamic_cast<const PiShape*> (term)) {
-            ss << "'pimf',[" << fl::Op::join(4, " ",
+            ss << "'pimf',[" << Op::join(4, " ",
                     x->getBottomLeft(), x->getTopLeft(),
                     x->getTopRight(), x->getBottomRight()) << "]";
             return ss.str();
         }
 
         if (const Ramp * x = dynamic_cast<const Ramp*> (term)) {
-            ss << "'rampmf',[" << fl::Op::join(2, " ",
+            ss << "'rampmf',[" << Op::join(2, " ",
                     x->getStart(), x->getEnd()) << "]";
             return ss.str();
         }
 
         if (const Rectangle * x = dynamic_cast<const Rectangle*> (term)) {
-            ss << "'rectmf',[" << fl::Op::join(2, " ",
+            ss << "'rectmf',[" << Op::join(2, " ",
                     x->getStart(), x->getEnd()) << "]";
             return ss.str();
         }
 
         if (const SigmoidDifference * x = dynamic_cast<const SigmoidDifference*> (term)) {
-            ss << "'dsigmf',[" << fl::Op::join(4, " ",
+            ss << "'dsigmf',[" << Op::join(4, " ",
                     x->getRising(), x->getLeft(),
                     x->getFalling(), x->getRight()) << "]";
             return ss.str();
         }
 
         if (const Sigmoid * x = dynamic_cast<const Sigmoid*> (term)) {
-            ss << "'sigmf',[" << fl::Op::join(2, " ",
+            ss << "'sigmf',[" << Op::join(2, " ",
                     x->getSlope(), x->getInflection()) << "]";
             return ss.str();
         }
 
         if (const SigmoidProduct * x = dynamic_cast<const SigmoidProduct*> (term)) {
-            ss << "'psigmf',[" << fl::Op::join(4, " ",
+            ss << "'psigmf',[" << Op::join(4, " ",
                     x->getRising(), x->getLeft(),
                     x->getFalling(), x->getRight()) << "]";
             return ss.str();
         }
 
         if (const SShape * x = dynamic_cast<const SShape*> (term)) {
-            ss << "'smf',[" << fl::Op::join(2, " ",
+            ss << "'smf',[" << Op::join(2, " ",
                     x->getStart(), x->getEnd()) << "]";
             return ss.str();
         }
 
         if (const Spike * x = dynamic_cast<const Spike*> (term)) {
-            ss << "'spikemf',[" << fl::Op::join(2, " ",
+            ss << "'spikemf',[" << Op::join(2, " ",
                     x->getCenter(), x->getWidth()) << "]";
             return ss.str();
         }
 
         if (const Trapezoid * x = dynamic_cast<const Trapezoid*> (term)) {
-            ss << "'trapmf',[" << fl::Op::join(4, " ",
+            ss << "'trapmf',[" << Op::join(4, " ",
                     x->getVertexA(), x->getVertexB(), x->getVertexC(), x->getVertexD()) << "]";
             return ss.str();
         }
 
         if (const Triangle * x = dynamic_cast<const Triangle*> (term)) {
-            ss << "'trimf',[" << fl::Op::join(3, " ",
+            ss << "'trimf',[" << Op::join(3, " ",
                     x->getVertexA(), x->getVertexB(), x->getVertexC()) << "]";
             return ss.str();
         }
 
         if (const ZShape * x = dynamic_cast<const ZShape*> (term)) {
-            ss << "'zmf',[" << fl::Op::join(2, " ",
+            ss << "'zmf',[" << Op::join(2, " ",
                     x->getStart(), x->getEnd()) << "]";
             return ss.str();
         }
 
         ss << "[exporter error] term of class <" << (term ? term->className() : "null") << "> not supported";
-        throw fl::Exception(ss.str(), FL_AT);
+        throw Exception(ss.str(), FL_AT);
     }
 
     FisExporter* FisExporter::clone() const {

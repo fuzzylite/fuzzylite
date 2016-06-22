@@ -139,7 +139,7 @@ namespace fl {
             const std::vector<InputVariable*>& activeVariables) const {
         std::ofstream writer(path.c_str());
         if (not writer.is_open()) {
-            throw fl::Exception("[file error] file <" + path + "> could not be created", FL_AT);
+            throw Exception("[file error] file <" + path + "> could not be created", FL_AT);
         }
         write(engine, writer, values, scope, activeVariables);
         writer.close();
@@ -148,7 +148,7 @@ namespace fl {
     void FldExporter::toFile(const std::string& path, Engine* engine, std::istream& reader) const {
         std::ofstream writer(path.c_str());
         if (not writer.is_open()) {
-            throw fl::Exception("[file error] file <" + path + "> could not be created", FL_AT);
+            throw Exception("[file error] file <" + path + "> could not be created", FL_AT);
         }
         if (_exportHeaders) writer << header(engine) << "\n";
 
@@ -254,7 +254,7 @@ namespace fl {
             }
             try {
                 write(engine, writer, inputValues, engine->inputVariables());
-            } catch (fl::Exception& ex) {
+            } catch (Exception& ex) {
                 ex.append(" writing line <" + Op::str(lineNumber) + ">");
                 throw;
             }
@@ -277,13 +277,13 @@ namespace fl {
             std::ostringstream ex;
             ex << "[export error] engine has <" << engine->numberOfInputVariables() << "> "
                     "input variables, but input data provides <" << inputValues.size() << "> values";
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         if (activeVariables.size() != engine->inputVariables().size()) {
             std::ostringstream ex;
             ex << "[exporter error] number of active variables <" << activeVariables.size() << "> "
                     "must match the number of input variables in the engine <" << engine->inputVariables().size() << ">";
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
 
         std::vector<scalar> values;

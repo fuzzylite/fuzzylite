@@ -47,7 +47,7 @@ namespace fl {
             ss << "[defuzzification error]"
                     << "expected an Aggregated term instead of"
                     << "<" << (term ? term->toString() : "null") << ">";
-            throw fl::Exception(ss.str(), FL_AT);
+            throw Exception(ss.str(), FL_AT);
         }
 
         minimum = fuzzyOutput->getMinimum();

@@ -52,7 +52,7 @@ namespace fl {
                 continue;
             }
 
-            line = fl::Op::findReplace(line, "'", "");
+            line = Op::findReplace(line, "'", "");
 
             if ("[System]" == line.substr(0, std::string("[System]").size())
                     or "[Input" == line.substr(0, std::string("[Input").size())
@@ -66,7 +66,7 @@ namespace fl {
                     std::ostringstream ss;
                     ss << "[import error] line " << lineNumber << " <" << line + "> "
                             "does not belong to any section";
-                    throw fl::Exception(ss.str(), FL_AT);
+                    throw Exception(ss.str(), FL_AT);
                 }
             }
         }
@@ -81,7 +81,7 @@ namespace fl {
                 importOutput(sections.at(i), engine.get());
             else if ("[Rules]" == sections.at(i).substr(0, std::string("[Rules]").size()))
                 importRules(sections.at(i), engine.get());
-            else throw fl::Exception("[import error] section <"
+            else throw Exception("[import error] section <"
                     + sections.at(i) + "> not recognized", FL_AT);
         }
         engine->configure(translateTNorm(andMethod), translateSNorm(orMethod),
@@ -98,14 +98,14 @@ namespace fl {
         std::string line;
         std::getline(reader, line); //ignore first line [System]
         while (std::getline(reader, line)) {
-            std::vector<std::string> keyValue = fl::Op::split(line, "=");
+            std::vector<std::string> keyValue = Op::split(line, "=");
 
-            std::string key = fl::Op::trim(keyValue.at(0));
+            std::string key = Op::trim(keyValue.at(0));
             std::string value;
             for (std::size_t i = 1; i < keyValue.size(); ++i) {
                 value += keyValue.at(i);
             }
-            value = fl::Op::trim(value);
+            value = Op::trim(value);
             if (key == "Name") engine->setName(value);
             else if (key == "AndMethod") andMethod = value;
             else if (key == "OrMethod") orMethod = value;
@@ -116,7 +116,7 @@ namespace fl {
                     or key == "NumInputs" or key == "NumOutputs"
                     or key == "NumRules" or key == "NumMFs") {
                 //ignore because are redundant.
-            } else throw fl::Exception("[import error] token <" + key + "> not recognized", FL_AT);
+            } else throw Exception("[import error] token <" + key + "> not recognized", FL_AT);
         }
     }
 
@@ -129,15 +129,15 @@ namespace fl {
         engine->addInputVariable(input);
 
         while (std::getline(reader, line)) {
-            std::vector<std::string> keyValue = fl::Op::split(line, "=");
+            std::vector<std::string> keyValue = Op::split(line, "=");
             if (keyValue.size() != 2)
-                throw fl::Exception("[syntax error] expected a property of type "
+                throw Exception("[syntax error] expected a property of type "
                     "'key=value', but found <" + line + ">", FL_AT);
-            std::string key = fl::Op::trim(keyValue.at(0));
-            std::string value = fl::Op::trim(keyValue.at(1));
+            std::string key = Op::trim(keyValue.at(0));
+            std::string value = Op::trim(keyValue.at(1));
 
             if (key == "Name") {
-                input->setName(fl::Op::validName(value));
+                input->setName(Op::validName(value));
             } else if (key == "Enabled") {
                 input->setEnabled(Op::isEq(Op::toScalar(value), 1.0));
             } else if (key == "Range") {
@@ -149,7 +149,7 @@ namespace fl {
             } else if (key == "NumMFs") {
                 //ignore
             } else {
-                throw fl::Exception("[import error] token <" + key + "> not recognized", FL_AT);
+                throw Exception("[import error] token <" + key + "> not recognized", FL_AT);
             }
         }
     }
@@ -164,15 +164,15 @@ namespace fl {
 
 
         while (std::getline(reader, line)) {
-            std::vector<std::string> keyValue = fl::Op::split(line, "=");
+            std::vector<std::string> keyValue = Op::split(line, "=");
             if (keyValue.size() != 2)
-                throw fl::Exception("[syntax error] expected a property of type "
+                throw Exception("[syntax error] expected a property of type "
                     "'key=value', but found < " + line + ">", FL_AT);
-            std::string key = fl::Op::trim(keyValue.at(0));
-            std::string value = fl::Op::trim(keyValue.at(1));
+            std::string key = Op::trim(keyValue.at(0));
+            std::string value = Op::trim(keyValue.at(1));
 
             if (key == "Name") {
-                output->setName(fl::Op::validName(value));
+                output->setName(Op::validName(value));
             } else if (key == "Enabled") {
                 output->setEnabled(Op::isEq(Op::toScalar(value), 1.0));
             } else if (key == "Range") {
@@ -182,15 +182,15 @@ namespace fl {
             } else if (key.substr(0, 2) == "MF") {
                 output->addTerm(parseTerm(value, engine));
             } else if (key == "Default") {
-                output->setDefaultValue(fl::Op::toScalar(value));
+                output->setDefaultValue(Op::toScalar(value));
             } else if (key == "LockPrevious") {
-                output->setLockPreviousValue(fl::Op::isEq(fl::Op::toScalar(value), 1.0));
+                output->setLockPreviousValue(Op::isEq(Op::toScalar(value), 1.0));
             } else if (key == "LockRange") {
-                output->setLockValueInRange(fl::Op::isEq(fl::Op::toScalar(value), 1.0));
+                output->setLockValueInRange(Op::isEq(Op::toScalar(value), 1.0));
             } else if (key == "NumMFs") {
                 //ignore
             } else {
-                throw fl::Exception("[import error] token <" + key + "> not recognized", FL_AT);
+                throw Exception("[import error] token <" + key + "> not recognized", FL_AT);
             }
         }
     }
@@ -204,78 +204,78 @@ namespace fl {
         engine->addRuleBlock(ruleblock);
 
         while (std::getline(reader, line)) {
-            std::vector<std::string> inputsAndRest = fl::Op::split(line, ",");
+            std::vector<std::string> inputsAndRest = Op::split(line, ",");
             if (inputsAndRest.size() != 2)
-                throw fl::Exception("[syntax error] expected rule to match pattern "
+                throw Exception("[syntax error] expected rule to match pattern "
                     "<'i '+, 'o '+ (w) : '1|2'>, but found instead <" + line + ">", FL_AT);
 
-            std::vector <std::string> outputsAndRest = fl::Op::split(inputsAndRest.at(1), ":");
+            std::vector <std::string> outputsAndRest = Op::split(inputsAndRest.at(1), ":");
             if (outputsAndRest.size() != 2)
-                throw fl::Exception("[syntax error] expected rule to match pattern "
+                throw Exception("[syntax error] expected rule to match pattern "
                     "<'i '+, 'o '+ (w) : '1|2'>, but found instead <" + line + ">", FL_AT);
 
-            std::vector<std::string> inputs = fl::Op::split(inputsAndRest.at(0), " ");
-            std::vector<std::string> outputs = fl::Op::split(outputsAndRest.at(0), " ");
+            std::vector<std::string> inputs = Op::split(inputsAndRest.at(0), " ");
+            std::vector<std::string> outputs = Op::split(outputsAndRest.at(0), " ");
             std::string weightInParenthesis = outputs.at(outputs.size() - 1);
             outputs.erase(outputs.begin() + outputs.size() - 1);
-            std::string connector = fl::Op::trim(outputsAndRest.at(1));
+            std::string connector = Op::trim(outputsAndRest.at(1));
 
             if (inputs.size() != engine->numberOfInputVariables()) {
                 std::ostringstream ss;
                 ss << "[syntax error] expected <" << engine->numberOfInputVariables() << ">"
                         " input variables, but found <" << inputs.size() << ">"
                         " input variables in rule <" << line << ">";
-                throw fl::Exception(ss.str(), FL_AT);
+                throw Exception(ss.str(), FL_AT);
             }
             if (outputs.size() != engine->numberOfOutputVariables()) {
                 std::ostringstream ss;
                 ss << "[syntax error] expected <" << engine->numberOfOutputVariables() << ">"
                         " output variables, but found <" << outputs.size() << ">"
                         " output variables in rule <" << line << ">";
-                throw fl::Exception(ss.str(), FL_AT);
+                throw Exception(ss.str(), FL_AT);
             }
 
             std::vector<std::string> antecedent, consequent;
 
             for (std::size_t i = 0; i < inputs.size(); ++i) {
-                scalar inputCode = fl::Op::toScalar(inputs.at(i));
-                if (fl::Op::isEq(inputCode, 0.0)) continue;
+                scalar inputCode = Op::toScalar(inputs.at(i));
+                if (Op::isEq(inputCode, 0.0)) continue;
                 std::ostringstream ss;
                 ss << engine->getInputVariable(i)->getName() << " "
-                        << fl::Rule::isKeyword() << " "
+                        << Rule::isKeyword() << " "
                         << translateProposition(inputCode, engine->getInputVariable(i));
                 antecedent.push_back(ss.str());
             }
 
             for (std::size_t i = 0; i < outputs.size(); ++i) {
-                scalar outputCode = fl::Op::toScalar(outputs.at(i));
-                if (fl::Op::isEq(outputCode, 0.0)) continue;
+                scalar outputCode = Op::toScalar(outputs.at(i));
+                if (Op::isEq(outputCode, 0.0)) continue;
                 std::ostringstream ss;
                 ss << engine->getOutputVariable(i)->getName() << " "
-                        << fl::Rule::isKeyword() << " "
+                        << Rule::isKeyword() << " "
                         << translateProposition(outputCode, engine->getOutputVariable(i));
                 consequent.push_back(ss.str());
             }
 
             std::ostringstream ruleText;
 
-            ruleText << fl::Rule::ifKeyword() << " ";
+            ruleText << Rule::ifKeyword() << " ";
             for (std::size_t i = 0; i < antecedent.size(); ++i) {
                 ruleText << antecedent.at(i);
                 if (i + 1 < antecedent.size()) {
                     ruleText << " ";
-                    if (connector == "1") ruleText << fl::Rule::andKeyword() << " ";
-                    else if (connector == "2") ruleText << fl::Rule::orKeyword() << " ";
-                    else throw fl::Exception("[syntax error] connector <"
+                    if (connector == "1") ruleText << Rule::andKeyword() << " ";
+                    else if (connector == "2") ruleText << Rule::orKeyword() << " ";
+                    else throw Exception("[syntax error] connector <"
                             + connector + "> not recognized", FL_AT);
                 }
             }
 
-            ruleText << " " << fl::Rule::thenKeyword() << " ";
+            ruleText << " " << Rule::thenKeyword() << " ";
             for (std::size_t i = 0; i < consequent.size(); ++i) {
                 ruleText << consequent.at(i);
                 if (i + 1 < consequent.size()) {
-                    ruleText << " " << fl::Rule::andKeyword() << " ";
+                    ruleText << " " << Rule::andKeyword() << " ";
                 }
             }
 
@@ -287,9 +287,9 @@ namespace fl {
                 ss << weightInParenthesis.at(i);
             }
 
-            scalar weight = fl::Op::toScalar(ss.str());
-            if (not fl::Op::isEq(weight, 1.0))
-                ruleText << " " << fl::Rule::withKeyword() << " " << Op::str(weight);
+            scalar weight = Op::toScalar(ss.str());
+            if (not Op::isEq(weight, 1.0))
+                ruleText << " " << Rule::withKeyword() << " " << Op::str(weight);
             Rule* rule = new Rule(ruleText.str());
             try {
                 rule->load(engine);
@@ -307,21 +307,21 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] the code <" << code << "> refers to a term "
                     "out of range from variable <" << variable->getName() << ">";
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
 
         bool isAny = intPart < 0;
         std::ostringstream ss;
         if (code < 0) ss << Not().name() << " ";
-        if (fl::Op::isEq(fracPart, 0.01)) ss << Seldom().name() << " ";
-        else if (fl::Op::isEq(fracPart, 0.05)) ss << Somewhat().name() << " ";
-        else if (fl::Op::isEq(fracPart, 0.2)) ss << Very().name() << " ";
-        else if (fl::Op::isEq(fracPart, 0.3)) ss << Extremely().name() << " ";
-        else if (fl::Op::isEq(fracPart, 0.4)) ss << Very().name() << " " << Very().name() << " ";
-        else if (fl::Op::isEq(fracPart, 0.99)) ss << Any().name() << " ";
-        else if (not fl::Op::isEq(fracPart, 0.0))
-            throw fl::Exception("[syntax error] no hedge defined in FIS format for <"
-                + fl::Op::str(fracPart) + ">", FL_AT);
+        if (Op::isEq(fracPart, 0.01)) ss << Seldom().name() << " ";
+        else if (Op::isEq(fracPart, 0.05)) ss << Somewhat().name() << " ";
+        else if (Op::isEq(fracPart, 0.2)) ss << Very().name() << " ";
+        else if (Op::isEq(fracPart, 0.3)) ss << Extremely().name() << " ";
+        else if (Op::isEq(fracPart, 0.4)) ss << Very().name() << " " << Very().name() << " ";
+        else if (Op::isEq(fracPart, 0.99)) ss << Any().name() << " ";
+        else if (not Op::isEq(fracPart, 0.0))
+            throw Exception("[syntax error] no hedge defined in FIS format for <"
+                + Op::str(fracPart) + ">", FL_AT);
         if (not isAny) {
             ss << variable->getTerm(intPart)->getName();
         }
@@ -367,17 +367,17 @@ namespace fl {
     }
 
     std::pair<scalar, scalar> FisImporter::parseRange(const std::string& range) const {
-        std::vector<std::string> parts = fl::Op::split(range, " ");
+        std::vector<std::string> parts = Op::split(range, " ");
         if (parts.size() != 2)
-            throw fl::Exception("[syntax error] expected range in format '[begin end]',"
+            throw Exception("[syntax error] expected range in format '[begin end]',"
                 " but found <" + range + ">", FL_AT);
         std::string begin = parts.at(0), end = parts.at(1);
         if (begin.at(0) != '[' or end.at(end.size() - 1) != ']')
-            throw fl::Exception("[syntax error] expected range in format '[begin end]',"
+            throw Exception("[syntax error] expected range in format '[begin end]',"
                 " but found <" + range + ">", FL_AT);
         std::pair<scalar, scalar> result;
-        result.first = fl::Op::toScalar(begin.substr(1));
-        result.second = fl::Op::toScalar(end.substr(0, end.size() - 1));
+        result.first = Op::toScalar(begin.substr(1));
+        result.second = Op::toScalar(end.substr(0, end.size() - 1));
         return result;
     }
 
@@ -390,24 +390,24 @@ namespace fl {
         }
         std::string line = ss.str();
 
-        std::vector<std::string> nameTerm = fl::Op::split(line, ":");
+        std::vector<std::string> nameTerm = Op::split(line, ":");
         if (nameTerm.size() != 2) {
-            throw fl::Exception("[syntax error] expected term in format 'name':'class',[params], "
+            throw Exception("[syntax error] expected term in format 'name':'class',[params], "
                     "but found <" + line + ">", FL_AT);
         }
-        std::vector<std::string> termParams = fl::Op::split(nameTerm.at(1), ",");
+        std::vector<std::string> termParams = Op::split(nameTerm.at(1), ",");
         if (termParams.size() != 2) {
-            throw fl::Exception("[syntax error] expected term in format 'name':'class',[params], "
+            throw Exception("[syntax error] expected term in format 'name':'class',[params], "
                     "but found " + line, FL_AT);
         }
 
-        std::vector<std::string> parameters = fl::Op::split(termParams.at(1), " ");
+        std::vector<std::string> parameters = Op::split(termParams.at(1), " ");
         for (std::size_t i = 0; i < parameters.size(); ++i) {
-            parameters.at(i) = fl::Op::trim(parameters.at(i));
+            parameters.at(i) = Op::trim(parameters.at(i));
         }
         return createInstance(
-                fl::Op::trim(termParams.at(0)),
-                fl::Op::trim(nameTerm.at(0)),
+                Op::trim(termParams.at(0)),
+                Op::trim(nameTerm.at(0)),
                 parameters, engine);
     }
 

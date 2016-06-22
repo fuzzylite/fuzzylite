@@ -35,7 +35,7 @@ namespace fl {
     scalar Discrete::membership(scalar _x_) const {
         if (FL_IS_NAN(_x_)) return fl::nan;
         if (_xy.empty())
-            throw fl::Exception("[discrete error] term is empty", FL_AT);
+            throw Exception("[discrete error] term is empty", FL_AT);
 
         /*                ______________________
          *               /                      \
@@ -45,8 +45,8 @@ namespace fl {
          */
 
 
-        if (fl::Op::isLE(_x_, _xy.front().first)) return Term::_height * _xy.front().second;
-        if (fl::Op::isGE(_x_, _xy.back().first)) return Term::_height * _xy.back().second;
+        if (Op::isLE(_x_, _xy.front().first)) return Term::_height * _xy.front().second;
+        if (Op::isGE(_x_, _xy.back().first)) return Term::_height * _xy.back().second;
 
         std::ptrdiff_t lower = -1, upper = -1;
 
@@ -72,7 +72,7 @@ namespace fl {
     std::string Discrete::parameters() const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < _xy.size(); ++i) {
-            ss << fl::Op::str(_xy.at(i).first) << " " << fl::Op::str(_xy.at(i).second);
+            ss << Op::str(_xy.at(i).first) << " " << Op::str(_xy.at(i).second);
             if (i + 1 < _xy.size()) ss << " ";
         }
         if (not Op::isEq(getHeight(), 1.0)) ss << " " << Op::str(getHeight());
@@ -119,7 +119,7 @@ namespace fl {
         if (xy.size() % 2 != 0) {
             std::ostringstream os;
             os << "[discrete error] missing value in set of pairs (|xy|=" << xy.size() << ")";
-            throw fl::Exception(os.str(), FL_AT);
+            throw Exception(os.str(), FL_AT);
         }
 
         std::vector<Pair> result((xy.size() + 1) / 2);
@@ -156,8 +156,8 @@ namespace fl {
     std::string Discrete::formatXY(const std::vector<Pair>& xy, const std::string& prefix, const std::string& innerSeparator, const std::string& postfix, const std::string& outerSeparator) {
         std::ostringstream os;
         for (std::size_t i = 0; i < xy.size(); ++i) {
-            os << prefix << fl::Op::str(xy.at(i).first) << innerSeparator
-                    << fl::Op::str(xy.at(i).second) << postfix;
+            os << prefix << Op::str(xy.at(i).first) << innerSeparator
+                    << Op::str(xy.at(i).second) << postfix;
             if (i + 1 < xy.size()) os << outerSeparator;
         }
         return os.str();

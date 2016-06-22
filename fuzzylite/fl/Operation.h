@@ -131,7 +131,7 @@ namespace fl {
           floating-point values are considered equivalent
           @return whether @f$a@f$ is less than @f$b@f$ at the given `macheps`
          */
-        static bool isLt(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
+        static bool isLt(scalar a, scalar b, scalar macheps = fuzzylite::macheps());
         /**
           Returns whether @f$a@f$ is less than or equal to @f$b@f$ at the given
           `macheps`
@@ -142,7 +142,7 @@ namespace fl {
           @return whether @f$a@f$ is less than or equal to @f$b@f$ at the given
           `macheps`
          */
-        static bool isLE(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
+        static bool isLE(scalar a, scalar b, scalar macheps = fuzzylite::macheps());
         /**
           Returns whether @f$a@f$ is equal to @f$b@f$ at the given `macheps`
           @param a
@@ -151,7 +151,7 @@ namespace fl {
           floating-point values are considered equivalent
           @return whether @f$a@f$ is equal to @f$b@f$ at the given `macheps`
          */
-        static bool isEq(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
+        static bool isEq(scalar a, scalar b, scalar macheps = fuzzylite::macheps());
         /**
           Returns whether @f$a@f$ is greater than @f$b@f$ at the given `macheps`
           @param a
@@ -160,7 +160,7 @@ namespace fl {
           floating-point values are considered equivalent
           @return whether @f$a@f$ is greater than @f$b@f$ at the given `macheps`
          */
-        static bool isGt(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
+        static bool isGt(scalar a, scalar b, scalar macheps = fuzzylite::macheps());
         /**
           Returns whether @f$a@f$ is greater than or equal to @f$b@f$ at the
           given `macheps`
@@ -171,7 +171,7 @@ namespace fl {
           @return whether @f$a@f$ is greater than or equal to @f$b@f$ at the
           given `macheps`
          */
-        static bool isGE(scalar a, scalar b, scalar macheps = fl::fuzzylite::macheps());
+        static bool isGE(scalar a, scalar b, scalar macheps = fuzzylite::macheps());
 
         /**
           Linearly interpolates the parameter @f$x@f$ in range
@@ -679,7 +679,7 @@ namespace fl {
 
     inline scalar Operation::scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax, bool bounded) {
         scalar result = (toMax - toMin) / (fromMax - fromMin) * (x - fromMin) + toMin;
-        return bounded ? fl::Op::bound(result, toMin, toMax) : result;
+        return bounded ? Op::bound(result, toMin, toMax) : result;
     }
 
     inline scalar Operation::add(scalar a, scalar b) {
@@ -928,7 +928,7 @@ namespace fl {
         if (x == nInf.str() or x == "-inf")
             return -fl::inf;
 
-        throw fl::Exception("[conversion error] from <" + x + "> to scalar", FL_AT);
+        throw Exception("[conversion error] from <" + x + "> to scalar", FL_AT);
     }
 
     inline scalar Operation::toScalar(const std::string& x, scalar alternative, bool* ok) FL_INOEXCEPT {
@@ -985,7 +985,7 @@ namespace fl {
 
     inline bool Operation::isNumeric(const std::string& x) {
         try {
-            fl::Op::toScalar(x);
+            Op::toScalar(x);
             return true;
         } catch (...) {
             return false;
@@ -998,12 +998,12 @@ namespace fl {
         std::ostringstream ss;
         if (scalarFormat != std::ios_base::fmtflags(0x0)) ss.flags(scalarFormat);
         if (decimals >= 0) ss.precision(decimals);
-        if (fl::Op::isNaN(x)) {
+        if (Op::isNaN(x)) {
             ss << "nan";
-        } else if (fl::Op::isInf(x)) {
+        } else if (Op::isInf(x)) {
             ss << (x < T(0) ? "-inf" : "inf");
         } else if (decimals >= 0 //print x considering the given decimals regardless of macheps
-                and fl::Op::isEq(x, 0.0, std::pow(10, -decimals))) {
+                and Op::isEq(x, 0.0, std::pow(10, -decimals))) {
             ss << T(0);
         } else ss << x;
         return ss.str();

@@ -33,12 +33,12 @@ namespace fl {
 
     scalar Concave::membership(scalar x) const {
         if (FL_IS_NAN(x)) return fl::nan;
-        if (fl::Op::isLE(_inflection, _end)) { //Concave increasing
-            if (fl::Op::isLt(x, _end)) {
+        if (Op::isLE(_inflection, _end)) { //Concave increasing
+            if (Op::isLt(x, _end)) {
                 return Term::_height * (_end - _inflection) / (2 * _end - _inflection - x);
             }
         } else { //Concave decreasing
-            if (fl::Op::isGt(x, _end)) {
+            if (Op::isGt(x, _end)) {
                 return Term::_height * (_inflection - _end) / (_inflection - 2 * _end + x);
             }
         }
@@ -59,7 +59,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
                     << " requires <" << required << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         setInflection(Op::toScalar(values.at(0)));
         setEnd(Op::toScalar(values.at(1)));

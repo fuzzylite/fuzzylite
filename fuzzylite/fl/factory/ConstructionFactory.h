@@ -176,7 +176,7 @@ namespace fl {
         }
         std::ostringstream ss;
         ss << "[factory error] constructor of " + _name + " <" << key << "> not registered";
-        throw fl::Exception(ss.str(), FL_AT);
+        throw Exception(ss.str(), FL_AT);
     }
 
     template <typename T>

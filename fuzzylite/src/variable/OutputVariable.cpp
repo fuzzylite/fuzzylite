@@ -112,7 +112,7 @@ namespace fl {
     void OutputVariable::defuzzify() {
         if (not _enabled) return;
 
-        if (fl::Op::isFinite(_value)) {
+        if (Op::isFinite(_value)) {
             _previousValue = _value;
         }
 
@@ -152,7 +152,7 @@ namespace fl {
         setValue(result);
 
         if (not exception.empty()) {
-            throw fl::Exception(exception, FL_AT);
+            throw Exception(exception, FL_AT);
         }
     }
 
@@ -160,15 +160,15 @@ namespace fl {
         std::ostringstream ss;
         if (not terms().empty()) {
             Term* first = terms().front();
-            ss << fl::Op::str(fuzzyOutput()->activationDegree(first))
+            ss << Op::str(fuzzyOutput()->activationDegree(first))
                     << "/" << first->getName();
         }
         for (std::size_t i = 1; i < terms().size(); ++i) {
             scalar degree = fuzzyOutput()->activationDegree(terms().at(i));
-            if (fl::Op::isNaN(degree) or fl::Op::isGE(degree, 0.0))
-                ss << " + " << fl::Op::str(degree);
+            if (Op::isNaN(degree) or Op::isGE(degree, 0.0))
+                ss << " + " << Op::str(degree);
             else
-                ss << " - " << fl::Op::str(std::fabs(degree));
+                ss << " - " << Op::str(std::fabs(degree));
             ss << "/" << terms().at(i)->getName();
         }
         return ss.str();

@@ -55,7 +55,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[configuration error] activation <" << className() << ">"
                     << " requires <" << required << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         setComparison(parseComparison(values.at(0)));
         setValue(Op::toScalar(values.at(1)));
@@ -103,7 +103,7 @@ namespace fl {
         if (name == "!=") return NotEqualTo;
         if (name == ">=") return GreaterThanOrEqualTo;
         if (name == ">") return GreaterThan;
-        throw fl::Exception("[syntax error] invalid threshold type by name <" + name + ">", FL_AT);
+        throw Exception("[syntax error] invalid threshold type by name <" + name + ">", FL_AT);
     }
 
     void Threshold::setValue(scalar value) {

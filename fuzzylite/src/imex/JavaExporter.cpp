@@ -68,7 +68,7 @@ namespace fl {
         std::ostringstream ss;
         std::string name;
         if (isUsingVariableNames()) {
-            name = fl::Op::validName(inputVariable->getName());
+            name = Op::validName(inputVariable->getName());
         } else {
             name = "inputVariable";
             if (engine->numberOfInputVariables() > 1) {
@@ -98,7 +98,7 @@ namespace fl {
         std::ostringstream ss;
         std::string name;
         if (isUsingVariableNames()) {
-            name = fl::Op::validName(outputVariable->getName());
+            name = Op::validName(outputVariable->getName());
         } else {
             name = "outputVariable";
             if (engine->numberOfOutputVariables() > 1) {
@@ -199,7 +199,7 @@ namespace fl {
         if (const IntegralDefuzzifier * integralDefuzzifier =
                 dynamic_cast<const IntegralDefuzzifier*> (defuzzifier)) {
             return "new " + integralDefuzzifier->className() + "("
-                    + fl::Op::str(integralDefuzzifier->getResolution()) + ")";
+                    + Op::str(integralDefuzzifier->getResolution()) + ")";
         }
         if (const WeightedDefuzzifier * weightedDefuzzifier =
                 dynamic_cast<const WeightedDefuzzifier*> (defuzzifier)) {

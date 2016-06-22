@@ -103,7 +103,7 @@ namespace fl {
 
     std::map<std::string, std::string> Console::parse(int argc, const char* argv[]) {
         if ((argc - 1) % 2 != 0) {
-            throw fl::Exception("[option error] incomplete number of parameters [key value]", FL_AT);
+            throw Exception("[option error] incomplete number of parameters [key value]", FL_AT);
         }
         std::map<std::string, std::string> options;
         for (int i = 1; i < argc - 1; i += 2) {
@@ -131,7 +131,7 @@ namespace fl {
                     }
                 }
                 if (not isValid) {
-                    throw fl::Exception("[option error] option <" + it->first + "> not recognized", FL_AT);
+                    throw Exception("[option error] option <" + it->first + "> not recognized", FL_AT);
                 }
             }
         }
@@ -143,7 +143,7 @@ namespace fl {
 
         it = options.find(KW_DECIMALS);
         if (it != options.end()) {
-            fl::fuzzylite::setDecimals((int) fl::Op::toScalar(it->second));
+            fuzzylite::setDecimals((int) Op::toScalar(it->second));
         }
 
         std::string example;
@@ -162,7 +162,7 @@ namespace fl {
             } else if (example == "t" or example == "ts" or example == "takagi-sugeno") {
                 engine = takagiSugeno();
             } else {
-                throw fl::Exception("[option error] example <" + example + "> not available", FL_AT);
+                throw Exception("[option error] example <" + example + "> not available", FL_AT);
             }
             inputFormat = "fll";
             textEngine << FllExporter().toString(engine);
@@ -171,12 +171,12 @@ namespace fl {
         } else {
             it = options.find(KW_INPUT_FILE);
             if (it == options.end()) {
-                throw fl::Exception("[option error] no input file specified", FL_AT);
+                throw Exception("[option error] no input file specified", FL_AT);
             }
             std::string inputFilename = it->second;
             std::ifstream inputFile(inputFilename.c_str());
             if (not inputFile.is_open()) {
-                throw fl::Exception("[file error] file <" + inputFilename + "> could not be opened", FL_AT);
+                throw Exception("[file error] file <" + inputFilename + "> could not be opened", FL_AT);
             }
             std::string line;
             while (std::getline(inputFile, line)) {
@@ -192,7 +192,7 @@ namespace fl {
                 if (extensionIndex != std::string::npos) {
                     inputFormat = inputFilename.substr(extensionIndex + 1);
                 } else {
-                    throw fl::Exception("[format error] unspecified format of input file", FL_AT);
+                    throw Exception("[format error] unspecified format of input file", FL_AT);
                 }
             }
         }
@@ -212,7 +212,7 @@ namespace fl {
             if (extensionIndex != std::string::npos) {
                 outputFormat = outputFilename.substr(extensionIndex + 1);
             } else {
-                throw fl::Exception("[format error] unspecified format of output file", FL_AT);
+                throw Exception("[format error] unspecified format of output file", FL_AT);
             }
         }
 
@@ -222,7 +222,7 @@ namespace fl {
         } else {
             std::ofstream writer(outputFilename.c_str());
             if (not writer.is_open()) {
-                throw fl::Exception("[file error] file <" + outputFilename + "> could not be created", FL_AT);
+                throw Exception("[file error] file <" + outputFilename + "> could not be created", FL_AT);
             }
             process(textEngine.str(), writer, inputFormat, outputFormat, options);
             writer.flush();
@@ -244,7 +244,7 @@ namespace fl {
         } else if ("fis" == inputFormat) {
             importer.reset(new FisImporter);
         } else {
-            throw fl::Exception("[import error] format <" + inputFormat + "> "
+            throw Exception("[import error] format <" + inputFormat + "> "
                     "not supported", FL_AT);
         }
 
@@ -268,7 +268,7 @@ namespace fl {
             if ((it = options.find(KW_DATA_INPUT_FILE)) != options.end()) {
                 std::ifstream dataFile(it->second.c_str());
                 if (not dataFile.is_open()) {
-                    throw fl::Exception("[export error] file <" + it->second + "> could not be opened", FL_AT);
+                    throw Exception("[export error] file <" + it->second + "> could not be opened", FL_AT);
                 }
                 try {
                     fldExporter.write(engine.get(), writer, dataFile);
@@ -280,7 +280,7 @@ namespace fl {
 
             } else {
                 if ((it = options.find(KW_DATA_VALUES)) != options.end()) {
-                    int values = (int) fl::Op::toScalar(it->second);
+                    int values = (int) Op::toScalar(it->second);
                     FldExporter::ScopeOfValues scope = FldExporter::EachVariable;
                     if ((it = options.find(KW_DATA_VALUES_SCOPE)) != options.end()) {
                         if ("AllVariables" == it->second)
@@ -313,7 +313,7 @@ namespace fl {
                 exporter.reset(new CppExporter);
             } else if ("java" == outputFormat) {
                 exporter.reset(new JavaExporter);
-            } else throw fl::Exception("[export error] format <" + outputFormat + "> "
+            } else throw Exception("[export error] format <" + outputFormat + "> "
                     "not supported", FL_AT);
             writer << exporter->toString(engine.get());
         }
@@ -358,10 +358,10 @@ namespace fl {
             if (std::isspace(ch)) {
                 scalar value = engine->getInputVariable(inputValues.size())->getValue();
                 try {
-                    value = fl::Op::toScalar(inputValue.str());
+                    value = Op::toScalar(inputValue.str());
                 } catch (std::exception& ex) {
                     FL_IUNUSED(ex);
-                    buffer << "[" << fl::Op::str(value) << "]";
+                    buffer << "[" << Op::str(value) << "]";
                 }
                 buffer << space;
                 inputValue.str("");
@@ -402,7 +402,7 @@ namespace fl {
                         missingInputs.push_back(inputVariable->getValue());
                     }
                     inputValues.clear();
-                    buffer << fl::Op::join(missingInputs, space);
+                    buffer << Op::join(missingInputs, space);
                     if (not missingInputs.empty()) buffer << space;
                     buffer << "=" << space;
                     try {
@@ -413,7 +413,7 @@ namespace fl {
                             outputVariable->defuzzify();
                             outputValues.push_back(outputVariable->getValue());
                         }
-                        buffer << fl::Op::join(outputValues, space) << "\n>";
+                        buffer << Op::join(outputValues, space) << "\n>";
 
                     } catch (std::exception& ex) {
                         buffer << "#[Error: " << ex.what() << "]";
@@ -476,21 +476,21 @@ namespace fl {
     Engine* Console::takagiSugeno() {
         Engine* engine = new Engine("approximation of sin(x)/x");
 
-        fl::InputVariable* inputX = new fl::InputVariable("inputX");
+        InputVariable* inputX = new InputVariable("inputX");
         inputX->setRange(0, 10);
-        inputX->addTerm(new fl::Triangle("NEAR_1", 0, 1, 2));
-        inputX->addTerm(new fl::Triangle("NEAR_2", 1, 2, 3));
-        inputX->addTerm(new fl::Triangle("NEAR_3", 2, 3, 4));
-        inputX->addTerm(new fl::Triangle("NEAR_4", 3, 4, 5));
-        inputX->addTerm(new fl::Triangle("NEAR_5", 4, 5, 6));
-        inputX->addTerm(new fl::Triangle("NEAR_6", 5, 6, 7));
-        inputX->addTerm(new fl::Triangle("NEAR_7", 6, 7, 8));
-        inputX->addTerm(new fl::Triangle("NEAR_8", 7, 8, 9));
-        inputX->addTerm(new fl::Triangle("NEAR_9", 8, 9, 10));
+        inputX->addTerm(new Triangle("NEAR_1", 0, 1, 2));
+        inputX->addTerm(new Triangle("NEAR_2", 1, 2, 3));
+        inputX->addTerm(new Triangle("NEAR_3", 2, 3, 4));
+        inputX->addTerm(new Triangle("NEAR_4", 3, 4, 5));
+        inputX->addTerm(new Triangle("NEAR_5", 4, 5, 6));
+        inputX->addTerm(new Triangle("NEAR_6", 5, 6, 7));
+        inputX->addTerm(new Triangle("NEAR_7", 6, 7, 8));
+        inputX->addTerm(new Triangle("NEAR_8", 7, 8, 9));
+        inputX->addTerm(new Triangle("NEAR_9", 8, 9, 10));
         engine->addInputVariable(inputX);
 
 
-        fl::OutputVariable* outputFx = new fl::OutputVariable("outputFx");
+        OutputVariable* outputFx = new OutputVariable("outputFx");
         outputFx->setRange(-1, 1);
         outputFx->setDefaultValue(fl::nan);
         outputFx->setLockPreviousValue(true); //To use its value with diffFx
@@ -505,29 +505,29 @@ namespace fl {
         outputFx->addTerm(new Constant("f9", 0.04));
         engine->addOutputVariable(outputFx);
 
-        fl::OutputVariable* trueFx = new fl::OutputVariable("trueFx");
+        OutputVariable* trueFx = new OutputVariable("trueFx");
         trueFx->setRange(fl::nan, fl::nan);
         trueFx->setLockPreviousValue(true); //To use its value with diffFx
-        trueFx->addTerm(fl::Function::create("fx", "sin(inputX)/inputX", engine));
+        trueFx->addTerm(Function::create("fx", "sin(inputX)/inputX", engine));
         engine->addOutputVariable(trueFx);
 
-        fl::OutputVariable* diffFx = new fl::OutputVariable("diffFx");
-        diffFx->addTerm(fl::Function::create("diff", "fabs(outputFx-trueFx)", engine));
+        OutputVariable* diffFx = new OutputVariable("diffFx");
+        diffFx->addTerm(Function::create("diff", "fabs(outputFx-trueFx)", engine));
         diffFx->setRange(fl::nan, fl::nan);
         //        diffFx->setLockValidOutput(true); //To use in input diffPreviousFx
         engine->addOutputVariable(diffFx);
 
-        fl::RuleBlock* block = new fl::RuleBlock();
-        block->addRule(fl::Rule::parse("if inputX is NEAR_1 then outputFx is f1", engine));
-        block->addRule(fl::Rule::parse("if inputX is NEAR_2 then outputFx is f2", engine));
-        block->addRule(fl::Rule::parse("if inputX is NEAR_3 then outputFx is f3", engine));
-        block->addRule(fl::Rule::parse("if inputX is NEAR_4 then outputFx is f4", engine));
-        block->addRule(fl::Rule::parse("if inputX is NEAR_5 then outputFx is f5", engine));
-        block->addRule(fl::Rule::parse("if inputX is NEAR_6 then outputFx is f6", engine));
-        block->addRule(fl::Rule::parse("if inputX is NEAR_7 then outputFx is f7", engine));
-        block->addRule(fl::Rule::parse("if inputX is NEAR_8 then outputFx is f8", engine));
-        block->addRule(fl::Rule::parse("if inputX is NEAR_9 then outputFx is f9", engine));
-        block->addRule(fl::Rule::parse("if inputX is any then trueFx is fx and diffFx is diff", engine));
+        RuleBlock* block = new RuleBlock();
+        block->addRule(Rule::parse("if inputX is NEAR_1 then outputFx is f1", engine));
+        block->addRule(Rule::parse("if inputX is NEAR_2 then outputFx is f2", engine));
+        block->addRule(Rule::parse("if inputX is NEAR_3 then outputFx is f3", engine));
+        block->addRule(Rule::parse("if inputX is NEAR_4 then outputFx is f4", engine));
+        block->addRule(Rule::parse("if inputX is NEAR_5 then outputFx is f5", engine));
+        block->addRule(Rule::parse("if inputX is NEAR_6 then outputFx is f6", engine));
+        block->addRule(Rule::parse("if inputX is NEAR_7 then outputFx is f7", engine));
+        block->addRule(Rule::parse("if inputX is NEAR_8 then outputFx is f8", engine));
+        block->addRule(Rule::parse("if inputX is NEAR_9 then outputFx is f9", engine));
+        block->addRule(Rule::parse("if inputX is any then trueFx is fx and diffFx is diff", engine));
         engine->addRuleBlock(block);
 
         engine->configure("", "", "AlgebraicProduct", "AlgebraicSum", "WeightedAverage");
@@ -581,7 +581,7 @@ namespace fl {
         if (from == "fll") importer.reset(new FllImporter);
         else if (from == "fis") importer.reset(new FisImporter);
         else if (from == "fcl") importer.reset(new FclImporter);
-        else throw fl::Exception("[examples error] unrecognized format <" + from + "> to import", FL_AT);
+        else throw Exception("[examples error] unrecognized format <" + from + "> to import", FL_AT);
 
         FL_unique_ptr<Exporter> exporter;
         if (to == "fll") exporter.reset(new FllExporter);
@@ -591,7 +591,7 @@ namespace fl {
         else if (to == "cpp") exporter.reset(new CppExporter);
         else if (to == "java") exporter.reset(new JavaExporter);
         else if (to == "R") exporter.reset(new RScriptExporter());
-        else throw fl::Exception("[examples error] unrecognized format <" + to + "> to export", FL_AT);
+        else throw Exception("[examples error] unrecognized format <" + to + "> to export", FL_AT);
 
         std::vector<std::pair<Exporter*, Importer*> > tests;
         tests.push_back(std::pair<Exporter*, Importer*>(new FllExporter, new FllImporter));
@@ -611,7 +611,7 @@ namespace fl {
                     ss << line << "\n";
                 }
                 source.close();
-            } else throw fl::Exception("[examples error] file not found: " + input, FL_AT);
+            } else throw Exception("[examples error] file not found: " + input, FL_AT);
 
             FL_unique_ptr<Engine> engine(importer->fromString(ss.str()));
 
@@ -635,7 +635,7 @@ namespace fl {
                     msg << "<Engine A>\n" << out << "\n\n" <<
                             "================================\n\n" <<
                             "<Engine B>\n" << out_copy;
-                    throw fl::Exception(msg.str(), FL_AT);
+                    throw Exception(msg.str(), FL_AT);
                 }
             }
 

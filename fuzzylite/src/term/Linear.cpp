@@ -38,7 +38,7 @@ namespace fl {
 
     scalar Linear::membership(scalar x) const {
         FL_IUNUSED(x);
-        if (not _engine) throw fl::Exception("[linear error] term <" + getName() + "> "
+        if (not _engine) throw Exception("[linear error] term <" + getName() + "> "
                 "is missing a reference to the engine", FL_AT);
 
         scalar result = 0.0;

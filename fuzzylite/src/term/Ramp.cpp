@@ -58,7 +58,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
                     << " requires <" << required << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         setStart(Op::toScalar(values.at(0)));
         setEnd(Op::toScalar(values.at(1)));
@@ -84,9 +84,9 @@ namespace fl {
 
     Ramp::Direction Ramp::direction() const {
         scalar range = this->_end - this->_start;
-        if (not fl::Op::isFinite(range) or fl::Op::isEq(range, 0.0)) return Zero;
+        if (not Op::isFinite(range) or Op::isEq(range, 0.0)) return Zero;
 
-        if (fl::Op::isGt(range, 0.0)) return Positive;
+        if (Op::isGt(range, 0.0)) return Positive;
 
         return Negative;
     }

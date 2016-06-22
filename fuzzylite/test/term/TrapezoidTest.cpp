@@ -30,24 +30,24 @@ namespace fl {
         Trapezoid trapezoid("A", -fl::inf, 0, 1, 2);
         Ramp ramp("a", 2, 1);
         //(-inf, inf)
-        for (scalar i = -10.0; fl::Op::isLE(i, 10.0); i += .2) {
+        for (scalar i = -10.0; Op::isLE(i, 10.0); i += .2) {
             FL_DBG("A(" << i << ")=" << trapezoid.membership(i));
             FL_DBG("a(" << i << ")=" << ramp.membership(i));
-            REQUIRE(fl::Op::isEq(trapezoid.membership(i), ramp.membership(i)));
+            REQUIRE(Op::isEq(trapezoid.membership(i), ramp.membership(i)));
         }
-        REQUIRE(fl::Op::isEq(trapezoid.membership(-fl::inf), 1.0));
-        REQUIRE(fl::Op::isEq(trapezoid.membership(fl::inf), 0.0));
+        REQUIRE(Op::isEq(trapezoid.membership(-fl::inf), 1.0));
+        REQUIRE(Op::isEq(trapezoid.membership(fl::inf), 0.0));
     }
 
     TEST_CASE("trapezoid can be open ended with +infinity", "[term][trapezoid]") {
         Trapezoid trapezoid("A", 0, 1, 2, fl::inf);
         Ramp ramp("a", 0, 1);
         //(-inf, inf)
-        for (scalar i = -10.0; fl::Op::isLE(i, 10.0); i += .2) {
-            REQUIRE(fl::Op::isEq(trapezoid.membership(i), ramp.membership(i)));
+        for (scalar i = -10.0; Op::isLE(i, 10.0); i += .2) {
+            REQUIRE(Op::isEq(trapezoid.membership(i), ramp.membership(i)));
         }
-        REQUIRE(fl::Op::isEq(trapezoid.membership(fl::inf), 1.0));
-        REQUIRE(fl::Op::isEq(trapezoid.membership(-fl::inf), 0.0));
+        REQUIRE(Op::isEq(trapezoid.membership(fl::inf), 1.0));
+        REQUIRE(Op::isEq(trapezoid.membership(-fl::inf), 0.0));
     }
 
 }

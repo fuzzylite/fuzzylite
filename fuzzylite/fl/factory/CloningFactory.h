@@ -197,7 +197,7 @@ namespace fl {
             if (it->second) return it->second->clone();
             return fl::null;
         }
-        throw fl::Exception("[cloning error] " + _name + " object by name <" + key + "> not registered", FL_AT);
+        throw Exception("[cloning error] " + _name + " object by name <" + key + "> not registered", FL_AT);
     }
 
     template<typename T>

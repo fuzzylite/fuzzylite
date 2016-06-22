@@ -76,7 +76,7 @@ namespace fl {
 
     void Variable::setValue(scalar value) {
         this->_value = _lockValueInRange
-                ? fl::Op::bound(value, _minimum, _maximum)
+                ? Op::bound(value, _minimum, _maximum)
                 : value;
     }
 
@@ -136,12 +136,12 @@ namespace fl {
                 //ignore
             }
             if (i == 0) {
-                ss << fl::Op::str(fx);
+                ss << Op::str(fx);
             } else {
-                if (fl::Op::isNaN(fx) or fl::Op::isGE(fx, 0.0))
-                    ss << " + " << fl::Op::str(fx);
+                if (Op::isNaN(fx) or Op::isGE(fx, 0.0))
+                    ss << " + " << Op::str(fx);
                 else
-                    ss << " - " << fl::Op::str(std::fabs(fx));
+                    ss << " - " << Op::str(std::fabs(fx));
             }
             ss << "/" << term->getName();
         }
@@ -159,7 +159,7 @@ namespace fl {
             } catch (...) {
                 //ignore
             }
-            if (fl::Op::isGt(y, ymax)) {
+            if (Op::isGt(y, ymax)) {
                 ymax = y;
                 result = term;
             }
@@ -233,7 +233,7 @@ namespace fl {
                 return terms().at(i);
             }
         }
-        throw fl::Exception("[variable error] term <" + name + "> "
+        throw Exception("[variable error] term <" + name + "> "
                 "not found in variable <" + getName() + ">", FL_AT);
     }
 

@@ -56,7 +56,7 @@ namespace fl {
             if (line.empty()) continue;
             std::size_t colon = line.find_first_of(':');
             if (colon == std::string::npos) {
-                throw fl::Exception("[import error] expected a colon here: " + line, FL_AT);
+                throw Exception("[import error] expected a colon here: " + line, FL_AT);
             }
             std::string key = Op::trim(line.substr(0, colon));
             std::string value = Op::trim(line.substr(colon + 1));
@@ -70,7 +70,7 @@ namespace fl {
                 block.clear(); //clear error flags
                 tag = key;
             } else if (tag.empty()) {
-                throw fl::Exception("[import error] unexpected block: " + line, FL_AT);
+                throw Exception("[import error] unexpected block: " + line, FL_AT);
             }
             block.push_back(key + ":" + value);
         }
@@ -88,7 +88,7 @@ namespace fl {
         } else if ("RuleBlock" == tag) {
             processRuleBlock(block, engine);
         } else {
-            throw fl::Exception("[import error] block tag <" + tag + "> not recognized", FL_AT);
+            throw Exception("[import error] block tag <" + tag + "> not recognized", FL_AT);
         }
     }
 
@@ -110,7 +110,7 @@ namespace fl {
             } else if ("term" == keyValue.first) {
                 inputVariable->addTerm(parseTerm(keyValue.second, engine));
             } else {
-                throw fl::Exception("[import error] key <" + keyValue.first + "> not "
+                throw Exception("[import error] key <" + keyValue.first + "> not "
                         "recognized in pair <" + keyValue.first + ":" + keyValue.second + ">", FL_AT);
             }
         }
@@ -150,7 +150,7 @@ namespace fl {
             } else if ("term" == keyValue.first) {
                 outputVariable->addTerm(parseTerm(keyValue.second, engine));
             } else {
-                throw fl::Exception("[import error] key <" + keyValue.first + "> not "
+                throw Exception("[import error] key <" + keyValue.first + "> not "
                         "recognized in pair <" + keyValue.first + ":" + keyValue.second + ">", FL_AT);
             }
         }
@@ -199,7 +199,7 @@ namespace fl {
                 }
                 ruleBlock->addRule(rule);
             } else {
-                throw fl::Exception("[import error] key <" + keyValue.first + "> not "
+                throw Exception("[import error] key <" + keyValue.first + "> not "
                         "recognized in pair <" + keyValue.first + ":" + keyValue.second + ">", FL_AT);
             }
         }
@@ -212,7 +212,7 @@ namespace fl {
         //MEDIUM Triangle 0.500 1.000 1.500
 
         if (tokens.size() < 2) {
-            throw fl::Exception("[syntax error] expected a term in format <name class parameters>, "
+            throw Exception("[syntax error] expected a term in format <name class parameters>, "
                     "but found <" + text + ">", FL_AT);
         }
         FL_unique_ptr<Term> term;
@@ -241,7 +241,7 @@ namespace fl {
     Activation* FllImporter::parseActivation(const std::string& name) const {
         if (name == "none") return FactoryManager::instance()->activation()->constructObject("");
         std::vector<std::string> tokens = Op::split(name, " ");
-        fl::Activation* result = FactoryManager::instance()->activation()->constructObject(tokens.front());
+        Activation* result = FactoryManager::instance()->activation()->constructObject(tokens.front());
 
         std::ostringstream parameters;
         for (std::size_t i = 1; i < tokens.size(); ++i) {
@@ -266,7 +266,7 @@ namespace fl {
                 if (parameter == "Automatic") type = WeightedDefuzzifier::Automatic;
                 else if (parameter == "TakagiSugeno") type = WeightedDefuzzifier::TakagiSugeno;
                 else if (parameter == "Tsukamoto") type = WeightedDefuzzifier::Tsukamoto;
-                else throw fl::Exception("[syntax error] unknown parameter of WeightedDefuzzifier <" + parameter + ">", FL_AT);
+                else throw Exception("[syntax error] unknown parameter of WeightedDefuzzifier <" + parameter + ">", FL_AT);
                 weightedDefuzzifier->setType(type);
             }
         }
@@ -281,7 +281,7 @@ namespace fl {
     bool FllImporter::parseBoolean(const std::string& boolean) const {
         if ("true" == boolean) return true;
         if ("false" == boolean) return false;
-        throw fl::Exception("[syntax error] expected boolean <true|false>, "
+        throw Exception("[syntax error] expected boolean <true|false>, "
                 "but found <" + boolean + ">", FL_AT);
     }
 
@@ -292,7 +292,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected pair in the form "
                     "<key" << separator << "value>, but found <" << text << ">";
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         std::pair<std::string, std::string> result;
         result.first = text.substr(0, half);

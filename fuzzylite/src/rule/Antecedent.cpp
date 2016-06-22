@@ -71,7 +71,7 @@ namespace fl {
     scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction,
             const Expression* node) const {
         if (not isLoaded()) {
-            throw fl::Exception("[antecedent error] antecedent <" + getText() + "> is not loaded", FL_AT);
+            throw Exception("[antecedent error] antecedent <" + getText() + "> is not loaded", FL_AT);
         }
         if (node->type() == Expression::Proposition) {
             const Proposition* proposition = static_cast<const Proposition*> (node);
@@ -112,10 +112,10 @@ namespace fl {
             if (not (fuzzyOperator->left and fuzzyOperator->right)) {
                 std::ostringstream ex;
                 ex << "[syntax error] left and right operands must exist";
-                throw fl::Exception(ex.str(), FL_AT);
+                throw Exception(ex.str(), FL_AT);
             }
             if (fuzzyOperator->name == Rule::andKeyword()) {
-                if (not conjunction) throw fl::Exception("[conjunction error] "
+                if (not conjunction) throw Exception("[conjunction error] "
                         "the following rule requires a conjunction operator:\n" + _text, FL_AT);
                 return conjunction->compute(
                         this->activationDegree(conjunction, disjunction, fuzzyOperator->left),
@@ -123,7 +123,7 @@ namespace fl {
             }
 
             if (fuzzyOperator->name == Rule::orKeyword()) {
-                if (not disjunction) throw fl::Exception("[disjunction error] "
+                if (not disjunction) throw Exception("[disjunction error] "
                         "the following rule requires a disjunction operator:\n" + _text, FL_AT);
                 return disjunction->compute(
                         this->activationDegree(conjunction, disjunction, fuzzyOperator->left),
@@ -131,14 +131,14 @@ namespace fl {
             }
             std::ostringstream ex;
             ex << "[syntax error] operator <" << fuzzyOperator->name << "> not recognized";
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
 
         } else {
             std::ostringstream ss;
             ss << "[antecedent error] expected a Proposition or Operator, but found <";
             if (node) ss << node->toString();
             ss << ">";
-            throw fl::Exception(ss.str(), FL_AT);
+            throw Exception(ss.str(), FL_AT);
         }
 
     }
@@ -155,8 +155,8 @@ namespace fl {
         FL_DBG("Antecedent: " << antecedent);
         unload();
         setText(antecedent);
-        if (fl::Op::trim(antecedent).empty()) {
-            throw fl::Exception("[syntax error] antecedent is empty", FL_AT);
+        if (Op::trim(antecedent).empty()) {
+            throw Exception("[syntax error] antecedent is empty", FL_AT);
         }
         /*
          Builds an proposition tree from the antecedent of a fuzzy rule.
@@ -242,7 +242,7 @@ namespace fl {
                             std::ostringstream ex;
                             ex << "[syntax error] logical operator <" << token << "> expects two operands,"
                                     << "but found <" << expressionStack.size() << "> in antecedent";
-                            throw fl::Exception(ex.str(), FL_AT);
+                            throw Exception(ex.str(), FL_AT);
                         }
                         Operator* fuzzyOperator = new Operator;
                         fuzzyOperator->name = token;
@@ -264,33 +264,33 @@ namespace fl {
                 if ((state bitand S_VARIABLE) or (state bitand S_AND_OR)) {
                     std::ostringstream ex;
                     ex << "[syntax error] antecedent expected variable or logical operator, but found <" << token << ">";
-                    throw fl::Exception(ex.str(), FL_AT);
+                    throw Exception(ex.str(), FL_AT);
                 }
                 if (state bitand S_IS) {
                     std::ostringstream ex;
                     ex << "[syntax error] antecedent expected keyword <" << Rule::isKeyword() << ">, but found <" << token << ">";
-                    throw fl::Exception(ex.str(), FL_AT);
+                    throw Exception(ex.str(), FL_AT);
                 }
                 if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
                     std::ostringstream ex;
                     ex << "[syntax error] antecedent expected hedge or term, but found <" << token << ">";
-                    throw fl::Exception(ex.str(), FL_AT);
+                    throw Exception(ex.str(), FL_AT);
                 }
                 std::ostringstream ex;
                 ex << "[syntax error] unexpected token <" << token << "> in antecedent";
-                throw fl::Exception(ex.str(), FL_AT);
+                throw Exception(ex.str(), FL_AT);
             }
 
             if (not ((state bitand S_VARIABLE) or (state bitand S_AND_OR))) { //only acceptable final state
                 if (state bitand S_IS) {
                     std::ostringstream ex;
                     ex << "[syntax error] antecedent expected keyword <" << Rule::isKeyword() << "> after <" << token << ">";
-                    throw fl::Exception(ex.str(), FL_AT);
+                    throw Exception(ex.str(), FL_AT);
                 }
                 if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
                     std::ostringstream ex;
                     ex << "[syntax error] antecedent expected hedge or term after <" << token << ">";
-                    throw fl::Exception(ex.str(), FL_AT);
+                    throw Exception(ex.str(), FL_AT);
                 }
             }
 
@@ -305,7 +305,7 @@ namespace fl {
                 std::ostringstream ex;
                 ex << "[syntax error] unable to parse the following expressions in antecedent <"
                         << Op::join(errors, " ") << ">";
-                throw fl::Exception(ex.str(), FL_AT);
+                throw Exception(ex.str(), FL_AT);
             }
         } catch (...) {
             for (std::size_t i = 0; i < expressionStack.size(); ++i) {
@@ -323,7 +323,7 @@ namespace fl {
 
     std::string Antecedent::toPrefix(const Expression* node) const {
         if (not isLoaded()) {
-            throw fl::Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
+            throw Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
         }
         if (not node) node = getExpression();
 
@@ -343,7 +343,7 @@ namespace fl {
 
     std::string Antecedent::toInfix(const Expression* node) const {
         if (not isLoaded()) {
-            throw fl::Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
+            throw Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
         }
         if (not node) node = getExpression();
         if (dynamic_cast<const Proposition*> (node)) {
@@ -362,7 +362,7 @@ namespace fl {
 
     std::string Antecedent::toPostfix(const Expression* node) const {
         if (not isLoaded()) {
-            throw fl::Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
+            throw Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
         }
         if (not node) node = getExpression();
         if (dynamic_cast<const Proposition*> (node)) {

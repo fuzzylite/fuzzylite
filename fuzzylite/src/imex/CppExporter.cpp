@@ -80,7 +80,7 @@ namespace fl {
     std::string CppExporter::toString(const InputVariable* inputVariable, const Engine* engine) const {
         std::string name;
         if (isUsingVariableNames()) {
-            name = fl::Op::validName(inputVariable->getName());
+            name = Op::validName(inputVariable->getName());
         } else {
             name = "inputVariable";
             if (engine->numberOfInputVariables() > 1) {
@@ -108,7 +108,7 @@ namespace fl {
     std::string CppExporter::toString(const OutputVariable* outputVariable, const Engine* engine) const {
         std::string name;
         if (isUsingVariableNames()) {
-            name = fl::Op::validName(outputVariable->getName());
+            name = Op::validName(outputVariable->getName());
         } else {
             name = "outputVariable";
             if (engine->numberOfOutputVariables() > 1) {
@@ -171,12 +171,12 @@ namespace fl {
     }
 
     std::string CppExporter::toString(scalar value) const {
-        if (fl::Op::isNaN(value))
+        if (Op::isNaN(value))
             return "fl::nan";
-        if (fl::Op::isInf(value)) {
+        if (Op::isInf(value)) {
             return (value > 0 ? "fl::inf" : "-fl::inf");
         }
-        return fl::Op::str(value);
+        return Op::str(value);
     }
 
     std::string CppExporter::toString(const Term* term) const {
@@ -186,7 +186,7 @@ namespace fl {
             std::ostringstream ss;
             ss << fl(term->className()) << "::create(\"" << term->getName() << "\", "
                     << discrete->xy().size() * 2 << ", "
-                    << fl::Op::join(Discrete::toVector(discrete->xy()), ", ") << ")";
+                    << Op::join(Discrete::toVector(discrete->xy()), ", ") << ")";
             return ss.str();
         }
 
@@ -200,7 +200,7 @@ namespace fl {
         if (const Linear * linear = dynamic_cast<const Linear*> (term)) {
             std::ostringstream ss;
             ss << fl(term->className()) << "::create(\"" << term->getName() << "\", "
-                    << "engine, " << fl::Op::join(linear->coefficients(), ", ") << ")";
+                    << "engine, " << Op::join(linear->coefficients(), ", ") << ")";
             return ss.str();
         }
 

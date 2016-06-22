@@ -32,7 +32,7 @@ namespace fl {
     Engine* Importer::fromFile(const std::string& path) const {
         std::ifstream reader(path.c_str());
         if (not reader.is_open()) {
-            throw fl::Exception("[file error] file <" + path + "> could not be opened", FL_AT);
+            throw Exception("[file error] file <" + path + "> could not be opened", FL_AT);
         }
         std::ostringstream textEngine;
         std::string line;

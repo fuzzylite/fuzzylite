@@ -20,7 +20,7 @@ namespace fl {
 
     Triangle::Triangle(const std::string& name, scalar vertexA, scalar vertexB, scalar vertexC, scalar height)
     : Term(name, height), _vertexA(vertexA), _vertexB(vertexB), _vertexC(vertexC) {
-        if (fl::Op::isNaN(vertexC)) {
+        if (Op::isNaN(vertexC)) {
             this->_vertexC = vertexB;
             this->_vertexB = 0.5 * (vertexA + vertexB);
         }
@@ -64,7 +64,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
                     << " requires <" << required << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         setVertexA(Op::toScalar(values.at(0)));
         setVertexB(Op::toScalar(values.at(1)));

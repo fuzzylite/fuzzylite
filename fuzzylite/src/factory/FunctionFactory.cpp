@@ -34,9 +34,9 @@ namespace fl {
         int p = 100;
         //First order: not, negate:
         registerObject("!", new Function::Element("!", "Logical NOT",
-                Function::Element::Operator, &(fl::Op::logicalNot), p, 1)); //logical not
+                Function::Element::Operator, &(Op::logicalNot), p, 1)); //logical not
         registerObject("~", new Function::Element("~", "Negation",
-                Function::Element::Operator, &(fl::Op::negate), p, 1)); // ~ negates a number
+                Function::Element::Operator, &(Op::negate), p, 1)); // ~ negates a number
 
         p -= 10;
         //Second order: power
@@ -46,47 +46,47 @@ namespace fl {
         p -= 10;
         //Third order: multiplication, division, modulo
         registerObject("*", new Function::Element("*", "Multiplication",
-                Function::Element::Operator, &(fl::Op::multiply), p));
+                Function::Element::Operator, &(Op::multiply), p));
         registerObject("/", new Function::Element("/", "Division",
-                Function::Element::Operator, &(fl::Op::divide), p));
+                Function::Element::Operator, &(Op::divide), p));
         registerObject("%", new Function::Element("%", "Modulo",
-                Function::Element::Operator, &(fl::Op::modulo), p));
+                Function::Element::Operator, &(Op::modulo), p));
 
         p -= 10;
         //Fourth order: addition, subtraction
         registerObject("+", new Function::Element("+", "Addition",
-                Function::Element::Operator, &(fl::Op::add), p));
+                Function::Element::Operator, &(Op::add), p));
         registerObject("-", new Function::Element("-", "Subtraction",
-                Function::Element::Operator, &(fl::Op::subtract), p));
+                Function::Element::Operator, &(Op::subtract), p));
 
         //Fifth order: logical and, logical or
         p -= 10; //Logical AND
-        registerObject(fl::Rule::andKeyword(), new Function::Element(fl::Rule::andKeyword(), "Logical AND",
-                Function::Element::Operator, &(fl::Op::logicalAnd), p));
+        registerObject(Rule::andKeyword(), new Function::Element(Rule::andKeyword(), "Logical AND",
+                Function::Element::Operator, &(Op::logicalAnd), p));
         p -= 10; //Logical OR
-        registerObject(fl::Rule::orKeyword(), new Function::Element(fl::Rule::orKeyword(), "Logical OR",
-                Function::Element::Operator, &(fl::Op::logicalOr), p));
+        registerObject(Rule::orKeyword(), new Function::Element(Rule::orKeyword(), "Logical OR",
+                Function::Element::Operator, &(Op::logicalOr), p));
     }
 
     void FunctionFactory::registerFunctions() {
         //FUNCTIONS
         registerObject("gt", new Function::Element("gt", "Greater than (>)",
-                Function::Element::Function, &(fl::Op::gt)));
+                Function::Element::Function, &(Op::gt)));
         registerObject("ge", new Function::Element("ge", "Greater than or equal to (>=)",
-                Function::Element::Function, &(fl::Op::ge)));
+                Function::Element::Function, &(Op::ge)));
         registerObject("eq", new Function::Element("eq", "Equal to (==)",
-                Function::Element::Function, &(fl::Op::eq)));
+                Function::Element::Function, &(Op::eq)));
         registerObject("neq", new Function::Element("neq", "Not equal to (!=)",
-                Function::Element::Function, &(fl::Op::neq)));
+                Function::Element::Function, &(Op::neq)));
         registerObject("le", new Function::Element("le", "Less than or equal to (<=)",
-                Function::Element::Function, &(fl::Op::le)));
+                Function::Element::Function, &(Op::le)));
         registerObject("lt", new Function::Element("lt", "Less than (<)",
-                Function::Element::Function, &(fl::Op::lt)));
+                Function::Element::Function, &(Op::lt)));
 
         registerObject("min", new Function::Element("min", "Minimum",
-                Function::Element::Function, &(fl::Op::min)));
+                Function::Element::Function, &(Op::min)));
         registerObject("max", new Function::Element("max", "Maximum",
-                Function::Element::Function, &(fl::Op::max)));
+                Function::Element::Function, &(Op::max)));
 
         registerObject("acos", new Function::Element("acos", "Inverse cosine",
                 Function::Element::Function, &(std::acos)));
@@ -112,7 +112,7 @@ namespace fl {
         registerObject("log10", new Function::Element("log10", "Common logarithm",
                 Function::Element::Function, &(std::log10)));
         registerObject("round", new Function::Element("round", "Round",
-                Function::Element::Function, &(fl::Op::round)));
+                Function::Element::Function, &(Op::round)));
         registerObject("sin", new Function::Element("sin", "Sine",
                 Function::Element::Function, &(std::sin)));
         registerObject("sinh", new Function::Element("sinh", "Hyperbolic sine",

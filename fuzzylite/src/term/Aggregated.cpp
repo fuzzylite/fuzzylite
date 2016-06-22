@@ -66,7 +66,7 @@ namespace fl {
     scalar Aggregated::membership(scalar x) const {
         if (FL_IS_NAN(x)) return fl::nan;
         if (not (_terms.empty() or _aggregation.get())) { //Exception for IntegralDefuzzifiers
-            throw fl::Exception("[aggregation error] "
+            throw Exception("[aggregation error] "
                     "aggregation operator needed to aggregate variable "
                     "<" + getName() + ">", FL_AT);
         }
@@ -93,10 +93,10 @@ namespace fl {
 
     const Activated* Aggregated::highestActivatedTerm() const {
         const Activated* maximumTerm = fl::null;
-        fl::scalar maximumActivation = -fl::inf;
+        scalar maximumActivation = -fl::inf;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             const Activated& activated = _terms.at(i);
-            if (fl::Op::isGt(activated.getDegree(), maximumActivation)) {
+            if (Op::isGt(activated.getDegree(), maximumActivation)) {
                 maximumActivation = activated.getDegree();
                 maximumTerm = &activated;
             }
@@ -133,10 +133,10 @@ namespace fl {
         if (getAggregation()) {
             ss << getName() << ": " << className() << " "
                     << exporter.toString(getAggregation()) << "["
-                    << fl::Op::join(aggregate, ",") << "]";
+                    << Op::join(aggregate, ",") << "]";
         } else {
             ss << getName() << ": " << className() << " " << "["
-                    << fl::Op::join(aggregate, "+") << "]"; //\u2295: (+)
+                    << Op::join(aggregate, "+") << "]"; //\u2295: (+)
         }
         return ss.str();
     }

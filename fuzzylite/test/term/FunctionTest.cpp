@@ -85,10 +85,10 @@ namespace fl {
         Function* f = new Function;
         std::string text = "2+2";
         f->load(text);
-        CHECK(fl::Op::isEq(f->membership(fl::nan), 4));
+        CHECK(Op::isEq(f->membership(fl::nan), 4));
         Function* clone = f->clone();
         delete f;
-        CHECK(fl::Op::isEq(clone->membership(fl::nan), 4));
+        CHECK(Op::isEq(clone->membership(fl::nan), 4));
         delete clone;
     }
 
@@ -96,10 +96,10 @@ namespace fl {
         Function* f = new Function;
         std::string text = "2+2";
         f->load(text);
-        CHECK(fl::Op::isEq(f->membership(fl::nan), 4));
+        CHECK(Op::isEq(f->membership(fl::nan), 4));
         Function* clone = new Function(*f);
         delete f;
-        CHECK(fl::Op::isEq(clone->membership(fl::nan), 4));
+        CHECK(Op::isEq(clone->membership(fl::nan), 4));
         delete clone;
     }
 

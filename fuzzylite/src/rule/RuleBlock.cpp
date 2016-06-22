@@ -102,7 +102,7 @@ namespace fl {
             }
         }
         if (throwException) {
-            fl::Exception exception("[ruleblock error] the following "
+            Exception exception("[ruleblock error] the following "
                     "rules could not be loaded:\n" + exceptions.str(), FL_AT);
             throw exception;
         }

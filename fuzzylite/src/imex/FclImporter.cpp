@@ -86,7 +86,7 @@ namespace fl {
                     std::ostringstream ex;
                     ex << "[syntax error] unknown block definition <" << firstToken
                             << "> " << " in line " << lineNumber << ": " << line;
-                    throw fl::Exception(ex.str(), FL_AT);
+                    throw Exception(ex.str(), FL_AT);
                 }
                 currentTag = tagFinder->first;
                 closingTag = tagFinder->second;
@@ -106,7 +106,7 @@ namespace fl {
                     std::ostringstream ex;
                     ex << "[syntax error] expected <" << closingTag << "> before <"
                             << firstToken << "> in line: " << line;
-                    throw fl::Exception(ex.str(), FL_AT);
+                    throw Exception(ex.str(), FL_AT);
                 } else {
                     block << line << "\n";
                 }
@@ -122,7 +122,7 @@ namespace fl {
             } else {
                 ex << "expected <" << closingTag << ">, but not found";
             }
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         return engine.release();
     }
@@ -139,7 +139,7 @@ namespace fl {
         } else {
             std::ostringstream ex;
             ex << "[syntax error] unexpected tag <" << tag << "> for block:\n" << block;
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
     }
 
@@ -153,9 +153,9 @@ namespace fl {
             if (token.size() != 2) {
                 std::ostringstream ex;
                 ex << "[syntax error] expected property of type (key : value) in line: " << line;
-                throw fl::Exception(ex.str(), FL_AT);
+                throw Exception(ex.str(), FL_AT);
             }
-            std::string name = fl::Op::validName(token.at(0));
+            std::string name = Op::validName(token.at(0));
             if (tag == "VAR_INPUT")
                 engine->addInputVariable(new InputVariable(name));
             else if (tag == "VAR_OUTPUT")
@@ -163,7 +163,7 @@ namespace fl {
             else {
                 std::ostringstream ex;
                 ex << "[syntax error] unexpected tag <" << tag << "> in line: " << line;
-                throw fl::Exception(ex.str(), FL_AT);
+                throw Exception(ex.str(), FL_AT);
             }
         }
     }
@@ -176,17 +176,17 @@ namespace fl {
         std::string name;
         std::size_t index = line.find_first_of(' ');
         if (index != std::string::npos) {
-            name = fl::Op::validName(line.substr(index + 1));
+            name = Op::validName(line.substr(index + 1));
         } else {
             std::ostringstream ex;
             ex << "[syntax error] expected name of input variable in line: " << line;
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         if (not engine->hasInputVariable(name)) {
             std::ostringstream ex;
             ex << "[syntax error] engine does not contain "
                     "input variable <" << name << "> from line: " << line;
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
 
         InputVariable* inputVariable = engine->getInputVariable(name);
@@ -203,9 +203,9 @@ namespace fl {
                     inputVariable->setEnabled(parseEnabled(line));
                 } else if (firstToken == "TERM") {
                     inputVariable->addTerm(parseTerm(line, engine));
-                } else throw fl::Exception("[syntax error] unexpected token "
+                } else throw Exception("[syntax error] unexpected token "
                         "<" + firstToken + ">" + line, FL_AT);
-            } catch (fl::Exception& ex) {
+            } catch (Exception& ex) {
                 ex.append("At line: <" + line + ">");
                 throw;
             }
@@ -221,23 +221,23 @@ namespace fl {
         std::string name;
         std::size_t index = line.find_first_of(' ');
         if (index != std::string::npos) {
-            name = fl::Op::validName(line.substr(index + 1));
+            name = Op::validName(line.substr(index + 1));
         } else {
             std::ostringstream ex;
             ex << "[syntax error] expected an output variable name in line: " << line;
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         if (not engine->hasOutputVariable(name)) {
             std::ostringstream ex;
             ex << "[syntax error] output variable <" << name
                     << "> not registered in engine. "
                     << "Line: " << line;
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
 
         OutputVariable* outputVariable = engine->getOutputVariable(name);
         while (std::getline(blockReader, line)) {
-            line = fl::Op::trim(line);
+            line = Op::trim(line);
             std::istringstream tokenizer(line);
             std::string firstToken;
             tokenizer >> firstToken;
@@ -266,7 +266,7 @@ namespace fl {
                 std::ostringstream ex;
                 ex << "[syntax error] unexpected token <" << firstToken <<
                         "> in line: " << line;
-                throw fl::Exception(ex.str(), FL_AT);
+                throw Exception(ex.str(), FL_AT);
             }
         }
 
@@ -297,7 +297,7 @@ namespace fl {
                 std::size_t ruleStart = line.find_first_of(':');
                 if (ruleStart == std::string::npos) ruleStart = 4; // "RULE".size()
                 std::string ruleText = line.substr(ruleStart + 1);
-                ruleText = fl::Op::trim(ruleText);
+                ruleText = Op::trim(ruleText);
                 Rule* rule = new Rule(ruleText);
                 try {
                     rule->load(engine);
@@ -309,7 +309,7 @@ namespace fl {
                 std::ostringstream ex;
                 ex << "[syntax error] keyword <" << firstToken
                         << "> not recognized in line: " << line;
-                throw fl::Exception(ex.str(), FL_AT);
+                throw Exception(ex.str(), FL_AT);
             }
         }
     }
@@ -320,7 +320,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key : value) in line: "
                     << line;
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         std::string name = Op::trim(token.at(1));
         std::string className = name;
@@ -342,7 +342,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key : value) in line: "
                     << line;
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         std::string name = Op::trim(token.at(1));
         std::string className = name;
@@ -396,7 +396,7 @@ namespace fl {
                 continue;
             }
             if (state == S_TERMCLASS) {
-                if (fl::Op::isNumeric(token)) {
+                if (Op::isNumeric(token)) {
                     termClass = Constant().className();
                     parameters.push_back(token);
                 } else if (token == "(") {
@@ -413,16 +413,16 @@ namespace fl {
                     continue;
                 }
                 if (token == ";") break;
-                parameters.push_back(fl::Op::trim(token));
+                parameters.push_back(Op::trim(token));
             }
         }
         if (state <= S_TERMCLASS)
-            throw fl::Exception("[syntax error] malformed term in line: " + line, FL_AT);
+            throw Exception("[syntax error] malformed term in line: " + line, FL_AT);
 
         FL_unique_ptr<Term> term;
         term.reset(FactoryManager::instance()->term()->constructObject(termClass));
         term->updateReference(engine);
-        term->setName(fl::Op::validName(name));
+        term->setName(Op::validName(name));
         std::string separator;
         if (not dynamic_cast<Function*> (term.get())) {
             separator = " ";
@@ -437,10 +437,10 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key : value) in "
                     << "line: " << line;
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
 
-        std::string name = fl::Op::trim(token.at(1));
+        std::string name = Op::trim(token.at(1));
         std::string className = name;
         if (name == "NONE") className = "";
         else if (name == "COG") className = Centroid().className();
@@ -460,7 +460,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key := value) in line: "
                     << line;
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
 
         std::vector<std::string> values = Op::split(token.at(1), "|");
@@ -469,24 +469,24 @@ namespace fl {
         std::string nc;
         if (values.size() == 2) nc = values.back();
 
-        defaultValue = fl::Op::trim(defaultValue);
-        nc = fl::Op::trim(nc);
+        defaultValue = Op::trim(defaultValue);
+        nc = Op::trim(nc);
 
         scalar value;
         try {
-            value = fl::Op::toScalar(defaultValue);
+            value = Op::toScalar(defaultValue);
         } catch (...) {
             std::ostringstream ex;
             ex << "[syntax error] expected numeric value, "
                     << "but found <" << defaultValue << "> in line: "
                     << line;
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
 
         bool lockPreviousOutput = (nc == "NC");
 
         if (not (lockPreviousOutput or nc.empty())) {
-            throw fl::Exception("[syntax error] expected keyword <NC>, "
+            throw Exception("[syntax error] expected keyword <NC>, "
                     "but found <" + nc + "> in line: " + line, FL_AT);
         }
 
@@ -499,7 +499,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key := value) in line: "
                     << line;
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
 
         std::string rangeToken = token.at(1);
@@ -516,7 +516,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type 'start .. end', "
                     << "but found <" << range.str() << "> in line: " << line;
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         scalar minimum, maximum;
         int index;
@@ -528,7 +528,7 @@ namespace fl {
             std::ostringstream ss;
             ss << "[syntax error] expected numeric value, but found <" << token.at(index) << "> in "
                     << "line: " << line;
-            throw fl::Exception(ss.str(), FL_AT);
+            throw Exception(ss.str(), FL_AT);
         }
         return std::pair<scalar, scalar>(minimum, maximum);
     }
@@ -536,32 +536,32 @@ namespace fl {
     std::pair<bool, bool> FclImporter::parseLocks(const std::string& line) const {
         std::size_t index = line.find_first_of(":");
         if (index == std::string::npos) {
-            throw fl::Exception("[syntax error] expected property of type "
+            throw Exception("[syntax error] expected property of type "
                     "'key : value' in line: " + line, FL_AT);
         }
         bool output, range;
         std::string value = line.substr(index + 1);
-        std::vector<std::string> flags = fl::Op::split(value, "|");
+        std::vector<std::string> flags = Op::split(value, "|");
         if (flags.size() == 1) {
-            std::string flag = fl::Op::trim(flags.front());
+            std::string flag = Op::trim(flags.front());
             output = (flag == "PREVIOUS");
             range = (flag == "RANGE");
             if (not (output or range)) {
-                throw fl::Exception("[syntax error] expected locking flags "
+                throw Exception("[syntax error] expected locking flags "
                         "<PREVIOUS|RANGE>, but found <" + flag + "> in line: " + line, FL_AT);
             }
         } else if (flags.size() == 2) {
-            std::string flagA = fl::Op::trim(flags.front());
-            std::string flagB = fl::Op::trim(flags.back());
+            std::string flagA = Op::trim(flags.front());
+            std::string flagB = Op::trim(flags.back());
             output = (flagA == "PREVIOUS" or flagB == "PREVIOUS");
             range = (flagA == "RANGE" or flagB == "RANGE");
             if (not (output and range)) {
-                throw fl::Exception("[syntax error] expected locking flags "
+                throw Exception("[syntax error] expected locking flags "
                         "<PREVIOUS|RANGE>, but found "
                         "<" + flags.front() + "|" + flags.back() + "> in line: " + line, FL_AT);
             }
         } else {
-            throw fl::Exception("[syntax error] expected locking flags "
+            throw Exception("[syntax error] expected locking flags "
                     "<PREVIOUS|RANGE>, but found "
                     "<" + value + "> in line: " + line, FL_AT);
         }
@@ -574,13 +574,13 @@ namespace fl {
             std::ostringstream ex;
             ex << "[syntax error] expected property of type (key : value) in "
                     << "line: " << line;
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
 
-        std::string boolean = fl::Op::trim(tokens.at(1));
+        std::string boolean = Op::trim(tokens.at(1));
         if (boolean == "TRUE") return true;
         if (boolean == "FALSE") return false;
-        throw fl::Exception("[syntax error] expected boolean <TRUE|FALSE>, but found <" + line + ">", FL_AT);
+        throw Exception("[syntax error] expected boolean <TRUE|FALSE>, but found <" + line + ">", FL_AT);
     }
 
     FclImporter* FclImporter::clone() const {

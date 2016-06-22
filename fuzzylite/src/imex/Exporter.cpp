@@ -32,7 +32,7 @@ namespace fl {
     void Exporter::toFile(const std::string& path, const Engine* engine) const {
         std::ofstream writer(path.c_str());
         if (not writer.is_open()) {
-            throw fl::Exception("[file error] file <" + path + "> could not be created", FL_AT);
+            throw Exception("[file error] file <" + path + "> could not be created", FL_AT);
         }
         writer << toString(engine) << std::endl;
         writer.close();

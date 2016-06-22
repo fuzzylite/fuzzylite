@@ -57,7 +57,7 @@ namespace fl {
 
     void Consequent::modify(scalar activationDegree, const TNorm* implication) {
         if (not isLoaded()) {
-            throw fl::Exception("[consequent error] consequent <" + getText() + "> is not loaded", FL_AT);
+            throw Exception("[consequent error] consequent <" + getText() + "> is not loaded", FL_AT);
         }
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
             Proposition* proposition = _conclusions.at(i);
@@ -96,8 +96,8 @@ namespace fl {
         unload();
         setText(consequent);
 
-        if (fl::Op::trim(consequent).empty()) {
-            throw fl::Exception("[syntax error] consequent is empty", FL_AT);
+        if (Op::trim(consequent).empty()) {
+            throw Exception("[syntax error] consequent is empty", FL_AT);
         }
 
         /**
@@ -168,19 +168,19 @@ namespace fl {
                 if (state bitand S_VARIABLE) {
                     std::ostringstream ex;
                     ex << "[syntax error] consequent expected output variable, but found <" << token << ">";
-                    throw fl::Exception(ex.str(), FL_AT);
+                    throw Exception(ex.str(), FL_AT);
                 }
                 if (state bitand S_IS) {
                     std::ostringstream ex;
                     ex << "[syntax error] consequent expected keyword <" << Rule::isKeyword() << ">, "
                             "but found <" << token << ">";
-                    throw fl::Exception(ex.str(), FL_AT);
+                    throw Exception(ex.str(), FL_AT);
                 }
 
                 if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
                     std::ostringstream ex;
                     ex << "[syntax error] consequent expected hedge or term, but found <" << token << ">";
-                    throw fl::Exception(ex.str(), FL_AT);
+                    throw Exception(ex.str(), FL_AT);
                 }
 
                 if ((state bitand S_AND) or (state bitand S_WITH)) {
@@ -188,30 +188,30 @@ namespace fl {
                     ex << "[syntax error] consequent expected operator <" << Rule::andKeyword() << "> "
                             << "or keyword <" << Rule::withKeyword() << ">, "
                             << "but found <" << token << ">";
-                    throw fl::Exception(ex.str(), FL_AT);
+                    throw Exception(ex.str(), FL_AT);
                 }
 
                 std::ostringstream ex;
                 ex << "[syntax error] unexpected token <" << token << "> in consequent";
-                throw fl::Exception(ex.str(), FL_AT);
+                throw Exception(ex.str(), FL_AT);
             }
 
             if (not ((state bitand S_AND) or (state bitand S_WITH))) { //only acceptable final state
                 if (state bitand S_VARIABLE) {
                     std::ostringstream ex;
                     ex << "[syntax error] consequent expected output variable after <" << token << ">";
-                    throw fl::Exception(ex.str(), FL_AT);
+                    throw Exception(ex.str(), FL_AT);
                 }
                 if (state bitand S_IS) {
                     std::ostringstream ex;
                     ex << "[syntax error] consequent expected keyword <" << Rule::isKeyword() << "> "
                             "after <" << token << ">";
-                    throw fl::Exception(ex.str(), FL_AT);
+                    throw Exception(ex.str(), FL_AT);
                 }
                 if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
                     std::ostringstream ex;
                     ex << "[syntax error] consequent expected hedge or term after <" << token << ">";
-                    throw fl::Exception(ex.str(), FL_AT);
+                    throw Exception(ex.str(), FL_AT);
                 }
             }
         } catch (...) {

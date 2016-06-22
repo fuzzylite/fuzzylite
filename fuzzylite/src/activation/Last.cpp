@@ -50,7 +50,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[configuration error] activation <" << className() << ">"
                     << " requires <" << required << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         setNumberOfRules((int) Op::toScalar(values.at(0)));
         setThreshold(Op::toScalar(values.at(1)));

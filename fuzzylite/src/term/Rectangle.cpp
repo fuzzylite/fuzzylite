@@ -31,7 +31,7 @@ namespace fl {
 
     scalar Rectangle::membership(scalar x) const {
         if (FL_IS_NAN(x)) return fl::nan;
-        if (fl::Op::isLt(x, _start) or fl::Op::isGt(x, _end))
+        if (Op::isLt(x, _start) or Op::isGt(x, _end))
             return Term::_height * 0.0;
         return Term::_height * 1.0;
     }
@@ -49,7 +49,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
                     << " requires <" << required << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         setStart(Op::toScalar(values.at(0)));
         setEnd(Op::toScalar(values.at(1)));

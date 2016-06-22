@@ -92,7 +92,7 @@ namespace fl {
     scalar WeightedDefuzzifier::tsukamoto(const Term* monotonic, scalar activationDegree,
             scalar minimum, scalar maximum) const {
         if (not monotonic) {
-            throw fl::Exception("[defuzzifier error] expected monotonic term, but received <null>");
+            throw Exception("[defuzzifier error] expected monotonic term, but received <null>");
         }
         scalar w = activationDegree;
         scalar z = fl::nan; //result;

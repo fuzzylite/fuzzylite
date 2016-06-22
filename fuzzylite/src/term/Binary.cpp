@@ -32,10 +32,10 @@ namespace fl {
 
     scalar Binary::membership(scalar x) const {
         if (FL_IS_NAN(x)) return fl::nan;
-        if (_direction == fl::inf and fl::Op::isGE(x, _start)) {
+        if (_direction == fl::inf and Op::isGE(x, _start)) {
             return Term::_height * 1.0;
         }
-        if (_direction == -fl::inf and fl::Op::isLE(x, _start)) {
+        if (_direction == -fl::inf and Op::isLE(x, _start)) {
             return Term::_height * 1.0;
         }
         return Term::_height * 0.0;
@@ -54,7 +54,7 @@ namespace fl {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
                     << " requires <" << required << "> parameters";
-            throw fl::Exception(ex.str(), FL_AT);
+            throw Exception(ex.str(), FL_AT);
         }
         setStart(Op::toScalar(values.at(0)));
         setDirection(Op::toScalar(values.at(1)));
