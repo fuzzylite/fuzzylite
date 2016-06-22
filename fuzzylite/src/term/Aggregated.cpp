@@ -79,11 +79,11 @@ namespace fl {
 
     scalar Aggregated::activationDegree(const Term* forTerm) const {
         scalar result = 0.0;
-        for (std::size_t i = 0; i < terms().size(); ++i) {
-            const Activated& activatedTerm = terms().at(i);
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
+            const Activated& activatedTerm = _terms.at(i);
             if (activatedTerm.getTerm() == forTerm) {
-                if (getAggregation())
-                    result = getAggregation()->compute(result, activatedTerm.getDegree());
+                if (_aggregation.get())
+                    result = _aggregation->compute(result, activatedTerm.getDegree());
                 else
                     result += activatedTerm.getDegree(); //Default for WeightDefuzzifier
             }

@@ -30,7 +30,7 @@ namespace fl {
     }
 
     Proposition::Proposition()
-    : Expression(), variable(fl::null), term(fl::null) {
+    : Expression(), variable(fl::null), variableClass(None), term(fl::null) {
     }
 
     Proposition::~Proposition() {

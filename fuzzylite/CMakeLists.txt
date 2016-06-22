@@ -196,9 +196,11 @@ if(FL_BUILD_TESTS)
         set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "CATCH_CONFIG_NO_CPP11")
     endif()
 
-    #Ignore warnings of parentheses in CHECK(a == b) for Catch under g++-4.7
     if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU") 
+        #Ignore QuickTest macro expansion comparison: CHECK(xstr(4+10) == "4+10")
+        set_target_properties(fl-test PROPERTIES COMPILE_FLAGS "-Wno-address")
         if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
+            #Ignore warnings of parentheses in CHECK(a == b) for Catch under g++-4.7
             set_target_properties(fl-test PROPERTIES COMPILE_FLAGS "-Wno-parentheses")
         endif()
     endif()

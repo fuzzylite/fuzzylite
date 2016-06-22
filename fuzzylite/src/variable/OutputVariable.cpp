@@ -126,7 +126,7 @@ namespace fl {
              * variable in a state that reflects an invalid defuzzification,
              * that is, apply logic of default values and previous values.*/
             isValid = false;
-            if (_defuzzifier) {
+            if (_defuzzifier.get()) {
                 try {
                     result = _defuzzifier->defuzzify(_fuzzyOutput.get(), _minimum, _maximum);
                     isValid = true;

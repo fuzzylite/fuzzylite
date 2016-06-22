@@ -91,10 +91,11 @@ namespace fl {
                 }
             }
             scalar result = fl::nan;
-            if (OutputVariable * outputVariable = dynamic_cast<OutputVariable*> (proposition->variable)) {
-                result = outputVariable->fuzzyOutput()->activationDegree(proposition->term);
-            } else if (proposition->variable) {
+            if (proposition->variableClass == Proposition::InputVariable) {
                 result = proposition->term->membership(proposition->variable->getValue());
+            } else if (proposition->variableClass == Proposition::OutputVariable) {
+                result = static_cast<OutputVariable*> (proposition->variable)
+                        ->fuzzyOutput()->activationDegree(proposition->term);
             }
 
             if (not proposition->hedges.empty()) {
@@ -183,11 +184,18 @@ namespace fl {
             while (tokenizer >> token) {
                 if (state bitand S_VARIABLE) {
                     Variable* variable = fl::null;
-                    if (engine->hasInputVariable(token)) variable = engine->getInputVariable(token);
-                    else if (engine->hasOutputVariable(token)) variable = engine->getOutputVariable(token);
+                    Proposition::VariableClass variableClass = Proposition::None;
+                    if (engine->hasInputVariable(token)) {
+                        variable = engine->getInputVariable(token);
+                        variableClass = Proposition::InputVariable;
+                    } else if (engine->hasOutputVariable(token)) {
+                        variable = engine->getOutputVariable(token);
+                        variableClass = Proposition::OutputVariable;
+                    }
                     if (variable) {
                         proposition = new Proposition;
                         proposition->variable = variable;
+                        proposition->variableClass = variableClass;
                         expressionStack.push(proposition);
 
                         state = S_IS;

@@ -152,8 +152,8 @@ namespace fl {
 #endif
 
             for (std::size_t evaluation = 0; evaluation < _expected.size(); ++evaluation) {
-                const std::vector<scalar>& expectedValues = _expected.at(evaluation);
-                std::vector<scalar>& obtainedValues = _obtained.at(evaluation);
+                const std::vector<scalar>& expectedValues = _expected[evaluation];
+                std::vector<scalar>& obtainedValues = _obtained[evaluation];
 
                 if (expectedValues.size() < _engine->inputVariables().size()) {
                     std::ostringstream ex;
@@ -164,14 +164,14 @@ namespace fl {
                     throw Exception(ex.str());
                 }
                 for (std::size_t i = 0; i < _engine->inputVariables().size(); ++i) {
-                    _engine->inputVariables().at(i)->setValue(expectedValues.at(i));
-                    obtainedValues.at(i) = expectedValues.at(i);
+                    _engine->getInputVariable(i)->setValue(expectedValues[i]);
+                    obtainedValues[i] = expectedValues[i];
                 }
 
                 _engine->process();
 
                 for (std::size_t i = 0; i < _engine->outputVariables().size(); ++i) {
-                    obtainedValues.at(i + offset) = _engine->outputVariables().at(i)->getValue();
+                    obtainedValues[i + offset] = _engine->getOutputVariable(i)->getValue();
                 }
             }
 

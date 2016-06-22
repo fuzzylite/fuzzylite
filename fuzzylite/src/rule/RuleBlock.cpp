@@ -73,7 +73,7 @@ namespace fl {
         FL_DBG("===================");
         FL_DBG("ACTIVATING RULEBLOCK " << getName());
         //@todo: remove check in version 7.0
-        if (not _activation) {
+        if (not _activation.get()) {
             _activation.reset(new General);
         }
         FL_DBG("Activation: " << getActivation()->className() << " " << getActivation()->parameters());

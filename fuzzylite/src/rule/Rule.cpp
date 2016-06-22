@@ -130,7 +130,7 @@ namespace fl {
     }
 
     bool Rule::isLoaded() const {
-        return _antecedent and _consequent and _antecedent->isLoaded() and _consequent->isLoaded();
+        return _antecedent.get() and _consequent.get() and _antecedent->isLoaded() and _consequent->isLoaded();
     }
 
     void Rule::unload() {
