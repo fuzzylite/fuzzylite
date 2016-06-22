@@ -183,7 +183,7 @@ if(FL_BUILD_BINARY)
     set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -debug)
 
     set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
-    target_link_libraries(fl-bin fl-shared ${FL_LIBS})
+    target_link_libraries(fl-bin fl-static ${FL_LIBS})
 endif(FL_BUILD_BINARY)
 
 if(FL_BUILD_TESTS)

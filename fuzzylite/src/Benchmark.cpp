@@ -143,7 +143,8 @@ namespace fl {
         std::vector<scalar> runTimes(times, 0.0);
         const std::size_t offset(_engine->inputVariables().size());
         for (int t = 0; t < times; ++t) {
-            _obtained = std::vector<std::vector<scalar> >(_expected.size());
+            _obtained = std::vector<std::vector<scalar> >(_expected.size(),
+                    std::vector<scalar>(_engine->variables().size()));
             _engine->restart();
 
 #ifdef FL_CPP11
@@ -152,8 +153,7 @@ namespace fl {
 
             for (std::size_t evaluation = 0; evaluation < _expected.size(); ++evaluation) {
                 const std::vector<scalar>& expectedValues = _expected.at(evaluation);
-                std::vector<scalar> obtainedValues(
-                        _engine->numberOfInputVariables() + _engine->numberOfOutputVariables());
+                std::vector<scalar>& obtainedValues = _obtained.at(evaluation);
 
                 if (expectedValues.size() < _engine->inputVariables().size()) {
                     std::ostringstream ex;
@@ -173,8 +173,6 @@ namespace fl {
                 for (std::size_t i = 0; i < _engine->outputVariables().size(); ++i) {
                     obtainedValues.at(i + offset) = _engine->outputVariables().at(i)->getValue();
                 }
-
-                _obtained.at(evaluation) = obtainedValues;
             }
 
 #ifdef FL_CPP11
