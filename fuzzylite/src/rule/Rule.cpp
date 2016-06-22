@@ -107,7 +107,7 @@ namespace fl {
         if (not isLoaded()) {
             throw fl::Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
         }
-        return getWeight() * getAntecedent()->activationDegree(conjunction, disjunction);
+        return _weight * _antecedent->activationDegree(conjunction, disjunction);
     }
 
     void Rule::activate(scalar activationDegree, const TNorm* implication) {
@@ -117,23 +117,20 @@ namespace fl {
         }
         if (Op::isGt(activationDegree, 0.0)) {
             FL_DBG("[degree=" << Op::str(activationDegree) << "] " << toString());
-            setActivationDegree(activationDegree);
-            getConsequent()->modify(activationDegree, implication);
+            _activationDegree = activationDegree;
+            _consequent->modify(activationDegree, implication);
         }
-        setActivated(true);
+        _activated = true;
     }
 
     void Rule::deactivate() {
-        setActivated(false);
-        setActivationDegree(0.0);
+        _activated = false;
+        _activationDegree = 0.0;
         FL_DBG("[deactivated] " << toString());
     }
 
     bool Rule::isLoaded() const {
-        if (getAntecedent() and getConsequent()) {
-            return getAntecedent()->isLoaded() and getConsequent()->isLoaded();
-        }
-        return false;
+        return _antecedent and _consequent and _antecedent->isLoaded() and _consequent->isLoaded();
     }
 
     void Rule::unload() {

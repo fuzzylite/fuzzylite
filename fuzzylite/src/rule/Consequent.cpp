@@ -78,14 +78,14 @@ namespace fl {
     }
 
     bool Consequent::isLoaded() {
-        return not conclusions().empty();
+        return not _conclusions.empty();
     }
 
     void Consequent::unload() {
-        for (std::size_t i = 0; i < conclusions().size(); ++i) {
-            delete conclusions().at(i);
+        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
+            delete _conclusions.at(i);
         }
-        conclusions().clear();
+        _conclusions.clear();
     }
 
     void Consequent::load(const Engine* engine) {

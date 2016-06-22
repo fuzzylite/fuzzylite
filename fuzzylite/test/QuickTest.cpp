@@ -113,5 +113,16 @@ namespace fl {
         CHECK(Op::str(1000000.0, 3, std::ios_base::fmtflags(0x0)) == "1e+06");
     }
 
+    TEST_CASE("macro expansion does not evaluate parameter before expansion", "[op]") {
+        std::ostringstream os;
+#define FL_MACRO1(x)  os << x * 5;
+        FL_MACRO1(4 + 10);
+        CHECK(os.str() == "54");
+
+#define xstr(s) str(s)
+#define str(s) #s
+        CHECK(xstr(4 + 10) == "4 + 10");
+    }
+
 
 }

@@ -38,7 +38,7 @@ namespace fl {
 
      */
     class FL_API Variable {
-    private:
+    protected:
         std::string _name;
         std::vector<Term*> _terms;
         scalar _value;
@@ -46,6 +46,7 @@ namespace fl {
         bool _enabled;
         bool _lockValueInRange;
 
+    private:
         void copyFrom(const Variable& source);
 
     public:

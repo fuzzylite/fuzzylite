@@ -36,10 +36,11 @@ namespace fl {
     scalar Centroid::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
         if (not fl::Op::isFinite(minimum + maximum)) return fl::nan;
 
-        scalar dx = (maximum - minimum) / getResolution();
+        const int resolution = getResolution();
+        scalar dx = (maximum - minimum) / resolution;
         scalar x, y;
         scalar area = 0, xcentroid = 0, ycentroid = 0;
-        for (int i = 0; i < getResolution(); ++i) {
+        for (int i = 0; i < resolution; ++i) {
             x = minimum + (i + 0.5) * dx;
             y = term->membership(x);
 

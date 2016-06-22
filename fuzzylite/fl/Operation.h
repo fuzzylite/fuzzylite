@@ -27,7 +27,7 @@
 /**
  For better performance, computes whether x is NaN. @see fl::Op::isNaN()
  */
-#define FL_IS_NAN(x) not (x == x)
+#define FL_IS_NAN(x) (x != x)
 #endif
 
 namespace fl {
@@ -662,7 +662,7 @@ namespace fl {
     }
 
     inline bool Operation::isEq(scalar a, scalar b, scalar macheps) {
-        return a == b or std::fabs(a - b) < macheps or (isNaN(a) and isNaN(b));
+        return a == b or std::fabs(a - b) < macheps or (FL_IS_NAN(a) and FL_IS_NAN(b));
     }
 
     inline bool Operation::isGt(scalar a, scalar b, scalar macheps) {

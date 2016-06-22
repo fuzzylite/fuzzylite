@@ -24,9 +24,8 @@
 namespace fl {
 
     TEST_CASE("Benchmarks run from Console ", "[benchmark][console]") {
-        return ;
         const char* args[] = {"dummy-command", "benchmarks", "../../examples/", "1"};
-        Console::main(4, args);
+//        Console::main(4, args);
     }
 
     TEST_CASE("Benchmarks from FLD files", "[benchmark][fld]") {

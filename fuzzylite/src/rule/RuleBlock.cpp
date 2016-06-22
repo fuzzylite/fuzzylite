@@ -73,11 +73,11 @@ namespace fl {
         FL_DBG("===================");
         FL_DBG("ACTIVATING RULEBLOCK " << getName());
         //@todo: remove check in version 7.0
-        if (not getActivation()) {
-            setActivation(new General);
+        if (not _activation) {
+            _activation.reset(new General);
         }
         FL_DBG("Activation: " << getActivation()->className() << " " << getActivation()->parameters());
-        getActivation()->activate(this);
+        _activation->activate(this);
     }
 
     void RuleBlock::unloadRules() const {

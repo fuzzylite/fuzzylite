@@ -177,7 +177,7 @@ namespace fl {
 
 #ifdef FL_CPP11
             auto end = std::chrono::high_resolution_clock::now();
-            runTimes.at(t) = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+            runTimes.at(t) = std::chrono::duration<scalar, std::nano>(end - start).count();
 #endif
         }
         _times.insert(_times.end(), runTimes.begin(), runTimes.end());

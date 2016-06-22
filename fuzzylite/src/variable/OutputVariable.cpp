@@ -60,7 +60,7 @@ namespace fl {
 
     void OutputVariable::setName(const std::string& name) {
         Variable::setName(name);
-        fuzzyOutput()->setName(name);
+        _fuzzyOutput->setName(name);
     }
 
     Aggregated* OutputVariable::fuzzyOutput() const {
@@ -69,12 +69,12 @@ namespace fl {
 
     void OutputVariable::setMinimum(scalar minimum) {
         Variable::setMinimum(minimum);
-        fuzzyOutput()->setMinimum(minimum);
+        _fuzzyOutput->setMinimum(minimum);
     }
 
     void OutputVariable::setMaximum(scalar maximum) {
         Variable::setMaximum(maximum);
-        fuzzyOutput()->setMaximum(maximum);
+        _fuzzyOutput->setMaximum(maximum);
     }
 
     void OutputVariable::setDefuzzifier(Defuzzifier* defuzzifier) {
@@ -110,15 +110,15 @@ namespace fl {
     }
 
     void OutputVariable::defuzzify() {
-        if (not isEnabled()) return;
+        if (not _enabled) return;
 
-        if (fl::Op::isFinite(getValue())) {
-            setPreviousValue(getValue());
+        if (fl::Op::isFinite(_value)) {
+            _previousValue = _value;
         }
 
         std::string exception;
         scalar result = fl::nan;
-        bool isValid = isEnabled() and not fuzzyOutput()->isEmpty();
+        bool isValid = _enabled and not _fuzzyOutput->isEmpty();
         if (isValid) {
             /* Checks whether the variable can be defuzzified without exceptions.
              * If it cannot be defuzzified, be that due to a missing defuzzifier
@@ -126,9 +126,9 @@ namespace fl {
              * variable in a state that reflects an invalid defuzzification,
              * that is, apply logic of default values and previous values.*/
             isValid = false;
-            if (getDefuzzifier()) {
+            if (_defuzzifier) {
                 try {
-                    result = getDefuzzifier()->defuzzify(fuzzyOutput(), getMinimum(), getMaximum());
+                    result = _defuzzifier->defuzzify(_fuzzyOutput.get(), _minimum, _maximum);
                     isValid = true;
                 } catch (std::exception& ex) {
                     exception = ex.what();
@@ -142,10 +142,10 @@ namespace fl {
         if (not isValid) {
             //if a previous defuzzification was successfully performed and
             //and the output value is supposed not to change when the output is empty
-            if (isLockPreviousValue() and not Op::isNaN(getPreviousValue())) {
-                result = getPreviousValue();
+            if (_lockPreviousValue and not FL_IS_NAN(_previousValue)) {
+                result =_previousValue;
             } else {
-                result = getDefaultValue();
+                result = _defaultValue;
             }
         }
 
