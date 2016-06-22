@@ -163,7 +163,7 @@ namespace fl {
         ss << name << "->setActivation("
                 << toString(ruleBlock->getActivation()) << ");\n";
         for (std::size_t r = 0; r < ruleBlock->numberOfRules(); ++r) {
-            ss << name << "->addRule(" << "fl::Rule::parse(\"" <<
+            ss << name << "->addRule(" << fl("Rule") << "::parse(\"" <<
                     ruleBlock->getRule(r)->getText() << "\", engine));\n";
         }
         ss << "engine->addRuleBlock(" << name << ");\n";

@@ -73,7 +73,7 @@ namespace fl {
 #else
         type = "double";
 #endif
-        ss << "scalar is defined as \'" << type << "\' using " <<
+        ss << "fl::scalar is defined as \'" << type << "\' using " <<
                 sizeof (someScalar) << " bytes";
         return ss.str();
     }
