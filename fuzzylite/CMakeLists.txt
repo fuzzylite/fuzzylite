@@ -91,8 +91,8 @@ if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++98")
         endif()
     endif()
-    #In GNU gcc v6, Op::str(T, std::size_t(0)) raises a warning of type-limits
-    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
+    #In GNU gcc 4.7, Op::str(T, std::size_t(0)) raises a warning of type-limits
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 4.7)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-type-limits")
     endif()
 endif()
@@ -198,10 +198,10 @@ if(FL_BUILD_TESTS)
 
     if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU") 
         #Ignore QuickTest macro expansion comparison: CHECK(xstr(4+10) == "4+10")
-        set_target_properties(fl-test PROPERTIES COMPILE_FLAGS "-Wno-address")
-        if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
+        target_compile_options(fl-test PRIVATE -Wno-address)
+        if (CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 4.7)
             #Ignore warnings of parentheses in CHECK(a == b) for Catch under g++-4.7
-            set_target_properties(fl-test PROPERTIES COMPILE_FLAGS "-Wno-parentheses")
+            target_compile_options(fl-test PRIVATE -Wno-parentheses)
         endif()
     endif()
 
