@@ -17,8 +17,7 @@ if(NOT CMAKE_VERBOSE_MAKEFILE)
 endif()
 
 if( NOT CMAKE_BUILD_TYPE )
-    set( CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo
-MinSizeRel." FORCE )
+    set( CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
 endif()
 
 add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
@@ -164,7 +163,8 @@ endif()
 if(FL_BUILD_SHARED)
     set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
     set_target_properties(fl-shared PROPERTIES DEBUG_POSTFIX -debug)
-    set_target_properties(fl-shared PROPERTIES COMPILE_DEFINITIONS "FL_EXPORT_LIBRARY")
+#    set_target_properties(fl-shared PROPERTIES COMPILE_DEFINITIONS "FL_EXPORT_LIBRARY")
+    target_compile_definitions(fl-shared PRIVATE FL_EXPORT_LIBRARY)
     set_target_properties(fl-shared PROPERTIES VERSION 6.0)
     target_link_libraries(fl-shared ${FL_LIBS})
 endif()
@@ -181,7 +181,7 @@ if(FL_BUILD_BINARY)
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -debug)
-
+#    target_compile_definitions(fl-bin PRIVATE FL_IMPORT_LIBRARY) #if building with fl-shared
     target_link_libraries(fl-bin fl-static ${FL_LIBS})
 endif(FL_BUILD_BINARY)
 
@@ -191,9 +191,11 @@ if(FL_BUILD_TESTS)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
 
-    set_target_properties(fl-test PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
+#    set_target_properties(fl-test PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
+    target_compile_definitions(fl-test PRIVATE FL_IMPORT_LIBRARY)
     if (NOT FL_CPP11)
-        set_target_properties(fl-test PROPERTIES COMPILE_DEFINITIONS "CATCH_CONFIG_NO_CPP11")
+        target_compile_definitions(fl-test PRIVATE CATCH_CONFIG_NO_CPP11)
+#        set_target_properties(fl-test PROPERTIES COMPILE_DEFINITIONS "CATCH_CONFIG_NO_CPP11")
     endif()
 
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
