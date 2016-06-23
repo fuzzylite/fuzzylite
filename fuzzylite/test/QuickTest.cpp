@@ -95,7 +95,7 @@ namespace fl {
         CHECK(Op::str(double(0.0000333), 9) == "3.330000000e-05");
 
         CHECK(Op::isEq(fuzzylite::getMachEps(), 0.0) == false);
-        CHECK(Op::isEq(fuzzylite::getMachEps(), 0.0, std::pow(10, -6)) == false);
+        CHECK(Op::isEq(fuzzylite::getMachEps(), 0.0, std::pow(10.0, -6)) == false);
         CHECK(Op::str(fuzzylite::getMachEps()) == "0.000e+00");
         CHECK(Op::str(fuzzylite::getMachEps(), -1) == "1.000000e-06");
         CHECK(Op::str(fuzzylite::getMachEps(), -1, std::ios_base::fmtflags(0x0)) == "1e-06");

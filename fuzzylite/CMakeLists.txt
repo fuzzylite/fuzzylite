@@ -81,7 +81,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 endif()
 
 
-if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU")
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     if (CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 6)
 	#In GNU gcc v6, the default is C++11
         if (NOT FL_CPP11)
@@ -163,7 +163,6 @@ endif()
 if(FL_BUILD_SHARED)
     set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
     set_target_properties(fl-shared PROPERTIES DEBUG_POSTFIX -debug)
-#    set_target_properties(fl-shared PROPERTIES COMPILE_DEFINITIONS "FL_EXPORT_LIBRARY")
     target_compile_definitions(fl-shared PRIVATE FL_EXPORT_LIBRARY)
     set_target_properties(fl-shared PROPERTIES VERSION 6.0)
     target_link_libraries(fl-shared ${FL_LIBS})
@@ -191,11 +190,9 @@ if(FL_BUILD_TESTS)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
 
-#    set_target_properties(fl-test PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
     target_compile_definitions(fl-test PRIVATE FL_IMPORT_LIBRARY)
     if (NOT FL_CPP11)
         target_compile_definitions(fl-test PRIVATE CATCH_CONFIG_NO_CPP11)
-#        set_target_properties(fl-test PROPERTIES COMPILE_DEFINITIONS "CATCH_CONFIG_NO_CPP11")
     endif()
 
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
