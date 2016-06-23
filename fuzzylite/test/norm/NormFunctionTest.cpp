@@ -79,9 +79,9 @@ RuleBlock:
 
     TEST_CASE("SNormFunction (max(a,b)) is equivalent to Maximum", "[snorm][maximum]") {
 #ifndef FL_CPP11
-		(void)&(myMaximumNorm);
-		(void)&(myNotSoMaximumNorm);
-		(void)&(snormEngine);
+        (void) &(myMaximumNorm);
+        (void) &(myNotSoMaximumNorm);
+        (void) &(snormEngine);
         WARN("Test only runs with -DFL_CPP11=ON");
         return;
 #else
@@ -166,9 +166,9 @@ RuleBlock:
 
     TEST_CASE("TNormFunction (min(a,b)) is equivalent to Minimum", "[tnorm][minimum]") {
 #ifndef FL_CPP11
-        (void)&(myMinimumNorm);
-		(void)&(myNotSoMinimumNorm);
-		(void)&(tnormEngine);
+        (void) &(myMinimumNorm);
+        (void) &(myNotSoMinimumNorm);
+        (void) &(tnormEngine);
         WARN("Test only runs with -DFL_CPP11=ON");
         return;
 #else
