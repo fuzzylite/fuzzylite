@@ -18,104 +18,106 @@
 
 namespace fl {
 
-    int fuzzylite::_decimals = 3;
-    std::ios_base::fmtflags fuzzylite::_scalarFormat = std::ios_base::fixed;
-    scalar fuzzylite::_macheps = 1e-6;
-    bool fuzzylite::_debug = false;
-    bool fuzzylite::_logging = true;
+    namespace fuzzylite {
 
-    std::string fuzzylite::name() {
-        return "fuzzylite";
-    }
+        int decimals = 3;
+        std::ios_base::fmtflags scalarFomat = std::ios_base::fixed;
+        scalar macheps = 1e-6;
+        bool debugging = false;
+        bool logging = true;
 
-    std::string fuzzylite::library() {
-        return name() + " " + version();
-    }
+        std::string name() {
+            return "fuzzylite";
+        }
 
-    std::string fuzzylite::version() {
-        return "6.0";
-    }
+        std::string library() {
+            return name() + " " + version();
+        }
 
-    std::string fuzzylite::license() {
-        return "FuzzyLite License";
-    }
+        std::string version() {
+            return "6.0";
+        }
 
-    std::string fuzzylite::author() {
-        return "Juan Rada-Vilela, Ph.D.";
-    }
+        std::string license() {
+            return "FuzzyLite License";
+        }
 
-    std::string fuzzylite::company() {
-        return "FuzzyLite Limited";
-    }
+        std::string author() {
+            return "Juan Rada-Vilela, Ph.D.";
+        }
 
-    std::string fuzzylite::website() {
-        return "http://www.fuzzylite.com/";
-    }
+        std::string company() {
+            return "FuzzyLite Limited";
+        }
 
-    std::string fuzzylite::platform() {
+        std::string website() {
+            return "http://www.fuzzylite.com/";
+        }
+
+        std::string platform() {
 #ifdef FL_UNIX
-        return "Unix";
+            return "Unix";
 #elif defined FL_WINDOWS
-        return "Windows";
+            return "Windows";
 #else
-        return "?";
+            return "?";
 #endif
-    }
+        }
 
-    std::string fuzzylite::floatingPoint() {
-        scalar someScalar = 0;
-        FL_IUNUSED(someScalar);
-        std::string type;
+        std::string floatingPoint() {
+            scalar someScalar = 0;
+            FL_IUNUSED(someScalar);
+            std::string type;
 
-        std::ostringstream ss;
+            std::ostringstream ss;
 #ifdef FL_USE_FLOAT
-        type = "float";
+            type = "float";
 #else
-        type = "double";
+            type = "double";
 #endif
-        ss << "fl::scalar is defined as \'" << type << "\' using " <<
-                sizeof (someScalar) << " bytes";
-        return ss.str();
-    }
+            ss << "fl::scalar is defined as \'" << type << "\' using " <<
+                    sizeof (someScalar) << " bytes";
+            return ss.str();
+        }
 
-    void fuzzylite::setDebug(bool debug) {
-        _debug = debug;
-    }
+        void setDebugging(bool debugging_) {
+            debugging = debugging_;
+        }
 
-    bool fuzzylite::debug() {
-        return _debug;
-    }
+        bool isDebugging() {
+            return debugging;
+        }
 
-    void fuzzylite::setDecimals(int decimals) {
-        _decimals = decimals;
-    }
+        void setDecimals(int decimals_) {
+            decimals = decimals_;
+        }
 
-    int fuzzylite::decimals() {
-        return _decimals;
-    }
+        int getDecimals() {
+            return decimals;
+        }
 
-    void fuzzylite::setScalarFormat(std::ios_base::fmtflags scalarFormat) {
-        _scalarFormat = scalarFormat;
-    }
+        void setScalarFormat(std::ios_base::fmtflags scalarFormat_) {
+            scalarFomat = scalarFormat_;
+        }
 
-    std::ios_base::fmtflags fuzzylite::scalarFormat() {
-        return _scalarFormat;
-    }
+        std::ios_base::fmtflags getScalarFormat() {
+            return scalarFomat;
+        }
 
-    void fuzzylite::setMachEps(scalar macheps) {
-        _macheps = macheps;
-    }
+        void setMachEps(scalar macheps_) {
+            macheps = macheps_;
+        }
 
-    scalar fuzzylite::macheps() {
-        return _macheps;
-    }
+        scalar getMachEps() {
+            return macheps;
+        }
 
-    void fuzzylite::setLogging(bool logging) {
-        _logging = logging;
-    }
+        void setLogging(bool logging_) {
+            logging = logging_;
+        }
 
-    bool fuzzylite::logging() {
-        return _logging;
+        bool isLogging() {
+            return logging;
+        }
     }
-
 }

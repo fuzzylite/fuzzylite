@@ -48,10 +48,11 @@ namespace fl {
             ycentroid += y * y;
             area += y;
         }
-        xcentroid /= area;
-        ycentroid /= 2 * area;
-        area *= dx; //total area... unused, but for future reference.
-        return xcentroid;
+        //Final results not computed for efficiency
+        //xcentroid /= area;
+        //ycentroid /= 2 * area;
+        //area *= dx;
+        return xcentroid / area;
     }
 
     Centroid* Centroid::clone() const {

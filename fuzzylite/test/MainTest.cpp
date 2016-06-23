@@ -8,7 +8,7 @@
 int main(int argc, char** argv) {
 
     // global setup...
-    fl::fuzzylite::setDebug(false);
+    fl::fuzzylite::setDebugging(false);
     fl::fuzzylite::setLogging(true);
 
     int result = Catch::Session().run(argc, argv);

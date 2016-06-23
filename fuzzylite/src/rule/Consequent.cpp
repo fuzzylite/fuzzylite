@@ -69,10 +69,8 @@ namespace fl {
                     }
                 }
 
-                OutputVariable * outputVariable = static_cast<OutputVariable*> (proposition->variable);
-                Activated term(proposition->term, activationDegree, implication);
-                outputVariable->fuzzyOutput()->addTerm(term);
-                FL_DBG("Aggregating " << term.toString());
+                static_cast<OutputVariable*> (proposition->variable)->fuzzyOutput()
+                        ->addTerm(proposition->term, activationDegree, implication);
             }
         }
     }

@@ -181,10 +181,12 @@ namespace fl {
 
     void Aggregated::addTerm(const Term* term, scalar degree, const TNorm* implication) {
         _terms.push_back(Activated(term, degree, implication));
+        FL_DBG("Aggregating " << _terms.back().toString());
     }
 
     void Aggregated::addTerm(const Activated& term) {
         _terms.push_back(term);
+        FL_DBG("Aggregating " << _terms.back().toString());
     }
 
     const Activated& Aggregated::removeTerm(std::size_t index) {

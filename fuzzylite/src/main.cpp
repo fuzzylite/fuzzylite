@@ -50,7 +50,7 @@ int main(int argc, const char* argv[]) {
 #ifdef FL_WINDOWS
     //SetConsoleCtrlHandler(flSignalHandler, TRUE);
 #endif
-    fl::fuzzylite::setDebug(false);
+    fl::fuzzylite::setDebugging(false);
     try {
         fl::Console::main(argc, argv);
     } catch (std::exception& ex) {

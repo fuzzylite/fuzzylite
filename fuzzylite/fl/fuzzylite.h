@@ -49,11 +49,10 @@
 
 #define FL_AT FL__FILE__, __LINE__, __FUNCTION__
 
+#define FL_LOG(message) {if (fuzzylite::logging){std::cout << FL_LOG_PREFIX << message << std::endl;}}
+#define FL_LOGP(message) {if (fuzzylite::logging){std::cout << message << std::endl;}}
 
-#define FL_LOG(message) {if (fuzzylite::logging()){std::cout << FL_LOG_PREFIX << message << std::endl;}}
-#define FL_LOGP(message) {if (fuzzylite::logging()){std::cout << message << std::endl;}}
-
-#define FL_DEBUG_BEGIN if (fuzzylite::debug()){
+#define FL_DEBUG_BEGIN if (fuzzylite::debugging){
 #define FL_DEBUG_END }
 
 #define FL_DBG(message) FL_DEBUG_BEGIN\
@@ -210,116 +209,12 @@ namespace fl {
       @since 4.0
 
      */
-    class FL_API fuzzylite {
-    private:
-        static int _decimals;
-        static std::ios_base::fmtflags _scalarFormat;
-        static scalar _macheps;
-        static bool _debug;
-        static bool _logging;
-
-    public:
-        /**
-          Returns the name of the `fuzzylite` library
-          @return the name of the `fuzzylite` library
-         */
-        static std::string name();
-        /**
-          Returns the name of the `fuzzylite` library including the version
-          @return the name of the `fuzzylite` library including the version
-         */
-        static std::string library();
-        /**
-          Returns the version of the `fuzzylite` library
-          @return the version of the `fuzzylite` library
-         */
-        static std::string version();
-        /**
-          Returns the license under which the `fuzzylite` library is released
-          @return the license under which the `fuzzylite` library is released
-         */
-        static std::string license();
-        /**
-          Returns the name of the author of the `fuzzylite` library
-          @return "Juan Rada-Vilela, Ph.D."
-         */
-        static std::string author();
-        /**
-          Returns the name of the company that owns the `fuzzylite` library
-          @return "FuzzyLite Limited"
-         */
-        static std::string company();
-        /**
-          Returns the website of the `fuzzylite` library
-          @return "http://www.fuzzylite.com/"
-         */
-        static std::string website();
-
-        /**
-          Returns the platform under which the `fuzzylite` library was built
-          @return `Unix` or `Windows`
-         */
-        static std::string platform();
-
-        /**
-          Returns the name of the type of the floating-point variables
-          @return `double` or `float`
-         */
-        static std::string floatingPoint();
-
-        /**
-          Indicates whether the library is running in debug mode
-          @return `true` if the library is running in debug mode, and `false`
-          if it is running in release mode
-         */
-        static bool debug();
-        /**
-          Sets whether the library is set to run in debug mode
-          @param debug indicates whether the library is set to run in debug mode
-         */
-        static void setDebug(bool debug);
-
-        /**
-          Returns the number of decimals utilized when formatting scalar values
-          @return the number of decimals utilized when formatting scalar values
-          (default is 3)
-         */
-        static int decimals();
-        /**
-          Sets the number of decimals utilized when formatting scalar values
-          @param decimals is the number of decimals utilized when formatting
-          scalar values
-         */
-        static void setDecimals(int decimals);
-
-        /**
-          Sets the default format to be utilized for every fl::scalar passed to 
-          Op::str()
-          @param scalarFormat is the format to be utilized for every fl::scalar 
-          passed to Op::str()
-         */
-        static void setScalarFormat(std::ios_base::fmtflags format);
-        /**
-          Gets the default format to be utilized for every fl::scalar passed to 
-          Op::str()
-          @return the format to be utilized for every fl::scalar passed to Op::str()
-         */
-        static std::ios_base::fmtflags scalarFormat();
-        
-        /**
-          Returns the minimum difference at which two floating-point values
-          are considered equivalent
-          @return the minimum difference at which two floating-point values
-          are considered equivalent (default is 1e-6)
-         */
-        static scalar macheps();
-        /**
-          Sets the minimum difference at which two floating-point values are
-          considered equivalent
-          @param macheps is the minimum difference at which two floating-point
-          values are considered equivalent (default is 1e-6)
-         */
-        static void setMachEps(scalar macheps);
+    namespace fuzzylite {
+        extern bool logging;
+        extern bool debugging;
+        extern int decimals;
+        extern std::ios_base::fmtflags scalarFomat;
+        extern scalar macheps;
 
         /**
           Returns whether the library is logging information via the `FL_LOG`
@@ -327,14 +222,117 @@ namespace fl {
           @return whether the library is logging information via the `FL_LOG`
           macro
          */
-        static bool logging();
+        bool isLogging();
         /**
           Sets whether the library is set to log information using the macro
           `FL_LOG`
           @param logging indicates whether the library is set to log
           information via the `FL_LOG` macro
          */
-        static void setLogging(bool logging);
+        void setLogging(bool logging);
+
+
+        /**
+          Indicates whether the library is running in debug mode
+          @return `true` if the library is running in debug mode, and `false`
+          if it is running in release mode
+         */
+        bool isDebugging();
+        /**
+          Sets whether the library is set to run in debug mode
+          @param debug indicates whether the library is set to run in debug mode
+         */
+        void setDebugging(bool debug);
+
+        /**
+          Returns the number of decimals utilized when formatting scalar values
+          @return the number of decimals utilized when formatting scalar values
+          (default is 3)
+         */
+        int getDecimals();
+        /**
+          Sets the number of decimals utilized when formatting scalar values
+          @param decimals is the number of decimals utilized when formatting
+          scalar values
+         */
+        void setDecimals(int decimals);
+
+        /**
+          Sets the default format to be utilized for every fl::scalar passed to
+          Op::str()
+          @param scalarFormat is the format to be utilized for every fl::scalar
+          passed to Op::str()
+         */
+        void setScalarFormat(std::ios_base::fmtflags format);
+        /**
+          Gets the default format to be utilized for every fl::scalar passed to
+          Op::str()
+          @return the format to be utilized for every fl::scalar passed to Op::str()
+         */
+        std::ios_base::fmtflags getScalarFormat();
+
+        /**
+          Returns the minimum difference at which two floating-point values
+          are considered equivalent
+          @return the minimum difference at which two floating-point values
+          are considered equivalent (default is 1e-6)
+         */
+        scalar getMachEps();
+        /**
+          Sets the minimum difference at which two floating-point values are
+          considered equivalent
+          @param macheps is the minimum difference at which two floating-point
+          values are considered equivalent (default is 1e-6)
+         */
+        void setMachEps(scalar macheps);
+
+        /**
+          Returns the name of the `fuzzylite` library
+          @return the name of the `fuzzylite` library
+         */
+        std::string name();
+        /**
+          Returns the name of the `fuzzylite` library including the version
+          @return the name of the `fuzzylite` library including the version
+         */
+        std::string library();
+        /**
+          Returns the version of the `fuzzylite` library
+          @return the version of the `fuzzylite` library
+         */
+        std::string version();
+        /**
+          Returns the license under which the `fuzzylite` library is released
+          @return the license under which the `fuzzylite` library is released
+         */
+        std::string license();
+        /**
+          Returns the name of the author of the `fuzzylite` library
+          @return "Juan Rada-Vilela, Ph.D."
+         */
+        std::string author();
+        /**
+          Returns the name of the company that owns the `fuzzylite` library
+          @return "FuzzyLite Limited"
+         */
+        std::string company();
+        /**
+          Returns the website of the `fuzzylite` library
+          @return "http://www.fuzzylite.com/"
+         */
+        std::string website();
+
+        /**
+          Returns the platform under which the `fuzzylite` library was built
+          @return `Unix` or `Windows`
+         */
+        std::string platform();
+
+        /**
+          Returns the name of the type of the floating-point variables
+          @return `double` or `float`
+         */
+        std::string floatingPoint();
 
     };
 }

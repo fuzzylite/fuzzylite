@@ -42,7 +42,7 @@ namespace fl {
         scalar leftArea = 0, rightArea = 0;
         scalar xLeft = minimum, xRight = maximum;
         while (counter-- > 0) {
-            if (Op::isLE(leftArea, rightArea)) {
+            if (FL_IS_LE(leftArea, rightArea, fuzzylite::macheps)) {
                 xLeft = minimum + (left + 0.5) * dx;
                 leftArea += term->membership(xLeft);
                 left++;

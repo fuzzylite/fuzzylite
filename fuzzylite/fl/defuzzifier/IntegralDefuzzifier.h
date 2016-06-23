@@ -27,8 +27,6 @@ namespace fl {
 
       @author Juan Rada-Vilela, Ph.D.
       @since 4.0
-      @todo check  http://en.wikipedia.org/wiki/Adaptive_quadrature
-
      */
     class FL_API IntegralDefuzzifier : public Defuzzifier {
     private:

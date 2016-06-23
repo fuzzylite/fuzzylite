@@ -23,12 +23,12 @@
 #include <string>
 #include <vector>
 
-#ifndef FL_IS_NAN
-/**
- For better performance, computes whether x is NaN. @see fl::Op::isNaN()
- */
 #define FL_IS_NAN(x) (x != x)
-#endif
+#define FL_IS_EQ(a,b,macheps) (a == b or std::fabs(a - b) < macheps or (a != a and b != b))
+#define FL_IS_LT(a,b,macheps) (not (a == b or std::fabs(a - b) < macheps or (a != a and b != b)) and a < b)
+#define FL_IS_LE(a,b,macheps) ((a == b or std::fabs(a - b) < macheps or (a != a and b != b)) or a < b)
+#define FL_IS_GT(a,b,macheps) (not (a == b or std::fabs(a - b) < macheps or (a != a and b != b)) and a > b)
+#define FL_IS_GE(a,b,macheps) ((a == b or std::fabs(a - b) < macheps or (a != a and b != b)) or a > b)
 
 namespace fl {
 
@@ -131,7 +131,7 @@ namespace fl {
           floating-point values are considered equivalent
           @return whether @f$a@f$ is less than @f$b@f$ at the given `macheps`
          */
-        static bool isLt(scalar a, scalar b, scalar macheps = fuzzylite::macheps());
+        static bool isLt(scalar a, scalar b, scalar macheps = fuzzylite::macheps);
         /**
           Returns whether @f$a@f$ is less than or equal to @f$b@f$ at the given
           `macheps`
@@ -142,7 +142,7 @@ namespace fl {
           @return whether @f$a@f$ is less than or equal to @f$b@f$ at the given
           `macheps`
          */
-        static bool isLE(scalar a, scalar b, scalar macheps = fuzzylite::macheps());
+        static bool isLE(scalar a, scalar b, scalar macheps = fuzzylite::macheps);
         /**
           Returns whether @f$a@f$ is equal to @f$b@f$ at the given `macheps`
           @param a
@@ -151,7 +151,7 @@ namespace fl {
           floating-point values are considered equivalent
           @return whether @f$a@f$ is equal to @f$b@f$ at the given `macheps`
          */
-        static bool isEq(scalar a, scalar b, scalar macheps = fuzzylite::macheps());
+        static bool isEq(scalar a, scalar b, scalar macheps = fuzzylite::macheps);
         /**
           Returns whether @f$a@f$ is greater than @f$b@f$ at the given `macheps`
           @param a
@@ -160,7 +160,7 @@ namespace fl {
           floating-point values are considered equivalent
           @return whether @f$a@f$ is greater than @f$b@f$ at the given `macheps`
          */
-        static bool isGt(scalar a, scalar b, scalar macheps = fuzzylite::macheps());
+        static bool isGt(scalar a, scalar b, scalar macheps = fuzzylite::macheps);
         /**
           Returns whether @f$a@f$ is greater than or equal to @f$b@f$ at the
           given `macheps`
@@ -171,7 +171,7 @@ namespace fl {
           @return whether @f$a@f$ is greater than or equal to @f$b@f$ at the
           given `macheps`
          */
-        static bool isGE(scalar a, scalar b, scalar macheps = fuzzylite::macheps());
+        static bool isGE(scalar a, scalar b, scalar macheps = fuzzylite::macheps);
 
         /**
           Linearly interpolates the parameter @f$x@f$ in range
@@ -558,8 +558,8 @@ namespace fl {
           @return a string representation of the given value
          */
         template <typename T>
-        static std::string str(T x, int decimals = fuzzylite::decimals(),
-                std::ios_base::fmtflags scalarFormat = fuzzylite::scalarFormat());
+        static std::string str(T x, int decimals = fuzzylite::decimals,
+                std::ios_base::fmtflags scalarFormat = fuzzylite::scalarFomat);
 
         /**
           Joins a vector of elements by the given separator into a single
@@ -612,15 +612,15 @@ namespace fl {
 
     template <typename T>
     inline T Operation::min(T a, T b) {
-        if (isNaN(a)) return b;
-        if (isNaN(b)) return a;
+        if (FL_IS_NAN(a)) return b;
+        if (FL_IS_NAN(b)) return a;
         return a < b ? a : b;
     }
 
     template <typename T>
     inline T Operation::max(T a, T b) {
-        if (isNaN(a)) return b;
-        if (isNaN(b)) return a;
+        if (FL_IS_NAN(a)) return b;
+        if (FL_IS_NAN(b)) return a;
         return a > b ? a : b;
     }
 
@@ -645,32 +645,32 @@ namespace fl {
 
     template <typename T>
     inline bool Operation::isNaN(T x) {
-        return not (x == x);
+        return FL_IS_NAN(x);
     }
 
     template<typename T>
     inline bool Operation::isFinite(T x) {
-        return not (isNaN(x) or isInf(x));
+        return not (FL_IS_NAN(x) or isInf(x));
     }
 
     inline bool Operation::isLt(scalar a, scalar b, scalar macheps) {
-        return not isEq(a, b, macheps) and a < b;
+        return FL_IS_LT(a, b, macheps);
     }
 
     inline bool Operation::isLE(scalar a, scalar b, scalar macheps) {
-        return isEq(a, b, macheps) or a < b;
+        return FL_IS_LE(a, b, macheps);
     }
 
     inline bool Operation::isEq(scalar a, scalar b, scalar macheps) {
-        return a == b or std::fabs(a - b) < macheps or (FL_IS_NAN(a) and FL_IS_NAN(b));
+        return FL_IS_EQ(a, b, macheps);
     }
 
     inline bool Operation::isGt(scalar a, scalar b, scalar macheps) {
-        return not isEq(a, b, macheps) and a > b;
+        return FL_IS_GT(a, b, macheps);
     }
 
     inline bool Operation::isGE(scalar a, scalar b, scalar macheps) {
-        return isEq(a, b, macheps) or a > b;
+        return FL_IS_GE(a, b, macheps);
     }
 
     inline scalar Operation::scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax) {

@@ -77,7 +77,7 @@ namespace fl {
 #ifdef FL_USE_FLOAT
             scalar tolerance = 1e-3;
 #else
-            scalar tolerance = fuzzylite::macheps();
+            scalar tolerance = fuzzylite::getMachEps();
 #endif
             Benchmark benchmark(example.first, engine.get(), tolerance);
 
@@ -110,12 +110,12 @@ namespace fl {
         FL_LOG(Benchmark::convert(3600, Benchmark::Seconds, Benchmark::Hours));
         CHECK(Op::isEq(3600, Benchmark::convert(1, Benchmark::Hours, Benchmark::Seconds)));
         FL_LOG(Benchmark::convert(1, Benchmark::Hours, Benchmark::Seconds));
-        
+
         CHECK(Op::isEq(1000.0, Benchmark::convert(1.0, Benchmark::Seconds, Benchmark::MilliSeconds)));
         FL_LOG(Benchmark::convert(1.0, Benchmark::Seconds, Benchmark::MilliSeconds));
         CHECK(Op::isEq(1.0, Benchmark::convert(1000.0, Benchmark::MilliSeconds, Benchmark::Seconds)));
         FL_LOG(Benchmark::convert(1000.0, Benchmark::MilliSeconds, Benchmark::Seconds));
-        
+
         CHECK(Op::isEq(35e9, Benchmark::convert(35, Benchmark::Seconds, Benchmark::NanoSeconds)));
         CHECK(Op::isEq(35, Benchmark::convert(35e9, Benchmark::NanoSeconds, Benchmark::Seconds)));
     }

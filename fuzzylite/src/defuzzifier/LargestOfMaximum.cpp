@@ -42,7 +42,7 @@ namespace fl {
             x = minimum + (i + 0.5) * dx;
             y = term->membership(x);
 
-            if (Op::isGE(y, ymax)) {
+            if (FL_IS_GE(y, ymax, fuzzylite::macheps)) {
                 ymax = y;
                 xlargest = x;
             }
