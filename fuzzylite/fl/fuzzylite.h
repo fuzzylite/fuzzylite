@@ -334,7 +334,7 @@ namespace fl {
          */
         std::string floatingPoint();
 
-    };
+    }
 }
 
 
