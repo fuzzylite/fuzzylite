@@ -55,17 +55,17 @@ ruleBlock->setConjunction(fl::null);
 ruleBlock->setDisjunction(fl::null);
 ruleBlock->setImplication(fl::null);
 ruleBlock->setActivation(new General);
-ruleBlock->addRule(fl::Rule::parse("if X is AboutNegFive then ApproxXCubed is TangentatNegFive", engine));
-ruleBlock->addRule(fl::Rule::parse("if X is AboutNegFour then ApproxXCubed is TangentatNegFour", engine));
-ruleBlock->addRule(fl::Rule::parse("if X is AboutNegThree then ApproxXCubed is TangentatNegThree", engine));
-ruleBlock->addRule(fl::Rule::parse("if X is AboutNegTwo then ApproxXCubed is TangentatNegTwo", engine));
-ruleBlock->addRule(fl::Rule::parse("if X is AboutNegOne then ApproxXCubed is TangentatNegOne", engine));
-ruleBlock->addRule(fl::Rule::parse("if X is AboutZero then ApproxXCubed is TangentatZero", engine));
-ruleBlock->addRule(fl::Rule::parse("if X is AboutOne then ApproxXCubed is TangentatOne", engine));
-ruleBlock->addRule(fl::Rule::parse("if X is AboutTwo then ApproxXCubed is TangentatTwo", engine));
-ruleBlock->addRule(fl::Rule::parse("if X is AboutThree then ApproxXCubed is TangentatThree", engine));
-ruleBlock->addRule(fl::Rule::parse("if X is AboutFour then ApproxXCubed is TangentatFour", engine));
-ruleBlock->addRule(fl::Rule::parse("if X is AboutFive then ApproxXCubed is TangentatFive", engine));
+ruleBlock->addRule(Rule::parse("if X is AboutNegFive then ApproxXCubed is TangentatNegFive", engine));
+ruleBlock->addRule(Rule::parse("if X is AboutNegFour then ApproxXCubed is TangentatNegFour", engine));
+ruleBlock->addRule(Rule::parse("if X is AboutNegThree then ApproxXCubed is TangentatNegThree", engine));
+ruleBlock->addRule(Rule::parse("if X is AboutNegTwo then ApproxXCubed is TangentatNegTwo", engine));
+ruleBlock->addRule(Rule::parse("if X is AboutNegOne then ApproxXCubed is TangentatNegOne", engine));
+ruleBlock->addRule(Rule::parse("if X is AboutZero then ApproxXCubed is TangentatZero", engine));
+ruleBlock->addRule(Rule::parse("if X is AboutOne then ApproxXCubed is TangentatOne", engine));
+ruleBlock->addRule(Rule::parse("if X is AboutTwo then ApproxXCubed is TangentatTwo", engine));
+ruleBlock->addRule(Rule::parse("if X is AboutThree then ApproxXCubed is TangentatThree", engine));
+ruleBlock->addRule(Rule::parse("if X is AboutFour then ApproxXCubed is TangentatFour", engine));
+ruleBlock->addRule(Rule::parse("if X is AboutFive then ApproxXCubed is TangentatFive", engine));
 engine->addRuleBlock(ruleBlock);
 
 

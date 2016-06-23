@@ -60,12 +60,12 @@ ruleBlock->setConjunction(new Minimum);
 ruleBlock->setDisjunction(new Maximum);
 ruleBlock->setImplication(new Minimum);
 ruleBlock->setActivation(new General);
-ruleBlock->addRule(fl::Rule::parse("if Load is small and Dirt is not high then Detergent is less_than_usual", engine));
-ruleBlock->addRule(fl::Rule::parse("if Load is small and Dirt is high then  Detergent is usual", engine));
-ruleBlock->addRule(fl::Rule::parse("if Load is normal and Dirt is low then Detergent is less_than_usual", engine));
-ruleBlock->addRule(fl::Rule::parse("if Load is normal and Dirt is high then Detergent is more_than_usual", engine));
-ruleBlock->addRule(fl::Rule::parse("if Detergent is usual  or Detergent is less_than_usual  then Cycle is short", engine));
-ruleBlock->addRule(fl::Rule::parse("if Detergent is more_than_usual  then Cycle is long", engine));
+ruleBlock->addRule(Rule::parse("if Load is small and Dirt is not high then Detergent is less_than_usual", engine));
+ruleBlock->addRule(Rule::parse("if Load is small and Dirt is high then  Detergent is usual", engine));
+ruleBlock->addRule(Rule::parse("if Load is normal and Dirt is low then Detergent is less_than_usual", engine));
+ruleBlock->addRule(Rule::parse("if Load is normal and Dirt is high then Detergent is more_than_usual", engine));
+ruleBlock->addRule(Rule::parse("if Detergent is usual  or Detergent is less_than_usual  then Cycle is short", engine));
+ruleBlock->addRule(Rule::parse("if Detergent is more_than_usual  then Cycle is long", engine));
 engine->addRuleBlock(ruleBlock);
 
 

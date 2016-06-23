@@ -37,8 +37,8 @@ ruleBlock->setConjunction(fl::null);
 ruleBlock->setDisjunction(fl::null);
 ruleBlock->setImplication(fl::null);
 ruleBlock->setActivation(new General);
-ruleBlock->addRule(fl::Rule::parse("if input is low then output is line1", engine));
-ruleBlock->addRule(fl::Rule::parse("if input is high then output is line2", engine));
+ruleBlock->addRule(Rule::parse("if input is low then output is line1", engine));
+ruleBlock->addRule(Rule::parse("if input is high then output is line2", engine));
 engine->addRuleBlock(ruleBlock);
 
 

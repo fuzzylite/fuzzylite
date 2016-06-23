@@ -55,15 +55,15 @@ ruleBlock->setConjunction(new AlgebraicProduct);
 ruleBlock->setDisjunction(fl::null);
 ruleBlock->setImplication(fl::null);
 ruleBlock->setActivation(new General);
-ruleBlock->addRule(fl::Rule::parse("if xHit is in1mf1 and projectAngle is in2mf1 then theta is out1mf", engine));
-ruleBlock->addRule(fl::Rule::parse("if xHit is in1mf1 and projectAngle is in2mf2 then theta is out1mf", engine));
-ruleBlock->addRule(fl::Rule::parse("if xHit is in1mf1 and projectAngle is in2mf3 then theta is out1mf", engine));
-ruleBlock->addRule(fl::Rule::parse("if xHit is in1mf2 and projectAngle is in2mf1 then theta is out1mf", engine));
-ruleBlock->addRule(fl::Rule::parse("if xHit is in1mf2 and projectAngle is in2mf2 then theta is out1mf", engine));
-ruleBlock->addRule(fl::Rule::parse("if xHit is in1mf2 and projectAngle is in2mf3 then theta is out1mf", engine));
-ruleBlock->addRule(fl::Rule::parse("if xHit is in1mf3 and projectAngle is in2mf1 then theta is out1mf", engine));
-ruleBlock->addRule(fl::Rule::parse("if xHit is in1mf3 and projectAngle is in2mf2 then theta is out1mf", engine));
-ruleBlock->addRule(fl::Rule::parse("if xHit is in1mf3 and projectAngle is in2mf3 then theta is out1mf", engine));
+ruleBlock->addRule(Rule::parse("if xHit is in1mf1 and projectAngle is in2mf1 then theta is out1mf", engine));
+ruleBlock->addRule(Rule::parse("if xHit is in1mf1 and projectAngle is in2mf2 then theta is out1mf", engine));
+ruleBlock->addRule(Rule::parse("if xHit is in1mf1 and projectAngle is in2mf3 then theta is out1mf", engine));
+ruleBlock->addRule(Rule::parse("if xHit is in1mf2 and projectAngle is in2mf1 then theta is out1mf", engine));
+ruleBlock->addRule(Rule::parse("if xHit is in1mf2 and projectAngle is in2mf2 then theta is out1mf", engine));
+ruleBlock->addRule(Rule::parse("if xHit is in1mf2 and projectAngle is in2mf3 then theta is out1mf", engine));
+ruleBlock->addRule(Rule::parse("if xHit is in1mf3 and projectAngle is in2mf1 then theta is out1mf", engine));
+ruleBlock->addRule(Rule::parse("if xHit is in1mf3 and projectAngle is in2mf2 then theta is out1mf", engine));
+ruleBlock->addRule(Rule::parse("if xHit is in1mf3 and projectAngle is in2mf3 then theta is out1mf", engine));
 engine->addRuleBlock(ruleBlock);
 
 

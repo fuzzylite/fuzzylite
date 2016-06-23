@@ -75,16 +75,16 @@ ruleBlock->setConjunction(fl::null);
 ruleBlock->setDisjunction(fl::null);
 ruleBlock->setImplication(fl::null);
 ruleBlock->setActivation(new General);
-ruleBlock->addRule(fl::Rule::parse("if inputX is NEAR_1 then outputFx is f1", engine));
-ruleBlock->addRule(fl::Rule::parse("if inputX is NEAR_2 then outputFx is f2", engine));
-ruleBlock->addRule(fl::Rule::parse("if inputX is NEAR_3 then outputFx is f3", engine));
-ruleBlock->addRule(fl::Rule::parse("if inputX is NEAR_4 then outputFx is f4", engine));
-ruleBlock->addRule(fl::Rule::parse("if inputX is NEAR_5 then outputFx is f5", engine));
-ruleBlock->addRule(fl::Rule::parse("if inputX is NEAR_6 then outputFx is f6", engine));
-ruleBlock->addRule(fl::Rule::parse("if inputX is NEAR_7 then outputFx is f7", engine));
-ruleBlock->addRule(fl::Rule::parse("if inputX is NEAR_8 then outputFx is f8", engine));
-ruleBlock->addRule(fl::Rule::parse("if inputX is NEAR_9 then outputFx is f9", engine));
-ruleBlock->addRule(fl::Rule::parse("if inputX is any  then trueFx is fx and diffFx is diff", engine));
+ruleBlock->addRule(Rule::parse("if inputX is NEAR_1 then outputFx is f1", engine));
+ruleBlock->addRule(Rule::parse("if inputX is NEAR_2 then outputFx is f2", engine));
+ruleBlock->addRule(Rule::parse("if inputX is NEAR_3 then outputFx is f3", engine));
+ruleBlock->addRule(Rule::parse("if inputX is NEAR_4 then outputFx is f4", engine));
+ruleBlock->addRule(Rule::parse("if inputX is NEAR_5 then outputFx is f5", engine));
+ruleBlock->addRule(Rule::parse("if inputX is NEAR_6 then outputFx is f6", engine));
+ruleBlock->addRule(Rule::parse("if inputX is NEAR_7 then outputFx is f7", engine));
+ruleBlock->addRule(Rule::parse("if inputX is NEAR_8 then outputFx is f8", engine));
+ruleBlock->addRule(Rule::parse("if inputX is NEAR_9 then outputFx is f9", engine));
+ruleBlock->addRule(Rule::parse("if inputX is any  then trueFx is fx and diffFx is diff", engine));
 engine->addRuleBlock(ruleBlock);
 
 

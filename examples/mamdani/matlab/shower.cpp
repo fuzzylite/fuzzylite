@@ -67,15 +67,15 @@ ruleBlock->setConjunction(new Minimum);
 ruleBlock->setDisjunction(new Maximum);
 ruleBlock->setImplication(new Minimum);
 ruleBlock->setActivation(new General);
-ruleBlock->addRule(fl::Rule::parse("if temp is cold and flow is soft then cold is openSlow and hot is openFast", engine));
-ruleBlock->addRule(fl::Rule::parse("if temp is cold and flow is good then cold is closeSlow and hot is openSlow", engine));
-ruleBlock->addRule(fl::Rule::parse("if temp is cold and flow is hard then cold is closeFast and hot is closeSlow", engine));
-ruleBlock->addRule(fl::Rule::parse("if temp is good and flow is soft then cold is openSlow and hot is openSlow", engine));
-ruleBlock->addRule(fl::Rule::parse("if temp is good and flow is good then cold is steady and hot is steady", engine));
-ruleBlock->addRule(fl::Rule::parse("if temp is good and flow is hard then cold is closeSlow and hot is closeSlow", engine));
-ruleBlock->addRule(fl::Rule::parse("if temp is hot and flow is soft then cold is openFast and hot is openSlow", engine));
-ruleBlock->addRule(fl::Rule::parse("if temp is hot and flow is good then cold is openSlow and hot is closeSlow", engine));
-ruleBlock->addRule(fl::Rule::parse("if temp is hot and flow is hard then cold is closeSlow and hot is closeFast", engine));
+ruleBlock->addRule(Rule::parse("if temp is cold and flow is soft then cold is openSlow and hot is openFast", engine));
+ruleBlock->addRule(Rule::parse("if temp is cold and flow is good then cold is closeSlow and hot is openSlow", engine));
+ruleBlock->addRule(Rule::parse("if temp is cold and flow is hard then cold is closeFast and hot is closeSlow", engine));
+ruleBlock->addRule(Rule::parse("if temp is good and flow is soft then cold is openSlow and hot is openSlow", engine));
+ruleBlock->addRule(Rule::parse("if temp is good and flow is good then cold is steady and hot is steady", engine));
+ruleBlock->addRule(Rule::parse("if temp is good and flow is hard then cold is closeSlow and hot is closeSlow", engine));
+ruleBlock->addRule(Rule::parse("if temp is hot and flow is soft then cold is openFast and hot is openSlow", engine));
+ruleBlock->addRule(Rule::parse("if temp is hot and flow is good then cold is openSlow and hot is closeSlow", engine));
+ruleBlock->addRule(Rule::parse("if temp is hot and flow is hard then cold is closeSlow and hot is closeFast", engine));
 engine->addRuleBlock(ruleBlock);
 
 

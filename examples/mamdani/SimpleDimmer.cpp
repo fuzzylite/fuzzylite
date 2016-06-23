@@ -39,9 +39,9 @@ ruleBlock->setConjunction(fl::null);
 ruleBlock->setDisjunction(fl::null);
 ruleBlock->setImplication(new Minimum);
 ruleBlock->setActivation(new General);
-ruleBlock->addRule(fl::Rule::parse("if Ambient is DARK then Power is HIGH", engine));
-ruleBlock->addRule(fl::Rule::parse("if Ambient is MEDIUM then Power is MEDIUM", engine));
-ruleBlock->addRule(fl::Rule::parse("if Ambient is BRIGHT then Power is LOW", engine));
+ruleBlock->addRule(Rule::parse("if Ambient is DARK then Power is HIGH", engine));
+ruleBlock->addRule(Rule::parse("if Ambient is MEDIUM then Power is MEDIUM", engine));
+ruleBlock->addRule(Rule::parse("if Ambient is BRIGHT then Power is LOW", engine));
 engine->addRuleBlock(ruleBlock);
 
 

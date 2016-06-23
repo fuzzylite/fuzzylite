@@ -51,11 +51,11 @@ ruleBlock->setConjunction(new AlgebraicProduct);
 ruleBlock->setDisjunction(fl::null);
 ruleBlock->setImplication(fl::null);
 ruleBlock->setActivation(new General);
-ruleBlock->addRule(fl::Rule::parse("if level is okay then valve is no_change", engine));
-ruleBlock->addRule(fl::Rule::parse("if level is low then valve is open_fast", engine));
-ruleBlock->addRule(fl::Rule::parse("if level is high then valve is close_fast", engine));
-ruleBlock->addRule(fl::Rule::parse("if level is okay and rate is positive then valve is close_slow", engine));
-ruleBlock->addRule(fl::Rule::parse("if level is okay and rate is negative then valve is open_slow", engine));
+ruleBlock->addRule(Rule::parse("if level is okay then valve is no_change", engine));
+ruleBlock->addRule(Rule::parse("if level is low then valve is open_fast", engine));
+ruleBlock->addRule(Rule::parse("if level is high then valve is close_fast", engine));
+ruleBlock->addRule(Rule::parse("if level is okay and rate is positive then valve is close_slow", engine));
+ruleBlock->addRule(Rule::parse("if level is okay and rate is negative then valve is open_slow", engine));
 engine->addRuleBlock(ruleBlock);
 
 

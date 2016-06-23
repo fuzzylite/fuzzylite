@@ -97,17 +97,17 @@ ruleBlock->setConjunction(fl::null);
 ruleBlock->setDisjunction(fl::null);
 ruleBlock->setImplication(fl::null);
 ruleBlock->setActivation(new General);
-ruleBlock->addRule(fl::Rule::parse("if pole_length is mf1 then out is outmf1", engine));
-ruleBlock->addRule(fl::Rule::parse("if pole_length is mf2 then out is outmf2", engine));
-ruleBlock->addRule(fl::Rule::parse("if pole_length is mf3 then out is outmf3", engine));
-ruleBlock->addRule(fl::Rule::parse("if pole_length is mf4 then out is outmf4", engine));
-ruleBlock->addRule(fl::Rule::parse("if pole_length is mf5 then out is outmf5", engine));
-ruleBlock->addRule(fl::Rule::parse("if pole_length is mf6 then out is outmf6", engine));
-ruleBlock->addRule(fl::Rule::parse("if pole_length is mf7 then out is outmf7", engine));
-ruleBlock->addRule(fl::Rule::parse("if pole_length is mf8 then out is outmf8", engine));
-ruleBlock->addRule(fl::Rule::parse("if pole_length is mf9 then out is outmf9", engine));
-ruleBlock->addRule(fl::Rule::parse("if pole_length is mf10 then out is outmf10", engine));
-ruleBlock->addRule(fl::Rule::parse("if pole_length is mf11 then out is outmf11", engine));
+ruleBlock->addRule(Rule::parse("if pole_length is mf1 then out is outmf1", engine));
+ruleBlock->addRule(Rule::parse("if pole_length is mf2 then out is outmf2", engine));
+ruleBlock->addRule(Rule::parse("if pole_length is mf3 then out is outmf3", engine));
+ruleBlock->addRule(Rule::parse("if pole_length is mf4 then out is outmf4", engine));
+ruleBlock->addRule(Rule::parse("if pole_length is mf5 then out is outmf5", engine));
+ruleBlock->addRule(Rule::parse("if pole_length is mf6 then out is outmf6", engine));
+ruleBlock->addRule(Rule::parse("if pole_length is mf7 then out is outmf7", engine));
+ruleBlock->addRule(Rule::parse("if pole_length is mf8 then out is outmf8", engine));
+ruleBlock->addRule(Rule::parse("if pole_length is mf9 then out is outmf9", engine));
+ruleBlock->addRule(Rule::parse("if pole_length is mf10 then out is outmf10", engine));
+ruleBlock->addRule(Rule::parse("if pole_length is mf11 then out is outmf11", engine));
 engine->addRuleBlock(ruleBlock);
 
 

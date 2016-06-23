@@ -47,10 +47,10 @@ ruleBlock->setConjunction(new EinsteinProduct);
 ruleBlock->setDisjunction(new EinsteinSum);
 ruleBlock->setImplication(new EinsteinProduct);
 ruleBlock->setActivation(new General);
-ruleBlock->addRule(fl::Rule::parse("if Age is Young or RiskTolerance is High then PercentageInStocks is AboutEightyFive", engine));
-ruleBlock->addRule(fl::Rule::parse("if Age is Old or RiskTolerance is Low then PercentageInStocks is AboutFifteen", engine));
-ruleBlock->addRule(fl::Rule::parse("if Age is not extremely Old and RiskTolerance is not extremely Low then PercentageInStocks is AboutFifty with 0.500", engine));
-ruleBlock->addRule(fl::Rule::parse("if Age is not extremely Young and RiskTolerance is not extremely High then PercentageInStocks is AboutFifty with 0.500", engine));
+ruleBlock->addRule(Rule::parse("if Age is Young or RiskTolerance is High then PercentageInStocks is AboutEightyFive", engine));
+ruleBlock->addRule(Rule::parse("if Age is Old or RiskTolerance is Low then PercentageInStocks is AboutFifteen", engine));
+ruleBlock->addRule(Rule::parse("if Age is not extremely Old and RiskTolerance is not extremely Low then PercentageInStocks is AboutFifty with 0.500", engine));
+ruleBlock->addRule(Rule::parse("if Age is not extremely Young and RiskTolerance is not extremely High then PercentageInStocks is AboutFifty with 0.500", engine));
 engine->addRuleBlock(ruleBlock);
 
 
