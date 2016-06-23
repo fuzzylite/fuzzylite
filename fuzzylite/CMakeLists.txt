@@ -67,7 +67,7 @@ if(NOT MSVC)
 #TODO: Remove -Werror before release.
 #Add Unix compilation flags
     set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra -Werror ${CMAKE_CXX_FLAGS}")
-    
+
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 
@@ -196,7 +196,7 @@ if(FL_BUILD_TESTS)
         set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "CATCH_CONFIG_NO_CPP11")
     endif()
 
-    if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU") 
+    if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU")
         #Ignore QuickTest macro expansion comparison: CHECK(xstr(4+10) == "4+10")
         target_compile_options(fl-test PRIVATE -Wno-address)
         if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
@@ -204,16 +204,19 @@ if(FL_BUILD_TESTS)
             target_compile_options(fl-test PRIVATE -Wno-parentheses)
         endif()
     endif()
+    if (MSVC)
+        target_compile_options(fl-test PRIVATE /wd4130)
+    endif()
 
     target_link_libraries(fl-test fl-shared ${FL_LIBS})
-    
+
     enable_testing()
     add_test(NAME RunTests COMMAND fl-test)
-#    add_test(NAME ListTests COMMAND fl-test --list-tests) 
+#    add_test(NAME ListTests COMMAND fl-test --list-tests)
 #    set_tests_properties(ListTests PROPERTIES PASS_REGULAR_EXPRESSION "[0-9]+ test case")
 #    add_test(NAME ListTags COMMAND fl-test --list-tags)
 #    set_tests_properties(ListTags PROPERTIES PASS_REGULAR_EXPRESSION "[0-9]+ tag")
-endif()  
+endif()
 
 ###INSTALL SECTION
 if(NOT FL_INSTALL_BINDIR)
@@ -229,7 +232,7 @@ if(NOT FL_INSTALL_LIBDIR)
 endif()
 
 if(FL_BUILD_BINARY)
-    install(TARGETS fl-bin 
+    install(TARGETS fl-bin
             RUNTIME DESTINATION ${FL_INSTALL_BINDIR}
             LIBRARY DESTINATION ${FL_INSTALL_LIBDIR}
             ARCHIVE DESTINATION ${FL_INSTALL_LIBDIR}
@@ -237,7 +240,7 @@ if(FL_BUILD_BINARY)
 endif()
 
 if(FL_BUILD_SHARED)
-    install(TARGETS fl-shared 
+    install(TARGETS fl-shared
             RUNTIME DESTINATION ${FL_INSTALL_BINDIR}
             LIBRARY DESTINATION ${FL_INSTALL_LIBDIR}
             ARCHIVE DESTINATION ${FL_INSTALL_LIBDIR}
