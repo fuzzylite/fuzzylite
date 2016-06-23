@@ -191,12 +191,12 @@ if(FL_BUILD_TESTS)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
 
-    set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
+    set_target_properties(fl-test PROPERTIES COMPILE_DEFINITIONS "FL_IMPORT_LIBRARY")
     if (NOT FL_CPP11)
-        set_target_properties(fl-bin PROPERTIES COMPILE_DEFINITIONS "CATCH_CONFIG_NO_CPP11")
+        set_target_properties(fl-test PROPERTIES COMPILE_DEFINITIONS "CATCH_CONFIG_NO_CPP11")
     endif()
 
-    if ("${CMAKE_CXX_COMPILER_ID}"  STREQUAL "GNU")
+    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         #Ignore QuickTest macro expansion comparison: CHECK(xstr(4+10) == "4+10")
         target_compile_options(fl-test PRIVATE -Wno-address)
         if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)

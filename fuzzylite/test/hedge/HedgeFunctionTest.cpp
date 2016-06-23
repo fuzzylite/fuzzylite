@@ -109,7 +109,7 @@ RuleBlock:
 #ifndef FL_CPP11
         WARN("Test only runs with -DFL_CPP11=ON");
         return;
-#endif
+#else
         std::string fllEngine = hedgeEngine();
         //Import using regular hedge very
         FL_unique_ptr<Engine> engine(FllImporter().fromString(fllEngine));
@@ -132,6 +132,7 @@ RuleBlock:
 
         //Must be different
         CHECK(fldVery != anotherFld);
+#endif
     }
 
 }

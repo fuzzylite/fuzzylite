@@ -24,7 +24,7 @@
 namespace fl {
 
     TEST_CASE("Benchmarks run from Console ", "[benchmark][console]") {
-        const char* args[] = {"dummy-command", "benchmarks", "../../examples/", "1"};
+//        const char* args[] = {"dummy-command", "benchmarks", "../../examples/", "1"};
 //        Console::main(4, args);
     }
 
