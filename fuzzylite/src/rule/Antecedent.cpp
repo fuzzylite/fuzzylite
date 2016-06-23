@@ -73,7 +73,7 @@ namespace fl {
         if (not isLoaded()) {
             throw Exception("[antecedent error] antecedent <" + getText() + "> is not loaded", FL_AT);
         }
-        if (node->type() == Expression::Proposition) {
+        if (node->expressionClass == Expression::PropositionClass) {
             const Proposition* proposition = static_cast<const Proposition*> (node);
             if (not proposition->variable->isEnabled()) {
                 return 0.0;
@@ -107,7 +107,7 @@ namespace fl {
             return result;
         }
         //if node is an operator
-        if (node->type() == Expression::Operator) {
+        if (node->expressionClass == Expression::OperatorClass) {
             const Operator* fuzzyOperator = static_cast<const Operator*> (node);
             if (not (fuzzyOperator->left and fuzzyOperator->right)) {
                 std::ostringstream ex;

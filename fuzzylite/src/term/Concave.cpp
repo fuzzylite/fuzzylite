@@ -32,7 +32,7 @@ namespace fl {
     }
 
     scalar Concave::membership(scalar x) const {
-        if (FL_IS_NAN(x)) return fl::nan;
+        if (Op::isNaN(x)) return fl::nan;
         if (Op::isLE(_inflection, _end)) { //Concave increasing
             if (Op::isLt(x, _end)) {
                 return Term::_height * (_end - _inflection) / (2 * _end - _inflection - x);

@@ -31,7 +31,7 @@ namespace fl {
     }
 
     scalar Gaussian::membership(scalar x) const {
-        if (FL_IS_NAN(x)) return fl::nan;
+        if (Op::isNaN(x)) return fl::nan;
         return Term::_height * std::exp((-(x - _mean) * (x - _mean)) / (2 * _standardDeviation * _standardDeviation));
     }
 

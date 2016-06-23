@@ -32,8 +32,8 @@ namespace fl {
     }
     //@todo: use binary search
 
-    scalar Discrete::membership(scalar _x_) const {
-        if (FL_IS_NAN(_x_)) return fl::nan;
+    scalar Discrete::membership(scalar x) const {
+        if (Op::isNaN(x)) return fl::nan;
         if (_xy.empty())
             throw Exception("[discrete error] term is empty", FL_AT);
 
@@ -45,19 +45,23 @@ namespace fl {
          */
 
 
-        if (Op::isLE(_x_, _xy.front().first)) return Term::_height * _xy.front().second;
-        if (Op::isGE(_x_, _xy.back().first)) return Term::_height * _xy.back().second;
+        if (Op::isLE(x, _xy.front().first))
+            return Term::_height * _xy.front().second;
+        if (Op::isGE(x, _xy.back().first))
+            return Term::_height * _xy.back().second;
 
         std::ptrdiff_t lower = -1, upper = -1;
 
         for (std::size_t i = 0; i < _xy.size(); ++i) {
-            if (Op::isEq(_xy.at(i).first, _x_)) return Term::_height * _xy.at(i).second;
+            const Pair& pair = _xy.at(i);
+            if (Op::isEq(pair.first, x))
+                return Term::_height * pair.second;
             //approximate on the left
-            if (Op::isLt(_xy.at(i).first, _x_)) {
+            if (Op::isLt(pair.first, x)) {
                 lower = i;
             }
             //get the immediate next one on the right
-            if (Op::isGt(_xy.at(i).first, _x_)) {
+            if (Op::isGt(pair.first, x)) {
                 upper = i;
                 break;
             }
@@ -65,7 +69,7 @@ namespace fl {
         if (upper < 0) upper = _xy.size() - 1;
         if (lower < 0) lower = 0;
 
-        return Term::_height * Op::scale(_x_, _xy.at(lower).first, _xy.at(upper).first,
+        return Term::_height * Op::scale(x, _xy.at(lower).first, _xy.at(upper).first,
                 _xy.at(lower).second, _xy.at(upper).second);
     }
 

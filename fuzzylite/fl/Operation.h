@@ -23,13 +23,6 @@
 #include <string>
 #include <vector>
 
-#define FL_IS_NAN(x) (x != x)
-#define FL_IS_EQ(a,b,macheps) (a == b or std::fabs(a - b) < macheps or (a != a and b != b))
-#define FL_IS_LT(a,b,macheps) (not (a == b or std::fabs(a - b) < macheps or (a != a and b != b)) and a < b)
-#define FL_IS_LE(a,b,macheps) ((a == b or std::fabs(a - b) < macheps or (a != a and b != b)) or a < b)
-#define FL_IS_GT(a,b,macheps) (not (a == b or std::fabs(a - b) < macheps or (a != a and b != b)) and a > b)
-#define FL_IS_GE(a,b,macheps) ((a == b or std::fabs(a - b) < macheps or (a != a and b != b)) or a > b)
-
 namespace fl {
 
     /**
@@ -612,29 +605,29 @@ namespace fl {
 
     template <typename T>
     inline T Operation::min(T a, T b) {
-        if (FL_IS_NAN(a)) return b;
-        if (FL_IS_NAN(b)) return a;
+        if (Op::isNaN(a)) return b;
+        if (Op::isNaN(b)) return a;
         return a < b ? a : b;
     }
 
     template <typename T>
     inline T Operation::max(T a, T b) {
-        if (FL_IS_NAN(a)) return b;
-        if (FL_IS_NAN(b)) return a;
+        if (Op::isNaN(a)) return b;
+        if (Op::isNaN(b)) return a;
         return a > b ? a : b;
     }
 
     template <typename T>
     inline T Operation::bound(T x, T min, T max) {
-        if (isGt(x, max)) return max;
-        if (isLt(x, min)) return min;
+        if (x > max) return max;
+        if (x < min) return min;
         return x;
     }
 
     template <typename T>
     inline bool Operation::in(T x, T min, T max, bool geq, bool leq) {
-        bool left = geq ? isGE(x, min) : isGt(x, min);
-        bool right = leq ? isLE(x, max) : isLt(x, max);
+        bool left = geq ? Op::isGE(x, min) : Op::isGt(x, min);
+        bool right = leq ? Op::isLE(x, max) : Op::isLt(x, max);
         return (left and right);
     }
 
@@ -645,32 +638,32 @@ namespace fl {
 
     template <typename T>
     inline bool Operation::isNaN(T x) {
-        return FL_IS_NAN(x);
+        return (x != x);
     }
 
     template<typename T>
     inline bool Operation::isFinite(T x) {
-        return not (FL_IS_NAN(x) or isInf(x));
+        return not (x != x or x == fl::inf or x == -fl::inf);
     }
 
     inline bool Operation::isLt(scalar a, scalar b, scalar macheps) {
-        return FL_IS_LT(a, b, macheps);
+        return not (a == b or std::fabs(a - b) < macheps or (a != a and b != b)) and a < b;
     }
 
     inline bool Operation::isLE(scalar a, scalar b, scalar macheps) {
-        return FL_IS_LE(a, b, macheps);
+        return a == b or std::fabs(a - b) < macheps or (a != a and b != b) or a < b;
     }
 
     inline bool Operation::isEq(scalar a, scalar b, scalar macheps) {
-        return FL_IS_EQ(a, b, macheps);
+        return a == b or std::fabs(a - b) < macheps or (a != a and b != b);
     }
 
     inline bool Operation::isGt(scalar a, scalar b, scalar macheps) {
-        return FL_IS_GT(a, b, macheps);
+        return not (a == b or std::fabs(a - b) < macheps or (a != a and b != b)) and a > b;
     }
 
     inline bool Operation::isGE(scalar a, scalar b, scalar macheps) {
-        return FL_IS_GE(a, b, macheps);
+        return a == b or std::fabs(a - b) < macheps or (a != a and b != b) or a > b;
     }
 
     inline scalar Operation::scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax) {

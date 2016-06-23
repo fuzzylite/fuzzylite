@@ -33,7 +33,7 @@ namespace fl {
     }
 
     scalar GaussianProduct::membership(scalar x) const {
-        if (FL_IS_NAN(x)) return fl::nan;
+        if (Op::isNaN(x)) return fl::nan;
         bool xLEa = Op::isLE(x, _meanA);
         scalar a = (1 - xLEa) + xLEa * std::exp(
                 (-(x - _meanA) * (x - _meanA)) / (2 * _standardDeviationA * _standardDeviationA)

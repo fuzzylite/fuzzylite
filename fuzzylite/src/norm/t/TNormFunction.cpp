@@ -35,7 +35,7 @@ namespace fl {
     scalar TNormFunction::compute(scalar a, scalar b) const {
         _function.variables["a"] = a;
         _function.variables["b"] = b;
-        return _function.membership(fl::nan);
+        return _function.evaluate();
     }
 
     Function& TNormFunction::function() {

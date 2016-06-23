@@ -26,7 +26,7 @@ namespace fl {
 
     scalar NilpotentMaximum::compute(scalar a, scalar b) const {
         if (Op::isLt(a + b, 1.0)) {
-            return std::max(a, b);
+            return Op::max(a, b);
         }
         return 1.0;
     }

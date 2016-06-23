@@ -46,16 +46,16 @@ namespace fl {
             x = minimum + (i + 0.5) * dx;
             y = term->membership(x);
 
-            if (FL_IS_GT(y, ymax, fuzzylite::macheps)) {
+            if (Op::isGt(y, ymax)) {
                 ymax = y;
 
                 xsmallest = x;
                 xlargest = x;
 
                 samePlateau = true;
-            } else if (samePlateau and FL_IS_EQ(y, ymax, fuzzylite::macheps)) {
+            } else if (samePlateau and Op::isEq(y, ymax)) {
                 xlargest = x;
-            } else if (FL_IS_LT(y, ymax, fuzzylite::macheps)) {
+            } else if (Op::isLt(y, ymax)) {
                 samePlateau = false;
             }
         }

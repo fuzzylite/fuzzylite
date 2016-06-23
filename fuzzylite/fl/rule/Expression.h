@@ -42,17 +42,12 @@ namespace fl {
     class FL_API Expression {
     public:
 
-        enum Type {
-            Proposition, Operator
-        };
-        Expression();
+        enum ExpressionClass {
+            None, PropositionClass, OperatorClass
+        } expressionClass;
+        Expression(ExpressionClass expressionClass = None);
         virtual ~Expression();
 
-        /**
-          Returns the type of the expression
-          @return the type of the expression
-         */
-        virtual Type type() const = 0;
         virtual std::string toString() const = 0;
 
     private:
@@ -75,7 +70,8 @@ namespace fl {
     public:
         /**Variable in `variable is [hedge]* term`*/
         Variable* variable;
-        enum VariableClass{
+
+        enum VariableClass {
             None, InputVariable, OutputVariable
         } variableClass;
         /**Hedge%s in `variable is [hedge]* term`, owned by the object,
@@ -85,15 +81,13 @@ namespace fl {
         Term* term;
 
         Proposition();
-        virtual ~Proposition() FL_IOVERRIDE;
-
-        virtual Expression::Type type() const FL_IOVERRIDE;
+        ~Proposition() FL_IOVERRIDE;
 
         /**
           Returns a string representation of the proposition
           @return a string representation of the proposition
          */
-        virtual std::string toString() const FL_IOVERRIDE;
+        std::string toString() const FL_IOVERRIDE;
 
 
     private:
@@ -123,15 +117,13 @@ namespace fl {
         Expression* right;
 
         Operator();
-        virtual ~Operator() FL_IOVERRIDE;
-
-        virtual Expression::Type type() const FL_IOVERRIDE;
+        ~Operator() FL_IOVERRIDE;
 
         /**
           Returns the name of the operator
           @return the name of the operator
          */
-        virtual std::string toString() const FL_IOVERRIDE;
+        std::string toString() const FL_IOVERRIDE;
 
     private:
         FL_DISABLE_COPY(Operator)

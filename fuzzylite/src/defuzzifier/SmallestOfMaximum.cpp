@@ -43,7 +43,7 @@ namespace fl {
             x = minimum + (i + 0.5) * dx;
             y = term->membership(x);
 
-            if (FL_IS_GT(y, ymax, fuzzylite::macheps)) {
+            if (Op::isGt(y, ymax)) {
                 xsmallest = x;
                 ymax = y;
             }

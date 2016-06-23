@@ -54,7 +54,7 @@ namespace fl {
     }
 
     scalar Cosine::membership(scalar x) const {
-        if (FL_IS_NAN(x)) return fl::nan;
+        if (Op::isNaN(x)) return fl::nan;
         if (Op::isLt(x, _center - 0.5 * _width)
                 or Op::isGt(x, _center + 0.5 * _width))
             return Term::_height * 0.0;

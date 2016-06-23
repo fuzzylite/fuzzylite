@@ -64,7 +64,7 @@ namespace fl {
     }
 
     scalar Aggregated::membership(scalar x) const {
-        if (FL_IS_NAN(x)) return fl::nan;
+        if (Op::isNaN(x)) return fl::nan;
         if (not (_terms.empty() or _aggregation.get())) { //Exception for IntegralDefuzzifiers
             throw Exception("[aggregation error] "
                     "aggregation operator needed to aggregate variable "

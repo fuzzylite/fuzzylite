@@ -34,7 +34,7 @@ namespace fl {
     }
 
     scalar Triangle::membership(scalar x) const {
-        if (FL_IS_NAN(x)) return fl::nan;
+        if (Op::isNaN(x)) return fl::nan;
 
         if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexC))
             return Term::_height * 0.0;
@@ -43,11 +43,12 @@ namespace fl {
             return Term::_height * 1.0;
 
         if (Op::isLt(x, _vertexB)) {
-            if (_vertexA == -fl::inf) return Term::_height * 1.0;
+            if (_vertexA == -fl::inf) 
+                return Term::_height * 1.0;
             return Term::_height * (x - _vertexA) / (_vertexB - _vertexA);
         }
-        //if (Op::isGt(x, _vertexB))
-        if (_vertexC == fl::inf) return Term::_height * 1.0;
+        if (_vertexC == fl::inf) 
+            return Term::_height * 1.0;
         return Term::_height * (_vertexC - x) / (_vertexC - _vertexB);
     }
 

@@ -38,15 +38,16 @@ namespace fl {
 
     scalar Linear::membership(scalar x) const {
         FL_IUNUSED(x);
-        if (not _engine) throw Exception("[linear error] term <" + getName() + "> "
+        if (not _engine)
+            throw Exception("[linear error] term <" + getName() + "> "
                 "is missing a reference to the engine", FL_AT);
 
         scalar result = 0.0;
-        for (std::size_t i = 0; i < _engine->inputVariables().size(); ++i) {
-            if (i < _coefficients.size())
-                result += _coefficients.at(i) * _engine->inputVariables().at(i)->getValue();
+        const std::size_t numberOfInputVariables = _engine->inputVariables().size();
+        for (std::size_t i = 0; i < numberOfInputVariables; ++i) {
+            result += _coefficients.at(i) * _engine->inputVariables().at(i)->getValue();
         }
-        if (_coefficients.size() > _engine->inputVariables().size()) {
+        if (_coefficients.size() > numberOfInputVariables) {
             result += _coefficients.back();
         }
         return result;

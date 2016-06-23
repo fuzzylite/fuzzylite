@@ -333,10 +333,8 @@ namespace fl {
           @return `double` or `float`
          */
         std::string floatingPoint();
-
     }
 }
-
 
 #endif  /* FL_FUZZYLITE_H */
 

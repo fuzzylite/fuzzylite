@@ -37,7 +37,7 @@ namespace fl {
     }
 
     scalar Trapezoid::membership(scalar x) const {
-        if (FL_IS_NAN(x)) return fl::nan;
+        if (Op::isNaN(x)) return fl::nan;
 
         if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexD))
             return Term::_height * 0.0;

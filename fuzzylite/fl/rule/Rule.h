@@ -229,7 +229,7 @@ namespace fl {
           Returns a string representation of the `if` keyword in rules
           @return a string representation of the `if` keyword in rules
          */
-        static std::string ifKeyword() {
+        inline static std::string ifKeyword() {
             return "if";
         }
 
@@ -237,7 +237,7 @@ namespace fl {
           Returns a string representation of the `is` keyword in rules
           @return a string representation of the `is` keyword in rules
          */
-        static std::string isKeyword() {
+        inline static std::string isKeyword() {
             return "is";
         }
 
@@ -245,7 +245,7 @@ namespace fl {
           Returns a string representation of the `then` keyword in rules
           @return a string representation of the `then` keyword in rules
          */
-        static std::string thenKeyword() {
+        inline static std::string thenKeyword() {
             return "then";
         }
 
@@ -253,7 +253,7 @@ namespace fl {
           Returns a string representation of the `and` keyword in rules
           @return a string representation of the `and` keyword in rules
          */
-        static std::string andKeyword() {
+        inline static std::string andKeyword() {
             return "and";
         }
 
@@ -261,7 +261,7 @@ namespace fl {
           Returns a string representation of the `or` keyword in rules
           @return a string representation of the `or` keyword in rules
          */
-        static std::string orKeyword() {
+        inline static std::string orKeyword() {
             return "or";
         }
 
@@ -269,7 +269,7 @@ namespace fl {
           Returns a string representation of the `with` keyword in rules
           @return a string representation of the `with` keyword in rules
          */
-        static std::string withKeyword() {
+        inline static std::string withKeyword() {
             return "with";
         }
 

@@ -31,7 +31,7 @@ namespace fl {
     }
 
     scalar Binary::membership(scalar x) const {
-        if (FL_IS_NAN(x)) return fl::nan;
+        if (Op::isNaN(x)) return fl::nan;
         if (_direction == fl::inf and Op::isGE(x, _start)) {
             return Term::_height * 1.0;
         }

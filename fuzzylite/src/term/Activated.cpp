@@ -34,7 +34,7 @@ namespace fl {
     }
 
     scalar Activated::membership(scalar x) const {
-        if (FL_IS_NAN(x)) return fl::nan;
+        if (Op::isNaN(x)) return fl::nan;
         if (not _term)
             throw Exception("[activation error] no term available to activate", FL_AT);
         if (not _implication)
