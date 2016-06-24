@@ -128,7 +128,7 @@ namespace fl {
     std::string Variable::fuzzify(scalar x) const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < terms().size(); ++i) {
-            Term* term = terms().at(i);
+            Term* term = _terms.at(i);
             scalar fx = fl::nan;
             try {
                 fx = term->membership(x);
@@ -151,9 +151,9 @@ namespace fl {
     Term* Variable::highestMembership(scalar x, scalar* yhighest) const {
         Term* result = fl::null;
         scalar ymax = 0.0;
-        for (std::size_t i = 0; i < terms().size(); ++i) {
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
             scalar y = fl::nan;
-            Term* term = terms().at(i);
+            Term* term = _terms.at(i);
             try {
                 y = term->membership(x);
             } catch (...) {
@@ -190,8 +190,8 @@ namespace fl {
                 TermCentroidComparatorAscending> termCentroids;
         Centroid defuzzifier;
         FL_DBG("Sorting...");
-        for (std::size_t i = 0; i < terms().size(); ++i) {
-            Term* term = terms().at(i);
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
+            Term* term = _terms.at(i);
             scalar centroid = fl::inf;
             try {
                 if (dynamic_cast<const Constant*> (term) or dynamic_cast<const Linear*> (term)) {
@@ -216,20 +216,20 @@ namespace fl {
     }
 
     void Variable::addTerm(Term* term) {
-        terms().push_back(term);
+        _terms.push_back(term);
     }
 
     void Variable::insertTerm(Term* term, std::size_t index) {
-        terms().insert(terms().begin() + index, term);
+        _terms.insert(_terms.begin() + index, term);
     }
 
     Term* Variable::getTerm(std::size_t index) const {
-        return terms().at(index);
+        return _terms.at(index);
     }
 
     Term* Variable::getTerm(const std::string& name) const {
         for (std::size_t i = 0; i < terms().size(); ++i) {
-            if (terms().at(i)->getName() == name) {
+            if (_terms.at(i)->getName() == name) {
                 return terms().at(i);
             }
         }
@@ -238,8 +238,8 @@ namespace fl {
     }
 
     bool Variable::hasTerm(const std::string& name) const {
-        for (std::size_t i = 0; i < terms().size(); ++i) {
-            if (terms().at(i)->getName() == name) {
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
+            if (_terms.at(i)->getName() == name) {
                 return true;
             }
         }
@@ -247,13 +247,13 @@ namespace fl {
     }
 
     Term* Variable::removeTerm(std::size_t index) {
-        Term* result = terms().at(index);
-        terms().erase(terms().begin() + index);
+        Term* result = _terms.at(index);
+        _terms.erase(_terms.begin() + index);
         return result;
     }
 
     std::size_t Variable::numberOfTerms() const {
-        return terms().size();
+        return _terms.size();
     }
 
     const std::vector<Term*>& Variable::terms() const {

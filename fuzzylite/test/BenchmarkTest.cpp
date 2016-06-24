@@ -77,7 +77,7 @@ namespace fl {
 #ifdef FL_USE_FLOAT
             scalar tolerance = 1e-3;
 #else
-            scalar tolerance = fuzzylite::macheps;
+            scalar tolerance = fuzzylite::macheps();
 #endif
             Benchmark benchmark(example.first, engine.get(), tolerance);
 

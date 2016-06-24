@@ -41,42 +41,53 @@ namespace fl {
 
     scalar WeightedAverageCustom::defuzzify(const Term* term,
             scalar minimum, scalar maximum) const {
-        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*> (term);
-        if (not fuzzyOutput) {
-            std::ostringstream ss;
-            ss << "[defuzzification error]"
-                    << "expected an Aggregated term instead of"
-                    << "<" << (term ? term->toString() : "null") << ">";
-            throw Exception(ss.str(), FL_AT);
-        }
+        const Aggregated* fuzzyOutput = static_cast<const Aggregated*> (term);
 
         minimum = fuzzyOutput->getMinimum();
         maximum = fuzzyOutput->getMaximum();
 
+        SNorm* aggregation = fuzzyOutput->getAggregation();
+
+        const std::size_t numberOfTerms = fuzzyOutput->numberOfTerms();
+        Type type = getType();
+        if (type == Automatic and numberOfTerms > 0) {
+            type = inferType(&(fuzzyOutput->terms().front()));
+        }
+
         scalar sum = 0.0;
         scalar weights = 0.0;
-
-        SNorm* aggregation = fuzzyOutput->getAggregation();
-        Type type = getType();
-        for (std::size_t i = 0; i < fuzzyOutput->terms().size(); ++i) {
-            const Activated& activated = fuzzyOutput->getTerm(i);
-            scalar w = activated.getDegree();
-            const TNorm* implication = activated.getImplication();
-
-            if (type == Automatic) type = inferType(activated.getTerm());
-
-            scalar z = (type == TakagiSugeno)
-                    //? activated.getTerm()->membership(fl::nan) Would ensure no Tsukamoto applies, but Inverse Tsukamoto with Functions would not work.
-                    ? activated.getTerm()->membership(w) //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
-                    : tsukamoto(activated.getTerm(), w, minimum, maximum);
-
-            scalar wz = implication ? implication->compute(w, z) : w * z;
-            if (aggregation) {
-                sum = aggregation->compute(sum, wz);
-                weights = aggregation->compute(weights, w);
-            } else {
-                sum += wz;
-                weights += w;
+        if (type == TakagiSugeno) {
+            //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
+            scalar w, z, wz;
+            for (std::size_t i = 0; i < numberOfTerms; ++i) {
+                const Activated& activated = fuzzyOutput->getTerm(i);
+                w = activated.getDegree();
+                z = activated.getTerm()->membership(w);
+                const TNorm* implication = activated.getImplication();
+                wz = implication ? implication->compute(w, z) : w*z;
+                if (aggregation) {
+                    sum = aggregation->compute(sum, wz);
+                    weights = aggregation->compute(weights, w);
+                } else {
+                    sum += wz;
+                    weights += w;
+                }
+            }
+        } else {
+            scalar w, z, wz;
+            for (std::size_t i = 0; i < numberOfTerms; ++i) {
+                const Activated& activated = fuzzyOutput->getTerm(i);
+                w = activated.getDegree();
+                z = tsukamoto(activated.getTerm(), w, minimum, maximum);
+                const TNorm* implication = activated.getImplication();
+                wz = implication ? implication->compute(w, z) : w*z;
+                if (aggregation) {
+                    sum = aggregation->compute(sum, wz);
+                    weights = aggregation->compute(weights, w);
+                } else {
+                    sum += wz;
+                    weights += w;
+                }
             }
         }
         return sum / weights;

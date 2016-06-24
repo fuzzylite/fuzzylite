@@ -41,37 +41,41 @@ namespace fl {
 
     scalar WeightedAverage::defuzzify(const Term* term,
             scalar minimum, scalar maximum) const {
-        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*> (term);
-        if (not fuzzyOutput) {
-            std::ostringstream ss;
-            ss << "[defuzzification error]"
-                    << "expected an Aggregated term instead of"
-                    << "<" << (term ? term->toString() : "null") << ">";
-            throw Exception(ss.str(), FL_AT);
-        }
+        //From version 6.0, the term is now static_cast'ed instead of dynamic_cast'ed
+        //for better performance
+        const Aggregated* fuzzyOutput = static_cast<const Aggregated*> (term);
 
         minimum = fuzzyOutput->getMinimum();
         maximum = fuzzyOutput->getMaximum();
 
-        scalar sum = 0.0;
-        scalar weights = 0.0;
-
+        const std::size_t numberOfTerms = fuzzyOutput->numberOfTerms();
         Type type = getType();
-        for (std::size_t i = 0; i < fuzzyOutput->numberOfTerms(); ++i) {
-            const Activated& activated = fuzzyOutput->getTerm(i);
-            scalar w = activated.getDegree();
-
-            if (type == Automatic) type = inferType(activated.getTerm());
-
-            scalar z = (type == TakagiSugeno)
-                    //? activated.getTerm()->membership(fl::nan) Would ensure no Tsukamoto applies, but Inverse Tsukamoto with Functions would not work.
-                    ? activated.getTerm()->membership(w) //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
-                    : tsukamoto(activated.getTerm(), w, minimum, maximum);
-
-            sum += w * z;
-            weights += w;
+        if (type == Automatic and numberOfTerms > 0) {
+            type = inferType(&(fuzzyOutput->terms().front()));
         }
 
+        scalar sum = 0.0;
+        scalar weights = 0.0;
+        if (type == TakagiSugeno) {
+            //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
+            scalar w, z;
+            for (std::size_t i = 0; i < numberOfTerms; ++i) {
+                const Activated& activated = fuzzyOutput->getTerm(i);
+                w = activated.getDegree();
+                z = activated.getTerm()->membership(w);
+                sum += w * z;
+                weights += w;
+            }
+        } else {
+            scalar w, z;
+            for (std::size_t i = 0; i < numberOfTerms; ++i) {
+                const Activated& activated = fuzzyOutput->getTerm(i);
+                w = activated.getDegree();
+                z = tsukamoto(activated.getTerm(), w, minimum, maximum);
+                sum += w * z;
+                weights += w;
+            }
+        }
         return sum / weights;
     }
 

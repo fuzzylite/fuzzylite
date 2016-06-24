@@ -362,14 +362,14 @@ namespace fl {
         }
         result.push_back(Result("units", stringOf(unit)));
         result.push_back(Result("sum(t)", Op::str(convert(Op::sum(time), NanoSeconds, unit),
-                unit == NanoSeconds ? 0 : fuzzylite::getDecimals())));
+                unit == NanoSeconds ? 0 : fuzzylite::decimals())));
         result.push_back(Result("mean(t)", Op::str(convert(Op::mean(time), NanoSeconds, unit))));
         result.push_back(Result("sd(t)", Op::str(convert(Op::standardDeviation(time), NanoSeconds, unit))));
 
         if (includeTimes) {
             for (std::size_t i = 0; i < time.size(); ++i) {
                 result.push_back(Result("t" + Op::str(i + 1),
-                        Op::str(time.at(i), unit == NanoSeconds ? 0 : fuzzylite::getDecimals())));
+                        Op::str(time.at(i), unit == NanoSeconds ? 0 : fuzzylite::decimals())));
             }
         }
         return result;

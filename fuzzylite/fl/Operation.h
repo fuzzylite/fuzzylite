@@ -124,7 +124,7 @@ namespace fl {
           floating-point values are considered equivalent
           @return whether @f$a@f$ is less than @f$b@f$ at the given `macheps`
          */
-        static bool isLt(scalar a, scalar b, scalar macheps = fuzzylite::macheps);
+        static bool isLt(scalar a, scalar b, scalar macheps = fuzzylite::_macheps);
         /**
           Returns whether @f$a@f$ is less than or equal to @f$b@f$ at the given
           `macheps`
@@ -135,7 +135,7 @@ namespace fl {
           @return whether @f$a@f$ is less than or equal to @f$b@f$ at the given
           `macheps`
          */
-        static bool isLE(scalar a, scalar b, scalar macheps = fuzzylite::macheps);
+        static bool isLE(scalar a, scalar b, scalar macheps = fuzzylite::_macheps);
         /**
           Returns whether @f$a@f$ is equal to @f$b@f$ at the given `macheps`
           @param a
@@ -144,7 +144,7 @@ namespace fl {
           floating-point values are considered equivalent
           @return whether @f$a@f$ is equal to @f$b@f$ at the given `macheps`
          */
-        static bool isEq(scalar a, scalar b, scalar macheps = fuzzylite::macheps);
+        static bool isEq(scalar a, scalar b, scalar macheps = fuzzylite::_macheps);
         /**
           Returns whether @f$a@f$ is greater than @f$b@f$ at the given `macheps`
           @param a
@@ -153,7 +153,7 @@ namespace fl {
           floating-point values are considered equivalent
           @return whether @f$a@f$ is greater than @f$b@f$ at the given `macheps`
          */
-        static bool isGt(scalar a, scalar b, scalar macheps = fuzzylite::macheps);
+        static bool isGt(scalar a, scalar b, scalar macheps = fuzzylite::_macheps);
         /**
           Returns whether @f$a@f$ is greater than or equal to @f$b@f$ at the
           given `macheps`
@@ -164,7 +164,7 @@ namespace fl {
           @return whether @f$a@f$ is greater than or equal to @f$b@f$ at the
           given `macheps`
          */
-        static bool isGE(scalar a, scalar b, scalar macheps = fuzzylite::macheps);
+        static bool isGE(scalar a, scalar b, scalar macheps = fuzzylite::_macheps);
 
         /**
           Linearly interpolates the parameter @f$x@f$ in range
@@ -551,8 +551,8 @@ namespace fl {
           @return a string representation of the given value
          */
         template <typename T>
-        static std::string str(T x, int decimals = fuzzylite::decimals,
-                std::ios_base::fmtflags scalarFormat = fuzzylite::scalarFomat);
+        static std::string str(T x, int decimals = fuzzylite::_decimals,
+                std::ios_base::fmtflags scalarFormat = fuzzylite::_scalarFormat);
 
         /**
           Joins a vector of elements by the given separator into a single
@@ -1005,8 +1005,8 @@ namespace fl {
     template <> FL_API
     inline std::string Operation::str(const std::string& x, int decimals,
             std::ios_base::fmtflags strFormat) {
-        (void) decimals;
-        (void) strFormat;
+        FL_IUNUSED(decimals);
+        FL_IUNUSED(strFormat);
         return x;
     }
 

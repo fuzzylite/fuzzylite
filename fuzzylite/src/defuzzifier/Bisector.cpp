@@ -36,7 +36,7 @@ namespace fl {
     scalar Bisector::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
         if (not Op::isFinite(minimum + maximum)) return fl::nan;
 
-        scalar dx = (maximum - minimum) / getResolution();
+        const scalar dx = (maximum - minimum) / getResolution();
         int counter = getResolution();
         int left = 0, right = 0;
         scalar leftArea = 0, rightArea = 0;
@@ -52,10 +52,8 @@ namespace fl {
                 right++;
             }
         }
-
         //Inverse weighted average to compensate
-        scalar bisector = (leftArea * xRight + rightArea * xLeft) / (leftArea + rightArea);
-        return bisector;
+        return (leftArea * xRight + rightArea * xLeft) / (leftArea + rightArea);
     }
 
     Bisector* Bisector::clone() const {

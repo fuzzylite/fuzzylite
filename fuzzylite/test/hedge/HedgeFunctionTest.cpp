@@ -107,9 +107,9 @@ RuleBlock:
 
     TEST_CASE("HedgeFunction x*x is equivalent to hedge Very", "[hedge][function]") {
 #ifndef FL_CPP11
-        (void) &(hedgeEngine);
-        (void) &(myVeryConstructor);
-        (void) &(myExtraVeryConstructor);
+        FL_IUNUSED(&(hedgeEngine));
+        FL_IUNUSED(&(myVeryConstructor));
+        FL_IUNUSED(&(myExtraVeryConstructor));
         WARN("Test only runs with -DFL_CPP11=ON");
         return;
 #else

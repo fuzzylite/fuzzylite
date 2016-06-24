@@ -81,16 +81,16 @@ namespace fl {
     }
 
     void RuleBlock::unloadRules() const {
-        for (std::size_t i = 0; i < rules().size(); ++i) {
-            rules().at(i)->unload();
+        for (std::size_t i = 0; i < _rules.size(); ++i) {
+            _rules.at(i)->unload();
         }
     }
 
     void RuleBlock::loadRules(const Engine* engine) {
         std::ostringstream exceptions;
         bool throwException = false;
-        for (std::size_t i = 0; i < rules().size(); ++i) {
-            Rule* rule = rules().at(i);
+        for (std::size_t i = 0; i < _rules.size(); ++i) {
+            Rule* rule = _rules.at(i);
             if (rule->isLoaded()) {
                 rule->unload();
             }
@@ -169,25 +169,25 @@ namespace fl {
      * Operations for std::vector _rules
      */
     void RuleBlock::addRule(Rule* rule) {
-        rules().push_back(rule);
+        _rules.push_back(rule);
     }
 
     void RuleBlock::insertRule(Rule* rule, std::size_t index) {
-        rules().insert(rules().begin() + index, rule);
+        _rules.insert(_rules.begin() + index, rule);
     }
 
     Rule* RuleBlock::getRule(std::size_t index) const {
-        return rules().at(index);
+        return _rules.at(index);
     }
 
     Rule* RuleBlock::removeRule(std::size_t index) {
-        Rule* result = rules().at(index);
-        rules().erase(rules().begin() + index);
+        Rule* result = _rules.at(index);
+        _rules.erase(_rules.begin() + index);
         return result;
     }
 
     std::size_t RuleBlock::numberOfRules() const {
-        return rules().size();
+        return _rules.size();
     }
 
     const std::vector<Rule*>& RuleBlock::rules() const {

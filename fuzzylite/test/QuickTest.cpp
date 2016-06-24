@@ -67,8 +67,8 @@ namespace fl {
         CHECK(Op::str(double(0.333333)) == "0.333");
         CHECK(Op::str(double(0.0000333), 9) == "0.000033300");
 
-        CHECK(Op::str(fuzzylite::getMachEps()) == "0.000");
-        CHECK(Op::str(fuzzylite::getMachEps(), 6) == "0.000001");
+        CHECK(Op::str(fuzzylite::macheps()) == "0.000");
+        CHECK(Op::str(fuzzylite::macheps(), 6) == "0.000001");
         CHECK(Op::str(1e-7) == "0.000");
         CHECK(Op::str(1e-7, 6) == "0.000000");
         CHECK(Op::str(1e-7, 7) == "0.0000001");
@@ -94,11 +94,11 @@ namespace fl {
         CHECK(Op::str(double(0.333333)) == "3.333e-01");
         CHECK(Op::str(double(0.0000333), 9) == "3.330000000e-05");
 
-        CHECK(Op::isEq(fuzzylite::getMachEps(), 0.0) == false);
-        CHECK(Op::isEq(fuzzylite::getMachEps(), 0.0, std::pow(10.0, -6)) == false);
-        CHECK(Op::str(fuzzylite::getMachEps()) == "0.000e+00");
-        CHECK(Op::str(fuzzylite::getMachEps(), -1) == "1.000000e-06");
-        CHECK(Op::str(fuzzylite::getMachEps(), -1, std::ios_base::fmtflags(0x0)) == "1e-06");
+        CHECK(Op::isEq(fuzzylite::macheps(), 0.0) == false);
+        CHECK(Op::isEq(fuzzylite::macheps(), 0.0, std::pow(10.0, -6)) == false);
+        CHECK(Op::str(fuzzylite::macheps()) == "0.000e+00");
+        CHECK(Op::str(fuzzylite::macheps(), -1) == "1.000000e-06");
+        CHECK(Op::str(fuzzylite::macheps(), -1, std::ios_base::fmtflags(0x0)) == "1e-06");
         CHECK(Op::str(1e-7, 6) == "0.000000e+00");
         CHECK(Op::str(1e-7, 7) == "1.0000000e-07");
         CHECK(Op::str(1e-7, 7, std::ios_base::fmtflags(0x0)) == "1e-07");

@@ -37,7 +37,7 @@ namespace fl {
         if (not Op::isFinite(minimum + maximum)) return fl::nan;
 
         const int resolution = getResolution();
-        scalar dx = (maximum - minimum) / resolution;
+        const scalar dx = (maximum - minimum) / resolution;
         scalar x, y;
         scalar area = 0, xcentroid = 0, ycentroid = 0;
         for (int i = 0; i < resolution; ++i) {

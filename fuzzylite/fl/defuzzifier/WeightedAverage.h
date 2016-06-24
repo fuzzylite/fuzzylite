@@ -50,7 +50,9 @@ namespace fl {
           @f$z_i = \mu_i(w_i) @f$.
 
           From version 6.0, the implication and aggregation operators are not
-          utilized for defuzzification.
+          utilized for defuzzification. Also, for better performance, the term
+          is assumed to be Aggregated without type checking, for which unexpected
+          operation may occur if the term is not an instance of Aggregated.
 
           @param term is the fuzzy set represented as an Aggregated Term
           @param minimum is the minimum value of the range (only used for Tsukamoto)

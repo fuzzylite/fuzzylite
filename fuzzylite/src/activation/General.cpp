@@ -49,7 +49,8 @@ namespace fl {
         const SNorm* disjunction = ruleBlock->getDisjunction();
         const TNorm* implication = ruleBlock->getImplication();
 
-        for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
+        const std::size_t numberOfRules = ruleBlock->numberOfRules();
+        for (std::size_t i = 0; i < numberOfRules; ++i) {
             Rule* rule = ruleBlock->getRule(i);
             rule->deactivate();
             if (rule->isLoaded()) {

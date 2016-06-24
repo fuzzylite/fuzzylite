@@ -35,7 +35,7 @@ namespace fl {
     scalar LargestOfMaximum::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
         if (not Op::isFinite(minimum + maximum)) return fl::nan;
         const int resolution = getResolution();
-        scalar dx = (maximum - minimum) / resolution;
+        const scalar dx = (maximum - minimum) / resolution;
         scalar x, y;
         scalar ymax = -1.0, xlargest = maximum;
         for (int i = 0; i < resolution; ++i) {
