@@ -43,17 +43,18 @@ namespace fl {
         //From version 6.0, the term is now static_cast'ed instead of dynamic_cast'ed
         //for better performance
         const Aggregated* fuzzyOutput = static_cast<const Aggregated*> (term);
+        if (fuzzyOutput->isEmpty()) return fl::nan;
 
         minimum = fuzzyOutput->getMinimum();
         maximum = fuzzyOutput->getMaximum();
 
-        const std::size_t numberOfTerms = fuzzyOutput->numberOfTerms();
         Type type = getType();
-        if (type == Automatic and numberOfTerms > 0) {
+        if (type == Automatic) {
             type = inferType(&(fuzzyOutput->terms().front()));
         }
 
         scalar sum = 0.0;
+        const std::size_t numberOfTerms = fuzzyOutput->numberOfTerms();
         if (type == TakagiSugeno) {
             //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
             scalar w, z;

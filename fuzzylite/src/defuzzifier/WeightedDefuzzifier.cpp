@@ -152,6 +152,7 @@ namespace fl {
         if (isTsukamoto) {
             //Compare difference between estimated and true value
             scalar fz = monotonic->membership(z);
+            FL_DEBUG_BEGIN
             if (not Op::isEq(w, fz, 1e-2)) {
                 FL_DBG("[tsukamoto warning] difference <" << Op::str(std::abs(w - fz)) << "> "
                         "might suggest an inaccurate computation of z because it is "
@@ -161,6 +162,7 @@ namespace fl {
                         "f(z)=" << fz << " and "
                         "z=" << Op::str(z));
             }
+            FL_DEBUG_END
         } else {
             // else fallback to the regular Takagi-Sugeno or inverse Tsukamoto (according to term)
             z = monotonic->membership(w);
