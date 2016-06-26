@@ -38,6 +38,16 @@ namespace fl {
 
      */
     class FL_API Variable {
+    public:
+
+        /**
+         Indicates the type of the variable to avoid costly `dynamic_casts`
+         */
+        enum Type {
+            None,
+            InputVariable,
+            OutputVariable
+        };
     protected:
         std::string _name;
         std::vector<Term*> _terms;
@@ -184,6 +194,12 @@ namespace fl {
           @return the term @f$if@f$ which maximimizes @f$\mu_i(x)@f$
          */
         virtual Term* highestMembership(scalar x, scalar* yhighest = fl::null) const;
+
+        /**
+         Returns the type of the variable
+         @return the type of the variable
+         */
+        virtual Type type() const;
 
         /**
           Gets a string representation of the variable in the FuzzyLite Language

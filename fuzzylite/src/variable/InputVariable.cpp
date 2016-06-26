@@ -30,6 +30,10 @@ namespace fl {
         return fuzzify(getValue());
     }
 
+    Variable::Type InputVariable::type() const {
+        return Variable::InputVariable;
+    }
+
     std::string InputVariable::toString() const {
         return FllExporter().toString(this);
     }

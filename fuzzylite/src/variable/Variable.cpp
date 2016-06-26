@@ -124,6 +124,10 @@ namespace fl {
         return this->_lockValueInRange;
     }
 
+    Variable::Type Variable::type() const {
+        return None;
+    }
+
     std::string Variable::fuzzify(scalar x) const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < terms().size(); ++i) {

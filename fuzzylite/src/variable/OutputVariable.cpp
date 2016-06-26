@@ -108,6 +108,10 @@ namespace fl {
         return this->_lockPreviousValue;
     }
 
+    Variable::Type OutputVariable::type() const {
+        return Variable::OutputVariable;
+    }
+
     void OutputVariable::defuzzify() {
         if (not _enabled) return;
 
@@ -142,7 +146,7 @@ namespace fl {
             //if a previous defuzzification was successfully performed and
             //and the output value is supposed not to change when the output is empty
             if (_lockPreviousValue and not Op::isNaN(_previousValue)) {
-                result =_previousValue;
+                result = _previousValue;
             } else {
                 result = _defaultValue;
             }

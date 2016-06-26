@@ -22,15 +22,14 @@
 
 namespace fl {
 
-    Expression::Expression(ExpressionClass expressionClass)
-    : expressionClass(expressionClass) {
+    Expression::Expression() {
     }
 
     Expression::~Expression() {
     }
 
-    Proposition::Proposition() : Expression(PropositionClass),
-    variable(fl::null), variableClass(None), term(fl::null) {
+    Proposition::Proposition() : Expression(),
+    variable(fl::null), term(fl::null) {
     }
 
     Proposition::~Proposition() {
@@ -38,6 +37,10 @@ namespace fl {
             delete hedges.at(i);
         }
         hedges.clear();
+    }
+
+    Expression::Type Proposition::type() const {
+        return Type::Proposition;
     }
 
     std::string Proposition::toString() const {
@@ -63,13 +66,17 @@ namespace fl {
         return ss.str();
     }
 
-    Operator::Operator() : Expression(OperatorClass),
+    Operator::Operator() : Expression(),
     name(""), left(fl::null), right(fl::null) {
     }
 
     Operator::~Operator() {
         if (left) delete left;
         if (right) delete right;
+    }
+
+    Expression::Type Operator::type() const {
+        return Type::Operator;
     }
 
     std::string Operator::toString() const {

@@ -42,12 +42,17 @@ namespace fl {
     class FL_API Expression {
     public:
 
-        enum ExpressionClass {
-            None, PropositionClass, OperatorClass
-        } expressionClass;
-        Expression(ExpressionClass expressionClass = None);
+        enum Type {
+            Proposition, Operator
+        };
+        Expression();
         virtual ~Expression();
 
+        /**
+          Returns the type of the expression
+          @return the type of the expression
+         */
+        virtual Type type() const = 0;
         virtual std::string toString() const = 0;
 
     private:
@@ -70,10 +75,6 @@ namespace fl {
     public:
         /**Variable in `variable is [hedge]* term`*/
         Variable* variable;
-
-        enum VariableClass {
-            None, InputVariable, OutputVariable
-        } variableClass;
         /**Hedge%s in `variable is [hedge]* term`, owned by the object,
          destroyed on destructor*/
         std::vector<Hedge*> hedges;
@@ -82,6 +83,8 @@ namespace fl {
 
         Proposition();
         ~Proposition() FL_IOVERRIDE;
+
+        Expression::Type type() const FL_IOVERRIDE;
 
         /**
           Returns a string representation of the proposition
@@ -118,6 +121,8 @@ namespace fl {
 
         Operator();
         ~Operator() FL_IOVERRIDE;
+
+        Expression::Type type() const FL_IOVERRIDE;
 
         /**
           Returns the name of the operator

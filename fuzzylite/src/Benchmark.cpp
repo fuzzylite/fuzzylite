@@ -140,7 +140,7 @@ namespace fl {
     }
 
     std::vector<scalar> Benchmark::run(int times) {
-        std::vector<scalar> runTimes(times, 0.0);
+        std::vector<scalar> runTimes(times, fl::nan);
         const std::size_t offset(_engine->inputVariables().size());
         for (int t = 0; t < times; ++t) {
             _obtained = std::vector<std::vector<scalar> >(_expected.size(),

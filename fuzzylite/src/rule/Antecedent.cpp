@@ -72,7 +72,8 @@ namespace fl {
         if (not isLoaded()) {
             throw Exception("[antecedent error] antecedent <" + getText() + "> is not loaded", FL_AT);
         }
-        if (node->expressionClass == Expression::PropositionClass) {
+        const Expression::Type expression = node->type();
+        if (expression == Expression::Proposition) {
             const Proposition* proposition = static_cast<const Proposition*> (node);
             if (not proposition->variable->isEnabled()) {
                 return 0.0;
@@ -90,9 +91,10 @@ namespace fl {
                 }
             }
             scalar result = fl::nan;
-            if (proposition->variableClass == Proposition::InputVariable) {
+            Variable::Type variableType = proposition->variable->type();
+            if (variableType == Variable::InputVariable) {
                 result = proposition->term->membership(proposition->variable->getValue());
-            } else if (proposition->variableClass == Proposition::OutputVariable) {
+            } else if (variableType == Variable::OutputVariable) {
                 result = static_cast<OutputVariable*> (proposition->variable)
                         ->fuzzyOutput()->activationDegree(proposition->term);
             }
@@ -106,7 +108,7 @@ namespace fl {
             return result;
         }
         //if node is an operator
-        if (node->expressionClass == Expression::OperatorClass) {
+        if (expression == Expression::Operator) {
             const Operator* fuzzyOperator = static_cast<const Operator*> (node);
             if (not (fuzzyOperator->left and fuzzyOperator->right)) {
                 std::ostringstream ex;
@@ -183,18 +185,13 @@ namespace fl {
             while (tokenizer >> token) {
                 if (state bitand S_VARIABLE) {
                     Variable* variable = fl::null;
-                    Proposition::VariableClass variableClass = Proposition::None;
-                    if (engine->hasInputVariable(token)) {
+                    if (engine->hasInputVariable(token))
                         variable = engine->getInputVariable(token);
-                        variableClass = Proposition::InputVariable;
-                    } else if (engine->hasOutputVariable(token)) {
+                    else if (engine->hasOutputVariable(token))
                         variable = engine->getOutputVariable(token);
-                        variableClass = Proposition::OutputVariable;
-                    }
                     if (variable) {
                         proposition = new Proposition;
                         proposition->variable = variable;
-                        proposition->variableClass = variableClass;
                         expressionStack.push(proposition);
 
                         state = S_IS;
