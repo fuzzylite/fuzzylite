@@ -43,10 +43,12 @@ namespace fl {
 
         scalar result = 0.0;
         const std::size_t numberOfInputVariables = _engine->inputVariables().size();
+        const std::size_t numberOfCoefficients = _coefficients.size();
         for (std::size_t i = 0; i < numberOfInputVariables; ++i) {
-            result += _coefficients.at(i) * _engine->inputVariables().at(i)->getValue();
+            if (i < numberOfCoefficients)
+                result += _coefficients.at(i) * _engine->inputVariables().at(i)->getValue();
         }
-        if (_coefficients.size() > numberOfInputVariables) {
+        if (numberOfCoefficients > numberOfInputVariables) {
             result += _coefficients.back();
         }
         return result;
