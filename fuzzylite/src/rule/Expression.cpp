@@ -40,7 +40,7 @@ namespace fl {
     }
 
     Expression::Type Proposition::type() const {
-        return Type::Proposition;
+        return Expression::Proposition;
     }
 
     std::string Proposition::toString() const {
@@ -76,7 +76,7 @@ namespace fl {
     }
 
     Expression::Type Operator::type() const {
-        return Type::Operator;
+        return Expression::Operator;
     }
 
     std::string Operator::toString() const {
