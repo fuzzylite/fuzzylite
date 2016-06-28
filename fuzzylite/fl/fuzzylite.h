@@ -378,40 +378,40 @@ namespace fl {
         return "http://www.fuzzylite.com/";
     }
 
-    inline void fuzzylite::setDebugging(bool debugging_) {
-        _debugging = debugging_;
+    inline void fuzzylite::setDebugging(bool debugging) {
+        _debugging = debugging;
     }
 
     inline bool fuzzylite::isDebugging() {
         return _debugging;
     }
 
-    inline void fuzzylite::setDecimals(int decimals_) {
-        _decimals = decimals_;
+    inline void fuzzylite::setDecimals(int decimals) {
+        _decimals = decimals;
     }
 
     inline int fuzzylite::decimals() {
         return _decimals;
     }
 
-    inline void fuzzylite::setScalarFormat(std::ios_base::fmtflags scalarFormat_) {
-        _scalarFormat = scalarFormat_;
+    inline void fuzzylite::setScalarFormat(std::ios_base::fmtflags scalarFormat) {
+        _scalarFormat = scalarFormat;
     }
 
     inline std::ios_base::fmtflags fuzzylite::scalarFormat() {
         return _scalarFormat;
     }
 
-    inline void fuzzylite::setMachEps(scalar macheps_) {
-        _macheps = macheps_;
+    inline void fuzzylite::setMachEps(scalar macheps) {
+        _macheps = macheps;
     }
 
     inline scalar fuzzylite::macheps() {
         return _macheps;
     }
 
-    inline void fuzzylite::setLogging(bool logging_) {
-        _logging = logging_;
+    inline void fuzzylite::setLogging(bool logging) {
+        _logging = logging;
     }
 
     inline bool fuzzylite::isLogging() {
