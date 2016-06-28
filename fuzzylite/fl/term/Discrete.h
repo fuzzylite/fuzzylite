@@ -18,6 +18,8 @@
 
 #include "fl/term/Term.h"
 
+#include "fl/defuzzifier/IntegralDefuzzifier.h"
+
 #include <vector>
 #include <utility>
 
@@ -26,7 +28,9 @@ namespace fl {
     /**
 
       The Discrete class is a basic Term that represents a discrete membership
-      function.
+      function. The pairs of values in any Discrete term **must** be sorted
+      ascendently because the membership function is computed using binary search
+      to find the lower and upper bounds of $f@x@f$.
 
       @image html discrete.svg
 
@@ -59,8 +63,16 @@ namespace fl {
           @param parameters as `x1 y1 xn yn [height]`
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
+
         /**
-          Computes the membership function evaluated at @f$x@f$
+         Sorts the pairs of values ascendently by the @f$x@f$-value, as it is
+         required by the Discrete term.
+         @param pairs is a vector of Discrete::Pair%s
+         */
+        static void sort(std::vector<Pair>& pairs);
+
+        /**
+          Computes the membership function evaluated at @f$x@f$ using binary search.
           @param x
           @return @f$ \dfrac{h (y_{\max} - y_{\min})}{(x_{\max}- x_{\min})}  (x - x_{\min}) + y_{\min}@f$
 
@@ -158,7 +170,8 @@ namespace fl {
           perform between start and end
           @return a Discrete term that approximates the given term
          */
-        static Discrete* discretize(const Term* term, scalar start, scalar end, int resolution);
+        static Discrete* discretize(const Term* term, scalar start, scalar end,
+                int resolution = IntegralDefuzzifier::defaultResolution());
 
         virtual Discrete* clone() const FL_IOVERRIDE;
 

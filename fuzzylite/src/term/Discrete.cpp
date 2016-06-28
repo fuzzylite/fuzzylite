@@ -29,19 +29,65 @@ namespace fl {
     std::string Discrete::className() const {
         return "Discrete";
     }
-    //@todo: use binary search
+
+    bool compare(const Discrete::Pair& a, const Discrete::Pair& b) {
+        return a.first < b.first;
+    }
+
+    void Discrete::sort(std::vector<Pair>& pairs) {
+        std::sort(pairs.begin(), pairs.end(), compare);
+    }
 
     scalar Discrete::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
         if (_xy.empty())
             throw Exception("[discrete error] term is empty", FL_AT);
 
-        /*                ______________________
-         *               /                      \
-         *              /                        \
-         * ____________/                          \____________
-         *            x[0]                      x[n-1]
-         */
+        //                ______________________
+        //               /                      \
+        //              /                        \
+        // ____________/                          \____________
+        //            x[0]                      x[n-1]
+        //
+
+        if (Op::isLE(x, _xy.front().first))
+            return Term::_height * _xy.front().second;
+        if (Op::isGE(x, _xy.back().first))
+            return Term::_height * _xy.back().second;
+
+        const Pair value(x, fl::nan);
+        typedef std::vector<const Discrete::Pair>::iterator Bound;
+        //std::lower_bound finds a number greater than or equal to x
+        Bound lowerBound(std::lower_bound(_xy.begin(), _xy.end(), value, compare));
+
+        std::size_t lower = lowerBound - _xy.begin();
+
+        //if the lower bound is equal to x
+        if (Op::isEq(x, lowerBound->first)) {
+            return Term::_height * _xy.at(lower).second;
+        }
+        //else subtract -1 because the lower bound is greater than x.
+        lower = -1 + lower;
+        //find the upper bound starting from the lowerBound (-1)
+        Bound upperBound(std::upper_bound(--lowerBound, _xy.end(), value, compare));
+        std::size_t upper = upperBound - _xy.begin();
+
+        return Term::_height * Op::scale(x, _xy.at(lower).first, _xy.at(upper).first,
+                _xy.at(lower).second, _xy.at(upper).second);
+    }
+
+    /* //Membership without binary search. Computational cost: O(n)
+    scalar Discrete::membership(scalar x) const {
+        if (Op::isNaN(x)) return fl::nan;
+        if (_xy.empty())
+            throw Exception("[discrete error] term is empty", FL_AT);
+
+        //                ______________________
+        //               /                      \
+        //              /                        \
+        // ____________/                          \____________
+        //            x[0]                      x[n-1]
+        //
 
 
         if (Op::isLE(x, _xy.front().first))
@@ -71,7 +117,7 @@ namespace fl {
         return Term::_height * Op::scale(x, _xy.at(lower).first, _xy.at(upper).first,
                 _xy.at(lower).second, _xy.at(upper).second);
     }
-
+     */
     std::string Discrete::parameters() const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < _xy.size(); ++i) {
@@ -170,8 +216,8 @@ namespace fl {
         FL_unique_ptr<Discrete> result(new Discrete(term->getName()));
         scalar dx = (end - start) / resolution;
         scalar x, y;
-        for (int i = 0; i < resolution; ++i) {
-            x = start + (i + 0.5) * dx;
+        for (int i = 0; i <= resolution; ++i) {
+            x = start + i * dx;
             y = term->membership(x);
             result->xy().push_back(Discrete::Pair(x, y));
         }

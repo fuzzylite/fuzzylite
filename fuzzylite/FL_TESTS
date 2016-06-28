@@ -9,6 +9,7 @@ test/imex/FllImporterTest.cpp
 test/imex/RScriptExporterTest.cpp
 test/norm/NormFunctionTest.cpp
 test/term/AggregatedTest.cpp
+test/term/DiscreteTest.cpp
 test/term/FunctionTest.cpp
 test/term/TrapezoidTest.cpp
 test/term/TriangleTest.cpp
