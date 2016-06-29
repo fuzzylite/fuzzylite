@@ -287,7 +287,7 @@ namespace fl {
           @param macheps is the minimum difference at which two floating-point
           values are considered equivalent (default is 1e-6)
          */
-        static void setMachEps(scalar macheps_);
+        static void setMachEps(scalar macheps);
 
         /**
           Sets the default format to be utilized for every fl::scalar passed to
@@ -295,7 +295,7 @@ namespace fl {
           @param scalarFormat is the format to be utilized for every fl::scalar
           passed to Op::str()
          */
-        static void setScalarFormat(std::ios_base::fmtflags scalarFormat_);
+        static void setScalarFormat(std::ios_base::fmtflags scalarFormat);
 
         /**
           Gets the default format to be utilized for every fl::scalar passed to
@@ -318,7 +318,7 @@ namespace fl {
           @param logging indicates whether the library is set to log
           information via the `FL_LOG` macro
          */
-        static void setLogging(bool logging_);
+        static void setLogging(bool logging);
 
         /**
           Indicates whether the library is running in debug mode
@@ -329,9 +329,9 @@ namespace fl {
 
         /**
           Sets whether the library is set to run in debug mode
-          @param debug indicates whether the library is set to run in debug mode
+          @param debugging indicates whether the library is set to run in debug mode
          */
-        static void setDebugging(bool debugging_);
+        static void setDebugging(bool debugging);
 
         /**
           Returns the platform under which the `fuzzylite` library was built

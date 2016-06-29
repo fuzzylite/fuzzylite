@@ -547,7 +547,7 @@ namespace fl {
           Returns a string representation of the given value
           @param x is the value
           @param decimals is the number of decimals to display
-          @param strFormat are the flags for the underlying std::ostringstream
+          @param scalarFormat are the flags for the underlying std::ostringstream
           @return a string representation of the given value
          */
         template <typename T>

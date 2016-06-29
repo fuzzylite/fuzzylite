@@ -30,7 +30,7 @@ namespace fl {
       The Discrete class is a basic Term that represents a discrete membership
       function. The pairs of values in any Discrete term **must** be sorted
       ascendently because the membership function is computed using binary search
-      to find the lower and upper bounds of $f@x@f$.
+      to find the lower and upper bounds of @f$x@f$.
 
       @image html discrete.svg
 
