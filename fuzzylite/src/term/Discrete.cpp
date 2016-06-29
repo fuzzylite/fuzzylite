@@ -38,6 +38,10 @@ namespace fl {
         std::sort(pairs.begin(), pairs.end(), compare);
     }
 
+    void Discrete::sort() {
+        std::sort(_xy.begin(), _xy.end(), compare);
+    }
+
     scalar Discrete::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
         if (_xy.empty())
@@ -56,24 +60,19 @@ namespace fl {
             return Term::_height * _xy.back().second;
 
         const Pair value(x, fl::nan);
-        typedef std::vector<const Discrete::Pair>::iterator Bound;
-        //std::lower_bound finds a number greater than or equal to x
+        typedef std::vector<Discrete::Pair>::const_iterator Bound;
+        //std::lower_bound finds the first number greater than or equal to x
         Bound lowerBound(std::lower_bound(_xy.begin(), _xy.end(), value, compare));
-
-        std::size_t lower = lowerBound - _xy.begin();
 
         //if the lower bound is equal to x
         if (Op::isEq(x, lowerBound->first)) {
-            return Term::_height * _xy.at(lower).second;
+            return Term::_height * lowerBound->second;
         }
-        //else subtract -1 because the lower bound is greater than x.
-        lower = -1 + lower;
-        //find the upper bound starting from the lowerBound (-1)
-        Bound upperBound(std::upper_bound(--lowerBound, _xy.end(), value, compare));
-        std::size_t upper = upperBound - _xy.begin();
-
-        return Term::_height * Op::scale(x, _xy.at(lower).first, _xy.at(upper).first,
-                _xy.at(lower).second, _xy.at(upper).second);
+        //find the upper bound starting from a copy of lowerBound
+        Bound upperBound(std::upper_bound(_xy.begin(), _xy.end(), value, compare));
+        --lowerBound;
+        return Term::_height * Op::scale(x, lowerBound->first, upperBound->first,
+                lowerBound->second, upperBound->second);
     }
 
     /* //Membership without binary search. Computational cost: O(n)
@@ -162,6 +161,38 @@ namespace fl {
 
     Discrete::Pair& Discrete::xy(std::size_t index) {
         return this->_xy.at(index);
+    }
+
+    std::vector<scalar> Discrete::x() const {
+        std::vector<scalar> result(_xy.size());
+        for (std::size_t i = 0; i < result.size(); ++i) {
+            result.at(i) = _xy.at(i).first;
+        }
+        return result;
+    }
+
+    std::vector<scalar> Discrete::y() const {
+        std::vector<scalar> result(_xy.size());
+        for (std::size_t i = 0; i < result.size(); ++i) {
+            result.at(i) = _xy.at(i).second;
+        }
+        return result;
+    }
+
+    scalar Discrete::x(std::size_t index) const {
+        return _xy.at(index).first;
+    }
+
+    scalar& Discrete::x(std::size_t index) {
+        return _xy.at(index).first;
+    }
+
+    scalar Discrete::y(std::size_t index) const {
+        return _xy.at(index).second;
+    }
+
+    scalar& Discrete::y(std::size_t index) {
+        return _xy.at(index).second;
     }
 
     std::vector<Discrete::Pair> Discrete::toPairs(const std::vector<scalar>& xy) {

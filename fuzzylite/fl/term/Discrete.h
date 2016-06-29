@@ -65,14 +65,22 @@ namespace fl {
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
         /**
-         Sorts the pairs of values ascendently by the @f$x@f$-value, as it is
-         required by the Discrete term.
-         @param pairs is a vector of Discrete::Pair%s
+         Ascendently sorts the given pairs of values by the @f$x@f$-value,
+         as it is required by the Discrete term.
+         @param pairs is a vector of pairs of values in the form @f$(x,y)@f$
          */
         static void sort(std::vector<Pair>& pairs);
 
         /**
-          Computes the membership function evaluated at @f$x@f$ using binary search.
+         Ascendently sorts the pairs of values in this Discrete term by the
+         @f$x@f$-coordinate
+         */
+        virtual void sort();
+
+        /**
+          Computes the membership function evaluated at @f$x@f$ by using binary
+          search to find the lower and upper bounds of @f$x@f$ and then linearly
+          interpolating the membership function between the bounds.
           @param x
           @return @f$ \dfrac{h (y_{\max} - y_{\min})}{(x_{\max}- x_{\min})}  (x - x_{\min}) + y_{\min}@f$
 
@@ -112,6 +120,41 @@ namespace fl {
          */
         virtual Pair& xy(std::size_t index);
 
+        /**
+          Gets a vector containing the @f$x@f$ values
+          @return a vector containing the @f$x@f$ values
+         */
+        virtual std::vector<scalar> x() const;
+
+        /**
+          Gets the @f$x@f$ value at the given index
+          @return the @f$x@f$ value at the given index
+         */
+        virtual scalar x(std::size_t index) const;
+
+        /**
+          Gets the reference to the @f$x@f$ value at the given index
+          @return the reference to the @f$x@f$ value at the given index
+         */
+        virtual scalar& x(std::size_t index);
+
+        /**
+          Gets a vector containing the @f$y@f$ values
+          @return a vector containing the @f$y@f$ values
+         */
+        virtual std::vector<scalar> y() const;
+
+        /**
+        Gets the @f$y@f$ value at the given index
+        @return the @f$y@f$ value at the given index
+         */
+        virtual scalar y(std::size_t index) const;
+
+        /**
+          Gets the reference to the @f$y@f$ value at the given index
+          @return the reference to the @f$y@f$ value at the given index
+         */
+        virtual scalar& y(std::size_t index);
         /**
           Creates a vector of fl::scalar from a vector of Pair given in the
           form @f$\left(\{x_1,y_1\},...,\{x_n,y_n\}\right)@f$

@@ -29,17 +29,17 @@ namespace fl {
         fuzzylite::setLogging(true);
         fuzzylite::setDebugging(false);
         Rectangle rectangle("rectangle", 0, 1);
-        FL_unique_ptr<Discrete> term(Discrete::discretize(&rectangle, rectangle.getStart(), rectangle.getEnd(), 10));
-        FL_LOG(term->toString());
+        FL_unique_ptr<Discrete> discrete(Discrete::discretize(&rectangle, rectangle.getStart(), rectangle.getEnd(), 10));
+        FL_LOG(discrete->toString());
 
-        CHECK(term->membership(.25) == 1.0);
-        CHECK(term->membership(0.0) == 1.0);
-        CHECK(term->membership(-1.0) == 1.0);
-        CHECK(term->membership(1.0) == 1.0);
-        CHECK(term->membership(2.0) == 1.0);
-        CHECK(Op::isNaN(term->membership(fl::nan)));
-        CHECK(term->membership(fl::inf) == 1.0);
-        CHECK(term->membership(-fl::inf) == 1.0);
+        CHECK(discrete->membership(.25) == 1.0);
+        CHECK(discrete->membership(0.0) == 1.0);
+        CHECK(discrete->membership(-1.0) == 1.0);
+        CHECK(discrete->membership(1.0) == 1.0);
+        CHECK(discrete->membership(2.0) == 1.0);
+        CHECK(Op::isNaN(discrete->membership(fl::nan)));
+        CHECK(discrete->membership(fl::inf) == 1.0);
+        CHECK(discrete->membership(-fl::inf) == 1.0);
     }
 
     TEST_CASE("discrete still finds elements using binary search", "[term][discrete]") {
@@ -48,8 +48,8 @@ namespace fl {
         Triangle triangle("triangle", 0, 1);
         FL_unique_ptr<Discrete> discrete(Discrete::discretize(&triangle, triangle.getVertexA(), triangle.getVertexC(), 100));
         FL_LOG(discrete->toString());
-        for (int i = -100; i < 100; ++i) {
-            scalar x = Op::scale(i, -100, 100, -1, 1);
+        for (int i = 0; i < 200; ++i) {
+            scalar x = Op::scale(i, 0, 200, -1, 1);
             if (not Op::isEq(triangle.membership(x), discrete->membership(x))) {
                 fuzzylite::setDebugging(true);
                 CHECK(Op::isEq(triangle.membership(x), discrete->membership(x)));
@@ -90,9 +90,9 @@ namespace fl {
         for (std::size_t t = 0; t < terms.size(); ++t) {
             Term* term = terms.at(t);
             std::vector<Discrete::Pair> pairs;
-            //Random causes more inaccurate values when interpolating
-            for (int i = 0; i < 200; ++i) {
-                int randomX = i; //Op::random();
+            srand(0);
+            for (int i = 0; i < 1000; ++i) {
+                int randomX = std::rand();
                 scalar x = Op::scale(randomX % 100, 0, 100, -1, 1);
                 pairs.push_back(Discrete::Pair(x, term->membership(x)));
             }
@@ -116,6 +116,9 @@ namespace fl {
                     fuzzylite::setDebugging(false);
                 }
             }
+        }
+        for (std::size_t i = 0 ; i < terms.size(); ++i){
+            delete terms.at(i);
         }
     }
 }
