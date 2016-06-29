@@ -47,12 +47,12 @@ namespace fl {
         if (_xy.empty())
             throw Exception("[discrete error] term is empty", FL_AT);
 
-        //                ______________________
-        //               /                      \
-        //              /                        \
-        // ____________/                          \____________
-        //            x[0]                      x[n-1]
-        //
+        /*                ______________________
+                         /                      \
+                        /                        \
+           ____________/                          \____________
+                      x[0]                      x[n-1]
+         */
 
         if (Op::isLE(x, _xy.front().first))
             return Term::_height * _xy.front().second;
@@ -81,12 +81,11 @@ namespace fl {
         if (_xy.empty())
             throw Exception("[discrete error] term is empty", FL_AT);
 
-        //                ______________________
-        //               /                      \
-        //              /                        \
-        // ____________/                          \____________
-        //            x[0]                      x[n-1]
-        //
+                        ______________________
+                       /                      \
+                      /                        \
+         ____________/                          \____________
+                    x[0]                      x[n-1]
 
 
         if (Op::isLE(x, _xy.front().first))
