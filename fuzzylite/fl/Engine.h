@@ -108,6 +108,11 @@ namespace fl {
         virtual bool isReady(std::string* status = fl::null) const;
 
         /**
+         Computes the estimated complexity of operation of the engine
+         @return the estimated complexity of operation of the engine
+         */
+        virtual Complexity complexity() const;
+        /**
           Processes the engine in its current state as follows: (a) Clears the
           aggregated fuzzy output variables, (b) Activates the rule blocks, and
           (c) Defuzzifies the output variables
@@ -137,9 +142,9 @@ namespace fl {
         virtual std::string getName() const;
 
         /**
-          Sets the value of the given input variable. 
-          The cost of this method is O(n), where n is the number of 
-          input variables in the engine. For performance, please get the 
+          Sets the value of the given input variable.
+          The cost of this method is O(n), where n is the number of
+          input variables in the engine. For performance, please get the
           variables by index.
           @param name is the name of the input variable
           @param value is the value for the input variable
@@ -147,8 +152,8 @@ namespace fl {
         virtual void setInputValue(const std::string& name, scalar value);
         /**
           Gets the value of the given output variable.
-          The cost of this method is O(n), where n is the number of 
-          output variables in the engine. For performance, please get the 
+          The cost of this method is O(n), where n is the number of
+          output variables in the engine. For performance, please get the
           variables by index.
           @param name is the name of the output variable
           @return the value of the given output variable
@@ -241,8 +246,8 @@ namespace fl {
         virtual InputVariable* getInputVariable(std::size_t index) const;
         /**
           Gets the input variable of the given name after iterating the input
-          variables. The cost of this method is O(n), where n is the number of 
-          input variables in the engine. For performance, please get the 
+          variables. The cost of this method is O(n), where n is the number of
+          input variables in the engine. For performance, please get the
           variables by index.
           @param name is the name of the input variable
           @return input variable of the given name
@@ -319,8 +324,8 @@ namespace fl {
         virtual OutputVariable* getOutputVariable(std::size_t index) const;
         /**
           Gets the output variable of the given name after iterating the output
-          variables. The cost of this method is O(n), where n is the number of 
-          output variables in the engine. For performance, please get the 
+          variables. The cost of this method is O(n), where n is the number of
+          output variables in the engine. For performance, please get the
           variables by index.
           @param name is the name of the output variable
           @return output variable of the given name
@@ -398,7 +403,7 @@ namespace fl {
         virtual RuleBlock* getRuleBlock(std::size_t index) const;
         /**
           Gets the rule block of the given name after iterating the rule blocks.
-          The cost of this method is O(n), where n is the number of 
+          The cost of this method is O(n), where n is the number of
           rule blocks in the engine. For performance, please get the rule blocks
           by index.
           @param name is the name of the rule block
