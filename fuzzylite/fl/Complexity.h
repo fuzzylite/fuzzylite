@@ -1,0 +1,224 @@
+/*
+ Copyright (C) 2010-2016 by FuzzyLite Limited.
+ All rights reserved.
+
+ This file is part of fuzzylite(R).
+
+ fuzzylite is free software: you can redistribute it and/or modify it under
+ the terms of the FuzzyLite License included with the software.
+
+ You should have received a copy of the FuzzyLite License along with
+ fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+
+ fuzzylite(R) is a registered trademark of FuzzyLite Limited.
+ */
+
+#ifndef FL_COMPLEXITY_H
+#define FL_COMPLEXITY_H
+
+#include "fl/fuzzylite.h"
+
+namespace fl {
+    class Engine;
+    class Variable;
+    class Term;
+    class RuleBlock;
+    class Hedge;
+
+    /**
+      The Complexity class is used throughout the library to estimate the
+      computational cost of the different components of the library
+
+      @author Juan Rada-Vilela, Ph.D.
+      @see Engine
+      @see Variable
+      @see OutputVariable
+      @see RuleBlock
+      @see Activation
+      @see Rule
+      @see Antecedent
+      @see Consequent
+      @see Hedge
+      @see Norm
+      @since 6.0
+     */
+
+    class FL_API Complexity {
+    private:
+        scalar _comparison;
+        scalar _arithmetic;
+        scalar _function;
+        scalar _other;
+
+    public:
+        explicit Complexity();
+        virtual ~Complexity();
+        FL_DEFAULT_COPY_AND_MOVE(Complexity)
+
+        Complexity& operator+=(const Complexity& other);
+        Complexity& operator-=(const Complexity& other);
+        Complexity& operator*=(const Complexity& other);
+        Complexity& operator/=(const Complexity& other);
+
+        Complexity operator+(const Complexity& rhs) const;
+        Complexity operator-(const Complexity& rhs) const;
+        Complexity operator*(const Complexity& rhs) const;
+        Complexity operator/(const Complexity& rhs) const;
+
+        bool operator==(const Complexity& rhs) const;
+        bool operator!=(const Complexity& rhs) const;
+        bool operator<(const Complexity& rhs) const;
+        bool operator<=(const Complexity& rhs) const;
+        bool operator>(const Complexity& rhs) const;
+        bool operator>=(const Complexity& rhs) const;
+
+        /**
+         Increases the comparison measure by the given amount
+         @param comparison is the amount to increase the comparison measure by
+         @return the reference to the Complexity object with the updated comparison
+         measure
+         */
+        virtual Complexity& comparison(scalar comparison);
+        virtual void setComparison(scalar comparison);
+        virtual scalar getComparison() const;
+
+        /**
+         Increases the arithmetic measure by the given amount
+         @param arithmetic is the amount to increase the comparison measure by
+         @return the reference to the Complexity object with the updated arithmetic
+         measure
+         */
+        virtual Complexity& arithmetic(scalar arithmetic);
+        virtual void setArithmetic(scalar arithmetic);
+        virtual scalar getArithmetic() const;
+
+        /**
+         Increases the function measure by the given amount
+         @param function is the amount to increase the function measure by
+         @return the reference to the Complexity object with the updated function
+         measure
+         */
+        virtual Complexity& function(scalar function);
+        virtual void setFunction(scalar function);
+        virtual scalar getFunction() const;
+
+        /**
+         Increases the other measure by the given amount
+         @param other is the amount to increase the other measure by
+         @return the reference to the Complexity object with the updated other
+         measure
+         */
+        virtual Complexity& other(scalar other);
+        virtual void setOther(scalar other);
+        virtual scalar getOther() const;
+
+        /**
+         Increases the complexity by the given parameter
+         @param x is the addend
+         @return the reference to the updated complexity
+         */
+        virtual Complexity& plus(const Complexity& x);
+        /**
+         Reduces the complexity by the given parameter
+         @param x is the subtrahend
+         @return the reference to the updated complexity object
+         */
+        virtual Complexity& minus(const Complexity& x);
+        /**
+         Multiplies the complexity by the given parameter
+         @param x is the multiplicand
+         @return the reference to the updated complexity object
+         */
+        virtual Complexity& multiply(const Complexity& x);
+        /**
+         Divides the complexity by the given parameter
+         @param x is the divisor
+         @return the reference to the updated complexity object
+         */
+        virtual Complexity& divide(const Complexity& x);
+
+        /**
+         Increases each measure by the given parameter
+         @param x is the addend
+         @return the reference to the updated complexity
+         */
+        virtual Complexity& plus(scalar x);
+        /**
+         Reduces each measure by the given parameter
+         @param x is the subtrahend
+         @return the reference to the updated complexity
+         */
+        virtual Complexity& minus(scalar x);
+        /**
+         Multiplies each measure by the given parameter
+         @param x is the multiplicand
+         @return the reference to the updated complexity
+         */
+        virtual Complexity& multiply(scalar x);
+        /**
+         Divides each measure by the given parameter
+         @param x is the divisor
+         @return the reference to the updated complexity
+         */
+        virtual Complexity& divide(scalar x);
+
+        /**
+         Compares the complexity for equality to another with the given tolerance
+         @param x is the complexity to compare against
+         @return `true` if every measure in this satisfies Op::isEq(this, x, macheps),
+         and `false` otherwise
+         */
+        virtual bool equals(const Complexity& x, scalar macheps = fuzzylite::macheps()) const;
+        /**
+         Compares the complexity for strict inequality (less than) to another
+         with the given tolerance
+         @param x is the complexity to compare against
+         @return `true` if every measure in this satisfies Op::isLt(this, x, macheps),
+         and `false` otherwise
+         */
+        virtual bool lessThan(const Complexity& x, scalar macheps = fuzzylite::macheps()) const;
+        /**
+         Compares the complexity for inequality (less than or equal to) to another
+         with the given tolerance
+         @param x is the complexity to compare against
+         @return `true` if every measure in this satisfies Op::isLE(this, x, macheps),
+         and `false` otherwise
+         */
+        virtual bool lessThanOrEqualsTo(const Complexity& x, scalar macheps = fuzzylite::macheps()) const;
+        /**
+         Compares the complexity for strict inequality (greater than) to another
+         with the given tolerance
+         @param x is the complexity to compare against
+         @return `true` if every measure in this satisfies Op::isGt(this, x, macheps),
+         and `false` otherwise
+         */
+        virtual bool greaterThan(const Complexity& x, scalar macheps = fuzzylite::macheps()) const;
+        /**
+         Compares the complexity for inequality (greater than or equal to) to
+         another with the given tolerance
+         @param x is the complexity to compare against
+         @return `true` if every measure in this satisfies Op::isGE(this, x, macheps),
+         and `false` otherwise
+         */
+        virtual bool greaterThanOrEqualsTo(const Complexity& x, scalar macheps = fuzzylite::macheps()) const;
+
+        /**
+         Computes the sum of the measures
+         @return the sum of the measures
+         */
+        virtual scalar sum() const;
+
+
+        /**
+         Computes the norm of the complexity
+         @return the norm of the complexity
+         */
+        virtual scalar norm() const;
+
+    };
+
+
+}
+
+#endif /* COMPLEXITY_H */
+
