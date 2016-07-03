@@ -21,6 +21,10 @@ namespace fl {
         return "AlgebraicProduct";
     }
 
+    Complexity AlgebraicProduct::complexity() const {
+        return Complexity().arithmetic(1);
+    }
+
     scalar AlgebraicProduct::compute(scalar a, scalar b) const {
         return a * b;
     }

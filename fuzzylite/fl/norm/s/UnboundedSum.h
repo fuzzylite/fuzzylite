@@ -35,6 +35,8 @@ namespace fl {
     class FL_API UnboundedSum : public SNorm {
     public:
         std::string className() const FL_IOVERRIDE;
+
+        Complexity complexity() const FL_IOVERRIDE;
         /**
           Computes the bounded sum of two membership function values
           @param a is a membership function value

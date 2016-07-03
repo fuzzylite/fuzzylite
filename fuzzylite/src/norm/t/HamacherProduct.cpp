@@ -21,6 +21,10 @@ namespace fl {
         return "HamacherProduct";
     }
 
+    Complexity HamacherProduct::complexity() const {
+        return Complexity().arithmetic(5);
+    }
+
     scalar HamacherProduct::compute(scalar a, scalar b) const {
         return (a * b) / (a + b - a * b);
     }

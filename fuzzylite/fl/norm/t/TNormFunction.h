@@ -64,6 +64,8 @@ namespace fl {
         std::string getFormula() const;
 
         std::string className() const FL_IOVERRIDE;
+
+        Complexity complexity() const FL_IOVERRIDE;
         /**
           Computes the S-Norm utilizing the given function via
           SNormFunction::setFormula(), which automatically assigns the values

@@ -21,6 +21,10 @@ namespace fl {
         return "EinsteinProduct";
     }
 
+    Complexity EinsteinProduct::complexity() const {
+        return Complexity().arithmetic(6);
+    }
+
     scalar EinsteinProduct::compute(scalar a, scalar b) const {
         return (a * b) / (2.0 - (a + b - a * b));
     }

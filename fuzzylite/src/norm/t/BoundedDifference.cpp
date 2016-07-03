@@ -23,6 +23,10 @@ namespace fl {
         return "BoundedDifference";
     }
 
+    Complexity BoundedDifference::complexity() const {
+        return Complexity().arithmetic(2).function(1);
+    }
+
     scalar BoundedDifference::compute(scalar a, scalar b) const {
         return Op::max(scalar(0.0), a + b - scalar(1.0));
     }

@@ -35,6 +35,8 @@ namespace fl {
     class FL_API NormalizedSum : public SNorm {
     public:
         std::string className() const FL_IOVERRIDE;
+
+        Complexity complexity() const FL_IOVERRIDE;
         /**
           Computes the normalized sum of two membership function values
           @param a is a membership function value

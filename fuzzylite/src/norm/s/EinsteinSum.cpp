@@ -21,6 +21,10 @@ namespace fl {
         return "EinsteinSum";
     }
 
+    Complexity EinsteinSum::complexity() const {
+        return Complexity().arithmetic(4);
+    }
+
     scalar EinsteinSum::compute(scalar a, scalar b) const {
         return (a + b) / (1.0 + a * b);
     }

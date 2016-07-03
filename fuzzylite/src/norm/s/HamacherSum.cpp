@@ -21,6 +21,10 @@ namespace fl {
         return "HamacherSum";
     }
 
+    Complexity HamacherSum::complexity() const {
+        return Complexity().arithmetic(7);
+    }
+
     scalar HamacherSum::compute(scalar a, scalar b) const {
         return (a + b - 2.0 * a * b) / (1.0 - a * b);
     }

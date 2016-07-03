@@ -36,6 +36,8 @@ namespace fl {
     class FL_API NilpotentMinimum : public TNorm {
     public:
         std::string className() const FL_IOVERRIDE;
+
+        Complexity complexity() const FL_IOVERRIDE;
         /**
           Computes the nilpotent minimum of two membership function values
           @param a is a membership function value

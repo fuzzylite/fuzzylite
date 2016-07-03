@@ -23,6 +23,10 @@ namespace fl {
         return "BoundedSum";
     }
 
+    Complexity BoundedSum::complexity() const {
+        return Complexity().arithmetic(1).function(1);
+    }
+
     scalar BoundedSum::compute(scalar a, scalar b) const {
         return Op::min(scalar(1.0), a + b);
     }

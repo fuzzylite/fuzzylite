@@ -31,6 +31,12 @@ namespace fl {
         return "TNormFunction";
     }
 
+    Complexity TNormFunction::complexity() const {
+        if (_function.root())
+            return _function.complexity().function(2 * std::log(_function.variables.size()));
+        return _function.complexity();
+    }
+
     scalar TNormFunction::compute(scalar a, scalar b) const {
         _function.variables["a"] = a;
         _function.variables["b"] = b;

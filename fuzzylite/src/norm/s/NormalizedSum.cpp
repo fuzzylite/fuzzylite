@@ -23,6 +23,10 @@ namespace fl {
         return "NormalizedSum";
     }
 
+    Complexity NormalizedSum::complexity() const {
+        return Complexity().arithmetic(3).function(1);
+    }
+
     scalar NormalizedSum::compute(scalar a, scalar b) const {
         return (a + b) / Op::max(scalar(1.0), a + b);
     }
