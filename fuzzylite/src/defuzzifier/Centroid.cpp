@@ -15,7 +15,6 @@
 
 #include "fl/defuzzifier/Centroid.h"
 
-#include "fl/term/Aggregated.h"
 #include "fl/term/Term.h"
 
 namespace fl {
@@ -32,6 +31,11 @@ namespace fl {
         return "Centroid";
     }
 
+    Complexity Centroid::complexity(const Term* term) const {
+        return Complexity().comparison(1).arithmetic(1 + 2 + 1) +
+                term->complexity().arithmetic(6).multiply(getResolution());
+    }
+
     scalar Centroid::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
         if (not Op::isFinite(minimum + maximum)) return fl::nan;
 
@@ -39,13 +43,13 @@ namespace fl {
         const scalar dx = (maximum - minimum) / resolution;
         scalar x, y;
         scalar area = 0, xcentroid = 0;
-//      scalar ycentroid = 0;
+        //      scalar ycentroid = 0;
         for (int i = 0; i < resolution; ++i) {
             x = minimum + (i + 0.5) * dx;
             y = term->membership(x);
 
             xcentroid += y * x;
-//            ycentroid += y * y;
+            //            ycentroid += y * y;
             area += y;
         }
         //Final results not computed for efficiency

@@ -42,6 +42,8 @@ namespace fl {
 
         virtual std::string className() const FL_IOVERRIDE;
 
+        virtual Complexity complexity(const Term* term) const FL_IOVERRIDE;
+
         /**
           Computes the largest value of the maximum membership function of a
           fuzzy set. The largest value is computed by integrating over the

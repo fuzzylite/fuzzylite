@@ -15,7 +15,6 @@
 
 #include "fl/defuzzifier/Bisector.h"
 
-#include "fl/term/Aggregated.h"
 #include "fl/term/Term.h"
 
 namespace fl {
@@ -30,6 +29,11 @@ namespace fl {
 
     std::string Bisector::className() const {
         return "Bisector";
+    }
+
+    Complexity Bisector::complexity(const Term* term) const {
+        return Complexity().comparison(1).arithmetic(1 + 2 + 5) +
+                term->complexity().comparison(1).arithmetic(1 + 5).multiply(getResolution());
     }
 
     scalar Bisector::defuzzify(const Term* term, scalar minimum, scalar maximum) const {

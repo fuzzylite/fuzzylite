@@ -45,6 +45,9 @@ namespace fl {
         FL_DEFAULT_COPY_AND_MOVE(WeightedAverageCustom)
 
         virtual std::string className() const FL_IOVERRIDE;
+
+        virtual Complexity complexity(const Term* term) const FL_IOVERRIDE;
+
         /**
           Computes the weighted average of a fuzzy set represented in
           an AggregatedTerm as @f$y = \dfrac{\sum_i w_iz_i}{\sum_i w_i} @f$,

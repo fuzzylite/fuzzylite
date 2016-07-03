@@ -19,6 +19,9 @@
 #define FL_DEFUZZIFIER_H
 
 #include "fl/fuzzylite.h"
+
+#include "fl/Complexity.h"
+
 #include <string>
 
 namespace fl {
@@ -54,6 +57,13 @@ namespace fl {
           @return a clone of the defuzzifier
          */
         virtual Defuzzifier* clone() const = 0;
+
+        /**
+          Computes the complexity of defuzzifying the given term
+          @param term is the term to defuzzify
+          @return the complexity of defuzzifying the given term
+         */
+        virtual Complexity complexity(const Term* term) const = 0;
         /**
           Defuzzifies the given fuzzy term utilizing the range `[minimum,maximum]`
           @param term is the term to defuzzify, typically an Aggregated term

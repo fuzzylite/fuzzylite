@@ -43,6 +43,9 @@ namespace fl {
         FL_DEFAULT_COPY_AND_MOVE(WeightedSum)
 
         virtual std::string className() const FL_IOVERRIDE;
+
+        virtual Complexity complexity(const Term* term) const FL_IOVERRIDE;
+
         /**
           Computes the weighted sum of a fuzzy set represented in an
           Aggregated Term as @f$y = \sum_i{w_iz_i} @f$,

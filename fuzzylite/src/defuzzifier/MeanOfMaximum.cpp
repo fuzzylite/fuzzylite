@@ -31,6 +31,11 @@ namespace fl {
         return "MeanOfMaximum";
     }
 
+    Complexity MeanOfMaximum::complexity(const Term* term) const {
+        return Complexity().comparison(1).arithmetic(1 + 2 + 2) +
+                term->complexity().comparison(4).arithmetic(3).multiply(getResolution());
+    }
+
     scalar MeanOfMaximum::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
         if (not Op::isFinite(minimum + maximum)) return fl::nan;
 

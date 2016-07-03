@@ -38,11 +38,27 @@ namespace fl {
         return "WeightedAverage";
     }
 
+    Complexity WeightedAverage::complexity(const Term* term) const {
+        Complexity result;
+        result.comparison(4).function(1); //for dynamic_cast
+        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*> (term);
+        if (fuzzyOutput) {
+            result += term->complexity().arithmetic(3).multiply(fuzzyOutput->numberOfTerms());
+        }
+        return result;
+    }
+
     scalar WeightedAverage::defuzzify(const Term* term,
             scalar minimum, scalar maximum) const {
-        //From version 6.0, the term is now static_cast'ed instead of dynamic_cast'ed
-        //for better performance
-        const Aggregated* fuzzyOutput = static_cast<const Aggregated*> (term);
+        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*> (term);
+        if (not fuzzyOutput) {
+            std::ostringstream ss;
+            ss << "[defuzzification error]"
+                    << "expected an Aggregated term instead of"
+                    << "<" << (term ? term->toString() : "null") << ">";
+            throw Exception(ss.str(), FL_AT);
+        }
+
         if (fuzzyOutput->isEmpty()) return fl::nan;
 
         minimum = fuzzyOutput->getMinimum();

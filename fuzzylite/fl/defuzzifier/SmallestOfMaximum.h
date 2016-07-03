@@ -42,6 +42,8 @@ namespace fl {
 
         virtual std::string className() const FL_IOVERRIDE;
 
+        virtual Complexity complexity(const Term* term) const FL_IOVERRIDE;
+
         /**
           Computes the smallest value of the maximum membership function in the
           fuzzy set. The smallest value is computed while integrating over the
