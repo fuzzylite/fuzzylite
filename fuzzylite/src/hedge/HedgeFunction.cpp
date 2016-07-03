@@ -29,10 +29,13 @@ namespace fl {
     }
 
     Complexity HedgeFunction::complexity() const {
+        if (_function.root())
+            return _function.complexity().function(2 * std::log(_function.variables.size()));
         return _function.complexity();
     }
 
     scalar HedgeFunction::hedge(scalar x) const {
+        _function.variables["x"] = x;
         return _function.membership(x);
     }
 
