@@ -124,7 +124,6 @@ namespace fl {
          */
         virtual Consequent* getConsequent() const;
 
-
         /**
           Sets whether the rule has been activated. The activation of a rule is
           automatically managed within Rule::activate(). The utility of this
@@ -159,6 +158,17 @@ namespace fl {
         virtual scalar getActivationDegree() const;
 
         /**
+          Computes the estimated complexity of calculating the activation degree
+          of the rule
+          @param conjunction is the conjunction operator
+          @param disjunction is the disjunction operator
+          @param implication is the implication operator
+          @return the estimated complexity of calculating the activation degree
+          of the rule
+         */
+        virtual Complexity complexityOfActivationDegree(const TNorm* conjunction,
+                const SNorm* disjunction, const TNorm* implication) const;
+        /**
           Computes the activation degree for this rule
           @param conjunction is the conjunction operator
           @param disjunction is the disjunction operator
@@ -167,17 +177,36 @@ namespace fl {
         virtual scalar computeActivationDegree(const TNorm* conjunction, const SNorm* disjunction) const;
 
         /**
+          Computes the estimated complexity of activating the rule
+          @param implication is the implication operator
+          @return the estimated complexity of activating the rule
+         */
+        virtual Complexity complexityOfActivation(const TNorm* implication) const;
+
+        /**
           Activates the rule with the given activation degree and implication
           operator
           @param activationDegree is the activation degree of the rule
           @param implication is the implication operator from the RuleBlock
          */
         virtual void activate(scalar activationDegree, const TNorm* implication);
+
+        /**
+         Returns the estimated complexity of computing the activation degree and
+         activating the rule
+         @param conjunction is the conjunction operator
+         @param disjunction is the disjunction operator
+         @param implication is the implication operator
+         @return the estimated complexity of computing the activation degree and
+         activating the rule
+         */
+        virtual Complexity complexity(const TNorm* conjunction,
+                const SNorm* disjunction, const TNorm* implication) const;
+
         /**
           Deactivates the rule setting the activation degree to 0.0
          */
         virtual void deactivate();
-
 
         /**
           Returns a string representation of the rule in the FuzzyLite Language

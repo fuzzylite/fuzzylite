@@ -54,6 +54,22 @@ namespace fl {
         return this->_conclusions;
     }
 
+    Complexity Consequent::complexity(const TNorm* implication) const {
+        Complexity result;
+        result.comparison(1);
+
+        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
+            Proposition* proposition = _conclusions.at(i);
+            result.comparison(2);
+            for (std::size_t h = 0; h < proposition->hedges.size(); ++h) {
+                result += proposition->hedges.at(h)->complexity();
+            }
+            result += static_cast<OutputVariable*> (proposition->variable)
+                    ->complexity(Activated(proposition->term, fl::nan, implication));
+        }
+        return result;
+    }
+
     void Consequent::modify(scalar activationDegree, const TNorm* implication) {
         if (not isLoaded()) {
             throw Exception("[consequent error] consequent <" + getText() + "> is not loaded", FL_AT);

@@ -68,6 +68,20 @@ namespace fl {
         _rules.clear();
     }
 
+    Complexity RuleBlock::complexity() const {
+        Complexity result;
+        result.comparison(1);
+        if (_activation.get()) {
+            result += _activation->complexity(this);
+        } else {
+            for (std::size_t i = 0; i < _rules.size(); ++i) {
+                result += _rules.at(i)->complexity(
+                        _conjunction.get(), _disjunction.get(), _implication.get());
+            }
+        }
+        return result;
+    }
+
     void RuleBlock::activate() {
         FL_DBG("===================");
         FL_DBG("ACTIVATING RULEBLOCK " << getName());

@@ -18,6 +18,8 @@
 
 #include "fl/fuzzylite.h"
 
+#include "fl/Complexity.h"
+
 #include <string>
 #include <vector>
 
@@ -65,6 +67,11 @@ namespace fl {
          */
         virtual std::string getText() const;
 
+        /**
+          Computes the estimated complexity of modifying the consequents
+          @return the estimated complexity of modifying the consequents
+         */
+        virtual Complexity complexity(const TNorm* implication) const;
         /**
           Provides an immutable vector of the set of propositions that
           represent the Consequent of a Rule

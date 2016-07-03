@@ -18,6 +18,8 @@
 
 #include "fl/fuzzylite.h"
 
+#include "fl/Complexity.h"
+
 #include <string>
 
 namespace fl {
@@ -104,6 +106,22 @@ namespace fl {
           @param engine is the engine from which the rules are part of
          */
         virtual void load(const std::string& antecedent, const Engine* engine);
+
+        /**
+          Computes the estimated complexity of calculating the activation degree
+          @return the estimated complexity of calculating the activation degree
+         */
+        virtual Complexity complexity(const TNorm* conjunction, const SNorm* disjunction,
+                const TNorm* implication) const;
+        /**
+          Computes the estimated complexity of recursively calculating the
+          activation degree from the given node
+          @return the estimated complexity of recursively calculating the
+          activation degree from the given node
+         */
+        virtual Complexity complexity(const TNorm* conjunction, const SNorm* disjunction,
+                const TNorm* implication, const Expression* node) const;
+
 
         /**
           Computes the activation degree of the antecedent on the expression

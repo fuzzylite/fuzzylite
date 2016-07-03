@@ -102,11 +102,30 @@ namespace fl {
         return this->_activationDegree;
     }
 
+    Complexity Rule::complexityOfActivationDegree(const TNorm* conjunction, const SNorm* disjunction,
+            const TNorm* implication) const {
+        Complexity result;
+        result.comparison(1).arithmetic(1);
+        if (isLoaded()) {
+            result += _antecedent->complexity(conjunction, disjunction, implication);
+        }
+        return result;
+    }
+
     scalar Rule::computeActivationDegree(const TNorm* conjunction, const SNorm* disjunction) const {
         if (not isLoaded()) {
             throw Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
         }
         return _weight * _antecedent->activationDegree(conjunction, disjunction);
+    }
+
+    Complexity Rule::complexityOfActivation(const TNorm* implication) const {
+        Complexity result;
+        result.comparison(2);
+        if (isLoaded()) {
+            result += _consequent->complexity(implication);
+        }
+        return result;
     }
 
     void Rule::activate(scalar activationDegree, const TNorm* implication) {
@@ -120,6 +139,12 @@ namespace fl {
             _consequent->modify(activationDegree, implication);
         }
         _activated = true;
+    }
+
+    Complexity Rule::complexity(const TNorm* conjunction, const SNorm* disjunction,
+            const TNorm* implication) const {
+        return complexityOfActivationDegree(conjunction, disjunction, implication)
+                + complexityOfActivation(implication);
     }
 
     void Rule::deactivate() {
