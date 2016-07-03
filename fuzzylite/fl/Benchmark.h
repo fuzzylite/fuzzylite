@@ -26,6 +26,13 @@ namespace fl {
 
     class Engine;
 
+    /**
+      The Benchmark class is designed to evaluate the performance of an Engine.
+
+      @author Juan Rada-Vilela, Ph.D.
+      @see Engine
+      @since 6.0
+     */
     class FL_API Benchmark {
     private:
         std::string _name;
