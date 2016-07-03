@@ -23,6 +23,10 @@ namespace fl {
         return "extremely";
     }
 
+    Complexity Extremely::complexity() const {
+        return Complexity().comparison(1).arithmetic(5);
+    }
+
     scalar Extremely::hedge(scalar x) const {
         return Op::isLE(x, 0.5)
                 ? 2.0 * x * x

@@ -21,6 +21,10 @@ namespace fl {
         return "very";
     }
 
+    Complexity Very::complexity() const {
+        return Complexity().arithmetic(1);
+    }
+
     scalar Very::hedge(scalar x) const {
         return x * x;
     }

@@ -64,6 +64,8 @@ namespace fl {
          */
         std::string getFormula() const;
 
+        Complexity complexity() const FL_IOVERRIDE;
+
         /**
           Computes the hedge for the membership function value @f$x@f$ utilizing
           the given function via HedgeFunction::setFormula()

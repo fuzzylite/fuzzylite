@@ -28,6 +28,10 @@ namespace fl {
         return "HedgeFunction";
     }
 
+    Complexity HedgeFunction::complexity() const {
+        return _function.complexity();
+    }
+
     scalar HedgeFunction::hedge(scalar x) const {
         return _function.membership(x);
     }

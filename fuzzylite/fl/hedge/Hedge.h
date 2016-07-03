@@ -18,6 +18,8 @@
 
 #include "fl/fuzzylite.h"
 
+#include "fl/Complexity.h"
+
 #include <string>
 
 namespace fl {
@@ -51,6 +53,12 @@ namespace fl {
           @return the name of the hedge
          */
         virtual std::string name() const = 0;
+
+        /**
+          Computes the complexity of applying the hedge
+          @return the complexity of applying the hedge
+         */
+        virtual Complexity complexity() const = 0;
         /**
           Computes the hedge for the membership function value @f$x@f$
           @param x is a membership function value

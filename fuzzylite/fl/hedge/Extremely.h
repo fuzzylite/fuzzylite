@@ -33,7 +33,10 @@ namespace fl {
      */
     class FL_API Extremely : public Hedge {
     public:
-        std::string name() const;
+        std::string name() const FL_IOVERRIDE;
+
+        Complexity complexity() const FL_IOVERRIDE;
+
         /**
           Computes the hedge for the membership function value @f$x@f$
           @param x is a membership function value
@@ -43,8 +46,8 @@ namespace fl {
           1-2(1-x)^2 & \mbox{otherwise} \cr
           \end{cases}@f$
          */
-        scalar hedge(scalar x) const;
-        Extremely* clone() const;
+        scalar hedge(scalar x) const FL_IOVERRIDE;
+        Extremely* clone() const FL_IOVERRIDE;
 
         static Hedge* constructor();
     };

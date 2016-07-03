@@ -23,6 +23,10 @@ namespace fl {
         return "seldom";
     }
 
+    Complexity Seldom::complexity() const {
+        return Complexity().comparison(1).function(1).arithmetic(3);
+    }
+
     scalar Seldom::hedge(scalar x) const {
         return Op::isLE(x, 0.5)
                 ? std::sqrt(0.5 * x)
