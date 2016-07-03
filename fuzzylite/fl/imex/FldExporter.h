@@ -47,12 +47,12 @@ namespace fl {
     public:
 
         /**
-         The ScopeOfValues refers to the scope of the equally-distributed values 
+         The ScopeOfValues refers to the scope of the equally-distributed values
          to generate.
          */
         enum ScopeOfValues {
             /**Generates @f$n@f$ values for each variable*/
-            EachVariable, 
+            EachVariable,
             /**Generates @f$n@f$ values for all variables*/
             AllVariables
         };
@@ -142,8 +142,8 @@ namespace fl {
           @param engine is the engine to export
           @param values is the number of values to export
           @param scope indicates the scope of the values
-          @param activeVariables contains the input variables to generate values for. 
-          The input variables must be in the same order as in the engine. A value of 
+          @param activeVariables contains the input variables to generate values for.
+          The input variables must be in the same order as in the engine. A value of
           fl::null indicates the variable is not active.
           @return a FuzzyLite Dataset from the engine
          */
@@ -153,7 +153,7 @@ namespace fl {
           Returns a FuzzyLite Dataset from the engine.
 
           @param engine is the engine to export
-          @param reader is the reader of a set of lines containing space-separated 
+          @param reader is the reader of a set of lines containing space-separated
           input values
           @return a FuzzyLite Dataset from the engine
          */
@@ -176,8 +176,8 @@ namespace fl {
           @param engine is the engine to export
           @param values is the number of values to export
           @param scope indicates the scope of the values
-          @param activeVariables contains the input variables to generate values for. 
-          The input variables must be in the same order as in the engine. A value of 
+          @param activeVariables contains the input variables to generate values for.
+          The input variables must be in the same order as in the engine. A value of
           fl::null indicates the variable is not active.
          */
         virtual void toFile(const std::string& path, Engine* engine,
@@ -213,8 +213,8 @@ namespace fl {
           @param writer is the output where the engine will be written to
           @param values is the number of values to export
           @param scope indicates the scope of the values
-          @param activeVariables contains the input variables to generate values for. 
-          The input variables must be in the same order as in the engine. A value of 
+          @param activeVariables contains the input variables to generate values for.
+          The input variables must be in the same order as in the engine. A value of
           fl::null indicates the variable is not active.
          */
         virtual void write(Engine* engine, std::ostream& writer, int values, ScopeOfValues scope,
@@ -238,8 +238,8 @@ namespace fl {
           @param engine is the engine to export
           @param writer is the output where the engine will be written to
           @param inputValues is the vector of input values
-          @param activeVariables contains the input variables to generate values for. 
-          The input variables must be in the same order as in the engine. A value of 
+          @param activeVariables contains the input variables to generate values for.
+          The input variables must be in the same order as in the engine. A value of
           fl::null indicates the variable is not active.
          */
         virtual void write(Engine* engine, std::ostream& writer, const std::vector<scalar>& inputValues,
