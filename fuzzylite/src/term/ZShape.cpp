@@ -28,6 +28,10 @@ namespace fl {
         return "ZShape";
     }
 
+    Complexity ZShape::complexity() const {
+        return Complexity().comparison(1 + 3).arithmetic(3 + 4).function(1);
+    }
+
     scalar ZShape::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
         //from Octave zmf.m

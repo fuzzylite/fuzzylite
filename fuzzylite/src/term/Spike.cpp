@@ -29,6 +29,10 @@ namespace fl {
         return "Spike";
     }
 
+    Complexity Spike::complexity() const {
+        return Complexity().comparison(1).arithmetic(1 + 3).function(2);
+    }
+
     scalar Spike::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
         return Term::_height * std::exp(-std::fabs(10.0 / _width * (x - _center)));

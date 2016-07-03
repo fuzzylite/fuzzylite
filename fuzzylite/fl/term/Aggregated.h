@@ -75,6 +75,11 @@ namespace fl {
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
         virtual Aggregated* clone() const FL_IOVERRIDE;
+
+        virtual Complexity complexity() const FL_IOVERRIDE;
+        virtual Complexity complexityOfMembership() const;
+        virtual Complexity complexityOfActivationDegree() const;
+
         /**
           Aggregates the membership function values of @f$x@f$ utilizing the
           aggregation operator

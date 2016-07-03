@@ -35,6 +35,16 @@ namespace fl {
         return "Linear";
     }
 
+    Complexity Linear::complexity() const {
+        Complexity result;
+        result.comparison(1 + 1);
+        if (_engine) {
+            result.arithmetic(1 * _engine->variables().size());
+            result.comparison(1 * _engine->variables().size()); //if (i < coefficients)
+        }
+        return result;
+    }
+
     scalar Linear::membership(scalar x) const {
         FL_IUNUSED(x);
         if (not _engine)

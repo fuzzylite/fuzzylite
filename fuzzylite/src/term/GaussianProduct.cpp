@@ -31,6 +31,10 @@ namespace fl {
         return "GaussianProduct";
     }
 
+    Complexity GaussianProduct::complexity() const {
+        return Complexity().comparison(1 + 2).arithmetic(9 + 9 + 2).function(2);
+    }
+
     scalar GaussianProduct::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
         bool xLEa = Op::isLE(x, _meanA);

@@ -30,6 +30,10 @@ namespace fl {
         return "Concave";
     }
 
+    Complexity Concave::complexity() const {
+        return Complexity().comparison(1 + 3).arithmetic(1 + 5);
+    }
+
     scalar Concave::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
         if (Op::isLE(_inflection, _end)) { //Concave increasing

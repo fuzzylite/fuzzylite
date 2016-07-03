@@ -42,6 +42,11 @@ namespace fl {
         std::sort(_xy.begin(), _xy.end(), compare);
     }
 
+    Complexity Discrete::complexity() const {
+        return Complexity().comparison(1 + 4).arithmetic(1 + 1 +1).function(1)
+                .function(2 * std::log(_xy.size()));
+    }
+
     scalar Discrete::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
         if (_xy.empty())
@@ -70,7 +75,7 @@ namespace fl {
         }
         //find the upper bound starting from a copy of lowerBound
         Bound upperBound(std::upper_bound(_xy.begin(), _xy.end(), value, compare));
-        --lowerBound;
+        --lowerBound; //One arithmetic
         return Term::_height * Op::scale(x, lowerBound->first, upperBound->first,
                 lowerBound->second, upperBound->second);
     }

@@ -65,6 +65,8 @@ namespace fl {
           @param parameters as `"start end [height]"`
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
+
+        virtual Complexity complexity() const FL_IOVERRIDE;
         /**
           Computes the membership function evaluated at @f$x@f$
           @param x

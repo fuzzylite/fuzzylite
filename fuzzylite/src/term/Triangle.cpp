@@ -32,6 +32,10 @@ namespace fl {
         return "Triangle";
     }
 
+    Complexity Triangle::complexity() const {
+        return Complexity().comparison(1 + 5).arithmetic(4);
+    }
+
     scalar Triangle::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
 
@@ -42,11 +46,11 @@ namespace fl {
             return Term::_height * 1.0;
 
         if (Op::isLt(x, _vertexB)) {
-            if (_vertexA == -fl::inf) 
+            if (_vertexA == -fl::inf)
                 return Term::_height * 1.0;
             return Term::_height * (x - _vertexA) / (_vertexB - _vertexA);
         }
-        if (_vertexC == fl::inf) 
+        if (_vertexC == fl::inf)
             return Term::_height * 1.0;
         return Term::_height * (_vertexC - x) / (_vertexC - _vertexB);
     }

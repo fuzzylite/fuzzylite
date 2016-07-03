@@ -177,6 +177,26 @@ namespace fl {
                     variables = fl::null) const;
 
             /**
+             Computes the size of the subtree under the given node. The complexity
+             of calling this method is O(n).
+             @param node is the root of the subtree, which is this node if
+             fl::null is given
+             @return the size of the subtree under the given node
+             */
+            virtual std::size_t treeSize(const Node* node = fl::null) const;
+
+            /**
+             Computes the size of the subtree under the given node whose elements
+             are of the given type. The complexity of calling this method is O(n).
+             @param type is the type of elements to account for
+             @param node is the root of the subtree, which is this node if
+             fl::null is given
+             @return
+             */
+            virtual std::size_t treeSize(Element::Type type,
+                    const Node* node = fl::null) const;
+
+            /**
               Creates a clone of the node.
               @return a clone of the node
              */
@@ -252,6 +272,8 @@ namespace fl {
         static Function* create(const std::string& name,
                 const std::string& formula,
                 const Engine* engine = fl::null);
+
+        virtual Complexity complexity() const FL_IOVERRIDE;
 
         /**
           Computes the membership function value of @f$x@f$ at the root node.

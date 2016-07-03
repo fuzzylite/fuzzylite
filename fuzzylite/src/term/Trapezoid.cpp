@@ -35,6 +35,10 @@ namespace fl {
         return "Trapezoid";
     }
 
+    Complexity Trapezoid::complexity() const {
+        return Complexity().comparison(1 + 6).arithmetic(1 + 3).function(1);
+    }
+
     scalar Trapezoid::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
 

@@ -30,6 +30,10 @@ namespace fl {
         return "SigmoidDifference";
     }
 
+    Complexity SigmoidDifference::complexity() const {
+        return Complexity().comparison(1).arithmetic(2 + 4 + 4).function(2 + 1);
+    }
+
     scalar SigmoidDifference::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
 

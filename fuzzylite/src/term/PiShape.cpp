@@ -30,6 +30,10 @@ namespace fl {
         return "PiShape";
     }
 
+    Complexity PiShape::complexity() const {
+        return Complexity().comparison(1 + 6).arithmetic(6 + 5).function(1);
+    }
+
     scalar PiShape::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
         //from Octave smf.m

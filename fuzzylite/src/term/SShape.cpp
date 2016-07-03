@@ -28,6 +28,10 @@ namespace fl {
         return "SShape";
     }
 
+    Complexity SShape::complexity() const {
+        return Complexity().comparison(1 + 3).arithmetic(1 + 3 + 4).function(1);
+    }
+
     scalar SShape::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
         //from Octave smf.m

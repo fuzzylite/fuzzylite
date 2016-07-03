@@ -28,6 +28,10 @@ namespace fl {
         return "Sigmoid";
     }
 
+    Complexity Sigmoid::complexity() const {
+        return Complexity().comparison(1).arithmetic(1 + 4).function(1);
+    }
+
     scalar Sigmoid::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
         return Term::_height * 1.0 / (1.0 + std::exp(-_slope * (x - _inflection)));

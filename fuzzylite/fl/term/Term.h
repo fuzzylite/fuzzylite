@@ -20,6 +20,7 @@
 #include "fl/fuzzylite.h"
 
 #include "fl/Operation.h"
+#include "fl/Complexity.h"
 
 #include <cmath>
 #include <string>
@@ -116,6 +117,12 @@ namespace fl {
           @param parameters is the parameters to configure the term
          */
         virtual void configure(const std::string& parameters) = 0;
+
+        /**
+         Computes the estimated complexity of evaluating the membership function
+         @return the estimated complexity of evaluating the membership function
+         */
+        virtual Complexity complexity() const = 0;
 
         /**
           Computes the membership function value at @f$x@f$

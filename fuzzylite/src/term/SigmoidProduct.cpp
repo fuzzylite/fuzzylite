@@ -30,6 +30,10 @@ namespace fl {
         return "SigmoidProduct";
     }
 
+    Complexity SigmoidProduct::complexity() const {
+        return Complexity().comparison(1).arithmetic(2 + 4 + 4).function(2);
+    }
+
     scalar SigmoidProduct::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
         scalar a = 1.0 / (1 + std::exp(-_rising * (x - _left)));

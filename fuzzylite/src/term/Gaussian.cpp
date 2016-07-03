@@ -29,6 +29,10 @@ namespace fl {
         return "Gaussian";
     }
 
+    Complexity Gaussian::complexity() const {
+        return Complexity().comparison(1).arithmetic(7).function(1);
+    }
+
     scalar Gaussian::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
         return Term::_height * std::exp((-(x - _mean) * (x - _mean)) / (2 * _standardDeviation * _standardDeviation));

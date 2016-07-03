@@ -62,6 +62,22 @@ namespace fl {
         return "Aggregated";
     }
 
+    Complexity Aggregated::complexity() const {
+        return complexityOfMembership();
+    }
+
+    Complexity Aggregated::complexityOfMembership() const {
+        Complexity result;
+        result.comparison(3);
+        if (_aggregation) {
+            result += _aggregation->complexity().multiply(_terms.size());
+        }
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
+            result += _terms.at(i).complexity();
+        }
+        return result;
+    }
+
     scalar Aggregated::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
         if (not (_terms.empty() or _aggregation.get())) { //Exception for IntegralDefuzzifiers
@@ -74,6 +90,16 @@ namespace fl {
             mu = _aggregation->compute(mu, _terms.at(i).membership(x));
         }
         return mu;
+    }
+
+    Complexity Aggregated::complexityOfActivationDegree() const {
+        Complexity result;
+        result.comparison(2);
+        if (_aggregation.get()) {
+            result += _aggregation->complexity();
+        } else result.arithmetic(1);
+        result.multiply(_terms.size());
+        return result;
     }
 
     scalar Aggregated::activationDegree(const Term* forTerm) const {

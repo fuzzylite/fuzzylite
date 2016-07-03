@@ -168,6 +168,36 @@ namespace fl {
         return result;
     }
 
+    std::size_t Function::Node::treeSize(const Node* root) const {
+        if (not root) root = this;
+        int result = 0;
+        if (root->left.get()) {
+            result += treeSize(root->left.get());
+        }
+        if (root->right.get()) {
+            result += treeSize(root->right.get());
+        }
+        if (root->element.get()) {
+            result += 1;
+        }
+        return result;
+    }
+
+    std::size_t Function::Node::treeSize(Element::Type type, const Node* root) const {
+        if (not root) root = this;
+        int result = 0;
+        if (root->left.get()) {
+            result += treeSize(type, root->left.get());
+        }
+        if (root->right.get()) {
+            result += treeSize(type, root->right.get());
+        }
+        if (root->element.get() and root->element->type == type) {
+            result += 1;
+        }
+        return result;
+    }
+
     Function::Node* Function::Node::clone() const {
         return new Node(*this);
     }
@@ -266,6 +296,23 @@ namespace fl {
 
     std::string Function::className() const {
         return "Function";
+    }
+
+    Complexity Function::complexity() const {
+        Complexity result;
+        result.comparison(2 + 2); //membership(scalar) + membership(std::map)
+        if (_engine) { //insert variables in map
+            const std::size_t engineVariables = _engine->variables().size();
+            result.function(engineVariables * std::log(variables.size() + engineVariables));
+            result.function(1 * std::log(variables.size() + engineVariables));
+        }
+        if (_root.get()) {
+            //Node::evaluate multiplies by tree size
+            const std::size_t treeSize = _root->treeSize();
+            result.comparison(3 * treeSize); //if element, unary, binary
+            result.function(treeSize * std::log(treeSize)); //only operands in tree
+        }
+        return result;
     }
 
     scalar Function::membership(scalar x) const {

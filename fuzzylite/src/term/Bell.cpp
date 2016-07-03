@@ -28,6 +28,10 @@ namespace fl {
         return "Bell";
     }
 
+    Complexity Bell::complexity() const {
+        return Complexity().comparison(1).arithmetic(6).function(2);
+    }
+
     scalar Bell::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
         return Term::_height * (1.0 / (1.0 + std::pow(std::abs((x - _center) / _width), 2 * _slope)));

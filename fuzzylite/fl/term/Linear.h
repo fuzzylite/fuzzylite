@@ -62,6 +62,8 @@ namespace fl {
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
+        virtual Complexity complexity() const FL_IOVERRIDE;
+
         /**
           Computes the linear function @f$f(x)=\sum_i c_iv_i +k@f$,
           where @f$v_i@f$ is the value of the input variable @f$i@f$ registered

@@ -29,6 +29,10 @@ namespace fl {
         return "Binary";
     }
 
+    Complexity Binary::complexity() const {
+        return Complexity().comparison(5).arithmetic(1);
+    }
+
     scalar Binary::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
         if (_direction == fl::inf and Op::isGE(x, _start)) {

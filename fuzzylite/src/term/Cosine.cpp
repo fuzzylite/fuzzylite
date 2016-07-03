@@ -52,6 +52,10 @@ namespace fl {
 
     }
 
+    Complexity Cosine::complexity() const {
+        return Complexity().comparison(3).arithmetic(4 + 1 + 7).function(2);
+    }
+
     scalar Cosine::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
         if (Op::isLt(x, _center - 0.5 * _width)
