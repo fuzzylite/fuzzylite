@@ -84,11 +84,13 @@ namespace fl {
           @return the threshold for the activation degree
          */
         virtual scalar getThreshold() const;
+
+        virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
+
         /**
           Activates the first @f$n@f$ rules whose activation degrees are greater than or
           equal to the given threshold. The rules are iterated in the order the
           rules were added to the rule block.
-
           @param ruleBlock is the rule block to activate
          */
         virtual void activate(RuleBlock* ruleBlock) const FL_IOVERRIDE;

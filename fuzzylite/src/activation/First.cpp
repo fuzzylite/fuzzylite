@@ -55,6 +55,27 @@ namespace fl {
         setThreshold(Op::toScalar(values.at(1)));
     }
 
+    Complexity First::complexity(const RuleBlock* ruleBlock) const {
+        Complexity result;
+
+        const TNorm* conjunction = ruleBlock->getConjunction();
+        const SNorm* disjunction = ruleBlock->getDisjunction();
+        const TNorm* implication = ruleBlock->getImplication();
+
+        Complexity meanActivation;
+        for (std::size_t i = 0; i < ruleBlock->rules().size(); ++i) {
+            result.comparison(1 + 3);
+            const Rule* rule = ruleBlock->rules().at(i);
+            result += rule->complexityOfActivationDegree(conjunction, disjunction, implication);
+            meanActivation += rule->complexityOfActivation(implication);
+        }
+        meanActivation.divide(ruleBlock->rules().size());
+
+        result += meanActivation.multiply(getNumberOfRules());
+        result += Complexity().arithmetic(1).multiply(getNumberOfRules());
+        return result;
+    }
+
     void First::activate(RuleBlock* ruleBlock) const {
         FL_DBG("Activation: " << className() << " " << parameters());
         const TNorm* conjunction = ruleBlock->getConjunction();

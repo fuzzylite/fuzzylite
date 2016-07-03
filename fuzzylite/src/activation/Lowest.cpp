@@ -51,6 +51,38 @@ namespace fl {
         this->_numberOfRules = activatedRules;
     }
 
+    Complexity Lowest::complexity(const RuleBlock* ruleBlock) const {
+        //Cost of priority_queue:
+        //http://stackoverflow.com/questions/2974470/efficiency-of-the-stl-priority-queue
+        Complexity result;
+
+        const TNorm* conjunction = ruleBlock->getConjunction();
+        const SNorm* disjunction = ruleBlock->getDisjunction();
+        const TNorm* implication = ruleBlock->getImplication();
+
+        Complexity meanActivation;
+        for (std::size_t i = 0; i < ruleBlock->rules().size(); ++i) {
+            const Rule* rule = ruleBlock->rules().at(i);
+            result.comparison(2);
+            result += rule->complexityOfActivationDegree(conjunction, disjunction, implication);
+            meanActivation += rule->complexityOfActivation(implication);
+        }
+        meanActivation.divide(ruleBlock->rules().size());
+        
+        //Complexity of push is O(log n)
+        result += Complexity().function(1).multiply(ruleBlock->rules().size()
+                * std::log(ruleBlock->rules().size()));
+
+
+
+        result += Complexity().comparison(2).arithmetic(1).multiply(getNumberOfRules());
+        result += meanActivation.multiply(getNumberOfRules());
+        //Complexity of pop is 2 * O(log n)
+        result += Complexity().function(1).multiply(getNumberOfRules() *
+                2 * std::log(ruleBlock->rules().size()));
+        return result;
+    }
+
     struct RuleDegreeComparatorAscending {
 
         bool operator()(const Rule* a, const Rule* b) {

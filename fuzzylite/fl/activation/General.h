@@ -58,6 +58,8 @@ namespace fl {
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
+        virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
+
         /**
           Activates every rule in the given rule block following the order in
           which the rules were added.
