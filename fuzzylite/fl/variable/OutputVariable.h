@@ -159,6 +159,31 @@ namespace fl {
         virtual bool isLockPreviousValue() const;
 
         /**
+          Computes the estimated complexity of defuzzifying the activated term
+          with the current configuration of the variable (namely aggregation and
+          defuzzifier
+          @param term is the activated term
+          @return the estimated complexity of defuzzifying the activated term
+          with the current configuration of the variable
+         */
+        virtual Complexity complexity(const Activated& term) const;
+        /**
+          Computes the estimated complexity of aggregating and defuzzifying all
+          the terms in the variable.
+          @return the estimated complexity of aggregating and defuzzifying all
+          the terms in the variable.
+         */
+        virtual Complexity complexity() const FL_IOVERRIDE;
+
+        /**
+          Computes the estimated complexity of aggregating and defuzzifying the
+          terms currently found in the fuzzy output variable.
+          @return the estimated complexity of aggregating and defuzzifying the
+          terms currently found in the fuzzy output variable
+         */
+        virtual Complexity currentComplexity() const FL_IOVERRIDE;
+
+        /**
           Defuzzifies the output variable and stores the output value and the
           previous output value
          */

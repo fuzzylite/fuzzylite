@@ -178,6 +178,12 @@ namespace fl {
         virtual bool isLockValueInRange() const;
 
         /**
+          Computes the aggregated complexity of the underlying terms
+          @return the aggregated complexity of the underlying terms
+         */
+        virtual Complexity complexity() const;
+
+        /**
           Evaluates the membership function of value @f$x@f$ for each
           term @f$i@f$, resulting in a fuzzy value in the form
           @f$\tilde{x}=\sum_i{\mu_i(x)/i}@f$
