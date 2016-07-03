@@ -55,8 +55,8 @@ namespace fl {
         virtual std::string name() const = 0;
 
         /**
-          Computes the complexity of applying the hedge
-          @return the complexity of applying the hedge
+          Computes the estimated complexity of applying the hedge
+          @return the estimated complexity of applying the hedge
          */
         virtual Complexity complexity() const = 0;
         /**
