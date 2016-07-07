@@ -88,6 +88,9 @@ namespace fl {
     }
 
     void Benchmark::prepare(int values, FldExporter::ScopeOfValues scope) {
+        if (not _engine) {
+            throw Exception("[benchmark error] engine not set before preparing for values and scope", FL_AT);
+        }
         int resolution;
         if (scope == FldExporter::AllVariables)
             resolution = -1 + (int) std::max(1.0, std::pow(
@@ -142,6 +145,9 @@ namespace fl {
     }
 
     std::vector<scalar> Benchmark::run(int times) {
+        if (not _engine) {
+            throw Exception("[benchmark error] engine not set for benchmark", FL_AT);
+        }
         std::vector<scalar> runTimes(times, fl::nan);
         const std::size_t offset(_engine->inputVariables().size());
         for (int t = 0; t < times; ++t) {
@@ -192,7 +198,7 @@ namespace fl {
     }
 
     bool Benchmark::canComputeErrors() const {
-        return not (_expected.empty() or _obtained.empty()
+        return not (_engine == fl::null or _expected.empty() or _obtained.empty()
                 or _expected.size() != _obtained.size()
                 or _expected.front().size() != _obtained.front().size()
                 or _expected.front().size() != _engine->variables().size());
@@ -317,6 +323,29 @@ namespace fl {
         return x * factorOf(to) / factorOf(from);
     }
 
+    std::string Benchmark::header(int runs, bool computeErrors) {
+        Benchmark result;
+        std::vector<std::vector<scalar> > dummyVector(1,
+                std::vector<scalar>(1, fl::nan));
+        result.setExpected(dummyVector);
+        result.setObtained(dummyVector);
+        result.setTimes(std::vector<scalar>(runs, fl::nan));
+        std::vector<Benchmark::Result> dummyResults;
+        if (computeErrors) {
+            Engine dummy;
+            dummy.addOutputVariable(new OutputVariable);
+            result.setEngine(&dummy);
+            dummyResults = result.results(NanoSeconds, true);
+        } else {
+            dummyResults = result.results(NanoSeconds, true);
+        }
+        std::vector<std::string> header;
+        for (std::size_t i = 0 ; i < dummyResults.size(); ++i){
+            header.push_back(dummyResults.at(i).first);
+        }
+        return Op::join(header, "\t");
+    }
+
     std::vector<Benchmark::Result> Benchmark::results(TimeUnit timeUnit, bool includeTimes) const {
         return results(fl::null, timeUnit, includeTimes);
     }
@@ -325,15 +354,17 @@ namespace fl {
             const OutputVariable* outputVariable, TimeUnit unit, bool includeTimes) const {
         std::vector<scalar> time = _times;
 
+        const Engine& theEngine = _engine ? *_engine : Engine();
+
         std::vector<Result> result;
         result.push_back(Result("library", fuzzylite::library()));
         result.push_back(Result("name", _name));
-        result.push_back(Result("inputs", Op::str(_engine->numberOfInputVariables())));
-        result.push_back(Result("outputs", Op::str(_engine->numberOfOutputVariables())));
-        result.push_back(Result("ruleBlocks", Op::str(_engine->numberOfRuleBlocks())));
+        result.push_back(Result("inputs", Op::str(theEngine.numberOfInputVariables())));
+        result.push_back(Result("outputs", Op::str(theEngine.numberOfOutputVariables())));
+        result.push_back(Result("ruleBlocks", Op::str(theEngine.numberOfRuleBlocks())));
         std::size_t rules = 0;
-        for (std::size_t i = 0; i < _engine->ruleBlocks().size(); ++i){
-            rules += _engine->ruleBlocks().at(i)->rules().size();
+        for (std::size_t i = 0; i < theEngine.ruleBlocks().size(); ++i) {
+            rules += theEngine.ruleBlocks().at(i)->rules().size();
         }
         result.push_back(Result("rules", Op::str(rules)));
         result.push_back(Result("runs", Op::str(_times.size())));
@@ -344,8 +375,8 @@ namespace fl {
             scalar rmse = std::sqrt(meanSquaredError(outputVariable));
             scalar nrmse = 0.0;
             scalar weights = 0.0;
-            for (std::size_t i = 0; i < _engine->outputVariables().size(); ++i) {
-                const OutputVariable* y = _engine->outputVariables().at(i);
+            for (std::size_t i = 0; i < theEngine.outputVariables().size(); ++i) {
+                const OutputVariable* y = theEngine.outputVariables().at(i);
                 if (outputVariable == fl::null or outputVariable == y) {
                     names.push_back(y->getName());
                     meanRange += y->range();

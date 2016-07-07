@@ -46,6 +46,10 @@ namespace fl {
     const std::string Console::KW_DATA_EXPORT_HEADER = "-dheader";
     const std::string Console::KW_DATA_EXPORT_INPUTS = "-dinputs";
 
+    Console::Option::Option(const std::string& key, const std::string& value, const std::string& description) :
+    key(key), value(value), description(description) {
+    }
+
     std::vector<Console::Option> Console::availableOptions() {
         std::vector<Console::Option> options;
         options.push_back(Option(KW_INPUT_FILE, "inputfile", "file to import your engine from"));
@@ -54,7 +58,7 @@ namespace fl {
         options.push_back(Option(KW_OUTPUT_FORMAT, "format", "format of the file to export (fll | fld | cpp | java | fis | fcl)"));
         options.push_back(Option(KW_EXAMPLE, "letter", "if not inputfile, built-in example to use as engine: (m)amdani or (t)akagi-sugeno"));
         options.push_back(Option(KW_DECIMALS, "number", "number of decimals to write floating-poing values"));
-        options.push_back(Option(KW_DATA_INPUT_FILE, "datafile", "if exporting to fld, file of input values to evaluate your engine on"));
+        options.push_back(Option(KW_DATA_INPUT_FILE, "file", "if exporting to fld, FLD file of input values to evaluate your engine on"));
         options.push_back(Option(KW_DATA_VALUES, "number", "if exporting to fld without datafile, number of results to export within scope (default: EachVariable)"));
         options.push_back(Option(KW_DATA_VALUES_SCOPE, "scope", "if exporting to fld without datafile, scope of " + KW_DATA_VALUES + ": [EachVariable|AllVariables]"));
         options.push_back(Option(KW_DATA_EXPORT_HEADER, "boolean", "if true and exporting to fld, include headers"));
@@ -73,6 +77,8 @@ namespace fl {
         ss << "license: " << fuzzylite::license() << "\n";
         ss << "========================================\n\n";
         ss << "usage: fuzzylite inputfile outputfile\n";
+        ss << "   or: fuzzylite benchmark engine.fll input.fld runs [output.tsv]\n";
+        ss << "   or: fuzzylite benchmarks fllFiles.txt fldFiles.txt runs [output.tsv]\n";
         ss << "   or: fuzzylite ";
         for (std::size_t i = 0; i < options.size(); ++i) {
             ss << "[" << options.at(i).key << " " << options.at(i).value << "] ";
@@ -692,7 +698,7 @@ namespace fl {
         }
     }
 
-    void Console::benchmarkExamples(const std::string& path, int runs,
+    /*    void Console::benchmarkExamples(const std::string& path, int runs,
             const std::string& pathToFld, const std::string& outputFile) {
         typedef std::pair<std::string, int > Example;
         std::vector<Example> examples;
@@ -773,6 +779,80 @@ namespace fl {
             FL_LOG(writer.str());
         }
     }
+     */
+    void Console::benchmark(const std::string& fllFile, const std::string& fldFile,
+            int runs, std::ofstream* writer) const {
+        FL_unique_ptr<Engine> engine(FllImporter().fromFile(fllFile));
+        std::ifstream reader(fldFile.c_str());
+        if (not reader.is_open()) {
+            throw Exception("File <" + fldFile + "> could not be opened");
+        }
+        Benchmark benchmark(engine->getName(), engine.get());
+        benchmark.prepare(reader);
+        if (writer) {
+            FL_LOG("\tEvaluating on " << benchmark.getExpected().size() <<
+                    " read values from " << fldFile << " ...");
+        }
+        for (int i = 0; i < runs; ++i) {
+            benchmark.runOnce();
+        }
+        if (writer) {
+            FL_LOG("\tMean(t)=" << Op::mean(benchmark.run(runs)) << " nanoseconds");
+            *writer << benchmark.format(benchmark.results(),
+                    Benchmark::Horizontal, Benchmark::Body) << "\n";
+        } else {
+            FL_LOGP(benchmark.format(benchmark.results(),
+                    Benchmark::Horizontal, Benchmark::Body));
+        }
+    }
+
+    void Console::benchmarks(const std::string& fllFileList,
+            const std::string& fldFileList, int runs, std::ofstream* writer) const {
+        std::vector<std::string> fllFiles;
+        {
+            std::ifstream reader(fllFileList.c_str());
+            if (not reader.is_open()) {
+                throw Exception("[error] file <" + fllFileList + "> could not be opened");
+            }
+            std::string line;
+            while (std::getline(reader, line)) {
+                line = Op::trim(line);
+                if (not line.empty()) fllFiles.push_back(line);
+            }
+        }
+        std::vector<std::string> fldFiles;
+        {
+            std::ifstream reader(fldFileList.c_str());
+            if (not reader.is_open()) {
+                throw Exception("[error] file <" + fldFileList + "> could not be opened");
+            }
+            std::string line;
+            while (std::getline(reader, line)) {
+                line = Op::trim(line);
+                if (not line.empty()) fldFiles.push_back(line);
+            }
+        }
+        if (fllFiles.size() != fldFiles.size()) {
+            std::ostringstream os;
+            os << "[error] number of FLL files <" << fllFiles.size() << "> in <" << fllFileList << "> "
+                    "must match the number of FLD files <" << fldFiles.size() << "> is <" << fldFileList << ">";
+            throw Exception(os.str());
+        }
+
+        if (writer) {
+            *writer << Benchmark().header(runs, true) << "\n";
+        }else{
+            FL_LOGP(Benchmark().header(runs, true));
+        }
+
+        for (std::size_t i = 0; i < fllFiles.size(); ++i) {
+            if (writer) {
+                FL_LOG("Benchmark " << (i + 1) << "/" << fllFiles.size() << ": "
+                        << fllFiles.at(i));
+            }
+            benchmark(fllFiles.at(i), fldFiles.at(i), runs, writer);
+        }
+    }
 
     int Console::main(int argc, const char* argv[]) {
         Console console;
@@ -781,7 +861,9 @@ namespace fl {
             return EXIT_SUCCESS;
         }
 
-        const std::string firstArgument = std::string(argv[1]);
+        fuzzylite::setLogging(true);
+
+        const std::string firstArgument(argv[1]);
 
         if (firstArgument == "export-examples") {
             std::string path = ".";
@@ -813,26 +895,44 @@ namespace fl {
             FL_LOG("Origin=" << path);
             FL_LOG("Target=" << outputPath);
             return EXIT_SUCCESS;
-        } else if (firstArgument == "benchmarks") {
-            std::string path = ".";
-            if (argc > 2) {
-                path = std::string(argv[2]);
-            }
 
-            std::string pathToFld = "";
-            if (argc > 3) {
-                pathToFld = argv[3];
+        } else if (firstArgument == "benchmark") {
+            if (argc < 5) {
+                FL_LOG("[error] not enough parameters");
+                FL_LOGP(console.usage());
+                return EXIT_FAILURE;
             }
+            std::string fllFile(argv[2]);
+            std::string fldFile(argv[3]);
+            int runs = (int) Op::toScalar(argv[4]);
 
-            int runs = 10;
-            if (argc > 4) {
-                runs = (int) Op::toScalar(argv[4]);
-            }
-            std::string outputFile;
             if (argc > 5) {
-                outputFile = argv[5];
+                std::string filename(argv[5]);
+                std::ofstream outputFile;
+                outputFile.open(filename.c_str());
+                if (not outputFile.is_open()) {
+                    FL_LOG("[error] cannot create file <" << filename << ">");
+                    FL_LOGP(console.usage());
+                    return EXIT_FAILURE;
+                }
+                outputFile << Benchmark().header(runs, true) << "\n";
+                console.benchmark(fllFile, fldFile, runs, &outputFile);
+            } else {
+                FL_LOGP(Benchmark().header(runs, true));
+                console.benchmark(fllFile, fldFile, runs, fl::null);
             }
-            console.benchmarkExamples(path, runs, pathToFld, outputFile);
+            return EXIT_SUCCESS;
+
+        } else if (firstArgument == "benchmarks") {
+            if (argc < 5) {
+                FL_LOG("[error] not enough parameters");
+                FL_LOGP(console.usage());
+                return EXIT_FAILURE;
+            }
+            std::string fllFiles(argv[2]);
+            std::string fldFiles(argv[3]);
+            int runs = (int) Op::toScalar(argv[4]);
+            console.benchmarks(fllFiles, fldFiles, runs);
             return EXIT_SUCCESS;
         }
 

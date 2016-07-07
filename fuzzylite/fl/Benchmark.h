@@ -160,6 +160,7 @@ namespace fl {
          engine
          @param values is the number of values to evaluate the engine upon
          @param scope is the scope of the values to generate
+         @throws Exception if the engine is not set
          */
         virtual void prepare(int values, FldExporter::ScopeOfValues scope);
         /**
@@ -358,6 +359,16 @@ namespace fl {
          */
         virtual std::vector<Result> results(const OutputVariable* outputVariable,
                 TimeUnit timeUnit = NanoSeconds, bool includeTimes = true) const;
+
+        /**
+         Returns the header of a horizontal table of results
+         @param runs is the number of times the benchmark will be run, hence
+         producing the relevant number of columns for each run
+         @param computeErrors indicates whether to include columns for computing
+         the errors
+         @return the header of a horizontal table of results
+         */
+        virtual std::string header(int runs, bool computeErrors = true);
 
         /**
          Formats the results

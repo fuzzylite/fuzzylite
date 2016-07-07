@@ -50,7 +50,7 @@
 #define FL_AT FL__FILE__, __LINE__, __FUNCTION__
 
 #define FL_LOG(message) {if (fl::fuzzylite::isLogging()){std::cout << FL_LOG_PREFIX << message << std::endl;}}
-#define FL_LOGP(message) {if fl::fuzzylite::isLogging()){std::cout << message << std::endl;}}
+#define FL_LOGP(message) {if (fl::fuzzylite::isLogging()){std::cout << message << std::endl;}}
 
 #define FL_DEBUG_BEGIN if (fl::fuzzylite::isDebugging()){
 #define FL_DEBUG_END }

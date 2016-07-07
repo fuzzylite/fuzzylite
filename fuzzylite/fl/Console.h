@@ -43,9 +43,8 @@ namespace fl {
         struct Option {
             std::string key, value, description;
 
-            explicit Option(const std::string& key = "", const std::string& value = "", const std::string& description = "") :
-            key(key), value(value), description(description) {
-            }
+            explicit Option(const std::string& key = "", const std::string& value = "",
+                    const std::string& description = "");
         };
 
         /**Keyword for input file*/
@@ -98,8 +97,10 @@ namespace fl {
         virtual void exportAllExamples(const std::string& from, const std::string& to,
                 const std::string& examplesPath, const std::string& outputPath);
 
-        static void benchmarkExamples(const std::string& path, int runs,
-                const std::string& pathToFld, const std::string& outputFile);
+        virtual void benchmark(const std::string& fllFile, const std::string& fldFile,
+                int times, std::ofstream* writer = fl::null) const;
+        virtual void benchmarks(const std::string& fllFileList, const std::string& fldFileList,
+                int times, std::ofstream* writer = fl::null) const;
 
     public:
         /**
