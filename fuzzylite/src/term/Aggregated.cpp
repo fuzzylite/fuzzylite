@@ -69,7 +69,7 @@ namespace fl {
     Complexity Aggregated::complexityOfMembership() const {
         Complexity result;
         result.comparison(3);
-        if (_aggregation) {
+        if (_aggregation.get()) {
             result += _aggregation->complexity().multiply(_terms.size());
         }
         for (std::size_t i = 0; i < _terms.size(); ++i) {
