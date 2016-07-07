@@ -224,4 +224,14 @@ namespace fl {
     scalar Complexity::norm() const {
         return std::sqrt(Complexity(*this).multiply(*this).sum());
     }
+
+    std::string Complexity::toString() const {
+        std::vector<std::string> result;
+        result.push_back("arithmetic=" + Op::str(_arithmetic));
+        result.push_back("comparison=" + Op::str(_comparison));
+        result.push_back("function=" + Op::str(_function));
+        result.push_back("other=" + Op::str(_other));
+        return "Complexity[" + Op::join(result, ", ") + "]";
+    }
+
 }

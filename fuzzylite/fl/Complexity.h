@@ -208,12 +208,17 @@ namespace fl {
          */
         virtual scalar sum() const;
 
-
         /**
          Computes the norm of the complexity
          @return the norm of the complexity
          */
         virtual scalar norm() const;
+
+        /**
+         Returns the measures of the complexity
+         @return the measures of the complexity
+         */
+        virtual std::string toString() const;
 
     };
 
