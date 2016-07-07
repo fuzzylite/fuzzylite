@@ -181,7 +181,7 @@ namespace fl {
           @return the estimated complexity of aggregating and defuzzifying the
           terms currently found in the fuzzy output variable
          */
-        virtual Complexity currentComplexity() const FL_IOVERRIDE;
+        virtual Complexity currentComplexity() const;
 
         /**
           Defuzzifies the output variable and stores the output value and the
