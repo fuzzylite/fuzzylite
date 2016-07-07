@@ -102,4 +102,13 @@ namespace fl {
         delete clone;
     }
 
+    TEST_CASE("Function computes tree size correctly", "[term][function]"){
+        Function f("f", "x*x+(x-x)/x+log(x)");
+        f.load();
+        CHECK(f.root()->treeSize() == 6);
+        CHECK(f.root()->treeSize(Function::Element::Function) == 1);
+        CHECK(f.root()->treeSize(Function::Element::Operator) == 5);
+        FL_LOG(f.complexity().toString());
+    }
+
 }

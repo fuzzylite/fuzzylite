@@ -18,6 +18,8 @@
 
 #include "fl/fuzzylite.h"
 
+#include "fl/Complexity.h"
+
 #include <string>
 #include <vector>
 
