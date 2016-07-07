@@ -17,6 +17,8 @@
 
 #include "fl/Engine.h"
 #include "fl/Operation.h"
+#include "fl/rule/Rule.h"
+#include "fl/rule/RuleBlock.h"
 #include "fl/variable/InputVariable.h"
 #include "fl/variable/OutputVariable.h"
 
@@ -328,6 +330,12 @@ namespace fl {
         result.push_back(Result("name", _name));
         result.push_back(Result("inputs", Op::str(_engine->numberOfInputVariables())));
         result.push_back(Result("outputs", Op::str(_engine->numberOfOutputVariables())));
+        result.push_back(Result("ruleBlocks", Op::str(_engine->numberOfRuleBlocks())));
+        std::size_t rules = 0;
+        for (std::size_t i = 0; i < _engine->ruleBlocks().size(); ++i){
+            rules += _engine->ruleBlocks().at(i)->rules().size();
+        }
+        result.push_back(Result("rules", Op::str(rules)));
         result.push_back(Result("runs", Op::str(_times.size())));
         result.push_back(Result("evaluations", Op::str(_expected.size())));
         if (canComputeErrors()) {
