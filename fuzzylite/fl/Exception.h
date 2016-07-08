@@ -60,7 +60,7 @@ namespace fl {
           @param line is the line number in the file where the exception occurred
           @param function is the name of the function where the exception occurred
          */
-        Exception(const std::string& what, const std::string& file, int line,
+        explicit Exception(const std::string& what, const std::string& file, int line,
                 const std::string& function);
         virtual ~Exception() FL_INOEXCEPT FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Exception)
