@@ -24,8 +24,8 @@
 namespace fl {
 
     TEST_CASE("Benchmarks run from Console ", "[benchmark][console]") {
-//        const char* args[] = {"dummy-command", "benchmarks", "../../examples/", "1"};
-//        Console::main(4, args);
+        //        const char* args[] = {"dummy-command", "benchmarks", "../../examples/", "1"};
+        //        Console::main(4, args);
     }
 
     TEST_CASE("Benchmarks from FLD files", "[benchmark][fld]") {
@@ -82,7 +82,7 @@ namespace fl {
             Benchmark benchmark(example.first, engine.get(), tolerance);
 
             std::ifstream reader(std::string(path + example.first + ".fld").c_str());
-            if (not reader.is_open()){
+            if (not reader.is_open()) {
                 throw Exception("File not found: " + path + example.first + ".fld");
             }
             benchmark.prepare(reader, 1024);
@@ -99,7 +99,7 @@ namespace fl {
             }
         }
         FL_LOG(writer.str());
-        for (std::size_t i = 0 ; i < errors.size(); ++i){
+        for (std::size_t i = 0; i < errors.size(); ++i) {
             FL_LOG("Checking for errors in: " << examples.at(i).first);
             CHECK(errors.at(i) == 0);
         }
@@ -118,5 +118,14 @@ namespace fl {
 
         CHECK(Op::isEq(35e9, Benchmark::convert(35, Benchmark::Seconds, Benchmark::NanoSeconds)));
         CHECK(Op::isEq(35, Benchmark::convert(35e9, Benchmark::NanoSeconds, Benchmark::Seconds)));
+    }
+
+    TEST_CASE("Benchmark headers", "[benchmark][header]") {
+        fuzzylite::setLogging(true);
+        FL_LOG(Op::join(Benchmark().header(10, true), "\t"));
+        CHECK(Benchmark().header(10).size() == 30);
+
+        FL_LOG(Op::join(Benchmark().header(10, false), "\t"));
+        CHECK(Benchmark().header(10, false).size() == 30 - 8);
     }
 }

@@ -339,6 +339,17 @@ namespace fl {
          */
         static scalar convert(scalar time, TimeUnit from, TimeUnit to);
 
+        /**
+         Returns the header of a horizontal table of results
+         @param runs is the number of times the benchmark will be run, hence
+         producing the relevant number of columns for each run
+         @param includeErrors indicates whether to include columns for computing
+         the errors
+         @return the header of a horizontal table of results
+         */
+        virtual std::vector<std::string> header(int runs, bool includeErrors = true);
+
+        /**Result is a type definition for a pair of strings*/
         typedef std::pair<std::string, std::string> Result;
         /**
          Computes and returns the results from the benchmark aggregating the
@@ -359,16 +370,6 @@ namespace fl {
          */
         virtual std::vector<Result> results(const OutputVariable* outputVariable,
                 TimeUnit timeUnit = NanoSeconds, bool includeTimes = true) const;
-
-        /**
-         Returns the header of a horizontal table of results
-         @param runs is the number of times the benchmark will be run, hence
-         producing the relevant number of columns for each run
-         @param computeErrors indicates whether to include columns for computing
-         the errors
-         @return the header of a horizontal table of results
-         */
-        virtual std::string header(int runs, bool computeErrors = true);
 
         /**
          Formats the results

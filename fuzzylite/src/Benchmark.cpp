@@ -323,27 +323,28 @@ namespace fl {
         return x * factorOf(to) / factorOf(from);
     }
 
-    std::string Benchmark::header(int runs, bool computeErrors) {
+    std::vector<std::string> Benchmark::header(int runs, bool includeErrors) {
         Benchmark result;
-        std::vector<std::vector<scalar> > dummyVector(1,
-                std::vector<scalar>(1, fl::nan));
-        result.setExpected(dummyVector);
-        result.setObtained(dummyVector);
+
+        Engine dummy;
+        dummy.addOutputVariable(new OutputVariable); //canCompute() == true
+        result.setEngine(&dummy);
+
         result.setTimes(std::vector<scalar>(runs, fl::nan));
-        std::vector<Benchmark::Result> dummyResults;
-        if (computeErrors) {
-            Engine dummy;
-            dummy.addOutputVariable(new OutputVariable);
-            result.setEngine(&dummy);
-            dummyResults = result.results(NanoSeconds, true);
-        } else {
-            dummyResults = result.results(NanoSeconds, true);
+
+        if (includeErrors) {
+            std::vector<std::vector<scalar> > dummyVector(1,
+                    std::vector<scalar>(1, fl::nan));
+            result.setExpected(dummyVector);
+            result.setObtained(dummyVector);
         }
+        std::vector<Benchmark::Result> dummyResults = result.results();
+
         std::vector<std::string> header;
-        for (std::size_t i = 0 ; i < dummyResults.size(); ++i){
+        for (std::size_t i = 0; i < dummyResults.size(); ++i) {
             header.push_back(dummyResults.at(i).first);
         }
-        return Op::join(header, "\t");
+        return header;
     }
 
     std::vector<Benchmark::Result> Benchmark::results(TimeUnit timeUnit, bool includeTimes) const {
@@ -352,19 +353,21 @@ namespace fl {
 
     std::vector<Benchmark::Result> Benchmark::results(
             const OutputVariable* outputVariable, TimeUnit unit, bool includeTimes) const {
-        std::vector<scalar> time = _times;
+        if (not _engine) {
+            throw Exception("[benchmark error] engine not set for benchmark", FL_AT);
+        }
 
-        const Engine& theEngine = _engine ? *_engine : Engine();
+        std::vector<scalar> time = _times;
 
         std::vector<Result> result;
         result.push_back(Result("library", fuzzylite::library()));
         result.push_back(Result("name", _name));
-        result.push_back(Result("inputs", Op::str(theEngine.numberOfInputVariables())));
-        result.push_back(Result("outputs", Op::str(theEngine.numberOfOutputVariables())));
-        result.push_back(Result("ruleBlocks", Op::str(theEngine.numberOfRuleBlocks())));
+        result.push_back(Result("inputs", Op::str(_engine->numberOfInputVariables())));
+        result.push_back(Result("outputs", Op::str(_engine->numberOfOutputVariables())));
+        result.push_back(Result("ruleBlocks", Op::str(_engine->numberOfRuleBlocks())));
         std::size_t rules = 0;
-        for (std::size_t i = 0; i < theEngine.ruleBlocks().size(); ++i) {
-            rules += theEngine.ruleBlocks().at(i)->rules().size();
+        for (std::size_t i = 0; i < _engine->ruleBlocks().size(); ++i) {
+            rules += _engine->ruleBlocks().at(i)->rules().size();
         }
         result.push_back(Result("rules", Op::str(rules)));
         result.push_back(Result("runs", Op::str(_times.size())));
@@ -375,8 +378,8 @@ namespace fl {
             scalar rmse = std::sqrt(meanSquaredError(outputVariable));
             scalar nrmse = 0.0;
             scalar weights = 0.0;
-            for (std::size_t i = 0; i < theEngine.outputVariables().size(); ++i) {
-                const OutputVariable* y = theEngine.outputVariables().at(i);
+            for (std::size_t i = 0; i < _engine->outputVariables().size(); ++i) {
+                const OutputVariable* y = _engine->outputVariables().at(i);
                 if (outputVariable == fl::null or outputVariable == y) {
                     names.push_back(y->getName());
                     meanRange += y->range();
