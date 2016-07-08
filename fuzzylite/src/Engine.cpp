@@ -95,9 +95,12 @@ namespace fl {
     }
 
     Engine::~Engine() {
-        for (std::size_t i = 0; i < _ruleBlocks.size(); ++i) delete _ruleBlocks.at(i);
-        for (std::size_t i = 0; i < _outputVariables.size(); ++i) delete _outputVariables.at(i);
-        for (std::size_t i = 0; i < _inputVariables.size(); ++i) delete _inputVariables.at(i);
+        for (std::size_t i = 0; i < _ruleBlocks.size(); ++i)
+            delete _ruleBlocks.at(i);
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i)
+            delete _outputVariables.at(i);
+        for (std::size_t i = 0; i < _inputVariables.size(); ++i)
+            delete _inputVariables.at(i);
     }
 
     void Engine::configure(const std::string& conjunctionT, const std::string& disjunctionS,
