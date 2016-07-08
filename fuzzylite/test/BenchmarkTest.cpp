@@ -121,7 +121,6 @@ namespace fl {
     }
 
     TEST_CASE("Benchmark headers", "[benchmark][header]") {
-        fuzzylite::setLogging(true);
         FL_LOG(Op::join(Benchmark().header(10, true), "\t"));
         CHECK(Benchmark().header(10).size() == 30);
 
