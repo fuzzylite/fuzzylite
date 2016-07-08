@@ -19,11 +19,6 @@
 #include "fl/fuzzylite.h"
 
 namespace fl {
-    class Engine;
-    class Variable;
-    class Term;
-    class RuleBlock;
-    class Hedge;
 
     /**
       The Complexity class is used throughout the library to estimate the
