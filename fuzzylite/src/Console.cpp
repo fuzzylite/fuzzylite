@@ -698,88 +698,6 @@ namespace fl {
         }
     }
 
-    /*    void Console::benchmarkExamples(const std::string& path, int runs,
-            const std::string& pathToFld, const std::string& outputFile) {
-        typedef std::pair<std::string, int > Example;
-        std::vector<Example> examples;
-        examples.push_back(Example("mamdani/AllTerms", int(1e4)));
-        examples.push_back(Example("mamdani/SimpleDimmer", int(1e5)));
-        examples.push_back(Example("mamdani/Laundry", int(1e5)));
-        examples.push_back(Example("mamdani/SimpleDimmerInverse", int(1e5)));
-        examples.push_back(Example("mamdani/matlab/mam21", 128));
-        examples.push_back(Example("mamdani/matlab/mam22", 128));
-        examples.push_back(Example("mamdani/matlab/shower", 256));
-        examples.push_back(Example("mamdani/matlab/tank", 256));
-        examples.push_back(Example("mamdani/matlab/tank2", 512));
-        examples.push_back(Example("mamdani/matlab/tipper", 256));
-        examples.push_back(Example("mamdani/matlab/tipper1", int(1e5)));
-        examples.push_back(Example("mamdani/octave/investment_portfolio", 256));
-        examples.push_back(Example("mamdani/octave/mamdani_tip_calculator", 256));
-        examples.push_back(Example("takagi-sugeno/approximation", int(1e6)));
-        examples.push_back(Example("takagi-sugeno/SimpleDimmer", int(2e6)));
-        examples.push_back(Example("takagi-sugeno/matlab/fpeaks", 512));
-        examples.push_back(Example("takagi-sugeno/matlab/invkine1", 256));
-        examples.push_back(Example("takagi-sugeno/matlab/invkine2", 256));
-        examples.push_back(Example("takagi-sugeno/matlab/juggler", 512));
-        examples.push_back(Example("takagi-sugeno/matlab/membrn1", 1024));
-        examples.push_back(Example("takagi-sugeno/matlab/membrn2", 512));
-        examples.push_back(Example("takagi-sugeno/matlab/slbb", 20));
-        examples.push_back(Example("takagi-sugeno/matlab/slcp", 20));
-        examples.push_back(Example("takagi-sugeno/matlab/slcp1", 15));
-        examples.push_back(Example("takagi-sugeno/matlab/slcpp1", 9));
-        examples.push_back(Example("takagi-sugeno/matlab/sltbu_fl", 128));
-        examples.push_back(Example("takagi-sugeno/matlab/sugeno1", int(2e6)));
-        examples.push_back(Example("takagi-sugeno/matlab/tanksg", 1024));
-        examples.push_back(Example("takagi-sugeno/matlab/tippersg", 1024));
-        examples.push_back(Example("takagi-sugeno/octave/cubic_approximator", int(2e6)));
-        examples.push_back(Example("takagi-sugeno/octave/heart_disease_risk", 1024));
-        examples.push_back(Example("takagi-sugeno/octave/linear_tip_calculator", 1024));
-        examples.push_back(Example("takagi-sugeno/octave/sugeno_tip_calculator", 512));
-        examples.push_back(Example("tsukamoto/tsukamoto", int(1e6)));
-
-        std::ostringstream writer;
-        for (std::size_t i = 0; i < examples.size(); ++i) {
-            Example example = examples.at(i);
-            FL_LOG("Benchmark " << (i + 1) << "/" << examples.size() << ": "
-                    << example.first << ".fll");
-            FL_unique_ptr<Engine> engine(FllImporter().fromFile(path + example.first + ".fll"));
-
-            Benchmark benchmark(example.first, engine.get());
-            if (pathToFld.empty()) {
-                benchmark.prepare(example.second, FldExporter::AllVariables);
-                FL_LOG("\tEvaluating on " << example.second << " generated values over all variables...");
-            } else {
-                std::string fldFile = pathToFld + example.first + ".fld";
-                std::ifstream is(fldFile.c_str());
-                if (not is.is_open()) {
-                    throw Exception("The file <" + fldFile + "> could not be opened");
-                }
-                benchmark.prepare(is);
-                FL_LOG("\tEvaluating on " << benchmark.getExpected().size() << " read values from "
-                        << fldFile << " ...");
-            }
-            FL_LOG("\tMean(t)=" << Op::mean(benchmark.run(runs)) << " nanoseconds");
-            if (i == 0) {
-                writer << "\n" << benchmark.format(benchmark.results(),
-                        Benchmark::Horizontal, Benchmark::HeaderAndBody) << "\n";
-            } else {
-                writer << benchmark.format(benchmark.results(),
-                        Benchmark::Horizontal, Benchmark::Body) << "\n";
-            }
-        }
-        if (not outputFile.empty()) {
-            std::ofstream of;
-            of.open(outputFile.c_str());
-            if (not of.is_open()) {
-                throw Exception("File <" + outputFile + "> could not be opened");
-            }
-            of << writer.str();
-            of.close();
-        } else {
-            FL_LOG(writer.str());
-        }
-    }
-     */
     void Console::benchmark(const std::string& fllFile, const std::string& fldFile,
             int runs, std::ofstream* writer) const {
         FL_unique_ptr<Engine> engine(FllImporter().fromFile(fllFile));
@@ -797,7 +715,7 @@ namespace fl {
             benchmark.runOnce();
         }
         if (writer) {
-            FL_LOG("\tMean(t)=" << Op::mean(benchmark.run(runs)) << " nanoseconds");
+            FL_LOG("\tMean(t)=" << Op::mean(benchmark.getTimes()) << " nanoseconds");
             *writer << benchmark.format(benchmark.results(),
                     Benchmark::Horizontal, Benchmark::Body) << "\n";
         } else {
@@ -840,9 +758,9 @@ namespace fl {
         }
 
         if (writer) {
-            *writer << Benchmark().header(runs, true) << "\n";
-        }else{
-            FL_LOGP(Benchmark().header(runs, true));
+            *writer << Op::join(Benchmark().header(runs, true), "\t") << "\n";
+        } else {
+            FL_LOGP(Op::join(Benchmark().header(runs, true), "\t"));
         }
 
         for (std::size_t i = 0; i < fllFiles.size(); ++i) {
@@ -855,16 +773,15 @@ namespace fl {
     }
 
     int Console::main(int argc, const char* argv[]) {
+        fuzzylite::setLogging(true);
+
         Console console;
         if (argc <= 2) {
-            std::cout << console.usage() << std::endl;
+            FL_LOGP(console.usage() << "\n");
             return EXIT_SUCCESS;
         }
 
-        fuzzylite::setLogging(true);
-
         const std::string firstArgument(argv[1]);
-
         if (firstArgument == "export-examples") {
             std::string path = ".";
             if (argc > 2) {
@@ -877,70 +794,96 @@ namespace fl {
             FL_LOG("Origin=" << path);
             FL_LOG("Target=" << outputPath);
             fuzzylite::setDecimals(3);
-            FL_LOG("Processing fll->fll");
-            console.exportAllExamples("fll", "fll", path, outputPath);
-            FL_LOG("Processing fll->fcl");
-            console.exportAllExamples("fll", "fcl", path, outputPath);
-            FL_LOG("Processing fll->fis");
-            console.exportAllExamples("fll", "fis", path, outputPath);
-            FL_LOG("Processing fll->cpp");
-            console.exportAllExamples("fll", "cpp", path, outputPath);
-            FL_LOG("Processing fll->java");
-            console.exportAllExamples("fll", "java", path, outputPath);
-            FL_LOG("Processing fll->R");
-            console.exportAllExamples("fll", "R", path, outputPath);
-            fuzzylite::setDecimals(9);
-            FL_LOG("Processing fll->fld");
-            console.exportAllExamples("fll", "fld", path, outputPath);
-            FL_LOG("Origin=" << path);
-            FL_LOG("Target=" << outputPath);
+            try {
+                FL_LOG("Processing fll->fll");
+                console.exportAllExamples("fll", "fll", path, outputPath);
+                FL_LOG("Processing fll->fcl");
+                console.exportAllExamples("fll", "fcl", path, outputPath);
+                FL_LOG("Processing fll->fis");
+                console.exportAllExamples("fll", "fis", path, outputPath);
+                FL_LOG("Processing fll->cpp");
+                console.exportAllExamples("fll", "cpp", path, outputPath);
+                FL_LOG("Processing fll->java");
+                console.exportAllExamples("fll", "java", path, outputPath);
+                FL_LOG("Processing fll->R");
+                console.exportAllExamples("fll", "R", path, outputPath);
+                fuzzylite::setDecimals(9);
+                FL_LOG("Processing fll->fld");
+                console.exportAllExamples("fll", "fld", path, outputPath);
+                FL_LOG("Origin=" << path);
+                FL_LOG("Target=" << outputPath);
+            } catch (std::exception& ex) {
+                FL_LOGP(ex.what() << "\n");
+                return EXIT_FAILURE;
+            }
             return EXIT_SUCCESS;
 
         } else if (firstArgument == "benchmark") {
             if (argc < 5) {
                 FL_LOG("[error] not enough parameters");
-                FL_LOGP(console.usage());
                 return EXIT_FAILURE;
             }
             std::string fllFile(argv[2]);
             std::string fldFile(argv[3]);
-            int runs = (int) Op::toScalar(argv[4]);
-
-            if (argc > 5) {
-                std::string filename(argv[5]);
-                std::ofstream outputFile;
-                outputFile.open(filename.c_str());
-                if (not outputFile.is_open()) {
-                    FL_LOG("[error] cannot create file <" << filename << ">");
-                    FL_LOGP(console.usage());
-                    return EXIT_FAILURE;
+            try {
+                int runs = (int) Op::toScalar(argv[4]);
+                if (argc > 5) {
+                    std::string filename(argv[5]);
+                    std::ofstream outputFile;
+                    outputFile.open(filename.c_str());
+                    if (not outputFile.is_open()) {
+                        FL_LOG("[error] cannot create file <" << filename << ">");
+                        return EXIT_FAILURE;
+                    }
+                    outputFile << Op::join(Benchmark().header(runs, true), "\t") << "\n";
+                    console.benchmark(fllFile, fldFile, runs, &outputFile);
+                } else {
+                    FL_LOGP(Op::join(Benchmark().header(runs, true), "\t"));
+                    console.benchmark(fllFile, fldFile, runs, fl::null);
                 }
-                outputFile << Benchmark().header(runs, true) << "\n";
-                console.benchmark(fllFile, fldFile, runs, &outputFile);
-            } else {
-                FL_LOGP(Benchmark().header(runs, true));
-                console.benchmark(fllFile, fldFile, runs, fl::null);
+            } catch (std::exception& ex) {
+                FL_LOGP(ex.what() << "\n");
+                return EXIT_FAILURE;
             }
             return EXIT_SUCCESS;
 
         } else if (firstArgument == "benchmarks") {
             if (argc < 5) {
                 FL_LOG("[error] not enough parameters");
-                FL_LOGP(console.usage());
                 return EXIT_FAILURE;
             }
             std::string fllFiles(argv[2]);
             std::string fldFiles(argv[3]);
-            int runs = (int) Op::toScalar(argv[4]);
-            console.benchmarks(fllFiles, fldFiles, runs);
+            try {
+                int runs = (int) Op::toScalar(argv[4]);
+                if (argc > 5) {
+                    std::string filename(argv[5]);
+                    std::ofstream outputFile;
+                    outputFile.open(filename.c_str());
+                    if (not outputFile.is_open()) {
+                        FL_LOG("[error] cannot create file <" << filename << ">");
+                        return EXIT_FAILURE;
+                    }
+                    outputFile << Op::join(Benchmark().header(runs, true), "\t") << "\n";
+                    console.benchmarks(fllFiles, fldFiles, runs, &outputFile);
+                } else {
+                    FL_LOGP(Op::join(Benchmark().header(runs, true), "\t"));
+                    console.benchmarks(fllFiles, fldFiles, runs, fl::null);
+                }
+            } catch (std::exception& ex) {
+                FL_LOGP(ex.what() << "\n");
+                return EXIT_FAILURE;
+            }
             return EXIT_SUCCESS;
         }
 
+        //MAIN:
         try {
             std::map<std::string, std::string> options = console.parse(argc, argv);
             console.process(options);
+
         } catch (std::exception& ex) {
-            std::cout << ex.what() << "\n" << std::endl;
+            FL_LOGP(ex.what() << "\n");
             return EXIT_FAILURE;
         }
         return EXIT_SUCCESS;
