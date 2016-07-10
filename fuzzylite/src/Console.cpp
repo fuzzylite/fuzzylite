@@ -709,7 +709,7 @@ namespace fl {
         benchmark.prepare(reader);
         if (writer) {
             FL_LOG("\tEvaluating on " << benchmark.getExpected().size() <<
-                    " read values from " << fldFile << " ...");
+                    " values read from " << fldFile << " ...");
         }
         for (int i = 0; i < runs; ++i) {
             benchmark.runOnce();
@@ -864,10 +864,8 @@ namespace fl {
                         FL_LOG("[error] cannot create file <" << filename << ">");
                         return EXIT_FAILURE;
                     }
-                    outputFile << Op::join(Benchmark().header(runs, true), "\t") << "\n";
                     console.benchmarks(fllFiles, fldFiles, runs, &outputFile);
                 } else {
-                    FL_LOGP(Op::join(Benchmark().header(runs, true), "\t"));
                     console.benchmarks(fllFiles, fldFiles, runs, fl::null);
                 }
             } catch (std::exception& ex) {
