@@ -200,7 +200,7 @@ namespace fl {
             if (Op::isNaN(degree) or Op::isGE(degree, 0.0))
                 ss << " + " << Op::str(degree);
             else
-                ss << " - " << Op::str(std::fabs(degree));
+                ss << " - " << Op::str(std::abs(degree));
             ss << "/" << terms().at(i)->getName();
         }
         return ss.str();

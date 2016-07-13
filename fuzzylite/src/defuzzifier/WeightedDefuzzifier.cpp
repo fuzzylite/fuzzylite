@@ -123,8 +123,8 @@ namespace fl {
             scalar difference = sshape->getEnd() - sshape->getStart();
             scalar a = sshape->getStart() + std::sqrt(0.5 * w * difference * difference);
             scalar b = sshape->getEnd() + std::sqrt(-0.5 * (w - 1.0) * difference * difference);
-            if (std::fabs(w - monotonic->membership(a)) <
-                    std::fabs(w - monotonic->membership(b))) {
+            if (std::abs(w - monotonic->membership(a)) <
+                    std::abs(w - monotonic->membership(b))) {
                 z = a;
             } else {
                 z = b;
@@ -134,8 +134,8 @@ namespace fl {
             scalar difference = zshape->getEnd() - zshape->getStart();
             scalar a = zshape->getStart() + std::sqrt(-0.5 * (w - 1.0) * difference * difference);
             scalar b = zshape->getEnd() + std::sqrt(0.5 * w * difference * difference);
-            if (std::fabs(w - monotonic->membership(a)) <
-                    std::fabs(w - monotonic->membership(b))) {
+            if (std::abs(w - monotonic->membership(a)) <
+                    std::abs(w - monotonic->membership(b))) {
                 z = a;
             } else {
                 z = b;

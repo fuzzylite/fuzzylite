@@ -35,7 +35,7 @@ namespace fl {
 
     scalar Spike::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
-        return Term::_height * std::exp(-std::fabs(10.0 / _width * (x - _center)));
+        return Term::_height * std::exp(-std::abs(10.0 / _width * (x - _center)));
     }
 
     std::string Spike::parameters() const {

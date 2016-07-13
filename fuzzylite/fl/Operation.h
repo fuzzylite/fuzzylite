@@ -647,23 +647,23 @@ namespace fl {
     }
 
     inline bool Operation::isLt(scalar a, scalar b, scalar macheps) {
-        return not (a == b or std::fabs(a - b) < macheps or (a != a and b != b)) and a < b;
+        return not (a == b or std::abs(a - b) < macheps or (a != a and b != b)) and a < b;
     }
 
     inline bool Operation::isLE(scalar a, scalar b, scalar macheps) {
-        return a == b or std::fabs(a - b) < macheps or (a != a and b != b) or a < b;
+        return a == b or std::abs(a - b) < macheps or (a != a and b != b) or a < b;
     }
 
     inline bool Operation::isEq(scalar a, scalar b, scalar macheps) {
-        return a == b or std::fabs(a - b) < macheps or (a != a and b != b);
+        return a == b or std::abs(a - b) < macheps or (a != a and b != b);
     }
 
     inline bool Operation::isGt(scalar a, scalar b, scalar macheps) {
-        return not (a == b or std::fabs(a - b) < macheps or (a != a and b != b)) and a > b;
+        return not (a == b or std::abs(a - b) < macheps or (a != a and b != b)) and a > b;
     }
 
     inline bool Operation::isGE(scalar a, scalar b, scalar macheps) {
-        return a == b or std::fabs(a - b) < macheps or (a != a and b != b) or a > b;
+        return a == b or std::abs(a - b) < macheps or (a != a and b != b) or a > b;
     }
 
     inline scalar Operation::scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax) {

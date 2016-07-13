@@ -517,7 +517,7 @@ namespace fl {
         engine->addOutputVariable(trueFx);
 
         OutputVariable* diffFx = new OutputVariable("diffFx");
-        diffFx->addTerm(Function::create("diff", "fabs(outputFx-trueFx)", engine));
+        diffFx->addTerm(Function::create("diff", "abs(outputFx-trueFx)", engine));
         diffFx->setRange(fl::nan, fl::nan);
         //        diffFx->setLockValidOutput(true); //To use in input diffPreviousFx
         engine->addOutputVariable(diffFx);
@@ -735,7 +735,9 @@ namespace fl {
             std::string line;
             while (std::getline(reader, line)) {
                 line = Op::trim(line);
-                if (not line.empty()) fllFiles.push_back(line);
+                if (line.empty() or line[0] == '#')
+                    continue;
+                fllFiles.push_back(line);
             }
         }
         std::vector<std::string> fldFiles;
@@ -747,7 +749,9 @@ namespace fl {
             std::string line;
             while (std::getline(reader, line)) {
                 line = Op::trim(line);
-                if (not line.empty()) fldFiles.push_back(line);
+                if (line.empty() or line[0] == '#')
+                    continue;
+                fldFiles.push_back(line);
             }
         }
         if (fllFiles.size() != fldFiles.size()) {

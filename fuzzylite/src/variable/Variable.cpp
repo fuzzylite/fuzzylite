@@ -154,7 +154,7 @@ namespace fl {
                 if (Op::isNaN(fx) or Op::isGE(fx, 0.0))
                     ss << " + " << Op::str(fx);
                 else
-                    ss << " - " << Op::str(std::fabs(fx));
+                    ss << " - " << Op::str(std::abs(fx));
             }
             ss << "/" << term->getName();
         }

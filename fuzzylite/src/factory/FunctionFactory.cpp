@@ -102,6 +102,9 @@ namespace fl {
                 Function::Element::Function, &(std::cosh)));
         registerObject("exp", new Function::Element("exp", "Exponential",
                 Function::Element::Function, &(std::exp)));
+        registerObject("abs", new Function::Element("abs", "Absolute",
+                Function::Element::Function, &(std::abs)));
+        //@todo remove in FuzzyLite v7.0
         registerObject("fabs", new Function::Element("fabs", "Absolute",
                 Function::Element::Function, &(std::fabs)));
         registerObject("floor", new Function::Element("floor", "Floor",
