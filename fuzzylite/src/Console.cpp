@@ -726,39 +726,27 @@ namespace fl {
 
     void Console::benchmarks(const std::string& fllFileList,
             const std::string& fldFileList, int runs, std::ofstream* writer) const {
-        std::vector<std::string> fllFiles;
+        std::vector<std::string> fllFiles, fldFiles;
+
         {
-            std::ifstream reader(fllFileList.c_str());
-            if (not reader.is_open()) {
+            std::ifstream fllReader(fllFileList.c_str());
+            if (not fllReader.is_open()) {
                 throw Exception("[error] file <" + fllFileList + "> could not be opened");
             }
-            std::string line;
-            while (std::getline(reader, line)) {
-                line = Op::trim(line);
-                if (line.empty() or line[0] == '#')
-                    continue;
-                fllFiles.push_back(line);
-            }
-        }
-        std::vector<std::string> fldFiles;
-        {
-            std::ifstream reader(fldFileList.c_str());
-            if (not reader.is_open()) {
+            std::ifstream fldReader(fldFileList.c_str());
+            if (not fldReader.is_open()) {
                 throw Exception("[error] file <" + fldFileList + "> could not be opened");
             }
-            std::string line;
-            while (std::getline(reader, line)) {
-                line = Op::trim(line);
-                if (line.empty() or line[0] == '#')
+
+            std::string fllLine, fldLine;
+            while (std::getline(fllReader, fllLine) and std::getline(fldReader, fldLine)) {
+                fllLine = Op::trim(fllLine);
+                fldLine = Op::trim(fldLine);
+                if (fllLine.empty() or fllLine[0] == '#')
                     continue;
-                fldFiles.push_back(line);
+                fllFiles.push_back(fllLine);
+                fldFiles.push_back(fldLine);
             }
-        }
-        if (fllFiles.size() != fldFiles.size()) {
-            std::ostringstream os;
-            os << "[error] number of FLL files <" << fllFiles.size() << "> in <" << fllFileList << "> "
-                    "must match the number of FLD files <" << fldFiles.size() << "> is <" << fldFileList << ">";
-            throw Exception(os.str());
         }
 
         if (writer) {
