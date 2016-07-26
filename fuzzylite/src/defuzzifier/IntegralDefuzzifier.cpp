@@ -17,7 +17,7 @@
 
 namespace fl {
 
-    int IntegralDefuzzifier::_defaultResolution = 200;
+    int IntegralDefuzzifier::_defaultResolution = 100;
 
     void IntegralDefuzzifier::setDefaultResolution(int defaultResolution) {
         _defaultResolution = defaultResolution;
