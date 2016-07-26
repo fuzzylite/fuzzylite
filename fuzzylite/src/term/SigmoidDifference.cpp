@@ -37,8 +37,8 @@ namespace fl {
     scalar SigmoidDifference::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
 
-        scalar a = 1.0 / (1 + std::exp(-_rising * (x - _left)));
-        scalar b = 1.0 / (1 + std::exp(-_falling * (x - _right)));
+        scalar a = 1.0 / (1.0 + std::exp(-_rising * (x - _left)));
+        scalar b = 1.0 / (1.0 + std::exp(-_falling * (x - _right)));
         return Term::_height * std::abs(a - b);
     }
 

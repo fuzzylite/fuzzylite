@@ -36,9 +36,9 @@ namespace fl {
 
     scalar SigmoidProduct::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
-        scalar a = 1.0 / (1 + std::exp(-_rising * (x - _left)));
-        scalar b = 1.0 / (1 + std::exp(-_falling * (x - _right)));
-        return Term::_height * a * b;
+        scalar a = 1.0 + std::exp(-_rising * (x - _left));
+        scalar b = 1.0 + std::exp(-_falling * (x - _right));
+        return Term::_height * 1.0 / (a * b);
     }
 
     std::string SigmoidProduct::parameters() const {

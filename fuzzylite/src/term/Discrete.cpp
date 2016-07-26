@@ -43,7 +43,7 @@ namespace fl {
     }
 
     Complexity Discrete::complexity() const {
-        return Complexity().comparison(1 + 4).arithmetic(1 + 1 +1).function(1)
+        return Complexity().comparison(1 + 4).arithmetic(1 + 1 + 1).function(1)
                 .function(2 * std::log(_xy.size()));
     }
 

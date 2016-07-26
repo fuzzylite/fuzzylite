@@ -37,14 +37,17 @@ namespace fl {
 
     scalar GaussianProduct::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
-        bool xLEa = Op::isLE(x, _meanA);
-        scalar a = (1 - xLEa) + xLEa * std::exp(
-                (-(x - _meanA) * (x - _meanA)) / (2 * _standardDeviationA * _standardDeviationA)
-                );
-        bool xGEb = Op::isGE(x, _meanB);
-        scalar b = (1 - xGEb) + xGEb * std::exp(
-                (-(x - _meanB) * (x - _meanB)) / (2 * _standardDeviationB * _standardDeviationB)
-                );
+
+        scalar a = 1.0, b = 1.0;
+        if (Op::isLt(x, _meanA)) {
+            a = std::exp((-(x - _meanA) * (x - _meanA)) /
+                    (2.0 * _standardDeviationA * _standardDeviationA));
+        }
+        if (Op::isGt(x, _meanB)) {
+            b = std::exp((-(x - _meanB) * (x - _meanB)) /
+                    (2.0 * _standardDeviationB * _standardDeviationB));
+        }
+
         return Term::_height * a * b;
     }
 

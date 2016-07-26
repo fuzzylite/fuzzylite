@@ -38,11 +38,11 @@ namespace fl {
         if (Op::isNaN(x)) return fl::nan;
         if (Op::isLE(_inflection, _end)) { //Concave increasing
             if (Op::isLt(x, _end)) {
-                return Term::_height * (_end - _inflection) / (2 * _end - _inflection - x);
+                return Term::_height * (_end - _inflection) / (2.0 * _end - _inflection - x);
             }
         } else { //Concave decreasing
             if (Op::isGt(x, _end)) {
-                return Term::_height * (_inflection - _end) / (_inflection - 2 * _end + x);
+                return Term::_height * (_inflection - _end) / (_inflection - 2.0 * _end + x);
             }
         }
         return Term::_height * 1.0;
