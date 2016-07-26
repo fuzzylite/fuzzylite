@@ -1004,9 +1004,9 @@ namespace fl {
 
     template <> FL_API
     inline std::string Operation::str(const std::string& x, int decimals,
-            std::ios_base::fmtflags strFormat) {
+            std::ios_base::fmtflags scalarFormat) {
         FL_IUNUSED(decimals);
-        FL_IUNUSED(strFormat);
+        FL_IUNUSED(scalarFormat);
         return x;
     }
 
