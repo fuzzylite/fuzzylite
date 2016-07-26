@@ -124,7 +124,7 @@ namespace fl {
         return aggregated.complexityOfMembership();
     }
 
-    Complexity OutputVariable::complexity() const {
+    Complexity OutputVariable::complexityOfDefuzzification() const {
         Aggregated term;
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             term.addTerm(_terms.at(i), fl::nan, fl::null);

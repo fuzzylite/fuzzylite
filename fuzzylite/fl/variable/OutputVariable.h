@@ -18,7 +18,9 @@
 
 #include "fl/variable/Variable.h"
 
+#include "fl/term/Activated.h"
 #include "fl/term/Aggregated.h"
+
 #include "fl/defuzzifier/Defuzzifier.h"
 
 namespace fl {
@@ -158,6 +160,7 @@ namespace fl {
          */
         virtual bool isLockPreviousValue() const;
 
+        using Variable::complexity;
         /**
           Computes the estimated complexity of defuzzifying the activated term
           with the current configuration of the variable (namely aggregation and
@@ -166,14 +169,14 @@ namespace fl {
           @return the estimated complexity of defuzzifying the activated term
           with the current configuration of the variable
          */
-        virtual Complexity complexity(const Activated& term) const;
+         virtual Complexity complexity(const Activated& term) const;
         /**
           Computes the estimated complexity of aggregating and defuzzifying all
           the terms in the variable.
           @return the estimated complexity of aggregating and defuzzifying all
           the terms in the variable.
          */
-        virtual Complexity complexity() const FL_IOVERRIDE;
+        virtual Complexity complexityOfDefuzzification() const;
 
         /**
           Computes the estimated complexity of aggregating and defuzzifying the
