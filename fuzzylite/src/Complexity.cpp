@@ -15,12 +15,26 @@
 
 #include "fl/Complexity.h"
 
+#include "fl/Engine.h"
+
+#include "fl/variable/InputVariable.h"
+#include "fl/variable/OutputVariable.h"
+#include "fl/variable/Variable.h"
+
+#include "fl/rule/RuleBlock.h"
+#include "fl/rule/Rule.h"
+
 #include "fl/Operation.h"
 
 namespace fl {
 
-    Complexity::Complexity() :
-    _comparison(0.0), _arithmetic(0.0), _function(0.0), _other(0.0) {
+    Complexity::Complexity(scalar all) :
+    _comparison(all), _arithmetic(all), _function(all) {
+    }
+
+    Complexity::Complexity(scalar comparison, scalar arithmetic,
+            scalar function)
+    : _comparison(comparison), _arithmetic(arithmetic), _function(function) {
     }
 
     Complexity::~Complexity() {
@@ -86,83 +100,74 @@ namespace fl {
         this->_arithmetic += other._arithmetic;
         this->_comparison += other._comparison;
         this->_function += other._function;
-        this->_other += other._other;
         return *this;
     }
 
     Complexity& Complexity::plus(scalar x) {
-        return this->plus(Complexity().arithmetic(x).comparison(x).function(x).other(x));
+        return this->plus(Complexity().arithmetic(x).comparison(x).function(x));
     }
 
     Complexity& Complexity::minus(const Complexity& other) {
         this->_comparison -= other._comparison;
         this->_arithmetic -= other._arithmetic;
         this->_function -= other._function;
-        this->_other -= other._other;
         return *this;
     }
 
     Complexity& Complexity::minus(scalar x) {
-        return this->minus(Complexity().arithmetic(x).comparison(x).function(x).other(x));
+        return this->minus(Complexity().arithmetic(x).comparison(x).function(x));
     }
 
     Complexity& Complexity::multiply(const Complexity& other) {
         this->_comparison *= other._comparison;
         this->_arithmetic *= other._arithmetic;
         this->_function *= other._function;
-        this->_other *= other._other;
         return *this;
     }
 
     Complexity& Complexity::multiply(scalar x) {
-        return this->multiply(Complexity().arithmetic(x).comparison(x).function(x).other(x));
+        return this->multiply(Complexity().arithmetic(x).comparison(x).function(x));
     }
 
     Complexity& Complexity::divide(const Complexity& other) {
         this->_comparison /= other._comparison;
         this->_arithmetic /= other._arithmetic;
         this->_function /= other._function;
-        this->_other /= other._other;
         return *this;
     }
 
     Complexity& Complexity::divide(scalar x) {
-        return this->divide(Complexity().arithmetic(x).comparison(x).function(x).other(x));
+        return this->divide(Complexity().arithmetic(x).comparison(x).function(x));
     }
 
     bool Complexity::equals(const Complexity& x, scalar macheps) const {
         return Op::isEq(_comparison, x._comparison, macheps) and
                 Op::isEq(_arithmetic, x._arithmetic, macheps) and
-                Op::isEq(_function, x._function, macheps) and
-                Op::isEq(_other, x._other, macheps);
+                Op::isEq(_function, x._function, macheps);
     }
 
     bool Complexity::lessThan(const Complexity& x, scalar macheps) const {
         return Op::isLt(_comparison, x._comparison, macheps) and
                 Op::isLt(_arithmetic, x._arithmetic, macheps) and
-                Op::isLt(_function, x._function, macheps) and
-                Op::isLt(_other, x._other, macheps);
+                Op::isLt(_function, x._function, macheps);
     }
 
     bool Complexity::lessThanOrEqualsTo(const Complexity& x, scalar macheps) const {
         return Op::isLE(_comparison, x._comparison, macheps) and
                 Op::isLE(_arithmetic, x._arithmetic, macheps) and
-                Op::isLE(_function, x._function, macheps) and
-                Op::isLE(_other, x._other, macheps);
+                Op::isLE(_function, x._function, macheps);
     }
 
     bool Complexity::greaterThan(const Complexity& x, scalar macheps) const {
         return Op::isGt(_comparison, x._comparison, macheps) and
                 Op::isGt(_arithmetic, x._arithmetic, macheps) and
-                Op::isGt(_function, x._function, macheps) and
-                Op::isGt(_other, x._other, macheps);
+                Op::isGt(_function, x._function, macheps);
     }
 
     bool Complexity::greaterThanOrEqualsTo(const Complexity& x, scalar macheps) const {
         return Op::isGE(_comparison, x._comparison, macheps) and
                 Op::isGE(_arithmetic, x._arithmetic, macheps) and
-                Op::isGE(_function, x._function, macheps) and
-                Op::isGE(_other, x._other, macheps);
+                Op::isGE(_function, x._function, macheps);
     }
 
     Complexity& Complexity::comparison(scalar comparison) {
@@ -204,21 +209,16 @@ namespace fl {
         return _function;
     }
 
-    Complexity& Complexity::other(scalar others) {
-        this->_other += others;
-        return *this;
-    }
-
-    void Complexity::setOther(scalar others) {
-        this->_other = others;
-    }
-
-    scalar Complexity::getOther() const {
-        return _other;
+    std::vector<Complexity::Measure> Complexity::measures() const {
+        std::vector<Measure> result;
+        result.push_back(Measure("arithmetic", _arithmetic));
+        result.push_back(Measure("comparison", _comparison));
+        result.push_back(Measure("function", _function));
+        return result;
     }
 
     scalar Complexity::sum() const {
-        return _arithmetic + _comparison + _function + _other;
+        return _arithmetic + _comparison + _function;
     }
 
     scalar Complexity::norm() const {
@@ -227,11 +227,62 @@ namespace fl {
 
     std::string Complexity::toString() const {
         std::vector<std::string> result;
-        result.push_back("arithmetic=" + Op::str(_arithmetic));
-        result.push_back("comparison=" + Op::str(_comparison));
-        result.push_back("function=" + Op::str(_function));
-        result.push_back("other=" + Op::str(_other));
-        return "Complexity[" + Op::join(result, ", ") + "]";
+        result.push_back("a=" + Op::str(_arithmetic));
+        result.push_back("c=" + Op::str(_comparison));
+        result.push_back("f=" + Op::str(_function));
+        return "C[" + Op::join(result, ", ") + "]";
+    }
+
+    Complexity Complexity::compute(const Engine* engine) const {
+        return engine->complexity();
+    }
+
+    Complexity Complexity::compute(const InputVariable* inputVariable) const {
+        return inputVariable->complexity();
+    }
+
+    Complexity Complexity::compute(const OutputVariable* outputVariable) const {
+        return outputVariable->complexity();
+    }
+
+    Complexity Complexity::compute(const RuleBlock* ruleBlock) const {
+        return ruleBlock->complexity();
+    }
+
+    Complexity Complexity::compute(const std::vector<InputVariable*>& inputVariables) const {
+        Complexity result;
+        for (std::size_t i = 0; i < inputVariables.size(); ++i) {
+            result += inputVariables.at(i)->complexity();
+        }
+        return result;
+    }
+
+    Complexity Complexity::compute(const std::vector<OutputVariable*>& outputVariables,
+            bool complexityOfDefuzzification) const {
+        Complexity result;
+        for (std::size_t i = 0; i < outputVariables.size(); ++i) {
+            if (complexityOfDefuzzification)
+                result += outputVariables.at(i)->complexityOfDefuzzification();
+            else
+                result += outputVariables.at(i)->complexity();
+        }
+        return result;
+    }
+
+    Complexity Complexity::compute(const std::vector<Variable*>& variables) const {
+        Complexity result;
+        for (std::size_t i = 0; i < variables.size(); ++i) {
+            result += variables.at(i)->complexity();
+        }
+        return result;
+    }
+
+    Complexity Complexity::compute(const std::vector<RuleBlock*>& ruleBlocks) const {
+        Complexity result;
+        for (std::size_t i = 0; i < ruleBlocks.size(); ++i) {
+            result += ruleBlocks.at(i)->complexity();
+        }
+        return result;
     }
 
 }

@@ -18,7 +18,15 @@
 
 #include "fl/fuzzylite.h"
 
+#include <vector>
+
 namespace fl {
+    class Engine;
+    class InputVariable;
+    class OutputVariable;
+    class Variable;
+    class RuleBlock;
+    class Rule;
 
     /**
       The Complexity class is used throughout the library to estimate the
@@ -43,10 +51,10 @@ namespace fl {
         scalar _comparison;
         scalar _arithmetic;
         scalar _function;
-        scalar _other;
 
     public:
-        explicit Complexity();
+        explicit Complexity(scalar all = 0.0);
+        explicit Complexity(scalar comparison, scalar arithmetic, scalar function);
         virtual ~Complexity();
         FL_DEFAULT_COPY_AND_MOVE(Complexity)
 
@@ -98,14 +106,11 @@ namespace fl {
         virtual scalar getFunction() const;
 
         /**
-         Increases the other measure by the given amount
-         @param other is the amount to increase the other measure by
-         @return the reference to the Complexity object with the updated other
-         measure
+         Returns a vector containing the measures of complexity
+         @return a vector containing the measures of complexity
          */
-        virtual Complexity& other(scalar other);
-        virtual void setOther(scalar other);
-        virtual scalar getOther() const;
+        typedef std::pair<std::string, scalar> Measure;
+        virtual std::vector<Measure> measures() const;
 
         /**
          Increases the complexity by the given parameter
@@ -214,6 +219,68 @@ namespace fl {
          @return the measures of the complexity
          */
         virtual std::string toString() const;
+
+        /**
+         Computes the complexity of the given engine as the sum of complexities
+         of the rule blocks
+         @param engine is the engine for which to compute the complexity
+         @return the complexity of the given engine as the sum of complexities
+         of the rule blocks
+         */
+        virtual Complexity compute(const Engine* engine) const;
+
+        /**
+         Computes the complexity of the given input variable
+         @param inputVariable is the input variable for which to compute the complexity
+         @return the complexity of the given input variable
+         */
+        virtual Complexity compute(const InputVariable* inputVariable) const;
+        /**
+         Computes the complexity of the given input variable
+         @param inputVariable is the input variable for which to compute the complexity
+         @return the complexity of the given input variable
+         */
+        virtual Complexity compute(const OutputVariable* outputVariable) const;
+
+        /**
+         Computes the complexity of the given input variables
+         @param inputVariables is the vector of input variables for which to
+         compute the complexity
+         @return the complexity of the given input variables
+         */
+        virtual Complexity compute(const std::vector<InputVariable*>& inputVariables) const;
+        /**
+         Computes the complexity of the given output variables
+         @param outputVariables is the vector of output variables for which to
+         compute the complexity
+         @param complexityOfDefuzzification indicates whether to compute the
+         complexity of the variable including the defuzzification process
+         @return the complexity of the given output variables
+         */
+        virtual Complexity compute(const std::vector<OutputVariable*>& outputVariables,
+                bool complexityOfDefuzzification = false) const;
+        /**
+         Computes the complexity of the given variables
+         @param variables is the vector of variables for which to compute the
+         complexity
+         @return the complexity of the given variables
+         */
+        virtual Complexity compute(const std::vector<Variable*>& variables) const;
+
+        /**
+         Computes the complexity of the given rule block
+         @param ruleBlock is the rule block for which to compute the complexity
+         @return the complexity of the given rule block
+         */
+        virtual Complexity compute(const RuleBlock* ruleBlock) const;
+
+        /**
+         Computes the complexity of the given rule blocks
+         @param ruleBlocks is the vector of rule blocks for which to compute the
+         complexity
+         @return Computes the complexity of the given rule blocks
+         */
+        virtual Complexity compute(const std::vector<RuleBlock*>& ruleBlocks) const;
 
     };
 

@@ -18,7 +18,9 @@
 
 #include "fl/fuzzylite.h"
 
+#include "fl/Complexity.h"
 #include "fl/imex/FldExporter.h"
+
 #include <string>
 #include <vector>
 
