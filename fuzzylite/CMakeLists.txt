@@ -44,7 +44,7 @@ endif()
 
 if (MSVC AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19)
 #C++11 not available before Visual Studio 2015
-    if (FL_CPP98)
+    if (NOT FL_CPP98)
         set(FL_CPP98 ON)
     endif()
 endif()
