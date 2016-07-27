@@ -30,7 +30,7 @@ namespace fl {
 
     Complexity HedgeFunction::complexity() const {
         if (_function.root())
-            return _function.complexity().function(2 * std::log(_function.variables.size()));
+            return _function.complexity().function(2 * std::log(scalar(_function.variables.size())));
         return _function.complexity();
     }
 

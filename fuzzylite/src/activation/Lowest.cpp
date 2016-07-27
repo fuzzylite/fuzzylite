@@ -71,7 +71,7 @@ namespace fl {
         
         //Complexity of push is O(log n)
         result += Complexity().function(1).multiply(ruleBlock->rules().size()
-                * std::log(ruleBlock->rules().size()));
+                * std::log(scalar(ruleBlock->rules().size())));
 
 
 
@@ -79,7 +79,7 @@ namespace fl {
         result += meanActivation.multiply(getNumberOfRules());
         //Complexity of pop is 2 * O(log n)
         result += Complexity().function(1).multiply(getNumberOfRules() *
-                2 * std::log(ruleBlock->rules().size()));
+                2 * std::log(scalar(ruleBlock->rules().size())));
         return result;
     }
 

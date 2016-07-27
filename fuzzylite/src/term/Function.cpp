@@ -303,8 +303,8 @@ namespace fl {
         result.comparison(2 + 2); //membership(scalar) + membership(std::map)
         if (_engine) { //insert variables in map
             const std::size_t engineVariables = _engine->variables().size();
-            result.function(engineVariables * std::log(variables.size() + engineVariables));
-            result.function(1 * std::log(variables.size() + engineVariables));
+            result.function(engineVariables * std::log(scalar(variables.size() + engineVariables)));
+            result.function(1 * std::log(scalar(variables.size() + engineVariables)));
         }
         if (_root.get()) {
             //Node::evaluate multiplies by tree size
