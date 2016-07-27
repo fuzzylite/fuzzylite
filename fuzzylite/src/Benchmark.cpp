@@ -24,7 +24,9 @@
 
 #include <vector>
 
-#ifdef FL_CPP11
+#ifdef FL_CPP98
+//timing is only available in C++11
+#else
 #include <chrono>
 #endif
 
@@ -155,7 +157,9 @@ namespace fl {
                     std::vector<scalar>(_engine->variables().size()));
             _engine->restart();
 
-#ifdef FL_CPP11
+#ifdef FL_CPP98
+            //ignore timing
+#else
             auto start = std::chrono::high_resolution_clock::now();
 #endif
 
@@ -183,7 +187,9 @@ namespace fl {
                 }
             }
 
-#ifdef FL_CPP11
+#ifdef FL_CPP98
+            //ignore timing
+#else
             auto end = std::chrono::high_resolution_clock::now();
             runTimes.at(t) = std::chrono::duration<scalar, std::nano>(end - start).count();
 #endif

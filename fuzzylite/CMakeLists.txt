@@ -28,9 +28,9 @@ if(FL_BUILD_SHARED)
     option(FL_BUILD_BINARY "Build fuzzylite binary" ON)
 endif()
 
+option(FL_CPP98 "Builds utilizing C++98, i.e., passing -std=c++98" OFF)
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_BACKTRACE "Provide backtrace information in case of errors" ON)
-option(FL_CPP11 "Builds utilizing C++11, i.e., passing -std=c++11" ON)
 
 option(FL_BUILD_TESTS "Builds the unit tests" ON)
 
@@ -43,19 +43,24 @@ if(NOT FL_BACKTRACE)
 endif()
 
 if (MSVC AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19)
-#Address C++11 not available before Visual Studio 2015
-    if (FL_CPP11)
-        set(FL_CPP11 OFF)
+#C++11 not available before Visual Studio 2015
+    if (FL_CPP98)
+        set(FL_CPP98 ON)
     endif()
 endif()
 
-if(FL_CPP11)
-	add_definitions(-DFL_CPP11)
+if(FL_CPP98)
+    add_definitions(-DFL_CPP98)
     if(NOT MSVC)
-		#Set C++11 by default in Clang and others
+        #Set C++98 by default in Clang and others
+        add_definitions(-std=c++98)
+    endif()
+else()
+    if(NOT MSVC)
+        #Set C++11 by default in Clang and others
         add_definitions(-std=c++11)
-    endif(NOT MSVC)
-endif(FL_CPP11)
+    endif()
+endif(FL_CPP98)
 
 #Put all binaries in same location
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY bin)
@@ -84,7 +89,7 @@ endif()
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     if (CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 6)
 	#In GNU gcc v6, the default is C++11
-        if (NOT FL_CPP11)
+        if (FL_CPP98)
             #set the default to C++98
             #Fix error: 'template<class> class std::auto_ptr' is deprecated with gcc-6
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++98")
@@ -191,7 +196,7 @@ if(FL_BUILD_TESTS)
     set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
 
     target_compile_definitions(fl-test PRIVATE FL_IMPORT_LIBRARY)
-    if (NOT FL_CPP11)
+    if (FL_CPP98)
         target_compile_definitions(fl-test PRIVATE CATCH_CONFIG_NO_CPP11)
     endif()
 
@@ -262,7 +267,7 @@ install(FILES ${CMAKE_BINARY_DIR}/fuzzylite.pc DESTINATION ${FL_INSTALL_LIBDIR}/
 
 message("=====================================")
 message("fuzzylite v6.0\n")
-message("FL_CPP11=${FL_CPP11}")
+message("FL_CPP98=${FL_CPP98}")
 message("FL_USE_FLOAT=${FL_USE_FLOAT}")
 message("FL_BACKTRACE=${FL_BACKTRACE}")
 message("FL_LIBS=${FL_LIBS}")

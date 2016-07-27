@@ -130,13 +130,41 @@ namespace fl {
      */
     const scalar inf FL_IUNUSED_DECL = std::numeric_limits<scalar>::infinity();
 
-#ifdef FL_CPP11
+#ifdef FL_CPP98
+    //C++98 defines
+
+    //Pointers
+    /**
+      Represents the `C++11` or `C++98` null pointer depending on whether the
+      compilation flag `-DFL_CPP98` is set
+     */
+    const long null = 0L;
+#define FL_unique_ptr std::auto_ptr
+#define FL_move_ptr(x) x
+
+    //Identifiers
+#define FL_IOVERRIDE
+#define FL_IFINAL
+#define FL_IDEFAULT
+#define FL_IDELETE
+#define FL_INOEXCEPT throw()
+
+    //Constructors
+#define FL_DEFAULT_COPY(Class)
+#define FL_DEFAULT_MOVE(Class)
+#define FL_DEFAULT_COPY_AND_MOVE(Class)
+
+#define FL_DISABLE_COPY(Class) \
+    Class(const Class &);\
+    Class &operator=(const Class &);
+
+#else
     //C++11 defines
 
     //Pointers
     /**
       Represents the `C++11` or `C++98` null pointer depending on whether the
-      compilation flag `-DFL_CPP11` is set
+      compilation flag `-DFL_CPP98` is set
      */
     const std::nullptr_t null = nullptr;
 #define FL_unique_ptr std::unique_ptr
@@ -166,33 +194,6 @@ namespace fl {
     Class(const Class &) = delete;\
     Class &operator=(const Class &) = delete;
 
-#else
-    //C++98 defines
-
-    //Pointers
-    /**
-      Represents the `C++11` or `C++98` null pointer depending on whether the
-      compilation flag `-DFL_CPP11` is set
-     */
-    const long null = 0L;
-#define FL_unique_ptr std::auto_ptr
-#define FL_move_ptr(x) x
-
-    //Identifiers
-#define FL_IOVERRIDE
-#define FL_IFINAL
-#define FL_IDEFAULT
-#define FL_IDELETE
-#define FL_INOEXCEPT throw()
-
-    //Constructors
-#define FL_DEFAULT_COPY(Class)
-#define FL_DEFAULT_MOVE(Class)
-#define FL_DEFAULT_COPY_AND_MOVE(Class)
-
-#define FL_DISABLE_COPY(Class) \
-    Class(const Class &);\
-    Class &operator=(const Class &);
 #endif
 
 }

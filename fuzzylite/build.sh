@@ -4,8 +4,8 @@ if [ -z "$FL_USE_FLOAT" ]; then
     FL_USE_FLOAT="OFF"
 fi
 
-if [ -z "$FL_CPP11" ]; then
-    FL_CPP11="ON"
+if [ -z "$FL_CPP98" ]; then
+    FL_CPP98="OFF"
 fi
 
 if [ -z "$FL_BUILD_TESTS" ]; then
@@ -16,7 +16,7 @@ debug(){
     set -e
     mkdir -p debug
     cd debug
-    cmake .. -G"Unix Makefiles" -DFL_USE_FLOAT=${FL_USE_FLOAT} -DFL_CPP11=${FL_CPP11} -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON  -DFL_BUILD_TESTS=${FL_BUILD_TESTS}
+    cmake .. -G"Unix Makefiles" -DFL_USE_FLOAT=${FL_USE_FLOAT} -DFL_CPP98=${FL_CPP98} -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON  -DFL_BUILD_TESTS=${FL_BUILD_TESTS}
     make all
     if [ "${FL_BUILD_TESTS}" == "ON" ]; then
         (export CTEST_OUTPUT_ON_FAILURE=TRUE; make test)
@@ -28,7 +28,7 @@ release(){
     set -e
     mkdir -p release
     cd release
-    cmake .. -G"Unix Makefiles" -DFL_USE_FLOAT=${FL_USE_FLOAT} -DFL_CPP11=${FL_CPP11} -DCMAKE_BUILD_TYPE=Release -DFL_BACKTRACE=ON -DFL_BUILD_TESTS=${FL_BUILD_TESTS}
+    cmake .. -G"Unix Makefiles" -DFL_USE_FLOAT=${FL_USE_FLOAT} -DFL_CPP98=${FL_CPP98} -DCMAKE_BUILD_TYPE=Release -DFL_BACKTRACE=ON -DFL_BUILD_TESTS=${FL_BUILD_TESTS}
     make all
     if [ "${FL_BUILD_TESTS}" == "ON" ]; then
         (export CTEST_OUTPUT_ON_FAILURE=TRUE; make test)

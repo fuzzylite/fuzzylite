@@ -26,7 +26,9 @@ namespace fl {
      */
 
     static std::string hedgeEngine() {
-#ifdef FL_CPP11
+#ifdef FL_CPP98
+        return "";
+#else
         return R""(
 Engine: Sugeno-Tip-Calculator
 InputVariable: FoodQuality
@@ -91,8 +93,6 @@ RuleBlock:
   rule: if FoodQuality is very Bad and Service is very Good then CheapTip is Low and AverageTip is Medium and GenerousTip is High
   rule: if FoodQuality is very very Good and Service is very very Good then CheapTip is High and AverageTip is very High and GenerousTip is extremely High
 )"";
-#else
-        return "";
 #endif
     }
 
@@ -105,11 +105,11 @@ RuleBlock:
     }
 
     TEST_CASE("HedgeFunction x*x is equivalent to hedge Very", "[hedge][function]") {
-#ifndef FL_CPP11
+#ifdef FL_CPP98
         FL_IUNUSED(&(hedgeEngine));
         FL_IUNUSED(&(myVeryConstructor));
         FL_IUNUSED(&(myExtraVeryConstructor));
-        WARN("Test only runs with -DFL_CPP11=ON");
+        WARN("Test only runs with -DFL_CPP98=OFF");
         return;
 #else
         std::string fllEngine = hedgeEngine();

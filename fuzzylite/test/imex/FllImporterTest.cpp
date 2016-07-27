@@ -20,7 +20,9 @@ namespace fl {
 
     TEST_CASE("Template of FuzzyLite Language works", "[imex]") {
         std::string fllTemplate;
-#ifdef FL_CPP11
+#ifdef FL_CPP98
+        //ignore
+#else
         fllTemplate = R""(
 #Template: FuzzyLite Language (FLL)
 #Engine: string

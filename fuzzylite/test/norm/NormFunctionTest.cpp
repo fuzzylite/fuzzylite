@@ -26,7 +26,9 @@ namespace fl {
      */
 
     static std::string snormEngine() {
-#ifdef FL_CPP11
+#ifdef FL_CPP98
+        return "";
+#else
         return R""(
 Engine: tipper
 InputVariable: service
@@ -63,8 +65,6 @@ RuleBlock:
   rule: if service is good then tip is average
   rule: if service is excellent or food is delicious then tip is generous
 )"";
-#else
-        return "";
 #endif
     }
 
@@ -77,11 +77,11 @@ RuleBlock:
     }
 
     TEST_CASE("SNormFunction (max(a,b)) is equivalent to Maximum", "[snorm][maximum]") {
-#ifndef FL_CPP11
+#ifdef FL_CPP98
         FL_IUNUSED(&(myMaximumNorm));
         FL_IUNUSED(&(myNotSoMaximumNorm));
         FL_IUNUSED(&(snormEngine));
-        WARN("Test only runs with -DFL_CPP11=ON");
+        WARN("Test only runs with -DFL_CPP98=OFF");
         return;
 #else
         std::string fllEngine = snormEngine();
@@ -112,7 +112,9 @@ RuleBlock:
     }
 
     static std::string tnormEngine() {
-#ifdef FL_CPP11
+#ifdef FL_CPP98
+        return "";
+#else
         return R""(
 Engine: mam21
 InputVariable: angle
@@ -150,8 +152,6 @@ RuleBlock:
   rule: if angle is big and velocity is small then force is posSmall
   rule: if angle is big and velocity is big then force is posBig
 )"";
-#else
-        return "";
 #endif
     }
 
@@ -164,11 +164,11 @@ RuleBlock:
     }
 
     TEST_CASE("TNormFunction (min(a,b)) is equivalent to Minimum", "[tnorm][minimum]") {
-#ifndef FL_CPP11
+#ifdef FL_CPP98
         FL_IUNUSED(&(myMinimumNorm));
         FL_IUNUSED(&(myNotSoMinimumNorm));
         FL_IUNUSED(&(tnormEngine));
-        WARN("Test only runs with -DFL_CPP11=ON");
+        WARN("Test only runs with -DFL_CPP98=OFF");
         return;
 #else
         std::string fllEngine = tnormEngine();
