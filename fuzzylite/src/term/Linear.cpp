@@ -39,8 +39,8 @@ namespace fl {
         Complexity result;
         result.comparison(1 + 1);
         if (_engine) {
-            result.arithmetic(1 * _engine->variables().size());
-            result.comparison(1 * _engine->variables().size()); //if (i < coefficients)
+            result.arithmetic(scalar(_engine->variables().size()));
+            result.comparison(scalar(_engine->variables().size())); //if (i < coefficients)
         }
         return result;
     }

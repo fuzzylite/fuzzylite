@@ -996,7 +996,7 @@ namespace fl {
         } else if (Op::isInf(x)) {
             ss << (x < T(0) ? "-inf" : "inf");
         } else if (decimals >= 0 //print x considering the given decimals regardless of macheps
-                and Op::isEq(x, 0.0, std::pow(10.0, -decimals))) {
+                and Op::isEq(scalar(x), 0.0, std::pow(10.0, -decimals))) {
             ss << T(0);
         } else ss << x;
         return ss.str();

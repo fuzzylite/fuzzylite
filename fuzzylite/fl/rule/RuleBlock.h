@@ -18,6 +18,7 @@
 
 #include "fl/fuzzylite.h"
 
+#include "fl/activation/Activation.h"
 #include "fl/Complexity.h"
 
 #include <string>
@@ -30,7 +31,6 @@ namespace fl {
     class Rule;
     class TNorm;
     class SNorm;
-    class Activation;
 
     /**
 

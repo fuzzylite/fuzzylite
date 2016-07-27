@@ -43,7 +43,7 @@ namespace fl {
         result.comparison(4).function(1);
         const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*> (term);
         if (fuzzyOutput) {
-            result += term->complexity().arithmetic(2).multiply(fuzzyOutput->numberOfTerms());
+            result += term->complexity().arithmetic(2).multiply(scalar(fuzzyOutput->numberOfTerms()));
         }
         return result;
     }

@@ -170,7 +170,7 @@ namespace fl {
 
     std::size_t Function::Node::treeSize(const Node* root) const {
         if (not root) root = this;
-        int result = 0;
+        std::size_t result = 0;
         if (root->left.get()) {
             result += treeSize(root->left.get());
         }
@@ -185,7 +185,7 @@ namespace fl {
 
     std::size_t Function::Node::treeSize(Element::Type type, const Node* root) const {
         if (not root) root = this;
-        int result = 0;
+        std::size_t result = 0;
         if (root->left.get()) {
             result += treeSize(type, root->left.get());
         }
@@ -308,7 +308,7 @@ namespace fl {
         }
         if (_root.get()) {
             //Node::evaluate multiplies by tree size
-            const std::size_t treeSize = _root->treeSize();
+            const scalar treeSize = scalar(_root->treeSize());
             result.comparison(3 * treeSize); //if element, unary, binary
             result.function(treeSize * std::log(treeSize)); //only operands in tree
         }

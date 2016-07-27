@@ -66,7 +66,7 @@ namespace fl {
             result += rule->complexityOfActivationDegree(conjunction, disjunction, implication);
             meanActivation += rule->complexityOfActivation(implication);
         }
-        meanActivation.divide(ruleBlock->rules().size());
+        meanActivation.divide(scalar(ruleBlock->rules().size()));
         
         //Complexity of push is O(log n)
         result += Complexity().function(1).multiply(ruleBlock->rules().size()

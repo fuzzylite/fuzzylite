@@ -215,7 +215,7 @@ namespace fl {
 
         scalar mse = 0.0;
         int errors = 0;
-        const int offset = _engine->numberOfInputVariables();
+        const std::size_t offset = _engine->numberOfInputVariables();
         for (std::size_t i = 0; i < _expected.size(); ++i) {
             const std::vector<scalar>& e = _expected.at(i);
             const std::vector<scalar>& o = _obtained.at(i);
@@ -274,7 +274,7 @@ namespace fl {
         }
 
         int errors = 0;
-        const int offset = _engine->numberOfInputVariables();
+        const std::size_t offset = _engine->numberOfInputVariables();
         for (std::size_t i = 0; i < _expected.size(); ++i) {
             const std::vector<scalar>& e = _expected.at(i);
             const std::vector<scalar>& o = _obtained.at(i);

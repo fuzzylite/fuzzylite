@@ -85,7 +85,7 @@ namespace fl {
             result += rule->complexityOfActivationDegree(conjunction, disjunction, implication);
             meanActivation += rule->complexityOfActivation(implication);
         }
-        meanActivation.divide(ruleBlock->rules().size());
+        meanActivation.divide(scalar(ruleBlock->rules().size()));
 
         result += meanActivation.multiply(getNumberOfRules());
         result += Complexity().arithmetic(1).multiply(getNumberOfRules());

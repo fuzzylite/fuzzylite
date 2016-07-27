@@ -26,7 +26,7 @@ if %argc%==0 echo Building schedule: all
 if not %argc%==0 echo Building schedule: %*
 echo Starting in 3 seconds...
 ping 1.1.1.1 -n 1 -w 3000 > nul
-rem sleep 3 ::This function makes command line DOS-esque C:\Archiv~1
+rem sleep 1 ::This function makes command line DOS-esque C:\Archiv~1
 
 if %argc%==0 (call:all)
 

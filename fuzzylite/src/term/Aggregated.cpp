@@ -70,7 +70,7 @@ namespace fl {
         Complexity result;
         result.comparison(3);
         if (_aggregation.get()) {
-            result += _aggregation->complexity().multiply(_terms.size());
+            result += _aggregation->complexity().multiply(scalar(_terms.size()));
         }
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             result += _terms.at(i).complexity();
@@ -98,7 +98,7 @@ namespace fl {
         if (_aggregation.get()) {
             result += _aggregation->complexity();
         } else result.arithmetic(1);
-        result.multiply(_terms.size());
+        result.multiply(scalar(_terms.size()));
         return result;
     }
 
