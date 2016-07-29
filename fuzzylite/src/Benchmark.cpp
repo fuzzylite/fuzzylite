@@ -405,8 +405,8 @@ namespace fl {
             result.push_back(Result("nfErrors", Op::str(nonFiniteErrors(outputVariable))));
             result.push_back(Result("accErrors", Op::str(accuracyErrors(outputVariable))));
 
-            result.push_back(Result("rmse", Op::str(rmse, -1, std::ios_base::fmtflags(0x0))));
-            result.push_back(Result("nrmse", Op::str(nrmse, -1, std::ios_base::fmtflags(0x0))));
+            result.push_back(Result("rmse", Op::str(rmse, 6, std::ios_base::scientific)));
+            result.push_back(Result("nrmse", Op::str(nrmse, 6, std::ios_base::scientific)));
         }
         result.push_back(Result("units", stringOf(unit)));
         result.push_back(Result("sum(t)", Op::str(convert(Op::sum(time), NanoSeconds, unit),
