@@ -212,10 +212,13 @@ namespace fl {
           @param end is the value at which discretization ends
           @param resolution is the number of equally-distributed samples to
           perform between start and end
+          @param boundedMembershipFunction indicates whether to ensure that
+          @f$\mu(x)\in[0.0,1.0]@f$
           @return a Discrete term that approximates the given term
          */
         static Discrete* discretize(const Term* term, scalar start, scalar end,
-                int resolution = IntegralDefuzzifier::defaultResolution());
+                int resolution = IntegralDefuzzifier::defaultResolution(),
+                bool boundedMembershipFunction = true);
 
         virtual Discrete* clone() const FL_IOVERRIDE;
 

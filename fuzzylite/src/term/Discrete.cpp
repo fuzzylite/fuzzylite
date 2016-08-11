@@ -74,7 +74,7 @@ namespace fl {
             return Term::_height * lowerBound->second;
         }
         //find the upper bound starting from a copy of lowerBound
-        Bound upperBound(std::upper_bound(_xy.begin(), _xy.end(), value, compare));
+        const Bound upperBound(std::upper_bound(_xy.begin(), _xy.end(), value, compare));
         --lowerBound; //One arithmetic
         return Term::_height * Op::scale(x, lowerBound->first, upperBound->first,
                 lowerBound->second, upperBound->second);
@@ -247,13 +247,16 @@ namespace fl {
         return os.str();
     }
 
-    Discrete* Discrete::discretize(const Term* term, scalar start, scalar end, int resolution) {
+    Discrete* Discrete::discretize(const Term* term, scalar start, scalar end, int resolution,
+            bool boundedMembershipFunction) {
         FL_unique_ptr<Discrete> result(new Discrete(term->getName()));
         scalar dx = (end - start) / resolution;
         scalar x, y;
         for (int i = 0; i <= resolution; ++i) {
             x = start + i * dx;
             y = term->membership(x);
+            if (boundedMembershipFunction)
+                y = Op::bound(y, 0.0, 1.0);
             result->xy().push_back(Discrete::Pair(x, y));
         }
         return result.release();
