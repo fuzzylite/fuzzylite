@@ -256,7 +256,7 @@ namespace fl {
             x = start + i * dx;
             y = term->membership(x);
             if (boundedMembershipFunction)
-                y = Op::bound(y, 0.0, 1.0);
+                y = Op::bound(y, scalar(0.0), scalar(1.0));
             result->xy().push_back(Discrete::Pair(x, y));
         }
         return result.release();
