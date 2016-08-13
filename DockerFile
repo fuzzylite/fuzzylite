@@ -7,9 +7,7 @@ ENV CXX_COMPILER ${CXX_COMPILER}
 RUN apt-get update && apt-get -y install \
     ${CXX_COMPILER} \
     make \
-    cmake \
-    doxygen \
-    graphviz
+    cmake 
 
 #Create and copy Docker's context into /build
 RUN mkdir /build
