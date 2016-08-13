@@ -37,11 +37,7 @@ endif()
 
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_BACKTRACE "Provide backtrace information in case of errors" OFF)
-option(FL_CPP11 "Builds utilizing C++11, i.e., passing -std=c++11" OFF)
-
-if(FL_CPP11 AND MSVC)
-    message("Warning: MSVC not compatible with FL_CPP11 flag")
-endif()
+option(FL_CPP11 "Builds utilizing C++11, i.e., passing -std=c++11" ON)
 
 if(FL_USE_FLOAT)
     add_definitions(-DFL_USE_FLOAT)
@@ -51,12 +47,23 @@ if(NOT FL_BACKTRACE)
     add_definitions(-DFL_BACKTRACE_OFF)
 endif()
 
+if (MSVC AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19)
+#C++11 not available before Visual Studio 2015
+    if (FL_CPP11)
+        set(FL_CPP11 OFF)
+    endif()
+endif()
+
 if(FL_CPP11)
     add_definitions(-DFL_CPP11)
     if(NOT MSVC)
         add_definitions(-std=c++11)
     endif(NOT MSVC)
 endif(FL_CPP11)
+
+if(NOT FL_CPP11 AND NOT MSVC)
+    add_definitions(-std=c++98)
+endif()
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
