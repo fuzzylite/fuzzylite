@@ -21,7 +21,21 @@ script:
 matrix:
   include:
     # - osx:
-        
+
+#g++-6
+    - os: linux
+      compiler: g++
+      env: CXX_COMPILER=g++-6 FL_CPP98=OFF FL_USE_FLOAT=OFF
+    - os: linux
+      compiler: g++
+      env: CXX_COMPILER=g++-6 FL_CPP98=OFF FL_USE_FLOAT=ON 
+    - os: linux
+      compiler: g++
+      env: CXX_COMPILER=g++-6 FL_CPP98=ON FL_USE_FLOAT=OFF
+    - os: linux
+      compiler: g++
+      env: CXX_COMPILER=g++-6 FL_CPP98=ON FL_USE_FLOAT=ON 
+
 ##clang-3.8
     - os: linux
       compiler: clang

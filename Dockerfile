@@ -4,7 +4,11 @@ MAINTAINER Juan Rada-Vilela <jcrada@fuzzylite.com>
 ARG CXX_COMPILER=g++
 ENV CXX_COMPILER ${CXX_COMPILER}
 
-RUN apt-get update && apt-get -y install \
+
+#install software-properties-common to use add-apt to add repository for g++-6
+RUN apt-get update && apt-get -y install software-properties-common && \
+    add-apt-repository ppa:ubuntu-toolchain-r/test && \
+    apt-get update && apt-get -y install \
     ${CXX_COMPILER} \
     make \
     cmake \
