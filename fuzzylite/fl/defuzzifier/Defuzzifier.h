@@ -28,14 +28,12 @@ namespace fl {
     class Term;
 
     /**
-
       The Defuzzifier class is the abstract class for defuzzifiers.
 
       @author Juan Rada-Vilela, Ph.D.
       @see IntegralDefuzzifier
       @see WeightedDefuzzifier
       @since 4.0
-
      */
     class FL_API Defuzzifier {
     public:

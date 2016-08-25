@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The MeanOfMaximum class is an IntegralDefuzzifier that computes the mean
       value of the maximum membership function of a fuzzy set represented in a
       Term.
@@ -32,7 +31,6 @@ namespace fl {
       @see IntegralDefuzzifier
       @see Defuzzifier
       @since 4.0
-
      */
     class FL_API MeanOfMaximum : public IntegralDefuzzifier {
     public:

@@ -22,7 +22,6 @@ namespace fl {
     class Activated;
 
     /**
-
       The WeightedAverageCustom class is a WeightedDefuzzifier that computes the
       weighted average of a fuzzy set represented in an Aggregated Term utilizing
       the fuzzy operators for implication and aggregation to compute the weighted
@@ -35,7 +34,6 @@ namespace fl {
       @see WeightedDefuzzifier
       @see Defuzzifier
       @since 6.0
-
      */
     class FL_API WeightedAverageCustom : public WeightedDefuzzifier {
     public:
@@ -49,7 +47,7 @@ namespace fl {
         virtual Complexity complexity(const Term* term) const FL_IOVERRIDE;
 
         /**
-          Computes the weighted average of a fuzzy set represented in
+          Computes the weighted average of the given fuzzy set represented as
           an AggregatedTerm as @f$y = \dfrac{\sum_i w_iz_i}{\sum_i w_i} @f$,
           where @f$w_i@f$ is the activation degree of term @f$i@f$, and
           @f$z_i = \mu_i(w_i) @f$.
@@ -63,7 +61,7 @@ namespace fl {
           @param term is the fuzzy set represented as an Aggregated Term
           @param minimum is the minimum value of the range (only used for Tsukamoto)
           @param maximum is the maximum value of the range (only used for Tsukamoto)
-          @return
+          @return the weighted average of the given fuzzy set 
          */
         virtual scalar defuzzify(const Term* term,
                 scalar minimum, scalar maximum) const FL_IOVERRIDE;

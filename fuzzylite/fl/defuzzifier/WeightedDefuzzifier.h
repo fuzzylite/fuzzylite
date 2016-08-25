@@ -22,14 +22,12 @@ namespace fl {
     class Activated;
 
     /**
-
       The WeightedDefuzzifier class is the base class for defuzzifiers which
       compute a weighted function on the fuzzy set without requiring to
       integrate over the fuzzy set.
 
       @author Juan Rada-Vilela, Ph.D.
       @since 5.0
-
      */
     class FL_API WeightedDefuzzifier : public Defuzzifier {
     public:
@@ -37,11 +35,11 @@ namespace fl {
         /**The Type enum indicates the type of the WeightedDefuzzifier based
         the terms included in the fuzzy set.*/
         enum Type {
-            /**Automatically inferred from the terms */
+            /**Automatic: Automatically inferred from the terms */
             Automatic,
-            /**Manually set to TakagiSugeno (or Inverse Tsukamoto)*/
+            /**TakagiSugeno: Manually set to TakagiSugeno (or Inverse Tsukamoto)*/
             TakagiSugeno,
-            /**Manually set to Tsukamoto*/
+            /**Tsukamoto: Manually set to Tsukamoto*/
             Tsukamoto
         };
         /**

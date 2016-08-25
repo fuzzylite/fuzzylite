@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The Centroid class is an IntegralDefuzzifier that computes the centroid
       of a fuzzy set represented in a Term.
 
@@ -30,7 +29,6 @@ namespace fl {
       @see IntegralDefuzzifier
       @see Defuzzifier
       @since 4.0
-
      */
     class FL_API Centroid : public IntegralDefuzzifier {
     public:

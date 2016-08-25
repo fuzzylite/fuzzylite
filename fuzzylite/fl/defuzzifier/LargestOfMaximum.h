@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The LargestOfMaximum class is an IntegralDefuzzifier that computes the
       largest value of the maximum membership function of a fuzzy set
       represented in a Term.
@@ -32,7 +31,6 @@ namespace fl {
       @see IntegralDefuzzifier
       @see Defuzzifier
       @since 4.0
-
      */
     class FL_API LargestOfMaximum : public IntegralDefuzzifier {
     public:
