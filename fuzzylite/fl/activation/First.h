@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The First class is a RuleBlock Activation method that activates the first
       @f$n@f$ rules whose activation degrees are greater than or equal to the given
       threshold. The rules are iterated in the order they were added to the rule block.
@@ -32,7 +31,6 @@ namespace fl {
       @see RuleBlock
       @see ActivationFactory
       @since 6.0
-
      */
 
     class FL_API First : public Activation {
@@ -56,7 +54,6 @@ namespace fl {
         /**
           Configures the activation method with the given number of rules and
           threshold
-
           @param parameters as "numberOfRules threshold"
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;

@@ -22,7 +22,6 @@
 namespace fl {
 
     /**
-
      The Last class is a RuleBlock Activation method that activates the last
      @f$n@f$ rules whose activation degrees are greater than or equal to the given
      threshold. The rules are iterated in the reverse order in which they were
@@ -34,7 +33,6 @@ namespace fl {
      @see RuleBlock
      @see ActivationFactory
      @since 6.0
-
      */
 
     class FL_API Last : public Activation {

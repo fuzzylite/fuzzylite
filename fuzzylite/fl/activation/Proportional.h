@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The Proportional class is a RuleBlock Activation method that activates
       the rules utilizing activation degrees proportional to the activation
       degrees of the other rules, thus the sum of the activation degrees is
@@ -32,7 +31,6 @@ namespace fl {
       @see RuleBlock
       @see ActivationFactory
       @since 6.0
-
      */
     class FL_API Proportional : public Activation {
     public:

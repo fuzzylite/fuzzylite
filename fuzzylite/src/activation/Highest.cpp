@@ -67,7 +67,7 @@ namespace fl {
             meanActivation += rule->complexityOfActivation(implication);
         }
         meanActivation.divide(scalar(ruleBlock->rules().size()));
-        
+
         //Complexity of push is O(log n)
         result += Complexity().function(1).multiply(ruleBlock->rules().size()
                 * std::log(scalar(ruleBlock->rules().size())));
@@ -81,7 +81,7 @@ namespace fl {
         return result;
     }
 
-    struct RuleDegreeComparatorDescending {
+    struct Descendantly {
 
         bool operator()(const Rule* a, const Rule* b) const {
             return a->getActivationDegree() < b->getActivationDegree();
@@ -93,8 +93,7 @@ namespace fl {
         const SNorm* disjunction = ruleBlock->getDisjunction();
         const TNorm* implication = ruleBlock->getImplication();
 
-        std::priority_queue<Rule*, std::vector<Rule*>,
-                RuleDegreeComparatorDescending> rulesToActivate;
+        std::priority_queue<Rule*, std::vector<Rule*>, Descendantly> rulesToActivate;
 
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             Rule* rule = ruleBlock->getRule(i);

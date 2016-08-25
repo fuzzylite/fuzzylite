@@ -23,7 +23,6 @@
 namespace fl {
 
     /**
-
       The Lowest class is a RuleBlock Activation method that activates a given
       number of rules with lowest activation degrees in ascending order
 
@@ -33,7 +32,6 @@ namespace fl {
       @see RuleBlock
       @see ActivationFactory
       @since 6.0
-
      */
     class FL_API Lowest : public Activation {
     private:

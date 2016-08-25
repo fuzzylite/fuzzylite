@@ -23,7 +23,6 @@
 namespace fl {
 
     /**
-
       The Highest class is a RuleBlock Activation method that activates a given
       number of rules with highest activation degrees in descending order.
 
@@ -33,7 +32,6 @@ namespace fl {
       @see RuleBlock
       @see ActivationFactory
       @since 6.0
-
      */
     class FL_API Highest : public Activation {
     private:
@@ -59,9 +57,9 @@ namespace fl {
 
         /**
           Sets the number of rules to activate
-          @param activatedRules is the number of rules to activate
+          @param numberOfRules is the number of rules to activate
          */
-        virtual void setNumberOfRules(int activatedRules);
+        virtual void setNumberOfRules(int numberOfRules);
 
         /**
           Returns the number of rules to activate

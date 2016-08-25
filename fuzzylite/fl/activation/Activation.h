@@ -24,7 +24,6 @@ namespace fl {
     class RuleBlock;
 
     /**
-
       The Activation class is the abstract class for RuleBlock activation
       methods. An activation method implements the criteria to activate the
       rules within a given rule block. An activation method needs to process
@@ -39,7 +38,6 @@ namespace fl {
       @see RuleBlock
       @see ActivationFactory
       @since 6.0
-
      */
 
     class FL_API Activation {
@@ -56,7 +54,6 @@ namespace fl {
         /**
           Returns the name of the activation method, which is also utilized to
           register the activation method in the ActivationFactory.
-
           @return the name of the activation method
           @see ActivationFactory
          */
@@ -65,14 +62,12 @@ namespace fl {
         /**
           Returns the parameters of the activation method, which can be used to
           configure other instances of the activation method.
-
           @return the parameters of the activation method
          */
         virtual std::string parameters() const = 0;
 
         /**
           Configures the activation method with the given parameters.
-
           @param parameters contains a list of space-separated parameter values
          */
         virtual void configure(const std::string& parameters) = 0;
@@ -85,14 +80,12 @@ namespace fl {
 
         /**
           Activates the rule block.
-
           @param ruleBlock is the rule block to activate
          */
         virtual void activate(RuleBlock* ruleBlock) const = 0;
 
         /**
           Clones the activation method.
-
           @return a clone of the activation method
          */
         virtual Activation* clone() const = 0;

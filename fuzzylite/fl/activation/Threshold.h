@@ -25,7 +25,6 @@
 namespace fl {
 
     /**
-
       The Threshold class is a RuleBlock Activation method that activates the
       rules whose activation degrees satisfy the equation given by the
       comparison operator and the threshold, and deactivates the rules which do
@@ -36,7 +35,6 @@ namespace fl {
       @see RuleBlock
       @see ActivationFactory
       @since 6.0
-
      */
 
     class FL_API Threshold : public Activation {
@@ -106,6 +104,7 @@ namespace fl {
           Returns the given comparison operator of the activation method
           @param comparison is a valid enum value
           @return the comparison operator for the given enum value
+          @throws fl::Exception if the given comparison operator is not valid
          */
         virtual std::string comparisonOperator(Comparison comparison) const;
 
@@ -140,16 +139,16 @@ namespace fl {
         /**
           Sets the comparison operator and the threshold for the activation
           method
-          @param comparison is an enum option
+          @param comparison is the comparison enumerator
           @param value is the threshold of the activation method
          */
         virtual void setThreshold(Comparison comparison, scalar value);
 
         /**
-          Sets the comparison operator and the threshold for the activation method,
-          and throws and fl::Exception if the comparison operator is not valid
+          Sets the comparison operator and the threshold for the activation method
           @param comparison is a valid comparison operator
           @param value is the threshold for activation degrees
+          @throws fl::Exception if the comparison operator is not valid
          */
         virtual void setThreshold(const std::string& comparison, scalar value);
 
