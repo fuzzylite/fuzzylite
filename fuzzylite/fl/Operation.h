@@ -26,14 +26,12 @@
 namespace fl {
 
     /**
-
       The Operation class contains methods for numeric operations, string
       manipulation, and other functions, all of which are also accessible via
       fl::Op.
 
       @author Juan Rada-Vilela, Ph.D.
       @since 4.0
-
      */
     class Operation {
     public:
@@ -117,52 +115,52 @@ namespace fl {
         static bool isFinite(T x);
 
         /**
-          Returns whether @f$a@f$ is less than @f$b@f$ at the given `macheps`
+          Returns whether @f$a@f$ is less than @f$b@f$ at the given tolerance
           @param a
           @param b
           @param macheps is the minimum difference upon which two
           floating-point values are considered equivalent
-          @return whether @f$a@f$ is less than @f$b@f$ at the given `macheps`
+          @return whether @f$a@f$ is less than @f$b@f$ at the given tolerance
          */
         static bool isLt(scalar a, scalar b, scalar macheps = fuzzylite::_macheps);
         /**
           Returns whether @f$a@f$ is less than or equal to @f$b@f$ at the given
-          `macheps`
+          tolerance
           @param a
           @param b
           @param macheps is the minimum difference upon which two
           floating-point values are considered equivalent
           @return whether @f$a@f$ is less than or equal to @f$b@f$ at the given
-          `macheps`
+          tolerance
          */
         static bool isLE(scalar a, scalar b, scalar macheps = fuzzylite::_macheps);
         /**
-          Returns whether @f$a@f$ is equal to @f$b@f$ at the given `macheps`
+          Returns whether @f$a@f$ is equal to @f$b@f$ at the given tolerance
           @param a
           @param b
           @param macheps is the minimum difference upon which two
           floating-point values are considered equivalent
-          @return whether @f$a@f$ is equal to @f$b@f$ at the given `macheps`
+          @return whether @f$a@f$ is equal to @f$b@f$ at the given tolerance
          */
         static bool isEq(scalar a, scalar b, scalar macheps = fuzzylite::_macheps);
         /**
-          Returns whether @f$a@f$ is greater than @f$b@f$ at the given `macheps`
+          Returns whether @f$a@f$ is greater than @f$b@f$ at the given tolerance
           @param a
           @param b
           @param macheps is the minimum difference upon which two
           floating-point values are considered equivalent
-          @return whether @f$a@f$ is greater than @f$b@f$ at the given `macheps`
+          @return whether @f$a@f$ is greater than @f$b@f$ at the given tolerance
          */
         static bool isGt(scalar a, scalar b, scalar macheps = fuzzylite::_macheps);
         /**
           Returns whether @f$a@f$ is greater than or equal to @f$b@f$ at the
-          given `macheps`
+          given tolerance
           @param a
           @param b
           @param macheps is the minimum difference upon which two
           floating-point values are considered equivalent
           @return whether @f$a@f$ is greater than or equal to @f$b@f$ at the
-          given `macheps`
+          given tolerance
          */
         static bool isGE(scalar a, scalar b, scalar macheps = fuzzylite::_macheps);
 
@@ -288,52 +286,52 @@ namespace fl {
 
         /**
           Returns whether @f$a@f$ is greater than or equal to @f$b@f$ at the
-          default `macheps`
+          default tolerance
           @param a
           @param b
           @return whether @f$a@f$ is greater than or equal to @f$b@f$ at the
-          default `macheps`
+          default tolerance
          */
         static scalar gt(scalar a, scalar b);
         /**
           Returns whether @f$a@f$ is greater than or equal to @f$b@f$ at the
-          default `macheps`
+          default tolerance
           @param a
           @param b
           @return whether @f$a@f$ is greater than or equal to @f$b@f$ at the
-          default `macheps`
+          default tolerance
          */
         static scalar ge(scalar a, scalar b);
         /**
-          Returns whether @f$a@f$ is equal to @f$b@f$ at the default `macheps`
+          Returns whether @f$a@f$ is equal to @f$b@f$ at the default tolerance
           @param a
           @param b
-          @return whether @f$a@f$ is equal to @f$b@f$ at the default `macheps`
+          @return whether @f$a@f$ is equal to @f$b@f$ at the default tolerance
          */
         static scalar eq(scalar a, scalar b);
         /**
           Returns whether @f$a@f$ is different from @f$b@f$ at the default
-          `macheps`
+          tolerance
           @param a
           @param b
           @return whether @f$a@f$ is different from @f$b@f$ at the default
-          `macheps`
+          tolerance
          */
         static scalar neq(scalar a, scalar b);
         /**
           Returns whether @f$a@f$ is less than or equal to @f$b@f$ at the
-          default `macheps`
+          default tolerance
           @param a
           @param b
           @return whether @f$a@f$ is less than or equal to @f$b@f$ at the
-          default `macheps`
+          default tolerance
          */
         static scalar le(scalar a, scalar b);
         /**
-          Returns whether @f$a@f$ is less than @f$b@f$ at the default `macheps`
+          Returns whether @f$a@f$ is less than @f$b@f$ at the default tolerance
           @param a
           @param b
-          @return whether @f$a@f$ is less than @f$b@f$ at the default `macheps`
+          @return whether @f$a@f$ is less than @f$b@f$ at the default tolerance
          */
         static scalar lt(scalar a, scalar b);
 
@@ -380,36 +378,36 @@ namespace fl {
         template <typename T>
         static T sum(const std::vector<T>& x);
         /**
-          Computes the mean of the sample
-          @param x is the sample
+          Computes the mean of the vector
+          @param x is the vector
           @return @f$\dfrac{\sum_i{x_i}}{|x|}@f$
          */
         template <typename T>
         static scalar mean(const std::vector<T>& x);
         /**
-          Computes the variance of the sample
-          @param x is the sample
+          Computes the variance of the vector
+          @param x is the vector
           @return  @f$ \sum_i{ (x_i - \bar{x})^2 } / (|x| - 1) @f$
          */
         template <typename T>
         static scalar variance(const std::vector<T>& x);
         /**
-          Computes the variance of the sample using the given mean
-          @param x is the sample
-          @param mean is the mean value of the sample
+          Computes the variance of the vector using the given mean
+          @param x is the vector
+          @param mean is the mean value of the vector
           @return  @f$ \sum_i{ (x_i - \bar{x})^2 } / (|x| - 1) @f$
          */
         template <typename T>
         static scalar variance(const std::vector<T>& x, scalar mean);
         /**
-          Computes the standard deviation of the sample
+          Computes the standard deviation of the vector
           @param x
           @return @f$ \sqrt{\mbox{variance}(x, \bar{x})} @f$
          */
         template <typename T>
         static scalar standardDeviation(const std::vector<T>& x);
         /**
-          Computes the standard deviation of the sample using the given mean
+          Computes the standard deviation of the vector using the given mean
           @param x
           @param mean is the mean value of x
           @return @f$ \sqrt{\mbox{variance}(x, \bar{x})} @f$

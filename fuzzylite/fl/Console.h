@@ -17,7 +17,6 @@
 #define FL_CONSOLE_H
 
 #include "fl/fuzzylite.h"
-
 #include <map>
 #include <string>
 #include <vector>
@@ -26,13 +25,11 @@ namespace fl {
     class Engine;
 
     /**
-
       The Console class is a command-line tool that helps to utilize the
       `fuzzylite` library.
 
       @author Juan Rada-Vilela, Ph.D.
       @since 4.0
-
      */
     class FL_API Console {
     public:
@@ -43,7 +40,8 @@ namespace fl {
         struct Option {
             std::string key, value, description;
 
-            explicit Option(const std::string& key = "", const std::string& value = "",
+            explicit Option(const std::string& key = "",
+                    const std::string& value = "",
                     const std::string& description = "");
         };
 
@@ -97,10 +95,35 @@ namespace fl {
         virtual void exportAllExamples(const std::string& from, const std::string& to,
                 const std::string& examplesPath, const std::string& outputPath);
 
+        /**
+       Benchmarks the engine described in the FLL file against the dataset
+       contained in the FLD file.
+         
+       @param fllFile is the file describing the engine in FLL format
+       @param fldFile is the file containing the dataset in FLD format
+       @param runs is the number of runs to evaluate the benchmarks
+       @param writer is the output where the results will be written to
+       @throws Exception if something goes wrong reading the files, importing the
+       engines or evaluating the benchmark
+         */
+
         virtual void benchmark(const std::string& fllFile, const std::string& fldFile,
-                int times, std::ofstream* writer = fl::null) const;
+                int runs, std::ofstream* writer = fl::null) const;
+        /**
+          Benchmarks the list of engines against the list of datasets, both described
+          as absolute or relative paths
+         
+          @param fllFileList is the file containing the list of paths of engines in
+          FLL format
+          @param fldFileList is the file containing the list of paths of datasets in
+          FLD format
+          @param runs is the number of runs to evaluate the benchmarks
+          @param writer is the output where the results will be written to
+          @throws Exception if something goes wrong reading the files, importing the
+          engines or evaluating the benchmark
+         */
         virtual void benchmarks(const std::string& fllFileList, const std::string& fldFileList,
-                int times, std::ofstream* writer = fl::null) const;
+                int runs, std::ofstream* writer = fl::null) const;
 
     public:
         /**
@@ -108,6 +131,7 @@ namespace fl {
           @return a string representation of the usage of the command-line tool
          */
         virtual std::string usage();
+
         /**
           Returns a vector of the options available from the command line
           @return a vector of the options available from the command line

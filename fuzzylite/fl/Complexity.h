@@ -165,6 +165,7 @@ namespace fl {
         /**
          Compares the complexity for equality to another with the given tolerance
          @param x is the complexity to compare against
+         @param macheps is the tolerance to compare floating-point values
          @return `true` if every measure in this satisfies Op::isEq(this, x, macheps),
          and `false` otherwise
          */
@@ -173,6 +174,7 @@ namespace fl {
          Compares the complexity for strict inequality (less than) to another
          with the given tolerance
          @param x is the complexity to compare against
+         @param macheps is the tolerance to compare floating-point values
          @return `true` if every measure in this satisfies Op::isLt(this, x, macheps),
          and `false` otherwise
          */
@@ -181,6 +183,7 @@ namespace fl {
          Compares the complexity for inequality (less than or equal to) to another
          with the given tolerance
          @param x is the complexity to compare against
+         @param macheps is the tolerance to compare floating-point values
          @return `true` if every measure in this satisfies Op::isLE(this, x, macheps),
          and `false` otherwise
          */
@@ -189,6 +192,7 @@ namespace fl {
          Compares the complexity for strict inequality (greater than) to another
          with the given tolerance
          @param x is the complexity to compare against
+         @param macheps is the tolerance to compare floating-point values
          @return `true` if every measure in this satisfies Op::isGt(this, x, macheps),
          and `false` otherwise
          */
@@ -197,6 +201,7 @@ namespace fl {
          Compares the complexity for inequality (greater than or equal to) to
          another with the given tolerance
          @param x is the complexity to compare against
+         @param macheps is the tolerance to compare floating-point values
          @return `true` if every measure in this satisfies Op::isGE(this, x, macheps),
          and `false` otherwise
          */
@@ -236,9 +241,9 @@ namespace fl {
          */
         virtual Complexity compute(const InputVariable* inputVariable) const;
         /**
-         Computes the complexity of the given input variable
-         @param inputVariable is the input variable for which to compute the complexity
-         @return the complexity of the given input variable
+         Computes the complexity of the given output variable
+         @param outputVariable is the output variable for which to compute the complexity
+         @return the complexity of the given output variable
          */
         virtual Complexity compute(const OutputVariable* outputVariable) const;
 

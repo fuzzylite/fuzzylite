@@ -103,20 +103,21 @@ namespace fl {
             delete _inputVariables.at(i);
     }
 
-    void Engine::configure(const std::string& conjunctionT, const std::string& disjunctionS,
-            const std::string& implicationT, const std::string& aggregationS,
-            const std::string& defuzzifierName) {
+    void Engine::configure(const std::string& conjunction, const std::string& disjunction,
+            const std::string& implication, const std::string& aggregation,
+            const std::string& defuzzifier) {
         TNormFactory* tnormFactory = FactoryManager::instance()->tnorm();
         SNormFactory* snormFactory = FactoryManager::instance()->snorm();
         DefuzzifierFactory* defuzzFactory = FactoryManager::instance()->defuzzifier();
 
-        TNorm* conjunction = tnormFactory->constructObject(conjunctionT);
-        SNorm* disjunction = snormFactory->constructObject(disjunctionS);
-        TNorm* implication = tnormFactory->constructObject(implicationT);
-        SNorm* aggregation = snormFactory->constructObject(aggregationS);
-        Defuzzifier* defuzzifier = defuzzFactory->constructObject(defuzzifierName);
+        TNorm* conjunctionObject = tnormFactory->constructObject(conjunction);
+        SNorm* disjunctionObject = snormFactory->constructObject(disjunction);
+        TNorm* implicationObject = tnormFactory->constructObject(implication);
+        SNorm* aggregationObject = snormFactory->constructObject(aggregation);
+        Defuzzifier* defuzzifierObject = defuzzFactory->constructObject(defuzzifier);
 
-        configure(conjunction, disjunction, implication, aggregation, defuzzifier);
+        configure(conjunctionObject, disjunctionObject,
+                implicationObject, aggregationObject, defuzzifierObject);
     }
 
     void Engine::configure(TNorm* conjunction, SNorm* disjunction,
@@ -148,11 +149,12 @@ namespace fl {
             InputVariable* inputVariable = inputVariables().at(i);
             if (not inputVariable) {
                 ss << "- Engine <" << getName() << "> has a fl::null input variable at index <" << i << ">\n";
-            } else if (inputVariable->terms().empty()) {
-                //ignore because sometimes inputs can be empty: takagi-sugeno/matlab/slcpp1.fis
-                //                ss << "- Input variable <" << _inputVariables.at(i)->getName() << ">"
-                //                        << " has no terms\n";
             }
+            /*else if (inputVariable->terms().empty()) {
+            ignore because sometimes inputs can be empty: takagi-sugeno/matlab/slcpp1.fis
+                            ss << "- Input variable <" << _inputVariables.at(i)->getName() << ">"
+                                    << " has no terms\n";
+            }*/
         }
 
         if (outputVariables().empty()) {

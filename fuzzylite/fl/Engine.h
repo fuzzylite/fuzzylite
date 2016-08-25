@@ -35,7 +35,6 @@ namespace fl {
     class Defuzzifier;
 
     /**
-
       The Engine class is the core class of the library as it groups the
       necessary components of a fuzzy logic controller.
 
@@ -44,7 +43,6 @@ namespace fl {
       @see OutputVariable
       @see RuleBlock
       @since 4.0
-
      */
     class FL_API Engine {
     private:
@@ -67,21 +65,21 @@ namespace fl {
 
         /**
           Configures the engine with the given operators
-          @param conjunctionT is a TNorm registered in the TNormFactory
-          @param disjunctionS is an SNorm registered in the SNormFactory
-          @param implicationT is an TNorm registered in the TNormFactory
-          @param aggregationS is an SNorm registered in the SNormFactory
+          @param conjunction is a TNorm registered in the TNormFactory
+          @param disjunction is an SNorm registered in the SNormFactory
+          @param implication is an TNorm registered in the TNormFactory
+          @param aggregation is an SNorm registered in the SNormFactory
           @param defuzzifier is a defuzzifier registered in the DefuzzifierFactory
          */
-        virtual void configure(const std::string& conjunctionT,
-                const std::string& disjunctionS,
-                const std::string& implicationT,
-                const std::string& aggregationS,
+        virtual void configure(const std::string& conjunction,
+                const std::string& disjunction,
+                const std::string& implication,
+                const std::string& aggregation,
                 const std::string& defuzzifier);
 
         /**
-          Configures the engine with clones of the given operators. The given
-          operators are automatically deleted within this method.
+          Configures the engine with clones of the given object operators, taking 
+          ownership of the objects.
 
           @param conjunction is the operator to process the propositions joined
           by `and` in the antecedent of the rules
@@ -101,10 +99,10 @@ namespace fl {
         /**
           Indicates whether the engine has been configured correctly and is
           ready for operation. In more advanced engines, the result of this
-          method should be taken as a suggestion and not as a prerrequisite to
+          method should be taken as a suggestion and not as a prerequisite to
           operate the engine.
 
-          @param status contains the configuration errors of this engine
+          @param status (if not null) contains the configuration errors of the engine
           @return whether the engine is ready to operate
          */
         virtual bool isReady(std::string* status = fl::null) const;
@@ -126,7 +124,7 @@ namespace fl {
 
         /**
           Restarts the engine by setting the values of the input variables to
-          fl::nan and clearing the outvariables
+          fl::nan and clearing the output variables
           @see Variable::setValue()
           @see OutputVariable::clear()
          */
@@ -171,26 +169,26 @@ namespace fl {
         virtual std::string toString() const;
 
         enum Type {
-            /**When the output variables have IntegralDefuzzifier%s*/
+            /**Mamdani: When the output variables have IntegralDefuzzifier%s*/
             Mamdani,
-            /**When Mamdani and AlgebraicProduct is the implication operator of
+            /**Larsen: When Mamdani and AlgebraicProduct is the implication operator of
             the rule blocks */
             Larsen,
-            /**When output variables have WeightedDefuzzifier%s of type
+            /**TakagiSugeno: When output variables have WeightedDefuzzifier%s of type
             TakagiSugeno and the output variables have Constant, Linear, or
             Function terms*/
             TakagiSugeno,
-            /**When output variables have WeightedDefuzzifier%s of type
+            /**Tsukamoto: When output variables have WeightedDefuzzifier%s of type
             Tsukamoto and the output variables only have monotonic terms
             (Concave, Ramp, Sigmoid, SShape, and ZShape)*/
             Tsukamoto,
-            /**When output variables have WeightedDefuzzifier%s of type
+            /**InverseTsukamoto: When output variables have WeightedDefuzzifier%s of type
             TakagiSugeno and the output variables do not only have Constant,
             Linear or Function terms*/
             InverseTsukamoto,
-            /**When output variables have different defuzzifiers*/
+            /**Hybrid: When output variables have different defuzzifiers*/
             Hybrid,
-            /**When output variables have no defuzzifiers*/
+            /**Unknown: When output variables have no defuzzifiers*/
             Unknown
         };
         /**
@@ -433,7 +431,7 @@ namespace fl {
           shifts the remaining rule blocks one position to the left
           @param name is the name of the rule block
           @return the rule block of the given name
-          @throws fl::Exception if there is no block with the given name
+          @throws fl::Exception if there is no rule block with the given name
          */
         virtual RuleBlock* removeRuleBlock(const std::string& name);
         /**

@@ -218,6 +218,7 @@ namespace fl {
          Computes the mean squared error of the given output variable
          considering only those cases where there is an accuracy error
          as defined in Benchmark::accuracyErrors().
+         @param outputVariable is the output variable to compute the errors for
          @return the mean squared error over the given output variable.
          */
         virtual scalar meanSquaredError(const OutputVariable* outputVariable) const;
@@ -239,6 +240,7 @@ namespace fl {
          the difference between the expected and obtained values is not finite,
          or the absolute difference between the expected and obtained values
          is not smaller than the tolerance.
+         @param outputVariable is the output variable to account the errors for
          @return the number of errors of the given output variable caused by
          non-finite differences or accuracy differences
          */
@@ -257,6 +259,7 @@ namespace fl {
          Computes the number of errors of the given output variable caused by
          non-finite differences (ie, infinity and NaN). An error is counted when
          the difference between the expected and obtained values is not finite.
+         @param outputVariable is the output variable to account the errors for
          @return the number of errors of the given output variable caused by
          non-finite differences
          */
@@ -300,6 +303,7 @@ namespace fl {
          @f$o@f$ is the set of obtained output values,
          and @f$\theta@f$ is the tolerance
 
+         @param outputVariable is the output variable to account the errors for
          @return the number of errors of the given output variable caused by
          a significant difference in accuracy
          */
@@ -308,6 +312,7 @@ namespace fl {
         /**
          Computes the number of errors of the given type over all the output
          variables.
+         @param errorType is the type of error to account for
          @return the number of errors over all the output variables
          */
         virtual int numberOfErrors(ErrorType errorType) const;
@@ -315,6 +320,8 @@ namespace fl {
         /**
          Computes the number of errors of the given type over the given output
          variable.
+         @param errorType is the type of error to account for
+         @param outputVariable is the output variable to account the errors for
          @return the number of errors over the given output variable
          */
         virtual int numberOfErrors(ErrorType errorType,
@@ -322,13 +329,14 @@ namespace fl {
 
         /**
          Returns the name of the time unit
+         @param unit is the time unit
          @return the name of the time unit
          */
         static std::string stringOf(TimeUnit unit);
 
         /**
          Returns the factor of the given unit from NanoSeconds
-         @param unit is the unit of time
+         @param unit is the time unit
          @return the factor of the given unit from NanoSeconds
          */
         static scalar factorOf(TimeUnit unit);
@@ -379,6 +387,7 @@ namespace fl {
          @param shape is the shape to present the table of results
          @param contents indicates the information to include in the table of results
          @param delimiter is the delimiter of the table of results
+         @return the formatted results from the benchmark
          */
         virtual std::string format(std::vector<Result> results, TableShape shape,
                 TableContents contents, const std::string& delimiter = "\t") const;
