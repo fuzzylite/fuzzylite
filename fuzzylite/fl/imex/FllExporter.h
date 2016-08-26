@@ -32,7 +32,6 @@ namespace fl {
     class Term;
 
     /**
-
       The FllExporter class is an Exporter that translates an Engine and its
       components to the FuzzyLite Language (FLL), see
       [http://www.fuzzylite.com/fll-fld](http://www.fuzzylite.com/fll-fld) for
@@ -42,7 +41,6 @@ namespace fl {
       @see FllImporter
       @see Exporter
       @since 4.0
-
      */
     class FL_API FllExporter : public Exporter {
     private:

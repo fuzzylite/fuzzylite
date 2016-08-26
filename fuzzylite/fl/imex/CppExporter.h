@@ -30,7 +30,6 @@ namespace fl {
     class Activation;
 
     /**
-
       The CppExporter class is an Exporter that translates an Engine and its
       components to the `C++` programming language using the `fuzzylite`
       library.
@@ -39,13 +38,11 @@ namespace fl {
       @see JavaExporter
       @see Exporter
       @since 4.0
-
      */
     class FL_API CppExporter : public Exporter {
     private:
         bool _usingNamespace;
         bool _usingVariableNames;
-        virtual std::string fl(const std::string& clazz) const;
     public:
         explicit CppExporter(bool usingNamespace = false, bool usingVariableNames = true);
         virtual ~CppExporter() FL_IOVERRIDE;
@@ -69,6 +66,15 @@ namespace fl {
          */
         virtual bool isUsingNamespace() const;
 
+        /**
+          Returns the given text prepended with the `fl` namespace if
+          CppExporter::isUsingNamespace is `true`, or the text otherwise
+
+          @param clazz is the text to be prepended the `fl::`.
+          @return the given text prepended with the `fl` namespace if
+          CppExporter::isUsingNamespace is `true`, or the text otherwise
+         */
+        virtual std::string fl(const std::string& clazz) const;
         /**
          Sets whether variables are exported using their names
          (e.g., `power->setValue(fl::nan)`) instead of numbered identifiers
@@ -107,7 +113,7 @@ namespace fl {
          */
         virtual std::string toString(const RuleBlock* ruleBlock, const Engine* engine) const;
 
-        /*
+        /**
           Returns a string representation of the Activation method in the `C++` programming language
           @param activation is the activation method
           @return a string representation of the activation method in the `C++` programming language

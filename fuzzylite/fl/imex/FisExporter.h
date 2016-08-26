@@ -31,7 +31,6 @@ namespace fl {
     class Variable;
 
     /**
-
       The FisExporter class is an Exporter that translates an Engine and its
       components into the Fuzzy Inference System format for Matlab or Octave.
 
@@ -39,7 +38,6 @@ namespace fl {
       @see FisImporter
       @see Exporter
       @since 4.0
-
      */
     class FL_API FisExporter : public Exporter {
     protected:
@@ -69,6 +67,11 @@ namespace fl {
          */
         virtual std::string toString(const SNorm* snorm) const;
 
+        /**
+         Returns a string representation of the Defuzzifier in the Fuzzy Inference System format
+         @param defuzzifier is the defuzzifier
+         @return a string representation of the Defuzzifier in the Fuzzy Inference System format
+         */
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
         /**
          Returns a string representation of the Term in the Fuzzy Inference System format

@@ -174,10 +174,10 @@ namespace fl {
         writer.close();
     }
 
-    std::vector<scalar> FldExporter::parse(const std::string& x) const {
+    std::vector<scalar> FldExporter::parse(const std::string& values) const {
         std::vector<scalar> inputValues;
-        if (not (x.empty() or x.at(0) == '#')) {
-            inputValues = Op::toScalars(x);
+        if (not (values.empty() or values.at(0) == '#')) {
+            inputValues = Op::toScalars(values);
         }
         return inputValues;
     }

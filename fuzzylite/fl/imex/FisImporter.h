@@ -31,7 +31,6 @@ namespace fl {
     class Variable;
 
     /**
-
       The FisImporter class is an Importer that configures an Engine and its
       components from utilizing the Fuzzy Inference System format for Matlab or
       Octave.
@@ -40,7 +39,6 @@ namespace fl {
       @see FisExporter
       @see Importer
       @since 4.0
-
      */
     class FL_API FisImporter : public Importer {
     public:

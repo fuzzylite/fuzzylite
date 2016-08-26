@@ -36,7 +36,6 @@ namespace fl {
       @see FldExporter
       @see Exporter
       @since 6.0
-
      */
     class FL_API RScriptExporter : public Exporter {
     private:
@@ -162,8 +161,6 @@ namespace fl {
          @param reader is an input stream of data whose lines contain space-separated
          input values
          @param outputVariables are the output variables to create the surface for
-         @return an R script plotting multiple surfaces for the two input
-         variables on the output variables
          */
         virtual void toFile(const std::string& filePath, Engine* engine,
                 InputVariable* a, InputVariable* b, std::istream& reader,

@@ -29,7 +29,6 @@ namespace fl {
     class Term;
 
     /**
-
       The FclExporter class is an Exporter that translates an Engine and its
       components to the Fuzzy Control Language specification.
 
@@ -37,7 +36,6 @@ namespace fl {
       @see FclImporter
       @see Exporter
       @since 4.0
-
      */
     class FL_API FclExporter : public Exporter {
     private:
@@ -50,10 +48,12 @@ namespace fl {
 
         /**
           Sets the indentation string within blocks
+          @param indent is the indentation string within blocks
          */
         virtual void setIndent(const std::string& indent);
         /**
           Gets the indentation string within blocks
+          @return the indentation string within blocks
          */
         virtual std::string getIndent() const;
 

@@ -106,7 +106,7 @@ namespace fl {
          */
         virtual std::string toString(const Term* term) const;
 
-        /*
+        /**
           Returns a string representation of the Activation method in the Java
           programming language
           @param activation is the activation method

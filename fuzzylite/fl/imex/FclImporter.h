@@ -31,7 +31,6 @@ namespace fl {
     class Defuzzifier;
 
     /**
-
       The FclImporter class is an Importer that configures an Engine and its
       components utilizing the Fuzzy Control Language specification.
 
@@ -39,7 +38,6 @@ namespace fl {
       @see FclExporter
       @see Importer
       @since 4.0
-
      */
     class FL_API FclImporter : public Importer {
     public:

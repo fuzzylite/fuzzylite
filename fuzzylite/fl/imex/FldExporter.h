@@ -26,7 +26,6 @@ namespace fl {
     class OutputVariable;
 
     /**
-
       The FldExporter class is an Exporter that evaluates an Engine and exports
       its input values and output values to the FuzzyLite Dataset (FLD) format,
       see [http://www.fuzzylite.com/fll-fld](http://www.fuzzylite.com/fll-fld)
@@ -36,7 +35,6 @@ namespace fl {
       @see FllExporter
       @see Exporter
       @since 4.0
-
      */
     class FL_API FldExporter : public Exporter {
     private:
@@ -121,14 +119,12 @@ namespace fl {
           engine will be `const_cast`ed to achieve so; that is, despite being
           marked as `const`, the engine will be modified in order to compute
           the output values based on the input values.
-
           @param engine is the engine to export
           @return a FuzzyLite Dataset from the engine
          */
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
         /**
           Returns a FuzzyLite Dataset from the engine.
-
           @param engine is the engine to export
           @param values is the number of values to export
           @param scope indicates the scope of the values
@@ -138,7 +134,6 @@ namespace fl {
 
         /**
           Returns a FuzzyLite Dataset from the engine.
-
           @param engine is the engine to export
           @param values is the number of values to export
           @param scope indicates the scope of the values
@@ -151,7 +146,6 @@ namespace fl {
                 const std::vector<InputVariable*>& activeVariables) const;
         /**
           Returns a FuzzyLite Dataset from the engine.
-
           @param engine is the engine to export
           @param reader is the reader of a set of lines containing space-separated
           input values
@@ -196,7 +190,7 @@ namespace fl {
           @param x is a space-separated set of values
           @return a vector of values
          */
-        virtual std::vector<scalar> parse(const std::string& x) const;
+        virtual std::vector<scalar> parse(const std::string& values) const;
 
         /**
           Writes the engine into the given writer

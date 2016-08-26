@@ -24,7 +24,6 @@ namespace fl {
     class Engine;
 
     /**
-
       The Importer class is the abstract class for importers to configure an
       Engine and its components from different text formats.
 
@@ -33,7 +32,6 @@ namespace fl {
       @author Juan Rada-Vilela, Ph.D.
       @see Exporter
       @since 4.0
-
      */
     class FL_API Importer {
     public:
