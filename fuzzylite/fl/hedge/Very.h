@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The Very class is a Hedge located fourth in the ordered set
       (Not, Seldom, Somewhat, Very, Extremely, Any).
 
@@ -29,12 +28,10 @@ namespace fl {
       @see Hedge
       @see HedgeFactory
       @since 4.0
-
      */
     class FL_API Very : public Hedge {
     public:
         std::string name() const FL_IOVERRIDE;
-
 
         Complexity complexity() const FL_IOVERRIDE;
 

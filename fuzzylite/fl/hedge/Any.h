@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The Any class is a special Hedge that always returns `1.0`. Its
       position with respect to the other hedges is last in the ordered set
       (Not, Seldom, Somewhat, Very, Extremely, Any). The Antecedent of a Rule
@@ -33,7 +32,6 @@ namespace fl {
       @see Hedge
       @see HedgeFactory
       @since 4.0
-
      */
     class FL_API Any : public Hedge {
     public:

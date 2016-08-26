@@ -23,7 +23,6 @@
 namespace fl {
 
     /**
-
      The HedgeFunction class is a customizable Hedge via Function, which
      computes any function based on the @f$x@f$ value. This hedge is not
      registered with the HedgeFactory due to issues configuring the formula
@@ -36,7 +35,6 @@ namespace fl {
      @see Hedge
      @see HedgeFactory
      @since 6.0
-
      */
 
     class FL_API HedgeFunction : public Hedge {
@@ -47,18 +45,18 @@ namespace fl {
 
         std::string name() const FL_IOVERRIDE;
 
-        /*
+        /**
           Returns the reference to the Function
           @return the reference to the Function
          */
         Function& function();
 
-        /*
+        /**
           Loads the function with the given formula
           @param formula is a valid formula in infix notation
          */
         void setFormula(const std::string& formula);
-        /*
+        /**
           Returns the formula loaded into the function
           @return the formula loaded into the function
          */

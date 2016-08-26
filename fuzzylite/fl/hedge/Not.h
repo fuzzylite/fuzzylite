@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The Not class is a Hedge located first in the ordered set
       (Not, Seldom, Somewhat, Very, Extremely, Any).
 
@@ -29,7 +28,6 @@ namespace fl {
       @see Hedge
       @see HedgeFactory
       @since 4.0
-
      */
     class FL_API Not : public Hedge {
     public:

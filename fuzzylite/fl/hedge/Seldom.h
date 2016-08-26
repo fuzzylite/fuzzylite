@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The Seldom class is a Hedge located second in the ordered set
       (Not, Seldom, Somewhat, Very, Extremely, Any).
 
@@ -29,12 +28,10 @@ namespace fl {
       @see Hedge
       @see HedgeFactory
       @since 4.0
-
      */
     class FL_API Seldom : public Hedge {
     public:
         std::string name() const FL_IOVERRIDE;
-
 
         Complexity complexity() const FL_IOVERRIDE;
 
@@ -48,7 +45,6 @@ namespace fl {
           \end{cases}
           @f$
          */
-
         scalar hedge(scalar x) const FL_IOVERRIDE;
         Seldom* clone() const FL_IOVERRIDE;
 

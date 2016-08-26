@@ -25,7 +25,6 @@
 namespace fl {
 
     /**
-
       The Hedge class is the abstract class for hedges. Hedges are utilized
       within the Antecedent and Consequent of a Rule in order to modify the
       membership function of a linguistic Term.
@@ -36,7 +35,6 @@ namespace fl {
       @see Rule
       @see HedgeFactory
       @since 4.0
-
      */
     class FL_API Hedge {
     public:
@@ -67,6 +65,7 @@ namespace fl {
         virtual scalar hedge(scalar x) const = 0;
 
         /**
+          Creates a clone of the hedge
           @return a clone of the hedge.
          */
         virtual Hedge* clone() const = 0;
