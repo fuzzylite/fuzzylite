@@ -23,7 +23,6 @@
 namespace fl {
 
     /**
-
       The FunctionFactory class is a CloningFactory of operators and functions
       utilized by the Function term.
 
@@ -33,7 +32,6 @@ namespace fl {
       @see CloningFactory
       @see FactoryManager
       @since 5.0
-
      */
     class FL_API FunctionFactory : public CloningFactory<Function::Element*> {
     private:

@@ -23,7 +23,6 @@
 namespace fl {
 
     /**
-
       The TNormFactory class is a ConstructionFactory of TNorm%s.
 
       @author Juan Rada-Vilela, Ph.D.
@@ -31,7 +30,6 @@ namespace fl {
       @see ConstructionFactory
       @see FactoryManager
       @since 4.0
-
      */
     class FL_API TNormFactory : public ConstructionFactory<TNorm*> {
     public:

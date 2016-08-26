@@ -23,7 +23,6 @@
 namespace fl {
 
     /**
-
       The SNormFactory class is a ConstructionFactory of SNorm%s.
 
       @author Juan Rada-Vilela, Ph.D.
@@ -31,7 +30,6 @@ namespace fl {
       @see ConstructionFactory
       @see FactoryManager
       @since 4.0
-
      */
     class FL_API SNormFactory : public ConstructionFactory<SNorm*> {
     public:

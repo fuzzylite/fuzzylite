@@ -23,7 +23,6 @@
 namespace fl {
 
     /**
-
       The HedgeFactory class is a ConstructionFactory of Hedge%s.
 
       @author Juan Rada-Vilela, Ph.D.
@@ -31,7 +30,6 @@ namespace fl {
       @see ConstructionFactory
       @see FactoryManager
       @since 4.0
-
      */
     class FL_API HedgeFactory : public ConstructionFactory<Hedge*> {
     public:

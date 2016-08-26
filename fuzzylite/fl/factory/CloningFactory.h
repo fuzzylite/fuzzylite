@@ -25,14 +25,14 @@
 namespace fl {
 
     /**
-
-      The CloningFactory< T > class is the base class for a factory whose objects
+      The CloningFactory class is the base class for a factory whose objects
       are created from a registered object by calling the `clone()` method.
+     
+      @param <T> is the class of the object to be cloned
 
       @author Juan Rada-Vilela, Ph.D.
       @see FactoryManager
       @since 5.0
-
      */
 
     template <typename T>

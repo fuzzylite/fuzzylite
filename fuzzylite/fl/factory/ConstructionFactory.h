@@ -25,24 +25,20 @@
 namespace fl {
 
     /**
-
-      The ConstructionFactory< T > class is the base class for a factory whose
+      The ConstructionFactory class is the base class for a factory whose
       objects are created from a registered ConstructionFactory::Constructor.
 
       @author Juan Rada-Vilela, Ph.D.
       @see FactoryManager
       @since 5.0
-
      */
 
     template <typename T>
     class ConstructionFactory {
     public:
         /**
-
           The Constructor type definition refers to a zero-parameter method
           which returns an instance of T
-
          */
         typedef T(*Constructor)();
 
@@ -68,12 +64,12 @@ namespace fl {
          */
         virtual void registerConstructor(const std::string& key, Constructor constructor);
         /**
-          Deregisters the given constructor from the factory
+          Deregisters from the factory the constructor associated to the given key
           @param key is the unique name by which constructors are registered
          */
         virtual void deregisterConstructor(const std::string& key);
         /**
-          Checks whether the factory has the given constructor registered
+          Checks whether the factory has a constructor registered by the given key
           @param key is the unique name by which constructors are registered
           @return whether the factory has the given constructor registered
          */
@@ -85,14 +81,14 @@ namespace fl {
          */
         virtual Constructor getConstructor(const std::string& key) const;
         /**
-          Creates an object by executing the registered constructor
+          Creates an object by executing the constructor associated to the given key
           @param key is the unique name by which constructors are registered
-          @return an object by executing the registered constructor
+          @return an object by executing the constructor associated to the given key
          */
         virtual T constructObject(const std::string& key) const;
         /**
-          Returns a vector of the constructors available
-          @return a vector of the constructors available
+          Returns a vector of keys for the constructors available
+          @return a vector of keys for the constructors available
          */
         virtual std::vector<std::string> available() const;
         /**

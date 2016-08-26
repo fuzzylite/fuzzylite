@@ -29,7 +29,6 @@
 namespace fl {
 
     /**
-
       The FactoryManager class is a central class grouping different factories
       of objects, together with a singleton instance to access each of the
       factories throughout the library.
@@ -44,7 +43,6 @@ namespace fl {
       @see DefuzzifierFactory
       @see FunctionFactory
       @since 4.0
-
      */
     class FL_API FactoryManager {
     private:

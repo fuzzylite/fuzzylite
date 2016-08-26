@@ -24,7 +24,6 @@
 namespace fl {
 
     /**
-
       The TermFactory class is a ConstructionFactory of Term%s.
 
       @author Juan Rada-Vilela, Ph.D.
@@ -32,7 +31,6 @@ namespace fl {
       @see ConstructionFactory
       @see FactoryManager
       @since 4.0
-
      */
     class FL_API TermFactory : public ConstructionFactory<Term*> {
     public:
