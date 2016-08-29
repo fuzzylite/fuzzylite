@@ -24,7 +24,6 @@
 namespace fl {
 
     /*
-
      The SNormFunction class is a customizable SNorm via Function, which
      computes any function based on the @f$a@f$ and @f$b@f$ values.
      This SNorm is not registered with the SNormFactory due to issues configuring
@@ -37,7 +36,6 @@ namespace fl {
      @see Norm
      @see SNormFactory
      @since 6.0
-
      */
 
     class FL_API SNormFunction : public SNorm {
@@ -46,18 +44,18 @@ namespace fl {
     public:
         explicit SNormFunction(const std::string& formula = "");
 
-        /*
+        /**
         Returns the reference to the Function
         @return the reference to the Function
          */
         Function& function();
 
-        /*
+        /**
           Loads the function with the given formula
           @param formula is a valid formula in infix notation
          */
         void setFormula(const std::string& formula);
-        /*
+        /**
           Returns the formula loaded into the function
           @return the formula loaded into the function
          */

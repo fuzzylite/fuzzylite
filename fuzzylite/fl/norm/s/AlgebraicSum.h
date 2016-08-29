@@ -21,7 +21,6 @@ fuzzylite® is a registered trademark of FuzzyLite Limited.
 namespace fl {
 
     /**
-
       The AlgebraicSum class is an SNorm that computes the algebraic sum of
       values any two values.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see SNormFactory
       @see Norm
       @since 4.0
-
      */
     class FL_API AlgebraicSum : public SNorm {
     public:

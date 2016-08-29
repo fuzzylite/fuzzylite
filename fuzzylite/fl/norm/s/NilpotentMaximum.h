@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The NilpotentMaximum class is an SNorm that computes the nilpotent
       maximum of any two values.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see SNormFactory
       @see Norm
       @since 5.0
-
      */
     class FL_API NilpotentMaximum : public SNorm {
     public:

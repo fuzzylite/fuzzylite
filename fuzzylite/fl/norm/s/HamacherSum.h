@@ -21,8 +21,7 @@
 namespace fl {
 
     /**
-
-      The HamacherSum class is an SNorm that computes the hamacher sum of any
+      The HamacherSum class is an SNorm that computes the Hamacher sum of any
       two values.
 
       @author Juan Rada-Vilela, Ph.D.
@@ -31,7 +30,6 @@ namespace fl {
       @see SNormFactory
       @see Norm
       @since 4.0
-
      */
     class FL_API HamacherSum : public SNorm {
     public:
@@ -39,7 +37,7 @@ namespace fl {
 
         Complexity complexity() const FL_IOVERRIDE;
         /**
-          Computes the hamacher sum of two membership function values
+          Computes the Hamacher sum of two membership function values
           @param a is a membership function value
           @param b is a membership function value
           @return @f$a+b-(2\times a \times b)/(1-a\times b)@f$

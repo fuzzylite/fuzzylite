@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The SNorm class is the base class for all S-Norms, and it is utilized as
       the disjunction fuzzy logic operator and as the aggregation (or
       `accumulation` in versions 5.0 and earlier) fuzzy logic operator.
@@ -33,7 +32,6 @@ namespace fl {
       @see SNormFactory
       @see Norm
       @since 4.0
-
      */
     class FL_API SNorm : public Norm {
     public:

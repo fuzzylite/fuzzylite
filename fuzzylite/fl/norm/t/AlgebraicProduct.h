@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The AlgebraicProduct class is a TNorm that computes the algebraic product
       of any two values.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see TNormFactory
       @see Norm
       @since 4.0
-
      */
     class FL_API AlgebraicProduct : public TNorm {
     public:

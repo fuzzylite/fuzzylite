@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The NormalizedSum class is an SNorm that computes the normalized sum of
       any two values.
 
@@ -30,7 +29,6 @@ namespace fl {
       @see SNormFactory
       @see Norm
       @since 4.0
-
      */
     class FL_API NormalizedSum : public SNorm {
     public:

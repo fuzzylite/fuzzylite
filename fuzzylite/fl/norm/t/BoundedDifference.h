@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The BoundedDifference class is a TNorm that computes the bounded
       difference between any two values.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see TNormFactory
       @see Norm
       @since 4.0
-
      */
     class FL_API BoundedDifference : public TNorm {
     public:

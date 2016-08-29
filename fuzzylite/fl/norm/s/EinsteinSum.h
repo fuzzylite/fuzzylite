@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The EinsteinSum class is an SNorm that computes the einstein sum of any
       two values.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see SNormFactory
       @see Norm
       @since 4.0
-
      */
     class FL_API EinsteinSum : public SNorm {
     public:
@@ -39,7 +37,7 @@ namespace fl {
 
         Complexity complexity() const FL_IOVERRIDE;
         /**
-          Computes the einstein sum of two membership function values
+          Computes the Einstein sum of two membership function values
           @param a is a membership function value
           @param b is a membership function value
           @return @f$a+b/(1+a \times b)@f$

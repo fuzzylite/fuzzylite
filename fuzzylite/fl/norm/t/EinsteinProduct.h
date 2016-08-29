@@ -21,8 +21,7 @@
 namespace fl {
 
     /**
-
-      The EinsteinProduct class is a TNorm that computes the einstein product
+      The EinsteinProduct class is a TNorm that computes the Einstein product
       of any two values.
 
       @author Juan Rada-Vilela, Ph.D.
@@ -31,7 +30,6 @@ namespace fl {
       @see TNormFactory
       @see Norm
       @since 4.0
-
      */
     class FL_API EinsteinProduct : public TNorm {
     public:
@@ -39,7 +37,7 @@ namespace fl {
 
         Complexity complexity() const FL_IOVERRIDE;
         /**
-          Computes the einstein product of two membership function values
+          Computes the Einstein product of two membership function values
           @param a is a membership function value
           @param b is a membership function value
           @return @f$(a\times b)/(2-(a+b-a\times b))@f$

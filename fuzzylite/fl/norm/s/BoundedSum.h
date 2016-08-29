@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The BoundedSum class is an SNorm that computes the bounded sum of any two
       values.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see SNormFactory
       @see Norm
       @since 4.0
-
      */
     class FL_API BoundedSum : public SNorm {
     public:

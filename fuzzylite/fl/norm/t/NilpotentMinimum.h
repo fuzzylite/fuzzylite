@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The NilpotentMinimum class is a TNorm that computes the nilpotent minimum
       of any two values.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see TNormFactory
       @see Norm
       @since 5.0
-
      */
     class FL_API NilpotentMinimum : public TNorm {
     public:

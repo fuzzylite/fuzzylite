@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The DrasticProduct class is a TNorm that computes the drastic product of
       any two values.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see TNormFactory
       @see Norm
       @since 4.0
-
      */
     class FL_API DrasticProduct : public TNorm {
     public:

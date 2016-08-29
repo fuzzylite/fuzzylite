@@ -25,7 +25,6 @@
 namespace fl {
 
     /**
-
       The Norm class is the abstract class for norms.
 
       @author Juan Rada-Vilela, Ph.D.
@@ -34,7 +33,6 @@ namespace fl {
       @see TNormFactory
       @see SNormFactory
       @since 4.0
-
      */
     class FL_API Norm {
     public:

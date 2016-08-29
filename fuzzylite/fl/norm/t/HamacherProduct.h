@@ -21,8 +21,7 @@
 namespace fl {
 
     /**
-
-      The HamacherProduct class is a TNorm that computes the hamacher product
+      The HamacherProduct class is a TNorm that computes the Hamacher product
       of any two values.
 
       @author Juan Rada-Vilela, Ph.D.
@@ -31,7 +30,6 @@ namespace fl {
       @see TNormFactory
       @see Norm
       @since 4.0
-
      */
     class FL_API HamacherProduct : public TNorm {
     public:
@@ -39,7 +37,7 @@ namespace fl {
 
         Complexity complexity() const FL_IOVERRIDE;
         /**
-          Computes the hamacher product of two membership function values
+          Computes the Hamacher product of two membership function values
           @param a is a membership function value
           @param b is a membership function value
           @return @f$(a \times b) / (a+b- a \times b)@f$

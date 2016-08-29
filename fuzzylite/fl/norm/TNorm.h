@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The TNorm class is the base class for T-Norms, and it is utilized as the
       conjunction fuzzy logic operator and as the implication (or `activation`
       in versions 5.0 and earlier) fuzzy logic operator.
@@ -32,7 +31,6 @@ namespace fl {
       @see TNormFactory
       @see Norm
       @since 4.0
-
      */
     class FL_API TNorm : public Norm {
     public:
