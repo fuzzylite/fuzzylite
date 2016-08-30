@@ -32,7 +32,6 @@ namespace fl {
     class SNorm;
 
     /**
-
       The Rule class is a conditional statement that contributes to the control
       of an Engine. Each rule consists of an Antecedent and a Consequent, each
       of which comprises propositions in the form `variable is term`. The
@@ -62,7 +61,6 @@ namespace fl {
       @see Hedge
       @see RuleBlock
       @since 4.0
-
      */
     class FL_API Rule {
     private:
@@ -215,7 +213,7 @@ namespace fl {
         virtual std::string toString() const;
 
         /**
-          Indicates if the rule is loaded
+          Indicates whether the rule is loaded
           @return whether the rule is loaded
          */
         virtual bool isLoaded() const;
@@ -241,8 +239,8 @@ namespace fl {
         virtual void load(const std::string& rule, const Engine* engine);
 
         /**
-          Creates a clone of the rule
-          @return a clone of the rule
+          Creates a clone of the rule without the rule being loaded
+          @return a clone of the rule without the rule being loaded
          */
         virtual Rule* clone() const;
 

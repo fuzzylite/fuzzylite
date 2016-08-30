@@ -33,7 +33,6 @@ namespace fl {
     class SNorm;
 
     /**
-
       The RuleBlock class contains a set of Rule%s and fuzzy logic
       operators required to control an Engine.
 
@@ -43,7 +42,6 @@ namespace fl {
       @see Antecedent
       @see Consequent
       @since 4.0
-
      */
     class FL_API RuleBlock {
     private:
@@ -187,11 +185,11 @@ namespace fl {
           Removes the rule at the specified index
           @param index is the index at which the rule will be removed,
           shifting other rules to the left
-          @return
+          @return the rule at the specified index
          */
         virtual Rule* removeRule(std::size_t index);
         /**
-          Provides the number of rules added to the rule block
+          Returns the number of rules added to the rule block
           @return the number of rules added to the rule block
          */
         virtual std::size_t numberOfRules() const;
@@ -210,6 +208,12 @@ namespace fl {
           @return a mutable vector of the rules added to the rule block
          */
         virtual std::vector<Rule*>& rules();
+
+        /**
+          Creates a clone of the rule block without the rules being loaded
+          @return a clone of the rule block without the rules being loaded
+         */
+        virtual RuleBlock* clone() const;
 
     };
 }

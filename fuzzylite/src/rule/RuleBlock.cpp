@@ -215,5 +215,8 @@ namespace fl {
         return this->_rules;
     }
 
+    RuleBlock* RuleBlock::clone() const {
+        return new RuleBlock(*this);
+    }
 
 }

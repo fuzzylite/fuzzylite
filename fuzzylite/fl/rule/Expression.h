@@ -29,7 +29,6 @@ namespace fl {
     class Term;
 
     /**
-
       The Expression class is the base class to build an expression tree.
 
       @author Juan Rada-Vilela, Ph.D.
@@ -37,7 +36,6 @@ namespace fl {
       @see Consequent
       @see Rule
       @since 4.0
-
      */
     class FL_API Expression {
     public:
@@ -60,7 +58,6 @@ namespace fl {
     };
 
     /**
-
       The Proposition class is an Expression that represents a terminal node in
       the expression tree as `variable is [hedge]* term`.
 
@@ -69,7 +66,6 @@ namespace fl {
       @see Consequent
       @see Rule
       @since 4.0
-
      */
     class FL_API Proposition : public Expression {
     public:
@@ -98,7 +94,6 @@ namespace fl {
     };
 
     /**
-
       The Operator class is an Expression that represents a non-terminal node
       in the expression tree as a binary operator (i.e., `and` or `or`) on two
       Expression nodes.
@@ -108,15 +103,14 @@ namespace fl {
       @see Consequent
       @see Rule
       @since 4.0
-
      */
     class FL_API Operator : public Expression {
     public:
         /**Name of the operator*/
         std::string name;
-        /**Expression in the left binary tree*/
+        /**Left expression in the binary tree*/
         Expression* left;
-        /**Expression in the right binary tree*/
+        /**Right expression in the binary tree*/
         Expression* right;
 
         Operator();

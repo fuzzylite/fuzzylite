@@ -30,7 +30,6 @@ namespace fl {
     class Expression;
 
     /**
-
       The Antecedent class is an expression tree that represents and evaluates
       the antecedent of a Rule. The structure of a rule is: `if (antecedent)
       then (consequent)`. The structure of the antecedent of a rule is:
@@ -44,7 +43,6 @@ namespace fl {
       @see Consequent
       @see Rule
       @since 4.0
-
      */
     class FL_API Antecedent {
     private:

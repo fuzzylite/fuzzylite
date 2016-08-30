@@ -30,7 +30,6 @@ namespace fl {
     class TNorm;
 
     /**
-
       The Consequent class is a proposition set that represents and evaluates
       the consequent of a Rule.. The structure of a rule is: `if (antecedent)
       then (consequent)`. The structure of the consequent of a rule is:
@@ -47,6 +46,7 @@ namespace fl {
       @see Rule
       @since 4.0
      */
+
     class FL_API Consequent {
     private:
         std::string _text;
@@ -73,25 +73,23 @@ namespace fl {
          */
         virtual Complexity complexity(const TNorm* implication) const;
         /**
-          Provides an immutable vector of the set of propositions that
-          represent the Consequent of a Rule
-
+          Returns an immutable vector of the propositions that represent the 
+          Consequent of a Rule
           @return an immutable vector of the set of propositions that represent
           the Consequent of a Rule
          */
         virtual const std::vector<Proposition*>& conclusions() const;
 
         /**
-          Provides a mutable vector of the set of propositions that
-          represent the Consequent of a Rule
-
-          @return a mutable vector of the set of propositions that represent
-          the Consequent of a Rule
+          Returns the vector of propositions that represent the Consequent of a 
+          Rule
+          @return the vector of propositions that represent the Consequent of a 
+          Rule
          */
         virtual std::vector<Proposition*>& conclusions();
 
         /**
-          Indicates if the consequent is loaded
+          Indicates whether the consequent is loaded
           @return whether the consequent is loaded
          */
         virtual bool isLoaded();
@@ -103,7 +101,6 @@ namespace fl {
           Loads the consequent with text given from Consequent::getText() and
           uses the engine to identify and retrieve references to the input
           variables and output variables as required
-
           @param engine is the engine from which the rules are part of
          */
         virtual void load(const Engine* engine);
@@ -111,7 +108,6 @@ namespace fl {
           Loads the consequent with the given text and uses the engine to
           identify and retrieve references to the input variables and output
           variables as required
-
           @param consequent is the consequent of the rule in text
           @param engine is the engine from which the rules are part of
          */
@@ -121,7 +117,6 @@ namespace fl {
           Modifies the proposition set according to the activation degree
           (computed in the Antecedent of the Rule) and the implication operator
           (given in the RuleBlock)
-
           @param activationDegree is the activation degree computed in the
           Antecedent of the Rule
           @param implication is the implication operator configured in the
