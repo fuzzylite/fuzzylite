@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The Cosine class is an extended Term that represents the cosine
       membership function.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 5.0
-
      */
 
     class FL_API Cosine : public Term {

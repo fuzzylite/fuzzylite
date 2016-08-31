@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The Gaussian class is an extended Term that represents the %Gaussian
       curve membership function.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 4.0
-
      */
     class FL_API Gaussian : public Term {
     private:

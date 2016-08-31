@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The ZShape class is an edge Term that represents the Z-shaped membership
       function.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 4.0
-
      */
 
     class FL_API ZShape : public Term {

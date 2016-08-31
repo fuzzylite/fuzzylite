@@ -30,7 +30,6 @@ namespace fl {
     class Engine;
 
     /**
-
       The Term class is the abstract class for linguistic terms. The linguistic
       terms in this library can be divided in four groups as: `basic`,
       `extended`, `edge`, and `function`. The `basic` terms are Triangle,
@@ -52,7 +51,6 @@ namespace fl {
       @see InputVariable
       @see OutputVariable
       @since 4.0
-
      */
     class FL_API Term {
     private:
@@ -104,7 +102,6 @@ namespace fl {
           separated by spaces. If there is one additional parameter, the
           parameter will be considered as the height of the term; otherwise,
           the height will be set to @f$1.0@f$
-
           @return the parameters to configure the term (@see Term::configure())
          */
         virtual std::string parameters() const = 0;
@@ -113,7 +110,6 @@ namespace fl {
           separated by spaces. If there is one additional parameter, the
           parameter will be considered as the height of the term; otherwise,
           the height will be set to @f$1.0@f$
-
           @param parameters is the parameters to configure the term
          */
         virtual void configure(const std::string& parameters) = 0;
@@ -140,6 +136,7 @@ namespace fl {
         /**
           Updates the references (if any) to point to the current engine (useful
           when cloning engines or creating terms within Importer objects
+          @param engine is the engine to which this term belongs to
          */
         virtual void updateReference(const Engine* engine);
     };

@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The Trapezoid class is a basic Term that represents the trapezoidal
       membership function.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 4.0
-
      */
     class FL_API Trapezoid : public Term {
     private:

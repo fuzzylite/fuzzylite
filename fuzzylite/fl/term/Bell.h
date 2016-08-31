@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The Bell class is an extended Term that represents the generalized bell
       curve membership function.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 4.0
-
      */
     class FL_API Bell : public Term {
     private:

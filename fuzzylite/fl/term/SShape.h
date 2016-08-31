@@ -22,7 +22,6 @@
 namespace fl {
 
     /**
-
       The SShape class is an edge Term that represents the S-shaped membership
       function.
 
@@ -32,7 +31,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 4.0
-
      */
     class FL_API SShape : public Term {
     private:

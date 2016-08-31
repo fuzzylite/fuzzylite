@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The GaussianProduct class is an extended Term that represents the
       two-sided %Gaussian membership function.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 4.0
-
      */
     class FL_API GaussianProduct : public Term {
     private:
@@ -99,9 +97,9 @@ namespace fl {
 
         /**
           Sets the standard deviation of the first %Gaussian curve
-          @param sigmaA is the standard deviation of the first %Gaussian curve
+          @param standardDeviationA is the standard deviation of the first %Gaussian curve
          */
-        virtual void setStandardDeviationA(scalar sigmaA);
+        virtual void setStandardDeviationA(scalar standardDeviationA);
         /**
           Gets the standard deviation of the first %Gaussian curve
           @return the standard deviation of the first %Gaussian curve
@@ -121,9 +119,9 @@ namespace fl {
 
         /**
           Sets the standard deviation of the second %Gaussian curve
-          @param sigmaB is the standard deviation of the second %Gaussian curve
+          @param standardDeviationB is the standard deviation of the second %Gaussian curve
          */
-        virtual void setStandardDeviationB(scalar sigmaB);
+        virtual void setStandardDeviationB(scalar standardDeviationB);
         /**
           Gets the standard deviation of the second %Gaussian curve
           @return the standard deviation of the second %Gaussian curve

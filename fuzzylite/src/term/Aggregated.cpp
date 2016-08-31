@@ -228,6 +228,10 @@ namespace fl {
         return _terms.at(index);
     }
 
+    void Aggregated::setTerms(const std::vector<Activated>& terms) {
+        this->_terms = terms;
+    }
+
     const std::vector<Activated>& Aggregated::terms() const {
         return this->_terms;
     }

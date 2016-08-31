@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The Constant class is a (zero) polynomial Term that represents a constant
       value @f$ f(x) = k @f$
 
@@ -29,7 +28,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 4.0
-
      */
     class FL_API Constant : public Term {
     private:

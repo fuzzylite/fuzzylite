@@ -88,8 +88,8 @@ namespace fl {
     }
 
     Binary::Direction Binary::direction() const {
-        if (getDirection() == fl::inf) return Positive;
-        if (getDirection() == -fl::inf) return Negative;
+        if (this->_direction == fl::inf) return Positive;
+        if (this->_direction == -fl::inf) return Negative;
         return Undefined;
     }
 

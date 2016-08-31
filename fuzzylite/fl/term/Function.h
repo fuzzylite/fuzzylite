@@ -26,7 +26,6 @@ namespace fl {
     class Engine;
 
     /**
-
       The Function class is a polynomial Term that represents a generic
       function @f$ f : x \mapsto f(x) @f$. Every Function object has a public
       key-value map, namely Function::variables, that links variable names to
@@ -56,7 +55,6 @@ namespace fl {
       @see FunctionFactory
       @see Antecedent::load()
       @since 4.0
-
      */
     class FL_API Function : public Term {
     public:
@@ -64,14 +62,12 @@ namespace fl {
         typedef scalar(*Binary)(scalar, scalar);
 
         /**
-
           The Element class represents a single element in a formula, be that
           either a function or an operator. If the Element represents a
           function, the function can be Unary or Binary, that is, the function
           take one or two parameters (respectively). Else, if the Element
           represents an operator, the parameters to be defined are its `arity`,
           its `precedence`, and its `associativity`.
-
          */
         struct FL_API Element {
 
@@ -81,25 +77,25 @@ namespace fl {
             enum Type {
                 Operator, Function
             };
-            /**Name of the element**/
+            /**Name of the element*/
             std::string name;
-            /**Description of the element**/
+            /**Description of the element*/
             std::string description;
-            /**Type of the element**/
+            /**Type of the element*/
             Type type;
-            /**Pointer to unary method**/
+            /**Pointer to unary method*/
             Unary unary;
-            /**Pointer to binary method**/
+            /**Pointer to binary method*/
             Binary binary;
-            /**Number of operands required**/
+            /**Number of operands required*/
             int arity;
             /**Precedence of the element: clarifies which procedures should be
               performed first in a given mathematical expression
-              (https://en.wikipedia.org/wiki/Order_of_operations)**/
+              (https://en.wikipedia.org/wiki/Order_of_operations)*/
             int precedence;
             /**Associativity of the element: determines how operators of the
               same precedence are grouped in the absence of parentheses
-              (https://en.wikipedia.org/wiki/Operator_associativity)**/
+              (https://en.wikipedia.org/wiki/Operator_associativity)*/
             int associativity;
             Element(const std::string& name, const std::string& description, Type type);
             Element(const std::string& name, const std::string& description,
@@ -134,23 +130,21 @@ namespace fl {
         };
 
         /**
-
           The Node class structures a binary tree by storing pointers to a left
           Node and a right Node, and storing its content as a
           Function::Element, the name of an InputVariable or OutputVariable, or
           a constant value.
-
          */
         struct FL_API Node {
-            /**The node takes an operation or a function**/
+            /**The node takes an operation or a function*/
             FL_unique_ptr<Element> element;
-            /**The node can have an expression tree on the left**/
+            /**The node can have an expression tree on the left*/
             FL_unique_ptr<Node> left;
-            /**The node can have an expression tree on the right**/
+            /**The node can have an expression tree on the right*/
             FL_unique_ptr<Node> right;
-            /**The node can refer to a variable by name**/
+            /**The node can refer to a variable by name*/
             std::string variable;
-            /**The node can take an arbitrary floating-point value**/
+            /**The node can take an arbitrary floating-point value*/
             scalar value;
 
             explicit Node(Element* element, Node* left = fl::null, Node* right = fl::null);
@@ -171,7 +165,6 @@ namespace fl {
 
               @return a fl::scalar indicating the result of the evaluation of
               the node
-
              */
             virtual scalar evaluate(const std::map<std::string, scalar>*
                     variables = fl::null) const;

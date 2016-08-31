@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The Ramp class is an edge Term that represents the ramp membership
       function.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 4.0
-
      */
     class FL_API Ramp : public Term {
     private:
@@ -40,12 +38,12 @@ namespace fl {
     public:
 
         /**
-          Direction is an enumerator that determines the direction of the ramp.
+          Direction is an enumerator that indicates the direction of the ramp.
          */
         enum Direction {
-            /** `(_/)` increases to the right **/ Positive,
-            /** `(--)` slope is zero **/ Zero,
-            /** `(\\_)` increases to the left **/ Negative
+            /** `(_/)` increases to the right */ Positive,
+            /** `(--)` slope is zero */ Zero,
+            /** `(\\_)` increases to the left */ Negative
         };
         explicit Ramp(const std::string& name = "",
                 scalar start = fl::nan,
@@ -117,7 +115,7 @@ namespace fl {
         virtual scalar getEnd() const;
 
         /**
-          Provides the direction of the ramp
+          Returns the direction of the ramp
           @return the direction of the ramp
          */
         virtual Direction direction() const;

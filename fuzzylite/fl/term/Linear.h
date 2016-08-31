@@ -22,7 +22,6 @@ namespace fl {
     class Engine;
 
     /**
-
       The Linear class is a linear polynomial Term expressed as @f$f(x)=
       \mathbf{c}\mathbf{v}+k = \sum_i c_iv_i + k@f$, where variable @f$x@f$ is
       not utilized, @f$\mathbf{v}@f$ is a vector of values from the input
@@ -35,7 +34,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 4.0
-
      */
     class FL_API Linear : public Term {
     private:

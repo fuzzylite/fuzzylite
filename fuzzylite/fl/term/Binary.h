@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The Binary class is an edge Term that represents the binary membership
       function.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 6.0
-
      */
     class FL_API Binary : public Term {
     private:
@@ -40,15 +38,15 @@ namespace fl {
     public:
 
         /**
-         Direction is an enumerator that determines the direction of the
+         Direction is an enumerator that indicates the direction of the
          edge.
          */
         enum Direction {
-            /** `(_|)` increases to the right */
+            /** `(_|)` increases to the right (infinity)*/
             Positive,
             /** `(--)` direction is NaN */
             Undefined,
-            /** `(|_)` increases to the left */
+            /** `(|_)` increases to the left (-infinity)*/
             Negative
         };
 
@@ -121,8 +119,8 @@ namespace fl {
         virtual scalar getDirection() const;
 
         /**
-          Gets the Direction of the binary edge as an enum
-          @return the Direction of the binary edge as an enum
+          Gets the Direction of the binary edge as an enumerator
+          @return the Direction of the binary edge as an enumerator
          */
         virtual Direction direction() const;
 

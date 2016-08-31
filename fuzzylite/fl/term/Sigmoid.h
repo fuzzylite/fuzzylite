@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The Sigmoid class is an edge Term that represents the sigmoid membership
       function.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 4.0
-
      */
     class FL_API Sigmoid : public Term {
     private:
@@ -40,13 +38,13 @@ namespace fl {
     public:
 
         /**
-          Direction is an enumerator that determines the direction of the
+          Direction is an enumerator that indicates the direction of the
           sigmoid.
          */
         enum Direction {
-            /** `(_/)` increases to the right **/ Positive,
-            /** `(--)` slope is zero **/ Zero,
-            /** `(\\_)` increases to the left **/ Negative
+            /** `(_/)` increases to the right */ Positive,
+            /** `(--)` slope is zero */ Zero,
+            /** `(\\_)` increases to the left */ Negative
         };
         explicit Sigmoid(const std::string& name = "",
                 scalar inflection = fl::nan,

@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The Spike class is an extended Term that represents the spike membership
       function.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 5.0
-
      */
     class FL_API Spike : public Term {
     private:

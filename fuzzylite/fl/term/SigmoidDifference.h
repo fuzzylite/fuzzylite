@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The SigmoidDifference class is an extended Term that represents the
       difference between two sigmoidal membership functions.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 4.0
-
      */
     class FL_API SigmoidDifference : public Term {
     private:

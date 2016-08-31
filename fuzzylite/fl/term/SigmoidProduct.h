@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The SigmoidProduct class is an extended Term that represents the product
       of two sigmoidal membership functions.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 4.0
-
      */
     class FL_API SigmoidProduct : public Term {
     private:

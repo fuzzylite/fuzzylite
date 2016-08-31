@@ -28,7 +28,6 @@ namespace fl {
     class TNorm;
 
     /**
-
       The Aggregated class is a special Term that stores a fuzzy set with the
       Activated terms from the Antecedent%s of a Rule, thereby serving mainly
       as the fuzzy output value of the OutputVariable%s. The ownership of the
@@ -43,7 +42,6 @@ namespace fl {
       @see Activated
       @see Term
       @since 6.0
-
      */
     class FL_API Aggregated : public Term {
     private:
@@ -136,7 +134,7 @@ namespace fl {
          */
         virtual void setRange(scalar minimum, scalar maximum);
         /**
-          Provides the magnitude of the range of the fuzzy set,
+          Returns the magnitude of the range of the fuzzy set,
           @return the magnitude of the range of the fuzzy set,
           i.e., `maximum - minimum`
          */
@@ -183,6 +181,12 @@ namespace fl {
           @return the number of activated terms
          */
         virtual std::size_t numberOfTerms() const;
+        
+        /**
+          Sets the activated terms
+          @param terms is the activated terms
+         */
+        virtual void setTerms(const std::vector<Activated>& terms);
         /**
           Returns an immutable vector of activated terms
           @return an immutable vector of activated terms

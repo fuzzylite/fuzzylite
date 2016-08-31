@@ -22,7 +22,6 @@ namespace fl {
     class TNorm;
 
     /**
-
       The Activated class is a special Term that contains pointers to the
       necessary information of a term that has been activated as part of the
       Antecedent of a Rule. The ownership of the pointers is not transferred to
@@ -33,7 +32,6 @@ namespace fl {
       @see OutputVariable
       @see Term
       @since 5.0
-
      */
     class FL_API Activated : public Term {
     private:

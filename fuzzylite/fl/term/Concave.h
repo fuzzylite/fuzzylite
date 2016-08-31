@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The Concave class is an edge Term that represents the concave membership
       function.
 
@@ -31,7 +30,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 5.0
-
      */
     class FL_API Concave : public Term {
     private:

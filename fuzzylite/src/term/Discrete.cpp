@@ -147,7 +147,7 @@ namespace fl {
         this->_xy = toPairs(values);
     }
 
-    void Discrete::setXY(const std::vector<Pair>& pairs) {
+    void Discrete::setXY(const std::vector<Pair>& xy) {
         this->_xy = pairs;
     }
 
@@ -237,11 +237,12 @@ namespace fl {
         return result;
     }
 
-    std::string Discrete::formatXY(const std::vector<Pair>& xy, const std::string& prefix, const std::string& innerSeparator, const std::string& postfix, const std::string& outerSeparator) {
+    std::string Discrete::formatXY(const std::vector<Pair>& xy, const std::string& prefix, 
+            const std::string& innerSeparator, const std::string& suffix, const std::string& outerSeparator) {
         std::ostringstream os;
         for (std::size_t i = 0; i < xy.size(); ++i) {
             os << prefix << Op::str(xy.at(i).first) << innerSeparator
-                    << Op::str(xy.at(i).second) << postfix;
+                    << Op::str(xy.at(i).second) << suffix;
             if (i + 1 < xy.size()) os << outerSeparator;
         }
         return os.str();

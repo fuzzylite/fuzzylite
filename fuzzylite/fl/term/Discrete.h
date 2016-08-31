@@ -26,7 +26,6 @@
 namespace fl {
 
     /**
-
       The Discrete class is a basic Term that represents a discrete membership
       function. The pairs of values in any Discrete term **must** be sorted
       ascendently because the membership function is computed using binary search
@@ -38,7 +37,6 @@ namespace fl {
       @see Term
       @see Variable
       @since 4.0
-
      */
     class FL_API Discrete : public Term {
     public:
@@ -65,14 +63,14 @@ namespace fl {
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
         /**
-         Ascendently sorts the given pairs of values by the @f$x@f$-value,
+         Ascendantly sorts the given pairs of values by the @f$x@f$-value,
          as it is required by the Discrete term.
          @param pairs is a vector of pairs of values in the form @f$(x,y)@f$
          */
         static void sort(std::vector<Pair>& pairs);
 
         /**
-         Ascendently sorts the pairs of values in this Discrete term by the
+         Ascendantly sorts the pairs of values in this Discrete term by the
          @f$x@f$-coordinate
          */
         virtual void sort();
@@ -122,7 +120,7 @@ namespace fl {
         virtual Pair& xy(std::size_t index);
 
         /**
-          Gets a vector containing the @f$x@f$ values
+          Creates, fills and returns a vector containing the @f$x@f$ values
           @return a vector containing the @f$x@f$ values
          */
         virtual std::vector<scalar> x() const;
@@ -140,19 +138,21 @@ namespace fl {
         virtual scalar& x(std::size_t index);
 
         /**
-          Gets a vector containing the @f$y@f$ values
+          Creates, fills and returns a vector containing the @f$y@f$ values
           @return a vector containing the @f$y@f$ values
          */
         virtual std::vector<scalar> y() const;
 
         /**
-        Gets the @f$y@f$ value at the given index
-        @return the @f$y@f$ value at the given index
+          Gets the @f$y@f$ value at the given index
+          @param index is the index
+          @return the @f$y@f$ value at the given index
          */
         virtual scalar y(std::size_t index) const;
 
         /**
           Gets the reference to the @f$y@f$ value at the given index
+          @param index is the index
           @return the reference to the @f$y@f$ value at the given index
          */
         virtual scalar& y(std::size_t index);
@@ -195,7 +195,7 @@ namespace fl {
           @f$(x_i@f$
           @param innerSeparator indicates the separator between
           @f$x@f$ and @f$y@f$, e.g., `,` results in @f$x_i,y_i@f$
-          @param postfix indicates the postfix of a Pair, e.g., `]` results in
+          @param suffix indicates the postfix of a Pair, e.g., `]` results in
           @f$y_i]@f$
           @param outerSeparator indicates the separator between Pair, e.g.,
           `;` results in @f$(x_i,y_i);(x_j,y_j)@f$
@@ -203,7 +203,7 @@ namespace fl {
          */
         static std::string formatXY(const std::vector<Pair>& xy,
                 const std::string& prefix = "(", const std::string& innerSeparator = ",",
-                const std::string& postfix = ")", const std::string& outerSeparator = " ");
+                const std::string& suffix = ")", const std::string& outerSeparator = " ");
 
         /**
           Discretizes the given term
