@@ -27,7 +27,6 @@ namespace fl {
     class Term;
 
     /**
-
       The Variable class is the base class for linguistic variables.
 
       @author Juan Rada-Vilela, Ph.D.
@@ -35,7 +34,6 @@ namespace fl {
       @see OutputVariable
       @see Term
       @since 4.0
-
      */
     class FL_API Variable {
     public:
@@ -187,6 +185,7 @@ namespace fl {
           Evaluates the membership function of value @f$x@f$ for each
           term @f$i@f$, resulting in a fuzzy value in the form
           @f$\tilde{x}=\sum_i{\mu_i(x)/i}@f$
+          @param x is the value to fuzzify
           @return the fuzzy value expressed as @f$\sum_i{\mu_i(x)/i}@f$
          */
         virtual std::string fuzzify(scalar x) const;
@@ -197,7 +196,7 @@ namespace fl {
           @param x is the value of interest
           @param[out] yhighest is a pointer where the highest membership
           function value will be stored
-          @return the term @f$if@f$ which maximimizes @f$\mu_i(x)@f$
+          @return the term @f$i@f$ which maximimizes @f$\mu_i(x)@f$
          */
         virtual Term* highestMembership(scalar x, scalar* yhighest = fl::null) const;
 
@@ -277,6 +276,7 @@ namespace fl {
         virtual std::vector<Term*>& terms();
         /**
           Creates a clone of the variable
+          @return a clone of the variable
          */
         virtual Variable* clone() const;
     };

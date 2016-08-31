@@ -26,7 +26,6 @@
 namespace fl {
 
     /**
-
       The OutputVariable class is a Variable that represents an output of the
       fuzzy logic controller. During the activation of a RuleBlock, the
       Activated terms of each Rule will be Aggregated in the
@@ -69,7 +68,7 @@ namespace fl {
           @f$y=-1.0@f$ if the result from the Defuzzifier is smaller than
           `-1.0`, and @f$y=1.0@f$ if the result from the Defuzzifier is greater
           than `1.0`. The property `lock-range` was introduced in version 5.0
-          to substitue the property `lock-valid` in version 4.0. By default,
+          to substitute the property `lock-valid` in version 4.0. By default,
           `lock-range: false`. Relevant methods are
           Variable::lockValueInRange(), Variable::isLockValueInRange(),
           Variable::getMinimum(), and Variable::getMaximum()
@@ -81,7 +80,6 @@ namespace fl {
       @see RuleBlock::activate()
       @see Term
       @since 4.0
-
      */
     class FL_API OutputVariable : public Variable {
     private:
@@ -150,7 +148,6 @@ namespace fl {
           Sets whether to lock the previous value of the output variable
           @param lockPreviousValue indicates whether to lock the previous value
           of the output variable
-
          */
         virtual void setLockPreviousValue(bool lockPreviousValue);
         /**

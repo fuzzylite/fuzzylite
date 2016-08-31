@@ -21,7 +21,6 @@
 namespace fl {
 
     /**
-
       The InputVariable class is a Variable that represents an input of the
       fuzzy logic controller.
 
@@ -30,7 +29,6 @@ namespace fl {
       @see OutputVariable
       @see Term
       @since 4.0
-
      */
     class FL_API InputVariable : public Variable {
     public:

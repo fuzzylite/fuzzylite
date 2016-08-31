@@ -191,7 +191,7 @@ namespace fl {
 
     typedef std::pair<Term*, scalar> TermCentroid;
 
-    struct TermCentroidComparatorAscending {
+    struct Ascendantly {
 
         bool operator()(const TermCentroid& a, const TermCentroid& b) const {
             return a.second > b.second;
@@ -199,8 +199,7 @@ namespace fl {
     };
 
     void Variable::sort() {
-        std::priority_queue <TermCentroid, std::vector<TermCentroid>,
-                TermCentroidComparatorAscending> termCentroids;
+        std::priority_queue <TermCentroid, std::vector<TermCentroid>, Ascendantly> termCentroids;
         Centroid defuzzifier;
         FL_DBG("Sorting...");
         for (std::size_t i = 0; i < _terms.size(); ++i) {
