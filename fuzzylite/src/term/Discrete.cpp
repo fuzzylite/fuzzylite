@@ -80,47 +80,6 @@ namespace fl {
                 lowerBound->second, upperBound->second);
     }
 
-    /* //Membership without binary search. Computational cost: O(n)
-    scalar Discrete::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
-        if (_xy.empty())
-            throw Exception("[discrete error] term is empty", FL_AT);
-
-                        ______________________
-                       /                      \
-                      /                        \
-         ____________/                          \____________
-                    x[0]                      x[n-1]
-
-
-        if (Op::isLE(x, _xy.front().first))
-            return Term::_height * _xy.front().second;
-        if (Op::isGE(x, _xy.back().first))
-            return Term::_height * _xy.back().second;
-
-        std::ptrdiff_t lower = -1, upper = -1;
-
-        for (std::size_t i = 0; i < _xy.size(); ++i) {
-            const Pair& pair = _xy.at(i);
-            if (Op::isEq(pair.first, x))
-                return Term::_height * pair.second;
-            //approximate on the left
-            if (Op::isLt(pair.first, x)) {
-                lower = i;
-            }
-            //get the immediate next one on the right
-            if (Op::isGt(pair.first, x)) {
-                upper = i;
-                break;
-            }
-        }
-        if (upper < 0) upper = _xy.size() - 1;
-        if (lower < 0) lower = 0;
-
-        return Term::_height * Op::scale(x, _xy.at(lower).first, _xy.at(upper).first,
-                _xy.at(lower).second, _xy.at(upper).second);
-    }
-     */
     std::string Discrete::parameters() const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < _xy.size(); ++i) {
@@ -148,7 +107,7 @@ namespace fl {
     }
 
     void Discrete::setXY(const std::vector<Pair>& xy) {
-        this->_xy = pairs;
+        this->_xy = xy;
     }
 
     const std::vector<Discrete::Pair>& Discrete::xy() const {
@@ -237,7 +196,7 @@ namespace fl {
         return result;
     }
 
-    std::string Discrete::formatXY(const std::vector<Pair>& xy, const std::string& prefix, 
+    std::string Discrete::formatXY(const std::vector<Pair>& xy, const std::string& prefix,
             const std::string& innerSeparator, const std::string& suffix, const std::string& outerSeparator) {
         std::ostringstream os;
         for (std::size_t i = 0; i < xy.size(); ++i) {
