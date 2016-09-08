@@ -845,7 +845,7 @@ EXAMPLE_PATH           = examples/mamdani examples/takagi-sugeno examples/tsukam
 # *.h) to filter out the source-files in the directories. If left blank all
 # files are included.
 
-EXAMPLE_PATTERNS       = *.fll *.fld *.cpp *.java *.fis *.fcl
+EXAMPLE_PATTERNS       = *.fll *.fld *.cpp *.java *.fis *.fcl *.R
 
 # If the EXAMPLE_RECURSIVE tag is set to YES then subdirectories will be
 # searched for input files to be used with the \include or \dontinclude commands
@@ -1208,7 +1208,7 @@ DOCSET_BUNDLE_ID       = com.fuzzylite
 # The default value is: org.doxygen.Publisher.
 # This tag requires that the tag GENERATE_DOCSET is set to YES.
 
-DOCSET_PUBLISHER_ID    = com.fuzzylite.cpp.documentation
+DOCSET_PUBLISHER_ID    = com.fuzzylite.documentation
 
 # The DOCSET_PUBLISHER_NAME tag identifies the documentation publisher.
 # The default value is: Publisher.
@@ -1358,7 +1358,7 @@ GENERATE_ECLIPSEHELP   = NO
 # The default value is: org.doxygen.Project.
 # This tag requires that the tag GENERATE_ECLIPSEHELP is set to YES.
 
-ECLIPSE_DOC_ID         = com.fuzzylite.cpp.documentation
+ECLIPSE_DOC_ID         = com.fuzzylite.documentation
 
 # If you want full control over the layout of the generated HTML pages it might
 # be necessary to disable the index and replace it with your own. The

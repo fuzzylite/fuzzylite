@@ -187,7 +187,7 @@ namespace fl {
 
         /**
           Parses the string into a vector of values unless the string starts with `#`
-          @param x is a space-separated set of values
+          @param values is a space-separated set of values
           @return a vector of values
          */
         virtual std::vector<scalar> parse(const std::string& values) const;
