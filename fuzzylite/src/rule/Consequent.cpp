@@ -32,8 +32,7 @@
 
 namespace fl {
 
-    Consequent::Consequent() {
-    }
+    Consequent::Consequent() { }
 
     Consequent::~Consequent() {
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {

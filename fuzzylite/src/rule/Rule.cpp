@@ -31,13 +31,11 @@ namespace fl {
 
     Rule::Rule(const std::string& text, scalar weight)
     : _text(text), _weight(weight), _antecedent(new Antecedent), _consequent(new Consequent),
-    _activationDegree(0.0), _activated(false) {
-    }
+    _activationDegree(0.0), _activated(false) { }
 
     Rule::Rule(const Rule& other) : _text(other._text), _weight(other._weight),
     _antecedent(new Antecedent), _consequent(new Consequent),
-    _activationDegree(other._activationDegree), _activated(other._activated) {
-    }
+    _activationDegree(other._activationDegree), _activated(other._activated) { }
 
     Rule& Rule::operator=(const Rule& other) {
         if (this != &other) {
@@ -216,9 +214,11 @@ namespace fl {
                         }
                         break;
                     case S_END:
+                    {
                         std::ostringstream ex;
                         ex << "[syntax error] unexpected token <" << token << "> at the end of rule";
                         throw Exception(ex.str(), FL_AT);
+                    }
 
                     default:
                         std::ostringstream ex;

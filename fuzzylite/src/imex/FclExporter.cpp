@@ -13,7 +13,7 @@
 
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
- 
+
 #include "fl/imex/FclExporter.h"
 
 #include "fl/Headers.h"
@@ -22,11 +22,9 @@
 
 namespace fl {
 
-    FclExporter::FclExporter(const std::string& indent) : Exporter(), _indent(indent) {
-    }
+    FclExporter::FclExporter(const std::string& indent) : Exporter(), _indent(indent) { }
 
-    FclExporter::~FclExporter() {
-    }
+    FclExporter::~FclExporter() { }
 
     void FclExporter::setIndent(const std::string& indent) {
         this->_indent = indent;

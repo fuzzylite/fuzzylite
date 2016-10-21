@@ -26,13 +26,9 @@
 namespace fl {
 
     First::First(int numberOfRules, scalar threshold) : Activation(),
-    _numberOfRules(numberOfRules), _threshold(threshold) {
+    _numberOfRules(numberOfRules), _threshold(threshold) { }
 
-    }
-
-    First::~First() {
-
-    }
+    First::~First() { }
 
     std::string First::className() const {
         return "First";

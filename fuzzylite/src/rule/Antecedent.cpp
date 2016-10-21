@@ -37,8 +37,7 @@
 namespace fl {
 
     Antecedent::Antecedent()
-    : _text(""), _expression(fl::null) {
-    }
+    : _text(""), _expression(fl::null) { }
 
     Antecedent::~Antecedent() {
         _expression.reset(fl::null);

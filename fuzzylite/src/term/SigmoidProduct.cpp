@@ -21,11 +21,9 @@ namespace fl {
     SigmoidProduct::SigmoidProduct(const std::string& name,
             scalar left, scalar rising,
             scalar falling, scalar right, scalar height)
-    : Term(name, height), _left(left), _rising(rising), _falling(falling), _right(right) {
-    }
+    : Term(name, height), _left(left), _rising(rising), _falling(falling), _right(right) { }
 
-    SigmoidProduct::~SigmoidProduct() {
-    }
+    SigmoidProduct::~SigmoidProduct() { }
 
     std::string SigmoidProduct::className() const {
         return "SigmoidProduct";

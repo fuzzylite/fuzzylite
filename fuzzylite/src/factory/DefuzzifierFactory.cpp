@@ -41,9 +41,7 @@ namespace fl {
         registerConstructor(WeightedSumCustom().className(), &(WeightedSumCustom::constructor));
     }
 
-    DefuzzifierFactory::~DefuzzifierFactory() {
-
-    }
+    DefuzzifierFactory::~DefuzzifierFactory() { }
 
     Defuzzifier* DefuzzifierFactory::constructDefuzzifier(const std::string& key,
             int resolution, WeightedDefuzzifier::Type type) const {

@@ -25,12 +25,9 @@
 
 namespace fl {
 
-    Proportional::Proportional() : Activation() {
-    }
+    Proportional::Proportional() : Activation() { }
 
-    Proportional::~Proportional() {
-
-    }
+    Proportional::~Proportional() { }
 
     std::string Proportional::className() const {
         return "Proportional";

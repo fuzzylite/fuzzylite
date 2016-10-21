@@ -19,11 +19,9 @@
 namespace fl {
 
     Ramp::Ramp(const std::string& name, scalar start, scalar end, scalar height)
-    : Term(name, height), _start(start), _end(end) {
-    }
+    : Term(name, height), _start(start), _end(end) { }
 
-    Ramp::~Ramp() {
-    }
+    Ramp::~Ramp() { }
 
     std::string Ramp::className() const {
         return "Ramp";

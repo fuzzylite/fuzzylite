@@ -26,8 +26,7 @@ namespace fl {
         }
     }
 
-    Triangle::~Triangle() {
-    }
+    Triangle::~Triangle() { }
 
     std::string Triangle::className() const {
         return "Triangle";

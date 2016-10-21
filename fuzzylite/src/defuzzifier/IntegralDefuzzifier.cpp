@@ -29,11 +29,9 @@ namespace fl {
     }
 
     IntegralDefuzzifier::IntegralDefuzzifier(int resolution)
-    : Defuzzifier(), _resolution(resolution) {
-    }
+    : Defuzzifier(), _resolution(resolution) { }
 
-    IntegralDefuzzifier::~IntegralDefuzzifier() {
-    }
+    IntegralDefuzzifier::~IntegralDefuzzifier() { }
 
     void IntegralDefuzzifier::setResolution(int resolution) {
         this->_resolution = resolution;

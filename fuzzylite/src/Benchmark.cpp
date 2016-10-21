@@ -34,13 +34,9 @@
 namespace fl {
 
     Benchmark::Benchmark(const std::string& name, Engine* engine, scalar tolerance)
-    : _name(name), _engine(engine), _tolerance(tolerance) {
+    : _name(name), _engine(engine), _tolerance(tolerance) { }
 
-    }
-
-    Benchmark::~Benchmark() {
-
-    }
+    Benchmark::~Benchmark() { }
 
     void Benchmark::setName(const std::string& name) {
         this->_name = name;

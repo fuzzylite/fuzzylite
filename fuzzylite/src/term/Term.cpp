@@ -22,13 +22,9 @@
 
 namespace fl {
 
-    Term::Term(const std::string& name, scalar height) : _name(name), _height(height) {
+    Term::Term(const std::string& name, scalar height) : _name(name), _height(height) { }
 
-    }
-
-    Term::~Term() {
-
-    }
+    Term::~Term() { }
 
     void Term::setName(const std::string& name) {
         this->_name = name;

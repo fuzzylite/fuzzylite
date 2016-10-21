@@ -22,11 +22,9 @@
 namespace fl {
 
     LargestOfMaximum::LargestOfMaximum(int resolution)
-    : IntegralDefuzzifier(resolution) {
-    }
+    : IntegralDefuzzifier(resolution) { }
 
-    LargestOfMaximum::~LargestOfMaximum() {
-    }
+    LargestOfMaximum::~LargestOfMaximum() { }
 
     std::string LargestOfMaximum::className() const {
         return "LargestOfMaximum";

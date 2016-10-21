@@ -26,11 +26,9 @@ namespace fl {
     Linear::Linear(const std::string& name,
             const std::vector<scalar>& coefficients,
             const Engine* engine)
-    : Term(name), _coefficients(coefficients), _engine(engine) {
-    }
+    : Term(name), _coefficients(coefficients), _engine(engine) { }
 
-    Linear::~Linear() {
-    }
+    Linear::~Linear() { }
 
     std::string Linear::className() const {
         return "Linear";

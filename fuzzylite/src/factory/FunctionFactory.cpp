@@ -25,9 +25,7 @@ namespace fl {
         registerFunctions();
     }
 
-    FunctionFactory::~FunctionFactory() {
-
-    }
+    FunctionFactory::~FunctionFactory() { }
 
     void FunctionFactory::registerOperators() {
         //OPERATORS:

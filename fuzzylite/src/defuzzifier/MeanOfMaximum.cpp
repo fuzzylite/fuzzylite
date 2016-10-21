@@ -22,11 +22,9 @@
 namespace fl {
 
     MeanOfMaximum::MeanOfMaximum(int resolution)
-    : IntegralDefuzzifier(resolution) {
-    }
+    : IntegralDefuzzifier(resolution) { }
 
-    MeanOfMaximum::~MeanOfMaximum() {
-    }
+    MeanOfMaximum::~MeanOfMaximum() { }
 
     std::string MeanOfMaximum::className() const {
         return "MeanOfMaximum";

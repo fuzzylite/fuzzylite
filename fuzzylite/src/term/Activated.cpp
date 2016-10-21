@@ -26,8 +26,7 @@ namespace fl {
         if (term) setName(term->getName());
     }
 
-    Activated::~Activated() {
-    }
+    Activated::~Activated() { }
 
     std::string Activated::className() const {
         return "Activated";

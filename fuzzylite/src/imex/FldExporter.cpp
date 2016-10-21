@@ -30,12 +30,9 @@ namespace fl {
 
     FldExporter::FldExporter(const std::string& separator) : Exporter(),
     _separator(separator), _exportHeaders(true),
-    _exportInputValues(true), _exportOutputValues(true) {
+    _exportInputValues(true), _exportOutputValues(true) { }
 
-    }
-
-    FldExporter::~FldExporter() {
-    }
+    FldExporter::~FldExporter() { }
 
     std::string FldExporter::name() const {
         return "FldExporter";
@@ -205,7 +202,7 @@ namespace fl {
         if (scope == AllVariables)
             resolution = -1 + (int) std::max(1.0, std::pow(
                 values, 1.0 / engine->numberOfInputVariables()));
-        else //if (scope == EachVariable) 
+        else //if (scope == EachVariable)
             resolution = values - 1;
 
         std::vector<int> sampleValues, minSampleValues, maxSampleValues;

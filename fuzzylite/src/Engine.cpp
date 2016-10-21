@@ -42,8 +42,7 @@
 
 namespace fl {
 
-    Engine::Engine(const std::string& name) : _name(name) {
-    }
+    Engine::Engine(const std::string& name) : _name(name) { }
 
     Engine::Engine(const Engine& other) : _name("") {
         copyFrom(other);

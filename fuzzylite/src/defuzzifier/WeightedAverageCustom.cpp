@@ -26,14 +26,11 @@
 
 namespace fl {
 
-    WeightedAverageCustom::WeightedAverageCustom(Type type) : WeightedDefuzzifier(type) {
-    }
+    WeightedAverageCustom::WeightedAverageCustom(Type type) : WeightedDefuzzifier(type) { }
 
-    WeightedAverageCustom::WeightedAverageCustom(const std::string& type) : WeightedDefuzzifier(type) {
-    }
+    WeightedAverageCustom::WeightedAverageCustom(const std::string& type) : WeightedDefuzzifier(type) { }
 
-    WeightedAverageCustom::~WeightedAverageCustom() {
-    }
+    WeightedAverageCustom::~WeightedAverageCustom() { }
 
     std::string WeightedAverageCustom::className() const {
         return "WeightedAverageCustom";

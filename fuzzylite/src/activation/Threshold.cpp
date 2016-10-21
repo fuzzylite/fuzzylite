@@ -24,18 +24,12 @@
 namespace fl {
 
     Threshold::Threshold(Comparison comparison, scalar threshold) : Activation(),
-    _comparison(comparison), _value(threshold) {
-
-    }
+    _comparison(comparison), _value(threshold) { }
 
     Threshold::Threshold(const std::string& comparison, scalar threshold) : Activation(),
-    _comparison(parseComparison(comparison)), _value(threshold) {
+    _comparison(parseComparison(comparison)), _value(threshold) { }
 
-    }
-
-    Threshold::~Threshold() {
-
-    }
+    Threshold::~Threshold() { }
 
     std::string Threshold::className() const {
         return "Threshold";

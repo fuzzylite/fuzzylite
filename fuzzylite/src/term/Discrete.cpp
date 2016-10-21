@@ -21,11 +21,9 @@
 namespace fl {
 
     Discrete::Discrete(const std::string& name, const std::vector<Pair>& xy, scalar height)
-    : Term(name, height), _xy(xy) {
-    }
+    : Term(name, height), _xy(xy) { }
 
-    Discrete::~Discrete() {
-    }
+    Discrete::~Discrete() { }
 
     std::string Discrete::className() const {
         return "Discrete";

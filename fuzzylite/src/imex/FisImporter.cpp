@@ -24,11 +24,9 @@
 
 namespace fl {
 
-    FisImporter::FisImporter() : Importer() {
-    }
+    FisImporter::FisImporter() : Importer() { }
 
-    FisImporter::~FisImporter() {
-    }
+    FisImporter::~FisImporter() { }
 
     std::string FisImporter::name() const {
         return "FisImporter";

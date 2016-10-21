@@ -21,13 +21,9 @@
 
 namespace fl {
 
-    Exporter::Exporter() {
+    Exporter::Exporter() { }
 
-    }
-
-    Exporter::~Exporter() {
-
-    }
+    Exporter::~Exporter() { }
 
     void Exporter::toFile(const std::string& path, const Engine* engine) const {
         std::ofstream writer(path.c_str());

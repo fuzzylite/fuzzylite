@@ -21,11 +21,9 @@
 namespace fl {
 
     FllExporter::FllExporter(const std::string& indent, const std::string& separator)
-    : Exporter(), _indent(indent), _separator(separator) {
-    }
+    : Exporter(), _indent(indent), _separator(separator) { }
 
-    FllExporter::~FllExporter() {
-    }
+    FllExporter::~FllExporter() { }
 
     std::string FllExporter::name() const {
         return "FllExporter";

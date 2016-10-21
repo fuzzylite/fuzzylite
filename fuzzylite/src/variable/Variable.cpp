@@ -30,8 +30,7 @@ namespace fl {
 
     Variable::Variable(const std::string& name, scalar minimum, scalar maximum)
     : _name(name), _value(fl::nan), _minimum(minimum), _maximum(maximum),
-    _enabled(true), _lockValueInRange(false) {
-    }
+    _enabled(true), _lockValueInRange(false) { }
 
     Variable::Variable(const Variable& other) {
         copyFrom(other);

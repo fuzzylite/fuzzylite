@@ -23,11 +23,9 @@
 namespace fl {
 
     CppExporter::CppExporter(bool prefixNamespace, bool usingVariableNames) : Exporter(),
-    _usingNamespace(prefixNamespace), _usingVariableNames(usingVariableNames) {
-    }
+    _usingNamespace(prefixNamespace), _usingVariableNames(usingVariableNames) { }
 
-    CppExporter::~CppExporter() {
-    }
+    CppExporter::~CppExporter() { }
 
     std::string CppExporter::name() const {
         return "CppExporter";

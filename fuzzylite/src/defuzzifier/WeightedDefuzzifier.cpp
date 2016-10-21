@@ -28,9 +28,7 @@
 
 namespace fl {
 
-    WeightedDefuzzifier::WeightedDefuzzifier(Type type) : _type(type) {
-
-    }
+    WeightedDefuzzifier::WeightedDefuzzifier(Type type) : _type(type) { }
 
     WeightedDefuzzifier::WeightedDefuzzifier(const std::string& type) {
         if (type == "Automatic") setType(Automatic);
@@ -43,9 +41,7 @@ namespace fl {
         }
     }
 
-    WeightedDefuzzifier::~WeightedDefuzzifier() {
-
-    }
+    WeightedDefuzzifier::~WeightedDefuzzifier() { }
 
     std::string WeightedDefuzzifier::typeName(Type type) {
         switch (type) {

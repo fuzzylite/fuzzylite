@@ -41,8 +41,6 @@ namespace fl {
         registerConstructor(UnboundedSum().className(), &(UnboundedSum::constructor));
     }
 
-    SNormFactory::~SNormFactory() {
-
-    }
+    SNormFactory::~SNormFactory() { }
 
 }

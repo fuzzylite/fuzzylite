@@ -37,25 +37,19 @@ namespace fl {
 
     Function::Element::Element(const std::string& name, const std::string& description, Type type)
     : name(name), description(description), type(type), unary(fl::null), binary(fl::null), arity(0),
-    precedence(0), associativity(-1) {
-
-    }
+    precedence(0), associativity(-1) { }
 
     Function::Element::Element(const std::string& name, const std::string& description,
             Type type, Unary unary, int precedence, int associativity)
     : name(name), description(description), type(type), unary(unary), binary(fl::null), arity(1),
-    precedence(precedence), associativity(associativity) {
-    }
+    precedence(precedence), associativity(associativity) { }
 
     Function::Element::Element(const std::string& name, const std::string& description,
             Type type, Binary binary, int precedence, int associativity)
     : name(name), description(description), type(type), unary(fl::null), binary(binary), arity(2),
-    precedence(precedence), associativity(associativity) {
-    }
+    precedence(precedence), associativity(associativity) { }
 
-    Function::Element::~Element() {
-
-    }
+    Function::Element::~Element() { }
 
     bool Function::Element::isOperator() const {
         return type == Operator;
@@ -100,16 +94,13 @@ namespace fl {
      ******************************/
 
     Function::Node::Node(Element* element, Node* left, Node* right)
-    : element(element), left(left), right(right), variable(""), value(fl::nan) {
-    }
+    : element(element), left(left), right(right), variable(""), value(fl::nan) { }
 
     Function::Node::Node(const std::string& variable)
-    : element(fl::null), left(fl::null), right(fl::null), variable(variable), value(fl::nan) {
-    }
+    : element(fl::null), left(fl::null), right(fl::null), variable(variable), value(fl::nan) { }
 
     Function::Node::Node(scalar value)
-    : element(fl::null), left(fl::null), right(fl::null), variable(""), value(value) {
-    }
+    : element(fl::null), left(fl::null), right(fl::null), variable(""), value(value) { }
 
     Function::Node::Node(const Node& other)
     : element(fl::null), left(fl::null), right(fl::null), variable(""), value(fl::nan) {
@@ -135,8 +126,7 @@ namespace fl {
         value = other.value;
     }
 
-    Function::Node::~Node() {
-    }
+    Function::Node::~Node() { }
 
     scalar Function::Node::evaluate(const std::map<std::string, scalar>* variables) const {
         scalar result = fl::nan;
@@ -269,8 +259,7 @@ namespace fl {
      **********************************/
     Function::Function(const std::string& name,
             const std::string& formula, const Engine* engine)
-    : Term(name), _root(fl::null), _formula(formula), _engine(engine) {
-    }
+    : Term(name), _root(fl::null), _formula(formula), _engine(engine) { }
 
     Function::Function(const Function& other) : Term(other),
     _root(fl::null), _formula(other._formula), _engine(other._engine) {
@@ -291,8 +280,7 @@ namespace fl {
         return *this;
     }
 
-    Function::~Function() {
-    }
+    Function::~Function() { }
 
     std::string Function::className() const {
         return "Function";

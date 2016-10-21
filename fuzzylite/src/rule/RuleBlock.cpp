@@ -26,8 +26,7 @@
 namespace fl {
 
     RuleBlock::RuleBlock(const std::string& name)
-    : _name(name), _enabled(true) {
-    }
+    : _name(name), _enabled(true) { }
 
     RuleBlock::RuleBlock(const RuleBlock& other) : _name(other._name),
     _enabled(true) {

@@ -23,13 +23,9 @@
 
 namespace fl {
 
-    General::General() : Activation() {
+    General::General() : Activation() { }
 
-    }
-
-    General::~General() {
-
-    }
+    General::~General() { }
 
     std::string General::className() const {
         return "General";

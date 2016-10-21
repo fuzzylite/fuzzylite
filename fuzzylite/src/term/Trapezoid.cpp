@@ -29,8 +29,7 @@ namespace fl {
         }
     }
 
-    Trapezoid::~Trapezoid() {
-    }
+    Trapezoid::~Trapezoid() { }
 
     std::string Trapezoid::className() const {
         return "Trapezoid";

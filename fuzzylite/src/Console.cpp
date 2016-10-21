@@ -48,8 +48,7 @@ namespace fl {
     const std::string Console::KW_DATA_EXPORT_INPUTS = "-dinputs";
 
     Console::Option::Option(const std::string& key, const std::string& value, const std::string& description) :
-    key(key), value(value), description(description) {
-    }
+    key(key), value(value), description(description) { }
 
     std::vector<Console::Option> Console::availableOptions() {
         std::vector<Console::Option> options;

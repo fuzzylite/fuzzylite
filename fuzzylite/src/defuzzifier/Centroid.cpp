@@ -21,12 +21,9 @@
 namespace fl {
 
     Centroid::Centroid(int resolution)
-    : IntegralDefuzzifier(resolution) {
-    }
+    : IntegralDefuzzifier(resolution) { }
 
-    Centroid::~Centroid() {
-
-    }
+    Centroid::~Centroid() { }
 
     std::string Centroid::className() const {
         return "Centroid";

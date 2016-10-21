@@ -20,11 +20,9 @@
 namespace fl {
 
     Binary::Binary(const std::string& name, scalar start, scalar direction, scalar height)
-    : Term(name, height), _start(start), _direction(direction) {
-    }
+    : Term(name, height), _start(start), _direction(direction) { }
 
-    Binary::~Binary() {
-    }
+    Binary::~Binary() { }
 
     std::string Binary::className() const {
         return "Binary";

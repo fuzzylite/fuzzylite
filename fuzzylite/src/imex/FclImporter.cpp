@@ -23,11 +23,9 @@
 
 namespace fl {
 
-    FclImporter::FclImporter() : Importer() {
-    }
+    FclImporter::FclImporter() : Importer() { }
 
-    FclImporter::~FclImporter() {
-    }
+    FclImporter::~FclImporter() { }
 
     std::string FclImporter::name() const {
         return "FclImporter";

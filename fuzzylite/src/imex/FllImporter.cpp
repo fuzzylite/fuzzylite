@@ -23,12 +23,9 @@
 namespace fl {
 
     FllImporter::FllImporter(const std::string& separator) : Importer(),
-    _separator(separator) {
-    }
+    _separator(separator) { }
 
-    FllImporter::~FllImporter() {
-
-    }
+    FllImporter::~FllImporter() { }
 
     std::string FllImporter::name() const {
         return "FllImporter";

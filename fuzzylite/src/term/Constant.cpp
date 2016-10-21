@@ -19,11 +19,9 @@
 namespace fl {
 
     Constant::Constant(const std::string& name, scalar value)
-    : Term(name), _value(value) {
-    }
+    : Term(name), _value(value) { }
 
-    Constant::~Constant() {
-    }
+    Constant::~Constant() { }
 
     std::string Constant::className() const {
         return "Constant";

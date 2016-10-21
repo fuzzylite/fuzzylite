@@ -19,12 +19,9 @@
 namespace fl {
 
     Spike::Spike(const std::string& name, scalar center, scalar width, scalar height)
-    : Term(name, height), _center(center), _width(width) {
-    }
+    : Term(name, height), _center(center), _width(width) { }
 
-    Spike::~Spike() {
-
-    }
+    Spike::~Spike() { }
 
     std::string Spike::className() const {
         return "Spike";

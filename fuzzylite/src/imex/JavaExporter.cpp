@@ -23,12 +23,9 @@
 namespace fl {
 
     JavaExporter::JavaExporter(bool usingVariableNames) : Exporter(),
-    _usingVariableNames(usingVariableNames) {
-    }
+    _usingVariableNames(usingVariableNames) { }
 
-    JavaExporter::~JavaExporter() {
-
-    }
+    JavaExporter::~JavaExporter() { }
 
     std::string JavaExporter::name() const {
         return "JavaExporter";

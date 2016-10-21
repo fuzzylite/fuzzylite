@@ -19,11 +19,9 @@
 namespace fl {
 
     SShape::SShape(const std::string& name, scalar start, scalar end, scalar height)
-    : Term(name, height), _start(start), _end(end) {
-    }
+    : Term(name, height), _start(start), _end(end) { }
 
-    SShape::~SShape() {
-    }
+    SShape::~SShape() { }
 
     std::string SShape::className() const {
         return "SShape";

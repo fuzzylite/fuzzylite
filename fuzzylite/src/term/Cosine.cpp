@@ -19,13 +19,9 @@
 namespace fl {
 
     Cosine::Cosine(const std::string& name, scalar center, scalar width, scalar height)
-    : Term(name, height), _center(center), _width(width) {
+    : Term(name, height), _center(center), _width(width) { }
 
-    }
-
-    Cosine::~Cosine() {
-
-    }
+    Cosine::~Cosine() { }
 
     std::string Cosine::className() const {
         return "Cosine";

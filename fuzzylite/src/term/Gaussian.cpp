@@ -20,11 +20,9 @@ namespace fl {
 
     Gaussian::Gaussian(const std::string& name,
             scalar mean, scalar standardDeviation, scalar height)
-    : Term(name, height), _mean(mean), _standardDeviation(standardDeviation) {
-    }
+    : Term(name, height), _mean(mean), _standardDeviation(standardDeviation) { }
 
-    Gaussian::~Gaussian() {
-    }
+    Gaussian::~Gaussian() { }
 
     std::string Gaussian::className() const {
         return "Gaussian";

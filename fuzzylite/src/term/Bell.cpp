@@ -19,11 +19,9 @@
 namespace fl {
 
     Bell::Bell(const std::string& name, scalar center, scalar width, scalar slope, scalar height)
-    : Term(name, height), _center(center), _width(width), _slope(slope) {
-    }
+    : Term(name, height), _center(center), _width(width), _slope(slope) { }
 
-    Bell::~Bell() {
-    }
+    Bell::~Bell() { }
 
     std::string Bell::className() const {
         return "Bell";

@@ -67,8 +67,6 @@ namespace fl {
         registerConstructor(ZShape().className(), &(ZShape::constructor));
     }
 
-    TermFactory::~TermFactory() {
-
-    }
+    TermFactory::~TermFactory() { }
 
 }

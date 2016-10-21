@@ -35,15 +35,13 @@ namespace fl {
     FactoryManager::FactoryManager() :
     _tnorm(new TNormFactory), _snorm(new SNormFactory), _activation(new ActivationFactory),
     _defuzzifier(new DefuzzifierFactory), _term(new TermFactory),
-    _hedge(new HedgeFactory), _function(new FunctionFactory) {
-    }
+    _hedge(new HedgeFactory), _function(new FunctionFactory) { }
 
     FactoryManager::FactoryManager(TNormFactory* tnorm, SNormFactory* snorm,
             ActivationFactory* activation, DefuzzifierFactory* defuzzifier,
             TermFactory* term, HedgeFactory* hedge, FunctionFactory* function) :
     _tnorm(tnorm), _snorm(snorm), _activation(activation),
-    _defuzzifier(defuzzifier), _term(term), _hedge(hedge), _function(function) {
-    }
+    _defuzzifier(defuzzifier), _term(term), _hedge(hedge), _function(function) { }
 
     FactoryManager::FactoryManager(const FactoryManager& other)
     : _tnorm(fl::null), _snorm(fl::null), _activation(fl::null),
@@ -78,8 +76,7 @@ namespace fl {
         return *this;
     }
 
-    FactoryManager::~FactoryManager() {
-    }
+    FactoryManager::~FactoryManager() { }
 
     void FactoryManager::setTnorm(TNormFactory* tnorm) {
         this->_tnorm.reset(tnorm);

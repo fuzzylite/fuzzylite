@@ -22,12 +22,9 @@
 
 namespace fl {
 
-    Importer::Importer() {
-    }
+    Importer::Importer() { }
 
-    Importer::~Importer() {
-
-    }
+    Importer::~Importer() { }
 
     Engine* Importer::fromFile(const std::string& path) const {
         std::ifstream reader(path.c_str());

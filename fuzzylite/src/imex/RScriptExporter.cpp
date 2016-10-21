@@ -26,13 +26,9 @@
 namespace fl {
 
     RScriptExporter::RScriptExporter() : Exporter(),
-    _minimumColor("yellow"), _maximumColor("red"), _contourColor("black") {
+    _minimumColor("yellow"), _maximumColor("red"), _contourColor("black") { }
 
-    }
-
-    RScriptExporter::~RScriptExporter() {
-
-    }
+    RScriptExporter::~RScriptExporter() { }
 
     std::string RScriptExporter::name() const {
         return "RScriptExporter";

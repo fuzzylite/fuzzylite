@@ -19,11 +19,9 @@
 namespace fl {
 
     Sigmoid::Sigmoid(const std::string& name, scalar inflection, scalar slope, scalar height)
-    : Term(name, height), _inflection(inflection), _slope(slope) {
-    }
+    : Term(name, height), _inflection(inflection), _slope(slope) { }
 
-    Sigmoid::~Sigmoid() {
-    }
+    Sigmoid::~Sigmoid() { }
 
     std::string Sigmoid::className() const {
         return "Sigmoid";

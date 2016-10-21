@@ -22,11 +22,9 @@
 namespace fl {
 
     SmallestOfMaximum::SmallestOfMaximum(int resolution)
-    : IntegralDefuzzifier(resolution) {
-    }
+    : IntegralDefuzzifier(resolution) { }
 
-    SmallestOfMaximum::~SmallestOfMaximum() {
-    }
+    SmallestOfMaximum::~SmallestOfMaximum() { }
 
     std::string SmallestOfMaximum::className() const {
         return "SmallestOfMaximum";

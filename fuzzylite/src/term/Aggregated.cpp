@@ -25,8 +25,7 @@ namespace fl {
 
     Aggregated::Aggregated(const std::string& name, scalar minimum, scalar maximum,
             SNorm* aggregation)
-    : Term(name), _minimum(minimum), _maximum(maximum), _aggregation(aggregation) {
-    }
+    : Term(name), _minimum(minimum), _maximum(maximum), _aggregation(aggregation) { }
 
     Aggregated::Aggregated(const Aggregated& other) : Term(other) {
         copyFrom(other);
@@ -43,8 +42,7 @@ namespace fl {
         return *this;
     }
 
-    Aggregated::~Aggregated() {
-    }
+    Aggregated::~Aggregated() { }
 
     void Aggregated::copyFrom(const Aggregated& source) {
         _minimum = source._minimum;

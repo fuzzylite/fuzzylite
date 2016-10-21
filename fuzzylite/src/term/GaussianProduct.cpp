@@ -22,11 +22,9 @@ namespace fl {
             scalar meanA, scalar standardDeviationA, scalar meanB, scalar standardDeviationB,
             scalar height)
     : Term(name, height), _meanA(meanA), _standardDeviationA(standardDeviationA),
-    _meanB(meanB), _standardDeviationB(standardDeviationB) {
-    }
+    _meanB(meanB), _standardDeviationB(standardDeviationB) { }
 
-    GaussianProduct::~GaussianProduct() {
-    }
+    GaussianProduct::~GaussianProduct() { }
 
     std::string GaussianProduct::className() const {
         return "GaussianProduct";

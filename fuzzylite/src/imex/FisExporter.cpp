@@ -22,11 +22,9 @@
 
 namespace fl {
 
-    FisExporter::FisExporter() : Exporter() {
-    }
+    FisExporter::FisExporter() : Exporter() { }
 
-    FisExporter::~FisExporter() {
-    }
+    FisExporter::~FisExporter() { }
 
     std::string FisExporter::name() const {
         return "FisExporter";

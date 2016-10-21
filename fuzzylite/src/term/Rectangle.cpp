@@ -19,11 +19,9 @@
 namespace fl {
 
     Rectangle::Rectangle(const std::string& name, scalar start, scalar end, scalar height)
-    : Term(name, height), _start(start), _end(end) {
-    }
+    : Term(name, height), _start(start), _end(end) { }
 
-    Rectangle::~Rectangle() {
-    }
+    Rectangle::~Rectangle() { }
 
     std::string Rectangle::className() const {
         return "Rectangle";

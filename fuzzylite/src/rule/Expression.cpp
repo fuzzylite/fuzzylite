@@ -23,15 +23,12 @@
 
 namespace fl {
 
-    Expression::Expression() {
-    }
+    Expression::Expression() { }
 
-    Expression::~Expression() {
-    }
+    Expression::~Expression() { }
 
     Proposition::Proposition() : Expression(),
-    variable(fl::null), term(fl::null) {
-    }
+    variable(fl::null), term(fl::null) { }
 
     Proposition::~Proposition() {
         for (std::size_t i = 0; i < hedges.size(); ++i) {
@@ -68,8 +65,7 @@ namespace fl {
     }
 
     Operator::Operator() : Expression(),
-    name(""), left(fl::null), right(fl::null) {
-    }
+    name(""), left(fl::null), right(fl::null) { }
 
     Operator::~Operator() {
         if (left) delete left;

@@ -30,16 +30,13 @@
 namespace fl {
 
     Complexity::Complexity(scalar all) :
-    _comparison(all), _arithmetic(all), _function(all) {
-    }
+    _comparison(all), _arithmetic(all), _function(all) { }
 
     Complexity::Complexity(scalar comparison, scalar arithmetic,
             scalar function)
-    : _comparison(comparison), _arithmetic(arithmetic), _function(function) {
-    }
+    : _comparison(comparison), _arithmetic(arithmetic), _function(function) { }
 
-    Complexity::~Complexity() {
-    }
+    Complexity::~Complexity() { }
 
     Complexity& Complexity::operator+=(const Complexity& other) {
         return this->plus(other);

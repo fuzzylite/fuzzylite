@@ -21,11 +21,9 @@ namespace fl {
     PiShape::PiShape(const std::string& name, scalar bottomLeft, scalar topLeft,
             scalar topRight, scalar bottomRight, scalar height)
     : Term(name, height), _bottomLeft(bottomLeft), _topLeft(topLeft),
-    _topRight(topRight), _bottomRight(bottomRight) {
-    }
+    _topRight(topRight), _bottomRight(bottomRight) { }
 
-    PiShape::~PiShape() {
-    }
+    PiShape::~PiShape() { }
 
     std::string PiShape::className() const {
         return "PiShape";

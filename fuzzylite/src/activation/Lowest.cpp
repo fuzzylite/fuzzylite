@@ -25,12 +25,9 @@
 
 namespace fl {
 
-    Lowest::Lowest(int numberOfRules) : Activation(), _numberOfRules(numberOfRules) {
-    }
+    Lowest::Lowest(int numberOfRules) : Activation(), _numberOfRules(numberOfRules) { }
 
-    Lowest::~Lowest() {
-
-    }
+    Lowest::~Lowest() { }
 
     std::string Lowest::className() const {
         return "Lowest";

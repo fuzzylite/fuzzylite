@@ -25,15 +25,11 @@
 
 namespace fl {
 
-    WeightedSumCustom::WeightedSumCustom(Type type) : WeightedDefuzzifier(type) {
-    }
+    WeightedSumCustom::WeightedSumCustom(Type type) : WeightedDefuzzifier(type) { }
 
-    WeightedSumCustom::WeightedSumCustom(const std::string& type) : WeightedDefuzzifier(type) {
+    WeightedSumCustom::WeightedSumCustom(const std::string& type) : WeightedDefuzzifier(type) { }
 
-    }
-
-    WeightedSumCustom::~WeightedSumCustom() {
-    }
+    WeightedSumCustom::~WeightedSumCustom() { }
 
     std::string WeightedSumCustom::className() const {
         return "WeightedSumCustom";

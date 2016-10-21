@@ -25,12 +25,9 @@
 
 namespace fl {
 
-    Highest::Highest(int numberOfRules) : Activation(), _numberOfRules(numberOfRules) {
-    }
+    Highest::Highest(int numberOfRules) : Activation(), _numberOfRules(numberOfRules) { }
 
-    Highest::~Highest() {
-
-    }
+    Highest::~Highest() { }
 
     std::string Highest::className() const {
         return "Highest";

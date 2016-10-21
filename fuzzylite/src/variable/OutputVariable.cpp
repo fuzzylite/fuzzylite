@@ -29,8 +29,7 @@ namespace fl {
     : Variable(name, minimum, maximum),
     _fuzzyOutput(new Aggregated(name, minimum, maximum)),
     _previousValue(fl::nan), _defaultValue(fl::nan),
-    _lockPreviousValue(false) {
-    }
+    _lockPreviousValue(false) { }
 
     OutputVariable::OutputVariable(const OutputVariable& other) : Variable(other) {
         copyFrom(other);
@@ -47,8 +46,7 @@ namespace fl {
         return *this;
     }
 
-    OutputVariable::~OutputVariable() {
-    }
+    OutputVariable::~OutputVariable() { }
 
     void OutputVariable::copyFrom(const OutputVariable& other) {
         _fuzzyOutput.reset(other._fuzzyOutput->clone());

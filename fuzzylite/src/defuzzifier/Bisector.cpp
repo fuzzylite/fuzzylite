@@ -21,12 +21,9 @@
 namespace fl {
 
     Bisector::Bisector(int resolution)
-    : IntegralDefuzzifier(resolution) {
-    }
+    : IntegralDefuzzifier(resolution) { }
 
-    Bisector::~Bisector() {
-
-    }
+    Bisector::~Bisector() { }
 
     std::string Bisector::className() const {
         return "Bisector";

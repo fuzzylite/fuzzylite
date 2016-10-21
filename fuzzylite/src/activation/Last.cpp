@@ -26,13 +26,9 @@
 namespace fl {
 
     Last::Last(int numberOfRules, scalar threshold) : Activation(),
-    _numberOfRules(numberOfRules), _threshold(threshold) {
+    _numberOfRules(numberOfRules), _threshold(threshold) { }
 
-    }
-
-    Last::~Last() {
-
-    }
+    Last::~Last() { }
 
     std::string Last::className() const {
         return "Last";
