@@ -40,7 +40,7 @@ namespace fl {
     }
 
     Antecedent::~Antecedent() {
-        unload();
+        _expression.reset(fl::null);
     }
 
     void Antecedent::setText(const std::string& text) {

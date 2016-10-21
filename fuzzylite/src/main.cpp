@@ -18,38 +18,26 @@
 #include <cstdlib>
 #include <fstream>
 #include <iomanip>
-#include <signal.h>
+#include <csignal>
 #include <typeinfo>
-
-/*
-#ifdef FL_WINDOWS
-#include <windows.h>
-BOOL WINAPI flSignalHandler(DWORD dwCtrlType)
-{
-  FL_LOG("Signal: " << dwCtrlType);
-  if (CTRL_C_EVENT == dwCtrlType){
-  }
-  return TRUE;
-}
-#endif
- */
 
 int main(int argc, const char* argv[]) {
     std::set_terminate(fl::Exception::terminate);
     std::set_unexpected(fl::Exception::terminate);
-    signal(SIGSEGV, fl::Exception::signalHandler);
-    signal(SIGABRT, fl::Exception::signalHandler);
-    signal(SIGILL, fl::Exception::signalHandler);
-    signal(SIGSEGV, fl::Exception::signalHandler);
-    signal(SIGFPE, fl::Exception::signalHandler);
+    ::signal(SIGSEGV, fl::Exception::signalHandler);
+    ::signal(SIGABRT, fl::Exception::signalHandler);
+    ::signal(SIGILL, fl::Exception::signalHandler);
+    ::signal(SIGSEGV, fl::Exception::signalHandler);
+    ::signal(SIGFPE, fl::Exception::signalHandler);
 #ifdef FL_UNIX
-    signal(SIGBUS, fl::Exception::signalHandler);
-    signal(SIGPIPE, fl::Exception::signalHandler);
+    ::signal(SIGBUS, fl::Exception::signalHandler);
+    ::signal(SIGPIPE, fl::Exception::signalHandler);
 #endif
 #ifdef FL_WINDOWS
     //SetConsoleCtrlHandler(flSignalHandler, TRUE);
 #endif
     fl::fuzzylite::setDebugging(false);
+
     try {
         fl::Console::main(argc, argv);
     } catch (std::exception& ex) {

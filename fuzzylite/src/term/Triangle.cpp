@@ -20,8 +20,8 @@ namespace fl {
     Triangle::Triangle(const std::string& name, scalar vertexA, scalar vertexB, scalar vertexC, scalar height)
     : Term(name, height), _vertexA(vertexA), _vertexB(vertexB), _vertexC(vertexC) {
         if (Op::isNaN(vertexC)) {
-            this->_vertexC = vertexB;
-            this->_vertexB = 0.5 * (vertexA + vertexB);
+            this->_vertexC = _vertexB;
+            this->_vertexB = 0.5 * (_vertexA + _vertexB);
         }
     }
 

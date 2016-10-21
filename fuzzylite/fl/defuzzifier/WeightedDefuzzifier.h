@@ -61,12 +61,12 @@ namespace fl {
           Sets the type of the weighted defuzzifier
           @param type is the type of the weighted defuzzifier
          */
-        virtual void setType(Type type);
+        void setType(Type type);
         /**
           Gets the type of the weighted defuzzifier
           @return the type of the weighted defuzzifier
          */
-        virtual Type getType() const;
+        Type getType() const;
         /**
           Returns a string representation of the type of the defuzzifier
           @return a string representation of the type of the defuzzifier

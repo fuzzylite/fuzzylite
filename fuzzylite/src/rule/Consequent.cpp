@@ -35,7 +35,10 @@ namespace fl {
     }
 
     Consequent::~Consequent() {
-        unload();
+        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
+            delete _conclusions.at(i);
+        }
+        _conclusions.clear();
     }
 
     std::string Consequent::getText() const {

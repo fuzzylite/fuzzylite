@@ -79,6 +79,7 @@ namespace fl {
             try {
                 ruleBlock->loadRules(this);
             } catch (...) {
+                //ignore
             }
             _ruleBlocks.push_back(ruleBlock);
         }

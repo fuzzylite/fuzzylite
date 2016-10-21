@@ -30,7 +30,7 @@ namespace fl {
     scalar Extremely::hedge(scalar x) const {
         return Op::isLE(x, 0.5)
                 ? 2.0 * x * x
-                : 1.0 - 2.0 * (1.0 - x) * (1.0 - x);
+                : (1.0 - 2.0 * (1.0 - x) * (1.0 - x));
     }
 
     Extremely* Extremely::clone() const {

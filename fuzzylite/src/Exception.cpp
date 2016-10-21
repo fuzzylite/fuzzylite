@@ -37,9 +37,8 @@
 #endif
 
 
-#include <signal.h>
+#include <csignal>
 #include <cstdlib>
-#include <string.h>
 
 namespace fl {
 
@@ -93,17 +92,19 @@ namespace fl {
         std::ostringstream btStream;
         const int bufferSize = 30;
         void* buffer[bufferSize];
-        int backtraceSize = backtrace(buffer, bufferSize);
-        char **btSymbols = backtrace_symbols(buffer, backtraceSize);
+        int backtraceSize = ::backtrace(buffer, bufferSize);
+        char **btSymbols = ::backtrace_symbols(buffer, backtraceSize);
         if (btSymbols == fl::null) {
             btStream << "[backtrace error] no symbols could be retrieved";
         } else {
-            if (backtraceSize == 0) btStream << "[backtrace is empty]";
+            if (backtraceSize == 0) {
+                btStream << "[backtrace is empty]";
+            }
             for (int i = 0; i < backtraceSize; ++i) {
                 btStream << btSymbols[i] << "\n";
             }
         }
-        free(btSymbols);
+        ::free(btSymbols);
         return btStream.str();
 
 
@@ -120,14 +121,16 @@ namespace fl {
         } else {
             btSymbol->MaxNameLen = 255;
             btSymbol->SizeOfStruct = sizeof ( SYMBOL_INFO);
-            if (backtraceSize == 0) btStream << "[backtrace is empty]";
+            if (backtraceSize == 0) {
+                btStream << "[backtrace is empty]";
+            }
             for (int i = 0; i < backtraceSize; ++i) {
                 SymFromAddr(GetCurrentProcess(), (DWORD64) (buffer[ i ]), 0, btSymbol);
                 btStream << (backtraceSize - i - 1) << ": " <<
                         btSymbol->Name << " at 0x" << btSymbol->Address << "\n";
             }
         }
-        free(btSymbol);
+        ::free(btSymbol);
         return btStream.str();
 #else
         return "[backtrace missing] supported only in Unix and Windows platforms";
@@ -135,36 +138,36 @@ namespace fl {
     }
     //execinfo
 
-    void Exception::signalHandler(int signal) {
+    void Exception::signalHandler(int unixSignal) {
         std::ostringstream ex;
-        ex << "[unexpected signal " << signal << "] ";
+        ex << "[unexpected signal " << unixSignal << "] ";
 #ifdef FL_UNIX
-        ex << strsignal(signal);
+        ex << ::strsignal(unixSignal);
 #endif
         ex << "\nBACKTRACE:\n" << btCallStack();
         Exception::catchException(Exception(ex.str(), FL_AT));
-        exit(EXIT_FAILURE);
+        ::exit(EXIT_FAILURE);
     }
 
-    void Exception::convertToException(int signal) {
+    void Exception::convertToException(int unixSignal) {
         std::string signalDescription;
 #ifdef FL_UNIX
         //Unblock the signal
         sigset_t empty;
         sigemptyset(&empty);
-        sigaddset(&empty, signal);
+        sigaddset(&empty, unixSignal);
         sigprocmask(SIG_UNBLOCK, &empty, fl::null);
-        signalDescription = strsignal(signal);
+        signalDescription = ::strsignal(unixSignal);
 #endif
         std::ostringstream ex;
-        ex << "[signal " << signal << "] " << signalDescription << "\n";
+        ex << "[signal " << unixSignal << "] " << signalDescription << "\n";
         ex << "BACKTRACE:\n" << btCallStack();
         throw Exception(ex.str(), FL_AT);
     }
 
     void Exception::terminate() {
         Exception::catchException(Exception("[unexpected exception] BACKTRACE:\n" + btCallStack(), FL_AT));
-        exit(EXIT_FAILURE);
+        ::exit(EXIT_FAILURE);
     }
 
     void Exception::catchException(const std::exception& exception) {

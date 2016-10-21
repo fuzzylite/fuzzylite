@@ -346,11 +346,11 @@ namespace fl {
         }
         std::vector<Benchmark::Result> dummyResults = result.results();
 
-        std::vector<std::string> header;
+        std::vector<std::string> names;
         for (std::size_t i = 0; i < dummyResults.size(); ++i) {
-            header.push_back(dummyResults.at(i).first);
+            names.push_back(dummyResults.at(i).first);
         }
-        return header;
+        return names;
     }
 
     std::vector<Benchmark::Result> Benchmark::results(TimeUnit timeUnit, bool includeTimes) const {

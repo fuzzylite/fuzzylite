@@ -184,7 +184,7 @@ namespace fl {
         if (const Discrete * discrete = dynamic_cast<const Discrete*> (term)) {
             std::ostringstream ss;
             ss << fl(term->className()) << "::create(\"" << term->getName() << "\", "
-                    << discrete->xy().size() * 2 << ", "
+                    << (discrete->xy().size() * 2) << ", "
                     << Op::join(Discrete::toVector(discrete->xy()), ", ") << ")";
             return ss.str();
         }
@@ -247,7 +247,7 @@ namespace fl {
         std::vector<std::string> values = Op::split(parameters, " ");
         for (std::size_t i = 0; i < values.size(); ++i) {
             std::string parameter = values.at(i);
-            values.at(i) = (Op::isNumeric(parameter) ? parameter : "\"" + parameter + "\"");
+            values.at(i) = (Op::isNumeric(parameter) ? parameter : ("\"" + parameter + "\""));
         }
         return "new " + fl(activation->className()) + "(" + Op::join(values, ", ") + ")";
     }

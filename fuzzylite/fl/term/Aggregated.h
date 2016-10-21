@@ -181,7 +181,7 @@ namespace fl {
           @return the number of activated terms
          */
         virtual std::size_t numberOfTerms() const;
-        
+
         /**
           Sets the activated terms
           @param terms is the activated terms

@@ -63,7 +63,7 @@ namespace fl {
                     sections.at(sections.size() - 1) += "\n" + line;
                 } else {
                     std::ostringstream ss;
-                    ss << "[import error] line " << lineNumber << " <" << line + "> "
+                    ss << "[import error] line " << lineNumber << " <" << line << "> "
                             "does not belong to any section";
                     throw Exception(ss.str(), FL_AT);
                 }
@@ -327,7 +327,7 @@ namespace fl {
         return ss.str();
     }
 
-    std::string FisImporter::translateTNorm(const std::string & name) const {
+    std::string FisImporter::translateTNorm(const std::string& name) const {
         if (name.empty()) return "";
         if (name == "min") return Minimum().className();
         if (name == "prod") return AlgebraicProduct().className();
@@ -339,7 +339,7 @@ namespace fl {
         return name;
     }
 
-    std::string FisImporter::translateSNorm(const std::string & name) const {
+    std::string FisImporter::translateSNorm(const std::string& name) const {
         if (name.empty()) return "";
         if (name == "max") return Maximum().className();
         if (name == "probor") return AlgebraicSum().className();
@@ -353,7 +353,7 @@ namespace fl {
         return name;
     }
 
-    std::string FisImporter::translateDefuzzifier(const std::string & name) const {
+    std::string FisImporter::translateDefuzzifier(const std::string& name) const {
         if (name.empty()) return "";
         if (name == "centroid") return Centroid().className();
         if (name == "bisector") return Bisector().className();
@@ -380,7 +380,7 @@ namespace fl {
         return result;
     }
 
-    Term * FisImporter::parseTerm(const std::string & fis, const Engine* engine) const {
+    Term * FisImporter::parseTerm(const std::string& fis, const Engine* engine) const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < fis.size(); ++i) {
             if (not (fis.at(i) == '[' or fis.at(i) == ']')) {
@@ -410,7 +410,7 @@ namespace fl {
                 parameters, engine);
     }
 
-    Term * FisImporter::createInstance(const std::string& mClass,
+    Term* FisImporter::createInstance(const std::string& mClass,
             const std::string& name, const std::vector<std::string>& params,
             const Engine* engine) const {
         std::map<std::string, std::string> mapping;

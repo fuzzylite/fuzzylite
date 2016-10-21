@@ -48,11 +48,11 @@ namespace fl {
             if (Op::isLE(leftArea, rightArea)) {
                 xLeft = minimum + (left + 0.5) * dx;
                 leftArea += term->membership(xLeft);
-                left++;
+                ++left;
             } else {
                 xRight = maximum - (right + 0.5) * dx;
                 rightArea += term->membership(xRight);
-                right++;
+                ++right;
             }
         }
         //Inverse weighted average to compensate

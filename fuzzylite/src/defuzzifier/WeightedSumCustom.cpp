@@ -82,7 +82,7 @@ namespace fl {
                 w = activated.getDegree();
                 z = activated.getTerm()->membership(w);
                 const TNorm* implication = activated.getImplication();
-                wz = implication ? implication->compute(w, z) : w*z;
+                wz = implication ? implication->compute(w, z) : (w * z);
                 if (aggregation) {
                     sum = aggregation->compute(sum, wz);
                 } else {
@@ -96,7 +96,7 @@ namespace fl {
                 w = activated.getDegree();
                 z = tsukamoto(activated.getTerm(), w, minimum, maximum);
                 const TNorm* implication = activated.getImplication();
-                wz = implication ? implication->compute(w, z) : w*z;
+                wz = implication ? implication->compute(w, z) : (w * z);
                 if (aggregation) {
                     sum = aggregation->compute(sum, wz);
                 } else {

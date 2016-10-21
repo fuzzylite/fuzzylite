@@ -328,14 +328,14 @@ namespace fl {
         int ch = 0;
 #ifdef FL_UNIX
         struct termios oldt, newt;
-        tcgetattr(STDIN_FILENO, &oldt);
+        ::tcgetattr(STDIN_FILENO, &oldt);
         newt = oldt;
         newt.c_lflag &= ~(ICANON | ECHO);
-        tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-        ch = getchar();
-        tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+        ::tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+        ch = ::getchar();
+        ::tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 #elif defined(FL_WINDOWS)
-        ch = _getch();
+        ch = ::_getch();
 #endif
         return ch;
     }
@@ -386,7 +386,7 @@ namespace fl {
                 case 'r':
                 case 'R': engine->restart();
                     buffer << "#[Restart]";
-                    //fall through
+                    continue; //fall through
                 case 'd':
                 case 'D': inputValues.clear();
                     buffer << "#[Discard]\n>";
@@ -636,7 +636,7 @@ namespace fl {
                     std::ostringstream msg;
                     msg << "[imex error] different results <"
                             << importer->name() << "," << exporter->name() << "> "
-                            "at " + example + "." + from + ":\n";
+                            "at " << example << "." << from << ":\n";
                     msg << "<Engine A>\n" << out << "\n\n" <<
                             "================================\n\n" <<
                             "<Engine B>\n" << out_copy;

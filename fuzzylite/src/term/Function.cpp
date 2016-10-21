@@ -25,7 +25,6 @@
 #include <cctype>
 #include <functional>
 #include <queue>
-#include <signal.h>
 #include <stack>
 
 namespace fl {

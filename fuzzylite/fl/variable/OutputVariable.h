@@ -166,7 +166,7 @@ namespace fl {
           @return the estimated complexity of defuzzifying the activated term
           with the current configuration of the variable
          */
-         virtual Complexity complexity(const Activated& term) const;
+        virtual Complexity complexity(const Activated& term) const;
         /**
           Computes the estimated complexity of aggregating and defuzzifying all
           the terms in the variable.

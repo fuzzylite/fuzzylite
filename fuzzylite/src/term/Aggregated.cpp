@@ -43,7 +43,6 @@ namespace fl {
     }
 
     Aggregated::~Aggregated() {
-        clear();
     }
 
     void Aggregated::copyFrom(const Aggregated& source) {

@@ -51,7 +51,8 @@ namespace fl {
     }
 
     Rule::~Rule() {
-        unload();
+        if (_antecedent) _antecedent->unload();
+        if (_consequent) _consequent->unload();
     }
 
     void Rule::setText(const std::string& text) {
@@ -210,18 +211,23 @@ namespace fl {
                             ex << "[syntax error] expected a numeric value as the weight of the rule: "
                                     << rule;
                             e.append(ex.str(), FL_AT);
-                            throw e;
+                            throw;
                         }
                         break;
                     case S_END:
                         std::ostringstream ex;
                         ex << "[syntax error] unexpected token <" << token << "> at the end of rule";
                         throw Exception(ex.str(), FL_AT);
+
+                    default:
+                        std::ostringstream ex;
+                        ex << "[syntax error] unexpected state <" << state << ">";
+                        throw Exception(ex.str(), FL_AT);
                 }
             }
             if (state == S_NONE) {
                 std::ostringstream ex;
-                ex << "[syntax error] " << (rule.empty() ? "empty rule" : "ignored rule: " + rule);
+                ex << "[syntax error] " << (rule.empty() ? "empty rule" : ("ignored rule: " + rule));
                 throw Exception(ex.str(), FL_AT);
             } else if (state == S_IF) {
                 std::ostringstream ex;
