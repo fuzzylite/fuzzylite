@@ -1,8 +1,9 @@
 /*
- Copyright (C) 2010-2016 by FuzzyLite Limited.
- All rights reserved.
+ fuzzylite (R), a fuzzy logic control library in C++.
+ Copyright (C) 2010-2016 FuzzyLite Limited. All rights reserved.
+ Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
 
- This file is part of fuzzylite(R).
+ This file is part of fuzzylite.
 
  fuzzylite is free software: you can redistribute it and/or modify it under
  the terms of the FuzzyLite License included with the software.
@@ -10,7 +11,7 @@
  You should have received a copy of the FuzzyLite License along with
  fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
 
- fuzzylite(R) is a registered trademark of FuzzyLite Limited.
+ fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
 #ifndef FL_FUZZYLITE_H
@@ -69,7 +70,7 @@
 //#define bitand &
 //#define bitor |
 
-//TODO: Address warning 4251 by exporting members?
+//@todo: Address warning 4251 by exporting members?
 //http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #ifdef _MSC_VER
 #pragma warning (disable:4251)
