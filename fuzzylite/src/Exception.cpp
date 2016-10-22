@@ -39,6 +39,7 @@
 
 
 #include <csignal>
+#include <cstring>
 #include <cstdlib>
 
 namespace fl {
@@ -142,7 +143,7 @@ namespace fl {
         std::ostringstream ex;
         ex << "[unexpected signal " << unixSignal << "] ";
 #ifdef FL_UNIX
-        ex << strsignal(unixSignal);
+        ex << ::strsignal(unixSignal);
 #endif
         ex << "\nBACKTRACE:\n" << btCallStack();
         Exception::catchException(Exception(ex.str(), FL_AT));
@@ -157,7 +158,7 @@ namespace fl {
         sigemptyset(&empty);
         sigaddset(&empty, unixSignal);
         sigprocmask(SIG_UNBLOCK, &empty, fl::null);
-        signalDescription = strsignal(unixSignal);
+        signalDescription = ::strsignal(unixSignal);
 #endif
         std::ostringstream ex;
         ex << "[signal " << unixSignal << "] " << signalDescription << "\n";
