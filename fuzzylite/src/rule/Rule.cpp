@@ -50,8 +50,8 @@ namespace fl {
     }
 
     Rule::~Rule() {
-        if (_antecedent) _antecedent->unload();
-        if (_consequent) _consequent->unload();
+        if (_antecedent.get()) _antecedent->unload();
+        if (_consequent.get()) _consequent->unload();
     }
 
     void Rule::setText(const std::string& text) {
