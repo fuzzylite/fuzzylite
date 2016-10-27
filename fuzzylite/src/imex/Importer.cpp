@@ -18,7 +18,6 @@
 #include "fl/Exception.h"
 
 #include <fstream>
-#include <ostream>
 
 namespace fl {
 

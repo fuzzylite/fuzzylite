@@ -17,10 +17,6 @@
 #include "fl/defuzzifier/WeightedAverageCustom.h"
 
 #include "fl/term/Aggregated.h"
-#include "fl/term/Activated.h"
-#include "fl/norm/Norm.h"
-#include "fl/norm/SNorm.h"
-#include "fl/norm/TNorm.h"
 
 #include <map>
 

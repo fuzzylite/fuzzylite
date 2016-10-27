@@ -16,11 +16,7 @@
 
 #include "fl/variable/OutputVariable.h"
 
-#include "fl/defuzzifier/Defuzzifier.h"
 #include "fl/imex/FllExporter.h"
-#include "fl/norm/SNorm.h"
-#include "fl/term/Aggregated.h"
-#include "fl/term/Activated.h"
 
 namespace fl {
 

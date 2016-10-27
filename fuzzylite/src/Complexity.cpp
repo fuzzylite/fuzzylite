@@ -20,12 +20,9 @@
 
 #include "fl/variable/InputVariable.h"
 #include "fl/variable/OutputVariable.h"
-#include "fl/variable/Variable.h"
 
 #include "fl/rule/RuleBlock.h"
 #include "fl/rule/Rule.h"
-
-#include "fl/Operation.h"
 
 namespace fl {
 

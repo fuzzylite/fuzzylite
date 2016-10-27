@@ -17,15 +17,9 @@
 #include "fl/rule/Rule.h"
 
 #include "fl/Exception.h"
-#include "fl/hedge/Hedge.h"
 #include "fl/imex/FllExporter.h"
 #include "fl/norm/Norm.h"
-#include "fl/rule/Antecedent.h"
-#include "fl/rule/Consequent.h"
 #include "fl/Operation.h"
-
-#include <sstream>
-#include <vector>
 
 namespace fl {
 

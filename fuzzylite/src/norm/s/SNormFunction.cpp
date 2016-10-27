@@ -16,8 +16,6 @@
 
 #include "fl/norm/s/SNormFunction.h"
 
-#include "fl/Operation.h"
-
 namespace fl {
 
     SNormFunction::SNormFunction(const std::string& formula) : SNorm() {

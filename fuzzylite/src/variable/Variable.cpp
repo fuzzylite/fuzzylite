@@ -16,15 +16,12 @@
 
 #include "fl/variable/Variable.h"
 
-#include "fl/defuzzifier/Centroid.h"
 #include "fl/imex/FllExporter.h"
 #include "fl/norm/Norm.h"
 #include "fl/term/Constant.h"
 #include "fl/term/Linear.h"
-#include "fl/term/Term.h"
 
 #include <queue>
-#include <sstream>
 
 namespace fl {
 

@@ -40,7 +40,6 @@
 
 #include <csignal>
 #include <cstring>
-#include <cstdlib>
 
 namespace fl {
 

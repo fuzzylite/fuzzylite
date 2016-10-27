@@ -16,8 +16,6 @@
 
 #include "fl/factory/TermFactory.h"
 
-#include "fl/Exception.h"
-#include "fl/term/Term.h"
 #include "fl/term/Bell.h"
 #include "fl/term/Binary.h"
 #include "fl/term/Concave.h"

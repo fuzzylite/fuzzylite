@@ -20,18 +20,12 @@
 #include "fl/factory/HedgeFactory.h"
 #include "fl/factory/FactoryManager.h"
 #include "fl/hedge/Any.h"
-#include "fl/hedge/Hedge.h"
-#include "fl/norm/SNorm.h"
-#include "fl/norm/TNorm.h"
 #include "fl/rule/Expression.h"
 #include "fl/rule/Rule.h"
 #include "fl/term/Aggregated.h"
-#include "fl/term/Function.h"
-#include "fl/term/Term.h"
 #include "fl/variable/InputVariable.h"
 #include "fl/variable/OutputVariable.h"
 
-#include <algorithm>
 #include <stack>
 
 namespace fl {

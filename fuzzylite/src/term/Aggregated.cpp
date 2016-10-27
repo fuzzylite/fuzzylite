@@ -17,9 +17,7 @@
 #include "fl/term/Aggregated.h"
 
 #include "fl/imex/FllExporter.h"
-#include "fl/norm/SNorm.h"
 #include "fl/norm/s/Maximum.h"
-#include "fl/term/Activated.h"
 
 namespace fl {
 

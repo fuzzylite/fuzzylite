@@ -16,8 +16,6 @@
 
 #include "fl/norm/t/TNormFunction.h"
 
-#include "fl/Operation.h"
-
 namespace fl {
 
     TNormFunction::TNormFunction(const std::string& formula) : TNorm() {

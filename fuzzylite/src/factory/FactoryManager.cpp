@@ -16,14 +16,6 @@
 
 #include "fl/factory/FactoryManager.h"
 
-#include "fl/factory/ActivationFactory.h"
-#include "fl/factory/DefuzzifierFactory.h"
-#include "fl/factory/FunctionFactory.h"
-#include "fl/factory/HedgeFactory.h"
-#include "fl/factory/SNormFactory.h"
-#include "fl/factory/TermFactory.h"
-#include "fl/factory/TNormFactory.h"
-
 namespace fl {
 
     FactoryManager FactoryManager::_instance;

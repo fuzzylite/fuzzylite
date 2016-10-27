@@ -23,8 +23,6 @@
 #include "fl/variable/InputVariable.h"
 #include "fl/variable/OutputVariable.h"
 
-#include <vector>
-
 #ifdef FL_CPP98
 //timing is only available in C++11
 #else

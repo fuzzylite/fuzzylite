@@ -17,7 +17,6 @@
 #include "fl/term/Activated.h"
 
 #include "fl/imex/FllExporter.h"
-#include "fl/norm/TNorm.h"
 
 namespace fl {
 

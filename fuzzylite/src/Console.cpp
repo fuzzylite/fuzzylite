@@ -18,12 +18,7 @@
 
 #include "fl/Headers.h"
 
-#include <algorithm>
-#include <cctype>
 #include <fstream>
-#include <cstdlib>
-#include <utility>
-#include <vector>
 
 #ifdef FL_UNIX
 #include <termios.h>

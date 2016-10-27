@@ -16,10 +16,7 @@
 
 #include "fl/term/Linear.h"
 
-#include "fl/Engine.h"
 #include "fl/variable/InputVariable.h"
-
-#include <cstdarg>
 
 namespace fl {
 

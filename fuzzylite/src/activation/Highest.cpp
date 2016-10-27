@@ -18,7 +18,6 @@
 
 #include "fl/rule/RuleBlock.h"
 #include "fl/rule/Rule.h"
-#include "fl/rule/Antecedent.h"
 #include "fl/Operation.h"
 
 #include <queue>

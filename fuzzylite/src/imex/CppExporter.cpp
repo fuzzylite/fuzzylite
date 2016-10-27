@@ -18,8 +18,6 @@
 
 #include "fl/Headers.h"
 
-#include <algorithm>
-
 namespace fl {
 
     CppExporter::CppExporter(bool prefixNamespace, bool usingVariableNames) : Exporter(),

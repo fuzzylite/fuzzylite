@@ -18,8 +18,6 @@
 
 #include "fl/Headers.h"
 
-#include <sstream>
-
 namespace fl {
 
     FclExporter::FclExporter(const std::string& indent) : Exporter(), _indent(indent) { }

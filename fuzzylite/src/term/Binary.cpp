@@ -15,7 +15,6 @@
  */
 
 #include "fl/term/Binary.h"
-#include "fl/Operation.h"
 
 namespace fl {
 

@@ -18,8 +18,6 @@
 
 #include "fl/Headers.h"
 
-#include <algorithm>
-
 namespace fl {
 
     JavaExporter::JavaExporter(bool usingVariableNames) : Exporter(),

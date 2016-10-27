@@ -22,9 +22,7 @@
 #include "fl/variable/InputVariable.h"
 #include "fl/variable/OutputVariable.h"
 
-#include <cmath>
 #include <fstream>
-#include <vector>
 
 namespace fl {
 

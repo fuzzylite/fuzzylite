@@ -17,9 +17,6 @@
 #include "fl/defuzzifier/WeightedSumCustom.h"
 
 #include "fl/term/Aggregated.h"
-#include "fl/term/Activated.h"
-#include "fl/norm/SNorm.h"
-#include "fl/norm/TNorm.h"
 
 #include <map>
 

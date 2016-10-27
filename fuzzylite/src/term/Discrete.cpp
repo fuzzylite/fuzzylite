@@ -16,8 +16,6 @@
 
 #include "fl/term/Discrete.h"
 
-#include <cstdarg>
-
 namespace fl {
 
     Discrete::Discrete(const std::string& name, const std::vector<Pair>& xy, scalar height)

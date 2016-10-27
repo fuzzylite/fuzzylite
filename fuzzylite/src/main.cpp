@@ -16,11 +16,8 @@
 
 #include "fl/Headers.h"
 
-#include <cstdlib>
 #include <fstream>
-#include <iomanip>
 #include <csignal>
-#include <typeinfo>
 
 int main(int argc, const char* argv[]) {
     std::set_terminate(fl::Exception::terminate);

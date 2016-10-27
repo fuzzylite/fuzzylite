@@ -18,10 +18,6 @@
 
 #include "fl/Headers.h"
 
-#include <sstream>
-#include <iostream>
-#include <cctype>
-
 namespace fl {
 
     FisImporter::FisImporter() : Importer() { }
