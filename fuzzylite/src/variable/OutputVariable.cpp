@@ -108,7 +108,7 @@ namespace fl {
     }
 
     Variable::Type OutputVariable::type() const {
-        return Variable::OutputVariable;
+        return Variable::Output;
     }
 
     Complexity OutputVariable::complexity(const Activated& term) const {

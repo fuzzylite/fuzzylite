@@ -94,9 +94,9 @@ namespace fl {
                 }
             }
             Variable::Type variableType = proposition->variable->type();
-            if (variableType == Variable::InputVariable) {
+            if (variableType == Variable::Input) {
                 result += proposition->term->complexity();
-            } else if (variableType == Variable::OutputVariable) {
+            } else if (variableType == Variable::Output) {
                 OutputVariable* outputVariable = static_cast<OutputVariable*> (proposition->variable);
                 result += outputVariable->fuzzyOutput()->complexityOfActivationDegree();
             }
@@ -168,9 +168,9 @@ namespace fl {
             }
             scalar result = fl::nan;
             Variable::Type variableType = proposition->variable->type();
-            if (variableType == Variable::InputVariable) {
+            if (variableType == Variable::Input) {
                 result = proposition->term->membership(proposition->variable->getValue());
-            } else if (variableType == Variable::OutputVariable) {
+            } else if (variableType == Variable::Output) {
                 result = static_cast<OutputVariable*> (proposition->variable)
                         ->fuzzyOutput()->activationDegree(proposition->term);
             }

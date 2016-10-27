@@ -44,8 +44,8 @@ namespace fl {
          */
         enum Type {
             None,
-            InputVariable,
-            OutputVariable
+            Input,
+            Output
         };
     protected:
         std::string _name;

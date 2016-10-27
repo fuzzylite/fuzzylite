@@ -30,7 +30,7 @@ namespace fl {
     }
 
     Variable::Type InputVariable::type() const {
-        return Variable::InputVariable;
+        return Variable::Input;
     }
 
     std::string InputVariable::toString() const {
