@@ -42,7 +42,7 @@ valve.setEnabled(true);
 valve.setName("valve");
 valve.setRange(-1.000, 1.000);
 valve.setLockValueInRange(false);
-valve.fuzzyOutput().setAggregation(new Maximum());
+valve.setAggregation(new Maximum());
 valve.setDefuzzifier(new Centroid(200));
 valve.setDefaultValue(Double.NaN);
 valve.setLockPreviousValue(false);

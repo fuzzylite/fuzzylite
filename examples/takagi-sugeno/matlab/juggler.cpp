@@ -33,7 +33,7 @@ theta->setEnabled(true);
 theta->setName("theta");
 theta->setRange(0.000, 0.000);
 theta->setLockValueInRange(false);
-theta->fuzzyOutput()->setAggregation(fl::null);
+theta->setAggregation(fl::null);
 theta->setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 theta->setDefaultValue(fl::nan);
 theta->setLockPreviousValue(false);

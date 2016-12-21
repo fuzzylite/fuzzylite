@@ -40,7 +40,7 @@ AllOutputTerms->setEnabled(true);
 AllOutputTerms->setName("AllOutputTerms");
 AllOutputTerms->setRange(0.000, 6.500);
 AllOutputTerms->setLockValueInRange(false);
-AllOutputTerms->fuzzyOutput()->setAggregation(new Maximum);
+AllOutputTerms->setAggregation(new Maximum);
 AllOutputTerms->setDefuzzifier(new Centroid(200));
 AllOutputTerms->setDefaultValue(fl::nan);
 AllOutputTerms->setLockPreviousValue(false);

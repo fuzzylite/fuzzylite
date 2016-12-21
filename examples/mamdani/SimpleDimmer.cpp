@@ -23,7 +23,7 @@ Power->setEnabled(true);
 Power->setName("Power");
 Power->setRange(0.000, 1.000);
 Power->setLockValueInRange(false);
-Power->fuzzyOutput()->setAggregation(new Maximum);
+Power->setAggregation(new Maximum);
 Power->setDefuzzifier(new Centroid(200));
 Power->setDefaultValue(fl::nan);
 Power->setLockPreviousValue(false);

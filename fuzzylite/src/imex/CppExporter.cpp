@@ -123,7 +123,7 @@ namespace fl {
                 toString(outputVariable->getMaximum()) << ");\n";
         ss << name << "->setLockValueInRange(" <<
                 (outputVariable->isLockValueInRange() ? "true" : "false") << ");\n";
-        ss << name << "->fuzzyOutput()->setAggregation(" <<
+        ss << name << "->setAggregation(" <<
                 toString(outputVariable->fuzzyOutput()->getAggregation()) << ");\n";
         ss << name << "->setDefuzzifier(" <<
                 toString(outputVariable->getDefuzzifier()) << ");\n";

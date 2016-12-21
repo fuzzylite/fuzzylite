@@ -46,7 +46,7 @@ control.setEnabled(true);
 control.setName("control");
 control.setRange(-0.785, 0.785);
 control.setLockValueInRange(false);
-control.fuzzyOutput().setAggregation(null);
+control.setAggregation(null);
 control.setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 control.setDefaultValue(Double.NaN);
 control.setLockPreviousValue(false);

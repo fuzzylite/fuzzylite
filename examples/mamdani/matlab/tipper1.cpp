@@ -23,7 +23,7 @@ tip->setEnabled(true);
 tip->setName("tip");
 tip->setRange(0.000, 30.000);
 tip->setLockValueInRange(false);
-tip->fuzzyOutput()->setAggregation(new Maximum);
+tip->setAggregation(new Maximum);
 tip->setDefuzzifier(new Centroid(200));
 tip->setDefaultValue(fl::nan);
 tip->setLockPreviousValue(false);

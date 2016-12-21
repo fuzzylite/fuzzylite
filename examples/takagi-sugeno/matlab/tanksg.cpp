@@ -33,7 +33,7 @@ valve->setEnabled(true);
 valve->setName("valve");
 valve->setRange(-1.000, 1.000);
 valve->setLockValueInRange(false);
-valve->fuzzyOutput()->setAggregation(fl::null);
+valve->setAggregation(fl::null);
 valve->setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 valve->setDefaultValue(fl::nan);
 valve->setLockPreviousValue(false);

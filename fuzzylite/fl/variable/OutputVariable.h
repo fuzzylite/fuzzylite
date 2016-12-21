@@ -124,6 +124,18 @@ namespace fl {
         virtual Defuzzifier* getDefuzzifier() const;
 
         /**
+         Sets the aggregation operator
+         @param aggregation is the aggregation
+         */
+        virtual void setAggregation(SNorm* aggregation);
+
+        /**
+         Gets the aggregation operator
+         @return the aggregation operator
+         */
+        virtual SNorm* getAggregation() const;
+
+        /**
           Sets the previous value of the output variable
           @param previousValue is the previous value of the output variable
          */

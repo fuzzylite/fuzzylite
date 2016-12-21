@@ -36,7 +36,7 @@ control->setEnabled(true);
 control->setName("control");
 control->setRange(-0.785, 0.785);
 control->setLockValueInRange(false);
-control->fuzzyOutput()->setAggregation(fl::null);
+control->setAggregation(fl::null);
 control->setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 control->setDefaultValue(fl::nan);
 control->setLockPreviousValue(false);

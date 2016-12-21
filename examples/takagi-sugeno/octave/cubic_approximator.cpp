@@ -31,7 +31,7 @@ ApproxXCubed->setEnabled(true);
 ApproxXCubed->setName("ApproxXCubed");
 ApproxXCubed->setRange(-5.000, 5.000);
 ApproxXCubed->setLockValueInRange(false);
-ApproxXCubed->fuzzyOutput()->setAggregation(fl::null);
+ApproxXCubed->setAggregation(fl::null);
 ApproxXCubed->setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 ApproxXCubed->setDefaultValue(fl::nan);
 ApproxXCubed->setLockPreviousValue(false);

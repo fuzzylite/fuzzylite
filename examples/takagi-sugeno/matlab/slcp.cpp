@@ -49,7 +49,7 @@ out->setEnabled(true);
 out->setName("out");
 out->setRange(-10.000, 10.000);
 out->setLockValueInRange(false);
-out->fuzzyOutput()->setAggregation(fl::null);
+out->setAggregation(fl::null);
 out->setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 out->setDefaultValue(fl::nan);
 out->setLockPreviousValue(false);

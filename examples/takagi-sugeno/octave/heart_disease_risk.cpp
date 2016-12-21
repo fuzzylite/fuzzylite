@@ -35,7 +35,7 @@ HeartDiseaseRisk->setEnabled(true);
 HeartDiseaseRisk->setName("HeartDiseaseRisk");
 HeartDiseaseRisk->setRange(0.000, 10.000);
 HeartDiseaseRisk->setLockValueInRange(false);
-HeartDiseaseRisk->fuzzyOutput()->setAggregation(fl::null);
+HeartDiseaseRisk->setAggregation(fl::null);
 HeartDiseaseRisk->setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 HeartDiseaseRisk->setDefaultValue(fl::nan);
 HeartDiseaseRisk->setLockPreviousValue(false);

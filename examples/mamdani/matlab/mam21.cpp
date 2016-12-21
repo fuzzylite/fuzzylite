@@ -31,7 +31,7 @@ force->setEnabled(true);
 force->setName("force");
 force->setRange(-5.000, 5.000);
 force->setLockValueInRange(false);
-force->fuzzyOutput()->setAggregation(new Maximum);
+force->setAggregation(new Maximum);
 force->setDefuzzifier(new Centroid(200));
 force->setDefaultValue(fl::nan);
 force->setLockPreviousValue(false);

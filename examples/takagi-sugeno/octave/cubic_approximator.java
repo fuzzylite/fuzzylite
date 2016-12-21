@@ -41,7 +41,7 @@ ApproxXCubed.setEnabled(true);
 ApproxXCubed.setName("ApproxXCubed");
 ApproxXCubed.setRange(-5.000, 5.000);
 ApproxXCubed.setLockValueInRange(false);
-ApproxXCubed.fuzzyOutput().setAggregation(null);
+ApproxXCubed.setAggregation(null);
 ApproxXCubed.setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 ApproxXCubed.setDefaultValue(Double.NaN);
 ApproxXCubed.setLockPreviousValue(false);

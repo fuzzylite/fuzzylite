@@ -32,7 +32,7 @@ tip->setEnabled(true);
 tip->setName("tip");
 tip->setRange(-30.000, 30.000);
 tip->setLockValueInRange(false);
-tip->fuzzyOutput()->setAggregation(fl::null);
+tip->setAggregation(fl::null);
 tip->setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 tip->setDefaultValue(fl::nan);
 tip->setLockPreviousValue(false);

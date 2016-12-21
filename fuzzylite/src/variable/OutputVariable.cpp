@@ -79,6 +79,14 @@ namespace fl {
         return this->_defuzzifier.get();
     }
 
+    void OutputVariable::setAggregation(SNorm* aggregation) {
+        this->_fuzzyOutput->setAggregation(aggregation);
+    }
+
+    SNorm* OutputVariable::getAggregation() const {
+        return this->_fuzzyOutput->getAggregation();
+    }
+
     void OutputVariable::setPreviousValue(scalar previousOutputValue) {
         this->_previousValue = previousOutputValue;
     }

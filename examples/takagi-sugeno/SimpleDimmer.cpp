@@ -23,7 +23,7 @@ Power->setEnabled(true);
 Power->setName("Power");
 Power->setRange(0.000, 1.000);
 Power->setLockValueInRange(false);
-Power->fuzzyOutput()->setAggregation(fl::null);
+Power->setAggregation(fl::null);
 Power->setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 Power->setDefaultValue(fl::nan);
 Power->setLockPreviousValue(false);

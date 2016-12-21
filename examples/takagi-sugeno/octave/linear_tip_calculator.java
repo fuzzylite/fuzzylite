@@ -41,7 +41,7 @@ Tip.setEnabled(true);
 Tip.setName("Tip");
 Tip.setRange(10.000, 20.000);
 Tip.setLockValueInRange(false);
-Tip.fuzzyOutput().setAggregation(null);
+Tip.setAggregation(null);
 Tip.setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 Tip.setDefaultValue(Double.NaN);
 Tip.setLockPreviousValue(false);

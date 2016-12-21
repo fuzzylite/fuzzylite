@@ -61,7 +61,7 @@ out.setEnabled(true);
 out.setName("out");
 out.setRange(-10.000, 10.000);
 out.setLockValueInRange(false);
-out.fuzzyOutput().setAggregation(null);
+out.setAggregation(null);
 out.setDefuzzifier(new WeightedAverage("TakagiSugeno"));
 out.setDefaultValue(Double.NaN);
 out.setLockPreviousValue(false);
