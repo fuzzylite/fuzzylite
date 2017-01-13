@@ -73,6 +73,12 @@ namespace fl {
                 @f$e@f$ is the end of the Concave
          */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
+
+        virtual scalar tsukamoto(scalar activationDegree,
+                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+
+        virtual bool isMonotonic() const FL_IOVERRIDE;
+
         /**
           Sets the inflection of the curve
           @param inflection is the inflection of the curve

@@ -79,6 +79,11 @@ namespace fl {
          */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
+        virtual scalar tsukamoto(scalar activationDegree,
+                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+
+        virtual bool isMonotonic() const FL_IOVERRIDE;
+        
         /**
           Sets the inflection of the sigmoid
           @param inflection is the inflection of the sigmoid

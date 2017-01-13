@@ -36,6 +36,38 @@ namespace fl {
         return Term::_height * 1.0 / (1.0 + std::exp(-_slope * (x - _inflection)));
     }
 
+    scalar Sigmoid::tsukamoto(scalar activationDegree,
+            scalar minimum, scalar maximum) const {
+
+        scalar w = activationDegree;
+        scalar z = fl::nan;
+
+        if (Op::isEq(w, 1.0)) {
+            if (Op::isGE(_slope, 0.0)) {
+                z = maximum;
+            } else {
+                z = minimum;
+            }
+
+        } else if (Op::isEq(w, 0.0)) {
+            if (Op::isGE(_slope, 0.0)) {
+                z = minimum;
+            } else {
+                z = maximum;
+            }
+        } else {
+            scalar a = _slope;
+            scalar b = _inflection;
+            z = b + (std::log(1.0 / w - 1.0) / -a);
+        }
+
+        return z;
+    }
+
+    bool Sigmoid::isMonotonic() const {
+        return true;
+    }
+
     std::string Sigmoid::parameters() const {
         return Op::join(2, " ", _inflection, _slope) +
                 (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");

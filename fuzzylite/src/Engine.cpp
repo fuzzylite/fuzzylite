@@ -417,7 +417,7 @@ namespace fl {
                 //Tsukamoto has only monotonic terms: Concave, Ramp, Sigmoid, SShape, or ZShape
                 for (std::size_t t = 0; tsukamoto and t < outputVariable->numberOfTerms(); ++t) {
                     Term* term = outputVariable->getTerm(t);
-                    tsukamoto = tsukamoto and weightedDefuzzifier->isMonotonic(term);
+                    tsukamoto = tsukamoto and term->isMonotonic();
                 }
             }
         }

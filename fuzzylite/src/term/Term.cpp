@@ -51,4 +51,15 @@ namespace fl {
         //do nothing
     }
 
+    scalar Term::tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const {
+        FL_IUNUSED(minimum);
+        FL_IUNUSED(maximum);
+        return membership(activationDegree);
+    }
+
+    bool Term::isMonotonic() const {
+        return false;
+    }
+
+
 }

@@ -79,7 +79,7 @@ namespace fl {
             for (std::size_t i = 0; i < numberOfTerms; ++i) {
                 const Activated& activated = fuzzyOutput->getTerm(i);
                 w = activated.getDegree();
-                z = tsukamoto(activated.getTerm(), w, minimum, maximum);
+                z = activated.getTerm()->tsukamoto(w, minimum, maximum);
                 sum += w * z;
             }
         }

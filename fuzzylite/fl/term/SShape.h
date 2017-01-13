@@ -73,6 +73,11 @@ namespace fl {
          */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
+        virtual scalar tsukamoto(scalar activationDegree,
+                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+
+        virtual bool isMonotonic() const FL_IOVERRIDE;
+        
         /**
           Sets the start of the edge
           @param start is the start of the edge

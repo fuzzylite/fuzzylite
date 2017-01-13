@@ -45,6 +45,18 @@ namespace fl {
         return Term::_height * 1.0;
     }
 
+    scalar Concave::tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const {
+        FL_IUNUSED(minimum);
+        FL_IUNUSED(maximum);
+        scalar i = _inflection;
+        scalar e = _end;
+        return (i - e) / membership(activationDegree) + 2 * e - i;
+    }
+
+    bool Concave::isMonotonic() const {
+        return true;
+    }
+
     std::string Concave::parameters() const {
         return Op::join(2, " ", _inflection, _end) +
                 (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");

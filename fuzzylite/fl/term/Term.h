@@ -139,6 +139,27 @@ namespace fl {
           @param engine is the engine to which this term belongs to
          */
         virtual void updateReference(const Engine* engine);
+
+        /**
+          For monotonic terms, computes the tsukamoto value of the term for the
+          given activation degree @f$\alpha@f$, that is,
+          @f$ g_j(\alpha) = \{ z \in\mathbb{R} : \mu_j(z) = \alpha \} $@f. If
+          the term is not monotonic (or does not override this method) the
+          method computes the membership function @f$\mu(\alpha)@f$.
+          @param activationDegree is the activationDegree
+          @param minimum is the minimum value of the range of the term
+          @param maximum is the maximum value of the range of the term
+          @return the tsukamoto value of the term for the given activation degree
+                  if the term is monotonic (or overrides this method), or
+                  the membership function for the activation degree otherwise.
+         */
+        virtual scalar tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const;
+
+        /**
+          Indicates whether the term is monotonic.
+          @return whether the term is monotonic.
+         */
+        virtual bool isMonotonic() const;
     };
 }
 #endif /* FL_TERM_H */

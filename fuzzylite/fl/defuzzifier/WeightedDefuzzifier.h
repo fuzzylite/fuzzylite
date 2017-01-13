@@ -82,28 +82,6 @@ namespace fl {
           @return the inferred type of the defuzzifier based on the given term
          */
         virtual Type inferType(const Term* term) const;
-        /**
-          Indicates if the given term is monotonic
-          @param term is the given term
-          @return whether the given term is monotonic
-         */
-        virtual bool isMonotonic(const Term* term) const;
-
-        /**
-          Computes the Tsukamoto @f$z@f$-value for the given monotonic term. If
-          the term is not monotonic, then the TakagiSugeno (or InverseTsukamoto)
-          @f$z@f$-value is computed.
-
-          @param monotonic is the monotonic term
-          @param activationDegree is the activation degree for the term
-          @param minimum is the minimum value of the range of the term
-          @param maximum is the maximum value of the range of the term
-          @return the Tsukamoto @f$z@f$-value for the given monotonic term, or
-          the TakagiSugeno (or InverseTsukamoto) @f$z@f$-value if the term
-          is not monotonic.
-         */
-        virtual scalar tsukamoto(const Term* monotonic, scalar activationDegree,
-                scalar minimum, scalar maximum) const;
 
     };
 }

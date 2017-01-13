@@ -46,6 +46,28 @@ namespace fl {
         return Term::_height * 1.0;
     }
 
+    scalar SShape::tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const {
+        FL_IUNUSED(minimum);
+        FL_IUNUSED(maximum);
+
+        scalar w = activationDegree;
+        scalar z = fl::nan;
+
+        scalar difference = _end - _start;
+        scalar a = _start + std::sqrt(0.5 * w * difference * difference);
+        scalar b = _end + std::sqrt(-0.5 * (w - 1.0) * difference * difference);
+        if (std::abs(w - membership(a)) < std::abs(w - membership(b))) {
+            z = a;
+        } else {
+            z = b;
+        }
+        return z;
+    }
+
+    bool SShape::isMonotonic() const {
+        return true;
+    }
+
     std::string SShape::parameters() const {
         return Op::join(2, " ", _start, _end) +
                 (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");

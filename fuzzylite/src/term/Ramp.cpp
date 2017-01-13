@@ -52,6 +52,16 @@ namespace fl {
         }
     }
 
+    scalar Ramp::tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const {
+        FL_IUNUSED(minimum);
+        FL_IUNUSED(maximum);
+        return Op::scale(activationDegree, 0, 1, _start, _end);
+    }
+
+    bool Ramp::isMonotonic() const {
+        return true;
+    }
+
     std::string Ramp::parameters() const {
         return Op::join(2, " ", _start, _end) +
                 (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
