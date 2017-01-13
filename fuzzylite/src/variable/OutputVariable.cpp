@@ -153,7 +153,7 @@ namespace fl {
 
         std::string exception;
         scalar result = fl::nan;
-        bool isValid = _enabled and not _fuzzyOutput->isEmpty();
+        bool isValid = not _fuzzyOutput->isEmpty();
         if (isValid) {
             /* Checks whether the variable can be defuzzified without exceptions.
              * If it cannot be defuzzified, be that due to a missing defuzzifier
