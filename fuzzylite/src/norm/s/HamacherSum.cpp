@@ -16,6 +16,8 @@
 
 #include "fl/norm/s/HamacherSum.h"
 
+#include "fl/Operation.h"
+
 namespace fl {
 
     std::string HamacherSum::className() const {
@@ -27,6 +29,7 @@ namespace fl {
     }
 
     scalar HamacherSum::compute(scalar a, scalar b) const {
+        if (Op::isEq(a * b, 1.0)) return 1.0;
         return (a + b - 2.0 * a * b) / (1.0 - a * b);
     }
 

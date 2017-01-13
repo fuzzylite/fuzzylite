@@ -16,6 +16,8 @@
 
 #include "fl/norm/t/HamacherProduct.h"
 
+#include "fl/Operation.h"
+
 namespace fl {
 
     std::string HamacherProduct::className() const {
@@ -27,6 +29,7 @@ namespace fl {
     }
 
     scalar HamacherProduct::compute(scalar a, scalar b) const {
+        if (Op::isEq(a + b, 0.0)) return 0.0;
         return (a * b) / (a + b - a * b);
     }
 
