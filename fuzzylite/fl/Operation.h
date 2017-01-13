@@ -485,18 +485,6 @@ namespace fl {
                 const std::string& replacement = "");
 
         /**
-          Intentionally results in a compiler error in C++11 (or linker error
-          in C++98) in order to avoid the deprecated usage of this method
-          @param x is irrelevant
-          @param quiet is irrelevant
-          @param alternative is irrelevant
-          @return nothing
-          @deprecated the method has been removed since version 5.0
-         */
-        static scalar toScalar(const std::string& x, bool quiet,
-                scalar alternative = fl::nan) FL_IDELETE;
-
-        /**
           Parses the given string into a scalar value
           @param x is the string to parse
           @return the given string into a scalar value
