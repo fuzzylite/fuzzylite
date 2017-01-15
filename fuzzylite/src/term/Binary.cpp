@@ -33,10 +33,10 @@ namespace fl {
 
     scalar Binary::membership(scalar x) const {
         if (Op::isNaN(x)) return fl::nan;
-        if (_direction == fl::inf and Op::isGE(x, _start)) {
+        if (_direction > _start and Op::isGE(x, _start)) {
             return Term::_height * 1.0;
         }
-        if (_direction == -fl::inf and Op::isLE(x, _start)) {
+        if (_direction < _start and Op::isLE(x, _start)) {
             return Term::_height * 1.0;
         }
         return Term::_height * 0.0;
@@ -72,13 +72,7 @@ namespace fl {
     }
 
     void Binary::setDirection(scalar direction) {
-        if (direction > getStart()) {
-            this->_direction = fl::inf;
-        } else if (direction < getStart()) {
-            this->_direction = -fl::inf;
-        } else {
-            this->_direction = fl::nan;
-        }
+        this->_direction = direction;
     }
 
     scalar Binary::getDirection() const {
@@ -86,8 +80,8 @@ namespace fl {
     }
 
     Binary::Direction Binary::direction() const {
-        if (this->_direction == fl::inf) return Positive;
-        if (this->_direction == -fl::inf) return Negative;
+        if (this->_direction > _start) return Positive;
+        if (this->_direction < _start) return Negative;
         return Undefined;
     }
 

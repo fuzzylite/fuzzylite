@@ -97,12 +97,11 @@ namespace fl {
         virtual scalar getStart() const;
 
         /**
-          Sets the direction of the binary edge. The direction is automatically
-          converted to:
+          Sets the direction of the binary edge.
 
           @f$\begin{cases}
-          \infty & \mbox{if $ d > s $}\cr
-          -\infty & \mbox{if $ d < s $}\cr
+          \text{Positive} & \mbox{if $ d > s $}\cr
+          \text{Negative} & \mbox{if $ d < s $}\cr
           \mbox{\tt NaN} & \mbox{otherwise}
           \end{cases}
           @f$
