@@ -18,9 +18,8 @@
 
 namespace fl {
 
-    FactoryManager FactoryManager::_instance;
-
     FactoryManager* FactoryManager::instance() {
+        static FL_ITHREAD_LOCAL FactoryManager _instance;
         return &_instance;
     }
 
@@ -49,14 +48,15 @@ namespace fl {
     }
 
     FactoryManager& FactoryManager::operator=(const FactoryManager& other) {
-        _tnorm.reset(fl::null);
-        _snorm.reset(fl::null);
-        _activation.reset(fl::null);
-        _defuzzifier.reset(fl::null);
-        _term.reset(fl::null);
-        _hedge.reset(fl::null);
-        _function.reset(fl::null);
         if (this != &other) {
+            _tnorm.reset(fl::null);
+            _snorm.reset(fl::null);
+            _activation.reset(fl::null);
+            _defuzzifier.reset(fl::null);
+            _term.reset(fl::null);
+            _hedge.reset(fl::null);
+            _function.reset(fl::null);
+
             if (other._tnorm.get()) this->_tnorm.reset(new TNormFactory(*other._tnorm.get()));
             if (other._snorm.get()) this->_snorm.reset(new SNormFactory(*other._snorm.get()));
             if (other._activation.get()) this->_activation.reset(new ActivationFactory(*other._activation.get()));

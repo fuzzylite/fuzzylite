@@ -19,11 +19,11 @@
 namespace fl {
 
 
-    int fuzzylite::_decimals = 3;
-    std::ios_base::fmtflags fuzzylite::_scalarFormat = std::ios_base::fixed;
-    scalar fuzzylite::_macheps = 1e-6;
-    bool fuzzylite::_debugging = false;
-    bool fuzzylite::_logging = true;
+    FL_ITHREAD_LOCAL int fuzzylite::_decimals = 3;
+    FL_ITHREAD_LOCAL std::ios_base::fmtflags fuzzylite::_scalarFormat = std::ios_base::fixed;
+    FL_ITHREAD_LOCAL scalar fuzzylite::_macheps = 1e-6;
+    FL_ITHREAD_LOCAL bool fuzzylite::_debugging = false;
+    FL_ITHREAD_LOCAL bool fuzzylite::_logging = true;
 
     std::string platform() {
 #ifdef FL_UNIX

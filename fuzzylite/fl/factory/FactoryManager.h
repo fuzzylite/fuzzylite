@@ -47,8 +47,6 @@ namespace fl {
      */
     class FL_API FactoryManager {
     private:
-        static FactoryManager _instance;
-
         FL_unique_ptr<TNormFactory> _tnorm;
         FL_unique_ptr<SNormFactory> _snorm;
         FL_unique_ptr<ActivationFactory> _activation;
@@ -57,16 +55,16 @@ namespace fl {
         FL_unique_ptr<HedgeFactory> _hedge;
         FL_unique_ptr<FunctionFactory> _function;
 
+    public:
         FactoryManager();
-        FactoryManager(TNormFactory* tnorm, SNormFactory* snorm,
+        explicit FactoryManager(TNormFactory* tnorm, SNormFactory* snorm,
                 ActivationFactory* activation, DefuzzifierFactory* defuzzifier,
                 TermFactory* term, HedgeFactory* hedge, FunctionFactory* function);
-        FactoryManager(const FactoryManager& other);
+        explicit FactoryManager(const FactoryManager& other);
         FactoryManager& operator=(const FactoryManager& other);
         FL_DEFAULT_MOVE(FactoryManager)
         virtual ~FactoryManager();
 
-    public:
         /**
           Gets the static instance of the manager
           @return the static instance of the manager
