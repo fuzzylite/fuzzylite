@@ -1,7 +1,7 @@
 #include <fl/Headers.h>
 
 int main(int argc, char** argv){
-//C++ code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 using namespace fl;
 
@@ -9,8 +9,9 @@ Engine* engine = new Engine;
 engine->setName("sugeno1");
 
 InputVariable* input = new InputVariable;
-input->setEnabled(true);
 input->setName("input");
+input->setDescription("");
+input->setEnabled(true);
 input->setRange(-5.000, 5.000);
 input->setLockValueInRange(false);
 input->addTerm(new Gaussian("low", -5.000, 4.000));
@@ -18,8 +19,9 @@ input->addTerm(new Gaussian("high", 5.000, 4.000));
 engine->addInputVariable(input);
 
 OutputVariable* output = new OutputVariable;
-output->setEnabled(true);
 output->setName("output");
+output->setDescription("");
+output->setEnabled(true);
 output->setRange(0.000, 1.000);
 output->setLockValueInRange(false);
 output->setAggregation(fl::null);
@@ -31,8 +33,9 @@ output->addTerm(Linear::create("line2", engine, 1.000, -1.000));
 engine->addOutputVariable(output);
 
 RuleBlock* ruleBlock = new RuleBlock;
-ruleBlock->setEnabled(true);
 ruleBlock->setName("");
+ruleBlock->setDescription("");
+ruleBlock->setEnabled(true);
 ruleBlock->setConjunction(fl::null);
 ruleBlock->setDisjunction(fl::null);
 ruleBlock->setImplication(fl::null);

@@ -47,6 +47,7 @@ namespace fl {
     class FL_API RuleBlock {
     private:
         std::string _name;
+        std::string _description;
         std::vector<Rule*> _rules;
         FL_unique_ptr<TNorm> _conjunction;
         FL_unique_ptr<SNorm> _disjunction;
@@ -79,6 +80,17 @@ namespace fl {
          */
         virtual std::string getName() const;
 
+        /**
+          Gets the description of the rule block
+          @return the description of the rule block
+         */
+        virtual std::string getDescription() const;
+
+        /**
+          Sets the description of the rule block
+          @param description is the description of the rule block
+         */
+        virtual void setDescription(const std::string& description);
         /**
           Sets the conjunction operator
           @param conjunction is the conjunction operator

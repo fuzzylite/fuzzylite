@@ -1,7 +1,7 @@
 #include <fl/Headers.h>
 
 int main(int argc, char** argv){
-//C++ code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 using namespace fl;
 
@@ -9,8 +9,9 @@ Engine* engine = new Engine;
 engine->setName("invkine1");
 
 InputVariable* input1 = new InputVariable;
-input1->setEnabled(true);
 input1->setName("input1");
+input1->setDescription("");
+input1->setEnabled(true);
 input1->setRange(-6.287, 17.000);
 input1->setLockValueInRange(false);
 input1->addTerm(new Bell("in1mf1", -6.122, 2.259, 1.761));
@@ -23,8 +24,9 @@ input1->addTerm(new Bell("in1mf7", 17.789, 1.310, 1.756));
 engine->addInputVariable(input1);
 
 InputVariable* input2 = new InputVariable;
-input2->setEnabled(true);
 input2->setName("input2");
+input2->setDescription("");
+input2->setEnabled(true);
 input2->setRange(0.000, 16.972);
 input2->setLockValueInRange(false);
 input2->addTerm(new Bell("in2mf1", 0.621, 1.741, 2.454));
@@ -37,8 +39,9 @@ input2->addTerm(new Bell("in2mf7", 17.813, 0.820, 1.577));
 engine->addInputVariable(input2);
 
 OutputVariable* output = new OutputVariable;
-output->setEnabled(true);
 output->setName("output");
+output->setDescription("");
+output->setEnabled(true);
 output->setRange(0.000, 1.500);
 output->setLockValueInRange(false);
 output->setAggregation(fl::null);
@@ -97,8 +100,9 @@ output->addTerm(Linear::create("out1mf49", engine, 0.220, 0.154, 0.010));
 engine->addOutputVariable(output);
 
 RuleBlock* ruleBlock = new RuleBlock;
-ruleBlock->setEnabled(true);
 ruleBlock->setName("");
+ruleBlock->setDescription("");
+ruleBlock->setEnabled(true);
 ruleBlock->setConjunction(new AlgebraicProduct);
 ruleBlock->setDisjunction(fl::null);
 ruleBlock->setImplication(fl::null);

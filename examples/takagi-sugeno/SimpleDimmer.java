@@ -13,14 +13,15 @@ import com.fuzzylite.variable.*;
 
 public class SimpleDimmer{
 public static void main(String[] args){
-//Java code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 Engine engine = new Engine();
 engine.setName("SimpleDimmer");
 
 InputVariable Ambient = new InputVariable();
-Ambient.setEnabled(true);
 Ambient.setName("Ambient");
+Ambient.setDescription("");
+Ambient.setEnabled(true);
 Ambient.setRange(0.000, 1.000);
 Ambient.setLockValueInRange(false);
 Ambient.addTerm(new Triangle("DARK", 0.000, 0.250, 0.500));
@@ -29,8 +30,9 @@ Ambient.addTerm(new Triangle("BRIGHT", 0.500, 0.750, 1.000));
 engine.addInputVariable(Ambient);
 
 OutputVariable Power = new OutputVariable();
-Power.setEnabled(true);
 Power.setName("Power");
+Power.setDescription("");
+Power.setEnabled(true);
 Power.setRange(0.000, 1.000);
 Power.setLockValueInRange(false);
 Power.setAggregation(null);
@@ -43,8 +45,9 @@ Power.addTerm(new Constant("HIGH", 0.750));
 engine.addOutputVariable(Power);
 
 RuleBlock ruleBlock = new RuleBlock();
-ruleBlock.setEnabled(true);
 ruleBlock.setName("");
+ruleBlock.setDescription("");
+ruleBlock.setEnabled(true);
 ruleBlock.setConjunction(null);
 ruleBlock.setDisjunction(null);
 ruleBlock.setImplication(null);

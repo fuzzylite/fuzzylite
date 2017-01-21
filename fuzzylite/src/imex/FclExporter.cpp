@@ -38,6 +38,7 @@ namespace fl {
 
     std::string FclExporter::toString(const Engine* engine) const {
         std::ostringstream fcl;
+        fcl << "//Code automatically generated with " << fuzzylite::library() << ".\n\n";
         fcl << "FUNCTION_BLOCK " << engine->getName() << "\n\n";
 
         fcl << "VAR_INPUT\n";

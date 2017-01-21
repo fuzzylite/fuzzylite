@@ -1,3 +1,5 @@
+//Code automatically generated with fuzzylite 6.0.
+
 FUNCTION_BLOCK heart_disease_risk
 
 VAR_INPUT

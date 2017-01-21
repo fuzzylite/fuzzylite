@@ -13,14 +13,15 @@ import com.fuzzylite.variable.*;
 
 public class sugeno_tip_calculator{
 public static void main(String[] args){
-//Java code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 Engine engine = new Engine();
 engine.setName("sugeno_tip_calculator");
 
 InputVariable FoodQuality = new InputVariable();
-FoodQuality.setEnabled(true);
 FoodQuality.setName("FoodQuality");
+FoodQuality.setDescription("");
+FoodQuality.setEnabled(true);
 FoodQuality.setRange(1.000, 10.000);
 FoodQuality.setLockValueInRange(false);
 FoodQuality.addTerm(new Trapezoid("Bad", 0.000, 1.000, 3.000, 7.000));
@@ -28,8 +29,9 @@ FoodQuality.addTerm(new Trapezoid("Good", 3.000, 7.000, 10.000, 11.000));
 engine.addInputVariable(FoodQuality);
 
 InputVariable Service = new InputVariable();
-Service.setEnabled(true);
 Service.setName("Service");
+Service.setDescription("");
+Service.setEnabled(true);
 Service.setRange(1.000, 10.000);
 Service.setLockValueInRange(false);
 Service.addTerm(new Trapezoid("Bad", 0.000, 1.000, 3.000, 7.000));
@@ -37,8 +39,9 @@ Service.addTerm(new Trapezoid("Good", 3.000, 7.000, 10.000, 11.000));
 engine.addInputVariable(Service);
 
 OutputVariable CheapTip = new OutputVariable();
-CheapTip.setEnabled(true);
 CheapTip.setName("CheapTip");
+CheapTip.setDescription("");
+CheapTip.setEnabled(true);
 CheapTip.setRange(5.000, 25.000);
 CheapTip.setLockValueInRange(false);
 CheapTip.setAggregation(null);
@@ -51,8 +54,9 @@ CheapTip.addTerm(new Constant("High", 20.000));
 engine.addOutputVariable(CheapTip);
 
 OutputVariable AverageTip = new OutputVariable();
-AverageTip.setEnabled(true);
 AverageTip.setName("AverageTip");
+AverageTip.setDescription("");
+AverageTip.setEnabled(true);
 AverageTip.setRange(5.000, 25.000);
 AverageTip.setLockValueInRange(false);
 AverageTip.setAggregation(null);
@@ -65,8 +69,9 @@ AverageTip.addTerm(new Constant("High", 20.000));
 engine.addOutputVariable(AverageTip);
 
 OutputVariable GenerousTip = new OutputVariable();
-GenerousTip.setEnabled(true);
 GenerousTip.setName("GenerousTip");
+GenerousTip.setDescription("");
+GenerousTip.setEnabled(true);
 GenerousTip.setRange(5.000, 25.000);
 GenerousTip.setLockValueInRange(false);
 GenerousTip.setAggregation(null);
@@ -79,8 +84,9 @@ GenerousTip.addTerm(new Constant("High", 20.000));
 engine.addOutputVariable(GenerousTip);
 
 RuleBlock ruleBlock = new RuleBlock();
-ruleBlock.setEnabled(true);
 ruleBlock.setName("");
+ruleBlock.setDescription("");
+ruleBlock.setEnabled(true);
 ruleBlock.setConjunction(new EinsteinProduct());
 ruleBlock.setDisjunction(null);
 ruleBlock.setImplication(null);

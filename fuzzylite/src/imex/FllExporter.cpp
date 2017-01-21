@@ -89,6 +89,9 @@ namespace fl {
     std::string FllExporter::toString(const Variable* variable) const {
         std::vector<std::string> result;
         result.push_back("Variable: " + Op::validName(variable->getName()));
+        if (not variable->getDescription().empty()) {
+            result.push_back(_indent + "description: " + variable->getDescription());
+        }
         result.push_back(_indent + "enabled: " + (variable->isEnabled() ? "true" : "false"));
         result.push_back(_indent + "range: " + Op::join(2, " ",
                 variable->getMinimum(), variable->getMaximum()));
@@ -103,6 +106,9 @@ namespace fl {
     std::string FllExporter::toString(const InputVariable* inputVariable) const {
         std::vector<std::string> result;
         result.push_back("InputVariable: " + Op::validName(inputVariable->getName()));
+        if (not inputVariable->getDescription().empty()) {
+            result.push_back(_indent + "description: " + inputVariable->getDescription());
+        }
         result.push_back(_indent + "enabled: " + (inputVariable->isEnabled() ? "true" : "false"));
         result.push_back(_indent + "range: " + Op::join(2, " ",
                 inputVariable->getMinimum(), inputVariable->getMaximum()));
@@ -117,6 +123,9 @@ namespace fl {
     std::string FllExporter::toString(const OutputVariable* outputVariable) const {
         std::vector<std::string> result;
         result.push_back("OutputVariable: " + Op::validName(outputVariable->getName()));
+        if (not outputVariable->getDescription().empty()) {
+            result.push_back(_indent + "description: " + outputVariable->getDescription());
+        }
         result.push_back(_indent + "enabled: " + (outputVariable->isEnabled() ? "true" : "false"));
         result.push_back(_indent + "range: " + Op::join(2, " ",
                 outputVariable->getMinimum(), outputVariable->getMaximum()));
@@ -138,6 +147,9 @@ namespace fl {
     std::string FllExporter::toString(const RuleBlock* ruleBlock) const {
         std::vector<std::string> result;
         result.push_back("RuleBlock: " + ruleBlock->getName());
+        if (not ruleBlock->getDescription().empty()) {
+            result.push_back(_indent + "description: " + ruleBlock->getDescription());
+        }
         result.push_back(_indent + "enabled: " +
                 (ruleBlock->isEnabled() ? "true" : "false"));
         result.push_back(_indent + "conjunction: " + toString(ruleBlock->getConjunction()));

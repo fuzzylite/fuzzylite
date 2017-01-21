@@ -13,14 +13,15 @@ import com.fuzzylite.variable.*;
 
 public class tipper1{
 public static void main(String[] args){
-//Java code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 Engine engine = new Engine();
 engine.setName("tipper1");
 
 InputVariable service = new InputVariable();
-service.setEnabled(true);
 service.setName("service");
+service.setDescription("");
+service.setEnabled(true);
 service.setRange(0.000, 10.000);
 service.setLockValueInRange(false);
 service.addTerm(new Gaussian("poor", 0.000, 1.500));
@@ -29,8 +30,9 @@ service.addTerm(new Gaussian("excellent", 10.000, 1.500));
 engine.addInputVariable(service);
 
 OutputVariable tip = new OutputVariable();
-tip.setEnabled(true);
 tip.setName("tip");
+tip.setDescription("");
+tip.setEnabled(true);
 tip.setRange(0.000, 30.000);
 tip.setLockValueInRange(false);
 tip.setAggregation(new Maximum());
@@ -43,8 +45,9 @@ tip.addTerm(new Triangle("generous", 20.000, 25.000, 30.000));
 engine.addOutputVariable(tip);
 
 RuleBlock ruleBlock = new RuleBlock();
-ruleBlock.setEnabled(true);
 ruleBlock.setName("");
+ruleBlock.setDescription("");
+ruleBlock.setEnabled(true);
 ruleBlock.setConjunction(new Minimum());
 ruleBlock.setDisjunction(new Maximum());
 ruleBlock.setImplication(new Minimum());

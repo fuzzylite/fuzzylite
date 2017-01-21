@@ -1,3 +1,5 @@
+#Code automatically generated with fuzzylite 6.0.
+
 [System]
 Name='Laundry'
 Type='mamdani'

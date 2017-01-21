@@ -1,3 +1,5 @@
+#Code automatically generated with fuzzylite 6.0.
+
 [System]
 Name='heart_disease_risk'
 Type='sugeno'

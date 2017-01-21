@@ -13,14 +13,15 @@ import com.fuzzylite.variable.*;
 
 public class Laundry{
 public static void main(String[] args){
-//Java code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 Engine engine = new Engine();
 engine.setName("Laundry");
 
 InputVariable Load = new InputVariable();
-Load.setEnabled(true);
 Load.setName("Load");
+Load.setDescription("");
+Load.setEnabled(true);
 Load.setRange(0.000, 6.000);
 Load.setLockValueInRange(false);
 Load.addTerm(Discrete.create("small", 0.000, 1.000, 1.000, 1.000, 2.000, 0.800, 5.000, 0.000));
@@ -28,8 +29,9 @@ Load.addTerm(Discrete.create("normal", 3.000, 0.000, 4.000, 1.000, 6.000, 0.000)
 engine.addInputVariable(Load);
 
 InputVariable Dirt = new InputVariable();
-Dirt.setEnabled(true);
 Dirt.setName("Dirt");
+Dirt.setDescription("");
+Dirt.setEnabled(true);
 Dirt.setRange(0.000, 6.000);
 Dirt.setLockValueInRange(false);
 Dirt.addTerm(Discrete.create("low", 0.000, 1.000, 2.000, 0.800, 5.000, 0.000));
@@ -37,8 +39,9 @@ Dirt.addTerm(Discrete.create("high", 1.000, 0.000, 2.000, 0.200, 4.000, 0.800, 6
 engine.addInputVariable(Dirt);
 
 OutputVariable Detergent = new OutputVariable();
-Detergent.setEnabled(true);
 Detergent.setName("Detergent");
+Detergent.setDescription("");
+Detergent.setEnabled(true);
 Detergent.setRange(0.000, 80.000);
 Detergent.setLockValueInRange(false);
 Detergent.setAggregation(new Maximum());
@@ -51,8 +54,9 @@ Detergent.addTerm(Discrete.create("more_than_usual", 50.000, 0.000, 80.000, 1.00
 engine.addOutputVariable(Detergent);
 
 OutputVariable Cycle = new OutputVariable();
-Cycle.setEnabled(true);
 Cycle.setName("Cycle");
+Cycle.setDescription("");
+Cycle.setEnabled(true);
 Cycle.setRange(0.000, 20.000);
 Cycle.setLockValueInRange(false);
 Cycle.setAggregation(new Maximum());
@@ -64,8 +68,9 @@ Cycle.addTerm(Discrete.create("long", 10.000, 0.000, 20.000, 1.000));
 engine.addOutputVariable(Cycle);
 
 RuleBlock ruleBlock = new RuleBlock();
-ruleBlock.setEnabled(true);
 ruleBlock.setName("");
+ruleBlock.setDescription("");
+ruleBlock.setEnabled(true);
 ruleBlock.setConjunction(new Minimum());
 ruleBlock.setDisjunction(new Maximum());
 ruleBlock.setImplication(new Minimum());

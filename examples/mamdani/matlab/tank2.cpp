@@ -1,7 +1,7 @@
 #include <fl/Headers.h>
 
 int main(int argc, char** argv){
-//C++ code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 using namespace fl;
 
@@ -9,8 +9,9 @@ Engine* engine = new Engine;
 engine->setName("tank2");
 
 InputVariable* level = new InputVariable;
-level->setEnabled(true);
 level->setName("level");
+level->setDescription("");
+level->setEnabled(true);
 level->setRange(-1.000, 1.000);
 level->setLockValueInRange(false);
 level->addTerm(new Trapezoid("high", -2.000, -1.000, -0.800, -0.001));
@@ -19,8 +20,9 @@ level->addTerm(new Trapezoid("low", 0.001, 0.800, 1.000, 1.500));
 engine->addInputVariable(level);
 
 InputVariable* change = new InputVariable;
-change->setEnabled(true);
 change->setName("change");
+change->setDescription("");
+change->setEnabled(true);
 change->setRange(-0.100, 0.100);
 change->setLockValueInRange(false);
 change->addTerm(new Trapezoid("falling", -0.140, -0.100, -0.060, 0.000));
@@ -28,8 +30,9 @@ change->addTerm(new Trapezoid("rising", -0.001, 0.060, 0.100, 0.140));
 engine->addInputVariable(change);
 
 OutputVariable* valve = new OutputVariable;
-valve->setEnabled(true);
 valve->setName("valve");
+valve->setDescription("");
+valve->setEnabled(true);
 valve->setRange(-1.000, 1.000);
 valve->setLockValueInRange(false);
 valve->setAggregation(new Maximum);
@@ -44,8 +47,9 @@ valve->addTerm(new Triangle("open_fast", 0.800, 0.900, 1.000));
 engine->addOutputVariable(valve);
 
 RuleBlock* ruleBlock = new RuleBlock;
-ruleBlock->setEnabled(true);
 ruleBlock->setName("");
+ruleBlock->setDescription("");
+ruleBlock->setEnabled(true);
 ruleBlock->setConjunction(new AlgebraicProduct);
 ruleBlock->setDisjunction(new AlgebraicSum);
 ruleBlock->setImplication(new AlgebraicProduct);

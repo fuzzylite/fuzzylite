@@ -13,14 +13,15 @@ import com.fuzzylite.variable.*;
 
 public class fpeaks{
 public static void main(String[] args){
-//Java code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 Engine engine = new Engine();
 engine.setName("fpeaks");
 
 InputVariable in1 = new InputVariable();
-in1.setEnabled(true);
 in1.setName("in1");
+in1.setDescription("");
+in1.setEnabled(true);
 in1.setRange(-3.000, 3.000);
 in1.setLockValueInRange(false);
 in1.addTerm(new Bell("in1mf1", -2.233, 1.578, 2.151));
@@ -30,8 +31,9 @@ in1.addTerm(new Bell("in1mf4", 2.270, 1.528, 2.156));
 engine.addInputVariable(in1);
 
 InputVariable in2 = new InputVariable();
-in2.setEnabled(true);
 in2.setName("in2");
+in2.setDescription("");
+in2.setEnabled(true);
 in2.setRange(-3.000, 3.000);
 in2.setLockValueInRange(false);
 in2.addTerm(new Bell("in1mf1", -2.686, 1.267, 2.044));
@@ -41,8 +43,9 @@ in2.addTerm(new Bell("in1mf4", 2.727, 1.214, 2.047));
 engine.addInputVariable(in2);
 
 OutputVariable out1 = new OutputVariable();
-out1.setEnabled(true);
 out1.setName("out1");
+out1.setDescription("");
+out1.setEnabled(true);
 out1.setRange(-10.000, 10.000);
 out1.setLockValueInRange(false);
 out1.setAggregation(null);
@@ -68,8 +71,9 @@ out1.addTerm(Linear.create("out1mf16", engine, 0.107, -2.028, 8.159));
 engine.addOutputVariable(out1);
 
 RuleBlock ruleBlock = new RuleBlock();
-ruleBlock.setEnabled(true);
 ruleBlock.setName("");
+ruleBlock.setDescription("");
+ruleBlock.setEnabled(true);
 ruleBlock.setConjunction(new AlgebraicProduct());
 ruleBlock.setDisjunction(null);
 ruleBlock.setImplication(null);

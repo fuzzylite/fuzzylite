@@ -13,14 +13,15 @@ import com.fuzzylite.variable.*;
 
 public class shower{
 public static void main(String[] args){
-//Java code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 Engine engine = new Engine();
 engine.setName("shower");
 
 InputVariable temp = new InputVariable();
-temp.setEnabled(true);
 temp.setName("temp");
+temp.setDescription("");
+temp.setEnabled(true);
 temp.setRange(-20.000, 20.000);
 temp.setLockValueInRange(false);
 temp.addTerm(new Trapezoid("cold", -30.000, -30.000, -15.000, 0.000));
@@ -29,8 +30,9 @@ temp.addTerm(new Trapezoid("hot", 0.000, 15.000, 30.000, 30.000));
 engine.addInputVariable(temp);
 
 InputVariable flow = new InputVariable();
-flow.setEnabled(true);
 flow.setName("flow");
+flow.setDescription("");
+flow.setEnabled(true);
 flow.setRange(-1.000, 1.000);
 flow.setLockValueInRange(false);
 flow.addTerm(new Trapezoid("soft", -3.000, -3.000, -0.800, 0.000));
@@ -39,8 +41,9 @@ flow.addTerm(new Trapezoid("hard", 0.000, 0.800, 3.000, 3.000));
 engine.addInputVariable(flow);
 
 OutputVariable cold = new OutputVariable();
-cold.setEnabled(true);
 cold.setName("cold");
+cold.setDescription("");
+cold.setEnabled(true);
 cold.setRange(-1.000, 1.000);
 cold.setLockValueInRange(false);
 cold.setAggregation(new Maximum());
@@ -55,8 +58,9 @@ cold.addTerm(new Triangle("openFast", 0.300, 0.600, 1.000));
 engine.addOutputVariable(cold);
 
 OutputVariable hot = new OutputVariable();
-hot.setEnabled(true);
 hot.setName("hot");
+hot.setDescription("");
+hot.setEnabled(true);
 hot.setRange(-1.000, 1.000);
 hot.setLockValueInRange(false);
 hot.setAggregation(new Maximum());
@@ -71,8 +75,9 @@ hot.addTerm(new Triangle("openFast", 0.300, 0.600, 1.000));
 engine.addOutputVariable(hot);
 
 RuleBlock ruleBlock = new RuleBlock();
-ruleBlock.setEnabled(true);
 ruleBlock.setName("");
+ruleBlock.setDescription("");
+ruleBlock.setEnabled(true);
 ruleBlock.setConjunction(new Minimum());
 ruleBlock.setDisjunction(new Maximum());
 ruleBlock.setImplication(new Minimum());

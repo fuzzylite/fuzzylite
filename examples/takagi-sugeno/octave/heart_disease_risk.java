@@ -13,14 +13,15 @@ import com.fuzzylite.variable.*;
 
 public class heart_disease_risk{
 public static void main(String[] args){
-//Java code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 Engine engine = new Engine();
 engine.setName("heart_disease_risk");
 
 InputVariable LDLLevel = new InputVariable();
-LDLLevel.setEnabled(true);
 LDLLevel.setName("LDLLevel");
+LDLLevel.setDescription("");
+LDLLevel.setEnabled(true);
 LDLLevel.setRange(0.000, 300.000);
 LDLLevel.setLockValueInRange(false);
 LDLLevel.addTerm(new Trapezoid("Low", -1.000, 0.000, 90.000, 110.000));
@@ -31,8 +32,9 @@ LDLLevel.addTerm(new Trapezoid("High", 180.000, 200.000, 300.000, 301.000));
 engine.addInputVariable(LDLLevel);
 
 InputVariable HDLLevel = new InputVariable();
-HDLLevel.setEnabled(true);
 HDLLevel.setName("HDLLevel");
+HDLLevel.setDescription("");
+HDLLevel.setEnabled(true);
 HDLLevel.setRange(0.000, 100.000);
 HDLLevel.setLockValueInRange(false);
 HDLLevel.addTerm(new Trapezoid("LowHDL", -1.000, 0.000, 35.000, 45.000));
@@ -41,8 +43,9 @@ HDLLevel.addTerm(new Trapezoid("HighHDL", 55.000, 65.000, 100.000, 101.000));
 engine.addInputVariable(HDLLevel);
 
 OutputVariable HeartDiseaseRisk = new OutputVariable();
-HeartDiseaseRisk.setEnabled(true);
 HeartDiseaseRisk.setName("HeartDiseaseRisk");
+HeartDiseaseRisk.setDescription("");
+HeartDiseaseRisk.setEnabled(true);
 HeartDiseaseRisk.setRange(0.000, 10.000);
 HeartDiseaseRisk.setLockValueInRange(false);
 HeartDiseaseRisk.setAggregation(null);
@@ -57,8 +60,9 @@ HeartDiseaseRisk.addTerm(new Constant("ExtremeRisk", 10.000));
 engine.addOutputVariable(HeartDiseaseRisk);
 
 RuleBlock ruleBlock = new RuleBlock();
-ruleBlock.setEnabled(true);
 ruleBlock.setName("");
+ruleBlock.setDescription("");
+ruleBlock.setEnabled(true);
 ruleBlock.setConjunction(new Minimum());
 ruleBlock.setDisjunction(null);
 ruleBlock.setImplication(null);

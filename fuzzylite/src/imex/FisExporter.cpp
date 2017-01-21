@@ -45,6 +45,7 @@ namespace fl {
 
     std::string FisExporter::exportSystem(const Engine* engine) const {
         std::ostringstream fis;
+        fis << "#Code automatically generated with " << fuzzylite::library() << ".\n\n";
         fis << "[System]\n";
         fis << "Name='" << engine->getName() << "'\n";
         std::string type;

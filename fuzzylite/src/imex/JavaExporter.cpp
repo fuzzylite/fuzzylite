@@ -39,7 +39,7 @@ namespace fl {
 
     std::string JavaExporter::toString(const Engine* engine) const {
         std::ostringstream ss;
-        ss << "//Java code generated with " << fuzzylite::library() << ".\n\n";
+        ss << "//Code automatically generated with " << fuzzylite::library() << ".\n\n";
         ss << "Engine engine = new Engine();\n";
         ss << "engine.setName(\"" << engine->getName() << "\");\n";
         ss << "\n";
@@ -74,8 +74,9 @@ namespace fl {
             }
         }
         ss << "InputVariable " << name << " = new InputVariable();\n";
-        ss << name << ".setEnabled(" << (inputVariable->isEnabled() ? "true" : "false") << ");\n";
         ss << name << ".setName(\"" << inputVariable->getName() << "\");\n";
+        ss << name << ".setDescription(\"" << inputVariable->getDescription() << "\");\n";
+        ss << name << ".setEnabled(" << (inputVariable->isEnabled() ? "true" : "false") << ");\n";
         ss << name << ".setRange("
                 << toString(inputVariable->getMinimum()) << ", "
                 << toString(inputVariable->getMaximum()) << ");\n";
@@ -104,8 +105,9 @@ namespace fl {
             }
         }
         ss << "OutputVariable " << name << " = new OutputVariable();\n";
-        ss << name << ".setEnabled(" << (outputVariable->isEnabled() ? "true" : "false") << ");\n";
         ss << name << ".setName(\"" << outputVariable->getName() << "\");\n";
+        ss << name << ".setDescription(\"" << outputVariable->getDescription() << "\");\n";
+        ss << name << ".setEnabled(" << (outputVariable->isEnabled() ? "true" : "false") << ");\n";
         ss << name << ".setRange("
                 << toString(outputVariable->getMinimum()) << ", "
                 << toString(outputVariable->getMaximum()) << ");\n";
@@ -137,8 +139,9 @@ namespace fl {
             name += Op::str(index + 1);
         }
         ss << "RuleBlock " << name << " = new RuleBlock();\n";
-        ss << name << ".setEnabled(" << (ruleBlock->isEnabled() ? "true" : "false") << ");\n";
         ss << name << ".setName(\"" << ruleBlock->getName() << "\");\n";
+        ss << name << ".setDescription(\"" << ruleBlock->getDescription() << "\");\n";
+        ss << name << ".setEnabled(" << (ruleBlock->isEnabled() ? "true" : "false") << ");\n";
         ss << name << ".setConjunction("
                 << toString(ruleBlock->getConjunction()) << ");\n";
         ss << name << ".setDisjunction("

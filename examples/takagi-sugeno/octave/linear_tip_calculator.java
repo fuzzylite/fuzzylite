@@ -13,14 +13,15 @@ import com.fuzzylite.variable.*;
 
 public class linear_tip_calculator{
 public static void main(String[] args){
-//Java code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 Engine engine = new Engine();
 engine.setName("linear_tip_calculator");
 
 InputVariable FoodQuality = new InputVariable();
-FoodQuality.setEnabled(true);
 FoodQuality.setName("FoodQuality");
+FoodQuality.setDescription("");
+FoodQuality.setEnabled(true);
 FoodQuality.setRange(1.000, 10.000);
 FoodQuality.setLockValueInRange(false);
 FoodQuality.addTerm(new Trapezoid("Bad", 0.000, 1.000, 3.000, 7.000));
@@ -28,8 +29,9 @@ FoodQuality.addTerm(new Trapezoid("Good", 3.000, 7.000, 10.000, 11.000));
 engine.addInputVariable(FoodQuality);
 
 InputVariable Service = new InputVariable();
-Service.setEnabled(true);
 Service.setName("Service");
+Service.setDescription("");
+Service.setEnabled(true);
 Service.setRange(1.000, 10.000);
 Service.setLockValueInRange(false);
 Service.addTerm(new Trapezoid("Bad", 0.000, 1.000, 3.000, 7.000));
@@ -37,8 +39,9 @@ Service.addTerm(new Trapezoid("Good", 3.000, 7.000, 10.000, 11.000));
 engine.addInputVariable(Service);
 
 OutputVariable Tip = new OutputVariable();
-Tip.setEnabled(true);
 Tip.setName("Tip");
+Tip.setDescription("");
+Tip.setEnabled(true);
 Tip.setRange(10.000, 20.000);
 Tip.setLockValueInRange(false);
 Tip.setAggregation(null);
@@ -51,8 +54,9 @@ Tip.addTerm(Linear.create("TwentyPercent", engine, 0.000, 0.000, 20.000));
 engine.addOutputVariable(Tip);
 
 RuleBlock ruleBlock = new RuleBlock();
-ruleBlock.setEnabled(true);
 ruleBlock.setName("");
+ruleBlock.setDescription("");
+ruleBlock.setEnabled(true);
 ruleBlock.setConjunction(new Minimum());
 ruleBlock.setDisjunction(null);
 ruleBlock.setImplication(null);

@@ -49,6 +49,7 @@ namespace fl {
         };
     protected:
         std::string _name;
+        std::string _description;
         std::vector<Term*> _terms;
         scalar _value;
         scalar _minimum, _maximum;
@@ -78,6 +79,18 @@ namespace fl {
           @return the name of the variable
          */
         virtual std::string getName() const;
+
+        /**
+          Gets the description of the variable
+          @return the description of the variable
+         */
+        virtual std::string getDescription() const;
+
+        /**
+          Sets the description of the variable
+          @param description is the description of the variable
+         */
+        virtual void setDescription(const std::string& description);
 
         /**
           Sets the value of the variable

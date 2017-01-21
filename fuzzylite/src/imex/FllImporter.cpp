@@ -97,6 +97,8 @@ namespace fl {
             std::pair<std::string, std::string> keyValue = parseKeyValue(line, ':');
             if ("InputVariable" == keyValue.first) {
                 inputVariable->setName(Op::validName(keyValue.second));
+            } else if ("description" == keyValue.first) {
+                inputVariable->setDescription(keyValue.second);
             } else if ("enabled" == keyValue.first) {
                 inputVariable->setEnabled(parseBoolean(keyValue.second));
             } else if ("range" == keyValue.first) {
@@ -122,6 +124,8 @@ namespace fl {
             std::pair<std::string, std::string> keyValue = parseKeyValue(line, ':');
             if ("OutputVariable" == keyValue.first) {
                 outputVariable->setName(Op::validName(keyValue.second));
+            } else if ("description" == keyValue.first) {
+                outputVariable->setDescription(keyValue.second);
             } else if ("enabled" == keyValue.first) {
                 outputVariable->setEnabled(parseBoolean(keyValue.second));
             } else if ("range" == keyValue.first) {
@@ -162,6 +166,8 @@ namespace fl {
             std::pair<std::string, std::string> keyValue = parseKeyValue(line, ':');
             if ("RuleBlock" == keyValue.first) {
                 ruleBlock->setName(keyValue.second);
+            } else if ("description" == keyValue.first) {
+                ruleBlock->setDescription(keyValue.second);
             } else if ("enabled" == keyValue.first) {
                 ruleBlock->setEnabled(parseBoolean(keyValue.second));
             } else if ("conjunction" == keyValue.first) {

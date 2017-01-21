@@ -13,14 +13,15 @@ import com.fuzzylite.variable.*;
 
 public class cubic_approximator{
 public static void main(String[] args){
-//Java code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 Engine engine = new Engine();
 engine.setName("cubic_approximator");
 
 InputVariable X = new InputVariable();
-X.setEnabled(true);
 X.setName("X");
+X.setDescription("");
+X.setEnabled(true);
 X.setRange(-5.000, 5.000);
 X.setLockValueInRange(false);
 X.addTerm(new Triangle("AboutNegFive", -6.000, -5.000, -4.000));
@@ -37,8 +38,9 @@ X.addTerm(new Triangle("AboutFive", 4.000, 5.000, 6.000));
 engine.addInputVariable(X);
 
 OutputVariable ApproxXCubed = new OutputVariable();
-ApproxXCubed.setEnabled(true);
 ApproxXCubed.setName("ApproxXCubed");
+ApproxXCubed.setDescription("");
+ApproxXCubed.setEnabled(true);
 ApproxXCubed.setRange(-5.000, 5.000);
 ApproxXCubed.setLockValueInRange(false);
 ApproxXCubed.setAggregation(null);
@@ -59,8 +61,9 @@ ApproxXCubed.addTerm(Linear.create("TangentatFive", engine, 75.000, -250.000));
 engine.addOutputVariable(ApproxXCubed);
 
 RuleBlock ruleBlock = new RuleBlock();
-ruleBlock.setEnabled(true);
 ruleBlock.setName("");
+ruleBlock.setDescription("");
+ruleBlock.setEnabled(true);
 ruleBlock.setConjunction(null);
 ruleBlock.setDisjunction(null);
 ruleBlock.setImplication(null);

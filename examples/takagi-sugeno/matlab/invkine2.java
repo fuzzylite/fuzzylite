@@ -13,14 +13,15 @@ import com.fuzzylite.variable.*;
 
 public class invkine2{
 public static void main(String[] args){
-//Java code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 Engine engine = new Engine();
 engine.setName("invkine2");
 
 InputVariable input1 = new InputVariable();
-input1.setEnabled(true);
 input1.setName("input1");
+input1.setDescription("");
+input1.setEnabled(true);
 input1.setRange(-6.287, 17.000);
 input1.setLockValueInRange(false);
 input1.addTerm(new Bell("in1mf1", -5.763, 3.015, 1.851));
@@ -32,8 +33,9 @@ input1.addTerm(new Bell("in1mf6", 17.783, 1.635, 1.897));
 engine.addInputVariable(input1);
 
 InputVariable input2 = new InputVariable();
-input2.setEnabled(true);
 input2.setName("input2");
+input2.setDescription("");
+input2.setEnabled(true);
 input2.setRange(0.000, 16.972);
 input2.setLockValueInRange(false);
 input2.addTerm(new Bell("in2mf1", 0.005, 1.877, 1.995));
@@ -45,8 +47,9 @@ input2.addTerm(new Bell("in2mf6", 17.910, 0.824, 1.734));
 engine.addInputVariable(input2);
 
 OutputVariable output = new OutputVariable();
-output.setEnabled(true);
 output.setName("output");
+output.setDescription("");
+output.setEnabled(true);
 output.setRange(0.000, 3.100);
 output.setLockValueInRange(false);
 output.setAggregation(null);
@@ -92,8 +95,9 @@ output.addTerm(Linear.create("out1mf36", engine, -0.448, -0.770, -0.041));
 engine.addOutputVariable(output);
 
 RuleBlock ruleBlock = new RuleBlock();
-ruleBlock.setEnabled(true);
 ruleBlock.setName("");
+ruleBlock.setDescription("");
+ruleBlock.setEnabled(true);
 ruleBlock.setConjunction(new AlgebraicProduct());
 ruleBlock.setDisjunction(null);
 ruleBlock.setImplication(null);

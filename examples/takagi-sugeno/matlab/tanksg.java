@@ -13,14 +13,15 @@ import com.fuzzylite.variable.*;
 
 public class tanksg{
 public static void main(String[] args){
-//Java code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 Engine engine = new Engine();
 engine.setName("tanksg");
 
 InputVariable level = new InputVariable();
-level.setEnabled(true);
 level.setName("level");
+level.setDescription("");
+level.setEnabled(true);
 level.setRange(-1.000, 1.000);
 level.setLockValueInRange(false);
 level.addTerm(new Gaussian("high", -1.000, 0.300));
@@ -29,8 +30,9 @@ level.addTerm(new Gaussian("low", 1.000, 0.300));
 engine.addInputVariable(level);
 
 InputVariable rate = new InputVariable();
-rate.setEnabled(true);
 rate.setName("rate");
+rate.setDescription("");
+rate.setEnabled(true);
 rate.setRange(-0.100, 0.100);
 rate.setLockValueInRange(false);
 rate.addTerm(new Gaussian("negative", -0.100, 0.030));
@@ -39,8 +41,9 @@ rate.addTerm(new Gaussian("positive", 0.100, 0.030));
 engine.addInputVariable(rate);
 
 OutputVariable valve = new OutputVariable();
-valve.setEnabled(true);
 valve.setName("valve");
+valve.setDescription("");
+valve.setEnabled(true);
 valve.setRange(-1.000, 1.000);
 valve.setLockValueInRange(false);
 valve.setAggregation(null);
@@ -55,8 +58,9 @@ valve.addTerm(new Constant("open_fast", 0.900));
 engine.addOutputVariable(valve);
 
 RuleBlock ruleBlock = new RuleBlock();
-ruleBlock.setEnabled(true);
 ruleBlock.setName("");
+ruleBlock.setDescription("");
+ruleBlock.setEnabled(true);
 ruleBlock.setConjunction(new AlgebraicProduct());
 ruleBlock.setDisjunction(null);
 ruleBlock.setImplication(null);

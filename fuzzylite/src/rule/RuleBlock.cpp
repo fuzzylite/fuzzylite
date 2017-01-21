@@ -26,7 +26,7 @@
 namespace fl {
 
     RuleBlock::RuleBlock(const std::string& name)
-    : _name(name), _enabled(true) { }
+    : _name(name), _description(""), _enabled(true) { }
 
     RuleBlock::RuleBlock(const RuleBlock& other) : _name(other._name),
     _enabled(true) {
@@ -51,6 +51,7 @@ namespace fl {
 
     void RuleBlock::copyFrom(const RuleBlock& source) {
         _name = source._name;
+        _description = source._description;
         _enabled = source._enabled;
         if (source._conjunction.get()) _conjunction.reset(source._conjunction->clone());
         if (source._disjunction.get()) _disjunction.reset(source._disjunction->clone());
@@ -132,6 +133,14 @@ namespace fl {
 
     std::string RuleBlock::getName() const {
         return this->_name;
+    }
+
+    void RuleBlock::setDescription(const std::string& description) {
+        this->_description = description;
+    }
+
+    std::string RuleBlock::getDescription() const {
+        return this->_description;
     }
 
     void RuleBlock::setConjunction(TNorm* tnorm) {

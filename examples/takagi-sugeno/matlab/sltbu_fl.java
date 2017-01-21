@@ -13,14 +13,15 @@ import com.fuzzylite.variable.*;
 
 public class sltbu_fl{
 public static void main(String[] args){
-//Java code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 Engine engine = new Engine();
 engine.setName("sltbu_fl");
 
 InputVariable distance = new InputVariable();
-distance.setEnabled(true);
 distance.setName("distance");
+distance.setDescription("");
+distance.setEnabled(true);
 distance.setRange(0.000, 25.000);
 distance.setLockValueInRange(false);
 distance.addTerm(new ZShape("near", 1.000, 2.000));
@@ -28,22 +29,25 @@ distance.addTerm(new SShape("far", 1.000, 2.000));
 engine.addInputVariable(distance);
 
 InputVariable control1 = new InputVariable();
-control1.setEnabled(true);
 control1.setName("control1");
+control1.setDescription("");
+control1.setEnabled(true);
 control1.setRange(-0.785, 0.785);
 control1.setLockValueInRange(false);
 engine.addInputVariable(control1);
 
 InputVariable control2 = new InputVariable();
-control2.setEnabled(true);
 control2.setName("control2");
+control2.setDescription("");
+control2.setEnabled(true);
 control2.setRange(-0.785, 0.785);
 control2.setLockValueInRange(false);
 engine.addInputVariable(control2);
 
 OutputVariable control = new OutputVariable();
-control.setEnabled(true);
 control.setName("control");
+control.setDescription("");
+control.setEnabled(true);
 control.setRange(-0.785, 0.785);
 control.setLockValueInRange(false);
 control.setAggregation(null);
@@ -55,8 +59,9 @@ control.addTerm(Linear.create("out1mf2", engine, 0.000, 1.000, 0.000, 0.000));
 engine.addOutputVariable(control);
 
 RuleBlock ruleBlock = new RuleBlock();
-ruleBlock.setEnabled(true);
 ruleBlock.setName("");
+ruleBlock.setDescription("");
+ruleBlock.setEnabled(true);
 ruleBlock.setConjunction(null);
 ruleBlock.setDisjunction(null);
 ruleBlock.setImplication(null);

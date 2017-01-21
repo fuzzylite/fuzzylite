@@ -13,14 +13,15 @@ import com.fuzzylite.variable.*;
 
 public class juggler{
 public static void main(String[] args){
-//Java code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 Engine engine = new Engine();
 engine.setName("juggler");
 
 InputVariable xHit = new InputVariable();
-xHit.setEnabled(true);
 xHit.setName("xHit");
+xHit.setDescription("");
+xHit.setEnabled(true);
 xHit.setRange(-4.000, 4.000);
 xHit.setLockValueInRange(false);
 xHit.addTerm(new Bell("in1mf1", -4.000, 2.000, 4.000));
@@ -29,8 +30,9 @@ xHit.addTerm(new Bell("in1mf3", 4.000, 2.000, 4.000));
 engine.addInputVariable(xHit);
 
 InputVariable projectAngle = new InputVariable();
-projectAngle.setEnabled(true);
 projectAngle.setName("projectAngle");
+projectAngle.setDescription("");
+projectAngle.setEnabled(true);
 projectAngle.setRange(0.000, 3.142);
 projectAngle.setLockValueInRange(false);
 projectAngle.addTerm(new Bell("in2mf1", 0.000, 0.785, 4.000));
@@ -39,8 +41,9 @@ projectAngle.addTerm(new Bell("in2mf3", 3.142, 0.785, 4.000));
 engine.addInputVariable(projectAngle);
 
 OutputVariable theta = new OutputVariable();
-theta.setEnabled(true);
 theta.setName("theta");
+theta.setDescription("");
+theta.setEnabled(true);
 theta.setRange(0.000, 0.000);
 theta.setLockValueInRange(false);
 theta.setAggregation(null);
@@ -59,8 +62,9 @@ theta.addTerm(Linear.create("out1mf", engine, -0.022, -0.500, 1.256));
 engine.addOutputVariable(theta);
 
 RuleBlock ruleBlock = new RuleBlock();
-ruleBlock.setEnabled(true);
 ruleBlock.setName("");
+ruleBlock.setDescription("");
+ruleBlock.setEnabled(true);
 ruleBlock.setConjunction(new AlgebraicProduct());
 ruleBlock.setDisjunction(null);
 ruleBlock.setImplication(null);

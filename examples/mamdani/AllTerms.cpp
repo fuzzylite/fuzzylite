@@ -1,7 +1,7 @@
 #include <fl/Headers.h>
 
 int main(int argc, char** argv){
-//C++ code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 using namespace fl;
 
@@ -9,8 +9,9 @@ Engine* engine = new Engine;
 engine->setName("AllTerms");
 
 InputVariable* AllInputTerms = new InputVariable;
-AllInputTerms->setEnabled(true);
 AllInputTerms->setName("AllInputTerms");
+AllInputTerms->setDescription("");
+AllInputTerms->setEnabled(true);
 AllInputTerms->setRange(0.000, 6.500);
 AllInputTerms->setLockValueInRange(false);
 AllInputTerms->addTerm(new Sigmoid("A", 0.500, -20.000));
@@ -36,8 +37,9 @@ AllInputTerms->addTerm(new Sigmoid("T", 6.000, 20.000));
 engine->addInputVariable(AllInputTerms);
 
 OutputVariable* AllOutputTerms = new OutputVariable;
-AllOutputTerms->setEnabled(true);
 AllOutputTerms->setName("AllOutputTerms");
+AllOutputTerms->setDescription("");
+AllOutputTerms->setEnabled(true);
 AllOutputTerms->setRange(0.000, 6.500);
 AllOutputTerms->setLockValueInRange(false);
 AllOutputTerms->setAggregation(new Maximum);
@@ -67,8 +69,9 @@ AllOutputTerms->addTerm(new Sigmoid("T", 6.000, 20.000));
 engine->addOutputVariable(AllOutputTerms);
 
 RuleBlock* ruleBlock = new RuleBlock;
-ruleBlock->setEnabled(true);
 ruleBlock->setName("");
+ruleBlock->setDescription("");
+ruleBlock->setEnabled(true);
 ruleBlock->setConjunction(new Minimum);
 ruleBlock->setDisjunction(new Maximum);
 ruleBlock->setImplication(new Minimum);

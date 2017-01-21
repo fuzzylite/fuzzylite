@@ -1,7 +1,7 @@
 #include <fl/Headers.h>
 
 int main(int argc, char** argv){
-//C++ code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 using namespace fl;
 
@@ -9,8 +9,9 @@ Engine* engine = new Engine;
 engine->setName("mam22");
 
 InputVariable* angle = new InputVariable;
-angle->setEnabled(true);
 angle->setName("angle");
+angle->setDescription("");
+angle->setEnabled(true);
 angle->setRange(-5.000, 5.000);
 angle->setLockValueInRange(false);
 angle->addTerm(new Bell("small", -5.000, 5.000, 8.000));
@@ -18,8 +19,9 @@ angle->addTerm(new Bell("big", 5.000, 5.000, 8.000));
 engine->addInputVariable(angle);
 
 InputVariable* velocity = new InputVariable;
-velocity->setEnabled(true);
 velocity->setName("velocity");
+velocity->setDescription("");
+velocity->setEnabled(true);
 velocity->setRange(-5.000, 5.000);
 velocity->setLockValueInRange(false);
 velocity->addTerm(new Bell("small", -5.000, 5.000, 2.000));
@@ -27,8 +29,9 @@ velocity->addTerm(new Bell("big", 5.000, 5.000, 2.000));
 engine->addInputVariable(velocity);
 
 OutputVariable* force = new OutputVariable;
-force->setEnabled(true);
 force->setName("force");
+force->setDescription("");
+force->setEnabled(true);
 force->setRange(-5.000, 5.000);
 force->setLockValueInRange(false);
 force->setAggregation(new Maximum);
@@ -42,8 +45,9 @@ force->addTerm(new Bell("posBig", 5.000, 1.670, 8.000));
 engine->addOutputVariable(force);
 
 OutputVariable* force2 = new OutputVariable;
-force2->setEnabled(true);
 force2->setName("force2");
+force2->setDescription("");
+force2->setEnabled(true);
 force2->setRange(-5.000, 5.000);
 force2->setLockValueInRange(false);
 force2->setAggregation(new Maximum);
@@ -57,8 +61,9 @@ force2->addTerm(new Bell("posBig2", 3.000, 1.670, 8.000));
 engine->addOutputVariable(force2);
 
 RuleBlock* ruleBlock = new RuleBlock;
-ruleBlock->setEnabled(true);
 ruleBlock->setName("");
+ruleBlock->setDescription("");
+ruleBlock->setEnabled(true);
 ruleBlock->setConjunction(new Minimum);
 ruleBlock->setDisjunction(new Maximum);
 ruleBlock->setImplication(new Minimum);

@@ -1,7 +1,7 @@
 #include <fl/Headers.h>
 
 int main(int argc, char** argv){
-//C++ code generated with fuzzylite 6.0.
+//Code automatically generated with fuzzylite 6.0.
 
 using namespace fl;
 
@@ -9,8 +9,9 @@ Engine* engine = new Engine;
 engine->setName("approximation");
 
 InputVariable* inputX = new InputVariable;
-inputX->setEnabled(true);
 inputX->setName("inputX");
+inputX->setDescription("");
+inputX->setEnabled(true);
 inputX->setRange(0.000, 10.000);
 inputX->setLockValueInRange(false);
 inputX->addTerm(new Triangle("NEAR_1", 0.000, 1.000, 2.000));
@@ -25,8 +26,9 @@ inputX->addTerm(new Triangle("NEAR_9", 8.000, 9.000, 10.000));
 engine->addInputVariable(inputX);
 
 OutputVariable* outputFx = new OutputVariable;
-outputFx->setEnabled(true);
 outputFx->setName("outputFx");
+outputFx->setDescription("");
+outputFx->setEnabled(true);
 outputFx->setRange(-1.000, 1.000);
 outputFx->setLockValueInRange(false);
 outputFx->setAggregation(fl::null);
@@ -45,8 +47,9 @@ outputFx->addTerm(new Constant("f9", 0.040));
 engine->addOutputVariable(outputFx);
 
 OutputVariable* trueFx = new OutputVariable;
-trueFx->setEnabled(true);
 trueFx->setName("trueFx");
+trueFx->setDescription("");
+trueFx->setEnabled(true);
 trueFx->setRange(-1.000, 1.000);
 trueFx->setLockValueInRange(false);
 trueFx->setAggregation(fl::null);
@@ -57,8 +60,9 @@ trueFx->addTerm(Function::create("fx", "sin(inputX)/inputX", engine));
 engine->addOutputVariable(trueFx);
 
 OutputVariable* diffFx = new OutputVariable;
-diffFx->setEnabled(true);
 diffFx->setName("diffFx");
+diffFx->setDescription("");
+diffFx->setEnabled(true);
 diffFx->setRange(-1.000, 1.000);
 diffFx->setLockValueInRange(false);
 diffFx->setAggregation(fl::null);
@@ -69,8 +73,9 @@ diffFx->addTerm(Function::create("diff", "fabs(outputFx-trueFx)", engine));
 engine->addOutputVariable(diffFx);
 
 RuleBlock* ruleBlock = new RuleBlock;
-ruleBlock->setEnabled(true);
 ruleBlock->setName("");
+ruleBlock->setDescription("");
+ruleBlock->setEnabled(true);
 ruleBlock->setConjunction(fl::null);
 ruleBlock->setDisjunction(fl::null);
 ruleBlock->setImplication(fl::null);

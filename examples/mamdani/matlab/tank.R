@@ -1,4 +1,4 @@
-#R script generated with fuzzylite 6.0.
+#Code automatically generated with fuzzylite 6.0.
 
 library(ggplot2);
 
