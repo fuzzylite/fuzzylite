@@ -40,7 +40,7 @@ namespace fl {
 
     Engine::Engine(const std::string& name) : _name(name) { }
 
-    Engine::Engine(const Engine& other) : _name("") {
+    Engine::Engine(const Engine& other) : _name(""), _description("") {
         copyFrom(other);
     }
 
@@ -63,6 +63,7 @@ namespace fl {
 
     void Engine::copyFrom(const Engine& other) {
         _name = other._name;
+        _description = other._description;
         for (std::size_t i = 0; i < other._inputVariables.size(); ++i)
             _inputVariables.push_back(new InputVariable(*other._inputVariables.at(i)));
         for (std::size_t i = 0; i < other._outputVariables.size(); ++i)
@@ -332,6 +333,14 @@ namespace fl {
 
     std::string Engine::getName() const {
         return this->_name;
+    }
+
+    void Engine::setDescription(const std::string& description) {
+        this->_description = description;
+    }
+
+    std::string Engine::getDescription() const {
+        return this->_description;
     }
 
     std::string Engine::toString() const {

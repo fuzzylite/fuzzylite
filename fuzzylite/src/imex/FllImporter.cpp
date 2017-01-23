@@ -60,6 +60,9 @@ namespace fl {
             if ("Engine" == key) {
                 engine->setName(value);
                 continue;
+            } else if (key == "description" and block.empty()){
+                engine->setDescription(value);
+                continue;
             } else if (key == "InputVariable"
                     or key == "OutputVariable"
                     or key == "RuleBlock") {

@@ -48,6 +48,7 @@ namespace fl {
     class FL_API Engine {
     private:
         std::string _name;
+        std::string _description;
         std::vector<InputVariable*> _inputVariables;
         std::vector<OutputVariable*> _outputVariables;
         std::vector<RuleBlock*> _ruleBlocks;
@@ -79,7 +80,7 @@ namespace fl {
                 const std::string& defuzzifier);
 
         /**
-          Configures the engine with clones of the given object operators, taking 
+          Configures the engine with clones of the given object operators, taking
           ownership of the objects.
 
           @param conjunction is the operator to process the propositions joined
@@ -141,6 +142,17 @@ namespace fl {
           @return the name of the engine
          */
         virtual std::string getName() const;
+
+        /**
+          Sets the description of the engine
+          @param description is the description of the engine
+         */
+        virtual void setDescription(const std::string& description);
+        /**
+          Gets the description of the engine
+          @return the description of the engine
+         */
+        virtual std::string getDescription() const;
 
         /**
           Sets the value of the given input variable.
