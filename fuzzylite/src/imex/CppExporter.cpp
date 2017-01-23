@@ -141,13 +141,20 @@ namespace fl {
     }
 
     std::string CppExporter::toString(const RuleBlock* ruleBlock, const Engine* engine) const {
-        std::string name = "ruleBlock";
-        if (engine->numberOfRuleBlocks() > 1) {
-            std::size_t index = std::distance(engine->ruleBlocks().begin(),
-                    std::find(engine->ruleBlocks().begin(),
-                    engine->ruleBlocks().end(), ruleBlock));
-            name += Op::str(index + 1);
+        std::string name;
+
+        if (isUsingVariableNames() and not ruleBlock->getName().empty()) {
+            name = Op::validName(ruleBlock->getName());
+        } else {
+            name = "ruleBlock";
+            if (engine->numberOfRuleBlocks() > 1) {
+                std::size_t index = std::distance(engine->ruleBlocks().begin(),
+                        std::find(engine->ruleBlocks().begin(),
+                        engine->ruleBlocks().end(), ruleBlock));
+                name += Op::str(index + 1);
+            }
         }
+
         std::ostringstream ss;
         ss << fl("RuleBlock* ") << name << " = new " << fl("RuleBlock;\n");
         ss << name << "->setName(\"" << ruleBlock->getName() << "\");\n";
