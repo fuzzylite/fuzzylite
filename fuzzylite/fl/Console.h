@@ -80,6 +80,15 @@ namespace fl {
          */
         static Engine* takagiSugeno();
 
+        /**
+         Creates a new Hybrid Engine based on the Tipper example using Mamdani
+         and TakagiSugeno outputs.
+         @return a new Hybrid Engine based on the Tipper example using Mamdani
+         and TakagiSugeno outputs.
+         */
+        static Engine* hybrid();
+
+
     protected:
         virtual std::map<std::string, std::string> parse(int argc, const char* argv[]);
         virtual void process(const std::map<std::string, std::string>& options);
@@ -99,7 +108,7 @@ namespace fl {
         /**
        Benchmarks the engine described in the FLL file against the dataset
        contained in the FLD file.
-         
+
        @param fllFile is the file describing the engine in FLL format
        @param fldFile is the file containing the dataset in FLD format
        @param runs is the number of runs to evaluate the benchmarks
@@ -113,7 +122,7 @@ namespace fl {
         /**
           Benchmarks the list of engines against the list of datasets, both described
           as absolute or relative paths
-         
+
           @param fllFileList is the file containing the list of paths of engines in
           FLL format
           @param fldFileList is the file containing the list of paths of datasets in

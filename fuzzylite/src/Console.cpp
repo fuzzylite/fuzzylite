@@ -535,6 +535,92 @@ namespace fl {
         return engine;
     }
 
+    Engine* Console::hybrid() {
+        Engine* engine = new Engine;
+        engine->setName("[tipper] (service and food) -> (tip)");
+
+        InputVariable* service = new InputVariable;
+        service->setName("service");
+        service->setDescription("");
+        service->setEnabled(true);
+        service->setRange(0.000, 10.000);
+        service->setLockValueInRange(false);
+        service->addTerm(new Trapezoid("poor", 0.000, 0.000, 2.500, 5.000));
+        service->addTerm(new Triangle("good", 2.500, 5.000, 7.500));
+        service->addTerm(new Trapezoid("excellent", 5.000, 7.500, 10.000, 10.000));
+        engine->addInputVariable(service);
+
+        InputVariable* food = new InputVariable;
+        food->setName("food");
+        food->setDescription("");
+        food->setEnabled(true);
+        food->setRange(0.000, 10.000);
+        food->setLockValueInRange(true);
+        food->addTerm(new Trapezoid("rancid", 0.000, 0.000, 2.500, 7.500));
+        food->addTerm(new Trapezoid("delicious", 2.500, 7.500, 10.000, 10.000));
+        engine->addInputVariable(food);
+
+        OutputVariable* mTip = new OutputVariable;
+        mTip->setName("mTip");
+        mTip->setDescription("");
+        mTip->setEnabled(true);
+        mTip->setRange(0.000, 30.000);
+        mTip->setLockValueInRange(false);
+        mTip->setAggregation(new Maximum);
+        mTip->setDefuzzifier(new Centroid(100));
+        mTip->setDefaultValue(fl::nan);
+        mTip->setLockPreviousValue(false);
+        mTip->addTerm(new Triangle("cheap", 0.000, 5.000, 10.000));
+        mTip->addTerm(new Triangle("average", 10.000, 15.000, 20.000));
+        mTip->addTerm(new Triangle("generous", 20.000, 25.000, 30.000));
+        engine->addOutputVariable(mTip);
+
+        OutputVariable* tsTip = new OutputVariable;
+        tsTip->setName("tsTip");
+        tsTip->setDescription("");
+        tsTip->setEnabled(true);
+        tsTip->setRange(0.000, 30.000);
+        tsTip->setLockValueInRange(false);
+        tsTip->setAggregation(fl::null);
+        tsTip->setDefuzzifier(new WeightedAverage("TakagiSugeno"));
+        tsTip->setDefaultValue(fl::nan);
+        tsTip->setLockPreviousValue(false);
+        tsTip->addTerm(new Constant("cheap", 5.000));
+        tsTip->addTerm(new Constant("average", 15.000));
+        tsTip->addTerm(new Constant("generous", 25.000));
+        engine->addOutputVariable(tsTip);
+
+        RuleBlock* mamdaniRuleBlock = new RuleBlock;
+        mamdaniRuleBlock->setName("mamdaniRuleBlock");
+        mamdaniRuleBlock->setDescription("");
+        mamdaniRuleBlock->setEnabled(true);
+        mamdaniRuleBlock->setConjunction(new AlgebraicProduct);
+        mamdaniRuleBlock->setDisjunction(new AlgebraicSum);
+        mamdaniRuleBlock->setImplication(new Minimum);
+        mamdaniRuleBlock->setActivation(new General);
+        mamdaniRuleBlock->addRule(Rule::parse("if service is poor or food is rancid then mTip is cheap", engine));
+        mamdaniRuleBlock->addRule(Rule::parse("if service is good then mTip is average", engine));
+        mamdaniRuleBlock->addRule(Rule::parse("if service is excellent or food is delicious then mTip is generous with 0.5", engine));
+        mamdaniRuleBlock->addRule(Rule::parse("if service is excellent and food is delicious then mTip is generous with 1.0", engine));
+        engine->addRuleBlock(mamdaniRuleBlock);
+
+        RuleBlock* takagiSugenoRuleBlock = new RuleBlock;
+        takagiSugenoRuleBlock->setName("takagiSugenoRuleBlock");
+        takagiSugenoRuleBlock->setDescription("");
+        takagiSugenoRuleBlock->setEnabled(true);
+        takagiSugenoRuleBlock->setConjunction(new AlgebraicProduct);
+        takagiSugenoRuleBlock->setDisjunction(new AlgebraicSum);
+        takagiSugenoRuleBlock->setImplication(fl::null);
+        takagiSugenoRuleBlock->setActivation(new General);
+        takagiSugenoRuleBlock->addRule(Rule::parse("if service is poor or food is rancid then tsTip is cheap", engine));
+        takagiSugenoRuleBlock->addRule(Rule::parse("if service is good then tsTip is average", engine));
+        takagiSugenoRuleBlock->addRule(Rule::parse("if service is excellent or food is delicious then tsTip is generous with 0.5", engine));
+        takagiSugenoRuleBlock->addRule(Rule::parse("if service is excellent and food is delicious then tsTip is generous with 1.0", engine));
+        engine->addRuleBlock(takagiSugenoRuleBlock);
+
+        return engine;
+    }
+
     void Console::exportAllExamples(const std::string& from, const std::string& to) {
         Console::exportAllExamples(from, to, "./", "/tmp/");
     }
@@ -576,6 +662,7 @@ namespace fl {
         examples.push_back("takagi-sugeno/octave/linear_tip_calculator");
         examples.push_back("takagi-sugeno/octave/sugeno_tip_calculator");
         examples.push_back("tsukamoto/tsukamoto");
+        examples.push_back("hybrid/tipper");
 
         FL_unique_ptr<Importer> importer;
         if (from == "fll") importer.reset(new FllImporter);
@@ -622,19 +709,23 @@ namespace fl {
                         continue;
                     }
                 }
+                if ("hybrid/tipper" == example
+                        and tests.at(t).second->name() == FisImporter().name()){
+                    continue;
+                }
 
-                std::string out = tests.at(t).first->toString(engine.get());
-                FL_unique_ptr<Engine> copy(tests.at(t).second->fromString(out));
-                std::string out_copy = tests.at(t).first->toString(copy.get());
+                std::string exported = tests.at(t).first->toString(engine.get());
+                FL_unique_ptr<Engine> engineFromExport(tests.at(t).second->fromString(exported));
+                std::string imported = tests.at(t).first->toString(engineFromExport.get());
 
-                if (out != out_copy) {
+                if (exported != imported) {
                     std::ostringstream msg;
                     msg << "[imex error] different results <"
-                            << importer->name() << "," << exporter->name() << "> "
+                            << tests.at(t).first->name() << "," << tests.at(t).second->name() << "> "
                             "at " << example << "." << from << ":\n";
-                    msg << "<Engine A>\n" << out << "\n\n" <<
+                    msg << "<Engine A>\n" << exported << "\n\n" <<
                             "================================\n\n" <<
-                            "<Engine B>\n" << out_copy;
+                            "<Engine B>\n" << imported;
                     throw Exception(msg.str(), FL_AT);
                 }
             }
@@ -684,9 +775,12 @@ namespace fl {
             FL_IUNUSED(assignmentOperator);
         }
         FL_LOG("Please, make sure the output contains the following structure:\n"
-                "mkdir -p mamdani/matlab; mkdir -p mamdani/octave; "
-                "mkdir -p takagi-sugeno/matlab; mkdir -p takagi-sugeno/octave; "
-                "mkdir -p tsukamoto/");
+                "mkdir -p " << targetPath << "mamdani/matlab; "
+                "mkdir -p " << targetPath << "mamdani/octave; "
+                "mkdir -p " << targetPath << "takagi-sugeno/matlab; "
+                "mkdir -p " << targetPath << "takagi-sugeno/octave; "
+                "mkdir -p " << targetPath << "tsukamoto; "
+                "mkdir -p " << targetPath << "hybrid;");
         for (std::size_t i = 0; i < tests.size(); ++i) {
             delete tests.at(i).first;
             delete tests.at(i).second;
