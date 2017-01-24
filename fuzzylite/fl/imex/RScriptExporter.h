@@ -31,7 +31,7 @@ namespace fl {
       The RScriptExporter class is an Exporter that creates an R script to plot one or
       more surfaces of an engine for two input variables and any number of output
       variables.
-     
+
       @author Juan Rada-Vilela, Ph.D.
       @see FldExporter
       @see Exporter
@@ -84,8 +84,8 @@ namespace fl {
         std::string getContourColor() const;
 
         /**
-         Returns an R script plotting multiple surfaces based on a data frame 
-         generated with 1024 values in the scope of FldExporter::AllVariables 
+         Returns an R script plotting multiple surfaces based on a data frame
+         generated with 1024 values in the scope of FldExporter::AllVariables
          for the first two input variables.
          @param engine is the engine to export
          @return an R script plotting multiple surfaces for the first two input
@@ -94,8 +94,8 @@ namespace fl {
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
 
         /**
-         Returns an R script plotting multiple surfaces based on a data frame 
-         generated with the given number of values and scope for the two input 
+         Returns an R script plotting multiple surfaces based on a data frame
+         generated with the given number of values and scope for the two input
          variables.
          @param engine is the engine to export
          @param a is the first input variable
@@ -126,7 +126,7 @@ namespace fl {
                 std::istream& reader, const std::vector<OutputVariable*>& outputVariables) const;
 
         /**
-         Creates an R script file plotting multiple surfaces based on a data frame 
+         Creates an R script file plotting multiple surfaces based on a data frame
          generated with 1024 values in the scope of FldExporter::AllVariables
          for the two input variables
          @param filePath is the full path of the R script file
@@ -135,8 +135,8 @@ namespace fl {
         virtual void toFile(const std::string& filePath, const Engine* engine) const FL_IOVERRIDE;
 
         /**
-         Creates an R script file plotting multiple surfaces based on a data frame 
-         generated with the given number of values and scope for the two input 
+         Creates an R script file plotting multiple surfaces based on a data frame
+         generated with the given number of values and scope for the two input
          variables
          @param filePath is the full path of the R script file
          @param engine is the engine to export
@@ -168,14 +168,14 @@ namespace fl {
 
 
         /**
-         Writes an R script plotting multiple surfaces based on a manually 
-         imported data frame containing the data for the two input variables 
+         Writes an R script plotting multiple surfaces based on a manually
+         imported data frame containing the data for the two input variables
          on the output variables.
          @param engine is the engine to export
          @param writer is the output where the engine will be written to
          @param a is the first input variable
          @param b is the second input variable
-         @param dataFramePath is the path where the data frame should be located 
+         @param dataFramePath is the path where the data frame should be located
          (the path will not be accessed, it will only be written to script)
          @param outputVariables are the output variables to create the surface for
          */
@@ -184,8 +184,8 @@ namespace fl {
                 const std::vector<OutputVariable*>& outputVariables) const;
 
         /**
-         Writes an R script plotting multiple surfaces based on a data frame 
-         generated with the given number of values and scope for the two input 
+         Writes an R script plotting multiple surfaces based on a data frame
+         generated with the given number of values and scope for the two input
          variables on the output variables.
          @param engine is the engine to export
          @param writer is the output where the engine will be written to
@@ -200,8 +200,8 @@ namespace fl {
                 const std::vector<OutputVariable*>& outputVariables) const;
 
         /**
-         Writes an R script plotting multiple surfaces based on a data frame 
-         generated with the given number of values and scope for the two input 
+         Writes an R script plotting multiple surfaces based on a data frame
+         generated with the given number of values and scope for the two input
          variables on the output variables.
          @param engine is the engine to export
          @param writer is the output where the engine will be written to
@@ -219,11 +219,12 @@ namespace fl {
         /**
          Writes the header of the R script (e.g., import libraries)
          @param writer is the output where the header will be written to
+         @param engine is the engine to export
          */
-        virtual void writeScriptHeader(std::ostream& writer) const;
+        virtual void writeScriptHeader(std::ostream& writer, const Engine* engine) const;
 
         /**
-         Writes the code to generate the surface plots for the input variables 
+         Writes the code to generate the surface plots for the input variables
          on the output variables.
          @param writer is the output where the engine will be written to
          @param a is the first input variable

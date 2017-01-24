@@ -128,10 +128,8 @@ namespace fl {
     void RScriptExporter::writeScriptImportingDataFrame(const Engine* engine, std::ostream& writer,
             InputVariable* a, InputVariable* b, const std::string& dfPath,
             const std::vector<OutputVariable*>& outputVariables) const {
-        writeScriptHeader(writer);
+        writeScriptHeader(writer, engine);
 
-        writer << "engine.name = \"" << engine->getName() << "\"\n";
-        writer << "engine.fll = \"" << FllExporter().toString(engine) << "\"\n\n";
         writer << "engine.fldFile = \"" << dfPath << "\"\n";
         writer << "if (require(data.table)) {\n"
                 << "    engine.df = data.table::fread(engine.fldFile, sep=\"auto\", header=\"auto\")\n"
@@ -146,10 +144,7 @@ namespace fl {
     void RScriptExporter::writeScriptExportingDataFrame(Engine* engine, std::ostream& writer,
             InputVariable* a, InputVariable* b, int values, FldExporter::ScopeOfValues scope,
             const std::vector<OutputVariable*>& outputVariables) const {
-        writeScriptHeader(writer);
-
-        writer << "engine.name = \"" << engine->getName() << "\"\n";
-        writer << "engine.fll = \"" << FllExporter().toString(engine) << "\"\n\n";
+        writeScriptHeader(writer, engine);
 
         std::vector<InputVariable*> activeVariables = engine->inputVariables();
         for (std::size_t i = 0; i < activeVariables.size(); ++i) {
@@ -169,10 +164,7 @@ namespace fl {
     void RScriptExporter::writeScriptExportingDataFrame(Engine* engine, std::ostream& writer,
             InputVariable* a, InputVariable* b, std::istream& reader,
             const std::vector<OutputVariable*>& outputVariables) const {
-        writeScriptHeader(writer);
-
-        writer << "engine.name = \"" << engine->getName() << "\"\n";
-        writer << "engine.fll = \"" << FllExporter().toString(engine) << "\"\n\n";
+        writeScriptHeader(writer, engine);
 
         writer << "engine.fld = \"";
         FldExporter().write(engine, writer, reader);
@@ -184,10 +176,14 @@ namespace fl {
         writeScriptPlots(writer, a, b, outputVariables);
     }
 
-    void RScriptExporter::writeScriptHeader(std::ostream& writer) const {
+    void RScriptExporter::writeScriptHeader(std::ostream& writer, const Engine* engine) const {
         writer << "#Code automatically generated with " << fuzzylite::library() << ".\n\n"
                 << "library(ggplot2);\n"
                 << "\n";
+        writer << "engine.name = \"" << engine->getName() << "\"\n";
+        if (not engine->getDescription().empty())
+            writer << "engine.description = \"" << engine->getDescription() << "\"\n";
+        writer << "engine.fll = \"" << FllExporter().toString(engine) << "\"\n\n";
     }
 
     void RScriptExporter::writeScriptPlots(std::ostream& writer,
