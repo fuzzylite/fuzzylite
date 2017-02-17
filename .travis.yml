@@ -12,9 +12,9 @@ before_script:
   - docker build -t fuzzylite -f Dockerfile --build-arg CXX_COMPILER=${CXX_COMPILER} .
 
 script:
-  - docker run -e CXX=${CXX_COMPILER} -e FL_CPP11=${FL_CPP11} -e FL_USE_FLOAT=${FL_USE_FLOAT} -t fuzzylite release
+  - docker run -e CXX=${CXX_COMPILER} -e FL_CPP11=${FL_CPP11} -e FL_USE_FLOAT=${FL_USE_FLOAT} -e MAKEFLAGS=-j2 -t fuzzylite release
   
-  - docker run -e CXX=${CXX_COMPILER} -e FL_CPP11=${FL_CPP11} -e FL_USE_FLOAT=${FL_USE_FLOAT} -t fuzzylite debug
+  - docker run -e CXX=${CXX_COMPILER} -e FL_CPP11=${FL_CPP11} -e FL_USE_FLOAT=${FL_USE_FLOAT} -e MAKEFLAGS=-j2 -t fuzzylite debug
 
 matrix:
   include:
