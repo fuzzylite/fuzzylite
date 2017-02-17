@@ -31,9 +31,9 @@ namespace fl {
 
     class FL_API Extremely : public Hedge {
     public:
-        std::string name() const;
-        scalar hedge(scalar x) const;
-        Extremely* clone() const;
+        std::string name() const FL_IOVERRIDE;
+        scalar hedge(scalar x) const FL_IOVERRIDE;
+        Extremely* clone() const FL_IOVERRIDE;
 
         static Hedge* constructor();
     };
