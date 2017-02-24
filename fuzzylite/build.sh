@@ -66,7 +66,7 @@ usage(){
 #############################
 echo "Parameters: $@"
 
-OPTIONS=( "all" "debug" "release" "clean" "documentation" "help")
+OPTIONS=( "all" "release" "debug" "clean" "documentation" "help")
 BUILD=( )
 
 for arg in "$@"

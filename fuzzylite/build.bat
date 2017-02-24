@@ -73,8 +73,8 @@ goto:eof
 	echo.
 	echo ****************************************
 	echo STARTING: all
-	call:debug
 	call:release
+	call:debug
 	echo.
 	echo FINISHED: all
 	echo ****************************************
