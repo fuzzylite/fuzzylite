@@ -68,7 +68,7 @@ namespace fl {
       @see Rule
       @since 4.0
      */
-    class FL_API Proposition : public Expression {
+    class FL_API Proposition FL_IFINAL : public Expression {
     public:
         /**Variable in `variable is [hedge]* term`*/
         Variable* variable;
@@ -105,7 +105,7 @@ namespace fl {
       @see Rule
       @since 4.0
      */
-    class FL_API Operator : public Expression {
+    class FL_API Operator FL_IFINAL : public Expression {
     public:
         /**Name of the operator*/
         std::string name;
