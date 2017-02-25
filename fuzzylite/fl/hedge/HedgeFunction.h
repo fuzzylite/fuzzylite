@@ -38,7 +38,7 @@ namespace fl {
      @since 6.0
      */
 
-    class FL_API HedgeFunction : public Hedge {
+    class FL_API HedgeFunction FL_IFINAL : public Hedge {
     private:
         Function _function;
     public:

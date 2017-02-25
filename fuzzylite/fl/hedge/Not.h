@@ -30,7 +30,7 @@ namespace fl {
       @see HedgeFactory
       @since 4.0
      */
-    class FL_API Not : public Hedge {
+    class FL_API Not FL_IFINAL : public Hedge {
     public:
         std::string name() const FL_IOVERRIDE;
 
