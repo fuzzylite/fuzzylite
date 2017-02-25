@@ -31,7 +31,7 @@ namespace fl {
       @see Norm
       @since 4.0
      */
-    class FL_API Minimum : public TNorm {
+    class FL_API Minimum FL_IFINAL : public TNorm {
     public:
         std::string className() const FL_IOVERRIDE;
 

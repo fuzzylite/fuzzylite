@@ -32,7 +32,7 @@ namespace fl {
       @see Norm
       @since 5.0
      */
-    class FL_API NilpotentMinimum : public TNorm {
+    class FL_API NilpotentMinimum FL_IFINAL : public TNorm {
     public:
         std::string className() const FL_IOVERRIDE;
 

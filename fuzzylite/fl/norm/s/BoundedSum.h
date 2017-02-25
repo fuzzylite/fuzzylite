@@ -32,7 +32,7 @@ namespace fl {
       @see Norm
       @since 4.0
      */
-    class FL_API BoundedSum : public SNorm {
+    class FL_API BoundedSum FL_IFINAL : public SNorm {
     public:
         std::string className() const FL_IOVERRIDE;
 

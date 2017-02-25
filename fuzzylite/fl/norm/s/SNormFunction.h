@@ -23,12 +23,10 @@
 
 namespace fl {
 
-    /*
+    /**
      The SNormFunction class is a customizable SNorm via Function, which
      computes any function based on the @f$a@f$ and @f$b@f$ values.
-     This SNorm is not registered with the SNormFactory due to issues configuring
-     the formula within. To register the SNorm, a static method with the
-     constructor needs to be manually created and registered.
+     This SNorm is not registered with the SNormFactory.
 
      @author Juan Rada-Vilela, Ph.D.
      @see Function
@@ -38,7 +36,7 @@ namespace fl {
      @since 6.0
      */
 
-    class FL_API SNormFunction : public SNorm {
+    class FL_API SNormFunction FL_IFINAL : public SNorm {
     private:
         Function _function;
     public:

@@ -23,12 +23,10 @@
 
 namespace fl {
 
-    /*
+    /**
      The TNormFunction class is a customizable TNorm via Function, which
      computes any function based on the @f$a@f$ and @f$b@f$ values.
-     This TNorm is not registered with the TNormFactory due to issues configuring
-     the formula within. To register the TNorm, a static method with the
-     constructor needs to be manually created and registered.
+     This TNorm is not registered with the TNormFactory.
 
      @author Juan Rada-Vilela, Ph.D.
      @see Function
@@ -38,7 +36,7 @@ namespace fl {
      @since 6.0
      */
 
-    class FL_API TNormFunction : public TNorm {
+    class FL_API TNormFunction FL_IFINAL : public TNorm {
     private:
         Function _function;
     public:
