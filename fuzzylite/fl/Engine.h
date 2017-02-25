@@ -34,6 +34,7 @@ namespace fl {
     class TNorm;
     class SNorm;
     class Defuzzifier;
+    class Activation;
 
     /**
       The Engine class is the core class of the library as it groups the
@@ -72,12 +73,14 @@ namespace fl {
           @param implication is an TNorm registered in the TNormFactory
           @param aggregation is an SNorm registered in the SNormFactory
           @param defuzzifier is a defuzzifier registered in the DefuzzifierFactory
+          @param activation is an activation method registered in the ActivationFactory
          */
         virtual void configure(const std::string& conjunction,
                 const std::string& disjunction,
                 const std::string& implication,
                 const std::string& aggregation,
-                const std::string& defuzzifier);
+                const std::string& defuzzifier,
+                const std::string& activation);
 
         /**
           Configures the engine with clones of the given object operators, taking
@@ -93,10 +96,12 @@ namespace fl {
           implications of the rules
           @param defuzzifier is the operator to transform the aggregated
           implications into a single scalar value
+          @param activation is the activation method to activate and fire the
+          rule blocks
          */
         virtual void configure(TNorm* conjunction, SNorm* disjunction,
                 TNorm* implication, SNorm* aggregation,
-                Defuzzifier* defuzzifier);
+                Defuzzifier* defuzzifier, Activation* activation);
 
         /**
           Indicates whether the engine has been configured correctly and is

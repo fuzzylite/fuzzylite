@@ -65,12 +65,13 @@ namespace fl {
      */
     class FL_API Rule {
     private:
+        bool _enabled;
         std::string _text;
         scalar _weight;
+        scalar _activationDegree;
+        bool _fired;
         FL_unique_ptr<Antecedent> _antecedent;
         FL_unique_ptr<Consequent> _consequent;
-        scalar _activationDegree;
-        bool _activated;
 
     public:
         explicit Rule(const std::string& text = "", scalar weight = 1.0);
@@ -78,6 +79,20 @@ namespace fl {
         Rule& operator=(const Rule& other);
         virtual ~Rule();
         FL_DEFAULT_MOVE(Rule)
+
+        /**
+         Sets whether the rule is enabled. An enabled rule will be fired, whereas
+         a disabled rule will not.
+         @param enabled determines whether the rule is enabled
+         */
+        virtual void setEnabled(bool enabled);
+
+        /**
+          Gets whether the rule is enabled.  An enabled rule will be fired, whereas
+          a disabled rule will not.
+          @return whether the rule is enabled
+         */
+        virtual bool isEnabled() const;
 
         /**
           Sets the text of the rule
@@ -124,27 +139,6 @@ namespace fl {
         virtual Consequent* getConsequent() const;
 
         /**
-          Sets whether the rule has been activated. The activation of a rule is
-          automatically managed within Rule::activate(). The utility of this
-          property can be found in the case of activation methods like First or
-          Last, which compute the activation degree of the rules without
-          necessarily activating the rules.
-
-          @param activated determines whether the rule has been activated
-         */
-        virtual void setActivated(bool activated);
-
-        /**
-          Indicates whether the rule has been activated. The activation of a
-          rule is automatically managed within Rule::activate(). The utility of this
-          property can be found in the case of activation methods like First or
-          Last, which compute the activation degree of the rules without
-          necessarily activating the rules.
-          @return whether the rule has been activated
-         */
-        virtual bool isActivated() const;
-
-        /**
           Sets the activation degree of the rule
           @param activationDegree is the activation degree of the rule
          */
@@ -157,55 +151,31 @@ namespace fl {
         virtual scalar getActivationDegree() const;
 
         /**
-          Computes the estimated complexity of calculating the activation degree
-          of the rule
+          Activates the rule by computing its activation degree using the given
+          conjunction and disjunction operators
           @param conjunction is the conjunction operator
           @param disjunction is the disjunction operator
-          @param implication is the implication operator
-          @return the estimated complexity of calculating the activation degree
-          of the rule
+          @return the activation degree of the rule
          */
-        virtual Complexity complexityOfActivationDegree(const TNorm* conjunction,
-                const SNorm* disjunction, const TNorm* implication) const;
-        /**
-          Computes the activation degree for this rule
-          @param conjunction is the conjunction operator
-          @param disjunction is the disjunction operator
-          @return the activation degree of this rule multiplied by its weight
-         */
-        virtual scalar computeActivationDegree(const TNorm* conjunction, const SNorm* disjunction) const;
+        virtual scalar activateWith(const TNorm* conjunction, const SNorm* disjunction);
 
         /**
-          Computes the estimated complexity of activating the rule
-          @param implication is the implication operator
-          @return the estimated complexity of activating the rule
-         */
-        virtual Complexity complexityOfActivation(const TNorm* implication) const;
-
-        /**
-          Activates the rule with the given activation degree and implication
-          operator
-          @param activationDegree is the activation degree of the rule
-          @param implication is the implication operator from the RuleBlock
-         */
-        virtual void activate(scalar activationDegree, const TNorm* implication);
-
-        /**
-         Returns the estimated complexity of computing the activation degree and
-         activating the rule
-         @param conjunction is the conjunction operator
-         @param disjunction is the disjunction operator
-         @param implication is the implication operator
-         @return the estimated complexity of computing the activation degree and
-         activating the rule
-         */
-        virtual Complexity complexity(const TNorm* conjunction,
-                const SNorm* disjunction, const TNorm* implication) const;
-
-        /**
-          Deactivates the rule setting the activation degree to 0.0
+          Deactivates the rule
          */
         virtual void deactivate();
+
+        /**
+          Fires the rule (if the rule is enabled) using the given implication
+          operator and the underlying activation degree
+          @param implication is the implication operator
+         */
+        virtual void fire(const TNorm* implication);
+
+        /**
+          Indicates whether the rule was fired
+          @return whether the rule was fired
+         */
+        virtual bool isFired() const;
 
         /**
           Returns a string representation of the rule in the FuzzyLite Language
@@ -300,6 +270,34 @@ namespace fl {
         inline static std::string withKeyword() {
             return "with";
         }
+
+        /**
+          Computes the estimated complexity of calculating the activation degree
+          of the rule
+          @param conjunction is the conjunction operator
+          @param disjunction is the disjunction operator
+          @return the estimated complexity of calculating the activation degree
+          of the rule
+         */
+        virtual Complexity complexityOfActivation(const TNorm* conjunction,
+                const SNorm* disjunction) const;
+
+        /**
+          Computes the estimated complexity of firing the rule
+          @param implication is the implication operator
+          @return the estimated complexity of firing the rule
+         */
+        virtual Complexity complexityOfFiring(const TNorm* implication) const;
+
+        /**
+         Returns the estimated complexity of activating and firing the rule
+         @param conjunction is the conjunction operator
+         @param disjunction is the disjunction operator
+         @param implication is the implication operator
+         @return the estimated complexity of activating and firing the rule
+         */
+        virtual Complexity complexity(const TNorm* conjunction,
+                const SNorm* disjunction, const TNorm* implication) const;
 
     };
 }

@@ -17,6 +17,7 @@ public static void main(String[] args){
 
 Engine engine = new Engine();
 engine.setName("approximation");
+engine.setDescription("");
 
 InputVariable inputX = new InputVariable();
 inputX.setName("inputX");

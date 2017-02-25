@@ -7,6 +7,7 @@ using namespace fl;
 
 Engine* engine = new Engine;
 engine->setName("shower");
+engine->setDescription("");
 
 InputVariable* temp = new InputVariable;
 temp->setName("temp");

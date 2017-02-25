@@ -91,7 +91,7 @@ namespace fl {
           rules were added to the rule block.
           @param ruleBlock is the rule block to activate
          */
-        virtual void activate(RuleBlock* ruleBlock) const FL_IOVERRIDE;
+        virtual void activate(RuleBlock* ruleBlock) FL_IOVERRIDE;
 
         virtual First* clone() const FL_IOVERRIDE;
 

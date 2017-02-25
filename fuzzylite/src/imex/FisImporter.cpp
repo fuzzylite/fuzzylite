@@ -80,7 +80,7 @@ namespace fl {
         }
         engine->configure(translateTNorm(andMethod), translateSNorm(orMethod),
                 translateTNorm(impMethod), translateSNorm(aggMethod),
-                translateDefuzzifier(defuzzMethod));
+                translateDefuzzifier(defuzzMethod), General().className());
         return engine.release();
     }
 

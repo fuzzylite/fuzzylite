@@ -17,6 +17,7 @@ public static void main(String[] args){
 
 Engine engine = new Engine();
 engine.setName("slcp1");
+engine.setDescription("");
 
 InputVariable in1 = new InputVariable();
 in1.setName("in1");

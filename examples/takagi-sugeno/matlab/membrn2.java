@@ -17,6 +17,7 @@ public static void main(String[] args){
 
 Engine engine = new Engine();
 engine.setName("membrn2");
+engine.setDescription("");
 
 InputVariable in_n1 = new InputVariable();
 in_n1.setName("in_n1");

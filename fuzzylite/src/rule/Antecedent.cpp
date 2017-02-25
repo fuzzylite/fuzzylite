@@ -57,82 +57,6 @@ namespace fl {
         return _expression.get() != fl::null;
     }
 
-    Complexity Antecedent::complexity(const TNorm* conjunction, const SNorm* disjunction,
-            const TNorm* implication) const {
-        return complexity(conjunction, disjunction, implication, _expression.get());
-    }
-
-    Complexity Antecedent::complexity(const TNorm* conjunction, const SNorm* disjunction,
-            const TNorm* implication, const Expression* node) const {
-        if (not isLoaded()) {
-            return Complexity();
-        }
-
-        Complexity result;
-        const Expression::Type expression = node->type();
-        if (expression == Expression::Proposition) {
-            const Proposition* proposition = static_cast<const Proposition*> (node);
-            if (not proposition->variable->isEnabled()) {
-                return result;
-            }
-
-            if (not proposition->hedges.empty()) {
-                //if last hedge is "Any", apply hedges in reverse order and return degree
-                std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
-                if (dynamic_cast<Any*> (*rit)) {
-                    result += (*rit)->complexity();
-                    while (++rit != proposition->hedges.rend()) {
-                        result = (*rit)->complexity();
-                    }
-                    return result;
-                }
-            }
-            Variable::Type variableType = proposition->variable->type();
-            if (variableType == Variable::Input) {
-                result += proposition->term->complexity();
-            } else if (variableType == Variable::Output) {
-                OutputVariable* outputVariable = static_cast<OutputVariable*> (proposition->variable);
-                result += outputVariable->fuzzyOutput()->complexityOfActivationDegree();
-            }
-
-            if (not proposition->hedges.empty()) {
-                for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
-                        rit != proposition->hedges.rend(); ++rit) {
-                    result += (*rit)->complexity();
-                }
-            }
-            return result;
-        }
-        //if node is an operator
-        if (expression == Expression::Operator) {
-            const Operator* fuzzyOperator = static_cast<const Operator*> (node);
-            if (not (fuzzyOperator->left and fuzzyOperator->right)) {
-                std::ostringstream ex;
-                ex << "[syntax error] left and right operands must exist";
-                throw Exception(ex.str(), FL_AT);
-            }
-            if (fuzzyOperator->name == Rule::andKeyword()) {
-                if (conjunction) {
-                    result += conjunction->complexity();
-                }
-                result += complexity(conjunction, disjunction, implication, fuzzyOperator->left)
-                        + complexity(conjunction, disjunction, implication, fuzzyOperator->right);
-                return result;
-            }
-
-            if (fuzzyOperator->name == Rule::orKeyword()) {
-                if (disjunction) {
-                    result += disjunction->complexity();
-                }
-                result += complexity(conjunction, disjunction, implication, fuzzyOperator->left)
-                        + complexity(conjunction, disjunction, implication, fuzzyOperator->right);
-                return result;
-            }
-        }
-
-        return Complexity();
-    }
-
     scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction) const {
         return this->activationDegree(conjunction, disjunction, _expression.get());
     }
@@ -211,7 +135,81 @@ namespace fl {
             ss << ">";
             throw Exception(ss.str(), FL_AT);
         }
+    }
 
+
+    Complexity Antecedent::complexity(const TNorm* conjunction, const SNorm* disjunction) const {
+        return complexity(conjunction, disjunction, _expression.get());
+    }
+
+    Complexity Antecedent::complexity(const TNorm* conjunction, const SNorm* disjunction,
+            const Expression* node) const {
+        if (not isLoaded()) {
+            return Complexity();
+        }
+
+        Complexity result;
+        const Expression::Type expression = node->type();
+        if (expression == Expression::Proposition) {
+            const Proposition* proposition = static_cast<const Proposition*> (node);
+            if (not proposition->variable->isEnabled()) {
+                return result;
+            }
+
+            if (not proposition->hedges.empty()) {
+                //if last hedge is "Any", apply hedges in reverse order and return degree
+                std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
+                if (dynamic_cast<Any*> (*rit)) {
+                    result += (*rit)->complexity();
+                    while (++rit != proposition->hedges.rend()) {
+                        result = (*rit)->complexity();
+                    }
+                    return result;
+                }
+            }
+            Variable::Type variableType = proposition->variable->type();
+            if (variableType == Variable::Input) {
+                result += proposition->term->complexity();
+            } else if (variableType == Variable::Output) {
+                OutputVariable* outputVariable = static_cast<OutputVariable*> (proposition->variable);
+                result += outputVariable->fuzzyOutput()->complexityOfActivationDegree();
+            }
+
+            if (not proposition->hedges.empty()) {
+                for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
+                        rit != proposition->hedges.rend(); ++rit) {
+                    result += (*rit)->complexity();
+                }
+            }
+            return result;
+        }
+        //if node is an operator
+        if (expression == Expression::Operator) {
+            const Operator* fuzzyOperator = static_cast<const Operator*> (node);
+            if (not (fuzzyOperator->left and fuzzyOperator->right)) {
+                std::ostringstream ex;
+                ex << "[syntax error] left and right operands must exist";
+                throw Exception(ex.str(), FL_AT);
+            }
+            if (fuzzyOperator->name == Rule::andKeyword()) {
+                if (conjunction) {
+                    result += conjunction->complexity();
+                }
+                result += complexity(conjunction, disjunction, fuzzyOperator->left)
+                        + complexity(conjunction, disjunction, fuzzyOperator->right);
+                return result;
+            }
+
+            if (fuzzyOperator->name == Rule::orKeyword()) {
+                if (disjunction) {
+                    result += disjunction->complexity();
+                }
+                result += complexity(conjunction, disjunction, fuzzyOperator->left)
+                        + complexity(conjunction, disjunction, fuzzyOperator->right);
+                return result;
+            }
+        }
+        return Complexity();
     }
 
     void Antecedent::unload() {

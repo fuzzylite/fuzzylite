@@ -17,6 +17,7 @@ public static void main(String[] args){
 
 Engine engine = new Engine();
 engine.setName("invkine1");
+engine.setDescription("");
 
 InputVariable input1 = new InputVariable();
 input1.setName("input1");

@@ -76,7 +76,7 @@ namespace fl {
           rule block
           @param ruleBlock is the rule block to activate
          */
-        virtual void activate(RuleBlock* ruleBlock) const FL_IOVERRIDE;
+        virtual void activate(RuleBlock* ruleBlock) FL_IOVERRIDE;
 
         virtual Lowest* clone() const FL_IOVERRIDE;
 

@@ -7,6 +7,7 @@ using namespace fl;
 
 Engine* engine = new Engine;
 engine->setName("membrn1");
+engine->setDescription("");
 
 InputVariable* in_n1 = new InputVariable;
 in_n1->setName("in_n1");

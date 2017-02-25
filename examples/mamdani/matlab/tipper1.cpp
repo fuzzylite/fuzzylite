@@ -7,6 +7,7 @@ using namespace fl;
 
 Engine* engine = new Engine;
 engine->setName("tipper1");
+engine->setDescription("");
 
 InputVariable* service = new InputVariable;
 service->setName("service");

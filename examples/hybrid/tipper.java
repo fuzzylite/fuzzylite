@@ -17,6 +17,7 @@ public static void main(String[] args){
 
 Engine engine = new Engine();
 engine.setName("tipper");
+engine.setDescription("");
 
 InputVariable service = new InputVariable();
 service.setName("service");

@@ -57,56 +57,54 @@ namespace fl {
         const SNorm* disjunction = ruleBlock->getDisjunction();
         const TNorm* implication = ruleBlock->getImplication();
 
-        Complexity meanActivation;
-        for (std::size_t i = 0; i < ruleBlock->rules().size(); ++i) {
-            const Rule* rule = ruleBlock->rules().at(i);
-            result += rule->complexityOfActivationDegree(conjunction, disjunction, implication);
-            meanActivation += rule->complexityOfActivation(implication);
+        Complexity meanFiring;
+        for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
+            const Rule* rule = ruleBlock->getRule(i);
+            result += rule->complexityOfActivation(conjunction, disjunction);
+            meanFiring += rule->complexityOfFiring(implication);
         }
-        meanActivation.divide(scalar(ruleBlock->rules().size()));
+        meanFiring.divide(scalar(ruleBlock->numberOfRules()));
 
         //Complexity of push is O(log n)
-        result += Complexity().function(1).multiply(ruleBlock->rules().size()
-                * std::log(scalar(ruleBlock->rules().size())));
-
+        result += Complexity().function(1).multiply(ruleBlock->numberOfRules()
+                * std::log(scalar(ruleBlock->numberOfRules())));
 
         result += Complexity().comparison(2).arithmetic(1).multiply(getNumberOfRules());
-        result += meanActivation.multiply(getNumberOfRules());
+        result += meanFiring.multiply(getNumberOfRules());
         //Complexity of pop is 2 * O(log n)
         result += Complexity().function(1).multiply(getNumberOfRules() *
-                2 * std::log(scalar(ruleBlock->rules().size())));
+                2 * std::log(scalar(ruleBlock->numberOfRules())));
         return result;
     }
 
-    struct Descendantly {
+    struct Descending {
 
         bool operator()(const Rule* a, const Rule* b) const {
             return a->getActivationDegree() < b->getActivationDegree();
         }
     };
 
-    void Highest::activate(RuleBlock* ruleBlock) const {
+    void Highest::activate(RuleBlock* ruleBlock) {
         const TNorm* conjunction = ruleBlock->getConjunction();
         const SNorm* disjunction = ruleBlock->getDisjunction();
         const TNorm* implication = ruleBlock->getImplication();
 
-        std::priority_queue<Rule*, std::vector<Rule*>, Descendantly> rulesToActivate;
+        std::priority_queue<Rule*, std::vector<Rule*>, Descending> rulesToActivate;
 
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             Rule* rule = ruleBlock->getRule(i);
             rule->deactivate();
             if (rule->isLoaded()) {
-                scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
-                rule->setActivationDegree(activationDegree);
+                scalar activationDegree = rule->activateWith(conjunction, disjunction);
                 if (Op::isGt(activationDegree, 0.0))
                     rulesToActivate.push(rule);
             }
         }
 
         int activated = 0;
-        while (rulesToActivate.size() > 0 and activated++ < getNumberOfRules()) {
+        while (rulesToActivate.size() > 0 and activated++ < _numberOfRules) {
             Rule* rule = rulesToActivate.top();
-            rule->activate(rule->getActivationDegree(), implication);
+            rule->fire(implication);
             rulesToActivate.pop();
         }
     }

@@ -17,6 +17,7 @@ public static void main(String[] args){
 
 Engine engine = new Engine();
 engine.setName("heart_disease_risk");
+engine.setDescription("");
 
 InputVariable LDLLevel = new InputVariable();
 LDLLevel.setName("LDLLevel");

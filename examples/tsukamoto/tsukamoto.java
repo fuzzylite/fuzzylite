@@ -17,6 +17,7 @@ public static void main(String[] args){
 
 Engine engine = new Engine();
 engine.setName("tsukamoto");
+engine.setDescription("");
 
 InputVariable X = new InputVariable();
 X.setName("X");

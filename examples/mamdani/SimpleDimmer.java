@@ -17,6 +17,7 @@ public static void main(String[] args){
 
 Engine engine = new Engine();
 engine.setName("SimpleDimmer");
+engine.setDescription("");
 
 InputVariable Ambient = new InputVariable();
 Ambient.setName("Ambient");

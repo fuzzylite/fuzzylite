@@ -7,6 +7,7 @@ using namespace fl;
 
 Engine* engine = new Engine;
 engine->setName("Laundry");
+engine->setDescription("");
 
 InputVariable* Load = new InputVariable;
 Load->setName("Load");

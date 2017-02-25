@@ -17,6 +17,7 @@ public static void main(String[] args){
 
 Engine engine = new Engine();
 engine.setName("sugeno_tip_calculator");
+engine.setDescription("");
 
 InputVariable FoodQuality = new InputVariable();
 FoodQuality.setName("FoodQuality");

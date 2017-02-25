@@ -7,6 +7,7 @@ using namespace fl;
 
 Engine* engine = new Engine;
 engine->setName("AllTerms");
+engine->setDescription("");
 
 InputVariable* AllInputTerms = new InputVariable;
 AllInputTerms->setName("AllInputTerms");

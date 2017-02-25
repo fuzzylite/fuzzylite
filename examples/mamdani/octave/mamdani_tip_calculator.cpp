@@ -7,6 +7,7 @@ using namespace fl;
 
 Engine* engine = new Engine;
 engine->setName("mamdani_tip_calculator");
+engine->setDescription("");
 
 InputVariable* FoodQuality = new InputVariable;
 FoodQuality->setName("FoodQuality");

@@ -7,6 +7,7 @@ using namespace fl;
 
 Engine* engine = new Engine;
 engine->setName("cubic_approximator");
+engine->setDescription("");
 
 InputVariable* X = new InputVariable;
 X->setName("X");

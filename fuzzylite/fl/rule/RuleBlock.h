@@ -46,6 +46,7 @@ namespace fl {
      */
     class FL_API RuleBlock {
     private:
+        bool _enabled;
         std::string _name;
         std::string _description;
         std::vector<Rule*> _rules;
@@ -53,7 +54,6 @@ namespace fl {
         FL_unique_ptr<SNorm> _disjunction;
         FL_unique_ptr<TNorm> _implication;
         FL_unique_ptr<Activation> _activation;
-        bool _enabled;
 
         void copyFrom(const RuleBlock& source);
 
@@ -64,6 +64,17 @@ namespace fl {
         virtual ~RuleBlock();
         FL_DEFAULT_MOVE(RuleBlock)
 
+        /**
+        Enables the rule block
+        @param enabled whether the rule block is enabled
+         */
+        virtual void setEnabled(bool enabled);
+        /**
+          Indicates whether the rule block is enabled
+          @return whether the rule block is enabled
+         */
+        virtual bool isEnabled() const;
+        
         /**
           Activates the rule block
          */
@@ -134,17 +145,6 @@ namespace fl {
           @return the activation method
          */
         virtual Activation* getActivation() const;
-
-        /**
-          Enables the rule block
-          @param enabled whether the rule block is enabled
-         */
-        virtual void setEnabled(bool enabled);
-        /**
-          Indicates whether the rule block is enabled
-          @return whether the rule block is enabled
-         */
-        virtual bool isEnabled() const;
 
         /**
           Unloads all the rules in the rule block

@@ -17,6 +17,7 @@ public static void main(String[] args){
 
 Engine engine = new Engine();
 engine.setName("juggler");
+engine.setDescription("");
 
 InputVariable xHit = new InputVariable();
 xHit.setName("xHit");

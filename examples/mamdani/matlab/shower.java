@@ -17,6 +17,7 @@ public static void main(String[] args){
 
 Engine engine = new Engine();
 engine.setName("shower");
+engine.setDescription("");
 
 InputVariable temp = new InputVariable();
 temp.setName("temp");

@@ -17,6 +17,7 @@ public static void main(String[] args){
 
 Engine engine = new Engine();
 engine.setName("sugeno1");
+engine.setDescription("");
 
 InputVariable input = new InputVariable();
 input.setName("input");

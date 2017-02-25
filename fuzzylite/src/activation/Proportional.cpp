@@ -40,22 +40,20 @@ namespace fl {
 
     Complexity Proportional::complexity(const RuleBlock* ruleBlock) const {
         Complexity result;
-        for (std::size_t i = 0; i < ruleBlock->rules().size(); ++i) {
+        for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             result.comparison(1).arithmetic(1);
-            result += ruleBlock->rules().at(i)->complexityOfActivationDegree(
-                    ruleBlock->getConjunction(), ruleBlock->getDisjunction(),
-                    ruleBlock->getImplication());
+            result += ruleBlock->getRule(i)->complexityOfActivation(
+                    ruleBlock->getConjunction(), ruleBlock->getDisjunction());
         }
 
-        for (std::size_t i = 0; i < ruleBlock->rules().size(); ++i) {
+        for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             result.arithmetic(1);
-            result += ruleBlock->rules().at(i)
-                    ->complexityOfActivation(ruleBlock->getImplication());
+            result += ruleBlock->getRule(i)->complexityOfFiring(ruleBlock->getImplication());
         }
         return result;
     }
 
-    void Proportional::activate(RuleBlock* ruleBlock) const {
+    void Proportional::activate(RuleBlock* ruleBlock) {
         FL_DBG("Activation: " << className() << " " << parameters());
         const TNorm* conjunction = ruleBlock->getConjunction();
         const SNorm* disjunction = ruleBlock->getDisjunction();
@@ -63,12 +61,12 @@ namespace fl {
 
         scalar sumActivationDegrees = 0.0;
         std::vector<Rule*> rulesToActivate;
-        for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
+        const std::size_t numberOfRules = ruleBlock->numberOfRules();
+        for (std::size_t i = 0; i < numberOfRules; ++i) {
             Rule* rule = ruleBlock->getRule(i);
             rule->deactivate();
             if (rule->isLoaded()) {
-                scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
-                rule->setActivationDegree(activationDegree);
+                scalar activationDegree = rule->activateWith(conjunction, disjunction);
                 rulesToActivate.push_back(rule);
                 sumActivationDegrees += activationDegree;
             }
@@ -77,7 +75,8 @@ namespace fl {
         for (std::size_t i = 0; i < rulesToActivate.size(); ++i) {
             Rule* rule = rulesToActivate.at(i);
             scalar activationDegree = rule->getActivationDegree() / sumActivationDegrees;
-            rule->activate(activationDegree, implication);
+            rule->setActivationDegree(activationDegree);
+            rule->fire(implication);
         }
     }
 

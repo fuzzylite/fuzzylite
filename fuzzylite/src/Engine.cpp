@@ -103,39 +103,46 @@ namespace fl {
 
     void Engine::configure(const std::string& conjunction, const std::string& disjunction,
             const std::string& implication, const std::string& aggregation,
-            const std::string& defuzzifier) {
+            const std::string& defuzzifier, const std::string& activation) {
         TNormFactory* tnormFactory = FactoryManager::instance()->tnorm();
         SNormFactory* snormFactory = FactoryManager::instance()->snorm();
         DefuzzifierFactory* defuzzFactory = FactoryManager::instance()->defuzzifier();
+        ActivationFactory* activationFactory = FactoryManager::instance()->activation();
 
         TNorm* conjunctionObject = tnormFactory->constructObject(conjunction);
         SNorm* disjunctionObject = snormFactory->constructObject(disjunction);
         TNorm* implicationObject = tnormFactory->constructObject(implication);
         SNorm* aggregationObject = snormFactory->constructObject(aggregation);
         Defuzzifier* defuzzifierObject = defuzzFactory->constructObject(defuzzifier);
+        Activation* activationObject = activationFactory->constructObject(activation);
 
         configure(conjunctionObject, disjunctionObject,
-                implicationObject, aggregationObject, defuzzifierObject);
+                implicationObject, aggregationObject, defuzzifierObject,
+                activationObject);
     }
 
     void Engine::configure(TNorm* conjunction, SNorm* disjunction,
-            TNorm* implication, SNorm* aggregation, Defuzzifier* defuzzifier) {
-        for (std::size_t i = 0; i < ruleBlocks().size(); ++i) {
-            ruleBlocks().at(i)->setConjunction(conjunction ? conjunction->clone() : fl::null);
-            ruleBlocks().at(i)->setDisjunction(disjunction ? disjunction->clone() : fl::null);
-            ruleBlocks().at(i)->setImplication(implication ? implication->clone() : fl::null);
+            TNorm* implication, SNorm* aggregation, Defuzzifier* defuzzifier,
+            Activation* activation) {
+        for (std::size_t i = 0; i < numberOfRuleBlocks(); ++i) {
+            RuleBlock* ruleBlock = ruleBlocks().at(i);
+            ruleBlock->setConjunction(conjunction ? conjunction->clone() : fl::null);
+            ruleBlock->setDisjunction(disjunction ? disjunction->clone() : fl::null);
+            ruleBlock->setImplication(implication ? implication->clone() : fl::null);
+            ruleBlock->setActivation(activation ? activation->clone() : fl::null);
         }
 
-        for (std::size_t i = 0; i < outputVariables().size(); ++i) {
-            outputVariables().at(i)->setDefuzzifier(defuzzifier ? defuzzifier->clone() : fl::null);
-            outputVariables().at(i)->fuzzyOutput()->setAggregation(
-                    aggregation ? aggregation->clone() : fl::null);
+        for (std::size_t i = 0; i < numberOfOutputVariables(); ++i) {
+            OutputVariable* outputVariable = getOutputVariable(i);
+            outputVariable->setDefuzzifier(defuzzifier ? defuzzifier->clone() : fl::null);
+            outputVariable->setAggregation(aggregation ? aggregation->clone() : fl::null);
         }
         if (defuzzifier) delete defuzzifier;
         if (aggregation) delete aggregation;
         if (implication) delete implication;
         if (disjunction) delete disjunction;
         if (conjunction) delete conjunction;
+        if (activation) delete activation;
     }
 
     bool Engine::isReady(std::string* status) const {
@@ -291,6 +298,8 @@ namespace fl {
         for (std::size_t i = 0; i < _ruleBlocks.size(); ++i) {
             RuleBlock* ruleBlock = _ruleBlocks.at(i);
             if (ruleBlock->isEnabled()) {
+                FL_DBG("===============");
+                FL_DBG("RULE BLOCK: " << ruleBlock->getName());
                 ruleBlock->activate();
             }
         }

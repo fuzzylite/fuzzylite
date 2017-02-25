@@ -26,10 +26,10 @@
 namespace fl {
 
     RuleBlock::RuleBlock(const std::string& name)
-    : _name(name), _description(""), _enabled(true) { }
+    : _enabled(true), _name(name), _description("") { }
 
-    RuleBlock::RuleBlock(const RuleBlock& other) : _name(other._name),
-    _enabled(true) {
+    RuleBlock::RuleBlock(const RuleBlock& other) : _enabled(true), _name(other._name),
+    _description(other._description) {
         copyFrom(other);
     }
 
@@ -50,9 +50,9 @@ namespace fl {
     }
 
     void RuleBlock::copyFrom(const RuleBlock& source) {
+        _enabled = source._enabled;
         _name = source._name;
         _description = source._description;
-        _enabled = source._enabled;
         if (source._conjunction.get()) _conjunction.reset(source._conjunction->clone());
         if (source._disjunction.get()) _disjunction.reset(source._disjunction->clone());
         if (source._implication.get()) _implication.reset(source._implication->clone());
@@ -84,13 +84,10 @@ namespace fl {
     }
 
     void RuleBlock::activate() {
-        FL_DBG("===================");
-        FL_DBG("ACTIVATING RULEBLOCK " << getName());
-        //@todo: remove check in version 7.0
         if (not _activation.get()) {
-            _activation.reset(new General);
+            throw Exception("[rule block error] "
+                    "the rule block <" + _name + "> requires an activation method", FL_AT);
         }
-        FL_DBG("Activation: " << getActivation()->className() << " " << getActivation()->parameters());
         _activation->activate(this);
     }
 

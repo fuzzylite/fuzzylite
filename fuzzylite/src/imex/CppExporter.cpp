@@ -55,6 +55,7 @@ namespace fl {
         if (not isUsingNamespace()) cpp << "using namespace fl;\n\n";
         cpp << fl("Engine* ") << "engine = new " << fl("Engine;\n");
         cpp << "engine->setName(\"" << engine->getName() << "\");\n";
+        cpp << "engine->setDescription(\"" << engine->getDescription() << "\");\n";
 
         cpp << "\n";
 

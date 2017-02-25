@@ -17,6 +17,7 @@ public static void main(String[] args){
 
 Engine engine = new Engine();
 engine.setName("tank2");
+engine.setDescription("");
 
 InputVariable level = new InputVariable();
 level.setName("level");

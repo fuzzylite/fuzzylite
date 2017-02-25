@@ -7,6 +7,7 @@ using namespace fl;
 
 Engine* engine = new Engine;
 engine->setName("juggler");
+engine->setDescription("");
 
 InputVariable* xHit = new InputVariable;
 xHit->setName("xHit");

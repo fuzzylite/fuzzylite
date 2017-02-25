@@ -7,6 +7,7 @@ using namespace fl;
 
 Engine* engine = new Engine;
 engine->setName("tanksg");
+engine->setDescription("");
 
 InputVariable* level = new InputVariable;
 level->setName("level");

@@ -17,6 +17,7 @@ public static void main(String[] args){
 
 Engine engine = new Engine();
 engine.setName("sltbu_fl");
+engine.setDescription("");
 
 InputVariable distance = new InputVariable();
 distance.setName("distance");

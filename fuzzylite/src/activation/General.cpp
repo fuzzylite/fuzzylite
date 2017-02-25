@@ -40,16 +40,16 @@ namespace fl {
 
     Complexity General::complexity(const RuleBlock* ruleBlock) const {
         Complexity result;
-        for (std::size_t i = 0; i < ruleBlock->rules().size(); ++i) {
+        for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             result.comparison(1);
-            result += ruleBlock->rules().at(i)->complexity(
+            result += ruleBlock->getRule(i)->complexity(
                     ruleBlock->getConjunction(), ruleBlock->getDisjunction(),
                     ruleBlock->getImplication());
         }
         return result;
     }
 
-    void General::activate(RuleBlock* ruleBlock) const {
+    void General::activate(RuleBlock* ruleBlock) {
         FL_DBG("Activation: " << className() << " " << parameters());
         const TNorm* conjunction = ruleBlock->getConjunction();
         const SNorm* disjunction = ruleBlock->getDisjunction();
@@ -60,8 +60,8 @@ namespace fl {
             Rule* rule = ruleBlock->getRule(i);
             rule->deactivate();
             if (rule->isLoaded()) {
-                scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
-                rule->activate(activationDegree, implication);
+                rule->activateWith(conjunction, disjunction);
+                rule->fire(implication);
             }
         }
     }

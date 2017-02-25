@@ -60,7 +60,7 @@ namespace fl {
           the activation degrees of the other rules in the rule block.
           @param ruleBlock is the rule block to activate.
          */
-        virtual void activate(RuleBlock* ruleBlock) const FL_IOVERRIDE;
+        virtual void activate(RuleBlock* ruleBlock) FL_IOVERRIDE;
 
         virtual Proportional* clone() const FL_IOVERRIDE;
 

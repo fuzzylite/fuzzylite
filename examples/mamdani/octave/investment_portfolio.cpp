@@ -7,6 +7,7 @@ using namespace fl;
 
 Engine* engine = new Engine;
 engine->setName("investment_portfolio");
+engine->setDescription("");
 
 InputVariable* Age = new InputVariable;
 Age->setName("Age");

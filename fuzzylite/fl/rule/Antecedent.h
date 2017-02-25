@@ -110,8 +110,7 @@ namespace fl {
           Computes the estimated complexity of calculating the activation degree
           @return the estimated complexity of calculating the activation degree
          */
-        virtual Complexity complexity(const TNorm* conjunction, const SNorm* disjunction,
-                const TNorm* implication) const;
+        virtual Complexity complexity(const TNorm* conjunction, const SNorm* disjunction) const;
         /**
           Computes the estimated complexity of recursively calculating the
           activation degree from the given node
@@ -119,7 +118,7 @@ namespace fl {
           activation degree from the given node
          */
         virtual Complexity complexity(const TNorm* conjunction, const SNorm* disjunction,
-                const TNorm* implication, const Expression* node) const;
+                const Expression* node) const;
 
 
         /**

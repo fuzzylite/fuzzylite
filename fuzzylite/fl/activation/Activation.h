@@ -44,11 +44,9 @@ namespace fl {
     class FL_API Activation {
     public:
 
-        Activation() {
-        }
+        Activation() { }
 
-        virtual ~Activation() {
-        }
+        virtual ~Activation() { }
 
         FL_DEFAULT_COPY_AND_MOVE(Activation)
 
@@ -80,10 +78,10 @@ namespace fl {
         virtual Complexity complexity(const RuleBlock* ruleBlock) const = 0;
 
         /**
-          Activates the rule block.
+          Activates the rule block
           @param ruleBlock is the rule block to activate
          */
-        virtual void activate(RuleBlock* ruleBlock) const = 0;
+        virtual void activate(RuleBlock* ruleBlock) = 0;
 
         /**
           Clones the activation method.

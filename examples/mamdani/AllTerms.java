@@ -17,6 +17,7 @@ public static void main(String[] args){
 
 Engine engine = new Engine();
 engine.setName("AllTerms");
+engine.setDescription("");
 
 InputVariable AllInputTerms = new InputVariable();
 AllInputTerms.setName("AllInputTerms");

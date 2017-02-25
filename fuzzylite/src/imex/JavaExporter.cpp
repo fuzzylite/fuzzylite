@@ -42,6 +42,7 @@ namespace fl {
         ss << "//Code automatically generated with " << fuzzylite::library() << ".\n\n";
         ss << "Engine engine = new Engine();\n";
         ss << "engine.setName(\"" << engine->getName() << "\");\n";
+        ss << "engine.setDescription(\"" << engine->getDescription() << "\");\n";
         ss << "\n";
 
         for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i) {
@@ -144,7 +145,7 @@ namespace fl {
                 name += Op::str(index + 1);
             }
         }
-        
+
         ss << "RuleBlock " << name << " = new RuleBlock();\n";
         ss << name << ".setName(\"" << ruleBlock->getName() << "\");\n";
         ss << name << ".setDescription(\"" << ruleBlock->getDescription() << "\");\n";

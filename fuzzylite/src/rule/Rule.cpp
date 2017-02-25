@@ -24,21 +24,22 @@
 namespace fl {
 
     Rule::Rule(const std::string& text, scalar weight)
-    : _text(text), _weight(weight), _antecedent(new Antecedent), _consequent(new Consequent),
-    _activationDegree(0.0), _activated(false) { }
+    : _enabled(true), _text(text), _weight(weight), _activationDegree(0.0), _fired(false),
+    _antecedent(new Antecedent), _consequent(new Consequent) { }
 
-    Rule::Rule(const Rule& other) : _text(other._text), _weight(other._weight),
-    _antecedent(new Antecedent), _consequent(new Consequent),
-    _activationDegree(other._activationDegree), _activated(other._activated) { }
+    Rule::Rule(const Rule& other) : _enabled(other._enabled), _text(other._text),
+    _weight(other._weight), _activationDegree(other._activationDegree), _fired(false),
+    _antecedent(new Antecedent), _consequent(new Consequent) { }
 
     Rule& Rule::operator=(const Rule& other) {
         if (this != &other) {
+            _enabled = other._enabled;
             _text = other._text;
             _weight = other._weight;
+            _activationDegree = other._activationDegree;
+            _fired = other._fired;
             _antecedent.reset(new Antecedent);
             _consequent.reset(new Consequent);
-            _activationDegree = other._activationDegree;
-            _activated = other._activated;
         }
         return *this;
     }
@@ -80,12 +81,12 @@ namespace fl {
         return this->_consequent.get();
     }
 
-    void Rule::setActivated(bool activated) {
-        this->_activated = activated;
+    void Rule::setEnabled(bool active) {
+        this->_enabled = active;
     }
 
-    bool Rule::isActivated() const {
-        return this->_activated;
+    bool Rule::isEnabled() const {
+        return this->_enabled;
     }
 
     void Rule::setActivationDegree(scalar activationDegree) {
@@ -96,55 +97,56 @@ namespace fl {
         return this->_activationDegree;
     }
 
-    Complexity Rule::complexityOfActivationDegree(const TNorm* conjunction, const SNorm* disjunction,
-            const TNorm* implication) const {
+    void Rule::deactivate() {
+        _activationDegree = 0.0;
+        _fired = false;
+    }
+
+    scalar Rule::activateWith(const TNorm* conjunction, const SNorm* disjunction) {
+        if (not isLoaded()) {
+            throw Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
+        }
+        _activationDegree = _weight * _antecedent->activationDegree(conjunction, disjunction);
+        return _activationDegree;
+    }
+
+    void Rule::fire(const TNorm* implication) {
+        if (not isLoaded()) {
+            throw Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
+        }
+        if (_enabled and Op::isGt(_activationDegree, 0.0)) {
+            FL_DBG("[firing with " << Op::str(_activationDegree) << "] " << toString());
+            _consequent->modify(_activationDegree, implication);
+            _fired = true;
+        }
+    }
+
+    bool Rule::isFired() const {
+        return this->_fired;
+    }
+
+    Complexity Rule::complexityOfActivation(const TNorm* conjunction, const SNorm* disjunction) const {
         Complexity result;
         result.comparison(1).arithmetic(1);
         if (isLoaded()) {
-            result += _antecedent->complexity(conjunction, disjunction, implication);
+            result += _antecedent->complexity(conjunction, disjunction);
         }
         return result;
     }
 
-    scalar Rule::computeActivationDegree(const TNorm* conjunction, const SNorm* disjunction) const {
-        if (not isLoaded()) {
-            throw Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
-        }
-        return _weight * _antecedent->activationDegree(conjunction, disjunction);
-    }
-
-    Complexity Rule::complexityOfActivation(const TNorm* implication) const {
+    Complexity Rule::complexityOfFiring(const TNorm* implication) const {
         Complexity result;
-        result.comparison(2);
+        result.comparison(3);
         if (isLoaded()) {
             result += _consequent->complexity(implication);
         }
         return result;
     }
 
-    void Rule::activate(scalar activationDegree, const TNorm* implication) {
-        FL_DBG("[activating] " << toString());
-        if (not isLoaded()) {
-            throw Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
-        }
-        if (Op::isGt(activationDegree, 0.0)) {
-            FL_DBG("[degree=" << Op::str(activationDegree) << "] " << toString());
-            _activationDegree = activationDegree;
-            _consequent->modify(activationDegree, implication);
-        }
-        _activated = true;
-    }
-
     Complexity Rule::complexity(const TNorm* conjunction, const SNorm* disjunction,
             const TNorm* implication) const {
-        return complexityOfActivationDegree(conjunction, disjunction, implication)
-                + complexityOfActivation(implication);
-    }
-
-    void Rule::deactivate() {
-        _activated = false;
-        _activationDegree = 0.0;
-        FL_DBG("[deactivated] " << toString());
+        return complexityOfActivation(conjunction, disjunction)
+                + complexityOfFiring(implication);
     }
 
     bool Rule::isLoaded() const {
@@ -163,9 +165,9 @@ namespace fl {
     }
 
     void Rule::load(const std::string& rule, const Engine* engine) {
+        deactivate();
+        setEnabled(true);
         setText(rule);
-        setActivated(false);
-        setActivationDegree(0.0);
         std::istringstream tokenizer(rule.substr(0, rule.find_first_of('#')));
         std::string token;
         std::ostringstream ossAntecedent, ossConsequent;

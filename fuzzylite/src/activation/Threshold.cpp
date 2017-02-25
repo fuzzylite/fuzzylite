@@ -140,7 +140,7 @@ namespace fl {
         return result;
     }
 
-    void Threshold::activate(RuleBlock* ruleBlock) const {
+    void Threshold::activate(RuleBlock* ruleBlock) {
         FL_DBG("Activation: " << className() << " " << parameters());
         const TNorm* conjunction = ruleBlock->getConjunction();
         const SNorm* disjunction = ruleBlock->getDisjunction();
@@ -150,10 +150,9 @@ namespace fl {
             Rule* rule = ruleBlock->getRule(i);
             rule->deactivate();
             if (rule->isLoaded()) {
-                scalar activationDegree = rule->computeActivationDegree(conjunction, disjunction);
-                rule->setActivationDegree(activationDegree);
+                scalar activationDegree = rule->activateWith(conjunction, disjunction);
                 if (activatesWith(activationDegree)) {
-                    rule->activate(activationDegree, implication);
+                    rule->fire(implication);
                 }
             }
         }

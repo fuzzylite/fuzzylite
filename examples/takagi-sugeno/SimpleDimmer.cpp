@@ -7,6 +7,7 @@ using namespace fl;
 
 Engine* engine = new Engine;
 engine->setName("SimpleDimmer");
+engine->setDescription("");
 
 InputVariable* Ambient = new InputVariable;
 Ambient->setName("Ambient");

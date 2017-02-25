@@ -7,6 +7,7 @@ using namespace fl;
 
 Engine* engine = new Engine;
 engine->setName("mam21");
+engine->setDescription("");
 
 InputVariable* angle = new InputVariable;
 angle->setName("angle");

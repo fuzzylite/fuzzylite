@@ -7,6 +7,7 @@ using namespace fl;
 
 Engine* engine = new Engine;
 engine->setName("sltbu_fl");
+engine->setDescription("");
 
 InputVariable* distance = new InputVariable;
 distance->setName("distance");
