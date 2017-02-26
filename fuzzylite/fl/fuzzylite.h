@@ -217,11 +217,11 @@ namespace fl {
     class FL_API fuzzylite {
         friend class Operation;
     private:
-        static FL_ITHREAD_LOCAL int _decimals;
-        static FL_ITHREAD_LOCAL scalar _macheps;
-        static FL_ITHREAD_LOCAL std::ios_base::fmtflags _scalarFormat;
-        static FL_ITHREAD_LOCAL bool _logging;
-        static FL_ITHREAD_LOCAL bool _debugging;
+        static int _decimals;
+        static scalar _macheps;
+        static std::ios_base::fmtflags _scalarFormat;
+        static bool _logging;
+        static bool _debugging;
     public:
         /**
          Returns the name of the `fuzzylite` library
