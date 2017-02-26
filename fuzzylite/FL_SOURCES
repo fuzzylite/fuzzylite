@@ -1,7 +1,6 @@
 src/Benchmark.cpp
 src/Complexity.cpp
 src/Console.cpp
-src/activation/General.cpp
 src/activation/First.cpp
 src/activation/General.cpp
 src/activation/Highest.cpp

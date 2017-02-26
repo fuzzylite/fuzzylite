@@ -49,10 +49,16 @@ namespace fl {
         std::vector<std::string> result;
         result.push_back("Engine: " + engine->getName());
         if (not engine->getDescription().empty())
-            result.push_back(_indent + "description: " + engine->getDescription());
-        result.push_back(toString(engine->inputVariables()));
-        result.push_back(toString(engine->outputVariables()));
-        result.push_back(toString(engine->ruleBlocks()));
+            result.push_back("description: " + engine->getDescription());
+        for (std::size_t i = 0 ; i < engine->numberOfInputVariables(); ++i){
+            result.push_back(toString(engine->getInputVariable(i)));
+        }
+        for (std::size_t i = 0 ; i < engine->numberOfOutputVariables(); ++i){
+            result.push_back(toString(engine->getOutputVariable(i)));
+        }
+        for (std::size_t i = 0 ; i < engine->numberOfRuleBlocks(); ++i){
+            result.push_back(toString(engine->getRuleBlock(i)));
+        }
         return Op::join(result, _separator);
     }
 
