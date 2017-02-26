@@ -24,11 +24,11 @@
 namespace fl {
 
     Rule::Rule(const std::string& text, scalar weight)
-    : _enabled(true), _text(text), _weight(weight), _activationDegree(0.0), _fired(false),
+    : _enabled(true), _text(text), _weight(weight), _activationDegree(0.0), _triggered(false),
     _antecedent(new Antecedent), _consequent(new Consequent) { }
 
     Rule::Rule(const Rule& other) : _enabled(other._enabled), _text(other._text),
-    _weight(other._weight), _activationDegree(other._activationDegree), _fired(false),
+    _weight(other._weight), _activationDegree(other._activationDegree), _triggered(false),
     _antecedent(new Antecedent), _consequent(new Consequent) { }
 
     Rule& Rule::operator=(const Rule& other) {
@@ -37,7 +37,7 @@ namespace fl {
             _text = other._text;
             _weight = other._weight;
             _activationDegree = other._activationDegree;
-            _fired = other._fired;
+            _triggered = other._triggered;
             _antecedent.reset(new Antecedent);
             _consequent.reset(new Consequent);
         }
@@ -99,7 +99,7 @@ namespace fl {
 
     void Rule::deactivate() {
         _activationDegree = 0.0;
-        _fired = false;
+        _triggered = false;
     }
 
     scalar Rule::activateWith(const TNorm* conjunction, const SNorm* disjunction) {
@@ -110,19 +110,19 @@ namespace fl {
         return _activationDegree;
     }
 
-    void Rule::fire(const TNorm* implication) {
+    void Rule::trigger(const TNorm* implication) {
         if (not isLoaded()) {
             throw Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
         }
         if (_enabled and Op::isGt(_activationDegree, 0.0)) {
             FL_DBG("[firing with " << Op::str(_activationDegree) << "] " << toString());
             _consequent->modify(_activationDegree, implication);
-            _fired = true;
+            _triggered = true;
         }
     }
 
-    bool Rule::isFired() const {
-        return this->_fired;
+    bool Rule::isTriggered() const {
+        return this->_triggered;
     }
 
     Complexity Rule::complexityOfActivation(const TNorm* conjunction, const SNorm* disjunction) const {

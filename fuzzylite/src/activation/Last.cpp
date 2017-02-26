@@ -103,7 +103,7 @@ namespace fl {
                 if (activated < _numberOfRules
                         and Op::isGt(activationDegree, 0.0)
                         and Op::isGE(activationDegree, _threshold)) {
-                    rule->fire(implication);
+                    rule->trigger(implication);
                     ++activated;
                 }
             }

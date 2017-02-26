@@ -76,7 +76,7 @@ namespace fl {
             Rule* rule = rulesToActivate.at(i);
             scalar activationDegree = rule->getActivationDegree() / sumActivationDegrees;
             rule->setActivationDegree(activationDegree);
-            rule->fire(implication);
+            rule->trigger(implication);
         }
     }
 

@@ -106,7 +106,7 @@ namespace fl {
         int activated = 0;
         while (rulesToActivate.size() > 0 and activated++ < _numberOfRules) {
             Rule* rule = rulesToActivate.top();
-            rule->fire(implication);
+            rule->trigger(implication);
             rulesToActivate.pop();
         }
     }

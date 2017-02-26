@@ -69,7 +69,7 @@ namespace fl {
         std::string _text;
         scalar _weight;
         scalar _activationDegree;
-        bool _fired;
+        bool _triggered;
         FL_unique_ptr<Antecedent> _antecedent;
         FL_unique_ptr<Consequent> _consequent;
 
@@ -165,17 +165,17 @@ namespace fl {
         virtual void deactivate();
 
         /**
-          Fires the rule (if the rule is enabled) using the given implication
-          operator and the underlying activation degree
+          Triggers the rule's implication (if the rule is enabled) using the
+          given implication operator and the underlying activation degree
           @param implication is the implication operator
          */
-        virtual void fire(const TNorm* implication);
+        virtual void trigger(const TNorm* implication);
 
         /**
-          Indicates whether the rule was fired
-          @return whether the rule was fired
+          Indicates whether the rule's implication was triggered
+          @return whether the rule's implication was triggered
          */
-        virtual bool isFired() const;
+        virtual bool isTriggered() const;
 
         /**
           Returns a string representation of the rule in the FuzzyLite Language

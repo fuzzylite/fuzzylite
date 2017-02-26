@@ -61,7 +61,7 @@ namespace fl {
             rule->deactivate();
             if (rule->isLoaded()) {
                 rule->activateWith(conjunction, disjunction);
-                rule->fire(implication);
+                rule->trigger(implication);
             }
         }
     }

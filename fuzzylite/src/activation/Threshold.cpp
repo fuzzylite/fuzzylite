@@ -152,7 +152,7 @@ namespace fl {
             if (rule->isLoaded()) {
                 scalar activationDegree = rule->activateWith(conjunction, disjunction);
                 if (activatesWith(activationDegree)) {
-                    rule->fire(implication);
+                    rule->trigger(implication);
                 }
             }
         }
