@@ -95,7 +95,7 @@ namespace fl {
 
         ss << "\n";
         ss << "Visit " << fuzzylite::website() << " for more information.\n\n";
-        ss << "Copyright (C) 2010-2016 by FuzzyLite Limited.\n";
+        ss << "Copyright (C) 2010-2017 by FuzzyLite Limited.\n";
         ss << "All rights reserved.";
 
         return ss.str();
@@ -445,103 +445,152 @@ namespace fl {
     }
 
     Engine* Console::mamdani() {
-        Engine* engine = new Engine("simple-dimmer");
+        Engine* engine = new Engine;
+        engine->setName("simple-dimmer");
+        engine->setDescription("");
 
-        InputVariable* ambient = new InputVariable("Ambient", 0, 1);
-        ambient->addTerm(new Triangle("DARK", .0, .25, .5));
-        ambient->addTerm(new Triangle("MEDIUM", .25, .5, .75));
-        ambient->addTerm(new Triangle("BRIGHT", .5, .75, 1));
+        InputVariable* ambient = new InputVariable;
+        ambient->setName("ambient");
+        ambient->setDescription("");
+        ambient->setEnabled(true);
+        ambient->setRange(0.000, 1.000);
+        ambient->setLockValueInRange(false);
+        ambient->addTerm(new Triangle("DARK", 0.000, 0.250, 0.500));
+        ambient->addTerm(new Triangle("MEDIUM", 0.250, 0.500, 0.750));
+        ambient->addTerm(new Triangle("BRIGHT", 0.500, 0.750, 1.000));
         engine->addInputVariable(ambient);
 
-
-        OutputVariable* power = new OutputVariable("Power", 0, 2);
+        OutputVariable* power = new OutputVariable;
+        power->setName("power");
+        power->setDescription("");
+        power->setEnabled(true);
+        power->setRange(0.000, 2.000);
+        power->setLockValueInRange(false);
+        power->setAggregation(new Maximum);
+        power->setDefuzzifier(new Centroid(200));
         power->setDefaultValue(fl::nan);
-        power->addTerm(new Triangle("LOW", 0.0, 0.5, 1));
-        power->addTerm(new Triangle("MEDIUM", 0.5, 1, 1.5));
-        power->addTerm(new Triangle("HIGH", 1, 1.5, 2));
+        power->setLockPreviousValue(false);
+        power->addTerm(new Triangle("LOW", 0.000, 0.500, 1.000));
+        power->addTerm(new Triangle("MEDIUM", 0.500, 1.000, 1.500));
+        power->addTerm(new Triangle("HIGH", 1.000, 1.500, 2.000));
         engine->addOutputVariable(power);
 
-        RuleBlock* ruleblock = new RuleBlock();
-        ruleblock->addRule(Rule::parse("if Ambient is DARK then Power is HIGH", engine));
-        ruleblock->addRule(Rule::parse("if Ambient is MEDIUM then Power is MEDIUM", engine));
-        ruleblock->addRule(Rule::parse("if Ambient is BRIGHT then Power is LOW", engine));
-
-        engine->addRuleBlock(ruleblock);
-
-        engine->configure("", "", "Minimum", "Maximum", "Centroid");
+        RuleBlock* ruleBlock = new RuleBlock;
+        ruleBlock->setName("");
+        ruleBlock->setDescription("");
+        ruleBlock->setEnabled(true);
+        ruleBlock->setConjunction(fl::null);
+        ruleBlock->setDisjunction(fl::null);
+        ruleBlock->setImplication(new Minimum);
+        ruleBlock->setActivation(new General);
+        ruleBlock->addRule(Rule::parse("if ambient is DARK then power is HIGH", engine));
+        ruleBlock->addRule(Rule::parse("if ambient is MEDIUM then power is MEDIUM", engine));
+        ruleBlock->addRule(Rule::parse("if ambient is BRIGHT then power is LOW", engine));
+        engine->addRuleBlock(ruleBlock);
 
         return engine;
     }
 
     Engine* Console::takagiSugeno() {
-        Engine* engine = new Engine("approximation of sin(x)/x");
+        Engine* engine = new Engine;
+        engine->setName("approximation");
+        engine->setDescription("approximation of sin(x)/x");
 
-        InputVariable* inputX = new InputVariable("inputX");
-        inputX->setRange(0, 10);
-        inputX->addTerm(new Triangle("NEAR_1", 0, 1, 2));
-        inputX->addTerm(new Triangle("NEAR_2", 1, 2, 3));
-        inputX->addTerm(new Triangle("NEAR_3", 2, 3, 4));
-        inputX->addTerm(new Triangle("NEAR_4", 3, 4, 5));
-        inputX->addTerm(new Triangle("NEAR_5", 4, 5, 6));
-        inputX->addTerm(new Triangle("NEAR_6", 5, 6, 7));
-        inputX->addTerm(new Triangle("NEAR_7", 6, 7, 8));
-        inputX->addTerm(new Triangle("NEAR_8", 7, 8, 9));
-        inputX->addTerm(new Triangle("NEAR_9", 8, 9, 10));
+        InputVariable* inputX = new InputVariable;
+        inputX->setName("inputX");
+        inputX->setDescription("value of x");
+        inputX->setEnabled(true);
+        inputX->setRange(0.000, 10.000);
+        inputX->setLockValueInRange(false);
+        inputX->addTerm(new Triangle("NEAR_1", 0.000, 1.000, 2.000));
+        inputX->addTerm(new Triangle("NEAR_2", 1.000, 2.000, 3.000));
+        inputX->addTerm(new Triangle("NEAR_3", 2.000, 3.000, 4.000));
+        inputX->addTerm(new Triangle("NEAR_4", 3.000, 4.000, 5.000));
+        inputX->addTerm(new Triangle("NEAR_5", 4.000, 5.000, 6.000));
+        inputX->addTerm(new Triangle("NEAR_6", 5.000, 6.000, 7.000));
+        inputX->addTerm(new Triangle("NEAR_7", 6.000, 7.000, 8.000));
+        inputX->addTerm(new Triangle("NEAR_8", 7.000, 8.000, 9.000));
+        inputX->addTerm(new Triangle("NEAR_9", 8.000, 9.000, 10.000));
         engine->addInputVariable(inputX);
 
-
-        OutputVariable* outputFx = new OutputVariable("outputFx");
-        outputFx->setRange(-1, 1);
+        OutputVariable* outputFx = new OutputVariable;
+        outputFx->setName("outputFx");
+        outputFx->setDescription("value of the approximation of x");
+        outputFx->setEnabled(true);
+        outputFx->setRange(-1.000, 1.000);
+        outputFx->setLockValueInRange(false);
+        outputFx->setAggregation(fl::null);
+        outputFx->setDefuzzifier(new WeightedAverage("Automatic"));
         outputFx->setDefaultValue(fl::nan);
-        outputFx->setLockPreviousValue(true); //To use its value with diffFx
-        outputFx->addTerm(new Constant("f1", 0.84));
-        outputFx->addTerm(new Constant("f2", 0.45));
-        outputFx->addTerm(new Constant("f3", 0.04));
-        outputFx->addTerm(new Constant("f4", -0.18));
-        outputFx->addTerm(new Constant("f5", -0.19));
-        outputFx->addTerm(new Constant("f6", -0.04));
-        outputFx->addTerm(new Constant("f7", 0.09));
-        outputFx->addTerm(new Constant("f8", 0.12));
-        outputFx->addTerm(new Constant("f9", 0.04));
+        outputFx->setLockPreviousValue(true);
+        outputFx->addTerm(new Constant("f1", 0.840));
+        outputFx->addTerm(new Constant("f2", 0.450));
+        outputFx->addTerm(new Constant("f3", 0.040));
+        outputFx->addTerm(new Constant("f4", -0.180));
+        outputFx->addTerm(new Constant("f5", -0.190));
+        outputFx->addTerm(new Constant("f6", -0.040));
+        outputFx->addTerm(new Constant("f7", 0.090));
+        outputFx->addTerm(new Constant("f8", 0.120));
+        outputFx->addTerm(new Constant("f9", 0.040));
         engine->addOutputVariable(outputFx);
 
-        OutputVariable* trueFx = new OutputVariable("trueFx");
-        trueFx->setRange(fl::nan, fl::nan);
-        trueFx->setLockPreviousValue(true); //To use its value with diffFx
-        trueFx->addTerm(Function::create("fx", "sin(inputX)/inputX", engine));
-        engine->addOutputVariable(trueFx);
+        OutputVariable* trueValue = new OutputVariable;
+        trueValue->setName("trueValue");
+        trueValue->setDescription("value of f(x)=sin(x)/x");
+        trueValue->setEnabled(true);
+        trueValue->setRange(-1.060, 1.000);
+        trueValue->setLockValueInRange(false);
+        trueValue->setAggregation(fl::null);
+        trueValue->setDefuzzifier(new WeightedAverage("Automatic"));
+        trueValue->setDefaultValue(fl::nan);
+        trueValue->setLockPreviousValue(true);
+        trueValue->addTerm(Function::create("fx", "sin(inputX)/inputX", engine));
+        engine->addOutputVariable(trueValue);
 
-        OutputVariable* diffFx = new OutputVariable("diffFx");
-        diffFx->addTerm(Function::create("diff", "abs(outputFx-trueFx)", engine));
-        diffFx->setRange(fl::nan, fl::nan);
-        //        diffFx->setLockValidOutput(true); //To use in input diffPreviousFx
-        engine->addOutputVariable(diffFx);
+        OutputVariable* difference = new OutputVariable;
+        difference->setName("difference");
+        difference->setDescription("error e=f(x) - f'(x)");
+        difference->setEnabled(true);
+        difference->setRange(-1.000, 1.000);
+        difference->setLockValueInRange(false);
+        difference->setAggregation(fl::null);
+        difference->setDefuzzifier(new WeightedAverage("Automatic"));
+        difference->setDefaultValue(fl::nan);
+        difference->setLockPreviousValue(false);
+        difference->addTerm(Function::create("error", "outputFx-trueValue", engine));
+        engine->addOutputVariable(difference);
 
-        RuleBlock* block = new RuleBlock();
-        block->addRule(Rule::parse("if inputX is NEAR_1 then outputFx is f1", engine));
-        block->addRule(Rule::parse("if inputX is NEAR_2 then outputFx is f2", engine));
-        block->addRule(Rule::parse("if inputX is NEAR_3 then outputFx is f3", engine));
-        block->addRule(Rule::parse("if inputX is NEAR_4 then outputFx is f4", engine));
-        block->addRule(Rule::parse("if inputX is NEAR_5 then outputFx is f5", engine));
-        block->addRule(Rule::parse("if inputX is NEAR_6 then outputFx is f6", engine));
-        block->addRule(Rule::parse("if inputX is NEAR_7 then outputFx is f7", engine));
-        block->addRule(Rule::parse("if inputX is NEAR_8 then outputFx is f8", engine));
-        block->addRule(Rule::parse("if inputX is NEAR_9 then outputFx is f9", engine));
-        block->addRule(Rule::parse("if inputX is any then trueFx is fx and diffFx is diff", engine));
-        engine->addRuleBlock(block);
-
-        engine->configure("", "", "AlgebraicProduct", "AlgebraicSum", "WeightedAverage");
+        RuleBlock* ruleBlock = new RuleBlock;
+        ruleBlock->setName("");
+        ruleBlock->setDescription("");
+        ruleBlock->setEnabled(true);
+        ruleBlock->setConjunction(fl::null);
+        ruleBlock->setDisjunction(fl::null);
+        ruleBlock->setImplication(new AlgebraicProduct);
+        ruleBlock->setActivation(new General);
+        ruleBlock->addRule(Rule::parse("if inputX is NEAR_1 then outputFx is f1", engine));
+        ruleBlock->addRule(Rule::parse("if inputX is NEAR_2 then outputFx is f2", engine));
+        ruleBlock->addRule(Rule::parse("if inputX is NEAR_3 then outputFx is f3", engine));
+        ruleBlock->addRule(Rule::parse("if inputX is NEAR_4 then outputFx is f4", engine));
+        ruleBlock->addRule(Rule::parse("if inputX is NEAR_5 then outputFx is f5", engine));
+        ruleBlock->addRule(Rule::parse("if inputX is NEAR_6 then outputFx is f6", engine));
+        ruleBlock->addRule(Rule::parse("if inputX is NEAR_7 then outputFx is f7", engine));
+        ruleBlock->addRule(Rule::parse("if inputX is NEAR_8 then outputFx is f8", engine));
+        ruleBlock->addRule(Rule::parse("if inputX is NEAR_9 then outputFx is f9", engine));
+        ruleBlock->addRule(Rule::parse("if inputX is any then trueValue is fx and difference is error", engine));
+        engine->addRuleBlock(ruleBlock);
 
         return engine;
     }
 
     Engine* Console::hybrid() {
         Engine* engine = new Engine;
-        engine->setName("[tipper] (service and food) -> (tip)");
+        engine->setName("tipper");
+        engine->setDescription("[tipper] (service and food) -> (tip)");
 
         InputVariable* service = new InputVariable;
         service->setName("service");
-        service->setDescription("");
+        service->setDescription("quality of service");
         service->setEnabled(true);
         service->setRange(0.000, 10.000);
         service->setLockValueInRange(false);
@@ -552,7 +601,7 @@ namespace fl {
 
         InputVariable* food = new InputVariable;
         food->setName("food");
-        food->setDescription("");
+        food->setDescription("quality of food");
         food->setEnabled(true);
         food->setRange(0.000, 10.000);
         food->setLockValueInRange(true);
@@ -562,7 +611,7 @@ namespace fl {
 
         OutputVariable* mTip = new OutputVariable;
         mTip->setName("mTip");
-        mTip->setDescription("");
+        mTip->setDescription("tip based on Mamdani inference");
         mTip->setEnabled(true);
         mTip->setRange(0.000, 30.000);
         mTip->setLockValueInRange(false);
@@ -577,7 +626,7 @@ namespace fl {
 
         OutputVariable* tsTip = new OutputVariable;
         tsTip->setName("tsTip");
-        tsTip->setDescription("");
+        tsTip->setDescription("tip based on Takagi-Sugeno inference");
         tsTip->setEnabled(true);
         tsTip->setRange(0.000, 30.000);
         tsTip->setLockValueInRange(false);
@@ -591,8 +640,8 @@ namespace fl {
         engine->addOutputVariable(tsTip);
 
         RuleBlock* mamdaniRuleBlock = new RuleBlock;
-        mamdaniRuleBlock->setName("mamdaniRuleBlock");
-        mamdaniRuleBlock->setDescription("");
+        mamdaniRuleBlock->setName("mamdani");
+        mamdaniRuleBlock->setDescription("Mamdani inference");
         mamdaniRuleBlock->setEnabled(true);
         mamdaniRuleBlock->setConjunction(new AlgebraicProduct);
         mamdaniRuleBlock->setDisjunction(new AlgebraicSum);
@@ -605,8 +654,8 @@ namespace fl {
         engine->addRuleBlock(mamdaniRuleBlock);
 
         RuleBlock* takagiSugenoRuleBlock = new RuleBlock;
-        takagiSugenoRuleBlock->setName("takagiSugenoRuleBlock");
-        takagiSugenoRuleBlock->setDescription("");
+        takagiSugenoRuleBlock->setName("takagiSugeno");
+        takagiSugenoRuleBlock->setDescription("Takagi-Sugeno inference");
         takagiSugenoRuleBlock->setEnabled(true);
         takagiSugenoRuleBlock->setConjunction(new AlgebraicProduct);
         takagiSugenoRuleBlock->setDisjunction(new AlgebraicSum);
@@ -710,7 +759,7 @@ namespace fl {
                     }
                 }
                 if ("hybrid/tipper" == example
-                        and tests.at(t).second->name() == FisImporter().name()){
+                        and tests.at(t).second->name() == FisImporter().name()) {
                     continue;
                 }
 
