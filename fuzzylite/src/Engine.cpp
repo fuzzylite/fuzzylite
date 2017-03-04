@@ -476,8 +476,7 @@ namespace fl {
         }
 
         if (name) *name = "Unknown";
-        if (reason) *reason = "- It is not possible yet to identify the engine "
-                "type based on its configuration";
+        if (reason) *reason = "- One or more output variables do not have a defuzzifier";
         return Engine::Unknown;
     }
 
