@@ -17,10 +17,9 @@
 #include "fl/Exception.h"
 
 
-#ifdef FL_BACKTRACE_OFF
-//do nothing
+#ifdef FL_BACKTRACE
 
-#elif defined FL_UNIX
+#ifdef FL_UNIX
 #include <execinfo.h>
 
 #elif defined FL_WINDOWS
@@ -28,11 +27,14 @@
 #include <winbase.h>
 
 #ifndef __MINGW32__
-//Disable warning 8.1\Include\um\dbghelp.h(1544): warning C4091: 'typedef ': ignored on left of '' when no variable is declared
+/*Disable warning 8.1\Include\um\dbghelp.h(1544):
+warning C4091: 'typedef ': ignored on left of '' when no variable is declared*/
 #pragma warning (push)
 #pragma warning (disable:4091)
 #include <dbghelp.h>
 #pragma warning (pop)
+#endif
+
 #endif
 
 #endif
@@ -86,8 +88,8 @@ namespace fl {
     }
 
     std::string Exception::btCallStack() {
-#ifdef FL_BACKTRACE_OFF
-        return "[backtrace disabled] fuzzylite was built with option -DFL_BACKTRACE_OFF";
+#ifndef FL_BACKTRACE
+        return "[backtrace disabled] fuzzylite was built without -DFL_BACKTRACE";
 #elif defined FL_UNIX
         std::ostringstream btStream;
         const int bufferSize = 30;

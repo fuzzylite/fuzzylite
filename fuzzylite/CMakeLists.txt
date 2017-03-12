@@ -38,8 +38,8 @@ if(FL_USE_FLOAT)
     add_definitions(-DFL_USE_FLOAT)
 endif(FL_USE_FLOAT)
 
-if(NOT FL_BACKTRACE)
-    add_definitions(-DFL_BACKTRACE_OFF)
+if(FL_BACKTRACE)
+    add_definitions(-DFL_BACKTRACE)
 endif()
 
 if (MSVC AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19)
