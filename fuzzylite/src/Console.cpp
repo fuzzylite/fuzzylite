@@ -586,14 +586,14 @@ namespace fl {
     Engine* Console::hybrid() {
         Engine* engine = new Engine;
         engine->setName("tipper");
-        engine->setDescription("[tipper] (service and food) -> (tip)");
+        engine->setDescription("(service and food) -> (tip)");
 
         InputVariable* service = new InputVariable;
         service->setName("service");
         service->setDescription("quality of service");
         service->setEnabled(true);
         service->setRange(0.000, 10.000);
-        service->setLockValueInRange(false);
+        service->setLockValueInRange(true);
         service->addTerm(new Trapezoid("poor", 0.000, 0.000, 2.500, 5.000));
         service->addTerm(new Triangle("good", 2.500, 5.000, 7.500));
         service->addTerm(new Trapezoid("excellent", 5.000, 7.500, 10.000, 10.000));

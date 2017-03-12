@@ -45,12 +45,12 @@ MF2='average':'constant',[15.000]
 MF3='generous':'constant',[25.000]
 
 [Rules]
-# RuleBlock mamdaniRuleBlock
+# RuleBlock mamdani
 1.000 1.000 , 1.000 0.000 (1.000) : 2
 2.000 0.000 , 2.000 0.000 (1.000) : 1
 3.000 2.000 , 3.000 0.000 (0.500) : 2
 3.000 2.000 , 3.000 0.000 (1.000) : 1
-# RuleBlock takagiSugenoRuleBlock
+# RuleBlock takagiSugeno
 1.000 1.000 , 0.000 1.000 (1.000) : 2
 2.000 0.000 , 0.000 2.000 (1.000) : 1
 3.000 2.000 , 0.000 3.000 (0.500) : 2

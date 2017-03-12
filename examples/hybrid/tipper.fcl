@@ -44,7 +44,7 @@ DEFUZZIFY tsTip
   DEFAULT := nan;
 END_DEFUZZIFY
 
-RULEBLOCK mamdaniRuleBlock
+RULEBLOCK mamdani
   AND : PROD;
   OR : ASUM;
   ACT : MIN;
@@ -54,7 +54,7 @@ RULEBLOCK mamdaniRuleBlock
   RULE 4 : if service is excellent and food is delicious then mTip is generous with 1.0
 END_RULEBLOCK
 
-RULEBLOCK takagiSugenoRuleBlock
+RULEBLOCK takagiSugeno
   AND : PROD;
   OR : ASUM;
   RULE 1 : if service is poor or food is rancid then tsTip is cheap

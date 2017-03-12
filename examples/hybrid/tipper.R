@@ -3,21 +3,26 @@
 library(ggplot2);
 
 engine.name = "tipper"
+engine.description = "(service and food) -> (tip)"
 engine.fll = "Engine: tipper
+description: (service and food) -> (tip)
 InputVariable: service
+  description: quality of service
   enabled: true
   range: 0.000 10.000
-  lock-range: false
+  lock-range: true
   term: poor Trapezoid 0.000 0.000 2.500 5.000
   term: good Triangle 2.500 5.000 7.500
   term: excellent Trapezoid 5.000 7.500 10.000 10.000
 InputVariable: food
+  description: quality of food
   enabled: true
   range: 0.000 10.000
   lock-range: true
   term: rancid Trapezoid 0.000 0.000 2.500 7.500
   term: delicious Trapezoid 2.500 7.500 10.000 10.000
 OutputVariable: mTip
+  description: tip based on Mamdani inference
   enabled: true
   range: 0.000 30.000
   lock-range: false
@@ -29,6 +34,7 @@ OutputVariable: mTip
   term: average Triangle 10.000 15.000 20.000
   term: generous Triangle 20.000 25.000 30.000
 OutputVariable: tsTip
+  description: tip based on Takagi-Sugeno inference
   enabled: true
   range: 0.000 30.000
   lock-range: false
@@ -39,7 +45,8 @@ OutputVariable: tsTip
   term: cheap Constant 5.000
   term: average Constant 15.000
   term: generous Constant 25.000
-RuleBlock: mamdaniRuleBlock
+RuleBlock: mamdani
+  description: Mamdani inference
   enabled: true
   conjunction: AlgebraicProduct
   disjunction: AlgebraicSum
@@ -49,7 +56,8 @@ RuleBlock: mamdaniRuleBlock
   rule: if service is good then mTip is average
   rule: if service is excellent or food is delicious then mTip is generous with 0.5
   rule: if service is excellent and food is delicious then mTip is generous with 1.0
-RuleBlock: takagiSugenoRuleBlock
+RuleBlock: takagiSugeno
+  description: Takagi-Sugeno inference
   enabled: true
   conjunction: AlgebraicProduct
   disjunction: AlgebraicSum

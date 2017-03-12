@@ -471,7 +471,7 @@ namespace fl {
         }
         if (hybrid) {
             if (name) *name = "Hybrid";
-            if (reason) *reason = "- Output variables have different defuzzifiers";
+            if (reason) *reason = "- Output variables have different types of defuzzifiers";
             return Engine::Hybrid;
         }
 
