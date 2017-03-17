@@ -276,6 +276,7 @@ namespace fl {
         std::size_t index = line.find_last_of(' ');
         if (index != std::string::npos) name = line.substr(index + 1);
         RuleBlock * ruleblock = new RuleBlock(name);
+        ruleblock->setActivation(new General);
         engine->addRuleBlock(ruleblock);
 
         while (std::getline(blockReader, line)) {

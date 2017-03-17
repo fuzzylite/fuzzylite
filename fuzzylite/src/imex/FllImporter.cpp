@@ -209,6 +209,9 @@ namespace fl {
                         "recognized in pair <" + keyValue.first + ":" + keyValue.second + ">", FL_AT);
             }
         }
+        if (not ruleBlock->getActivation()){
+            ruleBlock->setActivation(new General);
+        }
         engine->addRuleBlock(ruleBlock.release());
     }
 

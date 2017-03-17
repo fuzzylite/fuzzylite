@@ -85,8 +85,7 @@ namespace fl {
 
     void RuleBlock::activate() {
         if (not _activation.get()) {
-            throw Exception("[rule block error] "
-                    "the rule block <" + _name + "> requires an activation method", FL_AT);
+            _activation.reset(new General);
         }
         _activation->activate(this);
     }

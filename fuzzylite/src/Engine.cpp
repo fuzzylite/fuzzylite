@@ -16,6 +16,7 @@
 
 #include "fl/Engine.h"
 
+#include "fl/activation/General.h"
 #include "fl/defuzzifier/WeightedAverage.h"
 #include "fl/defuzzifier/WeightedSum.h"
 #include "fl/factory/DefuzzifierFactory.h"
@@ -129,7 +130,7 @@ namespace fl {
             ruleBlock->setConjunction(conjunction ? conjunction->clone() : fl::null);
             ruleBlock->setDisjunction(disjunction ? disjunction->clone() : fl::null);
             ruleBlock->setImplication(implication ? implication->clone() : fl::null);
-            ruleBlock->setActivation(activation ? activation->clone() : fl::null);
+            ruleBlock->setActivation(activation ? activation->clone() : new General);
         }
 
         for (std::size_t i = 0; i < numberOfOutputVariables(); ++i) {
