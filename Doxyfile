@@ -604,7 +604,7 @@ STRICT_PROTO_MATCHING  = NO
 # list. This list is created by putting \todo commands in the documentation.
 # The default value is: YES.
 
-GENERATE_TODOLIST      = YES
+GENERATE_TODOLIST      = NO
 
 # The GENERATE_TESTLIST tag can be used to enable (YES) or disable (NO) the test
 # list. This list is created by putting \test commands in the documentation.
@@ -1108,7 +1108,7 @@ HTML_EXTRA_STYLESHEET  = documentation/ui/stylesheet.css
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
 
-HTML_EXTRA_FILES       = documentation/ui/README.md \
+HTML_EXTRA_FILES       = README.md \
                          documentation/ui/image/browserconfig.xml \
                          documentation/ui/image/manifest.json \
 
