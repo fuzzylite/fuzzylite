@@ -1,0 +1,32 @@
+#Code automatically generated with fuzzylite 6.0.
+
+[System]
+Name='ObstacleAvoidance'
+Type='sugeno'
+Version=6.0
+NumInputs=1
+NumOutputs=1
+NumRules=2
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='wtaver'
+
+[Input1]
+Name='obstacle'
+Range=[0.000 1.000]
+NumMFs=2
+MF1='left':'rampmf',[1.000 0.000]
+MF2='right':'rampmf',[0.000 1.000]
+
+[Output1]
+Name='tsSteer'
+Range=[0.000 1.000]
+NumMFs=2
+MF1='left':'constant',[0.333]
+MF2='right':'constant',[0.666]
+
+[Rules]
+1.000 , 2.000 (1.000) : 1
+2.000 , 1.000 (1.000) : 1

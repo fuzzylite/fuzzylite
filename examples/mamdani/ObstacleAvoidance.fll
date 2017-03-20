@@ -1,0 +1,25 @@
+Engine: ObstacleAvoidance
+InputVariable: obstacle
+  enabled: true
+  range: 0.000 1.000
+  lock-range: false
+  term: left Ramp 1.000 0.000
+  term: right Ramp 0.000 1.000
+OutputVariable: mSteer
+  enabled: true
+  range: 0.000 1.000
+  lock-range: false
+  aggregation: Maximum
+  defuzzifier: Centroid 100
+  default: nan
+  lock-previous: false
+  term: left Ramp 1.000 0.000
+  term: right Ramp 0.000 1.000
+RuleBlock: mamdani
+  enabled: true
+  conjunction: none
+  disjunction: none
+  implication: AlgebraicProduct
+  activation: General
+  rule: if obstacle is left then mSteer is right
+  rule: if obstacle is right then mSteer is left

@@ -680,6 +680,8 @@ namespace fl {
         examples.push_back("mamdani/AllTerms");
         examples.push_back("mamdani/SimpleDimmer");
         examples.push_back("mamdani/Laundry");
+        examples.push_back("mamdani/ObstacleAvoidance");
+        examples.push_back("mamdani/SimpleDimmerChained");
         examples.push_back("mamdani/SimpleDimmerInverse");
         examples.push_back("mamdani/matlab/mam21");
         examples.push_back("mamdani/matlab/mam22");
@@ -691,6 +693,7 @@ namespace fl {
         examples.push_back("mamdani/octave/investment_portfolio");
         examples.push_back("mamdani/octave/mamdani_tip_calculator");
         examples.push_back("takagi-sugeno/approximation");
+        examples.push_back("takagi-sugeno/ObstacleAvoidance");
         examples.push_back("takagi-sugeno/SimpleDimmer");
         examples.push_back("takagi-sugeno/matlab/fpeaks");
         examples.push_back("takagi-sugeno/matlab/invkine1");
@@ -712,6 +715,7 @@ namespace fl {
         examples.push_back("takagi-sugeno/octave/sugeno_tip_calculator");
         examples.push_back("tsukamoto/tsukamoto");
         examples.push_back("hybrid/tipper");
+        examples.push_back("hybrid/ObstacleAvoidance");
 
         FL_unique_ptr<Importer> importer;
         if (from == "fll") importer.reset(new FllImporter);
@@ -753,16 +757,15 @@ namespace fl {
 
             for (std::size_t t = 0; t < tests.size(); ++t) {
                 if ("mamdani/Laundry" == example
-                        or "mamdani/SimpleDimmerInverse" == example) {
-                    if (tests.at(t).second->name() != FllImporter().name()) {
+                        or "mamdani/SimpleDimmerInverse" == example
+                        or "mamdani/SimpleDimmerChained" == example
+                        or "hybrid/tipper" == example
+                        or "hybrid/ObstacleAvoidance" == example) {
+                    if (tests.at(t).second->name() == FisImporter().name()) {
                         continue;
                     }
                 }
-                if ("hybrid/tipper" == example
-                        and tests.at(t).second->name() == FisImporter().name()) {
-                    continue;
-                }
-
+                
                 std::string exported = tests.at(t).first->toString(engine.get());
                 FL_unique_ptr<Engine> engineFromExport(tests.at(t).second->fromString(exported));
                 std::string imported = tests.at(t).first->toString(engineFromExport.get());
