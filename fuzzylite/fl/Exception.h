@@ -31,7 +31,7 @@ namespace fl {
       throughout the library. If the library is built with the compiling flag
       `-DFL_BACKTRACE=ON`, the method Exception::btCallStack() will provide a
       stack trace when an exception is thrown. Please, have in mind that
-      enabling the stack trace will require the external library `dbghelp` in
+      enabling the stack trace requires the external library `dbghelp` in
       the Windows platform, which is generally available in the operating
       system.
 

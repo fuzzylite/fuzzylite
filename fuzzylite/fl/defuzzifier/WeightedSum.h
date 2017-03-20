@@ -52,14 +52,12 @@ namespace fl {
           = \mu_i(w_i) @f$.
 
           From version 6.0, the implication and aggregation operators are not
-          utilized for defuzzification. Also, for better performance, the term
-          is assumed to be Aggregated without type checking, for which unexpected
-          operation may occur if the term is not an instance of Aggregated.
+          utilized for defuzzification.
 
           @param term is the fuzzy set represented as an AggregatedTerm
           @param minimum is the minimum value of the range (only used for Tsukamoto)
           @param maximum is the maximum value of the range (only used for Tsukamoto)
-          @return the weighted sum of the given fuzzy set 
+          @return the weighted sum of the given fuzzy set
          */
         virtual scalar defuzzify(const Term* term,
                 scalar minimum, scalar maximum) const FL_IOVERRIDE;

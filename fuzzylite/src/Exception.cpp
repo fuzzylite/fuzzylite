@@ -138,7 +138,6 @@ namespace fl {
         return "[backtrace missing] supported only in Unix and Windows platforms";
 #endif
     }
-    //execinfo
 
     void Exception::signalHandler(int unixSignal) {
         std::ostringstream ex;

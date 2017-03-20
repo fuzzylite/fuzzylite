@@ -26,7 +26,8 @@ namespace fl {
       The WeightedAverageCustom class is a WeightedDefuzzifier that computes the
       weighted average of a fuzzy set represented in an Aggregated Term utilizing
       the fuzzy operators for implication and aggregation to compute the weighted
-      average.
+      average.  This is an experimental approach to take advantage of customization
+      thanks to the object-oriented design.
 
       @author Juan Rada-Vilela, Ph.D.
       @see WeightedAverage
@@ -35,6 +36,7 @@ namespace fl {
       @see WeightedDefuzzifier
       @see Defuzzifier
       @since 6.0
+      @experimental
      */
     class FL_API WeightedAverageCustom : public WeightedDefuzzifier {
     public:
@@ -62,7 +64,7 @@ namespace fl {
           @param term is the fuzzy set represented as an Aggregated Term
           @param minimum is the minimum value of the range (only used for Tsukamoto)
           @param maximum is the maximum value of the range (only used for Tsukamoto)
-          @return the weighted average of the given fuzzy set 
+          @return the weighted average of the given fuzzy set
          */
         virtual scalar defuzzify(const Term* term,
                 scalar minimum, scalar maximum) const FL_IOVERRIDE;
