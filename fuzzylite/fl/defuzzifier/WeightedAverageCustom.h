@@ -23,7 +23,7 @@ namespace fl {
     class Activated;
 
     /**
-      The WeightedAverageCustom class is a WeightedDefuzzifier that computes the
+      The (experimental) WeightedAverageCustom class is a WeightedDefuzzifier that computes the
       weighted average of a fuzzy set represented in an Aggregated Term utilizing
       the fuzzy operators for implication and aggregation to compute the weighted
       average.  This is an experimental approach to take advantage of customization
@@ -36,7 +36,6 @@ namespace fl {
       @see WeightedDefuzzifier
       @see Defuzzifier
       @since 6.0
-      @experimental
      */
     class FL_API WeightedAverageCustom : public WeightedDefuzzifier {
     public:

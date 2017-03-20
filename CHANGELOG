@@ -23,7 +23,7 @@ Overview
 
 * New class `RScriptExporter` to export the surfaces of an engine using the `ggplot2` library.
 
-* New class `BinaryTerm` for binary edges.
+* New class `Binary` term for binary edges.
 
 * New `UnboundedSum` S-Norm in `SNormFactory`.
 
@@ -160,9 +160,6 @@ Term
 
 * Fixed bug in `Function` term. Bug: given a formula = "tan(y)" and a map["y"] = 1.0, and executing `Function::load(formula)`, then the map of variables is reset because `load()` calls `unload()` first, causing the deregistration of variable `y`. Solution: Removed method `unload()` from `load()`, thereby causing future `load()` not to reset variables.
 * Fixed bug in `Function` when enclosing variable in double parenthesis.
-* Fixed minor bug in `Triangle` when vertix `a=b` or `b=c`. Bug: membership function $\mu(b)=0$ when `a=b` or `b=c`, but correct result is $\mu(b)=1$. Solution: Fix equation to use [less than| greater than] or equal to, instead of strict [less than| greater than].
-* Fixed minor bug in `Trapezoid` when vertix `a=b` or `c=d`. Bug: membership function $\mu(b)=0$ when `a=b`  and $\mu(c)=0$ when `c=d`, but correct results are $\mu(b)=1$ and $\mu(c)=1$. Solution: Fix equations to use [less than| greater than] or equal to, instead of strict [less than| greater than].
-
 
 
 

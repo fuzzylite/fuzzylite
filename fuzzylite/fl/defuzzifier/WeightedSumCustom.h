@@ -23,7 +23,7 @@
 namespace fl {
 
     /**
-      The WeightedSumCustom class is a WeightedDefuzzifier that computes the
+      The (experimental) WeightedSumCustom class is a WeightedDefuzzifier that computes the
       weighted sum of a fuzzy set represented in an Aggregated Term utilizing
       the fuzzy operators for implication and aggregation to compute the weighted
       sum. This is an experimental approach to take advantage of customization

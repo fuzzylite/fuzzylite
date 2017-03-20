@@ -1,6 +1,6 @@
 fuzzylite 6.0 &reg;
 =================
-<img src="https://raw.githubusercontent.com/fuzzylite/fuzzylite/master/fuzzylite.png" align="right" alt="fuzzylite">
+<img src="https://raw.githubusercontent.com/fuzzylite/fuzzylite/release/fuzzylite.png" align="right" alt="fuzzylite">
 
 
 A Fuzzy Logic Control Library in C++
@@ -11,8 +11,8 @@ By: [Juan Rada-Vilela](http://www.fuzzylite.com/jcrada), Ph.D.
 Released: 20/March/2017
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
-[![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=master)](https://travis-ci.org/fuzzylite/fuzzylite) 
-[![Build status](https://ci.appveyor.com/api/projects/status/065g596yxdhkt2se/branch/master)](https://ci.appveyor.com/project/jcrada/fuzzylite/branch/master)
+[![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=release)](https://travis-ci.org/fuzzylite/fuzzylite) 
+[![Build status](https://ci.appveyor.com/api/projects/status/065g596yxdhkt2se/branch/release)](https://ci.appveyor.com/project/jcrada/fuzzylite/branch/release)
 [![Coverity Status](https://scan.coverity.com/projects/5759/badge.svg)](https://scan.coverity.com/projects/5759) 
 
 
@@ -113,9 +113,9 @@ InputVariable: obstacle
   enabled: true
   range: 0.000 1.000
   lock-range: false
-  term: left Triangle 0.000 0.333 0.666
-  term: right Triangle 0.333 0.666 1.000
-OutputVariable: steer
+  term: left Ramp 1.000 0.000
+  term: right Ramp 0.000 1.000
+OutputVariable: mSteer
   enabled: true
   range: 0.000 1.000
   lock-range: false
@@ -123,16 +123,16 @@ OutputVariable: steer
   defuzzifier: Centroid 100
   default: nan
   lock-previous: false
-  term: left Triangle 0.000 0.333 0.666
-  term: right Triangle 0.333 0.666 1.000
-RuleBlock: 
+  term: left Ramp 1.000 0.000
+  term: right Ramp 0.000 1.000
+RuleBlock: mamdani
   enabled: true
   conjunction: none
   disjunction: none
-  implication: Minimum
+  implication: AlgebraicProduct
   activation: General
-  rule: if obstacle is left then steer is right
-  rule: if obstacle is right then steer is left
+  rule: if obstacle is left then mSteer is right
+  rule: if obstacle is right then mSteer is left
 ```
 ```cpp
 //File: ObstacleAvoidance.cpp
@@ -147,7 +147,7 @@ int main(int argc, char* argv[]){
         throw Exception("[engine error] engine is not ready:\n" + status, FL_AT);
 
     InputVariable* obstacle = engine->getInputVariable("obstacle");
-    OutputVariable* steer = engine->getOutputVariable("steer");
+    OutputVariable* steer = engine->getOutputVariable("mSteer");
 
     for (int i = 0; i <= 50; ++i){
         scalar location = obstacle->getMinimum() + i * (obstacle->range() / 50);
@@ -166,32 +166,49 @@ int main(int argc, char* argv[]){
 
 int main(int argc, char* argv[]){
     using namespace fl;
+    //Code automatically generated with fuzzylite 6.0.
+
+    using namespace fl;
+
     Engine* engine = new Engine;
     engine->setName("ObstacleAvoidance");
-    
+    engine->setDescription("");
+
     InputVariable* obstacle = new InputVariable;
     obstacle->setName("obstacle");
+    obstacle->setDescription("");
+    obstacle->setEnabled(true);
     obstacle->setRange(0.000, 1.000);
-    obstacle->addTerm(new Triangle("left", 0.000, 0.333, 0.666));
-    obstacle->addTerm(new Triangle("right", 0.333, 0.666, 1.000));
+    obstacle->setLockValueInRange(false);
+    obstacle->addTerm(new Ramp("left", 1.000, 0.000));
+    obstacle->addTerm(new Ramp("right", 0.000, 1.000));
     engine->addInputVariable(obstacle);
-    
-    OutputVariable* steer = new OutputVariable;
-    steer->setName("steer");
-    steer->setRange(0.000, 1.000);
-    steer->setDefaultValue(fl::nan);
-    steer->addTerm(new Triangle("left", 0.000, 0.333, 0.666));
-    steer->addTerm(new Triangle("right", 0.333, 0.666, 1.000));
-    steer->setAggregation(new Maximum);
-    steer->setDefuzzifier(new Centroid);
-    engine->addOutputVariable(steer);
-    
-    RuleBlock* ruleBlock = new RuleBlock;
-    ruleBlock->setActivation(new General);
-    ruleBlock->setImplication(new Minimum);
-    ruleBlock->addRule(fl::Rule::parse("if obstacle is left then steer is right", engine));
-    ruleBlock->addRule(fl::Rule::parse("if obstacle is right then steer is left", engine));
-    engine->addRuleBlock(ruleBlock);
+
+    OutputVariable* mSteer = new OutputVariable;
+    mSteer->setName("mSteer");
+    mSteer->setDescription("");
+    mSteer->setEnabled(true);
+    mSteer->setRange(0.000, 1.000);
+    mSteer->setLockValueInRange(false);
+    mSteer->setAggregation(new Maximum);
+    mSteer->setDefuzzifier(new Centroid(100));
+    mSteer->setDefaultValue(fl::nan);
+    mSteer->setLockPreviousValue(false);
+    mSteer->addTerm(new Ramp("left", 1.000, 0.000));
+    mSteer->addTerm(new Ramp("right", 0.000, 1.000));
+    engine->addOutputVariable(mSteer);
+
+    RuleBlock* mamdani = new RuleBlock;
+    mamdani->setName("mamdani");
+    mamdani->setDescription("");
+    mamdani->setEnabled(true);
+    mamdani->setConjunction(fl::null);
+    mamdani->setDisjunction(fl::null);
+    mamdani->setImplication(new AlgebraicProduct);
+    mamdani->setActivation(new General);
+    mamdani->addRule(Rule::parse("if obstacle is left then mSteer is right", engine));
+    mamdani->addRule(Rule::parse("if obstacle is right then mSteer is left", engine));
+    engine->addRuleBlock(mamdani);
 
     std::string status;
     if (not engine->isReady(&status))
@@ -384,7 +401,7 @@ fuzzylite -i ObstacleAvoidance.fll -of fld
 
 * New class `RScriptExporter` to export the surfaces of an engine using the `ggplot2` library.
 
-* New class `BinaryTerm` for binary edges.
+* New class `Binary` term for binary edges.
 
 * New `UnboundedSum` S-Norm in `SNormFactory`.
 
@@ -419,8 +436,7 @@ fuzzylite -i ObstacleAvoidance.fll -of fld
 * Fixed bug in `RuleBlock` to reset and clone the implication operator. Bug: implication operator is not copied and reset. Fix: copy and reset implication operator when cloning the `RuleBlock`.
 * Fixed bug in `Function` term. Bug: given a formula = "tan(y)" and a map["y"] = 1.0, and executing `Function::load(formula)`, then the map of variables is reset because `load()` calls `unload()` first, causing the deregistration of variable `y`. Solution: Removed method `unload()` from `load()`, thereby causing future `load()` not to reset variables.
 * Fixed bug in `Function` when enclosing variable in double parenthesis.
-* Fixed minor bug in `Triangle` when vertix `a=b` or `b=c`. Bug: membership function $\mu(b)=0$ when `a=b` or `b=c`, but correct result is $\mu(b)=1$. Solution: Fix equation to use [less than| greater than] or equal to, instead of strict [less than| greater than].
-* Fixed minor bug in `Trapezoid` when vertix `a=b` or `c=d`. Bug: membership function $\mu(b)=0$ when `a=b`  and $\mu(c)=0$ when `c=d`, but correct results are $\mu(b)=1$ and $\mu(c)=1$. Solution: Fix equations to use [less than| greater than] or equal to, instead of strict [less than| greater than].
+
 
 ***
 

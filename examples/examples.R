@@ -1,4 +1,4 @@
-directories = c("mamdani/", "mamdani/matlab/", "mamdani/octave/", "takagi-sugeno/", "takagi-sugeno/matlab/", "takagi-sugeno/octave/", "tsukamoto/")
+directories = c("mamdani/", "mamdani/matlab/", "mamdani/octave/", "takagi-sugeno/", "takagi-sugeno/matlab/", "takagi-sugeno/octave/", "tsukamoto/", "hybrid")
 baseDirectory = getwd()
 
 for (directory in directories){
