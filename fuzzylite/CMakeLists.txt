@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 2.8.8)
 
+if (APPLE)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
+endif()
+
 project(fuzzylite CXX)
 
 
@@ -185,8 +189,8 @@ if(FL_BUILD_BINARY)
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -debug)
-#    target_compile_definitions(fl-bin PRIVATE FL_IMPORT_LIBRARY) #if building with fl-shared
-    target_link_libraries(fl-bin fl-static ${FL_LIBS})
+    target_compile_definitions(fl-bin PRIVATE FL_IMPORT_LIBRARY) #if building with fl-shared
+    target_link_libraries(fl-bin fl-shared ${FL_LIBS})
 endif(FL_BUILD_BINARY)
 
 if(FL_BUILD_TESTS)
@@ -275,6 +279,7 @@ message("CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
 message("CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}")
 message("CMAKE_CXX_COMPILER_VERSION=${CMAKE_CXX_COMPILER_VERSION}")
 message("CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
+message("CMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}")
 message("COMPILE_DEFINITIONS:")
 get_directory_property(fl-definitions DIRECTORY ${CMAKE_SOURCE_DIR} COMPILE_DEFINITIONS )
 foreach(d ${fl-definitions})
