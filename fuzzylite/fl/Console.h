@@ -73,8 +73,8 @@ namespace fl {
 
         static void exportAllExamples(const std::string& from, const std::string& to);
         static void exportAllExamples(const std::string& from, const std::string& to, const std::string& path);
-#if defined(FL_UNIX) && ! defined(FL_APPLE)
-        static void benchmarkExamples(int runs);
+#ifdef FL_CPP11
+        static void benchmarkExamples(const std::string& path, int runs);
 #endif
 
     public:

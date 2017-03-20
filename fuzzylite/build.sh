@@ -1,18 +1,28 @@
 #!/bin/bash
 
+if [ -z "$FL_USE_FLOAT" ]; then
+    FL_USE_FLOAT="OFF"
+fi
+
+if [ -z "$FL_CPP11" ]; then
+    FL_CPP11="ON"
+fi
+
 debug(){
+    set -e
     mkdir -p debug
     cd debug
-    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON -DFL_USE_FLOAT=OFF -DFL_CPP11=OFF
-    make
+    cmake .. -G"Unix Makefiles" -DFL_USE_FLOAT=${FL_USE_FLOAT} -DFL_CPP11=${FL_CPP11} -DCMAKE_BUILD_TYPE=Debug -DFL_BACKTRACE=ON 
+    make all
     cd ..
 }
 
 release(){
+    set -e
     mkdir -p release
     cd release
-    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DFL_BACKTRACE=ON -DFL_USE_FLOAT=OFF -DFL_CPP11=OFF
-    make
+    cmake .. -G"Unix Makefiles" -DFL_USE_FLOAT=${FL_USE_FLOAT} -DFL_CPP11=${FL_CPP11} -DCMAKE_BUILD_TYPE=Release -DFL_BACKTRACE=ON 
+    make all
     cd ..
 }
 
@@ -37,6 +47,7 @@ usage(){
 }
 
 #############################
+echo "Parameters: $@"
 
 OPTIONS=( "all" "debug" "release" "clean" "help")
 BUILD=( )
@@ -50,7 +61,7 @@ do
     fi
 done
 
-if [ ${#BUILD[@]} -eq 0 ]; then BUILD+=( "all" ); fi
+if [ ${#BUILD[@]} -eq 0 ]; then BUILD+=( "release" "debug" ); fi
 
 echo "Building schedule: ${BUILD[@]}"
 echo "Starting in 3 seconds..."
@@ -65,6 +76,5 @@ do
     printf "\nFINISHED: $option\n"
     printf "******************************\n\n"
 done
-
 
 

@@ -432,7 +432,7 @@ namespace fl {
                 parameters.push_back(fl::Op::trim(token));
             }
         }
-        if (state <= S_ASSIGN)
+        if (state <= S_TERMCLASS)
             throw fl::Exception("[syntax error] malformed term in line: " + line, FL_AT);
 
         FL_unique_ptr<Term> term;

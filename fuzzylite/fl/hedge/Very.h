@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_API Very : public Hedge {
+    class FL_API Very FL_IFINAL : public Hedge {
     public:
         std::string name() const FL_IOVERRIDE;
         scalar hedge(scalar x) const FL_IOVERRIDE;

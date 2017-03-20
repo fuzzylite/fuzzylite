@@ -29,7 +29,7 @@
 
 namespace fl {
 
-    class FL_API Not : public Hedge {
+    class FL_API Not FL_IFINAL : public Hedge {
     public:
         std::string name() const FL_IOVERRIDE;
         scalar hedge(scalar x) const FL_IOVERRIDE;
