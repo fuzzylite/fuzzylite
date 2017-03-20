@@ -1,0 +1,8 @@
+<map id="fl::IntegralDefuzzifier" name="fl::IntegralDefuzzifier">
+<area shape="rect" id="node3" href="$da/d09/classfl_1_1_bisector.html" title="The Bisector class is an IntegralDefuzzifier that computes the bisector of a fuzzy set represented in..." alt="" coords="5,381,113,535"/>
+<area shape="rect" id="node4" href="$df/d91/classfl_1_1_centroid.html" title="The Centroid class is an IntegralDefuzzifier that computes the centroid of a fuzzy set represented in..." alt="" coords="137,381,245,535"/>
+<area shape="rect" id="node5" href="$de/d47/classfl_1_1_largest_of_maximum.html" title="The LargestOfMaximum class is an IntegralDefuzzifier that computes the largest value of the maximum m..." alt="" coords="270,381,435,535"/>
+<area shape="rect" id="node6" href="$dc/d91/classfl_1_1_mean_of_maximum.html" title="The MeanOfMaximum class is an IntegralDefuzzifier that computes the mean value of the maximum members..." alt="" coords="459,381,614,535"/>
+<area shape="rect" id="node7" href="$dc/dba/classfl_1_1_smallest_of_maximum.html" title="The SmallestOfMaximum class is an IntegralDefuzzifier that computes the smallest value of the maximum..." alt="" coords="638,381,811,535"/>
+<area shape="rect" id="node2" href="$d3/d31/classfl_1_1_defuzzifier.html" title="The Defuzzifier class is the abstract class for defuzzifiers. " alt="" coords="296,5,409,145"/>
+</map>

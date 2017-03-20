@@ -1,0 +1,13 @@
+<map id="fuzzylite/fl/factory/TermFactory.h" name="fuzzylite/fl/factory/TermFactory.h">
+<area shape="rect" id="node2" href="$d7/dd8/_construction_factory_8h.html" title="fl/factory/ConstructionFactory.h" alt="" coords="231,92,436,117"/>
+<area shape="rect" id="node22" href="$d8/d11/_term_8h.html" title="fl/term/Term.h" alt="" coords="1065,165,1167,191"/>
+<area shape="rect" id="node3" href="$de/d53/fuzzylite_8h.html" title="fl/fuzzylite.h" alt="" coords="615,532,705,557"/>
+<area shape="rect" id="node14" href="$df/d98/_exception_8h.html" title="fl/Exception.h" alt="" coords="43,385,144,411"/>
+<area shape="rect" id="node16" href="$d7/d8a/_defuzzifier_8h.html" title="fl/defuzzifier/Defuzzifier.h" alt="" coords="366,385,535,411"/>
+<area shape="rect" id="node18" href="$d2/dd9/_hedge_8h.html" title="fl/hedge/Hedge.h" alt="" coords="168,385,291,411"/>
+<area shape="rect" id="node19" href="$de/d44/_s_norm_8h.html" title="fl/norm/SNorm.h" alt="" coords="309,312,427,337"/>
+<area shape="rect" id="node21" href="$d0/d24/_t_norm_8h.html" title="fl/norm/TNorm.h" alt="" coords="501,312,619,337"/>
+<area shape="rect" id="node17" href="$d5/de4/_complexity_8h.html" title="fl/Complexity.h" alt="" coords="561,459,669,484"/>
+<area shape="rect" id="node20" href="$d7/d72/_norm_8h.html" title="fl/norm/Norm.h" alt="" coords="560,385,669,411"/>
+<area shape="rect" id="node23" href="$d6/dd6/_operation_8h.html" title="fl/Operation.h" alt="" coords="707,239,808,264"/>
+</map>

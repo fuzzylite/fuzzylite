@@ -32,5 +32,8 @@ var dir_446885192105908f1b7b797a1e5cae29 =
     ] ],
     [ "JavaExporter.h", "d8/d36/_java_exporter_8h.html", [
       [ "JavaExporter", "d2/ddb/classfl_1_1_java_exporter.html", "d2/ddb/classfl_1_1_java_exporter" ]
+    ] ],
+    [ "RScriptExporter.h", "d4/d88/_r_script_exporter_8h.html", [
+      [ "RScriptExporter", "df/df2/classfl_1_1_r_script_exporter.html", "df/df2/classfl_1_1_r_script_exporter" ]
     ] ]
 ];

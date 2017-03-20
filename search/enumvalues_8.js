@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['negative',['Negative',['../d4/dc7/classfl_1_1_ramp.html#a01cd3726a32d707f9fd3bfd7513ac917a2d9edaa8534df96d364cf2947618708e',1,'fl::Ramp::Negative()'],['../d0/dd1/classfl_1_1_sigmoid.html#a43b4717bf71a48d08d365ca58cfebb36aea0bb135ff6abf965a4cdad7e11ced0e',1,'fl::Sigmoid::Negative()']]],
-  ['notequalto',['NotEqualTo',['../df/d4e/classfl_1_1_threshold.html#ad268b5bb3e00eac068792cb92f0c9ce8adcf817a9a4e157bdbed773f050aaaede',1,'fl::Threshold']]]
+  ['mamdani',['Mamdani',['../d8/d6f/classfl_1_1_engine.html#adcb4654c0378d6663124430356359330a8528eae9307dd8cbf0f93a45d87b78c7',1,'fl::Engine']]],
+  ['microseconds',['MicroSeconds',['../d5/d28/classfl_1_1_benchmark.html#ae9b54467ed749703a19757033eee45a0ae8a968ed413f5c86dbf93b023ef3ed83',1,'fl::Benchmark']]],
+  ['milliseconds',['MilliSeconds',['../d5/d28/classfl_1_1_benchmark.html#ae9b54467ed749703a19757033eee45a0a4c3706cb4e6c2dc2905f8ffd481b9830',1,'fl::Benchmark']]],
+  ['minutes',['Minutes',['../d5/d28/classfl_1_1_benchmark.html#ae9b54467ed749703a19757033eee45a0a6dcf09c3d8db772563edc71df458c72b',1,'fl::Benchmark']]]
 ];

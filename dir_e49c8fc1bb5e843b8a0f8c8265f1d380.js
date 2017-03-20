@@ -24,10 +24,16 @@ var dir_e49c8fc1bb5e843b8a0f8c8265f1d380 =
     [ "WeightedAverage.h", "d4/db7/_weighted_average_8h.html", [
       [ "WeightedAverage", "d7/dde/classfl_1_1_weighted_average.html", "d7/dde/classfl_1_1_weighted_average" ]
     ] ],
+    [ "WeightedAverageCustom.h", "dd/d71/_weighted_average_custom_8h.html", [
+      [ "WeightedAverageCustom", "d9/da1/classfl_1_1_weighted_average_custom.html", "d9/da1/classfl_1_1_weighted_average_custom" ]
+    ] ],
     [ "WeightedDefuzzifier.h", "df/d9e/_weighted_defuzzifier_8h.html", [
       [ "WeightedDefuzzifier", "d5/d8d/classfl_1_1_weighted_defuzzifier.html", "d5/d8d/classfl_1_1_weighted_defuzzifier" ]
     ] ],
     [ "WeightedSum.h", "d0/da1/_weighted_sum_8h.html", [
       [ "WeightedSum", "d0/dbb/classfl_1_1_weighted_sum.html", "d0/dbb/classfl_1_1_weighted_sum" ]
+    ] ],
+    [ "WeightedSumCustom.h", "dd/d60/_weighted_sum_custom_8h.html", [
+      [ "WeightedSumCustom", "d9/d53/classfl_1_1_weighted_sum_custom.html", "d9/d53/classfl_1_1_weighted_sum_custom" ]
     ] ]
 ];

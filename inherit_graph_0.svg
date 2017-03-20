@@ -9,102 +9,102 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 245)">
 <title>Graphical Class Hierarchy</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-245 190.389,-245 190.389,4 -4,4"/>
-<!-- Node1 -->
-<g id="node1" class="node"><title>Node1</title>
+<!-- Node0 -->
+<g id="node1" class="node"><title>Node0</title>
 <g id="a_node1"><a xlink:href="df/d4b/classfl_1_1_activation.html" target="_top" xlink:title="The Activation class is the abstract class for RuleBlock activation methods. ">
 <polygon fill="white" stroke="black" points="0,-111.5 0,-129.5 69.9111,-129.5 69.9111,-111.5 0,-111.5"/>
 <text text-anchor="middle" x="34.9556" y="-117.5" font-family="Helvetica,sans-Serif" font-size="10.00">fl::Activation</text>
 </a>
 </g>
 </g>
-<!-- Node2 -->
-<g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="d6/d0b/classfl_1_1_first.html" target="_top" xlink:title="The First class is a RuleBlock Activation method that activates the first rule whose activation degre...">
+<!-- Node1 -->
+<g id="node2" class="node"><title>Node1</title>
+<g id="a_node2"><a xlink:href="d6/d0b/classfl_1_1_first.html" target="_top" xlink:title="The First class is a RuleBlock Activation method that activates the first &#160;rules whose activation deg...">
 <polygon fill="white" stroke="black" points="123.152,-222.5 123.152,-240.5 169.147,-240.5 169.147,-222.5 123.152,-222.5"/>
 <text text-anchor="middle" x="146.15" y="-228.5" font-family="Helvetica,sans-Serif" font-size="10.00">fl::First</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node2 -->
-<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<!-- Node0&#45;&gt;Node1 -->
+<g id="edge1" class="edge"><title>Node0&#45;&gt;Node1</title>
 <path fill="none" stroke="midnightblue" d="M45.79,-138.52C57.7192,-158.979 79.542,-192.264 105.911,-213.5 110.931,-217.543 117.007,-220.901 122.862,-223.578"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="48.7225,-136.596 40.752,-129.616 42.6301,-140.043 48.7225,-136.596"/>
 </g>
-<!-- Node3 -->
-<g id="node3" class="node"><title>Node3</title>
+<!-- Node2 -->
+<g id="node3" class="node"><title>Node2</title>
 <g id="a_node3"><a xlink:href="d8/de2/classfl_1_1_general.html" target="_top" xlink:title="The General class is a RuleBlock Activation method that activates every rule following the order in w...">
 <polygon fill="white" stroke="black" points="115.083,-185.5 115.083,-203.5 177.216,-203.5 177.216,-185.5 115.083,-185.5"/>
 <text text-anchor="middle" x="146.15" y="-191.5" font-family="Helvetica,sans-Serif" font-size="10.00">fl::General</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node3 -->
-<g id="edge2" class="edge"><title>Node1&#45;&gt;Node3</title>
+<!-- Node0&#45;&gt;Node2 -->
+<g id="edge2" class="edge"><title>Node0&#45;&gt;Node2</title>
 <path fill="none" stroke="midnightblue" d="M53.4332,-136.502C67.0663,-148.471 86.8304,-164.734 105.911,-176.5 111.142,-179.726 117.048,-182.732 122.66,-185.328"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="55.5877,-133.734 45.7979,-129.683 50.9248,-138.955 55.5877,-133.734"/>
 </g>
-<!-- Node4 -->
-<g id="node4" class="node"><title>Node4</title>
+<!-- Node3 -->
+<g id="node4" class="node"><title>Node3</title>
 <g id="a_node4"><a xlink:href="d0/d5f/classfl_1_1_highest.html" target="_top" xlink:title="The Highest class is a RuleBlock Activation method that activates a given number of rules with highes...">
 <polygon fill="white" stroke="black" points="115.918,-148.5 115.918,-166.5 176.381,-166.5 176.381,-148.5 115.918,-148.5"/>
 <text text-anchor="middle" x="146.15" y="-154.5" font-family="Helvetica,sans-Serif" font-size="10.00">fl::Highest</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node4 -->
-<g id="edge3" class="edge"><title>Node1&#45;&gt;Node4</title>
+<!-- Node0&#45;&gt;Node3 -->
+<g id="edge3" class="edge"><title>Node0&#45;&gt;Node3</title>
 <path fill="none" stroke="midnightblue" d="M72.2056,-132.783C87.268,-137.887 104.439,-143.705 118.335,-148.414"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="73.2618,-129.446 62.6675,-129.551 71.0153,-136.075 73.2618,-129.446"/>
 </g>
-<!-- Node5 -->
-<g id="node5" class="node"><title>Node5</title>
-<g id="a_node5"><a xlink:href="d6/d19/classfl_1_1_last.html" target="_top" xlink:title="The Last class is a RuleBlock Activation method that activates the last rule whose activation degree ...">
+<!-- Node4 -->
+<g id="node5" class="node"><title>Node4</title>
+<g id="a_node5"><a xlink:href="d6/d19/classfl_1_1_last.html" target="_top" xlink:title="The Last class is a RuleBlock Activation method that activates the last &#160;rules whose activation degre...">
 <polygon fill="white" stroke="black" points="123.421,-111.5 123.421,-129.5 168.879,-129.5 168.879,-111.5 123.421,-111.5"/>
 <text text-anchor="middle" x="146.15" y="-117.5" font-family="Helvetica,sans-Serif" font-size="10.00">fl::Last</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node5 -->
-<g id="edge4" class="edge"><title>Node1&#45;&gt;Node5</title>
+<!-- Node0&#45;&gt;Node4 -->
+<g id="edge4" class="edge"><title>Node0&#45;&gt;Node4</title>
 <path fill="none" stroke="midnightblue" d="M80.2683,-120.5C95.1285,-120.5 111.043,-120.5 123.392,-120.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="80.2058,-117 70.2057,-120.5 80.2057,-124 80.2058,-117"/>
 </g>
-<!-- Node6 -->
-<g id="node6" class="node"><title>Node6</title>
+<!-- Node5 -->
+<g id="node6" class="node"><title>Node5</title>
 <g id="a_node6"><a xlink:href="d2/db4/classfl_1_1_lowest.html" target="_top" xlink:title="The Lowest class is a RuleBlock Activation method that activates a given number of rules with lowest ...">
 <polygon fill="white" stroke="black" points="117.029,-74.5 117.029,-92.5 175.271,-92.5 175.271,-74.5 117.029,-74.5"/>
 <text text-anchor="middle" x="146.15" y="-80.5" font-family="Helvetica,sans-Serif" font-size="10.00">fl::Lowest</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node6 -->
-<g id="edge5" class="edge"><title>Node1&#45;&gt;Node6</title>
+<!-- Node0&#45;&gt;Node5 -->
+<g id="edge5" class="edge"><title>Node0&#45;&gt;Node5</title>
 <path fill="none" stroke="midnightblue" d="M72.2056,-108.217C87.268,-103.113 104.439,-97.2949 118.335,-92.586"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="71.0153,-104.925 62.6675,-111.449 73.2618,-111.554 71.0153,-104.925"/>
 </g>
-<!-- Node7 -->
-<g id="node7" class="node"><title>Node7</title>
+<!-- Node6 -->
+<g id="node7" class="node"><title>Node6</title>
 <g id="a_node7"><a xlink:href="df/d40/classfl_1_1_proportional.html" target="_top" xlink:title="The Proportional class is a RuleBlock Activation method that activates the rules utilizing activation...">
 <polygon fill="white" stroke="black" points="105.911,-37.5 105.911,-55.5 186.389,-55.5 186.389,-37.5 105.911,-37.5"/>
 <text text-anchor="middle" x="146.15" y="-43.5" font-family="Helvetica,sans-Serif" font-size="10.00">fl::Proportional</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node7 -->
-<g id="edge6" class="edge"><title>Node1&#45;&gt;Node7</title>
+<!-- Node0&#45;&gt;Node6 -->
+<g id="edge6" class="edge"><title>Node0&#45;&gt;Node6</title>
 <path fill="none" stroke="midnightblue" d="M54.0243,-104.518C67.6988,-92.8743 87.2506,-77.1631 105.911,-65.5 111.688,-61.8896 118.252,-58.4694 124.337,-55.552"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="51.6059,-101.982 46.3301,-111.17 56.184,-107.278 51.6059,-101.982"/>
 </g>
-<!-- Node8 -->
-<g id="node8" class="node"><title>Node8</title>
+<!-- Node7 -->
+<g id="node8" class="node"><title>Node7</title>
 <g id="a_node8"><a xlink:href="df/d4e/classfl_1_1_threshold.html" target="_top" xlink:title="The Threshold class is a RuleBlock Activation method that activates the rules whose activation degree...">
 <polygon fill="white" stroke="black" points="110.638,-0.5 110.638,-18.5 181.662,-18.5 181.662,-0.5 110.638,-0.5"/>
 <text text-anchor="middle" x="146.15" y="-6.5" font-family="Helvetica,sans-Serif" font-size="10.00">fl::Threshold</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node8 -->
-<g id="edge7" class="edge"><title>Node1&#45;&gt;Node8</title>
+<!-- Node0&#45;&gt;Node7 -->
+<g id="edge7" class="edge"><title>Node0&#45;&gt;Node7</title>
 <path fill="none" stroke="midnightblue" d="M46.1001,-102.466C58.1836,-82.2962 80.022,-49.6855 105.911,-28.5 110.597,-24.6653 116.186,-21.3718 121.657,-18.6558"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="42.9848,-100.86 40.9767,-111.263 49.0338,-104.383 42.9848,-100.86"/>
 </g>

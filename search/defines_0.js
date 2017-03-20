@@ -4,7 +4,6 @@ var searchData=
   ['fl_5fapi',['FL_API',['../de/d53/fuzzylite_8h.html#ab4f2bf06728fb68f827ed7165597d0f7',1,'fuzzylite.h']]],
   ['fl_5fat',['FL_AT',['../de/d53/fuzzylite_8h.html#a79d6c0af9f3f337643496f2f81f5ba1d',1,'fuzzylite.h']]],
   ['fl_5fbuild_5fpath',['FL_BUILD_PATH',['../de/d53/fuzzylite_8h.html#a784dc3ea21a0ba359537da155a00e61d',1,'fuzzylite.h']]],
-  ['fl_5fdate',['FL_DATE',['../de/d53/fuzzylite_8h.html#a62d4b835802d5d8e8e14cfa0a35f4181',1,'fuzzylite.h']]],
   ['fl_5fdbg',['FL_DBG',['../de/d53/fuzzylite_8h.html#a05084ec1207bb07770b8663cfe5c95d0',1,'fuzzylite.h']]],
   ['fl_5fdebug_5fbegin',['FL_DEBUG_BEGIN',['../de/d53/fuzzylite_8h.html#a66d06a84399d07676341f5a83dcad09f',1,'fuzzylite.h']]],
   ['fl_5fdebug_5fend',['FL_DEBUG_END',['../de/d53/fuzzylite_8h.html#a38a39c2641f4b26ab1f923c4e7355685',1,'fuzzylite.h']]],
@@ -17,10 +16,12 @@ var searchData=
   ['fl_5fifinal',['FL_IFINAL',['../de/d53/fuzzylite_8h.html#abdc0aeb7300614e01562928207fee0cc',1,'fuzzylite.h']]],
   ['fl_5finoexcept',['FL_INOEXCEPT',['../de/d53/fuzzylite_8h.html#a3127f6e46adb205f838b1e865e82530d',1,'fuzzylite.h']]],
   ['fl_5fioverride',['FL_IOVERRIDE',['../de/d53/fuzzylite_8h.html#a5401cce574ddb58275fc4f5cbc17e604',1,'fuzzylite.h']]],
+  ['fl_5fithread_5flocal',['FL_ITHREAD_LOCAL',['../de/d53/fuzzylite_8h.html#a42535258776f3bb9d440ab1b647edddf',1,'fuzzylite.h']]],
+  ['fl_5fiunused',['FL_IUNUSED',['../de/d53/fuzzylite_8h.html#a74a60416caf64d3f9685a625428beac6',1,'fuzzylite.h']]],
+  ['fl_5fiunused_5fdecl',['FL_IUNUSED_DECL',['../de/d53/fuzzylite_8h.html#a0879000052ea228545f5605544e1bb9d',1,'fuzzylite.h']]],
   ['fl_5flog',['FL_LOG',['../de/d53/fuzzylite_8h.html#ac1b133a2f567fc5de2a07db84638138d',1,'fuzzylite.h']]],
   ['fl_5flog_5fprefix',['FL_LOG_PREFIX',['../de/d53/fuzzylite_8h.html#a6b930a844b4fa50fe63a178ae5b1d896',1,'fuzzylite.h']]],
   ['fl_5flogp',['FL_LOGP',['../de/d53/fuzzylite_8h.html#af63fafdda4cae2ad4c11ada9492d8f4a',1,'fuzzylite.h']]],
   ['fl_5fmove_5fptr',['FL_move_ptr',['../de/d53/fuzzylite_8h.html#a67d7980e0e7357db4bce8945464c24a4',1,'fuzzylite.h']]],
-  ['fl_5funique_5fptr',['FL_unique_ptr',['../de/d53/fuzzylite_8h.html#a5d622b609e615c0e87736e0863d9c695',1,'fuzzylite.h']]],
-  ['fl_5fversion',['FL_VERSION',['../de/d53/fuzzylite_8h.html#a94499c96b5f3ca212d90a2c41f947a67',1,'fuzzylite.h']]]
+  ['fl_5funique_5fptr',['FL_unique_ptr',['../de/d53/fuzzylite_8h.html#a5d622b609e615c0e87736e0863d9c695',1,'fuzzylite.h']]]
 ];

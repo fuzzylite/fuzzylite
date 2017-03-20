@@ -1,7 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="node1" href="$d4/de6/classfl_1_1_term.html" title="The Term class is the abstract class for linguistic terms. " alt="" coords="5,548,70,573"/>
-<area shape="rect" id="node2" href="$d1/db2/classfl_1_1_accumulated.html" title="The Accumulated class is a special Term that stores a fuzzy set with the Activated terms from the Ant..." alt="" coords="134,5,247,31"/>
-<area shape="rect" id="node3" href="$d8/d40/classfl_1_1_activated.html" title="The Activated class is a special Term that contains pointers to the necessary information of a term t..." alt="" coords="145,55,236,80"/>
+<area shape="rect" id="node2" href="$d8/d40/classfl_1_1_activated.html" title="The Activated class is a special Term that contains pointers to the necessary information of a term t..." alt="" coords="145,5,236,31"/>
+<area shape="rect" id="node3" href="$d1/d16/classfl_1_1_aggregated.html" title="The Aggregated class is a special Term that stores a fuzzy set with the Activated terms from the Ante..." alt="" coords="138,55,243,80"/>
 <area shape="rect" id="node4" href="$dd/d58/classfl_1_1_bell.html" title="The Bell class is an extended Term that represents the generalized bell curve membership function..." alt="" coords="162,104,219,129"/>
 <area shape="rect" id="node5" href="$d8/d74/classfl_1_1_binary.html" title="The Binary class is an edge Term that represents the binary membership function. " alt="" coords="154,153,227,179"/>
 <area shape="rect" id="node6" href="$d2/d2e/classfl_1_1_concave.html" title="The Concave class is an edge Term that represents the concave membership function. " alt="" coords="146,203,234,228"/>

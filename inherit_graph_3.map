@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$df/dea/classfl_1_1_cloning_factory.html" title="The CloningFactory&lt; T &gt; class is the base class for a factory whose objects are created from a regist..." alt="" coords="5,5,161,31"/>
+<area shape="rect" id="node1" href="$df/dea/classfl_1_1_cloning_factory.html" title="fl::CloningFactory\l\&lt; Function::Element *\&gt;" alt="" coords="5,5,162,44"/>
+<area shape="rect" id="node2" href="$d2/d60/classfl_1_1_function_factory.html" title="The FunctionFactory class is a CloningFactory of operators and functions utilized by the Function ter..." alt="" coords="210,12,341,37"/>
 </map>

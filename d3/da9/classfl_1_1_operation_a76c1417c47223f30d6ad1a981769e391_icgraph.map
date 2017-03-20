@@ -1,0 +1,5 @@
+<map id="fl::Operation::mean" name="fl::Operation::mean">
+<area shape="rect" id="node2" href="$d3/da9/classfl_1_1_operation.html#a13dab25a36567010197cd2f6bdc1cf02" title="Computes the standard deviation of the sample. " alt="" coords="188,5,397,31"/>
+<area shape="rect" id="node3" href="$d3/da9/classfl_1_1_operation.html#aee98a87d50679391d98aabc156f69546" title="Computes the variance of the sample. " alt="" coords="217,55,368,80"/>
+<area shape="rect" id="node4" href="$d3/da9/classfl_1_1_operation.html#a4ee4bff756a04b18c4e6ebce8171c45c" title="Computes the standard deviation of the sample using the given mean. " alt="" coords="445,55,654,80"/>
+</map>

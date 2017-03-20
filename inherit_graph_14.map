@@ -1,12 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d3/d31/classfl_1_1_defuzzifier.html" title="The Defuzzifier class is the abstract class for defuzzifiers. " alt="" coords="5,191,104,216"/>
-<area shape="rect" id="node2" href="$d9/d95/classfl_1_1_integral_defuzzifier.html" title="The IntegralDefuzzifier class is the base class for defuzzifiers which integrate over the fuzzy set..." alt="" coords="158,129,300,155"/>
-<area shape="rect" id="node8" href="$d5/d8d/classfl_1_1_weighted_defuzzifier.html" title="The WeightedDefuzzifier class is the base class for defuzzifiers which compute a weighted function on..." alt="" coords="152,252,306,277"/>
-<area shape="rect" id="node3" href="$da/d09/classfl_1_1_bisector.html" title="The Bisector class is an IntegralDefuzzifier that computes the bisector of a fuzzy set represented in..." alt="" coords="392,5,475,31"/>
-<area shape="rect" id="node4" href="$df/d91/classfl_1_1_centroid.html" title="The Centroid class is an IntegralDefuzzifier that computes the centroid of a fuzzy set represented in..." alt="" coords="391,55,476,80"/>
-<area shape="rect" id="node5" href="$de/d47/classfl_1_1_largest_of_maximum.html" title="The LargestOfMaximum class is an IntegralDefuzzifier that computes the largest value of the maximum m..." alt="" coords="358,104,509,129"/>
-<area shape="rect" id="node6" href="$dc/d91/classfl_1_1_mean_of_maximum.html" title="The MeanOfMaximum class is an IntegralDefuzzifier that computes the mean value of the maximum members..." alt="" coords="363,153,504,179"/>
-<area shape="rect" id="node7" href="$dc/dba/classfl_1_1_smallest_of_maximum.html" title="The SmallestOfMaximum class is an IntegralDefuzzifier that computes the smallest value of the maximum..." alt="" coords="354,203,513,228"/>
-<area shape="rect" id="node9" href="$d7/dde/classfl_1_1_weighted_average.html" title="The WeightedAverage class is a WeightedDefuzzifier that computes the weighted average of a fuzzy set ..." alt="" coords="363,252,504,277"/>
-<area shape="rect" id="node10" href="$d0/dbb/classfl_1_1_weighted_sum.html" title="The WeightedSum class is a WeightedDefuzzifier that computes the weighted sum of a fuzzy set represen..." alt="" coords="374,301,493,327"/>
+<area shape="rect" id="node1" href="$d0/df3/classfl_1_1_construction_factory.html" title="fl::ConstructionFactory\l\&lt; Term *\&gt;" alt="" coords="5,5,160,44"/>
+<area shape="rect" id="node2" href="$dd/da5/classfl_1_1_term_factory.html" title="The TermFactory class is a ConstructionFactory of Terms. " alt="" coords="208,12,318,37"/>
 </map>

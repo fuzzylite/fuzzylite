@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['zero',['Zero',['../d4/dc7/classfl_1_1_ramp.html#a01cd3726a32d707f9fd3bfd7513ac917a31ab70710f502ce65e5e9b6a638df7e8',1,'fl::Ramp::Zero()'],['../d0/dd1/classfl_1_1_sigmoid.html#a43b4717bf71a48d08d365ca58cfebb36a19aa8e0723064589fe00868f0af98a49',1,'fl::Sigmoid::Zero()']]],
-  ['zshape',['ZShape',['../d5/d67/classfl_1_1_z_shape.html#ad0c3c5b381dfc54c9880101847681de7',1,'fl::ZShape']]],
-  ['zshape',['ZShape',['../d5/d67/classfl_1_1_z_shape.html',1,'fl']]],
-  ['zshape_2eh',['ZShape.h',['../de/d39/_z_shape_8h.html',1,'']]]
+  ['y',['y',['../db/dca/classfl_1_1_discrete.html#a3e960023ebad8a9bc5ff35b8a405081e',1,'fl::Discrete::y() const'],['../db/dca/classfl_1_1_discrete.html#a55c4d7619ab9dd3789774c60450573b4',1,'fl::Discrete::y(std::size_t index) const'],['../db/dca/classfl_1_1_discrete.html#a1c27898f9dccf0ad02326d358bbb266c',1,'fl::Discrete::y(std::size_t index)']]]
 ];

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['greaterthan',['GreaterThan',['../df/d4e/classfl_1_1_threshold.html#ad268b5bb3e00eac068792cb92f0c9ce8a317e73142a24e3f9307d3e0425baf0a2',1,'fl::Threshold']]],
-  ['greaterthanorequalto',['GreaterThanOrEqualTo',['../df/d4e/classfl_1_1_threshold.html#ad268b5bb3e00eac068792cb92f0c9ce8a827e6e56ff46c89cd176f78b73f8b209',1,'fl::Threshold']]]
+  ['function',['Function',['../dc/ddf/structfl_1_1_function_1_1_element.html#aef7ddadb87e10c1d3adfd6774f643d77a33e07998f8cda6b477167e6abee6db9d',1,'fl::Function::Element']]]
 ];

@@ -1,6 +1,9 @@
 <map id="fuzzylite/fl/variable" name="fuzzylite/fl/variable">
 <area shape="rect" id="node1" href="dir_53b9dbd17d072b7c8dd4f4b1c179ccd4.html" title="variable" alt="" coords="27,51,99,99"/>
-<area shape="rect" id="node2" href="dir_e49c8fc1bb5e843b8a0f8c8265f1d380.html" title="defuzzifier" alt="" coords="22,147,104,195"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000012_000003.html" title="1" alt="" coords="67,122,75,135"/>
+<area shape="rect" id="node2" href="dir_e49c8fc1bb5e843b8a0f8c8265f1d380.html" title="defuzzifier" alt="" coords="22,243,104,291"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000012_000003.html" title="2" alt="" coords="60,217,67,230"/>
+<area shape="rect" id="node3" href="dir_2ef7176460cbb016c0cce1054d48250f.html" title="term" alt="" coords="64,147,136,195"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000012_000011.html" title="2" alt="" coords="88,120,96,133"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000011_000003.html" title="1" alt="" coords="83,222,90,236"/>
 <area shape="rect" id="clust1" href="dir_42763f13e63a58817570562f5348db6a.html" title="fl" alt="" coords="16,16,109,109"/>
 </map>

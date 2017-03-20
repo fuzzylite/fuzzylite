@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['op',['Op',['../d4/d36/namespacefl.html#a204e02abcb4377f336a7b2af450992ac',1,'fl']]]
+  ['measure',['Measure',['../d3/d51/classfl_1_1_complexity.html#a6b30c20e68d29701bb1eed3c37814c8d',1,'fl::Complexity']]]
 ];

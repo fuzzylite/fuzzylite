@@ -5,7 +5,6 @@ var fuzzylite_8h =
     [ "FL_API", "de/d53/fuzzylite_8h.html#ab4f2bf06728fb68f827ed7165597d0f7", null ],
     [ "FL_AT", "de/d53/fuzzylite_8h.html#a79d6c0af9f3f337643496f2f81f5ba1d", null ],
     [ "FL_BUILD_PATH", "de/d53/fuzzylite_8h.html#a784dc3ea21a0ba359537da155a00e61d", null ],
-    [ "FL_DATE", "de/d53/fuzzylite_8h.html#a62d4b835802d5d8e8e14cfa0a35f4181", null ],
     [ "FL_DBG", "de/d53/fuzzylite_8h.html#a05084ec1207bb07770b8663cfe5c95d0", null ],
     [ "FL_DEBUG_BEGIN", "de/d53/fuzzylite_8h.html#a66d06a84399d07676341f5a83dcad09f", null ],
     [ "FL_DEBUG_END", "de/d53/fuzzylite_8h.html#a38a39c2641f4b26ab1f923c4e7355685", null ],
@@ -18,14 +17,15 @@ var fuzzylite_8h =
     [ "FL_IFINAL", "de/d53/fuzzylite_8h.html#abdc0aeb7300614e01562928207fee0cc", null ],
     [ "FL_INOEXCEPT", "de/d53/fuzzylite_8h.html#a3127f6e46adb205f838b1e865e82530d", null ],
     [ "FL_IOVERRIDE", "de/d53/fuzzylite_8h.html#a5401cce574ddb58275fc4f5cbc17e604", null ],
+    [ "FL_ITHREAD_LOCAL", "de/d53/fuzzylite_8h.html#a42535258776f3bb9d440ab1b647edddf", null ],
+    [ "FL_IUNUSED", "de/d53/fuzzylite_8h.html#a74a60416caf64d3f9685a625428beac6", null ],
+    [ "FL_IUNUSED_DECL", "de/d53/fuzzylite_8h.html#a0879000052ea228545f5605544e1bb9d", null ],
     [ "FL_LOG", "de/d53/fuzzylite_8h.html#ac1b133a2f567fc5de2a07db84638138d", null ],
     [ "FL_LOG_PREFIX", "de/d53/fuzzylite_8h.html#a6b930a844b4fa50fe63a178ae5b1d896", null ],
     [ "FL_LOGP", "de/d53/fuzzylite_8h.html#af63fafdda4cae2ad4c11ada9492d8f4a", null ],
     [ "FL_move_ptr", "de/d53/fuzzylite_8h.html#a67d7980e0e7357db4bce8945464c24a4", null ],
     [ "FL_unique_ptr", "de/d53/fuzzylite_8h.html#a5d622b609e615c0e87736e0863d9c695", null ],
-    [ "FL_VERSION", "de/d53/fuzzylite_8h.html#a94499c96b5f3ca212d90a2c41f947a67", null ],
     [ "scalar", "de/d53/fuzzylite_8h.html#a7c31a28fa2ed8960a0eb0a779744b689", null ],
-    [ "inf", "de/d53/fuzzylite_8h.html#a9ce9b761c2cbab8d04a2eae44e63c1f1", null ],
-    [ "nan", "de/d53/fuzzylite_8h.html#ac0141619ed9a08fb175cc92f134720e3", null ],
-    [ "null", "de/d53/fuzzylite_8h.html#a67dfd5c85516b1153017f7f8aac38a52", null ]
+    [ "FL_IUNUSED_DECL", "de/d53/fuzzylite_8h.html#a5c8f8521032ad58734aa69fff190f7f5", null ],
+    [ "null", "de/d53/fuzzylite_8h.html#aa1565e838d87103fadc55578d1425eca", null ]
 ];

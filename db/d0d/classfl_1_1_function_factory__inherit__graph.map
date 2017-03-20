@@ -1,0 +1,4 @@
+<map id="fl::FunctionFactory" name="fl::FunctionFactory">
+<area shape="rect" id="node2" href="$df/dea/classfl_1_1_cloning_factory.html" title="{fl::CloningFactory\l\&lt; Function::Element *\&gt;\n||+ CloningFactory()\l+ CloningFactory()\l+ operator=()\l+ ~CloningFactory()\l+ name()\l+ registerObject()\l+ deregisterObject()\l+ hasObject()\l+ getObject()\l+ cloneObject()\l+ available()\l+ objects()\l+ objects()\l}" alt="" coords="5,300,162,547"/>
+<area shape="rect" id="node3" href="$df/dea/classfl_1_1_cloning_factory.html" title="The CloningFactory class is the base class for a factory whose objects are created from a registered ..." alt="" coords="6,5,162,239"/>
+</map>

@@ -1,9 +1,7 @@
 var NAVTREE =
 [
   [ "fuzzylite", "index.html", [
-    [ "fuzzylite® v6.0", "index.html", null ],
-    [ "Todo List", "todo.html", null ],
-    [ "Deprecated List", "deprecated.html", null ],
+    [ "fuzzylite 6.0 ®", "index.html", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -22,7 +20,8 @@ var NAVTREE =
         [ "Variables", "functions_vars.html", null ],
         [ "Typedefs", "functions_type.html", null ],
         [ "Enumerations", "functions_enum.html", null ],
-        [ "Enumerator", "functions_eval.html", null ]
+        [ "Enumerator", "functions_eval.html", null ],
+        [ "Related Functions", "functions_rela.html", null ]
       ] ]
     ] ],
     [ "Files", null, [
@@ -38,13 +37,13 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d1/db2/classfl_1_1_accumulated.html#a81b4dbd1a6326112b59757b41e8ce3df",
-"d3/daf/classfl_1_1_cpp_exporter.html#a8e2deedfe743bb86ed87e1d50525cc2e",
-"d6/d93/classfl_1_1_rule.html#a4576d8f1e71e1f8ba64de82093de47e0",
-"d8/d6f/classfl_1_1_engine.html#a747435704fa3db074544e72c3acc8121",
-"db/d86/classfl_1_1_fld_exporter.html#a390a4d07ade4130203262b56d60f9eca",
-"de/d53/fuzzylite_8h.html#ab4f2bf06728fb68f827ed7165597d0f7",
-"functions_m.html"
+"d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html#ad7cd02b72167821a48064bbce78550d6",
+"d2/ddb/classfl_1_1_java_exporter.html",
+"d4/dc7/classfl_1_1_ramp.html#a01cd3726a32d707f9fd3bfd7513ac917a31ab70710f502ce65e5e9b6a638df7e8",
+"d6/d93/classfl_1_1_rule.html#ac866cb1f944d20ef625cb262b8c5e2f6",
+"d8/d70/_s_norm_factory_8h_source.html",
+"db/dca/classfl_1_1_discrete.html#a8188981749f024a71691eabf26dd07d3",
+"de/dda/classfl_1_1_fll_exporter.html#a25f79722706b10ddb05db2d7f44ffd38"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

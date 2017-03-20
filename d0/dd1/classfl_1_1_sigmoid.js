@@ -9,15 +9,16 @@ var classfl_1_1_sigmoid =
     [ "~Sigmoid", "d0/dd1/classfl_1_1_sigmoid.html#ab320e8fc5c45cf9720d28f1e594b30c2", null ],
     [ "className", "d0/dd1/classfl_1_1_sigmoid.html#a9fedf427f52a89094ca7196650b71699", null ],
     [ "clone", "d0/dd1/classfl_1_1_sigmoid.html#a95ea9a5cf702a4aba8f44f5ab052ce25", null ],
+    [ "complexity", "d0/dd1/classfl_1_1_sigmoid.html#a13c74d15f1f298fbc304233c38e8096b", null ],
     [ "configure", "d0/dd1/classfl_1_1_sigmoid.html#abd26d06f46c06d4b5e88e3e51c976a20", null ],
     [ "constructor", "d0/dd1/classfl_1_1_sigmoid.html#a905cfba22bad66372b5ec6e310097550", null ],
-    [ "direction", "d0/dd1/classfl_1_1_sigmoid.html#a8cb1efca55e6d7db13e9286b1eefa504", null ],
-    [ "getInflection", "d0/dd1/classfl_1_1_sigmoid.html#a4f4aa05e4278ba7681f78adae058144a", null ],
-    [ "getSlope", "d0/dd1/classfl_1_1_sigmoid.html#a5250286dff6d08b3a94d24ab618d8e5e", null ],
+    [ "direction", "d0/dd1/classfl_1_1_sigmoid.html#aac1720a7cc678b58e8e6341e823aaeb5", null ],
+    [ "getInflection", "d0/dd1/classfl_1_1_sigmoid.html#a39ea9d31888bf4388df88c0fa3c2c101", null ],
+    [ "getSlope", "d0/dd1/classfl_1_1_sigmoid.html#a6aa8165bec72c78553adc679720045de", null ],
+    [ "isMonotonic", "d0/dd1/classfl_1_1_sigmoid.html#a49856fdb00715da9cb82fced382d780b", null ],
     [ "membership", "d0/dd1/classfl_1_1_sigmoid.html#a84d623d883d42a64bcada9ea76f38b5b", null ],
     [ "parameters", "d0/dd1/classfl_1_1_sigmoid.html#a660345cf2306da5239b90080074188c9", null ],
     [ "setInflection", "d0/dd1/classfl_1_1_sigmoid.html#a904dc6358f11bc94f36af740c125acc9", null ],
     [ "setSlope", "d0/dd1/classfl_1_1_sigmoid.html#a0339d2d74544359cc7d3493160dc80b9", null ],
-    [ "_inflection", "d0/dd1/classfl_1_1_sigmoid.html#a047e9747674b2e72288301086c060a9d", null ],
-    [ "_slope", "d0/dd1/classfl_1_1_sigmoid.html#a2a1a6c704cb9619c0dc2c71fe723dd8a", null ]
+    [ "tsukamoto", "d0/dd1/classfl_1_1_sigmoid.html#a9ad2fe92a0294f1ca9b4005acd4e4ac1", null ]
 ];

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['positive',['Positive',['../d4/dc7/classfl_1_1_ramp.html#a01cd3726a32d707f9fd3bfd7513ac917a3506ff86457e649b30bf9f7ef2eca150',1,'fl::Ramp::Positive()'],['../d0/dd1/classfl_1_1_sigmoid.html#a43b4717bf71a48d08d365ca58cfebb36aa8f1583c023dc285014d742dea1d1bb7',1,'fl::Sigmoid::Positive()']]]
+  ['operator',['Operator',['../d2/d7f/classfl_1_1_expression.html#a0ec50aaeed5f4773b83c5af1c73f078eab1c3b0a8da247b15cbbcb91b1c2658db',1,'fl::Expression::Operator()'],['../dc/ddf/structfl_1_1_function_1_1_element.html#aef7ddadb87e10c1d3adfd6774f643d77aa68f05491188c7f879c96c07e0feded9',1,'fl::Function::Element::Operator()']]],
+  ['output',['Output',['../d0/d27/classfl_1_1_variable.html#aa6a9b4fa922a19b793b9f24d42bf5283a1ed0d0e702e837e208473af9bcf15bc4',1,'fl::Variable']]]
 ];

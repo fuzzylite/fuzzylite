@@ -9,10 +9,9 @@ var classfl_1_1_exception =
     [ "btCallStack", "de/d54/classfl_1_1_exception.html#a38933eb1ab72c2a544dd185e63c4e505", null ],
     [ "catchException", "de/d54/classfl_1_1_exception.html#ade60f59f5e777f684b34a67f4e11aae2", null ],
     [ "convertToException", "de/d54/classfl_1_1_exception.html#aafa0f2a0b8969cf3a78d2ee0294acbae", null ],
-    [ "getWhat", "de/d54/classfl_1_1_exception.html#a76f5d88cbe03e0c8038d8833b97abab6", null ],
+    [ "getWhat", "de/d54/classfl_1_1_exception.html#a4ba35f0ab879fd8d8fc0c68575207348", null ],
     [ "setWhat", "de/d54/classfl_1_1_exception.html#a741c5f7c0a3f4a786201088b5f79bea5", null ],
     [ "signalHandler", "de/d54/classfl_1_1_exception.html#ae134383caea1c8960a29bfad6df8f499", null ],
     [ "terminate", "de/d54/classfl_1_1_exception.html#a2607aeaa8005b1bd9038719fb2ac32c3", null ],
-    [ "what", "de/d54/classfl_1_1_exception.html#a38d70dd93738ab65465243dca289ae0a", null ],
-    [ "_what", "de/d54/classfl_1_1_exception.html#a0f3a3e2cf6e03bcd887cbd17b32b6017", null ]
+    [ "what", "de/d54/classfl_1_1_exception.html#a38d70dd93738ab65465243dca289ae0a", null ]
 ];

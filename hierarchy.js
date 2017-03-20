@@ -10,29 +10,31 @@ var hierarchy =
       [ "fl::Threshold", "df/d4e/classfl_1_1_threshold.html", null ]
     ] ],
     [ "fl::Antecedent", "d2/d24/classfl_1_1_antecedent.html", null ],
+    [ "fl::Benchmark", "d5/d28/classfl_1_1_benchmark.html", null ],
     [ "fl::CloningFactory< T >", "df/dea/classfl_1_1_cloning_factory.html", null ],
-    [ "fl::CloningFactory< Function::Element * >", "df/dea/classfl_1_1_cloning_factory.html", [
+    [ "fl::CloningFactory< Function::Element *>", "df/dea/classfl_1_1_cloning_factory.html", [
       [ "fl::FunctionFactory", "d2/d60/classfl_1_1_function_factory.html", null ]
     ] ],
+    [ "fl::Complexity", "d3/d51/classfl_1_1_complexity.html", null ],
     [ "fl::Consequent", "d3/d26/classfl_1_1_consequent.html", null ],
     [ "fl::Console", "d0/d3e/classfl_1_1_console.html", null ],
     [ "fl::ConstructionFactory< T >", "d0/df3/classfl_1_1_construction_factory.html", null ],
-    [ "fl::ConstructionFactory< Activation * >", "d0/df3/classfl_1_1_construction_factory.html", [
+    [ "fl::ConstructionFactory< Activation *>", "d0/df3/classfl_1_1_construction_factory.html", [
       [ "fl::ActivationFactory", "d9/d49/classfl_1_1_activation_factory.html", null ]
     ] ],
-    [ "fl::ConstructionFactory< Defuzzifier * >", "d0/df3/classfl_1_1_construction_factory.html", [
+    [ "fl::ConstructionFactory< Defuzzifier *>", "d0/df3/classfl_1_1_construction_factory.html", [
       [ "fl::DefuzzifierFactory", "d8/dfe/classfl_1_1_defuzzifier_factory.html", null ]
     ] ],
-    [ "fl::ConstructionFactory< Hedge * >", "d0/df3/classfl_1_1_construction_factory.html", [
+    [ "fl::ConstructionFactory< Hedge *>", "d0/df3/classfl_1_1_construction_factory.html", [
       [ "fl::HedgeFactory", "d4/d2a/classfl_1_1_hedge_factory.html", null ]
     ] ],
-    [ "fl::ConstructionFactory< SNorm * >", "d0/df3/classfl_1_1_construction_factory.html", [
+    [ "fl::ConstructionFactory< SNorm *>", "d0/df3/classfl_1_1_construction_factory.html", [
       [ "fl::SNormFactory", "d8/d00/classfl_1_1_s_norm_factory.html", null ]
     ] ],
-    [ "fl::ConstructionFactory< Term * >", "d0/df3/classfl_1_1_construction_factory.html", [
+    [ "fl::ConstructionFactory< Term *>", "d0/df3/classfl_1_1_construction_factory.html", [
       [ "fl::TermFactory", "dd/da5/classfl_1_1_term_factory.html", null ]
     ] ],
-    [ "fl::ConstructionFactory< TNorm * >", "d0/df3/classfl_1_1_construction_factory.html", [
+    [ "fl::ConstructionFactory< TNorm *>", "d0/df3/classfl_1_1_construction_factory.html", [
       [ "fl::TNormFactory", "de/db5/classfl_1_1_t_norm_factory.html", null ]
     ] ],
     [ "fl::Defuzzifier", "d3/d31/classfl_1_1_defuzzifier.html", [
@@ -45,7 +47,9 @@ var hierarchy =
       ] ],
       [ "fl::WeightedDefuzzifier", "d5/d8d/classfl_1_1_weighted_defuzzifier.html", [
         [ "fl::WeightedAverage", "d7/dde/classfl_1_1_weighted_average.html", null ],
-        [ "fl::WeightedSum", "d0/dbb/classfl_1_1_weighted_sum.html", null ]
+        [ "fl::WeightedAverageCustom", "d9/da1/classfl_1_1_weighted_average_custom.html", null ],
+        [ "fl::WeightedSum", "d0/dbb/classfl_1_1_weighted_sum.html", null ],
+        [ "fl::WeightedSumCustom", "d9/d53/classfl_1_1_weighted_sum_custom.html", null ]
       ] ]
     ] ],
     [ "fl::Function::Element", "dc/ddf/structfl_1_1_function_1_1_element.html", null ],
@@ -59,21 +63,23 @@ var hierarchy =
       [ "fl::FisExporter", "d1/d12/classfl_1_1_fis_exporter.html", null ],
       [ "fl::FldExporter", "db/d86/classfl_1_1_fld_exporter.html", null ],
       [ "fl::FllExporter", "de/dda/classfl_1_1_fll_exporter.html", null ],
-      [ "fl::JavaExporter", "d2/ddb/classfl_1_1_java_exporter.html", null ]
+      [ "fl::JavaExporter", "d2/ddb/classfl_1_1_java_exporter.html", null ],
+      [ "fl::RScriptExporter", "df/df2/classfl_1_1_r_script_exporter.html", null ]
     ] ],
     [ "fl::Expression", "d2/d7f/classfl_1_1_expression.html", [
-      [ "fl::Operator", "dc/dfa/classfl_1_1_operator.html", null ],
-      [ "fl::Proposition", "d7/da7/classfl_1_1_proposition.html", null ]
+      [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+      [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ]
     ] ],
     [ "fl::FactoryManager", "d7/de7/classfl_1_1_factory_manager.html", null ],
     [ "fl::fuzzylite", "da/db8/classfl_1_1fuzzylite.html", null ],
     [ "fl::Hedge", "d3/dba/classfl_1_1_hedge.html", [
       [ "fl::Any", "df/d7c/classfl_1_1_any.html", null ],
-      [ "fl::Extremely", "dc/d30/classfl_1_1_extremely.html", null ],
-      [ "fl::Not", "d1/dca/classfl_1_1_not.html", null ],
-      [ "fl::Seldom", "d4/dc0/classfl_1_1_seldom.html", null ],
-      [ "fl::Somewhat", "d0/d29/classfl_1_1_somewhat.html", null ],
-      [ "fl::Very", "d2/df3/classfl_1_1_very.html", null ]
+      [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+      [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+      [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+      [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+      [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+      [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ]
     ] ],
     [ "fl::Importer", "df/d9d/classfl_1_1_importer.html", [
       [ "fl::FclImporter", "df/d9b/classfl_1_1_fcl_importer.html", null ],
@@ -83,23 +89,26 @@ var hierarchy =
     [ "fl::Function::Node", "d9/d86/structfl_1_1_function_1_1_node.html", null ],
     [ "fl::Norm", "d5/d22/classfl_1_1_norm.html", [
       [ "fl::SNorm", "d4/df8/classfl_1_1_s_norm.html", [
-        [ "fl::AlgebraicSum", "d9/d37/classfl_1_1_algebraic_sum.html", null ],
-        [ "fl::BoundedSum", "d0/d06/classfl_1_1_bounded_sum.html", null ],
-        [ "fl::DrasticSum", "df/d91/classfl_1_1_drastic_sum.html", null ],
-        [ "fl::EinsteinSum", "d6/d71/classfl_1_1_einstein_sum.html", null ],
-        [ "fl::HamacherSum", "d1/db2/classfl_1_1_hamacher_sum.html", null ],
-        [ "fl::Maximum", "d8/dc0/classfl_1_1_maximum.html", null ],
-        [ "fl::NilpotentMaximum", "d0/d72/classfl_1_1_nilpotent_maximum.html", null ],
-        [ "fl::NormalizedSum", "d1/d5c/classfl_1_1_normalized_sum.html", null ]
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ]
       ] ],
       [ "fl::TNorm", "d6/d29/classfl_1_1_t_norm.html", [
-        [ "fl::AlgebraicProduct", "dd/d8a/classfl_1_1_algebraic_product.html", null ],
-        [ "fl::BoundedDifference", "dc/d0b/classfl_1_1_bounded_difference.html", null ],
-        [ "fl::DrasticProduct", "db/d0f/classfl_1_1_drastic_product.html", null ],
-        [ "fl::EinsteinProduct", "d9/d5a/classfl_1_1_einstein_product.html", null ],
-        [ "fl::HamacherProduct", "da/d4b/classfl_1_1_hamacher_product.html", null ],
-        [ "fl::Minimum", "d2/de2/classfl_1_1_minimum.html", null ],
-        [ "fl::NilpotentMinimum", "d3/dfe/classfl_1_1_nilpotent_minimum.html", null ]
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ],
+        [ "fl::FL_IFINAL", "d0/d96/classfl_1_1_f_l___i_f_i_n_a_l.html", null ]
       ] ]
     ] ],
     [ "fl::Operation", "d3/da9/classfl_1_1_operation.html", null ],
@@ -107,8 +116,8 @@ var hierarchy =
     [ "fl::Rule", "d6/d93/classfl_1_1_rule.html", null ],
     [ "fl::RuleBlock", "de/d32/classfl_1_1_rule_block.html", null ],
     [ "fl::Term", "d4/de6/classfl_1_1_term.html", [
-      [ "fl::Accumulated", "d1/db2/classfl_1_1_accumulated.html", null ],
       [ "fl::Activated", "d8/d40/classfl_1_1_activated.html", null ],
+      [ "fl::Aggregated", "d1/d16/classfl_1_1_aggregated.html", null ],
       [ "fl::Bell", "dd/d58/classfl_1_1_bell.html", null ],
       [ "fl::Binary", "d8/d74/classfl_1_1_binary.html", null ],
       [ "fl::Concave", "d2/d2e/classfl_1_1_concave.html", null ],

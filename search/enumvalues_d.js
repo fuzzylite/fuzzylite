@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['zero',['Zero',['../d4/dc7/classfl_1_1_ramp.html#a01cd3726a32d707f9fd3bfd7513ac917a31ab70710f502ce65e5e9b6a638df7e8',1,'fl::Ramp::Zero()'],['../d0/dd1/classfl_1_1_sigmoid.html#a43b4717bf71a48d08d365ca58cfebb36a19aa8e0723064589fe00868f0af98a49',1,'fl::Sigmoid::Zero()']]]
+  ['takagisugeno',['TakagiSugeno',['../d5/d8d/classfl_1_1_weighted_defuzzifier.html#a148f779c62a4ede05148e78823a02003a208f816f57990d43109f03c3c648c39e',1,'fl::WeightedDefuzzifier::TakagiSugeno()'],['../d8/d6f/classfl_1_1_engine.html#adcb4654c0378d6663124430356359330aab283af2e44d5925da5b834a784c0e65',1,'fl::Engine::TakagiSugeno()']]],
+  ['tsukamoto',['Tsukamoto',['../d5/d8d/classfl_1_1_weighted_defuzzifier.html#a148f779c62a4ede05148e78823a02003a811ab59798cbbf5facea84a4d5979fba',1,'fl::WeightedDefuzzifier::Tsukamoto()'],['../d8/d6f/classfl_1_1_engine.html#adcb4654c0378d6663124430356359330a143b0bde4d0bb4351973d66d645c5f68',1,'fl::Engine::Tsukamoto()']]]
 ];
