@@ -208,6 +208,21 @@ namespace fl {
         }
         return ss.str();
     }
+	
+	std::string OutputVariable::maximumOutputTerm() const {
+        std::string maxName = "";
+		scalar maxValue = 0;
+        for (std::size_t i = 0; i < _terms.size(); ++i) {
+            scalar degree = _fuzzyOutput->activationDegree(_terms.at(i));
+            
+			if (degree > maxValue)
+			{
+				maxValue = degree;
+				maxName = _terms.at(i)->getName();
+			}
+        }
+        return maxName;
+    }
 
     void OutputVariable::clear() {
         fuzzyOutput()->clear();

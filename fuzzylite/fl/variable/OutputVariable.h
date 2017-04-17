@@ -208,6 +208,8 @@ namespace fl {
           @f$\tilde{y}@f$
          */
         virtual std::string fuzzyOutputValue() const;
+		
+		virtual std::string maximumOutputTerm() const;
 
         /**
           Clears the output variable by setting @f$\tilde{y}=\{\}@f$,
