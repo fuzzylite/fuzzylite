@@ -381,7 +381,7 @@ fuzzylite -i ObstacleAvoidance.fll -of fld
 ***
 
 ### <a name="whatsnew">What's New?</a>
-* The FuzzyLite Libraries, namely fuzzylite and jfuzzylite, both in version 6.0, are dual licensed under the GNU General Public License version 3 and the Apache License version 2.
+* The FuzzyLite Libraries, namely fuzzylite and jfuzzylite, both in version 6.0, are licensed under the GNU General Public License version 3.
 
 * By default, fuzzylite builds using C++11 instead of C++98. 
 
