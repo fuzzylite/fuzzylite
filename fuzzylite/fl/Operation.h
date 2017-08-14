@@ -981,7 +981,7 @@ namespace fl {
         if (Op::isNaN(x)) {
             ss << "nan";
         } else if (Op::isInf(x)) {
-            ss << (x < T(0) ? "-inf" : "inf");
+            ss << (x <= T(0) ? "-inf" : "inf");
         } else if (decimals >= 0 //print x considering the given decimals regardless of macheps
                 and Op::isEq(scalar(x), 0.0, std::pow(10.0, -decimals))) {
             ss << T(0);
