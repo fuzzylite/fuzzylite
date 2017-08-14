@@ -1036,7 +1036,7 @@ namespace fl {
 
     template <> FL_API
     inline std::string Operation::join(int items, const std::string& separator,
-            float first, ...) {
+            double first, ...) {
         std::ostringstream ss;
         ss << str(first);
         if (items > 1) ss << separator;
