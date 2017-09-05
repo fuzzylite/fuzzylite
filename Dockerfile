@@ -1,19 +1,11 @@
-FROM ubuntu:latest
+FROM fuzzylite/fuzzylite:6.0
 MAINTAINER Juan Rada-Vilela <jcrada@fuzzylite.com>
 
 ARG CXX_COMPILER=g++
 ENV CXX_COMPILER ${CXX_COMPILER}
 
-
-#install software-properties-common to use add-apt to add repository for g++-6
-RUN apt-get update && apt-get -y install software-properties-common && \
-    add-apt-repository ppa:ubuntu-toolchain-r/test && \
-    apt-get update && apt-get -y install \
-    ${CXX_COMPILER} \
-    make \
-    cmake \
-    doxygen \
-    graphviz
+#update image if necessary, and install CXX compiler
+RUN apt-get update && apt-get -y install ${CXX_COMPILER} 
 
 #Create and copy Docker's context into /build
 RUN mkdir /build
