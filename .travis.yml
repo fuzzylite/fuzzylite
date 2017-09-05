@@ -29,7 +29,7 @@ script:
 ##MacOSX
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
       cd fuzzylite/ ;
-      ./build clean release debug ;
+      ./build.sh clean release debug ;
     fi
 matrix:
   include:
