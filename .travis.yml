@@ -21,6 +21,25 @@ script:
 matrix:
   include:
 ############################################################################
+# MacOSX
+############################################################################
+    - os: osx
+      osx_image: xcode9
+      compiler: clang
+      env: CXX_COMPILER=clang FL_CPP98=OFF FL_USE_FLOAT=OFF
+    - os: osx
+      osx_image: xcode9
+      compiler: clang
+      env: CXX_COMPILER=clang FL_CPP98=OFF FL_USE_FLOAT=ON
+    - os: osx
+      osx_image: xcode9
+      compiler: clang
+      env: CXX_COMPILER=clang FL_CPP98=ON FL_USE_FLOAT=OFF
+    - os: osx
+      osx_image: xcode9
+      compiler: clang
+      env: CXX_COMPILER=clang FL_CPP98=ON FL_USE_FLOAT=ON
+############################################################################
 # Latest clang and g++
 ############################################################################
 #clang-4.0
