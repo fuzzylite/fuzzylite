@@ -12,12 +12,23 @@ before_script:
   - docker build -t fuzzylite -f Dockerfile --build-arg CXX_COMPILER=${CXX_COMPILER} .
 
 script:
-  - docker run -e CXX=${CXX_COMPILER} -e FL_CPP98=${FL_CPP98} -e FL_USE_FLOAT=${FL_USE_FLOAT} -e FL_BUILD_TESTS=ON -t fuzzylite release
+##linux
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
+      docker run -e CXX=${CXX_COMPILER} -e FL_CPP98=${FL_CPP98} -e FL_USE_FLOAT=${FL_USE_FLOAT} -e FL_BUILD_TESTS=ON -t fuzzylite release ;
+    fi
 
-  - docker run -e CXX=${CXX_COMPILER} -e FL_CPP98=${FL_CPP98} -e FL_USE_FLOAT=${FL_USE_FLOAT} -e FL_BUILD_TESTS=ON -t fuzzylite debug
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
+      docker run -e CXX=${CXX_COMPILER} -e FL_CPP98=${FL_CPP98} -e FL_USE_FLOAT=${FL_USE_FLOAT} -e FL_BUILD_TESTS=ON -t fuzzylite debug ;
+    fi
 
-  - docker run -t fuzzylite documentation
-
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
+      docker run -t fuzzylite documentation ;
+    fi
+##MacOSX
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
+      cd fuzzylite/ ;
+      ./build clean release debug ;
+    fi
 matrix:
   include:
 ############################################################################
