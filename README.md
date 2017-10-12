@@ -6,16 +6,17 @@ fuzzylite&reg; 6.0
 A Fuzzy Logic Control Library in C++
 ------------------------------------
 
-By: [Juan Rada-Vilela](https://fuzzylite.com/jcrada), Ph.D.
+By: [Juan Rada-Vilela](https://www.fuzzylite.com/jcrada), Ph.D.
 
 Released: 20/March/2017
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
+[![Coverity Status](https://scan.coverity.com/projects/5759/badge.svg)](https://scan.coverity.com/projects/5759)
 
-| Branch | Unix | Windows | Coverage |
-|--------|------|---------|----------|
-| [release](/tree/release) | [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=release)](https://travis-ci.org/fuzzylite/fuzzylite) | [![Build status](https://ci.appveyor.com/api/projects/status/065g596yxdhkt2se/branch/release)](https://ci.appveyor.com/project/jcrada/fuzzylite/branch/release) | [![Coverity Status](https://scan.coverity.com/projects/5759/badge.svg)](https://scan.coverity.com/projects/5759) |
-| [master](/tree/master) | [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=master)](https://travis-ci.org/fuzzylite/fuzzylite) | [![Build status](https://ci.appveyor.com/api/projects/status/065g596yxdhkt2se/branch/master)](https://ci.appveyor.com/project/jcrada/fuzzylite/branch/master) | [![Coverity Status](https://scan.coverity.com/projects/5759/badge.svg)](https://scan.coverity.com/projects/5759) |
+| Branch | Unix | Windows | 
+|--------|------|---------|
+| [release](/tree/release) | [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=release)](https://travis-ci.org/fuzzylite/fuzzylite) | [![Build status](https://ci.appveyor.com/api/projects/status/065g596yxdhkt2se/branch/release)](https://ci.appveyor.com/project/jcrada/fuzzylite/branch/release) |
+| [master](/tree/master) | [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=master)](https://travis-ci.org/fuzzylite/fuzzylite) | [![Build status](https://ci.appveyor.com/api/projects/status/065g596yxdhkt2se/branch/master)](https://ci.appveyor.com/project/jcrada/fuzzylite/branch/master) |
 
 
 ***
@@ -382,12 +383,6 @@ The console application of `fuzzylite` allows you to import and export your engi
 ```bash
 fuzzylite -i ObstacleAvoidance.fll -of fld
 ```
-
-***
-
-###<a name="contributions">Contributions Guidelines</a>
-Contributions are very welcome, be that new features, bug fixes, unit tests, documentation, or anything else. 
-
 
 ***
 
