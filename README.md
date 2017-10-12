@@ -1,19 +1,21 @@
-fuzzylite 6.0 &reg;
-=================
+fuzzylite&reg; 6.0 
+==================
 <img src="https://raw.githubusercontent.com/fuzzylite/fuzzylite/release/fuzzylite.png" align="right" alt="fuzzylite">
 
 
 A Fuzzy Logic Control Library in C++
 ------------------------------------
 
-By: [Juan Rada-Vilela](http://www.fuzzylite.com/jcrada), Ph.D.
+By: [Juan Rada-Vilela](https://fuzzylite.com/jcrada), Ph.D.
 
 Released: 20/March/2017
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
-[![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=release)](https://travis-ci.org/fuzzylite/fuzzylite) 
-[![Build status](https://ci.appveyor.com/api/projects/status/065g596yxdhkt2se/branch/release)](https://ci.appveyor.com/project/jcrada/fuzzylite/branch/release)
-[![Coverity Status](https://scan.coverity.com/projects/5759/badge.svg)](https://scan.coverity.com/projects/5759) 
+
+| Branch | Unix | Windows | Coverage |
+|--------|------|---------|----------|
+| [release](/tree/release) | [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=release)](https://travis-ci.org/fuzzylite/fuzzylite) | [![Build status](https://ci.appveyor.com/api/projects/status/065g596yxdhkt2se/branch/release)](https://ci.appveyor.com/project/jcrada/fuzzylite/branch/release) | [![Coverity Status](https://scan.coverity.com/projects/5759/badge.svg)](https://scan.coverity.com/projects/5759) |
+| [master](/tree/master) | [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=master)](https://travis-ci.org/fuzzylite/fuzzylite) | [![Build status](https://ci.appveyor.com/api/projects/status/065g596yxdhkt2se/branch/master)](https://ci.appveyor.com/project/jcrada/fuzzylite/branch/master) | [![Coverity Status](https://scan.coverity.com/projects/5759/badge.svg)](https://scan.coverity.com/projects/5759) |
 
 
 ***
@@ -36,10 +38,10 @@ Released: 20/March/2017
 ***
 
 ### <a name="license">License</a>
-`fuzzylite 6.0` is licensed under the [**GNU General Public License (GPL) 3.0**](https://www.gnu.org/licenses/gpl.html). You are **strongly** encouraged to support the development of the FuzzyLite Libraries by purchasing a license of [`QtFuzzyLite 6`](http://www.fuzzylite.com/downloads). 
+`fuzzylite 6.0` is licensed under the [**GNU General Public License (GPL) 3.0**](https://www.gnu.org/licenses/gpl.html). You are **strongly** encouraged to support the development of the FuzzyLite Libraries by purchasing a license of [`QtFuzzyLite 6`](https://www.fuzzylite.com/downloads). 
 
-[`QtFuzzyLite 6`](http://www.fuzzylite.com/downloads/) is the new and (very likely) the best graphical user interface available to  easily design and directly operate fuzzy logic controllers in real time. Available for Windows, Mac, and Linux, its goal is to significantly **speed up** the design of your fuzzy logic controllers, while providing a very **useful**, **functional** and **beautiful** user interface. 
-Please, download it and check it out for free at [www.fuzzylite.com/downloads/](http://www.fuzzylite.com/downloads/).
+[`QtFuzzyLite 6`](https://www.fuzzylite.com/downloads/) is the new and (very likely) the best graphical user interface available to  easily design and directly operate fuzzy logic controllers in real time. Available for Windows, Mac, and Linux, its goal is to significantly **speed up** the design of your fuzzy logic controllers, while providing a very **useful**, **functional** and **beautiful** user interface. 
+Please, download it and check it out for free at [www.fuzzylite.com/downloads/](https://www.fuzzylite.com/downloads/).
 
 ***
 
@@ -47,29 +49,34 @@ Please, download it and check it out for free at [www.fuzzylite.com/downloads/](
 ### <a name="introduction">Introduction</a>
 
 
-`fuzzylite` is a free and open-source fuzzy logic control library programmed in C++ for multiple platforms (e.g., Windows, Linux, Mac, iOS). [`jfuzzylite`](https://github.com/fuzzylite/jfuzzylite/) is the equivalent library for Java and Android platforms. Together, they are the FuzzyLite Libraries for Fuzzy Logic Control.
+`fuzzylite` is a free and open-source fuzzy logic control library programmed in C++ for multiple platforms (e.g., Windows, Linux, Mac, iOS). [`jfuzzylite`](https://github.com/fuzzylite/jfuzzylite/) is the equivalent library for Java and Android platforms. Together, they are **The FuzzyLite Libraries for Fuzzy Logic Control**.
 
-<center>
-```
-The goal of the FuzzyLite Libraries is to easily design and efficiently operate fuzzy logic controllers following an object-oriented programming model without relying on external libraries.
-``` 
-</center>
+ The **goal** of the FuzzyLite Libraries is to **easily** design and **efficiently** operate fuzzy logic controllers following an **object-oriented** programming model **without** relying on external libraries.
+
 
 #### Reference
 If you are using the FuzzyLite Libraries, please cite the following reference in your article:
 
-Juan Rada-Vilela. fuzzylite: a fuzzy logic control library, 2017. URL http://www.fuzzylite.com/.
+Juan Rada-Vilela. fuzzylite: a fuzzy logic control library, 2017. URL https://www.fuzzylite.com/.
 
 ```bibtex
  @misc{fl::fuzzylite,
  author={Juan Rada-Vilela},
  title={fuzzylite: a fuzzy logic control library},
- url={http://www.fuzzylite.com/},
+ url={https://www.fuzzylite.com/},
  year={2017}}
 ```
 
 #### Documentation
-The documentation for the `fuzzylite` library is available at: [www.fuzzylite.com/documentation/](http://www.fuzzylite.com/documentation/). 
+The documentation for the `fuzzylite` library is available at: [www.fuzzylite.com/documentation/](https://www.fuzzylite.com/documentation/). 
+
+#### Contributing
+All contributions are welcome, provided they follow the following guidelines:
+ - Pull requests are made to the [master](/tree/master) branch, **not** the release branch
+ - Source code is consistent with standards in the library
+ - Contribution is appropriately documented and tested, raising issues where appropriate
+ - License of the contribution is waived to match the license of the FuzzyLite Libraries
+
 
 ***
 
@@ -340,7 +347,7 @@ The following building options available:
 
 
 #### Documentation
-The source code of `fuzzylite` is very well documented using [`doxygen`](www.doxygen.org/) formatting, and the documentation is available at [fuzzylite.com/documentation](http://fuzzylite.com/documentation). If you want to generate the documentation locally, you can produce the `html` documentation from the file [Doxyfile](/Doxyfile) using the command line: `doxygen Doxyfile`. The documentation will be created in the [`documentation`](/documentation) folder.
+The source code of `fuzzylite` is very well documented using [`doxygen`](www.doxygen.org/) formatting, and the documentation is available at [fuzzylite.com/documentation](https://fuzzylite.com/documentation). If you want to generate the documentation locally, you can produce the `html` documentation from the file [Doxyfile](/Doxyfile) using the command line: `doxygen Doxyfile`. The documentation will be created in the [`documentation`](/documentation) folder.
 
 
 
@@ -376,6 +383,10 @@ The console application of `fuzzylite` allows you to import and export your engi
 fuzzylite -i ObstacleAvoidance.fll -of fld
 ```
 
+***
+
+###<a name="contributions">Contributions Guidelines</a>
+Contributions are very welcome, be that new features, bug fixes, unit tests, documentation, or anything else. 
 
 
 ***
