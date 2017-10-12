@@ -15,8 +15,8 @@ Released: 20/March/2017
 
 | Branch | Unix | Windows | 
 |--------|------|---------|
-| [release](/tree/release) | [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=release)](https://travis-ci.org/fuzzylite/fuzzylite) | [![Build status](https://ci.appveyor.com/api/projects/status/065g596yxdhkt2se/branch/release)](https://ci.appveyor.com/project/jcrada/fuzzylite/branch/release) |
-| [master](/tree/master) | [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=master)](https://travis-ci.org/fuzzylite/fuzzylite) | [![Build status](https://ci.appveyor.com/api/projects/status/065g596yxdhkt2se/branch/master)](https://ci.appveyor.com/project/jcrada/fuzzylite/branch/master) |
+| [release](https://github.com/fuzzylite/fuzzylite/tree/release) | [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=release)](https://travis-ci.org/fuzzylite/fuzzylite) | [![Build status](https://ci.appveyor.com/api/projects/status/065g596yxdhkt2se/branch/release)](https://ci.appveyor.com/project/jcrada/fuzzylite/branch/release) |
+| [master](https://github.com/fuzzylite/fuzzylite/tree/master) | [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=master)](https://travis-ci.org/fuzzylite/fuzzylite) | [![Build status](https://ci.appveyor.com/api/projects/status/065g596yxdhkt2se/branch/master)](https://ci.appveyor.com/project/jcrada/fuzzylite/branch/master) |
 
 
 ***
@@ -73,7 +73,7 @@ The documentation for the `fuzzylite` library is available at: [www.fuzzylite.co
 
 #### Contributing
 All contributions are welcome, provided they follow the following guidelines:
- - Pull requests are made to the [master](/tree/master) branch, **not** the release branch
+ - Pull requests are made to the [master](https://github.com/fuzzylite/fuzzylite/tree/master) branch, **not** the release branch
  - Source code is consistent with standards in the library
  - Contribution is appropriately documented and tested, raising issues where appropriate
  - License of the contribution is waived to match the license of the FuzzyLite Libraries
