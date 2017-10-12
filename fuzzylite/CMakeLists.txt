@@ -87,6 +87,10 @@ endif()
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 #Address fl::null errors of literal null conversion
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-non-literal-null-conversion")
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.9)
+#TEMPORAL: flag removal to avoid warnings of `float` variadic in Operation::join
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-varargs")
+    endif()
 endif()
 
 
