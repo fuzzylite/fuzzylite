@@ -74,7 +74,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 if(NOT MSVC)
 #TODO: Remove -Werror before release.
 #Add Unix compilation flags
-    set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra -Werror ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra ${CMAKE_CXX_FLAGS}")
 
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
