@@ -124,6 +124,9 @@ if(MSVC)
     endif()
 endif()
 
+if(${CMAKE_SYSTEM_NAME} MATCHES FreeBSD AND FL_BACKTRACE)
+    set(FL_LIBS execinfo)
+endif()
 
 if(APPLE)
 #Fix ld: symbol(s) not found for architecture x86_64 on mac
