@@ -89,6 +89,9 @@ Temporary Items
 *.out
 *.app
 
+# Build directories
+debug/
+release/
 
 ### NetBeans ###
 nbproject/
