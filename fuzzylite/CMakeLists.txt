@@ -1,17 +1,26 @@
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8.11)
+set(FL_VERSION 6.0)
 
 if (APPLE)
     set(CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
 endif()
 
-project(fuzzylite CXX)
+# Version handling changes in 3.0.2, where it's specified
+# in the project command.
+if(${CMAKE_VERSION} VERSION_LESS "3.0.2")
+    project(fuzzylite CXX)
+    set(PROJECT_VERSION ${FL_VERSION})
+else()
+    cmake_policy(SET CMP0048 NEW)
+    project(fuzzylite VERSION ${FL_VERSION} LANGUAGES CXX)
+endif()
 
 
 if (APPLE)
-	cmake_policy(SET CMP0042 NEW)
+    cmake_policy(SET CMP0042 NEW)
 endif()
 if (MSVC)
-	cmake_policy(SET CMP0054 NEW)
+    cmake_policy(SET CMP0054 NEW)
 endif()
 
 
@@ -24,7 +33,7 @@ if( NOT CMAKE_BUILD_TYPE )
     set( CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
 endif()
 
-add_definitions(-DFL_BUILD_PATH="${CMAKE_SOURCE_DIR}") #used to determine FL__FILE__
+add_definitions(-DFL_BUILD_PATH="${PROJECT_SOURCE_DIR}") #used to determine FL__FILE__
 
 option(FL_BUILD_SHARED "Build shared library" ON)
 option(FL_BUILD_STATIC "Build static library" ON)
@@ -96,7 +105,7 @@ endif()
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     if (CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 6)
-	#In GNU gcc v6, the default is C++11
+    #In GNU gcc v6, the default is C++11
         if (FL_CPP98)
             #set the default to C++98
             #Fix error: 'template<class> class std::auto_ptr' is deprecated with gcc-6
@@ -118,7 +127,7 @@ if(MSVC)
     #Wx: Treat warnings as errors. W4: All warnings
     #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
     #EHsc: call destructors on __try __catch, and to ignore C4530: C++ exception handler used. Note, unwind semantics are not enabled
-	#Add Backtrace library
+    #Add Backtrace library
     if (FL_BACKTRACE)
         set(FL_LIBS dbghelp)
     endif()
@@ -136,8 +145,6 @@ endif()
 
 ###BUILD SECTION
 
-include_directories(.)
-
 file(STRINGS FL_HEADERS fl-headers)
 file(STRINGS FL_SOURCES fl-sources)
 file(STRINGS FL_TESTS fl-tests)
@@ -145,6 +152,8 @@ file(STRINGS FL_TESTS fl-tests)
 string(REGEX REPLACE "\n" " " ${fl-headers} ${fl-headers})
 string(REGEX REPLACE "\n" " " ${fl-sources} ${fl-sources})
 string(REGEX REPLACE "\n" " " ${fl-tests} ${fl-tests})
+
+list(APPEND fl-targets "")
 
 message("${exepath}")
 
@@ -162,6 +171,13 @@ if (MSVC OR CMAKE_GENERATOR STREQUAL Xcode)
 else()
     if(FL_BUILD_SHARED OR FL_BUILD_STATIC)
         add_library(fl-obj OBJECT ${fl-headers} ${fl-sources})
+        # The objects need the fuzzylite headers to compile, but
+        # these should only be visile to fl-obj at this time, so
+        # they are marked as PRIVATE.
+        target_include_directories(fl-obj
+            PRIVATE
+                ${PROJECT_SOURCE_DIR})
+
         if(NOT MINGW)
             set_target_properties(fl-obj PROPERTIES COMPILE_FLAGS "-fPIC")
         endif()
@@ -177,27 +193,46 @@ else()
 endif()
 
 if(FL_BUILD_SHARED)
+    # The public include directories to be shared with projects that
+    # link to fuzzylite depend on whether they're being included from
+    # source (BUILD_INTERFACE), or from /usr/include (INSTALL_INTERFACE)
+    target_include_directories(fl-shared
+        PUBLIC
+            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
+            $<INSTALL_INTERFACE:include>)
     set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
     set_target_properties(fl-shared PROPERTIES DEBUG_POSTFIX -debug)
     target_compile_definitions(fl-shared PRIVATE FL_EXPORT_LIBRARY)
-    set_target_properties(fl-shared PROPERTIES VERSION 6.0)
+    set_target_properties(fl-shared PROPERTIES VERSION ${FL_VERSION})
     target_link_libraries(fl-shared ${FL_LIBS})
+    list(APPEND fl-targets fl-shared)
 endif()
 
 if(FL_BUILD_STATIC)
+    target_include_directories(fl-static
+        PUBLIC
+            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
+            $<INSTALL_INTERFACE:include>)
     set_target_properties(fl-static PROPERTIES OUTPUT_NAME fuzzylite-static)
     set_target_properties(fl-static PROPERTIES DEBUG_POSTFIX -debug)
-    set_target_properties(fl-static PROPERTIES VERSION 6.0)
+    set_target_properties(fl-static PROPERTIES VERSION ${FL_VERSION})
     target_link_libraries(fl-static ${FL_LIBS})
+    list(APPEND fl-targets fl-static)
 endif()
 
 if(FL_BUILD_BINARY)
     add_executable(fl-bin src/main.cpp)
+    # Likewise to fl-obj, fl-bin should not be linked into other projects.
+    # The includes are marked private.
+    target_include_directories(fl-bin
+        PRIVATE
+            ${PROJECT_SOURCE_DIR})
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -debug)
     target_compile_definitions(fl-bin PRIVATE FL_IMPORT_LIBRARY) #if building with fl-shared
     target_link_libraries(fl-bin fl-shared ${FL_LIBS})
+    list(APPEND fl-targets fl-bin)
 endif(FL_BUILD_BINARY)
 
 if(FL_BUILD_TESTS)
@@ -230,50 +265,45 @@ if(FL_BUILD_TESTS)
 endif()
 
 ###INSTALL SECTION
+
 if(NOT FL_INSTALL_BINDIR)
     set(FL_INSTALL_BINDIR bin)
 endif()
 
-if(NOT FL_INSTALL_LIBDIR)
-    if(NOT CMAKE_INSTALL_LIBDIR)
-        set(FL_INSTALL_LIBDIR lib)
+if(NOT FL_INSTALL_INCLUDEDIR)
+    if(CMAKE_INSTALL_INCLUDEDIR)
+        set(FL_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR})
     else()
-        set(FL_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR})
+        set(FL_INSTALL_INCLUDEDIR include)
     endif()
 endif()
 
-if(FL_BUILD_BINARY)
-    install(TARGETS fl-bin
-            RUNTIME DESTINATION ${FL_INSTALL_BINDIR}
-            LIBRARY DESTINATION ${FL_INSTALL_LIBDIR}
-            ARCHIVE DESTINATION ${FL_INSTALL_LIBDIR}
-    )
+if(NOT FL_INSTALL_LIBDIR)
+    if(CMAKE_INSTALL_LIBDIR)
+        set(FL_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR})
+    else()
+        set(FL_INSTALL_LIBDIR lib)
+    endif()
 endif()
 
-if(FL_BUILD_SHARED)
-    install(TARGETS fl-shared
-            RUNTIME DESTINATION ${FL_INSTALL_BINDIR}
-            LIBRARY DESTINATION ${FL_INSTALL_LIBDIR}
-            ARCHIVE DESTINATION ${FL_INSTALL_LIBDIR}
-    )
-endif()
+install(TARGETS ${fl-targets} EXPORT fuzzylite-config
+    RUNTIME DESTINATION ${FL_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${FL_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${FL_INSTALL_LIBDIR}
+)
+# Store the fuzzylite CMake config for other projects to use
+install(EXPORT fuzzylite-config DESTINATION share/fuzzylite/cmake)
+export(TARGETS ${fl-targets} FILE fuzzylite-config.cmake)
 
-if(FL_BUILD_STATIC)
-    install(TARGETS fl-static
-            RUNTIME DESTINATION ${FL_INSTALL_BINDIR}
-            LIBRARY DESTINATION ${FL_INSTALL_LIBDIR}
-            ARCHIVE DESTINATION ${FL_INSTALL_LIBDIR}
-    )
-endif()
+install(DIRECTORY fl/ DESTINATION ${FL_INSTALL_INCLUDEDIR}/fl)
 
-install(DIRECTORY fl/ DESTINATION include/fl)
 
 #pkg-config
-configure_file(${CMAKE_SOURCE_DIR}/fuzzylite.pc.in ${CMAKE_BINARY_DIR}/fuzzylite.pc @ONLY)
-install(FILES ${CMAKE_BINARY_DIR}/fuzzylite.pc DESTINATION ${FL_INSTALL_LIBDIR}/pkgconfig)
+configure_file(${PROJECT_SOURCE_DIR}/fuzzylite.pc.in ${PROJECT_BINARY_DIR}/fuzzylite.pc @ONLY)
+install(FILES ${PROJECT_BINARY_DIR}/fuzzylite.pc DESTINATION ${FL_INSTALL_LIBDIR}/pkgconfig)
 
 message("=====================================")
-message("fuzzylite v6.0\n")
+message("fuzzylite v${FL_VERSION}\n")
 message("FL_CPP98=${FL_CPP98}")
 message("FL_USE_FLOAT=${FL_USE_FLOAT}")
 message("FL_BACKTRACE=${FL_BACKTRACE}")
@@ -288,7 +318,7 @@ message("CMAKE_CXX_COMPILER_VERSION=${CMAKE_CXX_COMPILER_VERSION}")
 message("CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
 message("CMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}")
 message("COMPILE_DEFINITIONS:")
-get_directory_property(fl-definitions DIRECTORY ${CMAKE_SOURCE_DIR} COMPILE_DEFINITIONS )
+get_directory_property(fl-definitions DIRECTORY ${PROJECT_SOURCE_DIR} COMPILE_DEFINITIONS )
 foreach(d ${fl-definitions})
     message( STATUS "Defined: " ${d} )
 endforeach()
