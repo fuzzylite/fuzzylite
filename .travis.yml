@@ -44,16 +44,16 @@ matrix:
 #clang
     - os: linux
       compiler: clang
-      env: CXX_COMPILER=clang FL_CPP98=OFF FL_USE_FLOAT=OFF
+      env: CXX_COMPILER=clang++ FL_CPP98=OFF FL_USE_FLOAT=OFF
     - os: linux
       compiler: clang
-      env: CXX_COMPILER=clang FL_CPP98=OFF FL_USE_FLOAT=ON
+      env: CXX_COMPILER=clang++ FL_CPP98=OFF FL_USE_FLOAT=ON
     - os: linux
       compiler: clang
-      env: CXX_COMPILER=clang FL_CPP98=ON FL_USE_FLOAT=OFF
+      env: CXX_COMPILER=clang++ FL_CPP98=ON FL_USE_FLOAT=OFF
     - os: linux
       compiler: clang
-      env: CXX_COMPILER=clang FL_CPP98=ON FL_USE_FLOAT=ON
+      env: CXX_COMPILER=clang++ FL_CPP98=ON FL_USE_FLOAT=ON
 #g++
     - os: linux
       compiler: g++
