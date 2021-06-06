@@ -60,223 +60,61 @@ matrix:
 ############################################################################
 # Latest clang and g++
 ############################################################################
-#clang-4.0
+#clang
     - os: linux
       compiler: clang
-      env: CXX_COMPILER=clang++-4.0 FL_CPP98=OFF FL_USE_FLOAT=OFF
+      env: CXX_COMPILER=clang++ FL_CPP98=OFF FL_USE_FLOAT=OFF
     - os: linux
       compiler: clang
-      env: CXX_COMPILER=clang++-4.0 FL_CPP98=OFF FL_USE_FLOAT=ON
+      env: CXX_COMPILER=clang++ FL_CPP98=OFF FL_USE_FLOAT=ON
     - os: linux
       compiler: clang
-      env: CXX_COMPILER=clang++-4.0 FL_CPP98=ON FL_USE_FLOAT=OFF
+      env: CXX_COMPILER=clang++ FL_CPP98=ON FL_USE_FLOAT=OFF
     - os: linux
       compiler: clang
-      env: CXX_COMPILER=clang++-4.0 FL_CPP98=ON FL_USE_FLOAT=ON
-#g++-7
+      env: CXX_COMPILER=clang++ FL_CPP98=ON FL_USE_FLOAT=ON
+#g++
     - os: linux
       compiler: g++
-      env: CXX_COMPILER=g++-7 FL_CPP98=OFF FL_USE_FLOAT=OFF
+      env: CXX_COMPILER=g++ FL_CPP98=OFF FL_USE_FLOAT=OFF
     - os: linux
       compiler: g++
-      env: CXX_COMPILER=g++-7 FL_CPP98=OFF FL_USE_FLOAT=ON
+      env: CXX_COMPILER=g++ FL_CPP98=OFF FL_USE_FLOAT=ON
     - os: linux
       compiler: g++
-      env: CXX_COMPILER=g++-7 FL_CPP98=ON FL_USE_FLOAT=OFF
+      env: CXX_COMPILER=g++ FL_CPP98=ON FL_USE_FLOAT=OFF
     - os: linux
       compiler: g++
-      env: CXX_COMPILER=g++-7 FL_CPP98=ON FL_USE_FLOAT=ON
+      env: CXX_COMPILER=g++ FL_CPP98=ON FL_USE_FLOAT=ON
 ############################################################################
-# clang
+# Earliest clang and g++
 ############################################################################
-#clang-3.9
+#clang++-4
     - os: linux
       compiler: clang
-      env: CXX_COMPILER=clang++-3.9 FL_CPP98=OFF FL_USE_FLOAT=OFF
+      env: CXX_COMPILER=clang++-4 FL_CPP98=OFF FL_USE_FLOAT=OFF
     - os: linux
       compiler: clang
-      env: CXX_COMPILER=clang++-3.9 FL_CPP98=OFF FL_USE_FLOAT=ON
+      env: CXX_COMPILER=clang++-4 FL_CPP98=OFF FL_USE_FLOAT=ON
     - os: linux
       compiler: clang
-      env: CXX_COMPILER=clang++-3.9 FL_CPP98=ON FL_USE_FLOAT=OFF
+      env: CXX_COMPILER=clang++-4 FL_CPP98=ON FL_USE_FLOAT=OFF
     - os: linux
       compiler: clang
-      env: CXX_COMPILER=clang++-3.9 FL_CPP98=ON FL_USE_FLOAT=ON
-#clang-3.8
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.8 FL_CPP98=OFF FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.8 FL_CPP98=OFF FL_USE_FLOAT=ON
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.8 FL_CPP98=ON FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.8 FL_CPP98=ON FL_USE_FLOAT=ON
-#clang-3.7
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.7 FL_CPP98=OFF FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.7 FL_CPP98=OFF FL_USE_FLOAT=ON
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.7 FL_CPP98=ON FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.7 FL_CPP98=ON FL_USE_FLOAT=ON
-#clang-3.6
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.6 FL_CPP98=OFF FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.6 FL_CPP98=OFF FL_USE_FLOAT=ON
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.6 FL_CPP98=ON FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.6 FL_CPP98=ON FL_USE_FLOAT=ON
-#clang-3.5
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.5 FL_CPP98=OFF FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.5 FL_CPP98=OFF FL_USE_FLOAT=ON
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.5 FL_CPP98=ON FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-3.5 FL_CPP98=ON FL_USE_FLOAT=ON
-############################################################################
-# g++
-############################################################################
-#g++-6
+      env: CXX_COMPILER=clang++-4 FL_CPP98=ON FL_USE_FLOAT=ON
+#g++-4
     - os: linux
       compiler: g++
-      env: CXX_COMPILER=g++-6 FL_CPP98=OFF FL_USE_FLOAT=OFF
+      env: CXX_COMPILER=g++-4 FL_CPP98=OFF FL_USE_FLOAT=OFF
     - os: linux
       compiler: g++
-      env: CXX_COMPILER=g++-6 FL_CPP98=OFF FL_USE_FLOAT=ON
+      env: CXX_COMPILER=g++-4 FL_CPP98=OFF FL_USE_FLOAT=ON
     - os: linux
       compiler: g++
-      env: CXX_COMPILER=g++-6 FL_CPP98=ON FL_USE_FLOAT=OFF
+      env: CXX_COMPILER=g++-4 FL_CPP98=ON FL_USE_FLOAT=OFF
     - os: linux
       compiler: g++
-      env: CXX_COMPILER=g++-6 FL_CPP98=ON FL_USE_FLOAT=ON
-#g++-5
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-5 FL_CPP98=OFF FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-5 FL_CPP98=OFF FL_USE_FLOAT=ON
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-5 FL_CPP98=ON FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-5 FL_CPP98=ON FL_USE_FLOAT=ON
-#g++-4.9
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.9 FL_CPP98=OFF FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.9 FL_CPP98=OFF FL_USE_FLOAT=ON
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.9 FL_CPP98=ON FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.9 FL_CPP98=ON FL_USE_FLOAT=ON
-#g++-4.8
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.8 FL_CPP98=OFF FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.8 FL_CPP98=OFF FL_USE_FLOAT=ON
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.8 FL_CPP98=ON FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.8 FL_CPP98=ON FL_USE_FLOAT=ON
-#g++-4.7
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.7 FL_CPP98=OFF FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.7 FL_CPP98=OFF FL_USE_FLOAT=ON
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.7 FL_CPP98=ON FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4.7 FL_CPP98=ON FL_USE_FLOAT=ON
-############################################################################
-# Obsolete compilers
-############################################################################
-# #clang-3.4 does not install properly in ubuntu (clang++-3.4 command not found)
-#     - os: linux
-#       compiler: clang
-#       env: CXX_COMPILER=clang++-3.4 FL_CPP98=OFF FL_USE_FLOAT=OFF
-#     - os: linux
-#       compiler: clang
-#       env: CXX_COMPILER=clang++-3.4 FL_CPP98=OFF FL_USE_FLOAT=ON
-#     - os: linux
-#       compiler: clang
-#       env: CXX_COMPILER=clang++-3.4 FL_CPP98=ON FL_USE_FLOAT=OFF
-#     - os: linux
-#       compiler: clang
-#       env: CXX_COMPILER=clang++-3.4 FL_CPP98=ON FL_USE_FLOAT=ON
-# #clang-3.3 does not install properly in ubuntu (clang++-3.4 command not found)
-#     - os: linux
-#       compiler: clang
-#       env: CXX_COMPILER=clang++-3.3 FL_CPP98=OFF FL_USE_FLOAT=OFF
-#     - os: linux
-#       compiler: clang
-#       env: CXX_COMPILER=clang++-3.3 FL_CPP98=OFF FL_USE_FLOAT=ON
-#     - os: linux
-#       compiler: clang
-#       env: CXX_COMPILER=clang++-3.3 FL_CPP98=ON FL_USE_FLOAT=OFF
-#     - os: linux
-#       compiler: clang
-#       env: CXX_COMPILER=clang++-3.3 FL_CPP98=ON FL_USE_FLOAT=ON
-# #g++-4.6 does not have an installation candidate in ubuntu
-#     - os: linux
-#       compiler: g++
-#       env: CXX_COMPILER=g++-4.6 FL_CPP98=OFF FL_USE_FLOAT=OFF
-#     - os: linux
-#       compiler: g++
-#       env: CXX_COMPILER=g++-4.6 FL_CPP98=OFF FL_USE_FLOAT=ON
-#     - os: linux
-#       compiler: g++
-#       env: CXX_COMPILER=g++-4.6 FL_CPP98=ON FL_USE_FLOAT=OFF
-#     - os: linux
-#       compiler: g++
-#       env: CXX_COMPILER=g++-4.6 FL_CPP98=ON FL_USE_FLOAT=ON
-# #g++-4.5 does not have an installation candidate in ubuntu
-#     - os: linux
-#       compiler: g++
-#       env: CXX_COMPILER=g++-4.5 FL_CPP98=OFF FL_USE_FLOAT=OFF
-#     - os: linux
-#       compiler: g++
-#       env: CXX_COMPILER=g++-4.5 FL_CPP98=OFF FL_USE_FLOAT=ON
-#     - os: linux
-#       compiler: g++
-#       env: CXX_COMPILER=g++-4.5 FL_CPP98=ON FL_USE_FLOAT=OFF
-#     - os: linux
-#       compiler: g++
-#       env: CXX_COMPILER=g++-4.5 FL_CPP98=ON FL_USE_FLOAT=ON
+      env: CXX_COMPILER=g++-4 FL_CPP98=ON FL_USE_FLOAT=ON
 
 notifications:
   email:
