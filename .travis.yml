@@ -1,4 +1,4 @@
-language: generic
+language: minimal
 dist: trusty
 sudo: required
 
@@ -26,6 +26,7 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
       docker run -t fuzzylite documentation ;
     fi
+
 ##MacOSX
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
       cd fuzzylite/ ;
@@ -36,11 +37,38 @@ script:
       cd fuzzylite/ ;
       ./build.sh debug ;
     fi
+
 matrix:
   include:
-############################################################################
-# MacOSX
-############################################################################
+## Linux ##
+#clang
+    - os: linux
+      compiler: clang
+      env: CXX_COMPILER=clang FL_CPP98=OFF FL_USE_FLOAT=OFF
+    - os: linux
+      compiler: clang
+      env: CXX_COMPILER=clang FL_CPP98=OFF FL_USE_FLOAT=ON
+    - os: linux
+      compiler: clang
+      env: CXX_COMPILER=clang FL_CPP98=ON FL_USE_FLOAT=OFF
+    - os: linux
+      compiler: clang
+      env: CXX_COMPILER=clang FL_CPP98=ON FL_USE_FLOAT=ON
+#g++
+    - os: linux
+      compiler: g++
+      env: CXX_COMPILER=g++ FL_CPP98=OFF FL_USE_FLOAT=OFF
+    - os: linux
+      compiler: g++
+      env: CXX_COMPILER=g++ FL_CPP98=OFF FL_USE_FLOAT=ON
+    - os: linux
+      compiler: g++
+      env: CXX_COMPILER=g++ FL_CPP98=ON FL_USE_FLOAT=OFF
+    - os: linux
+      compiler: g++
+      env: CXX_COMPILER=g++ FL_CPP98=ON FL_USE_FLOAT=ON
+
+## MacOSX ##
     - os: osx
       osx_image: xcode9
       compiler: clang
@@ -57,64 +85,6 @@ matrix:
       osx_image: xcode9
       compiler: clang
       env: CXX_COMPILER=clang FL_CPP98=ON FL_USE_FLOAT=ON
-############################################################################
-# Latest clang and g++
-############################################################################
-#clang
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++ FL_CPP98=OFF FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++ FL_CPP98=OFF FL_USE_FLOAT=ON
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++ FL_CPP98=ON FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++ FL_CPP98=ON FL_USE_FLOAT=ON
-#g++
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++ FL_CPP98=OFF FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++ FL_CPP98=OFF FL_USE_FLOAT=ON
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++ FL_CPP98=ON FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++ FL_CPP98=ON FL_USE_FLOAT=ON
-############################################################################
-# Earliest clang and g++
-############################################################################
-#clang++-4
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-4 FL_CPP98=OFF FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-4 FL_CPP98=OFF FL_USE_FLOAT=ON
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-4 FL_CPP98=ON FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: clang
-      env: CXX_COMPILER=clang++-4 FL_CPP98=ON FL_USE_FLOAT=ON
-#g++-4
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4 FL_CPP98=OFF FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4 FL_CPP98=OFF FL_USE_FLOAT=ON
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4 FL_CPP98=ON FL_USE_FLOAT=OFF
-    - os: linux
-      compiler: g++
-      env: CXX_COMPILER=g++-4 FL_CPP98=ON FL_USE_FLOAT=ON
 
 notifications:
   email:
