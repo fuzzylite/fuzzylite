@@ -10,7 +10,11 @@ git:
 
 before_script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
-      docker build -t fuzzylite -f Dockerfile --build-arg CXX_COMPILER=${CXX_COMPILER} . ;
+      if [[ "$CXX_COMPILER" == "clang++" ]]; then 
+        docker build -t fuzzylite -f Dockerfile --build-arg CXX_COMPILER="clang" . ;
+      else
+        docker build -t fuzzylite -f Dockerfile --build-arg CXX_COMPILER=${CXX_COMPILER} . ;
+      fi
     fi
 
 script:
