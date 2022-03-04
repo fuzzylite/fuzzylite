@@ -1,4 +1,4 @@
-name: Build FuzzyLite C++
+name: Build FuzzyLite on Pull Request
 
 on:
   pull_request:

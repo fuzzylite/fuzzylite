@@ -1,4 +1,4 @@
-name: Quick Build FuzzyLite C++
+name: Build FuzzyLite on Push
 
 on:
   push:
