@@ -21,6 +21,7 @@ jobs:
 
     - name: Building FuzzyLite
       working-directory: fuzzylite
+      shell: cmd
       env: 
         FL_CPP98: ${{ matrix.use_cpp98 }}
         FL_USE_FLOAT: ${{ matrix.use_float }}
