@@ -5,6 +5,9 @@ on:
     branches: [ "main" ]
   push: 
     branches: [ "main" ]
+  schedule: 
+    # run monthly on the first day
+    - cron: "0 0 1 * * "
 
 jobs:
   build:
