@@ -1,5 +1,5 @@
-fuzzylite&reg; 6.0 
-==================
+fuzzylite&reg; 7.0 (In progress)
+================================
 <img src="https://raw.githubusercontent.com/fuzzylite/fuzzylite/release/fuzzylite.png" align="right" alt="fuzzylite">
 
 
@@ -7,8 +7,6 @@ A Fuzzy Logic Control Library in C++
 ------------------------------------
 
 By: [Juan Rada-Vilela](https://www.fuzzylite.com/jcrada), Ph.D.
-
-Released: 20/March/2017
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 [![Coverity Status](https://scan.coverity.com/projects/5759/badge.svg)](https://scan.coverity.com/projects/5759)
