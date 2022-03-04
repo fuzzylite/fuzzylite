@@ -2,7 +2,7 @@ name: FuzzyLite (Linux) [Push]
 
 on:
   push:
-    branches: [ "**", "!workflow/**"]
+    branches: [ "**" ]
 
 jobs:
   build:
