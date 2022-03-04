@@ -1,8 +1,10 @@
-name: FuzzyLite (Windows) [Push]
+name: FuzzyLite (Windows)
 
 on:
-  push:
-    branches: [ "build/**" ]
+  pull_request:
+    branches: [ "main" ]
+  push: 
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -11,9 +13,9 @@ jobs:
     strategy: 
       fail-fast: false
       matrix:
-        build_type: ["release"]
-        use_cpp98: ["OFF"]
-        use_float: ["OFF"]
+        build_type: ["release", "debug"]
+        use_cpp98: ["OFF", "ON"]
+        use_float: ["OFF", "ON"]
 
     steps:
     - uses: actions/checkout@v2

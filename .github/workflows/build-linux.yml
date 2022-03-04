@@ -1,4 +1,4 @@
-name: FuzzyLite (Linux) [Pull Request]
+name: FuzzyLite (Linux)
 
 on:
   pull_request:
