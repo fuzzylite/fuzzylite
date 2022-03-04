@@ -16,12 +16,12 @@ jobs:
         build_type: ["release", "debug"]
         use_cxx: ["clang++", "g++"]
         use_cpp98: ["OFF", "ON"]
-        use_float: ["OFF"]
+        use_float: ["OFF", "ON"]
 
     steps:
     - uses: actions/checkout@v2
     
-    - name: Build FuzzyLite (Release)
+    - name: Building FuzzyLite
       working-directory: fuzzylite
       env: 
         FL_CPP98: ${{ matrix.use_cpp98 }}
