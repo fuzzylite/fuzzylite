@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     
     strategy: 
-      fail-fast: true
+      fail-fast: false
       matrix:
         use_cxx: ["g++-10"]
         use_cpp98: ["OFF"]
@@ -27,6 +27,8 @@ jobs:
         FL_USE_FLOAT: ${{ matrix.use_float }}
         CXX: ${{ matrix.use_cxx}}
       run: |
+        echo '::echo::on'
+        echo '::set-output name=action_echo::enabled'
         pwd
         ls -la
         sh build.sh 
