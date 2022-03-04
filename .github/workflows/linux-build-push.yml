@@ -1,0 +1,30 @@
+name: FuzzyLite (Linux) [Push]
+
+on:
+  push:
+    branches: [ "**", "!workflow/**"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy: 
+      fail-fast: false
+      matrix:
+        build_type: ["release"]
+        use_cxx: ["clang++"]
+        use_cpp98: ["OFF"]
+        use_float: ["OFF"]
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Building FuzzyLite
+      working-directory: fuzzylite
+      env: 
+        FL_CPP98: ${{ matrix.use_cpp98 }}
+        FL_USE_FLOAT: ${{ matrix.use_float }}
+        CXX: ${{ matrix.use_cxx }}
+        FL_BUILD_TESTS: "ON"
+      run: |
+        bash build.sh ${{ matrix.build_type }}
