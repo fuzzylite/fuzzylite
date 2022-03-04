@@ -17,13 +17,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+    - uses: ilammy/msvc-dev-cmd@v1
 
     - name: Building FuzzyLite
       working-directory: fuzzylite
-      shell: cmd
       env: 
         FL_CPP98: ${{ matrix.use_cpp98 }}
         FL_USE_FLOAT: ${{ matrix.use_float }}
