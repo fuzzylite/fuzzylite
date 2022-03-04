@@ -1,8 +1,8 @@
-name: Build FuzzyLite on Push
+name: FuzzyLite (Linux) [Push]
 
 on:
   push:
-    branches: [ "**" ]
+    branches: [ "**", "!workflow/**"]
 
 jobs:
   build:
