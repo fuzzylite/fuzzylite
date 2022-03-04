@@ -2,7 +2,7 @@ name: FuzzyLite (Windows) [Push]
 
 on:
   push:
-    branches: [ "main", "build/**" ]
+    branches: [ "build/**" ]
 
 jobs:
   build:
