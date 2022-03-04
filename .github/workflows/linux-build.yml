@@ -26,4 +26,4 @@ jobs:
         FL_USE_FLOAT: ${{ matrix.use_float }}
         CXX: ${{ matrix.use_cxx}}
       run: |
-        sh build.sh 
+        bash build.sh 
