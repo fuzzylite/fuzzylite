@@ -13,11 +13,11 @@ Released: 20/March/2017
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 [![Coverity Status](https://scan.coverity.com/projects/5759/badge.svg)](https://scan.coverity.com/projects/5759)
 
-| Branch | Unix | Windows | 
-|--------|------|---------|
-| [release](https://github.com/fuzzylite/fuzzylite/tree/release) | [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=release)](https://travis-ci.org/fuzzylite/fuzzylite) | [![Build status](https://ci.appveyor.com/api/projects/status/065g596yxdhkt2se/branch/release)](https://ci.appveyor.com/project/jcrada/fuzzylite/branch/release) |
-| [master](https://github.com/fuzzylite/fuzzylite/tree/master) | [![Build Status](https://travis-ci.org/fuzzylite/fuzzylite.svg?branch=master)](https://travis-ci.org/fuzzylite/fuzzylite) | [![Build status](https://ci.appveyor.com/api/projects/status/065g596yxdhkt2se/branch/master)](https://ci.appveyor.com/project/jcrada/fuzzylite/branch/master) |
+Branch: [main](https://github.com/fuzzylite/fuzzylite/tree/main) 
 
+[![FuzzyLite (Linux)](https://github.com/fuzzylite/fuzzylite/actions/workflows/build-linux.yml/badge.svg?branch=main&event=push)](https://github.com/fuzzylite/fuzzylite/actions/workflows/build-linux.yml)
+
+[![FuzzyLite (Windows)](https://github.com/fuzzylite/fuzzylite/actions/workflows/build-windows.yml/badge.svg?branch=main&event=push)](https://github.com/fuzzylite/fuzzylite/actions/workflows/build-windows.yml)
 
 ***
 

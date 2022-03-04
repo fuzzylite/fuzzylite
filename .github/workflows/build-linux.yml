@@ -1,8 +1,10 @@
-name: FuzzyLite (Linux) [Push]
+name: FuzzyLite (Linux)
 
 on:
-  push:
-    branches: [ "main", "build/**" ]
+  pull_request:
+    branches: [ "main" ]
+  push: 
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -11,10 +13,10 @@ jobs:
     strategy: 
       fail-fast: false
       matrix:
-        build_type: ["release"]
-        use_cxx: ["clang++"]
-        use_cpp98: ["OFF"]
-        use_float: ["OFF"]
+        build_type: ["release", "debug"]
+        use_cxx: ["clang++", "g++"]
+        use_cpp98: ["OFF", "ON"]
+        use_float: ["OFF", "ON"]
 
     steps:
     - uses: actions/checkout@v2
