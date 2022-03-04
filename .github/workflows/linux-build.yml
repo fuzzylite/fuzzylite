@@ -13,17 +13,18 @@ jobs:
     strategy: 
       fail-fast: false
       matrix:
-        use_cxx: ["g++-10"]
+        use_cxx: ["g++"]
         use_cpp98: ["OFF"]
         use_float: ["OFF"]
 
     steps:
     - uses: actions/checkout@v2
-    - name: clang
+    - name: Building FuzzyLite (Release and Debug)
       working-directory: fuzzylite
       env: 
         FL_CPP98: ${{ matrix.use_cpp98 }}
         FL_USE_FLOAT: ${{ matrix.use_float }}
         CXX: ${{ matrix.use_cxx}}
+        FL_BUILD_TESTS: "ON"
       run: |
         bash build.sh 
