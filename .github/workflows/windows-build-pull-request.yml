@@ -1,30 +1,30 @@
-name: FuzzyLite (Linux) [Push]
+name: FuzzyLite (Windows) [Pull Request]
 
 on:
-  push:
-    branches: [ "main", "build/**" ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     
     strategy: 
       fail-fast: false
       matrix:
-        build_type: ["release"]
-        use_cxx: ["clang++"]
-        use_cpp98: ["OFF"]
-        use_float: ["OFF"]
+        build_type: ["release", "debug"]
+        use_cpp98: ["OFF", "ON"]
+        use_float: ["OFF", "ON"]
 
     steps:
     - uses: actions/checkout@v2
-    
+    - uses: ilammy/msvc-dev-cmd@v1
+
     - name: Building FuzzyLite
       working-directory: fuzzylite
+      shell: cmd
       env: 
         FL_CPP98: ${{ matrix.use_cpp98 }}
         FL_USE_FLOAT: ${{ matrix.use_float }}
-        CXX: ${{ matrix.use_cxx }}
         FL_BUILD_TESTS: "ON"
       run: |
-        bash build.sh ${{ matrix.build_type }}
+        build.bat ${{ matrix.build_type }}
