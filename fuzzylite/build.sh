@@ -43,6 +43,38 @@ documentation(){
     cd -
 }
 
+format(){
+    GET_HEADERS="find fl -type f -name '*.h' -print0"
+    GET_SOURCES="find src -type f -name '*.cpp' -print0"
+    GET_TESTS="find test -type f -name '*.cpp' -print0"
+    
+    FORMATTER="clang-format"
+    OPTIONS="--style=file --verbose -i"
+
+    echo "Formatting headers"
+    eval $GET_HEADERS | xargs -0 $FORMATTER $OPTIONS
+    echo "Formatting sources"
+    eval $GET_SOURCES | xargs -0 $FORMATTER $OPTIONS
+    echo "Formatting tests"
+    eval $GET_TESTS | xargs -0 $FORMATTER $OPTIONS
+}
+
+lint(){
+    GET_HEADERS="find fl -type f -name '*.h' -print0"
+    GET_SOURCES="find src -type f -name '*.cpp' -print0"
+    GET_TESTS="find test -type f -name '*.cpp' -print0"
+    
+    FORMATTER="clang-format"
+    OPTIONS="--dry-run --Werror --style=file --verbose -i"
+
+    echo "Linting headers"
+    eval $GET_HEADERS | xargs -0 $FORMATTER $OPTIONS
+    echo "Linting sources"
+    eval $GET_SOURCES | xargs -0 $FORMATTER $OPTIONS
+    echo "Linting tests"
+    eval $GET_TESTS | xargs -0 $FORMATTER $OPTIONS
+}
+
 all(){
     debug
     release
@@ -52,13 +84,14 @@ clean(){
     rm -rf release debug CMakeFiles
 }
 
-usage(){
+help(){
     printf 'Usage:\t[bash] ./build.sh [options]\n'
     printf "where\t[options] can be any of the following:\n"
     printf "\tall\t\t builds fuzzylite in debug and release mode (default)\n"
     printf "\tdebug\t\t builds fuzzylite in debug mode\n"
     printf "\trelease\t\t builds fuzzylite in release mode\n"
     printf "\tclean\t\t erases previous builds\n"
+    printf "\tformat\t\t formats the entire project source code"
     printf "\thelp\t\t shows this information\n"
     printf "\n"
 }
@@ -66,23 +99,19 @@ usage(){
 #############################
 echo "Parameters: $@"
 
-OPTIONS=( "all" "release" "debug" "clean" "documentation" "help" )
 BUILD=( )
 
 for arg in "$@"
 do
     if [[ "$arg" == "help" ]]; then usage && exit 0; fi
-
-    if [[ "$arg" == "all" || "$arg" == "debug" || "$arg" == "release" || "$arg" == "clean" || "$arg" == "documentation" ]];
-    then BUILD+=( $arg ); else echo "Invalid option: $arg" && usage && exit 2;
-    fi
+    BUILD+=( $arg ); 
 done
 
 if [ ${#BUILD[@]} -eq 0 ]; then BUILD+=( "release" "debug" ); fi
 
 echo "Building schedule: ${BUILD[@]}"
 echo "Starting in 3 seconds..."
-sleep 3
+# sleep 3
 
 for option in "${BUILD[@]}"
 do
