@@ -363,7 +363,7 @@ namespace fl {
     }
 
     inline std::string fuzzylite::version() {
-        return "6.0";
+        return "7.0.0";
     }
 
     inline std::string fuzzylite::license() {
