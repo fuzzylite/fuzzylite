@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.12)
-set(FL_VERSION 6.0)
+set(FL_VERSION 7.0.0)
 
 if (APPLE)
     set(CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
@@ -81,7 +81,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 if(NOT MSVC)
-#TODO: Remove -Werror before release.
+
 #Add Unix compilation flags
     set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra ${CMAKE_CXX_FLAGS}")
 
