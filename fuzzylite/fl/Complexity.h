@@ -17,7 +17,7 @@
 #ifndef FL_COMPLEXITY_H
 #define FL_COMPLEXITY_H
 
-#include "fl/fuzzylite.h"
+#include "fuzzylite/fuzzylite.h"
 
 #include <vector>
 

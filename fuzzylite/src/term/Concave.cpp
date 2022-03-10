@@ -14,7 +14,7 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/term/Concave.h"
+#include "fuzzylite/term/Concave.h"
 
 namespace fl {
 

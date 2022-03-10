@@ -17,7 +17,7 @@
 #ifndef FL_CLONINGFACTORY_H
 #define FL_CLONINGFACTORY_H
 
-#include "fl/fuzzylite.h"
+#include "fuzzylite/fuzzylite.h"
 
 #include <map>
 #include <string>
@@ -107,7 +107,7 @@ namespace fl {
   Template implementation
  */
 
-#include "fl/Exception.h"
+#include "fuzzylite/Exception.h"
 
 namespace fl {
 

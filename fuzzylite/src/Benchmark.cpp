@@ -14,14 +14,14 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/Benchmark.h"
+#include "fuzzylite/Benchmark.h"
 
-#include "fl/Engine.h"
-#include "fl/Operation.h"
-#include "fl/rule/Rule.h"
-#include "fl/rule/RuleBlock.h"
-#include "fl/variable/InputVariable.h"
-#include "fl/variable/OutputVariable.h"
+#include "fuzzylite/Engine.h"
+#include "fuzzylite/Operation.h"
+#include "fuzzylite/rule/Rule.h"
+#include "fuzzylite/rule/RuleBlock.h"
+#include "fuzzylite/variable/InputVariable.h"
+#include "fuzzylite/variable/OutputVariable.h"
 
 #ifdef FL_CPP98
 //timing is only available in C++11

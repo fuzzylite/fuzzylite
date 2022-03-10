@@ -17,7 +17,7 @@
 #ifndef FL_TRIANGLE_H
 #define FL_TRIANGLE_H
 
-#include "fl/term/Term.h"
+#include "fuzzylite/term/Term.h"
 
 namespace fl {
 

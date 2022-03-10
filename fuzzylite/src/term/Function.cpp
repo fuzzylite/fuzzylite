@@ -14,13 +14,13 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/term/Function.h"
+#include "fuzzylite/term/Function.h"
 
-#include "fl/Engine.h"
-#include "fl/factory/FactoryManager.h"
-#include "fl/rule/Rule.h"
-#include "fl/variable/InputVariable.h"
-#include "fl/variable/OutputVariable.h"
+#include "fuzzylite/Engine.h"
+#include "fuzzylite/factory/FactoryManager.h"
+#include "fuzzylite/rule/Rule.h"
+#include "fuzzylite/variable/InputVariable.h"
+#include "fuzzylite/variable/OutputVariable.h"
 
 #include <queue>
 #include <stack>

@@ -17,7 +17,7 @@
 #ifndef FL_CENTROID_H
 #define FL_CENTROID_H
 
-#include "fl/defuzzifier/IntegralDefuzzifier.h"
+#include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
 
 namespace fl {
 

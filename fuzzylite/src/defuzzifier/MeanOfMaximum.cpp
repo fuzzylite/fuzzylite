@@ -14,10 +14,10 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/defuzzifier/MeanOfMaximum.h"
+#include "fuzzylite/defuzzifier/MeanOfMaximum.h"
 
-#include "fl/Exception.h"
-#include "fl/term/Term.h"
+#include "fuzzylite/Exception.h"
+#include "fuzzylite/term/Term.h"
 
 namespace fl {
 

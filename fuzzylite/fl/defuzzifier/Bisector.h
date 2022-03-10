@@ -17,7 +17,7 @@
 #ifndef FL_BISECTOR_H
 #define FL_BISECTOR_H
 
-#include "fl/defuzzifier/IntegralDefuzzifier.h"
+#include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
 
 namespace fl {
 

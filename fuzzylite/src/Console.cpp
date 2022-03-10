@@ -14,9 +14,9 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/Console.h"
+#include "fuzzylite/Console.h"
 
-#include "fl/Headers.h"
+#include "fuzzylite/Headers.h"
 
 #include <fstream>
 
@@ -787,7 +787,7 @@ namespace fl {
             FL_LOG("Exporting to: " << output << "\n");
             if (target.is_open()) {
                 if (to == "cpp") {
-                    target << "#include <fl/Headers.h>\n\n"
+                    target << "#include <fuzzylite/Headers.h>\n\n"
                             << "int main(int argc, char** argv){\n"
                             << exporter->toString(engine.get())
                             << "\n}\n";

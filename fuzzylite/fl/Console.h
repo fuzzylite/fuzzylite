@@ -17,7 +17,7 @@
 #ifndef FL_CONSOLE_H
 #define FL_CONSOLE_H
 
-#include "fl/fuzzylite.h"
+#include "fuzzylite/fuzzylite.h"
 #include <map>
 #include <string>
 #include <vector>

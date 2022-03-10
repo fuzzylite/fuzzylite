@@ -17,7 +17,7 @@
 #ifndef FL_EXCEPTION_H
 #define FL_EXCEPTION_H
 
-#include "fl/fuzzylite.h"
+#include "fuzzylite/fuzzylite.h"
 
 #include <exception>
 #include <string>

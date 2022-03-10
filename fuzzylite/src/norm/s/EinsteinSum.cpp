@@ -14,7 +14,7 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/norm/s/EinsteinSum.h"
+#include "fuzzylite/norm/s/EinsteinSum.h"
 
 namespace fl {
 

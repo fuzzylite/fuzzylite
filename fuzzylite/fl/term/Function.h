@@ -17,7 +17,7 @@
 #ifndef FL_FUNCTION_H
 #define FL_FUNCTION_H
 
-#include "fl/term/Term.h"
+#include "fuzzylite/term/Term.h"
 
 #include <map>
 #include <string>

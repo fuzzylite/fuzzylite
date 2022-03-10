@@ -17,9 +17,9 @@
 #ifndef FL_AGGREGATED_H
 #define FL_AGGREGATED_H
 
-#include "fl/term/Term.h"
+#include "fuzzylite/term/Term.h"
 
-#include "fl/term/Activated.h"
+#include "fuzzylite/term/Activated.h"
 
 #include <vector>
 

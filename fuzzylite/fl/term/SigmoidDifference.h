@@ -17,7 +17,7 @@
 #ifndef FL_SIGMOIDDIFFERENCE_H
 #define FL_SIGMOIDDIFFERENCE_H
 
-#include "fl/term/Term.h"
+#include "fuzzylite/term/Term.h"
 
 namespace fl {
 

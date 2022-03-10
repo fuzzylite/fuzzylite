@@ -17,7 +17,7 @@
 #ifndef FL_EINSTEINSUM_H
 #define FL_EINSTEINSUM_H
 
-#include "fl/norm/SNorm.h"
+#include "fuzzylite/norm/SNorm.h"
 
 namespace fl {
 

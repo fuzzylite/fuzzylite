@@ -17,10 +17,10 @@
 #ifndef FL_TERM_H
 #define FL_TERM_H
 
-#include "fl/fuzzylite.h"
+#include "fuzzylite/fuzzylite.h"
 
-#include "fl/Operation.h"
-#include "fl/Complexity.h"
+#include "fuzzylite/Operation.h"
+#include "fuzzylite/Complexity.h"
 
 #include <cmath>
 #include <string>

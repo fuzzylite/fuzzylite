@@ -14,7 +14,7 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/term/Rectangle.h"
+#include "fuzzylite/term/Rectangle.h"
 
 namespace fl {
 

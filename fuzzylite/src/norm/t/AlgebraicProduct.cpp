@@ -14,7 +14,7 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/norm/t/AlgebraicProduct.h"
+#include "fuzzylite/norm/t/AlgebraicProduct.h"
 
 namespace fl {
 

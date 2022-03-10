@@ -18,7 +18,7 @@
 #define FL_LAST_H
 
 
-#include "fl/activation/Activation.h"
+#include "fuzzylite/activation/Activation.h"
 
 namespace fl {
 

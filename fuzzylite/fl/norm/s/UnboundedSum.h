@@ -17,7 +17,7 @@
 #ifndef FL_UNBOUNDEDSUM_H
 #define FL_UNBOUNDEDSUM_H
 
-#include "fl/norm/SNorm.h"
+#include "fuzzylite/norm/SNorm.h"
 
 namespace fl {
 

@@ -14,8 +14,8 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/imex/Importer.h"
-#include "fl/Exception.h"
+#include "fuzzylite/imex/Importer.h"
+#include "fuzzylite/Exception.h"
 
 #include <fstream>
 

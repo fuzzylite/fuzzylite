@@ -17,10 +17,10 @@
 #ifndef FL_ACTIVATIONFACTORY_H
 #define FL_ACTIVATIONFACTORY_H
 
-#include "fl/fuzzylite.h"
+#include "fuzzylite/fuzzylite.h"
 
-#include "fl/factory/ConstructionFactory.h"
-#include "fl/activation/Activation.h"
+#include "fuzzylite/factory/ConstructionFactory.h"
+#include "fuzzylite/activation/Activation.h"
 
 namespace fl {
 

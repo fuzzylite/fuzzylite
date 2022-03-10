@@ -14,15 +14,15 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/factory/ActivationFactory.h"
+#include "fuzzylite/factory/ActivationFactory.h"
 
-#include "fl/activation/First.h"
-#include "fl/activation/General.h"
-#include "fl/activation/Highest.h"
-#include "fl/activation/Last.h"
-#include "fl/activation/Lowest.h"
-#include "fl/activation/Proportional.h"
-#include "fl/activation/Threshold.h"
+#include "fuzzylite/activation/First.h"
+#include "fuzzylite/activation/General.h"
+#include "fuzzylite/activation/Highest.h"
+#include "fuzzylite/activation/Last.h"
+#include "fuzzylite/activation/Lowest.h"
+#include "fuzzylite/activation/Proportional.h"
+#include "fuzzylite/activation/Threshold.h"
 
 namespace fl {
 

@@ -17,9 +17,9 @@
 #ifndef FL_SNORMFUNCTION_H
 #define FL_SNORMFUNCTION_H
 
-#include "fl/norm/SNorm.h"
+#include "fuzzylite/norm/SNorm.h"
 
-#include "fl/term/Function.h"
+#include "fuzzylite/term/Function.h"
 
 namespace fl {
 

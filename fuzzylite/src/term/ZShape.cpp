@@ -14,7 +14,7 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/term/ZShape.h"
+#include "fuzzylite/term/ZShape.h"
 
 namespace fl {
 

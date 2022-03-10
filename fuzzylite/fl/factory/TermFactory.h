@@ -18,9 +18,9 @@
 #define FL_TERMFACTORY_H
 
 
-#include "fl/factory/ConstructionFactory.h"
+#include "fuzzylite/factory/ConstructionFactory.h"
 
-#include "fl/term/Term.h"
+#include "fuzzylite/term/Term.h"
 
 namespace fl {
 

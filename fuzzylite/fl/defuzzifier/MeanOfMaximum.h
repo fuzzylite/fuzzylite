@@ -17,7 +17,7 @@
 #ifndef FL_MEANOFMAXIMUM_H
 #define FL_MEANOFMAXIMUM_H
 
-#include "fl/defuzzifier/IntegralDefuzzifier.h"
+#include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
 
 namespace fl {
 

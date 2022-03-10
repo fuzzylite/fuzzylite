@@ -17,7 +17,7 @@
 #ifndef FL_DRASTICPRODUCT_H
 #define FL_DRASTICPRODUCT_H
 
-#include "fl/norm/TNorm.h"
+#include "fuzzylite/norm/TNorm.h"
 
 namespace fl {
 

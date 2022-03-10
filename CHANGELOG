@@ -1,3 +1,8 @@
+Version 7.0
+===========
+
+* The headers directory is renamed from `fl` to `fuzzylite`
+
 Version 6.0
 ===========
 

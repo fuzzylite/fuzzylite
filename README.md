@@ -142,7 +142,7 @@ RuleBlock: mamdani
 ```
 ```cpp
 //File: ObstacleAvoidance.cpp
-#include "fl/Headers.h"
+#include "fuzzylite/Headers.h"
 
 int main(int argc, char* argv[]){
     using namespace fl;
@@ -168,13 +168,11 @@ int main(int argc, char* argv[]){
 #### C++
 ```cpp
 //File: ObstacleAvoidance.cpp
-#include "fl/Headers.h"
+#include "fuzzylite/Headers.h"
 
 int main(int argc, char* argv[]){
     using namespace fl;
     //Code automatically generated with fuzzylite 6.0.
-
-    using namespace fl;
 
     Engine* engine = new Engine;
     engine->setName("ObstacleAvoidance");

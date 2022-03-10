@@ -17,7 +17,7 @@
 #ifndef FL_LINEAR_H
 #define FL_LINEAR_H
 
-#include "fl/term/Term.h"
+#include "fuzzylite/term/Term.h"
 
 namespace fl {
     class Engine;
@@ -153,7 +153,7 @@ namespace fl {
   Template implementation
  */
 
-#include "fl/Engine.h"
+#include "fuzzylite/Engine.h"
 
 namespace fl {
 

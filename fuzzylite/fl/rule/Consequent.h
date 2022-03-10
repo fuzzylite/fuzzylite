@@ -17,9 +17,9 @@
 #ifndef FL_CONSEQUENT_H
 #define FL_CONSEQUENT_H
 
-#include "fl/fuzzylite.h"
+#include "fuzzylite/fuzzylite.h"
 
-#include "fl/Complexity.h"
+#include "fuzzylite/Complexity.h"
 
 #include <string>
 #include <vector>

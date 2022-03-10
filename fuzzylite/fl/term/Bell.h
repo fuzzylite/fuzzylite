@@ -17,7 +17,7 @@
 #ifndef FL_BELL_H
 #define FL_BELL_H
 
-#include "fl/term/Term.h"
+#include "fuzzylite/term/Term.h"
 
 namespace fl {
 

@@ -17,9 +17,9 @@
 #ifndef FL_TNORMFACTORY_H
 #define FL_TNORMFACTORY_H
 
-#include "fl/factory/ConstructionFactory.h"
+#include "fuzzylite/factory/ConstructionFactory.h"
 
-#include "fl/norm/TNorm.h"
+#include "fuzzylite/norm/TNorm.h"
 
 namespace fl {
 
