@@ -14,9 +14,9 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/defuzzifier/WeightedSumCustom.h"
+#include "fuzzylite/defuzzifier/WeightedSumCustom.h"
 
-#include "fl/term/Aggregated.h"
+#include "fuzzylite/term/Aggregated.h"
 
 #include <map>
 

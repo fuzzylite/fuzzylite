@@ -14,17 +14,17 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/factory/DefuzzifierFactory.h"
+#include "fuzzylite/factory/DefuzzifierFactory.h"
 
-#include "fl/defuzzifier/Bisector.h"
-#include "fl/defuzzifier/Centroid.h"
-#include "fl/defuzzifier/SmallestOfMaximum.h"
-#include "fl/defuzzifier/LargestOfMaximum.h"
-#include "fl/defuzzifier/MeanOfMaximum.h"
-#include "fl/defuzzifier/WeightedAverage.h"
-#include "fl/defuzzifier/WeightedAverageCustom.h"
-#include "fl/defuzzifier/WeightedSum.h"
-#include "fl/defuzzifier/WeightedSumCustom.h"
+#include "fuzzylite/defuzzifier/Bisector.h"
+#include "fuzzylite/defuzzifier/Centroid.h"
+#include "fuzzylite/defuzzifier/SmallestOfMaximum.h"
+#include "fuzzylite/defuzzifier/LargestOfMaximum.h"
+#include "fuzzylite/defuzzifier/MeanOfMaximum.h"
+#include "fuzzylite/defuzzifier/WeightedAverage.h"
+#include "fuzzylite/defuzzifier/WeightedAverageCustom.h"
+#include "fuzzylite/defuzzifier/WeightedSum.h"
+#include "fuzzylite/defuzzifier/WeightedSumCustom.h"
 
 namespace fl {
 

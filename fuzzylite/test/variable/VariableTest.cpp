@@ -15,7 +15,7 @@
  */
 
 #include "test/catch.hpp"
-#include "fl/Headers.h"
+#include "fuzzylite/Headers.h"
 
 #include <algorithm>    // std::random_shuffle
 

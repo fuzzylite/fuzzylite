@@ -14,9 +14,9 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/term/Linear.h"
+#include "fuzzylite/term/Linear.h"
 
-#include "fl/variable/InputVariable.h"
+#include "fuzzylite/variable/InputVariable.h"
 
 namespace fl {
 

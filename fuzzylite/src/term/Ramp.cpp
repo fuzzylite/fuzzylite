@@ -14,7 +14,7 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/term/Ramp.h"
+#include "fuzzylite/term/Ramp.h"
 
 namespace fl {
 

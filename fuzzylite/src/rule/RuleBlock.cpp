@@ -14,14 +14,14 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/rule/RuleBlock.h"
+#include "fuzzylite/rule/RuleBlock.h"
 
-#include "fl/activation/General.h"
-#include "fl/imex/FllExporter.h"
-#include "fl/norm/TNorm.h"
-#include "fl/norm/SNorm.h"
-#include "fl/rule/Rule.h"
-#include "fl/Operation.h"
+#include "fuzzylite/activation/General.h"
+#include "fuzzylite/imex/FllExporter.h"
+#include "fuzzylite/norm/TNorm.h"
+#include "fuzzylite/norm/SNorm.h"
+#include "fuzzylite/rule/Rule.h"
+#include "fuzzylite/Operation.h"
 
 namespace fl {
 

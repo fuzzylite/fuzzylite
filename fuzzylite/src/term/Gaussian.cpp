@@ -14,7 +14,7 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/term/Gaussian.h"
+#include "fuzzylite/term/Gaussian.h"
 
 namespace fl {
 

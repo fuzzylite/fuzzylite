@@ -14,17 +14,17 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/defuzzifier/WeightedDefuzzifier.h"
+#include "fuzzylite/defuzzifier/WeightedDefuzzifier.h"
 
-#include "fl/term/Activated.h"
-#include "fl/term/Concave.h"
-#include "fl/term/Constant.h"
-#include "fl/term/Function.h"
-#include "fl/term/Linear.h"
-#include "fl/term/Ramp.h"
-#include "fl/term/Sigmoid.h"
-#include "fl/term/SShape.h"
-#include "fl/term/ZShape.h"
+#include "fuzzylite/term/Activated.h"
+#include "fuzzylite/term/Concave.h"
+#include "fuzzylite/term/Constant.h"
+#include "fuzzylite/term/Function.h"
+#include "fuzzylite/term/Linear.h"
+#include "fuzzylite/term/Ramp.h"
+#include "fuzzylite/term/Sigmoid.h"
+#include "fuzzylite/term/SShape.h"
+#include "fuzzylite/term/ZShape.h"
 
 namespace fl {
 

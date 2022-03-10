@@ -14,7 +14,7 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/Exception.h"
+#include "fuzzylite/Exception.h"
 
 
 #ifdef FL_BACKTRACE

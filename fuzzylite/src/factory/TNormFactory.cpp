@@ -14,15 +14,15 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/factory/TNormFactory.h"
+#include "fuzzylite/factory/TNormFactory.h"
 
-#include "fl/norm/t/AlgebraicProduct.h"
-#include "fl/norm/t/BoundedDifference.h"
-#include "fl/norm/t/DrasticProduct.h"
-#include "fl/norm/t/EinsteinProduct.h"
-#include "fl/norm/t/HamacherProduct.h"
-#include "fl/norm/t/Minimum.h"
-#include "fl/norm/t/NilpotentMinimum.h"
+#include "fuzzylite/norm/t/AlgebraicProduct.h"
+#include "fuzzylite/norm/t/BoundedDifference.h"
+#include "fuzzylite/norm/t/DrasticProduct.h"
+#include "fuzzylite/norm/t/EinsteinProduct.h"
+#include "fuzzylite/norm/t/HamacherProduct.h"
+#include "fuzzylite/norm/t/Minimum.h"
+#include "fuzzylite/norm/t/NilpotentMinimum.h"
 
 namespace fl {
 
