@@ -6,10 +6,27 @@ on:
   push: 
     branches: [ "main" ]
   schedule: 
-    - cron: "0 0 1 * * "
+    - cron: "0 0 1 * *"
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        path: ["fuzzylite", "src", "test"]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run clang-format style check
+      uses: jidicula/clang-format-action@v4.5.0
+      with:
+        clang-format-version: '13'
+        check-path: ${{ matrix.path }}
+
+
   build:
+    needs: lint
     runs-on: ubuntu-latest
     
     strategy: 
