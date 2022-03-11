@@ -112,7 +112,7 @@ if [ ${#BUILD[@]} -eq 0 ]; then BUILD+=( "release" "debug" ); fi
 
 echo "Building schedule: ${BUILD[@]}"
 echo "Starting in 3 seconds..."
-# sleep 3
+sleep 3
 
 for option in "${BUILD[@]}"
 do
