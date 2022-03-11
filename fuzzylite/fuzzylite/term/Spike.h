@@ -33,10 +33,10 @@ namespace fl {
       @since 5.0
      */
     class FL_API Spike : public Term {
-       private:
+      private:
         scalar _center, _width;
 
-       public:
+      public:
         explicit Spike(const std::string& name = "",
                        scalar center = fl::nan,
                        scalar width = fl::nan,

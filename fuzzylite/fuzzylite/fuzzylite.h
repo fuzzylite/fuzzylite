@@ -227,14 +227,14 @@ namespace fl {
     class FL_API fuzzylite {
         friend class Operation;
 
-       private:
+      private:
         static int _decimals;
         static scalar _macheps;
         static std::ios_base::fmtflags _scalarFormat;
         static bool _logging;
         static bool _debugging;
 
-       public:
+      public:
         /**
          Returns the name of the `fuzzylite` library
          @return the name of the `fuzzylite` library
@@ -252,8 +252,10 @@ namespace fl {
         static std::string library();
 
         /**
-          Returns the license under which the `fuzzylite` library is released
-          @return the license under which the `fuzzylite` library is released
+          Returns the license under which the `fuzzylite` library is
+          released
+          @return the license under which the `fuzzylite` library is
+          released
          */
         static std::string license();
 
@@ -276,9 +278,10 @@ namespace fl {
         static std::string website();
 
         /**
-         Returns the number of decimals utilized when formatting scalar values
-         @return the number of decimals utilized when formatting scalar values
-         (default is 3)
+         Returns the number of decimals utilized when formatting scalar
+         values
+         @return the number of decimals utilized when formatting scalar
+         values (default is 3)
          */
         static int decimals();
 
@@ -300,32 +303,32 @@ namespace fl {
         /**
           Sets the minimum difference at which two floating-point values are
           considered equivalent
-          @param macheps is the minimum difference at which two floating-point
-          values are considered equivalent (default is 1e-6)
+          @param macheps is the minimum difference at which two
+          floating-point values are considered equivalent (default is 1e-6)
          */
         static void setMachEps(scalar macheps);
 
         /**
-          Sets the default format to be utilized for every fl::scalar passed to
-          Op::str()
-          @param scalarFormat is the format to be utilized for every fl::scalar
-          passed to Op::str()
+          Sets the default format to be utilized for every fl::scalar passed
+          to Op::str()
+          @param scalarFormat is the format to be utilized for every
+          fl::scalar passed to Op::str()
          */
         static void setScalarFormat(std::ios_base::fmtflags scalarFormat);
 
         /**
-          Gets the default format to be utilized for every fl::scalar passed to
-          Op::str()
+          Gets the default format to be utilized for every fl::scalar passed
+          to Op::str()
           @return the format to be utilized for every fl::scalar passed to
           Op::str()
          */
         static std::ios_base::fmtflags scalarFormat();
 
         /**
-          Returns whether the library is logging information via the `FL_LOG`
-          macro
-          @return whether the library is logging information via the `FL_LOG`
-          macro
+          Returns whether the library is logging information via the
+          `FL_LOG` macro
+          @return whether the library is logging information via the
+          `FL_LOG` macro
          */
         static bool isLogging();
 
@@ -339,15 +342,15 @@ namespace fl {
 
         /**
           Indicates whether the library is running in debug mode
-          @return `true` if the library is running in debug mode, and `false`
-          if it is running in release mode
+          @return `true` if the library is running in debug mode, and
+          `false` if it is running in release mode
          */
         static bool isDebugging();
 
         /**
           Sets whether the library is set to run in debug mode
-          @param debugging indicates whether the library is set to run in debug
-          mode
+          @param debugging indicates whether the library is set to run in
+          debug mode
          */
         static void setDebugging(bool debugging);
 

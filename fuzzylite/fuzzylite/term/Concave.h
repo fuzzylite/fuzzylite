@@ -33,10 +33,10 @@ namespace fl {
       @since 5.0
      */
     class FL_API Concave : public Term {
-       private:
+      private:
         scalar _inflection, _end;
 
-       public:
+      public:
         explicit Concave(const std::string& name = "",
                          scalar inflection = fl::nan,
                          scalar end = fl::nan,

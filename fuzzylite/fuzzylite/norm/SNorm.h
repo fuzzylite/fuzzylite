@@ -35,7 +35,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API SNorm : public Norm {
-       public:
+      public:
         SNorm() {}
 
         virtual ~SNorm() FL_IOVERRIDE {}

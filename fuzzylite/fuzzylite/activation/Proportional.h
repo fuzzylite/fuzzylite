@@ -34,7 +34,7 @@ namespace fl {
       @since 6.0
      */
     class FL_API Proportional : public Activation {
-       public:
+      public:
         Proportional();
         virtual ~Proportional();
         FL_DEFAULT_COPY_AND_MOVE(Proportional)

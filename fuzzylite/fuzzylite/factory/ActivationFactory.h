@@ -35,7 +35,7 @@ namespace fl {
       @since 6.0
      */
     class FL_API ActivationFactory : public ConstructionFactory<Activation*> {
-       public:
+      public:
         ActivationFactory();
         virtual ~ActivationFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(ActivationFactory)

@@ -48,12 +48,12 @@ namespace fl {
      */
 
     class FL_API Complexity {
-       private:
+      private:
         scalar _comparison;
         scalar _arithmetic;
         scalar _function;
 
-       public:
+      public:
         explicit Complexity(scalar all = 0.0);
         explicit Complexity(scalar comparison,
                             scalar arithmetic,
@@ -80,7 +80,8 @@ namespace fl {
 
         /**
          Increases the comparison measure by the given amount
-         @param comparison is the amount to increase the comparison measure by
+         @param comparison is the amount to increase the comparison measure
+         by
          @return the reference to the Complexity object with the updated
          comparison measure
          */
@@ -90,7 +91,8 @@ namespace fl {
 
         /**
          Increases the arithmetic measure by the given amount
-         @param arithmetic is the amount to increase the comparison measure by
+         @param arithmetic is the amount to increase the comparison measure
+         by
          @return the reference to the Complexity object with the updated
          arithmetic measure
          */
@@ -176,8 +178,8 @@ namespace fl {
         virtual bool equals(const Complexity& x,
                             scalar macheps = fuzzylite::macheps()) const;
         /**
-         Compares the complexity for strict inequality (less than) to another
-         with the given tolerance
+         Compares the complexity for strict inequality (less than) to
+         another with the given tolerance
          @param x is the complexity to compare against
          @param macheps is the tolerance to compare floating-point values
          @return `true` if every measure in this satisfies Op::isLt(this, x,
@@ -197,8 +199,8 @@ namespace fl {
                                         scalar macheps
                                         = fuzzylite::macheps()) const;
         /**
-         Compares the complexity for strict inequality (greater than) to another
-         with the given tolerance
+         Compares the complexity for strict inequality (greater than) to
+         another with the given tolerance
          @param x is the complexity to compare against
          @param macheps is the tolerance to compare floating-point values
          @return `true` if every measure in this satisfies Op::isGt(this, x,
@@ -207,8 +209,8 @@ namespace fl {
         virtual bool greaterThan(const Complexity& x,
                                  scalar macheps = fuzzylite::macheps()) const;
         /**
-         Compares the complexity for inequality (greater than or equal to) to
-         another with the given tolerance
+         Compares the complexity for inequality (greater than or equal to)
+         to another with the given tolerance
          @param x is the complexity to compare against
          @param macheps is the tolerance to compare floating-point values
          @return `true` if every measure in this satisfies Op::isGE(this, x,
@@ -237,11 +239,11 @@ namespace fl {
         virtual std::string toString() const;
 
         /**
-         Computes the complexity of the given engine as the sum of complexities
-         of the rule blocks
+         Computes the complexity of the given engine as the sum of
+         complexities of the rule blocks
          @param engine is the engine for which to compute the complexity
-         @return the complexity of the given engine as the sum of complexities
-         of the rule blocks
+         @return the complexity of the given engine as the sum of
+         complexities of the rule blocks
          */
         virtual Complexity compute(const Engine* engine) const;
 
@@ -254,8 +256,8 @@ namespace fl {
         virtual Complexity compute(const InputVariable* inputVariable) const;
         /**
          Computes the complexity of the given output variable
-         @param outputVariable is the output variable for which to compute the
-         complexity
+         @param outputVariable is the output variable for which to compute
+         the complexity
          @return the complexity of the given output variable
          */
         virtual Complexity compute(const OutputVariable* outputVariable) const;
@@ -270,8 +272,8 @@ namespace fl {
             const std::vector<InputVariable*>& inputVariables) const;
         /**
          Computes the complexity of the given output variables
-         @param outputVariables is the vector of output variables for which to
-         compute the complexity
+         @param outputVariables is the vector of output variables for which
+         to compute the complexity
          @param complexityOfDefuzzification indicates whether to compute the
          complexity of the variable including the defuzzification process
          @return the complexity of the given output variables
@@ -281,8 +283,8 @@ namespace fl {
             bool complexityOfDefuzzification = false) const;
         /**
          Computes the complexity of the given variables
-         @param variables is the vector of variables for which to compute the
-         complexity
+         @param variables is the vector of variables for which to compute
+         the complexity
          @return the complexity of the given variables
          */
         virtual Complexity compute(
@@ -290,15 +292,16 @@ namespace fl {
 
         /**
          Computes the complexity of the given rule block
-         @param ruleBlock is the rule block for which to compute the complexity
+         @param ruleBlock is the rule block for which to compute the
+         complexity
          @return the complexity of the given rule block
          */
         virtual Complexity compute(const RuleBlock* ruleBlock) const;
 
         /**
          Computes the complexity of the given rule blocks
-         @param ruleBlocks is the vector of rule blocks for which to compute the
-         complexity
+         @param ruleBlocks is the vector of rule blocks for which to compute
+         the complexity
          @return Computes the complexity of the given rule blocks
          */
         virtual Complexity compute(

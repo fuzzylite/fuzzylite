@@ -34,7 +34,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API SmallestOfMaximum : public IntegralDefuzzifier {
-       public:
+      public:
         explicit SmallestOfMaximum(int resolution = defaultResolution());
         virtual ~SmallestOfMaximum() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(SmallestOfMaximum)
@@ -44,10 +44,10 @@ namespace fl {
         virtual Complexity complexity(const Term* term) const FL_IOVERRIDE;
 
         /**
-          Computes the smallest value of the maximum membership function in the
-          fuzzy set. The smallest value is computed while integrating over the
-          fuzzy set. The integration algorithm is the midpoint rectangle method
-          (https://en.wikipedia.org/wiki/Rectangle_method).
+          Computes the smallest value of the maximum membership function in
+          the fuzzy set. The smallest value is computed while integrating
+          over the fuzzy set. The integration algorithm is the midpoint
+          rectangle method (https://en.wikipedia.org/wiki/Rectangle_method).
 
           @param term is the fuzzy set
           @param minimum is the minimum value of the fuzzy set

@@ -34,7 +34,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API LargestOfMaximum : public IntegralDefuzzifier {
-       public:
+      public:
         explicit LargestOfMaximum(int resolution = defaultResolution());
         virtual ~LargestOfMaximum() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(LargestOfMaximum)
@@ -46,8 +46,8 @@ namespace fl {
         /**
           Computes the largest value of the maximum membership function of a
           fuzzy set. The largest value is computed by integrating over the
-          fuzzy set. The integration algorithm is the midpoint rectangle method
-          (https://en.wikipedia.org/wiki/Rectangle_method).
+          fuzzy set. The integration algorithm is the midpoint rectangle
+          method (https://en.wikipedia.org/wiki/Rectangle_method).
 
           @param term is the fuzzy set
           @param minimum is the minimum value of the fuzzy set

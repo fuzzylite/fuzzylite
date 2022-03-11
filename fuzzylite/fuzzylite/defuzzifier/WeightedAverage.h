@@ -35,7 +35,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API WeightedAverage : public WeightedDefuzzifier {
-       public:
+      public:
         explicit WeightedAverage(Type type = Automatic);
         explicit WeightedAverage(const std::string& type);
         virtual ~WeightedAverage() FL_IOVERRIDE;
@@ -46,13 +46,13 @@ namespace fl {
         virtual Complexity complexity(const Term* term) const FL_IOVERRIDE;
 
         /**
-          Computes the weighted average of the given fuzzy set represented in
-          an Aggregated term as @f$y = \dfrac{\sum_i w_iz_i}{\sum_i w_i} @f$,
-          where @f$w_i@f$ is the activation degree of term @f$i@f$, and
+          Computes the weighted average of the given fuzzy set represented
+          in an Aggregated term as @f$y = \dfrac{\sum_i w_iz_i}{\sum_i w_i}
+          @f$, where @f$w_i@f$ is the activation degree of term @f$i@f$, and
           @f$z_i = \mu_i(w_i) @f$.
 
-          From version 6.0, the implication and aggregation operators are not
-          utilized for defuzzification.
+          From version 6.0, the implication and aggregation operators are
+          not utilized for defuzzification.
 
           @param term is the fuzzy set represented as an Aggregated Term
           @param minimum is the minimum value of the range (only used for

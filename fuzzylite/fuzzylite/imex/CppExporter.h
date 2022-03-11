@@ -41,11 +41,11 @@ namespace fl {
       @since 4.0
      */
     class FL_API CppExporter : public Exporter {
-       private:
+      private:
         bool _usingNamespace;
         bool _usingVariableNames;
 
-       public:
+      public:
         explicit CppExporter(bool usingNamespace = false,
                              bool usingVariableNames = true);
         virtual ~CppExporter() FL_IOVERRIDE;
@@ -65,7 +65,8 @@ namespace fl {
         /**
           Gets whether the fl namespace of the library is prepended to types
           (e.g., fl::Engine)
-          @return whether the fl namespace of the library is prepended to types
+          @return whether the fl namespace of the library is prepended to
+          types
          */
         virtual bool isUsingNamespace() const;
 
@@ -98,7 +99,8 @@ namespace fl {
           Returns a string representation of InputVariable in the `C++`
           programming language
           @param inputVariable is the input variable
-          @param engine is the engine in which the input variable is registered
+          @param engine is the engine in which the input variable is
+          registered
           @return a string representation of the input variable in the `C++`
           programming language
          */
@@ -108,9 +110,10 @@ namespace fl {
           Returns a string representation of the OutputVariable in the `C++`
           programming language
           @param outputVariable is the output variable
-          @param engine is the engine in which the output variable is registered
-          @return a string representation of the output variable in the `C++`
-          programming language
+          @param engine is the engine in which the output variable is
+          registered
+          @return a string representation of the output variable in the
+          `C++` programming language
          */
         virtual std::string toString(const OutputVariable* outputVariable,
                                      const Engine* engine) const;
@@ -126,11 +129,11 @@ namespace fl {
                                      const Engine* engine) const;
 
         /**
-          Returns a string representation of the Activation method in the `C++`
-          programming language
+          Returns a string representation of the Activation method in the
+          `C++` programming language
           @param activation is the activation method
-          @return a string representation of the activation method in the `C++`
-          programming language
+          @return a string representation of the activation method in the
+          `C++` programming language
          */
         virtual std::string toString(const Activation* activation) const;
 
@@ -144,27 +147,27 @@ namespace fl {
         virtual std::string toString(scalar value) const;
 
         /**
-          Returns a string representation of the Hedge in the `C++` programming
-          language
+          Returns a string representation of the Hedge in the `C++`
+          programming language
           @param hedge is the hedge
-          @return a string representation of the hedge in the `C++` programming
-          language
+          @return a string representation of the hedge in the `C++`
+          programming language
          */
         virtual std::string toString(const Hedge* hedge) const;
         /**
-          Returns a string representation of the Term in the `C++` programming
-          language
+          Returns a string representation of the Term in the `C++`
+          programming language
           @param term is the term
-          @return a string representation of the term in the `C++` programming
-          language
+          @return a string representation of the term in the `C++`
+          programming language
          */
         virtual std::string toString(const Term* term) const;
         /**
-          Returns a string representation of the Norm in the `C++` programming
-          language
+          Returns a string representation of the Norm in the `C++`
+          programming language
           @param norm is the norm
-          @return a string representation of the norm in the `C++` programming
-          language
+          @return a string representation of the norm in the `C++`
+          programming language
          */
         virtual std::string toString(const Norm* norm) const;
         /**

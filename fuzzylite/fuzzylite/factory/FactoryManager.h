@@ -45,7 +45,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API FactoryManager {
-       private:
+      private:
         FL_unique_ptr<TNormFactory> _tnorm;
         FL_unique_ptr<SNormFactory> _snorm;
         FL_unique_ptr<ActivationFactory> _activation;
@@ -54,7 +54,7 @@ namespace fl {
         FL_unique_ptr<HedgeFactory> _hedge;
         FL_unique_ptr<FunctionFactory> _function;
 
-       public:
+      public:
         FactoryManager();
         explicit FactoryManager(TNormFactory* tnorm,
                                 SNormFactory* snorm,

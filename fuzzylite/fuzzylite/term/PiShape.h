@@ -33,13 +33,13 @@ namespace fl {
       @since 4.0
      */
     class FL_API PiShape : public Term {
-       private:
+      private:
         scalar _bottomLeft;
         scalar _topLeft;
         scalar _topRight;
         scalar _bottomRight;
 
-       public:
+      public:
         explicit PiShape(const std::string& name = "",
                          scalar bottomLeft = fl::nan,
                          scalar topLeft = fl::nan,
@@ -70,11 +70,11 @@ namespace fl {
           0h & \mbox{if $x \leq b_l$}\cr
           2h \left((x - b_l) / (t_l-b_l)\right)^2 & \mbox{if $x \leq
           0.5(a+b)$}\cr h (1 - 2 \left((x - t_l) / (t_l-b_l)\right)^2) &
-          \mbox{if $ x < t_l$}\cr h & \mbox{if $x \leq t_r$}\cr h (1 - 2\left((x
-          - t_r) / (b_r - t_r)\right)^2) & \mbox{if $x \leq 0.5(t_r + b_r)$}\cr
-          2h \left((x - b_r) / (b_r-t_r)\right)^2 & \mbox{if $x < b_r$} \cr
-          0h & \mbox{otherwise}
-          \end{cases}@f$
+          \mbox{if $ x < t_l$}\cr h & \mbox{if $x \leq t_r$}\cr h (1 -
+          2\left((x
+          - t_r) / (b_r - t_r)\right)^2) & \mbox{if $x \leq 0.5(t_r +
+          b_r)$}\cr 2h \left((x - b_r) / (b_r-t_r)\right)^2 & \mbox{if $x <
+          b_r$} \cr 0h & \mbox{otherwise} \end{cases}@f$
 
           where @f$h@f$ is the height of the Term,
                 @f$b_l@f$ is the bottom left of the PiShape,

@@ -32,7 +32,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API TermFactory : public ConstructionFactory<Term*> {
-       public:
+      public:
         TermFactory();
         virtual ~TermFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(TermFactory)

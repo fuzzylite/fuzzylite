@@ -37,7 +37,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Hedge {
-       public:
+      public:
         Hedge() {}
 
         virtual ~Hedge() {}

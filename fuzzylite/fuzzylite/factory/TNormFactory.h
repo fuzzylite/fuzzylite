@@ -32,7 +32,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API TNormFactory : public ConstructionFactory<TNorm*> {
-       public:
+      public:
         TNormFactory();
         virtual ~TNormFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(TNormFactory)

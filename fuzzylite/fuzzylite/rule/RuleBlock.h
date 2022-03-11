@@ -43,7 +43,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API RuleBlock {
-       private:
+      private:
         bool _enabled;
         std::string _name;
         std::string _description;
@@ -55,7 +55,7 @@ namespace fl {
 
         void copyFrom(const RuleBlock& source);
 
-       public:
+      public:
         explicit RuleBlock(const std::string& name = "");
         RuleBlock(const RuleBlock& other);
         RuleBlock& operator=(const RuleBlock& other);
@@ -155,7 +155,8 @@ namespace fl {
         virtual void loadRules(const Engine* engine);
 
         /**
-          Unloads all the rules in the rule block and then loads each rule again
+          Unloads all the rules in the rule block and then loads each rule
+          again
           @param engine is the engine where this rule block is registered
          */
         virtual void reloadRules(const Engine* engine);
@@ -163,7 +164,7 @@ namespace fl {
         /**
           Returns a string representation of the rule block in the FuzzyLite
           Language
-          @return a string representation of the rule block in the  FuzzyLite
+          @return a string representation of the rule block in the FuzzyLite
           Language
          */
         virtual std::string toString() const;

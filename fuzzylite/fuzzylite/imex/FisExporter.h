@@ -41,12 +41,12 @@ namespace fl {
       @since 4.0
      */
     class FL_API FisExporter : public Exporter {
-       protected:
+      protected:
         virtual std::string translate(
             const std::vector<Proposition*>& propositions,
             const std::vector<Variable*> variables) const;
 
-       public:
+      public:
         FisExporter();
         virtual ~FisExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FisExporter)
@@ -114,12 +114,12 @@ namespace fl {
          */
         virtual std::string exportRules(const Engine* engine) const;
         /**
-          Returns a string representation for the Rule in the Fuzzy Inference
-          System format
+          Returns a string representation for the Rule in the Fuzzy
+          Inference System format
           @param rule is the rule
           @param engine is the engine in which the rule is registered
-          @return a string representation for the rule in the Fuzzy Inference
-          System format
+          @return a string representation for the rule in the Fuzzy
+          Inference System format
          */
         virtual std::string exportRule(const Rule* rule,
                                        const Engine* engine) const;

@@ -37,12 +37,12 @@ namespace fl {
       @since 4.0
      */
     class FL_API Linear : public Term {
-       private:
+      private:
         /**Contains the coefficients @f$c_i@f$ and the constant @f$k@f$*/
         std::vector<scalar> _coefficients;
         const Engine* _engine;
 
-       public:
+      public:
         explicit Linear(const std::string& name = "",
                         const std::vector<scalar>& coefficients
                         = std::vector<scalar>(),
@@ -67,8 +67,8 @@ namespace fl {
 
         /**
           Computes the linear function @f$f(x)=\sum_i c_iv_i +k@f$,
-          where @f$v_i@f$ is the value of the input variable @f$i@f$ registered
-          in the Linear::getEngine()
+          where @f$v_i@f$ is the value of the input variable @f$i@f$
+          registered in the Linear::getEngine()
           @param x is not utilized
           @return @f$\sum_i c_ix_i +k@f$
          */
@@ -127,23 +127,23 @@ namespace fl {
           ensuring:
 
           - the data type of each variadic arguments is the same, e.g.,
-            @f$(1.0, 2.0, 3.0)@f$ are all fl::scalar%s. You *need* to avoid the
-            case of @f$(1.0, 2, 3.0)@f$, where the second term will be
-            considered as an `int` (different from the others) and cause memory
-            issues due to the difference in size between an `int` and
+            @f$(1.0, 2.0, 3.0)@f$ are all fl::scalar%s. You *need* to avoid
+          the case of @f$(1.0, 2, 3.0)@f$, where the second term will be
+            considered as an `int` (different from the others) and cause
+          memory issues due to the difference in size between an `int` and
             `fl::scalar`; and
 
-          - the number of variadic arguments is exactly the same as the number
-            of input variables in the engine plus one in order to match the
-            size of the vector @f$\mathbf{c}^\star@f$
+          - the number of variadic arguments is exactly the same as the
+          number of input variables in the engine plus one in order to match
+          the size of the vector @f$\mathbf{c}^\star@f$
 
           @param name is the name of the term
           @param engine is the engine from which the vector @f$\mathbf{v}@f$
           will be obtained
           @param firstCoefficient is the coefficient for the first input
           variable, namely @f$c_1@f$
-          @param ... is a variadic number of coefficients whose type need to be
-          the same as the first coefficient
+          @param ... is a variadic number of coefficients whose type need to
+          be the same as the first coefficient
           @return a new Linear term with the given parameters
          */
         template <typename T>

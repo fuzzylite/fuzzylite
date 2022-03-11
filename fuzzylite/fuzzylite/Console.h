@@ -34,7 +34,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Console {
-       public:
+      public:
         /**
           A command-line option given by key, value and description
          */
@@ -75,22 +75,22 @@ namespace fl {
          */
         static Engine* mamdani();
         /**
-          Creates a new TakagiSugeno Engine based on the Approximation example
-          of @f$sin(x)/x@f$
-          @return a new TakagiSugeno Engine based on the Approximation example
-          of @f$sin(x)/x@f$
+          Creates a new TakagiSugeno Engine based on the Approximation
+          example of @f$sin(x)/x@f$
+          @return a new TakagiSugeno Engine based on the Approximation
+          example of @f$sin(x)/x@f$
          */
         static Engine* takagiSugeno();
 
         /**
-         Creates a new Hybrid Engine based on the Tipper example using Mamdani
-         and TakagiSugeno outputs.
-         @return a new Hybrid Engine based on the Tipper example using Mamdani
-         and TakagiSugeno outputs.
+         Creates a new Hybrid Engine based on the Tipper example using
+         Mamdani and TakagiSugeno outputs.
+         @return a new Hybrid Engine based on the Tipper example using
+         Mamdani and TakagiSugeno outputs.
          */
         static Engine* hybrid();
 
-       protected:
+      protected:
         virtual std::map<std::string, std::string> parse(int argc,
                                                          const char* argv[]);
         virtual void process(const std::map<std::string, std::string>& options);
@@ -120,8 +120,8 @@ namespace fl {
        @param fldFile is the file containing the dataset in FLD format
        @param runs is the number of runs to evaluate the benchmarks
        @param writer is the output where the results will be written to
-       @throws Exception if something goes wrong reading the files, importing
-       the engines or evaluating the benchmark
+       @throws Exception if something goes wrong reading the files,
+       importing the engines or evaluating the benchmark
          */
 
         virtual void benchmark(const std::string& fllFile,
@@ -132,24 +132,26 @@ namespace fl {
           Benchmarks the list of engines against the list of datasets, both
           described as absolute or relative paths
 
-          @param fllFileList is the file containing the list of paths of engines
-          in FLL format
+          @param fllFileList is the file containing the list of paths of
+          engines in FLL format
           @param fldFileList is the file containing the list of paths of
           datasets in FLD format
           @param runs is the number of runs to evaluate the benchmarks
           @param writer is the output where the results will be written to
-          @throws Exception if something goes wrong reading the files, importing
-          the engines or evaluating the benchmark
+          @throws Exception if something goes wrong reading the files,
+          importing the engines or evaluating the benchmark
          */
         virtual void benchmarks(const std::string& fllFileList,
                                 const std::string& fldFileList,
                                 int runs,
                                 std::ofstream* writer = fl::null) const;
 
-       public:
+      public:
         /**
-          Returns a string representation of the usage of the command-line tool
-          @return a string representation of the usage of the command-line tool
+          Returns a string representation of the usage of the command-line
+          tool
+          @return a string representation of the usage of the command-line
+          tool
          */
         virtual std::string usage();
 

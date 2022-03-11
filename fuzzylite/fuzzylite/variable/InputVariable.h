@@ -32,7 +32,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API InputVariable : public Variable {
-       public:
+      public:
         explicit InputVariable(const std::string& name = "",
                                scalar minimum = -fl::inf,
                                scalar maximum = fl::inf);
@@ -40,12 +40,14 @@ namespace fl {
         FL_DEFAULT_COPY_AND_MOVE(InputVariable)
 
         /**
-          Evaluates the membership function of the current input value @f$x@f$
-          for each term @f$i@f$, resulting in a fuzzy input value in the form
-          @f$\tilde{x}=\sum_i{\mu_i(x)/i}@f$. This is equivalent to a call to
-          Variable::fuzzify() passing @f$x@f$ as input value
+          Evaluates the membership function of the current input value
+          @f$x@f$ for each term @f$i@f$, resulting in a fuzzy input value in
+          the form
+          @f$\tilde{x}=\sum_i{\mu_i(x)/i}@f$. This is equivalent to a call
+          to Variable::fuzzify() passing @f$x@f$ as input value
 
-          @return the fuzzy input value expressed as @f$\sum_i{\mu_i(x)/i}@f$
+          @return the fuzzy input value expressed as
+          @f$\sum_i{\mu_i(x)/i}@f$
          */
         virtual std::string fuzzyInputValue() const;
 

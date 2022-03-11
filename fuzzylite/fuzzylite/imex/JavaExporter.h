@@ -43,10 +43,10 @@ namespace fl {
       @since 4.0
      */
     class FL_API JavaExporter : public Exporter {
-       private:
+      private:
         bool _usingVariableNames;
 
-       public:
+      public:
         explicit JavaExporter(bool usingVariableNames = true);
         virtual ~JavaExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(JavaExporter)
@@ -55,8 +55,8 @@ namespace fl {
 
         /**
          Sets whether variables are exported using their names
-         (e.g., `power.setValue(Double.NaN)`) instead of numbered identifiers
-         (e.g., `inputVariable1.setValue(Double.NaN)`)
+         (e.g., `power.setValue(Double.NaN)`) instead of numbered
+         identifiers (e.g., `inputVariable1.setValue(Double.NaN)`)
          @param usingVariableNames indicates whether variables are exported
          using their names
          */
@@ -64,8 +64,8 @@ namespace fl {
 
         /**
          Gets whether variables are exported using their names
-         (e.g., `power.setValue(Double.NaN)`) instead of numbered identifiers
-         (e.g., `inputVariable1.setValue(Double.NaN)`)
+         (e.g., `power.setValue(Double.NaN)`) instead of numbered
+         identifiers (e.g., `inputVariable1.setValue(Double.NaN)`)
          @return whether variables are exported using their names
          */
         virtual bool isUsingVariableNames() const;
@@ -75,7 +75,8 @@ namespace fl {
           Returns a string representation of the InputVariable in the Java
           programming language
           @param inputVariable is the input variable
-          @param engine is the engine in which the input variable is registered
+          @param engine is the engine in which the input variable is
+          registered
           @return a string representation of the input variable in the Java
           programming language
          */
@@ -85,7 +86,8 @@ namespace fl {
           Returns a string representation of the OutputVariable in the Java
           programming language
           @param outputVariable is the output variable
-          @param engine is the engine in which the output variable is registered
+          @param engine is the engine in which the output variable is
+          registered
           @return a string representation of the output variable in the Java
           programming language
          */
@@ -103,20 +105,20 @@ namespace fl {
                                      const Engine* engine) const;
 
         /**
-          Returns a string representation of the Term in the Java programming
-          language
+          Returns a string representation of the Term in the Java
+          programming language
           @param term is the term
-          @return a string representation of the term in the Java programming
-          language
+          @return a string representation of the term in the Java
+          programming language
          */
         virtual std::string toString(const Term* term) const;
 
         /**
-          Returns a string representation of the Activation method in the Java
-          programming language
+          Returns a string representation of the Activation method in the
+          Java programming language
           @param activation is the activation method
-          @return a string representation of the activation method in the Java
-          programming language
+          @return a string representation of the activation method in the
+          Java programming language
          */
         virtual std::string toString(const Activation* activation) const;
 
@@ -130,11 +132,11 @@ namespace fl {
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
 
         /**
-          Returns a string representation of the Norm in the Java programming
-          language
+          Returns a string representation of the Norm in the Java
+          programming language
           @param norm is the norm
-          @return a string representation of the norm in the Java programming
-          language
+          @return a string representation of the norm in the Java
+          programming language
          */
         virtual std::string toString(const Norm* norm) const;
 

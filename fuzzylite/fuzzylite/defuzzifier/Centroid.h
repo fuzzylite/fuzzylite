@@ -32,7 +32,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Centroid : public IntegralDefuzzifier {
-       public:
+      public:
         explicit Centroid(int resolution = defaultResolution());
         virtual ~Centroid() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Centroid)

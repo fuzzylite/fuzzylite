@@ -44,11 +44,11 @@ namespace fl {
       @since 4.0
      */
     class FL_API FllExporter : public Exporter {
-       private:
+      private:
         std::string _indent;
         std::string _separator;
 
-       public:
+      public:
         explicit FllExporter(const std::string& indent = "  ",
                              const std::string& separator = "\n");
         virtual ~FllExporter() FL_IOVERRIDE;
@@ -90,29 +90,29 @@ namespace fl {
         virtual std::string toString(
             const std::vector<Variable*>& variables) const;
         /**
-          Returns a string representation of the vector of input variables in
-          the FuzzyLite Language
+          Returns a string representation of the vector of input variables
+          in the FuzzyLite Language
           @param inputVariables is the vector of input variables
-          @return a string representation of the vector of input variables in
-          the FuzzyLite Language
+          @return a string representation of the vector of input variables
+          in the FuzzyLite Language
          */
         virtual std::string toString(
             const std::vector<InputVariable*>& inputVariables) const;
         /**
-          Returns a string representation of the vector of output variables in
-          the FuzzyLite Language
+          Returns a string representation of the vector of output variables
+          in the FuzzyLite Language
           @param outputVariables is a vector of output variables
-          @return a string representation of the vector of output variables in
-          the FuzzyLite Language
+          @return a string representation of the vector of output variables
+          in the FuzzyLite Language
          */
         virtual std::string toString(
             const std::vector<OutputVariable*>& outputVariables) const;
         /**
-          Returns a string representation of the vector of rule blocks in the
-          FuzzyLite Language
+          Returns a string representation of the vector of rule blocks in
+          the FuzzyLite Language
           @param ruleBlocks is the vector of rule blocks
-          @return a string representation of the vector of rule blocks in the
-          FuzzyLite Language
+          @return a string representation of the vector of rule blocks in
+          the FuzzyLite Language
          */
         virtual std::string toString(
             const std::vector<RuleBlock*>& ruleBlocks) const;
@@ -126,16 +126,16 @@ namespace fl {
          */
         virtual std::string toString(const Variable* variable) const;
         /**
-          Returns a string representation of the InputVariable in the FuzzyLite
-          Language
+          Returns a string representation of the InputVariable in the
+          FuzzyLite Language
           @param inputVariable is the input variable to export
-          @return a string representation of the input variable in the FuzzyLite
-          Language
+          @return a string representation of the input variable in the
+          FuzzyLite Language
          */
         virtual std::string toString(const InputVariable* inputVariable) const;
         /**
-          Returns a string representation of the OutputVariable in the FuzzyLite
-          Language
+          Returns a string representation of the OutputVariable in the
+          FuzzyLite Language
           @param outputVariable is the output variable
           @return a string representation of the output variable in the
           FuzzyLite Language
@@ -152,16 +152,20 @@ namespace fl {
          */
         virtual std::string toString(const RuleBlock* ruleBlock) const;
         /**
-          Returns a string representation of the Rule in the FuzzyLite Language
+          Returns a string representation of the Rule in the FuzzyLite
+          Language
           @param rule is the rule
-          @return a string representation of the rule in the FuzzyLite Language
+          @return a string representation of the rule in the FuzzyLite
+          Language
          */
         virtual std::string toString(const Rule* rule) const;
 
         /**
-          Returns a string representation of the Norm in the FuzzyLite Language
+          Returns a string representation of the Norm in the FuzzyLite
+          Language
           @param norm is the norm
-          @return a string representation of the norm in the FuzzyLite Language
+          @return a string representation of the norm in the FuzzyLite
+          Language
          */
         virtual std::string toString(const Norm* norm) const;
         /**
@@ -173,17 +177,19 @@ namespace fl {
          */
         virtual std::string toString(const Activation* activation) const;
         /**
-          Returns a string representation of the Defuzzifier in the FuzzyLite
-          Language
+          Returns a string representation of the Defuzzifier in the
+          FuzzyLite Language
           @param defuzzifier is the defuzzifier
-          @return a string representation of the defuzzifier in the FuzzyLite
-          Language
+          @return a string representation of the defuzzifier in the
+          FuzzyLite Language
          */
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
         /**
-          Returns a string representation of the Term in the FuzzyLite Language
+          Returns a string representation of the Term in the FuzzyLite
+          Language
           @param term is the term
-          @return a string representation of the term in the FuzzyLite Language
+          @return a string representation of the term in the FuzzyLite
+          Language
          */
         virtual std::string toString(const Term* term) const;
 

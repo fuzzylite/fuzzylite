@@ -38,7 +38,7 @@ namespace fl {
       @experimental
      */
     class FL_API WeightedSumCustom : public WeightedDefuzzifier {
-       public:
+      public:
         explicit WeightedSumCustom(Type type = Automatic);
         explicit WeightedSumCustom(const std::string& type);
         virtual ~WeightedSumCustom() FL_IOVERRIDE;
@@ -51,14 +51,15 @@ namespace fl {
         /**
           Computes the weighted sum of the given fuzzy set represented in an
           Aggregated Term as @f$y = \sum_i{w_iz_i} @f$,
-          where @f$w_i@f$ is the activation degree of term @f$i@f$, and @f$z_i
-          = \mu_i(w_i) @f$.
+          where @f$w_i@f$ is the activation degree of term @f$i@f$, and
+          @f$z_i = \mu_i(w_i) @f$.
 
-          If the implication and aggregation operators are set to fl::null (or
-          set to AlgebraicProduct and UnboundedSum, respectively), then the
-          operation of WeightedAverageCustom is the same as the WeightedAverage.
-          Otherwise, the implication and aggregation operators are utilized to
-          compute the multiplications and sums in @f$y@f$, respectively.
+          If the implication and aggregation operators are set to fl::null
+          (or set to AlgebraicProduct and UnboundedSum, respectively), then
+          the operation of WeightedAverageCustom is the same as the
+          WeightedAverage. Otherwise, the implication and aggregation
+          operators are utilized to compute the multiplications and sums in
+          @f$y@f$, respectively.
 
           @param term is the fuzzy set represented as an AggregatedTerm
           @param minimum is the minimum value of the range (only used for

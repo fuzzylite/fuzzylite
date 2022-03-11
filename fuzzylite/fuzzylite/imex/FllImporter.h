@@ -41,22 +41,24 @@ namespace fl {
       @todo parse methods returning respective instances from blocks of text
      */
     class FL_API FllImporter : public Importer {
-       private:
+      private:
         std::string _separator;
 
-       public:
+      public:
         explicit FllImporter(const std::string& separator = "\n");
         virtual ~FllImporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FllImporter)
 
         /**
-          Sets the separator of the language (default separator is a new line
+          Sets the separator of the language (default separator is a new
+          line
           '\n')
           @param separator is the separator of the language
          */
         virtual void setSeparator(const std::string& separator);
         /**
-          Gets the separator of the language (default separator is a new line
+          Gets the separator of the language (default separator is a new
+          line
           '\n')
           @return the separator of the language
          */
@@ -67,7 +69,7 @@ namespace fl {
 
         virtual FllImporter* clone() const FL_IOVERRIDE;
 
-       protected:
+      protected:
         virtual void process(const std::string& tag,
                              const std::string& block,
                              Engine* engine) const;

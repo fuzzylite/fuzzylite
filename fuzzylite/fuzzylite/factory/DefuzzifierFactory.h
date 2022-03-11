@@ -34,7 +34,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API DefuzzifierFactory : public ConstructionFactory<Defuzzifier*> {
-       public:
+      public:
         DefuzzifierFactory();
         virtual ~DefuzzifierFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(DefuzzifierFactory)

@@ -33,10 +33,10 @@ namespace fl {
       @since 4.0
      */
     class FL_API SShape : public Term {
-       private:
+      private:
         scalar _start, _end;
 
-       public:
+      public:
         explicit SShape(const std::string& name = "",
                         scalar start = fl::nan,
                         scalar end = fl::nan,
@@ -62,10 +62,9 @@ namespace fl {
           @param x
           @return @f$\begin{cases}
           0h & \mbox{if $x \leq s$} \cr
-          h(2 \left((x - s) / (e-s)\right)^2) & \mbox{if $x \leq 0.5(s+e)$}\cr
-          h(1 - 2\left((x - e) / (e-s)\right)^2) & \mbox{if $x < e$}\cr
-          1h & \mbox{otherwise}
-          \end{cases}@f$
+          h(2 \left((x - s) / (e-s)\right)^2) & \mbox{if $x \leq
+          0.5(s+e)$}\cr h(1 - 2\left((x - e) / (e-s)\right)^2) & \mbox{if $x
+          < e$}\cr 1h & \mbox{otherwise} \end{cases}@f$
 
           where @f$h@f$ is the height of the Term,
                 @f$s@f$ is the start of the SShape,

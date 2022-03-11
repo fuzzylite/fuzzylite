@@ -38,12 +38,12 @@ namespace fl {
       @since 6.0
      */
     class FL_API RScriptExporter : public Exporter {
-       private:
+      private:
         std::string _minimumColor;
         std::string _maximumColor;
         std::string _contourColor;
 
-       public:
+      public:
         RScriptExporter();
         virtual ~RScriptExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(RScriptExporter)
@@ -84,27 +84,27 @@ namespace fl {
         std::string getContourColor() const;
 
         /**
-         Returns an R script plotting multiple surfaces based on a data frame
-         generated with 1024 values in the scope of FldExporter::AllVariables
-         for the first two input variables.
+         Returns an R script plotting multiple surfaces based on a data
+         frame generated with 1024 values in the scope of
+         FldExporter::AllVariables for the first two input variables.
          @param engine is the engine to export
-         @return an R script plotting multiple surfaces for the first two input
-         variables in the engine.
+         @return an R script plotting multiple surfaces for the first two
+         input variables in the engine.
          */
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
 
         /**
-         Returns an R script plotting multiple surfaces based on a data frame
-         generated with the given number of values and scope for the two input
-         variables.
+         Returns an R script plotting multiple surfaces based on a data
+         frame generated with the given number of values and scope for the
+         two input variables.
          @param engine is the engine to export
          @param a is the first input variable
          @param b is the second input variable
          @param values is the number of values to evaluate the engine
          @param scope is the scope of the number of values to evaluate the
          engine
-         @param outputVariables are the output variables to create the surface
-         for
+         @param outputVariables are the output variables to create the
+         surface for
          @return an R script plotting multiple surfaces for the two input
          variables on the output variables.
          */
@@ -124,8 +124,8 @@ namespace fl {
          @param b is the second input variable
          @param reader is an input stream of data whose lines contain
          space-separated input values
-         @param outputVariables are the output variables to create the surface
-         for
+         @param outputVariables are the output variables to create the
+         surface for
          @return an R script plotting multiple surfaces for the two input
          variables on the output variables
          */
@@ -148,8 +148,8 @@ namespace fl {
 
         /**
          Creates an R script file plotting multiple surfaces based on a data
-         frame generated with the given number of values and scope for the two
-         input variables
+         frame generated with the given number of values and scope for the
+         two input variables
          @param filePath is the full path of the R script file
          @param engine is the engine to export
          @param a is the first input variable
@@ -157,8 +157,8 @@ namespace fl {
          @param values is the number of values to evaluate the engine
          @param scope is the scope of the number of values to evaluate the
          engine
-         @param outputVariables are the output variables to create the surface
-         for
+         @param outputVariables are the output variables to create the
+         surface for
          */
         virtual void toFile(
             const std::string& filePath,
@@ -170,16 +170,16 @@ namespace fl {
             const std::vector<OutputVariable*>& outputVariables) const;
 
         /**
-         Creates an R script file plotting multiple surfaces based on the input
-         stream of values for the two input variables.
+         Creates an R script file plotting multiple surfaces based on the
+         input stream of values for the two input variables.
          @param filePath is the full path of the R script file
          @param engine is the engine to export
          @param a is the first input variable
          @param b is the second input variable
          @param reader is an input stream of data whose lines contain
          space-separated input values
-         @param outputVariables are the output variables to create the surface
-         for
+         @param outputVariables are the output variables to create the
+         surface for
          */
         virtual void toFile(
             const std::string& filePath,
@@ -197,10 +197,11 @@ namespace fl {
          @param writer is the output where the engine will be written to
          @param a is the first input variable
          @param b is the second input variable
-         @param dataFramePath is the path where the data frame should be located
-         (the path will not be accessed, it will only be written to script)
-         @param outputVariables are the output variables to create the surface
-         for
+         @param dataFramePath is the path where the data frame should be
+         located (the path will not be accessed, it will only be written to
+         script)
+         @param outputVariables are the output variables to create the
+         surface for
          */
         virtual void writeScriptImportingDataFrame(
             const Engine* engine,
@@ -212,8 +213,8 @@ namespace fl {
 
         /**
          Writes an R script plotting multiple surfaces based on a data frame
-         generated with the given number of values and scope for the two input
-         variables on the output variables.
+         generated with the given number of values and scope for the two
+         input variables on the output variables.
          @param engine is the engine to export
          @param writer is the output where the engine will be written to
          @param a is the first input variable
@@ -221,8 +222,8 @@ namespace fl {
          @param values is the number of values to evaluate the engine
          @param scope is the scope of the number of values to evaluate the
          engine
-         @param outputVariables are the output variables to create the surface
-         for
+         @param outputVariables are the output variables to create the
+         surface for
          */
         virtual void writeScriptExportingDataFrame(
             Engine* engine,
@@ -235,16 +236,16 @@ namespace fl {
 
         /**
          Writes an R script plotting multiple surfaces based on a data frame
-         generated with the given number of values and scope for the two input
-         variables on the output variables.
+         generated with the given number of values and scope for the two
+         input variables on the output variables.
          @param engine is the engine to export
          @param writer is the output where the engine will be written to
          @param a is the first input variable
          @param b is the second input variable
          @param reader is an input stream of data whose lines contain
          space-separated input values
-         @param outputVariables are the output variables to create the surface
-         for
+         @param outputVariables are the output variables to create the
+         surface for
          */
         virtual void writeScriptExportingDataFrame(
             Engine* engine,
@@ -254,7 +255,7 @@ namespace fl {
             std::istream& reader,
             const std::vector<OutputVariable*>& outputVariables) const;
 
-       protected:
+      protected:
         /**
          Writes the header of the R script (e.g., import libraries)
          @param writer is the output where the header will be written to
@@ -264,13 +265,13 @@ namespace fl {
                                        const Engine* engine) const;
 
         /**
-         Writes the code to generate the surface plots for the input variables
-         on the output variables.
+         Writes the code to generate the surface plots for the input
+         variables on the output variables.
          @param writer is the output where the engine will be written to
          @param a is the first input variable
          @param b is the second input variable
-         @param outputVariables are the output variables to create the surface
-         for
+         @param outputVariables are the output variables to create the
+         surface for
          */
         virtual void writeScriptPlots(
             std::ostream& writer,

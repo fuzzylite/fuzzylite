@@ -32,7 +32,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Minimum FL_IFINAL : public TNorm {
-       public:
+      public:
         std::string className() const FL_IOVERRIDE;
 
         Complexity complexity() const FL_IOVERRIDE;

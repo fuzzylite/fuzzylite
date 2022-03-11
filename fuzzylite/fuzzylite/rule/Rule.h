@@ -62,7 +62,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Rule {
-       private:
+      private:
         bool _enabled;
         std::string _text;
         scalar _weight;
@@ -71,7 +71,7 @@ namespace fl {
         FL_unique_ptr<Antecedent> _antecedent;
         FL_unique_ptr<Consequent> _consequent;
 
-       public:
+      public:
         explicit Rule(const std::string& text = "", scalar weight = 1.0);
         Rule(const Rule& other);
         Rule& operator=(const Rule& other);
@@ -149,8 +149,8 @@ namespace fl {
         virtual scalar getActivationDegree() const;
 
         /**
-          Activates the rule by computing its activation degree using the given
-          conjunction and disjunction operators
+          Activates the rule by computing its activation degree using the
+          given conjunction and disjunction operators
           @param conjunction is the conjunction operator
           @param disjunction is the disjunction operator
           @return the activation degree of the rule
@@ -177,8 +177,10 @@ namespace fl {
         virtual bool isTriggered() const;
 
         /**
-          Returns a string representation of the rule in the FuzzyLite Language
-          @return a string representation of the rule in the FuzzyLite Language
+          Returns a string representation of the rule in the FuzzyLite
+          Language
+          @return a string representation of the rule in the FuzzyLite
+          Language
          */
         virtual std::string toString() const;
 
@@ -193,15 +195,15 @@ namespace fl {
         virtual void unload();
         /**
           Loads the rule with the text from Rule::getText(), and uses the
-          engine to identify and retrieve references to the input variables and
-          output variables as required
+          engine to identify and retrieve references to the input variables
+          and output variables as required
           @param engine is the engine from which the rule is part of
          */
         virtual void load(const Engine* engine);
         /**
-          Loads the rule with the given text, and uses the engine to identify
-          and retrieve references to the input variables and output variables
-          as required
+          Loads the rule with the given text, and uses the engine to
+          identify and retrieve references to the input variables and output
+          variables as required
 
           @param rule is the rule in text
           @param engine is the engine from which the rule is part of
@@ -271,12 +273,12 @@ namespace fl {
         }
 
         /**
-          Computes the estimated complexity of calculating the activation degree
-          of the rule
+          Computes the estimated complexity of calculating the activation
+          degree of the rule
           @param conjunction is the conjunction operator
           @param disjunction is the disjunction operator
-          @return the estimated complexity of calculating the activation degree
-          of the rule
+          @return the estimated complexity of calculating the activation
+          degree of the rule
          */
         virtual Complexity complexityOfActivation(
             const TNorm* conjunction, const SNorm* disjunction) const;

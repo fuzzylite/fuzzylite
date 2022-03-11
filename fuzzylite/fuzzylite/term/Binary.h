@@ -33,11 +33,11 @@ namespace fl {
       @since 6.0
      */
     class FL_API Binary : public Term {
-       private:
+      private:
         scalar _start;
         scalar _direction;
 
-       public:
+      public:
         /**
          Direction is an enumerator that indicates the direction of the
          edge.

@@ -33,12 +33,12 @@ namespace fl {
       @since 4.0
      */
     class FL_API Triangle : public Term {
-       private:
+      private:
         scalar _vertexA;
         scalar _vertexB;
         scalar _vertexC;
 
-       public:
+      public:
         explicit Triangle(const std::string& name = "",
                           scalar vertexA = fl::nan,
                           scalar vertexB = fl::nan,

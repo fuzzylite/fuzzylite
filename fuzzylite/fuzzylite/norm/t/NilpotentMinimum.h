@@ -33,7 +33,7 @@ namespace fl {
       @since 5.0
      */
     class FL_API NilpotentMinimum FL_IFINAL : public TNorm {
-       public:
+      public:
         std::string className() const FL_IOVERRIDE;
 
         Complexity complexity() const FL_IOVERRIDE;

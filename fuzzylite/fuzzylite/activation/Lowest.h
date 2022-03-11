@@ -34,10 +34,10 @@ namespace fl {
       @since 6.0
      */
     class FL_API Lowest : public Activation {
-       private:
+      private:
         int _numberOfRules;
 
-       public:
+      public:
         explicit Lowest(int numberOfRules = 1);
         virtual ~Lowest();
         FL_DEFAULT_COPY_AND_MOVE(Lowest)
@@ -51,7 +51,8 @@ namespace fl {
         virtual std::string parameters() const FL_IOVERRIDE;
 
         /**
-          Configures the activation method with the number of rules to activate
+          Configures the activation method with the number of rules to
+          activate
           @param parameters contains the number of rules to activate
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
@@ -72,8 +73,8 @@ namespace fl {
             FL_IOVERRIDE;
 
         /**
-          Activates the rules with the lowest activation degrees in the given
-          rule block
+          Activates the rules with the lowest activation degrees in the
+          given rule block
           @param ruleBlock is the rule block to activate
          */
         virtual void activate(RuleBlock* ruleBlock) FL_IOVERRIDE;

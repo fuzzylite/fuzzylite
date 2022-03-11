@@ -36,11 +36,11 @@ namespace fl {
      */
 
     class FL_API Last : public Activation {
-       private:
+      private:
         int _numberOfRules;
         scalar _threshold;
 
-       public:
+      public:
         explicit Last(int numberOfRules = 1, scalar threshold = 0.0);
         virtual ~Last();
         FL_DEFAULT_COPY_AND_MOVE(Last)
@@ -48,21 +48,23 @@ namespace fl {
         virtual std::string className() const FL_IOVERRIDE;
 
         /**
-         Returns the number of rules and the threshold of the activation method
+         Returns the number of rules and the threshold of the activation
+         method
          @return "numberOfRules threshold"
          */
         virtual std::string parameters() const FL_IOVERRIDE;
 
         /**
-          Configures the activation method with the given number of rules and
-          threshold
+          Configures the activation method with the given number of rules
+          and threshold
           @param parameters as "numberOfRules threshold"
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
         /**
         Sets the number of rules for the activation degree
-        @param numberOfRules is the number of rules for the activation degree
+        @param numberOfRules is the number of rules for the activation
+        degree
          */
         virtual void setNumberOfRules(int numberOfRules);
 
@@ -87,9 +89,9 @@ namespace fl {
             FL_IOVERRIDE;
 
         /**
-          Activates the last @f$n@f$ rules whose activation degrees are greater
-          than the given threshold. The rules are iterated in the reverse order
-          that the rules were added to the rule block.
+          Activates the last @f$n@f$ rules whose activation degrees are
+          greater than the given threshold. The rules are iterated in the
+          reverse order that the rules were added to the rule block.
           @param ruleBlock is the rule block to activate
          */
         virtual void activate(RuleBlock* ruleBlock) FL_IOVERRIDE;

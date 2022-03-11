@@ -37,13 +37,13 @@ namespace fl {
       @since 4.0
      */
     class FL_API Variable {
-       public:
+      public:
         /**
          Indicates the type of the variable to avoid costly `dynamic_casts`
          */
         enum Type { None, Input, Output };
 
-       protected:
+      protected:
         std::string _name;
         std::string _description;
         std::vector<Term*> _terms;
@@ -52,10 +52,10 @@ namespace fl {
         bool _enabled;
         bool _lockValueInRange;
 
-       private:
+      private:
         void copyFrom(const Variable& source);
 
-       public:
+      public:
         explicit Variable(const std::string& name = "",
                           scalar minimum = -fl::inf,
                           scalar maximum = fl::inf);
@@ -97,8 +97,8 @@ namespace fl {
 
         /**
           Gets the value of the variable
-          @return the input value of an InputVariable, or the output value of
-          an OutputVariable
+          @return the input value of an InputVariable, or the output value
+          of an OutputVariable
          */
         virtual scalar getValue() const;
 
@@ -148,18 +148,21 @@ namespace fl {
         virtual bool isEnabled() const;
 
         /**
-          Sets whether the variable locks the current value to the range of the
-          variable.
+          Sets whether the variable locks the current value to the range of
+          the variable.
 
           If enabled in an InputVariable @f$i@f$, the input value @f$x_i@f$
           will be used when computing the Antecedent::activationDegree() as
-          long as @f$x_i \in [\mbox{min}, \mbox{max}]@f$. Else, for the case of
-          @f$x_i \not\in [\mbox{min}, \mbox{max}]@f$, the range values will be
-          used instead but without changing the input value @f$x_i@f$.
+          long as @f$x_i \in [\mbox{min}, \mbox{max}]@f$. Else, for the case
+          of
+          @f$x_i \not\in [\mbox{min}, \mbox{max}]@f$, the range values will
+          be used instead but without changing the input value @f$x_i@f$.
 
-          If enabled in an OutputVariable @f$j@f$, the output value @f$y_j@f$
-          will be overriden by the range values when @f$y_j \not\in
-          [\mbox{min}, \mbox{max}]@f$. See OutputVariable for more information.
+          If enabled in an OutputVariable @f$j@f$, the output value
+          @f$y_j@f$ will be overriden by the range values when @f$y_j
+          \not\in
+          [\mbox{min}, \mbox{max}]@f$. See OutputVariable for more
+          information.
 
           @param lockValueInRange indicates whether to lock the value to the
           range of the variable
@@ -172,16 +175,19 @@ namespace fl {
 
           If enabled in an InputVariable @f$i@f$, the input value @f$x_i@f$
           will be used when computing the Antecedent::activationDegree() as
-          long as @f$x_i \in [\mbox{min}, \mbox{max}]@f$. Else, for the case of
-          @f$x_i \not\in [\mbox{min}, \mbox{max}]@f$, the range values will be
-          used instead but without changing the input value @f$x_i@f$.
+          long as @f$x_i \in [\mbox{min}, \mbox{max}]@f$. Else, for the case
+          of
+          @f$x_i \not\in [\mbox{min}, \mbox{max}]@f$, the range values will
+          be used instead but without changing the input value @f$x_i@f$.
 
-          If enabled in an OutputVariable @f$j@f$, the output value @f$y_j@f$
-          will be overriden by the range values when @f$y_j \not\in
-          [\mbox{min}, \mbox{max}]@f$. See OutputVariable for more information.
+          If enabled in an OutputVariable @f$j@f$, the output value
+          @f$y_j@f$ will be overriden by the range values when @f$y_j
+          \not\in
+          [\mbox{min}, \mbox{max}]@f$. See OutputVariable for more
+          information.
 
-          @return whether the variable locks the current value to the range of
-          the variable
+          @return whether the variable locks the current value to the range
+          of the variable
          */
         virtual bool isLockValueInRange() const;
 
@@ -218,7 +224,8 @@ namespace fl {
         virtual Type type() const;
 
         /**
-          Gets a string representation of the variable in the FuzzyLite Language
+          Gets a string representation of the variable in the FuzzyLite
+          Language
           @return a string representation of the variable in the FuzzyLite
           Language
           @see FllExporter

@@ -33,13 +33,13 @@ namespace fl {
       @since 4.0
      */
     class FL_API SigmoidDifference : public Term {
-       private:
+      private:
         scalar _left;
         scalar _rising;
         scalar _falling;
         scalar _right;
 
-       public:
+      public:
         explicit SigmoidDifference(const std::string& name = "",
                                    scalar left = fl::nan,
                                    scalar rising = fl::nan,
@@ -80,7 +80,8 @@ namespace fl {
 
         /**
           Sets the inflection of the left sigmoidal curve
-          @param leftInflection is the inflection of the left sigmoidal curve
+          @param leftInflection is the inflection of the left sigmoidal
+          curve
          */
         virtual void setLeft(scalar leftInflection);
         /**
@@ -113,7 +114,8 @@ namespace fl {
 
         /**
           Sets the inflection of the right sigmoidal curve
-          @param rightInflection is the inflection of the right sigmoidal curve
+          @param rightInflection is the inflection of the right sigmoidal
+          curve
          */
         virtual void setRight(scalar rightInflection);
         /**

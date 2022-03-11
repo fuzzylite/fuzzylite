@@ -46,7 +46,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Engine {
-       private:
+      private:
         std::string _name;
         std::string _description;
         std::vector<InputVariable*> _inputVariables;
@@ -55,10 +55,10 @@ namespace fl {
 
         void copyFrom(const Engine& source);
 
-       protected:
+      protected:
         void updateReferences() const;
 
-       public:
+      public:
         explicit Engine(const std::string& name = "");
         Engine(const Engine& other);
         Engine& operator=(const Engine& other);
@@ -87,18 +87,19 @@ namespace fl {
           Configures the engine with clones of the given object operators,
           taking ownership of the objects.
 
-          @param conjunction is the operator to process the propositions joined
-          by `and` in the antecedent of the rules
+          @param conjunction is the operator to process the propositions
+          joined by `and` in the antecedent of the rules
           @param disjunction is the operator to process the propositions
           joined by `or` in the antecedent of the rules
-          @param implication is the operator to modify the consequents of the
-          rules based on the activation degree of the antecedents of the rules
+          @param implication is the operator to modify the consequents of
+          the rules based on the activation degree of the antecedents of the
+          rules
           @param aggregation is the operator to aggregate the resulting
           implications of the rules
           @param defuzzifier is the operator to transform the aggregated
           implications into a single scalar value
-          @param activation is the activation method to activate and fire the
-          rule blocks
+          @param activation is the activation method to activate and fire
+          the rule blocks
          */
         virtual void configure(TNorm* conjunction,
                                SNorm* disjunction,
@@ -110,11 +111,11 @@ namespace fl {
         /**
           Indicates whether the engine has been configured correctly and is
           ready for operation. In more advanced engines, the result of this
-          method should be taken as a suggestion and not as a prerequisite to
-          operate the engine.
+          method should be taken as a suggestion and not as a prerequisite
+          to operate the engine.
 
-          @param status (if not null) contains the configuration errors of the
-          engine
+          @param status (if not null) contains the configuration errors of
+          the engine
           @return whether the engine is ready to operate
          */
         virtual bool isReady(std::string* status = fl::null) const;
@@ -125,9 +126,9 @@ namespace fl {
          */
         virtual Complexity complexity() const;
         /**
-          Processes the engine in its current state as follows: (a) Clears the
-          aggregated fuzzy output variables, (b) Activates the rule blocks, and
-          (c) Defuzzifies the output variables
+          Processes the engine in its current state as follows: (a) Clears
+          the aggregated fuzzy output variables, (b) Activates the rule
+          blocks, and (c) Defuzzifies the output variables
           @see Aggregated::clear()
           @see RuleBlock::activate()
           @see OutputVariable::defuzzify()
@@ -135,8 +136,8 @@ namespace fl {
         virtual void process();
 
         /**
-          Restarts the engine by setting the values of the input variables to
-          fl::nan and clearing the output variables
+          Restarts the engine by setting the values of the input variables
+          to fl::nan and clearing the output variables
           @see Variable::setValue()
           @see OutputVariable::clear()
          */
@@ -192,22 +193,23 @@ namespace fl {
         virtual std::string toString() const;
 
         enum Type {
-            /**Mamdani: When the output variables have IntegralDefuzzifier%s*/
+            /**Mamdani: When the output variables have
+               IntegralDefuzzifier%s*/
             Mamdani,
             /**Larsen: When Mamdani and AlgebraicProduct is the implication
             operator of the rule blocks */
             Larsen,
-            /**TakagiSugeno: When output variables have WeightedDefuzzifier%s of
-            type TakagiSugeno and the output variables have Constant, Linear, or
-            Function terms*/
+            /**TakagiSugeno: When output variables have
+            WeightedDefuzzifier%s of type TakagiSugeno and the output
+            variables have Constant, Linear, or Function terms*/
             TakagiSugeno,
-            /**Tsukamoto: When output variables have WeightedDefuzzifier%s of
-            type Tsukamoto and the output variables only have monotonic terms
-            (Concave, Ramp, Sigmoid, SShape, and ZShape)*/
+            /**Tsukamoto: When output variables have WeightedDefuzzifier%s
+            of type Tsukamoto and the output variables only have monotonic
+            terms (Concave, Ramp, Sigmoid, SShape, and ZShape)*/
             Tsukamoto,
             /**InverseTsukamoto: When output variables have
-            WeightedDefuzzifier%s of type TakagiSugeno and the output variables
-            do not only have Constant, Linear or Function terms*/
+            WeightedDefuzzifier%s of type TakagiSugeno and the output
+            variables do not only have Constant, Linear or Function terms*/
             InverseTsukamoto,
             /**Hybrid: When output variables have different defuzzifiers*/
             Hybrid,
@@ -217,10 +219,11 @@ namespace fl {
         /**
           Infers the type of the engine based on its current configuration
 
-          @param name stores a string representation of the engine type (if the
-          pointer passed is not `fl::null`)
-          @param reason stores a string representation explaining the reasons
-          for the inferred type (if the pointer passed is not `fl::null`)
+          @param name stores a string representation of the engine type (if
+          the pointer passed is not `fl::null`)
+          @param reason stores a string representation explaining the
+          reasons for the inferred type (if the pointer passed is not
+          `fl::null`)
           @return the inferred type of the engine based on its current
           configuration
          */
@@ -250,7 +253,8 @@ namespace fl {
         /**
           Sets the input variable at the given index
           @param inputVariable is the input variable to set
-          @param index is the index at which the input variable is to be stored
+          @param index is the index at which the input variable is to be
+          stored
           @return the input variable previously stored at the given index
          */
         virtual InputVariable* setInputVariable(InputVariable* inputVariable,
@@ -271,35 +275,37 @@ namespace fl {
          */
         virtual InputVariable* getInputVariable(std::size_t index) const;
         /**
-          Gets the input variable of the given name after iterating the input
-          variables. The cost of this method is O(n), where n is the number of
-          input variables in the engine. For performance, please get the
-          variables by index.
+          Gets the input variable of the given name after iterating the
+          input variables. The cost of this method is O(n), where n is the
+          number of input variables in the engine. For performance, please
+          get the variables by index.
           @param name is the name of the input variable
           @return input variable of the given name
           @throws fl::Exception if there is no variable with the given name
          */
         virtual InputVariable* getInputVariable(const std::string& name) const;
         /**
-          Removes the input variable at the given index (without deleting it)
-          and shifts the remaining input variables one position to the left
+          Removes the input variable at the given index (without deleting
+          it) and shifts the remaining input variables one position to the
+          left
           @param index is the given index
           @return the input variable at the given index
          */
         virtual InputVariable* removeInputVariable(std::size_t index);
         /**
-          Removes the input variable of the given name (without deleting it) and
-          shifts the remaining input variables one position to the left
+          Removes the input variable of the given name (without deleting it)
+          and shifts the remaining input variables one position to the left
           @param name is the name of the input variable
           @return the input variable of the given name
           @throws fl::Exception if there is no variable with the given name
          */
         virtual InputVariable* removeInputVariable(const std::string& name);
         /**
-          Indicates whether an input variable of the given name is in the input
-          variables
+          Indicates whether an input variable of the given name is in the
+          input variables
           @param name is the name of the input variable
-          @return whether an input variable is registered with the given name
+          @return whether an input variable is registered with the given
+          name
          */
         virtual bool hasInputVariable(const std::string& name) const;
         /**
@@ -332,7 +338,8 @@ namespace fl {
         /**
           Sets the output variable at the given index
           @param outputVariable is the output variable to set
-          @param index is the index at which the output variable is to be stored
+          @param index is the index at which the output variable is to be
+          stored
           @return the output variable previously stored at the given index
          */
         virtual OutputVariable* setOutputVariable(
@@ -353,10 +360,10 @@ namespace fl {
          */
         virtual OutputVariable* getOutputVariable(std::size_t index) const;
         /**
-          Gets the output variable of the given name after iterating the output
-          variables. The cost of this method is O(n), where n is the number of
-          output variables in the engine. For performance, please get the
-          variables by index.
+          Gets the output variable of the given name after iterating the
+          output variables. The cost of this method is O(n), where n is the
+          number of output variables in the engine. For performance, please
+          get the variables by index.
           @param name is the name of the output variable
           @return output variable of the given name
           @throws fl::Exception if there is no variable with the given name
@@ -368,19 +375,22 @@ namespace fl {
           Indicates whether an output variable of the given name is in the
           output variables
           @param name is the name of the output variable
-          @return whether an output variable is registered with the given name
+          @return whether an output variable is registered with the given
+          name
          */
         virtual bool hasOutputVariable(const std::string& name) const;
         /**
-          Removes the output variable at the given index (without deleting it)
-          and shifts the remaining output variables one position to the left
+          Removes the output variable at the given index (without deleting
+          it) and shifts the remaining output variables one position to the
+          left
           @param index is the given index
           @return the output variable at the given index
          */
         virtual OutputVariable* removeOutputVariable(std::size_t index);
         /**
-          Removes the output variable of the given name (without deleting it)
-          and shifts the remaining output variables one position to the left
+          Removes the output variable of the given name (without deleting
+          it) and shifts the remaining output variables one position to the
+          left
           @param name is the name of the output variable
           @return the output variable of the given name
           @throws fl::Exception if there is no variable with the given name
@@ -422,10 +432,11 @@ namespace fl {
         virtual RuleBlock* setRuleBlock(RuleBlock* ruleBlock,
                                         std::size_t index);
         /**
-          Inserts the rule block at the given index, shifting other blocks one
-          position to the right
+          Inserts the rule block at the given index, shifting other blocks
+          one position to the right
           @param ruleBlock is the rule block to insert
-          @param index is the index at which the rule block is to be inserted
+          @param index is the index at which the rule block is to be
+          inserted
          */
         virtual void insertRuleBlock(RuleBlock* ruleBlock, std::size_t index);
         /**
@@ -435,10 +446,10 @@ namespace fl {
          */
         virtual RuleBlock* getRuleBlock(std::size_t index) const;
         /**
-          Gets the rule block of the given name after iterating the rule blocks.
-          The cost of this method is O(n), where n is the number of
-          rule blocks in the engine. For performance, please get the rule blocks
-          by index.
+          Gets the rule block of the given name after iterating the rule
+          blocks. The cost of this method is O(n), where n is the number of
+          rule blocks in the engine. For performance, please get the rule
+          blocks by index.
           @param name is the name of the rule block
           @return rule block of the given name
           @throws fl::Exception if there is no block with the given name
@@ -448,13 +459,14 @@ namespace fl {
           Indicates whether an rule block of the given name is in the rule
           blocks
           @param name is the name of the rule block
-          @return whether an rule block of the given name is in the rule blocks
+          @return whether an rule block of the given name is in the rule
+          blocks
 
          */
         virtual bool hasRuleBlock(const std::string& name) const;
         /**
-          Removes the rule block at the given index (without deleting it) and
-          shifts the remaining rule blocks one position to the left
+          Removes the rule block at the given index (without deleting it)
+          and shifts the remaining rule blocks one position to the left
           @param index is the given index
           @return the rule block at the given index
          */
@@ -464,7 +476,8 @@ namespace fl {
           shifts the remaining rule blocks one position to the left
           @param name is the name of the rule block
           @return the rule block of the given name
-          @throws fl::Exception if there is no rule block with the given name
+          @throws fl::Exception if there is no rule block with the given
+          name
          */
         virtual RuleBlock* removeRuleBlock(const std::string& name);
         /**

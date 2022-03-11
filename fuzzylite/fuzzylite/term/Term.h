@@ -52,13 +52,13 @@ namespace fl {
       @since 4.0
      */
     class FL_API Term {
-       private:
+      private:
         std::string _name;
 
-       protected:
+      protected:
         scalar _height;
 
-       public:
+      public:
         explicit Term(const std::string& name = "", scalar height = 1.0);
         virtual ~Term();
         FL_DEFAULT_COPY_AND_MOVE(Term)
@@ -102,7 +102,8 @@ namespace fl {
           separated by spaces. If there is one additional parameter, the
           parameter will be considered as the height of the term; otherwise,
           the height will be set to @f$1.0@f$
-          @return the parameters to configure the term (@see Term::configure())
+          @return the parameters to configure the term (@see
+          Term::configure())
          */
         virtual std::string parameters() const = 0;
         /**
@@ -115,8 +116,10 @@ namespace fl {
         virtual void configure(const std::string& parameters) = 0;
 
         /**
-         Computes the estimated complexity of evaluating the membership function
-         @return the estimated complexity of evaluating the membership function
+         Computes the estimated complexity of evaluating the membership
+         function
+         @return the estimated complexity of evaluating the membership
+         function
          */
         virtual Complexity complexity() const = 0;
 
@@ -134,18 +137,19 @@ namespace fl {
         virtual Term* clone() const = 0;
 
         /**
-          Updates the references (if any) to point to the current engine (useful
-          when cloning engines or creating terms within Importer objects
+          Updates the references (if any) to point to the current engine
+          (useful when cloning engines or creating terms within Importer
+          objects
           @param engine is the engine to which this term belongs to
          */
         virtual void updateReference(const Engine* engine);
 
         /**
-          For monotonic terms, computes the tsukamoto value of the term for the
-          given activation degree @f$\alpha@f$, that is,
-          @f$ g_j(\alpha) = \{ z \in\mathbb{R} : \mu_j(z) = \alpha \} $@f. If
-          the term is not monotonic (or does not override this method) the
-          method computes the membership function @f$\mu(\alpha)@f$.
+          For monotonic terms, computes the tsukamoto value of the term for
+          the given activation degree @f$\alpha@f$, that is,
+          @f$ g_j(\alpha) = \{ z \in\mathbb{R} : \mu_j(z) = \alpha \} $@f.
+          If the term is not monotonic (or does not override this method)
+          the method computes the membership function @f$\mu(\alpha)@f$.
           @param activationDegree is the activationDegree
           @param minimum is the minimum value of the range of the term
           @param maximum is the maximum value of the range of the term

@@ -34,10 +34,10 @@ namespace fl {
      */
 
     class FL_API Cosine : public Term {
-       private:
+      private:
         scalar _center, _width;
 
-       public:
+      public:
         explicit Cosine(const std::string& name = "",
                         scalar center = fl::nan,
                         scalar width = fl::nan,

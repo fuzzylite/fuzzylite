@@ -35,14 +35,15 @@ namespace fl {
       @since 4.0
      */
     class FL_API Importer {
-       public:
+      public:
         Importer();
         virtual ~Importer();
         FL_DEFAULT_COPY_AND_MOVE(Importer)
 
         /**
           Imports the engine from the given text
-          @param text is the string representation of the engine to import from
+          @param text is the string representation of the engine to import
+          from
           @return the engine represented by the text
          */
         virtual Engine* fromString(const std::string& text) const = 0;

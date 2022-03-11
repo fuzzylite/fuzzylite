@@ -81,7 +81,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API OutputVariable : public Variable {
-       private:
+      private:
         FL_unique_ptr<Aggregated> _fuzzyOutput;
         FL_unique_ptr<Defuzzifier> _defuzzifier;
         scalar _previousValue;
@@ -90,7 +90,7 @@ namespace fl {
 
         void copyFrom(const OutputVariable& other);
 
-       public:
+      public:
         explicit OutputVariable(const std::string& name = "",
                                 scalar minimum = -fl::inf,
                                 scalar maximum = fl::inf);
@@ -158,51 +158,52 @@ namespace fl {
 
         /**
           Sets whether to lock the previous value of the output variable
-          @param lockPreviousValue indicates whether to lock the previous value
-          of the output variable
+          @param lockPreviousValue indicates whether to lock the previous
+          value of the output variable
          */
         virtual void setLockPreviousValue(bool lockPreviousValue);
         /**
           Gets whether to lock the previous value of the output variable
-          @return whether the previous output value of the output variable is
-          locked
+          @return whether the previous output value of the output variable
+          is locked
          */
         virtual bool isLockPreviousValue() const;
 
         using Variable::complexity;
         /**
-          Computes the estimated complexity of defuzzifying the activated term
-          with the current configuration of the variable (namely aggregation and
-          defuzzifier
+          Computes the estimated complexity of defuzzifying the activated
+          term with the current configuration of the variable (namely
+          aggregation and defuzzifier
           @param term is the activated term
-          @return the estimated complexity of defuzzifying the activated term
-          with the current configuration of the variable
+          @return the estimated complexity of defuzzifying the activated
+          term with the current configuration of the variable
          */
         virtual Complexity complexity(const Activated& term) const;
         /**
-          Computes the estimated complexity of aggregating and defuzzifying all
-          the terms in the variable.
-          @return the estimated complexity of aggregating and defuzzifying all
-          the terms in the variable.
+          Computes the estimated complexity of aggregating and defuzzifying
+          all the terms in the variable.
+          @return the estimated complexity of aggregating and defuzzifying
+          all the terms in the variable.
          */
         virtual Complexity complexityOfDefuzzification() const;
 
         /**
-          Computes the estimated complexity of aggregating and defuzzifying the
-          terms currently found in the fuzzy output variable.
-          @return the estimated complexity of aggregating and defuzzifying the
-          terms currently found in the fuzzy output variable
+          Computes the estimated complexity of aggregating and defuzzifying
+          the terms currently found in the fuzzy output variable.
+          @return the estimated complexity of aggregating and defuzzifying
+          the terms currently found in the fuzzy output variable
          */
         virtual Complexity currentComplexity() const;
 
         /**
-          Defuzzifies the output variable and stores the output value and the
-          previous output value
+          Defuzzifies the output variable and stores the output value and
+          the previous output value
          */
         virtual void defuzzify();
 
         /**
-          Gets a string representation of the fuzzy output value @f$\tilde{y}@f$
+          Gets a string representation of the fuzzy output value
+          @f$\tilde{y}@f$
           @return a string representation of the fuzzy output value
           @f$\tilde{y}@f$
          */

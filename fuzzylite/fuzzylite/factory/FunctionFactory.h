@@ -34,11 +34,11 @@ namespace fl {
       @since 5.0
      */
     class FL_API FunctionFactory : public CloningFactory<Function::Element*> {
-       private:
+      private:
         void registerOperators();
         void registerFunctions();
 
-       public:
+      public:
         FunctionFactory();
         virtual ~FunctionFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FunctionFactory)

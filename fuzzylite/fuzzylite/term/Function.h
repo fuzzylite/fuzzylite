@@ -58,17 +58,17 @@ namespace fl {
       @since 4.0
      */
     class FL_API Function : public Term {
-       public:
+      public:
         typedef scalar (*Unary)(scalar);
         typedef scalar (*Binary)(scalar, scalar);
 
         /**
-          The Element class represents a single element in a formula, be that
-          either a function or an operator. If the Element represents a
-          function, the function can be Unary or Binary, that is, the function
-          take one or two parameters (respectively). Else, if the Element
-          represents an operator, the parameters to be defined are its `arity`,
-          its `precedence`, and its `associativity`.
+          The Element class represents a single element in a formula, be
+          that either a function or an operator. If the Element represents a
+          function, the function can be Unary or Binary, that is, the
+          function take one or two parameters (respectively). Else, if the
+          Element represents an operator, the parameters to be defined are
+          its `arity`, its `precedence`, and its `associativity`.
          */
         struct FL_API Element {
             /**
@@ -87,12 +87,14 @@ namespace fl {
             Binary binary;
             /**Number of operands required*/
             int arity;
-            /**Precedence of the element: clarifies which procedures should be
-              performed first in a given mathematical expression
+            /**Precedence of the element: clarifies which procedures
+              should be performed first in a given mathematical
+              expression
               (https://en.wikipedia.org/wiki/Order_of_operations)*/
             int precedence;
-            /**Associativity of the element: determines how operators of the
-              same precedence are grouped in the absence of parentheses
+            /**Associativity of the element: determines how operators of
+              the same precedence are grouped in the absence of
+              parentheses
               (https://en.wikipedia.org/wiki/Operator_associativity)*/
             int associativity;
             Element(const std::string& name,
@@ -137,10 +139,10 @@ namespace fl {
         };
 
         /**
-          The Node class structures a binary tree by storing pointers to a left
-          Node and a right Node, and storing its content as a
-          Function::Element, the name of an InputVariable or OutputVariable, or
-          a constant value.
+          The Node class structures a binary tree by storing pointers to a
+          left Node and a right Node, and storing its content as a
+          Function::Element, the name of an InputVariable or OutputVariable,
+          or a constant value.
          */
         struct FL_API Node {
             /**The node takes an operation or a function*/
@@ -165,15 +167,15 @@ namespace fl {
             FL_DEFAULT_MOVE(Node)
 
             /**
-              Evaluates the node and substitutes the variables therein for the
-              values passed in the map. The expression tree is evaluated
-              recursively.
+              Evaluates the node and substitutes the variables therein
+              for the values passed in the map. The expression tree is
+              evaluated recursively.
 
-              @param variables is a map of substitutions of variable names for
-              fl::scalar%s
+              @param variables is a map of substitutions of variable
+              names for fl::scalar%s
 
-              @return a fl::scalar indicating the result of the evaluation of
-              the node
+              @return a fl::scalar indicating the result of the
+              evaluation of the node
              */
             virtual scalar evaluate(
                 const std::map<std::string, scalar>* variables
@@ -182,19 +184,19 @@ namespace fl {
             /**
              Computes the size of the subtree under the given node. The
              complexity of calling this method is O(n).
-             @param node is the root of the subtree, which is this node if
-             fl::null is given
+             @param node is the root of the subtree, which is this node
+             if fl::null is given
              @return the size of the subtree under the given node
              */
             virtual std::size_t treeSize(const Node* node = fl::null) const;
 
             /**
              Computes the size of the subtree under the given node whose
-             elements are of the given type. The complexity of calling this
-             method is O(n).
+             elements are of the given type. The complexity of calling
+             this method is O(n).
              @param type is the type of elements to account for
-             @param node is the root of the subtree, which is this node if
-             fl::null is given
+             @param node is the root of the subtree, which is this node
+             if fl::null is given
              @return
              */
             virtual std::size_t treeSize(Element::Type type,
@@ -207,41 +209,44 @@ namespace fl {
             virtual Node* clone() const;
 
             /**
-              Returns a string with the name of the element, the name of the
-              variable, or the constant value, accordingly.
-              @return a string with the name of the element, the name of the
-              variable, or the constant value, accordingly.
+              Returns a string with the name of the element, the name of
+              the variable, or the constant value, accordingly.
+              @return a string with the name of the element, the name of
+              the variable, or the constant value, accordingly.
              */
             virtual std::string toString() const;
             /**
-              Returns a prefix representation of the expression tree under the
-              given node
-              @param node is the node to start the prefix representation from.
-              If the node is `fl::null`, then the starting point is `this` node
-              @return a prefix representation of the expression tree under the
-              given node
+              Returns a prefix representation of the expression tree
+              under the given node
+              @param node is the node to start the prefix representation
+              from. If the node is `fl::null`, then the starting point
+              is `this` node
+              @return a prefix representation of the expression tree
+              under the given node
              */
             virtual std::string toPrefix(const Node* node = fl::null) const;
             /**
-              Returns an infix representation of the expression tree under the
-              given node
-              @param node is the node to start the infix representation from.
-              If the node is `fl::null`, then the starting point is `this` node
-              @return an infix representation of the expression tree under the
-              given node
+              Returns an infix representation of the expression tree
+              under the given node
+              @param node is the node to start the infix representation
+              from. If the node is `fl::null`, then the starting point
+              is `this` node
+              @return an infix representation of the expression tree
+              under the given node
              */
             virtual std::string toInfix(const Node* node = fl::null) const;
             /**
-              Returns a postfix representation of the expression tree under the
-              given node
-              @param node is the node to start the postfix representation from.
-              If the node is `fl::null`, then the starting point is `this` node
-              @return a postfix representation of the expression tree under the
-              given node
+              Returns a postfix representation of the expression tree
+              under the given node
+              @param node is the node to start the postfix
+              representation from. If the node is `fl::null`, then the
+              starting point is `this` node
+              @return a postfix representation of the expression tree
+              under the given node
              */
             virtual std::string toPostfix(const Node* node = fl::null) const;
 
-           private:
+          private:
             void copyFrom(const Node& source);
         };
 
@@ -249,12 +254,12 @@ namespace fl {
          * Term
          ******************************/
 
-       private:
+      private:
         FL_unique_ptr<Node> _root;
         std::string _formula;
         const Engine* _engine;
 
-       public:
+      public:
         /**A map of variables and substitution values**/
         mutable std::map<std::string, scalar> variables;
         explicit Function(const std::string& name = "",
@@ -280,10 +285,11 @@ namespace fl {
         virtual Complexity complexity() const FL_IOVERRIDE;
 
         /**
-          Computes the membership function value of @f$x@f$ at the root node.
-          If the engine has been set, the current values of the input variables
-          and output variables are added to the map of Function::variables. In
-          addition, the variable @f$x@f$ will also be added to the map.
+          Computes the membership function value of @f$x@f$ at the root
+          node. If the engine has been set, the current values of the input
+          variables and output variables are added to the map of
+          Function::variables. In addition, the variable @f$x@f$ will also
+          be added to the map.
           @param x
           @return the membership function value of @f$x@f$ at the root node
          */
@@ -334,10 +340,10 @@ namespace fl {
         virtual const Engine* getEngine() const;
 
         /**
-          Gets the root node of the expression tree defining the Function. The
-          root is `fl::null` if the formula has not been loaded.
-          @return the root node of the expression tree defining the Function,
-          or `fl::null` if the formula has not been loaded
+          Gets the root node of the expression tree defining the Function.
+          The root is `fl::null` if the formula has not been loaded.
+          @return the root node of the expression tree defining the
+          Function, or `fl::null` if the formula has not been loaded
          */
         virtual Node* root() const;
 
@@ -370,12 +376,12 @@ namespace fl {
          */
         virtual void load(const std::string& formula, const Engine* engine);
         /**
-          Creates a node representing a binary expression tree from the given
-          formula
+          Creates a node representing a binary expression tree from the
+          given formula
           @param formula is the right-hand side of a mathematical equation
           expressed in infix notation
-          @return a node representing a binary expression tree from the given
-          formula
+          @return a node representing a binary expression tree from the
+          given formula
           @throws fl::Exception if the formula has syntax errors
          */
         virtual Node* parse(const std::string& formula);
@@ -391,12 +397,12 @@ namespace fl {
 
         /**
           Adds spaces to the formula to separate parentheses, commas and
-          function operators such that these are treated as tokens when parsing
-          the function.
+          function operators such that these are treated as tokens when
+          parsing the function.
           @param formula is the right-hand side of a mathematical equation
           expressed in infix notation
-          @return the formula with spaces before and after parentheses, commas
-          and function operators
+          @return the formula with spaces before and after parentheses,
+          commas and function operators
          */
         virtual std::string space(const std::string& formula) const;
 

@@ -34,7 +34,7 @@ namespace fl {
       @since 4.0
      */
     class Operation {
-       public:
+      public:
         /**
           Returns the minimum between the two parameters
           @param a
@@ -70,7 +70,8 @@ namespace fl {
         static T bound(T x, T min, T max);
 
         /**
-          Indicates whether @f$x@f$ is within the boundaries (open or closed)
+          Indicates whether @f$x@f$ is within the boundaries (open or
+          closed)
           @param x is the value
           @param min is the minimum of the range
           @param max is the maximum of the range
@@ -114,25 +115,27 @@ namespace fl {
         static bool isFinite(T x);
 
         /**
-          Returns whether @f$a@f$ is less than @f$b@f$ at the given tolerance
+          Returns whether @f$a@f$ is less than @f$b@f$ at the given
+          tolerance
           @param a
           @param b
           @param macheps is the minimum difference upon which two
           floating-point values are considered equivalent
-          @return whether @f$a@f$ is less than @f$b@f$ at the given tolerance
+          @return whether @f$a@f$ is less than @f$b@f$ at the given
+          tolerance
          */
         static bool isLt(scalar a,
                          scalar b,
                          scalar macheps = fuzzylite::_macheps);
         /**
-          Returns whether @f$a@f$ is less than or equal to @f$b@f$ at the given
-          tolerance
+          Returns whether @f$a@f$ is less than or equal to @f$b@f$ at the
+          given tolerance
           @param a
           @param b
           @param macheps is the minimum difference upon which two
           floating-point values are considered equivalent
-          @return whether @f$a@f$ is less than or equal to @f$b@f$ at the given
-          tolerance
+          @return whether @f$a@f$ is less than or equal to @f$b@f$ at the
+          given tolerance
          */
         static bool isLE(scalar a,
                          scalar b,
@@ -149,12 +152,14 @@ namespace fl {
                          scalar b,
                          scalar macheps = fuzzylite::_macheps);
         /**
-          Returns whether @f$a@f$ is greater than @f$b@f$ at the given tolerance
+          Returns whether @f$a@f$ is greater than @f$b@f$ at the given
+          tolerance
           @param a
           @param b
           @param macheps is the minimum difference upon which two
           floating-point values are considered equivalent
-          @return whether @f$a@f$ is greater than @f$b@f$ at the given tolerance
+          @return whether @f$a@f$ is greater than @f$b@f$ at the given
+          tolerance
          */
         static bool isGt(scalar a,
                          scalar b,
@@ -181,7 +186,8 @@ namespace fl {
           @param fromMax is the maximum value of the source range
           @param toMin is the minimum value of the target range
           @param toMax is the maximum value of the target range
-          @return the source value linearly interpolated to the target range:
+          @return the source value linearly interpolated to the target
+          range:
           @f$ y = y_a + (y_b - y_a) \dfrac{x-x_a}{x_b-x_a} @f$
          */
         static scalar scale(scalar x,
@@ -199,9 +205,10 @@ namespace fl {
           @param fromMax is the maximum value of the source range
           @param toMin is the minimum value of the target range
           @param toMax is the maximum value of the target range
-          @param bounded determines whether the resulting value is bounded to
-          the range
-          @return the source value linearly interpolated to the target range:
+          @param bounded determines whether the resulting value is bounded
+          to the range
+          @return the source value linearly interpolated to the target
+          range:
           @f$ y = y_a + (y_b - y_a) \dfrac{x-x_a}{x_b-x_a} @f$
          */
         static scalar scale(scalar x,
@@ -319,10 +326,12 @@ namespace fl {
          */
         static scalar ge(scalar a, scalar b);
         /**
-          Returns whether @f$a@f$ is equal to @f$b@f$ at the default tolerance
+          Returns whether @f$a@f$ is equal to @f$b@f$ at the default
+          tolerance
           @param a
           @param b
-          @return whether @f$a@f$ is equal to @f$b@f$ at the default tolerance
+          @return whether @f$a@f$ is equal to @f$b@f$ at the default
+          tolerance
          */
         static scalar eq(scalar a, scalar b);
         /**
@@ -344,10 +353,12 @@ namespace fl {
          */
         static scalar le(scalar a, scalar b);
         /**
-          Returns whether @f$a@f$ is less than @f$b@f$ at the default tolerance
+          Returns whether @f$a@f$ is less than @f$b@f$ at the default
+          tolerance
           @param a
           @param b
-          @return whether @f$a@f$ is less than @f$b@f$ at the default tolerance
+          @return whether @f$a@f$ is less than @f$b@f$ at the default
+          tolerance
          */
         static scalar lt(scalar a, scalar b);
 
@@ -364,10 +375,11 @@ namespace fl {
           @param x is the vector to increment
           @param min is the minimum value of the dimension
           @param max is the maximum value of the dimension
-          @return `true` if @f$x@f$ was incremented, `false` otherwise (e.g.,
-          incrementing @f$x_3@f$ returns `false`). In earlier versions to 6.0,
-          the result was the inverse and indicated whether the counter had
-          overflown (most sincere apologies for this change).
+          @return `true` if @f$x@f$ was incremented, `false` otherwise
+          (e.g., incrementing @f$x_3@f$ returns `false`). In earlier
+          versions to 6.0, the result was the inverse and indicated whether
+          the counter had overflown (most sincere apologies for this
+          change).
          */
         static bool increment(std::vector<int>& x,
                               std::vector<int>& min,
@@ -383,10 +395,11 @@ namespace fl {
           smaller values lead to higher significance digits
           @param min is the minimum value of the dimension
           @param max is the maximum value of the dimension
-          @return `true` if @f$x@f$ was incremented, `false` otherwise (e.g.,
-          incrementing @f$x_3@f$ returns `false`). In earlier versions to 6.0,
-          the result was the inverse and indicated whether the counter had
-          overflown (most sincere apologies for this change).
+          @return `true` if @f$x@f$ was incremented, `false` otherwise
+          (e.g., incrementing @f$x_3@f$ returns `false`). In earlier
+          versions to 6.0, the result was the inverse and indicated whether
+          the counter had overflown (most sincere apologies for this
+          change).
          */
         static bool increment(std::vector<int>& x,
                               int position,
@@ -482,7 +495,8 @@ namespace fl {
         /**
           Splits the string around the given delimiter
           @param str is the string to split
-          @param delimiter is the substrings on which the string will be split
+          @param delimiter is the substrings on which the string will be
+          split
           @param ignoreEmpty whether the empty strings are discarded
           @return the string split around the given delimiter
          */
@@ -515,7 +529,8 @@ namespace fl {
           Parses the given string into a scalar value
           @param x is the string to parse
           @return the given string into a scalar value
-          @throws fl::Exception if the string does not contain a scalar value
+          @throws fl::Exception if the string does not contain a scalar
+          value
          */
         static scalar toScalar(const std::string& x);  // throws (fl::Exception)
 
@@ -526,8 +541,8 @@ namespace fl {
           @param alternative is the value to return if the string does not
           contain a scalar value
           @param ok contains whether the operation was successful (optional)
-          @return the given string into a scalar value or the alternative value
-          if the string does not contain a scalar value
+          @return the given string into a scalar value or the alternative
+          value if the string does not contain a scalar value
          */
         static scalar toScalar(const std::string& x,
                                scalar alternative,
@@ -537,7 +552,8 @@ namespace fl {
           Parses the given string into a vector of scalar values
           @param x is the string containing space-separated values to parse
           @return the vector of scalar values
-          @throws fl::Exception if the string contains an invalid scalar value
+          @throws fl::Exception if the string contains an invalid scalar
+          value
          */
         static std::vector<scalar> toScalars(
             const std::string& x);  // throws (fl::Exception)
@@ -545,7 +561,8 @@ namespace fl {
         /**
           Parses the given string into a vector of scalar values
           @param x is the string containing space-separated values to parse
-          @param alternative is the value to use if an invalid value is found
+          @param alternative is the value to use if an invalid value is
+          found
           @param ok contains whether the operation was successful (optional)
           @return the vector of scalar values
          */
@@ -580,8 +597,8 @@ namespace fl {
           Operation::str() method on each element
           @param x is the vector of elements
           @param separator is the string to add between the elements
-          @return a single string joining the vector of elements by the given
-          separator
+          @return a single string joining the vector of elements by the
+          given separator
          */
         template <typename T>
         static std::string join(const std::vector<T>& x,
@@ -589,8 +606,8 @@ namespace fl {
 
         /**
           Joins a variadic number of elements by the given separator into a
-          single string. The elements are represented as strings utilizing the
-          Operation::str() method on each element
+          single string. The elements are represented as strings utilizing
+          the Operation::str() method on each element
           @param items is the number of elements to join
           @param separator is the string to add between the elements
           @param first is the first element, which defines the type of the

@@ -31,7 +31,7 @@ namespace fl {
       @since 5.0
      */
     class FL_API WeightedDefuzzifier : public Defuzzifier {
-       public:
+      public:
         /**The Type enum indicates the type of the WeightedDefuzzifier based
         the terms included in the fuzzy set.*/
         enum Type {
@@ -50,10 +50,10 @@ namespace fl {
          */
         static std::string typeName(Type type);
 
-       private:
+      private:
         Type _type;
 
-       public:
+      public:
         explicit WeightedDefuzzifier(Type type = Automatic);
         explicit WeightedDefuzzifier(const std::string& type);
         virtual ~WeightedDefuzzifier() FL_IOVERRIDE;
@@ -80,7 +80,8 @@ namespace fl {
           TakagiSugeno; otherwise, the type is Tsukamoto
 
           @param term is the given term
-          @return the inferred type of the defuzzifier based on the given term
+          @return the inferred type of the defuzzifier based on the given
+          term
          */
         virtual Type inferType(const Term* term) const;
     };

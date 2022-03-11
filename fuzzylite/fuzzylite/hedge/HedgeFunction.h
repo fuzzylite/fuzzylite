@@ -38,10 +38,10 @@ namespace fl {
      */
 
     class FL_API HedgeFunction FL_IFINAL : public Hedge {
-       private:
+      private:
         Function _function;
 
-       public:
+      public:
         explicit HedgeFunction(const std::string& formula = "");
 
         std::string name() const FL_IOVERRIDE;
@@ -66,8 +66,8 @@ namespace fl {
         Complexity complexity() const FL_IOVERRIDE;
 
         /**
-          Computes the hedge for the membership function value @f$x@f$ utilizing
-          the given function via HedgeFunction::setFormula()
+          Computes the hedge for the membership function value @f$x@f$
+          utilizing the given function via HedgeFunction::setFormula()
           @param x is a membership function value
           @return the evaluation of the function
          */

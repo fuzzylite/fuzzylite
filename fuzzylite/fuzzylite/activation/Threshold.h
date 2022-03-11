@@ -38,10 +38,11 @@ namespace fl {
      */
 
     class FL_API Threshold : public Activation {
-       public:
+      public:
         /**
           Comparison is an enumerator that provides six comparison operators
-          between the activation degree @f$a@f$ and the threshold @f$\theta@f$.
+          between the activation degree @f$a@f$ and the threshold
+          @f$\theta@f$.
          */
         enum Comparison {
             /**@f$a < \theta@f$*/
@@ -58,11 +59,11 @@ namespace fl {
             GreaterThan
         };
 
-       private:
+      private:
         Comparison _comparison;
         scalar _value;
 
-       public:
+      public:
         explicit Threshold(Comparison comparison = GreaterThanOrEqualTo,
                            scalar threshold = 0.0);
         explicit Threshold(const std::string& comparison, scalar threshold);
@@ -78,8 +79,8 @@ namespace fl {
         virtual std::string parameters() const FL_IOVERRIDE;
 
         /**
-          Configures the activation method with the comparison operator and the
-          threshold.
+          Configures the activation method with the comparison operator and
+          the threshold.
           @param parameters is the comparison operator and threshold
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
@@ -98,7 +99,8 @@ namespace fl {
 
         /**
           Returns the comparison operator of the activation method
-          @return the comparison operator in (`==`, `!=`, `<`, `>`, `<=`, `>=`)
+          @return the comparison operator in (`==`, `!=`, `<`, `>`, `<=`,
+          `>=`)
          */
         virtual std::string comparisonOperator() const;
 
@@ -106,13 +108,14 @@ namespace fl {
           Returns the given comparison operator of the activation method
           @param comparison is a valid enum value
           @return the comparison operator for the given enum value
-          @throws fl::Exception if the given comparison operator is not valid
+          @throws fl::Exception if the given comparison operator is not
+          valid
          */
         virtual std::string comparisonOperator(Comparison comparison) const;
 
         /**
-          Returns the list of available comparison operators of the activation
-          method
+          Returns the list of available comparison operators of the
+          activation method
           @return (`==`, `!=`, `<`, `>`, `<=`, `>=`)
          */
         virtual std::vector<std::string> availableComparisonOperators() const;
@@ -168,9 +171,9 @@ namespace fl {
             FL_IOVERRIDE;
 
         /**
-          Activates the rules whose activation degrees satisfy the comparison
-          equation with the given threshold, and deactivate the rules which do
-          not.
+          Activates the rules whose activation degrees satisfy the
+          comparison equation with the given threshold, and deactivate the
+          rules which do not.
           @param ruleBlock is the rule block to activate
          */
         virtual void activate(RuleBlock* ruleBlock) FL_IOVERRIDE;

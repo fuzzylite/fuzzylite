@@ -33,10 +33,10 @@ namespace fl {
       @since 4.0
      */
     class FL_API Rectangle : public Term {
-       private:
+      private:
         scalar _start, _end;
 
-       public:
+      public:
         explicit Rectangle(const std::string& name = "",
                            scalar start = fl::nan,
                            scalar end = fl::nan,

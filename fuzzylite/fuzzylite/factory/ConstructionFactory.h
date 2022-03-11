@@ -36,18 +36,18 @@ namespace fl {
 
     template <typename T>
     class ConstructionFactory {
-       public:
+      public:
         /**
           The Constructor type definition refers to a zero-parameter method
           which returns an instance of T
          */
         typedef T (*Constructor)();
 
-       private:
+      private:
         std::string _name;
         std::map<std::string, Constructor> _constructors;
 
-       public:
+      public:
         explicit ConstructionFactory(const std::string& name);
         virtual ~ConstructionFactory();
         FL_DEFAULT_COPY_AND_MOVE(ConstructionFactory)
@@ -66,14 +66,14 @@ namespace fl {
         virtual void registerConstructor(const std::string& key,
                                          Constructor constructor);
         /**
-          Deregisters from the factory the constructor associated to the given
-          key
+          Deregisters from the factory the constructor associated to the
+          given key
           @param key is the unique name by which constructors are registered
          */
         virtual void deregisterConstructor(const std::string& key);
         /**
-          Checks whether the factory has a constructor registered by the given
-          key
+          Checks whether the factory has a constructor registered by the
+          given key
           @param key is the unique name by which constructors are registered
           @return whether the factory has the given constructor registered
          */
@@ -85,11 +85,11 @@ namespace fl {
          */
         virtual Constructor getConstructor(const std::string& key) const;
         /**
-          Creates an object by executing the constructor associated to the given
-          key
+          Creates an object by executing the constructor associated to the
+          given key
           @param key is the unique name by which constructors are registered
-          @return an object by executing the constructor associated to the given
-          key
+          @return an object by executing the constructor associated to the
+          given key
          */
         virtual T constructObject(const std::string& key) const;
         /**

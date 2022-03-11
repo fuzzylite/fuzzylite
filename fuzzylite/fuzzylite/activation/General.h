@@ -34,7 +34,7 @@ namespace fl {
      */
 
     class FL_API General : public Activation {
-       public:
+      public:
         General();
         virtual ~General();
         FL_DEFAULT_COPY_AND_MOVE(General)
@@ -57,8 +57,8 @@ namespace fl {
             FL_IOVERRIDE;
 
         /**
-          Activates every rule in the given rule block following the order in
-          which the rules were added.
+          Activates every rule in the given rule block following the order
+          in which the rules were added.
           @param ruleBlock is the rule block to activate
          */
         virtual void activate(RuleBlock* ruleBlock) FL_IOVERRIDE;

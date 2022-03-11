@@ -33,12 +33,13 @@ namespace fl {
       @since 4.0
      */
     class FL_API BoundedDifference FL_IFINAL : public TNorm {
-       public:
+      public:
         std::string className() const FL_IOVERRIDE;
 
         Complexity complexity() const FL_IOVERRIDE;
         /**
-          Computes the bounded difference between two membership function values
+          Computes the bounded difference between two membership function
+          values
           @param a is a membership function value
           @param b is a membership function value
           @return @f$\max(0, a+b - 1)@f$

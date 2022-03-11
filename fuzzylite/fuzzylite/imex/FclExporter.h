@@ -39,10 +39,10 @@ namespace fl {
       @since 4.0
      */
     class FL_API FclExporter : public Exporter {
-       private:
+      private:
         std::string _indent;
 
-       public:
+      public:
         explicit FclExporter(const std::string& indent = "  ");
         virtual ~FclExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FclExporter)
@@ -62,19 +62,19 @@ namespace fl {
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
 
         /**
-          Returns a string representation of the InputVariable according to the
-          Fuzzy Control Language specification
-          @param variable is the input variable
-          @return a string representation of the input variable  according to
+          Returns a string representation of the InputVariable according to
           the Fuzzy Control Language specification
+          @param variable is the input variable
+          @return a string representation of the input variable  according
+          to the Fuzzy Control Language specification
          */
         virtual std::string toString(const InputVariable* variable) const;
         /**
-          Returns a string representation of the OutputVariable according to the
-          Fuzzy Control Language specification
-          @param variable is the output variable
-          @return a string representation of the output variable according to
+          Returns a string representation of the OutputVariable according to
           the Fuzzy Control Language specification
+          @param variable is the output variable
+          @return a string representation of the output variable according
+          to the Fuzzy Control Language specification
          */
         virtual std::string toString(const OutputVariable* variable) const;
         /**
@@ -94,11 +94,11 @@ namespace fl {
          */
         virtual std::string toString(const Norm* norm) const;
         /**
-          Returns a string representation of the Defuzzifier according to the
-          Fuzzy Control Language specification
+          Returns a string representation of the Defuzzifier according to
+          the Fuzzy Control Language specification
           @param defuzzifier is the defuzzifier
-          @return a string representation of the defuzzifier according to the
-          Fuzzy Control Language specification
+          @return a string representation of the defuzzifier according to
+          the Fuzzy Control Language specification
          */
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
         /**

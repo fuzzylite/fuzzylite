@@ -33,13 +33,13 @@ namespace fl {
       @since 4.0
      */
     class FL_API GaussianProduct : public Term {
-       private:
+      private:
         scalar _meanA;
         scalar _standardDeviationA;
         scalar _meanB;
         scalar _standardDeviationB;
 
-       public:
+      public:
         explicit GaussianProduct(const std::string& name = "",
                                  scalar meanA = fl::nan,
                                  scalar standardDeviationA = fl::nan,
@@ -52,7 +52,8 @@ namespace fl {
         virtual std::string className() const FL_IOVERRIDE;
         /**
           Provides the parameters of the term
-          @return `"meanA standardDeviationA meanB standardDeviationB [height]"`
+          @return `"meanA standardDeviationA meanB standardDeviationB
+          [height]"`
          */
         virtual std::string parameters() const FL_IOVERRIDE;
         /**
@@ -68,7 +69,8 @@ namespace fl {
           @param x
           @return @f$ h \left((1 - i) + i \times \exp(-(x - \mu_a)^2 /
           (2\sigma_a^2))\right)
-          \left((1 - j) + j \times \exp(-(x - \mu_b)^2 / (2 \sigma_b)^2)\right)
+          \left((1 - j) + j \times \exp(-(x - \mu_b)^2 / (2
+          \sigma_b)^2)\right)
           @f$
 
           where @f$h@f$ is the height of the Term,

@@ -44,14 +44,14 @@ namespace fl {
       @since 6.0
      */
     class FL_API Aggregated : public Term {
-       private:
+      private:
         std::vector<Activated> _terms;
         scalar _minimum, _maximum;
         FL_unique_ptr<SNorm> _aggregation;
 
         void copyFrom(const Aggregated& source);
 
-       public:
+      public:
         explicit Aggregated(const std::string& name = "",
                             scalar minimum = fl::nan,
                             scalar maximum = fl::nan,
@@ -88,9 +88,9 @@ namespace fl {
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
         /**
           Computes the aggregated activation degree for the given term.
-          If the same term is present multiple times, the aggregation operator
-          is utilized to sum the activation degrees of the term. If the
-          aggregation operator is fl::null, a regular sum is performed.
+          If the same term is present multiple times, the aggregation
+          operator is utilized to sum the activation degrees of the term. If
+          the aggregation operator is fl::null, a regular sum is performed.
           @param forTerm is the term for which to compute the aggregated
           activation degree
           @return the aggregated activation degree for the given term
@@ -98,8 +98,8 @@ namespace fl {
         virtual scalar activationDegree(const Term* forTerm) const;
 
         /**
-          Iterates over the Activated terms to find the term with the maximum
-          activation degree
+          Iterates over the Activated terms to find the term with the
+          maximum activation degree
           @return the term with the maximum activation degree
          */
         virtual const Activated* highestActivatedTerm() const;

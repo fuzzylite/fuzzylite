@@ -34,10 +34,10 @@ namespace fl {
      */
 
     class FL_API ZShape : public Term {
-       private:
+      private:
         scalar _start, _end;
 
-       public:
+      public:
         explicit ZShape(const std::string& name = "",
                         scalar _start = fl::nan,
                         scalar _end = fl::nan,

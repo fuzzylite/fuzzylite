@@ -51,10 +51,10 @@ namespace fl {
 #pragma warning(pop)
 #endif
 
-       private:
+      private:
         std::string _what;
 
-       public:
+      public:
         explicit Exception(const std::string& what);
         /**
           Constructor to be used in conjunction with macro `FL_AT`
@@ -106,8 +106,8 @@ namespace fl {
                             int line,
                             const std::string& function);
         /**
-          Appends an error trace with a message to the exception. The method can
-          be called utilizing the macro `FL_AT`
+          Appends an error trace with a message to the exception. The method
+          can be called utilizing the macro `FL_AT`
           @param whatElse is further information about the exception
           @param file is the name of the file where the exception occurred
           @param line is the line number in the file where the exception
@@ -133,8 +133,8 @@ namespace fl {
         static void signalHandler(int signal);
 
         /**
-          Converts a given signal into an Exception (does not work very well on
-          Windows)
+          Converts a given signal into an Exception (does not work very well
+          on Windows)
           @param signal is the code of the signal
          */
         static void convertToException(int signal);
@@ -144,8 +144,8 @@ namespace fl {
          */
         static void terminate();
         /**
-          Logs the exception to console and proceeds the regular execution of
-          the library
+          Logs the exception to console and proceeds the regular execution
+          of the library
           @param exception is the exception thrown
          */
         static void catchException(const std::exception& exception);

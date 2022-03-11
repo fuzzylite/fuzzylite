@@ -33,12 +33,13 @@ namespace fl {
       @since 4.0
      */
     class FL_API Ramp : public Term {
-       private:
+      private:
         scalar _start, _end;
 
-       public:
+      public:
         /**
-          Direction is an enumerator that indicates the direction of the ramp.
+          Direction is an enumerator that indicates the direction of the
+          ramp.
          */
         enum Direction {
             /** `(_/)` increases to the right */ Positive,

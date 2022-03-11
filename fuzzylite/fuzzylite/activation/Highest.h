@@ -34,10 +34,10 @@ namespace fl {
       @since 6.0
      */
     class FL_API Highest : public Activation {
-       private:
+      private:
         int _numberOfRules;
 
-       public:
+      public:
         explicit Highest(int numberOfRules = 1);
         virtual ~Highest();
         FL_DEFAULT_COPY_AND_MOVE(Highest)
@@ -51,7 +51,8 @@ namespace fl {
         virtual std::string parameters() const FL_IOVERRIDE;
 
         /**
-          Configures the activation method with the number of rules to activate.
+          Configures the activation method with the number of rules to
+          activate.
           @param parameters contains the number of rules to activate
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;

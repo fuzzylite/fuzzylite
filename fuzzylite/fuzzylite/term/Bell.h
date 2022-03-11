@@ -33,12 +33,12 @@ namespace fl {
       @since 4.0
      */
     class FL_API Bell : public Term {
-       private:
+      private:
         scalar _center;
         scalar _width;
         scalar _slope;
 
-       public:
+      public:
         explicit Bell(const std::string& name = "",
                       scalar center = fl::nan,
                       scalar width = fl::nan,

@@ -38,11 +38,11 @@ namespace fl {
 
     template <typename T>
     class CloningFactory {
-       private:
+      private:
         std::string _name;
         std::map<std::string, T> _objects;
 
-       public:
+      public:
         explicit CloningFactory(const std::string& name = "");
         CloningFactory(const CloningFactory& other);
         CloningFactory& operator=(const CloningFactory& other);
@@ -73,7 +73,8 @@ namespace fl {
          */
         virtual bool hasObject(const std::string& key) const;
         /**
-          Gets the object registered by the given key, not a clone of the object
+          Gets the object registered by the given key, not a clone of the
+          object
           @param key is the unique name by which objects are registered
           @return the object registered by the given key
          */

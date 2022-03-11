@@ -41,7 +41,7 @@ namespace fl {
      */
 
     class FL_API Activation {
-       public:
+      public:
         Activation() {}
 
         virtual ~Activation() {}
@@ -49,29 +49,32 @@ namespace fl {
         FL_DEFAULT_COPY_AND_MOVE(Activation)
 
         /**
-          Returns the name of the activation method, which is also utilized to
-          register the activation method in the ActivationFactory.
+          Returns the name of the activation method, which is also utilized
+          to register the activation method in the ActivationFactory.
           @return the name of the activation method
           @see ActivationFactory
          */
         virtual std::string className() const = 0;
 
         /**
-          Returns the parameters of the activation method, which can be used to
-          configure other instances of the activation method.
+          Returns the parameters of the activation method, which can be used
+          to configure other instances of the activation method.
           @return the parameters of the activation method
          */
         virtual std::string parameters() const = 0;
 
         /**
           Configures the activation method with the given parameters.
-          @param parameters contains a list of space-separated parameter values
+          @param parameters contains a list of space-separated parameter
+          values
          */
         virtual void configure(const std::string& parameters) = 0;
 
         /**
-          Computes the estimated complexity of activating the given rule block
-          @return the estimated complexity of activating the given rule block
+          Computes the estimated complexity of activating the given rule
+          block
+          @return the estimated complexity of activating the given rule
+          block
          */
         virtual Complexity complexity(const RuleBlock* ruleBlock) const = 0;
 

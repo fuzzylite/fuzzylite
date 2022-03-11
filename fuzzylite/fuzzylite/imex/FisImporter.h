@@ -41,7 +41,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API FisImporter : public Importer {
-       public:
+      public:
         FisImporter();
         virtual ~FisImporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FisImporter)
@@ -52,7 +52,7 @@ namespace fl {
 
         virtual FisImporter* clone() const FL_IOVERRIDE;
 
-       protected:
+      protected:
         virtual void importSystem(const std::string& section,
                                   Engine* engine,
                                   std::string& andMethod,

@@ -37,7 +37,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Expression {
-       public:
+      public:
         enum Type { Proposition, Operator };
         Expression();
         virtual ~Expression();
@@ -49,7 +49,7 @@ namespace fl {
         virtual Type type() const = 0;
         virtual std::string toString() const = 0;
 
-       private:
+      private:
         FL_DISABLE_COPY(Expression)
     };
 
@@ -64,7 +64,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Proposition FL_IFINAL : public Expression {
-       public:
+      public:
         /**Variable in `variable is [hedge]* term`*/
         Variable* variable;
         /**Hedge%s in `variable is [hedge]* term`, owned by the object,
@@ -84,7 +84,7 @@ namespace fl {
          */
         std::string toString() const FL_IOVERRIDE;
 
-       private:
+      private:
         FL_DISABLE_COPY(Proposition)
     };
 
@@ -100,7 +100,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Operator FL_IFINAL : public Expression {
-       public:
+      public:
         /**Name of the operator*/
         std::string name;
         /**Left expression in the binary tree*/
@@ -119,7 +119,7 @@ namespace fl {
          */
         std::string toString() const FL_IOVERRIDE;
 
-       private:
+      private:
         FL_DISABLE_COPY(Operator)
     };
 }  // namespace fl

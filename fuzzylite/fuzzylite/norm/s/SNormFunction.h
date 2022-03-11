@@ -36,10 +36,10 @@ namespace fl {
      */
 
     class FL_API SNormFunction FL_IFINAL : public SNorm {
-       private:
+      private:
         Function _function;
 
-       public:
+      public:
         explicit SNormFunction(const std::string& formula = "");
 
         /**
@@ -64,8 +64,8 @@ namespace fl {
         Complexity complexity() const FL_IOVERRIDE;
         /**
           Computes the S-Norm utilizing the given function via
-          SNormFunction::setFormula(), which automatically assigns the values
-          of @f$a@f$ and @f$b@f$.
+          SNormFunction::setFormula(), which automatically assigns the
+          values of @f$a@f$ and @f$b@f$.
 
           @param a is a membership function value
           @param b is a membership function value

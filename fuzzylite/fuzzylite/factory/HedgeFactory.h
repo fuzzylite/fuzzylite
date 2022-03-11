@@ -32,7 +32,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API HedgeFactory : public ConstructionFactory<Hedge*> {
-       public:
+      public:
         HedgeFactory();
         virtual ~HedgeFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(HedgeFactory)

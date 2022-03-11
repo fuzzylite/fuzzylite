@@ -38,16 +38,16 @@ namespace fl {
       @since 4.0
      */
     class FL_API FldExporter : public Exporter {
-       private:
+      private:
         std::string _separator;
         bool _exportHeaders;
         bool _exportInputValues;
         bool _exportOutputValues;
 
-       public:
+      public:
         /**
-         The ScopeOfValues refers to the scope of the equally-distributed values
-         to generate.
+         The ScopeOfValues refers to the scope of the equally-distributed
+         values to generate.
          */
         enum ScopeOfValues {
             /**Generates @f$n@f$ values for each variable*/
@@ -74,8 +74,8 @@ namespace fl {
 
         /**
           Sets whether the header of the dataset is to be exported
-          @param exportHeaders indicates whether the header of the dataset is
-          to be exported
+          @param exportHeaders indicates whether the header of the dataset
+          is to be exported
          */
         virtual void setExportHeader(bool exportHeaders);
         /**
@@ -92,19 +92,21 @@ namespace fl {
         virtual void setExportInputValues(bool exportInputValues);
         /**
           Gets whether the values of the input variables are to be exported
-          @return whether the values of the input variables are to be exported
+          @return whether the values of the input variables are to be
+          exported
          */
         virtual bool exportsInputValues() const;
 
         /**
           Sets whether the values of the output variables are to be exported
-          @param exportOutputValues indicates whether the values of the output
-          variables are to be exported
+          @param exportOutputValues indicates whether the values of the
+          output variables are to be exported
          */
         virtual void setExportOutputValues(bool exportOutputValues);
         /**
           Gets whether the values of the output variables are to be exported
-          @return whether the values of the output variables are to be exported
+          @return whether the values of the output variables are to be
+          exported
          */
         virtual bool exportsOutputValues() const;
 
@@ -116,10 +118,10 @@ namespace fl {
         virtual std::string header(const Engine* engine) const;
 
         /**
-          Returns a FuzzyLite Dataset from the engine. Please consider that the
-          engine will be `const_cast`ed to achieve so; that is, despite being
-          marked as `const`, the engine will be modified in order to compute
-          the output values based on the input values.
+          Returns a FuzzyLite Dataset from the engine. Please consider that
+          the engine will be `const_cast`ed to achieve so; that is, despite
+          being marked as `const`, the engine will be modified in order to
+          compute the output values based on the input values.
           @param engine is the engine to export
           @return a FuzzyLite Dataset from the engine
          */
@@ -140,9 +142,10 @@ namespace fl {
           @param engine is the engine to export
           @param values is the number of values to export
           @param scope indicates the scope of the values
-          @param activeVariables contains the input variables to generate values
-          for. The input variables must be in the same order as in the engine. A
-          value of fl::null indicates the variable is not active.
+          @param activeVariables contains the input variables to generate
+          values for. The input variables must be in the same order as in
+          the engine. A value of fl::null indicates the variable is not
+          active.
           @return a FuzzyLite Dataset from the engine
          */
         virtual std::string toString(
@@ -178,9 +181,10 @@ namespace fl {
           @param engine is the engine to export
           @param values is the number of values to export
           @param scope indicates the scope of the values
-          @param activeVariables contains the input variables to generate values
-          for. The input variables must be in the same order as in the engine. A
-          value of fl::null indicates the variable is not active.
+          @param activeVariables contains the input variables to generate
+          values for. The input variables must be in the same order as in
+          the engine. A value of fl::null indicates the variable is not
+          active.
          */
         virtual void toFile(
             const std::string& path,
@@ -224,9 +228,10 @@ namespace fl {
           @param writer is the output where the engine will be written to
           @param values is the number of values to export
           @param scope indicates the scope of the values
-          @param activeVariables contains the input variables to generate values
-          for. The input variables must be in the same order as in the engine. A
-          value of fl::null indicates the variable is not active.
+          @param activeVariables contains the input variables to generate
+          values for. The input variables must be in the same order as in
+          the engine. A value of fl::null indicates the variable is not
+          active.
          */
         virtual void write(
             Engine* engine,
@@ -258,9 +263,10 @@ namespace fl {
           @param engine is the engine to export
           @param writer is the output where the engine will be written to
           @param inputValues is the vector of input values
-          @param activeVariables contains the input variables to generate values
-          for. The input variables must be in the same order as in the engine. A
-          value of fl::null indicates the variable is not active.
+          @param activeVariables contains the input variables to generate
+          values for. The input variables must be in the same order as in
+          the engine. A value of fl::null indicates the variable is not
+          active.
          */
         virtual void write(
             Engine* engine,

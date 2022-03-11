@@ -48,11 +48,11 @@ namespace fl {
      */
 
     class FL_API Consequent {
-       private:
+      private:
         std::string _text;
         std::vector<Proposition*> _conclusions;
 
-       public:
+      public:
         Consequent();
         virtual ~Consequent();
 
@@ -75,16 +75,16 @@ namespace fl {
         /**
           Returns an immutable vector of the propositions that represent the
           Consequent of a Rule
-          @return an immutable vector of the set of propositions that represent
-          the Consequent of a Rule
+          @return an immutable vector of the set of propositions that
+          represent the Consequent of a Rule
          */
         virtual const std::vector<Proposition*>& conclusions() const;
 
         /**
-          Returns the vector of propositions that represent the Consequent of a
-          Rule
-          @return the vector of propositions that represent the Consequent of a
-          Rule
+          Returns the vector of propositions that represent the Consequent
+          of a Rule
+          @return the vector of propositions that represent the Consequent
+          of a Rule
          */
         virtual std::vector<Proposition*>& conclusions();
 
@@ -98,9 +98,9 @@ namespace fl {
          */
         virtual void unload();
         /**
-          Loads the consequent with text given from Consequent::getText() and
-          uses the engine to identify and retrieve references to the input
-          variables and output variables as required
+          Loads the consequent with text given from Consequent::getText()
+          and uses the engine to identify and retrieve references to the
+          input variables and output variables as required
           @param engine is the engine from which the rules are part of
          */
         virtual void load(const Engine* engine);
@@ -115,8 +115,8 @@ namespace fl {
 
         /**
           Modifies the proposition set according to the activation degree
-          (computed in the Antecedent of the Rule) and the implication operator
-          (given in the RuleBlock)
+          (computed in the Antecedent of the Rule) and the implication
+          operator (given in the RuleBlock)
           @param activationDegree is the activation degree computed in the
           Antecedent of the Rule
           @param implication is the implication operator configured in the
@@ -130,7 +130,7 @@ namespace fl {
          */
         virtual std::string toString() const;
 
-       private:
+      private:
         FL_DISABLE_COPY(Consequent)
     };
 }  // namespace fl

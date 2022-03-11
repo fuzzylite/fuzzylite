@@ -40,7 +40,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API FclImporter : public Importer {
-       public:
+      public:
         FclImporter();
         virtual ~FclImporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FclImporter)
@@ -51,7 +51,7 @@ namespace fl {
 
         virtual FclImporter* clone() const FL_IOVERRIDE;
 
-       protected:
+      protected:
         virtual void processBlock(const std::string& tag,
                                   const std::string& block,
                                   Engine* engine) const;

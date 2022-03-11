@@ -35,7 +35,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Norm {
-       public:
+      public:
         Norm() {}
 
         virtual ~Norm() {}

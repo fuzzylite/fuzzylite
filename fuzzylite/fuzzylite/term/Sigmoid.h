@@ -33,11 +33,11 @@ namespace fl {
       @since 4.0
      */
     class FL_API Sigmoid : public Term {
-       private:
+      private:
         scalar _inflection;
         scalar _slope;
 
-       public:
+      public:
         /**
           Direction is an enumerator that indicates the direction of the
           sigmoid.

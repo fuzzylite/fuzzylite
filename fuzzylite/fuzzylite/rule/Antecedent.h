@@ -45,11 +45,11 @@ namespace fl {
       @since 4.0
      */
     class FL_API Antecedent {
-       private:
+      private:
         std::string _text;
         FL_unique_ptr<Expression> _expression;
 
-       public:
+      public:
         Antecedent();
         virtual ~Antecedent();
 
@@ -106,8 +106,10 @@ namespace fl {
         virtual void load(const std::string& antecedent, const Engine* engine);
 
         /**
-          Computes the estimated complexity of calculating the activation degree
-          @return the estimated complexity of calculating the activation degree
+          Computes the estimated complexity of calculating the activation
+          degree
+          @return the estimated complexity of calculating the activation
+          degree
          */
         virtual Complexity complexity(const TNorm* conjunction,
                                       const SNorm* disjunction) const;
@@ -140,7 +142,8 @@ namespace fl {
 
           @param conjunction is the conjunction operator from the RuleBlock
           @param disjunction is the disjunction operator from the RuleBlock
-          @return the activation degree of the antecedent on the expression tree
+          @return the activation degree of the antecedent on the expression
+          tree
          */
         virtual scalar activationDegree(const TNorm* conjunction,
                                         const SNorm* disjunction) const;
@@ -155,31 +158,31 @@ namespace fl {
         virtual std::string toString() const;
 
         /**
-          Returns a string represention of the given expression tree utilizing
-          prefix notation
+          Returns a string represention of the given expression tree
+          utilizing prefix notation
           @param node is a node in the expression tree of the antecedent
-          @return a string represention of the given expression tree utilizing
-          prefix notation
+          @return a string represention of the given expression tree
+          utilizing prefix notation
          */
         virtual std::string toPrefix(const Expression* node = fl::null) const;
         /**
-          Returns a string represention of the given expression tree utilizing
-          infix notation
+          Returns a string represention of the given expression tree
+          utilizing infix notation
           @param node is a node in the expression tree of the antecedent
-          @return a string represention of the given expression tree utilizing
-          infix notation
+          @return a string represention of the given expression tree
+          utilizing infix notation
          */
         virtual std::string toInfix(const Expression* node = fl::null) const;
         /**
-          Returns a string represention of the given expression tree utilizing
-          postfix notation
+          Returns a string represention of the given expression tree
+          utilizing postfix notation
           @param node is a node in the expression tree of the antecedent
-          @return a string represention of the given expression tree utilizing
-          postfix notation
+          @return a string represention of the given expression tree
+          utilizing postfix notation
          */
         virtual std::string toPostfix(const Expression* node = fl::null) const;
 
-       private:
+      private:
         FL_DISABLE_COPY(Antecedent)
     };
 }  // namespace fl

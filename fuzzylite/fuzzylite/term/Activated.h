@@ -35,12 +35,12 @@ namespace fl {
       @since 5.0
      */
     class FL_API Activated : public Term {
-       private:
+      private:
         const Term* _term;
         scalar _degree;
         const TNorm* _implication;
 
-       public:
+      public:
         explicit Activated(const Term* term = fl::null,
                            scalar degree = 1.0,
                            const TNorm* implication = fl::null);
@@ -61,10 +61,11 @@ namespace fl {
 
         virtual Complexity complexity() const FL_IOVERRIDE;
         /**
-          Computes the implication of the activation degree and the membership
-          function value of @f$x@f$
+          Computes the implication of the activation degree and the
+          membership function value of @f$x@f$
           @param x is a value
-          @return @f$d \otimes \mu(x)@f$, where @f$d@f$ is the activation degree
+          @return @f$d \otimes \mu(x)@f$, where @f$d@f$ is the activation
+          degree
          */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
         virtual std::string toString() const FL_IOVERRIDE;
