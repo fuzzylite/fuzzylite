@@ -14,8 +14,8 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "test/catch.hpp"
 #include "fuzzylite/Headers.h"
+#include "test/catch.hpp"
 
 namespace fl {
 
@@ -26,7 +26,8 @@ namespace fl {
      *
      */
 
-    TEST_CASE("trapezoid can be open ended with -infinity", "[term][trapezoid]") {
+    TEST_CASE("trapezoid can be open ended with -infinity",
+              "[term][trapezoid]") {
         Trapezoid trapezoid("A", -fl::inf, 0, 1, 2);
         Ramp ramp("a", 2, 1);
         //(-inf, inf)
@@ -39,7 +40,8 @@ namespace fl {
         REQUIRE(Op::isEq(trapezoid.membership(fl::inf), 0.0));
     }
 
-    TEST_CASE("trapezoid can be open ended with +infinity", "[term][trapezoid]") {
+    TEST_CASE("trapezoid can be open ended with +infinity",
+              "[term][trapezoid]") {
         Trapezoid trapezoid("A", 0, 1, 2, fl::inf);
         Ramp ramp("a", 0, 1);
         //(-inf, inf)
@@ -50,4 +52,4 @@ namespace fl {
         REQUIRE(Op::isEq(trapezoid.membership(-fl::inf), 0.0));
     }
 
-}
+}  // namespace fl

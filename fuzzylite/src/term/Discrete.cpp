@@ -18,10 +18,12 @@
 
 namespace fl {
 
-    Discrete::Discrete(const std::string& name, const std::vector<Pair>& xy, scalar height)
-    : Term(name, height), _xy(xy) { }
+    Discrete::Discrete(const std::string& name,
+                       const std::vector<Pair>& xy,
+                       scalar height)
+        : Term(name, height), _xy(xy) {}
 
-    Discrete::~Discrete() { }
+    Discrete::~Discrete() {}
 
     std::string Discrete::className() const {
         return "Discrete";
@@ -40,12 +42,16 @@ namespace fl {
     }
 
     Complexity Discrete::complexity() const {
-        return Complexity().comparison(1 + 4).arithmetic(1 + 1 + 1).function(1)
-                .function(2 * std::log(scalar(_xy.size())));
+        return Complexity()
+            .comparison(1 + 4)
+            .arithmetic(1 + 1 + 1)
+            .function(1)
+            .function(2 * std::log(scalar(_xy.size())));
     }
 
     scalar Discrete::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
         if (_xy.empty())
             throw Exception("[discrete error] term is empty", FL_AT);
 
@@ -63,32 +69,41 @@ namespace fl {
 
         const Pair value(x, fl::nan);
         typedef std::vector<Discrete::Pair>::const_iterator Bound;
-        //std::lower_bound finds the first number greater than or equal to x
-        Bound lowerBound(std::lower_bound(_xy.begin(), _xy.end(), value, compare));
+        // std::lower_bound finds the first number greater than or equal to x
+        Bound lowerBound(
+            std::lower_bound(_xy.begin(), _xy.end(), value, compare));
 
-        //if the lower bound is equal to x
+        // if the lower bound is equal to x
         if (Op::isEq(x, lowerBound->first)) {
             return Term::_height * lowerBound->second;
         }
-        //find the upper bound starting from a copy of lowerBound
-        const Bound upperBound(std::upper_bound(_xy.begin(), _xy.end(), value, compare));
-        --lowerBound; //One arithmetic
-        return Term::_height * Op::scale(x, lowerBound->first, upperBound->first,
-                lowerBound->second, upperBound->second);
+        // find the upper bound starting from a copy of lowerBound
+        const Bound upperBound(
+            std::upper_bound(_xy.begin(), _xy.end(), value, compare));
+        --lowerBound;  // One arithmetic
+        return Term::_height
+               * Op::scale(x,
+                           lowerBound->first,
+                           upperBound->first,
+                           lowerBound->second,
+                           upperBound->second);
     }
 
     std::string Discrete::parameters() const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < _xy.size(); ++i) {
             ss << Op::str(_xy.at(i).first) << " " << Op::str(_xy.at(i).second);
-            if (i + 1 < _xy.size()) ss << " ";
+            if (i + 1 < _xy.size())
+                ss << " ";
         }
-        if (not Op::isEq(getHeight(), 1.0)) ss << " " << Op::str(getHeight());
+        if (not Op::isEq(getHeight(), 1.0))
+            ss << " " << Op::str(getHeight());
         return ss.str();
     }
 
     void Discrete::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> strValues = Op::split(parameters, " ");
         std::vector<scalar> values(strValues.size());
         for (std::size_t i = 0; i < strValues.size(); ++i) {
@@ -155,10 +170,12 @@ namespace fl {
         return _xy.at(index).second;
     }
 
-    std::vector<Discrete::Pair> Discrete::toPairs(const std::vector<scalar>& xy) {
+    std::vector<Discrete::Pair> Discrete::toPairs(
+        const std::vector<scalar>& xy) {
         if (xy.size() % 2 != 0) {
             std::ostringstream os;
-            os << "[discrete error] missing value in set of pairs (|xy|=" << xy.size() << ")";
+            os << "[discrete error] missing value in set of pairs (|xy|="
+               << xy.size() << ")";
             throw Exception(os.str(), FL_AT);
         }
 
@@ -170,8 +187,8 @@ namespace fl {
         return result;
     }
 
-    std::vector<Discrete::Pair> Discrete::toPairs(const std::vector<scalar>& xy,
-            scalar missingValue) FL_INOEXCEPT {
+    std::vector<Discrete::Pair> Discrete::toPairs(
+        const std::vector<scalar>& xy, scalar missingValue) FL_INOEXCEPT {
         std::vector<Pair> result((xy.size() + 1) / 2);
         for (std::size_t i = 0; i + 1 < xy.size(); i += 2) {
             result.at(i / 2).first = xy.at(i);
@@ -193,19 +210,26 @@ namespace fl {
         return result;
     }
 
-    std::string Discrete::formatXY(const std::vector<Pair>& xy, const std::string& prefix,
-            const std::string& innerSeparator, const std::string& suffix, const std::string& outerSeparator) {
+    std::string Discrete::formatXY(const std::vector<Pair>& xy,
+                                   const std::string& prefix,
+                                   const std::string& innerSeparator,
+                                   const std::string& suffix,
+                                   const std::string& outerSeparator) {
         std::ostringstream os;
         for (std::size_t i = 0; i < xy.size(); ++i) {
             os << prefix << Op::str(xy.at(i).first) << innerSeparator
-                    << Op::str(xy.at(i).second) << suffix;
-            if (i + 1 < xy.size()) os << outerSeparator;
+               << Op::str(xy.at(i).second) << suffix;
+            if (i + 1 < xy.size())
+                os << outerSeparator;
         }
         return os.str();
     }
 
-    Discrete* Discrete::discretize(const Term* term, scalar start, scalar end, int resolution,
-            bool boundedMembershipFunction) {
+    Discrete* Discrete::discretize(const Term* term,
+                                   scalar start,
+                                   scalar end,
+                                   int resolution,
+                                   bool boundedMembershipFunction) {
         FL_unique_ptr<Discrete> result(new Discrete(term->getName()));
         scalar dx = (end - start) / resolution;
         scalar x, y;
@@ -227,4 +251,4 @@ namespace fl {
         return new Discrete;
     }
 
-}
+}  // namespace fl

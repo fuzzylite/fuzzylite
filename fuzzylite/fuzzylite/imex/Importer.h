@@ -17,9 +17,9 @@
 #ifndef FL_IMPORTER_H
 #define FL_IMPORTER_H
 
-#include "fuzzylite/fuzzylite.h"
-
 #include <string>
+
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
     class Engine;
@@ -35,8 +35,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Importer {
-    public:
-
+       public:
         Importer();
         virtual ~Importer();
         FL_DEFAULT_COPY_AND_MOVE(Importer)
@@ -49,7 +48,8 @@ namespace fl {
         virtual Engine* fromString(const std::string& text) const = 0;
         /**
           Imports the engine from the given file
-          @param path is the full path of the file containing the engine to import from
+          @param path is the full path of the file containing the engine to
+          import from
           @return the engine represented by the file
          */
         virtual Engine* fromFile(const std::string& path) const;
@@ -65,7 +65,6 @@ namespace fl {
          */
         virtual Importer* clone() const = 0;
     };
-}
+}  // namespace fl
 
-#endif  /* IMPORTER_H */
-
+#endif /* IMPORTER_H */

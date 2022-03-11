@@ -17,11 +17,11 @@
 #ifndef FL_EXCEPTION_H
 #define FL_EXCEPTION_H
 
-#include "fuzzylite/fuzzylite.h"
-
 #include <exception>
 #include <string>
 #include <vector>
+
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
 
@@ -41,28 +41,34 @@ namespace fl {
      */
 
 #ifdef FL_WINDOWS
-    //Disable warning for dllexport of std::exception in Windows
-#pragma warning (push)
-#pragma warning (disable:4275)
+    // Disable warning for dllexport of std::exception in Windows
+#pragma warning(push)
+#pragma warning(disable : 4275)
 #endif
 
     class FL_API Exception : public std::exception {
 #ifdef FL_WINDOWS
-#pragma warning (pop)
+#pragma warning(pop)
 #endif
-    private:
+
+       private:
         std::string _what;
-    public:
+
+       public:
         explicit Exception(const std::string& what);
         /**
           Constructor to be used in conjunction with macro `FL_AT`
           @param what is the message of the exception
           @param file is the name of the file where the exception occurred
-          @param line is the line number in the file where the exception occurred
-          @param function is the name of the function where the exception occurred
+          @param line is the line number in the file where the exception
+          occurred
+          @param function is the name of the function where the exception
+          occurred
          */
-        explicit Exception(const std::string& what, const std::string& file, int line,
-                const std::string& function);
+        explicit Exception(const std::string& what,
+                           const std::string& file,
+                           int line,
+                           const std::string& function);
         virtual ~Exception() FL_INOEXCEPT FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Exception)
 
@@ -91,20 +97,28 @@ namespace fl {
           Appends an error trace to the exception. The method can be called
           utilizing the macro `FL_AT`
           @param file is the name of the file where the exception occurred
-          @param line is the line number in the file where the exception occurred
-          @param function is the name of the function where the exception occurred
+          @param line is the line number in the file where the exception
+          occurred
+          @param function is the name of the function where the exception
+          occurred
          */
-        virtual void append(const std::string& file, int line, const std::string& function);
+        virtual void append(const std::string& file,
+                            int line,
+                            const std::string& function);
         /**
-          Appends an error trace with a message to the exception. The method can be called
-          utilizing the macro `FL_AT`
+          Appends an error trace with a message to the exception. The method can
+          be called utilizing the macro `FL_AT`
           @param whatElse is further information about the exception
           @param file is the name of the file where the exception occurred
-          @param line is the line number in the file where the exception occurred
-          @param function is the name of the function where the exception occurred
+          @param line is the line number in the file where the exception
+          occurred
+          @param function is the name of the function where the exception
+          occurred
          */
         virtual void append(const std::string& whatElse,
-                const std::string& file, int line, const std::string& function);
+                            const std::string& file,
+                            int line,
+                            const std::string& function);
 
         /**
           Returns the stack trace (if enabled)
@@ -119,7 +133,8 @@ namespace fl {
         static void signalHandler(int signal);
 
         /**
-          Converts a given signal into an Exception (does not work very well on Windows)
+          Converts a given signal into an Exception (does not work very well on
+          Windows)
           @param signal is the code of the signal
          */
         static void convertToException(int signal);
@@ -129,12 +144,11 @@ namespace fl {
          */
         static void terminate();
         /**
-          Logs the exception to console and proceeds the regular execution of the library
+          Logs the exception to console and proceeds the regular execution of
+          the library
           @param exception is the exception thrown
          */
         static void catchException(const std::exception& exception);
-
-
     };
-}
+}  // namespace fl
 #endif /* FL_EXCEPTION_H */

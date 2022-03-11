@@ -17,11 +17,10 @@
 #ifndef FL_THRESHOLD_H
 #define FL_THRESHOLD_H
 
-#include "fuzzylite/fuzzylite.h"
+#include <vector>
 
 #include "fuzzylite/activation/Activation.h"
-
-#include <vector>
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
 
@@ -39,8 +38,7 @@ namespace fl {
      */
 
     class FL_API Threshold : public Activation {
-    public:
-
+       public:
         /**
           Comparison is an enumerator that provides six comparison operators
           between the activation degree @f$a@f$ and the threshold @f$\theta@f$.
@@ -59,11 +57,14 @@ namespace fl {
             /**@f$a > \theta@f$*/
             GreaterThan
         };
-    private:
+
+       private:
         Comparison _comparison;
         scalar _value;
-    public:
-        explicit Threshold(Comparison comparison = GreaterThanOrEqualTo, scalar threshold = 0.0);
+
+       public:
+        explicit Threshold(Comparison comparison = GreaterThanOrEqualTo,
+                           scalar threshold = 0.0);
         explicit Threshold(const std::string& comparison, scalar threshold);
         virtual ~Threshold();
         FL_DEFAULT_COPY_AND_MOVE(Threshold)
@@ -116,14 +117,14 @@ namespace fl {
          */
         virtual std::vector<std::string> availableComparisonOperators() const;
 
-
         /**
           Parses the comparison operator, or throws an
           exception if the parameter does not correspond to a valid operator
           @param comparisonOperator is an operator in (`==`, `!=`, `<`, `>`,
           `<=`, `>=`)
          */
-        virtual Comparison parseComparison(const std::string& comparisonOperator) const;
+        virtual Comparison parseComparison(
+            const std::string& comparisonOperator) const;
 
         /**
           Sets the threshold value of the activation method
@@ -146,7 +147,8 @@ namespace fl {
         virtual void setThreshold(Comparison comparison, scalar value);
 
         /**
-          Sets the comparison operator and the threshold for the activation method
+          Sets the comparison operator and the threshold for the activation
+          method
           @param comparison is a valid comparison operator
           @param value is the threshold for activation degrees
           @throws fl::Exception if the comparison operator is not valid
@@ -162,8 +164,8 @@ namespace fl {
          */
         virtual bool activatesWith(scalar activationDegree) const;
 
-
-        virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
+        virtual Complexity complexity(const RuleBlock* ruleBlock) const
+            FL_IOVERRIDE;
 
         /**
           Activates the rules whose activation degrees satisfy the comparison
@@ -178,6 +180,6 @@ namespace fl {
         static Activation* constructor();
     };
 
-}
+}  // namespace fl
 
 #endif /* FL_THRESHOLD_H */

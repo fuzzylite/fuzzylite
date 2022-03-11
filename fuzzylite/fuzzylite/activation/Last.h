@@ -17,16 +17,15 @@
 #ifndef FL_LAST_H
 #define FL_LAST_H
 
-
 #include "fuzzylite/activation/Activation.h"
 
 namespace fl {
 
     /**
      The Last class is a RuleBlock Activation method that activates the last
-     @f$n@f$ rules whose activation degrees are greater than or equal to the given
-     threshold. The rules are iterated in the reverse order in which they were
-     added to the rule block.
+     @f$n@f$ rules whose activation degrees are greater than or equal to the
+     given threshold. The rules are iterated in the reverse order in which they
+     were added to the rule block.
 
      @author Juan Rada-Vilela, Ph.D.
      @see First
@@ -37,10 +36,11 @@ namespace fl {
      */
 
     class FL_API Last : public Activation {
-    private:
+       private:
         int _numberOfRules;
         scalar _threshold;
-    public:
+
+       public:
         explicit Last(int numberOfRules = 1, scalar threshold = 0.0);
         virtual ~Last();
         FL_DEFAULT_COPY_AND_MOVE(Last)
@@ -83,8 +83,8 @@ namespace fl {
          */
         virtual scalar getThreshold() const;
 
-
-        virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
+        virtual Complexity complexity(const RuleBlock* ruleBlock) const
+            FL_IOVERRIDE;
 
         /**
           Activates the last @f$n@f$ rules whose activation degrees are greater
@@ -98,6 +98,6 @@ namespace fl {
 
         static Activation* constructor();
     };
-}
+}  // namespace fl
 
 #endif /* FL_LAST_H */

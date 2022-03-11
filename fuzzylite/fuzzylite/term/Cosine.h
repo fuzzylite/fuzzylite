@@ -34,13 +34,14 @@ namespace fl {
      */
 
     class FL_API Cosine : public Term {
-    private:
+       private:
         scalar _center, _width;
-    public:
+
+       public:
         explicit Cosine(const std::string& name = "",
-                scalar center = fl::nan,
-                scalar width = fl::nan,
-                scalar height = 1.0);
+                        scalar center = fl::nan,
+                        scalar width = fl::nan,
+                        scalar height = 1.0);
         virtual ~Cosine() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Cosine)
 
@@ -96,6 +97,5 @@ namespace fl {
 
         static Term* constructor();
     };
-}
-#endif  /* FL_COSINE_H */
-
+}  // namespace fl
+#endif /* FL_COSINE_H */

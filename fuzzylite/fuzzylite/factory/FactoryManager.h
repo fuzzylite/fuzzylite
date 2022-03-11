@@ -17,15 +17,14 @@
 #ifndef FL_FACTORYMANAGER_H
 #define FL_FACTORYMANAGER_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/factory/TNormFactory.h"
-#include "fuzzylite/factory/SNormFactory.h"
 #include "fuzzylite/factory/ActivationFactory.h"
 #include "fuzzylite/factory/DefuzzifierFactory.h"
-#include "fuzzylite/factory/TermFactory.h"
-#include "fuzzylite/factory/HedgeFactory.h"
 #include "fuzzylite/factory/FunctionFactory.h"
+#include "fuzzylite/factory/HedgeFactory.h"
+#include "fuzzylite/factory/SNormFactory.h"
+#include "fuzzylite/factory/TNormFactory.h"
+#include "fuzzylite/factory/TermFactory.h"
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
 
@@ -46,7 +45,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API FactoryManager {
-    private:
+       private:
         FL_unique_ptr<TNormFactory> _tnorm;
         FL_unique_ptr<SNormFactory> _snorm;
         FL_unique_ptr<ActivationFactory> _activation;
@@ -55,11 +54,15 @@ namespace fl {
         FL_unique_ptr<HedgeFactory> _hedge;
         FL_unique_ptr<FunctionFactory> _function;
 
-    public:
+       public:
         FactoryManager();
-        explicit FactoryManager(TNormFactory* tnorm, SNormFactory* snorm,
-                ActivationFactory* activation, DefuzzifierFactory* defuzzifier,
-                TermFactory* term, HedgeFactory* hedge, FunctionFactory* function);
+        explicit FactoryManager(TNormFactory* tnorm,
+                                SNormFactory* snorm,
+                                ActivationFactory* activation,
+                                DefuzzifierFactory* defuzzifier,
+                                TermFactory* term,
+                                HedgeFactory* hedge,
+                                FunctionFactory* function);
         explicit FactoryManager(const FactoryManager& other);
         FactoryManager& operator=(const FactoryManager& other);
         FL_DEFAULT_MOVE(FactoryManager)
@@ -148,7 +151,6 @@ namespace fl {
          */
         virtual FunctionFactory* function() const;
     };
-}
+}  // namespace fl
 
-#endif  /* FL_FACTORYMANAGER_H */
-
+#endif /* FL_FACTORYMANAGER_H */

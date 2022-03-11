@@ -40,4 +40,4 @@ namespace fl {
         return new UnboundedSum;
     }
 
-}
+}  // namespace fl

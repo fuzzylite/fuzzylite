@@ -18,15 +18,22 @@
 
 namespace fl {
 
-    Triangle::Triangle(const std::string& name, scalar vertexA, scalar vertexB, scalar vertexC, scalar height)
-    : Term(name, height), _vertexA(vertexA), _vertexB(vertexB), _vertexC(vertexC) {
+    Triangle::Triangle(const std::string& name,
+                       scalar vertexA,
+                       scalar vertexB,
+                       scalar vertexC,
+                       scalar height)
+        : Term(name, height),
+          _vertexA(vertexA),
+          _vertexB(vertexB),
+          _vertexC(vertexC) {
         if (Op::isNaN(vertexC)) {
             this->_vertexC = _vertexB;
             this->_vertexB = 0.5 * (_vertexA + _vertexB);
         }
     }
 
-    Triangle::~Triangle() { }
+    Triangle::~Triangle() {}
 
     std::string Triangle::className() const {
         return "Triangle";
@@ -37,7 +44,8 @@ namespace fl {
     }
 
     scalar Triangle::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
 
         if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexC))
             return Term::_height * 0.0;
@@ -56,18 +64,20 @@ namespace fl {
     }
 
     std::string Triangle::parameters() const {
-        return Op::join(3, " ", _vertexA, _vertexB, _vertexC) +
-                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(3, " ", _vertexA, _vertexB, _vertexC)
+               + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight())
+                                                 : "");
     }
 
     void Triangle::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 3;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setVertexA(Op::toScalar(values.at(0)));
@@ -109,5 +119,4 @@ namespace fl {
         return new Triangle;
     }
 
-
-}
+}  // namespace fl

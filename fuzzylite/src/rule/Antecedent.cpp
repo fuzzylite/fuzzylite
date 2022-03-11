@@ -16,9 +16,11 @@
 
 #include "fuzzylite/rule/Antecedent.h"
 
+#include <stack>
+
 #include "fuzzylite/Engine.h"
-#include "fuzzylite/factory/HedgeFactory.h"
 #include "fuzzylite/factory/FactoryManager.h"
+#include "fuzzylite/factory/HedgeFactory.h"
 #include "fuzzylite/hedge/Any.h"
 #include "fuzzylite/rule/Expression.h"
 #include "fuzzylite/rule/Rule.h"
@@ -26,12 +28,9 @@
 #include "fuzzylite/variable/InputVariable.h"
 #include "fuzzylite/variable/OutputVariable.h"
 
-#include <stack>
-
 namespace fl {
 
-    Antecedent::Antecedent()
-    : _text(""), _expression(fl::null) { }
+    Antecedent::Antecedent() : _text(""), _expression(fl::null) {}
 
     Antecedent::~Antecedent() {
         _expression.reset(fl::null);
@@ -57,26 +56,34 @@ namespace fl {
         return _expression.get() != fl::null;
     }
 
-    scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction) const {
-        return this->activationDegree(conjunction, disjunction, _expression.get());
+    scalar Antecedent::activationDegree(const TNorm* conjunction,
+                                        const SNorm* disjunction) const {
+        return this->activationDegree(
+            conjunction, disjunction, _expression.get());
     }
 
-    scalar Antecedent::activationDegree(const TNorm* conjunction, const SNorm* disjunction,
-            const Expression* node) const {
+    scalar Antecedent::activationDegree(const TNorm* conjunction,
+                                        const SNorm* disjunction,
+                                        const Expression* node) const {
         if (not isLoaded()) {
-            throw Exception("[antecedent error] antecedent <" + getText() + "> is not loaded", FL_AT);
+            throw Exception("[antecedent error] antecedent <" + getText()
+                                + "> is not loaded",
+                            FL_AT);
         }
         const Expression::Type expression = node->type();
         if (expression == Expression::Proposition) {
-            const Proposition* proposition = static_cast<const Proposition*> (node);
+            const Proposition* proposition
+                = static_cast<const Proposition*>(node);
             if (not proposition->variable->isEnabled()) {
                 return 0.0;
             }
 
             if (not proposition->hedges.empty()) {
-                //if last hedge is "Any", apply hedges in reverse order and return degree
-                std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
-                if (dynamic_cast<Any*> (*rit)) {
+                // if last hedge is "Any", apply hedges in reverse order and
+                // return degree
+                std::vector<Hedge*>::const_reverse_iterator rit
+                    = proposition->hedges.rbegin();
+                if (dynamic_cast<Any*>(*rit)) {
                     scalar result = (*rit)->hedge(fl::nan);
                     while (++rit != proposition->hedges.rend()) {
                         result = (*rit)->hedge(result);
@@ -87,63 +94,83 @@ namespace fl {
             scalar result = fl::nan;
             Variable::Type variableType = proposition->variable->type();
             if (variableType == Variable::Input) {
-                result = proposition->term->membership(proposition->variable->getValue());
+                result = proposition->term->membership(
+                    proposition->variable->getValue());
             } else if (variableType == Variable::Output) {
-                result = static_cast<OutputVariable*> (proposition->variable)
-                        ->fuzzyOutput()->activationDegree(proposition->term);
+                result = static_cast<OutputVariable*>(proposition->variable)
+                             ->fuzzyOutput()
+                             ->activationDegree(proposition->term);
             }
 
             if (not proposition->hedges.empty()) {
-                for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
-                        rit != proposition->hedges.rend(); ++rit) {
+                for (std::vector<Hedge*>::const_reverse_iterator rit
+                     = proposition->hedges.rbegin();
+                     rit != proposition->hedges.rend();
+                     ++rit) {
                     result = (*rit)->hedge(result);
                 }
             }
             return result;
         }
-        //if node is an operator
+        // if node is an operator
         if (expression == Expression::Operator) {
-            const Operator* fuzzyOperator = static_cast<const Operator*> (node);
-            if (not (fuzzyOperator->left and fuzzyOperator->right)) {
+            const Operator* fuzzyOperator = static_cast<const Operator*>(node);
+            if (not(fuzzyOperator->left and fuzzyOperator->right)) {
                 std::ostringstream ex;
                 ex << "[syntax error] left and right operands must exist";
                 throw Exception(ex.str(), FL_AT);
             }
             if (fuzzyOperator->name == Rule::andKeyword()) {
-                if (not conjunction) throw Exception("[conjunction error] "
-                        "the following rule requires a conjunction operator:\n" + _text, FL_AT);
+                if (not conjunction)
+                    throw Exception(
+                        "[conjunction error] "
+                        "the following rule requires a conjunction operator:\n"
+                            + _text,
+                        FL_AT);
                 return conjunction->compute(
-                        this->activationDegree(conjunction, disjunction, fuzzyOperator->left),
-                        this->activationDegree(conjunction, disjunction, fuzzyOperator->right));
+                    this->activationDegree(
+                        conjunction, disjunction, fuzzyOperator->left),
+                    this->activationDegree(
+                        conjunction, disjunction, fuzzyOperator->right));
             }
 
             if (fuzzyOperator->name == Rule::orKeyword()) {
-                if (not disjunction) throw Exception("[disjunction error] "
-                        "the following rule requires a disjunction operator:\n" + _text, FL_AT);
+                if (not disjunction)
+                    throw Exception(
+                        "[disjunction error] "
+                        "the following rule requires a disjunction operator:\n"
+                            + _text,
+                        FL_AT);
                 return disjunction->compute(
-                        this->activationDegree(conjunction, disjunction, fuzzyOperator->left),
-                        this->activationDegree(conjunction, disjunction, fuzzyOperator->right));
+                    this->activationDegree(
+                        conjunction, disjunction, fuzzyOperator->left),
+                    this->activationDegree(
+                        conjunction, disjunction, fuzzyOperator->right));
             }
             std::ostringstream ex;
-            ex << "[syntax error] operator <" << fuzzyOperator->name << "> not recognized";
+            ex << "[syntax error] operator <" << fuzzyOperator->name
+               << "> not recognized";
             throw Exception(ex.str(), FL_AT);
 
         } else {
             std::ostringstream ss;
-            ss << "[antecedent error] expected a Proposition or Operator, but found <";
-            if (node) ss << node->toString();
+            ss << "[antecedent error] expected a Proposition or Operator, but "
+                  "found <";
+            if (node)
+                ss << node->toString();
             ss << ">";
             throw Exception(ss.str(), FL_AT);
         }
     }
 
-
-    Complexity Antecedent::complexity(const TNorm* conjunction, const SNorm* disjunction) const {
+    Complexity Antecedent::complexity(const TNorm* conjunction,
+                                      const SNorm* disjunction) const {
         return complexity(conjunction, disjunction, _expression.get());
     }
 
-    Complexity Antecedent::complexity(const TNorm* conjunction, const SNorm* disjunction,
-            const Expression* node) const {
+    Complexity Antecedent::complexity(const TNorm* conjunction,
+                                      const SNorm* disjunction,
+                                      const Expression* node) const {
         if (not isLoaded()) {
             return Complexity();
         }
@@ -151,15 +178,18 @@ namespace fl {
         Complexity result;
         const Expression::Type expression = node->type();
         if (expression == Expression::Proposition) {
-            const Proposition* proposition = static_cast<const Proposition*> (node);
+            const Proposition* proposition
+                = static_cast<const Proposition*>(node);
             if (not proposition->variable->isEnabled()) {
                 return result;
             }
 
             if (not proposition->hedges.empty()) {
-                //if last hedge is "Any", apply hedges in reverse order and return degree
-                std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
-                if (dynamic_cast<Any*> (*rit)) {
+                // if last hedge is "Any", apply hedges in reverse order and
+                // return degree
+                std::vector<Hedge*>::const_reverse_iterator rit
+                    = proposition->hedges.rbegin();
+                if (dynamic_cast<Any*>(*rit)) {
                     result += (*rit)->complexity();
                     while (++rit != proposition->hedges.rend()) {
                         result = (*rit)->complexity();
@@ -171,22 +201,26 @@ namespace fl {
             if (variableType == Variable::Input) {
                 result += proposition->term->complexity();
             } else if (variableType == Variable::Output) {
-                OutputVariable* outputVariable = static_cast<OutputVariable*> (proposition->variable);
-                result += outputVariable->fuzzyOutput()->complexityOfActivationDegree();
+                OutputVariable* outputVariable
+                    = static_cast<OutputVariable*>(proposition->variable);
+                result += outputVariable->fuzzyOutput()
+                              ->complexityOfActivationDegree();
             }
 
             if (not proposition->hedges.empty()) {
-                for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
-                        rit != proposition->hedges.rend(); ++rit) {
+                for (std::vector<Hedge*>::const_reverse_iterator rit
+                     = proposition->hedges.rbegin();
+                     rit != proposition->hedges.rend();
+                     ++rit) {
                     result += (*rit)->complexity();
                 }
             }
             return result;
         }
-        //if node is an operator
+        // if node is an operator
         if (expression == Expression::Operator) {
-            const Operator* fuzzyOperator = static_cast<const Operator*> (node);
-            if (not (fuzzyOperator->left and fuzzyOperator->right)) {
+            const Operator* fuzzyOperator = static_cast<const Operator*>(node);
+            if (not(fuzzyOperator->left and fuzzyOperator->right)) {
                 std::ostringstream ex;
                 ex << "[syntax error] left and right operands must exist";
                 throw Exception(ex.str(), FL_AT);
@@ -195,8 +229,10 @@ namespace fl {
                 if (conjunction) {
                     result += conjunction->complexity();
                 }
-                result += complexity(conjunction, disjunction, fuzzyOperator->left)
-                        + complexity(conjunction, disjunction, fuzzyOperator->right);
+                result
+                    += complexity(conjunction, disjunction, fuzzyOperator->left)
+                       + complexity(
+                           conjunction, disjunction, fuzzyOperator->right);
                 return result;
             }
 
@@ -204,8 +240,10 @@ namespace fl {
                 if (disjunction) {
                     result += disjunction->complexity();
                 }
-                result += complexity(conjunction, disjunction, fuzzyOperator->left)
-                        + complexity(conjunction, disjunction, fuzzyOperator->right);
+                result
+                    += complexity(conjunction, disjunction, fuzzyOperator->left)
+                       + complexity(
+                           conjunction, disjunction, fuzzyOperator->right);
                 return result;
             }
         }
@@ -244,7 +282,11 @@ namespace fl {
         std::string token;
 
         enum FSM {
-            S_VARIABLE = 1, S_IS = 2, S_HEDGE = 4, S_TERM = 8, S_AND_OR = 16
+            S_VARIABLE = 1,
+            S_IS = 2,
+            S_HEDGE = 4,
+            S_TERM = 8,
+            S_AND_OR = 16
         };
         int state = S_VARIABLE;
         std::stack<Expression*> expressionStack;
@@ -281,7 +323,7 @@ namespace fl {
                     if (factory->hasConstructor(token)) {
                         Hedge* hedge = factory->constructObject(token);
                         proposition->hedges.push_back(hedge);
-                        if (dynamic_cast<Any*> (hedge)) {
+                        if (dynamic_cast<Any*>(hedge)) {
                             state = S_VARIABLE bitor S_AND_OR;
                         } else {
                             state = S_HEDGE bitor S_TERM;
@@ -293,7 +335,8 @@ namespace fl {
 
                 if (state bitand S_TERM) {
                     if (proposition->variable->hasTerm(token)) {
-                        proposition->term = proposition->variable->getTerm(token);
+                        proposition->term
+                            = proposition->variable->getTerm(token);
                         state = S_VARIABLE bitor S_AND_OR;
                         FL_DBG("Token <" << token << "> is term");
                         continue;
@@ -301,11 +344,14 @@ namespace fl {
                 }
 
                 if (state bitand S_AND_OR) {
-                    if (token == Rule::andKeyword() or token == Rule::orKeyword()) {
+                    if (token == Rule::andKeyword()
+                        or token == Rule::orKeyword()) {
                         if (expressionStack.size() < 2) {
                             std::ostringstream ex;
-                            ex << "[syntax error] logical operator <" << token << "> expects two operands,"
-                                    << "but found <" << expressionStack.size() << "> in antecedent";
+                            ex << "[syntax error] logical operator <" << token
+                               << "> expects two operands,"
+                               << "but found <" << expressionStack.size()
+                               << "> in antecedent";
                             throw Exception(ex.str(), FL_AT);
                         }
                         Operator* fuzzyOperator = new Operator;
@@ -317,43 +363,56 @@ namespace fl {
                         expressionStack.push(fuzzyOperator);
 
                         state = S_VARIABLE bitor S_AND_OR;
-                        FL_DBG("Subtree: " << fuzzyOperator->toString() <<
-                                "(" << fuzzyOperator->left->toString() << ") " <<
-                                "(" << fuzzyOperator->right->toString() << ")");
+                        FL_DBG("Subtree: "
+                               << fuzzyOperator->toString() << "("
+                               << fuzzyOperator->left->toString() << ") "
+                               << "(" << fuzzyOperator->right->toString()
+                               << ")");
                         continue;
                     }
                 }
 
-                //If reached this point, there was an error
+                // If reached this point, there was an error
                 if ((state bitand S_VARIABLE) or (state bitand S_AND_OR)) {
                     std::ostringstream ex;
-                    ex << "[syntax error] antecedent expected variable or logical operator, but found <" << token << ">";
+                    ex << "[syntax error] antecedent expected variable or "
+                          "logical operator, but found <"
+                       << token << ">";
                     throw Exception(ex.str(), FL_AT);
                 }
                 if (state bitand S_IS) {
                     std::ostringstream ex;
-                    ex << "[syntax error] antecedent expected keyword <" << Rule::isKeyword() << ">, but found <" << token << ">";
+                    ex << "[syntax error] antecedent expected keyword <"
+                       << Rule::isKeyword() << ">, but found <" << token << ">";
                     throw Exception(ex.str(), FL_AT);
                 }
                 if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
                     std::ostringstream ex;
-                    ex << "[syntax error] antecedent expected hedge or term, but found <" << token << ">";
+                    ex << "[syntax error] antecedent expected hedge or term, "
+                          "but found <"
+                       << token << ">";
                     throw Exception(ex.str(), FL_AT);
                 }
                 std::ostringstream ex;
-                ex << "[syntax error] unexpected token <" << token << "> in antecedent";
+                ex << "[syntax error] unexpected token <" << token
+                   << "> in antecedent";
                 throw Exception(ex.str(), FL_AT);
             }
 
-            if (not ((state bitand S_VARIABLE) or (state bitand S_AND_OR))) { //only acceptable final state
+            if (not((state bitand S_VARIABLE)
+                    or (state
+                        bitand S_AND_OR))) {  // only acceptable final state
                 if (state bitand S_IS) {
                     std::ostringstream ex;
-                    ex << "[syntax error] antecedent expected keyword <" << Rule::isKeyword() << "> after <" << token << ">";
+                    ex << "[syntax error] antecedent expected keyword <"
+                       << Rule::isKeyword() << "> after <" << token << ">";
                     throw Exception(ex.str(), FL_AT);
                 }
                 if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
                     std::ostringstream ex;
-                    ex << "[syntax error] antecedent expected hedge or term after <" << token << ">";
+                    ex << "[syntax error] antecedent expected hedge or term "
+                          "after <"
+                       << token << ">";
                     throw Exception(ex.str(), FL_AT);
                 }
             }
@@ -367,8 +426,9 @@ namespace fl {
                     delete expression;
                 }
                 std::ostringstream ex;
-                ex << "[syntax error] unable to parse the following expressions in antecedent <"
-                        << Op::join(errors, " ") << ">";
+                ex << "[syntax error] unable to parse the following "
+                      "expressions in antecedent <"
+                   << Op::join(errors, " ") << ">";
                 throw Exception(ex.str(), FL_AT);
             }
         } catch (...) {
@@ -387,61 +447,75 @@ namespace fl {
 
     std::string Antecedent::toPrefix(const Expression* node) const {
         if (not isLoaded()) {
-            throw Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
+            throw Exception(
+                "[antecedent error] antecedent <" + _text + "> is not loaded",
+                FL_AT);
         }
-        if (not node) node = getExpression();
+        if (not node)
+            node = getExpression();
 
-        if (dynamic_cast<const Proposition*> (node)) {
+        if (dynamic_cast<const Proposition*>(node)) {
             return node->toString();
         }
         std::stringstream ss;
-        if (const Operator * fuzzyOperator = dynamic_cast<const Operator*> (node)) {
+        if (const Operator* fuzzyOperator
+            = dynamic_cast<const Operator*>(node)) {
             ss << fuzzyOperator->toString() << " "
-                    << toPrefix(fuzzyOperator->left) << " "
-                    << toPrefix(fuzzyOperator->right) << " ";
+               << toPrefix(fuzzyOperator->left) << " "
+               << toPrefix(fuzzyOperator->right) << " ";
         } else {
-            ss << "[antecedent error] unknown class of Expression <" << (node ? node->toString() : "null") << ">";
+            ss << "[antecedent error] unknown class of Expression <"
+               << (node ? node->toString() : "null") << ">";
         }
         return ss.str();
     }
 
     std::string Antecedent::toInfix(const Expression* node) const {
         if (not isLoaded()) {
-            throw Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
+            throw Exception(
+                "[antecedent error] antecedent <" + _text + "> is not loaded",
+                FL_AT);
         }
-        if (not node) node = getExpression();
-        if (dynamic_cast<const Proposition*> (node)) {
+        if (not node)
+            node = getExpression();
+        if (dynamic_cast<const Proposition*>(node)) {
             return node->toString();
         }
         std::stringstream ss;
-        if (const Operator * fuzzyOperator = dynamic_cast<const Operator*> (node)) {
+        if (const Operator* fuzzyOperator
+            = dynamic_cast<const Operator*>(node)) {
             ss << toInfix(fuzzyOperator->left) << " "
-                    << fuzzyOperator->toString() << " "
-                    << toInfix(fuzzyOperator->right) << " ";
+               << fuzzyOperator->toString() << " "
+               << toInfix(fuzzyOperator->right) << " ";
         } else {
-            ss << "[antecedent error] unknown class of Expression <" << (node ? node->toString() : "null") << ">";
+            ss << "[antecedent error] unknown class of Expression <"
+               << (node ? node->toString() : "null") << ">";
         }
         return ss.str();
     }
 
     std::string Antecedent::toPostfix(const Expression* node) const {
         if (not isLoaded()) {
-            throw Exception("[antecedent error] antecedent <" + _text + "> is not loaded", FL_AT);
+            throw Exception(
+                "[antecedent error] antecedent <" + _text + "> is not loaded",
+                FL_AT);
         }
-        if (not node) node = getExpression();
-        if (dynamic_cast<const Proposition*> (node)) {
+        if (not node)
+            node = getExpression();
+        if (dynamic_cast<const Proposition*>(node)) {
             return node->toString();
         }
         std::stringstream ss;
-        if (const Operator * fuzzyOperator = dynamic_cast<const Operator*> (node)) {
+        if (const Operator* fuzzyOperator
+            = dynamic_cast<const Operator*>(node)) {
             ss << toPostfix(fuzzyOperator->left) << " "
-                    << toPostfix(fuzzyOperator->right) << " "
-                    << fuzzyOperator->toString() << " ";
+               << toPostfix(fuzzyOperator->right) << " "
+               << fuzzyOperator->toString() << " ";
         } else {
-            ss << "[antecedent error] unknown class of Expression <" << (node ? node->toString() : "null") << ">";
+            ss << "[antecedent error] unknown class of Expression <"
+               << (node ? node->toString() : "null") << ">";
         }
         return ss.str();
     }
 
-
-}
+}  // namespace fl

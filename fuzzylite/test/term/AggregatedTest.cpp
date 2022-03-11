@@ -14,8 +14,8 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "test/catch.hpp"
 #include "fuzzylite/Headers.h"
+#include "test/catch.hpp"
 
 namespace fl {
 
@@ -27,7 +27,6 @@ namespace fl {
      */
 
     TEST_CASE("highest term in aggregated", "[term][aggregated]") {
-
         FL_unique_ptr<Term> dark(new Triangle("DARK", 0.000, 0.250, 0.500));
         FL_unique_ptr<Term> medium(new Triangle("MEDIUM", 0.250, 0.500, 0.750));
         FL_unique_ptr<Term> bright(new Triangle("BRIGHT", 0.500, 0.750, 1.000));
@@ -49,4 +48,4 @@ namespace fl {
         REQUIRE(aggregated.highestActivatedTerm() == fl::null);
     }
 
-}
+}  // namespace fl

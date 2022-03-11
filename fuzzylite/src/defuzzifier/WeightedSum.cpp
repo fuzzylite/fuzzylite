@@ -16,17 +16,18 @@
 
 #include "fuzzylite/defuzzifier/WeightedSum.h"
 
-#include "fuzzylite/term/Aggregated.h"
-
 #include <map>
+
+#include "fuzzylite/term/Aggregated.h"
 
 namespace fl {
 
-    WeightedSum::WeightedSum(Type type) : WeightedDefuzzifier(type) { }
+    WeightedSum::WeightedSum(Type type) : WeightedDefuzzifier(type) {}
 
-    WeightedSum::WeightedSum(const std::string& type) : WeightedDefuzzifier(type) { }
+    WeightedSum::WeightedSum(const std::string& type)
+        : WeightedDefuzzifier(type) {}
 
-    WeightedSum::~WeightedSum() { }
+    WeightedSum::~WeightedSum() {}
 
     std::string WeightedSum::className() const {
         return "WeightedSum";
@@ -35,25 +36,28 @@ namespace fl {
     Complexity WeightedSum::complexity(const Term* term) const {
         Complexity result;
         result.comparison(4).function(1);
-        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*> (term);
+        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*>(term);
         if (fuzzyOutput) {
-            result += term->complexity().arithmetic(2).multiply(scalar(fuzzyOutput->numberOfTerms()));
+            result += term->complexity().arithmetic(2).multiply(
+                scalar(fuzzyOutput->numberOfTerms()));
         }
         return result;
     }
 
     scalar WeightedSum::defuzzify(const Term* term,
-            scalar minimum, scalar maximum) const {
-        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*> (term);
+                                  scalar minimum,
+                                  scalar maximum) const {
+        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*>(term);
         if (not fuzzyOutput) {
             std::ostringstream ss;
             ss << "[defuzzification error]"
-                    << "expected an Aggregated term instead of"
-                    << "<" << (term ? term->toString() : "null") << ">";
+               << "expected an Aggregated term instead of"
+               << "<" << (term ? term->toString() : "null") << ">";
             throw Exception(ss.str(), FL_AT);
         }
 
-        if (fuzzyOutput->isEmpty()) return fl::nan;
+        if (fuzzyOutput->isEmpty())
+            return fl::nan;
 
         minimum = fuzzyOutput->getMinimum();
         maximum = fuzzyOutput->getMaximum();
@@ -66,7 +70,7 @@ namespace fl {
         scalar sum = 0.0;
         const std::size_t numberOfTerms = fuzzyOutput->numberOfTerms();
         if (type == TakagiSugeno) {
-            //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
+            // Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
             scalar w, z;
             for (std::size_t i = 0; i < numberOfTerms; ++i) {
                 const Activated& activated = fuzzyOutput->getTerm(i);
@@ -94,4 +98,4 @@ namespace fl {
         return new WeightedSum;
     }
 
-}
+}  // namespace fl

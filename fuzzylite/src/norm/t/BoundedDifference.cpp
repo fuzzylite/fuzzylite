@@ -40,4 +40,4 @@ namespace fl {
         return new BoundedDifference;
     }
 
-}
+}  // namespace fl

@@ -35,14 +35,15 @@ namespace fl {
       @since 5.0
      */
     class FL_API Activated : public Term {
-    private:
+       private:
         const Term* _term;
         scalar _degree;
         const TNorm* _implication;
 
-    public:
-        explicit Activated(const Term* term = fl::null, scalar degree = 1.0,
-                const TNorm* implication = fl::null);
+       public:
+        explicit Activated(const Term* term = fl::null,
+                           scalar degree = 1.0,
+                           const TNorm* implication = fl::null);
         virtual ~Activated() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Activated)
 
@@ -103,5 +104,5 @@ namespace fl {
 
         virtual Activated* clone() const FL_IOVERRIDE;
     };
-}
+}  // namespace fl
 #endif /* FL_ACTIVATED_H */

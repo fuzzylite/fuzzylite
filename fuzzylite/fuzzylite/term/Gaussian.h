@@ -33,15 +33,15 @@ namespace fl {
       @since 4.0
      */
     class FL_API Gaussian : public Term {
-    private:
+       private:
         scalar _mean;
         scalar _standardDeviation;
 
-    public:
+       public:
         explicit Gaussian(const std::string& name = "",
-                scalar mean = fl::nan,
-                scalar standardDeviation = fl::nan,
-                scalar height = 1.0);
+                          scalar mean = fl::nan,
+                          scalar standardDeviation = fl::nan,
+                          scalar height = 1.0);
         virtual ~Gaussian() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Gaussian)
 
@@ -82,7 +82,8 @@ namespace fl {
 
         /**
           Sets the standard deviation of the Gaussian curve
-          @param standardDeviation is the standard deviation of the Gaussian curve
+          @param standardDeviation is the standard deviation of the Gaussian
+          curve
          */
         virtual void setStandardDeviation(scalar standardDeviation);
         /**
@@ -95,5 +96,5 @@ namespace fl {
 
         static Term* constructor();
     };
-}
+}  // namespace fl
 #endif /* FL_GAUSSIAN_H */

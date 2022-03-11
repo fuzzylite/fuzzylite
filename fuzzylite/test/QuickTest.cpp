@@ -14,8 +14,8 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "test/catch.hpp"
 #include "fuzzylite/Headers.h"
+#include "test/catch.hpp"
 
 namespace fl {
 
@@ -26,7 +26,8 @@ namespace fl {
             minSampleValues.push_back(0);
             if (i == 0)
                 maxSampleValues.push_back(10);
-            else maxSampleValues.push_back(0);
+            else
+                maxSampleValues.push_back(0);
         }
         int times = 0;
         do {
@@ -48,8 +49,8 @@ namespace fl {
         fuzzylite::setDecimals(3);
 
         FL_LOG(Op::str(1.0));
-        FL_LOG(Op::str((long) 5000));
-        FL_LOG(Op::str((int) 6000));
+        FL_LOG(Op::str((long)5000));
+        FL_LOG(Op::str((int)6000));
         FL_LOG(Op::str(std::size_t(6000)));
         FL_LOG(Op::str(scalar(0.333333)));
         FL_LOG(Op::str(float(0.333333)));
@@ -59,8 +60,8 @@ namespace fl {
         CHECK(Op::str(0) == "0");
         CHECK(Op::str(1) == "1");
         CHECK(Op::str(1.0) == "1.000");
-        CHECK(Op::str((long) 5000) == "5000");
-        CHECK(Op::str((int) 6000) == "6000");
+        CHECK(Op::str((long)5000) == "5000");
+        CHECK(Op::str((int)6000) == "6000");
         CHECK(Op::str(std::size_t(6000)) == "6000");
         CHECK(Op::str(scalar(0.333333)) == "0.333");
         CHECK(Op::str(float(0.333333)) == "0.333");
@@ -76,8 +77,8 @@ namespace fl {
         FL_LOG("scientific");
         fuzzylite::setScalarFormat(std::ios_base::scientific);
         FL_LOG(Op::str(1.0));
-        FL_LOG(Op::str((long) 5000));
-        FL_LOG(Op::str((int) 6000));
+        FL_LOG(Op::str((long)5000));
+        FL_LOG(Op::str((int)6000));
         FL_LOG(Op::str(std::size_t(6000)));
         FL_LOG(Op::str(scalar(0.333333)));
         FL_LOG(Op::str(float(0.333333)));
@@ -86,8 +87,8 @@ namespace fl {
 
         CHECK(Op::str(0) == "0");
         CHECK(Op::str(1.0) == "1.000e+00");
-        CHECK(Op::str((long) 5000) == "5000");
-        CHECK(Op::str((int) 6000) == "6000");
+        CHECK(Op::str((long)5000) == "5000");
+        CHECK(Op::str((int)6000) == "6000");
         CHECK(Op::str(std::size_t(6000)) == "6000");
         CHECK(Op::str(scalar(0.333333)) == "3.333e-01");
         CHECK(Op::str(float(0.333333)) == "3.333e-01");
@@ -98,11 +99,11 @@ namespace fl {
         CHECK(Op::isEq(fuzzylite::macheps(), 0.0, std::pow(10.0, -6)) == false);
         CHECK(Op::str(fuzzylite::macheps()) == "0.000e+00");
         CHECK(Op::str(fuzzylite::macheps(), -1) == "1.000000e-06");
-        CHECK(Op::str(fuzzylite::macheps(), -1, std::ios_base::fmtflags(0x0)) == "1e-06");
+        CHECK(Op::str(fuzzylite::macheps(), -1, std::ios_base::fmtflags(0x0))
+              == "1e-06");
         CHECK(Op::str(1e-7, 6) == "0.000000e+00");
         CHECK(Op::str(1e-7, 7) == "1.0000000e-07");
         CHECK(Op::str(1e-7, 7, std::ios_base::fmtflags(0x0)) == "1e-07");
-
 
         fuzzylite::setScalarFormat(std::ios_base::fixed);
 
@@ -113,9 +114,10 @@ namespace fl {
         CHECK(Op::str(1000000.0, 3, std::ios_base::fmtflags(0x0)) == "1e+06");
     }
 
-    TEST_CASE("macro expansion does not evaluate parameter before expansion", "[op]") {
+    TEST_CASE("macro expansion does not evaluate parameter before expansion",
+              "[op]") {
         std::ostringstream os;
-#define FL_MACRO1(x)  os << x * 5;
+#define FL_MACRO1(x) os << x * 5;
         FL_MACRO1(4 + 10);
         CHECK(os.str() == "54");
 
@@ -124,5 +126,4 @@ namespace fl {
         CHECK(xstr(4 + 10) == "4 + 10");
     }
 
-
-}
+}  // namespace fl

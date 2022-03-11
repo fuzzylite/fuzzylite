@@ -43,4 +43,4 @@ namespace fl {
         return new DrasticProduct;
     }
 
-}
+}  // namespace fl

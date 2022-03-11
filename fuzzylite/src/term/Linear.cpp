@@ -21,11 +21,11 @@
 namespace fl {
 
     Linear::Linear(const std::string& name,
-            const std::vector<scalar>& coefficients,
-            const Engine* engine)
-    : Term(name), _coefficients(coefficients), _engine(engine) { }
+                   const std::vector<scalar>& coefficients,
+                   const Engine* engine)
+        : Term(name), _coefficients(coefficients), _engine(engine) {}
 
-    Linear::~Linear() { }
+    Linear::~Linear() {}
 
     std::string Linear::className() const {
         return "Linear";
@@ -36,7 +36,8 @@ namespace fl {
         result.comparison(1 + 1);
         if (_engine) {
             result.arithmetic(scalar(_engine->variables().size()));
-            result.comparison(scalar(_engine->variables().size())); //if (i < coefficients)
+            result.comparison(
+                scalar(_engine->variables().size()));  // if (i < coefficients)
         }
         return result;
     }
@@ -48,11 +49,13 @@ namespace fl {
                 "is missing a reference to the engine", FL_AT);
 
         scalar result = 0.0;
-        const std::size_t numberOfInputVariables = _engine->inputVariables().size();
+        const std::size_t numberOfInputVariables
+            = _engine->inputVariables().size();
         const std::size_t numberOfCoefficients = _coefficients.size();
         for (std::size_t i = 0; i < numberOfInputVariables; ++i) {
             if (i < numberOfCoefficients)
-                result += _coefficients.at(i) * _engine->inputVariables().at(i)->getValue();
+                result += _coefficients.at(i)
+                          * _engine->inputVariables().at(i)->getValue();
         }
         if (numberOfCoefficients > numberOfInputVariables) {
             result += _coefficients.back();
@@ -60,7 +63,8 @@ namespace fl {
         return result;
     }
 
-    void Linear::set(const std::vector<scalar>& coefficients, const Engine* engine) {
+    void Linear::set(const std::vector<scalar>& coefficients,
+                     const Engine* engine) {
         setCoefficients(coefficients);
         setEngine(engine);
     }
@@ -91,7 +95,8 @@ namespace fl {
 
     void Linear::configure(const std::string& parameters) {
         this->_coefficients.clear();
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> strValues = Op::split(parameters, " ");
         std::vector<scalar> values;
         for (std::size_t i = 0; i < strValues.size(); ++i) {
@@ -112,4 +117,4 @@ namespace fl {
         return new Linear;
     }
 
-}
+}  // namespace fl

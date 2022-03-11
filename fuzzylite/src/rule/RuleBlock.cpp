@@ -16,20 +16,20 @@
 
 #include "fuzzylite/rule/RuleBlock.h"
 
+#include "fuzzylite/Operation.h"
 #include "fuzzylite/activation/General.h"
 #include "fuzzylite/imex/FllExporter.h"
-#include "fuzzylite/norm/TNorm.h"
 #include "fuzzylite/norm/SNorm.h"
+#include "fuzzylite/norm/TNorm.h"
 #include "fuzzylite/rule/Rule.h"
-#include "fuzzylite/Operation.h"
 
 namespace fl {
 
     RuleBlock::RuleBlock(const std::string& name)
-    : _enabled(true), _name(name), _description("") { }
+        : _enabled(true), _name(name), _description("") {}
 
-    RuleBlock::RuleBlock(const RuleBlock& other) : _enabled(true), _name(other._name),
-    _description(other._description) {
+    RuleBlock::RuleBlock(const RuleBlock& other)
+        : _enabled(true), _name(other._name), _description(other._description) {
         copyFrom(other);
     }
 
@@ -53,10 +53,14 @@ namespace fl {
         _enabled = source._enabled;
         _name = source._name;
         _description = source._description;
-        if (source._conjunction.get()) _conjunction.reset(source._conjunction->clone());
-        if (source._disjunction.get()) _disjunction.reset(source._disjunction->clone());
-        if (source._implication.get()) _implication.reset(source._implication->clone());
-        if (source._activation.get()) _activation.reset(source._activation->clone());
+        if (source._conjunction.get())
+            _conjunction.reset(source._conjunction->clone());
+        if (source._disjunction.get())
+            _disjunction.reset(source._disjunction->clone());
+        if (source._implication.get())
+            _implication.reset(source._implication->clone());
+        if (source._activation.get())
+            _activation.reset(source._activation->clone());
         for (std::size_t i = 0; i < source._rules.size(); ++i) {
             _rules.push_back(source._rules.at(i)->clone());
         }
@@ -77,7 +81,7 @@ namespace fl {
         } else {
             for (std::size_t i = 0; i < _rules.size(); ++i) {
                 result += _rules.at(i)->complexity(
-                        _conjunction.get(), _disjunction.get(), _implication.get());
+                    _conjunction.get(), _disjunction.get(), _implication.get());
             }
         }
         return result;
@@ -112,8 +116,11 @@ namespace fl {
             }
         }
         if (throwException) {
-            Exception exception("[ruleblock error] the following "
-                    "rules could not be loaded:\n" + exceptions.str(), FL_AT);
+            Exception exception(
+                "[ruleblock error] the following "
+                "rules could not be loaded:\n"
+                    + exceptions.str(),
+                FL_AT);
             throw exception;
         }
     }
@@ -224,4 +231,4 @@ namespace fl {
         return new RuleBlock(*this);
     }
 
-}
+}  // namespace fl

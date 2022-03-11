@@ -23,8 +23,9 @@ namespace fl {
 
     /**
       The First class is a RuleBlock Activation method that activates the first
-      @f$n@f$ rules whose activation degrees are greater than or equal to the given
-      threshold. The rules are iterated in the order they were added to the rule block.
+      @f$n@f$ rules whose activation degrees are greater than or equal to the
+      given threshold. The rules are iterated in the order they were added to
+      the rule block.
 
       @author Juan Rada-Vilela, Ph.D.
       @see Last
@@ -35,11 +36,11 @@ namespace fl {
      */
 
     class FL_API First : public Activation {
-    private:
+       private:
         int _numberOfRules;
         scalar _threshold;
-    public:
 
+       public:
         explicit First(int numberOfRules = 1, scalar threshold = 0.0);
         virtual ~First();
         FL_DEFAULT_COPY_AND_MOVE(First)
@@ -83,12 +84,13 @@ namespace fl {
          */
         virtual scalar getThreshold() const;
 
-        virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
+        virtual Complexity complexity(const RuleBlock* ruleBlock) const
+            FL_IOVERRIDE;
 
         /**
-          Activates the first @f$n@f$ rules whose activation degrees are greater than or
-          equal to the given threshold. The rules are iterated in the order the
-          rules were added to the rule block.
+          Activates the first @f$n@f$ rules whose activation degrees are greater
+          than or equal to the given threshold. The rules are iterated in the
+          order the rules were added to the rule block.
           @param ruleBlock is the rule block to activate
          */
         virtual void activate(RuleBlock* ruleBlock) FL_IOVERRIDE;
@@ -98,7 +100,6 @@ namespace fl {
         static Activation* constructor();
     };
 
-}
-
+}  // namespace fl
 
 #endif /* FL_FIRST_H */

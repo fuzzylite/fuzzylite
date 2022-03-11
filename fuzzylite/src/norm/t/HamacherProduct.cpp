@@ -29,7 +29,8 @@ namespace fl {
     }
 
     scalar HamacherProduct::compute(scalar a, scalar b) const {
-        if (Op::isEq(a + b, 0.0)) return 0.0;
+        if (Op::isEq(a + b, 0.0))
+            return 0.0;
         return (a * b) / (a + b - a * b);
     }
 
@@ -41,4 +42,4 @@ namespace fl {
         return new HamacherProduct;
     }
 
-}
+}  // namespace fl

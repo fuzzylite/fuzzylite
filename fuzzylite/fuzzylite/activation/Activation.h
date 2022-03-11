@@ -17,9 +17,8 @@
 #ifndef FL_ACTIVATION_H
 #define FL_ACTIVATION_H
 
-#include "fuzzylite/fuzzylite.h"
-
 #include "fuzzylite/Complexity.h"
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
     class RuleBlock;
@@ -42,11 +41,10 @@ namespace fl {
      */
 
     class FL_API Activation {
-    public:
+       public:
+        Activation() {}
 
-        Activation() { }
-
-        virtual ~Activation() { }
+        virtual ~Activation() {}
 
         FL_DEFAULT_COPY_AND_MOVE(Activation)
 
@@ -90,6 +88,6 @@ namespace fl {
         virtual Activation* clone() const = 0;
     };
 
-}
+}  // namespace fl
 
 #endif /* FL_ACTIVATION_H */

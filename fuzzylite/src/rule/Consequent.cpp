@@ -17,8 +17,8 @@
 #include "fuzzylite/rule/Consequent.h"
 
 #include "fuzzylite/Engine.h"
-#include "fuzzylite/factory/HedgeFactory.h"
 #include "fuzzylite/factory/FactoryManager.h"
+#include "fuzzylite/factory/HedgeFactory.h"
 #include "fuzzylite/hedge/Any.h"
 #include "fuzzylite/rule/Expression.h"
 #include "fuzzylite/rule/Rule.h"
@@ -27,7 +27,7 @@
 
 namespace fl {
 
-    Consequent::Consequent() { }
+    Consequent::Consequent() {}
 
     Consequent::~Consequent() {
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
@@ -62,28 +62,34 @@ namespace fl {
             for (std::size_t h = 0; h < proposition->hedges.size(); ++h) {
                 result += proposition->hedges.at(h)->complexity();
             }
-            result += static_cast<OutputVariable*> (proposition->variable)
-                    ->complexity(Activated(proposition->term, fl::nan, implication));
+            result += static_cast<OutputVariable*>(proposition->variable)
+                          ->complexity(Activated(
+                              proposition->term, fl::nan, implication));
         }
         return result;
     }
 
     void Consequent::modify(scalar activationDegree, const TNorm* implication) {
         if (not isLoaded()) {
-            throw Exception("[consequent error] consequent <" + getText() + "> is not loaded", FL_AT);
+            throw Exception("[consequent error] consequent <" + getText()
+                                + "> is not loaded",
+                            FL_AT);
         }
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
             Proposition* proposition = _conclusions.at(i);
             if (proposition->variable->isEnabled()) {
                 if (not proposition->hedges.empty()) {
-                    for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
-                            rit != proposition->hedges.rend(); ++rit) {
+                    for (std::vector<Hedge*>::const_reverse_iterator rit
+                         = proposition->hedges.rbegin();
+                         rit != proposition->hedges.rend();
+                         ++rit) {
                         activationDegree = (*rit)->hedge(activationDegree);
                     }
                 }
 
-                static_cast<OutputVariable*> (proposition->variable)->fuzzyOutput()
-                        ->addTerm(proposition->term, activationDegree, implication);
+                static_cast<OutputVariable*>(proposition->variable)
+                    ->fuzzyOutput()
+                    ->addTerm(proposition->term, activationDegree, implication);
             }
         }
     }
@@ -122,8 +128,12 @@ namespace fl {
          6) After operator 'with' comes a float
          */
         enum FSM {
-            S_VARIABLE = 1, S_IS = 2, S_HEDGE = 4, S_TERM = 8,
-            S_AND = 16, S_WITH = 32
+            S_VARIABLE = 1,
+            S_IS = 2,
+            S_HEDGE = 4,
+            S_TERM = 8,
+            S_AND = 16,
+            S_WITH = 32
         };
         int state = S_VARIABLE;
 
@@ -136,7 +146,8 @@ namespace fl {
                 if (state bitand S_VARIABLE) {
                     if (engine->hasOutputVariable(token)) {
                         proposition = new Proposition;
-                        proposition->variable = engine->getOutputVariable(token);
+                        proposition->variable
+                            = engine->getOutputVariable(token);
                         conclusions().push_back(proposition);
                         state = S_IS;
                         continue;
@@ -162,7 +173,8 @@ namespace fl {
 
                 if (state bitand S_TERM) {
                     if (proposition->variable->hasTerm(token)) {
-                        proposition->term = proposition->variable->getTerm(token);
+                        proposition->term
+                            = proposition->variable->getTerm(token);
                         state = S_AND bitor S_WITH;
                         continue;
                     }
@@ -175,53 +187,70 @@ namespace fl {
                     }
                 }
 
-                //if reached this point, there was an error:
+                // if reached this point, there was an error:
                 if (state bitand S_VARIABLE) {
                     std::ostringstream ex;
-                    ex << "[syntax error] consequent expected output variable, but found <" << token << ">";
+                    ex << "[syntax error] consequent expected output variable, "
+                          "but found <"
+                       << token << ">";
                     throw Exception(ex.str(), FL_AT);
                 }
                 if (state bitand S_IS) {
                     std::ostringstream ex;
-                    ex << "[syntax error] consequent expected keyword <" << Rule::isKeyword() << ">, "
-                            "but found <" << token << ">";
+                    ex << "[syntax error] consequent expected keyword <"
+                       << Rule::isKeyword()
+                       << ">, "
+                          "but found <"
+                       << token << ">";
                     throw Exception(ex.str(), FL_AT);
                 }
 
                 if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
                     std::ostringstream ex;
-                    ex << "[syntax error] consequent expected hedge or term, but found <" << token << ">";
+                    ex << "[syntax error] consequent expected hedge or term, "
+                          "but found <"
+                       << token << ">";
                     throw Exception(ex.str(), FL_AT);
                 }
 
                 if ((state bitand S_AND) or (state bitand S_WITH)) {
                     std::ostringstream ex;
-                    ex << "[syntax error] consequent expected operator <" << Rule::andKeyword() << "> "
-                            << "or keyword <" << Rule::withKeyword() << ">, "
-                            << "but found <" << token << ">";
+                    ex << "[syntax error] consequent expected operator <"
+                       << Rule::andKeyword() << "> "
+                       << "or keyword <" << Rule::withKeyword() << ">, "
+                       << "but found <" << token << ">";
                     throw Exception(ex.str(), FL_AT);
                 }
 
                 std::ostringstream ex;
-                ex << "[syntax error] unexpected token <" << token << "> in consequent";
+                ex << "[syntax error] unexpected token <" << token
+                   << "> in consequent";
                 throw Exception(ex.str(), FL_AT);
             }
 
-            if (not ((state bitand S_AND) or (state bitand S_WITH))) { //only acceptable final state
+            if (not((state bitand S_AND)
+                    or (state bitand S_WITH))) {  // only acceptable final state
                 if (state bitand S_VARIABLE) {
                     std::ostringstream ex;
-                    ex << "[syntax error] consequent expected output variable after <" << token << ">";
+                    ex << "[syntax error] consequent expected output variable "
+                          "after <"
+                       << token << ">";
                     throw Exception(ex.str(), FL_AT);
                 }
                 if (state bitand S_IS) {
                     std::ostringstream ex;
-                    ex << "[syntax error] consequent expected keyword <" << Rule::isKeyword() << "> "
-                            "after <" << token << ">";
+                    ex << "[syntax error] consequent expected keyword <"
+                       << Rule::isKeyword()
+                       << "> "
+                          "after <"
+                       << token << ">";
                     throw Exception(ex.str(), FL_AT);
                 }
                 if ((state bitand S_HEDGE) or (state bitand S_TERM)) {
                     std::ostringstream ex;
-                    ex << "[syntax error] consequent expected hedge or term after <" << token << ">";
+                    ex << "[syntax error] consequent expected hedge or term "
+                          "after <"
+                       << token << ">";
                     throw Exception(ex.str(), FL_AT);
                 }
             }
@@ -241,4 +270,4 @@ namespace fl {
         return ss.str();
     }
 
-}
+}  // namespace fl

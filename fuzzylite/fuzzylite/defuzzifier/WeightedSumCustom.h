@@ -17,17 +17,16 @@
 #ifndef FL_WEIGHTEDSUMCUSTOM_H
 #define FL_WEIGHTEDSUMCUSTOM_H
 
-
 #include "fuzzylite/defuzzifier/WeightedDefuzzifier.h"
 
 namespace fl {
 
     /**
-      The (experimental) WeightedSumCustom class is a WeightedDefuzzifier that computes the
-      weighted sum of a fuzzy set represented in an Aggregated Term utilizing
-      the fuzzy operators for implication and aggregation to compute the weighted
-      sum. This is an experimental approach to take advantage of customization
-      thanks to the object-oriented design.
+      The (experimental) WeightedSumCustom class is a WeightedDefuzzifier that
+      computes the weighted sum of a fuzzy set represented in an Aggregated Term
+      utilizing the fuzzy operators for implication and aggregation to compute
+      the weighted sum. This is an experimental approach to take advantage of
+      customization thanks to the object-oriented design.
 
       @author Juan Rada-Vilela, Ph.D.
       @see WeightedSum
@@ -39,7 +38,7 @@ namespace fl {
       @experimental
      */
     class FL_API WeightedSumCustom : public WeightedDefuzzifier {
-    public:
+       public:
         explicit WeightedSumCustom(Type type = Automatic);
         explicit WeightedSumCustom(const std::string& type);
         virtual ~WeightedSumCustom() FL_IOVERRIDE;
@@ -62,17 +61,19 @@ namespace fl {
           compute the multiplications and sums in @f$y@f$, respectively.
 
           @param term is the fuzzy set represented as an AggregatedTerm
-          @param minimum is the minimum value of the range (only used for Tsukamoto)
-          @param maximum is the maximum value of the range (only used for Tsukamoto)
+          @param minimum is the minimum value of the range (only used for
+          Tsukamoto)
+          @param maximum is the maximum value of the range (only used for
+          Tsukamoto)
           @return the weighted sum of the given fuzzy set
          */
         virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+                                 scalar minimum,
+                                 scalar maximum) const FL_IOVERRIDE;
         virtual WeightedSumCustom* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };
-}
+}  // namespace fl
 
-#endif  /* FL_WEIGHTEDSUMCUSTOM_H */
-
+#endif /* FL_WEIGHTEDSUMCUSTOM_H */

@@ -35,7 +35,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API WeightedAverage : public WeightedDefuzzifier {
-    public:
+       public:
         explicit WeightedAverage(Type type = Automatic);
         explicit WeightedAverage(const std::string& type);
         virtual ~WeightedAverage() FL_IOVERRIDE;
@@ -52,20 +52,22 @@ namespace fl {
           @f$z_i = \mu_i(w_i) @f$.
 
           From version 6.0, the implication and aggregation operators are not
-          utilized for defuzzification. 
+          utilized for defuzzification.
 
           @param term is the fuzzy set represented as an Aggregated Term
-          @param minimum is the minimum value of the range (only used for Tsukamoto)
-          @param maximum is the maximum value of the range (only used for Tsukamoto)
+          @param minimum is the minimum value of the range (only used for
+          Tsukamoto)
+          @param maximum is the maximum value of the range (only used for
+          Tsukamoto)
           @return the weighted average of the given fuzzy set
          */
         virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+                                 scalar minimum,
+                                 scalar maximum) const FL_IOVERRIDE;
         virtual WeightedAverage* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };
-}
+}  // namespace fl
 
-#endif  /* FL_WEIGHTEDAVERAGE_H */
-
+#endif /* FL_WEIGHTEDAVERAGE_H */

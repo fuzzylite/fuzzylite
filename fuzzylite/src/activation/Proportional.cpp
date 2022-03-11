@@ -16,15 +16,15 @@
 
 #include "fuzzylite/activation/Proportional.h"
 
-#include "fuzzylite/rule/RuleBlock.h"
-#include "fuzzylite/rule/Rule.h"
 #include "fuzzylite/Operation.h"
+#include "fuzzylite/rule/Rule.h"
+#include "fuzzylite/rule/RuleBlock.h"
 
 namespace fl {
 
-    Proportional::Proportional() : Activation() { }
+    Proportional::Proportional() : Activation() {}
 
-    Proportional::~Proportional() { }
+    Proportional::~Proportional() {}
 
     std::string Proportional::className() const {
         return "Proportional";
@@ -43,12 +43,13 @@ namespace fl {
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             result.comparison(1).arithmetic(1);
             result += ruleBlock->getRule(i)->complexityOfActivation(
-                    ruleBlock->getConjunction(), ruleBlock->getDisjunction());
+                ruleBlock->getConjunction(), ruleBlock->getDisjunction());
         }
 
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             result.arithmetic(1);
-            result += ruleBlock->getRule(i)->complexityOfFiring(ruleBlock->getImplication());
+            result += ruleBlock->getRule(i)->complexityOfFiring(
+                ruleBlock->getImplication());
         }
         return result;
     }
@@ -66,7 +67,8 @@ namespace fl {
             Rule* rule = ruleBlock->getRule(i);
             rule->deactivate();
             if (rule->isLoaded()) {
-                scalar activationDegree = rule->activateWith(conjunction, disjunction);
+                scalar activationDegree
+                    = rule->activateWith(conjunction, disjunction);
                 rulesToActivate.push_back(rule);
                 sumActivationDegrees += activationDegree;
             }
@@ -74,7 +76,8 @@ namespace fl {
 
         for (std::size_t i = 0; i < rulesToActivate.size(); ++i) {
             Rule* rule = rulesToActivate.at(i);
-            scalar activationDegree = rule->getActivationDegree() / sumActivationDegrees;
+            scalar activationDegree
+                = rule->getActivationDegree() / sumActivationDegrees;
             rule->setActivationDegree(activationDegree);
             rule->trigger(implication);
         }
@@ -88,4 +91,4 @@ namespace fl {
         return new Proportional;
     }
 
-}
+}  // namespace fl

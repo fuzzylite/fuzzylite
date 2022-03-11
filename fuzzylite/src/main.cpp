@@ -14,10 +14,10 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fuzzylite/Headers.h"
-
-#include <fstream>
 #include <csignal>
+#include <fstream>
+
+#include "fuzzylite/Headers.h"
 
 int main(int argc, const char* argv[]) {
     std::set_terminate(fl::Exception::terminate);
@@ -32,19 +32,16 @@ int main(int argc, const char* argv[]) {
     ::signal(SIGPIPE, fl::Exception::signalHandler);
 #endif
 #ifdef FL_WINDOWS
-    //SetConsoleCtrlHandler(flSignalHandler, TRUE);
+    // SetConsoleCtrlHandler(flSignalHandler, TRUE);
 #endif
     fl::fuzzylite::setDebugging(false);
 
     try {
         fl::Console::main(argc, argv);
     } catch (std::exception& ex) {
-        std::cout << ex.what() << "\nBACKTRACE:\n" <<
-                fl::Exception::btCallStack() << std::endl;
+        std::cout << ex.what() << "\nBACKTRACE:\n"
+                  << fl::Exception::btCallStack() << std::endl;
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
 }
-
-
-

@@ -16,15 +16,15 @@
 
 #include "fuzzylite/activation/General.h"
 
-#include "fuzzylite/rule/RuleBlock.h"
-#include "fuzzylite/rule/Rule.h"
 #include "fuzzylite/Operation.h"
+#include "fuzzylite/rule/Rule.h"
+#include "fuzzylite/rule/RuleBlock.h"
 
 namespace fl {
 
-    General::General() : Activation() { }
+    General::General() : Activation() {}
 
-    General::~General() { }
+    General::~General() {}
 
     std::string General::className() const {
         return "General";
@@ -43,8 +43,9 @@ namespace fl {
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             result.comparison(1);
             result += ruleBlock->getRule(i)->complexity(
-                    ruleBlock->getConjunction(), ruleBlock->getDisjunction(),
-                    ruleBlock->getImplication());
+                ruleBlock->getConjunction(),
+                ruleBlock->getDisjunction(),
+                ruleBlock->getImplication());
         }
         return result;
     }
@@ -74,4 +75,4 @@ namespace fl {
         return new General;
     }
 
-}
+}  // namespace fl

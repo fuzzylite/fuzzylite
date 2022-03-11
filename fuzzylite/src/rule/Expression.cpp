@@ -17,18 +17,18 @@
 #include "fuzzylite/rule/Expression.h"
 
 #include "fuzzylite/hedge/Hedge.h"
-#include "fuzzylite/term/Term.h"
 #include "fuzzylite/rule/Rule.h"
+#include "fuzzylite/term/Term.h"
 #include "fuzzylite/variable/Variable.h"
 
 namespace fl {
 
-    Expression::Expression() { }
+    Expression::Expression() {}
 
-    Expression::~Expression() { }
+    Expression::~Expression() {}
 
-    Proposition::Proposition() : Expression(),
-    variable(fl::null), term(fl::null) { }
+    Proposition::Proposition()
+        : Expression(), variable(fl::null), term(fl::null) {}
 
     Proposition::~Proposition() {
         for (std::size_t i = 0; i < hedges.size(); ++i) {
@@ -55,7 +55,7 @@ namespace fl {
             }
         }
 
-        if (term) { //term is fl::null if hedge is any
+        if (term) {  // term is fl::null if hedge is any
             if (hedges.empty()) {
                 ss << " " << Rule::isKeyword() << " ";
             }
@@ -64,12 +64,14 @@ namespace fl {
         return ss.str();
     }
 
-    Operator::Operator() : Expression(),
-    name(""), left(fl::null), right(fl::null) { }
+    Operator::Operator()
+        : Expression(), name(""), left(fl::null), right(fl::null) {}
 
     Operator::~Operator() {
-        if (left) delete left;
-        if (right) delete right;
+        if (left)
+            delete left;
+        if (right)
+            delete right;
     }
 
     Expression::Type Operator::type() const {
@@ -80,4 +82,4 @@ namespace fl {
         return name;
     }
 
-}
+}  // namespace fl

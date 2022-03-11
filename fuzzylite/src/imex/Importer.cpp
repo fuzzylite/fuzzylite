@@ -15,20 +15,22 @@
  */
 
 #include "fuzzylite/imex/Importer.h"
-#include "fuzzylite/Exception.h"
 
 #include <fstream>
 
+#include "fuzzylite/Exception.h"
+
 namespace fl {
 
-    Importer::Importer() { }
+    Importer::Importer() {}
 
-    Importer::~Importer() { }
+    Importer::~Importer() {}
 
     Engine* Importer::fromFile(const std::string& path) const {
         std::ifstream reader(path.c_str());
         if (not reader.is_open()) {
-            throw Exception("[file error] file <" + path + "> could not be opened", FL_AT);
+            throw Exception(
+                "[file error] file <" + path + "> could not be opened", FL_AT);
         }
         std::ostringstream textEngine;
         std::string line;
@@ -39,4 +41,4 @@ namespace fl {
         return fromString(textEngine.str());
     }
 
-}
+}  // namespace fl

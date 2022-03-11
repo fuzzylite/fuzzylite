@@ -14,8 +14,8 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "test/catch.hpp"
 #include "fuzzylite/Headers.h"
+#include "test/catch.hpp"
 
 namespace fl {
 
@@ -29,17 +29,22 @@ namespace fl {
         exporter.setExportHeader(false);
 
         int valuesEachVariable = 3;
-        int expectedValues = (int) std::pow(valuesEachVariable, 1.0 * engine->numberOfInputVariables());
+        int expectedValues = (int)std::pow(
+            valuesEachVariable, 1.0 * engine->numberOfInputVariables());
 
-        std::string eachVariable = exporter.toString(engine.get(), valuesEachVariable, FldExporter::EachVariable);
+        std::string eachVariable = exporter.toString(
+            engine.get(), valuesEachVariable, FldExporter::EachVariable);
         //        FL_LOG("eachVariable:\n" << eachVariable);
-        std::vector<std::string> linesByVariable = Op::split(eachVariable, "\n");
+        std::vector<std::string> linesByVariable
+            = Op::split(eachVariable, "\n");
         CHECK(int(linesByVariable.size()) == expectedValues);
 
-        std::string allVariables = exporter.toString(engine.get(), expectedValues, FldExporter::AllVariables);
-        std::vector<std::string> linesAllVariables = Op::split(allVariables, "\n");
+        std::string allVariables = exporter.toString(
+            engine.get(), expectedValues, FldExporter::AllVariables);
+        std::vector<std::string> linesAllVariables
+            = Op::split(allVariables, "\n");
         //        FL_LOG("allVariables:\n" << allVariables);
         CHECK(int(linesAllVariables.size()) == expectedValues);
     }
 
-}
+}  // namespace fl

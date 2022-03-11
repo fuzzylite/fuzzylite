@@ -17,20 +17,19 @@
 #ifndef FL_DISCRETE_H
 #define FL_DISCRETE_H
 
-#include "fuzzylite/term/Term.h"
+#include <utility>
+#include <vector>
 
 #include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
-
-#include <vector>
-#include <utility>
+#include "fuzzylite/term/Term.h"
 
 namespace fl {
 
     /**
       The Discrete class is a basic Term that represents a discrete membership
       function. The pairs of values in any Discrete term **must** be sorted
-      ascendently because the membership function is computed using binary search
-      to find the lower and upper bounds of @f$x@f$.
+      ascendently because the membership function is computed using binary
+      search to find the lower and upper bounds of @f$x@f$.
 
       @image html discrete.svg
 
@@ -40,14 +39,16 @@ namespace fl {
       @since 4.0
      */
     class FL_API Discrete : public Term {
-    public:
+       public:
         typedef std::pair<scalar, scalar> Pair;
-    private:
+
+       private:
         std::vector<Pair> _xy;
-    public:
+
+       public:
         explicit Discrete(const std::string& name = "",
-                const std::vector<Pair>& xy = std::vector<Pair>(),
-                scalar height = 1.0);
+                          const std::vector<Pair>& xy = std::vector<Pair>(),
+                          scalar height = 1.0);
         virtual ~Discrete() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Discrete)
 
@@ -58,7 +59,8 @@ namespace fl {
          */
         virtual std::string parameters() const FL_IOVERRIDE;
         /**
-          Configures the term with the parameters given as `x1 y1 xn yn [height]`
+          Configures the term with the parameters given as `x1 y1 xn yn
+          [height]`
           @param parameters as `x1 y1 xn yn [height]`
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
@@ -82,29 +84,36 @@ namespace fl {
           search to find the lower and upper bounds of @f$x@f$ and then linearly
           interpolating the membership function between the bounds.
           @param x
-          @return @f$ \dfrac{h (y_{\max} - y_{\min})}{(x_{\max}- x_{\min})}  (x - x_{\min}) + y_{\min}@f$
+          @return @f$ \dfrac{h (y_{\max} - y_{\min})}{(x_{\max}- x_{\min})}  (x
+          - x_{\min}) + y_{\min}@f$
 
           where @f$h@f$ is the height of the Term,
-                @f$x_{\min}@f$ and @f$x_{\max}@f$is are the lower and upper limits
-                     of @f$x@f$ in `xy` (respectively),
+                @f$x_{\min}@f$ and @f$x_{\max}@f$is are the lower and upper
+          limits of @f$x@f$ in `xy` (respectively),
                 @f$y_{\min}@f$ and @f$y_{\max}@f$is are the membership functions
-                     of @f$\mu(x_{\min})@f$ and @f$\mu(x_{\max})@f$ (respectively)
+                     of @f$\mu(x_{\min})@f$ and @f$\mu(x_{\max})@f$
+          (respectively)
          */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
         /**
           Sets the vector of pairs defining the discrete membership function
-          @param pairs is the vector of pairs defining the discrete membership function
+          @param pairs is the vector of pairs defining the discrete membership
+          function
          */
         virtual void setXY(const std::vector<Pair>& pairs);
         /**
-          Gets an immutable vector of pairs defining the discrete membership function
-          @return an immutable vector of pairs defining the discrete membership function
+          Gets an immutable vector of pairs defining the discrete membership
+          function
+          @return an immutable vector of pairs defining the discrete membership
+          function
          */
         virtual const std::vector<Pair>& xy() const;
         /**
-          Gets a mutable vector of pairs defining the discrete membership function
-          @return a mutable vector of pairs defining the discrete membership function
+          Gets a mutable vector of pairs defining the discrete membership
+          function
+          @return a mutable vector of pairs defining the discrete membership
+          function
          */
         virtual std::vector<Pair>& xy();
         /**
@@ -186,7 +195,7 @@ namespace fl {
           @f$\left(\{x_1,y_1\},...,\{x_n,y_n\}\right)@f$
          */
         static std::vector<Pair> toPairs(const std::vector<scalar>& xy,
-                scalar missingValue) FL_INOEXCEPT;
+                                         scalar missingValue) FL_INOEXCEPT;
 
         /**
           Formats a vector of Pair into a std::string in the form
@@ -203,8 +212,10 @@ namespace fl {
           @return a formatted string containing the pairs of @f$(x,y)@f$ values
          */
         static std::string formatXY(const std::vector<Pair>& xy,
-                const std::string& prefix = "(", const std::string& innerSeparator = ",",
-                const std::string& suffix = ")", const std::string& outerSeparator = " ");
+                                    const std::string& prefix = "(",
+                                    const std::string& innerSeparator = ",",
+                                    const std::string& suffix = ")",
+                                    const std::string& outerSeparator = " ");
 
         /**
           Discretizes the given term
@@ -217,9 +228,12 @@ namespace fl {
           @f$\mu(x)\in[0.0,1.0]@f$
           @return a Discrete term that approximates the given term
          */
-        static Discrete* discretize(const Term* term, scalar start, scalar end,
-                int resolution = IntegralDefuzzifier::defaultResolution(),
-                bool boundedMembershipFunction = true);
+        static Discrete* discretize(const Term* term,
+                                    scalar start,
+                                    scalar end,
+                                    int resolution
+                                    = IntegralDefuzzifier::defaultResolution(),
+                                    bool boundedMembershipFunction = true);
 
         virtual Discrete* clone() const FL_IOVERRIDE;
 
@@ -244,10 +258,10 @@ namespace fl {
           @return a new Discrete term with the given parameters
          */
         template <typename T>
-        static Discrete* create(const std::string& name, int argc,
-                T x1, T y1, ...);
+        static Discrete* create(
+            const std::string& name, int argc, T x1, T y1, ...);
     };
-}
+}  // namespace fl
 
 /**
   Template implementation
@@ -256,15 +270,15 @@ namespace fl {
 namespace fl {
 
     template <typename T>
-    inline Discrete* Discrete::create(const std::string& name, int argc,
-            T x1, T y1, ...) {
+    inline Discrete* Discrete::create(
+        const std::string& name, int argc, T x1, T y1, ...) {
         std::vector<scalar> xy(argc);
         xy.at(0) = x1;
         xy.at(1) = y1;
         va_list args;
         va_start(args, y1);
         for (int i = 2; i < argc; ++i) {
-            xy.at(i) = (scalar) va_arg(args, T);
+            xy.at(i) = (scalar)va_arg(args, T);
         }
         va_end(args);
 
@@ -276,5 +290,5 @@ namespace fl {
         result->setXY(toPairs(xy));
         return result.release();
     }
-}
+}  // namespace fl
 #endif /* FL_DISCRETE_H */

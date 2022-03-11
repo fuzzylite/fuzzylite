@@ -17,9 +17,9 @@
 #ifndef FL_FISEXPORTER_H
 #define FL_FISEXPORTER_H
 
-#include "fuzzylite/imex/Exporter.h"
-
 #include <vector>
+
+#include "fuzzylite/imex/Exporter.h"
 
 namespace fl {
     class Norm;
@@ -41,12 +41,12 @@ namespace fl {
       @since 4.0
      */
     class FL_API FisExporter : public Exporter {
-    protected:
+       protected:
+        virtual std::string translate(
+            const std::vector<Proposition*>& propositions,
+            const std::vector<Variable*> variables) const;
 
-        virtual std::string translate(const std::vector<Proposition*>& propositions,
-                const std::vector<Variable*> variables) const;
-
-    public:
+       public:
         FisExporter();
         virtual ~FisExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FisExporter)
@@ -55,29 +55,37 @@ namespace fl {
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
 
         /**
-         Returns a string representation of the TNorm in the Fuzzy Inference System format
+         Returns a string representation of the TNorm in the Fuzzy Inference
+         System format
          @param tnorm is the TNorm
-         @return a string representation of the TNorm in the Fuzzy Inference System format
+         @return a string representation of the TNorm in the Fuzzy Inference
+         System format
          */
         virtual std::string toString(const TNorm* tnorm) const;
 
         /**
-         Returns a string representation of the SNorm in the Fuzzy Inference System format
+         Returns a string representation of the SNorm in the Fuzzy Inference
+         System format
          @param snorm is the SNorm
-         @return a string representation of the SNorm in the Fuzzy Inference System format
+         @return a string representation of the SNorm in the Fuzzy Inference
+         System format
          */
         virtual std::string toString(const SNorm* snorm) const;
 
         /**
-         Returns a string representation of the Defuzzifier in the Fuzzy Inference System format
+         Returns a string representation of the Defuzzifier in the Fuzzy
+         Inference System format
          @param defuzzifier is the defuzzifier
-         @return a string representation of the Defuzzifier in the Fuzzy Inference System format
+         @return a string representation of the Defuzzifier in the Fuzzy
+         Inference System format
          */
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
         /**
-         Returns a string representation of the Term in the Fuzzy Inference System format
+         Returns a string representation of the Term in the Fuzzy Inference
+         System format
          @param term is the term
-         @return a string representation of the term in the Fuzzy Inference System format
+         @return a string representation of the term in the Fuzzy Inference
+         System format
          */
         virtual std::string toString(const Term* term) const;
 
@@ -106,16 +114,18 @@ namespace fl {
          */
         virtual std::string exportRules(const Engine* engine) const;
         /**
-          Returns a string representation for the Rule in the Fuzzy Inference System format
+          Returns a string representation for the Rule in the Fuzzy Inference
+          System format
           @param rule is the rule
           @param engine is the engine in which the rule is registered
-          @return a string representation for the rule in the Fuzzy Inference System format
+          @return a string representation for the rule in the Fuzzy Inference
+          System format
          */
-        virtual std::string exportRule(const Rule* rule, const Engine* engine) const;
+        virtual std::string exportRule(const Rule* rule,
+                                       const Engine* engine) const;
 
         virtual FisExporter* clone() const FL_IOVERRIDE;
     };
-}
+}  // namespace fl
 
-#endif  /* FL_FISEXPORTER_H */
-
+#endif /* FL_FISEXPORTER_H */

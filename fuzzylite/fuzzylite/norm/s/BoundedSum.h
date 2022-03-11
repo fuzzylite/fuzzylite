@@ -33,7 +33,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API BoundedSum FL_IFINAL : public SNorm {
-    public:
+       public:
         std::string className() const FL_IOVERRIDE;
 
         Complexity complexity() const FL_IOVERRIDE;
@@ -49,6 +49,6 @@ namespace fl {
         static SNorm* constructor();
     };
 
-}
+}  // namespace fl
 
-#endif  /* FL_BOUNDEDSUM_H */
+#endif /* FL_BOUNDEDSUM_H */

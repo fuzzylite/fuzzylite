@@ -33,14 +33,14 @@ namespace fl {
       @since 4.0
      */
     class FL_API Rectangle : public Term {
-    private:
+       private:
         scalar _start, _end;
 
-    public:
+       public:
         explicit Rectangle(const std::string& name = "",
-                scalar start = fl::nan,
-                scalar end = fl::nan,
-                scalar height = 1.0);
+                           scalar start = fl::nan,
+                           scalar end = fl::nan,
+                           scalar height = 1.0);
         virtual ~Rectangle() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Rectangle)
 
@@ -98,5 +98,5 @@ namespace fl {
 
         static Term* constructor();
     };
-}
+}  // namespace fl
 #endif /* FL_RECTANGLE_H */

@@ -38,4 +38,4 @@ namespace fl {
         return new EinsteinSum;
     }
 
-}
+}  // namespace fl

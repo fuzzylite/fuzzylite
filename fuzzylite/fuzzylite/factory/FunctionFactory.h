@@ -18,7 +18,6 @@
 #define FL_FUNCTIONFACTORY_H
 
 #include "fuzzylite/factory/CloningFactory.h"
-
 #include "fuzzylite/term/Function.h"
 
 namespace fl {
@@ -35,10 +34,11 @@ namespace fl {
       @since 5.0
      */
     class FL_API FunctionFactory : public CloningFactory<Function::Element*> {
-    private:
+       private:
         void registerOperators();
         void registerFunctions();
-    public:
+
+       public:
         FunctionFactory();
         virtual ~FunctionFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FunctionFactory)
@@ -53,9 +53,7 @@ namespace fl {
           @return a vector of the functions available
          */
         virtual std::vector<std::string> availableFunctions() const;
-
     };
-}
+}  // namespace fl
 
-#endif  /* FL_FUNCTIONFACTORY_H */
-
+#endif /* FL_FUNCTIONFACTORY_H */

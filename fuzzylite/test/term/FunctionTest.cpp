@@ -14,8 +14,8 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "test/catch.hpp"
 #include "fuzzylite/Headers.h"
+#include "test/catch.hpp"
 
 namespace fl {
 
@@ -30,8 +30,10 @@ namespace fl {
         Function f;
         std::string text = "3+4*2/(1-5)^2^3";
         CHECK(f.toPostfix(text) == "3 4 2 * 1 5 - 2 3 ^ ^ / +");
-        CHECK(f.parse(text)->toInfix() == "3.000 ^ 2.000 ^ 5.000 - 1.000 / 2.000 * 4.000 + 3.000");
-        CHECK(f.parse(text)->toPrefix() == "+ / ^ ^ 3.000 2.000 - 5.000 1.000 * 2.000 4.000 3.000");
+        CHECK(f.parse(text)->toInfix()
+              == "3.000 ^ 2.000 ^ 5.000 - 1.000 / 2.000 * 4.000 + 3.000");
+        CHECK(f.parse(text)->toPrefix()
+              == "+ / ^ ^ 3.000 2.000 - 5.000 1.000 * 2.000 4.000 3.000");
     }
 
     TEST_CASE("function parses basic trigonometry", "[term][function]") {
@@ -51,14 +53,16 @@ namespace fl {
     TEST_CASE("function parses propositions", "[term][function]") {
         Function f;
 
-        std::string text = "(Temperature is High and Oxygen is Low) or "
-                "(Temperature is Low and (Oxygen is Low or Oxygen is High))";
+        std::string text
+            = "(Temperature is High and Oxygen is Low) or "
+              "(Temperature is Low and (Oxygen is Low or Oxygen is High))";
 
         CHECK(f.toPostfix(text) == "Temperature is High Oxygen is Low "
                 "and Temperature is Low Oxygen is Low Oxygen is High or and or");
     }
 
-    TEST_CASE("function cannot deal with negative numbers", "[term][function]") {
+    TEST_CASE("function cannot deal with negative numbers",
+              "[term][function]") {
         Function f;
         std::string text = "-5 *4/sin(-pi/2)";
 
@@ -78,7 +82,8 @@ namespace fl {
 
         CHECK(f.toPostfix(text) == "5 ~ 4 * pi ~ 2 / sin /");
         CHECK(f.parse(text)->toInfix() == "2.000 / pi ~ sin / 4.000 * 5.000 ~");
-        CHECK(f.parse(text)->toPrefix() == "/ sin / 2.000 ~ pi * 4.000 ~ 5.000");
+        CHECK(f.parse(text)->toPrefix()
+              == "/ sin / 2.000 ~ pi * 4.000 ~ 5.000");
     }
 
     TEST_CASE("Function is clonable", "[term][function]") {
@@ -103,7 +108,7 @@ namespace fl {
         delete clone;
     }
 
-    TEST_CASE("Function computes tree size correctly", "[term][function]"){
+    TEST_CASE("Function computes tree size correctly", "[term][function]") {
         Function f("f", "x*x+(x-x)/x+log(x)");
         f.load();
         CHECK(f.root()->treeSize() == 6);
@@ -112,4 +117,4 @@ namespace fl {
         FL_LOG(f.complexity().toString());
     }
 
-}
+}  // namespace fl

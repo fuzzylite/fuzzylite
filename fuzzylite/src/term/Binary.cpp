@@ -18,10 +18,13 @@
 
 namespace fl {
 
-    Binary::Binary(const std::string& name, scalar start, scalar direction, scalar height)
-    : Term(name, height), _start(start), _direction(direction) { }
+    Binary::Binary(const std::string& name,
+                   scalar start,
+                   scalar direction,
+                   scalar height)
+        : Term(name, height), _start(start), _direction(direction) {}
 
-    Binary::~Binary() { }
+    Binary::~Binary() {}
 
     std::string Binary::className() const {
         return "Binary";
@@ -32,7 +35,8 @@ namespace fl {
     }
 
     scalar Binary::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
         if (_direction > _start and Op::isGE(x, _start)) {
             return Term::_height * 1.0;
         }
@@ -43,18 +47,20 @@ namespace fl {
     }
 
     std::string Binary::parameters() const {
-        return Op::join(2, " ", _start, _direction) +
-                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(2, " ", _start, _direction)
+               + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight())
+                                                 : "");
     }
 
     void Binary::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 2;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setStart(Op::toScalar(values.at(0)));
@@ -80,8 +86,10 @@ namespace fl {
     }
 
     Binary::Direction Binary::direction() const {
-        if (this->_direction > _start) return Positive;
-        if (this->_direction < _start) return Negative;
+        if (this->_direction > _start)
+            return Positive;
+        if (this->_direction < _start)
+            return Negative;
         return Undefined;
     }
 
@@ -93,4 +101,4 @@ namespace fl {
         return new Binary;
     }
 
-}
+}  // namespace fl

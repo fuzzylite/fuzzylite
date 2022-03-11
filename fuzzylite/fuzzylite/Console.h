@@ -17,10 +17,11 @@
 #ifndef FL_CONSOLE_H
 #define FL_CONSOLE_H
 
-#include "fuzzylite/fuzzylite.h"
 #include <map>
 #include <string>
 #include <vector>
+
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
     class Engine;
@@ -33,8 +34,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Console {
-    public:
-
+       public:
         /**
           A command-line option given by key, value and description
          */
@@ -42,8 +42,8 @@ namespace fl {
             std::string key, value, description;
 
             explicit Option(const std::string& key = "",
-                    const std::string& value = "",
-                    const std::string& description = "");
+                            const std::string& value = "",
+                            const std::string& description = "");
         };
 
         /**Keyword for input file*/
@@ -75,8 +75,10 @@ namespace fl {
          */
         static Engine* mamdani();
         /**
-          Creates a new TakagiSugeno Engine based on the Approximation example of @f$sin(x)/x@f$
-          @return a new TakagiSugeno Engine based on the Approximation example of @f$sin(x)/x@f$
+          Creates a new TakagiSugeno Engine based on the Approximation example
+          of @f$sin(x)/x@f$
+          @return a new TakagiSugeno Engine based on the Approximation example
+          of @f$sin(x)/x@f$
          */
         static Engine* takagiSugeno();
 
@@ -88,22 +90,27 @@ namespace fl {
          */
         static Engine* hybrid();
 
-
-    protected:
-        virtual std::map<std::string, std::string> parse(int argc, const char* argv[]);
+       protected:
+        virtual std::map<std::string, std::string> parse(int argc,
+                                                         const char* argv[]);
         virtual void process(const std::map<std::string, std::string>& options);
 
-        virtual void process(const std::string& input, std::ostream& writer,
-                const std::string& inputFormat, const std::string& outputFormat,
-                const std::map<std::string, std::string>& options);
+        virtual void process(const std::string& input,
+                             std::ostream& writer,
+                             const std::string& inputFormat,
+                             const std::string& outputFormat,
+                             const std::map<std::string, std::string>& options);
 
         virtual int readCharacter();
         virtual void interactive(std::ostream& writer, Engine* engine);
         virtual std::string interactiveHelp();
 
-        virtual void exportAllExamples(const std::string& from, const std::string& to);
-        virtual void exportAllExamples(const std::string& from, const std::string& to,
-                const std::string& examplesPath, const std::string& outputPath);
+        virtual void exportAllExamples(const std::string& from,
+                                       const std::string& to);
+        virtual void exportAllExamples(const std::string& from,
+                                       const std::string& to,
+                                       const std::string& examplesPath,
+                                       const std::string& outputPath);
 
         /**
        Benchmarks the engine described in the FLL file against the dataset
@@ -113,29 +120,33 @@ namespace fl {
        @param fldFile is the file containing the dataset in FLD format
        @param runs is the number of runs to evaluate the benchmarks
        @param writer is the output where the results will be written to
-       @throws Exception if something goes wrong reading the files, importing the
-       engines or evaluating the benchmark
+       @throws Exception if something goes wrong reading the files, importing
+       the engines or evaluating the benchmark
          */
 
-        virtual void benchmark(const std::string& fllFile, const std::string& fldFile,
-                int runs, std::ofstream* writer = fl::null) const;
+        virtual void benchmark(const std::string& fllFile,
+                               const std::string& fldFile,
+                               int runs,
+                               std::ofstream* writer = fl::null) const;
         /**
-          Benchmarks the list of engines against the list of datasets, both described
-          as absolute or relative paths
+          Benchmarks the list of engines against the list of datasets, both
+          described as absolute or relative paths
 
-          @param fllFileList is the file containing the list of paths of engines in
-          FLL format
-          @param fldFileList is the file containing the list of paths of datasets in
-          FLD format
+          @param fllFileList is the file containing the list of paths of engines
+          in FLL format
+          @param fldFileList is the file containing the list of paths of
+          datasets in FLD format
           @param runs is the number of runs to evaluate the benchmarks
           @param writer is the output where the results will be written to
-          @throws Exception if something goes wrong reading the files, importing the
-          engines or evaluating the benchmark
+          @throws Exception if something goes wrong reading the files, importing
+          the engines or evaluating the benchmark
          */
-        virtual void benchmarks(const std::string& fllFileList, const std::string& fldFileList,
-                int runs, std::ofstream* writer = fl::null) const;
+        virtual void benchmarks(const std::string& fllFileList,
+                                const std::string& fldFileList,
+                                int runs,
+                                std::ofstream* writer = fl::null) const;
 
-    public:
+       public:
         /**
           Returns a string representation of the usage of the command-line tool
           @return a string representation of the usage of the command-line tool
@@ -150,6 +161,5 @@ namespace fl {
 
         static int main(int argc, const char* argv[]);
     };
-}
-#endif  /* FL_CONSOLE_H */
-
+}  // namespace fl
+#endif /* FL_CONSOLE_H */

@@ -33,16 +33,17 @@ namespace fl {
       @since 4.0
      */
     class FL_API Bell : public Term {
-    private:
+       private:
         scalar _center;
         scalar _width;
         scalar _slope;
-    public:
+
+       public:
         explicit Bell(const std::string& name = "",
-                scalar center = fl::nan,
-                scalar width = fl::nan,
-                scalar slope = fl::nan,
-                scalar height = 1.0);
+                      scalar center = fl::nan,
+                      scalar width = fl::nan,
+                      scalar slope = fl::nan,
+                      scalar height = 1.0);
         virtual ~Bell() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Bell)
 
@@ -108,7 +109,6 @@ namespace fl {
         virtual Bell* clone() const FL_IOVERRIDE;
 
         static Term* constructor();
-
     };
-}
+}  // namespace fl
 #endif /* FL_BELL_H */

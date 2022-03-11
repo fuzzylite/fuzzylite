@@ -14,8 +14,8 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "test/catch.hpp"
 #include "fuzzylite/Headers.h"
+#include "test/catch.hpp"
 
 namespace fl {
 
@@ -62,4 +62,4 @@ namespace fl {
         FL_DBG(FllExporter().toString(&clone));
     }
 
-}
+}  // namespace fl

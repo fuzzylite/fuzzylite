@@ -17,12 +17,11 @@
 #ifndef FL_CONSEQUENT_H
 #define FL_CONSEQUENT_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/Complexity.h"
-
 #include <string>
 #include <vector>
+
+#include "fuzzylite/Complexity.h"
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
     class Engine;
@@ -49,11 +48,11 @@ namespace fl {
      */
 
     class FL_API Consequent {
-    private:
+       private:
         std::string _text;
         std::vector<Proposition*> _conclusions;
 
-    public:
+       public:
         Consequent();
         virtual ~Consequent();
 
@@ -74,7 +73,7 @@ namespace fl {
          */
         virtual Complexity complexity(const TNorm* implication) const;
         /**
-          Returns an immutable vector of the propositions that represent the 
+          Returns an immutable vector of the propositions that represent the
           Consequent of a Rule
           @return an immutable vector of the set of propositions that represent
           the Consequent of a Rule
@@ -82,9 +81,9 @@ namespace fl {
         virtual const std::vector<Proposition*>& conclusions() const;
 
         /**
-          Returns the vector of propositions that represent the Consequent of a 
+          Returns the vector of propositions that represent the Consequent of a
           Rule
-          @return the vector of propositions that represent the Consequent of a 
+          @return the vector of propositions that represent the Consequent of a
           Rule
          */
         virtual std::vector<Proposition*>& conclusions();
@@ -131,8 +130,8 @@ namespace fl {
          */
         virtual std::string toString() const;
 
-    private:
+       private:
         FL_DISABLE_COPY(Consequent)
     };
-}
+}  // namespace fl
 #endif /* FL_CONSEQUENT_H */

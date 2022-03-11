@@ -17,7 +17,6 @@
 #ifndef FL_WEIGHTEDSUM_H
 #define FL_WEIGHTEDSUM_H
 
-
 #include "fuzzylite/defuzzifier/WeightedDefuzzifier.h"
 
 namespace fl {
@@ -35,7 +34,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API WeightedSum : public WeightedDefuzzifier {
-    public:
+       public:
         explicit WeightedSum(Type type = Automatic);
         explicit WeightedSum(const std::string& type);
         virtual ~WeightedSum() FL_IOVERRIDE;
@@ -55,17 +54,19 @@ namespace fl {
           utilized for defuzzification.
 
           @param term is the fuzzy set represented as an AggregatedTerm
-          @param minimum is the minimum value of the range (only used for Tsukamoto)
-          @param maximum is the maximum value of the range (only used for Tsukamoto)
+          @param minimum is the minimum value of the range (only used for
+          Tsukamoto)
+          @param maximum is the maximum value of the range (only used for
+          Tsukamoto)
           @return the weighted sum of the given fuzzy set
          */
         virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+                                 scalar minimum,
+                                 scalar maximum) const FL_IOVERRIDE;
         virtual WeightedSum* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };
-}
+}  // namespace fl
 
-#endif  /* FL_WEIGHTEDSUM_H */
-
+#endif /* FL_WEIGHTEDSUM_H */

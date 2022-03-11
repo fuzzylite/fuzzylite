@@ -19,11 +19,18 @@
 namespace fl {
 
     SigmoidDifference::SigmoidDifference(const std::string& name,
-            scalar left, scalar rising,
-            scalar falling, scalar right, scalar height)
-    : Term(name, height), _left(left), _rising(rising), _falling(falling), _right(right) { }
+                                         scalar left,
+                                         scalar rising,
+                                         scalar falling,
+                                         scalar right,
+                                         scalar height)
+        : Term(name, height),
+          _left(left),
+          _rising(rising),
+          _falling(falling),
+          _right(right) {}
 
-    SigmoidDifference::~SigmoidDifference() { }
+    SigmoidDifference::~SigmoidDifference() {}
 
     std::string SigmoidDifference::className() const {
         return "SigmoidDifference";
@@ -34,7 +41,8 @@ namespace fl {
     }
 
     scalar SigmoidDifference::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
 
         const scalar a = 1.0 / (1.0 + std::exp(-_rising * (x - _left)));
         const scalar b = 1.0 / (1.0 + std::exp(-_falling * (x - _right)));
@@ -42,18 +50,20 @@ namespace fl {
     }
 
     std::string SigmoidDifference::parameters() const {
-        return Op::join(4, " ", _left, _rising, _falling, _right) +
-                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(4, " ", _left, _rising, _falling, _right)
+               + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight())
+                                                 : "");
     }
 
     void SigmoidDifference::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 4;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setLeft(Op::toScalar(values.at(0)));
@@ -104,5 +114,4 @@ namespace fl {
         return new SigmoidDifference;
     }
 
-
-}
+}  // namespace fl

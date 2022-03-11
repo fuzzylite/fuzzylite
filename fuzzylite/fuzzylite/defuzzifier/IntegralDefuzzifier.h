@@ -22,18 +22,19 @@
 namespace fl {
 
     /**
-      The IntegralDefuzzifier class is the base class for defuzzifiers which integrate
-      over the fuzzy set.
+      The IntegralDefuzzifier class is the base class for defuzzifiers which
+      integrate over the fuzzy set.
 
       @author Juan Rada-Vilela, Ph.D.
       @since 4.0
      */
     class FL_API IntegralDefuzzifier : public Defuzzifier {
-    private:
+       private:
         static int _defaultResolution;
 
         int _resolution;
-    public:
+
+       public:
         explicit IntegralDefuzzifier(int resolution = defaultResolution());
         virtual ~IntegralDefuzzifier() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(IntegralDefuzzifier)
@@ -57,7 +58,8 @@ namespace fl {
 
         /**
           Sets the default resolution for integral-based defuzzifiers
-          @param defaultResolution is the default resolution for integral-based defuzzifiers
+          @param defaultResolution is the default resolution for integral-based
+          defuzzifiers
          */
         static void setDefaultResolution(int defaultResolution);
         /**
@@ -65,9 +67,7 @@ namespace fl {
           @return the default resolution for integral-based defuzzifiers
          */
         static int defaultResolution();
-
     };
-}
+}  // namespace fl
 
-#endif  /* INTEGRALDEFUZZIFIER_H */
-
+#endif /* INTEGRALDEFUZZIFIER_H */

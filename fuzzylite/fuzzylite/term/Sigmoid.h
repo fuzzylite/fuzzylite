@@ -33,11 +33,11 @@ namespace fl {
       @since 4.0
      */
     class FL_API Sigmoid : public Term {
-    private:
+       private:
         scalar _inflection;
         scalar _slope;
-    public:
 
+       public:
         /**
           Direction is an enumerator that indicates the direction of the
           sigmoid.
@@ -48,9 +48,9 @@ namespace fl {
             /** `(\\_)` increases to the left */ Negative
         };
         explicit Sigmoid(const std::string& name = "",
-                scalar inflection = fl::nan,
-                scalar slope = fl::nan,
-                scalar height = 1.0);
+                         scalar inflection = fl::nan,
+                         scalar slope = fl::nan,
+                         scalar height = 1.0);
         virtual ~Sigmoid() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Sigmoid)
 
@@ -80,10 +80,11 @@ namespace fl {
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
         virtual scalar tsukamoto(scalar activationDegree,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+                                 scalar minimum,
+                                 scalar maximum) const FL_IOVERRIDE;
 
         virtual bool isMonotonic() const FL_IOVERRIDE;
-        
+
         /**
           Sets the inflection of the sigmoid
           @param inflection is the inflection of the sigmoid
@@ -116,5 +117,5 @@ namespace fl {
 
         static Term* constructor();
     };
-}
+}  // namespace fl
 #endif /* FL_SIGMOID_H */

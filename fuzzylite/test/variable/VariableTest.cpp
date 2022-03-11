@@ -14,10 +14,10 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "test/catch.hpp"
-#include "fuzzylite/Headers.h"
+#include <algorithm>  // std::random_shuffle
 
-#include <algorithm>    // std::random_shuffle
+#include "fuzzylite/Headers.h"
+#include "test/catch.hpp"
 
 namespace fl {
 
@@ -40,7 +40,7 @@ namespace fl {
         REQUIRE(variable.numberOfTerms() == 21);
         int value = -10;
         for (std::size_t i = 0; i < variable.terms().size(); ++i) {
-            Constant* term = dynamic_cast<Constant*> (variable.terms().at(i));
+            Constant* term = dynamic_cast<Constant*>(variable.terms().at(i));
             REQUIRE(term);
             REQUIRE(term->getValue() == float(value));
             ++value;
@@ -62,7 +62,7 @@ namespace fl {
         REQUIRE(variable.numberOfTerms() == 21);
         int value = 0;
         for (std::size_t i = 0; i < variable.terms().size(); ++i) {
-            Triangle* term = dynamic_cast<Triangle*> (variable.terms().at(i));
+            Triangle* term = dynamic_cast<Triangle*>(variable.terms().at(i));
             REQUIRE(term);
             REQUIRE(term->getName() == Op::str(value < 0 ? -1 * value : value));
             ++value;
@@ -70,5 +70,4 @@ namespace fl {
         FL_DBG(variable.toString());
     }
 
-}
-
+}  // namespace fl

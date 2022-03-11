@@ -16,16 +16,16 @@
 
 #include "fuzzylite/activation/First.h"
 
-#include "fuzzylite/rule/RuleBlock.h"
-#include "fuzzylite/rule/Rule.h"
 #include "fuzzylite/Operation.h"
+#include "fuzzylite/rule/Rule.h"
+#include "fuzzylite/rule/RuleBlock.h"
 
 namespace fl {
 
-    First::First(int numberOfRules, scalar threshold) : Activation(),
-    _numberOfRules(numberOfRules), _threshold(threshold) { }
+    First::First(int numberOfRules, scalar threshold)
+        : Activation(), _numberOfRules(numberOfRules), _threshold(threshold) {}
 
-    First::~First() { }
+    First::~First() {}
 
     std::string First::className() const {
         return "First";
@@ -36,16 +36,17 @@ namespace fl {
     }
 
     void First::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 2;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] activation <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
-        setNumberOfRules((int) Op::toScalar(values.at(0)));
+        setNumberOfRules((int)Op::toScalar(values.at(0)));
         setThreshold(Op::toScalar(values.at(1)));
     }
 
@@ -78,15 +79,17 @@ namespace fl {
 
         int activated = 0;
         for (std::vector<Rule*>::const_iterator it = ruleBlock->rules().begin();
-                it != ruleBlock->rules().end(); ++it) {
+             it != ruleBlock->rules().end();
+             ++it) {
             Rule* rule = (*it);
             rule->deactivate();
 
             if (rule->isLoaded()) {
-                scalar activationDegree = rule->activateWith(conjunction, disjunction);
+                scalar activationDegree
+                    = rule->activateWith(conjunction, disjunction);
                 if (activated < _numberOfRules
-                        and Op::isGt(activationDegree, 0.0)
-                        and Op::isGE(activationDegree, _threshold)) {
+                    and Op::isGt(activationDegree, 0.0)
+                    and Op::isGE(activationDegree, _threshold)) {
                     rule->trigger(implication);
                     ++activated;
                 }
@@ -118,5 +121,4 @@ namespace fl {
         return new First;
     }
 
-}
-
+}  // namespace fl

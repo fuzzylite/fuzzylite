@@ -17,14 +17,12 @@
 #ifndef FL_RULE_H
 #define FL_RULE_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/rule/Consequent.h"
-#include "fuzzylite/rule/Antecedent.h"
-
 #include <map>
 #include <string>
 
+#include "fuzzylite/fuzzylite.h"
+#include "fuzzylite/rule/Antecedent.h"
+#include "fuzzylite/rule/Consequent.h"
 
 namespace fl {
     class Engine;
@@ -64,7 +62,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Rule {
-    private:
+       private:
         bool _enabled;
         std::string _text;
         scalar _weight;
@@ -73,7 +71,7 @@ namespace fl {
         FL_unique_ptr<Antecedent> _antecedent;
         FL_unique_ptr<Consequent> _consequent;
 
-    public:
+       public:
         explicit Rule(const std::string& text = "", scalar weight = 1.0);
         Rule(const Rule& other);
         Rule& operator=(const Rule& other);
@@ -81,15 +79,15 @@ namespace fl {
         FL_DEFAULT_MOVE(Rule)
 
         /**
-         Sets whether the rule is enabled. An enabled rule will be fired, whereas
-         a disabled rule will not.
+         Sets whether the rule is enabled. An enabled rule will be fired,
+         whereas a disabled rule will not.
          @param enabled determines whether the rule is enabled
          */
         virtual void setEnabled(bool enabled);
 
         /**
-          Gets whether the rule is enabled.  An enabled rule will be fired, whereas
-          a disabled rule will not.
+          Gets whether the rule is enabled.  An enabled rule will be fired,
+          whereas a disabled rule will not.
           @return whether the rule is enabled
          */
         virtual bool isEnabled() const;
@@ -157,7 +155,8 @@ namespace fl {
           @param disjunction is the disjunction operator
           @return the activation degree of the rule
          */
-        virtual scalar activateWith(const TNorm* conjunction, const SNorm* disjunction);
+        virtual scalar activateWith(const TNorm* conjunction,
+                                    const SNorm* disjunction);
 
         /**
           Deactivates the rule
@@ -279,8 +278,8 @@ namespace fl {
           @return the estimated complexity of calculating the activation degree
           of the rule
          */
-        virtual Complexity complexityOfActivation(const TNorm* conjunction,
-                const SNorm* disjunction) const;
+        virtual Complexity complexityOfActivation(
+            const TNorm* conjunction, const SNorm* disjunction) const;
 
         /**
           Computes the estimated complexity of firing the rule
@@ -297,9 +296,9 @@ namespace fl {
          @return the estimated complexity of activating and firing the rule
          */
         virtual Complexity complexity(const TNorm* conjunction,
-                const SNorm* disjunction, const TNorm* implication) const;
-
+                                      const SNorm* disjunction,
+                                      const TNorm* implication) const;
     };
-}
+}  // namespace fl
 
 #endif /* FL_RULE_H */

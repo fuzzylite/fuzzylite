@@ -17,12 +17,11 @@
 #ifndef FL_FCLIMPORTER_H
 #define FL_FCLIMPORTER_H
 
-#include "fuzzylite/imex/Importer.h"
-
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "fuzzylite/imex/Importer.h"
 
 namespace fl {
     class Norm;
@@ -41,7 +40,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API FclImporter : public Importer {
-    public:
+       public:
         FclImporter();
         virtual ~FclImporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FclImporter)
@@ -52,23 +51,32 @@ namespace fl {
 
         virtual FclImporter* clone() const FL_IOVERRIDE;
 
-    protected:
-        virtual void processBlock(const std::string& tag, const std::string& block, Engine* engine) const;
-        virtual void processVar(const std::string& var, const std::string& block, Engine* engine)const;
-        virtual void processFuzzify(const std::string& block, Engine* engine)const;
-        virtual void processDefuzzify(const std::string& block, Engine* engine)const;
-        virtual void processRuleBlock(const std::string& block, Engine* engine)const;
+       protected:
+        virtual void processBlock(const std::string& tag,
+                                  const std::string& block,
+                                  Engine* engine) const;
+        virtual void processVar(const std::string& var,
+                                const std::string& block,
+                                Engine* engine) const;
+        virtual void processFuzzify(const std::string& block,
+                                    Engine* engine) const;
+        virtual void processDefuzzify(const std::string& block,
+                                      Engine* engine) const;
+        virtual void processRuleBlock(const std::string& block,
+                                      Engine* engine) const;
 
         virtual TNorm* parseTNorm(const std::string& line) const;
         virtual SNorm* parseSNorm(const std::string& line) const;
-        virtual Term* parseTerm(const std::string& line, const Engine* engine) const;
+        virtual Term* parseTerm(const std::string& line,
+                                const Engine* engine) const;
 
         virtual Defuzzifier* parseDefuzzifier(const std::string& line) const;
-        virtual std::pair<scalar, bool> parseDefaultValue(const std::string& line) const;
-        virtual std::pair<scalar, scalar> parseRange(const std::string& line) const;
+        virtual std::pair<scalar, bool> parseDefaultValue(
+            const std::string& line) const;
+        virtual std::pair<scalar, scalar> parseRange(
+            const std::string& line) const;
         virtual std::pair<bool, bool> parseLocks(const std::string& line) const;
         virtual bool parseEnabled(const std::string& line) const;
-
     };
-}
+}  // namespace fl
 #endif /* FL_FCLIMPORTER_H */

@@ -21,13 +21,16 @@
 namespace fl {
 
     OutputVariable::OutputVariable(const std::string& name,
-            scalar minimum, scalar maximum)
-    : Variable(name, minimum, maximum),
-    _fuzzyOutput(new Aggregated(name, minimum, maximum)),
-    _previousValue(fl::nan), _defaultValue(fl::nan),
-    _lockPreviousValue(false) { }
+                                   scalar minimum,
+                                   scalar maximum)
+        : Variable(name, minimum, maximum),
+          _fuzzyOutput(new Aggregated(name, minimum, maximum)),
+          _previousValue(fl::nan),
+          _defaultValue(fl::nan),
+          _lockPreviousValue(false) {}
 
-    OutputVariable::OutputVariable(const OutputVariable& other) : Variable(other) {
+    OutputVariable::OutputVariable(const OutputVariable& other)
+        : Variable(other) {
         copyFrom(other);
     }
 
@@ -42,11 +45,12 @@ namespace fl {
         return *this;
     }
 
-    OutputVariable::~OutputVariable() { }
+    OutputVariable::~OutputVariable() {}
 
     void OutputVariable::copyFrom(const OutputVariable& other) {
         _fuzzyOutput.reset(other._fuzzyOutput->clone());
-        if (other._defuzzifier.get()) _defuzzifier.reset(other._defuzzifier->clone());
+        if (other._defuzzifier.get())
+            _defuzzifier.reset(other._defuzzifier->clone());
         _previousValue = other._previousValue;
         _defaultValue = other._defaultValue;
         _lockPreviousValue = other._lockPreviousValue;
@@ -145,7 +149,8 @@ namespace fl {
     }
 
     void OutputVariable::defuzzify() {
-        if (not _enabled) return;
+        if (not _enabled)
+            return;
 
         if (Op::isFinite(_value)) {
             _previousValue = _value;
@@ -155,28 +160,33 @@ namespace fl {
         scalar result = fl::nan;
         bool isValid = not _fuzzyOutput->isEmpty();
         if (isValid) {
-            /* Checks whether the variable can be defuzzified without exceptions.
-             * If it cannot be defuzzified, be that due to a missing defuzzifier
-             * or aggregation operator, the expected behaviour is to leave the
-             * variable in a state that reflects an invalid defuzzification,
-             * that is, apply logic of default values and previous values.*/
+            /* Checks whether the variable can be defuzzified without
+             * exceptions. If it cannot be defuzzified, be that due to a missing
+             * defuzzifier or aggregation operator, the expected behaviour is to
+             * leave the variable in a state that reflects an invalid
+             * defuzzification, that is, apply logic of default values and
+             * previous values.*/
             isValid = false;
             if (_defuzzifier.get()) {
                 try {
-                    result = _defuzzifier->defuzzify(_fuzzyOutput.get(), _minimum, _maximum);
+                    result = _defuzzifier->defuzzify(
+                        _fuzzyOutput.get(), _minimum, _maximum);
                     isValid = true;
                 } catch (std::exception& ex) {
                     exception = ex.what();
                 }
             } else {
-                exception = "[defuzzifier error] "
-                        "defuzzifier needed to defuzzify output variable <" + getName() + ">";
+                exception
+                    = "[defuzzifier error] "
+                      "defuzzifier needed to defuzzify output variable <"
+                      + getName() + ">";
             }
         }
 
         if (not isValid) {
-            //if a previous defuzzification was successfully performed and
-            //and the output value is supposed not to change when the output is empty
+            // if a previous defuzzification was successfully performed and
+            // and the output value is supposed not to change when the output is
+            // empty
             if (_lockPreviousValue and not Op::isNaN(_previousValue)) {
                 result = _previousValue;
             } else {
@@ -195,8 +205,8 @@ namespace fl {
         std::ostringstream ss;
         if (not _terms.empty()) {
             Term* first = _terms.front();
-            ss << Op::str(fuzzyOutput()->activationDegree(first))
-                    << "/" << first->getName();
+            ss << Op::str(fuzzyOutput()->activationDegree(first)) << "/"
+               << first->getName();
         }
         for (std::size_t i = 1; i < _terms.size(); ++i) {
             scalar degree = fuzzyOutput()->activationDegree(_terms.at(i));
@@ -223,4 +233,4 @@ namespace fl {
         return new OutputVariable(*this);
     }
 
-}
+}  // namespace fl

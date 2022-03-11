@@ -34,14 +34,14 @@ namespace fl {
      */
 
     class FL_API ZShape : public Term {
-    private:
+       private:
         scalar _start, _end;
 
-    public:
+       public:
         explicit ZShape(const std::string& name = "",
-                scalar _start = fl::nan,
-                scalar _end = fl::nan,
-                scalar _height = 1.0);
+                        scalar _start = fl::nan,
+                        scalar _end = fl::nan,
+                        scalar _height = 1.0);
         virtual ~ZShape() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(ZShape)
 
@@ -63,10 +63,9 @@ namespace fl {
           @param x
           @return @f$  \begin{cases}
           1h & \mbox{if $x \leq s$} \cr
-          h(1 - 2\left((x - s) / (e-s)\right)^2) & \mbox{if $x \leq 0.5(s+e)$}\cr
-          h(2 \left((x - e) / (e-s)\right)^2) & \mbox{if $x < e$}\cr
-          0h & \mbox{otherwise}
-          \end{cases}@f$
+          h(1 - 2\left((x - s) / (e-s)\right)^2) & \mbox{if $x \leq
+          0.5(s+e)$}\cr h(2 \left((x - e) / (e-s)\right)^2) & \mbox{if $x <
+          e$}\cr 0h & \mbox{otherwise} \end{cases}@f$
 
           where @f$h@f$ is the height of the Term,
                 @f$s@f$ is the start of the ZShape,
@@ -75,10 +74,11 @@ namespace fl {
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
         virtual scalar tsukamoto(scalar activationDegree,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+                                 scalar minimum,
+                                 scalar maximum) const FL_IOVERRIDE;
 
         virtual bool isMonotonic() const FL_IOVERRIDE;
-        
+
         /**
           Sets the start of the edge
           @param start is the start of the edge
@@ -104,8 +104,6 @@ namespace fl {
         virtual ZShape* clone() const FL_IOVERRIDE;
 
         static Term* constructor();
-
     };
-}
-#endif  /* ZSHAPE_H */
-
+}  // namespace fl
+#endif /* ZSHAPE_H */

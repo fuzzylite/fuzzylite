@@ -32,7 +32,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Centroid : public IntegralDefuzzifier {
-    public:
+       public:
         explicit Centroid(int resolution = defaultResolution());
         virtual ~Centroid() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Centroid)
@@ -53,11 +53,12 @@ namespace fl {
           @return the @f$x@f$-coordinate of the centroid of the fuzzy set
          */
         virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+                                 scalar minimum,
+                                 scalar maximum) const FL_IOVERRIDE;
         virtual Centroid* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };
-}
+}  // namespace fl
 
 #endif /* FL_CENTROID_H */

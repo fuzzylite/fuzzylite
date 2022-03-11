@@ -43,9 +43,10 @@ namespace fl {
       @since 4.0
      */
     class FL_API JavaExporter : public Exporter {
-    private:
+       private:
         bool _usingVariableNames;
-    public:
+
+       public:
         explicit JavaExporter(bool usingVariableNames = true);
         virtual ~JavaExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(JavaExporter)
@@ -56,8 +57,8 @@ namespace fl {
          Sets whether variables are exported using their names
          (e.g., `power.setValue(Double.NaN)`) instead of numbered identifiers
          (e.g., `inputVariable1.setValue(Double.NaN)`)
-         @param usingVariableNames indicates whether variables are exported using
-         their names
+         @param usingVariableNames indicates whether variables are exported
+         using their names
          */
         virtual void setUsingVariableNames(bool usingVariableNames);
 
@@ -78,7 +79,8 @@ namespace fl {
           @return a string representation of the input variable in the Java
           programming language
          */
-        virtual std::string toString(const InputVariable* inputVariable, const Engine* engine) const;
+        virtual std::string toString(const InputVariable* inputVariable,
+                                     const Engine* engine) const;
         /**
           Returns a string representation of the OutputVariable in the Java
           programming language
@@ -87,7 +89,8 @@ namespace fl {
           @return a string representation of the output variable in the Java
           programming language
          */
-        virtual std::string toString(const OutputVariable* outputVariable, const Engine* engine) const;
+        virtual std::string toString(const OutputVariable* outputVariable,
+                                     const Engine* engine) const;
         /**
           Returns a string representation of the RuleBlock in the Java
           programming language
@@ -96,7 +99,8 @@ namespace fl {
           @return a string representation of the rule block in the Java
           programming language
          */
-        virtual std::string toString(const RuleBlock* ruleBlock, const Engine* engine) const;
+        virtual std::string toString(const RuleBlock* ruleBlock,
+                                     const Engine* engine) const;
 
         /**
           Returns a string representation of the Term in the Java programming
@@ -144,9 +148,7 @@ namespace fl {
         virtual std::string toString(scalar value) const;
 
         virtual JavaExporter* clone() const FL_IOVERRIDE;
-
     };
-}
+}  // namespace fl
 
-#endif  /* FL_JAVAEXPORTER_H */
-
+#endif /* FL_JAVAEXPORTER_H */

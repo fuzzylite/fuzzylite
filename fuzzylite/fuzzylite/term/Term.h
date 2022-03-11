@@ -17,14 +17,13 @@
 #ifndef FL_TERM_H
 #define FL_TERM_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/Operation.h"
-#include "fuzzylite/Complexity.h"
-
 #include <cmath>
 #include <string>
 #include <vector>
+
+#include "fuzzylite/Complexity.h"
+#include "fuzzylite/Operation.h"
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
     class Engine;
@@ -53,12 +52,13 @@ namespace fl {
       @since 4.0
      */
     class FL_API Term {
-    private:
+       private:
         std::string _name;
-    protected:
-        scalar _height;
-    public:
 
+       protected:
+        scalar _height;
+
+       public:
         explicit Term(const std::string& name = "", scalar height = 1.0);
         virtual ~Term();
         FL_DEFAULT_COPY_AND_MOVE(Term)
@@ -149,11 +149,13 @@ namespace fl {
           @param activationDegree is the activationDegree
           @param minimum is the minimum value of the range of the term
           @param maximum is the maximum value of the range of the term
-          @return the tsukamoto value of the term for the given activation degree
-                  if the term is monotonic (or overrides this method), or
-                  the membership function for the activation degree otherwise.
+          @return the tsukamoto value of the term for the given activation
+          degree if the term is monotonic (or overrides this method), or the
+          membership function for the activation degree otherwise.
          */
-        virtual scalar tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const;
+        virtual scalar tsukamoto(scalar activationDegree,
+                                 scalar minimum,
+                                 scalar maximum) const;
 
         /**
           Indicates whether the term is monotonic.
@@ -161,5 +163,5 @@ namespace fl {
          */
         virtual bool isMonotonic() const;
     };
-}
+}  // namespace fl
 #endif /* FL_TERM_H */

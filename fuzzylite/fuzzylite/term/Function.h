@@ -17,10 +17,10 @@
 #ifndef FL_FUNCTION_H
 #define FL_FUNCTION_H
 
-#include "fuzzylite/term/Term.h"
-
 #include <map>
 #include <string>
+
+#include "fuzzylite/term/Term.h"
 
 namespace fl {
 
@@ -58,9 +58,9 @@ namespace fl {
       @since 4.0
      */
     class FL_API Function : public Term {
-    public:
-        typedef scalar(*Unary)(scalar);
-        typedef scalar(*Binary)(scalar, scalar);
+       public:
+        typedef scalar (*Unary)(scalar);
+        typedef scalar (*Binary)(scalar, scalar);
 
         /**
           The Element class represents a single element in a formula, be that
@@ -71,13 +71,10 @@ namespace fl {
           its `precedence`, and its `associativity`.
          */
         struct FL_API Element {
-
             /**
               Determines the type of the element
              */
-            enum Type {
-                Operator, Function
-            };
+            enum Type { Operator, Function };
             /**Name of the element*/
             std::string name;
             /**Description of the element*/
@@ -98,11 +95,21 @@ namespace fl {
               same precedence are grouped in the absence of parentheses
               (https://en.wikipedia.org/wiki/Operator_associativity)*/
             int associativity;
-            Element(const std::string& name, const std::string& description, Type type);
-            Element(const std::string& name, const std::string& description,
-                    Type type, Unary unary, int precedence = 0, int associativity = -1);
-            Element(const std::string& name, const std::string& description,
-                    Type type, Binary binary, int precedence = 0, int associativity = -1);
+            Element(const std::string& name,
+                    const std::string& description,
+                    Type type);
+            Element(const std::string& name,
+                    const std::string& description,
+                    Type type,
+                    Unary unary,
+                    int precedence = 0,
+                    int associativity = -1);
+            Element(const std::string& name,
+                    const std::string& description,
+                    Type type,
+                    Binary binary,
+                    int precedence = 0,
+                    int associativity = -1);
             virtual ~Element();
             FL_DEFAULT_COPY_AND_MOVE(Element)
 
@@ -127,7 +134,6 @@ namespace fl {
               @return a description of the element and its members
              */
             virtual std::string toString() const;
-
         };
 
         /**
@@ -148,7 +154,9 @@ namespace fl {
             /**The node can take an arbitrary floating-point value*/
             scalar value;
 
-            explicit Node(Element* element, Node* left = fl::null, Node* right = fl::null);
+            explicit Node(Element* element,
+                          Node* left = fl::null,
+                          Node* right = fl::null);
             explicit Node(const std::string& variable);
             explicit Node(scalar value);
             Node(const Node& source);
@@ -167,12 +175,13 @@ namespace fl {
               @return a fl::scalar indicating the result of the evaluation of
               the node
              */
-            virtual scalar evaluate(const std::map<std::string, scalar>*
-                    variables = fl::null) const;
+            virtual scalar evaluate(
+                const std::map<std::string, scalar>* variables
+                = fl::null) const;
 
             /**
-             Computes the size of the subtree under the given node. The complexity
-             of calling this method is O(n).
+             Computes the size of the subtree under the given node. The
+             complexity of calling this method is O(n).
              @param node is the root of the subtree, which is this node if
              fl::null is given
              @return the size of the subtree under the given node
@@ -180,15 +189,16 @@ namespace fl {
             virtual std::size_t treeSize(const Node* node = fl::null) const;
 
             /**
-             Computes the size of the subtree under the given node whose elements
-             are of the given type. The complexity of calling this method is O(n).
+             Computes the size of the subtree under the given node whose
+             elements are of the given type. The complexity of calling this
+             method is O(n).
              @param type is the type of elements to account for
              @param node is the root of the subtree, which is this node if
              fl::null is given
              @return
              */
             virtual std::size_t treeSize(Element::Type type,
-                    const Node* node = fl::null) const;
+                                         const Node* node = fl::null) const;
 
             /**
               Creates a clone of the node.
@@ -230,26 +240,26 @@ namespace fl {
               given node
              */
             virtual std::string toPostfix(const Node* node = fl::null) const;
-        private:
+
+           private:
             void copyFrom(const Node& source);
         };
-
-
-
 
         /******************************
          * Term
          ******************************/
 
-    private:
+       private:
         FL_unique_ptr<Node> _root;
         std::string _formula;
         const Engine* _engine;
-    public:
+
+       public:
         /**A map of variables and substitution values**/
         mutable std::map<std::string, scalar> variables;
         explicit Function(const std::string& name = "",
-                const std::string& formula = "", const Engine* engine = fl::null);
+                          const std::string& formula = "",
+                          const Engine* engine = fl::null);
         Function(const Function& other);
         Function& operator=(const Function& other);
         virtual ~Function() FL_IOVERRIDE;
@@ -264,8 +274,8 @@ namespace fl {
           @throws fl::Exception if the formula has a syntax error
          */
         static Function* create(const std::string& name,
-                const std::string& formula,
-                const Engine* engine = fl::null);
+                                const std::string& formula,
+                                const Engine* engine = fl::null);
 
         virtual Complexity complexity() const FL_IOVERRIDE;
 
@@ -286,7 +296,8 @@ namespace fl {
           @return the function value of this term using the given map of
           variable substitutions.
          */
-        virtual scalar evaluate(const std::map<std::string, scalar>* variables = fl::null) const;
+        virtual scalar evaluate(const std::map<std::string, scalar>* variables
+                                = fl::null) const;
 
         virtual std::string className() const FL_IOVERRIDE;
         /**
@@ -359,10 +370,12 @@ namespace fl {
          */
         virtual void load(const std::string& formula, const Engine* engine);
         /**
-          Creates a node representing a binary expression tree from the given formula
+          Creates a node representing a binary expression tree from the given
+          formula
           @param formula is the right-hand side of a mathematical equation
           expressed in infix notation
-          @return a node representing a binary expression tree from the given formula
+          @return a node representing a binary expression tree from the given
+          formula
           @throws fl::Exception if the formula has syntax errors
          */
         virtual Node* parse(const std::string& formula);
@@ -392,8 +405,6 @@ namespace fl {
         virtual Function* clone() const FL_IOVERRIDE;
 
         static Term* constructor();
-
     };
-}
-#endif  /* FL_FUNCTION_H */
-
+}  // namespace fl
+#endif /* FL_FUNCTION_H */

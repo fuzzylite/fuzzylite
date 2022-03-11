@@ -18,9 +18,9 @@
 
 namespace fl {
 
-    Any::Any() { }
+    Any::Any() {}
 
-    Any::~Any() { }
+    Any::~Any() {}
 
     std::string Any::name() const {
         return "any";
@@ -43,5 +43,4 @@ namespace fl {
         return new Any;
     }
 
-}
-
+}  // namespace fl

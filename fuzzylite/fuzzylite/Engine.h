@@ -17,12 +17,11 @@
 #ifndef FL_ENGINE_H
 #define FL_ENGINE_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/Complexity.h"
-
 #include <string>
 #include <vector>
+
+#include "fuzzylite/Complexity.h"
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
 
@@ -47,7 +46,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Engine {
-    private:
+       private:
         std::string _name;
         std::string _description;
         std::vector<InputVariable*> _inputVariables;
@@ -56,10 +55,10 @@ namespace fl {
 
         void copyFrom(const Engine& source);
 
-    protected:
+       protected:
         void updateReferences() const;
 
-    public:
+       public:
         explicit Engine(const std::string& name = "");
         Engine(const Engine& other);
         Engine& operator=(const Engine& other);
@@ -72,19 +71,21 @@ namespace fl {
           @param disjunction is an SNorm registered in the SNormFactory
           @param implication is an TNorm registered in the TNormFactory
           @param aggregation is an SNorm registered in the SNormFactory
-          @param defuzzifier is a defuzzifier registered in the DefuzzifierFactory
-          @param activation is an activation method registered in the ActivationFactory
+          @param defuzzifier is a defuzzifier registered in the
+          DefuzzifierFactory
+          @param activation is an activation method registered in the
+          ActivationFactory
          */
         virtual void configure(const std::string& conjunction,
-                const std::string& disjunction,
-                const std::string& implication,
-                const std::string& aggregation,
-                const std::string& defuzzifier,
-                const std::string& activation);
+                               const std::string& disjunction,
+                               const std::string& implication,
+                               const std::string& aggregation,
+                               const std::string& defuzzifier,
+                               const std::string& activation);
 
         /**
-          Configures the engine with clones of the given object operators, taking
-          ownership of the objects.
+          Configures the engine with clones of the given object operators,
+          taking ownership of the objects.
 
           @param conjunction is the operator to process the propositions joined
           by `and` in the antecedent of the rules
@@ -99,9 +100,12 @@ namespace fl {
           @param activation is the activation method to activate and fire the
           rule blocks
          */
-        virtual void configure(TNorm* conjunction, SNorm* disjunction,
-                TNorm* implication, SNorm* aggregation,
-                Defuzzifier* defuzzifier, Activation* activation);
+        virtual void configure(TNorm* conjunction,
+                               SNorm* disjunction,
+                               TNorm* implication,
+                               SNorm* aggregation,
+                               Defuzzifier* defuzzifier,
+                               Activation* activation);
 
         /**
           Indicates whether the engine has been configured correctly and is
@@ -109,7 +113,8 @@ namespace fl {
           method should be taken as a suggestion and not as a prerequisite to
           operate the engine.
 
-          @param status (if not null) contains the configuration errors of the engine
+          @param status (if not null) contains the configuration errors of the
+          engine
           @return whether the engine is ready to operate
          */
         virtual bool isReady(std::string* status = fl::null) const;
@@ -189,20 +194,20 @@ namespace fl {
         enum Type {
             /**Mamdani: When the output variables have IntegralDefuzzifier%s*/
             Mamdani,
-            /**Larsen: When Mamdani and AlgebraicProduct is the implication operator of
-            the rule blocks */
+            /**Larsen: When Mamdani and AlgebraicProduct is the implication
+            operator of the rule blocks */
             Larsen,
-            /**TakagiSugeno: When output variables have WeightedDefuzzifier%s of type
-            TakagiSugeno and the output variables have Constant, Linear, or
+            /**TakagiSugeno: When output variables have WeightedDefuzzifier%s of
+            type TakagiSugeno and the output variables have Constant, Linear, or
             Function terms*/
             TakagiSugeno,
-            /**Tsukamoto: When output variables have WeightedDefuzzifier%s of type
-            Tsukamoto and the output variables only have monotonic terms
+            /**Tsukamoto: When output variables have WeightedDefuzzifier%s of
+            type Tsukamoto and the output variables only have monotonic terms
             (Concave, Ramp, Sigmoid, SShape, and ZShape)*/
             Tsukamoto,
-            /**InverseTsukamoto: When output variables have WeightedDefuzzifier%s of type
-            TakagiSugeno and the output variables do not only have Constant,
-            Linear or Function terms*/
+            /**InverseTsukamoto: When output variables have
+            WeightedDefuzzifier%s of type TakagiSugeno and the output variables
+            do not only have Constant, Linear or Function terms*/
             InverseTsukamoto,
             /**Hybrid: When output variables have different defuzzifiers*/
             Hybrid,
@@ -219,7 +224,8 @@ namespace fl {
           @return the inferred type of the engine based on its current
           configuration
          */
-        virtual Type type(std::string* name = fl::null, std::string* reason = fl::null) const;
+        virtual Type type(std::string* name = fl::null,
+                          std::string* reason = fl::null) const;
 
         /**
           Creates a clone of the engine
@@ -247,7 +253,8 @@ namespace fl {
           @param index is the index at which the input variable is to be stored
           @return the input variable previously stored at the given index
          */
-        virtual InputVariable* setInputVariable(InputVariable* inputVariable, std::size_t index);
+        virtual InputVariable* setInputVariable(InputVariable* inputVariable,
+                                                std::size_t index);
         /**
           Inserts the input variable at the given index, shifting other
           variables one position to the right
@@ -255,7 +262,8 @@ namespace fl {
           @param index is the index at which the input variable is to be
           inserted
          */
-        virtual void insertInputVariable(InputVariable* inputVariable, std::size_t index);
+        virtual void insertInputVariable(InputVariable* inputVariable,
+                                         std::size_t index);
         /**
           Gets the input variable at the given index
           @param index is the given index
@@ -308,7 +316,8 @@ namespace fl {
           Sets the vector of input variables
           @param inputVariables is the vector of input variables
          */
-        virtual void setInputVariables(const std::vector<InputVariable*>& inputVariables);
+        virtual void setInputVariables(
+            const std::vector<InputVariable*>& inputVariables);
         /**
           Returns a mutable vector of input variables
           @return a mutable vector of input variables
@@ -326,14 +335,17 @@ namespace fl {
           @param index is the index at which the output variable is to be stored
           @return the output variable previously stored at the given index
          */
-        virtual OutputVariable* setOutputVariable(OutputVariable* outputVariable, std::size_t index);
+        virtual OutputVariable* setOutputVariable(
+            OutputVariable* outputVariable, std::size_t index);
         /**
           Inserts the output variable at the given index, shifting other
           variables one position to the right
           @param outputVariable is the output variable to insert
-          @param index is the index at which the output variable is to be inserted
+          @param index is the index at which the output variable is to be
+          inserted
          */
-        virtual void insertOutputVariable(OutputVariable* outputVariable, std::size_t index);
+        virtual void insertOutputVariable(OutputVariable* outputVariable,
+                                          std::size_t index);
         /**
           Gets the output variable at the given index
           @param index is the given index
@@ -349,7 +361,8 @@ namespace fl {
           @return output variable of the given name
           @throws fl::Exception if there is no variable with the given name
          */
-        virtual OutputVariable* getOutputVariable(const std::string& name) const;
+        virtual OutputVariable* getOutputVariable(
+            const std::string& name) const;
 
         /**
           Indicates whether an output variable of the given name is in the
@@ -387,7 +400,8 @@ namespace fl {
           Sets the vector of output variables
           @param outputVariables is the vector of output variables
          */
-        virtual void setOutputVariables(const std::vector<OutputVariable*>& outputVariables);
+        virtual void setOutputVariables(
+            const std::vector<OutputVariable*>& outputVariables);
         /**
           Returns a mutable vector of output variables
           @return a mutable vector of output variables
@@ -405,7 +419,8 @@ namespace fl {
           @param index is the index at which the rule block is to be stored
           @return the rule block previously stored at the given index
          */
-        virtual RuleBlock* setRuleBlock(RuleBlock* ruleBlock, std::size_t index);
+        virtual RuleBlock* setRuleBlock(RuleBlock* ruleBlock,
+                                        std::size_t index);
         /**
           Inserts the rule block at the given index, shifting other blocks one
           position to the right
@@ -472,7 +487,6 @@ namespace fl {
           @return a mutable vector of rule blocks
          */
         virtual std::vector<RuleBlock*>& ruleBlocks();
-
     };
-}
+}  // namespace fl
 #endif /* FL_ENGINE_H */

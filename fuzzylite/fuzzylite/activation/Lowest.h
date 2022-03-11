@@ -17,9 +17,8 @@
 #ifndef FL_LOWEST_H
 #define FL_LOWEST_H
 
-#include "fuzzylite/fuzzylite.h"
-
 #include "fuzzylite/activation/Activation.h"
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
 
@@ -35,9 +34,10 @@ namespace fl {
       @since 6.0
      */
     class FL_API Lowest : public Activation {
-    private:
+       private:
         int _numberOfRules;
-    public:
+
+       public:
         explicit Lowest(int numberOfRules = 1);
         virtual ~Lowest();
         FL_DEFAULT_COPY_AND_MOVE(Lowest)
@@ -68,8 +68,8 @@ namespace fl {
          */
         virtual int getNumberOfRules() const;
 
-
-        virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
+        virtual Complexity complexity(const RuleBlock* ruleBlock) const
+            FL_IOVERRIDE;
 
         /**
           Activates the rules with the lowest activation degrees in the given
@@ -82,6 +82,6 @@ namespace fl {
 
         static Activation* constructor();
     };
-}
+}  // namespace fl
 
 #endif /* FL_LOWEST_H */

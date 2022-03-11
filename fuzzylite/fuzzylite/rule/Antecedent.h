@@ -17,11 +17,10 @@
 #ifndef FL_ANTECEDENT_H
 #define FL_ANTECEDENT_H
 
-#include "fuzzylite/fuzzylite.h"
+#include <string>
 
 #include "fuzzylite/Complexity.h"
-
-#include <string>
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
     class Engine;
@@ -46,11 +45,11 @@ namespace fl {
       @since 4.0
      */
     class FL_API Antecedent {
-    private:
+       private:
         std::string _text;
         FL_unique_ptr<Expression> _expression;
 
-    public:
+       public:
         Antecedent();
         virtual ~Antecedent();
 
@@ -110,16 +109,17 @@ namespace fl {
           Computes the estimated complexity of calculating the activation degree
           @return the estimated complexity of calculating the activation degree
          */
-        virtual Complexity complexity(const TNorm* conjunction, const SNorm* disjunction) const;
+        virtual Complexity complexity(const TNorm* conjunction,
+                                      const SNorm* disjunction) const;
         /**
           Computes the estimated complexity of recursively calculating the
           activation degree from the given node
           @return the estimated complexity of recursively calculating the
           activation degree from the given node
          */
-        virtual Complexity complexity(const TNorm* conjunction, const SNorm* disjunction,
-                const Expression* node) const;
-
+        virtual Complexity complexity(const TNorm* conjunction,
+                                      const SNorm* disjunction,
+                                      const Expression* node) const;
 
         /**
           Computes the activation degree of the antecedent on the expression
@@ -130,8 +130,9 @@ namespace fl {
           @param node is a node in the expression tree of the antecedent
           @return the activation degree of the antecedent
          */
-        virtual scalar activationDegree(const TNorm* conjunction, const SNorm* disjunction,
-                const Expression* node) const;
+        virtual scalar activationDegree(const TNorm* conjunction,
+                                        const SNorm* disjunction,
+                                        const Expression* node) const;
 
         /**
           Computes the activation degree of the antecedent on the expression
@@ -141,7 +142,8 @@ namespace fl {
           @param disjunction is the disjunction operator from the RuleBlock
           @return the activation degree of the antecedent on the expression tree
          */
-        virtual scalar activationDegree(const TNorm* conjunction, const SNorm* disjunction) const;
+        virtual scalar activationDegree(const TNorm* conjunction,
+                                        const SNorm* disjunction) const;
 
         /**
           Returns a string representation of the expression tree in infix
@@ -177,9 +179,8 @@ namespace fl {
          */
         virtual std::string toPostfix(const Expression* node = fl::null) const;
 
-
-    private:
+       private:
         FL_DISABLE_COPY(Antecedent)
     };
-}
+}  // namespace fl
 #endif /* FL_ANTECEDENT_H */

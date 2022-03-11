@@ -33,11 +33,10 @@ namespace fl {
       @since 4.0
      */
     class FL_API Ramp : public Term {
-    private:
+       private:
         scalar _start, _end;
 
-    public:
-
+       public:
         /**
           Direction is an enumerator that indicates the direction of the ramp.
          */
@@ -47,9 +46,9 @@ namespace fl {
             /** `(\\_)` increases to the left */ Negative
         };
         explicit Ramp(const std::string& name = "",
-                scalar start = fl::nan,
-                scalar end = fl::nan,
-                scalar height = 1.0);
+                      scalar start = fl::nan,
+                      scalar end = fl::nan,
+                      scalar height = 1.0);
         virtual ~Ramp() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Ramp)
 
@@ -94,7 +93,8 @@ namespace fl {
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
         virtual scalar tsukamoto(scalar activationDegree,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+                                 scalar minimum,
+                                 scalar maximum) const FL_IOVERRIDE;
 
         virtual bool isMonotonic() const FL_IOVERRIDE;
 
@@ -130,6 +130,5 @@ namespace fl {
 
         static Term* constructor();
     };
-}
-#endif  /* FL_RAMP_H */
-
+}  // namespace fl
+#endif /* FL_RAMP_H */

@@ -16,19 +16,23 @@
 
 #include "fuzzylite/variable/Variable.h"
 
+#include <queue>
+
 #include "fuzzylite/imex/FllExporter.h"
 #include "fuzzylite/norm/Norm.h"
 #include "fuzzylite/term/Constant.h"
 #include "fuzzylite/term/Linear.h"
 
-#include <queue>
-
 namespace fl {
 
     Variable::Variable(const std::string& name, scalar minimum, scalar maximum)
-    : _name(name), _description(""),
-    _value(fl::nan), _minimum(minimum), _maximum(maximum),
-    _enabled(true), _lockValueInRange(false) { }
+        : _name(name),
+          _description(""),
+          _value(fl::nan),
+          _minimum(minimum),
+          _maximum(maximum),
+          _enabled(true),
+          _lockValueInRange(false) {}
 
     Variable::Variable(const Variable& other) {
         copyFrom(other);
@@ -81,9 +85,8 @@ namespace fl {
     }
 
     void Variable::setValue(scalar value) {
-        this->_value = _lockValueInRange
-                ? Op::bound(value, _minimum, _maximum)
-                : value;
+        this->_value
+            = _lockValueInRange ? Op::bound(value, _minimum, _maximum) : value;
     }
 
     scalar Variable::getValue() const {
@@ -153,7 +156,7 @@ namespace fl {
             try {
                 fx = term->membership(x);
             } catch (...) {
-                //ignore
+                // ignore
             }
             if (i == 0) {
                 ss << Op::str(fx);
@@ -177,14 +180,15 @@ namespace fl {
             try {
                 y = term->membership(x);
             } catch (...) {
-                //ignore
+                // ignore
             }
             if (Op::isGt(y, ymax)) {
                 ymax = y;
                 result = term;
             }
         }
-        if (yhighest) *yhighest = ymax;
+        if (yhighest)
+            *yhighest = ymax;
         return result;
     }
 
@@ -199,26 +203,28 @@ namespace fl {
     typedef std::pair<Term*, scalar> TermCentroid;
 
     struct Ascending {
-
         bool operator()(const TermCentroid& a, const TermCentroid& b) const {
             return a.second > b.second;
         }
     };
 
     void Variable::sort() {
-        std::priority_queue <TermCentroid, std::vector<TermCentroid>, Ascending> termCentroids;
+        std::priority_queue<TermCentroid, std::vector<TermCentroid>, Ascending>
+            termCentroids;
         Centroid defuzzifier;
         FL_DBG("Sorting...");
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             Term* term = _terms.at(i);
             scalar centroid = fl::inf;
             try {
-                if (dynamic_cast<const Constant*> (term) or dynamic_cast<const Linear*> (term)) {
+                if (dynamic_cast<const Constant*>(term)
+                    or dynamic_cast<const Linear*>(term)) {
                     centroid = term->membership(0);
                 } else {
-                    centroid = defuzzifier.defuzzify(term, getMinimum(), getMaximum());
+                    centroid = defuzzifier.defuzzify(
+                        term, getMinimum(), getMaximum());
                 }
-            } catch (...) { //ignore error possibly due to Function not loaded
+            } catch (...) {  // ignore error possibly due to Function not loaded
                 centroid = fl::inf;
             }
             termCentroids.push(TermCentroid(term, centroid));
@@ -228,7 +234,8 @@ namespace fl {
         std::vector<Term*> sortedTerms;
         while (termCentroids.size() > 0) {
             sortedTerms.push_back(termCentroids.top().first);
-            FL_DBG(termCentroids.top().first->toString() << " -> " << termCentroids.top().second);
+            FL_DBG(termCentroids.top().first->toString()
+                   << " -> " << termCentroids.top().second);
             termCentroids.pop();
         }
         setTerms(sortedTerms);
@@ -291,5 +298,4 @@ namespace fl {
         return new Variable(*this);
     }
 
-}
-
+}  // namespace fl

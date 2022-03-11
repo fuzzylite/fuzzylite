@@ -33,7 +33,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API EinsteinSum FL_IFINAL : public SNorm {
-    public:
+       public:
         std::string className() const FL_IOVERRIDE;
 
         Complexity complexity() const FL_IOVERRIDE;
@@ -48,5 +48,5 @@ namespace fl {
 
         static SNorm* constructor();
     };
-}
-#endif  /* FL_EINSTEINSUM_H */
+}  // namespace fl
+#endif /* FL_EINSTEINSUM_H */

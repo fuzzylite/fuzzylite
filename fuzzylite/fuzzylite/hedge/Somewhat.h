@@ -31,9 +31,8 @@ namespace fl {
       @since 4.0
      */
     class FL_API Somewhat FL_IFINAL : public Hedge {
-    public:
+       public:
         std::string name() const FL_IOVERRIDE;
-
 
         Complexity complexity() const FL_IOVERRIDE;
 
@@ -47,6 +46,6 @@ namespace fl {
 
         static Hedge* constructor();
     };
-}
+}  // namespace fl
 
 #endif /* FL_SOMEWHAT_H */

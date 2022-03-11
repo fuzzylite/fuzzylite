@@ -17,11 +17,10 @@
 #ifndef FL_AGGREGATED_H
 #define FL_AGGREGATED_H
 
-#include "fuzzylite/term/Term.h"
+#include <vector>
 
 #include "fuzzylite/term/Activated.h"
-
-#include <vector>
+#include "fuzzylite/term/Term.h"
 
 namespace fl {
 
@@ -45,17 +44,18 @@ namespace fl {
       @since 6.0
      */
     class FL_API Aggregated : public Term {
-    private:
+       private:
         std::vector<Activated> _terms;
         scalar _minimum, _maximum;
         FL_unique_ptr<SNorm> _aggregation;
 
         void copyFrom(const Aggregated& source);
-    public:
+
+       public:
         explicit Aggregated(const std::string& name = "",
-                scalar minimum = fl::nan,
-                scalar maximum = fl::nan,
-                SNorm* aggregation = fl::null);
+                            scalar minimum = fl::nan,
+                            scalar maximum = fl::nan,
+                            SNorm* aggregation = fl::null);
         Aggregated(const Aggregated& other);
         Aggregated& operator=(const Aggregated& other);
         virtual ~Aggregated() FL_IOVERRIDE;
@@ -158,7 +158,9 @@ namespace fl {
           @param degree is the activation degree
           @param implication is the implication operator
          */
-        virtual void addTerm(const Term* term, scalar degree, const TNorm* implication);
+        virtual void addTerm(const Term* term,
+                             scalar degree,
+                             const TNorm* implication);
         /**
           Adds the activated term to the fuzzy set. The activated term
           will be deleted when Aggregated::clear()
@@ -208,5 +210,5 @@ namespace fl {
          */
         virtual void clear();
     };
-}
+}  // namespace fl
 #endif /* FL_AGGREGATED_H */

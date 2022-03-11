@@ -18,7 +18,6 @@
 #define FL_SNORMFACTORY_H
 
 #include "fuzzylite/factory/ConstructionFactory.h"
-
 #include "fuzzylite/norm/SNorm.h"
 
 namespace fl {
@@ -33,12 +32,11 @@ namespace fl {
       @since 4.0
      */
     class FL_API SNormFactory : public ConstructionFactory<SNorm*> {
-    public:
+       public:
         SNormFactory();
         virtual ~SNormFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(SNormFactory)
     };
-}
+}  // namespace fl
 
-#endif  /* FL_SNORMFACTORY_H */
-
+#endif /* FL_SNORMFACTORY_H */

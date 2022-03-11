@@ -18,7 +18,6 @@
 #define FL_HEDGEFUNCTION_H
 
 #include "fuzzylite/hedge/Hedge.h"
-
 #include "fuzzylite/term/Function.h"
 
 namespace fl {
@@ -39,9 +38,10 @@ namespace fl {
      */
 
     class FL_API HedgeFunction FL_IFINAL : public Hedge {
-    private:
+       private:
         Function _function;
-    public:
+
+       public:
         explicit HedgeFunction(const std::string& formula = "");
 
         std::string name() const FL_IOVERRIDE;
@@ -76,7 +76,6 @@ namespace fl {
 
         static Hedge* constructor();
     };
-}
+}  // namespace fl
 
 #endif /* FL_HEDGEFUNCTION_H */
-

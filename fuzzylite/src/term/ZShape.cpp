@@ -18,10 +18,13 @@
 
 namespace fl {
 
-    ZShape::ZShape(const std::string& name, scalar start, scalar end, scalar height)
-    : Term(name, height), _start(start), _end(end) { }
+    ZShape::ZShape(const std::string& name,
+                   scalar start,
+                   scalar end,
+                   scalar height)
+        : Term(name, height), _start(start), _end(end) {}
 
-    ZShape::~ZShape() { }
+    ZShape::~ZShape() {}
 
     std::string ZShape::className() const {
         return "ZShape";
@@ -32,21 +35,26 @@ namespace fl {
     }
 
     scalar ZShape::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
 
         if (Op::isLE(x, _start))
             return Term::_height * 1.0;
 
         if (Op::isLE(x, 0.5 * (_start + _end)))
-            return Term::_height * (1.0 - 2.0 * std::pow((x - _start) / (_end - _start), 2));
+            return Term::_height
+                   * (1.0 - 2.0 * std::pow((x - _start) / (_end - _start), 2));
 
         if (Op::isLt(x, _end))
-            return Term::_height * (2.0 * std::pow((x - _end) / (_end - _start), 2));
+            return Term::_height
+                   * (2.0 * std::pow((x - _end) / (_end - _start), 2));
 
         return Term::_height * 0.0;
     }
 
-    scalar ZShape::tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const {
+    scalar ZShape::tsukamoto(scalar activationDegree,
+                             scalar minimum,
+                             scalar maximum) const {
         FL_IUNUSED(minimum);
         FL_IUNUSED(maximum);
 
@@ -54,7 +62,8 @@ namespace fl {
         scalar z = fl::nan;
 
         scalar difference = _end - _start;
-        scalar a = _start + std::sqrt(-0.5 * (w - 1.0) * difference * difference);
+        scalar a
+            = _start + std::sqrt(-0.5 * (w - 1.0) * difference * difference);
         scalar b = _end + std::sqrt(0.5 * w * difference * difference);
         if (std::abs(w - membership(a)) < std::abs(w - membership(b))) {
             z = a;
@@ -69,18 +78,20 @@ namespace fl {
     }
 
     std::string ZShape::parameters() const {
-        return Op::join(2, " ", _start, _end) +
-                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(2, " ", _start, _end)
+               + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight())
+                                                 : "");
     }
 
     void ZShape::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 2;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setStart(Op::toScalar(values.at(0)));
@@ -113,4 +124,4 @@ namespace fl {
         return new ZShape;
     }
 
-}
+}  // namespace fl

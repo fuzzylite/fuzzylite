@@ -34,7 +34,7 @@ namespace fl {
       @since 6.0
      */
     class FL_API Proportional : public Activation {
-    public:
+       public:
         Proportional();
         virtual ~Proportional();
         FL_DEFAULT_COPY_AND_MOVE(Proportional)
@@ -53,7 +53,8 @@ namespace fl {
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
+        virtual Complexity complexity(const RuleBlock* ruleBlock) const
+            FL_IOVERRIDE;
 
         /**
           Activates the rules utilizing activation degrees proportional to
@@ -66,6 +67,6 @@ namespace fl {
 
         static Activation* constructor();
     };
-}
+}  // namespace fl
 
 #endif /* FL_PROPORTIONAL_H */

@@ -17,9 +17,9 @@
 #ifndef FL_FLDEXPORTER_H
 #define FL_FLDEXPORTER_H
 
-#include "fuzzylite/imex/Exporter.h"
-
 #include <vector>
+
+#include "fuzzylite/imex/Exporter.h"
 
 namespace fl {
     class Engine;
@@ -38,13 +38,13 @@ namespace fl {
       @since 4.0
      */
     class FL_API FldExporter : public Exporter {
-    private:
+       private:
         std::string _separator;
         bool _exportHeaders;
         bool _exportInputValues;
         bool _exportOutputValues;
-    public:
 
+       public:
         /**
          The ScopeOfValues refers to the scope of the equally-distributed values
          to generate.
@@ -131,29 +131,34 @@ namespace fl {
           @param scope indicates the scope of the values
           @return a FuzzyLite Dataset from the engine
          */
-        virtual std::string toString(Engine* engine, int values, ScopeOfValues scope = AllVariables) const;
+        virtual std::string toString(Engine* engine,
+                                     int values,
+                                     ScopeOfValues scope = AllVariables) const;
 
         /**
           Returns a FuzzyLite Dataset from the engine.
           @param engine is the engine to export
           @param values is the number of values to export
           @param scope indicates the scope of the values
-          @param activeVariables contains the input variables to generate values for.
-          The input variables must be in the same order as in the engine. A value of
-          fl::null indicates the variable is not active.
+          @param activeVariables contains the input variables to generate values
+          for. The input variables must be in the same order as in the engine. A
+          value of fl::null indicates the variable is not active.
           @return a FuzzyLite Dataset from the engine
          */
-        virtual std::string toString(Engine* engine, int values, ScopeOfValues scope,
-                const std::vector<InputVariable*>& activeVariables) const;
+        virtual std::string toString(
+            Engine* engine,
+            int values,
+            ScopeOfValues scope,
+            const std::vector<InputVariable*>& activeVariables) const;
         /**
           Returns a FuzzyLite Dataset from the engine.
           @param engine is the engine to export
-          @param reader is the reader of a set of lines containing space-separated
-          input values
+          @param reader is the reader of a set of lines containing
+          space-separated input values
           @return a FuzzyLite Dataset from the engine
          */
-        virtual std::string toString(Engine* engine, std::istream& reader) const;
-
+        virtual std::string toString(Engine* engine,
+                                     std::istream& reader) const;
 
         using Exporter::toFile;
         /**
@@ -163,31 +168,40 @@ namespace fl {
           @param values is the number of values to export
           @param scope indicates the scope of the values
          */
-        virtual void toFile(const std::string& path, Engine* engine,
-                int values, ScopeOfValues scope = AllVariables) const;
+        virtual void toFile(const std::string& path,
+                            Engine* engine,
+                            int values,
+                            ScopeOfValues scope = AllVariables) const;
         /**
           Saves the engine as a FuzzyLite Dataset into the specified file
           @param path is the full path of the file
           @param engine is the engine to export
           @param values is the number of values to export
           @param scope indicates the scope of the values
-          @param activeVariables contains the input variables to generate values for.
-          The input variables must be in the same order as in the engine. A value of
-          fl::null indicates the variable is not active.
+          @param activeVariables contains the input variables to generate values
+          for. The input variables must be in the same order as in the engine. A
+          value of fl::null indicates the variable is not active.
          */
-        virtual void toFile(const std::string& path, Engine* engine,
-                int values, ScopeOfValues scope,
-                const std::vector<InputVariable*>& activeVariables) const;
+        virtual void toFile(
+            const std::string& path,
+            Engine* engine,
+            int values,
+            ScopeOfValues scope,
+            const std::vector<InputVariable*>& activeVariables) const;
         /**
           Saves the engine as a FuzzyLite Dataset into the specified file
           @param path is the full path of the file
           @param engine is the engine to export
-          @param reader is the reader of a set of lines containing space-separated input values
+          @param reader is the reader of a set of lines containing
+          space-separated input values
          */
-        virtual void toFile(const std::string& path, Engine* engine, std::istream& reader) const;
+        virtual void toFile(const std::string& path,
+                            Engine* engine,
+                            std::istream& reader) const;
 
         /**
-          Parses the string into a vector of values unless the string starts with `#`
+          Parses the string into a vector of values unless the string starts
+          with `#`
           @param values is a space-separated set of values
           @return a vector of values
          */
@@ -200,49 +214,62 @@ namespace fl {
           @param values is the number of values to export
           @param scope indicates the scope of the values
          */
-        virtual void write(Engine* engine, std::ostream& writer, int values,
-                ScopeOfValues scope = AllVariables) const;
+        virtual void write(Engine* engine,
+                           std::ostream& writer,
+                           int values,
+                           ScopeOfValues scope = AllVariables) const;
         /**
           Writes the engine into the given writer
           @param engine is the engine to export
           @param writer is the output where the engine will be written to
           @param values is the number of values to export
           @param scope indicates the scope of the values
-          @param activeVariables contains the input variables to generate values for.
-          The input variables must be in the same order as in the engine. A value of
-          fl::null indicates the variable is not active.
+          @param activeVariables contains the input variables to generate values
+          for. The input variables must be in the same order as in the engine. A
+          value of fl::null indicates the variable is not active.
          */
-        virtual void write(Engine* engine, std::ostream& writer, int values, ScopeOfValues scope,
-                const std::vector<InputVariable*>& activeVariables) const;
+        virtual void write(
+            Engine* engine,
+            std::ostream& writer,
+            int values,
+            ScopeOfValues scope,
+            const std::vector<InputVariable*>& activeVariables) const;
         /**
           Writes the engine into the given writer
           @param engine is the engine to export
           @param writer is the output where the engine will be written to
-          @param reader is the reader of a set of lines containing space-separated input values
+          @param reader is the reader of a set of lines containing
+          space-separated input values
          */
-        virtual void write(Engine* engine, std::ostream& writer, std::istream& reader) const;
+        virtual void write(Engine* engine,
+                           std::ostream& writer,
+                           std::istream& reader) const;
         /**
           Writes the engine into the given writer
           @param engine is the engine to export
           @param writer is the output where the engine will be written to
           @param inputValues is the vector of input values
          */
-        virtual void write(Engine* engine, std::ostream& writer, const std::vector<scalar>& inputValues) const;
+        virtual void write(Engine* engine,
+                           std::ostream& writer,
+                           const std::vector<scalar>& inputValues) const;
         /**
           Writes the engine into the given writer
           @param engine is the engine to export
           @param writer is the output where the engine will be written to
           @param inputValues is the vector of input values
-          @param activeVariables contains the input variables to generate values for.
-          The input variables must be in the same order as in the engine. A value of
-          fl::null indicates the variable is not active.
+          @param activeVariables contains the input variables to generate values
+          for. The input variables must be in the same order as in the engine. A
+          value of fl::null indicates the variable is not active.
          */
-        virtual void write(Engine* engine, std::ostream& writer, const std::vector<scalar>& inputValues,
-                const std::vector<InputVariable*>& activeVariables) const;
+        virtual void write(
+            Engine* engine,
+            std::ostream& writer,
+            const std::vector<scalar>& inputValues,
+            const std::vector<InputVariable*>& activeVariables) const;
 
         virtual FldExporter* clone() const FL_IOVERRIDE;
     };
-}
+}  // namespace fl
 
-#endif  /* FL_FLDEXPORTER_H */
-
+#endif /* FL_FLDEXPORTER_H */

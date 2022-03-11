@@ -43,5 +43,4 @@ namespace fl {
         return new NilpotentMinimum;
     }
 
-
-}
+}  // namespace fl

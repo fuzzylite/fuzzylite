@@ -34,7 +34,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API SmallestOfMaximum : public IntegralDefuzzifier {
-    public:
+       public:
         explicit SmallestOfMaximum(int resolution = defaultResolution());
         virtual ~SmallestOfMaximum() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(SmallestOfMaximum)
@@ -56,12 +56,12 @@ namespace fl {
           function value in the fuzzy set
          */
         virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+                                 scalar minimum,
+                                 scalar maximum) const FL_IOVERRIDE;
         virtual SmallestOfMaximum* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };
-}
+}  // namespace fl
 
-#endif  /* FL_SMALLESTOFMAXIMUM_H */
-
+#endif /* FL_SMALLESTOFMAXIMUM_H */

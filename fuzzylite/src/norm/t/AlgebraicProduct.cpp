@@ -38,4 +38,4 @@ namespace fl {
         return new AlgebraicProduct;
     }
 
-}
+}  // namespace fl

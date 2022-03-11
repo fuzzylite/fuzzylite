@@ -17,11 +17,11 @@
 #ifndef FL_CONSTRUCTIONFACTORY_H
 #define FL_CONSTRUCTIONFACTORY_H
 
-#include "fuzzylite/fuzzylite.h"
-
 #include <map>
 #include <string>
 #include <vector>
+
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
 
@@ -36,18 +36,18 @@ namespace fl {
 
     template <typename T>
     class ConstructionFactory {
-    public:
+       public:
         /**
           The Constructor type definition refers to a zero-parameter method
           which returns an instance of T
          */
-        typedef T(*Constructor)();
+        typedef T (*Constructor)();
 
-    private:
+       private:
         std::string _name;
         std::map<std::string, Constructor> _constructors;
 
-    public:
+       public:
         explicit ConstructionFactory(const std::string& name);
         virtual ~ConstructionFactory();
         FL_DEFAULT_COPY_AND_MOVE(ConstructionFactory)
@@ -63,14 +63,17 @@ namespace fl {
           @param key is the unique name by which constructors are registered
           @param constructor is the pointer to the constructor of the object
          */
-        virtual void registerConstructor(const std::string& key, Constructor constructor);
+        virtual void registerConstructor(const std::string& key,
+                                         Constructor constructor);
         /**
-          Deregisters from the factory the constructor associated to the given key
+          Deregisters from the factory the constructor associated to the given
+          key
           @param key is the unique name by which constructors are registered
          */
         virtual void deregisterConstructor(const std::string& key);
         /**
-          Checks whether the factory has a constructor registered by the given key
+          Checks whether the factory has a constructor registered by the given
+          key
           @param key is the unique name by which constructors are registered
           @return whether the factory has the given constructor registered
          */
@@ -82,9 +85,11 @@ namespace fl {
          */
         virtual Constructor getConstructor(const std::string& key) const;
         /**
-          Creates an object by executing the constructor associated to the given key
+          Creates an object by executing the constructor associated to the given
+          key
           @param key is the unique name by which constructors are registered
-          @return an object by executing the constructor associated to the given key
+          @return an object by executing the constructor associated to the given
+          key
          */
         virtual T constructObject(const std::string& key) const;
         /**
@@ -104,12 +109,11 @@ namespace fl {
         virtual const std::map<std::string, Constructor>& constructors() const;
     };
 
-}
+}  // namespace fl
 
 /**
  * Template implementation
  */
-
 
 #include "fuzzylite/Exception.h"
 #include "fuzzylite/defuzzifier/Defuzzifier.h"
@@ -121,41 +125,46 @@ namespace fl {
 namespace fl {
 
     template <typename T>
-    inline ConstructionFactory<T>::ConstructionFactory(const std::string& name) : _name(name) {
-
-    }
+    inline ConstructionFactory<T>::ConstructionFactory(const std::string& name)
+        : _name(name) {}
 
     template <typename T>
-    inline ConstructionFactory<T>::~ConstructionFactory() {
-    }
+    inline ConstructionFactory<T>::~ConstructionFactory() {}
 
-    template<typename T>
+    template <typename T>
     inline std::string ConstructionFactory<T>::name() const {
         return this->_name;
     }
 
     template <typename T>
-    inline void ConstructionFactory<T>::registerConstructor(const std::string& key, Constructor constructor) {
+    inline void ConstructionFactory<T>::registerConstructor(
+        const std::string& key, Constructor constructor) {
         this->_constructors[key] = constructor;
     }
 
     template <typename T>
-    inline void ConstructionFactory<T>::deregisterConstructor(const std::string& key) {
-        typename std::map<std::string, Constructor>::iterator it = this->_constructors.find(key);
+    inline void ConstructionFactory<T>::deregisterConstructor(
+        const std::string& key) {
+        typename std::map<std::string, Constructor>::iterator it
+            = this->_constructors.find(key);
         if (it != this->_constructors.end()) {
             this->_constructors.erase(it);
         }
     }
 
     template <typename T>
-    inline bool ConstructionFactory<T>::hasConstructor(const std::string& key) const {
-        typename std::map<std::string, Constructor>::const_iterator it = this->_constructors.find(key);
+    inline bool ConstructionFactory<T>::hasConstructor(
+        const std::string& key) const {
+        typename std::map<std::string, Constructor>::const_iterator it
+            = this->_constructors.find(key);
         return (it != this->_constructors.end());
     }
 
     template <typename T>
-    inline typename ConstructionFactory<T>::Constructor ConstructionFactory<T>::getConstructor(const std::string& key) const {
-        typename std::map<std::string, Constructor>::const_iterator it = this->_constructors.find(key);
+    inline typename ConstructionFactory<T>::Constructor
+    ConstructionFactory<T>::getConstructor(const std::string& key) const {
+        typename std::map<std::string, Constructor>::const_iterator it
+            = this->_constructors.find(key);
         if (it != this->_constructors.end()) {
             return it->second;
         }
@@ -163,8 +172,10 @@ namespace fl {
     }
 
     template <typename T>
-    inline T ConstructionFactory<T>::constructObject(const std::string& key) const {
-        typename std::map<std::string, Constructor>::const_iterator it = this->_constructors.find(key);
+    inline T ConstructionFactory<T>::constructObject(
+        const std::string& key) const {
+        typename std::map<std::string, Constructor>::const_iterator it
+            = this->_constructors.find(key);
         if (it != this->_constructors.end()) {
             if (it->second) {
                 return it->second();
@@ -172,14 +183,16 @@ namespace fl {
             return fl::null;
         }
         std::ostringstream ss;
-        ss << "[factory error] constructor of " + _name + " <" << key << "> not registered";
+        ss << "[factory error] constructor of " + _name + " <" << key
+           << "> not registered";
         throw Exception(ss.str(), FL_AT);
     }
 
     template <typename T>
     inline std::vector<std::string> ConstructionFactory<T>::available() const {
         std::vector<std::string> result;
-        typename std::map<std::string, Constructor>::const_iterator it = this->_constructors.begin();
+        typename std::map<std::string, Constructor>::const_iterator it
+            = this->_constructors.begin();
         while (it != this->_constructors.end()) {
             result.push_back(it->first);
             ++it;
@@ -187,16 +200,18 @@ namespace fl {
         return result;
     }
 
-    template<typename T>
-    inline std::map<std::string, typename ConstructionFactory<T>::Constructor>& ConstructionFactory<T>::constructors() {
+    template <typename T>
+    inline std::map<std::string, typename ConstructionFactory<T>::Constructor>&
+    ConstructionFactory<T>::constructors() {
         return this->_constructors;
     }
 
-    template<typename T>
-    inline const std::map<std::string, typename ConstructionFactory<T>::Constructor>& ConstructionFactory<T>::constructors() const {
+    template <typename T>
+    inline const std::map<std::string,
+                          typename ConstructionFactory<T>::Constructor>&
+    ConstructionFactory<T>::constructors() const {
         return this->_constructors;
     }
-}
+}  // namespace fl
 
-#endif  /* FL_CONSTRUCTIONFACTORY_H */
-
+#endif /* FL_CONSTRUCTIONFACTORY_H */

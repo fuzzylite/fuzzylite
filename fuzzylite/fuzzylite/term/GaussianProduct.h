@@ -33,19 +33,19 @@ namespace fl {
       @since 4.0
      */
     class FL_API GaussianProduct : public Term {
-    private:
+       private:
         scalar _meanA;
         scalar _standardDeviationA;
         scalar _meanB;
         scalar _standardDeviationB;
 
-    public:
+       public:
         explicit GaussianProduct(const std::string& name = "",
-                scalar meanA = fl::nan,
-                scalar standardDeviationA = fl::nan,
-                scalar meanB = fl::nan,
-                scalar standardDeviationB = fl::nan,
-                scalar height = 1.0);
+                                 scalar meanA = fl::nan,
+                                 scalar standardDeviationA = fl::nan,
+                                 scalar meanB = fl::nan,
+                                 scalar standardDeviationB = fl::nan,
+                                 scalar height = 1.0);
         virtual ~GaussianProduct() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(GaussianProduct)
 
@@ -98,7 +98,8 @@ namespace fl {
 
         /**
           Sets the standard deviation of the first %Gaussian curve
-          @param standardDeviationA is the standard deviation of the first %Gaussian curve
+          @param standardDeviationA is the standard deviation of the first
+          %Gaussian curve
          */
         virtual void setStandardDeviationA(scalar standardDeviationA);
         /**
@@ -120,7 +121,8 @@ namespace fl {
 
         /**
           Sets the standard deviation of the second %Gaussian curve
-          @param standardDeviationB is the standard deviation of the second %Gaussian curve
+          @param standardDeviationB is the standard deviation of the second
+          %Gaussian curve
          */
         virtual void setStandardDeviationB(scalar standardDeviationB);
         /**
@@ -133,6 +135,5 @@ namespace fl {
 
         static Term* constructor();
     };
-}
-#endif  /* FL_GAUSSIANPRODUCT_H */
-
+}  // namespace fl
+#endif /* FL_GAUSSIANPRODUCT_H */

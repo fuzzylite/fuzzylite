@@ -23,11 +23,12 @@ namespace fl {
     class Activated;
 
     /**
-      The (experimental) WeightedAverageCustom class is a WeightedDefuzzifier that computes the
-      weighted average of a fuzzy set represented in an Aggregated Term utilizing
-      the fuzzy operators for implication and aggregation to compute the weighted
-      average.  This is an experimental approach to take advantage of customization
-      thanks to the object-oriented design.
+      The (experimental) WeightedAverageCustom class is a WeightedDefuzzifier
+      that computes the weighted average of a fuzzy set represented in an
+      Aggregated Term utilizing the fuzzy operators for implication and
+      aggregation to compute the weighted average.  This is an experimental
+      approach to take advantage of customization thanks to the object-oriented
+      design.
 
       @author Juan Rada-Vilela, Ph.D.
       @see WeightedAverage
@@ -38,7 +39,7 @@ namespace fl {
       @since 6.0
      */
     class FL_API WeightedAverageCustom : public WeightedDefuzzifier {
-    public:
+       public:
         explicit WeightedAverageCustom(Type type = Automatic);
         explicit WeightedAverageCustom(const std::string& type);
         virtual ~WeightedAverageCustom() FL_IOVERRIDE;
@@ -61,17 +62,19 @@ namespace fl {
           compute the multiplications and sums in @f$y@f$, respectively.
 
           @param term is the fuzzy set represented as an Aggregated Term
-          @param minimum is the minimum value of the range (only used for Tsukamoto)
-          @param maximum is the maximum value of the range (only used for Tsukamoto)
+          @param minimum is the minimum value of the range (only used for
+          Tsukamoto)
+          @param maximum is the maximum value of the range (only used for
+          Tsukamoto)
           @return the weighted average of the given fuzzy set
          */
         virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+                                 scalar minimum,
+                                 scalar maximum) const FL_IOVERRIDE;
         virtual WeightedAverageCustom* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };
-}
+}  // namespace fl
 
-#endif  /* FL_WEIGHTEDAVERAGECUSTOM_H */
-
+#endif /* FL_WEIGHTEDAVERAGECUSTOM_H */

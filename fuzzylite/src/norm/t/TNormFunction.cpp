@@ -32,7 +32,8 @@ namespace fl {
 
     Complexity TNormFunction::complexity() const {
         if (_function.root())
-            return _function.complexity().function(2 * std::log(scalar(_function.variables.size())));
+            return _function.complexity().function(
+                2 * std::log(scalar(_function.variables.size())));
         return _function.complexity();
     }
 
@@ -62,5 +63,4 @@ namespace fl {
         return new TNormFunction;
     }
 
-
-}
+}  // namespace fl

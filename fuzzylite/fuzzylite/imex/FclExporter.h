@@ -39,10 +39,10 @@ namespace fl {
       @since 4.0
      */
     class FL_API FclExporter : public Exporter {
-    private:
+       private:
         std::string _indent;
 
-    public:
+       public:
         explicit FclExporter(const std::string& indent = "  ");
         virtual ~FclExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FclExporter)
@@ -62,44 +62,56 @@ namespace fl {
         virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
 
         /**
-          Returns a string representation of the InputVariable according to the Fuzzy Control Language specification
+          Returns a string representation of the InputVariable according to the
+          Fuzzy Control Language specification
           @param variable is the input variable
-          @return a string representation of the input variable  according to the Fuzzy Control Language specification
+          @return a string representation of the input variable  according to
+          the Fuzzy Control Language specification
          */
         virtual std::string toString(const InputVariable* variable) const;
         /**
-          Returns a string representation of the OutputVariable according to the Fuzzy Control Language specification
+          Returns a string representation of the OutputVariable according to the
+          Fuzzy Control Language specification
           @param variable is the output variable
-          @return a string representation of the output variable according to the Fuzzy Control Language specification
+          @return a string representation of the output variable according to
+          the Fuzzy Control Language specification
          */
         virtual std::string toString(const OutputVariable* variable) const;
         /**
-          Returns a string representation of the RuleBlock according to the Fuzzy Control Language specification
+          Returns a string representation of the RuleBlock according to the
+          Fuzzy Control Language specification
           @param ruleBlock is the rule block
-          @return a string representation of the rule block according to the Fuzzy Control Language specification
+          @return a string representation of the rule block according to the
+          Fuzzy Control Language specification
          */
         virtual std::string toString(const RuleBlock* ruleBlock) const;
         /**
-          Returns a string representation of the Norm according to the Fuzzy Control Language specification
+          Returns a string representation of the Norm according to the Fuzzy
+          Control Language specification
           @param norm is the norm
-          @return a string representation of the norm according to the Fuzzy Control Language specification
+          @return a string representation of the norm according to the Fuzzy
+          Control Language specification
          */
         virtual std::string toString(const Norm* norm) const;
         /**
-          Returns a string representation of the Defuzzifier according to the Fuzzy Control Language specification
+          Returns a string representation of the Defuzzifier according to the
+          Fuzzy Control Language specification
           @param defuzzifier is the defuzzifier
-          @return a string representation of the defuzzifier according to the Fuzzy Control Language specification
+          @return a string representation of the defuzzifier according to the
+          Fuzzy Control Language specification
          */
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
         /**
-          Returns a string representation of the Term according to the Fuzzy Control Language specification
+          Returns a string representation of the Term according to the Fuzzy
+          Control Language specification
           @param term is the term
-          @return a string representation of the term according to the Fuzzy Control Language specification
+          @return a string representation of the term according to the Fuzzy
+          Control Language specification
          */
         virtual std::string toString(const Term* term) const;
 
         virtual FclExporter* clone() const FL_IOVERRIDE;
     };
-}
+}  // namespace fl
 
 #endif /* FL_FCLEXPORTER_H */

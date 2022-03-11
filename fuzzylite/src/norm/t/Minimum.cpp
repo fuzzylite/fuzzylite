@@ -40,5 +40,4 @@ namespace fl {
         return new Minimum;
     }
 
-
-}
+}  // namespace fl

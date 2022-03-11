@@ -17,9 +17,9 @@
 #ifndef FL_FLLIMPORTER_H
 #define FL_FLLIMPORTER_H
 
-#include "fuzzylite/imex/Importer.h"
-
 #include <utility>
+
+#include "fuzzylite/imex/Importer.h"
 
 namespace fl {
     class TNorm;
@@ -41,20 +41,23 @@ namespace fl {
       @todo parse methods returning respective instances from blocks of text
      */
     class FL_API FllImporter : public Importer {
-    private:
+       private:
         std::string _separator;
-    public:
+
+       public:
         explicit FllImporter(const std::string& separator = "\n");
         virtual ~FllImporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FllImporter)
 
         /**
-          Sets the separator of the language (default separator is a new line '\n')
+          Sets the separator of the language (default separator is a new line
+          '\n')
           @param separator is the separator of the language
          */
         virtual void setSeparator(const std::string& separator);
         /**
-          Gets the separator of the language (default separator is a new line '\n')
+          Gets the separator of the language (default separator is a new line
+          '\n')
           @return the separator of the language
          */
         virtual std::string getSeparator() const;
@@ -64,12 +67,16 @@ namespace fl {
 
         virtual FllImporter* clone() const FL_IOVERRIDE;
 
-    protected:
-
-        virtual void process(const std::string& tag, const std::string& block, Engine* engine) const;
-        virtual void processInputVariable(const std::string& block, Engine* engine) const;
-        virtual void processOutputVariable(const std::string& block, Engine* engine) const;
-        virtual void processRuleBlock(const std::string& block, Engine* engine) const;
+       protected:
+        virtual void process(const std::string& tag,
+                             const std::string& block,
+                             Engine* engine) const;
+        virtual void processInputVariable(const std::string& block,
+                                          Engine* engine) const;
+        virtual void processOutputVariable(const std::string& block,
+                                           Engine* engine) const;
+        virtual void processRuleBlock(const std::string& block,
+                                      Engine* engine) const;
 
         virtual TNorm* parseTNorm(const std::string& name) const;
         virtual SNorm* parseSNorm(const std::string& name) const;
@@ -78,14 +85,13 @@ namespace fl {
         virtual Term* parseTerm(const std::string& text, Engine* engine) const;
 
         virtual Defuzzifier* parseDefuzzifier(const std::string& line) const;
-        virtual std::pair<scalar, scalar> parseRange(const std::string& line) const;
+        virtual std::pair<scalar, scalar> parseRange(
+            const std::string& line) const;
         virtual bool parseBoolean(const std::string& boolean) const;
 
-        virtual std::pair<std::string, std::string> parseKeyValue(const std::string& text,
-                char separator = ':') const;
-
+        virtual std::pair<std::string, std::string> parseKeyValue(
+            const std::string& text, char separator = ':') const;
     };
-}
+}  // namespace fl
 
-#endif  /* FL_FLLIMPORTER_H */
-
+#endif /* FL_FLLIMPORTER_H */

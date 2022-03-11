@@ -14,24 +14,23 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fuzzylite/Benchmark.h"
-
-#include "test/catch.hpp"
-#include "fuzzylite/Headers.h"
-
-#include <vector>
 #include <fstream>
+#include <vector>
+
+#include "fuzzylite/Benchmark.h"
+#include "fuzzylite/Headers.h"
+#include "test/catch.hpp"
 
 namespace fl {
 
     TEST_CASE("Benchmarks run from Console ", "[benchmark][console]") {
-        //        const char* args[] = {"dummy-command", "benchmarks", "../../examples/", "1"};
-        //        Console::main(4, args);
+        //        const char* args[] = {"dummy-command", "benchmarks",
+        //        "../../examples/", "1"}; Console::main(4, args);
     }
 
     TEST_CASE("Benchmarks from FLD files", "[benchmark][fld]") {
         std::string path = FL_BUILD_PATH "/../examples/";
-        typedef std::pair<std::string, int > Example;
+        typedef std::pair<std::string, int> Example;
         std::vector<Example> examples;
         examples.push_back(Example("mamdani/AllTerms", int(1e4)));
         examples.push_back(Example("mamdani/SimpleDimmer", int(1e5)));
@@ -43,7 +42,8 @@ namespace fl {
         examples.push_back(Example("mamdani/matlab/tipper", 256));
         examples.push_back(Example("mamdani/matlab/tipper1", int(1e5)));
         examples.push_back(Example("mamdani/octave/investment_portfolio", 256));
-        examples.push_back(Example("mamdani/octave/mamdani_tip_calculator", 256));
+        examples.push_back(
+            Example("mamdani/octave/mamdani_tip_calculator", 256));
         examples.push_back(Example("takagi-sugeno/approximation", int(1e6)));
         examples.push_back(Example("takagi-sugeno/SimpleDimmer", int(2e6)));
         examples.push_back(Example("takagi-sugeno/matlab/fpeaks", 512));
@@ -60,10 +60,14 @@ namespace fl {
         examples.push_back(Example("takagi-sugeno/matlab/sugeno1", int(2e6)));
         examples.push_back(Example("takagi-sugeno/matlab/tanksg", 1024));
         examples.push_back(Example("takagi-sugeno/matlab/tippersg", 1024));
-        examples.push_back(Example("takagi-sugeno/octave/cubic_approximator", int(2e6)));
-        examples.push_back(Example("takagi-sugeno/octave/heart_disease_risk", 1024));
-        examples.push_back(Example("takagi-sugeno/octave/linear_tip_calculator", 1024));
-        examples.push_back(Example("takagi-sugeno/octave/sugeno_tip_calculator", 512));
+        examples.push_back(
+            Example("takagi-sugeno/octave/cubic_approximator", int(2e6)));
+        examples.push_back(
+            Example("takagi-sugeno/octave/heart_disease_risk", 1024));
+        examples.push_back(
+            Example("takagi-sugeno/octave/linear_tip_calculator", 1024));
+        examples.push_back(
+            Example("takagi-sugeno/octave/sugeno_tip_calculator", 512));
         examples.push_back(Example("tsukamoto/tsukamoto", int(1e6)));
 
         std::ostringstream writer;
@@ -71,9 +75,11 @@ namespace fl {
         for (std::size_t i = 0; i < examples.size(); ++i) {
             Example example = examples.at(i);
             FL_LOG("Benchmark " << (i + 1) << "/" << examples.size() << ": "
-                    << example.first << ".fll (" << example.second << " values)");
+                                << example.first << ".fll (" << example.second
+                                << " values)");
 
-            FL_unique_ptr<Engine> engine(FllImporter().fromFile(path + example.first + ".fll"));
+            FL_unique_ptr<Engine> engine(
+                FllImporter().fromFile(path + example.first + ".fll"));
 
 #ifdef FL_USE_FLOAT
             scalar tolerance = 1e-3;
@@ -82,9 +88,11 @@ namespace fl {
 #endif
             Benchmark benchmark(example.first, engine.get(), tolerance);
 
-            std::ifstream reader(std::string(path + example.first + ".fld").c_str());
+            std::ifstream reader(
+                std::string(path + example.first + ".fld").c_str());
             if (not reader.is_open()) {
-                throw Exception("File not found: " + path + example.first + ".fld");
+                throw Exception("File not found: " + path + example.first
+                                + ".fld");
             }
             benchmark.prepare(reader, 1024);
             benchmark.run(1);
@@ -92,11 +100,15 @@ namespace fl {
             errors.at(i) = benchmark.accuracyErrors();
 
             if (i == 0) {
-                writer << "\n" << benchmark.format(benchmark.results(),
-                        Benchmark::Horizontal, Benchmark::HeaderAndBody) << "\n";
+                writer << "\n"
+                       << benchmark.format(benchmark.results(),
+                                           Benchmark::Horizontal,
+                                           Benchmark::HeaderAndBody)
+                       << "\n";
             } else {
-                writer << benchmark.format(benchmark.results(),
-                        Benchmark::Horizontal, Benchmark::Body) << "\n";
+                writer << benchmark.format(
+                    benchmark.results(), Benchmark::Horizontal, Benchmark::Body)
+                       << "\n";
             }
         }
         FL_LOG(writer.str());
@@ -107,18 +119,32 @@ namespace fl {
     }
 
     TEST_CASE("Time conversions", "[benchmark][time]") {
-        CHECK(Op::isEq(1.0, Benchmark::convert(3600, Benchmark::Seconds, Benchmark::Hours)));
+        CHECK(Op::isEq(
+            1.0,
+            Benchmark::convert(3600, Benchmark::Seconds, Benchmark::Hours)));
         FL_LOG(Benchmark::convert(3600, Benchmark::Seconds, Benchmark::Hours));
-        CHECK(Op::isEq(3600, Benchmark::convert(1, Benchmark::Hours, Benchmark::Seconds)));
+        CHECK(Op::isEq(
+            3600, Benchmark::convert(1, Benchmark::Hours, Benchmark::Seconds)));
         FL_LOG(Benchmark::convert(1, Benchmark::Hours, Benchmark::Seconds));
 
-        CHECK(Op::isEq(1000.0, Benchmark::convert(1.0, Benchmark::Seconds, Benchmark::MilliSeconds)));
-        FL_LOG(Benchmark::convert(1.0, Benchmark::Seconds, Benchmark::MilliSeconds));
-        CHECK(Op::isEq(1.0, Benchmark::convert(1000.0, Benchmark::MilliSeconds, Benchmark::Seconds)));
-        FL_LOG(Benchmark::convert(1000.0, Benchmark::MilliSeconds, Benchmark::Seconds));
+        CHECK(Op::isEq(1000.0,
+                       Benchmark::convert(
+                           1.0, Benchmark::Seconds, Benchmark::MilliSeconds)));
+        FL_LOG(Benchmark::convert(
+            1.0, Benchmark::Seconds, Benchmark::MilliSeconds));
+        CHECK(
+            Op::isEq(1.0,
+                     Benchmark::convert(
+                         1000.0, Benchmark::MilliSeconds, Benchmark::Seconds)));
+        FL_LOG(Benchmark::convert(
+            1000.0, Benchmark::MilliSeconds, Benchmark::Seconds));
 
-        CHECK(Op::isEq(35e9, Benchmark::convert(35, Benchmark::Seconds, Benchmark::NanoSeconds)));
-        CHECK(Op::isEq(35, Benchmark::convert(35e9, Benchmark::NanoSeconds, Benchmark::Seconds)));
+        CHECK(Op::isEq(35e9,
+                       Benchmark::convert(
+                           35, Benchmark::Seconds, Benchmark::NanoSeconds)));
+        CHECK(Op::isEq(35,
+                       Benchmark::convert(
+                           35e9, Benchmark::NanoSeconds, Benchmark::Seconds)));
     }
 
     TEST_CASE("Benchmark headers", "[benchmark][header]") {
@@ -128,4 +154,4 @@ namespace fl {
         FL_LOG(Op::join(Benchmark().header(10, false), "\t"));
         CHECK(Benchmark().header(10, false).size() == 30 - 8);
     }
-}
+}  // namespace fl

@@ -19,10 +19,14 @@
 namespace fl {
 
     Gaussian::Gaussian(const std::string& name,
-            scalar mean, scalar standardDeviation, scalar height)
-    : Term(name, height), _mean(mean), _standardDeviation(standardDeviation) { }
+                       scalar mean,
+                       scalar standardDeviation,
+                       scalar height)
+        : Term(name, height),
+          _mean(mean),
+          _standardDeviation(standardDeviation) {}
 
-    Gaussian::~Gaussian() { }
+    Gaussian::~Gaussian() {}
 
     std::string Gaussian::className() const {
         return "Gaussian";
@@ -33,23 +37,28 @@ namespace fl {
     }
 
     scalar Gaussian::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
-        return Term::_height * std::exp((-(x - _mean) * (x - _mean)) / (2.0 * _standardDeviation * _standardDeviation));
+        if (Op::isNaN(x))
+            return fl::nan;
+        return Term::_height
+               * std::exp((-(x - _mean) * (x - _mean))
+                          / (2.0 * _standardDeviation * _standardDeviation));
     }
 
     std::string Gaussian::parameters() const {
-        return Op::join(2, " ", _mean, _standardDeviation) +
-                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(2, " ", _mean, _standardDeviation)
+               + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight())
+                                                 : "");
     }
 
     void Gaussian::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 2;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setMean(Op::toScalar(values.at(0)));
@@ -82,5 +91,4 @@ namespace fl {
         return new Gaussian;
     }
 
-
-}
+}  // namespace fl

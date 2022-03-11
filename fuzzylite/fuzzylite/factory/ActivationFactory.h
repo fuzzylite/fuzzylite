@@ -17,10 +17,9 @@
 #ifndef FL_ACTIVATIONFACTORY_H
 #define FL_ACTIVATIONFACTORY_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/factory/ConstructionFactory.h"
 #include "fuzzylite/activation/Activation.h"
+#include "fuzzylite/factory/ConstructionFactory.h"
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
 
@@ -36,11 +35,11 @@ namespace fl {
       @since 6.0
      */
     class FL_API ActivationFactory : public ConstructionFactory<Activation*> {
-    public:
+       public:
         ActivationFactory();
         virtual ~ActivationFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(ActivationFactory)
     };
-}
+}  // namespace fl
 
 #endif /* FL_ACTIVATIONFACTORY_H */

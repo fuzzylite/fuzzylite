@@ -18,7 +18,6 @@
 #define FL_SNORMFUNCTION_H
 
 #include "fuzzylite/norm/SNorm.h"
-
 #include "fuzzylite/term/Function.h"
 
 namespace fl {
@@ -37,9 +36,10 @@ namespace fl {
      */
 
     class FL_API SNormFunction FL_IFINAL : public SNorm {
-    private:
+       private:
         Function _function;
-    public:
+
+       public:
         explicit SNormFunction(const std::string& formula = "");
 
         /**
@@ -76,6 +76,5 @@ namespace fl {
 
         static SNorm* constructor();
     };
-}
+}  // namespace fl
 #endif /* FL_SNORMFUNCTION_H */
-

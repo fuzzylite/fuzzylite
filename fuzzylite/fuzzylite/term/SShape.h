@@ -33,14 +33,14 @@ namespace fl {
       @since 4.0
      */
     class FL_API SShape : public Term {
-    private:
+       private:
         scalar _start, _end;
 
-    public:
+       public:
         explicit SShape(const std::string& name = "",
-                scalar start = fl::nan,
-                scalar end = fl::nan,
-                scalar height = 1.0);
+                        scalar start = fl::nan,
+                        scalar end = fl::nan,
+                        scalar height = 1.0);
         virtual ~SShape() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(SShape)
 
@@ -74,10 +74,11 @@ namespace fl {
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
         virtual scalar tsukamoto(scalar activationDegree,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+                                 scalar minimum,
+                                 scalar maximum) const FL_IOVERRIDE;
 
         virtual bool isMonotonic() const FL_IOVERRIDE;
-        
+
         /**
           Sets the start of the edge
           @param start is the start of the edge
@@ -104,6 +105,5 @@ namespace fl {
 
         static Term* constructor();
     };
-}
-#endif  /* FL_SSHAPE_H */
-
+}  // namespace fl
+#endif /* FL_SSHAPE_H */

@@ -17,11 +17,10 @@
 #ifndef FL_DEFUZZIFIER_H
 #define FL_DEFUZZIFIER_H
 
-#include "fuzzylite/fuzzylite.h"
+#include <string>
 
 #include "fuzzylite/Complexity.h"
-
-#include <string>
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
     class Term;
@@ -35,13 +34,10 @@ namespace fl {
       @since 4.0
      */
     class FL_API Defuzzifier {
-    public:
+       public:
+        Defuzzifier() {}
 
-        Defuzzifier() {
-        }
-
-        virtual ~Defuzzifier() {
-        }
+        virtual ~Defuzzifier() {}
         FL_DEFAULT_COPY_AND_MOVE(Defuzzifier)
 
         /**
@@ -62,15 +58,17 @@ namespace fl {
          */
         virtual Complexity complexity(const Term* term) const = 0;
         /**
-          Defuzzifies the given fuzzy term utilizing the range `[minimum,maximum]`
+          Defuzzifies the given fuzzy term utilizing the range
+          `[minimum,maximum]`
           @param term is the term to defuzzify, typically an Aggregated term
           @param minimum is the minimum value of the range
           @param maximum is the maximum value of the range
           @return the defuzzified value of the given fuzzy term
          */
-        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const = 0;
-
+        virtual scalar defuzzify(const Term* term,
+                                 scalar minimum,
+                                 scalar maximum) const = 0;
     };
-}
+}  // namespace fl
 
 #endif /* FL_DEFUZZIFIER_H */

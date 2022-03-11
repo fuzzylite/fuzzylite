@@ -17,9 +17,8 @@
 #ifndef FL_GENERAL_H
 #define FL_GENERAL_H
 
-#include "fuzzylite/fuzzylite.h"
-
 #include "fuzzylite/activation/Activation.h"
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
 
@@ -35,8 +34,7 @@ namespace fl {
      */
 
     class FL_API General : public Activation {
-    public:
-
+       public:
         General();
         virtual ~General();
         FL_DEFAULT_COPY_AND_MOVE(General)
@@ -55,7 +53,8 @@ namespace fl {
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
+        virtual Complexity complexity(const RuleBlock* ruleBlock) const
+            FL_IOVERRIDE;
 
         /**
           Activates every rule in the given rule block following the order in
@@ -68,6 +67,6 @@ namespace fl {
 
         static Activation* constructor();
     };
-}
+}  // namespace fl
 
 #endif /* FL_GENERAL_H */

@@ -35,13 +35,12 @@ namespace fl {
       @since 4.0
      */
     class FL_API Any : public Hedge {
-    public:
+       public:
         Any();
         virtual ~Any() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Any)
 
         virtual std::string name() const FL_IOVERRIDE;
-
 
         virtual Complexity complexity() const FL_IOVERRIDE;
 
@@ -55,6 +54,6 @@ namespace fl {
 
         static Hedge* constructor();
     };
-}
+}  // namespace fl
 
 #endif /* FL_ANY_H */

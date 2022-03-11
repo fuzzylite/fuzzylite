@@ -19,9 +19,9 @@
 namespace fl {
 
     Constant::Constant(const std::string& name, scalar value)
-    : Term(name), _value(value) { }
+        : Term(name), _value(value) {}
 
-    Constant::~Constant() { }
+    Constant::~Constant() {}
 
     std::string Constant::className() const {
         return "Constant";
@@ -41,7 +41,8 @@ namespace fl {
     }
 
     void Constant::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         setValue(Op::toScalar(parameters));
     }
 
@@ -61,4 +62,4 @@ namespace fl {
         return new Constant;
     }
 
-}
+}  // namespace fl

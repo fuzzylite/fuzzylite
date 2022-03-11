@@ -17,9 +17,9 @@
 #ifndef FL_EXPORTER_H
 #define FL_EXPORTER_H
 
-#include "fuzzylite/fuzzylite.h"
-
 #include <string>
+
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
     class Engine;
@@ -35,8 +35,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Exporter {
-    public:
-
+       public:
         Exporter();
         virtual ~Exporter();
         FL_DEFAULT_COPY_AND_MOVE(Exporter)
@@ -53,7 +52,8 @@ namespace fl {
           @param engine is the engine to export
           @throws fl::Exception if the file cannot be created
          */
-        virtual void toFile(const std::string& path, const Engine* engine) const;
+        virtual void toFile(const std::string& path,
+                            const Engine* engine) const;
 
         /**
           Returns the name of the exporter
@@ -68,7 +68,6 @@ namespace fl {
         virtual Exporter* clone() const = 0;
     };
 
-}
+}  // namespace fl
 
-#endif  /* FL_EXPORTER_H */
-
+#endif /* FL_EXPORTER_H */

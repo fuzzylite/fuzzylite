@@ -33,15 +33,16 @@ namespace fl {
       @since 4.0
      */
     class FL_API Trapezoid : public Term {
-    private:
+       private:
         scalar _vertexA, _vertexB, _vertexC, _vertexD;
-    public:
+
+       public:
         explicit Trapezoid(const std::string& name = "",
-                scalar vertexA = fl::nan,
-                scalar vertexB = fl::nan,
-                scalar vertexC = fl::nan,
-                scalar vertexD = fl::nan,
-                scalar height = 1.0);
+                           scalar vertexA = fl::nan,
+                           scalar vertexB = fl::nan,
+                           scalar vertexC = fl::nan,
+                           scalar vertexD = fl::nan,
+                           scalar height = 1.0);
         virtual ~Trapezoid() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Trapezoid)
 
@@ -125,5 +126,5 @@ namespace fl {
 
         static Term* constructor();
     };
-}
+}  // namespace fl
 #endif /* FL_TRAPEZOID_H */

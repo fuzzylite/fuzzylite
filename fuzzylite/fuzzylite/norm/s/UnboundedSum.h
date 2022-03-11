@@ -22,7 +22,8 @@
 namespace fl {
 
     /**
-      The UnboundedSum class is an SNorm that computes the sum of any two values.
+      The UnboundedSum class is an SNorm that computes the sum of any two
+      values.
 
       @author Juan Rada-Vilela, Ph.D.
       @see BoundedSum
@@ -32,7 +33,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API UnboundedSum FL_IFINAL : public SNorm {
-    public:
+       public:
         std::string className() const FL_IOVERRIDE;
 
         Complexity complexity() const FL_IOVERRIDE;
@@ -47,6 +48,6 @@ namespace fl {
 
         static SNorm* constructor();
     };
-}
+}  // namespace fl
 
-#endif  /* FL_BOUNDEDSUM_H */
+#endif /* FL_BOUNDEDSUM_H */
