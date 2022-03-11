@@ -49,7 +49,7 @@ format(){
     GET_TESTS="find test -type f -name '*.cpp' -print0"
     
     FORMATTER="clang-format"
-    OPTIONS="--style=file --verbose -i"
+    OPTIONS="--style=file -i"
 
     echo "Formatting headers"
     eval $GET_HEADERS | xargs -0 $FORMATTER $OPTIONS
@@ -60,12 +60,12 @@ format(){
 }
 
 lint(){
-    GET_HEADERS="find fl -type f -name '*.h' -print0"
+    GET_HEADERS="find fuzzylite -type f -name '*.h' -print0"
     GET_SOURCES="find src -type f -name '*.cpp' -print0"
     GET_TESTS="find test -type f -name '*.cpp' -print0"
     
     FORMATTER="clang-format"
-    OPTIONS="--dry-run --Werror --style=file --verbose -i"
+    OPTIONS="--dry-run --Werror --style=file -i"
 
     echo "Linting headers"
     eval $GET_HEADERS | xargs -0 $FORMATTER $OPTIONS
