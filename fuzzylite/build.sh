@@ -44,7 +44,7 @@ documentation(){
 }
 
 format(){
-    GET_HEADERS="find fl -type f -name '*.h' -print0"
+    GET_HEADERS="find fuzzylite -type f -name '*.h' -print0"
     GET_SOURCES="find src -type f -name '*.cpp' -print0"
     GET_TESTS="find test -type f -name '*.cpp' -print0"
     
@@ -78,6 +78,7 @@ lint(){
 all(){
     debug
     release
+    test
 }
 
 clean(){
