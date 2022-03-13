@@ -18,24 +18,24 @@
 
 namespace fl {
 
-    std::string AlgebraicSum::className() const {
-        return "AlgebraicSum";
-    }
+std::string AlgebraicSum::className() const {
+  return "AlgebraicSum";
+}
 
-    Complexity AlgebraicSum::complexity() const {
-        return Complexity().arithmetic(3);
-    }
+Complexity AlgebraicSum::complexity() const {
+  return Complexity().arithmetic(3);
+}
 
-    scalar AlgebraicSum::compute(scalar a, scalar b) const {
-        return a + b - (a * b);
-    }
+scalar AlgebraicSum::compute(scalar a, scalar b) const {
+  return a + b - (a * b);
+}
 
-    AlgebraicSum* AlgebraicSum::clone() const {
-        return new AlgebraicSum(*this);
-    }
+AlgebraicSum* AlgebraicSum::clone() const {
+  return new AlgebraicSum(*this);
+}
 
-    SNorm* AlgebraicSum::constructor() {
-        return new AlgebraicSum;
-    }
+SNorm* AlgebraicSum::constructor() {
+  return new AlgebraicSum;
+}
 
 }  // namespace fl

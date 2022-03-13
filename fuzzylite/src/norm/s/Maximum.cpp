@@ -20,24 +20,24 @@
 
 namespace fl {
 
-    std::string Maximum::className() const {
-        return "Maximum";
-    }
+std::string Maximum::className() const {
+  return "Maximum";
+}
 
-    Complexity Maximum::complexity() const {
-        return Complexity().function(1);
-    }
+Complexity Maximum::complexity() const {
+  return Complexity().function(1);
+}
 
-    scalar Maximum::compute(scalar a, scalar b) const {
-        return Op::max(a, b);
-    }
+scalar Maximum::compute(scalar a, scalar b) const {
+  return Op::max(a, b);
+}
 
-    Maximum* Maximum::clone() const {
-        return new Maximum(*this);
-    }
+Maximum* Maximum::clone() const {
+  return new Maximum(*this);
+}
 
-    SNorm* Maximum::constructor() {
-        return new Maximum;
-    }
+SNorm* Maximum::constructor() {
+  return new Maximum;
+}
 
 }  // namespace fl

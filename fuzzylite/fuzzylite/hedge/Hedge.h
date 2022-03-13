@@ -24,49 +24,49 @@
 
 namespace fl {
 
-    /**
-      The Hedge class is the abstract class for hedges. Hedges are utilized
-      within the Antecedent and Consequent of a Rule in order to modify the
-      membership function of a linguistic Term.
+/**
+  The Hedge class is the abstract class for hedges. Hedges are utilized
+  within the Antecedent and Consequent of a Rule in order to modify the
+  membership function of a linguistic Term.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see Antecedent
-      @see Consequent
-      @see Rule
-      @see HedgeFactory
-      @since 4.0
-     */
-    class FL_API Hedge {
-      public:
-        Hedge() {}
+  @author Juan Rada-Vilela, Ph.D.
+  @see Antecedent
+  @see Consequent
+  @see Rule
+  @see HedgeFactory
+  @since 4.0
+ */
+class FL_API Hedge {
+ public:
+  Hedge() {}
 
-        virtual ~Hedge() {}
-        FL_DEFAULT_COPY_AND_MOVE(Hedge)
+  virtual ~Hedge() {}
+  FL_DEFAULT_COPY_AND_MOVE(Hedge)
 
-        /**
-          Returns the name of the hedge
-          @return the name of the hedge
-         */
-        virtual std::string name() const = 0;
+  /**
+    Returns the name of the hedge
+    @return the name of the hedge
+   */
+  virtual std::string name() const = 0;
 
-        /**
-          Computes the estimated complexity of applying the hedge
-          @return the estimated complexity of applying the hedge
-         */
-        virtual Complexity complexity() const = 0;
-        /**
-          Computes the hedge for the membership function value @f$x@f$
-          @param x is a membership function value
-          @return the hedge of @f$x@f$
-         */
-        virtual scalar hedge(scalar x) const = 0;
+  /**
+    Computes the estimated complexity of applying the hedge
+    @return the estimated complexity of applying the hedge
+   */
+  virtual Complexity complexity() const = 0;
+  /**
+    Computes the hedge for the membership function value @f$x@f$
+    @param x is a membership function value
+    @return the hedge of @f$x@f$
+   */
+  virtual scalar hedge(scalar x) const = 0;
 
-        /**
-          Creates a clone of the hedge
-          @return a clone of the hedge.
-         */
-        virtual Hedge* clone() const = 0;
-    };
+  /**
+    Creates a clone of the hedge
+    @return a clone of the hedge.
+   */
+  virtual Hedge* clone() const = 0;
+};
 }  // namespace fl
 
 #endif /* FL_HEDGE_H */

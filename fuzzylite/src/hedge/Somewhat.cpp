@@ -18,24 +18,24 @@
 
 namespace fl {
 
-    std::string Somewhat::name() const {
-        return "somewhat";
-    }
+std::string Somewhat::name() const {
+  return "somewhat";
+}
 
-    Complexity Somewhat::complexity() const {
-        return Complexity().function(1);
-    }
+Complexity Somewhat::complexity() const {
+  return Complexity().function(1);
+}
 
-    scalar Somewhat::hedge(scalar x) const {
-        return std::sqrt(x);
-    }
+scalar Somewhat::hedge(scalar x) const {
+  return std::sqrt(x);
+}
 
-    Somewhat* Somewhat::clone() const {
-        return new Somewhat(*this);
-    }
+Somewhat* Somewhat::clone() const {
+  return new Somewhat(*this);
+}
 
-    Hedge* Somewhat::constructor() {
-        return new Somewhat;
-    }
+Hedge* Somewhat::constructor() {
+  return new Somewhat;
+}
 
 }  // namespace fl

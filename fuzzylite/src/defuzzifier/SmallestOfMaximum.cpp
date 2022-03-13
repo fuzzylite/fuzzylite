@@ -21,49 +21,49 @@
 
 namespace fl {
 
-    SmallestOfMaximum::SmallestOfMaximum(int resolution)
-        : IntegralDefuzzifier(resolution) {}
+SmallestOfMaximum::SmallestOfMaximum(int resolution)
+    : IntegralDefuzzifier(resolution) {}
 
-    SmallestOfMaximum::~SmallestOfMaximum() {}
+SmallestOfMaximum::~SmallestOfMaximum() {}
 
-    std::string SmallestOfMaximum::className() const {
-        return "SmallestOfMaximum";
+std::string SmallestOfMaximum::className() const {
+  return "SmallestOfMaximum";
+}
+
+Complexity SmallestOfMaximum::complexity(const Term* term) const {
+  return Complexity().comparison(1).arithmetic(1 + 2)
+         + term->complexity().comparison(1).arithmetic(3).multiply(
+             getResolution());
+}
+
+scalar SmallestOfMaximum::defuzzify(const Term* term,
+                                    scalar minimum,
+                                    scalar maximum) const {
+  if (not Op::isFinite(minimum + maximum))
+    return fl::nan;
+
+  const int resolution = getResolution();
+  const scalar dx = (maximum - minimum) / resolution;
+  scalar x, y;
+  scalar ymax = -1.0, xsmallest = minimum;
+  for (int i = 0; i < resolution; ++i) {
+    x = minimum + (i + 0.5) * dx;
+    y = term->membership(x);
+
+    if (Op::isGt(y, ymax)) {
+      xsmallest = x;
+      ymax = y;
     }
+  }
+  return xsmallest;
+}
 
-    Complexity SmallestOfMaximum::complexity(const Term* term) const {
-        return Complexity().comparison(1).arithmetic(1 + 2)
-               + term->complexity().comparison(1).arithmetic(3).multiply(
-                   getResolution());
-    }
+SmallestOfMaximum* SmallestOfMaximum::clone() const {
+  return new SmallestOfMaximum(*this);
+}
 
-    scalar SmallestOfMaximum::defuzzify(const Term* term,
-                                        scalar minimum,
-                                        scalar maximum) const {
-        if (not Op::isFinite(minimum + maximum))
-            return fl::nan;
-
-        const int resolution = getResolution();
-        const scalar dx = (maximum - minimum) / resolution;
-        scalar x, y;
-        scalar ymax = -1.0, xsmallest = minimum;
-        for (int i = 0; i < resolution; ++i) {
-            x = minimum + (i + 0.5) * dx;
-            y = term->membership(x);
-
-            if (Op::isGt(y, ymax)) {
-                xsmallest = x;
-                ymax = y;
-            }
-        }
-        return xsmallest;
-    }
-
-    SmallestOfMaximum* SmallestOfMaximum::clone() const {
-        return new SmallestOfMaximum(*this);
-    }
-
-    Defuzzifier* SmallestOfMaximum::constructor() {
-        return new SmallestOfMaximum;
-    }
+Defuzzifier* SmallestOfMaximum::constructor() {
+  return new SmallestOfMaximum;
+}
 
 }  // namespace fl

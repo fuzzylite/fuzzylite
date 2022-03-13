@@ -22,21 +22,21 @@
 
 namespace fl {
 
-    /**
-      The TNormFactory class is a ConstructionFactory of TNorm%s.
+/**
+  The TNormFactory class is a ConstructionFactory of TNorm%s.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see TNorm
-      @see ConstructionFactory
-      @see FactoryManager
-      @since 4.0
-     */
-    class FL_API TNormFactory : public ConstructionFactory<TNorm*> {
-      public:
-        TNormFactory();
-        virtual ~TNormFactory() FL_IOVERRIDE;
-        FL_DEFAULT_COPY_AND_MOVE(TNormFactory)
-    };
+  @author Juan Rada-Vilela, Ph.D.
+  @see TNorm
+  @see ConstructionFactory
+  @see FactoryManager
+  @since 4.0
+ */
+class FL_API TNormFactory : public ConstructionFactory<TNorm*> {
+ public:
+  TNormFactory();
+  virtual ~TNormFactory() FL_IOVERRIDE;
+  FL_DEFAULT_COPY_AND_MOVE(TNormFactory)
+};
 }  // namespace fl
 
 #endif /* FL_TNORMFACTORY_H */

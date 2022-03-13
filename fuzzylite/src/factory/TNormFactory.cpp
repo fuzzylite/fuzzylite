@@ -26,23 +26,23 @@
 
 namespace fl {
 
-    TNormFactory::TNormFactory() : ConstructionFactory<TNorm*>("TNorm") {
-        registerConstructor("", fl::null);
-        registerConstructor(AlgebraicProduct().className(),
-                            &(AlgebraicProduct::constructor));
-        registerConstructor(BoundedDifference().className(),
-                            &(BoundedDifference::constructor));
-        registerConstructor(DrasticProduct().className(),
-                            &(DrasticProduct::constructor));
-        registerConstructor(EinsteinProduct().className(),
-                            &(EinsteinProduct::constructor));
-        registerConstructor(HamacherProduct().className(),
-                            &(HamacherProduct::constructor));
-        registerConstructor(Minimum().className(), &(Minimum::constructor));
-        registerConstructor(NilpotentMinimum().className(),
-                            &(NilpotentMinimum::constructor));
-    }
+TNormFactory::TNormFactory() : ConstructionFactory<TNorm*>("TNorm") {
+  registerConstructor("", fl::null);
+  registerConstructor(AlgebraicProduct().className(),
+                      &(AlgebraicProduct::constructor));
+  registerConstructor(BoundedDifference().className(),
+                      &(BoundedDifference::constructor));
+  registerConstructor(DrasticProduct().className(),
+                      &(DrasticProduct::constructor));
+  registerConstructor(EinsteinProduct().className(),
+                      &(EinsteinProduct::constructor));
+  registerConstructor(HamacherProduct().className(),
+                      &(HamacherProduct::constructor));
+  registerConstructor(Minimum().className(), &(Minimum::constructor));
+  registerConstructor(NilpotentMinimum().className(),
+                      &(NilpotentMinimum::constructor));
+}
 
-    TNormFactory::~TNormFactory() {}
+TNormFactory::~TNormFactory() {}
 
 }  // namespace fl

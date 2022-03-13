@@ -18,24 +18,24 @@
 
 namespace fl {
 
-    std::string EinsteinProduct::className() const {
-        return "EinsteinProduct";
-    }
+std::string EinsteinProduct::className() const {
+  return "EinsteinProduct";
+}
 
-    Complexity EinsteinProduct::complexity() const {
-        return Complexity().arithmetic(6);
-    }
+Complexity EinsteinProduct::complexity() const {
+  return Complexity().arithmetic(6);
+}
 
-    scalar EinsteinProduct::compute(scalar a, scalar b) const {
-        return (a * b) / (2.0 - (a + b - a * b));
-    }
+scalar EinsteinProduct::compute(scalar a, scalar b) const {
+  return (a * b) / (2.0 - (a + b - a * b));
+}
 
-    EinsteinProduct* EinsteinProduct::clone() const {
-        return new EinsteinProduct(*this);
-    }
+EinsteinProduct* EinsteinProduct::clone() const {
+  return new EinsteinProduct(*this);
+}
 
-    TNorm* EinsteinProduct::constructor() {
-        return new EinsteinProduct;
-    }
+TNorm* EinsteinProduct::constructor() {
+  return new EinsteinProduct;
+}
 
 }  // namespace fl

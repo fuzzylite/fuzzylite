@@ -22,104 +22,102 @@
 
 namespace fl {
 
-    Last::Last(int numberOfRules, scalar threshold)
-        : Activation(), _numberOfRules(numberOfRules), _threshold(threshold) {}
+Last::Last(int numberOfRules, scalar threshold)
+    : Activation(), _numberOfRules(numberOfRules), _threshold(threshold) {}
 
-    Last::~Last() {}
+Last::~Last() {}
 
-    std::string Last::className() const {
-        return "Last";
+std::string Last::className() const {
+  return "Last";
+}
+
+std::string Last::parameters() const {
+  return Op::str(getNumberOfRules()) + " " + Op::str(getThreshold());
+}
+
+void Last::configure(const std::string& parameters) {
+  if (parameters.empty())
+    return;
+  std::vector<std::string> values = Op::split(parameters, " ");
+  std::size_t required = 2;
+  if (values.size() < required) {
+    std::ostringstream ex;
+    ex << "[configuration error] activation <" << className() << ">"
+       << " requires <" << required << "> parameters";
+    throw Exception(ex.str(), FL_AT);
+  }
+  setNumberOfRules((int)Op::toScalar(values.at(0)));
+  setThreshold(Op::toScalar(values.at(1)));
+}
+
+void Last::setNumberOfRules(int numberOfRules) {
+  this->_numberOfRules = numberOfRules;
+}
+
+int Last::getNumberOfRules() const {
+  return this->_numberOfRules;
+}
+
+void Last::setThreshold(scalar threshold) {
+  this->_threshold = threshold;
+}
+
+scalar Last::getThreshold() const {
+  return this->_threshold;
+}
+
+Complexity Last::complexity(const RuleBlock* ruleBlock) const {
+  Complexity result;
+
+  const TNorm* conjunction = ruleBlock->getConjunction();
+  const SNorm* disjunction = ruleBlock->getDisjunction();
+  const TNorm* implication = ruleBlock->getImplication();
+
+  Complexity meanFiring;
+  for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
+    result.comparison(1 + 3);
+    const Rule* rule = ruleBlock->getRule(i);
+    result += rule->complexityOfActivation(conjunction, disjunction);
+    meanFiring += rule->complexityOfFiring(implication);
+  }
+  meanFiring.divide(scalar(ruleBlock->numberOfRules()));
+
+  result += meanFiring.multiply(getNumberOfRules());
+  result += Complexity().arithmetic(1).multiply(getNumberOfRules());
+  return result;
+}
+
+void Last::activate(RuleBlock* ruleBlock) {
+  FL_DBG("Activation: " << className() << " " << parameters());
+  const TNorm* conjunction = ruleBlock->getConjunction();
+  const SNorm* disjunction = ruleBlock->getDisjunction();
+  const TNorm* implication = ruleBlock->getImplication();
+
+  int activated = 0;
+  for (std::vector<Rule*>::const_reverse_iterator it
+       = ruleBlock->rules().rbegin();
+       it != ruleBlock->rules().rend();
+       ++it) {
+    Rule* rule = (*it);
+    rule->deactivate();
+
+    if (rule->isLoaded()) {
+      scalar activationDegree = rule->activateWith(conjunction, disjunction);
+      if (activated < _numberOfRules and Op::isGt(activationDegree, 0.0)
+          and Op::isGE(activationDegree, _threshold)) {
+        rule->trigger(implication);
+        ++activated;
+      }
     }
+  }
+}
 
-    std::string Last::parameters() const {
-        return Op::str(getNumberOfRules()) + " " + Op::str(getThreshold());
-    }
+Last* Last::clone() const {
+  return new Last(*this);
+}
 
-    void Last::configure(const std::string& parameters) {
-        if (parameters.empty())
-            return;
-        std::vector<std::string> values = Op::split(parameters, " ");
-        std::size_t required = 2;
-        if (values.size() < required) {
-            std::ostringstream ex;
-            ex << "[configuration error] activation <" << className() << ">"
-               << " requires <" << required << "> parameters";
-            throw Exception(ex.str(), FL_AT);
-        }
-        setNumberOfRules((int)Op::toScalar(values.at(0)));
-        setThreshold(Op::toScalar(values.at(1)));
-    }
-
-    void Last::setNumberOfRules(int numberOfRules) {
-        this->_numberOfRules = numberOfRules;
-    }
-
-    int Last::getNumberOfRules() const {
-        return this->_numberOfRules;
-    }
-
-    void Last::setThreshold(scalar threshold) {
-        this->_threshold = threshold;
-    }
-
-    scalar Last::getThreshold() const {
-        return this->_threshold;
-    }
-
-    Complexity Last::complexity(const RuleBlock* ruleBlock) const {
-        Complexity result;
-
-        const TNorm* conjunction = ruleBlock->getConjunction();
-        const SNorm* disjunction = ruleBlock->getDisjunction();
-        const TNorm* implication = ruleBlock->getImplication();
-
-        Complexity meanFiring;
-        for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
-            result.comparison(1 + 3);
-            const Rule* rule = ruleBlock->getRule(i);
-            result += rule->complexityOfActivation(conjunction, disjunction);
-            meanFiring += rule->complexityOfFiring(implication);
-        }
-        meanFiring.divide(scalar(ruleBlock->numberOfRules()));
-
-        result += meanFiring.multiply(getNumberOfRules());
-        result += Complexity().arithmetic(1).multiply(getNumberOfRules());
-        return result;
-    }
-
-    void Last::activate(RuleBlock* ruleBlock) {
-        FL_DBG("Activation: " << className() << " " << parameters());
-        const TNorm* conjunction = ruleBlock->getConjunction();
-        const SNorm* disjunction = ruleBlock->getDisjunction();
-        const TNorm* implication = ruleBlock->getImplication();
-
-        int activated = 0;
-        for (std::vector<Rule*>::const_reverse_iterator it
-             = ruleBlock->rules().rbegin();
-             it != ruleBlock->rules().rend();
-             ++it) {
-            Rule* rule = (*it);
-            rule->deactivate();
-
-            if (rule->isLoaded()) {
-                scalar activationDegree
-                    = rule->activateWith(conjunction, disjunction);
-                if (activated < _numberOfRules
-                    and Op::isGt(activationDegree, 0.0)
-                    and Op::isGE(activationDegree, _threshold)) {
-                    rule->trigger(implication);
-                    ++activated;
-                }
-            }
-        }
-    }
-
-    Last* Last::clone() const {
-        return new Last(*this);
-    }
-
-    Activation* Last::constructor() {
-        return new Last;
-    }
+Activation* Last::constructor() {
+  return new Last;
+}
 
 }  // namespace fl

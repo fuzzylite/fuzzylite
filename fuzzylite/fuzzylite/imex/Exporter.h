@@ -22,52 +22,50 @@
 #include "fuzzylite/fuzzylite.h"
 
 namespace fl {
-    class Engine;
+class Engine;
 
-    /**
-      The Exporter class is the abstract class for exporters to translate an
-      Engine into different formats.
+/**
+  The Exporter class is the abstract class for exporters to translate an
+  Engine into different formats.
 
-      @todo declare methods for exporting other components (e.g., Variable)
+  @todo declare methods for exporting other components (e.g., Variable)
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see Importer
-      @since 4.0
-     */
-    class FL_API Exporter {
-      public:
-        Exporter();
-        virtual ~Exporter();
-        FL_DEFAULT_COPY_AND_MOVE(Exporter)
+  @author Juan Rada-Vilela, Ph.D.
+  @see Importer
+  @since 4.0
+ */
+class FL_API Exporter {
+ public:
+  Exporter();
+  virtual ~Exporter();
+  FL_DEFAULT_COPY_AND_MOVE(Exporter)
 
-        /**
-          Returns a string representation of the engine
-          @param engine is the engine to export
-          @return a string representation of the engine
-         */
-        virtual std::string toString(const Engine* engine) const = 0;
-        /**
-          Stores the string representation of the engine into the specified
-          file
-          @param path is the full path of the file to export the engine to
-          @param engine is the engine to export
-          @throws fl::Exception if the file cannot be created
-         */
-        virtual void toFile(const std::string& path,
-                            const Engine* engine) const;
+  /**
+    Returns a string representation of the engine
+    @param engine is the engine to export
+    @return a string representation of the engine
+   */
+  virtual std::string toString(const Engine* engine) const = 0;
+  /**
+    Stores the string representation of the engine into the specified file
+    @param path is the full path of the file to export the engine to
+    @param engine is the engine to export
+    @throws fl::Exception if the file cannot be created
+   */
+  virtual void toFile(const std::string& path, const Engine* engine) const;
 
-        /**
-          Returns the name of the exporter
-          @return the name of the exporter
-         */
-        virtual std::string name() const = 0;
+  /**
+    Returns the name of the exporter
+    @return the name of the exporter
+   */
+  virtual std::string name() const = 0;
 
-        /**
-          Creates a clone of the exporter
-          @return a clone of the exporter
-         */
-        virtual Exporter* clone() const = 0;
-    };
+  /**
+    Creates a clone of the exporter
+    @return a clone of the exporter
+   */
+  virtual Exporter* clone() const = 0;
+};
 
 }  // namespace fl
 

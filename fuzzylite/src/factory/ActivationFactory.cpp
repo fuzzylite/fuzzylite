@@ -26,19 +26,18 @@
 
 namespace fl {
 
-    ActivationFactory::ActivationFactory()
-        : ConstructionFactory<Activation*>("Activation") {
-        registerConstructor("", fl::null);
-        registerConstructor(First().className(), &(First::constructor));
-        registerConstructor(General().className(), &(General::constructor));
-        registerConstructor(Highest().className(), &(Highest::constructor));
-        registerConstructor(Last().className(), &(Last::constructor));
-        registerConstructor(Lowest().className(), &(Lowest::constructor));
-        registerConstructor(Proportional().className(),
-                            &(Proportional::constructor));
-        registerConstructor(Threshold().className(), &(Threshold::constructor));
-    }
+ActivationFactory::ActivationFactory()
+    : ConstructionFactory<Activation*>("Activation") {
+  registerConstructor("", fl::null);
+  registerConstructor(First().className(), &(First::constructor));
+  registerConstructor(General().className(), &(General::constructor));
+  registerConstructor(Highest().className(), &(Highest::constructor));
+  registerConstructor(Last().className(), &(Last::constructor));
+  registerConstructor(Lowest().className(), &(Lowest::constructor));
+  registerConstructor(Proportional().className(), &(Proportional::constructor));
+  registerConstructor(Threshold().className(), &(Threshold::constructor));
+}
 
-    ActivationFactory::~ActivationFactory() {}
+ActivationFactory::~ActivationFactory() {}
 
 }  // namespace fl

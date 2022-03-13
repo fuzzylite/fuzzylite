@@ -21,39 +21,39 @@
 
 namespace fl {
 
-    /**
-      The Any class is a special Hedge that always returns `1.0`. Its
-      position with respect to the other hedges is last in the ordered set
-      (Not, Seldom, Somewhat, Very, Extremely, Any). The Antecedent of a Rule
-      considers Any to be a syntactically special hedge because it is not
-      followed by a Term (e.g., `if Variable is any then...`). Amongst hedges,
-      only Any has virtual methods to be overriden due to its particular case.
+/**
+  The Any class is a special Hedge that always returns `1.0`. Its
+  position with respect to the other hedges is last in the ordered set
+  (Not, Seldom, Somewhat, Very, Extremely, Any). The Antecedent of a Rule
+  considers Any to be a syntactically special hedge because it is not
+  followed by a Term (e.g., `if Variable is any then...`). Amongst hedges,
+  only Any has virtual methods to be overriden due to its particular case.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see Hedge
-      @see HedgeFactory
-      @since 4.0
-     */
-    class FL_API Any : public Hedge {
-      public:
-        Any();
-        virtual ~Any() FL_IOVERRIDE;
-        FL_DEFAULT_COPY_AND_MOVE(Any)
+  @author Juan Rada-Vilela, Ph.D.
+  @see Hedge
+  @see HedgeFactory
+  @since 4.0
+ */
+class FL_API Any : public Hedge {
+ public:
+  Any();
+  virtual ~Any() FL_IOVERRIDE;
+  FL_DEFAULT_COPY_AND_MOVE(Any)
 
-        virtual std::string name() const FL_IOVERRIDE;
+  virtual std::string name() const FL_IOVERRIDE;
 
-        virtual Complexity complexity() const FL_IOVERRIDE;
+  virtual Complexity complexity() const FL_IOVERRIDE;
 
-        /**
-          Computes the hedge for the given value
-          @param x is irrelevant
-          @return `1.0`
-         */
-        virtual scalar hedge(scalar x) const FL_IOVERRIDE;
-        virtual Any* clone() const FL_IOVERRIDE;
+  /**
+    Computes the hedge for the given value
+    @param x is irrelevant
+    @return `1.0`
+   */
+  virtual scalar hedge(scalar x) const FL_IOVERRIDE;
+  virtual Any* clone() const FL_IOVERRIDE;
 
-        static Hedge* constructor();
-    };
+  static Hedge* constructor();
+};
 }  // namespace fl
 
 #endif /* FL_ANY_H */

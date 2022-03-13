@@ -20,27 +20,27 @@
 
 namespace fl {
 
-    std::string NilpotentMaximum::className() const {
-        return "NilpotentMaximum";
-    }
+std::string NilpotentMaximum::className() const {
+  return "NilpotentMaximum";
+}
 
-    Complexity NilpotentMaximum::complexity() const {
-        return Complexity().comparison(1).arithmetic(1).function(1);
-    }
+Complexity NilpotentMaximum::complexity() const {
+  return Complexity().comparison(1).arithmetic(1).function(1);
+}
 
-    scalar NilpotentMaximum::compute(scalar a, scalar b) const {
-        if (Op::isLt(a + b, 1.0)) {
-            return Op::max(a, b);
-        }
-        return 1.0;
-    }
+scalar NilpotentMaximum::compute(scalar a, scalar b) const {
+  if (Op::isLt(a + b, 1.0)) {
+    return Op::max(a, b);
+  }
+  return 1.0;
+}
 
-    NilpotentMaximum* NilpotentMaximum::clone() const {
-        return new NilpotentMaximum(*this);
-    }
+NilpotentMaximum* NilpotentMaximum::clone() const {
+  return new NilpotentMaximum(*this);
+}
 
-    SNorm* NilpotentMaximum::constructor() {
-        return new NilpotentMaximum;
-    }
+SNorm* NilpotentMaximum::constructor() {
+  return new NilpotentMaximum;
+}
 
 }  // namespace fl

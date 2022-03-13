@@ -23,63 +23,62 @@
 
 namespace fl {
 
-    Expression::Expression() {}
+Expression::Expression() {}
 
-    Expression::~Expression() {}
+Expression::~Expression() {}
 
-    Proposition::Proposition()
-        : Expression(), variable(fl::null), term(fl::null) {}
+Proposition::Proposition() : Expression(), variable(fl::null), term(fl::null) {}
 
-    Proposition::~Proposition() {
-        for (std::size_t i = 0; i < hedges.size(); ++i) {
-            delete hedges.at(i);
-        }
-        hedges.clear();
+Proposition::~Proposition() {
+  for (std::size_t i = 0; i < hedges.size(); ++i) {
+    delete hedges.at(i);
+  }
+  hedges.clear();
+}
+
+Expression::Type Proposition::type() const {
+  return Expression::Proposition;
+}
+
+std::string Proposition::toString() const {
+  std::ostringstream ss;
+  if (variable) {
+    ss << variable->getName();
+  } else {
+    ss << "?";
+  }
+  if (not hedges.empty()) {
+    ss << " " << Rule::isKeyword() << " ";
+    for (std::size_t i = 0; i < hedges.size(); ++i) {
+      ss << hedges.at(i)->name() << " ";
     }
+  }
 
-    Expression::Type Proposition::type() const {
-        return Expression::Proposition;
+  if (term) {  // term is fl::null if hedge is any
+    if (hedges.empty()) {
+      ss << " " << Rule::isKeyword() << " ";
     }
+    ss << term->getName();
+  }
+  return ss.str();
+}
 
-    std::string Proposition::toString() const {
-        std::ostringstream ss;
-        if (variable) {
-            ss << variable->getName();
-        } else {
-            ss << "?";
-        }
-        if (not hedges.empty()) {
-            ss << " " << Rule::isKeyword() << " ";
-            for (std::size_t i = 0; i < hedges.size(); ++i) {
-                ss << hedges.at(i)->name() << " ";
-            }
-        }
+Operator::Operator()
+    : Expression(), name(""), left(fl::null), right(fl::null) {}
 
-        if (term) {  // term is fl::null if hedge is any
-            if (hedges.empty()) {
-                ss << " " << Rule::isKeyword() << " ";
-            }
-            ss << term->getName();
-        }
-        return ss.str();
-    }
+Operator::~Operator() {
+  if (left)
+    delete left;
+  if (right)
+    delete right;
+}
 
-    Operator::Operator()
-        : Expression(), name(""), left(fl::null), right(fl::null) {}
+Expression::Type Operator::type() const {
+  return Expression::Operator;
+}
 
-    Operator::~Operator() {
-        if (left)
-            delete left;
-        if (right)
-            delete right;
-    }
-
-    Expression::Type Operator::type() const {
-        return Expression::Operator;
-    }
-
-    std::string Operator::toString() const {
-        return name;
-    }
+std::string Operator::toString() const {
+  return name;
+}
 
 }  // namespace fl

@@ -18,48 +18,48 @@
 
 namespace fl {
 
-    Constant::Constant(const std::string& name, scalar value)
-        : Term(name), _value(value) {}
+Constant::Constant(const std::string& name, scalar value)
+    : Term(name), _value(value) {}
 
-    Constant::~Constant() {}
+Constant::~Constant() {}
 
-    std::string Constant::className() const {
-        return "Constant";
-    }
+std::string Constant::className() const {
+  return "Constant";
+}
 
-    Complexity Constant::complexity() const {
-        return Complexity();
-    }
+Complexity Constant::complexity() const {
+  return Complexity();
+}
 
-    scalar Constant::membership(scalar x) const {
-        FL_IUNUSED(x);
-        return this->_value;
-    }
+scalar Constant::membership(scalar x) const {
+  FL_IUNUSED(x);
+  return this->_value;
+}
 
-    std::string Constant::parameters() const {
-        return Op::str(_value);
-    }
+std::string Constant::parameters() const {
+  return Op::str(_value);
+}
 
-    void Constant::configure(const std::string& parameters) {
-        if (parameters.empty())
-            return;
-        setValue(Op::toScalar(parameters));
-    }
+void Constant::configure(const std::string& parameters) {
+  if (parameters.empty())
+    return;
+  setValue(Op::toScalar(parameters));
+}
 
-    void Constant::setValue(scalar value) {
-        this->_value = value;
-    }
+void Constant::setValue(scalar value) {
+  this->_value = value;
+}
 
-    scalar Constant::getValue() const {
-        return this->_value;
-    }
+scalar Constant::getValue() const {
+  return this->_value;
+}
 
-    Constant* Constant::clone() const {
-        return new Constant(*this);
-    }
+Constant* Constant::clone() const {
+  return new Constant(*this);
+}
 
-    Term* Constant::constructor() {
-        return new Constant;
-    }
+Term* Constant::constructor() {
+  return new Constant;
+}
 
 }  // namespace fl

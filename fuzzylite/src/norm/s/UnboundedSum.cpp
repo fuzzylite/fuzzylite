@@ -20,24 +20,24 @@
 
 namespace fl {
 
-    std::string UnboundedSum::className() const {
-        return "UnboundedSum";
-    }
+std::string UnboundedSum::className() const {
+  return "UnboundedSum";
+}
 
-    Complexity UnboundedSum::complexity() const {
-        return Complexity().arithmetic(1);
-    }
+Complexity UnboundedSum::complexity() const {
+  return Complexity().arithmetic(1);
+}
 
-    scalar UnboundedSum::compute(scalar a, scalar b) const {
-        return a + b;
-    }
+scalar UnboundedSum::compute(scalar a, scalar b) const {
+  return a + b;
+}
 
-    UnboundedSum* UnboundedSum::clone() const {
-        return new UnboundedSum(*this);
-    }
+UnboundedSum* UnboundedSum::clone() const {
+  return new UnboundedSum(*this);
+}
 
-    SNorm* UnboundedSum::constructor() {
-        return new UnboundedSum;
-    }
+SNorm* UnboundedSum::constructor() {
+  return new UnboundedSum;
+}
 
 }  // namespace fl

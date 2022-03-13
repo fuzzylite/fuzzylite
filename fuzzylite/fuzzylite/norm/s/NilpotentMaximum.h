@@ -21,36 +21,36 @@
 
 namespace fl {
 
-    /**
-      The NilpotentMaximum class is an SNorm that computes the nilpotent
-      maximum of any two values.
+/**
+  The NilpotentMaximum class is an SNorm that computes the nilpotent
+  maximum of any two values.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see NilpotentMinimum
-      @see SNorm
-      @see SNormFactory
-      @see Norm
-      @since 5.0
-     */
-    class FL_API NilpotentMaximum FL_IFINAL : public SNorm {
-      public:
-        std::string className() const FL_IOVERRIDE;
+  @author Juan Rada-Vilela, Ph.D.
+  @see NilpotentMinimum
+  @see SNorm
+  @see SNormFactory
+  @see Norm
+  @since 5.0
+ */
+class FL_API NilpotentMaximum FL_IFINAL : public SNorm {
+ public:
+  std::string className() const FL_IOVERRIDE;
 
-        Complexity complexity() const FL_IOVERRIDE;
-        /**
-          Computes the nilpotent maximum of two membership function values
-          @param a is a membership function value
-          @param b is a membership function value
-          @return @f$\begin{cases}
-          \max(a,b) & \mbox{if $a+b<0$} \cr
-          1 & \mbox{otherwise}
-          \end{cases}@f$
-         */
-        scalar compute(scalar a, scalar b) const FL_IOVERRIDE;
-        NilpotentMaximum* clone() const FL_IOVERRIDE;
+  Complexity complexity() const FL_IOVERRIDE;
+  /**
+    Computes the nilpotent maximum of two membership function values
+    @param a is a membership function value
+    @param b is a membership function value
+    @return @f$\begin{cases}
+    \max(a,b) & \mbox{if $a+b<0$} \cr
+    1 & \mbox{otherwise}
+    \end{cases}@f$
+   */
+  scalar compute(scalar a, scalar b) const FL_IOVERRIDE;
+  NilpotentMaximum* clone() const FL_IOVERRIDE;
 
-        static SNorm* constructor();
-    };
+  static SNorm* constructor();
+};
 }  // namespace fl
 
 #endif /* FL_NILPOTENTMAXIMUM_H */

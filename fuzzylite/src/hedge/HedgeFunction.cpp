@@ -18,47 +18,47 @@
 
 namespace fl {
 
-    HedgeFunction::HedgeFunction(const std::string& formula) : Hedge() {
-        _function.variables["x"] = fl::nan;
-        if (not formula.empty()) {
-            _function.load(formula);
-        }
-    }
+HedgeFunction::HedgeFunction(const std::string& formula) : Hedge() {
+  _function.variables["x"] = fl::nan;
+  if (not formula.empty()) {
+    _function.load(formula);
+  }
+}
 
-    std::string HedgeFunction::name() const {
-        return "HedgeFunction";
-    }
+std::string HedgeFunction::name() const {
+  return "HedgeFunction";
+}
 
-    Complexity HedgeFunction::complexity() const {
-        if (_function.root())
-            return _function.complexity().function(
-                2 * std::log(scalar(_function.variables.size())));
-        return _function.complexity();
-    }
+Complexity HedgeFunction::complexity() const {
+  if (_function.root())
+    return _function.complexity().function(
+        2 * std::log(scalar(_function.variables.size())));
+  return _function.complexity();
+}
 
-    scalar HedgeFunction::hedge(scalar x) const {
-        _function.variables["x"] = x;
-        return _function.membership(x);
-    }
+scalar HedgeFunction::hedge(scalar x) const {
+  _function.variables["x"] = x;
+  return _function.membership(x);
+}
 
-    Function& HedgeFunction::function() {
-        return this->_function;
-    }
+Function& HedgeFunction::function() {
+  return this->_function;
+}
 
-    void HedgeFunction::setFormula(const std::string& formula) {
-        _function.load(formula);
-    }
+void HedgeFunction::setFormula(const std::string& formula) {
+  _function.load(formula);
+}
 
-    std::string HedgeFunction::getFormula() const {
-        return _function.getFormula();
-    }
+std::string HedgeFunction::getFormula() const {
+  return _function.getFormula();
+}
 
-    HedgeFunction* HedgeFunction::clone() const {
-        return new HedgeFunction(*this);
-    }
+HedgeFunction* HedgeFunction::clone() const {
+  return new HedgeFunction(*this);
+}
 
-    Hedge* HedgeFunction::constructor() {
-        return new HedgeFunction;
-    }
+Hedge* HedgeFunction::constructor() {
+  return new HedgeFunction;
+}
 
 }  // namespace fl

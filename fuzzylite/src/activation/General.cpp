@@ -22,57 +22,56 @@
 
 namespace fl {
 
-    General::General() : Activation() {}
+General::General() : Activation() {}
 
-    General::~General() {}
+General::~General() {}
 
-    std::string General::className() const {
-        return "General";
+std::string General::className() const {
+  return "General";
+}
+
+std::string General::parameters() const {
+  return "";
+}
+
+void General::configure(const std::string& parameters) {
+  FL_IUNUSED(parameters);
+}
+
+Complexity General::complexity(const RuleBlock* ruleBlock) const {
+  Complexity result;
+  for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
+    result.comparison(1);
+    result += ruleBlock->getRule(i)->complexity(ruleBlock->getConjunction(),
+                                                ruleBlock->getDisjunction(),
+                                                ruleBlock->getImplication());
+  }
+  return result;
+}
+
+void General::activate(RuleBlock* ruleBlock) {
+  FL_DBG("Activation: " << className() << " " << parameters());
+  const TNorm* conjunction = ruleBlock->getConjunction();
+  const SNorm* disjunction = ruleBlock->getDisjunction();
+  const TNorm* implication = ruleBlock->getImplication();
+
+  const std::size_t numberOfRules = ruleBlock->numberOfRules();
+  for (std::size_t i = 0; i < numberOfRules; ++i) {
+    Rule* rule = ruleBlock->getRule(i);
+    rule->deactivate();
+    if (rule->isLoaded()) {
+      rule->activateWith(conjunction, disjunction);
+      rule->trigger(implication);
     }
+  }
+}
 
-    std::string General::parameters() const {
-        return "";
-    }
+General* General::clone() const {
+  return new General(*this);
+}
 
-    void General::configure(const std::string& parameters) {
-        FL_IUNUSED(parameters);
-    }
-
-    Complexity General::complexity(const RuleBlock* ruleBlock) const {
-        Complexity result;
-        for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
-            result.comparison(1);
-            result += ruleBlock->getRule(i)->complexity(
-                ruleBlock->getConjunction(),
-                ruleBlock->getDisjunction(),
-                ruleBlock->getImplication());
-        }
-        return result;
-    }
-
-    void General::activate(RuleBlock* ruleBlock) {
-        FL_DBG("Activation: " << className() << " " << parameters());
-        const TNorm* conjunction = ruleBlock->getConjunction();
-        const SNorm* disjunction = ruleBlock->getDisjunction();
-        const TNorm* implication = ruleBlock->getImplication();
-
-        const std::size_t numberOfRules = ruleBlock->numberOfRules();
-        for (std::size_t i = 0; i < numberOfRules; ++i) {
-            Rule* rule = ruleBlock->getRule(i);
-            rule->deactivate();
-            if (rule->isLoaded()) {
-                rule->activateWith(conjunction, disjunction);
-                rule->trigger(implication);
-            }
-        }
-    }
-
-    General* General::clone() const {
-        return new General(*this);
-    }
-
-    Activation* General::constructor() {
-        return new General;
-    }
+Activation* General::constructor() {
+  return new General;
+}
 
 }  // namespace fl

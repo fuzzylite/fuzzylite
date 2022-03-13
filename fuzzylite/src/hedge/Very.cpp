@@ -18,24 +18,24 @@
 
 namespace fl {
 
-    std::string Very::name() const {
-        return "very";
-    }
+std::string Very::name() const {
+  return "very";
+}
 
-    Complexity Very::complexity() const {
-        return Complexity().arithmetic(1);
-    }
+Complexity Very::complexity() const {
+  return Complexity().arithmetic(1);
+}
 
-    scalar Very::hedge(scalar x) const {
-        return x * x;
-    }
+scalar Very::hedge(scalar x) const {
+  return x * x;
+}
 
-    Very* Very::clone() const {
-        return new Very(*this);
-    }
+Very* Very::clone() const {
+  return new Very(*this);
+}
 
-    Hedge* Very::constructor() {
-        return new Very;
-    }
+Hedge* Very::constructor() {
+  return new Very;
+}
 
 }  // namespace fl

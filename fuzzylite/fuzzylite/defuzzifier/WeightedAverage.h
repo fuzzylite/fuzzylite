@@ -20,54 +20,52 @@
 #include "fuzzylite/defuzzifier/WeightedDefuzzifier.h"
 
 namespace fl {
-    class Activated;
+class Activated;
 
-    /**
-      The WeightedAverage class is a WeightedDefuzzifier that computes the
-      weighted average of a fuzzy set represented in an Aggregated Term.
+/**
+  The WeightedAverage class is a WeightedDefuzzifier that computes the
+  weighted average of a fuzzy set represented in an Aggregated Term.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see WeightedAverageCustom
-      @see WeightedSum
-      @see WeightedSumCustom
-      @see WeightedDefuzzifier
-      @see Defuzzifier
-      @since 4.0
-     */
-    class FL_API WeightedAverage : public WeightedDefuzzifier {
-      public:
-        explicit WeightedAverage(Type type = Automatic);
-        explicit WeightedAverage(const std::string& type);
-        virtual ~WeightedAverage() FL_IOVERRIDE;
-        FL_DEFAULT_COPY_AND_MOVE(WeightedAverage)
+  @author Juan Rada-Vilela, Ph.D.
+  @see WeightedAverageCustom
+  @see WeightedSum
+  @see WeightedSumCustom
+  @see WeightedDefuzzifier
+  @see Defuzzifier
+  @since 4.0
+ */
+class FL_API WeightedAverage : public WeightedDefuzzifier {
+ public:
+  explicit WeightedAverage(Type type = Automatic);
+  explicit WeightedAverage(const std::string& type);
+  virtual ~WeightedAverage() FL_IOVERRIDE;
+  FL_DEFAULT_COPY_AND_MOVE(WeightedAverage)
 
-        virtual std::string className() const FL_IOVERRIDE;
+  virtual std::string className() const FL_IOVERRIDE;
 
-        virtual Complexity complexity(const Term* term) const FL_IOVERRIDE;
+  virtual Complexity complexity(const Term* term) const FL_IOVERRIDE;
 
-        /**
-          Computes the weighted average of the given fuzzy set represented
-          in an Aggregated term as @f$y = \dfrac{\sum_i w_iz_i}{\sum_i w_i}
-          @f$, where @f$w_i@f$ is the activation degree of term @f$i@f$, and
-          @f$z_i = \mu_i(w_i) @f$.
+  /**
+    Computes the weighted average of the given fuzzy set represented in
+    an Aggregated term as @f$y = \dfrac{\sum_i w_iz_i}{\sum_i w_i} @f$,
+    where @f$w_i@f$ is the activation degree of term @f$i@f$, and
+    @f$z_i = \mu_i(w_i) @f$.
 
-          From version 6.0, the implication and aggregation operators are
-          not utilized for defuzzification.
+    From version 6.0, the implication and aggregation operators are not
+    utilized for defuzzification.
 
-          @param term is the fuzzy set represented as an Aggregated Term
-          @param minimum is the minimum value of the range (only used for
-          Tsukamoto)
-          @param maximum is the maximum value of the range (only used for
-          Tsukamoto)
-          @return the weighted average of the given fuzzy set
-         */
-        virtual scalar defuzzify(const Term* term,
-                                 scalar minimum,
-                                 scalar maximum) const FL_IOVERRIDE;
-        virtual WeightedAverage* clone() const FL_IOVERRIDE;
+    @param term is the fuzzy set represented as an Aggregated Term
+    @param minimum is the minimum value of the range (only used for Tsukamoto)
+    @param maximum is the maximum value of the range (only used for Tsukamoto)
+    @return the weighted average of the given fuzzy set
+   */
+  virtual scalar defuzzify(const Term* term,
+                           scalar minimum,
+                           scalar maximum) const FL_IOVERRIDE;
+  virtual WeightedAverage* clone() const FL_IOVERRIDE;
 
-        static Defuzzifier* constructor();
-    };
+  static Defuzzifier* constructor();
+};
 }  // namespace fl
 
 #endif /* FL_WEIGHTEDAVERAGE_H */

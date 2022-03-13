@@ -20,24 +20,24 @@
 
 namespace fl {
 
-    std::string Minimum::className() const {
-        return "Minimum";
-    }
+std::string Minimum::className() const {
+  return "Minimum";
+}
 
-    Complexity Minimum::complexity() const {
-        return Complexity().function(1);
-    }
+Complexity Minimum::complexity() const {
+  return Complexity().function(1);
+}
 
-    scalar Minimum::compute(scalar a, scalar b) const {
-        return Op::min(a, b);
-    }
+scalar Minimum::compute(scalar a, scalar b) const {
+  return Op::min(a, b);
+}
 
-    Minimum* Minimum::clone() const {
-        return new Minimum(*this);
-    }
+Minimum* Minimum::clone() const {
+  return new Minimum(*this);
+}
 
-    TNorm* Minimum::constructor() {
-        return new Minimum;
-    }
+TNorm* Minimum::constructor() {
+  return new Minimum;
+}
 
 }  // namespace fl

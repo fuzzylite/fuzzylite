@@ -20,13 +20,13 @@
 #include "test/catch.hpp"
 
 int main(int argc, char** argv) {
-    // global setup...
-    fl::fuzzylite::setDebugging(false);
-    fl::fuzzylite::setLogging(true);
+  // global setup...
+  fl::fuzzylite::setDebugging(false);
+  fl::fuzzylite::setLogging(true);
 
-    int result = Catch::Session().run(argc, argv);
+  int result = Catch::Session().run(argc, argv);
 
-    // global clean-up...
+  // global clean-up...
 
-    return result;
+  return result;
 }

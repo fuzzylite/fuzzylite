@@ -18,49 +18,49 @@
 
 namespace fl {
 
-    SNormFunction::SNormFunction(const std::string& formula) : SNorm() {
-        _function.variables["a"] = fl::nan;
-        _function.variables["b"] = fl::nan;
-        if (not formula.empty()) {
-            _function.load(formula);
-        }
-    }
+SNormFunction::SNormFunction(const std::string& formula) : SNorm() {
+  _function.variables["a"] = fl::nan;
+  _function.variables["b"] = fl::nan;
+  if (not formula.empty()) {
+    _function.load(formula);
+  }
+}
 
-    std::string SNormFunction::className() const {
-        return "SNormFunction";
-    }
+std::string SNormFunction::className() const {
+  return "SNormFunction";
+}
 
-    Complexity SNormFunction::complexity() const {
-        if (_function.root())
-            return _function.complexity().function(
-                2 * std::log(scalar(_function.variables.size())));
-        return _function.complexity();
-    }
+Complexity SNormFunction::complexity() const {
+  if (_function.root())
+    return _function.complexity().function(
+        2 * std::log(scalar(_function.variables.size())));
+  return _function.complexity();
+}
 
-    scalar SNormFunction::compute(scalar a, scalar b) const {
-        _function.variables["a"] = a;
-        _function.variables["b"] = b;
-        return _function.evaluate();
-    }
+scalar SNormFunction::compute(scalar a, scalar b) const {
+  _function.variables["a"] = a;
+  _function.variables["b"] = b;
+  return _function.evaluate();
+}
 
-    Function& SNormFunction::function() {
-        return this->_function;
-    }
+Function& SNormFunction::function() {
+  return this->_function;
+}
 
-    void SNormFunction::setFormula(const std::string& formula) {
-        this->_function.load(formula);
-    }
+void SNormFunction::setFormula(const std::string& formula) {
+  this->_function.load(formula);
+}
 
-    std::string SNormFunction::getFormula() const {
-        return _function.getFormula();
-    }
+std::string SNormFunction::getFormula() const {
+  return _function.getFormula();
+}
 
-    SNormFunction* SNormFunction::clone() const {
-        return new SNormFunction(*this);
-    }
+SNormFunction* SNormFunction::clone() const {
+  return new SNormFunction(*this);
+}
 
-    SNorm* SNormFunction::constructor() {
-        return new SNormFunction;
-    }
+SNorm* SNormFunction::constructor() {
+  return new SNormFunction;
+}
 
 }  // namespace fl

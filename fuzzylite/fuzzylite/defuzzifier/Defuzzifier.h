@@ -23,52 +23,51 @@
 #include "fuzzylite/fuzzylite.h"
 
 namespace fl {
-    class Term;
+class Term;
 
-    /**
-      The Defuzzifier class is the abstract class for defuzzifiers.
+/**
+  The Defuzzifier class is the abstract class for defuzzifiers.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see IntegralDefuzzifier
-      @see WeightedDefuzzifier
-      @since 4.0
-     */
-    class FL_API Defuzzifier {
-      public:
-        Defuzzifier() {}
+  @author Juan Rada-Vilela, Ph.D.
+  @see IntegralDefuzzifier
+  @see WeightedDefuzzifier
+  @since 4.0
+ */
+class FL_API Defuzzifier {
+ public:
+  Defuzzifier() {}
 
-        virtual ~Defuzzifier() {}
-        FL_DEFAULT_COPY_AND_MOVE(Defuzzifier)
+  virtual ~Defuzzifier() {}
+  FL_DEFAULT_COPY_AND_MOVE(Defuzzifier)
 
-        /**
-          Returns the name of the class of the defuzzifier
-          @return the name of the class of the defuzzifier
-         */
-        virtual std::string className() const = 0;
-        /**
-          Creates a clone of the defuzzifier
-          @return a clone of the defuzzifier
-         */
-        virtual Defuzzifier* clone() const = 0;
+  /**
+    Returns the name of the class of the defuzzifier
+    @return the name of the class of the defuzzifier
+   */
+  virtual std::string className() const = 0;
+  /**
+    Creates a clone of the defuzzifier
+    @return a clone of the defuzzifier
+   */
+  virtual Defuzzifier* clone() const = 0;
 
-        /**
-          Computes the complexity of defuzzifying the given term
-          @param term is the term to defuzzify
-          @return the complexity of defuzzifying the given term
-         */
-        virtual Complexity complexity(const Term* term) const = 0;
-        /**
-          Defuzzifies the given fuzzy term utilizing the range
-          `[minimum,maximum]`
-          @param term is the term to defuzzify, typically an Aggregated term
-          @param minimum is the minimum value of the range
-          @param maximum is the maximum value of the range
-          @return the defuzzified value of the given fuzzy term
-         */
-        virtual scalar defuzzify(const Term* term,
-                                 scalar minimum,
-                                 scalar maximum) const = 0;
-    };
+  /**
+    Computes the complexity of defuzzifying the given term
+    @param term is the term to defuzzify
+    @return the complexity of defuzzifying the given term
+   */
+  virtual Complexity complexity(const Term* term) const = 0;
+  /**
+    Defuzzifies the given fuzzy term utilizing the range `[minimum,maximum]`
+    @param term is the term to defuzzify, typically an Aggregated term
+    @param minimum is the minimum value of the range
+    @param maximum is the maximum value of the range
+    @return the defuzzified value of the given fuzzy term
+   */
+  virtual scalar defuzzify(const Term* term,
+                           scalar minimum,
+                           scalar maximum) const = 0;
+};
 }  // namespace fl
 
 #endif /* FL_DEFUZZIFIER_H */

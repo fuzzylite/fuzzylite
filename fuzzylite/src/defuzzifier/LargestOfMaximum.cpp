@@ -21,49 +21,49 @@
 
 namespace fl {
 
-    LargestOfMaximum::LargestOfMaximum(int resolution)
-        : IntegralDefuzzifier(resolution) {}
+LargestOfMaximum::LargestOfMaximum(int resolution)
+    : IntegralDefuzzifier(resolution) {}
 
-    LargestOfMaximum::~LargestOfMaximum() {}
+LargestOfMaximum::~LargestOfMaximum() {}
 
-    std::string LargestOfMaximum::className() const {
-        return "LargestOfMaximum";
+std::string LargestOfMaximum::className() const {
+  return "LargestOfMaximum";
+}
+
+Complexity LargestOfMaximum::complexity(const Term* term) const {
+  return Complexity().comparison(1).arithmetic(1 + 2)
+         + term->complexity().comparison(1).arithmetic(3).multiply(
+             getResolution());
+}
+
+scalar LargestOfMaximum::defuzzify(const Term* term,
+                                   scalar minimum,
+                                   scalar maximum) const {
+  if (not Op::isFinite(minimum + maximum))
+    return fl::nan;
+
+  const int resolution = getResolution();
+  const scalar dx = (maximum - minimum) / resolution;
+  scalar x, y;
+  scalar ymax = -1.0, xlargest = maximum;
+  for (int i = 0; i < resolution; ++i) {
+    x = minimum + (i + 0.5) * dx;
+    y = term->membership(x);
+
+    if (Op::isGE(y, ymax)) {
+      ymax = y;
+      xlargest = x;
     }
+  }
+  return xlargest;
+}
 
-    Complexity LargestOfMaximum::complexity(const Term* term) const {
-        return Complexity().comparison(1).arithmetic(1 + 2)
-               + term->complexity().comparison(1).arithmetic(3).multiply(
-                   getResolution());
-    }
+LargestOfMaximum* LargestOfMaximum::clone() const {
+  return new LargestOfMaximum(*this);
+}
 
-    scalar LargestOfMaximum::defuzzify(const Term* term,
-                                       scalar minimum,
-                                       scalar maximum) const {
-        if (not Op::isFinite(minimum + maximum))
-            return fl::nan;
-
-        const int resolution = getResolution();
-        const scalar dx = (maximum - minimum) / resolution;
-        scalar x, y;
-        scalar ymax = -1.0, xlargest = maximum;
-        for (int i = 0; i < resolution; ++i) {
-            x = minimum + (i + 0.5) * dx;
-            y = term->membership(x);
-
-            if (Op::isGE(y, ymax)) {
-                ymax = y;
-                xlargest = x;
-            }
-        }
-        return xlargest;
-    }
-
-    LargestOfMaximum* LargestOfMaximum::clone() const {
-        return new LargestOfMaximum(*this);
-    }
-
-    Defuzzifier* LargestOfMaximum::constructor() {
-        return new LargestOfMaximum;
-    }
+Defuzzifier* LargestOfMaximum::constructor() {
+  return new LargestOfMaximum;
+}
 
 }  // namespace fl

@@ -22,23 +22,23 @@
 
 namespace fl {
 
-    Importer::Importer() {}
+Importer::Importer() {}
 
-    Importer::~Importer() {}
+Importer::~Importer() {}
 
-    Engine* Importer::fromFile(const std::string& path) const {
-        std::ifstream reader(path.c_str());
-        if (not reader.is_open()) {
-            throw Exception(
-                "[file error] file <" + path + "> could not be opened", FL_AT);
-        }
-        std::ostringstream textEngine;
-        std::string line;
-        while (std::getline(reader, line)) {
-            textEngine << line << std::endl;
-        }
-        reader.close();
-        return fromString(textEngine.str());
-    }
+Engine* Importer::fromFile(const std::string& path) const {
+  std::ifstream reader(path.c_str());
+  if (not reader.is_open()) {
+    throw Exception("[file error] file <" + path + "> could not be opened",
+                    FL_AT);
+  }
+  std::ostringstream textEngine;
+  std::string line;
+  while (std::getline(reader, line)) {
+    textEngine << line << std::endl;
+  }
+  reader.close();
+  return fromString(textEngine.str());
+}
 
 }  // namespace fl

@@ -20,25 +20,24 @@
 
 namespace fl {
 
-    std::string Extremely::name() const {
-        return "extremely";
-    }
+std::string Extremely::name() const {
+  return "extremely";
+}
 
-    Complexity Extremely::complexity() const {
-        return Complexity().comparison(1).arithmetic(5);
-    }
+Complexity Extremely::complexity() const {
+  return Complexity().comparison(1).arithmetic(5);
+}
 
-    scalar Extremely::hedge(scalar x) const {
-        return Op::isLE(x, 0.5) ? 2.0 * x * x
-                                : (1.0 - 2.0 * (1.0 - x) * (1.0 - x));
-    }
+scalar Extremely::hedge(scalar x) const {
+  return Op::isLE(x, 0.5) ? 2.0 * x * x : (1.0 - 2.0 * (1.0 - x) * (1.0 - x));
+}
 
-    Extremely* Extremely::clone() const {
-        return new Extremely(*this);
-    }
+Extremely* Extremely::clone() const {
+  return new Extremely(*this);
+}
 
-    Hedge* Extremely::constructor() {
-        return new Extremely;
-    }
+Hedge* Extremely::constructor() {
+  return new Extremely;
+}
 
 }  // namespace fl

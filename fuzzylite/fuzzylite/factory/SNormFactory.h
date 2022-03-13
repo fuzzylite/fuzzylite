@@ -22,21 +22,21 @@
 
 namespace fl {
 
-    /**
-      The SNormFactory class is a ConstructionFactory of SNorm%s.
+/**
+  The SNormFactory class is a ConstructionFactory of SNorm%s.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see SNorm
-      @see ConstructionFactory
-      @see FactoryManager
-      @since 4.0
-     */
-    class FL_API SNormFactory : public ConstructionFactory<SNorm*> {
-      public:
-        SNormFactory();
-        virtual ~SNormFactory() FL_IOVERRIDE;
-        FL_DEFAULT_COPY_AND_MOVE(SNormFactory)
-    };
+  @author Juan Rada-Vilela, Ph.D.
+  @see SNorm
+  @see ConstructionFactory
+  @see FactoryManager
+  @since 4.0
+ */
+class FL_API SNormFactory : public ConstructionFactory<SNorm*> {
+ public:
+  SNormFactory();
+  virtual ~SNormFactory() FL_IOVERRIDE;
+  FL_DEFAULT_COPY_AND_MOVE(SNormFactory)
+};
 }  // namespace fl
 
 #endif /* FL_SNORMFACTORY_H */

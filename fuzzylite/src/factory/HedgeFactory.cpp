@@ -25,16 +25,16 @@
 
 namespace fl {
 
-    HedgeFactory::HedgeFactory() : ConstructionFactory<Hedge*>("Hedge") {
-        registerConstructor("", fl::null);
-        registerConstructor(Any().name(), &(Any::constructor));
-        registerConstructor(Extremely().name(), &(Extremely::constructor));
-        registerConstructor(Not().name(), &(Not::constructor));
-        registerConstructor(Seldom().name(), &(Seldom::constructor));
-        registerConstructor(Somewhat().name(), &(Somewhat::constructor));
-        registerConstructor(Very().name(), &(Very::constructor));
-    }
+HedgeFactory::HedgeFactory() : ConstructionFactory<Hedge*>("Hedge") {
+  registerConstructor("", fl::null);
+  registerConstructor(Any().name(), &(Any::constructor));
+  registerConstructor(Extremely().name(), &(Extremely::constructor));
+  registerConstructor(Not().name(), &(Not::constructor));
+  registerConstructor(Seldom().name(), &(Seldom::constructor));
+  registerConstructor(Somewhat().name(), &(Somewhat::constructor));
+  registerConstructor(Very().name(), &(Very::constructor));
+}
 
-    HedgeFactory::~HedgeFactory() {}
+HedgeFactory::~HedgeFactory() {}
 
 }  // namespace fl

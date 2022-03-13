@@ -21,47 +21,47 @@
 
 namespace fl {
 
-    /**
-      The SmallestOfMaximum class is an IntegralDefuzzifier that computes the
-      smallest value of the maximum membership function of a fuzzy set
-      represented in a Term.
+/**
+  The SmallestOfMaximum class is an IntegralDefuzzifier that computes the
+  smallest value of the maximum membership function of a fuzzy set
+  represented in a Term.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see LargestOfMaximum
-      @see MeanOfMaximum
-      @see IntegralDefuzzifier
-      @see Defuzzifier
-      @since 4.0
-     */
-    class FL_API SmallestOfMaximum : public IntegralDefuzzifier {
-      public:
-        explicit SmallestOfMaximum(int resolution = defaultResolution());
-        virtual ~SmallestOfMaximum() FL_IOVERRIDE;
-        FL_DEFAULT_COPY_AND_MOVE(SmallestOfMaximum)
+  @author Juan Rada-Vilela, Ph.D.
+  @see LargestOfMaximum
+  @see MeanOfMaximum
+  @see IntegralDefuzzifier
+  @see Defuzzifier
+  @since 4.0
+ */
+class FL_API SmallestOfMaximum : public IntegralDefuzzifier {
+ public:
+  explicit SmallestOfMaximum(int resolution = defaultResolution());
+  virtual ~SmallestOfMaximum() FL_IOVERRIDE;
+  FL_DEFAULT_COPY_AND_MOVE(SmallestOfMaximum)
 
-        virtual std::string className() const FL_IOVERRIDE;
+  virtual std::string className() const FL_IOVERRIDE;
 
-        virtual Complexity complexity(const Term* term) const FL_IOVERRIDE;
+  virtual Complexity complexity(const Term* term) const FL_IOVERRIDE;
 
-        /**
-          Computes the smallest value of the maximum membership function in
-          the fuzzy set. The smallest value is computed while integrating
-          over the fuzzy set. The integration algorithm is the midpoint
-          rectangle method (https://en.wikipedia.org/wiki/Rectangle_method).
+  /**
+    Computes the smallest value of the maximum membership function in the
+    fuzzy set. The smallest value is computed while integrating over the
+    fuzzy set. The integration algorithm is the midpoint rectangle method
+    (https://en.wikipedia.org/wiki/Rectangle_method).
 
-          @param term is the fuzzy set
-          @param minimum is the minimum value of the fuzzy set
-          @param maximum is the maximum value of the fuzzy set
-          @return the smallest @f$x@f$-coordinate of the maximum membership
-          function value in the fuzzy set
-         */
-        virtual scalar defuzzify(const Term* term,
-                                 scalar minimum,
-                                 scalar maximum) const FL_IOVERRIDE;
-        virtual SmallestOfMaximum* clone() const FL_IOVERRIDE;
+    @param term is the fuzzy set
+    @param minimum is the minimum value of the fuzzy set
+    @param maximum is the maximum value of the fuzzy set
+    @return the smallest @f$x@f$-coordinate of the maximum membership
+    function value in the fuzzy set
+   */
+  virtual scalar defuzzify(const Term* term,
+                           scalar minimum,
+                           scalar maximum) const FL_IOVERRIDE;
+  virtual SmallestOfMaximum* clone() const FL_IOVERRIDE;
 
-        static Defuzzifier* constructor();
-    };
+  static Defuzzifier* constructor();
+};
 }  // namespace fl
 
 #endif /* FL_SMALLESTOFMAXIMUM_H */

@@ -20,24 +20,24 @@
 
 namespace fl {
 
-    std::string BoundedSum::className() const {
-        return "BoundedSum";
-    }
+std::string BoundedSum::className() const {
+  return "BoundedSum";
+}
 
-    Complexity BoundedSum::complexity() const {
-        return Complexity().arithmetic(1).function(1);
-    }
+Complexity BoundedSum::complexity() const {
+  return Complexity().arithmetic(1).function(1);
+}
 
-    scalar BoundedSum::compute(scalar a, scalar b) const {
-        return Op::min(scalar(1.0), a + b);
-    }
+scalar BoundedSum::compute(scalar a, scalar b) const {
+  return Op::min(scalar(1.0), a + b);
+}
 
-    BoundedSum* BoundedSum::clone() const {
-        return new BoundedSum(*this);
-    }
+BoundedSum* BoundedSum::clone() const {
+  return new BoundedSum(*this);
+}
 
-    SNorm* BoundedSum::constructor() {
-        return new BoundedSum;
-    }
+SNorm* BoundedSum::constructor() {
+  return new BoundedSum;
+}
 
 }  // namespace fl

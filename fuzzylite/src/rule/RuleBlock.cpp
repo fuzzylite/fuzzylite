@@ -25,210 +25,210 @@
 
 namespace fl {
 
-    RuleBlock::RuleBlock(const std::string& name)
-        : _enabled(true), _name(name), _description("") {}
+RuleBlock::RuleBlock(const std::string& name)
+    : _enabled(true), _name(name), _description("") {}
 
-    RuleBlock::RuleBlock(const RuleBlock& other)
-        : _enabled(true), _name(other._name), _description(other._description) {
-        copyFrom(other);
+RuleBlock::RuleBlock(const RuleBlock& other)
+    : _enabled(true), _name(other._name), _description(other._description) {
+  copyFrom(other);
+}
+
+RuleBlock& RuleBlock::operator=(const RuleBlock& other) {
+  if (this != &other) {
+    for (std::size_t i = 0; i < _rules.size(); ++i) {
+      delete _rules.at(i);
     }
+    _rules.clear();
+    _conjunction.reset(fl::null);
+    _disjunction.reset(fl::null);
+    _implication.reset(fl::null);
+    _activation.reset(fl::null);
 
-    RuleBlock& RuleBlock::operator=(const RuleBlock& other) {
-        if (this != &other) {
-            for (std::size_t i = 0; i < _rules.size(); ++i) {
-                delete _rules.at(i);
-            }
-            _rules.clear();
-            _conjunction.reset(fl::null);
-            _disjunction.reset(fl::null);
-            _implication.reset(fl::null);
-            _activation.reset(fl::null);
+    copyFrom(other);
+  }
+  return *this;
+}
 
-            copyFrom(other);
-        }
-        return *this;
+void RuleBlock::copyFrom(const RuleBlock& source) {
+  _enabled = source._enabled;
+  _name = source._name;
+  _description = source._description;
+  if (source._conjunction.get())
+    _conjunction.reset(source._conjunction->clone());
+  if (source._disjunction.get())
+    _disjunction.reset(source._disjunction->clone());
+  if (source._implication.get())
+    _implication.reset(source._implication->clone());
+  if (source._activation.get())
+    _activation.reset(source._activation->clone());
+  for (std::size_t i = 0; i < source._rules.size(); ++i) {
+    _rules.push_back(source._rules.at(i)->clone());
+  }
+}
+
+RuleBlock::~RuleBlock() {
+  for (std::size_t i = 0; i < _rules.size(); ++i) {
+    delete _rules.at(i);
+  }
+  _rules.clear();
+}
+
+Complexity RuleBlock::complexity() const {
+  Complexity result;
+  result.comparison(1);
+  if (_activation.get()) {
+    result += _activation->complexity(this);
+  } else {
+    for (std::size_t i = 0; i < _rules.size(); ++i) {
+      result += _rules.at(i)->complexity(
+          _conjunction.get(), _disjunction.get(), _implication.get());
     }
+  }
+  return result;
+}
 
-    void RuleBlock::copyFrom(const RuleBlock& source) {
-        _enabled = source._enabled;
-        _name = source._name;
-        _description = source._description;
-        if (source._conjunction.get())
-            _conjunction.reset(source._conjunction->clone());
-        if (source._disjunction.get())
-            _disjunction.reset(source._disjunction->clone());
-        if (source._implication.get())
-            _implication.reset(source._implication->clone());
-        if (source._activation.get())
-            _activation.reset(source._activation->clone());
-        for (std::size_t i = 0; i < source._rules.size(); ++i) {
-            _rules.push_back(source._rules.at(i)->clone());
-        }
-    }
+void RuleBlock::activate() {
+  if (not _activation.get()) {
+    _activation.reset(new General);
+  }
+  _activation->activate(this);
+}
 
-    RuleBlock::~RuleBlock() {
-        for (std::size_t i = 0; i < _rules.size(); ++i) {
-            delete _rules.at(i);
-        }
-        _rules.clear();
-    }
+void RuleBlock::unloadRules() const {
+  for (std::size_t i = 0; i < _rules.size(); ++i) {
+    _rules.at(i)->unload();
+  }
+}
 
-    Complexity RuleBlock::complexity() const {
-        Complexity result;
-        result.comparison(1);
-        if (_activation.get()) {
-            result += _activation->complexity(this);
-        } else {
-            for (std::size_t i = 0; i < _rules.size(); ++i) {
-                result += _rules.at(i)->complexity(
-                    _conjunction.get(), _disjunction.get(), _implication.get());
-            }
-        }
-        return result;
+void RuleBlock::loadRules(const Engine* engine) {
+  std::ostringstream exceptions;
+  bool throwException = false;
+  for (std::size_t i = 0; i < _rules.size(); ++i) {
+    Rule* rule = _rules.at(i);
+    if (rule->isLoaded()) {
+      rule->unload();
     }
+    try {
+      rule->load(engine);
+    } catch (std::exception& ex) {
+      throwException = true;
+      exceptions << ex.what() << "\n";
+    }
+  }
+  if (throwException) {
+    Exception exception(
+        "[ruleblock error] the following "
+        "rules could not be loaded:\n"
+            + exceptions.str(),
+        FL_AT);
+    throw exception;
+  }
+}
 
-    void RuleBlock::activate() {
-        if (not _activation.get()) {
-            _activation.reset(new General);
-        }
-        _activation->activate(this);
-    }
+void RuleBlock::reloadRules(const Engine* engine) {
+  unloadRules();
+  loadRules(engine);
+}
 
-    void RuleBlock::unloadRules() const {
-        for (std::size_t i = 0; i < _rules.size(); ++i) {
-            _rules.at(i)->unload();
-        }
-    }
+void RuleBlock::setName(std::string name) {
+  this->_name = name;
+}
 
-    void RuleBlock::loadRules(const Engine* engine) {
-        std::ostringstream exceptions;
-        bool throwException = false;
-        for (std::size_t i = 0; i < _rules.size(); ++i) {
-            Rule* rule = _rules.at(i);
-            if (rule->isLoaded()) {
-                rule->unload();
-            }
-            try {
-                rule->load(engine);
-            } catch (std::exception& ex) {
-                throwException = true;
-                exceptions << ex.what() << "\n";
-            }
-        }
-        if (throwException) {
-            Exception exception(
-                "[ruleblock error] the following "
-                "rules could not be loaded:\n"
-                    + exceptions.str(),
-                FL_AT);
-            throw exception;
-        }
-    }
+std::string RuleBlock::getName() const {
+  return this->_name;
+}
 
-    void RuleBlock::reloadRules(const Engine* engine) {
-        unloadRules();
-        loadRules(engine);
-    }
+void RuleBlock::setDescription(const std::string& description) {
+  this->_description = description;
+}
 
-    void RuleBlock::setName(std::string name) {
-        this->_name = name;
-    }
+std::string RuleBlock::getDescription() const {
+  return this->_description;
+}
 
-    std::string RuleBlock::getName() const {
-        return this->_name;
-    }
+void RuleBlock::setConjunction(TNorm* tnorm) {
+  this->_conjunction.reset(tnorm);
+}
 
-    void RuleBlock::setDescription(const std::string& description) {
-        this->_description = description;
-    }
+TNorm* RuleBlock::getConjunction() const {
+  return this->_conjunction.get();
+}
 
-    std::string RuleBlock::getDescription() const {
-        return this->_description;
-    }
+void RuleBlock::setDisjunction(SNorm* snorm) {
+  this->_disjunction.reset(snorm);
+}
 
-    void RuleBlock::setConjunction(TNorm* tnorm) {
-        this->_conjunction.reset(tnorm);
-    }
+SNorm* RuleBlock::getDisjunction() const {
+  return this->_disjunction.get();
+}
 
-    TNorm* RuleBlock::getConjunction() const {
-        return this->_conjunction.get();
-    }
+void RuleBlock::setImplication(TNorm* implication) {
+  this->_implication.reset(implication);
+}
 
-    void RuleBlock::setDisjunction(SNorm* snorm) {
-        this->_disjunction.reset(snorm);
-    }
+TNorm* RuleBlock::getImplication() const {
+  return this->_implication.get();
+}
 
-    SNorm* RuleBlock::getDisjunction() const {
-        return this->_disjunction.get();
-    }
+void RuleBlock::setActivation(Activation* activation) {
+  this->_activation.reset(activation);
+}
 
-    void RuleBlock::setImplication(TNorm* implication) {
-        this->_implication.reset(implication);
-    }
+Activation* RuleBlock::getActivation() const {
+  return this->_activation.get();
+}
 
-    TNorm* RuleBlock::getImplication() const {
-        return this->_implication.get();
-    }
+void RuleBlock::setEnabled(bool enabled) {
+  this->_enabled = enabled;
+}
 
-    void RuleBlock::setActivation(Activation* activation) {
-        this->_activation.reset(activation);
-    }
+bool RuleBlock::isEnabled() const {
+  return this->_enabled;
+}
 
-    Activation* RuleBlock::getActivation() const {
-        return this->_activation.get();
-    }
+std::string RuleBlock::toString() const {
+  return FllExporter().toString(this);
+}
 
-    void RuleBlock::setEnabled(bool enabled) {
-        this->_enabled = enabled;
-    }
+/**
+ * Operations for std::vector _rules
+ */
+void RuleBlock::addRule(Rule* rule) {
+  _rules.push_back(rule);
+}
 
-    bool RuleBlock::isEnabled() const {
-        return this->_enabled;
-    }
+void RuleBlock::insertRule(Rule* rule, std::size_t index) {
+  _rules.insert(_rules.begin() + index, rule);
+}
 
-    std::string RuleBlock::toString() const {
-        return FllExporter().toString(this);
-    }
+Rule* RuleBlock::getRule(std::size_t index) const {
+  return _rules.at(index);
+}
 
-    /**
-     * Operations for std::vector _rules
-     */
-    void RuleBlock::addRule(Rule* rule) {
-        _rules.push_back(rule);
-    }
+Rule* RuleBlock::removeRule(std::size_t index) {
+  Rule* result = _rules.at(index);
+  _rules.erase(_rules.begin() + index);
+  return result;
+}
 
-    void RuleBlock::insertRule(Rule* rule, std::size_t index) {
-        _rules.insert(_rules.begin() + index, rule);
-    }
+std::size_t RuleBlock::numberOfRules() const {
+  return _rules.size();
+}
 
-    Rule* RuleBlock::getRule(std::size_t index) const {
-        return _rules.at(index);
-    }
+const std::vector<Rule*>& RuleBlock::rules() const {
+  return this->_rules;
+}
 
-    Rule* RuleBlock::removeRule(std::size_t index) {
-        Rule* result = _rules.at(index);
-        _rules.erase(_rules.begin() + index);
-        return result;
-    }
+void RuleBlock::setRules(const std::vector<Rule*>& rules) {
+  this->_rules = rules;
+}
 
-    std::size_t RuleBlock::numberOfRules() const {
-        return _rules.size();
-    }
+std::vector<Rule*>& RuleBlock::rules() {
+  return this->_rules;
+}
 
-    const std::vector<Rule*>& RuleBlock::rules() const {
-        return this->_rules;
-    }
-
-    void RuleBlock::setRules(const std::vector<Rule*>& rules) {
-        this->_rules = rules;
-    }
-
-    std::vector<Rule*>& RuleBlock::rules() {
-        return this->_rules;
-    }
-
-    RuleBlock* RuleBlock::clone() const {
-        return new RuleBlock(*this);
-    }
+RuleBlock* RuleBlock::clone() const {
+  return new RuleBlock(*this);
+}
 
 }  // namespace fl

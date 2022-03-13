@@ -20,24 +20,24 @@
 
 namespace fl {
 
-    std::string NormalizedSum::className() const {
-        return "NormalizedSum";
-    }
+std::string NormalizedSum::className() const {
+  return "NormalizedSum";
+}
 
-    Complexity NormalizedSum::complexity() const {
-        return Complexity().arithmetic(3).function(1);
-    }
+Complexity NormalizedSum::complexity() const {
+  return Complexity().arithmetic(3).function(1);
+}
 
-    scalar NormalizedSum::compute(scalar a, scalar b) const {
-        return (a + b) / Op::max(scalar(1.0), a + b);
-    }
+scalar NormalizedSum::compute(scalar a, scalar b) const {
+  return (a + b) / Op::max(scalar(1.0), a + b);
+}
 
-    NormalizedSum* NormalizedSum::clone() const {
-        return new NormalizedSum(*this);
-    }
+NormalizedSum* NormalizedSum::clone() const {
+  return new NormalizedSum(*this);
+}
 
-    SNorm* NormalizedSum::constructor() {
-        return new NormalizedSum;
-    }
+SNorm* NormalizedSum::constructor() {
+  return new NormalizedSum;
+}
 
 }  // namespace fl

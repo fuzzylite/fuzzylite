@@ -21,244 +21,239 @@
 
 namespace fl {
 
-    Aggregated::Aggregated(const std::string& name,
-                           scalar minimum,
-                           scalar maximum,
-                           SNorm* aggregation)
-        : Term(name),
-          _minimum(minimum),
-          _maximum(maximum),
-          _aggregation(aggregation) {}
+Aggregated::Aggregated(const std::string& name,
+                       scalar minimum,
+                       scalar maximum,
+                       SNorm* aggregation)
+    : Term(name),
+      _minimum(minimum),
+      _maximum(maximum),
+      _aggregation(aggregation) {}
 
-    Aggregated::Aggregated(const Aggregated& other) : Term(other) {
-        copyFrom(other);
+Aggregated::Aggregated(const Aggregated& other) : Term(other) {
+  copyFrom(other);
+}
+
+Aggregated& Aggregated::operator=(const Aggregated& other) {
+  if (this != &other) {
+    clear();
+    _aggregation.reset(fl::null);
+
+    Term::operator=(other);
+    copyFrom(other);
+  }
+  return *this;
+}
+
+Aggregated::~Aggregated() {}
+
+void Aggregated::copyFrom(const Aggregated& source) {
+  _minimum = source._minimum;
+  _maximum = source._maximum;
+
+  if (source._aggregation.get())
+    _aggregation.reset(source._aggregation->clone());
+
+  for (std::size_t i = 0; i < source._terms.size(); ++i) {
+    _terms.push_back(source._terms.at(i));
+  }
+}
+
+std::string Aggregated::className() const {
+  return "Aggregated";
+}
+
+Complexity Aggregated::complexity() const {
+  return complexityOfMembership();
+}
+
+Complexity Aggregated::complexityOfMembership() const {
+  Complexity result;
+  result.comparison(3);
+  if (_aggregation.get()) {
+    result += _aggregation->complexity().multiply(scalar(_terms.size()));
+  }
+  for (std::size_t i = 0; i < _terms.size(); ++i) {
+    result += _terms.at(i).complexity();
+  }
+  return result;
+}
+
+scalar Aggregated::membership(scalar x) const {
+  if (Op::isNaN(x))
+    return fl::nan;
+  if (not(_terms.empty()
+          or _aggregation.get())) {  // Exception for IntegralDefuzzifiers
+    throw Exception(
+        "[aggregation error] "
+        "aggregation operator needed to aggregate variable "
+        "<" + getName()
+            + ">",
+        FL_AT);
+  }
+  scalar mu = 0.0;
+  for (std::size_t i = 0; i < _terms.size(); ++i) {
+    mu = _aggregation->compute(mu, _terms.at(i).membership(x));
+  }
+  return mu;
+}
+
+Complexity Aggregated::complexityOfActivationDegree() const {
+  Complexity result;
+  result.comparison(2);
+  if (_aggregation.get()) {
+    result += _aggregation->complexity();
+  } else
+    result.arithmetic(1);
+  result.multiply(scalar(_terms.size()));
+  return result;
+}
+
+scalar Aggregated::activationDegree(const Term* forTerm) const {
+  scalar result = 0.0;
+  for (std::size_t i = 0; i < _terms.size(); ++i) {
+    const Activated& activatedTerm = _terms.at(i);
+    if (activatedTerm.getTerm() == forTerm) {
+      if (_aggregation.get())
+        result = _aggregation->compute(result, activatedTerm.getDegree());
+      else
+        result += activatedTerm.getDegree();  // Default for WeightDefuzzifier
     }
+  }
+  return result;
+}
 
-    Aggregated& Aggregated::operator=(const Aggregated& other) {
-        if (this != &other) {
-            clear();
-            _aggregation.reset(fl::null);
-
-            Term::operator=(other);
-            copyFrom(other);
-        }
-        return *this;
+const Activated* Aggregated::highestActivatedTerm() const {
+  const Activated* maximumTerm = fl::null;
+  scalar maximumActivation = -fl::inf;
+  for (std::size_t i = 0; i < _terms.size(); ++i) {
+    const Activated& activated = _terms.at(i);
+    if (Op::isGt(activated.getDegree(), maximumActivation)) {
+      maximumActivation = activated.getDegree();
+      maximumTerm = &activated;
     }
+  }
+  return maximumTerm;
+}
 
-    Aggregated::~Aggregated() {}
+std::string Aggregated::parameters() const {
+  FllExporter exporter;
+  std::ostringstream ss;
+  ss << exporter.toString(getAggregation());
+  ss << " " << Op::str(getMinimum()) << " " << Op::str(getMaximum()) << " ";
+  for (std::size_t i = 0; i < terms().size(); ++i) {
+    ss << " " << exporter.toString(&terms().at(i));
+  }
+  return ss.str();
+}
 
-    void Aggregated::copyFrom(const Aggregated& source) {
-        _minimum = source._minimum;
-        _maximum = source._maximum;
+void Aggregated::configure(const std::string& parameters) {
+  FL_IUNUSED(parameters);
+}
 
-        if (source._aggregation.get())
-            _aggregation.reset(source._aggregation->clone());
+Aggregated* Aggregated::clone() const {
+  return new Aggregated(*this);
+}
 
-        for (std::size_t i = 0; i < source._terms.size(); ++i) {
-            _terms.push_back(source._terms.at(i));
-        }
-    }
+std::string Aggregated::toString() const {
+  std::vector<std::string> aggregate;
+  for (std::size_t i = 0; i < terms().size(); ++i) {
+    aggregate.push_back(terms().at(i).toString());
+  }
+  FllExporter exporter;
+  std::ostringstream ss;
+  if (getAggregation()) {
+    ss << getName() << ": " << className() << " "
+       << exporter.toString(getAggregation()) << "[" << Op::join(aggregate, ",")
+       << "]";
+  } else {
+    ss << getName() << ": " << className() << " "
+       << "[" << Op::join(aggregate, "+") << "]";  //\u2295: (+)
+  }
+  return ss.str();
+}
 
-    std::string Aggregated::className() const {
-        return "Aggregated";
-    }
+void Aggregated::setMinimum(scalar minimum) {
+  this->_minimum = minimum;
+}
 
-    Complexity Aggregated::complexity() const {
-        return complexityOfMembership();
-    }
+scalar Aggregated::getMinimum() const {
+  return this->_minimum;
+}
 
-    Complexity Aggregated::complexityOfMembership() const {
-        Complexity result;
-        result.comparison(3);
-        if (_aggregation.get()) {
-            result
-                += _aggregation->complexity().multiply(scalar(_terms.size()));
-        }
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            result += _terms.at(i).complexity();
-        }
-        return result;
-    }
+void Aggregated::setMaximum(scalar maximum) {
+  this->_maximum = maximum;
+}
 
-    scalar Aggregated::membership(scalar x) const {
-        if (Op::isNaN(x))
-            return fl::nan;
-        if (not(_terms.empty()
-                or _aggregation.get())) {  // Exception for IntegralDefuzzifiers
-            throw Exception(
-                "[aggregation error] "
-                "aggregation operator needed to aggregate variable "
-                "<" + getName()
-                    + ">",
-                FL_AT);
-        }
-        scalar mu = 0.0;
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            mu = _aggregation->compute(mu, _terms.at(i).membership(x));
-        }
-        return mu;
-    }
+scalar Aggregated::getMaximum() const {
+  return this->_maximum;
+}
 
-    Complexity Aggregated::complexityOfActivationDegree() const {
-        Complexity result;
-        result.comparison(2);
-        if (_aggregation.get()) {
-            result += _aggregation->complexity();
-        } else
-            result.arithmetic(1);
-        result.multiply(scalar(_terms.size()));
-        return result;
-    }
+void Aggregated::setRange(scalar minimum, scalar maximum) {
+  setMinimum(minimum);
+  setMaximum(maximum);
+}
 
-    scalar Aggregated::activationDegree(const Term* forTerm) const {
-        scalar result = 0.0;
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            const Activated& activatedTerm = _terms.at(i);
-            if (activatedTerm.getTerm() == forTerm) {
-                if (_aggregation.get())
-                    result = _aggregation->compute(result,
-                                                   activatedTerm.getDegree());
-                else
-                    result
-                        += activatedTerm
-                               .getDegree();  // Default for WeightDefuzzifier
-            }
-        }
-        return result;
-    }
+scalar Aggregated::range() const {
+  return getMaximum() - getMinimum();
+}
 
-    const Activated* Aggregated::highestActivatedTerm() const {
-        const Activated* maximumTerm = fl::null;
-        scalar maximumActivation = -fl::inf;
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            const Activated& activated = _terms.at(i);
-            if (Op::isGt(activated.getDegree(), maximumActivation)) {
-                maximumActivation = activated.getDegree();
-                maximumTerm = &activated;
-            }
-        }
-        return maximumTerm;
-    }
+void Aggregated::setAggregation(SNorm* aggregation) {
+  this->_aggregation.reset(aggregation);
+}
 
-    std::string Aggregated::parameters() const {
-        FllExporter exporter;
-        std::ostringstream ss;
-        ss << exporter.toString(getAggregation());
-        ss << " " << Op::str(getMinimum()) << " " << Op::str(getMaximum())
-           << " ";
-        for (std::size_t i = 0; i < terms().size(); ++i) {
-            ss << " " << exporter.toString(&terms().at(i));
-        }
-        return ss.str();
-    }
+SNorm* Aggregated::getAggregation() const {
+  return this->_aggregation.get();
+}
 
-    void Aggregated::configure(const std::string& parameters) {
-        FL_IUNUSED(parameters);
-    }
+/**
+ * Operations for std::vector _terms
+ */
 
-    Aggregated* Aggregated::clone() const {
-        return new Aggregated(*this);
-    }
+void Aggregated::addTerm(const Term* term,
+                         scalar degree,
+                         const TNorm* implication) {
+  _terms.push_back(Activated(term, degree, implication));
+  FL_DBG("Aggregating " << _terms.back().toString());
+}
 
-    std::string Aggregated::toString() const {
-        std::vector<std::string> aggregate;
-        for (std::size_t i = 0; i < terms().size(); ++i) {
-            aggregate.push_back(terms().at(i).toString());
-        }
-        FllExporter exporter;
-        std::ostringstream ss;
-        if (getAggregation()) {
-            ss << getName() << ": " << className() << " "
-               << exporter.toString(getAggregation()) << "["
-               << Op::join(aggregate, ",") << "]";
-        } else {
-            ss << getName() << ": " << className() << " "
-               << "[" << Op::join(aggregate, "+") << "]";  //\u2295: (+)
-        }
-        return ss.str();
-    }
+void Aggregated::addTerm(const Activated& term) {
+  _terms.push_back(term);
+  FL_DBG("Aggregating " << _terms.back().toString());
+}
 
-    void Aggregated::setMinimum(scalar minimum) {
-        this->_minimum = minimum;
-    }
+const Activated& Aggregated::removeTerm(std::size_t index) {
+  const Activated& term = _terms.at(index);
+  _terms.erase(_terms.begin() + index);
+  return term;
+}
 
-    scalar Aggregated::getMinimum() const {
-        return this->_minimum;
-    }
+void Aggregated::clear() {
+  _terms.clear();
+}
 
-    void Aggregated::setMaximum(scalar maximum) {
-        this->_maximum = maximum;
-    }
+const Activated& Aggregated::getTerm(std::size_t index) const {
+  return _terms.at(index);
+}
 
-    scalar Aggregated::getMaximum() const {
-        return this->_maximum;
-    }
+void Aggregated::setTerms(const std::vector<Activated>& terms) {
+  this->_terms = terms;
+}
 
-    void Aggregated::setRange(scalar minimum, scalar maximum) {
-        setMinimum(minimum);
-        setMaximum(maximum);
-    }
+const std::vector<Activated>& Aggregated::terms() const {
+  return this->_terms;
+}
 
-    scalar Aggregated::range() const {
-        return getMaximum() - getMinimum();
-    }
+std::vector<Activated>& Aggregated::terms() {
+  return this->_terms;
+}
 
-    void Aggregated::setAggregation(SNorm* aggregation) {
-        this->_aggregation.reset(aggregation);
-    }
+std::size_t Aggregated::numberOfTerms() const {
+  return _terms.size();
+}
 
-    SNorm* Aggregated::getAggregation() const {
-        return this->_aggregation.get();
-    }
-
-    /**
-     * Operations for std::vector _terms
-     */
-
-    void Aggregated::addTerm(const Term* term,
-                             scalar degree,
-                             const TNorm* implication) {
-        _terms.push_back(Activated(term, degree, implication));
-        FL_DBG("Aggregating " << _terms.back().toString());
-    }
-
-    void Aggregated::addTerm(const Activated& term) {
-        _terms.push_back(term);
-        FL_DBG("Aggregating " << _terms.back().toString());
-    }
-
-    const Activated& Aggregated::removeTerm(std::size_t index) {
-        const Activated& term = _terms.at(index);
-        _terms.erase(_terms.begin() + index);
-        return term;
-    }
-
-    void Aggregated::clear() {
-        _terms.clear();
-    }
-
-    const Activated& Aggregated::getTerm(std::size_t index) const {
-        return _terms.at(index);
-    }
-
-    void Aggregated::setTerms(const std::vector<Activated>& terms) {
-        this->_terms = terms;
-    }
-
-    const std::vector<Activated>& Aggregated::terms() const {
-        return this->_terms;
-    }
-
-    std::vector<Activated>& Aggregated::terms() {
-        return this->_terms;
-    }
-
-    std::size_t Aggregated::numberOfTerms() const {
-        return _terms.size();
-    }
-
-    bool Aggregated::isEmpty() const {
-        return _terms.empty();
-    }
+bool Aggregated::isEmpty() const {
+  return _terms.empty();
+}
 
 }  // namespace fl

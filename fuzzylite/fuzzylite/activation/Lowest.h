@@ -22,67 +22,65 @@
 
 namespace fl {
 
-    /**
-      The Lowest class is a RuleBlock Activation method that activates a given
-      number of rules with lowest activation degrees in ascending order
+/**
+  The Lowest class is a RuleBlock Activation method that activates a given
+  number of rules with lowest activation degrees in ascending order
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see Highest
-      @see Rule
-      @see RuleBlock
-      @see ActivationFactory
-      @since 6.0
-     */
-    class FL_API Lowest : public Activation {
-      private:
-        int _numberOfRules;
+  @author Juan Rada-Vilela, Ph.D.
+  @see Highest
+  @see Rule
+  @see RuleBlock
+  @see ActivationFactory
+  @since 6.0
+ */
+class FL_API Lowest : public Activation {
+ private:
+  int _numberOfRules;
 
-      public:
-        explicit Lowest(int numberOfRules = 1);
-        virtual ~Lowest();
-        FL_DEFAULT_COPY_AND_MOVE(Lowest)
+ public:
+  explicit Lowest(int numberOfRules = 1);
+  virtual ~Lowest();
+  FL_DEFAULT_COPY_AND_MOVE(Lowest)
 
-        virtual std::string className() const FL_IOVERRIDE;
+  virtual std::string className() const FL_IOVERRIDE;
 
-        /**
-          Returns the number of rules to activate
-          @return number of rules to activate
-         */
-        virtual std::string parameters() const FL_IOVERRIDE;
+  /**
+    Returns the number of rules to activate
+    @return number of rules to activate
+   */
+  virtual std::string parameters() const FL_IOVERRIDE;
 
-        /**
-          Configures the activation method with the number of rules to
-          activate
-          @param parameters contains the number of rules to activate
-         */
-        virtual void configure(const std::string& parameters) FL_IOVERRIDE;
+  /**
+    Configures the activation method with the number of rules to activate
+    @param parameters contains the number of rules to activate
+   */
+  virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        /**
-          Sets the number of rules to activate
-          @param numberOfRules is the number of rules to activate
-         */
-        virtual void setNumberOfRules(int numberOfRules);
+  /**
+    Sets the number of rules to activate
+    @param numberOfRules is the number of rules to activate
+   */
+  virtual void setNumberOfRules(int numberOfRules);
 
-        /**
-          Returns the number of rules to activate
-          @return the number of rules to activate
-         */
-        virtual int getNumberOfRules() const;
+  /**
+    Returns the number of rules to activate
+    @return the number of rules to activate
+   */
+  virtual int getNumberOfRules() const;
 
-        virtual Complexity complexity(const RuleBlock* ruleBlock) const
-            FL_IOVERRIDE;
+  virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
 
-        /**
-          Activates the rules with the lowest activation degrees in the
-          given rule block
-          @param ruleBlock is the rule block to activate
-         */
-        virtual void activate(RuleBlock* ruleBlock) FL_IOVERRIDE;
+  /**
+    Activates the rules with the lowest activation degrees in the given
+    rule block
+    @param ruleBlock is the rule block to activate
+   */
+  virtual void activate(RuleBlock* ruleBlock) FL_IOVERRIDE;
 
-        virtual Lowest* clone() const FL_IOVERRIDE;
+  virtual Lowest* clone() const FL_IOVERRIDE;
 
-        static Activation* constructor();
-    };
+  static Activation* constructor();
+};
 }  // namespace fl
 
 #endif /* FL_LOWEST_H */

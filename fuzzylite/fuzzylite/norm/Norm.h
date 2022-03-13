@@ -24,47 +24,47 @@
 
 namespace fl {
 
-    /**
-      The Norm class is the abstract class for norms.
+/**
+  The Norm class is the abstract class for norms.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see TNorm
-      @see SNorm
-      @see TNormFactory
-      @see SNormFactory
-      @since 4.0
-     */
-    class FL_API Norm {
-      public:
-        Norm() {}
+  @author Juan Rada-Vilela, Ph.D.
+  @see TNorm
+  @see SNorm
+  @see TNormFactory
+  @see SNormFactory
+  @since 4.0
+ */
+class FL_API Norm {
+ public:
+  Norm() {}
 
-        virtual ~Norm() {}
+  virtual ~Norm() {}
 
-        FL_DEFAULT_COPY_AND_MOVE(Norm)
-        /**
-          Returns the name of the class of the norm
-          @return the name of the class of the norm
-         */
-        virtual std::string className() const = 0;
+  FL_DEFAULT_COPY_AND_MOVE(Norm)
+  /**
+    Returns the name of the class of the norm
+    @return the name of the class of the norm
+   */
+  virtual std::string className() const = 0;
 
-        /**
-          Computes the estimated complexity of computing the hedge
-          @return the complexity of computing the hedge
-         */
-        virtual Complexity complexity() const = 0;
-        /**
-          Computes the norm for @f$a@f$ and @f$b@f$
-          @param a is a membership function value
-          @param b is a membership function value
-          @return the norm between @f$a@f$ and @f$b@f$
-         */
-        virtual scalar compute(scalar a, scalar b) const = 0;
+  /**
+    Computes the estimated complexity of computing the hedge
+    @return the complexity of computing the hedge
+   */
+  virtual Complexity complexity() const = 0;
+  /**
+    Computes the norm for @f$a@f$ and @f$b@f$
+    @param a is a membership function value
+    @param b is a membership function value
+    @return the norm between @f$a@f$ and @f$b@f$
+   */
+  virtual scalar compute(scalar a, scalar b) const = 0;
 
-        /**
-          Creates a clone of the norm
-          @return a clone of the norm
-         */
-        virtual Norm* clone() const = 0;
-    };
+  /**
+    Creates a clone of the norm
+    @return a clone of the norm
+   */
+  virtual Norm* clone() const = 0;
+};
 }  // namespace fl
 #endif /* FL_NORM_H */
