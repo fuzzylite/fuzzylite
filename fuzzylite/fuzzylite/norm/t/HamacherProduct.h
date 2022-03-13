@@ -19,7 +19,7 @@
 
 #include "fuzzylite/norm/TNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The HamacherProduct class is a TNorm that computes the Hamacher product
@@ -48,5 +48,5 @@ class FL_API HamacherProduct FL_IFINAL : public TNorm {
 
   static TNorm* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_HAMACHERPRODUCT_H */

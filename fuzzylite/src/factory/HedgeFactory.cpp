@@ -23,7 +23,7 @@
 #include "fuzzylite/hedge/Somewhat.h"
 #include "fuzzylite/hedge/Very.h"
 
-namespace fl {
+namespace fuzzylite {
 
 HedgeFactory::HedgeFactory() : ConstructionFactory<Hedge*>("Hedge") {
   registerConstructor("", fl::null);
@@ -37,4 +37,4 @@ HedgeFactory::HedgeFactory() : ConstructionFactory<Hedge*>("Hedge") {
 
 HedgeFactory::~HedgeFactory() {}
 
-}  // namespace fl
+}  // namespace fuzzylite

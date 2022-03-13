@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string NilpotentMaximum::className() const {
   return "NilpotentMaximum";
@@ -43,4 +43,4 @@ SNorm* NilpotentMaximum::constructor() {
   return new NilpotentMaximum;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

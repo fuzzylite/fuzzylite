@@ -18,7 +18,7 @@
 
 #include "fuzzylite/imex/FllExporter.h"
 
-namespace fl {
+namespace fuzzylite {
 
 OutputVariable::OutputVariable(const std::string& name,
                                scalar minimum,
@@ -230,4 +230,4 @@ OutputVariable* OutputVariable::clone() const {
   return new OutputVariable(*this);
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

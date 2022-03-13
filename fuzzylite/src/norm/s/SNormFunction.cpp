@@ -16,7 +16,7 @@
 
 #include "fuzzylite/norm/s/SNormFunction.h"
 
-namespace fl {
+namespace fuzzylite {
 
 SNormFunction::SNormFunction(const std::string& formula) : SNorm() {
   _function.variables["a"] = fl::nan;
@@ -63,4 +63,4 @@ SNorm* SNormFunction::constructor() {
   return new SNormFunction;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

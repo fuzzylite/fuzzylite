@@ -16,7 +16,7 @@
 
 #include "fuzzylite/factory/FactoryManager.h"
 
-namespace fl {
+namespace fuzzylite {
 
 FactoryManager* FactoryManager::instance() {
   static FL_ITHREAD_LOCAL FactoryManager _instance;
@@ -158,4 +158,4 @@ FunctionFactory* FactoryManager::function() const {
   return this->_function.get();
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

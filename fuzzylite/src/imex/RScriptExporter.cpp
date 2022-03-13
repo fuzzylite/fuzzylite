@@ -22,7 +22,7 @@
 #include "fuzzylite/imex/FllExporter.h"
 #include "fuzzylite/variable/InputVariable.h"
 #include "fuzzylite/variable/OutputVariable.h"
-namespace fl {
+namespace fuzzylite {
 
 RScriptExporter::RScriptExporter()
     : Exporter(),
@@ -312,4 +312,4 @@ void RScriptExporter::writeScriptPlots(
          << "    }\n"
          << "}\n";
 }
-}  // namespace fl
+}  // namespace fuzzylite

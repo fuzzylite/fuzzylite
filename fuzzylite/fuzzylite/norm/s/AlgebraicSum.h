@@ -19,7 +19,7 @@
 
 #include "fuzzylite/norm/SNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The AlgebraicSum class is an SNorm that computes the algebraic sum of
@@ -49,5 +49,5 @@ class FL_API AlgebraicSum FL_IFINAL : public SNorm {
 
   static SNorm* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_ALGEBRAICSUM_H */

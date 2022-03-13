@@ -23,7 +23,7 @@
 #include "fuzzylite/norm/TNorm.h"
 #include "fuzzylite/rule/Rule.h"
 
-namespace fl {
+namespace fuzzylite {
 
 RuleBlock::RuleBlock(const std::string& name)
     : _enabled(true), _name(name), _description("") {}
@@ -231,4 +231,4 @@ RuleBlock* RuleBlock::clone() const {
   return new RuleBlock(*this);
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

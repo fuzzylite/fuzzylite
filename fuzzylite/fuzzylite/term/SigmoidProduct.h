@@ -19,7 +19,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The SigmoidProduct class is an extended Term that represents the product
@@ -126,5 +126,5 @@ class FL_API SigmoidProduct : public Term {
 
   static Term* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_SIGMOIDPRODUCT_H */

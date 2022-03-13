@@ -20,7 +20,7 @@
 #include "fuzzylite/rule/Rule.h"
 #include "fuzzylite/rule/RuleBlock.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Proportional::Proportional() : Activation() {}
 
@@ -90,4 +90,4 @@ Activation* Proportional::constructor() {
   return new Proportional;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

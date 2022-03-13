@@ -29,7 +29,7 @@
 #include <chrono>
 #endif
 
-namespace fl {
+namespace fuzzylite {
 
 Benchmark::Benchmark(const std::string& name, Engine* engine, scalar tolerance)
     : _name(name), _engine(engine), _tolerance(tolerance) {}
@@ -506,4 +506,4 @@ std::string Benchmark::format(std::vector<Result> results,
   }
   return os.str();
 }
-}  // namespace fl
+}  // namespace fuzzylite

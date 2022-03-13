@@ -21,7 +21,7 @@
 
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 class Engine;
 
 /**
@@ -67,6 +67,6 @@ class FL_API Exporter {
   virtual Exporter* clone() const = 0;
 };
 
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_EXPORTER_H */

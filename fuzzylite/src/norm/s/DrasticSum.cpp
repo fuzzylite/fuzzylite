@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string DrasticSum::className() const {
   return "DrasticSum";
@@ -43,4 +43,4 @@ SNorm* DrasticSum::constructor() {
   return new DrasticSum;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

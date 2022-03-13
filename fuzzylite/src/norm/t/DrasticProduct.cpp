@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string DrasticProduct::className() const {
   return "DrasticProduct";
@@ -43,4 +43,4 @@ TNorm* DrasticProduct::constructor() {
   return new DrasticProduct;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

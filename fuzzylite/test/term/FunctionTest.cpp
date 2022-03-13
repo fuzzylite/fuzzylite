@@ -17,7 +17,7 @@
 #include "fuzzylite/Headers.h"
 #include "test/catch.hpp"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
  * Tests: term/Function
@@ -115,4 +115,4 @@ TEST_CASE("Function computes tree size correctly", "[term][function]") {
   FL_LOG(f.complexity().toString());
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

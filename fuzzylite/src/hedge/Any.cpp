@@ -16,7 +16,7 @@
 
 #include "fuzzylite/hedge/Any.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Any::Any() {}
 
@@ -43,4 +43,4 @@ Hedge* Any::constructor() {
   return new Any;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

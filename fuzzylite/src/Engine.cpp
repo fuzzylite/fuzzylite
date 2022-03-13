@@ -37,7 +37,7 @@
 #include "fuzzylite/variable/InputVariable.h"
 #include "fuzzylite/variable/OutputVariable.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Engine::Engine(const std::string& name) : _name(name) {}
 
@@ -796,4 +796,4 @@ std::vector<RuleBlock*>& Engine::ruleBlocks() {
   return this->_ruleBlocks;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

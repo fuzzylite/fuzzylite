@@ -26,7 +26,7 @@
 #include "fuzzylite/norm/s/NormalizedSum.h"
 #include "fuzzylite/norm/s/UnboundedSum.h"
 
-namespace fl {
+namespace fuzzylite {
 
 SNormFactory::SNormFactory() : ConstructionFactory<SNorm*>("SNorm") {
   registerConstructor("", fl::null);
@@ -45,4 +45,4 @@ SNormFactory::SNormFactory() : ConstructionFactory<SNorm*>("SNorm") {
 
 SNormFactory::~SNormFactory() {}
 
-}  // namespace fl
+}  // namespace fuzzylite

@@ -17,7 +17,7 @@
 #include "fuzzylite/Headers.h"
 #include "test/catch.hpp"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
  * Tests: norm/NormFunctions
@@ -201,4 +201,4 @@ TEST_CASE("TNormFunction (min(a,b)) is equivalent to Minimum",
 #endif
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

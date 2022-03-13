@@ -17,7 +17,7 @@
 #include "fuzzylite/Headers.h"
 #include "test/catch.hpp"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
  * Tests: term/Aggregated
@@ -48,4 +48,4 @@ TEST_CASE("highest term in aggregated", "[term][aggregated]") {
   REQUIRE(aggregated.highestActivatedTerm() == fl::null);
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

@@ -24,7 +24,7 @@
 #include "fuzzylite/activation/Proportional.h"
 #include "fuzzylite/activation/Threshold.h"
 
-namespace fl {
+namespace fuzzylite {
 
 ActivationFactory::ActivationFactory()
     : ConstructionFactory<Activation*>("Activation") {
@@ -40,4 +40,4 @@ ActivationFactory::ActivationFactory()
 
 ActivationFactory::~ActivationFactory() {}
 
-}  // namespace fl
+}  // namespace fuzzylite

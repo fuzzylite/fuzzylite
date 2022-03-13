@@ -18,7 +18,7 @@
 
 #include "fuzzylite/variable/InputVariable.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Linear::Linear(const std::string& name,
                const std::vector<scalar>& coefficients,
@@ -116,4 +116,4 @@ Term* Linear::constructor() {
   return new Linear;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

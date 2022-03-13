@@ -21,7 +21,7 @@
 #include "fuzzylite/factory/ConstructionFactory.h"
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The ActivationFactory class is a ConstructionFactory of Activation
@@ -40,6 +40,6 @@ class FL_API ActivationFactory : public ConstructionFactory<Activation*> {
   virtual ~ActivationFactory() FL_IOVERRIDE;
   FL_DEFAULT_COPY_AND_MOVE(ActivationFactory)
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_ACTIVATIONFACTORY_H */

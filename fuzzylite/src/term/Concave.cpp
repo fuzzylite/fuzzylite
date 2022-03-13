@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/Concave.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Concave::Concave(const std::string& name,
                  scalar inflection,
@@ -111,4 +111,4 @@ Term* Concave::constructor() {
   return new Concave;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

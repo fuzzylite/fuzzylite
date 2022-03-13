@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/Triangle.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Triangle::Triangle(const std::string& name,
                    scalar vertexA,
@@ -118,4 +118,4 @@ Term* Triangle::constructor() {
   return new Triangle;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

@@ -21,7 +21,7 @@
 #include "fuzzylite/imex/FllExporter.h"
 #include "fuzzylite/norm/Norm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Rule::Rule(const std::string& text, scalar weight)
     : _enabled(true),
@@ -287,4 +287,4 @@ Rule* Rule::parse(const std::string& rule, const Engine* engine) {
   return result.release();
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

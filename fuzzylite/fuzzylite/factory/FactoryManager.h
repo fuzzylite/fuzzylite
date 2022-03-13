@@ -26,7 +26,7 @@
 #include "fuzzylite/factory/TermFactory.h"
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The FactoryManager class is a central class grouping different factories
@@ -151,6 +151,6 @@ class FL_API FactoryManager {
    */
   virtual FunctionFactory* function() const;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_FACTORYMANAGER_H */

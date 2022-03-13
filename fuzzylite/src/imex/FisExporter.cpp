@@ -20,7 +20,7 @@
 
 #include "fuzzylite/Headers.h"
 
-namespace fl {
+namespace fuzzylite {
 
 FisExporter::FisExporter() : Exporter() {}
 
@@ -509,4 +509,4 @@ FisExporter* FisExporter::clone() const {
   return new FisExporter(*this);
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

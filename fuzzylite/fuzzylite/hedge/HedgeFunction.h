@@ -20,7 +20,7 @@
 #include "fuzzylite/hedge/Hedge.h"
 #include "fuzzylite/term/Function.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
  The HedgeFunction class is a customizable Hedge via Function, which
@@ -76,6 +76,6 @@ class FL_API HedgeFunction FL_IFINAL : public Hedge {
 
   static Hedge* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_HEDGEFUNCTION_H */

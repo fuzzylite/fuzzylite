@@ -20,7 +20,7 @@
 
 #include "fuzzylite/Headers.h"
 
-namespace fl {
+namespace fuzzylite {
 
 FllImporter::FllImporter(const std::string& separator)
     : Importer(), _separator(separator) {}
@@ -366,4 +366,4 @@ FllImporter* FllImporter::clone() const {
   return new FllImporter(*this);
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

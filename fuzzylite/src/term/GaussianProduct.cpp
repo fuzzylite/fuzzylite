@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/GaussianProduct.h"
 
-namespace fl {
+namespace fuzzylite {
 
 GaussianProduct::GaussianProduct(const std::string& name,
                                  scalar meanA,
@@ -122,4 +122,4 @@ Term* GaussianProduct::constructor() {
   return new GaussianProduct;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

@@ -24,7 +24,7 @@
 #include "fuzzylite/activation/Activation.h"
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 
 class Engine;
 class Rule;
@@ -226,5 +226,5 @@ class FL_API RuleBlock {
    */
   virtual RuleBlock* clone() const;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* RULEBLOCK_H */

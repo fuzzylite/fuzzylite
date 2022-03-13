@@ -19,7 +19,7 @@
 
 #include "fuzzylite/norm/TNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The BoundedDifference class is a TNorm that computes the bounded
@@ -48,5 +48,5 @@ class FL_API BoundedDifference FL_IFINAL : public TNorm {
 
   static TNorm* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_BOUNDEDDIFFERENCE_H */

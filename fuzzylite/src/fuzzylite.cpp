@@ -16,7 +16,7 @@
 
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 
 int fuzzylite::_decimals = 3;
 std::ios_base::fmtflags fuzzylite::_scalarFormat = std::ios_base::fixed;
@@ -49,4 +49,4 @@ std::string floatingPoint() {
      << sizeof(someScalar) << " bytes";
   return ss.str();
 }
-}  // namespace fl
+}  // namespace fuzzylite

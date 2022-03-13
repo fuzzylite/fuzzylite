@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string Maximum::className() const {
   return "Maximum";
@@ -40,4 +40,4 @@ SNorm* Maximum::constructor() {
   return new Maximum;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

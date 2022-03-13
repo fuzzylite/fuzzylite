@@ -20,7 +20,7 @@
 
 #include "fuzzylite/term/Aggregated.h"
 
-namespace fl {
+namespace fuzzylite {
 
 WeightedSumCustom::WeightedSumCustom(Type type) : WeightedDefuzzifier(type) {}
 
@@ -112,4 +112,4 @@ Defuzzifier* WeightedSumCustom::constructor() {
   return new WeightedSumCustom;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

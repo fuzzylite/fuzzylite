@@ -19,7 +19,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Trapezoid class is a basic Term that represents the trapezoidal
@@ -126,5 +126,5 @@ class FL_API Trapezoid : public Term {
 
   static Term* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_TRAPEZOID_H */

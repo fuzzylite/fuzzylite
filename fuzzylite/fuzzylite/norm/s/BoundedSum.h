@@ -19,7 +19,7 @@
 
 #include "fuzzylite/norm/SNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The BoundedSum class is an SNorm that computes the bounded sum of any two
@@ -49,6 +49,6 @@ class FL_API BoundedSum FL_IFINAL : public SNorm {
   static SNorm* constructor();
 };
 
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_BOUNDEDSUM_H */

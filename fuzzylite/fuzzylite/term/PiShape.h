@@ -19,7 +19,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The PiShape class is an extended Term that represents the Pi-shaped curve
@@ -132,5 +132,5 @@ class FL_API PiShape : public Term {
 
   static Term* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_PISHAPE_H */

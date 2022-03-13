@@ -20,7 +20,7 @@
 #include "fuzzylite/factory/ConstructionFactory.h"
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The TermFactory class is a ConstructionFactory of Term%s.
@@ -37,6 +37,6 @@ class FL_API TermFactory : public ConstructionFactory<Term*> {
   virtual ~TermFactory() FL_IOVERRIDE;
   FL_DEFAULT_COPY_AND_MOVE(TermFactory)
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_TERMFACTORY_H */

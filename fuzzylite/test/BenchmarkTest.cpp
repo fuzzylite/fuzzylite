@@ -21,7 +21,7 @@
 #include "fuzzylite/Headers.h"
 #include "test/catch.hpp"
 
-namespace fl {
+namespace fuzzylite {
 
 TEST_CASE("Benchmarks run from Console ", "[benchmark][console]") {
   //        const char* args[] = {"dummy-command", "benchmarks",
@@ -147,4 +147,4 @@ TEST_CASE("Benchmark headers", "[benchmark][header]") {
   FL_LOG(Op::join(Benchmark().header(10, false), "\t"));
   CHECK(Benchmark().header(10, false).size() == 30 - 8);
 }
-}  // namespace fl
+}  // namespace fuzzylite

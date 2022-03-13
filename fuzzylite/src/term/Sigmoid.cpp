@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/Sigmoid.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Sigmoid::Sigmoid(const std::string& name,
                  scalar inflection,
@@ -128,4 +128,4 @@ Term* Sigmoid::constructor() {
   return new Sigmoid;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

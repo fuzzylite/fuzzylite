@@ -16,7 +16,7 @@
 
 #include "fuzzylite/norm/t/EinsteinProduct.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string EinsteinProduct::className() const {
   return "EinsteinProduct";
@@ -38,4 +38,4 @@ TNorm* EinsteinProduct::constructor() {
   return new EinsteinProduct;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

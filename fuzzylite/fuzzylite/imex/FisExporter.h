@@ -21,7 +21,7 @@
 
 #include "fuzzylite/imex/Exporter.h"
 
-namespace fl {
+namespace fuzzylite {
 class Norm;
 class TNorm;
 class SNorm;
@@ -124,6 +124,6 @@ class FL_API FisExporter : public Exporter {
 
   virtual FisExporter* clone() const FL_IOVERRIDE;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_FISEXPORTER_H */

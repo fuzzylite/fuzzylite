@@ -19,7 +19,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Triangle class is a basic Term that represents the triangular
@@ -114,5 +114,5 @@ class FL_API Triangle : public Term {
 
   static Term* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_TRIANGLE_H */

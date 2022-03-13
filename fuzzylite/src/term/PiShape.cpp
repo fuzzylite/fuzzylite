@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/PiShape.h"
 
-namespace fl {
+namespace fuzzylite {
 
 PiShape::PiShape(const std::string& name,
                  scalar bottomLeft,
@@ -132,4 +132,4 @@ Term* PiShape::constructor() {
   return new PiShape;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

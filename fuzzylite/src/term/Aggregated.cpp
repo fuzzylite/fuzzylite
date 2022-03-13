@@ -19,7 +19,7 @@
 #include "fuzzylite/imex/FllExporter.h"
 #include "fuzzylite/norm/s/Maximum.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Aggregated::Aggregated(const std::string& name,
                        scalar minimum,
@@ -256,4 +256,4 @@ bool Aggregated::isEmpty() const {
   return _terms.empty();
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

@@ -16,7 +16,7 @@
 
 #include "fuzzylite/hedge/Not.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string Not::name() const {
   return "not";
@@ -38,4 +38,4 @@ Hedge* Not::constructor() {
   return new Not;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

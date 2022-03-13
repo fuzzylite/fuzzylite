@@ -19,7 +19,7 @@
 
 #include "fuzzylite/activation/Activation.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Proportional class is a RuleBlock Activation method that activates
@@ -66,6 +66,6 @@ class FL_API Proportional : public Activation {
 
   static Activation* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_PROPORTIONAL_H */

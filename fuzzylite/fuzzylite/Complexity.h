@@ -21,7 +21,7 @@
 
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 class Engine;
 class InputVariable;
 class OutputVariable;
@@ -299,6 +299,6 @@ class FL_API Complexity {
   virtual Complexity compute(const std::vector<RuleBlock*>& ruleBlocks) const;
 };
 
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* COMPLEXITY_H */

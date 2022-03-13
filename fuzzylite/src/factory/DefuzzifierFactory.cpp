@@ -26,7 +26,7 @@
 #include "fuzzylite/defuzzifier/WeightedSum.h"
 #include "fuzzylite/defuzzifier/WeightedSumCustom.h"
 
-namespace fl {
+namespace fuzzylite {
 
 DefuzzifierFactory::DefuzzifierFactory()
     : ConstructionFactory<Defuzzifier*>("Defuzzifier") {
@@ -85,4 +85,4 @@ Defuzzifier* DefuzzifierFactory::constructDefuzzifier(
   return result;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

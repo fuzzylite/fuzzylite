@@ -20,7 +20,7 @@
 #include "fuzzylite/norm/SNorm.h"
 #include "fuzzylite/term/Function.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
  The SNormFunction class is a customizable SNorm via Function, which
@@ -76,5 +76,5 @@ class FL_API SNormFunction FL_IFINAL : public SNorm {
 
   static SNorm* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_SNORMFUNCTION_H */

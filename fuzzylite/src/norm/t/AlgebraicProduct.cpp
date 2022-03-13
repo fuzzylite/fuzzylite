@@ -16,7 +16,7 @@
 
 #include "fuzzylite/norm/t/AlgebraicProduct.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string AlgebraicProduct::className() const {
   return "AlgebraicProduct";
@@ -38,4 +38,4 @@ TNorm* AlgebraicProduct::constructor() {
   return new AlgebraicProduct;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

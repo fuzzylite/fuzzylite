@@ -19,7 +19,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 class TNorm;
 
 /**
@@ -104,5 +104,5 @@ class FL_API Activated : public Term {
 
   virtual Activated* clone() const FL_IOVERRIDE;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_ACTIVATED_H */

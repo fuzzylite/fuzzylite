@@ -19,7 +19,7 @@
 
 #include "fuzzylite/norm/SNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The NormalizedSum class is an SNorm that computes the normalized sum of
@@ -47,6 +47,6 @@ class FL_API NormalizedSum FL_IFINAL : public SNorm {
 
   static SNorm* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_NORMALIZEDSUM_H */

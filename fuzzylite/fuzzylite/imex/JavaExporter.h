@@ -19,7 +19,7 @@
 
 #include "fuzzylite/imex/Exporter.h"
 
-namespace fl {
+namespace fuzzylite {
 
 class Engine;
 class InputVariable;
@@ -149,6 +149,6 @@ class FL_API JavaExporter : public Exporter {
 
   virtual JavaExporter* clone() const FL_IOVERRIDE;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_JAVAEXPORTER_H */

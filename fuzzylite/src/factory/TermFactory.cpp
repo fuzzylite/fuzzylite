@@ -38,7 +38,7 @@
 #include "fuzzylite/term/Triangle.h"
 #include "fuzzylite/term/ZShape.h"
 
-namespace fl {
+namespace fuzzylite {
 
 TermFactory::TermFactory() : ConstructionFactory<Term*>("Term") {
   registerConstructor("", fl::null);
@@ -70,4 +70,4 @@ TermFactory::TermFactory() : ConstructionFactory<Term*>("Term") {
 
 TermFactory::~TermFactory() {}
 
-}  // namespace fl
+}  // namespace fuzzylite

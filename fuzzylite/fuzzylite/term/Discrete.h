@@ -23,7 +23,7 @@
 #include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Discrete class is a basic Term that represents a discrete membership
@@ -255,13 +255,13 @@ class FL_API Discrete : public Term {
   template <typename T>
   static Discrete* create(const std::string& name, int argc, T x1, T y1, ...);
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 /**
   Template implementation
  */
 
-namespace fl {
+namespace fuzzylite {
 
 template <typename T>
 inline Discrete* Discrete::create(
@@ -284,5 +284,5 @@ inline Discrete* Discrete::create(
   result->setXY(toPairs(xy));
   return result.release();
 }
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_DISCRETE_H */

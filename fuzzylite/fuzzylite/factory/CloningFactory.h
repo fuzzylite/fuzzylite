@@ -23,7 +23,7 @@
 
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The CloningFactory class is the base class for a factory whose objects
@@ -102,7 +102,7 @@ class CloningFactory {
    */
   virtual const std::map<std::string, T>& objects() const;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 /**
   Template implementation
@@ -110,7 +110,7 @@ class CloningFactory {
 
 #include "fuzzylite/Exception.h"
 
-namespace fl {
+namespace fuzzylite {
 
 template <typename T>
 inline CloningFactory<T>::CloningFactory(const std::string& name)
@@ -234,6 +234,6 @@ template <typename T>
 inline const std::map<std::string, T>& CloningFactory<T>::objects() const {
   return this->_objects;
 }
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_CLONINGFACTORY_H */

@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/Constant.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Constant::Constant(const std::string& name, scalar value)
     : Term(name), _value(value) {}
@@ -62,4 +62,4 @@ Term* Constant::constructor() {
   return new Constant;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

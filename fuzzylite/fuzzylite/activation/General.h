@@ -20,7 +20,7 @@
 #include "fuzzylite/activation/Activation.h"
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The General class is a RuleBlock Activation method that activates every
@@ -66,6 +66,6 @@ class FL_API General : public Activation {
 
   static Activation* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_GENERAL_H */

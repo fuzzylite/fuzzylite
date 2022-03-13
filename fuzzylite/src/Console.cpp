@@ -27,7 +27,7 @@
 #include <conio.h>
 #endif
 
-namespace fl {
+namespace fuzzylite {
 const std::string Console::KW_INPUT_FILE = "-i";
 const std::string Console::KW_INPUT_FORMAT = "-if";
 const std::string Console::KW_OUTPUT_FILE = "-o";
@@ -1157,4 +1157,4 @@ int Console::main(int argc, const char* argv[]) {
   return EXIT_SUCCESS;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

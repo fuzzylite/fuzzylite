@@ -23,7 +23,7 @@
 
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 class Engine;
 
 /**
@@ -161,5 +161,5 @@ class FL_API Console {
 
   static int main(int argc, const char* argv[]);
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_CONSOLE_H */

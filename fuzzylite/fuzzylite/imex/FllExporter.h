@@ -21,7 +21,7 @@
 
 #include "fuzzylite/imex/Exporter.h"
 
-namespace fl {
+namespace fuzzylite {
 class Variable;
 class InputVariable;
 class OutputVariable;
@@ -180,6 +180,6 @@ class FL_API FllExporter : public Exporter {
 
   virtual FllExporter* clone() const FL_IOVERRIDE;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_FLLEXPORTER_H */

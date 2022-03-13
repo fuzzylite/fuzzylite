@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Headers.h"
 
-namespace fl {
+namespace fuzzylite {
 
 FclExporter::FclExporter(const std::string& indent)
     : Exporter(), _indent(indent) {}
@@ -237,4 +237,4 @@ FclExporter* FclExporter::clone() const {
   return new FclExporter(*this);
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

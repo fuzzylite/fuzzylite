@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string Minimum::className() const {
   return "Minimum";
@@ -40,4 +40,4 @@ TNorm* Minimum::constructor() {
   return new Minimum;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

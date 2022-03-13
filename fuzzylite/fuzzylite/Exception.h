@@ -23,7 +23,7 @@
 
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
 
@@ -144,5 +144,5 @@ class FL_API Exception : public std::exception {
    */
   static void catchException(const std::exception& exception);
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_EXCEPTION_H */

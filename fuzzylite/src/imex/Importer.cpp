@@ -20,7 +20,7 @@
 
 #include "fuzzylite/Exception.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Importer::Importer() {}
 
@@ -41,4 +41,4 @@ Engine* Importer::fromFile(const std::string& path) const {
   return fromString(textEngine.str());
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

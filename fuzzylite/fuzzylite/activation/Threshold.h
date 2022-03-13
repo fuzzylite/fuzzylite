@@ -22,7 +22,7 @@
 #include "fuzzylite/activation/Activation.h"
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Threshold class is a RuleBlock Activation method that activates the
@@ -178,6 +178,6 @@ class FL_API Threshold : public Activation {
   static Activation* constructor();
 };
 
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_THRESHOLD_H */

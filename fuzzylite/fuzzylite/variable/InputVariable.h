@@ -19,7 +19,7 @@
 
 #include "fuzzylite/variable/Variable.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The InputVariable class is a Variable that represents an input of the
@@ -55,5 +55,5 @@ class FL_API InputVariable : public Variable {
 
   virtual InputVariable* clone() const FL_IOVERRIDE;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_INPUTVARIABLE_H */

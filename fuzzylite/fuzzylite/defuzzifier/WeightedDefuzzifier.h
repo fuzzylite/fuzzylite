@@ -19,7 +19,7 @@
 
 #include "fuzzylite/defuzzifier/Defuzzifier.h"
 
-namespace fl {
+namespace fuzzylite {
 class Activated;
 
 /**
@@ -83,6 +83,6 @@ class FL_API WeightedDefuzzifier : public Defuzzifier {
    */
   virtual Type inferType(const Term* term) const;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_WEIGHTEDDEFUZZIFIER_H */

@@ -19,7 +19,7 @@
 
 #include "fuzzylite/defuzzifier/Defuzzifier.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The IntegralDefuzzifier class is the base class for defuzzifiers which
@@ -68,6 +68,6 @@ class FL_API IntegralDefuzzifier : public Defuzzifier {
    */
   static int defaultResolution();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* INTEGRALDEFUZZIFIER_H */

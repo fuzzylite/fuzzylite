@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string BoundedDifference::className() const {
   return "BoundedDifference";
@@ -40,4 +40,4 @@ TNorm* BoundedDifference::constructor() {
   return new BoundedDifference;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

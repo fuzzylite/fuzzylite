@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/SShape.h"
 
-namespace fl {
+namespace fuzzylite {
 
 SShape::SShape(const std::string& name, scalar start, scalar end, scalar height)
     : Term(name, height), _start(start), _end(end) {}
@@ -118,4 +118,4 @@ Term* SShape::constructor() {
   return new SShape;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

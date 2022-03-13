@@ -19,7 +19,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Ramp class is an edge Term that represents the ramp membership
@@ -130,5 +130,5 @@ class FL_API Ramp : public Term {
 
   static Term* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_RAMP_H */

@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string UnboundedSum::className() const {
   return "UnboundedSum";
@@ -40,4 +40,4 @@ SNorm* UnboundedSum::constructor() {
   return new UnboundedSum;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

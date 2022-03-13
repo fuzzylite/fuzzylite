@@ -17,7 +17,7 @@
 #include "fuzzylite/Headers.h"
 #include "test/catch.hpp"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
  * Tests: term/Function
@@ -62,4 +62,4 @@ TEST_CASE("Treshold can be assigned", "[activation][threshold]") {
   FL_DBG(FllExporter().toString(&clone));
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

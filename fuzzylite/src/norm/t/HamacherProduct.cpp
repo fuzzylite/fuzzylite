@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string HamacherProduct::className() const {
   return "HamacherProduct";
@@ -42,4 +42,4 @@ TNorm* HamacherProduct::constructor() {
   return new HamacherProduct;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

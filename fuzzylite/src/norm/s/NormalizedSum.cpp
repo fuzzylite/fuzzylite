@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string NormalizedSum::className() const {
   return "NormalizedSum";
@@ -40,4 +40,4 @@ SNorm* NormalizedSum::constructor() {
   return new NormalizedSum;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

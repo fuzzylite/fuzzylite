@@ -19,7 +19,7 @@
 
 #include "fuzzylite/norm/TNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The AlgebraicProduct class is a TNorm that computes the algebraic product
@@ -48,5 +48,5 @@ class FL_API AlgebraicProduct FL_IFINAL : public TNorm {
 
   static TNorm* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_ALGEBRAICPRODUCT_H */

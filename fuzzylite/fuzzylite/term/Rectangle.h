@@ -19,7 +19,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Rectangle class is a basic Term that represents the rectangle
@@ -98,5 +98,5 @@ class FL_API Rectangle : public Term {
 
   static Term* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_RECTANGLE_H */

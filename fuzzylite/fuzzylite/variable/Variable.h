@@ -23,7 +23,7 @@
 #include "fuzzylite/defuzzifier/Centroid.h"
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 
 class Term;
 
@@ -290,5 +290,5 @@ class FL_API Variable {
    */
   virtual Variable* clone() const;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_VARIABLE_H */

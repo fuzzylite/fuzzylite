@@ -19,7 +19,7 @@
 
 #include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The MeanOfMaximum class is an IntegralDefuzzifier that computes the mean
@@ -62,6 +62,6 @@ class FL_API MeanOfMaximum : public IntegralDefuzzifier {
 
   static Defuzzifier* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_MEANOFMAXIMUM_H */

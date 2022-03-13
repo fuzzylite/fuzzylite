@@ -20,7 +20,7 @@
 #include "fuzzylite/rule/Rule.h"
 #include "fuzzylite/rule/RuleBlock.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Last::Last(int numberOfRules, scalar threshold)
     : Activation(), _numberOfRules(numberOfRules), _threshold(threshold) {}
@@ -120,4 +120,4 @@ Activation* Last::constructor() {
   return new Last;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

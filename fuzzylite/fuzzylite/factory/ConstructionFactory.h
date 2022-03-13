@@ -23,7 +23,7 @@
 
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The ConstructionFactory class is the base class for a factory whose
@@ -105,7 +105,7 @@ class ConstructionFactory {
   virtual const std::map<std::string, Constructor>& constructors() const;
 };
 
-}  // namespace fl
+}  // namespace fuzzylite
 
 /**
  * Template implementation
@@ -118,7 +118,7 @@ class ConstructionFactory {
 #include "fuzzylite/norm/TNorm.h"
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 template <typename T>
 inline ConstructionFactory<T>::ConstructionFactory(const std::string& name)
@@ -207,6 +207,6 @@ inline const std::map<std::string,
 ConstructionFactory<T>::constructors() const {
   return this->_constructors;
 }
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_CONSTRUCTIONFACTORY_H */

@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/Trapezoid.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Trapezoid::Trapezoid(const std::string& name,
                      scalar vertexA,
@@ -138,4 +138,4 @@ Term* Trapezoid::constructor() {
   return new Trapezoid;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

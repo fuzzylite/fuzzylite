@@ -22,7 +22,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 class Engine;
 
@@ -400,5 +400,5 @@ class FL_API Function : public Term {
 
   static Term* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_FUNCTION_H */

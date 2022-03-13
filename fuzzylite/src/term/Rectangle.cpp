@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/Rectangle.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Rectangle::Rectangle(const std::string& name,
                      scalar start,
@@ -88,4 +88,4 @@ Term* Rectangle::constructor() {
   return new Rectangle;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

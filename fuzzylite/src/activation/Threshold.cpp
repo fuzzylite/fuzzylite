@@ -20,7 +20,7 @@
 #include "fuzzylite/rule/Rule.h"
 #include "fuzzylite/rule/RuleBlock.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Threshold::Threshold(Comparison comparison, scalar threshold)
     : Activation(), _comparison(comparison), _value(threshold) {}
@@ -191,4 +191,4 @@ Activation* Threshold::constructor() {
   return new Threshold;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

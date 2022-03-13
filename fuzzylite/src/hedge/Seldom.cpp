@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string Seldom::name() const {
   return "seldom";
@@ -41,4 +41,4 @@ Hedge* Seldom::constructor() {
   return new Seldom;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

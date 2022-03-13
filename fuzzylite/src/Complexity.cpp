@@ -22,7 +22,7 @@
 #include "fuzzylite/variable/InputVariable.h"
 #include "fuzzylite/variable/OutputVariable.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Complexity::Complexity(scalar all)
     : _comparison(all), _arithmetic(all), _function(all) {}
@@ -281,4 +281,4 @@ Complexity Complexity::compute(
   return result;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

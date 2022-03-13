@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/Discrete.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Discrete::Discrete(const std::string& name,
                    const std::vector<Pair>& xy,
@@ -249,4 +249,4 @@ Term* Discrete::constructor() {
   return new Discrete;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

@@ -21,7 +21,7 @@
 #include "fuzzylite/term/Term.h"
 #include "fuzzylite/variable/Variable.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Expression::Expression() {}
 
@@ -81,4 +81,4 @@ std::string Operator::toString() const {
   return name;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

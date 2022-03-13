@@ -19,7 +19,7 @@
 
 #include "fuzzylite/defuzzifier/WeightedDefuzzifier.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The WeightedSum class is a WeightedDefuzzifier that computes the
@@ -65,6 +65,6 @@ class FL_API WeightedSum : public WeightedDefuzzifier {
 
   static Defuzzifier* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_WEIGHTEDSUM_H */

@@ -24,7 +24,7 @@
 #include "fuzzylite/rule/Antecedent.h"
 #include "fuzzylite/rule/Consequent.h"
 
-namespace fl {
+namespace fuzzylite {
 class Engine;
 class Hedge;
 class TNorm;
@@ -299,6 +299,6 @@ class FL_API Rule {
                                 const SNorm* disjunction,
                                 const TNorm* implication) const;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_RULE_H */

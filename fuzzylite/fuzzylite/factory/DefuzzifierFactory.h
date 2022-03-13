@@ -22,7 +22,7 @@
 #include "fuzzylite/defuzzifier/WeightedDefuzzifier.h"
 #include "fuzzylite/factory/ConstructionFactory.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The DefuzzifierFactory class is a ConstructionFactory of Defuzzifier%s.
@@ -72,6 +72,6 @@ class FL_API DefuzzifierFactory : public ConstructionFactory<Defuzzifier*> {
   virtual Defuzzifier* constructDefuzzifier(const std::string& key,
                                             WeightedDefuzzifier::Type type);
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* DEFUZZIFIERFACTORY_H */

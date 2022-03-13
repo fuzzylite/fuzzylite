@@ -16,7 +16,7 @@
 
 #include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
 
-namespace fl {
+namespace fuzzylite {
 
 int IntegralDefuzzifier::_defaultResolution = 100;
 
@@ -41,4 +41,4 @@ int IntegralDefuzzifier::getResolution() const {
   return this->_resolution;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

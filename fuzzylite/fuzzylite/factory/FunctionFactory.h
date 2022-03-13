@@ -20,7 +20,7 @@
 #include "fuzzylite/factory/CloningFactory.h"
 #include "fuzzylite/term/Function.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The FunctionFactory class is a CloningFactory of operators and functions
@@ -54,6 +54,6 @@ class FL_API FunctionFactory : public CloningFactory<Function::Element*> {
    */
   virtual std::vector<std::string> availableFunctions() const;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_FUNCTIONFACTORY_H */
