@@ -22,55 +22,62 @@
 #include "fuzzylite/term/Function.h"
 #include "fuzzylite/term/Linear.h"
 #include "fuzzylite/term/Ramp.h"
-#include "fuzzylite/term/Sigmoid.h"
 #include "fuzzylite/term/SShape.h"
+#include "fuzzylite/term/Sigmoid.h"
 #include "fuzzylite/term/ZShape.h"
 
 namespace fl {
 
-    WeightedDefuzzifier::WeightedDefuzzifier(Type type) : _type(type) { }
+WeightedDefuzzifier::WeightedDefuzzifier(Type type) : _type(type) {}
 
-    WeightedDefuzzifier::WeightedDefuzzifier(const std::string& type) {
-        if (type == "Automatic") setType(Automatic);
-        else if (type == "TakagiSugeno") setType(TakagiSugeno);
-        else if (type == "Tsukamoto") setType(Tsukamoto);
-        else {
-            setType(Automatic);
-            FL_LOG("[warning] incorrect type <" + type + "> of WeightedDefuzzifier"
-                    + " has been defaulted to <Automatic>");
-        }
-    }
-
-    WeightedDefuzzifier::~WeightedDefuzzifier() { }
-
-    std::string WeightedDefuzzifier::typeName(Type type) {
-        switch (type) {
-            case Automatic: return "Automatic";
-            case TakagiSugeno: return "TakagiSugeno";
-            case Tsukamoto: return "Tsukamoto";
-            default: return "";
-        }
-    }
-
-    void WeightedDefuzzifier::setType(Type type) {
-        this->_type = type;
-    }
-
-    WeightedDefuzzifier::Type WeightedDefuzzifier::getType() const {
-        return this->_type;
-    }
-
-    std::string WeightedDefuzzifier::getTypeName() const {
-        return typeName(getType());
-    }
-
-    WeightedDefuzzifier::Type WeightedDefuzzifier::inferType(const Term* term) const {
-        if (dynamic_cast<const Constant*> (term)
-                or dynamic_cast<const Linear*> (term)
-                or dynamic_cast<const Function*> (term)) {
-            return TakagiSugeno;
-        }
-        return Tsukamoto;
-    }
-
+WeightedDefuzzifier::WeightedDefuzzifier(const std::string& type) {
+  if (type == "Automatic")
+    setType(Automatic);
+  else if (type == "TakagiSugeno")
+    setType(TakagiSugeno);
+  else if (type == "Tsukamoto")
+    setType(Tsukamoto);
+  else {
+    setType(Automatic);
+    FL_LOG("[warning] incorrect type <" + type + "> of WeightedDefuzzifier"
+           + " has been defaulted to <Automatic>");
+  }
 }
+
+WeightedDefuzzifier::~WeightedDefuzzifier() {}
+
+std::string WeightedDefuzzifier::typeName(Type type) {
+  switch (type) {
+    case Automatic:
+      return "Automatic";
+    case TakagiSugeno:
+      return "TakagiSugeno";
+    case Tsukamoto:
+      return "Tsukamoto";
+    default:
+      return "";
+  }
+}
+
+void WeightedDefuzzifier::setType(Type type) {
+  this->_type = type;
+}
+
+WeightedDefuzzifier::Type WeightedDefuzzifier::getType() const {
+  return this->_type;
+}
+
+std::string WeightedDefuzzifier::getTypeName() const {
+  return typeName(getType());
+}
+
+WeightedDefuzzifier::Type WeightedDefuzzifier::inferType(
+    const Term* term) const {
+  if (dynamic_cast<const Constant*>(term) or dynamic_cast<const Linear*>(term)
+      or dynamic_cast<const Function*>(term)) {
+    return TakagiSugeno;
+  }
+  return Tsukamoto;
+}
+
+}  // namespace fl

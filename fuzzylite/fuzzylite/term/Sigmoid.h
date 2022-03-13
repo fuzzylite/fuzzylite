@@ -21,100 +21,101 @@
 
 namespace fl {
 
-    /**
-      The Sigmoid class is an edge Term that represents the sigmoid membership
-      function.
+/**
+  The Sigmoid class is an edge Term that represents the sigmoid membership
+  function.
 
-      @image html sigmoid.svg
+  @image html sigmoid.svg
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see Term
-      @see Variable
-      @since 4.0
-     */
-    class FL_API Sigmoid : public Term {
-    private:
-        scalar _inflection;
-        scalar _slope;
-    public:
+  @author Juan Rada-Vilela, Ph.D.
+  @see Term
+  @see Variable
+  @since 4.0
+ */
+class FL_API Sigmoid : public Term {
+ private:
+  scalar _inflection;
+  scalar _slope;
 
-        /**
-          Direction is an enumerator that indicates the direction of the
-          sigmoid.
-         */
-        enum Direction {
-            /** `(_/)` increases to the right */ Positive,
-            /** `(--)` slope is zero */ Zero,
-            /** `(\\_)` increases to the left */ Negative
-        };
-        explicit Sigmoid(const std::string& name = "",
-                scalar inflection = fl::nan,
-                scalar slope = fl::nan,
-                scalar height = 1.0);
-        virtual ~Sigmoid() FL_IOVERRIDE;
-        FL_DEFAULT_COPY_AND_MOVE(Sigmoid)
+ public:
+  /**
+    Direction is an enumerator that indicates the direction of the
+    sigmoid.
+   */
+  enum Direction {
+    /** `(_/)` increases to the right */ Positive,
+    /** `(--)` slope is zero */ Zero,
+    /** `(\\_)` increases to the left */ Negative
+  };
+  explicit Sigmoid(const std::string& name = "",
+                   scalar inflection = fl::nan,
+                   scalar slope = fl::nan,
+                   scalar height = 1.0);
+  virtual ~Sigmoid() FL_IOVERRIDE;
+  FL_DEFAULT_COPY_AND_MOVE(Sigmoid)
 
-        virtual std::string className() const FL_IOVERRIDE;
-        /**
-          Returns the parameters of the term
-          @return `"inflection slope [height]"`
-         */
-        virtual std::string parameters() const FL_IOVERRIDE;
-        /**
-          Configures the term with the parameters
-          @param parameters as `"inflection slope [height]"`
-         */
-        virtual void configure(const std::string& parameters) FL_IOVERRIDE;
+  virtual std::string className() const FL_IOVERRIDE;
+  /**
+    Returns the parameters of the term
+    @return `"inflection slope [height]"`
+   */
+  virtual std::string parameters() const FL_IOVERRIDE;
+  /**
+    Configures the term with the parameters
+    @param parameters as `"inflection slope [height]"`
+   */
+  virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        virtual Complexity complexity() const FL_IOVERRIDE;
+  virtual Complexity complexity() const FL_IOVERRIDE;
 
-        /**
-          Computes the membership function evaluated at @f$x@f$
-          @param x
-          @return @f$ h / (1 + \exp(-s(x-i)))@f$
+  /**
+    Computes the membership function evaluated at @f$x@f$
+    @param x
+    @return @f$ h / (1 + \exp(-s(x-i)))@f$
 
-          where @f$h@f$ is the height of the Term,
-                @f$s@f$ is the slope of the Sigmoid,
-                @f$i@f$ is the inflection of the Sigmoid
-         */
-        virtual scalar membership(scalar x) const FL_IOVERRIDE;
+    where @f$h@f$ is the height of the Term,
+          @f$s@f$ is the slope of the Sigmoid,
+          @f$i@f$ is the inflection of the Sigmoid
+   */
+  virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
-        virtual scalar tsukamoto(scalar activationDegree,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+  virtual scalar tsukamoto(scalar activationDegree,
+                           scalar minimum,
+                           scalar maximum) const FL_IOVERRIDE;
 
-        virtual bool isMonotonic() const FL_IOVERRIDE;
-        
-        /**
-          Sets the inflection of the sigmoid
-          @param inflection is the inflection of the sigmoid
-         */
-        virtual void setInflection(scalar inflection);
-        /**
-          Gets the inflection of the sigmoid
-          @return the inflection of the sigmoid
-         */
-        virtual scalar getInflection() const;
+  virtual bool isMonotonic() const FL_IOVERRIDE;
 
-        /**
-          Sets the slope of the sigmoid
-          @param slope is the slope of the sigmoid
-         */
-        virtual void setSlope(scalar slope);
-        /**
-          Gets the slope of the sigmoid
-          @return the slope of the sigmoid
-         */
-        virtual scalar getSlope() const;
+  /**
+    Sets the inflection of the sigmoid
+    @param inflection is the inflection of the sigmoid
+   */
+  virtual void setInflection(scalar inflection);
+  /**
+    Gets the inflection of the sigmoid
+    @return the inflection of the sigmoid
+   */
+  virtual scalar getInflection() const;
 
-        /**
-          Returns the direction of the sigmoid
-          @return the direction of the sigmoid
-         */
-        virtual Direction direction() const;
+  /**
+    Sets the slope of the sigmoid
+    @param slope is the slope of the sigmoid
+   */
+  virtual void setSlope(scalar slope);
+  /**
+    Gets the slope of the sigmoid
+    @return the slope of the sigmoid
+   */
+  virtual scalar getSlope() const;
 
-        virtual Sigmoid* clone() const FL_IOVERRIDE;
+  /**
+    Returns the direction of the sigmoid
+    @return the direction of the sigmoid
+   */
+  virtual Direction direction() const;
 
-        static Term* constructor();
-    };
-}
+  virtual Sigmoid* clone() const FL_IOVERRIDE;
+
+  static Term* constructor();
+};
+}  // namespace fl
 #endif /* FL_SIGMOID_H */

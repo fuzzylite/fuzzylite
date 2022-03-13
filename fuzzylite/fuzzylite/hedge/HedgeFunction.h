@@ -18,65 +18,64 @@
 #define FL_HEDGEFUNCTION_H
 
 #include "fuzzylite/hedge/Hedge.h"
-
 #include "fuzzylite/term/Function.h"
 
 namespace fl {
 
-    /**
-     The HedgeFunction class is a customizable Hedge via Function, which
-     computes any function based on the @f$x@f$ value. This hedge is not
-     registered with the HedgeFactory due to issues configuring the formula
-     within. To register the hedge, a static method with the
-     constructor needs to be manually created and registered. Please, check the
-     file `test/hedge/HedgeFunction.cpp` for further details.
+/**
+ The HedgeFunction class is a customizable Hedge via Function, which
+ computes any function based on the @f$x@f$ value. This hedge is not
+ registered with the HedgeFactory due to issues configuring the formula
+ within. To register the hedge, a static method with the
+ constructor needs to be manually created and registered. Please, check the
+ file `test/hedge/HedgeFunction.cpp` for further details.
 
-     @author Juan Rada-Vilela, Ph.D.
-     @see Function
-     @see Hedge
-     @see HedgeFactory
-     @since 6.0
-     */
+ @author Juan Rada-Vilela, Ph.D.
+ @see Function
+ @see Hedge
+ @see HedgeFactory
+ @since 6.0
+ */
 
-    class FL_API HedgeFunction FL_IFINAL : public Hedge {
-    private:
-        Function _function;
-    public:
-        explicit HedgeFunction(const std::string& formula = "");
+class FL_API HedgeFunction FL_IFINAL : public Hedge {
+ private:
+  Function _function;
 
-        std::string name() const FL_IOVERRIDE;
+ public:
+  explicit HedgeFunction(const std::string& formula = "");
 
-        /**
-          Returns the reference to the Function
-          @return the reference to the Function
-         */
-        Function& function();
+  std::string name() const FL_IOVERRIDE;
 
-        /**
-          Loads the function with the given formula
-          @param formula is a valid formula in infix notation
-         */
-        void setFormula(const std::string& formula);
-        /**
-          Returns the formula loaded into the function
-          @return the formula loaded into the function
-         */
-        std::string getFormula() const;
+  /**
+    Returns the reference to the Function
+    @return the reference to the Function
+   */
+  Function& function();
 
-        Complexity complexity() const FL_IOVERRIDE;
+  /**
+    Loads the function with the given formula
+    @param formula is a valid formula in infix notation
+   */
+  void setFormula(const std::string& formula);
+  /**
+    Returns the formula loaded into the function
+    @return the formula loaded into the function
+   */
+  std::string getFormula() const;
 
-        /**
-          Computes the hedge for the membership function value @f$x@f$ utilizing
-          the given function via HedgeFunction::setFormula()
-          @param x is a membership function value
-          @return the evaluation of the function
-         */
-        scalar hedge(scalar x) const FL_IOVERRIDE;
-        HedgeFunction* clone() const FL_IOVERRIDE;
+  Complexity complexity() const FL_IOVERRIDE;
 
-        static Hedge* constructor();
-    };
-}
+  /**
+    Computes the hedge for the membership function value @f$x@f$ utilizing
+    the given function via HedgeFunction::setFormula()
+    @param x is a membership function value
+    @return the evaluation of the function
+   */
+  scalar hedge(scalar x) const FL_IOVERRIDE;
+  HedgeFunction* clone() const FL_IOVERRIDE;
+
+  static Hedge* constructor();
+};
+}  // namespace fl
 
 #endif /* FL_HEDGEFUNCTION_H */
-

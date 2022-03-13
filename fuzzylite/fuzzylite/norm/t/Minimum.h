@@ -21,31 +21,31 @@
 
 namespace fl {
 
-    /**
-      The Minimum class is a TNorm that computes the minimum of any two values.
+/**
+  The Minimum class is a TNorm that computes the minimum of any two values.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see Maximum
-      @see TNorm
-      @see TNormFactory
-      @see Norm
-      @since 4.0
-     */
-    class FL_API Minimum FL_IFINAL : public TNorm {
-    public:
-        std::string className() const FL_IOVERRIDE;
+  @author Juan Rada-Vilela, Ph.D.
+  @see Maximum
+  @see TNorm
+  @see TNormFactory
+  @see Norm
+  @since 4.0
+ */
+class FL_API Minimum FL_IFINAL : public TNorm {
+ public:
+  std::string className() const FL_IOVERRIDE;
 
-        Complexity complexity() const FL_IOVERRIDE;
-        /**
-          Computes the minimum of two membership function values
-          @param a is a membership function value
-          @param b is a membership function value
-          @return @f$\min(a,b)@f$
-         */
-        scalar compute(scalar a, scalar b) const FL_IOVERRIDE;
-        Minimum* clone() const FL_IOVERRIDE;
+  Complexity complexity() const FL_IOVERRIDE;
+  /**
+    Computes the minimum of two membership function values
+    @param a is a membership function value
+    @param b is a membership function value
+    @return @f$\min(a,b)@f$
+   */
+  scalar compute(scalar a, scalar b) const FL_IOVERRIDE;
+  Minimum* clone() const FL_IOVERRIDE;
 
-        static TNorm* constructor();
-    };
-}
-#endif  /* FL_MINIMUM_H */
+  static TNorm* constructor();
+};
+}  // namespace fl
+#endif /* FL_MINIMUM_H */

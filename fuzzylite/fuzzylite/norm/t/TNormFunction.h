@@ -18,64 +18,63 @@
 #define FL_TNORMFUNCTION_H
 
 #include "fuzzylite/norm/TNorm.h"
-
 #include "fuzzylite/term/Function.h"
 
 namespace fl {
 
-    /**
-     The TNormFunction class is a customizable TNorm via Function, which
-     computes any function based on the @f$a@f$ and @f$b@f$ values.
-     This TNorm is not registered with the TNormFactory.
+/**
+ The TNormFunction class is a customizable TNorm via Function, which
+ computes any function based on the @f$a@f$ and @f$b@f$ values.
+ This TNorm is not registered with the TNormFactory.
 
-     @author Juan Rada-Vilela, Ph.D.
-     @see Function
-     @see TNorm
-     @see Norm
-     @see TNormFactory
-     @since 6.0
-     */
+ @author Juan Rada-Vilela, Ph.D.
+ @see Function
+ @see TNorm
+ @see Norm
+ @see TNormFactory
+ @since 6.0
+ */
 
-    class FL_API TNormFunction FL_IFINAL : public TNorm {
-    private:
-        Function _function;
-    public:
-        explicit TNormFunction(const std::string& formula = "");
+class FL_API TNormFunction FL_IFINAL : public TNorm {
+ private:
+  Function _function;
 
-        /**
-          Returns the reference to the Function
-          @return the reference to the Function
-         */
-        Function& function();
+ public:
+  explicit TNormFunction(const std::string& formula = "");
 
-        /**
-          Loads the function with the given formula
-          @param formula is a valid formula in infix notation
-         */
-        void setFormula(const std::string& formula);
-        /**
-          Returns the formula loaded into the function
-          @return the formula loaded into the function
-         */
-        std::string getFormula() const;
+  /**
+    Returns the reference to the Function
+    @return the reference to the Function
+   */
+  Function& function();
 
-        std::string className() const FL_IOVERRIDE;
+  /**
+    Loads the function with the given formula
+    @param formula is a valid formula in infix notation
+   */
+  void setFormula(const std::string& formula);
+  /**
+    Returns the formula loaded into the function
+    @return the formula loaded into the function
+   */
+  std::string getFormula() const;
 
-        Complexity complexity() const FL_IOVERRIDE;
-        /**
-          Computes the S-Norm utilizing the given function via
-          SNormFunction::setFormula(), which automatically assigns the values
-          of @f$a@f$ and @f$b@f$.
+  std::string className() const FL_IOVERRIDE;
 
-          @param a is a membership function value
-          @param b is a membership function value
-          @return the evaluation of the function
-         */
-        scalar compute(scalar a, scalar b) const FL_IOVERRIDE;
-        TNormFunction* clone() const FL_IOVERRIDE;
+  Complexity complexity() const FL_IOVERRIDE;
+  /**
+    Computes the S-Norm utilizing the given function via
+    SNormFunction::setFormula(), which automatically assigns the values
+    of @f$a@f$ and @f$b@f$.
 
-        static TNorm* constructor();
-    };
-}
+    @param a is a membership function value
+    @param b is a membership function value
+    @return the evaluation of the function
+   */
+  scalar compute(scalar a, scalar b) const FL_IOVERRIDE;
+  TNormFunction* clone() const FL_IOVERRIDE;
+
+  static TNorm* constructor();
+};
+}  // namespace fl
 #endif /* FL_TNORMFUNCTION_H */
-

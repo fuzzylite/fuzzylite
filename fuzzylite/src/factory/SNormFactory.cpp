@@ -28,19 +28,21 @@
 
 namespace fl {
 
-    SNormFactory::SNormFactory() : ConstructionFactory<SNorm*>("SNorm") {
-        registerConstructor("", fl::null);
-        registerConstructor(AlgebraicSum().className(), &(AlgebraicSum::constructor));
-        registerConstructor(BoundedSum().className(), &(BoundedSum::constructor));
-        registerConstructor(DrasticSum().className(), &(DrasticSum::constructor));
-        registerConstructor(EinsteinSum().className(), &(EinsteinSum::constructor));
-        registerConstructor(HamacherSum().className(), &(HamacherSum::constructor));
-        registerConstructor(Maximum().className(), &(Maximum::constructor));
-        registerConstructor(NilpotentMaximum().className(), &(NilpotentMaximum::constructor));
-        registerConstructor(NormalizedSum().className(), &(NormalizedSum::constructor));
-        registerConstructor(UnboundedSum().className(), &(UnboundedSum::constructor));
-    }
-
-    SNormFactory::~SNormFactory() { }
-
+SNormFactory::SNormFactory() : ConstructionFactory<SNorm*>("SNorm") {
+  registerConstructor("", fl::null);
+  registerConstructor(AlgebraicSum().className(), &(AlgebraicSum::constructor));
+  registerConstructor(BoundedSum().className(), &(BoundedSum::constructor));
+  registerConstructor(DrasticSum().className(), &(DrasticSum::constructor));
+  registerConstructor(EinsteinSum().className(), &(EinsteinSum::constructor));
+  registerConstructor(HamacherSum().className(), &(HamacherSum::constructor));
+  registerConstructor(Maximum().className(), &(Maximum::constructor));
+  registerConstructor(NilpotentMaximum().className(),
+                      &(NilpotentMaximum::constructor));
+  registerConstructor(NormalizedSum().className(),
+                      &(NormalizedSum::constructor));
+  registerConstructor(UnboundedSum().className(), &(UnboundedSum::constructor));
 }
+
+SNormFactory::~SNormFactory() {}
+
+}  // namespace fl

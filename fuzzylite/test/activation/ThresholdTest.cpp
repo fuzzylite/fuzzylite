@@ -14,52 +14,52 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "test/catch.hpp"
 #include "fuzzylite/Headers.h"
+#include "test/catch.hpp"
 
 namespace fl {
 
-    /**
-     * Tests: term/Function
-     *
-     * @author Juan Rada-Vilela, Ph.D.
-     *
-     */
+/**
+ * Tests: term/Function
+ *
+ * @author Juan Rada-Vilela, Ph.D.
+ *
+ */
 
-    TEST_CASE("Treshold can be clone ", "[activation][threshold]") {
-        Threshold* t = new Threshold("<", 1.0);
-        REQUIRE(t->getComparison() == Threshold::LessThan);
-        REQUIRE(Op::isEq(t->getValue(), 1.0));
-        FL_DBG(FllExporter().toString(t));
+TEST_CASE("Treshold can be clone ", "[activation][threshold]") {
+  Threshold* t = new Threshold("<", 1.0);
+  REQUIRE(t->getComparison() == Threshold::LessThan);
+  REQUIRE(Op::isEq(t->getValue(), 1.0));
+  FL_DBG(FllExporter().toString(t));
 
-        Threshold* clone = t->clone();
-        REQUIRE(clone->getComparison() == Threshold::LessThan);
-        REQUIRE(Op::isEq(clone->getValue(), 1.0));
-        FL_DBG(FllExporter().toString(clone));
-    }
-
-    TEST_CASE("Treshold can be copy-constructed", "[activation][threshold]") {
-        Threshold* t = new Threshold(">=", 1.0);
-        REQUIRE(t->getComparison() == Threshold::GreaterThanOrEqualTo);
-        REQUIRE(Op::isEq(t->getValue(), 1.0));
-        FL_DBG(FllExporter().toString(t));
-
-        Threshold clone(*t);
-        REQUIRE(clone.getComparison() == Threshold::GreaterThanOrEqualTo);
-        REQUIRE(Op::isEq(clone.getValue(), 1.0));
-        FL_DBG(FllExporter().toString(&clone));
-    }
-
-    TEST_CASE("Treshold can be assigned", "[activation][threshold]") {
-        Threshold* t = new Threshold(">=", 1.0);
-        REQUIRE(t->getComparison() == Threshold::GreaterThanOrEqualTo);
-        REQUIRE(Op::isEq(t->getValue(), 1.0));
-        FL_DBG(FllExporter().toString(t));
-
-        Threshold clone = *t;
-        REQUIRE(clone.getComparison() == Threshold::GreaterThanOrEqualTo);
-        REQUIRE(Op::isEq(clone.getValue(), 1.0));
-        FL_DBG(FllExporter().toString(&clone));
-    }
-
+  Threshold* clone = t->clone();
+  REQUIRE(clone->getComparison() == Threshold::LessThan);
+  REQUIRE(Op::isEq(clone->getValue(), 1.0));
+  FL_DBG(FllExporter().toString(clone));
 }
+
+TEST_CASE("Treshold can be copy-constructed", "[activation][threshold]") {
+  Threshold* t = new Threshold(">=", 1.0);
+  REQUIRE(t->getComparison() == Threshold::GreaterThanOrEqualTo);
+  REQUIRE(Op::isEq(t->getValue(), 1.0));
+  FL_DBG(FllExporter().toString(t));
+
+  Threshold clone(*t);
+  REQUIRE(clone.getComparison() == Threshold::GreaterThanOrEqualTo);
+  REQUIRE(Op::isEq(clone.getValue(), 1.0));
+  FL_DBG(FllExporter().toString(&clone));
+}
+
+TEST_CASE("Treshold can be assigned", "[activation][threshold]") {
+  Threshold* t = new Threshold(">=", 1.0);
+  REQUIRE(t->getComparison() == Threshold::GreaterThanOrEqualTo);
+  REQUIRE(Op::isEq(t->getValue(), 1.0));
+  FL_DBG(FllExporter().toString(t));
+
+  Threshold clone = *t;
+  REQUIRE(clone.getComparison() == Threshold::GreaterThanOrEqualTo);
+  REQUIRE(Op::isEq(clone.getValue(), 1.0));
+  FL_DBG(FllExporter().toString(&clone));
+}
+
+}  // namespace fl

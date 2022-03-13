@@ -21,32 +21,32 @@
 
 namespace fl {
 
-    /**
-      The NormalizedSum class is an SNorm that computes the normalized sum of
-      any two values.
+/**
+  The NormalizedSum class is an SNorm that computes the normalized sum of
+  any two values.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see SNorm
-      @see SNormFactory
-      @see Norm
-      @since 4.0
-     */
-    class FL_API NormalizedSum FL_IFINAL : public SNorm {
-    public:
-        std::string className() const FL_IOVERRIDE;
+  @author Juan Rada-Vilela, Ph.D.
+  @see SNorm
+  @see SNormFactory
+  @see Norm
+  @since 4.0
+ */
+class FL_API NormalizedSum FL_IFINAL : public SNorm {
+ public:
+  std::string className() const FL_IOVERRIDE;
 
-        Complexity complexity() const FL_IOVERRIDE;
-        /**
-          Computes the normalized sum of two membership function values
-          @param a is a membership function value
-          @param b is a membership function value
-          @return @f$(a+b)/\max(1, a + b)@f$
-         */
-        scalar compute(scalar a, scalar b) const FL_IOVERRIDE;
-        NormalizedSum* clone() const FL_IOVERRIDE;
+  Complexity complexity() const FL_IOVERRIDE;
+  /**
+    Computes the normalized sum of two membership function values
+    @param a is a membership function value
+    @param b is a membership function value
+    @return @f$(a+b)/\max(1, a + b)@f$
+   */
+  scalar compute(scalar a, scalar b) const FL_IOVERRIDE;
+  NormalizedSum* clone() const FL_IOVERRIDE;
 
-        static SNorm* constructor();
-    };
-}
+  static SNorm* constructor();
+};
+}  // namespace fl
 
-#endif  /* FL_NORMALIZEDSUM_H */
+#endif /* FL_NORMALIZEDSUM_H */

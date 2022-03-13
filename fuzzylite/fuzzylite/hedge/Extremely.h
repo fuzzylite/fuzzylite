@@ -21,35 +21,35 @@
 
 namespace fl {
 
-    /**
-      The Extremely class is a Hedge located fifth in the ordered set
-      (Not, Seldom, Somewhat, Very, Extremely, Any).
+/**
+  The Extremely class is a Hedge located fifth in the ordered set
+  (Not, Seldom, Somewhat, Very, Extremely, Any).
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see Hedge
-      @see HedgeFactory
-      @since 4.0
-     */
-    class FL_API Extremely FL_IFINAL : public Hedge {
-    public:
-        std::string name() const FL_IOVERRIDE;
+  @author Juan Rada-Vilela, Ph.D.
+  @see Hedge
+  @see HedgeFactory
+  @since 4.0
+ */
+class FL_API Extremely FL_IFINAL : public Hedge {
+ public:
+  std::string name() const FL_IOVERRIDE;
 
-        Complexity complexity() const FL_IOVERRIDE;
+  Complexity complexity() const FL_IOVERRIDE;
 
-        /**
-          Computes the hedge for the membership function value @f$x@f$
-          @param x is a membership function value
-          @return @f$
-          \begin{cases}
-          2x^2 & \mbox{if $x \le 0.5$} \cr
-          1-2(1-x)^2 & \mbox{otherwise} \cr
-          \end{cases}@f$
-         */
-        scalar hedge(scalar x) const FL_IOVERRIDE;
-        Extremely* clone() const FL_IOVERRIDE;
+  /**
+    Computes the hedge for the membership function value @f$x@f$
+    @param x is a membership function value
+    @return @f$
+    \begin{cases}
+    2x^2 & \mbox{if $x \le 0.5$} \cr
+    1-2(1-x)^2 & \mbox{otherwise} \cr
+    \end{cases}@f$
+   */
+  scalar hedge(scalar x) const FL_IOVERRIDE;
+  Extremely* clone() const FL_IOVERRIDE;
 
-        static Hedge* constructor();
-    };
-}
+  static Hedge* constructor();
+};
+}  // namespace fl
 
 #endif /* FL_EXTREMELY_H */

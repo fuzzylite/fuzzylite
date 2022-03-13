@@ -21,30 +21,30 @@
 
 namespace fl {
 
-    /**
-      The Very class is a Hedge located fourth in the ordered set
-      (Not, Seldom, Somewhat, Very, Extremely, Any).
+/**
+  The Very class is a Hedge located fourth in the ordered set
+  (Not, Seldom, Somewhat, Very, Extremely, Any).
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see Hedge
-      @see HedgeFactory
-      @since 4.0
-     */
-    class FL_API Very FL_IFINAL : public Hedge {
-    public:
-        std::string name() const FL_IOVERRIDE;
+  @author Juan Rada-Vilela, Ph.D.
+  @see Hedge
+  @see HedgeFactory
+  @since 4.0
+ */
+class FL_API Very FL_IFINAL : public Hedge {
+ public:
+  std::string name() const FL_IOVERRIDE;
 
-        Complexity complexity() const FL_IOVERRIDE;
+  Complexity complexity() const FL_IOVERRIDE;
 
-        /**
-          Computes the hedge for the membership function value @f$x@f$
-          @param x is a membership function value
-          @return @f$x^2@f$
-         */
-        scalar hedge(scalar x) const FL_IOVERRIDE;
-        Very* clone() const FL_IOVERRIDE;
+  /**
+    Computes the hedge for the membership function value @f$x@f$
+    @param x is a membership function value
+    @return @f$x^2@f$
+   */
+  scalar hedge(scalar x) const FL_IOVERRIDE;
+  Very* clone() const FL_IOVERRIDE;
 
-        static Hedge* constructor();
-    };
-}
+  static Hedge* constructor();
+};
+}  // namespace fl
 #endif /* FL_VERY_H */

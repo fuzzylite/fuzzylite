@@ -21,31 +21,31 @@
 
 namespace fl {
 
-    /**
-      The Not class is a Hedge located first in the ordered set
-      (Not, Seldom, Somewhat, Very, Extremely, Any).
+/**
+  The Not class is a Hedge located first in the ordered set
+  (Not, Seldom, Somewhat, Very, Extremely, Any).
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see Hedge
-      @see HedgeFactory
-      @since 4.0
-     */
-    class FL_API Not FL_IFINAL : public Hedge {
-    public:
-        std::string name() const FL_IOVERRIDE;
+  @author Juan Rada-Vilela, Ph.D.
+  @see Hedge
+  @see HedgeFactory
+  @since 4.0
+ */
+class FL_API Not FL_IFINAL : public Hedge {
+ public:
+  std::string name() const FL_IOVERRIDE;
 
-        Complexity complexity() const FL_IOVERRIDE;
+  Complexity complexity() const FL_IOVERRIDE;
 
-        /**
-          Computes the hedge for the membership function value @f$x@f$
-          @param x is a membership function value
-          @return @f$1-x@f$
-         */
-        scalar hedge(scalar x) const FL_IOVERRIDE;
-        Not* clone() const FL_IOVERRIDE;
+  /**
+    Computes the hedge for the membership function value @f$x@f$
+    @param x is a membership function value
+    @return @f$1-x@f$
+   */
+  scalar hedge(scalar x) const FL_IOVERRIDE;
+  Not* clone() const FL_IOVERRIDE;
 
-        static Hedge* constructor();
-    };
-}
+  static Hedge* constructor();
+};
+}  // namespace fl
 
 #endif /* FL_NOT_H */

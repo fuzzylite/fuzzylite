@@ -17,49 +17,51 @@
 #include "fuzzylite/term/Term.h"
 
 #include "fuzzylite/imex/FllExporter.h"
-#include "fuzzylite/term/Linear.h"
 #include "fuzzylite/term/Function.h"
+#include "fuzzylite/term/Linear.h"
 
 namespace fl {
 
-    Term::Term(const std::string& name, scalar height) : _name(name), _height(height) { }
+Term::Term(const std::string& name, scalar height)
+    : _name(name), _height(height) {}
 
-    Term::~Term() { }
+Term::~Term() {}
 
-    void Term::setName(const std::string& name) {
-        this->_name = name;
-    }
-
-    std::string Term::getName() const {
-        return this->_name;
-    }
-
-    void Term::setHeight(scalar height) {
-        this->_height = height;
-    }
-
-    scalar Term::getHeight() const {
-        return this->_height;
-    }
-
-    std::string Term::toString() const {
-        return FllExporter().toString(this);
-    }
-
-    void Term::updateReference(const Engine* engine) {
-        FL_IUNUSED(engine);
-        //do nothing
-    }
-
-    scalar Term::tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const {
-        FL_IUNUSED(minimum);
-        FL_IUNUSED(maximum);
-        return membership(activationDegree);
-    }
-
-    bool Term::isMonotonic() const {
-        return false;
-    }
-
-
+void Term::setName(const std::string& name) {
+  this->_name = name;
 }
+
+std::string Term::getName() const {
+  return this->_name;
+}
+
+void Term::setHeight(scalar height) {
+  this->_height = height;
+}
+
+scalar Term::getHeight() const {
+  return this->_height;
+}
+
+std::string Term::toString() const {
+  return FllExporter().toString(this);
+}
+
+void Term::updateReference(const Engine* engine) {
+  FL_IUNUSED(engine);
+  // do nothing
+}
+
+scalar Term::tsukamoto(scalar activationDegree,
+                       scalar minimum,
+                       scalar maximum) const {
+  FL_IUNUSED(minimum);
+  FL_IUNUSED(maximum);
+  return membership(activationDegree);
+}
+
+bool Term::isMonotonic() const {
+  return false;
+}
+
+}  // namespace fl

@@ -18,24 +18,24 @@
 
 namespace fl {
 
-    std::string Not::name() const {
-        return "not";
-    }
-
-    Complexity Not::complexity() const {
-        return Complexity().arithmetic(1);
-    }
-
-    scalar Not::hedge(scalar x) const {
-        return 1.0 - x;
-    }
-
-    Not* Not::clone() const {
-        return new Not(*this);
-    }
-
-    Hedge* Not::constructor() {
-        return new Not;
-    }
-
+std::string Not::name() const {
+  return "not";
 }
+
+Complexity Not::complexity() const {
+  return Complexity().arithmetic(1);
+}
+
+scalar Not::hedge(scalar x) const {
+  return 1.0 - x;
+}
+
+Not* Not::clone() const {
+  return new Not(*this);
+}
+
+Hedge* Not::constructor() {
+  return new Not;
+}
+
+}  // namespace fl

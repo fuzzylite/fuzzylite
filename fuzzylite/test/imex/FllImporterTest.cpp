@@ -14,17 +14,17 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "test/catch.hpp"
 #include "fuzzylite/Headers.h"
+#include "test/catch.hpp"
 
 namespace fl {
 
-    TEST_CASE("Template of FuzzyLite Language works", "[imex]") {
-        std::string fllTemplate;
+TEST_CASE("Template of FuzzyLite Language works", "[imex]") {
+  std::string fllTemplate;
 #ifdef FL_CPP98
-        //ignore
+  // ignore
 #else
-        fllTemplate = R""(
+  fllTemplate = R""(
 #Template: FuzzyLite Language (FLL)
 #Engine: string
 #InputVariable: identifier
@@ -48,9 +48,9 @@ namespace fl {
 #  rule: if antecedent then consequent with weight
 )"";
 #endif
-        FL_unique_ptr<Engine> engine(FllImporter().fromString(fllTemplate));
-        Engine empty;
-        CHECK(FllExporter().toString(engine.get()) == FllExporter().toString(&empty));
-    }
-
+  FL_unique_ptr<Engine> engine(FllImporter().fromString(fllTemplate));
+  Engine empty;
+  CHECK(FllExporter().toString(engine.get()) == FllExporter().toString(&empty));
 }
+
+}  // namespace fl

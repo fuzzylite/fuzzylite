@@ -20,25 +20,27 @@
 
 namespace fl {
 
-    InputVariable::InputVariable(const std::string& name, scalar minimum, scalar maximum)
-    : Variable(name, minimum, maximum) { }
+InputVariable::InputVariable(const std::string& name,
+                             scalar minimum,
+                             scalar maximum)
+    : Variable(name, minimum, maximum) {}
 
-    InputVariable::~InputVariable() { }
+InputVariable::~InputVariable() {}
 
-    std::string InputVariable::fuzzyInputValue() const {
-        return fuzzify(getValue());
-    }
-
-    Variable::Type InputVariable::type() const {
-        return Variable::Input;
-    }
-
-    std::string InputVariable::toString() const {
-        return FllExporter().toString(this);
-    }
-
-    InputVariable* InputVariable::clone() const {
-        return new InputVariable(*this);
-    }
-
+std::string InputVariable::fuzzyInputValue() const {
+  return fuzzify(getValue());
 }
+
+Variable::Type InputVariable::type() const {
+  return Variable::Input;
+}
+
+std::string InputVariable::toString() const {
+  return FllExporter().toString(this);
+}
+
+InputVariable* InputVariable::clone() const {
+  return new InputVariable(*this);
+}
+
+}  // namespace fl

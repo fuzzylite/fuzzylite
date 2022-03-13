@@ -13,22 +13,20 @@
 
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
- 
+
 #define CATCH_CONFIG_RUNNER
 
+#include "fuzzylite/Headers.h"
 #include "test/catch.hpp"
 
-#include "fuzzylite/Headers.h"
-
 int main(int argc, char** argv) {
+  // global setup...
+  fl::fuzzylite::setDebugging(false);
+  fl::fuzzylite::setLogging(true);
 
-    // global setup...
-    fl::fuzzylite::setDebugging(false);
-    fl::fuzzylite::setLogging(true);
+  int result = Catch::Session().run(argc, argv);
 
-    int result = Catch::Session().run(argc, argv);
+  // global clean-up...
 
-    // global clean-up...
-
-    return result;
+  return result;
 }

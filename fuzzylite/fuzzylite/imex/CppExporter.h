@@ -20,142 +20,163 @@
 #include "fuzzylite/imex/Exporter.h"
 
 namespace fl {
-    class Engine;
-    class InputVariable;
-    class OutputVariable;
-    class Term;
-    class RuleBlock;
-    class Norm;
-    class Defuzzifier;
-    class Hedge;
-    class Activation;
+class Engine;
+class InputVariable;
+class OutputVariable;
+class Term;
+class RuleBlock;
+class Norm;
+class Defuzzifier;
+class Hedge;
+class Activation;
 
-    /**
-      The CppExporter class is an Exporter that translates an Engine and its
-      components to the `C++` programming language using the `fuzzylite`
-      library.
+/**
+  The CppExporter class is an Exporter that translates an Engine and its
+  components to the `C++` programming language using the `fuzzylite`
+  library.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see JavaExporter
-      @see Exporter
-      @since 4.0
-     */
-    class FL_API CppExporter : public Exporter {
-    private:
-        bool _usingNamespace;
-        bool _usingVariableNames;
-    public:
-        explicit CppExporter(bool usingNamespace = false, bool usingVariableNames = true);
-        virtual ~CppExporter() FL_IOVERRIDE;
-        FL_DEFAULT_COPY_AND_MOVE(CppExporter)
+  @author Juan Rada-Vilela, Ph.D.
+  @see JavaExporter
+  @see Exporter
+  @since 4.0
+ */
+class FL_API CppExporter : public Exporter {
+ private:
+  bool _usingNamespace;
+  bool _usingVariableNames;
 
-        virtual std::string name() const FL_IOVERRIDE;
-        virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
+ public:
+  explicit CppExporter(bool usingNamespace = false,
+                       bool usingVariableNames = true);
+  virtual ~CppExporter() FL_IOVERRIDE;
+  FL_DEFAULT_COPY_AND_MOVE(CppExporter)
 
-        /**
-          Sets whether the fl namespace of the library is prepended to types
-          (e.g., fl::Engine)
+  virtual std::string name() const FL_IOVERRIDE;
+  virtual std::string toString(const Engine* engine) const FL_IOVERRIDE;
 
-          @param usingNamespace whether the fl namespace of the library is
-          prepended to types (e.g., fl::Engine)
-         */
-        virtual void setUsingNamespace(bool usingNamespace);
-        /**
-          Gets whether the fl namespace of the library is prepended to types
-          (e.g., fl::Engine)
-          @return whether the fl namespace of the library is prepended to types
-         */
-        virtual bool isUsingNamespace() const;
+  /**
+    Sets whether the fl namespace of the library is prepended to types
+    (e.g., fl::Engine)
 
-        /**
-          Returns the given text prepended with the `fl` namespace if
-          CppExporter::isUsingNamespace is `true`, or the text otherwise
+    @param usingNamespace whether the fl namespace of the library is
+    prepended to types (e.g., fl::Engine)
+   */
+  virtual void setUsingNamespace(bool usingNamespace);
+  /**
+    Gets whether the fl namespace of the library is prepended to types
+    (e.g., fl::Engine)
+    @return whether the fl namespace of the library is prepended to types
+   */
+  virtual bool isUsingNamespace() const;
 
-          @param clazz is the text to be prepended the `fl::`.
-          @return the given text prepended with the `fl` namespace if
-          CppExporter::isUsingNamespace is `true`, or the text otherwise
-         */
-        virtual std::string fl(const std::string& clazz) const;
-        /**
-         Sets whether variables are exported using their names
-         (e.g., `power->setValue(fl::nan)`) instead of numbered identifiers
-         (e.g., `inputVariable1->setValue(fl::nan)`)
-         @param usingVariableNames indicates whether variables are exported using
-         their names
-         */
-        virtual void setUsingVariableNames(bool usingVariableNames);
-        /**
-         Gets whether variables are exported using their names
-         (e.g., `power->setValue(fl::nan)`) instead of numbered identifiers
-         (e.g., `inputVariable1->setValue(fl::nan)`)
-         @return whether variables are exported using their names
-         */
-        virtual bool isUsingVariableNames() const;
+  /**
+    Returns the given text prepended with the `fl` namespace if
+    CppExporter::isUsingNamespace is `true`, or the text otherwise
 
-        /**
-          Returns a string representation of InputVariable in the `C++` programming language
-          @param inputVariable is the input variable
-          @param engine is the engine in which the input variable is registered
-          @return a string representation of the input variable in the `C++` programming language
-         */
-        virtual std::string toString(const InputVariable* inputVariable, const Engine* engine) const;
-        /**
-          Returns a string representation of the OutputVariable in the `C++` programming language
-          @param outputVariable is the output variable
-          @param engine is the engine in which the output variable is registered
-          @return a string representation of the output variable in the `C++` programming language
-         */
-        virtual std::string toString(const OutputVariable* outputVariable, const Engine* engine) const;
-        /**
-          Returns a string representation of the RuleBlock in the `C++` programming language
-          @param ruleBlock is the rule block
-          @param engine is the engine in which the rule block is registered
-          @return a string representation of the rule block in the `C++` programming language
-         */
-        virtual std::string toString(const RuleBlock* ruleBlock, const Engine* engine) const;
+    @param clazz is the text to be prepended the `fl::`.
+    @return the given text prepended with the `fl` namespace if
+    CppExporter::isUsingNamespace is `true`, or the text otherwise
+   */
+  virtual std::string fl(const std::string& clazz) const;
+  /**
+   Sets whether variables are exported using their names
+   (e.g., `power->setValue(fl::nan)`) instead of numbered identifiers
+   (e.g., `inputVariable1->setValue(fl::nan)`)
+   @param usingVariableNames indicates whether variables are exported using
+   their names
+   */
+  virtual void setUsingVariableNames(bool usingVariableNames);
+  /**
+   Gets whether variables are exported using their names
+   (e.g., `power->setValue(fl::nan)`) instead of numbered identifiers
+   (e.g., `inputVariable1->setValue(fl::nan)`)
+   @return whether variables are exported using their names
+   */
+  virtual bool isUsingVariableNames() const;
 
-        /**
-          Returns a string representation of the Activation method in the `C++` programming language
-          @param activation is the activation method
-          @return a string representation of the activation method in the `C++` programming language
-         */
-        virtual std::string toString(const Activation* activation) const;
+  /**
+    Returns a string representation of InputVariable in the `C++` programming
+    language
+    @param inputVariable is the input variable
+    @param engine is the engine in which the input variable is registered
+    @return a string representation of the input variable in the `C++`
+    programming language
+   */
+  virtual std::string toString(const InputVariable* inputVariable,
+                               const Engine* engine) const;
+  /**
+    Returns a string representation of the OutputVariable in the `C++`
+    programming language
+    @param outputVariable is the output variable
+    @param engine is the engine in which the output variable is registered
+    @return a string representation of the output variable in the `C++`
+    programming language
+   */
+  virtual std::string toString(const OutputVariable* outputVariable,
+                               const Engine* engine) const;
+  /**
+    Returns a string representation of the RuleBlock in the `C++` programming
+    language
+    @param ruleBlock is the rule block
+    @param engine is the engine in which the rule block is registered
+    @return a string representation of the rule block in the `C++` programming
+    language
+   */
+  virtual std::string toString(const RuleBlock* ruleBlock,
+                               const Engine* engine) const;
 
-        /**
-          Returns a string representation of the scalar value in the `C++` programming language
-          @param value is the scalar value
-          @return a string representation of the scalar value in the `C++` programming language
-         */
-        virtual std::string toString(scalar value) const;
+  /**
+    Returns a string representation of the Activation method in the `C++`
+    programming language
+    @param activation is the activation method
+    @return a string representation of the activation method in the `C++`
+    programming language
+   */
+  virtual std::string toString(const Activation* activation) const;
 
-        /**
-          Returns a string representation of the Hedge in the `C++` programming language
-          @param hedge is the hedge
-          @return a string representation of the hedge in the `C++` programming language
-         */
-        virtual std::string toString(const Hedge* hedge) const;
-        /**
-          Returns a string representation of the Term in the `C++` programming language
-          @param term is the term
-          @return a string representation of the term in the `C++` programming language
-         */
-        virtual std::string toString(const Term* term) const;
-        /**
-          Returns a string representation of the Norm in the `C++` programming language
-          @param norm is the norm
-          @return a string representation of the norm in the `C++` programming language
-         */
-        virtual std::string toString(const Norm* norm) const;
-        /**
-          Returns a string representation of the Defuzzifier in the `C++` programming language
-          @param defuzzifier is the defuzzifier
-          @return a string representation of the defuzzifier in the `C++` programming language
-         */
-        virtual std::string toString(const Defuzzifier* defuzzifier) const;
+  /**
+    Returns a string representation of the scalar value in the `C++` programming
+    language
+    @param value is the scalar value
+    @return a string representation of the scalar value in the `C++` programming
+    language
+   */
+  virtual std::string toString(scalar value) const;
 
-        virtual CppExporter* clone() const FL_IOVERRIDE;
+  /**
+    Returns a string representation of the Hedge in the `C++` programming
+    language
+    @param hedge is the hedge
+    @return a string representation of the hedge in the `C++` programming
+    language
+   */
+  virtual std::string toString(const Hedge* hedge) const;
+  /**
+    Returns a string representation of the Term in the `C++` programming
+    language
+    @param term is the term
+    @return a string representation of the term in the `C++` programming
+    language
+   */
+  virtual std::string toString(const Term* term) const;
+  /**
+    Returns a string representation of the Norm in the `C++` programming
+    language
+    @param norm is the norm
+    @return a string representation of the norm in the `C++` programming
+    language
+   */
+  virtual std::string toString(const Norm* norm) const;
+  /**
+    Returns a string representation of the Defuzzifier in the `C++` programming
+    language
+    @param defuzzifier is the defuzzifier
+    @return a string representation of the defuzzifier in the `C++` programming
+    language
+   */
+  virtual std::string toString(const Defuzzifier* defuzzifier) const;
 
-    };
-}
-#endif  /* FL_CPPEXPORTER_H */
-
+  virtual CppExporter* clone() const FL_IOVERRIDE;
+};
+}  // namespace fl
+#endif /* FL_CPPEXPORTER_H */

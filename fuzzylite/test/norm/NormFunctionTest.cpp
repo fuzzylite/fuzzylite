@@ -14,23 +14,23 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "test/catch.hpp"
 #include "fuzzylite/Headers.h"
+#include "test/catch.hpp"
 
 namespace fl {
 
-    /**
-     * Tests: norm/NormFunctions
-     *
-     * @author Juan Rada-Vilela, Ph.D.
-     *
-     */
+/**
+ * Tests: norm/NormFunctions
+ *
+ * @author Juan Rada-Vilela, Ph.D.
+ *
+ */
 
-    static std::string snormEngine() {
+static std::string snormEngine() {
 #ifdef FL_CPP98
-        return "";
+  return "";
 #else
-        return R""(
+  return R""(
 Engine: tipper
 InputVariable: service
   enabled: true
@@ -67,56 +67,57 @@ RuleBlock:
   rule: if service is excellent or food is delicious then tip is generous
 )"";
 #endif
-    }
+}
 
-    static SNorm* myMaximumNorm() {
-        return new SNormFunction("max(a,b)");
-    }
+static SNorm* myMaximumNorm() {
+  return new SNormFunction("max(a,b)");
+}
 
-    static SNorm* myNotSoMaximumNorm() {
-        return new SNormFunction("max(a,b) * 0.5");
-    }
+static SNorm* myNotSoMaximumNorm() {
+  return new SNormFunction("max(a,b) * 0.5");
+}
 
-    TEST_CASE("SNormFunction (max(a,b)) is equivalent to Maximum", "[snorm][maximum]") {
+TEST_CASE("SNormFunction (max(a,b)) is equivalent to Maximum",
+          "[snorm][maximum]") {
 #ifdef FL_CPP98
-        FL_IUNUSED(&(myMaximumNorm));
-        FL_IUNUSED(&(myNotSoMaximumNorm));
-        FL_IUNUSED(&(snormEngine));
-        WARN("Test only runs with -DFL_CPP98=OFF");
-        return;
+  FL_IUNUSED(&(myMaximumNorm));
+  FL_IUNUSED(&(myNotSoMaximumNorm));
+  FL_IUNUSED(&(snormEngine));
+  WARN("Test only runs with -DFL_CPP98=OFF");
+  return;
 #else
-        std::string fllEngine = snormEngine();
-        FL_unique_ptr<Engine> engine(FllImporter().fromString(fllEngine));
-        std::string fld = FldExporter().toString(engine.get(), 1024);
+  std::string fllEngine = snormEngine();
+  FL_unique_ptr<Engine> engine(FllImporter().fromString(fllEngine));
+  std::string fld = FldExporter().toString(engine.get(), 1024);
 
-        SNormFactory* factory = FactoryManager::instance()->snorm();
-        factory->registerConstructor("Maximum", &(myMaximumNorm));
+  SNormFactory* factory = FactoryManager::instance()->snorm();
+  factory->registerConstructor("Maximum", &(myMaximumNorm));
 
-        //Check our custom SNorm is registered
-        FL_unique_ptr<SNorm> x(factory->constructObject("Maximum"));
-        CHECK(Op::isEq(x->compute(0, 0.5), 0.5));
+  // Check our custom SNorm is registered
+  FL_unique_ptr<SNorm> x(factory->constructObject("Maximum"));
+  CHECK(Op::isEq(x->compute(0, 0.5), 0.5));
 
-        //Test creating an engine with the new SNorm
-        engine.reset(FllImporter().fromString(fllEngine));
-        std::string anotherFld = FldExporter().toString(engine.get(), 1024);
+  // Test creating an engine with the new SNorm
+  engine.reset(FllImporter().fromString(fllEngine));
+  std::string anotherFld = FldExporter().toString(engine.get(), 1024);
 
-        CHECK(fld == anotherFld);
+  CHECK(fld == anotherFld);
 
-        //Make sure a different SNorm fails in results
+  // Make sure a different SNorm fails in results
 
-        factory->registerConstructor("Maximum", &(myNotSoMaximumNorm));
-        engine.reset(FllImporter().fromString(fllEngine));
-        anotherFld = FldExporter().toString(engine.get(), 1024);
+  factory->registerConstructor("Maximum", &(myNotSoMaximumNorm));
+  engine.reset(FllImporter().fromString(fllEngine));
+  anotherFld = FldExporter().toString(engine.get(), 1024);
 
-        CHECK(fld != anotherFld);
+  CHECK(fld != anotherFld);
 #endif
-    }
+}
 
-    static std::string tnormEngine() {
+static std::string tnormEngine() {
 #ifdef FL_CPP98
-        return "";
+  return "";
 #else
-        return R""(
+  return R""(
 Engine: mam21
 InputVariable: angle
   enabled: true
@@ -154,49 +155,50 @@ RuleBlock:
   rule: if angle is big and velocity is big then force is posBig
 )"";
 #endif
-    }
-
-    static TNorm* myMinimumNorm() {
-        return new TNormFunction("min(a,b)");
-    }
-
-    static TNorm* myNotSoMinimumNorm() {
-        return new TNormFunction("min(a,b) * 0.5");
-    }
-
-    TEST_CASE("TNormFunction (min(a,b)) is equivalent to Minimum", "[tnorm][minimum]") {
-#ifdef FL_CPP98
-        FL_IUNUSED(&(myMinimumNorm));
-        FL_IUNUSED(&(myNotSoMinimumNorm));
-        FL_IUNUSED(&(tnormEngine));
-        WARN("Test only runs with -DFL_CPP98=OFF");
-        return;
-#else
-        std::string fllEngine = tnormEngine();
-        FL_unique_ptr<Engine> engine(FllImporter().fromString(fllEngine));
-        std::string fld = FldExporter().toString(engine.get(), 1024);
-
-        TNormFactory* factory = FactoryManager::instance()->tnorm();
-        factory->registerConstructor("Minimum", &(myMinimumNorm));
-
-        //Check our custom SNorm is registered
-        FL_unique_ptr<TNorm> x(factory->constructObject("Minimum"));
-        CHECK(Op::isEq(x->compute(0.5, 1), 0.5));
-
-        //Test creating an engine with the new SNorm
-        engine.reset(FllImporter().fromString(fllEngine));
-        std::string anotherFld = FldExporter().toString(engine.get(), 1024);
-
-        CHECK(fld == anotherFld);
-
-        //Make sure a different SNorm fails in results
-
-        factory->registerConstructor("Minimum", &(myNotSoMinimumNorm));
-        engine.reset(FllImporter().fromString(fllEngine));
-        anotherFld = FldExporter().toString(engine.get(), 1024);
-
-        CHECK(fld != anotherFld);
-#endif
-    }
-
 }
+
+static TNorm* myMinimumNorm() {
+  return new TNormFunction("min(a,b)");
+}
+
+static TNorm* myNotSoMinimumNorm() {
+  return new TNormFunction("min(a,b) * 0.5");
+}
+
+TEST_CASE("TNormFunction (min(a,b)) is equivalent to Minimum",
+          "[tnorm][minimum]") {
+#ifdef FL_CPP98
+  FL_IUNUSED(&(myMinimumNorm));
+  FL_IUNUSED(&(myNotSoMinimumNorm));
+  FL_IUNUSED(&(tnormEngine));
+  WARN("Test only runs with -DFL_CPP98=OFF");
+  return;
+#else
+  std::string fllEngine = tnormEngine();
+  FL_unique_ptr<Engine> engine(FllImporter().fromString(fllEngine));
+  std::string fld = FldExporter().toString(engine.get(), 1024);
+
+  TNormFactory* factory = FactoryManager::instance()->tnorm();
+  factory->registerConstructor("Minimum", &(myMinimumNorm));
+
+  // Check our custom SNorm is registered
+  FL_unique_ptr<TNorm> x(factory->constructObject("Minimum"));
+  CHECK(Op::isEq(x->compute(0.5, 1), 0.5));
+
+  // Test creating an engine with the new SNorm
+  engine.reset(FllImporter().fromString(fllEngine));
+  std::string anotherFld = FldExporter().toString(engine.get(), 1024);
+
+  CHECK(fld == anotherFld);
+
+  // Make sure a different SNorm fails in results
+
+  factory->registerConstructor("Minimum", &(myNotSoMinimumNorm));
+  engine.reset(FllImporter().fromString(fllEngine));
+  anotherFld = FldExporter().toString(engine.get(), 1024);
+
+  CHECK(fld != anotherFld);
+#endif
+}
+
+}  // namespace fl

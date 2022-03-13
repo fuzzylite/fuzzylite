@@ -17,167 +17,167 @@
 #ifndef FL_THRESHOLD_H
 #define FL_THRESHOLD_H
 
-#include "fuzzylite/fuzzylite.h"
+#include <vector>
 
 #include "fuzzylite/activation/Activation.h"
-
-#include <vector>
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
 
-    /**
-      The Threshold class is a RuleBlock Activation method that activates the
-      rules whose activation degrees satisfy the equation given by the
-      comparison operator and the threshold, and deactivates the rules which do
-      not satisfy the equation.
+/**
+  The Threshold class is a RuleBlock Activation method that activates the
+  rules whose activation degrees satisfy the equation given by the
+  comparison operator and the threshold, and deactivates the rules which do
+  not satisfy the equation.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see Rule
-      @see RuleBlock
-      @see ActivationFactory
-      @since 6.0
-     */
+  @author Juan Rada-Vilela, Ph.D.
+  @see Rule
+  @see RuleBlock
+  @see ActivationFactory
+  @since 6.0
+ */
 
-    class FL_API Threshold : public Activation {
-    public:
+class FL_API Threshold : public Activation {
+ public:
+  /**
+    Comparison is an enumerator that provides six comparison operators
+    between the activation degree @f$a@f$ and the threshold @f$\theta@f$.
+   */
+  enum Comparison {
+    /**@f$a < \theta@f$*/
+    LessThan,
+    /**@f$a \leq \theta@f$*/
+    LessThanOrEqualTo,
+    /**@f$a = \theta@f$*/
+    EqualTo,
+    /**@f$a \neq \theta@f$*/
+    NotEqualTo,
+    /**@f$a \geq \theta@f$*/
+    GreaterThanOrEqualTo,
+    /**@f$a > \theta@f$*/
+    GreaterThan
+  };
 
-        /**
-          Comparison is an enumerator that provides six comparison operators
-          between the activation degree @f$a@f$ and the threshold @f$\theta@f$.
-         */
-        enum Comparison {
-            /**@f$a < \theta@f$*/
-            LessThan,
-            /**@f$a \leq \theta@f$*/
-            LessThanOrEqualTo,
-            /**@f$a = \theta@f$*/
-            EqualTo,
-            /**@f$a \neq \theta@f$*/
-            NotEqualTo,
-            /**@f$a \geq \theta@f$*/
-            GreaterThanOrEqualTo,
-            /**@f$a > \theta@f$*/
-            GreaterThan
-        };
-    private:
-        Comparison _comparison;
-        scalar _value;
-    public:
-        explicit Threshold(Comparison comparison = GreaterThanOrEqualTo, scalar threshold = 0.0);
-        explicit Threshold(const std::string& comparison, scalar threshold);
-        virtual ~Threshold();
-        FL_DEFAULT_COPY_AND_MOVE(Threshold)
+ private:
+  Comparison _comparison;
+  scalar _value;
 
-        virtual std::string className() const FL_IOVERRIDE;
+ public:
+  explicit Threshold(Comparison comparison = GreaterThanOrEqualTo,
+                     scalar threshold = 0.0);
+  explicit Threshold(const std::string& comparison, scalar threshold);
+  virtual ~Threshold();
+  FL_DEFAULT_COPY_AND_MOVE(Threshold)
 
-        /**
-          Returns the comparison operator followed by the threshold.
-          @return comparison operator and threshold
-         */
-        virtual std::string parameters() const FL_IOVERRIDE;
+  virtual std::string className() const FL_IOVERRIDE;
 
-        /**
-          Configures the activation method with the comparison operator and the
-          threshold.
-          @param parameters is the comparison operator and threshold
-         */
-        virtual void configure(const std::string& parameters) FL_IOVERRIDE;
+  /**
+    Returns the comparison operator followed by the threshold.
+    @return comparison operator and threshold
+   */
+  virtual std::string parameters() const FL_IOVERRIDE;
 
-        /**
-          Sets the comparison operator for the activation method
-          @param comparison is the operator for the activation method
-         */
-        virtual void setComparison(Comparison comparison);
+  /**
+    Configures the activation method with the comparison operator and the
+    threshold.
+    @param parameters is the comparison operator and threshold
+   */
+  virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        /**
-          Gets the comparison operator for the activation method
-          @return comparison operator for the activation method
-         */
-        virtual Comparison getComparison() const;
+  /**
+    Sets the comparison operator for the activation method
+    @param comparison is the operator for the activation method
+   */
+  virtual void setComparison(Comparison comparison);
 
-        /**
-          Returns the comparison operator of the activation method
-          @return the comparison operator in (`==`, `!=`, `<`, `>`, `<=`, `>=`)
-         */
-        virtual std::string comparisonOperator() const;
+  /**
+    Gets the comparison operator for the activation method
+    @return comparison operator for the activation method
+   */
+  virtual Comparison getComparison() const;
 
-        /**
-          Returns the given comparison operator of the activation method
-          @param comparison is a valid enum value
-          @return the comparison operator for the given enum value
-          @throws fl::Exception if the given comparison operator is not valid
-         */
-        virtual std::string comparisonOperator(Comparison comparison) const;
+  /**
+    Returns the comparison operator of the activation method
+    @return the comparison operator in (`==`, `!=`, `<`, `>`, `<=`, `>=`)
+   */
+  virtual std::string comparisonOperator() const;
 
-        /**
-          Returns the list of available comparison operators of the activation
-          method
-          @return (`==`, `!=`, `<`, `>`, `<=`, `>=`)
-         */
-        virtual std::vector<std::string> availableComparisonOperators() const;
+  /**
+    Returns the given comparison operator of the activation method
+    @param comparison is a valid enum value
+    @return the comparison operator for the given enum value
+    @throws fl::Exception if the given comparison operator is not valid
+   */
+  virtual std::string comparisonOperator(Comparison comparison) const;
 
+  /**
+    Returns the list of available comparison operators of the activation
+    method
+    @return (`==`, `!=`, `<`, `>`, `<=`, `>=`)
+   */
+  virtual std::vector<std::string> availableComparisonOperators() const;
 
-        /**
-          Parses the comparison operator, or throws an
-          exception if the parameter does not correspond to a valid operator
-          @param comparisonOperator is an operator in (`==`, `!=`, `<`, `>`,
-          `<=`, `>=`)
-         */
-        virtual Comparison parseComparison(const std::string& comparisonOperator) const;
+  /**
+    Parses the comparison operator, or throws an
+    exception if the parameter does not correspond to a valid operator
+    @param comparisonOperator is an operator in (`==`, `!=`, `<`, `>`,
+    `<=`, `>=`)
+   */
+  virtual Comparison parseComparison(
+      const std::string& comparisonOperator) const;
 
-        /**
-          Sets the threshold value of the activation method
-          @param value is the threshold value for activation degrees
-         */
-        virtual void setValue(scalar value);
+  /**
+    Sets the threshold value of the activation method
+    @param value is the threshold value for activation degrees
+   */
+  virtual void setValue(scalar value);
 
-        /**
-          Gets the threshold value of the activation method
-          @return the threshold value of the activation method
-         */
-        virtual scalar getValue() const;
+  /**
+    Gets the threshold value of the activation method
+    @return the threshold value of the activation method
+   */
+  virtual scalar getValue() const;
 
-        /**
-          Sets the comparison operator and the threshold for the activation
-          method
-          @param comparison is the comparison enumerator
-          @param value is the threshold of the activation method
-         */
-        virtual void setThreshold(Comparison comparison, scalar value);
+  /**
+    Sets the comparison operator and the threshold for the activation
+    method
+    @param comparison is the comparison enumerator
+    @param value is the threshold of the activation method
+   */
+  virtual void setThreshold(Comparison comparison, scalar value);
 
-        /**
-          Sets the comparison operator and the threshold for the activation method
-          @param comparison is a valid comparison operator
-          @param value is the threshold for activation degrees
-          @throws fl::Exception if the comparison operator is not valid
-         */
-        virtual void setThreshold(const std::string& comparison, scalar value);
+  /**
+    Sets the comparison operator and the threshold for the activation method
+    @param comparison is a valid comparison operator
+    @param value is the threshold for activation degrees
+    @throws fl::Exception if the comparison operator is not valid
+   */
+  virtual void setThreshold(const std::string& comparison, scalar value);
 
-        /**
-          Returns whether the activation method will activate a rule with
-          the given activation degree
-          @param activationDegree an activation degree
-          @return whether the comparison equation is satisfied with the
-          activation degree and the threshold
-         */
-        virtual bool activatesWith(scalar activationDegree) const;
+  /**
+    Returns whether the activation method will activate a rule with
+    the given activation degree
+    @param activationDegree an activation degree
+    @return whether the comparison equation is satisfied with the
+    activation degree and the threshold
+   */
+  virtual bool activatesWith(scalar activationDegree) const;
 
+  virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
 
-        virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
+  /**
+    Activates the rules whose activation degrees satisfy the comparison
+    equation with the given threshold, and deactivate the rules which do
+    not.
+    @param ruleBlock is the rule block to activate
+   */
+  virtual void activate(RuleBlock* ruleBlock) FL_IOVERRIDE;
 
-        /**
-          Activates the rules whose activation degrees satisfy the comparison
-          equation with the given threshold, and deactivate the rules which do
-          not.
-          @param ruleBlock is the rule block to activate
-         */
-        virtual void activate(RuleBlock* ruleBlock) FL_IOVERRIDE;
+  virtual Threshold* clone() const FL_IOVERRIDE;
 
-        virtual Threshold* clone() const FL_IOVERRIDE;
+  static Activation* constructor();
+};
 
-        static Activation* constructor();
-    };
-
-}
+}  // namespace fl
 
 #endif /* FL_THRESHOLD_H */

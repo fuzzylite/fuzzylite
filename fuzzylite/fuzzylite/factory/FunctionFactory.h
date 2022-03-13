@@ -18,44 +18,42 @@
 #define FL_FUNCTIONFACTORY_H
 
 #include "fuzzylite/factory/CloningFactory.h"
-
 #include "fuzzylite/term/Function.h"
 
 namespace fl {
 
-    /**
-      The FunctionFactory class is a CloningFactory of operators and functions
-      utilized by the Function term.
+/**
+  The FunctionFactory class is a CloningFactory of operators and functions
+  utilized by the Function term.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see Function
-      @see Element
-      @see CloningFactory
-      @see FactoryManager
-      @since 5.0
-     */
-    class FL_API FunctionFactory : public CloningFactory<Function::Element*> {
-    private:
-        void registerOperators();
-        void registerFunctions();
-    public:
-        FunctionFactory();
-        virtual ~FunctionFactory() FL_IOVERRIDE;
-        FL_DEFAULT_COPY_AND_MOVE(FunctionFactory)
+  @author Juan Rada-Vilela, Ph.D.
+  @see Function
+  @see Element
+  @see CloningFactory
+  @see FactoryManager
+  @since 5.0
+ */
+class FL_API FunctionFactory : public CloningFactory<Function::Element*> {
+ private:
+  void registerOperators();
+  void registerFunctions();
 
-        /**
-          Returns a vector of the operators available
-          @return a vector of the operators available
-         */
-        virtual std::vector<std::string> availableOperators() const;
-        /**
-          Returns a vector of the functions available
-          @return a vector of the functions available
-         */
-        virtual std::vector<std::string> availableFunctions() const;
+ public:
+  FunctionFactory();
+  virtual ~FunctionFactory() FL_IOVERRIDE;
+  FL_DEFAULT_COPY_AND_MOVE(FunctionFactory)
 
-    };
-}
+  /**
+    Returns a vector of the operators available
+    @return a vector of the operators available
+   */
+  virtual std::vector<std::string> availableOperators() const;
+  /**
+    Returns a vector of the functions available
+    @return a vector of the functions available
+   */
+  virtual std::vector<std::string> availableFunctions() const;
+};
+}  // namespace fl
 
-#endif  /* FL_FUNCTIONFACTORY_H */
-
+#endif /* FL_FUNCTIONFACTORY_H */

@@ -21,32 +21,32 @@
 
 namespace fl {
 
-    /**
-      The BoundedDifference class is a TNorm that computes the bounded
-      difference between any two values.
+/**
+  The BoundedDifference class is a TNorm that computes the bounded
+  difference between any two values.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see BoundedSum
-      @see TNorm
-      @see TNormFactory
-      @see Norm
-      @since 4.0
-     */
-    class FL_API BoundedDifference FL_IFINAL : public TNorm {
-    public:
-        std::string className() const FL_IOVERRIDE;
+  @author Juan Rada-Vilela, Ph.D.
+  @see BoundedSum
+  @see TNorm
+  @see TNormFactory
+  @see Norm
+  @since 4.0
+ */
+class FL_API BoundedDifference FL_IFINAL : public TNorm {
+ public:
+  std::string className() const FL_IOVERRIDE;
 
-        Complexity complexity() const FL_IOVERRIDE;
-        /**
-          Computes the bounded difference between two membership function values
-          @param a is a membership function value
-          @param b is a membership function value
-          @return @f$\max(0, a+b - 1)@f$
-         */
-        scalar compute(scalar a, scalar b) const FL_IOVERRIDE;
-        BoundedDifference* clone() const FL_IOVERRIDE;
+  Complexity complexity() const FL_IOVERRIDE;
+  /**
+    Computes the bounded difference between two membership function values
+    @param a is a membership function value
+    @param b is a membership function value
+    @return @f$\max(0, a+b - 1)@f$
+   */
+  scalar compute(scalar a, scalar b) const FL_IOVERRIDE;
+  BoundedDifference* clone() const FL_IOVERRIDE;
 
-        static TNorm* constructor();
-    };
-}
-#endif  /* FL_BOUNDEDDIFFERENCE_H */
+  static TNorm* constructor();
+};
+}  // namespace fl
+#endif /* FL_BOUNDEDDIFFERENCE_H */

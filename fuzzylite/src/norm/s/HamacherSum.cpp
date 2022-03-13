@@ -20,25 +20,26 @@
 
 namespace fl {
 
-    std::string HamacherSum::className() const {
-        return "HamacherSum";
-    }
-
-    Complexity HamacherSum::complexity() const {
-        return Complexity().arithmetic(7);
-    }
-
-    scalar HamacherSum::compute(scalar a, scalar b) const {
-        if (Op::isEq(a * b, 1.0)) return 1.0;
-        return (a + b - 2.0 * a * b) / (1.0 - a * b);
-    }
-
-    HamacherSum* HamacherSum::clone() const {
-        return new HamacherSum(*this);
-    }
-
-    SNorm* HamacherSum::constructor() {
-        return new HamacherSum;
-    }
-
+std::string HamacherSum::className() const {
+  return "HamacherSum";
 }
+
+Complexity HamacherSum::complexity() const {
+  return Complexity().arithmetic(7);
+}
+
+scalar HamacherSum::compute(scalar a, scalar b) const {
+  if (Op::isEq(a * b, 1.0))
+    return 1.0;
+  return (a + b - 2.0 * a * b) / (1.0 - a * b);
+}
+
+HamacherSum* HamacherSum::clone() const {
+  return new HamacherSum(*this);
+}
+
+SNorm* HamacherSum::constructor() {
+  return new HamacherSum;
+}
+
+}  // namespace fl

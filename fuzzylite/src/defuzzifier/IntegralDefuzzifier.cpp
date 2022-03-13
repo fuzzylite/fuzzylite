@@ -18,27 +18,27 @@
 
 namespace fl {
 
-    int IntegralDefuzzifier::_defaultResolution = 100;
+int IntegralDefuzzifier::_defaultResolution = 100;
 
-    void IntegralDefuzzifier::setDefaultResolution(int defaultResolution) {
-        _defaultResolution = defaultResolution;
-    }
-
-    int IntegralDefuzzifier::defaultResolution() {
-        return _defaultResolution;
-    }
-
-    IntegralDefuzzifier::IntegralDefuzzifier(int resolution)
-    : Defuzzifier(), _resolution(resolution) { }
-
-    IntegralDefuzzifier::~IntegralDefuzzifier() { }
-
-    void IntegralDefuzzifier::setResolution(int resolution) {
-        this->_resolution = resolution;
-    }
-
-    int IntegralDefuzzifier::getResolution() const {
-        return this->_resolution;
-    }
-
+void IntegralDefuzzifier::setDefaultResolution(int defaultResolution) {
+  _defaultResolution = defaultResolution;
 }
+
+int IntegralDefuzzifier::defaultResolution() {
+  return _defaultResolution;
+}
+
+IntegralDefuzzifier::IntegralDefuzzifier(int resolution)
+    : Defuzzifier(), _resolution(resolution) {}
+
+IntegralDefuzzifier::~IntegralDefuzzifier() {}
+
+void IntegralDefuzzifier::setResolution(int resolution) {
+  this->_resolution = resolution;
+}
+
+int IntegralDefuzzifier::getResolution() const {
+  return this->_resolution;
+}
+
+}  // namespace fl

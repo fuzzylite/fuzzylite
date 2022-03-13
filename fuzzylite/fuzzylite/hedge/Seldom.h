@@ -21,36 +21,36 @@
 
 namespace fl {
 
-    /**
-      The Seldom class is a Hedge located second in the ordered set
-      (Not, Seldom, Somewhat, Very, Extremely, Any).
+/**
+  The Seldom class is a Hedge located second in the ordered set
+  (Not, Seldom, Somewhat, Very, Extremely, Any).
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see Hedge
-      @see HedgeFactory
-      @since 4.0
-     */
-    class FL_API Seldom FL_IFINAL : public Hedge {
-    public:
-        std::string name() const FL_IOVERRIDE;
+  @author Juan Rada-Vilela, Ph.D.
+  @see Hedge
+  @see HedgeFactory
+  @since 4.0
+ */
+class FL_API Seldom FL_IFINAL : public Hedge {
+ public:
+  std::string name() const FL_IOVERRIDE;
 
-        Complexity complexity() const FL_IOVERRIDE;
+  Complexity complexity() const FL_IOVERRIDE;
 
-        /**
-          Computes the hedge for the membership function value @f$x@f$
-          @param x is a membership function value
-          @return @f$
-          \begin{cases}
-          \sqrt{0.5x} & \mbox{if $x \le 0.5$} \cr
-          1-\sqrt{0.5(1-x)} & \mbox{otherwise}\cr
-          \end{cases}
-          @f$
-         */
-        scalar hedge(scalar x) const FL_IOVERRIDE;
-        Seldom* clone() const FL_IOVERRIDE;
+  /**
+    Computes the hedge for the membership function value @f$x@f$
+    @param x is a membership function value
+    @return @f$
+    \begin{cases}
+    \sqrt{0.5x} & \mbox{if $x \le 0.5$} \cr
+    1-\sqrt{0.5(1-x)} & \mbox{otherwise}\cr
+    \end{cases}
+    @f$
+   */
+  scalar hedge(scalar x) const FL_IOVERRIDE;
+  Seldom* clone() const FL_IOVERRIDE;
 
-        static Hedge* constructor();
-    };
-}
+  static Hedge* constructor();
+};
+}  // namespace fl
 
 #endif /* FL_SELDOM_H */

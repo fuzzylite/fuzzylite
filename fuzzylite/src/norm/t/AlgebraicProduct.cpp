@@ -18,24 +18,24 @@
 
 namespace fl {
 
-    std::string AlgebraicProduct::className() const {
-        return "AlgebraicProduct";
-    }
-
-    Complexity AlgebraicProduct::complexity() const {
-        return Complexity().arithmetic(1);
-    }
-
-    scalar AlgebraicProduct::compute(scalar a, scalar b) const {
-        return a * b;
-    }
-
-    AlgebraicProduct* AlgebraicProduct::clone() const {
-        return new AlgebraicProduct(*this);
-    }
-
-    TNorm* AlgebraicProduct::constructor() {
-        return new AlgebraicProduct;
-    }
-
+std::string AlgebraicProduct::className() const {
+  return "AlgebraicProduct";
 }
+
+Complexity AlgebraicProduct::complexity() const {
+  return Complexity().arithmetic(1);
+}
+
+scalar AlgebraicProduct::compute(scalar a, scalar b) const {
+  return a * b;
+}
+
+AlgebraicProduct* AlgebraicProduct::clone() const {
+  return new AlgebraicProduct(*this);
+}
+
+TNorm* AlgebraicProduct::constructor() {
+  return new AlgebraicProduct;
+}
+
+}  // namespace fl

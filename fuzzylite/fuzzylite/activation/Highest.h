@@ -17,70 +17,70 @@
 #ifndef FL_HIGHEST_H
 #define FL_HIGHEST_H
 
-#include "fuzzylite/fuzzylite.h"
-
 #include "fuzzylite/activation/Activation.h"
+#include "fuzzylite/fuzzylite.h"
 
 namespace fl {
 
-    /**
-      The Highest class is a RuleBlock Activation method that activates a given
-      number of rules with highest activation degrees in descending order.
+/**
+  The Highest class is a RuleBlock Activation method that activates a given
+  number of rules with highest activation degrees in descending order.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see Lowest
-      @see Rule
-      @see RuleBlock
-      @see ActivationFactory
-      @since 6.0
-     */
-    class FL_API Highest : public Activation {
-    private:
-        int _numberOfRules;
-    public:
-        explicit Highest(int numberOfRules = 1);
-        virtual ~Highest();
-        FL_DEFAULT_COPY_AND_MOVE(Highest)
+  @author Juan Rada-Vilela, Ph.D.
+  @see Lowest
+  @see Rule
+  @see RuleBlock
+  @see ActivationFactory
+  @since 6.0
+ */
+class FL_API Highest : public Activation {
+ private:
+  int _numberOfRules;
 
-        virtual std::string className() const FL_IOVERRIDE;
+ public:
+  explicit Highest(int numberOfRules = 1);
+  virtual ~Highest();
+  FL_DEFAULT_COPY_AND_MOVE(Highest)
 
-        /**
-          Returns the number of rules to activate.
-          @return number of rules to activate
-         */
-        virtual std::string parameters() const FL_IOVERRIDE;
+  virtual std::string className() const FL_IOVERRIDE;
 
-        /**
-          Configures the activation method with the number of rules to activate.
-          @param parameters contains the number of rules to activate
-         */
-        virtual void configure(const std::string& parameters) FL_IOVERRIDE;
+  /**
+    Returns the number of rules to activate.
+    @return number of rules to activate
+   */
+  virtual std::string parameters() const FL_IOVERRIDE;
 
-        /**
-          Sets the number of rules to activate
-          @param numberOfRules is the number of rules to activate
-         */
-        virtual void setNumberOfRules(int numberOfRules);
+  /**
+    Configures the activation method with the number of rules to activate.
+    @param parameters contains the number of rules to activate
+   */
+  virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        /**
-          Returns the number of rules to activate
-          @return the number of rules to activate
-         */
-        virtual int getNumberOfRules() const;
+  /**
+    Sets the number of rules to activate
+    @param numberOfRules is the number of rules to activate
+   */
+  virtual void setNumberOfRules(int numberOfRules);
 
-        virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
+  /**
+    Returns the number of rules to activate
+    @return the number of rules to activate
+   */
+  virtual int getNumberOfRules() const;
 
-        /**
-          Activates the given number of rules with the highest activation
-          degrees
-          @param ruleBlock is the rule block to activate.
-         */
-        virtual void activate(RuleBlock* ruleBlock) FL_IOVERRIDE;
+  virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
 
-        virtual Highest* clone() const FL_IOVERRIDE;
+  /**
+    Activates the given number of rules with the highest activation
+    degrees
+    @param ruleBlock is the rule block to activate.
+   */
+  virtual void activate(RuleBlock* ruleBlock) FL_IOVERRIDE;
 
-        static Activation* constructor();
-    };
-}
+  virtual Highest* clone() const FL_IOVERRIDE;
+
+  static Activation* constructor();
+};
+}  // namespace fl
 
 #endif /* FL_HIGHEST_H */

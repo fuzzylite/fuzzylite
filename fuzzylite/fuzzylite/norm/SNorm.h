@@ -21,31 +21,28 @@
 
 namespace fl {
 
-    /**
-      The SNorm class is the base class for all S-Norms, and it is utilized as
-      the disjunction fuzzy logic operator and as the aggregation (or
-      `accumulation` in versions 5.0 and earlier) fuzzy logic operator.
+/**
+  The SNorm class is the base class for all S-Norms, and it is utilized as
+  the disjunction fuzzy logic operator and as the aggregation (or
+  `accumulation` in versions 5.0 and earlier) fuzzy logic operator.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see RuleBlock::getDisjunction()
-      @see OutputVariable::fuzzyOutput()
-      @see Aggregated::getAggregation()
-      @see SNormFactory
-      @see Norm
-      @since 4.0
-     */
-    class FL_API SNorm : public Norm {
-    public:
+  @author Juan Rada-Vilela, Ph.D.
+  @see RuleBlock::getDisjunction()
+  @see OutputVariable::fuzzyOutput()
+  @see Aggregated::getAggregation()
+  @see SNormFactory
+  @see Norm
+  @since 4.0
+ */
+class FL_API SNorm : public Norm {
+ public:
+  SNorm() {}
 
-        SNorm() {
-        }
+  virtual ~SNorm() FL_IOVERRIDE {}
 
-        virtual ~SNorm() FL_IOVERRIDE {
-        }
+  FL_DEFAULT_COPY_AND_MOVE(SNorm)
 
-        FL_DEFAULT_COPY_AND_MOVE(SNorm)
-
-        virtual SNorm* clone() const FL_IOVERRIDE = 0;
-    };
-}
-#endif  /* FL_SNORM_H */
+  virtual SNorm* clone() const FL_IOVERRIDE = 0;
+};
+}  // namespace fl
+#endif /* FL_SNORM_H */

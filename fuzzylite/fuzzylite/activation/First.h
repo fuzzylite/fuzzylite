@@ -21,84 +21,84 @@
 
 namespace fl {
 
-    /**
-      The First class is a RuleBlock Activation method that activates the first
-      @f$n@f$ rules whose activation degrees are greater than or equal to the given
-      threshold. The rules are iterated in the order they were added to the rule block.
+/**
+  The First class is a RuleBlock Activation method that activates the first
+  @f$n@f$ rules whose activation degrees are greater than or equal to the given
+  threshold. The rules are iterated in the order they were added to the rule
+  block.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see Last
-      @see Rule
-      @see RuleBlock
-      @see ActivationFactory
-      @since 6.0
-     */
+  @author Juan Rada-Vilela, Ph.D.
+  @see Last
+  @see Rule
+  @see RuleBlock
+  @see ActivationFactory
+  @since 6.0
+ */
 
-    class FL_API First : public Activation {
-    private:
-        int _numberOfRules;
-        scalar _threshold;
-    public:
+class FL_API First : public Activation {
+ private:
+  int _numberOfRules;
+  scalar _threshold;
 
-        explicit First(int numberOfRules = 1, scalar threshold = 0.0);
-        virtual ~First();
-        FL_DEFAULT_COPY_AND_MOVE(First)
+ public:
+  explicit First(int numberOfRules = 1, scalar threshold = 0.0);
+  virtual ~First();
+  FL_DEFAULT_COPY_AND_MOVE(First)
 
-        virtual std::string className() const FL_IOVERRIDE;
+  virtual std::string className() const FL_IOVERRIDE;
 
-        /**
-          Returns the number of rules and the threshold of the activation method
-          @return "numberOfRules threshold"
-         */
-        virtual std::string parameters() const FL_IOVERRIDE;
+  /**
+    Returns the number of rules and the threshold of the activation method
+    @return "numberOfRules threshold"
+   */
+  virtual std::string parameters() const FL_IOVERRIDE;
 
-        /**
-          Configures the activation method with the given number of rules and
-          threshold
-          @param parameters as "numberOfRules threshold"
-         */
-        virtual void configure(const std::string& parameters) FL_IOVERRIDE;
+  /**
+    Configures the activation method with the given number of rules and
+    threshold
+    @param parameters as "numberOfRules threshold"
+   */
+  virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        /**
-          Sets the number of rules for the activation degree
-          @param numberOfRules is the number of rules for the activation degree
-         */
-        virtual void setNumberOfRules(int numberOfRules);
+  /**
+    Sets the number of rules for the activation degree
+    @param numberOfRules is the number of rules for the activation degree
+   */
+  virtual void setNumberOfRules(int numberOfRules);
 
-        /**
-          Gets the number of rules for the activation degree
-          @return the number of rules for the activation degree
-         */
-        virtual int getNumberOfRules() const;
+  /**
+    Gets the number of rules for the activation degree
+    @return the number of rules for the activation degree
+   */
+  virtual int getNumberOfRules() const;
 
-        /**
-          Sets the threshold for the activation degree
-          @param threshold is the threshold for the activation degree
-         */
-        virtual void setThreshold(scalar threshold);
+  /**
+    Sets the threshold for the activation degree
+    @param threshold is the threshold for the activation degree
+   */
+  virtual void setThreshold(scalar threshold);
 
-        /**
-          Gets the threshold for the activation degree
-          @return the threshold for the activation degree
-         */
-        virtual scalar getThreshold() const;
+  /**
+    Gets the threshold for the activation degree
+    @return the threshold for the activation degree
+   */
+  virtual scalar getThreshold() const;
 
-        virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
+  virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
 
-        /**
-          Activates the first @f$n@f$ rules whose activation degrees are greater than or
-          equal to the given threshold. The rules are iterated in the order the
-          rules were added to the rule block.
-          @param ruleBlock is the rule block to activate
-         */
-        virtual void activate(RuleBlock* ruleBlock) FL_IOVERRIDE;
+  /**
+    Activates the first @f$n@f$ rules whose activation degrees are greater than
+    or equal to the given threshold. The rules are iterated in the order the
+    rules were added to the rule block.
+    @param ruleBlock is the rule block to activate
+   */
+  virtual void activate(RuleBlock* ruleBlock) FL_IOVERRIDE;
 
-        virtual First* clone() const FL_IOVERRIDE;
+  virtual First* clone() const FL_IOVERRIDE;
 
-        static Activation* constructor();
-    };
+  static Activation* constructor();
+};
 
-}
-
+}  // namespace fl
 
 #endif /* FL_FIRST_H */

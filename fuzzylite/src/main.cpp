@@ -14,37 +14,34 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
+#include <csignal>
+#include <fstream>
+
 #include "fuzzylite/Headers.h"
 
-#include <fstream>
-#include <csignal>
-
 int main(int argc, const char* argv[]) {
-    std::set_terminate(fl::Exception::terminate);
-    std::set_unexpected(fl::Exception::terminate);
-    ::signal(SIGSEGV, fl::Exception::signalHandler);
-    ::signal(SIGABRT, fl::Exception::signalHandler);
-    ::signal(SIGILL, fl::Exception::signalHandler);
-    ::signal(SIGSEGV, fl::Exception::signalHandler);
-    ::signal(SIGFPE, fl::Exception::signalHandler);
+  std::set_terminate(fl::Exception::terminate);
+  std::set_unexpected(fl::Exception::terminate);
+  ::signal(SIGSEGV, fl::Exception::signalHandler);
+  ::signal(SIGABRT, fl::Exception::signalHandler);
+  ::signal(SIGILL, fl::Exception::signalHandler);
+  ::signal(SIGSEGV, fl::Exception::signalHandler);
+  ::signal(SIGFPE, fl::Exception::signalHandler);
 #ifdef FL_UNIX
-    ::signal(SIGBUS, fl::Exception::signalHandler);
-    ::signal(SIGPIPE, fl::Exception::signalHandler);
+  ::signal(SIGBUS, fl::Exception::signalHandler);
+  ::signal(SIGPIPE, fl::Exception::signalHandler);
 #endif
 #ifdef FL_WINDOWS
-    //SetConsoleCtrlHandler(flSignalHandler, TRUE);
+  // SetConsoleCtrlHandler(flSignalHandler, TRUE);
 #endif
-    fl::fuzzylite::setDebugging(false);
+  fl::fuzzylite::setDebugging(false);
 
-    try {
-        fl::Console::main(argc, argv);
-    } catch (std::exception& ex) {
-        std::cout << ex.what() << "\nBACKTRACE:\n" <<
-                fl::Exception::btCallStack() << std::endl;
-        return EXIT_FAILURE;
-    }
-    return EXIT_SUCCESS;
+  try {
+    fl::Console::main(argc, argv);
+  } catch (std::exception& ex) {
+    std::cout << ex.what() << "\nBACKTRACE:\n"
+              << fl::Exception::btCallStack() << std::endl;
+    return EXIT_FAILURE;
+  }
+  return EXIT_SUCCESS;
 }
-
-
-

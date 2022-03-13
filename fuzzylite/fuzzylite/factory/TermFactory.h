@@ -17,29 +17,26 @@
 #ifndef FL_TERMFACTORY_H
 #define FL_TERMFACTORY_H
 
-
 #include "fuzzylite/factory/ConstructionFactory.h"
-
 #include "fuzzylite/term/Term.h"
 
 namespace fl {
 
-    /**
-      The TermFactory class is a ConstructionFactory of Term%s.
+/**
+  The TermFactory class is a ConstructionFactory of Term%s.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see Term
-      @see ConstructionFactory
-      @see FactoryManager
-      @since 4.0
-     */
-    class FL_API TermFactory : public ConstructionFactory<Term*> {
-    public:
-        TermFactory();
-        virtual ~TermFactory() FL_IOVERRIDE;
-        FL_DEFAULT_COPY_AND_MOVE(TermFactory)
-    };
-}
+  @author Juan Rada-Vilela, Ph.D.
+  @see Term
+  @see ConstructionFactory
+  @see FactoryManager
+  @since 4.0
+ */
+class FL_API TermFactory : public ConstructionFactory<Term*> {
+ public:
+  TermFactory();
+  virtual ~TermFactory() FL_IOVERRIDE;
+  FL_DEFAULT_COPY_AND_MOVE(TermFactory)
+};
+}  // namespace fl
 
-#endif  /* FL_TERMFACTORY_H */
-
+#endif /* FL_TERMFACTORY_H */

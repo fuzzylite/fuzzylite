@@ -20,27 +20,27 @@
 
 namespace fl {
 
-    std::string DrasticProduct::className() const {
-        return "DrasticProduct";
-    }
-
-    Complexity DrasticProduct::complexity() const {
-        return Complexity().comparison(1).function(2);
-    }
-
-    scalar DrasticProduct::compute(scalar a, scalar b) const {
-        if (Op::isEq(Op::max(a, b), 1.0)) {
-            return Op::min(a, b);
-        }
-        return 0.0;
-    }
-
-    DrasticProduct* DrasticProduct::clone() const {
-        return new DrasticProduct(*this);
-    }
-
-    TNorm* DrasticProduct::constructor() {
-        return new DrasticProduct;
-    }
-
+std::string DrasticProduct::className() const {
+  return "DrasticProduct";
 }
+
+Complexity DrasticProduct::complexity() const {
+  return Complexity().comparison(1).function(2);
+}
+
+scalar DrasticProduct::compute(scalar a, scalar b) const {
+  if (Op::isEq(Op::max(a, b), 1.0)) {
+    return Op::min(a, b);
+  }
+  return 0.0;
+}
+
+DrasticProduct* DrasticProduct::clone() const {
+  return new DrasticProduct(*this);
+}
+
+TNorm* DrasticProduct::constructor() {
+  return new DrasticProduct;
+}
+
+}  // namespace fl

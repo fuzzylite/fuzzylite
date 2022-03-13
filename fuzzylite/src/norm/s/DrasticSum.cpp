@@ -20,27 +20,27 @@
 
 namespace fl {
 
-    std::string DrasticSum::className() const {
-        return "DrasticSum";
-    }
-
-    Complexity DrasticSum::complexity() const {
-        return Complexity().comparison(1).function(2);
-    }
-
-    scalar DrasticSum::compute(scalar a, scalar b) const {
-        if (Op::isEq(Op::min(a, b), 0.0)) {
-            return Op::max(a, b);
-        }
-        return 1.0;
-    }
-
-    DrasticSum* DrasticSum::clone() const {
-        return new DrasticSum(*this);
-    }
-
-    SNorm* DrasticSum::constructor() {
-        return new DrasticSum;
-    }
-
+std::string DrasticSum::className() const {
+  return "DrasticSum";
 }
+
+Complexity DrasticSum::complexity() const {
+  return Complexity().comparison(1).function(2);
+}
+
+scalar DrasticSum::compute(scalar a, scalar b) const {
+  if (Op::isEq(Op::min(a, b), 0.0)) {
+    return Op::max(a, b);
+  }
+  return 1.0;
+}
+
+DrasticSum* DrasticSum::clone() const {
+  return new DrasticSum(*this);
+}
+
+SNorm* DrasticSum::constructor() {
+  return new DrasticSum;
+}
+
+}  // namespace fl

@@ -18,36 +18,35 @@
 
 namespace fl {
 
+int fuzzylite::_decimals = 3;
+std::ios_base::fmtflags fuzzylite::_scalarFormat = std::ios_base::fixed;
+scalar fuzzylite::_macheps = 1e-6;
+bool fuzzylite::_debugging = false;
+bool fuzzylite::_logging = true;
 
-    int fuzzylite::_decimals = 3;
-    std::ios_base::fmtflags fuzzylite::_scalarFormat = std::ios_base::fixed;
-    scalar fuzzylite::_macheps = 1e-6;
-    bool fuzzylite::_debugging = false;
-    bool fuzzylite::_logging = true;
-
-    std::string platform() {
+std::string platform() {
 #ifdef FL_UNIX
-        return "Unix";
+  return "Unix";
 #elif defined FL_WINDOWS
-        return "Windows";
+  return "Windows";
 #else
-        return "?";
+  return "?";
 #endif
-    }
-
-    std::string floatingPoint() {
-        scalar someScalar = 0;
-        FL_IUNUSED(someScalar);
-        std::string type;
-
-        std::ostringstream ss;
-#ifdef FL_USE_FLOAT
-        type = "float";
-#else
-        type = "double";
-#endif
-        ss << "fl::scalar is defined as \'" << type << "\' using " <<
-                sizeof (someScalar) << " bytes";
-        return ss.str();
-    }
 }
+
+std::string floatingPoint() {
+  scalar someScalar = 0;
+  FL_IUNUSED(someScalar);
+  std::string type;
+
+  std::ostringstream ss;
+#ifdef FL_USE_FLOAT
+  type = "float";
+#else
+  type = "double";
+#endif
+  ss << "fl::scalar is defined as \'" << type << "\' using "
+     << sizeof(someScalar) << " bytes";
+  return ss.str();
+}
+}  // namespace fl

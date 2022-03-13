@@ -17,59 +17,61 @@
 #ifndef FL_DEFUZZIFIERFACTORY_H
 #define FL_DEFUZZIFIERFACTORY_H
 
-#include "fuzzylite/factory/ConstructionFactory.h"
-
 #include "fuzzylite/defuzzifier/Defuzzifier.h"
 #include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
 #include "fuzzylite/defuzzifier/WeightedDefuzzifier.h"
+#include "fuzzylite/factory/ConstructionFactory.h"
 
 namespace fl {
 
-    /**
-      The DefuzzifierFactory class is a ConstructionFactory of Defuzzifier%s.
+/**
+  The DefuzzifierFactory class is a ConstructionFactory of Defuzzifier%s.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see Defuzzifier
-      @see ConstructionFactory
-      @see FactoryManager
-      @since 4.0
-     */
-    class FL_API DefuzzifierFactory : public ConstructionFactory<Defuzzifier*> {
-    public:
-        DefuzzifierFactory();
-        virtual ~DefuzzifierFactory() FL_IOVERRIDE;
-        FL_DEFAULT_COPY_AND_MOVE(DefuzzifierFactory)
+  @author Juan Rada-Vilela, Ph.D.
+  @see Defuzzifier
+  @see ConstructionFactory
+  @see FactoryManager
+  @since 4.0
+ */
+class FL_API DefuzzifierFactory : public ConstructionFactory<Defuzzifier*> {
+ public:
+  DefuzzifierFactory();
+  virtual ~DefuzzifierFactory() FL_IOVERRIDE;
+  FL_DEFAULT_COPY_AND_MOVE(DefuzzifierFactory)
 
-        /**
-          Creates a Defuzzifier by executing the registered constructor
-          @param key is the unique name by which constructors are registered
-          @param resolution is the resolution of an IntegralDefuzzifier
-          @param type is the type of a WeightedDefuzzifier
-          @return a Defuzzifier by executing the registered constructor and
-          setting its resolution or type accordingly
-         */
-        virtual Defuzzifier* constructDefuzzifier(const std::string& key,
-                int resolution, WeightedDefuzzifier::Type type) const;
+  /**
+    Creates a Defuzzifier by executing the registered constructor
+    @param key is the unique name by which constructors are registered
+    @param resolution is the resolution of an IntegralDefuzzifier
+    @param type is the type of a WeightedDefuzzifier
+    @return a Defuzzifier by executing the registered constructor and
+    setting its resolution or type accordingly
+   */
+  virtual Defuzzifier* constructDefuzzifier(
+      const std::string& key,
+      int resolution,
+      WeightedDefuzzifier::Type type) const;
 
-        /**
-          Creates a Defuzzifier by executing the registered constructor
-          @param key is the unique name by which constructors are registered
-          @param resolution is the resolution of an IntegralDefuzzifier
-          @return a Defuzzifier by executing the registered constructor and
-          setting its resolution
-         */
-        virtual Defuzzifier* constructDefuzzifier(const std::string& key, int resolution) const;
+  /**
+    Creates a Defuzzifier by executing the registered constructor
+    @param key is the unique name by which constructors are registered
+    @param resolution is the resolution of an IntegralDefuzzifier
+    @return a Defuzzifier by executing the registered constructor and
+    setting its resolution
+   */
+  virtual Defuzzifier* constructDefuzzifier(const std::string& key,
+                                            int resolution) const;
 
-        /**
-          Creates a Defuzzifier by executing the registered constructor
-          @param key is the unique name by which constructors are registered
-          @param type is the type of a WeightedDefuzzifier
-          @return a Defuzzifier by executing the registered constructor and
-          setting its type
-         */
-        virtual Defuzzifier* constructDefuzzifier(const std::string& key, WeightedDefuzzifier::Type type);
-    };
-}
+  /**
+    Creates a Defuzzifier by executing the registered constructor
+    @param key is the unique name by which constructors are registered
+    @param type is the type of a WeightedDefuzzifier
+    @return a Defuzzifier by executing the registered constructor and
+    setting its type
+   */
+  virtual Defuzzifier* constructDefuzzifier(const std::string& key,
+                                            WeightedDefuzzifier::Type type);
+};
+}  // namespace fl
 
-#endif  /* DEFUZZIFIERFACTORY_H */
-
+#endif /* DEFUZZIFIERFACTORY_H */

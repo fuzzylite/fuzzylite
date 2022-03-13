@@ -21,30 +21,27 @@
 
 namespace fl {
 
-    /**
-      The TNorm class is the base class for T-Norms, and it is utilized as the
-      conjunction fuzzy logic operator and as the implication (or `activation`
-      in versions 5.0 and earlier) fuzzy logic operator.
+/**
+  The TNorm class is the base class for T-Norms, and it is utilized as the
+  conjunction fuzzy logic operator and as the implication (or `activation`
+  in versions 5.0 and earlier) fuzzy logic operator.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @see RuleBlock::getConjunction()
-      @see RuleBlock::getImplication()
-      @see TNormFactory
-      @see Norm
-      @since 4.0
-     */
-    class FL_API TNorm : public Norm {
-    public:
+  @author Juan Rada-Vilela, Ph.D.
+  @see RuleBlock::getConjunction()
+  @see RuleBlock::getImplication()
+  @see TNormFactory
+  @see Norm
+  @since 4.0
+ */
+class FL_API TNorm : public Norm {
+ public:
+  TNorm() {}
 
-        TNorm() {
-        }
+  virtual ~TNorm() FL_IOVERRIDE {}
 
-        virtual ~TNorm() FL_IOVERRIDE {
-        }
+  FL_DEFAULT_COPY_AND_MOVE(TNorm)
 
-        FL_DEFAULT_COPY_AND_MOVE(TNorm)
-
-        virtual TNorm* clone() const FL_IOVERRIDE = 0;
-    };
-}
-#endif  /* TNORM_H */
+  virtual TNorm* clone() const FL_IOVERRIDE = 0;
+};
+}  // namespace fl
+#endif /* TNORM_H */

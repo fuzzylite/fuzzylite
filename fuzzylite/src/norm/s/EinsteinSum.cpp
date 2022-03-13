@@ -18,24 +18,24 @@
 
 namespace fl {
 
-    std::string EinsteinSum::className() const {
-        return "EinsteinSum";
-    }
-
-    Complexity EinsteinSum::complexity() const {
-        return Complexity().arithmetic(4);
-    }
-
-    scalar EinsteinSum::compute(scalar a, scalar b) const {
-        return (a + b) / (1.0 + a * b);
-    }
-
-    EinsteinSum* EinsteinSum::clone() const {
-        return new EinsteinSum(*this);
-    }
-
-    SNorm* EinsteinSum::constructor() {
-        return new EinsteinSum;
-    }
-
+std::string EinsteinSum::className() const {
+  return "EinsteinSum";
 }
+
+Complexity EinsteinSum::complexity() const {
+  return Complexity().arithmetic(4);
+}
+
+scalar EinsteinSum::compute(scalar a, scalar b) const {
+  return (a + b) / (1.0 + a * b);
+}
+
+EinsteinSum* EinsteinSum::clone() const {
+  return new EinsteinSum(*this);
+}
+
+SNorm* EinsteinSum::constructor() {
+  return new EinsteinSum;
+}
+
+}  // namespace fl

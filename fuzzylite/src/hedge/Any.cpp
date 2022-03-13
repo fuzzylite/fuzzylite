@@ -18,30 +18,29 @@
 
 namespace fl {
 
-    Any::Any() { }
+Any::Any() {}
 
-    Any::~Any() { }
+Any::~Any() {}
 
-    std::string Any::name() const {
-        return "any";
-    }
-
-    Complexity Any::complexity() const {
-        return Complexity();
-    }
-
-    scalar Any::hedge(scalar x) const {
-        FL_IUNUSED(x);
-        return 1.0;
-    }
-
-    Any* Any::clone() const {
-        return new Any(*this);
-    }
-
-    Hedge* Any::constructor() {
-        return new Any;
-    }
-
+std::string Any::name() const {
+  return "any";
 }
 
+Complexity Any::complexity() const {
+  return Complexity();
+}
+
+scalar Any::hedge(scalar x) const {
+  FL_IUNUSED(x);
+  return 1.0;
+}
+
+Any* Any::clone() const {
+  return new Any(*this);
+}
+
+Hedge* Any::constructor() {
+  return new Any;
+}
+
+}  // namespace fl

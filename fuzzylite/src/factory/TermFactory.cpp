@@ -40,31 +40,34 @@
 
 namespace fl {
 
-    TermFactory::TermFactory() : ConstructionFactory<Term*>("Term") {
-        registerConstructor("", fl::null);
-        registerConstructor(Bell().className(), &(Bell::constructor));
-        registerConstructor(Binary().className(), &(Binary::constructor));
-        registerConstructor(Concave().className(), &(Concave::constructor));
-        registerConstructor(Constant().className(), &(Constant::constructor));
-        registerConstructor(Cosine().className(), &(Cosine::constructor));
-        registerConstructor(Discrete().className(), &(Discrete::constructor));
-        registerConstructor(Function().className(), &(Function::constructor));
-        registerConstructor(Gaussian().className(), &(Gaussian::constructor));
-        registerConstructor(GaussianProduct().className(), &(GaussianProduct::constructor));
-        registerConstructor(Linear().className(), &(Linear::constructor));
-        registerConstructor(PiShape().className(), &(PiShape::constructor));
-        registerConstructor(Ramp().className(), &(Ramp::constructor));
-        registerConstructor(Rectangle().className(), &(Rectangle::constructor));
-        registerConstructor(SShape().className(), &(SShape::constructor));
-        registerConstructor(Sigmoid().className(), &(Sigmoid::constructor));
-        registerConstructor(SigmoidDifference().className(), &(SigmoidDifference::constructor));
-        registerConstructor(SigmoidProduct().className(), &(SigmoidProduct::constructor));
-        registerConstructor(Spike().className(), &(Spike::constructor));
-        registerConstructor(Trapezoid().className(), &(Trapezoid::constructor));
-        registerConstructor(Triangle().className(), &(Triangle::constructor));
-        registerConstructor(ZShape().className(), &(ZShape::constructor));
-    }
-
-    TermFactory::~TermFactory() { }
-
+TermFactory::TermFactory() : ConstructionFactory<Term*>("Term") {
+  registerConstructor("", fl::null);
+  registerConstructor(Bell().className(), &(Bell::constructor));
+  registerConstructor(Binary().className(), &(Binary::constructor));
+  registerConstructor(Concave().className(), &(Concave::constructor));
+  registerConstructor(Constant().className(), &(Constant::constructor));
+  registerConstructor(Cosine().className(), &(Cosine::constructor));
+  registerConstructor(Discrete().className(), &(Discrete::constructor));
+  registerConstructor(Function().className(), &(Function::constructor));
+  registerConstructor(Gaussian().className(), &(Gaussian::constructor));
+  registerConstructor(GaussianProduct().className(),
+                      &(GaussianProduct::constructor));
+  registerConstructor(Linear().className(), &(Linear::constructor));
+  registerConstructor(PiShape().className(), &(PiShape::constructor));
+  registerConstructor(Ramp().className(), &(Ramp::constructor));
+  registerConstructor(Rectangle().className(), &(Rectangle::constructor));
+  registerConstructor(SShape().className(), &(SShape::constructor));
+  registerConstructor(Sigmoid().className(), &(Sigmoid::constructor));
+  registerConstructor(SigmoidDifference().className(),
+                      &(SigmoidDifference::constructor));
+  registerConstructor(SigmoidProduct().className(),
+                      &(SigmoidProduct::constructor));
+  registerConstructor(Spike().className(), &(Spike::constructor));
+  registerConstructor(Trapezoid().className(), &(Trapezoid::constructor));
+  registerConstructor(Triangle().className(), &(Triangle::constructor));
+  registerConstructor(ZShape().className(), &(ZShape::constructor));
 }
+
+TermFactory::~TermFactory() {}
+
+}  // namespace fl

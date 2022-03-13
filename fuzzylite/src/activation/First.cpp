@@ -16,107 +16,107 @@
 
 #include "fuzzylite/activation/First.h"
 
-#include "fuzzylite/rule/RuleBlock.h"
-#include "fuzzylite/rule/Rule.h"
 #include "fuzzylite/Operation.h"
+#include "fuzzylite/rule/Rule.h"
+#include "fuzzylite/rule/RuleBlock.h"
 
 namespace fl {
 
-    First::First(int numberOfRules, scalar threshold) : Activation(),
-    _numberOfRules(numberOfRules), _threshold(threshold) { }
+First::First(int numberOfRules, scalar threshold)
+    : Activation(), _numberOfRules(numberOfRules), _threshold(threshold) {}
 
-    First::~First() { }
+First::~First() {}
 
-    std::string First::className() const {
-        return "First";
-    }
-
-    std::string First::parameters() const {
-        return Op::str(getNumberOfRules()) + " " + Op::str(getThreshold());
-    }
-
-    void First::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
-        std::vector<std::string> values = Op::split(parameters, " ");
-        std::size_t required = 2;
-        if (values.size() < required) {
-            std::ostringstream ex;
-            ex << "[configuration error] activation <" << className() << ">"
-                    << " requires <" << required << "> parameters";
-            throw Exception(ex.str(), FL_AT);
-        }
-        setNumberOfRules((int) Op::toScalar(values.at(0)));
-        setThreshold(Op::toScalar(values.at(1)));
-    }
-
-    Complexity First::complexity(const RuleBlock* ruleBlock) const {
-        Complexity result;
-
-        const TNorm* conjunction = ruleBlock->getConjunction();
-        const SNorm* disjunction = ruleBlock->getDisjunction();
-        const TNorm* implication = ruleBlock->getImplication();
-
-        Complexity meanFiring;
-        for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
-            result.comparison(1 + 3);
-            const Rule* rule = ruleBlock->getRule(i);
-            result += rule->complexityOfActivation(conjunction, disjunction);
-            meanFiring += rule->complexityOfFiring(implication);
-        }
-        meanFiring.divide(scalar(ruleBlock->numberOfRules()));
-
-        result += meanFiring.multiply(getNumberOfRules());
-        result += Complexity().arithmetic(1).multiply(getNumberOfRules());
-        return result;
-    }
-
-    void First::activate(RuleBlock* ruleBlock) {
-        FL_DBG("Activation: " << className() << " " << parameters());
-        const TNorm* conjunction = ruleBlock->getConjunction();
-        const SNorm* disjunction = ruleBlock->getDisjunction();
-        const TNorm* implication = ruleBlock->getImplication();
-
-        int activated = 0;
-        for (std::vector<Rule*>::const_iterator it = ruleBlock->rules().begin();
-                it != ruleBlock->rules().end(); ++it) {
-            Rule* rule = (*it);
-            rule->deactivate();
-
-            if (rule->isLoaded()) {
-                scalar activationDegree = rule->activateWith(conjunction, disjunction);
-                if (activated < _numberOfRules
-                        and Op::isGt(activationDegree, 0.0)
-                        and Op::isGE(activationDegree, _threshold)) {
-                    rule->trigger(implication);
-                    ++activated;
-                }
-            }
-        }
-    }
-
-    void First::setNumberOfRules(int numberOfRules) {
-        this->_numberOfRules = numberOfRules;
-    }
-
-    int First::getNumberOfRules() const {
-        return this->_numberOfRules;
-    }
-
-    void First::setThreshold(scalar threshold) {
-        this->_threshold = threshold;
-    }
-
-    scalar First::getThreshold() const {
-        return this->_threshold;
-    }
-
-    First* First::clone() const {
-        return new First(*this);
-    }
-
-    Activation* First::constructor() {
-        return new First;
-    }
-
+std::string First::className() const {
+  return "First";
 }
 
+std::string First::parameters() const {
+  return Op::str(getNumberOfRules()) + " " + Op::str(getThreshold());
+}
+
+void First::configure(const std::string& parameters) {
+  if (parameters.empty())
+    return;
+  std::vector<std::string> values = Op::split(parameters, " ");
+  std::size_t required = 2;
+  if (values.size() < required) {
+    std::ostringstream ex;
+    ex << "[configuration error] activation <" << className() << ">"
+       << " requires <" << required << "> parameters";
+    throw Exception(ex.str(), FL_AT);
+  }
+  setNumberOfRules((int)Op::toScalar(values.at(0)));
+  setThreshold(Op::toScalar(values.at(1)));
+}
+
+Complexity First::complexity(const RuleBlock* ruleBlock) const {
+  Complexity result;
+
+  const TNorm* conjunction = ruleBlock->getConjunction();
+  const SNorm* disjunction = ruleBlock->getDisjunction();
+  const TNorm* implication = ruleBlock->getImplication();
+
+  Complexity meanFiring;
+  for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
+    result.comparison(1 + 3);
+    const Rule* rule = ruleBlock->getRule(i);
+    result += rule->complexityOfActivation(conjunction, disjunction);
+    meanFiring += rule->complexityOfFiring(implication);
+  }
+  meanFiring.divide(scalar(ruleBlock->numberOfRules()));
+
+  result += meanFiring.multiply(getNumberOfRules());
+  result += Complexity().arithmetic(1).multiply(getNumberOfRules());
+  return result;
+}
+
+void First::activate(RuleBlock* ruleBlock) {
+  FL_DBG("Activation: " << className() << " " << parameters());
+  const TNorm* conjunction = ruleBlock->getConjunction();
+  const SNorm* disjunction = ruleBlock->getDisjunction();
+  const TNorm* implication = ruleBlock->getImplication();
+
+  int activated = 0;
+  for (std::vector<Rule*>::const_iterator it = ruleBlock->rules().begin();
+       it != ruleBlock->rules().end();
+       ++it) {
+    Rule* rule = (*it);
+    rule->deactivate();
+
+    if (rule->isLoaded()) {
+      scalar activationDegree = rule->activateWith(conjunction, disjunction);
+      if (activated < _numberOfRules and Op::isGt(activationDegree, 0.0)
+          and Op::isGE(activationDegree, _threshold)) {
+        rule->trigger(implication);
+        ++activated;
+      }
+    }
+  }
+}
+
+void First::setNumberOfRules(int numberOfRules) {
+  this->_numberOfRules = numberOfRules;
+}
+
+int First::getNumberOfRules() const {
+  return this->_numberOfRules;
+}
+
+void First::setThreshold(scalar threshold) {
+  this->_threshold = threshold;
+}
+
+scalar First::getThreshold() const {
+  return this->_threshold;
+}
+
+First* First::clone() const {
+  return new First(*this);
+}
+
+Activation* First::constructor() {
+  return new First;
+}
+
+}  // namespace fl
