@@ -24,7 +24,7 @@
 #include "fuzzylite/variable/OutputVariable.h"
 #include "fuzzylite/variable/Variable.h"
 
-namespace fl {
+namespace fuzzylite {
 
 FldExporter::FldExporter(const std::string& separator)
     : Exporter(),
@@ -355,4 +355,4 @@ FldExporter* FldExporter::clone() const {
   return new FldExporter(*this);
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

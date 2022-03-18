@@ -19,7 +19,7 @@
 
 #include "fuzzylite/norm/SNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The DrasticSum class is an SNorm that computes the drastic sum of any two
@@ -51,5 +51,5 @@ class FL_API DrasticSum FL_IFINAL : public SNorm {
 
   static SNorm* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_DRASTICSUM_H */

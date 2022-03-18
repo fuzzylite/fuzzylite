@@ -112,7 +112,7 @@
   @author Juan Rada-Vilela, Ph.D.
   @since 4.0
  */
-namespace fl {
+namespace fuzzylite {
 /**
   Represents floating-point values (typedef to float or double).
  */
@@ -210,9 +210,9 @@ const std::nullptr_t null = nullptr;
 
 #endif
 
-}  // namespace fl
+}  // namespace fuzzylite
 
-namespace fl {
+namespace fuzzylite {
 
 /**
 
@@ -361,9 +361,9 @@ class FL_API fuzzylite {
    */
   static std::string floatingPoint();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
-namespace fl {
+namespace fuzzylite {
 
 inline std::string fuzzylite::name() {
   return "fuzzylite";
@@ -432,6 +432,8 @@ inline void fuzzylite::setLogging(bool logging) {
 inline bool fuzzylite::isLogging() {
   return _logging;
 }
-}  // namespace fl
+}  // namespace fuzzylite
+
+namespace fl = fuzzylite;
 
 #endif /* FL_FUZZYLITE_H */

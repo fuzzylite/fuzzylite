@@ -3,7 +3,7 @@
 int main(int argc, char** argv){
 //Code automatically generated with fuzzylite 6.0.
 
-using namespace fl;
+using namespace fuzzylite;
 
 Engine* engine = new Engine;
 engine->setName("membrn1");

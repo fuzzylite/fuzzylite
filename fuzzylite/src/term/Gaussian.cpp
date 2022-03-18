@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/Gaussian.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Gaussian::Gaussian(const std::string& name,
                    scalar mean,
@@ -88,4 +88,4 @@ Term* Gaussian::constructor() {
   return new Gaussian;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

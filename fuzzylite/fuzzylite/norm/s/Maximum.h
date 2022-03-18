@@ -19,7 +19,7 @@
 
 #include "fuzzylite/norm/SNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Maximum class is an SNorm that computes the maximum of any two values.
@@ -47,5 +47,5 @@ class FL_API Maximum FL_IFINAL : public SNorm {
 
   static SNorm* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_MAXIMUM_H */

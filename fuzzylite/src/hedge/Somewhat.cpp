@@ -16,7 +16,7 @@
 
 #include "fuzzylite/hedge/Somewhat.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string Somewhat::name() const {
   return "somewhat";
@@ -38,4 +38,4 @@ Hedge* Somewhat::constructor() {
   return new Somewhat;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

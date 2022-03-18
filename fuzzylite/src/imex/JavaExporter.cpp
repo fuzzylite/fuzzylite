@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Headers.h"
 
-namespace fl {
+namespace fuzzylite {
 
 JavaExporter::JavaExporter(bool usingVariableNames)
     : Exporter(), _usingVariableNames(usingVariableNames) {}
@@ -263,4 +263,4 @@ JavaExporter* JavaExporter::clone() const {
   return new JavaExporter(*this);
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

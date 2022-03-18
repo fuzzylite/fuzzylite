@@ -22,7 +22,7 @@
 
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 class Variable;
 class Hedge;
 class Term;
@@ -122,5 +122,5 @@ class FL_API Operator FL_IFINAL : public Expression {
  private:
   FL_DISABLE_COPY(Operator)
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_FUZZYEXPRESSION_H */

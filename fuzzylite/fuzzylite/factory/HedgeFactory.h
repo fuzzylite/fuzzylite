@@ -20,7 +20,7 @@
 #include "fuzzylite/factory/ConstructionFactory.h"
 #include "fuzzylite/hedge/Hedge.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The HedgeFactory class is a ConstructionFactory of Hedge%s.
@@ -37,6 +37,6 @@ class FL_API HedgeFactory : public ConstructionFactory<Hedge*> {
   virtual ~HedgeFactory() FL_IOVERRIDE;
   FL_DEFAULT_COPY_AND_MOVE(HedgeFactory)
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_HEDGEFACTORY_H */

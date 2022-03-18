@@ -20,7 +20,7 @@
 #include "fuzzylite/rule/Rule.h"
 #include "fuzzylite/rule/RuleBlock.h"
 
-namespace fl {
+namespace fuzzylite {
 
 General::General() : Activation() {}
 
@@ -74,4 +74,4 @@ Activation* General::constructor() {
   return new General;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

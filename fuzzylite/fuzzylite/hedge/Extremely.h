@@ -19,7 +19,7 @@
 
 #include "fuzzylite/hedge/Hedge.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Extremely class is a Hedge located fifth in the ordered set
@@ -50,6 +50,6 @@ class FL_API Extremely FL_IFINAL : public Hedge {
 
   static Hedge* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_EXTREMELY_H */

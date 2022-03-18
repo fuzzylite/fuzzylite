@@ -19,7 +19,7 @@
 
 #include "fuzzylite/norm/TNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Minimum class is a TNorm that computes the minimum of any two values.
@@ -47,5 +47,5 @@ class FL_API Minimum FL_IFINAL : public TNorm {
 
   static TNorm* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_MINIMUM_H */

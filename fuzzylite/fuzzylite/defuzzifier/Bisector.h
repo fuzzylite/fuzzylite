@@ -19,7 +19,7 @@
 
 #include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Bisector class is an IntegralDefuzzifier that computes the bisector
@@ -59,6 +59,6 @@ class FL_API Bisector : public IntegralDefuzzifier {
 
   static Defuzzifier* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_BISECTOR_H */

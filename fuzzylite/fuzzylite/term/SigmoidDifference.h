@@ -19,7 +19,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The SigmoidDifference class is an extended Term that represents the
@@ -126,5 +126,5 @@ class FL_API SigmoidDifference : public Term {
 
   static Term* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_SIGMOIDDIFFERENCE_H */

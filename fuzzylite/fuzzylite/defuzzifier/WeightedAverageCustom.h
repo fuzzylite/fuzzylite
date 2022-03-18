@@ -19,7 +19,7 @@
 
 #include "fuzzylite/defuzzifier/WeightedDefuzzifier.h"
 
-namespace fl {
+namespace fuzzylite {
 class Activated;
 
 /**
@@ -72,6 +72,6 @@ class FL_API WeightedAverageCustom : public WeightedDefuzzifier {
 
   static Defuzzifier* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_WEIGHTEDAVERAGECUSTOM_H */

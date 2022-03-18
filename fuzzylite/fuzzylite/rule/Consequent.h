@@ -23,7 +23,7 @@
 #include "fuzzylite/Complexity.h"
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 class Engine;
 class Rule;
 class Proposition;
@@ -133,5 +133,5 @@ class FL_API Consequent {
  private:
   FL_DISABLE_COPY(Consequent)
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_CONSEQUENT_H */

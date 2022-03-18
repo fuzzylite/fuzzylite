@@ -20,7 +20,7 @@
 
 #include "fuzzylite/Exception.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Exporter::Exporter() {}
 
@@ -36,4 +36,4 @@ void Exporter::toFile(const std::string& path, const Engine* engine) const {
   writer.close();
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

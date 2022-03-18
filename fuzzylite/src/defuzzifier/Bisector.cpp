@@ -18,7 +18,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Bisector::Bisector(int resolution) : IntegralDefuzzifier(resolution) {}
 
@@ -68,4 +68,4 @@ Defuzzifier* Bisector::constructor() {
   return new Bisector;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

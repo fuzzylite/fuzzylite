@@ -17,7 +17,7 @@
 #include "fuzzylite/Headers.h"
 #include "test/catch.hpp"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
  * Tests: term/Triangle
@@ -63,4 +63,4 @@ TEST_CASE("triangle defuzzification is correct", "[term][triangle]") {
   Triangle t("T", 0, 0, 1);
   FL_LOG(c.defuzzify(&t, 0, 1));
 }
-}  // namespace fl
+}  // namespace fuzzylite

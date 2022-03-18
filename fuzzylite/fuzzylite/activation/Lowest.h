@@ -20,7 +20,7 @@
 #include "fuzzylite/activation/Activation.h"
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Lowest class is a RuleBlock Activation method that activates a given
@@ -81,6 +81,6 @@ class FL_API Lowest : public Activation {
 
   static Activation* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_LOWEST_H */

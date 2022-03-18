@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/Binary.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Binary::Binary(const std::string& name,
                scalar start,
@@ -100,4 +100,4 @@ Term* Binary::constructor() {
   return new Binary;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

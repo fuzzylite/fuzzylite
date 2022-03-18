@@ -19,7 +19,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The GaussianProduct class is an extended Term that represents the
@@ -135,5 +135,5 @@ class FL_API GaussianProduct : public Term {
 
   static Term* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_GAUSSIANPRODUCT_H */

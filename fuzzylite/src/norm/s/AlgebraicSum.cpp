@@ -16,7 +16,7 @@
 
 #include "fuzzylite/norm/s/AlgebraicSum.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string AlgebraicSum::className() const {
   return "AlgebraicSum";
@@ -38,4 +38,4 @@ SNorm* AlgebraicSum::constructor() {
   return new AlgebraicSum;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

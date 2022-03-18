@@ -19,7 +19,7 @@
 
 #include "fuzzylite/norm/SNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The NilpotentMaximum class is an SNorm that computes the nilpotent
@@ -51,6 +51,6 @@ class FL_API NilpotentMaximum FL_IFINAL : public SNorm {
 
   static SNorm* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_NILPOTENTMAXIMUM_H */

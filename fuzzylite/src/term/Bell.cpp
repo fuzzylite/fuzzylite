@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/Bell.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Bell::Bell(const std::string& name,
            scalar center,
@@ -98,4 +98,4 @@ Term* Bell::constructor() {
   return new Bell;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

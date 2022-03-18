@@ -19,7 +19,7 @@
 #include "fuzzylite/Exception.h"
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 LargestOfMaximum::LargestOfMaximum(int resolution)
     : IntegralDefuzzifier(resolution) {}
@@ -66,4 +66,4 @@ Defuzzifier* LargestOfMaximum::constructor() {
   return new LargestOfMaximum;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

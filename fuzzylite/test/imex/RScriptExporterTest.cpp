@@ -19,7 +19,7 @@
 #include "fuzzylite/Headers.h"
 #include "test/catch.hpp"
 
-namespace fl {
+namespace fuzzylite {
 
 TEST_CASE("RExporter creates plots with a single variable", "[imex]") {
   FL_unique_ptr<Engine> engine(Console::mamdani());
@@ -111,4 +111,4 @@ TEST_CASE("RExporter ") {
                            engine->outputVariables());
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

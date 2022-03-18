@@ -18,7 +18,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Centroid::Centroid(int resolution) : IntegralDefuzzifier(resolution) {}
 
@@ -67,4 +67,4 @@ Defuzzifier* Centroid::constructor() {
   return new Centroid;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

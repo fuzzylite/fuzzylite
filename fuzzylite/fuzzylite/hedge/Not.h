@@ -19,7 +19,7 @@
 
 #include "fuzzylite/hedge/Hedge.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Not class is a Hedge located first in the ordered set
@@ -46,6 +46,6 @@ class FL_API Not FL_IFINAL : public Hedge {
 
   static Hedge* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_NOT_H */

@@ -22,7 +22,7 @@
 #include "fuzzylite/Complexity.h"
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 class Engine;
 class Rule;
 class TNorm;
@@ -182,5 +182,5 @@ class FL_API Antecedent {
  private:
   FL_DISABLE_COPY(Antecedent)
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_ANTECEDENT_H */

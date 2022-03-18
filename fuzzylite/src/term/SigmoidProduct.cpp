@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/SigmoidProduct.h"
 
-namespace fl {
+namespace fuzzylite {
 
 SigmoidProduct::SigmoidProduct(const std::string& name,
                                scalar left,
@@ -112,4 +112,4 @@ Term* SigmoidProduct::constructor() {
   return new SigmoidProduct;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

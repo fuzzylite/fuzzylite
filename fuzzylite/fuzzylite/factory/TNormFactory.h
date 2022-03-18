@@ -20,7 +20,7 @@
 #include "fuzzylite/factory/ConstructionFactory.h"
 #include "fuzzylite/norm/TNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The TNormFactory class is a ConstructionFactory of TNorm%s.
@@ -37,6 +37,6 @@ class FL_API TNormFactory : public ConstructionFactory<TNorm*> {
   virtual ~TNormFactory() FL_IOVERRIDE;
   FL_DEFAULT_COPY_AND_MOVE(TNormFactory)
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_TNORMFACTORY_H */

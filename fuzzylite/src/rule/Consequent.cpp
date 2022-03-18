@@ -25,7 +25,7 @@
 #include "fuzzylite/term/Aggregated.h"
 #include "fuzzylite/variable/OutputVariable.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Consequent::Consequent() {}
 
@@ -263,4 +263,4 @@ std::string Consequent::toString() const {
   return ss.str();
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

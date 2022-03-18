@@ -23,7 +23,7 @@
 #include "fuzzylite/term/Constant.h"
 #include "fuzzylite/term/Linear.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Variable::Variable(const std::string& name, scalar minimum, scalar maximum)
     : _name(name),
@@ -297,4 +297,4 @@ Variable* Variable::clone() const {
   return new Variable(*this);
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

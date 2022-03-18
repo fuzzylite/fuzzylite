@@ -19,7 +19,7 @@
 
 #include "fuzzylite/activation/Activation.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
  The Last class is a RuleBlock Activation method that activates the last
@@ -97,6 +97,6 @@ class FL_API Last : public Activation {
 
   static Activation* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_LAST_H */

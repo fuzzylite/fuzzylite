@@ -22,7 +22,7 @@
 #include "fuzzylite/imex/Exporter.h"
 #include "fuzzylite/imex/FldExporter.h"
 
-namespace fl {
+namespace fuzzylite {
 class Engine;
 class InputVariable;
 class OutputVariable;
@@ -270,6 +270,6 @@ class FL_API RScriptExporter : public Exporter {
   virtual RScriptExporter* clone() const FL_IOVERRIDE;
 };
 
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_RSCRIPTEXPORTER_H */

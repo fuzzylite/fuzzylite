@@ -19,7 +19,7 @@
 
 #include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Centroid class is an IntegralDefuzzifier that computes the centroid
@@ -59,6 +59,6 @@ class FL_API Centroid : public IntegralDefuzzifier {
 
   static Defuzzifier* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_CENTROID_H */

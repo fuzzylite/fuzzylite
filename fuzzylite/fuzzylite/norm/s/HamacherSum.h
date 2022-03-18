@@ -19,7 +19,7 @@
 
 #include "fuzzylite/norm/SNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The HamacherSum class is an SNorm that computes the Hamacher sum of any
@@ -48,5 +48,5 @@ class FL_API HamacherSum FL_IFINAL : public SNorm {
 
   static SNorm* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_HAMACHERSUM_H */

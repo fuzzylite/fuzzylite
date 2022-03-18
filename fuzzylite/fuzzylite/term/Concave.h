@@ -19,7 +19,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Concave class is an edge Term that represents the concave membership
@@ -107,5 +107,5 @@ class FL_API Concave : public Term {
 
   static Term* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_CONCAVE_H */

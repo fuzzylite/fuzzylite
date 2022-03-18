@@ -19,7 +19,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Bell class is an extended Term that represents the generalized bell
@@ -110,5 +110,5 @@ class FL_API Bell : public Term {
 
   static Term* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_BELL_H */

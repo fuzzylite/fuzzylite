@@ -22,7 +22,7 @@
 #include "fuzzylite/term/Activated.h"
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 class SNorm;
 class TNorm;
@@ -210,5 +210,5 @@ class FL_API Aggregated : public Term {
    */
   virtual void clear();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_AGGREGATED_H */

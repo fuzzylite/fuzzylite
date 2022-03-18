@@ -17,7 +17,7 @@
 #include "fuzzylite/Headers.h"
 #include "test/catch.hpp"
 
-namespace fl {
+namespace fuzzylite {
 
 TEST_CASE("Exports same number of values in scopes", "[imex]") {
   FL_unique_ptr<Engine> engine(Console::mamdani());
@@ -45,4 +45,4 @@ TEST_CASE("Exports same number of values in scopes", "[imex]") {
   CHECK(int(linesAllVariables.size()) == expectedValues);
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

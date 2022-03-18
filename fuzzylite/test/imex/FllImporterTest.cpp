@@ -17,7 +17,7 @@
 #include "fuzzylite/Headers.h"
 #include "test/catch.hpp"
 
-namespace fl {
+namespace fuzzylite {
 
 TEST_CASE("Template of FuzzyLite Language works", "[imex]") {
   std::string fllTemplate;
@@ -53,4 +53,4 @@ TEST_CASE("Template of FuzzyLite Language works", "[imex]") {
   CHECK(FllExporter().toString(engine.get()) == FllExporter().toString(&empty));
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

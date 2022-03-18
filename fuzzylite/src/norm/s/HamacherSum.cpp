@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string HamacherSum::className() const {
   return "HamacherSum";
@@ -42,4 +42,4 @@ SNorm* HamacherSum::constructor() {
   return new HamacherSum;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

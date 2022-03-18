@@ -23,7 +23,7 @@
 #include "fuzzylite/Exception.h"
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Operation class contains methods for numeric operations, string
@@ -593,7 +593,7 @@ class Operation {
 
 /**A shortened type to refer to Operation*/
 typedef Operation Op;
-}  // namespace fl
+}  // namespace fuzzylite
 
 /**
   Template implementation
@@ -609,7 +609,7 @@ typedef Operation Op;
 #include "fuzzylite/norm/SNorm.h"
 #include "fuzzylite/norm/TNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 template <typename T>
 inline T Operation::min(T a, T b) {
@@ -1147,5 +1147,5 @@ FL_API inline std::string Operation::join(int items,
   va_end(args);
   return ss.str();
 }
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_OPERATION_H */

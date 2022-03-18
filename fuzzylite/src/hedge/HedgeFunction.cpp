@@ -16,7 +16,7 @@
 
 #include "fuzzylite/hedge/HedgeFunction.h"
 
-namespace fl {
+namespace fuzzylite {
 
 HedgeFunction::HedgeFunction(const std::string& formula) : Hedge() {
   _function.variables["x"] = fl::nan;
@@ -61,4 +61,4 @@ Hedge* HedgeFunction::constructor() {
   return new HedgeFunction;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

@@ -25,7 +25,7 @@
 #include "fuzzylite/Operation.h"
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 class Engine;
 
 /**
@@ -163,5 +163,5 @@ class FL_API Term {
    */
   virtual bool isMonotonic() const;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_TERM_H */

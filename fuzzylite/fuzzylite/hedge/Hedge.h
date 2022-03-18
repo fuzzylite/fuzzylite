@@ -22,7 +22,7 @@
 #include "fuzzylite/Complexity.h"
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Hedge class is the abstract class for hedges. Hedges are utilized
@@ -67,6 +67,6 @@ class FL_API Hedge {
    */
   virtual Hedge* clone() const = 0;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_HEDGE_H */

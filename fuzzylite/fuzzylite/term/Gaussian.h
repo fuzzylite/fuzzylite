@@ -19,7 +19,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Gaussian class is an extended Term that represents the %Gaussian
@@ -95,5 +95,5 @@ class FL_API Gaussian : public Term {
 
   static Term* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_GAUSSIAN_H */

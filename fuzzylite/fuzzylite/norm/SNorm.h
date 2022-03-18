@@ -19,7 +19,7 @@
 
 #include "fuzzylite/norm/Norm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The SNorm class is the base class for all S-Norms, and it is utilized as
@@ -44,5 +44,5 @@ class FL_API SNorm : public Norm {
 
   virtual SNorm* clone() const FL_IOVERRIDE = 0;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_SNORM_H */

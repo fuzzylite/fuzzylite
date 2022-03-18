@@ -17,7 +17,7 @@
 #include "fuzzylite/Headers.h"
 #include "test/catch.hpp"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
  * Tests: term/Discrete
@@ -135,4 +135,4 @@ TEST_CASE("discrete finds all elements using binary search",
     delete terms.at(i);
   }
 }
-}  // namespace fl
+}  // namespace fuzzylite

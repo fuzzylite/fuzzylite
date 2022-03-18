@@ -17,7 +17,7 @@
 #include "fuzzylite/Headers.h"
 #include "test/catch.hpp"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
  * Tests: term/Trapezoid
@@ -50,4 +50,4 @@ TEST_CASE("trapezoid can be open ended with +infinity", "[term][trapezoid]") {
   REQUIRE(Op::isEq(trapezoid.membership(-fl::inf), 0.0));
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

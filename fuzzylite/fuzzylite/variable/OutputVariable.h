@@ -22,7 +22,7 @@
 #include "fuzzylite/term/Aggregated.h"
 #include "fuzzylite/variable/Variable.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The OutputVariable class is a Variable that represents an output of the
@@ -220,5 +220,5 @@ class FL_API OutputVariable : public Variable {
 
   virtual OutputVariable* clone() const FL_IOVERRIDE;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_OUTPUTVARIABLE_H */

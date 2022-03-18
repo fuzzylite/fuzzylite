@@ -26,7 +26,7 @@
 #include "fuzzylite/term/Sigmoid.h"
 #include "fuzzylite/term/ZShape.h"
 
-namespace fl {
+namespace fuzzylite {
 
 WeightedDefuzzifier::WeightedDefuzzifier(Type type) : _type(type) {}
 
@@ -80,4 +80,4 @@ WeightedDefuzzifier::Type WeightedDefuzzifier::inferType(
   return Tsukamoto;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

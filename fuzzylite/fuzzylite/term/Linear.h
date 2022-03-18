@@ -19,7 +19,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 class Engine;
 
 /**
@@ -152,7 +152,7 @@ class FL_API Linear : public Term {
                         T firstCoefficient,
                         ...);
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 /**
   Template implementation
@@ -160,7 +160,7 @@ class FL_API Linear : public Term {
 
 #include "fuzzylite/Engine.h"
 
-namespace fl {
+namespace fuzzylite {
 
 template <typename T>
 inline Linear* Linear::create(const std::string& name,
@@ -182,5 +182,5 @@ inline Linear* Linear::create(const std::string& name,
 
   return new Linear(name, coefficients, engine);
 }
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_LINEAR_H */

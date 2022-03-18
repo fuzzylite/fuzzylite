@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Headers.h"
 
-namespace fl {
+namespace fuzzylite {
 
 FisImporter::FisImporter() : Importer() {}
 
@@ -586,4 +586,4 @@ FisImporter* FisImporter::clone() const {
   return new FisImporter(*this);
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

@@ -20,7 +20,7 @@
 #include "fuzzylite/Complexity.h"
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 class RuleBlock;
 
 /**
@@ -88,6 +88,6 @@ class FL_API Activation {
   virtual Activation* clone() const = 0;
 };
 
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_ACTIVATION_H */

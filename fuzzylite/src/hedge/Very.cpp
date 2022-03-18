@@ -16,7 +16,7 @@
 
 #include "fuzzylite/hedge/Very.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string Very::name() const {
   return "very";
@@ -38,4 +38,4 @@ Hedge* Very::constructor() {
   return new Very;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

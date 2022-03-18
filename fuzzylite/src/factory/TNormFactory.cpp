@@ -24,7 +24,7 @@
 #include "fuzzylite/norm/t/Minimum.h"
 #include "fuzzylite/norm/t/NilpotentMinimum.h"
 
-namespace fl {
+namespace fuzzylite {
 
 TNormFactory::TNormFactory() : ConstructionFactory<TNorm*>("TNorm") {
   registerConstructor("", fl::null);
@@ -45,4 +45,4 @@ TNormFactory::TNormFactory() : ConstructionFactory<TNorm*>("TNorm") {
 
 TNormFactory::~TNormFactory() {}
 
-}  // namespace fl
+}  // namespace fuzzylite

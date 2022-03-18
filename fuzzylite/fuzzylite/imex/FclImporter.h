@@ -23,7 +23,7 @@
 
 #include "fuzzylite/imex/Importer.h"
 
-namespace fl {
+namespace fuzzylite {
 class Norm;
 class TNorm;
 class SNorm;
@@ -73,5 +73,5 @@ class FL_API FclImporter : public Importer {
   virtual std::pair<bool, bool> parseLocks(const std::string& line) const;
   virtual bool parseEnabled(const std::string& line) const;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_FCLIMPORTER_H */

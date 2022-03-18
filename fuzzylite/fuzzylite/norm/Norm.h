@@ -22,7 +22,7 @@
 #include "fuzzylite/Complexity.h"
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Norm class is the abstract class for norms.
@@ -66,5 +66,5 @@ class FL_API Norm {
    */
   virtual Norm* clone() const = 0;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_NORM_H */

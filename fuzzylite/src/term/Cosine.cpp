@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/Cosine.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Cosine::Cosine(const std::string& name,
                scalar center,
@@ -91,4 +91,4 @@ Term* Cosine::constructor() {
   return new Cosine;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

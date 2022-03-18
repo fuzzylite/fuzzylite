@@ -20,7 +20,7 @@
 /**
     The Headers.h file contains the headers of all the classes in the
     `fuzzylite` library, thereby encouraging the use of the directive `#include
-    "fl/Headers.h"` in projects using the library.
+    "fuzzylite/Headers.h"` in projects using the library.
  */
 
 #include "fuzzylite/Benchmark.h"

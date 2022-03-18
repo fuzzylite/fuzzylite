@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string Extremely::name() const {
   return "extremely";
@@ -40,4 +40,4 @@ Hedge* Extremely::constructor() {
   return new Extremely;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

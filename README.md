@@ -145,7 +145,7 @@ RuleBlock: mamdani
 #include "fuzzylite/Headers.h"
 
 int main(int argc, char* argv[]){
-    using namespace fl;
+    using namespace fuzzylite;
     Engine* engine = FllImporter().fromFile("ObstacleAvoidance.fll");
     
     std::string status;
@@ -171,7 +171,7 @@ int main(int argc, char* argv[]){
 #include "fuzzylite/Headers.h"
 
 int main(int argc, char* argv[]){
-    using namespace fl;
+    using namespace fuzzylite;
     //Code automatically generated with fuzzylite 6.0.
 
     Engine* engine = new Engine;

@@ -18,7 +18,7 @@
 
 #include "fuzzylite/imex/FllExporter.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Activated::Activated(const Term* term, scalar degree, const TNorm* implication)
     : Term(""), _term(term), _degree(degree), _implication(implication) {
@@ -111,4 +111,4 @@ Activated* Activated::clone() const {
   return new Activated(*this);
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

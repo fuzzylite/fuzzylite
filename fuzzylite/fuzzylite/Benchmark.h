@@ -24,7 +24,7 @@
 #include "fuzzylite/fuzzylite.h"
 #include "fuzzylite/imex/FldExporter.h"
 
-namespace fl {
+namespace fuzzylite {
 
 class Engine;
 
@@ -395,6 +395,6 @@ class FL_API Benchmark {
                              const std::string& delimiter = "\t") const;
 };
 
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_BENCHMARK_H */

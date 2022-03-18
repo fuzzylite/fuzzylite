@@ -17,7 +17,7 @@
 #include "fuzzylite/Headers.h"
 #include "test/catch.hpp"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
  * Tests: hedge/HedgeFunction
@@ -139,4 +139,4 @@ TEST_CASE("HedgeFunction x*x is equivalent to hedge Very",
 #endif
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

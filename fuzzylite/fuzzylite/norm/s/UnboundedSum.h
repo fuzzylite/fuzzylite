@@ -19,7 +19,7 @@
 
 #include "fuzzylite/norm/SNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The UnboundedSum class is an SNorm that computes the sum of any two values.
@@ -47,6 +47,6 @@ class FL_API UnboundedSum FL_IFINAL : public SNorm {
 
   static SNorm* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_BOUNDEDSUM_H */

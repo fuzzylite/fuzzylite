@@ -19,7 +19,7 @@
 #include "fuzzylite/Exception.h"
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 MeanOfMaximum::MeanOfMaximum(int resolution)
     : IntegralDefuzzifier(resolution) {}
@@ -78,4 +78,4 @@ Defuzzifier* MeanOfMaximum::constructor() {
   return new MeanOfMaximum;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

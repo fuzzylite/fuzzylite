@@ -25,7 +25,7 @@
 #include "fuzzylite/variable/InputVariable.h"
 #include "fuzzylite/variable/OutputVariable.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
  * Parsing elements
@@ -668,4 +668,4 @@ Function::Node* Function::parse(const std::string& formula) {
   return stack.top();
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

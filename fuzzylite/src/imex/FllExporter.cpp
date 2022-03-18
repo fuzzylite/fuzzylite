@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Headers.h"
 
-namespace fl {
+namespace fuzzylite {
 
 FllExporter::FllExporter(const std::string& indent,
                          const std::string& separator)
@@ -235,4 +235,4 @@ FllExporter* FllExporter::clone() const {
   return new FllExporter(*this);
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

@@ -19,7 +19,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The SShape class is an edge Term that represents the S-shaped membership
@@ -105,5 +105,5 @@ class FL_API SShape : public Term {
 
   static Term* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_SSHAPE_H */

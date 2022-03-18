@@ -22,7 +22,7 @@
 #include "fuzzylite/rule/Rule.h"
 #include "fuzzylite/rule/RuleBlock.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Lowest::Lowest(int numberOfRules)
     : Activation(), _numberOfRules(numberOfRules) {}
@@ -121,4 +121,4 @@ Activation* Lowest::constructor() {
   return new Lowest;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

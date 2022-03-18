@@ -19,7 +19,7 @@
 
 #include "fuzzylite/norm/TNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The DrasticProduct class is a TNorm that computes the drastic product of
@@ -51,5 +51,5 @@ class FL_API DrasticProduct FL_IFINAL : public TNorm {
 
   static TNorm* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_DRASTICPRODUCT_H */

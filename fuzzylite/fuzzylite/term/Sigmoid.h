@@ -19,7 +19,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Sigmoid class is an edge Term that represents the sigmoid membership
@@ -117,5 +117,5 @@ class FL_API Sigmoid : public Term {
 
   static Term* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_SIGMOID_H */

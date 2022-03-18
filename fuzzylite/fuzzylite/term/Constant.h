@@ -19,7 +19,7 @@
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Constant class is a (zero) polynomial Term that represents a constant
@@ -75,5 +75,5 @@ class FL_API Constant : public Term {
 
   static Term* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_CONSTANT_H */

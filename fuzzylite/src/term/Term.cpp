@@ -20,7 +20,7 @@
 #include "fuzzylite/term/Function.h"
 #include "fuzzylite/term/Linear.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Term::Term(const std::string& name, scalar height)
     : _name(name), _height(height) {}
@@ -64,4 +64,4 @@ bool Term::isMonotonic() const {
   return false;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

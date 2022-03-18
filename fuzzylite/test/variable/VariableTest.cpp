@@ -19,7 +19,7 @@
 #include "fuzzylite/Headers.h"
 #include "test/catch.hpp"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
  * Tests: variable/Variable
@@ -70,4 +70,4 @@ TEST_CASE("variable of Triangle terms is sorted", "[variable][variable]") {
   FL_DBG(variable.toString());
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

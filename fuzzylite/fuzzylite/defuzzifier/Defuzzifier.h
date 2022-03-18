@@ -22,7 +22,7 @@
 #include "fuzzylite/Complexity.h"
 #include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 class Term;
 
 /**
@@ -68,6 +68,6 @@ class FL_API Defuzzifier {
                            scalar minimum,
                            scalar maximum) const = 0;
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_DEFUZZIFIER_H */

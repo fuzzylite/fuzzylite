@@ -19,7 +19,7 @@
 
 #include "fuzzylite/hedge/Hedge.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Seldom class is a Hedge located second in the ordered set
@@ -51,6 +51,6 @@ class FL_API Seldom FL_IFINAL : public Hedge {
 
   static Hedge* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_SELDOM_H */

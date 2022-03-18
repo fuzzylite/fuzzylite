@@ -19,7 +19,7 @@
 
 #include "fuzzylite/hedge/Hedge.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The Somewhat class is a Hedge located third in the ordered set
@@ -46,6 +46,6 @@ class FL_API Somewhat FL_IFINAL : public Hedge {
 
   static Hedge* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_SOMEWHAT_H */

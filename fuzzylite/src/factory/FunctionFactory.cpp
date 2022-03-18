@@ -18,7 +18,7 @@
 
 #include "fuzzylite/rule/Rule.h"
 
-namespace fl {
+namespace fuzzylite {
 
 FunctionFactory::FunctionFactory()
     : CloningFactory<Function::Element*>("Function::Element") {
@@ -279,4 +279,4 @@ std::vector<std::string> FunctionFactory::availableFunctions() const {
   return result;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

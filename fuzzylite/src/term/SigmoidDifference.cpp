@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/SigmoidDifference.h"
 
-namespace fl {
+namespace fuzzylite {
 
 SigmoidDifference::SigmoidDifference(const std::string& name,
                                      scalar left,
@@ -113,4 +113,4 @@ Term* SigmoidDifference::constructor() {
   return new SigmoidDifference;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

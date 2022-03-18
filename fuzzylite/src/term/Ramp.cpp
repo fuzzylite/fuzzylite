@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/Ramp.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Ramp::Ramp(const std::string& name, scalar start, scalar end, scalar height)
     : Term(name, height), _start(start), _end(end) {}
@@ -122,4 +122,4 @@ Term* Ramp::constructor() {
   return new Ramp;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

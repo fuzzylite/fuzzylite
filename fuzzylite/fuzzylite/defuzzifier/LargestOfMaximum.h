@@ -19,7 +19,7 @@
 
 #include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The LargestOfMaximum class is an IntegralDefuzzifier that computes the
@@ -62,6 +62,6 @@ class FL_API LargestOfMaximum : public IntegralDefuzzifier {
 
   static Defuzzifier* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_LARGESTOFMAXIMUM_H */

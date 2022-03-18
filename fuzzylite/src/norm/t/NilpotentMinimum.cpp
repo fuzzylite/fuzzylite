@@ -18,7 +18,7 @@
 
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
 std::string NilpotentMinimum::className() const {
   return "NilpotentMinimum";
@@ -43,4 +43,4 @@ TNorm* NilpotentMinimum::constructor() {
   return new NilpotentMinimum;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

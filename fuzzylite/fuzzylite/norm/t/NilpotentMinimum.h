@@ -19,7 +19,7 @@
 
 #include "fuzzylite/norm/TNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The NilpotentMinimum class is a TNorm that computes the nilpotent minimum
@@ -51,5 +51,5 @@ class FL_API NilpotentMinimum FL_IFINAL : public TNorm {
 
   static TNorm* constructor();
 };
-}  // namespace fl
+}  // namespace fuzzylite
 #endif /* FL_NILPOTENTMINIMUM_H */

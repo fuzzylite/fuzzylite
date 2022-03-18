@@ -28,7 +28,7 @@
 #include "fuzzylite/variable/InputVariable.h"
 #include "fuzzylite/variable/OutputVariable.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Antecedent::Antecedent() : _text(""), _expression(fl::null) {}
 
@@ -481,4 +481,4 @@ std::string Antecedent::toPostfix(const Expression* node) const {
   return ss.str();
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

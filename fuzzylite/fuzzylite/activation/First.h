@@ -19,7 +19,7 @@
 
 #include "fuzzylite/activation/Activation.h"
 
-namespace fl {
+namespace fuzzylite {
 
 /**
   The First class is a RuleBlock Activation method that activates the first
@@ -99,6 +99,6 @@ class FL_API First : public Activation {
   static Activation* constructor();
 };
 
-}  // namespace fl
+}  // namespace fuzzylite
 
 #endif /* FL_FIRST_H */

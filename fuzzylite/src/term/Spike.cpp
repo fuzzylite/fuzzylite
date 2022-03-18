@@ -16,7 +16,7 @@
 
 #include "fuzzylite/term/Spike.h"
 
-namespace fl {
+namespace fuzzylite {
 
 Spike::Spike(const std::string& name,
              scalar center,
@@ -86,4 +86,4 @@ Term* Spike::constructor() {
   return new Spike;
 }
 
-}  // namespace fl
+}  // namespace fuzzylite
