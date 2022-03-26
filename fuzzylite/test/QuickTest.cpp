@@ -15,7 +15,7 @@
  */
 
 #include "fuzzylite/Headers.h"
-#include "test/catch.hpp"
+#include "test/catch2.hpp"
 
 namespace fuzzylite {
 

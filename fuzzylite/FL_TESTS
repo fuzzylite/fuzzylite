@@ -1,4 +1,4 @@
-test/catch.hpp
+test/catch2.hpp
 test/MainTest.cpp
 test/BenchmarkTest.cpp
 test/QuickTest.cpp

@@ -111,8 +111,11 @@ done
 if [ ${#BUILD[@]} -eq 0 ]; then BUILD+=( "release" "debug" ); fi
 
 echo "Building schedule: ${BUILD[@]}"
-echo "Starting in 3 seconds..."
-sleep 3
+if [ -z "$FL_NOW" ]; then
+    echo "Starting in 3 seconds..."
+    sleep 3
+fi
+
 
 for option in "${BUILD[@]}"
 do
