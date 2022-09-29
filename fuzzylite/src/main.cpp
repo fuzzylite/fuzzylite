@@ -20,13 +20,15 @@
 #include "fuzzylite/Headers.h"
 
 int main(int argc, const char* argv[]) {
-  std::set_terminate(fl::Exception::terminate);
-  std::set_unexpected(fl::Exception::terminate);
-  ::signal(SIGSEGV, fl::Exception::signalHandler);
-  ::signal(SIGABRT, fl::Exception::signalHandler);
-  ::signal(SIGILL, fl::Exception::signalHandler);
-  ::signal(SIGSEGV, fl::Exception::signalHandler);
-  ::signal(SIGFPE, fl::Exception::signalHandler);
+    std::set_terminate(fl::Exception::terminate);
+#if __cplusplus < 201703L
+    std::set_unexpected(fl::Exception::terminate);
+#endif
+    ::signal(SIGSEGV, fl::Exception::signalHandler);
+    ::signal(SIGABRT, fl::Exception::signalHandler);
+    ::signal(SIGILL, fl::Exception::signalHandler);
+    ::signal(SIGSEGV, fl::Exception::signalHandler);
+    ::signal(SIGFPE, fl::Exception::signalHandler);
 #ifdef FL_UNIX
   ::signal(SIGBUS, fl::Exception::signalHandler);
   ::signal(SIGPIPE, fl::Exception::signalHandler);
