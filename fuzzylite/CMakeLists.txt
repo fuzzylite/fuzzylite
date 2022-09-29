@@ -237,7 +237,7 @@ endif(FL_BUILD_BINARY)
 
 if(FL_BUILD_TESTS)
     if (FL_CPP98)
-        message( FATAL_ERROR "Tests could not be built: Testing library `catch2` only works with C++11" )
+        message( AUTHOR_WARNING "Tests could not be built: Testing library `catch2` only works with C++11" )
     endif()
     add_executable(fl-test ${fl-headers} ${fl-tests})
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
