@@ -1,7 +1,14 @@
 Version 7.0
 ===========
 
+* Removed Travis and appveyor in favour of GitHub Actions
+* Codebase formatted with `clang-format`
 * The headers directory is renamed from `fl` to `fuzzylite`
+* The namespace is renamed from `fl` to `fuzzylite`
+* The deployment target on OSX is set to 10.15
+* The tests use `catch2` as suggested in [#94](https://github.com/fuzzylite/fuzzylite/issues/94)
+* 
+
 
 Version 6.0
 ===========

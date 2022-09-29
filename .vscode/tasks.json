@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "relese",
+            "label": "release",
             "type": "shell",
             "windows": {
                 "command": "cd ${workspaceFolder}/fuzzylite; build.bat release"
@@ -18,6 +18,40 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
+            }
+        },
+        {
+            "label": "test",
+            "type": "shell",
+            "windows": {
+                "command": "cd ${workspaceFolder}/fuzzylite; FL_BUILD_TESTS=ON build.bat release"
+            },
+            "linux": {
+                "command": "cd ${workspaceFolder}/fuzzylite; FL_BUILD_TESTS=ON FL_NOW=ON sh build.sh release"
+            },
+            "osx": {
+                "command": "cd ${workspaceFolder}/fuzzylite; FL_BUILD_TESTS=ON FL_NOW=ON sh build.sh release"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "format",
+            "type": "shell",
+            "windows": {
+                "command": "cd ${workspaceFolder}/fuzzylite; build.bat format"
+            },
+            "linux": {
+                "command": "cd ${workspaceFolder}/fuzzylite; sh build.sh format"
+            },
+            "osx": {
+                "command": "cd ${workspaceFolder}/fuzzylite; sh build.sh format"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
             }
         }
     ]

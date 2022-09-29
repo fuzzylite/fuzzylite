@@ -236,15 +236,15 @@ if(FL_BUILD_BINARY)
 endif(FL_BUILD_BINARY)
 
 if(FL_BUILD_TESTS)
+    if (FL_CPP98)
+        message( FATAL_ERROR "Tests could not be built: Testing library `catch2` only works with C++11" )
+    endif()
     add_executable(fl-test ${fl-headers} ${fl-tests})
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
 
     target_compile_definitions(fl-test PRIVATE FL_IMPORT_LIBRARY)
-    if (FL_CPP98)
-        target_compile_definitions(fl-test PRIVATE CATCH_CONFIG_NO_CPP11)
-    endif()
 
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         #Ignore QuickTest macro expansion comparison: CHECK(xstr(4+10) == "4+10")
