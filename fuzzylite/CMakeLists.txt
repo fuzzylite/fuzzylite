@@ -235,10 +235,10 @@ if(FL_BUILD_BINARY)
     list(APPEND fl-targets fl-bin)
 endif(FL_BUILD_BINARY)
 
-if(FL_BUILD_TESTS)
-    if (FL_CPP98)
-        message( AUTHOR_WARNING "Tests could not be built: Testing library `catch2` only works with C++11" )
-    endif()
+
+if(FL_BUILD_TESTS AND FL_CPP98)
+    message( WARNING "Tests can't be built: Testing library `catch2` only works with C++11" )
+elseif (FL_BUILD_TESTS)
     add_executable(fl-test ${fl-headers} ${fl-tests})
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
