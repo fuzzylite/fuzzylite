@@ -2,9 +2,9 @@ name: FuzzyLite (Windows)
 
 on:
   pull_request:
-    branches: [ "main", "development" ]
+    branches: [ "main" ]
   push: 
-    branches: [ "main", "development" ]
+    branches: [ "main" ]
   schedule: 
     # run monthly on the first day
     - cron: "0 0 1 * * "
