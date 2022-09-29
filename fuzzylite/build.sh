@@ -78,7 +78,6 @@ lint(){
 all(){
     debug
     release
-    test
 }
 
 clean(){

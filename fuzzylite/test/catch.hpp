@@ -1,6 +1,6 @@
 /*
- *  Catch v2.13.8
- *  Generated: 2022-01-03 21:20:09.589503
+ *  Catch v2.13.9
+ *  Generated: 2022-04-12 22:37:23.260201
  *  ----------------------------------------------------------
  *  This file has been merged from multiple headers. Please don't edit it directly
  *  Copyright (c) 2022 Two Blue Cubes Ltd. All rights reserved.
@@ -15,7 +15,7 @@
 
 #define CATCH_VERSION_MAJOR 2
 #define CATCH_VERSION_MINOR 13
-#define CATCH_VERSION_PATCH 8
+#define CATCH_VERSION_PATCH 9
 
 #ifdef __clang__
 #    pragma clang system_header
@@ -3895,7 +3895,7 @@ namespace Catch {
     (Catch::ReusableStringStream() << __VA_ARGS__).str()
 
 #define CATCH_INTERNAL_ERROR(...) \
-    Catch::throw_logic_error(CATCH_MAKE_MSG( CATCH_INTERNAL_LINEINFO << ": Internal Catch2 error: " << __VA_ARGS__))
+    Catch::throw_logic_error(CATCH_MAKE_MSG( CATCH_INTERNAL_LINEINFO << ": Internal catch error: " << __VA_ARGS__))
 
 #define CATCH_ERROR(...) \
     Catch::throw_domain_error(CATCH_MAKE_MSG( __VA_ARGS__ ))
@@ -4551,7 +4551,7 @@ namespace Catch {
 namespace Catch {
 
     // This is a simple implementation of C++11 Uniform Random Number
-    // Generator. It does not provide all operators, because Catch2
+    // Generator. It does not provide all operators, because catch
     // does not use it, but it should behave as expected inside stdlib's
     // distributions.
     // The implementation is based on the PCG family (http://pcg-random.org)
@@ -4585,7 +4585,7 @@ namespace Catch {
 
         std::uint64_t m_state;
         // This part of the state determines which "stream" of the numbers
-        // is chosen -- we take it as a constant for Catch2, so we only
+        // is chosen -- we take it as a constant for catch, so we only
         // need to deal with seeding the main state.
         // Picked by reading 8 bytes from `/dev/random` :-)
         static const std::uint64_t s_inc = (0x13ed0cc53f939476ULL << 1ULL) | 1ULL;
@@ -10783,7 +10783,7 @@ namespace {
         Catch::getCurrentContext().getResultCapture()->handleFatalErrorCondition( message );
     }
 
-    //! Minimal size Catch2 needs for its own fatal error handling.
+    //! Minimal size catch needs for its own fatal error handling.
     //! Picked anecdotally, so it might not be sufficient on all
     //! platforms, and for all configurations.
     constexpr std::size_t minStackSizeForErrors = 32 * 1024;
@@ -13392,6 +13392,10 @@ namespace Catch {
                     filename.erase(0, lastSlash);
                     filename[0] = '#';
                 }
+                else
+                {
+                    filename.insert(0, "#");
+                }
 
                 auto lastDot = filename.find_last_of('.');
                 if (lastDot != std::string::npos) {
@@ -13448,7 +13452,7 @@ namespace Catch {
     }
     void Session::libIdentify() {
         Catch::cout()
-                << std::left << std::setw(16) << "description: " << "A Catch2 test executable\n"
+                << std::left << std::setw(16) << "description: " << "A catch test executable\n"
                 << std::left << std::setw(16) << "category: " << "testframework\n"
                 << std::left << std::setw(16) << "framework: " << "Catch Test\n"
                 << std::left << std::setw(16) << "version: " << libraryVersion() << std::endl;
@@ -15308,7 +15312,7 @@ namespace Catch {
 
 // start catch_config_uncaught_exceptions.hpp
 
-//              Copyright Catch2 Authors
+//              Copyright catch Authors
 // Distributed under the Boost Software License, Version 1.0.
 //   (See accompanying file LICENSE_1_0.txt or copy at
 //        https://www.boost.org/LICENSE_1_0.txt)
@@ -15387,7 +15391,7 @@ namespace Catch {
     }
 
     Version const& libraryVersion() {
-        static Version version( 2, 13, 8, "", 0 );
+        static Version version( 2, 13, 9, "", 0 );
         return version;
     }
 
@@ -17890,7 +17894,7 @@ using Catch::Detail::Approx;
 #define INFO( msg ) (void)(0)
 #define UNSCOPED_INFO( msg ) (void)(0)
 #define WARN( msg ) (void)(0)
-#define CAPTURE( msg ) (void)(0)
+#define CAPTURE( ... ) (void)(0)
 
 #define TEST_CASE( ... )  INTERNAL_CATCH_TESTCASE_NO_REGISTRATION(INTERNAL_CATCH_UNIQUE_NAME( C_A_T_C_H_T_E_S_T_ ))
 #define TEST_CASE_METHOD( className, ... ) INTERNAL_CATCH_TESTCASE_NO_REGISTRATION(INTERNAL_CATCH_UNIQUE_NAME( C_A_T_C_H_T_E_S_T_ ))

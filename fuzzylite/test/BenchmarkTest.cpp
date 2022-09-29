@@ -19,7 +19,7 @@
 
 #include "fuzzylite/Benchmark.h"
 #include "fuzzylite/Headers.h"
-#include "test/catch2.hpp"
+#include "test/catch.hpp"
 
 namespace fuzzylite {
 

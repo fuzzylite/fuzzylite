@@ -17,7 +17,7 @@
 #include <algorithm>  // std::random_shuffle
 
 #include "fuzzylite/Headers.h"
-#include "test/catch2.hpp"
+#include "test/catch.hpp"
 
 namespace fuzzylite {
 
