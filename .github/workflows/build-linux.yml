@@ -2,10 +2,11 @@ name: FuzzyLite (Linux)
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "development" ]
   push: 
-    branches: [ "main" ]
+    branches: [ "main", "development" ]
   schedule: 
+    # run monthly on the first day
     - cron: "0 0 1 * *"
 
 jobs:
