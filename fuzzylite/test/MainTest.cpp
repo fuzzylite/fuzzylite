@@ -16,8 +16,9 @@
 
 #define CATCH_CONFIG_RUNNER
 
+#include <catch2/catch.hpp>
+
 #include "fuzzylite/Headers.h"
-#include "test/catch.hpp"
 
 int main(int argc, char** argv) {
   // global setup...
