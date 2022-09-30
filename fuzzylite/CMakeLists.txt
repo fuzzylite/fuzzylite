@@ -155,9 +155,6 @@ string(REGEX REPLACE "\n" " " ${fl-tests} ${fl-tests})
 
 list(APPEND fl-targets "")
 
-message("${exepath}")
-
-
 set(CMAKE_DEBUG_POSTFIX debug)
 
 if (MSVC OR CMAKE_GENERATOR STREQUAL Xcode)
@@ -242,6 +239,14 @@ elseif(FL_BUILD_TESTS)
     find_package(Catch2 QUIET)
     
     add_executable(fl-test ${fl-headers} ${fl-tests})
+    add_test(NAME RunTests COMMAND fl-test)
+
+    set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
+    set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
+    set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
+
+    target_compile_definitions(fl-test PRIVATE FL_IMPORT_LIBRARY)
+
     if (Catch2_FOUND)
         target_link_libraries(fl-test Catch2::Catch2)
     else()
@@ -251,22 +256,7 @@ elseif(FL_BUILD_TESTS)
         target_link_libraries(fl-test fl-shared ${FL_LIBS})
     endif()
 
-    set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
-    set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
-    set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
-
-    target_compile_definitions(fl-test PRIVATE FL_IMPORT_LIBRARY)
-
-    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-        #Ignore QuickTest macro expansion comparison: CHECK(xstr(4+10) == "4+10")
-        target_compile_options(fl-test PRIVATE -Wno-address)
-    endif()
-    if (MSVC)
-        target_compile_options(fl-test PRIVATE /wd4130)
-    endif()
-
     enable_testing()
-    add_test(NAME RunTests COMMAND fl-test)
 endif()
 
 ###INSTALL SECTION
@@ -316,6 +306,11 @@ message("FL_LIBS=${FL_LIBS}")
 message("FL_INSTALL_BINDIR=${FL_INSTALL_BINDIR}")
 message("FL_INSTALL_LIBDIR=${FL_INSTALL_LIBDIR}")
 message("FL_BUILD_TESTS=${FL_BUILD_TESTS}")
+if (Catch2_FOUND)
+    message("  Catch2=find_package(Catch2)")
+else()
+    message("  Catch2=bundled(test/catch2)")
+endif()
 message("")
 message("CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
 message("CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}")
