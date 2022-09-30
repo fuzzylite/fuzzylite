@@ -239,7 +239,18 @@ endif(FL_BUILD_BINARY)
 if(FL_BUILD_TESTS AND FL_CPP98)
     message( WARNING "Tests can't be built: Testing library `catch2` only works with C++11" )
 elseif(FL_BUILD_TESTS)
+    find_package(Catch2 QUIET)
+    
     add_executable(fl-test ${fl-headers} ${fl-tests})
+    if (Catch2_FOUND)
+        target_link_libraries(fl-test Catch2::Catch2)
+    else()
+        target_include_directories(fl-test
+            PRIVATE
+                ${PROJECT_SOURCE_DIR}/test)
+        target_link_libraries(fl-test fl-shared ${FL_LIBS})
+    endif()
+
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
@@ -253,8 +264,6 @@ elseif(FL_BUILD_TESTS)
     if (MSVC)
         target_compile_options(fl-test PRIVATE /wd4130)
     endif()
-
-    target_link_libraries(fl-test fl-shared ${FL_LIBS})
 
     enable_testing()
     add_test(NAME RunTests COMMAND fl-test)
