@@ -15,16 +15,22 @@ jobs:
     
     strategy:
       matrix:
-        path: ["fuzzylite", "src", "test"]
+        path: 
+          - check: "fuzzylite/fuzzylite"
+            exclude: ""
+          - check: "fuzzylite/src"
+            exclude: ""
+          - check: "fuzzylite/test"
+            exclude: "fuzzylite/test/catch.hpp"
 
     steps:
     - uses: actions/checkout@v2
     - name: Run clang-format style check
       uses: jidicula/clang-format-action@v4.5.0
       with:
-        clang-format-version: '13'
-        check-path: ${{ matrix.path }}
-
+        clang-format-version: "13"
+        check-path: ${{ matrix.path['check'] }}
+        exclude-regex: ${{ matrix.path['exclude'] }}
 
   build:
     needs: lint

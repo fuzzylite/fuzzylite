@@ -123,7 +123,7 @@ TEST_CASE("macro expansion does not evaluate parameter before expansion",
 
 #define xstr(s) str(s)
 #define str(s) #s
-  CHECK(xstr(4 + 10) == "4 + 10");
+  CHECK(xstr(4 + 10) == std::string("4 + 10"));
 }
 
 }  // namespace fuzzylite
