@@ -132,9 +132,21 @@ TEST_CASE("Time conversions", "[benchmark][time]") {
   FL_LOG(
       Benchmark::convert(1000.0, Benchmark::MilliSeconds, Benchmark::Seconds));
 
+  scalar eps =
+#ifndef __i386__
+      fuzzylite::macheps();
+#else
+      // on i386, due to the 80bit x87 register, double floating point
+      // numbers are handled differently and thus the difference between
+      // 35e9 and the result of Benchmark::convert() will be 2.179e-6,
+      // which is greater than the default epsilon of 1e-6.
+      1e-5;
+#endif
   CHECK(Op::isEq(
       35e9,
-      Benchmark::convert(35, Benchmark::Seconds, Benchmark::NanoSeconds)));
+      Benchmark::convert(35, Benchmark::Seconds, Benchmark::NanoSeconds),
+      eps));
+
   CHECK(Op::isEq(
       35,
       Benchmark::convert(35e9, Benchmark::NanoSeconds, Benchmark::Seconds)));
