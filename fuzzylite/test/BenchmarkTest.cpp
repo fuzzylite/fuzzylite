@@ -29,7 +29,17 @@ TEST_CASE("Benchmarks run from Console ", "[benchmark][console]") {
 }
 
 TEST_CASE("Benchmarks from FLD files", "[benchmark][fld]") {
-  std::string path = FL_BUILD_PATH "/../examples/";
+  std::string pathSeparator =
+#ifdef FL_WINDOWS
+      "\\";
+#else
+      "/";
+#endif
+  std::string basePath = std::string(__FILE__).substr(
+      0,
+      std::string(__FILE__).find(std::string("fuzzylite") + pathSeparator
+                                 + "test"));
+  std::string path = basePath + "examples" + pathSeparator;
   typedef std::pair<std::string, int> Example;
   std::vector<Example> examples;
   examples.push_back(Example("mamdani/AllTerms", int(1e4)));
