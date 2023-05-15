@@ -344,7 +344,7 @@ The following building options available:
 
 
 #### Documentation
-The source code of `fuzzylite` is very well documented using [`doxygen`](www.doxygen.org/) formatting, and the documentation is available at [fuzzylite.com/documentation](https://fuzzylite.com/documentation). If you want to generate the documentation locally, you can produce the `html` documentation from the file [Doxyfile](/Doxyfile) using the command line: `doxygen Doxyfile`. The documentation will be created in the [`documentation`](/documentation) folder.
+The source code of `fuzzylite` is very well documented using [`doxygen`](https://www.doxygen.nl/) formatting, and the documentation is available at [fuzzylite.com/documentation](https://fuzzylite.com/documentation). If you want to generate the documentation locally, you can produce the `html` documentation from the file [Doxyfile](/Doxyfile) using the command line: `doxygen Doxyfile`. The documentation will be created in the [`documentation`](/documentation) folder.
 
 
 
