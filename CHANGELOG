@@ -7,7 +7,7 @@ Version 7.0
 * The namespace is renamed from `fl` to `fuzzylite`
 * The deployment target on OSX is set to 10.15
 * The tests use `catch2` as suggested in [#94](https://github.com/fuzzylite/fuzzylite/issues/94)
-* 
+* `FL_LOG` might have different behaviour if used outside of the fuzzylite project. `FL_LOG` does not use the build path to trim the output anymore, instead finds the first instance of `fuzzylite` in the `__FILE__` and trims until there. Fixes [#85](https://github.com/fuzzylite/fuzzylite/issues/85) and [#87](https://github.com/fuzzylite/fuzzylite/issues/87)
 
 
 Version 6.0

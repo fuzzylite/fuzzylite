@@ -33,8 +33,6 @@ if( NOT CMAKE_BUILD_TYPE )
     set( CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
 endif()
 
-add_definitions(-DFL_BUILD_PATH="${PROJECT_SOURCE_DIR}") #used to determine FL__FILE__
-
 option(FL_BUILD_SHARED "Build shared library" ON)
 option(FL_BUILD_STATIC "Build static library" ON)
 if(FL_BUILD_SHARED)
