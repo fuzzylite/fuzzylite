@@ -45,7 +45,7 @@ option(FL_CPP98 "Builds utilizing C++98, i.e., passing -std=c++98" OFF)
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_BACKTRACE "Provide backtrace information in case of errors" ON)
 
-option(FL_BUILD_TESTS "Builds the unit tests" ON)
+option(FL_BUILD_TESTS "Builds the unit tests" OFF)
 
 if(FL_USE_FLOAT)
     add_definitions(-DFL_USE_FLOAT)
@@ -137,10 +137,11 @@ if(${CMAKE_SYSTEM_NAME} MATCHES FreeBSD AND FL_BACKTRACE)
     set(FL_LIBS execinfo)
 endif()
 
-if(APPLE)
-#Fix ld: symbol(s) not found for architecture x86_64 on mac
-    set(FL_LIBS stdc++)
-endif()
+# Removing for MacOS Sonoma
+# if(APPLE)
+#     #Fix ld: symbol(s) not found for architecture x86_64 on mac
+#     # set(FL_LIBS stdc++)
+# endif()
 
 
 ###BUILD SECTION

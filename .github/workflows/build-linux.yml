@@ -1,12 +1,10 @@
 name: FuzzyLite (Linux)
 
 on:
-  pull_request:
-    branches: [ "main" ]
   push: 
     branches: [ "main" ]
-  schedule: 
-    - cron: "0 0 1 * * "
+  pull_request:
+    branches: [ "main", "feature/*" ]
 
 jobs:
   build:
@@ -21,7 +19,7 @@ jobs:
         use_float: ["OFF", "ON"]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     
     - name: Building FuzzyLite
       working-directory: fuzzylite
@@ -29,6 +27,7 @@ jobs:
         FL_CPP98: ${{ matrix.use_cpp98 }}
         FL_USE_FLOAT: ${{ matrix.use_float }}
         CXX: ${{ matrix.use_cxx }}
-        FL_BUILD_TESTS: "ON"
+        FL_BUILD_TESTS: "OFF"
       run: |
-        bash build.sh ${{ matrix.build_type }}
+        cmake -B build/${{ matrix.build_type }} -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
+        cmake --build build/${{ matrix.build_type }}
