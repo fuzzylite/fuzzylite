@@ -23,4 +23,4 @@ jobs:
           CXX: ${{ matrix.use_cxx }}
         run: |
           cmake -B build/${{ matrix.build_type }} -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
-          cmake --build build/${{ matrix.build_type }}
+          cmake --build build/${{ matrix.build_type }} --parallel
