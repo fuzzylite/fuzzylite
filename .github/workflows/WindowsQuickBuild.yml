@@ -24,4 +24,4 @@ jobs:
         shell: cmd
         run: |
           cmake -B build/${{ matrix.build_type }} -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
-          cmake --build build/${{ matrix.build_type }}
+          cmake --build build/${{ matrix.build_type }} --parallel
