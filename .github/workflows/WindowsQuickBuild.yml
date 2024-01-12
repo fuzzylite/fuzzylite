@@ -1,0 +1,27 @@
+name: Windows Quick Build
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [ "release" ]
+        platform: [ 'x64', 'win32' ]
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Building FuzzyLite
+        working-directory: fuzzylite
+        shell: cmd
+        run: |
+          cmake -B build/${{ matrix.build_type }} -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
+          cmake --build build/${{ matrix.build_type }}
