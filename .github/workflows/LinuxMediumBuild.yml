@@ -1,0 +1,31 @@
+name: Linux Medium Build
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [ "release", "debug" ]
+        use_cxx: [ "clang++", "g++" ]
+        use_cpp98: [ "OFF", "ON" ]
+        use_float: [ "OFF", "ON" ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Building FuzzyLite
+        working-directory: fuzzylite
+        env:
+          FL_CPP98: ${{ matrix.use_cpp98 }}
+          FL_USE_FLOAT: ${{ matrix.use_float }}
+          CXX: ${{ matrix.use_cxx }}
+          FL_BUILD_TESTS: "OFF"
+        run: |
+          cmake -B build/${{ matrix.build_type }} -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
+          cmake --build build/${{ matrix.build_type }} --parallel
