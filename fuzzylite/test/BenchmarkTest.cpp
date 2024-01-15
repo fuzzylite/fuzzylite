@@ -16,9 +16,9 @@
 
 #include "fl/Benchmark.h"
 
-#include "test/catch.hpp"
 #include "fl/Headers.h"
 
+#include <catch2/catch.hpp>
 #include <vector>
 #include <fstream>
 
