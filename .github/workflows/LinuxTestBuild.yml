@@ -5,14 +5,14 @@ on:
     branches: [ "build/*" ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-clang:
+    runs-on: ubuntu-22.04
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         build_type: [ "release" ]
-        use_cxx: [ "clang++" ]
+        compiler_version: [ "13", "14", "15"]
 
     steps:
       - uses: actions/checkout@v4
@@ -20,10 +20,26 @@ jobs:
       - name: Building FuzzyLite
         working-directory: fuzzylite
         env:
-          CXX: ${{ matrix.use_cxx }}
+          CXX: clang++-${{ matrix.compiler_version }}
         run: |
-          which clang++
-          ls -la /
-          ls -la /usr/bin
-          ls -la /bin
-          clang++ --version
+          ${{env.CXX}} --version
+
+  build-gcc:
+    runs-on: ubuntu-22.04
+  
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [ "release" ]
+        compiler_version: [ "9", "10", "11", "12", "13" ]
+  
+    steps:
+    - uses: actions/checkout@v4
+  
+    - name: Building FuzzyLite
+      working-directory: fuzzylite
+      env:
+        CXX: g++-${{ matrix.compiler_version }}
+      run: |
+        ${{env.CXX}} --version
+  
