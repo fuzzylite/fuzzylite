@@ -14,10 +14,10 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "test/catch.hpp"
 #include "fl/Headers.h"
 
 #include <algorithm>    // std::random_shuffle
+#include <catch2/catch.hpp>
 
 namespace fl {
 

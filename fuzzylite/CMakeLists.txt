@@ -1,25 +1,19 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.0.2)
+
+cmake_policy(SET CMP0048 NEW)
 set(FL_VERSION 7.0.0)
-
-if (APPLE)
-    set(CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
-endif()
-
-# Version handling changes in 3.0.2, where it's specified
-# in the project command.
-if(${CMAKE_VERSION} VERSION_LESS "3.0.2")
-    project(fuzzylite CXX)
-    set(PROJECT_VERSION ${FL_VERSION})
-else()
-    cmake_policy(SET CMP0048 NEW)
-    project(fuzzylite VERSION ${FL_VERSION} LANGUAGES CXX)
-endif()
+project(fuzzylite VERSION ${FL_VERSION} LANGUAGES CXX)
 
 
 if (APPLE)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET 10.15)
+    
+    # MACOSX_RPATH is enabled by default.
     cmake_policy(SET CMP0042 NEW)
 endif()
+
 if (MSVC)
+    # Only interpret if() arguments as variables or keywords when unquoted.
     cmake_policy(SET CMP0054 NEW)
 endif()
 
@@ -45,7 +39,7 @@ option(FL_CPP98 "Builds utilizing C++98, i.e., passing -std=c++98" OFF)
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_BACKTRACE "Provide backtrace information in case of errors" ON)
 
-option(FL_BUILD_TESTS "Builds the unit tests" OFF)
+option(FL_BUILD_TESTS "Builds the unit tests" ON)
 
 if(FL_USE_FLOAT)
     add_definitions(-DFL_USE_FLOAT)
@@ -93,13 +87,11 @@ if(NOT MSVC)
     endif()
 endif()
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-#Address fl::null errors of literal null conversion
+if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "^(Apple)?Clang$")
+    #Address fl::null errors of literal null conversion
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-non-literal-null-conversion")
-    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.9)
-#TEMPORAL: flag removal to avoid warnings of `float` variadic in Operation::join
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-varargs")
-    endif()
+    #TEMPORAL: flag removal to avoid warnings of `float` variadic in Operation::join
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-varargs")
 endif()
 
 
@@ -137,11 +129,10 @@ if(${CMAKE_SYSTEM_NAME} MATCHES FreeBSD AND FL_BACKTRACE)
     set(FL_LIBS execinfo)
 endif()
 
-# Removing for MacOS Sonoma
-# if(APPLE)
-#     #Fix ld: symbol(s) not found for architecture x86_64 on mac
-#     # set(FL_LIBS stdc++)
-# endif()
+if(APPLE)
+    # This produces a warning: ld: symbol(s) not found for architecture x86_64 on mac
+    set(FL_LIBS stdc++)
+endif()
 
 
 ###BUILD SECTION
@@ -237,6 +228,15 @@ if(FL_BUILD_BINARY)
 endif(FL_BUILD_BINARY)
 
 if(FL_BUILD_TESTS)
+    # https://github.com/catchorg/Catch2/blob/v2.x/docs/cmake-integration.md
+    Include(FetchContent)
+    FetchContent_Declare(
+        Catch2
+        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+        GIT_TAG        v2.13.10
+    )
+    FetchContent_MakeAvailable(Catch2)
+
     add_executable(fl-test ${fl-headers} ${fl-tests})
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
@@ -255,7 +255,7 @@ if(FL_BUILD_TESTS)
         target_compile_options(fl-test PRIVATE /wd4130)
     endif()
 
-    target_link_libraries(fl-test fl-shared ${FL_LIBS})
+    target_link_libraries(fl-test fl-shared ${FL_LIBS} Catch2::Catch2)
 
     enable_testing()
     add_test(NAME RunTests COMMAND fl-test)

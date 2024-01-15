@@ -16,9 +16,9 @@
  
 #define CATCH_CONFIG_RUNNER
 
-#include "test/catch.hpp"
-
 #include "fl/Headers.h"
+
+#include <catch2/catch.hpp>
 
 int main(int argc, char** argv) {
 
