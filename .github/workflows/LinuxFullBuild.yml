@@ -1,4 +1,4 @@
-name: FuzzyLite (Linux)
+name: Linux Full Build
 
 on:
   push:

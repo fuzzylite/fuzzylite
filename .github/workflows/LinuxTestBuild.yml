@@ -1,15 +1,15 @@
-name: Linux Quick Build
+name: Linux Test Build
 
 on:
-  pull_request:
-    branches: [ "main" ]
+  push:
+    branches: [ "build/*" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         build_type: [ "release" ]
         use_cxx: [ "clang++" ]
@@ -22,5 +22,8 @@ jobs:
         env:
           CXX: ${{ matrix.use_cxx }}
         run: |
-          cmake -B build/${{ matrix.build_type }} -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
-          cmake --build build/${{ matrix.build_type }} --parallel
+          which clang++
+          ls -la /
+          ls -la /usr/bin
+          ls -la /bin
+          clang++ --version
