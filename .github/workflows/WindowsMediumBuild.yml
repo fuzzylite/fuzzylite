@@ -1,7 +1,7 @@
-name: Windows Quick Build
+name: Windows Medium Build
 
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
 
 jobs:
@@ -11,8 +11,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type: [ "release" ]
-        platform: [ "x64" ]
+        build_type: [ "release", "debug" ]
+        platform: [ "x64", "win32" ]
 
     steps:
       - uses: actions/checkout@v4

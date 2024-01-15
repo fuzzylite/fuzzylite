@@ -2,7 +2,7 @@ name: Windows Full Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "build/*" ]
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
         env:
           FL_CPP98: ${{ matrix.use_cpp98 }}
           FL_USE_FLOAT: ${{ matrix.use_float }}
-          FL_BUILD_TESTS: "OFF"
         run: |
           cmake -B build/${{ matrix.build_type }} -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
           cmake --build build/${{ matrix.build_type }} --parallel
+          ctest --test-dir build/${{ matrix.build_type }}

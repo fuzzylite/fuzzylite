@@ -2,11 +2,11 @@ name: Linux Full Build
 
 on:
   push:
-    branches: [ ]
+    branches: [ "build/*" ]
 
 jobs:
   build-clang:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
@@ -28,9 +28,10 @@ jobs:
         run: |
           cmake -B build/${{ matrix.build_type }} -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
           cmake --build build/${{ matrix.build_type }} --parallel
+          ctest --test-dir build/${{ matrix.build_type }}
 
   build-gcc:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
@@ -52,3 +53,4 @@ jobs:
         run: |
           cmake -B build/${{ matrix.build_type }} -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
           cmake --build build/${{ matrix.build_type }} --parallel
+          ctest --test-dir build/${{ matrix.build_type }}
