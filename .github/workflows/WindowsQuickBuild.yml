@@ -22,6 +22,8 @@ jobs:
       - name: Building FuzzyLite
         working-directory: fuzzylite
         shell: cmd
+        env:
+          FL_BUILD_TESTS: OFF
         run: |
           cmake -B build/${{ matrix.build_type }} -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
           cmake --build build/${{ matrix.build_type }} --parallel

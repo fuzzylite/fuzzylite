@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.13)
 
 cmake_policy(SET CMP0048 NEW)
 set(FL_VERSION 7.0.0)
@@ -228,6 +228,10 @@ if(FL_BUILD_BINARY)
 endif(FL_BUILD_BINARY)
 
 if(FL_BUILD_TESTS)
+    if (CMAKE_VERSION VERSION_LESS "3.14")
+        message(FATAL_ERROR, "CMake >= 3.14 is required to install test dependency 'Catch2'")
+    endif()
+    
     # https://github.com/catchorg/Catch2/blob/v2.x/docs/cmake-integration.md
     Include(FetchContent)
     FetchContent_Declare(
