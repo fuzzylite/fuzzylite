@@ -229,44 +229,39 @@ endif(FL_BUILD_BINARY)
 
 if(FL_BUILD_TESTS)
     if (CMAKE_VERSION VERSION_LESS "3.14")
-        message(FATAL_ERROR, "CMake >= 3.14 is required to install test dependency 'Catch2'")
+        message(WARNING "Skipping tests: CMake >= 3.14 is required to install test dependency 'Catch2', but got CMake ${CMAKE_VERSION}")
     endif()
-    
-    # https://github.com/catchorg/Catch2/blob/v2.x/docs/cmake-integration.md
-    Include(FetchContent)
-    FetchContent_Declare(
-        Catch2
-        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-        GIT_TAG        v2.13.10
-    )
-    FetchContent_MakeAvailable(Catch2)
 
-    add_executable(fl-test ${fl-headers} ${fl-tests})
-    set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
-    set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
-    set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
-
-    target_compile_definitions(fl-test PRIVATE FL_IMPORT_LIBRARY)
     if (FL_CPP98)
-        target_compile_definitions(fl-test PRIVATE CATCH_CONFIG_NO_CPP11)
+        message(WARNING "Skipping tests: tests require C++11 or later, but using FL_CPP98=${FL_CPP98}.")
     endif()
 
-    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-        #Ignore QuickTest macro expansion comparison: CHECK(xstr(4+10) == "4+10")
-        target_compile_options(fl-test PRIVATE -Wno-address)
-    endif()
-    if (MSVC)
-        target_compile_options(fl-test PRIVATE /wd4130)
-    endif()
+    if (NOT ((CMAKE_VERSION VERSION_LESS "3.14") OR FL_CPP98))
+        # https://github.com/catchorg/Catch2/blob/v2.x/docs/cmake-integration.md
+        Include(FetchContent)
+        FetchContent_Declare(
+            Catch2
+            GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+            GIT_TAG        v2.13.10
+        )
+        FetchContent_MakeAvailable(Catch2)
 
-    target_link_libraries(fl-test fl-shared ${FL_LIBS} Catch2::Catch2)
+        add_executable(fl-test ${fl-headers} ${fl-tests})
+        set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
+        set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
+        set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
 
-    enable_testing()
-    add_test(NAME RunTests COMMAND fl-test)
-#    add_test(NAME ListTests COMMAND fl-test --list-tests)
-#    set_tests_properties(ListTests PROPERTIES PASS_REGULAR_EXPRESSION "[0-9]+ test case")
-#    add_test(NAME ListTags COMMAND fl-test --list-tags)
-#    set_tests_properties(ListTags PROPERTIES PASS_REGULAR_EXPRESSION "[0-9]+ tag")
+        target_compile_definitions(fl-test PRIVATE FL_IMPORT_LIBRARY)
+
+        if (MSVC)
+            target_compile_options(fl-test PRIVATE /wd4130)
+        endif()
+
+        target_link_libraries(fl-test fl-shared ${FL_LIBS} Catch2::Catch2)
+
+        enable_testing()
+        add_test(NAME RunTests COMMAND fl-test)
+    endif()
 endif()
 
 ###INSTALL SECTION
