@@ -227,41 +227,30 @@ if(FL_BUILD_BINARY)
     list(APPEND fl-targets fl-bin)
 endif(FL_BUILD_BINARY)
 
-if(FL_BUILD_TESTS)
-    if (CMAKE_VERSION VERSION_LESS "3.14")
-        message(WARNING "Skipping tests: CMake >= 3.14 is required to install test dependency 'Catch2', but got CMake ${CMAKE_VERSION}")
+if(FL_BUILD_TESTS AND FL_CPP98)
+    message(WARNING "Skipping tests: tests require C++11 or later, but using FL_CPP98=${FL_CPP98}.")
+
+elseif(FL_BUILD_TESTS)
+    find_package(Catch2 2 REQUIRED)
+
+    add_executable(fl-test ${fl-headers} ${fl-tests})
+    set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
+    set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
+    set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
+
+    target_compile_definitions(fl-test PRIVATE FL_IMPORT_LIBRARY)
+
+    if (MSVC)
+        target_compile_options(fl-test PRIVATE /wd4130)
     endif()
 
-    if (FL_CPP98)
-        message(WARNING "Skipping tests: tests require C++11 or later, but using FL_CPP98=${FL_CPP98}.")
-    endif()
+    target_link_libraries(fl-test fl-shared ${FL_LIBS} Catch2::Catch2)
 
-    if (NOT ((CMAKE_VERSION VERSION_LESS "3.14") OR FL_CPP98))
-        # https://github.com/catchorg/Catch2/blob/v2.x/docs/cmake-integration.md
-        Include(FetchContent)
-        FetchContent_Declare(
-            Catch2
-            GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-            GIT_TAG        v2.13.10
-        )
-        FetchContent_MakeAvailable(Catch2)
+    include(CTest)
+    include(Catch)
+    catch_discover_tests(fl-test)
 
-        add_executable(fl-test ${fl-headers} ${fl-tests})
-        set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
-        set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
-        set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
-
-        target_compile_definitions(fl-test PRIVATE FL_IMPORT_LIBRARY)
-
-        if (MSVC)
-            target_compile_options(fl-test PRIVATE /wd4130)
-        endif()
-
-        target_link_libraries(fl-test fl-shared ${FL_LIBS} Catch2::Catch2)
-
-        enable_testing()
-        add_test(NAME RunTests COMMAND fl-test)
-    endif()
+    enable_testing()
 endif()
 
 ###INSTALL SECTION
