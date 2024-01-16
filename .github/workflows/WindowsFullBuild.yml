@@ -23,11 +23,7 @@ jobs:
       - name: Building FuzzyLite
         working-directory: fuzzylite
         shell: cmd
-        env:
-          FL_CPP98: ${{ matrix.use_cpp98 }}
-          FL_USE_FLOAT: ${{ matrix.use_float }}
-          FL_BUILD_TESTS: OFF
         run: |
-          cmake -B build/${{ matrix.build_type }} -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
+          cmake -B build/${{ matrix.build_type }} -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_CPP98=${{ matrix.use_cpp98 }} -DFL_USE_FLOAT=${{ matrix.use_float }} -DFL_BUILD_TESTS=OFF .
           cmake --build build/${{ matrix.build_type }} --parallel
           ctest --test-dir build/${{ matrix.build_type }}
