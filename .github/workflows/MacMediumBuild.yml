@@ -1,0 +1,29 @@
+name: macOS Medium Build
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [ "release", "debug" ]
+        use_cxx: [ "clang++-14", "g++-13" ]
+        use_cpp98: [ "OFF", "ON" ]
+        use_float: [ "OFF", "ON" ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Building FuzzyLite
+        working-directory: fuzzylite
+        env:
+          CXX: ${{ matrix.use_cxx }}
+        run: |
+          cmake -B build/${{ matrix.build_type }} -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_CPP98=${{ matrix.use_cpp98 }} -DFL_USE_FLOAT=${{ matrix.use_float }} .
+          cmake --build build/${{ matrix.build_type }} --parallel
+          ctest --test-dir build/${{ matrix.build_type }}
