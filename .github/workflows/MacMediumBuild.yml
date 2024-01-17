@@ -1,29 +1,29 @@
-name: Windows Full Build
+name: macOS Medium Build
 
 on:
   push:
-    branches: [ "build/*", "build-windows/*" ]
+    branches: [ "main" ]
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: macos-latest
 
     strategy:
       fail-fast: false
       matrix:
-        platform: [ "x64", "win32" ]
         build_type: [ "release", "debug" ]
+        use_cxx: [ "clang++", "g++-13" ]
         use_cpp98: [ "OFF", "ON" ]
         use_float: [ "OFF", "ON" ]
-    
+
     steps:
       - uses: actions/checkout@v4
-      - uses: ilammy/msvc-dev-cmd@v1
 
       - name: Building FuzzyLite
         working-directory: fuzzylite
-        shell: cmd
+        env:
+          CXX: ${{ matrix.use_cxx }}
         run: |
-          cmake -B build/${{ matrix.build_type }} -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_CPP98=${{ matrix.use_cpp98 }} -DFL_USE_FLOAT=${{ matrix.use_float }} .
+          cmake -B build/${{ matrix.build_type }} -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_CPP98=${{ matrix.use_cpp98 }} -DFL_USE_FLOAT=${{ matrix.use_float }} .
           cmake --build build/${{ matrix.build_type }} --parallel
           ctest --test-dir build/${{ matrix.build_type }}
