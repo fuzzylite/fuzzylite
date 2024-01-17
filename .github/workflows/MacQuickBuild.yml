@@ -12,16 +12,30 @@ jobs:
       fail-fast: false
       matrix:
         build_type: [ "release" ]
-        use_cxx: [ "clang++" ]
 
     steps:
       - uses: actions/checkout@v4
 
+      - name: Restore cmake dependencies
+        id: cache-restore-cmake-deps
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            build/${{ matrix.build_type }}/_deps
+          key: ${{ runner.os }}-cmake-deps
+
       - name: Building FuzzyLite
         working-directory: fuzzylite
-        env:
-          CXX: ${{ matrix.use_cxx }}
         run: |
-          cmake -B build/${{ matrix.build_type }} -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
+          cmake -B build/${{ matrix.build_type }} -G"Xcode" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
           cmake --build build/${{ matrix.build_type }} --parallel
           ctest --test-dir build/${{ matrix.build_type }}
+
+      - name: Save cmake dependencies
+        id: cache-save-cmake-deps
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            build/${{ matrix.build_type }}/_deps
+          key: ${{ steps.cache-restore-cmake-deps.outputs.cache-primary-key }}
+    
