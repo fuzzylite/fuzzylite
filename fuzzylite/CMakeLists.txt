@@ -231,13 +231,37 @@ if(FL_BUILD_TESTS AND FL_CPP98)
     message(WARNING "Skipping tests: tests require C++11 or later, but using FL_CPP98=${FL_CPP98}.")
 
 elseif(FL_BUILD_TESTS)
-    find_package(Catch2 2 REQUIRED)
+    message(CHECK_START "Detecting Catch2 library in system")
+    if (CMAKE_VERSION VERSION_LESS "3.14")
+        find_package(Catch2 2 REQUIRED)
+    else()
+        find_package(Catch2 2 QUIET)
+    endif()
 
-    # if not found run: |
-    # git clone -b v2.x https://github.com/catchorg/Catch2.git lib/Catch2
-    # cd lib/Catch2
-    # cmake -B build -DCATCH_ENABLE_WERROR=OFF .
-    # cmake --build build --parallel --target install
+
+    if (Catch2_FOUND)
+        message(CHECK_PASS "found at ${Catch2}")
+    else()
+        message(CHECK_FAIL "not found")
+        # You can install it manually: |
+        # git clone -b v2.x https://github.com/catchorg/Catch2.git lib/Catch2
+        # cd lib/Catch2
+        # cmake -B build -DCATCH_ENABLE_WERROR=OFF .
+        # cmake --build build --parallel --target install
+
+        message(CHECK_START "Fetching Catch2 v2.13.10 library from https://github.com/catchorg/Catch2.git")
+        # But we are going to try to fetch it:
+        # see https://github.com/catchorg/Catch2/blob/v2.x/docs/cmake-integration.md
+        Include(FetchContent)
+        FetchContent_Declare(
+            Catch2
+            GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+            GIT_TAG        v2.13.10
+        )
+        FetchContent_MakeAvailable(Catch2)
+        list(APPEND CMAKE_MODULE_PATH ${Catch2_SOURCE_DIR}/contrib)
+        message(CHECK_PASS "fetched")
+    endif()
 
     add_executable(fl-test ${fl-headers} ${fl-tests})
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
