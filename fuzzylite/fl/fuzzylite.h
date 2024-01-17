@@ -139,7 +139,24 @@ namespace fl {
       Represents the `C++11` or `C++98` null pointer depending on whether the
       compilation flag `-DFL_CPP98` is set
      */
-    const long null = 0L;
+    // https://stackoverflow.com/questions/44517556/how-to-define-our-own-nullptr-in-c98
+const class nullptr_t {
+ public:
+  template <class T> /* convertible to any type of null non-member pointer */
+  operator T*() const {
+    return 0;
+  }
+
+  template <class C, class T> /* or any type of null  member pointer */
+  operator T C::*() const {
+    return 0;
+  }
+
+ private:
+  void operator&() const; /* Can't take address of nullptr */
+
+} null = {};
+
 #define FL_unique_ptr std::auto_ptr
 #define FL_move_ptr(x) x
 
