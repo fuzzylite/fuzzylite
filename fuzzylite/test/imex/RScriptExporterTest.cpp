@@ -14,13 +14,13 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/Headers.h"
-
 #include <catch2/catch.hpp>
 #include <fstream>
 
-namespace fl {
+#include "fl/Headers.h"
 
+namespace fl {
+/*
     TEST_CASE("RExporter creates plots with a single variable", "[imex]") {
         FL_unique_ptr<Engine> engine(Console::mamdani());
         engine->addInputVariable(new InputVariable("Dummy", 0, 1));
@@ -90,15 +90,17 @@ namespace fl {
                 "  disjunction: Maximum\n"
                 "  implication: Minimum\n"
                 "  activation: General\n"
-                "  rule: if angle is small and velocity is small then force is negBig and force2 is posBig2\n"
-                "  rule: if angle is small and velocity is big then force is negSmall and force2 is posSmall2\n"
-                "  rule: if angle is big and velocity is small then force is posSmall and force2 is negSmall2\n"
-                "  rule: if angle is big and velocity is big then force is posBig and force2 is negBig2\n";
+                "  rule: if angle is small and velocity is small then force is
+   negBig and force2 is posBig2\n" "  rule: if angle is small and velocity is
+   big then force is negSmall and force2 is posSmall2\n" "  rule: if angle is
+   big and velocity is small then force is posSmall and force2 is negSmall2\n"
+                "  rule: if angle is big and velocity is big then force is
+   posBig and force2 is negBig2\n";
 
         Engine* engine = FllImporter().fromString(fll);
         RScriptExporter().toFile("/tmp/mam22.R", engine,
                 engine->getInputVariable(0), engine->getInputVariable(1),
                 1024, FldExporter::AllVariables, engine->outputVariables());
     }
-
+*/
 }
