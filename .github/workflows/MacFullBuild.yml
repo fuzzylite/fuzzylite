@@ -2,7 +2,7 @@ name: macOS Full Build
 
 on:
   push:
-    branches: [ "build/*" ]
+    branches: [ "build/*", "build-mac/*" ]
 
 jobs:
   build-clang:

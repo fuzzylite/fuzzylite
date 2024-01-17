@@ -2,7 +2,7 @@ name: Windows Full Build
 
 on:
   push:
-    branches: [ "build/*" ]
+    branches: [ "build/*", "build-windows/*" ]
 
 jobs:
   build:

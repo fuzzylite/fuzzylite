@@ -2,7 +2,7 @@ name: Linux Full Build
 
 on:
   push:
-    branches: [ "build/*" ]
+    branches: [ "build/*", "build-linux/*" ]
 
 jobs:
   build-clang:
