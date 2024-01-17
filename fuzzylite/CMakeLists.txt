@@ -233,6 +233,12 @@ if(FL_BUILD_TESTS AND FL_CPP98)
 elseif(FL_BUILD_TESTS)
     find_package(Catch2 2 REQUIRED)
 
+    # if not found run: |
+    # git clone -b v2.x https://github.com/catchorg/Catch2.git lib/Catch2
+    # cd lib/Catch2
+    # cmake -B build -DCATCH_ENABLE_WERROR=OFF .
+    # cmake --build build --parallel --target install
+
     add_executable(fl-test ${fl-headers} ${fl-tests})
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
