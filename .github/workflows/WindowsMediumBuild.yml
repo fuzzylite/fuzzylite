@@ -1,8 +1,8 @@
-name: Windows Full Build
+name: Windows Medium Build
 
 on:
   push:
-    branches: [ "build/*" ]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -11,19 +11,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [ "x64", "win32" ]
         build_type: [ "release", "debug" ]
-        use_cpp98: [ "OFF", "ON" ]
-        use_float: [ "OFF", "ON" ]
-    
+        platform: [ "x64", "win32" ]
+
     steps:
       - uses: actions/checkout@v4
+      
       - uses: ilammy/msvc-dev-cmd@v1
 
       - name: Building FuzzyLite
         working-directory: fuzzylite
         shell: cmd
         run: |
-          cmake -B build/${{ matrix.build_type }} -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_CPP98=${{ matrix.use_cpp98 }} -DFL_USE_FLOAT=${{ matrix.use_float }} -DFL_BUILD_TESTS=OFF .
+          cmake -B build/${{ matrix.build_type }} -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_BUILD_TESTS=OFF .
           cmake --build build/${{ matrix.build_type }} --parallel
           ctest --test-dir build/${{ matrix.build_type }}

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.13)
 
 cmake_policy(SET CMP0048 NEW)
 set(FL_VERSION 7.0.0)
@@ -227,15 +227,41 @@ if(FL_BUILD_BINARY)
     list(APPEND fl-targets fl-bin)
 endif(FL_BUILD_BINARY)
 
-if(FL_BUILD_TESTS)
-    # https://github.com/catchorg/Catch2/blob/v2.x/docs/cmake-integration.md
-    Include(FetchContent)
-    FetchContent_Declare(
-        Catch2
-        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-        GIT_TAG        v2.13.10
-    )
-    FetchContent_MakeAvailable(Catch2)
+if(FL_BUILD_TESTS AND FL_CPP98)
+    message(WARNING "Skipping tests: tests require C++11 or later, but using FL_CPP98=${FL_CPP98}.")
+
+elseif(FL_BUILD_TESTS)
+    message(CHECK_START "Detecting Catch2 library in system")
+    if (CMAKE_VERSION VERSION_LESS "3.14")
+        find_package(Catch2 2 REQUIRED)
+    else()
+        find_package(Catch2 2 QUIET)
+    endif()
+
+
+    if (Catch2_FOUND)
+        message(CHECK_PASS "found at ${Catch2}")
+    else()
+        message(CHECK_FAIL "not found")
+        # You can install it manually: |
+        # git clone -b v2.x https://github.com/catchorg/Catch2.git lib/Catch2
+        # cd lib/Catch2
+        # cmake -B build -DCATCH_ENABLE_WERROR=OFF .
+        # cmake --build build --parallel --target install
+
+        message(CHECK_START "Fetching Catch2 v2.13.10 library from https://github.com/catchorg/Catch2.git")
+        # But we are going to try to fetch it:
+        # see https://github.com/catchorg/Catch2/blob/v2.x/docs/cmake-integration.md
+        Include(FetchContent)
+        FetchContent_Declare(
+            Catch2
+            GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+            GIT_TAG        v2.13.10
+        )
+        FetchContent_MakeAvailable(Catch2)
+        list(APPEND CMAKE_MODULE_PATH ${Catch2_SOURCE_DIR}/contrib)
+        message(CHECK_PASS "fetched")
+    endif()
 
     add_executable(fl-test ${fl-headers} ${fl-tests})
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
@@ -243,26 +269,18 @@ if(FL_BUILD_TESTS)
     set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
 
     target_compile_definitions(fl-test PRIVATE FL_IMPORT_LIBRARY)
-    if (FL_CPP98)
-        target_compile_definitions(fl-test PRIVATE CATCH_CONFIG_NO_CPP11)
-    endif()
 
-    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-        #Ignore QuickTest macro expansion comparison: CHECK(xstr(4+10) == "4+10")
-        target_compile_options(fl-test PRIVATE -Wno-address)
-    endif()
     if (MSVC)
         target_compile_options(fl-test PRIVATE /wd4130)
     endif()
 
     target_link_libraries(fl-test fl-shared ${FL_LIBS} Catch2::Catch2)
 
+    include(CTest)
+    include(Catch)
+    catch_discover_tests(fl-test)
+
     enable_testing()
-    add_test(NAME RunTests COMMAND fl-test)
-#    add_test(NAME ListTests COMMAND fl-test --list-tests)
-#    set_tests_properties(ListTests PROPERTIES PASS_REGULAR_EXPRESSION "[0-9]+ test case")
-#    add_test(NAME ListTags COMMAND fl-test --list-tags)
-#    set_tests_properties(ListTags PROPERTIES PASS_REGULAR_EXPRESSION "[0-9]+ tag")
 endif()
 
 ###INSTALL SECTION

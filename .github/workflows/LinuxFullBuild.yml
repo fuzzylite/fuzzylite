@@ -1,18 +1,18 @@
-name: FuzzyLite (Linux)
+name: Linux Full Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "build/*" ]
 
 jobs:
-  build:
+  build-clang:
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
+        compiler_version: [ "13", "14", "15"]
         build_type: [ "release", "debug" ]
-        use_cxx: [ "clang++", "g++" ]
         use_cpp98: [ "OFF", "ON" ]
         use_float: [ "OFF", "ON" ]
 
@@ -22,10 +22,31 @@ jobs:
       - name: Building FuzzyLite
         working-directory: fuzzylite
         env:
-          FL_CPP98: ${{ matrix.use_cpp98 }}
-          FL_USE_FLOAT: ${{ matrix.use_float }}
-          CXX: ${{ matrix.use_cxx }}
-          FL_BUILD_TESTS: "OFF"
+          CXX: clang++-${{ matrix.compiler_version }}
         run: |
-          cmake -B build/${{ matrix.build_type }} -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
+          cmake -B build/${{ matrix.build_type }} -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_CPP98=${{ matrix.use_cpp98 }} -DFL_USE_FLOAT=${{ matrix.use_float }} .
           cmake --build build/${{ matrix.build_type }} --parallel
+          ctest --test-dir build/${{ matrix.build_type }}
+
+  build-gcc:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler_version: [ "9", "10", "11", "12", "13" ]
+        build_type: [ "release" ]
+        use_cpp98: [ "OFF", "ON" ]
+        use_float: [ "OFF", "ON" ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Building FuzzyLite
+        working-directory: fuzzylite
+        env:
+          CXX: g++-${{ matrix.compiler_version }}
+        run: |
+          cmake -B build/${{ matrix.build_type }} -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_CPP98=${{ matrix.use_cpp98 }} -DFL_USE_FLOAT=${{ matrix.use_float }} .
+          cmake --build build/${{ matrix.build_type }} --parallel
+          ctest --test-dir build/${{ matrix.build_type }}

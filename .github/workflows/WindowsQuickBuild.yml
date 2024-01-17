@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         build_type: [ "release" ]
-        platform: [ 'x64', 'win32' ]
+        platform: [ "x64" ]
 
     steps:
       - uses: actions/checkout@v4
@@ -23,5 +23,6 @@ jobs:
         working-directory: fuzzylite
         shell: cmd
         run: |
-          cmake -B build/${{ matrix.build_type }} -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
+          cmake -B build/${{ matrix.build_type }} -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_BUILD_TESTS=OFF .
           cmake --build build/${{ matrix.build_type }} --parallel
+          ctest --test-dir build/${{ matrix.build_type }}
