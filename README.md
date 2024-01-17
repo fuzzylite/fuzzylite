@@ -47,10 +47,8 @@ and **beautiful** user interface.
 Please, download it and check it out for free at [fuzzylite.com/downloads](https://fuzzylite.com/downloads).
 
 
-
-
 ## Documentation
-The documentation for the `fuzzylite` library is available at: [www.fuzzylite.com/documentation/](https://www.fuzzylite.com/documentation/). 
+The documentation for the `fuzzylite` library is available at: [fuzzylite.github.io/fuzzylite](https://fuzzylite.github.io/fuzzylite). 
 
 
 ## <a name="features">Features</a>
@@ -86,7 +84,8 @@ HamacherSum, NilpotentMaximum, NormalizedSum, UnboundedSum, LambdaNorm, Function
 
 ***
 
-### <a name="example">Example</a>
+## <a name="example">Example</a>
+
 #### FuzzyLite Language
 ```yaml
 #File: ObstacleAvoidance.fll
@@ -118,88 +117,77 @@ RuleBlock: mamdani
 ```
 ```cpp
 //File: ObstacleAvoidance.cpp
-#include "fl/Headers.h"
+#include <fl/Headers.h>
 
-int main(int argc, char* argv[]){
-    using namespace fl;
-    Engine* engine = FllImporter().fromFile("ObstacleAvoidance.fll");
-    
-    std::string status;
-    if (not engine->isReady(&status))
-        throw Exception("[engine error] engine is not ready:\n" + status, FL_AT);
-
-    InputVariable* obstacle = engine->getInputVariable("obstacle");
-    OutputVariable* steer = engine->getOutputVariable("mSteer");
-
-    for (int i = 0; i <= 50; ++i){
-        scalar location = obstacle->getMinimum() + i * (obstacle->range() / 50);
-        obstacle->setValue(location);
-        engine->process();
-        FL_LOG("obstacle.input = " << Op::str(location) << 
-            " => " << "steer.output = " << Op::str(steer->getValue()));
-    }
-}
+fl::Engine* engine = fl::FllImporter().fromFile("ObstacleAvoidance.fll");
 ```
 
 #### C++
 ```cpp
 //File: ObstacleAvoidance.cpp
-#include "fl/Headers.h"
+#include <fl/Headers.h>
 
-int main(int argc, char* argv[]){
-    using namespace fl;
+using namespace fl;
 
-    Engine* engine = new Engine;
-    engine->setName("ObstacleAvoidance");
-    engine->setDescription("");
+Engine* engine = new Engine;
+engine->setName("ObstacleAvoidance");
+engine->setDescription("");
 
-    InputVariable* obstacle = new InputVariable;
-    obstacle->setName("obstacle");
-    obstacle->setDescription("");
-    obstacle->setEnabled(true);
-    obstacle->setRange(0.000, 1.000);
-    obstacle->setLockValueInRange(false);
-    obstacle->addTerm(new Ramp("left", 1.000, 0.000));
-    obstacle->addTerm(new Ramp("right", 0.000, 1.000));
-    engine->addInputVariable(obstacle);
+InputVariable* obstacle = new InputVariable;
+obstacle->setName("obstacle");
+obstacle->setDescription("");
+obstacle->setEnabled(true);
+obstacle->setRange(0.000, 1.000);
+obstacle->setLockValueInRange(false);
+obstacle->addTerm(new Ramp("left", 1.000, 0.000));
+obstacle->addTerm(new Ramp("right", 0.000, 1.000));
+engine->addInputVariable(obstacle);
 
-    OutputVariable* mSteer = new OutputVariable;
-    mSteer->setName("mSteer");
-    mSteer->setDescription("");
-    mSteer->setEnabled(true);
-    mSteer->setRange(0.000, 1.000);
-    mSteer->setLockValueInRange(false);
-    mSteer->setAggregation(new Maximum);
-    mSteer->setDefuzzifier(new Centroid(100));
-    mSteer->setDefaultValue(fl::nan);
-    mSteer->setLockPreviousValue(false);
-    mSteer->addTerm(new Ramp("left", 1.000, 0.000));
-    mSteer->addTerm(new Ramp("right", 0.000, 1.000));
-    engine->addOutputVariable(mSteer);
+OutputVariable* mSteer = new OutputVariable;
+mSteer->setName("mSteer");
+mSteer->setDescription("");
+mSteer->setEnabled(true);
+mSteer->setRange(0.000, 1.000);
+mSteer->setLockValueInRange(false);
+mSteer->setAggregation(new Maximum);
+mSteer->setDefuzzifier(new Centroid(100));
+mSteer->setDefaultValue(fl::nan);
+mSteer->setLockPreviousValue(false);
+mSteer->addTerm(new Ramp("left", 1.000, 0.000));
+mSteer->addTerm(new Ramp("right", 0.000, 1.000));
+engine->addOutputVariable(mSteer);
 
-    RuleBlock* mamdani = new RuleBlock;
-    mamdani->setName("mamdani");
-    mamdani->setDescription("");
-    mamdani->setEnabled(true);
-    mamdani->setConjunction(fl::null);
-    mamdani->setDisjunction(fl::null);
-    mamdani->setImplication(new AlgebraicProduct);
-    mamdani->setActivation(new General);
-    mamdani->addRule(Rule::parse("if obstacle is left then mSteer is right", engine));
-    mamdani->addRule(Rule::parse("if obstacle is right then mSteer is left", engine));
-    engine->addRuleBlock(mamdani);
+RuleBlock* mamdani = new RuleBlock;
+mamdani->setName("mamdani");
+mamdani->setDescription("");
+mamdani->setEnabled(true);
+mamdani->setConjunction(fl::null);
+mamdani->setDisjunction(fl::null);
+mamdani->setImplication(new AlgebraicProduct);
+mamdani->setActivation(new General);
+mamdani->addRule(Rule::parse("if obstacle is left then mSteer is right", engine));
+mamdani->addRule(Rule::parse("if obstacle is right then mSteer is left", engine));
+engine->addRuleBlock(mamdani);
+```
 
-    std::string status;
-    if (not engine->isReady(&status))
-        throw Exception("[engine error] engine is not ready:\n" + status, FL_AT);
+### Operation
 
-    for (int i = 0; i <= 50; ++i){
-        scalar location = obstacle->getMinimum() + i * (obstacle->range() / 50);
-        obstacle->setValue(location);
-        engine->process();
-        FL_LOG("obstacle.input = " << Op::str(location) << 
-            " => " << "steer.output = " << Op::str(steer->getValue()));
-    }
+```cpp
+using namespace fl;
+
+std::string status;
+if (not engine->isReady(&status))
+    throw Exception("[engine error] engine is not ready:\n" + status, FL_AT);
+
+InputVariable* obstacle = engine->getInputVariable("obstacle");
+OutputVariable* steer = engine->getOutputVariable("steer");
+
+for (int i = 0; i <= 50; ++i){
+    scalar location = obstacle->getMinimum() + i * (obstacle->range() / 50);
+    obstacle->setValue(location);
+    engine->process();
+    FL_LOG("obstacle.input = " << Op::str(location) << 
+        " => " << "steer.output = " << Op::str(steer->getValue()));
 }
 ```
 
@@ -215,6 +203,7 @@ Once you have an engine written in C++, you can compile it to create an executab
 rem Windows:
 set PATH="\path\to\fuzzylite\release\bin;%PATH%"
 ```
+
 ```bash 
 #Unix:
 export LD_LIBRARY_PATH="/path/to/fuzzylite/release/bin/:$LD_LIBRARY_PATH"
