@@ -1,111 +1,87 @@
-fuzzylite&reg; 7.0 (In progress)
-================================
-<img src="https://raw.githubusercontent.com/fuzzylite/fuzzylite/release/fuzzylite.png" align="right" alt="fuzzylite">
+# fuzzylite 7.0 (in progress)
+
+*** 
+
+<img src="https://fuzzylite.github.io/fuzzylite/fuzzylite.svg" align="left" alt="fuzzylite">
 
 
-A Fuzzy Logic Control Library in C++
-------------------------------------
+## A Fuzzy Logic Control Library in C++
 
-By: [Juan Rada-Vilela](https://www.fuzzylite.com/jcrada), Ph.D.
+by [**Juan Rada-Vilela, PhD**](https://fuzzylite.com/about)
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://opensource.org/license/gpl-3-0/)
+[![License: Paid](https://img.shields.io/badge/License-proprietary-blue)](mailto:sales@fuzzylite.com)
+
+***
+
 [![Coverity Status](https://scan.coverity.com/projects/5759/badge.svg)](https://scan.coverity.com/projects/5759)
-
-Branch: [main](https://github.com/fuzzylite/fuzzylite/tree/main) 
-
-[![FuzzyLite (Linux)](https://github.com/fuzzylite/fuzzylite/actions/workflows/build-linux.yml/badge.svg?branch=main&event=push)](https://github.com/fuzzylite/fuzzylite/actions/workflows/build-linux.yml)
-
-[![FuzzyLite (Windows)](https://github.com/fuzzylite/fuzzylite/actions/workflows/build-windows.yml/badge.svg?branch=main&event=push)](https://github.com/fuzzylite/fuzzylite/actions/workflows/build-windows.yml)
+[![Linux Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml)
+[![macOS Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml)
+[![Windows Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/WindowsMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/WindowsMediumBuild.yml)
 
 ***
 
 
-### Table of Contents
-[License](#license) <br/>
-[Introduction](#introduction)<br/>
-[Features](#features)<br/>
-[Example](#example) <br/>
-[Compile, Link, and Execute](#compile-build-execute)<br/>
-[Bulding from Source](#building)<br/>
-[Binaries](#binaries) <br/>
-[What's new](#whatsnew)<br/>
-[What's next](#whatsnext) <br/>
+## <a name="fuzzylite">FuzzyLite</a>
+
+**The FuzzyLite Libraries for Fuzzy Logic Control** refer to [`fuzzylite`](https://github.com/fuzzylite/fuzzylite/)
+(C++), [`pyfuzzylite`](https://github.com/fuzzylite/pyfuzzylite/) (Python),
+and [`jfuzzylite`](https://github.com/fuzzylite/jfuzzylite/) (Java).
+
+The **goal** of the FuzzyLite Libraries is to **easily** design and **efficiently** operate fuzzy logic controllers
+following an **object-oriented** programming model with minimal dependency on external libraries.
+
+
+## <a name="license">License</a>
+
+`fuzzylite` is dual-licensed under the [**GNU GPL 3.0**](https://opensource.org/license/gpl-3-0/) and under a
+**proprietary license for commercial purposes**.
+
+You are **strongly** encouraged to support the development of the FuzzyLite Libraries by purchasing a license
+of [`QtFuzzyLite`](https://fuzzylite.com/downloads).
+
+[`QtFuzzyLite`](https://fuzzylite.com/downloads/) is the best graphical user interface available to easily design and
+directly operate fuzzy logic controllers in real time. Available for Windows, Mac, and Linux, its goal is to
+significantly **speed up** the design of your fuzzy logic controllers, while providing a very **useful**, **functional**
+and **beautiful** user interface.
+Please, download it and check it out for free at [fuzzylite.com/downloads](https://fuzzylite.com/downloads).
 
 
 
 
-***
-
-### <a name="license">License</a>
-`fuzzylite 6.0` is licensed under the [**GNU General Public License (GPL) 3.0**](https://www.gnu.org/licenses/gpl.html). You are **strongly** encouraged to support the development of the FuzzyLite Libraries by purchasing a license of [`QtFuzzyLite 6`](https://www.fuzzylite.com/downloads). 
-
-[`QtFuzzyLite 6`](https://www.fuzzylite.com/downloads/) is the new and (very likely) the best graphical user interface available to  easily design and directly operate fuzzy logic controllers in real time. Available for Windows, Mac, and Linux, its goal is to significantly **speed up** the design of your fuzzy logic controllers, while providing a very **useful**, **functional** and **beautiful** user interface. 
-Please, download it and check it out for free at [www.fuzzylite.com/downloads/](https://www.fuzzylite.com/downloads/).
-
-***
-
-
-### <a name="introduction">Introduction</a>
-
-
-`fuzzylite` is a free and open-source fuzzy logic control library programmed in C++ for multiple platforms (e.g., Windows, Linux, Mac, iOS). [`jfuzzylite`](https://github.com/fuzzylite/jfuzzylite/) is the equivalent library for Java and Android platforms. Together, they are **The FuzzyLite Libraries for Fuzzy Logic Control**.
-
- The **goal** of the FuzzyLite Libraries is to **easily** design and **efficiently** operate fuzzy logic controllers following an **object-oriented** programming model **without** relying on external libraries.
-
-
-#### Reference
-If you are using the FuzzyLite Libraries, please cite the following reference in your article:
-
-Juan Rada-Vilela. fuzzylite: a fuzzy logic control library, 2017. URL https://www.fuzzylite.com/.
-
-```bibtex
- @misc{fl::fuzzylite,
- author={Juan Rada-Vilela},
- title={fuzzylite: a fuzzy logic control library},
- url={https://www.fuzzylite.com/},
- year={2017}}
-```
-
-#### Documentation
+## Documentation
 The documentation for the `fuzzylite` library is available at: [www.fuzzylite.com/documentation/](https://www.fuzzylite.com/documentation/). 
 
-#### Contributing
-All contributions are welcome, provided they follow the following guidelines:
- - Pull requests are made to the [master](https://github.com/fuzzylite/fuzzylite/tree/master) branch, **not** the release branch
- - Source code is consistent with standards in the library
- - Contribution is appropriately documented and tested, raising issues where appropriate
- - License of the contribution is waived to match the license of the FuzzyLite Libraries
 
+## <a name="features">Features</a>
 
-***
+**Documentation**: [fuzzylite.github.io/pyfuzzylite/](https://fuzzylite.github.io/pyfuzzylite/)
 
-### <a name="features">Features</a>
+**(6) Controllers**: Mamdani, Takagi-Sugeno, Larsen, Tsukamoto, Inverse Tsukamoto, Hybrid
 
-**(6) Controllers**: Mamdani, Takagi-Sugeno, Larsen, Tsukamoto, Inverse Tsukamoto, Hybrids
+**(25) Linguistic terms**:  (5) *Basic*: Triangle, Trapezoid, Rectangle, Discrete, SemiEllipse.
+(8) *Extended*: Bell, Cosine, Gaussian, GaussianProduct, PiShape, SigmoidDifference, SigmoidProduct, Spike.
+(7) *Edges*: Arc, Binary, Concave, Ramp, Sigmoid, SShape, ZShape.
+(3) *Functions*: Constant, Linear, Function. (2) *Special*: Aggregated, Activated.
 
-**(21) Linguistic terms**:  (4) *Basic*: triangle, trapezoid, rectangle, discrete. 
-(9) *Extended*: bell, cosine, gaussian, gaussian product, pi-shape, sigmoid difference, sigmoid product, spike. 
-(5) *Edges*: binary, concave, ramp, sigmoid, s-shape, z-shape. 
-(3) *Functions*: constant, linear, function. 
+**(7) Activation methods**:  General, Proportional, Threshold, First, Last, Lowest, Highest.
 
-**(7) Activation methods**:  general, proportional, threshold, first, last, lowest, highest.
+**(9) Conjunction and Implication (T-Norms)**: Minimum, AlgebraicProduct, BoundedDifference, DrasticProduct,
+EinsteinProduct, HamacherProduct, NilpotentMinimum, LambdaNorm, FunctionNorm.
 
-**(8) Conjunction and Implication (T-Norms)**: minimum, algebraic product, bounded difference, drastic product, einstein product, hamacher product, nilpotent minimum, function.
+**(11) Disjunction and Aggregation (S-Norms)**:  Maximum, AlgebraicSum, BoundedSum, DrasticSum, EinsteinSum,
+HamacherSum, NilpotentMaximum, NormalizedSum, UnboundedSum, LambdaNorm, FunctionNorm.
 
-**(10) Disjunction and Aggregation (S-Norms)**:  maximum, algebraic sum, bounded sum, drastic sum, einstein sum, hamacher sum, nilpotent maximum, normalized sum, unbounded sum,  function.
+**(7) Defuzzifiers**:  (5) *Integral*: Centroid, Bisector, SmallestOfMaximum, LargestOfMaximum, MeanOfMaximum.
+(2) *Weighted*: WeightedAverage, WeightedSum.
 
-**(7) Defuzzifiers**:  (5) *Integral*: centroid, bisector, smallest of maximum, largest of maximum, mean of maximum. 
-(2) *Weighted*: weighted average, weighted sum.
-
-**(7) Hedges**: any, not, extremely, seldom, somewhat, very, function.
+**(7) Hedges**: Any, Not, Extremely, Seldom, Somewhat, Very, Function.
 
 **(3) Importers**: FuzzyLite Language `fll`, Fuzzy Inference System `fis`, Fuzzy Control Language `fcl`.
 
 **(7) Exporters**: `C++`, `Java`, FuzzyLite Language `fll`, FuzzyLite Dataset `fld`, `R` script, Fuzzy Inference System `fis`, Fuzzy Control Language `fcl`.
 
 **(30+) Examples**  of Mamdani, Takagi-Sugeno, Tsukamoto, and Hybrid controllers from `fuzzylite`, Octave, and Matlab, each included in the following formats: `C++`, `Java`, `fll`, `fld`, `R`, `fis`, and `fcl`.
-
-
 
 
 ***
@@ -172,9 +148,6 @@ int main(int argc, char* argv[]){
 
 int main(int argc, char* argv[]){
     using namespace fl;
-    //Code automatically generated with fuzzylite 6.0.
-
-    using namespace fl;
 
     Engine* engine = new Engine;
     engine->setName("ObstacleAvoidance");
@@ -232,7 +205,11 @@ int main(int argc, char* argv[]){
 
 ### <a name="compile-build-execute">Compile, Link, and Execute</a>
 
-Once you have an engine written in C++, you can compile it to create an executable file which links to the `fuzzylite` library. The linking can be either static or dynamic. Basically, the differences between static and dynamic linking are the following.  **Static linking** includes the `fuzzylite` library into your executable file, hence increasing its size, but the executable no longer needs to  have access to the `fuzzylite` library files. **Dynamic linking** does not include the `fuzzylite` library into your executable file, hence reducing its size, but the executable needs to have access to the `fuzzylite` shared library file. When using dynamic linking, make sure that  the shared library files are  either in the same directory as the executable, or are reachable via environmental variables:
+Once you have an engine written in C++, you can compile it to create an executable file which links to the `fuzzylite` library. The linking can be either static or dynamic. Basically, the differences between static and dynamic linking are the following.  
+
+**Static linking** includes the `fuzzylite` library into your executable file, hence increasing its size, but the executable no longer needs to  have access to the `fuzzylite` library files. 
+
+**Dynamic linking** does not include the `fuzzylite` library into your executable file, hence reducing its size, but the executable needs to have access to the `fuzzylite` shared library file. When using dynamic linking, make sure that  the shared library files are  either in the same directory as the executable, or are reachable via environmental variables:
 
 ```posh
 rem Windows:
@@ -289,68 +266,48 @@ g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/f
 g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/fuzzylite/release/bin -lfuzzylite -DFL_CPP98=ON -Wno-non-literal-null-conversion
 ```
 
-#### CMake
+## CMake
 Alternatively, you can use CMake to build your project linking to `fuzzylite`. Please, refer to the example application available at [examples/application]([/examples/application]).
 
-
-
-***
 
 
 ### <a name="building">Building  from Source</a>
 You can build the `fuzzylite` library from source using  `CMake` [(cmake.org)](https://cmake.org/).
 
-The files [`fuzzylite/build.bat`](/fuzzylite/build.bat) and [`fuzzylite/build.sh`](/fuzzylite/build.sh) are build scripts for the Windows and Unix platforms, respectively.
-After building from source, the resulting binaries will be located in the sub-folders `fuzzylite/release/bin` and `fuzzylite/debug/bin`. The usage of these scripts is presented as follows.
-
-#### Windows
-```bash
-> build.bat help
-Usage:  build.bat [options]
-where   [options] can be any of the following:
-    all          builds fuzzylite in debug and release mode (default)
-    debug        builds fuzzylite in debug mode
-    release      builds fuzzylite in release mode
-    clean        erases previous builds
-    help         shows this information
-```
+Check `.github/workflows` for details.
 
 #### Unix
+
 ```bash
-$ ./build.sh help
-Usage:  [bash] ./build.sh [options]
-where   [options] can be any of the following:
-    all          builds fuzzylite in debug and release mode (default)
-    debug        builds fuzzylite in debug mode
-    release      builds fuzzylite in release mode
-    clean        erases previous builds
-    help         shows this information
+cmake -B build/ -G"Unix Makefiles"  .
+cmake --build build/ --parallel
+ctest --test-dir build/
 ```
 
+#### Windows
+
+```bash
+cmake -B build/ -G"NMake Makefiles" .
+cmake --build build/
+ctest --test-dir build/
+```
 
 
 #### Building Options
-For advanced building options, please check the contents of [`fuzzylite/build.bat`](/fuzzylite/build.bat) or [`fuzzylite/build.sh`](/fuzzylite/build.sh), and the contents of [`fuzzylite/CMakeLists.txt`](/fuzzylite/CMakeLists.txt).
-
 The following building options available:
 
-* `-DFL_USE_FLOAT=ON` builds the binaries utilizing the `fl::scalar` data type as a `float` represented in 4 bytes. By default, the binaries are built utilizing `-DFL_USE_FLOAT=OFF` to utilize `fl::scalar` as a `double` represented in 8 bytes and hence providing better accuracy. If `fuzzylite` is built with `-DFL_USE_FLOAT=ON`, then the applications linking to `fuzzylite` also need to specify this compilation flag. 
+`-DFL_USE_FLOAT=ON` builds the binaries using the `fl::scalar` data type as a `float` instead of `double`. By default, the binaries are built using `-DFL_USE_FLOAT=OFF`. If `fuzzylite` is built with `-DFL_USE_FLOAT=ON`, then the applications linking to `fuzzylite` also need to specify this compilation flag. 
 
 
-* `-DFL_CPP98=ON` builds binaries utilizing `C++98` features. By default, `fuzzylite` is built with `-DFL_CPP98=OFF` to utilize `C++11` features. If compiling for `C++98`, be aware that you will not be able to benchmark the performance of your engine using the `Benchmark` class.
+`-DFL_CPP98=ON` builds binaries using `C++98` features instead of `C++11`. By default, the binaries are built using `-DFL_CPP98=OFF`. If you use `C++98`, you will not be able to benchmark the performance of your engine using the `Benchmark` class, and you will not be able to run any of the tests.
 
 
-* `-DFL_BACKTRACE=OFF` disables the backtrace information in case of errors (default is ON). In Windows, the backtrace information requires the external library `dbghelp`, which is generally available in your system.
-
-* `-DCMAKE_BUILD_TYPE=[Debug|Release]` sets the mode of your build. You can only build one mode at a time with a single CMake script.
+`-DFL_BACKTRACE=OFF` disables the backtrace information in case of errors. By default, the binaries are built using `-DFL_BACKTRACE=ON`. In Windows, the backtrace information requires the external library `dbghelp`, which is generally available in your system.
 
 
 #### Documentation
 The source code of `fuzzylite` is very well documented using [`doxygen`](www.doxygen.org/) formatting, and the documentation is available at [fuzzylite.com/documentation](https://fuzzylite.com/documentation). If you want to generate the documentation locally, you can produce the `html` documentation from the file [Doxyfile](/Doxyfile) using the command line: `doxygen Doxyfile`. The documentation will be created in the [`documentation`](/documentation) folder.
 
-
-
-***
 
 ### <a name="binaries">Binaries</a>
 
@@ -382,80 +339,35 @@ The console application of `fuzzylite` allows you to import and export your engi
 fuzzylite -i ObstacleAvoidance.fll -of fld
 ```
 
-***
 
-### <a name="whatsnew">What's New?</a>
-* The FuzzyLite Libraries, namely fuzzylite and jfuzzylite, both in version 6.0, are licensed under the GNU General Public License version 3.
+## <a name="contributing">Contributing</a>
 
-* By default, fuzzylite builds using C++11 instead of C++98. 
+All contributions are welcome, provided they follow the following guidelines:
 
-* Important performance improvements.
+- Source code is consistent with standards in the library
+- Contribution is properly documented and tested, raising issues where appropriate
+- Contribution is licensed under the FuzzyLite License
 
-* Refactored the following names for the operation of engines: from activation operator to implication operator, from accumulation operator to aggregation operator.
+## <a name="reference">Reference</a>
 
-* Renamed the term `Accumulated` to `Aggregated`.
+If you are using the FuzzyLite Libraries, please cite the following reference in your article:
 
-* New activation methods decouple the activation of rules from the rule block and provide different methods for activating rules (see Activation Methods).
+> Juan Rada-Vilela. The FuzzyLite Libraries for Fuzzy Logic Control, 2018. URL https://fuzzylite.com.
 
-* New class `ActivationFactory` provides a factory of activation methods.
+Or using `bibtex`:
 
-* New class `Benchmark` to evaluate the performance and accuracy of engines.
-
-* New class `Complexity` to estimate the computational complexity of an engine.
-
-* New class `RScriptExporter` to export the surfaces of an engine using the `ggplot2` library.
-
-* New class `Binary` term for binary edges.
-
-* New `UnboundedSum` S-Norm in `SNormFactory`.
-
-* New classes `SNormFunction` and `TNormFunction` to create custom functions on any two values using the `Function` class.
-
-* Added description strings to `Engine`, `Variable` and `RuleBlock`
-
-* Privatized previously protected members of classes and subclasses of `Term`, `Variable`, `Rule`, `Defuzzifier`, `[Cloning|Construction]Factory`, `Importer`, `Exporter`, amongst others.
-
-* Improved portability by replacing `int` for `std::size_t` where necessary, thereby additionally removing warnings in Windows 64bit
-
-* Deleted `Operation.cpp` and inlined its methods into `Operation.h`
-
-* Updated `.travis.yml` to use Docker, and build using g++ (versions 6, 5, 4.9, 4.8, 4.7) and clang (versions 3.8, 3.7, 3.6, and 3.5). 
-
-* Added `appveyor.yml` to use continuous integration in Windows under Visual Studio 2013 and 2015.
-
-* Added some unit tests and support for future unit tests.
-
-* Bug fixes.
-
-* New example of hybrid engines.
-
-* New example on obstacle avoidance for Mamdani, Takagi-Sugeno, and Hybrid engines.
-
-* New R scripts for each example and its respective surfaces in `pdf` formats.
-
-#### Bug fixes
-* Fixed bug in `CloningFactory::deregisterObject()`. Bug: Object was deleted before removing it from the map, leaving an invalid object in the map which would cause a segmentation fault. Solution: Remove the object from the map before deleting it.
-* Fixed bug causing segmentation fault when malformed term in FuzzyLite Language
-* Fixed bug computing the `NormalizedSum` S-Norm.
-* Fixed bug in `RuleBlock` to reset and clone the implication operator. Bug: implication operator is not copied and reset. Fix: copy and reset implication operator when cloning the `RuleBlock`.
-* Fixed bug in `Function` term. Bug: given a formula = "tan(y)" and a map["y"] = 1.0, and executing `Function::load(formula)`, then the map of variables is reset because `load()` calls `unload()` first, causing the deregistration of variable `y`. Solution: Removed method `unload()` from `load()`, thereby causing future `load()` not to reset variables.
-* Fixed bug in `Function` when enclosing variable in double parenthesis.
-
+```bibtex
+@misc{fl::fuzzylite,
+    author={Juan Rada-Vilela},
+    title={The FuzzyLite Libraries for Fuzzy Logic Control},
+    url={https://fuzzylite.com},
+    year={2018}
+}
+```
 
 ***
 
-### <a name="whatsnext">What's Next?</a>
-
-+ Optimization of Fuzzy Logic Controllers
-+ Type-2 Fuzzy Logic Controllers
-+ Adaptive Neuro-Fuzzy Inference System (ANFIS)
-+ Fuzzy C-means data clustering
-
-***
-
-fuzzylite&reg; is a registered trademark of FuzzyLite Limited.<br>
-jfuzzylite&trade; is a trademark of FuzzyLite Limited.<br>
-QtFuzzyLite&trade; is a trademark of FuzzyLite Limited.<br>
-
-
-Copyright &#xa9; 2010-2017 FuzzyLite Limited. All rights reserved.
+fuzzylite&reg; is a registered trademark of FuzzyLite Limited <br>
+jfuzzylite&trade; is a trademark of FuzzyLite Limited <br>
+pyfuzzylite&trade; is a trademark of FuzzyLite Limited <br>
+QtFuzzyLite&trade; is a trademark of FuzzyLite Limited <br>
