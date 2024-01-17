@@ -33,6 +33,7 @@ jobs:
           cmake -B build/${{ matrix.build_type }} -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
           cmake --build build/${{ matrix.build_type }} --parallel
           ctest --test-dir build/${{ matrix.build_type }}
+          ls -la build/${{ matrix.build_type }}
 
       - name: Save cmake dependencies
         id: cache-save-cmake-deps
