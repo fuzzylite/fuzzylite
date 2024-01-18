@@ -22,11 +22,10 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: |
-            fuzzylite/build/_deps
+            build/_deps
           key: ${{ runner.os }}-cmake-deps
-    
+
       - name: Building FuzzyLite
-        working-directory: fuzzylite
         env:
           CXX: ${{ matrix.use_cxx }}
         run: |
@@ -40,5 +39,5 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: |
-            fuzzylite/build/_deps
+            build/_deps
           key: ${{ steps.cache-restore-cmake-deps.outputs.cache-primary-key }}
