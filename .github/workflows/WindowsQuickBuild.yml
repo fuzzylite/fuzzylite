@@ -19,6 +19,14 @@ jobs:
       
       - uses: ilammy/msvc-dev-cmd@v1
 
+      - name: Restore cmake dependencies
+        id: cache-restore-cmake-deps
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            fuzzylite/build/${{ matrix.build_type }}/_deps
+          key: ${{ runner.os }}-cmake-deps
+
       - name: Building FuzzyLite
         working-directory: fuzzylite
         shell: cmd
@@ -26,3 +34,12 @@ jobs:
           cmake -B build/${{ matrix.build_type }} -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
           cmake --build build/${{ matrix.build_type }} --parallel
           ctest --test-dir build/${{ matrix.build_type }}
+
+      - name: Save cmake dependencies
+        if: steps.cache-restore-cmake-deps.outputs.cache-hit != 'true'
+        id: cache-save-cmake-deps
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            fuzzylite/build/${{ matrix.build_type }}/_deps
+          key: ${{ steps.cache-restore-cmake-deps.outputs.cache-primary-key }}

@@ -19,6 +19,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Restore cmake dependencies
+        id: cache-restore-cmake-deps
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            fuzzylite/build/${{ matrix.build_type }}/_deps
+          key: ${{ runner.os }}-cmake-deps
+
       - name: Building FuzzyLite
         working-directory: fuzzylite
         env:
@@ -42,6 +50,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Restore cmake dependencies
+        id: cache-restore-cmake-deps
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            fuzzylite/build/${{ matrix.build_type }}/_deps
+          key: ${{ runner.os }}-cmake-deps
+          
       - name: Building FuzzyLite
         working-directory: fuzzylite
         env:
