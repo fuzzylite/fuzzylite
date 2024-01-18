@@ -17,15 +17,15 @@
 #ifndef FL_FACTORYMANAGER_H
 #define FL_FACTORYMANAGER_H
 
-#include "fl/fuzzylite.h"
+#include "fuzzylite/fuzzylite.h"
 
-#include "fl/factory/TNormFactory.h"
-#include "fl/factory/SNormFactory.h"
-#include "fl/factory/ActivationFactory.h"
-#include "fl/factory/DefuzzifierFactory.h"
-#include "fl/factory/TermFactory.h"
-#include "fl/factory/HedgeFactory.h"
-#include "fl/factory/FunctionFactory.h"
+#include "fuzzylite/factory/TNormFactory.h"
+#include "fuzzylite/factory/SNormFactory.h"
+#include "fuzzylite/factory/ActivationFactory.h"
+#include "fuzzylite/factory/DefuzzifierFactory.h"
+#include "fuzzylite/factory/TermFactory.h"
+#include "fuzzylite/factory/HedgeFactory.h"
+#include "fuzzylite/factory/FunctionFactory.h"
 
 namespace fl {
 

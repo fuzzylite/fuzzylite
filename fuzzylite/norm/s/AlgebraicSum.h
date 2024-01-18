@@ -17,7 +17,7 @@
 #ifndef FL_ALGEBRAICSUM_H
 #define FL_ALGEBRAICSUM_H
 
-#include "fl/norm/SNorm.h"
+#include "fuzzylite/norm/SNorm.h"
 
 namespace fl {
 

@@ -17,7 +17,7 @@
 #ifndef FL_EXPRESSION_H
 #define FL_EXPRESSION_H
 
-#include "fl/fuzzylite.h"
+#include "fuzzylite/fuzzylite.h"
 
 #include <string>
 #include <vector>

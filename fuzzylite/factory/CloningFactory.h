@@ -17,7 +17,7 @@
 #ifndef FL_CLONINGFACTORY_H
 #define FL_CLONINGFACTORY_H
 
-#include "fl/fuzzylite.h"
+#include "fuzzylite/fuzzylite.h"
 
 #include <map>
 #include <string>
@@ -28,7 +28,7 @@ namespace fl {
     /**
       The CloningFactory class is the base class for a factory whose objects
       are created from a registered object by calling the `clone()` method.
-     
+
       @param <T> is the class of the object to be cloned
 
       @author Juan Rada-Vilela, Ph.D.
@@ -107,7 +107,7 @@ namespace fl {
   Template implementation
  */
 
-#include "fl/Exception.h"
+#include "fuzzylite/Exception.h"
 
 namespace fl {
 

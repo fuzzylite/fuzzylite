@@ -17,7 +17,7 @@
 #ifndef FL_DRASTICSUM_H
 #define FL_DRASTICSUM_H
 
-#include "fl/norm/SNorm.h"
+#include "fuzzylite/norm/SNorm.h"
 
 namespace fl {
 

@@ -17,7 +17,7 @@
 #ifndef FL_GAUSSIANPRODUCT_H
 #define FL_GAUSSIANPRODUCT_H
 
-#include "fl/term/Term.h"
+#include "fuzzylite/term/Term.h"
 
 namespace fl {
 

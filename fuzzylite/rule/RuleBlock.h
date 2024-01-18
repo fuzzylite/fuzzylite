@@ -17,10 +17,10 @@
 #ifndef FL_RULEBLOCK_H
 #define FL_RULEBLOCK_H
 
-#include "fl/fuzzylite.h"
+#include "fuzzylite/fuzzylite.h"
 
-#include "fl/activation/Activation.h"
-#include "fl/Complexity.h"
+#include "fuzzylite/activation/Activation.h"
+#include "fuzzylite/Complexity.h"
 
 #include <string>
 #include <vector>
@@ -74,7 +74,7 @@ namespace fl {
           @return whether the rule block is enabled
          */
         virtual bool isEnabled() const;
-        
+
         /**
           Activates the rule block
          */

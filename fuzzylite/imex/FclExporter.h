@@ -17,7 +17,7 @@
 #ifndef FL_FCLEXPORTER_H
 #define FL_FCLEXPORTER_H
 
-#include "fl/imex/Exporter.h"
+#include "fuzzylite/imex/Exporter.h"
 
 namespace fl {
     class InputVariable;

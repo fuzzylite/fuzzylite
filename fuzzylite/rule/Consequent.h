@@ -17,9 +17,9 @@
 #ifndef FL_CONSEQUENT_H
 #define FL_CONSEQUENT_H
 
-#include "fl/fuzzylite.h"
+#include "fuzzylite/fuzzylite.h"
 
-#include "fl/Complexity.h"
+#include "fuzzylite/Complexity.h"
 
 #include <string>
 #include <vector>
@@ -74,7 +74,7 @@ namespace fl {
          */
         virtual Complexity complexity(const TNorm* implication) const;
         /**
-          Returns an immutable vector of the propositions that represent the 
+          Returns an immutable vector of the propositions that represent the
           Consequent of a Rule
           @return an immutable vector of the set of propositions that represent
           the Consequent of a Rule
@@ -82,9 +82,9 @@ namespace fl {
         virtual const std::vector<Proposition*>& conclusions() const;
 
         /**
-          Returns the vector of propositions that represent the Consequent of a 
+          Returns the vector of propositions that represent the Consequent of a
           Rule
-          @return the vector of propositions that represent the Consequent of a 
+          @return the vector of propositions that represent the Consequent of a
           Rule
          */
         virtual std::vector<Proposition*>& conclusions();

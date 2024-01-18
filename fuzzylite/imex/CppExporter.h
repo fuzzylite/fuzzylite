@@ -17,7 +17,7 @@
 #ifndef FL_CPPEXPORTER_H
 #define FL_CPPEXPORTER_H
 
-#include "fl/imex/Exporter.h"
+#include "fuzzylite/imex/Exporter.h"
 
 namespace fl {
     class Engine;

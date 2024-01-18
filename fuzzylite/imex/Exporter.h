@@ -17,7 +17,7 @@
 #ifndef FL_EXPORTER_H
 #define FL_EXPORTER_H
 
-#include "fl/fuzzylite.h"
+#include "fuzzylite/fuzzylite.h"
 
 #include <string>
 

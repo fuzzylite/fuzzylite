@@ -17,7 +17,7 @@
 #ifndef FL_FCLIMPORTER_H
 #define FL_FCLIMPORTER_H
 
-#include "fl/imex/Importer.h"
+#include "fuzzylite/imex/Importer.h"
 
 #include <string>
 #include <utility>

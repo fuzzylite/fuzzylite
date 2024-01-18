@@ -17,7 +17,7 @@
 #ifndef FL_JAVAEXPORTER_H
 #define FL_JAVAEXPORTER_H
 
-#include "fl/imex/Exporter.h"
+#include "fuzzylite/imex/Exporter.h"
 
 namespace fl {
 

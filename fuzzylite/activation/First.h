@@ -17,7 +17,7 @@
 #ifndef FL_FIRST_H
 #define FL_FIRST_H
 
-#include "fl/activation/Activation.h"
+#include "fuzzylite/activation/Activation.h"
 
 namespace fl {
 

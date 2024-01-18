@@ -17,7 +17,7 @@
 #ifndef FL_SIGMOID_H
 #define FL_SIGMOID_H
 
-#include "fl/term/Term.h"
+#include "fuzzylite/term/Term.h"
 
 namespace fl {
 
@@ -83,7 +83,7 @@ namespace fl {
                 scalar minimum, scalar maximum) const FL_IOVERRIDE;
 
         virtual bool isMonotonic() const FL_IOVERRIDE;
-        
+
         /**
           Sets the inflection of the sigmoid
           @param inflection is the inflection of the sigmoid

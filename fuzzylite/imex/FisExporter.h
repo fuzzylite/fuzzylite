@@ -17,7 +17,7 @@
 #ifndef FL_FISEXPORTER_H
 #define FL_FISEXPORTER_H
 
-#include "fl/imex/Exporter.h"
+#include "fuzzylite/imex/Exporter.h"
 
 #include <vector>
 

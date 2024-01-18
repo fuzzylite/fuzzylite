@@ -18,7 +18,7 @@
 #define FL_WEIGHTEDSUMCUSTOM_H
 
 
-#include "fl/defuzzifier/WeightedDefuzzifier.h"
+#include "fuzzylite/defuzzifier/WeightedDefuzzifier.h"
 
 namespace fl {
 

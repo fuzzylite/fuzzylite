@@ -17,7 +17,7 @@
 #ifndef FL_NOT_H
 #define FL_NOT_H
 
-#include "fl/hedge/Hedge.h"
+#include "fuzzylite/hedge/Hedge.h"
 
 namespace fl {
 

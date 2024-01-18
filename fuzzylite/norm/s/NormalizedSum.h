@@ -17,7 +17,7 @@
 #ifndef FL_NORMALIZEDSUM_H
 #define FL_NORMALIZEDSUM_H
 
-#include "fl/norm/SNorm.h"
+#include "fuzzylite/norm/SNorm.h"
 
 namespace fl {
 

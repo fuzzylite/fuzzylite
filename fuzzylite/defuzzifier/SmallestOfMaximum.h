@@ -17,7 +17,7 @@
 #ifndef FL_SMALLESTOFMAXIMUM_H
 #define FL_SMALLESTOFMAXIMUM_H
 
-#include "fl/defuzzifier/IntegralDefuzzifier.h"
+#include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
 
 namespace fl {
 

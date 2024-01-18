@@ -17,7 +17,7 @@
 #ifndef FL_ACTIVATED_H
 #define FL_ACTIVATED_H
 
-#include "fl/term/Term.h"
+#include "fuzzylite/term/Term.h"
 
 namespace fl {
     class TNorm;

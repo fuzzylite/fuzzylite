@@ -17,7 +17,7 @@
 #ifndef FL_VERY_H
 #define FL_VERY_H
 
-#include "fl/hedge/Hedge.h"
+#include "fuzzylite/hedge/Hedge.h"
 
 namespace fl {
 

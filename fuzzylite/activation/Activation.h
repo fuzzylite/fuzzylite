@@ -17,9 +17,9 @@
 #ifndef FL_ACTIVATION_H
 #define FL_ACTIVATION_H
 
-#include "fl/fuzzylite.h"
+#include "fuzzylite/fuzzylite.h"
 
-#include "fl/Complexity.h"
+#include "fuzzylite/Complexity.h"
 
 namespace fl {
     class RuleBlock;

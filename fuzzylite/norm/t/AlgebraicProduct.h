@@ -17,7 +17,7 @@
 #ifndef FL_ALGEBRAICPRODUCT_H
 #define FL_ALGEBRAICPRODUCT_H
 
-#include "fl/norm/TNorm.h"
+#include "fuzzylite/norm/TNorm.h"
 
 namespace fl {
 

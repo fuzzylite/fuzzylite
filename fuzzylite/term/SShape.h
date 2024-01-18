@@ -17,7 +17,7 @@
 #ifndef FL_SSHAPE_H
 #define FL_SSHAPE_H
 
-#include "fl/term/Term.h"
+#include "fuzzylite/term/Term.h"
 
 namespace fl {
 
@@ -77,7 +77,7 @@ namespace fl {
                 scalar minimum, scalar maximum) const FL_IOVERRIDE;
 
         virtual bool isMonotonic() const FL_IOVERRIDE;
-        
+
         /**
           Sets the start of the edge
           @param start is the start of the edge
