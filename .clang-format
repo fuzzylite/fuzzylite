@@ -1,8 +1,8 @@
 ---
 Language:        Cpp
-# BasedOnStyle:  Google
-AccessModifierOffset: -1
-AlignAfterOpenBracket: Align # BlockIndent
+BasedOnStyle:  LLVM
+AccessModifierOffset: -2
+AlignAfterOpenBracket: Align
 AlignArrayOfStructures: None
 AlignConsecutiveMacros: None
 AlignConsecutiveAssignments: None
@@ -58,7 +58,7 @@ BreakConstructorInitializersBeforeComma: false
 BreakConstructorInitializers: BeforeColon
 BreakAfterJavaFieldAnnotations: false
 BreakStringLiterals: true
-ColumnLimit:     80
+ColumnLimit:     120
 CommentPragmas:  '^ IWYU pragma:'
 CompactNamespaces: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
@@ -105,7 +105,7 @@ IndentGotoLabels: true
 IndentPPDirectives: None
 IndentExternBlock: AfterExternBlock
 IndentRequires:  false
-IndentWidth:     2
+IndentWidth:     4
 IndentWrappedFunctionNames: false
 InsertTrailingCommas: None
 JavaScriptQuotes: Leave
