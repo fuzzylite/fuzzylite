@@ -7,7 +7,7 @@ project(fuzzylite VERSION ${FL_VERSION} LANGUAGES CXX)
 
 if (APPLE)
     set(CMAKE_OSX_DEPLOYMENT_TARGET 10.15)
-    
+
     # MACOSX_RPATH is enabled by default.
     cmake_policy(SET CMP0042 NEW)
 endif()
@@ -315,7 +315,7 @@ install(TARGETS ${fl-targets} EXPORT fuzzylite-config
 install(EXPORT fuzzylite-config DESTINATION share/fuzzylite/cmake)
 export(TARGETS ${fl-targets} FILE fuzzylite-config.cmake)
 
-install(DIRECTORY fl/ DESTINATION ${FL_INSTALL_INCLUDEDIR}/fl)
+install(DIRECTORY fuzzylite/ DESTINATION ${FL_INSTALL_INCLUDEDIR}/fuzzylite)
 
 
 #pkg-config
