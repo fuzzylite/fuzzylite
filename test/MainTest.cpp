@@ -13,10 +13,10 @@
 
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
- 
+
 #define CATCH_CONFIG_RUNNER
 
-#include "fl/Headers.h"
+#include "fuzzylite/Headers.h"
 
 #include <catch2/catch.hpp>
 
