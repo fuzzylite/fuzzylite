@@ -1,6 +1,8 @@
+build/
+lib/
 
-# Created by https://www.toptal.com/developers/gitignore/api/linux,macos,windows,git,c++,cmake
-# Edit at https://www.toptal.com/developers/gitignore?templates=linux,macos,windows,git,c++,cmake
+# Created by https://www.toptal.com/developers/gitignore/api/c++,git,cmake,linux,macos,windows
+# Edit at https://www.toptal.com/developers/gitignore?templates=c++,git,cmake,linux,macos,windows
 
 ### C++ ###
 # Prerequisites
@@ -15,12 +17,6 @@
 # Precompiled Headers
 *.gch
 *.pch
-
-# Linker files
-*.ilk
-
-# Debugger Files
-*.pdb
 
 # Compiled Dynamic libraries
 *.so
@@ -42,22 +38,18 @@
 *.out
 *.app
 
-# Build directories
-debug/
-release/
 ### CMake ###
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
 CMakeScripts
 Testing
-Makefile
+# Makefile
 cmake_install.cmake
 install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
-CMakeUserPresets.json
 
 ### CMake Patch ###
 # External projects
@@ -122,6 +114,10 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+### macOS Patch ###
+# iCloud generated files
+*.icloud
+
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
@@ -148,4 +144,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/linux,macos,windows,git,c++,cmake
+# End of https://www.toptal.com/developers/gitignore/api/c++,git,cmake,linux,macos,windows

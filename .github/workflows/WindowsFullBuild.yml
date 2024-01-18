@@ -15,10 +15,10 @@ jobs:
         build_type: [ "release", "debug" ]
         use_cpp98: [ "OFF", "ON" ]
         use_float: [ "OFF", "ON" ]
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: ilammy/msvc-dev-cmd@v1
 
       - name: Restore cmake dependencies
@@ -26,11 +26,10 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: |
-            fuzzylite/build/_deps
+            build/_deps
           key: ${{ runner.os }}-cmake-deps
 
       - name: Building FuzzyLite
-        working-directory: fuzzylite
         shell: cmd
         run: |
           cmake -B build/ -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_CPP98=${{ matrix.use_cpp98 }} -DFL_USE_FLOAT=${{ matrix.use_float }} .
