@@ -27,7 +27,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/defuzzifier/WeightedSum.h"
 #include "fuzzylite/defuzzifier/WeightedSumCustom.h"
 
-namespace fl {
+namespace fuzzylite {
 
     DefuzzifierFactory::DefuzzifierFactory() : ConstructionFactory<Defuzzifier*>("Defuzzifier") {
         registerConstructor("", fl::null);

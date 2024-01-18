@@ -24,7 +24,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <string>
 #include <vector>
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The CloningFactory class is the base class for a factory whose objects
@@ -110,7 +110,7 @@ namespace fl {
 
 #include "fuzzylite/Exception.h"
 
-namespace fl {
+namespace fuzzylite {
 
     template<typename T>
     inline CloningFactory<T>::CloningFactory(const std::string& name) : _name(name) {

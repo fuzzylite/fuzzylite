@@ -24,7 +24,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include <string>
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The Norm class is the abstract class for norms.

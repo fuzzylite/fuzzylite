@@ -20,7 +20,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/hedge/Hedge.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The Extremely class is a Hedge located fifth in the ordered set

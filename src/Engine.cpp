@@ -38,7 +38,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/variable/InputVariable.h"
 #include "fuzzylite/variable/OutputVariable.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Engine::Engine(const std::string& name) : _name(name) { }
 

@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/norm/s/SNormFunction.h"
 
-namespace fl {
+namespace fuzzylite {
 
     SNormFunction::SNormFunction(const std::string& formula) : SNorm() {
         _function.variables["a"] = fl::nan;

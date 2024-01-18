@@ -20,7 +20,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include <catch2/catch.hpp>
 
-namespace fl {
+namespace fuzzylite {
 
     /**
      * Tests: term/Function

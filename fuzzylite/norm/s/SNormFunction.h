@@ -22,7 +22,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/Function.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
      The SNormFunction class is a customizable SNorm via Function, which

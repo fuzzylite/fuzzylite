@@ -19,7 +19,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
     std::string NilpotentMinimum::className() const {
         return "NilpotentMinimum";

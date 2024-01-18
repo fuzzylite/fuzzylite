@@ -25,7 +25,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/norm/t/Minimum.h"
 #include "fuzzylite/norm/t/NilpotentMinimum.h"
 
-namespace fl {
+namespace fuzzylite {
 
     TNormFactory::TNormFactory() : ConstructionFactory<TNorm*>("TNorm") {
         registerConstructor("", fl::null);

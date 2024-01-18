@@ -19,7 +19,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Bisector::Bisector(int resolution)
     : IntegralDefuzzifier(resolution) { }

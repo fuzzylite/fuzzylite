@@ -20,7 +20,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <algorithm>    // std::random_shuffle
 #include <catch2/catch.hpp>
 
-namespace fl {
+namespace fuzzylite {
 
     /**
      * Tests: variable/Variable

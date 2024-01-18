@@ -21,7 +21,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/defuzzifier/WeightedDefuzzifier.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The WeightedSum class is a WeightedDefuzzifier that computes the

@@ -21,7 +21,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include <map>
 
-namespace fl {
+namespace fuzzylite {
 
     WeightedSum::WeightedSum(Type type) : WeightedDefuzzifier(type) { }
 

@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/Bell.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Bell::Bell(const std::string& name, scalar center, scalar width, scalar slope, scalar height)
     : Term(name, height), _center(center), _width(width), _slope(slope) { }

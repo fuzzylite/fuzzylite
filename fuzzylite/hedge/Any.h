@@ -20,7 +20,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/hedge/Hedge.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The Any class is a special Hedge that always returns `1.0`. Its

@@ -25,7 +25,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <string>
 #include <vector>
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The Operation class contains methods for numeric operations, string
@@ -589,7 +589,7 @@ namespace fl {
 #include <cstdarg>
 #include <cctype>
 
-namespace fl {
+namespace fuzzylite {
 
     template <typename T>
     inline T Operation::min(T a, T b) {

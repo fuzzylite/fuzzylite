@@ -20,7 +20,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include <fstream>
 
-namespace fl {
+namespace fuzzylite {
 
     Exporter::Exporter() { }
 

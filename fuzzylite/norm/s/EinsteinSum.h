@@ -20,7 +20,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/norm/SNorm.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The EinsteinSum class is an SNorm that computes the einstein sum of any

@@ -29,7 +29,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #endif
 
 
-namespace fl {
+namespace fuzzylite {
     const std::string Console::KW_INPUT_FILE = "-i";
     const std::string Console::KW_INPUT_FORMAT = "-if";
     const std::string Console::KW_OUTPUT_FILE = "-o";

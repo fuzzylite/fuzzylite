@@ -20,7 +20,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/Headers.h"
 
-namespace fl {
+namespace fuzzylite {
 /*
     TEST_CASE("RExporter creates plots with a single variable", "[imex]") {
         FL_unique_ptr<Engine> engine(Console::mamdani());

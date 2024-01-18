@@ -23,7 +23,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/variable/OutputVariable.h"
 
 #include <fstream>
-namespace fl {
+namespace fuzzylite {
 
     RScriptExporter::RScriptExporter() : Exporter(),
     _minimumColor("yellow"), _maximumColor("red"), _contourColor("black") { }

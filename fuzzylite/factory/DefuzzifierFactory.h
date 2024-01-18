@@ -24,7 +24,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
 #include "fuzzylite/defuzzifier/WeightedDefuzzifier.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The DefuzzifierFactory class is a ConstructionFactory of Defuzzifier%s.

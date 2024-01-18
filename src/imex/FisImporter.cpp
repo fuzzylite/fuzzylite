@@ -19,7 +19,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/Headers.h"
 
-namespace fl {
+namespace fuzzylite {
 
     FisImporter::FisImporter() : Importer() { }
 

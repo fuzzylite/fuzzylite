@@ -22,7 +22,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include <vector>
 
-namespace fl {
+namespace fuzzylite {
     class Variable;
     class InputVariable;
     class OutputVariable;

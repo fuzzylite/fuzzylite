@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/hedge/Very.h"
 
-namespace fl {
+namespace fuzzylite {
 
     std::string Very::name() const {
         return "very";

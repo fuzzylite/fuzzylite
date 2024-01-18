@@ -22,7 +22,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/norm/Norm.h"
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Rule::Rule(const std::string& text, scalar weight)
     : _enabled(true), _text(text), _weight(weight), _activationDegree(0.0), _triggered(false),

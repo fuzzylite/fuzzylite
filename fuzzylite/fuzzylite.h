@@ -102,7 +102,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
   @author Juan Rada-Vilela, Ph.D.
   @since 4.0
  */
-namespace fl {
+namespace fuzzylite {
     /**
       Represents floating-point values (typedef to float or double).
      */
@@ -220,7 +220,7 @@ const class nullptr_t {
 }
 
 
-namespace fl {
+namespace fuzzylite {
 
     /**
 
@@ -370,7 +370,7 @@ namespace fl {
 }
 
 
-namespace fl {
+namespace fuzzylite {
 
     inline std::string fuzzylite::name() {
         return "fuzzylite";
@@ -440,6 +440,8 @@ namespace fl {
         return _logging;
     }
 }
+
+namespace fl = fuzzylite;
 
 #endif  /* FL_FUZZYLITE_H */
 

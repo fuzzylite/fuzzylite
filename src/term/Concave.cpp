@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/Concave.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Concave::Concave(const std::string& name, scalar inflection, scalar end, scalar height)
     : Term(name, height), _inflection(inflection), _end(end) { }

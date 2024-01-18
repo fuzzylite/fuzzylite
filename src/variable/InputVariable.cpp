@@ -19,7 +19,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/imex/FllExporter.h"
 
-namespace fl {
+namespace fuzzylite {
 
     InputVariable::InputVariable(const std::string& name, scalar minimum, scalar maximum)
     : Variable(name, minimum, maximum) { }

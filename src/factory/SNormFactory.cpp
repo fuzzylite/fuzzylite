@@ -27,7 +27,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/norm/s/NormalizedSum.h"
 #include "fuzzylite/norm/s/UnboundedSum.h"
 
-namespace fl {
+namespace fuzzylite {
 
     SNormFactory::SNormFactory() : ConstructionFactory<SNorm*>("SNorm") {
         registerConstructor("", fl::null);

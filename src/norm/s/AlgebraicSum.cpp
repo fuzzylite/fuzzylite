@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/norm/s/AlgebraicSum.h"
 
-namespace fl {
+namespace fuzzylite {
 
     std::string AlgebraicSum::className() const {
         return "AlgebraicSum";

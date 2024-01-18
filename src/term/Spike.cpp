@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/Spike.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Spike::Spike(const std::string& name, scalar center, scalar width, scalar height)
     : Term(name, height), _center(center), _width(width) { }

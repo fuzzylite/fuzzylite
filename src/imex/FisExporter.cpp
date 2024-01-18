@@ -21,7 +21,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include <queue>
 
-namespace fl {
+namespace fuzzylite {
 
     FisExporter::FisExporter() : Exporter() { }
 

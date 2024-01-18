@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/norm/t/AlgebraicProduct.h"
 
-namespace fl {
+namespace fuzzylite {
 
     std::string AlgebraicProduct::className() const {
         return "AlgebraicProduct";

@@ -22,7 +22,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/activation/Activation.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The Highest class is a RuleBlock Activation method that activates a given

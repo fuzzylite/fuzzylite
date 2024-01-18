@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/Triangle.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Triangle::Triangle(const std::string& name, scalar vertexA, scalar vertexB, scalar vertexC, scalar height)
     : Term(name, height), _vertexA(vertexA), _vertexB(vertexB), _vertexC(vertexC) {

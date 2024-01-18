@@ -20,7 +20,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/imex/FllExporter.h"
 #include "fuzzylite/norm/s/Maximum.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Aggregated::Aggregated(const std::string& name, scalar minimum, scalar maximum,
             SNorm* aggregation)

@@ -25,7 +25,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/rule/RuleBlock.h"
 #include "fuzzylite/rule/Rule.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Complexity::Complexity(scalar all) :
     _comparison(all), _arithmetic(all), _function(all) { }

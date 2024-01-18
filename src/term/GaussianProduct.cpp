@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/GaussianProduct.h"
 
-namespace fl {
+namespace fuzzylite {
 
     GaussianProduct::GaussianProduct(const std::string& name,
             scalar meanA, scalar standardDeviationA, scalar meanB, scalar standardDeviationB,

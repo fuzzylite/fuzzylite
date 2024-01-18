@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/hedge/Not.h"
 
-namespace fl {
+namespace fuzzylite {
 
     std::string Not::name() const {
         return "not";

@@ -23,7 +23,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/factory/ConstructionFactory.h"
 #include "fuzzylite/activation/Activation.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The ActivationFactory class is a ConstructionFactory of Activation

@@ -21,7 +21,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/rule/Rule.h"
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
     First::First(int numberOfRules, scalar threshold) : Activation(),
     _numberOfRules(numberOfRules), _threshold(threshold) { }

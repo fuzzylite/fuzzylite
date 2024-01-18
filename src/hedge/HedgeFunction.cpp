@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/hedge/HedgeFunction.h"
 
-namespace fl {
+namespace fuzzylite {
 
     HedgeFunction::HedgeFunction(const std::string& formula) : Hedge() {
         _function.variables["x"] = fl::nan;

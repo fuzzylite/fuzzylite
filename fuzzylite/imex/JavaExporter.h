@@ -20,7 +20,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/imex/Exporter.h"
 
-namespace fl {
+namespace fuzzylite {
 
     class Engine;
     class InputVariable;

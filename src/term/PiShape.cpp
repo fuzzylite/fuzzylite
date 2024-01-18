@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/PiShape.h"
 
-namespace fl {
+namespace fuzzylite {
 
     PiShape::PiShape(const std::string& name, scalar bottomLeft, scalar topLeft,
             scalar topRight, scalar bottomRight, scalar height)

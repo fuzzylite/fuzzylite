@@ -23,7 +23,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The TermFactory class is a ConstructionFactory of Term%s.

@@ -23,7 +23,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <vector>
 #include <fstream>
 
-namespace fl {
+namespace fuzzylite {
 
     TEST_CASE("Benchmarks run from Console ", "[benchmark][console]") {
         //        const char* args[] = {"dummy-command", "benchmarks", "../../examples/", "1"};

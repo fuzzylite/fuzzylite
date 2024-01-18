@@ -25,7 +25,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <vector>
 #include <utility>
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The Discrete class is a basic Term that represents a discrete membership
@@ -254,7 +254,7 @@ namespace fl {
   Template implementation
  */
 
-namespace fl {
+namespace fuzzylite {
 
     template <typename T>
     inline Discrete* Discrete::create(const std::string& name, int argc,

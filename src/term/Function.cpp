@@ -26,7 +26,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <queue>
 #include <stack>
 
-namespace fl {
+namespace fuzzylite {
 
     /**
      * Parsing elements

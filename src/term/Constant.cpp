@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/Constant.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Constant::Constant(const std::string& name, scalar value)
     : Term(name), _value(value) { }

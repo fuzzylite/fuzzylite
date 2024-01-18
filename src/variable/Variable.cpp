@@ -24,7 +24,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include <queue>
 
-namespace fl {
+namespace fuzzylite {
 
     Variable::Variable(const std::string& name, scalar minimum, scalar maximum)
     : _name(name), _description(""),

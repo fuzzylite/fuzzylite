@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/Rectangle.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Rectangle::Rectangle(const std::string& name, scalar start, scalar end, scalar height)
     : Term(name, height), _start(start), _end(end) { }

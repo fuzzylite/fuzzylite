@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/Binary.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Binary::Binary(const std::string& name, scalar start, scalar direction, scalar height)
     : Term(name, height), _start(start), _direction(direction) { }

@@ -21,7 +21,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/rule/Rule.h"
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Threshold::Threshold(Comparison comparison, scalar threshold) : Activation(),
     _comparison(comparison), _value(threshold) { }

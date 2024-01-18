@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/Trapezoid.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Trapezoid::Trapezoid(const std::string& name,
             scalar vertexA, scalar vertexB, scalar vertexC, scalar vertexD, scalar height)

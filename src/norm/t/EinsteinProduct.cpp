@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/norm/t/EinsteinProduct.h"
 
-namespace fl {
+namespace fuzzylite {
 
     std::string EinsteinProduct::className() const {
         return "EinsteinProduct";

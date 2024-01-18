@@ -19,7 +19,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/imex/FllExporter.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Activated::Activated(const Term* term, scalar degree, const TNorm* implication)
     : Term(""), _term(term), _degree(degree), _implication(implication) {

@@ -24,7 +24,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <string>
 #include <vector>
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The ConstructionFactory class is the base class for a factory whose
@@ -119,7 +119,7 @@ namespace fl {
 #include "fuzzylite/norm/TNorm.h"
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
     template <typename T>
     inline ConstructionFactory<T>::ConstructionFactory(const std::string& name) : _name(name) {

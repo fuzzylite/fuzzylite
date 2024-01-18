@@ -25,7 +25,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include <fstream>
 
-namespace fl {
+namespace fuzzylite {
 
     FldExporter::FldExporter(const std::string& separator) : Exporter(),
     _separator(separator), _exportHeaders(true),

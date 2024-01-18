@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/Discrete.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Discrete::Discrete(const std::string& name, const std::vector<Pair>& xy, scalar height)
     : Term(name, height), _xy(xy) { }

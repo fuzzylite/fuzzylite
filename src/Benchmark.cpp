@@ -30,7 +30,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <chrono>
 #endif
 
-namespace fl {
+namespace fuzzylite {
 
     Benchmark::Benchmark(const std::string& name, Engine* engine, scalar tolerance)
     : _name(name), _engine(engine), _tolerance(tolerance) { }

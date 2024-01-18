@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/Cosine.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Cosine::Cosine(const std::string& name, scalar center, scalar width, scalar height)
     : Term(name, height), _center(center), _width(width) { }

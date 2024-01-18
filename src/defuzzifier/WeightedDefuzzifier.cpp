@@ -27,7 +27,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/term/SShape.h"
 #include "fuzzylite/term/ZShape.h"
 
-namespace fl {
+namespace fuzzylite {
 
     WeightedDefuzzifier::WeightedDefuzzifier(Type type) : _type(type) { }
 

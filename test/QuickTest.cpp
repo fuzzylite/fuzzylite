@@ -19,7 +19,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/Headers.h"
 
-namespace fl {
+namespace fuzzylite {
 
 TEST_CASE("Increment ", "[op][increment]") {
   std::vector<int> sampleValues, minSampleValues, maxSampleValues;
@@ -128,4 +128,4 @@ TEST_CASE("macro expansion does not evaluate parameter before expansion",
   CHECK(xstr(4 + 10) == std::string("4 + 10"));
 }
 
-}  // namespace fl
+}  // namespace fuzzylite

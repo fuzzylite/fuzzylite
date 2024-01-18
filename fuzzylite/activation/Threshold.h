@@ -24,7 +24,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include <vector>
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The Threshold class is a RuleBlock Activation method that activates the

@@ -28,7 +28,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/factory/HedgeFactory.h"
 #include "fuzzylite/factory/FunctionFactory.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The FactoryManager class is a central class grouping different factories

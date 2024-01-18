@@ -20,7 +20,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The MeanOfMaximum class is an IntegralDefuzzifier that computes the mean

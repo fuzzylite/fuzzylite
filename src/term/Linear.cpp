@@ -19,7 +19,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/variable/InputVariable.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Linear::Linear(const std::string& name,
             const std::vector<scalar>& coefficients,

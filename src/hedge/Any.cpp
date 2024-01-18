@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/hedge/Any.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Any::Any() { }
 

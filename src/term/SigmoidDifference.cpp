@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/SigmoidDifference.h"
 
-namespace fl {
+namespace fuzzylite {
 
     SigmoidDifference::SigmoidDifference(const std::string& name,
             scalar left, scalar rising,

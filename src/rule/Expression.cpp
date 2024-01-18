@@ -22,7 +22,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/rule/Rule.h"
 #include "fuzzylite/variable/Variable.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Expression::Expression() { }
 

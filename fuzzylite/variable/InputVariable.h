@@ -20,7 +20,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/variable/Variable.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The InputVariable class is a Variable that represents an input of the

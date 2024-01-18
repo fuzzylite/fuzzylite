@@ -25,7 +25,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/defuzzifier/Defuzzifier.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The OutputVariable class is a Variable that represents an output of the

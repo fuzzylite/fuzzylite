@@ -19,7 +19,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include <catch2/catch.hpp>
 
-namespace fl {
+namespace fuzzylite {
 
     TEST_CASE("Exports same number of values in scopes", "[imex]") {
         FL_unique_ptr<Engine> engine(Console::mamdani());

@@ -19,7 +19,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/rule/Rule.h"
 
-namespace fl {
+namespace fuzzylite {
 
     FunctionFactory::FunctionFactory() : CloningFactory<Function::Element*>("Function::Element") {
         registerOperators();

@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/SigmoidProduct.h"
 
-namespace fl {
+namespace fuzzylite {
 
     SigmoidProduct::SigmoidProduct(const std::string& name,
             scalar left, scalar rising,

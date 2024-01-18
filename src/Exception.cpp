@@ -44,7 +44,7 @@ warning C4091: 'typedef ': ignored on left of '' when no variable is declared*/
 #include <csignal>
 #include <cstring>
 
-namespace fl {
+namespace fuzzylite {
 
     Exception::Exception(const std::string& what)
     : std::exception(), _what(what) {

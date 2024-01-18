@@ -19,7 +19,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/Headers.h"
 
-namespace fl {
+namespace fuzzylite {
 
     CppExporter::CppExporter(bool prefixNamespace, bool usingVariableNames) : Exporter(),
     _usingNamespace(prefixNamespace), _usingVariableNames(usingVariableNames) { }
@@ -53,7 +53,7 @@ namespace fl {
     std::string CppExporter::toString(const Engine* engine) const {
         std::ostringstream cpp;
         cpp << "//Code automatically generated with " << fuzzylite::library() << ".\n\n";
-        if (not isUsingNamespace()) cpp << "using namespace fl;\n\n";
+        if (not isUsingNamespace()) cpp << "using namespace fuzzylite;\n\n";
         cpp << fl("Engine* ") << "engine = new " << fl("Engine;\n");
         cpp << "engine->setName(\"" << engine->getName() << "\");\n";
         cpp << "engine->setDescription(\"" << engine->getDescription() << "\");\n";

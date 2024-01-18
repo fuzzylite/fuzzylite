@@ -20,7 +20,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/norm/Norm.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The TNorm class is the base class for T-Norms, and it is utilized as the

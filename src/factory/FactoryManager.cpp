@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/factory/FactoryManager.h"
 
-namespace fl {
+namespace fuzzylite {
 
     FactoryManager* FactoryManager::instance() {
         static FL_ITHREAD_LOCAL FactoryManager _instance;

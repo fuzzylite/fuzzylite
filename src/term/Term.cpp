@@ -21,7 +21,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/term/Linear.h"
 #include "fuzzylite/term/Function.h"
 
-namespace fl {
+namespace fuzzylite {
 
     Term::Term(const std::string& name, scalar height) : _name(name), _height(height) { }
 

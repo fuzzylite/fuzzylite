@@ -24,7 +24,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/rule/Rule.h"
 #include "fuzzylite/Operation.h"
 
-namespace fl {
+namespace fuzzylite {
 
     RuleBlock::RuleBlock(const std::string& name)
     : _enabled(true), _name(name), _description("") { }

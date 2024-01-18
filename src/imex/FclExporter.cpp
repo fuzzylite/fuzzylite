@@ -19,7 +19,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/Headers.h"
 
-namespace fl {
+namespace fuzzylite {
 
     FclExporter::FclExporter(const std::string& indent) : Exporter(), _indent(indent) { }
 

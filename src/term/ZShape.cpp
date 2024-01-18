@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/ZShape.h"
 
-namespace fl {
+namespace fuzzylite {
 
     ZShape::ZShape(const std::string& name, scalar start, scalar end, scalar height)
     : Term(name, height), _start(start), _end(end) { }

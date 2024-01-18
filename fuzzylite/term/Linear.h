@@ -20,7 +20,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
     class Engine;
 
     /**
@@ -156,7 +156,7 @@ namespace fl {
 
 #include "fuzzylite/Engine.h"
 
-namespace fl {
+namespace fuzzylite {
 
     template <typename T>
     inline Linear* Linear::create(const std::string& name,

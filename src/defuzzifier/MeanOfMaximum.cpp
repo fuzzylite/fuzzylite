@@ -20,7 +20,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/Exception.h"
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
     MeanOfMaximum::MeanOfMaximum(int resolution)
     : IntegralDefuzzifier(resolution) { }

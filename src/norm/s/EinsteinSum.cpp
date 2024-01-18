@@ -17,7 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/norm/s/EinsteinSum.h"
 
-namespace fl {
+namespace fuzzylite {
 
     std::string EinsteinSum::className() const {
         return "EinsteinSum";

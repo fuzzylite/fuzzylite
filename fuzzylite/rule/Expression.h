@@ -25,7 +25,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 
 
-namespace fl {
+namespace fuzzylite {
     class Variable;
     class Hedge;
     class Term;

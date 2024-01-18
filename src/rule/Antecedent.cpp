@@ -29,7 +29,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include <stack>
 
-namespace fl {
+namespace fuzzylite {
 
     Antecedent::Antecedent()
     : _text(""), _expression(fl::null) { }
