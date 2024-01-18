@@ -316,7 +316,7 @@ install(EXPORT fuzzylite-config DESTINATION share/fuzzylite/cmake)
 export(TARGETS ${fl-targets} FILE fuzzylite-config.cmake)
 
 install(DIRECTORY fuzzylite/ DESTINATION ${FL_INSTALL_INCLUDEDIR}/fuzzylite)
-
+install(DIRECTORY fl/ DESTINATION ${FL_INSTALL_INCLUDEDIR}/fl)
 
 #pkg-config
 configure_file(${PROJECT_SOURCE_DIR}/fuzzylite.pc.in ${PROJECT_BINARY_DIR}/fuzzylite.pc @ONLY)
