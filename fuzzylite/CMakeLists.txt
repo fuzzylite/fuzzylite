@@ -250,6 +250,7 @@ elseif(FL_BUILD_TESTS)
         # cmake --build build --parallel --target install
 
         message(CHECK_START "Fetching Catch2 v2.13.10 library from https://github.com/catchorg/Catch2.git")
+        set(FETCHCONTENT_QUIET FALSE)
         # But we are going to try to fetch it:
         # see https://github.com/catchorg/Catch2/blob/v2.x/docs/cmake-integration.md
         Include(FetchContent)
