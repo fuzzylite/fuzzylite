@@ -22,7 +22,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: |
-            fuzzylite/build/${{ matrix.build_type }}/_deps
+            fuzzylite/build/_deps
           key: ${{ runner.os }}-cmake-deps
     
       - name: Building FuzzyLite
@@ -30,10 +30,9 @@ jobs:
         env:
           CXX: ${{ matrix.use_cxx }}
         run: |
-          cmake -B build/${{ matrix.build_type }} -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
-          cmake --build build/${{ matrix.build_type }} --parallel
-          ctest --test-dir build/${{ matrix.build_type }}
-          ls -la build/${{ matrix.build_type }}
+          cmake -B build/ -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
+          cmake --build build/ --parallel
+          ctest --test-dir build/
 
       - name: Save cmake dependencies
         if: steps.cache-restore-cmake-deps.outputs.cache-hit != 'true'
@@ -41,5 +40,5 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: |
-            fuzzylite/build/${{ matrix.build_type }}/_deps
+            fuzzylite/build/_deps
           key: ${{ steps.cache-restore-cmake-deps.outputs.cache-primary-key }}

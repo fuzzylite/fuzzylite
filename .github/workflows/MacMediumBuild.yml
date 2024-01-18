@@ -23,12 +23,12 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: |
-            fuzzylite/build/${{ matrix.build_type }}/_deps
+            fuzzylite/build/_deps
           key: ${{ runner.os }}-cmake-deps
 
       - name: Building FuzzyLite
         working-directory: fuzzylite
         run: |
-          cmake -B build/${{ matrix.build_type }} -G"Xcode" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_CPP98=${{ matrix.use_cpp98 }} -DFL_USE_FLOAT=${{ matrix.use_float }} .
-          cmake --build build/${{ matrix.build_type }} --parallel
-          ctest --test-dir build/${{ matrix.build_type }}
+          cmake -B build/ -G"Xcode" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_CPP98=${{ matrix.use_cpp98 }} -DFL_USE_FLOAT=${{ matrix.use_float }} .
+          cmake --build build/ --parallel
+          ctest --test-dir build/
