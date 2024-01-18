@@ -14,7 +14,7 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/hedge/HedgeFunction.h"
+#include "fuzzylite/hedge/HedgeFunction.h"
 
 namespace fl {
 

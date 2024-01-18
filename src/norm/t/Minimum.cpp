@@ -14,9 +14,9 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/norm/t/Minimum.h"
+#include "fuzzylite/norm/t/Minimum.h"
 
-#include "fl/Operation.h"
+#include "fuzzylite/Operation.h"
 
 namespace fl {
 

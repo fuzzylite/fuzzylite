@@ -14,17 +14,17 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/factory/SNormFactory.h"
+#include "fuzzylite/factory/SNormFactory.h"
 
-#include "fl/norm/s/AlgebraicSum.h"
-#include "fl/norm/s/BoundedSum.h"
-#include "fl/norm/s/DrasticSum.h"
-#include "fl/norm/s/EinsteinSum.h"
-#include "fl/norm/s/HamacherSum.h"
-#include "fl/norm/s/Maximum.h"
-#include "fl/norm/s/NilpotentMaximum.h"
-#include "fl/norm/s/NormalizedSum.h"
-#include "fl/norm/s/UnboundedSum.h"
+#include "fuzzylite/norm/s/AlgebraicSum.h"
+#include "fuzzylite/norm/s/BoundedSum.h"
+#include "fuzzylite/norm/s/DrasticSum.h"
+#include "fuzzylite/norm/s/EinsteinSum.h"
+#include "fuzzylite/norm/s/HamacherSum.h"
+#include "fuzzylite/norm/s/Maximum.h"
+#include "fuzzylite/norm/s/NilpotentMaximum.h"
+#include "fuzzylite/norm/s/NormalizedSum.h"
+#include "fuzzylite/norm/s/UnboundedSum.h"
 
 namespace fl {
 

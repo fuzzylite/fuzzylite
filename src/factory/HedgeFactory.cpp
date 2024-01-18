@@ -14,14 +14,14 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/factory/HedgeFactory.h"
+#include "fuzzylite/factory/HedgeFactory.h"
 
-#include "fl/hedge/Any.h"
-#include "fl/hedge/Extremely.h"
-#include "fl/hedge/Not.h"
-#include "fl/hedge/Seldom.h"
-#include "fl/hedge/Somewhat.h"
-#include "fl/hedge/Very.h"
+#include "fuzzylite/hedge/Any.h"
+#include "fuzzylite/hedge/Extremely.h"
+#include "fuzzylite/hedge/Not.h"
+#include "fuzzylite/hedge/Seldom.h"
+#include "fuzzylite/hedge/Somewhat.h"
+#include "fuzzylite/hedge/Very.h"
 
 namespace fl {
 

@@ -14,7 +14,7 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/term/Trapezoid.h"
+#include "fuzzylite/term/Trapezoid.h"
 
 namespace fl {
 

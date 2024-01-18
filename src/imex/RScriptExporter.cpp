@@ -14,12 +14,12 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/imex/RScriptExporter.h"
+#include "fuzzylite/imex/RScriptExporter.h"
 
-#include "fl/Engine.h"
-#include "fl/imex/FllExporter.h"
-#include "fl/variable/InputVariable.h"
-#include "fl/variable/OutputVariable.h"
+#include "fuzzylite/Engine.h"
+#include "fuzzylite/imex/FllExporter.h"
+#include "fuzzylite/variable/InputVariable.h"
+#include "fuzzylite/variable/OutputVariable.h"
 
 #include <fstream>
 namespace fl {

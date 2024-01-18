@@ -14,12 +14,12 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/rule/Expression.h"
+#include "fuzzylite/rule/Expression.h"
 
-#include "fl/hedge/Hedge.h"
-#include "fl/term/Term.h"
-#include "fl/rule/Rule.h"
-#include "fl/variable/Variable.h"
+#include "fuzzylite/hedge/Hedge.h"
+#include "fuzzylite/term/Term.h"
+#include "fuzzylite/rule/Rule.h"
+#include "fuzzylite/variable/Variable.h"
 
 namespace fl {
 

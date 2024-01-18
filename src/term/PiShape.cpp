@@ -14,7 +14,7 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/term/PiShape.h"
+#include "fuzzylite/term/PiShape.h"
 
 namespace fl {
 

@@ -14,9 +14,9 @@
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
-#include "fl/defuzzifier/Bisector.h"
+#include "fuzzylite/defuzzifier/Bisector.h"
 
-#include "fl/term/Term.h"
+#include "fuzzylite/term/Term.h"
 
 namespace fl {
 
