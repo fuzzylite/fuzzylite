@@ -30,12 +30,6 @@ namespace fuzzylite {
         return "SNormFunction";
     }
 
-    Complexity SNormFunction::complexity() const {
-        if (_function.root())
-            return _function.complexity().function(2 * std::log(scalar(_function.variables.size())));
-        return _function.complexity();
-    }
-
     scalar SNormFunction::compute(scalar a, scalar b) const {
         _function.variables["a"] = a;
         _function.variables["b"] = b;

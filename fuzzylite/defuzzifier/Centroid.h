@@ -40,8 +40,6 @@ namespace fuzzylite {
 
         virtual std::string className() const FL_IOVERRIDE;
 
-        virtual Complexity complexity(const Term* term) const FL_IOVERRIDE;
-
         /**
           Computes the centroid of a fuzzy set. The defuzzification process
           integrates over the fuzzy set utilizing the boundaries given as

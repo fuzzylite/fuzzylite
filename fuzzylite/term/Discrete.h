@@ -78,7 +78,6 @@ namespace fuzzylite {
          */
         virtual void sort();
 
-        virtual Complexity complexity() const FL_IOVERRIDE;
         /**
           Computes the membership function evaluated at @f$x@f$ by using binary
           search to find the lower and upper bounds of @f$x@f$ and then linearly

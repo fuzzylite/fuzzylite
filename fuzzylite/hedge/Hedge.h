@@ -20,7 +20,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include <string>
 
-#include "fuzzylite/Complexity.h"
 #include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
@@ -50,11 +49,6 @@ namespace fuzzylite {
          */
         virtual std::string name() const = 0;
 
-        /**
-          Computes the estimated complexity of applying the hedge
-          @return the estimated complexity of applying the hedge
-         */
-        virtual Complexity complexity() const = 0;
         /**
           Computes the hedge for the membership function value @f$x@f$
           @param x is a membership function value

@@ -39,22 +39,6 @@ namespace fuzzylite {
         FL_IUNUSED(parameters);
     }
 
-    Complexity Proportional::complexity(const RuleBlock* ruleBlock) const {
-        Complexity result;
-        for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
-            result.comparison(1).arithmetic(1);
-            result += ruleBlock->getRule(i)->complexityOfActivation(
-                ruleBlock->getConjunction(), ruleBlock->getDisjunction()
-            );
-        }
-
-        for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
-            result.arithmetic(1);
-            result += ruleBlock->getRule(i)->complexityOfFiring(ruleBlock->getImplication());
-        }
-        return result;
-    }
-
     void Proportional::activate(RuleBlock* ruleBlock) {
         FL_DBG("Activation: " << className() << " " << parameters());
         const TNorm* conjunction = ruleBlock->getConjunction();

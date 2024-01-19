@@ -30,11 +30,6 @@ namespace fuzzylite {
         return "SmallestOfMaximum";
     }
 
-    Complexity SmallestOfMaximum::complexity(const Term* term) const {
-        return Complexity().comparison(1).arithmetic(1 + 2)
-               + term->complexity().comparison(1).arithmetic(3).multiply(getResolution());
-    }
-
     scalar SmallestOfMaximum::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
         if (not Op::isFinite(minimum + maximum))
             return fl::nan;

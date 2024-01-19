@@ -37,7 +37,6 @@ namespace fuzzylite {
       public:
         std::string className() const FL_IOVERRIDE;
 
-        Complexity complexity() const FL_IOVERRIDE;
         /**
           Computes the bounded difference between two membership function values
           @param a is a membership function value

@@ -135,14 +135,6 @@ namespace fuzzylite {
         return None;
     }
 
-    Complexity Variable::complexity() const {
-        Complexity result;
-        if (isEnabled())
-            for (std::size_t i = 0; i < _terms.size(); ++i)
-                result += _terms.at(i)->complexity();
-        return result;
-    }
-
     std::string Variable::fuzzify(scalar x) const {
         std::ostringstream ss;
         for (std::size_t i = 0; i < terms().size(); ++i) {

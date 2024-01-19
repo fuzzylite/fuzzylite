@@ -23,9 +23,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/defuzzifier/MeanOfMaximum.h"
 #include "fuzzylite/defuzzifier/SmallestOfMaximum.h"
 #include "fuzzylite/defuzzifier/WeightedAverage.h"
-#include "fuzzylite/defuzzifier/WeightedAverageCustom.h"
 #include "fuzzylite/defuzzifier/WeightedSum.h"
-#include "fuzzylite/defuzzifier/WeightedSumCustom.h"
 
 namespace fuzzylite {
 

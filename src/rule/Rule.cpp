@@ -136,26 +136,6 @@ namespace fuzzylite {
         return this->_triggered;
     }
 
-    Complexity Rule::complexityOfActivation(const TNorm* conjunction, const SNorm* disjunction) const {
-        Complexity result;
-        result.comparison(1).arithmetic(1);
-        if (isLoaded())
-            result += _antecedent->complexity(conjunction, disjunction);
-        return result;
-    }
-
-    Complexity Rule::complexityOfFiring(const TNorm* implication) const {
-        Complexity result;
-        result.comparison(3);
-        if (isLoaded())
-            result += _consequent->complexity(implication);
-        return result;
-    }
-
-    Complexity Rule::complexity(const TNorm* conjunction, const SNorm* disjunction, const TNorm* implication) const {
-        return complexityOfActivation(conjunction, disjunction) + complexityOfFiring(implication);
-    }
-
     bool Rule::isLoaded() const {
         return _antecedent.get() and _consequent.get() and _antecedent->isLoaded() and _consequent->isLoaded();
     }

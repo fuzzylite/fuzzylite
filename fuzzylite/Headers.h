@@ -25,7 +25,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
  */
 
 #include "fuzzylite/Benchmark.h"
-#include "fuzzylite/Complexity.h"
 #include "fuzzylite/Console.h"
 #include "fuzzylite/Engine.h"
 #include "fuzzylite/Exception.h"

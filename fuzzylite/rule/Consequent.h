@@ -21,7 +21,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <string>
 #include <vector>
 
-#include "fuzzylite/Complexity.h"
 #include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
@@ -68,11 +67,6 @@ namespace fuzzylite {
          */
         virtual std::string getText() const;
 
-        /**
-          Computes the estimated complexity of modifying the consequents
-          @return the estimated complexity of modifying the consequents
-         */
-        virtual Complexity complexity(const TNorm* implication) const;
         /**
           Returns an immutable vector of the propositions that represent the
           Consequent of a Rule

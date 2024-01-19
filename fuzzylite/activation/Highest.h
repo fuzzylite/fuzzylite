@@ -69,8 +69,6 @@ namespace fuzzylite {
          */
         virtual int getNumberOfRules() const;
 
-        virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
-
         /**
           Activates the given number of rules with the highest activation
           degrees

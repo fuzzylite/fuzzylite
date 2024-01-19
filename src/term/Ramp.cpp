@@ -30,10 +30,6 @@ namespace fuzzylite {
         return "Ramp";
     }
 
-    Complexity Ramp::complexity() const {
-        return Complexity().comparison(1 + 4).arithmetic(1 + 3);
-    }
-
     scalar Ramp::membership(scalar x) const {
         if (Op::isNaN(x))
             return fl::nan;

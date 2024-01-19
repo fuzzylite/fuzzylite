@@ -30,10 +30,6 @@ namespace fuzzylite {
         return "Rectangle";
     }
 
-    Complexity Rectangle::complexity() const {
-        return Complexity().comparison(1 + 2).arithmetic(1);
-    }
-
     scalar Rectangle::membership(scalar x) const {
         if (Op::isNaN(x))
             return fl::nan;

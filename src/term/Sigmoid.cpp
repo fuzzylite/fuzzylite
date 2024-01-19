@@ -30,10 +30,6 @@ namespace fuzzylite {
         return "Sigmoid";
     }
 
-    Complexity Sigmoid::complexity() const {
-        return Complexity().comparison(1).arithmetic(1 + 4).function(1);
-    }
-
     scalar Sigmoid::membership(scalar x) const {
         if (Op::isNaN(x))
             return fl::nan;

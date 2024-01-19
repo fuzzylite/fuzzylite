@@ -114,7 +114,6 @@ namespace fuzzylite {
         CHECK(f.root()->treeSize() == 6);
         CHECK(f.root()->treeSize(Function::Element::Function) == 1);
         CHECK(f.root()->treeSize(Function::Element::Operator) == 5);
-        FL_LOG(f.complexity().toString());
     }
 
 }

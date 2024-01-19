@@ -27,10 +27,6 @@ namespace fuzzylite {
         return "Constant";
     }
 
-    Complexity Constant::complexity() const {
-        return Complexity();
-    }
-
     scalar Constant::membership(scalar x) const {
         FL_IUNUSED(x);
         return this->_value;

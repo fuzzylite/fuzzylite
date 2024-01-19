@@ -49,36 +49,6 @@ namespace fuzzylite {
         this->_numberOfRules = numberOfRules;
     }
 
-    Complexity Highest::complexity(const RuleBlock* ruleBlock) const {
-        // Cost of priority_queue:
-        // http://stackoverflow.com/questions/2974470/efficiency-of-the-stl-priority-queue
-        Complexity result;
-
-        const TNorm* conjunction = ruleBlock->getConjunction();
-        const SNorm* disjunction = ruleBlock->getDisjunction();
-        const TNorm* implication = ruleBlock->getImplication();
-
-        Complexity meanFiring;
-        for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
-            const Rule* rule = ruleBlock->getRule(i);
-            result += rule->complexityOfActivation(conjunction, disjunction);
-            meanFiring += rule->complexityOfFiring(implication);
-        }
-        meanFiring.divide(scalar(ruleBlock->numberOfRules()));
-
-        // Complexity of push is O(log n)
-        result += Complexity().function(1).multiply(
-            ruleBlock->numberOfRules() * std::log(scalar(ruleBlock->numberOfRules()))
-        );
-
-        result += Complexity().comparison(2).arithmetic(1).multiply(getNumberOfRules());
-        result += meanFiring.multiply(getNumberOfRules());
-        // Complexity of pop is 2 * O(log n)
-        result
-            += Complexity().function(1).multiply(getNumberOfRules() * 2 * std::log(scalar(ruleBlock->numberOfRules())));
-        return result;
-    }
-
     struct Descending {
         bool operator()(const Rule* a, const Rule* b) const {
             return a->getActivationDegree() < b->getActivationDegree();

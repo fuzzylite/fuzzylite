@@ -41,12 +41,6 @@ namespace fuzzylite {
         std::sort(_xy.begin(), _xy.end(), compare);
     }
 
-    Complexity Discrete::complexity() const {
-        return Complexity().comparison(1 + 4).arithmetic(1 + 1 + 1).function(1).function(
-            2 * std::log(scalar(_xy.size()))
-        );
-    }
-
     scalar Discrete::membership(scalar x) const {
         if (Op::isNaN(x))
             return fl::nan;

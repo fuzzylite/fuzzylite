@@ -84,8 +84,6 @@ namespace fuzzylite {
          */
         virtual scalar getThreshold() const;
 
-        virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
-
         /**
           Activates the last @f$n@f$ rules whose activation degrees are greater
           than the given threshold. The rules are iterated in the reverse order

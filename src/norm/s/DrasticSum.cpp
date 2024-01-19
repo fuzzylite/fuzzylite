@@ -25,10 +25,6 @@ namespace fuzzylite {
         return "DrasticSum";
     }
 
-    Complexity DrasticSum::complexity() const {
-        return Complexity().comparison(1).function(2);
-    }
-
     scalar DrasticSum::compute(scalar a, scalar b) const {
         if (Op::isEq(Op::min(a, b), 0.0))
             return Op::max(a, b);

@@ -30,10 +30,6 @@ namespace fuzzylite {
         return "Gaussian";
     }
 
-    Complexity Gaussian::complexity() const {
-        return Complexity().comparison(1).arithmetic(7).function(1);
-    }
-
     scalar Gaussian::membership(scalar x) const {
         if (Op::isNaN(x))
             return fl::nan;

@@ -35,8 +35,6 @@ namespace fuzzylite {
       public:
         std::string name() const FL_IOVERRIDE;
 
-        Complexity complexity() const FL_IOVERRIDE;
-
         /**
           Computes the hedge for the membership function value @f$x@f$
           @param x is a membership function value

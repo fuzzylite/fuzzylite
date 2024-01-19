@@ -1,6 +1,5 @@
 fl/Headers.h
 fuzzylite/Benchmark.h
-fuzzylite/Complexity.h
 fuzzylite/Console.h
 fuzzylite/activation/Activation.h
 fuzzylite/activation/First.h
@@ -18,10 +17,8 @@ fuzzylite/defuzzifier/LargestOfMaximum.h
 fuzzylite/defuzzifier/MeanOfMaximum.h
 fuzzylite/defuzzifier/SmallestOfMaximum.h
 fuzzylite/defuzzifier/WeightedAverage.h
-fuzzylite/defuzzifier/WeightedAverageCustom.h
 fuzzylite/defuzzifier/WeightedDefuzzifier.h
 fuzzylite/defuzzifier/WeightedSum.h
-fuzzylite/defuzzifier/WeightedSumCustom.h
 fuzzylite/Engine.h
 fuzzylite/Exception.h
 fuzzylite/factory/ActivationFactory.h

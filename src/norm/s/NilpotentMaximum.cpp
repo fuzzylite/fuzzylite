@@ -25,10 +25,6 @@ namespace fuzzylite {
         return "NilpotentMaximum";
     }
 
-    Complexity NilpotentMaximum::complexity() const {
-        return Complexity().comparison(1).arithmetic(1).function(1);
-    }
-
     scalar NilpotentMaximum::compute(scalar a, scalar b) const {
         if (Op::isLt(a + b, 1.0))
             return Op::max(a, b);

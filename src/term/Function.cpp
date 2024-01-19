@@ -349,23 +349,6 @@ namespace fuzzylite {
         return "Function";
     }
 
-    Complexity Function::complexity() const {
-        Complexity result;
-        result.comparison(2 + 2);  // membership(scalar) + membership(std::map)
-        if (_engine) {             // insert variables in map
-            const std::size_t engineVariables = _engine->variables().size();
-            result.function(engineVariables * std::log(scalar(variables.size() + engineVariables)));
-            result.function(1 * std::log(scalar(variables.size() + engineVariables)));
-        }
-        if (_root.get()) {
-            // Node::evaluate multiplies by tree size
-            const scalar treeSize = scalar(_root->treeSize());
-            result.comparison(3 * treeSize);                 // if element, unary, binary
-            result.function(treeSize * std::log(treeSize));  // only operands in tree
-        }
-        return result;
-    }
-
     scalar Function::membership(scalar x) const {
         if (not _root.get())
             throw Exception("[function error] function <" + _formula + "> not loaded.", FL_AT);
