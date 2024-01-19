@@ -29,11 +29,6 @@ namespace fuzzylite {
         return "Centroid";
     }
 
-    Complexity Centroid::complexity(const Term* term) const {
-        return Complexity().comparison(1).arithmetic(1 + 2 + 1)
-               + term->complexity().arithmetic(6).multiply(getResolution());
-    }
-
     scalar Centroid::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
         if (not Op::isFinite(minimum + maximum))
             return fl::nan;

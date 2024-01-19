@@ -21,7 +21,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <string>
 #include <vector>
 
-#include "fuzzylite/Complexity.h"
 #include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
@@ -121,11 +120,6 @@ namespace fuzzylite {
          */
         virtual bool isReady(std::string* status = fl::null) const;
 
-        /**
-         Computes the estimated complexity of operation of the engine
-         @return the estimated complexity of operation of the engine
-         */
-        virtual Complexity complexity() const;
         /**
           Processes the engine in its current state as follows: (a) Clears the
           aggregated fuzzy output variables, (b) Activates the rule blocks, and

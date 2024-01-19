@@ -21,7 +21,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <string>
 #include <vector>
 
-#include "fuzzylite/Complexity.h"
 #include "fuzzylite/fuzzylite.h"
 #include "fuzzylite/imex/FldExporter.h"
 

@@ -1,6 +1,5 @@
 fl/Headers.h
 fuzzylite/Benchmark.h
-fuzzylite/Complexity.h
 fuzzylite/Console.h
 fuzzylite/activation/Activation.h
 fuzzylite/activation/First.h

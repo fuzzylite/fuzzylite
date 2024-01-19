@@ -18,7 +18,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_ACTIVATION_H
 #define FL_ACTIVATION_H
 
-#include "fuzzylite/Complexity.h"
 #include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
@@ -69,12 +68,6 @@ namespace fuzzylite {
           @param parameters contains a list of space-separated parameter values
          */
         virtual void configure(const std::string& parameters) = 0;
-
-        /**
-          Computes the estimated complexity of activating the given rule block
-          @return the estimated complexity of activating the given rule block
-         */
-        virtual Complexity complexity(const RuleBlock* ruleBlock) const = 0;
 
         /**
           Activates the rule block

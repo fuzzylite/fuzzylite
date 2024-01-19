@@ -54,8 +54,6 @@ namespace fuzzylite {
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
-
         /**
           Activates the rules utilizing activation degrees proportional to
           the activation degrees of the other rules in the rule block.

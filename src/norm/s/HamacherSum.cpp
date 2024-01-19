@@ -25,10 +25,6 @@ namespace fuzzylite {
         return "HamacherSum";
     }
 
-    Complexity HamacherSum::complexity() const {
-        return Complexity().arithmetic(7);
-    }
-
     scalar HamacherSum::compute(scalar a, scalar b) const {
         if (Op::isEq(a * b, 1.0))
             return 1.0;

@@ -31,10 +31,6 @@ namespace fuzzylite {
         return "Bell";
     }
 
-    Complexity Bell::complexity() const {
-        return Complexity().comparison(1).arithmetic(6).function(2);
-    }
-
     scalar Bell::membership(scalar x) const {
         if (Op::isNaN(x))
             return fl::nan;

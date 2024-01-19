@@ -44,8 +44,6 @@ namespace fuzzylite {
 
         virtual std::string className() const FL_IOVERRIDE;
 
-        virtual Complexity complexity(const Term* term) const FL_IOVERRIDE;
-
         /**
           Computes the weighted average of the given fuzzy set represented in
           an Aggregated term as @f$y = \dfrac{\sum_i w_iz_i}{\sum_i w_i} @f$,

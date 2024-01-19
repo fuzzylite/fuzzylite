@@ -25,10 +25,6 @@ namespace fuzzylite {
         return "Maximum";
     }
 
-    Complexity Maximum::complexity() const {
-        return Complexity().function(1);
-    }
-
     scalar Maximum::compute(scalar a, scalar b) const {
         return Op::max(a, b);
     }

@@ -22,7 +22,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <string>
 #include <vector>
 
-#include "fuzzylite/Complexity.h"
 #include "fuzzylite/Operation.h"
 #include "fuzzylite/fuzzylite.h"
 
@@ -114,12 +113,6 @@ namespace fuzzylite {
           @param parameters is the parameters to configure the term
          */
         virtual void configure(const std::string& parameters) = 0;
-
-        /**
-         Computes the estimated complexity of evaluating the membership function
-         @return the estimated complexity of evaluating the membership function
-         */
-        virtual Complexity complexity() const = 0;
 
         /**
           Computes the membership function value at @f$x@f$

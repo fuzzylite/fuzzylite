@@ -269,33 +269,6 @@ namespace fuzzylite {
         inline static std::string withKeyword() {
             return "with";
         }
-
-        /**
-          Computes the estimated complexity of calculating the activation degree
-          of the rule
-          @param conjunction is the conjunction operator
-          @param disjunction is the disjunction operator
-          @return the estimated complexity of calculating the activation degree
-          of the rule
-         */
-        virtual Complexity complexityOfActivation(const TNorm* conjunction, const SNorm* disjunction) const;
-
-        /**
-          Computes the estimated complexity of firing the rule
-          @param implication is the implication operator
-          @return the estimated complexity of firing the rule
-         */
-        virtual Complexity complexityOfFiring(const TNorm* implication) const;
-
-        /**
-         Returns the estimated complexity of activating and firing the rule
-         @param conjunction is the conjunction operator
-         @param disjunction is the disjunction operator
-         @param implication is the implication operator
-         @return the estimated complexity of activating and firing the rule
-         */
-        virtual Complexity
-        complexity(const TNorm* conjunction, const SNorm* disjunction, const TNorm* implication) const;
     };
 }
 

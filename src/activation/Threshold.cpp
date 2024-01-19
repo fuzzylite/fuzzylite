@@ -155,17 +155,6 @@ namespace fuzzylite {
         }
     }
 
-    Complexity Threshold::complexity(const RuleBlock* ruleBlock) const {
-        Complexity result;
-        for (std::size_t i = 0; i < ruleBlock->rules().size(); ++i) {
-            result.comparison(2);
-            result += ruleBlock->rules().at(i)->complexity(
-                ruleBlock->getConjunction(), ruleBlock->getDisjunction(), ruleBlock->getImplication()
-            );
-        }
-        return result;
-    }
-
     void Threshold::activate(RuleBlock* ruleBlock) {
         FL_DBG("Activation: " << className() << " " << parameters());
         const TNorm* conjunction = ruleBlock->getConjunction();

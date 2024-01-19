@@ -69,27 +69,6 @@ namespace fuzzylite {
         return this->_threshold;
     }
 
-    Complexity Last::complexity(const RuleBlock* ruleBlock) const {
-        Complexity result;
-
-        const TNorm* conjunction = ruleBlock->getConjunction();
-        const SNorm* disjunction = ruleBlock->getDisjunction();
-        const TNorm* implication = ruleBlock->getImplication();
-
-        Complexity meanFiring;
-        for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
-            result.comparison(1 + 3);
-            const Rule* rule = ruleBlock->getRule(i);
-            result += rule->complexityOfActivation(conjunction, disjunction);
-            meanFiring += rule->complexityOfFiring(implication);
-        }
-        meanFiring.divide(scalar(ruleBlock->numberOfRules()));
-
-        result += meanFiring.multiply(getNumberOfRules());
-        result += Complexity().arithmetic(1).multiply(getNumberOfRules());
-        return result;
-    }
-
     void Last::activate(RuleBlock* ruleBlock) {
         FL_DBG("Activation: " << className() << " " << parameters());
         const TNorm* conjunction = ruleBlock->getConjunction();

@@ -20,7 +20,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include <string>
 
-#include "fuzzylite/Complexity.h"
 #include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
@@ -52,12 +51,6 @@ namespace fuzzylite {
          */
         virtual Defuzzifier* clone() const = 0;
 
-        /**
-          Computes the complexity of defuzzifying the given term
-          @param term is the term to defuzzify
-          @return the complexity of defuzzifying the given term
-         */
-        virtual Complexity complexity(const Term* term) const = 0;
         /**
           Defuzzifies the given fuzzy term utilizing the range `[minimum,maximum]`
           @param term is the term to defuzzify, typically an Aggregated term

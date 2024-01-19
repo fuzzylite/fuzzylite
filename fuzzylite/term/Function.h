@@ -273,8 +273,6 @@ namespace fuzzylite {
          */
         static Function* create(const std::string& name, const std::string& formula, const Engine* engine = fl::null);
 
-        virtual Complexity complexity() const FL_IOVERRIDE;
-
         /**
           Computes the membership function value of @f$x@f$ at the root node.
           If the engine has been set, the current values of the input variables

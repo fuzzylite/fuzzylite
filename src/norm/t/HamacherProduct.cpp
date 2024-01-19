@@ -25,10 +25,6 @@ namespace fuzzylite {
         return "HamacherProduct";
     }
 
-    Complexity HamacherProduct::complexity() const {
-        return Complexity().arithmetic(5);
-    }
-
     scalar HamacherProduct::compute(scalar a, scalar b) const {
         if (Op::isEq(a + b, 0.0))
             return 0.0;

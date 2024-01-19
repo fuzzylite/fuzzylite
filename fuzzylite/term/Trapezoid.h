@@ -61,7 +61,6 @@ namespace fuzzylite {
          */
         virtual void configure(const std::string& parameters) FL_IOVERRIDE;
 
-        virtual Complexity complexity() const FL_IOVERRIDE;
         /**
           Computes the membership function evaluated at @f$x@f$
           @param x

@@ -23,10 +23,6 @@ namespace fuzzylite {
         return "not";
     }
 
-    Complexity Not::complexity() const {
-        return Complexity().arithmetic(1);
-    }
-
     scalar Not::hedge(scalar x) const {
         return 1.0 - x;
     }

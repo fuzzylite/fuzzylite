@@ -23,10 +23,6 @@ namespace fuzzylite {
         return "somewhat";
     }
 
-    Complexity Somewhat::complexity() const {
-        return Complexity().function(1);
-    }
-
     scalar Somewhat::hedge(scalar x) const {
         return std::sqrt(x);
     }

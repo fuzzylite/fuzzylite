@@ -43,8 +43,6 @@ namespace fuzzylite {
 
         virtual std::string name() const FL_IOVERRIDE;
 
-        virtual Complexity complexity() const FL_IOVERRIDE;
-
         /**
           Computes the hedge for the given value
           @param x is irrelevant

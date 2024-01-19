@@ -36,10 +36,6 @@ namespace fuzzylite {
         return "Triangle";
     }
 
-    Complexity Triangle::complexity() const {
-        return Complexity().comparison(1 + 5).arithmetic(4);
-    }
-
     scalar Triangle::membership(scalar x) const {
         if (Op::isNaN(x))
             return fl::nan;

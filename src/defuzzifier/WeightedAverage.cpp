@@ -33,15 +33,6 @@ namespace fuzzylite {
         return "WeightedAverage";
     }
 
-    Complexity WeightedAverage::complexity(const Term* term) const {
-        Complexity result;
-        result.comparison(4).function(1);  // for dynamic_cast
-        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*>(term);
-        if (fuzzyOutput)
-            result += term->complexity().arithmetic(3).multiply(scalar(fuzzyOutput->numberOfTerms()));
-        return result;
-    }
-
     scalar WeightedAverage::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
         const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*>(term);
         if (not fuzzyOutput) {

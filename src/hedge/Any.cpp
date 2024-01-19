@@ -27,10 +27,6 @@ namespace fuzzylite {
         return "any";
     }
 
-    Complexity Any::complexity() const {
-        return Complexity();
-    }
-
     scalar Any::hedge(scalar x) const {
         FL_IUNUSED(x);
         return 1.0;

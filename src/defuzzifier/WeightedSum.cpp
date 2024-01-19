@@ -33,15 +33,6 @@ namespace fuzzylite {
         return "WeightedSum";
     }
 
-    Complexity WeightedSum::complexity(const Term* term) const {
-        Complexity result;
-        result.comparison(4).function(1);
-        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*>(term);
-        if (fuzzyOutput)
-            result += term->complexity().arithmetic(2).multiply(scalar(fuzzyOutput->numberOfTerms()));
-        return result;
-    }
-
     scalar WeightedSum::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
         const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*>(term);
         if (not fuzzyOutput) {

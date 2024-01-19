@@ -23,10 +23,6 @@ namespace fuzzylite {
         return "AlgebraicSum";
     }
 
-    Complexity AlgebraicSum::complexity() const {
-        return Complexity().arithmetic(3);
-    }
-
     scalar AlgebraicSum::compute(scalar a, scalar b) const {
         return a + b - (a * b);
     }

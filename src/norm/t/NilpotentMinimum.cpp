@@ -25,10 +25,6 @@ namespace fuzzylite {
         return "NilpotentMinimum";
     }
 
-    Complexity NilpotentMinimum::complexity() const {
-        return Complexity().comparison(1).arithmetic(1).function(1);
-    }
-
     scalar NilpotentMinimum::compute(scalar a, scalar b) const {
         if (Op::isGt(a + b, 1.0))
             return Op::min(a, b);

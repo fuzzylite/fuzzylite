@@ -281,16 +281,6 @@ namespace fuzzylite {
             outputVariables().at(i)->clear();
     }
 
-    Complexity Engine::complexity() const {
-        Complexity result;
-        for (std::size_t i = 0; i < _ruleBlocks.size(); ++i) {
-            const RuleBlock* ruleBlock = _ruleBlocks.at(i);
-            if (ruleBlock->isEnabled())
-                result += ruleBlock->complexity();
-        }
-        return result;
-    }
-
     void Engine::process() {
         for (std::size_t i = 0; i < _outputVariables.size(); ++i)
             _outputVariables.at(i)->fuzzyOutput()->clear();

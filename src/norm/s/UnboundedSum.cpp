@@ -25,10 +25,6 @@ namespace fuzzylite {
         return "UnboundedSum";
     }
 
-    Complexity UnboundedSum::complexity() const {
-        return Complexity().arithmetic(1);
-    }
-
     scalar UnboundedSum::compute(scalar a, scalar b) const {
         return a + b;
     }

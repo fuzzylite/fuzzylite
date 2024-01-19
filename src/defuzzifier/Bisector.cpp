@@ -29,11 +29,6 @@ namespace fuzzylite {
         return "Bisector";
     }
 
-    Complexity Bisector::complexity(const Term* term) const {
-        return Complexity().comparison(1).arithmetic(1 + 2 + 5)
-               + term->complexity().comparison(1).arithmetic(1 + 5).multiply(getResolution());
-    }
-
     scalar Bisector::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
         if (not Op::isFinite(minimum + maximum))
             return fl::nan;

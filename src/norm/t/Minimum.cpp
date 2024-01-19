@@ -25,10 +25,6 @@ namespace fuzzylite {
         return "Minimum";
     }
 
-    Complexity Minimum::complexity() const {
-        return Complexity().function(1);
-    }
-
     scalar Minimum::compute(scalar a, scalar b) const {
         return Op::min(a, b);
     }

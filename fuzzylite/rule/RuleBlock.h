@@ -21,7 +21,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <string>
 #include <vector>
 
-#include "fuzzylite/Complexity.h"
 #include "fuzzylite/activation/Activation.h"
 #include "fuzzylite/fuzzylite.h"
 
@@ -168,12 +167,6 @@ namespace fuzzylite {
           Language
          */
         virtual std::string toString() const;
-
-        /**
-          Returns the estimated complexity of activating the rule block
-          @return the estimated complexity of activating the rule block
-         */
-        virtual Complexity complexity() const;
 
         /**
           Adds the given rule to the rule block

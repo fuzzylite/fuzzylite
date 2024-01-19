@@ -36,16 +36,6 @@ namespace fuzzylite {
         return "Activated";
     }
 
-    Complexity Activated::complexity() const {
-        Complexity result;
-        result.comparison(3);
-        if (_implication)
-            result += _implication->complexity();
-        if (_term)
-            result += _term->complexity();
-        return result;
-    }
-
     scalar Activated::membership(scalar x) const {
         if (Op::isNaN(x))
             return fl::nan;

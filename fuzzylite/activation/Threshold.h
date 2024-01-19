@@ -162,8 +162,6 @@ namespace fuzzylite {
          */
         virtual bool activatesWith(scalar activationDegree) const;
 
-        virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
-
         /**
           Activates the rules whose activation degrees satisfy the comparison
           equation with the given threshold, and deactivate the rules which do

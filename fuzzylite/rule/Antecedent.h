@@ -20,7 +20,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include <string>
 
-#include "fuzzylite/Complexity.h"
 #include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
@@ -105,19 +104,6 @@ namespace fuzzylite {
           @param engine is the engine from which the rules are part of
          */
         virtual void load(const std::string& antecedent, const Engine* engine);
-
-        /**
-          Computes the estimated complexity of calculating the activation degree
-          @return the estimated complexity of calculating the activation degree
-         */
-        virtual Complexity complexity(const TNorm* conjunction, const SNorm* disjunction) const;
-        /**
-          Computes the estimated complexity of recursively calculating the
-          activation degree from the given node
-          @return the estimated complexity of recursively calculating the
-          activation degree from the given node
-         */
-        virtual Complexity complexity(const TNorm* conjunction, const SNorm* disjunction, const Expression* node) const;
 
         /**
           Computes the activation degree of the antecedent on the expression

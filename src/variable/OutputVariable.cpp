@@ -117,31 +117,6 @@ namespace fuzzylite {
         return Variable::Output;
     }
 
-    Complexity OutputVariable::complexity(const Activated& term) const {
-        Aggregated aggregated;
-        if (_fuzzyOutput->getAggregation())
-            aggregated.setAggregation(_fuzzyOutput->getAggregation()->clone());
-        aggregated.addTerm(term);
-        if (_defuzzifier.get())
-            return _defuzzifier->complexity(&aggregated);
-        return aggregated.complexityOfMembership();
-    }
-
-    Complexity OutputVariable::complexityOfDefuzzification() const {
-        Aggregated term;
-        for (std::size_t i = 0; i < _terms.size(); ++i)
-            term.addTerm(_terms.at(i), fl::nan, fl::null);
-        if (_defuzzifier.get())
-            return _defuzzifier->complexity(&term);
-        return term.complexityOfMembership();
-    }
-
-    Complexity OutputVariable::currentComplexity() const {
-        if (_defuzzifier.get())
-            return _defuzzifier->complexity(_fuzzyOutput.get());
-        return _fuzzyOutput->complexity();
-    }
-
     void OutputVariable::defuzzify() {
         if (not _enabled)
             return;
