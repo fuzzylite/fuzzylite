@@ -18,11 +18,10 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_DEFUZZIFIER_H
 #define FL_DEFUZZIFIER_H
 
-#include "fuzzylite/fuzzylite.h"
+#include <string>
 
 #include "fuzzylite/Complexity.h"
-
-#include <string>
+#include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
     class Term;
@@ -36,13 +35,10 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Defuzzifier {
-    public:
+      public:
+        Defuzzifier() {}
 
-        Defuzzifier() {
-        }
-
-        virtual ~Defuzzifier() {
-        }
+        virtual ~Defuzzifier() {}
         FL_DEFAULT_COPY_AND_MOVE(Defuzzifier)
 
         /**
@@ -70,7 +66,6 @@ namespace fuzzylite {
           @return the defuzzified value of the given fuzzy term
          */
         virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const = 0;
-
     };
 }
 

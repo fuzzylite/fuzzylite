@@ -18,19 +18,29 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/rule/Rule.h"
 
 #include "fuzzylite/Exception.h"
+#include "fuzzylite/Operation.h"
 #include "fuzzylite/imex/FllExporter.h"
 #include "fuzzylite/norm/Norm.h"
-#include "fuzzylite/Operation.h"
 
 namespace fuzzylite {
 
-    Rule::Rule(const std::string& text, scalar weight)
-    : _enabled(true), _text(text), _weight(weight), _activationDegree(0.0), _triggered(false),
-    _antecedent(new Antecedent), _consequent(new Consequent) { }
+    Rule::Rule(const std::string& text, scalar weight) :
+        _enabled(true),
+        _text(text),
+        _weight(weight),
+        _activationDegree(0.0),
+        _triggered(false),
+        _antecedent(new Antecedent),
+        _consequent(new Consequent) {}
 
-    Rule::Rule(const Rule& other) : _enabled(other._enabled), _text(other._text),
-    _weight(other._weight), _activationDegree(other._activationDegree), _triggered(false),
-    _antecedent(new Antecedent), _consequent(new Consequent) { }
+    Rule::Rule(const Rule& other) :
+        _enabled(other._enabled),
+        _text(other._text),
+        _weight(other._weight),
+        _activationDegree(other._activationDegree),
+        _triggered(false),
+        _antecedent(new Antecedent),
+        _consequent(new Consequent) {}
 
     Rule& Rule::operator=(const Rule& other) {
         if (this != &other) {
@@ -46,8 +56,10 @@ namespace fuzzylite {
     }
 
     Rule::~Rule() {
-        if (_antecedent.get()) _antecedent->unload();
-        if (_consequent.get()) _consequent->unload();
+        if (_antecedent.get())
+            _antecedent->unload();
+        if (_consequent.get())
+            _consequent->unload();
     }
 
     void Rule::setText(const std::string& text) {
@@ -104,17 +116,15 @@ namespace fuzzylite {
     }
 
     scalar Rule::activateWith(const TNorm* conjunction, const SNorm* disjunction) {
-        if (not isLoaded()) {
+        if (not isLoaded())
             throw Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
-        }
         _activationDegree = _weight * _antecedent->activationDegree(conjunction, disjunction);
         return _activationDegree;
     }
 
     void Rule::trigger(const TNorm* implication) {
-        if (not isLoaded()) {
+        if (not isLoaded())
             throw Exception("[rule error] the following rule is not loaded: " + getText(), FL_AT);
-        }
         if (_enabled and Op::isGt(_activationDegree, 0.0)) {
             FL_DBG("[firing with " << Op::str(_activationDegree) << "] " << toString());
             _consequent->modify(_activationDegree, implication);
@@ -129,36 +139,33 @@ namespace fuzzylite {
     Complexity Rule::complexityOfActivation(const TNorm* conjunction, const SNorm* disjunction) const {
         Complexity result;
         result.comparison(1).arithmetic(1);
-        if (isLoaded()) {
+        if (isLoaded())
             result += _antecedent->complexity(conjunction, disjunction);
-        }
         return result;
     }
 
     Complexity Rule::complexityOfFiring(const TNorm* implication) const {
         Complexity result;
         result.comparison(3);
-        if (isLoaded()) {
+        if (isLoaded())
             result += _consequent->complexity(implication);
-        }
         return result;
     }
 
-    Complexity Rule::complexity(const TNorm* conjunction, const SNorm* disjunction,
-            const TNorm* implication) const {
-        return complexityOfActivation(conjunction, disjunction)
-                + complexityOfFiring(implication);
+    Complexity Rule::complexity(const TNorm* conjunction, const SNorm* disjunction, const TNorm* implication) const {
+        return complexityOfActivation(conjunction, disjunction) + complexityOfFiring(implication);
     }
 
     bool Rule::isLoaded() const {
-        return _antecedent.get() and _consequent.get()
-                and _antecedent->isLoaded() and _consequent->isLoaded();
+        return _antecedent.get() and _consequent.get() and _antecedent->isLoaded() and _consequent->isLoaded();
     }
 
     void Rule::unload() {
         deactivate();
-        if (getAntecedent()) getAntecedent()->unload();
-        if (getConsequent()) getConsequent()->unload();
+        if (getAntecedent())
+            getAntecedent()->unload();
+        if (getConsequent())
+            getConsequent()->unload();
     }
 
     void Rule::load(const Engine* engine) {
@@ -174,30 +181,33 @@ namespace fuzzylite {
         std::ostringstream ossAntecedent, ossConsequent;
         scalar weight = 1.0;
 
-        enum FSM {
-            S_NONE, S_IF, S_THEN, S_WITH, S_END
-        };
+        enum FSM { S_NONE, S_IF, S_THEN, S_WITH, S_END };
+
         FSM state = S_NONE;
         try {
             while (tokenizer >> token) {
-
                 switch (state) {
                     case S_NONE:
-                        if (token == Rule::ifKeyword()) state = S_IF;
+                        if (token == Rule::ifKeyword())
+                            state = S_IF;
                         else {
                             std::ostringstream ex;
-                            ex << "[syntax error] expected keyword <" << Rule::ifKeyword() <<
-                                    ">, but found <" << token << "> in rule: " << rule;
+                            ex << "[syntax error] expected keyword <" << Rule::ifKeyword() << ">, but found <" << token
+                               << "> in rule: " << rule;
                             throw Exception(ex.str(), FL_AT);
                         }
                         break;
                     case S_IF:
-                        if (token == Rule::thenKeyword()) state = S_THEN;
-                        else ossAntecedent << token << " ";
+                        if (token == Rule::thenKeyword())
+                            state = S_THEN;
+                        else
+                            ossAntecedent << token << " ";
                         break;
                     case S_THEN:
-                        if (token == Rule::withKeyword()) state = S_WITH;
-                        else ossConsequent << token << " ";
+                        if (token == Rule::withKeyword())
+                            state = S_WITH;
+                        else
+                            ossConsequent << token << " ";
                         break;
                     case S_WITH:
                         try {
@@ -205,14 +215,12 @@ namespace fuzzylite {
                             state = S_END;
                         } catch (Exception& e) {
                             std::ostringstream ex;
-                            ex << "[syntax error] expected a numeric value as the weight of the rule: "
-                                    << rule;
+                            ex << "[syntax error] expected a numeric value as the weight of the rule: " << rule;
                             e.append(ex.str(), FL_AT);
                             throw;
                         }
                         break;
-                    case S_END:
-                    {
+                    case S_END: {
                         std::ostringstream ex;
                         ex << "[syntax error] unexpected token <" << token << "> at the end of rule";
                         throw Exception(ex.str(), FL_AT);

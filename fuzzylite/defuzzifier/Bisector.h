@@ -33,7 +33,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Bisector : public IntegralDefuzzifier {
-    public:
+      public:
         explicit Bisector(int resolution = defaultResolution());
         virtual ~Bisector() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Bisector)
@@ -53,13 +53,11 @@ namespace fuzzylite {
           @param maximum is the maximum value of the fuzzy set
           @return the @f$x@f$-coordinate of the bisector of the fuzzy set
          */
-        virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const FL_IOVERRIDE;
         virtual Bisector* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };
 }
 
-#endif  /* FL_BISECTOR_H */
-
+#endif /* FL_BISECTOR_H */

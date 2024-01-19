@@ -34,11 +34,11 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Sigmoid : public Term {
-    private:
+      private:
         scalar _inflection;
         scalar _slope;
-    public:
 
+      public:
         /**
           Direction is an enumerator that indicates the direction of the
           sigmoid.
@@ -48,10 +48,10 @@ namespace fuzzylite {
             /** `(--)` slope is zero */ Zero,
             /** `(\\_)` increases to the left */ Negative
         };
-        explicit Sigmoid(const std::string& name = "",
-                scalar inflection = fl::nan,
-                scalar slope = fl::nan,
-                scalar height = 1.0);
+
+        explicit Sigmoid(
+            const std::string& name = "", scalar inflection = fl::nan, scalar slope = fl::nan, scalar height = 1.0
+        );
         virtual ~Sigmoid() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Sigmoid)
 
@@ -80,8 +80,7 @@ namespace fuzzylite {
          */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
-        virtual scalar tsukamoto(scalar activationDegree,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        virtual scalar tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const FL_IOVERRIDE;
 
         virtual bool isMonotonic() const FL_IOVERRIDE;
 

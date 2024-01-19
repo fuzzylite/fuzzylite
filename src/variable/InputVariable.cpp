@@ -21,10 +21,10 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    InputVariable::InputVariable(const std::string& name, scalar minimum, scalar maximum)
-    : Variable(name, minimum, maximum) { }
+    InputVariable::InputVariable(const std::string& name, scalar minimum, scalar maximum) :
+        Variable(name, minimum, maximum) {}
 
-    InputVariable::~InputVariable() { }
+    InputVariable::~InputVariable() {}
 
     std::string InputVariable::fuzzyInputValue() const {
         return fuzzify(getValue());

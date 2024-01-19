@@ -32,12 +32,11 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Constant : public Term {
-    private:
+      private:
         scalar _value;
 
-    public:
-        explicit Constant(const std::string& name = "",
-                scalar value = fl::nan);
+      public:
+        explicit Constant(const std::string& name = "", scalar value = fl::nan);
         virtual ~Constant() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Constant)
 
@@ -78,5 +77,4 @@ namespace fuzzylite {
         static Term* constructor();
     };
 }
-#endif  /* FL_CONSTANT_H */
-
+#endif /* FL_CONSTANT_H */

@@ -18,9 +18,8 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_HIGHEST_H
 #define FL_HIGHEST_H
 
-#include "fuzzylite/fuzzylite.h"
-
 #include "fuzzylite/activation/Activation.h"
+#include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
 
@@ -36,9 +35,10 @@ namespace fuzzylite {
       @since 6.0
      */
     class FL_API Highest : public Activation {
-    private:
+      private:
         int _numberOfRules;
-    public:
+
+      public:
         explicit Highest(int numberOfRules = 1);
         virtual ~Highest();
         FL_DEFAULT_COPY_AND_MOVE(Highest)

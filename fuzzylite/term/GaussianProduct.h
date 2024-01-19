@@ -34,19 +34,21 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API GaussianProduct : public Term {
-    private:
+      private:
         scalar _meanA;
         scalar _standardDeviationA;
         scalar _meanB;
         scalar _standardDeviationB;
 
-    public:
-        explicit GaussianProduct(const std::string& name = "",
-                scalar meanA = fl::nan,
-                scalar standardDeviationA = fl::nan,
-                scalar meanB = fl::nan,
-                scalar standardDeviationB = fl::nan,
-                scalar height = 1.0);
+      public:
+        explicit GaussianProduct(
+            const std::string& name = "",
+            scalar meanA = fl::nan,
+            scalar standardDeviationA = fl::nan,
+            scalar meanB = fl::nan,
+            scalar standardDeviationB = fl::nan,
+            scalar height = 1.0
+        );
         virtual ~GaussianProduct() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(GaussianProduct)
 
@@ -135,5 +137,4 @@ namespace fuzzylite {
         static Term* constructor();
     };
 }
-#endif  /* FL_GAUSSIANPRODUCT_H */
-
+#endif /* FL_GAUSSIANPRODUCT_H */

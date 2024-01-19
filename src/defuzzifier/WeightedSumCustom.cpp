@@ -17,17 +17,17 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/defuzzifier/WeightedSumCustom.h"
 
-#include "fuzzylite/term/Aggregated.h"
-
 #include <map>
+
+#include "fuzzylite/term/Aggregated.h"
 
 namespace fuzzylite {
 
-    WeightedSumCustom::WeightedSumCustom(Type type) : WeightedDefuzzifier(type) { }
+    WeightedSumCustom::WeightedSumCustom(Type type) : WeightedDefuzzifier(type) {}
 
-    WeightedSumCustom::WeightedSumCustom(const std::string& type) : WeightedDefuzzifier(type) { }
+    WeightedSumCustom::WeightedSumCustom(const std::string& type) : WeightedDefuzzifier(type) {}
 
-    WeightedSumCustom::~WeightedSumCustom() { }
+    WeightedSumCustom::~WeightedSumCustom() {}
 
     std::string WeightedSumCustom::className() const {
         return "WeightedSumCustom";
@@ -36,41 +36,38 @@ namespace fuzzylite {
     Complexity WeightedSumCustom::complexity(const Term* term) const {
         Complexity result;
         result.comparison(4).function(1);
-        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*> (term);
-        if (fuzzyOutput) {
-            result += term->complexity().arithmetic(2).comparison(2)
-                    .multiply(scalar(fuzzyOutput->numberOfTerms()));
-        }
+        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*>(term);
+        if (fuzzyOutput)
+            result += term->complexity().arithmetic(2).comparison(2).multiply(scalar(fuzzyOutput->numberOfTerms()));
         return result;
     }
 
-    scalar WeightedSumCustom::defuzzify(const Term* term,
-            scalar minimum, scalar maximum) const {
-        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*> (term);
+    scalar WeightedSumCustom::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
+        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*>(term);
         if (not fuzzyOutput) {
             std::ostringstream ss;
             ss << "[defuzzification error]"
-                    << "expected an Aggregated term instead of"
-                    << "<" << (term ? term->toString() : "null") << ">";
+               << "expected an Aggregated term instead of"
+               << "<" << (term ? term->toString() : "null") << ">";
             throw Exception(ss.str(), FL_AT);
         }
 
-        if (fuzzyOutput->isEmpty()) return fl::nan;
+        if (fuzzyOutput->isEmpty())
+            return fl::nan;
 
         minimum = fuzzyOutput->getMinimum();
         maximum = fuzzyOutput->getMaximum();
 
         Type type = getType();
-        if (type == Automatic) {
+        if (type == Automatic)
             type = inferType(&(fuzzyOutput->terms().front()));
-        }
 
         SNorm* aggregation = fuzzyOutput->getAggregation();
 
         scalar sum = 0.0;
         const std::size_t numberOfTerms = fuzzyOutput->numberOfTerms();
         if (type == TakagiSugeno) {
-            //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
+            // Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
             scalar w, z, wz;
             for (std::size_t i = 0; i < numberOfTerms; ++i) {
                 const Activated& activated = fuzzyOutput->getTerm(i);
@@ -78,11 +75,10 @@ namespace fuzzylite {
                 z = activated.getTerm()->membership(w);
                 const TNorm* implication = activated.getImplication();
                 wz = implication ? implication->compute(w, z) : (w * z);
-                if (aggregation) {
+                if (aggregation)
                     sum = aggregation->compute(sum, wz);
-                } else {
+                else
                     sum += wz;
-                }
             }
         } else {
             scalar w, z, wz;
@@ -92,11 +88,10 @@ namespace fuzzylite {
                 z = activated.getTerm()->tsukamoto(w, minimum, maximum);
                 const TNorm* implication = activated.getImplication();
                 wz = implication ? implication->compute(w, z) : (w * z);
-                if (aggregation) {
+                if (aggregation)
                     sum = aggregation->compute(sum, wz);
-                } else {
+                else
                     sum += wz;
-                }
             }
         }
         return sum;

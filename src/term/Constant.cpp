@@ -19,10 +19,9 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    Constant::Constant(const std::string& name, scalar value)
-    : Term(name), _value(value) { }
+    Constant::Constant(const std::string& name, scalar value) : Term(name), _value(value) {}
 
-    Constant::~Constant() { }
+    Constant::~Constant() {}
 
     std::string Constant::className() const {
         return "Constant";
@@ -42,7 +41,8 @@ namespace fuzzylite {
     }
 
     void Constant::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         setValue(Op::toScalar(parameters));
     }
 

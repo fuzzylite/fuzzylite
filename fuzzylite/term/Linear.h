@@ -38,14 +38,17 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Linear : public Term {
-    private:
+      private:
         /**Contains the coefficients @f$c_i@f$ and the constant @f$k@f$*/
         std::vector<scalar> _coefficients;
         const Engine* _engine;
-    public:
-        explicit Linear(const std::string& name = "",
-                const std::vector<scalar>& coefficients = std::vector<scalar>(),
-                const Engine* engine = fl::null);
+
+      public:
+        explicit Linear(
+            const std::string& name = "",
+            const std::vector<scalar>& coefficients = std::vector<scalar>(),
+            const Engine* engine = fl::null
+        );
         virtual ~Linear() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Linear)
 
@@ -145,8 +148,7 @@ namespace fuzzylite {
           @return a new Linear term with the given parameters
          */
         template <typename T>
-        static Linear* create(const std::string& name, const Engine* engine,
-                T firstCoefficient, ...);
+        static Linear* create(const std::string& name, const Engine* engine, T firstCoefficient, ...);
     };
 }
 
@@ -159,22 +161,24 @@ namespace fuzzylite {
 namespace fuzzylite {
 
     template <typename T>
-    inline Linear* Linear::create(const std::string& name,
-            const Engine* engine, T firstCoefficient, ...) {
-        if (not engine) throw Exception("[linear error] cannot create term <" + name + "> "
-                "without a reference to the engine", FL_AT);
+    inline Linear* Linear::create(const std::string& name, const Engine* engine, T firstCoefficient, ...) {
+        if (not engine)
+            throw Exception(
+                "[linear error] cannot create term <" + name
+                    + "> "
+                      "without a reference to the engine",
+                FL_AT
+            );
         std::vector<scalar> coefficients;
-        coefficients.push_back((scalar) firstCoefficient);
+        coefficients.push_back((scalar)firstCoefficient);
 
         va_list args;
         va_start(args, firstCoefficient);
-        for (std::size_t i = 0; i < engine->inputVariables().size(); ++i) {
-            coefficients.push_back((scalar) va_arg(args, T));
-        }
+        for (std::size_t i = 0; i < engine->inputVariables().size(); ++i)
+            coefficients.push_back((scalar)va_arg(args, T));
         va_end(args);
 
         return new Linear(name, coefficients, engine);
     }
 }
-#endif  /* FL_LINEAR_H */
-
+#endif /* FL_LINEAR_H */

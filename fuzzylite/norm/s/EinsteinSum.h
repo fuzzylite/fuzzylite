@@ -34,7 +34,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API EinsteinSum FL_IFINAL : public SNorm {
-    public:
+      public:
         std::string className() const FL_IOVERRIDE;
 
         Complexity complexity() const FL_IOVERRIDE;
@@ -50,4 +50,4 @@ namespace fuzzylite {
         static SNorm* constructor();
     };
 }
-#endif  /* FL_EINSTEINSUM_H */
+#endif /* FL_EINSTEINSUM_H */

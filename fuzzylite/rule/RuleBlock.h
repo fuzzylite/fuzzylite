@@ -18,14 +18,12 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_RULEBLOCK_H
 #define FL_RULEBLOCK_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/activation/Activation.h"
-#include "fuzzylite/Complexity.h"
-
 #include <string>
 #include <vector>
 
+#include "fuzzylite/Complexity.h"
+#include "fuzzylite/activation/Activation.h"
+#include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
 
@@ -46,7 +44,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API RuleBlock {
-    private:
+      private:
         bool _enabled;
         std::string _name;
         std::string _description;
@@ -58,7 +56,7 @@ namespace fuzzylite {
 
         void copyFrom(const RuleBlock& source);
 
-    public:
+      public:
         explicit RuleBlock(const std::string& name = "");
         RuleBlock(const RuleBlock& other);
         RuleBlock& operator=(const RuleBlock& other);
@@ -228,7 +226,6 @@ namespace fuzzylite {
           @return a clone of the rule block without the rules being loaded
          */
         virtual RuleBlock* clone() const;
-
     };
 }
 #endif /* RULEBLOCK_H */

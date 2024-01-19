@@ -17,19 +17,23 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/activation/Threshold.h"
 
-#include "fuzzylite/rule/RuleBlock.h"
-#include "fuzzylite/rule/Rule.h"
 #include "fuzzylite/Operation.h"
+#include "fuzzylite/rule/Rule.h"
+#include "fuzzylite/rule/RuleBlock.h"
 
 namespace fuzzylite {
 
-    Threshold::Threshold(Comparison comparison, scalar threshold) : Activation(),
-    _comparison(comparison), _value(threshold) { }
+    Threshold::Threshold(Comparison comparison, scalar threshold) :
+        Activation(),
+        _comparison(comparison),
+        _value(threshold) {}
 
-    Threshold::Threshold(const std::string& comparison, scalar threshold) : Activation(),
-    _comparison(parseComparison(comparison)), _value(threshold) { }
+    Threshold::Threshold(const std::string& comparison, scalar threshold) :
+        Activation(),
+        _comparison(parseComparison(comparison)),
+        _value(threshold) {}
 
-    Threshold::~Threshold() { }
+    Threshold::~Threshold() {}
 
     std::string Threshold::className() const {
         return "Threshold";
@@ -42,13 +46,14 @@ namespace fuzzylite {
     }
 
     void Threshold::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 2;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] activation <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setComparison(parseComparison(values.at(0)));
@@ -69,13 +74,20 @@ namespace fuzzylite {
 
     std::string Threshold::comparisonOperator(Comparison comparison) const {
         switch (comparison) {
-            case LessThan: return "<";
-            case LessThanOrEqualTo: return "<=";
-            case EqualTo: return "==";
-            case NotEqualTo: return "!=";
-            case GreaterThanOrEqualTo: return ">=";
-            case GreaterThan: return ">";
-            default: return "?";
+            case LessThan:
+                return "<";
+            case LessThanOrEqualTo:
+                return "<=";
+            case EqualTo:
+                return "==";
+            case NotEqualTo:
+                return "!=";
+            case GreaterThanOrEqualTo:
+                return ">=";
+            case GreaterThan:
+                return ">";
+            default:
+                return "?";
         }
     }
 
@@ -91,12 +103,18 @@ namespace fuzzylite {
     }
 
     Threshold::Comparison Threshold::parseComparison(const std::string& name) const {
-        if (name == "<") return LessThan;
-        if (name == "<=") return LessThanOrEqualTo;
-        if (name == "==") return EqualTo;
-        if (name == "!=") return NotEqualTo;
-        if (name == ">=") return GreaterThanOrEqualTo;
-        if (name == ">") return GreaterThan;
+        if (name == "<")
+            return LessThan;
+        if (name == "<=")
+            return LessThanOrEqualTo;
+        if (name == "==")
+            return EqualTo;
+        if (name == "!=")
+            return NotEqualTo;
+        if (name == ">=")
+            return GreaterThanOrEqualTo;
+        if (name == ">")
+            return GreaterThan;
         throw Exception("[syntax error] invalid threshold type by name <" + name + ">", FL_AT);
     }
 
@@ -120,13 +138,20 @@ namespace fuzzylite {
 
     bool Threshold::activatesWith(scalar activationDegree) const {
         switch (getComparison()) {
-            case LessThan: return Op::isLt(activationDegree, getValue());
-            case LessThanOrEqualTo: return Op::isLE(activationDegree, getValue());
-            case EqualTo: return Op::isEq(activationDegree, getValue());
-            case NotEqualTo: return not Op::isEq(activationDegree, getValue());
-            case GreaterThanOrEqualTo: return Op::isGE(activationDegree, getValue());
-            case GreaterThan: return Op::isGt(activationDegree, getValue());
-            default: return false;
+            case LessThan:
+                return Op::isLt(activationDegree, getValue());
+            case LessThanOrEqualTo:
+                return Op::isLE(activationDegree, getValue());
+            case EqualTo:
+                return Op::isEq(activationDegree, getValue());
+            case NotEqualTo:
+                return not Op::isEq(activationDegree, getValue());
+            case GreaterThanOrEqualTo:
+                return Op::isGE(activationDegree, getValue());
+            case GreaterThan:
+                return Op::isGt(activationDegree, getValue());
+            default:
+                return false;
         }
     }
 
@@ -135,8 +160,8 @@ namespace fuzzylite {
         for (std::size_t i = 0; i < ruleBlock->rules().size(); ++i) {
             result.comparison(2);
             result += ruleBlock->rules().at(i)->complexity(
-                    ruleBlock->getConjunction(), ruleBlock->getDisjunction(),
-                    ruleBlock->getImplication());
+                ruleBlock->getConjunction(), ruleBlock->getDisjunction(), ruleBlock->getImplication()
+            );
         }
         return result;
     }
@@ -152,9 +177,8 @@ namespace fuzzylite {
             rule->deactivate();
             if (rule->isLoaded()) {
                 scalar activationDegree = rule->activateWith(conjunction, disjunction);
-                if (activatesWith(activationDegree)) {
+                if (activatesWith(activationDegree))
                     rule->trigger(implication);
-                }
             }
         }
     }
@@ -168,4 +192,3 @@ namespace fuzzylite {
     }
 
 }
-

@@ -18,11 +18,10 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_HEDGE_H
 #define FL_HEDGE_H
 
-#include "fuzzylite/fuzzylite.h"
+#include <string>
 
 #include "fuzzylite/Complexity.h"
-
-#include <string>
+#include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
 
@@ -39,13 +38,10 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Hedge {
-    public:
+      public:
+        Hedge() {}
 
-        Hedge() {
-        }
-
-        virtual ~Hedge() {
-        }
+        virtual ~Hedge() {}
         FL_DEFAULT_COPY_AND_MOVE(Hedge)
 
         /**
@@ -71,7 +67,6 @@ namespace fuzzylite {
           @return a clone of the hedge.
          */
         virtual Hedge* clone() const = 0;
-
     };
 }
 

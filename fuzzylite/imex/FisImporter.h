@@ -18,11 +18,10 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_FISIMPORTER_H
 #define FL_FISIMPORTER_H
 
-#include "fuzzylite/imex/Importer.h"
-
 #include <utility>
 #include <vector>
 
+#include "fuzzylite/imex/Importer.h"
 
 namespace fuzzylite {
     class Norm;
@@ -43,7 +42,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API FisImporter : public Importer {
-    public:
+      public:
         FisImporter();
         virtual ~FisImporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FisImporter)
@@ -54,11 +53,16 @@ namespace fuzzylite {
 
         virtual FisImporter* clone() const FL_IOVERRIDE;
 
-    protected:
-        virtual void importSystem(const std::string& section, Engine* engine,
-                std::string& andMethod, std::string& orMethod,
-                std::string& impMethod, std::string& aggMethod,
-                std::string& defuzzMethod) const;
+      protected:
+        virtual void importSystem(
+            const std::string& section,
+            Engine* engine,
+            std::string& andMethod,
+            std::string& orMethod,
+            std::string& impMethod,
+            std::string& aggMethod,
+            std::string& defuzzMethod
+        ) const;
         virtual void importInput(const std::string& section, Engine* engine) const;
         virtual void importOutput(const std::string& section, Engine* engine) const;
         virtual void importRules(const std::string& section, Engine* engine) const;
@@ -69,13 +73,15 @@ namespace fuzzylite {
         virtual std::string translateDefuzzifier(const std::string& defuzzifier) const;
 
         virtual Term* parseTerm(const std::string& line, const Engine* engine) const;
-        virtual Term* createInstance(const std::string& termClass, const std::string& name,
-                const std::vector<std::string>& params, const Engine* engine) const;
+        virtual Term* createInstance(
+            const std::string& termClass,
+            const std::string& name,
+            const std::vector<std::string>& params,
+            const Engine* engine
+        ) const;
 
         virtual std::pair<scalar, scalar> parseRange(const std::string& range) const;
-
     };
 }
 
-#endif  /* FL_FISIMPORTER_H */
-
+#endif /* FL_FISIMPORTER_H */

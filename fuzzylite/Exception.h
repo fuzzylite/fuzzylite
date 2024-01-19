@@ -18,11 +18,11 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_EXCEPTION_H
 #define FL_EXCEPTION_H
 
-#include "fuzzylite/fuzzylite.h"
-
 #include <exception>
 #include <string>
 #include <vector>
+
+#include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
 
@@ -42,18 +42,20 @@ namespace fuzzylite {
      */
 
 #ifdef FL_WINDOWS
-    //Disable warning for dllexport of std::exception in Windows
-#pragma warning (push)
-#pragma warning (disable:4275)
+    // Disable warning for dllexport of std::exception in Windows
+#pragma warning(push)
+#pragma warning(disable : 4275)
 #endif
 
     class FL_API Exception : public std::exception {
 #ifdef FL_WINDOWS
-#pragma warning (pop)
+#pragma warning(pop)
 #endif
-    private:
+
+      private:
         std::string _what;
-    public:
+
+      public:
         explicit Exception(const std::string& what);
         /**
           Constructor to be used in conjunction with macro `FL_AT`
@@ -62,8 +64,7 @@ namespace fuzzylite {
           @param line is the line number in the file where the exception occurred
           @param function is the name of the function where the exception occurred
          */
-        explicit Exception(const std::string& what, const std::string& file, int line,
-                const std::string& function);
+        explicit Exception(const std::string& what, const std::string& file, int line, const std::string& function);
         virtual ~Exception() FL_INOEXCEPT FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Exception)
 
@@ -104,8 +105,8 @@ namespace fuzzylite {
           @param line is the line number in the file where the exception occurred
           @param function is the name of the function where the exception occurred
          */
-        virtual void append(const std::string& whatElse,
-                const std::string& file, int line, const std::string& function);
+        virtual void
+        append(const std::string& whatElse, const std::string& file, int line, const std::string& function);
 
         /**
           Returns the stack trace (if enabled)
@@ -134,8 +135,6 @@ namespace fuzzylite {
           @param exception is the exception thrown
          */
         static void catchException(const std::exception& exception);
-
-
     };
 }
 #endif /* FL_EXCEPTION_H */

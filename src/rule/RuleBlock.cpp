@@ -17,28 +17,28 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/rule/RuleBlock.h"
 
+#include "fuzzylite/Operation.h"
 #include "fuzzylite/activation/General.h"
 #include "fuzzylite/imex/FllExporter.h"
-#include "fuzzylite/norm/TNorm.h"
 #include "fuzzylite/norm/SNorm.h"
+#include "fuzzylite/norm/TNorm.h"
 #include "fuzzylite/rule/Rule.h"
-#include "fuzzylite/Operation.h"
 
 namespace fuzzylite {
 
-    RuleBlock::RuleBlock(const std::string& name)
-    : _enabled(true), _name(name), _description("") { }
+    RuleBlock::RuleBlock(const std::string& name) : _enabled(true), _name(name), _description("") {}
 
-    RuleBlock::RuleBlock(const RuleBlock& other) : _enabled(true), _name(other._name),
-    _description(other._description) {
+    RuleBlock::RuleBlock(const RuleBlock& other) :
+        _enabled(true),
+        _name(other._name),
+        _description(other._description) {
         copyFrom(other);
     }
 
     RuleBlock& RuleBlock::operator=(const RuleBlock& other) {
         if (this != &other) {
-            for (std::size_t i = 0; i < _rules.size(); ++i) {
+            for (std::size_t i = 0; i < _rules.size(); ++i)
                 delete _rules.at(i);
-            }
             _rules.clear();
             _conjunction.reset(fl::null);
             _disjunction.reset(fl::null);
@@ -54,47 +54,44 @@ namespace fuzzylite {
         _enabled = source._enabled;
         _name = source._name;
         _description = source._description;
-        if (source._conjunction.get()) _conjunction.reset(source._conjunction->clone());
-        if (source._disjunction.get()) _disjunction.reset(source._disjunction->clone());
-        if (source._implication.get()) _implication.reset(source._implication->clone());
-        if (source._activation.get()) _activation.reset(source._activation->clone());
-        for (std::size_t i = 0; i < source._rules.size(); ++i) {
+        if (source._conjunction.get())
+            _conjunction.reset(source._conjunction->clone());
+        if (source._disjunction.get())
+            _disjunction.reset(source._disjunction->clone());
+        if (source._implication.get())
+            _implication.reset(source._implication->clone());
+        if (source._activation.get())
+            _activation.reset(source._activation->clone());
+        for (std::size_t i = 0; i < source._rules.size(); ++i)
             _rules.push_back(source._rules.at(i)->clone());
-        }
     }
 
     RuleBlock::~RuleBlock() {
-        for (std::size_t i = 0; i < _rules.size(); ++i) {
+        for (std::size_t i = 0; i < _rules.size(); ++i)
             delete _rules.at(i);
-        }
         _rules.clear();
     }
 
     Complexity RuleBlock::complexity() const {
         Complexity result;
         result.comparison(1);
-        if (_activation.get()) {
+        if (_activation.get())
             result += _activation->complexity(this);
-        } else {
-            for (std::size_t i = 0; i < _rules.size(); ++i) {
-                result += _rules.at(i)->complexity(
-                        _conjunction.get(), _disjunction.get(), _implication.get());
-            }
-        }
+        else
+            for (std::size_t i = 0; i < _rules.size(); ++i)
+                result += _rules.at(i)->complexity(_conjunction.get(), _disjunction.get(), _implication.get());
         return result;
     }
 
     void RuleBlock::activate() {
-        if (not _activation.get()) {
+        if (not _activation.get())
             _activation.reset(new General);
-        }
         _activation->activate(this);
     }
 
     void RuleBlock::unloadRules() const {
-        for (std::size_t i = 0; i < _rules.size(); ++i) {
+        for (std::size_t i = 0; i < _rules.size(); ++i)
             _rules.at(i)->unload();
-        }
     }
 
     void RuleBlock::loadRules(const Engine* engine) {
@@ -102,9 +99,8 @@ namespace fuzzylite {
         bool throwException = false;
         for (std::size_t i = 0; i < _rules.size(); ++i) {
             Rule* rule = _rules.at(i);
-            if (rule->isLoaded()) {
+            if (rule->isLoaded())
                 rule->unload();
-            }
             try {
                 rule->load(engine);
             } catch (std::exception& ex) {
@@ -113,8 +109,12 @@ namespace fuzzylite {
             }
         }
         if (throwException) {
-            Exception exception("[ruleblock error] the following "
-                    "rules could not be loaded:\n" + exceptions.str(), FL_AT);
+            Exception exception(
+                "[ruleblock error] the following "
+                "rules could not be loaded:\n"
+                    + exceptions.str(),
+                FL_AT
+            );
             throw exception;
         }
     }

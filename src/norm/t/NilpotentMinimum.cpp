@@ -30,9 +30,8 @@ namespace fuzzylite {
     }
 
     scalar NilpotentMinimum::compute(scalar a, scalar b) const {
-        if (Op::isGt(a + b, 1.0)) {
+        if (Op::isGt(a + b, 1.0))
             return Op::min(a, b);
-        }
         return 0.0;
     }
 
@@ -43,6 +42,5 @@ namespace fuzzylite {
     TNorm* NilpotentMinimum::constructor() {
         return new NilpotentMinimum;
     }
-
 
 }

@@ -18,11 +18,10 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_NORM_H
 #define FL_NORM_H
 
-#include "fuzzylite/fuzzylite.h"
+#include <string>
 
 #include "fuzzylite/Complexity.h"
-
-#include <string>
+#include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
 
@@ -37,13 +36,10 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Norm {
-    public:
+      public:
+        Norm() {}
 
-        Norm() {
-        }
-
-        virtual ~Norm() {
-        }
+        virtual ~Norm() {}
 
         FL_DEFAULT_COPY_AND_MOVE(Norm)
         /**
@@ -70,7 +66,6 @@ namespace fuzzylite {
           @return a clone of the norm
          */
         virtual Norm* clone() const = 0;
-
     };
 }
-#endif  /* FL_NORM_H */
+#endif /* FL_NORM_H */

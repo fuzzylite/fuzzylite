@@ -18,12 +18,10 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_OUTPUTVARIABLE_H
 #define FL_OUTPUTVARIABLE_H
 
-#include "fuzzylite/variable/Variable.h"
-
+#include "fuzzylite/defuzzifier/Defuzzifier.h"
 #include "fuzzylite/term/Activated.h"
 #include "fuzzylite/term/Aggregated.h"
-
-#include "fuzzylite/defuzzifier/Defuzzifier.h"
+#include "fuzzylite/variable/Variable.h"
 
 namespace fuzzylite {
 
@@ -84,7 +82,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API OutputVariable : public Variable {
-    private:
+      private:
         FL_unique_ptr<Aggregated> _fuzzyOutput;
         FL_unique_ptr<Defuzzifier> _defuzzifier;
         scalar _previousValue;
@@ -93,9 +91,8 @@ namespace fuzzylite {
 
         void copyFrom(const OutputVariable& other);
 
-    public:
-        explicit OutputVariable(const std::string& name = "",
-                scalar minimum = -fl::inf, scalar maximum = fl::inf);
+      public:
+        explicit OutputVariable(const std::string& name = "", scalar minimum = -fl::inf, scalar maximum = fl::inf);
         explicit OutputVariable(const OutputVariable& other);
         OutputVariable& operator=(const OutputVariable& other);
         virtual ~OutputVariable() FL_IOVERRIDE;
@@ -221,7 +218,6 @@ namespace fuzzylite {
         virtual std::string toString() const FL_IOVERRIDE;
 
         virtual OutputVariable* clone() const FL_IOVERRIDE;
-
     };
 }
 #endif /* FL_OUTPUTVARIABLE_H */

@@ -35,7 +35,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API MeanOfMaximum : public IntegralDefuzzifier {
-    public:
+      public:
         explicit MeanOfMaximum(int resolution = defaultResolution());
         virtual ~MeanOfMaximum() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(MeanOfMaximum)
@@ -56,13 +56,11 @@ namespace fuzzylite {
           @return the mean @f$x@f$-coordinate of the maximum membership
           function value in the fuzzy set
          */
-        virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const FL_IOVERRIDE;
         virtual MeanOfMaximum* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };
 }
 
-#endif  /* FL_MEANOFMAXIMUM_H */
-
+#endif /* FL_MEANOFMAXIMUM_H */

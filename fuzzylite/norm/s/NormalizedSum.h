@@ -33,7 +33,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API NormalizedSum FL_IFINAL : public SNorm {
-    public:
+      public:
         std::string className() const FL_IOVERRIDE;
 
         Complexity complexity() const FL_IOVERRIDE;
@@ -50,4 +50,4 @@ namespace fuzzylite {
     };
 }
 
-#endif  /* FL_NORMALIZEDSUM_H */
+#endif /* FL_NORMALIZEDSUM_H */

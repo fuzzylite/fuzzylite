@@ -21,22 +21,22 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    Bisector::Bisector(int resolution)
-    : IntegralDefuzzifier(resolution) { }
+    Bisector::Bisector(int resolution) : IntegralDefuzzifier(resolution) {}
 
-    Bisector::~Bisector() { }
+    Bisector::~Bisector() {}
 
     std::string Bisector::className() const {
         return "Bisector";
     }
 
     Complexity Bisector::complexity(const Term* term) const {
-        return Complexity().comparison(1).arithmetic(1 + 2 + 5) +
-                term->complexity().comparison(1).arithmetic(1 + 5).multiply(getResolution());
+        return Complexity().comparison(1).arithmetic(1 + 2 + 5)
+               + term->complexity().comparison(1).arithmetic(1 + 5).multiply(getResolution());
     }
 
     scalar Bisector::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
-        if (not Op::isFinite(minimum + maximum)) return fl::nan;
+        if (not Op::isFinite(minimum + maximum))
+            return fl::nan;
 
         const scalar dx = (maximum - minimum) / getResolution();
         int counter = getResolution();
@@ -54,7 +54,7 @@ namespace fuzzylite {
                 ++right;
             }
         }
-        //Inverse weighted average to compensate
+        // Inverse weighted average to compensate
         return (leftArea * xRight + rightArea * xLeft) / (leftArea + rightArea);
     }
 

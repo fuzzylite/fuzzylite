@@ -15,10 +15,10 @@ fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 fuzzylite is a registered trademark of FuzzyLite Limited.
 */
 
-#include "fuzzylite/Headers.h"
-
-#include <algorithm>    // std::random_shuffle
+#include <algorithm>  // std::random_shuffle
 #include <catch2/catch.hpp>
+
+#include "fuzzylite/Headers.h"
 
 namespace fuzzylite {
 
@@ -31,9 +31,8 @@ namespace fuzzylite {
 
     TEST_CASE("variable of Constant terms is sorted", "[variable][variable]") {
         Variable variable("Variable", -10, 10);
-        for (int i = 0; i <= 20; ++i) {
+        for (int i = 0; i <= 20; ++i)
             variable.addTerm(new Constant(Op::str(i), i - 10));
-        }
         std::random_shuffle(variable.terms().begin(), variable.terms().end());
         FL_DBG(variable.toString());
         REQUIRE(variable.numberOfTerms() == 21);
@@ -41,7 +40,7 @@ namespace fuzzylite {
         REQUIRE(variable.numberOfTerms() == 21);
         int value = -10;
         for (std::size_t i = 0; i < variable.terms().size(); ++i) {
-            Constant* term = dynamic_cast<Constant*> (variable.terms().at(i));
+            Constant* term = dynamic_cast<Constant*>(variable.terms().at(i));
             REQUIRE(term);
             REQUIRE(term->getValue() == float(value));
             ++value;
@@ -51,9 +50,8 @@ namespace fuzzylite {
 
     TEST_CASE("variable of Triangle terms is sorted", "[variable][variable]") {
         Variable variable("Variable", -30, 30);
-        for (int i = 0; i <= 20; ++i) {
+        for (int i = 0; i <= 20; ++i)
             variable.addTerm(new Triangle(Op::str(i), i - 1, i, i + 1));
-        }
         std::random_shuffle(variable.terms().begin(), variable.terms().end());
         FL_DBG(variable.toString());
         REQUIRE(variable.numberOfTerms() == 21);
@@ -63,7 +61,7 @@ namespace fuzzylite {
         REQUIRE(variable.numberOfTerms() == 21);
         int value = 0;
         for (std::size_t i = 0; i < variable.terms().size(); ++i) {
-            Triangle* term = dynamic_cast<Triangle*> (variable.terms().at(i));
+            Triangle* term = dynamic_cast<Triangle*>(variable.terms().at(i));
             REQUIRE(term);
             REQUIRE(term->getName() == Op::str(value < 0 ? -1 * value : value));
             ++value;
@@ -72,4 +70,3 @@ namespace fuzzylite {
     }
 
 }
-

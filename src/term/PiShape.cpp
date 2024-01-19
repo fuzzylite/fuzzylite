@@ -19,12 +19,16 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    PiShape::PiShape(const std::string& name, scalar bottomLeft, scalar topLeft,
-            scalar topRight, scalar bottomRight, scalar height)
-    : Term(name, height), _bottomLeft(bottomLeft), _topLeft(topLeft),
-    _topRight(topRight), _bottomRight(bottomRight) { }
+    PiShape::PiShape(
+        const std::string& name, scalar bottomLeft, scalar topLeft, scalar topRight, scalar bottomRight, scalar height
+    ) :
+        Term(name, height),
+        _bottomLeft(bottomLeft),
+        _topLeft(topLeft),
+        _topRight(topRight),
+        _bottomRight(bottomRight) {}
 
-    PiShape::~PiShape() { }
+    PiShape::~PiShape() {}
 
     std::string PiShape::className() const {
         return "PiShape";
@@ -35,7 +39,8 @@ namespace fuzzylite {
     }
 
     scalar PiShape::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
 
         scalar sshape;
         if (Op::isLE(x, _bottomLeft))
@@ -44,7 +49,8 @@ namespace fuzzylite {
             sshape = 2.0 * std::pow((x - _bottomLeft) / (_topLeft - _bottomLeft), 2);
         else if (Op::isLt(x, _topLeft))
             sshape = 1.0 - 2.0 * std::pow((x - _topLeft) / (_topLeft - _bottomLeft), 2);
-        else sshape = 1.0;
+        else
+            sshape = 1.0;
 
         scalar zshape;
         if (Op::isLE(x, _topRight))
@@ -53,24 +59,26 @@ namespace fuzzylite {
             zshape = 1.0 - 2.0 * std::pow((x - _topRight) / (_bottomRight - _topRight), 2);
         else if (Op::isLt(x, _bottomRight))
             zshape = 2.0 * std::pow((x - _bottomRight) / (_bottomRight - _topRight), 2);
-        else zshape = 0.0;
+        else
+            zshape = 0.0;
 
         return Term::_height * sshape * zshape;
     }
 
     std::string PiShape::parameters() const {
-        return Op::join(4, " ", _bottomLeft, _topLeft, _topRight, _bottomRight) +
-                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(4, " ", _bottomLeft, _topLeft, _topRight, _bottomRight)
+               + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void PiShape::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 4;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setBottomLeft(Op::toScalar(values.at(0)));

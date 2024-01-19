@@ -34,15 +34,14 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Gaussian : public Term {
-    private:
+      private:
         scalar _mean;
         scalar _standardDeviation;
 
-    public:
-        explicit Gaussian(const std::string& name = "",
-                scalar mean = fl::nan,
-                scalar standardDeviation = fl::nan,
-                scalar height = 1.0);
+      public:
+        explicit Gaussian(
+            const std::string& name = "", scalar mean = fl::nan, scalar standardDeviation = fl::nan, scalar height = 1.0
+        );
         virtual ~Gaussian() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Gaussian)
 

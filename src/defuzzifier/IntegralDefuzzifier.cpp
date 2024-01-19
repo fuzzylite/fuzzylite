@@ -29,10 +29,9 @@ namespace fuzzylite {
         return _defaultResolution;
     }
 
-    IntegralDefuzzifier::IntegralDefuzzifier(int resolution)
-    : Defuzzifier(), _resolution(resolution) { }
+    IntegralDefuzzifier::IntegralDefuzzifier(int resolution) : Defuzzifier(), _resolution(resolution) {}
 
-    IntegralDefuzzifier::~IntegralDefuzzifier() { }
+    IntegralDefuzzifier::~IntegralDefuzzifier() {}
 
     void IntegralDefuzzifier::setResolution(int resolution) {
         this->_resolution = resolution;

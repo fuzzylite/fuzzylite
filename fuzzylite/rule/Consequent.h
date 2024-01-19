@@ -18,12 +18,11 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_CONSEQUENT_H
 #define FL_CONSEQUENT_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/Complexity.h"
-
 #include <string>
 #include <vector>
+
+#include "fuzzylite/Complexity.h"
+#include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
     class Engine;
@@ -50,11 +49,11 @@ namespace fuzzylite {
      */
 
     class FL_API Consequent {
-    private:
+      private:
         std::string _text;
         std::vector<Proposition*> _conclusions;
 
-    public:
+      public:
         Consequent();
         virtual ~Consequent();
 
@@ -132,7 +131,7 @@ namespace fuzzylite {
          */
         virtual std::string toString() const;
 
-    private:
+      private:
         FL_DISABLE_COPY(Consequent)
     };
 }

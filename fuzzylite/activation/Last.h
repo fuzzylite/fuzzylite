@@ -18,7 +18,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_LAST_H
 #define FL_LAST_H
 
-
 #include "fuzzylite/activation/Activation.h"
 
 namespace fuzzylite {
@@ -38,10 +37,11 @@ namespace fuzzylite {
      */
 
     class FL_API Last : public Activation {
-    private:
+      private:
         int _numberOfRules;
         scalar _threshold;
-    public:
+
+      public:
         explicit Last(int numberOfRules = 1, scalar threshold = 0.0);
         virtual ~Last();
         FL_DEFAULT_COPY_AND_MOVE(Last)
@@ -83,7 +83,6 @@ namespace fuzzylite {
           @return the threshold for the activation degree
          */
         virtual scalar getThreshold() const;
-
 
         virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
 

@@ -34,7 +34,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API DrasticSum FL_IFINAL : public SNorm {
-    public:
+      public:
         std::string className() const FL_IOVERRIDE;
 
         Complexity complexity() const FL_IOVERRIDE;
@@ -53,4 +53,4 @@ namespace fuzzylite {
         static SNorm* constructor();
     };
 }
-#endif  /* FL_DRASTICSUM_H */
+#endif /* FL_DRASTICSUM_H */

@@ -33,10 +33,8 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API InputVariable : public Variable {
-    public:
-        explicit InputVariable(const std::string& name = "",
-                scalar minimum = -fl::inf,
-                scalar maximum = fl::inf);
+      public:
+        explicit InputVariable(const std::string& name = "", scalar minimum = -fl::inf, scalar maximum = fl::inf);
         virtual ~InputVariable() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(InputVariable)
 
@@ -55,7 +53,6 @@ namespace fuzzylite {
         virtual std::string toString() const FL_IOVERRIDE;
 
         virtual InputVariable* clone() const FL_IOVERRIDE;
-
     };
 }
 #endif /* FL_INPUTVARIABLE_H */

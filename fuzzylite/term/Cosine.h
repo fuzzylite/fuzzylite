@@ -35,13 +35,13 @@ namespace fuzzylite {
      */
 
     class FL_API Cosine : public Term {
-    private:
+      private:
         scalar _center, _width;
-    public:
-        explicit Cosine(const std::string& name = "",
-                scalar center = fl::nan,
-                scalar width = fl::nan,
-                scalar height = 1.0);
+
+      public:
+        explicit Cosine(
+            const std::string& name = "", scalar center = fl::nan, scalar width = fl::nan, scalar height = 1.0
+        );
         virtual ~Cosine() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Cosine)
 
@@ -98,5 +98,4 @@ namespace fuzzylite {
         static Term* constructor();
     };
 }
-#endif  /* FL_COSINE_H */
-
+#endif /* FL_COSINE_H */

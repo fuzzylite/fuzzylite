@@ -19,7 +19,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #define FL_HEDGEFUNCTION_H
 
 #include "fuzzylite/hedge/Hedge.h"
-
 #include "fuzzylite/term/Function.h"
 
 namespace fuzzylite {
@@ -40,9 +39,10 @@ namespace fuzzylite {
      */
 
     class FL_API HedgeFunction FL_IFINAL : public Hedge {
-    private:
+      private:
         Function _function;
-    public:
+
+      public:
         explicit HedgeFunction(const std::string& formula = "");
 
         std::string name() const FL_IOVERRIDE;
@@ -80,4 +80,3 @@ namespace fuzzylite {
 }
 
 #endif /* FL_HEDGEFUNCTION_H */
-

@@ -19,10 +19,12 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    SShape::SShape(const std::string& name, scalar start, scalar end, scalar height)
-    : Term(name, height), _start(start), _end(end) { }
+    SShape::SShape(const std::string& name, scalar start, scalar end, scalar height) :
+        Term(name, height),
+        _start(start),
+        _end(end) {}
 
-    SShape::~SShape() { }
+    SShape::~SShape() {}
 
     std::string SShape::className() const {
         return "SShape";
@@ -33,7 +35,8 @@ namespace fuzzylite {
     }
 
     scalar SShape::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
 
         if (Op::isLE(x, _start))
             return Term::_height * 0.0;
@@ -57,11 +60,10 @@ namespace fuzzylite {
         scalar difference = _end - _start;
         scalar a = _start + std::sqrt(0.5 * w * difference * difference);
         scalar b = _end + std::sqrt(-0.5 * (w - 1.0) * difference * difference);
-        if (std::abs(w - membership(a)) < std::abs(w - membership(b))) {
+        if (std::abs(w - membership(a)) < std::abs(w - membership(b)))
             z = a;
-        } else {
+        else
             z = b;
-        }
         return z;
     }
 
@@ -70,18 +72,18 @@ namespace fuzzylite {
     }
 
     std::string SShape::parameters() const {
-        return Op::join(2, " ", _start, _end) +
-                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(2, " ", _start, _end) + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void SShape::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 2;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setStart(Op::toScalar(values.at(0)));

@@ -18,9 +18,8 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_GENERAL_H
 #define FL_GENERAL_H
 
-#include "fuzzylite/fuzzylite.h"
-
 #include "fuzzylite/activation/Activation.h"
+#include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
 
@@ -36,8 +35,7 @@ namespace fuzzylite {
      */
 
     class FL_API General : public Activation {
-    public:
-
+      public:
         General();
         virtual ~General();
         FL_DEFAULT_COPY_AND_MOVE(General)

@@ -19,21 +19,21 @@ CLANG_FORMAT=clang-format --style=file -i
 
 format:
 	# headers
-	find fl -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT)
+	find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT)
 
 	# sources
 	find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT)
-	
+
 	# tests
 	find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT)
 
 lint:
 	# headers
-	find fl -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
+	find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
 
 	# sources
 	find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
-	
+
 	# tests
 	find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
 

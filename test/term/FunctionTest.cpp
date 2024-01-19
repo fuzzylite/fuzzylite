@@ -15,9 +15,9 @@ fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 fuzzylite is a registered trademark of FuzzyLite Limited.
 */
 
-#include "fuzzylite/Headers.h"
-
 #include <catch2/catch.hpp>
+
+#include "fuzzylite/Headers.h"
 
 namespace fuzzylite {
 
@@ -54,10 +54,13 @@ namespace fuzzylite {
         Function f;
 
         std::string text = "(Temperature is High and Oxygen is Low) or "
-                "(Temperature is Low and (Oxygen is Low or Oxygen is High))";
+                           "(Temperature is Low and (Oxygen is Low or Oxygen is High))";
 
-        CHECK(f.toPostfix(text) == "Temperature is High Oxygen is Low "
-                "and Temperature is Low Oxygen is Low Oxygen is High or and or");
+        CHECK(
+            f.toPostfix(text)
+            == "Temperature is High Oxygen is Low "
+               "and Temperature is Low Oxygen is Low Oxygen is High or and or"
+        );
     }
 
     TEST_CASE("function cannot deal with negative numbers", "[term][function]") {
@@ -105,7 +108,7 @@ namespace fuzzylite {
         delete clone;
     }
 
-    TEST_CASE("Function computes tree size correctly", "[term][function]"){
+    TEST_CASE("Function computes tree size correctly", "[term][function]") {
         Function f("f", "x*x+(x-x)/x+log(x)");
         f.load();
         CHECK(f.root()->treeSize() == 6);

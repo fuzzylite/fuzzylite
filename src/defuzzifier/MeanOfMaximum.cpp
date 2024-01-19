@@ -22,22 +22,22 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    MeanOfMaximum::MeanOfMaximum(int resolution)
-    : IntegralDefuzzifier(resolution) { }
+    MeanOfMaximum::MeanOfMaximum(int resolution) : IntegralDefuzzifier(resolution) {}
 
-    MeanOfMaximum::~MeanOfMaximum() { }
+    MeanOfMaximum::~MeanOfMaximum() {}
 
     std::string MeanOfMaximum::className() const {
         return "MeanOfMaximum";
     }
 
     Complexity MeanOfMaximum::complexity(const Term* term) const {
-        return Complexity().comparison(1).arithmetic(1 + 2 + 2) +
-                term->complexity().comparison(4).arithmetic(3).multiply(getResolution());
+        return Complexity().comparison(1).arithmetic(1 + 2 + 2)
+               + term->complexity().comparison(4).arithmetic(3).multiply(getResolution());
     }
 
     scalar MeanOfMaximum::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
-        if (not Op::isFinite(minimum + maximum)) return fl::nan;
+        if (not Op::isFinite(minimum + maximum))
+            return fl::nan;
 
         const int resolution = getResolution();
         const scalar dx = (maximum - minimum) / resolution;

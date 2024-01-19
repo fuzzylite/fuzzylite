@@ -34,11 +34,11 @@ namespace fuzzylite {
       @since 6.0
      */
     class FL_API Binary : public Term {
-    private:
+      private:
         scalar _start;
         scalar _direction;
-    public:
 
+      public:
         /**
          Direction is an enumerator that indicates the direction of the
          edge.
@@ -52,8 +52,9 @@ namespace fuzzylite {
             Negative
         };
 
-        explicit Binary(const std::string& name = "", scalar start = fl::nan,
-                scalar direction = fl::nan, scalar height = 1.0);
+        explicit Binary(
+            const std::string& name = "", scalar start = fl::nan, scalar direction = fl::nan, scalar height = 1.0
+        );
         virtual ~Binary() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Binary)
 

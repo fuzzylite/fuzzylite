@@ -34,7 +34,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API EinsteinProduct FL_IFINAL : public TNorm {
-    public:
+      public:
         std::string className() const FL_IOVERRIDE;
 
         Complexity complexity() const FL_IOVERRIDE;
@@ -50,4 +50,4 @@ namespace fuzzylite {
         static TNorm* constructor();
     };
 }
-#endif  /* FL_EINSTEINPRODUCT_H */
+#endif /* FL_EINSTEINPRODUCT_H */

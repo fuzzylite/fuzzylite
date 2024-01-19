@@ -35,7 +35,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API LargestOfMaximum : public IntegralDefuzzifier {
-    public:
+      public:
         explicit LargestOfMaximum(int resolution = defaultResolution());
         virtual ~LargestOfMaximum() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(LargestOfMaximum)
@@ -56,13 +56,11 @@ namespace fuzzylite {
           @return the largest @f$x@f$-coordinate of the maximum membership
           function value in the fuzzy set
          */
-        virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const FL_IOVERRIDE;
         virtual LargestOfMaximum* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };
 }
 
-#endif  /* FL_LARGESTOFMAXIMUM_H */
-
+#endif /* FL_LARGESTOFMAXIMUM_H */

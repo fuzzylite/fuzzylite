@@ -30,9 +30,8 @@ namespace fuzzylite {
     }
 
     scalar DrasticProduct::compute(scalar a, scalar b) const {
-        if (Op::isEq(Op::max(a, b), 1.0)) {
+        if (Op::isEq(Op::max(a, b), 1.0))
             return Op::min(a, b);
-        }
         return 0.0;
     }
 

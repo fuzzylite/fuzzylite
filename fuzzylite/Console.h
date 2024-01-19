@@ -18,10 +18,11 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_CONSOLE_H
 #define FL_CONSOLE_H
 
-#include "fuzzylite/fuzzylite.h"
 #include <map>
 #include <string>
 #include <vector>
+
+#include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
     class Engine;
@@ -34,17 +35,16 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Console {
-    public:
-
+      public:
         /**
           A command-line option given by key, value and description
          */
         struct Option {
             std::string key, value, description;
 
-            explicit Option(const std::string& key = "",
-                    const std::string& value = "",
-                    const std::string& description = "");
+            explicit Option(
+                const std::string& key = "", const std::string& value = "", const std::string& description = ""
+            );
         };
 
         /**Keyword for input file*/
@@ -89,22 +89,29 @@ namespace fuzzylite {
          */
         static Engine* hybrid();
 
-
-    protected:
+      protected:
         virtual std::map<std::string, std::string> parse(int argc, const char* argv[]);
         virtual void process(const std::map<std::string, std::string>& options);
 
-        virtual void process(const std::string& input, std::ostream& writer,
-                const std::string& inputFormat, const std::string& outputFormat,
-                const std::map<std::string, std::string>& options);
+        virtual void process(
+            const std::string& input,
+            std::ostream& writer,
+            const std::string& inputFormat,
+            const std::string& outputFormat,
+            const std::map<std::string, std::string>& options
+        );
 
         virtual int readCharacter();
         virtual void interactive(std::ostream& writer, Engine* engine);
         virtual std::string interactiveHelp();
 
         virtual void exportAllExamples(const std::string& from, const std::string& to);
-        virtual void exportAllExamples(const std::string& from, const std::string& to,
-                const std::string& examplesPath, const std::string& outputPath);
+        virtual void exportAllExamples(
+            const std::string& from,
+            const std::string& to,
+            const std::string& examplesPath,
+            const std::string& outputPath
+        );
 
         /**
        Benchmarks the engine described in the FLL file against the dataset
@@ -118,8 +125,9 @@ namespace fuzzylite {
        engines or evaluating the benchmark
          */
 
-        virtual void benchmark(const std::string& fllFile, const std::string& fldFile,
-                int runs, std::ofstream* writer = fl::null) const;
+        virtual void benchmark(
+            const std::string& fllFile, const std::string& fldFile, int runs, std::ofstream* writer = fl::null
+        ) const;
         /**
           Benchmarks the list of engines against the list of datasets, both described
           as absolute or relative paths
@@ -133,10 +141,11 @@ namespace fuzzylite {
           @throws Exception if something goes wrong reading the files, importing the
           engines or evaluating the benchmark
          */
-        virtual void benchmarks(const std::string& fllFileList, const std::string& fldFileList,
-                int runs, std::ofstream* writer = fl::null) const;
+        virtual void benchmarks(
+            const std::string& fllFileList, const std::string& fldFileList, int runs, std::ofstream* writer = fl::null
+        ) const;
 
-    public:
+      public:
         /**
           Returns a string representation of the usage of the command-line tool
           @return a string representation of the usage of the command-line tool
@@ -152,5 +161,4 @@ namespace fuzzylite {
         static int main(int argc, const char* argv[]);
     };
 }
-#endif  /* FL_CONSOLE_H */
-
+#endif /* FL_CONSOLE_H */

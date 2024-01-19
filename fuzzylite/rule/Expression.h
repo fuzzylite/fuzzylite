@@ -18,12 +18,10 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_EXPRESSION_H
 #define FL_EXPRESSION_H
 
-#include "fuzzylite/fuzzylite.h"
-
 #include <string>
 #include <vector>
 
-
+#include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
     class Variable;
@@ -40,11 +38,9 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Expression {
-    public:
+      public:
+        enum Type { Proposition, Operator };
 
-        enum Type {
-            Proposition, Operator
-        };
         Expression();
         virtual ~Expression();
 
@@ -55,7 +51,7 @@ namespace fuzzylite {
         virtual Type type() const = 0;
         virtual std::string toString() const = 0;
 
-    private:
+      private:
         FL_DISABLE_COPY(Expression)
     };
 
@@ -70,7 +66,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Proposition FL_IFINAL : public Expression {
-    public:
+      public:
         /**Variable in `variable is [hedge]* term`*/
         Variable* variable;
         /**Hedge%s in `variable is [hedge]* term`, owned by the object,
@@ -90,8 +86,7 @@ namespace fuzzylite {
          */
         std::string toString() const FL_IOVERRIDE;
 
-
-    private:
+      private:
         FL_DISABLE_COPY(Proposition)
     };
 
@@ -107,7 +102,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Operator FL_IFINAL : public Expression {
-    public:
+      public:
         /**Name of the operator*/
         std::string name;
         /**Left expression in the binary tree*/
@@ -126,9 +121,8 @@ namespace fuzzylite {
          */
         std::string toString() const FL_IOVERRIDE;
 
-    private:
+      private:
         FL_DISABLE_COPY(Operator)
-
     };
 }
 #endif /* FL_FUZZYEXPRESSION_H */

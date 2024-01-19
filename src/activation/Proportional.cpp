@@ -17,15 +17,15 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/activation/Proportional.h"
 
-#include "fuzzylite/rule/RuleBlock.h"
-#include "fuzzylite/rule/Rule.h"
 #include "fuzzylite/Operation.h"
+#include "fuzzylite/rule/Rule.h"
+#include "fuzzylite/rule/RuleBlock.h"
 
 namespace fuzzylite {
 
-    Proportional::Proportional() : Activation() { }
+    Proportional::Proportional() : Activation() {}
 
-    Proportional::~Proportional() { }
+    Proportional::~Proportional() {}
 
     std::string Proportional::className() const {
         return "Proportional";
@@ -44,7 +44,8 @@ namespace fuzzylite {
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             result.comparison(1).arithmetic(1);
             result += ruleBlock->getRule(i)->complexityOfActivation(
-                    ruleBlock->getConjunction(), ruleBlock->getDisjunction());
+                ruleBlock->getConjunction(), ruleBlock->getDisjunction()
+            );
         }
 
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {

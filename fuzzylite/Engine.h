@@ -18,12 +18,11 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_ENGINE_H
 #define FL_ENGINE_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/Complexity.h"
-
 #include <string>
 #include <vector>
+
+#include "fuzzylite/Complexity.h"
+#include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
 
@@ -48,7 +47,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Engine {
-    private:
+      private:
         std::string _name;
         std::string _description;
         std::vector<InputVariable*> _inputVariables;
@@ -57,10 +56,10 @@ namespace fuzzylite {
 
         void copyFrom(const Engine& source);
 
-    protected:
+      protected:
         void updateReferences() const;
 
-    public:
+      public:
         explicit Engine(const std::string& name = "");
         Engine(const Engine& other);
         Engine& operator=(const Engine& other);
@@ -76,12 +75,14 @@ namespace fuzzylite {
           @param defuzzifier is a defuzzifier registered in the DefuzzifierFactory
           @param activation is an activation method registered in the ActivationFactory
          */
-        virtual void configure(const std::string& conjunction,
-                const std::string& disjunction,
-                const std::string& implication,
-                const std::string& aggregation,
-                const std::string& defuzzifier,
-                const std::string& activation);
+        virtual void configure(
+            const std::string& conjunction,
+            const std::string& disjunction,
+            const std::string& implication,
+            const std::string& aggregation,
+            const std::string& defuzzifier,
+            const std::string& activation
+        );
 
         /**
           Configures the engine with clones of the given object operators, taking
@@ -100,9 +101,14 @@ namespace fuzzylite {
           @param activation is the activation method to activate and fire the
           rule blocks
          */
-        virtual void configure(TNorm* conjunction, SNorm* disjunction,
-                TNorm* implication, SNorm* aggregation,
-                Defuzzifier* defuzzifier, Activation* activation);
+        virtual void configure(
+            TNorm* conjunction,
+            SNorm* disjunction,
+            TNorm* implication,
+            SNorm* aggregation,
+            Defuzzifier* defuzzifier,
+            Activation* activation
+        );
 
         /**
           Indicates whether the engine has been configured correctly and is
@@ -210,6 +216,7 @@ namespace fuzzylite {
             /**Unknown: When output variables have no defuzzifiers*/
             Unknown
         };
+
         /**
           Infers the type of the engine based on its current configuration
 
@@ -473,7 +480,6 @@ namespace fuzzylite {
           @return a mutable vector of rule blocks
          */
         virtual std::vector<RuleBlock*>& ruleBlocks();
-
     };
 }
 #endif /* FL_ENGINE_H */

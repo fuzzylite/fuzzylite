@@ -22,9 +22,8 @@ namespace fuzzylite {
     SNormFunction::SNormFunction(const std::string& formula) : SNorm() {
         _function.variables["a"] = fl::nan;
         _function.variables["b"] = fl::nan;
-        if (not formula.empty()) {
+        if (not formula.empty())
             _function.load(formula);
-        }
     }
 
     std::string SNormFunction::className() const {

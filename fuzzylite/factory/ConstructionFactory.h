@@ -18,11 +18,11 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_CONSTRUCTIONFACTORY_H
 #define FL_CONSTRUCTIONFACTORY_H
 
-#include "fuzzylite/fuzzylite.h"
-
 #include <map>
 #include <string>
 #include <vector>
+
+#include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
 
@@ -37,18 +37,18 @@ namespace fuzzylite {
 
     template <typename T>
     class ConstructionFactory {
-    public:
+      public:
         /**
           The Constructor type definition refers to a zero-parameter method
           which returns an instance of T
          */
-        typedef T(*Constructor)();
+        typedef T (*Constructor)();
 
-    private:
+      private:
         std::string _name;
         std::map<std::string, Constructor> _constructors;
 
-    public:
+      public:
         explicit ConstructionFactory(const std::string& name);
         virtual ~ConstructionFactory();
         FL_DEFAULT_COPY_AND_MOVE(ConstructionFactory)
@@ -111,7 +111,6 @@ namespace fuzzylite {
  * Template implementation
  */
 
-
 #include "fuzzylite/Exception.h"
 #include "fuzzylite/defuzzifier/Defuzzifier.h"
 #include "fuzzylite/hedge/Hedge.h"
@@ -122,15 +121,12 @@ namespace fuzzylite {
 namespace fuzzylite {
 
     template <typename T>
-    inline ConstructionFactory<T>::ConstructionFactory(const std::string& name) : _name(name) {
-
-    }
+    inline ConstructionFactory<T>::ConstructionFactory(const std::string& name) : _name(name) {}
 
     template <typename T>
-    inline ConstructionFactory<T>::~ConstructionFactory() {
-    }
+    inline ConstructionFactory<T>::~ConstructionFactory() {}
 
-    template<typename T>
+    template <typename T>
     inline std::string ConstructionFactory<T>::name() const {
         return this->_name;
     }
@@ -143,23 +139,22 @@ namespace fuzzylite {
     template <typename T>
     inline void ConstructionFactory<T>::deregisterConstructor(const std::string& key) {
         typename std::map<std::string, Constructor>::iterator it = this->_constructors.find(key);
-        if (it != this->_constructors.end()) {
+        if (it != this->_constructors.end())
             this->_constructors.erase(it);
-        }
     }
 
     template <typename T>
     inline bool ConstructionFactory<T>::hasConstructor(const std::string& key) const {
         typename std::map<std::string, Constructor>::const_iterator it = this->_constructors.find(key);
-        return (it != this->_constructors.end());
+        return it != this->_constructors.end();
     }
 
     template <typename T>
-    inline typename ConstructionFactory<T>::Constructor ConstructionFactory<T>::getConstructor(const std::string& key) const {
+    inline typename ConstructionFactory<T>::Constructor
+    ConstructionFactory<T>::getConstructor(const std::string& key) const {
         typename std::map<std::string, Constructor>::const_iterator it = this->_constructors.find(key);
-        if (it != this->_constructors.end()) {
+        if (it != this->_constructors.end())
             return it->second;
-        }
         return fl::null;
     }
 
@@ -167,9 +162,8 @@ namespace fuzzylite {
     inline T ConstructionFactory<T>::constructObject(const std::string& key) const {
         typename std::map<std::string, Constructor>::const_iterator it = this->_constructors.find(key);
         if (it != this->_constructors.end()) {
-            if (it->second) {
+            if (it->second)
                 return it->second();
-            }
             return fl::null;
         }
         std::ostringstream ss;
@@ -188,16 +182,16 @@ namespace fuzzylite {
         return result;
     }
 
-    template<typename T>
+    template <typename T>
     inline std::map<std::string, typename ConstructionFactory<T>::Constructor>& ConstructionFactory<T>::constructors() {
         return this->_constructors;
     }
 
-    template<typename T>
-    inline const std::map<std::string, typename ConstructionFactory<T>::Constructor>& ConstructionFactory<T>::constructors() const {
+    template <typename T>
+    inline const std::map<std::string, typename ConstructionFactory<T>::Constructor>&
+    ConstructionFactory<T>::constructors() const {
         return this->_constructors;
     }
 }
 
-#endif  /* FL_CONSTRUCTIONFACTORY_H */
-
+#endif /* FL_CONSTRUCTIONFACTORY_H */

@@ -18,7 +18,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_WEIGHTEDSUMCUSTOM_H
 #define FL_WEIGHTEDSUMCUSTOM_H
 
-
 #include "fuzzylite/defuzzifier/WeightedDefuzzifier.h"
 
 namespace fuzzylite {
@@ -40,7 +39,7 @@ namespace fuzzylite {
       @experimental
      */
     class FL_API WeightedSumCustom : public WeightedDefuzzifier {
-    public:
+      public:
         explicit WeightedSumCustom(Type type = Automatic);
         explicit WeightedSumCustom(const std::string& type);
         virtual ~WeightedSumCustom() FL_IOVERRIDE;
@@ -67,13 +66,11 @@ namespace fuzzylite {
           @param maximum is the maximum value of the range (only used for Tsukamoto)
           @return the weighted sum of the given fuzzy set
          */
-        virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const FL_IOVERRIDE;
         virtual WeightedSumCustom* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };
 }
 
-#endif  /* FL_WEIGHTEDSUMCUSTOM_H */
-
+#endif /* FL_WEIGHTEDSUMCUSTOM_H */

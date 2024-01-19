@@ -15,16 +15,16 @@ fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 fuzzylite is a registered trademark of FuzzyLite Limited.
 */
 
-#include "fuzzylite/Headers.h"
-
 #include <catch2/catch.hpp>
+
+#include "fuzzylite/Headers.h"
 
 namespace fuzzylite {
 
     TEST_CASE("Template of FuzzyLite Language works", "[imex]") {
         std::string fllTemplate;
 #ifdef FL_CPP98
-        //ignore
+        // ignore
 #else
         fllTemplate = R""(
 #Template: FuzzyLite Language (FLL)

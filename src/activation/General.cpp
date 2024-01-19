@@ -17,15 +17,15 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/activation/General.h"
 
-#include "fuzzylite/rule/RuleBlock.h"
-#include "fuzzylite/rule/Rule.h"
 #include "fuzzylite/Operation.h"
+#include "fuzzylite/rule/Rule.h"
+#include "fuzzylite/rule/RuleBlock.h"
 
 namespace fuzzylite {
 
-    General::General() : Activation() { }
+    General::General() : Activation() {}
 
-    General::~General() { }
+    General::~General() {}
 
     std::string General::className() const {
         return "General";
@@ -44,8 +44,8 @@ namespace fuzzylite {
         for (std::size_t i = 0; i < ruleBlock->numberOfRules(); ++i) {
             result.comparison(1);
             result += ruleBlock->getRule(i)->complexity(
-                    ruleBlock->getConjunction(), ruleBlock->getDisjunction(),
-                    ruleBlock->getImplication());
+                ruleBlock->getConjunction(), ruleBlock->getDisjunction(), ruleBlock->getImplication()
+            );
         }
         return result;
     }

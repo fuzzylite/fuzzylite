@@ -38,6 +38,6 @@ namespace fuzzylite {
         registerConstructor(Threshold().className(), &(Threshold::constructor));
     }
 
-    ActivationFactory::~ActivationFactory() { }
+    ActivationFactory::~ActivationFactory() {}
 
 }

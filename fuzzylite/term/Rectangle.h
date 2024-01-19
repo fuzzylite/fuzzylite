@@ -34,14 +34,13 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Rectangle : public Term {
-    private:
+      private:
         scalar _start, _end;
 
-    public:
-        explicit Rectangle(const std::string& name = "",
-                scalar start = fl::nan,
-                scalar end = fl::nan,
-                scalar height = 1.0);
+      public:
+        explicit Rectangle(
+            const std::string& name = "", scalar start = fl::nan, scalar end = fl::nan, scalar height = 1.0
+        );
         virtual ~Rectangle() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Rectangle)
 

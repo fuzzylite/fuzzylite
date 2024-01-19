@@ -34,16 +34,19 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Triangle : public Term {
-    private:
+      private:
         scalar _vertexA;
         scalar _vertexB;
         scalar _vertexC;
-    public:
-        explicit Triangle(const std::string& name = "",
-                scalar vertexA = fl::nan,
-                scalar vertexB = fl::nan,
-                scalar vertexC = fl::nan,
-                scalar height = 1.0);
+
+      public:
+        explicit Triangle(
+            const std::string& name = "",
+            scalar vertexA = fl::nan,
+            scalar vertexB = fl::nan,
+            scalar vertexC = fl::nan,
+            scalar height = 1.0
+        );
         virtual ~Triangle() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Triangle)
 
@@ -113,7 +116,6 @@ namespace fuzzylite {
         virtual Triangle* clone() const FL_IOVERRIDE;
 
         static Term* constructor();
-
     };
 }
 #endif /* FL_TRIANGLE_H */

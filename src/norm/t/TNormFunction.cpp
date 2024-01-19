@@ -22,9 +22,8 @@ namespace fuzzylite {
     TNormFunction::TNormFunction(const std::string& formula) : TNorm() {
         _function.variables["a"] = fl::nan;
         _function.variables["b"] = fl::nan;
-        if (not formula.empty()) {
+        if (not formula.empty())
             _function.load(formula);
-        }
     }
 
     std::string TNormFunction::className() const {
@@ -62,6 +61,5 @@ namespace fuzzylite {
     TNorm* TNormFunction::constructor() {
         return new TNormFunction;
     }
-
 
 }

@@ -15,9 +15,9 @@ fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 fuzzylite is a registered trademark of FuzzyLite Limited.
 */
 
-#include "fuzzylite/Headers.h"
-
 #include <catch2/catch.hpp>
+
+#include "fuzzylite/Headers.h"
 
 namespace fuzzylite {
 
@@ -45,9 +45,8 @@ namespace fuzzylite {
         Trapezoid trapezoid("A", 0, 1, 2, fl::inf);
         Ramp ramp("a", 0, 1);
         //(-inf, inf)
-        for (scalar i = -10.0; Op::isLE(i, 10.0); i += .2) {
+        for (scalar i = -10.0; Op::isLE(i, 10.0); i += .2)
             REQUIRE(Op::isEq(trapezoid.membership(i), ramp.membership(i)));
-        }
         REQUIRE(Op::isEq(trapezoid.membership(fl::inf), 1.0));
         REQUIRE(Op::isEq(trapezoid.membership(-fl::inf), 0.0));
     }

@@ -21,9 +21,8 @@ namespace fuzzylite {
 
     HedgeFunction::HedgeFunction(const std::string& formula) : Hedge() {
         _function.variables["x"] = fl::nan;
-        if (not formula.empty()) {
+        if (not formula.empty())
             _function.load(formula);
-        }
     }
 
     std::string HedgeFunction::name() const {

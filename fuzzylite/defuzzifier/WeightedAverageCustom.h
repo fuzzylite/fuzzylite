@@ -39,7 +39,7 @@ namespace fuzzylite {
       @since 6.0
      */
     class FL_API WeightedAverageCustom : public WeightedDefuzzifier {
-    public:
+      public:
         explicit WeightedAverageCustom(Type type = Automatic);
         explicit WeightedAverageCustom(const std::string& type);
         virtual ~WeightedAverageCustom() FL_IOVERRIDE;
@@ -66,13 +66,11 @@ namespace fuzzylite {
           @param maximum is the maximum value of the range (only used for Tsukamoto)
           @return the weighted average of the given fuzzy set
          */
-        virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const FL_IOVERRIDE;
         virtual WeightedAverageCustom* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };
 }
 
-#endif  /* FL_WEIGHTEDAVERAGECUSTOM_H */
-
+#endif /* FL_WEIGHTEDAVERAGECUSTOM_H */

@@ -44,9 +44,10 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API JavaExporter : public Exporter {
-    private:
+      private:
         bool _usingVariableNames;
-    public:
+
+      public:
         explicit JavaExporter(bool usingVariableNames = true);
         virtual ~JavaExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(JavaExporter)
@@ -145,9 +146,7 @@ namespace fuzzylite {
         virtual std::string toString(scalar value) const;
 
         virtual JavaExporter* clone() const FL_IOVERRIDE;
-
     };
 }
 
-#endif  /* FL_JAVAEXPORTER_H */
-
+#endif /* FL_JAVAEXPORTER_H */

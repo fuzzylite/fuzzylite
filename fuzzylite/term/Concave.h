@@ -34,13 +34,13 @@ namespace fuzzylite {
       @since 5.0
      */
     class FL_API Concave : public Term {
-    private:
+      private:
         scalar _inflection, _end;
-    public:
-        explicit Concave(const std::string& name = "",
-                scalar inflection = fl::nan,
-                scalar end = fl::nan,
-                scalar height = 1.0);
+
+      public:
+        explicit Concave(
+            const std::string& name = "", scalar inflection = fl::nan, scalar end = fl::nan, scalar height = 1.0
+        );
         virtual ~Concave() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Concave)
 
@@ -75,8 +75,7 @@ namespace fuzzylite {
          */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
-        virtual scalar tsukamoto(scalar activationDegree,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        virtual scalar tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const FL_IOVERRIDE;
 
         virtual bool isMonotonic() const FL_IOVERRIDE;
 
@@ -107,5 +106,4 @@ namespace fuzzylite {
         static Term* constructor();
     };
 }
-#endif  /* FL_CONCAVE_H */
-
+#endif /* FL_CONCAVE_H */

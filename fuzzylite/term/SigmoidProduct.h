@@ -34,19 +34,21 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API SigmoidProduct : public Term {
-    private:
+      private:
         scalar _left;
         scalar _rising;
         scalar _falling;
         scalar _right;
 
-    public:
-        explicit SigmoidProduct(const std::string& name = "",
-                scalar left = fl::nan,
-                scalar rising = fl::nan,
-                scalar falling = fl::nan,
-                scalar right = fl::nan,
-                scalar height = 1.0);
+      public:
+        explicit SigmoidProduct(
+            const std::string& name = "",
+            scalar left = fl::nan,
+            scalar rising = fl::nan,
+            scalar falling = fl::nan,
+            scalar right = fl::nan,
+            scalar height = 1.0
+        );
         virtual ~SigmoidProduct() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(SigmoidProduct)
 
@@ -123,11 +125,9 @@ namespace fuzzylite {
          */
         virtual scalar getRight() const;
 
-
         virtual SigmoidProduct* clone() const FL_IOVERRIDE;
 
         static Term* constructor();
     };
 }
-#endif  /* FL_SIGMOIDPRODUCT_H */
-
+#endif /* FL_SIGMOIDPRODUCT_H */

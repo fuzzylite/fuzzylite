@@ -18,9 +18,9 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_EXPORTER_H
 #define FL_EXPORTER_H
 
-#include "fuzzylite/fuzzylite.h"
-
 #include <string>
+
+#include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
     class Engine;
@@ -36,8 +36,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Exporter {
-    public:
-
+      public:
         Exporter();
         virtual ~Exporter();
         FL_DEFAULT_COPY_AND_MOVE(Exporter)
@@ -71,5 +70,4 @@ namespace fuzzylite {
 
 }
 
-#endif  /* FL_EXPORTER_H */
-
+#endif /* FL_EXPORTER_H */

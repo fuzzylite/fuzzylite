@@ -19,7 +19,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-
     int fuzzylite::_decimals = 3;
     std::ios_base::fmtflags fuzzylite::_scalarFormat = std::ios_base::fixed;
     scalar fuzzylite::_macheps = 1e-6;
@@ -47,8 +46,7 @@ namespace fuzzylite {
 #else
         type = "double";
 #endif
-        ss << "fl::scalar is defined as \'" << type << "\' using " <<
-                sizeof (someScalar) << " bytes";
+        ss << "fl::scalar is defined as \'" << type << "\' using " << sizeof(someScalar) << " bytes";
         return ss.str();
     }
 }

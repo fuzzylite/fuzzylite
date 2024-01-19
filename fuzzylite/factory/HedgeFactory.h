@@ -19,7 +19,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #define FL_HEDGEFACTORY_H
 
 #include "fuzzylite/factory/ConstructionFactory.h"
-
 #include "fuzzylite/hedge/Hedge.h"
 
 namespace fuzzylite {
@@ -34,12 +33,11 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API HedgeFactory : public ConstructionFactory<Hedge*> {
-    public:
+      public:
         HedgeFactory();
         virtual ~HedgeFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(HedgeFactory)
     };
 }
 
-#endif  /* FL_HEDGEFACTORY_H */
-
+#endif /* FL_HEDGEFACTORY_H */

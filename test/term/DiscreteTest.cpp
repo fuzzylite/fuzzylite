@@ -15,9 +15,9 @@ fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 fuzzylite is a registered trademark of FuzzyLite Limited.
 */
 
-#include "fuzzylite/Headers.h"
-
 #include <catch2/catch.hpp>
+
+#include "fuzzylite/Headers.h"
 
 namespace fuzzylite {
 
@@ -32,7 +32,8 @@ namespace fuzzylite {
         fuzzylite::setLogging(true);
         fuzzylite::setDebugging(false);
         Rectangle rectangle("rectangle", 0, 1);
-        FL_unique_ptr<Discrete> discrete(Discrete::discretize(&rectangle, rectangle.getStart(), rectangle.getEnd(), 10));
+        FL_unique_ptr<Discrete> discrete(Discrete::discretize(&rectangle, rectangle.getStart(), rectangle.getEnd(), 10)
+        );
         FL_LOG(discrete->toString());
 
         CHECK(discrete->membership(.25) == 1.0);
@@ -49,7 +50,9 @@ namespace fuzzylite {
         fuzzylite::setLogging(true);
         fuzzylite::setDebugging(false);
         Triangle triangle("triangle", 0, 1);
-        FL_unique_ptr<Discrete> discrete(Discrete::discretize(&triangle, triangle.getVertexA(), triangle.getVertexC(), 100));
+        FL_unique_ptr<Discrete> discrete(
+            Discrete::discretize(&triangle, triangle.getVertexA(), triangle.getVertexC(), 100)
+        );
         FL_LOG(discrete->toString());
         for (int i = 0; i < 200; ++i) {
             scalar x = Op::scale(i, 0, 200, -1, 1);
@@ -69,7 +72,6 @@ namespace fuzzylite {
         scalar range = max - min;
         scalar mean = 0.5 * (max + min);
 
-
         std::vector<Term*> terms;
         terms.push_back(new Triangle("triangle", min, mean, max));
         terms.push_back(new Trapezoid("trapezoid", min, min + .25 * range, min + .75 * range, max));
@@ -79,8 +81,12 @@ namespace fuzzylite {
         terms.push_back(new Gaussian("gaussian", mean, range / 4));
         terms.push_back(new GaussianProduct("gaussianProduct", mean, range / 4, mean, range / 4));
         terms.push_back(new PiShape("piShape", min, mean, mean, max));
-        terms.push_back(new SigmoidDifference("sigmoidDifference", min + .25 * range, 20 / range, 20 / range, max - .25 * range));
-        terms.push_back(new SigmoidProduct("sigmoidProduct", min + .25 * range, 20 / range, 20 / range, max - .25 * range));
+        terms.push_back(
+            new SigmoidDifference("sigmoidDifference", min + .25 * range, 20 / range, 20 / range, max - .25 * range)
+        );
+        terms.push_back(
+            new SigmoidProduct("sigmoidProduct", min + .25 * range, 20 / range, 20 / range, max - .25 * range)
+        );
         terms.push_back(new Spike("spike", mean, range));
 
         terms.push_back(new Binary("binary", min, max));
@@ -111,7 +117,7 @@ namespace fuzzylite {
                     fuzzylite::setDebugging(false);
                 }
             }
-            for (int i = 0 ; i < 100 ; i++) {
+            for (int i = 0; i < 100; i++) {
                 scalar x = Op::scale(i, 0, 100, -1, 1);
                 if (not Op::isEq(discrete.membership(x), term->membership(x))) {
                     fuzzylite::setDebugging(true);
@@ -120,8 +126,7 @@ namespace fuzzylite {
                 }
             }
         }
-        for (std::size_t i = 0 ; i < terms.size(); ++i){
+        for (std::size_t i = 0; i < terms.size(); ++i)
             delete terms.at(i);
-        }
     }
 }

@@ -35,17 +35,14 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API TNorm : public Norm {
-    public:
+      public:
+        TNorm() {}
 
-        TNorm() {
-        }
-
-        virtual ~TNorm() FL_IOVERRIDE {
-        }
+        virtual ~TNorm() FL_IOVERRIDE {}
 
         FL_DEFAULT_COPY_AND_MOVE(TNorm)
 
         virtual TNorm* clone() const FL_IOVERRIDE = 0;
     };
 }
-#endif  /* TNORM_H */
+#endif /* TNORM_H */

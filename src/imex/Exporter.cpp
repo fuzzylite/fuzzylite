@@ -16,21 +16,21 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 */
 
 #include "fuzzylite/imex/Exporter.h"
-#include "fuzzylite/Exception.h"
 
 #include <fstream>
 
+#include "fuzzylite/Exception.h"
+
 namespace fuzzylite {
 
-    Exporter::Exporter() { }
+    Exporter::Exporter() {}
 
-    Exporter::~Exporter() { }
+    Exporter::~Exporter() {}
 
     void Exporter::toFile(const std::string& path, const Engine* engine) const {
         std::ofstream writer(path.c_str());
-        if (not writer.is_open()) {
+        if (not writer.is_open())
             throw Exception("[file error] file <" + path + "> could not be created", FL_AT);
-        }
         writer << toString(engine) << std::endl;
         writer.close();
     }

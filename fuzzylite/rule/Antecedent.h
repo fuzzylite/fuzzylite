@@ -18,11 +18,10 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_ANTECEDENT_H
 #define FL_ANTECEDENT_H
 
-#include "fuzzylite/fuzzylite.h"
+#include <string>
 
 #include "fuzzylite/Complexity.h"
-
-#include <string>
+#include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
     class Engine;
@@ -47,11 +46,11 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Antecedent {
-    private:
+      private:
         std::string _text;
         FL_unique_ptr<Expression> _expression;
 
-    public:
+      public:
         Antecedent();
         virtual ~Antecedent();
 
@@ -118,9 +117,7 @@ namespace fuzzylite {
           @return the estimated complexity of recursively calculating the
           activation degree from the given node
          */
-        virtual Complexity complexity(const TNorm* conjunction, const SNorm* disjunction,
-                const Expression* node) const;
-
+        virtual Complexity complexity(const TNorm* conjunction, const SNorm* disjunction, const Expression* node) const;
 
         /**
           Computes the activation degree of the antecedent on the expression
@@ -131,8 +128,8 @@ namespace fuzzylite {
           @param node is a node in the expression tree of the antecedent
           @return the activation degree of the antecedent
          */
-        virtual scalar activationDegree(const TNorm* conjunction, const SNorm* disjunction,
-                const Expression* node) const;
+        virtual scalar
+        activationDegree(const TNorm* conjunction, const SNorm* disjunction, const Expression* node) const;
 
         /**
           Computes the activation degree of the antecedent on the expression
@@ -178,8 +175,7 @@ namespace fuzzylite {
          */
         virtual std::string toPostfix(const Expression* node = fl::null) const;
 
-
-    private:
+      private:
         FL_DISABLE_COPY(Antecedent)
     };
 }

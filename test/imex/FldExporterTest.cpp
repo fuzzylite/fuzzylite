@@ -15,9 +15,9 @@ fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 fuzzylite is a registered trademark of FuzzyLite Limited.
 */
 
-#include "fuzzylite/Headers.h"
-
 #include <catch2/catch.hpp>
+
+#include "fuzzylite/Headers.h"
 
 namespace fuzzylite {
 
@@ -31,7 +31,7 @@ namespace fuzzylite {
         exporter.setExportHeader(false);
 
         int valuesEachVariable = 3;
-        int expectedValues = (int) std::pow(valuesEachVariable, 1.0 * engine->numberOfInputVariables());
+        int expectedValues = (int)std::pow(valuesEachVariable, 1.0 * engine->numberOfInputVariables());
 
         std::string eachVariable = exporter.toString(engine.get(), valuesEachVariable, FldExporter::EachVariable);
         //        FL_LOG("eachVariable:\n" << eachVariable);

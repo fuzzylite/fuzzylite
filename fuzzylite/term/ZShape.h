@@ -35,14 +35,13 @@ namespace fuzzylite {
      */
 
     class FL_API ZShape : public Term {
-    private:
+      private:
         scalar _start, _end;
 
-    public:
-        explicit ZShape(const std::string& name = "",
-                scalar _start = fl::nan,
-                scalar _end = fl::nan,
-                scalar _height = 1.0);
+      public:
+        explicit ZShape(
+            const std::string& name = "", scalar _start = fl::nan, scalar _end = fl::nan, scalar _height = 1.0
+        );
         virtual ~ZShape() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(ZShape)
 
@@ -75,8 +74,7 @@ namespace fuzzylite {
          */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
-        virtual scalar tsukamoto(scalar activationDegree,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        virtual scalar tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const FL_IOVERRIDE;
 
         virtual bool isMonotonic() const FL_IOVERRIDE;
 
@@ -105,8 +103,6 @@ namespace fuzzylite {
         virtual ZShape* clone() const FL_IOVERRIDE;
 
         static Term* constructor();
-
     };
 }
-#endif  /* ZSHAPE_H */
-
+#endif /* ZSHAPE_H */

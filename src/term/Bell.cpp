@@ -19,10 +19,13 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    Bell::Bell(const std::string& name, scalar center, scalar width, scalar slope, scalar height)
-    : Term(name, height), _center(center), _width(width), _slope(slope) { }
+    Bell::Bell(const std::string& name, scalar center, scalar width, scalar slope, scalar height) :
+        Term(name, height),
+        _center(center),
+        _width(width),
+        _slope(slope) {}
 
-    Bell::~Bell() { }
+    Bell::~Bell() {}
 
     std::string Bell::className() const {
         return "Bell";
@@ -33,23 +36,25 @@ namespace fuzzylite {
     }
 
     scalar Bell::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
         return Term::_height * (1.0 / (1.0 + std::pow(std::abs((x - _center) / _width), 2.0 * _slope)));
     }
 
     std::string Bell::parameters() const {
-        return Op::join(3, " ", _center, _width, _slope) +
-                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(3, " ", _center, _width, _slope)
+               + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Bell::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 3;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setCenter(Op::toScalar(values.at(0)));

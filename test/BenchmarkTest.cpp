@@ -15,13 +15,12 @@ fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 fuzzylite is a registered trademark of FuzzyLite Limited.
 */
 
-#include "fuzzylite/Benchmark.h"
-
-#include "fuzzylite/Headers.h"
-
 #include <catch2/catch.hpp>
-#include <vector>
 #include <fstream>
+#include <vector>
+
+#include "fuzzylite/Benchmark.h"
+#include "fuzzylite/Headers.h"
 
 namespace fuzzylite {
 
@@ -32,7 +31,7 @@ namespace fuzzylite {
 
     TEST_CASE("Benchmarks from FLD files", "[benchmark][fld]") {
         std::string path = FL_BUILD_PATH "/examples/";
-        typedef std::pair<std::string, int > Example;
+        typedef std::pair<std::string, int> Example;
         std::vector<Example> examples;
         examples.push_back(Example("mamdani/AllTerms", int(1e4)));
         examples.push_back(Example("mamdani/SimpleDimmer", int(1e5)));
@@ -71,8 +70,10 @@ namespace fuzzylite {
         std::vector<int> errors = std::vector<int>(examples.size(), 0);
         for (std::size_t i = 0; i < examples.size(); ++i) {
             Example example = examples.at(i);
-            FL_LOG("Benchmark " << (i + 1) << "/" << examples.size() << ": "
-                    << example.first << ".fll (" << example.second << " values)");
+            FL_LOG(
+                "Benchmark " << (i + 1) << "/" << examples.size() << ": " << example.first << ".fll (" << example.second
+                             << " values)"
+            );
 
             FL_unique_ptr<Engine> engine(FllImporter().fromFile(path + example.first + ".fll"));
 
@@ -84,20 +85,19 @@ namespace fuzzylite {
             Benchmark benchmark(example.first, engine.get(), tolerance);
 
             std::ifstream reader(std::string(path + example.first + ".fld").c_str());
-            if (not reader.is_open()) {
+            if (not reader.is_open())
                 throw Exception("File not found: " + path + example.first + ".fld");
-            }
             benchmark.prepare(reader, 1024);
             benchmark.run(1);
             CHECK(benchmark.canComputeErrors() == true);
             errors.at(i) = benchmark.accuracyErrors();
 
             if (i == 0) {
-                writer << "\n" << benchmark.format(benchmark.results(),
-                        Benchmark::Horizontal, Benchmark::HeaderAndBody) << "\n";
+                writer << "\n"
+                       << benchmark.format(benchmark.results(), Benchmark::Horizontal, Benchmark::HeaderAndBody)
+                       << "\n";
             } else {
-                writer << benchmark.format(benchmark.results(),
-                        Benchmark::Horizontal, Benchmark::Body) << "\n";
+                writer << benchmark.format(benchmark.results(), Benchmark::Horizontal, Benchmark::Body) << "\n";
             }
         }
         FL_LOG(writer.str());

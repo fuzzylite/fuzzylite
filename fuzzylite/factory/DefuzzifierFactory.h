@@ -18,11 +18,10 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_DEFUZZIFIERFACTORY_H
 #define FL_DEFUZZIFIERFACTORY_H
 
-#include "fuzzylite/factory/ConstructionFactory.h"
-
 #include "fuzzylite/defuzzifier/Defuzzifier.h"
 #include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
 #include "fuzzylite/defuzzifier/WeightedDefuzzifier.h"
+#include "fuzzylite/factory/ConstructionFactory.h"
 
 namespace fuzzylite {
 
@@ -36,7 +35,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API DefuzzifierFactory : public ConstructionFactory<Defuzzifier*> {
-    public:
+      public:
         DefuzzifierFactory();
         virtual ~DefuzzifierFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(DefuzzifierFactory)
@@ -49,8 +48,8 @@ namespace fuzzylite {
           @return a Defuzzifier by executing the registered constructor and
           setting its resolution or type accordingly
          */
-        virtual Defuzzifier* constructDefuzzifier(const std::string& key,
-                int resolution, WeightedDefuzzifier::Type type) const;
+        virtual Defuzzifier*
+        constructDefuzzifier(const std::string& key, int resolution, WeightedDefuzzifier::Type type) const;
 
         /**
           Creates a Defuzzifier by executing the registered constructor
@@ -72,5 +71,4 @@ namespace fuzzylite {
     };
 }
 
-#endif  /* DEFUZZIFIERFACTORY_H */
-
+#endif /* DEFUZZIFIERFACTORY_H */

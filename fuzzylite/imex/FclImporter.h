@@ -18,12 +18,11 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_FCLIMPORTER_H
 #define FL_FCLIMPORTER_H
 
-#include "fuzzylite/imex/Importer.h"
-
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "fuzzylite/imex/Importer.h"
 
 namespace fuzzylite {
     class Norm;
@@ -42,7 +41,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API FclImporter : public Importer {
-    public:
+      public:
         FclImporter();
         virtual ~FclImporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FclImporter)
@@ -53,12 +52,12 @@ namespace fuzzylite {
 
         virtual FclImporter* clone() const FL_IOVERRIDE;
 
-    protected:
+      protected:
         virtual void processBlock(const std::string& tag, const std::string& block, Engine* engine) const;
-        virtual void processVar(const std::string& var, const std::string& block, Engine* engine)const;
-        virtual void processFuzzify(const std::string& block, Engine* engine)const;
-        virtual void processDefuzzify(const std::string& block, Engine* engine)const;
-        virtual void processRuleBlock(const std::string& block, Engine* engine)const;
+        virtual void processVar(const std::string& var, const std::string& block, Engine* engine) const;
+        virtual void processFuzzify(const std::string& block, Engine* engine) const;
+        virtual void processDefuzzify(const std::string& block, Engine* engine) const;
+        virtual void processRuleBlock(const std::string& block, Engine* engine) const;
 
         virtual TNorm* parseTNorm(const std::string& line) const;
         virtual SNorm* parseSNorm(const std::string& line) const;
@@ -69,7 +68,6 @@ namespace fuzzylite {
         virtual std::pair<scalar, scalar> parseRange(const std::string& line) const;
         virtual std::pair<bool, bool> parseLocks(const std::string& line) const;
         virtual bool parseEnabled(const std::string& line) const;
-
     };
 }
 #endif /* FL_FCLIMPORTER_H */

@@ -18,9 +18,9 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_FLLEXPORTER_H
 #define FL_FLLEXPORTER_H
 
-#include "fuzzylite/imex/Exporter.h"
-
 #include <vector>
+
+#include "fuzzylite/imex/Exporter.h"
 
 namespace fuzzylite {
     class Variable;
@@ -45,10 +45,11 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API FllExporter : public Exporter {
-    private:
+      private:
         std::string _indent;
         std::string _separator;
-    public:
+
+      public:
         explicit FllExporter(const std::string& indent = "  ", const std::string& separator = "\n");
         virtual ~FllExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FllExporter)
@@ -165,5 +166,4 @@ namespace fuzzylite {
     };
 }
 
-#endif  /* FL_FLLEXPORTER_H */
-
+#endif /* FL_FLLEXPORTER_H */

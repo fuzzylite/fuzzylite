@@ -21,12 +21,16 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    Activated::Activated(const Term* term, scalar degree, const TNorm* implication)
-    : Term(""), _term(term), _degree(degree), _implication(implication) {
-        if (term) setName(term->getName());
+    Activated::Activated(const Term* term, scalar degree, const TNorm* implication) :
+        Term(""),
+        _term(term),
+        _degree(degree),
+        _implication(implication) {
+        if (term)
+            setName(term->getName());
     }
 
-    Activated::~Activated() { }
+    Activated::~Activated() {}
 
     std::string Activated::className() const {
         return "Activated";
@@ -35,30 +39,32 @@ namespace fuzzylite {
     Complexity Activated::complexity() const {
         Complexity result;
         result.comparison(3);
-        if (_implication) {
+        if (_implication)
             result += _implication->complexity();
-        }
-        if (_term) {
+        if (_term)
             result += _term->complexity();
-        }
         return result;
     }
 
     scalar Activated::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
         if (not _term)
             throw Exception("[activation error] no term available to activate", FL_AT);
         if (not _implication)
-            throw Exception("[implication error] implication operator needed "
-                "to activate " + getTerm()->toString(), FL_AT);
+            throw Exception(
+                "[implication error] implication operator needed "
+                "to activate "
+                    + getTerm()->toString(),
+                FL_AT
+            );
         return _implication->compute(_term->membership(x), _degree);
     }
 
     std::string Activated::parameters() const {
         FllExporter exporter;
         std::ostringstream ss;
-        ss << Op::str(getDegree()) << " " << exporter.toString(getImplication()) << " "
-                << exporter.toString(getTerm());
+        ss << Op::str(getDegree()) << " " << exporter.toString(getImplication()) << " " << exporter.toString(getTerm());
         return ss.str();
     }
 
@@ -70,12 +76,11 @@ namespace fuzzylite {
         FllExporter exporter;
         std::ostringstream ss;
         if (getImplication()) {
-            ss << exporter.toString(getImplication()) << "("
-                    << Op::str(getDegree()) << ","
-                    << getTerm()->getName() << ")";
+            ss << exporter.toString(getImplication()) << "(" << Op::str(getDegree()) << "," << getTerm()->getName()
+               << ")";
         } else {
-            ss << "(" << Op::str(getDegree()) << "*" //"\u2297: (*)"
-                    << getTerm()->getName() << ")";
+            ss << "(" << Op::str(getDegree()) << "*"  //"\u2297: (*)"
+               << getTerm()->getName() << ")";
         }
         return ss.str();
     }

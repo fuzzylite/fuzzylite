@@ -17,48 +17,45 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/Exception.h"
 
-
 #ifdef FL_BACKTRACE
 
 #ifdef FL_UNIX
 #include <execinfo.h>
 
 #elif defined FL_WINDOWS
-#include <windows.h>
 #include <winbase.h>
+#include <windows.h>
 
 #ifndef __MINGW32__
 /*Disable warning 8.1\Include\um\dbghelp.h(1544):
 warning C4091: 'typedef ': ignored on left of '' when no variable is declared*/
-#pragma warning (push)
-#pragma warning (disable:4091)
+#pragma warning(push)
+#pragma warning(disable : 4091)
 #include <dbghelp.h>
-#pragma warning (pop)
+#pragma warning(pop)
 #endif
 
 #endif
 
 #endif
-
 
 #include <csignal>
 #include <cstring>
 
 namespace fuzzylite {
 
-    Exception::Exception(const std::string& what)
-    : std::exception(), _what(what) {
+    Exception::Exception(const std::string& what) : std::exception(), _what(what) {
         FL_DBG(this->what());
     }
 
-    Exception::Exception(const std::string& what, const std::string& file, int line,
-            const std::string& function)
-    : std::exception(), _what(what) {
+    Exception::Exception(const std::string& what, const std::string& file, int line, const std::string& function) :
+        std::exception(),
+        _what(what) {
         append(file, line, function);
         FL_DBG(this->what());
     }
 
-    Exception::~Exception() FL_INOEXCEPT { }
+    Exception::~Exception() FL_INOEXCEPT {}
 
     void Exception::setWhat(const std::string& what) {
         this->_what = what;
@@ -82,8 +79,8 @@ namespace fuzzylite {
         _what += ss.str();
     }
 
-    void Exception::append(const std::string& whatElse,
-            const std::string& file, int line, const std::string& function) {
+    void
+    Exception::append(const std::string& whatElse, const std::string& file, int line, const std::string& function) {
         append(whatElse);
         append(file, line, function);
     }
@@ -96,41 +93,36 @@ namespace fuzzylite {
         const int bufferSize = 30;
         void* buffer[bufferSize];
         int backtraceSize = ::backtrace(buffer, bufferSize);
-        char **btSymbols = ::backtrace_symbols(buffer, backtraceSize);
+        char** btSymbols = ::backtrace_symbols(buffer, backtraceSize);
         if (btSymbols == fl::null) {
             btStream << "[backtrace error] no symbols could be retrieved";
         } else {
-            if (backtraceSize == 0) {
+            if (backtraceSize == 0)
                 btStream << "[backtrace is empty]";
-            }
-            for (int i = 0; i < backtraceSize; ++i) {
+            for (int i = 0; i < backtraceSize; ++i)
                 btStream << btSymbols[i] << "\n";
-            }
         }
         ::free(btSymbols);
         return btStream.str();
 
-
-#elif defined FL_WINDOWS && ! defined __MINGW32__
+#elif defined FL_WINDOWS && !defined __MINGW32__
         std::ostringstream btStream;
         const int bufferSize = 30;
         void* buffer[bufferSize];
         SymInitialize(GetCurrentProcess(), fl::null, TRUE);
 
         int backtraceSize = CaptureStackBackTrace(0, bufferSize, buffer, fl::null);
-        SYMBOL_INFO* btSymbol = (SYMBOL_INFO *) calloc(sizeof ( SYMBOL_INFO) + 256 * sizeof ( char), 1);
+        SYMBOL_INFO* btSymbol = (SYMBOL_INFO*)calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1);
         if (not btSymbol) {
             btStream << "[backtrace error] no symbols could be retrieved";
         } else {
             btSymbol->MaxNameLen = 255;
-            btSymbol->SizeOfStruct = sizeof ( SYMBOL_INFO);
-            if (backtraceSize == 0) {
+            btSymbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+            if (backtraceSize == 0)
                 btStream << "[backtrace is empty]";
-            }
             for (int i = 0; i < backtraceSize; ++i) {
-                SymFromAddr(GetCurrentProcess(), (DWORD64) (buffer[ i ]), 0, btSymbol);
-                btStream << (backtraceSize - i - 1) << ": " <<
-                        btSymbol->Name << " at 0x" << btSymbol->Address << "\n";
+                SymFromAddr(GetCurrentProcess(), (DWORD64)(buffer[i]), 0, btSymbol);
+                btStream << (backtraceSize - i - 1) << ": " << btSymbol->Name << " at 0x" << btSymbol->Address << "\n";
             }
         }
         ::free(btSymbol);
@@ -154,7 +146,7 @@ namespace fuzzylite {
     void Exception::convertToException(int unixSignal) {
         std::string signalDescription;
 #ifdef FL_UNIX
-        //Unblock the signal
+        // Unblock the signal
         sigset_t empty;
         sigemptyset(&empty);
         sigaddset(&empty, unixSignal);
@@ -176,9 +168,8 @@ namespace fuzzylite {
         std::ostringstream ss;
         ss << exception.what();
         std::string backtrace = btCallStack();
-        if (not backtrace.empty()) {
+        if (not backtrace.empty())
             ss << "\n\nBACKTRACE:\n" << backtrace;
-        }
         FL_LOG(ss.str());
     }
 

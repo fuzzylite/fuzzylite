@@ -18,23 +18,21 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/Complexity.h"
 
 #include "fuzzylite/Engine.h"
-
+#include "fuzzylite/rule/Rule.h"
+#include "fuzzylite/rule/RuleBlock.h"
 #include "fuzzylite/variable/InputVariable.h"
 #include "fuzzylite/variable/OutputVariable.h"
 
-#include "fuzzylite/rule/RuleBlock.h"
-#include "fuzzylite/rule/Rule.h"
-
 namespace fuzzylite {
 
-    Complexity::Complexity(scalar all) :
-    _comparison(all), _arithmetic(all), _function(all) { }
+    Complexity::Complexity(scalar all) : _comparison(all), _arithmetic(all), _function(all) {}
 
-    Complexity::Complexity(scalar comparison, scalar arithmetic,
-            scalar function)
-    : _comparison(comparison), _arithmetic(arithmetic), _function(function) { }
+    Complexity::Complexity(scalar comparison, scalar arithmetic, scalar function) :
+        _comparison(comparison),
+        _arithmetic(arithmetic),
+        _function(function) {}
 
-    Complexity::~Complexity() { }
+    Complexity::~Complexity() {}
 
     Complexity& Complexity::operator+=(const Complexity& other) {
         return this->plus(other);
@@ -137,33 +135,28 @@ namespace fuzzylite {
     }
 
     bool Complexity::equals(const Complexity& x, scalar macheps) const {
-        return Op::isEq(_comparison, x._comparison, macheps) and
-                Op::isEq(_arithmetic, x._arithmetic, macheps) and
-                Op::isEq(_function, x._function, macheps);
+        return Op::isEq(_comparison, x._comparison, macheps) and Op::isEq(_arithmetic, x._arithmetic, macheps)
+               and Op::isEq(_function, x._function, macheps);
     }
 
     bool Complexity::lessThan(const Complexity& x, scalar macheps) const {
-        return Op::isLt(_comparison, x._comparison, macheps) and
-                Op::isLt(_arithmetic, x._arithmetic, macheps) and
-                Op::isLt(_function, x._function, macheps);
+        return Op::isLt(_comparison, x._comparison, macheps) and Op::isLt(_arithmetic, x._arithmetic, macheps)
+               and Op::isLt(_function, x._function, macheps);
     }
 
     bool Complexity::lessThanOrEqualsTo(const Complexity& x, scalar macheps) const {
-        return Op::isLE(_comparison, x._comparison, macheps) and
-                Op::isLE(_arithmetic, x._arithmetic, macheps) and
-                Op::isLE(_function, x._function, macheps);
+        return Op::isLE(_comparison, x._comparison, macheps) and Op::isLE(_arithmetic, x._arithmetic, macheps)
+               and Op::isLE(_function, x._function, macheps);
     }
 
     bool Complexity::greaterThan(const Complexity& x, scalar macheps) const {
-        return Op::isGt(_comparison, x._comparison, macheps) and
-                Op::isGt(_arithmetic, x._arithmetic, macheps) and
-                Op::isGt(_function, x._function, macheps);
+        return Op::isGt(_comparison, x._comparison, macheps) and Op::isGt(_arithmetic, x._arithmetic, macheps)
+               and Op::isGt(_function, x._function, macheps);
     }
 
     bool Complexity::greaterThanOrEqualsTo(const Complexity& x, scalar macheps) const {
-        return Op::isGE(_comparison, x._comparison, macheps) and
-                Op::isGE(_arithmetic, x._arithmetic, macheps) and
-                Op::isGE(_function, x._function, macheps);
+        return Op::isGE(_comparison, x._comparison, macheps) and Op::isGE(_arithmetic, x._arithmetic, macheps)
+               and Op::isGE(_function, x._function, macheps);
     }
 
     Complexity& Complexity::comparison(scalar comparison) {
@@ -247,37 +240,33 @@ namespace fuzzylite {
 
     Complexity Complexity::compute(const std::vector<InputVariable*>& inputVariables) const {
         Complexity result;
-        for (std::size_t i = 0; i < inputVariables.size(); ++i) {
+        for (std::size_t i = 0; i < inputVariables.size(); ++i)
             result += inputVariables.at(i)->complexity();
-        }
         return result;
     }
 
-    Complexity Complexity::compute(const std::vector<OutputVariable*>& outputVariables,
-            bool complexityOfDefuzzification) const {
+    Complexity
+    Complexity::compute(const std::vector<OutputVariable*>& outputVariables, bool complexityOfDefuzzification) const {
         Complexity result;
-        for (std::size_t i = 0; i < outputVariables.size(); ++i) {
+        for (std::size_t i = 0; i < outputVariables.size(); ++i)
             if (complexityOfDefuzzification)
                 result += outputVariables.at(i)->complexityOfDefuzzification();
             else
                 result += outputVariables.at(i)->complexity();
-        }
         return result;
     }
 
     Complexity Complexity::compute(const std::vector<Variable*>& variables) const {
         Complexity result;
-        for (std::size_t i = 0; i < variables.size(); ++i) {
+        for (std::size_t i = 0; i < variables.size(); ++i)
             result += variables.at(i)->complexity();
-        }
         return result;
     }
 
     Complexity Complexity::compute(const std::vector<RuleBlock*>& ruleBlocks) const {
         Complexity result;
-        for (std::size_t i = 0; i < ruleBlocks.size(); ++i) {
+        for (std::size_t i = 0; i < ruleBlocks.size(); ++i)
             result += ruleBlocks.at(i)->complexity();
-        }
         return result;
     }
 

@@ -21,12 +21,12 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    OutputVariable::OutputVariable(const std::string& name,
-            scalar minimum, scalar maximum)
-    : Variable(name, minimum, maximum),
-    _fuzzyOutput(new Aggregated(name, minimum, maximum)),
-    _previousValue(fl::nan), _defaultValue(fl::nan),
-    _lockPreviousValue(false) { }
+    OutputVariable::OutputVariable(const std::string& name, scalar minimum, scalar maximum) :
+        Variable(name, minimum, maximum),
+        _fuzzyOutput(new Aggregated(name, minimum, maximum)),
+        _previousValue(fl::nan),
+        _defaultValue(fl::nan),
+        _lockPreviousValue(false) {}
 
     OutputVariable::OutputVariable(const OutputVariable& other) : Variable(other) {
         copyFrom(other);
@@ -43,11 +43,12 @@ namespace fuzzylite {
         return *this;
     }
 
-    OutputVariable::~OutputVariable() { }
+    OutputVariable::~OutputVariable() {}
 
     void OutputVariable::copyFrom(const OutputVariable& other) {
         _fuzzyOutput.reset(other._fuzzyOutput->clone());
-        if (other._defuzzifier.get()) _defuzzifier.reset(other._defuzzifier->clone());
+        if (other._defuzzifier.get())
+            _defuzzifier.reset(other._defuzzifier->clone());
         _previousValue = other._previousValue;
         _defaultValue = other._defaultValue;
         _lockPreviousValue = other._lockPreviousValue;
@@ -118,24 +119,20 @@ namespace fuzzylite {
 
     Complexity OutputVariable::complexity(const Activated& term) const {
         Aggregated aggregated;
-        if (_fuzzyOutput->getAggregation()) {
+        if (_fuzzyOutput->getAggregation())
             aggregated.setAggregation(_fuzzyOutput->getAggregation()->clone());
-        }
         aggregated.addTerm(term);
-        if (_defuzzifier.get()) {
+        if (_defuzzifier.get())
             return _defuzzifier->complexity(&aggregated);
-        }
         return aggregated.complexityOfMembership();
     }
 
     Complexity OutputVariable::complexityOfDefuzzification() const {
         Aggregated term;
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
+        for (std::size_t i = 0; i < _terms.size(); ++i)
             term.addTerm(_terms.at(i), fl::nan, fl::null);
-        }
-        if (_defuzzifier.get()) {
+        if (_defuzzifier.get())
             return _defuzzifier->complexity(&term);
-        }
         return term.complexityOfMembership();
     }
 
@@ -146,11 +143,11 @@ namespace fuzzylite {
     }
 
     void OutputVariable::defuzzify() {
-        if (not _enabled) return;
+        if (not _enabled)
+            return;
 
-        if (Op::isFinite(_value)) {
+        if (Op::isFinite(_value))
             _previousValue = _value;
-        }
 
         std::string exception;
         scalar result = fl::nan;
@@ -166,38 +163,34 @@ namespace fuzzylite {
                 try {
                     result = _defuzzifier->defuzzify(_fuzzyOutput.get(), _minimum, _maximum);
                     isValid = true;
-                } catch (std::exception& ex) {
-                    exception = ex.what();
-                }
+                } catch (std::exception& ex) { exception = ex.what(); }
             } else {
                 exception = "[defuzzifier error] "
-                        "defuzzifier needed to defuzzify output variable <" + getName() + ">";
+                            "defuzzifier needed to defuzzify output variable <"
+                            + getName() + ">";
             }
         }
 
         if (not isValid) {
-            //if a previous defuzzification was successfully performed and
-            //and the output value is supposed not to change when the output is empty
-            if (_lockPreviousValue and not Op::isNaN(_previousValue)) {
+            // if a previous defuzzification was successfully performed and
+            // and the output value is supposed not to change when the output is empty
+            if (_lockPreviousValue and not Op::isNaN(_previousValue))
                 result = _previousValue;
-            } else {
+            else
                 result = _defaultValue;
-            }
         }
 
         setValue(result);
 
-        if (not exception.empty()) {
+        if (not exception.empty())
             throw Exception(exception, FL_AT);
-        }
     }
 
     std::string OutputVariable::fuzzyOutputValue() const {
         std::ostringstream ss;
         if (not _terms.empty()) {
             Term* first = _terms.front();
-            ss << Op::str(fuzzyOutput()->activationDegree(first))
-                    << "/" << first->getName();
+            ss << Op::str(fuzzyOutput()->activationDegree(first)) << "/" << first->getName();
         }
         for (std::size_t i = 1; i < _terms.size(); ++i) {
             scalar degree = fuzzyOutput()->activationDegree(_terms.at(i));

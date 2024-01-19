@@ -18,9 +18,9 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_FISEXPORTER_H
 #define FL_FISEXPORTER_H
 
-#include "fuzzylite/imex/Exporter.h"
-
 #include <vector>
+
+#include "fuzzylite/imex/Exporter.h"
 
 namespace fuzzylite {
     class Norm;
@@ -42,12 +42,11 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API FisExporter : public Exporter {
-    protected:
+      protected:
+        virtual std::string
+        translate(const std::vector<Proposition*>& propositions, const std::vector<Variable*> variables) const;
 
-        virtual std::string translate(const std::vector<Proposition*>& propositions,
-                const std::vector<Variable*> variables) const;
-
-    public:
+      public:
         FisExporter();
         virtual ~FisExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FisExporter)
@@ -118,5 +117,4 @@ namespace fuzzylite {
     };
 }
 
-#endif  /* FL_FISEXPORTER_H */
-
+#endif /* FL_FISEXPORTER_H */

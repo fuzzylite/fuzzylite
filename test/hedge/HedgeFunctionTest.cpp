@@ -15,9 +15,9 @@ fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 fuzzylite is a registered trademark of FuzzyLite Limited.
 */
 
-#include "fuzzylite/Headers.h"
-
 #include <catch2/catch.hpp>
+
+#include "fuzzylite/Headers.h"
 
 namespace fuzzylite {
 
@@ -116,26 +116,26 @@ RuleBlock:
         return;
 #else
         std::string fllEngine = hedgeEngine();
-        //Import using regular hedge very
+        // Import using regular hedge very
         FL_unique_ptr<Engine> engine(FllImporter().fromString(fllEngine));
         std::string fldVery = FldExporter().toString(engine.get(), 1024);
 
-        //Replace hedge very with a HedgeFunction(x*x)
+        // Replace hedge very with a HedgeFunction(x*x)
         HedgeFactory* factory = FactoryManager::instance()->hedge();
         factory->registerConstructor("very", &(myVeryConstructor));
-        //Import again with new HedgeFunction
+        // Import again with new HedgeFunction
         engine.reset(FllImporter().fromString(fllEngine));
         std::string anotherFld = FldExporter().toString(engine.get(), 1024);
-        //Both must be equal
+        // Both must be equal
         CHECK(fldVery == anotherFld);
 
-        //Replace very with a HedgeFunction(x*x*x)
+        // Replace very with a HedgeFunction(x*x*x)
         factory->registerConstructor("very", &(myExtraVeryConstructor));
 
         engine.reset(FllImporter().fromString(fllEngine));
         anotherFld = FldExporter().toString(engine.get(), 1024);
 
-        //Must be different
+        // Must be different
         CHECK(fldVery != anotherFld);
 #endif
     }

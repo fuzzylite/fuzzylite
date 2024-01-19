@@ -18,12 +18,11 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_DISCRETE_H
 #define FL_DISCRETE_H
 
-#include "fuzzylite/term/Term.h"
+#include <utility>
+#include <vector>
 
 #include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
-
-#include <vector>
-#include <utility>
+#include "fuzzylite/term/Term.h"
 
 namespace fuzzylite {
 
@@ -41,14 +40,16 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Discrete : public Term {
-    public:
+      public:
         typedef std::pair<scalar, scalar> Pair;
-    private:
+
+      private:
         std::vector<Pair> _xy;
-    public:
-        explicit Discrete(const std::string& name = "",
-                const std::vector<Pair>& xy = std::vector<Pair>(),
-                scalar height = 1.0);
+
+      public:
+        explicit Discrete(
+            const std::string& name = "", const std::vector<Pair>& xy = std::vector<Pair>(), scalar height = 1.0
+        );
         virtual ~Discrete() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Discrete)
 
@@ -186,8 +187,7 @@ namespace fuzzylite {
           @return a vector of Pair in the form
           @f$\left(\{x_1,y_1\},...,\{x_n,y_n\}\right)@f$
          */
-        static std::vector<Pair> toPairs(const std::vector<scalar>& xy,
-                scalar missingValue) FL_INOEXCEPT;
+        static std::vector<Pair> toPairs(const std::vector<scalar>& xy, scalar missingValue) FL_INOEXCEPT;
 
         /**
           Formats a vector of Pair into a std::string in the form
@@ -203,9 +203,13 @@ namespace fuzzylite {
           `;` results in @f$(x_i,y_i);(x_j,y_j)@f$
           @return a formatted string containing the pairs of @f$(x,y)@f$ values
          */
-        static std::string formatXY(const std::vector<Pair>& xy,
-                const std::string& prefix = "(", const std::string& innerSeparator = ",",
-                const std::string& suffix = ")", const std::string& outerSeparator = " ");
+        static std::string formatXY(
+            const std::vector<Pair>& xy,
+            const std::string& prefix = "(",
+            const std::string& innerSeparator = ",",
+            const std::string& suffix = ")",
+            const std::string& outerSeparator = " "
+        );
 
         /**
           Discretizes the given term
@@ -218,9 +222,13 @@ namespace fuzzylite {
           @f$\mu(x)\in[0.0,1.0]@f$
           @return a Discrete term that approximates the given term
          */
-        static Discrete* discretize(const Term* term, scalar start, scalar end,
-                int resolution = IntegralDefuzzifier::defaultResolution(),
-                bool boundedMembershipFunction = true);
+        static Discrete* discretize(
+            const Term* term,
+            scalar start,
+            scalar end,
+            int resolution = IntegralDefuzzifier::defaultResolution(),
+            bool boundedMembershipFunction = true
+        );
 
         virtual Discrete* clone() const FL_IOVERRIDE;
 
@@ -245,8 +253,7 @@ namespace fuzzylite {
           @return a new Discrete term with the given parameters
          */
         template <typename T>
-        static Discrete* create(const std::string& name, int argc,
-                T x1, T y1, ...);
+        static Discrete* create(const std::string& name, int argc, T x1, T y1, ...);
     };
 }
 
@@ -257,16 +264,14 @@ namespace fuzzylite {
 namespace fuzzylite {
 
     template <typename T>
-    inline Discrete* Discrete::create(const std::string& name, int argc,
-            T x1, T y1, ...) {
+    inline Discrete* Discrete::create(const std::string& name, int argc, T x1, T y1, ...) {
         std::vector<scalar> xy(argc);
         xy.at(0) = x1;
         xy.at(1) = y1;
         va_list args;
         va_start(args, y1);
-        for (int i = 2; i < argc; ++i) {
-            xy.at(i) = (scalar) va_arg(args, T);
-        }
+        for (int i = 2; i < argc; ++i)
+            xy.at(i) = (scalar)va_arg(args, T);
         va_end(args);
 
         FL_unique_ptr<Discrete> result(new Discrete(name));

@@ -18,10 +18,10 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_FUNCTION_H
 #define FL_FUNCTION_H
 
-#include "fuzzylite/term/Term.h"
-
 #include <map>
 #include <string>
+
+#include "fuzzylite/term/Term.h"
 
 namespace fuzzylite {
 
@@ -59,9 +59,9 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Function : public Term {
-    public:
-        typedef scalar(*Unary)(scalar);
-        typedef scalar(*Binary)(scalar, scalar);
+      public:
+        typedef scalar (*Unary)(scalar);
+        typedef scalar (*Binary)(scalar, scalar);
 
         /**
           The Element class represents a single element in a formula, be that
@@ -72,13 +72,11 @@ namespace fuzzylite {
           its `precedence`, and its `associativity`.
          */
         struct FL_API Element {
-
             /**
               Determines the type of the element
              */
-            enum Type {
-                Operator, Function
-            };
+            enum Type { Operator, Function };
+
             /**Name of the element*/
             std::string name;
             /**Description of the element*/
@@ -100,10 +98,22 @@ namespace fuzzylite {
               (https://en.wikipedia.org/wiki/Operator_associativity)*/
             int associativity;
             Element(const std::string& name, const std::string& description, Type type);
-            Element(const std::string& name, const std::string& description,
-                    Type type, Unary unary, int precedence = 0, int associativity = -1);
-            Element(const std::string& name, const std::string& description,
-                    Type type, Binary binary, int precedence = 0, int associativity = -1);
+            Element(
+                const std::string& name,
+                const std::string& description,
+                Type type,
+                Unary unary,
+                int precedence = 0,
+                int associativity = -1
+            );
+            Element(
+                const std::string& name,
+                const std::string& description,
+                Type type,
+                Binary binary,
+                int precedence = 0,
+                int associativity = -1
+            );
             virtual ~Element();
             FL_DEFAULT_COPY_AND_MOVE(Element)
 
@@ -128,7 +138,6 @@ namespace fuzzylite {
               @return a description of the element and its members
              */
             virtual std::string toString() const;
-
         };
 
         /**
@@ -168,8 +177,7 @@ namespace fuzzylite {
               @return a fl::scalar indicating the result of the evaluation of
               the node
              */
-            virtual scalar evaluate(const std::map<std::string, scalar>*
-                    variables = fl::null) const;
+            virtual scalar evaluate(const std::map<std::string, scalar>* variables = fl::null) const;
 
             /**
              Computes the size of the subtree under the given node. The complexity
@@ -188,8 +196,7 @@ namespace fuzzylite {
              fl::null is given
              @return
              */
-            virtual std::size_t treeSize(Element::Type type,
-                    const Node* node = fl::null) const;
+            virtual std::size_t treeSize(Element::Type type, const Node* node = fl::null) const;
 
             /**
               Creates a clone of the node.
@@ -231,26 +238,26 @@ namespace fuzzylite {
               given node
              */
             virtual std::string toPostfix(const Node* node = fl::null) const;
-        private:
+
+          private:
             void copyFrom(const Node& source);
         };
-
-
-
 
         /******************************
          * Term
          ******************************/
 
-    private:
+      private:
         FL_unique_ptr<Node> _root;
         std::string _formula;
         const Engine* _engine;
-    public:
+
+      public:
         /**A map of variables and substitution values**/
         mutable std::map<std::string, scalar> variables;
-        explicit Function(const std::string& name = "",
-                const std::string& formula = "", const Engine* engine = fl::null);
+        explicit Function(
+            const std::string& name = "", const std::string& formula = "", const Engine* engine = fl::null
+        );
         Function(const Function& other);
         Function& operator=(const Function& other);
         virtual ~Function() FL_IOVERRIDE;
@@ -264,9 +271,7 @@ namespace fuzzylite {
           @return a Function term configured with the given parameters
           @throws fl::Exception if the formula has a syntax error
          */
-        static Function* create(const std::string& name,
-                const std::string& formula,
-                const Engine* engine = fl::null);
+        static Function* create(const std::string& name, const std::string& formula, const Engine* engine = fl::null);
 
         virtual Complexity complexity() const FL_IOVERRIDE;
 
@@ -393,8 +398,6 @@ namespace fuzzylite {
         virtual Function* clone() const FL_IOVERRIDE;
 
         static Term* constructor();
-
     };
 }
-#endif  /* FL_FUNCTION_H */
-
+#endif /* FL_FUNCTION_H */

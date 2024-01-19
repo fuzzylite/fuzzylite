@@ -38,6 +38,6 @@ namespace fuzzylite {
         registerConstructor(NilpotentMinimum().className(), &(NilpotentMinimum::constructor));
     }
 
-    TNormFactory::~TNormFactory() { }
+    TNormFactory::~TNormFactory() {}
 
 }

@@ -18,11 +18,11 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_VARIABLE_H
 #define FL_VARIABLE_H
 
-#include "fuzzylite/fuzzylite.h"
-#include "fuzzylite/defuzzifier/Centroid.h"
-
 #include <string>
 #include <vector>
+
+#include "fuzzylite/defuzzifier/Centroid.h"
+#include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
 
@@ -38,17 +38,13 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Variable {
-    public:
-
+      public:
         /**
          Indicates the type of the variable to avoid costly `dynamic_casts`
          */
-        enum Type {
-            None,
-            Input,
-            Output
-        };
-    protected:
+        enum Type { None, Input, Output };
+
+      protected:
         std::string _name;
         std::string _description;
         std::vector<Term*> _terms;
@@ -57,13 +53,11 @@ namespace fuzzylite {
         bool _enabled;
         bool _lockValueInRange;
 
-    private:
+      private:
         void copyFrom(const Variable& source);
 
-    public:
-        explicit Variable(const std::string& name = "",
-                scalar minimum = -fl::inf,
-                scalar maximum = fl::inf);
+      public:
+        explicit Variable(const std::string& name = "", scalar minimum = -fl::inf, scalar maximum = fl::inf);
         explicit Variable(const Variable& other);
         Variable& operator=(const Variable& other);
         virtual ~Variable();

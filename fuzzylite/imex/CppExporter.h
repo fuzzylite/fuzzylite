@@ -42,10 +42,11 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API CppExporter : public Exporter {
-    private:
+      private:
         bool _usingNamespace;
         bool _usingVariableNames;
-    public:
+
+      public:
         explicit CppExporter(bool usingNamespace = false, bool usingVariableNames = true);
         virtual ~CppExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(CppExporter)
@@ -155,8 +156,6 @@ namespace fuzzylite {
         virtual std::string toString(const Defuzzifier* defuzzifier) const;
 
         virtual CppExporter* clone() const FL_IOVERRIDE;
-
     };
 }
-#endif  /* FL_CPPEXPORTER_H */
-
+#endif /* FL_CPPEXPORTER_H */

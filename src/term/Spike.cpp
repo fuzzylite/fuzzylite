@@ -19,10 +19,12 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    Spike::Spike(const std::string& name, scalar center, scalar width, scalar height)
-    : Term(name, height), _center(center), _width(width) { }
+    Spike::Spike(const std::string& name, scalar center, scalar width, scalar height) :
+        Term(name, height),
+        _center(center),
+        _width(width) {}
 
-    Spike::~Spike() { }
+    Spike::~Spike() {}
 
     std::string Spike::className() const {
         return "Spike";
@@ -33,23 +35,24 @@ namespace fuzzylite {
     }
 
     scalar Spike::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
         return Term::_height * std::exp(-std::abs(10.0 / _width * (x - _center)));
     }
 
     std::string Spike::parameters() const {
-        return Op::join(2, " ", _center, _width) +
-                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(2, " ", _center, _width) + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Spike::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 2;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setCenter(Op::toScalar(values.at(0)));

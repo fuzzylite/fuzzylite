@@ -40,10 +40,10 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API FclExporter : public Exporter {
-    private:
+      private:
         std::string _indent;
 
-    public:
+      public:
         explicit FclExporter(const std::string& indent = "  ");
         virtual ~FclExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FclExporter)

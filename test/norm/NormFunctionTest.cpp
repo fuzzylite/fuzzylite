@@ -15,9 +15,9 @@ fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 fuzzylite is a registered trademark of FuzzyLite Limited.
 */
 
-#include "fuzzylite/Headers.h"
-
 #include <catch2/catch.hpp>
+
+#include "fuzzylite/Headers.h"
 
 namespace fuzzylite {
 
@@ -94,17 +94,17 @@ RuleBlock:
         SNormFactory* factory = FactoryManager::instance()->snorm();
         factory->registerConstructor("Maximum", &(myMaximumNorm));
 
-        //Check our custom SNorm is registered
+        // Check our custom SNorm is registered
         FL_unique_ptr<SNorm> x(factory->constructObject("Maximum"));
         CHECK(Op::isEq(x->compute(0, 0.5), 0.5));
 
-        //Test creating an engine with the new SNorm
+        // Test creating an engine with the new SNorm
         engine.reset(FllImporter().fromString(fllEngine));
         std::string anotherFld = FldExporter().toString(engine.get(), 1024);
 
         CHECK(fld == anotherFld);
 
-        //Make sure a different SNorm fails in results
+        // Make sure a different SNorm fails in results
 
         factory->registerConstructor("Maximum", &(myNotSoMaximumNorm));
         engine.reset(FllImporter().fromString(fllEngine));
@@ -181,17 +181,17 @@ RuleBlock:
         TNormFactory* factory = FactoryManager::instance()->tnorm();
         factory->registerConstructor("Minimum", &(myMinimumNorm));
 
-        //Check our custom SNorm is registered
+        // Check our custom SNorm is registered
         FL_unique_ptr<TNorm> x(factory->constructObject("Minimum"));
         CHECK(Op::isEq(x->compute(0.5, 1), 0.5));
 
-        //Test creating an engine with the new SNorm
+        // Test creating an engine with the new SNorm
         engine.reset(FllImporter().fromString(fllEngine));
         std::string anotherFld = FldExporter().toString(engine.get(), 1024);
 
         CHECK(fld == anotherFld);
 
-        //Make sure a different SNorm fails in results
+        // Make sure a different SNorm fails in results
 
         factory->registerConstructor("Minimum", &(myNotSoMinimumNorm));
         engine.reset(FllImporter().fromString(fllEngine));

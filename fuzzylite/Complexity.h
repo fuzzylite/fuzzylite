@@ -18,9 +18,9 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_COMPLEXITY_H
 #define FL_COMPLEXITY_H
 
-#include "fuzzylite/fuzzylite.h"
-
 #include <vector>
+
+#include "fuzzylite/fuzzylite.h"
 
 namespace fuzzylite {
     class Engine;
@@ -49,12 +49,12 @@ namespace fuzzylite {
      */
 
     class FL_API Complexity {
-    private:
+      private:
         scalar _comparison;
         scalar _arithmetic;
         scalar _function;
 
-    public:
+      public:
         explicit Complexity(scalar all = 0.0);
         explicit Complexity(scalar comparison, scalar arithmetic, scalar function);
         virtual ~Complexity();
@@ -264,8 +264,8 @@ namespace fuzzylite {
          complexity of the variable including the defuzzification process
          @return the complexity of the given output variables
          */
-        virtual Complexity compute(const std::vector<OutputVariable*>& outputVariables,
-                bool complexityOfDefuzzification = false) const;
+        virtual Complexity
+        compute(const std::vector<OutputVariable*>& outputVariables, bool complexityOfDefuzzification = false) const;
         /**
          Computes the complexity of the given variables
          @param variables is the vector of variables for which to compute the
@@ -288,11 +288,8 @@ namespace fuzzylite {
          @return Computes the complexity of the given rule blocks
          */
         virtual Complexity compute(const std::vector<RuleBlock*>& ruleBlocks) const;
-
     };
-
 
 }
 
 #endif /* COMPLEXITY_H */
-

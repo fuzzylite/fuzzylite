@@ -19,10 +19,12 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    Ramp::Ramp(const std::string& name, scalar start, scalar end, scalar height)
-    : Term(name, height), _start(start), _end(end) { }
+    Ramp::Ramp(const std::string& name, scalar start, scalar end, scalar height) :
+        Term(name, height),
+        _start(start),
+        _end(end) {}
 
-    Ramp::~Ramp() { }
+    Ramp::~Ramp() {}
 
     std::string Ramp::className() const {
         return "Ramp";
@@ -33,7 +35,8 @@ namespace fuzzylite {
     }
 
     scalar Ramp::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
 
         if (Op::isEq(_start, _end))
             return Term::_height * 0.0;
@@ -64,18 +67,18 @@ namespace fuzzylite {
     }
 
     std::string Ramp::parameters() const {
-        return Op::join(2, " ", _start, _end) +
-                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(2, " ", _start, _end) + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Ramp::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 2;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setStart(Op::toScalar(values.at(0)));
@@ -102,9 +105,11 @@ namespace fuzzylite {
 
     Ramp::Direction Ramp::direction() const {
         scalar range = this->_end - this->_start;
-        if (not Op::isFinite(range) or Op::isEq(range, 0.0)) return Zero;
+        if (not Op::isFinite(range) or Op::isEq(range, 0.0))
+            return Zero;
 
-        if (Op::isGt(range, 0.0)) return Positive;
+        if (Op::isGt(range, 0.0))
+            return Positive;
 
         return Negative;
     }

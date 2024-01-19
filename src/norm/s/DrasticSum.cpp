@@ -30,9 +30,8 @@ namespace fuzzylite {
     }
 
     scalar DrasticSum::compute(scalar a, scalar b) const {
-        if (Op::isEq(Op::min(a, b), 0.0)) {
+        if (Op::isEq(Op::min(a, b), 0.0))
             return Op::max(a, b);
-        }
         return 1.0;
     }
 

@@ -18,8 +18,8 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/rule/Consequent.h"
 
 #include "fuzzylite/Engine.h"
-#include "fuzzylite/factory/HedgeFactory.h"
 #include "fuzzylite/factory/FactoryManager.h"
+#include "fuzzylite/factory/HedgeFactory.h"
 #include "fuzzylite/hedge/Any.h"
 #include "fuzzylite/rule/Expression.h"
 #include "fuzzylite/rule/Rule.h"
@@ -28,12 +28,11 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    Consequent::Consequent() { }
+    Consequent::Consequent() {}
 
     Consequent::~Consequent() {
-        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
+        for (std::size_t i = 0; i < _conclusions.size(); ++i)
             delete _conclusions.at(i);
-        }
         _conclusions.clear();
     }
 
@@ -60,31 +59,31 @@ namespace fuzzylite {
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
             Proposition* proposition = _conclusions.at(i);
             result.comparison(2);
-            for (std::size_t h = 0; h < proposition->hedges.size(); ++h) {
+            for (std::size_t h = 0; h < proposition->hedges.size(); ++h)
                 result += proposition->hedges.at(h)->complexity();
-            }
-            result += static_cast<OutputVariable*> (proposition->variable)
-                    ->complexity(Activated(proposition->term, fl::nan, implication));
+            result += static_cast<OutputVariable*>(proposition->variable)
+                          ->complexity(Activated(proposition->term, fl::nan, implication));
         }
         return result;
     }
 
     void Consequent::modify(scalar activationDegree, const TNorm* implication) {
-        if (not isLoaded()) {
+        if (not isLoaded())
             throw Exception("[consequent error] consequent <" + getText() + "> is not loaded", FL_AT);
-        }
         for (std::size_t i = 0; i < _conclusions.size(); ++i) {
             Proposition* proposition = _conclusions.at(i);
             if (proposition->variable->isEnabled()) {
                 if (not proposition->hedges.empty()) {
                     for (std::vector<Hedge*>::const_reverse_iterator rit = proposition->hedges.rbegin();
-                            rit != proposition->hedges.rend(); ++rit) {
+                         rit != proposition->hedges.rend();
+                         ++rit) {
                         activationDegree = (*rit)->hedge(activationDegree);
                     }
                 }
 
-                static_cast<OutputVariable*> (proposition->variable)->fuzzyOutput()
-                        ->addTerm(proposition->term, activationDegree, implication);
+                static_cast<OutputVariable*>(proposition->variable)
+                    ->fuzzyOutput()
+                    ->addTerm(proposition->term, activationDegree, implication);
             }
         }
     }
@@ -94,9 +93,8 @@ namespace fuzzylite {
     }
 
     void Consequent::unload() {
-        for (std::size_t i = 0; i < _conclusions.size(); ++i) {
+        for (std::size_t i = 0; i < _conclusions.size(); ++i)
             delete _conclusions.at(i);
-        }
         _conclusions.clear();
     }
 
@@ -108,9 +106,8 @@ namespace fuzzylite {
         unload();
         setText(consequent);
 
-        if (Op::trim(consequent).empty()) {
+        if (Op::trim(consequent).empty())
             throw Exception("[syntax error] consequent is empty", FL_AT);
-        }
 
         /**
          Extracts the list of propositions from the consequent
@@ -122,10 +119,8 @@ namespace fuzzylite {
          5) After operator 'and' comes a variable
          6) After operator 'with' comes a float
          */
-        enum FSM {
-            S_VARIABLE = 1, S_IS = 2, S_HEDGE = 4, S_TERM = 8,
-            S_AND = 16, S_WITH = 32
-        };
+        enum FSM { S_VARIABLE = 1, S_IS = 2, S_HEDGE = 4, S_TERM = 8, S_AND = 16, S_WITH = 32 };
+
         int state = S_VARIABLE;
 
         Proposition* proposition = fl::null;
@@ -176,7 +171,7 @@ namespace fuzzylite {
                     }
                 }
 
-                //if reached this point, there was an error:
+                // if reached this point, there was an error:
                 if (state bitand S_VARIABLE) {
                     std::ostringstream ex;
                     ex << "[syntax error] consequent expected output variable, but found <" << token << ">";
@@ -184,8 +179,10 @@ namespace fuzzylite {
                 }
                 if (state bitand S_IS) {
                     std::ostringstream ex;
-                    ex << "[syntax error] consequent expected keyword <" << Rule::isKeyword() << ">, "
-                            "but found <" << token << ">";
+                    ex << "[syntax error] consequent expected keyword <" << Rule::isKeyword()
+                       << ">, "
+                          "but found <"
+                       << token << ">";
                     throw Exception(ex.str(), FL_AT);
                 }
 
@@ -198,8 +195,8 @@ namespace fuzzylite {
                 if ((state bitand S_AND) or (state bitand S_WITH)) {
                     std::ostringstream ex;
                     ex << "[syntax error] consequent expected operator <" << Rule::andKeyword() << "> "
-                            << "or keyword <" << Rule::withKeyword() << ">, "
-                            << "but found <" << token << ">";
+                       << "or keyword <" << Rule::withKeyword() << ">, "
+                       << "but found <" << token << ">";
                     throw Exception(ex.str(), FL_AT);
                 }
 
@@ -208,7 +205,7 @@ namespace fuzzylite {
                 throw Exception(ex.str(), FL_AT);
             }
 
-            if (not ((state bitand S_AND) or (state bitand S_WITH))) { //only acceptable final state
+            if (not((state bitand S_AND) or (state bitand S_WITH))) {  // only acceptable final state
                 if (state bitand S_VARIABLE) {
                     std::ostringstream ex;
                     ex << "[syntax error] consequent expected output variable after <" << token << ">";
@@ -216,8 +213,10 @@ namespace fuzzylite {
                 }
                 if (state bitand S_IS) {
                     std::ostringstream ex;
-                    ex << "[syntax error] consequent expected keyword <" << Rule::isKeyword() << "> "
-                            "after <" << token << ">";
+                    ex << "[syntax error] consequent expected keyword <" << Rule::isKeyword()
+                       << "> "
+                          "after <"
+                       << token << ">";
                     throw Exception(ex.str(), FL_AT);
                 }
                 if ((state bitand S_HEDGE) or (state bitand S_TERM)) {

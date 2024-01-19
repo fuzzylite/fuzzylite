@@ -19,7 +19,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #define FL_SNORMFUNCTION_H
 
 #include "fuzzylite/norm/SNorm.h"
-
 #include "fuzzylite/term/Function.h"
 
 namespace fuzzylite {
@@ -38,9 +37,10 @@ namespace fuzzylite {
      */
 
     class FL_API SNormFunction FL_IFINAL : public SNorm {
-    private:
+      private:
         Function _function;
-    public:
+
+      public:
         explicit SNormFunction(const std::string& formula = "");
 
         /**
@@ -79,4 +79,3 @@ namespace fuzzylite {
     };
 }
 #endif /* FL_SNORMFUNCTION_H */
-

@@ -19,7 +19,6 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #define FL_TNORMFACTORY_H
 
 #include "fuzzylite/factory/ConstructionFactory.h"
-
 #include "fuzzylite/norm/TNorm.h"
 
 namespace fuzzylite {
@@ -34,12 +33,11 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API TNormFactory : public ConstructionFactory<TNorm*> {
-    public:
+      public:
         TNormFactory();
         virtual ~TNormFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(TNormFactory)
     };
 }
 
-#endif  /* FL_TNORMFACTORY_H */
-
+#endif /* FL_TNORMFACTORY_H */

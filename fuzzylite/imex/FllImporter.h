@@ -18,9 +18,9 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_FLLIMPORTER_H
 #define FL_FLLIMPORTER_H
 
-#include "fuzzylite/imex/Importer.h"
-
 #include <utility>
+
+#include "fuzzylite/imex/Importer.h"
 
 namespace fuzzylite {
     class TNorm;
@@ -42,9 +42,10 @@ namespace fuzzylite {
       @todo parse methods returning respective instances from blocks of text
      */
     class FL_API FllImporter : public Importer {
-    private:
+      private:
         std::string _separator;
-    public:
+
+      public:
         explicit FllImporter(const std::string& separator = "\n");
         virtual ~FllImporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FllImporter)
@@ -65,8 +66,7 @@ namespace fuzzylite {
 
         virtual FllImporter* clone() const FL_IOVERRIDE;
 
-    protected:
-
+      protected:
         virtual void process(const std::string& tag, const std::string& block, Engine* engine) const;
         virtual void processInputVariable(const std::string& block, Engine* engine) const;
         virtual void processOutputVariable(const std::string& block, Engine* engine) const;
@@ -82,11 +82,8 @@ namespace fuzzylite {
         virtual std::pair<scalar, scalar> parseRange(const std::string& line) const;
         virtual bool parseBoolean(const std::string& boolean) const;
 
-        virtual std::pair<std::string, std::string> parseKeyValue(const std::string& text,
-                char separator = ':') const;
-
+        virtual std::pair<std::string, std::string> parseKeyValue(const std::string& text, char separator = ':') const;
     };
 }
 
-#endif  /* FL_FLLIMPORTER_H */
-
+#endif /* FL_FLLIMPORTER_H */

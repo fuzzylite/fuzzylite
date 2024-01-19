@@ -33,7 +33,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Centroid : public IntegralDefuzzifier {
-    public:
+      public:
         explicit Centroid(int resolution = defaultResolution());
         virtual ~Centroid() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Centroid)
@@ -53,8 +53,7 @@ namespace fuzzylite {
           @param maximum is the maximum value of the fuzzy set
           @return the @f$x@f$-coordinate of the centroid of the fuzzy set
          */
-        virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const FL_IOVERRIDE;
         virtual Centroid* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();

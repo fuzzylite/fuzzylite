@@ -30,7 +30,8 @@ namespace fuzzylite {
     }
 
     scalar HamacherSum::compute(scalar a, scalar b) const {
-        if (Op::isEq(a * b, 1.0)) return 1.0;
+        if (Op::isEq(a * b, 1.0))
+            return 1.0;
         return (a + b - 2.0 * a * b) / (1.0 - a * b);
     }
 

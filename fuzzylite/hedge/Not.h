@@ -32,7 +32,7 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Not FL_IFINAL : public Hedge {
-    public:
+      public:
         std::string name() const FL_IOVERRIDE;
 
         Complexity complexity() const FL_IOVERRIDE;

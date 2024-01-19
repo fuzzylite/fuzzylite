@@ -30,11 +30,12 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API IntegralDefuzzifier : public Defuzzifier {
-    private:
+      private:
         static int _defaultResolution;
 
         int _resolution;
-    public:
+
+      public:
         explicit IntegralDefuzzifier(int resolution = defaultResolution());
         virtual ~IntegralDefuzzifier() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(IntegralDefuzzifier)
@@ -66,9 +67,7 @@ namespace fuzzylite {
           @return the default resolution for integral-based defuzzifiers
          */
         static int defaultResolution();
-
     };
 }
 
-#endif  /* INTEGRALDEFUZZIFIER_H */
-
+#endif /* INTEGRALDEFUZZIFIER_H */

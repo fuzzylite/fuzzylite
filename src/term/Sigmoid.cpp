@@ -19,10 +19,12 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    Sigmoid::Sigmoid(const std::string& name, scalar inflection, scalar slope, scalar height)
-    : Term(name, height), _inflection(inflection), _slope(slope) { }
+    Sigmoid::Sigmoid(const std::string& name, scalar inflection, scalar slope, scalar height) :
+        Term(name, height),
+        _inflection(inflection),
+        _slope(slope) {}
 
-    Sigmoid::~Sigmoid() { }
+    Sigmoid::~Sigmoid() {}
 
     std::string Sigmoid::className() const {
         return "Sigmoid";
@@ -33,29 +35,26 @@ namespace fuzzylite {
     }
 
     scalar Sigmoid::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
         return Term::_height * 1.0 / (1.0 + std::exp(-_slope * (x - _inflection)));
     }
 
-    scalar Sigmoid::tsukamoto(scalar activationDegree,
-            scalar minimum, scalar maximum) const {
-
+    scalar Sigmoid::tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const {
         scalar w = activationDegree;
         scalar z = fl::nan;
 
         if (Op::isEq(w, 1.0)) {
-            if (Op::isGE(_slope, 0.0)) {
+            if (Op::isGE(_slope, 0.0))
                 z = maximum;
-            } else {
+            else
                 z = minimum;
-            }
 
         } else if (Op::isEq(w, 0.0)) {
-            if (Op::isGE(_slope, 0.0)) {
+            if (Op::isGE(_slope, 0.0))
                 z = minimum;
-            } else {
+            else
                 z = maximum;
-            }
         } else {
             scalar a = _slope;
             scalar b = _inflection;
@@ -70,18 +69,19 @@ namespace fuzzylite {
     }
 
     std::string Sigmoid::parameters() const {
-        return Op::join(2, " ", _inflection, _slope) +
-                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(2, " ", _inflection, _slope)
+               + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Sigmoid::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 2;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setInflection(Op::toScalar(values.at(0)));
@@ -107,9 +107,11 @@ namespace fuzzylite {
     }
 
     Sigmoid::Direction Sigmoid::direction() const {
-        if (not Op::isFinite(_slope) or Op::isEq(_slope, 0.0)) return Zero;
+        if (not Op::isFinite(_slope) or Op::isEq(_slope, 0.0))
+            return Zero;
 
-        if (Op::isGt(_slope, 0.0)) return Positive;
+        if (Op::isGt(_slope, 0.0))
+            return Positive;
 
         return Negative;
     }

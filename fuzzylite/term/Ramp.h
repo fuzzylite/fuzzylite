@@ -34,11 +34,10 @@ namespace fuzzylite {
       @since 4.0
      */
     class FL_API Ramp : public Term {
-    private:
+      private:
         scalar _start, _end;
 
-    public:
-
+      public:
         /**
           Direction is an enumerator that indicates the direction of the ramp.
          */
@@ -47,10 +46,8 @@ namespace fuzzylite {
             /** `(--)` slope is zero */ Zero,
             /** `(\\_)` increases to the left */ Negative
         };
-        explicit Ramp(const std::string& name = "",
-                scalar start = fl::nan,
-                scalar end = fl::nan,
-                scalar height = 1.0);
+
+        explicit Ramp(const std::string& name = "", scalar start = fl::nan, scalar end = fl::nan, scalar height = 1.0);
         virtual ~Ramp() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Ramp)
 
@@ -94,8 +91,7 @@ namespace fuzzylite {
          */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
-        virtual scalar tsukamoto(scalar activationDegree,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        virtual scalar tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const FL_IOVERRIDE;
 
         virtual bool isMonotonic() const FL_IOVERRIDE;
 
@@ -132,5 +128,4 @@ namespace fuzzylite {
         static Term* constructor();
     };
 }
-#endif  /* FL_RAMP_H */
-
+#endif /* FL_RAMP_H */

@@ -32,8 +32,7 @@ namespace fuzzylite {
       @since 5.0
      */
     class FL_API WeightedDefuzzifier : public Defuzzifier {
-    public:
-
+      public:
         /**The Type enum indicates the type of the WeightedDefuzzifier based
         the terms included in the fuzzy set.*/
         enum Type {
@@ -44,16 +43,18 @@ namespace fuzzylite {
             /**Tsukamoto: Manually set to Tsukamoto*/
             Tsukamoto
         };
+
         /**
           Returns a string representation of the given type
           @param type is the type of a defuzzifier
           @return a string representation of the given type
          */
         static std::string typeName(Type type);
-    private:
+
+      private:
         Type _type;
 
-    public:
+      public:
         explicit WeightedDefuzzifier(Type type = Automatic);
         explicit WeightedDefuzzifier(const std::string& type);
         virtual ~WeightedDefuzzifier() FL_IOVERRIDE;
@@ -83,9 +84,7 @@ namespace fuzzylite {
           @return the inferred type of the defuzzifier based on the given term
          */
         virtual Type inferType(const Term* term) const;
-
     };
 }
 
-#endif  /* FL_WEIGHTEDDEFUZZIFIER_H */
-
+#endif /* FL_WEIGHTEDDEFUZZIFIER_H */

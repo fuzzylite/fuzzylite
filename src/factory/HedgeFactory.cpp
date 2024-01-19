@@ -36,6 +36,6 @@ namespace fuzzylite {
         registerConstructor(Very().name(), &(Very::constructor));
     }
 
-    HedgeFactory::~HedgeFactory() { }
+    HedgeFactory::~HedgeFactory() {}
 
 }

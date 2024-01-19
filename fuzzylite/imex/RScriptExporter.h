@@ -18,10 +18,10 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_RSCRIPTEXPORTER_H
 #define FL_RSCRIPTEXPORTER_H
 
+#include <vector>
+
 #include "fuzzylite/imex/Exporter.h"
 #include "fuzzylite/imex/FldExporter.h"
-
-#include <vector>
 
 namespace fuzzylite {
     class Engine;
@@ -39,12 +39,12 @@ namespace fuzzylite {
       @since 6.0
      */
     class FL_API RScriptExporter : public Exporter {
-    private:
+      private:
         std::string _minimumColor;
         std::string _maximumColor;
         std::string _contourColor;
 
-    public:
+      public:
         RScriptExporter();
         virtual ~RScriptExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(RScriptExporter)
@@ -107,9 +107,14 @@ namespace fuzzylite {
          @return an R script plotting multiple surfaces for the two input
          variables on the output variables.
          */
-        virtual std::string toString(Engine* engine, InputVariable* a, InputVariable* b,
-                int values, FldExporter::ScopeOfValues scope,
-                const std::vector<OutputVariable*>& outputVariables) const;
+        virtual std::string toString(
+            Engine* engine,
+            InputVariable* a,
+            InputVariable* b,
+            int values,
+            FldExporter::ScopeOfValues scope,
+            const std::vector<OutputVariable*>& outputVariables
+        ) const;
 
         /**
          Returns an R script plotting multiple surfaces based on the input stream
@@ -123,8 +128,13 @@ namespace fuzzylite {
          @return an R script plotting multiple surfaces for the two input
          variables on the output variables
          */
-        virtual std::string toString(Engine* engine, InputVariable* a, InputVariable* b,
-                std::istream& reader, const std::vector<OutputVariable*>& outputVariables) const;
+        virtual std::string toString(
+            Engine* engine,
+            InputVariable* a,
+            InputVariable* b,
+            std::istream& reader,
+            const std::vector<OutputVariable*>& outputVariables
+        ) const;
 
         /**
          Creates an R script file plotting multiple surfaces based on a data frame
@@ -147,10 +157,15 @@ namespace fuzzylite {
          @param scope is the scope of the number of values to evaluate the engine
          @param outputVariables are the output variables to create the surface for
          */
-        virtual void toFile(const std::string& filePath, Engine* engine,
-                InputVariable* a, InputVariable* b,
-                int values, FldExporter::ScopeOfValues scope,
-                const std::vector<OutputVariable*>& outputVariables) const;
+        virtual void toFile(
+            const std::string& filePath,
+            Engine* engine,
+            InputVariable* a,
+            InputVariable* b,
+            int values,
+            FldExporter::ScopeOfValues scope,
+            const std::vector<OutputVariable*>& outputVariables
+        ) const;
 
         /**
          Creates an R script file plotting multiple surfaces based on the input stream
@@ -163,10 +178,14 @@ namespace fuzzylite {
          input values
          @param outputVariables are the output variables to create the surface for
          */
-        virtual void toFile(const std::string& filePath, Engine* engine,
-                InputVariable* a, InputVariable* b, std::istream& reader,
-                const std::vector<OutputVariable*>& outputVariables) const;
-
+        virtual void toFile(
+            const std::string& filePath,
+            Engine* engine,
+            InputVariable* a,
+            InputVariable* b,
+            std::istream& reader,
+            const std::vector<OutputVariable*>& outputVariables
+        ) const;
 
         /**
          Writes an R script plotting multiple surfaces based on a manually
@@ -180,9 +199,14 @@ namespace fuzzylite {
          (the path will not be accessed, it will only be written to script)
          @param outputVariables are the output variables to create the surface for
          */
-        virtual void writeScriptImportingDataFrame(const Engine* engine, std::ostream& writer,
-                InputVariable* a, InputVariable* b, const std::string& dataFramePath,
-                const std::vector<OutputVariable*>& outputVariables) const;
+        virtual void writeScriptImportingDataFrame(
+            const Engine* engine,
+            std::ostream& writer,
+            InputVariable* a,
+            InputVariable* b,
+            const std::string& dataFramePath,
+            const std::vector<OutputVariable*>& outputVariables
+        ) const;
 
         /**
          Writes an R script plotting multiple surfaces based on a data frame
@@ -196,9 +220,15 @@ namespace fuzzylite {
          @param scope is the scope of the number of values to evaluate the engine
          @param outputVariables are the output variables to create the surface for
          */
-        virtual void writeScriptExportingDataFrame(Engine* engine, std::ostream& writer,
-                InputVariable* a, InputVariable* b, int values, FldExporter::ScopeOfValues scope,
-                const std::vector<OutputVariable*>& outputVariables) const;
+        virtual void writeScriptExportingDataFrame(
+            Engine* engine,
+            std::ostream& writer,
+            InputVariable* a,
+            InputVariable* b,
+            int values,
+            FldExporter::ScopeOfValues scope,
+            const std::vector<OutputVariable*>& outputVariables
+        ) const;
 
         /**
          Writes an R script plotting multiple surfaces based on a data frame
@@ -212,11 +242,16 @@ namespace fuzzylite {
          input values
          @param outputVariables are the output variables to create the surface for
          */
-        virtual void writeScriptExportingDataFrame(Engine* engine, std::ostream& writer,
-                InputVariable* a, InputVariable* b, std::istream& reader,
-                const std::vector<OutputVariable*>& outputVariables) const;
+        virtual void writeScriptExportingDataFrame(
+            Engine* engine,
+            std::ostream& writer,
+            InputVariable* a,
+            InputVariable* b,
+            std::istream& reader,
+            const std::vector<OutputVariable*>& outputVariables
+        ) const;
 
-    protected:
+      protected:
         /**
          Writes the header of the R script (e.g., import libraries)
          @param writer is the output where the header will be written to
@@ -232,16 +267,16 @@ namespace fuzzylite {
          @param b is the second input variable
          @param outputVariables are the output variables to create the surface for
          */
-        virtual void writeScriptPlots(std::ostream& writer,
-                InputVariable* a, InputVariable* b,
-                const std::vector<OutputVariable*>& outputVariables) const;
-
+        virtual void writeScriptPlots(
+            std::ostream& writer,
+            InputVariable* a,
+            InputVariable* b,
+            const std::vector<OutputVariable*>& outputVariables
+        ) const;
 
         virtual RScriptExporter* clone() const FL_IOVERRIDE;
-
     };
 
 }
 
 #endif /* FL_RSCRIPTEXPORTER_H */
-

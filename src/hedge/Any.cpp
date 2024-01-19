@@ -19,9 +19,9 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    Any::Any() { }
+    Any::Any() {}
 
-    Any::~Any() { }
+    Any::~Any() {}
 
     std::string Any::name() const {
         return "any";
@@ -45,4 +45,3 @@ namespace fuzzylite {
     }
 
 }
-

@@ -36,11 +36,11 @@ namespace fuzzylite {
      */
 
     class FL_API First : public Activation {
-    private:
+      private:
         int _numberOfRules;
         scalar _threshold;
-    public:
 
+      public:
         explicit First(int numberOfRules = 1, scalar threshold = 0.0);
         virtual ~First();
         FL_DEFAULT_COPY_AND_MOVE(First)
@@ -100,6 +100,5 @@ namespace fuzzylite {
     };
 
 }
-
 
 #endif /* FL_FIRST_H */

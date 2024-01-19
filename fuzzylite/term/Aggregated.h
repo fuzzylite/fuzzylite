@@ -18,11 +18,10 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_AGGREGATED_H
 #define FL_AGGREGATED_H
 
-#include "fuzzylite/term/Term.h"
+#include <vector>
 
 #include "fuzzylite/term/Activated.h"
-
-#include <vector>
+#include "fuzzylite/term/Term.h"
 
 namespace fuzzylite {
 
@@ -46,17 +45,20 @@ namespace fuzzylite {
       @since 6.0
      */
     class FL_API Aggregated : public Term {
-    private:
+      private:
         std::vector<Activated> _terms;
         scalar _minimum, _maximum;
         FL_unique_ptr<SNorm> _aggregation;
 
         void copyFrom(const Aggregated& source);
-    public:
-        explicit Aggregated(const std::string& name = "",
-                scalar minimum = fl::nan,
-                scalar maximum = fl::nan,
-                SNorm* aggregation = fl::null);
+
+      public:
+        explicit Aggregated(
+            const std::string& name = "",
+            scalar minimum = fl::nan,
+            scalar maximum = fl::nan,
+            SNorm* aggregation = fl::null
+        );
         Aggregated(const Aggregated& other);
         Aggregated& operator=(const Aggregated& other);
         virtual ~Aggregated() FL_IOVERRIDE;

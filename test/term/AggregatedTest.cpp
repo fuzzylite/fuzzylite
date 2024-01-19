@@ -15,9 +15,9 @@ fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 fuzzylite is a registered trademark of FuzzyLite Limited.
 */
 
-#include "fuzzylite/Headers.h"
-
 #include <catch2/catch.hpp>
+
+#include "fuzzylite/Headers.h"
 
 namespace fuzzylite {
 
@@ -29,7 +29,6 @@ namespace fuzzylite {
      */
 
     TEST_CASE("highest term in aggregated", "[term][aggregated]") {
-
         FL_unique_ptr<Term> dark(new Triangle("DARK", 0.000, 0.250, 0.500));
         FL_unique_ptr<Term> medium(new Triangle("MEDIUM", 0.250, 0.500, 0.750));
         FL_unique_ptr<Term> bright(new Triangle("BRIGHT", 0.500, 0.750, 1.000));

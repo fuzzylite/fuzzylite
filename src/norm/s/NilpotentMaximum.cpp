@@ -30,9 +30,8 @@ namespace fuzzylite {
     }
 
     scalar NilpotentMaximum::compute(scalar a, scalar b) const {
-        if (Op::isLt(a + b, 1.0)) {
+        if (Op::isLt(a + b, 1.0))
             return Op::max(a, b);
-        }
         return 1.0;
     }
 
