@@ -1,15 +1,15 @@
-BUILD ?= release
-CPP98 ?= OFF
-FLOAT ?= OFF
+BUILD = release
+CPP98 = OFF
+FLOAT = OFF
 
-.PHONY: configure build test format lint
+.PHONY: configure make test format lint
 
-all: configure build test
+all: configure make test
 
 configure:
 	cmake -B build/$(BUILD) -DCMAKE_BUILD_TYPE=$(BUILD) -DFL_CPP98=$(CPP98) -DFL_USE_FLOAT=$(FLOAT) .
 
-build:
+make:
 	cmake --build build/$(BUILD) --parallel
 
 test:

@@ -23,9 +23,11 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <execinfo.h>
 
 #elif defined FL_WINDOWS
-#include <winbase.h>
+// clang-format off
+// Prevent reordering of headers; breaks otherwise.
 #include <windows.h>
-
+#include <winbase.h>
+// clang-format on
 #ifndef __MINGW32__
 /*Disable warning 8.1\Include\um\dbghelp.h(1544):
 warning C4091: 'typedef ': ignored on left of '' when no variable is declared*/
