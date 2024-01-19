@@ -14,10 +14,8 @@ src/defuzzifier/LargestOfMaximum.cpp
 src/defuzzifier/MeanOfMaximum.cpp
 src/defuzzifier/SmallestOfMaximum.cpp
 src/defuzzifier/WeightedAverage.cpp
-src/defuzzifier/WeightedAverageCustom.cpp
 src/defuzzifier/WeightedDefuzzifier.cpp
 src/defuzzifier/WeightedSum.cpp
-src/defuzzifier/WeightedSumCustom.cpp
 src/Engine.cpp
 src/Exception.cpp
 src/factory/ActivationFactory.cpp
