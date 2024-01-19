@@ -1,26 +1,32 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include "fuzzylite/term/Trapezoid.h"
 
-namespace fl {
+namespace fuzzylite {
 
-    Trapezoid::Trapezoid(const std::string& name,
-            scalar vertexA, scalar vertexB, scalar vertexC, scalar vertexD, scalar height)
-    : Term(name, height), _vertexA(vertexA), _vertexB(vertexB), _vertexC(vertexC), _vertexD(vertexD) {
+    Trapezoid::Trapezoid(
+        const std::string& name, scalar vertexA, scalar vertexB, scalar vertexC, scalar vertexD, scalar height
+    ) :
+        Term(name, height),
+        _vertexA(vertexA),
+        _vertexB(vertexB),
+        _vertexC(vertexC),
+        _vertexD(vertexD) {
         if (Op::isNaN(vertexC) and Op::isNaN(vertexD)) {
             this->_vertexD = _vertexB;
             scalar range = _vertexD - _vertexA;
@@ -29,7 +35,7 @@ namespace fl {
         }
     }
 
-    Trapezoid::~Trapezoid() { }
+    Trapezoid::~Trapezoid() {}
 
     std::string Trapezoid::className() const {
         return "Trapezoid";
@@ -40,40 +46,45 @@ namespace fl {
     }
 
     scalar Trapezoid::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
 
         if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexD))
             return Term::_height * 0.0;
 
         if (Op::isLt(x, _vertexB)) {
-            if (_vertexA == -fl::inf) return Term::_height * 1.0;
+            if (_vertexA == -fl::inf)
+                return Term::_height * 1.0;
             return Term::_height * Op::min(scalar(1.0), (x - _vertexA) / (_vertexB - _vertexA));
         }
         if (Op::isLE(x, _vertexC))
             return Term::_height * 1.0;
 
         if (Op::isLt(x, _vertexD)) {
-            if (_vertexD == fl::inf) return Term::_height * 1.0;
+            if (_vertexD == fl::inf)
+                return Term::_height * 1.0;
             return Term::_height * (_vertexD - x) / (_vertexD - _vertexC);
         }
 
-        if (_vertexD == fl::inf) return Term::_height * 1.0;
+        if (_vertexD == fl::inf)
+            return Term::_height * 1.0;
         return Term::_height * 0.0;
     }
 
     std::string Trapezoid::parameters() const {
-        return Op::join(4, " ", _vertexA, _vertexB, _vertexC, _vertexD)+
-                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(4, " ", _vertexA, _vertexB, _vertexC, _vertexD)
+               + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Trapezoid::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 4;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setVertexA(Op::toScalar(values.at(0)));
@@ -123,6 +134,5 @@ namespace fl {
     Term* Trapezoid::constructor() {
         return new Trapezoid;
     }
-
 
 }

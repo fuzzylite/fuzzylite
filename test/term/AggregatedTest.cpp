@@ -1,24 +1,25 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 
-#include "fuzzylite/Headers.h"
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include <catch2/catch.hpp>
 
-namespace fl {
+#include "fuzzylite/Headers.h"
+
+namespace fuzzylite {
 
     /**
      * Tests: term/Aggregated
@@ -28,7 +29,6 @@ namespace fl {
      */
 
     TEST_CASE("highest term in aggregated", "[term][aggregated]") {
-
         FL_unique_ptr<Term> dark(new Triangle("DARK", 0.000, 0.250, 0.500));
         FL_unique_ptr<Term> medium(new Triangle("MEDIUM", 0.250, 0.500, 0.750));
         FL_unique_ptr<Term> bright(new Triangle("BRIGHT", 0.500, 0.750, 1.000));

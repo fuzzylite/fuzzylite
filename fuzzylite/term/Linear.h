@@ -1,25 +1,26 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_LINEAR_H
 #define FL_LINEAR_H
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
     class Engine;
 
     /**
@@ -37,14 +38,17 @@ namespace fl {
       @since 4.0
      */
     class FL_API Linear : public Term {
-    private:
+      private:
         /**Contains the coefficients @f$c_i@f$ and the constant @f$k@f$*/
         std::vector<scalar> _coefficients;
         const Engine* _engine;
-    public:
-        explicit Linear(const std::string& name = "",
-                const std::vector<scalar>& coefficients = std::vector<scalar>(),
-                const Engine* engine = fl::null);
+
+      public:
+        explicit Linear(
+            const std::string& name = "",
+            const std::vector<scalar>& coefficients = std::vector<scalar>(),
+            const Engine* engine = fl::null
+        );
         virtual ~Linear() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Linear)
 
@@ -144,8 +148,7 @@ namespace fl {
           @return a new Linear term with the given parameters
          */
         template <typename T>
-        static Linear* create(const std::string& name, const Engine* engine,
-                T firstCoefficient, ...);
+        static Linear* create(const std::string& name, const Engine* engine, T firstCoefficient, ...);
     };
 }
 
@@ -155,25 +158,27 @@ namespace fl {
 
 #include "fuzzylite/Engine.h"
 
-namespace fl {
+namespace fuzzylite {
 
     template <typename T>
-    inline Linear* Linear::create(const std::string& name,
-            const Engine* engine, T firstCoefficient, ...) {
-        if (not engine) throw Exception("[linear error] cannot create term <" + name + "> "
-                "without a reference to the engine", FL_AT);
+    inline Linear* Linear::create(const std::string& name, const Engine* engine, T firstCoefficient, ...) {
+        if (not engine)
+            throw Exception(
+                "[linear error] cannot create term <" + name
+                    + "> "
+                      "without a reference to the engine",
+                FL_AT
+            );
         std::vector<scalar> coefficients;
-        coefficients.push_back((scalar) firstCoefficient);
+        coefficients.push_back((scalar)firstCoefficient);
 
         va_list args;
         va_start(args, firstCoefficient);
-        for (std::size_t i = 0; i < engine->inputVariables().size(); ++i) {
-            coefficients.push_back((scalar) va_arg(args, T));
-        }
+        for (std::size_t i = 0; i < engine->inputVariables().size(); ++i)
+            coefficients.push_back((scalar)va_arg(args, T));
         va_end(args);
 
         return new Linear(name, coefficients, engine);
     }
 }
-#endif  /* FL_LINEAR_H */
-
+#endif /* FL_LINEAR_H */

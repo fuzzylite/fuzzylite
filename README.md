@@ -127,7 +127,7 @@ fl::Engine* engine = fl::FllImporter().fromFile("ObstacleAvoidance.fll");
 //File: ObstacleAvoidance.cpp
 #include <fl/Headers.h>
 
-using namespace fl;
+using namespace fuzzylite;
 
 Engine* engine = new Engine;
 engine->setName("ObstacleAvoidance");
@@ -173,7 +173,7 @@ engine->addRuleBlock(mamdani);
 ### Operation
 
 ```cpp
-using namespace fl;
+using namespace fuzzylite;
 
 std::string status;
 if (not engine->isReady(&status))

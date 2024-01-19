@@ -1,27 +1,28 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_FLDEXPORTER_H
 #define FL_FLDEXPORTER_H
 
-#include "fuzzylite/imex/Exporter.h"
-
 #include <vector>
 
-namespace fl {
+#include "fuzzylite/imex/Exporter.h"
+
+namespace fuzzylite {
     class Engine;
     class InputVariable;
     class OutputVariable;
@@ -38,13 +39,13 @@ namespace fl {
       @since 4.0
      */
     class FL_API FldExporter : public Exporter {
-    private:
+      private:
         std::string _separator;
         bool _exportHeaders;
         bool _exportInputValues;
         bool _exportOutputValues;
-    public:
 
+      public:
         /**
          The ScopeOfValues refers to the scope of the equally-distributed values
          to generate.
@@ -55,6 +56,7 @@ namespace fl {
             /**Generates @f$n@f$ values for all variables*/
             AllVariables
         };
+
         explicit FldExporter(const std::string& separator = " ");
         virtual ~FldExporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FldExporter)
@@ -143,8 +145,9 @@ namespace fl {
           fl::null indicates the variable is not active.
           @return a FuzzyLite Dataset from the engine
          */
-        virtual std::string toString(Engine* engine, int values, ScopeOfValues scope,
-                const std::vector<InputVariable*>& activeVariables) const;
+        virtual std::string toString(
+            Engine* engine, int values, ScopeOfValues scope, const std::vector<InputVariable*>& activeVariables
+        ) const;
         /**
           Returns a FuzzyLite Dataset from the engine.
           @param engine is the engine to export
@@ -154,7 +157,6 @@ namespace fl {
          */
         virtual std::string toString(Engine* engine, std::istream& reader) const;
 
-
         using Exporter::toFile;
         /**
           Saves the engine as a FuzzyLite Dataset into the specified file
@@ -163,8 +165,8 @@ namespace fl {
           @param values is the number of values to export
           @param scope indicates the scope of the values
          */
-        virtual void toFile(const std::string& path, Engine* engine,
-                int values, ScopeOfValues scope = AllVariables) const;
+        virtual void
+        toFile(const std::string& path, Engine* engine, int values, ScopeOfValues scope = AllVariables) const;
         /**
           Saves the engine as a FuzzyLite Dataset into the specified file
           @param path is the full path of the file
@@ -175,9 +177,13 @@ namespace fl {
           The input variables must be in the same order as in the engine. A value of
           fl::null indicates the variable is not active.
          */
-        virtual void toFile(const std::string& path, Engine* engine,
-                int values, ScopeOfValues scope,
-                const std::vector<InputVariable*>& activeVariables) const;
+        virtual void toFile(
+            const std::string& path,
+            Engine* engine,
+            int values,
+            ScopeOfValues scope,
+            const std::vector<InputVariable*>& activeVariables
+        ) const;
         /**
           Saves the engine as a FuzzyLite Dataset into the specified file
           @param path is the full path of the file
@@ -200,8 +206,7 @@ namespace fl {
           @param values is the number of values to export
           @param scope indicates the scope of the values
          */
-        virtual void write(Engine* engine, std::ostream& writer, int values,
-                ScopeOfValues scope = AllVariables) const;
+        virtual void write(Engine* engine, std::ostream& writer, int values, ScopeOfValues scope = AllVariables) const;
         /**
           Writes the engine into the given writer
           @param engine is the engine to export
@@ -212,8 +217,13 @@ namespace fl {
           The input variables must be in the same order as in the engine. A value of
           fl::null indicates the variable is not active.
          */
-        virtual void write(Engine* engine, std::ostream& writer, int values, ScopeOfValues scope,
-                const std::vector<InputVariable*>& activeVariables) const;
+        virtual void write(
+            Engine* engine,
+            std::ostream& writer,
+            int values,
+            ScopeOfValues scope,
+            const std::vector<InputVariable*>& activeVariables
+        ) const;
         /**
           Writes the engine into the given writer
           @param engine is the engine to export
@@ -237,12 +247,15 @@ namespace fl {
           The input variables must be in the same order as in the engine. A value of
           fl::null indicates the variable is not active.
          */
-        virtual void write(Engine* engine, std::ostream& writer, const std::vector<scalar>& inputValues,
-                const std::vector<InputVariable*>& activeVariables) const;
+        virtual void write(
+            Engine* engine,
+            std::ostream& writer,
+            const std::vector<scalar>& inputValues,
+            const std::vector<InputVariable*>& activeVariables
+        ) const;
 
         virtual FldExporter* clone() const FL_IOVERRIDE;
     };
 }
 
-#endif  /* FL_FLDEXPORTER_H */
-
+#endif /* FL_FLDEXPORTER_H */

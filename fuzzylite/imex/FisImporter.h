@@ -1,29 +1,29 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_FISIMPORTER_H
 #define FL_FISIMPORTER_H
 
-#include "fuzzylite/imex/Importer.h"
-
 #include <utility>
 #include <vector>
 
+#include "fuzzylite/imex/Importer.h"
 
-namespace fl {
+namespace fuzzylite {
     class Norm;
     class TNorm;
     class SNorm;
@@ -42,7 +42,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API FisImporter : public Importer {
-    public:
+      public:
         FisImporter();
         virtual ~FisImporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FisImporter)
@@ -53,11 +53,16 @@ namespace fl {
 
         virtual FisImporter* clone() const FL_IOVERRIDE;
 
-    protected:
-        virtual void importSystem(const std::string& section, Engine* engine,
-                std::string& andMethod, std::string& orMethod,
-                std::string& impMethod, std::string& aggMethod,
-                std::string& defuzzMethod) const;
+      protected:
+        virtual void importSystem(
+            const std::string& section,
+            Engine* engine,
+            std::string& andMethod,
+            std::string& orMethod,
+            std::string& impMethod,
+            std::string& aggMethod,
+            std::string& defuzzMethod
+        ) const;
         virtual void importInput(const std::string& section, Engine* engine) const;
         virtual void importOutput(const std::string& section, Engine* engine) const;
         virtual void importRules(const std::string& section, Engine* engine) const;
@@ -68,13 +73,15 @@ namespace fl {
         virtual std::string translateDefuzzifier(const std::string& defuzzifier) const;
 
         virtual Term* parseTerm(const std::string& line, const Engine* engine) const;
-        virtual Term* createInstance(const std::string& termClass, const std::string& name,
-                const std::vector<std::string>& params, const Engine* engine) const;
+        virtual Term* createInstance(
+            const std::string& termClass,
+            const std::string& name,
+            const std::vector<std::string>& params,
+            const Engine* engine
+        ) const;
 
         virtual std::pair<scalar, scalar> parseRange(const std::string& range) const;
-
     };
 }
 
-#endif  /* FL_FISIMPORTER_H */
-
+#endif /* FL_FISIMPORTER_H */

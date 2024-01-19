@@ -1,29 +1,29 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_AGGREGATED_H
 #define FL_AGGREGATED_H
 
-#include "fuzzylite/term/Term.h"
-
-#include "fuzzylite/term/Activated.h"
-
 #include <vector>
 
-namespace fl {
+#include "fuzzylite/term/Activated.h"
+#include "fuzzylite/term/Term.h"
+
+namespace fuzzylite {
 
     class SNorm;
     class TNorm;
@@ -45,17 +45,20 @@ namespace fl {
       @since 6.0
      */
     class FL_API Aggregated : public Term {
-    private:
+      private:
         std::vector<Activated> _terms;
         scalar _minimum, _maximum;
         FL_unique_ptr<SNorm> _aggregation;
 
         void copyFrom(const Aggregated& source);
-    public:
-        explicit Aggregated(const std::string& name = "",
-                scalar minimum = fl::nan,
-                scalar maximum = fl::nan,
-                SNorm* aggregation = fl::null);
+
+      public:
+        explicit Aggregated(
+            const std::string& name = "",
+            scalar minimum = fl::nan,
+            scalar maximum = fl::nan,
+            SNorm* aggregation = fl::null
+        );
         Aggregated(const Aggregated& other);
         Aggregated& operator=(const Aggregated& other);
         virtual ~Aggregated() FL_IOVERRIDE;

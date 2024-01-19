@@ -1,29 +1,29 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_THRESHOLD_H
 #define FL_THRESHOLD_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/activation/Activation.h"
-
 #include <vector>
 
-namespace fl {
+#include "fuzzylite/activation/Activation.h"
+#include "fuzzylite/fuzzylite.h"
+
+namespace fuzzylite {
 
     /**
       The Threshold class is a RuleBlock Activation method that activates the
@@ -39,8 +39,7 @@ namespace fl {
      */
 
     class FL_API Threshold : public Activation {
-    public:
-
+      public:
         /**
           Comparison is an enumerator that provides six comparison operators
           between the activation degree @f$a@f$ and the threshold @f$\theta@f$.
@@ -59,10 +58,12 @@ namespace fl {
             /**@f$a > \theta@f$*/
             GreaterThan
         };
-    private:
+
+      private:
         Comparison _comparison;
         scalar _value;
-    public:
+
+      public:
         explicit Threshold(Comparison comparison = GreaterThanOrEqualTo, scalar threshold = 0.0);
         explicit Threshold(const std::string& comparison, scalar threshold);
         virtual ~Threshold();
@@ -116,7 +117,6 @@ namespace fl {
          */
         virtual std::vector<std::string> availableComparisonOperators() const;
 
-
         /**
           Parses the comparison operator, or throws an
           exception if the parameter does not correspond to a valid operator
@@ -161,7 +161,6 @@ namespace fl {
           activation degree and the threshold
          */
         virtual bool activatesWith(scalar activationDegree) const;
-
 
         virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
 

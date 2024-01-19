@@ -1,29 +1,30 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_EXCEPTION_H
 #define FL_EXCEPTION_H
-
-#include "fuzzylite/fuzzylite.h"
 
 #include <exception>
 #include <string>
 #include <vector>
 
-namespace fl {
+#include "fuzzylite/fuzzylite.h"
+
+namespace fuzzylite {
 
     /**
 
@@ -41,18 +42,20 @@ namespace fl {
      */
 
 #ifdef FL_WINDOWS
-    //Disable warning for dllexport of std::exception in Windows
-#pragma warning (push)
-#pragma warning (disable:4275)
+    // Disable warning for dllexport of std::exception in Windows
+#pragma warning(push)
+#pragma warning(disable : 4275)
 #endif
 
     class FL_API Exception : public std::exception {
 #ifdef FL_WINDOWS
-#pragma warning (pop)
+#pragma warning(pop)
 #endif
-    private:
+
+      private:
         std::string _what;
-    public:
+
+      public:
         explicit Exception(const std::string& what);
         /**
           Constructor to be used in conjunction with macro `FL_AT`
@@ -61,8 +64,7 @@ namespace fl {
           @param line is the line number in the file where the exception occurred
           @param function is the name of the function where the exception occurred
          */
-        explicit Exception(const std::string& what, const std::string& file, int line,
-                const std::string& function);
+        explicit Exception(const std::string& what, const std::string& file, int line, const std::string& function);
         virtual ~Exception() FL_INOEXCEPT FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Exception)
 
@@ -103,8 +105,8 @@ namespace fl {
           @param line is the line number in the file where the exception occurred
           @param function is the name of the function where the exception occurred
          */
-        virtual void append(const std::string& whatElse,
-                const std::string& file, int line, const std::string& function);
+        virtual void
+        append(const std::string& whatElse, const std::string& file, int line, const std::string& function);
 
         /**
           Returns the stack trace (if enabled)
@@ -133,8 +135,6 @@ namespace fl {
           @param exception is the exception thrown
          */
         static void catchException(const std::exception& exception);
-
-
     };
 }
 #endif /* FL_EXCEPTION_H */

@@ -1,32 +1,31 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_RULE_H
 #define FL_RULE_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/rule/Consequent.h"
-#include "fuzzylite/rule/Antecedent.h"
-
 #include <map>
 #include <string>
 
+#include "fuzzylite/fuzzylite.h"
+#include "fuzzylite/rule/Antecedent.h"
+#include "fuzzylite/rule/Consequent.h"
 
-namespace fl {
+namespace fuzzylite {
     class Engine;
     class Hedge;
     class TNorm;
@@ -64,7 +63,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Rule {
-    private:
+      private:
         bool _enabled;
         std::string _text;
         scalar _weight;
@@ -73,7 +72,7 @@ namespace fl {
         FL_unique_ptr<Antecedent> _antecedent;
         FL_unique_ptr<Consequent> _consequent;
 
-    public:
+      public:
         explicit Rule(const std::string& text = "", scalar weight = 1.0);
         Rule(const Rule& other);
         Rule& operator=(const Rule& other);
@@ -279,8 +278,7 @@ namespace fl {
           @return the estimated complexity of calculating the activation degree
           of the rule
          */
-        virtual Complexity complexityOfActivation(const TNorm* conjunction,
-                const SNorm* disjunction) const;
+        virtual Complexity complexityOfActivation(const TNorm* conjunction, const SNorm* disjunction) const;
 
         /**
           Computes the estimated complexity of firing the rule
@@ -296,9 +294,8 @@ namespace fl {
          @param implication is the implication operator
          @return the estimated complexity of activating and firing the rule
          */
-        virtual Complexity complexity(const TNorm* conjunction,
-                const SNorm* disjunction, const TNorm* implication) const;
-
+        virtual Complexity
+        complexity(const TNorm* conjunction, const SNorm* disjunction, const TNorm* implication) const;
     };
 }
 

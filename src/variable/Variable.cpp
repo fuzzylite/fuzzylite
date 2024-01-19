@@ -1,34 +1,39 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include "fuzzylite/variable/Variable.h"
+
+#include <queue>
 
 #include "fuzzylite/imex/FllExporter.h"
 #include "fuzzylite/norm/Norm.h"
 #include "fuzzylite/term/Constant.h"
 #include "fuzzylite/term/Linear.h"
 
-#include <queue>
+namespace fuzzylite {
 
-namespace fl {
-
-    Variable::Variable(const std::string& name, scalar minimum, scalar maximum)
-    : _name(name), _description(""),
-    _value(fl::nan), _minimum(minimum), _maximum(maximum),
-    _enabled(true), _lockValueInRange(false) { }
+    Variable::Variable(const std::string& name, scalar minimum, scalar maximum) :
+        _name(name),
+        _description(""),
+        _value(fl::nan),
+        _minimum(minimum),
+        _maximum(maximum),
+        _enabled(true),
+        _lockValueInRange(false) {}
 
     Variable::Variable(const Variable& other) {
         copyFrom(other);
@@ -36,9 +41,8 @@ namespace fl {
 
     Variable& Variable::operator=(const Variable& other) {
         if (this != &other) {
-            for (std::size_t i = 0; i < _terms.size(); ++i) {
+            for (std::size_t i = 0; i < _terms.size(); ++i)
                 delete _terms.at(i);
-            }
             _terms.clear();
             copyFrom(other);
         }
@@ -53,15 +57,13 @@ namespace fl {
         _maximum = other._maximum;
         _enabled = other._enabled;
         _lockValueInRange = other._lockValueInRange;
-        for (std::size_t i = 0; i < other._terms.size(); ++i) {
+        for (std::size_t i = 0; i < other._terms.size(); ++i)
             _terms.push_back(other._terms.at(i)->clone());
-        }
     }
 
     Variable::~Variable() {
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
+        for (std::size_t i = 0; i < _terms.size(); ++i)
             delete _terms.at(i);
-        }
     }
 
     void Variable::setName(const std::string& name) {
@@ -81,9 +83,7 @@ namespace fl {
     }
 
     void Variable::setValue(scalar value) {
-        this->_value = _lockValueInRange
-                ? Op::bound(value, _minimum, _maximum)
-                : value;
+        this->_value = _lockValueInRange ? Op::bound(value, _minimum, _maximum) : value;
     }
 
     scalar Variable::getValue() const {
@@ -137,11 +137,9 @@ namespace fl {
 
     Complexity Variable::complexity() const {
         Complexity result;
-        if (isEnabled()) {
-            for (std::size_t i = 0; i < _terms.size(); ++i) {
+        if (isEnabled())
+            for (std::size_t i = 0; i < _terms.size(); ++i)
                 result += _terms.at(i)->complexity();
-            }
-        }
         return result;
     }
 
@@ -153,16 +151,14 @@ namespace fl {
             try {
                 fx = term->membership(x);
             } catch (...) {
-                //ignore
+                // ignore
             }
-            if (i == 0) {
+            if (i == 0)
                 ss << Op::str(fx);
-            } else {
-                if (Op::isNaN(fx) or Op::isGE(fx, 0.0))
-                    ss << " + " << Op::str(fx);
-                else
-                    ss << " - " << Op::str(std::abs(fx));
-            }
+            else if (Op::isNaN(fx) or Op::isGE(fx, 0.0))
+                ss << " + " << Op::str(fx);
+            else
+                ss << " - " << Op::str(std::abs(fx));
             ss << "/" << term->getName();
         }
         return ss.str();
@@ -177,14 +173,15 @@ namespace fl {
             try {
                 y = term->membership(x);
             } catch (...) {
-                //ignore
+                // ignore
             }
             if (Op::isGt(y, ymax)) {
                 ymax = y;
                 result = term;
             }
         }
-        if (yhighest) *yhighest = ymax;
+        if (yhighest)
+            *yhighest = ymax;
         return result;
     }
 
@@ -199,26 +196,24 @@ namespace fl {
     typedef std::pair<Term*, scalar> TermCentroid;
 
     struct Ascending {
-
         bool operator()(const TermCentroid& a, const TermCentroid& b) const {
             return a.second > b.second;
         }
     };
 
     void Variable::sort() {
-        std::priority_queue <TermCentroid, std::vector<TermCentroid>, Ascending> termCentroids;
+        std::priority_queue<TermCentroid, std::vector<TermCentroid>, Ascending> termCentroids;
         Centroid defuzzifier;
         FL_DBG("Sorting...");
         for (std::size_t i = 0; i < _terms.size(); ++i) {
             Term* term = _terms.at(i);
             scalar centroid = fl::inf;
             try {
-                if (dynamic_cast<const Constant*> (term) or dynamic_cast<const Linear*> (term)) {
+                if (dynamic_cast<const Constant*>(term) or dynamic_cast<const Linear*>(term))
                     centroid = term->membership(0);
-                } else {
+                else
                     centroid = defuzzifier.defuzzify(term, getMinimum(), getMaximum());
-                }
-            } catch (...) { //ignore error possibly due to Function not loaded
+            } catch (...) {  // ignore error possibly due to Function not loaded
                 centroid = fl::inf;
             }
             termCentroids.push(TermCentroid(term, centroid));
@@ -247,21 +242,22 @@ namespace fl {
     }
 
     Term* Variable::getTerm(const std::string& name) const {
-        for (std::size_t i = 0; i < terms().size(); ++i) {
-            if (_terms.at(i)->getName() == name) {
+        for (std::size_t i = 0; i < terms().size(); ++i)
+            if (_terms.at(i)->getName() == name)
                 return terms().at(i);
-            }
-        }
-        throw Exception("[variable error] term <" + name + "> "
-                "not found in variable <" + getName() + ">", FL_AT);
+        throw Exception(
+            "[variable error] term <" + name
+                + "> "
+                  "not found in variable <"
+                + getName() + ">",
+            FL_AT
+        );
     }
 
     bool Variable::hasTerm(const std::string& name) const {
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
-            if (_terms.at(i)->getName() == name) {
+        for (std::size_t i = 0; i < _terms.size(); ++i)
+            if (_terms.at(i)->getName() == name)
                 return true;
-            }
-        }
         return false;
     }
 
@@ -292,4 +288,3 @@ namespace fl {
     }
 
 }
-

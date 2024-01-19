@@ -1,31 +1,31 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_BENCHMARK_H
 #define FL_BENCHMARK_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/Complexity.h"
-#include "fuzzylite/imex/FldExporter.h"
-
 #include <string>
 #include <vector>
 
-namespace fl {
+#include "fuzzylite/Complexity.h"
+#include "fuzzylite/fuzzylite.h"
+#include "fuzzylite/imex/FldExporter.h"
+
+namespace fuzzylite {
 
     class Engine;
 
@@ -37,7 +37,7 @@ namespace fl {
       @since 6.0
      */
     class FL_API Benchmark {
-    private:
+      private:
         std::string _name;
         Engine* _engine;
         std::vector<std::vector<scalar> > _expected;
@@ -45,38 +45,30 @@ namespace fl {
         std::vector<scalar> _times;
         scalar _tolerance;
 
-    public:
-
+      public:
         /**
          Unit of time to utilize in the results
          */
-        enum TimeUnit {
-            NanoSeconds, MicroSeconds, MilliSeconds, Seconds, Minutes, Hours
-        };
+        enum TimeUnit { NanoSeconds, MicroSeconds, MilliSeconds, Seconds, Minutes, Hours };
 
         /**
          Shape of the table of results
          */
-        enum TableShape {
-            Horizontal, Vertical
-        };
+        enum TableShape { Horizontal, Vertical };
 
         /**
          Contents of the table of results
          */
-        enum TableContents {
-            Header = 1, Body = 2, HeaderAndBody = (Header | Body)
-        };
+        enum TableContents { Header = 1, Body = 2, HeaderAndBody = (Header | Body) };
 
         /**
          Type of error between expected and obtained values
          */
-        enum ErrorType {
-            NonFinite, Accuracy, All
-        };
+        enum ErrorType { NonFinite, Accuracy, All };
 
-        explicit Benchmark(const std::string& name = "", Engine* engine = fl::null,
-                scalar tolerance = fuzzylite::macheps());
+        explicit Benchmark(
+            const std::string& name = "", Engine* engine = fl::null, scalar tolerance = fuzzylite::macheps()
+        );
         virtual ~Benchmark();
         FL_DEFAULT_COPY_AND_MOVE(Benchmark)
 
@@ -287,7 +279,6 @@ namespace fl {
          */
         virtual int accuracyErrors() const;
 
-
         /**
          Computes the number of errors over the given output variable caused by
          a significant difference in accuracy. An error is counted when the
@@ -325,8 +316,7 @@ namespace fl {
          @param outputVariable is the output variable to account the errors for
          @return the number of errors over the given output variable
          */
-        virtual int numberOfErrors(ErrorType errorType,
-                const OutputVariable* outputVariable) const;
+        virtual int numberOfErrors(ErrorType errorType, const OutputVariable* outputVariable) const;
 
         /**
          Returns the name of the time unit
@@ -379,8 +369,8 @@ namespace fl {
          @param includeTimes indicates whether to include the times of each run
          @return the results from the benchmark
          */
-        virtual std::vector<Result> results(const OutputVariable* outputVariable,
-                TimeUnit timeUnit = NanoSeconds, bool includeTimes = true) const;
+        virtual std::vector<Result>
+        results(const OutputVariable* outputVariable, TimeUnit timeUnit = NanoSeconds, bool includeTimes = true) const;
 
         /**
          Formats the results
@@ -390,11 +380,11 @@ namespace fl {
          @param delimiter is the delimiter of the table of results
          @return the formatted results from the benchmark
          */
-        virtual std::string format(std::vector<Result> results, TableShape shape,
-                TableContents contents, const std::string& delimiter = "\t") const;
+        virtual std::string format(
+            std::vector<Result> results, TableShape shape, TableContents contents, const std::string& delimiter = "\t"
+        ) const;
     };
 
 }
 
 #endif /* FL_BENCHMARK_H */
-

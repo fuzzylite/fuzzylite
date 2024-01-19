@@ -1,27 +1,28 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_COMPLEXITY_H
 #define FL_COMPLEXITY_H
 
-#include "fuzzylite/fuzzylite.h"
-
 #include <vector>
 
-namespace fl {
+#include "fuzzylite/fuzzylite.h"
+
+namespace fuzzylite {
     class Engine;
     class InputVariable;
     class OutputVariable;
@@ -48,12 +49,12 @@ namespace fl {
      */
 
     class FL_API Complexity {
-    private:
+      private:
         scalar _comparison;
         scalar _arithmetic;
         scalar _function;
 
-    public:
+      public:
         explicit Complexity(scalar all = 0.0);
         explicit Complexity(scalar comparison, scalar arithmetic, scalar function);
         virtual ~Complexity();
@@ -263,8 +264,8 @@ namespace fl {
          complexity of the variable including the defuzzification process
          @return the complexity of the given output variables
          */
-        virtual Complexity compute(const std::vector<OutputVariable*>& outputVariables,
-                bool complexityOfDefuzzification = false) const;
+        virtual Complexity
+        compute(const std::vector<OutputVariable*>& outputVariables, bool complexityOfDefuzzification = false) const;
         /**
          Computes the complexity of the given variables
          @param variables is the vector of variables for which to compute the
@@ -287,11 +288,8 @@ namespace fl {
          @return Computes the complexity of the given rule blocks
          */
         virtual Complexity compute(const std::vector<RuleBlock*>& ruleBlocks) const;
-
     };
-
 
 }
 
 #endif /* COMPLEXITY_H */
-

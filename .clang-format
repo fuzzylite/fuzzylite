@@ -2,20 +2,46 @@
 Language:        Cpp
 BasedOnStyle:  LLVM
 AccessModifierOffset: -2
-AlignAfterOpenBracket: Align
+AlignAfterOpenBracket: BlockIndent
 AlignArrayOfStructures: None
-AlignConsecutiveMacros: None
-AlignConsecutiveAssignments: None
-AlignConsecutiveBitFields: None
-AlignConsecutiveDeclarations: None
+AlignConsecutiveAssignments:
+  Enabled:         false
+  AcrossEmptyLines: false
+  AcrossComments:  false
+  AlignCompound:   false
+  PadOperators:    true
+AlignConsecutiveBitFields:
+  Enabled:         false
+  AcrossEmptyLines: false
+  AcrossComments:  false
+  AlignCompound:   false
+  PadOperators:    false
+AlignConsecutiveDeclarations:
+  Enabled:         false
+  AcrossEmptyLines: false
+  AcrossComments:  false
+  AlignCompound:   false
+  PadOperators:    false
+AlignConsecutiveMacros:
+  Enabled:         false
+  AcrossEmptyLines: false
+  AcrossComments:  false
+  AlignCompound:   false
+  PadOperators:    false
+AlignConsecutiveShortCaseStatements:
+  Enabled:         false
+  AcrossEmptyLines: false
+  AcrossComments:  false
+  AlignCaseColons: false
 AlignEscapedNewlines: Left
 AlignOperands:   Align
-AlignTrailingComments: true
+AlignTrailingComments:
+  Kind:            Always
+  OverEmptyLines:  0
 AllowAllArgumentsOnNextLine: true
-AllowAllConstructorInitializersOnNextLine: true
-AllowAllParametersOfDeclarationOnNextLine: true
+#AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortEnumsOnASingleLine: true
-AllowShortBlocksOnASingleLine: Never
+AllowShortBlocksOnASingleLine: Always
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Empty
 AllowShortLambdasOnASingleLine: All
@@ -23,7 +49,7 @@ AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
-AlwaysBreakBeforeMultilineStrings: true
+AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: Yes
 AttributeMacros:
   - __capability
@@ -34,12 +60,12 @@ BraceWrapping:
   AfterClass:      false
   AfterControlStatement: Never
   AfterEnum:       false
+  AfterExternBlock: false
   AfterFunction:   false
   AfterNamespace:  false
   AfterObjCDeclaration: false
   AfterStruct:     false
   AfterUnion:      false
-  AfterExternBlock: false
   BeforeCatch:     false
   BeforeElse:      false
   BeforeLambdaBody: false
@@ -54,13 +80,12 @@ BreakBeforeBraces: Attach
 BreakBeforeInheritanceComma: false
 BreakInheritanceList: BeforeColon
 BreakBeforeTernaryOperators: true
-BreakConstructorInitializersBeforeComma: false
-BreakConstructorInitializers: BeforeColon
+BreakConstructorInitializers: AfterColon
 BreakAfterJavaFieldAnnotations: false
 BreakStringLiterals: true
 ColumnLimit:     120
 CommentPragmas:  '^ IWYU pragma:'
-CompactNamespaces: false
+CompactNamespaces: true
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
@@ -71,7 +96,7 @@ DisableFormat:   false
 EmptyLineAfterAccessModifier: Never
 EmptyLineBeforeAccessModifier: Always
 ExperimentalAutoDetectBinPacking: false
-FixNamespaceComments: true
+FixNamespaceComments: false
 ForEachMacros:
   - foreach
   - Q_FOREACH
@@ -99,76 +124,57 @@ IncludeCategories:
 IncludeIsMainRegex: '([-_](test|unittest))?$'
 IncludeIsMainSourceRegex: ''
 IndentAccessModifiers: false
-IndentCaseLabels: true
 IndentCaseBlocks: false
+IndentCaseLabels: true
+IndentExternBlock: AfterExternBlock
 IndentGotoLabels: true
 IndentPPDirectives: None
-IndentExternBlock: AfterExternBlock
-IndentRequires:  false
+#IndentRequires:  false
 IndentWidth:     4
 IndentWrappedFunctionNames: false
+InsertBraces:    false
+InsertNewlineAtEOF: true
 InsertTrailingCommas: None
 JavaScriptQuotes: Leave
 JavaScriptWrapImports: true
 KeepEmptyLinesAtTheStartOfBlocks: false
 LambdaBodyIndentation: Signature
+LineEnding: DeriveLF
 MacroBlockBegin: ''
 MacroBlockEnd:   ''
 MaxEmptyLinesToKeep: 1
-NamespaceIndentation: None
+NamespaceIndentation: All
 ObjCBinPackProtocolList: Never
 ObjCBlockIndentWidth: 2
 ObjCBreakBeforeNestedBlockParam: true
 ObjCSpaceAfterProperty: false
 ObjCSpaceBeforeProtocolList: true
-# PackConstructorInitializers: Never # clang-format@14
+PackConstructorInitializers: CurrentLine # clang-format@14
 PenaltyBreakAssignment: 2
 PenaltyBreakBeforeFirstCallParameter: 1
 PenaltyBreakComment: 300
 PenaltyBreakFirstLessLess: 120
+PenaltyBreakOpenParenthesis: 0
 PenaltyBreakString: 1000
 PenaltyBreakTemplateDeclaration: 10
 PenaltyExcessCharacter: 1000000
-PenaltyReturnTypeOnItsOwnLine: 200
+PenaltyReturnTypeOnItsOwnLine: 0
 PenaltyIndentedWhitespace: 0
 PointerAlignment: Left
 PPIndentWidth:   -1
-RawStringFormats:
-  - Language:        Cpp
-    Delimiters:
-      - cc
-      - CC
-      - cpp
-      - Cpp
-      - CPP
-      - 'c++'
-      - 'C++'
-    CanonicalDelimiter: ''
-    BasedOnStyle:    google
-  - Language:        TextProto
-    Delimiters:
-      - pb
-      - PB
-      - proto
-      - PROTO
-    EnclosingFunctions:
-      - EqualsProto
-      - EquivToProto
-      - PARSE_PARTIAL_TEXT_PROTO
-      - PARSE_TEST_PROTO
-      - PARSE_TEXT_PROTO
-      - ParseTextOrDie
-      - ParseTextProtoOrDie
-      - ParseTestProto
-      - ParsePartialTestProto
-    CanonicalDelimiter: pb
-    BasedOnStyle:    google
+QualifierAlignment: Left
 ReferenceAlignment: Pointer
 ReflowComments:  true
+RemoveBracesLLVM: true
+RemoveParentheses: ReturnStatement
+RemoveSemicolon: true
+RequiresClausePosition: OwnLine
+RequiresExpressionIndentation: OuterScope
+SeparateDefinitionBlocks: Always
 ShortNamespaceLines: 1
 SortIncludes:    CaseSensitive
 SortJavaStaticImport: Before
-SortUsingDeclarations: true
+SortUsingDeclarations: Lexicographic
 SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
 SpaceAfterTemplateKeyword: true
@@ -194,19 +200,31 @@ SpacesInParentheses: false
 SpacesInSquareBrackets: false
 SpaceBeforeSquareBrackets: false
 BitFieldColonSpacing: Both
-Standard:        Auto
+Standard: Auto
 StatementAttributeLikeMacros:
   - Q_EMIT
 StatementMacros:
   - Q_UNUSED
   - QT_REQUIRE_VERSION
-TabWidth:        8
-UseCRLF:         false
+TabWidth:        4
 UseTab:          Never
 WhitespaceSensitiveMacros:
-  - STRINGIZE
-  - PP_STRINGIZE
   - BOOST_PP_STRINGIZE
-  - NS_SWIFT_NAME
   - CF_SWIFT_NAME
+  - NS_SWIFT_NAME
+  - PP_STRINGIZE
+  - STRINGIZE
+
+RawStringFormats:
+  - Language:        Cpp
+    Delimiters:
+      - cc
+      - CC
+      - cpp
+      - Cpp
+      - CPP
+      - 'c++'
+      - 'C++'
+    CanonicalDelimiter: ''
+    BasedOnStyle:    LLVM
 ...

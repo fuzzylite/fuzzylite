@@ -1,27 +1,28 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_FLLIMPORTER_H
 #define FL_FLLIMPORTER_H
 
-#include "fuzzylite/imex/Importer.h"
-
 #include <utility>
 
-namespace fl {
+#include "fuzzylite/imex/Importer.h"
+
+namespace fuzzylite {
     class TNorm;
     class SNorm;
     class Activation;
@@ -41,9 +42,10 @@ namespace fl {
       @todo parse methods returning respective instances from blocks of text
      */
     class FL_API FllImporter : public Importer {
-    private:
+      private:
         std::string _separator;
-    public:
+
+      public:
         explicit FllImporter(const std::string& separator = "\n");
         virtual ~FllImporter() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(FllImporter)
@@ -64,8 +66,7 @@ namespace fl {
 
         virtual FllImporter* clone() const FL_IOVERRIDE;
 
-    protected:
-
+      protected:
         virtual void process(const std::string& tag, const std::string& block, Engine* engine) const;
         virtual void processInputVariable(const std::string& block, Engine* engine) const;
         virtual void processOutputVariable(const std::string& block, Engine* engine) const;
@@ -81,11 +82,8 @@ namespace fl {
         virtual std::pair<scalar, scalar> parseRange(const std::string& line) const;
         virtual bool parseBoolean(const std::string& boolean) const;
 
-        virtual std::pair<std::string, std::string> parseKeyValue(const std::string& text,
-                char separator = ':') const;
-
+        virtual std::pair<std::string, std::string> parseKeyValue(const std::string& text, char separator = ':') const;
     };
 }
 
-#endif  /* FL_FLLIMPORTER_H */
-
+#endif /* FL_FLLIMPORTER_H */

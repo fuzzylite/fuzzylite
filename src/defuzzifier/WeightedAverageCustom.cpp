@@ -1,32 +1,33 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include "fuzzylite/defuzzifier/WeightedAverageCustom.h"
 
-#include "fuzzylite/term/Aggregated.h"
-
 #include <map>
 
-namespace fl {
+#include "fuzzylite/term/Aggregated.h"
 
-    WeightedAverageCustom::WeightedAverageCustom(Type type) : WeightedDefuzzifier(type) { }
+namespace fuzzylite {
 
-    WeightedAverageCustom::WeightedAverageCustom(const std::string& type) : WeightedDefuzzifier(type) { }
+    WeightedAverageCustom::WeightedAverageCustom(Type type) : WeightedDefuzzifier(type) {}
 
-    WeightedAverageCustom::~WeightedAverageCustom() { }
+    WeightedAverageCustom::WeightedAverageCustom(const std::string& type) : WeightedDefuzzifier(type) {}
+
+    WeightedAverageCustom::~WeightedAverageCustom() {}
 
     std::string WeightedAverageCustom::className() const {
         return "WeightedAverageCustom";
@@ -35,26 +36,24 @@ namespace fl {
     Complexity WeightedAverageCustom::complexity(const Term* term) const {
         Complexity result;
         result.comparison(3).arithmetic(1).function(1);
-        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*> (term);
-        if (fuzzyOutput) {
-            result += term->complexity().arithmetic(3).comparison(2)
-                    .multiply(scalar(fuzzyOutput->numberOfTerms()));
-        }
+        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*>(term);
+        if (fuzzyOutput)
+            result += term->complexity().arithmetic(3).comparison(2).multiply(scalar(fuzzyOutput->numberOfTerms()));
         return result;
     }
 
-    scalar WeightedAverageCustom::defuzzify(const Term* term,
-            scalar minimum, scalar maximum) const {
-        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*> (term);
+    scalar WeightedAverageCustom::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
+        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*>(term);
         if (not fuzzyOutput) {
             std::ostringstream ss;
             ss << "[defuzzification error]"
-                    << "expected an Aggregated term instead of"
-                    << "<" << (term ? term->toString() : "null") << ">";
+               << "expected an Aggregated term instead of"
+               << "<" << (term ? term->toString() : "null") << ">";
             throw Exception(ss.str(), FL_AT);
         }
 
-        if (fuzzyOutput->isEmpty()) return fl::nan;
+        if (fuzzyOutput->isEmpty())
+            return fl::nan;
 
         minimum = fuzzyOutput->getMinimum();
         maximum = fuzzyOutput->getMaximum();
@@ -62,15 +61,14 @@ namespace fl {
         SNorm* aggregation = fuzzyOutput->getAggregation();
 
         Type type = getType();
-        if (type == Automatic) {
+        if (type == Automatic)
             type = inferType(&(fuzzyOutput->terms().front()));
-        }
 
         scalar sum = 0.0;
         scalar weights = 0.0;
         const std::size_t numberOfTerms = fuzzyOutput->numberOfTerms();
         if (type == TakagiSugeno) {
-            //Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
+            // Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
             scalar w, z, wz;
             for (std::size_t i = 0; i < numberOfTerms; ++i) {
                 const Activated& activated = fuzzyOutput->getTerm(i);

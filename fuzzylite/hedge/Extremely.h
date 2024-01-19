@@ -1,25 +1,26 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_EXTREMELY_H
 #define FL_EXTREMELY_H
 
 #include "fuzzylite/hedge/Hedge.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The Extremely class is a Hedge located fifth in the ordered set
@@ -31,7 +32,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Extremely FL_IFINAL : public Hedge {
-    public:
+      public:
         std::string name() const FL_IOVERRIDE;
 
         Complexity complexity() const FL_IOVERRIDE;

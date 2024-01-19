@@ -1,30 +1,30 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_CONSEQUENT_H
 #define FL_CONSEQUENT_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/Complexity.h"
-
 #include <string>
 #include <vector>
 
-namespace fl {
+#include "fuzzylite/Complexity.h"
+#include "fuzzylite/fuzzylite.h"
+
+namespace fuzzylite {
     class Engine;
     class Rule;
     class Proposition;
@@ -49,11 +49,11 @@ namespace fl {
      */
 
     class FL_API Consequent {
-    private:
+      private:
         std::string _text;
         std::vector<Proposition*> _conclusions;
 
-    public:
+      public:
         Consequent();
         virtual ~Consequent();
 
@@ -131,7 +131,7 @@ namespace fl {
          */
         virtual std::string toString() const;
 
-    private:
+      private:
         FL_DISABLE_COPY(Consequent)
     };
 }

@@ -1,24 +1,25 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 
-#include "fuzzylite/Headers.h"
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include <catch2/catch.hpp>
 
-namespace fl {
+#include "fuzzylite/Headers.h"
+
+namespace fuzzylite {
 
     /**
      * Tests: hedge/HedgeFunction
@@ -115,26 +116,26 @@ RuleBlock:
         return;
 #else
         std::string fllEngine = hedgeEngine();
-        //Import using regular hedge very
+        // Import using regular hedge very
         FL_unique_ptr<Engine> engine(FllImporter().fromString(fllEngine));
         std::string fldVery = FldExporter().toString(engine.get(), 1024);
 
-        //Replace hedge very with a HedgeFunction(x*x)
+        // Replace hedge very with a HedgeFunction(x*x)
         HedgeFactory* factory = FactoryManager::instance()->hedge();
         factory->registerConstructor("very", &(myVeryConstructor));
-        //Import again with new HedgeFunction
+        // Import again with new HedgeFunction
         engine.reset(FllImporter().fromString(fllEngine));
         std::string anotherFld = FldExporter().toString(engine.get(), 1024);
-        //Both must be equal
+        // Both must be equal
         CHECK(fldVery == anotherFld);
 
-        //Replace very with a HedgeFunction(x*x*x)
+        // Replace very with a HedgeFunction(x*x*x)
         factory->registerConstructor("very", &(myExtraVeryConstructor));
 
         engine.reset(FllImporter().fromString(fllEngine));
         anotherFld = FldExporter().toString(engine.get(), 1024);
 
-        //Must be different
+        // Must be different
         CHECK(fldVery != anotherFld);
 #endif
     }

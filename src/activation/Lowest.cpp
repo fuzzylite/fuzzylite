@@ -1,32 +1,33 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include "fuzzylite/activation/Lowest.h"
 
-#include "fuzzylite/rule/RuleBlock.h"
-#include "fuzzylite/rule/Rule.h"
-#include "fuzzylite/Operation.h"
-
 #include <queue>
 
-namespace fl {
+#include "fuzzylite/Operation.h"
+#include "fuzzylite/rule/Rule.h"
+#include "fuzzylite/rule/RuleBlock.h"
 
-    Lowest::Lowest(int numberOfRules) : Activation(), _numberOfRules(numberOfRules) { }
+namespace fuzzylite {
 
-    Lowest::~Lowest() { }
+    Lowest::Lowest(int numberOfRules) : Activation(), _numberOfRules(numberOfRules) {}
+
+    Lowest::~Lowest() {}
 
     std::string Lowest::className() const {
         return "Lowest";
@@ -37,7 +38,7 @@ namespace fl {
     }
 
     void Lowest::configure(const std::string& parameters) {
-        setNumberOfRules((int) Op::toScalar(parameters));
+        setNumberOfRules((int)Op::toScalar(parameters));
     }
 
     int Lowest::getNumberOfRules() const {
@@ -49,8 +50,8 @@ namespace fl {
     }
 
     Complexity Lowest::complexity(const RuleBlock* ruleBlock) const {
-        //Cost of priority_queue:
-        //http://stackoverflow.com/questions/2974470/efficiency-of-the-stl-priority-queue
+        // Cost of priority_queue:
+        // http://stackoverflow.com/questions/2974470/efficiency-of-the-stl-priority-queue
         Complexity result;
 
         const TNorm* conjunction = ruleBlock->getConjunction();
@@ -66,20 +67,20 @@ namespace fl {
         }
         meanFiring.divide(scalar(ruleBlock->numberOfRules()));
 
-        //Complexity of push is O(log n)
-        result += Complexity().function(1).multiply(ruleBlock->numberOfRules()
-                * std::log(scalar(ruleBlock->numberOfRules())));
+        // Complexity of push is O(log n)
+        result += Complexity().function(1).multiply(
+            ruleBlock->numberOfRules() * std::log(scalar(ruleBlock->numberOfRules()))
+        );
 
         result += Complexity().comparison(2).arithmetic(1).multiply(getNumberOfRules());
         result += meanFiring.multiply(getNumberOfRules());
-        //Complexity of pop is 2 * O(log n)
-        result += Complexity().function(1).multiply(getNumberOfRules() *
-                2 * std::log(scalar(ruleBlock->numberOfRules())));
+        // Complexity of pop is 2 * O(log n)
+        result
+            += Complexity().function(1).multiply(getNumberOfRules() * 2 * std::log(scalar(ruleBlock->numberOfRules())));
         return result;
     }
 
     struct Ascending {
-
         bool operator()(const Rule* a, const Rule* b) {
             return a->getActivationDegree() > b->getActivationDegree();
         }

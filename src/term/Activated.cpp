@@ -1,31 +1,36 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include "fuzzylite/term/Activated.h"
 
 #include "fuzzylite/imex/FllExporter.h"
 
-namespace fl {
+namespace fuzzylite {
 
-    Activated::Activated(const Term* term, scalar degree, const TNorm* implication)
-    : Term(""), _term(term), _degree(degree), _implication(implication) {
-        if (term) setName(term->getName());
+    Activated::Activated(const Term* term, scalar degree, const TNorm* implication) :
+        Term(""),
+        _term(term),
+        _degree(degree),
+        _implication(implication) {
+        if (term)
+            setName(term->getName());
     }
 
-    Activated::~Activated() { }
+    Activated::~Activated() {}
 
     std::string Activated::className() const {
         return "Activated";
@@ -34,30 +39,32 @@ namespace fl {
     Complexity Activated::complexity() const {
         Complexity result;
         result.comparison(3);
-        if (_implication) {
+        if (_implication)
             result += _implication->complexity();
-        }
-        if (_term) {
+        if (_term)
             result += _term->complexity();
-        }
         return result;
     }
 
     scalar Activated::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
         if (not _term)
             throw Exception("[activation error] no term available to activate", FL_AT);
         if (not _implication)
-            throw Exception("[implication error] implication operator needed "
-                "to activate " + getTerm()->toString(), FL_AT);
+            throw Exception(
+                "[implication error] implication operator needed "
+                "to activate "
+                    + getTerm()->toString(),
+                FL_AT
+            );
         return _implication->compute(_term->membership(x), _degree);
     }
 
     std::string Activated::parameters() const {
         FllExporter exporter;
         std::ostringstream ss;
-        ss << Op::str(getDegree()) << " " << exporter.toString(getImplication()) << " "
-                << exporter.toString(getTerm());
+        ss << Op::str(getDegree()) << " " << exporter.toString(getImplication()) << " " << exporter.toString(getTerm());
         return ss.str();
     }
 
@@ -69,12 +76,11 @@ namespace fl {
         FllExporter exporter;
         std::ostringstream ss;
         if (getImplication()) {
-            ss << exporter.toString(getImplication()) << "("
-                    << Op::str(getDegree()) << ","
-                    << getTerm()->getName() << ")";
+            ss << exporter.toString(getImplication()) << "(" << Op::str(getDegree()) << "," << getTerm()->getName()
+               << ")";
         } else {
-            ss << "(" << Op::str(getDegree()) << "*" //"\u2297: (*)"
-                    << getTerm()->getName() << ")";
+            ss << "(" << Op::str(getDegree()) << "*"  //"\u2297: (*)"
+               << getTerm()->getName() << ")";
         }
         return ss.str();
     }

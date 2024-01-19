@@ -1,25 +1,26 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_SMALLESTOFMAXIMUM_H
 #define FL_SMALLESTOFMAXIMUM_H
 
 #include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The SmallestOfMaximum class is an IntegralDefuzzifier that computes the
@@ -34,7 +35,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API SmallestOfMaximum : public IntegralDefuzzifier {
-    public:
+      public:
         explicit SmallestOfMaximum(int resolution = defaultResolution());
         virtual ~SmallestOfMaximum() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(SmallestOfMaximum)
@@ -55,13 +56,11 @@ namespace fl {
           @return the smallest @f$x@f$-coordinate of the maximum membership
           function value in the fuzzy set
          */
-        virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const FL_IOVERRIDE;
         virtual SmallestOfMaximum* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };
 }
 
-#endif  /* FL_SMALLESTOFMAXIMUM_H */
-
+#endif /* FL_SMALLESTOFMAXIMUM_H */

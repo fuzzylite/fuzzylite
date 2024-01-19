@@ -1,28 +1,29 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_FUNCTION_H
 #define FL_FUNCTION_H
 
-#include "fuzzylite/term/Term.h"
-
 #include <map>
 #include <string>
 
-namespace fl {
+#include "fuzzylite/term/Term.h"
+
+namespace fuzzylite {
 
     class Engine;
 
@@ -58,9 +59,9 @@ namespace fl {
       @since 4.0
      */
     class FL_API Function : public Term {
-    public:
-        typedef scalar(*Unary)(scalar);
-        typedef scalar(*Binary)(scalar, scalar);
+      public:
+        typedef scalar (*Unary)(scalar);
+        typedef scalar (*Binary)(scalar, scalar);
 
         /**
           The Element class represents a single element in a formula, be that
@@ -71,13 +72,11 @@ namespace fl {
           its `precedence`, and its `associativity`.
          */
         struct FL_API Element {
-
             /**
               Determines the type of the element
              */
-            enum Type {
-                Operator, Function
-            };
+            enum Type { Operator, Function };
+
             /**Name of the element*/
             std::string name;
             /**Description of the element*/
@@ -99,10 +98,22 @@ namespace fl {
               (https://en.wikipedia.org/wiki/Operator_associativity)*/
             int associativity;
             Element(const std::string& name, const std::string& description, Type type);
-            Element(const std::string& name, const std::string& description,
-                    Type type, Unary unary, int precedence = 0, int associativity = -1);
-            Element(const std::string& name, const std::string& description,
-                    Type type, Binary binary, int precedence = 0, int associativity = -1);
+            Element(
+                const std::string& name,
+                const std::string& description,
+                Type type,
+                Unary unary,
+                int precedence = 0,
+                int associativity = -1
+            );
+            Element(
+                const std::string& name,
+                const std::string& description,
+                Type type,
+                Binary binary,
+                int precedence = 0,
+                int associativity = -1
+            );
             virtual ~Element();
             FL_DEFAULT_COPY_AND_MOVE(Element)
 
@@ -127,7 +138,6 @@ namespace fl {
               @return a description of the element and its members
              */
             virtual std::string toString() const;
-
         };
 
         /**
@@ -167,8 +177,7 @@ namespace fl {
               @return a fl::scalar indicating the result of the evaluation of
               the node
              */
-            virtual scalar evaluate(const std::map<std::string, scalar>*
-                    variables = fl::null) const;
+            virtual scalar evaluate(const std::map<std::string, scalar>* variables = fl::null) const;
 
             /**
              Computes the size of the subtree under the given node. The complexity
@@ -187,8 +196,7 @@ namespace fl {
              fl::null is given
              @return
              */
-            virtual std::size_t treeSize(Element::Type type,
-                    const Node* node = fl::null) const;
+            virtual std::size_t treeSize(Element::Type type, const Node* node = fl::null) const;
 
             /**
               Creates a clone of the node.
@@ -230,26 +238,26 @@ namespace fl {
               given node
              */
             virtual std::string toPostfix(const Node* node = fl::null) const;
-        private:
+
+          private:
             void copyFrom(const Node& source);
         };
-
-
-
 
         /******************************
          * Term
          ******************************/
 
-    private:
+      private:
         FL_unique_ptr<Node> _root;
         std::string _formula;
         const Engine* _engine;
-    public:
+
+      public:
         /**A map of variables and substitution values**/
         mutable std::map<std::string, scalar> variables;
-        explicit Function(const std::string& name = "",
-                const std::string& formula = "", const Engine* engine = fl::null);
+        explicit Function(
+            const std::string& name = "", const std::string& formula = "", const Engine* engine = fl::null
+        );
         Function(const Function& other);
         Function& operator=(const Function& other);
         virtual ~Function() FL_IOVERRIDE;
@@ -263,9 +271,7 @@ namespace fl {
           @return a Function term configured with the given parameters
           @throws fl::Exception if the formula has a syntax error
          */
-        static Function* create(const std::string& name,
-                const std::string& formula,
-                const Engine* engine = fl::null);
+        static Function* create(const std::string& name, const std::string& formula, const Engine* engine = fl::null);
 
         virtual Complexity complexity() const FL_IOVERRIDE;
 
@@ -392,8 +398,6 @@ namespace fl {
         virtual Function* clone() const FL_IOVERRIDE;
 
         static Term* constructor();
-
     };
 }
-#endif  /* FL_FUNCTION_H */
-
+#endif /* FL_FUNCTION_H */

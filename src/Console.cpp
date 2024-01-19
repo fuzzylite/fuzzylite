@@ -1,24 +1,25 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include "fuzzylite/Console.h"
 
-#include "fuzzylite/Headers.h"
-
 #include <fstream>
+
+#include "fuzzylite/Headers.h"
 
 #ifdef FL_UNIX
 #include <termios.h>
@@ -27,8 +28,7 @@
 #include <conio.h>
 #endif
 
-
-namespace fl {
+namespace fuzzylite {
     const std::string Console::KW_INPUT_FILE = "-i";
     const std::string Console::KW_INPUT_FORMAT = "-if";
     const std::string Console::KW_OUTPUT_FILE = "-o";
@@ -43,21 +43,38 @@ namespace fl {
     const std::string Console::KW_DATA_EXPORT_INPUTS = "-dinputs";
 
     Console::Option::Option(const std::string& key, const std::string& value, const std::string& description) :
-    key(key), value(value), description(description) { }
+        key(key),
+        value(value),
+        description(description) {}
 
     std::vector<Console::Option> Console::availableOptions() {
         std::vector<Console::Option> options;
         options.push_back(Option(KW_INPUT_FILE, "inputfile", "file to import your engine from"));
         options.push_back(Option(KW_INPUT_FORMAT, "format", "format of the file to import (fll | fis | fcl)"));
         options.push_back(Option(KW_OUTPUT_FILE, "outputfile", "file to export your engine to"));
-        options.push_back(Option(KW_OUTPUT_FORMAT, "format", "format of the file to export (fll | fld | cpp | java | fis | fcl)"));
-        options.push_back(Option(KW_EXAMPLE, "letter", "if not inputfile, built-in example to use as engine: (m)amdani or (t)akagi-sugeno"));
+        options.push_back(
+            Option(KW_OUTPUT_FORMAT, "format", "format of the file to export (fll | fld | cpp | java | fis | fcl)")
+        );
+        options.push_back(Option(
+            KW_EXAMPLE, "letter", "if not inputfile, built-in example to use as engine: (m)amdani or (t)akagi-sugeno"
+        ));
         options.push_back(Option(KW_DECIMALS, "number", "number of decimals to write floating-poing values"));
-        options.push_back(Option(KW_DATA_INPUT_FILE, "file", "if exporting to fld, FLD file of input values to evaluate your engine on"));
-        options.push_back(Option(KW_DATA_VALUES, "number", "if exporting to fld without datafile, number of results to export within scope (default: EachVariable)"));
-        options.push_back(Option(KW_DATA_VALUES_SCOPE, "scope", "if exporting to fld without datafile, scope of " + KW_DATA_VALUES + ": [EachVariable|AllVariables]"));
+        options.push_back(Option(
+            KW_DATA_INPUT_FILE, "file", "if exporting to fld, FLD file of input values to evaluate your engine on"
+        ));
+        options.push_back(Option(
+            KW_DATA_VALUES,
+            "number",
+            "if exporting to fld without datafile, number of results to export within scope (default: EachVariable)"
+        ));
+        options.push_back(Option(
+            KW_DATA_VALUES_SCOPE,
+            "scope",
+            "if exporting to fld without datafile, scope of " + KW_DATA_VALUES + ": [EachVariable|AllVariables]"
+        ));
         options.push_back(Option(KW_DATA_EXPORT_HEADER, "boolean", "if true and exporting to fld, include headers"));
-        options.push_back(Option(KW_DATA_EXPORT_INPUTS, "boolean", "if true and exporting to fld, include input values"));
+        options.push_back(Option(KW_DATA_EXPORT_INPUTS, "boolean", "if true and exporting to fld, include input values")
+        );
         return options;
     }
 
@@ -75,9 +92,8 @@ namespace fl {
         ss << "   or: fuzzylite benchmark engine.fll input.fld runs [output.tsv]\n";
         ss << "   or: fuzzylite benchmarks fllFiles.txt fldFiles.txt runs [output.tsv]\n";
         ss << "   or: fuzzylite ";
-        for (std::size_t i = 0; i < options.size(); ++i) {
+        for (std::size_t i = 0; i < options.size(); ++i)
             ss << "[" << options.at(i).key << " " << options.at(i).value << "] ";
-        }
         ss << "\n\nwhere:\n";
         for (std::size_t i = 0; i < options.size(); ++i) {
             std::string spacedKey(12, ' ');
@@ -102,9 +118,8 @@ namespace fl {
     }
 
     std::map<std::string, std::string> Console::parse(int argc, const char* argv[]) {
-        if ((argc - 1) % 2 != 0) {
+        if ((argc - 1) % 2 != 0)
             throw Exception("[option error] incomplete number of parameters [key value]", FL_AT);
-        }
         std::map<std::string, std::string> options;
         for (int i = 1; i < argc - 1; i += 2) {
             std::string key = std::string(argv[i]);
@@ -120,8 +135,7 @@ namespace fl {
         } else {
             std::vector<Console::Option> validOptions = availableOptions();
 
-            for (std::map<std::string, std::string>::const_iterator it = options.begin();
-                    it != options.end(); ++it) {
+            for (std::map<std::string, std::string>::const_iterator it = options.begin(); it != options.end(); ++it) {
                 bool isValid = false;
                 for (std::size_t i = 0; i < validOptions.size(); ++i) {
                     std::string key = validOptions.at(i).key;
@@ -130,9 +144,8 @@ namespace fl {
                         break;
                     }
                 }
-                if (not isValid) {
+                if (not isValid)
                     throw Exception("[option error] option <" + it->first + "> not recognized", FL_AT);
-                }
             }
         }
         return options;
@@ -142,9 +155,8 @@ namespace fl {
         std::map<std::string, std::string>::const_iterator it;
 
         it = options.find(KW_DECIMALS);
-        if (it != options.end()) {
-            fuzzylite::setDecimals((int) Op::toScalar(it->second));
-        }
+        if (it != options.end())
+            fuzzylite::setDecimals((int)Op::toScalar(it->second));
 
         std::string example;
         std::string inputFormat;
@@ -157,31 +169,27 @@ namespace fl {
         if (isExample) {
             example = it->second;
             Engine* engine;
-            if (example == "m" or example == "mamdani") {
+            if (example == "m" or example == "mamdani")
                 engine = mamdani();
-            } else if (example == "t" or example == "ts" or example == "takagi-sugeno") {
+            else if (example == "t" or example == "ts" or example == "takagi-sugeno")
                 engine = takagiSugeno();
-            } else {
+            else
                 throw Exception("[option error] example <" + example + "> not available", FL_AT);
-            }
             inputFormat = "fll";
             textEngine << FllExporter().toString(engine);
             delete engine;
 
         } else {
             it = options.find(KW_INPUT_FILE);
-            if (it == options.end()) {
+            if (it == options.end())
                 throw Exception("[option error] no input file specified", FL_AT);
-            }
             std::string inputFilename = it->second;
             std::ifstream inputFile(inputFilename.c_str());
-            if (not inputFile.is_open()) {
+            if (not inputFile.is_open())
                 throw Exception("[file error] file <" + inputFilename + "> could not be opened", FL_AT);
-            }
             std::string line;
-            while (std::getline(inputFile, line)) {
+            while (std::getline(inputFile, line))
                 textEngine << line << std::endl;
-            }
             inputFile.close();
 
             it = options.find(KW_INPUT_FORMAT);
@@ -189,19 +197,17 @@ namespace fl {
                 inputFormat = it->second;
             } else {
                 std::size_t extensionIndex = inputFilename.find_last_of(".");
-                if (extensionIndex != std::string::npos) {
+                if (extensionIndex != std::string::npos)
                     inputFormat = inputFilename.substr(extensionIndex + 1);
-                } else {
+                else
                     throw Exception("[format error] unspecified format of input file", FL_AT);
-                }
             }
         }
 
         std::string outputFilename;
         it = options.find(KW_OUTPUT_FILE);
-        if (it != options.end()) {
+        if (it != options.end())
             outputFilename = it->second;
-        }
 
         std::string outputFormat;
         it = options.find(KW_OUTPUT_FORMAT);
@@ -209,30 +215,31 @@ namespace fl {
             outputFormat = it->second;
         } else {
             std::size_t extensionIndex = outputFilename.find_last_of(".");
-            if (extensionIndex != std::string::npos) {
+            if (extensionIndex != std::string::npos)
                 outputFormat = outputFilename.substr(extensionIndex + 1);
-            } else {
+            else
                 throw Exception("[format error] unspecified format of output file", FL_AT);
-            }
         }
-
 
         if (outputFilename.empty()) {
             process(textEngine.str(), std::cout, inputFormat, outputFormat, options);
         } else {
             std::ofstream writer(outputFilename.c_str());
-            if (not writer.is_open()) {
+            if (not writer.is_open())
                 throw Exception("[file error] file <" + outputFilename + "> could not be created", FL_AT);
-            }
             process(textEngine.str(), writer, inputFormat, outputFormat, options);
             writer.flush();
             writer.close();
         }
     }
 
-    void Console::process(const std::string& input, std::ostream& writer,
-            const std::string& inputFormat, const std::string& outputFormat,
-            const std::map<std::string, std::string>& options) {
+    void Console::process(
+        const std::string& input,
+        std::ostream& writer,
+        const std::string& inputFormat,
+        const std::string& outputFormat,
+        const std::map<std::string, std::string>& options
+    ) {
         FL_unique_ptr<Importer> importer;
         FL_unique_ptr<Exporter> exporter;
         FL_unique_ptr<Engine> engine;
@@ -244,8 +251,12 @@ namespace fl {
         } else if ("fis" == inputFormat) {
             importer.reset(new FisImporter);
         } else {
-            throw Exception("[import error] format <" + inputFormat + "> "
-                    "not supported", FL_AT);
+            throw Exception(
+                "[import error] format <" + inputFormat
+                    + "> "
+                      "not supported",
+                FL_AT
+            );
         }
 
         engine.reset(importer->fromString(input));
@@ -256,20 +267,17 @@ namespace fl {
             FldExporter fldExporter;
             fldExporter.setSeparator(" ");
             bool exportHeaders = true;
-            if ((it = options.find(KW_DATA_EXPORT_HEADER)) != options.end()) {
+            if ((it = options.find(KW_DATA_EXPORT_HEADER)) != options.end())
                 exportHeaders = ("true" == it->second);
-            }
             fldExporter.setExportHeader(exportHeaders);
             bool exportInputValues = true;
-            if ((it = options.find(KW_DATA_EXPORT_INPUTS)) != options.end()) {
+            if ((it = options.find(KW_DATA_EXPORT_INPUTS)) != options.end())
                 exportInputValues = ("true" == it->second);
-            }
             fldExporter.setExportInputValues(exportInputValues);
             if ((it = options.find(KW_DATA_INPUT_FILE)) != options.end()) {
                 std::ifstream dataFile(it->second.c_str());
-                if (not dataFile.is_open()) {
+                if (not dataFile.is_open())
                     throw Exception("[export error] file <" + it->second + "> could not be opened", FL_AT);
-                }
                 try {
                     fldExporter.write(engine.get(), writer, dataFile);
                 } catch (std::exception& ex) {
@@ -278,43 +286,48 @@ namespace fl {
                     throw;
                 }
 
-            } else {
-                if ((it = options.find(KW_DATA_VALUES)) != options.end()) {
-                    int values = (int) Op::toScalar(it->second);
-                    FldExporter::ScopeOfValues scope = FldExporter::EachVariable;
-                    if ((it = options.find(KW_DATA_VALUES_SCOPE)) != options.end()) {
-                        if ("AllVariables" == it->second)
-                            scope = FldExporter::AllVariables;
-                        else if ("EachVariable" == it->second)
-                            scope = FldExporter::EachVariable;
-                        else throw Exception("[export error] unknown scope of values <"
-                                + it->second + ">", FL_AT);
-                    }
-                    fldExporter.write(engine.get(), writer, values, scope);
-                } else {
-                    std::ostringstream buffer;
-                    buffer << "#FuzzyLite Interactive Console (press H for help)\n";
-                    buffer << fldExporter.header(engine.get()) << "\n";
-                    bool showCout = &writer != &std::cout;
-                    writer << buffer.str();
-                    if (showCout) std::cout << buffer.str();
-                    else writer.flush();
-                    interactive(writer, engine.get());
+            } else if ((it = options.find(KW_DATA_VALUES)) != options.end()) {
+                int values = (int)Op::toScalar(it->second);
+                FldExporter::ScopeOfValues scope = FldExporter::EachVariable;
+                if ((it = options.find(KW_DATA_VALUES_SCOPE)) != options.end()) {
+                    if ("AllVariables" == it->second)
+                        scope = FldExporter::AllVariables;
+                    else if ("EachVariable" == it->second)
+                        scope = FldExporter::EachVariable;
+                    else
+                        throw Exception("[export error] unknown scope of values <" + it->second + ">", FL_AT);
                 }
+                fldExporter.write(engine.get(), writer, values, scope);
+            } else {
+                std::ostringstream buffer;
+                buffer << "#FuzzyLite Interactive Console (press H for help)\n";
+                buffer << fldExporter.header(engine.get()) << "\n";
+                bool showCout = &writer != &std::cout;
+                writer << buffer.str();
+                if (showCout)
+                    std::cout << buffer.str();
+                else
+                    writer.flush();
+                interactive(writer, engine.get());
             }
         } else {
-            if ("fll" == outputFormat) {
+            if ("fll" == outputFormat)
                 exporter.reset(new FllExporter);
-            } else if ("fcl" == outputFormat) {
+            else if ("fcl" == outputFormat)
                 exporter.reset(new FclExporter);
-            } else if ("fis" == outputFormat) {
+            else if ("fis" == outputFormat)
                 exporter.reset(new FisExporter);
-            } else if ("cpp" == outputFormat) {
+            else if ("cpp" == outputFormat)
                 exporter.reset(new CppExporter);
-            } else if ("java" == outputFormat) {
+            else if ("java" == outputFormat)
                 exporter.reset(new JavaExporter);
-            } else throw Exception("[export error] format <" + outputFormat + "> "
-                    "not supported", FL_AT);
+            else
+                throw Exception(
+                    "[export error] format <" + outputFormat
+                        + "> "
+                          "not supported",
+                    FL_AT
+                );
             writer << exporter->toString(engine.get());
         }
     }
@@ -345,15 +358,16 @@ namespace fl {
         int ch = 0;
         do {
             writer << buffer.str();
-            if (showCout) std::cout << buffer.str();
-            else writer.flush();
+            if (showCout)
+                std::cout << buffer.str();
+            else
+                writer.flush();
             buffer.str("");
 
             ch = readCharacter();
 
-            if (ch == EOF) {
+            if (ch == EOF)
                 break;
-            }
 
             if (std::isspace(ch)) {
                 scalar value = engine->getInputVariable(inputValues.size())->getValue();
@@ -366,12 +380,14 @@ namespace fl {
                 buffer << space;
                 inputValue.str("");
                 inputValues.push_back(value);
-                if (inputValues.size() == engine->inputVariables().size()) {
-                    ch = 'P'; //fall through to process;
-                } else continue;
+                if (inputValues.size() == engine->inputVariables().size())
+                    ch = 'P';  // fall through to process;
+                else
+                    continue;
             }
 
-            if (not std::isgraph(ch)) continue;
+            if (not std::isgraph(ch))
+                continue;
 
             switch (ch) {
                 default:
@@ -379,16 +395,18 @@ namespace fl {
                     buffer << char(ch);
                     break;
                 case 'r':
-                case 'R': engine->restart();
+                case 'R':
+                    engine->restart();
                     buffer << "#[Restart]";
-                    continue; //fall through
+                    continue;  // fall through
                 case 'd':
-                case 'D': inputValues.clear();
+                case 'D':
+                    inputValues.clear();
                     buffer << "#[Discard]\n>";
                     inputValue.str("");
                     break;
                 case 'p':
-                case 'P': //Process
+                case 'P':  // Process
                 {
                     inputValue.str("");
 
@@ -403,7 +421,8 @@ namespace fl {
                     }
                     inputValues.clear();
                     buffer << Op::join(missingInputs, space);
-                    if (not missingInputs.empty()) buffer << space;
+                    if (not missingInputs.empty())
+                        buffer << space;
                     buffer << "=" << space;
                     try {
                         engine->process();
@@ -415,33 +434,32 @@ namespace fl {
                         }
                         buffer << Op::join(outputValues, space) << "\n>";
 
-                    } catch (std::exception& ex) {
-                        buffer << "#[Error: " << ex.what() << "]";
-                    }
+                    } catch (std::exception& ex) { buffer << "#[Error: " << ex.what() << "]"; }
                     break;
                 }
                 case 'q':
-                case 'Q': buffer << "#[Quit]\n";
+                case 'Q':
+                    buffer << "#[Quit]\n";
                     break;
                 case 'h':
-                case 'H': buffer << "\n>" << interactiveHelp() << "\n>";
+                case 'H':
+                    buffer << "\n>" << interactiveHelp() << "\n>";
                     inputValue.str("");
                     break;
             }
-        } while (not (ch == 'Q' or ch == 'q' or ch == 4));
+        } while (not(ch == 'Q' or ch == 'q' or ch == 4));
         writer << std::endl;
     }
 
     std::string Console::interactiveHelp() {
-        return
-        "#Special Keys\n"
-        "#=============\n"
-        "#\tR\tRestart engine and discard current inputs\n"
-        "#\tD\tDiscard current inputs\n"
-        "#\tP\tProcess engine\n"
-        "#\tQ\tQuit interactive console\n"
-        "#\tH\tShow this help\n"
-        "#=============\n";
+        return "#Special Keys\n"
+               "#=============\n"
+               "#\tR\tRestart engine and discard current inputs\n"
+               "#\tD\tDiscard current inputs\n"
+               "#\tP\tProcess engine\n"
+               "#\tQ\tQuit interactive console\n"
+               "#\tH\tShow this help\n"
+               "#=============\n";
     }
 
     Engine* Console::mamdani() {
@@ -649,8 +667,12 @@ namespace fl {
         mamdaniRuleBlock->setActivation(new General);
         mamdaniRuleBlock->addRule(Rule::parse("if service is poor or food is rancid then mTip is cheap", engine));
         mamdaniRuleBlock->addRule(Rule::parse("if service is good then mTip is average", engine));
-        mamdaniRuleBlock->addRule(Rule::parse("if service is excellent or food is delicious then mTip is generous with 0.5", engine));
-        mamdaniRuleBlock->addRule(Rule::parse("if service is excellent and food is delicious then mTip is generous with 1.0", engine));
+        mamdaniRuleBlock->addRule(
+            Rule::parse("if service is excellent or food is delicious then mTip is generous with 0.5", engine)
+        );
+        mamdaniRuleBlock->addRule(
+            Rule::parse("if service is excellent and food is delicious then mTip is generous with 1.0", engine)
+        );
         engine->addRuleBlock(mamdaniRuleBlock);
 
         RuleBlock* takagiSugenoRuleBlock = new RuleBlock;
@@ -663,8 +685,12 @@ namespace fl {
         takagiSugenoRuleBlock->setActivation(new General);
         takagiSugenoRuleBlock->addRule(Rule::parse("if service is poor or food is rancid then tsTip is cheap", engine));
         takagiSugenoRuleBlock->addRule(Rule::parse("if service is good then tsTip is average", engine));
-        takagiSugenoRuleBlock->addRule(Rule::parse("if service is excellent or food is delicious then tsTip is generous with 0.5", engine));
-        takagiSugenoRuleBlock->addRule(Rule::parse("if service is excellent and food is delicious then tsTip is generous with 1.0", engine));
+        takagiSugenoRuleBlock->addRule(
+            Rule::parse("if service is excellent or food is delicious then tsTip is generous with 0.5", engine)
+        );
+        takagiSugenoRuleBlock->addRule(
+            Rule::parse("if service is excellent and food is delicious then tsTip is generous with 1.0", engine)
+        );
         engine->addRuleBlock(takagiSugenoRuleBlock);
 
         return engine;
@@ -674,8 +700,9 @@ namespace fl {
         Console::exportAllExamples(from, to, "./", "/tmp/");
     }
 
-    void Console::exportAllExamples(const std::string& from, const std::string& to,
-            const std::string& sourcePath, const std::string& targetPath) {
+    void Console::exportAllExamples(
+        const std::string& from, const std::string& to, const std::string& sourcePath, const std::string& targetPath
+    ) {
         std::vector<std::string> examples;
         examples.push_back("mamdani/AllTerms");
         examples.push_back("mamdani/SimpleDimmer");
@@ -718,20 +745,32 @@ namespace fl {
         examples.push_back("hybrid/ObstacleAvoidance");
 
         FL_unique_ptr<Importer> importer;
-        if (from == "fll") importer.reset(new FllImporter);
-        else if (from == "fis") importer.reset(new FisImporter);
-        else if (from == "fcl") importer.reset(new FclImporter);
-        else throw Exception("[examples error] unrecognized format <" + from + "> to import", FL_AT);
+        if (from == "fll")
+            importer.reset(new FllImporter);
+        else if (from == "fis")
+            importer.reset(new FisImporter);
+        else if (from == "fcl")
+            importer.reset(new FclImporter);
+        else
+            throw Exception("[examples error] unrecognized format <" + from + "> to import", FL_AT);
 
         FL_unique_ptr<Exporter> exporter;
-        if (to == "fll") exporter.reset(new FllExporter);
-        else if (to == "fld") exporter.reset(new FldExporter(" "));
-        else if (to == "fcl") exporter.reset(new FclExporter);
-        else if (to == "fis") exporter.reset(new FisExporter);
-        else if (to == "cpp") exporter.reset(new CppExporter);
-        else if (to == "java") exporter.reset(new JavaExporter);
-        else if (to == "R") exporter.reset(new RScriptExporter());
-        else throw Exception("[examples error] unrecognized format <" + to + "> to export", FL_AT);
+        if (to == "fll")
+            exporter.reset(new FllExporter);
+        else if (to == "fld")
+            exporter.reset(new FldExporter(" "));
+        else if (to == "fcl")
+            exporter.reset(new FclExporter);
+        else if (to == "fis")
+            exporter.reset(new FisExporter);
+        else if (to == "cpp")
+            exporter.reset(new CppExporter);
+        else if (to == "java")
+            exporter.reset(new JavaExporter);
+        else if (to == "R")
+            exporter.reset(new RScriptExporter());
+        else
+            throw Exception("[examples error] unrecognized format <" + to + "> to export", FL_AT);
 
         std::vector<std::pair<Exporter*, Importer*> > tests;
         tests.push_back(std::pair<Exporter*, Importer*>(new FllExporter, new FllImporter));
@@ -751,19 +790,17 @@ namespace fl {
                     ss << line << "\n";
                 }
                 source.close();
-            } else throw Exception("[examples error] file not found: " + input, FL_AT);
+            } else
+                throw Exception("[examples error] file not found: " + input, FL_AT);
 
             FL_unique_ptr<Engine> engine(importer->fromString(ss.str()));
 
             for (std::size_t t = 0; t < tests.size(); ++t) {
-                if ("mamdani/Laundry" == example
-                        or "mamdani/SimpleDimmerInverse" == example
-                        or "mamdani/SimpleDimmerChained" == example
-                        or "hybrid/tipper" == example
-                        or "hybrid/ObstacleAvoidance" == example) {
-                    if (tests.at(t).second->name() == FisImporter().name()) {
+                if ("mamdani/Laundry" == example or "mamdani/SimpleDimmerInverse" == example
+                    or "mamdani/SimpleDimmerChained" == example or "hybrid/tipper" == example
+                    or "hybrid/ObstacleAvoidance" == example) {
+                    if (tests.at(t).second->name() == FisImporter().name())
                         continue;
-                    }
                 }
 
                 std::string exported = tests.at(t).first->toString(engine.get());
@@ -772,12 +809,16 @@ namespace fl {
 
                 if (exported != imported) {
                     std::ostringstream msg;
-                    msg << "[imex error] different results <"
-                            << tests.at(t).first->name() << "," << tests.at(t).second->name() << "> "
-                            "at " << example << "." << from << ":\n";
-                    msg << "<Engine A>\n" << exported << "\n\n" <<
-                            "================================\n\n" <<
-                            "<Engine B>\n" << imported;
+                    msg << "[imex error] different results <" << tests.at(t).first->name() << ","
+                        << tests.at(t).second->name()
+                        << "> "
+                           "at "
+                        << example << "." << from << ":\n";
+                    msg << "<Engine A>\n"
+                        << exported << "\n\n"
+                        << "================================\n\n"
+                        << "<Engine B>\n"
+                        << imported;
                     throw Exception(msg.str(), FL_AT);
                 }
             }
@@ -788,34 +829,33 @@ namespace fl {
             if (target.is_open()) {
                 if (to == "cpp") {
                     target << "#include <fl/Headers.h>\n\n"
-                            << "int main(int argc, char** argv){\n"
-                            << exporter->toString(engine.get())
-                            << "\n}\n";
+                           << "int main(int argc, char** argv){\n"
+                           << exporter->toString(engine.get()) << "\n}\n";
                 } else if (to == "java") {
                     std::string className = example.substr(example.find_last_of('/') + 1);
                     target << "import com.fuzzylite.*;\n"
-                            << "import com.fuzzylite.activation.*\n"
-                            << "import com.fuzzylite.defuzzifier.*;\n"
-                            << "import com.fuzzylite.factory.*;\n"
-                            << "import com.fuzzylite.hedge.*;\n"
-                            << "import com.fuzzylite.imex.*;\n"
-                            << "import com.fuzzylite.norm.*;\n"
-                            << "import com.fuzzylite.norm.s.*;\n"
-                            << "import com.fuzzylite.norm.t.*;\n"
-                            << "import com.fuzzylite.rule.*;\n"
-                            << "import com.fuzzylite.term.*;\n"
-                            << "import com.fuzzylite.variable.*;\n\n"
-                            << "public class " << Op::validName(className) << "{\n"
-                            << "public static void main(String[] args){\n"
-                            << exporter->toString(engine.get())
-                            << "\n}\n}\n";
+                           << "import com.fuzzylite.activation.*\n"
+                           << "import com.fuzzylite.defuzzifier.*;\n"
+                           << "import com.fuzzylite.factory.*;\n"
+                           << "import com.fuzzylite.hedge.*;\n"
+                           << "import com.fuzzylite.imex.*;\n"
+                           << "import com.fuzzylite.norm.*;\n"
+                           << "import com.fuzzylite.norm.s.*;\n"
+                           << "import com.fuzzylite.norm.t.*;\n"
+                           << "import com.fuzzylite.rule.*;\n"
+                           << "import com.fuzzylite.term.*;\n"
+                           << "import com.fuzzylite.variable.*;\n\n"
+                           << "public class " << Op::validName(className) << "{\n"
+                           << "public static void main(String[] args){\n"
+                           << exporter->toString(engine.get()) << "\n}\n}\n";
                 } else if (to == "R") {
-                    RScriptExporter* rScript = dynamic_cast<RScriptExporter*> (exporter.get());
+                    RScriptExporter* rScript = dynamic_cast<RScriptExporter*>(exporter.get());
                     InputVariable* a = engine->getInputVariable(0);
                     InputVariable* b = engine->getInputVariable(1 % engine->numberOfInputVariables());
                     std::string pathToDF = example.substr(example.find_last_of('/') + 1) + ".fld";
-                    rScript->writeScriptImportingDataFrame(engine.get(), target,
-                            a, b, pathToDF, engine->outputVariables());
+                    rScript->writeScriptImportingDataFrame(
+                        engine.get(), target, a, b, pathToDF, engine->outputVariables()
+                    );
                 } else {
                     target << exporter->toString(engine.get());
                 }
@@ -826,58 +866,64 @@ namespace fl {
             Engine assignmentOperator = *engine.get();
             FL_IUNUSED(assignmentOperator);
         }
-        FL_LOG("Please, make sure the output contains the following structure:\n"
-                "mkdir -p " << targetPath << "mamdani/matlab; "
-                "mkdir -p " << targetPath << "mamdani/octave; "
-                "mkdir -p " << targetPath << "takagi-sugeno/matlab; "
-                "mkdir -p " << targetPath << "takagi-sugeno/octave; "
-                "mkdir -p " << targetPath << "tsukamoto; "
-                "mkdir -p " << targetPath << "hybrid;");
+        FL_LOG(
+            "Please, make sure the output contains the following structure:\n"
+            "mkdir -p "
+            << targetPath
+            << "mamdani/matlab; "
+               "mkdir -p "
+            << targetPath
+            << "mamdani/octave; "
+               "mkdir -p "
+            << targetPath
+            << "takagi-sugeno/matlab; "
+               "mkdir -p "
+            << targetPath
+            << "takagi-sugeno/octave; "
+               "mkdir -p "
+            << targetPath
+            << "tsukamoto; "
+               "mkdir -p "
+            << targetPath << "hybrid;"
+        );
         for (std::size_t i = 0; i < tests.size(); ++i) {
             delete tests.at(i).first;
             delete tests.at(i).second;
         }
     }
 
-    void Console::benchmark(const std::string& fllFile, const std::string& fldFile,
-            int runs, std::ofstream* writer) const {
+    void
+    Console::benchmark(const std::string& fllFile, const std::string& fldFile, int runs, std::ofstream* writer) const {
         FL_unique_ptr<Engine> engine(FllImporter().fromFile(fllFile));
         std::ifstream reader(fldFile.c_str());
-        if (not reader.is_open()) {
+        if (not reader.is_open())
             throw Exception("File <" + fldFile + "> could not be opened");
-        }
         Benchmark benchmark(engine->getName(), engine.get());
         benchmark.prepare(reader);
-        if (writer) {
-            FL_LOG("\tEvaluating on " << benchmark.getExpected().size() <<
-                    " values read from " << fldFile << " ...");
-        }
-        for (int i = 0; i < runs; ++i) {
+        if (writer)
+            FL_LOG("\tEvaluating on " << benchmark.getExpected().size() << " values read from " << fldFile << " ...");
+        for (int i = 0; i < runs; ++i)
             benchmark.runOnce();
-        }
         if (writer) {
             FL_LOG("\tMean(t)=" << Op::mean(benchmark.getTimes()) << " nanoseconds");
-            *writer << benchmark.format(benchmark.results(),
-                    Benchmark::Horizontal, Benchmark::Body) << "\n";
+            *writer << benchmark.format(benchmark.results(), Benchmark::Horizontal, Benchmark::Body) << "\n";
         } else {
-            FL_LOGP(benchmark.format(benchmark.results(),
-                    Benchmark::Horizontal, Benchmark::Body));
+            FL_LOGP(benchmark.format(benchmark.results(), Benchmark::Horizontal, Benchmark::Body));
         }
     }
 
-    void Console::benchmarks(const std::string& fllFileList,
-            const std::string& fldFileList, int runs, std::ofstream* writer) const {
+    void Console::benchmarks(
+        const std::string& fllFileList, const std::string& fldFileList, int runs, std::ofstream* writer
+    ) const {
         std::vector<std::string> fllFiles, fldFiles;
 
         {
             std::ifstream fllReader(fllFileList.c_str());
-            if (not fllReader.is_open()) {
+            if (not fllReader.is_open())
                 throw Exception("[error] file <" + fllFileList + "> could not be opened");
-            }
             std::ifstream fldReader(fldFileList.c_str());
-            if (not fldReader.is_open()) {
+            if (not fldReader.is_open())
                 throw Exception("[error] file <" + fldFileList + "> could not be opened");
-            }
 
             std::string fllLine, fldLine;
             while (std::getline(fllReader, fllLine) and std::getline(fldReader, fldLine)) {
@@ -890,17 +936,14 @@ namespace fl {
             }
         }
 
-        if (writer) {
+        if (writer)
             *writer << Op::join(Benchmark().header(runs, true), "\t") << "\n";
-        } else {
+        else
             FL_LOGP(Op::join(Benchmark().header(runs, true), "\t"));
-        }
 
         for (std::size_t i = 0; i < fllFiles.size(); ++i) {
-            if (writer) {
-                FL_LOG("Benchmark " << (i + 1) << "/" << fllFiles.size() << ": "
-                        << fllFiles.at(i));
-            }
+            if (writer)
+                FL_LOG("Benchmark " << (i + 1) << "/" << fllFiles.size() << ": " << fllFiles.at(i));
             benchmark(fllFiles.at(i), fldFiles.at(i), runs, writer);
         }
     }
@@ -917,13 +960,11 @@ namespace fl {
         const std::string firstArgument(argv[1]);
         if (firstArgument == "export-examples") {
             std::string path = ".";
-            if (argc > 2) {
+            if (argc > 2)
                 path = std::string(argv[2]);
-            }
             std::string outputPath = "/tmp/";
-            if (argc > 3) {
+            if (argc > 3)
                 outputPath = std::string(argv[3]);
-            }
             FL_LOG("Origin=" << path);
             FL_LOG("Target=" << outputPath);
             fuzzylite::setDecimals(3);
@@ -959,7 +1000,7 @@ namespace fl {
             std::string fllFile(argv[2]);
             std::string fldFile(argv[3]);
             try {
-                int runs = (int) Op::toScalar(argv[4]);
+                int runs = (int)Op::toScalar(argv[4]);
                 if (argc > 5) {
                     std::string filename(argv[5]);
                     std::ofstream outputFile;
@@ -988,7 +1029,7 @@ namespace fl {
             std::string fllFiles(argv[2]);
             std::string fldFiles(argv[3]);
             try {
-                int runs = (int) Op::toScalar(argv[4]);
+                int runs = (int)Op::toScalar(argv[4]);
                 if (argc > 5) {
                     std::string filename(argv[5]);
                     std::ofstream outputFile;
@@ -1008,7 +1049,7 @@ namespace fl {
             return EXIT_SUCCESS;
         }
 
-        //MAIN:
+        // MAIN:
         try {
             std::map<std::string, std::string> options = console.parse(argc, argv);
             console.process(options);

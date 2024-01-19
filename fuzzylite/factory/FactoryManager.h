@@ -1,33 +1,33 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_FACTORYMANAGER_H
 #define FL_FACTORYMANAGER_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/factory/TNormFactory.h"
-#include "fuzzylite/factory/SNormFactory.h"
 #include "fuzzylite/factory/ActivationFactory.h"
 #include "fuzzylite/factory/DefuzzifierFactory.h"
-#include "fuzzylite/factory/TermFactory.h"
-#include "fuzzylite/factory/HedgeFactory.h"
 #include "fuzzylite/factory/FunctionFactory.h"
+#include "fuzzylite/factory/HedgeFactory.h"
+#include "fuzzylite/factory/SNormFactory.h"
+#include "fuzzylite/factory/TNormFactory.h"
+#include "fuzzylite/factory/TermFactory.h"
+#include "fuzzylite/fuzzylite.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The FactoryManager class is a central class grouping different factories
@@ -46,7 +46,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API FactoryManager {
-    private:
+      private:
         FL_unique_ptr<TNormFactory> _tnorm;
         FL_unique_ptr<SNormFactory> _snorm;
         FL_unique_ptr<ActivationFactory> _activation;
@@ -55,11 +55,17 @@ namespace fl {
         FL_unique_ptr<HedgeFactory> _hedge;
         FL_unique_ptr<FunctionFactory> _function;
 
-    public:
+      public:
         FactoryManager();
-        explicit FactoryManager(TNormFactory* tnorm, SNormFactory* snorm,
-                ActivationFactory* activation, DefuzzifierFactory* defuzzifier,
-                TermFactory* term, HedgeFactory* hedge, FunctionFactory* function);
+        explicit FactoryManager(
+            TNormFactory* tnorm,
+            SNormFactory* snorm,
+            ActivationFactory* activation,
+            DefuzzifierFactory* defuzzifier,
+            TermFactory* term,
+            HedgeFactory* hedge,
+            FunctionFactory* function
+        );
         explicit FactoryManager(const FactoryManager& other);
         FactoryManager& operator=(const FactoryManager& other);
         FL_DEFAULT_MOVE(FactoryManager)
@@ -150,5 +156,4 @@ namespace fl {
     };
 }
 
-#endif  /* FL_FACTORYMANAGER_H */
-
+#endif /* FL_FACTORYMANAGER_H */

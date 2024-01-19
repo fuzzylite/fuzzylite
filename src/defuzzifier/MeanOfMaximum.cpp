@@ -1,42 +1,43 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include "fuzzylite/defuzzifier/MeanOfMaximum.h"
 
 #include "fuzzylite/Exception.h"
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
-    MeanOfMaximum::MeanOfMaximum(int resolution)
-    : IntegralDefuzzifier(resolution) { }
+    MeanOfMaximum::MeanOfMaximum(int resolution) : IntegralDefuzzifier(resolution) {}
 
-    MeanOfMaximum::~MeanOfMaximum() { }
+    MeanOfMaximum::~MeanOfMaximum() {}
 
     std::string MeanOfMaximum::className() const {
         return "MeanOfMaximum";
     }
 
     Complexity MeanOfMaximum::complexity(const Term* term) const {
-        return Complexity().comparison(1).arithmetic(1 + 2 + 2) +
-                term->complexity().comparison(4).arithmetic(3).multiply(getResolution());
+        return Complexity().comparison(1).arithmetic(1 + 2 + 2)
+               + term->complexity().comparison(4).arithmetic(3).multiply(getResolution());
     }
 
     scalar MeanOfMaximum::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
-        if (not Op::isFinite(minimum + maximum)) return fl::nan;
+        if (not Op::isFinite(minimum + maximum))
+            return fl::nan;
 
         const int resolution = getResolution();
         const scalar dx = (maximum - minimum) / resolution;

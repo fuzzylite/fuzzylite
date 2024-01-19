@@ -1,32 +1,36 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include "fuzzylite/term/Triangle.h"
 
-namespace fl {
+namespace fuzzylite {
 
-    Triangle::Triangle(const std::string& name, scalar vertexA, scalar vertexB, scalar vertexC, scalar height)
-    : Term(name, height), _vertexA(vertexA), _vertexB(vertexB), _vertexC(vertexC) {
+    Triangle::Triangle(const std::string& name, scalar vertexA, scalar vertexB, scalar vertexC, scalar height) :
+        Term(name, height),
+        _vertexA(vertexA),
+        _vertexB(vertexB),
+        _vertexC(vertexC) {
         if (Op::isNaN(vertexC)) {
             this->_vertexC = _vertexB;
             this->_vertexB = 0.5 * (_vertexA + _vertexB);
         }
     }
 
-    Triangle::~Triangle() { }
+    Triangle::~Triangle() {}
 
     std::string Triangle::className() const {
         return "Triangle";
@@ -37,7 +41,8 @@ namespace fl {
     }
 
     scalar Triangle::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
 
         if (Op::isLt(x, _vertexA) or Op::isGt(x, _vertexC))
             return Term::_height * 0.0;
@@ -56,18 +61,19 @@ namespace fl {
     }
 
     std::string Triangle::parameters() const {
-        return Op::join(3, " ", _vertexA, _vertexB, _vertexC) +
-                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(3, " ", _vertexA, _vertexB, _vertexC)
+               + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Triangle::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 3;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setVertexA(Op::toScalar(values.at(0)));
@@ -108,6 +114,5 @@ namespace fl {
     Term* Triangle::constructor() {
         return new Triangle;
     }
-
 
 }

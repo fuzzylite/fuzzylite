@@ -1,18 +1,19 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include "fuzzylite/Engine.h"
 
@@ -31,15 +32,15 @@
 #include "fuzzylite/term/Constant.h"
 #include "fuzzylite/term/Linear.h"
 #include "fuzzylite/term/Ramp.h"
-#include "fuzzylite/term/Sigmoid.h"
 #include "fuzzylite/term/SShape.h"
+#include "fuzzylite/term/Sigmoid.h"
 #include "fuzzylite/term/ZShape.h"
 #include "fuzzylite/variable/InputVariable.h"
 #include "fuzzylite/variable/OutputVariable.h"
 
-namespace fl {
+namespace fuzzylite {
 
-    Engine::Engine(const std::string& name) : _name(name) { }
+    Engine::Engine(const std::string& name) : _name(name) {}
 
     Engine::Engine(const Engine& other) : _name(""), _description("") {
         copyFrom(other);
@@ -77,7 +78,7 @@ namespace fl {
             try {
                 ruleBlock->loadRules(this);
             } catch (...) {
-                //ignore
+                // ignore
             }
             _ruleBlocks.push_back(ruleBlock);
         }
@@ -87,9 +88,8 @@ namespace fl {
         std::vector<Variable*> myVariables = variables();
         for (std::size_t i = 0; i < myVariables.size(); ++i) {
             Variable* variable = myVariables.at(i);
-            for (std::size_t t = 0; t < variable->numberOfTerms(); ++t) {
+            for (std::size_t t = 0; t < variable->numberOfTerms(); ++t)
                 variable->getTerm(t)->updateReference(this);
-            }
         }
     }
 
@@ -102,9 +102,14 @@ namespace fl {
             delete _inputVariables.at(i);
     }
 
-    void Engine::configure(const std::string& conjunction, const std::string& disjunction,
-            const std::string& implication, const std::string& aggregation,
-            const std::string& defuzzifier, const std::string& activation) {
+    void Engine::configure(
+        const std::string& conjunction,
+        const std::string& disjunction,
+        const std::string& implication,
+        const std::string& aggregation,
+        const std::string& defuzzifier,
+        const std::string& activation
+    ) {
         TNormFactory* tnormFactory = FactoryManager::instance()->tnorm();
         SNormFactory* snormFactory = FactoryManager::instance()->snorm();
         DefuzzifierFactory* defuzzFactory = FactoryManager::instance()->defuzzifier();
@@ -117,14 +122,24 @@ namespace fl {
         Defuzzifier* defuzzifierObject = defuzzFactory->constructObject(defuzzifier);
         Activation* activationObject = activationFactory->constructObject(activation);
 
-        configure(conjunctionObject, disjunctionObject,
-                implicationObject, aggregationObject, defuzzifierObject,
-                activationObject);
+        configure(
+            conjunctionObject,
+            disjunctionObject,
+            implicationObject,
+            aggregationObject,
+            defuzzifierObject,
+            activationObject
+        );
     }
 
-    void Engine::configure(TNorm* conjunction, SNorm* disjunction,
-            TNorm* implication, SNorm* aggregation, Defuzzifier* defuzzifier,
-            Activation* activation) {
+    void Engine::configure(
+        TNorm* conjunction,
+        SNorm* disjunction,
+        TNorm* implication,
+        SNorm* aggregation,
+        Defuzzifier* defuzzifier,
+        Activation* activation
+    ) {
         for (std::size_t i = 0; i < numberOfRuleBlocks(); ++i) {
             RuleBlock* ruleBlock = ruleBlocks().at(i);
             ruleBlock->setConjunction(conjunction ? conjunction->clone() : fl::null);
@@ -138,24 +153,28 @@ namespace fl {
             outputVariable->setDefuzzifier(defuzzifier ? defuzzifier->clone() : fl::null);
             outputVariable->setAggregation(aggregation ? aggregation->clone() : fl::null);
         }
-        if (defuzzifier) delete defuzzifier;
-        if (aggregation) delete aggregation;
-        if (implication) delete implication;
-        if (disjunction) delete disjunction;
-        if (conjunction) delete conjunction;
-        if (activation) delete activation;
+        if (defuzzifier)
+            delete defuzzifier;
+        if (aggregation)
+            delete aggregation;
+        if (implication)
+            delete implication;
+        if (disjunction)
+            delete disjunction;
+        if (conjunction)
+            delete conjunction;
+        if (activation)
+            delete activation;
     }
 
     bool Engine::isReady(std::string* status) const {
         std::ostringstream ss;
-        if (inputVariables().empty()) {
+        if (inputVariables().empty())
             ss << "- Engine <" << getName() << "> has no input variables\n";
-        }
         for (std::size_t i = 0; i < inputVariables().size(); ++i) {
             InputVariable* inputVariable = inputVariables().at(i);
-            if (not inputVariable) {
+            if (not inputVariable)
                 ss << "- Engine <" << getName() << "> has a fl::null input variable at index <" << i << ">\n";
-            }
             /*else if (inputVariable->terms().empty()) {
             ignore because sometimes inputs can be empty: takagi-sugeno/matlab/slcpp1.fis
                             ss << "- Input variable <" << _inputVariables.at(i)->getName() << ">"
@@ -163,9 +182,8 @@ namespace fl {
             }*/
         }
 
-        if (outputVariables().empty()) {
+        if (outputVariables().empty())
             ss << "- Engine <" << _name << "> has no output variables\n";
-        }
         for (std::size_t i = 0; i < outputVariables().size(); ++i) {
             OutputVariable* outputVariable = outputVariables().at(i);
             if (not outputVariable) {
@@ -173,32 +191,30 @@ namespace fl {
             } else {
                 if (outputVariable->terms().empty()) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
-                            << " has no terms\n";
+                       << " has no terms\n";
                 }
                 Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
                 if (not defuzzifier) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
-                            << " has no defuzzifier\n";
+                       << " has no defuzzifier\n";
                 }
                 SNorm* aggregation = outputVariable->fuzzyOutput()->getAggregation();
-                if (not aggregation and dynamic_cast<IntegralDefuzzifier*> (defuzzifier)) {
+                if (not aggregation and dynamic_cast<IntegralDefuzzifier*>(defuzzifier)) {
                     ss << "- Output variable <" << outputVariable->getName() << ">"
-                            << " has no aggregation operator\n";
+                       << " has no aggregation operator\n";
                 }
             }
         }
 
-        if (ruleBlocks().empty()) {
+        if (ruleBlocks().empty())
             ss << "- Engine <" << getName() << "> has no rule blocks\n";
-        }
         for (std::size_t i = 0; i < ruleBlocks().size(); ++i) {
             RuleBlock* ruleblock = ruleBlocks().at(i);
             if (not ruleblock) {
                 ss << "- Engine <" << getName() << "> has a fl::null rule block at index <" << i << ">\n";
             } else {
-                if (ruleblock->rules().empty()) {
+                if (ruleblock->rules().empty())
                     ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no rules\n";
-                }
                 int requiresConjunction = 0;
                 int requiresDisjunction = 0;
                 int requiresImplication = 0;
@@ -206,24 +222,23 @@ namespace fl {
                     Rule* rule = ruleblock->getRule(r);
                     if (not rule) {
                         ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName()
-                                << "> has a fl::null rule at index <" << r << ">\n";
+                           << "> has a fl::null rule at index <" << r << ">\n";
                     } else {
                         std::size_t thenIndex = rule->getText().find(" " + Rule::thenKeyword() + " ");
                         std::size_t andIndex = rule->getText().find(" " + Rule::andKeyword() + " ");
                         std::size_t orIndex = rule->getText().find(" " + Rule::orKeyword() + " ");
-                        if (andIndex != std::string::npos and andIndex < thenIndex) {
+                        if (andIndex != std::string::npos and andIndex < thenIndex)
                             ++requiresConjunction;
-                        }
-                        if (orIndex != std::string::npos and orIndex < thenIndex) {
+                        if (orIndex != std::string::npos and orIndex < thenIndex)
                             ++requiresDisjunction;
-                        }
                         if (rule->isLoaded()) {
                             Consequent* consequent = rule->getConsequent();
                             for (std::size_t c = 0; c < consequent->conclusions().size(); ++c) {
                                 Proposition* proposition = consequent->conclusions().at(c);
-                                const OutputVariable* outputVariable =
-                                        dynamic_cast<const OutputVariable*> (proposition->variable);
-                                if (outputVariable and dynamic_cast<IntegralDefuzzifier*> (outputVariable->getDefuzzifier())) {
+                                const OutputVariable* outputVariable
+                                    = dynamic_cast<const OutputVariable*>(proposition->variable);
+                                if (outputVariable
+                                    and dynamic_cast<IntegralDefuzzifier*>(outputVariable->getDefuzzifier())) {
                                     ++requiresImplication;
                                     break;
                                 }
@@ -233,52 +248,52 @@ namespace fl {
                 }
                 const TNorm* conjunction = ruleblock->getConjunction();
                 if (requiresConjunction > 0 and not conjunction) {
-                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no conjunction operator\n";
-                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has "
-                            << requiresConjunction << " rules that require conjunction operator\n";
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName()
+                       << "> has no conjunction operator\n";
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has " << requiresConjunction
+                       << " rules that require conjunction operator\n";
                 }
                 const SNorm* disjunction = ruleblock->getDisjunction();
                 if (requiresDisjunction > 0 and not disjunction) {
-                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no disjunction operator\n";
-                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has "
-                            << requiresDisjunction << " rules that require disjunction operator\n";
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName()
+                       << "> has no disjunction operator\n";
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has " << requiresDisjunction
+                       << " rules that require disjunction operator\n";
                 }
                 const TNorm* implication = ruleblock->getImplication();
                 if (requiresImplication > 0 and not implication) {
-                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has no implication operator\n";
-                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has "
-                            << requiresImplication << " rules that require implication operator\n";
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName()
+                       << "> has no implication operator\n";
+                    ss << "- Rule block " << (i + 1) << " <" << ruleblock->getName() << "> has " << requiresImplication
+                       << " rules that require implication operator\n";
                 }
             }
         }
-        if (status) *status = ss.str();
+        if (status)
+            *status = ss.str();
         return ss.str().empty();
     }
 
     void Engine::restart() {
-        for (std::size_t i = 0; i < inputVariables().size(); ++i) {
+        for (std::size_t i = 0; i < inputVariables().size(); ++i)
             inputVariables().at(i)->setValue(fl::nan);
-        }
-        for (std::size_t i = 0; i < outputVariables().size(); ++i) {
+        for (std::size_t i = 0; i < outputVariables().size(); ++i)
             outputVariables().at(i)->clear();
-        }
     }
 
     Complexity Engine::complexity() const {
         Complexity result;
         for (std::size_t i = 0; i < _ruleBlocks.size(); ++i) {
             const RuleBlock* ruleBlock = _ruleBlocks.at(i);
-            if (ruleBlock->isEnabled()) {
+            if (ruleBlock->isEnabled())
                 result += ruleBlock->complexity();
-            }
         }
         return result;
     }
 
     void Engine::process() {
-        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i)
             _outputVariables.at(i)->fuzzyOutput()->clear();
-        }
 
         FL_DEBUG_BEGIN;
         FL_DBG("===============");
@@ -295,7 +310,6 @@ namespace fl {
         }
         FL_DEBUG_END;
 
-
         for (std::size_t i = 0; i < _ruleBlocks.size(); ++i) {
             RuleBlock* ruleBlock = _ruleBlocks.at(i);
             if (ruleBlock->isEnabled()) {
@@ -305,9 +319,8 @@ namespace fl {
             }
         }
 
-        for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
+        for (std::size_t i = 0; i < _outputVariables.size(); ++i)
             _outputVariables.at(i)->defuzzify();
-        }
 
         FL_DEBUG_BEGIN;
         FL_DBG("===============");
@@ -315,19 +328,15 @@ namespace fl {
         for (std::size_t i = 0; i < _outputVariables.size(); ++i) {
             OutputVariable* outputVariable = _outputVariables.at(i);
             if (outputVariable->isEnabled()) {
-                FL_DBG(outputVariable->getName() << ".default = "
-                        << outputVariable->getDefaultValue());
+                FL_DBG(outputVariable->getName() << ".default = " << outputVariable->getDefaultValue());
 
-                FL_DBG(outputVariable->getName() << ".lockValueInRange = "
-                        << outputVariable->isLockValueInRange());
+                FL_DBG(outputVariable->getName() << ".lockValueInRange = " << outputVariable->isLockValueInRange());
 
-                FL_DBG(outputVariable->getName() << ".lockPreviousValue= "
-                        << outputVariable->isLockPreviousValue());
+                FL_DBG(outputVariable->getName() << ".lockPreviousValue= " << outputVariable->isLockPreviousValue());
 
                 scalar output = outputVariable->getValue();
                 FL_DBG(outputVariable->getName() << ".output = " << output);
-                FL_DBG(outputVariable->getName() << ".fuzzy = " <<
-                        outputVariable->fuzzify(output));
+                FL_DBG(outputVariable->getName() << ".fuzzy = " << outputVariable->fuzzify(output));
                 FL_DBG(outputVariable->fuzzyOutput()->toString());
             } else {
                 FL_DBG(outputVariable->getName() << ".enabled = false");
@@ -359,81 +368,89 @@ namespace fl {
 
     Engine::Type Engine::type(std::string* name, std::string* reason) const {
         if (outputVariables().empty()) {
-            if (name) *name = "Unknown";
-            if (reason) *reason = "- Engine has no output variables";
+            if (name)
+                *name = "Unknown";
+            if (reason)
+                *reason = "- Engine has no output variables";
             return Engine::Unknown;
         }
 
-        //Mamdani
+        // Mamdani
         bool mamdani = true;
         for (std::size_t i = 0; mamdani and i < outputVariables().size(); ++i) {
             OutputVariable* outputVariable = outputVariables().at(i);
-            //Defuzzifier must be integral
-            mamdani = mamdani and dynamic_cast<IntegralDefuzzifier*> (outputVariable->getDefuzzifier());
+            // Defuzzifier must be integral
+            mamdani = mamdani and dynamic_cast<IntegralDefuzzifier*>(outputVariable->getDefuzzifier());
         }
-        //Larsen
+        // Larsen
         bool larsen = mamdani and not ruleBlocks().empty();
-        //Larsen is Mamdani with AlgebraicProduct as Implication
+        // Larsen is Mamdani with AlgebraicProduct as Implication
         if (mamdani) {
             for (std::size_t i = 0; larsen and i < ruleBlocks().size(); ++i) {
                 RuleBlock* ruleBlock = ruleBlocks().at(i);
-                larsen = larsen and dynamic_cast<const AlgebraicProduct*> (ruleBlock->getImplication());
+                larsen = larsen and dynamic_cast<const AlgebraicProduct*>(ruleBlock->getImplication());
             }
         }
         if (larsen) {
-            if (name) *name = "Larsen";
-            if (reason) *reason = "- Output variables have integral defuzzifiers\n"
-                    "- Implication in rule blocks is the algebraic product T-Norm";
+            if (name)
+                *name = "Larsen";
+            if (reason)
+                *reason = "- Output variables have integral defuzzifiers\n"
+                          "- Implication in rule blocks is the algebraic product T-Norm";
             return Engine::Larsen;
         }
         if (mamdani) {
-            if (name) *name = "Mamdani";
-            if (reason) *reason = "-Output variables have integral defuzzifiers";
+            if (name)
+                *name = "Mamdani";
+            if (reason)
+                *reason = "-Output variables have integral defuzzifiers";
             return Engine::Mamdani;
         }
-        //Else, keep checking
+        // Else, keep checking
 
-        //TakagiSugeno
+        // TakagiSugeno
         bool takagiSugeno = true;
         for (std::size_t i = 0; takagiSugeno and i < outputVariables().size(); ++i) {
             OutputVariable* outputVariable = outputVariables().at(i);
-            //Defuzzifier is Weighted
-            WeightedDefuzzifier* weightedDefuzzifier =
-                    dynamic_cast<WeightedDefuzzifier*> (outputVariable->getDefuzzifier());
+            // Defuzzifier is Weighted
+            WeightedDefuzzifier* weightedDefuzzifier
+                = dynamic_cast<WeightedDefuzzifier*>(outputVariable->getDefuzzifier());
 
-            takagiSugeno = takagiSugeno and weightedDefuzzifier and
-                    (weightedDefuzzifier->getType() == WeightedDefuzzifier::Automatic or
-                    weightedDefuzzifier->getType() == WeightedDefuzzifier::TakagiSugeno);
+            takagiSugeno
+                = takagiSugeno and weightedDefuzzifier
+                  and (weightedDefuzzifier->getType() == WeightedDefuzzifier::Automatic or weightedDefuzzifier->getType() == WeightedDefuzzifier::TakagiSugeno);
 
             if (takagiSugeno) {
-                //Takagi-Sugeno has only Constant, Linear or Function terms
+                // Takagi-Sugeno has only Constant, Linear or Function terms
                 for (std::size_t t = 0; takagiSugeno and t < outputVariable->numberOfTerms(); ++t) {
                     Term* term = outputVariable->getTerm(t);
-                    takagiSugeno = takagiSugeno and
-                            weightedDefuzzifier->inferType(term) == WeightedDefuzzifier::TakagiSugeno;
+                    takagiSugeno
+                        = takagiSugeno and weightedDefuzzifier->inferType(term) == WeightedDefuzzifier::TakagiSugeno;
                 }
             }
         }
         if (takagiSugeno) {
-            if (name) *name = "Takagi-Sugeno";
-            if (reason) *reason = "- Output variables have weighted defuzzifiers\n"
-                    "- Output variables have constant, linear or function terms";
+            if (name)
+                *name = "Takagi-Sugeno";
+            if (reason)
+                *reason = "- Output variables have weighted defuzzifiers\n"
+                          "- Output variables have constant, linear or function terms";
             return Engine::TakagiSugeno;
         }
 
-        //Tsukamoto
+        // Tsukamoto
         bool tsukamoto = true;
         for (std::size_t i = 0; tsukamoto and i < outputVariables().size(); ++i) {
             OutputVariable* outputVariable = outputVariables().at(i);
-            //Defuzzifier is Weighted
-            WeightedDefuzzifier* weightedDefuzzifier =
-                    dynamic_cast<WeightedDefuzzifier*> (outputVariable->getDefuzzifier());
+            // Defuzzifier is Weighted
+            WeightedDefuzzifier* weightedDefuzzifier
+                = dynamic_cast<WeightedDefuzzifier*>(outputVariable->getDefuzzifier());
 
-            tsukamoto = tsukamoto and weightedDefuzzifier and
-                    (weightedDefuzzifier->getType() == WeightedDefuzzifier::Automatic or
-                    weightedDefuzzifier->getType() == WeightedDefuzzifier::Tsukamoto);
+            tsukamoto
+                = tsukamoto and weightedDefuzzifier
+                  and (weightedDefuzzifier->getType() == WeightedDefuzzifier::Automatic or weightedDefuzzifier->getType() == WeightedDefuzzifier::Tsukamoto);
             if (tsukamoto) {
-                //Tsukamoto has only monotonic terms: Concave, Ramp, Sigmoid, SShape, or ZShape
+                // Tsukamoto has only monotonic terms: Concave, Ramp, Sigmoid, SShape, or ZShape
                 for (std::size_t t = 0; tsukamoto and t < outputVariable->numberOfTerms(); ++t) {
                     Term* term = outputVariable->getTerm(t);
                     tsukamoto = tsukamoto and term->isMonotonic();
@@ -441,43 +458,51 @@ namespace fl {
             }
         }
         if (tsukamoto) {
-            if (name) *name = "Tsukamoto";
-            if (reason) *reason = "- Output variables have weighted defuzzifiers\n"
-                    "- Output variables only have monotonic terms";
+            if (name)
+                *name = "Tsukamoto";
+            if (reason)
+                *reason = "- Output variables have weighted defuzzifiers\n"
+                          "- Output variables only have monotonic terms";
             return Engine::Tsukamoto;
         }
 
-        //Inverse Tsukamoto
+        // Inverse Tsukamoto
         bool inverseTsukamoto = true;
         for (std::size_t i = 0; inverseTsukamoto and i < outputVariables().size(); ++i) {
             OutputVariable* outputVariable = outputVariables().at(i);
-            //Defuzzifier cannot be integral
-            WeightedDefuzzifier* weightedDefuzzifier =
-                    dynamic_cast<WeightedDefuzzifier*> (outputVariable->getDefuzzifier());
+            // Defuzzifier cannot be integral
+            WeightedDefuzzifier* weightedDefuzzifier
+                = dynamic_cast<WeightedDefuzzifier*>(outputVariable->getDefuzzifier());
             inverseTsukamoto = inverseTsukamoto and weightedDefuzzifier;
         }
         if (inverseTsukamoto) {
-            if (name) *name = "Inverse Tsukamoto";
-            if (reason) *reason = "- Output variables have weighted defuzzifiers\n"
-                    "- Output variables do not only have constant, linear or function terms\n"
-                    "- Output variables do not only have monotonic terms";
+            if (name)
+                *name = "Inverse Tsukamoto";
+            if (reason)
+                *reason = "- Output variables have weighted defuzzifiers\n"
+                          "- Output variables do not only have constant, linear or function terms\n"
+                          "- Output variables do not only have monotonic terms";
             return Engine::InverseTsukamoto;
         }
 
         bool hybrid = true;
         for (std::size_t i = 0; i < outputVariables().size(); ++i) {
             OutputVariable* outputVariable = outputVariables().at(i);
-            //Output variables have non-fl::null defuzzifiers
+            // Output variables have non-fl::null defuzzifiers
             hybrid = hybrid and outputVariable->getDefuzzifier();
         }
         if (hybrid) {
-            if (name) *name = "Hybrid";
-            if (reason) *reason = "- Output variables have different types of defuzzifiers";
+            if (name)
+                *name = "Hybrid";
+            if (reason)
+                *reason = "- Output variables have different types of defuzzifiers";
             return Engine::Hybrid;
         }
 
-        if (name) *name = "Unknown";
-        if (reason) *reason = "- One or more output variables do not have a defuzzifier";
+        if (name)
+            *name = "Unknown";
+        if (reason)
+            *reason = "- One or more output variables do not have a defuzzifier";
         return Engine::Unknown;
     }
 
@@ -520,18 +545,16 @@ namespace fl {
     }
 
     InputVariable* Engine::getInputVariable(const std::string& name) const {
-        for (std::size_t i = 0; i < inputVariables().size(); ++i) {
+        for (std::size_t i = 0; i < inputVariables().size(); ++i)
             if (inputVariables().at(i)->getName() == name)
                 return inputVariables().at(i);
-        }
         throw Exception("[engine error] input variable <" + name + "> not found", FL_AT);
     }
 
     bool Engine::hasInputVariable(const std::string& name) const {
-        for (std::size_t i = 0; i < inputVariables().size(); ++i) {
+        for (std::size_t i = 0; i < inputVariables().size(); ++i)
             if (inputVariables().at(i)->getName() == name)
                 return true;
-        }
         return false;
     }
 
@@ -595,18 +618,16 @@ namespace fl {
     }
 
     OutputVariable* Engine::getOutputVariable(const std::string& name) const {
-        for (std::size_t i = 0; i < outputVariables().size(); ++i) {
+        for (std::size_t i = 0; i < outputVariables().size(); ++i)
             if (outputVariables().at(i)->getName() == name)
                 return outputVariables().at(i);
-        }
         throw Exception("[engine error] output variable <" + name + "> not found", FL_AT);
     }
 
     bool Engine::hasOutputVariable(const std::string& name) const {
-        for (std::size_t i = 0; i < outputVariables().size(); ++i) {
+        for (std::size_t i = 0; i < outputVariables().size(); ++i)
             if (outputVariables().at(i)->getName() == name)
                 return true;
-        }
         return false;
     }
 
@@ -665,18 +686,16 @@ namespace fl {
     }
 
     RuleBlock* Engine::getRuleBlock(const std::string& name) const {
-        for (std::size_t i = 0; i < ruleBlocks().size(); ++i) {
+        for (std::size_t i = 0; i < ruleBlocks().size(); ++i)
             if (ruleBlocks().at(i)->getName() == name)
                 return ruleBlocks().at(i);
-        }
         throw Exception("[engine error] rule block <" + name + "> not found", FL_AT);
     }
 
     bool Engine::hasRuleBlock(const std::string& name) const {
-        for (std::size_t i = 0; i < ruleBlocks().size(); ++i) {
+        for (std::size_t i = 0; i < ruleBlocks().size(); ++i)
             if (ruleBlocks().at(i)->getName() == name)
                 return true;
-        }
         return false;
     }
 

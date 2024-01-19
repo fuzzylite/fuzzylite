@@ -1,30 +1,30 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_ENGINE_H
 #define FL_ENGINE_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/Complexity.h"
-
 #include <string>
 #include <vector>
 
-namespace fl {
+#include "fuzzylite/Complexity.h"
+#include "fuzzylite/fuzzylite.h"
+
+namespace fuzzylite {
 
     class InputVariable;
     class OutputVariable;
@@ -47,7 +47,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API Engine {
-    private:
+      private:
         std::string _name;
         std::string _description;
         std::vector<InputVariable*> _inputVariables;
@@ -56,10 +56,10 @@ namespace fl {
 
         void copyFrom(const Engine& source);
 
-    protected:
+      protected:
         void updateReferences() const;
 
-    public:
+      public:
         explicit Engine(const std::string& name = "");
         Engine(const Engine& other);
         Engine& operator=(const Engine& other);
@@ -75,12 +75,14 @@ namespace fl {
           @param defuzzifier is a defuzzifier registered in the DefuzzifierFactory
           @param activation is an activation method registered in the ActivationFactory
          */
-        virtual void configure(const std::string& conjunction,
-                const std::string& disjunction,
-                const std::string& implication,
-                const std::string& aggregation,
-                const std::string& defuzzifier,
-                const std::string& activation);
+        virtual void configure(
+            const std::string& conjunction,
+            const std::string& disjunction,
+            const std::string& implication,
+            const std::string& aggregation,
+            const std::string& defuzzifier,
+            const std::string& activation
+        );
 
         /**
           Configures the engine with clones of the given object operators, taking
@@ -99,9 +101,14 @@ namespace fl {
           @param activation is the activation method to activate and fire the
           rule blocks
          */
-        virtual void configure(TNorm* conjunction, SNorm* disjunction,
-                TNorm* implication, SNorm* aggregation,
-                Defuzzifier* defuzzifier, Activation* activation);
+        virtual void configure(
+            TNorm* conjunction,
+            SNorm* disjunction,
+            TNorm* implication,
+            SNorm* aggregation,
+            Defuzzifier* defuzzifier,
+            Activation* activation
+        );
 
         /**
           Indicates whether the engine has been configured correctly and is
@@ -209,6 +216,7 @@ namespace fl {
             /**Unknown: When output variables have no defuzzifiers*/
             Unknown
         };
+
         /**
           Infers the type of the engine based on its current configuration
 
@@ -472,7 +480,6 @@ namespace fl {
           @return a mutable vector of rule blocks
          */
         virtual std::vector<RuleBlock*>& ruleBlocks();
-
     };
 }
 #endif /* FL_ENGINE_H */

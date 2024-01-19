@@ -1,29 +1,34 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include "fuzzylite/term/PiShape.h"
 
-namespace fl {
+namespace fuzzylite {
 
-    PiShape::PiShape(const std::string& name, scalar bottomLeft, scalar topLeft,
-            scalar topRight, scalar bottomRight, scalar height)
-    : Term(name, height), _bottomLeft(bottomLeft), _topLeft(topLeft),
-    _topRight(topRight), _bottomRight(bottomRight) { }
+    PiShape::PiShape(
+        const std::string& name, scalar bottomLeft, scalar topLeft, scalar topRight, scalar bottomRight, scalar height
+    ) :
+        Term(name, height),
+        _bottomLeft(bottomLeft),
+        _topLeft(topLeft),
+        _topRight(topRight),
+        _bottomRight(bottomRight) {}
 
-    PiShape::~PiShape() { }
+    PiShape::~PiShape() {}
 
     std::string PiShape::className() const {
         return "PiShape";
@@ -34,7 +39,8 @@ namespace fl {
     }
 
     scalar PiShape::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
 
         scalar sshape;
         if (Op::isLE(x, _bottomLeft))
@@ -43,7 +49,8 @@ namespace fl {
             sshape = 2.0 * std::pow((x - _bottomLeft) / (_topLeft - _bottomLeft), 2);
         else if (Op::isLt(x, _topLeft))
             sshape = 1.0 - 2.0 * std::pow((x - _topLeft) / (_topLeft - _bottomLeft), 2);
-        else sshape = 1.0;
+        else
+            sshape = 1.0;
 
         scalar zshape;
         if (Op::isLE(x, _topRight))
@@ -52,24 +59,26 @@ namespace fl {
             zshape = 1.0 - 2.0 * std::pow((x - _topRight) / (_bottomRight - _topRight), 2);
         else if (Op::isLt(x, _bottomRight))
             zshape = 2.0 * std::pow((x - _bottomRight) / (_bottomRight - _topRight), 2);
-        else zshape = 0.0;
+        else
+            zshape = 0.0;
 
         return Term::_height * sshape * zshape;
     }
 
     std::string PiShape::parameters() const {
-        return Op::join(4, " ", _bottomLeft, _topLeft, _topRight, _bottomRight) +
-                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(4, " ", _bottomLeft, _topLeft, _topRight, _bottomRight)
+               + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void PiShape::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 4;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setBottomLeft(Op::toScalar(values.at(0)));

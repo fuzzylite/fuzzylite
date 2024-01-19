@@ -1,29 +1,29 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_ANTECEDENT_H
 #define FL_ANTECEDENT_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/Complexity.h"
-
 #include <string>
 
-namespace fl {
+#include "fuzzylite/Complexity.h"
+#include "fuzzylite/fuzzylite.h"
+
+namespace fuzzylite {
     class Engine;
     class Rule;
     class TNorm;
@@ -46,11 +46,11 @@ namespace fl {
       @since 4.0
      */
     class FL_API Antecedent {
-    private:
+      private:
         std::string _text;
         FL_unique_ptr<Expression> _expression;
 
-    public:
+      public:
         Antecedent();
         virtual ~Antecedent();
 
@@ -117,9 +117,7 @@ namespace fl {
           @return the estimated complexity of recursively calculating the
           activation degree from the given node
          */
-        virtual Complexity complexity(const TNorm* conjunction, const SNorm* disjunction,
-                const Expression* node) const;
-
+        virtual Complexity complexity(const TNorm* conjunction, const SNorm* disjunction, const Expression* node) const;
 
         /**
           Computes the activation degree of the antecedent on the expression
@@ -130,8 +128,8 @@ namespace fl {
           @param node is a node in the expression tree of the antecedent
           @return the activation degree of the antecedent
          */
-        virtual scalar activationDegree(const TNorm* conjunction, const SNorm* disjunction,
-                const Expression* node) const;
+        virtual scalar
+        activationDegree(const TNorm* conjunction, const SNorm* disjunction, const Expression* node) const;
 
         /**
           Computes the activation degree of the antecedent on the expression
@@ -177,8 +175,7 @@ namespace fl {
          */
         virtual std::string toPostfix(const Expression* node = fl::null) const;
 
-
-    private:
+      private:
         FL_DISABLE_COPY(Antecedent)
     };
 }

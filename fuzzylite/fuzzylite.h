@@ -1,29 +1,30 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_FUZZYLITE_H
 #define FL_FUZZYLITE_H
 
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <iostream>
-#include <sstream>
 #include <limits>
 #include <memory>
-#include <cstddef>
+#include <sstream>
 
 #ifndef FL_BUILD_PATH
 #define FL_BUILD_PATH ""
@@ -50,37 +51,46 @@
 
 #define FL_AT FL__FILE__, __LINE__, __FUNCTION__
 
-#define FL_LOG(message) {if (fl::fuzzylite::isLogging()){std::cout << FL_LOG_PREFIX << message << std::endl;}}
-#define FL_LOGP(message) {if (fl::fuzzylite::isLogging()){std::cout << message << std::endl;}}
+#define FL_LOG(message)                                         \
+    {                                                           \
+        if (fl::fuzzylite::isLogging()) {                       \
+            std::cout << FL_LOG_PREFIX << message << std::endl; \
+        }                                                       \
+    }
+#define FL_LOGP(message)                       \
+    {                                          \
+        if (fl::fuzzylite::isLogging()) {      \
+            std::cout << message << std::endl; \
+        }                                      \
+    }
 
-#define FL_DEBUG_BEGIN if (fl::fuzzylite::isDebugging()){
+#define FL_DEBUG_BEGIN if (fl::fuzzylite::isDebugging()) {
 #define FL_DEBUG_END }
 
-#define FL_DBG(message) FL_DEBUG_BEGIN\
-        std::cout << FL__FILE__ << "::" << __FUNCTION__ << "[" << __LINE__ << "]:" \
-                << message << std::endl;\
-        FL_DEBUG_END
-
+#define FL_DBG(message)                                                                                 \
+    FL_DEBUG_BEGIN                                                                                      \
+    std::cout << FL__FILE__ << "::" << __FUNCTION__ << "[" << __LINE__ << "]:" << message << std::endl; \
+    FL_DEBUG_END
 
 #ifdef FL_WINDOWS
-#include <ciso646> //alternative operator spellings:
-//#define and &&
-//#define or ||
-//#define not !
-//#define bitand &
-//#define bitor |
+#include <ciso646>  //alternative operator spellings:
+// #define and &&
+// #define or ||
+// #define not !
+// #define bitand &
+// #define bitor |
 
 //@todo: Address warning 4251 by exporting members?
-//http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
+// http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #ifdef _MSC_VER
-#pragma warning (disable:4251)
+#pragma warning(disable : 4251)
 #endif
 
-//fuzzylite as a shared library is exported
-//Applications linking with fuzzylite as a shared library need to import
+// fuzzylite as a shared library is exported
+// Applications linking with fuzzylite as a shared library need to import
 
-//fuzzylite as a static library does not export or import
-//Applications linking with fuzzylite as a static library do not import
+// fuzzylite as a static library does not export or import
+// Applications linking with fuzzylite as a static library do not import
 
 #if defined(FL_EXPORT_LIBRARY)
 #define FL_API __declspec(dllexport)
@@ -101,7 +111,7 @@
   @author Juan Rada-Vilela, Ph.D.
   @since 4.0
  */
-namespace fl {
+namespace fuzzylite {
     /**
       Represents floating-point values (typedef to float or double).
      */
@@ -114,7 +124,7 @@ namespace fl {
     typedef double scalar;
 #endif
 
-#define FL_IUNUSED(x) (void) (x)
+#define FL_IUNUSED(x) (void)(x)
 
 #ifdef __GNUC__
 #define FL_IUNUSED_DECL __attribute__((unused))
@@ -132,35 +142,35 @@ namespace fl {
     const scalar inf FL_IUNUSED_DECL = std::numeric_limits<scalar>::infinity();
 
 #ifdef FL_CPP98
-    //C++98 defines
+    // C++98 defines
 
-    //Pointers
+    // Pointers
     /**
       Represents the `C++11` or `C++98` null pointer depending on whether the
       compilation flag `-DFL_CPP98` is set
      */
     // https://stackoverflow.com/questions/44517556/how-to-define-our-own-nullptr-in-c98
-const class nullptr_t {
- public:
-  template <class T> /* convertible to any type of null non-member pointer */
-  operator T*() const {
-    return 0;
-  }
+    const class nullptr_t {
+      public:
+        template <class T> /* convertible to any type of null non-member pointer */
+        operator T *() const {
+            return 0;
+        }
 
-  template <class C, class T> /* or any type of null  member pointer */
-  operator T C::*() const {
-    return 0;
-  }
+        template <class C, class T> /* or any type of null  member pointer */
+        operator T C::*() const {
+            return 0;
+        }
 
- private:
-  void operator&() const; /* Can't take address of nullptr */
+      private:
+        void operator&() const; /* Can't take address of nullptr */
 
-} null = {};
+    } null = {};
 
 #define FL_unique_ptr std::auto_ptr
 #define FL_move_ptr(x) x
 
-    //Identifiers
+    // Identifiers
 #define FL_IOVERRIDE
 #define FL_IFINAL
 #define FL_IDEFAULT
@@ -168,19 +178,19 @@ const class nullptr_t {
 #define FL_INOEXCEPT throw()
 #define FL_ITHREAD_LOCAL
 
-    //Constructors
+    // Constructors
 #define FL_DEFAULT_COPY(Class)
 #define FL_DEFAULT_MOVE(Class)
 #define FL_DEFAULT_COPY_AND_MOVE(Class)
 
 #define FL_DISABLE_COPY(Class) \
-    Class(const Class &);\
+    Class(const Class &);      \
     Class &operator=(const Class &);
 
 #else
-    //C++11 defines
+    // C++11 defines
 
-    //Pointers
+    // Pointers
     /**
       Represents the `C++11` or `C++98` null pointer depending on whether the
       compilation flag `-DFL_CPP98` is set
@@ -189,7 +199,7 @@ const class nullptr_t {
 #define FL_unique_ptr std::unique_ptr
 #define FL_move_ptr(x) std::move(x)
 
-    //Identifiers
+    // Identifiers
 #define FL_IOVERRIDE override
 #define FL_IFINAL final
 #define FL_IDEFAULT = default
@@ -197,29 +207,28 @@ const class nullptr_t {
 #define FL_INOEXCEPT noexcept
 #define FL_ITHREAD_LOCAL /*thread_local (commented for performance)*/
 
-    //Constructors
-#define FL_DEFAULT_COPY(Class) \
-    Class(const Class&) = default; \
-    Class& operator=(const Class&) = default;
+    // Constructors
+#define FL_DEFAULT_COPY(Class)      \
+    Class(const Class &) = default; \
+    Class &operator=(const Class &) = default;
 #define FL_DEFAULT_MOVE(Class) \
-    Class(Class&&) = default; \
-    Class& operator=(Class&&) = default;
-#define FL_DEFAULT_COPY_AND_MOVE(Class) \
-    Class(const Class&) = default; \
-    Class& operator=(const Class&) = default;\
-    Class(Class&&) = default; \
-    Class& operator=(Class&&) = default;
+    Class(Class &&) = default; \
+    Class &operator=(Class &&) = default;
+#define FL_DEFAULT_COPY_AND_MOVE(Class)        \
+    Class(const Class &) = default;            \
+    Class &operator=(const Class &) = default; \
+    Class(Class &&) = default;                 \
+    Class &operator=(Class &&) = default;
 
-#define FL_DISABLE_COPY(Class) \
-    Class(const Class &) = delete;\
+#define FL_DISABLE_COPY(Class)     \
+    Class(const Class &) = delete; \
     Class &operator=(const Class &) = delete;
 
 #endif
 
 }
 
-
-namespace fl {
+namespace fuzzylite {
 
     /**
 
@@ -233,13 +242,15 @@ namespace fl {
 
     class FL_API fuzzylite {
         friend class Operation;
-    private:
+
+      private:
         static int _decimals;
         static scalar _macheps;
         static std::ios_base::fmtflags _scalarFormat;
         static bool _logging;
         static bool _debugging;
-    public:
+
+      public:
         /**
          Returns the name of the `fuzzylite` library
          @return the name of the `fuzzylite` library
@@ -368,8 +379,7 @@ namespace fl {
     };
 }
 
-
-namespace fl {
+namespace fuzzylite {
 
     inline std::string fuzzylite::name() {
         return "fuzzylite";
@@ -440,5 +450,6 @@ namespace fl {
     }
 }
 
-#endif  /* FL_FUZZYLITE_H */
+namespace fl = fuzzylite;
 
+#endif /* FL_FUZZYLITE_H */

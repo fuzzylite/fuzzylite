@@ -1,27 +1,27 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_SNORMFUNCTION_H
 #define FL_SNORMFUNCTION_H
 
 #include "fuzzylite/norm/SNorm.h"
-
 #include "fuzzylite/term/Function.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
      The SNormFunction class is a customizable SNorm via Function, which
@@ -37,9 +37,10 @@ namespace fl {
      */
 
     class FL_API SNormFunction FL_IFINAL : public SNorm {
-    private:
+      private:
         Function _function;
-    public:
+
+      public:
         explicit SNormFunction(const std::string& formula = "");
 
         /**
@@ -78,4 +79,3 @@ namespace fl {
     };
 }
 #endif /* FL_SNORMFUNCTION_H */
-

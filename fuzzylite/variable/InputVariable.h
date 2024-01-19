@@ -1,25 +1,26 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_INPUTVARIABLE_H
 #define FL_INPUTVARIABLE_H
 
 #include "fuzzylite/variable/Variable.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The InputVariable class is a Variable that represents an input of the
@@ -32,10 +33,8 @@ namespace fl {
       @since 4.0
      */
     class FL_API InputVariable : public Variable {
-    public:
-        explicit InputVariable(const std::string& name = "",
-                scalar minimum = -fl::inf,
-                scalar maximum = fl::inf);
+      public:
+        explicit InputVariable(const std::string& name = "", scalar minimum = -fl::inf, scalar maximum = fl::inf);
         virtual ~InputVariable() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(InputVariable)
 
@@ -54,7 +53,6 @@ namespace fl {
         virtual std::string toString() const FL_IOVERRIDE;
 
         virtual InputVariable* clone() const FL_IOVERRIDE;
-
     };
 }
 #endif /* FL_INPUTVARIABLE_H */

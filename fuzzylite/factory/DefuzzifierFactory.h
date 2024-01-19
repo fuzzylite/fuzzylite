@@ -1,29 +1,29 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_DEFUZZIFIERFACTORY_H
 #define FL_DEFUZZIFIERFACTORY_H
 
-#include "fuzzylite/factory/ConstructionFactory.h"
-
 #include "fuzzylite/defuzzifier/Defuzzifier.h"
 #include "fuzzylite/defuzzifier/IntegralDefuzzifier.h"
 #include "fuzzylite/defuzzifier/WeightedDefuzzifier.h"
+#include "fuzzylite/factory/ConstructionFactory.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The DefuzzifierFactory class is a ConstructionFactory of Defuzzifier%s.
@@ -35,7 +35,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API DefuzzifierFactory : public ConstructionFactory<Defuzzifier*> {
-    public:
+      public:
         DefuzzifierFactory();
         virtual ~DefuzzifierFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(DefuzzifierFactory)
@@ -48,8 +48,8 @@ namespace fl {
           @return a Defuzzifier by executing the registered constructor and
           setting its resolution or type accordingly
          */
-        virtual Defuzzifier* constructDefuzzifier(const std::string& key,
-                int resolution, WeightedDefuzzifier::Type type) const;
+        virtual Defuzzifier*
+        constructDefuzzifier(const std::string& key, int resolution, WeightedDefuzzifier::Type type) const;
 
         /**
           Creates a Defuzzifier by executing the registered constructor
@@ -71,5 +71,4 @@ namespace fl {
     };
 }
 
-#endif  /* DEFUZZIFIERFACTORY_H */
-
+#endif /* DEFUZZIFIERFACTORY_H */

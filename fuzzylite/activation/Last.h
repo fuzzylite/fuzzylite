@@ -1,26 +1,26 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_LAST_H
 #define FL_LAST_H
 
-
 #include "fuzzylite/activation/Activation.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
      The Last class is a RuleBlock Activation method that activates the last
@@ -37,10 +37,11 @@ namespace fl {
      */
 
     class FL_API Last : public Activation {
-    private:
+      private:
         int _numberOfRules;
         scalar _threshold;
-    public:
+
+      public:
         explicit Last(int numberOfRules = 1, scalar threshold = 0.0);
         virtual ~Last();
         FL_DEFAULT_COPY_AND_MOVE(Last)
@@ -82,7 +83,6 @@ namespace fl {
           @return the threshold for the activation degree
          */
         virtual scalar getThreshold() const;
-
 
         virtual Complexity complexity(const RuleBlock* ruleBlock) const FL_IOVERRIDE;
 

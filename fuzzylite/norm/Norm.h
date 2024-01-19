@@ -1,29 +1,29 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_NORM_H
 #define FL_NORM_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/Complexity.h"
-
 #include <string>
 
-namespace fl {
+#include "fuzzylite/Complexity.h"
+#include "fuzzylite/fuzzylite.h"
+
+namespace fuzzylite {
 
     /**
       The Norm class is the abstract class for norms.
@@ -36,13 +36,10 @@ namespace fl {
       @since 4.0
      */
     class FL_API Norm {
-    public:
+      public:
+        Norm() {}
 
-        Norm() {
-        }
-
-        virtual ~Norm() {
-        }
+        virtual ~Norm() {}
 
         FL_DEFAULT_COPY_AND_MOVE(Norm)
         /**
@@ -69,7 +66,6 @@ namespace fl {
           @return a clone of the norm
          */
         virtual Norm* clone() const = 0;
-
     };
 }
-#endif  /* FL_NORM_H */
+#endif /* FL_NORM_H */

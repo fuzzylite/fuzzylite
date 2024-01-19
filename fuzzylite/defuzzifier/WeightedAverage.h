@@ -1,25 +1,26 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_WEIGHTEDAVERAGE_H
 #define FL_WEIGHTEDAVERAGE_H
 
 #include "fuzzylite/defuzzifier/WeightedDefuzzifier.h"
 
-namespace fl {
+namespace fuzzylite {
     class Activated;
 
     /**
@@ -35,7 +36,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API WeightedAverage : public WeightedDefuzzifier {
-    public:
+      public:
         explicit WeightedAverage(Type type = Automatic);
         explicit WeightedAverage(const std::string& type);
         virtual ~WeightedAverage() FL_IOVERRIDE;
@@ -59,13 +60,11 @@ namespace fl {
           @param maximum is the maximum value of the range (only used for Tsukamoto)
           @return the weighted average of the given fuzzy set
          */
-        virtual scalar defuzzify(const Term* term,
-                scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const FL_IOVERRIDE;
         virtual WeightedAverage* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();
     };
 }
 
-#endif  /* FL_WEIGHTEDAVERAGE_H */
-
+#endif /* FL_WEIGHTEDAVERAGE_H */

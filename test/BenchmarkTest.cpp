@@ -1,28 +1,28 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 
-#include "fuzzylite/Benchmark.h"
-
-#include "fuzzylite/Headers.h"
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include <catch2/catch.hpp>
-#include <vector>
 #include <fstream>
+#include <vector>
 
-namespace fl {
+#include "fuzzylite/Benchmark.h"
+#include "fuzzylite/Headers.h"
+
+namespace fuzzylite {
 
     TEST_CASE("Benchmarks run from Console ", "[benchmark][console]") {
         //        const char* args[] = {"dummy-command", "benchmarks", "../../examples/", "1"};
@@ -31,7 +31,7 @@ namespace fl {
 
     TEST_CASE("Benchmarks from FLD files", "[benchmark][fld]") {
         std::string path = FL_BUILD_PATH "/examples/";
-        typedef std::pair<std::string, int > Example;
+        typedef std::pair<std::string, int> Example;
         std::vector<Example> examples;
         examples.push_back(Example("mamdani/AllTerms", int(1e4)));
         examples.push_back(Example("mamdani/SimpleDimmer", int(1e5)));
@@ -70,8 +70,10 @@ namespace fl {
         std::vector<int> errors = std::vector<int>(examples.size(), 0);
         for (std::size_t i = 0; i < examples.size(); ++i) {
             Example example = examples.at(i);
-            FL_LOG("Benchmark " << (i + 1) << "/" << examples.size() << ": "
-                    << example.first << ".fll (" << example.second << " values)");
+            FL_LOG(
+                "Benchmark " << (i + 1) << "/" << examples.size() << ": " << example.first << ".fll (" << example.second
+                             << " values)"
+            );
 
             FL_unique_ptr<Engine> engine(FllImporter().fromFile(path + example.first + ".fll"));
 
@@ -83,20 +85,19 @@ namespace fl {
             Benchmark benchmark(example.first, engine.get(), tolerance);
 
             std::ifstream reader(std::string(path + example.first + ".fld").c_str());
-            if (not reader.is_open()) {
+            if (not reader.is_open())
                 throw Exception("File not found: " + path + example.first + ".fld");
-            }
             benchmark.prepare(reader, 1024);
             benchmark.run(1);
             CHECK(benchmark.canComputeErrors() == true);
             errors.at(i) = benchmark.accuracyErrors();
 
             if (i == 0) {
-                writer << "\n" << benchmark.format(benchmark.results(),
-                        Benchmark::Horizontal, Benchmark::HeaderAndBody) << "\n";
+                writer << "\n"
+                       << benchmark.format(benchmark.results(), Benchmark::Horizontal, Benchmark::HeaderAndBody)
+                       << "\n";
             } else {
-                writer << benchmark.format(benchmark.results(),
-                        Benchmark::Horizontal, Benchmark::Body) << "\n";
+                writer << benchmark.format(benchmark.results(), Benchmark::Horizontal, Benchmark::Body) << "\n";
             }
         }
         FL_LOG(writer.str());

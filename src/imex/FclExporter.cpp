@@ -1,28 +1,29 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include "fuzzylite/imex/FclExporter.h"
 
 #include "fuzzylite/Headers.h"
 
-namespace fl {
+namespace fuzzylite {
 
-    FclExporter::FclExporter(const std::string& indent) : Exporter(), _indent(indent) { }
+    FclExporter::FclExporter(const std::string& indent) : Exporter(), _indent(indent) {}
 
-    FclExporter::~FclExporter() { }
+    FclExporter::~FclExporter() {}
 
     void FclExporter::setIndent(const std::string& indent) {
         this->_indent = indent;
@@ -42,15 +43,13 @@ namespace fl {
         fcl << "FUNCTION_BLOCK " << engine->getName() << "\n\n";
 
         fcl << "VAR_INPUT\n";
-        for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i) {
+        for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i)
             fcl << _indent << Op::validName(engine->getInputVariable(i)->getName()) << ": REAL;\n";
-        }
         fcl << "END_VAR\n\n";
 
         fcl << "VAR_OUTPUT\n";
-        for (std::size_t i = 0; i < engine->numberOfOutputVariables(); ++i) {
+        for (std::size_t i = 0; i < engine->numberOfOutputVariables(); ++i)
             fcl << _indent << Op::validName(engine->getOutputVariable(i)->getName()) << ": REAL;\n";
-        }
         fcl << "END_VAR\n\n";
 
         for (std::size_t i = 0; i < engine->numberOfInputVariables(); ++i) {
@@ -75,14 +74,12 @@ namespace fl {
     std::string FclExporter::toString(const InputVariable* inputVariable) const {
         std::ostringstream fcl;
         fcl << "FUZZIFY " << Op::validName(inputVariable->getName()) << "\n";
-        fcl << _indent << "RANGE := (" << Op::join(2, " .. ",
-                inputVariable->getMinimum(), inputVariable->getMaximum())
-                << ");\n";
+        fcl << _indent << "RANGE := (" << Op::join(2, " .. ", inputVariable->getMinimum(), inputVariable->getMaximum())
+            << ");\n";
 
         for (std::size_t t = 0; t < inputVariable->numberOfTerms(); ++t) {
             Term* term = inputVariable->getTerm(t);
-            fcl << _indent << "TERM " << Op::validName(term->getName()) << " := " << toString(term)
-                    << ";\n";
+            fcl << _indent << "TERM " << Op::validName(term->getName()) << " := " << toString(term) << ";\n";
         }
         fcl << "END_FUZZIFY\n";
         return fcl.str();
@@ -91,25 +88,21 @@ namespace fl {
     std::string FclExporter::toString(const OutputVariable* outputVariable) const {
         std::ostringstream fcl;
         fcl << "DEFUZZIFY " << Op::validName(outputVariable->getName()) << "\n";
-        fcl << _indent << "RANGE := (" << Op::join(2, " .. ",
-                outputVariable->getMinimum(), outputVariable->getMaximum())
-                << ");\n";
+        fcl << _indent << "RANGE := ("
+            << Op::join(2, " .. ", outputVariable->getMinimum(), outputVariable->getMaximum()) << ");\n";
 
         for (std::size_t t = 0; t < outputVariable->numberOfTerms(); ++t) {
             Term* term = outputVariable->getTerm(t);
-            fcl << _indent << "TERM " << Op::validName(term->getName()) << " := " << toString(term)
-                    << ";\n";
+            fcl << _indent << "TERM " << Op::validName(term->getName()) << " := " << toString(term) << ";\n";
         }
-        if (outputVariable->getDefuzzifier()) {
+        if (outputVariable->getDefuzzifier())
             fcl << _indent << "METHOD : " << toString(outputVariable->getDefuzzifier()) << ";\n";
-        }
         if (outputVariable->fuzzyOutput()->getAggregation())
             fcl << _indent << "ACCU : " << toString(outputVariable->fuzzyOutput()->getAggregation()) << ";\n";
 
         fcl << _indent << "DEFAULT := " << Op::str(outputVariable->getDefaultValue());
-        if (outputVariable->isLockPreviousValue()) {
+        if (outputVariable->isLockPreviousValue())
             fcl << " | NC";
-        }
         fcl << ";\n";
 
         fcl << "END_DEFUZZIFY\n";
@@ -126,67 +119,89 @@ namespace fl {
         if (ruleBlock->getImplication())
             fcl << _indent << "ACT : " << toString(ruleBlock->getImplication()) << ";\n";
 
-        for (std::size_t r = 0; r < ruleBlock->numberOfRules(); ++r) {
-            fcl << _indent << "RULE " << (r + 1) << " : " <<
-                    ruleBlock->getRule(r)->getText() << "\n";
-        }
+        for (std::size_t r = 0; r < ruleBlock->numberOfRules(); ++r)
+            fcl << _indent << "RULE " << (r + 1) << " : " << ruleBlock->getRule(r)->getText() << "\n";
         fcl << "END_RULEBLOCK\n";
         return fcl.str();
     }
 
     std::string FclExporter::toString(const Norm* norm) const {
-        if (not norm) return "NONE";
+        if (not norm)
+            return "NONE";
 
         std::string name = norm->className();
-        //TNorms
-        if (name == Minimum().className()) return "MIN";
-        if (name == AlgebraicProduct().className()) return "PROD";
-        if (name == BoundedDifference().className()) return "BDIF";
-        if (name == DrasticProduct().className()) return "DPROD";
-        if (name == EinsteinProduct().className()) return "EPROD";
-        if (name == HamacherProduct().className()) return "HPROD";
-        if (name == NilpotentMinimum().className()) return "NMIN";
+        // TNorms
+        if (name == Minimum().className())
+            return "MIN";
+        if (name == AlgebraicProduct().className())
+            return "PROD";
+        if (name == BoundedDifference().className())
+            return "BDIF";
+        if (name == DrasticProduct().className())
+            return "DPROD";
+        if (name == EinsteinProduct().className())
+            return "EPROD";
+        if (name == HamacherProduct().className())
+            return "HPROD";
+        if (name == NilpotentMinimum().className())
+            return "NMIN";
 
-        //SNorms
-        if (name == Maximum().className()) return "MAX";
-        if (name == AlgebraicSum().className()) return "ASUM";
-        if (name == NormalizedSum().className()) return "NSUM";
-        if (name == BoundedSum().className()) return "BSUM";
-        if (name == DrasticSum().className()) return "DSUM";
-        if (name == EinsteinSum().className()) return "ESUM";
-        if (name == HamacherSum().className()) return "HSUM";
-        if (name == NilpotentMaximum().className()) return "NMAX";
+        // SNorms
+        if (name == Maximum().className())
+            return "MAX";
+        if (name == AlgebraicSum().className())
+            return "ASUM";
+        if (name == NormalizedSum().className())
+            return "NSUM";
+        if (name == BoundedSum().className())
+            return "BSUM";
+        if (name == DrasticSum().className())
+            return "DSUM";
+        if (name == EinsteinSum().className())
+            return "ESUM";
+        if (name == HamacherSum().className())
+            return "HSUM";
+        if (name == NilpotentMaximum().className())
+            return "NMAX";
 
         return norm->className();
     }
 
     std::string FclExporter::toString(const Defuzzifier* defuzzifier) const {
-        if (not defuzzifier) return "NONE";
-        if (defuzzifier->className() == Centroid().className()) return "COG";
-        if (defuzzifier->className() == Bisector().className()) return "COA";
-        if (defuzzifier->className() == SmallestOfMaximum().className()) return "LM";
-        if (defuzzifier->className() == LargestOfMaximum().className()) return "RM";
-        if (defuzzifier->className() == MeanOfMaximum().className()) return "MM";
-        if (defuzzifier->className() == WeightedAverage().className()) return "COGS";
-        if (defuzzifier->className() == WeightedSum().className()) return "COGSS";
+        if (not defuzzifier)
+            return "NONE";
+        if (defuzzifier->className() == Centroid().className())
+            return "COG";
+        if (defuzzifier->className() == Bisector().className())
+            return "COA";
+        if (defuzzifier->className() == SmallestOfMaximum().className())
+            return "LM";
+        if (defuzzifier->className() == LargestOfMaximum().className())
+            return "RM";
+        if (defuzzifier->className() == MeanOfMaximum().className())
+            return "MM";
+        if (defuzzifier->className() == WeightedAverage().className())
+            return "COGS";
+        if (defuzzifier->className() == WeightedSum().className())
+            return "COGSS";
         return defuzzifier->className();
     }
 
     std::string FclExporter::toString(const Term* term) const {
-        if (not term) return "";
-        if (const Discrete * discrete = dynamic_cast<const Discrete*> (term)) {
+        if (not term)
+            return "";
+        if (const Discrete* discrete = dynamic_cast<const Discrete*>(term)) {
             std::ostringstream ss;
             for (std::size_t i = 0; i < discrete->xy().size(); ++i) {
-                ss << "(" << Op::str(discrete->xy(i).first) << ", "
-                        << Op::str(discrete->xy(i).second) << ")";
-                if (i + 1 < discrete->xy().size()) ss << " ";
+                ss << "(" << Op::str(discrete->xy(i).first) << ", " << Op::str(discrete->xy(i).second) << ")";
+                if (i + 1 < discrete->xy().size())
+                    ss << " ";
             }
             return ss.str();
         }
 
-        if (const Constant * constant = dynamic_cast<const Constant*> (term)) {
+        if (const Constant* constant = dynamic_cast<const Constant*>(term))
             return Op::str(constant->getValue());
-        }
 
         std::ostringstream ss;
         ss << term->className() << " " << term->parameters();

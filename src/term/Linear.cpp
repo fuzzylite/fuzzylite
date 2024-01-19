@@ -1,31 +1,32 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include "fuzzylite/term/Linear.h"
 
 #include "fuzzylite/variable/InputVariable.h"
 
-namespace fl {
+namespace fuzzylite {
 
-    Linear::Linear(const std::string& name,
-            const std::vector<scalar>& coefficients,
-            const Engine* engine)
-    : Term(name), _coefficients(coefficients), _engine(engine) { }
+    Linear::Linear(const std::string& name, const std::vector<scalar>& coefficients, const Engine* engine) :
+        Term(name),
+        _coefficients(coefficients),
+        _engine(engine) {}
 
-    Linear::~Linear() { }
+    Linear::~Linear() {}
 
     std::string Linear::className() const {
         return "Linear";
@@ -36,7 +37,7 @@ namespace fl {
         result.comparison(1 + 1);
         if (_engine) {
             result.arithmetic(scalar(_engine->variables().size()));
-            result.comparison(scalar(_engine->variables().size())); //if (i < coefficients)
+            result.comparison(scalar(_engine->variables().size()));  // if (i < coefficients)
         }
         return result;
     }
@@ -44,19 +45,21 @@ namespace fl {
     scalar Linear::membership(scalar x) const {
         FL_IUNUSED(x);
         if (not _engine)
-            throw Exception("[linear error] term <" + getName() + "> "
-                "is missing a reference to the engine", FL_AT);
+            throw Exception(
+                "[linear error] term <" + getName()
+                    + "> "
+                      "is missing a reference to the engine",
+                FL_AT
+            );
 
         scalar result = 0.0;
         const std::size_t numberOfInputVariables = _engine->inputVariables().size();
         const std::size_t numberOfCoefficients = _coefficients.size();
-        for (std::size_t i = 0; i < numberOfInputVariables; ++i) {
+        for (std::size_t i = 0; i < numberOfInputVariables; ++i)
             if (i < numberOfCoefficients)
                 result += _coefficients.at(i) * _engine->inputVariables().at(i)->getValue();
-        }
-        if (numberOfCoefficients > numberOfInputVariables) {
+        if (numberOfCoefficients > numberOfInputVariables)
             result += _coefficients.back();
-        }
         return result;
     }
 
@@ -91,12 +94,12 @@ namespace fl {
 
     void Linear::configure(const std::string& parameters) {
         this->_coefficients.clear();
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> strValues = Op::split(parameters, " ");
         std::vector<scalar> values;
-        for (std::size_t i = 0; i < strValues.size(); ++i) {
+        for (std::size_t i = 0; i < strValues.size(); ++i)
             values.push_back(Op::toScalar(strValues.at(i)));
-        }
         this->_coefficients = values;
     }
 

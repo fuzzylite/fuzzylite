@@ -1,29 +1,34 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include "fuzzylite/term/SigmoidDifference.h"
 
-namespace fl {
+namespace fuzzylite {
 
-    SigmoidDifference::SigmoidDifference(const std::string& name,
-            scalar left, scalar rising,
-            scalar falling, scalar right, scalar height)
-    : Term(name, height), _left(left), _rising(rising), _falling(falling), _right(right) { }
+    SigmoidDifference::SigmoidDifference(
+        const std::string& name, scalar left, scalar rising, scalar falling, scalar right, scalar height
+    ) :
+        Term(name, height),
+        _left(left),
+        _rising(rising),
+        _falling(falling),
+        _right(right) {}
 
-    SigmoidDifference::~SigmoidDifference() { }
+    SigmoidDifference::~SigmoidDifference() {}
 
     std::string SigmoidDifference::className() const {
         return "SigmoidDifference";
@@ -34,7 +39,8 @@ namespace fl {
     }
 
     scalar SigmoidDifference::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
 
         const scalar a = 1.0 / (1.0 + std::exp(-_rising * (x - _left)));
         const scalar b = 1.0 / (1.0 + std::exp(-_falling * (x - _right)));
@@ -42,18 +48,19 @@ namespace fl {
     }
 
     std::string SigmoidDifference::parameters() const {
-        return Op::join(4, " ", _left, _rising, _falling, _right) +
-                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(4, " ", _left, _rising, _falling, _right)
+               + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void SigmoidDifference::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 4;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setLeft(Op::toScalar(values.at(0)));
@@ -103,6 +110,5 @@ namespace fl {
     Term* SigmoidDifference::constructor() {
         return new SigmoidDifference;
     }
-
 
 }

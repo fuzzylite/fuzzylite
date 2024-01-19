@@ -1,30 +1,29 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_OUTPUTVARIABLE_H
 #define FL_OUTPUTVARIABLE_H
 
-#include "fuzzylite/variable/Variable.h"
-
+#include "fuzzylite/defuzzifier/Defuzzifier.h"
 #include "fuzzylite/term/Activated.h"
 #include "fuzzylite/term/Aggregated.h"
+#include "fuzzylite/variable/Variable.h"
 
-#include "fuzzylite/defuzzifier/Defuzzifier.h"
-
-namespace fl {
+namespace fuzzylite {
 
     /**
       The OutputVariable class is a Variable that represents an output of the
@@ -83,7 +82,7 @@ namespace fl {
       @since 4.0
      */
     class FL_API OutputVariable : public Variable {
-    private:
+      private:
         FL_unique_ptr<Aggregated> _fuzzyOutput;
         FL_unique_ptr<Defuzzifier> _defuzzifier;
         scalar _previousValue;
@@ -92,9 +91,8 @@ namespace fl {
 
         void copyFrom(const OutputVariable& other);
 
-    public:
-        explicit OutputVariable(const std::string& name = "",
-                scalar minimum = -fl::inf, scalar maximum = fl::inf);
+      public:
+        explicit OutputVariable(const std::string& name = "", scalar minimum = -fl::inf, scalar maximum = fl::inf);
         explicit OutputVariable(const OutputVariable& other);
         OutputVariable& operator=(const OutputVariable& other);
         virtual ~OutputVariable() FL_IOVERRIDE;
@@ -220,7 +218,6 @@ namespace fl {
         virtual std::string toString() const FL_IOVERRIDE;
 
         virtual OutputVariable* clone() const FL_IOVERRIDE;
-
     };
 }
 #endif /* FL_OUTPUTVARIABLE_H */

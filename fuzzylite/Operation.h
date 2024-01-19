@@ -1,30 +1,30 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_OPERATION_H
 #define FL_OPERATION_H
 
-#include "fuzzylite/fuzzylite.h"
-
-#include "fuzzylite/Exception.h"
-
 #include <string>
 #include <vector>
 
-namespace fl {
+#include "fuzzylite/Exception.h"
+#include "fuzzylite/fuzzylite.h"
+
+namespace fuzzylite {
 
     /**
       The Operation class contains methods for numeric operations, string
@@ -35,8 +35,7 @@ namespace fl {
       @since 4.0
      */
     class Operation {
-    public:
-
+      public:
         /**
           Returns the minimum between the two parameters
           @param a
@@ -176,8 +175,7 @@ namespace fl {
           @return the source value linearly interpolated to the target range:
           @f$ y = y_a + (y_b - y_a) \dfrac{x-x_a}{x_b-x_a} @f$
          */
-        static scalar scale(scalar x, scalar fromMin, scalar fromMax,
-                scalar toMin, scalar toMax);
+        static scalar scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax);
 
         /**
           Linearly interpolates the parameter @f$x@f$ in range
@@ -193,8 +191,7 @@ namespace fl {
           @return the source value linearly interpolated to the target range:
           @f$ y = y_a + (y_b - y_a) \dfrac{x-x_a}{x_b-x_a} @f$
          */
-        static scalar scale(scalar x, scalar fromMin, scalar fromMax,
-                scalar toMin, scalar toMax, bool bounded);
+        static scalar scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax, bool bounded);
 
         /**
           Adds two values
@@ -432,8 +429,9 @@ namespace fl {
           just the first string
           @return the original string with replacements
          */
-        static std::string findReplace(const std::string& str, const std::string& find,
-                const std::string& replace, bool replaceAll = true);
+        static std::string findReplace(
+            const std::string& str, const std::string& find, const std::string& replace, bool replaceAll = true
+        );
 
         /**
           Replaces the first substring that is equal to the given expression
@@ -442,8 +440,7 @@ namespace fl {
           @param replace is the string to replace
           @return the original string with the replacement
          */
-        static std::string replaceFirst(const std::string& str, const std::string& find,
-                const std::string& replace);
+        static std::string replaceFirst(const std::string& str, const std::string& find, const std::string& replace);
 
         /**
           Replaces the every substring that is equal to the given expression
@@ -452,8 +449,7 @@ namespace fl {
           @param replace is the string to replace
           @return the original string with all of the replacements
          */
-        static std::string replaceAll(const std::string& str, const std::string& find,
-                const std::string& replace);
+        static std::string replaceAll(const std::string& str, const std::string& find, const std::string& replace);
 
         /**
           Splits the string around the given delimiter
@@ -462,8 +458,8 @@ namespace fl {
           @param ignoreEmpty whether the empty strings are discarded
           @return the string split around the given delimiter
          */
-        static std::vector<std::string> split(const std::string& str,
-                const std::string& delimiter = " ", bool ignoreEmpty = true);
+        static std::vector<std::string>
+        split(const std::string& str, const std::string& delimiter = " ", bool ignoreEmpty = true);
 
         /**
           Removes whitespace at the beginning and end of the text
@@ -481,8 +477,7 @@ namespace fl {
           @param replacement a string to replace a matching character
           @return the string with every matching character replaced
          */
-        static std::string format(const std::string& text, int matchesChar(int),
-                const std::string& replacement = "");
+        static std::string format(const std::string& text, int matchesChar(int), const std::string& replacement = "");
 
         /**
           Parses the given string into a scalar value
@@ -490,7 +485,7 @@ namespace fl {
           @return the given string into a scalar value
           @throws fl::Exception if the string does not contain a scalar value
          */
-        static scalar toScalar(const std::string& x); //throws (fl::Exception)
+        static scalar toScalar(const std::string& x);  // throws (fl::Exception)
 
         /**
           Parses the given string into a scalar value without throwing an
@@ -502,8 +497,7 @@ namespace fl {
           @return the given string into a scalar value or the alternative value
           if the string does not contain a scalar value
          */
-        static scalar toScalar(const std::string& x, scalar alternative,
-                bool* ok = fl::null) FL_INOEXCEPT;
+        static scalar toScalar(const std::string& x, scalar alternative, bool* ok = fl::null) FL_INOEXCEPT;
 
         /**
           Parses the given string into a vector of scalar values
@@ -511,7 +505,7 @@ namespace fl {
           @return the vector of scalar values
           @throws fl::Exception if the string contains an invalid scalar value
          */
-        static std::vector<scalar> toScalars(const std::string& x); //throws (fl::Exception)
+        static std::vector<scalar> toScalars(const std::string& x);  // throws (fl::Exception)
 
         /**
           Parses the given string into a vector of scalar values
@@ -520,8 +514,8 @@ namespace fl {
           @param ok contains whether the operation was successful (optional)
           @return the vector of scalar values
          */
-        static std::vector<scalar> toScalars(const std::string& x, scalar alternative,
-                bool* ok = fl::null) FL_INOEXCEPT;
+        static std::vector<scalar>
+        toScalars(const std::string& x, scalar alternative, bool* ok = fl::null) FL_INOEXCEPT;
 
         /**
           Indicates whether the string can be converted to a numeric value.
@@ -538,8 +532,8 @@ namespace fl {
           @return a string representation of the given value
          */
         template <typename T>
-        static std::string str(T x, int decimals = fuzzylite::_decimals,
-                std::ios_base::fmtflags scalarFormat = fuzzylite::_scalarFormat);
+        static std::string
+        str(T x, int decimals = fuzzylite::_decimals, std::ios_base::fmtflags scalarFormat = fuzzylite::_scalarFormat);
 
         /**
           Joins a vector of elements by the given separator into a single
@@ -573,41 +567,46 @@ namespace fl {
     typedef Operation Op;
 }
 
-
 /**
   Template implementation
  */
+
+#include <algorithm>
+#include <cctype>
+#include <cstdarg>
+#include <iomanip>
 
 #include "fuzzylite/defuzzifier/Defuzzifier.h"
 #include "fuzzylite/norm/Norm.h"
 #include "fuzzylite/norm/SNorm.h"
 #include "fuzzylite/norm/TNorm.h"
 
-#include <algorithm>
-#include <iomanip>
-#include <cstdarg>
-#include <cctype>
-
-namespace fl {
+namespace fuzzylite {
 
     template <typename T>
     inline T Operation::min(T a, T b) {
-        if (Op::isNaN(a)) return b;
-        if (Op::isNaN(b)) return a;
+        if (Op::isNaN(a))
+            return b;
+        if (Op::isNaN(b))
+            return a;
         return a < b ? a : b;
     }
 
     template <typename T>
     inline T Operation::max(T a, T b) {
-        if (Op::isNaN(a)) return b;
-        if (Op::isNaN(b)) return a;
+        if (Op::isNaN(a))
+            return b;
+        if (Op::isNaN(b))
+            return a;
         return a > b ? a : b;
     }
 
     template <typename T>
     inline T Operation::bound(T x, T min, T max) {
-        if (x > max) return max;
-        if (x < min) return min;
+        if (x > max)
+            return max;
+        if (x < min)
+            return min;
         return x;
     }
 
@@ -615,7 +614,7 @@ namespace fl {
     inline bool Operation::in(T x, T min, T max, bool geq, bool leq) {
         bool left = geq ? Op::isGE(x, min) : Op::isGt(x, min);
         bool right = leq ? Op::isLE(x, max) : Op::isLt(x, max);
-        return (left and right);
+        return left and right;
     }
 
     template <typename T>
@@ -625,16 +624,16 @@ namespace fl {
 
     template <typename T>
     inline bool Operation::isNaN(T x) {
-        return (x != x);
+        return x != x;
     }
 
-    template<typename T>
+    template <typename T>
     inline bool Operation::isFinite(T x) {
-        return not (x != x or x == fl::inf or x == -fl::inf);
+        return not(x != x or x == fl::inf or x == -fl::inf);
     }
 
     inline bool Operation::isLt(scalar a, scalar b, scalar macheps) {
-        return not (a == b or std::abs(a - b) < macheps or (a != a and b != b)) and a < b;
+        return not(a == b or std::abs(a - b) < macheps or (a != a and b != b)) and a < b;
     }
 
     inline bool Operation::isLE(scalar a, scalar b, scalar macheps) {
@@ -646,7 +645,7 @@ namespace fl {
     }
 
     inline bool Operation::isGt(scalar a, scalar b, scalar macheps) {
-        return not (a == b or std::abs(a - b) < macheps or (a != a and b != b)) and a > b;
+        return not(a == b or std::abs(a - b) < macheps or (a != a and b != b)) and a > b;
     }
 
     inline bool Operation::isGE(scalar a, scalar b, scalar macheps) {
@@ -735,7 +734,8 @@ namespace fl {
     }
 
     inline bool Operation::increment(std::vector<int>& x, int position, std::vector<int>& min, std::vector<int>& max) {
-        if (x.empty() or position < 0) return false;
+        if (x.empty() or position < 0)
+            return false;
 
         bool incremented = true;
         if (x.at(position) < max.at(position)) {
@@ -744,74 +744,74 @@ namespace fl {
             incremented = !(position == 0);
             x.at(position) = min.at(position);
             --position;
-            if (position >= 0) {
+            if (position >= 0)
                 incremented = increment(x, position, min, max);
-            }
         }
         return incremented;
     }
 
-    template<typename T>
+    template <typename T>
     inline T Operation::sum(const std::vector<T>& x) {
         T result = T(0);
-        for (std::size_t i = 0; i < x.size(); ++i) {
+        for (std::size_t i = 0; i < x.size(); ++i)
             result += x.at(i);
-        }
         return result;
     }
 
-    template<typename T>
+    template <typename T>
     inline scalar Operation::mean(const std::vector<T>& x) {
         return scalar(sum(x)) / x.size();
     }
 
-    template<typename T>
+    template <typename T>
     inline scalar Operation::standardDeviation(const std::vector<T>& x) {
         return standardDeviation(x, mean(x));
     }
 
-    template<typename T>
+    template <typename T>
     inline scalar Operation::standardDeviation(const std::vector<T>& x, scalar mean) {
-        if (x.empty()) return fl::nan;
-        if (x.size() == 1) return scalar(0.0);
+        if (x.empty())
+            return fl::nan;
+        if (x.size() == 1)
+            return scalar(0.0);
         return std::sqrt(variance(x, mean));
     }
 
-    template<typename T>
+    template <typename T>
     inline scalar Operation::variance(const std::vector<T>& x) {
         return variance(x, mean(x));
     }
 
-    template<typename T>
+    template <typename T>
     inline scalar Operation::variance(const std::vector<T>& x, scalar mean) {
-        if (x.empty()) return fl::nan;
-        if (x.size() == 1) return scalar(0.0);
+        if (x.empty())
+            return fl::nan;
+        if (x.size() == 1)
+            return scalar(0.0);
         scalar result = 0.0;
-        for (std::size_t i = 0; i < x.size(); ++i) {
+        for (std::size_t i = 0; i < x.size(); ++i)
             result += (x.at(i) - mean) * (x.at(i) - mean);
-        }
         result /= -1 + x.size();
         return result;
     }
 
-
-
-    //Text Operations:
+    // Text Operations:
 
     inline std::string Operation::validName(const std::string& name) {
-        if (trim(name).empty()) return "unnamed";
+        if (trim(name).empty())
+            return "unnamed";
         std::ostringstream ss;
         for (std::size_t i = 0; i < name.length(); ++i) {
             char c = name[i];
-            if (c == '_' or c == '.' or isalnum(c)) {
+            if (c == '_' or c == '.' or isalnum(c))
                 ss << c;
-            }
         }
         return ss.str();
     }
 
-    inline std::string Operation::findReplace(const std::string& str, const std::string& find,
-            const std::string& replace, bool replaceAll) {
+    inline std::string Operation::findReplace(
+        const std::string& str, const std::string& find, const std::string& replace, bool replaceAll
+    ) {
         std::ostringstream result;
         std::size_t fromIndex = 0, nextIndex;
         do {
@@ -824,18 +824,18 @@ namespace fl {
         return result.str();
     }
 
-    inline std::string Operation::replaceFirst(const std::string& str,
-            const std::string& find, const std::string& replace) {
+    inline std::string
+    Operation::replaceFirst(const std::string& str, const std::string& find, const std::string& replace) {
         return findReplace(str, find, replace, false);
     }
 
-    inline std::string Operation::replaceAll(const std::string& str,
-            const std::string& find, const std::string& replace) {
+    inline std::string
+    Operation::replaceAll(const std::string& str, const std::string& find, const std::string& replace) {
         return findReplace(str, find, replace, true);
     }
 
-    inline std::vector<std::string> Operation::split(const std::string& str,
-            const std::string& delimiter, bool ignoreEmpty) {
+    inline std::vector<std::string>
+    Operation::split(const std::string& str, const std::string& delimiter, bool ignoreEmpty) {
         std::vector<std::string> result;
         if (str.empty() or delimiter.empty()) {
             result.push_back(str);
@@ -845,42 +845,39 @@ namespace fl {
         while (next != str.end()) {
             next = std::search(position, str.end(), delimiter.begin(), delimiter.end());
             std::string token(position, next);
-            if (not (token.empty() and ignoreEmpty)) {
+            if (not(token.empty() and ignoreEmpty))
                 result.push_back(token);
-            }
-            if (next != str.end()) {
+            if (next != str.end())
                 position = next + delimiter.size();
-            }
         }
         return result;
     }
 
     inline std::string Operation::trim(const std::string& text) {
-        if (text.empty()) return text;
-        if (not (std::isspace(text.at(0)) or std::isspace(text.at(text.size() - 1))))
+        if (text.empty())
+            return text;
+        if (not(std::isspace(text.at(0)) or std::isspace(text.at(text.size() - 1))))
             return text;
         std::size_t start = 0, end = text.size() - 1;
-        while (start <= end and std::isspace(text.at(start))) {
+        while (start <= end and std::isspace(text.at(start)))
             ++start;
-        }
-        while (end >= start and std::isspace(text.at(end))) {
+        while (end >= start and std::isspace(text.at(end)))
             --end;
-        }
         std::size_t length = end - start + 1;
-        if (length <= 0) return "";
+        if (length <= 0)
+            return "";
         return text.substr(start, length);
     }
 
-    inline std::string Operation::format(const std::string& text, int matchesChar(int),
-            const std::string& replacement) {
+    inline std::string
+    Operation::format(const std::string& text, int matchesChar(int), const std::string& replacement) {
         std::ostringstream ss;
         std::string::const_iterator it = text.begin();
         while (it != text.end()) {
-            if (matchesChar(*it)) {
+            if (matchesChar(*it))
                 ss << *it;
-            } else {
+            else
                 ss << replacement;
-            }
             ++it;
         }
         return ss.str();
@@ -891,7 +888,8 @@ namespace fl {
         scalar result;
         iss >> result;
         char strict;
-        if (not (iss.fail() or iss.get(strict))) return result;
+        if (not(iss.fail() or iss.get(strict)))
+            return result;
 
         std::ostringstream _nan;
         _nan << fl::nan;
@@ -912,12 +910,14 @@ namespace fl {
     }
 
     inline scalar Operation::toScalar(const std::string& x, scalar alternative, bool* ok) FL_INOEXCEPT {
-        if (ok) *ok = true;
+        if (ok)
+            *ok = true;
         std::istringstream iss(x);
         scalar result;
         iss >> result;
         char strict;
-        if (not (iss.fail() or iss.get(strict))) return result;
+        if (not(iss.fail() or iss.get(strict)))
+            return result;
 
         std::ostringstream _nan;
         _nan << fl::nan;
@@ -934,7 +934,8 @@ namespace fl {
         if (x == nInf.str() or x == "-inf")
             return -fl::inf;
 
-        if (ok) *ok = false;
+        if (ok)
+            *ok = false;
         return alternative;
     }
 
@@ -942,14 +943,12 @@ namespace fl {
         std::vector<scalar> result;
         std::istringstream tokenizer(x);
         std::string token;
-        while (tokenizer >> token) {
+        while (tokenizer >> token)
             result.push_back(Op::toScalar(token));
-        }
         return result;
     }
 
-    inline std::vector<scalar> Operation::toScalars(const std::string& x,
-            scalar alternative, bool* ok) FL_INOEXCEPT {
+    inline std::vector<scalar> Operation::toScalars(const std::string& x, scalar alternative, bool* ok) FL_INOEXCEPT {
         std::vector<scalar> result;
         std::istringstream tokenizer(x);
         std::string token;
@@ -959,7 +958,8 @@ namespace fl {
             result.push_back(Op::toScalar(token, alternative, &good));
             allOK &= good;
         }
-        if (ok) *ok = allOK;
+        if (ok)
+            *ok = allOK;
         return result;
     }
 
@@ -967,17 +967,16 @@ namespace fl {
         try {
             Op::toScalar(x);
             return true;
-        } catch (...) {
-            return false;
-        }
+        } catch (...) { return false; }
     }
 
     template <typename T>
-    inline std::string Operation::str(T x, int decimals,
-            std::ios_base::fmtflags scalarFormat) {
+    inline std::string Operation::str(T x, int decimals, std::ios_base::fmtflags scalarFormat) {
         std::ostringstream ss;
-        if (scalarFormat != std::ios_base::fmtflags(0x0)) ss.flags(scalarFormat);
-        if (decimals >= 0) ss.precision(decimals);
+        if (scalarFormat != std::ios_base::fmtflags(0x0))
+            ss.flags(scalarFormat);
+        if (decimals >= 0)
+            ss.precision(decimals);
         if (Op::isNaN(x)) {
             ss << "nan";
         } else if (Op::isInf(x)) {
@@ -985,36 +984,36 @@ namespace fl {
         } else if (decimals >= 0 //print x considering the given decimals regardless of macheps
                 and Op::isEq(scalar(x), 0.0, std::pow(10.0, -decimals))) {
             ss << T(0);
-        } else ss << x;
+        } else
+            ss << x;
         return ss.str();
     }
 
-    template <> FL_API
-    inline std::string Operation::str(const std::string& x, int decimals,
-            std::ios_base::fmtflags scalarFormat) {
+    template <>
+    FL_API inline std::string Operation::str(const std::string& x, int decimals, std::ios_base::fmtflags scalarFormat) {
         FL_IUNUSED(decimals);
         FL_IUNUSED(scalarFormat);
         return x;
     }
 
     template <typename T>
-    inline std::string Operation::join(const std::vector<T>& x,
-            const std::string& separator) {
+    inline std::string Operation::join(const std::vector<T>& x, const std::string& separator) {
         std::ostringstream ss;
         for (std::size_t i = 0; i < x.size(); ++i) {
             ss << str(x.at(i));
-            if (i + 1 < x.size()) ss << separator;
+            if (i + 1 < x.size())
+                ss << separator;
         }
         return ss.str();
     }
 
-    template <> FL_API
-    inline std::string Operation::join(const std::vector<std::string>& x,
-            const std::string& separator) {
+    template <>
+    FL_API inline std::string Operation::join(const std::vector<std::string>& x, const std::string& separator) {
         std::ostringstream ss;
         for (std::size_t i = 0; i < x.size(); ++i) {
             ss << x.at(i);
-            if (i + 1 < x.size()) ss << separator;
+            if (i + 1 < x.size())
+                ss << separator;
         }
         return ss.str();
     }
@@ -1023,47 +1022,51 @@ namespace fl {
     inline std::string Operation::join(int items, const std::string& separator, T first, ...) {
         std::ostringstream ss;
         ss << str(first);
-        if (items > 1) ss << separator;
+        if (items > 1)
+            ss << separator;
         va_list args;
         va_start(args, first);
         for (int i = 0; i < items - 1; ++i) {
             ss << str(va_arg(args, T));
-            if (i + 1 < items - 1) ss << separator;
+            if (i + 1 < items - 1)
+                ss << separator;
         }
         va_end(args);
         return ss.str();
     }
 
-    template <> FL_API
-    inline std::string Operation::join(int items, const std::string& separator,
-            float first, ...) {
+    template <>
+    FL_API inline std::string Operation::join(int items, const std::string& separator, float first, ...) {
         std::ostringstream ss;
         ss << str(first);
-        if (items > 1) ss << separator;
+        if (items > 1)
+            ss << separator;
         va_list args;
         va_start(args, first);
         for (int i = 0; i < items - 1; ++i) {
-            ss << str(va_arg(args, double)); //automatic promotion
-            if (i + 1 < items - 1) ss << separator;
+            ss << str(va_arg(args, double));  // automatic promotion
+            if (i + 1 < items - 1)
+                ss << separator;
         }
         va_end(args);
         return ss.str();
     }
 
-    template <> FL_API
-    inline std::string Operation::join(int items, const std::string& separator, const char* first, ...) {
+    template <>
+    FL_API inline std::string Operation::join(int items, const std::string& separator, const char* first, ...) {
         std::ostringstream ss;
         ss << first;
-        if (items > 1) ss << separator;
+        if (items > 1)
+            ss << separator;
         va_list args;
         va_start(args, first);
         for (int i = 0; i < items - 1; ++i) {
             ss << va_arg(args, const char*);
-            if (i + 1 < items - 1) ss << separator;
+            if (i + 1 < items - 1)
+                ss << separator;
         }
         va_end(args);
         return ss.str();
     }
 }
-#endif  /* FL_OPERATION_H */
-
+#endif /* FL_OPERATION_H */

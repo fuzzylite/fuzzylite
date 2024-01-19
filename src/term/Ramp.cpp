@@ -1,27 +1,30 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include "fuzzylite/term/Ramp.h"
 
-namespace fl {
+namespace fuzzylite {
 
-    Ramp::Ramp(const std::string& name, scalar start, scalar end, scalar height)
-    : Term(name, height), _start(start), _end(end) { }
+    Ramp::Ramp(const std::string& name, scalar start, scalar end, scalar height) :
+        Term(name, height),
+        _start(start),
+        _end(end) {}
 
-    Ramp::~Ramp() { }
+    Ramp::~Ramp() {}
 
     std::string Ramp::className() const {
         return "Ramp";
@@ -32,7 +35,8 @@ namespace fl {
     }
 
     scalar Ramp::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
+        if (Op::isNaN(x))
+            return fl::nan;
 
         if (Op::isEq(_start, _end))
             return Term::_height * 0.0;
@@ -63,18 +67,18 @@ namespace fl {
     }
 
     std::string Ramp::parameters() const {
-        return Op::join(2, " ", _start, _end) +
-                (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(2, " ", _start, _end) + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Ramp::configure(const std::string& parameters) {
-        if (parameters.empty()) return;
+        if (parameters.empty())
+            return;
         std::vector<std::string> values = Op::split(parameters, " ");
         std::size_t required = 2;
         if (values.size() < required) {
             std::ostringstream ex;
             ex << "[configuration error] term <" << className() << ">"
-                    << " requires <" << required << "> parameters";
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setStart(Op::toScalar(values.at(0)));
@@ -101,9 +105,11 @@ namespace fl {
 
     Ramp::Direction Ramp::direction() const {
         scalar range = this->_end - this->_start;
-        if (not Op::isFinite(range) or Op::isEq(range, 0.0)) return Zero;
+        if (not Op::isFinite(range) or Op::isEq(range, 0.0))
+            return Zero;
 
-        if (Op::isGt(range, 0.0)) return Positive;
+        if (Op::isGt(range, 0.0))
+            return Positive;
 
         return Negative;
     }

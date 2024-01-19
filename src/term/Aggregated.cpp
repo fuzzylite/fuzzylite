@@ -1,29 +1,32 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #include "fuzzylite/term/Aggregated.h"
 
 #include "fuzzylite/imex/FllExporter.h"
 #include "fuzzylite/norm/s/Maximum.h"
 
-namespace fl {
+namespace fuzzylite {
 
-    Aggregated::Aggregated(const std::string& name, scalar minimum, scalar maximum,
-            SNorm* aggregation)
-    : Term(name), _minimum(minimum), _maximum(maximum), _aggregation(aggregation) { }
+    Aggregated::Aggregated(const std::string& name, scalar minimum, scalar maximum, SNorm* aggregation) :
+        Term(name),
+        _minimum(minimum),
+        _maximum(maximum),
+        _aggregation(aggregation) {}
 
     Aggregated::Aggregated(const Aggregated& other) : Term(other) {
         copyFrom(other);
@@ -40,7 +43,7 @@ namespace fl {
         return *this;
     }
 
-    Aggregated::~Aggregated() { }
+    Aggregated::~Aggregated() {}
 
     void Aggregated::copyFrom(const Aggregated& source) {
         _minimum = source._minimum;
@@ -49,9 +52,8 @@ namespace fl {
         if (source._aggregation.get())
             _aggregation.reset(source._aggregation->clone());
 
-        for (std::size_t i = 0; i < source._terms.size(); ++i) {
+        for (std::size_t i = 0; i < source._terms.size(); ++i)
             _terms.push_back(source._terms.at(i));
-        }
     }
 
     std::string Aggregated::className() const {
@@ -65,35 +67,38 @@ namespace fl {
     Complexity Aggregated::complexityOfMembership() const {
         Complexity result;
         result.comparison(3);
-        if (_aggregation.get()) {
+        if (_aggregation.get())
             result += _aggregation->complexity().multiply(scalar(_terms.size()));
-        }
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
+        for (std::size_t i = 0; i < _terms.size(); ++i)
             result += _terms.at(i).complexity();
-        }
         return result;
     }
 
     scalar Aggregated::membership(scalar x) const {
-        if (Op::isNaN(x)) return fl::nan;
-        if (not (_terms.empty() or _aggregation.get())) { //Exception for IntegralDefuzzifiers
-            throw Exception("[aggregation error] "
-                    "aggregation operator needed to aggregate variable "
-                    "<" + getName() + ">", FL_AT);
+        if (Op::isNaN(x))
+            return fl::nan;
+        if (not(_terms.empty() or _aggregation.get())) {  // Exception for IntegralDefuzzifiers
+            throw Exception(
+                "[aggregation error] "
+                "aggregation operator needed to aggregate variable "
+                "<" + getName()
+                    + ">",
+                FL_AT
+            );
         }
         scalar mu = 0.0;
-        for (std::size_t i = 0; i < _terms.size(); ++i) {
+        for (std::size_t i = 0; i < _terms.size(); ++i)
             mu = _aggregation->compute(mu, _terms.at(i).membership(x));
-        }
         return mu;
     }
 
     Complexity Aggregated::complexityOfActivationDegree() const {
         Complexity result;
         result.comparison(2);
-        if (_aggregation.get()) {
+        if (_aggregation.get())
             result += _aggregation->complexity();
-        } else result.arithmetic(1);
+        else
+            result.arithmetic(1);
         result.multiply(scalar(_terms.size()));
         return result;
     }
@@ -106,7 +111,7 @@ namespace fl {
                 if (_aggregation.get())
                     result = _aggregation->compute(result, activatedTerm.getDegree());
                 else
-                    result += activatedTerm.getDegree(); //Default for WeightDefuzzifier
+                    result += activatedTerm.getDegree();  // Default for WeightDefuzzifier
             }
         }
         return result;
@@ -130,9 +135,8 @@ namespace fl {
         std::ostringstream ss;
         ss << exporter.toString(getAggregation());
         ss << " " << Op::str(getMinimum()) << " " << Op::str(getMaximum()) << " ";
-        for (std::size_t i = 0; i < terms().size(); ++i) {
+        for (std::size_t i = 0; i < terms().size(); ++i)
             ss << " " << exporter.toString(&terms().at(i));
-        }
         return ss.str();
     }
 
@@ -146,18 +150,16 @@ namespace fl {
 
     std::string Aggregated::toString() const {
         std::vector<std::string> aggregate;
-        for (std::size_t i = 0; i < terms().size(); ++i) {
+        for (std::size_t i = 0; i < terms().size(); ++i)
             aggregate.push_back(terms().at(i).toString());
-        }
         FllExporter exporter;
         std::ostringstream ss;
         if (getAggregation()) {
-            ss << getName() << ": " << className() << " "
-                    << exporter.toString(getAggregation()) << "["
-                    << Op::join(aggregate, ",") << "]";
+            ss << getName() << ": " << className() << " " << exporter.toString(getAggregation()) << "["
+               << Op::join(aggregate, ",") << "]";
         } else {
-            ss << getName() << ": " << className() << " " << "["
-                    << Op::join(aggregate, "+") << "]"; //\u2295: (+)
+            ss << getName() << ": " << className() << " "
+               << "[" << Op::join(aggregate, "+") << "]";  //\u2295: (+)
         }
         return ss.str();
     }
@@ -198,7 +200,6 @@ namespace fl {
     /**
      * Operations for std::vector _terms
      */
-
 
     void Aggregated::addTerm(const Term* term, scalar degree, const TNorm* implication) {
         _terms.push_back(Activated(term, degree, implication));

@@ -1,25 +1,26 @@
 /*
- fuzzylite (R), a fuzzy logic control library in C++.
- Copyright (C) 2010-2017 FuzzyLite Limited. All rights reserved.
- Author: Juan Rada-Vilela, Ph.D. <jcrada@fuzzylite.com>
+fuzzylite (R), a fuzzy logic control library in C++.
 
- This file is part of fuzzylite.
+Copyright (C) 2010-2024 FuzzyLite Limited. All rights reserved.
+Author: Juan Rada-Vilela, PhD <jcrada@fuzzylite.com>.
 
- fuzzylite is free software: you can redistribute it and/or modify it under
- the terms of the FuzzyLite License included with the software.
+This file is part of fuzzylite.
 
- You should have received a copy of the FuzzyLite License along with
- fuzzylite. If not, see <http://www.fuzzylite.com/license/>.
+fuzzylite is free software: you can redistribute it and/or modify it under
+the terms of the FuzzyLite License included with the software.
 
- fuzzylite is a registered trademark of FuzzyLite Limited.
- */
+You should have received a copy of the FuzzyLite License along with
+fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
+
+fuzzylite is a registered trademark of FuzzyLite Limited.
+*/
 
 #ifndef FL_SPIKE_H
 #define FL_SPIKE_H
 
 #include "fuzzylite/term/Term.h"
 
-namespace fl {
+namespace fuzzylite {
 
     /**
       The Spike class is an extended Term that represents the spike membership
@@ -33,13 +34,13 @@ namespace fl {
       @since 5.0
      */
     class FL_API Spike : public Term {
-    private:
+      private:
         scalar _center, _width;
-    public:
-        explicit Spike(const std::string& name = "",
-                scalar center = fl::nan,
-                scalar width = fl::nan,
-                scalar height = 1.0);
+
+      public:
+        explicit Spike(
+            const std::string& name = "", scalar center = fl::nan, scalar width = fl::nan, scalar height = 1.0
+        );
         virtual ~Spike() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Spike)
 
@@ -94,5 +95,4 @@ namespace fl {
         static Term* constructor();
     };
 }
-#endif  /* FL_SPIKE_H */
-
+#endif /* FL_SPIKE_H */
