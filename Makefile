@@ -7,13 +7,13 @@ FLOAT = OFF
 all: configure make test
 
 configure:
-	cmake -B build/$(BUILD) -DCMAKE_BUILD_TYPE=$(BUILD) -DFL_CPP98=$(CPP98) -DFL_USE_FLOAT=$(FLOAT) .
+	cmake -B build/ -DCMAKE_BUILD_TYPE=$(BUILD) -DFL_CPP98=$(CPP98) -DFL_USE_FLOAT=$(FLOAT) .
 
 make:
-	cmake --build build/$(BUILD) --parallel
+	cmake --build build/ --parallel
 
 test:
-	ctest --test-dir build/$(BUILD)
+	ctest --test-dir build/
 
 CLANG_FORMAT=clang-format --style=file -i
 
