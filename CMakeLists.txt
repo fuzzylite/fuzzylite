@@ -282,6 +282,7 @@ elseif(FL_BUILD_TESTS)
     catch_discover_tests(fl-test)
 
     enable_testing()
+    list(APPEND fl-targets fl-test)
 endif()
 
 ###INSTALL SECTION

@@ -2,7 +2,7 @@ BUILD = release
 CPP98 = OFF
 FLOAT = OFF
 
-.PHONY: configure make test format lint
+.PHONY: configure make test install format lint
 
 all: configure make test
 
@@ -14,6 +14,13 @@ make:
 
 test:
 	ctest --test-dir build/
+
+install:
+	cmake --build build/ --target install
+
+jupyter:
+	docker build -f examples/notebook/Dockerfile -t xeus . && docker run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it xeus jupyter notebook --allow-root --ip 0.0.0.0
+
 
 CLANG_FORMAT=clang-format --style=file -i
 
