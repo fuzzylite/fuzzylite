@@ -75,15 +75,14 @@ namespace fuzzylite {
     }
 
     std::string Discrete::parameters() const {
-        std::ostringstream ss;
+        std::vector<std::string> result;
         for (std::size_t i = 0; i < _xy.size(); ++i) {
-            ss << Op::str(_xy.at(i).first) << " " << Op::str(_xy.at(i).second);
-            if (i + 1 < _xy.size())
-                ss << " ";
+            result.push_back(Op::str(_xy.at(i).first));
+            result.push_back(Op::str(_xy.at(i).second));
         }
         if (not Op::isEq(getHeight(), 1.0))
-            ss << " " << Op::str(getHeight());
-        return ss.str();
+            result.push_back(Op::str(getHeight()));
+        return Op::join(result, " ");
     }
 
     void Discrete::configure(const std::string& parameters) {
