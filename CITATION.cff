@@ -1,0 +1,28 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: fuzzylite
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Juan
+    family-names: Rada-Vilela
+    email: jcrada@fuzzylite.com
+    affiliation: FuzzyLite Limited
+repository-code: 'https://github.com/fuzzylite/fuzzylite'
+url: 'https://fuzzylite.com'
+abstract: >-
+  The goal of the FuzzyLite Libraries is to easily design
+  and efficiently operate fuzzy logic controllers following
+  an object-oriented programming model with minimal
+  dependency on external libraries.
+keywords:
+  - Artificial Intelligence
+  - Fuzzy Logic
+  - Control
+  - Soft Computing
+  - FuzzyLite
+license: GPL-3.0
