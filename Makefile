@@ -16,6 +16,9 @@ test:
 	ctest --test-dir build/
 
 coverage:
+	gcovr -r src/ build/CMakeFiles/fl-test.dir/
+
+coverage_clang:
 	LLVM_PROFILE_FILE="build/default.profraw" ./build/bin/fuzzylite-tests
 	xcrun llvm-profdata merge -sparse build/default.profraw -o build/fuzzylite.profdata
 	xcrun llvm-cov report build/bin/fuzzylite-tests -instr-profile=build/fuzzylite.profdata --ignore-filename-regex="test/.*"
