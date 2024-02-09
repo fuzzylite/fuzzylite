@@ -15,6 +15,12 @@ make:
 test:
 	ctest --test-dir build/
 
+coverage:
+	LLVM_PROFILE_FILE="build/default.profraw" ./build/bin/fuzzylite-tests
+	xcrun llvm-profdata merge -sparse build/default.profraw -o build/fuzzylite.profdata
+	xcrun llvm-cov report build/bin/fuzzylite-tests -instr-profile=build/fuzzylite.profdata --ignore-filename-regex="test/.*"
+	xcrun llvm-cov show -format=html build/bin/fuzzylite-tests -instr-profile=build/fuzzylite.profdata -output-dir=/tmp --ignore-filename-regex="test/.*"
+
 install:
 	cmake --build build/ --target install
 

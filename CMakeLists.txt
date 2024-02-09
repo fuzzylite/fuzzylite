@@ -129,10 +129,10 @@ if(${CMAKE_SYSTEM_NAME} MATCHES FreeBSD AND FL_BACKTRACE)
     set(FL_LIBS execinfo)
 endif()
 
-if(APPLE)
-    # This produces a warning: ld: symbol(s) not found for architecture x86_64 on mac
-    set(FL_LIBS stdc++)
-endif()
+#if(APPLE)
+#    # This produces a warning: ld: symbol(s) not found for architecture x86_64 on mac
+#    set(FL_LIBS stdc++)
+#endif()
 
 
 ###BUILD SECTION
@@ -223,7 +223,7 @@ if(FL_BUILD_BINARY)
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -debug)
     target_compile_definitions(fl-bin PRIVATE FL_IMPORT_LIBRARY) #if building with fl-shared
-    target_link_libraries(fl-bin fl-shared ${FL_LIBS})
+    target_link_libraries(fl-bin fl-shared ${FL_LIBS} )
     list(APPEND fl-targets fl-bin)
 endif(FL_BUILD_BINARY)
 
@@ -264,18 +264,21 @@ elseif(FL_BUILD_TESTS)
         message(CHECK_PASS "fetched")
     endif()
 
-    add_executable(fl-test ${fl-headers} ${fl-tests})
+    add_executable(fl-test ${fl-headers} ${fl-sources} ${fl-tests})
+    target_include_directories(fl-test
+        PUBLIC
+            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
+            $<INSTALL_INTERFACE:include>)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
 
-    target_compile_definitions(fl-test PRIVATE FL_IMPORT_LIBRARY)
 
-    if (MSVC)
-        target_compile_options(fl-test PRIVATE /wd4130)
+    if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "^(Apple)?Clang$")
+        target_compile_options(fl-test PUBLIC -fprofile-instr-generate -fcoverage-mapping)
+        target_link_libraries(fl-test ${FL_LIBS} Catch2::Catch2 -fprofile-instr-generate -fcoverage-mapping)
     endif()
-
-    target_link_libraries(fl-test fl-shared ${FL_LIBS} Catch2::Catch2)
+#    target_link_libraries(fl-test fl-shared ${FL_LIBS} Catch2::Catch2)
 
     include(CTest)
     include(Catch)
