@@ -39,7 +39,7 @@ jobs:
       - name: Coverage
         run: |
           pip install gcovr
-          make coverage_coveralls
+          GCOV=llvm-cov gcov make coverage_coveralls
 
       - name: Save cmake dependencies
         if: steps.cache-restore-cmake-deps.outputs.cache-hit != 'true'

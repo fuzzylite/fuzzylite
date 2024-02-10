@@ -20,7 +20,7 @@ coverage:
 	gcovr -r src/ build/CMakeFiles/fl-coverage.dir/
 
 coverage_coveralls:
-	gcovr -r src/ build/CMakeFiles/fl-coverage.dir/ --coveralls build/coveralls.json --verbose
+	gcovr -r src/ build/CMakeFiles/fl-coverage.dir/ --coveralls build/coveralls.json
 
 install:
 	cmake --build build/ --target install
