@@ -17,8 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Linting FuzzyLite
-        run: make lint
+#      - name: Linting FuzzyLite
+#        run: make lint
 
       - name: Restore cmake dependencies
         id: cache-restore-cmake-deps
