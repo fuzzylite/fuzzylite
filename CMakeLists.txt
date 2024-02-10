@@ -40,6 +40,7 @@ option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_BACKTRACE "Provide backtrace information in case of errors" ON)
 
 option(FL_BUILD_TESTS "Builds the unit tests" ON)
+option(FL_BUILD_COVERAGE "Build the unit tests to compute coverage" OFF)
 
 if (FL_USE_FLOAT)
     add_definitions(-DFL_USE_FLOAT)
@@ -265,14 +266,11 @@ elseif (FL_BUILD_TESTS)
     endif ()
 
 
-    add_executable(fl-test ${fl-headers} ${fl-sources} ${fl-tests})
-    target_include_directories(fl-test
-            PUBLIC
-            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
-            $<INSTALL_INTERFACE:include>)
+    add_executable(fl-test ${fl-headers} ${fl-tests})
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
+    target_link_libraries(fl-test fl-shared ${FL_LIBS} Catch2::Catch2)
 
     include(CTest)
     include(Catch)
@@ -281,14 +279,27 @@ elseif (FL_BUILD_TESTS)
 
     catch_discover_tests(fl-test)
 
-    if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "^(Apple)?Clang$")
-        target_compile_options(fl-test PUBLIC -fprofile-arcs -ftest-coverage -fPIC)
-        target_link_libraries(fl-test ${FL_LIBS} Catch2::Catch2 --coverage)
-    else ()
-        target_link_libraries(fl-test ${FL_LIBS} Catch2::Catch2)
-    endif ()
-
     list(APPEND fl-targets fl-test)
+
+    if (FL_BUILD_COVERAGE AND "${CMAKE_CXX_COMPILER_ID}" MATCHES "^(Apple)?Clang$")
+        add_executable(fl-coverage ${fl-headers} ${fl-sources} ${fl-tests})
+        target_include_directories(fl-coverage
+            PRIVATE
+            ${PROJECT_SOURCE_DIR})
+        set_target_properties(fl-coverage PROPERTIES OUTPUT_NAME fuzzylite-coverage)
+        set_target_properties(fl-coverage PROPERTIES OUTPUT_NAME fuzzylite-coverage IMPORT_PREFIX tmp-)
+        set_target_properties(fl-coverage PROPERTIES DEBUG_POSTFIX -debug)
+        target_link_libraries(fl-coverage ${FL_LIBS} Catch2::Catch2)
+
+        if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "^(Apple)?Clang$")
+            target_compile_options(fl-coverage PUBLIC -fprofile-arcs -ftest-coverage -fPIC)
+            target_link_libraries(fl-coverage ${FL_LIBS} Catch2::Catch2 --coverage)
+        else ()
+            # TODO: Coverage with GNU (Linux) and CodeCoverage (Windows)
+        endif ()
+        catch_discover_tests(fl-coverage)
+        list(APPEND fl-targets fl-coverage)
+    endif ()
 endif ()
 
 ###INSTALL SECTION

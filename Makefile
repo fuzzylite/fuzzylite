@@ -1,13 +1,14 @@
 BUILD = release
 CPP98 = OFF
 FLOAT = OFF
+COVERAGE = ON
 
 .PHONY: configure make test install format lint
 
 all: configure make test
 
 configure:
-	cmake -B build/ -DCMAKE_BUILD_TYPE=$(BUILD) -DFL_CPP98=$(CPP98) -DFL_USE_FLOAT=$(FLOAT) .
+	cmake -B build/ -DCMAKE_BUILD_TYPE=$(BUILD) -DFL_CPP98=$(CPP98) -DFL_USE_FLOAT=$(FLOAT) -DFL_BUILD_COVERAGE=$(COVERAGE) .
 
 make:
 	cmake --build build/ --parallel
@@ -16,13 +17,10 @@ test:
 	ctest --test-dir build/
 
 coverage:
-	gcovr -r src/ build/CMakeFiles/fl-test.dir/
+	gcovr -r src/ build/CMakeFiles/fl-coverage.dir/
 
-coverage_clang:
-	LLVM_PROFILE_FILE="build/default.profraw" ./build/bin/fuzzylite-tests
-	xcrun llvm-profdata merge -sparse build/default.profraw -o build/fuzzylite.profdata
-	xcrun llvm-cov report build/bin/fuzzylite-tests -instr-profile=build/fuzzylite.profdata --ignore-filename-regex="test/.*"
-	xcrun llvm-cov show -format=html build/bin/fuzzylite-tests -instr-profile=build/fuzzylite.profdata -output-dir=/tmp --ignore-filename-regex="test/.*"
+coverage_coveralls:
+	gcovr -r src/ build/CMakeFiles/fl-coverage.dir/ --coveralls build/coveralls.json
 
 install:
 	cmake --build build/ --target install

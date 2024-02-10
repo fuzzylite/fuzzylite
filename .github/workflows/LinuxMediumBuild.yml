@@ -31,6 +31,21 @@ jobs:
         env:
           CXX: ${{ matrix.use_cxx }}
         run: |
-          cmake -B build/ -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_CPP98=${{ matrix.use_cpp98 }} -DFL_USE_FLOAT=${{ matrix.use_float }} .
+          cmake -B build/ -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_CPP98=${{ matrix.use_cpp98 }} -DFL_USE_FLOAT=${{ matrix.use_float }} -DFL_BUILD_COVERAGE=ON .
           cmake --build build/ --parallel
           ctest --test-dir build/
+
+      - name: Coverage
+        run: |
+          pip install gcovr
+          make coverage_coveralls
+
+  coveralls:
+    needs: build
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          file: build/coveralls.json
