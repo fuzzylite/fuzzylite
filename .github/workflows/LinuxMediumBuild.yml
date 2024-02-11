@@ -46,7 +46,7 @@ jobs:
           cmake --build build/ --parallel --target fl-test
           ctest --test-dir build/
           pip install gcovr
-          make coverage_coveralls
+          make coverage
 
       - name: Coveralls
         if: ${{ hashFiles('build/coveralls.json') != '' }}

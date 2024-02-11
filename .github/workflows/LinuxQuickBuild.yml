@@ -41,7 +41,7 @@ jobs:
           GCOV: "llvm-cov-15 gcov"
         run: |
           pip install gcovr
-          make coverage_coveralls
+          make coverage
 
       - name: Coveralls
         if: ${{ hashFiles('build/coveralls.json') != '' }}

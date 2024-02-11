@@ -4,33 +4,33 @@ FLOAT = OFF
 COVERAGE = ON
 
 
-all: configure make test
+all: configure build test
+
+.PHONY: clean
+clean:
+	rm -rf build/
 
 .PHONY: configure
 configure:
 	cmake -B build/ -DCMAKE_BUILD_TYPE=$(BUILD) -DFL_CPP98=$(CPP98) -DFL_USE_FLOAT=$(FLOAT) -DFL_BUILD_COVERAGE=$(COVERAGE) .
 
-.PHONY: make
-make:
+.PHONY: build
+build:
 	cmake --build build/ --parallel
 
 .PHONY: test
 test:
 	ctest --test-dir build/
 
-.PHONY: coverage
-coverage:
-	# pip install gcovr
-	gcovr -r src/ build/CMakeFiles/fl-test.dir/
-
-.PHONY: coverage_coveralls
-coverage_coveralls:
-	# pip install gcovr
-	gcovr -r src/ build/CMakeFiles/fl-test.dir/ --coveralls build/coveralls.json
-
 .PHONY: install
 install:
 	cmake --build build/ --target install
+
+.PHONY: coverage
+coverage:
+	# pip install gcovr
+	gcovr -r src/ build/CMakeFiles/fl-test.dir/ --coveralls build/coveralls.json --html build/coverage.html --html-details --sort uncovered-percent --html-theme github.blue --txt --txt-summary
+	# open build/coverage.html
 
 .PHONY: jupyter
 jupyter:
@@ -61,6 +61,3 @@ lint:
 	# tests
 	find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
 
-.PHONY: clean
-clean:
-	rm -rf build
