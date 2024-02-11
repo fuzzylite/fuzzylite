@@ -281,6 +281,10 @@ elseif (FL_BUILD_TESTS OR FL_BUILD_COVERAGE)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
 
+    if (MSVC)
+        target_compile_options(fl-test PRIVATE /wd4130)
+    endif ()
+
     include(CTest)
     include(Catch)
 
