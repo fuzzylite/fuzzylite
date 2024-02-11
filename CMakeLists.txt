@@ -274,16 +274,13 @@ elseif (FL_BUILD_TESTS OR FL_BUILD_COVERAGE)
         target_link_libraries(fl-test ${FL_LIBS} Catch2::Catch2 --coverage)
     else ()
         add_executable(fl-test ${fl-headers} ${fl-tests})
+        target_compile_definitions(fl-test PRIVATE FL_IMPORT_LIBRARY)
         target_link_libraries(fl-test fl-shared ${FL_LIBS} Catch2::Catch2)
     endif ()
 
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
-
-    if (MSVC)
-        target_compile_options(fl-test PRIVATE /wd4130)
-    endif ()
 
     include(CTest)
     include(Catch)
