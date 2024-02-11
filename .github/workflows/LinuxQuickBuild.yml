@@ -37,9 +37,11 @@ jobs:
           ctest --test-dir build/
 
       - name: Coverage
+        env:
+          GCOV: "llvm-cov-15 gcov"
         run: |
           pip install gcovr
-          GCOV="llvm-cov-15 gcov" make coverage_coveralls
+          make coverage_coveralls
 
       - name: Coveralls
         if: ${{ hashFiles('build/coveralls.json') != '' }}
