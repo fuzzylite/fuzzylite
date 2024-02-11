@@ -36,10 +36,16 @@ jobs:
           cmake --build build/ --parallel
           ctest --test-dir build/
 
-#      - name: Coverage
-#        run: |
-#          pip install gcovr
-#          GCOV="llvm-cov gcov" make coverage_coveralls
+      - name: Coverage
+        run: |
+          pip install gcovr
+          GCOV="llvm-cov-15 gcov" make coverage_coveralls
+
+      - name: Coveralls
+        if: ${{ hashFiles('build/coveralls.json') != '' }}
+        uses: coverallsapp/github-action@v2
+        with:
+          file: build/coveralls.json
 
       - name: Save cmake dependencies
         if: steps.cache-restore-cmake-deps.outputs.cache-hit != 'true'
@@ -49,13 +55,3 @@ jobs:
           path: |
             build/_deps
           key: ${{ steps.cache-restore-cmake-deps.outputs.cache-primary-key }}
-
-#  coveralls:
-#    needs: build
-#    if: ${{ always() }}
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Coveralls
-#        uses: coverallsapp/github-action@v2
-#        with:
-#          file: build/coveralls.json
