@@ -17,10 +17,12 @@ test:
 	ctest --test-dir build/
 
 coverage:
-	gcovr -r src/ build/CMakeFiles/fl-coverage.dir/
+	# pip install gcovr
+	gcovr -r src/ build/CMakeFiles/fl-test.dir/
 
 coverage_coveralls:
-	gcovr -r src/ build/CMakeFiles/fl-coverage.dir/ --coveralls build/coveralls.json
+	# pip install gcovr
+	gcovr -r src/ build/CMakeFiles/fl-test.dir/ --coveralls build/coveralls.json
 
 install:
 	cmake --build build/ --target install
