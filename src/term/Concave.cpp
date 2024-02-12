@@ -56,7 +56,8 @@ namespace fuzzylite {
     }
 
     std::string Concave::parameters() const {
-        return Op::join(2, " ", _inflection, _end) + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(2, " ", getInflection(), getEnd())
+               + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Concave::configure(const std::string& parameters) {

@@ -22,6 +22,12 @@ build:
 test:
 	ctest --test-dir build/
 
+.PHONY: test-only
+test-only:
+	$(MAKE) configure
+	cmake --build build/ --parallel --target fl-test
+	$(MAKE) test
+
 .PHONY: install
 install:
 	cmake --build build/ --target install
@@ -31,6 +37,10 @@ coverage:
 	# pip install gcovr
 	gcovr -r src/ build/CMakeFiles/fl-test.dir/ --coveralls build/coveralls.json --html build/coverage.html --html-details --sort uncovered-percent --html-theme github.blue --txt --txt-summary
 	# open build/coverage.html
+
+.PHONY: clean-coverage
+clean-coverage:
+	find build/CMakeFiles/fl-test.dir -type f -name '*.gc' -print0 | xargs -0 rm
 
 .PHONY: jupyter
 jupyter:

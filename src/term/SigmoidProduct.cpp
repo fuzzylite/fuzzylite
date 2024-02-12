@@ -43,7 +43,7 @@ namespace fuzzylite {
     }
 
     std::string SigmoidProduct::parameters() const {
-        return Op::join(4, " ", _left, _rising, _falling, _right)
+        return Op::join(4, " ", getLeft(), getRising(), getFalling(), getRight())
                + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 

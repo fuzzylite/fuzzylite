@@ -38,7 +38,7 @@ namespace fuzzylite {
     }
 
     std::string Bell::parameters() const {
-        return Op::join(3, " ", _center, _width, _slope)
+        return Op::join(3, " ", getCenter(), getWidth(), getSlope())
                + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 

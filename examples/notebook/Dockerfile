@@ -9,7 +9,7 @@ COPY . /install
 
 WORKDIR /install
 
-RUN make configure make install
+RUN make configure build install
 
 WORKDIR /mnt/fuzzylite
 # docker build -f test/Dockerfile -t xeus .

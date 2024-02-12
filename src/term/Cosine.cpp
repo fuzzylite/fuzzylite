@@ -31,7 +31,8 @@ namespace fuzzylite {
     }
 
     std::string Cosine::parameters() const {
-        return Op::join(2, " ", _center, _width) + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(2, " ", getCenter(), getWidth())
+               + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Cosine::configure(const std::string& parameters) {

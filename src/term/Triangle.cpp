@@ -57,7 +57,7 @@ namespace fuzzylite {
     }
 
     std::string Triangle::parameters() const {
-        return Op::join(3, " ", _vertexA, _vertexB, _vertexC)
+        return Op::join(3, " ", getVertexA(), getVertexB(), getVertexC())
                + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 

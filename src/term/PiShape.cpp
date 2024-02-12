@@ -62,7 +62,7 @@ namespace fuzzylite {
     }
 
     std::string PiShape::parameters() const {
-        return Op::join(4, " ", _bottomLeft, _topLeft, _topRight, _bottomRight)
+        return Op::join(4, " ", getBottomLeft(), getTopLeft(), getTopRight(), getBottomRight())
                + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 

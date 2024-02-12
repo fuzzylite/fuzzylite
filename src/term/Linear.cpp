@@ -79,13 +79,13 @@ namespace fuzzylite {
     }
 
     std::string Linear::parameters() const {
-        return Op::join(this->_coefficients, " ");
+        return Op::join(coefficients(), " ");
     }
 
     void Linear::configure(const std::string& parameters) {
-        this->_coefficients.clear();
         if (parameters.empty())
             return;
+        this->_coefficients.clear();
         std::vector<std::string> strValues = Op::split(parameters, " ");
         std::vector<scalar> values;
         for (std::size_t i = 0; i < strValues.size(); ++i)

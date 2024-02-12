@@ -39,7 +39,8 @@ namespace fuzzylite {
     }
 
     std::string Rectangle::parameters() const {
-        return Op::join(2, " ", _start, _end) + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(2, " ", getStart(), getEnd())
+               + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void Rectangle::configure(const std::string& parameters) {

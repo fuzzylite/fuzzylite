@@ -37,7 +37,7 @@ namespace fuzzylite {
     }
 
     std::string Gaussian::parameters() const {
-        return Op::join(2, " ", _mean, _standardDeviation)
+        return Op::join(2, " ", getMean(), getStandardDeviation())
                + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 

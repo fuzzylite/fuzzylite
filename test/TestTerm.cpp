@@ -122,11 +122,25 @@ namespace fuzzylite {
 
         TermAssert& configured_as(const std::string& parameters) {
             this->actual->configure(parameters);
+            can_clone();
+
+            // assert that configure with empty parameters does nothing
+            const std::string& expected = this->actual->toString();
+            this->actual->configure("");
+            const std::string& obtained = this->actual->toString();
+            CHECK_THAT(expected, Catch::Matchers::Equals(obtained));
+            return *this;
+        }
+
+        TermAssert& can_clone() {
+            const std::string& expected = this->actual->toString();
+            TermAssert(this->actual->clone()).exports_fll(expected, false);
             return *this;
         }
 
         TermAssert& has_memberships(
             const std::map<fl::scalar, fl::scalar>& values,
+            const scalar y_nan = fl::nan,
             const std::vector<scalar>& heights = {0.0, 0.25, .5, .75, 1.0}
         ) {
             for (scalar height : heights) {
@@ -145,6 +159,11 @@ namespace fuzzylite {
                     else
                         CHECK_THAT(obtained_y, Catch::Matchers::WithinAbs(expected_y, fuzzylite::macheps()));
                 }
+
+                if (fl::Op::isNaN(y_nan))
+                    CHECK_THAT(fl::Op::str(this->actual->membership(nan)), Catch::Matchers::Equals(fl::Op::str(y_nan)));
+                else
+                    CHECK_THAT(this->actual->membership(nan), Catch::Matchers::WithinAbs(y_nan, fuzzylite::macheps()));
             }
             return *this;
         }
@@ -335,42 +354,48 @@ namespace fuzzylite {
             .configured_as("0.5")
             .exports_fll("term: constant Constant 0.500", false)
             .repr_is("fl.Constant('constant', 0.5)")
-            .has_memberships({
-                {-1.0, 0.5},
-                {-0.5, 0.5},
-                {-0.4, 0.5},
-                {-0.25, 0.5},
-                {-0.1, 0.5},
-                {0.0, 0.5},
-                {0.1, 0.5},
-                {0.25, 0.5},
-                {0.4, 0.5},
-                {0.5, 0.5},
-                {1.0, 0.5},
-                {nan, 0.5},
-                {inf, 0.5},
-                {-inf, 0.5},
-            });
+            .has_memberships(
+                {
+                    {-1.0, 0.5},
+                    {-0.5, 0.5},
+                    {-0.4, 0.5},
+                    {-0.25, 0.5},
+                    {-0.1, 0.5},
+                    {0.0, 0.5},
+                    {0.1, 0.5},
+                    {0.25, 0.5},
+                    {0.4, 0.5},
+                    {0.5, 0.5},
+                    {1.0, 0.5},
+                    {nan, 0.5},
+                    {inf, 0.5},
+                    {-inf, 0.5},
+                },
+                0.5
+            );
         TermAssert(new Constant("constant"))
             .configured_as("-0.500")
             .repr_is("fl.Constant('constant', -0.5)")
             .exports_fll("term: constant Constant -0.500", false)
-            .has_memberships({
-                {-1.0, -0.5},
-                {-0.5, -0.5},
-                {-0.4, -0.5},
-                {-0.25, -0.5},
-                {-0.1, -0.5},
-                {0.0, -0.5},
-                {0.1, -0.5},
-                {0.25, -0.5},
-                {0.4, -0.5},
-                {0.5, -0.5},
-                {1.0, -0.5},
-                {nan, -0.5},
-                {inf, -0.5},
-                {-inf, -0.5},
-            });
+            .has_memberships(
+                {
+                    {-1.0, -0.5},
+                    {-0.5, -0.5},
+                    {-0.4, -0.5},
+                    {-0.25, -0.5},
+                    {-0.1, -0.5},
+                    {0.0, -0.5},
+                    {0.1, -0.5},
+                    {0.25, -0.5},
+                    {0.4, -0.5},
+                    {0.5, -0.5},
+                    {1.0, -0.5},
+                    {nan, -0.5},
+                    {inf, -0.5},
+                    {-inf, -0.5},
+                },
+                -0.5
+            );
     }
 
     TEST_CASE("Cosine", "[term][cosine]") {
@@ -540,41 +565,47 @@ namespace fuzzylite {
             .configured_as("1.0 2.0 3")
             .exports_fll("term: linear Linear 1.000 2.000 3.000", false)
             .repr_is("fl.Linear('linear', [1.0, 2.0, 3.0])")
-            .has_memberships({
-                {-1.0, 1 * 0 + 2 * 1 + 3 * 2},  // = 8
-                {-0.5, 8},
-                {-0.4, 8},
-                {-0.25, 8},
-                {-0.1, 8},
-                {0.0, 8},
-                {0.1, 8},
-                {0.25, 8},
-                {0.4, 8},
-                {0.5, 8},
-                {1.0, 8},
-                {nan, 8},
-                {inf, 8},
-                {-inf, 8},
-            });
+            .has_memberships(
+                {
+                    {-1.0, 1 * 0 + 2 * 1 + 3 * 2},  // = 8
+                    {-0.5, 8},
+                    {-0.4, 8},
+                    {-0.25, 8},
+                    {-0.1, 8},
+                    {0.0, 8},
+                    {0.1, 8},
+                    {0.25, 8},
+                    {0.4, 8},
+                    {0.5, 8},
+                    {1.0, 8},
+                    {nan, 8},
+                    {inf, 8},
+                    {-inf, 8},
+                },
+                8
+            );
         TermAssert(new Linear("linear", {1.0, 2.0}, &engine))
             .configured_as("1 2 3 5")
             .exports_fll("term: linear Linear 1.000 2.000 3.000 5.000", false)
-            .has_memberships({
-                {-1.0, 1 * 0 + 2 * 1 + 3 * 2 + 5},  // = 1
-                {-0.5, 13},
-                {-0.4, 13},
-                {-0.25, 13},
-                {-0.1, 13},
-                {0.0, 13},
-                {0.1, 13},
-                {0.25, 13},
-                {0.4, 13},
-                {0.5, 13},
-                {1.0, 13},
-                {nan, 13},
-                {inf, 13},
-                {-inf, 13},
-            });
+            .has_memberships(
+                {
+                    {-1.0, 1 * 0 + 2 * 1 + 3 * 2 + 5},  // = 1
+                    {-0.5, 13},
+                    {-0.4, 13},
+                    {-0.25, 13},
+                    {-0.1, 13},
+                    {0.0, 13},
+                    {0.1, 13},
+                    {0.25, 13},
+                    {0.4, 13},
+                    {0.5, 13},
+                    {1.0, 13},
+                    {nan, 13},
+                    {inf, 13},
+                    {-inf, 13},
+                },
+                13
+            );
     }
 
     TEST_CASE("PiShape", "[term][pishape]") {

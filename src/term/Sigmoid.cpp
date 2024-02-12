@@ -65,7 +65,7 @@ namespace fuzzylite {
     }
 
     std::string Sigmoid::parameters() const {
-        return Op::join(2, " ", _inflection, _slope)
+        return Op::join(2, " ", getInflection(), getSlope())
                + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
