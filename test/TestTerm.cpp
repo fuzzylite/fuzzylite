@@ -30,7 +30,7 @@ namespace fuzzylite {
 
         TermAssert(Term* actual) : actual(actual) {
             // TODO: Remove once changed
-            fuzzylite::fuzzylite::setMachEps(1e-3);
+            fuzzylite::setMachEps(1e-3);
         }
 
         TermAssert& exports_fll(const std::string& obtained, bool checkHeight = true) {
@@ -139,7 +139,7 @@ namespace fuzzylite {
         }
 
         TermAssert& has_memberships(
-            const std::map<fl::scalar, fl::scalar>& values,
+            const std::map<scalar, scalar>& values,
             const scalar y_nan = fl::nan,
             const std::vector<scalar>& heights = {0.0, 0.25, .5, .75, 1.0}
         ) {
@@ -199,7 +199,7 @@ namespace fuzzylite {
         const std::string& parameters = fl::Op::join(std::vector<std::string>(20, "nan"), " ");
 
         for (const std::string& termClass : termFactory->available()) {
-            if (not(termClass == "" or termClass == "Discrete")) {
+            if (not(termClass.empty() or termClass == "Discrete")) {
                 const std::string& expectedException = "[configuration error] term <" + termClass + ">" + " requires <";
                 Term* term = termFactory->constructObject(termClass);
                 CAPTURE(parameters);
@@ -246,7 +246,10 @@ namespace fuzzylite {
             .exports_fll("term: binary Binary nan nan")
             .repr_is("fl.Binary('binary', fl.nan, fl.nan)")
             .takes_parameters(2)
-            .is_not_monotonic();
+            .is_not_monotonic()
+            .apply([](Term* binary) -> void {
+                CHECK(dynamic_cast<Binary*>(binary)->direction() == Binary::Direction::Undefined);
+            });
 
         TermAssert(new Binary("binary"))
             .configured_as("0 inf")
@@ -267,6 +270,32 @@ namespace fuzzylite {
                 {fl::nan, fl::nan},
                 {fl::inf, 1.0},
                 {-fl::inf, 0.0},
+            })
+            .apply([](Term* binary) -> void {
+                CHECK(dynamic_cast<Binary*>(binary)->direction() == Binary::Direction::Positive);
+            });
+        TermAssert(new Binary("binary"))
+            .configured_as("0 -inf")
+            .exports_fll("term: binary Binary 0.000 -inf")
+            .repr_is("fl.Binary('binary', 0.0, -fl.inf)")
+            .has_memberships({
+                {-1.0, 1.0},
+                {-0.5, 1.0},
+                {-0.4, 1.0},
+                {-0.25, 1.0},
+                {-0.1, 1.0},
+                {0.0, 1.0},
+                {0.1, 0.0},
+                {0.25, 0.0},
+                {0.4, 0.0},
+                {0.5, 0.0},
+                {1.0, 0.0},
+                {fl::nan, fl::nan},
+                {fl::inf, 0.0},
+                {-fl::inf, 1.0},
+            })
+            .apply([](Term* binary) -> void {
+                CHECK(dynamic_cast<Binary*>(binary)->direction() == Binary::Direction::Negative);
             });
     }
 
@@ -548,6 +577,13 @@ namespace fuzzylite {
         linear.updateReference(&engine);
         CHECK(linear.getEngine() == &engine);
 
+        linear = Linear("linear");
+        linear.set({1.0, 2.0, 3.0}, &engine);
+        CHECK_THAT(linear.coefficients(), Catch::Equals<scalar>({1.0, 2.0, 3.0}));
+        CHECK(linear.getEngine() == &engine);
+        linear.coefficients().push_back(4.0);
+        CHECK_THAT(linear.coefficients(), Catch::Equals<scalar>({1.0, 2.0, 3.0, 4.0}));
+
         // TODO: Raise exception when mistmatch between coefficients and number of input variables
         // CHECK_THROWS_AS(linear.membership(0.0), fl::Exception);
         // CHECK_THROWS_WITH(
@@ -643,7 +679,8 @@ namespace fuzzylite {
             .exports_fll("term: ramp Ramp nan nan")
             .repr_is("fl.Ramp('ramp', fl.nan, fl.nan)")
             .takes_parameters(2)
-            .is_monotonic();
+            .is_monotonic()
+            .apply([](Term* ramp) -> void { CHECK(dynamic_cast<Ramp*>(ramp)->direction() == Ramp::Direction::Zero); });
 
         TermAssert(new Ramp("ramp"))
             .configured_as("-0.250 0.750")
@@ -664,6 +701,9 @@ namespace fuzzylite {
                 {nan, nan},
                 {inf, 1.0},
                 {-inf, 0.0},
+            })
+            .apply([](Term* ramp) -> void {
+                CHECK(dynamic_cast<Ramp*>(ramp)->direction() == Ramp::Direction::Positive);
             });
 
         TermAssert(new Ramp("ramp"))
@@ -684,6 +724,9 @@ namespace fuzzylite {
                 {nan, nan},
                 {inf, 0.0},
                 {-inf, 1.0},
+            })
+            .apply([](Term* ramp) -> void {
+                CHECK(dynamic_cast<Ramp*>(ramp)->direction() == Ramp::Direction::Negative);
             });
 
         TermAssert(new Ramp("ramp"))
@@ -836,7 +879,10 @@ namespace fuzzylite {
             .exports_fll("term: sigmoid Sigmoid nan nan")
             .repr_is("fl.Sigmoid('sigmoid', fl.nan, fl.nan)")
             .takes_parameters(2)
-            .is_monotonic();
+            .is_monotonic()
+            .apply([](Term* sigmoid) -> void {
+                CHECK(dynamic_cast<Sigmoid*>(sigmoid)->direction() == Sigmoid::Direction::Zero);
+            });
 
         TermAssert(new Sigmoid("sigmoid"))
             .configured_as("0 10")
@@ -857,6 +903,9 @@ namespace fuzzylite {
                 {nan, nan},
                 {inf, 1.0},
                 {-inf, 0.0},
+            })
+            .apply([](Term* sigmoid) -> void {
+                CHECK(dynamic_cast<Sigmoid*>(sigmoid)->direction() == Sigmoid::Direction::Positive);
             });
 
         TermAssert(new Sigmoid("sigmoid"))
@@ -877,6 +926,9 @@ namespace fuzzylite {
                 {nan, nan},
                 {inf, 0.0},
                 {-inf, 1.0},
+            })
+            .apply([](Term* sigmoid) -> void {
+                CHECK(dynamic_cast<Sigmoid*>(sigmoid)->direction() == Sigmoid::Direction::Negative);
             });
     }
 

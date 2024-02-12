@@ -24,9 +24,9 @@ test:
 
 .PHONY: test-only
 test-only:
-	$(MAKE) configure
-	cmake --build build/ --parallel --target fl-test
-	$(MAKE) test
+	$(MAKE) configure && \
+		cmake --build build/ --parallel --target fl-test && \
+		 $(MAKE) test
 
 .PHONY: install
 install:
@@ -35,7 +35,7 @@ install:
 .PHONY: coverage
 coverage:
 	# pip install gcovr
-	gcovr -r src/ build/CMakeFiles/fl-test.dir/ --coveralls build/coveralls.json --html build/coverage.html --html-details --sort uncovered-percent --html-theme github.blue --txt --txt-summary
+	gcovr -r src/ build/CMakeFiles/fl-test.dir/ --coveralls build/coveralls.json --html build/coverage.html --html-details --sort uncovered-percent --html-theme github.dark-blue --txt --txt-summary --filter src/term
 	# open build/coverage.html
 
 .PHONY: clean-coverage
