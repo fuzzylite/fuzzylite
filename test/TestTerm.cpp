@@ -20,9 +20,7 @@
 /**
  * TODO
  * - Fix Tsukamoto tests
- * - Break builder tests
- * - Remove explicit height tests
- *
+ * - Activated, Aggregated and Function tests
  */
 namespace fuzzylite {
     struct TermAssert {
@@ -207,6 +205,65 @@ namespace fuzzylite {
                 CHECK_THROWS_WITH(term->configure(parameters), Catch::Matchers::StartsWith(expectedException));
             }
         }
+    }
+
+    TEST_CASE("Activated", "[term][activated]") {
+        const AlgebraicProduct algebraicProduct;
+        Triangle term("triangle", -0.400, 0.000, 0.400);
+        TermAssert(new Activated(&term, 1.0, &algebraicProduct))
+            .repr_is("fl.Activated(term=fl.Triangle('triangle', -0.4, 0.0, 0.4), "
+                     "degree=1.0, implication=fl.AlgebraicProduct())")
+            .exports_fll("AlgebraicProduct(1.000,triangle)", false)
+            .is_not_monotonic()
+            .has_memberships({
+                {-1.0, 0.0},
+                {-0.5, 0.000},
+                {-0.4, 0.000},
+                {-0.25, 0.375},
+                {-0.1, 0.750},
+                {0.0, 1.000},
+                {0.1, 0.750},
+                {0.25, 0.375},
+                {0.4, 0.000},
+                {0.5, 0.000},
+                {1.0, 0.0},
+                {nan, nan},
+                {inf, 0.0},
+                {-inf, 0.0},
+            });
+
+        TermAssert(new Activated(&term, 0.5, &algebraicProduct))
+            .repr_is("fl.Activated(term=fl.Triangle('triangle', -0.4, 0.0, 0.4), "
+                     "degree=0.5, implication=fl.AlgebraicProduct())")
+            .exports_fll("AlgebraicProduct(0.500,triangle)", false)
+            .configured_as("###")
+            .exports_fll("AlgebraicProduct(0.500,triangle)");
+
+        CHECK(Activated(&term, 0.5).toString() == "(0.500*triangle)");
+        CHECK(Activated(&term, 0.5).parameters() == "0.500 none term: triangle Triangle -0.400 0.000 0.400");
+
+        Activated activated;
+        CHECK(activated.className() == "Activated");
+        CHECK(activated.getName() == "");
+        CHECK(activated.getImplication() == fl::null);
+        CHECK(activated.getTerm() == fl::null);
+
+        activated.setImplication(&algebraicProduct);
+        activated.setTerm(&term);
+        CHECK(activated.getImplication() == &algebraicProduct);
+        CHECK(activated.getTerm() == &term);
+        CHECK(activated.getName() == "triangle");
+
+        CHECK_THROWS_AS(Activated().membership(0.0), fl::Exception);
+        CHECK_THROWS_WITH(
+            Activated().membership(0.0), Catch::Matchers::StartsWith("[activation error] no term available to activate")
+        );
+
+        CHECK_THROWS_AS(Activated(&term).membership(0.0), fl::Exception);
+        CHECK_THROWS_WITH(
+            Activated(&term).membership(0.0),
+            Catch::Matchers::StartsWith("[implication error] implication operator needed to activate")
+        );
     }
 
     TEST_CASE("Bell", "[term][bell]") {
@@ -501,6 +558,46 @@ namespace fuzzylite {
                 {inf, 0.0},
                 {-inf, 0.0},
             });
+
+        TermAssert(Discrete::create("discrete", 4, 0.0, 1.0, 2.0, 3.0))
+            .exports_fll("term: discrete Discrete 0.000 1.000 2.000 3.000");
+
+        Discrete* discrete = Discrete::create("discrete", 4, 0.0, 1.0, 2.0, 3.0);
+        CHECK_THAT(discrete->x(), Catch::Matchers::Equals<scalar>({0.0, 2.0}));
+        CHECK_THAT(discrete->y(), Catch::Matchers::Equals<scalar>({1.0, 3.0}));
+        CHECK_THAT(discrete->x(1), Catch::Matchers::WithinAbs(2.0, fuzzylite::macheps()));
+        CHECK_THAT(discrete->y(1), Catch::Matchers::WithinAbs(3.0, fuzzylite::macheps()));
+
+        CHECK_THAT(Discrete::toVector(discrete->xy()), Catch::Matchers::Equals<scalar>({0.0, 1.0, 2.0, 3.0}));
+        CHECK_THAT(Discrete::formatXY(discrete->xy()), Catch::Matchers::Equals("(0.000,1.000) (2.000,3.000)"));
+
+        CHECK_THROWS_AS(Discrete::toPairs({0.0}), fl::Exception);
+        CHECK_THROWS_WITH(
+            Discrete::toPairs({0.0}),
+            Catch::Matchers::StartsWith("[discrete error] missing value in set of pairs (|xy|=1)")
+        );
+
+        discrete->x(0) = -1.0;
+        discrete->y(0) = -2.0;
+        CHECK_THAT(discrete->x(0), Catch::Matchers::WithinAbs(-1.0, fuzzylite::macheps()));
+        CHECK_THAT(discrete->y(0), Catch::Matchers::WithinAbs(-2.0, fuzzylite::macheps()));
+
+        discrete->xy(1).first = 4.0;
+        discrete->xy(1).second = 8.0;
+        CHECK_THAT(discrete->x(1), Catch::Matchers::WithinAbs(4.0, fuzzylite::macheps()));
+        CHECK_THAT(discrete->y(1), Catch::Matchers::WithinAbs(8.0, fuzzylite::macheps()));
+
+        Triangle triangle("x", 0, 1);
+        TermAssert(Discrete::discretize(&triangle, 0, 1, 5))
+            .exports_fll("term: x Discrete 0.000 0.000 0.200 0.400 0.400 0.800 0.600 0.800 0.800 0.400 1.000 0.000");
+
+        std::vector<Discrete::Pair> v = Discrete::toPairs({0.0}, 1.0);
+        CHECK(v.front() == Discrete::Pair(0.0, 1.0));
+
+        const Discrete term("const", {Discrete::Pair(0.0, 1.0)});
+        CHECK(term.xy(0) == Discrete::Pair(0.0, 1.0));
+        CHECK(term.x(0) == 0.0);
+        CHECK(term.y(0) == 1.0);
     }
 
     TEST_CASE("Gaussian", "[term][gaussian]") {
