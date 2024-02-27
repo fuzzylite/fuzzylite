@@ -22,18 +22,18 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 namespace fuzzylite {
 
     Activated::Activated(const Term* term, scalar degree, const TNorm* implication) :
-        Term(""),
+        Term("", degree),
         _term(term),
-        _degree(degree),
-        _implication(implication) {
-        if (term)
-            setName(term->getName());
-    }
+        _implication(implication) {}
 
     Activated::~Activated() {}
 
     std::string Activated::className() const {
         return "Activated";
+    }
+
+    std::string Activated::getName() const {
+        return _term ? _term->getName() : "";
     }
 
     scalar Activated::membership(scalar x) const {
@@ -48,7 +48,7 @@ namespace fuzzylite {
                     + getTerm()->toString(),
                 FL_AT
             );
-        return _implication->compute(_term->membership(x), _degree);
+        return _implication->compute(_term->membership(x), _height);
     }
 
     std::string Activated::parameters() const {
@@ -84,11 +84,11 @@ namespace fuzzylite {
     }
 
     void Activated::setDegree(scalar degree) {
-        this->_degree = degree;
+        setHeight(degree);
     }
 
     scalar Activated::getDegree() const {
-        return this->_degree;
+        return getHeight();
     }
 
     void Activated::setImplication(const TNorm* implication) {
