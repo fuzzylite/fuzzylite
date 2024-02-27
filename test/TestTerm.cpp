@@ -266,6 +266,86 @@ namespace fuzzylite {
         );
     }
 
+    TEST_CASE("Aggregated", "[term][aggregated]") {
+        Minimum minimum;
+        Aggregated aggregated("fuzzy_output", -1., 1.0, new Maximum);
+        Triangle low("LOW", -1.000, -0.500, 0.000);
+        Triangle medium("MEDIUM", -0.500, 0.000, 0.500);
+        aggregated.setTerms({
+            Activated(&low, 0.6, &minimum),
+            Activated(&medium, 0.4, &minimum),
+        });
+
+        TermAssert(aggregated.clone())
+            .exports_fll("fuzzy_output: Aggregated Maximum[Minimum(0.600,LOW),Minimum(0.400,MEDIUM)]", false)
+            .repr_is("fl.Aggregated(name='fuzzy_output', minimum=-1.0, maximum=1.0, "
+                     "aggregation=fl.Maximum(), terms=[fl.Activated(term=fl.Triangle('LOW', -1.0, "
+                     "-0.5, 0.0), degree=0.6, implication=fl.Minimum()), "
+                     "fl.Activated(term=fl.Triangle('MEDIUM', -0.5, 0.0, 0.5), degree=0.4, "
+                     "implication=fl.Minimum())])")
+            .is_not_monotonic()
+            .has_memberships(
+                {
+                    {-1.0, 0.0},
+                    {-0.5, 0.6},
+                    {-0.4, 0.6},
+                    {-0.25, 0.5},
+                    {-0.1, 0.4},
+                    {0.0, 0.4},
+                    {0.1, 0.4},
+                    {0.25, 0.4},
+                    {0.4, 0.2},
+                    {0.5, 0.0},
+                    {1.0, 0.0},
+                    {nan, nan},
+                    {inf, 0.0},
+                    {-inf, 0.0},
+                },
+                nan,
+                {1.0}
+            )
+            .configured_as("###")
+            .exports_fll("fuzzy_output: Aggregated Maximum[Minimum(0.600,LOW),Minimum(0.400,MEDIUM)]", false);
+
+        CHECK(aggregated.activationDegree(&low) == 0.6);
+        CHECK(aggregated.activationDegree(&medium) == 0.4);
+        CHECK(aggregated.highestActivatedTerm()->getTerm() == &low);
+
+        aggregated.setRange(-2, 2);
+        CHECK(aggregated.range() == 4);
+
+        aggregated.addTerm(Activated(&low, 0.4, &minimum));
+        CHECK(
+            aggregated.parameters()
+            == "Maximum -2.000 2.000 "
+               "term: LOW Activated 0.600 Minimum "
+               "term: LOW Triangle -1.000 -0.500 0.000 "
+               "term: MEDIUM Activated 0.400 Minimum "
+               "term: MEDIUM Triangle -0.500 0.000 0.500 "
+               "term: LOW Activated 0.400 Minimum "
+               "term: LOW Triangle -1.000 -0.500 0.000"
+        );
+
+        aggregated.setAggregation(fl::null);
+        CHECK(aggregated.activationDegree(&low) == 1.0);
+
+        Aggregated copy;
+        copy = aggregated;
+        CHECK(copy.toString() == aggregated.toString());
+        copy.setName("X");
+        CHECK(copy.getName() != aggregated.getName());
+
+        CHECK(aggregated.terms().back().getName() == "LOW");
+        aggregated.removeTerm(aggregated.terms().size() - 1);
+        CHECK(aggregated.terms().back().getName() == "MEDIUM");
+
+        CHECK_THROWS_AS(aggregated.membership(0.0), fl::Exception);
+        CHECK_THROWS_WITH(
+            aggregated.membership(0.0),
+            Catch::Matchers::StartsWith("[aggregation error] aggregation operator needed to aggregate variable")
+        );
+    }
+
     TEST_CASE("Bell", "[term][bell]") {
         TermAssert(new Bell("bell"))
             .takes_parameters(3)

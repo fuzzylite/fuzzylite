@@ -63,7 +63,7 @@ namespace fuzzylite {
     scalar Aggregated::membership(scalar x) const {
         if (Op::isNaN(x))
             return fl::nan;
-        if (not(_terms.empty() or _aggregation.get())) {  // Exception for IntegralDefuzzifiers
+        if (not _terms.empty() and not _aggregation.get()) {  // Exception for IntegralDefuzzifiers
             throw Exception(
                 "[aggregation error] "
                 "aggregation operator needed to aggregate variable "
@@ -109,7 +109,7 @@ namespace fuzzylite {
         FllExporter exporter;
         std::ostringstream ss;
         ss << exporter.toString(getAggregation());
-        ss << " " << Op::str(getMinimum()) << " " << Op::str(getMaximum()) << " ";
+        ss << " " << Op::str(getMinimum()) << " " << Op::str(getMaximum());
         for (std::size_t i = 0; i < terms().size(); ++i)
             ss << " " << exporter.toString(&terms().at(i));
         return ss.str();
