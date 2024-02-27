@@ -167,16 +167,11 @@ namespace fuzzylite {
     }
 
     std::vector<Discrete::Pair> Discrete::toPairs(const std::vector<scalar>& xy, scalar missingValue) FL_INOEXCEPT {
-        std::vector<Pair> result((xy.size() + 1) / 2);
-        for (std::size_t i = 0; i + 1 < xy.size(); i += 2) {
-            result.at(i / 2).first = xy.at(i);
-            result.at(i / 2).second = xy.at(i + 1);
-        }
-        if (xy.size() % 2 != 0) {
-            result.back().first = xy.back();
-            result.back().second = missingValue;
-        }
-        return result;
+        if (xy.size() % 2 == 0)
+            return toPairs(xy);
+        std::vector<scalar> copy(xy);
+        copy.push_back(missingValue);
+        return toPairs(copy);
     }
 
     std::vector<scalar> Discrete::toVector(const std::vector<Pair>& xy) {
