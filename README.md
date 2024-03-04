@@ -2,7 +2,7 @@
 
 *** 
 
-<img src="https://fuzzylite.github.io/fuzzylite/fuzzylite.svg" align="left" alt="fuzzylite">
+<img src="/fuzzylite.png" align="left" alt="fuzzylite">
 
 
 ## A Fuzzy Logic Control Library in C++
