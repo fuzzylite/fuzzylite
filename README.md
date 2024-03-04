@@ -1,26 +1,20 @@
 # fuzzylite 7.0 (in progress)
 
-*** 
-
-<img src="/fuzzylite.png" align="left" alt="fuzzylite">
-
-
 ## A Fuzzy Logic Control Library in C++
+
+<img src="/fuzzylite.png" align="right" alt="fuzzylite">
 
 by [**Juan Rada-Vilela, PhD**](https://fuzzylite.com/about)
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://opensource.org/license/gpl-3-0/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://opensource.org/license/gpl-3-0/)  
 [![License: Paid](https://img.shields.io/badge/License-proprietary-blue)](mailto:sales@fuzzylite.com)
 
-***
-
-[![Coverage Status](https://coveralls.io/repos/github/fuzzylite/fuzzylite/badge.svg)](https://coveralls.io/github/fuzzylite/fuzzylite)
-[![Linux Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml)
-[![macOS Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml)
+[![Linux Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml)  
+[![macOS Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml)  
 [![Windows Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/WindowsMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/WindowsMediumBuild.yml)
 
-***
-
+[![Coverage Status](https://coveralls.io/repos/github/fuzzylite/fuzzylite/badge.svg?branch=main)](
+https://coveralls.io/github/fuzzylite/fuzzylite?branch=main)
 
 ## <a name="fuzzylite">FuzzyLite</a>
 
@@ -30,7 +24,6 @@ and [`jfuzzylite`](https://github.com/fuzzylite/jfuzzylite/) (Java).
 
 The **goal** of the FuzzyLite Libraries is to **easily** design and **efficiently** operate fuzzy logic controllers
 following an **object-oriented** programming model with minimal dependency on external libraries.
-
 
 ## <a name="license">License</a>
 
@@ -46,14 +39,11 @@ significantly **speed up** the design of your fuzzy logic controllers, while pro
 and **beautiful** user interface.
 Please, download it and check it out for free at [fuzzylite.com/downloads](https://fuzzylite.com/downloads).
 
+## <a name="documentation">Documentation</a>
 
-## Documentation
-The documentation for the `fuzzylite` library is available at: [fuzzylite.github.io/fuzzylite](https://fuzzylite.github.io/fuzzylite). 
-
+Visit [**fuzzylite.com/documentation**](https://fuzzylite.com/documentation)
 
 ## <a name="features">Features</a>
-
-**Documentation**: [fuzzylite.github.io/pyfuzzylite/](https://fuzzylite.github.io/pyfuzzylite/)
 
 **(6) Controllers**: Mamdani, Takagi-Sugeno, Larsen, Tsukamoto, Inverse Tsukamoto, Hybrid
 
@@ -77,16 +67,16 @@ HamacherSum, NilpotentMaximum, NormalizedSum, UnboundedSum, LambdaNorm, Function
 
 **(3) Importers**: FuzzyLite Language `fll`, Fuzzy Inference System `fis`, Fuzzy Control Language `fcl`.
 
-**(7) Exporters**: `C++`, `Java`, FuzzyLite Language `fll`, FuzzyLite Dataset `fld`, `R` script, Fuzzy Inference System `fis`, Fuzzy Control Language `fcl`.
+**(7) Exporters**: `C++`, `Java`, FuzzyLite Language `fll`, FuzzyLite Dataset `fld`, `R` script, Fuzzy Inference
+System `fis`, Fuzzy Control Language `fcl`.
 
-**(30+) Examples**  of Mamdani, Takagi-Sugeno, Tsukamoto, and Hybrid controllers from `fuzzylite`, Octave, and Matlab, each included in the following formats: `C++`, `Java`, `fll`, `fld`, `R`, `fis`, and `fcl`.
-
-
-***
+**(30+) Examples**  of Mamdani, Takagi-Sugeno, Tsukamoto, and Hybrid controllers from `fuzzylite`, Octave, and Matlab,
+each included in the following formats: `C++`, `Java`, `fll`, `fld`, `R`, `fis`, and `fcl`.
 
 ## <a name="example">Example</a>
 
 #### FuzzyLite Language
+
 ```yaml
 #File: ObstacleAvoidance.fll
 Engine: ObstacleAvoidance
@@ -115,6 +105,7 @@ RuleBlock: mamdani
   rule: if obstacle is left then mSteer is right
   rule: if obstacle is right then mSteer is left
 ```
+
 ```cpp
 //File: ObstacleAvoidance.cpp
 #include <fl/Headers.h>
@@ -123,6 +114,7 @@ fl::Engine* engine = fl::FllImporter().fromFile("ObstacleAvoidance.fll");
 ```
 
 #### C++
+
 ```cpp
 //File: ObstacleAvoidance.cpp
 #include <fl/Headers.h>
@@ -170,7 +162,7 @@ mamdani->addRule(Rule::parse("if obstacle is right then mSteer is left", engine)
 engine->addRuleBlock(mamdani);
 ```
 
-### Operation
+### <a name="operation">Operation</a>
 
 ```cpp
 using namespace fuzzylite;
@@ -193,11 +185,16 @@ for (int i = 0; i <= 50; ++i){
 
 ### <a name="compile-build-execute">Compile, Link, and Execute</a>
 
-Once you have an engine written in C++, you can compile it to create an executable file which links to the `fuzzylite` library. The linking can be either static or dynamic. Basically, the differences between static and dynamic linking are the following.  
+Once you have an engine written in C++, you can compile it to create an executable file which links to the `fuzzylite`
+library. The linking can be either static or dynamic. Basically, the differences between static and dynamic linking are
+the following.
 
-**Static linking** includes the `fuzzylite` library into your executable file, hence increasing its size, but the executable no longer needs to  have access to the `fuzzylite` library files. 
+**Static linking** includes the `fuzzylite` library into your executable file, hence increasing its size, but the
+executable no longer needs to have access to the `fuzzylite` library files.
 
-**Dynamic linking** does not include the `fuzzylite` library into your executable file, hence reducing its size, but the executable needs to have access to the `fuzzylite` shared library file. When using dynamic linking, make sure that  the shared library files are  either in the same directory as the executable, or are reachable via environmental variables:
+**Dynamic linking** does not include the `fuzzylite` library into your executable file, hence reducing its size, but the
+executable needs to have access to the `fuzzylite` shared library file. When using dynamic linking, make sure that the
+shared library files are either in the same directory as the executable, or are reachable via environmental variables:
 
 ```posh
 rem Windows:
@@ -210,57 +207,68 @@ export LD_LIBRARY_PATH="/path/to/fuzzylite/release/bin/:$LD_LIBRARY_PATH"
 ```
 
 #### Windows
+
 The commands to compile your engine in Windows are the following:
 
 C++11 (default)
+
 ```posh
 rem static linking:
 cl.exe ObstacleAvoidance.cpp fuzzylite-static.lib /Ipath/to/fuzzylite /EHsc /MD
 ```
+
 ```posh
 rem dynamic linking:
 cl.exe ObstacleAvoidance.cpp fuzzylite.lib /Ipath/to/fuzzylite /DFL_IMPORT_LIBRARY /EHsc /MD 
 ```
 
 C++98
+
 ```posh
 rem static linking:
 cl.exe ObstacleAvoidance.cpp fuzzylite-static.lib /Ipath/to/fuzzylite /DFL_CPP98=ON /EHsc /MD
 ```
+
 ```posh
 rem dynamic linking:
 cl.exe ObstacleAvoidance.cpp fuzzylite.lib /Ipath/to/fuzzylite /DFL_IMPORT_LIBRARY /DFL_CPP98=ON /EHsc /MD 
 ```
 
 #### Unix
+
 The commands to compile your engine in Unix are the following:
 
 C++11 (default)
+
 ```bash
 #static linking
 g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/fuzzylite/release/bin -lfuzzylite-static --std=c++11
 ```
+
 ```bash
 #dynamic linking
 g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/fuzzylite/release/bin -lfuzzylite -Wno-non-literal-null-conversion
 ```
 
 C++98
+
 ```bash
 #static linking
 g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/fuzzylite/release/bin -lfuzzylite-static -DFL_CPP98=ON
 ```
+
 ```bash
 #dynamic linking
 g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/fuzzylite/release/bin -lfuzzylite -DFL_CPP98=ON -Wno-non-literal-null-conversion
 ```
 
-## CMake
-Alternatively, you can use CMake to build your project linking to `fuzzylite`. Please, refer to the example application available at [examples/application]([/examples/application]).
+## <a name="cmake">CMake</a>
 
-
+Alternatively, you can use CMake to build your project linking to `fuzzylite`. Please, refer to the example application
+available at [examples/application]([/examples/application]).
 
 ### <a name="building">Building  from Source</a>
+
 You can build the `fuzzylite` library from source using  `CMake` [(cmake.org)](https://cmake.org/).
 
 Check `.github/workflows` for details.
@@ -281,26 +289,33 @@ cmake --build build/
 ctest --test-dir build/
 ```
 
-
 #### Building Options
+
 The following building options available:
 
-`-DFL_USE_FLOAT=ON` builds the binaries using the `fl::scalar` data type as a `float` instead of `double`. By default, the binaries are built using `-DFL_USE_FLOAT=OFF`. If `fuzzylite` is built with `-DFL_USE_FLOAT=ON`, then the applications linking to `fuzzylite` also need to specify this compilation flag. 
+`-DFL_USE_FLOAT=ON` builds the binaries using the `fl::scalar` data type as a `float` instead of `double`. By default,
+the binaries are built using `-DFL_USE_FLOAT=OFF`. If `fuzzylite` is built with `-DFL_USE_FLOAT=ON`, then the
+applications linking to `fuzzylite` also need to specify this compilation flag.
 
+`-DFL_CPP98=ON` builds binaries using `C++98` features instead of `C++11`. By default, the binaries are built
+using `-DFL_CPP98=OFF`. If you use `C++98`, you will not be able to benchmark the performance of your engine using
+the `Benchmark` class, and you will not be able to run any of the tests.
 
-`-DFL_CPP98=ON` builds binaries using `C++98` features instead of `C++11`. By default, the binaries are built using `-DFL_CPP98=OFF`. If you use `C++98`, you will not be able to benchmark the performance of your engine using the `Benchmark` class, and you will not be able to run any of the tests.
-
-
-`-DFL_BACKTRACE=OFF` disables the backtrace information in case of errors. By default, the binaries are built using `-DFL_BACKTRACE=ON`. In Windows, the backtrace information requires the external library `dbghelp`, which is generally available in your system.
-
+`-DFL_BACKTRACE=OFF` disables the backtrace information in case of errors. By default, the binaries are built
+using `-DFL_BACKTRACE=ON`. In Windows, the backtrace information requires the external library `dbghelp`, which is
+generally available in your system.
 
 #### Documentation
-The source code of `fuzzylite` is very well documented using [`doxygen`](www.doxygen.org/) formatting, and the documentation is available at [fuzzylite.com/documentation](https://fuzzylite.com/documentation). If you want to generate the documentation locally, you can produce the `html` documentation from the file [Doxyfile](/Doxyfile) using the command line: `doxygen Doxyfile`. The documentation will be created in the [`documentation`](/documentation) folder.
 
+The source code of `fuzzylite` is very well documented using [`doxygen`](www.doxygen.org/) formatting, and the
+documentation is available at [fuzzylite.com/documentation](https://fuzzylite.com/documentation). If you want to
+generate the documentation locally, you can produce the `html` documentation from the file [Doxyfile](/Doxyfile) using
+the command line: `doxygen Doxyfile`. The documentation will be created in the [`documentation`](/documentation) folder.
 
 ### <a name="binaries">Binaries</a>
 
-After building from source, the following are the relevant binaries that will be created in `Release` mode. In `Debug` mode, the file names end with `-debug` (e.g., `fuzzylite-debug.exe`).
+After building from source, the following are the relevant binaries that will be created in `Release` mode. In `Debug`
+mode, the file names end with `-debug` (e.g., `fuzzylite-debug.exe`).
 
 #### Windows
 
@@ -320,14 +335,17 @@ After building from source, the following are the relevant binaries that will be
 - shared library: `libfuzzylite.dylib`
 - static library: `libfuzzylite-static.a`
 
-
 #### Console
-The console application of `fuzzylite` allows you to import and export your engines. Its usage can be obtained executing the console binary. In addition, the console can be set in interactive mode. The `FuzzyLite Interactive Console`  allows you to evaluate a given controller by manually providing the input values. The interactive console is triggered by specifying an input file and an output format. For example, to interact with the `ObstacleAvoidance` controller, the interactive console is launched as follows:
+
+The console application of `fuzzylite` allows you to import and export your engines. Its usage can be obtained executing
+the console binary. In addition, the console can be set in interactive mode. The `FuzzyLite Interactive Console`  allows
+you to evaluate a given controller by manually providing the input values. The interactive console is triggered by
+specifying an input file and an output format. For example, to interact with the `ObstacleAvoidance` controller, the
+interactive console is launched as follows:
 
 ```bash
 fuzzylite -i ObstacleAvoidance.fll -of fld
 ```
-
 
 ## <a name="contributing">Contributing</a>
 
