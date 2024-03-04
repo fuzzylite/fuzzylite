@@ -6,11 +6,11 @@
 
 by [**Juan Rada-Vilela, PhD**](https://fuzzylite.com/about)
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://opensource.org/license/gpl-3-0/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://opensource.org/license/gpl-3-0/)  
 [![License: Paid](https://img.shields.io/badge/License-proprietary-blue)](mailto:sales@fuzzylite.com)
 
-[![Linux Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml)
-[![macOS Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml)
+[![Linux Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml)  
+[![macOS Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml)  
 [![Windows Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/WindowsMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/WindowsMediumBuild.yml)
 
 [![Coverage Status](https://coveralls.io/repos/github/fuzzylite/fuzzylite/badge.svg?branch=main)](
