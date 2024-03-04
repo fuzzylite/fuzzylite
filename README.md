@@ -39,14 +39,11 @@ significantly **speed up** the design of your fuzzy logic controllers, while pro
 and **beautiful** user interface.
 Please, download it and check it out for free at [fuzzylite.com/downloads](https://fuzzylite.com/downloads).
 
-## Documentation
+## <a name="documentation">Documentation</a>
 
-The documentation for the `fuzzylite` library is available
-at: [fuzzylite.github.io/fuzzylite](https://fuzzylite.github.io/fuzzylite).
+Visit [**fuzzylite.com/documentation**](https://fuzzylite.com/documentation)
 
 ## <a name="features">Features</a>
-
-**Documentation**: [fuzzylite.github.io/pyfuzzylite/](https://fuzzylite.github.io/pyfuzzylite/)
 
 **(6) Controllers**: Mamdani, Takagi-Sugeno, Larsen, Tsukamoto, Inverse Tsukamoto, Hybrid
 
@@ -75,9 +72,6 @@ System `fis`, Fuzzy Control Language `fcl`.
 
 **(30+) Examples**  of Mamdani, Takagi-Sugeno, Tsukamoto, and Hybrid controllers from `fuzzylite`, Octave, and Matlab,
 each included in the following formats: `C++`, `Java`, `fll`, `fld`, `R`, `fis`, and `fcl`.
-
-
-***
 
 ## <a name="example">Example</a>
 
@@ -168,7 +162,7 @@ mamdani->addRule(Rule::parse("if obstacle is right then mSteer is left", engine)
 engine->addRuleBlock(mamdani);
 ```
 
-### Operation
+### <a name="operation">Operation</a>
 
 ```cpp
 using namespace fuzzylite;
@@ -268,7 +262,7 @@ g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/f
 g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/fuzzylite/release/bin -lfuzzylite -DFL_CPP98=ON -Wno-non-literal-null-conversion
 ```
 
-## CMake
+## <a name="cmake">CMake</a>
 
 Alternatively, you can use CMake to build your project linking to `fuzzylite`. Please, refer to the example application
 available at [examples/application]([/examples/application]).
