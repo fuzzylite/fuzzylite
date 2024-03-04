@@ -26,6 +26,13 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include <memory>
 #include <sstream>
 
+/**
+ * TODO:
+ * - Remove FL_BUILD_PATH
+ * - Declare FL_DEPRECATED
+ * - Move into Library class
+ */
+
 #ifndef FL_BUILD_PATH
 #define FL_BUILD_PATH ""
 #endif
