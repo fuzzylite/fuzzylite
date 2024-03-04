@@ -1,4 +1,4 @@
-BUILD = release
+BUILD = debug
 CPP98 = OFF
 FLOAT = OFF
 COVERAGE = ON
@@ -35,7 +35,7 @@ install:
 .PHONY: coverage
 coverage:
 	# pip install gcovr
-	gcovr -r src/ build/CMakeFiles/fl-test.dir/ --coveralls build/coveralls.json --html build/coverage.html --html-details --sort uncovered-percent --html-theme github.dark-blue --txt --txt-summary --filter src/term
+	gcovr -r src/ build/CMakeFiles/fl-test.dir/ --coveralls build/coveralls.json --html build/coverage.html --html-details --sort uncovered-percent --html-theme github.blue --txt --txt-summary --filter src/term
 	# open build/coverage.html
 
 .PHONY: clean-coverage
