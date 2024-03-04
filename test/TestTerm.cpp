@@ -18,9 +18,8 @@
 #include "fl/Headers.h"
 
 /**
- * TODO
+ * TODO:
  * - Fix Tsukamoto tests
- * - Activated, Aggregated and Function tests
  */
 namespace fuzzylite {
     struct TermAssert {
@@ -118,15 +117,17 @@ namespace fuzzylite {
             return *this;
         }
 
-        TermAssert& configured_as(const std::string& parameters) {
+        TermAssert& configured_as(const std::string& parameters, bool checkEmpty = true) {
             this->actual->configure(parameters);
             can_clone();
 
-            // assert that configure with empty parameters does nothing
-            const std::string& expected = this->actual->toString();
-            this->actual->configure("");
-            const std::string& obtained = this->actual->toString();
-            CHECK_THAT(expected, Catch::Matchers::Equals(obtained));
+            if (checkEmpty) {
+                // assert that configure with empty parameters does nothing
+                const std::string& expected = this->actual->toString();
+                this->actual->configure("");
+                const std::string& obtained = this->actual->toString();
+                CHECK_THAT(expected, Catch::Matchers::Equals(obtained));
+            }
             return *this;
         }
 
@@ -344,6 +345,28 @@ namespace fuzzylite {
             aggregated.membership(0.0),
             Catch::Matchers::StartsWith("[aggregation error] aggregation operator needed to aggregate variable")
         );
+    }
+
+    TEST_CASE("Aggregated: highest term", "[term][aggregated]") {
+        FL_unique_ptr<Term> dark(new Triangle("DARK", 0.000, 0.250, 0.500));
+        FL_unique_ptr<Term> medium(new Triangle("MEDIUM", 0.250, 0.500, 0.750));
+        FL_unique_ptr<Term> bright(new Triangle("BRIGHT", 0.500, 0.750, 1.000));
+
+        Aggregated aggregated;
+        aggregated.addTerm(dark.get(), 0.5, fl::null);
+        aggregated.addTerm(medium.get(), 0.1, fl::null);
+        aggregated.addTerm(bright.get(), 0.6, fl::null);
+
+        REQUIRE(aggregated.highestActivatedTerm()->getTerm() == bright.get());
+
+        aggregated.terms().at(1).setDegree(0.7);
+        REQUIRE(aggregated.highestActivatedTerm()->getTerm() == medium.get());
+
+        aggregated.terms().front().setDegree(0.9);
+        REQUIRE(aggregated.highestActivatedTerm()->getTerm() == dark.get());
+
+        aggregated.clear();
+        REQUIRE(aggregated.highestActivatedTerm() == fl::null);
     }
 
     TEST_CASE("Bell", "[term][bell]") {
@@ -678,6 +701,102 @@ namespace fuzzylite {
         CHECK(term.xy(0) == Discrete::Pair(0.0, 1.0));
         CHECK(term.x(0) == 0.0);
         CHECK(term.y(0) == 1.0);
+    }
+
+    TEST_CASE("discrete finds elements using binary search", "[term][discrete]") {
+        fuzzylite::setLogging(true);
+        fuzzylite::setDebugging(false);
+        Rectangle rectangle("rectangle", 0, 1);
+        FL_unique_ptr<Discrete> discrete(Discrete::discretize(&rectangle, rectangle.getStart(), rectangle.getEnd(), 10)
+        );
+        FL_LOG(discrete->toString());
+
+        CHECK(discrete->membership(.25) == 1.0);
+        CHECK(discrete->membership(0.0) == 1.0);
+        CHECK(discrete->membership(-1.0) == 1.0);
+        CHECK(discrete->membership(1.0) == 1.0);
+        CHECK(discrete->membership(2.0) == 1.0);
+        CHECK(Op::isNaN(discrete->membership(fl::nan)));
+        CHECK(discrete->membership(fl::inf) == 1.0);
+        CHECK(discrete->membership(-fl::inf) == 1.0);
+    }
+
+    TEST_CASE("discrete still finds elements using binary search", "[term][discrete]") {
+        fuzzylite::setLogging(true);
+        fuzzylite::setDebugging(false);
+        Triangle triangle("triangle", 0, 1);
+        FL_unique_ptr<Discrete> discrete(
+            Discrete::discretize(&triangle, triangle.getVertexA(), triangle.getVertexC(), 100)
+        );
+        FL_LOG(discrete->toString());
+        for (int i = 0; i < 200; ++i) {
+            scalar x = Op::scale(i, 0, 200, -1, 1);
+            if (not Op::isEq(triangle.membership(x), discrete->membership(x))) {
+                fuzzylite::setDebugging(true);
+                CHECK(Op::isEq(triangle.membership(x), discrete->membership(x)));
+                fuzzylite::setDebugging(false);
+            }
+        }
+    }
+
+    TEST_CASE("discrete finds all elements using binary search", "[term][discrete]") {
+        fuzzylite::setLogging(false);
+        fuzzylite::setDebugging(false);
+        scalar min = -1.0;
+        scalar max = 1.0;
+        scalar range = max - min;
+        scalar mean = 0.5 * (max + min);
+
+        std::vector<Term*> terms;
+        terms.push_back(new Triangle("triangle", min, mean, max));
+        terms.push_back(new Trapezoid("trapezoid", min, min + .25 * range, min + .75 * range, max));
+        terms.push_back(new Rectangle("rectangle", min, max));
+        terms.push_back(new Bell("bell", mean, range / 4, 3.0));
+        terms.push_back(new Cosine("cosine", mean, range));
+        terms.push_back(new Gaussian("gaussian", mean, range / 4));
+        terms.push_back(new GaussianProduct("gaussianProduct", mean, range / 4, mean, range / 4));
+        terms.push_back(new PiShape("piShape", min, mean, mean, max));
+        terms.push_back(
+            new SigmoidDifference("sigmoidDifference", min + .25 * range, 20 / range, 20 / range, max - .25 * range)
+        );
+        terms.push_back(
+            new SigmoidProduct("sigmoidProduct", min + .25 * range, 20 / range, 20 / range, max - .25 * range)
+        );
+        terms.push_back(new Spike("spike", mean, range));
+
+        terms.push_back(new Binary("binary", min, max));
+        terms.push_back(new Concave("concave", mean, max));
+        terms.push_back(new Ramp("ramp", min, max));
+        terms.push_back(new Sigmoid("sigmoid", mean, 20 / range));
+        terms.push_back(new SShape("sshape", min, max));
+        terms.push_back(new ZShape("zshape", min, max));
+
+        for (std::size_t t = 0; t < terms.size(); ++t) {
+            Term* term = terms.at(t);
+            std::vector<Discrete::Pair> pairs;
+            srand(0);
+            for (int i = 0; i < 1000; ++i) {
+                int randomX = std::rand();
+                scalar x = Op::scale(randomX % 100, 0, 100, -1, 1);
+                pairs.push_back(Discrete::Pair(x, term->membership(x)));
+            }
+            Discrete::sort(pairs);
+
+            Discrete discrete("discrete", pairs);
+            for (std::size_t i = 0; i < pairs.size(); ++i) {
+                Discrete::Pair pair = pairs.at(i);
+                scalar x = pair.first;
+                if (not Op::isEq(discrete.membership(x), term->membership(x)))
+                    CHECK(discrete.membership(x) == term->membership(x));
+            }
+            for (int i = 0; i < 100; i++) {
+                scalar x = Op::scale(i, 0, 100, -1, 1);
+                if (not Op::isEq(discrete.membership(x), term->membership(x)))
+                    CHECK(discrete.membership(x) == term->membership(x));
+            }
+        }
+        for (std::size_t i = 0; i < terms.size(); ++i)
+            delete terms.at(i);
     }
 
     TEST_CASE("Gaussian", "[term][gaussian]") {
@@ -1655,6 +1774,433 @@ namespace fuzzylite {
                 {inf, nan},
                 {-inf, nan},
             });
+    }
+
+    TEST_CASE("Function", "[term][function]") {
+        Function f("f");
+        f.configure("ge(x, 5)");
+        CHECK(f.membership(4.0) == 0.0);
+        CHECK(f.membership(5.0) == 1.0);
+
+        CHECK(f.isLoaded());
+        f.unload();
+        CHECK(not f.isLoaded());
+        CHECK_THROWS_AS(f.membership(0.0), fl::Exception);
+        CHECK_THROWS_WITH(
+            f.membership(0.0), Catch::Matchers::StartsWith("[function error] function <ge(x, 5)> not loaded")
+        );
+
+        CHECK_THROWS_AS(f.evaluate(), fl::Exception);
+        CHECK_THROWS_WITH(f.evaluate(), Catch::Matchers::StartsWith("[function error] function <ge(x, 5)> not loaded"));
+
+        f.configure("1 / (x-5)");
+        CHECK(f.membership(5) == fl::inf);
+        CHECK(f.membership(4) == -1.0);
+
+        f.configure("0 / (x-5)");
+        CHECK(Op::isNaN(f.membership(5)));
+        CHECK(f.membership(4) == 0.0);
+
+        CHECK(FL_unique_ptr<Function>(Function::create("f", "3.000 ^ 4.000"))->evaluate() == 81.0);
+        CHECK_THAT(
+            FL_unique_ptr<Function>(Function::create("f", "sin ( 3.000 ^ 4.000 )"))->evaluate(),
+            Catch::Matchers::WithinAbs(-0.629887994274454, fuzzylite::macheps())
+        );
+        CHECK_THAT(
+            Function("f", "pow ( sin ( 3.000 ^ 4.000 ) two )", {{"two", 2}}, fl::null, true).evaluate(),
+            Catch::Matchers::WithinAbs(0.39675888533109455, fuzzylite::macheps())
+        );
+        CHECK_THAT(
+            Function(
+                "f",
+                "pow ( sin ( 3.000 ^ 4.000 ) two ) + pow ( sin ( 3.000 ^ 4.000 ) two )",
+                {{"two", 2}},
+                fl::null,
+                true
+            )
+                .evaluate(),
+            Catch::Matchers::WithinAbs(0.7935177706621891, fuzzylite::macheps())
+        );
+        CHECK_THAT(
+            Function("f", "cos atan(1) * 4", {}, fl::null, true).evaluate(),
+            Catch::Matchers::WithinAbs(-1.0, fuzzylite::macheps())
+        );
+
+        TermAssert(new Function("f", "", {{"y", 1.5}}))
+            .configured_as("2*x^3 +2*y - 3", false)
+            .exports_fll("term: f Function 2*x^3 +2*y - 3", false)
+            .has_memberships(
+                {
+                    {-0.5, -0.25},
+                    {-0.4, -0.1280000000000001},
+                    {-0.25, -0.03125},
+                    {-0.1, -0.0019999999999997797},
+                    {0.0, 0.0},
+                    {0.1, 0.0019999999999997797},
+                    {0.25, 0.03125},
+                    {0.4, 0.1280000000000001},
+                    {0.5, 0.25},
+                    {nan, nan},
+                    {inf, inf},
+                    {-inf, -inf},
+                },
+                nan,
+                {1.0}
+            );
+
+        CHECK_THROWS_AS(Function::create("f", "2*i_A + o_A + x"), fl::Exception);
+        CHECK_THROWS_WITH(
+            Function::create("f", "2*i_A + o_A + x"),
+            Catch::Matchers::StartsWith("[function error] unknown variable <i_A>")
+        );
+
+        Engine engine("A", "Engine A", {new InputVariable("i_A")}, {new OutputVariable("o_A")});
+        TermAssert(Function::create("f", "2*i_A + o_A + x", &engine))
+            .exports_fll("term: f Function 2*i_A + o_A + x", false)
+            .repr_is("fl.Function('f', '2*i_A + o_A + x')")
+            .has_memberships({{0.0, nan}}, nan, {1.0});
+
+        engine.getInputVariable("i_A")->setValue(3.0);
+        engine.getOutputVariable("o_A")->setValue(1.0);
+        TermAssert(Function::create("f", "2*i_A + o_A + x", &engine))
+            .exports_fll("term: f Function 2*i_A + o_A + x", false)
+            .repr_is("fl.Function('f', '2*i_A + o_A + x')")
+            .has_memberships(
+                {
+                    {-1.0, 6.0},
+                    {-0.5, 6.5},
+                    {0.0, 7.0},
+                    {0.5, 7.5},
+                    {1.0, 8.0},
+                    {nan, nan},
+                    {inf, inf},
+                    {-inf, -inf},
+                },
+                nan,
+                {1.0}
+            );
+
+        const Function constFunction("f", "x", fl::null);
+        f = constFunction;
+        CHECK(f.toString() == constFunction.toString());
+    }
+
+    TEST_CASE("FunctionElementOperator", "[term][function][element]") {
+        SECTION("Base") {
+            auto op = Function::Element("Name", "Description", Function::Element::Operator);
+            CHECK(
+                op.toString()
+                == "Operator (name=Name, description=Description, precedence=0, arity=0, associativity=-1, "
+                   "pointer=error)"
+            );
+            CHECK(op.isOperator());
+            CHECK(not op.isFunction());
+            CHECK(FL_unique_ptr<Function::Element>(op.clone())->toString() == op.toString());
+        }
+        SECTION("Unary") {
+            auto op = Function::Element("~", "Negation", Function::Element::Operator, &(Op::negate), 0, 1);
+            CHECK(
+                op.toString()
+                == "Operator (name=~, description=Negation, precedence=0, arity=1, associativity=1, pointer=1)"
+            );
+            CHECK(op.isOperator());
+            CHECK(not op.isFunction());
+            CHECK(FL_unique_ptr<Function::Element>(op.clone())->toString() == op.toString());
+        }
+        SECTION("Binary") {
+            auto op = Function::Element("*", "Multiplication", Function::Element::Operator, &(Op::multiply), 10);
+            CHECK(
+                op.toString()
+                == "Operator (name=*, description=Multiplication, precedence=10, arity=2, associativity=-1, pointer=1)"
+            );
+            CHECK(op.isOperator());
+            CHECK(not op.isFunction());
+            CHECK(FL_unique_ptr<Function::Element>(op.clone())->toString() == op.toString());
+        }
+    }
+
+    TEST_CASE("FunctionElementFunction", "[term][function][element]") {
+        SECTION("Base") {
+            auto f = Function::Element("Name", "Description", Function::Element::Function);
+            CHECK(
+                f.toString()
+                == "Function (name=Name, description=Description, arity=0, associativity=-1, pointer=error)"
+            );
+            CHECK(f.isFunction());
+            CHECK(not f.isOperator());
+            CHECK(FL_unique_ptr<Function::Element>(f.clone())->toString() == f.toString());
+
+            CHECK_THROWS_AS(Function::Node(f.clone()).evaluate(), fl::Exception);
+            CHECK_THROWS_WITH(
+                Function::Node(f.clone()).evaluate(),
+                Catch::Matchers::StartsWith(
+                    "[function error] expected a pointer to a unary or binary function in node <Name>, but got none"
+                )
+            );
+        }
+        SECTION("Unary") {
+            auto f = Function::Element("cos", "Cosine", Function::Element::Function, &(std::cos));
+            CHECK(f.toString() == "Function (name=cos, description=Cosine, arity=1, associativity=-1, pointer=1)");
+            CHECK(f.isFunction());
+            CHECK(not f.isOperator());
+            CHECK(FL_unique_ptr<Function::Element>(f.clone())->toString() == f.toString());
+
+            auto node = Function::Node(f.clone());
+            CHECK_THROWS_AS(node.evaluate(), fl::Exception);
+            CHECK_THROWS_WITH(
+                node.evaluate(), Catch::Matchers::StartsWith("[function error] expected one node, but got none")
+            );
+            // Left == Right
+            CHECK(
+                Function::Node(f.clone(), new Function::Node(0.0)).evaluate()
+                == Function::Node(f.clone(), fl::null, new Function::Node(0.0)).evaluate()
+            );
+        }
+        SECTION("Binary") {
+            auto f = Function::Element("gt", "Greater than (>)", Function::Element::Function, &(Op::gt));
+            CHECK(
+                f.toString() == "Function (name=gt, description=Greater than (>), arity=2, associativity=-1, pointer=1)"
+            );
+            CHECK(f.isFunction());
+            CHECK(not f.isOperator());
+            CHECK(FL_unique_ptr<Function::Element>(f.clone())->toString() == f.toString());
+
+            auto node = Function::Node(f.clone());
+            CHECK_THROWS_AS(node.evaluate(), fl::Exception);
+            CHECK_THROWS_WITH(
+                node.evaluate(), Catch::Matchers::StartsWith("[function error] expected two nodes, but got fewer")
+            );
+            node.left.reset(new Function::Node(0.0));
+            CHECK_THROWS_AS(node.evaluate(), fl::Exception);
+            CHECK_THROWS_WITH(
+                node.evaluate(), Catch::Matchers::StartsWith("[function error] expected two nodes, but got fewer")
+            );
+            node.left.reset();
+
+            node.right.reset(new Function::Node(0.0));
+            CHECK_THROWS_AS(node.evaluate(), fl::Exception);
+            CHECK_THROWS_WITH(
+                node.evaluate(), Catch::Matchers::StartsWith("[function error] expected two nodes, but got fewer")
+            );
+            node.right.reset();
+
+            node.left.reset(new Function::Node(1.0));
+            node.right.reset(new Function::Node(0.0));
+            CHECK(node.evaluate() == 1.0);
+        }
+    }
+
+    struct FunctionNodeAssert {
+        Function::Node* actual;
+
+        FunctionNodeAssert(Function::Node* actual) : actual(actual) {}
+
+        FunctionNodeAssert& prefix_is(const std::string& prefix) {
+            CHECK(actual->toPrefix() == prefix);
+            return *this;
+        }
+
+        FunctionNodeAssert& infix_is(const std::string& infix) {
+            CHECK(actual->toInfix() == infix);
+            return *this;
+        }
+
+        FunctionNodeAssert& postfix_is(const std::string& postfix) {
+            CHECK(actual->toPostfix() == postfix);
+            return *this;
+        }
+
+        FunctionNodeAssert& value_is(const std::string& expected) {
+            CHECK(actual->value() == expected);
+            return *this;
+        }
+
+        FunctionNodeAssert& evaluates_to(float expected, const std::map<std::string, scalar>& variables = {}) {
+            const scalar obtained = actual->evaluate(&variables);
+            CHECK_THAT(obtained, Catch::Matchers::WithinAbs(expected, fuzzylite::macheps()));
+            return *this;
+        }
+
+        FunctionNodeAssert& fails_to_evaluate(const std::string& message) {
+            CHECK_THROWS_AS(actual->evaluate(), fl::Exception);
+            CHECK_THROWS_WITH(actual->evaluate(), Catch::Matchers::StartsWith(message));
+            return *this;
+        }
+    };
+
+    TEST_CASE("FunctionNode", "[term][function][element]") {
+        const FunctionFactory ff;
+        FL_unique_ptr<Function::Node> node_pow(
+            new Function::Node(ff.cloneObject("^"), new Function::Node(3.0), new Function::Node(4.0))
+        );
+        FunctionNodeAssert(node_pow->clone())
+            .postfix_is("3.000 4.000 ^")
+            .prefix_is("^ 3.000 4.000")
+            .infix_is("3.000 ^ 4.000")
+            .evaluates_to(81.0);
+
+        FL_unique_ptr<Function::Node> node_sin(new Function::Node(ff.cloneObject("sin"), fl::null, node_pow->clone()));
+        FunctionNodeAssert(node_sin->clone())
+            .postfix_is("3.000 4.000 ^ sin")
+            .prefix_is("sin ^ 3.000 4.000")
+            .infix_is("sin ( 3.000 ^ 4.000 )")
+            .evaluates_to(-0.629887994274454);
+
+        node_pow.reset(new Function::Node(ff.cloneObject("pow"), node_sin->clone(), new Function::Node("two")));
+        FunctionNodeAssert(node_pow->clone())
+            .postfix_is("3.000 4.000 ^ sin two pow")
+            .prefix_is("pow sin ^ 3.000 4.000 two")
+            .infix_is("pow ( sin ( 3.000 ^ 4.000 ) two )")
+            .fails_to_evaluate("[function error] expected a map of variables containing the value for 'two', "
+                               "but none was provided")
+            .evaluates_to(0.39675888533109455, {{"two", 2}});
+
+        FL_unique_ptr<Function::Node> node_sum(
+            new Function::Node(ff.cloneObject("+"), node_pow->clone(), node_pow->clone())
+        );
+        FunctionNodeAssert(node_sum->clone())
+            .postfix_is("3.000 4.000 ^ sin two pow 3.000 4.000 ^ sin two pow +")
+            .prefix_is("+ pow sin ^ 3.000 4.000 two pow sin ^ 3.000 4.000 two")
+            .infix_is("pow ( sin ( 3.000 ^ 4.000 ) two ) + pow ( sin ( 3.000 ^ 4.000 ) two )")
+            .evaluates_to(0.7935177706621891, {{"two", 2}});
+    }
+
+    TEST_CASE("FunctionNodeValue", "[term][function][element]") {
+        const FunctionFactory ff;
+        CHECK(Function::Node(ff.cloneObject("+")).toString() == "+");
+        CHECK(Function::Node("variable").toString() == "variable");
+        CHECK(Function::Node(fl::nan).toString() == "nan");
+
+        const auto node = Function::Node("variable");
+        Function::Node copy("x");
+        copy = node;
+        CHECK(node.toString() == copy.toString());
+    }
+
+    TEST_CASE("FunctionNodeNegative", "[term][function][element]") {
+        const FunctionFactory ff;
+        FunctionNodeAssert(new Function::Node(ff.cloneObject("~"), new Function::Node(5)))
+            .infix_is("~ 5.000")
+            .postfix_is("5.000 ~")
+            .prefix_is("~ 5.000")
+            .evaluates_to(-5.0);
+
+        auto x = new Function::Node(ff.cloneObject("*"));
+        CHECK(x->toString() == "*");
+
+        FunctionNodeAssert(x).fails_to_evaluate("");
+    }
+
+    TEST_CASE("Function parsing", "[term][function]") {
+        SECTION("Arithmetic") {
+            Function f;
+            std::string text = "3+4*2/(1-5)^2^3";
+            CHECK(f.toPostfix(text) == "3 4 2 * 1 5 - 2 3 ^ ^ / +");
+            CHECK(f.parse(text)->toInfix() == "3.000 + 4.000 * 2.000 / 1.000 - 5.000 ^ 2.000 ^ 3.000");
+            CHECK(f.parse(text)->toPrefix() == "+ 3.000 / * 4.000 2.000 ^ - 1.000 5.000 ^ 2.000 3.000");
+        }
+
+        SECTION("Function") {
+            CHECK(Function().parse("3 * 4 * ge(1, 0)")->evaluate() == 12);
+            CHECK(Function().parse("3 * 4 * ge(0, 1)")->evaluate() == 0);
+
+            CHECK_THROWS_AS(Function().parse("3 * 4 * ge(0, 1"), fl::Exception);
+            CHECK_THROWS_WITH(
+                Function().parse("3 * 4 * ge(0, 1"),
+                Catch::Matchers::StartsWith("[parsing error] mismatching parentheses in:")
+            );
+
+            CHECK_THROWS_AS(Function().parse("3 * 4 * ge(0, 1"), fl::Exception);
+            CHECK_THROWS_WITH(
+                Function().parse("3 * 4 * ge(0, 1"),
+                Catch::Matchers::StartsWith("[parsing error] mismatching parentheses in:")
+            );
+
+            CHECK(Function().parse("3 * 4 * ge(0, le(0, 1))")->evaluate() == 0);
+            CHECK_THROWS_AS(Function().parse("\"3 * 4 * ge(0, le(0, 1)"), fl::Exception);
+            CHECK_THROWS_WITH(
+                Function().parse("\"3 * 4 * ge(0, le(0, 1)"),
+                Catch::Matchers::StartsWith("[parsing error] mismatching parentheses in:")
+            );
+        }
+
+        SECTION("Trigonometry") {
+            Function f;
+            std::string text = "sin(y*x)^2/x";
+
+            CHECK_THROWS(f.load(text));
+
+            f.variables["y"] = 1.0;
+            f.load(text);
+
+            CHECK(f.toPostfix(text) == "y x * sin 2 ^ x /");
+            CHECK(f.parse(text)->toInfix() == "sin ( y * x ) ^ 2.000 / x");
+            CHECK(f.parse(text)->toPrefix() == "/ ^ sin * y x 2.000 x");
+        }
+
+        SECTION("Propositions") {
+            std::string text = "(Temperature is High and Oxygen is Low) or "
+                               "(Temperature is Low and (Oxygen is Low or Oxygen is High))";
+
+            CHECK(
+                Function().toPostfix(text)
+                == "Temperature is High Oxygen is Low "
+                   "and Temperature is Low Oxygen is Low Oxygen is High or and or"
+            );
+        }
+    }
+
+    TEST_CASE("function cannot deal with negative numbers", "[term][function]") {
+        Function f;
+        std::string text = "-5 *4/sin(-pi/2)";
+
+        SECTION("function throws exception") {
+            CHECK_THROWS(f.parse(text)->evaluate());
+        }
+
+        f.variables["pi"] = 3.14;
+        CHECK_THROWS(f.parse(text)->evaluate(&f.variables));
+
+        text = "~5 *4/sin(~pi/2)";
+        CHECK(f.parse(text)->evaluate(&f.variables) == Approx(20));
+
+        f.load(text);
+
+        f.variables["pi"] = 3.14;
+
+        CHECK(f.toPostfix(text) == "5 ~ 4 * pi ~ 2 / sin /");
+        CHECK(f.parse(text)->toInfix() == "~ 5.000 * 4.000 / sin ( ~ pi / 2.000 )");
+        CHECK(f.parse(text)->toPrefix() == "/ * ~ 5.000 4.000 sin / ~ pi 2.000");
+    }
+
+    TEST_CASE("Function is clonable", "[term][function]") {
+        Function* f = new Function;
+        std::string text = "2+2";
+        f->load(text);
+        CHECK(Op::isEq(f->membership(fl::nan), 4));
+        Function* clone = f->clone();
+        delete f;
+        CHECK(Op::isEq(clone->membership(fl::nan), 4));
+        delete clone;
+    }
+
+    TEST_CASE("Function is constructor copyable", "[term][function]") {
+        Function* f = new Function;
+        std::string text = "2+2";
+        f->load(text);
+        CHECK(Op::isEq(f->membership(fl::nan), 4));
+        Function* clone = new Function(*f);
+        delete f;
+        CHECK(Op::isEq(clone->membership(fl::nan), 4));
+        delete clone;
+    }
+
+    TEST_CASE("Function computes tree size correctly", "[term][function]") {
+        Function f("f", "x*x+(x-x)/x+log(x)");
+        f.load();
+        CHECK(f.root()->treeSize() == 6);
+        CHECK(f.root()->treeSize(Function::Element::Function) == 1);
+        CHECK(f.root()->treeSize(Function::Element::Operator) == 5);
     }
 
 }  // namespace fl
