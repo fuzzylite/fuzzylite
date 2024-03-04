@@ -36,6 +36,10 @@ namespace fuzzylite {
         return _term ? _term->getName() : "";
     }
 
+    bool Activated::isMonotonic() const {
+        return _term ? _term->isMonotonic() : false;
+    }
+
     scalar Activated::membership(scalar x) const {
         if (Op::isNaN(x))
             return fl::nan;
