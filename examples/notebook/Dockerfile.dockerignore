@@ -1,0 +1,10 @@
+*
+!fl/**
+!fuzzylite/**
+!src/**
+!test/**
+!FL_*
+!Makefile
+!CMakeLists.txt
+!fuzzylite.pc.in
+!fuzzylite.1
