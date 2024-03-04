@@ -255,6 +255,9 @@ namespace fuzzylite {
         CHECK(activated.getTerm() == &term);
         CHECK(activated.getName() == "triangle");
 
+        Ramp ramp("ramp", 0, 1);
+        CHECK(Activated(&ramp).isMonotonic());
+
         CHECK_THROWS_AS(Activated().membership(0.0), fl::Exception);
         CHECK_THROWS_WITH(
             Activated().membership(0.0), Catch::Matchers::StartsWith("[activation error] no term available to activate")
