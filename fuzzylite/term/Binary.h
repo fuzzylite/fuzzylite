@@ -53,8 +53,9 @@ namespace fuzzylite {
             Negative
         };
 
-        explicit
-        Binary(const std::string& name = "", scalar start = fl::nan, scalar direction = fl::nan, scalar height = 1.0);
+        explicit Binary(
+            const std::string& name = "", scalar start = fl::nan, scalar direction = fl::nan, scalar height = 1.0
+        );
         virtual ~Binary() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Binary)
 

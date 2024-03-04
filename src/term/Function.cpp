@@ -195,7 +195,7 @@ namespace fuzzylite {
         scalar result = fl::nan;
         if (element.get()) {
             if (element->unary) {
-                if (left or right )
+                if (left or right)
                     result = element->unary((left ? left : right)->evaluate(variables));
                 else
                     throw Exception("[function error] expected one node, but got none: " + toString());
@@ -203,11 +203,11 @@ namespace fuzzylite {
                 if (left and right)
                     result = element->binary(left->evaluate(variables), right->evaluate(variables));
                 else
-                    throw Exception("[function error] expected two nodes, but got fewer: "+ toString());
+                    throw Exception("[function error] expected two nodes, but got fewer: " + toString());
             } else {
                 std::ostringstream ex;
-                ex << "[function error] expected a pointer to a unary or binary function in node <"
-                << element->name << ">, but got none";
+                ex << "[function error] expected a pointer to a unary or binary function in node <" << element->name
+                   << ">, but got none";
                 throw Exception(ex.str(), FL_AT);
             }
 
