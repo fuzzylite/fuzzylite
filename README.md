@@ -14,7 +14,7 @@ by [**Juan Rada-Vilela, PhD**](https://fuzzylite.com/about)
 
 ***
 
-[![Coverity Status](https://scan.coverity.com/projects/5759/badge.svg)](https://scan.coverity.com/projects/5759)
+[![Coverage Status](https://coveralls.io/repos/github/fuzzylite/fuzzylite/badge.svg)](https://coveralls.io/github/fuzzylite/fuzzylite)
 [![Linux Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml)
 [![macOS Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml)
 [![Windows Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/WindowsMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/WindowsMediumBuild.yml)
