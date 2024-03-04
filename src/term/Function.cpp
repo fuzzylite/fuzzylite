@@ -131,28 +131,28 @@ namespace fuzzylite {
         left(left),
         right(right),
         variable(""),
-        value(fl::nan) {}
+        constant(fl::nan) {}
 
     Function::Node::Node(const std::string& variable) :
         element(fl::null),
         left(fl::null),
         right(fl::null),
         variable(variable),
-        value(fl::nan) {}
+        constant(fl::nan) {}
 
-    Function::Node::Node(scalar value) :
+    Function::Node::Node(scalar constant) :
         element(fl::null),
         left(fl::null),
         right(fl::null),
         variable(""),
-        value(value) {}
+        constant(constant) {}
 
     Function::Node::Node(const Node& other) :
         element(fl::null),
         left(fl::null),
         right(fl::null),
         variable(""),
-        value(fl::nan) {
+        constant(fl::nan) {
         copyFrom(other);
     }
 
@@ -175,30 +175,47 @@ namespace fuzzylite {
         if (other.right.get())
             right.reset(other.right->clone());
         variable = other.variable;
-        value = other.value;
+        constant = other.constant;
     }
 
     Function::Node::~Node() {}
+
+    std::string Function::Node::value() const {
+        std::ostringstream ss;
+        if (element.get())
+            ss << element->name;
+        else if (not variable.empty())
+            ss << variable;
+        else
+            ss << Op::str(constant);
+        return ss.str();
+    }
 
     scalar Function::Node::evaluate(const std::map<std::string, scalar>* variables) const {
         scalar result = fl::nan;
         if (element.get()) {
             if (element->unary) {
-                result = element->unary(left->evaluate(variables));
+                if (left or right )
+                    result = element->unary((left ? left : right)->evaluate(variables));
+                else
+                    throw Exception("[function error] expected one node, but got none: " + toString());
             } else if (element->binary) {
-                result = element->binary(right->evaluate(variables), left->evaluate(variables));
+                if (left and right)
+                    result = element->binary(left->evaluate(variables), right->evaluate(variables));
+                else
+                    throw Exception("[function error] expected two nodes, but got fewer: "+ toString());
             } else {
                 std::ostringstream ex;
-                ex << "[function error] arity <" << element->arity << "> of "
-                   << (element->isOperator() ? "operator" : "function") << " <" << element->name << "> is fl::null";
+                ex << "[function error] expected a pointer to a unary or binary function in node <"
+                << element->name << ">, but got none";
                 throw Exception(ex.str(), FL_AT);
             }
 
         } else if (not variable.empty()) {
             if (not variables) {
                 throw Exception(
-                    "[function error] "
-                    "expected a map of variables, but none was provided",
+                    "[function error] expected a map of variables containing the value for '" + variable
+                        + "', but none was provided",
                     FL_AT
                 );
             }
@@ -206,14 +223,9 @@ namespace fuzzylite {
             if (it != variables->end())
                 result = it->second;
             else
-                throw Exception(
-                    "[function error] "
-                    "unknown variable <"
-                        + variable + ">",
-                    FL_AT
-                );
+                throw Exception("[function error] unknown variable <" + variable + ">", FL_AT);
         } else {
-            result = value;
+            result = constant;
         }
         return result;
     }
@@ -249,21 +261,14 @@ namespace fuzzylite {
     }
 
     std::string Function::Node::toString() const {
-        std::ostringstream ss;
-        if (element.get())
-            ss << element->name;
-        else if (not variable.empty())
-            ss << variable;
-        else
-            ss << Op::str(value);
-        return ss.str();
+        return value();
     }
 
     std::string Function::Node::toPrefix(const Node* node) const {
         if (not node)
             node = this;
-        if (not Op::isNaN(node->value))  // is terminal
-            return Op::str(node->value);
+        if (not Op::isNaN(node->constant))  // is terminal
+            return Op::str(node->constant);
         if (not node->variable.empty())
             return node->variable;
 
@@ -279,25 +284,33 @@ namespace fuzzylite {
     std::string Function::Node::toInfix(const Node* node) const {
         if (not node)
             node = this;
-        if (not Op::isNaN(node->value))  // is proposition
-            return Op::str(node->value);
+        if (not Op::isNaN(node->constant))  // is proposition
+            return Op::str(node->constant);
         if (not node->variable.empty())
             return node->variable;
 
-        std::ostringstream ss;
+        std::vector<std::string> children;
         if (node->left.get())
-            ss << this->toInfix(node->left.get()) << " ";
-        ss << node->toString();
+            children.push_back(this->toInfix(node->left.get()));
         if (node->right.get())
-            ss << " " << this->toInfix(node->right.get());
-        return ss.str();
+            children.push_back(this->toInfix(node->right.get()));
+        const bool isFunction = node->element.get() and node->element->isFunction();
+        std::string result;
+        if (isFunction)
+            result = node->value() + " ( " + Op::join(children, " ") + " )";
+        else  // TODO: Add parentheses to operations
+            if (children.size() == 1)
+                result = node->value() + " " + children.front();
+            else
+                result = Op::join(children, " " + node->value() + " ");
+        return result;
     }
 
     std::string Function::Node::toPostfix(const Node* node) const {
         if (not node)
             node = this;
-        if (not Op::isNaN(node->value))  // is proposition
-            return Op::str(node->value);
+        if (not Op::isNaN(node->constant))  // is proposition
+            return Op::str(node->constant);
         if (not node->variable.empty())
             return node->variable;
 
@@ -313,6 +326,22 @@ namespace fuzzylite {
     /**********************************
      * Function class.
      **********************************/
+    Function::Function(
+        const std::string& name,
+        const std::string& formula,
+        const std::map<std::string, scalar>& variables,
+        const Engine* engine,
+        bool load
+    ) :
+        Term(name),
+        _root(fl::null),
+        _formula(formula),
+        _engine(engine),
+        variables(variables) {
+        if (load)
+            this->load();
+    }
+
     Function::Function(const std::string& name, const std::string& formula, const Engine* engine) :
         Term(name),
         _root(fl::null),
@@ -368,7 +397,7 @@ namespace fuzzylite {
 
     scalar Function::evaluate(const std::map<std::string, scalar>* localVariables) const {
         if (not _root.get())
-            throw Exception("[function error] evaluation failed because the function is not loaded", FL_AT);
+            throw Exception("[function error] function <" + _formula + "> not loaded.", FL_AT);
         if (localVariables)
             return _root->evaluate(localVariables);
         return _root->evaluate(&this->variables);
@@ -409,6 +438,7 @@ namespace fuzzylite {
         setFormula(formula);
         setEngine(engine);
         this->_root.reset(parse(formula));
+        // TODO: Remove execution of membership because it does not allow to pass variables different from x
         membership(0.0);  // make sure function evaluates without throwing exception.
     }
 
@@ -595,10 +625,10 @@ namespace fuzzylite {
                 }
 
                 Node* node = new Node(element->clone());
-                node->left.reset(stack.top());
+                node->right.reset(stack.top());
                 stack.pop();
                 if (element->arity == 2) {
-                    node->right.reset(stack.top());
+                    node->left.reset(stack.top());
                     stack.pop();
                 }
                 stack.push(node);
