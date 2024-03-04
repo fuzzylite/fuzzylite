@@ -2018,7 +2018,7 @@ namespace fuzzylite {
             return *this;
         }
 
-        FunctionNodeAssert& evaluates_to(float expected, const std::map<std::string, scalar>& variables = {}) {
+        FunctionNodeAssert& evaluates_to(scalar expected, const std::map<std::string, scalar>& variables = {}) {
             const scalar obtained = actual->evaluate(&variables);
             CHECK_THAT(obtained, Catch::Matchers::WithinAbs(expected, fuzzylite::macheps()));
             return *this;
