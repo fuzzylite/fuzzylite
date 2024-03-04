@@ -241,7 +241,7 @@ elseif (FL_BUILD_TESTS OR FL_BUILD_COVERAGE)
 
 
     if (Catch2_FOUND)
-        message(CHECK_PASS "found at ${Catch2}")
+        message(CHECK_PASS "found at ${Catch2_DIR}")
     else ()
         message(CHECK_FAIL "not found")
         # You can install it manually: |
