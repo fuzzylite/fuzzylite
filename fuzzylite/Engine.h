@@ -59,7 +59,14 @@ namespace fuzzylite {
         void updateReferences() const;
 
       public:
-        explicit Engine(const std::string& name = "");
+        explicit Engine(
+            const std::string& name = "",
+            const std::string& description = "",
+            const std::vector<InputVariable*>& inputVariables = std::vector<InputVariable*>(),
+            const std::vector<OutputVariable*>& outputVariables = std::vector<OutputVariable*>(),
+            const std::vector<RuleBlock*>& ruleBlocks = std::vector<RuleBlock*>(),
+            bool load = true
+        );
         Engine(const Engine& other);
         Engine& operator=(const Engine& other);
         virtual ~Engine();
