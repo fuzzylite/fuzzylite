@@ -195,12 +195,12 @@ namespace fuzzylite {
         scalar result = fl::nan;
         if (element.get()) {
             if (element->unary) {
-                if (left or right)
-                    result = element->unary((left ? left : right)->evaluate(variables));
+                if (left.get() or right.get())
+                    result = element->unary((left.get() ? left : right)->evaluate(variables));
                 else
                     throw Exception("[function error] expected one node, but got none: " + toString());
             } else if (element->binary) {
-                if (left and right)
+                if (left.get() and right.get())
                     result = element->binary(left->evaluate(variables), right->evaluate(variables));
                 else
                     throw Exception("[function error] expected two nodes, but got fewer: " + toString());
