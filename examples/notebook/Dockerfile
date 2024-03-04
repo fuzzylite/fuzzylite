@@ -12,5 +12,3 @@ WORKDIR /install
 RUN make configure build install
 
 WORKDIR /mnt/fuzzylite
-# docker build -f test/Dockerfile -t xeus .
-# docker run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it xeus jupyter notebook --allow-root --ip 0.0.0.0
