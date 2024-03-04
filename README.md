@@ -1,28 +1,24 @@
-# fuzzylite 7.0 (in progress)
-
-*** 
-
-<img src="/fuzzylite.png" align="left" alt="fuzzylite">
-
+#    fuzzylite 7.0 (in progress)
 
 ## A Fuzzy Logic Control Library in C++
+
+<img src="/fuzzylite.png" align="right" alt="fuzzylite">
 
 by [**Juan Rada-Vilela, PhD**](https://fuzzylite.com/about)
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://opensource.org/license/gpl-3-0/)
 [![License: Paid](https://img.shields.io/badge/License-proprietary-blue)](mailto:sales@fuzzylite.com)
 
-***
-
-[![Coverage Status](https://coveralls.io/repos/github/fuzzylite/fuzzylite/badge.svg)](https://coveralls.io/github/fuzzylite/fuzzylite)
 [![Linux Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml)
 [![macOS Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml)
 [![Windows Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/WindowsMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/WindowsMediumBuild.yml)
 
+[![Coverage Status](https://coveralls.io/repos/github/fuzzylite/fuzzylite/badge.svg?branch=main)](
+https://coveralls.io/github/fuzzylite/fuzzylite?branch=main)
 ***
 
-
 ## <a name="fuzzylite">FuzzyLite</a>
+
 
 **The FuzzyLite Libraries for Fuzzy Logic Control** refer to [`fuzzylite`](https://github.com/fuzzylite/fuzzylite/)
 (C++), [`pyfuzzylite`](https://github.com/fuzzylite/pyfuzzylite/) (Python),
