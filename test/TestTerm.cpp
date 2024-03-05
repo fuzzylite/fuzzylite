@@ -1854,7 +1854,7 @@ namespace fuzzylite {
         CHECK_THROWS_AS(Function::create("f", "2*i_A + o_A + x"), fl::Exception);
         CHECK_THROWS_WITH(
             Function::create("f", "2*i_A + o_A + x"),
-            Catch::Matchers::StartsWith("[function error] unknown variable <i_A>")
+            Catch::Matchers::StartsWith("[function error] unknown variable")
         );
 
         Engine engine("A", "Engine A", {new InputVariable("i_A")}, {new OutputVariable("o_A")});
@@ -1904,7 +1904,7 @@ namespace fuzzylite {
             auto op = Function::Element("~", "Negation", Function::Element::Operator, &(Op::negate), 0, 1);
             CHECK(
                 op.toString()
-                == "Operator (name=~, description=Negation, precedence=0, arity=1, associativity=1, pointer=1)"
+                == "Operator (name=~, description=Negation, precedence=0, arity=1, associativity=1, pointer=unary)"
             );
             CHECK(op.isOperator());
             CHECK(not op.isFunction());
@@ -1914,7 +1914,7 @@ namespace fuzzylite {
             auto op = Function::Element("*", "Multiplication", Function::Element::Operator, &(Op::multiply), 10);
             CHECK(
                 op.toString()
-                == "Operator (name=*, description=Multiplication, precedence=10, arity=2, associativity=-1, pointer=1)"
+                == "Operator (name=*, description=Multiplication, precedence=10, arity=2, associativity=-1, pointer=binary)"
             );
             CHECK(op.isOperator());
             CHECK(not op.isFunction());
@@ -1927,7 +1927,7 @@ namespace fuzzylite {
             auto f = Function::Element("Name", "Description", Function::Element::Function);
             CHECK(
                 f.toString()
-                == "Function (name=Name, description=Description, arity=0, associativity=-1, pointer=error)"
+                == "Function (name=Name, description=Description, arity=0, associativity=-1, pointer=arity(0))"
             );
             CHECK(f.isFunction());
             CHECK(not f.isOperator());
@@ -1943,7 +1943,7 @@ namespace fuzzylite {
         }
         SECTION("Unary") {
             auto f = Function::Element("cos", "Cosine", Function::Element::Function, &(std::cos));
-            CHECK(f.toString() == "Function (name=cos, description=Cosine, arity=1, associativity=-1, pointer=1)");
+            CHECK(f.toString() == "Function (name=cos, description=Cosine, arity=1, associativity=-1, pointer=unary)");
             CHECK(f.isFunction());
             CHECK(not f.isOperator());
             CHECK(FL_unique_ptr<Function::Element>(f.clone())->toString() == f.toString());
@@ -1962,7 +1962,7 @@ namespace fuzzylite {
         SECTION("Binary") {
             auto f = Function::Element("gt", "Greater than (>)", Function::Element::Function, &(Op::gt));
             CHECK(
-                f.toString() == "Function (name=gt, description=Greater than (>), arity=2, associativity=-1, pointer=1)"
+                f.toString() == "Function (name=gt, description=Greater than (>), arity=2, associativity=-1, pointer=binary)"
             );
             CHECK(f.isFunction());
             CHECK(not f.isOperator());

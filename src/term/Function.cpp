@@ -100,11 +100,11 @@ namespace fuzzylite {
                << "arity=" << arity << ", "
                << "associativity=" << associativity << ", ";
             if (arity == 1)
-                ss << "pointer=" << unary;
+                ss << "pointer=unary";
             else if (arity == 2)
-                ss << "pointer=" << binary;
+                ss << "pointer=binary";
             else
-                ss << "pointer=error";
+                ss << "pointer=arity(" << arity << ")";
             ss << ")";
         } else if (type == Function) {
             ss << "Function (name=" << name << ", "
@@ -112,11 +112,11 @@ namespace fuzzylite {
                << "arity=" << arity << ", "
                << "associativity=" << associativity << ", ";
             if (arity == 1)
-                ss << "pointer=" << unary;
+                ss << "pointer=unary";
             else if (arity == 2)
-                ss << "pointer=" << binary;
+                ss << "pointer=binary";
             else
-                ss << "pointer=error";
+                ss << "pointer=arity(" << arity << ")";
             ss << ")";
         }
         return ss.str();
