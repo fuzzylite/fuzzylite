@@ -40,7 +40,26 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    Engine::Engine(const std::string& name) : _name(name) {}
+    Engine::Engine(
+        const std::string& name,
+        const std::string& description,
+        const std::vector<InputVariable*>& inputVariables,
+        const std::vector<OutputVariable*>& outputVariables,
+        const std::vector<RuleBlock*>& ruleBlocks,
+        const bool load
+    ) :
+        _name(name),
+        _description(description),
+        _inputVariables(inputVariables),
+        _outputVariables(outputVariables),
+        _ruleBlocks(ruleBlocks) {
+        if (load) {
+            updateReferences();
+
+            for (std::size_t r = 0; r < ruleBlocks.size(); ++r)
+                ruleBlocks.at(r)->loadRules(this);
+        }
+    }
 
     Engine::Engine(const Engine& other) : _name(""), _description("") {
         copyFrom(other);

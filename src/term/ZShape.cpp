@@ -68,7 +68,8 @@ namespace fuzzylite {
     }
 
     std::string ZShape::parameters() const {
-        return Op::join(2, " ", _start, _end) + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
+        return Op::join(2, " ", getStart(), getEnd())
+               + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 
     void ZShape::configure(const std::string& parameters) {

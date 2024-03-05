@@ -42,6 +42,7 @@ namespace fuzzylite {
         p -= 10;
         // Second order: power
         registerObject("^", new Function::Element("^", "Power", Function::Element::Operator, &(std::pow), p, 1));
+        // registerObject("**", new Function::Element("**", "Power", Function::Element::Operator, &(std::pow), p, 1));
 
         p -= 10;
         // Third order: multiplication, division, modulo

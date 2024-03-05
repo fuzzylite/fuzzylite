@@ -41,7 +41,7 @@ namespace fuzzylite {
     }
 
     std::string Binary::parameters() const {
-        return Op::join(2, " ", _start, _direction)
+        return Op::join(2, " ", getStart(), getDirection())
                + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 

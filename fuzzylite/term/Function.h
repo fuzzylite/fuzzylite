@@ -156,16 +156,20 @@ namespace fuzzylite {
             /**The node can refer to a variable by name*/
             std::string variable;
             /**The node can take an arbitrary floating-point value*/
-            scalar value;
+            scalar constant;
 
             explicit Node(Element* element, Node* left = fl::null, Node* right = fl::null);
             explicit Node(const std::string& variable);
-            explicit Node(scalar value);
+            explicit Node(scalar constant);
             Node(const Node& source);
             Node& operator=(const Node& rhs);
             virtual ~Node();
             FL_DEFAULT_MOVE(Node)
 
+            /**
+             * Gets the value of the node.
+             */
+            virtual std::string value() const;
             /**
               Evaluates the node and substitutes the variables therein for the
               values passed in the map. The expression tree is evaluated
@@ -256,8 +260,14 @@ namespace fuzzylite {
         /**A map of variables and substitution values**/
         mutable std::map<std::string, scalar> variables;
         explicit Function(
-            const std::string& name = "", const std::string& formula = "", const Engine* engine = fl::null
+            const std::string& name = "",
+            const std::string& formula = "",
+            const std::map<std::string, scalar>& variables = std::map<std::string, scalar>(),
+            const Engine* engine = fl::null,
+            bool load = false
         );
+        // TODO: Deprecate
+        explicit Function(const std::string& name, const std::string& formula, const Engine* engine);
         Function(const Function& other);
         Function& operator=(const Function& other);
         virtual ~Function() FL_IOVERRIDE;

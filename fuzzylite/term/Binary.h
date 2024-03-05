@@ -47,6 +47,7 @@ namespace fuzzylite {
             /** `(_|)` increases to the right (infinity)*/
             Positive,
             /** `(--)` direction is NaN */
+            // TODO: Consistency with Sigmoid, Ramp
             Undefined,
             /** `(|_)` increases to the left (-infinity)*/
             Negative

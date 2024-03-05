@@ -38,7 +38,6 @@ namespace fuzzylite {
     class FL_API Activated : public Term {
       private:
         const Term* _term;
-        scalar _degree;
         const TNorm* _implication;
 
       public:
@@ -66,7 +65,8 @@ namespace fuzzylite {
          */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
         virtual std::string toString() const FL_IOVERRIDE;
-
+        virtual std::string getName() const FL_IOVERRIDE;
+        virtual bool isMonotonic() const FL_IOVERRIDE;
         /**
           Sets the activated term
           @param term is the activated term

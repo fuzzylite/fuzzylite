@@ -53,7 +53,7 @@ namespace fuzzylite {
     }
 
     std::string GaussianProduct::parameters() const {
-        return Op::join(4, " ", _meanA, _standardDeviationA, _meanB, _standardDeviationB)
+        return Op::join(4, " ", getMeanA(), getStandardDeviationA(), getMeanB(), getStandardDeviationB())
                + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 

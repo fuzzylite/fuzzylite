@@ -68,7 +68,7 @@ namespace fuzzylite {
     }
 
     std::string Trapezoid::parameters() const {
-        return Op::join(4, " ", _vertexA, _vertexB, _vertexC, _vertexD)
+        return Op::join(4, " ", getVertexA(), getVertexB(), getVertexC(), getVertexD())
                + (not Op::isEq(getHeight(), 1.0) ? " " + Op::str(getHeight()) : "");
     }
 

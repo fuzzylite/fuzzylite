@@ -33,7 +33,7 @@ namespace fuzzylite {
     }
 
     std::string Constant::parameters() const {
-        return Op::str(_value);
+        return Op::str(getValue());
     }
 
     void Constant::configure(const std::string& parameters) {

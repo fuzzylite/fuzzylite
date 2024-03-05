@@ -75,15 +75,14 @@ namespace fuzzylite {
     }
 
     std::string Discrete::parameters() const {
-        std::ostringstream ss;
-        for (std::size_t i = 0; i < _xy.size(); ++i) {
-            ss << Op::str(_xy.at(i).first) << " " << Op::str(_xy.at(i).second);
-            if (i + 1 < _xy.size())
-                ss << " ";
+        std::vector<std::string> result;
+        for (std::size_t i = 0; i < xy().size(); ++i) {
+            result.push_back(Op::str(xy().at(i).first));
+            result.push_back(Op::str(xy().at(i).second));
         }
         if (not Op::isEq(getHeight(), 1.0))
-            ss << " " << Op::str(getHeight());
-        return ss.str();
+            result.push_back(Op::str(getHeight()));
+        return Op::join(result, " ");
     }
 
     void Discrete::configure(const std::string& parameters) {
@@ -168,16 +167,11 @@ namespace fuzzylite {
     }
 
     std::vector<Discrete::Pair> Discrete::toPairs(const std::vector<scalar>& xy, scalar missingValue) FL_INOEXCEPT {
-        std::vector<Pair> result((xy.size() + 1) / 2);
-        for (std::size_t i = 0; i + 1 < xy.size(); i += 2) {
-            result.at(i / 2).first = xy.at(i);
-            result.at(i / 2).second = xy.at(i + 1);
-        }
-        if (xy.size() % 2 != 0) {
-            result.back().first = xy.back();
-            result.back().second = missingValue;
-        }
-        return result;
+        if (xy.size() % 2 == 0)
+            return toPairs(xy);
+        std::vector<scalar> copy(xy);
+        copy.push_back(missingValue);
+        return toPairs(copy);
     }
 
     std::vector<scalar> Discrete::toVector(const std::vector<Pair>& xy) {

@@ -157,7 +157,13 @@ namespace fuzzylite {
     }
 
     std::string FllExporter::toString(const Term* term) const {
-        return "term: " + Op::validName(term->getName()) + " " + term->className() + " " + term->parameters();
+        std::vector<std::string> result;
+        result.push_back("term:");
+        result.push_back(Op::validName(term->getName()));
+        result.push_back(term->className());
+        if (not term->parameters().empty())
+            result.push_back(term->parameters());
+        return Op::join(result, " ");
     }
 
     std::string FllExporter::toString(const Norm* norm) const {
