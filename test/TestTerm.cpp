@@ -1894,7 +1894,7 @@ namespace fuzzylite {
             CHECK(
                 op.toString()
                 == "Operator (name=Name, description=Description, precedence=0, arity=0, associativity=-1, "
-                   "pointer=error)"
+                   "pointer=arity(0))"
             );
             CHECK(op.isOperator());
             CHECK(not op.isFunction());
