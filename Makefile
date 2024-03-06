@@ -22,7 +22,7 @@ test: .phonywin
 	ctest --test-dir build/
 
 test-only:
-	$(MAKE) configure && \
+	cmake -B build/ && \
 		cmake --build build/ --parallel --target fl-test && \
 		 $(MAKE) test
 
