@@ -322,7 +322,7 @@ install(TARGETS ${fl-targets} EXPORT fuzzylite-config
 )
 # Store the fuzzylite CMake config for other projects to use
 install(EXPORT fuzzylite-config DESTINATION share/fuzzylite/cmake)
-export(TARGETS ${fl-targets} FILE fuzzylite-config.cmake)
+export(TARGETS ${fl-targets} FILE fuzzylite.cmake)
 
 install(DIRECTORY fuzzylite/ DESTINATION ${FL_INSTALL_INCLUDEDIR}/fuzzylite)
 install(DIRECTORY fl/ DESTINATION ${FL_INSTALL_INCLUDEDIR}/fl)
