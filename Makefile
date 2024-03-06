@@ -3,22 +3,7 @@ CPP98 = OFF
 FLOAT = OFF
 COVERAGE = OFF
 
-G = ""
-
-ifeq ($(G),"")
-	ifeq ($(OS),Windows_NT) # OS is a preexisting environment variable on Windows
-		G = "NMake Makefiles"
-	else
-		UNAME := $(shell uname -s)
-		ifeq ($(UNAME),Darwin)
-			G = "Unix Makefiles"
-		else ifeq ($(UNAME),Linux)
-			G = "Unix Makefiles"
-		else
-			G = "Unix Makefiles"
-		endif
-	endif
-endif
+G = $(CMAKE_GENERATOR)
 
 .phonywin:
 
