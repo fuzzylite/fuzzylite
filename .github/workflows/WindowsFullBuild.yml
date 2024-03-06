@@ -5,7 +5,7 @@ on:
     branches: [ "build/*", "build-windows/*" ]
 
 jobs:
-  build:
+  build-vs:
     runs-on: windows-latest
 
     strategy:
@@ -31,6 +31,39 @@ jobs:
 
       - name: Building FuzzyLite
         shell: cmd
+        run: |
+          nmake configure BUILD=${{ matrix.build_type }} CPP98=${{ matrix.use_cpp98 }} FLOAT=${{ matrix.use_float }}
+          nmake build
+          nmake test
+
+  build-nmake:
+    runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ "x64", "win32" ]
+        build_type: [ "release", "debug" ]
+        use_cpp98: [ "OFF", "ON" ]
+        use_float: [ "OFF", "ON" ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Restore cmake dependencies
+        id: cache-restore-cmake-deps
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            build/_deps
+          key: ${{ runner.os }}-cmake-deps
+
+      - name: Building FuzzyLite
+        shell: cmd
+        env:
+          CMAKE_GENERATOR: "NMake Makefiles"
         run: |
           nmake configure BUILD=${{ matrix.build_type }} CPP98=${{ matrix.use_cpp98 }} FLOAT=${{ matrix.use_float }}
           nmake build
