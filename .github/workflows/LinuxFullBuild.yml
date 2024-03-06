@@ -31,9 +31,9 @@ jobs:
         env:
           CXX: clang++-${{ matrix.compiler_version }}
         run: |
-          cmake -B build/ -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_CPP98=${{ matrix.use_cpp98 }} -DFL_USE_FLOAT=${{ matrix.use_float }} .
-          cmake --build build/ --parallel
-          ctest --test-dir build/
+          make configure BUILD=${{ matrix.build_type }} CPP98=${{ matrix.use_cpp98 }} FLOAT=${{ matrix.use_float }}
+          make build
+          make test
 
   build-gcc:
     runs-on: ubuntu-latest
@@ -61,6 +61,6 @@ jobs:
         env:
           CXX: g++-${{ matrix.compiler_version }}
         run: |
-          cmake -B build/ -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_CPP98=${{ matrix.use_cpp98 }} -DFL_USE_FLOAT=${{ matrix.use_float }} .
-          cmake --build build/ --parallel
-          ctest --test-dir build/
+          make configure BUILD=${{ matrix.build_type }} CPP98=${{ matrix.use_cpp98 }} FLOAT=${{ matrix.use_float }}
+          make build
+          make test
