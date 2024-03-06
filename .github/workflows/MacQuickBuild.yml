@@ -26,7 +26,7 @@ jobs:
 
       - name: Building FuzzyLite
         run: |
-          make configure BUILD=${{ matrix.build_type }} CPP98=${{ matrix.use_cpp98 }} FLOAT=${{ matrix.use_float }}
+          make configure BUILD=${{ matrix.build_type }}
           make build
           make test
 
