@@ -51,14 +51,14 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: ilammy/msvc-dev-cmd@v1
-
-      - name: Restore cmake dependencies
-        id: cache-restore-cmake-deps
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            build/_deps
-          key: ${{ runner.os }}-cmake-deps
+      # Not restoring because dependency would have been built with VS
+      #      - name: Restore cmake dependencies
+      #        id: cache-restore-cmake-deps
+      #        uses: actions/cache/restore@v4
+      #        with:
+      #          path: |
+      #            build/_deps
+      #          key: ${{ runner.os }}-cmake-deps
 
       - name: Building FuzzyLite
         shell: cmd
