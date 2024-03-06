@@ -45,13 +45,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Restore cmake dependencies
-        id: cache-restore-cmake-deps
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            build/_deps
-          key: ${{ runner.os }}-cmake-deps
+# Not restoring because dependency would have been built with Xcode
+#      - name: Restore cmake dependencies
+#        id: cache-restore-cmake-deps
+#        uses: actions/cache/restore@v4
+#        with:
+#          path: |
+#            build/_deps
+#          key: ${{ runner.os }}-cmake-deps
 
       - name: Building FuzzyLite
         env:
@@ -75,13 +76,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Restore cmake dependencies
-        id: cache-restore-cmake-deps
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            build/_deps
-          key: ${{ runner.os }}-cmake-deps
+# Not restoring because dependency would have been built with Xcode
+#      - name: Restore cmake dependencies
+#        id: cache-restore-cmake-deps
+#        uses: actions/cache/restore@v4
+#        with:
+#          path: |
+#            build/_deps
+#          key: ${{ runner.os }}-cmake-deps
 
       - name: Building FuzzyLite
         env:
