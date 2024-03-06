@@ -30,6 +30,6 @@ jobs:
       - name: Building FuzzyLite
         shell: cmd
         run: |
-          cmake -B build/ -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .
-          cmake --build build/ --parallel
-          ctest --test-dir build/
+          nmake configure BUILD=${{ matrix.build_type }}
+          nmake build
+          nmake test

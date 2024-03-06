@@ -32,9 +32,9 @@ jobs:
         env:
           CXX: ${{ matrix.use_cxx }}
         run: |
-          cmake -B build/ -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DFL_BUILD_COVERAGE=ON.
-          cmake --build build/ --parallel
-          ctest --test-dir build/
+          make configure BUILD=${{ matrix.build_type }} COVERAGE=ON
+          make build
+          make test
 
       - name: Coverage
         env:
