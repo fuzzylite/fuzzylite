@@ -311,8 +311,8 @@ namespace fuzzylite {
             .configured_as("###")
             .exports_fll("fuzzy_output: Aggregated Maximum[Minimum(0.600,LOW),Minimum(0.400,MEDIUM)]", false);
 
-        CHECK(aggregated.activationDegree(&low) == 0.6);
-        CHECK(aggregated.activationDegree(&medium) == 0.4);
+        CHECK_THAT(aggregated.activationDegree(&low), Catch::Matchers::WithinAbs(0.6, fuzzylite::macheps()));
+        CHECK_THAT(aggregated.activationDegree(&medium), Catch::Matchers::WithinAbs(0.4, fuzzylite::macheps()));
         CHECK(aggregated.highestActivatedTerm()->getTerm() == &low);
 
         aggregated.setRange(-2, 2);
@@ -1853,8 +1853,7 @@ namespace fuzzylite {
 
         CHECK_THROWS_AS(Function::create("f", "2*i_A + o_A + x"), fl::Exception);
         CHECK_THROWS_WITH(
-            Function::create("f", "2*i_A + o_A + x"),
-            Catch::Matchers::StartsWith("[function error] unknown variable")
+            Function::create("f", "2*i_A + o_A + x"), Catch::Matchers::StartsWith("[function error] unknown variable")
         );
 
         Engine engine("A", "Engine A", {new InputVariable("i_A")}, {new OutputVariable("o_A")});
@@ -1914,7 +1913,8 @@ namespace fuzzylite {
             auto op = Function::Element("*", "Multiplication", Function::Element::Operator, &(Op::multiply), 10);
             CHECK(
                 op.toString()
-                == "Operator (name=*, description=Multiplication, precedence=10, arity=2, associativity=-1, pointer=binary)"
+                == "Operator (name=*, description=Multiplication, precedence=10, arity=2, associativity=-1, "
+                   "pointer=binary)"
             );
             CHECK(op.isOperator());
             CHECK(not op.isFunction());
@@ -1962,7 +1962,8 @@ namespace fuzzylite {
         SECTION("Binary") {
             auto f = Function::Element("gt", "Greater than (>)", Function::Element::Function, &(Op::gt));
             CHECK(
-                f.toString() == "Function (name=gt, description=Greater than (>), arity=2, associativity=-1, pointer=binary)"
+                f.toString()
+                == "Function (name=gt, description=Greater than (>), arity=2, associativity=-1, pointer=binary)"
             );
             CHECK(f.isFunction());
             CHECK(not f.isOperator());
