@@ -138,9 +138,9 @@ namespace fuzzylite {
                     {1.00, 0.50, 0.50},
                     {1.00, 0.75, 0.75},
                     {1.00, 1.00, 1.00},
-                    //                    {nan, nan, nan},
+                    {nan, nan, nan},
                     {inf, inf, inf},
-                    //                    {inf, -inf, nan},
+                    {inf, -inf, nan},
                     {-inf, -inf, 0},
                 });
         }
@@ -244,7 +244,7 @@ namespace fuzzylite {
                     {1.00, 1.00, 1.00},
                     {nan, nan, nan},
                     {inf, inf, inf},
-                    //                    {inf, -inf, -inf},
+                    {inf, -inf, -inf},
                     {-inf, -inf, -inf},
                 });
         }
@@ -327,6 +327,15 @@ namespace fuzzylite {
                     {inf, -inf, nan},
                     {-inf, -inf, -inf},
                 });
+
+            auto f = TNormFunction("a*b");
+            CHECK(f.getFormula() == "a*b");
+            f.setFormula("(a*b)/2");
+            CHECK(f.getFormula() == "(a*b)/2");
+            CHECK(f.function().isLoaded());
+            const auto constructor
+                = FL_unique_ptr<TNormFunction>(dynamic_cast<TNormFunction*>(TNormFunction::constructor()));
+            CHECK(not constructor->function().isLoaded());
         }
 
         SECTION("BoundedSum") {
@@ -348,9 +357,9 @@ namespace fuzzylite {
                     {1.00, 0.50, 1.00},
                     {1.00, 0.75, 1.00},
                     {1.00, 1.00, 1.00},
-                    //                    {nan, nan, nan},
+                    {nan, nan, nan},
                     {inf, inf, 1.0},
-                    //                    {inf, -inf, nan},
+                    {inf, -inf, nan},
                     {-inf, -inf, -inf},
                 });
         }
@@ -452,7 +461,7 @@ namespace fuzzylite {
                     {1.00, 1.00, 1.00},
                     {nan, nan, nan},
                     {inf, inf, inf},
-                    //                    {inf, -inf, inf},
+                    {inf, -inf, inf},
                     {-inf, -inf, -inf},
                 });
         }
@@ -555,6 +564,14 @@ namespace fuzzylite {
                     {inf, -inf, nan},
                     {-inf, -inf, -inf},
                 });
+            auto f = SNormFunction("a+b");
+            CHECK(f.getFormula() == "a+b");
+            f.setFormula("(a+b)/2");
+            CHECK(f.getFormula() == "(a+b)/2");
+            CHECK(f.function().isLoaded());
+            const auto constructor
+                = FL_unique_ptr<SNormFunction>(dynamic_cast<SNormFunction*>(SNormFunction::constructor()));
+            CHECK(not constructor->function().isLoaded());
         }
     }
 
