@@ -11,8 +11,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type: [ "release", "debug" ]
-        platform: [ "x64", "win32" ]
+        build_type: [ "release" ]
+        platform: [ "x64" ]
+        use_cpp98: [ "OFF", "ON" ]
+        use_float: [ "OFF", "ON" ]
 
     steps:
       - uses: actions/checkout@v4
@@ -30,6 +32,6 @@ jobs:
       - name: Building FuzzyLite
         shell: cmd
         run: |
-          nmake configure BUILD=${{ matrix.build_type }}
+          nmake configure BUILD=${{ matrix.build_type }} CPP98=${{ matrix.use_cpp98 }} FLOAT=${{ matrix.use_float }}
           nmake build
           nmake test

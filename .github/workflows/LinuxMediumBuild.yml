@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type: [ "release", "debug" ]
+        build_type: [ "release" ]
         use_cxx: [ "clang++-15", "g++-13" ]
         use_cpp98: [ "OFF", "ON" ]
         use_float: [ "OFF", "ON" ]
