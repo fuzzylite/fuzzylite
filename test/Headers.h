@@ -14,7 +14,7 @@ class Approximates : public Catch::MatcherBase<double> {
   public:
     explicit Approximates(double expected) : expected(expected) {}
 
-    bool match(const fl::scalar& obtained) const override {
+    bool match(const double& obtained) const override {
         return fl::Op::isClose(expected, obtained, fl::fuzzylite::macheps());
     }
 
