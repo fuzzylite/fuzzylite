@@ -599,11 +599,15 @@ namespace fuzzylite {
 
     template <typename T>
     inline T Operation::min(T a, T b) {
+        if (isNaN(a) or isNaN(b))
+            return nan;
         return std::min(a, b);
     }
 
     template <typename T>
     inline T Operation::max(T a, T b) {
+        if (isNaN(a) or isNaN(b))
+            return nan;
         return std::max(a, b);
     }
 
