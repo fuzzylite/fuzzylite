@@ -15,12 +15,14 @@
  */
 #include <catch2/catch.hpp>
 
+#include "Headers.h"
 #include "fl/Headers.h"
 
 /**
  * TODO:
  * - Fix Tsukamoto tests
  */
+
 namespace fuzzylite {
     struct TermAssert {
         FL_unique_ptr<Term> actual;
@@ -138,8 +140,7 @@ namespace fuzzylite {
         }
 
         TermAssert& has_memberships(
-            const std::map<scalar, scalar>& values,
-            const scalar y_nan = fl::nan,
+            const std::vector<std::vector<scalar>>& values,
             const std::vector<scalar>& heights = {0.0, 0.25, .5, .75, 1.0}
         ) {
             for (scalar height : heights) {
@@ -147,22 +148,15 @@ namespace fuzzylite {
                     height = 1.0;
                 this->actual->setHeight(height);
                 for (const auto& value : values) {
-                    const auto& x = value.first;
-                    const auto& expected_y = height * value.second;
+                    CHECK(value.size() == 2);
+                    const auto& x = value.front();
+                    const auto& expected_y = height * value.back();
 
                     const auto& obtained_y = this->actual->membership(x);
                     CAPTURE(x);
                     CAPTURE(height);
-                    if (fl::Op::isNaN(expected_y))
-                        CHECK_THAT(fl::Op::str(obtained_y), Catch::Matchers::Equals(fl::Op::str(expected_y)));
-                    else
-                        CHECK_THAT(obtained_y, Catch::Matchers::WithinAbs(expected_y, fuzzylite::macheps()));
+                    CHECK_THAT(obtained_y, Approximates(expected_y));
                 }
-
-                if (fl::Op::isNaN(y_nan))
-                    CHECK_THAT(fl::Op::str(this->actual->membership(nan)), Catch::Matchers::Equals(fl::Op::str(y_nan)));
-                else
-                    CHECK_THAT(this->actual->membership(nan), Catch::Matchers::WithinAbs(y_nan, fuzzylite::macheps()));
             }
             return *this;
         }
@@ -178,10 +172,7 @@ namespace fuzzylite {
                 const auto& obtained_y = this->actual->tsukamoto(x, fl::nan, fl::nan);
                 CAPTURE(x);
                 CAPTURE(height);
-                if (fl::Op::isNaN(expected_y))
-                    CHECK_THAT(fl::Op::str(obtained_y), Catch::Matchers::Equals(fl::Op::str(expected_y)));
-                else
-                    CHECK_THAT(obtained_y, Catch::Matchers::WithinAbs(expected_y, fuzzylite::macheps()));
+                CHECK_THAT(obtained_y, Approximates(expected_y));
             }
             return *this;
         }
@@ -305,7 +296,6 @@ namespace fuzzylite {
                     {inf, 0.0},
                     {-inf, 0.0},
                 },
-                nan,
                 {1.0}
             )
             .configured_as("###")
@@ -546,48 +536,42 @@ namespace fuzzylite {
             .configured_as("0.5")
             .exports_fll("term: constant Constant 0.500", false)
             .repr_is("fl.Constant('constant', 0.5)")
-            .has_memberships(
-                {
-                    {-1.0, 0.5},
-                    {-0.5, 0.5},
-                    {-0.4, 0.5},
-                    {-0.25, 0.5},
-                    {-0.1, 0.5},
-                    {0.0, 0.5},
-                    {0.1, 0.5},
-                    {0.25, 0.5},
-                    {0.4, 0.5},
-                    {0.5, 0.5},
-                    {1.0, 0.5},
-                    {nan, 0.5},
-                    {inf, 0.5},
-                    {-inf, 0.5},
-                },
-                0.5
-            );
+            .has_memberships({
+                {-1.0, 0.5},
+                {-0.5, 0.5},
+                {-0.4, 0.5},
+                {-0.25, 0.5},
+                {-0.1, 0.5},
+                {0.0, 0.5},
+                {0.1, 0.5},
+                {0.25, 0.5},
+                {0.4, 0.5},
+                {0.5, 0.5},
+                {1.0, 0.5},
+                {nan, 0.5},
+                {inf, 0.5},
+                {-inf, 0.5},
+            });
         TermAssert(new Constant("constant"))
             .configured_as("-0.500")
             .repr_is("fl.Constant('constant', -0.5)")
             .exports_fll("term: constant Constant -0.500", false)
-            .has_memberships(
-                {
-                    {-1.0, -0.5},
-                    {-0.5, -0.5},
-                    {-0.4, -0.5},
-                    {-0.25, -0.5},
-                    {-0.1, -0.5},
-                    {0.0, -0.5},
-                    {0.1, -0.5},
-                    {0.25, -0.5},
-                    {0.4, -0.5},
-                    {0.5, -0.5},
-                    {1.0, -0.5},
-                    {nan, -0.5},
-                    {inf, -0.5},
-                    {-inf, -0.5},
-                },
-                -0.5
-            );
+            .has_memberships({
+                {-1.0, -0.5},
+                {-0.5, -0.5},
+                {-0.4, -0.5},
+                {-0.25, -0.5},
+                {-0.1, -0.5},
+                {0.0, -0.5},
+                {0.1, -0.5},
+                {0.25, -0.5},
+                {0.4, -0.5},
+                {0.5, -0.5},
+                {1.0, -0.5},
+                {nan, -0.5},
+                {inf, -0.5},
+                {-inf, -0.5},
+            });
     }
 
     TEST_CASE("Cosine", "[term][cosine]") {
@@ -900,47 +884,41 @@ namespace fuzzylite {
             .configured_as("1.0 2.0 3")
             .exports_fll("term: linear Linear 1.000 2.000 3.000", false)
             .repr_is("fl.Linear('linear', [1.0, 2.0, 3.0])")
-            .has_memberships(
-                {
-                    {-1.0, 1 * 0 + 2 * 1 + 3 * 2},  // = 8
-                    {-0.5, 8},
-                    {-0.4, 8},
-                    {-0.25, 8},
-                    {-0.1, 8},
-                    {0.0, 8},
-                    {0.1, 8},
-                    {0.25, 8},
-                    {0.4, 8},
-                    {0.5, 8},
-                    {1.0, 8},
-                    {nan, 8},
-                    {inf, 8},
-                    {-inf, 8},
-                },
-                8
-            );
+            .has_memberships({
+                {-1.0, 1 * 0 + 2 * 1 + 3 * 2},  // = 8
+                {-0.5, 8},
+                {-0.4, 8},
+                {-0.25, 8},
+                {-0.1, 8},
+                {0.0, 8},
+                {0.1, 8},
+                {0.25, 8},
+                {0.4, 8},
+                {0.5, 8},
+                {1.0, 8},
+                {nan, 8},
+                {inf, 8},
+                {-inf, 8},
+            });
         TermAssert(new Linear("linear", {1.0, 2.0}, &engine))
             .configured_as("1 2 3 5")
             .exports_fll("term: linear Linear 1.000 2.000 3.000 5.000", false)
-            .has_memberships(
-                {
-                    {-1.0, 1 * 0 + 2 * 1 + 3 * 2 + 5},  // = 1
-                    {-0.5, 13},
-                    {-0.4, 13},
-                    {-0.25, 13},
-                    {-0.1, 13},
-                    {0.0, 13},
-                    {0.1, 13},
-                    {0.25, 13},
-                    {0.4, 13},
-                    {0.5, 13},
-                    {1.0, 13},
-                    {nan, 13},
-                    {inf, 13},
-                    {-inf, 13},
-                },
-                13
-            );
+            .has_memberships({
+                {-1.0, 1 * 0 + 2 * 1 + 3 * 2 + 5},  // = 1
+                {-0.5, 13},
+                {-0.4, 13},
+                {-0.25, 13},
+                {-0.1, 13},
+                {0.0, 13},
+                {0.1, 13},
+                {0.25, 13},
+                {0.4, 13},
+                {0.5, 13},
+                {1.0, 13},
+                {nan, 13},
+                {inf, 13},
+                {-inf, 13},
+            });
     }
 
     TEST_CASE("PiShape", "[term][pishape]") {
@@ -1847,7 +1825,6 @@ namespace fuzzylite {
                     {inf, inf},
                     {-inf, -inf},
                 },
-                nan,
                 {1.0}
             );
 
@@ -1860,7 +1837,7 @@ namespace fuzzylite {
         TermAssert(Function::create("f", "2*i_A + o_A + x", &engine))
             .exports_fll("term: f Function 2*i_A + o_A + x", false)
             .repr_is("fl.Function('f', '2*i_A + o_A + x')")
-            .has_memberships({{0.0, nan}}, nan, {1.0});
+            .has_memberships({{0.0, nan}, {nan, nan}}, {1.0});
 
         engine.getInputVariable("i_A")->setValue(3.0);
         engine.getOutputVariable("o_A")->setValue(1.0);
@@ -1878,7 +1855,6 @@ namespace fuzzylite {
                     {inf, inf},
                     {-inf, -inf},
                 },
-                nan,
                 {1.0}
             );
 
