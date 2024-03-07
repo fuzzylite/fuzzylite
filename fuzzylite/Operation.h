@@ -24,6 +24,10 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/Exception.h"
 #include "fuzzylite/fuzzylite.h"
 
+/**
+ * TODO: Split implementation into Operation.cpp
+ *
+ */
 namespace fuzzylite {
 
     /**
@@ -163,6 +167,16 @@ namespace fuzzylite {
           given tolerance
          */
         static bool isGE(scalar a, scalar b, scalar macheps = fuzzylite::_macheps);
+
+        /**
+          Returns whether @f$a@f$ is equal to @f$b@f$ at the given tolerance
+          @param a
+          @param b
+          @param macheps is the minimum difference upon which two
+          floating-point values are considered equivalent
+          @return whether @f$a@f$ is equal to @f$b@f$ at the given tolerance
+         */
+        static bool isClose(scalar a, scalar b, scalar macheps = fuzzylite::_macheps);
 
         /**
           Linearly interpolates the parameter @f$x@f$ in range
@@ -585,20 +599,16 @@ namespace fuzzylite {
 
     template <typename T>
     inline T Operation::min(T a, T b) {
-        if (Op::isNaN(a))
-            return b;
-        if (Op::isNaN(b))
-            return a;
-        return a < b ? a : b;
+        if (isNaN(a) or isNaN(b))
+            return nan;
+        return std::min(a, b);
     }
 
     template <typename T>
     inline T Operation::max(T a, T b) {
-        if (Op::isNaN(a))
-            return b;
-        if (Op::isNaN(b))
-            return a;
-        return a > b ? a : b;
+        if (isNaN(a) or isNaN(b))
+            return nan;
+        return std::max(a, b);
     }
 
     template <typename T>
@@ -650,6 +660,10 @@ namespace fuzzylite {
 
     inline bool Operation::isGE(scalar a, scalar b, scalar macheps) {
         return a == b or std::abs(a - b) < macheps or (a != a and b != b) or a > b;
+    }
+
+    inline bool Operation::isClose(scalar a, scalar b, scalar macheps) {
+        return a == b or std::abs(a - b) < macheps or (a != a and b != b);
     }
 
     inline scalar Operation::scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax) {
@@ -981,8 +995,8 @@ namespace fuzzylite {
             ss << "nan";
         } else if (Op::isInf(x)) {
             ss << (x < T(0) ? "-inf" : "inf");
-        } else if (decimals >= 0 //print x considering the given decimals regardless of macheps
-                and Op::isEq(scalar(x), 0.0, std::pow(10.0, -decimals))) {
+        } else if (decimals >= 0  // print x considering the given decimals regardless of macheps
+                   and Op::isEq(scalar(x), 0.0, std::pow(10.0, -decimals))) {
             ss << T(0);
         } else
             ss << x;
