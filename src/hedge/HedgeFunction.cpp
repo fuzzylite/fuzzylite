@@ -19,14 +19,17 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    HedgeFunction::HedgeFunction(const std::string& formula) : Hedge() {
-        _function.variables["x"] = fl::nan;
+    HedgeFunction::HedgeFunction(const std::string& formula, const std::string& name) : Hedge() {
+        _function.setFormula(formula);
+        _function.setName(name);
         if (not formula.empty())
-            _function.load(formula);
+            _function.load();
     }
 
+    HedgeFunction::~HedgeFunction() {}
+
     std::string HedgeFunction::name() const {
-        return "HedgeFunction";
+        return _function.getName();
     }
 
     scalar HedgeFunction::hedge(scalar x) const {
@@ -35,11 +38,13 @@ namespace fuzzylite {
     }
 
     Function& HedgeFunction::function() {
-        return this->_function;
+        return _function;
     }
 
     void HedgeFunction::setFormula(const std::string& formula) {
         _function.load(formula);
+        if (not formula.empty())
+            _function.load();
     }
 
     std::string HedgeFunction::getFormula() const {

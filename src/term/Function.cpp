@@ -94,11 +94,9 @@ namespace fuzzylite {
         std::ostringstream ss;
 
         if (type == Operator) {
-            ss << "Operator (name=" << name << ", "
-               << "description=" << description << ", "
-               << "precedence=" << precedence << ", "
-               << "arity=" << arity << ", "
-               << "associativity=" << associativity << ", ";
+            ss << "Operator (name=" << name << ", " << "description=" << description << ", "
+               << "precedence=" << precedence << ", " << "arity=" << arity << ", " << "associativity=" << associativity
+               << ", ";
             if (arity == 1)
                 ss << "pointer=unary";
             else if (arity == 2)
@@ -107,10 +105,8 @@ namespace fuzzylite {
                 ss << "pointer=arity(" << arity << ")";
             ss << ")";
         } else if (type == Function) {
-            ss << "Function (name=" << name << ", "
-               << "description=" << description << ", "
-               << "arity=" << arity << ", "
-               << "associativity=" << associativity << ", ";
+            ss << "Function (name=" << name << ", " << "description=" << description << ", " << "arity=" << arity
+               << ", " << "associativity=" << associativity << ", ";
             if (arity == 1)
                 ss << "pointer=unary";
             else if (arity == 2)
@@ -395,11 +391,16 @@ namespace fuzzylite {
         return this->evaluate(&this->variables);
     }
 
+    scalar Function::evaluate(const std::map<std::string, scalar>& localVariables) const {
+        return evaluate(&localVariables);
+    }
+
     scalar Function::evaluate(const std::map<std::string, scalar>* localVariables) const {
         if (not _root.get())
             throw Exception("[function error] function <" + _formula + "> not loaded.", FL_AT);
         if (localVariables)
-            return _root->evaluate(localVariables);
+            for (auto it = localVariables->begin(); it != localVariables->end(); ++it)
+                variables[it->first] = it->second;
         return _root->evaluate(&this->variables);
     }
 
