@@ -187,10 +187,6 @@ namespace fuzzylite {
         return ss.str();
     }
 
-    scalar Function::Node::evaluate(const std::map<std::string, scalar>& variables) const {
-        return evaluate(&variables);
-    }
-
     scalar Function::Node::evaluate(const std::map<std::string, scalar>* variables) const {
         scalar result = fl::nan;
         if (element.get()) {
@@ -403,7 +399,8 @@ namespace fuzzylite {
         if (not _root.get())
             throw Exception("[function error] function <" + _formula + "> not loaded.", FL_AT);
         if (localVariables)
-            return _root->evaluate(localVariables);
+            for (auto it = localVariables->begin(); it != localVariables->end(); ++it)
+                variables[it->first] = it->second;
         return _root->evaluate(&this->variables);
     }
 
