@@ -399,7 +399,9 @@ namespace fuzzylite {
         if (not _root.get())
             throw Exception("[function error] function <" + _formula + "> not loaded.", FL_AT);
         if (localVariables)
-            for (auto it = localVariables->begin(); it != localVariables->end(); ++it)
+            for (std::map<std::string, scalar>::const_iterator it = localVariables->begin();
+                 it != localVariables->end();
+                 ++it)
                 variables[it->first] = it->second;
         return _root->evaluate(&this->variables);
     }
