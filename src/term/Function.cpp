@@ -94,11 +94,9 @@ namespace fuzzylite {
         std::ostringstream ss;
 
         if (type == Operator) {
-            ss << "Operator (name=" << name << ", "
-               << "description=" << description << ", "
-               << "precedence=" << precedence << ", "
-               << "arity=" << arity << ", "
-               << "associativity=" << associativity << ", ";
+            ss << "Operator (name=" << name << ", " << "description=" << description << ", "
+               << "precedence=" << precedence << ", " << "arity=" << arity << ", " << "associativity=" << associativity
+               << ", ";
             if (arity == 1)
                 ss << "pointer=unary";
             else if (arity == 2)
@@ -107,10 +105,8 @@ namespace fuzzylite {
                 ss << "pointer=arity(" << arity << ")";
             ss << ")";
         } else if (type == Function) {
-            ss << "Function (name=" << name << ", "
-               << "description=" << description << ", "
-               << "arity=" << arity << ", "
-               << "associativity=" << associativity << ", ";
+            ss << "Function (name=" << name << ", " << "description=" << description << ", " << "arity=" << arity
+               << ", " << "associativity=" << associativity << ", ";
             if (arity == 1)
                 ss << "pointer=unary";
             else if (arity == 2)
@@ -189,6 +185,10 @@ namespace fuzzylite {
         else
             ss << Op::str(constant);
         return ss.str();
+    }
+
+    scalar Function::Node::evaluate(const std::map<std::string, scalar>& variables) const {
+        return evaluate(&variables);
     }
 
     scalar Function::Node::evaluate(const std::map<std::string, scalar>* variables) const {
@@ -393,6 +393,10 @@ namespace fuzzylite {
         }
         this->variables["x"] = x;
         return this->evaluate(&this->variables);
+    }
+
+    scalar Function::evaluate(const std::map<std::string, scalar>& localVariables) const {
+        return evaluate(&localVariables);
     }
 
     scalar Function::evaluate(const std::map<std::string, scalar>* localVariables) const {

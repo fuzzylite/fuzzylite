@@ -181,7 +181,9 @@ namespace fuzzylite {
               @return a fl::scalar indicating the result of the evaluation of
               the node
              */
-            virtual scalar evaluate(const std::map<std::string, scalar>* variables = fl::null) const;
+            virtual scalar
+            evaluate(const std::map<std::string, scalar>& variables = std::map<std::string, scalar>()) const;
+            virtual scalar evaluate(const std::map<std::string, scalar>* variables) const;
 
             /**
              Computes the size of the subtree under the given node. The complexity
@@ -299,8 +301,11 @@ namespace fuzzylite {
           @param variables is a map of substitution variables
           @return the function value of this term using the given map of
           variable substitutions.
+
+          TODO: deprecate
          */
-        virtual scalar evaluate(const std::map<std::string, scalar>* variables = fl::null) const;
+        virtual scalar evaluate(const std::map<std::string, scalar>* variables) const;
+        virtual scalar evaluate(const std::map<std::string, scalar>& variables = std::map<std::string, scalar>()) const;
 
         virtual std::string className() const FL_IOVERRIDE;
         /**
