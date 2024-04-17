@@ -22,11 +22,14 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    Aggregated::Aggregated(const std::string& name, scalar minimum, scalar maximum, SNorm* aggregation) :
+    Aggregated::Aggregated(
+        const std::string& name, scalar minimum, scalar maximum, SNorm* aggregation, const std::vector<Activated>& terms
+    ) :
         Term(name),
         _minimum(minimum),
         _maximum(maximum),
-        _aggregation(aggregation) {}
+        _aggregation(aggregation),
+        _terms(terms) {}
 
     Aggregated::Aggregated(const Aggregated& other) : Term(other) {
         copyFrom(other);
@@ -133,8 +136,7 @@ namespace fuzzylite {
             ss << getName() << ": " << className() << " " << exporter.toString(getAggregation()) << "["
                << Op::join(aggregate, ",") << "]";
         } else {
-            ss << getName() << ": " << className() << " "
-               << "[" << Op::join(aggregate, "+") << "]";  //\u2295: (+)
+            ss << getName() << ": " << className() << " " << "[" << Op::join(aggregate, "+") << "]";  //\u2295: (+)
         }
         return ss.str();
     }

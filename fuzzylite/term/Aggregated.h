@@ -46,9 +46,9 @@ namespace fuzzylite {
      */
     class FL_API Aggregated : public Term {
       private:
-        std::vector<Activated> _terms;
         scalar _minimum, _maximum;
         FL_unique_ptr<SNorm> _aggregation;
+        std::vector<Activated> _terms;
 
         void copyFrom(const Aggregated& source);
 
@@ -57,7 +57,8 @@ namespace fuzzylite {
             const std::string& name = "",
             scalar minimum = fl::nan,
             scalar maximum = fl::nan,
-            SNorm* aggregation = fl::null
+            SNorm* aggregation = fl::null,
+            const std::vector<Activated>& terms = std::vector<Activated>()
         );
         Aggregated(const Aggregated& other);
         Aggregated& operator=(const Aggregated& other);

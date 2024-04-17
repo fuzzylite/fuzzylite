@@ -1,6 +1,7 @@
 test/MainTest.cpp
 test/BenchmarkTest.cpp
 test/QuickTest.cpp
+test/TestDefuzzifier.cpp
 test/TestHedge.cpp
 test/TestNorm.cpp
 test/TestTerm.cpp
