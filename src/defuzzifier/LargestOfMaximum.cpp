@@ -33,21 +33,19 @@ namespace fuzzylite {
     scalar LargestOfMaximum::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
         if (not Op::isFinite(minimum + maximum))
             return fl::nan;
-
         const int resolution = getResolution();
         const scalar dx = (maximum - minimum) / resolution;
-        scalar x, y;
-        scalar ymax = -1.0, xlargest = maximum;
+        scalar ymax = -fl::inf;
+        scalar lom = fl::nan;
         for (int i = 0; i < resolution; ++i) {
-            x = minimum + (i + 0.5) * dx;
-            y = term->membership(x);
-
-            if (Op::isGE(y, ymax)) {
+            const scalar x = minimum + (i + 0.5) * dx;
+            const scalar y = term->membership(x);
+            if (y >= ymax) {
+                lom = x;
                 ymax = y;
-                xlargest = x;
             }
         }
-        return xlargest;
+        return lom;
     }
 
     LargestOfMaximum* LargestOfMaximum::clone() const {

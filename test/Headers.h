@@ -24,7 +24,7 @@ namespace fuzzylite {
 
         std::string describe() const override {
             std::ostringstream ss;
-            ss << "≈ " << expected;
+            ss << "≈ " << expected << " @(" << margin << ")";
             return ss.str();
         }
     };

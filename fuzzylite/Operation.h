@@ -179,6 +179,15 @@ namespace fuzzylite {
         static bool isClose(scalar a, scalar b, scalar macheps = fuzzylite::_macheps);
 
         /**
+         * Discretize the range using midpoints.
+         * @param start is the start of the range
+         * @param end is the end of the range
+         * @param resolution is the number of cuts to discretize the range
+         * @return the range discretized using midpoints
+         */
+        static std::vector<scalar> midpoints(scalar start, scalar end, int resolution = 1000);
+
+        /**
           Linearly interpolates the parameter @f$x@f$ in range
           `[fromMin,fromMax]` to a new value in the range `[toMin,toMax]`
           @param x is the source value to interpolate
@@ -664,6 +673,15 @@ namespace fuzzylite {
 
     inline bool Operation::isClose(scalar a, scalar b, scalar macheps) {
         return a == b or std::abs(a - b) < macheps or (a != a and b != b);
+    }
+
+    inline std::vector<scalar> Operation::midpoints(scalar start, scalar end, int resolution) {
+        std::vector<scalar> result;
+        result.reserve(resolution);
+        const scalar dx = (end - start) / resolution;
+        for (int i = 0; i < resolution; ++i)
+            result.push_back(start + (i + 0.5) * dx);
+        return result;
     }
 
     inline scalar Operation::scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax) {

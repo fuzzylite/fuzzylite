@@ -33,33 +33,22 @@ namespace fuzzylite {
     scalar MeanOfMaximum::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
         if (not Op::isFinite(minimum + maximum))
             return fl::nan;
-
         const int resolution = getResolution();
         const scalar dx = (maximum - minimum) / resolution;
-        scalar x, y;
-        scalar ymax = -1.0;
-        scalar xsmallest = minimum;
-        scalar xlargest = maximum;
-        bool samePlateau = false;
+        scalar ymax = -fl::inf;
+        std::vector<scalar> maxima;
         for (int i = 0; i < resolution; ++i) {
-            x = minimum + (i + 0.5) * dx;
-            y = term->membership(x);
-
-            if (Op::isGt(y, ymax)) {
+            const scalar x = minimum + (i + 0.5) * dx;
+            const scalar y = term->membership(x);
+            if (y > ymax) {
+                maxima.clear();
+                maxima.push_back(x);
                 ymax = y;
-
-                xsmallest = x;
-                xlargest = x;
-
-                samePlateau = true;
-            } else if (samePlateau and Op::isEq(y, ymax)) {
-                xlargest = x;
-            } else if (Op::isLt(y, ymax)) {
-                samePlateau = false;
-            }
+            } else if (y == ymax)
+                maxima.push_back(x);
         }
-
-        return 0.5 * (xlargest + xsmallest);
+        const scalar mom = Op::mean(maxima);
+        return mom;
     }
 
     MeanOfMaximum* MeanOfMaximum::clone() const {

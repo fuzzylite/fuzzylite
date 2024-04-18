@@ -19,7 +19,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    int IntegralDefuzzifier::_defaultResolution = 100;
+    int IntegralDefuzzifier::_defaultResolution = 1000;
 
     void IntegralDefuzzifier::setDefaultResolution(int defaultResolution) {
         _defaultResolution = defaultResolution;

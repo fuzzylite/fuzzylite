@@ -47,7 +47,7 @@ namespace fuzzylite {
             scalar minimum,
             scalar maximum,
             const std::map<fl::Term*, float>& terms,
-            scalar precision = fuzzylite::macheps()
+            scalar precision = fuzzylite::absoluteTolerance()
         ) {
             for (const auto& pair : terms) {
                 const auto obtained = actual->defuzzify(pair.first, minimum, maximum);
@@ -60,116 +60,104 @@ namespace fuzzylite {
         }
     };
 
-    TEST_CASE("Integral Defuzzifier", "[defuzzifier]") {
-        SECTION("Bisector") {
-            DefuzzifierAssert(new Bisector()).defuzzifies(0, 2, {{new NaN(), fl::nan}});
-        }
+    TEST_CASE("Bisector", "[defuzzifier][bisector]") {
+        DefuzzifierAssert(new Bisector()).exports_fll("Bisector").configured_as("200").exports_fll("Bisector 200");
 
-        SECTION("Centroid") {
-            const scalar precision = 1e-3;
-            DefuzzifierAssert(new Centroid())
-                .exports_fll("Centroid")
-                .configured_as("200")
-                .has_parameters("200")
-                .exports_fll("Centroid 200");
+        DefuzzifierAssert(new Bisector())
+            .defuzzifies(
+                0,
+                1,
+                {{new Triangle("", 0, 1, 1), 0.7065},
+                 {new Triangle("", 0, 0, 1), 0.2925},
+                 {new Triangle("", 0, 0.5, 1), 0.4995},
+                 {new Rectangle("", 0, 1), 0.4995}}
+            );
+        DefuzzifierAssert(new Bisector())
+            .defuzzifies(
+                -1,
+                1,
+                {
+                    {new Rectangle("", -1, 1), -0.001},
+                }
+            );
 
-            DefuzzifierAssert(new Centroid()).defuzzifies(-inf, 0.0, {{new Triangle(), nan}});
-            DefuzzifierAssert(new Centroid()).defuzzifies(0.0, inf, {{new Triangle(), nan}});
-            DefuzzifierAssert(new Centroid()).defuzzifies(nan, 0.0, {{new Triangle(), nan}});
-            //
-            FL_unique_ptr<Minimum> minimum(new Minimum());
-            FL_unique_ptr<Triangle> medium(new Triangle("Medium", 0.25, 0.5, 0.75));
-            FL_unique_ptr<Triangle> high(new Triangle("High", 0.5, 0.75, 1.0));
-            DefuzzifierAssert(new Centroid())
-                .defuzzifies(
-                    -1,
-                    1,
-                    {{new Triangle("", -inf, 0), nan},
-                     {new Triangle("", 0, inf), nan},
-                     {new Triangle("", nan, 0), nan},
-                     {new Triangle("", -1, 0), -0.5},
-                     {new Triangle("", -1, 1), 0.0},
-                     {new Triangle("", 0, 1), 0.5},
-                     {new Aggregated(
-                          "",
-                          0,
-                          1,
-                          new Maximum(),
-                          {
-                              Activated(medium.get(), 0.2, minimum.get()),
-                              Activated(high.get(), 0.8, minimum.get()),
-                          }
-                      ),
-                      0.6896552}},
-                    precision
-                );
-            DefuzzifierAssert(new Centroid()).defuzzifies(-1, 1, {{new NaN(), nan}});
-        }
+        FL_unique_ptr<AlgebraicProduct> algebraicProduct(new AlgebraicProduct());
+        FL_unique_ptr<Triangle> low(new Triangle("low", -1, -1, -0.5));
+        FL_unique_ptr<Triangle> high(new Triangle("high", 0.5, 1, 1));
+        DefuzzifierAssert(new Bisector())
+            .defuzzifies(
+                -1,
+                1,
+                {
+                    {new Aggregated(
+                         "",
+                         -1,
+                         1,
+                         new UnboundedSum(),
+                         {
+                             Activated(low.get(), 1.0, algebraicProduct.get()),
+                             Activated(high.get(), 1.0, algebraicProduct.get()),
+                         }
+                     ),
+                     -0.001},
+                }
+            );
+        DefuzzifierAssert(new Bisector()).defuzzifies(0, 2, {{new NaN(), fl::nan}});
     }
 
-    TEST_CASE("WeightedDefuzzifer", "[defuzzifier]") {}
+    TEST_CASE("Centroid", "[defuzzifier][centroid]") {
+        DefuzzifierAssert(new Centroid())
+            .exports_fll("Centroid")
+            .configured_as("200")
+            .has_parameters("200")
+            .exports_fll("Centroid 200");
 
-    TEST_CASE("Issues", "[defuzzifier][!shouldfail]") {
-        // TODO: Fix bisector for multiple global minima
-        // TODO: Increase precision
-        SECTION("Bisector") {
-            const scalar precision = 1e-3;
-            DefuzzifierAssert(new Bisector()).exports_fll("Bisector").configured_as("200").exports_fll("Bisector 200");
+        DefuzzifierAssert(new Centroid()).defuzzifies(-inf, 0.0, {{new Triangle(), nan}});
+        DefuzzifierAssert(new Centroid()).defuzzifies(0.0, inf, {{new Triangle(), nan}});
+        DefuzzifierAssert(new Centroid()).defuzzifies(nan, 0.0, {{new Triangle(), nan}});
+        //
+        FL_unique_ptr<Minimum> minimum(new Minimum());
+        FL_unique_ptr<Triangle> medium(new Triangle("Medium", 0.25, 0.5, 0.75));
+        FL_unique_ptr<Triangle> high(new Triangle("High", 0.5, 0.75, 1.0));
+        DefuzzifierAssert(new Centroid())
+            .defuzzifies(
+                -1,
+                1,
+                {{new Triangle("", -inf, 0), nan},
+                 {new Triangle("", 0, inf), nan},
+                 {new Triangle("", nan, 0), nan},
+                 {new Triangle("", -1, 0), -0.5},
+                 {new Triangle("", -1, 1), 0.0},
+                 {new Triangle("", 0, 1), 0.5},
+                 {new Aggregated(
+                      "",
+                      0,
+                      1,
+                      new Maximum(),
+                      {
+                          Activated(medium.get(), 0.2, minimum.get()),
+                          Activated(high.get(), 0.8, minimum.get()),
+                      }
+                  ),
+                  0.6896552}}
 
-            DefuzzifierAssert(new Bisector())
-                .defuzzifies(
-                    0,
-                    1,
-                    {{new Triangle("", 0, 1, 1), 0.7065},
-                     {new Triangle("", 0, 0, 1), 0.2925},
-                     {new Triangle("", 0, 0.5, 1), 0.4995},
-                     {new Rectangle("", 0, 1), 0.4995}},
-                    precision
-                );
-            DefuzzifierAssert(new Bisector())
-                .defuzzifies(
-                    -1,
-                    1,
-                    {
-                        {new Rectangle("", -1, 1), -0.001},
-                    },
-                    precision
-                );
+            );
+        DefuzzifierAssert(new Centroid()).defuzzifies(-1, 1, {{new NaN(), nan}});
+    }
 
-            FL_unique_ptr<AlgebraicProduct> algebraicProduct(new AlgebraicProduct());
-            FL_unique_ptr<Triangle> low(new Triangle("low", -1, -1, -0.5));
-            FL_unique_ptr<Triangle> high(new Triangle("high", 0.5, 1, 1));
-            DefuzzifierAssert(new Bisector())
-                .defuzzifies(
-                    -1,
-                    1,
-                    {
-                        {new Aggregated(
-                             "",
-                             -1,
-                             1,
-                             new UnboundedSum(),
-                             {
-                                 Activated(low.get(), 1.0, algebraicProduct.get()),
-                                 Activated(high.get(), 1.0, algebraicProduct.get()),
-                             }
-                         ),
-                         -0.001},
-                    },
-                    precision
-                );
-        }
+    TEST_CASE("SmallestOfMaximum", "[defuzzifier][som]") {
         SECTION("SmallestOfMaximum") {
             DefuzzifierAssert(new SmallestOfMaximum())
                 .exports_fll("SmallestOfMaximum")
                 .configured_as("200")
                 .exports_fll("SmallestOfMaximum 200");
-
-            //        # Test case:
-            //        #            ______
-            //        #      _____/      \
-//        # ____/             \
-//        # |                   \____
+            /**
+             # Test case:
+             #            ______
+             #      _____/      \
+             # ____/             \
+             # |                   \____
+            **/
             FL_unique_ptr<Discrete> term(new Discrete(
                 "test",
                 {
@@ -202,97 +190,100 @@ namespace fuzzylite {
                 );
             DefuzzifierAssert(new SmallestOfMaximum()).defuzzifies(-1, 1, {{new NaN(), fl::nan}});
         }
-        SECTION("LargestOfMaximum") {
-            DefuzzifierAssert(new LargestOfMaximum())
-                .exports_fll("LargestOfMaximum")
-                .configured_as("200")
-                .has_parameters("200")
-                .exports_fll("LargestOfMaximum 200");
-
-            //        # Test case:
-            //        #            ______
-            //        #      _____/      \
-            //        # ____/             \
-            //        # |                   \____
-            FL_unique_ptr<Discrete> term(new Discrete(
-                "test",
-                {
-                    {0.0, 0.25},
-                    {0.1, 0.25},
-                    {0.2, 0.5},
-                    {0.4, 0.5},
-                    {0.5, 1.0},
-                    {0.7, 1.0},
-                    {0.9, 1.0},  // #LOM
-                    {1.0, 0.0},
-                }
-            ));
-
-            DefuzzifierAssert(new LargestOfMaximum()).defuzzifies(-fl::inf, fl::inf, {{term->clone(), fl::nan}});
-            DefuzzifierAssert(new LargestOfMaximum()).defuzzifies(-fl::inf, 0.0, {{term->clone(), fl::nan}});
-            DefuzzifierAssert(new LargestOfMaximum()).defuzzifies(0.0, fl::inf, {{term->clone(), fl::nan}});
-            DefuzzifierAssert(new LargestOfMaximum()).defuzzifies(fl::nan, fl::nan, {{term->clone(), fl::nan}});
-            DefuzzifierAssert(new LargestOfMaximum()).defuzzifies(fl::nan, 0, {{term->clone(), fl::nan}});
-            DefuzzifierAssert(new LargestOfMaximum()).defuzzifies(0, fl::nan, {{term->clone(), fl::nan}});
-
-            DefuzzifierAssert(new LargestOfMaximum())
-                .defuzzifies(
-                    0,
-                    1,
-                    {
-                        {term->clone(), 0.9},
-                        {new Trapezoid("", 0.0, 0.2, 0.4, 0.6), 0.4},
-                    }
-                );
-            DefuzzifierAssert(new LargestOfMaximum()).defuzzifies(-1, 1, {{new NaN(), fl::nan}});
-        }
-
-        SECTION("MeanOfMaximum") {
-            DefuzzifierAssert(new MeanOfMaximum())
-                .exports_fll("MeanOfMaximum")
-                .configured_as("200")
-                .has_parameters("200")
-                .exports_fll("MeanOfMaximum 200");
-
-            //        # Test case:
-            //        #            ______
-            //        #      _____/      \
-            //        # ____/             \
-            //        # |                   \____
-
-            FL_unique_ptr<Discrete> term(new Discrete(
-                "test",
-                {
-                    {0.0, 0.25},
-                    {0.1, 0.25},
-                    {0.2, 0.5},
-                    {0.4, 0.5},
-                    {0.5, 1.0},
-                    {0.7, 1.0},  // # MOM: (0.5 + 0.9)/2=0.7
-                    {0.9, 1.0},
-                    {1.0, 0.0},
-                }
-            ));
-
-            DefuzzifierAssert(new MeanOfMaximum()).defuzzifies(-fl::inf, fl::inf, {{term->clone(), fl::nan}});
-            DefuzzifierAssert(new MeanOfMaximum()).defuzzifies(-fl::inf, 0.0, {{term->clone(), fl::nan}});
-            DefuzzifierAssert(new MeanOfMaximum()).defuzzifies(0.0, fl::inf, {{term->clone(), fl::nan}});
-            DefuzzifierAssert(new MeanOfMaximum()).defuzzifies(fl::nan, fl::nan, {{term->clone(), fl::nan}});
-            DefuzzifierAssert(new MeanOfMaximum()).defuzzifies(fl::nan, 0, {{term->clone(), fl::nan}});
-            DefuzzifierAssert(new MeanOfMaximum()).defuzzifies(0, fl::nan, {{term->clone(), fl::nan}});
-
-            DefuzzifierAssert(new MeanOfMaximum())
-                .defuzzifies(
-                    0,
-                    1,
-                    {{term->clone(), 0.7},
-                     {
-                         new Trapezoid("", 0.0, 0.2, 0.4, 0.6),
-                         0.3,
-                     }}
-                );
-            DefuzzifierAssert(new MeanOfMaximum()).defuzzifies(-1, 1, {{new NaN(), fl::nan}});
-        }
     }
 
+    TEST_CASE("LargestOfMaximum", "[defuzzifier][lom]") {
+        DefuzzifierAssert(new LargestOfMaximum())
+            .exports_fll("LargestOfMaximum")
+            .configured_as("200")
+            .has_parameters("200")
+            .exports_fll("LargestOfMaximum 200");
+
+        /**
+         # Test case:
+         #            ______
+         #      _____/      \
+         # ____/             \
+         # |                   \____
+        **/
+        FL_unique_ptr<Discrete> term(new Discrete(
+            "test",
+            {
+                {0.0, 0.25},
+                {0.1, 0.25},
+                {0.2, 0.5},
+                {0.4, 0.5},
+                {0.5, 1.0},
+                {0.7, 1.0},
+                {0.9, 1.0},  // #LOM
+                {1.0, 0.0},
+            }
+        ));
+
+        DefuzzifierAssert(new LargestOfMaximum()).defuzzifies(-fl::inf, fl::inf, {{term->clone(), fl::nan}});
+        DefuzzifierAssert(new LargestOfMaximum()).defuzzifies(-fl::inf, 0.0, {{term->clone(), fl::nan}});
+        DefuzzifierAssert(new LargestOfMaximum()).defuzzifies(0.0, fl::inf, {{term->clone(), fl::nan}});
+        DefuzzifierAssert(new LargestOfMaximum()).defuzzifies(fl::nan, fl::nan, {{term->clone(), fl::nan}});
+        DefuzzifierAssert(new LargestOfMaximum()).defuzzifies(fl::nan, 0, {{term->clone(), fl::nan}});
+        DefuzzifierAssert(new LargestOfMaximum()).defuzzifies(0, fl::nan, {{term->clone(), fl::nan}});
+
+        DefuzzifierAssert(new LargestOfMaximum())
+            .defuzzifies(
+                0,
+                1,
+                {
+                    {term->clone(), 0.9},
+                    {new Trapezoid("", 0.0, 0.2, 0.4, 0.6), 0.4},
+                }
+            );
+        DefuzzifierAssert(new LargestOfMaximum()).defuzzifies(-1, 1, {{new NaN(), fl::nan}});
+    }
+
+    TEST_CASE("MeanOfMaximum", "[defuzzifier][mom]") {
+        DefuzzifierAssert(new MeanOfMaximum())
+            .exports_fll("MeanOfMaximum")
+            .configured_as("200")
+            .has_parameters("200")
+            .exports_fll("MeanOfMaximum 200");
+
+        /**
+         # Test case:
+         #            ______
+         #      _____/      \
+         # ____/             \
+         # |                   \____
+        **/
+        FL_unique_ptr<Discrete> term(new Discrete(
+            "test",
+            {
+                {0.0, 0.25},
+                {0.1, 0.25},
+                {0.2, 0.5},
+                {0.4, 0.5},
+                {0.5, 1.0},
+                {0.7, 1.0},  // # MOM: (0.5 + 0.9)/2=0.7
+                {0.9, 1.0},
+                {1.0, 0.0},
+            }
+        ));
+
+        DefuzzifierAssert(new MeanOfMaximum()).defuzzifies(-fl::inf, fl::inf, {{term->clone(), fl::nan}});
+        DefuzzifierAssert(new MeanOfMaximum()).defuzzifies(-fl::inf, 0.0, {{term->clone(), fl::nan}});
+        DefuzzifierAssert(new MeanOfMaximum()).defuzzifies(0.0, fl::inf, {{term->clone(), fl::nan}});
+        DefuzzifierAssert(new MeanOfMaximum()).defuzzifies(fl::nan, fl::nan, {{term->clone(), fl::nan}});
+        DefuzzifierAssert(new MeanOfMaximum()).defuzzifies(fl::nan, 0, {{term->clone(), fl::nan}});
+        DefuzzifierAssert(new MeanOfMaximum()).defuzzifies(0, fl::nan, {{term->clone(), fl::nan}});
+
+        DefuzzifierAssert(new MeanOfMaximum())
+            .defuzzifies(
+                0,
+                1,
+                {{term->clone(), 0.7},
+                 {
+                     new Trapezoid("", 0.0, 0.2, 0.4, 0.6),
+                     0.3,
+                 }}
+            );
+        DefuzzifierAssert(new MeanOfMaximum()).defuzzifies(-1, 1, {{new NaN(), fl::nan}});
+    }
 }

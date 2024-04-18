@@ -253,6 +253,7 @@ namespace fuzzylite {
       private:
         static int _decimals;
         static scalar _macheps;
+        static scalar _atol;
         static std::ios_base::fmtflags _scalarFormat;
         static bool _logging;
         static bool _debugging;
@@ -327,6 +328,22 @@ namespace fuzzylite {
           values are considered equivalent (default is 1e-6)
          */
         static void setMachEps(scalar macheps);
+
+        /**
+        Returns the minimum difference at which two floating-point values
+        are considered equivalent
+        @return the minimum difference at which two floating-point values
+        are considered equivalent (default is 1e-6)
+         */
+        static scalar absoluteTolerance();
+
+        /**
+          Sets the minimum difference at which two floating-point values are
+          considered equivalent
+          @param macheps is the minimum difference at which two floating-point
+          values are considered equivalent (default is 1e-6)
+         */
+        static void setAbsoluteTolerance(scalar atol);
 
         /**
           Sets the default format to be utilized for every fl::scalar passed to
@@ -446,6 +463,14 @@ namespace fuzzylite {
 
     inline scalar fuzzylite::macheps() {
         return _macheps;
+    }
+
+    inline void fuzzylite::setAbsoluteTolerance(scalar atol) {
+        _atol = atol;
+    }
+
+    inline scalar fuzzylite::absoluteTolerance() {
+        return _atol;
     }
 
     inline void fuzzylite::setLogging(bool logging) {
