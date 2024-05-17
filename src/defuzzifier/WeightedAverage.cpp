@@ -33,48 +33,30 @@ namespace fuzzylite {
         return "WeightedAverage";
     }
 
-    scalar WeightedAverage::defuzzify(const Term* term, scalar minimum, scalar maximum) const {
-        const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*>(term);
-        if (not fuzzyOutput) {
-            std::ostringstream ss;
-            ss << "[defuzzification error]"
-               << "expected an Aggregated term instead of"
-               << "<" << (term ? term->toString() : "null") << ">";
-            throw Exception(ss.str(), FL_AT);
-        }
-
-        if (fuzzyOutput->isEmpty())
-            return fl::nan;
-
-        minimum = fuzzyOutput->getMinimum();
-        maximum = fuzzyOutput->getMaximum();
-
-        Type type = getType();
-        if (type == Automatic)
-            type = inferType(&(fuzzyOutput->terms().front()));
-
+    scalar WeightedAverage::takagiSugeno(const Aggregated* term) const {
         scalar sum = 0.0;
         scalar weights = 0.0;
-        const std::size_t numberOfTerms = fuzzyOutput->numberOfTerms();
-        if (type == TakagiSugeno) {
-            // Provides Takagi-Sugeno and Inverse Tsukamoto of Functions
-            scalar w, z;
-            for (std::size_t i = 0; i < numberOfTerms; ++i) {
-                const Activated& activated = fuzzyOutput->getTerm(i);
-                w = activated.getDegree();
-                z = activated.getTerm()->membership(w);
-                sum += w * z;
-                weights += w;
-            }
-        } else {
-            scalar w, z;
-            for (std::size_t i = 0; i < numberOfTerms; ++i) {
-                const Activated& activated = fuzzyOutput->getTerm(i);
-                w = activated.getDegree();
-                z = activated.getTerm()->tsukamoto(w, minimum, maximum);
-                sum += w * z;
-                weights += w;
-            }
+        std::vector<Activated> groupedTerms(term->groupedTerms());
+        for (std::size_t i = 0; i < groupedTerms.size(); ++i) {
+            const Activated& activated = groupedTerms.at(i);
+            const scalar w = activated.getDegree();
+            const scalar z = activated.getTerm()->membership(w);
+            sum += w * z;
+            weights += w;
+        }
+        return sum / weights;
+    }
+
+    scalar WeightedAverage::tsukamoto(const Aggregated* term) const {
+        scalar sum = 0.0;
+        scalar weights = 0.0;
+        std::vector<Activated> groupedTerms(term->groupedTerms());
+        for (std::size_t i = 0; i < groupedTerms.size(); ++i) {
+            const Activated& activated = groupedTerms.at(i);
+            const scalar w = activated.getDegree();
+            const scalar z = activated.getTerm()->tsukamoto(w, fl::nan, fl::nan);
+            sum += w * z;
+            weights += w;
         }
         return sum / weights;
     }

@@ -43,21 +43,8 @@ namespace fuzzylite {
 
         virtual std::string className() const FL_IOVERRIDE;
 
-        /**
-          Computes the weighted sum of the given fuzzy set represented as an
-          Aggregated Term as @f$y = \sum_i{w_iz_i} @f$,
-          where @f$w_i@f$ is the activation degree of term @f$i@f$, and @f$z_i
-          = \mu_i(w_i) @f$.
-
-          From version 6.0, the implication and aggregation operators are not
-          utilized for defuzzification.
-
-          @param term is the fuzzy set represented as an AggregatedTerm
-          @param minimum is the minimum value of the range (only used for Tsukamoto)
-          @param maximum is the maximum value of the range (only used for Tsukamoto)
-          @return the weighted sum of the given fuzzy set
-         */
-        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        virtual scalar takagiSugeno(const Aggregated* term) const FL_IOVERRIDE;
+        virtual scalar tsukamoto(const Aggregated* term) const FL_IOVERRIDE;
         virtual WeightedSum* clone() const FL_IOVERRIDE;
 
         static Defuzzifier* constructor();

@@ -18,6 +18,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_AGGREGATED_H
 #define FL_AGGREGATED_H
 
+#include <map>
 #include <vector>
 
 #include "fuzzylite/term/Activated.h"
@@ -102,7 +103,9 @@ namespace fuzzylite {
           activation degree
           @return the term with the maximum activation degree
          */
-        virtual const Activated* highestActivatedTerm() const;
+        virtual Activated highestActivatedTerm() const;
+
+        virtual std::vector<Activated> groupedTerms() const;
 
         virtual std::string toString() const FL_IOVERRIDE;
 

@@ -303,7 +303,7 @@ namespace fuzzylite {
 
         CHECK_THAT(aggregated.activationDegree(&low), Catch::Matchers::WithinAbs(0.6, fuzzylite::macheps()));
         CHECK_THAT(aggregated.activationDegree(&medium), Catch::Matchers::WithinAbs(0.4, fuzzylite::macheps()));
-        CHECK(aggregated.highestActivatedTerm()->getTerm() == &low);
+        CHECK(aggregated.highestActivatedTerm().getTerm() == &low);
 
         aggregated.setRange(-2, 2);
         CHECK(aggregated.range() == 4);
@@ -350,16 +350,55 @@ namespace fuzzylite {
         aggregated.addTerm(medium.get(), 0.1, fl::null);
         aggregated.addTerm(bright.get(), 0.6, fl::null);
 
-        REQUIRE(aggregated.highestActivatedTerm()->getTerm() == bright.get());
+        REQUIRE(aggregated.highestActivatedTerm().getTerm() == bright.get());
 
         aggregated.terms().at(1).setDegree(0.7);
-        REQUIRE(aggregated.highestActivatedTerm()->getTerm() == medium.get());
+        REQUIRE(aggregated.highestActivatedTerm().getTerm() == medium.get());
 
         aggregated.terms().front().setDegree(0.9);
-        REQUIRE(aggregated.highestActivatedTerm()->getTerm() == dark.get());
+        REQUIRE(aggregated.highestActivatedTerm().getTerm() == dark.get());
 
         aggregated.clear();
-        REQUIRE(aggregated.highestActivatedTerm() == fl::null);
+        REQUIRE(aggregated.highestActivatedTerm().getTerm() == fl::null);
+    }
+
+    TEST_CASE("Aggregated: grouped terms", "[term][aggregated]") {
+        FL_unique_ptr<Term> dark(new Triangle("DARK", 0.000, 0.250, 0.500));
+        FL_unique_ptr<Term> bright(new Triangle("BRIGHT", 0.500, 0.750, 1.000));
+        FL_unique_ptr<Term> medium(new Triangle("MED", 0.500, 0.750, 1.000));
+
+        Aggregated aggregated;
+
+        CHECK(aggregated.groupedTerms().empty());
+
+        aggregated.addTerm(dark.get(), 0.5, fl::null);
+        aggregated.addTerm(dark.get(), 0.5, fl::null);
+        aggregated.addTerm(bright.get(), 0.25, fl::null);
+        aggregated.addTerm(bright.get(), 0.25, fl::null);
+        aggregated.addTerm(medium.get(), 0.1, fl::null);
+
+        // Without aggregation
+        auto grouped = aggregated.groupedTerms();
+        CHECK(grouped.at(0).getTerm() == bright.get());
+        CHECK(grouped.at(0).getDegree() == 0.5);
+
+        CHECK(grouped.at(1).getTerm() == dark.get());
+        CHECK(grouped.at(1).getDegree() == 1.0);
+
+        CHECK(grouped.at(2).getTerm() == medium.get());
+        CHECK(grouped.at(2).getDegree() == 0.1);
+
+        // With aggregation
+        aggregated.setAggregation(new Maximum);
+        grouped = aggregated.groupedTerms();
+        CHECK(grouped.at(0).getTerm() == bright.get());
+        CHECK(grouped.at(0).getDegree() == 0.25);
+
+        CHECK(grouped.at(1).getTerm() == dark.get());
+        CHECK(grouped.at(1).getDegree() == 0.5);
+
+        CHECK(grouped.at(2).getTerm() == medium.get());
+        CHECK(grouped.at(2).getDegree() == 0.1);
     }
 
     TEST_CASE("Bell", "[term][bell]") {

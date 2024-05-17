@@ -30,6 +30,8 @@ namespace fuzzylite {
             FL_IUNUSED(parameters);
             if (auto integralDefuzzifier = dynamic_cast<IntegralDefuzzifier*>(actual.get()))
                 integralDefuzzifier->setResolution(std::stoi(parameters));
+            else if (auto weightedDefuzzifier = dynamic_cast<WeightedDefuzzifier*>(actual.get()))
+                weightedDefuzzifier->setType(parameters);
             return *this;
         }
 
@@ -286,4 +288,311 @@ namespace fuzzylite {
             );
         DefuzzifierAssert(new MeanOfMaximum()).defuzzifies(-1, 1, {{new NaN(), fl::nan}});
     }
+
+    TEST_CASE("WeightedAverage", "[defuzzifier][weighted]") {
+        DefuzzifierAssert(new WeightedAverage()).exports_fll("WeightedAverage Automatic");
+        DefuzzifierAssert(new WeightedAverage())
+            .configured_as("TakagiSugeno")
+            .exports_fll("WeightedAverage TakagiSugeno")
+            .configured_as("Tsukamoto")
+            .exports_fll("WeightedAverage Tsukamoto");
+
+        FL_unique_ptr<Constant> a(new Constant("A"));
+        FL_unique_ptr<Constant> b(new Constant("B"));
+        FL_unique_ptr<Constant> c(new Constant("C"));
+
+        a->setValue(1.0);
+        b->setValue(2.0);
+        c->setValue(3.0);
+        DefuzzifierAssert(new WeightedAverage("TakagiSugeno"))
+            .defuzzifies(
+                -fl::inf,
+                fl::inf,
+                {
+                    {new fl::Aggregated(), fl::nan},
+                    {new fl::Aggregated(
+                         "A",
+                         fl::nan,
+                         fl::nan,
+                         fl::null,
+                         {Activated(a.get(), 1.0), Activated(b.get(), 1.0), Activated(c.get(), 1.0)}
+                     ),
+                     2.0},
+                    {new fl::Aggregated(
+                         "A",
+                         fl::nan,
+                         fl::nan,
+                         fl::null,
+                         {Activated(a.get(), 1.0), Activated(b.get(), 0.5), Activated(c.get(), 1.0)}
+                     ),
+                     2.0},
+                }
+            );
+        a->setValue(-1.0);
+        b->setValue(-2.0);
+        c->setValue(3.0);
+        DefuzzifierAssert(new WeightedAverage("TakagiSugeno"))
+            .defuzzifies(
+                -fl::inf,
+                fl::inf,
+                {
+                    {new fl::Aggregated(
+                         "A",
+                         fl::nan,
+                         fl::nan,
+                         fl::null,
+                         {fl::Activated(a.get(), 1.0), fl::Activated(b.get(), 1.0), fl::Activated(c.get(), 1.0)}
+                     ),
+                     0.0},
+                }
+            );
+
+        a->setValue(1.0);
+        b->setValue(-2.0);
+        c->setValue(-3.0);
+        DefuzzifierAssert(new WeightedAverage("TakagiSugeno"))
+            .defuzzifies(
+                -fl::inf,
+                fl::inf,
+                {
+                    {new fl::Aggregated(
+                         "A",
+                         fl::nan,
+                         fl::nan,
+                         fl::null,
+                         {fl::Activated(a.get(), 1.0), fl::Activated(b.get(), 1.0), fl::Activated(c.get(), 0.5)}
+                     ),
+                     -1.0},
+                }
+            );
+    }
+
+    TEST_CASE("WeightedAverage Grouped", "[defuzzifier][weighted]") {
+        FL_unique_ptr<Constant> a(new Constant("A"));
+        FL_unique_ptr<Constant> b(new Constant("B"));
+        FL_unique_ptr<Constant> c(new Constant("C"));
+
+        a->setValue(1.0);
+        b->setValue(2.0);
+        c->setValue(3.0);
+
+        DefuzzifierAssert(new WeightedAverage("TakagiSugeno"))
+            .defuzzifies(
+                -fl::inf,
+                fl::inf,
+                {{new fl::Aggregated(
+                      "A",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {Activated(a.get(), 0.5),
+                       Activated(a.get(), 0.5),
+                       Activated(b.get(), 1.0),
+                       Activated(c.get(), 1.0)}
+                  ),
+                  2.0},
+                 {new fl::Aggregated(
+                      "A",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {Activated(a.get(), 1.0),
+                       Activated(b.get(), 0.25),
+                       Activated(b.get(), 0.25),
+                       Activated(c.get(), 1.0)}
+                  ),
+                  2.0}}
+            );
+
+        a->setValue(-1.0);
+        b->setValue(-2.0);
+        c->setValue(3.0);
+        DefuzzifierAssert(new WeightedAverage("TakagiSugeno"))
+            .defuzzifies(
+                -fl::inf,
+                fl::inf,
+                {{new fl::Aggregated(
+                      "A",
+                      fl::nan,
+                      fl::nan,
+                      new Maximum(),
+                      {Activated(a.get(), 1.0),
+                       Activated(a.get(), 1.0),
+                       Activated(b.get(), 1.0),
+                       Activated(c.get(), 1.0)}
+                  ),
+                  0.0}}
+            );
+
+        a->setValue(1.0);
+        b->setValue(-2.0);
+        c->setValue(-3.0);
+        DefuzzifierAssert(new WeightedAverage("TakagiSugeno"))
+            .defuzzifies(
+                -fl::inf,
+                fl::inf,
+                {{
+                    new fl::Aggregated(
+                        "A",
+                        fl::nan,
+                        fl::nan,
+                        new AlgebraicSum(),
+                        {Activated(a.get(), 1.0),
+                         Activated(b.get(), 1.0),
+                         Activated(c.get(), 0.5),
+                         Activated(c.get(), 0.5)}
+                    ),
+                    -1.181818  //((1 * 1 + 1 * -2 + (0.5 + 0.5 - (0.25)) * -3) / (1 + 1 + (0.5 + 0.5 - 0.25)))
+                }}
+            );
+    }
+
+    TEST_CASE("WeightedSum", "[defuzzifier][weighted]") {
+        DefuzzifierAssert(new WeightedSum())
+            .exports_fll("WeightedSum Automatic")
+            .configured_as("TakagiSugeno")
+            .exports_fll("WeightedSum TakagiSugeno")
+            .configured_as("Tsukamoto")
+            .exports_fll("WeightedSum Tsukamoto");
+
+        FL_unique_ptr<Constant> a(new Constant("A"));
+        FL_unique_ptr<Constant> b(new Constant("B"));
+        FL_unique_ptr<Constant> c(new Constant("C"));
+
+        a->setValue(1.0);
+        b->setValue(2.0);
+        c->setValue(3.0);
+        DefuzzifierAssert(new WeightedSum("TakagiSugeno"))
+            .defuzzifies(
+                -fl::inf,
+                fl::inf,
+                {{new fl::Aggregated(), fl::nan},
+                 {new fl::Aggregated(
+                      "A",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {
+                          fl::Activated(a.get(), 1.0),
+                          fl::Activated(b.get(), 1.0),
+                          fl::Activated(c.get(), 1.0),
+                      }
+                  ),
+                  6.0},
+                 {new fl::Aggregated(
+                      "A",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {
+                          fl::Activated(a.get(), 1.0),
+                          fl::Activated(b.get(), 0.5),
+                          fl::Activated(c.get(), 1.0),
+                      }
+                  ),
+                  5.0}}
+            );
+
+        a->setValue(-1.0);
+        b->setValue(-2.0);
+        c->setValue(3.0);
+
+        DefuzzifierAssert(new WeightedSum("TakagiSugeno"))
+            .defuzzifies(
+                -fl::inf,
+                fl::inf,
+                {{new fl::Aggregated(
+                      "A",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {
+                          fl::Activated(a.get(), 1.0),
+                          fl::Activated(b.get(), 1.0),
+                          fl::Activated(c.get(), 1.0),
+                      }
+                  ),
+                  0.0}}
+            );
+
+        a->setValue(1.0);
+        b->setValue(-2.0);
+        c->setValue(-3.0);
+        DefuzzifierAssert(new WeightedSum("TakagiSugeno"))
+            .defuzzifies(
+                -fl::inf,
+                fl::inf,
+                {{new fl::Aggregated(
+                      "A",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {
+                          fl::Activated(a.get(), 1.0),
+                          fl::Activated(b.get(), 1.0),
+                          fl::Activated(c.get(), 0.5),
+                      }
+                  ),
+                  -2.5}}
+            );
+    }
+
+    TEST_CASE("WeightedSum Grouped", "[defuzzifier][weighted]") {
+        FL_unique_ptr<Constant> a(new Constant("A", 1.0));
+        DefuzzifierAssert(new WeightedSum("TakagiSugeno"))
+            .defuzzifies(
+                -fl::inf,
+                fl::inf,
+                {{new fl::Aggregated(), fl::nan},
+                 {new fl::Aggregated(
+                      "A",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {
+                          Activated(a.get(), 0.0),
+                          Activated(a.get(), 0.3),
+                          Activated(a.get(), 0.6),
+                      }
+                  ),
+                  (0.9 * 1.0)},
+                 {new fl::Aggregated(
+                      "A",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {
+                          Activated(a.get(), 1.0),
+                          Activated(a.get(), 0.3),
+                          Activated(a.get(), 0.6),
+                      }
+                  ),
+                  (1.9 * 1.0)},
+                 {new fl::Aggregated(
+                      "A",
+                      fl::nan,
+                      fl::nan,
+                      new fl::Maximum(),
+                      {
+                          Activated(a.get(), 0.0),
+                          Activated(a.get(), 0.3),
+                          Activated(a.get(), 0.6),
+                      }
+                  ),
+                  (0.6 * 1.0)},
+                 {new fl::Aggregated(
+                      "",
+                      fl::nan,
+                      fl::nan,
+                      new fl::AlgebraicSum(),
+                      {
+                          Activated(a.get(), 0.0),
+                          Activated(a.get(), 0.3),
+                          Activated(a.get(), 0.6),
+                      }
+                  ),
+                  (0.72 * 1.0)}}
+            );
+    }
+
 }
