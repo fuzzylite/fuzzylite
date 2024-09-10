@@ -35,22 +35,16 @@ namespace fuzzylite {
 
         const int resolution = getResolution();
         const scalar dx = (maximum - minimum) / resolution;
-        scalar x, y;
-        scalar area = 0, xcentroid = 0;
-        // scalar ycentroid = 0;
+        scalar area = 0.0, centroid = 0.0;
         for (int i = 0; i < resolution; ++i) {
-            x = minimum + (i + 0.5) * dx;
-            y = term->membership(x);
+            const scalar x = minimum + (i + 0.5) * dx;
+            const scalar y = term->membership(x);
 
-            xcentroid += y * x;
-            // ycentroid += y * y;
+            centroid += y * x;
             area += y;
         }
-        // Final results not computed for efficiency
-        // xcentroid /= area;
-        // ycentroid /= 2 * area;
-        // area *= dx;
-        return xcentroid / area;
+        centroid /= area;
+        return centroid;
     }
 
     Centroid* Centroid::clone() const {

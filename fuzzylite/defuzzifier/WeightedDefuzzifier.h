@@ -20,8 +20,12 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/defuzzifier/Defuzzifier.h"
 
+#include <vector>
+
 namespace fuzzylite {
     class Activated;
+    class Aggregated;
+    class Variable;
 
     /**
       The WeightedDefuzzifier class is the base class for defuzzifiers which
@@ -65,6 +69,13 @@ namespace fuzzylite {
           @param type is the type of the weighted defuzzifier
          */
         void setType(Type type);
+
+        /**
+          Sets the type of the weighted defuzzifier
+          @param type is the type of the weighted defuzzifier
+         */
+        void setType(const std::string& type);
+
         /**
           Gets the type of the weighted defuzzifier
           @return the type of the weighted defuzzifier
@@ -83,7 +94,30 @@ namespace fuzzylite {
           @param term is the given term
           @return the inferred type of the defuzzifier based on the given term
          */
+        virtual Type inferType(const Variable* variable) const;
         virtual Type inferType(const Term* term) const;
+        virtual Type inferType(const std::vector<const Term*>& terms) const;
+
+        /**
+         * Defuzzifies the fuzzy output
+         * @param term is the fuzzy output
+         * @param minimum is irrelevant
+         * @param maximum is irrelevant
+         * @return defuzzified fuzzy output
+         */
+        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        /**
+         * Computes TakagiSugeno defuzzification on the term
+         * @param term is the fuzzy output
+         * @return TakagiSugeno defuzzification
+         */
+        virtual scalar takagiSugeno(const Aggregated* term) const = 0;
+        /**
+         * Computes Tsukamoto defuzzification on the term
+         * @param term is the fuzzy output
+         * @return Tsukamoto defuzzification
+         */
+        virtual scalar tsukamoto(const Aggregated* term) const = 0;
     };
 }
 

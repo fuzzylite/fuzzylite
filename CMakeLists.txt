@@ -271,11 +271,11 @@ elseif (FL_BUILD_TESTS OR FL_BUILD_COVERAGE)
                 PRIVATE
                 ${PROJECT_SOURCE_DIR})
         target_compile_options(fl-test PRIVATE --coverage -O1)
-        target_link_libraries(fl-test ${FL_LIBS} Catch2::Catch2 --coverage)
+        target_link_libraries(fl-test PRIVATE ${FL_LIBS} Catch2::Catch2 --coverage)
     else ()
         add_executable(fl-test ${fl-headers} ${fl-tests})
         target_compile_definitions(fl-test PRIVATE FL_IMPORT_LIBRARY)
-        target_link_libraries(fl-test fl-shared ${FL_LIBS} Catch2::Catch2)
+        target_link_libraries(fl-test PRIVATE fl-shared ${FL_LIBS} Catch2::Catch2)
     endif ()
 
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)

@@ -21,7 +21,9 @@ namespace fuzzylite {
 
     int fuzzylite::_decimals = 3;
     std::ios_base::fmtflags fuzzylite::_scalarFormat = std::ios_base::fixed;
+    // TODO: replace macheps with atol
     scalar fuzzylite::_macheps = 1e-6;
+    scalar fuzzylite::_atol = 1e-3;
     bool fuzzylite::_debugging = false;
     bool fuzzylite::_logging = true;
 

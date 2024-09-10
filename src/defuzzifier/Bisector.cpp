@@ -33,24 +33,34 @@ namespace fuzzylite {
         if (not Op::isFinite(minimum + maximum))
             return fl::nan;
 
-        const scalar dx = (maximum - minimum) / getResolution();
-        int counter = getResolution();
-        int left = 0, right = 0;
-        scalar leftArea = 0, rightArea = 0;
-        scalar xLeft = minimum, xRight = maximum;
-        while (counter-- > 0) {
-            if (Op::isLE(leftArea, rightArea)) {
-                xLeft = minimum + (left + 0.5) * dx;
-                leftArea += term->membership(xLeft);
-                ++left;
-            } else {
-                xRight = maximum - (right + 0.5) * dx;
-                rightArea += term->membership(xRight);
-                ++right;
-            }
+        const std::vector<scalar> x = Op::midpoints(minimum, maximum, getResolution());
+        std::vector<scalar> ysum;
+        ysum.reserve(getResolution());
+        scalar sum = 0.0;
+
+        // Compute area
+        for (std::size_t i = 0; i < x.size(); ++i) {
+            const scalar yi = term->membership(x.at(i));
+            if (Op::isFinite(yi))
+                sum += yi;
+            ysum.push_back(sum);
         }
-        // Inverse weighted average to compensate
-        return (leftArea * xRight + rightArea * xLeft) / (leftArea + rightArea);
+
+        // Normalize area
+        minimum = fl::inf;
+        for (std::size_t i = 0; i < x.size(); ++i) {
+            ysum.at(i) = fabs(ysum.at(i) / sum - 0.5);
+            if (ysum.at(i) < minimum)
+                minimum = ysum.at(i);
+        }
+
+        // All minima x are bisectors
+        std::vector<scalar> bisectors;
+        for (std::size_t i = 0; i < x.size(); ++i)
+            if (minimum == ysum.at(i))
+                bisectors.push_back(x.at(i));
+        const scalar bisector = Op::mean(bisectors);
+        return bisector;
     }
 
     Bisector* Bisector::clone() const {

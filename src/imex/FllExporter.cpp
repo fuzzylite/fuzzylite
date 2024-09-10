@@ -183,10 +183,12 @@ namespace fuzzylite {
     std::string FllExporter::toString(const Defuzzifier* defuzzifier) const {
         if (not defuzzifier)
             return "none";
-        if (const IntegralDefuzzifier* integralDefuzzifier = dynamic_cast<const IntegralDefuzzifier*>(defuzzifier))
+        if (const IntegralDefuzzifier* integralDefuzzifier = dynamic_cast<const IntegralDefuzzifier*>(defuzzifier)) {
+            if (integralDefuzzifier->getResolution() == IntegralDefuzzifier::defaultResolution())
+                return defuzzifier->className();
             return defuzzifier->className() + " " + Op::str(integralDefuzzifier->getResolution());
-
-        else if (const WeightedDefuzzifier* weightedDefuzzifier = dynamic_cast<const WeightedDefuzzifier*>(defuzzifier))
+        }
+        if (const WeightedDefuzzifier* weightedDefuzzifier = dynamic_cast<const WeightedDefuzzifier*>(defuzzifier))
             return weightedDefuzzifier->className() + " " + weightedDefuzzifier->getTypeName();
         return defuzzifier->className();
     }

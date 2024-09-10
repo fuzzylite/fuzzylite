@@ -515,7 +515,7 @@ namespace fuzzylite {
                     {-inf, -inf, -inf},
                 });
         }
-        SECTION("") {
+        SECTION("UnboundedSum") {
             NormAssert(new UnboundedSum())
                 .is_s_norm()
                 .repr_is("fl.UnboundedSum()")
