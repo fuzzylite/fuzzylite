@@ -1,20 +1,17 @@
-# fuzzylite 7.0 (in progress)
+<div align="center">
+<img src="/fuzzylite.png" alt="fuzzylite" width="10%">
+<h1>fuzzylite: A Fuzzy Logic Control Library in C++</h1>
 
-## A Fuzzy Logic Control Library in C++
+by <a href="https://fuzzylite.com/about"><b>Juan Rada-Vilela, PhD</b></a>
 
-<img src="/fuzzylite.png" align="right" alt="fuzzylite">
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://opensource.org/license/gpl-3-0/) [![License: Paid](https://img.shields.io/badge/License-proprietary-blue)](mailto:sales@fuzzylite.com)
 
-by [**Juan Rada-Vilela, PhD**](https://fuzzylite.com/about)
-
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://opensource.org/license/gpl-3-0/)  
-[![License: Paid](https://img.shields.io/badge/License-proprietary-blue)](mailto:sales@fuzzylite.com)
-
-[![Linux Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml)  
-[![macOS Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml)  
-[![Windows Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/WindowsMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/WindowsMediumBuild.yml)
+[![Linux Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/LinuxMediumBuild.yml) [![macOS Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/MacMediumBuild.yml) [![Windows Medium Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/WindowsMediumBuild.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/WindowsMediumBuild.yml)
 
 [![Coverage Status](https://coveralls.io/repos/github/fuzzylite/fuzzylite/badge.svg?branch=main)](
 https://coveralls.io/github/fuzzylite/fuzzylite?branch=main)
+
+</div>
 
 ## <a name="fuzzylite">FuzzyLite</a>
 
