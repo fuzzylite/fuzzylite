@@ -4,7 +4,6 @@
 
 #include <catch2/catch.hpp>
 
-#include "Headers.h"
 #include "fl/Headers.h"
 
 namespace fuzzylite {

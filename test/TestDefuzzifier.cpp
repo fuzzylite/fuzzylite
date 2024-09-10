@@ -62,6 +62,54 @@ namespace fuzzylite {
         }
     };
 
+    class WeightedDefuzzifierAssert {
+      public:
+        class MockDefuzzifier : public fl::WeightedDefuzzifier {
+          public:
+            std::string className() const {
+                return "BasicWeightedDefuzzifier";
+            }
+
+            scalar takagiSugeno(const Aggregated* term) const {
+                FL_IUNUSED(term);
+                return fl::nan;
+            }
+
+            scalar tsukamoto(const Aggregated* term) const {
+                FL_IUNUSED(term);
+                return fl::nan;
+            }
+
+            Defuzzifier* clone() const {
+                return fl::null;
+            }
+
+            scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const {
+                FL_IUNUSED(term);
+                FL_IUNUSED(minimum + maximum);
+                return fl::nan;
+            }
+        };
+
+        WeightedDefuzzifierAssert&
+        inferredType(const std::vector<fl::Term*>& terms, WeightedDefuzzifier::Type expected) {
+            MockDefuzzifier defuzzifier;
+            for (const fl::Term* term : terms) {
+                CAPTURE(term->toString());
+                CHECK(defuzzifier.inferType(term) == expected);
+            }
+
+            std::vector<const fl::Term*> constTerms(terms.begin(), terms.end());
+            CHECK(defuzzifier.inferType(constTerms) == expected);
+
+            Variable variable;
+            variable.setTerms(terms);
+            CAPTURE(variable.toString());
+            CHECK(defuzzifier.inferType(&variable) == expected);
+            return *this;
+        }
+    };
+
     TEST_CASE("Bisector", "[defuzzifier][bisector]") {
         DefuzzifierAssert(new Bisector()).exports_fll("Bisector").configured_as("200").exports_fll("Bisector 200");
 
@@ -287,6 +335,83 @@ namespace fuzzylite {
                  }}
             );
         DefuzzifierAssert(new MeanOfMaximum()).defuzzifies(-1, 1, {{new NaN(), fl::nan}});
+    }
+
+    TEST_CASE("Infer defuzzifier type", "[defuzzifier][weighted]") {
+        std::vector<fl::Term*> takagiSugenoTerms = {
+            new fl::Constant(),
+            new fl::Linear(),
+            new fl::Function(),
+        };
+        std::vector<fl::Term*> tsukamotoTerms = {
+            new fl::Concave(),
+            new fl::Ramp(),
+            new fl::SShape(),
+            new fl::Sigmoid(),
+            new fl::ZShape(),
+        };
+        SECTION("TakagiSugeno") {
+            WeightedDefuzzifierAssert().inferredType(takagiSugenoTerms, WeightedDefuzzifier::TakagiSugeno);
+        }
+        SECTION("TakagiSugenoActivated") {
+            std::vector<fl::Term*> activatedTerms;
+            for (fl::Term* term : takagiSugenoTerms) {
+                Activated* activated = new Activated();
+                activated->setTerm(term);
+                activatedTerms.push_back(activated);
+            }
+            WeightedDefuzzifierAssert().inferredType(activatedTerms, WeightedDefuzzifier::TakagiSugeno);
+        }
+        SECTION("TakagiSugenoAggregated") {
+            std::vector<Activated> activatedTerms;
+            for (fl::Term* term : takagiSugenoTerms) {
+                Activated activated;
+                activated.setTerm(term);
+                activatedTerms.push_back(activated);
+            }
+            Aggregated* aggregated = new Aggregated;
+            aggregated->setTerms(activatedTerms);
+            WeightedDefuzzifierAssert().inferredType({aggregated}, WeightedDefuzzifier::TakagiSugeno);
+        }
+
+        SECTION("Tsukamoto") {
+            WeightedDefuzzifierAssert().inferredType(tsukamotoTerms, WeightedDefuzzifier::Tsukamoto);
+        }
+
+        SECTION("TsukamotoActivated") {
+            std::vector<fl::Term*> activatedTerms;
+            for (fl::Term* term : tsukamotoTerms) {
+                Activated* activated = new Activated();
+                activated->setTerm(term);
+                activatedTerms.push_back(activated);
+            }
+            WeightedDefuzzifierAssert().inferredType(activatedTerms, WeightedDefuzzifier::Tsukamoto);
+        }
+        SECTION("TsukamotoAggregated") {
+            std::vector<Activated> activatedTerms;
+            for (fl::Term* term : tsukamotoTerms) {
+                Activated activated;
+                activated.setTerm(term);
+                activatedTerms.push_back(activated);
+            }
+            Aggregated* aggregated = new Aggregated;
+            aggregated->setTerms(activatedTerms);
+            WeightedDefuzzifierAssert().inferredType({aggregated}, WeightedDefuzzifier::Tsukamoto);
+        }
+
+        SECTION("Can't infer") {
+            WeightedDefuzzifierAssert().inferredType({new Aggregated}, WeightedDefuzzifier::Automatic);
+        }
+
+        SECTION("Mixed types") {
+            WeightedDefuzzifierAssert::MockDefuzzifier defuzzifier;
+            std::vector<const fl::Term*> mixedTypes = {new Constant, new Concave};
+            CHECK_THROWS_AS(defuzzifier.inferType(mixedTypes), fl::Exception);
+            CHECK_THROWS_WITH(
+                defuzzifier.inferType(mixedTypes),
+                Catch::Matchers::StartsWith("cannot infer type of") && Catch::Matchers::EndsWith(", got multiple types")
+            );
+        }
     }
 
     TEST_CASE("WeightedAverage", "[defuzzifier][weighted]") {
@@ -593,6 +718,19 @@ namespace fuzzylite {
                   ),
                   (0.72 * 1.0)}}
             );
+    }
+
+    TEST_CASE("all defuzzifiers return nan when term is empty", "[defuzzifier]") {
+        fl::DefuzzifierFactory factory;
+        Aggregated aggregated;
+        for (const std::string& name : factory.available()) {
+            if (name.empty())
+                continue;
+            FL_unique_ptr<Defuzzifier> defuzzifier(factory.constructObject(name));
+            CAPTURE(defuzzifier->className());
+            scalar obtained = defuzzifier->defuzzify(&aggregated, -fl::inf, fl::inf);
+            CHECK_THAT(obtained, Approximates(fl::nan));
+        }
     }
 
 }
