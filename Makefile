@@ -19,7 +19,7 @@ build: .phonywin
 
 .PHONY: test
 test: .phonywin
-	ctest --test-dir build/
+	ctest --test-dir build/ --output-on-failure
 
 test-only:
 	cmake -B build/ && \
