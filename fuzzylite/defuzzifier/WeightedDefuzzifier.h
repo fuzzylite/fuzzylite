@@ -20,6 +20,8 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include "fuzzylite/defuzzifier/Defuzzifier.h"
 
+#include <vector>
+
 namespace fuzzylite {
     class Activated;
     class Aggregated;
