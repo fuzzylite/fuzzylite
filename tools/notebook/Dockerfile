@@ -1,6 +1,6 @@
 FROM continuumio/miniconda3
 
-RUN conda install -y -c conda-forge bash jupyter jupyter_contrib_nbextensions
+RUN conda install -y -c conda-forge bash notebook
 RUN conda install -y -c conda-forge xeus-cling xtensor
 
 RUN apt-get update && apt-get -y install g++-multilib cmake clang

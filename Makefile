@@ -38,7 +38,8 @@ clean-coverage:
 	find build/CMakeFiles/fl-test.dir -type f -name '*.gc' -print0 | xargs -0 rm
 
 jupyter:
-	docker build -f examples/notebook/Dockerfile -t xeus . && docker run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it xeus jupyter notebook --allow-root --ip 0.0.0.0
+	docker build -f tools/notebook/Dockerfile -t xeus . && \
+ 	docker run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it xeus jupyter notebook --allow-root --ip 0.0.0.0
 
 
 CLANG_FORMAT=clang-format --style=file -i
