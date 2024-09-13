@@ -6,13 +6,13 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
       matrix:
         build_type: [ "release" ]
-        use_cxx: [ "clang++-15" ]
+        use_cxx: [ "clang++-18" ]
 
     steps:
       - uses: actions/checkout@v4
@@ -38,9 +38,8 @@ jobs:
 
       - name: Coverage
         env:
-          GCOV: "llvm-cov-15 gcov"
+          GCOV: "llvm-cov-18 gcov"
         run: |
-          pip install gcovr
           make coverage
 
       - name: Coveralls
