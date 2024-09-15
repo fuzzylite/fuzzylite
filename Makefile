@@ -2,6 +2,7 @@ BUILD = debug
 CPP98 = OFF
 FLOAT = OFF
 COVERAGE = OFF
+CONTAINER = docker
 
 .phonywin:
 
@@ -30,7 +31,8 @@ install:
 	cmake --build build/ --target install
 
 coverage:
-	# pip install gcovr
+	python3 -m venv .venv && . .venv/bin/activate && \
+	python3 -m pip install gcovr && \
 	gcovr -r src/ build/CMakeFiles/fl-test.dir/ --coveralls build/coveralls.json --html build/coverage.html --html-details --sort uncovered-percent --html-theme github.dark-blue --txt --txt-summary
 	# open build/coverage.html
 
@@ -38,8 +40,12 @@ clean-coverage:
 	find build/CMakeFiles/fl-test.dir -type f -name '*.gc' -print0 | xargs -0 rm
 
 jupyter:
-	docker build -f examples/notebook/Dockerfile -t xeus . && docker run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it xeus jupyter notebook --allow-root --ip 0.0.0.0
+	$(CONTAINER) build -f tools/notebook/Dockerfile -t fl-xeus . && \
+ 	$(CONTAINER) run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it fl-xeus jupyter notebook --allow-root --ip 0.0.0.0
 
+ubuntu:
+	$(CONTAINER) build -f tools/docker/ubuntu-2404.Dockerfile -t fl-ubuntu . && \
+ 	$(CONTAINER) run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it fl-ubuntu
 
 CLANG_FORMAT=clang-format --style=file -i
 

@@ -265,7 +265,7 @@ elseif (FL_BUILD_TESTS OR FL_BUILD_COVERAGE)
         message(CHECK_PASS "fetched")
     endif ()
 
-    if (FL_BUILD_COVERAGE AND "${CMAKE_CXX_COMPILER_ID}" MATCHES "^(Apple)?Clang$")
+    if (FL_BUILD_COVERAGE)
         add_executable(fl-test ${fl-headers} ${fl-sources} ${fl-tests})
         target_include_directories(fl-test
                 PRIVATE
