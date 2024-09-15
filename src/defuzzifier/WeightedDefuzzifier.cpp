@@ -38,7 +38,7 @@ namespace fuzzylite {
     WeightedDefuzzifier::WeightedDefuzzifier(const std::string& type) {
         try {
             setType(type);
-        } catch (...) { setType(Type::Automatic); }
+        } catch (...) { setType(Automatic); }
     }
 
     WeightedDefuzzifier::~WeightedDefuzzifier() {}
@@ -91,7 +91,7 @@ namespace fuzzylite {
         switch (types.size()) {
             case 0:
                 // cannot infer type of empty term, and won't matter anyway
-                return WeightedDefuzzifier::Type::Automatic;
+                return Automatic;
             case 1:
                 return *types.begin();
             default:
@@ -125,8 +125,9 @@ namespace fuzzylite {
         const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*>(term);
         if (not fuzzyOutput) {
             std::ostringstream ss;
-            ss << "[defuzzification error]" << "expected an Aggregated term instead of" << "<"
-               << (term ? term->toString() : "null") << ">";
+            ss << "[defuzzification error]"
+               << "expected an Aggregated term instead of"
+               << "<" << (term ? term->toString() : "null") << ">";
             throw Exception(ss.str(), FL_AT);
         }
 
