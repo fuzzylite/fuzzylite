@@ -386,7 +386,7 @@ namespace fuzzylite {
         CHECK(grouped.at(1).getDegree() == 1.0);
 
         CHECK(grouped.at(2).getTerm() == medium.get());
-        CHECK(grouped.at(2).getDegree() == 0.1);
+        CHECK(grouped.at(2).getDegree() == scalar(0.1));
 
         // With aggregation
         aggregated.setAggregation(new Maximum);
@@ -398,7 +398,7 @@ namespace fuzzylite {
         CHECK(grouped.at(1).getDegree() == 0.5);
 
         CHECK(grouped.at(2).getTerm() == medium.get());
-        CHECK(grouped.at(2).getDegree() == 0.1);
+        CHECK(grouped.at(2).getDegree() == scalar(0.1));
     }
 
     TEST_CASE("Bell", "[term][bell]") {

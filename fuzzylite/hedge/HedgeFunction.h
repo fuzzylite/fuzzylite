@@ -45,7 +45,7 @@ namespace fuzzylite {
       public:
         explicit HedgeFunction(const std::string& formula = "", const std::string& name = "");
         ~HedgeFunction() FL_IOVERRIDE;
-        FL_DEFAULT_COPY_AND_MOVE(HedgeFunction);
+        FL_DEFAULT_COPY_AND_MOVE(HedgeFunction)
 
         std::string name() const FL_IOVERRIDE;
 
