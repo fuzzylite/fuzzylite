@@ -831,7 +831,7 @@ namespace fuzzylite {
 
     inline std::string Operation::validName(const std::string& name) {
         if (trim(name).empty())
-            return "unnamed";
+            return "_";
         std::ostringstream ss;
         for (std::size_t i = 0; i < name.length(); ++i) {
             char c = name[i];

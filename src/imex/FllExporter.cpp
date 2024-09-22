@@ -156,6 +156,10 @@ namespace fuzzylite {
         return "rule: " + rule->getText();
     }
 
+    std::string FllExporter::toString(const Hedge* hedge) const {
+        return hedge->name();
+    }
+
     std::string FllExporter::toString(const Term* term) const {
         std::vector<std::string> result;
         result.push_back("term:");
@@ -188,8 +192,11 @@ namespace fuzzylite {
                 return defuzzifier->className();
             return defuzzifier->className() + " " + Op::str(integralDefuzzifier->getResolution());
         }
-        if (const WeightedDefuzzifier* weightedDefuzzifier = dynamic_cast<const WeightedDefuzzifier*>(defuzzifier))
+        if (const WeightedDefuzzifier* weightedDefuzzifier = dynamic_cast<const WeightedDefuzzifier*>(defuzzifier)) {
+            if (weightedDefuzzifier->getType() == WeightedDefuzzifier::Automatic)
+                return weightedDefuzzifier->className();
             return weightedDefuzzifier->className() + " " + weightedDefuzzifier->getTypeName();
+        }
         return defuzzifier->className();
     }
 

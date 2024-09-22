@@ -415,7 +415,7 @@ namespace fuzzylite {
     }
 
     TEST_CASE("WeightedAverage", "[defuzzifier][weighted]") {
-        DefuzzifierAssert(new WeightedAverage()).exports_fll("WeightedAverage Automatic");
+        DefuzzifierAssert(new WeightedAverage()).exports_fll("WeightedAverage");
         DefuzzifierAssert(new WeightedAverage())
             .configured_as("TakagiSugeno")
             .exports_fll("WeightedAverage TakagiSugeno")
@@ -574,7 +574,7 @@ namespace fuzzylite {
 
     TEST_CASE("WeightedSum", "[defuzzifier][weighted]") {
         DefuzzifierAssert(new WeightedSum())
-            .exports_fll("WeightedSum Automatic")
+            .exports_fll("WeightedSum")
             .configured_as("TakagiSugeno")
             .exports_fll("WeightedSum TakagiSugeno")
             .configured_as("Tsukamoto")
