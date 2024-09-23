@@ -33,7 +33,17 @@ install:
 coverage:
 	python3 -m venv .venv && . .venv/bin/activate && \
 	python3 -m pip install gcovr && \
-	gcovr -r src/ build/CMakeFiles/fl-test.dir/ --coveralls build/coveralls.json --html build/coverage.html --html-details --sort uncovered-percent --html-theme github.dark-blue --txt --txt-summary
+	gcovr -r . \
+	  	--filter src/ \
+	  	--filter fuzzylite/ \
+		--coveralls build/coveralls.json \
+		--html build/coverage.html \
+		--html-details \
+		--sort uncovered-percent \
+		--html-theme github.dark-blue \
+		--txt --txt-summary \
+		build/CMakeFiles/fl-test.dir && \
+	deactivate
 	# open build/coverage.html
 
 clean-coverage:
