@@ -28,16 +28,14 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 namespace fuzzylite {
 
     DefuzzifierFactory::DefuzzifierFactory() : ConstructionFactory<Defuzzifier*>("Defuzzifier") {
-        registerConstructor("", fl::null);
-        registerConstructor(Bisector().className(), &(Bisector::constructor));
-        registerConstructor(Centroid().className(), &(Centroid::constructor));
-        registerConstructor(LargestOfMaximum().className(), &(LargestOfMaximum::constructor));
-        registerConstructor(MeanOfMaximum().className(), &(MeanOfMaximum::constructor));
-        registerConstructor(SmallestOfMaximum().className(), &(SmallestOfMaximum::constructor));
-        registerConstructor(WeightedAverage().className(), &(WeightedAverage::constructor));
-        //        registerConstructor(WeightedAverageCustom().className(), &(WeightedAverageCustom::constructor));
-        registerConstructor(WeightedSum().className(), &(WeightedSum::constructor));
-        //        registerConstructor(WeightedSumCustom().className(), &(WeightedSumCustom::constructor));
+        ConstructionFactory::registerConstructor("", fl::null);
+        ConstructionFactory::registerConstructor(Bisector().className(), &(Bisector::constructor));
+        ConstructionFactory::registerConstructor(Centroid().className(), &(Centroid::constructor));
+        ConstructionFactory::registerConstructor(LargestOfMaximum().className(), &(LargestOfMaximum::constructor));
+        ConstructionFactory::registerConstructor(MeanOfMaximum().className(), &(MeanOfMaximum::constructor));
+        ConstructionFactory::registerConstructor(SmallestOfMaximum().className(), &(SmallestOfMaximum::constructor));
+        ConstructionFactory::registerConstructor(WeightedAverage().className(), &(WeightedAverage::constructor));
+        ConstructionFactory::registerConstructor(WeightedSum().className(), &(WeightedSum::constructor));
     }
 
     DefuzzifierFactory::~DefuzzifierFactory() {}
@@ -53,18 +51,13 @@ namespace fuzzylite {
         return result;
     }
 
-    Defuzzifier* DefuzzifierFactory::constructDefuzzifier(const std::string& key, int resolution) const {
-        Defuzzifier* result = constructObject(key);
-        if (IntegralDefuzzifier* integralDefuzzifier = dynamic_cast<IntegralDefuzzifier*>(result))
-            integralDefuzzifier->setResolution(resolution);
-        return result;
+    Defuzzifier* DefuzzifierFactory::constructIntegral(const std::string& defuzzifier, int resolution) const {
+        return constructDefuzzifier(defuzzifier, resolution, WeightedDefuzzifier::Automatic);
     }
 
-    Defuzzifier* DefuzzifierFactory::constructDefuzzifier(const std::string& key, WeightedDefuzzifier::Type type) {
-        Defuzzifier* result = constructObject(key);
-        if (WeightedDefuzzifier* weightedDefuzzifier = dynamic_cast<WeightedDefuzzifier*>(result))
-            weightedDefuzzifier->setType(type);
-        return result;
+    Defuzzifier*
+    DefuzzifierFactory::constructWeighted(const std::string& defuzzifier, WeightedDefuzzifier::Type type) const {
+        return constructDefuzzifier(defuzzifier, 0, type);
     }
 
 }

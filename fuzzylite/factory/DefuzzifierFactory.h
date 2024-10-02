@@ -58,7 +58,7 @@ namespace fuzzylite {
           @return a Defuzzifier by executing the registered constructor and
           setting its resolution
          */
-        virtual Defuzzifier* constructDefuzzifier(const std::string& key, int resolution) const;
+        virtual Defuzzifier* constructIntegral(const std::string& defuzzifier, int resolution) const;
 
         /**
           Creates a Defuzzifier by executing the registered constructor
@@ -67,7 +67,7 @@ namespace fuzzylite {
           @return a Defuzzifier by executing the registered constructor and
           setting its type
          */
-        virtual Defuzzifier* constructDefuzzifier(const std::string& key, WeightedDefuzzifier::Type type);
+        virtual Defuzzifier* constructWeighted(const std::string& defuzzifier, WeightedDefuzzifier::Type type) const;
     };
 }
 
