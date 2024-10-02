@@ -21,7 +21,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    FunctionFactory::FunctionFactory() : CloningFactory<Function::Element*>("Function::Element") {
+    FunctionFactory::FunctionFactory() : CloningFactory("Function") {
         registerOperators();
         registerFunctions();
     }
@@ -72,22 +72,7 @@ namespace fuzzylite {
 
     void FunctionFactory::registerFunctions() {
         // FUNCTIONS
-        registerObject("gt", new Function::Element("gt", "Greater than (>)", Function::Element::Function, &(Op::gt)));
-        registerObject(
-            "ge", new Function::Element("ge", "Greater than or equal to (>=)", Function::Element::Function, &(Op::ge))
-        );
-        registerObject("eq", new Function::Element("eq", "Equal to (==)", Function::Element::Function, &(Op::eq)));
-        registerObject(
-            "neq", new Function::Element("neq", "Not equal to (!=)", Function::Element::Function, &(Op::neq))
-        );
-        registerObject(
-            "le", new Function::Element("le", "Less than or equal to (<=)", Function::Element::Function, &(Op::le))
-        );
-        registerObject("lt", new Function::Element("lt", "Less than (<)", Function::Element::Function, &(Op::lt)));
-
-        registerObject("min", new Function::Element("min", "Minimum", Function::Element::Function, &(Op::min)));
-        registerObject("max", new Function::Element("max", "Maximum", Function::Element::Function, &(Op::max)));
-
+        registerObject("abs", new Function::Element("abs", "Absolute", Function::Element::Function, &(std::abs)));
         registerObject(
             "acos", new Function::Element("acos", "Inverse cosine", Function::Element::Function, &(std::acos))
         );
@@ -97,22 +82,41 @@ namespace fuzzylite {
         registerObject(
             "atan", new Function::Element("atan", "Inverse tangent", Function::Element::Function, &(std::atan))
         );
-
+        registerObject(
+            "atan2", new Function::Element("atan2", "Inverse tangent (y,x)", Function::Element::Function, &(std::atan2))
+        );
         registerObject("ceil", new Function::Element("ceil", "Ceiling", Function::Element::Function, &(std::ceil)));
         registerObject("cos", new Function::Element("cos", "Cosine", Function::Element::Function, &(std::cos)));
         registerObject(
             "cosh", new Function::Element("cosh", "Hyperbolic cosine", Function::Element::Function, &(std::cosh))
         );
+        registerObject("eq", new Function::Element("eq", "Equal to (==)", Function::Element::Function, &(Op::eq)));
         registerObject("exp", new Function::Element("exp", "Exponential", Function::Element::Function, &(std::exp)));
-        registerObject("abs", new Function::Element("abs", "Absolute", Function::Element::Function, &(std::abs)));
         registerObject("fabs", new Function::Element("fabs", "Absolute", Function::Element::Function, &(std::fabs)));
         registerObject("floor", new Function::Element("floor", "Floor", Function::Element::Function, &(std::floor)));
+        registerObject(
+            "fmod", new Function::Element("fmod", "Floating-point remainder", Function::Element::Function, &(std::fmod))
+        );
+        registerObject(
+            "ge", new Function::Element("ge", "Greater than or equal to (>=)", Function::Element::Function, &(Op::ge))
+        );
+        registerObject("gt", new Function::Element("gt", "Greater than (>)", Function::Element::Function, &(Op::gt)));
+        registerObject(
+            "le", new Function::Element("le", "Less than or equal to (<=)", Function::Element::Function, &(Op::le))
+        );
         registerObject(
             "log", new Function::Element("log", "Natural logarithm", Function::Element::Function, &(std::log))
         );
         registerObject(
             "log10", new Function::Element("log10", "Common logarithm", Function::Element::Function, &(std::log10))
         );
+        registerObject("lt", new Function::Element("lt", "Less than (<)", Function::Element::Function, &(Op::lt)));
+        registerObject("max", new Function::Element("max", "Maximum", Function::Element::Function, &(Op::max)));
+        registerObject("min", new Function::Element("min", "Minimum", Function::Element::Function, &(Op::min)));
+        registerObject(
+            "neq", new Function::Element("neq", "Not equal to (!=)", Function::Element::Function, &(Op::neq))
+        );
+        registerObject("pow", new Function::Element("pow", "Power", Function::Element::Function, &(std::pow)));
         registerObject("round", new Function::Element("round", "Round", Function::Element::Function, &(Op::round)));
         registerObject("sin", new Function::Element("sin", "Sine", Function::Element::Function, &(std::sin)));
         registerObject(
@@ -127,9 +131,6 @@ namespace fuzzylite {
 #if defined(FL_UNIX) && !defined(FL_USE_FLOAT)
         // found in Unix when using double precision. not found in Windows.
         registerObject(
-            "log1p", new Function::Element("log1p", "Natural logarithm plus one", Function::Element::Function, &(log1p))
-        );
-        registerObject(
             "acosh", new Function::Element("acosh", "Inverse hyperbolic cosine", Function::Element::Function, &(acosh))
         );
         registerObject(
@@ -138,15 +139,10 @@ namespace fuzzylite {
         registerObject(
             "atanh", new Function::Element("atanh", "Inverse hyperbolic tangent", Function::Element::Function, &(atanh))
         );
+        registerObject(
+            "log1p", new Function::Element("log1p", "Natural logarithm plus one", Function::Element::Function, &(log1p))
+        );
 #endif
-
-        registerObject("pow", new Function::Element("pow", "Power", Function::Element::Function, &(std::pow)));
-        registerObject(
-            "atan2", new Function::Element("atan2", "Inverse tangent (y,x)", Function::Element::Function, &(std::atan2))
-        );
-        registerObject(
-            "fmod", new Function::Element("fmod", "Floating-point remainder", Function::Element::Function, &(std::fmod))
-        );
     }
 
     std::vector<std::string> FunctionFactory::availableOperators() const {
