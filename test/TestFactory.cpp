@@ -22,7 +22,7 @@ namespace fuzzylite {
     template <typename T>
     struct ConstructionFactoryAssert {
         using Constructor = std::tuple<std::string, typename ConstructionFactory<T*>::Constructor, std::string>;
-        FL_unique_ptr<ConstructionFactory<T*>> actual;
+        std::unique_ptr<ConstructionFactory<T*>> actual;
 
         explicit ConstructionFactoryAssert(ConstructionFactory<T*>* actual) : actual(actual) {}
 
@@ -79,6 +79,7 @@ namespace fuzzylite {
 
         ConstructionFactoryAssert& deregister_all() {
             for (const auto& constructor : actual->available()) {
+                CAPTURE(constructor);
                 CHECK(actual->hasConstructor(constructor));
                 actual->deregisterConstructor(constructor);
                 CHECK(not actual->hasConstructor(constructor));
@@ -94,6 +95,25 @@ namespace fuzzylite {
 
     struct DefuzzifierFactoryAssert : ConstructionFactoryAssert<Defuzzifier> {
         explicit DefuzzifierFactoryAssert(DefuzzifierFactory* actual) : ConstructionFactoryAssert(actual) {}
+
+        DefuzzifierFactoryAssert& construct_weighted(
+            const std::string& name, WeightedDefuzzifier::Type type, const WeightedDefuzzifier& expected
+        ) {
+            CAPTURE(name, type, FllExporter().toString(&expected));
+            const DefuzzifierFactory* actualFactory = dynamic_cast<const DefuzzifierFactory*>(actual.get());
+            std::unique_ptr<Defuzzifier> obtained(actualFactory->constructWeighted(name, type));
+            CHECK(FllExporter().toString(obtained.get()) == FllExporter().toString(&expected));
+            return *this;
+        }
+
+        DefuzzifierFactoryAssert&
+        construct_integral(const std::string& name, int resolution, const IntegralDefuzzifier& expected) {
+            CAPTURE(name, resolution, FllExporter().toString(&expected));
+            const DefuzzifierFactory* actualFactory = dynamic_cast<const DefuzzifierFactory*>(actual.get());
+            std::unique_ptr<Defuzzifier> obtained(actualFactory->constructIntegral(name, resolution));
+            CHECK(FllExporter().toString(obtained.get()) == FllExporter().toString(&expected));
+            return *this;
+        }
     };
 
     struct HedgeFactoryAssert : ConstructionFactoryAssert<Hedge> {
@@ -162,6 +182,31 @@ namespace fuzzylite {
                 {"WeightedSum", WeightedSum::constructor, "WeightedSum"},
             };
             DefuzzifierFactoryAssert(new DefuzzifierFactory).constructs_exactly(constructs);
+        }
+        SECTION("Construct integral with parameters") {
+            DefuzzifierFactoryAssert(new DefuzzifierFactory)
+                .construct_integral("Bisector", 300, Bisector(300))
+                .construct_integral("Centroid", 600, Centroid(600))
+                .construct_integral("LargestOfMaximum", 900, LargestOfMaximum(900))
+                .construct_integral("MeanOfMaximum", 1000, MeanOfMaximum())
+                .construct_integral("SmallestOfMaximum", 100, SmallestOfMaximum(100));
+        }
+        SECTION("Construct integral with parameters") {
+            DefuzzifierFactoryAssert(new DefuzzifierFactory)
+                .construct_weighted("WeightedAverage", WeightedDefuzzifier::Automatic, WeightedAverage("Automatic"))
+                .construct_weighted(
+                    "WeightedAverage", WeightedDefuzzifier::TakagiSugeno, WeightedAverage("TakagiSugeno")
+                )
+                .construct_weighted("WeightedAverage", WeightedDefuzzifier::Tsukamoto, WeightedAverage("Tsukamoto"))
+                .construct_weighted(
+                    "WeightedSum", WeightedDefuzzifier::Automatic, WeightedSum(WeightedDefuzzifier::Automatic)
+                )
+                .construct_weighted(
+                    "WeightedSum", WeightedDefuzzifier::TakagiSugeno, WeightedSum(WeightedDefuzzifier::TakagiSugeno)
+                )
+                .construct_weighted(
+                    "WeightedSum", WeightedDefuzzifier::Tsukamoto, WeightedSum(WeightedDefuzzifier::Tsukamoto)
+                );
         }
         SECTION("Deregister all") {
             DefuzzifierFactoryAssert(new DefuzzifierFactory).deregister_all();
@@ -295,6 +340,376 @@ namespace fuzzylite {
         }
         SECTION("Deregister all") {
             TermFactoryAssert(new TermFactory).deregister_all();
+        }
+    }
+
+    template <typename T>
+    struct CloningFactoryAssert {
+        std::unique_ptr<CloningFactory<T*>> actual;
+
+        using Clone = std::tuple<const std::string&, const T&>;
+
+        explicit CloningFactoryAssert(CloningFactory<T*>* actual) : actual(actual) {}
+
+        CloningFactoryAssert& has_class_name(const std::string& name) {
+            CHECK(actual->name() == name);
+            return *this;
+        }
+
+        CloningFactoryAssert& contains(const std::vector<std::string>& names, bool contains = true) {
+            CAPTURE(names, contains);
+            for (const std::string& name : names)
+                CHECK(actual->hasObject(name) == contains);
+            return *this;
+        }
+
+        CloningFactoryAssert& copies_exactly(const std::vector<Clone>& clones) {
+            std::vector<std::string> expected;
+            for (const auto& name_clone : clones) {
+                std::string name;
+                Clone clone;
+                std::tie(name, clone) = name_clone;
+                const std::string& fll = fl::FllExporter().toString(&clone);
+                CAPTURE(name, fll);
+                expected.push_back(name);
+                CHECK(actual->hasObject(name));
+                CHECK(fl::FllExporter().toString(actual->getObject(name)) == fll);
+                std::unique_ptr<T> object(actual->cloneObject(name));
+                CHECK_THAT(fl::FllExporter().toString(object.get()), Catch::Matchers::Equals(fll));
+            }
+            CHECK_THAT(actual->available(), Catch::Matchers::UnorderedEquals(expected));
+            return *this;
+        }
+
+        CloningFactoryAssert& deregister_all() {
+            for (const auto& clone : actual->available()) {
+                CAPTURE(clone);
+                CHECK(actual->hasObject(clone));
+                actual->deregisterObject(clone);
+                CHECK(not actual->hasObject(clone));
+            }
+            CHECK(actual->objects().empty());
+            return *this;
+        }
+    };
+
+    struct FunctionFactoryAssert : CloningFactoryAssert<Function::Element> {
+        explicit FunctionFactoryAssert(FunctionFactory* actual) : CloningFactoryAssert(actual) {}
+
+        const scalar pi = std::atan(1) * 4;
+
+        const std::vector<scalar> values{
+            fl::nan,
+            0,
+            1,
+            2,
+            4,
+            5,
+            10,
+            100,
+            1000,
+            10000,
+            pi / 4,
+            pi / 2,
+            3 * pi / 4,
+            pi,
+            5 * pi / 4,
+            3 * pi / 2,
+            7 * pi / 4,
+            2 * pi,
+            fl::inf
+        };
+
+        FunctionFactoryAssert& precedence_is_the_same(const std::string& a, const std::string& b) {
+            CAPTURE(actual->getObject(a)->toString());
+            CAPTURE(actual->getObject(b)->toString());
+            CHECK(actual->getObject(a)->precedence == actual->getObject(b)->precedence);
+            return *this;
+        }
+
+        FunctionFactoryAssert& precedence_is_higher(const std::string& a, const std::string& b) {
+            CAPTURE(actual->getObject(a)->toString());
+            CAPTURE(actual->getObject(b)->toString());
+            CHECK(actual->getObject(a)->precedence > actual->getObject(b)->precedence);
+            return *this;
+        }
+
+        FunctionFactoryAssert& operation_is(const std::string& name, scalar parameter, scalar expected) {
+            CAPTURE(name, parameter, expected);
+            CAPTURE(actual->getObject(name)->toString());
+            CHECK_THAT(actual->getObject(name)->unary(parameter), Approximates(expected));
+            return *this;
+        }
+
+        FunctionFactoryAssert& operation_is(const std::string& name, scalar a, scalar b, scalar expected) {
+            CAPTURE(name, a, b, expected);
+            CAPTURE(actual->getObject(name)->toString());
+            CHECK_THAT(actual->getObject(name)->binary(a, b), Approximates(expected));
+            return *this;
+        }
+
+        FunctionFactoryAssert& unary_operation_equals(const std::string& name, Function::Unary expected) {
+            CHECK(not values.empty());
+            for (auto x : values) {
+                CAPTURE(name, x, expected(x));
+                auto obtained = actual->getObject(name)->unary;
+                CHECK_THAT(obtained(x), Approximates(expected(x)));
+                CHECK_THAT(obtained(-x), Approximates(expected(-x)));
+            }
+            return *this;
+        }
+
+        FunctionFactoryAssert& binary_operation_equals(const std::string& name, Function::Binary expected) {
+            CHECK(not values.empty());
+            for (auto x : values) {
+                for (auto y : values) {
+                    CAPTURE(name, x, y, expected(x, y));
+                    auto obtained = actual->getObject(name)->binary;
+                    CHECK_THAT(obtained(x, y), Approximates(expected(x, y)));
+                    CHECK_THAT(obtained(-x, -y), Approximates(expected(-x, -y)));
+                    CHECK_THAT(obtained(x, -y), Approximates(expected(x, -y)));
+                    CHECK_THAT(obtained(-x, y), Approximates(expected(-x, y)));
+                }
+            }
+            return *this;
+        }
+    };
+
+    TEST_CASE("FunctionFactory", "[factory][function]") {
+        SECTION("Operators available") {
+            const std::vector<std::string>& expected = {
+                "!",
+                "~",
+                "%",
+                "^",
+                "*",
+                "/",
+                "+",
+                "-",
+                "and",
+                "or",
+            };
+            CHECK_THAT(FunctionFactory().availableOperators(), Catch::Matchers::UnorderedEquals(expected));
+        }
+        SECTION("Functions available") {
+            std::vector<std::string> expected = {
+                "abs",  "acos",  "asin", "atan",  "atan2", "ceil", "cos",  "cosh",  "eq",   "exp",
+                "fabs", "floor", "fmod", "ge",    "gt",    "le",   "log",  "log10", "lt",   "max",
+                "min",  "neq",   "pow",  "round", "sin",   "sinh", "sqrt", "tan",   "tanh",
+            };
+#if defined(FL_UNIX) && !defined(FL_USE_FLOAT)
+            // found in Unix when using double precision. not found in Windows.
+            expected.push_back("acosh");
+            expected.push_back("asinh");
+            expected.push_back("atanh");
+            expected.push_back("log1p");
+#endif
+            CHECK_THAT(FunctionFactory().availableFunctions(), Catch::Matchers::UnorderedEquals(expected));
+        }
+
+        SECTION("Precedence is the same") {
+            FunctionFactoryAssert(new FunctionFactory)
+                .precedence_is_the_same("!", "~")
+                .precedence_is_the_same("*", "/")
+                .precedence_is_the_same("/", "%")
+                .precedence_is_the_same("+", "-");
+        }
+        SECTION("Precedence is higher") {
+            FunctionFactoryAssert(new FunctionFactory)
+                .precedence_is_higher("!", "^")
+                .precedence_is_higher("^", "%")
+                .precedence_is_higher("*", "-")
+                .precedence_is_higher("+", "and")
+                .precedence_is_higher("and", "or");
+        }
+
+        SECTION("Precedence is correct") {
+            Function f("f", "(10 + 5) * 2 - 3 / 4 ^ 2");
+            f.load();
+            CHECK_THAT(f.evaluate(), Approximates(29.8125));
+        }
+
+        SECTION("Unary Operators") {
+            FunctionFactoryAssert(new FunctionFactory)
+                .unary_operation_equals("!", &Op::logicalNot)
+                .operation_is("!", 0, 1)
+                .operation_is("!", 1, 0)
+                .unary_operation_equals("~", &Op::negate)
+                .operation_is("~", 1, -1)
+                .operation_is("~", -2, 2)
+                .operation_is("~", 0, 0);
+        }
+        SECTION("Binary Operators") {
+            FunctionFactoryAssert(new FunctionFactory)
+                .binary_operation_equals("^", &std::pow)
+                .operation_is("^", 3, 3, 27)
+                .operation_is("^", 9, 0.5, 3)
+                .binary_operation_equals("*", &Op::multiply)
+                .operation_is("*", -2, 3, -6)
+                .operation_is("*", 3, -2, -6)
+                .operation_is("*", 0, 0, 0)
+                .binary_operation_equals("/", &Op::divide)
+                .operation_is("/", 6, 3, 2)
+                .operation_is("/", 3, 6, 0.5)
+                .operation_is("/", 0, 0, fl::nan)
+                .operation_is("/", 1, 0, fl::inf)
+                .operation_is("/", -1, 0, -fl::inf)
+                .binary_operation_equals("%", &Op::modulo)
+                .operation_is("%", 6, 3, 0)
+                .operation_is("%", 3, 6, 3)
+                .operation_is("%", 3.5, 6, 3.5)
+                .operation_is("%", 6, 3.5, 2.5)
+                .binary_operation_equals("+", &Op::add)
+                .operation_is("+", 2, 3, 5)
+                .operation_is("+", 2, -3, -1)
+                .binary_operation_equals("-", &Op::subtract)
+                .operation_is("-", 2, 3, -1)
+                .operation_is("-", 2, -3, 5)
+                .binary_operation_equals("and", &Op::logicalAnd)
+                .operation_is("and", 1, 0, 0)
+                .operation_is("and", 1, 1, 1)
+                .binary_operation_equals("or", &Op::logicalOr)
+                .operation_is("or", 1, 0, 1)
+                .operation_is("or", 0, 0, 0);
+        }
+
+        SECTION("Unary functions") {
+            FunctionFactoryAssert(new FunctionFactory)
+                .unary_operation_equals("abs", &std::abs)
+                .unary_operation_equals("acos", &std::acos)
+                .unary_operation_equals("asin", &std::asin)
+                .unary_operation_equals("atan", &std::atan)
+                .unary_operation_equals("ceil", &std::ceil)
+                .unary_operation_equals("cos", &std::cos)
+                .unary_operation_equals("cosh", &std::cosh)
+                .unary_operation_equals("exp", &std::exp)
+                .unary_operation_equals("fabs", &std::fabs)
+                .unary_operation_equals("floor", &std::floor)
+                .unary_operation_equals("log10", &std::log10)
+                .unary_operation_equals("log", &std::log)
+                .unary_operation_equals("round", &Op::round)
+                .unary_operation_equals("sin", &std::sin)
+                .unary_operation_equals("sinh", &std::sinh)
+                .unary_operation_equals("sqrt", &std::sqrt)
+                .unary_operation_equals("tan", &std::tan)
+                .unary_operation_equals("tanh", &std::tanh);
+
+#if defined(FL_UNIX) && !defined(FL_USE_FLOAT)
+            FunctionFactoryAssert(new FunctionFactory)
+                .unary_operation_equals("log1p", &log1p)
+                .unary_operation_equals("acosh", &acosh)
+                .unary_operation_equals("asinh", &asinh)
+                .unary_operation_equals("atanh", &atanh);
+#endif
+        }
+
+        SECTION("Binary Functions") {
+            FunctionFactoryAssert(new FunctionFactory)
+                .binary_operation_equals("atan2", &std::atan2)
+                .binary_operation_equals("eq", &Op::eq)
+                .binary_operation_equals("fmod", &std::fmod)
+                .binary_operation_equals("ge", &Op::ge)
+                .binary_operation_equals("gt", &Op::gt)
+                .binary_operation_equals("le", &Op::le)
+                .binary_operation_equals("lt", &Op::lt)
+                .binary_operation_equals("max", &Op::max)
+                .binary_operation_equals("min", &Op::min)
+                .binary_operation_equals("neq", &Op::neq)
+                .binary_operation_equals("pow", &std::pow);
+        }
+    }
+
+    TEST_CASE("Factory Manager", "[factory]") {
+        SECTION("Default factories") {
+            FactoryManager fm;
+            CHECK(fm.tnorm()->name() == "TNorm");
+            CHECK(fm.snorm()->name() == "SNorm");
+            CHECK(fm.activation()->name() == "Activation");
+            CHECK(fm.defuzzifier()->name() == "Defuzzifier");
+            CHECK(fm.term()->name() == "Term");
+            CHECK(fm.hedge()->name() == "Hedge");
+            CHECK(fm.function()->name() == "Function");
+        }
+
+        class CustomTNormFactory : public TNormFactory {
+            std::string name() const {
+                return "CustomTNorm";
+            }
+        };
+
+        class CustomSNormFactory : public SNormFactory {
+            std::string name() const {
+                return "CustomSNorm";
+            }
+        };
+
+        class CustomDefuzziferFactory : public DefuzzifierFactory {
+            std::string name() const {
+                return "CustomDefuzzifier";
+            }
+        };
+
+        class CustomHedgeFactory : public HedgeFactory {
+            std::string name() const {
+                return "CustomHedge";
+            }
+        };
+
+        class CustomActivationFactory : public ActivationFactory {
+            std::string name() const {
+                return "CustomActivation";
+            }
+        };
+
+        class CustomTermFactory : public TermFactory {
+            std::string name() const {
+                return "CustomTerm";
+            }
+        };
+
+        class CustomFunctionFactory : public FunctionFactory {
+            std::string name() const {
+                return "CustomFunction";
+            }
+        };
+
+        SECTION("Constructor of Custom factories") {
+            FactoryManager fm(
+                new CustomTNormFactory,
+                new CustomSNormFactory,
+                new CustomActivationFactory,
+                new CustomDefuzziferFactory,
+                new CustomTermFactory,
+                new CustomHedgeFactory,
+                new CustomFunctionFactory
+            );
+            CHECK(fm.tnorm()->name() == "CustomTNorm");
+            CHECK(fm.snorm()->name() == "CustomSNorm");
+            CHECK(fm.activation()->name() == "CustomActivation");
+            CHECK(fm.defuzzifier()->name() == "CustomDefuzzifier");
+            CHECK(fm.term()->name() == "CustomTerm");
+            CHECK(fm.hedge()->name() == "CustomHedge");
+            CHECK(fm.function()->name() == "CustomFunction");
+        }
+
+        SECTION("Setter of Custom factories") {
+            FactoryManager fm;
+
+            fm.setTnorm(new CustomTNormFactory);
+            fm.setSnorm(new CustomSNormFactory);
+            fm.setActivation(new CustomActivationFactory);
+            fm.setDefuzzifier(new CustomDefuzziferFactory);
+            fm.setTerm(new CustomTermFactory);
+            fm.setHedge(new CustomHedgeFactory);
+            fm.setFunction(new CustomFunctionFactory);
+
+            CHECK(fm.tnorm()->name() == "CustomTNorm");
+            CHECK(fm.snorm()->name() == "CustomSNorm");
+            CHECK(fm.activation()->name() == "CustomActivation");
+            CHECK(fm.defuzzifier()->name() == "CustomDefuzzifier");
+            CHECK(fm.term()->name() == "CustomTerm");
+            CHECK(fm.hedge()->name() == "CustomHedge");
+            CHECK(fm.function()->name() == "CustomFunction");
         }
     }
 }
