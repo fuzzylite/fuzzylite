@@ -20,6 +20,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 namespace fuzzylite {
 
     FactoryManager* FactoryManager::instance() {
+        // TODO: enable thread_local, compile library with -ftls-model=initial-exec?
         static FL_ITHREAD_LOCAL FactoryManager _instance;
         return &_instance;
     }
