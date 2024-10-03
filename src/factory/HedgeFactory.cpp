@@ -27,13 +27,13 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 namespace fuzzylite {
 
     HedgeFactory::HedgeFactory() : ConstructionFactory<Hedge*>("Hedge") {
-        registerConstructor("", fl::null);
-        registerConstructor(Any().name(), &(Any::constructor));
-        registerConstructor(Extremely().name(), &(Extremely::constructor));
-        registerConstructor(Not().name(), &(Not::constructor));
-        registerConstructor(Seldom().name(), &(Seldom::constructor));
-        registerConstructor(Somewhat().name(), &(Somewhat::constructor));
-        registerConstructor(Very().name(), &(Very::constructor));
+        ConstructionFactory::registerConstructor("", fl::null);
+        ConstructionFactory::registerConstructor(Any().name(), &(Any::constructor));
+        ConstructionFactory::registerConstructor(Extremely().name(), &(Extremely::constructor));
+        ConstructionFactory::registerConstructor(Not().name(), &(Not::constructor));
+        ConstructionFactory::registerConstructor(Seldom().name(), &(Seldom::constructor));
+        ConstructionFactory::registerConstructor(Somewhat().name(), &(Somewhat::constructor));
+        ConstructionFactory::registerConstructor(Very().name(), &(Very::constructor));
     }
 
     HedgeFactory::~HedgeFactory() {}
