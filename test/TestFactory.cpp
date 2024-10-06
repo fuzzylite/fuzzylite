@@ -104,6 +104,19 @@ namespace fuzzylite {
         }
     };
 
+    TEST_CASE("ConstructionFactory", "[factory]") {
+        SECTION("Unregistered constructor returns null") {
+            ConstructionFactory<std::string> cf("strings");
+            CHECK(cf.getConstructor("X") == fl::null);
+        }
+        SECTION("Construct unregistered object raises exception") {
+            const std::string expected = "[factory error] constructor of strings <X> not registered";
+            ConstructionFactory<std::string> cf("strings");
+            CHECK_THROWS_AS(cf.constructObject("X"), fl::Exception);
+            CHECK_THROWS_WITH(cf.constructObject("X"), Catch::Matchers::StartsWith(expected));
+        }
+    }
+
     struct ActivationFactoryAssert : ConstructionFactoryAssert<Activation> {
         explicit ActivationFactoryAssert(ActivationFactory* actual) : ConstructionFactoryAssert(actual) {}
     };
@@ -509,6 +522,17 @@ namespace fuzzylite {
     };
 
     TEST_CASE("FunctionFactory", "[factory][function]") {
+        SECTION("Cloning empty object returns null") {
+            FunctionFactory ff;
+            ff.registerObject("null", fl::null);
+            CHECK(ff.cloneObject("null") == fl::null);
+        }
+        SECTION("Cloning unregistered object raises exception") {
+            const std::string expected = "[cloning error] Function object by name <X> not registered";
+            FunctionFactory ff;
+            CHECK_THROWS_AS(ff.cloneObject("X"), fl::Exception);
+            CHECK_THROWS_WITH(ff.cloneObject("X"), Catch::Matchers::StartsWith(expected));
+        }
         SECTION("Operators available") {
             const std::vector<std::string>& expected = {"!", "~", "%", "^", "*", "/", "+", "-", "and", "or"};
             CHECK_THAT(FunctionFactory().availableOperators(), Catch::Matchers::UnorderedEquals(expected));
@@ -664,6 +688,16 @@ namespace fuzzylite {
                 only_operators.deregisterObject(function);
             FunctionFactory ff;
             ff = only_operators;
+            CHECK(ff.availableFunctions() == std::vector<std::string>{});
+            CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
+        }
+
+        SECTION("Copy constructor") {
+            std::vector<std::string> operators{"!", "~", "%", "^", "*", "/", "+", "-", "and", "or"};
+            FunctionFactory only_operators;
+            for (auto function : only_operators.availableFunctions())
+                only_operators.deregisterObject(function);
+            FunctionFactory ff(only_operators);
             CHECK(ff.availableFunctions() == std::vector<std::string>{});
             CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
         }
