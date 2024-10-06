@@ -100,6 +100,21 @@ namespace fuzzylite {
           @return an immutable map of registered keys and objects
          */
         virtual const std::map<std::string, T>& objects() const;
+
+        /**
+         * Copies the contents of the factory into this one
+         * @param other a cloning factory
+         */
+        virtual void copyFrom(const CloningFactory& other);
+        /**
+         * Removes and deletes the contents of the factory
+         */
+        virtual void clear();
+        /**
+         * Clones the factory
+         * @return a clone of the factory
+         */
+        virtual CloningFactory* clone() const;
     };
 }
 
@@ -116,47 +131,21 @@ namespace fuzzylite {
 
     template <typename T>
     inline CloningFactory<T>::CloningFactory(const CloningFactory& other) {
-        typename std::map<std::string, T>::const_iterator it = other._objects.begin();
-        while (it != other._objects.end()) {
-            T clone = fl::null;
-            if (it->second)
-                clone = it->second->clone();
-            this->_objects[it->first] = clone;
-            ++it;
-        }
+        CloningFactory::copyFrom(other);
     }
 
     template <typename T>
     inline CloningFactory<T>& CloningFactory<T>::operator=(const CloningFactory& other) {
         if (this != &other) {
-            typename std::map<std::string, T>::const_iterator it = this->_objects.begin();
-            while (it != this->_objects.end()) {
-                if (it->second)
-                    delete it->second;
-                ++it;
-            }
-            this->_objects.clear();
-
-            it = other._objects.begin();
-            while (it != other._objects.end()) {
-                T clone = fl::null;
-                if (it->second)
-                    clone = it->second->clone();
-                this->_objects[it->first] = clone;
-                ++it;
-            }
+            clear();
+            copyFrom(other);
         }
         return *this;
     }
 
     template <typename T>
     inline CloningFactory<T>::~CloningFactory() {
-        typename std::map<std::string, T>::const_iterator it = this->_objects.begin();
-        while (it != this->_objects.end()) {
-            if (it->second)
-                delete it->second;
-            ++it;
-        }
+        CloningFactory::clear();
     }
 
     template <typename T>
@@ -209,8 +198,10 @@ namespace fuzzylite {
     inline std::vector<std::string> CloningFactory<T>::available() const {
         std::vector<std::string> result;
         typename std::map<std::string, T>::const_iterator it = this->_objects.begin();
-        while (it != this->_objects.end())
+        while (it != this->_objects.end()) {
             result.push_back(it->first);
+            ++it;
+        }
         return result;
     }
 
@@ -223,6 +214,38 @@ namespace fuzzylite {
     inline const std::map<std::string, T>& CloningFactory<T>::objects() const {
         return this->_objects;
     }
+
+    template <typename T>
+    inline void CloningFactory<T>::clear() {
+        typename std::map<std::string, T>::const_iterator it = this->_objects.begin();
+        while (it != this->_objects.end()) {
+            if (it->second)
+                delete it->second;
+            ++it;
+        }
+        this->_objects.clear();
+    }
+
+    template <typename T>
+    void CloningFactory<T>::copyFrom(const CloningFactory& other) {
+        this->_name = other._name;
+        typename std::map<std::string, T>::const_iterator it = other._objects.begin();
+        while (it != other._objects.end()) {
+            T clone = fl::null;
+            if (it->second)
+                clone = it->second->clone();
+            deregisterObject(it->first);
+            registerObject(it->first, clone);
+
+            ++it;
+        }
+    }
+
+    template <typename T>
+    CloningFactory<T>* CloningFactory<T>::clone() const {
+        return new CloningFactory<T>(*this);
+    }
+
 }
 
 #endif /* FL_CLONINGFACTORY_H */
