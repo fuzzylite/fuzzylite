@@ -87,6 +87,21 @@ namespace fuzzylite {
             CHECK(actual->constructors().empty());
             return *this;
         }
+
+        ConstructionFactoryAssert& clones() {
+            std::unique_ptr<ConstructionFactory<T*>> clone(actual->clone());
+            CAPTURE(actual->name(), clone->name());
+            CHECK(actual->name() == clone->name());
+            std::vector<Constructor> constructors;
+            for (auto key : actual->constructors()) {
+                CAPTURE(key.first);
+                std::unique_ptr<T> object(actual->constructObject(key.first));
+                const std::string fll = object.get() ? fl::FllExporter().toString(object.get()) : "";
+                constructors.push_back(std::make_tuple(key.first, key.second, fll));
+            }
+            this->constructs_exactly(constructors);
+            return *this;
+        }
     };
 
     struct ActivationFactoryAssert : ConstructionFactoryAssert<Activation> {
@@ -158,6 +173,9 @@ namespace fuzzylite {
         SECTION("Deregister all") {
             ActivationFactoryAssert(new ActivationFactory).deregister_all();
         }
+        SECTION("Clones") {
+            ActivationFactoryAssert(new ActivationFactory).clones();
+        }
     }
 
     TEST_CASE("DefuzzifierFactory", "[factory][defuzzifier]") {
@@ -211,6 +229,9 @@ namespace fuzzylite {
         SECTION("Deregister all") {
             DefuzzifierFactoryAssert(new DefuzzifierFactory).deregister_all();
         }
+        SECTION("Clones") {
+            DefuzzifierFactoryAssert(new DefuzzifierFactory).clones();
+        }
     }
 
     TEST_CASE("HedgeFactory", "[factory][hedge]") {
@@ -237,6 +258,9 @@ namespace fuzzylite {
         }
         SECTION("Deregister all") {
             HedgeFactoryAssert(new HedgeFactory).deregister_all();
+        }
+        SECTION("Clones") {
+            HedgeFactoryAssert(new HedgeFactory).clones();
         }
     }
 
@@ -268,6 +292,9 @@ namespace fuzzylite {
         SECTION("Deregister all") {
             SNormFactoryAssert(new SNormFactory).deregister_all();
         }
+        SECTION("Clones") {
+            SNormFactoryAssert(new SNormFactory).clones();
+        }
     }
 
     TEST_CASE("TNormFactory", "[factory][tnorm]") {
@@ -295,6 +322,9 @@ namespace fuzzylite {
         }
         SECTION("Deregister all") {
             TNormFactoryAssert(new TNormFactory).deregister_all();
+        }
+        SECTION("Clones") {
+            TNormFactoryAssert(new TNormFactory).clones();
         }
     }
 
@@ -340,6 +370,9 @@ namespace fuzzylite {
         }
         SECTION("Deregister all") {
             TermFactoryAssert(new TermFactory).deregister_all();
+        }
+        SECTION("Clones") {
+            TermFactoryAssert(new TermFactory).clones();
         }
     }
 
@@ -477,34 +510,36 @@ namespace fuzzylite {
 
     TEST_CASE("FunctionFactory", "[factory][function]") {
         SECTION("Operators available") {
-            const std::vector<std::string>& expected = {
-                "!",
-                "~",
-                "%",
-                "^",
-                "*",
-                "/",
-                "+",
-                "-",
-                "and",
-                "or",
-            };
+            const std::vector<std::string>& expected = {"!", "~", "%", "^", "*", "/", "+", "-", "and", "or"};
             CHECK_THAT(FunctionFactory().availableOperators(), Catch::Matchers::UnorderedEquals(expected));
         }
         SECTION("Functions available") {
-            std::vector<std::string> expected = {
-                "abs",  "acos",  "asin", "atan",  "atan2", "ceil", "cos",  "cosh",  "eq",   "exp",
-                "fabs", "floor", "fmod", "ge",    "gt",    "le",   "log",  "log10", "lt",   "max",
-                "min",  "neq",   "pow",  "round", "sin",   "sinh", "sqrt", "tan",   "tanh",
-            };
-#if defined(FL_UNIX) && !defined(FL_USE_FLOAT)
-            // found in Unix when using double precision. not found in Windows.
-            expected.push_back("acosh");
-            expected.push_back("asinh");
-            expected.push_back("atanh");
-            expected.push_back("log1p");
+            const std::vector<std::string> expected
+                = {"abs",   "acos",  "asin",  "atan",  "atan2", "ceil", "cos",  "cosh",  "eq",   "exp",
+                   "fabs",  "floor", "fmod",  "ge",    "gt",    "le",   "log",  "log10", "lt",   "max",
+                   "min",   "neq",   "pow",   "round", "sin",   "sinh", "sqrt", "tan",   "tanh",
+#if defined(FL_UNIX) && !defined(FL_USE_FLOAT)  // found in Unix when using double precision. not found in Windows.
+                   "acosh", "asinh", "atanh", "log1p"
 #endif
+                };
             CHECK_THAT(FunctionFactory().availableFunctions(), Catch::Matchers::UnorderedEquals(expected));
+        }
+
+        SECTION("Available") {
+            const std::vector<std::string>& operators = {"!", "~", "%", "^", "*", "/", "+", "-", "and", "or"};
+            std::vector<std::string> functions
+                = {"abs",   "acos",  "asin",  "atan",  "atan2", "ceil", "cos",  "cosh",  "eq",   "exp",
+                   "fabs",  "floor", "fmod",  "ge",    "gt",    "le",   "log",  "log10", "lt",   "max",
+                   "min",   "neq",   "pow",   "round", "sin",   "sinh", "sqrt", "tan",   "tanh",
+#if defined(FL_UNIX) && !defined(FL_USE_FLOAT)  // found in Unix when using double precision. not found in Windows.
+                   "acosh", "asinh", "atanh", "log1p"
+#endif
+                };
+
+            std::vector<std::string> expected;
+            std::copy(operators.begin(), operators.end(), std::back_inserter(expected));
+            std::copy(functions.begin(), functions.end(), std::back_inserter(expected));
+            CHECK_THAT(FunctionFactory().available(), Catch::Matchers::UnorderedEquals(expected));
         }
 
         SECTION("Precedence is the same") {
@@ -617,6 +652,21 @@ namespace fuzzylite {
                 .binary_operation_equals("neq", &Op::neq)
                 .binary_operation_equals("pow", &std::pow);
         }
+
+        SECTION("Deregister all") {
+            FunctionFactoryAssert(new FunctionFactory).deregister_all();
+        }
+
+        SECTION("Assign constructor") {
+            std::vector<std::string> operators{"!", "~", "%", "^", "*", "/", "+", "-", "and", "or"};
+            FunctionFactory only_operators;
+            for (auto function : only_operators.availableFunctions())
+                only_operators.deregisterObject(function);
+            FunctionFactory ff;
+            ff = only_operators;
+            CHECK(ff.availableFunctions() == std::vector<std::string>{});
+            CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
+        }
     }
 
     TEST_CASE("Factory Manager", "[factory]") {
@@ -631,46 +681,32 @@ namespace fuzzylite {
             CHECK(fm.function()->name() == "Function");
         }
 
-        class CustomTNormFactory : public TNormFactory {
-            std::string name() const {
-                return "CustomTNorm";
-            }
+        struct CustomTNormFactory : TNormFactory {
+            CustomTNormFactory() : TNormFactory("CustomTNorm"){};
         };
 
-        class CustomSNormFactory : public SNormFactory {
-            std::string name() const {
-                return "CustomSNorm";
-            }
+        struct CustomSNormFactory : SNormFactory {
+            CustomSNormFactory() : SNormFactory("CustomSNorm"){};
         };
 
-        class CustomDefuzziferFactory : public DefuzzifierFactory {
-            std::string name() const {
-                return "CustomDefuzzifier";
-            }
+        struct CustomDefuzziferFactory : DefuzzifierFactory {
+            CustomDefuzziferFactory() : DefuzzifierFactory("CustomDefuzzifier"){};
         };
 
-        class CustomHedgeFactory : public HedgeFactory {
-            std::string name() const {
-                return "CustomHedge";
-            }
+        struct CustomHedgeFactory : HedgeFactory {
+            CustomHedgeFactory() : HedgeFactory("CustomHedge"){};
         };
 
-        class CustomActivationFactory : public ActivationFactory {
-            std::string name() const {
-                return "CustomActivation";
-            }
+        struct CustomActivationFactory : ActivationFactory {
+            CustomActivationFactory() : ActivationFactory("CustomActivation"){};
         };
 
-        class CustomTermFactory : public TermFactory {
-            std::string name() const {
-                return "CustomTerm";
-            }
+        struct CustomTermFactory : TermFactory {
+            CustomTermFactory() : TermFactory("CustomTerm"){};
         };
 
-        class CustomFunctionFactory : public FunctionFactory {
-            std::string name() const {
-                return "CustomFunction";
-            }
+        struct CustomFunctionFactory : FunctionFactory {
+            CustomFunctionFactory() : FunctionFactory("CustomFunction"){};
         };
 
         SECTION("Constructor of Custom factories") {
@@ -702,6 +738,49 @@ namespace fuzzylite {
             fm.setTerm(new CustomTermFactory);
             fm.setHedge(new CustomHedgeFactory);
             fm.setFunction(new CustomFunctionFactory);
+
+            CHECK(fm.tnorm()->name() == "CustomTNorm");
+            CHECK(fm.snorm()->name() == "CustomSNorm");
+            CHECK(fm.activation()->name() == "CustomActivation");
+            CHECK(fm.defuzzifier()->name() == "CustomDefuzzifier");
+            CHECK(fm.term()->name() == "CustomTerm");
+            CHECK(fm.hedge()->name() == "CustomHedge");
+            CHECK(fm.function()->name() == "CustomFunction");
+        }
+
+        SECTION("Copy constructor of custom factories") {
+            FactoryManager customFactoryManager(
+                new CustomTNormFactory,
+                new CustomSNormFactory,
+                new CustomActivationFactory,
+                new CustomDefuzziferFactory,
+                new CustomTermFactory,
+                new CustomHedgeFactory,
+                new CustomFunctionFactory
+            );
+            FactoryManager fm(customFactoryManager);
+
+            CHECK(fm.tnorm()->name() == "CustomTNorm");
+            CHECK(fm.snorm()->name() == "CustomSNorm");
+            CHECK(fm.activation()->name() == "CustomActivation");
+            CHECK(fm.defuzzifier()->name() == "CustomDefuzzifier");
+            CHECK(fm.term()->name() == "CustomTerm");
+            CHECK(fm.hedge()->name() == "CustomHedge");
+            CHECK(fm.function()->name() == "CustomFunction");
+        }
+
+        SECTION("Assign of custom factories") {
+            FactoryManager customFactoryManager(
+                new CustomTNormFactory,
+                new CustomSNormFactory,
+                new CustomActivationFactory,
+                new CustomDefuzziferFactory,
+                new CustomTermFactory,
+                new CustomHedgeFactory,
+                new CustomFunctionFactory
+            );
+            FactoryManager fm;
+            fm = customFactoryManager;
 
             CHECK(fm.tnorm()->name() == "CustomTNorm");
             CHECK(fm.snorm()->name() == "CustomSNorm");
