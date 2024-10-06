@@ -27,7 +27,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    ActivationFactory::ActivationFactory() : ConstructionFactory<Activation*>("Activation") {
+    ActivationFactory::ActivationFactory(const std::string& name) : ConstructionFactory(name) {
         ConstructionFactory::registerConstructor("", fl::null);
         ConstructionFactory::registerConstructor(First().className(), &(First::constructor));
         ConstructionFactory::registerConstructor(General().className(), &(General::constructor));
@@ -39,5 +39,9 @@ namespace fuzzylite {
     }
 
     ActivationFactory::~ActivationFactory() {}
+
+    ActivationFactory* ActivationFactory::clone() const {
+        return new ActivationFactory(*this);
+    }
 
 }

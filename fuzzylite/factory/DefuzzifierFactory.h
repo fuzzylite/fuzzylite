@@ -36,7 +36,7 @@ namespace fuzzylite {
      */
     class FL_API DefuzzifierFactory : public ConstructionFactory<Defuzzifier*> {
       public:
-        DefuzzifierFactory();
+        DefuzzifierFactory(const std::string& name = "Defuzzifier");
         virtual ~DefuzzifierFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(DefuzzifierFactory)
 
@@ -68,6 +68,8 @@ namespace fuzzylite {
           setting its type
          */
         virtual Defuzzifier* constructWeighted(const std::string& defuzzifier, WeightedDefuzzifier::Type type) const;
+
+        virtual DefuzzifierFactory* clone() const FL_IOVERRIDE;
     };
 }
 

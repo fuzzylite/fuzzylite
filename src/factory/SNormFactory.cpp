@@ -29,7 +29,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    SNormFactory::SNormFactory() : ConstructionFactory<SNorm*>("SNorm") {
+    SNormFactory::SNormFactory(const std::string& name) : ConstructionFactory(name) {
         ConstructionFactory::registerConstructor("", fl::null);
         ConstructionFactory::registerConstructor(AlgebraicSum().className(), &(AlgebraicSum::constructor));
         ConstructionFactory::registerConstructor(BoundedSum().className(), &(BoundedSum::constructor));
@@ -43,5 +43,9 @@ namespace fuzzylite {
     }
 
     SNormFactory::~SNormFactory() {}
+
+    SNormFactory* SNormFactory::clone() const {
+        return new SNormFactory(*this);
+    }
 
 }

@@ -27,7 +27,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    DefuzzifierFactory::DefuzzifierFactory() : ConstructionFactory<Defuzzifier*>("Defuzzifier") {
+    DefuzzifierFactory::DefuzzifierFactory(const std::string& name) : ConstructionFactory(name) {
         ConstructionFactory::registerConstructor("", fl::null);
         ConstructionFactory::registerConstructor(Bisector().className(), &(Bisector::constructor));
         ConstructionFactory::registerConstructor(Centroid().className(), &(Centroid::constructor));
@@ -58,6 +58,10 @@ namespace fuzzylite {
     Defuzzifier*
     DefuzzifierFactory::constructWeighted(const std::string& defuzzifier, WeightedDefuzzifier::Type type) const {
         return constructDefuzzifier(defuzzifier, 0, type);
+    }
+
+    DefuzzifierFactory* DefuzzifierFactory::clone() const {
+        return new DefuzzifierFactory(*this);
     }
 
 }

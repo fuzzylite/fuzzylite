@@ -103,6 +103,8 @@ namespace fuzzylite {
           @return an immutable map of registered keys and constructors
          */
         virtual const std::map<std::string, Constructor>& constructors() const;
+
+        virtual ConstructionFactory* clone() const;
     };
 
 }
@@ -192,6 +194,12 @@ namespace fuzzylite {
     ConstructionFactory<T>::constructors() const {
         return this->_constructors;
     }
+
+    template <typename T>
+    ConstructionFactory<T>* ConstructionFactory<T>::clone() const {
+        return new ConstructionFactory(*this);
+    }
+
 }
 
 #endif /* FL_CONSTRUCTIONFACTORY_H */

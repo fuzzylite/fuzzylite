@@ -40,9 +40,11 @@ namespace fuzzylite {
         void registerFunctions();
 
       public:
-        FunctionFactory();
+        FunctionFactory(const std::string& name = "Function");
+        FunctionFactory(const FunctionFactory& other);
+        FunctionFactory& operator=(const FunctionFactory& other);
         virtual ~FunctionFactory() FL_IOVERRIDE;
-        FL_DEFAULT_COPY_AND_MOVE(FunctionFactory)
+        FL_DEFAULT_MOVE(FunctionFactory)
 
         /**
           Returns a vector of the operators available
@@ -54,6 +56,8 @@ namespace fuzzylite {
           @return a vector of the functions available
          */
         virtual std::vector<std::string> availableFunctions() const;
+
+        virtual FunctionFactory* clone() const FL_IOVERRIDE;
     };
 }
 

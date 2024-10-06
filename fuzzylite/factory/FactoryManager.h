@@ -66,7 +66,7 @@ namespace fuzzylite {
             HedgeFactory* hedge,
             FunctionFactory* function
         );
-        explicit FactoryManager(const FactoryManager& other);
+        FactoryManager(const FactoryManager& other);
         FactoryManager& operator=(const FactoryManager& other);
         FL_DEFAULT_MOVE(FactoryManager)
         virtual ~FactoryManager();
@@ -153,6 +153,8 @@ namespace fuzzylite {
           @return the factory of Function Element%s
          */
         virtual FunctionFactory* function() const;
+
+        virtual FactoryManager* clone() const;
     };
 }
 

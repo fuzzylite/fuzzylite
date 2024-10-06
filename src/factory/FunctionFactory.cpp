@@ -21,12 +21,19 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    FunctionFactory::FunctionFactory() : CloningFactory("Function") {
+    FunctionFactory::FunctionFactory(const std::string& name) : CloningFactory(name) {
         registerOperators();
         registerFunctions();
     }
 
     FunctionFactory::~FunctionFactory() {}
+
+    FunctionFactory::FunctionFactory(const FunctionFactory& other) : CloningFactory(other) {}
+
+    FunctionFactory& FunctionFactory::operator=(const FunctionFactory& other) {
+        CloningFactory::operator=(other);
+        return *this;
+    }
 
     void FunctionFactory::registerOperators() {
         // OPERATORS:
@@ -165,6 +172,10 @@ namespace fuzzylite {
             ++it;
         }
         return result;
+    }
+
+    FunctionFactory* FunctionFactory::clone() const {
+        return new FunctionFactory(*this);
     }
 
 }

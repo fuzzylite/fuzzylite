@@ -34,9 +34,11 @@ namespace fuzzylite {
      */
     class FL_API HedgeFactory : public ConstructionFactory<Hedge*> {
       public:
-        HedgeFactory();
+        HedgeFactory(const std::string& name ="Hedge");
         virtual ~HedgeFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(HedgeFactory)
+
+        virtual HedgeFactory* clone() const FL_IOVERRIDE;
     };
 }
 
