@@ -521,17 +521,16 @@ namespace fuzzylite {
         }
     };
 
-    TEST_CASE("FunctionFactory", "[factory][function]") {
-        const std::vector<std::string> operators = {"!", "~", "%", "^", "*", "/", "+", "-", "and", "or"};
-        const std::vector<std::string> functions
-            = {"abs",   "acos",  "asin",  "atan",  "atan2", "ceil", "cos",  "cosh",  "eq",   "exp",
-               "fabs",  "floor", "fmod",  "ge",    "gt",    "le",   "log",  "log10", "lt",   "max",
-               "min",   "neq",   "pow",   "round", "sin",   "sinh", "sqrt", "tan",   "tanh",
+    const std::vector<std::string> operators = {"!", "~", "%", "^", "*", "/", "+", "-", "and", "or"};
+    const std::vector<std::string> functions
+        = {"abs",   "acos",  "asin",  "atan",  "atan2", "ceil", "cos",  "cosh",  "eq",   "exp",
+           "fabs",  "floor", "fmod",  "ge",    "gt",    "le",   "log",  "log10", "lt",   "max",
+           "min",   "neq",   "pow",   "round", "sin",   "sinh", "sqrt", "tan",   "tanh",
 #if defined(FL_UNIX) && !defined(FL_USE_FLOAT)  // found in Unix when using double precision. not found in Windows.
-               "acosh", "asinh", "atanh", "log1p"
+           "acosh", "asinh", "atanh", "log1p"
 #endif
-            };
-
+    };
+    TEST_CASE("FunctionFactory", "[factory][function]") {
         SECTION("Cloning empty object returns null") {
             FunctionFactory ff;
             ff.registerObject("null", fl::null);
