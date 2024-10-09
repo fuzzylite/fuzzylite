@@ -623,6 +623,39 @@ namespace fuzzylite {
                 .operation_is("or", 0, 0, 0);
         }
 
+        SECTION("Deregister all") {
+            FunctionFactoryAssert(new FunctionFactory).deregister_all();
+        }
+
+        SECTION("Assign constructor") {
+            FunctionFactory only_operators;
+            for (auto function : only_operators.availableFunctions())
+                only_operators.deregisterObject(function);
+            FunctionFactory ff;
+            ff = only_operators;
+            CHECK(ff.availableFunctions() == std::vector<std::string>{});
+            CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
+        }
+
+        SECTION("Copy constructor with operators") {
+            FunctionFactory only_operators;
+            for (auto function : only_operators.availableFunctions())
+                only_operators.deregisterObject(function);
+            FunctionFactory ff(only_operators);
+            CHECK(ff.availableFunctions() == std::vector<std::string>{});
+            CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
+        }
+        SECTION("Copy constructor with functions") {
+            FunctionFactory only_functions;
+            for (auto operator_ : only_functions.availableOperators())
+                only_functions.deregisterObject(operator_);
+            FunctionFactory ff(only_functions);
+            CHECK(ff.availableOperators() == std::vector<std::string>{});
+            CHECK_THAT(ff.availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
+        }
+    }
+
+    TEST_CASE("Failing", "[factory]") {
         SECTION("Unary functions") {
             FunctionFactoryAssert(new FunctionFactory)
                 .unary_operation_equals("abs", &std::abs)
@@ -666,37 +699,6 @@ namespace fuzzylite {
                 .binary_operation_equals("min", &Op::min)
                 .binary_operation_equals("neq", &Op::neq)
                 .binary_operation_equals("pow", &std::pow);
-        }
-
-        SECTION("Deregister all") {
-            FunctionFactoryAssert(new FunctionFactory).deregister_all();
-        }
-
-        SECTION("Assign constructor") {
-            FunctionFactory only_operators;
-            for (auto function : only_operators.availableFunctions())
-                only_operators.deregisterObject(function);
-            FunctionFactory ff;
-            ff = only_operators;
-            CHECK(ff.availableFunctions() == std::vector<std::string>{});
-            CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
-        }
-
-        SECTION("Copy constructor with operators") {
-            FunctionFactory only_operators;
-            for (auto function : only_operators.availableFunctions())
-                only_operators.deregisterObject(function);
-            FunctionFactory ff(only_operators);
-            CHECK(ff.availableFunctions() == std::vector<std::string>{});
-            CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
-        }
-        SECTION("Copy constructor with functions") {
-            FunctionFactory only_functions;
-            for (auto operator_ : only_functions.availableOperators())
-                only_functions.deregisterObject(operator_);
-            FunctionFactory ff(only_functions);
-            CHECK(ff.availableOperators() == std::vector<std::string>{});
-            CHECK_THAT(ff.availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
         }
     }
 
