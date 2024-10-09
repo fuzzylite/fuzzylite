@@ -579,6 +579,39 @@ namespace fuzzylite {
             CHECK_THAT(f.evaluate(), Approximates(29.8125));
         }
 
+        SECTION("Deregister all") {
+            FunctionFactoryAssert(new FunctionFactory).deregister_all();
+        }
+
+        SECTION("Assign constructor") {
+            FunctionFactory only_operators;
+            for (auto function : only_operators.availableFunctions())
+                only_operators.deregisterObject(function);
+            FunctionFactory ff;
+            ff = only_operators;
+            CHECK(ff.availableFunctions() == std::vector<std::string>{});
+            CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
+        }
+
+        SECTION("Copy constructor with operators") {
+            FunctionFactory only_operators;
+            for (auto function : only_operators.availableFunctions())
+                only_operators.deregisterObject(function);
+            FunctionFactory ff(only_operators);
+            CHECK(ff.availableFunctions() == std::vector<std::string>{});
+            CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
+        }
+        SECTION("Copy constructor with functions") {
+            FunctionFactory only_functions;
+            for (auto operator_ : only_functions.availableOperators())
+                only_functions.deregisterObject(operator_);
+            FunctionFactory ff(only_functions);
+            CHECK(ff.availableOperators() == std::vector<std::string>{});
+            CHECK_THAT(ff.availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
+        }
+    }
+
+    TEST_CASE("Failing", "[factory]") {
         SECTION("Unary Operators") {
             FunctionFactoryAssert(new FunctionFactory)
                 .unary_operation_equals("!", &Op::logicalNot)
@@ -622,40 +655,6 @@ namespace fuzzylite {
                 .operation_is("or", 1, 0, 1)
                 .operation_is("or", 0, 0, 0);
         }
-
-        SECTION("Deregister all") {
-            FunctionFactoryAssert(new FunctionFactory).deregister_all();
-        }
-
-        SECTION("Assign constructor") {
-            FunctionFactory only_operators;
-            for (auto function : only_operators.availableFunctions())
-                only_operators.deregisterObject(function);
-            FunctionFactory ff;
-            ff = only_operators;
-            CHECK(ff.availableFunctions() == std::vector<std::string>{});
-            CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
-        }
-
-        SECTION("Copy constructor with operators") {
-            FunctionFactory only_operators;
-            for (auto function : only_operators.availableFunctions())
-                only_operators.deregisterObject(function);
-            FunctionFactory ff(only_operators);
-            CHECK(ff.availableFunctions() == std::vector<std::string>{});
-            CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
-        }
-        SECTION("Copy constructor with functions") {
-            FunctionFactory only_functions;
-            for (auto operator_ : only_functions.availableOperators())
-                only_functions.deregisterObject(operator_);
-            FunctionFactory ff(only_functions);
-            CHECK(ff.availableOperators() == std::vector<std::string>{});
-            CHECK_THAT(ff.availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
-        }
-    }
-
-    TEST_CASE("Failing", "[factory]") {
         SECTION("Unary functions") {
             FunctionFactoryAssert(new FunctionFactory)
                 .unary_operation_equals("abs", &std::abs)
@@ -715,31 +714,31 @@ namespace fuzzylite {
         }
 
         struct CustomTNormFactory : TNormFactory {
-            CustomTNormFactory() : TNormFactory("CustomTNorm"){};
+            CustomTNormFactory() : TNormFactory("CustomTNorm") {}
         };
 
         struct CustomSNormFactory : SNormFactory {
-            CustomSNormFactory() : SNormFactory("CustomSNorm"){};
+            CustomSNormFactory() : SNormFactory("CustomSNorm") {}
         };
 
         struct CustomDefuzziferFactory : DefuzzifierFactory {
-            CustomDefuzziferFactory() : DefuzzifierFactory("CustomDefuzzifier"){};
+            CustomDefuzziferFactory() : DefuzzifierFactory("CustomDefuzzifier") {}
         };
 
         struct CustomHedgeFactory : HedgeFactory {
-            CustomHedgeFactory() : HedgeFactory("CustomHedge"){};
+            CustomHedgeFactory() : HedgeFactory("CustomHedge") {}
         };
 
         struct CustomActivationFactory : ActivationFactory {
-            CustomActivationFactory() : ActivationFactory("CustomActivation"){};
+            CustomActivationFactory() : ActivationFactory("CustomActivation") {}
         };
 
         struct CustomTermFactory : TermFactory {
-            CustomTermFactory() : TermFactory("CustomTerm"){};
+            CustomTermFactory() : TermFactory("CustomTerm") {}
         };
 
         struct CustomFunctionFactory : FunctionFactory {
-            CustomFunctionFactory() : FunctionFactory("CustomFunction"){};
+            CustomFunctionFactory() : FunctionFactory("CustomFunction") {}
         };
 
         SECTION("Constructor of Custom factories") {
