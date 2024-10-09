@@ -27,5 +27,6 @@ namespace fuzzylite {
             return ss.str();
         }
     };
+
 }
 #endif  // FL_TEST_HEADERS_H
