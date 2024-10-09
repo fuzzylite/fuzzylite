@@ -20,7 +20,7 @@ build: .phonywin
 
 .PHONY: test
 test: .phonywin
-	ctest --test-dir build/ --output-on-failure
+	ctest --test-dir build/ --output-on-failure --verbose
 
 test-only:
 	cmake -B build/ && \
@@ -39,7 +39,7 @@ coverage:
 		--coveralls build/coveralls.json \
 		--html build/coverage.html \
 		--html-details \
-#		--sort uncovered-percent \
+		--sort uncovered-percent \
 		--html-theme github.dark-blue \
 		--txt --txt-summary \
 		build/CMakeFiles/fl-test.dir && \

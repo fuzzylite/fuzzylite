@@ -289,11 +289,11 @@ namespace fuzzylite {
 
     const char* dashed_line = "--------------------------------------------------------------------------";
 
-    struct MyListener : Catch::TestEventListenerBase {
+    struct TestDebugger : Catch::TestEventListenerBase {
         using TestEventListenerBase::TestEventListenerBase;  // inherit constructor
 
         // Get rid of Wweak-tables
-        ~MyListener() override = default;
+        ~TestDebugger() override = default;
 
         // The whole test run starting
         void testRunStarting(const Catch::TestRunInfo& testRunInfo) override {
@@ -352,4 +352,5 @@ namespace fuzzylite {
         }
     };
 
+    CATCH_REGISTER_LISTENER(TestDebugger);
 }  // end anonymous namespace
