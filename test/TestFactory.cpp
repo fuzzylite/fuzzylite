@@ -522,6 +522,16 @@ namespace fuzzylite {
     };
 
     TEST_CASE("FunctionFactory", "[factory][function]") {
+        static const std::vector<std::string>& operators = {"!", "~", "%", "^", "*", "/", "+", "-", "and", "or"};
+        static const std::vector<std::string> functions
+            = {"abs",   "acos",  "asin",  "atan",  "atan2", "ceil", "cos",  "cosh",  "eq",   "exp",
+               "fabs",  "floor", "fmod",  "ge",    "gt",    "le",   "log",  "log10", "lt",   "max",
+               "min",   "neq",   "pow",   "round", "sin",   "sinh", "sqrt", "tan",   "tanh",
+#if defined(FL_UNIX) && !defined(FL_USE_FLOAT)  // found in Unix when using double precision. not found in Windows.
+               "acosh", "asinh", "atanh", "log1p"
+#endif
+            };
+
         SECTION("Cloning empty object returns null") {
             FunctionFactory ff;
             ff.registerObject("null", fl::null);
@@ -534,32 +544,13 @@ namespace fuzzylite {
             CHECK_THROWS_WITH(ff.cloneObject("X"), Catch::Matchers::StartsWith(expected));
         }
         SECTION("Operators available") {
-            const std::vector<std::string>& expected = {"!", "~", "%", "^", "*", "/", "+", "-", "and", "or"};
-            CHECK_THAT(FunctionFactory().availableOperators(), Catch::Matchers::UnorderedEquals(expected));
+            CHECK_THAT(FunctionFactory().availableOperators(), Catch::Matchers::UnorderedEquals(operators));
         }
         SECTION("Functions available") {
-            const std::vector<std::string> expected
-                = {"abs",   "acos",  "asin",  "atan",  "atan2", "ceil", "cos",  "cosh",  "eq",   "exp",
-                   "fabs",  "floor", "fmod",  "ge",    "gt",    "le",   "log",  "log10", "lt",   "max",
-                   "min",   "neq",   "pow",   "round", "sin",   "sinh", "sqrt", "tan",   "tanh",
-#if defined(FL_UNIX) && !defined(FL_USE_FLOAT)  // found in Unix when using double precision. not found in Windows.
-                   "acosh", "asinh", "atanh", "log1p"
-#endif
-                };
-            CHECK_THAT(FunctionFactory().availableFunctions(), Catch::Matchers::UnorderedEquals(expected));
+            CHECK_THAT(FunctionFactory().availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
         }
 
         SECTION("Available") {
-            const std::vector<std::string>& operators = {"!", "~", "%", "^", "*", "/", "+", "-", "and", "or"};
-            std::vector<std::string> functions
-                = {"abs",   "acos",  "asin",  "atan",  "atan2", "ceil", "cos",  "cosh",  "eq",   "exp",
-                   "fabs",  "floor", "fmod",  "ge",    "gt",    "le",   "log",  "log10", "lt",   "max",
-                   "min",   "neq",   "pow",   "round", "sin",   "sinh", "sqrt", "tan",   "tanh",
-#if defined(FL_UNIX) && !defined(FL_USE_FLOAT)  // found in Unix when using double precision. not found in Windows.
-                   "acosh", "asinh", "atanh", "log1p"
-#endif
-                };
-
             std::vector<std::string> expected;
             std::copy(operators.begin(), operators.end(), std::back_inserter(expected));
             std::copy(functions.begin(), functions.end(), std::back_inserter(expected));
@@ -682,7 +673,6 @@ namespace fuzzylite {
         }
 
         SECTION("Assign constructor") {
-            std::vector<std::string> operators{"!", "~", "%", "^", "*", "/", "+", "-", "and", "or"};
             FunctionFactory only_operators;
             for (auto function : only_operators.availableFunctions())
                 only_operators.deregisterObject(function);
@@ -692,14 +682,21 @@ namespace fuzzylite {
             CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
         }
 
-        SECTION("Copy constructor") {
-            std::vector<std::string> operators{"!", "~", "%", "^", "*", "/", "+", "-", "and", "or"};
+        SECTION("Copy constructor with operators") {
             FunctionFactory only_operators;
             for (auto function : only_operators.availableFunctions())
                 only_operators.deregisterObject(function);
             FunctionFactory ff(only_operators);
             CHECK(ff.availableFunctions() == std::vector<std::string>{});
             CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
+        }
+        SECTION("Copy constructor with functions") {
+            FunctionFactory only_functions;
+            for (auto operator_ : only_functions.availableOperators())
+                only_functions.deregisterObject(operator_);
+            FunctionFactory ff(only_functions);
+            CHECK(ff.availableOperators() == std::vector<std::string>{});
+            CHECK_THAT(ff.availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
         }
     }
 
