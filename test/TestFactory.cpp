@@ -522,8 +522,8 @@ namespace fuzzylite {
     };
 
     TEST_CASE("FunctionFactory", "[factory][function]") {
-        static const std::vector<std::string>& operators = {"!", "~", "%", "^", "*", "/", "+", "-", "and", "or"};
-        static const std::vector<std::string> functions
+        const std::vector<std::string> operators = {"!", "~", "%", "^", "*", "/", "+", "-", "and", "or"};
+        const std::vector<std::string> functions
             = {"abs",   "acos",  "asin",  "atan",  "atan2", "ceil", "cos",  "cosh",  "eq",   "exp",
                "fabs",  "floor", "fmod",  "ge",    "gt",    "le",   "log",  "log10", "lt",   "max",
                "min",   "neq",   "pow",   "round", "sin",   "sinh", "sqrt", "tan",   "tanh",
@@ -609,9 +609,7 @@ namespace fuzzylite {
             CHECK(ff.availableOperators() == std::vector<std::string>{});
             CHECK_THAT(ff.availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
         }
-    }
 
-    TEST_CASE("Failing", "[factory]") {
         SECTION("Unary Operators") {
             FunctionFactoryAssert(new FunctionFactory)
                 .unary_operation_equals("!", &Op::logicalNot)

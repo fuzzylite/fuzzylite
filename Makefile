@@ -20,7 +20,7 @@ build: .phonywin
 
 .PHONY: test
 test: .phonywin
-	ctest --test-dir build/ --output-on-failure --verbose
+	ctest --test-dir build/ --output-on-failure --verbose --timeout 120
 
 test-only:
 	cmake -B build/ && \
