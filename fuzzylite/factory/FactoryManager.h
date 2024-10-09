@@ -57,7 +57,7 @@ namespace fuzzylite {
 
       public:
         FactoryManager();
-        explicit FactoryManager(
+        FactoryManager(
             TNormFactory* tnorm,
             SNormFactory* snorm,
             ActivationFactory* activation,

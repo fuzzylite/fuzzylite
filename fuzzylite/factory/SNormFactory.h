@@ -34,7 +34,7 @@ namespace fuzzylite {
      */
     class FL_API SNormFactory : public ConstructionFactory<SNorm*> {
       public:
-        SNormFactory(const std::string& name = "SNorm");
+        explicit SNormFactory(const std::string& name = "SNorm");
         virtual ~SNormFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(SNormFactory)
 

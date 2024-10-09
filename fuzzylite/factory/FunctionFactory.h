@@ -40,7 +40,7 @@ namespace fuzzylite {
         void registerFunctions();
 
       public:
-        FunctionFactory(const std::string& name = "Function");
+        explicit FunctionFactory(const std::string& name = "Function");
         FunctionFactory(const FunctionFactory& other);
         FunctionFactory& operator=(const FunctionFactory& other);
         virtual ~FunctionFactory() FL_IOVERRIDE;

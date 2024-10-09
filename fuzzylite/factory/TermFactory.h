@@ -34,7 +34,7 @@ namespace fuzzylite {
      */
     class FL_API TermFactory : public ConstructionFactory<Term*> {
       public:
-        TermFactory(const std::string& name = "Term");
+        explicit TermFactory(const std::string& name = "Term");
         virtual ~TermFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(TermFactory)
 

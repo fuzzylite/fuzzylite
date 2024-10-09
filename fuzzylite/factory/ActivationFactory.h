@@ -37,7 +37,7 @@ namespace fuzzylite {
      */
     class FL_API ActivationFactory : public ConstructionFactory<Activation*> {
       public:
-        ActivationFactory(const std::string& name = "Activation");
+        explicit ActivationFactory(const std::string& name = "Activation");
         virtual ~ActivationFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(ActivationFactory)
 

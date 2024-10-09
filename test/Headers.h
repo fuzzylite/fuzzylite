@@ -13,7 +13,7 @@ namespace fuzzylite {
         double margin;
 
       public:
-        explicit Approximates(double expected, double margin = fl::fuzzylite::macheps()) :
+        Approximates(double expected, double margin = fl::fuzzylite::absoluteTolerance()) :
             expected(expected),
             margin(margin) {}
 
