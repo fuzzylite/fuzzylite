@@ -162,9 +162,9 @@ namespace fuzzylite {
     inline void CloningFactory<T>::deregisterObject(const std::string& key) {
         typename std::map<std::string, T>::iterator it = this->_objects.find(key);
         if (it != this->_objects.end()) {
-            this->_objects.erase(it);
             if (it->second)
                 delete it->second;
+            this->_objects.erase(it);
         }
     }
 
