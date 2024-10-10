@@ -577,11 +577,11 @@ namespace fuzzylite {
             f.load();
             CHECK_THAT(f.evaluate(), Approximates(29.8125));
         }
-        //
-        //         SECTION("Deregister all") {
-        //             FunctionFactoryAssert(new FunctionFactory).deregister_all();
-        //         }
-        //
+
+        SECTION("Deregister all") {
+            FunctionFactoryAssert(new FunctionFactory).deregister_all();
+        }
+
         //         SECTION("Assign constructor") {
         //             FunctionFactory only_operators;
         //             for (auto function : only_operators.availableFunctions())
