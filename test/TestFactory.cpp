@@ -533,8 +533,11 @@ namespace fuzzylite {
     TEST_CASE("FunctionFactory", "[factory][function]") {
         SECTION("Cloning empty object returns null") {
             FunctionFactory ff;
+            ff.clear();
             ff.registerObject("null", fl::null);
             CHECK(ff.cloneObject("null") == fl::null);
+            ff.deregisterObject("null");
+            CHECK(ff.available().empty());
         }
 
         SECTION("Operators available") {
