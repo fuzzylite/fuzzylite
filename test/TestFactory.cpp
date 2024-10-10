@@ -536,61 +536,61 @@ namespace fuzzylite {
             ff.registerObject("null", fl::null);
             CHECK(ff.cloneObject("null") == fl::null);
         }
-        //         SECTION("Cloning unregistered object raises exception") {
-        //             const std::string expected = "[cloning error] Function object by name <X> not registered";
-        //             FunctionFactory ff;
-        //             CHECK_THROWS_AS(ff.cloneObject("X"), fl::Exception);
-        //             CHECK_THROWS_WITH(ff.cloneObject("X"), Catch::Matchers::StartsWith(expected));
-        //         }
-        //         SECTION("Operators available") {
-        //             CHECK_THAT(FunctionFactory().availableOperators(), Catch::Matchers::UnorderedEquals(operators));
-        //         }
-        //         SECTION("Functions available") {
-        //             CHECK_THAT(FunctionFactory().availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
-        //         }
-        //
-        //         SECTION("Available") {
-        //             std::vector<std::string> expected;
-        //             std::copy(operators.begin(), operators.end(), std::back_inserter(expected));
-        //             std::copy(functions.begin(), functions.end(), std::back_inserter(expected));
-        //             CHECK_THAT(FunctionFactory().available(), Catch::Matchers::UnorderedEquals(expected));
-        //         }
-        //
-        //         SECTION("Precedence is the same") {
-        //             FunctionFactoryAssert(new FunctionFactory)
-        //                 .precedence_is_the_same("!", "~")
-        //                 .precedence_is_the_same("*", "/")
-        //                 .precedence_is_the_same("/", "%")
-        //                 .precedence_is_the_same("+", "-");
-        //         }
-        //         SECTION("Precedence is higher") {
-        //             FunctionFactoryAssert(new FunctionFactory)
-        //                 .precedence_is_higher("!", "^")
-        //                 .precedence_is_higher("^", "%")
-        //                 .precedence_is_higher("*", "-")
-        //                 .precedence_is_higher("+", "and")
-        //                 .precedence_is_higher("and", "or");
-        //         }
-        //
-        //         SECTION("Precedence is correct") {
-        //             Function f("f", "(10 + 5) * 2 - 3 / 4 ^ 2");
-        //             f.load();
-        //             CHECK_THAT(f.evaluate(), Approximates(29.8125));
-        //         }
-        //
-        //         SECTION("Deregister all") {
-        //             FunctionFactoryAssert(new FunctionFactory).deregister_all();
-        //         }
-        //
-        //         SECTION("Assign constructor") {
-        //             FunctionFactory only_operators;
-        //             for (auto function : only_operators.availableFunctions())
-        //                 only_operators.deregisterObject(function);
-        //             FunctionFactory ff;
-        //             ff = only_operators;
-        //             CHECK(ff.availableFunctions() == std::vector<std::string>{});
-        //             CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
-        //         }
+        SECTION("Cloning unregistered object raises exception") {
+            const std::string expected = "[cloning error] Function object by name <X> not registered";
+            FunctionFactory ff;
+            CHECK_THROWS_AS(ff.cloneObject("X"), fl::Exception);
+            CHECK_THROWS_WITH(ff.cloneObject("X"), Catch::Matchers::StartsWith(expected));
+        }
+        SECTION("Operators available") {
+            CHECK_THAT(FunctionFactory().availableOperators(), Catch::Matchers::UnorderedEquals(operators));
+        }
+        SECTION("Functions available") {
+            CHECK_THAT(FunctionFactory().availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
+        }
+
+        SECTION("Available") {
+            std::vector<std::string> expected;
+            std::copy(operators.begin(), operators.end(), std::back_inserter(expected));
+            std::copy(functions.begin(), functions.end(), std::back_inserter(expected));
+            CHECK_THAT(FunctionFactory().available(), Catch::Matchers::UnorderedEquals(expected));
+        }
+
+        SECTION("Precedence is the same") {
+            FunctionFactoryAssert(new FunctionFactory)
+                .precedence_is_the_same("!", "~")
+                .precedence_is_the_same("*", "/")
+                .precedence_is_the_same("/", "%")
+                .precedence_is_the_same("+", "-");
+        }
+        SECTION("Precedence is higher") {
+            FunctionFactoryAssert(new FunctionFactory)
+                .precedence_is_higher("!", "^")
+                .precedence_is_higher("^", "%")
+                .precedence_is_higher("*", "-")
+                .precedence_is_higher("+", "and")
+                .precedence_is_higher("and", "or");
+        }
+
+        SECTION("Precedence is correct") {
+            Function f("f", "(10 + 5) * 2 - 3 / 4 ^ 2");
+            f.load();
+            CHECK_THAT(f.evaluate(), Approximates(29.8125));
+        }
+
+        SECTION("Deregister all") {
+            FunctionFactoryAssert(new FunctionFactory).deregister_all();
+        }
+
+        // SECTION("Assign constructor") {
+        //     FunctionFactory only_operators;
+        //     for (auto function : only_operators.availableFunctions())
+        //         only_operators.deregisterObject(function);
+        //     FunctionFactory ff;
+        //     ff = only_operators;
+        //     CHECK(ff.availableFunctions() == std::vector<std::string>{});
+        //     CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
+        // }
         //
         //         SECTION("Copy constructor with operators") {
         //             FunctionFactory only_operators;
