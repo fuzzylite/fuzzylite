@@ -163,7 +163,8 @@ namespace fuzzylite {
         typename std::map<std::string, T>::iterator it = this->_objects.find(key);
         if (it != this->_objects.end()) {
             this->_objects.erase(it);
-            delete it->second;
+            if (it->second)
+                delete it->second;
         }
     }
 

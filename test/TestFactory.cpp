@@ -669,7 +669,7 @@ namespace fuzzylite {
         }
 
         SECTION("Deregister all") {
-            // FunctionFactoryAssert(new FunctionFactory).deregister_all();
+            FunctionFactoryAssert(new FunctionFactory).deregister_all();
         }
         // SECTION("Assign constructor") {
         //     FunctionFactory only_operators;
