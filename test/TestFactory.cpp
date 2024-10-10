@@ -536,12 +536,7 @@ namespace fuzzylite {
             ff.registerObject("null", fl::null);
             CHECK(ff.cloneObject("null") == fl::null);
         }
-        // SECTION("Cloning unregistered object raises exception") {
-        //     const std::string expected = "[cloning error] Function object by name <X> not registered";
-        //     FunctionFactory ff;
-        //     CHECK_THROWS_AS(ff.cloneObject("X"), fl::Exception);
-        //     CHECK_THROWS_WITH(ff.cloneObject("X"), Catch::Matchers::StartsWith(expected));
-        // }
+
         SECTION("Operators available") {
             CHECK_THAT(FunctionFactory().availableOperators(), Catch::Matchers::UnorderedEquals(operators));
         }
@@ -666,18 +661,25 @@ namespace fuzzylite {
                 .binary_operation_equals("pow", &std::pow);
         }
 
+        SECTION("Cloning unregistered object raises exception") {
+            const std::string expected = "[cloning error] Function object by name <X> not registered";
+            FunctionFactory ff;
+            CHECK_THROWS_AS(ff.cloneObject("X"), fl::Exception);
+            CHECK_THROWS_WITH(ff.cloneObject("X"), Catch::Matchers::StartsWith(expected));
+        }
+
         // SECTION("Deregister all") {
         //     FunctionFactoryAssert(new FunctionFactory).deregister_all();
         // }
-        SECTION("Assign constructor") {
-            FunctionFactory only_operators;
-            for (auto function : only_operators.availableFunctions())
-                only_operators.deregisterObject(function);
-            FunctionFactory ff;
-            ff = only_operators;
-            CHECK(ff.availableFunctions() == std::vector<std::string>{});
-            CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
-        }
+        // SECTION("Assign constructor") {
+        //     FunctionFactory only_operators;
+        //     for (auto function : only_operators.availableFunctions())
+        //         only_operators.deregisterObject(function);
+        //     FunctionFactory ff;
+        //     ff = only_operators;
+        //     CHECK(ff.availableFunctions() == std::vector<std::string>{});
+        //     CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
+        // }
         //
         //         SECTION("Copy constructor with operators") {
         //             FunctionFactory only_operators;
