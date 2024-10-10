@@ -652,50 +652,50 @@ namespace fuzzylite {
                 .operation_is("or", 1, 0, 1)
                 .operation_is("or", 0, 0, 0);
         }
-        //         SECTION("Unary functions") {
-        //             FunctionFactoryAssert(new FunctionFactory)
-        //                 .unary_operation_equals("abs", &std::abs)
-        //                 .unary_operation_equals("acos", &std::acos)
-        //                 .unary_operation_equals("asin", &std::asin)
-        //                 .unary_operation_equals("atan", &std::atan)
-        //                 .unary_operation_equals("ceil", &std::ceil)
-        //                 .unary_operation_equals("cos", &std::cos)
-        //                 .unary_operation_equals("cosh", &std::cosh)
-        //                 .unary_operation_equals("exp", &std::exp)
-        //                 .unary_operation_equals("fabs", &std::fabs)
-        //                 .unary_operation_equals("floor", &std::floor)
-        //                 .unary_operation_equals("log10", &std::log10)
-        //                 .unary_operation_equals("log", &std::log)
-        //                 .unary_operation_equals("round", &Op::round)
-        //                 .unary_operation_equals("sin", &std::sin)
-        //                 .unary_operation_equals("sinh", &std::sinh)
-        //                 .unary_operation_equals("sqrt", &std::sqrt)
-        //                 .unary_operation_equals("tan", &std::tan)
-        //                 .unary_operation_equals("tanh", &std::tanh);
-        //
-        // #if defined(FL_UNIX) && !defined(FL_USE_FLOAT)
-        //             FunctionFactoryAssert(new FunctionFactory)
-        //                 .unary_operation_equals("log1p", &log1p)
-        //                 .unary_operation_equals("acosh", &acosh)
-        //                 .unary_operation_equals("asinh", &asinh)
-        //                 .unary_operation_equals("atanh", &atanh);
-        // #endif
-        //         }
-        //
-        //         SECTION("Binary Functions") {
-        //             FunctionFactoryAssert(new FunctionFactory)
-        //                 .binary_operation_equals("atan2", &std::atan2)
-        //                 .binary_operation_equals("eq", &Op::eq)
-        //                 .binary_operation_equals("fmod", &std::fmod)
-        //                 .binary_operation_equals("ge", &Op::ge)
-        //                 .binary_operation_equals("gt", &Op::gt)
-        //                 .binary_operation_equals("le", &Op::le)
-        //                 .binary_operation_equals("lt", &Op::lt)
-        //                 .binary_operation_equals("max", &Op::max)
-        //                 .binary_operation_equals("min", &Op::min)
-        //                 .binary_operation_equals("neq", &Op::neq)
-        //                 .binary_operation_equals("pow", &std::pow);
-        //         }
+        SECTION("Unary functions") {
+            FunctionFactoryAssert(new FunctionFactory)
+                .unary_operation_equals("abs", &std::abs)
+                .unary_operation_equals("acos", &std::acos)
+                .unary_operation_equals("asin", &std::asin)
+                .unary_operation_equals("atan", &std::atan)
+                .unary_operation_equals("ceil", &std::ceil)
+                .unary_operation_equals("cos", &std::cos)
+                .unary_operation_equals("cosh", &std::cosh)
+                .unary_operation_equals("exp", &std::exp)
+                .unary_operation_equals("fabs", &std::fabs)
+                .unary_operation_equals("floor", &std::floor)
+                .unary_operation_equals("log10", &std::log10)
+                .unary_operation_equals("log", &std::log)
+                .unary_operation_equals("round", &Op::round)
+                .unary_operation_equals("sin", &std::sin)
+                .unary_operation_equals("sinh", &std::sinh)
+                .unary_operation_equals("sqrt", &std::sqrt)
+                .unary_operation_equals("tan", &std::tan)
+                .unary_operation_equals("tanh", &std::tanh);
+
+#if defined(FL_UNIX) && !defined(FL_USE_FLOAT)
+            FunctionFactoryAssert(new FunctionFactory)
+                .unary_operation_equals("log1p", &log1p)
+                .unary_operation_equals("acosh", &acosh)
+                .unary_operation_equals("asinh", &asinh)
+                .unary_operation_equals("atanh", &atanh);
+#endif
+        }
+
+        SECTION("Binary Functions") {
+            FunctionFactoryAssert(new FunctionFactory)
+                .binary_operation_equals("atan2", &std::atan2)
+                .binary_operation_equals("eq", &Op::eq)
+                .binary_operation_equals("fmod", &std::fmod)
+                .binary_operation_equals("ge", &Op::ge)
+                .binary_operation_equals("gt", &Op::gt)
+                .binary_operation_equals("le", &Op::le)
+                .binary_operation_equals("lt", &Op::lt)
+                .binary_operation_equals("max", &Op::max)
+                .binary_operation_equals("min", &Op::min)
+                .binary_operation_equals("neq", &Op::neq)
+                .binary_operation_equals("pow", &std::pow);
+        }
     }
 
     TEST_CASE("Factory Manager", "[factory]") {
