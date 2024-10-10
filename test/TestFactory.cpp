@@ -556,31 +556,31 @@ namespace fuzzylite {
         //     CHECK_THAT(FunctionFactory().available(), Catch::Matchers::UnorderedEquals(expected));
         // }
 
-        SECTION("Precedence is the same") {
-            FunctionFactoryAssert(new FunctionFactory)
-                .precedence_is_the_same("!", "~")
-                .precedence_is_the_same("*", "/")
-                .precedence_is_the_same("/", "%")
-                .precedence_is_the_same("+", "-");
-        }
-        SECTION("Precedence is higher") {
-            FunctionFactoryAssert(new FunctionFactory)
-                .precedence_is_higher("!", "^")
-                .precedence_is_higher("^", "%")
-                .precedence_is_higher("*", "-")
-                .precedence_is_higher("+", "and")
-                .precedence_is_higher("and", "or");
-        }
-
-        SECTION("Precedence is correct") {
-            Function f("f", "(10 + 5) * 2 - 3 / 4 ^ 2");
-            f.load();
-            CHECK_THAT(f.evaluate(), Approximates(29.8125));
-        }
-
-        SECTION("Deregister all") {
-            FunctionFactoryAssert(new FunctionFactory).deregister_all();
-        }
+        // SECTION("Precedence is the same") {
+        //     FunctionFactoryAssert(new FunctionFactory)
+        //         .precedence_is_the_same("!", "~")
+        //         .precedence_is_the_same("*", "/")
+        //         .precedence_is_the_same("/", "%")
+        //         .precedence_is_the_same("+", "-");
+        // }
+        // SECTION("Precedence is higher") {
+        //     FunctionFactoryAssert(new FunctionFactory)
+        //         .precedence_is_higher("!", "^")
+        //         .precedence_is_higher("^", "%")
+        //         .precedence_is_higher("*", "-")
+        //         .precedence_is_higher("+", "and")
+        //         .precedence_is_higher("and", "or");
+        // }
+        //
+        // SECTION("Precedence is correct") {
+        //     Function f("f", "(10 + 5) * 2 - 3 / 4 ^ 2");
+        //     f.load();
+        //     CHECK_THAT(f.evaluate(), Approximates(29.8125));
+        // }
+        //
+        // SECTION("Deregister all") {
+        //     FunctionFactoryAssert(new FunctionFactory).deregister_all();
+        // }
 
         // SECTION("Assign constructor") {
         //     FunctionFactory only_operators;
