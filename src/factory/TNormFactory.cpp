@@ -27,17 +27,21 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    TNormFactory::TNormFactory() : ConstructionFactory<TNorm*>("TNorm") {
-        registerConstructor("", fl::null);
-        registerConstructor(AlgebraicProduct().className(), &(AlgebraicProduct::constructor));
-        registerConstructor(BoundedDifference().className(), &(BoundedDifference::constructor));
-        registerConstructor(DrasticProduct().className(), &(DrasticProduct::constructor));
-        registerConstructor(EinsteinProduct().className(), &(EinsteinProduct::constructor));
-        registerConstructor(HamacherProduct().className(), &(HamacherProduct::constructor));
-        registerConstructor(Minimum().className(), &(Minimum::constructor));
-        registerConstructor(NilpotentMinimum().className(), &(NilpotentMinimum::constructor));
+    TNormFactory::TNormFactory(const std::string& name) : ConstructionFactory(name) {
+        ConstructionFactory::registerConstructor("", fl::null);
+        ConstructionFactory::registerConstructor(AlgebraicProduct().className(), &(AlgebraicProduct::constructor));
+        ConstructionFactory::registerConstructor(BoundedDifference().className(), &(BoundedDifference::constructor));
+        ConstructionFactory::registerConstructor(DrasticProduct().className(), &(DrasticProduct::constructor));
+        ConstructionFactory::registerConstructor(EinsteinProduct().className(), &(EinsteinProduct::constructor));
+        ConstructionFactory::registerConstructor(HamacherProduct().className(), &(HamacherProduct::constructor));
+        ConstructionFactory::registerConstructor(Minimum().className(), &(Minimum::constructor));
+        ConstructionFactory::registerConstructor(NilpotentMinimum().className(), &(NilpotentMinimum::constructor));
     }
 
     TNormFactory::~TNormFactory() {}
+
+    TNormFactory* TNormFactory::clone() const {
+        return new TNormFactory(*this);
+    }
 
 }

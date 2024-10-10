@@ -36,7 +36,7 @@ namespace fuzzylite {
      */
     class FL_API DefuzzifierFactory : public ConstructionFactory<Defuzzifier*> {
       public:
-        DefuzzifierFactory();
+        explicit DefuzzifierFactory(const std::string& name = "Defuzzifier");
         virtual ~DefuzzifierFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(DefuzzifierFactory)
 
@@ -58,7 +58,7 @@ namespace fuzzylite {
           @return a Defuzzifier by executing the registered constructor and
           setting its resolution
          */
-        virtual Defuzzifier* constructDefuzzifier(const std::string& key, int resolution) const;
+        virtual Defuzzifier* constructIntegral(const std::string& defuzzifier, int resolution) const;
 
         /**
           Creates a Defuzzifier by executing the registered constructor
@@ -67,7 +67,9 @@ namespace fuzzylite {
           @return a Defuzzifier by executing the registered constructor and
           setting its type
          */
-        virtual Defuzzifier* constructDefuzzifier(const std::string& key, WeightedDefuzzifier::Type type);
+        virtual Defuzzifier* constructWeighted(const std::string& defuzzifier, WeightedDefuzzifier::Type type) const;
+
+        virtual DefuzzifierFactory* clone() const FL_IOVERRIDE;
     };
 }
 

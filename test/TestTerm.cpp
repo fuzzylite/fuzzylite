@@ -27,10 +27,7 @@ namespace fuzzylite {
     struct TermAssert {
         FL_unique_ptr<Term> actual;
 
-        TermAssert(Term* actual) : actual(actual) {
-            // TODO: Remove once changed
-            fuzzylite::setMachEps(1e-3);
-        }
+        TermAssert(Term* actual) : actual(actual) {}
 
         TermAssert& exports_fll(const std::string& obtained, bool checkHeight = true) {
             CHECK(this->actual->toString() == obtained);

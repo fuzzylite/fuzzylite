@@ -28,6 +28,7 @@ namespace fuzzylite {
     class OutputVariable;
     class RuleBlock;
     class Rule;
+    class Hedge;
     class Norm;
     class Activation;
     class Defuzzifier;
@@ -136,6 +137,13 @@ namespace fuzzylite {
           @return a string representation of the rule in the FuzzyLite Language
          */
         virtual std::string toString(const Rule* rule) const;
+
+        /**
+          Returns a string representation of the Hedge in the FuzzyLite Language
+          @param hedge is the hedge
+          @return a string representation of the hedge in the FuzzyLite Language
+         */
+        virtual std::string toString(const Hedge* hedge) const;
 
         /**
           Returns a string representation of the Norm in the FuzzyLite Language

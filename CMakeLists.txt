@@ -270,7 +270,7 @@ elseif (FL_BUILD_TESTS OR FL_BUILD_COVERAGE)
         target_include_directories(fl-test
                 PRIVATE
                 ${PROJECT_SOURCE_DIR})
-        target_compile_options(fl-test PRIVATE --coverage -O1)
+        target_compile_options(fl-test PRIVATE --coverage -O0)
         target_link_libraries(fl-test PRIVATE ${FL_LIBS} Catch2::Catch2 --coverage)
     else ()
         add_executable(fl-test ${fl-headers} ${fl-tests})

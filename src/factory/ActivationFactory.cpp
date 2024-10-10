@@ -27,17 +27,21 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    ActivationFactory::ActivationFactory() : ConstructionFactory<Activation*>("Activation") {
-        registerConstructor("", fl::null);
-        registerConstructor(First().className(), &(First::constructor));
-        registerConstructor(General().className(), &(General::constructor));
-        registerConstructor(Highest().className(), &(Highest::constructor));
-        registerConstructor(Last().className(), &(Last::constructor));
-        registerConstructor(Lowest().className(), &(Lowest::constructor));
-        registerConstructor(Proportional().className(), &(Proportional::constructor));
-        registerConstructor(Threshold().className(), &(Threshold::constructor));
+    ActivationFactory::ActivationFactory(const std::string& name) : ConstructionFactory(name) {
+        ConstructionFactory::registerConstructor("", fl::null);
+        ConstructionFactory::registerConstructor(First().className(), &(First::constructor));
+        ConstructionFactory::registerConstructor(General().className(), &(General::constructor));
+        ConstructionFactory::registerConstructor(Highest().className(), &(Highest::constructor));
+        ConstructionFactory::registerConstructor(Last().className(), &(Last::constructor));
+        ConstructionFactory::registerConstructor(Lowest().className(), &(Lowest::constructor));
+        ConstructionFactory::registerConstructor(Proportional().className(), &(Proportional::constructor));
+        ConstructionFactory::registerConstructor(Threshold().className(), &(Threshold::constructor));
     }
 
     ActivationFactory::~ActivationFactory() {}
+
+    ActivationFactory* ActivationFactory::clone() const {
+        return new ActivationFactory(*this);
+    }
 
 }
