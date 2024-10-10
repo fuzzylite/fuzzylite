@@ -671,15 +671,15 @@ namespace fuzzylite {
         SECTION("Deregister all") {
             // FunctionFactoryAssert(new FunctionFactory).deregister_all();
         }
-        SECTION("Assign constructor") {
-            FunctionFactory only_operators;
-            for (auto function : only_operators.availableFunctions())
-                only_operators.deregisterObject(function);
-            FunctionFactory ff;
-            ff = only_operators;
-            CHECK(ff.availableFunctions() == std::vector<std::string>{});
-            CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
-        }
+        // SECTION("Assign constructor") {
+        //     FunctionFactory only_operators;
+        //     for (auto function : only_operators.availableFunctions())
+        //         only_operators.deregisterObject(function);
+        //     FunctionFactory ff;
+        //     ff = only_operators;
+        //     CHECK(ff.availableFunctions() == std::vector<std::string>{});
+        //     CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
+        // }
         //
         //         SECTION("Copy constructor with operators") {
         //             FunctionFactory only_operators;

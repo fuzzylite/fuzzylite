@@ -195,7 +195,7 @@ namespace fuzzylite {
     }
 
     template <typename T>
-    inline std::vector<std::string> CloningFactory<T>::available() const {
+    inline  std::vector<std::string> CloningFactory<T>::available() const {
         std::vector<std::string> result;
         typename std::map<std::string, T>::const_iterator it = this->_objects.begin();
         while (it != this->_objects.end()) {
