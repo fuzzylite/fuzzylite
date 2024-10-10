@@ -549,153 +549,153 @@ namespace fuzzylite {
             CHECK_THAT(FunctionFactory().availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
         }
 
-        // SECTION("Available") {
-        //     std::vector<std::string> expected;
-        //     std::copy(operators.begin(), operators.end(), std::back_inserter(expected));
-        //     std::copy(functions.begin(), functions.end(), std::back_inserter(expected));
-        //     CHECK_THAT(FunctionFactory().available(), Catch::Matchers::UnorderedEquals(expected));
-        // }
+        SECTION("Available") {
+            std::vector<std::string> expected;
+            std::copy(operators.begin(), operators.end(), std::back_inserter(expected));
+            std::copy(functions.begin(), functions.end(), std::back_inserter(expected));
+            CHECK_THAT(FunctionFactory().available(), Catch::Matchers::UnorderedEquals(expected));
+        }
 
-        // SECTION("Precedence is the same") {
-        //     FunctionFactoryAssert(new FunctionFactory)
-        //         .precedence_is_the_same("!", "~")
-        //         .precedence_is_the_same("*", "/")
-        //         .precedence_is_the_same("/", "%")
-        //         .precedence_is_the_same("+", "-");
-        // }
-        // SECTION("Precedence is higher") {
-        //     FunctionFactoryAssert(new FunctionFactory)
-        //         .precedence_is_higher("!", "^")
-        //         .precedence_is_higher("^", "%")
-        //         .precedence_is_higher("*", "-")
-        //         .precedence_is_higher("+", "and")
-        //         .precedence_is_higher("and", "or");
-        // }
-        //
-        // SECTION("Precedence is correct") {
-        //     Function f("f", "(10 + 5) * 2 - 3 / 4 ^ 2");
-        //     f.load();
-        //     CHECK_THAT(f.evaluate(), Approximates(29.8125));
-        // }
-        //
-        // SECTION("Deregister all") {
-        //     FunctionFactoryAssert(new FunctionFactory).deregister_all();
-        // }
+        SECTION("Precedence is the same") {
+            FunctionFactoryAssert(new FunctionFactory)
+                .precedence_is_the_same("!", "~")
+                .precedence_is_the_same("*", "/")
+                .precedence_is_the_same("/", "%")
+                .precedence_is_the_same("+", "-");
+        }
+        SECTION("Precedence is higher") {
+            FunctionFactoryAssert(new FunctionFactory)
+                .precedence_is_higher("!", "^")
+                .precedence_is_higher("^", "%")
+                .precedence_is_higher("*", "-")
+                .precedence_is_higher("+", "and")
+                .precedence_is_higher("and", "or");
+        }
 
-        // SECTION("Assign constructor") {
-        //     FunctionFactory only_operators;
-        //     for (auto function : only_operators.availableFunctions())
-        //         only_operators.deregisterObject(function);
-        //     FunctionFactory ff;
-        //     ff = only_operators;
-        //     CHECK(ff.availableFunctions() == std::vector<std::string>{});
-        //     CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
-        // }
-        //
-        //         SECTION("Copy constructor with operators") {
-        //             FunctionFactory only_operators;
-        //             for (auto function : only_operators.availableFunctions())
-        //                 only_operators.deregisterObject(function);
-        //             FunctionFactory ff(only_operators);
-        //             CHECK(ff.availableFunctions() == std::vector<std::string>{});
-        //             CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
-        //         }
-        //         SECTION("Copy constructor with functions") {
-        //             FunctionFactory only_functions;
-        //             for (auto operator_ : only_functions.availableOperators())
-        //                 only_functions.deregisterObject(operator_);
-        //             FunctionFactory ff(only_functions);
-        //             CHECK(ff.availableOperators() == std::vector<std::string>{});
-        //             CHECK_THAT(ff.availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
-        //         }
-        //
-        //         SECTION("Unary Operators") {
-        //             FunctionFactoryAssert(new FunctionFactory)
-        //                 .unary_operation_equals("!", &Op::logicalNot)
-        //                 .operation_is("!", 0, 1)
-        //                 .operation_is("!", 1, 0)
-        //                 .unary_operation_equals("~", &Op::negate)
-        //                 .operation_is("~", 1, -1)
-        //                 .operation_is("~", -2, 2)
-        //                 .operation_is("~", 0, 0);
-        //         }
-        //         SECTION("Binary Operators") {
-        //             FunctionFactoryAssert(new FunctionFactory)
-        //                 .binary_operation_equals("^", &std::pow)
-        //                 .operation_is("^", 3, 3, 27)
-        //                 .operation_is("^", 9, 0.5, 3)
-        //                 .binary_operation_equals("*", &Op::multiply)
-        //                 .operation_is("*", -2, 3, -6)
-        //                 .operation_is("*", 3, -2, -6)
-        //                 .operation_is("*", 0, 0, 0)
-        //                 .binary_operation_equals("/", &Op::divide)
-        //                 .operation_is("/", 6, 3, 2)
-        //                 .operation_is("/", 3, 6, 0.5)
-        //                 .operation_is("/", 0, 0, fl::nan)
-        //                 .operation_is("/", 1, 0, fl::inf)
-        //                 .operation_is("/", -1, 0, -fl::inf)
-        //                 .binary_operation_equals("%", &Op::modulo)
-        //                 .operation_is("%", 6, 3, 0)
-        //                 .operation_is("%", 3, 6, 3)
-        //                 .operation_is("%", 3.5, 6, 3.5)
-        //                 .operation_is("%", 6, 3.5, 2.5)
-        //                 .binary_operation_equals("+", &Op::add)
-        //                 .operation_is("+", 2, 3, 5)
-        //                 .operation_is("+", 2, -3, -1)
-        //                 .binary_operation_equals("-", &Op::subtract)
-        //                 .operation_is("-", 2, 3, -1)
-        //                 .operation_is("-", 2, -3, 5)
-        //                 .binary_operation_equals("and", &Op::logicalAnd)
-        //                 .operation_is("and", 1, 0, 0)
-        //                 .operation_is("and", 1, 1, 1)
-        //                 .binary_operation_equals("or", &Op::logicalOr)
-        //                 .operation_is("or", 1, 0, 1)
-        //                 .operation_is("or", 0, 0, 0);
-        //         }
-        //         SECTION("Unary functions") {
-        //             FunctionFactoryAssert(new FunctionFactory)
-        //                 .unary_operation_equals("abs", &std::abs)
-        //                 .unary_operation_equals("acos", &std::acos)
-        //                 .unary_operation_equals("asin", &std::asin)
-        //                 .unary_operation_equals("atan", &std::atan)
-        //                 .unary_operation_equals("ceil", &std::ceil)
-        //                 .unary_operation_equals("cos", &std::cos)
-        //                 .unary_operation_equals("cosh", &std::cosh)
-        //                 .unary_operation_equals("exp", &std::exp)
-        //                 .unary_operation_equals("fabs", &std::fabs)
-        //                 .unary_operation_equals("floor", &std::floor)
-        //                 .unary_operation_equals("log10", &std::log10)
-        //                 .unary_operation_equals("log", &std::log)
-        //                 .unary_operation_equals("round", &Op::round)
-        //                 .unary_operation_equals("sin", &std::sin)
-        //                 .unary_operation_equals("sinh", &std::sinh)
-        //                 .unary_operation_equals("sqrt", &std::sqrt)
-        //                 .unary_operation_equals("tan", &std::tan)
-        //                 .unary_operation_equals("tanh", &std::tanh);
-        //
-        // #if defined(FL_UNIX) && !defined(FL_USE_FLOAT)
-        //             FunctionFactoryAssert(new FunctionFactory)
-        //                 .unary_operation_equals("log1p", &log1p)
-        //                 .unary_operation_equals("acosh", &acosh)
-        //                 .unary_operation_equals("asinh", &asinh)
-        //                 .unary_operation_equals("atanh", &atanh);
-        // #endif
-        //         }
-        //
-        //         SECTION("Binary Functions") {
-        //             FunctionFactoryAssert(new FunctionFactory)
-        //                 .binary_operation_equals("atan2", &std::atan2)
-        //                 .binary_operation_equals("eq", &Op::eq)
-        //                 .binary_operation_equals("fmod", &std::fmod)
-        //                 .binary_operation_equals("ge", &Op::ge)
-        //                 .binary_operation_equals("gt", &Op::gt)
-        //                 .binary_operation_equals("le", &Op::le)
-        //                 .binary_operation_equals("lt", &Op::lt)
-        //                 .binary_operation_equals("max", &Op::max)
-        //                 .binary_operation_equals("min", &Op::min)
-        //                 .binary_operation_equals("neq", &Op::neq)
-        //                 .binary_operation_equals("pow", &std::pow);
-        //         }
+        SECTION("Precedence is correct") {
+            Function f("f", "(10 + 5) * 2 - 3 / 4 ^ 2");
+            f.load();
+            CHECK_THAT(f.evaluate(), Approximates(29.8125));
+        }
+
+        SECTION("Deregister all") {
+            FunctionFactoryAssert(new FunctionFactory).deregister_all();
+        }
+
+        SECTION("Assign constructor") {
+            FunctionFactory only_operators;
+            for (auto function : only_operators.availableFunctions())
+                only_operators.deregisterObject(function);
+            FunctionFactory ff;
+            ff = only_operators;
+            CHECK(ff.availableFunctions() == std::vector<std::string>{});
+            CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
+        }
+
+        SECTION("Copy constructor with operators") {
+            FunctionFactory only_operators;
+            for (auto function : only_operators.availableFunctions())
+                only_operators.deregisterObject(function);
+            FunctionFactory ff(only_operators);
+            CHECK(ff.availableFunctions() == std::vector<std::string>{});
+            CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
+        }
+        SECTION("Copy constructor with functions") {
+            FunctionFactory only_functions;
+            for (auto operator_ : only_functions.availableOperators())
+                only_functions.deregisterObject(operator_);
+            FunctionFactory ff(only_functions);
+            CHECK(ff.availableOperators() == std::vector<std::string>{});
+            CHECK_THAT(ff.availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
+        }
+
+        SECTION("Unary Operators") {
+            FunctionFactoryAssert(new FunctionFactory)
+                .unary_operation_equals("!", &Op::logicalNot)
+                .operation_is("!", 0, 1)
+                .operation_is("!", 1, 0)
+                .unary_operation_equals("~", &Op::negate)
+                .operation_is("~", 1, -1)
+                .operation_is("~", -2, 2)
+                .operation_is("~", 0, 0);
+        }
+        SECTION("Binary Operators") {
+            FunctionFactoryAssert(new FunctionFactory)
+                .binary_operation_equals("^", &std::pow)
+                .operation_is("^", 3, 3, 27)
+                .operation_is("^", 9, 0.5, 3)
+                .binary_operation_equals("*", &Op::multiply)
+                .operation_is("*", -2, 3, -6)
+                .operation_is("*", 3, -2, -6)
+                .operation_is("*", 0, 0, 0)
+                .binary_operation_equals("/", &Op::divide)
+                .operation_is("/", 6, 3, 2)
+                .operation_is("/", 3, 6, 0.5)
+                .operation_is("/", 0, 0, fl::nan)
+                .operation_is("/", 1, 0, fl::inf)
+                .operation_is("/", -1, 0, -fl::inf)
+                .binary_operation_equals("%", &Op::modulo)
+                .operation_is("%", 6, 3, 0)
+                .operation_is("%", 3, 6, 3)
+                .operation_is("%", 3.5, 6, 3.5)
+                .operation_is("%", 6, 3.5, 2.5)
+                .binary_operation_equals("+", &Op::add)
+                .operation_is("+", 2, 3, 5)
+                .operation_is("+", 2, -3, -1)
+                .binary_operation_equals("-", &Op::subtract)
+                .operation_is("-", 2, 3, -1)
+                .operation_is("-", 2, -3, 5)
+                .binary_operation_equals("and", &Op::logicalAnd)
+                .operation_is("and", 1, 0, 0)
+                .operation_is("and", 1, 1, 1)
+                .binary_operation_equals("or", &Op::logicalOr)
+                .operation_is("or", 1, 0, 1)
+                .operation_is("or", 0, 0, 0);
+        }
+        SECTION("Unary functions") {
+            FunctionFactoryAssert(new FunctionFactory)
+                .unary_operation_equals("abs", &std::abs)
+                .unary_operation_equals("acos", &std::acos)
+                .unary_operation_equals("asin", &std::asin)
+                .unary_operation_equals("atan", &std::atan)
+                .unary_operation_equals("ceil", &std::ceil)
+                .unary_operation_equals("cos", &std::cos)
+                .unary_operation_equals("cosh", &std::cosh)
+                .unary_operation_equals("exp", &std::exp)
+                .unary_operation_equals("fabs", &std::fabs)
+                .unary_operation_equals("floor", &std::floor)
+                .unary_operation_equals("log10", &std::log10)
+                .unary_operation_equals("log", &std::log)
+                .unary_operation_equals("round", &Op::round)
+                .unary_operation_equals("sin", &std::sin)
+                .unary_operation_equals("sinh", &std::sinh)
+                .unary_operation_equals("sqrt", &std::sqrt)
+                .unary_operation_equals("tan", &std::tan)
+                .unary_operation_equals("tanh", &std::tanh);
+
+#if defined(FL_UNIX) && !defined(FL_USE_FLOAT)
+            FunctionFactoryAssert(new FunctionFactory)
+                .unary_operation_equals("log1p", &log1p)
+                .unary_operation_equals("acosh", &acosh)
+                .unary_operation_equals("asinh", &asinh)
+                .unary_operation_equals("atanh", &atanh);
+#endif
+        }
+
+        SECTION("Binary Functions") {
+            FunctionFactoryAssert(new FunctionFactory)
+                .binary_operation_equals("atan2", &std::atan2)
+                .binary_operation_equals("eq", &Op::eq)
+                .binary_operation_equals("fmod", &std::fmod)
+                .binary_operation_equals("ge", &Op::ge)
+                .binary_operation_equals("gt", &Op::gt)
+                .binary_operation_equals("le", &Op::le)
+                .binary_operation_equals("lt", &Op::lt)
+                .binary_operation_equals("max", &Op::max)
+                .binary_operation_equals("min", &Op::min)
+                .binary_operation_equals("neq", &Op::neq)
+                .binary_operation_equals("pow", &std::pow);
+        }
     }
 
     TEST_CASE("Factory Manager", "[factory]") {
