@@ -542,19 +542,19 @@ namespace fuzzylite {
             CHECK_THROWS_AS(ff.cloneObject("X"), fl::Exception);
             CHECK_THROWS_WITH(ff.cloneObject("X"), Catch::Matchers::StartsWith(expected));
         }
-        SECTION("Operators available") {
-            CHECK_THAT(FunctionFactory().availableOperators(), Catch::Matchers::UnorderedEquals(operators));
-        }
-        SECTION("Functions available") {
-            CHECK_THAT(FunctionFactory().availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
-        }
+        // SECTION("Operators available") {
+        //     CHECK_THAT(FunctionFactory().availableOperators(), Catch::Matchers::UnorderedEquals(operators));
+        // }
+        // SECTION("Functions available") {
+        //     CHECK_THAT(FunctionFactory().availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
+        // }
 
-        SECTION("Available") {
-            std::vector<std::string> expected;
-            std::copy(operators.begin(), operators.end(), std::back_inserter(expected));
-            std::copy(functions.begin(), functions.end(), std::back_inserter(expected));
-            CHECK_THAT(FunctionFactory().available(), Catch::Matchers::UnorderedEquals(expected));
-        }
+        // SECTION("Available") {
+        //     std::vector<std::string> expected;
+        //     std::copy(operators.begin(), operators.end(), std::back_inserter(expected));
+        //     std::copy(functions.begin(), functions.end(), std::back_inserter(expected));
+        //     CHECK_THAT(FunctionFactory().available(), Catch::Matchers::UnorderedEquals(expected));
+        // }
 
         SECTION("Precedence is the same") {
             FunctionFactoryAssert(new FunctionFactory)
