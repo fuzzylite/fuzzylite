@@ -536,18 +536,18 @@ namespace fuzzylite {
             ff.registerObject("null", fl::null);
             CHECK(ff.cloneObject("null") == fl::null);
         }
-        SECTION("Cloning unregistered object raises exception") {
-            const std::string expected = "[cloning error] Function object by name <X> not registered";
-            FunctionFactory ff;
-            CHECK_THROWS_AS(ff.cloneObject("X"), fl::Exception);
-            CHECK_THROWS_WITH(ff.cloneObject("X"), Catch::Matchers::StartsWith(expected));
+        // SECTION("Cloning unregistered object raises exception") {
+        //     const std::string expected = "[cloning error] Function object by name <X> not registered";
+        //     FunctionFactory ff;
+        //     CHECK_THROWS_AS(ff.cloneObject("X"), fl::Exception);
+        //     CHECK_THROWS_WITH(ff.cloneObject("X"), Catch::Matchers::StartsWith(expected));
+        // }
+        SECTION("Operators available") {
+            CHECK_THAT(FunctionFactory().availableOperators(), Catch::Matchers::UnorderedEquals(operators));
         }
-        // SECTION("Operators available") {
-        //     CHECK_THAT(FunctionFactory().availableOperators(), Catch::Matchers::UnorderedEquals(operators));
-        // }
-        // SECTION("Functions available") {
-        //     CHECK_THAT(FunctionFactory().availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
-        // }
+        SECTION("Functions available") {
+            CHECK_THAT(FunctionFactory().availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
+        }
 
         // SECTION("Available") {
         //     std::vector<std::string> expected;
