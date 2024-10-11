@@ -55,6 +55,11 @@ namespace fuzzylite {
         FL_unique_ptr<HedgeFactory> _hedge;
         FL_unique_ptr<FunctionFactory> _function;
 
+      protected:
+        /**
+         * Copies the contents of the factory into this one
+         * @param other a cloning factory
+         */
         void copyFrom(const FactoryManager& other);
 
       public:

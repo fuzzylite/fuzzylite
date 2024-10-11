@@ -43,6 +43,13 @@ namespace fuzzylite {
         std::string _name;
         std::map<std::string, T> _objects;
 
+      protected:
+        /**
+         * Copies the contents of the factory into this one
+         * @param other a cloning factory
+         */
+        void copyFrom(const CloningFactory& other);
+
       public:
         explicit CloningFactory(const std::string& name = "");
         CloningFactory(const CloningFactory& other);
@@ -102,11 +109,6 @@ namespace fuzzylite {
         virtual const std::map<std::string, T>& objects() const;
 
         /**
-         * Copies the contents of the factory into this one
-         * @param other a cloning factory
-         */
-        virtual void copyFrom(const CloningFactory& other);
-        /**
          * Removes and deletes the contents of the factory
          */
         virtual void clear();
@@ -131,7 +133,7 @@ namespace fuzzylite {
 
     template <typename T>
     inline CloningFactory<T>::CloningFactory(const CloningFactory& other) {
-        CloningFactory::copyFrom(other);
+        copyFrom(other);
     }
 
     template <typename T>
@@ -196,7 +198,7 @@ namespace fuzzylite {
     }
 
     template <typename T>
-    inline  std::vector<std::string> CloningFactory<T>::available() const {
+    inline std::vector<std::string> CloningFactory<T>::available() const {
         std::vector<std::string> result;
         typename std::map<std::string, T>::const_iterator it = this->_objects.begin();
         while (it != this->_objects.end()) {
