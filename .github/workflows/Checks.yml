@@ -15,7 +15,7 @@ jobs:
         run:
           make lint
 
-  build-strict:
+  strict-build:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -23,5 +23,5 @@ jobs:
         env:
           CXX: "clang++-18"
         run: |
-          make configure BUILD=release TESTS=OFF COVERAGE=OFF STRICT=ON
+          make configure BUILD=release TESTS=OFF STRICT=ON
           make build

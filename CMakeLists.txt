@@ -235,7 +235,7 @@ endif (FL_BUILD_BINARY)
 if (FL_BUILD_TESTS AND FL_CPP98)
     message(WARNING "Skipping tests: tests require C++11 or later, but using FL_CPP98=${FL_CPP98}.")
 
-elseif (FL_BUILD_TESTS OR FL_BUILD_COVERAGE)
+elseif (FL_BUILD_TESTS)
     message(CHECK_START "Detecting Catch2 library in system")
     if (CMAKE_VERSION VERSION_LESS "3.14")
         find_package(Catch2 2 REQUIRED)
