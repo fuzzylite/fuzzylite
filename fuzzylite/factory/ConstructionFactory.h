@@ -103,7 +103,10 @@ namespace fuzzylite {
           @return an immutable map of registered keys and constructors
          */
         virtual const std::map<std::string, Constructor>& constructors() const;
-
+        /**
+         * Clones the factory
+         * @return a clone of the factory
+         */
         virtual ConstructionFactory* clone() const;
     };
 
