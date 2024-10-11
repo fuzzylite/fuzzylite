@@ -69,7 +69,7 @@ ubuntu:
 	$(CONTAINER) build -f tools/docker/ubuntu-2404.Dockerfile -t fl-ubuntu . && \
  	$(CONTAINER) run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it fl-ubuntu
 
-CLANG_FORMAT=clang-format --style=file -i
+CLANG_FORMAT=clang-format --style=file:.clang-format -i
 
 format:
 	# headers
