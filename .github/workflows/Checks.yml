@@ -7,14 +7,21 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-24.04
-
-    strategy:
-      fail-fast: false
-
     steps:
       - uses: actions/checkout@v4
+      - name: Lint
+        run:
+          make lint
 
-      - name: Linting FuzzyLite
-        run: make lint
+  build-strict:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build warnings as errors
+        env:
+          CXX: "clang++-18"
+        run: |
+          make configure BUILD=release TESTS=OFF COVERAGE=OFF WARNINGS_AS_ERRORS=ON
+          make build

@@ -6,7 +6,7 @@ project(fuzzylite VERSION ${FL_VERSION} LANGUAGES CXX)
 
 
 if (APPLE)
-    set(CMAKE_OSX_DEPLOYMENT_TARGET 10.15)
+    #    set(CMAKE_OSX_DEPLOYMENT_TARGET 10.15)
 
     # MACOSX_RPATH is enabled by default.
     cmake_policy(SET CMP0042 NEW)
@@ -41,6 +41,7 @@ option(FL_BACKTRACE "Provide backtrace information in case of errors" ON)
 
 option(FL_BUILD_TESTS "Builds the unit tests" ON)
 option(FL_BUILD_COVERAGE "Build the unit tests to compute coverage" OFF)
+option(FL_WARNINGS_AS_ERRORS "Configure warnings as errors" OFF)
 
 if (FL_USE_FLOAT)
     add_definitions(-DFL_USE_FLOAT)
@@ -78,13 +79,17 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 if (NOT MSVC)
 
     #Add Unix compilation flags
-    set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wall -Wextra") # -Wconversion -Wsign-conversion
+    if (FL_WARNINGS_AS_ERRORS)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+    endif ()
 
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
+    #    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+    #    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 
     if (NOT APPLE)
-        set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined ${CMAKE_SHARED_LINKER_FLAGS}") #To avoid undefined methods in library
+        #To avoid undefined methods in library
+        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined")
     endif ()
 endif ()
 
@@ -116,7 +121,10 @@ set(FL_LIBS)
 
 if (MSVC)
     #Set compilation flags in Windows
-    set(CMAKE_CXX_FLAGS "/W4 /EHsc")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /EHsc")
+    if (FL_WARNINGS_AS_ERRORS)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Werror")
+    endif ()
     #Wx: Treat warnings as errors. W4: All warnings
     #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
     #EHsc: call destructors on __try __catch, and to ignore C4530: C++ exception handler used. Note, unwind semantics are not enabled
@@ -167,9 +175,7 @@ else ()
         # The objects need the fuzzylite headers to compile, but
         # these should only be visile to fl-obj at this time, so
         # they are marked as PRIVATE.
-        target_include_directories(fl-obj
-                PRIVATE
-                ${PROJECT_SOURCE_DIR})
+        target_include_directories(fl-obj PRIVATE ${PROJECT_SOURCE_DIR})
 
         if (NOT MINGW)
             set_target_properties(fl-obj PROPERTIES COMPILE_FLAGS "-fPIC")
@@ -217,9 +223,7 @@ if (FL_BUILD_BINARY)
     add_executable(fl-bin src/main.cpp)
     # Likewise to fl-obj, fl-bin should not be linked into other projects.
     # The includes are marked private.
-    target_include_directories(fl-bin
-            PRIVATE
-            ${PROJECT_SOURCE_DIR})
+    target_include_directories(fl-bin PRIVATE ${PROJECT_SOURCE_DIR})
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -debug)
@@ -341,12 +345,14 @@ message("FL_INSTALL_BINDIR=${FL_INSTALL_BINDIR}")
 message("FL_INSTALL_LIBDIR=${FL_INSTALL_LIBDIR}")
 message("FL_BUILD_TESTS=${FL_BUILD_TESTS}")
 message("FL_BUILD_COVERAGE=${FL_BUILD_COVERAGE}")
+message("FL_WARNINGS_AS_ERRORS=${FL_WARNINGS_AS_ERRORS}")
 message("")
 message("CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
 message("CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}")
 message("CMAKE_CXX_COMPILER_VERSION=${CMAKE_CXX_COMPILER_VERSION}")
 message("CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
 message("CMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}")
+message("CMAKE_EXPORT_COMPILE_COMMANDS=${CMAKE_EXPORT_COMPILE_COMMANDS}")
 message("COMPILE_DEFINITIONS:")
 get_directory_property(fl-definitions DIRECTORY ${PROJECT_SOURCE_DIR} COMPILE_DEFINITIONS)
 foreach (d ${fl-definitions})
