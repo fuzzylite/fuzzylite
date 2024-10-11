@@ -180,8 +180,7 @@ namespace fuzzylite {
                 if ((state bitand S_AND) or (state bitand S_WITH)) {
                     std::ostringstream ex;
                     ex << "[syntax error] consequent expected operator <" << Rule::andKeyword() << "> "
-                       << "or keyword <" << Rule::withKeyword() << ">, "
-                       << "but found <" << token << ">";
+                       << "or keyword <" << Rule::withKeyword() << ">, " << "but found <" << token << ">";
                     throw Exception(ex.str(), FL_AT);
                 }
 

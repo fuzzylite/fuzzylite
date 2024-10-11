@@ -77,8 +77,8 @@ namespace fuzzylite {
                 tagFinder = tags.find(firstToken);
                 if (tagFinder == tags.end()) {
                     std::ostringstream ex;
-                    ex << "[syntax error] unknown block definition <" << firstToken << "> "
-                       << " in line " << lineNumber << ": " << line;
+                    ex << "[syntax error] unknown block definition <" << firstToken << "> " << " in line " << lineNumber
+                       << ": " << line;
                     throw Exception(ex.str(), FL_AT);
                 }
                 currentTag = tagFinder->first;
@@ -226,8 +226,7 @@ namespace fuzzylite {
         }
         if (not engine->hasOutputVariable(name)) {
             std::ostringstream ex;
-            ex << "[syntax error] output variable <" << name << "> not registered in engine. "
-               << "Line: " << line;
+            ex << "[syntax error] output variable <" << name << "> not registered in engine. " << "Line: " << line;
             throw Exception(ex.str(), FL_AT);
         }
 
@@ -441,8 +440,7 @@ namespace fuzzylite {
         std::vector<std::string> token = Op::split(line, ":");
         if (token.size() != 2) {
             std::ostringstream ex;
-            ex << "[syntax error] expected property of type (key : value) in "
-               << "line: " << line;
+            ex << "[syntax error] expected property of type (key : value) in " << "line: " << line;
             throw Exception(ex.str(), FL_AT);
         }
 
@@ -491,8 +489,7 @@ namespace fuzzylite {
             value = Op::toScalar(defaultValue);
         } catch (...) {
             std::ostringstream ex;
-            ex << "[syntax error] expected numeric value, "
-               << "but found <" << defaultValue << "> in line: " << line;
+            ex << "[syntax error] expected numeric value, " << "but found <" << defaultValue << "> in line: " << line;
             throw Exception(ex.str(), FL_AT);
         }
 
@@ -530,8 +527,8 @@ namespace fuzzylite {
         token = Op::split(range.str(), "..");
         if (token.size() != 2) {
             std::ostringstream ex;
-            ex << "[syntax error] expected property of type 'start .. end', "
-               << "but found <" << range.str() << "> in line: " << line;
+            ex << "[syntax error] expected property of type 'start .. end', " << "but found <" << range.str()
+               << "> in line: " << line;
             throw Exception(ex.str(), FL_AT);
         }
         scalar minimum, maximum;
@@ -604,8 +601,7 @@ namespace fuzzylite {
         std::vector<std::string> tokens = Op::split(line, ":");
         if (tokens.size() != 2) {
             std::ostringstream ex;
-            ex << "[syntax error] expected property of type (key : value) in "
-               << "line: " << line;
+            ex << "[syntax error] expected property of type (key : value) in " << "line: " << line;
             throw Exception(ex.str(), FL_AT);
         }
 

@@ -125,9 +125,8 @@ namespace fuzzylite {
         const Aggregated* fuzzyOutput = dynamic_cast<const Aggregated*>(term);
         if (not fuzzyOutput) {
             std::ostringstream ss;
-            ss << "[defuzzification error]"
-               << "expected an Aggregated term instead of"
-               << "<" << (term ? term->toString() : "null") << ">";
+            ss << "[defuzzification error]" << "expected an Aggregated term instead of" << "<"
+               << (term ? term->toString() : "null") << ">";
             throw Exception(ss.str(), FL_AT);
         }
 
