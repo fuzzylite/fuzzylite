@@ -19,9 +19,9 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Build warnings as errors
+      - name: Strict build
         env:
           CXX: "clang++-18"
         run: |
-          make configure BUILD=release TESTS=OFF COVERAGE=OFF WARNINGS_AS_ERRORS=ON
+          make configure BUILD=release TESTS=OFF COVERAGE=OFF STRICT=ON
           make build
