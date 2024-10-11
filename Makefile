@@ -39,7 +39,6 @@ coverage:
 		--coveralls build/coveralls.json \
 		--html build/coverage.html \
 		--html-details \
-		--sort uncovered-percent \
 		--html-theme github.dark-blue \
 		--txt --txt-summary \
 		build/CMakeFiles/fl-test.dir && \

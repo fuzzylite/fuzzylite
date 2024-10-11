@@ -115,6 +115,33 @@ namespace fuzzylite {
             CHECK_THROWS_AS(cf.constructObject("X"), fl::Exception);
             CHECK_THROWS_WITH(cf.constructObject("X"), Catch::Matchers::StartsWith(expected));
         }
+
+        SECTION("Constructors vector") {
+            ConstructionFactory<Term*> cf("terms");
+            CHECK(cf.constructors().empty());
+            cf.registerConstructor("triangle", Triangle::constructor);
+            CHECK(cf.constructors().size() == 1);
+            CHECK(cf.constructors().find("triangle")->second == Triangle::constructor);
+
+            const ConstructionFactory<Term*> const_cf(cf);
+            CHECK(const_cf.constructors().size() == 1);
+            CHECK(const_cf.constructors().find("triangle")->second == Triangle::constructor);
+        }
+
+        SECTION("Constructor factory clones") {
+            ConstructionFactory<Term*> cf("terms");
+            cf.registerConstructor("triangle", Triangle::constructor);
+            std::unique_ptr<ConstructionFactory<Term*>> clone(cf.clone());
+            CHECK(cf.name() == "terms");
+            CHECK(clone->name() == "terms");
+
+            CHECK(cf.available() == std::vector<std::string>{"triangle"});
+            CHECK(clone->available() == std::vector<std::string>{"triangle"});
+
+            std::unique_ptr<Term> triangle(cf.constructObject("triangle"));
+            std::unique_ptr<Term> triangleClone(clone->constructObject("triangle"));
+            CHECK(triangle->toString() == triangleClone->toString());
+        }
     }
 
     struct ActivationFactoryAssert : ConstructionFactoryAssert<Activation> {

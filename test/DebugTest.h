@@ -352,5 +352,4 @@ namespace fuzzylite {
         }
     };
 
-    CATCH_REGISTER_LISTENER(TestDebugger);
 }  // end anonymous namespace
