@@ -118,7 +118,8 @@ namespace fuzzylite {
                 aggMethod = value;
             else if (key == "DefuzzMethod")
                 defuzzMethod = value;
-            else if (key == "Type" or key == "Version" or key == "NumInputs" or key == "NumOutputs" or key == "NumRules" or key == "NumMFs") {
+            else if (key == "Type" or key == "Version" or key == "NumInputs" or key == "NumOutputs" or key == "NumRules"
+                     or key == "NumMFs") {
                 // ignore because are redundant.
             } else
                 throw Exception("[import error] token <" + key + "> not recognized", FL_AT);

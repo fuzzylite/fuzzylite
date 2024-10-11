@@ -18,9 +18,9 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #ifndef FL_WEIGHTEDDEFUZZIFIER_H
 #define FL_WEIGHTEDDEFUZZIFIER_H
 
-#include "fuzzylite/defuzzifier/Defuzzifier.h"
-
 #include <vector>
+
+#include "fuzzylite/defuzzifier/Defuzzifier.h"
 
 namespace fuzzylite {
     class Activated;
