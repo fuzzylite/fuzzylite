@@ -38,10 +38,7 @@ namespace fuzzylite {
         scalar _inflection, _end;
 
       public:
-        explicit
-        explicit Concave(
-            const std::string& name = "", scalar inflection = fl::nan, scalar end = fl::nan, scalar height = 1.0
-        );
+        explicit Concave(const std::string& name = "", scalar inflection = fl::nan, scalar end = fl::nan, scalar height = 1.0);
         virtual ~Concave() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(Concave)
 
