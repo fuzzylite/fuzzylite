@@ -55,9 +55,16 @@ namespace fuzzylite {
         FL_unique_ptr<HedgeFactory> _hedge;
         FL_unique_ptr<FunctionFactory> _function;
 
+      protected:
+        /**
+         * Copies the contents of the factory into this one
+         * @param other a cloning factory
+         */
+        void copyFrom(const FactoryManager& other);
+
       public:
         FactoryManager();
-        explicit FactoryManager(
+        FactoryManager(
             TNormFactory* tnorm,
             SNormFactory* snorm,
             ActivationFactory* activation,
@@ -66,7 +73,7 @@ namespace fuzzylite {
             HedgeFactory* hedge,
             FunctionFactory* function
         );
-        explicit FactoryManager(const FactoryManager& other);
+        FactoryManager(const FactoryManager& other);
         FactoryManager& operator=(const FactoryManager& other);
         FL_DEFAULT_MOVE(FactoryManager)
         virtual ~FactoryManager();
@@ -153,6 +160,12 @@ namespace fuzzylite {
           @return the factory of Function Element%s
          */
         virtual FunctionFactory* function() const;
+
+        /**
+         * Clones the factory manager
+         * @return a clone of the factory manager
+         */
+        virtual FactoryManager* clone() const;
     };
 }
 

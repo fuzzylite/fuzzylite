@@ -41,31 +41,35 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 namespace fuzzylite {
 
-    TermFactory::TermFactory() : ConstructionFactory<Term*>("Term") {
-        registerConstructor("", fl::null);
-        registerConstructor(Bell().className(), &(Bell::constructor));
-        registerConstructor(Binary().className(), &(Binary::constructor));
-        registerConstructor(Concave().className(), &(Concave::constructor));
-        registerConstructor(Constant().className(), &(Constant::constructor));
-        registerConstructor(Cosine().className(), &(Cosine::constructor));
-        registerConstructor(Discrete().className(), &(Discrete::constructor));
-        registerConstructor(Function().className(), &(Function::constructor));
-        registerConstructor(Gaussian().className(), &(Gaussian::constructor));
-        registerConstructor(GaussianProduct().className(), &(GaussianProduct::constructor));
-        registerConstructor(Linear().className(), &(Linear::constructor));
-        registerConstructor(PiShape().className(), &(PiShape::constructor));
-        registerConstructor(Ramp().className(), &(Ramp::constructor));
-        registerConstructor(Rectangle().className(), &(Rectangle::constructor));
-        registerConstructor(SShape().className(), &(SShape::constructor));
-        registerConstructor(Sigmoid().className(), &(Sigmoid::constructor));
-        registerConstructor(SigmoidDifference().className(), &(SigmoidDifference::constructor));
-        registerConstructor(SigmoidProduct().className(), &(SigmoidProduct::constructor));
-        registerConstructor(Spike().className(), &(Spike::constructor));
-        registerConstructor(Trapezoid().className(), &(Trapezoid::constructor));
-        registerConstructor(Triangle().className(), &(Triangle::constructor));
-        registerConstructor(ZShape().className(), &(ZShape::constructor));
+    TermFactory::TermFactory(const std::string& name) : ConstructionFactory(name) {
+        ConstructionFactory::registerConstructor("", fl::null);
+        ConstructionFactory::registerConstructor(Bell().className(), &(Bell::constructor));
+        ConstructionFactory::registerConstructor(Binary().className(), &(Binary::constructor));
+        ConstructionFactory::registerConstructor(Concave().className(), &(Concave::constructor));
+        ConstructionFactory::registerConstructor(Constant().className(), &(Constant::constructor));
+        ConstructionFactory::registerConstructor(Cosine().className(), &(Cosine::constructor));
+        ConstructionFactory::registerConstructor(Discrete().className(), &(Discrete::constructor));
+        ConstructionFactory::registerConstructor(Function().className(), &(Function::constructor));
+        ConstructionFactory::registerConstructor(Gaussian().className(), &(Gaussian::constructor));
+        ConstructionFactory::registerConstructor(GaussianProduct().className(), &(GaussianProduct::constructor));
+        ConstructionFactory::registerConstructor(Linear().className(), &(Linear::constructor));
+        ConstructionFactory::registerConstructor(PiShape().className(), &(PiShape::constructor));
+        ConstructionFactory::registerConstructor(Ramp().className(), &(Ramp::constructor));
+        ConstructionFactory::registerConstructor(Rectangle().className(), &(Rectangle::constructor));
+        ConstructionFactory::registerConstructor(SShape().className(), &(SShape::constructor));
+        ConstructionFactory::registerConstructor(Sigmoid().className(), &(Sigmoid::constructor));
+        ConstructionFactory::registerConstructor(SigmoidDifference().className(), &(SigmoidDifference::constructor));
+        ConstructionFactory::registerConstructor(SigmoidProduct().className(), &(SigmoidProduct::constructor));
+        ConstructionFactory::registerConstructor(Spike().className(), &(Spike::constructor));
+        ConstructionFactory::registerConstructor(Trapezoid().className(), &(Trapezoid::constructor));
+        ConstructionFactory::registerConstructor(Triangle().className(), &(Triangle::constructor));
+        ConstructionFactory::registerConstructor(ZShape().className(), &(ZShape::constructor));
     }
 
     TermFactory::~TermFactory() {}
+
+    TermFactory* TermFactory::clone() const {
+        return new TermFactory(*this);
+    }
 
 }

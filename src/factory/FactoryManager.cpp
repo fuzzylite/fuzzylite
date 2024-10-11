@@ -20,6 +20,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 namespace fuzzylite {
 
     FactoryManager* FactoryManager::instance() {
+        // TODO: enable thread_local, compile library with -ftls-model=initial-exec?
         static FL_ITHREAD_LOCAL FactoryManager _instance;
         return &_instance;
     }
@@ -50,59 +51,28 @@ namespace fuzzylite {
         _hedge(hedge),
         _function(function) {}
 
-    FactoryManager::FactoryManager(const FactoryManager& other) :
-        _tnorm(fl::null),
-        _snorm(fl::null),
-        _activation(fl::null),
-        _defuzzifier(fl::null),
-        _term(fl::null),
-        _hedge(fl::null),
-        _function(fl::null) {
-        if (other._tnorm.get())
-            this->_tnorm.reset(new TNormFactory(*other._tnorm.get()));
-        if (other._snorm.get())
-            this->_snorm.reset(new SNormFactory(*other._snorm.get()));
-        if (other._activation.get())
-            this->_activation.reset(new ActivationFactory(*other._activation.get()));
-        if (other._defuzzifier.get())
-            this->_defuzzifier.reset(new DefuzzifierFactory(*other._defuzzifier.get()));
-        if (other._term.get())
-            this->_term.reset(new TermFactory(*other._term.get()));
-        if (other._hedge.get())
-            this->_hedge.reset(new HedgeFactory(*other._hedge.get()));
-        if (other._function.get())
-            this->_function.reset(new FunctionFactory(*other._function.get()));
+    FactoryManager::FactoryManager(const FactoryManager& other) {
+        copyFrom(other);
     }
 
     FactoryManager& FactoryManager::operator=(const FactoryManager& other) {
-        if (this != &other) {
-            _tnorm.reset(fl::null);
-            _snorm.reset(fl::null);
-            _activation.reset(fl::null);
-            _defuzzifier.reset(fl::null);
-            _term.reset(fl::null);
-            _hedge.reset(fl::null);
-            _function.reset(fl::null);
-
-            if (other._tnorm.get())
-                this->_tnorm.reset(new TNormFactory(*other._tnorm.get()));
-            if (other._snorm.get())
-                this->_snorm.reset(new SNormFactory(*other._snorm.get()));
-            if (other._activation.get())
-                this->_activation.reset(new ActivationFactory(*other._activation.get()));
-            if (other._defuzzifier.get())
-                this->_defuzzifier.reset(new DefuzzifierFactory(*other._defuzzifier.get()));
-            if (other._term.get())
-                this->_term.reset(new TermFactory(*other._term.get()));
-            if (other._hedge.get())
-                this->_hedge.reset(new HedgeFactory(*other._hedge.get()));
-            if (other._function.get())
-                this->_function.reset(new FunctionFactory(*other._function.get()));
-        }
+        copyFrom(other);
         return *this;
     }
 
     FactoryManager::~FactoryManager() {}
+
+    void FactoryManager::copyFrom(const FactoryManager& other) {
+        if (this != &other) {
+            _tnorm.reset(other.tnorm() ? other.tnorm()->clone() : fl::null);
+            _snorm.reset(other.snorm() ? other.snorm()->clone() : fl::null);
+            _activation.reset(other.activation() ? other.activation()->clone() : fl::null);
+            _defuzzifier.reset(other.defuzzifier() ? other.defuzzifier()->clone() : fl::null);
+            _term.reset(other.term() ? other.term()->clone() : fl::null);
+            _hedge.reset(other.hedge() ? other.hedge()->clone() : fl::null);
+            _function.reset(other.function() ? other.function()->clone() : fl::null);
+        }
+    }
 
     void FactoryManager::setTnorm(TNormFactory* tnorm) {
         this->_tnorm.reset(tnorm);
@@ -158,6 +128,10 @@ namespace fuzzylite {
 
     FunctionFactory* FactoryManager::function() const {
         return this->_function.get();
+    }
+
+    FactoryManager* FactoryManager::clone() const {
+        return new FactoryManager(*this);
     }
 
 }
