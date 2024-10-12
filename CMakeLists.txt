@@ -203,8 +203,8 @@ if (FL_BUILD_BINARY)
     list(APPEND fl-targets fl-bin)
 endif (FL_BUILD_BINARY)
 
-if (FL_BUILD_TESTS AND FL_CPP98)
-    message(WARNING "Skipping tests: tests require C++11 or later, but using FL_CPP98=${FL_CPP98}.")
+if (FL_BUILD_TESTS AND ${CMAKE_CXX_STANDARD} STREQUAL 98)
+    message(WARNING "Skipping tests: tests require C++11 or later, but using C++${CMAKE_CXX_STANDARD}.")
 
 elseif (FL_BUILD_TESTS)
     message(CHECK_START "Detecting Catch2 library in system")
@@ -310,7 +310,6 @@ install(FILES ${PROJECT_BINARY_DIR}/fuzzylite.pc DESTINATION ${FL_INSTALL_LIBDIR
 message("=====================================")
 message("fuzzylite v${FL_VERSION}")
 message("")
-message("FL_CPP98=${FL_CPP98}")
 message("FL_USE_FLOAT=${FL_USE_FLOAT}")
 message("FL_BACKTRACE=${FL_BACKTRACE}")
 message("FL_LIBS=${FL_LIBS}")

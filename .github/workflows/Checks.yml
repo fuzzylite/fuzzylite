@@ -28,5 +28,5 @@ jobs:
           CXX: "clang++-18"
           CXX_STANDARD: ${{ matrix.standard }}
         run: |
-          make configure BUILD=release TESTS=OFF STRICT=ON
+          make configure BUILD=release TESTS=ON STRICT=ON
           make build
