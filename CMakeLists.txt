@@ -1,13 +1,17 @@
 cmake_minimum_required(VERSION 3.13)
 
-cmake_policy(SET CMP0048 NEW)
 set(FL_VERSION 7.0.0)
 project(fuzzylite VERSION ${FL_VERSION} LANGUAGES CXX)
 
+message("CMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD}")
+
+if ("${CMAKE_CXX_STANDARD}" STREQUAL "")
+    set(CMAKE_CXX_STANDARD 11)
+endif ()
+
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if (APPLE)
-    #    set(CMAKE_OSX_DEPLOYMENT_TARGET 10.15)
-
     # MACOSX_RPATH is enabled by default.
     cmake_policy(SET CMP0042 NEW)
 endif ()
@@ -35,13 +39,16 @@ if (FL_BUILD_SHARED)
     option(FL_BUILD_BINARY "Build fuzzylite binary" ON)
 endif ()
 
-option(FL_CPP98 "Builds utilizing C++98, i.e., passing -std=c++98" OFF)
 option(FL_USE_FLOAT "Use fl::scalar as float" OFF)
 option(FL_BACKTRACE "Provide backtrace information in case of errors" ON)
 
 option(FL_BUILD_TESTS "Builds the unit tests" ON)
 option(FL_BUILD_COVERAGE "Build the unit tests to compute coverage" OFF)
 option(FL_WARNINGS_AS_ERRORS "Configure warnings as errors" OFF)
+
+if (CMAKE_CXX_STANDARD STREQUAL 98)
+    add_definitions(-DFL_CPP98)
+endif()
 
 if (FL_USE_FLOAT)
     add_definitions(-DFL_USE_FLOAT)
@@ -50,26 +57,6 @@ endif (FL_USE_FLOAT)
 if (FL_BACKTRACE)
     add_definitions(-DFL_BACKTRACE)
 endif ()
-
-if (MSVC AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19)
-    #C++11 not available before Visual Studio 2015
-    if (NOT FL_CPP98)
-        set(FL_CPP98 ON)
-    endif ()
-endif ()
-
-if (FL_CPP98)
-    add_definitions(-DFL_CPP98)
-    if (NOT MSVC)
-        #Set C++98 by default in Clang and others
-        add_definitions(-std=c++98)
-    endif ()
-else ()
-    if (NOT MSVC)
-        #Set C++11 by default in Clang and others
-        add_definitions(-std=c++11)
-    endif ()
-endif (FL_CPP98)
 
 #Put all binaries in same location
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY bin)
@@ -84,9 +71,6 @@ if (NOT MSVC)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
     endif ()
 
-    #    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
-    #    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
-
     if (NOT APPLE)
         #To avoid undefined methods in library
         set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined")
@@ -99,23 +83,6 @@ if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "^(Apple)?Clang$")
     #TEMPORAL: flag removal to avoid warnings of `float` variadic in Operation::join
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-varargs")
 endif ()
-
-
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    if (CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 6)
-        #In GNU gcc v6, the default is C++11
-        if (FL_CPP98)
-            #set the default to C++98
-            #Fix error: 'template<class> class std::auto_ptr' is deprecated with gcc-6
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++98")
-        endif ()
-    endif ()
-    #In GNU gcc 4.7, Op::str(T, std::size_t(0)) raises a warning of type-limits
-    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-type-limits")
-    endif ()
-endif ()
-
 
 set(FL_LIBS)
 
@@ -180,6 +147,7 @@ else ()
         if (NOT MINGW)
             set_target_properties(fl-obj PROPERTIES COMPILE_FLAGS "-fPIC")
         endif ()
+        set_target_properties(fl-obj PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
     endif ()
 
     if (FL_BUILD_SHARED)
@@ -199,10 +167,11 @@ if (FL_BUILD_SHARED)
             PUBLIC
             $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
             $<INSTALL_INTERFACE:include>)
+    set_target_properties(fl-shared PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
     set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
     set_target_properties(fl-shared PROPERTIES DEBUG_POSTFIX -debug)
-    target_compile_definitions(fl-shared PRIVATE FL_EXPORT_LIBRARY)
     set_target_properties(fl-shared PROPERTIES VERSION ${FL_VERSION})
+    target_compile_definitions(fl-shared PRIVATE FL_EXPORT_LIBRARY)
     target_link_libraries(fl-shared ${FL_LIBS})
     list(APPEND fl-targets fl-shared)
 endif ()
@@ -212,6 +181,7 @@ if (FL_BUILD_STATIC)
             PUBLIC
             $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
             $<INSTALL_INTERFACE:include>)
+    set_target_properties(fl-static PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
     set_target_properties(fl-static PROPERTIES OUTPUT_NAME fuzzylite-static)
     set_target_properties(fl-static PROPERTIES DEBUG_POSTFIX -debug)
     set_target_properties(fl-static PROPERTIES VERSION ${FL_VERSION})
@@ -224,6 +194,7 @@ if (FL_BUILD_BINARY)
     # Likewise to fl-obj, fl-bin should not be linked into other projects.
     # The includes are marked private.
     target_include_directories(fl-bin PRIVATE ${PROJECT_SOURCE_DIR})
+    set_target_properties(fl-bin PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
     set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -debug)
@@ -282,6 +253,7 @@ elseif (FL_BUILD_TESTS)
         target_link_libraries(fl-test PRIVATE fl-shared ${FL_LIBS} Catch2::Catch2)
     endif ()
 
+    set_target_properties(fl-test PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
@@ -336,7 +308,8 @@ configure_file(${PROJECT_SOURCE_DIR}/fuzzylite.pc.in ${PROJECT_BINARY_DIR}/fuzzy
 install(FILES ${PROJECT_BINARY_DIR}/fuzzylite.pc DESTINATION ${FL_INSTALL_LIBDIR}/pkgconfig)
 
 message("=====================================")
-message("fuzzylite v${FL_VERSION}\n")
+message("fuzzylite v${FL_VERSION}")
+message("")
 message("FL_CPP98=${FL_CPP98}")
 message("FL_USE_FLOAT=${FL_USE_FLOAT}")
 message("FL_BACKTRACE=${FL_BACKTRACE}")
@@ -347,7 +320,9 @@ message("FL_BUILD_TESTS=${FL_BUILD_TESTS}")
 message("FL_BUILD_COVERAGE=${FL_BUILD_COVERAGE}")
 message("FL_WARNINGS_AS_ERRORS=${FL_WARNINGS_AS_ERRORS}")
 message("")
+message("CMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD}")
 message("CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
+message("CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}")
 message("CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}")
 message("CMAKE_CXX_COMPILER_VERSION=${CMAKE_CXX_COMPILER_VERSION}")
 message("CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
