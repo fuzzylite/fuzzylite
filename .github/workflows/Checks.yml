@@ -29,4 +29,4 @@ jobs:
           CXX_STANDARD: ${{ matrix.standard }}
         run: |
           make configure BUILD=release TESTS=ON STRICT=ON
-          make build
+          make all
