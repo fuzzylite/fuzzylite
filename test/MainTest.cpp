@@ -23,6 +23,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #include "fuzzylite/Headers.h"
 
 using namespace fuzzylite;
+
 // CATCH_REGISTER_LISTENER(TestDebugger);
 
 int main(int argc, char** argv) {

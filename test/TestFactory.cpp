@@ -106,12 +106,12 @@ namespace fuzzylite {
 
     TEST_CASE("ConstructionFactory", "[factory]") {
         SECTION("Unregistered constructor returns null") {
-            ConstructionFactory<std::string> cf("strings");
+            ConstructionFactory<std::string*> cf("strings");
             CHECK(cf.getConstructor("X") == fl::null);
         }
         SECTION("Construct unregistered object raises exception") {
             const std::string expected = "[factory error] constructor of strings <X> not registered";
-            ConstructionFactory<std::string> cf("strings");
+            ConstructionFactory<std::string*> cf("strings");
             CHECK_THROWS_AS(cf.constructObject("X"), fl::Exception);
             CHECK_THROWS_WITH(cf.constructObject("X"), Catch::Matchers::StartsWith(expected));
         }

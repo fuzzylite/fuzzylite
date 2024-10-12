@@ -189,15 +189,15 @@ namespace fuzzylite {
 
         if (const Function* function = dynamic_cast<const Function*>(term)) {
             std::ostringstream ss;
-            ss << fl(term->className()) << "::create(\"" << term->getName() << "\", "
-               << "\"" << function->getFormula() << "\", engine)";
+            ss << fl(term->className()) << "::create(\"" << term->getName() << "\", " << "\"" << function->getFormula()
+               << "\", engine)";
             return ss.str();
         }
 
         if (const Linear* linear = dynamic_cast<const Linear*>(term)) {
             std::ostringstream ss;
-            ss << fl(term->className()) << "::create(\"" << term->getName() << "\", "
-               << "engine, " << Op::join(linear->coefficients(), ", ") << ")";
+            ss << fl(term->className()) << "::create(\"" << term->getName() << "\", " << "engine, "
+               << Op::join(linear->coefficients(), ", ") << ")";
             return ss.str();
         }
 

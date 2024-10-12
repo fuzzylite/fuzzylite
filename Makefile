@@ -1,7 +1,11 @@
 BUILD = debug
 CPP98 = OFF
 FLOAT = OFF
+TESTS = ON
 COVERAGE = OFF
+EXPORT_COMPILE_COMMANDS = OFF
+STRICT = OFF
+
 CONTAINER = docker
 
 .phonywin:
@@ -12,7 +16,16 @@ clean:
 	rm -rf build/
 
 configure:
-	cmake -B build/ -DCMAKE_BUILD_TYPE=$(BUILD) -DFL_CPP98=$(CPP98) -DFL_USE_FLOAT=$(FLOAT) -DFL_BUILD_COVERAGE=$(COVERAGE)
+	cmake -B build/ \
+		-DCMAKE_BUILD_TYPE=$(BUILD) \
+		-DCMAKE_CXX_STANDARD=$(CXX_STANDARD) \
+		-DCMAKE_EXPORT_COMPILE_COMMANDS=$(EXPORT_COMPILE_COMMANDS) \
+		-DFL_CPP98=$(CPP98) \
+		-DFL_USE_FLOAT=$(FLOAT) \
+		-DFL_WARNINGS_AS_ERRORS=$(STRICT) \
+		-DFL_BUILD_TESTS=$(TESTS) \
+		-DFL_BUILD_COVERAGE=$(COVERAGE)
+
 
 .PHONY: build
 build: .phonywin
@@ -57,7 +70,7 @@ ubuntu:
 	$(CONTAINER) build -f tools/docker/ubuntu-2404.Dockerfile -t fl-ubuntu . && \
  	$(CONTAINER) run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it fl-ubuntu
 
-CLANG_FORMAT=clang-format --style=file -i
+CLANG_FORMAT=clang-format --style=file:.clang-format -i
 
 format:
 	# headers

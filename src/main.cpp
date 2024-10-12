@@ -22,20 +22,14 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 int main(int argc, const char* argv[]) {
     std::set_terminate(fl::Exception::terminate);
-#if __cplusplus < 201703L
-    std::set_unexpected(fl::Exception::terminate);
-#endif
-    ::signal(SIGSEGV, fl::Exception::signalHandler);
-    ::signal(SIGABRT, fl::Exception::signalHandler);
-    ::signal(SIGILL, fl::Exception::signalHandler);
-    ::signal(SIGSEGV, fl::Exception::signalHandler);
-    ::signal(SIGFPE, fl::Exception::signalHandler);
+    std::signal(SIGSEGV, fl::Exception::signalHandler);
+    std::signal(SIGABRT, fl::Exception::signalHandler);
+    std::signal(SIGILL, fl::Exception::signalHandler);
+    std::signal(SIGSEGV, fl::Exception::signalHandler);
+    std::signal(SIGFPE, fl::Exception::signalHandler);
 #ifdef FL_UNIX
-    ::signal(SIGBUS, fl::Exception::signalHandler);
-    ::signal(SIGPIPE, fl::Exception::signalHandler);
-#endif
-#ifdef FL_WINDOWS
-    // SetConsoleCtrlHandler(flSignalHandler, TRUE);
+    std::signal(SIGBUS, fl::Exception::signalHandler);
+    std::signal(SIGPIPE, fl::Exception::signalHandler);
 #endif
     fl::fuzzylite::setDebugging(false);
 

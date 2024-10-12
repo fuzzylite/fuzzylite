@@ -45,8 +45,8 @@ namespace fuzzylite {
         std::size_t required = 2;
         if (values.size() < required) {
             std::ostringstream ex;
-            ex << "[configuration error] activation <" << className() << ">"
-               << " requires <" << required << "> parameters";
+            ex << "[configuration error] activation <" << className() << ">" << " requires <" << required
+               << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setNumberOfRules((int)Op::toScalar(values.at(0)));

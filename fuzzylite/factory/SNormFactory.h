@@ -38,7 +38,7 @@ namespace fuzzylite {
         virtual ~SNormFactory() FL_IOVERRIDE;
         FL_DEFAULT_COPY_AND_MOVE(SNormFactory)
 
-        virtual SNormFactory* clone() const  FL_IOVERRIDE;
+        virtual SNormFactory* clone() const FL_IOVERRIDE;
     };
 }
 

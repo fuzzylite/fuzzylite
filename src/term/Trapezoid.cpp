@@ -79,8 +79,7 @@ namespace fuzzylite {
         std::size_t required = 4;
         if (values.size() < required) {
             std::ostringstream ex;
-            ex << "[configuration error] term <" << className() << ">"
-               << " requires <" << required << "> parameters";
+            ex << "[configuration error] term <" << className() << ">" << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setVertexA(Op::toScalar(values.at(0)));

@@ -245,8 +245,7 @@ namespace fuzzylite {
                        << "), color=\"" << _contourColor << "\") + \n"
                        << "    ggtitle(\"(" << b->getName() << ", " << a->getName() << ") = " << z->getName()
                        << "\")\n\n";
-                arrangeGrob << "engine.plot.i1i2_o" << (i + 1) << ", "
-                            << "engine.plot.i2i1_o" << (i + 1) << ", ";
+                arrangeGrob << "engine.plot.i1i2_o" << (i + 1) << ", " << "engine.plot.i2i1_o" << (i + 1) << ", ";
             } else {
                 writer << "engine.plot.i1_o" << (i + 1) << " = ggplot(engine.df, aes(" << a->getName() << ", "
                        << z->getName() << ")) + \n"
@@ -264,8 +263,7 @@ namespace fuzzylite {
                        << "\") + \n"
                        << "    coord_flip() + \n"
                        << "    ggtitle(\"" << z->getName() << " vs " << a->getName() << "\")\n\n";
-                arrangeGrob << "engine.plot.i1_o" << (i + 1) << ", "
-                            << "engine.plot.o" << (i + 1) << "_i1, ";
+                arrangeGrob << "engine.plot.i1_o" << (i + 1) << ", " << "engine.plot.o" << (i + 1) << "_i1, ";
             }
         }
         arrangeGrob << "ncol=2, top=engine.name)";

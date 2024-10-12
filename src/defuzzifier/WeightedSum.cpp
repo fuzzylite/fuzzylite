@@ -57,8 +57,6 @@ namespace fuzzylite {
         return sum;
     }
 
-
-
     WeightedSum* WeightedSum::clone() const {
         return new WeightedSum(*this);
     }

@@ -208,20 +208,14 @@ namespace fuzzylite {
             if (not outputVariable) {
                 ss << "- Engine <" << getName() << "> has a fl::null output variable at index <" << i << ">\n";
             } else {
-                if (outputVariable->terms().empty()) {
-                    ss << "- Output variable <" << outputVariable->getName() << ">"
-                       << " has no terms\n";
-                }
+                if (outputVariable->terms().empty())
+                    ss << "- Output variable <" << outputVariable->getName() << ">" << " has no terms\n";
                 Defuzzifier* defuzzifier = outputVariable->getDefuzzifier();
-                if (not defuzzifier) {
-                    ss << "- Output variable <" << outputVariable->getName() << ">"
-                       << " has no defuzzifier\n";
-                }
+                if (not defuzzifier)
+                    ss << "- Output variable <" << outputVariable->getName() << ">" << " has no defuzzifier\n";
                 SNorm* aggregation = outputVariable->fuzzyOutput()->getAggregation();
-                if (not aggregation and dynamic_cast<IntegralDefuzzifier*>(defuzzifier)) {
-                    ss << "- Output variable <" << outputVariable->getName() << ">"
-                       << " has no aggregation operator\n";
-                }
+                if (not aggregation and dynamic_cast<IntegralDefuzzifier*>(defuzzifier))
+                    ss << "- Output variable <" << outputVariable->getName() << ">" << " has no aggregation operator\n";
             }
         }
 

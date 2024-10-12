@@ -1,0 +1,32 @@
+name: Checks
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint
+        run:
+          make lint
+
+  strict-build:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        standard: [98, 11, 14, 17, 20, 23]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Strict build
+        env:
+          CXX: "clang++-18"
+          CXX_STANDARD: ${{ matrix.standard }}
+        run: |
+          make configure BUILD=release TESTS=ON STRICT=ON
+          make all

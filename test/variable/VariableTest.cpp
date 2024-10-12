@@ -29,11 +29,13 @@ namespace fuzzylite {
      *
      */
 
+    auto rng = std::default_random_engine();
+
     TEST_CASE("variable of Constant terms is sorted", "[variable][variable]") {
         Variable variable("Variable", -10, 10);
         for (int i = 0; i <= 20; ++i)
             variable.addTerm(new Constant(Op::str(i), i - 10));
-        std::random_shuffle(variable.terms().begin(), variable.terms().end());
+        std::shuffle(std::begin(variable.terms()), std::end(variable.terms()), rng);
         FL_DBG(variable.toString());
         REQUIRE(variable.numberOfTerms() == 21);
         variable.sort();
@@ -52,7 +54,7 @@ namespace fuzzylite {
         Variable variable("Variable", -30, 30);
         for (int i = 0; i <= 20; ++i)
             variable.addTerm(new Triangle(Op::str(i), i - 1, i, i + 1));
-        std::random_shuffle(variable.terms().begin(), variable.terms().end());
+        std::shuffle(std::begin(variable.terms()), std::end(variable.terms()), rng);
         FL_DBG(variable.toString());
         REQUIRE(variable.numberOfTerms() == 21);
         variable.sort();
