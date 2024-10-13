@@ -30,9 +30,9 @@ jobs:
           CXX_STANDARD: ${{ matrix.cxx-standard }}
           MAKE: ${{ matrix.os == 'windows-latest' && 'nmake' || 'make' }}
         run: |
-          ${{ MAKE }} configure STRICT=ON TESTS=ON 
-          ${{ MAKE }} build
-          ${{ MAKE }} test
+          ${MAKE} configure STRICT=ON TESTS=ON 
+          ${MAKE} build
+          ${MAKE} test
 
       - name: Save cmake dependencies
         if: steps.cache-restore-cmake-deps.outputs.cache-hit != 'true'
