@@ -3,34 +3,16 @@ cmake_minimum_required(VERSION 3.13)
 set(FL_VERSION 7.0.0)
 project(fuzzylite VERSION ${FL_VERSION} LANGUAGES CXX)
 
-message("CMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD}")
-
 if ("${CMAKE_CXX_STANDARD}" STREQUAL "")
     set(CMAKE_CXX_STANDARD 11)
 endif ()
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-if (APPLE)
-    # MACOSX_RPATH is enabled by default.
-    cmake_policy(SET CMP0042 NEW)
-endif ()
-
-if (MSVC)
-    # Only interpret if() arguments as variables or keywords when unquoted.
-    cmake_policy(SET CMP0054 NEW)
-endif ()
-
+include(GNUInstallDirs)
+# GNUInstallDirs: resolves common paths (eg, CMAKE_INSTALL_[LIB|INCLUDE|DATAROOT]DIR)
 
 ###DEFINES SECTION
-if (NOT CMAKE_VERBOSE_MAKEFILE)
-    set(CMAKE_VERBOSE_MAKEFILE false)
-endif ()
-
-if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE)
-endif ()
-
 add_definitions(-DFL_BUILD_PATH="${PROJECT_SOURCE_DIR}") #used to determine FL__FILE__
 
 option(FL_BUILD_SHARED "Build shared library" ON)
@@ -48,7 +30,7 @@ option(FL_WARNINGS_AS_ERRORS "Configure warnings as errors" OFF)
 
 if (CMAKE_CXX_STANDARD STREQUAL 98)
     add_definitions(-DFL_CPP98)
-endif()
+endif ()
 
 if (FL_USE_FLOAT)
     add_definitions(-DFL_USE_FLOAT)
@@ -63,23 +45,20 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
-if (NOT MSVC)
-
+if (UNIX)
     #Add Unix compilation flags
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wall -Wextra") # -Wconversion -Wsign-conversion
     if (FL_WARNINGS_AS_ERRORS)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
     endif ()
-
     if (NOT APPLE)
-        #To avoid undefined methods in library
         set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined")
     endif ()
 endif ()
 
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "^(Apple)?Clang$")
     #Address fl::null errors of literal null conversion
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-non-literal-null-conversion")
+    #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-non-literal-null-conversion")
     #TEMPORAL: flag removal to avoid warnings of `float` variadic in Operation::join
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-varargs")
 endif ()
@@ -90,7 +69,7 @@ if (MSVC)
     #Set compilation flags in Windows
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /EHsc")
     if (FL_WARNINGS_AS_ERRORS)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Werror")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX")
     endif ()
     #Wx: Treat warnings as errors. W4: All warnings
     #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
@@ -105,12 +84,6 @@ if (${CMAKE_SYSTEM_NAME} MATCHES FreeBSD AND FL_BACKTRACE)
     set(FL_LIBS execinfo)
 endif ()
 
-#if(APPLE)
-#    # This produces a warning: ld: symbol(s) not found for architecture x86_64 on mac
-#    set(FL_LIBS stdc++)
-#endif()
-
-
 ###BUILD SECTION
 
 file(STRINGS FL_HEADERS fl-headers)
@@ -123,39 +96,36 @@ string(REGEX REPLACE "\n" " " ${fl-tests} ${fl-tests})
 
 list(APPEND fl-targets "")
 
-message("${exepath}")
-
-
 set(CMAKE_DEBUG_POSTFIX debug)
 
 if (MSVC OR CMAKE_GENERATOR STREQUAL Xcode)
     if (FL_BUILD_SHARED)
-        add_library(fl-shared SHARED ${fl-headers} ${fl-sources})
+        add_library(dynamicTarget SHARED ${fl-headers} ${fl-sources})
     endif ()
 
     if (FL_BUILD_STATIC)
-        add_library(fl-static STATIC ${fl-headers} ${fl-sources})
+        add_library(staticTarget STATIC ${fl-headers} ${fl-sources})
     endif ()
 else ()
     if (FL_BUILD_SHARED OR FL_BUILD_STATIC)
-        add_library(fl-obj OBJECT ${fl-headers} ${fl-sources})
+        add_library(objectTarget OBJECT ${fl-headers} ${fl-sources})
         # The objects need the fuzzylite headers to compile, but
-        # these should only be visile to fl-obj at this time, so
+        # these should only be visile to objectTarget at this time, so
         # they are marked as PRIVATE.
-        target_include_directories(fl-obj PRIVATE ${PROJECT_SOURCE_DIR})
+        target_include_directories(objectTarget PRIVATE ${PROJECT_SOURCE_DIR})
 
         if (NOT MINGW)
-            set_target_properties(fl-obj PROPERTIES COMPILE_FLAGS "-fPIC")
+            set_target_properties(objectTarget PROPERTIES COMPILE_FLAGS "-fPIC")
         endif ()
-        set_target_properties(fl-obj PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
+        set_target_properties(objectTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
     endif ()
 
     if (FL_BUILD_SHARED)
-        add_library(fl-shared SHARED $<TARGET_OBJECTS:fl-obj>)
+        add_library(dynamicTarget SHARED $<TARGET_OBJECTS:objectTarget>)
     endif (FL_BUILD_SHARED)
 
     if (FL_BUILD_STATIC)
-        add_library(fl-static STATIC $<TARGET_OBJECTS:fl-obj>)
+        add_library(staticTarget STATIC $<TARGET_OBJECTS:objectTarget>)
     endif (FL_BUILD_STATIC)
 endif ()
 
@@ -163,47 +133,50 @@ if (FL_BUILD_SHARED)
     # The public include directories to be shared with projects that
     # link to fuzzylite depend on whether they're being included from
     # source (BUILD_INTERFACE), or from /usr/include (INSTALL_INTERFACE)
-    target_include_directories(fl-shared
+    target_include_directories(dynamicTarget
             PUBLIC
             $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
             $<INSTALL_INTERFACE:include>)
-    set_target_properties(fl-shared PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
-    set_target_properties(fl-shared PROPERTIES OUTPUT_NAME fuzzylite)
-    set_target_properties(fl-shared PROPERTIES DEBUG_POSTFIX -debug)
-    set_target_properties(fl-shared PROPERTIES VERSION ${FL_VERSION})
-    target_compile_definitions(fl-shared PRIVATE FL_EXPORT_LIBRARY)
-    target_link_libraries(fl-shared ${FL_LIBS})
-    list(APPEND fl-targets fl-shared)
+
+    set_target_properties(dynamicTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
+    set_target_properties(dynamicTarget PROPERTIES OUTPUT_NAME fuzzylite)
+    set_target_properties(dynamicTarget PROPERTIES DEBUG_POSTFIX -debug)
+    set_target_properties(dynamicTarget PROPERTIES VERSION ${FL_VERSION})
+    target_compile_definitions(dynamicTarget PRIVATE FL_EXPORT_LIBRARY)
+    target_link_libraries(dynamicTarget ${FL_LIBS})
+    list(APPEND fl-targets dynamicTarget)
 endif ()
 
 if (FL_BUILD_STATIC)
-    target_include_directories(fl-static
-            PUBLIC
+    target_include_directories(staticTarget PUBLIC
             $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
             $<INSTALL_INTERFACE:include>)
-    set_target_properties(fl-static PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
-    set_target_properties(fl-static PROPERTIES OUTPUT_NAME fuzzylite-static)
-    set_target_properties(fl-static PROPERTIES DEBUG_POSTFIX -debug)
-    set_target_properties(fl-static PROPERTIES VERSION ${FL_VERSION})
-    target_link_libraries(fl-static ${FL_LIBS})
-    list(APPEND fl-targets fl-static)
+
+    set_target_properties(staticTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
+    set_target_properties(staticTarget PROPERTIES OUTPUT_NAME fuzzylite-static)
+    set_target_properties(staticTarget PROPERTIES DEBUG_POSTFIX -debug)
+    set_target_properties(staticTarget PROPERTIES VERSION ${FL_VERSION})
+    target_link_libraries(staticTarget ${FL_LIBS})
+
+    list(APPEND fl-targets staticTarget)
 endif ()
 
 if (FL_BUILD_BINARY)
-    add_executable(fl-bin src/main.cpp)
-    # Likewise to fl-obj, fl-bin should not be linked into other projects.
+    add_executable(binaryTarget src/main.cpp)
+    # Likewise to objectTarget, binaryTarget should not be linked into other projects.
     # The includes are marked private.
-    target_include_directories(fl-bin PRIVATE ${PROJECT_SOURCE_DIR})
-    set_target_properties(fl-bin PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
-    set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite)
-    set_target_properties(fl-bin PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
-    set_target_properties(fl-bin PROPERTIES DEBUG_POSTFIX -debug)
-    target_compile_definitions(fl-bin PRIVATE FL_IMPORT_LIBRARY) #if building with fl-shared
-    target_link_libraries(fl-bin fl-shared ${FL_LIBS})
-    list(APPEND fl-targets fl-bin)
+    target_include_directories(binaryTarget PRIVATE ${PROJECT_SOURCE_DIR})
+    set_target_properties(binaryTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
+    set_target_properties(binaryTarget PROPERTIES OUTPUT_NAME fuzzylite)
+    set_target_properties(binaryTarget PROPERTIES OUTPUT_NAME fuzzylite IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
+    set_target_properties(binaryTarget PROPERTIES DEBUG_POSTFIX -debug)
+    target_compile_definitions(binaryTarget PRIVATE FL_IMPORT_LIBRARY) #if building with dynamicTarget
+    target_link_libraries(binaryTarget dynamicTarget ${FL_LIBS})
+
+    list(APPEND fl-targets binaryTarget)
 endif (FL_BUILD_BINARY)
 
-if (FL_BUILD_TESTS AND ${CMAKE_CXX_STANDARD} STREQUAL 98)
+if (FL_BUILD_TESTS AND CMAKE_CXX_STANDARD EQUAL 98)
     message(WARNING "Skipping tests: tests require C++11 or later, but using C++${CMAKE_CXX_STANDARD}.")
 
 elseif (FL_BUILD_TESTS)
@@ -241,71 +214,66 @@ elseif (FL_BUILD_TESTS)
     endif ()
 
     if (FL_BUILD_COVERAGE)
-        add_executable(fl-test ${fl-headers} ${fl-sources} ${fl-tests})
-        target_include_directories(fl-test
-                PRIVATE
-                ${PROJECT_SOURCE_DIR})
-        target_compile_options(fl-test PRIVATE --coverage -O0)
-        target_link_libraries(fl-test PRIVATE ${FL_LIBS} Catch2::Catch2 --coverage)
+        add_executable(testTarget ${fl-headers} ${fl-sources} ${fl-tests})
+        target_include_directories(testTarget PRIVATE ${PROJECT_SOURCE_DIR})
+        target_compile_options(testTarget PRIVATE --coverage -O0)
+        target_link_libraries(testTarget PRIVATE ${FL_LIBS} Catch2::Catch2 --coverage)
     else ()
-        add_executable(fl-test ${fl-headers} ${fl-tests})
-        target_compile_definitions(fl-test PRIVATE FL_IMPORT_LIBRARY)
-        target_link_libraries(fl-test PRIVATE fl-shared ${FL_LIBS} Catch2::Catch2)
+        add_executable(testTarget ${fl-headers} ${fl-tests})
+        target_compile_definitions(testTarget PRIVATE FL_IMPORT_LIBRARY)
+        target_link_libraries(testTarget PRIVATE dynamicTarget ${FL_LIBS} Catch2::Catch2)
     endif ()
 
-    set_target_properties(fl-test PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
-    set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests)
-    set_target_properties(fl-test PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
-    set_target_properties(fl-test PROPERTIES DEBUG_POSTFIX -debug)
+    set_target_properties(testTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
+    set_target_properties(testTarget PROPERTIES OUTPUT_NAME fuzzylite-tests)
+    set_target_properties(testTarget PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
+    set_target_properties(testTarget PROPERTIES DEBUG_POSTFIX -debug)
 
     include(CTest)
     include(Catch)
 
     enable_testing()
 
-    catch_discover_tests(fl-test)
+    catch_discover_tests(testTarget)
 
-    list(APPEND fl-targets fl-test)
+    list(APPEND fl-targets testTarget)
 
 endif ()
 
 ###INSTALL SECTION
 
-if (NOT FL_INSTALL_BINDIR)
-    set(FL_INSTALL_BINDIR bin)
-endif ()
-
-if (NOT FL_INSTALL_INCLUDEDIR)
-    if (CMAKE_INSTALL_INCLUDEDIR)
-        set(FL_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR})
-    else ()
-        set(FL_INSTALL_INCLUDEDIR include)
-    endif ()
-endif ()
-
-if (NOT FL_INSTALL_LIBDIR)
-    if (CMAKE_INSTALL_LIBDIR)
-        set(FL_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR})
-    else ()
-        set(FL_INSTALL_LIBDIR lib)
-    endif ()
-endif ()
-
-install(TARGETS ${fl-targets} EXPORT fuzzylite-config
-        RUNTIME DESTINATION ${FL_INSTALL_BINDIR}
-        LIBRARY DESTINATION ${FL_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${FL_INSTALL_LIBDIR}
+install(TARGETS ${fl-targets} EXPORT fuzzylite
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 # Store the fuzzylite CMake config for other projects to use
-install(EXPORT fuzzylite-config DESTINATION share/fuzzylite/cmake)
+install(EXPORT fuzzylite
+        NAMESPACE fuzzylite::
+        DESTINATION
+        "${CMAKE_INSTALL_LIBDIR}/cmake/fuzzylite"
+)
 export(TARGETS ${fl-targets} FILE fuzzylite.cmake)
 
-install(DIRECTORY fuzzylite/ DESTINATION ${FL_INSTALL_INCLUDEDIR}/fuzzylite)
-install(DIRECTORY fl/ DESTINATION ${FL_INSTALL_INCLUDEDIR}/fl)
+install(DIRECTORY fuzzylite DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(DIRECTORY fl DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-#pkg-config
-configure_file(${PROJECT_SOURCE_DIR}/fuzzylite.pc.in ${PROJECT_BINARY_DIR}/fuzzylite.pc @ONLY)
-install(FILES ${PROJECT_BINARY_DIR}/fuzzylite.pc DESTINATION ${FL_INSTALL_LIBDIR}/pkgconfig)
+## Provide pkg-config integration
+set(PKGCONFIG_INSTALL_DIR
+        "${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig"
+        CACHE PATH "Path where fuzzylite.pc is installed"
+)
+configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/fuzzylite.pc.in
+        ${CMAKE_CURRENT_BINARY_DIR}/fuzzylite.pc
+        @ONLY
+)
+install(
+        FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/fuzzylite.pc"
+        DESTINATION
+        ${PKGCONFIG_INSTALL_DIR}
+)
 
 message("=====================================")
 message("fuzzylite v${FL_VERSION}")
@@ -313,8 +281,6 @@ message("")
 message("FL_USE_FLOAT=${FL_USE_FLOAT}")
 message("FL_BACKTRACE=${FL_BACKTRACE}")
 message("FL_LIBS=${FL_LIBS}")
-message("FL_INSTALL_BINDIR=${FL_INSTALL_BINDIR}")
-message("FL_INSTALL_LIBDIR=${FL_INSTALL_LIBDIR}")
 message("FL_BUILD_TESTS=${FL_BUILD_TESTS}")
 message("FL_BUILD_COVERAGE=${FL_BUILD_COVERAGE}")
 message("FL_WARNINGS_AS_ERRORS=${FL_WARNINGS_AS_ERRORS}")
@@ -327,6 +293,11 @@ message("CMAKE_CXX_COMPILER_VERSION=${CMAKE_CXX_COMPILER_VERSION}")
 message("CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
 message("CMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}")
 message("CMAKE_EXPORT_COMPILE_COMMANDS=${CMAKE_EXPORT_COMPILE_COMMANDS}")
+message("CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}")
+message("CMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}")
+message("CMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}")
+message("CMAKE_INSTALL_BINDIR=${CMAKE_INSTALL_BINDIR}")
+message("CMAKE_INSTALL_DATAROOTDIR=${CMAKE_INSTALL_DATAROOTDIR}")
 message("COMPILE_DEFINITIONS:")
 get_directory_property(fl-definitions DIRECTORY ${PROJECT_SOURCE_DIR} COMPILE_DEFINITIONS)
 foreach (d ${fl-definitions})
@@ -335,14 +306,14 @@ endforeach ()
 
 message("=====================================\n")
 
-###UNINSTALL SECTION
+####UNINSTALL SECTION
 #configure_file(
 #"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
 #"${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
 #IMMEDIATE @ONLY)
 
 #add_custom_target(uninstall
-#COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/uninstall.cmake)
+#        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/uninstall.cmake)
 
 #unix uninstall
 #xargs rm < install_manifest.txt

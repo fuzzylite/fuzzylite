@@ -1,0 +1,35 @@
+name: Checks
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint
+        run: make lint
+
+  coverage:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build fuzzylite
+        env:
+          CXX_STANDARD: 11
+        run: |
+          make configure TESTS=ON COVERAGE=ON
+          make build
+          make test
+          make coverage
+
+      - name: Coveralls
+        if: ${{ hashFiles('build/coveralls.json') != '' }}
+        uses: coverallsapp/github-action@v2
+        with:
+          file: build/coveralls.json

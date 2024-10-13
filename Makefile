@@ -1,5 +1,4 @@
-BUILD = debug
-CPP98 = OFF
+BUILD = release
 FLOAT = OFF
 TESTS = ON
 COVERAGE = OFF
@@ -20,7 +19,6 @@ configure:
 		-DCMAKE_BUILD_TYPE=$(BUILD) \
 		-DCMAKE_CXX_STANDARD=$(CXX_STANDARD) \
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=$(EXPORT_COMPILE_COMMANDS) \
-		-DFL_CPP98=$(CPP98) \
 		-DFL_USE_FLOAT=$(FLOAT) \
 		-DFL_WARNINGS_AS_ERRORS=$(STRICT) \
 		-DFL_BUILD_TESTS=$(TESTS) \
@@ -37,7 +35,7 @@ test: .phonywin
 
 test-only:
 	cmake -B build/ && \
-		cmake --build build/ --parallel --target fl-test && \
+		cmake --build build/ --parallel --target testTarget && \
 		 $(MAKE) test
 
 install:
@@ -55,12 +53,12 @@ coverage:
 		--sort uncovered-percent \
 		--html-theme github.dark-blue \
 		--txt --txt-summary \
-		build/CMakeFiles/fl-test.dir && \
+		build/CMakeFiles/testTarget.dir && \
 	deactivate
 	# open build/coverage.html
 
 clean-coverage:
-	find build/CMakeFiles/fl-test.dir -type f -name '*.gc' -print0 | xargs -0 rm
+	find build/CMakeFiles/testTarget.dir -type f -name '*.gc' -print0 | xargs -0 rm
 
 jupyter:
 	$(CONTAINER) build -f tools/notebook/Dockerfile -t fl-xeus . && \
