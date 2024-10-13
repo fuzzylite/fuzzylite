@@ -2,7 +2,9 @@ name: macOS Build
 
 on:
   push:
-    branches: [ "main", "build/*", "build-macos/*" ]
+    branches: [ main ]
+  pull-request:
+    branches: [ "build/*", "build-macos/*" ]
 
 jobs:
   build:
@@ -11,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         cxx-standard: [ 98, 11, 14, 17, 20, 23 ]
-        use_float: [ "OFF", "ON" ]
+        use_float: [ OFF, ON ]
 
     steps:
       - uses: actions/checkout@v4
