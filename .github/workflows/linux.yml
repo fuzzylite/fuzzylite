@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
   pull-request:
-    branches: [ "build/*", build-linux/* ]
+    branches: [ "build/*", "build-linux/*" ]
 
 jobs:
   build:
