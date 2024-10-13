@@ -50,7 +50,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #define FL__FILE__ std::string(__FILE__)
 
 #define FL_LOG_PREFIX FL__FILE__ << " (" << __LINE__ << "):"
-long
+
 #define FL_AT FL__FILE__, __LINE__, __FUNCTION__
 
 #define FL_LOG(message)                                         \
@@ -106,14 +106,14 @@ long
 #define FL_API
 #endif
 
-    /**
-      The fl namespace is the namespace where all the classes of the `fuzzylite`
-      library are contained in.
+/**
+  The fl namespace is the namespace where all the classes of the `fuzzylite`
+  library are contained in.
 
-      @author Juan Rada-Vilela, Ph.D.
-      @since 4.0
-     */
-    namespace fuzzylite {
+  @author Juan Rada-Vilela, Ph.D.
+  @since 4.0
+ */
+namespace fuzzylite {
     /**
       Represents floating-point values (typedef to float or double).
      */
