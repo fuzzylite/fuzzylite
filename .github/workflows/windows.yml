@@ -3,7 +3,7 @@ name: Windows Build
 on:
   push:
     branches: [ main ]
-  pull-request:
+  pull_request:
     branches: [ build/*, build-windows/* ]
 
 jobs:
