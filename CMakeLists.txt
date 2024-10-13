@@ -178,7 +178,7 @@ if (FL_BUILD_BINARY)
     list(APPEND fl-targets binaryTarget)
 endif (FL_BUILD_BINARY)
 
-if (FL_BUILD_TESTS AND CMAKE_CXX_STANDARD LESS 11)
+if (FL_BUILD_TESTS AND CMAKE_CXX_STANDARD EQUAL 98)
     message(WARNING "Skipping tests: tests require C++11 or later, but using C++${CMAKE_CXX_STANDARD}.")
 
 elseif (FL_BUILD_TESTS)
