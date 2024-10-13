@@ -1,0 +1,36 @@
+name:
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint
+        run: make lint
+
+  coverage:
+    runs-on: ubuntu-latest
+    env:
+      CXX: clang++-18
+      GCOV: llvm-cov-18 gcov
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build fuzzylite
+        run: |
+          make configure TESTS=ON COVERAGE=ON
+          make build
+          make test
+          make coverage
+
+      - name: Coveralls
+        if: ${{ hashFiles('build/coveralls.json') != '' }}
+        uses: coverallsapp/github-action@v2
+        with:
+          file: build/coveralls.json

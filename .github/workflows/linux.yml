@@ -1,17 +1,18 @@
-name: macOS Quick Build
+name: Linux Build
 
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
 
 jobs:
   build:
-    runs-on: macos-latest
-
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        build_type: [ "release" ]
+        cxx: [ "clang++-18", "g++-14" ]
+        cxx-standard: [ 98, 11, 14, 17, 20, 23 ]
+        use_float: [ "OFF", "ON" ]
 
     steps:
       - uses: actions/checkout@v4
@@ -20,13 +21,15 @@ jobs:
         id: cache-restore-cmake-deps
         uses: actions/cache/restore@v4
         with:
-          path: |
-            build/_deps
+          path: build/_deps
           key: ${{ runner.os }}-cmake-deps
 
       - name: Building FuzzyLite
+        env:
+          CXX: ${{ matrix.cxx }}
+          CXX_STANDARD: ${{ matrix.cxx-standard }}
         run: |
-          make configure BUILD=${{ matrix.build_type }}
+          make configure STRICT=ON TESTS=ON FLOAT=${{ matrix.use_float }}
           make build
           make test
 
@@ -35,6 +38,5 @@ jobs:
         id: cache-save-cmake-deps
         uses: actions/cache/save@v4
         with:
-          path: |
-            build/_deps
+          path: build/_deps
           key: ${{ steps.cache-restore-cmake-deps.outputs.cache-primary-key }}

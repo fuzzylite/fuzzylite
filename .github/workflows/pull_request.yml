@@ -1,0 +1,77 @@
+name: On Pull Request
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-unix:
+    strategy:
+      fail-fast: false
+      matrix:
+        cxx-standard: [ 11 ]
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: ${{ matrix.os == 'windows-latest'}}
+
+      - name: Restore cmake dependencies
+        id: cache-restore-cmake-deps
+        uses: actions/cache/restore@v4
+        with:
+          path: build/_deps
+          key: ${{ runner.os }}-cmake-deps
+
+      - name: Build fuzzylite
+        env:
+          CXX_STANDARD: ${{ matrix.cxx-standard }}
+          MAKE: ${{ matrix.os == 'windows-latest' && 'nmake' || 'make' }}
+        run: |
+          ${{ MAKE }} configure STRICT=ON TESTS=ON 
+          ${{ MAKE }} build
+          ${{ MAKE }} test
+
+      - name: Save cmake dependencies
+        if: steps.cache-restore-cmake-deps.outputs.cache-hit != 'true'
+        id: cache-save-cmake-deps
+        uses: actions/cache/save@v4
+        with:
+          path: build/_deps
+          key: ${{ steps.cache-restore-cmake-deps.outputs.cache-primary-key }}
+#
+#  build-windows:
+#    runs-on: windows-latest
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        cxx-standard: [ 11 ]
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - uses: ilammy/msvc-dev-cmd@v1
+#
+#      - name: Restore cmake dependencies
+#        id: cache-restore-cmake-deps
+#        uses: actions/cache/restore@v4
+#        with:
+#          path: build/_deps
+#          key: ${{ runner.os }}-cmake-deps
+#
+#      - name: Build fuzzylite
+#        env:
+#          CXX_STANDARD: ${{ matrix.cxx-standard }}
+#        run: |
+#          nmake configure STRICT=ON TESTS=ON
+#          nmake build
+#          nmake test
+#
+#      - name: Save cmake dependencies
+#        if: steps.cache-restore-cmake-deps.outputs.cache-hit != 'true'
+#        id: cache-save-cmake-deps
+#        uses: actions/cache/save@v4
+#        with:
+#          path: build/_deps
+#          key: ${{ steps.cache-restore-cmake-deps.outputs.cache-primary-key }}
