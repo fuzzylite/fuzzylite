@@ -2,7 +2,9 @@ name: Linux Build
 
 on:
   push:
-    branches: [ "main", "build/*", "build-linux/*" ]
+    branches: [ main ]
+  pull-request:
+    branches: [ build/*, build-linux/* ]
 
 jobs:
   build:
@@ -10,9 +12,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        cxx: [ "clang++-18", "g++-14" ]
+        cxx: [ clang++-18, g++-14 ]
         cxx-standard: [ 98, 11, 14, 17, 20, 23 ]
-        use_float: [ "OFF", "ON" ]
+        use_float: [ OFF, ON ]
 
     steps:
       - uses: actions/checkout@v4
