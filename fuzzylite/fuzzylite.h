@@ -28,14 +28,9 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 /**
  * TODO:
- * - Remove FL_BUILD_PATH
  * - Declare FL_DEPRECATED
  * - Move into Library class
  */
-
-#ifndef FL_BUILD_PATH
-#define FL_BUILD_PATH ""
-#endif
 
 #if defined(_WIN32) || defined(WIN32)
 #define FL_WINDOWS
@@ -52,10 +47,10 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #endif
 #endif
 
-#define FL__FILE__ std::string(__FILE__).substr(std::string(FL_BUILD_PATH).size())
+#define FL__FILE__ std::string(__FILE__)
 
 #define FL_LOG_PREFIX FL__FILE__ << " (" << __LINE__ << "):"
-
+long
 #define FL_AT FL__FILE__, __LINE__, __FUNCTION__
 
 #define FL_LOG(message)                                         \
@@ -111,14 +106,14 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #define FL_API
 #endif
 
-/**
-  The fl namespace is the namespace where all the classes of the `fuzzylite`
-  library are contained in.
+    /**
+      The fl namespace is the namespace where all the classes of the `fuzzylite`
+      library are contained in.
 
-  @author Juan Rada-Vilela, Ph.D.
-  @since 4.0
- */
-namespace fuzzylite {
+      @author Juan Rada-Vilela, Ph.D.
+      @since 4.0
+     */
+    namespace fuzzylite {
     /**
       Represents floating-point values (typedef to float or double).
      */
@@ -232,7 +227,6 @@ namespace fuzzylite {
     Class &operator=(const Class &) = delete;
 
 #endif
-
 }
 
 namespace fuzzylite {
