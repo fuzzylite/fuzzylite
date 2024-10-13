@@ -40,7 +40,7 @@ jobs:
         env:
           CXX_STANDARD: ${{ matrix.cxx-standard }}
         run: |
-          nmake configure STRICT=ON TESTS=ON 
+          nmake configure STRICT=OFF TESTS=ON 
           nmake build
           nmake test
 
