@@ -16,13 +16,14 @@ jobs:
 
   coverage:
     runs-on: ubuntu-latest
-    env:
-      CXX: "clang++-18"
-      GCOV: "llvm-cov-18 gcov"
     steps:
       - uses: actions/checkout@v4
 
       - name: Build fuzzylite
+        env:
+          CXX: "clang++-18"
+          CXX_STANDARD: 11
+          GCOV: "llvm-cov-18 gcov"
         run: |
           make configure TESTS=ON COVERAGE=ON
           make build
