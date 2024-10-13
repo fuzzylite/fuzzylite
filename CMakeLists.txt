@@ -13,8 +13,6 @@ include(GNUInstallDirs)
 # GNUInstallDirs: resolves common paths (eg, CMAKE_INSTALL_[LIB|INCLUDE|DATAROOT]DIR)
 
 ###DEFINES SECTION
-add_definitions(-DFL_BUILD_PATH="${PROJECT_SOURCE_DIR}") #used to determine FL__FILE__
-
 option(FL_BUILD_SHARED "Build shared library" ON)
 option(FL_BUILD_STATIC "Build static library" ON)
 if (FL_BUILD_SHARED)

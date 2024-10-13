@@ -23,7 +23,7 @@ jobs:
         env:
           CXX_STANDARD: 11
         run: |
-          make configure TESTS=ON COVERAGE=ON
+          make configure BUILD=debug TESTS=ON COVERAGE=ON
           make build
           make test
           make coverage

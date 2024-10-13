@@ -30,7 +30,8 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Benchmarks from FLD files", "[benchmark][fld]") {
-        std::string path = FL_BUILD_PATH "/examples/";
+        // Assumes current path is in `build/` subdirectory
+        const std::string path("../examples/");
         typedef std::pair<std::string, int> Example;
         std::vector<Example> examples;
         examples.push_back(Example("mamdani/AllTerms", int(1e4)));
