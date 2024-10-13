@@ -1,10 +1,10 @@
-name: Linux Build
+name: Linux Build (monthly)
 
 on:
-  push:
-    branches: [ main ]
+  schedule: # monthly, first day
+    - cron: 0 0 1 * *
   pull_request:
-    branches: [ "build/*", "build-linux/*" ]
+    branches: [ build/*, build-linux/* ]
 
 jobs:
   build:

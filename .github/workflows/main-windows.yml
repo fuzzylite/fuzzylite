@@ -1,0 +1,46 @@
+name: Windows Build
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cxx-standard: [ 98, 11, 23 ]
+        use_float: [ OFF, ON ]
+        platform: [ x64 ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Restore cmake dependencies
+        id: cache-restore-cmake-deps
+        uses: actions/cache/restore@v4
+        with:
+          path: build/_deps
+          key: ${{ runner.os }}-cmake-deps
+
+      - name: Building FuzzyLite
+        shell: cmd
+        env:
+          CXX_STANDARD: ${{ matrix.cxx-standard }}
+        run: |
+          nmake configure STRICT=OFF TESTS=ON FLOAT=${{ matrix.use_float }} 
+          nmake build
+          nmake test
+
+      - name: Save cmake dependencies
+        if: steps.cache-restore-cmake-deps.outputs.cache-hit != 'true'
+        id: cache-save-cmake-deps
+        uses: actions/cache/save@v4
+        with:
+          path: build/_deps
+          key: ${{ steps.cache-restore-cmake-deps.outputs.cache-primary-key }}
+
+
