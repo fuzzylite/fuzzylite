@@ -2,7 +2,7 @@ name: Windows Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "build/*", "build-windows/*" ]
 
 jobs:
   build:
@@ -26,6 +26,7 @@ jobs:
           key: ${{ runner.os }}-cmake-deps
 
       - name: Building FuzzyLite
+        shell: cmd
         env:
           CXX_STANDARD: ${{ matrix.cxx-standard }}
         run: |
