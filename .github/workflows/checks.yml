@@ -21,9 +21,9 @@ jobs:
 
       - name: Build fuzzylite
         env:
-          CXX: "clang++-18"
+#          CXX: "clang++-18"
           CXX_STANDARD: 11
-          GCOV: "llvm-cov-18 gcov"
+#          GCOV: "llvm-cov-18 gcov"
         run: |
           make configure TESTS=ON COVERAGE=ON
           make build

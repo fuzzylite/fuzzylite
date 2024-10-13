@@ -71,7 +71,7 @@ if (MSVC)
     #Set compilation flags in Windows
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /EHsc")
     if (FL_WARNINGS_AS_ERRORS)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Werror")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX")
     endif ()
     #Wx: Treat warnings as errors. W4: All warnings
     #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
