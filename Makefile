@@ -44,9 +44,7 @@ install:
 
 python:
 	python3 --version
-	python3 -m venv .venv
-	source .venv/bin/activate
-	python3 -m pip install "gcovr>=8" "clang-format>=19"
+	python3 -m pip install "gcovr>=8" "clang-format>=19" --user
 	which python3
 
 coverage: python
