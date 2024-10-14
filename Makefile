@@ -42,12 +42,15 @@ test-only:
 install:
 	cmake --build build/ --target install
 
-coverage:
+python:
 	python3 --version
 	python3 -m venv .venv
 	. .venv/bin/activate
-	python3 -m pip install gcovr
+	python3 -m pip install "gcovr>=8" "clang-format>=19"
+	which python3
 
+coverage: python
+	which python3
 	gcovr --version
 	gcovr -r . \
 	  	--filter src/ \
@@ -59,8 +62,6 @@ coverage:
 		--html-theme github.dark-blue \
 		--txt --txt-summary \
 		build/CMakeFiles/testTarget.dir
-
-	deactivate
 	# open build/coverage.html
 
 clean-coverage:
@@ -78,26 +79,22 @@ ubuntu:
 
 CLANG_FORMAT=clang-format --style=file:.clang-format -i
 
-format:
+format: python
+	which python3
 	$(CLANG_FORMAT) --version
-
 	# headers
 	find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT)
-
 	# sources
 	find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT)
-
 	# tests
 	find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT)
 
-lint:
+lint: python
+	which python3
 	$(CLANG_FORMAT) --version
-
 	# headers
 	find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
-
 	# sources
 	find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
-
 	# tests
 	find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
