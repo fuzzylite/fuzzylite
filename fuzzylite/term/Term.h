@@ -137,7 +137,7 @@ namespace fuzzylite {
         /**
           For monotonic terms, computes the tsukamoto value of the term for the
           given activation degree @f$y@f$, that is,
-          @f$ g_j(y) = \{ x \in\mathbb{R} : \mu_j(x) = y \} $@f. If
+          @f$ g_j(y) = \{ x \in\mathbb{R} : \mu_j(x) = y \} @f$. If
           the term is not monotonic (or does not override this method) the
           method throws an exception.
           @param y is the activation degree

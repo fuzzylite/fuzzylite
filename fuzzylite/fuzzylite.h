@@ -334,7 +334,7 @@ namespace fuzzylite {
         /**
           Sets the minimum difference at which two floating-point values are
           considered equivalent
-          @param macheps is the minimum difference at which two floating-point
+          @param atol is the minimum difference at which two floating-point
           values are considered equivalent (default is 1e-6)
          */
         static void setAbsoluteTolerance(scalar atol);

@@ -53,7 +53,7 @@ namespace fuzzylite {
 
         /**
           Creates a Defuzzifier by executing the registered constructor
-          @param key is the unique name by which constructors are registered
+          @param defuzzifier is the unique name by which constructors are registered
           @param resolution is the resolution of an IntegralDefuzzifier
           @return a Defuzzifier by executing the registered constructor and
           setting its resolution
@@ -62,7 +62,7 @@ namespace fuzzylite {
 
         /**
           Creates a Defuzzifier by executing the registered constructor
-          @param key is the unique name by which constructors are registered
+          @param defuzzifier is the unique name by which constructors are registered
           @param type is the type of a WeightedDefuzzifier
           @return a Defuzzifier by executing the registered constructor and
           setting its type
