@@ -60,10 +60,13 @@ coverage: python
 			--html-theme github.dark-blue \
 			--txt --txt-summary \
 			build/CMakeFiles/testTarget.dir
-	# open build/coverage.html
 
 clean-coverage:
 	find build/CMakeFiles/testTarget.dir -type f -name '*.gc' -print0 | xargs -0 rm
+
+docs:
+	# requires doxygen and graphviz
+	doxygen Doxyfile
 
 jupyter:
 	$(CONTAINER) --version
