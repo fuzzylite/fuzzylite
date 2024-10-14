@@ -44,22 +44,22 @@ install:
 
 python:
 	python3 --version
-	python3 -m pip install "gcovr>=8" "clang-format>=19" --user
-	which python3
+	python3 -m venv .venv \
+		&& . .venv/bin/activate \
+		&& python3 -m pip install "gcovr>=8" "clang-format>=19"
 
 coverage: python
-	which python3
-	gcovr --version
-	gcovr -r . \
-	  	--filter src/ \
-	  	--filter fuzzylite/ \
-		--coveralls build/coveralls.json \
-		--html build/coverage.html \
-		--html-details \
-		--sort uncovered-percent \
-		--html-theme github.dark-blue \
-		--txt --txt-summary \
-		build/CMakeFiles/testTarget.dir
+	. .venv/bin/activate \
+		&& gcovr -r . \
+			--filter src/ \
+			--filter fuzzylite/ \
+			--coveralls build/coveralls.json \
+			--html build/coverage.html \
+			--html-details \
+			--sort uncovered-percent \
+			--html-theme github.dark-blue \
+			--txt --txt-summary \
+			build/CMakeFiles/testTarget.dir
 	# open build/coverage.html
 
 clean-coverage:
@@ -78,21 +78,13 @@ ubuntu:
 CLANG_FORMAT=clang-format --style=file:.clang-format -i
 
 format: python
-	which python3
-	$(CLANG_FORMAT) --version
-	# headers
-	find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT)
-	# sources
-	find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT)
-	# tests
-	find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT)
+	. .venv/bin/activate && $(CLANG_FORMAT) --version \
+		&& find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) \
+		&& find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) \
+		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT)
 
 lint: python
-	which python3
-	$(CLANG_FORMAT) --version
-	# headers
-	find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
-	# sources
-	find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
-	# tests
-	find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
+	. .venv/bin/activate && $(CLANG_FORMAT) --version \
+		&& find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
+		&& find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
+		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
