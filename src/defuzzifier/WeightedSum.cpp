@@ -51,7 +51,7 @@ namespace fuzzylite {
         for (std::size_t i = 0; i < groupedTerms.size(); ++i) {
             const Activated& activated = groupedTerms.at(i);
             const scalar w = activated.getDegree();
-            const scalar z = activated.getTerm()->tsukamoto(w, fl::nan, fl::nan);
+            const scalar z = activated.getTerm()->tsukamoto(w);
             sum += w * z;
         }
         return sum;

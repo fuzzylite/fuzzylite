@@ -166,7 +166,7 @@ namespace fuzzylite {
                 const auto& x = value.first;
                 const auto& expected_y = value.second;
 
-                const auto& obtained_y = this->actual->tsukamoto(x, fl::nan, fl::nan);
+                const auto& obtained_y = this->actual->tsukamoto(x);
                 CAPTURE(x);
                 CAPTURE(height);
                 CHECK_THAT(obtained_y, Approximates(expected_y));
@@ -521,8 +521,7 @@ namespace fuzzylite {
             .exports_fll("term: concave Concave 0.000 -0.500 0.500");
     }
 
-    TEST_CASE("Concave Tsukamoto Bug", "[term][concave][tsukamoto][!shouldfail]") {
-        WARN("TODO: Fix Tsukamoto bugs");
+    TEST_CASE("Concave Tsukamoto", "[term][concave][tsukamoto]") {
         TermAssert(new Concave("concave"))
             .configured_as("0.00 -0.50")
             .exports_fll("term: concave Concave 0.000 -0.500")
@@ -1136,8 +1135,7 @@ namespace fuzzylite {
             });
     }
 
-    TEST_CASE("Ramp Tsukamoto Height", "[term][ramp][tsukamoto][!shouldfail]") {
-        // TODO: Fix height in tsukamoto
+    TEST_CASE("Ramp Tsukamoto Height", "[term][ramp][tsukamoto]") {
         TermAssert(new Ramp("ramp"))
             .configured_as("0.250 -0.750 0.5")
             .exports_fll("term: ramp Ramp 0.250 -0.750 0.500")
@@ -1245,8 +1243,7 @@ namespace fuzzylite {
             });
     }
 
-    TEST_CASE("Sigmoid Tsukamoto", "[term][sigmoid][tsukamoto][!shouldfail]") {
-        // TODO: Fix min-max in tsukamoto signature
+    TEST_CASE("Sigmoid Tsukamoto", "[term][sigmoid][tsukamoto]") {
         TermAssert(new Sigmoid("sigmoid"))
             .configured_as("0 -10")
             .exports_fll("term: sigmoid Sigmoid 0.000 -10.000")
@@ -1396,8 +1393,7 @@ namespace fuzzylite {
             });
     }
 
-    TEST_CASE("SShape Tsukamoto", "[term][sshape][tsukamoto][!shouldfail]") {
-        // TODO: Fix bug
+    TEST_CASE("SShape Tsukamoto", "[term][sshape][tsukamoto]") {
         TermAssert(new SShape("s_shape"))
             .exports_fll("term: s_shape SShape nan nan")
             .repr_is("fl.SShape('s_shape', fl.nan, fl.nan)")
@@ -1746,8 +1742,7 @@ namespace fuzzylite {
             });
     }
 
-    TEST_CASE("ZShape Tsukamoto", "[term][zshape][tsukamoto][!shouldfail]") {
-        // TODO: fix bug
+    TEST_CASE("ZShape Tsukamoto", "[term][zshape][tsukamoto]") {
         TermAssert(new ZShape("z_shape"))
             .exports_fll("term: z_shape ZShape nan nan")
             .repr_is("fl.ZShape('z_shape', fl.nan, fl.nan)")

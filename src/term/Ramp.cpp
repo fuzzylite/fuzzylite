@@ -52,10 +52,12 @@ namespace fuzzylite {
         }
     }
 
-    scalar Ramp::tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const {
-        FL_IUNUSED(minimum);
-        FL_IUNUSED(maximum);
-        return Op::scale(activationDegree, 0, 1, _start, _end);
+    scalar Ramp::tsukamoto(scalar y) const {
+        const scalar h = getHeight();
+        const scalar s = getStart();
+        const scalar e = getEnd();
+        const scalar x = s + (e - s) * y / h;
+        return x;
     }
 
     bool Ramp::isMonotonic() const {
@@ -74,7 +76,8 @@ namespace fuzzylite {
         std::size_t required = 2;
         if (values.size() < required) {
             std::ostringstream ex;
-            ex << "[configuration error] term <" << className() << ">" << " requires <" << required << "> parameters";
+            ex << "[configuration error] term <" << className() << ">"
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setStart(Op::toScalar(values.at(0)));

@@ -43,12 +43,12 @@ namespace fuzzylite {
         return Term::_height * 1.0;
     }
 
-    scalar Concave::tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const {
-        FL_IUNUSED(minimum);
-        FL_IUNUSED(maximum);
-        scalar i = _inflection;
-        scalar e = _end;
-        return (i - e) / membership(activationDegree) + 2 * e - i;
+    scalar Concave::tsukamoto(scalar y) const {
+        const scalar h = getHeight();
+        const scalar i = getInflection();
+        const scalar e = getEnd();
+        const scalar x = h * (i - e) / y + 2 * e - i;
+        return x;
     }
 
     bool Concave::isMonotonic() const {
@@ -67,7 +67,8 @@ namespace fuzzylite {
         std::size_t required = 2;
         if (values.size() < required) {
             std::ostringstream ex;
-            ex << "[configuration error] term <" << className() << ">" << " requires <" << required << "> parameters";
+            ex << "[configuration error] term <" << className() << ">"
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setInflection(Op::toScalar(values.at(0)));

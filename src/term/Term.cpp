@@ -52,10 +52,9 @@ namespace fuzzylite {
         // do nothing
     }
 
-    scalar Term::tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const {
-        FL_IUNUSED(minimum);
-        FL_IUNUSED(maximum);
-        return membership(activationDegree);
+    scalar Term::tsukamoto(scalar y) const {
+        FL_IUNUSED(y);
+        throw fl::Exception("[tsukamoto error] the term does not support Tsukamoto: " + toString());
     }
 
     bool Term::isMonotonic() const {
