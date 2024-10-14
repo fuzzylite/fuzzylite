@@ -136,18 +136,15 @@ namespace fuzzylite {
 
         /**
           For monotonic terms, computes the tsukamoto value of the term for the
-          given activation degree @f$\alpha@f$, that is,
-          @f$ g_j(\alpha) = \{ z \in\mathbb{R} : \mu_j(z) = \alpha \} $@f. If
+          given activation degree @f$y@f$, that is,
+          @f$ g_j(y) = \{ x \in\mathbb{R} : \mu_j(x) = y \} $@f. If
           the term is not monotonic (or does not override this method) the
-          method computes the membership function @f$\mu(\alpha)@f$.
-          @param activationDegree is the activationDegree
-          @param minimum is the minimum value of the range of the term
-          @param maximum is the maximum value of the range of the term
-          @return the tsukamoto value of the term for the given activation degree
-                  if the term is monotonic (or overrides this method), or
-                  the membership function for the activation degree otherwise.
+          method throws an exception.
+          @param y is the activation degree
+          @throws Exception when the term is not monotonic or does not override this method
+          @return the tsukamoto value of the term for the given activation degree.
          */
-        virtual scalar tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const;
+        virtual scalar tsukamoto(scalar y) const;
 
         /**
           Indicates whether the term is monotonic.

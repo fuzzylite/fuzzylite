@@ -72,7 +72,25 @@ namespace fuzzylite {
          */
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
-        virtual scalar tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const FL_IOVERRIDE;
+        /**
+        Compute the tsukamoto value of the monotonic term for activation degree @f$y$@f.
+
+        Equation:
+            @f$y = \begin{cases} 0 & \mbox{if } x \leq s \cr 2h \left(\dfrac{x - s}{e-s}\right)^2 & \mbox{if } s < x
+        \leq \dfrac{s+e}{2}\cr h - 2h\left(\dfrac{x - e}{e-s}\right)^2 & \mbox{if } \dfrac{s+e}{2} < x < e\cr h &
+        \mbox{otherwise} \end{cases}$@f
+
+            @f$x = \begin{cases}
+                s + (e-s) \sqrt{\dfrac{y}{2h}} & \mbox{if } y \le \dfrac{h}{2} \cr
+                e - (e-s) \sqrt{\dfrac{h-y}{2h}} & \mbox{otherwise}
+            \end{cases}$@f
+
+        @param y is the activation degree
+
+        @return @f$x = \begin{cases} s + (e-s) \sqrt{\dfrac{y}{2h}} & \mbox{if } y \le \dfrac{h}{2} \cr e - (e-s)
+        \sqrt{\dfrac{h-y}{2h}} & \mbox{otherwise} \end{cases}$@f
+         */
+        virtual scalar tsukamoto(scalar y) const FL_IOVERRIDE;
 
         virtual bool isMonotonic() const FL_IOVERRIDE;
 

@@ -15,6 +15,7 @@ clean:
 	rm -rf build/
 
 configure:
+	cmake --version
 	cmake -B build/ \
 		-DCMAKE_BUILD_TYPE=$(BUILD) \
 		-DCMAKE_CXX_STANDARD=$(CXX_STANDARD) \
@@ -34,60 +35,56 @@ test: .phonywin
 	ctest --test-dir build/ --output-on-failure --timeout 120 # --verbose
 
 test-only:
-	cmake -B build/ && \
-		cmake --build build/ --parallel --target testTarget && \
-		 $(MAKE) test
+	cmake -B build/
+	cmake --build build/ --parallel --target testTarget
+	$(MAKE) test
 
 install:
 	cmake --build build/ --target install
 
-coverage:
-	python3 -m venv .venv && . .venv/bin/activate && \
-	python3 -m pip install gcovr && \
-	gcovr -r . \
-	  	--filter src/ \
-	  	--filter fuzzylite/ \
-		--coveralls build/coveralls.json \
-		--html build/coverage.html \
-		--html-details \
-		--sort uncovered-percent \
-		--html-theme github.dark-blue \
-		--txt --txt-summary \
-		build/CMakeFiles/testTarget.dir && \
-	deactivate
+python:
+	python3 --version
+	python3 -m venv .venv \
+		&& . .venv/bin/activate \
+		&& python3 -m pip install "gcovr>=8" "clang-format>=19"
+
+coverage: python
+	. .venv/bin/activate \
+		&& gcovr -r . \
+			--filter src/ \
+			--filter fuzzylite/ \
+			--coveralls build/coveralls.json \
+			--html build/coverage.html \
+			--html-details \
+			--sort uncovered-percent \
+			--html-theme github.dark-blue \
+			--txt --txt-summary \
+			build/CMakeFiles/testTarget.dir
 	# open build/coverage.html
 
 clean-coverage:
 	find build/CMakeFiles/testTarget.dir -type f -name '*.gc' -print0 | xargs -0 rm
 
 jupyter:
-	$(CONTAINER) build -f tools/notebook/Dockerfile -t fl-xeus . && \
- 	$(CONTAINER) run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it fl-xeus jupyter notebook --allow-root --ip 0.0.0.0
+	$(CONTAINER) --version
+	$(CONTAINER) build -f tools/notebook/Dockerfile -t fl-xeus .
+	$(CONTAINER) run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it fl-xeus jupyter notebook --allow-root --ip 0.0.0.0
 
 ubuntu:
-	$(CONTAINER) build -f tools/docker/ubuntu-2404.Dockerfile -t fl-ubuntu . && \
- 	$(CONTAINER) run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it fl-ubuntu
+	$(CONTAINER) --version
+	$(CONTAINER) build -f tools/docker/ubuntu-2404.Dockerfile -t fl-ubuntu .
+	$(CONTAINER) run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it fl-ubuntu
 
 CLANG_FORMAT=clang-format --style=file:.clang-format -i
 
-format:
-	# headers
-	find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT)
+format: python
+	. .venv/bin/activate && $(CLANG_FORMAT) --version \
+		&& find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) \
+		&& find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) \
+		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT)
 
-	# sources
-	find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT)
-
-	# tests
-	find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT)
-
-lint:
-	# headers
-	find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
-
-	# sources
-	find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
-
-	# tests
-	find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
-
-
+lint: python
+	. .venv/bin/activate && $(CLANG_FORMAT) --version \
+		&& find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
+		&& find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
+		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \

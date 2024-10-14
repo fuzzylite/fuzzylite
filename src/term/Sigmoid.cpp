@@ -36,28 +36,12 @@ namespace fuzzylite {
         return Term::_height * 1.0 / (1.0 + std::exp(-_slope * (x - _inflection)));
     }
 
-    scalar Sigmoid::tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const {
-        scalar w = activationDegree;
-        scalar z = fl::nan;
-
-        if (Op::isEq(w, 1.0)) {
-            if (Op::isGE(_slope, 0.0))
-                z = maximum;
-            else
-                z = minimum;
-
-        } else if (Op::isEq(w, 0.0)) {
-            if (Op::isGE(_slope, 0.0))
-                z = minimum;
-            else
-                z = maximum;
-        } else {
-            scalar a = _slope;
-            scalar b = _inflection;
-            z = b + (std::log(1.0 / w - 1.0) / -a);
-        }
-
-        return z;
+    scalar Sigmoid::tsukamoto(scalar y) const {
+        const scalar h = getHeight();
+        const scalar i = getInflection();
+        const scalar s = getSlope();
+        const scalar x = i + std::log(h / y - 1.0) / -s;
+        return x;
     }
 
     bool Sigmoid::isMonotonic() const {
@@ -76,7 +60,8 @@ namespace fuzzylite {
         std::size_t required = 2;
         if (values.size() < required) {
             std::ostringstream ex;
-            ex << "[configuration error] term <" << className() << ">" << " requires <" << required << "> parameters";
+            ex << "[configuration error] term <" << className() << ">"
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setInflection(Op::toScalar(values.at(0)));

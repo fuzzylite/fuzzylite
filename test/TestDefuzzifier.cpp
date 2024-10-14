@@ -720,6 +720,202 @@ namespace fuzzylite {
             );
     }
 
+    TEST_CASE("WeightedSum Tsukamoto", "[defuzzifier][weighted][tsukamoto]") {
+        DefuzzifierAssert(new WeightedSum("Tsukamoto"))
+            .defuzzifies(
+                -fl::inf,
+                fl::inf,
+                {{new Aggregated(), fl::nan},
+                 {new Aggregated(
+                      "",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {
+                          Activated(new Ramp("a", 0, 0.25), 0.015),
+                          Activated(new Ramp("b", 0.6, 0.4), 1.0),
+                          Activated(new Ramp("c", 0.7, 1.0), 0.015),
+                      }
+                  ),
+                  0.410},
+                 {new Aggregated(
+                      "",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {Activated(new Sigmoid("a", 0.13, 30), 0.015),
+                       Activated(new Sigmoid("b", 0.5, -30), 1.0),
+                       Activated(new Sigmoid("c", 0.83, 30), 0.015)}
+                  ),
+                  -fl::inf},
+                 {new Aggregated(
+                      "",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {Activated(new Concave("a", 0.24, 0.25), 0.015),
+                       Activated(new Concave("b", 0.5, 0.4), 1.0),
+                       Activated(new Concave("c", 0.9, 1.0), 0.015)}
+                  ),
+                  0.310},
+                 {new Aggregated(
+                      "",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {Activated(new SShape("a", 0.000, 0.250), 0.015),
+                       Activated(new ZShape("b", 0.300, 0.600), 1.0),
+                       Activated(new SShape("c", 0.700, 1.000), 0.015)}
+                  ),
+                  0.311}}
+            );
+    }
+
+    TEST_CASE("WeightedAverage Tsukamoto", "[defuzzifier][weighted][tsukamoto]") {
+        DefuzzifierAssert(new WeightedAverage("Tsukamoto"))
+            .defuzzifies(
+                -fl::inf,
+                fl::inf,
+                {{new Aggregated(), fl::nan},
+                 {new Aggregated(
+                      "",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {
+                          Activated(new Ramp("a", 0, 0.25), 0.015),
+                          Activated(new Ramp("b", 0.6, 0.4), 1.0),
+                          Activated(new Ramp("c", 0.7, 1.0), 0.015),
+                      }
+                  ),
+                  0.398},
+                 {new Aggregated(
+                      "",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {Activated(new Sigmoid("a", 0.13, 30), 0.015),
+                       Activated(new Sigmoid("b", 0.5, -30), 1.0),
+                       Activated(new Sigmoid("c", 0.83, 30), 0.015)}
+                  ),
+                  -fl::inf},
+                 {new Aggregated(
+                      "",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {Activated(new Concave("a", 0.24, 0.25), 0.015),
+                       Activated(new Concave("b", 0.5, 0.4), 1.0),
+                       Activated(new Concave("c", 0.9, 1.0), 0.015)}
+                  ),
+                  0.301},
+                 {new Aggregated(
+                      "",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {Activated(new SShape("a", 0.000, 0.250), 0.015),
+                       Activated(new ZShape("b", 0.300, 0.600), 1.0),
+                       Activated(new SShape("c", 0.700, 1.000), 0.015)}
+                  ),
+                  0.302}}
+            );
+    }
+
+    TEST_CASE("WeightedSum Tsukamoto Grouped", "[defuzzifier][weighted][tsukamoto]") {
+        DefuzzifierAssert(new fl::WeightedSum("Tsukamoto"))
+            .defuzzifies(
+                -fl::inf,
+                fl::inf,
+                {{new fl::Aggregated(
+                      "",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {
+                          fl::Activated(new fl::Ramp("a", 0, 0.25), 0.0075),
+                          fl::Activated(new fl::Ramp("a", 0, 0.25), 0.0075),
+                          fl::Activated(new fl::Ramp("b", 0.6, 0.4), 1.0),
+                          fl::Activated(new fl::Ramp("c", 0.7, 1.0), 0.015),
+                      }
+                  ),
+                  0.410},
+                 {new fl::Aggregated(
+                      "",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {
+                          fl::Activated(new fl::Concave("a", 0.24, 0.25), 0.015),
+                          fl::Activated(new fl::Concave("b", 0.5, 0.4), 0.5),
+                          fl::Activated(new fl::Concave("b", 0.5, 0.4), 0.5),
+                          fl::Activated(new fl::Concave("c", 0.9, 1.0), 0.015),
+                      }
+                  ),
+                  0.310},
+                 {new fl::Aggregated(
+                      "",
+                      fl::nan,
+                      fl::nan,
+                      new fl::Maximum(),
+                      {
+                          fl::Activated(new fl::SShape("a", 0.000, 0.250), 0.015),
+                          fl::Activated(new fl::ZShape("b", 0.300, 0.600), 1.0),
+                          fl::Activated(new fl::ZShape("b", 0.300, 0.600), 1.0),
+                          fl::Activated(new fl::SShape("c", 0.700, 1.000), 0.015),
+                      }
+                  ),
+                  0.311}}
+            );
+    }
+
+    TEST_CASE("WeightedAverage Tsukamoto Grouped", "[defuzzifier][weighted][tsukamoto]") {
+        DefuzzifierAssert(new fl::WeightedAverage("Tsukamoto"))
+            .defuzzifies(
+                -fl::inf,
+                fl::inf,
+                {{new fl::Aggregated(
+                      "",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {
+                          fl::Activated(new fl::Ramp("a", 0, 0.25), 0.0075),
+                          fl::Activated(new fl::Ramp("a", 0, 0.25), 0.0075),
+                          fl::Activated(new fl::Ramp("b", 0.6, 0.4), 1.0),
+                          fl::Activated(new fl::Ramp("c", 0.7, 1.0), 0.015),
+                      }
+                  ),
+                  0.398},
+                 {new fl::Aggregated(
+                      "",
+                      fl::nan,
+                      fl::nan,
+                      fl::null,
+                      {
+                          fl::Activated(new fl::Concave("a", 0.24, 0.25), 0.015),
+                          fl::Activated(new fl::Concave("b", 0.5, 0.4), 0.5),
+                          fl::Activated(new fl::Concave("b", 0.5, 0.4), 0.5),
+                          fl::Activated(new fl::Concave("c", 0.9, 1.0), 0.015),
+                      }
+                  ),
+                  0.301},
+                 {new fl::Aggregated(
+                      "",
+                      fl::nan,
+                      fl::nan,
+                      new fl::Maximum(),
+                      {
+                          fl::Activated(new fl::SShape("a", 0.000, 0.250), 0.015),
+                          fl::Activated(new fl::ZShape("b", 0.300, 0.600), 1.0),
+                          fl::Activated(new fl::ZShape("b", 0.300, 0.600), 1.0),
+                          fl::Activated(new fl::SShape("c", 0.700, 1.000), 0.015),
+                      }
+                  ),
+                  0.302}}
+            );
+    }
+
     TEST_CASE("all defuzzifiers return nan when term is empty", "[defuzzifier]") {
         fl::DefuzzifierFactory factory;
         Aggregated aggregated;
@@ -732,5 +928,4 @@ namespace fuzzylite {
             CHECK_THAT(obtained, Approximates(fl::nan));
         }
     }
-
 }

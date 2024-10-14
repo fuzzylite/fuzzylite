@@ -46,21 +46,16 @@ namespace fuzzylite {
         return Term::_height * 0.0;
     }
 
-    scalar ZShape::tsukamoto(scalar activationDegree, scalar minimum, scalar maximum) const {
-        FL_IUNUSED(minimum);
-        FL_IUNUSED(maximum);
-
-        scalar w = activationDegree;
-        scalar z = fl::nan;
-
-        scalar difference = _end - _start;
-        scalar a = _start + std::sqrt(-0.5 * (w - 1.0) * difference * difference);
-        scalar b = _end + std::sqrt(0.5 * w * difference * difference);
-        if (std::abs(w - membership(a)) < std::abs(w - membership(b)))
-            z = a;
+    scalar ZShape::tsukamoto(scalar y) const {
+        const scalar h = getHeight();
+        const scalar s = getStart();
+        const scalar e = getEnd();
+        scalar x;
+        if (y <= h / 2)
+            x = e - (e - s) * std::sqrt(y / (2 * h));
         else
-            z = b;
-        return z;
+            x = s + (e - s) * std::sqrt((h - y) / (2 * h));
+        return x;
     }
 
     bool ZShape::isMonotonic() const {
@@ -79,7 +74,8 @@ namespace fuzzylite {
         std::size_t required = 2;
         if (values.size() < required) {
             std::ostringstream ex;
-            ex << "[configuration error] term <" << className() << ">" << " requires <" << required << "> parameters";
+            ex << "[configuration error] term <" << className() << ">"
+               << " requires <" << required << "> parameters";
             throw Exception(ex.str(), FL_AT);
         }
         setStart(Op::toScalar(values.at(0)));
