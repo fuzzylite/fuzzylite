@@ -87,15 +87,28 @@ namespace fuzzylite {
          */
         virtual std::string getTypeName() const;
         /**
-          Infers the type of the defuzzifier based on the given term. If the
-          given term is Constant, Linear or Function, then the type is
-          TakagiSugeno; otherwise, the type is Tsukamoto
+        Infers the type of the defuzzifier based on the terms in the variable.
 
-          @param term is the given term
-          @return the inferred type of the defuzzifier based on the given term
+        @param variable is a variable with terms
+
+        @return inferred type of the defuzzifier based on the variable.
          */
         virtual Type inferType(const Variable* variable) const;
+        /**
+        Infers the type of the defuzzifier based on the term.
+
+        @param term is a linguistic term
+
+        @return inferred type of the defuzzifier based on the term.
+         */
         virtual Type inferType(const Term* term) const;
+        /**
+        Infers the type of the defuzzifier based on the terms.
+
+        @param terms is a vector of linguistic terms
+
+        @return inferred type of the defuzzifier based on the terms.
+         */
         virtual Type inferType(const std::vector<const Term*>& terms) const;
 
         /**
