@@ -46,7 +46,7 @@ python:
 	python3 --version
 	python3 -m venv .venv \
 		&& . .venv/bin/activate \
-		&& python3 -m pip install "gcovr>=8" "clang-format>=19"
+		&& python3 -m pip install -r requirements-dev.txt
 
 coverage: python
 	. .venv/bin/activate \
@@ -64,6 +64,7 @@ coverage: python
 clean-coverage:
 	find build/CMakeFiles/testTarget.dir -type f -name '*.gc' -print0 | xargs -0 rm
 
+.PHONY: docs
 docs:
 	# requires doxygen
 	doxygen Doxyfile
