@@ -26,6 +26,8 @@ namespace fuzzylite {
       The NilpotentMinimum class is a TNorm that computes the nilpotent minimum
       of any two values.
 
+      @image html T-NilpotentMinimum.svg
+
       @author Juan Rada-Vilela, Ph.D.
       @see NilpotentMaximum
       @see TNorm

@@ -26,6 +26,8 @@ namespace fuzzylite {
       The DrasticSum class is an SNorm that computes the drastic sum of any two
       values.
 
+      @image html S-DrasticSum.svg
+
       @author Juan Rada-Vilela, Ph.D.
       @see DrasticProduct
       @see SNorm

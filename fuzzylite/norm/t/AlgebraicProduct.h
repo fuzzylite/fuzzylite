@@ -26,6 +26,8 @@ namespace fuzzylite {
       The AlgebraicProduct class is a TNorm that computes the algebraic product
       of any two values.
 
+      @image html T-AlgebraicProduct.svg
+
       @author Juan Rada-Vilela, Ph.D.
       @see AlgebraicSum
       @see TNorm

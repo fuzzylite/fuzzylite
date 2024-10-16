@@ -26,6 +26,8 @@ namespace fuzzylite {
       The BoundedDifference class is a TNorm that computes the bounded
       difference between any two values.
 
+      @image html T-BoundedDifference.svg
+
       @author Juan Rada-Vilela, Ph.D.
       @see BoundedSum
       @see TNorm

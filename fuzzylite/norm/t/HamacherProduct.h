@@ -26,6 +26,8 @@ namespace fuzzylite {
       The HamacherProduct class is a TNorm that computes the Hamacher product
       of any two values.
 
+      @image html T-HamacherProduct.svg
+
       @author Juan Rada-Vilela, Ph.D.
       @see HamacherSum
       @see TNorm

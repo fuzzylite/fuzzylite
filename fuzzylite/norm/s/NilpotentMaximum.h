@@ -26,6 +26,8 @@ namespace fuzzylite {
       The NilpotentMaximum class is an SNorm that computes the nilpotent
       maximum of any two values.
 
+      @image html S-NilpotentMaximum.svg
+
       @author Juan Rada-Vilela, Ph.D.
       @see NilpotentMinimum
       @see SNorm

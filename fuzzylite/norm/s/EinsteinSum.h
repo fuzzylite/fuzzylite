@@ -26,6 +26,8 @@ namespace fuzzylite {
       The EinsteinSum class is an SNorm that computes the einstein sum of any
       two values.
 
+      @image html S-EinsteinSum.svg
+
       @author Juan Rada-Vilela, Ph.D.
       @see EinsteinProduct
       @see SNorm

@@ -25,6 +25,8 @@ namespace fuzzylite {
     /**
       The Maximum class is an SNorm that computes the maximum of any two values.
 
+      @image html S-Maximum.svg
+
       @author Juan Rada-Vilela, Ph.D.
       @see Minimum
       @see SNorm

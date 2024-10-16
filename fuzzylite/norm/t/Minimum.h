@@ -25,6 +25,8 @@ namespace fuzzylite {
     /**
       The Minimum class is a TNorm that computes the minimum of any two values.
 
+      @image html T-Minimum.svg
+
       @author Juan Rada-Vilela, Ph.D.
       @see Maximum
       @see TNorm

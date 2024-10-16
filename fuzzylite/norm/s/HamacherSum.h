@@ -26,6 +26,8 @@ namespace fuzzylite {
       The HamacherSum class is an SNorm that computes the Hamacher sum of any
       two values.
 
+      @image html S-HamacherSum.svg
+
       @author Juan Rada-Vilela, Ph.D.
       @see HamacherProduct
       @see SNorm

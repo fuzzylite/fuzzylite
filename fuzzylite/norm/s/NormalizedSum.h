@@ -26,6 +26,8 @@ namespace fuzzylite {
       The NormalizedSum class is an SNorm that computes the normalized sum of
       any two values.
 
+      @image html S-NormalizedSum.svg
+
       @author Juan Rada-Vilela, Ph.D.
       @see SNorm
       @see SNormFactory

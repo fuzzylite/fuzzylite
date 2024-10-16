@@ -26,6 +26,8 @@ namespace fuzzylite {
       The DrasticProduct class is a TNorm that computes the drastic product of
       any two values.
 
+      @image html T-DrasticProduct.svg
+      
       @author Juan Rada-Vilela, Ph.D.
       @see DrasticSum
       @see TNorm

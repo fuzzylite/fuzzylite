@@ -25,6 +25,8 @@ namespace fuzzylite {
     /**
       The UnboundedSum class is an SNorm that computes the sum of any two values.
 
+      @image html S-UnboundedSum.svg
+
       @author Juan Rada-Vilela, Ph.D.
       @see BoundedSum
       @see SNorm
