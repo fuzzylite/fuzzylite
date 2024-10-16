@@ -65,8 +65,9 @@ clean-coverage:
 	find build/CMakeFiles/testTarget.dir -type f -name '*.gc' -print0 | xargs -0 rm
 
 docs:
-	# requires doxygen and graphviz
+	# requires doxygen
 	doxygen Doxyfile
+	# open docs/html/index.html
 
 jupyter:
 	$(CONTAINER) --version
