@@ -1,5 +1,5 @@
 <div align="center">
-<img src="/fuzzylite.png" alt="fuzzylite" width="10%">
+<a href="https://github.com/fuzzylite/fuzzylite"><img src="fuzzylite.png" alt="fuzzylite" width="20%"></a>
 <h1>fuzzylite: A Fuzzy Logic Control Library in C++</h1>
 
 by <a href="https://fuzzylite.com/about"><b>Juan Rada-Vilela, PhD</b></a>
