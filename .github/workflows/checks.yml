@@ -33,3 +33,6 @@ jobs:
         uses: coverallsapp/github-action@v2
         with:
           file: build/coveralls.json
+
+      - name: Documentation
+        uses: mattnotmitt/doxygen-action@v1.1.0
