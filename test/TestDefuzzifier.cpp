@@ -202,12 +202,12 @@ namespace fuzzylite {
                 .configured_as("200")
                 .exports_fll("SmallestOfMaximum 200");
 
-            // Test case:
-            //            ______
-            //      _____/      \
-             // ____/             \
-             // |                   \____
-
+            /* Test case:
+                        ______
+                  _____/      \
+             ____/             \
+            |                   \____
+            */
             FL_unique_ptr<Discrete> term(new Discrete(
                 "test",
                 {
@@ -249,12 +249,13 @@ namespace fuzzylite {
             .has_parameters("200")
             .exports_fll("LargestOfMaximum 200");
 
-        //  Test case:
-        //             ______
-        //       _____/      \
-        //  ____/             \
-        //  |                   \____
-        // /
+        /* Test case:
+                    ______
+              _____/      \
+         ____/             \
+         |                   \____
+        /
+        */
         FL_unique_ptr<Discrete> term(new Discrete(
             "test",
             {
@@ -295,12 +296,12 @@ namespace fuzzylite {
             .has_parameters("200")
             .exports_fll("MeanOfMaximum 200");
 
-        //
-        // Test case:
-        //            ______
-        //      _____/      \
-        // ____/             \
-        // |                   \____
+        /* Test case:
+                    ______
+              _____/      \
+         ____/             \
+         |                   \____
+        */
         FL_unique_ptr<Discrete> term(new Discrete(
             "test",
             {
