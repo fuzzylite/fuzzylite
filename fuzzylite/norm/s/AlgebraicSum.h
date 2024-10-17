@@ -26,6 +26,8 @@ namespace fuzzylite {
       The AlgebraicSum class is an SNorm that computes the algebraic sum of
       values any two values.
 
+      @image html S-AlgebraicSum.svg
+
       @author Juan Rada-Vilela, Ph.D.
       @see AlgebraicProduct
       @see SNorm

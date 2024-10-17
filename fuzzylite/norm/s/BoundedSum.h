@@ -26,6 +26,8 @@ namespace fuzzylite {
       The BoundedSum class is an SNorm that computes the bounded sum of any two
       values.
 
+      @image html S-BoundedSum.svg
+
       @author Juan Rada-Vilela, Ph.D.
       @see BoundedDifference
       @see SNorm

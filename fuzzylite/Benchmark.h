@@ -163,7 +163,7 @@ namespace fuzzylite {
          @param reader is the reader of a set of lines containing
          space-separated values
          @param numberOfLines is the maximum number of lines to read from the
-         reader, and a value $f@n=(\infty, -1]$f@ reads the entire file.
+         reader, and a value @f$n=(\infty, -1]@f$ reads the entire file.
          */
         virtual void prepare(std::istream& reader, long numberOfLines = -1);
 

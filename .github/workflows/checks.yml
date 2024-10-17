@@ -33,3 +33,11 @@ jobs:
         uses: coverallsapp/github-action@v2
         with:
           file: build/coveralls.json
+
+  documentation:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Doxygen
+        uses: mattnotmitt/doxygen-action@v1.1.0

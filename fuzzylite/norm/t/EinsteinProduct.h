@@ -26,6 +26,8 @@ namespace fuzzylite {
       The EinsteinProduct class is a TNorm that computes the Einstein product
       of any two values.
 
+      @image html T-EinsteinProduct.svg
+
       @author Juan Rada-Vilela, Ph.D.
       @see EinsteinSum
       @see TNorm

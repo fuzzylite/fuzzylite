@@ -91,16 +91,16 @@ namespace fuzzylite {
         virtual scalar membership(scalar x) const FL_IOVERRIDE;
 
         /**
-        Computes the tsukamoto value of the monotonic term for activation degree @f$y$@f.
+        Computes the tsukamoto value of the monotonic term for activation degree @f$y@f$.
 
         Equation:
-            @f$y = h \dfrac{x - s} {e - s}$@f
+            @f$y = h \dfrac{x - s} {e - s}@f$
 
-            @f$x = s + (e-s) \dfrac{y}{h}$@f
+            @f$x = s + (e-s) \dfrac{y}{h}@f$
 
         @param y is the activation degree
 
-        @return @f$x = s + (e-s) \dfrac{y}{h}$@f
+        @return @f$x = s + (e-s) \dfrac{y}{h}@f$
          */
         virtual scalar tsukamoto(scalar y) const FL_IOVERRIDE;
 

@@ -1,10 +1,11 @@
 <div align="center">
-<img src="/fuzzylite.png" alt="fuzzylite" width="10%">
+<a href="https://github.com/fuzzylite/fuzzylite"><img src="fuzzylite.png" alt="fuzzylite" width="20%"></a>
 <h1>fuzzylite: A Fuzzy Logic Control Library in C++</h1>
 
 by <a href="https://fuzzylite.com/about"><b>Juan Rada-Vilela, PhD</b></a>
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://opensource.org/license/gpl-3-0/) [![License: Paid](https://img.shields.io/badge/License-proprietary-blue)](mailto:sales@fuzzylite.com)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://opensource.org/license/gpl-3-0/)
+[![License: Paid](https://img.shields.io/badge/License-proprietary-blue)](mailto:sales@fuzzylite.com)
 
 [![Linux Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/main-linux.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/main-linux.yml)
 [![macOS Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/main-macos.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/main-macos.yml)
@@ -78,7 +79,7 @@ each included in the following formats: `C++`, `Java`, `fll`, `fld`, `R`, `fis`,
 
 ## <a name="example">Example</a>
 
-#### FuzzyLite Language
+### FuzzyLite Language
 
 ```yaml
 #File: ObstacleAvoidance.fll
@@ -250,7 +251,7 @@ g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/f
 
 ```bash
 #dynamic linking
-g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/fuzzylite/release/bin -lfuzzylite -Wno-non-literal-null-conversion
+g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/fuzzylite/release/bin -lfuzzylite
 ```
 
 C++98
@@ -262,7 +263,7 @@ g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/f
 
 ```bash
 #dynamic linking
-g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/fuzzylite/release/bin -lfuzzylite -DFL_CPP98=ON -Wno-non-literal-null-conversion
+g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/fuzzylite/release/bin -lfuzzylite -DFL_CPP98=ON
 ```
 
 ## <a name="cmake">CMake</a>
@@ -313,7 +314,7 @@ generally available in your system.
 The source code of `fuzzylite` is very well documented using [`doxygen`](www.doxygen.org/) formatting, and the
 documentation is available at [fuzzylite.com/documentation](https://fuzzylite.com/documentation). If you want to
 generate the documentation locally, you can produce the `html` documentation from the file [Doxyfile](/Doxyfile) using
-the command line: `doxygen Doxyfile`. The documentation will be created in the [`documentation`](/documentation) folder.
+the command line: `doxygen Doxyfile`. The documentation will be created in the [`docs`](/docs) folder.
 
 ### <a name="binaries">Binaries</a>
 

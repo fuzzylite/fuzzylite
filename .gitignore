@@ -1,5 +1,5 @@
 build/
-lib/
+.venv/
 
 # Created by https://www.toptal.com/developers/gitignore/api/c++,git,cmake,linux,macos,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=c++,git,cmake,linux,macos,windows

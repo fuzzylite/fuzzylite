@@ -46,7 +46,7 @@ python:
 	python3 --version
 	python3 -m venv .venv \
 		&& . .venv/bin/activate \
-		&& python3 -m pip install "gcovr>=8" "clang-format>=19"
+		&& python3 -m pip install -e .
 
 coverage: python
 	. .venv/bin/activate \
@@ -60,10 +60,15 @@ coverage: python
 			--html-theme github.dark-blue \
 			--txt --txt-summary \
 			build/CMakeFiles/testTarget.dir
-	# open build/coverage.html
 
 clean-coverage:
 	find build/CMakeFiles/testTarget.dir -type f -name '*.gc' -print0 | xargs -0 rm
+
+.PHONY: docs
+docs:
+	# requires doxygen
+	doxygen Doxyfile
+	# open docs/html/index.html
 
 jupyter:
 	$(CONTAINER) --version
@@ -81,10 +86,12 @@ format: python
 	. .venv/bin/activate && $(CLANG_FORMAT) --version \
 		&& find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) \
 		&& find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) \
-		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT)
+		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) \
+		&& pymarkdown --config pyproject.toml fix README.md
 
 lint: python
 	. .venv/bin/activate && $(CLANG_FORMAT) --version \
 		&& find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
 		&& find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
 		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
+		&& pymarkdown --config pyproject.toml scan README.md
