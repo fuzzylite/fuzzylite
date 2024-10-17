@@ -27,7 +27,7 @@ namespace fuzzylite {
       any two values.
 
       @image html T-DrasticProduct.svg
-      
+
       @author Juan Rada-Vilela, Ph.D.
       @see DrasticSum
       @see TNorm
