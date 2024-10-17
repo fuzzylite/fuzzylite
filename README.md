@@ -4,7 +4,8 @@
 
 by <a href="https://fuzzylite.com/about"><b>Juan Rada-Vilela, PhD</b></a>
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://opensource.org/license/gpl-3-0/) [![License: Paid](https://img.shields.io/badge/License-proprietary-blue)](mailto:sales@fuzzylite.com)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://opensource.org/license/gpl-3-0/)
+[![License: Paid](https://img.shields.io/badge/License-proprietary-blue)](mailto:sales@fuzzylite.com)
 
 [![Linux Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/main-linux.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/main-linux.yml)
 [![macOS Build](https://github.com/fuzzylite/fuzzylite/actions/workflows/main-macos.yml/badge.svg)](https://github.com/fuzzylite/fuzzylite/actions/workflows/main-macos.yml)
@@ -78,7 +79,7 @@ each included in the following formats: `C++`, `Java`, `fll`, `fld`, `R`, `fis`,
 
 ## <a name="example">Example</a>
 
-#### FuzzyLite Language
+### FuzzyLite Language
 
 ```yaml
 #File: ObstacleAvoidance.fll
@@ -250,7 +251,7 @@ g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/f
 
 ```bash
 #dynamic linking
-g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/fuzzylite/release/bin -lfuzzylite -Wno-non-literal-null-conversion
+g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/fuzzylite/release/bin -lfuzzylite
 ```
 
 C++98
@@ -262,7 +263,7 @@ g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/f
 
 ```bash
 #dynamic linking
-g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/fuzzylite/release/bin -lfuzzylite -DFL_CPP98=ON -Wno-non-literal-null-conversion
+g++ ObstacleAvoidance.cpp -o ObstacleAvoidance -I/path/to/fuzzylite -L/path/to/fuzzylite/release/bin -lfuzzylite -DFL_CPP98=ON
 ```
 
 ## <a name="cmake">CMake</a>
