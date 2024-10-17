@@ -42,7 +42,7 @@ DOXYFILE_ENCODING      = UTF-8
 # title of most generated pages and in a few other places.
 # The default value is: My Project.
 
-PROJECT_NAME           = "fuzzylite"
+PROJECT_NAME           = fuzzylite
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number. This
 # could be handy for archiving the generated documentation or if some version
@@ -965,7 +965,11 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = fuzzylite/ fl/ src/ test/ README.md
+INPUT                  = fuzzylite/ \
+                         fl/ \
+                         src/ \
+                         test/ \
+                         README.md
 
 # This tag can be used to specify the character encoding of the source files
 # that Doxygen parses. Internally Doxygen uses the UTF-8 encoding. Doxygen uses
@@ -1005,7 +1009,8 @@ INPUT_FILE_ENCODING    =
 # be provided as Doxygen C comment), *.py, *.pyw, *.f90, *.f95, *.f03, *.f08,
 # *.f18, *.f, *.for, *.vhd, *.vhdl, *.ucf, *.qsf and *.ice.
 
-FILE_PATTERNS          = *.h *.cpp
+FILE_PATTERNS          = *.h \
+                         *.cpp
 
 # The RECURSIVE tag can be used to specify whether or not subdirectories should
 # be searched for input files as well.
@@ -1050,18 +1055,25 @@ EXCLUDE_SYMBOLS        =
 # that contain example code fragments that are included (see the \include
 # command).
 
-EXAMPLE_PATH           =    examples/mamdani \
-                            examples/takagi-sugeno \
-                            examples/tsukamoto \
-                            examples/hybrid \
-                            examples/application
+EXAMPLE_PATH           = examples/mamdani \
+                         examples/takagi-sugeno \
+                         examples/tsukamoto \
+                         examples/hybrid \
+                         examples/application
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp and
 # *.h) to filter out the source-files in the directories. If left blank all
 # files are included.
 
-EXAMPLE_PATTERNS       = *.fll *.fld *.cpp *.java *.fis *.fcl *.R *.py
+EXAMPLE_PATTERNS       = *.fll \
+                         *.fld \
+                         *.cpp \
+                         *.java \
+                         *.fis \
+                         *.fcl \
+                         *.R \
+                         *.py
 
 # If the EXAMPLE_RECURSIVE tag is set to YES then subdirectories will be
 # searched for input files to be used with the \include or \dontinclude commands
@@ -1761,7 +1773,7 @@ FORMULA_FONTSIZE       = 14
 # to create new LaTeX commands to be used in formulas as building blocks. See
 # the section "Including formulas" for details.
 
-FORMULA_TRANSPARENT    = YES
+FORMULA_MACROFILE      =
 
 # Enable the USE_MATHJAX option to render LaTeX formulas using MathJax (see
 # https://www.mathjax.org) which uses client side JavaScript for the rendering
@@ -1773,6 +1785,17 @@ FORMULA_TRANSPARENT    = YES
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
 USE_MATHJAX            = YES
+
+# With MATHJAX_VERSION it is possible to specify the MathJax version to be used.
+# Note that the different versions of MathJax have different requirements with
+# regards to the different settings, so it is possible that also other MathJax
+# settings have to be changed when switching between the different MathJax
+# versions.
+# Possible values are: MathJax_2 and MathJax_3.
+# The default value is: MathJax_2.
+# This tag requires that the tag USE_MATHJAX is set to YES.
+
+MATHJAX_VERSION        = MathJax_2
 
 # When MathJax is enabled you can set the default output format to be used for
 # the MathJax output. For more details about the output format see MathJax
@@ -1804,7 +1827,6 @@ MATHJAX_FORMAT         = HTML-CSS
 # This tag requires that the tag USE_MATHJAX is set to YES.
 
 MATHJAX_RELPATH        = https://cdn.mathjax.org/mathjax/latest/
-# The path should be set to ./MathJax, but there is no way to use it in Doxygen
 
 # The MATHJAX_EXTENSIONS tag can be used to specify one or more MathJax
 # extension names that should be enabled during MathJax rendering. For example
@@ -1816,7 +1838,8 @@ MATHJAX_RELPATH        = https://cdn.mathjax.org/mathjax/latest/
 # MATHJAX_EXTENSIONS = ams
 # This tag requires that the tag USE_MATHJAX is set to YES.
 
-MATHJAX_EXTENSIONS     = TeX/AMSmath TeX/AMSsymbols
+MATHJAX_EXTENSIONS     = TeX/AMSmath \
+                         TeX/AMSsymbols
 
 # The MATHJAX_CODEFILE tag can be used to specify a file with JavaScript pieces
 # of code that will be used on startup of the MathJax code. See the MathJax site
@@ -1991,7 +2014,7 @@ PAPER_TYPE             = a4
 # If left blank no extra packages will be included.
 # This tag requires that the tag GENERATE_LATEX is set to YES.
 
-EXTRA_PACKAGES         ={amsmath}
+EXTRA_PACKAGES         = {amsmath}
 
 # The LATEX_HEADER tag can be used to specify a user-defined LaTeX header for
 # the generated LaTeX document. The header should contain everything until the
@@ -2392,7 +2415,7 @@ INCLUDE_FILE_PATTERNS  =
 # recursively expanded use the := operator instead of the = operator.
 # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
 
-PREDEFINED             = [ FL_IFINAL ]
+PREDEFINED             = FL_IFINAL
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The
