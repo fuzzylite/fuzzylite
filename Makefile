@@ -46,7 +46,7 @@ python:
 	python3 --version
 	python3 -m venv .venv \
 		&& . .venv/bin/activate \
-		&& python3 -m pip install -r requirements-dev.txt
+		&& python3 -m pip install -e .
 
 coverage: python
 	. .venv/bin/activate \
@@ -86,10 +86,12 @@ format: python
 	. .venv/bin/activate && $(CLANG_FORMAT) --version \
 		&& find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) \
 		&& find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) \
-		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT)
+		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) \
+		&& pymarkdown --config pyproject.toml fix README.md
 
 lint: python
 	. .venv/bin/activate && $(CLANG_FORMAT) --version \
 		&& find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
 		&& find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
 		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
+		&& pymarkdown --config pyproject.toml scan README.md
