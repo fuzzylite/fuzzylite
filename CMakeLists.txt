@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.15)
 
 set(FL_VERSION 7.0.0)
 project(fuzzylite VERSION ${FL_VERSION} LANGUAGES CXX)
