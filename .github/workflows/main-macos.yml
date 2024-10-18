@@ -12,6 +12,7 @@ jobs:
       matrix:
         cxx-standard: [ 98, 11, 23 ]
         use_float: [ OFF, ON ]
+        generator: [ "Unix Makefiles" , "Xcode" ]
 
     steps:
       - uses: actions/checkout@v4
@@ -21,12 +22,12 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: build/_deps
-          key: ${{ runner.os }}-cmake-deps
+          key: ${{ runner.os }}-${{ matrix.generator }}-cmake-deps
 
       - name: Building FuzzyLite
         env:
           CXX_STANDARD: ${{ matrix.cxx-standard }}
-          CMAKE_GENERATOR: "Xcode"
+          CMAKE_GENERATOR: ${{ matrix.generator }}
         run: |
           make configure STRICT=ON TESTS=ON FLOAT=${{ matrix.use_float }}
           make build

@@ -24,7 +24,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: build/_deps
-          key: ${{ runner.os }}-cmake-deps
+          key: ${{ runner.os }}-${{ matrix.generator }}-cmake-deps
 
       - name: Building FuzzyLite
         env:
