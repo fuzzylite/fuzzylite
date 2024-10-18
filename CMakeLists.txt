@@ -99,7 +99,7 @@ list(APPEND fl-targets "")
 
 set(CMAKE_DEBUG_POSTFIX debug)
 
-if (MSVC OR CMAKE_GENERATOR STREQUAL Xcode)
+if (MSVC)
     if (FL_BUILD_SHARED)
         add_library(dynamicTarget SHARED ${fl-headers} ${fl-sources})
     endif ()
@@ -115,6 +115,9 @@ else ()
         # they are marked as PRIVATE.
         target_include_directories(objectTarget PRIVATE ${PROJECT_SOURCE_DIR})
         set_target_properties(objectTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
+        if (NOT MINGW)
+            set_target_properties(objectTarget PROPERTIES POSITION_INDEPENDENT_CODE ON)
+        endif ()
     endif ()
 
     if (FL_BUILD_SHARED)
