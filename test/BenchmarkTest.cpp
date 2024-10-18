@@ -17,6 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include <catch2/catch.hpp>
 #include <fstream>
+#include <typeinfo>
 #include <vector>
 
 #include "fuzzylite/Benchmark.h"
@@ -30,8 +31,17 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Benchmarks from FLD files", "[benchmark][fld]") {
-        // Assumes current path is in `build/` subdirectory
-        const std::string path("../examples/");
+#ifdef FL_WINDOWS
+        const std::string sep("\\");
+#else
+        const std::string sep("/");
+#endif
+        const std::string here(__FILE__);
+        std::string test;
+        std::size_t index = here.rfind(sep);
+        if (index != std::string::npos)
+            test = here.substr(0, index + 1);
+        const std::string path(test + ".." + sep + "examples" + sep);
         const int test_values = 1024;
         std::vector<std::string> examples;
         examples.push_back("mamdani/AllTerms");
@@ -70,18 +80,16 @@ namespace fuzzylite {
         std::vector<int> errors = std::vector<int>(examples.size(), 0);
         for (std::size_t i = 0; i < examples.size(); ++i) {
             const std::string example = examples.at(i);
-            CAPTURE(example);
-            FL_unique_ptr<Engine> engine(FllImporter().fromFile(path + example + ".fll"));
-#ifdef FL_USE_FLOAT
-            scalar tolerance = 1e-3;
-#else
-            scalar tolerance = fuzzylite::absoluteTolerance();
-#endif
+            const std::string base_file = path + example;
+            CAPTURE(example, base_file);
+            FL_unique_ptr<Engine> engine(FllImporter().fromFile(base_file + ".fll"));
+
+            const scalar tolerance = typeid(scalar) == typeid(float) ? 1e-3 : fuzzylite::absoluteTolerance();
             Benchmark benchmark(example, engine.get(), tolerance);
 
-            std::ifstream reader(std::string(path + example + ".fld").c_str());
+            std::ifstream reader(std::string(base_file + ".fld").c_str());
             if (not reader.is_open())
-                throw Exception("File not found: " + path + example + ".fld");
+                throw Exception("File not found: " + base_file + ".fld");
             benchmark.prepare(reader, test_values);
             benchmark.run(1);
             CHECK(benchmark.canComputeErrors() == true);
@@ -90,14 +98,16 @@ namespace fuzzylite {
 
         for (std::size_t i = 0; i < errors.size(); ++i) {
             const std::string example = examples.at(i);
-            CAPTURE(example);
-            if (errors.at(i) > 0 or example.find("tsukamoto") != std::string::npos) {
-                FL_unique_ptr<Engine> engine(FllImporter().fromFile(path + example + ".fll"));
-                fl::fuzzylite::setDecimals(9);
-                FldExporter().toFile(path + example + ".fld.diff", engine.get(), test_values);
-                fl::fuzzylite::setDecimals(3);
-            }
-            CHECK(errors.at(i) == 0);
+            const std::string base_file = path + example;
+            CAPTURE(example, path);
+            // when built with scalar=float, tsukamoto correctly produces infinity in 44 input cases,
+            // whereas such is not the case when scalar=double. Specifically, when iterating over x and:
+            // when scalar==float and $y = 1.0$: sigmoid::tsukamoto(y=1)=...log(1.0 / (y - 1.0)) = +Inf.
+            // when scalar==double, $y = 0.99999999996$, which prevents infinity.
+            if (typeid(scalar) == typeid(float) and example.find("tsukamoto") != std::string::npos)
+                CHECK(errors.at(i) == 44);
+            else
+                CHECK(errors.at(i) == 0);
         }
     }
 
