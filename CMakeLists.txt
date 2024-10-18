@@ -101,7 +101,7 @@ list(APPEND fl-targets "")
 
 set(CMAKE_DEBUG_POSTFIX debug)
 
-if (MSVC)
+if (MSVC OR CMAKE_GENERATOR STREQUAL Xcode)
     if (FL_BUILD_SHARED)
         add_library(dynamicTarget SHARED ${fl-headers} ${fl-sources})
     endif ()
