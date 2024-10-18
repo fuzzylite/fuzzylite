@@ -12,7 +12,7 @@ jobs:
       matrix:
         cxx-standard: [ 98, 11, 23 ]
         use_float: [ OFF, ON ]
-        platform: [ x64 ]
+        generator: ["NMake Makefiles", "Visual Studio 17 2022"]
 
     steps:
       - uses: actions/checkout@v4
@@ -24,12 +24,13 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: build/_deps
-          key: ${{ runner.os }}-cmake-deps
+          key: ${{ runner.os }}-${{ matrix.generator }}-cmake-deps
 
       - name: Building FuzzyLite
         shell: cmd
         env:
           CXX_STANDARD: ${{ matrix.cxx-standard }}
+          CMAKE_GENERATOR: ${{ matrix.generator }}
         run: |
           nmake configure STRICT=OFF TESTS=ON FLOAT=${{ matrix.use_float }} 
           nmake build

@@ -9,8 +9,8 @@ endif ()
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include(GNUInstallDirs)
 # GNUInstallDirs: resolves common paths (eg, CMAKE_INSTALL_[LIB|INCLUDE|DATAROOT]DIR)
+include(GNUInstallDirs)
 
 ###DEFINES SECTION
 option(FL_BUILD_SHARED "Build shared library" ON)
@@ -45,29 +45,34 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 if (UNIX)
     #Add Unix compilation flags
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wall -Wextra") # -Wconversion -Wsign-conversion
+    add_compile_options(-pedantic -Wall -Wextra) # -Wconversion -Wsign-conversion
     if (FL_WARNINGS_AS_ERRORS)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+        add_compile_options(-Werror)
     endif ()
     if (NOT APPLE)
-        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined")
+        add_link_options(-Wl,--no-undefined)
     endif ()
+
+    # strip path from __FILE__
+    # add_compile_options(-fmacro-prefix-map=${CMAKE_SOURCE_DIR}=.)
 endif ()
 
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "^(Apple)?Clang$")
     #Address fl::null errors of literal null conversion
-    #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-non-literal-null-conversion")
+    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-non-literal-null-conversion")
     #TEMPORAL: flag removal to avoid warnings of `float` variadic in Operation::join
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-varargs")
+    add_compile_options(-Wno-varargs)
 endif ()
 
 set(FL_LIBS)
 
 if (MSVC)
     #Set compilation flags in Windows
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /EHsc")
+    add_compile_options(/W4 /EHsc)
+    # disable warning converting double<=>scalar
+    add_compile_options(/w44101)
     if (FL_WARNINGS_AS_ERRORS)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX")
+        add_compile_options(/WX)
     endif ()
     #Wx: Treat warnings as errors. W4: All warnings
     #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
@@ -111,11 +116,10 @@ else ()
         # these should only be visile to objectTarget at this time, so
         # they are marked as PRIVATE.
         target_include_directories(objectTarget PRIVATE ${PROJECT_SOURCE_DIR})
-
-        if (NOT MINGW)
-            set_target_properties(objectTarget PROPERTIES COMPILE_FLAGS "-fPIC")
-        endif ()
         set_target_properties(objectTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
+        if (NOT MINGW)
+            set_target_properties(objectTarget PROPERTIES POSITION_INDEPENDENT_CODE ON)
+        endif ()
     endif ()
 
     if (FL_BUILD_SHARED)
@@ -227,6 +231,9 @@ elseif (FL_BUILD_TESTS)
     set_target_properties(testTarget PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(testTarget PROPERTIES DEBUG_POSTFIX -debug)
 
+    # disable creation of test targets for nightly, continuous and experimental builds
+    set_property(GLOBAL PROPERTY CTEST_TARGETS_ADDED ON)
+
     include(CTest)
     include(Catch)
 
@@ -283,7 +290,9 @@ message("FL_BUILD_TESTS=${FL_BUILD_TESTS}")
 message("FL_BUILD_COVERAGE=${FL_BUILD_COVERAGE}")
 message("FL_WARNINGS_AS_ERRORS=${FL_WARNINGS_AS_ERRORS}")
 message("")
+message("CMAKE_GENERATOR=${CMAKE_GENERATOR}")
 message("CMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD}")
+message("CMAKE_GENERATOR_PLATFORM=${CMAKE_GENERATOR_PLATFORM}")
 message("CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
 message("CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}")
 message("CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}")
