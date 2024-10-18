@@ -26,6 +26,7 @@ jobs:
       - name: Building FuzzyLite
         env:
           CXX_STANDARD: ${{ matrix.cxx-standard }}
+          CMAKE_GENERATOR: "Xcode"
         run: |
           make configure STRICT=ON TESTS=ON FLOAT=${{ matrix.use_float }}
           make build

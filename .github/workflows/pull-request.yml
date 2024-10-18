@@ -25,10 +25,20 @@ jobs:
           path: build/_deps
           key: ${{ runner.os }}-cmake-deps
 
-      - name: Build fuzzylite on Unix
-        if: ${{ matrix.os != 'windows-latest'}}
+      - name: Build fuzzylite on Linux
+        if: ${{ matrix.os == 'ubuntu-latest'}}
         env:
           CXX_STANDARD: ${{ matrix.cxx-standard }}
+        run: |
+          make configure STRICT=ON TESTS=ON 
+          make build
+          make test
+
+      - name: Build fuzzylite on Apple
+        if: ${{ matrix.os == 'macos-latest'}}
+        env:
+          CXX_STANDARD: ${{ matrix.cxx-standard }}
+          CMAKE_GENERATOR: "Xcode"
         run: |
           make configure STRICT=ON TESTS=ON 
           make build
