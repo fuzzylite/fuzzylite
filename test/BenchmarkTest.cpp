@@ -17,6 +17,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 
 #include <catch2/catch.hpp>
 #include <fstream>
+#include <typeinfo>
 #include <vector>
 
 #include "fuzzylite/Benchmark.h"
@@ -30,81 +31,83 @@ namespace fuzzylite {
     }
 
     TEST_CASE("Benchmarks from FLD files", "[benchmark][fld]") {
-        // Assumes current path is in `build/` subdirectory
-        const std::string path("../examples/");
-        typedef std::pair<std::string, int> Example;
-        std::vector<Example> examples;
-        examples.push_back(Example("mamdani/AllTerms", int(1e4)));
-        examples.push_back(Example("mamdani/SimpleDimmer", int(1e5)));
-        examples.push_back(Example("mamdani/matlab/mam21", 128));
-        examples.push_back(Example("mamdani/matlab/mam22", 128));
-        examples.push_back(Example("mamdani/matlab/shower", 256));
-        examples.push_back(Example("mamdani/matlab/tank", 256));
-        examples.push_back(Example("mamdani/matlab/tank2", 512));
-        examples.push_back(Example("mamdani/matlab/tipper", 256));
-        examples.push_back(Example("mamdani/matlab/tipper1", int(1e5)));
-        examples.push_back(Example("mamdani/octave/investment_portfolio", 256));
-        examples.push_back(Example("mamdani/octave/mamdani_tip_calculator", 256));
-        examples.push_back(Example("takagi-sugeno/approximation", int(1e6)));
-        examples.push_back(Example("takagi-sugeno/SimpleDimmer", int(2e6)));
-        examples.push_back(Example("takagi-sugeno/matlab/fpeaks", 512));
-        examples.push_back(Example("takagi-sugeno/matlab/invkine1", 256));
-        examples.push_back(Example("takagi-sugeno/matlab/invkine2", 256));
-        examples.push_back(Example("takagi-sugeno/matlab/juggler", 512));
-        examples.push_back(Example("takagi-sugeno/matlab/membrn1", 1024));
-        examples.push_back(Example("takagi-sugeno/matlab/membrn2", 512));
-        examples.push_back(Example("takagi-sugeno/matlab/slbb", 20));
-        examples.push_back(Example("takagi-sugeno/matlab/slcp", 20));
-        examples.push_back(Example("takagi-sugeno/matlab/slcp1", 15));
-        examples.push_back(Example("takagi-sugeno/matlab/slcpp1", 9));
-        examples.push_back(Example("takagi-sugeno/matlab/sltbu_fl", 128));
-        examples.push_back(Example("takagi-sugeno/matlab/sugeno1", int(2e6)));
-        examples.push_back(Example("takagi-sugeno/matlab/tanksg", 1024));
-        examples.push_back(Example("takagi-sugeno/matlab/tippersg", 1024));
-        examples.push_back(Example("takagi-sugeno/octave/cubic_approximator", int(2e6)));
-        examples.push_back(Example("takagi-sugeno/octave/heart_disease_risk", 1024));
-        examples.push_back(Example("takagi-sugeno/octave/linear_tip_calculator", 1024));
-        examples.push_back(Example("takagi-sugeno/octave/sugeno_tip_calculator", 512));
-        examples.push_back(Example("tsukamoto/tsukamoto", int(1e6)));
+#ifdef FL_WINDOWS
+        const std::string sep("\\");
+#else
+        const std::string sep("/");
+#endif
+        const std::string here(__FILE__);
+        std::string test;
+        std::size_t index = here.rfind(sep);
+        if (index != std::string::npos)
+            test = here.substr(0, index + 1);
+        const std::string path(test + ".." + sep + "examples" + sep);
+        const int test_values = 1024;
+        std::vector<std::string> examples;
+        examples.push_back("mamdani/AllTerms");
+        examples.push_back("mamdani/SimpleDimmer");
+        examples.push_back("mamdani/matlab/mam21");
+        examples.push_back("mamdani/matlab/mam22");
+        examples.push_back("mamdani/matlab/shower");
+        examples.push_back("mamdani/matlab/tank");
+        examples.push_back("mamdani/matlab/tank2");
+        examples.push_back("mamdani/matlab/tipper");
+        examples.push_back("mamdani/matlab/tipper1");
+        examples.push_back("mamdani/octave/investment_portfolio");
+        examples.push_back("mamdani/octave/mamdani_tip_calculator");
+        examples.push_back("takagi-sugeno/approximation");
+        examples.push_back("takagi-sugeno/SimpleDimmer");
+        examples.push_back("takagi-sugeno/matlab/fpeaks");
+        examples.push_back("takagi-sugeno/matlab/invkine1");
+        examples.push_back("takagi-sugeno/matlab/invkine2");
+        examples.push_back("takagi-sugeno/matlab/juggler");
+        examples.push_back("takagi-sugeno/matlab/membrn1");
+        examples.push_back("takagi-sugeno/matlab/membrn2");
+        examples.push_back("takagi-sugeno/matlab/slbb");
+        examples.push_back("takagi-sugeno/matlab/slcp");
+        examples.push_back("takagi-sugeno/matlab/slcp1");
+        examples.push_back("takagi-sugeno/matlab/slcpp1");
+        examples.push_back("takagi-sugeno/matlab/sltbu_fl");
+        examples.push_back("takagi-sugeno/matlab/sugeno1");
+        examples.push_back("takagi-sugeno/matlab/tanksg");
+        examples.push_back("takagi-sugeno/matlab/tippersg");
+        examples.push_back("takagi-sugeno/octave/cubic_approximator");
+        examples.push_back("takagi-sugeno/octave/heart_disease_risk");
+        examples.push_back("takagi-sugeno/octave/linear_tip_calculator");
+        examples.push_back("takagi-sugeno/octave/sugeno_tip_calculator");
+        examples.push_back("tsukamoto/tsukamoto");
 
-        std::ostringstream writer;
         std::vector<int> errors = std::vector<int>(examples.size(), 0);
         for (std::size_t i = 0; i < examples.size(); ++i) {
-            Example example = examples.at(i);
-            FL_LOG(
-                "Benchmark " << (i + 1) << "/" << examples.size() << ": " << example.first << ".fll (" << example.second
-                             << " values)"
-            );
+            const std::string example = examples.at(i);
+            const std::string base_file = path + example;
+            CAPTURE(example, base_file);
+            FL_unique_ptr<Engine> engine(FllImporter().fromFile(base_file + ".fll"));
 
-            FL_unique_ptr<Engine> engine(FllImporter().fromFile(path + example.first + ".fll"));
+            const scalar tolerance = typeid(scalar) == typeid(float) ? 1e-3 : fuzzylite::absoluteTolerance();
+            Benchmark benchmark(example, engine.get(), tolerance);
 
-#ifdef FL_USE_FLOAT
-            scalar tolerance = 1e-3;
-#else
-            scalar tolerance = fuzzylite::macheps();
-#endif
-            Benchmark benchmark(example.first, engine.get(), tolerance);
-
-            std::ifstream reader(std::string(path + example.first + ".fld").c_str());
+            std::ifstream reader(std::string(base_file + ".fld").c_str());
             if (not reader.is_open())
-                throw Exception("File not found: " + path + example.first + ".fld");
-            benchmark.prepare(reader, 1024);
+                throw Exception("File not found: " + base_file + ".fld");
+            benchmark.prepare(reader, test_values);
             benchmark.run(1);
             CHECK(benchmark.canComputeErrors() == true);
             errors.at(i) = benchmark.accuracyErrors();
-
-            if (i == 0) {
-                writer << "\n"
-                       << benchmark.format(benchmark.results(), Benchmark::Horizontal, Benchmark::HeaderAndBody)
-                       << "\n";
-            } else {
-                writer << benchmark.format(benchmark.results(), Benchmark::Horizontal, Benchmark::Body) << "\n";
-            }
         }
-        FL_LOG(writer.str());
+
         for (std::size_t i = 0; i < errors.size(); ++i) {
-            FL_LOG("Checking for errors in: " << examples.at(i).first);
-            CHECK(errors.at(i) == 0);
+            const std::string example = examples.at(i);
+            const std::string base_file = path + example;
+            CAPTURE(example, path);
+            // when built with scalar=float, tsukamoto correctly produces infinity in 44 input cases,
+            // whereas such is not the case when scalar=double. Specifically, when iterating over x and:
+            // when scalar==float and $y = 1.0$: sigmoid::tsukamoto(y=1)=...log(1.0 / (y - 1.0)) = +Inf.
+            // when scalar==double, $y = 0.99999999996$, which prevents infinity.
+            if (typeid(scalar) == typeid(float) and example.find("tsukamoto") != std::string::npos)
+                CHECK(errors.at(i) == 44);
+            else
+                CHECK(errors.at(i) == 0);
         }
     }
 
