@@ -229,6 +229,9 @@ elseif (FL_BUILD_TESTS)
     set_target_properties(testTarget PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(testTarget PROPERTIES DEBUG_POSTFIX -debug)
 
+    # disable creation of test targets for nightly, continuous and experimental builds
+    set_property(GLOBAL PROPERTY CTEST_TARGETS_ADDED ON)
+
     include(CTest)
     include(Catch)
 
