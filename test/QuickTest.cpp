@@ -126,20 +126,4 @@ namespace fuzzylite {
         CHECK(xstr(4 + 10) == std::string("4 + 10"));
     }
 
-    TEST_CASE("Tsukamoto", "[tsukamoto]") {
-        const std::string path("/tmp/examples/");
-        const std::string example("tsukamoto/tsukamoto");
-        std::unique_ptr<Engine> engine(FllImporter().fromFile(path + example + ".fll"));
-        const std::vector<scalar> infinity{-0.263929367, -0.244379044, -0.224828720, -0.205278397, -0.185728073,
-                                           -0.166177750, -0.146627426, -0.127077103, -0.107526779, -0.087976456,
-                                           -0.068426132, -0.048875809, -0.029325485, -0.009775162, 0.009775162,
-                                           0.029325485,  0.048875809,  0.068426132,  0.087976456,  0.107526779,
-                                           0.127077103,  0.146627426,  0.166177750,  0.185728073,  0.205278397,
-                                           0.224828720,  0.244379044,  0.263929367};
-        for (auto input: infinity) {
-            engine->getInputVariable(0)->setValue(input);
-            engine->process();
-        }
-    }
-
 }  // namespace fuzzylite
