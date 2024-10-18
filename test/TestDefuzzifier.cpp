@@ -48,7 +48,7 @@ namespace fuzzylite {
         DefuzzifierAssert& defuzzifies(
             scalar minimum,
             scalar maximum,
-            const std::map<fl::Term*, float>& terms,
+            const std::map<fl::Term*, scalar>& terms,
             scalar precision = fuzzylite::absoluteTolerance()
         ) {
             for (const auto& pair : terms) {
