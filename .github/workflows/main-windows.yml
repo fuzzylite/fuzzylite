@@ -32,7 +32,7 @@ jobs:
           CXX_STANDARD: ${{ matrix.cxx-standard }}
           CMAKE_GENERATOR: ${{ matrix.generator }}
         run: |
-          nmake configure STRICT=OFF TESTS=ON FLOAT=${{ matrix.use_float }} 
+          nmake configure STRICT=ON TESTS=ON FLOAT=${{ matrix.use_float }} 
           nmake build
           nmake test
 

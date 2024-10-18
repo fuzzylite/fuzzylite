@@ -51,7 +51,7 @@ jobs:
         env:
           CXX_STANDARD: ${{ matrix.cxx-standard }}
         run: |
-          nmake configure STRICT=OFF TESTS=ON FLOAT=${{ matrix.float }}
+          nmake configure STRICT=ON TESTS=ON FLOAT=${{ matrix.float }}
           nmake build
           nmake test
 
