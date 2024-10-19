@@ -18,11 +18,6 @@
 #include "Headers.h"
 #include "fl/Headers.h"
 
-/**
- * TODO:
- * - Fix Tsukamoto tests
- */
-
 namespace fuzzylite {
     struct TermAssert {
         FL_unique_ptr<Term> actual;
