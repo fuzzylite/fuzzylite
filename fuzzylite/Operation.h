@@ -714,15 +714,15 @@ namespace fuzzylite {
     }
 
     inline scalar Operation::logicalAnd(scalar a, scalar b) {
-        return (isEq(a, 1.0) and isEq(b, 1.0)) ? 1.0 : 0.0;
+        return (isEq(a, 1) and isEq(b, 1)) ? 1 : 0;
     }
 
     inline scalar Operation::logicalOr(scalar a, scalar b) {
-        return (isEq(a, 1.0) or isEq(b, 1.0)) ? 1.0 : 0.0;
+        return (isEq(a, 1) or isEq(b, 1)) ? 1 : 0;
     }
 
     inline scalar Operation::logicalNot(scalar a) {
-        return isEq(a, 1.0) ? 0.0 : 1.0;
+        return isEq(a, 1) ? 0 : 1;
     }
 
     inline scalar Operation::negate(scalar a) {
@@ -819,7 +819,7 @@ namespace fuzzylite {
         if (x.empty())
             return fl::nan;
         if (x.size() == 1)
-            return scalar(0.0);
+            return 0;
         scalar result = 0.0;
         for (std::size_t i = 0; i < x.size(); ++i)
             result += (x.at(i) - mean) * (x.at(i) - mean);
