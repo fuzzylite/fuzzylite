@@ -56,13 +56,15 @@ coverage: python
 			--coveralls build/coveralls.json \
 			--html build/coverage.html \
 			--html-details \
+			--html-single-page \
 			--sort uncovered-percent \
 			--html-theme github.dark-blue \
 			--txt --txt-summary \
 			build/CMakeFiles/testTarget.dir
+	# open build/coverage.html
 
 clean-coverage:
-	find build/CMakeFiles/testTarget.dir -type f -name '*.gc' -print0 | xargs -0 rm
+	find build/CMakeFiles/testTarget.dir -type f -name '*.gcda' -print0 | xargs -0 rm
 
 .PHONY: docs
 docs:
