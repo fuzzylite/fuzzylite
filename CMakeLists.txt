@@ -74,7 +74,7 @@ if (MSVC)
         if (FL_USE_FLOAT)
             # warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
             # warning C4305: 'return': truncation from 'double' to 'fuzzylite::scalar'
-            add_compile_options(/w4244 /w4305)
+            add_compile_options(/wd4244 /wd4305)
         endif ()
     endif ()
     #Wx: Treat warnings as errors. W4: All warnings
