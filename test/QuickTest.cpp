@@ -16,6 +16,7 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 */
 
 #include <catch2/catch.hpp>
+#include <typeinfo>
 
 #include "fuzzylite/Headers.h"
 
@@ -124,6 +125,14 @@ namespace fuzzylite {
 #define xstr(s) str(s)
 #define str(s) #s
         CHECK(xstr(4 + 10) == std::string("4 + 10"));
+    }
+
+    TEST_CASE("scalar is properly defined") {
+#ifdef FL_USE_FLOAT
+        CHECK(typeid(fl::scalar) == typeid(float));
+#else
+        CHECK(typeid(fl::scalar) == typeid(double));
+#endif
     }
 
 }  // namespace fuzzylite

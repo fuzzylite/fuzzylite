@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.15)
 
 set(FL_VERSION 7.0.0)
 project(fuzzylite VERSION ${FL_VERSION} LANGUAGES CXX)
@@ -69,10 +69,13 @@ set(FL_LIBS)
 if (MSVC)
     #Set compilation flags in Windows
     add_compile_options(/W4 /EHsc)
-    # disable warning converting double<=>scalar
-    add_compile_options(/w44101)
     if (FL_WARNINGS_AS_ERRORS)
         add_compile_options(/WX)
+        if (FL_USE_FLOAT)
+            # warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+            # warning C4305: 'return': truncation from 'double' to 'fuzzylite::scalar'
+            add_compile_options(/wd4244 /wd4305)
+        endif ()
     endif ()
     #Wx: Treat warnings as errors. W4: All warnings
     #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
