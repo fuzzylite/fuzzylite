@@ -92,8 +92,12 @@ format: python
 		&& pymarkdown --config pyproject.toml fix README.md
 
 lint: python
-	. .venv/bin/activate && $(CLANG_FORMAT) --version \
+	. .venv/bin/activate \
+		&& echo `$(CLANG_FORMAT) --version` \
 		&& find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
 		&& find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
 		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
-		&& pymarkdown --config pyproject.toml scan README.md
+		&& echo "pymarkdown: `pymarkdown version`" \
+		&& pymarkdown --config pyproject.toml scan README.md \
+		&& echo `cmakelint --version` \
+		&& cmakelint CMakeLists.txt

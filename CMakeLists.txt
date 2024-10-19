@@ -32,7 +32,7 @@ endif ()
 
 if (FL_USE_FLOAT)
     add_definitions(-DFL_USE_FLOAT)
-endif (FL_USE_FLOAT)
+endif ()
 
 if (FL_BACKTRACE)
     add_definitions(-DFL_BACKTRACE)
@@ -127,11 +127,11 @@ else ()
 
     if (FL_BUILD_SHARED)
         add_library(dynamicTarget SHARED $<TARGET_OBJECTS:objectTarget>)
-    endif (FL_BUILD_SHARED)
+    endif ()
 
     if (FL_BUILD_STATIC)
         add_library(staticTarget STATIC $<TARGET_OBJECTS:objectTarget>)
-    endif (FL_BUILD_STATIC)
+    endif ()
 endif ()
 
 if (FL_BUILD_SHARED)
@@ -179,7 +179,7 @@ if (FL_BUILD_BINARY)
     target_link_libraries(binaryTarget dynamicTarget ${FL_LIBS})
 
     list(APPEND fl-targets binaryTarget)
-endif (FL_BUILD_BINARY)
+endif ()
 
 if (FL_BUILD_TESTS AND CMAKE_CXX_STANDARD EQUAL 98)
     message(WARNING "Skipping tests: tests require C++11 or later, but using C++${CMAKE_CXX_STANDARD}.")
@@ -207,13 +207,13 @@ elseif (FL_BUILD_TESTS)
         set(FETCHCONTENT_QUIET FALSE)
         # But we are going to try to fetch it:
         # see https://github.com/catchorg/Catch2/blob/v2.x/docs/cmake-integration.md
-        Include(FetchContent)
-        FetchContent_Declare(
+        include(FetchContent)
+        fetchcontent_declare(
                 Catch2
                 GIT_REPOSITORY https://github.com/catchorg/Catch2.git
                 GIT_TAG v2.13.10
         )
-        FetchContent_MakeAvailable(Catch2)
+        fetchcontent_makeavailable(Catch2)
         list(APPEND CMAKE_MODULE_PATH ${Catch2_SOURCE_DIR}/contrib)
         message(CHECK_PASS "fetched")
     endif ()
