@@ -19,10 +19,11 @@
 #include "fl/Headers.h"
 
 namespace fuzzylite {
+    template <class T>
     struct NormAssert {
-        FL_unique_ptr<Norm> actual;
+        FL_unique_ptr<T> actual;
 
-        NormAssert(Norm* actual) : actual(actual) {}
+        explicit NormAssert() : actual(new T) {}
 
         NormAssert& repr_is(const std::string& repr) {
             FL_IUNUSED(repr);
@@ -37,7 +38,6 @@ namespace fuzzylite {
 
         NormAssert& exports_fll(const std::string& fll) {
             CHECK(actual->className() == fll);
-            can_clone();
             return *this;
         }
 
@@ -47,9 +47,8 @@ namespace fuzzylite {
             if (not dynamic_cast<TNormFunction*>(actual.get())) {
                 CAPTURE(actual->className(), tnorm.available());
                 CHECK(tnorm.hasConstructor(actual->className()));
-                CHECK(
-                    FL_unique_ptr<TNorm>(tnorm.constructObject(actual->className()))->className() == actual->className()
-                );
+                FL_unique_ptr<TNorm> constructed(tnorm.constructObject(actual->className()));
+                CHECK(constructed->className() == actual->className());
             }
             return *this;
         }
@@ -60,9 +59,8 @@ namespace fuzzylite {
             if (not dynamic_cast<SNormFunction*>(actual.get())) {
                 CAPTURE(actual->className(), snorm.available());
                 CHECK(snorm.hasConstructor(actual->className()));
-                CHECK(
-                    FL_unique_ptr<SNorm>(snorm.constructObject(actual->className()))->className() == actual->className()
-                );
+                FL_unique_ptr<SNorm> constructed(snorm.constructObject(actual->className()));
+                CHECK(constructed->className() == actual->className());
             }
             return *this;
         }
@@ -90,14 +88,23 @@ namespace fuzzylite {
             }
             return *this;
         }
+
+        NormAssert& can_construct() {
+            std::unique_ptr<Norm> object(T::constructor());
+            FllExporter exporter;
+            CHECK(exporter.toString(object.get()) == exporter.toString(actual.get()));
+            return *this;
+        }
     };
 
     TEST_CASE("TNorm", "[norm][t]") {
         SECTION("AlgebraicProduct") {
-            NormAssert(new AlgebraicProduct)
+            NormAssert<AlgebraicProduct>()
                 .is_t_norm()
                 .repr_is("fl.AlgebraicProduct()")
                 .exports_fll("AlgebraicProduct")
+                .can_clone()
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.00},
@@ -120,10 +127,12 @@ namespace fuzzylite {
         }
 
         SECTION("BoundedDifference") {
-            NormAssert(new BoundedDifference)
+            NormAssert<BoundedDifference>()
                 .is_t_norm()
                 .repr_is("fl.BoundedDifference()")
                 .exports_fll("BoundedDifference")
+                .can_clone()
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.00},
@@ -146,10 +155,12 @@ namespace fuzzylite {
         }
 
         SECTION("DrasticProduct") {
-            NormAssert(new DrasticProduct)
+            NormAssert<DrasticProduct>()
                 .is_t_norm()
                 .repr_is("fl.DrasticProduct()")
                 .exports_fll("DrasticProduct")
+                .can_clone()
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.00},
@@ -172,10 +183,12 @@ namespace fuzzylite {
         }
 
         SECTION("EinsteinProduct") {
-            NormAssert(new EinsteinProduct())
+            NormAssert<EinsteinProduct>()
                 .is_t_norm()
                 .repr_is("fl.EinsteinProduct()")
                 .exports_fll("EinsteinProduct")
+                .can_clone()
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.00},
@@ -198,10 +211,12 @@ namespace fuzzylite {
         }
 
         SECTION("HamacherProduct") {
-            NormAssert(new HamacherProduct())
+            NormAssert<HamacherProduct>()
                 .is_t_norm()
                 .repr_is("fl.HamacherProduct()")
                 .exports_fll("HamacherProduct")
+                .can_clone()
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.00},
@@ -224,10 +239,12 @@ namespace fuzzylite {
         }
 
         SECTION("Minimum") {
-            NormAssert(new Minimum())
+            NormAssert<Minimum>()
                 .is_t_norm()
                 .repr_is("fl.Minimum()")
                 .exports_fll("Minimum")
+                .can_clone()
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.00},
@@ -250,10 +267,12 @@ namespace fuzzylite {
         }
 
         SECTION("NilpotentMinimum") {
-            NormAssert(new NilpotentMinimum())
+            NormAssert<NilpotentMinimum>()
                 .is_t_norm()
                 .repr_is("fl.NilpotentMinimum()")
                 .exports_fll("NilpotentMinimum")
+                .can_clone()
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.00},
@@ -276,10 +295,13 @@ namespace fuzzylite {
         }
 
         SECTION("TNormFunction") {
-            NormAssert(new TNormFunction("a * b"))
-                .exports_fll("TNormFunction")
+            auto assert = NormAssert<TNormFunction>();
+            assert.actual->setFormula("a * b");
+            assert.exports_fll("TNormFunction")
                 .is_t_norm()
                 .repr_is("fl.NormFunction(fl.Function('AlgebraicProduct', 'a * b'))")
+                .can_clone()  // TODO: does not check formula
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.00},
@@ -304,10 +326,12 @@ namespace fuzzylite {
 
     TEST_CASE("SNorm", "[norm][s]") {
         SECTION("AlgebraicSum") {
-            NormAssert(new AlgebraicSum())
+            NormAssert<AlgebraicSum>()
                 .is_s_norm()
                 .repr_is("fl.AlgebraicSum()")
                 .exports_fll("AlgebraicSum")
+                .can_clone()
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.25},
@@ -339,10 +363,12 @@ namespace fuzzylite {
         }
 
         SECTION("BoundedSum") {
-            NormAssert(new BoundedSum())
+            NormAssert<BoundedSum>()
                 .is_s_norm()
                 .repr_is("fl.BoundedSum()")
                 .exports_fll("BoundedSum")
+                .can_clone()
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.25},
@@ -364,10 +390,12 @@ namespace fuzzylite {
                 });
         }
         SECTION("DrasticSum") {
-            NormAssert(new DrasticSum())
+            NormAssert<DrasticSum>()
                 .is_s_norm()
                 .repr_is("fl.DrasticSum()")
                 .exports_fll("DrasticSum")
+                .can_clone()
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.25},
@@ -390,10 +418,12 @@ namespace fuzzylite {
         }
 
         SECTION("EinsteinSum") {
-            NormAssert(new EinsteinSum())
+            NormAssert<EinsteinSum>()
                 .is_s_norm()
                 .repr_is("fl.EinsteinSum()")
                 .exports_fll("EinsteinSum")
+                .can_clone()
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.25},
@@ -415,10 +445,12 @@ namespace fuzzylite {
                 });
         }
         SECTION("HamacherSum") {
-            NormAssert(new HamacherSum())
+            NormAssert<HamacherSum>()
                 .is_s_norm()
                 .repr_is("fl.HamacherSum()")
                 .exports_fll("HamacherSum")
+                .can_clone()
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.25},
@@ -441,10 +473,12 @@ namespace fuzzylite {
         }
 
         SECTION("Maximum") {
-            NormAssert(new Maximum())
+            NormAssert<Maximum>()
                 .is_s_norm()
                 .repr_is("fl.Maximum()")
                 .exports_fll("Maximum")
+                .can_clone()
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.25},
@@ -466,10 +500,12 @@ namespace fuzzylite {
                 });
         }
         SECTION("NilpotentMaximum") {
-            NormAssert(new NilpotentMaximum())
+            NormAssert<NilpotentMaximum>()
                 .is_s_norm()
                 .repr_is("fl.NilpotentMaximum()")
                 .exports_fll("NilpotentMaximum")
+                .can_clone()
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.25},
@@ -491,10 +527,12 @@ namespace fuzzylite {
                 });
         }
         SECTION("NormalizedSum") {
-            NormAssert(new NormalizedSum())
+            NormAssert<NormalizedSum>()
                 .is_s_norm()
                 .repr_is("fl.NormalizedSum()")
                 .exports_fll("NormalizedSum")
+                .can_clone()
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.25},
@@ -516,10 +554,12 @@ namespace fuzzylite {
                 });
         }
         SECTION("UnboundedSum") {
-            NormAssert(new UnboundedSum())
+            NormAssert<UnboundedSum>()
                 .is_s_norm()
                 .repr_is("fl.UnboundedSum()")
                 .exports_fll("UnboundedSum")
+                .can_clone()
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.25},
@@ -541,10 +581,13 @@ namespace fuzzylite {
                 });
         }
         SECTION("SNormFunction") {
-            NormAssert(new SNormFunction("a + b - (a * b)"))
-                .exports_fll("SNormFunction")
+            auto assert = NormAssert<SNormFunction>();
+            assert.actual->setFormula("a + b - (a * b)");
+            assert.exports_fll("SNormFunction")
                 .is_s_norm()
                 .repr_is("fl.NormFunction(fl.Function('AlgebraicSum', 'a + b - (a * b)'))")
+                .can_clone()  // TODO: does not check formula
+                .can_construct()
                 .evaluates({
                     {0.00, 0.00, 0.00},
                     {0.00, 0.25, 0.25},
