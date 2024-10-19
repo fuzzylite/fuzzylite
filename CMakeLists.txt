@@ -70,7 +70,7 @@ if (MSVC)
     #Set compilation flags in Windows
     add_compile_options(/W4 /EHsc)
     # disable warning converting double<=>scalar
-    add_compile_options(/w44101)
+    # add_compile_options(/w44101)
     if (FL_WARNINGS_AS_ERRORS)
         add_compile_options(/WX)
     endif ()
