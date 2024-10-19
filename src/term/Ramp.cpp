@@ -31,11 +31,8 @@ namespace fuzzylite {
     }
 
     scalar Ramp::membership(scalar x) const {
-        if (Op::isNaN(x))
+        if (Op::isNaN(x) or Op::isEq(_start, _end))
             return fl::nan;
-
-        if (Op::isEq(_start, _end))
-            return Term::_height * 0.0;
 
         if (Op::isLt(_start, _end)) {
             if (Op::isLE(x, _start))

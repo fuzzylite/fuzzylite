@@ -1061,10 +1061,7 @@ namespace fuzzylite {
                 {inf, 0.0},
                 {-inf, 1.0},
             });
-    }
 
-    TEST_CASE("Ramp Fix", "[term][ramp][!shouldfail]") {
-        // TODO: fix ramp membership function when a=b
         TermAssert(new Ramp("ramp"))
             .configured_as("0 0")
             .exports_fll("term: ramp Ramp 0.000 0.000")
