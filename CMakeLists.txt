@@ -69,10 +69,13 @@ set(FL_LIBS)
 if (MSVC)
     #Set compilation flags in Windows
     add_compile_options(/W4 /EHsc)
-    # disable warning converting double<=>scalar
-    # add_compile_options(/w44101)
     if (FL_WARNINGS_AS_ERRORS)
         add_compile_options(/WX)
+        if (FL_USE_FLOAT)
+            # warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+            # warning C4305: 'return': truncation from 'double' to 'fuzzylite::scalar'
+            add_compile_options(/w4244 /w4305)
+        endif ()
     endif ()
     #Wx: Treat warnings as errors. W4: All warnings
     #http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
