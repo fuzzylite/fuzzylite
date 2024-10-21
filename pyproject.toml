@@ -4,6 +4,10 @@ version = "7"
 dependencies = [
     # source code formatting
     "clang-format==19.1.1",
+    # C++ linter
+    # "clang-tidy==19.1.0",
+    # cmake linter
+    "cmakelint==1.4.3",
     # code coverage interpretation
     "gcovr==8.2",
     # markdown linter
