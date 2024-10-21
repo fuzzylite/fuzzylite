@@ -213,7 +213,7 @@ namespace fuzzylite {
         }
 
         std::vector<Term*> sortedTerms;
-        while (termCentroids.size() > 0) {
+        while (not termCentroids.empty()) {
             sortedTerms.push_back(termCentroids.top().first);
             FL_DBG(termCentroids.top().first->toString() << " -> " << termCentroids.top().second);
             termCentroids.pop();

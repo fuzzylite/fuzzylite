@@ -125,7 +125,7 @@ namespace fuzzylite {
          @param times is the vector of nanoseconds taken to produce the set of obtained values
          from the set of expected input values
          */
-        void setTimes(const std::vector<scalar> times);
+        void setTimes(const std::vector<scalar>& times);
         /**
          Gets the vector of nanoseconds taken to produce the set of obtained values
          from the set of expected input values

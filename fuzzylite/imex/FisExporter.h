@@ -44,7 +44,7 @@ namespace fuzzylite {
     class FL_API FisExporter : public Exporter {
       protected:
         virtual std::string
-        translate(const std::vector<Proposition*>& propositions, const std::vector<Variable*> variables) const;
+        translate(const std::vector<Proposition*>& propositions, const std::vector<Variable*>& variables) const;
 
       public:
         FisExporter();

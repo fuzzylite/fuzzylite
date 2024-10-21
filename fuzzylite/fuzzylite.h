@@ -47,11 +47,9 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #endif
 #endif
 
-#define FL__FILE__ std::string(__FILE__)
+#define FL_LOG_PREFIX std::string(__FILE__) << " (" << __LINE__ << "):"
 
-#define FL_LOG_PREFIX FL__FILE__ << " (" << __LINE__ << "):"
-
-#define FL_AT FL__FILE__, __LINE__, __FUNCTION__
+#define FL_AT std::string(__FILE__), __LINE__, __FUNCTION__
 
 #define FL_LOG(message)                                         \
     {                                                           \
@@ -69,9 +67,9 @@ fuzzylite is a registered trademark of FuzzyLite Limited.
 #define FL_DEBUG_BEGIN if (fl::fuzzylite::isDebugging()) {
 #define FL_DEBUG_END }
 
-#define FL_DBG(message)                                                                                 \
-    FL_DEBUG_BEGIN                                                                                      \
-    std::cout << FL__FILE__ << "::" << __FUNCTION__ << "[" << __LINE__ << "]:" << message << std::endl; \
+#define FL_DBG(message)                                                                                            \
+    FL_DEBUG_BEGIN                                                                                                 \
+    std::cout << std::string(__FILE__) << "::" << __FUNCTION__ << "[" << __LINE__ << "]:" << message << std::endl; \
     FL_DEBUG_END
 
 #ifdef FL_WINDOWS

@@ -79,7 +79,7 @@ namespace fuzzylite {
 
             SECTION("parameterized") {
                 // Can be constructed with requiredParameters
-                std::vector<std::string> list;
+                std::vector<std::string> list(requiredParameters);
                 for (int parameter = 0; parameter < requiredParameters; ++parameter)
                     list.push_back("nan");
 
@@ -228,7 +228,7 @@ namespace fuzzylite {
 
         Activated activated;
         CHECK(activated.className() == "Activated");
-        CHECK(activated.getName() == "");
+        CHECK(activated.getName().empty());
         CHECK(activated.getImplication() == fl::null);
         CHECK(activated.getTerm() == fl::null);
 

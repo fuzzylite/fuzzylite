@@ -92,8 +92,8 @@ namespace fuzzylite {
             std::unique_ptr<ConstructionFactory<T*>> clone(actual->clone());
             CAPTURE(actual->name(), clone->name());
             CHECK(actual->name() == clone->name());
-            std::vector<Constructor> constructors;
-            for (auto key : actual->constructors()) {
+            std::vector<Constructor> constructors(actual->constructors().size());
+            for (const auto& key : actual->constructors()) {
                 CAPTURE(key.first);
                 std::unique_ptr<T> object(actual->constructObject(key.first));
                 const std::string fll = object.get() ? fl::FllExporter().toString(object.get()) : "";
@@ -703,28 +703,28 @@ namespace fuzzylite {
         }
         SECTION("Assign constructor") {
             FunctionFactory only_operators;
-            for (auto function : only_operators.availableFunctions())
+            for (const auto& function : only_operators.availableFunctions())
                 only_operators.deregisterObject(function);
             FunctionFactory ff;
             ff = only_operators;
-            CHECK(ff.availableFunctions() == std::vector<std::string>{});
+            CHECK(ff.availableFunctions().empty());
             CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
         }
 
         SECTION("Copy constructor with operators") {
             FunctionFactory only_operators;
-            for (auto function : only_operators.availableFunctions())
+            for (const auto& function : only_operators.availableFunctions())
                 only_operators.deregisterObject(function);
             FunctionFactory ff(only_operators);
-            CHECK(ff.availableFunctions() == std::vector<std::string>{});
+            CHECK(ff.availableFunctions().empty());
             CHECK_THAT(ff.availableOperators(), Catch::Matchers::UnorderedEquals(operators));
         }
         SECTION("Copy constructor with functions") {
             FunctionFactory only_functions;
-            for (auto operator_ : only_functions.availableOperators())
+            for (const auto& operator_ : only_functions.availableOperators())
                 only_functions.deregisterObject(operator_);
             FunctionFactory ff(only_functions);
-            CHECK(ff.availableOperators() == std::vector<std::string>{});
+            CHECK(ff.availableOperators().empty());
             CHECK_THAT(ff.availableFunctions(), Catch::Matchers::UnorderedEquals(functions));
         }
     }
@@ -809,7 +809,7 @@ namespace fuzzylite {
         }
 
         SECTION("Copy constructor of custom factories") {
-            FactoryManager customFactoryManager(
+            const FactoryManager customFactoryManager(
                 new CustomTNormFactory,
                 new CustomSNormFactory,
                 new CustomActivationFactory,
@@ -818,7 +818,7 @@ namespace fuzzylite {
                 new CustomHedgeFactory,
                 new CustomFunctionFactory
             );
-            FactoryManager fm(customFactoryManager);
+            const FactoryManager& fm(customFactoryManager);
 
             CHECK(fm.tnorm()->name() == "CustomTNorm");
             CHECK(fm.snorm()->name() == "CustomSNorm");

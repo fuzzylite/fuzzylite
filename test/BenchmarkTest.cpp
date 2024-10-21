@@ -79,7 +79,7 @@ namespace fuzzylite {
 
         std::vector<int> errors = std::vector<int>(examples.size(), 0);
         for (std::size_t i = 0; i < examples.size(); ++i) {
-            const std::string example = examples.at(i);
+            const std::string& example = examples.at(i);
             const std::string base_file = path + example;
             CAPTURE(example, base_file);
             FL_unique_ptr<Engine> engine(FllImporter().fromFile(base_file + ".fll"));
@@ -97,7 +97,7 @@ namespace fuzzylite {
         }
 
         for (std::size_t i = 0; i < errors.size(); ++i) {
-            const std::string example = examples.at(i);
+            const std::string& example = examples.at(i);
             const std::string base_file = path + example;
             CAPTURE(example, path);
             // when built with scalar=float, tsukamoto correctly produces infinity in 44 input cases,

@@ -71,7 +71,7 @@ namespace fuzzylite {
         return this->_obtained;
     }
 
-    void Benchmark::setTimes(const std::vector<scalar> nanoSeconds) {
+    void Benchmark::setTimes(const std::vector<scalar>& nanoSeconds) {
         this->_times = nanoSeconds;
     }
 

@@ -176,7 +176,7 @@ namespace fuzzylite {
                 });
 
             FL_unique_ptr<HedgeFunction> f(dynamic_cast<HedgeFunction*>(HedgeFunction::constructor()));
-            CHECK(f->getFormula() == "");
+            CHECK(f->getFormula().empty());
             f->setFormula("x^3");
             CHECK(f->getFormula() == "x^3");
             CHECK(f->function().evaluate({{"x", 3}}) == 27);

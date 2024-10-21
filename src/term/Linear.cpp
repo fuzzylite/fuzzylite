@@ -87,7 +87,7 @@ namespace fuzzylite {
             return;
         this->_coefficients.clear();
         std::vector<std::string> strValues = Op::split(parameters, " ");
-        std::vector<scalar> values;
+        std::vector<scalar> values(strValues.size());
         for (std::size_t i = 0; i < strValues.size(); ++i)
             values.push_back(Op::toScalar(strValues.at(i)));
         this->_coefficients = values;

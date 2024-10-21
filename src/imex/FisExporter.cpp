@@ -209,7 +209,7 @@ namespace fuzzylite {
     }
 
     std::string FisExporter::translate(
-        const std::vector<Proposition*>& propositions, const std::vector<Variable*> variables
+        const std::vector<Proposition*>& propositions, const std::vector<Variable*>& variables
     ) const {
         std::ostringstream ss;
         for (std::size_t ixVariable = 0; ixVariable < variables.size(); ++ixVariable) {
