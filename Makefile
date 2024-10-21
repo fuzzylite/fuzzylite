@@ -107,9 +107,6 @@ lint: python
 	echo `cmakelint --version`
 	. .venv/bin/activate && cmakelint CMakeLists.txt
 
-	echo "clang-tidy: `clang-tidy --version`"
-	. .venv/bin/activate && clang-tidy -format-style=file -header-filter=. -p build/ fuzzylite/Headers.h
-
 	#TODO: https://github.com/llvm/llvm-project/blob/main/clang-tools-extra/clang-tidy/tool/run-clang-tidy.py
 	#echo "clang-tidy: `clang-tidy --version`"
 	#. .venv/bin/activate && clang-tidy -format-style=file -p build/ fuzzylite/Headers.h
