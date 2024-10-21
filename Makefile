@@ -2,7 +2,7 @@ BUILD = release
 FLOAT = OFF
 TESTS = ON
 COVERAGE = OFF
-EXPORT_COMPILE_COMMANDS = OFF
+EXPORT_COMPILE_COMMANDS = ON
 STRICT = OFF
 
 CONTAINER = docker
@@ -85,19 +85,31 @@ ubuntu:
 CLANG_FORMAT=clang-format --style=file:.clang-format -i
 
 format: python
-	. .venv/bin/activate && $(CLANG_FORMAT) --version \
+	echo `$(CLANG_FORMAT) --version`
+	. .venv/bin/activate \
 		&& find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) \
 		&& find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) \
-		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) \
-		&& pymarkdown --config pyproject.toml fix README.md
+		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT)
+
+	echo "pymarkdown: `pymarkdown version`"
+	. .venv/bin/activate && pymarkdown --config pyproject.toml fix README.md
 
 lint: python
+	echo `$(CLANG_FORMAT) --version`
 	. .venv/bin/activate \
-		&& echo `$(CLANG_FORMAT) --version` \
 		&& find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
 		&& find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
-		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
-		&& echo "pymarkdown: `pymarkdown version`" \
-		&& pymarkdown --config pyproject.toml scan README.md \
-		&& echo `cmakelint --version` \
-		&& cmakelint CMakeLists.txt
+		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
+
+	echo "pymarkdown: `pymarkdown version`"
+	. .venv/bin/activate && pymarkdown --config pyproject.toml scan README.md
+
+	echo `cmakelint --version`
+	. .venv/bin/activate && cmakelint CMakeLists.txt
+
+	echo "clang-tidy: `clang-tidy --version`"
+	. .venv/bin/activate && clang-tidy -format-style=file -header-filter=. -p build/ fuzzylite/Headers.h
+
+	#TODO: https://github.com/llvm/llvm-project/blob/main/clang-tools-extra/clang-tidy/tool/run-clang-tidy.py
+	#echo "clang-tidy: `clang-tidy --version`"
+	#. .venv/bin/activate && clang-tidy -format-style=file -p build/ fuzzylite/Headers.h
