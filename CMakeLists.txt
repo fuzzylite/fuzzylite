@@ -186,32 +186,15 @@ if (FL_BUILD_TESTS AND CMAKE_CXX_STANDARD EQUAL 98)
 
 elseif (FL_BUILD_TESTS)
     message(CHECK_START "Detecting Catch2 library in system")
-    if (CMAKE_CXX_STANDARD EQUAL 11)
-        set(FL_CATCH_VERSION 2)
-        set(FL_CATCH_TAG v2.13.10)
-        set(FL_CATCH_TARGET Catch2::Catch2)
-    else ()
-        set(FL_CATCH_VERSION 3)
-        set(FL_CATCH_TAG v3.7.1)
-        set(FL_CATCH_TARGET Catch2::Catch2WithMain)
-    endif ()
-    if (CMAKE_VERSION VERSION_LESS "3.14")
-        find_package(Catch2 ${FL_CATCH_VERSION} REQUIRED)
-    else ()
-        find_package(Catch2 ${FL_CATCH_VERSION} QUIET)
-    endif ()
 
+    find_package(Catch2 3 QUIET)
 
     if (Catch2_FOUND)
         message(CHECK_PASS "found at ${Catch2_DIR}")
     else ()
         message(CHECK_FAIL "not found")
-        # You can install it manually: |
-        # git clone -b v2.x https://github.com/catchorg/Catch2.git lib/Catch2
-        # cd lib/Catch2
-        # cmake -B build -DCATCH_ENABLE_WERROR=OFF .
-        # cmake --build build --parallel --target install
 
+        set(FL_CATCH_TAG v3.7.1)
         message(CHECK_START "Fetching Catch2 ${FL_CATCH_TAG} library from https://github.com/catchorg/Catch2.git")
         set(FETCHCONTENT_QUIET FALSE)
         # But we are going to try to fetch it:
@@ -231,17 +214,20 @@ elseif (FL_BUILD_TESTS)
         add_executable(testTarget ${fl-headers} ${fl-sources} ${fl-tests})
         target_include_directories(testTarget PRIVATE ${PROJECT_SOURCE_DIR})
         target_compile_options(testTarget PRIVATE --coverage -O0)
-        target_link_libraries(testTarget PRIVATE ${FL_LIBS} ${FL_CATCH_TARGET} --coverage)
+        target_link_libraries(testTarget PRIVATE ${FL_LIBS} Catch2::Catch2WithMain --coverage)
     else ()
         add_executable(testTarget ${fl-headers} ${fl-tests})
         target_compile_definitions(testTarget PRIVATE FL_IMPORT_LIBRARY)
-        target_link_libraries(testTarget PRIVATE dynamicTarget ${FL_LIBS} ${FL_CATCH_TARGET})
+        target_link_libraries(testTarget PRIVATE dynamicTarget ${FL_LIBS} Catch2::Catch2WithMain)
     endif ()
 
     set_target_properties(testTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
     set_target_properties(testTarget PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(testTarget PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(testTarget PROPERTIES DEBUG_POSTFIX -debug)
+
+    # Catch2 v3 minimum CXX is 14
+    set_target_properties(testTarget PROPERTIES CXX_STANDARD 14)
 
     # disable creation of test targets for nightly, continuous and experimental builds
     set_property(GLOBAL PROPERTY CTEST_TARGETS_ADDED ON)
