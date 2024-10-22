@@ -186,10 +186,19 @@ if (FL_BUILD_TESTS AND CMAKE_CXX_STANDARD EQUAL 98)
 
 elseif (FL_BUILD_TESTS)
     message(CHECK_START "Detecting Catch2 library in system")
-    if (CMAKE_VERSION VERSION_LESS "3.14")
-        find_package(Catch2 2 REQUIRED)
+    if (CMAKE_CXX_STANDARD EQUAL 11)
+        set(FL_CATCH_VERSION 2)
+        set(FL_CATCH_TAG v2.13.10)
+        set(FL_CATCH_TARGET Catch2::Catch2)
     else ()
-        find_package(Catch2 2 QUIET)
+        set(FL_CATCH_VERSION 3)
+        set(FL_CATCH_TAG v3.7.1)
+        set(FL_CATCH_TARGET Catch2::Catch2WithMain)
+    endif ()
+    if (CMAKE_VERSION VERSION_LESS "3.14")
+        find_package(Catch2 ${FL_CATCH_VERSION} REQUIRED)
+    else ()
+        find_package(Catch2 ${FL_CATCH_VERSION} QUIET)
     endif ()
 
 
@@ -203,7 +212,7 @@ elseif (FL_BUILD_TESTS)
         # cmake -B build -DCATCH_ENABLE_WERROR=OFF .
         # cmake --build build --parallel --target install
 
-        message(CHECK_START "Fetching Catch2 v2.13.10 library from https://github.com/catchorg/Catch2.git")
+        message(CHECK_START "Fetching Catch2 ${FL_CATCH_TAG} library from https://github.com/catchorg/Catch2.git")
         set(FETCHCONTENT_QUIET FALSE)
         # But we are going to try to fetch it:
         # see https://github.com/catchorg/Catch2/blob/v2.x/docs/cmake-integration.md
@@ -211,7 +220,7 @@ elseif (FL_BUILD_TESTS)
         fetchcontent_declare(
                 Catch2
                 GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-                GIT_TAG v2.13.10
+                GIT_TAG ${FL_CATCH_TAG}
         )
         fetchcontent_makeavailable(Catch2)
         list(APPEND CMAKE_MODULE_PATH ${Catch2_SOURCE_DIR}/contrib)
@@ -222,11 +231,11 @@ elseif (FL_BUILD_TESTS)
         add_executable(testTarget ${fl-headers} ${fl-sources} ${fl-tests})
         target_include_directories(testTarget PRIVATE ${PROJECT_SOURCE_DIR})
         target_compile_options(testTarget PRIVATE --coverage -O0)
-        target_link_libraries(testTarget PRIVATE ${FL_LIBS} Catch2::Catch2 --coverage)
+        target_link_libraries(testTarget PRIVATE ${FL_LIBS} ${FL_CATCH_TARGET} --coverage)
     else ()
         add_executable(testTarget ${fl-headers} ${fl-tests})
         target_compile_definitions(testTarget PRIVATE FL_IMPORT_LIBRARY)
-        target_link_libraries(testTarget PRIVATE dynamicTarget ${FL_LIBS} Catch2::Catch2)
+        target_link_libraries(testTarget PRIVATE dynamicTarget ${FL_LIBS} ${FL_CATCH_TARGET})
     endif ()
 
     set_target_properties(testTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
