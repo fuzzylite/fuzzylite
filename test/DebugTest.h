@@ -1,4 +1,4 @@
-#include "Catch.h"
+#include <catch2/catch.hpp>
 
 #include "fuzzylite/Headers.h"
 

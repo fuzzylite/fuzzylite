@@ -2,7 +2,7 @@
 #ifndef FL_TEST_HEADERS_H
 #define FL_TEST_HEADERS_H
 
-#include "Catch.h"
+#include <catch2/catch.hpp>
 
 #include "fl/Headers.h"
 

@@ -13,8 +13,8 @@ fuzzylite (R), a fuzzy logic control library in C++.
 
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
+#include <catch2/catch.hpp>
 
-#include "Catch.h"
 #include "Headers.h"
 #include "fl/Headers.h"
 
