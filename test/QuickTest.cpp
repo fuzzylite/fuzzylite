@@ -15,8 +15,10 @@ fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 fuzzylite is a registered trademark of FuzzyLite Limited.
 */
 
-#include <catch2/catch.hpp>
+
 #include <typeinfo>
+
+#include "Catch.h"
 
 #include "fuzzylite/Headers.h"
 
