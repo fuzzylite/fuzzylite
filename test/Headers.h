@@ -2,31 +2,34 @@
 #ifndef FL_TEST_HEADERS_H
 #define FL_TEST_HEADERS_H
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
-#include "fl/Headers.h"
+#include "fuzzylite/Headers.h"
 
 namespace fuzzylite {
-    class Approximates : public Catch::MatcherBase<double> {
-      private:
-        double expected;
-        double margin;
+    namespace test {
+        class Approximates : public Catch::Matchers::MatcherBase<scalar> {
+          private:
+            scalar expected;
+            scalar margin;
 
-      public:
-        Approximates(double expected, double margin = fl::fuzzylite::absoluteTolerance()) :
-            expected(expected),
-            margin(margin) {}
+          public:
+            Approximates(scalar expected, double margin = fl::fuzzylite::absoluteTolerance()) :
+                expected(expected),
+                margin(margin) {}
 
-        bool match(const double& obtained) const override {
-            return fl::Op::isClose(expected, obtained, margin);
-        }
+            bool match(const scalar& obtained) const override {
+                return fl::Op::isClose(expected, obtained, margin);
+            }
 
-        std::string describe() const override {
-            std::ostringstream ss;
-            ss << "≈ " << expected << " @(" << margin << ")";
-            return ss.str();
-        }
-    };
+            std::string describe() const override {
+                std::ostringstream ss;
+                ss << "≈ " << expected << " @(" << margin << ")";
+                return ss.str();
+            }
+        };
+    }
 
+    using namespace test;
 }
 #endif  // FL_TEST_HEADERS_H
