@@ -33,6 +33,7 @@ build: .phonywin
 .PHONY: test
 test: .phonywin
 	ctest --test-dir build/ --output-on-failure --timeout 120 # --verbose
+	# ./build/bin/fuzzylite-tests --reporter console    # alternatively, to help debug tests
 
 test-only:
 	cmake -B build/
@@ -50,8 +51,8 @@ install-catch2:
 
 python:
 	python3 --version
-	python3 -m venv .venv \
-		&& . .venv/bin/activate \
+	python3 -m venv .venv
+	. .venv/bin/activate \
 		&& python3 -m pip install -e .
 
 coverage: python
@@ -91,24 +92,27 @@ ubuntu:
 CLANG_FORMAT=clang-format --style=file:.clang-format -i
 
 format: python
-	echo `$(CLANG_FORMAT) --version`
 	. .venv/bin/activate \
+		&& echo `clang-format --version` \
 		&& find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) \
 		&& find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) \
 		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT)
 
-	echo "pymarkdown: `pymarkdown version`"
-	. .venv/bin/activate && pymarkdown --config pyproject.toml fix README.md
+	. .venv/bin/activate \
+		echo "pymarkdown: `pymarkdown version`" \
+		&& pymarkdown --config pyproject.toml fix README.md
 
 lint: python
-	echo `$(CLANG_FORMAT) --version`
 	. .venv/bin/activate \
+		&& echo `clang-format --version` \
 		&& find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
 		&& find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
 		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
 
-	echo "pymarkdown: `pymarkdown version`"
-	. .venv/bin/activate && pymarkdown --config pyproject.toml scan README.md
+	. .venv/bin/activate \
+		&& echo "pymarkdown: `pymarkdown version`" \
+		&& pymarkdown --config pyproject.toml scan README.md
 
-	echo `cmakelint --version`
-	. .venv/bin/activate && cmakelint CMakeLists.txt
+	. .venv/bin/activate \
+		&& echo `cmakelint --version` \
+		&& cmakelint CMakeLists.txt
