@@ -13,10 +13,7 @@
 
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
-#include <catch2/catch.hpp>
-
 #include "Headers.h"
-#include "fl/Headers.h"
 
 namespace fuzzylite {
     struct TermAssert {
@@ -892,10 +889,10 @@ namespace fuzzylite {
 
         linear = Linear("linear");
         linear.set({1.0, 2.0, 3.0}, &engine);
-        CHECK_THAT(linear.coefficients(), Catch::Equals<scalar>({1.0, 2.0, 3.0}));
+        CHECK_THAT(linear.coefficients(), Catch::Matchers::Equals<scalar>({1.0, 2.0, 3.0}));
         CHECK(linear.getEngine() == &engine);
         linear.coefficients().push_back(4.0);
-        CHECK_THAT(linear.coefficients(), Catch::Equals<scalar>({1.0, 2.0, 3.0, 4.0}));
+        CHECK_THAT(linear.coefficients(), Catch::Matchers::Equals<scalar>({1.0, 2.0, 3.0, 4.0}));
 
         // TODO: Raise exception when mistmatch between coefficients and number of input variables
         // CHECK_THROWS_AS(linear.membership(0.0), fl::Exception);
@@ -2165,7 +2162,7 @@ namespace fuzzylite {
         CHECK_THROWS(f.parse(text)->evaluate(&f.variables));
 
         text = "~5 *4/sin(~pi/2)";
-        CHECK(f.parse(text)->evaluate(&f.variables) == Approx(20));
+        CHECK_THAT(f.parse(text)->evaluate(&f.variables), Approximates(20));
 
         f.load(text);
 
