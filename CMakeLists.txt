@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.15)
 
+# TODO: get version from source
 set(FL_VERSION 7.0.0)
 project(fuzzylite VERSION ${FL_VERSION} LANGUAGES CXX)
 
-if ("${CMAKE_CXX_STANDARD}" STREQUAL "")
+if (NOT DEFINED CMAKE_CXX_STANDARD)
     set(CMAKE_CXX_STANDARD 11)
 endif ()
 
@@ -181,13 +182,10 @@ if (FL_BUILD_BINARY)
     list(APPEND fl-targets binaryTarget)
 endif ()
 
-if (FL_BUILD_TESTS AND CMAKE_CXX_STANDARD EQUAL 98)
-    message(WARNING "Skipping tests: tests require C++11 or later, but using C++${CMAKE_CXX_STANDARD}.")
-
-elseif (FL_BUILD_TESTS)
+if (FL_BUILD_TESTS)
     message(CHECK_START "Detecting Catch2 library in system")
-
-    find_package(Catch2 3 QUIET)
+    # `make install-catch2` will install Catch2 under `.local`
+    find_package(Catch2 3 QUIET HINTS .local)
 
     if (Catch2_FOUND)
         message(CHECK_PASS "found at ${Catch2_DIR}")
@@ -221,7 +219,6 @@ elseif (FL_BUILD_TESTS)
         target_link_libraries(testTarget PRIVATE dynamicTarget ${FL_LIBS} Catch2::Catch2WithMain)
     endif ()
 
-    set_target_properties(testTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
     set_target_properties(testTarget PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(testTarget PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(testTarget PROPERTIES DEBUG_POSTFIX -debug)

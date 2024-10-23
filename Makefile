@@ -42,6 +42,12 @@ test-only:
 install:
 	cmake --build build/ --target install
 
+install-catch2:
+	test -d lib/Catch2 || git clone -b v3.7.1 https://github.com/catchorg/Catch2.git lib/Catch2
+	cd lib/Catch2 \
+		&& cmake -B build -DCMAKE_INSTALL_PREFIX=${PWD}/.local -DCATCH_ENABLE_WERROR=OFF . \
+		&& cmake --build build --parallel --target install
+
 python:
 	python3 --version
 	python3 -m venv .venv \
@@ -106,7 +112,3 @@ lint: python
 
 	echo `cmakelint --version`
 	. .venv/bin/activate && cmakelint CMakeLists.txt
-
-	#TODO: https://github.com/llvm/llvm-project/blob/main/clang-tools-extra/clang-tidy/tool/run-clang-tidy.py
-	#echo "clang-tidy: `clang-tidy --version`"
-	#. .venv/bin/activate && clang-tidy -format-style=file -p build/ fuzzylite/Headers.h
