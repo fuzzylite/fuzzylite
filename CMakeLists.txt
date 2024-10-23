@@ -223,8 +223,8 @@ if (FL_BUILD_TESTS)
     set_target_properties(testTarget PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(testTarget PROPERTIES DEBUG_POSTFIX -debug)
 
-    # Catch2 v3 minimum CXX is 14
-    set_target_properties(testTarget PROPERTIES CXX_STANDARD 14)
+    # Catch2 v3 minimum CXX is 14, but we set to 23 to use latest features in testing
+    set_target_properties(testTarget PROPERTIES CXX_STANDARD 23)
 
     # disable creation of test targets for nightly, continuous and experimental builds
     set_property(GLOBAL PROPERTY CTEST_TARGETS_ADDED ON)
