@@ -74,8 +74,8 @@ coverage: python
 		&& gcovr -r . \
 			--filter src/ \
 			--filter fuzzylite/ \
-			--coveralls $(BUILD_DIR)/coveralls.json \
-			--html $(BUILD_DIR)/coverage.html \
+			--coveralls build/coveralls.json \
+			--html build/coverage.html \
 			--html-details \
 			--html-single-page \
 			--sort uncovered-percent \
@@ -83,7 +83,7 @@ coverage: python
 			--txt --txt-summary \
 			$(BUILD_DIR)/CMakeFiles/testTarget.dir
 	@echo
-	@echo "open $(BUILD_DIR)/coverage.html"
+	@echo "open build/coverage.html"
 
 clean-coverage:
 	find $(BUILD_DIR)/CMakeFiles/testTarget.dir -type f -name '*.gcda' -print0 | xargs -0 rm
