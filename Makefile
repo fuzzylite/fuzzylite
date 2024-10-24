@@ -32,7 +32,7 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 configure:
-	cmake --version
+	@cmake --version
 	cmake -S . -B $(BUILD_DIR) \
 		-DCMAKE_BUILD_TYPE=$(BUILD) \
 		-DCMAKE_CXX_STANDARD=$(CXX_STANDARD) \
@@ -64,12 +64,12 @@ install-catch2:
 	cmake --build $(DOWNLOAD_PREFIX)/Catch2/build --parallel --target install
 
 python:
-	python3 --version
+	@python3 --version
 	python3 -m venv .venv
-	. .venv/bin/activate \
-		&& python3 -m pip install -e .
+	. .venv/bin/activate && python3 -m pip install -e .
 
 coverage: python
+	@. .venv/bin/activate && echo "`gcovr --version`"
 	. .venv/bin/activate \
 		&& gcovr -r . \
 			--filter src/ \
@@ -82,6 +82,7 @@ coverage: python
 			--html-theme github.dark-blue \
 			--txt --txt-summary \
 			$(BUILD_DIR)/CMakeFiles/testTarget.dir
+	@echo
 	@echo "open $(BUILD_DIR)/coverage.html"
 
 clean-coverage:
@@ -89,9 +90,9 @@ clean-coverage:
 
 .PHONY: docs
 docs:
-	# requires doxygen
 	doxygen Doxyfile
-	# open docs/html/index.html
+	@echo "doxygen: `doxygen --version`"
+	@echo "open docs/html/index.html"
 
 jupyter:
 	$(CONTAINER) --version
@@ -104,27 +105,35 @@ ubuntu:
 	$(CONTAINER) run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it fl-ubuntu
 
 format: python
+	@echo
+	@echo "Formatting..."
+
+	@echo
+	@. .venv/bin/activate && echo `clang-format --version`
 	. .venv/bin/activate \
-		&& echo `clang-format --version` \
 		&& find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) \
 		&& find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) \
 		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT)
 
-	. .venv/bin/activate \
-		echo "pymarkdown: `pymarkdown version`" \
-		&& pymarkdown --config pyproject.toml fix README.md
+	@echo
+	@. .venv/bin/activate && echo "pymarkdown: `pymarkdown version`"
+	. .venv/bin/activate && pymarkdown --config pyproject.toml fix README.md
 
 lint: python
+	@echo
+	@echo "Linting..."
+	@echo
+
+	@. .venv/bin/activate && echo `clang-format --version`
 	. .venv/bin/activate \
-		&& echo `clang-format --version` \
 		&& find fuzzylite -type f -name '*.h' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
 		&& find src -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror \
 		&& find test -type f -name '*.cpp' -print0 | xargs -0 $(CLANG_FORMAT) --dry-run --Werror
 
-	. .venv/bin/activate \
-		&& echo "pymarkdown: `pymarkdown version`" \
-		&& pymarkdown --config pyproject.toml scan README.md
+	@echo
+	@. .venv/bin/activate && echo "pymarkdown: `pymarkdown version`"
+	. .venv/bin/activate && pymarkdown --config pyproject.toml scan README.md
 
-	. .venv/bin/activate \
-		&& echo `cmakelint --version` \
-		&& cmakelint CMakeLists.txt
+	@echo
+	@. .venv/bin/activate && echo `cmakelint --version`
+	. .venv/bin/activate && cmakelint CMakeLists.txt
