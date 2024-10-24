@@ -29,10 +29,9 @@ jobs:
           make coverage
 
       - name: Coveralls
-        if: ${{ hashFiles('build/coveralls.json') != '' }}
         uses: coverallsapp/github-action@v2
         with:
-          file: build/coveralls.json
+          file: build/debug/coveralls.json
 
   documentation:
     runs-on: ubuntu-24.04

@@ -82,7 +82,7 @@ coverage: python
 			--html-theme github.dark-blue \
 			--txt --txt-summary \
 			$(BUILD_DIR)/CMakeFiles/testTarget.dir
-	@echo "open build/coverage.html"
+	@echo "open $(BUILD_DIR)/coverage.html"
 
 clean-coverage:
 	find $(BUILD_DIR)/CMakeFiles/testTarget.dir -type f -name '*.gcda' -print0 | xargs -0 rm
