@@ -2,7 +2,7 @@
 ## BUILD: type of build (eg, `release`, `debug`)
 BUILD = release
 ## BUILD_DIR: output of the build
-BUILD_DIR = build/$(BUILD)
+BUILD_DIR = build/
 ## FLOAT: use `fl::scalar` as `float` instead of `double`
 FLOAT = OFF
 ## TESTS: build and run tests
