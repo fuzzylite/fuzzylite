@@ -13,10 +13,8 @@
 
  fuzzylite is a registered trademark of FuzzyLite Limited.
  */
-#include <catch2/catch.hpp>
 
 #include "Headers.h"
-#include "fl/Headers.h"
 
 namespace fuzzylite {
     class NaN : public Constant {};

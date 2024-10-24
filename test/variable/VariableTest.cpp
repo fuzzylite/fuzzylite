@@ -15,19 +15,11 @@ fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 fuzzylite is a registered trademark of FuzzyLite Limited.
 */
 
-#include <algorithm>  // std::random_shuffle
-#include <catch2/catch.hpp>
+#include <random>
 
-#include "fuzzylite/Headers.h"
+#include "../Headers.h"
 
 namespace fuzzylite {
-
-    /**
-     * Tests: variable/Variable
-     *
-     * @author Juan Rada-Vilela, Ph.D.
-     *
-     */
 
     auto rng = std::default_random_engine();
 

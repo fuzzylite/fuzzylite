@@ -14,26 +14,16 @@ fuzzylite. If not, see <https://github.com/fuzzylite/fuzzylite/>.
 
 fuzzylite is a registered trademark of FuzzyLite Limited.
 */
+#include "Headers.h"
+#include "Listener.h"
 
-#define CATCH_CONFIG_RUNNER
-
-#include <catch2/catch.hpp>
-
-#include "DebugTest.h"
-#include "fuzzylite/Headers.h"
-
-using namespace fuzzylite;
-
-// CATCH_REGISTER_LISTENER(TestDebugger);
+CATCH_REGISTER_LISTENER(fuzzylite::Listener)
 
 int main(int argc, char** argv) {
-    // global setup...
     fl::fuzzylite::setDebugging(false);
     fl::fuzzylite::setLogging(true);
 
     int result = Catch::Session().run(argc, argv);
-
-    // global clean-up...
 
     return result;
 }

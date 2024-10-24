@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.15)
 
+# TODO: get version from source
 set(FL_VERSION 7.0.0)
 project(fuzzylite VERSION ${FL_VERSION} LANGUAGES CXX)
 
-if ("${CMAKE_CXX_STANDARD}" STREQUAL "")
+if (NOT DEFINED CMAKE_CXX_STANDARD)
     set(CMAKE_CXX_STANDARD 11)
 endif ()
 
@@ -38,7 +39,7 @@ if (FL_BACKTRACE)
     add_definitions(-DFL_BACKTRACE)
 endif ()
 
-#Put all binaries in same location
+# Put all binaries in same location
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
@@ -90,7 +91,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES FreeBSD AND FL_BACKTRACE)
     set(FL_LIBS execinfo)
 endif ()
 
-###BUILD SECTION
+# BUILD SECTION
 
 file(STRINGS FL_HEADERS fl-headers)
 file(STRINGS FL_SOURCES fl-sources)
@@ -181,29 +182,18 @@ if (FL_BUILD_BINARY)
     list(APPEND fl-targets binaryTarget)
 endif ()
 
-if (FL_BUILD_TESTS AND CMAKE_CXX_STANDARD EQUAL 98)
-    message(WARNING "Skipping tests: tests require C++11 or later, but using C++${CMAKE_CXX_STANDARD}.")
-
-elseif (FL_BUILD_TESTS)
+if (FL_BUILD_TESTS)
     message(CHECK_START "Detecting Catch2 library in system")
-    if (CMAKE_VERSION VERSION_LESS "3.14")
-        find_package(Catch2 2 REQUIRED)
-    else ()
-        find_package(Catch2 2 QUIET)
-    endif ()
-
+    # `make install-catch2` will install Catch2 under `.local`
+    find_package(Catch2 3 QUIET HINTS .local/)
 
     if (Catch2_FOUND)
         message(CHECK_PASS "found at ${Catch2_DIR}")
     else ()
         message(CHECK_FAIL "not found")
-        # You can install it manually: |
-        # git clone -b v2.x https://github.com/catchorg/Catch2.git lib/Catch2
-        # cd lib/Catch2
-        # cmake -B build -DCATCH_ENABLE_WERROR=OFF .
-        # cmake --build build --parallel --target install
 
-        message(CHECK_START "Fetching Catch2 v2.13.10 library from https://github.com/catchorg/Catch2.git")
+        set(FL_CATCH_TAG v3.7.1)
+        message(CHECK_START "Fetching Catch2 ${FL_CATCH_TAG} library from https://github.com/catchorg/Catch2.git")
         set(FETCHCONTENT_QUIET FALSE)
         # But we are going to try to fetch it:
         # see https://github.com/catchorg/Catch2/blob/v2.x/docs/cmake-integration.md
@@ -211,7 +201,7 @@ elseif (FL_BUILD_TESTS)
         fetchcontent_declare(
                 Catch2
                 GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-                GIT_TAG v2.13.10
+                GIT_TAG ${FL_CATCH_TAG}
         )
         fetchcontent_makeavailable(Catch2)
         list(APPEND CMAKE_MODULE_PATH ${Catch2_SOURCE_DIR}/contrib)
@@ -222,17 +212,19 @@ elseif (FL_BUILD_TESTS)
         add_executable(testTarget ${fl-headers} ${fl-sources} ${fl-tests})
         target_include_directories(testTarget PRIVATE ${PROJECT_SOURCE_DIR})
         target_compile_options(testTarget PRIVATE --coverage -O0)
-        target_link_libraries(testTarget PRIVATE ${FL_LIBS} Catch2::Catch2 --coverage)
+        target_link_libraries(testTarget PRIVATE ${FL_LIBS} Catch2::Catch2WithMain --coverage)
     else ()
         add_executable(testTarget ${fl-headers} ${fl-tests})
         target_compile_definitions(testTarget PRIVATE FL_IMPORT_LIBRARY)
-        target_link_libraries(testTarget PRIVATE dynamicTarget ${FL_LIBS} Catch2::Catch2)
+        target_link_libraries(testTarget PRIVATE dynamicTarget ${FL_LIBS} Catch2::Catch2WithMain)
     endif ()
 
-    set_target_properties(testTarget PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})
     set_target_properties(testTarget PROPERTIES OUTPUT_NAME fuzzylite-tests)
     set_target_properties(testTarget PROPERTIES OUTPUT_NAME fuzzylite-tests IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
     set_target_properties(testTarget PROPERTIES DEBUG_POSTFIX -debug)
+
+    # Catch2 v3 minimum CXX is 14, but we set to 23 to use latest features in testing
+    set_target_properties(testTarget PROPERTIES CXX_STANDARD 23)
 
     # disable creation of test targets for nightly, continuous and experimental builds
     set_property(GLOBAL PROPERTY CTEST_TARGETS_ADDED ON)
@@ -248,14 +240,14 @@ elseif (FL_BUILD_TESTS)
 
 endif ()
 
-###INSTALL SECTION
+# INSTALL SECTION
 
 install(TARGETS ${fl-targets} EXPORT fuzzylite
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
-# Store the fuzzylite CMake config for other projects to use
+## Store the fuzzylite CMake config for other projects to use
 install(EXPORT fuzzylite
         NAMESPACE fuzzylite::
         DESTINATION
@@ -283,6 +275,7 @@ install(
         ${PKGCONFIG_INSTALL_DIR}
 )
 
+# VARIABLES
 message("=====================================")
 message("fuzzylite v${FL_VERSION}")
 message("")

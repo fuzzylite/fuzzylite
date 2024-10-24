@@ -1,3 +1,5 @@
+test/Headers.h
+test/Listener.h
 test/MainTest.cpp
 test/BenchmarkTest.cpp
 test/QuickTest.cpp

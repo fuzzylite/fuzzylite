@@ -1,6 +1,8 @@
-#include <catch2/catch.hpp>
+#ifndef FL_TEST_LISTENER_H
+#define FL_TEST_LISTENER_H
 
-#include "fuzzylite/Headers.h"
+#include <catch2/catch_all.hpp>
+#include <iostream>
 
 /**
  * Adjusted from:
@@ -12,9 +14,9 @@ namespace fuzzylite {
         return std::string(2 * level, ' ');
     }
 
-    // std::ostream& operator<<(std::ostream& out, Catch::Tag t) {
-    //     return out << "original: " << t.original;
-    // }
+    std::ostream& operator<<(std::ostream& out, Catch::Tag t) {
+        return out << "original: " << t.original;
+    }
 
     template <typename T>
     std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
@@ -289,11 +291,11 @@ namespace fuzzylite {
 
     const char* dashed_line = "--------------------------------------------------------------------------";
 
-    struct TestDebugger : Catch::TestEventListenerBase {
-        using TestEventListenerBase::TestEventListenerBase;  // inherit constructor
+    struct Listener : Catch::EventListenerBase {
+        using EventListenerBase::EventListenerBase;  // inherit constructor
 
         // Get rid of Wweak-tables
-        ~TestDebugger() override = default;
+        ~Listener() override = default;
 
         // The whole test run starting
         void testRunStarting(const Catch::TestRunInfo& testRunInfo) override {
@@ -339,17 +341,17 @@ namespace fuzzylite {
 
         // Assertions before/ after
         void assertionStarting(const Catch::AssertionInfo& assertionInfo) override {
-            FL_IUNUSED(assertionInfo);
+            (void)assertionInfo;
             // std::cout << "\nEvent: assertionStarting:\n";
             // print( std::cout, 1, "- assertionInfo", assertionInfo );
         }
 
-        bool assertionEnded(const Catch::AssertionStats& assertionStats) override {
-            FL_IUNUSED(assertionStats);
+        void assertionEnded(const Catch::AssertionStats& assertionStats) override {
+            (void)assertionStats;
             // std::cout << "\nEvent: assertionEnded:\n";
             // print( std::cout, 1, "- assertionStats", assertionStats );
-            return true;
         }
     };
 
 }  // end anonymous namespace
+#endif
