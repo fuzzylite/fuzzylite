@@ -19,7 +19,8 @@ INSTALL_PREFIX = .local
 DOWNLOAD_PREFIX = .local/src
 ## CONTAINER: containerisation tool to build in ubuntu and C++ notebooks
 CONTAINER = docker
-
+## CLANG_FORMAT: lint and format source code
+CLANG_FORMAT=clang-format --style=file:.clang-format -i
 
 
 # Tasks
