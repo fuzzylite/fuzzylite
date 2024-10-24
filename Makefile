@@ -1,24 +1,41 @@
+# Variables
+## BUILD: type of build (eg, `release`, `debug`)
 BUILD = release
+## BUILD_DIR: output of the build
+BUILD_DIR = build/$(BUILD)
+## FLOAT: use `fl::scalar` as `float` instead of `double`
 FLOAT = OFF
+## TESTS: build and run tests
 TESTS = ON
+## COVERAGE: compute source code coverage
 COVERAGE = OFF
+## EXPORT_COMPILE_COMMANDS: export compile commands as json to be used in coveralls
 EXPORT_COMPILE_COMMANDS = ON
+## STRICT: warnings are raised as errors
 STRICT = OFF
-
+## INSTALL_PREFIX: path to install fuzzylite libraries and Catch2
+INSTALL_PREFIX = .local
+## DOWNLOAD_PREFIX: path to download Catch2 sources
+DOWNLOAD_PREFIX = .local/src
+## CONTAINER: containerisation tool to build in ubuntu and C++ notebooks
 CONTAINER = docker
 
+
+
+# Tasks
 .phonywin:
 
 all: configure build test
 
 clean:
-	rm -rf build/
+	rm -rf $(BUILD_DIR)
 
 configure:
 	cmake --version
-	cmake -B build/ \
+	cmake -S . -B $(BUILD_DIR) \
 		-DCMAKE_BUILD_TYPE=$(BUILD) \
 		-DCMAKE_CXX_STANDARD=$(CXX_STANDARD) \
+		-DCMAKE_INSTALL_PREFIX=$(INSTALL_PREFIX) \
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=$(EXPORT_COMPILE_COMMANDS) \
 		-DFL_USE_FLOAT=$(FLOAT) \
 		-DFL_WARNINGS_AS_ERRORS=$(STRICT) \
@@ -27,27 +44,22 @@ configure:
 
 
 .PHONY: build
-build: .phonywin
-	cmake --build build/ --parallel
+build: .phonywin configure
+	cmake --build $(BUILD_DIR) --parallel
 
 .PHONY: test
-test: .phonywin
-	ctest --test-dir build/ --output-on-failure --timeout 120 # --verbose
-	# ./build/bin/fuzzylite-tests --reporter console    # alternatively, to help debug tests
+test: .phonywin build
+	ctest --test-dir $(BUILD_DIR) --output-on-failure --timeout 120 # --verbose
+	# alternatively, for debugging information run:
+	# $(BUILD_DIR)/bin/fuzzylite-tests --reporter console
 
-test-only:
-	cmake -B build/
-	cmake --build build/ --parallel --target testTarget
-	$(MAKE) test
-
-install:
-	cmake --build build/ --target install
+install: build
+	cmake --build $(BUILD_DIR) --target install
 
 install-catch2:
-	test -d lib/Catch2 || git clone -b v3.7.1 https://github.com/catchorg/Catch2.git lib/Catch2
-	cd lib/Catch2 \
-		&& cmake -B build -DCMAKE_INSTALL_PREFIX=${PWD}/.local -DCATCH_ENABLE_WERROR=OFF . \
-		&& cmake --build build --parallel --target install
+	test -d $(DOWNLOAD_PREFIX)/Catch2 || git clone --single-branch -b v3.7.1 https://github.com/catchorg/Catch2.git $(DOWNLOAD_PREFIX)/Catch2
+	cmake -B $(DOWNLOAD_PREFIX)/Catch2/build -S $(DOWNLOAD_PREFIX)/Catch2 -DCMAKE_INSTALL_PREFIX=$(INSTALL_PREFIX) -DCATCH_ENABLE_WERROR=OFF
+	cmake --build $(DOWNLOAD_PREFIX)/Catch2/build --parallel --target install
 
 python:
 	python3 --version
@@ -60,18 +72,18 @@ coverage: python
 		&& gcovr -r . \
 			--filter src/ \
 			--filter fuzzylite/ \
-			--coveralls build/coveralls.json \
-			--html build/coverage.html \
+			--coveralls $(BUILD_DIR)/coveralls.json \
+			--html $(BUILD_DIR)/coverage.html \
 			--html-details \
 			--html-single-page \
 			--sort uncovered-percent \
 			--html-theme github.dark-blue \
 			--txt --txt-summary \
-			build/CMakeFiles/testTarget.dir
+			$(BUILD_DIR)/CMakeFiles/testTarget.dir
 	# open build/coverage.html
 
 clean-coverage:
-	find build/CMakeFiles/testTarget.dir -type f -name '*.gcda' -print0 | xargs -0 rm
+	find $(BUILD_DIR)/CMakeFiles/testTarget.dir -type f -name '*.gcda' -print0 | xargs -0 rm
 
 .PHONY: docs
 docs:
@@ -88,8 +100,6 @@ ubuntu:
 	$(CONTAINER) --version
 	$(CONTAINER) build -f tools/docker/ubuntu-2404.Dockerfile -t fl-ubuntu .
 	$(CONTAINER) run --rm -p 8888:8888 -v.:/mnt/fuzzylite -it fl-ubuntu
-
-CLANG_FORMAT=clang-format --style=file:.clang-format -i
 
 format: python
 	. .venv/bin/activate \

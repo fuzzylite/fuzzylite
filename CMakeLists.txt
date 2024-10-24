@@ -39,7 +39,7 @@ if (FL_BACKTRACE)
     add_definitions(-DFL_BACKTRACE)
 endif ()
 
-#Put all binaries in same location
+# Put all binaries in same location
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
@@ -91,7 +91,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES FreeBSD AND FL_BACKTRACE)
     set(FL_LIBS execinfo)
 endif ()
 
-###BUILD SECTION
+# BUILD SECTION
 
 file(STRINGS FL_HEADERS fl-headers)
 file(STRINGS FL_SOURCES fl-sources)
@@ -185,7 +185,7 @@ endif ()
 if (FL_BUILD_TESTS)
     message(CHECK_START "Detecting Catch2 library in system")
     # `make install-catch2` will install Catch2 under `.local`
-    find_package(Catch2 3 QUIET HINTS .local)
+    find_package(Catch2 3 QUIET HINTS .local/)
 
     if (Catch2_FOUND)
         message(CHECK_PASS "found at ${Catch2_DIR}")
@@ -240,14 +240,14 @@ if (FL_BUILD_TESTS)
 
 endif ()
 
-###INSTALL SECTION
+# INSTALL SECTION
 
 install(TARGETS ${fl-targets} EXPORT fuzzylite
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
-# Store the fuzzylite CMake config for other projects to use
+## Store the fuzzylite CMake config for other projects to use
 install(EXPORT fuzzylite
         NAMESPACE fuzzylite::
         DESTINATION
@@ -275,6 +275,7 @@ install(
         ${PKGCONFIG_INSTALL_DIR}
 )
 
+# VARIABLES
 message("=====================================")
 message("fuzzylite v${FL_VERSION}")
 message("")
