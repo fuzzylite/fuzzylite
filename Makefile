@@ -45,17 +45,17 @@ configure:
 
 
 .PHONY: build
-build: .phonywin configure
+build: .phonywin
 	cmake --build $(BUILD_DIR) --parallel
 
 .PHONY: test
-test: .phonywin build
+test: .phonywin
 	ctest --test-dir $(BUILD_DIR) --output-on-failure --timeout 120 # --verbose
 	@echo
 	@echo "alternatively, for debugging information run:"
 	@echo "$(BUILD_DIR)/bin/fuzzylite-tests --reporter console"
 
-install: build
+install:
 	cmake --build $(BUILD_DIR) --target install
 
 install-catch2:
